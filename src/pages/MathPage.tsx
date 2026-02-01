@@ -1,29 +1,48 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GradeSelector } from '@/components/GradeSelector';
-import { TopicCard } from '@/components/TopicCard';
+import { mathTopics, gradeDescriptions } from '@/data/mathTopics';
+import { MathTopicCard } from '@/components/math/MathTopicCard';
 import { MathQuiz } from '@/components/math/MathQuiz';
-import { GradeLevel, QuizResult } from '@/types/education';
-import { mathTopics, mathTypeLabels } from '@/data/mathContent';
+import { FractionVisualizer } from '@/components/math/FractionVisualizer';
+import { AlgebraQuiz } from '@/components/math/AlgebraQuiz';
+import { QuizResult } from '@/types/education';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Calculator, Sparkles } from 'lucide-react';
+import { ArrowLeft, Calculator, GraduationCap } from 'lucide-react';
 
-type ViewState = 'grade-select' | 'topic-select' | 'practice' | 'quiz';
+type ViewState = 'topic-select' | 'grade-select' | 'activity';
+type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry';
 
 export default function MathPage() {
   const navigate = useNavigate();
-  const [view, setView] = useState<ViewState>('grade-select');
-  const [selectedGrade, setSelectedGrade] = useState<GradeLevel | null>(null);
-  const [selectedType, setSelectedType] = useState<string>('addition');
+  const [view, setView] = useState<ViewState>('topic-select');
+  const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
+  const [selectedGrade, setSelectedGrade] = useState<number>(4);
+  const [activityType, setActivityType] = useState<ActivityType>('quiz');
 
-  const handleGradeSelect = (grade: GradeLevel) => {
-    setSelectedGrade(grade);
-    setView('topic-select');
+  const currentTopic = mathTopics.find(t => t.id === selectedTopic);
+
+  const handleTopicSelect = (topicId: string) => {
+    setSelectedTopic(topicId);
+    
+    // Determine activity type based on topic
+    if (topicId === 'fractions') {
+      setActivityType('fractions');
+      setView('activity');
+    } else if (topicId === 'algebra') {
+      setActivityType('algebra');
+      setView('grade-select');
+    } else if (topicId === 'geometry') {
+      setActivityType('geometry');
+      setView('grade-select');
+    } else {
+      setActivityType('quiz');
+      setView('grade-select');
+    }
   };
 
-  const handleStartPractice = (type: string) => {
-    setSelectedType(type);
-    setView('quiz');
+  const handleGradeSelect = (grade: number) => {
+    setSelectedGrade(grade);
+    setView('activity');
   };
 
   const handleQuizComplete = (result: QuizResult) => {
@@ -31,18 +50,27 @@ export default function MathPage() {
   };
 
   const handleBack = () => {
-    if (view === 'quiz') {
+    if (view === 'activity') {
+      if (activityType === 'fractions') {
+        setView('topic-select');
+      } else {
+        setView('grade-select');
+      }
+    } else if (view === 'grade-select') {
       setView('topic-select');
-    } else if (view === 'topic-select') {
-      setView('grade-select');
-      setSelectedGrade(null);
+      setSelectedTopic(null);
     } else {
       navigate('/');
     }
   };
 
-  const gradeNumber = typeof selectedGrade === 'number' ? selectedGrade : 4;
-  const topics = mathTopics[gradeNumber] || mathTopics[4];
+  const getMathType = () => {
+    switch (selectedTopic) {
+      case 'basic-operations': return 'mixed';
+      case 'fractions': return 'fractions';
+      default: return 'mixed';
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -63,14 +91,12 @@ export default function MathPage() {
             </div>
             <div>
               <h1 className="font-display text-3xl font-bold">Matematika</h1>
-              {selectedGrade && (
+              {currentTopic && (
                 <p className="text-white/80">
-                  {typeof selectedGrade === 'number' 
-                    ? `${selectedGrade}. osztály` 
-                    : selectedGrade === 'graduation' 
-                      ? 'Érettségi felkészítés'
-                      : `Középiskola ${selectedGrade.split('-')[1]}. osztály`
-                  }
+                  {currentTopic.title}
+                  {view === 'activity' && selectedGrade && activityType !== 'fractions' && (
+                    <span> • {gradeDescriptions[selectedGrade]}</span>
+                  )}
                 </p>
               )}
             </div>
@@ -80,75 +106,94 @@ export default function MathPage() {
 
       {/* Content */}
       <div className="container max-w-4xl mx-auto px-4 py-8">
-        {view === 'grade-select' && (
-          <div className="animate-slide-up">
-            <h2 className="font-display text-2xl font-bold mb-6 text-center">
-              Melyik osztályba jársz?
-            </h2>
-            <GradeSelector 
-              selectedGrade={selectedGrade} 
-              onSelectGrade={handleGradeSelect} 
-            />
-          </div>
-        )}
-
         {view === 'topic-select' && (
           <div className="animate-slide-up">
-            <div className="flex items-center gap-2 mb-6">
-              <Sparkles className="w-5 h-5 text-primary" />
-              <h2 className="font-display text-2xl font-bold">Válassz témakört!</h2>
-            </div>
+            <h2 className="font-display text-2xl font-bold mb-2 text-center">
+              Válassz témakört!
+            </h2>
+            <p className="text-muted-foreground text-center mb-8">
+              Melyik területen szeretnél gyakorolni?
+            </p>
             
-            {/* Topics */}
-            <div className="space-y-4 mb-8">
-              {topics.map((topic) => (
-                <TopicCard
+            <div className="space-y-4">
+              {mathTopics.map((topic) => (
+                <MathTopicCard
                   key={topic.id}
                   topic={topic}
-                  progress={0}
-                  onClick={() => handleStartPractice(topic.id.includes('add') ? 'addition' : 
-                    topic.id.includes('sub') ? 'subtraction' :
-                    topic.id.includes('mult') ? 'multiplication' :
-                    topic.id.includes('div') ? 'division' :
-                    topic.id.includes('frac') ? 'fractions' : 'mixed'
-                  )}
+                  onClick={() => handleTopicSelect(topic.id)}
                 />
               ))}
             </div>
+          </div>
+        )}
 
-            {/* Quick Practice */}
-            <div className="bg-card rounded-2xl p-6 border border-border">
-              <h3 className="font-display font-bold text-lg mb-4">Gyors gyakorlás</h3>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                {Object.entries(mathTypeLabels).map(([type, label]) => (
-                  <Button
-                    key={type}
-                    variant="outline"
-                    onClick={() => handleStartPractice(type)}
-                    className="h-auto py-4 flex-col gap-1"
-                  >
-                    <span className="text-2xl">
-                      {type === 'addition' ? '➕' : 
-                       type === 'subtraction' ? '➖' :
-                       type === 'multiplication' ? '✖️' :
-                       type === 'division' ? '➗' :
-                       type === 'fractions' ? '🥧' : '🔢'}
-                    </span>
-                    <span className="text-sm">{label}</span>
-                  </Button>
-                ))}
+        {view === 'grade-select' && currentTopic && (
+          <div className="animate-slide-up">
+            <div className="flex items-center gap-3 mb-6">
+              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${currentTopic.color} flex items-center justify-center text-2xl`}>
+                {currentTopic.icon}
               </div>
+              <div>
+                <h2 className="font-display text-2xl font-bold">{currentTopic.title}</h2>
+                <p className="text-muted-foreground text-sm">{currentTopic.description}</p>
+              </div>
+            </div>
+
+            <h3 className="font-display text-lg font-semibold mb-4 flex items-center gap-2">
+              <GraduationCap className="w-5 h-5" />
+              Válassz osztályt!
+            </h3>
+            
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {currentTopic.grades.map((grade) => (
+                <Button
+                  key={grade}
+                  variant="outline"
+                  onClick={() => handleGradeSelect(grade)}
+                  className="h-auto py-6 flex-col gap-2 hover:border-primary hover:bg-primary/5"
+                >
+                  <span className="text-3xl font-display font-bold">{grade}.</span>
+                  <span className="text-sm text-muted-foreground">osztály</span>
+                </Button>
+              ))}
             </div>
           </div>
         )}
 
-        {view === 'quiz' && (
-          <MathQuiz
-            grade={gradeNumber}
-            type={selectedType as any}
-            onComplete={handleQuizComplete}
-            onBack={handleBack}
-          />
+        {view === 'activity' && (
+          <>
+            {activityType === 'fractions' && (
+              <FractionVisualizer onBack={handleBack} />
+            )}
+            
+            {activityType === 'algebra' && (
+              <AlgebraQuiz
+                grade={selectedGrade}
+                onComplete={handleQuizComplete}
+                onBack={handleBack}
+              />
+            )}
+            
+            {activityType === 'quiz' && (
+              <MathQuiz
+                grade={selectedGrade}
+                type={getMathType() as any}
+                onComplete={handleQuizComplete}
+                onBack={handleBack}
+              />
+            )}
+
+            {activityType === 'geometry' && (
+              <div className="text-center py-12">
+                <div className="text-6xl mb-4">📐</div>
+                <h2 className="font-display text-2xl font-bold mb-2">Geometria modul</h2>
+                <p className="text-muted-foreground mb-6">
+                  Hamarosan! Alakzatok, területek és kerületek.
+                </p>
+                <Button onClick={handleBack}>Vissza a témakörökhöz</Button>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
