@@ -10,6 +10,7 @@ const subjects: { subject: Subject; title: string; description: string }[] = [
   { subject: 'english', title: 'Angol nyelv', description: 'Nyelvtan, szókincs és kommunikáció' },
   { subject: 'chemistry', title: 'Kémia', description: 'Anyagok, reakciók és elemek' },
   { subject: 'history', title: 'Történelem', description: 'Korok, események és személyiségek' },
+  { subject: 'geography', title: 'Földrajz', description: 'Országok, nagytájak és a világ ismerete' },
 ];
 
 export default function SubjectSelect() {
@@ -22,17 +23,17 @@ export default function SubjectSelect() {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <div className="bg-gradient-hero text-white py-16 px-4">
+      <div className="bg-gradient-hero text-white py-8 px-4">
         <div className="container max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-white/20 rounded-full px-4 py-2 mb-6">
-            <Sparkles className="w-5 h-5" />
-            <span className="font-medium">Üdvözlünk a TudásTár-ban!</span>
+          <div className="inline-flex items-center gap-2 bg-white/20 rounded-full px-4 py-1.5 mb-4">
+            <Sparkles className="w-4 h-4" />
+            <span className="text-sm font-medium">Üdvözlünk a TudásTár-ban!</span>
           </div>
-          <h1 className="font-display text-4xl md:text-5xl font-bold mb-4">
+          <h1 className="font-display text-3xl md:text-4xl font-bold mb-3">
             Válassz tantárgyat!
           </h1>
-          <p className="text-lg text-white/80 max-w-2xl mx-auto">
-            Interaktív leckék, szimulációk és kvízek várnak. Tanulj játékosan és szerezz XP-t!
+          <p className="text-base text-white/80 max-w-xl mx-auto">
+            Interaktív leckék, szimulációk és kvízek várnak. Tanulj játékosan!
           </p>
         </div>
       </div>

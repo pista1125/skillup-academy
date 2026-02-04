@@ -99,6 +99,19 @@ export const mathTopics: Record<number, Topic[]> = {
       ],
     },
   ],
+  7: [
+    {
+      id: 'divisibility-powers-content',
+      title: 'Hatványozás és oszthatóság',
+      description: 'Prímtényezős felbontás és hatványozás szabályai',
+      icon: '⚡',
+      lessons: [
+        { id: 'powers-intro', title: 'Hatványozás fogalma', type: 'theory' },
+        { id: 'div-factor-practice', title: 'Prímtényezős felbontás', type: 'practice' },
+        { id: 'div-powers-quiz', title: 'Összefoglaló teszt', type: 'quiz' },
+      ],
+    },
+  ],
 };
 
 export const mathTypeLabels: Record<string, string> = {

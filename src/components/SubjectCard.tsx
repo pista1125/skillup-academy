@@ -1,5 +1,5 @@
 import { Subject } from '@/types/education';
-import { Calculator, Atom, BookOpen, Languages, FlaskConical, Landmark } from 'lucide-react';
+import { Calculator, Atom, BookOpen, Languages, FlaskConical, Landmark, Map } from 'lucide-react';
 
 interface SubjectCardProps {
   subject: Subject;
@@ -15,6 +15,7 @@ const subjectIcons: Record<Subject, React.ComponentType<{ className?: string }>>
   english: Languages,
   chemistry: FlaskConical,
   history: Landmark,
+  geography: Map,
 };
 
 const subjectColors: Record<Subject, string> = {
@@ -24,6 +25,7 @@ const subjectColors: Record<Subject, string> = {
   english: 'bg-english-light border-english text-english',
   chemistry: 'bg-chemistry-light border-chemistry text-chemistry',
   history: 'bg-history-light border-history text-history',
+  geography: 'bg-geography-light border-geography text-geography',
 };
 
 const subjectIconBg: Record<Subject, string> = {
@@ -33,11 +35,12 @@ const subjectIconBg: Record<Subject, string> = {
   english: 'bg-english',
   chemistry: 'bg-chemistry',
   history: 'bg-history',
+  geography: 'bg-geography',
 };
 
 export function SubjectCard({ subject, title, description, onClick }: SubjectCardProps) {
   const Icon = subjectIcons[subject];
-  
+
   return (
     <button
       onClick={onClick}

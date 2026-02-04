@@ -1,230 +1,274 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowLeft, RotateCcw, Check, Plus, Minus } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import {
+  ArrowLeft,
+  Plus,
+  Trash2,
+  RotateCcw,
+  Trash,
+  MoveHorizontal
+} from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
+import { toast } from 'sonner';
 
 interface FractionVisualizerProps {
   onBack: () => void;
 }
 
-interface FractionPiece {
+interface TileData {
   id: string;
-  value: number; // 1 = whole, 0.5 = half, 0.25 = quarter, etc.
+  denominator: number;
   label: string;
   color: string;
 }
 
-const FRACTION_PIECES: FractionPiece[] = [
-  { id: 'whole', value: 1, label: '1', color: 'bg-blue-500' },
-  { id: 'half', value: 0.5, label: '1/2', color: 'bg-green-500' },
-  { id: 'third', value: 1/3, label: '1/3', color: 'bg-yellow-500' },
-  { id: 'quarter', value: 0.25, label: '1/4', color: 'bg-orange-500' },
-  { id: 'fifth', value: 0.2, label: '1/5', color: 'bg-pink-500' },
-  { id: 'sixth', value: 1/6, label: '1/6', color: 'bg-purple-500' },
-];
-
-interface PlacedPiece {
+interface RowData {
   id: string;
-  piece: FractionPiece;
+  tiles: TileData[];
 }
 
+const PRESET_DENOMINATORS = [1, 2, 3, 4, 5, 6, 8, 10, 12];
+
+const GET_COLOR = (den: number) => {
+  const colors: Record<number, string> = {
+    1: 'bg-[#ff4d4d] border-[#e60000]', // Red
+    2: 'bg-[#ff99cc] border-[#ff4da6]', // Pink
+    3: 'bg-[#ff9900] border-[#cc7a00]', // Orange
+    4: 'bg-[#ffff4d] border-[#e6e600] text-black', // Yellow
+    5: 'bg-[#4db84d] border-[#339933]', // Green
+    6: 'bg-[#4db8ff] border-[#0099ff]', // Light Blue
+    8: 'bg-[#9966ff] border-[#7733ff]', // Purple
+    10: 'bg-[#b38600] border-[#806000]', // Brown
+    12: 'bg-[#3366cc] border-[#24478f]', // Dark Blue
+  };
+  return colors[den] || 'bg-slate-400 border-slate-600';
+};
+
 export function FractionVisualizer({ onBack }: FractionVisualizerProps) {
-  const [placedPieces, setPlacedPieces] = useState<PlacedPiece[]>([]);
-  const [targetValue, setTargetValue] = useState(1);
-  const [showSuccess, setShowSuccess] = useState(false);
+  const [rows, setRows] = useState<RowData[]>([
+    { id: 'unit-row', tiles: [{ id: 'unit-1', denominator: 1, label: '1 unit', color: GET_COLOR(1) }] },
+    { id: 'row-' + Date.now(), tiles: [] }
+  ]);
+  const [customDen, setCustomDen] = useState<number>(7);
+  const [draggedTile, setDraggedTile] = useState<Omit<TileData, 'id'> | null>(null);
 
-  const currentTotal = placedPieces.reduce((sum, p) => sum + p.piece.value, 0);
-  const isCorrect = Math.abs(currentTotal - targetValue) < 0.001;
+  // Adjusted for max-w-4xl container (approx 850px content width)
+  // 650px leaves enough room for labels and row actions without scrolling
+  const UNIT_WIDTH = 650;
 
-  const addPiece = (piece: FractionPiece) => {
-    if (currentTotal + piece.value <= 2) { // Max 2 wholes
-      setPlacedPieces([...placedPieces, { id: `${piece.id}-${Date.now()}`, piece }]);
-      setShowSuccess(false);
+  // ... (keeping existing helper functions)
+  const addRow = () => {
+    setRows([...rows, { id: 'row-' + Date.now(), tiles: [] }]);
+  };
+
+  const removeRow = (rowId: string) => {
+    if (rowId === 'unit-row') return;
+    setRows(rows.filter(r => r.id !== rowId));
+  };
+
+  const addTileToRow = (rowId: string, denominator: number) => {
+    setRows(rows.map(row => {
+      if (row.id === rowId) {
+        const newTile: TileData = {
+          id: `tile-${Date.now()}-${Math.random()}`,
+          denominator,
+          label: denominator === 1 ? '1' : `1/${denominator}`,
+          color: GET_COLOR(denominator)
+        };
+        return { ...row, tiles: [...row.tiles, newTile] };
+      }
+      return row;
+    }));
+  };
+
+  const removeTile = (rowId: string, tileId: string) => {
+    setRows(rows.map(row => {
+      if (row.id === rowId) {
+        return { ...row, tiles: row.tiles.filter(t => t.id !== tileId) };
+      }
+      return row;
+    }));
+  };
+
+  const clearWorkspace = () => {
+    setRows([
+      { id: 'unit-row', tiles: [{ id: 'unit-1', denominator: 1, label: '1 unit', color: GET_COLOR(1) }] },
+      { id: 'row-' + Date.now(), tiles: [] }
+    ]);
+    toast.success("Munkaterület törölve");
+  };
+
+  const handleDragStart = (den: number) => {
+    setDraggedTile({
+      denominator: den,
+      label: den === 1 ? '1' : `1/${den}`,
+      color: GET_COLOR(den)
+    });
+  };
+
+  const handleDrop = (e: React.DragEvent, rowId: string) => {
+    e.preventDefault();
+    if (draggedTile) {
+      addTileToRow(rowId, draggedTile.denominator);
+      setDraggedTile(null);
     }
   };
 
-  const removePiece = (id: string) => {
-    setPlacedPieces(placedPieces.filter(p => p.id !== id));
-    setShowSuccess(false);
-  };
-
-  const reset = () => {
-    setPlacedPieces([]);
-    setShowSuccess(false);
-  };
-
-  const checkAnswer = () => {
-    if (isCorrect) {
-      setShowSuccess(true);
-    }
-  };
-
-  const changeTarget = (delta: number) => {
-    const newTarget = Math.max(0.25, Math.min(2, targetValue + delta));
-    setTargetValue(newTarget);
-    setShowSuccess(false);
-  };
-
-  const formatFraction = (value: number): string => {
-    if (value === 1) return '1';
-    if (value === 0.5) return '1/2';
-    if (value === 0.25) return '1/4';
-    if (value === 0.75) return '3/4';
-    if (value === 1.5) return '1 1/2';
-    if (Math.abs(value - 1/3) < 0.001) return '1/3';
-    if (Math.abs(value - 2/3) < 0.001) return '2/3';
-    if (Math.abs(value - 1/6) < 0.001) return '1/6';
-    if (value === 0.2) return '1/5';
-    return value.toFixed(2);
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <Button 
-        variant="ghost" 
-        onClick={onBack}
-        className="mb-6"
-      >
-        <ArrowLeft className="w-4 h-4 mr-2" />
-        Vissza a témakörökhöz
-      </Button>
-
-      <div className="text-center mb-8">
-        <h2 className="font-display text-3xl font-bold mb-2">Törtek vizualizáció</h2>
-        <p className="text-muted-foreground">
-          Rakd össze a törteket, hogy elérd a célértéket!
-        </p>
+    <div className="flex flex-col gap-6 max-w-4xl mx-auto w-full">
+      {/* Top Navigation & General Actions */}
+      <div className="flex items-center justify-between px-2">
+        <Button variant="ghost" onClick={onBack} className="hover:bg-slate-100">
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Vissza
+        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm" onClick={clearWorkspace} className="border-primary/20 hover:bg-primary/5">
+            <RotateCcw className="w-4 h-4 mr-2" />
+            Visszaállítás
+          </Button>
+          <Button variant="secondary" size="sm" onClick={addRow} className="bg-primary/10 hover:bg-primary/20 text-primary border-none">
+            <Plus className="w-4 h-4 mr-2" />
+            Új sor
+          </Button>
+        </div>
       </div>
 
-      {/* Target Value Selector */}
-      <Card className="mb-6">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-lg flex items-center justify-between">
-            <span>Célérték</span>
-            <div className="flex items-center gap-2">
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => changeTarget(-0.25)}
-                disabled={targetValue <= 0.25}
+      {/* Top Toolbox: Now horizontal and more compact */}
+      <Card className="shadow-sm border-primary/10 bg-slate-50/50">
+        <CardContent className="p-4">
+          <div className="flex flex-wrap items-center gap-2 justify-center">
+            {PRESET_DENOMINATORS.map(den => (
+              <div
+                key={`source-${den}`}
+                draggable
+                onDragStart={() => handleDragStart(den)}
+                onClick={() => {
+                  const lastRowId = rows[rows.length - 1].id;
+                  addTileToRow(lastRowId, den);
+                }}
+                className={cn(
+                  "cursor-grab active:cursor-grabbing px-4 py-2 rounded-lg border-b-4 text-center font-bold text-white transition-all hover:brightness-110 active:scale-95 select-none shadow-sm min-w-[70px]",
+                  GET_COLOR(den)
+                )}
               >
-                <Minus className="w-4 h-4" />
-              </Button>
-              <span className="text-2xl font-bold min-w-[60px] text-center text-primary">
-                {formatFraction(targetValue)}
-              </span>
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => changeTarget(0.25)}
-                disabled={targetValue >= 2}
-              >
-                <Plus className="w-4 h-4" />
-              </Button>
-            </div>
-          </CardTitle>
-        </CardHeader>
-      </Card>
+                {den === 1 ? '1' : `1/${den}`}
+              </div>
+            ))}
 
-      {/* Visual Area */}
-      <Card className="mb-6">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-lg flex items-center justify-between">
-            <span>Munkafelület</span>
-            <span className={`text-sm font-normal ${isCorrect ? 'text-green-600' : 'text-muted-foreground'}`}>
-              Jelenlegi érték: {formatFraction(currentTotal)}
-            </span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          {/* Target visualization bar */}
-          <div className="mb-4">
-            <p className="text-xs text-muted-foreground mb-2">Cél: {formatFraction(targetValue)}</p>
-            <div className="h-8 bg-secondary rounded-lg overflow-hidden relative">
-              <div 
-                className="h-full bg-primary/30 border-r-4 border-primary border-dashed"
-                style={{ width: `${Math.min(100, targetValue * 50)}%` }}
-              />
+            <div className="flex items-center gap-2 ml-4 pl-4 border-l border-slate-200">
+              <span className="text-xs font-bold text-slate-500 whitespace-nowrap">Egyedi:</span>
+              <div className="flex gap-1 w-24">
+                <Input
+                  type="number"
+                  min={1}
+                  max={100}
+                  value={customDen}
+                  onChange={(e) => setCustomDen(parseInt(e.target.value) || 1)}
+                  className="h-8 text-sm px-2"
+                />
+                <Button size="icon" className="h-8 w-8 shrink-0 bg-slate-700" onClick={() => addTileToRow(rows[rows.length - 1].id, customDen)}>
+                  <Plus className="w-3 h-3" />
+                </Button>
+              </div>
             </div>
           </div>
+          <p className="text-[10px] text-muted-foreground italic text-center mt-3">
+            Kattints a hozzáadáshoz (utolsó sorba) vagy húzd egy konkrét sorba!
+          </p>
+        </CardContent>
+      </Card>
 
-          {/* Placed pieces visualization */}
-          <div className="mb-4">
-            <p className="text-xs text-muted-foreground mb-2">Te megoldásod:</p>
-            <div className="h-12 bg-secondary rounded-lg overflow-hidden flex">
-              {placedPieces.map((placed) => (
-                <button
-                  key={placed.id}
-                  onClick={() => removePiece(placed.id)}
-                  className={`h-full ${placed.piece.color} flex items-center justify-center text-white font-bold text-sm hover:opacity-80 transition-all border-r border-white/30`}
-                  style={{ width: `${placed.piece.value * 50}%` }}
-                  title="Kattints az eltávolításhoz"
-                >
-                  {placed.piece.label}
-                </button>
-              ))}
-              {placedPieces.length === 0 && (
-                <div className="w-full h-full flex items-center justify-center text-muted-foreground text-sm">
-                  Adj hozzá törteket az alábbi készletből
+      {/* Main Workspace: Full width, no horizontal scroll */}
+      <div className="bg-white rounded-3xl border-2 border-dashed border-slate-200 p-6 pt-12 shadow-inner relative overflow-hidden">
+        <div className="flex flex-col gap-1 w-full relative">
+          {rows.map((row) => (
+            <div
+              key={row.id}
+              onDrop={(e) => handleDrop(e, row.id)}
+              onDragOver={handleDragOver}
+              className={cn(
+                "relative flex items-center min-h-[50px] border-b border-slate-50 last:border-0 group/row",
+                row.tiles.length === 0 && "bg-slate-50/20"
+              )}
+            >
+              {/* Row Actions */}
+              <div className="absolute -left-2 opacity-0 group-hover/row:opacity-100 transition-opacity z-20">
+                {row.id !== 'unit-row' && (
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-7 w-7 text-destructive hover:bg-destructive/10 bg-white shadow-sm"
+                    onClick={() => removeRow(row.id)}
+                  >
+                    <Trash2 className="w-3 h-3" />
+                  </Button>
+                )}
+              </div>
+
+              {/* Tiles Container */}
+              <div className="flex h-10 items-stretch bg-slate-100/20 rounded-md ml-6" style={{ width: `${UNIT_WIDTH}px` }}>
+                {row.tiles.map((tile) => (
+                  <div
+                    key={tile.id}
+                    title={`1/${tile.denominator} - Kattints a törléshez`}
+                    onClick={() => removeTile(row.id, tile.id)}
+                    className={cn(
+                      "relative flex items-center justify-center border-x border-b-4 font-bold text-white cursor-pointer hover:brightness-110 active:scale-95 transition-all text-xs shadow-sm overflow-hidden whitespace-nowrap",
+                      tile.color
+                    )}
+                    style={{ width: `${(1 / tile.denominator) * UNIT_WIDTH}px` }}
+                  >
+                    {tile.label}
+                  </div>
+                ))}
+
+                {row.tiles.length === 0 && (
+                  <div className="flex items-center px-4 text-slate-300 text-[10px] italic">
+                    Húzz ide törteket...
+                  </div>
+                )}
+              </div>
+
+              {/* Total Marker */}
+              {row.tiles.length > 0 && (
+                <div className="ml-4 px-2 py-0.5 bg-slate-100 rounded text-[9px] font-mono text-slate-500 font-bold border border-slate-200">
+                  Σ = {row.tiles.reduce((acc, t) => acc + (1 / t.denominator), 0).toFixed(2)}
                 </div>
               )}
             </div>
-          </div>
+          ))}
 
-          {/* Success message */}
-          {showSuccess && (
-            <div className="p-4 bg-green-100 dark:bg-green-900/30 rounded-xl text-green-700 dark:text-green-400 text-center font-bold animate-bounce-in">
-              🎉 Helyes! Sikeresen összeraktad a {formatFraction(targetValue)} értéket!
+          {/* Guide markers: Absolute positioning within the workspace */}
+          <div className="absolute top-0 bottom-0 pointer-events-none border-l-2 border-dashed border-primary/30 z-10" style={{ left: `calc(1.5rem + ${UNIT_WIDTH}px)` }}>
+            <div className="absolute -top-10 -left-1/2 translate-x-[-15%] whitespace-nowrap">
+              <span className="bg-primary text-white text-[10px] font-black px-2.5 py-1.5 rounded-full shadow-lg uppercase tracking-wider flex items-center gap-1">
+                🎯 1 Egész
+              </span>
             </div>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Fraction pieces to drag */}
-      <Card className="mb-6">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-lg">Törtek készlete</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
-            {FRACTION_PIECES.map((piece) => (
-              <button
-                key={piece.id}
-                onClick={() => addPiece(piece)}
-                className={`${piece.color} rounded-xl p-4 text-white font-bold text-lg hover:scale-105 transition-transform shadow-lg flex flex-col items-center gap-1`}
-              >
-                <span>{piece.label}</span>
-                <div className="w-full h-2 bg-white/30 rounded-full overflow-hidden">
-                  <div 
-                    className="h-full bg-white"
-                    style={{ width: `${piece.value * 100}%` }}
-                  />
-                </div>
-              </button>
-            ))}
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      {/* Actions */}
-      <div className="flex gap-3">
-        <Button
-          variant="outline"
-          onClick={reset}
-          className="flex-1"
-        >
-          <RotateCcw className="w-4 h-4 mr-2" />
-          Újrakezdés
-        </Button>
-        <Button
-          onClick={checkAnswer}
-          disabled={placedPieces.length === 0}
-          className="flex-1 bg-gradient-math hover:opacity-90"
-        >
-          <Check className="w-4 h-4 mr-2" />
-          Ellenőrzés
-        </Button>
+      <div className="mt-2 p-4 bg-blue-50/50 rounded-2xl border border-blue-100 flex items-start gap-4">
+        <div className="p-2 bg-blue-500 rounded-lg text-white">
+          <MoveHorizontal className="w-4 h-4" />
+        </div>
+        <div>
+          <h4 className="font-bold text-blue-900 text-sm">Próbáld ki!</h4>
+          <p className="text-blue-800/80 text-xs leading-relaxed">
+            Állíts össze különböző törteket a sorokba, és figyeld meg, mikor érik el a <b>1 Egész</b> jelölést!
+            A felső sávból egyszerűen húzd le vagy kattints rájuk a hozzáadáshoz.
+          </p>
+        </div>
       </div>
     </div>
   );
 }
+

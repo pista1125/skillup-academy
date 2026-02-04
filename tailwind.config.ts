@@ -76,6 +76,10 @@ export default {
           DEFAULT: "hsl(var(--history))",
           light: "hsl(var(--history-light))",
         },
+        geography: {
+          DEFAULT: "hsl(var(--geography))",
+          light: "hsl(var(--geography-light))",
+        },
         success: {
           DEFAULT: "hsl(var(--success))",
           light: "hsl(var(--success-light))",

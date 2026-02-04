@@ -1,12 +1,13 @@
-export type Subject = 
-  | 'math' 
-  | 'physics' 
-  | 'hungarian' 
-  | 'english' 
-  | 'chemistry' 
-  | 'history';
+export type Subject =
+  | 'math'
+  | 'physics'
+  | 'hungarian'
+  | 'english'
+  | 'chemistry'
+  | 'history'
+  | 'geography';
 
-export type GradeLevel = 
+export type GradeLevel =
   | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8  // Elementary
   | 'high-1' | 'high-2' | 'high-3' | 'high-4'  // High school
   | 'graduation';  // Érettségi

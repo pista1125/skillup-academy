@@ -57,6 +57,19 @@ export const physicsTopics: Record<string, Topic[]> = {
       ],
     },
     {
+      id: 'molecular-physics',
+      title: 'Molekuláris fizika',
+      description: 'A gázok mikroszkopikus szerkezete és a véletlen mozgás',
+      icon: '🔬',
+      lessons: [
+        { id: 'molecular-internal-energy', title: 'Belső energia és részecskék', type: 'simulation' },
+        { id: 'molecular-brownian', title: 'Brown-mozgás', type: 'simulation' },
+        { id: 'molecular-random-walk', title: 'Statisztikus bolyongás', type: 'simulation' },
+        { id: 'molecular-theory', title: 'A kinetikus gázelmélet', type: 'theory' },
+        { id: 'molecular-quiz', title: 'Molekuláris fizika kvíz', type: 'quiz' },
+      ],
+    },
+    {
       id: 'waves',
       title: 'Hullámok',
       description: 'Mechanikai és elektromágneses hullámok',
@@ -187,6 +200,44 @@ export const physicsQuizzes: Record<string, QuizQuestion[]> = {
       explanation: '45°-os szögnél a legnagyobb a hajítás hatótávolsága légüres térben.',
     },
   ],
+  'molecular-quiz': [
+    {
+      id: 'mq1',
+      question: 'Mi a hőmérséklet mikroszkopikus értelmezése?',
+      options: [
+        'A részecskék száma a tartályban',
+        'A részecskék átlagos mozgási energiája',
+        'A gáz térfogata',
+        'A tartály fala által kifejtett nyomás',
+      ],
+      correctAnswer: 1,
+      explanation: 'A kinetikus gázelmélet szerint a hőmérséklet a részecskék rendezetlen hőmozgásának (átlagos mozgási energiájának) mértéke.',
+    },
+    {
+      id: 'mq2',
+      question: 'Mi bizonyítja közvetlenül a molekulák létezését és mozgását?',
+      options: [
+        'A gravitáció',
+        'A Brown-mozgás',
+        'A fényvisszaverődés',
+        'A mágneses vonzás',
+      ],
+      correctAnswer: 1,
+      explanation: 'A Brown-mozgás során megfigyelhető nagyobb szemcsék lökdösődése közvetlen bizonyíték a láthatatlan molekulák ütközéseire.',
+    },
+    {
+      id: 'mq3',
+      question: 'Hogyan változik az ideális gáz belső energiája, ha melegítjük (állandó térfogaton)?',
+      options: [
+        'Csökken',
+        'Változatlan marad',
+        'Nő',
+        'Nullára csökken',
+      ],
+      correctAnswer: 2,
+      explanation: 'A melegítés során energiát közlünk a rendszerrel, ami a részecskék mozgási energiáját, és így a gáz belső energiáját növeli.',
+    },
+  ],
 };
 
 export const lessonContent: Record<string, string> = {
@@ -276,5 +327,26 @@ Az **erő** a testek kölcsönhatásának mértéke. Az erő megváltoztatja a t
 - **Súrlódási erő**: felületek között
 - **Rugóerő**: rugalmas alakváltozásból
 - **Közegellenállás**: közegben mozgó testre hat
+  `,
+  'molecular-theory': `
+# A kinetikus gázelmélet
+
+A **kinetikus gázelmélet** szerint az anyagot nagyszámú, állandóan mozgó részecske (atom, molekula) építi fel.
+
+## Alappillérek
+
+### Hőmozgás
+A gázok részecskéi kaotikus, rendezetlen mozgást végeznek. Ez a mozgás annál intenzívebb, minél magasabb a rendszer hőmérséklete.
+
+### Belső energia
+Az ideális gáz belső energiája (E_b) megegyezik a részecskék mozgási energiájának összegével.
+**E_b = f/2 * N * k * T**
+*(ahol f a szabadsági fokok száma, N a részecskeszám, k a Boltzmann-állandó, T a hőmérséklet)*
+
+### Brown-mozgás
+Robert Brown fedezte fel 1827-ben, hogy folyadékban lévő porszemcsék cikázó mozgást végeznek. Ezt a molekulák véletlenszerű ütközései okozzák.
+
+## A modell jelentősége
+Ez a modell hidat képez a mikroszkopikus (molekula szintű) és a makroszkopikus (nyomás, hőmérséklet) világ között.
   `,
 };

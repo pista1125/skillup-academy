@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { GradeSelector } from '@/components/GradeSelector';
 import { TopicCard } from '@/components/TopicCard';
 import { MotionSimulation } from '@/components/physics/MotionSimulation';
+import { MoleculesSimulation } from '@/components/physics/MoleculesSimulation';
+import { BrownianSimulation } from '@/components/physics/BrownianSimulation';
+import { RandomWalkSimulation } from '@/components/physics/RandomWalkSimulation';
 import { PhysicsQuiz } from '@/components/physics/PhysicsQuiz';
 import { GradeLevel, QuizResult, Lesson } from '@/types/education';
 import { physicsTopics, physicsQuizzes, lessonContent } from '@/data/physicsContent';
@@ -10,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, Atom, BookOpen, PlayCircle, HelpCircle, Sparkles } from 'lucide-react';
 
 type ViewState = 'grade-select' | 'topic-select' | 'lesson-list' | 'lesson' | 'simulation' | 'quiz';
+type SimType = 'uniform' | 'accelerated' | 'projectile' | 'molecules' | 'brownian' | 'random-walk';
 
 export default function PhysicsPage() {
   const navigate = useNavigate();
@@ -17,7 +21,7 @@ export default function PhysicsPage() {
   const [selectedGrade, setSelectedGrade] = useState<GradeLevel | null>(null);
   const [selectedTopicId, setSelectedTopicId] = useState<string>('');
   const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null);
-  const [simulationType, setSimulationType] = useState<'uniform' | 'accelerated' | 'projectile'>('uniform');
+  const [simulationType, setSimulationType] = useState<SimType>('uniform');
 
   const handleGradeSelect = (grade: GradeLevel) => {
     setSelectedGrade(grade);
@@ -31,7 +35,7 @@ export default function PhysicsPage() {
 
   const handleLessonSelect = (lesson: Lesson) => {
     setSelectedLesson(lesson);
-    
+
     if (lesson.type === 'simulation') {
       if (lesson.id.includes('uniform')) {
         setSimulationType('uniform');
@@ -39,6 +43,12 @@ export default function PhysicsPage() {
         setSimulationType('accelerated');
       } else if (lesson.id.includes('projectile')) {
         setSimulationType('projectile');
+      } else if (lesson.id.includes('internal-energy')) {
+        setSimulationType('molecules');
+      } else if (lesson.id.includes('brownian')) {
+        setSimulationType('brownian');
+      } else if (lesson.id.includes('random-walk')) {
+        setSimulationType('random-walk');
       }
       setView('simulation');
     } else if (lesson.type === 'quiz') {
@@ -88,8 +98,8 @@ export default function PhysicsPage() {
       {/* Header */}
       <div className="bg-gradient-physics text-white py-8 px-4">
         <div className="container max-w-4xl mx-auto">
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             onClick={handleBack}
             className="text-white hover:bg-white/20 mb-4"
           >
@@ -104,7 +114,7 @@ export default function PhysicsPage() {
               <h1 className="font-display text-3xl font-bold">Fizika</h1>
               {selectedGrade && (
                 <p className="text-white/80">
-                  {selectedGrade === 'graduation' 
+                  {selectedGrade === 'graduation'
                     ? 'Érettségi felkészítés'
                     : `Középiskola ${gradeKey.split('-')[1]}. osztály`
                   }
@@ -128,9 +138,9 @@ export default function PhysicsPage() {
             <p className="text-center text-muted-foreground mb-8">
               A fizika középiskolai tananyag, válaszd ki az évfolyamodat!
             </p>
-            <GradeSelector 
-              selectedGrade={selectedGrade} 
-              onSelectGrade={handleGradeSelect} 
+            <GradeSelector
+              selectedGrade={selectedGrade}
+              onSelectGrade={handleGradeSelect}
             />
           </div>
         )}
@@ -141,7 +151,7 @@ export default function PhysicsPage() {
               <Sparkles className="w-5 h-5 text-physics" />
               <h2 className="font-display text-2xl font-bold">Válassz témakört!</h2>
             </div>
-            
+
             <div className="space-y-4">
               {topics.map((topic) => (
                 <TopicCard
@@ -202,8 +212,8 @@ export default function PhysicsPage() {
         {view === 'lesson' && selectedLesson && (
           <div className="animate-slide-up">
             <div className="bg-card rounded-2xl p-8 border border-border prose prose-slate max-w-none">
-              <div 
-                dangerouslySetInnerHTML={{ 
+              <div
+                dangerouslySetInnerHTML={{
                   __html: lessonContent[selectedLesson.id]
                     ?.replace(/^# (.+)$/gm, '<h1 class="font-display text-3xl font-bold mb-4">$1</h1>')
                     .replace(/^## (.+)$/gm, '<h2 class="font-display text-xl font-bold mt-6 mb-3">$1</h2>')
@@ -224,8 +234,17 @@ export default function PhysicsPage() {
               {simulationType === 'uniform' && 'Egyenletes mozgás'}
               {simulationType === 'accelerated' && 'Gyorsuló mozgás'}
               {simulationType === 'projectile' && 'Ferde hajítás'}
+              {simulationType === 'molecules' && 'Molekuláris hőmozgás'}
+              {simulationType === 'brownian' && 'Brown-mozgás'}
+              {simulationType === 'random-walk' && 'Statisztikus bolyongás'}
             </h2>
-            <MotionSimulation type={simulationType} />
+
+            {simulationType === 'molecules' && <MoleculesSimulation />}
+            {simulationType === 'brownian' && <BrownianSimulation />}
+            {simulationType === 'random-walk' && <RandomWalkSimulation />}
+            {(simulationType === 'uniform' || simulationType === 'accelerated' || simulationType === 'projectile') && (
+              <MotionSimulation type={simulationType as any} />
+            )}
           </div>
         )}
 
