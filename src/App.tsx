@@ -16,7 +16,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <BrowserRouter basename="/skillup-academy">
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/subject/math" element={<MathPage />} />
