@@ -8,15 +8,17 @@ import {
     ArrowLeft,
     Sparkles,
     Zap,
-    Trophy
+    Trophy,
+    Blocks
 } from 'lucide-react';
+import { BuildingBlocksComparison } from './BuildingBlocksComparison';
 import { cn } from '@/lib/utils';
 
 interface Grade2MathModuleProps {
     onBack: () => void;
 }
 
-type ViewType = 'menu' | 'coloring' | 'quiz';
+type ViewType = 'menu' | 'coloring' | 'quiz' | 'blocks';
 
 export function Grade2MathModule({ onBack }: Grade2MathModuleProps) {
     const [view, setView] = useState<ViewType>('menu');
@@ -59,6 +61,15 @@ export function Grade2MathModule({ onBack }: Grade2MathModuleProps) {
                         highlight
                         badge="PRÉMIUM"
                     />
+                    <KidsCard
+                        title="Toronyépítő"
+                        description="Építs tornyokat és hasonlítsd össze őket! Melyik a több?"
+                        icon={<Blocks className="w-12 h-12" />}
+                        color="bg-blue-50 text-blue-500 border-blue-100"
+                        onClick={() => setView('blocks')}
+                        highlight
+                        badge="ÚJ JÁTÉK"
+                    />
                 </div>
 
                 <div className="bg-amber-50/50 p-8 rounded-[40px] border-4 border-amber-100 flex items-center gap-6">
@@ -90,6 +101,10 @@ export function Grade2MathModule({ onBack }: Grade2MathModuleProps) {
                         handleBackToMenu();
                     }}
                 />
+            )}
+
+            {view === 'blocks' && (
+                <BuildingBlocksComparison onBack={handleBackToMenu} />
             )}
         </div>
     );

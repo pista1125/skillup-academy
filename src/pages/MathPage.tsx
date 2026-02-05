@@ -18,6 +18,7 @@ import { AngleMatcher } from '@/components/math/AngleMatcher';
 import { ShapeClassifier } from '@/components/math/ShapeClassifier';
 import { LineRelationships } from '@/components/math/LineRelationships';
 import { DivisibilityPowersModule } from '@/components/math/DivisibilityPowersModule';
+import { WordProblemsModule } from '@/components/math/WordProblemsModule';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -37,7 +38,7 @@ import {
 import { cn } from '@/lib/utils';
 
 type ViewState = 'main-select' | 'topic-select' | 'tools-select' | 'activity' | 'geometry-select';
-type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic';
+type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'word-problems';
 
 export default function MathPage() {
   const navigate = useNavigate();
@@ -93,6 +94,9 @@ export default function MathPage() {
       setView('activity');
     } else if (topicId === 'divisibility-powers') {
       setActivityType('divisibility-powers');
+      setView('activity');
+    } else if (topicId === 'word-problems' && selectedGrade === 6) {
+      setActivityType('word-problems');
       setView('activity');
     } else {
       setActivityType('quiz');
@@ -378,6 +382,10 @@ export default function MathPage() {
 
             {activityType === 'divisibility-powers' && (
               <DivisibilityPowersModule onBack={handleBack} />
+            )}
+
+            {activityType === 'word-problems' && (
+              <WordProblemsModule onBack={handleBack} />
             )}
 
             {activityType === 'materials' && (
