@@ -5,6 +5,7 @@ import { MathTopicCard } from '@/components/math/MathTopicCard';
 import { MathQuiz } from '@/components/math/MathQuiz';
 import { GradeSelector } from '@/components/GradeSelector';
 import { FractionVisualizer } from '@/components/math/FractionVisualizer';
+import { FractionsModule } from '@/components/math/FractionsModule';
 import { AlgebraQuiz } from '@/components/math/AlgebraQuiz';
 import { MathColoringGame } from '@/components/math/MathColoringGame';
 import { DivisibilityTool } from '@/components/math/DivisibilityTool';
@@ -338,7 +339,7 @@ export default function MathPage() {
         {view === 'activity' && (
           <div className="animate-slide-up">
             {activityType === 'fractions' && (
-              <FractionVisualizer onBack={handleBack} />
+              <FractionsModule onBack={handleBack} />
             )}
 
             {activityType === 'coloring' && (

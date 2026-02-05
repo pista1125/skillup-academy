@@ -65,6 +65,14 @@ export const mathTopics: MathTopic[] = [
     grades: [6, 7],
   },
   {
+    id: 'fractions',
+    title: 'Törtek',
+    description: 'Törtek értelmezése, összeadása, kivonása',
+    icon: '🍕',
+    color: 'from-orange-500 to-amber-600',
+    grades: [5, 6],
+  },
+  {
     id: 'word-problems',
     title: 'Szöveges feladatok',
     description: 'Gyakorlati problémák megoldása',
