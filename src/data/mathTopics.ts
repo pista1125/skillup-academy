@@ -17,14 +17,6 @@ export const mathTopics: MathTopic[] = [
     grades: [1, 2, 3, 4, 5, 6],
   },
   {
-    id: 'interactive-coloring',
-    title: 'Interaktív színező',
-    description: 'Számolj és színezz kedvedre!',
-    icon: '🎨',
-    color: 'from-pink-400 to-rose-500',
-    grades: [1],
-  },
-  {
     id: 'geometry',
     title: 'Geometria',
     description: 'Alakzatok, területek, kerületek, térfogatok',

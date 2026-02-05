@@ -79,9 +79,6 @@ export default function MathPage() {
     } else if (topicId === 'percentages') {
       setActivityType('percentages');
       setView('activity');
-    } else if (topicId === 'interactive-coloring') {
-      setActivityType('coloring');
-      setView('activity');
     } else if (topicId === 'divisibility') {
       setActivityType('divisibility');
       setView('activity');
@@ -358,9 +355,6 @@ export default function MathPage() {
               <Grade2MathModule onBack={handleBack} />
             )}
 
-            {activityType === 'coloring' && (
-              <MathColoringGame onBack={handleBack} />
-            )}
 
             {activityType === 'divisibility' && (
               <DivisibilityTool onBack={handleBack} />

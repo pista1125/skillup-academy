@@ -1,10 +1,8 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { MathColoringGame } from './MathColoringGame';
 import { Grade1Addition } from './Grade1Addition';
 import {
     Gamepad2,
-    Palette,
     ArrowLeft,
     Sparkles,
     Star,
@@ -16,7 +14,7 @@ interface Grade1MathModuleProps {
     onBack: () => void;
 }
 
-type ViewType = 'menu' | 'coloring' | 'addition10';
+type ViewType = 'menu' | 'addition10';
 
 export function Grade1MathModule({ onBack }: Grade1MathModuleProps) {
     const [view, setView] = useState<ViewType>('menu');
@@ -51,15 +49,7 @@ export function Grade1MathModule({ onBack }: Grade1MathModuleProps) {
                         onClick={() => setView('addition10')}
                         badge="ÜGYESSÉGI"
                     />
-                    <KidsCard
-                        title="Matek Színező"
-                        description="Számold ki az eredményt és varázsolj színeket a képre!"
-                        icon={<Palette className="w-12 h-12" />}
-                        color="bg-pink-50 text-pink-500 border-pink-100"
-                        onClick={() => setView('coloring')}
-                        highlight
-                        badge="KREATÍV"
-                    />
+
                 </div>
 
                 <div className="bg-blue-50/50 p-8 rounded-[40px] border-4 border-blue-100 flex items-center gap-6">
@@ -77,10 +67,6 @@ export function Grade1MathModule({ onBack }: Grade1MathModuleProps) {
 
     return (
         <div className="space-y-6 animate-in fade-in duration-500">
-            {view === 'coloring' && (
-                <MathColoringGame onBack={handleBackToMenu} />
-            )}
-
             {view === 'addition10' && (
                 <Grade1Addition onBack={handleBackToMenu} />
             )}
