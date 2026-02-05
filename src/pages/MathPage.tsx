@@ -6,6 +6,8 @@ import { MathQuiz } from '@/components/math/MathQuiz';
 import { GradeSelector } from '@/components/GradeSelector';
 import { FractionVisualizer } from '@/components/math/FractionVisualizer';
 import { FractionsModule } from '@/components/math/FractionsModule';
+import { Grade1MathModule } from '@/components/math/Grade1MathModule';
+import { Grade2MathModule } from '@/components/math/Grade2MathModule';
 import { AlgebraQuiz } from '@/components/math/AlgebraQuiz';
 import { MathColoringGame } from '@/components/math/MathColoringGame';
 import { DivisibilityTool } from '@/components/math/DivisibilityTool';
@@ -35,7 +37,7 @@ import {
 import { cn } from '@/lib/utils';
 
 type ViewState = 'main-select' | 'topic-select' | 'tools-select' | 'activity' | 'geometry-select';
-type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers';
+type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic';
 
 export default function MathPage() {
   const navigate = useNavigate();
@@ -57,6 +59,12 @@ export default function MathPage() {
 
     if (topicId === 'fractions') {
       setActivityType('fractions');
+      setView('activity');
+    } else if (topicId === 'basic-operations' && selectedGrade === 1) {
+      setActivityType('grade1-basic');
+      setView('activity');
+    } else if (topicId === 'basic-operations' && selectedGrade === 2) {
+      setActivityType('grade2-basic');
       setView('activity');
     } else if (topicId === 'algebra') {
       setActivityType('algebra');
@@ -340,6 +348,14 @@ export default function MathPage() {
           <div className="animate-slide-up">
             {activityType === 'fractions' && (
               <FractionsModule onBack={handleBack} />
+            )}
+
+            {activityType === 'grade1-basic' && (
+              <Grade1MathModule onBack={handleBack} />
+            )}
+
+            {activityType === 'grade2-basic' && (
+              <Grade2MathModule onBack={handleBack} />
             )}
 
             {activityType === 'coloring' && (
