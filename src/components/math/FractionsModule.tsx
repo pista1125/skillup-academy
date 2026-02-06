@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { FractionVisualizer } from './FractionVisualizer';
 import { FractionsQuiz } from './FractionsQuiz';
+import { FractionMultiplicationMatcher } from './FractionMultiplicationMatcher';
+import { FractionVisualMatcher } from './FractionVisualMatcher';
 import {
     Pizza,
     Calculator,
@@ -17,7 +19,7 @@ interface FractionsModuleProps {
     onBack: () => void;
 }
 
-type ViewType = 'menu' | 'visualizer' | 'quiz-same' | 'quiz-different';
+type ViewType = 'menu' | 'visualizer' | 'quiz-same' | 'quiz-different' | 'multiplier' | 'visual-matcher';
 
 export function FractionsModule({ onBack }: FractionsModuleProps) {
     const [view, setView] = useState<ViewType>('menu');
@@ -43,7 +45,7 @@ export function FractionsModule({ onBack }: FractionsModuleProps) {
                     </Button>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <ChapterCard
                         title="Törtek megjelenítése"
                         description="Húzd be a tört szeleteket és hasonlítsd össze őket!"
@@ -66,6 +68,20 @@ export function FractionsModule({ onBack }: FractionsModuleProps) {
                         onClick={() => setView('quiz-different')}
                         highlight
                     />
+                    <ChapterCard
+                        title="Szorzás gyakorlása"
+                        description="Tört szorzása egész számmal - Párkereső"
+                        icon={<Calculator className="w-10 h-10" />}
+                        color="bg-violet-50 text-violet-600"
+                        onClick={() => setView('multiplier')}
+                    />
+                    <ChapterCard
+                        title="Törtek felismerése"
+                        description="Kördiagramok és törtek párosítása"
+                        icon={<Shapes className="w-10 h-10" />}
+                        color="bg-orange-50 text-orange-600"
+                        onClick={() => setView('visual-matcher')}
+                    />
                 </div>
             </div>
         );
@@ -83,6 +99,14 @@ export function FractionsModule({ onBack }: FractionsModuleProps) {
 
             {view === 'quiz-different' && (
                 <FractionsQuiz difficulty="different" onBack={handleBackToMenu} />
+            )}
+
+            {view === 'multiplier' && (
+                <FractionMultiplicationMatcher onBack={handleBackToMenu} />
+            )}
+
+            {view === 'visual-matcher' && (
+                <FractionVisualMatcher onBack={handleBackToMenu} />
             )}
         </div>
     );
