@@ -4,6 +4,7 @@ import { FractionVisualizer } from './FractionVisualizer';
 import { FractionsQuiz } from './FractionsQuiz';
 import { FractionMultiplicationMatcher } from './FractionMultiplicationMatcher';
 import { FractionVisualMatcher } from './FractionVisualMatcher';
+import { FractionDivisionMatcher } from './FractionDivisionMatcher';
 import {
     Pizza,
     Calculator,
@@ -19,7 +20,7 @@ interface FractionsModuleProps {
     onBack: () => void;
 }
 
-type ViewType = 'menu' | 'visualizer' | 'quiz-same' | 'quiz-different' | 'multiplier' | 'visual-matcher';
+type ViewType = 'menu' | 'visualizer' | 'quiz' | 'multiplier' | 'visual-matcher' | 'divider';
 
 export function FractionsModule({ onBack }: FractionsModuleProps) {
     const [view, setView] = useState<ViewType>('menu');
@@ -45,7 +46,7 @@ export function FractionsModule({ onBack }: FractionsModuleProps) {
                     </Button>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
                     <ChapterCard
                         title="Törtek megjelenítése"
                         description="Húzd be a tört szeleteket és hasonlítsd össze őket!"
@@ -54,19 +55,18 @@ export function FractionsModule({ onBack }: FractionsModuleProps) {
                         onClick={() => setView('visualizer')}
                     />
                     <ChapterCard
-                        title="Egyszerű gyakorlás"
-                        description="Összeadás és kivonás azonos nevezőkkel"
-                        icon={<Calculator className="w-10 h-10" />}
-                        color="bg-emerald-50 text-emerald-600"
-                        onClick={() => setView('quiz-same')}
+                        title="Törtek felismerése"
+                        description="Kördiagramok és törtek párosítása"
+                        icon={<Shapes className="w-10 h-10" />}
+                        color="bg-orange-50 text-orange-600"
+                        onClick={() => setView('visual-matcher')}
                     />
                     <ChapterCard
-                        title="Profi gyakorlás"
-                        description="Összeadás és kivonás különböző nevezőkkel"
-                        icon={<Gamepad2 className="w-10 h-10" />}
-                        color="bg-rose-50 text-rose-600"
-                        onClick={() => setView('quiz-different')}
-                        highlight
+                        title="Összeadás és kivonás"
+                        description="Törtek összeadása és kivonása - 3 szint"
+                        icon={<Calculator className="w-10 h-10" />}
+                        color="bg-emerald-50 text-emerald-600"
+                        onClick={() => setView('quiz')}
                     />
                     <ChapterCard
                         title="Szorzás gyakorlása"
@@ -76,11 +76,11 @@ export function FractionsModule({ onBack }: FractionsModuleProps) {
                         onClick={() => setView('multiplier')}
                     />
                     <ChapterCard
-                        title="Törtek felismerése"
-                        description="Kördiagramok és törtek párosítása"
-                        icon={<Shapes className="w-10 h-10" />}
-                        color="bg-orange-50 text-orange-600"
-                        onClick={() => setView('visual-matcher')}
+                        title="Osztás gyakorlása"
+                        description="Tört osztása egész számmal - Párkereső"
+                        icon={<Calculator className="w-10 h-10" />}
+                        color="bg-pink-50 text-pink-600"
+                        onClick={() => setView('divider')}
                     />
                 </div>
             </div>
@@ -93,12 +93,8 @@ export function FractionsModule({ onBack }: FractionsModuleProps) {
                 <FractionVisualizer onBack={handleBackToMenu} />
             )}
 
-            {view === 'quiz-same' && (
-                <FractionsQuiz difficulty="same" onBack={handleBackToMenu} />
-            )}
-
-            {view === 'quiz-different' && (
-                <FractionsQuiz difficulty="different" onBack={handleBackToMenu} />
+            {view === 'quiz' && (
+                <FractionsQuiz onBack={handleBackToMenu} />
             )}
 
             {view === 'multiplier' && (
@@ -107,6 +103,10 @@ export function FractionsModule({ onBack }: FractionsModuleProps) {
 
             {view === 'visual-matcher' && (
                 <FractionVisualMatcher onBack={handleBackToMenu} />
+            )}
+
+            {view === 'divider' && (
+                <FractionDivisionMatcher onBack={handleBackToMenu} />
             )}
         </div>
     );
