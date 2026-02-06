@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Grade1Addition } from './Grade1Addition';
+import { MathSnakeGame } from './MathSnakeGame';
 import {
     Gamepad2,
     ArrowLeft,
     Sparkles,
     Star,
-    Zap
+    Zap,
+    Target
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -14,7 +16,7 @@ interface Grade1MathModuleProps {
     onBack: () => void;
 }
 
-type ViewType = 'menu' | 'addition10';
+type ViewType = 'menu' | 'addition10' | 'snake';
 
 export function Grade1MathModule({ onBack }: Grade1MathModuleProps) {
     const [view, setView] = useState<ViewType>('menu');
@@ -49,6 +51,15 @@ export function Grade1MathModule({ onBack }: Grade1MathModuleProps) {
                         onClick={() => setView('addition10')}
                         badge="ÜGYESSÉGI"
                     />
+                    <KidsCard
+                        title="Matek Kígyó 🐍"
+                        description="Irányítsd a kígyót és edd meg a helyes válaszokat!"
+                        icon={<Target className="w-12 h-12" />}
+                        color="bg-emerald-50 text-emerald-500 border-emerald-100"
+                        onClick={() => setView('snake')}
+                        badge="JÁTÉK"
+                        highlight
+                    />
 
                 </div>
 
@@ -69,6 +80,10 @@ export function Grade1MathModule({ onBack }: Grade1MathModuleProps) {
         <div className="space-y-6 animate-in fade-in duration-500">
             {view === 'addition10' && (
                 <Grade1Addition onBack={handleBackToMenu} />
+            )}
+
+            {view === 'snake' && (
+                <MathSnakeGame onBack={handleBackToMenu} />
             )}
         </div>
     );
