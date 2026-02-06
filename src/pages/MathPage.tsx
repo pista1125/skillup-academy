@@ -19,6 +19,8 @@ import { ShapeClassifier } from '@/components/math/ShapeClassifier';
 import { LineRelationships } from '@/components/math/LineRelationships';
 import { DivisibilityPowersModule } from '@/components/math/DivisibilityPowersModule';
 import { WordProblemsModule } from '@/components/math/WordProblemsModule';
+import { TriangleClassifier } from '@/components/math/TriangleClassifier';
+import { QuadrilateralClassifier } from '@/components/math/QuadrilateralClassifier';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -26,6 +28,8 @@ import {
   Calculator,
   Wrench,
   Shapes,
+  Triangle,
+  Square,
   Settings2,
   Variable,
   Percent,
@@ -38,7 +42,7 @@ import {
 import { cn } from '@/lib/utils';
 
 type ViewState = 'main-select' | 'topic-select' | 'tools-select' | 'activity' | 'geometry-select';
-type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'word-problems';
+type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification';
 
 export default function MathPage() {
   const navigate = useNavigate();
@@ -268,6 +272,38 @@ export default function MathPage() {
 
               <button
                 onClick={() => {
+                  setActivityType('triangle-classification');
+                  setView('activity');
+                }}
+                className="flex flex-col items-center gap-4 p-6 bg-white rounded-3xl border-2 border-slate-100 hover:border-primary hover:shadow-xl transition-all group"
+              >
+                <div className="p-4 bg-amber-50 rounded-2xl text-amber-600 group-hover:scale-110 transition-transform">
+                  <Triangle className="w-10 h-10" />
+                </div>
+                <div className="text-center">
+                  <h3 className="font-bold text-lg mb-1">Háromszögek</h3>
+                  <p className="text-xs text-slate-500 leading-relaxed">Háromszögek csoportosítása</p>
+                </div>
+              </button>
+
+              <button
+                onClick={() => {
+                  setActivityType('quadrilateral-classification');
+                  setView('activity');
+                }}
+                className="flex flex-col items-center gap-4 p-6 bg-white rounded-3xl border-2 border-slate-100 hover:border-primary hover:shadow-xl transition-all group"
+              >
+                <div className="p-4 bg-violet-50 rounded-2xl text-violet-600 group-hover:scale-110 transition-transform">
+                  <Square className="w-10 h-10" />
+                </div>
+                <div className="text-center">
+                  <h3 className="font-bold text-lg mb-1">Négyszögek</h3>
+                  <p className="text-xs text-slate-500 leading-relaxed">Négyszögek fajtái és tulajdonságai</p>
+                </div>
+              </button>
+
+              <button
+                onClick={() => {
                   setActivityType('line-relationships');
                   setView('activity');
                 }}
@@ -378,6 +414,14 @@ export default function MathPage() {
 
             {activityType === 'line-relationships' && (
               <LineRelationships onBack={handleBack} />
+            )}
+
+            {activityType === 'triangle-classification' && (
+              <TriangleClassifier onBack={handleBack} />
+            )}
+
+            {activityType === 'quadrilateral-classification' && (
+              <QuadrilateralClassifier onBack={handleBack} />
             )}
 
             {activityType === 'divisibility-powers' && (
