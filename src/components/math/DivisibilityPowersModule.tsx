@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { DivisibilityTool } from './DivisibilityTool';
 import { PrimeFactorization } from './PrimeFactorization';
 import { DivisibilityQuiz } from './DivisibilityQuiz';
+import { PrimeFactorizationMatcher } from './PrimeFactorizationMatcher';
 import {
     Calculator,
     Zap,
@@ -22,7 +23,7 @@ interface DivisibilityPowersModuleProps {
     onBack: () => void;
 }
 
-type ViewType = 'menu' | 'theory' | 'divisibility' | 'factorization' | 'quiz';
+type ViewType = 'menu' | 'theory' | 'divisibility' | 'factorization' | 'quiz' | 'matcher';
 
 export function DivisibilityPowersModule({ onBack }: DivisibilityPowersModuleProps) {
     const [view, setView] = useState<ViewType>('menu');
@@ -78,6 +79,13 @@ export function DivisibilityPowersModule({ onBack }: DivisibilityPowersModulePro
                         onClick={() => setView('quiz')}
                         highlight
                     />
+                    <MenuCard
+                        title="Párosító Játék"
+                        description="Prímtényezők gyakorlása"
+                        icon={<Target className="w-10 h-10" />}
+                        color="bg-violet-50 text-violet-600"
+                        onClick={() => setView('matcher')}
+                    />
                 </div>
             </div>
         );
@@ -96,6 +104,7 @@ export function DivisibilityPowersModule({ onBack }: DivisibilityPowersModulePro
                     {view === 'divisibility' && 'Oszthatósági szabályok'}
                     {view === 'factorization' && 'Prímtényezős felbontás'}
                     {view === 'quiz' && 'Oszthatósági Kvíz'}
+                    {view === 'matcher' && 'Prímtényezős Párosító'}
                 </h3>
             </div>
 
@@ -244,6 +253,10 @@ export function DivisibilityPowersModule({ onBack }: DivisibilityPowersModulePro
 
             {view === 'quiz' && (
                 <DivisibilityQuiz />
+            )}
+
+            {view === 'matcher' && (
+                <PrimeFactorizationMatcher onBack={handleBackToMenu} />
             )}
         </div>
     );

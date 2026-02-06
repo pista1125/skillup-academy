@@ -18,7 +18,7 @@ export const mathTopics: MathTopic[] = [
   },
   {
     id: 'divisibility-powers',
-    title: 'Egész számok, osztóság',
+    title: 'Hatványozás, oszthatóság',
     description: 'Hatványozás szabályai, oszthatósági szabályok, prímtényezőkre bontás',
     icon: '⚡',
     color: 'from-amber-400 to-orange-500',
