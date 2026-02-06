@@ -7,7 +7,11 @@ import {
     Trophy,
     Heart,
     Star,
-    Zap
+    Zap,
+    ArrowUp,
+    ArrowDown,
+    ArrowLeftIcon,
+    ArrowRightIcon
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import confetti from 'canvas-confetti';
@@ -169,6 +173,10 @@ export function MathSnakeGame({ onBack }: { onBack: () => void }) {
                     // Wrong answer
                     setScore(prev => Math.max(0, prev - 5));
 
+                    // Generate new problem even on wrong answer
+                    const newProblem = generateProblem();
+                    setProblem(newProblem);
+
                     if (prevSnake.length > 1) {
                         return [newHead, ...prevSnake.slice(0, -1)];
                     } else {
@@ -204,6 +212,11 @@ export function MathSnakeGame({ onBack }: { onBack: () => void }) {
             const key = e.key;
             const currentDir = directionRef.current;
 
+            // Prevent default scrolling for arrow keys
+            if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' '].includes(key)) {
+                e.preventDefault();
+            }
+
             if (key === 'ArrowUp' && currentDir !== 'DOWN') {
                 directionRef.current = 'UP';
                 setDirection('UP');
@@ -217,7 +230,6 @@ export function MathSnakeGame({ onBack }: { onBack: () => void }) {
                 directionRef.current = 'RIGHT';
                 setDirection('RIGHT');
             } else if (key === ' ') {
-                e.preventDefault();
                 setIsPaused(prev => !prev);
             }
         };
@@ -225,6 +237,25 @@ export function MathSnakeGame({ onBack }: { onBack: () => void }) {
         window.addEventListener('keydown', handleKeyPress);
         return () => window.removeEventListener('keydown', handleKeyPress);
     }, [gameOver]);
+
+    const handleDirectionClick = (newDirection: Direction) => {
+        if (gameOver || isPaused) return;
+        const currentDir = directionRef.current;
+
+        if (newDirection === 'UP' && currentDir !== 'DOWN') {
+            directionRef.current = 'UP';
+            setDirection('UP');
+        } else if (newDirection === 'DOWN' && currentDir !== 'UP') {
+            directionRef.current = 'DOWN';
+            setDirection('DOWN');
+        } else if (newDirection === 'LEFT' && currentDir !== 'RIGHT') {
+            directionRef.current = 'LEFT';
+            setDirection('LEFT');
+        } else if (newDirection === 'RIGHT' && currentDir !== 'LEFT') {
+            directionRef.current = 'RIGHT';
+            setDirection('RIGHT');
+        }
+    };
 
     return (
         <div className="flex flex-col gap-6 max-w-4xl mx-auto w-full animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -314,12 +345,7 @@ export function MathSnakeGame({ onBack }: { onBack: () => void }) {
                     {numbers.map((num, index) => (
                         <div
                             key={index}
-                            className={cn(
-                                "absolute rounded-xl flex items-center justify-center font-black text-lg shadow-lg transition-all duration-200 hover:scale-110",
-                                num.value === problem.answer
-                                    ? "bg-gradient-to-br from-amber-300 to-amber-500 text-white border-2 border-amber-600"
-                                    : "bg-gradient-to-br from-rose-300 to-rose-500 text-white border-2 border-rose-600"
-                            )}
+                            className="absolute rounded-xl flex items-center justify-center font-black text-lg shadow-lg transition-all duration-200 hover:scale-110 bg-gradient-to-br from-blue-300 to-blue-500 text-white border-2 border-blue-600"
                             style={{
                                 left: num.pos.x * CELL_SIZE + 2,
                                 top: num.pos.y * CELL_SIZE + 2,
@@ -373,6 +399,43 @@ export function MathSnakeGame({ onBack }: { onBack: () => void }) {
                             <span className="text-xs font-bold text-blue-600">Sebesség</span>
                         </div>
                         <p className="text-2xl font-black text-slate-800">{Math.round((INITIAL_SPEED / speed) * 100)}%</p>
+                    </div>
+                </div>
+
+                {/* Mobile Controls */}
+                <div className="mt-6 md:hidden">
+                    <p className="text-center text-sm font-bold text-slate-600 mb-3">Irányítás</p>
+                    <div className="grid grid-cols-3 gap-2 max-w-xs mx-auto">
+                        <div></div>
+                        <Button
+                            onClick={() => handleDirectionClick('UP')}
+                            disabled={gameOver}
+                            className="h-16 bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white rounded-2xl shadow-lg active:scale-95 transition-transform"
+                        >
+                            <ArrowUp className="w-8 h-8" />
+                        </Button>
+                        <div></div>
+                        <Button
+                            onClick={() => handleDirectionClick('LEFT')}
+                            disabled={gameOver}
+                            className="h-16 bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white rounded-2xl shadow-lg active:scale-95 transition-transform"
+                        >
+                            <ArrowLeftIcon className="w-8 h-8" />
+                        </Button>
+                        <Button
+                            onClick={() => handleDirectionClick('DOWN')}
+                            disabled={gameOver}
+                            className="h-16 bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white rounded-2xl shadow-lg active:scale-95 transition-transform"
+                        >
+                            <ArrowDown className="w-8 h-8" />
+                        </Button>
+                        <Button
+                            onClick={() => handleDirectionClick('RIGHT')}
+                            disabled={gameOver}
+                            className="h-16 bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white rounded-2xl shadow-lg active:scale-95 transition-transform"
+                        >
+                            <ArrowRightIcon className="w-8 h-8" />
+                        </Button>
                     </div>
                 </div>
             </Card>
