@@ -157,31 +157,65 @@ export default function MathPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Header */}
-      <div className="bg-gradient-math text-white py-8 px-4">
-        <div className="container max-w-4xl mx-auto">
+      <div className="bg-gradient-math text-white py-12 px-4 shadow-xl relative overflow-hidden">
+        {/* Decorative background element */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 blur-3xl pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-400/10 rounded-full -ml-24 -mb-24 blur-2xl pointer-events-none"></div>
+
+        <div className="container max-w-5xl mx-auto relative z-10">
           {view !== 'main-select' && (
             <Button
               variant="ghost"
               onClick={handleBack}
-              className="text-white hover:bg-white/20 mb-4"
+              className="text-white hover:bg-white/20 mb-6 transition-all"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Vissza
             </Button>
           )}
-          <div className="flex items-center gap-4">
-            <div className="p-4 bg-white/20 rounded-2xl">
-              <Calculator className="w-10 h-10" />
+          <div className="flex flex-col md:flex-row items-center gap-8 text-center md:text-left">
+            <div className="relative group">
+              <div className="absolute -inset-1 bg-gradient-to-r from-pink-500 to-yellow-500 rounded-full blur opacity-40 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+              <div className="relative p-1 bg-white/10 rounded-full backdrop-blur-sm">
+                <img
+                  src="/istvan.jpg"
+                  alt="Orsós István"
+                  className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-4 border-white/50 shadow-2xl"
+                  onError={(e) => {
+                    // Fallback to calculator icon if image is missing
+                    e.currentTarget.style.display = 'none';
+                    const parent = e.currentTarget.parentElement;
+                    if (parent) {
+                      const iconContainer = document.createElement('div');
+                      iconContainer.className = "p-6 bg-white/20 rounded-full";
+                      iconContainer.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calculator"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>';
+                      parent.appendChild(iconContainer);
+                    }
+                  }}
+                />
+              </div>
             </div>
-            <div>
-              <h1 className="font-display text-3xl font-bold">Matematika</h1>
-              <p className="text-white/80">
-                {view === 'main-select' && 'Válassz évfolyamot vagy eszközt!'}
-                {view === 'topic-select' && selectedGrade && `${selectedGrade === 'graduation' ? 'Érettségi' : selectedGrade + '. osztályos'} tananyag`}
-                {view === 'tools-select' && 'Interaktív eszközök és modulok'}
-                {view === 'geometry-select' && 'Válassz geometriai feladatot!'}
-                {view === 'activity' && currentTopic?.title}
-              </p>
+            <div className="flex-1">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full text-xs font-medium mb-3 backdrop-blur-sm border border-white/10">
+                <Sparkles className="w-3 h-3 text-yellow-300" />
+                <span>Interaktív Tanulási Platform</span>
+              </div>
+              <h1 className="font-display text-4xl md:text-5xl font-black mb-2 tracking-tight">
+                Matematika
+              </h1>
+              <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 text-white/90">
+                <p className="text-lg font-medium">
+                  {view === 'main-select' && 'Válassz évfolyamot vagy eszközt!'}
+                  {view === 'topic-select' && selectedGrade && `${selectedGrade === 'graduation' ? 'Érettségi' : selectedGrade + '. osztályos'} tananyag`}
+                  {view === 'tools-select' && 'Interaktív eszközök és modulok'}
+                  {view === 'geometry-select' && 'Válassz geometriai feladatot!'}
+                  {activityType === 'activity' && currentTopic?.title}
+                </p>
+                <div className="hidden md:block w-1.5 h-1.5 bg-white/30 rounded-full"></div>
+                <p className="text-white/70 text-sm md:text-base italic">
+                  a weboldalt készítette: <span className="text-white font-bold not-italic">Orsós István</span>
+                </p>
+              </div>
             </div>
           </div>
         </div>
