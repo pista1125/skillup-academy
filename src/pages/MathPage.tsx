@@ -15,6 +15,7 @@ import { DivisibilityTool } from '@/components/math/DivisibilityTool';
 import { MaterialGallery } from '@/components/math/MaterialGallery';
 import { LessonViewer } from '@/components/math/LessonViewer';
 import { LongDivisionTool } from '@/components/math/LongDivisionTool';
+import { MathSnakeGame } from '@/components/math/MathSnakeGame';
 import { AngleMatcher } from '@/components/math/AngleMatcher';
 import { ShapeClassifier } from '@/components/math/ShapeClassifier';
 import { LineRelationships } from '@/components/math/LineRelationships';
@@ -42,8 +43,8 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-type ViewState = 'main-select' | 'topic-select' | 'tools-select' | 'activity' | 'geometry-select';
-type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification';
+type ViewState = 'main-select' | 'topic-select' | 'tools-select' | 'games-select' | 'activity' | 'geometry-select';
+type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game';
 
 export default function MathPage() {
   const navigate = useNavigate();
@@ -137,7 +138,7 @@ export default function MathPage() {
     } else if (view === 'topic-select') {
       setView('main-select');
       setSelectedGrade(null);
-    } else if (view === 'tools-select') {
+    } else if (view === 'tools-select' || view === 'games-select') {
       setView('main-select');
     }
     // No navigation to '/' as this is now the root
@@ -208,8 +209,9 @@ export default function MathPage() {
                   {view === 'main-select' && 'Válassz évfolyamot vagy eszközt!'}
                   {view === 'topic-select' && selectedGrade && `${selectedGrade === 'graduation' ? 'Érettségi' : selectedGrade + '. osztályos'} tananyag`}
                   {view === 'tools-select' && 'Interaktív eszközök és modulok'}
+                  {view === 'games-select' && 'Játékos tanulás és gyakorlás'}
                   {view === 'geometry-select' && 'Válassz geometriai feladatot!'}
-                  {activityType === 'activity' && currentTopic?.title}
+                  {view === 'activity' && currentTopic?.title}
                 </p>
                 <div className="hidden md:block w-1.5 h-1.5 bg-white/30 rounded-full"></div>
                 <p className="text-white/70 text-sm md:text-base italic">
@@ -235,15 +237,26 @@ export default function MathPage() {
               />
             </section>
 
-            <section className="pt-4 border-t border-slate-100">
+            <section className="pt-4 border-t border-slate-100 flex flex-col md:flex-row gap-4">
               <Button
                 onClick={() => setView('tools-select')}
-                className="w-full h-20 text-lg font-bold gap-4 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 shadow-lg shadow-purple-500/20 group transition-all"
+                className="flex-1 h-20 text-lg font-bold gap-4 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 shadow-lg shadow-purple-500/20 group transition-all"
               >
                 <div className="p-2 bg-white/10 rounded-lg group-hover:rotate-12 transition-transform">
                   <Wrench className="w-6 h-6" />
                 </div>
-                Matematikai Eszközök
+                Matek Eszközök
+                <ChevronRight className="w-6 h-6 ml-auto" />
+              </Button>
+
+              <Button
+                onClick={() => setView('games-select')}
+                className="flex-1 h-20 text-lg font-bold gap-4 bg-gradient-to-r from-pink-600 to-orange-600 hover:from-pink-700 hover:to-orange-700 shadow-lg shadow-pink-500/20 group transition-all"
+              >
+                <div className="p-2 bg-white/10 rounded-lg group-hover:rotate-12 transition-transform">
+                  <Sparkles className="w-6 h-6" />
+                </div>
+                Matek Játékok
                 <ChevronRight className="w-6 h-6 ml-auto" />
               </Button>
             </section>
@@ -420,6 +433,32 @@ export default function MathPage() {
           </div>
         )}
 
+        {view === 'games-select' && (
+          <div className="animate-slide-up">
+            <h2 className="font-display text-2xl font-bold mb-8 text-center flex items-center justify-center gap-3">
+              <Sparkles className="w-7 h-7 text-pink-500" />
+              Matematikai Játékok
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <ToolCard
+                title="Matek Kígyó"
+                desc="Gyűjtsd össze a helyes válaszokat a kígyóval!"
+                icon={<span className="text-3xl">🐍</span>}
+                color="bg-emerald-100 border-emerald-200"
+                onClick={() => {
+                  setActivityType('snake-game');
+                  setView('activity');
+                }}
+              />
+              <div className="p-6 bg-white/50 rounded-2xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center text-center opacity-70">
+                <div className="text-3xl mb-2">🏗️</div>
+                <p className="text-sm font-bold text-slate-500">Toronyépítő</p>
+                <p className="text-xs text-slate-400">Hamarosan érkezik...</p>
+              </div>
+            </div>
+          </div>
+        )}
+
         {view === 'activity' && (
           <div className="animate-slide-up">
             {activityType === 'fractions' && (
@@ -441,6 +480,10 @@ export default function MathPage() {
 
             {activityType === 'divisibility' && (
               <DivisibilityTool onBack={handleBack} />
+            )}
+
+            {activityType === 'snake-game' && (
+              <MathSnakeGame onBack={handleBack} grade={typeof selectedGrade === 'number' ? selectedGrade : 3} />
             )}
 
             {activityType === 'long-division' && (
