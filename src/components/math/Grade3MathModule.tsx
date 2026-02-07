@@ -135,12 +135,12 @@ export function Grade3MathModule({ onBack }: Grade3MathModuleProps) {
     return (
         <div className="space-y-6 animate-in fade-in duration-500">
             {view === 'coloring' && (
-                <MathColoringGame grade={2} operation="multiplication" onBack={handleBackToMenu} />
+                <MathColoringGame grade={3} operation="multiplication" onBack={handleBackToMenu} />
             )}
 
             {view === 'quiz' && (
                 <MathQuiz
-                    grade={2}
+                    grade={3}
                     type="mixed"
                     onBack={handleBackToMenu}
                     onComplete={(res) => {
@@ -155,7 +155,7 @@ export function Grade3MathModule({ onBack }: Grade3MathModuleProps) {
             )}
 
             {view === 'tower-builder' && (
-                <TowerBuilderGame onBack={() => setView('alapmuveletek')} />
+                <TowerBuilderGame onBack={handleBackToMenu} />
             )}
 
             {view === 'snake' && (
