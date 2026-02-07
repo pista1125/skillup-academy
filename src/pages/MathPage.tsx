@@ -139,9 +139,8 @@ export default function MathPage() {
       setSelectedGrade(null);
     } else if (view === 'tools-select') {
       setView('main-select');
-    } else {
-      navigate('/');
     }
+    // No navigation to '/' as this is now the root
   };
 
   const getFilteredTopics = () => {
@@ -160,14 +159,16 @@ export default function MathPage() {
       {/* Header */}
       <div className="bg-gradient-math text-white py-8 px-4">
         <div className="container max-w-4xl mx-auto">
-          <Button
-            variant="ghost"
-            onClick={handleBack}
-            className="text-white hover:bg-white/20 mb-4"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Vissza
-          </Button>
+          {view !== 'main-select' && (
+            <Button
+              variant="ghost"
+              onClick={handleBack}
+              className="text-white hover:bg-white/20 mb-4"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Vissza
+            </Button>
+          )}
           <div className="flex items-center gap-4">
             <div className="p-4 bg-white/20 rounded-2xl">
               <Calculator className="w-10 h-10" />

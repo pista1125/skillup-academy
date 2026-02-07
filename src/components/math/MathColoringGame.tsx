@@ -337,7 +337,7 @@ export function MathColoringGame({ onBack, grade = 1, operation = 'addition' }: 
                         </div>
 
                         <svg viewBox="0 0 800 500" className="w-full h-auto cursor-pointer">
-                            {currentScene.areas.map((area) => {
+                            {currentScene.areas.map((area, index) => {
                                 const result = getAreaResult(area, currentScene.operation);
                                 const isSolved = solved.has(area.id);
                                 return (
@@ -362,7 +362,7 @@ export function MathColoringGame({ onBack, grade = 1, operation = 'addition' }: 
                                                 className="fill-slate-400 font-display font-bold pointer-events-none select-none"
                                                 fontSize="14"
                                             >
-                                                {result}
+                                                {index + 1}
                                             </text>
                                         )}
                                     </g>
@@ -446,37 +446,25 @@ export function MathColoringGame({ onBack, grade = 1, operation = 'addition' }: 
                     </div>
                 </CardContent>
 
-                {/* Feedback Toast (Internal) - Moved inside Card but outside CardContent for correct positioning if needed, or keep relative to parent */}
-                {feedback && (
-                    <div className={cn(
-                        "absolute bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 rounded-full font-bold shadow-lg animate-in slide-in-from-bottom duration-300 z-50",
-                        feedback.type === 'success' ? "bg-green-500 text-white" : "bg-orange-400 text-white"
-                    )}>
-                        {feedback.type === 'success' ? <Sparkles className="inline w-5 h-5 mr-2" /> : <RefreshCcw className="inline w-5 h-5 mr-2" />}
-                        {feedback.msg}
-                    </div>
-                )}
+                {/* Feedback Toast (Static Footer) */}
+                <div className="bg-slate-50 border-t border-slate-100 p-4 min-h-[80px] flex items-center justify-center">
+                    {feedback ? (
+                        <div className={cn(
+                            "px-6 py-2 rounded-xl font-bold flex items-center gap-2 animate-in slide-in-from-bottom duration-300",
+                            feedback.type === 'success' ? "bg-green-100 text-green-700 border-2 border-green-200" : "bg-orange-100 text-orange-700 border-2 border-orange-200"
+                        )}>
+                            {feedback.type === 'success' ? <Sparkles className="w-5 h-5" /> : <RefreshCcw className="w-5 h-5" />}
+                            {feedback.msg}
+                        </div>
+                    ) : (
+                        <p className="text-slate-400 text-sm font-medium italic">
+                            Kattints egy számmal jelölt területre a színezéshez!
+                        </p>
+                    )}
+                </div>
             </Card>
 
-            <div className="flex justify-between w-full items-center px-4">
-                <div className="flex gap-2">
-                    {currentScene.areas.map(a => (
-                        <div
-                            key={a.id}
-                            className={cn(
-                                "w-4 h-4 rounded-full border-2 transition-all duration-300",
-                                solved.has(a.id) ? "scale-110 shadow-sm" : "bg-white border-dashed border-slate-300 opacity-30"
-                            )}
-                            style={{ backgroundColor: solved.has(a.id) ? a.color : '' }}
-                        />
-                    ))}
-                </div>
-                {!gameWon && (
-                    <p className="text-slate-500 font-medium italic animate-pulse">
-                        Kattints egy fehér területre a színezéshez!
-                    </p>
-                )}
-            </div>
+
         </div>
     );
 }

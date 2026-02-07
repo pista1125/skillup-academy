@@ -13,6 +13,7 @@ import {
     Blocks,
     Target
 } from 'lucide-react';
+import { BuildingBlocksComparison } from './BuildingBlocksComparison';
 import { TowerBuilderGame } from './TowerBuilderGame';
 import { cn } from '@/lib/utils';
 
@@ -20,7 +21,7 @@ interface Grade3MathModuleProps {
     onBack: () => void;
 }
 
-type ViewType = 'menu' | 'coloring' | 'quiz' | 'tower' | 'snake' | 'alapmuveletek';
+type ViewType = 'menu' | 'coloring' | 'quiz' | 'blocks' | 'snake' | 'alapmuveletek' | 'tower-builder';
 
 export function Grade3MathModule({ onBack }: Grade3MathModuleProps) {
     const [view, setView] = useState<ViewType>('menu');
@@ -56,7 +57,7 @@ export function Grade3MathModule({ onBack }: Grade3MathModuleProps) {
                     />
                     <KidsCard
                         title="Szorzó-Színező"
-                        description="Műveletek 1000-es számkörben izgalmas képekkel!"
+                        description="Számold ki a szorzatot és színezz ki 5 izgalmas új képet!"
                         icon={<Palette className="w-12 h-12" />}
                         color="bg-indigo-50 text-indigo-500 border-indigo-100"
                         onClick={() => setView('coloring')}
@@ -64,14 +65,14 @@ export function Grade3MathModule({ onBack }: Grade3MathModuleProps) {
                         badge="PRÉMIUM"
                     />
                     <KidsCard
-                        title="Okos Toronyépítő"
-                        description="Építs tornyokat 100-as, 10-es és 1-es blokkokból!"
+                        title="Torony Összehasonlító"
+                        description="Építs tornyokat és hasonlítsd össze őket! Melyik a több?"
                         icon={<Blocks className="w-12 h-12" />}
                         color="bg-blue-50 text-blue-500 border-blue-100"
-                        onClick={() => setView('tower')}
-                        highlight
-                        badge="ÚJ JÁTÉK"
+                        onClick={() => setView('blocks')}
+                        badge="ÖSSZEHASONLÍTÁS"
                     />
+
                     <KidsCard
                         title="Matek Kígyó 🐍"
                         description="Irányítsd a kígyót és edd meg a helyes válaszokat!"
@@ -89,7 +90,7 @@ export function Grade3MathModule({ onBack }: Grade3MathModuleProps) {
                     </div>
                     <div>
                         <h4 className="text-xl font-black text-amber-900 mb-1">Újdonság!</h4>
-                        <p className="text-amber-800/80 font-bold">Gyakorolj 1000-es számkörben a legújabb játékaikkal!</p>
+                        <p className="text-amber-800/80 font-bold">Már az 5-ös, 10-es és 2-es szorzótáblát is gyakorolhatod nálunk!</p>
                     </div>
                 </div>
             </div>
@@ -118,13 +119,13 @@ export function Grade3MathModule({ onBack }: Grade3MathModuleProps) {
                         badge="GYAKORLÁS"
                     />
                     <KidsCard
-                        title="Matek Kígyó 🐍"
-                        description="Irányítsd a kígyót és edd meg a helyes válaszokat!"
-                        icon={<Target className="w-12 h-12" />}
-                        color="bg-emerald-50 text-emerald-500 border-emerald-100"
-                        onClick={() => setView('snake')}
+                        title="Okos Toronyépítő"
+                        description="Számold ki az eredményt és építsd meg a megfelelő tornyot!"
+                        icon={<Blocks className="w-12 h-12" />}
+                        color="bg-purple-50 text-purple-500 border-purple-100"
+                        onClick={() => setView('tower-builder')}
                         highlight
-                        badge="JÁTÉK"
+                        badge="ÚJ JÁTÉK"
                     />
                 </div>
             </div>
@@ -134,12 +135,12 @@ export function Grade3MathModule({ onBack }: Grade3MathModuleProps) {
     return (
         <div className="space-y-6 animate-in fade-in duration-500">
             {view === 'coloring' && (
-                <MathColoringGame grade={3} operation="multiplication" onBack={handleBackToMenu} />
+                <MathColoringGame grade={2} operation="multiplication" onBack={handleBackToMenu} />
             )}
 
             {view === 'quiz' && (
                 <MathQuiz
-                    grade={3}
+                    grade={2}
                     type="mixed"
                     onBack={handleBackToMenu}
                     onComplete={(res) => {
@@ -149,8 +150,12 @@ export function Grade3MathModule({ onBack }: Grade3MathModuleProps) {
                 />
             )}
 
-            {view === 'tower' && (
-                <TowerBuilderGame onBack={handleBackToMenu} />
+            {view === 'blocks' && (
+                <BuildingBlocksComparison onBack={handleBackToMenu} />
+            )}
+
+            {view === 'tower-builder' && (
+                <TowerBuilderGame onBack={() => setView('alapmuveletek')} />
             )}
 
             {view === 'snake' && (

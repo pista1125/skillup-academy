@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Check, RefreshCw, Trophy, Plus, Minus } from 'lucide-react';
+import { ArrowLeft, Check, Trophy, RefreshCw } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import confetti from 'canvas-confetti';
 
@@ -8,18 +8,11 @@ interface TowerBuilderGameProps {
     onBack: () => void;
 }
 
-interface TowerData {
-    id: number;
-    problem: string;
-    targetValue: number;
-    currentValue: number;
-}
-
 export function TowerBuilderGame({ onBack }: TowerBuilderGameProps) {
     const [round, setRound] = useState(1);
     const [score, setScore] = useState(0);
-    const [towers, setTowers] = useState<TowerData[]>([]);
-    const [activeTowerId, setActiveTowerId] = useState<number>(1);
+    const [towers, setTowers] = useState<{ id: number; problem: string; target: number; current: number }[]>([]);
+    const [activeTowerId, setActiveTowerId] = useState<number>(0);
     const [feedback, setFeedback] = useState<'correct' | 'wrong' | null>(null);
     const [isComplete, setIsComplete] = useState(false);
 
@@ -28,52 +21,85 @@ export function TowerBuilderGame({ onBack }: TowerBuilderGameProps) {
     }, []);
 
     const generateNewRound = () => {
-        const generateProblem = (id: number): TowerData => {
-            const type = Math.random() > 0.5 ? 'add' : 'sub';
-            let a, b, target, problem;
+        // Generate two problems
+        // Problem 1: Subtraction in large range (e.g., 500 - 280)
+        // Problem 2: Addition (e.g., 20 + 340)
 
-            if (type === 'add') {
-                target = Math.floor(Math.random() * 901) + 10; // 10-910
-                a = Math.floor(Math.random() * (target - 5)) + 1;
-                b = target - a;
-                problem = `${a} + ${b}`;
-            } else {
-                a = Math.floor(Math.random() * 801) + 100; // 100-900
-                b = Math.floor(Math.random() * (a - 10)) + 5;
-                target = a - b;
-                problem = `${a} - ${b}`;
-            }
+        const tower1 = generateTowerProblem(1, 'subtraction');
+        const tower2 = generateTowerProblem(2, 'addition');
 
-            return { id, problem, targetValue: target, currentValue: 0 };
-        };
-
-        setTowers([generateProblem(1), generateProblem(2)]);
-        setActiveTowerId(1);
+        setTowers([tower1, tower2]);
+        setActiveTowerId(tower1.id);
         setFeedback(null);
     };
 
-    const handleUpdateValue = (delta: number) => {
-        setTowers(prev => prev.map(t =>
-            t.id === activeTowerId
-                ? { ...t, currentValue: Math.max(0, Math.min(1000, t.currentValue + delta)) }
-                : t
-        ));
+    const generateTowerProblem = (id: number, type: 'addition' | 'subtraction') => {
+        let num1, num2, result, problem;
+
+        if (type === 'subtraction') {
+            // Target: A - B = Result.
+            // Constraint: A up to 1000. Result >= 0.
+            const a = Math.floor(Math.random() * 900) + 100; // 100-1000
+            const b = Math.floor(Math.random() * a);
+
+            let finalA = a;
+            let finalB = b;
+
+            if (Math.random() > 0.3) {
+                finalA = Math.round(a / 10) * 10;
+                finalB = Math.round(b / 10) * 10;
+                if (finalB > finalA) finalB = finalA; // Safety
+            }
+
+            result = finalA - finalB;
+            problem = `${finalA} - ${finalB}`;
+        } else {
+            // Addition: A + B = Result.
+            // Result up to 1000.
+            const target = Math.floor(Math.random() * 900) + 100;
+            const a = Math.floor(Math.random() * target);
+
+            let finalA = a;
+            let finalTarget = target;
+
+            if (Math.random() > 0.3) {
+                finalTarget = Math.round(target / 10) * 10;
+                finalA = Math.round(a / 10) * 10;
+                if (finalA > finalTarget) finalA = finalTarget;
+            }
+
+            const finalB = finalTarget - finalA;
+            result = finalTarget;
+            problem = `${finalA} + ${finalB}`;
+        }
+
+        return { id, problem, target: result, current: 0 };
+    };
+
+    const updateHeight = (amount: number) => {
+        setTowers(prev => prev.map(t => {
+            if (t.id === activeTowerId) {
+                const newVal = Math.max(0, t.current + amount);
+                return { ...t, current: newVal };
+            }
+            return t;
+        }));
     };
 
     const handleCheck = () => {
-        const allCorrect = towers.every(t => t.currentValue === t.targetValue);
+        const allCorrect = towers.every(t => t.current === t.target);
 
         if (allCorrect) {
             setFeedback('correct');
             setScore(curr => curr + 1);
             confetti({
                 particleCount: 150,
-                spread: 70,
+                spread: 100,
                 origin: { y: 0.6 }
             });
 
             setTimeout(() => {
-                if (round < 5) {
+                if (round < 10) {
                     setRound(r => r + 1);
                     generateNewRound();
                 } else {
@@ -82,51 +108,30 @@ export function TowerBuilderGame({ onBack }: TowerBuilderGameProps) {
             }, 2500);
         } else {
             setFeedback('wrong');
-            setTimeout(() => setFeedback(null), 2000);
         }
     };
 
-    const renderTowerBlocks = (value: number) => {
+    const renderTowerVisuals = (value: number) => {
         const hundreds = Math.floor(value / 100);
         const tens = Math.floor((value % 100) / 10);
         const ones = value % 10;
 
-        const blocks = [];
-
-        // Hundreds: Large red blocks
-        for (let i = 0; i < hundreds; i++) {
-            blocks.push(
-                <div
-                    key={`h-${i}`}
-                    className="w-full h-8 bg-red-500 border-b-4 border-red-700 rounded-lg shadow-inner animate-in slide-in-from-bottom duration-300"
-                />
-            );
-        }
-
-        // Tens: Medium blue blocks
-        for (let i = 0; i < tens; i++) {
-            blocks.push(
-                <div
-                    key={`t-${i}`}
-                    className="w-4/5 h-4 bg-blue-500 border-b-2 border-blue-700 rounded-md shadow-inner animate-in slide-in-from-bottom duration-300 mx-auto"
-                />
-            );
-        }
-
-        // Ones: Small yellow blocks
-        for (let i = 0; i < ones; i++) {
-            blocks.push(
-                <div
-                    key={`o-${i}`}
-                    className="w-1/2 h-2 bg-yellow-400 border-b border-yellow-600 rounded-sm shadow-inner animate-in slide-in-from-bottom duration-300 mx-auto"
-                />
-            );
-        }
-
-        return blocks.reverse(); // Reverse so latest blocks are on top visually? 
-        // Wait, flex-col-reverse handles the order. We want them in order of priority.
-        // If we use flex-col-reverse, the first item in the array is at the bottom.
-        // So 100s first (bottom), then 10s, then 1s (top).
+        return (
+            <div className="flex flex-col-reverse items-center w-full h-full gap-1 p-2 overflow-hidden overflow-y-auto">
+                {/* Ones */}
+                {Array.from({ length: ones }).map((_, i) => (
+                    <div key={`one-${i}`} className="w-8 h-4 bg-yellow-400 border border-yellow-600 rounded-sm shadow-sm flex-shrink-0" />
+                ))}
+                {/* Tens */}
+                {Array.from({ length: tens }).map((_, i) => (
+                    <div key={`ten-${i}`} className="w-24 h-8 bg-blue-400 border border-blue-600 rounded-md shadow-sm flex items-center justify-center text-[10px] text-blue-900 font-bold flex-shrink-0">10</div>
+                ))}
+                {/* Hundreds */}
+                {Array.from({ length: hundreds }).map((_, i) => (
+                    <div key={`hundred-${i}`} className="w-32 h-16 bg-red-400 border border-red-600 rounded-lg shadow-sm flex items-center justify-center text-xs text-red-900 font-bold flex-shrink-0">100</div>
+                ))}
+            </div>
+        );
     };
 
     if (isComplete) {
@@ -136,16 +141,21 @@ export function TowerBuilderGame({ onBack }: TowerBuilderGameProps) {
                     <Trophy className="w-24 h-24 text-yellow-600" />
                 </div>
                 <div className="text-center space-y-4">
-                    <h2 className="text-4xl font-black text-slate-800">Fantasztikus!</h2>
+                    <h2 className="text-4xl font-black text-slate-800">Gratulálunk!</h2>
                     <p className="text-xl text-slate-600 font-bold">
-                        Mesterien építed a tornyokat és számolod a százasokat!
+                        Sikeresen teljesítetted a toronyépítő kihívást!
                     </p>
                     <p className="text-3xl font-black text-indigo-600">
-                        Pontszám: {score}/5
+                        Pontszám: {score}/10
                     </p>
                 </div>
                 <div className="flex gap-4">
-                    <Button onClick={onBack} variant="outline" size="lg" className="text-xl font-bold h-16 px-8 rounded-2xl">
+                    <Button
+                        onClick={onBack}
+                        variant="outline"
+                        size="lg"
+                        className="text-xl font-bold h-16 px-8 rounded-2xl"
+                    >
                         Kilépés
                     </Button>
                     <Button
@@ -167,127 +177,100 @@ export function TowerBuilderGame({ onBack }: TowerBuilderGameProps) {
 
     return (
         <div className="max-w-5xl mx-auto p-4 space-y-8">
-            <div className="flex items-center justify-between bg-white/80 backdrop-blur p-4 rounded-3xl border-4 border-white shadow-sm">
+            {/* Header */}
+            <div className="flex items-center justify-between bg-white/50 backdrop-blur p-4 rounded-3xl border-4 border-white/50 shadow-sm">
                 <Button variant="ghost" onClick={onBack} className="rounded-xl font-bold">
                     <ArrowLeft className="w-5 h-5 mr-2" />
                     Vissza
                 </Button>
-                <div className="flex items-center gap-8">
-                    <div className="px-6 py-2 bg-indigo-100 rounded-2xl text-indigo-700 font-black text-xl">
-                        {round}/5. feladat
-                    </div>
+                <div className="px-6 py-2 bg-indigo-100 rounded-2xl text-indigo-700 font-black text-xl">
+                    {round}/10. feladat
                 </div>
             </div>
 
-            <div className="bg-white p-8 rounded-[40px] shadow-2xl border-4 border-indigo-100 relative overflow-hidden">
-                <div className="flex flex-col md:flex-row items-stretch justify-center gap-12 min-h-[500px]">
-                    {towers.map(tower => (
+            {/* Game Area */}
+            <div className="bg-white p-8 rounded-[40px] shadow-xl border-4 border-indigo-100 flex flex-col items-center gap-8">
+
+                <h2 className="text-2xl font-black text-slate-700 text-center">
+                    Oldd meg a feladatokat és építsd fel a tornyokat!
+                </h2>
+
+                {/* Towers Container */}
+                <div className="flex flex-col md:flex-row gap-8 items-end justify-center w-full min-h-[400px]">
+                    {towers.map((tower) => (
                         <div
                             key={tower.id}
-                            onClick={() => setActiveTowerId(tower.id)}
                             className={cn(
-                                "flex-1 flex flex-col items-center gap-4 p-6 rounded-[32px] transition-all cursor-pointer relative",
+                                "flex flex-col items-center gap-4 transition-all duration-300 p-4 rounded-3xl border-4",
                                 activeTowerId === tower.id
-                                    ? "bg-indigo-50/50 ring-4 ring-indigo-200"
-                                    : "bg-slate-50 border-2 border-transparent hover:bg-slate-100"
+                                    ? "bg-indigo-50 border-indigo-300 scale-105 shadow-lg"
+                                    : "bg-slate-50 border-transparent hover:bg-slate-100 opacity-80"
                             )}
+                            onClick={() => setActiveTowerId(tower.id)}
                         >
-                            <div className="absolute top--4 -translate-y-1/2 bg-white px-6 py-2 rounded-2xl border-4 border-indigo-100 shadow-md z-10">
-                                <span className="text-2xl font-black text-indigo-600 tracking-wider">
-                                    {tower.problem}
-                                </span>
+                            {/* Problem Display */}
+                            <div className={cn(
+                                "text-3xl font-black px-6 py-3 rounded-2xl border-2 transition-colors",
+                                activeTowerId === tower.id
+                                    ? "bg-white text-indigo-600 border-indigo-100"
+                                    : "bg-slate-200 text-slate-500 border-transparent"
+                            )}>
+                                {tower.problem}
                             </div>
 
-                            <div className="w-full flex-1 flex flex-col-reverse justify-start items-center p-4 gap-1 bg-white/50 rounded-2xl border-b-8 border-slate-200 min-h-[300px]">
-                                {renderTowerBlocks(tower.currentValue)}
-                                {tower.currentValue === 0 && (
-                                    <div className="absolute inset-0 flex items-center justify-center text-slate-300 font-bold text-center p-8 select-none pointer-events-none">
-                                        Válaszd ki a tornyot és kezdj el építeni!
-                                    </div>
-                                )}
+                            {/* Tower Visual */}
+                            <div className="w-40 h-[400px] bg-white rounded-2xl border-2 border-slate-200 flex flex-col-reverse justify-start relative shadow-inner overflow-hidden">
+                                {renderTowerVisuals(tower.current)}
+                                <div className="absolute top-2 right-2 text-xs font-bold text-slate-300 bg-white/80 px-2 rounded-full">
+                                    {tower.current}
+                                </div>
                             </div>
 
-                            <div className="text-3xl font-black text-slate-700">
-                                {tower.currentValue}
-                            </div>
+                            {/* Selection Indicator */}
+                            <div className={cn(
+                                "w-4 h-4 rounded-full",
+                                activeTowerId === tower.id ? "bg-indigo-500" : "bg-slate-300"
+                            )} />
                         </div>
                     ))}
                 </div>
 
-                <div className="mt-12 space-y-6">
-                    <div className="flex flex-wrap justify-center gap-4">
-                        <div className="flex gap-2 p-2 bg-red-50 rounded-2xl border-2 border-red-100">
-                            <Button
-                                variant="outline"
-                                onClick={() => handleUpdateValue(-100)}
-                                className="w-16 h-16 rounded-xl border-2 border-red-200 bg-white text-red-600 hover:bg-red-500 hover:text-white font-black text-xl"
-                            >
-                                -100
-                            </Button>
-                            <Button
-                                variant="outline"
-                                onClick={() => handleUpdateValue(100)}
-                                className="w-16 h-16 rounded-xl border-2 border-red-200 bg-white text-red-600 hover:bg-red-500 hover:text-white font-black text-xl"
-                            >
-                                +100
-                            </Button>
-                        </div>
+                {/* Controls */}
+                <div className="flex flex-col items-center gap-6 w-full max-w-2xl bg-slate-50 p-6 rounded-3xl border-2 border-slate-100">
+                    <div className="grid grid-cols-6 gap-2 w-full">
+                        <Button onClick={() => updateHeight(-100)} variant="outline" className="h-14 text-lg font-bold border-red-200 text-red-600 hover:bg-red-50">-100</Button>
+                        <Button onClick={() => updateHeight(-10)} variant="outline" className="h-14 text-lg font-bold border-blue-200 text-blue-600 hover:bg-blue-50">-10</Button>
+                        <Button onClick={() => updateHeight(-1)} variant="outline" className="h-14 text-lg font-bold border-yellow-200 text-yellow-600 hover:bg-yellow-50">-1</Button>
 
-                        <div className="flex gap-2 p-2 bg-blue-50 rounded-2xl border-2 border-blue-100">
-                            <Button
-                                variant="outline"
-                                onClick={() => handleUpdateValue(-10)}
-                                className="w-16 h-16 rounded-xl border-2 border-blue-200 bg-white text-blue-600 hover:bg-blue-500 hover:text-white font-black text-xl"
-                            >
-                                -10
-                            </Button>
-                            <Button
-                                variant="outline"
-                                onClick={() => handleUpdateValue(10)}
-                                className="w-16 h-16 rounded-xl border-2 border-blue-200 bg-white text-blue-600 hover:bg-blue-500 hover:text-white font-black text-xl"
-                            >
-                                +10
-                            </Button>
-                        </div>
-
-                        <div className="flex gap-2 p-2 bg-yellow-50 rounded-2xl border-2 border-yellow-100">
-                            <Button
-                                variant="outline"
-                                onClick={() => handleUpdateValue(-1)}
-                                className="w-16 h-16 rounded-xl border-2 border-yellow-200 bg-white text-yellow-600 hover:bg-yellow-400 hover:text-white font-black text-xl"
-                            >
-                                -1
-                            </Button>
-                            <Button
-                                variant="outline"
-                                onClick={() => handleUpdateValue(1)}
-                                className="w-16 h-16 rounded-xl border-2 border-yellow-200 bg-white text-yellow-600 hover:bg-yellow-400 hover:text-white font-black text-xl"
-                            >
-                                +1
-                            </Button>
-                        </div>
+                        <Button onClick={() => updateHeight(1)} className="h-14 text-lg font-bold bg-yellow-400 hover:bg-yellow-500 text-yellow-900 border-b-4 border-yellow-600 active:border-b-0 active:translate-y-1">+1</Button>
+                        <Button onClick={() => updateHeight(10)} className="h-14 text-lg font-bold bg-blue-400 hover:bg-blue-500 text-blue-900 border-b-4 border-blue-600 active:border-b-0 active:translate-y-1">+10</Button>
+                        <Button onClick={() => updateHeight(100)} className="h-14 text-lg font-bold bg-red-400 hover:bg-red-500 text-red-900 border-b-4 border-red-600 active:border-b-0 active:translate-y-1">+100</Button>
                     </div>
+                </div>
 
-                    <div className="flex justify-center">
-                        {feedback === 'correct' ? (
-                            <div className="animate-in zoom-in duration-300 flex items-center gap-3 px-12 py-5 bg-emerald-100 text-emerald-700 rounded-3xl font-black text-2xl border-4 border-emerald-200 shadow-lg shadow-emerald-100">
-                                <Check className="w-10 h-10" />
-                                Tökéletes!
-                            </div>
-                        ) : feedback === 'wrong' ? (
-                            <div className="animate-in shake items-center gap-3 px-12 py-5 bg-rose-100 text-rose-700 rounded-3xl font-black text-2xl border-4 border-rose-200 shadow-lg shadow-rose-100">
-                                Valami nem stimmel... Próbáld újra!
-                            </div>
-                        ) : (
-                            <Button
-                                size="lg"
-                                onClick={handleCheck}
-                                className="h-20 px-24 text-3xl font-black rounded-3xl shadow-xl border-b-8 transition-all active:border-b-0 active:translate-y-2 bg-emerald-500 hover:bg-emerald-600 border-emerald-700 text-white"
-                            >
-                                Ellenőrzés
-                            </Button>
-                        )}
-                    </div>
+                {/* Feedback Area */}
+                <div className="min-h-[80px] flex items-center justify-center w-full">
+                    {feedback === 'correct' ? (
+                        <div className="animate-in zoom-in duration-300 flex items-center gap-3 px-8 py-4 bg-emerald-100 text-emerald-700 rounded-2xl font-black text-xl border-4 border-emerald-200">
+                            <Check className="w-8 h-8" />
+                            Helyes! Mindkét torony megfelelő!
+                        </div>
+                    ) : feedback === 'wrong' ? (
+                        <div className="text-red-500 font-bold animate-pulse text-lg bg-red-50 px-6 py-3 rounded-xl border-2 border-red-100">
+                            Valami nem stimmel! Ellenőrizd a tornyok magasságát!
+                        </div>
+                    ) : (
+                        <Button
+                            size="lg"
+                            onClick={handleCheck}
+                            className={cn(
+                                "px-12 h-16 text-2xl font-black rounded-2xl shadow-lg border-b-4 transition-all active:border-b-0 active:translate-y-1",
+                                "bg-emerald-500 hover:bg-emerald-600 border-emerald-700 shadow-emerald-500/30"
+                            )}
+                        >
+                            Ellenőrzés
+                        </Button>
+                    )}
                 </div>
             </div>
         </div>
