@@ -1,11 +1,4 @@
-export type Subject =
-  | 'math'
-  | 'physics'
-  | 'hungarian'
-  | 'english'
-  | 'chemistry'
-  | 'history'
-  | 'geography';
+export type Subject = 'math';
 
 export type GradeLevel =
   | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8  // Elementary

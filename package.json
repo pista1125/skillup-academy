@@ -1,8 +1,13 @@
 {
-  "name": "diakzona",
+  "name": "matekdiakzona",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
+  "homepage": "https://pista1125.github.io/matekdiakzona/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pista1125/matekdiakzona.git"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",

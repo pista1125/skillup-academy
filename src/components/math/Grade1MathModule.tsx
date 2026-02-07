@@ -83,7 +83,7 @@ export function Grade1MathModule({ onBack }: Grade1MathModuleProps) {
             )}
 
             {view === 'snake' && (
-                <MathSnakeGame onBack={handleBackToMenu} />
+                <MathSnakeGame onBack={handleBackToMenu} grade={1} />
             )}
         </div>
     );

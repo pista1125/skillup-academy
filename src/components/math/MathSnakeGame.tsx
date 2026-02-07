@@ -18,6 +18,7 @@ import confetti from 'canvas-confetti';
 
 type Direction = 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
 type Position = { x: number; y: number };
+type Operation = '+' | '-' | '×' | '÷';
 
 interface MathProblem {
     question: string;
@@ -28,17 +29,31 @@ const GRID_SIZE = 15;
 const CELL_SIZE = 30;
 const INITIAL_SPEED = 200;
 
-function generateProblem(): MathProblem {
-    const operation = Math.random() > 0.5 ? '+' : '-';
+function generateProblem(operation: Operation, grade: number): MathProblem {
+    let maxNum = 10;
+
+    if (grade === 1) maxNum = 10;
+    else if (grade === 2) maxNum = 100;
+    else if (grade === 3) maxNum = 100;
+    else if (grade === 4) maxNum = 100;
 
     if (operation === '+') {
-        const a = Math.floor(Math.random() * 10) + 1;
-        const b = Math.floor(Math.random() * (10 - a)) + 1;
+        const a = Math.floor(Math.random() * maxNum) + 1;
+        const b = Math.floor(Math.random() * maxNum) + 1;
         return { question: `${a} + ${b}`, answer: a + b };
-    } else {
-        const a = Math.floor(Math.random() * 10) + 1;
+    } else if (operation === '-') {
+        const a = Math.floor(Math.random() * maxNum) + 1;
         const b = Math.floor(Math.random() * a) + 1;
         return { question: `${a} - ${b}`, answer: a - b };
+    } else if (operation === '×') {
+        const a = Math.floor(Math.random() * 10) + 1;
+        const b = Math.floor(Math.random() * 10) + 1;
+        return { question: `${a} × ${b}`, answer: a * b };
+    } else { // division
+        const b = Math.floor(Math.random() * 9) + 2;
+        const result = Math.floor(Math.random() * 10) + 1;
+        const a = b * result;
+        return { question: `${a} ÷ ${b}`, answer: result };
     }
 }
 
@@ -46,8 +61,8 @@ function generateRandomNumbers(correctAnswer: number, count: number = 3): number
     const numbers = new Set<number>([correctAnswer]);
 
     while (numbers.size < count) {
-        const num = Math.floor(Math.random() * 20);
-        if (num !== correctAnswer) {
+        const num = Math.floor(Math.random() * Math.max(20, correctAnswer * 2));
+        if (num !== correctAnswer && num > 0) {
             numbers.add(num);
         }
     }
@@ -55,11 +70,12 @@ function generateRandomNumbers(correctAnswer: number, count: number = 3): number
     return Array.from(numbers);
 }
 
-export function MathSnakeGame({ onBack }: { onBack: () => void }) {
+export function MathSnakeGame({ onBack, grade = 1 }: { onBack: () => void; grade?: number }) {
+    const [operation, setOperation] = useState<Operation | null>(null);
     const [snake, setSnake] = useState<Position[]>([{ x: 7, y: 7 }]);
     const [direction, setDirection] = useState<Direction>('RIGHT');
     const [numbers, setNumbers] = useState<Array<{ pos: Position; value: number }>>([]);
-    const [problem, setProblem] = useState<MathProblem>(generateProblem());
+    const [problem, setProblem] = useState<MathProblem>({ question: '', answer: 0 });
     const [score, setScore] = useState(0);
     const [gameOver, setGameOver] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
@@ -95,6 +111,7 @@ export function MathSnakeGame({ onBack }: { onBack: () => void }) {
     }, [problem.answer]);
 
     const resetGame = useCallback(() => {
+        if (!operation) return;
         setSnake([{ x: 7, y: 7 }]);
         setDirection('RIGHT');
         directionRef.current = 'RIGHT';
@@ -102,14 +119,16 @@ export function MathSnakeGame({ onBack }: { onBack: () => void }) {
         setGameOver(false);
         setIsPaused(false);
         setSpeed(INITIAL_SPEED);
-        const newProblem = generateProblem();
+        const newProblem = generateProblem(operation, grade);
         setProblem(newProblem);
-    }, []);
+    }, [operation, grade]);
 
     useEffect(() => {
-        const newProblem = generateProblem();
-        setProblem(newProblem);
-    }, []);
+        if (operation) {
+            const newProblem = generateProblem(operation, grade);
+            setProblem(newProblem);
+        }
+    }, [operation, grade]);
 
     useEffect(() => {
         spawnNumbers();
@@ -165,7 +184,7 @@ export function MathSnakeGame({ onBack }: { onBack: () => void }) {
                         colors: ['#10b981', '#34d399', '#6ee7b7']
                     });
 
-                    const newProblem = generateProblem();
+                    const newProblem = generateProblem(operation!, grade);
                     setProblem(newProblem);
 
                     return [newHead, ...prevSnake];
@@ -174,7 +193,7 @@ export function MathSnakeGame({ onBack }: { onBack: () => void }) {
                     setScore(prev => Math.max(0, prev - 5));
 
                     // Generate new problem even on wrong answer
-                    const newProblem = generateProblem();
+                    const newProblem = generateProblem(operation!, grade);
                     setProblem(newProblem);
 
                     if (prevSnake.length > 1) {
@@ -256,6 +275,64 @@ export function MathSnakeGame({ onBack }: { onBack: () => void }) {
             setDirection('RIGHT');
         }
     };
+
+    // Operation selection screen
+    if (!operation) {
+        return (
+            <div className="flex flex-col gap-8 max-w-4xl mx-auto w-full animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <div className="flex items-center justify-between px-2">
+                    <Button variant="ghost" onClick={onBack} size="sm" className="hover:bg-slate-100 text-xs">
+                        <ArrowLeft className="w-3.5 h-3.5 mr-1" />
+                        Vissza
+                    </Button>
+                    <h2 className="text-2xl font-bold text-slate-800">Válassz műveletet!</h2>
+                    <div className="w-16"></div>
+                </div>
+
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-8">
+                    <button
+                        onClick={() => setOperation('+')}
+                        className="flex flex-col items-center p-8 bg-white border-2 border-blue-100 rounded-3xl hover:border-blue-400 hover:shadow-xl hover:scale-105 transition-all group"
+                    >
+                        <div className="p-6 bg-blue-100 text-blue-600 rounded-full mb-4 text-5xl font-black group-hover:rotate-12 transition-transform">
+                            +
+                        </div>
+                        <h3 className="text-xl font-black text-blue-900">Összeadás</h3>
+                    </button>
+
+                    <button
+                        onClick={() => setOperation('-')}
+                        className="flex flex-col items-center p-8 bg-white border-2 border-emerald-100 rounded-3xl hover:border-emerald-400 hover:shadow-xl hover:scale-105 transition-all group"
+                    >
+                        <div className="p-6 bg-emerald-100 text-emerald-600 rounded-full mb-4 text-5xl font-black group-hover:rotate-12 transition-transform">
+                            −
+                        </div>
+                        <h3 className="text-xl font-black text-emerald-900">Kivonás</h3>
+                    </button>
+
+                    <button
+                        onClick={() => setOperation('×')}
+                        className="flex flex-col items-center p-8 bg-white border-2 border-amber-100 rounded-3xl hover:border-amber-400 hover:shadow-xl hover:scale-105 transition-all group"
+                    >
+                        <div className="p-6 bg-amber-100 text-amber-600 rounded-full mb-4 text-5xl font-black group-hover:rotate-12 transition-transform">
+                            ×
+                        </div>
+                        <h3 className="text-xl font-black text-amber-900">Szorzás</h3>
+                    </button>
+
+                    <button
+                        onClick={() => setOperation('÷')}
+                        className="flex flex-col items-center p-8 bg-white border-2 border-rose-100 rounded-3xl hover:border-rose-400 hover:shadow-xl hover:scale-105 transition-all group"
+                    >
+                        <div className="p-6 bg-rose-100 text-rose-600 rounded-full mb-4 text-5xl font-black group-hover:rotate-12 transition-transform">
+                            ÷
+                        </div>
+                        <h3 className="text-xl font-black text-rose-900">Osztás</h3>
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="flex flex-col gap-6 max-w-4xl mx-auto w-full animate-in fade-in slide-in-from-bottom-4 duration-500">
