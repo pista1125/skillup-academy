@@ -36,8 +36,8 @@ export function Grade2MathModule({ onBack }: Grade2MathModuleProps) {
                             <Trophy className="w-8 h-8" />
                         </div>
                         <div>
-                            <h2 className="font-display text-2xl font-black text-slate-800">Másodikos Matek Kaland</h2>
-                            <p className="text-slate-500 font-bold">Gyakorold a szorzást játékosan!</p>
+                            <h2 className="font-display text-2xl font-black text-slate-800">Negyedikes Matek Kaland</h2>
+                            <p className="text-slate-500 font-bold">Gyakorold a műveleteket játékosan!</p>
                         </div>
                     </div>
                     <Button variant="outline" onClick={onBack} className="rounded-2xl border-2 font-bold px-6">
@@ -119,7 +119,7 @@ export function Grade2MathModule({ onBack }: Grade2MathModuleProps) {
             )}
 
             {view === 'snake' && (
-                <MathSnakeGame onBack={handleBackToMenu} grade={2} />
+                <MathSnakeGame onBack={handleBackToMenu} grade={4} />
             )}
         </div>
     );

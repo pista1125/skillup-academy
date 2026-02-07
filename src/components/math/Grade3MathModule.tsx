@@ -13,16 +13,16 @@ import {
     Blocks,
     Target
 } from 'lucide-react';
-import { BuildingBlocksComparison } from './BuildingBlocksComparison';
+import { TowerBuilderGame } from './TowerBuilderGame';
 import { cn } from '@/lib/utils';
 
-interface Grade2MathModuleProps {
+interface Grade3MathModuleProps {
     onBack: () => void;
 }
 
-type ViewType = 'menu' | 'coloring' | 'quiz' | 'blocks' | 'snake';
+type ViewType = 'menu' | 'coloring' | 'quiz' | 'tower' | 'snake' | 'alapmuveletek';
 
-export function Grade2MathModule({ onBack }: Grade2MathModuleProps) {
+export function Grade3MathModule({ onBack }: Grade3MathModuleProps) {
     const [view, setView] = useState<ViewType>('menu');
 
     const handleBackToMenu = () => setView('menu');
@@ -36,8 +36,8 @@ export function Grade2MathModule({ onBack }: Grade2MathModuleProps) {
                             <Trophy className="w-8 h-8" />
                         </div>
                         <div>
-                            <h2 className="font-display text-2xl font-black text-slate-800">Másodikos Matek Kaland</h2>
-                            <p className="text-slate-500 font-bold">Gyakorold a szorzást játékosan!</p>
+                            <h2 className="font-display text-2xl font-black text-slate-800">Harmadikos Matek Kaland</h2>
+                            <p className="text-slate-500 font-bold">Gyakorold a műveleteket játékosan!</p>
                         </div>
                     </div>
                     <Button variant="outline" onClick={onBack} className="rounded-2xl border-2 font-bold px-6">
@@ -52,11 +52,11 @@ export function Grade2MathModule({ onBack }: Grade2MathModuleProps) {
                         description="Mélyítsd el a tudásod az összeadás, kivonás és szorzás világában!"
                         icon={<Calculator className="w-12 h-12" />}
                         color="bg-emerald-50 text-emerald-500 border-emerald-100"
-                        onClick={() => setView('quiz')}
+                        onClick={() => setView('alapmuveletek')}
                     />
                     <KidsCard
                         title="Szorzó-Színező"
-                        description="Számold ki a szorzatot és színezz ki 5 izgalmas új képet!"
+                        description="Műveletek 1000-es számkörben izgalmas képekkel!"
                         icon={<Palette className="w-12 h-12" />}
                         color="bg-indigo-50 text-indigo-500 border-indigo-100"
                         onClick={() => setView('coloring')}
@@ -64,11 +64,11 @@ export function Grade2MathModule({ onBack }: Grade2MathModuleProps) {
                         badge="PRÉMIUM"
                     />
                     <KidsCard
-                        title="Toronyépítő"
-                        description="Építs tornyokat és hasonlítsd össze őket! Melyik a több?"
+                        title="Okos Toronyépítő"
+                        description="Építs tornyokat 100-as, 10-es és 1-es blokkokból!"
                         icon={<Blocks className="w-12 h-12" />}
                         color="bg-blue-50 text-blue-500 border-blue-100"
-                        onClick={() => setView('blocks')}
+                        onClick={() => setView('tower')}
                         highlight
                         badge="ÚJ JÁTÉK"
                     />
@@ -89,8 +89,43 @@ export function Grade2MathModule({ onBack }: Grade2MathModuleProps) {
                     </div>
                     <div>
                         <h4 className="text-xl font-black text-amber-900 mb-1">Újdonság!</h4>
-                        <p className="text-amber-800/80 font-bold">Már az 5-ös, 10-es és 2-es szorzótáblát is gyakorolhatod nálunk!</p>
+                        <p className="text-amber-800/80 font-bold">Gyakorolj 1000-es számkörben a legújabb játékaikkal!</p>
                     </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (view === 'alapmuveletek') {
+        return (
+            <div className="flex flex-col gap-8 w-full animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <div className="flex items-center justify-between bg-white p-6 rounded-[32px] border-4 border-emerald-100 shadow-sm">
+                    <Button variant="outline" onClick={handleBackToMenu} className="rounded-2xl border-2 font-bold px-6">
+                        <ArrowLeft className="w-5 h-5 mr-2" />
+                        Vissza
+                    </Button>
+                    <h2 className="font-display text-2xl font-black text-slate-800">Alapműveletek</h2>
+                    <div className="w-32"></div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <KidsCard
+                        title="Kvíz"
+                        description="Gyakorold az összeadást, kivonást és szorzást!"
+                        icon={<Calculator className="w-12 h-12" />}
+                        color="bg-blue-50 text-blue-500 border-blue-100"
+                        onClick={() => setView('quiz')}
+                        badge="GYAKORLÁS"
+                    />
+                    <KidsCard
+                        title="Matek Kígyó 🐍"
+                        description="Irányítsd a kígyót és edd meg a helyes válaszokat!"
+                        icon={<Target className="w-12 h-12" />}
+                        color="bg-emerald-50 text-emerald-500 border-emerald-100"
+                        onClick={() => setView('snake')}
+                        highlight
+                        badge="JÁTÉK"
+                    />
                 </div>
             </div>
         );
@@ -99,12 +134,12 @@ export function Grade2MathModule({ onBack }: Grade2MathModuleProps) {
     return (
         <div className="space-y-6 animate-in fade-in duration-500">
             {view === 'coloring' && (
-                <MathColoringGame grade={2} operation="multiplication" onBack={handleBackToMenu} />
+                <MathColoringGame grade={3} operation="multiplication" onBack={handleBackToMenu} />
             )}
 
             {view === 'quiz' && (
                 <MathQuiz
-                    grade={2}
+                    grade={3}
                     type="mixed"
                     onBack={handleBackToMenu}
                     onComplete={(res) => {
@@ -114,12 +149,12 @@ export function Grade2MathModule({ onBack }: Grade2MathModuleProps) {
                 />
             )}
 
-            {view === 'blocks' && (
-                <BuildingBlocksComparison onBack={handleBackToMenu} />
+            {view === 'tower' && (
+                <TowerBuilderGame onBack={handleBackToMenu} />
             )}
 
             {view === 'snake' && (
-                <MathSnakeGame onBack={handleBackToMenu} grade={2} />
+                <MathSnakeGame onBack={handleBackToMenu} grade={3} />
             )}
         </div>
     );

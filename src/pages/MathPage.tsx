@@ -8,6 +8,7 @@ import { FractionVisualizer } from '@/components/math/FractionVisualizer';
 import { FractionsModule } from '@/components/math/FractionsModule';
 import { Grade1MathModule } from '@/components/math/Grade1MathModule';
 import { Grade2MathModule } from '@/components/math/Grade2MathModule';
+import { Grade3MathModule } from '@/components/math/Grade3MathModule';
 import { AlgebraQuiz } from '@/components/math/AlgebraQuiz';
 import { MathColoringGame } from '@/components/math/MathColoringGame';
 import { DivisibilityTool } from '@/components/math/DivisibilityTool';
@@ -42,7 +43,7 @@ import {
 import { cn } from '@/lib/utils';
 
 type ViewState = 'main-select' | 'topic-select' | 'tools-select' | 'activity' | 'geometry-select';
-type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification';
+type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification';
 
 export default function MathPage() {
   const navigate = useNavigate();
@@ -70,6 +71,9 @@ export default function MathPage() {
       setView('activity');
     } else if (topicId === 'basic-operations' && selectedGrade === 2) {
       setActivityType('grade2-basic');
+      setView('activity');
+    } else if (topicId === 'basic-operations' && selectedGrade === 3) {
+      setActivityType('grade3-basic');
       setView('activity');
     } else if (topicId === 'algebra') {
       setActivityType('algebra');
@@ -393,6 +397,10 @@ export default function MathPage() {
 
             {activityType === 'grade2-basic' && (
               <Grade2MathModule onBack={handleBack} />
+            )}
+
+            {activityType === 'grade3-basic' && (
+              <Grade3MathModule onBack={handleBack} />
             )}
 
 
