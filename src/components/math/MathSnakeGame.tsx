@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, TouchEvent } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import {
@@ -19,6 +19,7 @@ import confetti from 'canvas-confetti';
 type Direction = 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
 type Position = { x: number; y: number };
 type Operation = '+' | '-' | '×' | '÷';
+type Difficulty = 'EASY' | 'MEDIUM' | 'HARD';
 
 interface MathProblem {
     question: string;
@@ -27,7 +28,11 @@ interface MathProblem {
 
 const GRID_SIZE = 15;
 const CELL_SIZE = 30;
-const INITIAL_SPEED = 200;
+const DIFFICULTIES: Record<Difficulty, { label: string; speed: number; color: string; hoverColor: string }> = {
+    EASY: { label: 'Lassú', speed: 450, color: 'bg-emerald-100 text-emerald-700 border-emerald-200', hoverColor: 'hover:border-emerald-400' },
+    MEDIUM: { label: 'Közepes', speed: 200, color: 'bg-blue-100 text-blue-700 border-blue-200', hoverColor: 'hover:border-blue-400' },
+    HARD: { label: 'Gyors', speed: 120, color: 'bg-rose-100 text-rose-700 border-rose-200', hoverColor: 'hover:border-rose-400' }
+};
 
 function generateProblem(operation: Operation, grade: number): MathProblem {
     let maxNum = 10;
@@ -79,9 +84,13 @@ export function MathSnakeGame({ onBack, grade = 1 }: { onBack: () => void; grade
     const [score, setScore] = useState(0);
     const [gameOver, setGameOver] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
-    const [speed, setSpeed] = useState(INITIAL_SPEED);
+    const [isStarted, setIsStarted] = useState(false);
+    const [difficulty, setDifficulty] = useState<Difficulty>('MEDIUM');
+    const [speed, setSpeed] = useState(DIFFICULTIES.MEDIUM.speed);
     const directionRef = useRef<Direction>('RIGHT');
     const gameLoopRef = useRef<NodeJS.Timeout | null>(null);
+    const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+    const SWIPE_THRESHOLD = 30;
 
     const spawnNumbers = useCallback(() => {
         const availableNumbers = generateRandomNumbers(problem.answer, 4);
@@ -118,7 +127,8 @@ export function MathSnakeGame({ onBack, grade = 1 }: { onBack: () => void; grade
         setScore(0);
         setGameOver(false);
         setIsPaused(false);
-        setSpeed(INITIAL_SPEED);
+        setIsStarted(false);
+        setSpeed(DIFFICULTIES[difficulty].speed);
         const newProblem = generateProblem(operation, grade);
         setProblem(newProblem);
     }, [operation, grade]);
@@ -135,7 +145,7 @@ export function MathSnakeGame({ onBack, grade = 1 }: { onBack: () => void; grade
     }, [problem, spawnNumbers]);
 
     const moveSnake = useCallback(() => {
-        if (gameOver || isPaused) return;
+        if (gameOver || isPaused || !isStarted) return;
 
         setSnake(prevSnake => {
             const head = prevSnake[0];
@@ -206,14 +216,14 @@ export function MathSnakeGame({ onBack, grade = 1 }: { onBack: () => void; grade
 
             return [newHead, ...prevSnake.slice(0, -1)];
         });
-    }, [gameOver, isPaused, numbers, problem.answer]);
+    }, [gameOver, isPaused, numbers, problem.answer, isStarted, operation, grade]);
 
     useEffect(() => {
         if (gameLoopRef.current) {
             clearInterval(gameLoopRef.current);
         }
 
-        if (!gameOver && !isPaused) {
+        if (!gameOver && !isPaused && isStarted) {
             gameLoopRef.current = setInterval(moveSnake, speed);
         }
 
@@ -222,7 +232,7 @@ export function MathSnakeGame({ onBack, grade = 1 }: { onBack: () => void; grade
                 clearInterval(gameLoopRef.current);
             }
         };
-    }, [moveSnake, speed, gameOver, isPaused]);
+    }, [moveSnake, speed, gameOver, isPaused, isStarted]);
 
     useEffect(() => {
         const handleKeyPress = (e: KeyboardEvent) => {
@@ -274,6 +284,42 @@ export function MathSnakeGame({ onBack, grade = 1 }: { onBack: () => void; grade
             directionRef.current = 'RIGHT';
             setDirection('RIGHT');
         }
+    };
+
+    const handleTouchStart = (e: TouchEvent) => {
+        touchStartRef.current = {
+            x: e.touches[0].clientX,
+            y: e.touches[0].clientY
+        };
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+        if (!touchStartRef.current) return;
+
+        const deltaX = e.changedTouches[0].clientX - touchStartRef.current.x;
+        const deltaY = e.changedTouches[0].clientY - touchStartRef.current.y;
+
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            // Horizontal swipe
+            if (Math.abs(deltaX) > SWIPE_THRESHOLD) {
+                if (deltaX > 0) {
+                    handleDirectionClick('RIGHT');
+                } else {
+                    handleDirectionClick('LEFT');
+                }
+            }
+        } else {
+            // Vertical swipe
+            if (Math.abs(deltaY) > SWIPE_THRESHOLD) {
+                if (deltaY > 0) {
+                    handleDirectionClick('DOWN');
+                } else {
+                    handleDirectionClick('UP');
+                }
+            }
+        }
+
+        touchStartRef.current = null;
     };
 
     // Operation selection screen
@@ -368,11 +414,13 @@ export function MathSnakeGame({ onBack, grade = 1 }: { onBack: () => void; grade
                 </div>
 
                 <div
-                    className="relative mx-auto bg-white rounded-2xl border-4 border-slate-300 shadow-inner"
+                    className="relative mx-auto bg-white rounded-2xl border-4 border-slate-300 shadow-inner touch-none"
                     style={{
                         width: GRID_SIZE * CELL_SIZE,
                         height: GRID_SIZE * CELL_SIZE
                     }}
+                    onTouchStart={handleTouchStart}
+                    onTouchEnd={handleTouchEnd}
                 >
                     {/* Grid */}
                     {Array.from({ length: GRID_SIZE }).map((_, y) =>
@@ -460,6 +508,23 @@ export function MathSnakeGame({ onBack, grade = 1 }: { onBack: () => void; grade
                             </div>
                         </div>
                     )}
+
+                    {/* Start Overlay */}
+                    {!isStarted && !gameOver && (
+                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center rounded-xl backdrop-blur-sm z-20">
+                            <div className="bg-white p-8 rounded-3xl shadow-2xl text-center animate-in zoom-in duration-300">
+                                <div className="text-6xl mb-4">🎮</div>
+                                <h3 className="text-3xl font-black text-slate-800 mb-2">Felkészültél?</h3>
+                                <p className="text-slate-500 mb-6">Nyomd meg a gombot az indításhoz!</p>
+                                <Button
+                                    onClick={() => setIsStarted(true)}
+                                    className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold px-12 py-4 rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all text-xl"
+                                >
+                                    Indítás!
+                                </Button>
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 <div className="mt-6 grid grid-cols-2 gap-4">
@@ -475,7 +540,33 @@ export function MathSnakeGame({ onBack, grade = 1 }: { onBack: () => void; grade
                             <Zap className="w-4 h-4 text-blue-600" />
                             <span className="text-xs font-bold text-blue-600">Sebesség</span>
                         </div>
-                        <p className="text-2xl font-black text-slate-800">{Math.round((INITIAL_SPEED / speed) * 100)}%</p>
+                        <p className="text-2xl font-black text-slate-800">{Math.round((DIFFICULTIES[difficulty].speed / speed) * 100)}%</p>
+                    </div>
+                </div>
+
+                {/* Difficulty Selection */}
+                <div className="mt-6">
+                    <p className="text-center text-sm font-bold text-slate-600 mb-3">Sebesség beállítása</p>
+                    <div className="flex justify-center gap-3">
+                        {(Object.entries(DIFFICULTIES) as [Difficulty, typeof DIFFICULTIES['EASY']][]).map(([key, config]) => (
+                            <button
+                                key={key}
+                                onClick={() => {
+                                    setDifficulty(key);
+                                    if (gameOver || snake.length === 1) {
+                                        setSpeed(config.speed);
+                                    }
+                                }}
+                                className={cn(
+                                    "px-4 py-2 rounded-xl border-2 transition-all font-bold text-sm",
+                                    difficulty === key
+                                        ? "border-slate-800 shadow-md scale-105 " + config.color
+                                        : "bg-white border-slate-100 text-slate-400 " + config.hoverColor
+                                )}
+                            >
+                                {config.label}
+                            </button>
+                        ))}
                     </div>
                 </div>
 
@@ -530,6 +621,6 @@ export function MathSnakeGame({ onBack, grade = 1 }: { onBack: () => void; grade
                     </ul>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
