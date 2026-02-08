@@ -23,6 +23,7 @@ import { DivisibilityPowersModule } from '@/components/math/DivisibilityPowersMo
 import { WordProblemsModule } from '@/components/math/WordProblemsModule';
 import { TriangleClassifier } from '@/components/math/TriangleClassifier';
 import { QuadrilateralClassifier } from '@/components/math/QuadrilateralClassifier';
+import { CirclePartsGame } from '@/components/math/CirclePartsGame';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -39,12 +40,13 @@ import {
   Sparkles,
   Target,
   Box,
-  MoveHorizontal
+  MoveHorizontal,
+  Circle
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 type ViewState = 'main-select' | 'topic-select' | 'tools-select' | 'games-select' | 'activity' | 'geometry-select';
-type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game';
+type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game' | 'circle-parts';
 
 export default function MathPage() {
   const navigate = useNavigate();
@@ -369,6 +371,22 @@ export default function MathPage() {
                   <p className="text-xs text-slate-500 leading-relaxed">Párhuzamos, merőleges és kitérő egyenesek</p>
                 </div>
               </button>
+
+              <button
+                onClick={() => {
+                  setActivityType('circle-parts');
+                  setView('activity');
+                }}
+                className="flex flex-col items-center gap-4 p-6 bg-white rounded-3xl border-2 border-slate-100 hover:border-primary hover:shadow-xl transition-all group"
+              >
+                <div className="p-4 bg-red-50 rounded-2xl text-red-600 group-hover:scale-110 transition-transform">
+                  <Circle className="w-10 h-10" />
+                </div>
+                <div className="text-center">
+                  <h3 className="font-bold text-lg mb-1">Kör és részei</h3>
+                  <p className="text-xs text-slate-500 leading-relaxed">Sugár, átmérő, húr, körcikk és társai</p>
+                </div>
+              </button>
             </div>
           </div>
         )}
@@ -500,6 +518,10 @@ export default function MathPage() {
 
             {activityType === 'line-relationships' && (
               <LineRelationships onBack={handleBack} />
+            )}
+
+            {activityType === 'circle-parts' && (
+              <CirclePartsGame onBack={handleBack} />
             )}
 
             {activityType === 'triangle-classification' && (
