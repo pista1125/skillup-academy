@@ -41,7 +41,10 @@ import {
   Target,
   Box,
   MoveHorizontal,
-  Circle
+  Circle,
+  BookOpen,
+  Binary,
+  Gamepad2
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -55,15 +58,22 @@ export default function MathPage() {
   const [selectedGrade, setSelectedGrade] = useState<GradeLevel | null>(null);
   const [activityType, setActivityType] = useState<ActivityType>('quiz');
   const [activeMaterial, setActiveMaterial] = useState<{ title: string, path: string } | null>(null);
+  const [expandedTopicId, setExpandedTopicId] = useState<string | null>(null);
 
   const currentTopic = mathTopics.find(t => t.id === selectedTopic);
 
   const handleGradeSelect = (grade: GradeLevel) => {
     setSelectedGrade(grade);
     setView('topic-select');
+    setExpandedTopicId(null);
   };
 
   const handleTopicSelect = (topicId: string) => {
+    if (selectedGrade === 6) {
+      setExpandedTopicId(expandedTopicId === topicId ? null : topicId);
+      return;
+    }
+
     setSelectedTopic(topicId);
 
     if (topicId === 'fractions') {
@@ -82,12 +92,8 @@ export default function MathPage() {
       setActivityType('algebra');
       setView('activity');
     } else if (topicId === 'geometry') {
-      if (selectedGrade === 6) {
-        setView('geometry-select');
-      } else {
-        setActivityType('geometry');
-        setView('activity');
-      }
+      setActivityType('geometry');
+      setView('activity');
     } else if (topicId === 'percentages') {
       setActivityType('percentages');
       setView('activity');
@@ -105,9 +111,6 @@ export default function MathPage() {
       setView('activity');
     } else if (topicId === 'divisibility-powers') {
       setActivityType('divisibility-powers');
-      setView('activity');
-    } else if (topicId === 'word-problems' && selectedGrade === 6) {
-      setActivityType('word-problems');
       setView('activity');
     } else {
       setActivityType('quiz');
@@ -146,6 +149,232 @@ export default function MathPage() {
     // No navigation to '/' as this is now the root
   };
 
+  const renderTopicContent = (topicId: string) => {
+    if (topicId === 'geometry') {
+      return (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <button
+            onClick={() => {
+              setActivityType('shape-classification');
+              setView('activity');
+            }}
+            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
+          >
+            <div className="p-3 bg-emerald-50 rounded-xl text-emerald-600 group-hover:scale-110 transition-transform">
+              <Box className="w-8 h-8" />
+            </div>
+            <div className="text-center">
+              <h4 className="font-bold text-sm">Síkidom vagy Test?</h4>
+              <p className="text-[10px] text-slate-500">2D vagy 3D alakzatok</p>
+            </div>
+          </button>
+
+          <button
+            onClick={() => {
+              setActivityType('angle-matching');
+              setView('activity');
+            }}
+            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
+          >
+            <div className="p-3 bg-blue-50 rounded-xl text-blue-600 group-hover:scale-110 transition-transform">
+              <Target className="w-8 h-8" />
+            </div>
+            <div className="text-center">
+              <h4 className="font-bold text-sm">Szögek párosítása</h4>
+              <p className="text-[10px] text-slate-500">Szögtípusok felismerése</p>
+            </div>
+          </button>
+
+          <button
+            onClick={() => {
+              setActivityType('triangle-classification');
+              setView('activity');
+            }}
+            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
+          >
+            <div className="p-3 bg-amber-50 rounded-xl text-amber-600 group-hover:scale-110 transition-transform">
+              <Triangle className="w-8 h-8" />
+            </div>
+            <div className="text-center">
+              <h4 className="font-bold text-sm">Háromszögek</h4>
+              <p className="text-[10px] text-slate-500">Csoportosítás tulajdonságok szerint</p>
+            </div>
+          </button>
+
+          <button
+            onClick={() => {
+              setActivityType('quadrilateral-classification');
+              setView('activity');
+            }}
+            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
+          >
+            <div className="p-3 bg-violet-50 rounded-xl text-violet-600 group-hover:scale-110 transition-transform">
+              <Square className="w-8 h-8" />
+            </div>
+            <div className="text-center">
+              <h4 className="font-bold text-sm">Négyszögek</h4>
+              <p className="text-[10px] text-slate-500">Négyszögek fajtái</p>
+            </div>
+          </button>
+
+          <button
+            onClick={() => {
+              setActivityType('line-relationships');
+              setView('activity');
+            }}
+            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
+          >
+            <div className="p-3 bg-indigo-50 rounded-xl text-indigo-600 group-hover:scale-110 transition-transform">
+              <MoveHorizontal className="w-8 h-8 rotate-45" />
+            </div>
+            <div className="text-center">
+              <h4 className="font-bold text-sm">Egyenesek helyzete</h4>
+              <p className="text-[10px] text-slate-500">Párhuzamos, merőleges</p>
+            </div>
+          </button>
+
+          <button
+            onClick={() => {
+              setActivityType('circle-parts');
+              setView('activity');
+            }}
+            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
+          >
+            <div className="p-3 bg-red-50 rounded-xl text-red-600 group-hover:scale-110 transition-transform">
+              <Circle className="w-8 h-8" />
+            </div>
+            <div className="text-center">
+              <h4 className="font-bold text-sm">Kör és részei</h4>
+              <p className="text-[10px] text-slate-500">Sugár, átmérő, húr</p>
+            </div>
+          </button>
+        </div>
+      );
+    }
+
+    if (topicId === 'word-problems') {
+      return (
+        <div className="flex justify-center py-4">
+          <Button
+            onClick={() => {
+              setActivityType('word-problems');
+              setView('activity');
+            }}
+            className="gap-2 bg-teal-500 hover:bg-teal-600 text-white rounded-xl px-8"
+          >
+            <Sparkles className="w-4 h-4" />
+            Szöveges feladatok indítása
+          </Button>
+        </div>
+      );
+    }
+
+    if (topicId === 'divisibility-powers') {
+      return (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <button
+            onClick={() => {
+              setSelectedTopic('divisibility-powers');
+              setActivityType('divisibility-powers');
+              setView('activity');
+            }}
+            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
+          >
+            <div className="p-3 bg-amber-50 rounded-xl text-amber-600 group-hover:scale-110 transition-transform">
+              <BookOpen className="w-8 h-8" />
+            </div>
+            <div className="text-center">
+              <h4 className="font-bold text-sm">Tananyag</h4>
+              <p className="text-[10px] text-slate-500">Elméleti összefoglaló</p>
+            </div>
+          </button>
+
+          <button
+            onClick={() => {
+              setActivityType('divisibility');
+              setView('activity');
+            }}
+            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
+          >
+            <div className="p-3 bg-emerald-50 rounded-xl text-emerald-600 group-hover:scale-110 transition-transform">
+              <Calculator className="w-8 h-8" />
+            </div>
+            <div className="text-center">
+              <h4 className="font-bold text-sm">Oszthatóság</h4>
+              <p className="text-[10px] text-slate-500">Szabályok és ellenőrző</p>
+            </div>
+          </button>
+
+          <button
+            onClick={() => {
+              setActivityType('divisibility-powers');
+              setView('activity');
+              // This will open the module which defaults to menu, 
+              // but we want to go straight to factorization if possible.
+              // However, the module handles its own internal routing.
+              // For now, let's just make it go to the module.
+            }}
+            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
+          >
+            <div className="p-3 bg-indigo-50 rounded-xl text-indigo-600 group-hover:scale-110 transition-transform">
+              <Binary className="w-8 h-8" />
+            </div>
+            <div className="text-center">
+              <h4 className="font-bold text-sm">Prímtényezők</h4>
+              <p className="text-[10px] text-slate-500">Felbontás prímszámokra</p>
+            </div>
+          </button>
+
+          <button
+            onClick={() => {
+              setActivityType('divisibility-powers');
+              setView('activity');
+            }}
+            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
+          >
+            <div className="p-3 bg-rose-50 rounded-xl text-rose-600 group-hover:scale-110 transition-transform">
+              <Gamepad2 className="w-8 h-8" />
+            </div>
+            <div className="text-center">
+              <h4 className="font-bold text-sm">Kvíz Játék</h4>
+              <p className="text-[10px] text-slate-500">Tedd próbára a tudásod!</p>
+            </div>
+          </button>
+
+          <button
+            onClick={() => {
+              setActivityType('divisibility-powers');
+              setView('activity');
+            }}
+            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
+          >
+            <div className="p-3 bg-violet-50 rounded-xl text-violet-600 group-hover:scale-110 transition-transform">
+              <Target className="w-8 h-8" />
+            </div>
+            <div className="text-center">
+              <h4 className="font-bold text-sm">Párosító Játék</h4>
+              <p className="text-[10px] text-slate-500">Prímtényezők gyakorlása</p>
+            </div>
+          </button>
+        </div>
+      );
+    }
+
+    if (topicId === 'materials') {
+      return (
+        <div className="py-2">
+          <MaterialGallery grade={selectedGrade || 6} onView={(m) => setActiveMaterial(m)} />
+        </div>
+      );
+    }
+
+    return (
+      <div className="text-center py-6 text-slate-400 text-sm italic">
+        Ehhez a témakörhöz hamarosan érkeznek az interaktív feladatok!
+      </div>
+    );
+  };
+
   const getFilteredTopics = () => {
     if (!selectedGrade) return mathTopics;
 
@@ -166,16 +395,27 @@ export default function MathPage() {
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-400/10 rounded-full -ml-24 -mb-24 blur-2xl pointer-events-none"></div>
 
         <div className="container max-w-5xl mx-auto relative z-10">
-          {view !== 'main-select' && (
+          <div className="flex justify-between items-start mb-6">
+            {view !== 'main-select' ? (
+              <Button
+                variant="ghost"
+                onClick={handleBack}
+                className="text-white hover:bg-white/20 transition-all"
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Vissza
+              </Button>
+            ) : (
+              <div></div>
+            )}
             <Button
-              variant="ghost"
-              onClick={handleBack}
-              className="text-white hover:bg-white/20 mb-6 transition-all"
+              variant="secondary"
+              onClick={() => { window.location.href = 'https://matek.diakzona.hu'; }}
+              className="bg-emerald-500 text-white hover:bg-emerald-600 font-extrabold px-6 shadow-lg shadow-emerald-500/30 border-none transition-all hover:scale-105 active:scale-95"
             >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Vissza
+              online kvíz
             </Button>
-          )}
+          </div>
           <div className="flex flex-col md:flex-row items-center gap-8 text-center md:text-left">
             <div className="relative group">
               <div className="absolute -inset-1 bg-gradient-to-r from-pink-500 to-yellow-500 rounded-full blur opacity-40 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
@@ -276,117 +516,17 @@ export default function MathPage() {
                 <MathTopicCard
                   key={topic.id}
                   topic={topic}
+                  isExpanded={expandedTopicId === topic.id}
                   onClick={() => handleTopicSelect(topic.id)}
-                />
+                >
+                  {selectedGrade === 6 && renderTopicContent(topic.id)}
+                </MathTopicCard>
               ))}
               {getFilteredTopics().length === 0 && (
                 <div className="text-center py-12 p-8 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200">
                   <p className="text-slate-500">Ehhez az évfolyamhoz még nincsenek feltöltve specifikus témakörök.</p>
                 </div>
               )}
-            </div>
-          </div>
-        )}
-
-        {view === 'geometry-select' && (
-          <div className="animate-slide-up space-y-8">
-            <h2 className="font-display text-2xl font-bold text-center mb-8">Geometria Feladatok</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <button
-                onClick={() => {
-                  setActivityType('shape-classification');
-                  setView('activity');
-                }}
-                className="flex flex-col items-center gap-4 p-6 bg-white rounded-3xl border-2 border-slate-100 hover:border-primary hover:shadow-xl transition-all group"
-              >
-                <div className="p-4 bg-emerald-50 rounded-2xl text-emerald-600 group-hover:scale-110 transition-transform">
-                  <Box className="w-10 h-10" />
-                </div>
-                <div className="text-center">
-                  <h3 className="font-bold text-lg mb-1">Síkidom vagy Test?</h3>
-                  <p className="text-xs text-slate-500 leading-relaxed">2D vagy 3D alakzatok megkülönböztetése</p>
-                </div>
-              </button>
-
-              <button
-                onClick={() => {
-                  setActivityType('angle-matching');
-                  setView('activity');
-                }}
-                className="flex flex-col items-center gap-4 p-6 bg-white rounded-3xl border-2 border-slate-100 hover:border-primary hover:shadow-xl transition-all group"
-              >
-                <div className="p-4 bg-blue-50 rounded-2xl text-blue-600 group-hover:scale-110 transition-transform">
-                  <Target className="w-10 h-10" />
-                </div>
-                <div className="text-center">
-                  <h3 className="font-bold text-lg mb-1">Szögek párosítása</h3>
-                  <p className="text-xs text-slate-500 leading-relaxed">Szögtípusok felismerése vizuálisan</p>
-                </div>
-              </button>
-
-              <button
-                onClick={() => {
-                  setActivityType('triangle-classification');
-                  setView('activity');
-                }}
-                className="flex flex-col items-center gap-4 p-6 bg-white rounded-3xl border-2 border-slate-100 hover:border-primary hover:shadow-xl transition-all group"
-              >
-                <div className="p-4 bg-amber-50 rounded-2xl text-amber-600 group-hover:scale-110 transition-transform">
-                  <Triangle className="w-10 h-10" />
-                </div>
-                <div className="text-center">
-                  <h3 className="font-bold text-lg mb-1">Háromszögek</h3>
-                  <p className="text-xs text-slate-500 leading-relaxed">Háromszögek csoportosítása</p>
-                </div>
-              </button>
-
-              <button
-                onClick={() => {
-                  setActivityType('quadrilateral-classification');
-                  setView('activity');
-                }}
-                className="flex flex-col items-center gap-4 p-6 bg-white rounded-3xl border-2 border-slate-100 hover:border-primary hover:shadow-xl transition-all group"
-              >
-                <div className="p-4 bg-violet-50 rounded-2xl text-violet-600 group-hover:scale-110 transition-transform">
-                  <Square className="w-10 h-10" />
-                </div>
-                <div className="text-center">
-                  <h3 className="font-bold text-lg mb-1">Négyszögek</h3>
-                  <p className="text-xs text-slate-500 leading-relaxed">Négyszögek fajtái és tulajdonságai</p>
-                </div>
-              </button>
-
-              <button
-                onClick={() => {
-                  setActivityType('line-relationships');
-                  setView('activity');
-                }}
-                className="flex flex-col items-center gap-4 p-6 bg-white rounded-3xl border-2 border-slate-100 hover:border-primary hover:shadow-xl transition-all group"
-              >
-                <div className="p-4 bg-indigo-50 rounded-2xl text-indigo-600 group-hover:scale-110 transition-transform">
-                  <MoveHorizontal className="w-10 h-10 rotate-45" />
-                </div>
-                <div className="text-center">
-                  <h3 className="font-bold text-lg mb-1">Egyenesek helyzete</h3>
-                  <p className="text-xs text-slate-500 leading-relaxed">Párhuzamos, merőleges és kitérő egyenesek</p>
-                </div>
-              </button>
-
-              <button
-                onClick={() => {
-                  setActivityType('circle-parts');
-                  setView('activity');
-                }}
-                className="flex flex-col items-center gap-4 p-6 bg-white rounded-3xl border-2 border-slate-100 hover:border-primary hover:shadow-xl transition-all group"
-              >
-                <div className="p-4 bg-red-50 rounded-2xl text-red-600 group-hover:scale-110 transition-transform">
-                  <Circle className="w-10 h-10" />
-                </div>
-                <div className="text-center">
-                  <h3 className="font-bold text-lg mb-1">Kör és részei</h3>
-                  <p className="text-xs text-slate-500 leading-relaxed">Sugár, átmérő, húr, körcikk és társai</p>
-                </div>
-              </button>
             </div>
           </div>
         )}
