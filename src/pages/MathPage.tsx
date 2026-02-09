@@ -259,7 +259,7 @@ export default function MathPage() {
             className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
           >
             <div className="p-3 bg-teal-50 rounded-xl text-teal-600 group-hover:scale-110 transition-transform">
-              <TriangleIcon className="w-8 h-8" />
+              <Triangle className="w-8 h-8" />
             </div>
             <div className="text-center">
               <h4 className="font-bold text-sm">Háromszögek szögei</h4>
