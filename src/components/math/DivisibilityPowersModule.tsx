@@ -22,14 +22,15 @@ import { cn } from '@/lib/utils';
 
 interface DivisibilityPowersModuleProps {
     onBack: () => void;
+    initialView?: ViewType;
 }
 
 type ViewType = 'menu' | 'theory' | 'divisibility' | 'factorization' | 'quiz' | 'matcher' | 'gcdquiz';
 
-export function DivisibilityPowersModule({ onBack }: DivisibilityPowersModuleProps) {
-    const [view, setView] = useState<ViewType>('menu');
+export function DivisibilityPowersModule({ onBack, initialView = 'menu' }: DivisibilityPowersModuleProps) {
+    const [view, setView] = useState<ViewType>(initialView);
 
-    const handleBackToMenu = () => setView('menu');
+    const handleBackToMenu = () => onBack();
 
     if (view === 'menu') {
         return (
@@ -105,7 +106,7 @@ export function DivisibilityPowersModule({ onBack }: DivisibilityPowersModulePro
             <div className="flex items-center gap-4">
                 <Button variant="ghost" onClick={handleBackToMenu} className="hover:bg-slate-100">
                     <ArrowLeft className="w-4 h-4 mr-2" />
-                    Vissza a menübe
+                    Vissza
                 </Button>
                 <div className="h-8 w-px bg-slate-200" />
                 <h3 className="font-bold text-slate-600 capitalize">
