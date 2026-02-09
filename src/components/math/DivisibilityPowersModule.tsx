@@ -5,6 +5,7 @@ import { DivisibilityTool } from './DivisibilityTool';
 import { PrimeFactorization } from './PrimeFactorization';
 import { DivisibilityQuiz } from './DivisibilityQuiz';
 import { PrimeFactorizationMatcher } from './PrimeFactorizationMatcher';
+import { GCDQuiz } from './GCDQuiz';
 import {
     Calculator,
     Zap,
@@ -23,7 +24,7 @@ interface DivisibilityPowersModuleProps {
     onBack: () => void;
 }
 
-type ViewType = 'menu' | 'theory' | 'divisibility' | 'factorization' | 'quiz' | 'matcher';
+type ViewType = 'menu' | 'theory' | 'divisibility' | 'factorization' | 'quiz' | 'matcher' | 'gcdquiz';
 
 export function DivisibilityPowersModule({ onBack }: DivisibilityPowersModuleProps) {
     const [view, setView] = useState<ViewType>('menu');
@@ -86,6 +87,14 @@ export function DivisibilityPowersModule({ onBack }: DivisibilityPowersModulePro
                         color="bg-violet-50 text-violet-600"
                         onClick={() => setView('matcher')}
                     />
+                    <MenuCard
+                        title="LKÖ Kvíz"
+                        description="Legnagyobb közös osztó gyakorlása"
+                        icon={<Zap className="w-10 h-10" />}
+                        color="bg-indigo-50 text-indigo-600"
+                        onClick={() => setView('gcdquiz')}
+                        highlight
+                    />
                 </div>
             </div>
         );
@@ -105,6 +114,7 @@ export function DivisibilityPowersModule({ onBack }: DivisibilityPowersModulePro
                     {view === 'factorization' && 'Prímtényezős felbontás'}
                     {view === 'quiz' && 'Oszthatósági Kvíz'}
                     {view === 'matcher' && 'Prímtényezős Párosító'}
+                    {view === 'gcdquiz' && 'LKÖ Kvíz'}
                 </h3>
             </div>
 
@@ -257,6 +267,10 @@ export function DivisibilityPowersModule({ onBack }: DivisibilityPowersModulePro
 
             {view === 'matcher' && (
                 <PrimeFactorizationMatcher onBack={handleBackToMenu} />
+            )}
+
+            {view === 'gcdquiz' && (
+                <GCDQuiz onBack={handleBackToMenu} />
             )}
         </div>
     );
