@@ -491,7 +491,7 @@ export default function MathPage() {
             )}
             <Button
               variant="secondary"
-              onClick={() => { window.open('https://kviz.diakzona.hu/', '_blank'); }}
+              onClick={() => { window.location.assign('https://kviz.diakzona.hu/'); }}
               className="bg-emerald-500 text-white hover:bg-emerald-600 font-extrabold px-6 shadow-lg shadow-emerald-500/30 border-none transition-all hover:scale-105 active:scale-95"
             >
               online kvíz
