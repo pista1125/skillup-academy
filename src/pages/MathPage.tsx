@@ -51,7 +51,7 @@ import {
 import { cn } from '@/lib/utils';
 
 type ViewState = 'main-select' | 'topic-select' | 'tools-select' | 'games-select' | 'activity' | 'geometry-select';
-type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game' | 'circle-parts' | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'triangle-angles-quiz';
+type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game' | 'circle-parts' | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz' | 'triangle-angles-quiz' | 'g7-rational-numbers' | 'g7-expression-usage';
 
 export default function MathPage() {
   const navigate = useNavigate();
@@ -152,7 +152,7 @@ export default function MathPage() {
   };
 
   const renderTopicContent = (topicId: string) => {
-    if (topicId === 'geometry' || topicId === 'g7-geometry' || topicId === 'g7-geom-trans') {
+    if (topicId === 'geometry' || topicId === 'g7-other') {
       return (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <button
@@ -270,6 +270,172 @@ export default function MathPage() {
       );
     }
 
+    if (topicId === 'g7-geom-trans' || topicId === 'g7-geometry') {
+      return (
+        <div className="flex flex-col gap-10 py-6">
+          <section>
+            <SectionHeader number={1} title="Háromszögek nevezetes vonalai" color="blue" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Súlyvonalak, magasságvonalak"
+                subtitle="Elmélet és szerkesztés"
+                type="Kezdés"
+                disabled
+                icon={<MoveHorizontal className="w-6 h-6" />}
+                color="blue"
+              />
+              <ActivityPlaceholder
+                title="Középvonalak"
+                subtitle="Háromszög részei"
+                type="Gyakorlás"
+                disabled
+                icon={<Triangle className="w-6 h-6" />}
+                color="slate"
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={2} title="Háromszögek" color="emerald" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Háromszögek fajtái"
+                subtitle="Osztályozás tulajdonságok alapján"
+                type="Kezdés"
+                onClick={() => { setActivityType('triangle-classification'); setView('activity'); }}
+                icon={<Triangle className="w-6 h-6" />}
+                color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Háromszögek szögei"
+                subtitle="Belső és külső szögek"
+                type="Teszt"
+                onClick={() => { setActivityType('triangle-angles-quiz'); setView('activity'); }}
+                icon={<Sparkles className="w-6 h-6 text-amber-500" />}
+                color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Szögtípusok"
+                subtitle="Felismerés és párosítás"
+                type="Gyakorlás"
+                onClick={() => { setActivityType('angle-matching'); setView('activity'); }}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={3} title="Négyszögek" color="amber" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Négyszögek fajtái"
+                subtitle="Tulajdonságok és csoportosítás"
+                type="Kezdés"
+                onClick={() => { setActivityType('quadrilateral-classification'); setView('activity'); }}
+                icon={<Square className="w-6 h-6" />}
+                color="amber"
+              />
+              <ActivityPlaceholder
+                title="Terület és kerület"
+                subtitle="Speciális négyszögek"
+                type="Hamarosan"
+                disabled
+                icon={<Calculator className="w-6 h-6" />}
+                color="slate"
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={4} title="Geometriai transzformációk" color="indigo" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Eltolás és forgatás"
+                subtitle="Alapfogalmak"
+                type="Kezdés"
+                disabled
+                icon={<MoveHorizontal className="w-6 h-6 rotate-45" />}
+                color="indigo"
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={5} title="Középpontos tükrözés" color="violet" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Pont és alakzat tükrözése"
+                subtitle="Szerkesztési lépések"
+                type="Kezdés"
+                disabled
+                icon={<MoveHorizontal className="w-6 h-6" />}
+                color="violet"
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={6} title="Tengelyes tükrözés" color="rose" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Szimmetria tengelyek"
+                subtitle="Alakzatok tükrözése"
+                type="Kezdés"
+                disabled
+                icon={<MoveHorizontal className="w-6 h-6 -rotate-45" />}
+                color="rose"
+              />
+              <ActivityPlaceholder
+                title="Egyenesek helyzete"
+                subtitle="Párhuzamos és merőleges"
+                type="Gyakorlás"
+                onClick={() => { setActivityType('line-relationships'); setView('activity'); }}
+                icon={<MoveHorizontal className="w-6 h-6 rotate-45" />}
+                color="rose"
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={7} title="Szabályos sokszögek" color="teal" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Síkidom vagy Test?"
+                subtitle="Szabályos alakzatok elkülönítése"
+                type="Kezdés"
+                onClick={() => { setActivityType('shape-classification'); setView('activity'); }}
+                icon={<Box className="w-6 h-6" />}
+                color="teal"
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={8} title="Kör" color="red" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Kör és részei"
+                subtitle="Sugár, átmérő, húr felismerése"
+                type="Kezdés"
+                onClick={() => { setActivityType('circle-parts'); setView('activity'); }}
+                icon={<Circle className="w-6 h-6" />}
+                color="red"
+              />
+              <ActivityPlaceholder
+                title="Kör területe, kerülete"
+                subtitle="Számítási feladatok"
+                type="Hamarosan"
+                disabled
+                icon={<Calculator className="w-6 h-6" />}
+                color="slate"
+              />
+            </div>
+          </section>
+        </div>
+      );
+    }
+
     if (topicId === 'word-problems') {
       return (
         <div className="flex justify-center py-4">
@@ -287,7 +453,7 @@ export default function MathPage() {
       );
     }
 
-    if (topicId === 'divisibility-powers' || topicId === 'g7-powers-divisibility') {
+    if (topicId === 'divisibility-powers') {
       return (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <button
@@ -395,6 +561,74 @@ export default function MathPage() {
       );
     }
 
+    if (topicId === 'g7-powers-divisibility') {
+      return (
+        <div className="flex flex-col gap-10 py-6">
+          <section>
+            <SectionHeader number={1} title="Hatványozás és oszthatóság" color="amber" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Tananyag"
+                subtitle="Elméleti összefoglaló"
+                type="Kezdés"
+                onClick={() => { setActivityType('divisibility-theory'); setView('activity'); }}
+                icon={<BookOpen className="w-6 h-6" />}
+                color="amber"
+              />
+              <ActivityPlaceholder
+                title="Oszthatóság"
+                subtitle="Interaktív ellenőrző"
+                type="Gyakorlás"
+                onClick={() => { setActivityType('divisibility'); setView('activity'); }}
+                icon={<Calculator className="w-6 h-6" />}
+                color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Prímtényezők"
+                subtitle="Felbontás prímszámokra"
+                type="Gyakorlás"
+                onClick={() => { setActivityType('divisibility-factorization'); setView('activity'); }}
+                icon={<Binary className="w-6 h-6" />}
+                color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Kvíz Játék"
+                subtitle="Tudd le a tudásod!"
+                type="Teszt"
+                onClick={() => { setActivityType('divisibility-quiz'); setView('activity'); }}
+                icon={<Gamepad2 className="w-6 h-6" />}
+                color="rose"
+              />
+              <ActivityPlaceholder
+                title="Párosító Játék"
+                subtitle="Prímtényezők gyakorlása"
+                type="Teszt"
+                onClick={() => { setActivityType('divisibility-matcher'); setView('activity'); }}
+                icon={<Target className="w-6 h-6" />}
+                color="violet"
+              />
+              <ActivityPlaceholder
+                title="LKÖ Kvíz"
+                subtitle="Legnagyobb közös osztó"
+                type="Teszt"
+                onClick={() => { setActivityType('divisibility-gcdquiz'); setView('activity'); }}
+                icon={<Zap className="w-6 h-6" />}
+                color="indigo"
+              />
+              <ActivityPlaceholder
+                title="LKKT Kvíz"
+                subtitle="Legkisebb közös többszörös"
+                type="Teszt"
+                onClick={() => { setActivityType('divisibility-lkktquiz'); setView('activity'); }}
+                icon={<Sparkles className="w-6 h-6" />}
+                color="amber"
+              />
+            </div>
+          </section>
+        </div>
+      );
+    }
+
     if (topicId === 'materials') {
       return (
         <div className="py-2">
@@ -403,25 +637,69 @@ export default function MathPage() {
       );
     }
 
-    if (topicId === 'g7-rational-algebra' || topicId === 'g7-percent-equations') {
+    if (topicId === 'g7-rational-algebra') {
       return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <button
-            onClick={() => {
-              setActivityType('algebra');
-              setView('activity');
-            }}
-            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
-          >
-            <div className="p-3 bg-purple-50 rounded-xl text-purple-600 group-hover:scale-110 transition-transform">
-              <Variable className="w-8 h-8" />
+        <div className="flex flex-col gap-10 py-6">
+          {/* Section 1 */}
+          <section>
+            <SectionHeader number={1} title="Racionális számok" color="blue" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Racionális számok"
+                subtitle="Műveletek ésszerűen"
+                type="Kezdés"
+                onClick={() => { setActivityType('g7-rational-numbers'); setView('activity'); }}
+                icon={<Calculator className="w-6 h-6" />}
+                color="blue"
+              />
+              <ActivityPlaceholder
+                title="Pozitív és negatív számok"
+                subtitle="Gyakorló feladatok"
+                type="Hamarosan"
+                disabled
+                icon={<Target className="w-6 h-6" />}
+                color="slate"
+              />
+              <ActivityPlaceholder
+                title="Törtek és tizedestörtek"
+                subtitle="Értékelő teszt"
+                type="Teszt"
+                disabled
+                icon={<BookOpen className="w-6 h-6" />}
+                color="slate"
+              />
             </div>
-            <div className="text-center">
-              <h4 className="font-bold text-sm">Algebrai kifejezések</h4>
-              <p className="text-[10px] text-slate-500">Gyakorló feladatok</p>
-            </div>
-          </button>
+          </section>
 
+          {/* Section 2 */}
+          <section>
+            <SectionHeader number={2} title="Számok és betűs kifejezések használata" color="purple" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Betűs kifejezések"
+                subtitle="Változók használata"
+                type="Kezdés"
+                onClick={() => { setActivityType('g7-expression-usage'); setView('activity'); }}
+                icon={<Variable className="w-6 h-6" />}
+                color="purple"
+              />
+              <ActivityPlaceholder
+                title="Helyettesítési érték"
+                subtitle="Számolás betűkkel"
+                type="Gyakorlás"
+                disabled
+                icon={<Zap className="w-6 h-6" />}
+                color="slate"
+              />
+            </div>
+          </section>
+        </div>
+      );
+    }
+
+    if (topicId === 'g7-percent-equations') {
+      return (
+        <div className="flex justify-center py-4">
           <button
             onClick={() => {
               setActivityType('percentages');
@@ -777,6 +1055,10 @@ export default function MathPage() {
               <DivisibilityPowersModule onBack={handleBack} initialView="gcdquiz" />
             )}
 
+            {activityType === 'divisibility-lkktquiz' && (
+              <DivisibilityPowersModule onBack={handleBack} initialView="lkktquiz" />
+            )}
+
             {activityType === 'triangle-angles-quiz' && (
               <TriangleAnglesQuiz onBack={handleBack} />
             )}
@@ -799,6 +1081,28 @@ export default function MathPage() {
                 onComplete={handleQuizComplete}
                 onBack={handleBack}
               />
+            )}
+
+            {(activityType === 'g7-rational-numbers' || activityType === 'g7-expression-usage') && (
+              <div className="text-center py-20 bg-white rounded-3xl shadow-sm border border-slate-100 animate-slide-up">
+                <div className="inline-flex p-6 bg-slate-50 rounded-full text-slate-400 mb-6 group-hover:scale-110 transition-transform">
+                  {activityType === 'g7-rational-numbers' ? <Calculator className="w-12 h-12" /> : <Variable className="w-12 h-12" />}
+                </div>
+                <h3 className="text-2xl font-bold text-slate-900 mb-4">
+                  {activityType === 'g7-rational-numbers' ? 'Racionális számok' : 'Számok és betűs kifejezések'}
+                </h3>
+                <p className="text-slate-500 max-w-md mx-auto mb-8 px-4">
+                  Ez az interaktív modul hamarosan elkészül! Addig is nézd meg a többi tananyagot.
+                </p>
+                <Button
+                  onClick={handleBack}
+                  variant="outline"
+                  className="rounded-xl px-8"
+                >
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Vissza a témakörökhöz
+                </Button>
+              </div>
             )}
 
             {activityType === 'percentages' && (
@@ -852,5 +1156,83 @@ function ToolCard({ title, desc, icon, color, onClick }: any) {
         <p className="text-sm text-muted-foreground leading-snug">{desc}</p>
       </div>
     </button>
+  );
+}
+
+function ActivityPlaceholder({ title, subtitle, type, icon, color, onClick, disabled }: any) {
+  const colorClasses: any = {
+    blue: "bg-blue-50 text-blue-600 border-blue-100 group-hover:border-blue-300",
+    purple: "bg-purple-50 text-purple-600 border-purple-100 group-hover:border-purple-300",
+    emerald: "bg-emerald-50 text-emerald-600 border-emerald-100 group-hover:border-emerald-300",
+    amber: "bg-amber-50 text-amber-600 border-amber-100 group-hover:border-amber-300",
+    indigo: "bg-indigo-50 text-indigo-600 border-indigo-100 group-hover:border-indigo-300",
+    violet: "bg-violet-50 text-violet-600 border-violet-100 group-hover:border-violet-300",
+    rose: "bg-rose-50 text-rose-600 border-rose-100 group-hover:border-rose-300",
+    teal: "bg-teal-50 text-teal-600 border-teal-100 group-hover:border-teal-300",
+    red: "bg-red-50 text-red-600 border-red-100 group-hover:border-red-300",
+    slate: "bg-slate-50 text-slate-400 border-slate-100 opacity-60"
+  };
+
+  const typeClasses: any = {
+    "Kezdés": "text-emerald-600",
+    "Teszt": "text-rose-600",
+    "Gyakorlás": "text-blue-600",
+    "Hamarosan": "text-slate-400"
+  };
+
+  return (
+    <button
+      onClick={disabled ? undefined : onClick}
+      disabled={disabled}
+      className={cn(
+        "flex flex-col bg-white rounded-xl border-b-2 border border-slate-200 transition-all text-left overflow-hidden group h-full",
+        !disabled ? "hover:border-primary hover:-translate-y-0.5 active:translate-y-0 active:border-b-0 cursor-pointer shadow-sm hover:shadow-md" : "cursor-not-allowed"
+      )}
+    >
+      <div className={cn("h-24 w-full flex items-center justify-center transition-colors relative overflow-hidden", colorClasses[color] || colorClasses.slate)}>
+        <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+        <div className="p-2.5 bg-white/80 backdrop-blur-sm rounded-xl shadow-sm group-hover:scale-110 transition-transform">
+          {icon}
+        </div>
+        {type && (
+          <div className="absolute bottom-1 right-1 px-1.5 py-0.5 bg-white/90 backdrop-blur-sm rounded text-[8px] font-bold shadow-sm">
+            {type}
+          </div>
+        )}
+      </div>
+      <div className="p-2.5 flex-1 flex flex-col justify-between">
+        <div>
+          <h4 className="font-bold text-[11px] text-slate-800 group-hover:text-primary transition-colors leading-tight line-clamp-2">{title}</h4>
+          <p className="text-[9px] text-slate-400 mt-0.5 line-clamp-1">{subtitle}</p>
+        </div>
+        <div className="mt-2 pt-2 border-t border-slate-50 flex items-center justify-between">
+          <span className={cn("text-[8px] font-bold tracking-wider", typeClasses[type] || "text-slate-400")}>
+            {type === 'Kezdés' ? 'INDÍTÁS »' : (type === 'Teszt' ? 'FELADATOK »' : (type === 'Gyakorlás' ? 'GYAKORLAT »' : 'VÁRÓ...'))}
+          </span>
+        </div>
+      </div>
+    </button>
+  );
+}
+
+function SectionHeader({ number, title, color }: { number: number, title: string, color: string }) {
+  const colorMap: any = {
+    blue: "bg-blue-100 text-blue-600 border-blue-200",
+    emerald: "bg-emerald-100 text-emerald-600 border-emerald-200",
+    amber: "bg-amber-100 text-amber-600 border-amber-200",
+    indigo: "bg-indigo-100 text-indigo-600 border-indigo-200",
+    violet: "bg-violet-100 text-violet-600 border-violet-200",
+    rose: "bg-rose-100 text-rose-600 border-rose-200",
+    teal: "bg-teal-100 text-teal-600 border-teal-200",
+    red: "bg-red-100 text-red-600 border-red-200"
+  };
+
+  return (
+    <div className="flex items-center gap-3 mb-6">
+      <div className={cn("w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg shadow-sm border", colorMap[color] || colorMap.blue)}>
+        {number}
+      </div>
+      <h3 className="text-xl font-bold text-slate-800">{title}</h3>
+    </div>
   );
 }

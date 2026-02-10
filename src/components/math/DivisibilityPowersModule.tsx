@@ -6,6 +6,7 @@ import { PrimeFactorization } from './PrimeFactorization';
 import { DivisibilityQuiz } from './DivisibilityQuiz';
 import { PrimeFactorizationMatcher } from './PrimeFactorizationMatcher';
 import { GCDQuiz } from './GCDQuiz';
+import { LCMQuiz } from './LCMQuiz';
 import {
     Calculator,
     Zap,
@@ -25,7 +26,7 @@ interface DivisibilityPowersModuleProps {
     initialView?: ViewType;
 }
 
-type ViewType = 'menu' | 'theory' | 'divisibility' | 'factorization' | 'quiz' | 'matcher' | 'gcdquiz';
+type ViewType = 'menu' | 'theory' | 'divisibility' | 'factorization' | 'quiz' | 'matcher' | 'gcdquiz' | 'lkktquiz';
 
 export function DivisibilityPowersModule({ onBack, initialView = 'menu' }: DivisibilityPowersModuleProps) {
     const [view, setView] = useState<ViewType>(initialView);
@@ -96,6 +97,14 @@ export function DivisibilityPowersModule({ onBack, initialView = 'menu' }: Divis
                         onClick={() => setView('gcdquiz')}
                         highlight
                     />
+                    <MenuCard
+                        title="LKKT Kvíz"
+                        description="Legkisebb közös többszörös gyakorlása"
+                        icon={<Sparkles className="w-10 h-10" />}
+                        color="bg-amber-50 text-amber-600"
+                        onClick={() => setView('lkktquiz')}
+                        highlight
+                    />
                 </div>
             </div>
         );
@@ -116,6 +125,7 @@ export function DivisibilityPowersModule({ onBack, initialView = 'menu' }: Divis
                     {view === 'quiz' && 'Oszthatósági Kvíz'}
                     {view === 'matcher' && 'Prímtényezős Párosító'}
                     {view === 'gcdquiz' && 'LKÖ Kvíz'}
+                    {view === 'lkktquiz' && 'LKKT Kvíz'}
                 </h3>
             </div>
 
@@ -272,6 +282,10 @@ export function DivisibilityPowersModule({ onBack, initialView = 'menu' }: Divis
 
             {view === 'gcdquiz' && (
                 <GCDQuiz onBack={handleBackToMenu} />
+            )}
+
+            {view === 'lkktquiz' && (
+                <LCMQuiz onBack={handleBackToMenu} />
             )}
         </div>
     );
