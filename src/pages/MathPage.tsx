@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { mathTopics } from '@/data/mathTopics';
 import { MathTopicCard } from '@/components/math/MathTopicCard';
@@ -46,7 +46,9 @@ import {
   BookOpen,
   Binary,
   Gamepad2,
-  Zap
+  Zap,
+  Search,
+  X
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -61,6 +63,19 @@ export default function MathPage() {
   const [activityType, setActivityType] = useState<ActivityType>('quiz');
   const [activeMaterial, setActiveMaterial] = useState<{ title: string, path: string } | null>(null);
   const [expandedTopicId, setExpandedTopicId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showResults, setShowResults] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setShowResults(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const currentTopic = mathTopics.find(t => t.id === selectedTopic);
 
@@ -70,8 +85,8 @@ export default function MathPage() {
     setExpandedTopicId(null);
   };
 
-  const handleTopicSelect = (topicId: string) => {
-    if (selectedGrade === 6 || selectedGrade === 7) {
+  const handleTopicSelect = (topicId: string, forceActivity = false) => {
+    if (!forceActivity && (selectedGrade === 6 || selectedGrade === 7)) {
       setExpandedTopicId(expandedTopicId === topicId ? null : topicId);
       return;
     }
@@ -114,6 +129,9 @@ export default function MathPage() {
     } else if (topicId === 'divisibility-powers') {
       setActivityType('divisibility-powers');
       setView('activity');
+    } else if (topicId === 'snake-game') {
+      setActivityType('snake-game');
+      setView('activity');
     } else {
       setActivityType('quiz');
       setView('activity');
@@ -122,7 +140,7 @@ export default function MathPage() {
 
   const handleToolSelect = (toolId: string) => {
     setSelectedGrade(null);
-    handleTopicSelect(toolId);
+    handleTopicSelect(toolId, true);
   };
 
   const handleQuizComplete = (result: QuizResult) => {
@@ -734,15 +752,34 @@ export default function MathPage() {
     );
   };
 
-  const getFilteredTopics = () => {
-    if (!selectedGrade) return mathTopics;
+  const getSearchResults = () => {
+    if (!searchQuery.trim()) return [];
+    const query = searchQuery.toLowerCase();
+    return mathTopics.filter(t =>
+      t.title.toLowerCase().includes(query) ||
+      t.description.toLowerCase().includes(query)
+    );
+  };
 
-    if (typeof selectedGrade === 'number') {
-      return mathTopics.filter(t => t.grades.includes(selectedGrade));
+  const getFilteredTopics = () => {
+    let topics = mathTopics;
+
+    if (selectedGrade) {
+      if (typeof selectedGrade === 'number') {
+        topics = mathTopics.filter(t => t.grades.includes(selectedGrade as number));
+      } else {
+        // Default for high school/graduation
+        topics = mathTopics.filter(t => ['algebra', 'geometry', 'percentages', 'word-problems'].includes(t.id));
+      }
     }
 
-    // Default for high school/graduation
-    return mathTopics.filter(t => ['algebra', 'geometry', 'percentages', 'word-problems'].includes(t.id));
+    if (!searchQuery.trim()) return topics;
+
+    const query = searchQuery.toLowerCase();
+    return topics.filter(t =>
+      t.title.toLowerCase().includes(query) ||
+      t.description.toLowerCase().includes(query)
+    );
   };
 
   return (
@@ -767,13 +804,79 @@ export default function MathPage() {
             ) : (
               <div></div>
             )}
-            <Button
-              variant="secondary"
-              onClick={() => { window.location.assign('https://kviz.diakzona.hu/'); }}
-              className="bg-emerald-500 text-white hover:bg-emerald-600 font-extrabold px-6 shadow-lg shadow-emerald-500/30 border-none transition-all hover:scale-105 active:scale-95"
-            >
-              online kvíz
-            </Button>
+            <div className="flex items-center gap-2">
+              <div ref={searchRef} className="relative hidden sm:flex items-center group">
+                <input
+                  type="text"
+                  placeholder="Keresés..."
+                  value={searchQuery}
+                  onFocus={() => setShowResults(true)}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setShowResults(true);
+                  }}
+                  className="bg-white/10 hover:bg-white/20 focus:bg-white/20 border border-white/10 focus:border-white/30 rounded-xl py-2 pl-4 pr-10 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all w-40 md:w-56 backdrop-blur-md"
+                />
+                <div className="absolute right-1 flex items-center gap-1">
+                  {searchQuery && (
+                    <button
+                      onClick={() => {
+                        setSearchQuery('');
+                        setShowResults(false);
+                      }}
+                      className="p-1.5 rounded-lg hover:bg-white/10 text-white/50 hover:text-white transition-all"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                  <button className="p-1.5 bg-white/20 hover:bg-white/30 rounded-lg text-white transition-all shadow-sm">
+                    <Search className="w-4 h-4" />
+                  </button>
+                </div>
+
+                {/* Dropdown Results */}
+                {showResults && searchQuery.trim() !== '' && (
+                  <div className="absolute top-full left-0 right-0 mt-2 bg-white/95 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                    <div className="max-h-[320px] overflow-y-auto p-2">
+                      {getSearchResults().length > 0 ? (
+                        getSearchResults().map(topic => (
+                          <button
+                            key={topic.id}
+                            onClick={() => {
+                              handleTopicSelect(topic.id, true);
+                              setShowResults(false);
+                              setSearchQuery('');
+                            }}
+                            className="w-full flex items-center gap-3 p-3 hover:bg-black/5 rounded-xl transition-all text-left group/item"
+                          >
+                            <div className="w-10 h-10 flex items-center justify-center bg-slate-100 rounded-lg text-2xl group-hover/item:scale-110 transition-transform">
+                              {topic.icon}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="font-bold text-sm text-slate-800 truncate">{topic.title}</div>
+                              <div className="text-[10px] text-slate-500 line-clamp-1">{topic.description}</div>
+                            </div>
+                            <ChevronRight className="w-3 h-3 text-slate-300 group-hover/item:text-primary transition-colors" />
+                          </button>
+                        ))
+                      ) : (
+                        <div className="p-4 text-center">
+                          <div className="text-2xl mb-1">🔍</div>
+                          <p className="text-xs text-slate-400">Nincs találat a keresésre.</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+              <Button
+                variant="secondary"
+                onClick={() => { window.location.assign('https://kviz.diakzona.hu/'); }}
+                className="bg-emerald-500 text-white hover:bg-emerald-600 font-extrabold px-6 shadow-lg shadow-emerald-500/30 border-none transition-all hover:scale-105 active:scale-95"
+              >
+                online kvíz
+              </Button>
+            </div>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-8 text-center md:text-left">
             <div className="relative group">

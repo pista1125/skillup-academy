@@ -161,6 +161,22 @@ export const mathTopics: MathTopic[] = [
     color: 'from-slate-400 to-slate-500',
     grades: [7],
   },
+  {
+    id: 'snake-game',
+    title: 'Matek Kígyó',
+    description: 'Gyűjtsd össze a helyes válaszokat a kígyóval! (Összeadás, kivonás, szorzás, osztás)',
+    icon: '🐍',
+    color: 'from-emerald-400 to-green-600',
+    grades: [1, 2, 3, 4, 5, 6, 7, 8],
+  },
+  {
+    id: 'long-division',
+    title: 'Írásbeli osztás',
+    description: 'Lépcsős osztás levezetése és gyakorlása egyjegyű osztóval',
+    icon: '➗',
+    color: 'from-indigo-400 to-blue-600',
+    grades: [4, 5, 6],
+  },
 ];
 
 export const gradeDescriptions: Record<number, string> = {
