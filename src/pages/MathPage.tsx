@@ -25,6 +25,9 @@ import { TriangleClassifier } from '@/components/math/TriangleClassifier';
 import { QuadrilateralClassifier } from '@/components/math/QuadrilateralClassifier';
 import { CirclePartsGame } from '@/components/math/CirclePartsGame';
 import { TriangleAnglesQuiz } from '@/components/math/TriangleAnglesQuiz';
+import { DecimalFractionsTool } from '@/components/math/DecimalFractionsTool';
+import { NumberLineTool } from '@/components/math/NumberLineTool';
+import { ConstructionTool } from '@/components/math/ConstructionTool';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -48,12 +51,13 @@ import {
   Gamepad2,
   Zap,
   Search,
-  X
+  X,
+  Pencil
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 type ViewState = 'main-select' | 'topic-select' | 'tools-select' | 'games-select' | 'activity' | 'geometry-select';
-type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game' | 'circle-parts' | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz' | 'triangle-angles-quiz' | 'g7-rational-numbers' | 'g7-expression-usage';
+type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game' | 'circle-parts' | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz' | 'triangle-angles-quiz' | 'g7-rational-numbers' | 'g7-expression-usage' | 'decimal-fractions' | 'number-line' | 'construction';
 
 export default function MathPage() {
   const navigate = useNavigate();
@@ -131,6 +135,15 @@ export default function MathPage() {
       setView('activity');
     } else if (topicId === 'snake-game') {
       setActivityType('snake-game');
+      setView('activity');
+    } else if (topicId === 'decimal-fractions') {
+      setActivityType('decimal-fractions');
+      setView('activity');
+    } else if (topicId === 'number-line') {
+      setActivityType('number-line');
+      setView('activity');
+    } else if (topicId === 'construction') {
+      setActivityType('construction');
       setView('activity');
     } else {
       setActivityType('quiz');
@@ -850,7 +863,11 @@ export default function MathPage() {
                             className="w-full flex items-center gap-3 p-3 hover:bg-black/5 rounded-xl transition-all text-left group/item"
                           >
                             <div className="w-10 h-10 flex items-center justify-center bg-slate-100 rounded-lg text-2xl group-hover/item:scale-110 transition-transform">
-                              {topic.icon}
+                              {typeof topic.icon === 'string' ? (
+                                topic.icon
+                              ) : (
+                                <topic.icon className="w-6 h-6" />
+                              )}
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="font-bold text-sm text-slate-800 truncate">{topic.title}</div>
@@ -1049,6 +1066,27 @@ export default function MathPage() {
                 color="bg-blue-100 text-blue-600"
                 onClick={() => handleToolSelect('algebra')}
               />
+              <ToolCard
+                title="Tizedestörtek"
+                desc="Helyiértékek, átváltások korongokkal"
+                icon={<span className="text-2xl">🪙</span>}
+                color="bg-amber-100 text-amber-700"
+                onClick={() => handleToolSelect('decimal-fractions')}
+              />
+              <ToolCard
+                title="Számegyenes"
+                desc="Egész számok összeadása és kivonása"
+                icon={<span className="text-2xl">➖</span>}
+                color="bg-blue-100 text-blue-600"
+                onClick={() => handleToolSelect('number-line')}
+              />
+              <ToolCard
+                title="Alapszerkesztés"
+                desc="Szerkesztés körzővel és vonalzóval"
+                icon={<Pencil className="w-8 h-8" />}
+                color="bg-indigo-100 text-indigo-600"
+                onClick={() => handleToolSelect('construction')}
+              />
             </div>
           </div>
         )}
@@ -1168,6 +1206,18 @@ export default function MathPage() {
 
             {activityType === 'word-problems' && (
               <WordProblemsModule onBack={handleBack} />
+            )}
+
+            {activityType === 'decimal-fractions' && (
+              <DecimalFractionsTool onBack={handleBack} />
+            )}
+
+            {activityType === 'number-line' && (
+              <NumberLineTool onBack={handleBack} />
+            )}
+
+            {activityType === 'construction' && (
+              <ConstructionTool onBack={handleBack} />
             )}
 
             {activityType === 'materials' && (

@@ -26,7 +26,11 @@ export function MathTopicCard({ topic, onClick, isExpanded, children }: MathTopi
             `w-16 h-16 rounded-2xl bg-gradient-to-br ${topic.color} flex items-center justify-center text-3xl shadow-lg transition-transform duration-300`,
             isExpanded && "scale-110"
           )}>
-            {topic.icon}
+            {typeof topic.icon === 'string' ? (
+              topic.icon
+            ) : (
+              <topic.icon className="w-8 h-8" />
+            )}
           </div>
 
           <div className="flex-1">

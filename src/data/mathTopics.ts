@@ -1,8 +1,10 @@
+import { MoveHorizontal, Pencil, LucideIcon } from 'lucide-react';
+
 export interface MathTopic {
   id: string;
   title: string;
   description: string;
-  icon: string;
+  icon: string | LucideIcon;
   color: string;
   grades: number[];
 }
@@ -176,6 +178,30 @@ export const mathTopics: MathTopic[] = [
     icon: '➗',
     color: 'from-indigo-400 to-blue-600',
     grades: [4, 5, 6],
+  },
+  {
+    id: 'decimal-fractions',
+    title: 'Tizedestörtek',
+    description: 'Helyiérték korongok használata, átváltások',
+    icon: '🪙',
+    color: 'from-amber-700 to-orange-600',
+    grades: [5, 6],
+  },
+  {
+    id: 'number-line',
+    title: 'Számegyenes',
+    icon: MoveHorizontal,
+    description: 'Egész számok összeadása és kivonása a számegyenesen.',
+    color: 'from-blue-500 to-indigo-600',
+    grades: [5, 6, 7, 8],
+  },
+  {
+    id: 'construction',
+    title: 'Alapszerkesztés',
+    icon: Pencil,
+    description: 'Szerkesztés körzővel és vonalzóval.',
+    color: 'from-blue-500 to-indigo-600',
+    grades: [5, 6, 7, 8],
   },
 ];
 
