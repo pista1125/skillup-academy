@@ -1,5 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { SectionHeader } from '@/components/math/SectionHeader';
+import { ActivityPlaceholder } from '@/components/math/ActivityPlaceholder';
+import DecimalFractionsQuiz from '@/components/math/DecimalFractionsQuiz';
 import { mathTopics } from '@/data/mathTopics';
 import { MathTopicCard } from '@/components/math/MathTopicCard';
 import { MathQuiz } from '@/components/math/MathQuiz';
@@ -57,7 +60,7 @@ import {
 import { cn } from '@/lib/utils';
 
 type ViewState = 'main-select' | 'topic-select' | 'tools-select' | 'games-select' | 'activity' | 'geometry-select';
-type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game' | 'circle-parts' | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz' | 'triangle-angles-quiz' | 'g7-rational-numbers' | 'g7-expression-usage' | 'decimal-fractions' | 'number-line' | 'construction';
+type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game' | 'circle-parts' | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz' | 'triangle-angles-quiz' | 'g7-rational-numbers' | 'g7-expression-usage' | 'decimal-fractions' | 'number-line' | 'construction' | 'decimal-quiz';
 
 export default function MathPage() {
   const navigate = useNavigate();
@@ -90,12 +93,13 @@ export default function MathPage() {
   };
 
   const handleTopicSelect = (topicId: string, forceActivity = false) => {
-    if (!forceActivity && (selectedGrade === 6 || selectedGrade === 7)) {
+    if (!forceActivity && ((selectedGrade === 5 && topicId === 'fractions') || selectedGrade === 6 || selectedGrade === 7)) {
       setExpandedTopicId(expandedTopicId === topicId ? null : topicId);
       return;
     }
 
     setSelectedTopic(topicId);
+    window.scrollTo(0, 0);
 
     if (topicId === 'fractions') {
       setActivityType('fractions');
@@ -183,6 +187,20 @@ export default function MathPage() {
   };
 
   const renderTopicContent = (topicId: string) => {
+    if (topicId === 'fractions') {
+      return (
+        <FractionsModule
+          isInline
+          onBack={() => setExpandedTopicId(null)}
+          onStartActivity={(type) => {
+            setActivityType(type as ActivityType);
+            setView('activity');
+            window.scrollTo(0, 0);
+          }}
+        />
+      );
+    }
+
     if (topicId === 'geometry' || topicId === 'g7-other') {
       return (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -998,7 +1016,7 @@ export default function MathPage() {
                   isExpanded={expandedTopicId === topic.id}
                   onClick={() => handleTopicSelect(topic.id)}
                 >
-                  {(selectedGrade === 6 || selectedGrade === 7) && renderTopicContent(topic.id)}
+                  {((selectedGrade === 5 && topic.id === 'fractions') || selectedGrade === 6 || selectedGrade === 7) && renderTopicContent(topic.id)}
                 </MathTopicCard>
               ))}
               {getFilteredTopics().length === 0 && (
@@ -1120,7 +1138,13 @@ export default function MathPage() {
         {view === 'activity' && (
           <div className="animate-slide-up">
             {activityType === 'fractions' && (
-              <FractionsModule onBack={handleBack} />
+              <FractionsModule
+                onBack={handleBack}
+                onStartActivity={(type) => {
+                  setActivityType(type as ActivityType);
+                  setView('activity');
+                }}
+              />
             )}
 
             {activityType === 'grade1-basic' && (
@@ -1210,6 +1234,10 @@ export default function MathPage() {
 
             {activityType === 'decimal-fractions' && (
               <DecimalFractionsTool onBack={handleBack} />
+            )}
+
+            {activityType === 'decimal-quiz' && (
+              <DecimalFractionsQuiz onBack={handleBack} />
             )}
 
             {activityType === 'number-line' && (
@@ -1312,80 +1340,4 @@ function ToolCard({ title, desc, icon, color, onClick }: any) {
   );
 }
 
-function ActivityPlaceholder({ title, subtitle, type, icon, color, onClick, disabled }: any) {
-  const colorClasses: any = {
-    blue: "bg-blue-50 text-blue-600 border-blue-100 group-hover:border-blue-300",
-    purple: "bg-purple-50 text-purple-600 border-purple-100 group-hover:border-purple-300",
-    emerald: "bg-emerald-50 text-emerald-600 border-emerald-100 group-hover:border-emerald-300",
-    amber: "bg-amber-50 text-amber-600 border-amber-100 group-hover:border-amber-300",
-    indigo: "bg-indigo-50 text-indigo-600 border-indigo-100 group-hover:border-indigo-300",
-    violet: "bg-violet-50 text-violet-600 border-violet-100 group-hover:border-violet-300",
-    rose: "bg-rose-50 text-rose-600 border-rose-100 group-hover:border-rose-300",
-    teal: "bg-teal-50 text-teal-600 border-teal-100 group-hover:border-teal-300",
-    red: "bg-red-50 text-red-600 border-red-100 group-hover:border-red-300",
-    slate: "bg-slate-50 text-slate-400 border-slate-100 opacity-60"
-  };
 
-  const typeClasses: any = {
-    "Kezdés": "text-emerald-600",
-    "Teszt": "text-rose-600",
-    "Gyakorlás": "text-blue-600",
-    "Hamarosan": "text-slate-400"
-  };
-
-  return (
-    <button
-      onClick={disabled ? undefined : onClick}
-      disabled={disabled}
-      className={cn(
-        "flex flex-col bg-white rounded-xl border-b-2 border border-slate-200 transition-all text-left overflow-hidden group h-full",
-        !disabled ? "hover:border-primary hover:-translate-y-0.5 active:translate-y-0 active:border-b-0 cursor-pointer shadow-sm hover:shadow-md" : "cursor-not-allowed"
-      )}
-    >
-      <div className={cn("h-24 w-full flex items-center justify-center transition-colors relative overflow-hidden", colorClasses[color] || colorClasses.slate)}>
-        <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-        <div className="p-2.5 bg-white/80 backdrop-blur-sm rounded-xl shadow-sm group-hover:scale-110 transition-transform">
-          {icon}
-        </div>
-        {type && (
-          <div className="absolute bottom-1 right-1 px-1.5 py-0.5 bg-white/90 backdrop-blur-sm rounded text-[8px] font-bold shadow-sm">
-            {type}
-          </div>
-        )}
-      </div>
-      <div className="p-2.5 flex-1 flex flex-col justify-between">
-        <div>
-          <h4 className="font-bold text-[11px] text-slate-800 group-hover:text-primary transition-colors leading-tight line-clamp-2">{title}</h4>
-          <p className="text-[9px] text-slate-400 mt-0.5 line-clamp-1">{subtitle}</p>
-        </div>
-        <div className="mt-2 pt-2 border-t border-slate-50 flex items-center justify-between">
-          <span className={cn("text-[8px] font-bold tracking-wider", typeClasses[type] || "text-slate-400")}>
-            {type === 'Kezdés' ? 'INDÍTÁS »' : (type === 'Teszt' ? 'FELADATOK »' : (type === 'Gyakorlás' ? 'GYAKORLAT »' : 'VÁRÓ...'))}
-          </span>
-        </div>
-      </div>
-    </button>
-  );
-}
-
-function SectionHeader({ number, title, color }: { number: number, title: string, color: string }) {
-  const colorMap: any = {
-    blue: "bg-blue-100 text-blue-600 border-blue-200",
-    emerald: "bg-emerald-100 text-emerald-600 border-emerald-200",
-    amber: "bg-amber-100 text-amber-600 border-amber-200",
-    indigo: "bg-indigo-100 text-indigo-600 border-indigo-200",
-    violet: "bg-violet-100 text-violet-600 border-violet-200",
-    rose: "bg-rose-100 text-rose-600 border-rose-200",
-    teal: "bg-teal-100 text-teal-600 border-teal-200",
-    red: "bg-red-100 text-red-600 border-red-200"
-  };
-
-  return (
-    <div className="flex items-center gap-3 mb-6">
-      <div className={cn("w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg shadow-sm border", colorMap[color] || colorMap.blue)}>
-        {number}
-      </div>
-      <h3 className="text-xl font-bold text-slate-800">{title}</h3>
-    </div>
-  );
-}

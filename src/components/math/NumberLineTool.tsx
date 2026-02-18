@@ -69,8 +69,7 @@ export function NumberLineTool({ onBack }: NumberLineToolProps) {
 
     const containerRef = useRef<HTMLDivElement>(null);
 
-    // Constants
-    const CENTER_Y = 400; // Vertical center of the number line axis
+    const [centerY, setCenterY] = useState(250); // Vertical center of the number line axis
     const TICK_HEIGHT_MAJOR = 20;
     const TICK_HEIGHT_MINOR = 10;
 
@@ -94,10 +93,12 @@ export function NumberLineTool({ onBack }: NumberLineToolProps) {
         // If clicked on empty space
         if (toolMode === 'marker') {
             const val = getValueFromScreenX(e.clientX);
-            const roundedVal = Math.round(val * 2) / 2; // Snap to 0.5
+            // Snap based on zoom level
+            const snap = scale > 500 ? 0.01 : (scale > 100 ? 0.1 : 0.5);
+            const roundedVal = Math.round(val / snap) * snap;
             const newMarker: PointMarker = {
                 id: Date.now().toString(),
-                value: roundedVal,
+                value: Number(roundedVal.toFixed(2)),
                 color: COLORS[markers.length % COLORS.length]
             };
             setMarkers([...markers, newMarker]);
@@ -165,12 +166,15 @@ export function NumberLineTool({ onBack }: NumberLineToolProps) {
     const handleMouseUp = () => {
         setIsDraggingCanvas(false);
 
+        // Snap based on zoom level
+        const snap = scale > 500 ? 0.01 : (scale > 100 ? 0.1 : 0.5);
+
         // Snap arrows on release
         if (draggedArrowId || resizingArrowId) {
             setArrows(prev => prev.map(a => ({
                 ...a,
-                startValue: Math.round(a.startValue * 10) / 10,
-                length: Math.round(a.length * 10) / 10,
+                startValue: Number((Math.round(a.startValue / snap) * snap).toFixed(2)),
+                length: Number((Math.round(a.length / snap) * snap).toFixed(2)),
                 yLevel: Math.round(a.yLevel || 1)
             })));
         }
@@ -179,7 +183,7 @@ export function NumberLineTool({ onBack }: NumberLineToolProps) {
         if (draggedMarkerId) {
             setMarkers(prev => prev.map(m => ({
                 ...m,
-                value: Math.round(m.value * 2) / 2 // Snap to 0.5
+                value: Number((Math.round(m.value / snap) * snap).toFixed(2))
             })));
         }
 
@@ -189,6 +193,24 @@ export function NumberLineTool({ onBack }: NumberLineToolProps) {
         setResizeHandle(null);
         setDragValueOffset(0);
     };
+
+    useEffect(() => {
+        if (!containerRef.current) return;
+
+        const updateCenter = () => {
+            if (containerRef.current) {
+                setCenterY(containerRef.current.clientHeight / 2);
+            }
+        };
+
+        const observer = new ResizeObserver(updateCenter);
+        observer.observe(containerRef.current);
+
+        // Initial call
+        updateCenter();
+
+        return () => observer.disconnect();
+    }, []);
 
     const handleLabelSubmit = (id: string, newValStr: string) => {
         const val = parseFloat(newValStr);
@@ -236,28 +258,71 @@ export function NumberLineTool({ onBack }: NumberLineToolProps) {
         const maxVal = Math.ceil((endX - width / 2) / scale);
 
         const ticks = [];
-        let step = 1;
-        if (scale > 120) step = 0.5;
-        if (scale < 30) step = 5;
 
-        for (let i = minVal; i <= maxVal; i += step) {
-            const val = Math.round(i * 10) / 10;
+        // Dynamic step calculation
+        let mainStep = 1;
+        if (scale < 30) mainStep = 5;
+        if (scale < 10) mainStep = 10;
+
+        let subStep = mainStep / 10;
+        if (scale > 100) subStep = 0.1;
+        if (scale > 500) subStep = 0.01;
+
+        // Determine which levels to show based on zoom
+        const showSmallTicks = scale > 50;
+        const showMicroTicks = scale > 400;
+
+        // Increase range slightly to ensure all visible ticks are rendered
+        const rangePadding = mainStep * 2;
+
+        const renderStep = showMicroTicks ? 0.01 : (showSmallTicks ? 0.1 : 1);
+        const actualMin = Math.floor(minVal / mainStep) * mainStep - rangePadding;
+        const actualMax = Math.ceil(maxVal / mainStep) * mainStep + rangePadding;
+
+        for (let i = actualMin; i <= actualMax; i += renderStep) {
+            const val = Number(i.toFixed(2));
             const x = getScreenX(val);
-            const isMajor = Number.isInteger(val);
+
+            // Skip if out of horizontal bounds to save performance when zoomed in
+            if (x < -100 || x > width + 100) continue;
+
+            const isMajor = Math.abs(val % mainStep) < 0.001;
+            const isMedium = !isMajor && (Math.abs(val % (mainStep / 10)) < 0.001 || (scale > 500 && Math.abs(val % 0.1) < 0.001));
+
+            let tickHeight = TICK_HEIGHT_MINOR;
+            let strokeWidth = 1;
+            let showLabel = false;
+            let labelSize = "text-[10px]";
+
+            if (isMajor) {
+                tickHeight = TICK_HEIGHT_MAJOR;
+                strokeWidth = 2;
+                showLabel = true;
+                labelSize = "text-xs font-bold";
+            } else if (isMedium && scale > 150) {
+                tickHeight = TICK_HEIGHT_MAJOR * 0.7;
+                strokeWidth = 1.5;
+                if (scale > 300) showLabel = true;
+            } else if (scale > 800) {
+                tickHeight = TICK_HEIGHT_MINOR;
+                strokeWidth = 1;
+                if (Math.abs(val % 0.05) < 0.001) showLabel = true;
+            }
 
             ticks.push(
-                <g key={val} transform={`translate(${x}, ${CENTER_Y})`}>
+                <g key={val} transform={`translate(${x}, ${centerY})`}>
                     <line
-                        y1={- (isMajor ? TICK_HEIGHT_MAJOR : TICK_HEIGHT_MINOR)}
-                        y2={isMajor ? TICK_HEIGHT_MAJOR : TICK_HEIGHT_MINOR}
-                        stroke="#94a3b8"
-                        strokeWidth={isMajor ? 2 : 1}
+                        y1={-tickHeight}
+                        y2={tickHeight}
+                        stroke={isMajor ? "#64748b" : "#94a3b8"}
+                        strokeWidth={strokeWidth}
+                        opacity={isMajor ? 1 : 0.6}
                     />
-                    {isMajor && (
+                    {showLabel && (
                         <text
                             y={35}
                             textAnchor="middle"
-                            className="text-xs font-bold fill-slate-500 select-none"
+                            className={cn(labelSize, "fill-slate-500 select-none")}
                         >
                             {val}
                         </text>
@@ -276,8 +341,8 @@ export function NumberLineTool({ onBack }: NumberLineToolProps) {
 
             const effectiveLevel = Math.max(0.5, Math.abs(arrow.yLevel || 1));
 
-            const cpY = CENTER_Y - levelHeight * 1.5;
-            const pathString = `M ${startX} ${CENTER_Y} C ${startX} ${cpY}, ${endX} ${cpY}, ${endX} ${CENTER_Y}`;
+            const cpY = centerY - levelHeight * 1.5;
+            const pathString = `M ${startX} ${centerY} C ${startX} ${cpY}, ${endX} ${cpY}, ${endX} ${centerY}`;
 
             const midX = (startX + endX) / 2;
             const isEditing = editingArrowId === arrow.id;
@@ -306,11 +371,11 @@ export function NumberLineTool({ onBack }: NumberLineToolProps) {
                     <polygon
                         points={`0,0 -6,-10 6,-10`}
                         fill={arrow.color}
-                        transform={`translate(${endX}, ${CENTER_Y}) rotate(${arrow.length > 0 ? 180 : 180})`}
+                        transform={`translate(${endX}, ${centerY}) rotate(${arrow.length > 0 ? 180 : 180})`}
                     />
 
                     {/* Label - Click to Edit */}
-                    <foreignObject x={midX - 30} y={CENTER_Y - levelHeight - 30} width={60} height={40}>
+                    <foreignObject x={midX - 30} y={centerY - levelHeight - 30} width={60} height={40}>
                         <div className="flex items-center justify-center w-full h-full">
                             {isEditing ? (
                                 <input
@@ -343,7 +408,7 @@ export function NumberLineTool({ onBack }: NumberLineToolProps) {
 
                     {/* Start Handle */}
                     <circle
-                        cx={startX} cy={CENTER_Y} r={8} fill="white" stroke={arrow.color} strokeWidth={3}
+                        cx={startX} cy={centerY} r={8} fill="white" stroke={arrow.color} strokeWidth={3}
                         className="cursor-ew-resize opacity-0 group-hover:opacity-100 transition-opacity bg-white hover:scale-125"
                         onMouseDown={(e) => {
                             e.stopPropagation();
@@ -356,7 +421,7 @@ export function NumberLineTool({ onBack }: NumberLineToolProps) {
 
                     {/* End Handle */}
                     <circle
-                        cx={endX} cy={CENTER_Y} r={8} fill={arrow.color} stroke="white" strokeWidth={2}
+                        cx={endX} cy={centerY} r={8} fill={arrow.color} stroke="white" strokeWidth={2}
                         className="cursor-ew-resize opacity-0 group-hover:opacity-100 transition-opacity hover:scale-125"
                         onMouseDown={(e) => {
                             e.stopPropagation();
@@ -370,7 +435,7 @@ export function NumberLineTool({ onBack }: NumberLineToolProps) {
 
                     {/* Delete Button */}
                     {!isEditing && (
-                        <foreignObject x={midX + 30} y={CENTER_Y - levelHeight - 24} width={28} height={28} className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        <foreignObject x={midX + 30} y={centerY - levelHeight - 24} width={28} height={28} className="opacity-0 group-hover:opacity-100 transition-opacity">
                             <button onClick={() => setArrows(arrows.filter(a => a.id !== arrow.id))} className="bg-white rounded-full p-1.5 shadow-md hover:bg-red-50 text-red-500 border border-red-100 cursor-pointer">
                                 <Trash2 className="w-3.5 h-3.5" />
                             </button>
@@ -387,7 +452,7 @@ export function NumberLineTool({ onBack }: NumberLineToolProps) {
             return (
                 <g
                     key={marker.id}
-                    transform={`translate(${x}, ${CENTER_Y})`}
+                    transform={`translate(${x}, ${centerY})`}
                     className="cursor-grab active:cursor-grabbing group"
                     onMouseDown={(e) => {
                         e.stopPropagation();
@@ -437,11 +502,14 @@ export function NumberLineTool({ onBack }: NumberLineToolProps) {
                 </div>
 
                 <div className="flex items-center gap-2">
-                    <Button variant="outline" size="icon" onClick={() => setScale(s => Math.max(10, s - 10))}>
+                    <Button variant="outline" size="icon" onClick={() => setScale(s => Math.max(5, s / 1.5))}>
                         <ZoomOut className="w-4 h-4" />
                     </Button>
-                    <span className="text-xs font-mono w-12 text-center text-slate-400">{scale}px</span>
-                    <Button variant="outline" size="icon" onClick={() => setScale(s => Math.min(200, s + 10))}>
+                    <div className="flex flex-col items-center min-w-16">
+                        <span className="text-[10px] text-slate-400 font-mono leading-none">Zoom</span>
+                        <span className="text-xs font-bold font-mono text-slate-600">{(scale / 50).toFixed(scale > 100 ? 1 : 1)}x</span>
+                    </div>
+                    <Button variant="outline" size="icon" onClick={() => setScale(s => Math.min(2000, s * 1.5))}>
                         <ZoomIn className="w-4 h-4" />
                     </Button>
                     <div className="h-6 w-px bg-slate-200 mx-2" />
@@ -526,7 +594,7 @@ export function NumberLineTool({ onBack }: NumberLineToolProps) {
                     <svg className="w-full h-full pointer-events-none select-none">
                         {/* Grid/Ticks Group */}
                         <g className="pointer-events-none">
-                            <line x1="0" y1={CENTER_Y} x2="100%" y2={CENTER_Y} stroke="#cbd5e1" strokeWidth="2" />
+                            <line x1="0" y1={centerY} x2="100%" y2={centerY} stroke="#cbd5e1" strokeWidth="2" />
                             {renderTicks()}
                         </g>
 

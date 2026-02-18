@@ -128,10 +128,11 @@ function generateProblem(difficulty: Difficulty): FractionProblem {
 
 interface FractionsQuizProps {
     onBack: () => void;
+    initialDifficulty?: Difficulty | null;
 }
 
-export function FractionsQuiz({ onBack }: FractionsQuizProps) {
-    const [difficulty, setDifficulty] = useState<Difficulty | null>(null);
+export function FractionsQuiz({ onBack, initialDifficulty = null }: FractionsQuizProps) {
+    const [difficulty, setDifficulty] = useState<Difficulty | null>(initialDifficulty);
     const [problems, setProblems] = useState<FractionProblem[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [userNum, setUserNum] = useState('');
