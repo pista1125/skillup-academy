@@ -31,6 +31,7 @@ import { TriangleAnglesQuiz } from '@/components/math/TriangleAnglesQuiz';
 import { DecimalFractionsTool } from '@/components/math/DecimalFractionsTool';
 import { NumberLineTool } from '@/components/math/NumberLineTool';
 import { ConstructionTool } from '@/components/math/ConstructionTool';
+import { PercentagesQuiz } from '@/components/math/PercentagesQuiz';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -119,7 +120,7 @@ export default function MathPage() {
     } else if (topicId === 'geometry') {
       setActivityType('geometry');
       setView('activity');
-    } else if (topicId === 'percentages') {
+    } else if (topicId === 'percentages' || topicId === 'g7-percent-equations') {
       setActivityType('percentages');
       setView('activity');
     } else if (topicId === 'divisibility') {
@@ -746,9 +747,9 @@ export default function MathPage() {
       );
     }
 
-    if (topicId === 'g7-percent-equations') {
+    if (topicId === 'g7-percent-equations' || topicId === 'percentages') {
       return (
-        <div className="flex justify-center py-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <button
             onClick={() => {
               setActivityType('percentages');
@@ -761,7 +762,7 @@ export default function MathPage() {
             </div>
             <div className="text-center">
               <h4 className="font-bold text-sm">Százalékszámítás</h4>
-              <p className="text-[10px] text-slate-500">Arányok és százalékok</p>
+              <p className="text-[10px] text-slate-500">3 típusú teszt és nehézség</p>
             </div>
           </button>
         </div>
@@ -1287,14 +1288,7 @@ export default function MathPage() {
             )}
 
             {activityType === 'percentages' && (
-              <div className="text-center py-12 bg-card rounded-2xl border border-border">
-                <div className="text-6xl mb-4">📊</div>
-                <h2 className="font-display text-2xl font-bold mb-2">Százalékszámítás modul</h2>
-                <p className="text-muted-foreground mb-6">
-                  Egy interaktív kalkulátor hamarosan elérhető lesz itt!
-                </p>
-                <Button onClick={handleBack}>Vissza</Button>
-              </div>
+              <PercentagesQuiz onBack={handleBack} />
             )}
 
             {activityType === 'quiz' && (
@@ -1323,7 +1317,15 @@ export default function MathPage() {
   );
 }
 
-function ToolCard({ title, desc, icon, color, onClick }: any) {
+interface ToolCardProps {
+  title: string;
+  desc: string;
+  icon: React.ReactNode;
+  color: string;
+  onClick: () => void;
+}
+
+function ToolCard({ title, desc, icon, color, onClick }: ToolCardProps) {
   return (
     <button
       onClick={onClick}
