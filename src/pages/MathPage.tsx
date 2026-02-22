@@ -71,6 +71,7 @@ export default function MathPage() {
   const [activityType, setActivityType] = useState<ActivityType>('quiz');
   const [activeMaterial, setActiveMaterial] = useState<{ title: string, path: string } | null>(null);
   const [expandedTopicId, setExpandedTopicId] = useState<string | null>(null);
+  const [percentMode, setPercentMode] = useState<'calculate-value' | 'calculate-rate' | 'calculate-base' | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [showResults, setShowResults] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
@@ -94,7 +95,7 @@ export default function MathPage() {
   };
 
   const handleTopicSelect = (topicId: string, forceActivity = false) => {
-    if (!forceActivity && ((selectedGrade === 5 && topicId === 'fractions') || selectedGrade === 6 || selectedGrade === 7)) {
+    if (!forceActivity && ((selectedGrade === 5 && topicId.startsWith('g5-')) || selectedGrade === 6 || selectedGrade === 7)) {
       setExpandedTopicId(expandedTopicId === topicId ? null : topicId);
       return;
     }
@@ -122,6 +123,7 @@ export default function MathPage() {
       setView('activity');
     } else if (topicId === 'percentages' || topicId === 'g7-percent-equations') {
       setActivityType('percentages');
+      setPercentMode(null);
       setView('activity');
     } else if (topicId === 'divisibility') {
       setActivityType('divisibility');
@@ -188,6 +190,128 @@ export default function MathPage() {
   };
 
   const renderTopicContent = (topicId: string) => {
+    if (topicId === 'g5-integers') {
+      return (
+        <div className="flex flex-col gap-10 py-6">
+          <section>
+            <SectionHeader number={1} title="Alapműveletek" color="blue" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="Összeadás, kivonás, szorzás, osztás"
+                type="Teszt"
+                onClick={() => { setActivityType('quiz'); setView('activity'); }}
+                icon={<Calculator className="w-6 h-6" />}
+                color="blue"
+              />
+              <ActivityPlaceholder
+                title="Írásbeli osztás"
+                subtitle="Lépcsős osztás levezetése"
+                type="Eszköz"
+                onClick={() => { setActivityType('long-division'); setView('activity'); }}
+                icon={<Box className="w-6 h-6" />}
+                color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Számegyenes"
+                subtitle="Egész számok szemléltetése"
+                type="Eszköz"
+                onClick={() => { setActivityType('number-line'); setView('activity'); }}
+                icon={<MoveHorizontal className="w-6 h-6" />}
+                color="blue"
+              />
+            </div>
+          </section>
+        </div>
+      );
+    }
+
+    if (topicId === 'g5-fractions-decimals') {
+      return (
+        <FractionsModule
+          isInline
+          onBack={() => setExpandedTopicId(null)}
+          onStartActivity={(type) => {
+            setActivityType(type as ActivityType);
+            setView('activity');
+            window.scrollTo(0, 0);
+          }}
+        />
+      );
+    }
+
+    if (topicId === 'g5-geometry-intro') {
+      return (
+        <div className="flex flex-col gap-10 py-6">
+          <section>
+            <SectionHeader number={1} title="Geometriai Alapok" color="green" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Alapszerkesztés"
+                subtitle="Körző és vonalzó használata"
+                type="Eszköz"
+                onClick={() => { setActivityType('construction'); setView('activity'); }}
+                icon={<Pencil className="w-6 h-6" />}
+                color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Síkidom vagy Test?"
+                subtitle="2D és 3D alakzatok"
+                type="Játék"
+                onClick={() => { setActivityType('shape-classification'); setView('activity'); }}
+                icon={<Box className="w-6 h-6" />}
+                color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Egyenesek helyzete"
+                subtitle="Párhuzamos és merőleges"
+                type="Gyakorlás"
+                onClick={() => { setActivityType('line-relationships'); setView('activity'); }}
+                icon={<MoveHorizontal className="w-6 h-6 rotate-45" />}
+                color="green"
+              />
+            </div>
+          </section>
+        </div>
+      );
+    }
+
+    if (topicId === 'g5-proportion-problems') {
+      return (
+        <div className="flex flex-col gap-10 py-6">
+          <section>
+            <SectionHeader number={1} title="Arányosság és alkalmazása" color="teal" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Szöveges feladatok"
+                subtitle="Gyakorlati problémák"
+                type="Indítás"
+                onClick={() => { setActivityType('word-problems'); setView('activity'); }}
+                icon={<Sparkles className="w-6 h-6" />}
+                color="teal"
+              />
+              <ActivityPlaceholder
+                title="Százalékszámítás"
+                subtitle="Alap, érték, láb"
+                type="Gyakorlás"
+                onClick={() => { setActivityType('percentages'); setPercentMode(null); setView('activity'); }}
+                icon={<Percent className="w-6 h-6" />}
+                color="rose"
+              />
+            </div>
+          </section>
+        </div>
+      );
+    }
+
+    if (topicId === 'g5-measurements' || topicId === 'g5-location-sequences' || topicId === 'g5-stats') {
+      return (
+        <div className="py-2">
+          <MaterialGallery grade={5} onView={(m) => setActiveMaterial(m)} />
+        </div>
+      );
+    }
+
     if (topicId === 'fractions') {
       return (
         <FractionsModule
@@ -753,6 +877,7 @@ export default function MathPage() {
           <button
             onClick={() => {
               setActivityType('percentages');
+              setPercentMode('calculate-value');
               setView('activity');
             }}
             className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
@@ -761,8 +886,42 @@ export default function MathPage() {
               <Percent className="w-8 h-8" />
             </div>
             <div className="text-center">
-              <h4 className="font-bold text-sm">Százalékszámítás</h4>
-              <p className="text-[10px] text-slate-500">3 típusú teszt és nehézség</p>
+              <h4 className="font-bold text-sm">Százalékérték</h4>
+              <p className="text-[10px] text-slate-500">Mennyi az alap adott %-a?</p>
+            </div>
+          </button>
+
+          <button
+            onClick={() => {
+              setActivityType('percentages');
+              setPercentMode('calculate-rate');
+              setView('activity');
+            }}
+            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
+          >
+            <div className="p-3 bg-emerald-50 rounded-xl text-emerald-600 group-hover:scale-110 transition-transform">
+              <Percent className="w-8 h-8" />
+            </div>
+            <div className="text-center">
+              <h4 className="font-bold text-sm">Százalékláb</h4>
+              <p className="text-[10px] text-slate-500">Hány százaléka a rész az egésznek?</p>
+            </div>
+          </button>
+
+          <button
+            onClick={() => {
+              setActivityType('percentages');
+              setPercentMode('calculate-base');
+              setView('activity');
+            }}
+            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
+          >
+            <div className="p-3 bg-blue-50 rounded-xl text-blue-600 group-hover:scale-110 transition-transform">
+              <Percent className="w-8 h-8" />
+            </div>
+            <div className="text-center">
+              <h4 className="font-bold text-sm">Alap kiszámítása</h4>
+              <p className="text-[10px] text-slate-500">Mennyi a 100%, ha ismerjük a részt?</p>
             </div>
           </button>
         </div>
@@ -1017,7 +1176,7 @@ export default function MathPage() {
                   isExpanded={expandedTopicId === topic.id}
                   onClick={() => handleTopicSelect(topic.id)}
                 >
-                  {((selectedGrade === 5 && topic.id === 'fractions') || selectedGrade === 6 || selectedGrade === 7) && renderTopicContent(topic.id)}
+                  {((selectedGrade === 5 && topic.id.startsWith('g5-')) || selectedGrade === 6 || selectedGrade === 7) && renderTopicContent(topic.id)}
                 </MathTopicCard>
               ))}
               {getFilteredTopics().length === 0 && (
@@ -1288,7 +1447,7 @@ export default function MathPage() {
             )}
 
             {activityType === 'percentages' && (
-              <PercentagesQuiz onBack={handleBack} />
+              <PercentagesQuiz onBack={handleBack} initialMode={percentMode} />
             )}
 
             {activityType === 'quiz' && (

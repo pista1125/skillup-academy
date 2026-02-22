@@ -16,7 +16,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Tankönyvek letöltése és interaktív tanórai használata',
     icon: '📚',
     color: 'from-indigo-500 to-purple-600',
-    grades: [5, 6, 7],
+    grades: [6, 7],
   },
   {
     id: 'divisibility-powers',
@@ -32,7 +32,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Törtek értelmezése, összeadása, kivonása',
     icon: '🍕',
     color: 'from-orange-500 to-amber-600',
-    grades: [5, 6],
+    grades: [6],
   },
   {
     id: 'geometry',
@@ -40,7 +40,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Alakzatok, területek, kerületek, térfogatok',
     icon: '📐',
     color: 'from-green-500 to-green-600',
-    grades: [2, 3, 4, 5, 6, 8],
+    grades: [2, 3, 4, 6, 8],
   },
   {
     id: 'percentages',
@@ -48,7 +48,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Százalékszámítás, arányok',
     icon: '📊',
     color: 'from-orange-400 to-amber-500',
-    grades: [5, 6, 8],
+    grades: [6, 8],
   },
   {
     id: 'word-problems',
@@ -56,7 +56,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Gyakorlati problémák megoldása',
     icon: '📝',
     color: 'from-teal-500 to-teal-600',
-    grades: [1, 2, 3, 4, 5, 6, 8],
+    grades: [1, 2, 3, 4, 6, 8],
   },
   {
     id: 'measurements',
@@ -88,7 +88,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Összeadás, kivonás, szorzás, osztás',
     icon: '🔢',
     color: 'from-blue-500 to-blue-600',
-    grades: [1, 2, 3, 4, 5],
+    grades: [1, 2, 3, 4],
   },
   {
     id: 'algebra',
@@ -96,7 +96,64 @@ export const mathTopics: MathTopic[] = [
     description: 'Egyenletek, kifejezések, ismeretlenek',
     icon: '🔤',
     color: 'from-purple-500 to-purple-600',
-    grades: [5, 8],
+    grades: [8],
+  },
+  // 5. osztályos témakörök
+  {
+    id: 'g5-integers',
+    title: 'I. AZ EGÉSZ SZÁMOK',
+    description: 'Számok írása, olvasása, kerekítés, alapműveletek és számegyenes',
+    icon: '🔢',
+    color: 'from-blue-500 to-blue-600',
+    grades: [5],
+  },
+  {
+    id: 'g5-fractions-decimals',
+    title: 'II. TÖRTEK, TIZEDES TÖRTEK',
+    description: 'Közönséges törtek és tizedes törtek fogalma, műveletek',
+    icon: '🍕',
+    color: 'from-orange-500 to-amber-600',
+    grades: [5],
+  },
+  {
+    id: 'g5-geometry-intro',
+    title: 'III. BEVEZETÉS A GEOMETRIÁBA',
+    description: 'Alapfogalmak, alakzatok, tengelyes tükrözés',
+    icon: '📐',
+    color: 'from-green-500 to-green-600',
+    grades: [5],
+  },
+  {
+    id: 'g5-measurements',
+    title: 'IV. HOSSZÚSÁG, TERÜLET, TÉRFOGAT',
+    description: 'Mértékegységek és számítások',
+    icon: '📏',
+    color: 'from-cyan-500 to-blue-500',
+    grades: [5],
+  },
+  {
+    id: 'g5-location-sequences',
+    title: 'V. HELYMEGHATÁROZÁS, SOROZATOK',
+    description: 'Koordináta-rendszer, szabályszerűségek',
+    icon: '📍',
+    color: 'from-violet-500 to-purple-600',
+    grades: [5],
+  },
+  {
+    id: 'g5-proportion-problems',
+    title: 'VI. MÉRÉS, ARÁNYOSSÁG, SZÖVEGES FELADATOK',
+    description: 'Arányos következtetés, gyakorlati számítások',
+    icon: '📝',
+    color: 'from-teal-500 to-teal-600',
+    grades: [5],
+  },
+  {
+    id: 'g5-stats',
+    title: 'VII. ADATGYŰJTÉS, STATISZTIKA',
+    description: 'Adatok rendszerezése és ábrázolása',
+    icon: '📈',
+    color: 'from-pink-500 to-rose-500',
+    grades: [5],
   },
   // 7. osztályos témakörök
   {
@@ -177,7 +234,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Lépcsős osztás levezetése és gyakorlása egyjegyű osztóval',
     icon: '➗',
     color: 'from-indigo-400 to-blue-600',
-    grades: [4, 5, 6],
+    grades: [4, 6],
   },
   {
     id: 'decimal-fractions',
@@ -185,7 +242,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Helyiérték korongok használata, átváltások',
     icon: '🪙',
     color: 'from-amber-700 to-orange-600',
-    grades: [5, 6],
+    grades: [6],
   },
   {
     id: 'number-line',
@@ -193,7 +250,7 @@ export const mathTopics: MathTopic[] = [
     icon: MoveHorizontal,
     description: 'Egész számok összeadása és kivonása a számegyenesen.',
     color: 'from-blue-500 to-indigo-600',
-    grades: [5, 6, 7, 8],
+    grades: [6, 7, 8],
   },
   {
     id: 'construction',
@@ -201,7 +258,7 @@ export const mathTopics: MathTopic[] = [
     icon: Pencil,
     description: 'Szerkesztés körzővel és vonalzóval.',
     color: 'from-blue-500 to-indigo-600',
-    grades: [5, 6, 7, 8],
+    grades: [6, 7, 8],
   },
 ];
 

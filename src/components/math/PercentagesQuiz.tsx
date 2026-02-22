@@ -108,10 +108,11 @@ function generateProblem(mode: QuizMode, difficulty: Difficulty): PercentProblem
 
 interface PercentagesQuizProps {
     onBack: () => void;
+    initialMode?: QuizMode | null;
 }
 
-export function PercentagesQuiz({ onBack }: PercentagesQuizProps) {
-    const [mode, setMode] = useState<QuizMode | null>(null);
+export function PercentagesQuiz({ onBack, initialMode = null }: PercentagesQuizProps) {
+    const [mode, setMode] = useState<QuizMode | null>(initialMode);
     const [difficulty, setDifficulty] = useState<Difficulty | null>(null);
     const [problems, setProblems] = useState<PercentProblem[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -219,9 +220,9 @@ export function PercentagesQuiz({ onBack }: PercentagesQuizProps) {
         return (
             <div className="flex flex-col gap-8 max-w-4xl mx-auto w-full animate-in fade-in slide-in-from-bottom-4 duration-500">
                 <div className="flex items-center justify-between px-2">
-                    <Button variant="ghost" onClick={() => setMode(null)} size="sm" className="hover:bg-slate-100 text-xs">
+                    <Button variant="ghost" onClick={() => initialMode ? onBack() : setMode(null)} size="sm" className="hover:bg-slate-100 text-xs">
                         <ArrowLeft className="w-3.5 h-3.5 mr-1" />
-                        Típusválasztás
+                        {initialMode ? 'Vissza' : 'Típusválasztás'}
                     </Button>
                     <h2 className="text-2xl font-bold text-slate-800">Válassz nehézségi szintet!</h2>
                     <div className="w-16"></div>
