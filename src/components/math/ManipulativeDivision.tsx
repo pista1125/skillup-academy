@@ -212,8 +212,8 @@ export function ManipulativeDivision({ onBack }: ManipulativeDivisionProps) {
                         <ArrowLeft className="w-5 h-5 text-slate-600" />
                     </Button>
                     <div>
-                        <h2 className="text-xl font-bold text-slate-800">Osztás vizuálisan</h2>
-                        <p className="text-sm text-slate-500 italic">Használj helyiérték-blokkokat az osztás megértéséhez!</p>
+                        <h2 className="text-lg font-bold text-slate-800">Osztás vizuálisan</h2>
+                        <p className="text-[10px] text-slate-500 italic">Használj helyiérték-blokkokat az osztás megértéséhez!</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -359,7 +359,7 @@ export function ManipulativeDivision({ onBack }: ManipulativeDivisionProps) {
                                     top: block.y,
                                     width: block.type === 'thousand' ? 140 : block.type === 'hundred' ? 120 : block.type === 'ten' ? 30 : 25,
                                     height: block.type === 'thousand' ? 140 : block.type === 'hundred' ? 120 : block.type === 'ten' ? 90 : 25,
-                                    fontSize: block.type === 'thousand' ? '28px' : block.type === 'hundred' ? '24px' : '12px'
+                                    fontSize: block.type === 'thousand' ? '20px' : block.type === 'hundred' ? '18px' : '10px'
                                 }}
                                 onMouseDown={(e) => handleMouseDown(e, block.id)}
                                 onDoubleClick={(e) => { e.stopPropagation(); breakDownBlock(block.id); }}

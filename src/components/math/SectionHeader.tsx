@@ -20,10 +20,10 @@ export function SectionHeader({ number, title, color }: SectionHeaderProps) {
 
     return (
         <div className="flex items-center gap-3 mb-6">
-            <div className={cn("w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg shadow-sm border", colorMap[color] || colorMap.blue)}>
+            <div className={cn("w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shadow-sm border", colorMap[color] || colorMap.blue)}>
                 {number}
             </div>
-            <h3 className="text-xl font-bold text-slate-800">{title}</h3>
+            <h3 className="text-lg font-bold text-slate-800">{title}</h3>
         </div>
     );
 }

@@ -23,21 +23,21 @@ export function MathTopicCard({ topic, onClick, isExpanded, children }: MathTopi
 
         <div className="flex items-center gap-5 relative">
           <div className={cn(
-            `w-16 h-16 rounded-2xl bg-gradient-to-br ${topic.color} flex items-center justify-center text-3xl shadow-lg transition-transform duration-300`,
+            `w-12 h-12 rounded-xl bg-gradient-to-br ${topic.color} flex items-center justify-center text-xl shadow-lg transition-transform duration-300`,
             isExpanded && "scale-110"
           )}>
             {typeof topic.icon === 'string' ? (
               topic.icon
             ) : (
-              <topic.icon className="w-8 h-8" />
+              <topic.icon className="w-6 h-6" />
             )}
           </div>
 
           <div className="flex-1">
-            <h3 className="font-display font-bold text-xl text-foreground mb-1 group-hover:text-primary transition-colors">
+            <h3 className="font-display font-bold text-lg text-foreground mb-1 group-hover:text-primary transition-colors">
               {topic.title}
             </h3>
-            <p className="text-sm text-muted-foreground mb-2">
+            <p className="text-[11px] text-muted-foreground mb-2">
               {topic.description}
             </p>
             <div className="flex flex-wrap gap-1.5">

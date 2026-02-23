@@ -981,13 +981,13 @@ export default function MathPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Header */}
-      <div className="bg-gradient-math text-white py-12 px-4 shadow-xl relative overflow-hidden">
+      <div className="bg-gradient-math text-white py-4 px-4 shadow-xl relative overflow-hidden">
         {/* Decorative background element */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 blur-3xl pointer-events-none"></div>
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-400/10 rounded-full -ml-24 -mb-24 blur-2xl pointer-events-none"></div>
 
         <div className="container max-w-5xl mx-auto relative z-10">
-          <div className="flex justify-between items-start mb-6">
+          <div className="flex justify-between items-start mb-2">
             {view !== 'main-select' ? (
               <Button
                 variant="ghost"
@@ -1078,7 +1078,7 @@ export default function MathPage() {
               </Button>
             </div>
           </div>
-          <div className="flex flex-col md:flex-row items-center gap-8 text-center md:text-left">
+          <div className="flex flex-col md:flex-row items-center gap-4 text-center md:text-left">
             <div className="relative group">
               <div className="absolute -inset-1 bg-gradient-to-r from-pink-500 to-yellow-500 rounded-full blur opacity-40 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
               <div className="relative p-1 bg-white/10 rounded-full backdrop-blur-sm">
@@ -1105,11 +1105,11 @@ export default function MathPage() {
                 <Sparkles className="w-3 h-3 text-yellow-300" />
                 <span>Interaktív Tanulási Platform</span>
               </div>
-              <h1 className="font-display text-4xl md:text-5xl font-black mb-2 tracking-tight">
+              <h1 className="font-display text-2xl md:text-3xl font-black mb-2 tracking-tight">
                 Matematika
               </h1>
               <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 text-white/90">
-                <p className="text-lg font-medium">
+                <p className="text-base font-medium">
                   {view === 'main-select' && 'Válassz évfolyamot vagy eszközt!'}
                   {view === 'topic-select' && selectedGrade && `${selectedGrade === 'graduation' ? 'Érettségi' : selectedGrade + '. osztályos'} tananyag`}
                   {view === 'tools-select' && 'Interaktív eszközök és modulok'}
@@ -1135,7 +1135,7 @@ export default function MathPage() {
         {view === 'main-select' && (
           <div className="animate-slide-up space-y-12">
             <section>
-              <h2 className="font-display text-2xl font-bold mb-8 text-center">
+              <h2 className="font-display text-xl font-bold mb-8 text-center">
                 Melyik szinten szeretnél gyakorolni?
               </h2>
               <GradeSelector
@@ -1198,7 +1198,7 @@ export default function MathPage() {
 
         {view === 'tools-select' && (
           <div className="animate-slide-up">
-            <h2 className="font-display text-2xl font-bold mb-8 text-center flex items-center justify-center gap-3">
+            <h2 className="font-display text-xl font-bold mb-8 text-center flex items-center justify-center gap-3">
               <Settings2 className="w-7 h-7" />
               Speciális Eszközök
             </h2>

@@ -41,24 +41,24 @@ export function ActivityPlaceholder({ title, subtitle, type, icon, color, onClic
                 !disabled ? "hover:border-primary hover:-translate-y-0.5 active:translate-y-0 active:border-b-0 cursor-pointer shadow-sm hover:shadow-md" : "cursor-not-allowed"
             )}
         >
-            <div className={cn("h-24 w-full flex items-center justify-center transition-colors relative overflow-hidden", colorClasses[color] || colorClasses.slate)}>
+            <div className={cn("h-20 w-full flex items-center justify-center transition-colors relative overflow-hidden", colorClasses[color] || colorClasses.slate)}>
                 <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
                 <div className="p-2.5 bg-white/80 backdrop-blur-sm rounded-xl shadow-sm group-hover:scale-110 transition-transform">
                     {icon}
                 </div>
                 {type && (
-                    <div className="absolute bottom-1 right-1 px-1.5 py-0.5 bg-white/90 backdrop-blur-sm rounded text-[8px] font-bold shadow-sm">
+                    <div className="absolute bottom-1 right-1 px-1 py-0.5 bg-white/90 backdrop-blur-sm rounded text-[7px] font-bold shadow-sm">
                         {type}
                     </div>
                 )}
             </div>
             <div className="p-2.5 flex-1 flex flex-col justify-between">
                 <div>
-                    <h4 className="font-bold text-[11px] text-slate-800 group-hover:text-primary transition-colors leading-tight line-clamp-2">{title}</h4>
-                    <p className="text-[9px] text-slate-400 mt-0.5 line-clamp-1">{subtitle}</p>
+                    <h4 className="font-bold text-[9px] text-slate-800 group-hover:text-primary transition-colors leading-tight line-clamp-2">{title}</h4>
+                    <p className="text-[8px] text-slate-400 mt-0.5 line-clamp-1">{subtitle}</p>
                 </div>
-                <div className="mt-2 pt-2 border-t border-slate-50 flex items-center justify-between">
-                    <span className={cn("text-[8px] font-bold tracking-wider", type && typeClasses[type] ? typeClasses[type] : "text-slate-400")}>
+                <div className="mt-1 pt-1 border-t border-slate-50 flex items-center justify-between">
+                    <span className={cn("text-[7px] font-bold tracking-wider", type && typeClasses[type] ? typeClasses[type] : "text-slate-400")}>
                         {type === 'Kezdés' ? 'INDÍTÁS »' : (type === 'Teszt' ? 'FELADATOK »' : (type === 'Gyakorlás' ? 'GYAKORLAT »' : 'VÁRÓ...'))}
                     </span>
                 </div>
