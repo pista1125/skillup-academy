@@ -53,6 +53,12 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
     const [dragStartAngle, setDragStartAngle] = useState(0);
     const [initialCompassAngle, setInitialCompassAngle] = useState(0);
 
+    // Protractor State
+    const [showProtractor, setShowProtractor] = useState(false);
+    const [protractorPos, setProtractorPos] = useState({ x: 400, y: 400, angle: 0 });
+    const [isDraggingProtractor, setIsDraggingProtractor] = useState(false);
+    const [isRotatingProtractor, setIsRotatingProtractor] = useState(false);
+
     // Drawing State
     const [isDrawing, setIsDrawing] = useState(false);
     const [drawingPath, setDrawingPath] = useState('');
@@ -158,35 +164,32 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
 
     useEffect(() => {
         const handleGlobalMove = (e: MouseEvent) => {
-            if (!isDraggingCompass && !isDraggingRuler && !isRotatingRuler) return;
+            if (!isDraggingCompass && !isDraggingRuler && !isRotatingRuler && !isDraggingProtractor && !isRotatingProtractor) return;
 
             const pos = getMousePos(e);
 
             if (isDraggingRuler) {
-                const dx = e.movementX;
-                const dy = e.movementY;
+                const dx = pos.x - lastMousePos.x;
+                const dy = pos.y - lastMousePos.y;
                 setRulerPos(prev => ({ ...prev, x: prev.x + dx, y: prev.y + dy }));
-            }
-
-            if (isRotatingRuler) {
-                // Simplified rotation: just look at angle from pivot
-                const pivotX = isRotatingRuler === 'right' ? rulerPos.x : (rulerPos.x + RULER_WIDTH * Math.cos(rulerPos.angle * Math.PI / 180));
-                const pivotY = isRotatingRuler === 'right' ? rulerPos.y : (rulerPos.y + RULER_WIDTH * Math.sin(rulerPos.angle * Math.PI / 180));
-
-                let angle = Math.atan2(pos.y - pivotY, pos.x - pivotX) * 180 / Math.PI;
-                if (isRotatingRuler === 'left') angle += 180;
-
-                // Re-calculate pos to keep pivot fixed
-                if (isRotatingRuler === 'right') {
-                    setRulerPos(prev => ({ ...prev, angle }));
+            } else if (isRotatingRuler) {
+                const dx = pos.x - rulerPos.x;
+                const dy = pos.y - rulerPos.y;
+                const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+                if (isRotatingRuler === 'left') {
+                    setRulerPos(prev => ({ ...prev, angle: angle }));
                 } else {
-                    const newX = pivotX - RULER_WIDTH * Math.cos(angle * Math.PI / 180);
-                    const newY = pivotY - RULER_WIDTH * Math.sin(angle * Math.PI / 180);
-                    setRulerPos({ x: newX, y: newY, angle });
+                    setRulerPos(prev => ({ ...prev, angle: angle - 180 }));
                 }
-            }
-
-            if (isDraggingCompass === 'needle') {
+            } else if (isDraggingProtractor) {
+                const dx = pos.x - lastMousePos.x;
+                const dy = pos.y - lastMousePos.y;
+                setProtractorPos(prev => ({ ...prev, x: prev.x + dx, y: prev.y + dy }));
+            } else if (isRotatingProtractor) {
+                const dx = pos.x - protractorPos.x;
+                const dy = pos.y - protractorPos.y;
+                setProtractorPos(prev => ({ ...prev, angle: Math.atan2(dy, dx) * 180 / Math.PI }));
+            } else if (isDraggingCompass === 'needle') {
                 // Move entire compass
                 const dx = e.movementX;
                 const dy = e.movementY;
@@ -213,12 +216,15 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
 
                 setCompassPos(prev => ({ ...prev, angle: newAngle }));
             }
+            setLastMousePos(pos);
         };
 
         const handleGlobalUp = () => {
             setIsDraggingRuler(false);
             setIsRotatingRuler(null);
             setIsDraggingCompass(null);
+            setIsDraggingProtractor(false);
+            setIsRotatingProtractor(false);
 
             if (isDrawing && isDraggingCompass === 'handle') {
                 setIsDrawing(false);
@@ -333,6 +339,14 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
                     >
                         <Eraser className="w-4 h-4 mr-2" />
                         Radír
+                    </Button>
+                    <Button
+                        variant={showProtractor ? 'default' : 'outline'}
+                        onClick={() => setShowProtractor(!showProtractor)}
+                        title="Szögmérő"
+                    >
+                        <CircleIcon className="w-4 h-4 mr-2" />
+                        Szögmérő
                     </Button>
                     <div className="h-6 w-px bg-slate-200 mx-2" />
                     <Button
@@ -591,6 +605,74 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
                                     </svg>
                                 )}
                             </div>
+                        </div>
+                    )}
+                    {/* Protractor Tool */}
+                    {showProtractor && (
+                        <div
+                            className="absolute z-20 cursor-move"
+                            style={{
+                                left: protractorPos.x - 150,
+                                top: protractorPos.y - 140,
+                                transform: `rotate(${protractorPos.angle}deg)`,
+                                transformOrigin: '150px 140px',
+                                width: 300,
+                                height: 150,
+                            }}
+                            onMouseDown={(e) => { e.stopPropagation(); setIsDraggingProtractor(true); }}
+                        >
+                            <svg viewBox="0 0 300 150" className="w-full h-full drop-shadow-md">
+                                {/* Semi-circle body */}
+                                <path
+                                    d="M 10 140 A 140 140 0 0 1 290 140 L 150 140 Z"
+                                    fill="rgba(191, 219, 254, 0.4)"
+                                    stroke="#3b82f6"
+                                    strokeWidth="2"
+                                />
+                                {/* Center mark */}
+                                <line x1="150" y1="135" x2="150" y2="145" stroke="#3b82f6" strokeWidth="2" />
+                                <line x1="145" y1="140" x2="155" y2="140" stroke="#3b82f6" strokeWidth="2" />
+
+                                {/* Ticks */}
+                                {Array.from({ length: 181 }).map((_, i) => {
+                                    const rad = (i) * Math.PI / 180;
+                                    const r1 = 140;
+                                    const r2 = i % 10 === 0 ? 120 : (i % 5 === 0 ? 130 : 135);
+
+                                    const x1 = 150 + r1 * Math.cos(-rad);
+                                    const y1 = 140 + r1 * Math.sin(-rad);
+                                    const x2 = 150 + r2 * Math.cos(-rad);
+                                    const y2 = 140 + r2 * Math.sin(-rad);
+
+                                    return (
+                                        <g key={i}>
+                                            <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="#1e40af" strokeWidth={i % 10 === 0 ? 1.5 : 1} />
+                                            {i % 10 === 0 && (
+                                                <text
+                                                    x={150 + 105 * Math.cos(-rad)}
+                                                    y={140 + 105 * Math.sin(-rad)}
+                                                    fontSize="8"
+                                                    textAnchor="middle"
+                                                    dominantBaseline="middle"
+                                                    fill="#1e40af"
+                                                    transform={`rotate(${90 - i}, ${150 + 105 * Math.cos(-rad)}, ${140 + 105 * Math.sin(-rad)})`}
+                                                >
+                                                    {i}
+                                                </text>
+                                            )}
+                                        </g>
+                                    );
+                                })}
+                            </svg>
+                            {/* Rotation handles */}
+                            <div
+                                className="absolute left-0 bottom-0 w-8 h-8 cursor-alias"
+                                onMouseDown={(e) => { e.stopPropagation(); setIsRotatingProtractor(true); }}
+                            />
+                            <div
+                                className="absolute right-0 bottom-0 w-8 h-8 cursor-alias"
+                                onMouseDown={(e) => { e.stopPropagation(); setIsRotatingProtractor(true); }}
+                            />
                         </div>
                     )}
                 </div>

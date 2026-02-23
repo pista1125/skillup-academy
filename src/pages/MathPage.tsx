@@ -30,6 +30,7 @@ import { CirclePartsGame } from '@/components/math/CirclePartsGame';
 import { TriangleAnglesQuiz } from '@/components/math/TriangleAnglesQuiz';
 import { DecimalFractionsTool } from '@/components/math/DecimalFractionsTool';
 import { NumberLineTool } from '@/components/math/NumberLineTool';
+import { ManipulativeDivision } from '@/components/math/ManipulativeDivision';
 import { ConstructionTool } from '@/components/math/ConstructionTool';
 import { PercentagesQuiz } from '@/components/math/PercentagesQuiz';
 import { QuizResult, GradeLevel } from '@/types/education';
@@ -56,12 +57,13 @@ import {
   Zap,
   Search,
   X,
-  Pencil
+  Pencil,
+  Grid3X3
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 type ViewState = 'main-select' | 'topic-select' | 'tools-select' | 'games-select' | 'activity' | 'geometry-select';
-type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game' | 'circle-parts' | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz' | 'triangle-angles-quiz' | 'g7-rational-numbers' | 'g7-expression-usage' | 'decimal-fractions' | 'number-line' | 'construction' | 'decimal-quiz';
+type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game' | 'circle-parts' | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz' | 'triangle-angles-quiz' | 'g7-rational-numbers' | 'g7-expression-usage' | 'decimal-fractions' | 'number-line' | 'construction' | 'decimal-quiz' | 'manipulative-division';
 
 export default function MathPage() {
   const navigate = useNavigate();
@@ -151,6 +153,9 @@ export default function MathPage() {
       setView('activity');
     } else if (topicId === 'construction') {
       setActivityType('construction');
+      setView('activity');
+    } else if (topicId === 'manipulative-division') {
+      setActivityType('manipulative-division');
       setView('activity');
     } else {
       setActivityType('quiz');
@@ -1123,7 +1128,10 @@ export default function MathPage() {
       </div>
 
       {/* Content */}
-      <div className="container max-w-4xl mx-auto px-4 py-8">
+      <div className={cn(
+        "container mx-auto px-4 py-8 transition-all duration-500",
+        view === 'activity' ? "max-w-[1400px]" : "max-w-4xl"
+      )}>
         {view === 'main-select' && (
           <div className="animate-slide-up space-y-12">
             <section>
@@ -1264,6 +1272,13 @@ export default function MathPage() {
                 icon={<Pencil className="w-8 h-8" />}
                 color="bg-indigo-100 text-indigo-600"
                 onClick={() => handleToolSelect('construction')}
+              />
+              <ToolCard
+                title="Osztás vizuálisan"
+                desc="Helyiérték-blokkokkal és szétbontással"
+                icon={<Grid3X3 className="w-8 h-8" />}
+                color="bg-blue-100 text-blue-600"
+                onClick={() => handleToolSelect('manipulative-division')}
               />
             </div>
           </div>
@@ -1406,6 +1421,10 @@ export default function MathPage() {
 
             {activityType === 'construction' && (
               <ConstructionTool onBack={handleBack} />
+            )}
+
+            {activityType === 'manipulative-division' && (
+              <ManipulativeDivision onBack={handleBack} />
             )}
 
             {activityType === 'materials' && (
