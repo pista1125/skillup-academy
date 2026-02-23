@@ -10,7 +10,9 @@ import {
     Ruler as RulerIcon,
     Circle as CircleIcon,
     Grid3X3,
-    Move
+    Move,
+    Eraser,
+    Undo2
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -20,7 +22,7 @@ interface ConstructionToolProps {
 
 interface DrawnElement {
     id: string;
-    type: 'line' | 'circle' | 'arc';
+    type: 'line' | 'circle' | 'arc' | 'point';
     path: string; // SVG path command
     color: string;
     width: number;
@@ -36,7 +38,7 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
     // --- State ---
     const [background, setBackground] = useState<BackgroundType>('blank');
     const [elements, setElements] = useState<DrawnElement[]>([]);
-    const [activeTool, setActiveTool] = useState<'cursor' | 'ruler' | 'compass' | 'pencil'>('cursor');
+    const [activeTool, setActiveTool] = useState<'cursor' | 'pencil' | 'ruler-line' | 'eraser' | 'point'>('cursor');
 
     // Ruler State
     const [showRuler, setShowRuler] = useState(true);
@@ -48,11 +50,15 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
     const [showCompass, setShowCompass] = useState(true);
     const [compassPos, setCompassPos] = useState({ x: 400, y: 300, angle: 0, radius: 100 });
     const [isDraggingCompass, setIsDraggingCompass] = useState<'needle' | 'pencil' | 'handle' | null>(null);
+    const [dragStartAngle, setDragStartAngle] = useState(0);
+    const [initialCompassAngle, setInitialCompassAngle] = useState(0);
 
     // Drawing State
     const [isDrawing, setIsDrawing] = useState(false);
     const [drawingPath, setDrawingPath] = useState('');
-    const [startAngle, setStartAngle] = useState(0);
+    const [startPoint, setStartPoint] = useState({ x: 0, y: 0 }); // For line drawing
+    const [startAngle, setStartAngle] = useState(0); // For compass
+    const [freehandPoints, setFreehandPoints] = useState<{ x: number, y: number }[]>([]);
 
     const containerRef = useRef<HTMLDivElement>(null);
     const [lastMousePos, setLastMousePos] = useState({ x: 0, y: 0 });
@@ -71,24 +77,83 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
         };
     };
 
+    const handleUndo = () => {
+        setElements(prev => prev.slice(0, -1));
+    };
+
+    const handleRemoveElement = (id: string) => {
+        if (activeTool === 'eraser') {
+            setElements(prev => prev.filter(el => el.id !== id));
+        }
+    };
+
     // --- Event Handlers ---
 
     const handleMouseDown = (e: React.MouseEvent) => {
-        // Canvas click - irrelevant for tools usually unless pencil
+        const pos = getMousePos(e);
+
         if (activeTool === 'pencil') {
-            // Start freehand drawing
+            setIsDrawing(true);
+            setFreehandPoints([pos]);
+            setDrawingPath(`M ${pos.x} ${pos.y}`);
+        } else if (activeTool === 'ruler-line' && showRuler) {
+            setIsDrawing(true);
+            // Snap to ruler edge if possible or just start line
+            setStartPoint(pos);
+            setDrawingPath(`M ${pos.x} ${pos.y} L ${pos.x} ${pos.y}`);
+        } else if (activeTool === 'point') {
+            setElements(prev => [...prev, {
+                id: Date.now().toString(),
+                type: 'point',
+                path: '',
+                cx: pos.x,
+                cy: pos.y,
+                color: 'black',
+                width: 2
+            }]);
         }
     };
 
     const handleMouseMove = (e: React.MouseEvent) => {
-        // This handler is for canvas-level mouse moves when no tool is actively being dragged/rotated
-        // The global listener handles tool interactions.
-        // This can be used for freehand drawing or cursor updates.
+        if (!isDrawing) return;
+        const pos = getMousePos(e);
+
+        if (activeTool === 'pencil') {
+            const lastPoint = freehandPoints[freehandPoints.length - 1];
+            // Only add point if moved enough
+            const dist = Math.sqrt(Math.pow(pos.x - lastPoint.x, 2) + Math.pow(pos.y - lastPoint.y, 2));
+            if (dist > 3) {
+                setFreehandPoints(prev => [...prev, pos]);
+                setDrawingPath(prev => `${prev} L ${pos.x} ${pos.y}`);
+            }
+        } else if (activeTool === 'ruler-line' && showRuler) {
+            // Constrain to ruler angle
+            const angleRad = rulerPos.angle * Math.PI / 180;
+            const dx = pos.x - startPoint.x;
+            const dy = pos.y - startPoint.y;
+
+            // Project (dx, dy) onto the ruler's vector (cos, sin)
+            const dotProduct = dx * Math.cos(angleRad) + dy * Math.sin(angleRad);
+            const constrainedX = startPoint.x + dotProduct * Math.cos(angleRad);
+            const constrainedY = startPoint.y + dotProduct * Math.sin(angleRad);
+
+            setDrawingPath(`M ${startPoint.x} ${startPoint.y} L ${constrainedX} ${constrainedY}`);
+        }
     };
 
     const handleMouseUp = () => {
-        // This handler is for canvas-level mouse up when no tool is actively being dragged/rotated
-        // The global listener handles tool interactions.
+        if (isDrawing && (activeTool === 'pencil' || activeTool === 'ruler-line')) {
+            setElements(prev => [...prev, {
+                id: Date.now().toString(),
+                type: 'line',
+                path: drawingPath,
+                color: 'black',
+                width: 2
+            }]);
+            setIsDrawing(false);
+            setDrawingPath('');
+            setFreehandPoints([]);
+        }
     };
 
     useEffect(() => {
@@ -143,18 +208,10 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
                 // Rotate around needle without changing radius
                 const dx = pos.x - compassPos.x;
                 const dy = pos.y - compassPos.y;
-                const newAngle = Math.atan2(dy, dx) * 180 / Math.PI;
+                const currentRelAngle = Math.atan2(dy, dx) * 180 / Math.PI;
+                const newAngle = initialCompassAngle + (currentRelAngle - dragStartAngle);
 
-                setCompassPos(prev => {
-                    // If we are drawing, we need to add arc segment
-                    // Determine direction? Assume shortest path or tracking?
-                    // Just draw arc from previous angle to new angle
-                    // For simplicity in SVG, we might accumulate full circles or just draw final shape on mouse up?
-                    // Real-time drawing: calculate arc path
-                    // Start Point: computed from prev angle? No, standard arc.
-                    // We need to track the "start" of the draw stroke.
-                    return { ...prev, angle: newAngle };
-                });
+                setCompassPos(prev => ({ ...prev, angle: newAngle }));
             }
         };
 
@@ -162,37 +219,46 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
             setIsDraggingRuler(false);
             setIsRotatingRuler(null);
             setIsDraggingCompass(null);
-            if (isDrawing) {
-                // Commit the arc to elements
+
+            if (isDrawing && isDraggingCompass === 'handle') {
                 setIsDrawing(false);
-                // Calculate start and end points
-                const startRad = startAngle * Math.PI / 180;
-                const endRad = compassPos.angle * Math.PI / 180;
+                const angleDiff = compassPos.angle - startAngle;
 
-                // SVG Arc Command: M startX startY A radius radius 0 large-arc-flag sweep-flag endX endY
-                const sx = compassPos.x + compassPos.radius * Math.cos(startRad);
-                const sy = compassPos.y + compassPos.radius * Math.sin(startRad);
-                const ex = compassPos.x + compassPos.radius * Math.cos(endRad);
-                const ey = compassPos.y + compassPos.radius * Math.sin(endRad);
+                // If they rotated almost 360 degrees, make it a circle
+                if (Math.abs(angleDiff) >= 355) {
+                    setElements(prev => [...prev, {
+                        id: Date.now().toString(),
+                        type: 'circle',
+                        path: '',
+                        cx: compassPos.x,
+                        cy: compassPos.y,
+                        r: compassPos.radius,
+                        color: 'black',
+                        width: 2
+                    }]);
+                } else {
+                    // Create an SVG arc
+                    const startRad = startAngle * Math.PI / 180;
+                    const endRad = compassPos.angle * Math.PI / 180;
 
-                // Determine flags
-                const diff = endRad - startRad; // check direction?
-                // Simplification: Always sweep clockwise or counter? D3 logic?
-                // Let's assume standard intuitive draw: shortest path?
-                // Actually user drags it. If we just draw a circle it's easier.
-                // For now, let's just commit a full circle if they rotated enough?
-                // Better: just add a Circle element for simplicity v1.
+                    const x1 = compassPos.x + compassPos.radius * Math.cos(startRad);
+                    const y1 = compassPos.y + compassPos.radius * Math.sin(startRad);
+                    const x2 = compassPos.x + compassPos.radius * Math.cos(endRad);
+                    const y2 = compassPos.y + compassPos.radius * Math.sin(endRad);
 
-                setElements(prev => [...prev, {
-                    id: Date.now().toString(),
-                    type: 'circle',
-                    path: '', // handled differently for circles
-                    cx: compassPos.x,
-                    cy: compassPos.y,
-                    r: compassPos.radius,
-                    color: 'black',
-                    width: 2
-                }]);
+                    const largeArc = Math.abs(angleDiff) > 180 ? 1 : 0;
+                    const sweep = angleDiff > 0 ? 1 : 0;
+
+                    const d = `M ${x1} ${y1} A ${compassPos.radius} ${compassPos.radius} 0 ${largeArc} ${sweep} ${x2} ${y2}`;
+
+                    setElements(prev => [...prev, {
+                        id: Date.now().toString(),
+                        type: 'arc',
+                        path: d,
+                        color: 'black',
+                        width: 2
+                    }]);
+                }
             }
         };
 
@@ -238,9 +304,45 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
                     <Button
                         variant={activeTool === 'pencil' ? 'default' : 'outline'}
                         onClick={() => setActiveTool(activeTool === 'pencil' ? 'cursor' : 'pencil')}
+                        title="Szabadkézi rajz"
                     >
                         <Pencil className="w-4 h-4 mr-2" />
-                        Rajzolás
+                        Ceruza
+                    </Button>
+                    <Button
+                        variant={activeTool === 'point' ? 'default' : 'outline'}
+                        onClick={() => setActiveTool(activeTool === 'point' ? 'cursor' : 'point')}
+                        title="Pont lehelyezése"
+                    >
+                        <div className="w-4 h-4 rounded-full bg-current" />
+                        <span className="ml-2">Pont</span>
+                    </Button>
+                    <Button
+                        variant={activeTool === 'ruler-line' ? 'default' : 'outline'}
+                        onClick={() => setActiveTool(activeTool === 'ruler-line' ? 'cursor' : 'ruler-line')}
+                        title="Vonalzó menti egyenes"
+                    >
+                        <Move className="w-4 h-4 mr-2" />
+                        Egyenes
+                    </Button>
+                    <Button
+                        variant={activeTool === 'eraser' ? 'default' : 'outline'}
+                        onClick={() => setActiveTool(activeTool === 'eraser' ? 'cursor' : 'eraser')}
+                        title="Radír"
+                        className={activeTool === 'eraser' ? "bg-red-500 hover:bg-red-600" : ""}
+                    >
+                        <Eraser className="w-4 h-4 mr-2" />
+                        Radír
+                    </Button>
+                    <div className="h-6 w-px bg-slate-200 mx-2" />
+                    <Button
+                        variant="outline"
+                        onClick={handleUndo}
+                        disabled={elements.length === 0}
+                        title="Visszavonás"
+                    >
+                        <Undo2 className="w-4 h-4 mr-2" />
+                        Vissza
                     </Button>
                     <Button variant="outline" onClick={() => setElements([])} className="text-red-500 hover:bg-red-50">
                         <Trash2 className="w-4 h-4 mr-2" />
@@ -283,16 +385,47 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
                         backgroundSize: '20px 20px'
                     }}
                     onMouseDown={handleMouseDown}
+                    onMouseMove={handleMouseMove}
+                    onMouseUp={handleMouseUp}
+                    onMouseLeave={handleMouseUp}
                 >
                     {/* Drawing Layer (SVG) */}
                     <svg className="absolute inset-0 w-full h-full pointer-events-none">
-                        {elements.map(el => (
-                            el.type === 'circle' ? (
-                                <circle key={el.id} cx={el.cx} cy={el.cy} r={el.r} stroke={el.color} strokeWidth={el.width} fill="none" />
-                            ) : (
-                                <path key={el.id} d={el.path} stroke={el.color} strokeWidth={el.width} fill="none" />
-                            )
-                        ))}
+                        {elements.map(el => {
+                            const commonProps = {
+                                key: el.id,
+                                onClick: () => handleRemoveElement(el.id),
+                                className: cn(
+                                    "pointer-events-auto transition-opacity",
+                                    activeTool === 'eraser' ? "cursor-alias hover:opacity-50" : ""
+                                )
+                            };
+
+                            return (
+                                <g key={el.id}>
+                                    {/* Invisible hit area for easier erasing */}
+                                    {el.type === 'circle' ? (
+                                        <circle cx={el.cx} cy={el.cy} r={el.r} stroke="transparent" strokeWidth="15" fill="none" {...commonProps} />
+                                    ) : el.type === 'point' ? (
+                                        <circle cx={el.cx} cy={el.cy} r="15" fill="transparent" {...commonProps} />
+                                    ) : (
+                                        <path d={el.path} stroke="transparent" strokeWidth="15" fill="none" {...commonProps} />
+                                    )}
+
+                                    {/* Visual element */}
+                                    {el.type === 'circle' ? (
+                                        <circle cx={el.cx} cy={el.cy} r={el.r} stroke={el.color} strokeWidth={el.width} fill="none" className="pointer-events-none" />
+                                    ) : el.type === 'point' ? (
+                                        <circle cx={el.cx} cy={el.cy} r="6" fill={el.color} className="pointer-events-none" />
+                                    ) : (
+                                        <path d={el.path} stroke={el.color} strokeWidth={el.width} fill="none" className="pointer-events-none" />
+                                    )}
+                                </g>
+                            );
+                        })}
+                        {isDrawing && drawingPath && (
+                            <path d={drawingPath} stroke="#3b82f6" strokeWidth="2" strokeDasharray="4" fill="none" />
+                        )}
                     </svg>
 
                     {/* Ruler Tool */}
@@ -337,17 +470,9 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
                     {showCompass && (
                         <div
                             className="absolute z-30 pointer-events-none"
-                            style={{ left: 0, top: 0 }} // Positioning handled by children transforms to avoid complex nesting
+                            style={{ left: 0, top: 0, width: '100%', height: '100%' }}
                         >
-                            {/* Needle Leg (Fixed at pos) */}
-                            <div
-                                className="absolute w-4 h-4 bg-slate-800 rounded-full cursor-move pointer-events-auto hover:scale-125 transition-transform"
-                                style={{ left: compassPos.x - 8, top: compassPos.y - 8 }}
-                                onMouseDown={(e) => { e.stopPropagation(); setIsDraggingCompass('needle'); }}
-                                title="Tű (Mozgatás)"
-                            />
-
-                            {/* The Tool Graphic (Rotated around needle) */}
+                            {/* The Tool Graphic */}
                             <div
                                 className="absolute pointer-events-none origin-top-left"
                                 style={{
@@ -356,47 +481,115 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
                                     transform: `rotate(${compassPos.angle}deg)`
                                 }}
                             >
-                                {/* Structure */}
-                                <div className="relative">
-                                    {/* Needle Leg Graphic */}
-                                    <div className="absolute w-2 h-[120px] bg-slate-400 origin-top -rotate-[15deg] border border-slate-500" style={{ left: 0, top: 0, height: Math.max(100, compassPos.radius + 20) }}></div>
+                                {/* Compass Legs SVG */}
+                                <svg
+                                    className="absolute overflow-visible"
+                                    width="1" height="1"
+                                    style={{ left: 0, top: 0 }}
+                                >
+                                    <defs>
+                                        <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                                            <feGaussianBlur in="SourceAlpha" stdDeviation="2" />
+                                            <feOffset dx="1" dy="1" result="offsetblur" />
+                                            <feComponentTransfer>
+                                                <feFuncA type="linear" slope="0.3" />
+                                            </feComponentTransfer>
+                                            <feMerge>
+                                                <feMergeNode />
+                                                <feMergeNode in="SourceGraphic" />
+                                            </feMerge>
+                                        </filter>
+                                    </defs>
 
-                                    {/* Pencil Leg Graphic (Visual approximation) */}
-                                    <div
-                                        className="absolute w-2 bg-slate-400 origin-top rotate-[15deg] border border-slate-500"
-                                        style={{
-                                            left: 0, top: 0,
-                                            height: Math.max(100, compassPos.radius + 20),
-                                            // We need to visually match the tip to the radius
-                                            // This is tricky with simple CSS rotation.
-                                            // Simplified: Just draw a line to the pencil tip?
-                                        }}
-                                    ></div>
-
-                                    {/* Handle (Top) */}
-                                    <div
-                                        className="absolute -top-6 -left-3 w-6 h-8 bg-slate-600 rounded-t-lg cursor-grab active:cursor-grabbing pointer-events-auto"
-                                        onMouseDown={(e) => { e.stopPropagation(); setIsDraggingCompass('handle'); setIsDrawing(true); setStartAngle(compassPos.angle); }}
-                                        title="Fogantyú (Rajzolás)"
+                                    {/* Needle Leg */}
+                                    <path
+                                        d={`M 0 0 L -10 -150 L 0 -170`}
+                                        stroke="#94a3b8"
+                                        strokeWidth="8"
+                                        strokeLinecap="round"
+                                        fill="none"
+                                        filter="url(#shadow)"
                                     />
-                                </div>
+                                    {/* Needle Tip */}
+                                    <circle cx="0" cy="0" r="2" fill="#475569" className="pointer-events-auto cursor-move"
+                                        onMouseDown={(e) => { e.stopPropagation(); setIsDraggingCompass('needle'); }}
+                                    />
 
-                                {/* Pencil Tip (The actual draw point) */}
-                                <div
-                                    className="absolute w-4 h-4 bg-blue-500 rounded-full cursor-nwse-resize pointer-events-auto hover:bg-blue-400 shadow-sm border-2 border-white"
-                                    style={{ left: compassPos.radius - 2, top: -2 }} // Relative to rotated container? No, rotate container is X axis aligned?
-                                    // Wait, if we rotate the container by `compassPos.angle`, then (radius, 0) is the tip? Yes.
-                                    onMouseDown={(e) => { e.stopPropagation(); setIsDraggingCompass('pencil'); }}
-                                    title="Ceruza (Sugár)"
-                                />
+                                    {/* Pencil Leg */}
+                                    <path
+                                        d={`M ${compassPos.radius} 0 L ${compassPos.radius / 2 + 5} -150 L 0 -170`}
+                                        stroke="#94a3b8"
+                                        strokeWidth="8"
+                                        strokeLinecap="round"
+                                        fill="none"
+                                        filter="url(#shadow)"
+                                    />
 
-                                {/* Leg connection visual (SVG line) */}
-                                <svg className="absolute top-0 left-0 overflow-visible" width="300" height="300" style={{ pointerEvents: 'none' }}>
-                                    <line x1="0" y1="0" x2={compassPos.radius} y2="0" stroke="transparent" />
-                                    {/* Actual legs visual */}
-                                    <path d={`M 0 0 L 0 -20`} stroke="#64748b" strokeWidth="4" />
-                                    <path d={`M 0 -20 L ${compassPos.radius} 0`} stroke="#94a3b8" strokeWidth="6" strokeLinecap="round" opacity="0.5" />
+                                    {/* Handle / Pivot Joint */}
+                                    <g
+                                        className="pointer-events-auto cursor-grab active:cursor-grabbing"
+                                        onMouseDown={(e) => {
+                                            e.stopPropagation();
+                                            const pos = getMousePos(e as any);
+                                            const dx = pos.x - compassPos.x;
+                                            const dy = pos.y - compassPos.y;
+                                            setDragStartAngle(Math.atan2(dy, dx) * 180 / Math.PI);
+                                            setInitialCompassAngle(compassPos.angle);
+                                            setIsDraggingCompass('handle');
+                                            setIsDrawing(true);
+                                            setStartAngle(compassPos.angle);
+                                        }}
+                                    >
+                                        <circle cx="0" cy="-170" r="12" fill="#475569" />
+                                        <rect x="-4" y="-200" width="8" height="30" rx="4" fill="#64748b" />
+                                    </g>
+
+                                    {/* Pencil Tip / Lead */}
+                                    <g
+                                        className="pointer-events-auto cursor-nwse-resize"
+                                        onMouseDown={(e) => {
+                                            e.stopPropagation();
+                                            setIsDraggingCompass('pencil');
+                                        }}
+                                    >
+                                        <path d={`M ${compassPos.radius - 4} 0 L ${compassPos.radius + 4} 0 L ${compassPos.radius} 10 Z`} fill="#3b82f6" />
+                                        <circle cx={compassPos.radius} cy="0" r="6" fill="transparent" />
+                                    </g>
                                 </svg>
+
+                                {/* Current Arc visual while drawing */}
+                                {isDrawing && (
+                                    <svg className="absolute inset-0 overflow-visible pointer-events-none">
+                                        <path
+                                            d={(() => {
+                                                const startRad = startAngle * Math.PI / 180;
+                                                const endRad = compassPos.angle * Math.PI / 180;
+                                                const sx = compassPos.radius * Math.cos((startRad - compassPos.angle * Math.PI / 180));
+                                                const sy = compassPos.radius * Math.sin((startRad - compassPos.angle * Math.PI / 180));
+                                                const ex = compassPos.radius;
+                                                const ey = 0;
+
+                                                // This is complex because we are already in a rotated container.
+                                                // Simpler: Use absolute coordinates for the preview path or transform back.
+                                                // Let's just draw the arc relative to the needle in the rotated container.
+                                                // Actually, if we rotate the whole <div>, the SVG (0,0) is the needle.
+                                                // So an arc from startAngle to currentAngle.
+                                                const angleDiff = (compassPos.angle - startAngle);
+                                                const largeArc = Math.abs(angleDiff) > 180 ? 1 : 0;
+                                                const sweep = angleDiff > 0 ? 1 : 0;
+
+                                                const x1 = compassPos.radius * Math.cos((startAngle - compassPos.angle) * Math.PI / 180);
+                                                const y1 = compassPos.radius * Math.sin((startAngle - compassPos.angle) * Math.PI / 180);
+
+                                                return `M ${x1} ${y1} A ${compassPos.radius} ${compassPos.radius} 0 ${largeArc} ${sweep} ${compassPos.radius} 0`;
+                                            })()}
+                                            stroke="#3b82f6"
+                                            strokeWidth="2"
+                                            fill="none"
+                                            strokeDasharray="4 4"
+                                        />
+                                    </svg>
+                                )}
                             </div>
                         </div>
                     )}
