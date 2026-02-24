@@ -35,6 +35,7 @@ import { NumberLineTool } from '@/components/math/NumberLineTool';
 import { ManipulativeDivision } from '@/components/math/ManipulativeDivision';
 import { ConstructionTool } from '@/components/math/ConstructionTool';
 import { PercentagesQuiz } from '@/components/math/PercentagesQuiz';
+import { EquationSolverTool } from '@/components/math/EquationSolverTool';
 import DecimalShifterTool from '@/components/math/DecimalShifterTool';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
@@ -61,12 +62,13 @@ import {
   Search,
   X,
   Pencil,
-  Grid3X3
+  Grid3X3,
+  Columns
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 type ViewState = 'main-select' | 'topic-select' | 'tools-select' | 'games-select' | 'activity' | 'geometry-select';
-type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game' | 'circle-parts' | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz' | 'triangle-angles-quiz' | 'g7-rational-numbers' | 'g7-expression-usage' | 'decimal-fractions' | 'number-line' | 'construction' | 'decimal-quiz' | 'decimal-multiplication-quiz' | 'decimal-division-quiz' | 'decimal-shifter' | 'manipulative-division';
+type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game' | 'circle-parts' | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz' | 'triangle-angles-quiz' | 'g7-rational-numbers' | 'g7-expression-usage' | 'decimal-fractions' | 'number-line' | 'construction' | 'decimal-quiz' | 'decimal-multiplication-quiz' | 'decimal-division-quiz' | 'decimal-shifter' | 'manipulative-division' | 'equation-solver';
 
 export default function MathPage() {
   const navigate = useNavigate();
@@ -162,6 +164,9 @@ export default function MathPage() {
       setView('activity');
     } else if (topicId === 'decimal-shifter') {
       setActivityType('decimal-shifter');
+      setView('activity');
+    } else if (topicId === 'equation-solver') {
+      setActivityType('equation-solver');
       setView('activity');
     } else {
       setActivityType('quiz');
@@ -1252,11 +1257,11 @@ export default function MathPage() {
                 onClick={() => handleToolSelect('percentages')}
               />
               <ToolCard
-                title="Egyenletmegoldás"
-                desc="Lépésről lépésre segítő megoldó"
-                icon={<Calculator className="w-8 h-8" />}
-                color="bg-blue-100 text-blue-600"
-                onClick={() => handleToolSelect('algebra')}
+                title="Egyenletmegoldó (Téglalapos)"
+                desc="Lépésről lépésre, téglalapos lerakós módszer"
+                icon={<Columns className="w-8 h-8" />}
+                color="bg-purple-100 text-purple-600"
+                onClick={() => handleToolSelect('equation-solver')}
               />
               <ToolCard
                 title="Tizedestörtek"
@@ -1450,6 +1455,10 @@ export default function MathPage() {
 
             {activityType === 'manipulative-division' && (
               <ManipulativeDivision onBack={handleBack} />
+            )}
+
+            {activityType === 'equation-solver' && (
+              <EquationSolverTool onBack={handleBack} />
             )}
 
             {activityType === 'materials' && (

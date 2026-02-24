@@ -260,6 +260,14 @@ export const mathTopics: MathTopic[] = [
     color: 'from-blue-500 to-indigo-600',
     grades: [6, 7, 8],
   },
+  {
+    id: 'equation-solver',
+    title: 'Egyenletmegoldó (Téglalapos)',
+    description: 'Egyenletek megoldása téglalapos (bar model) módszerrel',
+    icon: '📊',
+    color: 'from-blue-500 to-indigo-600',
+    grades: [6, 7, 8],
+  },
 ];
 
 export const gradeDescriptions: Record<number, string> = {
