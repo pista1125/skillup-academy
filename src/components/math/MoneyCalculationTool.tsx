@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Trash2, Combine, Split, RotateCcw, MousePointer2, Plus, Minus, Coins, ChevronRight, Calculator, Eye, EyeOff, Eraser } from 'lucide-react';
+import { ArrowLeft, Trash2, Combine, Split, RotateCcw, MousePointer2, Plus, Minus, Coins, ChevronRight, Calculator, Eye, EyeOff, Eraser, Undo2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import {
@@ -50,10 +50,24 @@ export function MoneyCalculationTool({ onBack }: MoneyCalculationToolProps) {
     const [mathProblem, setMathProblem] = useState('');
     const [showResult, setShowResult] = useState(false);
     const [isSubtractionMode, setIsSubtractionMode] = useState(false);
+    const [history, setHistory] = useState<Coin[][]>([]);
+
+    const saveState = () => {
+        setHistory(prev => [...prev, [...coins]].slice(-50)); // Keep last 50 steps
+    };
+
+    const handleUndo = () => {
+        if (history.length === 0) return;
+        const previousState = history[history.length - 1];
+        setCoins(previousState);
+        setHistory(prev => prev.slice(0, -1));
+        setSelectedIds(new Set());
+    };
 
     // Add a new coin
     const addCoin = (value: CoinValue, x?: number, y?: number) => {
         if (!workspaceRef.current) return;
+        saveState();
 
         const width = workspaceRef.current.clientWidth;
         const height = workspaceRef.current.clientHeight;
@@ -118,6 +132,7 @@ export function MoneyCalculationTool({ onBack }: MoneyCalculationToolProps) {
 
     const handleMouseUp = () => {
         if (isDragging && draggedCoinId) {
+            saveState();
             setCoins(prev => prev.map(c => {
                 if (c.id === draggedCoinId || (selectedIds.has(draggedCoinId) && selectedIds.has(c.id))) {
                     return { ...c, x: c.x + draggedOffset.x, y: c.y + draggedOffset.y };
@@ -132,17 +147,22 @@ export function MoneyCalculationTool({ onBack }: MoneyCalculationToolProps) {
     };
 
     const deleteSelected = () => {
+        if (selectedIds.size === 0) return;
+        saveState();
         setCoins(prev => prev.filter(c => !selectedIds.has(c.id)));
         setSelectedIds(new Set());
     };
 
     const resetAll = () => {
+        if (coins.length === 0) return;
+        saveState();
         setCoins([]);
         setSelectedIds(new Set());
     };
 
     const clearSubtractionZone = () => {
         if (!workspaceRef.current) return;
+        saveState();
         const width = workspaceRef.current.clientWidth;
         const zoneWidth = 250;
         const zoneLeft = width - zoneWidth;
@@ -176,6 +196,7 @@ export function MoneyCalculationTool({ onBack }: MoneyCalculationToolProps) {
 
     const handleCombine = () => {
         if (!canCombine()) return;
+        saveState();
 
         const selectedCoins = coins.filter(c => selectedIds.has(c.id));
         const totalValue = selectedCoins.reduce((sum, c) => sum + c.value, 0) as CoinValue;
@@ -245,6 +266,7 @@ export function MoneyCalculationTool({ onBack }: MoneyCalculationToolProps) {
 
     const executeBreak = (option: { value: CoinValue; count: number }[]) => {
         if (!coinToBreak) return;
+        saveState();
 
         setCoins(prev => {
             const remaining = prev.filter(c => c.id !== coinToBreak.id);
@@ -342,6 +364,16 @@ export function MoneyCalculationTool({ onBack }: MoneyCalculationToolProps) {
                     >
                         <Trash2 className="w-4 h-4 mr-2" />
                         Törlés ({selectedIds.size})
+                    </Button>
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={handleUndo}
+                        disabled={history.length === 0}
+                        className="text-slate-500 hover:text-indigo-600 hover:bg-indigo-50"
+                    >
+                        <Undo2 className="w-4 h-4 mr-2" />
+                        Visszavonás
                     </Button>
                     <Button
                         variant="ghost"
