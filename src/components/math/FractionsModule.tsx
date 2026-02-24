@@ -19,7 +19,9 @@ import {
     MoveHorizontal,
     Sparkles,
     Shapes,
-    Binary
+    Binary,
+    ChevronRight,
+    ChevronLeft
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -245,12 +247,20 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false }: F
                         <SectionHeader number={13} title="Tizedes törtek szorzása természetes számmal" color="violet" />
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                             <ActivityPlaceholder
-                                title="Többszörösek"
-                                subtitle="Tizedes szorzása"
-                                type="Hamarosan"
+                                title="Tizedestörtek szorzása"
+                                subtitle="10-zel, 100-zal, 1000-rel"
+                                type="Teszt"
                                 icon={<Calculator className="w-6 h-6" />}
                                 color="violet"
-                                disabled
+                                onClick={() => onStartActivity?.('decimal-multiplication-quiz')}
+                            />
+                            <ActivityPlaceholder
+                                title="Vessző-eltoló"
+                                subtitle="Szorzás szemléltetése"
+                                type="Eszköz"
+                                icon={<ChevronRight className="w-6 h-6" />}
+                                color="violet"
+                                onClick={() => onStartActivity?.('decimal-shifter')}
                             />
                         </div>
                     </section>
@@ -259,12 +269,20 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false }: F
                         <SectionHeader number={14} title="Tizedes törtek osztása pozitív egész számmal" color="rose" />
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                             <ActivityPlaceholder
-                                title="Osztás"
-                                subtitle="Tizedes osztása"
-                                type="Hamarosan"
+                                title="Tizedestörtek osztása"
+                                subtitle="10-zel, 100-zal, 1000-rel"
+                                type="Teszt"
                                 icon={<Calculator className="w-6 h-6" />}
                                 color="rose"
-                                disabled
+                                onClick={() => onStartActivity?.('decimal-division-quiz')}
+                            />
+                            <ActivityPlaceholder
+                                title="Vessző-eltoló"
+                                subtitle="Osztás szemléltetése"
+                                type="Eszköz"
+                                icon={<ChevronLeft className="w-6 h-6" />}
+                                color="rose"
+                                onClick={() => onStartActivity?.('decimal-shifter')}
                             />
                         </div>
                     </section>

@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { SectionHeader } from '@/components/math/SectionHeader';
 import { ActivityPlaceholder } from '@/components/math/ActivityPlaceholder';
 import DecimalFractionsQuiz from '@/components/math/DecimalFractionsQuiz';
+import DecimalMultiplicationQuiz from '@/components/math/DecimalMultiplicationQuiz';
+import DecimalDivisionQuiz from '@/components/math/DecimalDivisionQuiz';
 import { mathTopics } from '@/data/mathTopics';
 import { MathTopicCard } from '@/components/math/MathTopicCard';
 import { MathQuiz } from '@/components/math/MathQuiz';
@@ -33,6 +35,7 @@ import { NumberLineTool } from '@/components/math/NumberLineTool';
 import { ManipulativeDivision } from '@/components/math/ManipulativeDivision';
 import { ConstructionTool } from '@/components/math/ConstructionTool';
 import { PercentagesQuiz } from '@/components/math/PercentagesQuiz';
+import DecimalShifterTool from '@/components/math/DecimalShifterTool';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -63,7 +66,7 @@ import {
 import { cn } from '@/lib/utils';
 
 type ViewState = 'main-select' | 'topic-select' | 'tools-select' | 'games-select' | 'activity' | 'geometry-select';
-type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game' | 'circle-parts' | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz' | 'triangle-angles-quiz' | 'g7-rational-numbers' | 'g7-expression-usage' | 'decimal-fractions' | 'number-line' | 'construction' | 'decimal-quiz' | 'manipulative-division';
+type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game' | 'circle-parts' | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz' | 'triangle-angles-quiz' | 'g7-rational-numbers' | 'g7-expression-usage' | 'decimal-fractions' | 'number-line' | 'construction' | 'decimal-quiz' | 'decimal-multiplication-quiz' | 'decimal-division-quiz' | 'decimal-shifter' | 'manipulative-division';
 
 export default function MathPage() {
   const navigate = useNavigate();
@@ -156,6 +159,9 @@ export default function MathPage() {
       setView('activity');
     } else if (topicId === 'manipulative-division') {
       setActivityType('manipulative-division');
+      setView('activity');
+    } else if (topicId === 'decimal-shifter') {
+      setActivityType('decimal-shifter');
       setView('activity');
     } else {
       setActivityType('quiz');
@@ -1280,6 +1286,13 @@ export default function MathPage() {
                 color="bg-blue-100 text-blue-600"
                 onClick={() => handleToolSelect('manipulative-division')}
               />
+              <ToolCard
+                title="Tizedesvessző-eltoló"
+                desc="Szorzás és osztás 10, 100, 1000-rel"
+                icon={<span className="text-2xl">↔️</span>}
+                color="bg-primary/10 text-primary"
+                onClick={() => handleToolSelect('decimal-shifter')}
+              />
             </div>
           </div>
         )}
@@ -1413,6 +1426,18 @@ export default function MathPage() {
 
             {activityType === 'decimal-quiz' && (
               <DecimalFractionsQuiz onBack={handleBack} />
+            )}
+
+            {activityType === 'decimal-multiplication-quiz' && (
+              <DecimalMultiplicationQuiz onBack={handleBack} />
+            )}
+
+            {activityType === 'decimal-division-quiz' && (
+              <DecimalDivisionQuiz onBack={handleBack} />
+            )}
+
+            {activityType === 'decimal-shifter' && (
+              <DecimalShifterTool onBack={handleBack} />
             )}
 
             {activityType === 'number-line' && (
