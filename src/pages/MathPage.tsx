@@ -36,6 +36,7 @@ import { ManipulativeDivision } from '@/components/math/ManipulativeDivision';
 import { ConstructionTool } from '@/components/math/ConstructionTool';
 import { PercentagesQuiz } from '@/components/math/PercentagesQuiz';
 import { EquationSolverTool } from '@/components/math/EquationSolverTool';
+import { MoneyCalculationTool } from '@/components/math/MoneyCalculationTool';
 import DecimalShifterTool from '@/components/math/DecimalShifterTool';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
@@ -63,12 +64,13 @@ import {
   X,
   Pencil,
   Grid3X3,
-  Columns
+  Columns,
+  Coins
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 type ViewState = 'main-select' | 'topic-select' | 'tools-select' | 'games-select' | 'activity' | 'geometry-select';
-type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game' | 'circle-parts' | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz' | 'triangle-angles-quiz' | 'g7-rational-numbers' | 'g7-expression-usage' | 'decimal-fractions' | 'number-line' | 'construction' | 'decimal-quiz' | 'decimal-multiplication-quiz' | 'decimal-division-quiz' | 'decimal-shifter' | 'manipulative-division' | 'equation-solver';
+type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game' | 'circle-parts' | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz' | 'triangle-angles-quiz' | 'g7-rational-numbers' | 'g7-expression-usage' | 'decimal-fractions' | 'number-line' | 'construction' | 'decimal-quiz' | 'decimal-multiplication-quiz' | 'decimal-division-quiz' | 'decimal-shifter' | 'manipulative-division' | 'equation-solver' | 'money-calculation';
 
 export default function MathPage() {
   const navigate = useNavigate();
@@ -167,6 +169,9 @@ export default function MathPage() {
       setView('activity');
     } else if (topicId === 'equation-solver') {
       setActivityType('equation-solver');
+      setView('activity');
+    } else if (topicId === 'money-calculation') {
+      setActivityType('money-calculation');
       setView('activity');
     } else {
       setActivityType('quiz');
@@ -1298,6 +1303,13 @@ export default function MathPage() {
                 color="bg-primary/10 text-primary"
                 onClick={() => handleToolSelect('decimal-shifter')}
               />
+              <ToolCard
+                title="Számolás pénzzel"
+                desc="Érmék használata, beváltás és felbontás"
+                icon={<Coins className="w-8 h-8" />}
+                color="bg-emerald-100 text-emerald-600"
+                onClick={() => handleToolSelect('money-calculation')}
+              />
             </div>
           </div>
         )}
@@ -1459,6 +1471,10 @@ export default function MathPage() {
 
             {activityType === 'equation-solver' && (
               <EquationSolverTool onBack={handleBack} />
+            )}
+
+            {activityType === 'money-calculation' && (
+              <MoneyCalculationTool onBack={handleBack} />
             )}
 
             {activityType === 'materials' && (

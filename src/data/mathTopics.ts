@@ -268,6 +268,14 @@ export const mathTopics: MathTopic[] = [
     color: 'from-blue-500 to-indigo-600',
     grades: [6, 7, 8],
   },
+  {
+    id: 'money-calculation',
+    title: 'Számolás pénzzel',
+    description: 'Érmék használata, beváltás és felbontás gyakorlása',
+    icon: '💰',
+    color: 'from-emerald-500 to-teal-600',
+    grades: [1, 2, 3, 4, 5, 6],
+  },
 ];
 
 export const gradeDescriptions: Record<number, string> = {
