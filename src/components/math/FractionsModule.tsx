@@ -6,10 +6,19 @@ import { FractionMultiplicationMatcher } from './FractionMultiplicationMatcher';
 import { FractionVisualMatcher } from './FractionVisualMatcher';
 import { FractionDivisionMatcher } from './FractionDivisionMatcher';
 import { DecimalFractionsTool } from './DecimalFractionsTool';
+import { DecimalMultiplicationMatcher } from './DecimalMultiplicationMatcher';
+import { DecimalDivisionMatcher } from './DecimalDivisionMatcher';
 import { NumberLineTool } from './NumberLineTool';
 import { SectionHeader } from './SectionHeader';
 import { ActivityPlaceholder } from './ActivityPlaceholder';
 import {
+    Binary,
+    ChevronRight,
+    ChevronLeft,
+    Star,
+    Medal,
+    Crown,
+    HelpCircle,
     Pizza,
     Calculator,
     ArrowLeft,
@@ -18,10 +27,7 @@ import {
     Zap,
     MoveHorizontal,
     Sparkles,
-    Shapes,
-    Binary,
-    ChevronRight,
-    ChevronLeft
+    Shapes
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -31,7 +37,7 @@ interface FractionsModuleProps {
     isInline?: boolean;
 }
 
-type ViewType = 'menu' | 'visualizer' | 'quiz' | 'multiplier' | 'visual-matcher' | 'divider' | 'decimal-fractions' | 'number-line';
+type ViewType = 'menu' | 'visualizer' | 'quiz' | 'multiplier' | 'visual-matcher' | 'divider' | 'decimal-fractions' | 'number-line' | 'decimal-multiplier' | 'decimal-divider' | 'decimal-multiplier-select' | 'decimal-divider-select';
 
 export function FractionsModule({ onBack, onStartActivity, isInline = false }: FractionsModuleProps) {
     const [view, setView] = useState<ViewType | string>('menu');
@@ -262,6 +268,14 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false }: F
                                 color="violet"
                                 onClick={() => onStartActivity?.('decimal-shifter')}
                             />
+                            <ActivityPlaceholder
+                                title="Szorzás párkereső"
+                                subtitle="Párosítós játék"
+                                type="Gyakorlás"
+                                icon={<Zap className="w-6 h-6" />}
+                                color="violet"
+                                onClick={() => setView('decimal-multiplier-select')}
+                            />
                         </div>
                     </section>
 
@@ -283,6 +297,14 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false }: F
                                 icon={<ChevronLeft className="w-6 h-6" />}
                                 color="rose"
                                 onClick={() => onStartActivity?.('decimal-shifter')}
+                            />
+                            <ActivityPlaceholder
+                                title="Osztás párkereső"
+                                subtitle="Párosítós játék"
+                                type="Gyakorlás"
+                                icon={<Zap className="w-6 h-6" />}
+                                color="rose"
+                                onClick={() => setView('decimal-divider-select')}
                             />
                         </div>
                     </section>
@@ -351,6 +373,119 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false }: F
             {view === 'number-line' && (
                 <NumberLineTool onBack={handleBackToMenu} />
             )}
+
+            {view === 'decimal-multiplier-select' && (
+                <LevelSelectView
+                    title="Szorzás Párkereső"
+                    onBack={handleBackToMenu}
+                    onSelect={(d) => { setSelectedDifficulty(d); setView('decimal-multiplier'); }}
+                    color="violet"
+                />
+            )}
+
+            {view === 'decimal-multiplier' && selectedDifficulty && (
+                <DecimalMultiplicationMatcher
+                    difficulty={selectedDifficulty as any}
+                    onBack={() => setView('decimal-multiplier-select')}
+                />
+            )}
+
+            {view === 'decimal-divider-select' && (
+                <LevelSelectView
+                    title="Osztás Párkereső"
+                    onBack={handleBackToMenu}
+                    onSelect={(d) => { setSelectedDifficulty(d); setView('decimal-divider'); }}
+                    color="rose"
+                />
+            )}
+
+            {view === 'decimal-divider' && selectedDifficulty && (
+                <DecimalDivisionMatcher
+                    difficulty={selectedDifficulty as any}
+                    onBack={() => setView('decimal-divider-select')}
+                />
+            )}
         </div>
+    );
+}
+
+interface LevelSelectViewProps {
+    title: string;
+    onBack: () => void;
+    onSelect: (d: 'easy' | 'medium' | 'hard') => void;
+    color: string;
+}
+
+function LevelSelectView({ title, onBack, onSelect, color }: LevelSelectViewProps) {
+    const colorClasses: Record<string, string> = {
+        violet: 'border-violet-100 hover:border-violet-400 text-violet-600 bg-violet-50',
+        rose: 'border-rose-100 hover:border-rose-400 text-rose-600 bg-rose-50',
+    };
+
+    return (
+        <div className="flex flex-col gap-8 max-w-4xl mx-auto w-full animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="flex items-center justify-between px-2">
+                <Button variant="ghost" onClick={onBack} size="sm" className="hover:bg-slate-100 text-xs">
+                    <ArrowLeft className="w-3.5 h-3.5 mr-1" />
+                    Vissza
+                </Button>
+                <h2 className="text-2xl font-bold text-slate-800">{title}</h2>
+                <div className="w-16"></div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                <DifficultyCard
+                    title="Kezdő"
+                    desc="Egyszerű feladatok"
+                    icon={<Star className="w-12 h-12" />}
+                    badge="Könnyű"
+                    color="emerald"
+                    onClick={() => onSelect('easy')}
+                />
+                <DifficultyCard
+                    title="Haladó"
+                    desc="Közepes kihívás"
+                    icon={<Medal className="w-12 h-12" />}
+                    badge="Közepes"
+                    color="amber"
+                    onClick={() => onSelect('medium')}
+                />
+                <DifficultyCard
+                    title="Mester"
+                    desc="Profi szint"
+                    icon={<Crown className="w-12 h-12" />}
+                    badge="Nehéz"
+                    color="rose"
+                    onClick={() => onSelect('hard')}
+                />
+            </div>
+        </div>
+    );
+}
+
+function DifficultyCard({ title, desc, icon, badge, color, onClick }: any) {
+    const colors: Record<string, any> = {
+        emerald: { bg: 'bg-emerald-100', text: 'text-emerald-600', border: 'border-emerald-100 hover:border-emerald-400', badge: 'bg-emerald-50 text-emerald-600' },
+        amber: { bg: 'bg-amber-100', text: 'text-amber-600', border: 'border-amber-100 hover:border-amber-400', badge: 'bg-amber-50 text-amber-600' },
+        rose: { bg: 'bg-rose-100', text: 'text-rose-600', border: 'border-rose-100 hover:border-rose-400', badge: 'bg-rose-50 text-rose-600' },
+    };
+
+    const c = colors[color];
+
+    return (
+        <button
+            onClick={onClick}
+            className={cn(
+                "flex flex-col items-center p-8 bg-white border-2 rounded-3xl hover:shadow-xl hover:scale-105 transition-all group",
+                c.border
+            )}
+        >
+            <div className={cn("p-4 rounded-full mb-6 group-hover:rotate-12 transition-transform", c.bg, c.text)}>
+                {icon}
+            </div>
+            <h3 className="text-2xl font-black text-slate-800 mb-2">{title}</h3>
+            <p className="text-center text-slate-500 font-medium">{desc}</p>
+            <span className={cn("mt-4 text-xs font-bold px-3 py-1 rounded-full", c.badge)}>{badge}</span>
+        </button>
     );
 }

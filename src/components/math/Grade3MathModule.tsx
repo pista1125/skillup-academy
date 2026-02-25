@@ -11,20 +11,24 @@ import {
     Zap,
     Trophy,
     Blocks,
-    Target
+    Target,
+    Coins,
+    BarChart
 } from 'lucide-react';
 import { BuildingBlocksComparison } from './BuildingBlocksComparison';
 import { TowerBuilderGame } from './TowerBuilderGame';
+import { MoneyCountingQuiz, Difficulty } from './MoneyCountingQuiz';
 import { cn } from '@/lib/utils';
 
 interface Grade3MathModuleProps {
     onBack: () => void;
 }
 
-type ViewType = 'menu' | 'coloring' | 'quiz' | 'blocks' | 'snake' | 'alapmuveletek' | 'tower-builder';
+type ViewType = 'menu' | 'coloring' | 'quiz' | 'blocks' | 'snake' | 'alapmuveletek' | 'tower-builder' | 'money-quiz' | 'money-level-select';
 
 export function Grade3MathModule({ onBack }: Grade3MathModuleProps) {
     const [view, setView] = useState<ViewType>('menu');
+    const [moneyDifficulty, setMoneyDifficulty] = useState<Difficulty>('easy');
 
     const handleBackToMenu = () => setView('menu');
 
@@ -127,6 +131,15 @@ export function Grade3MathModule({ onBack }: Grade3MathModuleProps) {
                         highlight
                         badge="ÚJ JÁTÉK"
                     />
+                    <KidsCard
+                        title="Pénz számolás"
+                        description="Számold ki mennyi pénz van a képen! 3 nehézségi szint."
+                        icon={<Coins className="w-12 h-12" />}
+                        color="bg-amber-50 text-amber-500 border-amber-100"
+                        onClick={() => setView('money-level-select')}
+                        highlight
+                        badge="TESZT"
+                    />
                 </div>
             </div>
         );
@@ -161,7 +174,72 @@ export function Grade3MathModule({ onBack }: Grade3MathModuleProps) {
             {view === 'snake' && (
                 <MathSnakeGame onBack={handleBackToMenu} grade={3} />
             )}
+
+            {view === 'money-level-select' && (
+                <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    <div className="flex items-center justify-between bg-white p-6 rounded-[32px] border-4 border-amber-100 shadow-sm">
+                        <Button variant="outline" onClick={() => setView('alapmuveletek')} className="rounded-2xl border-2 font-bold px-6">
+                            <ArrowLeft className="w-5 h-5 mr-2" />
+                            Vissza
+                        </Button>
+                        <h2 className="font-display text-2xl font-black text-slate-800">Válassz nehézségi szintet!</h2>
+                        <div className="w-32"></div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <DifficultyCard
+                            level="easy"
+                            title="Kezdő"
+                            description="Egyszerű érme kombinációk, kevés érme."
+                            icon={<Zap className="w-8 h-8 text-emerald-500" />}
+                            color="border-emerald-100 hover:border-emerald-300 bg-emerald-50/30"
+                            onClick={(l) => { setMoneyDifficulty(l); setView('money-quiz'); }}
+                        />
+                        <DifficultyCard
+                            level="medium"
+                            title="Haladó"
+                            description="Több érme, vegyes címletek."
+                            icon={<BarChart className="w-8 h-8 text-blue-500" />}
+                            color="border-blue-100 hover:border-blue-300 bg-blue-50/30"
+                            onClick={(l) => { setMoneyDifficulty(l); setView('money-quiz'); }}
+                        />
+                        <DifficultyCard
+                            level="hard"
+                            title="Mester"
+                            description="Sok apró érme és helyiérték átlépések."
+                            icon={<Trophy className="w-8 h-8 text-amber-500" />}
+                            color="border-amber-100 hover:border-amber-300 bg-amber-50/30"
+                            onClick={(l) => { setMoneyDifficulty(l); setView('money-quiz'); }}
+                        />
+                    </div>
+                </div>
+            )}
+
+            {view === 'money-quiz' && (
+                <MoneyCountingQuiz
+                    difficulty={moneyDifficulty}
+                    onBack={() => setView('money-level-select')}
+                />
+            )}
         </div>
+    );
+}
+
+function DifficultyCard({ level, title, description, icon, color, onClick }: { level: Difficulty, title: string, description: string, icon: any, color: string, onClick: (l: Difficulty) => void }) {
+    return (
+        <button
+            onClick={() => onClick(level)}
+            className={cn(
+                "flex flex-col items-center text-center p-8 rounded-[32px] border-4 transition-all duration-300 group hover:shadow-xl hover:-translate-y-1 bg-white",
+                color
+            )}
+        >
+            <div className="p-4 rounded-2xl bg-white shadow-sm mb-4 group-hover:scale-110 transition-transform">
+                {icon}
+            </div>
+            <h3 className="text-xl font-black text-slate-800 mb-2">{title}</h3>
+            <p className="text-sm text-slate-500 font-bold">{description}</p>
+        </button>
     );
 }
 
