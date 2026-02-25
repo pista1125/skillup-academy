@@ -36,6 +36,7 @@ import { ManipulativeDivision } from '@/components/math/ManipulativeDivision';
 import { ConstructionTool } from '@/components/math/ConstructionTool';
 import { PercentagesQuiz } from '@/components/math/PercentagesQuiz';
 import { EquationSolverTool } from '@/components/math/EquationSolverTool';
+import { EquationBalanceTool } from '@/components/math/EquationBalanceTool';
 import { MoneyCalculationTool } from '@/components/math/MoneyCalculationTool';
 import DecimalShifterTool from '@/components/math/DecimalShifterTool';
 import { QuizResult, GradeLevel } from '@/types/education';
@@ -45,6 +46,7 @@ import {
   Calculator,
   Wrench,
   Shapes,
+  Scale,
   Triangle,
   Square,
   Settings2,
@@ -70,7 +72,7 @@ import {
 import { cn } from '@/lib/utils';
 
 type ViewState = 'main-select' | 'topic-select' | 'tools-select' | 'games-select' | 'activity' | 'geometry-select';
-type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game' | 'circle-parts' | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz' | 'triangle-angles-quiz' | 'g7-rational-numbers' | 'g7-expression-usage' | 'decimal-fractions' | 'number-line' | 'construction' | 'decimal-quiz' | 'decimal-multiplication-quiz' | 'decimal-division-quiz' | 'decimal-shifter' | 'manipulative-division' | 'equation-solver' | 'money-calculation';
+type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game' | 'circle-parts' | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz' | 'triangle-angles-quiz' | 'g7-rational-numbers' | 'g7-expression-usage' | 'decimal-fractions' | 'number-line' | 'construction' | 'decimal-quiz' | 'decimal-multiplication-quiz' | 'decimal-division-quiz' | 'decimal-shifter' | 'manipulative-division' | 'equation-solver' | 'equation-balance' | 'money-calculation';
 
 export default function MathPage() {
   const navigate = useNavigate();
@@ -169,6 +171,9 @@ export default function MathPage() {
       setView('activity');
     } else if (topicId === 'equation-solver') {
       setActivityType('equation-solver');
+      setView('activity');
+    } else if (topicId === 'equation-balance') {
+      setActivityType('equation-balance');
       setView('activity');
     } else if (topicId === 'money-calculation') {
       setActivityType('money-calculation');
@@ -1304,10 +1309,17 @@ export default function MathPage() {
                 onClick={() => handleToolSelect('decimal-shifter')}
               />
               <ToolCard
-                title="Számolás pénzzel"
-                desc="Érmék használata, beváltás és felbontás"
+                title="Mérlegelv"
+                desc="Egyenletmegoldás kétkarú mérleggel"
+                icon={<Scale className="w-8 h-8" />}
+                color="bg-indigo-100 text-indigo-600"
+                onClick={() => handleToolSelect('equation-balance')}
+              />
+              <ToolCard
+                title="Pénztár"
+                desc="Kifizetések és visszajáró gyakorlása"
                 icon={<Coins className="w-8 h-8" />}
-                color="bg-emerald-100 text-emerald-600"
+                color="bg-amber-50 text-amber-600"
                 onClick={() => handleToolSelect('money-calculation')}
               />
             </div>
@@ -1475,6 +1487,10 @@ export default function MathPage() {
 
             {activityType === 'money-calculation' && (
               <MoneyCalculationTool onBack={handleBack} />
+            )}
+
+            {activityType === 'equation-balance' && (
+              <EquationBalanceTool onBack={handleBack} />
             )}
 
             {activityType === 'materials' && (
