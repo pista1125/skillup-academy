@@ -72,7 +72,7 @@ import {
 import { cn } from '@/lib/utils';
 
 type ViewState = 'main-select' | 'topic-select' | 'tools-select' | 'games-select' | 'activity' | 'geometry-select';
-type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game' | 'circle-parts' | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz' | 'triangle-angles-quiz' | 'g7-rational-numbers' | 'g7-expression-usage' | 'decimal-fractions' | 'number-line' | 'construction' | 'decimal-quiz' | 'decimal-multiplication-quiz' | 'decimal-division-quiz' | 'decimal-shifter' | 'manipulative-division' | 'equation-solver' | 'equation-balance' | 'money-calculation';
+type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game' | 'circle-parts' | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz' | 'triangle-angles-quiz' | 'g7-rational-numbers' | 'g7-expression-usage' | 'decimal-fractions' | 'number-line' | 'construction' | 'decimal-quiz' | 'decimal-multiplication-quiz' | 'decimal-division-quiz' | 'decimal-shifter' | 'manipulative-division' | 'equation-solver' | 'equation-balance' | 'money-calculation' | 'fractions-visualizer' | 'fractions-quiz' | 'fractions-multiplier' | 'fractions-visual-matcher' | 'fractions-divider' | 'decimal-multiplier' | 'decimal-divider' | 'decimal-multiplier-select' | 'decimal-divider-select' | 'grade1-addition10' | 'grade1-snake' | 'grade2-coloring' | 'grade2-quiz' | 'grade2-blocks' | 'grade2-snake' | 'grade3-coloring' | 'grade3-quiz' | 'grade3-blocks' | 'grade3-snake' | 'grade3-alapmuveletek' | 'grade3-tower-builder' | 'grade3-money-quiz' | 'grade3-money-level-select';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
 const slugToGrade = (slug: string): GradeLevel | null => {
@@ -146,6 +146,12 @@ export default function MathPage() {
         if (activityParam) {
           setActivityType(activityParam as ActivityType);
           setView('activity');
+          // Support material parameter if activity is materials
+          const params = new URLSearchParams(location.search);
+          const materialId = params.get('material');
+          if (activityParam === 'materials' && materialId) {
+            // The ID will be passed to MaterialGallery via the search param extraction below
+          }
         } else {
           setView('topic-select');
           // Some topics might show detail instead of full activity
@@ -158,7 +164,7 @@ export default function MathPage() {
         setView('topic-select');
       }
     }
-  }, [location.pathname, gradeParam, topicParam, activityParam]);
+  }, [location.pathname, gradeParam, topicParam, activityParam, location.search]);
 
   // Sync URL from state when state changes via user interaction
   const updateURL = (
@@ -184,6 +190,17 @@ export default function MathPage() {
 
     if (location.pathname !== path) {
       navigate(path);
+    }
+  };
+
+  const handleMaterialSelect = (material: any) => {
+    setActiveMaterial(material);
+    if (material) {
+      // For now, we use a query param for material to avoid complex URL nesting
+      const path = location.pathname + `?material=${material.id}`;
+      navigate(path);
+    } else {
+      navigate(location.pathname);
     }
   };
 
@@ -260,6 +277,13 @@ export default function MathPage() {
     updateURL('activity', selectedGrade, topicId, finalActivityType);
   };
 
+  const handleActivitySelect = (type: ActivityType, topicId?: string) => {
+    setActivityType(type);
+    if (topicId) setSelectedTopic(topicId);
+    setView('activity');
+    updateURL('activity', selectedGrade, topicId || selectedTopic, type);
+  };
+
   const handleToolSelect = (toolId: string) => {
     setSelectedGrade(null);
     setSelectedTopic(toolId);
@@ -267,6 +291,7 @@ export default function MathPage() {
     setView('activity');
     updateURL('activity', null, toolId, toolId as ActivityType);
   };
+
 
 
   const handleQuizComplete = (result: QuizResult) => {
@@ -281,7 +306,7 @@ export default function MathPage() {
 
     if (view === 'activity') {
       if (activityType === 'materials' && activeMaterial) {
-        setActiveMaterial(null);
+        handleMaterialSelect(null);
         return; // Stay in activity view
       } else if (selectedTopic === 'geometry' && selectedGrade === 6) {
         nextView = 'geometry-select';
@@ -330,7 +355,7 @@ export default function MathPage() {
                 title="Gyakorló Kvíz"
                 subtitle="Összeadás, kivonás, szorzás, osztás"
                 type="Teszt"
-                onClick={() => { setActivityType('quiz'); setView('activity'); }}
+                onClick={() => handleActivitySelect('quiz')}
                 icon={<Calculator className="w-6 h-6" />}
                 color="blue"
               />
@@ -338,7 +363,7 @@ export default function MathPage() {
                 title="Írásbeli osztás"
                 subtitle="Lépcsős osztás levezetése"
                 type="Eszköz"
-                onClick={() => { setActivityType('long-division'); setView('activity'); }}
+                onClick={() => handleActivitySelect('long-division')}
                 icon={<Box className="w-6 h-6" />}
                 color="indigo"
               />
@@ -346,7 +371,7 @@ export default function MathPage() {
                 title="Számegyenes"
                 subtitle="Egész számok szemléltetése"
                 type="Eszköz"
-                onClick={() => { setActivityType('number-line'); setView('activity'); }}
+                onClick={() => handleActivitySelect('number-line')}
                 icon={<MoveHorizontal className="w-6 h-6" />}
                 color="blue"
               />
@@ -361,11 +386,8 @@ export default function MathPage() {
         <FractionsModule
           isInline
           onBack={() => setExpandedTopicId(null)}
-          onStartActivity={(type) => {
-            setActivityType(type as ActivityType);
-            setView('activity');
-            window.scrollTo(0, 0);
-          }}
+          onStartActivity={(type) => handleActivitySelect(type as ActivityType, topicId)}
+          initialView={activityType}
         />
       );
     }
@@ -380,7 +402,7 @@ export default function MathPage() {
                 title="Alapszerkesztés"
                 subtitle="Körző és vonalzó használata"
                 type="Eszköz"
-                onClick={() => { setActivityType('construction'); setView('activity'); }}
+                onClick={() => handleActivitySelect('construction')}
                 icon={<Pencil className="w-6 h-6" />}
                 color="indigo"
               />
@@ -388,7 +410,7 @@ export default function MathPage() {
                 title="Síkidom vagy Test?"
                 subtitle="2D és 3D alakzatok"
                 type="Játék"
-                onClick={() => { setActivityType('shape-classification'); setView('activity'); }}
+                onClick={() => handleActivitySelect('shape-classification')}
                 icon={<Box className="w-6 h-6" />}
                 color="emerald"
               />
@@ -396,7 +418,7 @@ export default function MathPage() {
                 title="Egyenesek helyzete"
                 subtitle="Párhuzamos és merőleges"
                 type="Gyakorlás"
-                onClick={() => { setActivityType('line-relationships'); setView('activity'); }}
+                onClick={() => handleActivitySelect('line-relationships')}
                 icon={<MoveHorizontal className="w-6 h-6 rotate-45" />}
                 color="green"
               />
@@ -416,7 +438,7 @@ export default function MathPage() {
                 title="Szöveges feladatok"
                 subtitle="Gyakorlati problémák"
                 type="Indítás"
-                onClick={() => { setActivityType('word-problems'); setView('activity'); }}
+                onClick={() => handleActivitySelect('word-problems')}
                 icon={<Sparkles className="w-6 h-6" />}
                 color="teal"
               />
@@ -424,7 +446,7 @@ export default function MathPage() {
                 title="Százalékszámítás"
                 subtitle="Alap, érték, láb"
                 type="Gyakorlás"
-                onClick={() => { setActivityType('percentages'); setPercentMode(null); setView('activity'); }}
+                onClick={() => { setPercentMode(null); handleActivitySelect('percentages'); }}
                 icon={<Percent className="w-6 h-6" />}
                 color="rose"
               />
@@ -437,7 +459,11 @@ export default function MathPage() {
     if (topicId === 'g5-measurements' || topicId === 'g5-location-sequences' || topicId === 'g5-stats') {
       return (
         <div className="py-2">
-          <MaterialGallery grade={5} onView={(m) => setActiveMaterial(m)} />
+          <MaterialGallery
+            grade={5}
+            onView={handleMaterialSelect}
+            initialMaterialId={new URLSearchParams(location.search).get('material')}
+          />
         </div>
       );
     }
@@ -447,11 +473,8 @@ export default function MathPage() {
         <FractionsModule
           isInline
           onBack={() => setExpandedTopicId(null)}
-          onStartActivity={(type) => {
-            setActivityType(type as ActivityType);
-            setView('activity');
-            window.scrollTo(0, 0);
-          }}
+          onStartActivity={(type) => handleActivitySelect(type as ActivityType, topicId)}
+          initialView={activityType}
         />
       );
     }
@@ -460,10 +483,7 @@ export default function MathPage() {
       return (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <button
-            onClick={() => {
-              setActivityType('shape-classification');
-              setView('activity');
-            }}
+            onClick={() => handleActivitySelect('shape-classification')}
             className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
           >
             <div className="p-3 bg-emerald-50 rounded-xl text-emerald-600 group-hover:scale-110 transition-transform">
@@ -476,10 +496,7 @@ export default function MathPage() {
           </button>
 
           <button
-            onClick={() => {
-              setActivityType('angle-matching');
-              setView('activity');
-            }}
+            onClick={() => handleActivitySelect('angle-matching')}
             className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
           >
             <div className="p-3 bg-blue-50 rounded-xl text-blue-600 group-hover:scale-110 transition-transform">
@@ -492,10 +509,7 @@ export default function MathPage() {
           </button>
 
           <button
-            onClick={() => {
-              setActivityType('triangle-classification');
-              setView('activity');
-            }}
+            onClick={() => handleActivitySelect('triangle-classification')}
             className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
           >
             <div className="p-3 bg-amber-50 rounded-xl text-amber-600 group-hover:scale-110 transition-transform">
@@ -508,10 +522,7 @@ export default function MathPage() {
           </button>
 
           <button
-            onClick={() => {
-              setActivityType('quadrilateral-classification');
-              setView('activity');
-            }}
+            onClick={() => handleActivitySelect('quadrilateral-classification')}
             className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
           >
             <div className="p-3 bg-violet-50 rounded-xl text-violet-600 group-hover:scale-110 transition-transform">
@@ -524,10 +535,7 @@ export default function MathPage() {
           </button>
 
           <button
-            onClick={() => {
-              setActivityType('line-relationships');
-              setView('activity');
-            }}
+            onClick={() => handleActivitySelect('line-relationships')}
             className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
           >
             <div className="p-3 bg-indigo-50 rounded-xl text-indigo-600 group-hover:scale-110 transition-transform">
@@ -540,10 +548,7 @@ export default function MathPage() {
           </button>
 
           <button
-            onClick={() => {
-              setActivityType('circle-parts');
-              setView('activity');
-            }}
+            onClick={() => handleActivitySelect('circle-parts')}
             className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
           >
             <div className="p-3 bg-red-50 rounded-xl text-red-600 group-hover:scale-110 transition-transform">
@@ -556,10 +561,7 @@ export default function MathPage() {
           </button>
 
           <button
-            onClick={() => {
-              setActivityType('triangle-angles-quiz');
-              setView('activity');
-            }}
+            onClick={() => handleActivitySelect('triangle-angles-quiz')}
             className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
           >
             <div className="p-3 bg-teal-50 rounded-xl text-teal-600 group-hover:scale-110 transition-transform">
@@ -606,7 +608,7 @@ export default function MathPage() {
                 title="Háromszögek fajtái"
                 subtitle="Osztályozás tulajdonságok alapján"
                 type="Kezdés"
-                onClick={() => { setActivityType('triangle-classification'); setView('activity'); }}
+                onClick={() => handleActivitySelect('triangle-classification', topicId)}
                 icon={<Triangle className="w-6 h-6" />}
                 color="emerald"
               />
@@ -614,7 +616,7 @@ export default function MathPage() {
                 title="Háromszögek szögei"
                 subtitle="Belső és külső szögek"
                 type="Teszt"
-                onClick={() => { setActivityType('triangle-angles-quiz'); setView('activity'); }}
+                onClick={() => handleActivitySelect('triangle-angles-quiz', topicId)}
                 icon={<Sparkles className="w-6 h-6 text-amber-500" />}
                 color="emerald"
               />
@@ -622,7 +624,7 @@ export default function MathPage() {
                 title="Szögtípusok"
                 subtitle="Felismerés és párosítás"
                 type="Gyakorlás"
-                onClick={() => { setActivityType('angle-matching'); setView('activity'); }}
+                onClick={() => handleActivitySelect('angle-matching', topicId)}
                 icon={<Target className="w-6 h-6" />}
                 color="emerald"
               />
@@ -636,7 +638,7 @@ export default function MathPage() {
                 title="Négyszögek fajtái"
                 subtitle="Tulajdonságok és csoportosítás"
                 type="Kezdés"
-                onClick={() => { setActivityType('quadrilateral-classification'); setView('activity'); }}
+                onClick={() => handleActivitySelect('quadrilateral-classification', topicId)}
                 icon={<Square className="w-6 h-6" />}
                 color="amber"
               />
@@ -694,7 +696,7 @@ export default function MathPage() {
                 title="Egyenesek helyzete"
                 subtitle="Párhuzamos és merőleges"
                 type="Gyakorlás"
-                onClick={() => { setActivityType('line-relationships'); setView('activity'); }}
+                onClick={() => handleActivitySelect('line-relationships', topicId)}
                 icon={<MoveHorizontal className="w-6 h-6 rotate-45" />}
                 color="rose"
               />
@@ -708,7 +710,7 @@ export default function MathPage() {
                 title="Síkidom vagy Test?"
                 subtitle="Szabályos alakzatok elkülönítése"
                 type="Kezdés"
-                onClick={() => { setActivityType('shape-classification'); setView('activity'); }}
+                onClick={() => handleActivitySelect('shape-classification', topicId)}
                 icon={<Box className="w-6 h-6" />}
                 color="teal"
               />
@@ -722,7 +724,7 @@ export default function MathPage() {
                 title="Kör és részei"
                 subtitle="Sugár, átmérő, húr felismerése"
                 type="Kezdés"
-                onClick={() => { setActivityType('circle-parts'); setView('activity'); }}
+                onClick={() => handleActivitySelect('circle-parts', topicId)}
                 icon={<Circle className="w-6 h-6" />}
                 color="red"
               />
@@ -744,10 +746,7 @@ export default function MathPage() {
       return (
         <div className="flex justify-center py-4">
           <Button
-            onClick={() => {
-              setActivityType('word-problems');
-              setView('activity');
-            }}
+            onClick={() => handleActivitySelect('word-problems')}
             className="gap-2 bg-teal-500 hover:bg-teal-600 text-white rounded-xl px-8"
           >
             <Sparkles className="w-4 h-4" />
@@ -761,10 +760,7 @@ export default function MathPage() {
       return (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <button
-            onClick={() => {
-              setActivityType('divisibility-theory');
-              setView('activity');
-            }}
+            onClick={() => handleActivitySelect('divisibility-theory')}
             className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
           >
             <div className="p-3 bg-amber-50 rounded-xl text-amber-600 group-hover:scale-110 transition-transform">
@@ -777,10 +773,7 @@ export default function MathPage() {
           </button>
 
           <button
-            onClick={() => {
-              setActivityType('divisibility');
-              setView('activity');
-            }}
+            onClick={() => handleActivitySelect('divisibility')}
             className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
           >
             <div className="p-3 bg-emerald-50 rounded-xl text-emerald-600 group-hover:scale-110 transition-transform">
@@ -793,10 +786,7 @@ export default function MathPage() {
           </button>
 
           <button
-            onClick={() => {
-              setActivityType('divisibility-factorization');
-              setView('activity');
-            }}
+            onClick={() => handleActivitySelect('divisibility-factorization')}
             className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
           >
             <div className="p-3 bg-indigo-50 rounded-xl text-indigo-600 group-hover:scale-110 transition-transform">
@@ -809,10 +799,7 @@ export default function MathPage() {
           </button>
 
           <button
-            onClick={() => {
-              setActivityType('divisibility-quiz');
-              setView('activity');
-            }}
+            onClick={() => handleActivitySelect('divisibility-quiz')}
             className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 p-1">
@@ -828,10 +815,7 @@ export default function MathPage() {
           </button>
 
           <button
-            onClick={() => {
-              setActivityType('divisibility-matcher');
-              setView('activity');
-            }}
+            onClick={() => handleActivitySelect('divisibility-matcher')}
             className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
           >
             <div className="p-3 bg-violet-50 rounded-xl text-violet-600 group-hover:scale-110 transition-transform">
@@ -844,10 +828,7 @@ export default function MathPage() {
           </button>
 
           <button
-            onClick={() => {
-              setActivityType('divisibility-gcdquiz');
-              setView('activity');
-            }}
+            onClick={() => handleActivitySelect('divisibility-gcdquiz')}
             className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 p-1">
@@ -875,7 +856,7 @@ export default function MathPage() {
                 title="Tananyag"
                 subtitle="Elméleti összefoglaló"
                 type="Kezdés"
-                onClick={() => { setActivityType('divisibility-theory'); setView('activity'); }}
+                onClick={() => handleActivitySelect('divisibility-theory')}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
               />
@@ -883,7 +864,7 @@ export default function MathPage() {
                 title="Oszthatóság"
                 subtitle="Interaktív ellenőrző"
                 type="Gyakorlás"
-                onClick={() => { setActivityType('divisibility'); setView('activity'); }}
+                onClick={() => handleActivitySelect('divisibility')}
                 icon={<Calculator className="w-6 h-6" />}
                 color="emerald"
               />
@@ -891,7 +872,7 @@ export default function MathPage() {
                 title="Prímtényezők"
                 subtitle="Felbontás prímszámokra"
                 type="Gyakorlás"
-                onClick={() => { setActivityType('divisibility-factorization'); setView('activity'); }}
+                onClick={() => handleActivitySelect('divisibility-factorization')}
                 icon={<Binary className="w-6 h-6" />}
                 color="indigo"
               />
@@ -899,7 +880,7 @@ export default function MathPage() {
                 title="Kvíz Játék"
                 subtitle="Tudd le a tudásod!"
                 type="Teszt"
-                onClick={() => { setActivityType('divisibility-quiz'); setView('activity'); }}
+                onClick={() => handleActivitySelect('divisibility-quiz')}
                 icon={<Gamepad2 className="w-6 h-6" />}
                 color="rose"
               />
@@ -907,7 +888,7 @@ export default function MathPage() {
                 title="Párosító Játék"
                 subtitle="Prímtényezők gyakorlása"
                 type="Teszt"
-                onClick={() => { setActivityType('divisibility-matcher'); setView('activity'); }}
+                onClick={() => handleActivitySelect('divisibility-matcher')}
                 icon={<Target className="w-6 h-6" />}
                 color="violet"
               />
@@ -915,7 +896,7 @@ export default function MathPage() {
                 title="LKÖ Kvíz"
                 subtitle="Legnagyobb közös osztó"
                 type="Teszt"
-                onClick={() => { setActivityType('divisibility-gcdquiz'); setView('activity'); }}
+                onClick={() => handleActivitySelect('divisibility-gcdquiz')}
                 icon={<Zap className="w-6 h-6" />}
                 color="indigo"
               />
@@ -923,7 +904,7 @@ export default function MathPage() {
                 title="LKKT Kvíz"
                 subtitle="Legkisebb közös többszörös"
                 type="Teszt"
-                onClick={() => { setActivityType('divisibility-lkktquiz'); setView('activity'); }}
+                onClick={() => handleActivitySelect('divisibility-lkktquiz')}
                 icon={<Sparkles className="w-6 h-6" />}
                 color="amber"
               />
@@ -936,7 +917,11 @@ export default function MathPage() {
     if (topicId === 'materials') {
       return (
         <div className="py-2">
-          <MaterialGallery grade={selectedGrade || 6} onView={(m) => setActiveMaterial(m)} />
+          <MaterialGallery
+            grade={selectedGrade || 6}
+            onView={handleMaterialSelect}
+            initialMaterialId={new URLSearchParams(location.search).get('material')}
+          />
         </div>
       );
     }
@@ -952,7 +937,7 @@ export default function MathPage() {
                 title="Racionális számok"
                 subtitle="Műveletek ésszerűen"
                 type="Kezdés"
-                onClick={() => { setActivityType('g7-rational-numbers'); setView('activity'); }}
+                onClick={() => handleActivitySelect('g7-rational-numbers')}
                 icon={<Calculator className="w-6 h-6" />}
                 color="blue"
               />
@@ -983,7 +968,7 @@ export default function MathPage() {
                 title="Betűs kifejezések"
                 subtitle="Változók használata"
                 type="Kezdés"
-                onClick={() => { setActivityType('g7-expression-usage'); setView('activity'); }}
+                onClick={() => handleActivitySelect('g7-expression-usage')}
                 icon={<Variable className="w-6 h-6" />}
                 color="purple"
               />
@@ -1006,9 +991,8 @@ export default function MathPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <button
             onClick={() => {
-              setActivityType('percentages');
               setPercentMode('calculate-value');
-              setView('activity');
+              handleActivitySelect('percentages', topicId);
             }}
             className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
           >
@@ -1023,9 +1007,8 @@ export default function MathPage() {
 
           <button
             onClick={() => {
-              setActivityType('percentages');
               setPercentMode('calculate-rate');
-              setView('activity');
+              handleActivitySelect('percentages', topicId);
             }}
             className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
           >
@@ -1040,9 +1023,8 @@ export default function MathPage() {
 
           <button
             onClick={() => {
-              setActivityType('percentages');
               setPercentMode('calculate-base');
-              setView('activity');
+              handleActivitySelect('percentages', topicId);
             }}
             className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
           >
@@ -1061,7 +1043,11 @@ export default function MathPage() {
     if (topicId === 'g7-logic' || topicId === 'g7-stats' || topicId === 'g7-other') {
       return (
         <div className="py-2">
-          <MaterialGallery grade={7} onView={(m) => setActiveMaterial(m)} />
+          <MaterialGallery
+            grade={7}
+            onView={handleMaterialSelect}
+            initialMaterialId={new URLSearchParams(location.search).get('material')}
+          />
         </div>
       );
     }
@@ -1271,7 +1257,7 @@ export default function MathPage() {
 
             <section className="pt-4 border-t border-slate-100 flex flex-col md:flex-row gap-4">
               <Button
-                onClick={() => setView('tools-select')}
+                onClick={() => { setView('tools-select'); updateURL('tools-select', null, null, null); }}
                 className="flex-1 h-20 text-lg font-bold gap-4 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 shadow-lg shadow-purple-500/20 group transition-all"
               >
                 <div className="p-2 bg-white/10 rounded-lg group-hover:rotate-12 transition-transform">
@@ -1282,7 +1268,7 @@ export default function MathPage() {
               </Button>
 
               <Button
-                onClick={() => setView('games-select')}
+                onClick={() => { setView('games-select'); updateURL('games-select', null, null, null); }}
                 className="flex-1 h-20 text-lg font-bold gap-4 bg-gradient-to-r from-pink-600 to-orange-600 hover:from-pink-700 hover:to-orange-700 shadow-lg shadow-pink-500/20 group transition-all"
               >
                 <div className="p-2 bg-white/10 rounded-lg group-hover:rotate-12 transition-transform">
@@ -1442,10 +1428,7 @@ export default function MathPage() {
                 desc="Gyűjtsd össze a helyes válaszokat a kígyóval!"
                 icon={<span className="text-3xl">🐍</span>}
                 color="bg-emerald-100 border-emerald-200"
-                onClick={() => {
-                  setActivityType('snake-game');
-                  setView('activity');
-                }}
+                onClick={() => handleActivitySelect('snake-game')}
               />
               <div className="p-6 bg-white/50 rounded-2xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center text-center opacity-70">
                 <div className="text-3xl mb-2">🏗️</div>
@@ -1458,26 +1441,38 @@ export default function MathPage() {
 
         {view === 'activity' && (
           <div className="animate-slide-up">
-            {activityType === 'fractions' && (
+            {(activityType === 'fractions' || activityType.startsWith('fractions-') || activityType.startsWith('decimal-')) && (
               <FractionsModule
                 onBack={handleBack}
+                initialView={activityType}
                 onStartActivity={(type) => {
-                  setActivityType(type as ActivityType);
-                  setView('activity');
+                  handleActivitySelect(type as ActivityType);
                 }}
               />
             )}
 
-            {activityType === 'grade1-basic' && (
-              <Grade1MathModule onBack={handleBack} />
+            {(activityType === 'grade1-basic' || activityType.startsWith('grade1-')) && (
+              <Grade1MathModule
+                onBack={handleBack}
+                initialView={activityType}
+                onStartActivity={(type) => handleActivitySelect(type as ActivityType)}
+              />
             )}
 
-            {activityType === 'grade2-basic' && (
-              <Grade2MathModule onBack={handleBack} />
+            {(activityType === 'grade2-basic' || activityType.startsWith('grade2-')) && (
+              <Grade2MathModule
+                onBack={handleBack}
+                initialView={activityType}
+                onStartActivity={(type) => handleActivitySelect(type as ActivityType)}
+              />
             )}
 
-            {activityType === 'grade3-basic' && (
-              <Grade3MathModule onBack={handleBack} />
+            {(activityType === 'grade3-basic' || activityType.startsWith('grade3-')) && (
+              <Grade3MathModule
+                onBack={handleBack}
+                initialView={activityType}
+                onStartActivity={(type) => handleActivitySelect(type as ActivityType)}
+              />
             )}
 
 
@@ -1598,11 +1593,15 @@ export default function MathPage() {
             )}
 
             {activityType === 'materials' && (
-              <MaterialGallery grade={selectedGrade || 5} onView={(m) => setActiveMaterial(m)} />
+              <MaterialGallery
+                grade={selectedGrade || 5}
+                onView={handleMaterialSelect}
+                initialMaterialId={new URLSearchParams(location.search).get('material')}
+              />
             )}
 
             {activeMaterial && (
-              <LessonViewer material={activeMaterial} onClose={() => setActiveMaterial(null)} />
+              <LessonViewer material={activeMaterial} onClose={() => handleMaterialSelect(null)} />
             )}
 
             {activityType === 'algebra' && (

@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -65,10 +66,20 @@ const GRADE_7_MATERIALS: Material[] = [
 interface MaterialGalleryProps {
     grade: GradeLevel;
     onView: (material: Material) => void;
+    initialMaterialId?: string | null;
 }
 
-export function MaterialGallery({ grade, onView }: MaterialGalleryProps) {
+export function MaterialGallery({ grade, onView, initialMaterialId }: MaterialGalleryProps) {
     const materials = grade === 5 ? GRADE_5_MATERIALS : grade === 6 ? GRADE_6_MATERIALS : GRADE_7_MATERIALS;
+
+    useEffect(() => {
+        if (initialMaterialId) {
+            const material = materials.find(m => m.id === initialMaterialId);
+            if (material) {
+                onView(material);
+            }
+        }
+    }, [initialMaterialId, grade]);
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">

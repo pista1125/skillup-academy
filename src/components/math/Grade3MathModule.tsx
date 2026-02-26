@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { MathQuiz } from './MathQuiz';
 import { MathColoringGame } from './MathColoringGame';
@@ -22,15 +22,42 @@ import { cn } from '@/lib/utils';
 
 interface Grade3MathModuleProps {
     onBack: () => void;
+    initialView?: string;
+    onStartActivity?: (type: string) => void;
 }
 
 type ViewType = 'menu' | 'coloring' | 'quiz' | 'blocks' | 'snake' | 'alapmuveletek' | 'tower-builder' | 'money-quiz' | 'money-level-select';
 
-export function Grade3MathModule({ onBack }: Grade3MathModuleProps) {
-    const [view, setView] = useState<ViewType>('menu');
+export function Grade3MathModule({ onBack, initialView, onStartActivity }: Grade3MathModuleProps) {
+    const [view, setView] = useState<ViewType | string>(initialView || 'menu');
     const [moneyDifficulty, setMoneyDifficulty] = useState<Difficulty>('easy');
 
-    const handleBackToMenu = () => setView('menu');
+    const handleBackToMenu = () => {
+        if (onStartActivity) {
+            onStartActivity('grade3-basic');
+        } else {
+            setView('menu');
+        }
+    };
+
+    const handleBackToAlapmuveletek = () => {
+        if (onStartActivity) {
+            onStartActivity('grade3-alapmuveletek');
+        } else {
+            setView('alapmuveletek');
+        }
+    };
+
+    useEffect(() => {
+        if (initialView && initialView !== view) {
+            if (initialView === 'grade3-basic') {
+                setView('menu');
+            } else {
+                setView(initialView.replace('grade3-', ''));
+            }
+        }
+    }, [initialView]);
+
 
     if (view === 'menu') {
         return (
@@ -57,14 +84,14 @@ export function Grade3MathModule({ onBack }: Grade3MathModuleProps) {
                         description="Mélyítsd el a tudásod az összeadás, kivonás és szorzás világában!"
                         icon={<Calculator className="w-12 h-12" />}
                         color="bg-emerald-50 text-emerald-500 border-emerald-100"
-                        onClick={() => setView('alapmuveletek')}
+                        onClick={() => onStartActivity?.('grade3-alapmuveletek')}
                     />
                     <KidsCard
                         title="Szorzó-Színező"
                         description="Számold ki a szorzatot és színezz ki 5 izgalmas új képet!"
                         icon={<Palette className="w-12 h-12" />}
                         color="bg-indigo-50 text-indigo-500 border-indigo-100"
-                        onClick={() => setView('coloring')}
+                        onClick={() => onStartActivity?.('grade3-coloring')}
                         highlight
                         badge="PRÉMIUM"
                     />
@@ -73,7 +100,7 @@ export function Grade3MathModule({ onBack }: Grade3MathModuleProps) {
                         description="Építs tornyokat és hasonlítsd össze őket! Melyik a több?"
                         icon={<Blocks className="w-12 h-12" />}
                         color="bg-blue-50 text-blue-500 border-blue-100"
-                        onClick={() => setView('blocks')}
+                        onClick={() => onStartActivity?.('grade3-blocks')}
                         badge="ÖSSZEHASONLÍTÁS"
                     />
 
@@ -82,7 +109,7 @@ export function Grade3MathModule({ onBack }: Grade3MathModuleProps) {
                         description="Irányítsd a kígyót és edd meg a helyes válaszokat!"
                         icon={<Target className="w-12 h-12" />}
                         color="bg-rose-50 text-rose-500 border-rose-100"
-                        onClick={() => setView('snake')}
+                        onClick={() => onStartActivity?.('grade3-snake')}
                         highlight
                         badge="JÁTÉK"
                     />
@@ -119,7 +146,7 @@ export function Grade3MathModule({ onBack }: Grade3MathModuleProps) {
                         description="Gyakorold az összeadást, kivonást és szorzást!"
                         icon={<Calculator className="w-12 h-12" />}
                         color="bg-blue-50 text-blue-500 border-blue-100"
-                        onClick={() => setView('quiz')}
+                        onClick={() => onStartActivity?.('grade3-quiz')}
                         badge="GYAKORLÁS"
                     />
                     <KidsCard
@@ -127,7 +154,7 @@ export function Grade3MathModule({ onBack }: Grade3MathModuleProps) {
                         description="Számold ki az eredményt és építsd meg a megfelelő tornyot!"
                         icon={<Blocks className="w-12 h-12" />}
                         color="bg-purple-50 text-purple-500 border-purple-100"
-                        onClick={() => setView('tower-builder')}
+                        onClick={() => onStartActivity?.('grade3-tower-builder')}
                         highlight
                         badge="ÚJ JÁTÉK"
                     />
@@ -136,7 +163,7 @@ export function Grade3MathModule({ onBack }: Grade3MathModuleProps) {
                         description="Számold ki mennyi pénz van a képen! 3 nehézségi szint."
                         icon={<Coins className="w-12 h-12" />}
                         color="bg-amber-50 text-amber-500 border-amber-100"
-                        onClick={() => setView('money-level-select')}
+                        onClick={() => onStartActivity?.('grade3-money-level-select')}
                         highlight
                         badge="TESZT"
                     />
@@ -178,7 +205,7 @@ export function Grade3MathModule({ onBack }: Grade3MathModuleProps) {
             {view === 'money-level-select' && (
                 <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
                     <div className="flex items-center justify-between bg-white p-6 rounded-[32px] border-4 border-amber-100 shadow-sm">
-                        <Button variant="outline" onClick={() => setView('alapmuveletek')} className="rounded-2xl border-2 font-bold px-6">
+                        <Button variant="outline" onClick={handleBackToAlapmuveletek} className="rounded-2xl border-2 font-bold px-6">
                             <ArrowLeft className="w-5 h-5 mr-2" />
                             Vissza
                         </Button>
@@ -193,7 +220,7 @@ export function Grade3MathModule({ onBack }: Grade3MathModuleProps) {
                             description="Egyszerű érme kombinációk, kevés érme."
                             icon={<Zap className="w-8 h-8 text-emerald-500" />}
                             color="border-emerald-100 hover:border-emerald-300 bg-emerald-50/30"
-                            onClick={(l) => { setMoneyDifficulty(l); setView('money-quiz'); }}
+                            onClick={(l) => { setMoneyDifficulty(l); onStartActivity?.('grade3-money-quiz'); }}
                         />
                         <DifficultyCard
                             level="medium"
@@ -201,7 +228,7 @@ export function Grade3MathModule({ onBack }: Grade3MathModuleProps) {
                             description="Több érme, vegyes címletek."
                             icon={<BarChart className="w-8 h-8 text-blue-500" />}
                             color="border-blue-100 hover:border-blue-300 bg-blue-50/30"
-                            onClick={(l) => { setMoneyDifficulty(l); setView('money-quiz'); }}
+                            onClick={(l) => { setMoneyDifficulty(l); onStartActivity?.('grade3-money-quiz'); }}
                         />
                         <DifficultyCard
                             level="hard"
@@ -209,7 +236,7 @@ export function Grade3MathModule({ onBack }: Grade3MathModuleProps) {
                             description="Sok apró érme és helyiérték átlépések."
                             icon={<Trophy className="w-8 h-8 text-amber-500" />}
                             color="border-amber-100 hover:border-amber-300 bg-amber-50/30"
-                            onClick={(l) => { setMoneyDifficulty(l); setView('money-quiz'); }}
+                            onClick={(l) => { setMoneyDifficulty(l); onStartActivity?.('grade3-money-quiz'); }}
                         />
                     </div>
                 </div>
@@ -218,7 +245,10 @@ export function Grade3MathModule({ onBack }: Grade3MathModuleProps) {
             {view === 'money-quiz' && (
                 <MoneyCountingQuiz
                     difficulty={moneyDifficulty}
-                    onBack={() => setView('money-level-select')}
+                    onBack={() => {
+                        if (onStartActivity) onStartActivity('grade3-money-level-select');
+                        else setView('money-level-select');
+                    }}
                 />
             )}
         </div>

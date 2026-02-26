@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Grade1Addition } from './Grade1Addition';
 import { MathSnakeGame } from './MathSnakeGame';
@@ -14,14 +14,33 @@ import { cn } from '@/lib/utils';
 
 interface Grade1MathModuleProps {
     onBack: () => void;
+    initialView?: string;
+    onStartActivity?: (type: string) => void;
 }
 
 type ViewType = 'menu' | 'addition10' | 'snake';
 
-export function Grade1MathModule({ onBack }: Grade1MathModuleProps) {
-    const [view, setView] = useState<ViewType>('menu');
+export function Grade1MathModule({ onBack, initialView, onStartActivity }: Grade1MathModuleProps) {
+    const [view, setView] = useState<ViewType | string>(initialView || 'menu');
 
-    const handleBackToMenu = () => setView('menu');
+    const handleBackToMenu = () => {
+        if (onStartActivity) {
+            onStartActivity('grade1-basic');
+        } else {
+            setView('menu');
+        }
+    };
+
+    useEffect(() => {
+        if (initialView && initialView !== view) {
+            if (initialView === 'grade1-basic') {
+                setView('menu');
+            } else {
+                setView(initialView.replace('grade1-', ''));
+            }
+        }
+    }, [initialView]);
+
 
     if (view === 'menu') {
         return (
@@ -48,7 +67,7 @@ export function Grade1MathModule({ onBack }: Grade1MathModuleProps) {
                         description="Segíts az állatkáknak összeszámolni a jutalomfalatokat!"
                         icon={<Star className="w-12 h-12" />}
                         color="bg-amber-50 text-amber-500 border-amber-100"
-                        onClick={() => setView('addition10')}
+                        onClick={() => onStartActivity?.('grade1-addition10')}
                         badge="ÜGYESSÉGI"
                     />
                     <KidsCard
@@ -56,7 +75,7 @@ export function Grade1MathModule({ onBack }: Grade1MathModuleProps) {
                         description="Irányítsd a kígyót és edd meg a helyes válaszokat!"
                         icon={<Target className="w-12 h-12" />}
                         color="bg-emerald-50 text-emerald-500 border-emerald-100"
-                        onClick={() => setView('snake')}
+                        onClick={() => onStartActivity?.('grade1-snake')}
                         badge="JÁTÉK"
                         highlight
                     />

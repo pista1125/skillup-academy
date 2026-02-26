@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { FractionVisualizer } from './FractionVisualizer';
 import { FractionsQuiz } from './FractionsQuiz';
@@ -35,18 +35,37 @@ interface FractionsModuleProps {
     onBack: () => void;
     onStartActivity?: (type: string) => void;
     isInline?: boolean;
+    initialView?: string;
 }
 
 type ViewType = 'menu' | 'visualizer' | 'quiz' | 'multiplier' | 'visual-matcher' | 'divider' | 'decimal-fractions' | 'number-line' | 'decimal-multiplier' | 'decimal-divider' | 'decimal-multiplier-select' | 'decimal-divider-select';
 
-export function FractionsModule({ onBack, onStartActivity, isInline = false }: FractionsModuleProps) {
-    const [view, setView] = useState<ViewType | string>('menu');
+export function FractionsModule({ onBack, onStartActivity, isInline = false, initialView }: FractionsModuleProps) {
+    const [view, setView] = useState<ViewType | string>(initialView || 'menu');
     const [selectedDifficulty, setSelectedDifficulty] = useState<'easy' | 'medium' | 'hard' | undefined>(undefined);
 
     const handleBackToMenu = () => {
-        setView('menu');
+        if (onStartActivity) {
+            onStartActivity('fractions');
+        } else {
+            setView('menu');
+        }
         setSelectedDifficulty(undefined);
     };
+
+    // Keep internal view in sync with prop from parent (for deep-linking and browser navigation)
+    useEffect(() => {
+        if (initialView && initialView !== view) {
+            if (initialView === 'fractions') {
+                setView('menu');
+            } else {
+                // If it's a sub-activity like fractions-quiz, we might need to strip the prefix
+                // for internal module state, or just use the full string if we updated ViewType
+                setView(initialView.replace('fractions-', ''));
+            }
+        }
+    }, [initialView]);
+
 
     if (view === 'menu') {
         return (
@@ -82,7 +101,7 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false }: F
                                 type="Gyakorlás"
                                 icon={<Shapes className="w-6 h-6" />}
                                 color="blue"
-                                onClick={() => setView('visual-matcher')}
+                                onClick={() => onStartActivity?.('fractions-visual-matcher')}
                             />
                         </div>
                     </section>
@@ -96,7 +115,7 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false }: F
                                 type="Kezdés"
                                 icon={<Target className="w-6 h-6" />}
                                 color="amber"
-                                onClick={() => setView('visualizer')}
+                                onClick={() => onStartActivity?.('fractions-visualizer')}
                             />
                         </div>
                     </section>
@@ -110,7 +129,7 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false }: F
                                 type="Gyakorlás"
                                 icon={<MoveHorizontal className="w-6 h-6" />}
                                 color="indigo"
-                                onClick={() => setView('number-line')}
+                                onClick={() => onStartActivity?.('number-line')}
                             />
                         </div>
                     </section>
@@ -124,7 +143,7 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false }: F
                                 type="Teszt"
                                 icon={<Calculator className="w-6 h-6" />}
                                 color="emerald"
-                                onClick={() => { setSelectedDifficulty('easy'); setView('quiz'); }}
+                                onClick={() => { setSelectedDifficulty('easy'); onStartActivity?.('fractions-quiz'); }}
                             />
                         </div>
                     </section>
@@ -138,7 +157,7 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false }: F
                                 type="Teszt"
                                 icon={<Calculator className="w-6 h-6" />}
                                 color="amber"
-                                onClick={() => { setSelectedDifficulty('medium'); setView('quiz'); }}
+                                onClick={() => { setSelectedDifficulty('medium'); onStartActivity?.('fractions-quiz'); }}
                             />
                         </div>
                     </section>
@@ -152,7 +171,7 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false }: F
                                 type="Gyakorlás"
                                 icon={<Zap className="w-6 h-6" />}
                                 color="violet"
-                                onClick={() => setView('multiplier')}
+                                onClick={() => onStartActivity?.('fractions-multiplier')}
                             />
                         </div>
                     </section>
@@ -166,7 +185,7 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false }: F
                                 type="Gyakorlás"
                                 icon={<Zap className="w-6 h-6" />}
                                 color="rose"
-                                onClick={() => setView('divider')}
+                                onClick={() => onStartActivity?.('fractions-divider')}
                             />
                         </div>
                     </section>
@@ -194,7 +213,7 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false }: F
                                 type="Teszt"
                                 icon={<Sparkles className="w-6 h-6" />}
                                 color="teal"
-                                onClick={() => setView('quiz')}
+                                onClick={() => onStartActivity?.('fractions-quiz')}
                             />
                         </div>
                     </section>
@@ -208,7 +227,7 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false }: F
                                 type="Kezdés"
                                 icon={<span className="text-2xl">🪙</span>}
                                 color="amber"
-                                onClick={() => setView('decimal-fractions')}
+                                onClick={() => onStartActivity?.('decimal-fractions')}
                             />
                             <ActivityPlaceholder
                                 title="Olvasás gyakorlása"
@@ -230,7 +249,7 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false }: F
                                 type="Gyakorlás"
                                 icon={<Target className="w-6 h-6" />}
                                 color="blue"
-                                onClick={() => setView('decimal-fractions')}
+                                onClick={() => onStartActivity?.('decimal-fractions')}
                             />
                         </div>
                     </section>
@@ -274,7 +293,7 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false }: F
                                 type="Gyakorlás"
                                 icon={<Zap className="w-6 h-6" />}
                                 color="violet"
-                                onClick={() => setView('decimal-multiplier-select')}
+                                onClick={() => onStartActivity?.('decimal-multiplier-select')}
                             />
                         </div>
                     </section>
@@ -304,7 +323,7 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false }: F
                                 type="Gyakorlás"
                                 icon={<Zap className="w-6 h-6" />}
                                 color="rose"
-                                onClick={() => setView('decimal-divider-select')}
+                                onClick={() => onStartActivity?.('decimal-divider-select')}
                             />
                         </div>
                     </section>

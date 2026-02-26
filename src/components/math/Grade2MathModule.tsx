@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { MathQuiz } from './MathQuiz';
 import { MathColoringGame } from './MathColoringGame';
@@ -18,14 +18,33 @@ import { cn } from '@/lib/utils';
 
 interface Grade2MathModuleProps {
     onBack: () => void;
+    initialView?: string;
+    onStartActivity?: (type: string) => void;
 }
 
 type ViewType = 'menu' | 'coloring' | 'quiz' | 'blocks' | 'snake';
 
-export function Grade2MathModule({ onBack }: Grade2MathModuleProps) {
-    const [view, setView] = useState<ViewType>('menu');
+export function Grade2MathModule({ onBack, initialView, onStartActivity }: Grade2MathModuleProps) {
+    const [view, setView] = useState<ViewType | string>(initialView || 'menu');
 
-    const handleBackToMenu = () => setView('menu');
+    const handleBackToMenu = () => {
+        if (onStartActivity) {
+            onStartActivity('grade2-basic');
+        } else {
+            setView('menu');
+        }
+    };
+
+    useEffect(() => {
+        if (initialView && initialView !== view) {
+            if (initialView === 'grade2-basic') {
+                setView('menu');
+            } else {
+                setView(initialView.replace('grade2-', ''));
+            }
+        }
+    }, [initialView]);
+
 
     if (view === 'menu') {
         return (
@@ -52,14 +71,14 @@ export function Grade2MathModule({ onBack }: Grade2MathModuleProps) {
                         description="Mélyítsd el a tudásod az összeadás, kivonás és szorzás világában!"
                         icon={<Calculator className="w-12 h-12" />}
                         color="bg-emerald-50 text-emerald-500 border-emerald-100"
-                        onClick={() => setView('quiz')}
+                        onClick={() => onStartActivity?.('grade2-quiz')}
                     />
                     <KidsCard
                         title="Szorzó-Színező"
                         description="Számold ki a szorzatot és színezz ki 5 izgalmas új képet!"
                         icon={<Palette className="w-12 h-12" />}
                         color="bg-indigo-50 text-indigo-500 border-indigo-100"
-                        onClick={() => setView('coloring')}
+                        onClick={() => onStartActivity?.('grade2-coloring')}
                         highlight
                         badge="PRÉMIUM"
                     />
@@ -68,7 +87,7 @@ export function Grade2MathModule({ onBack }: Grade2MathModuleProps) {
                         description="Építs tornyokat és hasonlítsd össze őket! Melyik a több?"
                         icon={<Blocks className="w-12 h-12" />}
                         color="bg-blue-50 text-blue-500 border-blue-100"
-                        onClick={() => setView('blocks')}
+                        onClick={() => onStartActivity?.('grade2-blocks')}
                         highlight
                         badge="ÚJ JÁTÉK"
                     />
@@ -77,7 +96,7 @@ export function Grade2MathModule({ onBack }: Grade2MathModuleProps) {
                         description="Irányítsd a kígyót és edd meg a helyes válaszokat!"
                         icon={<Target className="w-12 h-12" />}
                         color="bg-rose-50 text-rose-500 border-rose-100"
-                        onClick={() => setView('snake')}
+                        onClick={() => onStartActivity?.('grade2-snake')}
                         highlight
                         badge="JÁTÉK"
                     />
