@@ -67,7 +67,8 @@ import {
   Pencil,
   Grid3X3,
   Columns,
-  Coins
+  Coins,
+  LayoutGrid
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -195,6 +196,17 @@ export default function MathPage() {
     if (location.pathname !== path) {
       navigate(path);
     }
+  };
+
+  const handleHome = () => {
+    setView('main-select');
+    setSelectedGrade(null);
+    setSelectedTopic(null);
+    setActivityType('quiz');
+    setActiveMaterial(null);
+    setExpandedTopicId(null);
+    setPercentMode(null);
+    updateURL('main-select', null, null, null);
   };
 
   const handleMaterialSelect = (material: any) => {
@@ -490,22 +502,6 @@ export default function MathPage() {
       );
     }
 
-    // Default fallback for Grade 5-7 topics that don't have custom interactive content yet
-    if (topicId.startsWith('g5-') || selectedGrade === 6 || selectedGrade === 7) {
-      return (
-        <div className="py-2">
-          <div className="mb-4 p-4 bg-blue-50/50 rounded-2xl border border-blue-100 flex items-center gap-3">
-            <BookOpen className="w-5 h-5 text-blue-500" />
-            <p className="text-sm font-medium text-blue-700 italic">Ehhez a témakörhöz jelenleg a tankönyvi anyagok érhetőek el.</p>
-          </div>
-          <MaterialGallery
-            grade={selectedGrade || 5}
-            onView={handleMaterialSelect}
-            initialMaterialId={new URLSearchParams(location.search).get('material')}
-          />
-        </div>
-      );
-    }
 
     if (topicId === 'fractions') {
       return (
@@ -1091,6 +1087,23 @@ export default function MathPage() {
       );
     }
 
+    // Default fallback for Grade 5-7 topics that don't have custom interactive content yet
+    if (topicId.startsWith('g5-') || selectedGrade === 6 || selectedGrade === 7) {
+      return (
+        <div className="py-2">
+          <div className="mb-4 p-4 bg-blue-50/50 rounded-2xl border border-blue-100 flex items-center gap-3">
+            <BookOpen className="w-5 h-5 text-blue-500" />
+            <p className="text-sm font-medium text-blue-700 italic">Ehhez a témakörhöz jelenleg a tankönyvi anyagok érhetőek el.</p>
+          </div>
+          <MaterialGallery
+            grade={selectedGrade || 5}
+            onView={handleMaterialSelect}
+            initialMaterialId={new URLSearchParams(location.search).get('material')}
+          />
+        </div>
+      );
+    }
+
     return (
       <div className="text-center py-6 text-slate-400 text-sm italic">
         Ehhez a témakörhöz hamarosan érkeznek az interaktív feladatok!
@@ -1138,18 +1151,27 @@ export default function MathPage() {
 
         <div className="container max-w-5xl mx-auto relative z-10">
           <div className="flex justify-between items-start mb-2">
-            {view !== 'main-select' ? (
+            <div className="flex items-center gap-3">
               <Button
                 variant="ghost"
-                onClick={handleBack}
-                className="text-white hover:bg-white/20 transition-all"
+                onClick={handleHome}
+                className="bg-white/10 text-white hover:bg-white/20 font-black px-4 border border-white/20 shadow-lg backdrop-blur-md transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
               >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Vissza
+                <LayoutGrid className="w-4 h-4" />
+                DIÁKZÓNA
               </Button>
-            ) : (
-              <div></div>
-            )}
+
+              {view !== 'main-select' && (
+                <Button
+                  variant="ghost"
+                  onClick={handleBack}
+                  className="text-white hover:bg-white/20 transition-all border border-white/10"
+                >
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Vissza
+                </Button>
+              )}
+            </div>
             <div className="flex items-center gap-2">
               <div ref={searchRef} className="relative hidden sm:flex items-center group">
                 <input
