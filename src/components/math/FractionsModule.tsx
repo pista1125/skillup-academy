@@ -56,13 +56,15 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false, ini
     // Keep internal view in sync with prop from parent (for deep-linking and browser navigation)
     useEffect(() => {
         if (initialView && initialView !== view) {
-            if (initialView === 'fractions') {
+            if (initialView === 'fractions' || initialView === 'g5-fractions-decimals') {
                 setView('menu');
-            } else {
+            } else if (initialView.startsWith('fractions-') || initialView.startsWith('decimal-')) {
                 // If it's a sub-activity like fractions-quiz, we might need to strip the prefix
-                // for internal module state, or just use the full string if we updated ViewType
+                // for internal module state
                 setView(initialView.replace('fractions-', ''));
             }
+        } else if (!initialView && view !== 'menu') {
+            setView('menu');
         }
     }, [initialView]);
 

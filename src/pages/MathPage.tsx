@@ -178,6 +178,10 @@ export default function MathPage() {
       path = topic ? `/eszkozok/${topic}` : '/eszkozok';
     } else if (newView === 'games-select') {
       path = topic ? `/jatekok/${topic}` : '/jatekok';
+    } else if (newView === 'activity' && !grade) {
+      // Handle tool/game activity without grade
+      const isGame = activity === 'snake-game';
+      path = isGame ? `/jatekok/${topic || activity}` : `/eszkozok/${topic || activity}`;
     } else if (grade) {
       path = `/${gradeToSlug(grade)}`;
       if (topic) {
@@ -382,12 +386,13 @@ export default function MathPage() {
     }
 
     if (topicId === 'g5-fractions-decimals') {
+      const isFractionActivity = activityType === 'fractions' || activityType?.startsWith('fractions-') || activityType?.startsWith('decimal-');
       return (
         <FractionsModule
           isInline
           onBack={() => setExpandedTopicId(null)}
           onStartActivity={(type) => handleActivitySelect(type as ActivityType, topicId)}
-          initialView={activityType}
+          initialView={isFractionActivity ? activityType : 'menu'}
         />
       );
     }
