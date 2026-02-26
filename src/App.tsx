@@ -18,6 +18,13 @@ const App = () => (
       <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Routes>
           <Route path="/" element={<MathPage />} />
+          <Route path="/:grade" element={<MathPage />} />
+          <Route path="/:grade/:topic" element={<MathPage />} />
+          <Route path="/:grade/:topic/:activity" element={<MathPage />} />
+          <Route path="/eszkozok" element={<MathPage />} />
+          <Route path="/eszkozok/:topic" element={<MathPage />} />
+          <Route path="/jatekok" element={<MathPage />} />
+          <Route path="/jatekok/:topic" element={<MathPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

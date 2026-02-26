@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { SectionHeader } from '@/components/math/SectionHeader';
 import { ActivityPlaceholder } from '@/components/math/ActivityPlaceholder';
 import DecimalFractionsQuiz from '@/components/math/DecimalFractionsQuiz';
@@ -74,14 +74,24 @@ import { cn } from '@/lib/utils';
 type ViewState = 'main-select' | 'topic-select' | 'tools-select' | 'games-select' | 'activity' | 'geometry-select';
 type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game' | 'circle-parts' | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz' | 'triangle-angles-quiz' | 'g7-rational-numbers' | 'g7-expression-usage' | 'decimal-fractions' | 'number-line' | 'construction' | 'decimal-quiz' | 'decimal-multiplication-quiz' | 'decimal-division-quiz' | 'decimal-shifter' | 'manipulative-division' | 'equation-solver' | 'equation-balance' | 'money-calculation';
 
+const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
+const slugToGrade = (slug: string): GradeLevel | null => {
+  const match = slug.match(/^(\d)-osztaly$/);
+  return match ? parseInt(match[1]) as GradeLevel : null;
+};
+
 export default function MathPage() {
   const navigate = useNavigate();
+  const { grade: gradeParam, topic: topicParam, activity: activityParam } = useParams();
+  const location = useLocation();
+
   const [view, setView] = useState<ViewState>('main-select');
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
   const [selectedGrade, setSelectedGrade] = useState<GradeLevel | null>(null);
   const [activityType, setActivityType] = useState<ActivityType>('quiz');
   const [activeMaterial, setActiveMaterial] = useState<{ title: string, path: string } | null>(null);
   const [expandedTopicId, setExpandedTopicId] = useState<string | null>(null);
+
   const [percentMode, setPercentMode] = useState<'calculate-value' | 'calculate-rate' | 'calculate-base' | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [showResults, setShowResults] = useState(false);
@@ -97,122 +107,216 @@ export default function MathPage() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Sync state from URL on load and URL change
+  useEffect(() => {
+    if (location.pathname === '/' || location.pathname === '') {
+      setView('main-select');
+      setSelectedGrade(null);
+      setSelectedTopic(null);
+      return;
+    }
+
+    if (location.pathname.startsWith('/eszkozok')) {
+      setView('tools-select');
+      setSelectedGrade(null);
+      if (topicParam) {
+        setSelectedTopic(topicParam);
+        setActivityType(topicParam as ActivityType);
+        setView('activity');
+      }
+      return;
+    }
+
+    if (location.pathname.startsWith('/jatekok')) {
+      setView('games-select');
+      setSelectedGrade(null);
+      if (topicParam) {
+        setSelectedTopic(topicParam);
+        setActivityType(topicParam as ActivityType);
+        setView('activity');
+      }
+      return;
+    }
+
+    const grade = slugToGrade(gradeParam || '');
+    if (grade) {
+      setSelectedGrade(grade);
+      if (topicParam) {
+        setSelectedTopic(topicParam);
+        if (activityParam) {
+          setActivityType(activityParam as ActivityType);
+          setView('activity');
+        } else {
+          setView('topic-select');
+          // Some topics might show detail instead of full activity
+          if (!((grade === 5 && topicParam.startsWith('g5-')) || grade === 6 || grade === 7)) {
+            setActivityType(topicParam as ActivityType);
+            setView('activity');
+          }
+        }
+      } else {
+        setView('topic-select');
+      }
+    }
+  }, [location.pathname, gradeParam, topicParam, activityParam]);
+
+  // Sync URL from state when state changes via user interaction
+  const updateURL = (
+    newView: ViewState,
+    grade: GradeLevel | null,
+    topic: string | null,
+    activity: ActivityType | null
+  ) => {
+    let path = '/';
+    if (newView === 'tools-select') {
+      path = topic ? `/eszkozok/${topic}` : '/eszkozok';
+    } else if (newView === 'games-select') {
+      path = topic ? `/jatekok/${topic}` : '/jatekok';
+    } else if (grade) {
+      path = `/${gradeToSlug(grade)}`;
+      if (topic) {
+        path += `/${topic}`;
+        if (newView === 'activity' && activity) {
+          path += `/${activity}`;
+        }
+      }
+    }
+
+    if (location.pathname !== path) {
+      navigate(path);
+    }
+  };
+
+
   const currentTopic = mathTopics.find(t => t.id === selectedTopic);
 
   const handleGradeSelect = (grade: GradeLevel) => {
     setSelectedGrade(grade);
     setView('topic-select');
     setExpandedTopicId(null);
+    updateURL('topic-select', grade, null, null);
   };
 
   const handleTopicSelect = (topicId: string, forceActivity = false) => {
     if (!forceActivity && ((selectedGrade === 5 && topicId.startsWith('g5-')) || selectedGrade === 6 || selectedGrade === 7)) {
       setExpandedTopicId(expandedTopicId === topicId ? null : topicId);
+      // We don't necessarily update URL for expanded topics unless they are "terminal"
       return;
     }
 
     setSelectedTopic(topicId);
     window.scrollTo(0, 0);
 
+    let finalActivityType: ActivityType = 'quiz';
     if (topicId === 'fractions') {
-      setActivityType('fractions');
-      setView('activity');
+      finalActivityType = 'fractions';
     } else if (topicId === 'basic-operations' && selectedGrade === 1) {
-      setActivityType('grade1-basic');
-      setView('activity');
+      finalActivityType = 'grade1-basic';
     } else if (topicId === 'basic-operations' && selectedGrade === 2) {
-      setActivityType('grade2-basic');
-      setView('activity');
+      finalActivityType = 'grade2-basic';
     } else if (topicId === 'basic-operations' && selectedGrade === 3) {
-      setActivityType('grade3-basic');
-      setView('activity');
+      finalActivityType = 'grade3-basic';
     } else if (topicId === 'algebra') {
-      setActivityType('algebra');
-      setView('activity');
+      finalActivityType = 'algebra';
     } else if (topicId === 'geometry') {
-      setActivityType('geometry');
-      setView('activity');
+      finalActivityType = 'geometry';
     } else if (topicId === 'percentages' || topicId === 'g7-percent-equations') {
-      setActivityType('percentages');
+      finalActivityType = 'percentages';
       setPercentMode(null);
-      setView('activity');
     } else if (topicId === 'divisibility') {
-      setActivityType('divisibility');
-      setView('activity');
+      finalActivityType = 'divisibility';
     } else if (topicId === 'materials') {
-      setActivityType('materials');
-      setView('activity');
+      finalActivityType = 'materials';
     } else if (topicId === 'long-division') {
-      setActivityType('long-division');
-      setView('activity');
+      finalActivityType = 'long-division';
     } else if (topicId === 'line-relationships') {
-      setActivityType('line-relationships');
-      setView('activity');
+      finalActivityType = 'line-relationships';
     } else if (topicId === 'divisibility-powers') {
-      setActivityType('divisibility-powers');
-      setView('activity');
+      finalActivityType = 'divisibility-powers';
     } else if (topicId === 'snake-game') {
-      setActivityType('snake-game');
-      setView('activity');
+      finalActivityType = 'snake-game';
     } else if (topicId === 'decimal-fractions') {
-      setActivityType('decimal-fractions');
-      setView('activity');
+      finalActivityType = 'decimal-fractions';
     } else if (topicId === 'number-line') {
-      setActivityType('number-line');
-      setView('activity');
+      finalActivityType = 'number-line';
     } else if (topicId === 'construction') {
-      setActivityType('construction');
-      setView('activity');
+      finalActivityType = 'construction';
     } else if (topicId === 'manipulative-division') {
-      setActivityType('manipulative-division');
-      setView('activity');
+      finalActivityType = 'manipulative-division';
     } else if (topicId === 'decimal-shifter') {
-      setActivityType('decimal-shifter');
-      setView('activity');
+      finalActivityType = 'decimal-shifter';
     } else if (topicId === 'equation-solver') {
-      setActivityType('equation-solver');
-      setView('activity');
+      finalActivityType = 'equation-solver';
     } else if (topicId === 'equation-balance') {
-      setActivityType('equation-balance');
-      setView('activity');
+      finalActivityType = 'equation-balance';
     } else if (topicId === 'money-calculation') {
-      setActivityType('money-calculation');
-      setView('activity');
+      finalActivityType = 'money-calculation';
     } else {
-      setActivityType('quiz');
-      setView('activity');
+      finalActivityType = 'quiz';
     }
+
+    setActivityType(finalActivityType);
+    setView('activity');
+    updateURL('activity', selectedGrade, topicId, finalActivityType);
   };
 
   const handleToolSelect = (toolId: string) => {
     setSelectedGrade(null);
-    handleTopicSelect(toolId, true);
+    setSelectedTopic(toolId);
+    setActivityType(toolId as ActivityType);
+    setView('activity');
+    updateURL('activity', null, toolId, toolId as ActivityType);
   };
+
 
   const handleQuizComplete = (result: QuizResult) => {
     console.log('Quiz completed:', result);
   };
 
   const handleBack = () => {
+    let nextView: ViewState = 'main-select';
+    let nextGrade: GradeLevel | null = selectedGrade;
+    let nextTopic: string | null = selectedTopic;
+    let nextActivity: ActivityType | null = activityType;
+
     if (view === 'activity') {
       if (activityType === 'materials' && activeMaterial) {
         setActiveMaterial(null);
+        return; // Stay in activity view
       } else if (selectedTopic === 'geometry' && selectedGrade === 6) {
-        setView('geometry-select');
+        nextView = 'geometry-select';
+        nextTopic = null;
       } else if (selectedGrade) {
-        setView('topic-select');
+        nextView = 'topic-select';
+        nextTopic = null;
+      } else if (location.pathname.startsWith('/eszkozok')) {
+        nextView = 'tools-select';
+        nextTopic = null;
+      } else if (location.pathname.startsWith('/jatekok')) {
+        nextView = 'games-select';
+        nextTopic = null;
       } else {
-        setView('tools-select');
+        nextView = 'main-select';
+        nextGrade = null;
+        nextTopic = null;
       }
     } else if (view === 'geometry-select') {
-      setView('topic-select');
+      nextView = 'topic-select';
+      nextTopic = null;
     } else if (view === 'topic-select') {
-      setView('main-select');
-      setSelectedGrade(null);
+      nextView = 'main-select';
+      nextGrade = null;
+      nextTopic = null;
     } else if (view === 'tools-select' || view === 'games-select') {
-      setView('main-select');
+      nextView = 'main-select';
+      nextGrade = null;
+      nextTopic = null;
     }
-    // No navigation to '/' as this is now the root
+
+    setView(nextView);
+    setSelectedGrade(nextGrade);
+    setSelectedTopic(nextTopic);
+    updateURL(nextView, nextGrade, nextTopic, null);
   };
 
   const renderTopicContent = (topicId: string) => {
