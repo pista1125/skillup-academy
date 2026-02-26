@@ -6,6 +6,10 @@ import { FractionMultiplicationMatcher } from './FractionMultiplicationMatcher';
 import { FractionVisualMatcher } from './FractionVisualMatcher';
 import { FractionDivisionMatcher } from './FractionDivisionMatcher';
 import { DecimalFractionsTool } from './DecimalFractionsTool';
+import DecimalFractionsQuiz from './DecimalFractionsQuiz';
+import DecimalMultiplicationQuiz from './DecimalMultiplicationQuiz';
+import DecimalDivisionQuiz from './DecimalDivisionQuiz';
+import DecimalShifterTool from './DecimalShifterTool';
 import { DecimalMultiplicationMatcher } from './DecimalMultiplicationMatcher';
 import { DecimalDivisionMatcher } from './DecimalDivisionMatcher';
 import { NumberLineTool } from './NumberLineTool';
@@ -38,7 +42,7 @@ interface FractionsModuleProps {
     initialView?: string;
 }
 
-type ViewType = 'menu' | 'visualizer' | 'quiz' | 'multiplier' | 'visual-matcher' | 'divider' | 'decimal-fractions' | 'number-line' | 'decimal-multiplier' | 'decimal-divider' | 'decimal-multiplier-select' | 'decimal-divider-select';
+type ViewType = 'menu' | 'visualizer' | 'quiz' | 'multiplier' | 'visual-matcher' | 'divider' | 'decimal-fractions' | 'number-line' | 'decimal-multiplier' | 'decimal-divider' | 'decimal-multiplier-select' | 'decimal-divider-select' | 'decimal-quiz' | 'decimal-multiplication-quiz' | 'decimal-division-quiz' | 'decimal-shifter';
 
 export function FractionsModule({ onBack, onStartActivity, isInline = false, initialView }: FractionsModuleProps) {
     const [view, setView] = useState<ViewType | string>(() => {
@@ -430,6 +434,22 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false, ini
                     difficulty={selectedDifficulty as any}
                     onBack={() => setView('decimal-divider-select')}
                 />
+            )}
+
+            {view === 'decimal-quiz' && (
+                <DecimalFractionsQuiz onBack={handleBackToMenu} />
+            )}
+
+            {view === 'decimal-multiplication-quiz' && (
+                <DecimalMultiplicationQuiz onBack={handleBackToMenu} />
+            )}
+
+            {view === 'decimal-division-quiz' && (
+                <DecimalDivisionQuiz onBack={handleBackToMenu} />
+            )}
+
+            {view === 'decimal-shifter' && (
+                <DecimalShifterTool onBack={handleBackToMenu} />
             )}
         </div>
     );

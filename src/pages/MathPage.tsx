@@ -312,7 +312,24 @@ export default function MathPage() {
       if (activityType === 'materials' && activeMaterial) {
         handleMaterialSelect(null);
         return; // Stay in activity view
-      } else if (selectedTopic === 'geometry' && selectedGrade === 6) {
+      }
+
+      // If we are in a hub module (fractions, decimals, grade-specific hubs),
+      // and we are NOT already at the hub menu level, go back to the menu level first.
+      const isHubSubActivity =
+        (activityType.startsWith('fractions-') || activityType.startsWith('decimal-') || activityType.startsWith('grade1-') || activityType.startsWith('grade2-') || activityType.startsWith('grade3-')) &&
+        activityType !== 'fractions' && activityType !== 'grade1-basic' && activityType !== 'grade2-basic' && activityType !== 'grade3-basic';
+
+      if (isHubSubActivity) {
+        const hubId = activityType.startsWith('fractions-') || activityType.startsWith('decimal-') ? 'fractions' :
+          activityType.startsWith('grade1-') ? 'grade1-basic' :
+            activityType.startsWith('grade2-') ? 'grade2-basic' : 'grade3-basic';
+
+        handleActivitySelect(hubId as ActivityType, selectedTopic || undefined);
+        return;
+      }
+
+      if (selectedTopic === 'geometry' && selectedGrade === 6) {
         nextView = 'geometry-select';
         nextTopic = null;
       } else if (selectedGrade) {
@@ -1565,26 +1582,6 @@ export default function MathPage() {
 
                 {activityType === 'word-problems' && (
                   <WordProblemsModule onBack={handleBack} />
-                )}
-
-                {activityType === 'decimal-fractions' && (
-                  <DecimalFractionsTool onBack={handleBack} />
-                )}
-
-                {activityType === 'decimal-quiz' && (
-                  <DecimalFractionsQuiz onBack={handleBack} />
-                )}
-
-                {activityType === 'decimal-multiplication-quiz' && (
-                  <DecimalMultiplicationQuiz onBack={handleBack} />
-                )}
-
-                {activityType === 'decimal-division-quiz' && (
-                  <DecimalDivisionQuiz onBack={handleBack} />
-                )}
-
-                {activityType === 'decimal-shifter' && (
-                  <DecimalShifterTool onBack={handleBack} />
                 )}
 
                 {activityType === 'number-line' && (
