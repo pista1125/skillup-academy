@@ -16,15 +16,15 @@ interface MathQuizProps {
 function generateProblem(grade: number, type: string): MathProblem {
   const id = Math.random().toString(36).substr(2, 9);
   let a: number, b: number, answer: number, expression: string;
-  
+
   // Difficulty based on grade
   const maxNum = grade <= 2 ? 10 : grade <= 4 ? 50 : grade <= 6 ? 100 : 1000;
-  
-  const operations = type === 'mixed' 
-    ? ['addition', 'subtraction', 'multiplication'] 
+
+  const operations = type === 'mixed'
+    ? (grade >= 4 ? ['addition', 'subtraction', 'multiplication', 'division'] : ['addition', 'subtraction', 'multiplication'])
     : [type];
   const operation = operations[Math.floor(Math.random() * operations.length)];
-  
+
   switch (operation) {
     case 'addition':
       a = Math.floor(Math.random() * maxNum) + 1;
@@ -46,11 +46,11 @@ function generateProblem(grade: number, type: string): MathProblem {
       expression = `${a} × ${b} = ?`;
       break;
     case 'division':
-      const divMax = grade <= 4 ? 10 : 12;
-      b = Math.floor(Math.random() * divMax) + 1;
-      answer = Math.floor(Math.random() * divMax) + 1;
+      const divMax = grade <= 4 ? 10 : 13;
+      b = Math.floor(Math.random() * (divMax - 1)) + 2; // Split by 2-12
+      answer = Math.floor(Math.random() * (divMax - 1)) + 1;
       a = b * answer;
-      expression = `${a} ÷ ${b} = ?`;
+      expression = `${a} : ${b} = ?`;
       break;
     case 'fractions':
       // Simple fractions for elementary
@@ -66,7 +66,7 @@ function generateProblem(grade: number, type: string): MathProblem {
       answer = a + b;
       expression = `${a} + ${b} = ?`;
   }
-  
+
   return {
     id,
     expression: expression!,
@@ -90,7 +90,7 @@ export function MathQuiz({ grade, type, onComplete, onBack }: MathQuizProps) {
   const XP_PER_CORRECT = 10;
 
   useEffect(() => {
-    const newProblems = Array.from({ length: TOTAL_QUESTIONS }, () => 
+    const newProblems = Array.from({ length: TOTAL_QUESTIONS }, () =>
       generateProblem(grade, type)
     );
     setProblems(newProblems);
@@ -100,7 +100,7 @@ export function MathQuiz({ grade, type, onComplete, onBack }: MathQuizProps) {
     const correct = parseInt(userAnswer) === problems[currentIndex].answer;
     setIsCorrect(correct);
     setShowResult(true);
-    
+
     if (correct) {
       setCorrectCount(prev => prev + 1);
       setXpEarned(prev => prev + XP_PER_CORRECT);
@@ -140,18 +140,18 @@ export function MathQuiz({ grade, type, onComplete, onBack }: MathQuizProps) {
     const finalCorrect = correctCount;
     const percentage = Math.round((finalCorrect / TOTAL_QUESTIONS) * 100);
     const finalXP = finalCorrect * XP_PER_CORRECT;
-    
+
     return (
       <div className="max-w-lg mx-auto text-center animate-confetti">
         <div className="bg-card rounded-3xl p-8 shadow-xl border border-border">
           <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-success flex items-center justify-center">
             <Trophy className="w-10 h-10 text-white" />
           </div>
-          
+
           <h2 className="font-display text-3xl font-bold mb-2">
             {percentage >= 80 ? 'Fantasztikus!' : percentage >= 60 ? 'Szép munka!' : 'Jó próbálkozás!'}
           </h2>
-          
+
           <p className="text-muted-foreground mb-6">
             Befejezted a kvízt!
           </p>
@@ -195,9 +195,9 @@ export function MathQuiz({ grade, type, onComplete, onBack }: MathQuizProps) {
           </span>
           <XPBadge xp={xpEarned} />
         </div>
-        <ProgressBar 
-          current={currentIndex + 1} 
-          total={TOTAL_QUESTIONS} 
+        <ProgressBar
+          current={currentIndex + 1}
+          total={TOTAL_QUESTIONS}
           variant="math"
           size="lg"
         />
@@ -221,21 +221,19 @@ export function MathQuiz({ grade, type, onComplete, onBack }: MathQuizProps) {
             onKeyPress={handleKeyPress}
             placeholder="Írd be a választ..."
             disabled={showResult}
-            className={`text-center text-2xl font-bold h-16 rounded-xl ${
-              showResult 
-                ? isCorrect 
-                  ? 'border-success bg-success-light' 
+            className={`text-center text-2xl font-bold h-16 rounded-xl ${showResult
+                ? isCorrect
+                  ? 'border-success bg-success-light'
                   : 'border-destructive bg-destructive/10'
                 : ''
-            }`}
+              }`}
             autoFocus
           />
 
           {/* Result Feedback */}
           {showResult && (
-            <div className={`flex items-center justify-center gap-2 p-4 rounded-xl ${
-              isCorrect ? 'bg-success-light text-success' : 'bg-destructive/10 text-destructive'
-            }`}>
+            <div className={`flex items-center justify-center gap-2 p-4 rounded-xl ${isCorrect ? 'bg-success-light text-success' : 'bg-destructive/10 text-destructive'
+              }`}>
               {isCorrect ? (
                 <>
                   <CheckCircle className="w-6 h-6" />
@@ -252,15 +250,15 @@ export function MathQuiz({ grade, type, onComplete, onBack }: MathQuizProps) {
 
           {/* Action Button */}
           {!showResult ? (
-            <Button 
-              onClick={checkAnswer} 
+            <Button
+              onClick={checkAnswer}
               disabled={!userAnswer}
               className="w-full h-14 text-lg font-bold bg-gradient-math hover:opacity-90 rounded-xl"
             >
               Ellenőrzés
             </Button>
           ) : (
-            <Button 
+            <Button
               onClick={nextQuestion}
               className="w-full h-14 text-lg font-bold bg-gradient-hero hover:opacity-90 rounded-xl"
             >

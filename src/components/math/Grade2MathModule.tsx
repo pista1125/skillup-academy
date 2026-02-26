@@ -25,7 +25,12 @@ interface Grade2MathModuleProps {
 type ViewType = 'menu' | 'coloring' | 'quiz' | 'blocks' | 'snake';
 
 export function Grade2MathModule({ onBack, initialView, onStartActivity }: Grade2MathModuleProps) {
-    const [view, setView] = useState<ViewType | string>(initialView || 'menu');
+    const [view, setView] = useState<ViewType | string>(() => {
+        if (!initialView || initialView === 'grade2-basic') {
+            return 'menu';
+        }
+        return initialView.replace('grade2-', '');
+    });
 
     const handleBackToMenu = () => {
         if (onStartActivity) {

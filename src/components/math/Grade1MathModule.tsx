@@ -21,7 +21,12 @@ interface Grade1MathModuleProps {
 type ViewType = 'menu' | 'addition10' | 'snake';
 
 export function Grade1MathModule({ onBack, initialView, onStartActivity }: Grade1MathModuleProps) {
-    const [view, setView] = useState<ViewType | string>(initialView || 'menu');
+    const [view, setView] = useState<ViewType | string>(() => {
+        if (!initialView || initialView === 'grade1-basic') {
+            return 'menu';
+        }
+        return initialView.replace('grade1-', '');
+    });
 
     const handleBackToMenu = () => {
         if (onStartActivity) {

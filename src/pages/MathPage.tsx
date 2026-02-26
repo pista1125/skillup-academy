@@ -473,6 +473,23 @@ export default function MathPage() {
       );
     }
 
+    // Default fallback for Grade 5-7 topics that don't have custom interactive content yet
+    if (topicId.startsWith('g5-') || selectedGrade === 6 || selectedGrade === 7) {
+      return (
+        <div className="py-2">
+          <div className="mb-4 p-4 bg-blue-50/50 rounded-2xl border border-blue-100 flex items-center gap-3">
+            <BookOpen className="w-5 h-5 text-blue-500" />
+            <p className="text-sm font-medium text-blue-700 italic">Ehhez a témakörhöz jelenleg a tankönyvi anyagok érhetőek el.</p>
+          </div>
+          <MaterialGallery
+            grade={selectedGrade || 5}
+            onView={handleMaterialSelect}
+            initialMaterialId={new URLSearchParams(location.search).get('material')}
+          />
+        </div>
+      );
+    }
+
     if (topicId === 'fractions') {
       return (
         <FractionsModule
@@ -1446,7 +1463,8 @@ export default function MathPage() {
 
         {view === 'activity' && (
           <div className="animate-slide-up">
-            {(activityType === 'fractions' || activityType.startsWith('fractions-') || activityType.startsWith('decimal-')) && (
+            {/* HUB MODULES - Handle their own sets of activities exclusively */}
+            {(activityType === 'fractions' || activityType.startsWith('fractions-') || activityType.startsWith('decimal-')) ? (
               <FractionsModule
                 onBack={handleBack}
                 initialView={activityType}
@@ -1454,212 +1472,210 @@ export default function MathPage() {
                   handleActivitySelect(type as ActivityType);
                 }}
               />
-            )}
-
-            {(activityType === 'grade1-basic' || activityType.startsWith('grade1-')) && (
+            ) : (activityType === 'grade1-basic' || activityType.startsWith('grade1-')) ? (
               <Grade1MathModule
                 onBack={handleBack}
                 initialView={activityType}
                 onStartActivity={(type) => handleActivitySelect(type as ActivityType)}
               />
-            )}
-
-            {(activityType === 'grade2-basic' || activityType.startsWith('grade2-')) && (
+            ) : (activityType === 'grade2-basic' || activityType.startsWith('grade2-')) ? (
               <Grade2MathModule
                 onBack={handleBack}
                 initialView={activityType}
                 onStartActivity={(type) => handleActivitySelect(type as ActivityType)}
               />
-            )}
-
-            {(activityType === 'grade3-basic' || activityType.startsWith('grade3-')) && (
+            ) : (activityType === 'grade3-basic' || activityType.startsWith('grade3-')) ? (
               <Grade3MathModule
                 onBack={handleBack}
                 initialView={activityType}
                 onStartActivity={(type) => handleActivitySelect(type as ActivityType)}
               />
-            )}
+            ) : (
+              /* NON-HUB ACTIVITIES - Rendered individually */
+              <div className="space-y-6">
 
 
-            {activityType === 'divisibility' && (
-              <DivisibilityTool onBack={handleBack} />
-            )}
+                {activityType === 'divisibility' && (
+                  <DivisibilityTool onBack={handleBack} />
+                )}
 
-            {activityType === 'snake-game' && (
-              <MathSnakeGame onBack={handleBack} grade={typeof selectedGrade === 'number' ? selectedGrade : 3} />
-            )}
+                {activityType === 'snake-game' && (
+                  <MathSnakeGame onBack={handleBack} grade={typeof selectedGrade === 'number' ? selectedGrade : 3} />
+                )}
 
-            {activityType === 'long-division' && (
-              <LongDivisionTool onBack={handleBack} />
-            )}
+                {activityType === 'long-division' && (
+                  <LongDivisionTool onBack={handleBack} />
+                )}
 
-            {activityType === 'angle-matching' && (
-              <AngleMatcher onBack={handleBack} />
-            )}
+                {activityType === 'angle-matching' && (
+                  <AngleMatcher onBack={handleBack} />
+                )}
 
-            {activityType === 'shape-classification' && (
-              <ShapeClassifier onBack={handleBack} />
-            )}
+                {activityType === 'shape-classification' && (
+                  <ShapeClassifier onBack={handleBack} />
+                )}
 
-            {activityType === 'line-relationships' && (
-              <LineRelationships onBack={handleBack} />
-            )}
+                {activityType === 'line-relationships' && (
+                  <LineRelationships onBack={handleBack} />
+                )}
 
-            {activityType === 'circle-parts' && (
-              <CirclePartsGame onBack={handleBack} />
-            )}
+                {activityType === 'circle-parts' && (
+                  <CirclePartsGame onBack={handleBack} />
+                )}
 
-            {activityType === 'triangle-classification' && (
-              <TriangleClassifier onBack={handleBack} />
-            )}
+                {activityType === 'triangle-classification' && (
+                  <TriangleClassifier onBack={handleBack} />
+                )}
 
-            {activityType === 'quadrilateral-classification' && (
-              <QuadrilateralClassifier onBack={handleBack} />
-            )}
+                {activityType === 'quadrilateral-classification' && (
+                  <QuadrilateralClassifier onBack={handleBack} />
+                )}
 
-            {activityType === 'divisibility-powers' && (
-              <DivisibilityPowersModule onBack={handleBack} />
-            )}
+                {activityType === 'divisibility-powers' && (
+                  <DivisibilityPowersModule onBack={handleBack} />
+                )}
 
-            {activityType === 'divisibility-theory' && (
-              <DivisibilityPowersModule onBack={handleBack} initialView="theory" />
-            )}
+                {activityType === 'divisibility-theory' && (
+                  <DivisibilityPowersModule onBack={handleBack} initialView="theory" />
+                )}
 
-            {activityType === 'divisibility-factorization' && (
-              <DivisibilityPowersModule onBack={handleBack} initialView="factorization" />
-            )}
+                {activityType === 'divisibility-factorization' && (
+                  <DivisibilityPowersModule onBack={handleBack} initialView="factorization" />
+                )}
 
-            {activityType === 'divisibility-quiz' && (
-              <DivisibilityPowersModule onBack={handleBack} initialView="quiz" />
-            )}
+                {activityType === 'divisibility-quiz' && (
+                  <DivisibilityPowersModule onBack={handleBack} initialView="quiz" />
+                )}
 
-            {activityType === 'divisibility-matcher' && (
-              <DivisibilityPowersModule onBack={handleBack} initialView="matcher" />
-            )}
+                {activityType === 'divisibility-matcher' && (
+                  <DivisibilityPowersModule onBack={handleBack} initialView="matcher" />
+                )}
 
-            {activityType === 'divisibility-gcdquiz' && (
-              <DivisibilityPowersModule onBack={handleBack} initialView="gcdquiz" />
-            )}
+                {activityType === 'divisibility-gcdquiz' && (
+                  <DivisibilityPowersModule onBack={handleBack} initialView="gcdquiz" />
+                )}
 
-            {activityType === 'divisibility-lkktquiz' && (
-              <DivisibilityPowersModule onBack={handleBack} initialView="lkktquiz" />
-            )}
+                {activityType === 'divisibility-lkktquiz' && (
+                  <DivisibilityPowersModule onBack={handleBack} initialView="lkktquiz" />
+                )}
 
-            {activityType === 'triangle-angles-quiz' && (
-              <TriangleAnglesQuiz onBack={handleBack} />
-            )}
+                {activityType === 'triangle-angles-quiz' && (
+                  <TriangleAnglesQuiz onBack={handleBack} />
+                )}
 
-            {activityType === 'word-problems' && (
-              <WordProblemsModule onBack={handleBack} />
-            )}
+                {activityType === 'word-problems' && (
+                  <WordProblemsModule onBack={handleBack} />
+                )}
 
-            {activityType === 'decimal-fractions' && (
-              <DecimalFractionsTool onBack={handleBack} />
-            )}
+                {activityType === 'decimal-fractions' && (
+                  <DecimalFractionsTool onBack={handleBack} />
+                )}
 
-            {activityType === 'decimal-quiz' && (
-              <DecimalFractionsQuiz onBack={handleBack} />
-            )}
+                {activityType === 'decimal-quiz' && (
+                  <DecimalFractionsQuiz onBack={handleBack} />
+                )}
 
-            {activityType === 'decimal-multiplication-quiz' && (
-              <DecimalMultiplicationQuiz onBack={handleBack} />
-            )}
+                {activityType === 'decimal-multiplication-quiz' && (
+                  <DecimalMultiplicationQuiz onBack={handleBack} />
+                )}
 
-            {activityType === 'decimal-division-quiz' && (
-              <DecimalDivisionQuiz onBack={handleBack} />
-            )}
+                {activityType === 'decimal-division-quiz' && (
+                  <DecimalDivisionQuiz onBack={handleBack} />
+                )}
 
-            {activityType === 'decimal-shifter' && (
-              <DecimalShifterTool onBack={handleBack} />
-            )}
+                {activityType === 'decimal-shifter' && (
+                  <DecimalShifterTool onBack={handleBack} />
+                )}
 
-            {activityType === 'number-line' && (
-              <NumberLineTool onBack={handleBack} />
-            )}
+                {activityType === 'number-line' && (
+                  <NumberLineTool onBack={handleBack} />
+                )}
 
-            {activityType === 'construction' && (
-              <ConstructionTool onBack={handleBack} />
-            )}
+                {activityType === 'construction' && (
+                  <ConstructionTool onBack={handleBack} />
+                )}
 
-            {activityType === 'manipulative-division' && (
-              <ManipulativeDivision onBack={handleBack} />
-            )}
+                {activityType === 'manipulative-division' && (
+                  <ManipulativeDivision onBack={handleBack} />
+                )}
 
-            {activityType === 'equation-solver' && (
-              <EquationSolverTool onBack={handleBack} />
-            )}
+                {activityType === 'equation-solver' && (
+                  <EquationSolverTool onBack={handleBack} />
+                )}
 
-            {activityType === 'money-calculation' && (
-              <MoneyCalculationTool onBack={handleBack} />
-            )}
+                {activityType === 'money-calculation' && (
+                  <MoneyCalculationTool onBack={handleBack} />
+                )}
 
-            {activityType === 'equation-balance' && (
-              <EquationBalanceTool onBack={handleBack} />
-            )}
+                {activityType === 'equation-balance' && (
+                  <EquationBalanceTool onBack={handleBack} />
+                )}
 
-            {activityType === 'materials' && (
-              <MaterialGallery
-                grade={selectedGrade || 5}
-                onView={handleMaterialSelect}
-                initialMaterialId={new URLSearchParams(location.search).get('material')}
-              />
-            )}
+                {activityType === 'materials' && (
+                  <MaterialGallery
+                    grade={selectedGrade || 5}
+                    onView={handleMaterialSelect}
+                    initialMaterialId={new URLSearchParams(location.search).get('material')}
+                  />
+                )}
 
-            {activeMaterial && (
-              <LessonViewer material={activeMaterial} onClose={() => handleMaterialSelect(null)} />
-            )}
+                {activeMaterial && (
+                  <LessonViewer material={activeMaterial} onClose={() => handleMaterialSelect(null)} />
+                )}
 
-            {activityType === 'algebra' && (
-              <AlgebraQuiz
-                grade={typeof selectedGrade === 'number' ? selectedGrade : 7}
-                onComplete={handleQuizComplete}
-                onBack={handleBack}
-              />
-            )}
+                {activityType === 'algebra' && (
+                  <AlgebraQuiz
+                    grade={typeof selectedGrade === 'number' ? selectedGrade : 7}
+                    onComplete={handleQuizComplete}
+                    onBack={handleBack}
+                  />
+                )}
 
-            {(activityType === 'g7-rational-numbers' || activityType === 'g7-expression-usage') && (
-              <div className="text-center py-20 bg-white rounded-3xl shadow-sm border border-slate-100 animate-slide-up">
-                <div className="inline-flex p-6 bg-slate-50 rounded-full text-slate-400 mb-6 group-hover:scale-110 transition-transform">
-                  {activityType === 'g7-rational-numbers' ? <Calculator className="w-12 h-12" /> : <Variable className="w-12 h-12" />}
-                </div>
-                <h3 className="text-2xl font-bold text-slate-900 mb-4">
-                  {activityType === 'g7-rational-numbers' ? 'Racionális számok' : 'Számok és betűs kifejezések'}
-                </h3>
-                <p className="text-slate-500 max-w-md mx-auto mb-8 px-4">
-                  Ez az interaktív modul hamarosan elkészül! Addig is nézd meg a többi tananyagot.
-                </p>
-                <Button
-                  onClick={handleBack}
-                  variant="outline"
-                  className="rounded-xl px-8"
-                >
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Vissza a témakörökhöz
-                </Button>
-              </div>
-            )}
+                {(activityType === 'g7-rational-numbers' || activityType === 'g7-expression-usage') && (
+                  <div className="text-center py-20 bg-white rounded-3xl shadow-sm border border-slate-100 animate-slide-up">
+                    <div className="inline-flex p-6 bg-slate-50 rounded-full text-slate-400 mb-6 group-hover:scale-110 transition-transform">
+                      {activityType === 'g7-rational-numbers' ? <Calculator className="w-12 h-12" /> : <Variable className="w-12 h-12" />}
+                    </div>
+                    <h3 className="text-2xl font-bold text-slate-900 mb-4">
+                      {activityType === 'g7-rational-numbers' ? 'Racionális számok' : 'Számok és betűs kifejezések'}
+                    </h3>
+                    <p className="text-slate-500 max-w-md mx-auto mb-8 px-4">
+                      Ez az interaktív modul hamarosan elkészül! Addig is nézd meg a többi tananyagot.
+                    </p>
+                    <Button
+                      onClick={handleBack}
+                      variant="outline"
+                      className="rounded-xl px-8"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-2" />
+                      Vissza a témakörökhöz
+                    </Button>
+                  </div>
+                )}
 
-            {activityType === 'percentages' && (
-              <PercentagesQuiz onBack={handleBack} initialMode={percentMode} />
-            )}
+                {activityType === 'percentages' && (
+                  <PercentagesQuiz onBack={handleBack} initialMode={percentMode} />
+                )}
 
-            {activityType === 'quiz' && (
-              <MathQuiz
-                grade={typeof selectedGrade === 'number' ? selectedGrade : 5}
-                type="mixed"
-                onComplete={handleQuizComplete}
-                onBack={handleBack}
-              />
-            )}
+                {activityType === 'quiz' && (
+                  <MathQuiz
+                    grade={typeof selectedGrade === 'number' ? selectedGrade : 5}
+                    type="mixed"
+                    onComplete={handleQuizComplete}
+                    onBack={handleBack}
+                  />
+                )}
 
-            {activityType === 'geometry' && (
-              <div className="text-center py-12 bg-card rounded-2xl border border-border">
-                <div className="text-6xl mb-4">📐</div>
-                <h2 className="font-display text-2xl font-bold mb-2">Geometria modul</h2>
-                <p className="text-muted-foreground mb-6">
-                  Az interaktív geometriai szerkesztő és számoló modul fejlesztés alatt áll.
-                </p>
-                <Button onClick={handleBack}>Vissza</Button>
+                {activityType === 'geometry' && (
+                  <div className="text-center py-12 bg-card rounded-2xl border border-border">
+                    <div className="text-6xl mb-4">📐</div>
+                    <h2 className="font-display text-2xl font-bold mb-2">Geometria modul</h2>
+                    <p className="text-muted-foreground mb-6">
+                      Az interaktív geometriai szerkesztő és számoló modul fejlesztés alatt áll.
+                    </p>
+                    <Button onClick={handleBack}>Vissza</Button>
+                  </div>
+                )}
               </div>
             )}
           </div>

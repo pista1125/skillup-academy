@@ -41,7 +41,12 @@ interface FractionsModuleProps {
 type ViewType = 'menu' | 'visualizer' | 'quiz' | 'multiplier' | 'visual-matcher' | 'divider' | 'decimal-fractions' | 'number-line' | 'decimal-multiplier' | 'decimal-divider' | 'decimal-multiplier-select' | 'decimal-divider-select';
 
 export function FractionsModule({ onBack, onStartActivity, isInline = false, initialView }: FractionsModuleProps) {
-    const [view, setView] = useState<ViewType | string>(initialView || 'menu');
+    const [view, setView] = useState<ViewType | string>(() => {
+        if (!initialView || initialView === 'fractions' || initialView === 'g5-fractions-decimals') {
+            return 'menu';
+        }
+        return initialView.replace('fractions-', '');
+    });
     const [selectedDifficulty, setSelectedDifficulty] = useState<'easy' | 'medium' | 'hard' | undefined>(undefined);
 
     const handleBackToMenu = () => {

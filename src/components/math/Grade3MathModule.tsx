@@ -29,7 +29,12 @@ interface Grade3MathModuleProps {
 type ViewType = 'menu' | 'coloring' | 'quiz' | 'blocks' | 'snake' | 'alapmuveletek' | 'tower-builder' | 'money-quiz' | 'money-level-select';
 
 export function Grade3MathModule({ onBack, initialView, onStartActivity }: Grade3MathModuleProps) {
-    const [view, setView] = useState<ViewType | string>(initialView || 'menu');
+    const [view, setView] = useState<ViewType | string>(() => {
+        if (!initialView || initialView === 'grade3-basic') {
+            return 'menu';
+        }
+        return initialView.replace('grade3-', '');
+    });
     const [moneyDifficulty, setMoneyDifficulty] = useState<Difficulty>('easy');
 
     const handleBackToMenu = () => {
