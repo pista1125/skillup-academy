@@ -43,7 +43,7 @@ interface FractionsModuleProps {
     initialView?: string;
 }
 
-type ViewType = 'menu' | 'visualizer' | 'quiz' | 'multiplier' | 'visual-matcher' | 'divider' | 'decimal-fractions' | 'number-line' | 'decimal-multiplier' | 'decimal-divider' | 'decimal-multiplier-select' | 'decimal-divider-select' | 'decimal-quiz' | 'decimal-multiplication-quiz' | 'decimal-division-quiz' | 'decimal-shifter' | 'fraction-to-decimal-matcher';
+type ViewType = 'menu' | 'visualizer' | 'quiz' | 'multiplier' | 'visual-matcher' | 'divider' | 'decimal-fractions' | 'number-line' | 'decimal-multiplier' | 'decimal-divider' | 'decimal-multiplier-select' | 'decimal-divider-select' | 'decimal-quiz' | 'decimal-multiplication-quiz' | 'decimal-division-quiz' | 'decimal-shifter' | 'to-decimal-matcher';
 
 export function FractionsModule({ onBack, onStartActivity, isInline = false, initialView }: FractionsModuleProps) {
     const [view, setView] = useState<ViewType | string>(() => {
@@ -349,7 +349,7 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false, ini
                                 type="Gyakorlás"
                                 icon={<Binary className="w-6 h-6" />}
                                 color="indigo"
-                                onClick={() => onStartActivity?.('fraction-to-decimal-matcher')}
+                                onClick={() => onStartActivity?.('fractions-to-decimal-matcher')}
                             />
                         </div>
                     </section>
@@ -453,7 +453,7 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false, ini
                 <DecimalShifterTool onBack={handleBackToMenu} />
             )}
 
-            {view === 'fraction-to-decimal-matcher' && (
+            {view === 'to-decimal-matcher' && (
                 <FractionToDecimalMatcher onBack={handleBackToMenu} />
             )}
         </div>
