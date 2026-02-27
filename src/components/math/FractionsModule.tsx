@@ -13,6 +13,7 @@ import DecimalShifterTool from './DecimalShifterTool';
 import { DecimalMultiplicationMatcher } from './DecimalMultiplicationMatcher';
 import { DecimalDivisionMatcher } from './DecimalDivisionMatcher';
 import { NumberLineTool } from './NumberLineTool';
+import { FractionToDecimalMatcher } from './FractionToDecimalMatcher';
 import { SectionHeader } from './SectionHeader';
 import { ActivityPlaceholder } from './ActivityPlaceholder';
 import {
@@ -42,7 +43,7 @@ interface FractionsModuleProps {
     initialView?: string;
 }
 
-type ViewType = 'menu' | 'visualizer' | 'quiz' | 'multiplier' | 'visual-matcher' | 'divider' | 'decimal-fractions' | 'number-line' | 'decimal-multiplier' | 'decimal-divider' | 'decimal-multiplier-select' | 'decimal-divider-select' | 'decimal-quiz' | 'decimal-multiplication-quiz' | 'decimal-division-quiz' | 'decimal-shifter';
+type ViewType = 'menu' | 'visualizer' | 'quiz' | 'multiplier' | 'visual-matcher' | 'divider' | 'decimal-fractions' | 'number-line' | 'decimal-multiplier' | 'decimal-divider' | 'decimal-multiplier-select' | 'decimal-divider-select' | 'decimal-quiz' | 'decimal-multiplication-quiz' | 'decimal-division-quiz' | 'decimal-shifter' | 'fraction-to-decimal-matcher';
 
 export function FractionsModule({ onBack, onStartActivity, isInline = false, initialView }: FractionsModuleProps) {
     const [view, setView] = useState<ViewType | string>(() => {
@@ -345,10 +346,10 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false, ini
                             <ActivityPlaceholder
                                 title="Átváltás"
                                 subtitle="Tört alak -> Tizedes alak"
-                                type="Hamarosan"
+                                type="Gyakorlás"
                                 icon={<Binary className="w-6 h-6" />}
                                 color="indigo"
-                                disabled
+                                onClick={() => onStartActivity?.('fraction-to-decimal-matcher')}
                             />
                         </div>
                     </section>
@@ -450,6 +451,10 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false, ini
 
             {view === 'decimal-shifter' && (
                 <DecimalShifterTool onBack={handleBackToMenu} />
+            )}
+
+            {view === 'fraction-to-decimal-matcher' && (
+                <FractionToDecimalMatcher onBack={handleBackToMenu} />
             )}
         </div>
     );
