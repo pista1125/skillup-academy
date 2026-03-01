@@ -39,6 +39,7 @@ import { EquationSolverTool } from '@/components/math/EquationSolverTool';
 import { EquationBalanceTool } from '@/components/math/EquationBalanceTool';
 import { MoneyCalculationTool } from '@/components/math/MoneyCalculationTool';
 import DecimalShifterTool from '@/components/math/DecimalShifterTool';
+import { PuzzleMakerTool } from '@/components/math/PuzzleMakerTool';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -73,7 +74,7 @@ import {
 import { cn } from '@/lib/utils';
 
 type ViewState = 'main-select' | 'topic-select' | 'tools-select' | 'games-select' | 'activity' | 'geometry-select';
-type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game' | 'circle-parts' | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz' | 'triangle-angles-quiz' | 'g7-rational-numbers' | 'g7-expression-usage' | 'decimal-fractions' | 'number-line' | 'construction' | 'decimal-quiz' | 'decimal-multiplication-quiz' | 'decimal-division-quiz' | 'decimal-shifter' | 'manipulative-division' | 'equation-solver' | 'equation-balance' | 'money-calculation' | 'fractions-visualizer' | 'fractions-quiz' | 'fractions-multiplier' | 'fractions-visual-matcher' | 'fractions-divider' | 'decimal-multiplier' | 'decimal-divider' | 'decimal-multiplier-select' | 'decimal-divider-select' | 'grade1-addition10' | 'grade1-snake' | 'grade2-coloring' | 'grade2-quiz' | 'grade2-blocks' | 'grade2-snake' | 'grade3-coloring' | 'grade3-quiz' | 'grade3-blocks' | 'grade3-snake' | 'grade3-alapmuveletek' | 'grade3-tower-builder' | 'grade3-money-quiz' | 'grade3-money-level-select' | 'fractions-to-decimal-matcher';
+type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game' | 'circle-parts' | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz' | 'triangle-angles-quiz' | 'g7-rational-numbers' | 'g7-expression-usage' | 'decimal-fractions' | 'number-line' | 'construction' | 'decimal-quiz' | 'decimal-multiplication-quiz' | 'decimal-division-quiz' | 'decimal-shifter' | 'manipulative-division' | 'equation-solver' | 'equation-balance' | 'money-calculation' | 'fractions-visualizer' | 'fractions-quiz' | 'fractions-multiplier' | 'fractions-visual-matcher' | 'fractions-divider' | 'decimal-multiplier' | 'decimal-divider' | 'decimal-multiplier-select' | 'decimal-divider-select' | 'grade1-addition10' | 'grade1-snake' | 'grade2-coloring' | 'grade2-quiz' | 'grade2-blocks' | 'grade2-snake' | 'grade3-coloring' | 'grade3-quiz' | 'grade3-blocks' | 'grade3-snake' | 'grade3-alapmuveletek' | 'grade3-tower-builder' | 'grade3-money-quiz' | 'grade3-money-level-select' | 'fractions-to-decimal-matcher' | 'puzzle-maker';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
 const slugToGrade = (slug: string): GradeLevel | null => {
@@ -284,6 +285,8 @@ export default function MathPage() {
       finalActivityType = 'equation-balance';
     } else if (topicId === 'money-calculation') {
       finalActivityType = 'money-calculation';
+    } else if (topicId === 'puzzle-maker') {
+      finalActivityType = 'puzzle-maker';
     } else {
       finalActivityType = 'quiz';
     }
@@ -1473,6 +1476,13 @@ export default function MathPage() {
                 color="bg-amber-50 text-amber-600"
                 onClick={() => handleToolSelect('money-calculation')}
               />
+              <ToolCard
+                title="Online Rejtvénykészítő"
+                desc="Készíts matekos rejtvényeket és töltsd le PDF-ben!"
+                icon={<span className="text-3xl">🧩</span>}
+                color="bg-violet-100 text-violet-600"
+                onClick={() => handleToolSelect('puzzle-maker')}
+              />
             </div>
           </div>
         )}
@@ -1624,6 +1634,10 @@ export default function MathPage() {
 
                 {activityType === 'money-calculation' && (
                   <MoneyCalculationTool onBack={handleBack} />
+                )}
+
+                {activityType === 'puzzle-maker' && (
+                  <PuzzleMakerTool onBack={handleBack} />
                 )}
 
                 {activityType === 'equation-balance' && (

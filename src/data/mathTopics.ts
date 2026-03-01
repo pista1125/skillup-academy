@@ -276,6 +276,14 @@ export const mathTopics: MathTopic[] = [
     color: 'from-emerald-500 to-teal-600',
     grades: [1, 2, 3, 4, 5, 6],
   },
+  {
+    id: 'puzzle-maker',
+    title: 'Online Rejtvénykészítő',
+    description: 'Készíts matekos rejtvényeket és töltsd le PDF-ben!',
+    icon: '🧩',
+    color: 'from-violet-500 to-fuchsia-600',
+    grades: [1, 2, 3, 4, 5, 6, 7, 8],
+  },
 ];
 
 export const gradeDescriptions: Record<number, string> = {
