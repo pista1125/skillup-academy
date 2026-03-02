@@ -14,6 +14,7 @@ import { DecimalMultiplicationMatcher } from './DecimalMultiplicationMatcher';
 import { DecimalDivisionMatcher } from './DecimalDivisionMatcher';
 import { NumberLineTool } from './NumberLineTool';
 import { FractionToDecimalMatcher } from './FractionToDecimalMatcher';
+import { FractionsClosingTest } from './FractionsClosingTest';
 import { SectionHeader } from './SectionHeader';
 import { ActivityPlaceholder } from './ActivityPlaceholder';
 import {
@@ -43,7 +44,7 @@ interface FractionsModuleProps {
     initialView?: string;
 }
 
-type ViewType = 'menu' | 'visualizer' | 'quiz' | 'multiplier' | 'visual-matcher' | 'divider' | 'decimal-fractions' | 'number-line' | 'decimal-multiplier' | 'decimal-divider' | 'decimal-multiplier-select' | 'decimal-divider-select' | 'decimal-quiz' | 'decimal-multiplication-quiz' | 'decimal-division-quiz' | 'decimal-shifter' | 'to-decimal-matcher';
+type ViewType = 'menu' | 'visualizer' | 'quiz' | 'multiplier' | 'visual-matcher' | 'divider' | 'decimal-fractions' | 'number-line' | 'decimal-multiplier' | 'decimal-divider' | 'decimal-multiplier-select' | 'decimal-divider-select' | 'decimal-quiz' | 'decimal-multiplication-quiz' | 'decimal-division-quiz' | 'decimal-shifter' | 'to-decimal-matcher' | 'closing-test';
 
 export function FractionsModule({ onBack, onStartActivity, isInline = false, initialView }: FractionsModuleProps) {
     const [view, setView] = useState<ViewType | string>(() => {
@@ -360,10 +361,10 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false, ini
                             <ActivityPlaceholder
                                 title="Záró feladatsor"
                                 subtitle="Teljes fejezet áttekintése"
-                                type="Hamarosan"
+                                type="Kezdés"
                                 icon={<Target className="w-6 h-6" />}
                                 color="red"
-                                disabled
+                                onClick={() => onStartActivity?.('fractions-closing-test')}
                             />
                         </div>
                     </section>
@@ -455,6 +456,10 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false, ini
 
             {view === 'to-decimal-matcher' && (
                 <FractionToDecimalMatcher onBack={handleBackToMenu} />
+            )}
+
+            {view === 'closing-test' && (
+                <FractionsClosingTest onBack={handleBackToMenu} />
             )}
         </div>
     );
