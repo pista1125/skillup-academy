@@ -35,6 +35,7 @@ import { NumberLineTool } from '@/components/math/NumberLineTool';
 import { ManipulativeDivision } from '@/components/math/ManipulativeDivision';
 import { ConstructionTool } from '@/components/math/ConstructionTool';
 import { PercentagesQuiz } from '@/components/math/PercentagesQuiz';
+import { PercentWordProblems } from '@/components/math/PercentWordProblems';
 import { EquationSolverTool } from '@/components/math/EquationSolverTool';
 import { EquationBalanceTool } from '@/components/math/EquationBalanceTool';
 import { MoneyCalculationTool } from '@/components/math/MoneyCalculationTool';
@@ -74,7 +75,7 @@ import {
 import { cn } from '@/lib/utils';
 
 type ViewState = 'main-select' | 'topic-select' | 'tools-select' | 'games-select' | 'activity' | 'geometry-select';
-type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game' | 'circle-parts' | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz' | 'triangle-angles-quiz' | 'g7-rational-numbers' | 'g7-expression-usage' | 'decimal-fractions' | 'number-line' | 'construction' | 'decimal-quiz' | 'decimal-multiplication-quiz' | 'decimal-division-quiz' | 'decimal-shifter' | 'manipulative-division' | 'equation-solver' | 'equation-balance' | 'money-calculation' | 'fractions-visualizer' | 'fractions-quiz' | 'fractions-multiplier' | 'fractions-visual-matcher' | 'fractions-divider' | 'decimal-multiplier' | 'decimal-divider' | 'decimal-multiplier-select' | 'decimal-divider-select' | 'grade1-addition10' | 'grade1-snake' | 'grade2-coloring' | 'grade2-quiz' | 'grade2-blocks' | 'grade2-snake' | 'grade3-coloring' | 'grade3-quiz' | 'grade3-blocks' | 'grade3-snake' | 'grade3-alapmuveletek' | 'grade3-tower-builder' | 'grade3-money-quiz' | 'grade3-money-level-select' | 'fractions-to-decimal-matcher' | 'puzzle-maker';
+type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game' | 'circle-parts' | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz' | 'triangle-angles-quiz' | 'g7-rational-numbers' | 'g7-expression-usage' | 'decimal-fractions' | 'number-line' | 'construction' | 'decimal-quiz' | 'decimal-multiplication-quiz' | 'decimal-division-quiz' | 'decimal-shifter' | 'manipulative-division' | 'equation-solver' | 'equation-balance' | 'money-calculation' | 'fractions-visualizer' | 'fractions-quiz' | 'fractions-multiplier' | 'fractions-visual-matcher' | 'fractions-divider' | 'decimal-multiplier' | 'decimal-divider' | 'decimal-multiplier-select' | 'decimal-divider-select' | 'grade1-addition10' | 'grade1-snake' | 'grade2-coloring' | 'grade2-quiz' | 'grade2-blocks' | 'grade2-snake' | 'grade3-coloring' | 'grade3-quiz' | 'grade3-blocks' | 'grade3-snake' | 'grade3-alapmuveletek' | 'grade3-tower-builder' | 'grade3-money-quiz' | 'grade3-money-level-select' | 'fractions-to-decimal-matcher' | 'puzzle-maker' | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
 const slugToGrade = (slug: string): GradeLevel | null => {
@@ -1026,54 +1027,87 @@ export default function MathPage() {
 
     if (topicId === 'g7-percent-equations' || topicId === 'percentages') {
       return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <button
-            onClick={() => {
-              setPercentMode('calculate-value');
-              handleActivitySelect('percentages', topicId);
-            }}
-            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
-          >
-            <div className="p-3 bg-rose-50 rounded-xl text-rose-600 group-hover:scale-110 transition-transform">
-              <Percent className="w-8 h-8" />
+        <div className="flex flex-col gap-10 py-6">
+          <section>
+            <SectionHeader number={1} title="Százalékérték" color="rose" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Százalékérték teszt"
+                subtitle="Mennyi az alap adott %-a?"
+                type="Teszt"
+                onClick={() => {
+                  setPercentMode('calculate-value');
+                  handleActivitySelect('percentages', topicId);
+                }}
+                icon={<Percent className="w-6 h-6" />}
+                color="rose"
+              />
+              <ActivityPlaceholder
+                title="Szöveges feladatok"
+                subtitle="10 feladat / szint"
+                type="Gyakorlás"
+                onClick={() => {
+                  handleActivitySelect('percent-value-word-problems', topicId);
+                }}
+                icon={<BookOpen className="w-6 h-6" />}
+                color="rose"
+              />
             </div>
-            <div className="text-center">
-              <h4 className="font-bold text-sm">Százalékérték</h4>
-              <p className="text-[10px] text-slate-500">Mennyi az alap adott %-a?</p>
-            </div>
-          </button>
+          </section>
 
-          <button
-            onClick={() => {
-              setPercentMode('calculate-rate');
-              handleActivitySelect('percentages', topicId);
-            }}
-            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
-          >
-            <div className="p-3 bg-emerald-50 rounded-xl text-emerald-600 group-hover:scale-110 transition-transform">
-              <Percent className="w-8 h-8" />
+          <section>
+            <SectionHeader number={2} title="Százalékláb" color="emerald" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Százalékláb teszt"
+                subtitle="Hány százaléka a rész az egésznek?"
+                type="Teszt"
+                onClick={() => {
+                  setPercentMode('calculate-rate');
+                  handleActivitySelect('percentages', topicId);
+                }}
+                icon={<Percent className="w-6 h-6" />}
+                color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Szöveges feladatok"
+                subtitle="10 feladat / szint"
+                type="Gyakorlás"
+                onClick={() => {
+                  handleActivitySelect('percent-rate-word-problems', topicId);
+                }}
+                icon={<BookOpen className="w-6 h-6" />}
+                color="emerald"
+              />
             </div>
-            <div className="text-center">
-              <h4 className="font-bold text-sm">Százalékláb</h4>
-              <p className="text-[10px] text-slate-500">Hány százaléka a rész az egésznek?</p>
-            </div>
-          </button>
+          </section>
 
-          <button
-            onClick={() => {
-              setPercentMode('calculate-base');
-              handleActivitySelect('percentages', topicId);
-            }}
-            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
-          >
-            <div className="p-3 bg-blue-50 rounded-xl text-blue-600 group-hover:scale-110 transition-transform">
-              <Percent className="w-8 h-8" />
+          <section>
+            <SectionHeader number={3} title="Százalékalap" color="blue" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Százalékalap teszt"
+                subtitle="Mennyi a 100%, ha ismerjük a részt?"
+                type="Teszt"
+                onClick={() => {
+                  setPercentMode('calculate-base');
+                  handleActivitySelect('percentages', topicId);
+                }}
+                icon={<Percent className="w-6 h-6" />}
+                color="blue"
+              />
+              <ActivityPlaceholder
+                title="Szöveges feladatok"
+                subtitle="10 feladat / szint"
+                type="Gyakorlás"
+                onClick={() => {
+                  handleActivitySelect('percent-base-word-problems', topicId);
+                }}
+                icon={<BookOpen className="w-6 h-6" />}
+                color="blue"
+              />
             </div>
-            <div className="text-center">
-              <h4 className="font-bold text-sm">Alap kiszámítása</h4>
-              <p className="text-[10px] text-slate-500">Mennyi a 100%, ha ismerjük a részt?</p>
-            </div>
-          </button>
+          </section>
         </div>
       );
     }
@@ -1688,6 +1722,18 @@ export default function MathPage() {
 
                 {activityType === 'percentages' && (
                   <PercentagesQuiz onBack={handleBack} initialMode={percentMode} />
+                )}
+
+                {activityType === 'percent-value-word-problems' && (
+                  <PercentWordProblems onBack={handleBack} type="value" />
+                )}
+
+                {activityType === 'percent-rate-word-problems' && (
+                  <PercentWordProblems onBack={handleBack} type="rate" />
+                )}
+
+                {activityType === 'percent-base-word-problems' && (
+                  <PercentWordProblems onBack={handleBack} type="base" />
                 )}
 
                 {activityType === 'quiz' && (
