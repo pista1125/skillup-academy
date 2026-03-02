@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import jsPDF from 'jspdf';
+import { supabase } from '@/lib/supabase';
 
 interface PuzzleQuestion {
     id: number;
@@ -64,30 +65,11 @@ export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
     const [showPreview, setShowPreview] = useState(false);
     const [nextId, setNextId] = useState(6);
 
-    // AI state
-    const [apiKey, setApiKey] = useState('');
-    const [showApiKeyInput, setShowApiKeyInput] = useState(false);
     const [aiPrompt, setAiPrompt] = useState('');
     const [aiLoading, setAiLoading] = useState(false);
     const [aiError, setAiError] = useState('');
     const [aiSuccess, setAiSuccess] = useState(false);
 
-    // Load API key from localStorage
-    useEffect(() => {
-        const savedKey = localStorage.getItem(STORAGE_KEY);
-        if (savedKey) {
-            setApiKey(savedKey);
-        }
-    }, []);
-
-    const saveApiKey = (key: string) => {
-        setApiKey(key);
-        if (key.trim()) {
-            localStorage.setItem(STORAGE_KEY, key.trim());
-        } else {
-            localStorage.removeItem(STORAGE_KEY);
-        }
-    };
 
     const addQuestion = () => {
         if (questions.length >= MAX_QUESTIONS) return;
@@ -119,11 +101,6 @@ export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
 
     // AI generation
     const generateWithAI = async () => {
-        if (!apiKey.trim()) {
-            setAiError('Kérlek add meg az OpenAI API kulcsodat!');
-            setShowApiKeyInput(true);
-            return;
-        }
         if (!aiPrompt.trim()) {
             setAiError('Kérlek írd le, milyen rejtvényt szeretnél!');
             return;
@@ -134,68 +111,20 @@ export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
         setAiSuccess(false);
 
         try {
-            const response = await fetch('https://api.openai.com/v1/chat/completions', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${apiKey.trim()}`,
-                },
-                body: JSON.stringify({
-                    model: 'gpt-4o-mini',
-                    messages: [
-                        {
-                            role: 'system',
-                            content: `Te egy matematikai rejtvénykészítő vagy. A felhasználó leírja, milyen rejtvényt szeretne, és te generálsz 5-15 matematikai kérdést és megoldást.
-
-FONTOS SZABÁLYOK:
-- A válaszod KIZÁRÓLAG egy JSON tömb legyen, semmi más szöveg!
-- Minden elemnek legyen "question" (kérdés szövege) és "answer" (megoldás) mezője
-- A megoldás legyen rövid: szám vagy rövid szó (max 6 karakter)
-- A kérdések legyenek érthetőek és kornak megfelelőek
-- Generálj egy "title" mezőt is a rejtvény számára
-- A formátum: {"title": "cím", "questions": [{"question": "...", "answer": "..."}, ...]}
-- CSAK érvényes JSON-t adj vissza, semmi mást!`
-                        },
-                        {
-                            role: 'user',
-                            content: aiPrompt,
-                        },
-                    ],
-                    temperature: 0.7,
-                    max_tokens: 2000,
-                }),
+            const { data, error } = await supabase.functions.invoke('generate-puzzle', {
+                body: { prompt: aiPrompt.trim() },
             });
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                if (response.status === 401) {
-                    throw new Error('Érvénytelen API kulcs! Kérlek ellenőrizd és próbáld újra.');
-                }
-                throw new Error(errorData?.error?.message || `API hiba (${response.status})`);
+            if (error) {
+                throw new Error(error.message || 'Hiba történt az AI hívás során.');
             }
 
-            const data = await response.json();
-            const content = data.choices?.[0]?.message?.content;
-
-            if (!content) {
-                throw new Error('Üres válasz érkezett az AI-tól.');
-            }
-
-            // Parse the JSON response - handle potential markdown code blocks
-            let parsed;
-            try {
-                const cleaned = content.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
-                parsed = JSON.parse(cleaned);
-            } catch {
-                throw new Error('Az AI válasza nem volt feldolgozható. Kérlek próbáld újra!');
-            }
-
-            if (!parsed.questions || !Array.isArray(parsed.questions)) {
+            if (!data.questions || !Array.isArray(data.questions)) {
                 throw new Error('Az AI válasza nem a várt formátumban érkezett.');
             }
 
             // Validate and limit questions
-            const validQuestions = parsed.questions
+            const validQuestions = data.questions
                 .filter((q: any) => q.question && q.answer)
                 .slice(0, MAX_QUESTIONS);
 
@@ -213,8 +142,8 @@ FONTOS SZABÁLYOK:
             setQuestions(newQuestions);
             setNextId(nextId + newQuestions.length);
 
-            if (parsed.title) {
-                setPuzzleTitle(parsed.title);
+            if (data.title) {
+                setPuzzleTitle(data.title);
             }
 
             setAiSuccess(true);
@@ -353,47 +282,7 @@ FONTOS SZABÁLYOK:
                                     <Sparkles className="w-4 h-4 text-emerald-400" />
                                     AI Rejtvénygenerátor
                                 </h3>
-                                <button
-                                    onClick={() => setShowApiKeyInput(!showApiKeyInput)}
-                                    className={cn(
-                                        'flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all',
-                                        apiKey
-                                            ? 'bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30'
-                                            : 'bg-amber-500/20 text-amber-400 hover:bg-amber-500/30'
-                                    )}
-                                >
-                                    <Key className="w-3 h-3" />
-                                    {apiKey ? 'API kulcs ✓' : 'API kulcs szükséges'}
-                                </button>
                             </div>
-
-                            {/* API Key Input */}
-                            {showApiKeyInput && (
-                                <div className="mb-3 p-3 bg-black/30 rounded-xl border border-white/10">
-                                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 block">
-                                        OpenAI API Kulcs
-                                    </label>
-                                    <div className="flex gap-2">
-                                        <input
-                                            type="password"
-                                            value={apiKey}
-                                            onChange={(e) => saveApiKey(e.target.value)}
-                                            className="flex-1 px-3 py-2 bg-slate-800 border border-slate-600 rounded-lg text-xs text-white font-mono focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all placeholder:text-slate-500"
-                                            placeholder="sk-..."
-                                        />
-                                        <Button
-                                            size="sm"
-                                            onClick={() => setShowApiKeyInput(false)}
-                                            className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs px-3"
-                                        >
-                                            <CheckCircle className="w-3.5 h-3.5" />
-                                        </Button>
-                                    </div>
-                                    <p className="text-[9px] text-slate-500 mt-1.5">
-                                        A kulcs csak a böngésződben tárolódik, biztonságban van.
-                                    </p>
-                                </div>
-                            )}
 
                             {/* AI Prompt */}
                             <div className="space-y-2">
