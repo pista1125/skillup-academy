@@ -140,10 +140,10 @@ export function GeometryModule({ onBack, onStartActivity, isInline = false }: Ge
                         <ActivityPlaceholder
                             title="Tükörkép keresése"
                             subtitle="Interaktív játék"
-                            type="Hamarosan"
+                            type="Gyakorlás"
                             icon={<Target className="w-6 h-6" />}
                             color="emerald"
-                            disabled
+                            onClick={() => onStartActivity?.('reflection-quiz')}
                         />
                     </div>
                 </section>

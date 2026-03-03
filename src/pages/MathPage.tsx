@@ -42,6 +42,7 @@ import { MoneyCalculationTool } from '@/components/math/MoneyCalculationTool';
 import DecimalShifterTool from '@/components/math/DecimalShifterTool';
 import { PuzzleMakerTool } from '@/components/math/PuzzleMakerTool';
 import { GeometryModule } from '@/components/math/GeometryModule';
+import { SymmetryQuiz } from '@/components/math/SymmetryQuiz';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -76,7 +77,10 @@ import {
 import { cn } from '@/lib/utils';
 
 type ViewState = 'main-select' | 'topic-select' | 'tools-select' | 'games-select' | 'activity' | 'geometry-select';
-type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game' | 'circle-parts' | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz' | 'triangle-angles-quiz' | 'g7-rational-numbers' | 'g7-expression-usage' | 'decimal-fractions' | 'number-line' | 'construction' | 'decimal-quiz' | 'decimal-multiplication-quiz' | 'decimal-division-quiz' | 'decimal-shifter' | 'manipulative-division' | 'equation-solver' | 'equation-balance' | 'money-calculation' | 'fractions-visualizer' | 'fractions-quiz' | 'fractions-multiplier' | 'fractions-visual-matcher' | 'fractions-divider' | 'decimal-multiplier' | 'decimal-divider' | 'decimal-multiplier-select' | 'decimal-divider-select' | 'grade1-addition10' | 'grade1-snake' | 'grade2-coloring' | 'grade2-quiz' | 'grade2-blocks' | 'grade2-snake' | 'grade3-coloring' | 'grade3-quiz' | 'grade3-blocks' | 'grade3-snake' | 'grade3-alapmuveletek' | 'grade3-tower-builder' | 'grade3-money-quiz' | 'grade3-money-level-select' | 'fractions-to-decimal-matcher' | 'puzzle-maker' | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems';
+type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'reflection-quiz'
+  | 'divisibility-rules'
+  | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game' | 'circle-parts'
+  | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz' | 'triangle-angles-quiz' | 'g7-rational-numbers' | 'g7-expression-usage' | 'decimal-fractions' | 'number-line' | 'construction' | 'decimal-quiz' | 'decimal-multiplication-quiz' | 'decimal-division-quiz' | 'decimal-shifter' | 'manipulative-division' | 'equation-solver' | 'equation-balance' | 'money-calculation' | 'fractions-visualizer' | 'fractions-quiz' | 'fractions-multiplier' | 'fractions-visual-matcher' | 'fractions-divider' | 'decimal-multiplier' | 'decimal-divider' | 'decimal-multiplier-select' | 'decimal-divider-select' | 'grade1-addition10' | 'grade1-snake' | 'grade2-coloring' | 'grade2-quiz' | 'grade2-blocks' | 'grade2-snake' | 'grade3-coloring' | 'grade3-quiz' | 'grade3-blocks' | 'grade3-snake' | 'grade3-alapmuveletek' | 'grade3-tower-builder' | 'grade3-money-quiz' | 'grade3-money-level-select' | 'fractions-to-decimal-matcher' | 'puzzle-maker' | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
 const slugToGrade = (slug: string): GradeLevel | null => {
@@ -1223,7 +1227,7 @@ export default function MathPage() {
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-400/10 rounded-full -ml-24 -mb-24 blur-2xl pointer-events-none"></div>
 
         <div className="container max-w-5xl mx-auto relative z-10">
-          <div className="flex justify-between items-start mb-2">
+          <div className="flex justify-between items-center">
             <div className="flex items-center gap-3">
               <Button
                 variant="ghost"
@@ -1238,13 +1242,14 @@ export default function MathPage() {
                 <Button
                   variant="ghost"
                   onClick={handleBack}
-                  className="text-white hover:bg-white/20 transition-all border border-white/10"
+                  className="text-white hover:bg-white/20 transition-all border border-white/10 h-9"
                 >
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Vissza
                 </Button>
               )}
             </div>
+
             <div className="flex items-center gap-2">
               <div ref={searchRef} className="relative hidden sm:flex items-center group">
                 <input
@@ -1274,99 +1279,14 @@ export default function MathPage() {
                     <Search className="w-4 h-4" />
                   </button>
                 </div>
-
-                {/* Dropdown Results */}
-                {showResults && searchQuery.trim() !== '' && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-white/95 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                    <div className="max-h-[320px] overflow-y-auto p-2">
-                      {getSearchResults().length > 0 ? (
-                        getSearchResults().map(topic => (
-                          <button
-                            key={topic.id}
-                            onClick={() => {
-                              handleTopicSelect(topic.id, true);
-                              setShowResults(false);
-                              setSearchQuery('');
-                            }}
-                            className="w-full flex items-center gap-3 p-3 hover:bg-black/5 rounded-xl transition-all text-left group/item"
-                          >
-                            <div className="w-10 h-10 flex items-center justify-center bg-slate-100 rounded-lg text-2xl group-hover/item:scale-110 transition-transform">
-                              {typeof topic.icon === 'string' ? (
-                                topic.icon
-                              ) : (
-                                <topic.icon className="w-6 h-6" />
-                              )}
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <div className="font-bold text-sm text-slate-800 truncate">{topic.title}</div>
-                              <div className="text-[10px] text-slate-500 line-clamp-1">{topic.description}</div>
-                            </div>
-                            <ChevronRight className="w-3 h-3 text-slate-300 group-hover/item:text-primary transition-colors" />
-                          </button>
-                        ))
-                      ) : (
-                        <div className="p-4 text-center">
-                          <div className="text-2xl mb-1">🔍</div>
-                          <p className="text-xs text-slate-400">Nincs találat a keresésre.</p>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
               </div>
               <Button
                 variant="secondary"
                 onClick={() => { window.location.assign('https://kviz.diakzona.hu/'); }}
-                className="bg-emerald-500 text-white hover:bg-emerald-600 font-extrabold px-6 shadow-lg shadow-emerald-500/30 border-none transition-all hover:scale-105 active:scale-95"
+                className="bg-emerald-500 text-white hover:bg-emerald-600 font-extrabold px-6 shadow-lg shadow-emerald-500/30 border-none transition-all hover:scale-105 active:scale-95 h-9"
               >
                 online kvíz
               </Button>
-            </div>
-          </div>
-          <div className="flex flex-col md:flex-row items-center gap-4 text-center md:text-left">
-            <div className="relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-pink-500 to-yellow-500 rounded-full blur opacity-40 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
-              <div className="relative p-1 bg-white/10 rounded-full backdrop-blur-sm">
-                <img
-                  src="/istvan.jpg"
-                  alt="Orsós István"
-                  className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-4 border-white/50 shadow-2xl"
-                  onError={(e) => {
-                    // Fallback to calculator icon if image is missing
-                    e.currentTarget.style.display = 'none';
-                    const parent = e.currentTarget.parentElement;
-                    if (parent) {
-                      const iconContainer = document.createElement('div');
-                      iconContainer.className = "p-6 bg-white/20 rounded-full";
-                      iconContainer.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calculator"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>';
-                      parent.appendChild(iconContainer);
-                    }
-                  }}
-                />
-              </div>
-            </div>
-            <div className="flex-1">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full text-xs font-medium mb-3 backdrop-blur-sm border border-white/10">
-                <Sparkles className="w-3 h-3 text-yellow-300" />
-                <span>Interaktív Tanulási Platform</span>
-              </div>
-              <h1 className="font-display text-2xl md:text-3xl font-black mb-2 tracking-tight">
-                Matematika
-              </h1>
-              <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 text-white/90">
-                <p className="text-base font-medium">
-                  {view === 'main-select' && 'Válassz évfolyamot vagy eszközt!'}
-                  {view === 'topic-select' && selectedGrade && `${selectedGrade === 'graduation' ? 'Érettségi' : selectedGrade + '. osztályos'} tananyag`}
-                  {view === 'tools-select' && 'Interaktív eszközök és modulok'}
-                  {view === 'games-select' && 'Játékos tanulás és gyakorlás'}
-                  {view === 'geometry-select' && 'Válassz geometriai feladatot!'}
-                  {view === 'activity' && currentTopic?.title}
-                </p>
-                <div className="hidden md:block w-1.5 h-1.5 bg-white/30 rounded-full"></div>
-                <p className="text-white/70 text-sm md:text-base italic">
-                  a weboldalt készítette: <span className="text-white font-bold not-italic">Orsós István</span>
-                </p>
-              </div>
             </div>
           </div>
         </div>
@@ -1636,6 +1556,10 @@ export default function MathPage() {
 
                 {activityType === 'line-relationships' && (
                   <LineRelationships onBack={handleBack} />
+                )}
+
+                {activityType === 'reflection-quiz' && (
+                  <SymmetryQuiz onBack={handleBack} />
                 )}
 
                 {activityType === 'circle-parts' && (
