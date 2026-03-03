@@ -1245,8 +1245,8 @@ export default function MathPage() {
                 onClick={handleHome}
                 className="bg-white/10 text-white hover:bg-white/20 font-black px-4 border border-white/20 shadow-lg backdrop-blur-md transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
               >
-                <img src="/diakzona.ico" alt="DiákZóna" className="w-5 h-5 object-contain" />
-                DIÁKZÓNA
+                <img src="/logo_header.png" alt="DiákZóna" className="h-12 md:h-16 object-contain" />
+                <span className="text-xl md:text-2xl font-black tracking-tighter">DIÁKZÓNA</span>
               </Button>
 
               {view !== 'main-select' && (
