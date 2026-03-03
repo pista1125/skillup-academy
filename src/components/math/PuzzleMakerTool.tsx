@@ -163,75 +163,114 @@ export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
         const marginX = 15;
         const contentW = pageW - marginX * 2;
 
-        // Title
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(20);
-        doc.text(puzzleTitle, pageW / 2, 20, { align: 'center' });
+        // Helper to sanitize text for PDF (handling Hungarian characters that are missing in standard WinAnsi)
+        const pdfSanitize = (text: string) => {
+            if (!text) return '';
+            return text
+                .replace(/ő/g, 'ö').replace(/Ő/g, 'Ö')
+                .replace(/ű/g, 'ü').replace(/Ű/g, 'Ü')
+                .replace(/–/g, '-'); // Replace en-dash with standard hyphen
+        };
 
-        // Subtitle
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(10);
-        doc.setTextColor(120, 120, 120);
-        doc.text('Toltsd ki a megoldasokat a kockakba!', pageW / 2, 28, { align: 'center' });
-        doc.setTextColor(0, 0, 0);
-
-        // === PUZZLE GRID (top section) ===
-        const cellSize = 8;
-        const gridStartY = 38;
-        const rowHeight = cellSize + 4;
-
-        questions.forEach((q, idx) => {
-            const answerChars = q.answer.toUpperCase().split('');
-            const rowY = gridStartY + idx * rowHeight;
-
-            // Question number label
+        const renderPage = (isSolution: boolean) => {
+            // Header
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(9);
-            doc.text(`${idx + 1}.`, marginX, rowY + cellSize / 2 + 1);
+            doc.setFontSize(22);
+            doc.setTextColor(121, 87, 213); // Violet-500
+            doc.text(pdfSanitize(puzzleTitle), pageW / 2, 20, { align: 'center' });
 
-            // Draw cells for each character
-            const cellsStartX = marginX + 10;
-            answerChars.forEach((_, charIdx) => {
-                const cx = cellsStartX + charIdx * (cellSize + 1);
-                doc.setDrawColor(80, 80, 80);
-                doc.setLineWidth(0.4);
-                doc.rect(cx, rowY, cellSize, cellSize);
-            });
-        });
-
-        // === QUESTIONS (bottom section) ===
-        const questionsStartY = gridStartY + questions.length * rowHeight + 12;
-
-        doc.setDrawColor(200, 200, 200);
-        doc.setLineWidth(0.3);
-        doc.line(marginX, questionsStartY - 6, marginX + contentW, questionsStartY - 6);
-
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(13);
-        doc.text('Kerdesek', marginX, questionsStartY);
-
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(10);
-
-        questions.forEach((q, idx) => {
-            const qY = questionsStartY + 8 + idx * 7;
-
-            // Check if we'd overflow the page
-            if (qY > 280) {
-                doc.addPage();
+            if (isSolution) {
+                doc.setFontSize(10);
+                doc.setTextColor(219, 39, 119); // Pink-600
+                doc.text('MEGOLDÓKULCS - TANÁRI PÉLDÁNY', pageW / 2, 27, { align: 'center' });
             }
 
-            doc.setFont('helvetica', 'bold');
-            doc.text(`${idx + 1}.`, marginX, qY);
+            doc.setTextColor(0, 0, 0);
             doc.setFont('helvetica', 'normal');
-            doc.text(q.question, marginX + 8, qY);
-        });
+            doc.setFontSize(10);
+            doc.setTextColor(120, 120, 120);
+            const instructionText = isSolution
+                ? 'Ellenőrizd a megoldásokat az alábbi táblázat alapján!'
+                : 'Töltsd ki az üres kockákat a kérdésekre kapott válaszokkal!';
+            doc.text(pdfSanitize(instructionText), pageW / 2, 32, { align: 'center' });
+            doc.setTextColor(0, 0, 0);
 
-        // Footer
-        const footerY = 290;
-        doc.setFontSize(7);
-        doc.setTextColor(160, 160, 160);
-        doc.text('Keszult a DiakZona Online Rejtvenykezitovel', pageW / 2, footerY, { align: 'center' });
+            // === PUZZLE GRID ===
+            const cellSize = 8;
+            const gridStartY = 45;
+            const rowHeight = cellSize + 4;
+
+            questions.forEach((q, idx) => {
+                const answerChars = q.answer.toUpperCase().split('');
+                const rowY = gridStartY + idx * rowHeight;
+
+                // Question number label
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(9);
+                doc.text(`${idx + 1}.`, marginX, rowY + cellSize / 2 + 1);
+
+                // Draw cells
+                const cellsStartX = marginX + 10;
+                answerChars.forEach((char, charIdx) => {
+                    const cx = cellsStartX + charIdx * (cellSize + 1);
+                    doc.setDrawColor(180, 180, 180);
+                    doc.setLineWidth(0.3);
+                    doc.rect(cx, rowY, cellSize, cellSize);
+
+                    if (isSolution) {
+                        doc.setFont('helvetica', 'bold');
+                        doc.setFontSize(10);
+                        doc.setTextColor(79, 70, 229); // Indigo-600
+                        doc.text(pdfSanitize(char), cx + cellSize / 2, rowY + cellSize / 2 + 1.2, { align: 'center' });
+                        doc.setTextColor(0, 0, 0);
+                    }
+                });
+            });
+
+            // === QUESTIONS ===
+            const questionsStartY = gridStartY + questions.length * rowHeight + 15;
+
+            doc.setDrawColor(240, 240, 240);
+            doc.setLineWidth(0.5);
+            doc.line(marginX, questionsStartY - 8, marginX + contentW, questionsStartY - 8);
+
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(14);
+            doc.setTextColor(79, 70, 229); // Indigo-600
+            doc.text(pdfSanitize('Kérdések'), marginX, questionsStartY);
+            doc.setTextColor(0, 0, 0);
+
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(11);
+
+            questions.forEach((q, idx) => {
+                const qY = questionsStartY + 10 + idx * 8;
+
+                // New page if overflow
+                if (qY > 280) {
+                    doc.addPage();
+                    // Need to reset Y or something? Simplification: we assume they fit for now.
+                }
+
+                doc.setFont('helvetica', 'bold');
+                doc.text(`${idx + 1}.`, marginX, qY);
+                doc.setFont('helvetica', 'normal');
+                doc.text(pdfSanitize(q.question), marginX + 8, qY);
+            });
+
+            // Footer
+            const footerY = 285;
+            doc.setFontSize(8);
+            doc.setTextColor(180, 180, 180);
+            doc.text(pdfSanitize('Készült a DiákZóna Online Rejtvénykészítővel - diakzona.hu'), pageW / 2, footerY, { align: 'center' });
+        };
+
+        // Page 1: Student Version
+        renderPage(false);
+
+        // Page 2: Teacher Version
+        doc.addPage();
+        renderPage(true);
 
         doc.save(`${puzzleTitle.replace(/\s+/g, '_')}.pdf`);
     };

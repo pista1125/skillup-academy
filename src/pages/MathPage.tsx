@@ -41,6 +41,7 @@ import { EquationBalanceTool } from '@/components/math/EquationBalanceTool';
 import { MoneyCalculationTool } from '@/components/math/MoneyCalculationTool';
 import DecimalShifterTool from '@/components/math/DecimalShifterTool';
 import { PuzzleMakerTool } from '@/components/math/PuzzleMakerTool';
+import { GeometryModule } from '@/components/math/GeometryModule';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -795,7 +796,7 @@ export default function MathPage() {
       );
     }
 
-    if (topicId === 'divisibility-powers') {
+    if (topicId === 'g6-integers-divisibility') {
       return (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <button
@@ -881,71 +882,102 @@ export default function MathPage() {
               <p className="text-[10px] text-slate-500">Legnagyobb közös osztó gyakorlása</p>
             </div>
           </button>
+
+          <button
+            onClick={() => handleActivitySelect('divisibility-lkktquiz')}
+            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group relative overflow-hidden"
+          >
+            <div className="absolute top-0 right-0 p-1">
+              <Sparkles className="w-3 h-3 text-rose-500 animate-pulse" />
+            </div>
+            <div className="p-3 bg-amber-50 rounded-xl text-amber-600 group-hover:scale-110 transition-transform">
+              <Sparkles className="w-8 h-8" />
+            </div>
+            <div className="text-center">
+              <h4 className="font-bold text-sm">LKKT Kvíz</h4>
+              <p className="text-[10px] text-slate-500">Legkisebb közös többszörös gyakorlása</p>
+            </div>
+          </button>
         </div>
       );
     }
 
-    if (topicId === 'g7-powers-divisibility') {
+    if (topicId === 'g6-fractions') {
+      return (
+        <div className="py-2">
+          <FractionsModule
+            onBack={handleBack}
+            isInline
+            onStartActivity={(type) => handleActivitySelect(type as ActivityType)}
+          />
+        </div>
+      );
+    }
+
+    if (topicId === 'g6-geometry-symmetry') {
+      return (
+        <div className="py-2">
+          <GeometryModule
+            onBack={handleBack}
+            isInline
+            onStartActivity={(type) => handleActivitySelect(type as ActivityType)}
+          />
+        </div>
+      );
+    }
+
+    if (topicId === 'g6-ratio-percent-word') {
       return (
         <div className="flex flex-col gap-10 py-6">
           <section>
-            <SectionHeader number={1} title="Hatványozás és oszthatóság" color="amber" />
+            <SectionHeader number={1} title="Százalékszámítás" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Tananyag"
-                subtitle="Elméleti összefoglaló"
-                type="Kezdés"
-                onClick={() => handleActivitySelect('divisibility-theory')}
-                icon={<BookOpen className="w-6 h-6" />}
-                color="amber"
-              />
-              <ActivityPlaceholder
-                title="Oszthatóság"
-                subtitle="Interaktív ellenőrző"
-                type="Gyakorlás"
-                onClick={() => handleActivitySelect('divisibility')}
-                icon={<Calculator className="w-6 h-6" />}
-                color="emerald"
-              />
-              <ActivityPlaceholder
-                title="Prímtényezők"
-                subtitle="Felbontás prímszámokra"
-                type="Gyakorlás"
-                onClick={() => handleActivitySelect('divisibility-factorization')}
-                icon={<Binary className="w-6 h-6" />}
-                color="indigo"
-              />
-              <ActivityPlaceholder
-                title="Kvíz Játék"
-                subtitle="Tudd le a tudásod!"
+                title="Mennyiségek"
+                subtitle="Százalékérték számítás"
                 type="Teszt"
-                onClick={() => handleActivitySelect('divisibility-quiz')}
-                icon={<Gamepad2 className="w-6 h-6" />}
+                onClick={() => {
+                  setPercentMode('calculate-value');
+                  handleActivitySelect('percentages');
+                }}
+                icon={<Percent className="w-6 h-6" />}
                 color="rose"
               />
               <ActivityPlaceholder
-                title="Párosító Játék"
-                subtitle="Prímtényezők gyakorlása"
+                title="Százalékláb"
+                subtitle="Arány megadása %-ban"
                 type="Teszt"
-                onClick={() => handleActivitySelect('divisibility-matcher')}
-                icon={<Target className="w-6 h-6" />}
-                color="violet"
+                onClick={() => {
+                  setPercentMode('calculate-rate');
+                  handleActivitySelect('percentages');
+                }}
+                icon={<Percent className="w-6 h-6" />}
+                color="emerald"
               />
               <ActivityPlaceholder
-                title="LKÖ Kvíz"
-                subtitle="Legnagyobb közös osztó"
+                title="Százalékalap"
+                subtitle="Visszaszámolás az egészre"
                 type="Teszt"
-                onClick={() => handleActivitySelect('divisibility-gcdquiz')}
-                icon={<Zap className="w-6 h-6" />}
-                color="indigo"
+                onClick={() => {
+                  setPercentMode('calculate-base');
+                  handleActivitySelect('percentages');
+                }}
+                icon={<Percent className="w-6 h-6" />}
+                color="blue"
               />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={2} title="Szöveges feladatok" color="teal" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="LKKT Kvíz"
-                subtitle="Legkisebb közös többszörös"
+                title="Matek Kvíz"
+                subtitle="Vegyes szöveges feladatok"
                 type="Teszt"
-                onClick={() => handleActivitySelect('divisibility-lkktquiz')}
-                icon={<Sparkles className="w-6 h-6" />}
-                color="amber"
+                onClick={() => handleActivitySelect('word-problems')}
+                icon={<BookOpen className="w-6 h-6" />}
+                color="teal"
               />
             </div>
           </section>
@@ -953,11 +985,15 @@ export default function MathPage() {
       );
     }
 
-    if (topicId === 'materials') {
+    if (topicId === 'g6-measurements' || topicId === 'g6-statistics' || topicId === 'g6-finance') {
       return (
         <div className="py-2">
+          <div className="mb-4 p-4 bg-blue-50/50 rounded-2xl border border-blue-100 flex items-center gap-3">
+            <BookOpen className="w-5 h-5 text-blue-500" />
+            <p className="text-sm font-medium text-blue-700 italic">Ehhez a témakörhöz jelenleg a tankönyvi anyagok érhetőek el.</p>
+          </div>
           <MaterialGallery
-            grade={selectedGrade || 6}
+            grade={6}
             onView={handleMaterialSelect}
             initialMaterialId={new URLSearchParams(location.search).get('material')}
           />

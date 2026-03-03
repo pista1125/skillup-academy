@@ -18,13 +18,72 @@ export const mathTopics: MathTopic[] = [
     color: 'from-indigo-500 to-purple-600',
     grades: [6, 7],
   },
+  // 6. osztályos témakörök (Roman numerals as requested)
+  {
+    id: 'g6-integers-divisibility',
+    title: 'I. EGÉSZ SZÁMOK, OSZTHATÓSÁG',
+    description: 'Számok írása, olvasása, kerekítés, alapműveletek és oszthatóság',
+    icon: '🔢',
+    color: 'from-blue-500 to-blue-600',
+    grades: [6],
+  },
+  {
+    id: 'g6-fractions',
+    title: 'II. TÖRTEK',
+    description: 'Közönséges törtek és tizedes törtek fogalma, műveletek',
+    icon: '🍕',
+    color: 'from-orange-500 to-amber-600',
+    grades: [6],
+  },
+  {
+    id: 'g6-geometry-symmetry',
+    title: 'III. GEOMETRIA, TENGELYES TÜKRÖZÉS',
+    description: 'Alakzatok, szerkesztések és szimmetria',
+    icon: '📐',
+    color: 'from-green-500 to-green-600',
+    grades: [6],
+  },
+  {
+    id: 'g6-ratio-percent-word',
+    title: 'IV. ARÁNY, SZÁZALÉK, SZÖVEGES FELADATOK',
+    description: 'Arányos következtetés, százalékszámítás és gyakorlati feladatok',
+    icon: '📊',
+    color: 'from-orange-400 to-amber-500',
+    grades: [6],
+  },
+  {
+    id: 'g6-measurements',
+    title: 'V. KERÜLET, TERÜLET, FELSZÍN, TÉRFOGAT',
+    description: 'Mértékegységek átváltása, számítások',
+    icon: '📏',
+    color: 'from-cyan-500 to-blue-500',
+    grades: [6],
+  },
+  {
+    id: 'g6-statistics',
+    title: 'VI. STATISZTIKA',
+    description: 'Adatok elemzése, átlag, módusz, medián',
+    icon: '📈',
+    color: 'from-pink-500 to-rose-500',
+    grades: [6],
+  },
+  {
+    id: 'g6-finance',
+    title: 'VII. MINDENNAPI PÉNZÜGYEINK',
+    description: 'Pénzügyi ismeretek, költségvetés',
+    icon: '💰',
+    color: 'from-emerald-500 to-teal-600',
+    grades: [6],
+  },
+
+  // Other topics (Grade 6 removed from these as they are now integrated into the sections above or removed)
   {
     id: 'divisibility-powers',
     title: 'Hatványozás, oszthatóság',
     description: 'Hatványozás szabályai, oszthatósági szabályok, prímtényezőkre bontás',
     icon: '⚡',
     color: 'from-amber-400 to-orange-500',
-    grades: [6],
+    grades: [],
   },
   {
     id: 'fractions',
@@ -32,7 +91,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Törtek értelmezése, összeadása, kivonása',
     icon: '🍕',
     color: 'from-orange-500 to-amber-600',
-    grades: [6],
+    grades: [],
   },
   {
     id: 'geometry',
@@ -40,7 +99,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Alakzatok, területek, kerületek, térfogatok',
     icon: '📐',
     color: 'from-green-500 to-green-600',
-    grades: [2, 3, 4, 6, 8],
+    grades: [2, 3, 4, 8],
   },
   {
     id: 'percentages',
@@ -48,7 +107,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Százalékszámítás, arányok',
     icon: '📊',
     color: 'from-orange-400 to-amber-500',
-    grades: [6, 8],
+    grades: [8],
   },
   {
     id: 'word-problems',
@@ -56,7 +115,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Gyakorlati problémák megoldása',
     icon: '📝',
     color: 'from-teal-500 to-teal-600',
-    grades: [1, 2, 3, 4, 6, 8],
+    grades: [1, 2, 3, 4, 8],
   },
   {
     id: 'measurements',
@@ -64,7 +123,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Mértékegységek átváltása, számítások',
     icon: '📏',
     color: 'from-cyan-500 to-blue-500',
-    grades: [6],
+    grades: [],
   },
   {
     id: 'statistics',
@@ -72,7 +131,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Adatok elemzése, átlag, módusz, medián',
     icon: '📈',
     color: 'from-pink-500 to-rose-500',
-    grades: [6, 8],
+    grades: [8],
   },
   {
     id: 'finance',
@@ -80,7 +139,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Pénzügyi ismeretek, költségvetés',
     icon: '💰',
     color: 'from-emerald-500 to-teal-600',
-    grades: [6, 8],
+    grades: [8],
   },
   {
     id: 'basic-operations',
@@ -98,6 +157,7 @@ export const mathTopics: MathTopic[] = [
     color: 'from-purple-500 to-purple-600',
     grades: [8],
   },
+
   // 5. osztályos témakörök
   {
     id: 'g5-integers',
@@ -155,6 +215,7 @@ export const mathTopics: MathTopic[] = [
     color: 'from-pink-500 to-rose-500',
     grades: [5],
   },
+
   // 7. osztályos témakörök
   {
     id: 'g7-logic',
@@ -220,6 +281,7 @@ export const mathTopics: MathTopic[] = [
     color: 'from-slate-400 to-slate-500',
     grades: [7],
   },
+
   {
     id: 'snake-game',
     title: 'Matek Kígyó',
@@ -234,7 +296,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Lépcsős osztás levezetése és gyakorlása egyjegyű osztóval',
     icon: '➗',
     color: 'from-indigo-400 to-blue-600',
-    grades: [4, 6],
+    grades: [4],
   },
   {
     id: 'decimal-fractions',
@@ -242,7 +304,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Helyiérték korongok használata, átváltások',
     icon: '🪙',
     color: 'from-amber-700 to-orange-600',
-    grades: [6],
+    grades: [],
   },
   {
     id: 'number-line',
@@ -250,7 +312,7 @@ export const mathTopics: MathTopic[] = [
     icon: MoveHorizontal,
     description: 'Egész számok összeadása és kivonása a számegyenesen.',
     color: 'from-blue-500 to-indigo-600',
-    grades: [6, 7, 8],
+    grades: [7, 8],
   },
   {
     id: 'construction',
@@ -258,7 +320,7 @@ export const mathTopics: MathTopic[] = [
     icon: Pencil,
     description: 'Szerkesztés körzővel és vonalzóval.',
     color: 'from-blue-500 to-indigo-600',
-    grades: [6, 7, 8],
+    grades: [7, 8],
   },
   {
     id: 'equation-solver',
@@ -266,7 +328,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Egyenletek megoldása téglalapos (bar model) módszerrel',
     icon: '📊',
     color: 'from-blue-500 to-indigo-600',
-    grades: [6, 7, 8],
+    grades: [7, 8],
   },
   {
     id: 'money-calculation',
@@ -274,7 +336,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Érmék használata, beváltás és felbontás gyakorlása',
     icon: '💰',
     color: 'from-emerald-500 to-teal-600',
-    grades: [1, 2, 3, 4, 5, 6],
+    grades: [1, 2, 3, 4, 5],
   },
   {
     id: 'puzzle-maker',
@@ -282,7 +344,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Készíts matekos rejtvényeket és töltsd le PDF-ben!',
     icon: '🧩',
     color: 'from-violet-500 to-fuchsia-600',
-    grades: [1, 2, 3, 4, 5, 6, 7, 8],
+    grades: [1, 2, 3, 4, 5, 7, 8],
   },
 ];
 
