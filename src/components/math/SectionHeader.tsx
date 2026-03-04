@@ -4,9 +4,11 @@ interface SectionHeaderProps {
     number: number;
     title: string;
     color: string;
+    id?: string;
+    subtitle?: string;
 }
 
-export function SectionHeader({ number, title, color }: SectionHeaderProps) {
+export function SectionHeader({ number, title, color, id, subtitle }: SectionHeaderProps) {
     const colorMap: Record<string, string> = {
         blue: "bg-blue-100 text-blue-600 border-blue-200",
         emerald: "bg-emerald-100 text-emerald-600 border-emerald-200",
@@ -19,11 +21,14 @@ export function SectionHeader({ number, title, color }: SectionHeaderProps) {
     };
 
     return (
-        <div className="flex items-center gap-3 mb-6">
+        <div id={id} className="flex items-center gap-3 mb-6 scroll-mt-24">
             <div className={cn("w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shadow-sm border", colorMap[color] || colorMap.blue)}>
                 {number}
             </div>
-            <h3 className="text-lg font-bold text-slate-800">{title}</h3>
+            <div className="flex-1">
+                <h3 className="text-lg font-bold text-slate-800">{title}</h3>
+                {subtitle && <p className="text-xs text-slate-500 mt-0.5">{subtitle}</p>}
+            </div>
         </div>
     );
 }

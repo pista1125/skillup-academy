@@ -7,6 +7,7 @@ import DecimalMultiplicationQuiz from '@/components/math/DecimalMultiplicationQu
 import DecimalDivisionQuiz from '@/components/math/DecimalDivisionQuiz';
 import { mathTopics } from '@/data/mathTopics';
 import { MathTopicCard } from '@/components/math/MathTopicCard';
+import { ScrollSpySidebar, NavItem } from '@/components/math/ScrollSpySidebar';
 import { MathQuiz } from '@/components/math/MathQuiz';
 import { GradeSelector } from '@/components/GradeSelector';
 import { FractionVisualizer } from '@/components/math/FractionVisualizer';
@@ -99,6 +100,28 @@ export default function MathPage() {
   const [activityType, setActivityType] = useState<ActivityType>('quiz');
   const [activeMaterial, setActiveMaterial] = useState<{ title: string, path: string } | null>(null);
   const [expandedTopicId, setExpandedTopicId] = useState<string | null>(null);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+
+  const handleSidebarItemClick = (id: string) => {
+    // Map section IDs to their parent Topic IDs
+    const sectionToTopic: Record<string, string> = {
+      'g5-ops': 'g5-integers',
+      'g5-geom-basics': 'g5-geometry-intro',
+      'g5-proportions': 'g5-proportion-problems',
+      'g7-lines': 'g7-geom-trans',
+      'g7-triangles': 'g7-geom-trans',
+      'g7-quads': 'g7-geom-trans',
+      'g7-expressions': 'g7-rational-algebra',
+      'g7-percent-val': 'g7-percent-equations',
+      'g7-percent-rate': 'g7-percent-equations',
+      'g7-percent-base': 'g7-percent-equations',
+    };
+
+    const parentTopicId = sectionToTopic[id];
+    if (parentTopicId && expandedTopicId !== parentTopicId) {
+      setExpandedTopicId(parentTopicId);
+    }
+  };
 
   const [percentMode, setPercentMode] = useState<'calculate-value' | 'calculate-rate' | 'calculate-base' | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -409,8 +432,8 @@ export default function MathPage() {
       return (
         <div className="flex flex-col gap-10 py-6">
           <section>
-            <SectionHeader number={1} title="Alapműveletek" color="blue" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <SectionHeader id="g5-ops" number={1} title="Alapműveletek" color="blue" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
                 title="Gyakorló Kvíz"
                 subtitle="Összeadás, kivonás, szorzás, osztás"
@@ -457,8 +480,8 @@ export default function MathPage() {
       return (
         <div className="flex flex-col gap-10 py-6">
           <section>
-            <SectionHeader number={1} title="Geometriai Alapok" color="green" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <SectionHeader id="g5-geom-basics" number={1} title="Geometriai Alapok" color="green" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
                 title="Alapszerkesztés"
                 subtitle="Körző és vonalzó használata"
@@ -493,8 +516,8 @@ export default function MathPage() {
       return (
         <div className="flex flex-col gap-10 py-6">
           <section>
-            <SectionHeader number={1} title="Arányosság és alkalmazása" color="teal" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <SectionHeader id="g5-proportions" number={1} title="Arányosság és alkalmazása" color="teal" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
                 title="Szöveges feladatok"
                 subtitle="Gyakorlati problémák"
@@ -642,8 +665,8 @@ export default function MathPage() {
       return (
         <div className="flex flex-col gap-10 py-6">
           <section>
-            <SectionHeader number={1} title="Háromszögek nevezetes vonalai" color="blue" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <SectionHeader id="g7-lines" number={1} title="Háromszögek nevezetes vonalai" color="blue" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
                 title="Súlyvonalak, magasságvonalak"
                 subtitle="Elmélet és szerkesztés"
@@ -664,8 +687,8 @@ export default function MathPage() {
           </section>
 
           <section>
-            <SectionHeader number={2} title="Háromszögek" color="emerald" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <SectionHeader id="g7-triangles" number={2} title="Háromszögek" color="emerald" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
                 title="Háromszögek fajtái"
                 subtitle="Osztályozás tulajdonságok alapján"
@@ -694,8 +717,8 @@ export default function MathPage() {
           </section>
 
           <section>
-            <SectionHeader number={3} title="Négyszögek" color="amber" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <SectionHeader id="g7-quads" number={3} title="Négyszögek" color="amber" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
                 title="Négyszögek fajtái"
                 subtitle="Tulajdonságok és csoportosítás"
@@ -1029,7 +1052,7 @@ export default function MathPage() {
           {/* Section 1 */}
           <section>
             <SectionHeader number={1} title="Racionális számok" color="blue" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
                 title="Racionális számok"
                 subtitle="Műveletek ésszerűen"
@@ -1059,8 +1082,8 @@ export default function MathPage() {
 
           {/* Section 2 */}
           <section>
-            <SectionHeader number={2} title="Számok és betűs kifejezések használata" color="purple" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <SectionHeader id="g7-expressions" number={2} title="Számok és betűs kifejezések használata" color="purple" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
                 title="Betűs kifejezések"
                 subtitle="Változók használata"
@@ -1087,8 +1110,8 @@ export default function MathPage() {
       return (
         <div className="flex flex-col gap-10 py-6">
           <section>
-            <SectionHeader number={1} title="Százalékérték" color="rose" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <SectionHeader id="g7-percent-val" number={1} title="Százalékérték" color="rose" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
                 title="Százalékérték teszt"
                 subtitle="Mennyi az alap adott %-a?"
@@ -1114,8 +1137,8 @@ export default function MathPage() {
           </section>
 
           <section>
-            <SectionHeader number={2} title="Százalékláb" color="emerald" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <SectionHeader id="g7-percent-rate" number={2} title="Százalékláb" color="emerald" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
                 title="Százalékláb teszt"
                 subtitle="Hány százaléka a rész az egésznek?"
@@ -1141,8 +1164,8 @@ export default function MathPage() {
           </section>
 
           <section>
-            <SectionHeader number={3} title="Százalékalap" color="blue" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <SectionHeader id="g7-percent-base" number={3} title="Százalékalap" color="blue" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
                 title="Százalékalap teszt"
                 subtitle="Mennyi a 100%, ha ismerjük a részt?"
@@ -1237,7 +1260,7 @@ export default function MathPage() {
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-400/10 rounded-full -ml-24 -mb-24 blur-2xl"></div>
         </div>
 
-        <div className="container max-w-5xl mx-auto relative z-10">
+        <div className="w-full px-4 lg:px-12 relative z-10">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-3">
               <Button
@@ -1358,7 +1381,7 @@ export default function MathPage() {
       {/* Content */}
       <div className={cn(
         "container mx-auto px-4 py-8 transition-all duration-500",
-        view === 'activity' ? "max-w-[1400px]" : "max-w-4xl"
+        view === 'activity' || view === 'topic-select' || view === 'tools-select' || view === 'main-select' ? "max-w-none lg:px-12" : "max-w-4xl"
       )}>
         {view === 'search-results' && (
           <div className="animate-slide-up">
@@ -1404,7 +1427,7 @@ export default function MathPage() {
         {view === 'main-select' && (
           <div className="animate-slide-up space-y-12">
             <section>
-              <h2 className="font-display text-xl font-bold mb-8 text-center">
+              <h2 className="font-display text-xl font-bold mb-8 text-left">
                 Melyik szinten szeretnél gyakorolni?
               </h2>
               <GradeSelector
@@ -1439,210 +1462,251 @@ export default function MathPage() {
           </div>
         )}
 
-        {view === 'topic-select' && (
-          <div className="animate-slide-up">
-            <div className="flex items-center gap-2 mb-8">
-              <Sparkles className="w-6 h-6 text-primary" />
-              <h2 className="font-display text-2xl font-bold">Válaszd ki a témakört!</h2>
-            </div>
-            <div className="space-y-4">
-              {getFilteredTopics().map((topic) => (
-                <MathTopicCard
-                  key={topic.id}
-                  topic={topic}
-                  isExpanded={expandedTopicId === topic.id}
-                  onClick={() => handleTopicSelect(topic.id)}
-                >
-                  {((selectedGrade === 5 && topic.id.startsWith('g5-')) || selectedGrade === 6 || selectedGrade === 7) && renderTopicContent(topic.id)}
-                </MathTopicCard>
-              ))}
-              {getFilteredTopics().length === 0 && (
-                <div className="text-center py-12 p-8 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200">
-                  <p className="text-slate-500">Ehhez az évfolyamhoz még nincsenek feltöltve specifikus témakörök.</p>
+        {view === 'topic-select' && (() => {
+          const gradeNavItems: NavItem[] = selectedGrade === 5 ? [
+            { id: 'g5-ops', label: 'Alapműveletek', icon: <Calculator className="w-4 h-4" /> },
+            { id: 'g5-geom-basics', label: 'Geometria', icon: <Shapes className="w-4 h-4" /> },
+            { id: 'g5-proportions', label: 'Arányosság', icon: <Percent className="w-4 h-4" /> },
+          ] : selectedGrade === 7 ? [
+            { id: 'g7-lines', label: 'Nevezetes vonalak', icon: <MoveHorizontal className="w-4 h-4" /> },
+            { id: 'g7-triangles', label: 'Háromszögek', icon: <Triangle className="w-4 h-4" /> },
+            { id: 'g7-quads', label: 'Négyszögek', icon: <Square className="w-4 h-4" /> },
+            { id: 'g7-expressions', label: 'Kifejezések', icon: <Variable className="w-4 h-4" /> },
+            { id: 'g7-percent-val', label: 'Százalékérték', icon: <Percent className="w-4 h-4" /> },
+            { id: 'g7-percent-rate', label: 'Százalékláb', icon: <Percent className="w-4 h-4" /> },
+            { id: 'g7-percent-base', label: 'Százalékalap', icon: <Percent className="w-4 h-4" /> },
+          ] : [];
+
+          const hasSidebar = gradeNavItems.length > 0;
+
+          return (
+            <div className="animate-slide-up pb-20 relative text-left">
+              {hasSidebar && <ScrollSpySidebar items={gradeNavItems} onCollapseChange={setIsSidebarCollapsed} onItemClick={handleSidebarItemClick} />}
+
+              <div className={cn("flex-1 transition-all duration-500", hasSidebar && (isSidebarCollapsed ? "lg:pl-16" : "lg:pl-36"))}>
+                <div className="flex items-center gap-2 mb-8">
+                  <Sparkles className="w-6 h-6 text-primary" />
+                  <h2 className="font-display text-2xl font-bold">Válaszd ki a témakört!</h2>
                 </div>
-              )}
+                <div className="space-y-4">
+                  {getFilteredTopics().map((topic) => (
+                    <MathTopicCard
+                      key={topic.id}
+                      topic={topic}
+                      isExpanded={expandedTopicId === topic.id}
+                      onClick={() => handleTopicSelect(topic.id)}
+                    >
+                      {((selectedGrade === 5 && topic.id.startsWith('g5-')) || selectedGrade === 6 || selectedGrade === 7) && renderTopicContent(topic.id)}
+                    </MathTopicCard>
+                  ))}
+                  {getFilteredTopics().length === 0 && (
+                    <div className="text-center py-12 p-8 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200">
+                      <p className="text-slate-500">Ehhez az évfolyamhoz még nincsenek feltöltve specifikus témakörök.</p>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
-        )}
+          );
+        })()}
 
-        {view === 'tools-select' && (
-          <div className="animate-slide-up space-y-12 pb-20">
-            <div className="text-center mb-12">
-              <h2 className="font-display text-3xl font-bold mb-4 flex items-center justify-center gap-3 text-slate-800">
-                <Settings2 className="w-8 h-8 text-primary" />
-                Matematikai Eszköztár
-              </h2>
-              <p className="text-slate-500 max-w-2xl mx-auto">
-                Válogass interaktív eszközeink közül, amelyek segítenek a vizuális megértésben és a gyakorlásban.
-              </p>
+        {view === 'tools-select' && (() => {
+          const toolNavItems: NavItem[] = [
+            { id: 'sec-basics', label: 'Alapműveletek', icon: <Calculator className="w-4 h-4" /> },
+            { id: 'sec-fractions', label: 'Törtek', icon: <Percent className="w-4 h-4" /> },
+            { id: 'sec-algebra', label: 'Algebra', icon: <Variable className="w-4 h-4" /> },
+            { id: 'sec-geometry', label: 'Geometria', icon: <Shapes className="w-4 h-4" /> },
+            { id: 'sec-creative', label: 'Kreatív', icon: <Sparkles className="w-4 h-4" /> },
+          ];
+
+          return (
+            <div className="animate-slide-up pb-20 relative text-left">
+              <ScrollSpySidebar items={toolNavItems} onCollapseChange={setIsSidebarCollapsed} onItemClick={handleSidebarItemClick} />
+
+              <div className={cn("flex-1 space-y-12 transition-all duration-500 text-left", isSidebarCollapsed ? "lg:pl-16" : "lg:pl-36")}>
+                <div className="text-center lg:text-left mb-12">
+                  <h2 className="font-display text-3xl font-bold mb-4 flex items-center justify-center lg:justify-start gap-3 text-slate-800">
+                    <Settings2 className="w-8 h-8 text-primary" />
+                    Matematikai Eszköztár
+                  </h2>
+                  <p className="text-slate-500 max-w-2xl">
+                    Válogass interaktív eszközeink közül, amelyek segítenek a vizuális megértésben és a gyakorlásban.
+                  </p>
+                </div>
+
+                {/* 1. Számfogalom és alapműveletek */}
+                <section>
+                  <SectionHeader
+                    id="sec-basics"
+                    number={1}
+                    title="Számfogalom és alapműveletek"
+                    color="blue"
+                    subtitle="Cél: számérzék, műveleti biztonság"
+                  />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
+                    <ToolCard
+                      title="Számegyenes"
+                      desc="Egész számok összeadása és kivonása"
+                      icon={<span className="text-2xl">➖</span>}
+                      color="bg-blue-100 text-blue-600"
+                      onClick={() => handleToolSelect('number-line')}
+                    />
+                    <ToolCard
+                      title="Osztás vizuálisan"
+                      desc="Helyiérték-blokkokkal és szétbontással"
+                      icon={<Grid3X3 className="w-8 h-8" />}
+                      color="bg-blue-100 text-blue-600"
+                      onClick={() => handleToolSelect('manipulative-division')}
+                    />
+                    <ToolCard
+                      title="Írásbeli osztás"
+                      desc="Lépcsős osztás levezetése egyjegyű osztóval"
+                      icon={<Calculator className="w-8 h-8" />}
+                      color="bg-indigo-100 text-indigo-600"
+                      onClick={() => handleToolSelect('long-division')}
+                    />
+                    <ToolCard
+                      title="Oszthatóság"
+                      desc="Számok oszthatóságának vizsgálata maradékkal"
+                      icon={<Calculator className="w-8 h-8" />}
+                      color="bg-emerald-100 text-emerald-600"
+                      onClick={() => handleToolSelect('divisibility')}
+                    />
+                    <ToolCard
+                      title="Tizedesvessző-eltoló"
+                      desc="Szorzás és osztás 10, 100, 1000-rel"
+                      icon={<span className="text-2xl">↔️</span>}
+                      color="bg-primary/10 text-primary"
+                      onClick={() => handleToolSelect('decimal-shifter')}
+                    />
+                    <ToolCard
+                      title="Tizedestörtek"
+                      desc="Helyiértékek, átváltások korongokkal"
+                      icon={<span className="text-2xl">🪙</span>}
+                      color="bg-amber-100 text-amber-700"
+                      onClick={() => handleToolSelect('decimal-fractions')}
+                    />
+                  </div>
+                </section>
+
+                {/* 2. Törtek és arányosság világa */}
+                <section>
+                  <SectionHeader
+                    id="sec-fractions"
+                    number={2}
+                    title="Törtek és arányosság világa"
+                    color="orange"
+                    subtitle="Cél: törtek megértése és gyakorlati pálmazás"
+                  />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
+                    <ToolCard
+                      title="Törtek"
+                      desc="Törtek szemléltetése és összehasonlítása"
+                      icon={<Calculator className="w-8 h-8" />}
+                      color="bg-orange-100 text-orange-600"
+                      onClick={() => handleToolSelect('fractions')}
+                    />
+                    <ToolCard
+                      title="Százalékszámítás"
+                      desc="Arányok és százalékok vizualizációja"
+                      icon={<Percent className="w-8 h-8" />}
+                      color="bg-pink-100 text-pink-600"
+                      onClick={() => handleToolSelect('percentages')}
+                    />
+                    <ToolCard
+                      title="Pénztár"
+                      desc="Kifizetések és visszajáró gyakorlása"
+                      icon={<Coins className="w-8 h-8" />}
+                      color="bg-amber-50 text-amber-600"
+                      onClick={() => handleToolSelect('money-calculation')}
+                    />
+                  </div>
+                </section>
+
+                {/* 3. Algebrai gondolkodás */}
+                <section>
+                  <SectionHeader
+                    id="sec-algebra"
+                    number={3}
+                    title="Algebrai gondolkodás"
+                    color="purple"
+                    subtitle="Cél: absztrakció, egyenletmegoldó vizuális modellekkel"
+                  />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
+                    <ToolCard
+                      title="Algebra"
+                      desc="Egyenletek és kifejezések szimbolikus megoldása"
+                      icon={<Variable className="w-8 h-8" />}
+                      color="bg-purple-100 text-purple-600"
+                      onClick={() => handleToolSelect('algebra')}
+                    />
+                    <ToolCard
+                      title="Egyenletmegoldó (Téglalapos)"
+                      desc="Lépésről lépésre, téglalapos vizuális modell"
+                      icon={<Columns className="w-8 h-8" />}
+                      color="bg-purple-100 text-purple-600"
+                      onClick={() => handleToolSelect('equation-solver')}
+                    />
+                    <ToolCard
+                      title="Mérlegelv"
+                      desc="Egyenletmegoldás kétkarú mérleg modellel"
+                      icon={<Scale className="w-8 h-8" />}
+                      color="bg-indigo-100 text-indigo-600"
+                      onClick={() => handleToolSelect('equation-balance')}
+                    />
+                  </div>
+                </section>
+
+                {/* 4. Geometria és szerkesztés */}
+                <section>
+                  <SectionHeader
+                    id="sec-geometry"
+                    number={4}
+                    title="Geometria és szerkesztés"
+                    color="green"
+                    subtitle="Cél: térszemlélet, konstrukció, terület-kerület"
+                  />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
+                    <ToolCard
+                      title="Geometria"
+                      desc="Interaktív alakzatok, terület–kerület, testek és koordinátageometria"
+                      icon={<Shapes className="w-8 h-8" />}
+                      color="bg-green-100 text-green-600"
+                      onClick={() => handleToolSelect('geometry')}
+                    />
+                    <ToolCard
+                      title="Alapszerkesztés"
+                      desc="Szerkesztés körzővel és vonalzóval"
+                      icon={<Pencil className="w-8 h-8" />}
+                      color="bg-indigo-100 text-indigo-600"
+                      onClick={() => handleToolSelect('construction')}
+                    />
+                  </div>
+                </section>
+
+                {/* 5. Interaktív / Kreatív eszközök */}
+                <section>
+                  <SectionHeader
+                    id="sec-creative"
+                    number={5}
+                    title="Interaktív / Kreatív eszközök"
+                    color="violet"
+                    subtitle="Készíts saját tartalmakat!"
+                  />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
+                    <ToolCard
+                      title="Online Rejtvénykészítő"
+                      desc="Készíts matekos rejtvényeket és töltsd le PDF-ben!"
+                      icon={<span className="text-3xl">🧩</span>}
+                      color="bg-violet-100 text-violet-600"
+                      onClick={() => handleToolSelect('puzzle-maker')}
+                    />
+                  </div>
+                </section>
+              </div>
             </div>
-
-            {/* 1. Számfogalom és alapműveletek */}
-            <section>
-              <SectionHeader
-                number={1}
-                title="Számfogalom és alapműveletek"
-                color="blue"
-                subtitle="Cél: számérzék, műveleti biztonság"
-              />
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-                <ToolCard
-                  title="Számegyenes"
-                  desc="Egész számok összeadása és kivonása"
-                  icon={<span className="text-2xl">➖</span>}
-                  color="bg-blue-100 text-blue-600"
-                  onClick={() => handleToolSelect('number-line')}
-                />
-                <ToolCard
-                  title="Osztás vizuálisan"
-                  desc="Helyiérték-blokkokkal és szétbontással"
-                  icon={<Grid3X3 className="w-8 h-8" />}
-                  color="bg-blue-100 text-blue-600"
-                  onClick={() => handleToolSelect('manipulative-division')}
-                />
-                <ToolCard
-                  title="Írásbeli osztás"
-                  desc="Lépcsős osztás levezetése egyjegyű osztóval"
-                  icon={<Calculator className="w-8 h-8" />}
-                  color="bg-indigo-100 text-indigo-600"
-                  onClick={() => handleToolSelect('long-division')}
-                />
-                <ToolCard
-                  title="Oszthatóság"
-                  desc="Számok oszthatóságának vizsgálata maradékkal"
-                  icon={<Calculator className="w-8 h-8" />}
-                  color="bg-emerald-100 text-emerald-600"
-                  onClick={() => handleToolSelect('divisibility')}
-                />
-                <ToolCard
-                  title="Tizedesvessző-eltoló"
-                  desc="Szorzás és osztás 10, 100, 1000-rel"
-                  icon={<span className="text-2xl">↔️</span>}
-                  color="bg-primary/10 text-primary"
-                  onClick={() => handleToolSelect('decimal-shifter')}
-                />
-                <ToolCard
-                  title="Tizedestörtek"
-                  desc="Helyiértékek, átváltások korongokkal"
-                  icon={<span className="text-2xl">🪙</span>}
-                  color="bg-amber-100 text-amber-700"
-                  onClick={() => handleToolSelect('decimal-fractions')}
-                />
-              </div>
-            </section>
-
-            {/* 2. Törtek és arányosság világa */}
-            <section>
-              <SectionHeader
-                number={2}
-                title="Törtek és arányosság világa"
-                color="orange"
-                subtitle="Cél: törtek megértése és gyakorlati pálmazás"
-              />
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-                <ToolCard
-                  title="Törtek"
-                  desc="Törtek szemléltetése és összehasonlítása"
-                  icon={<Calculator className="w-8 h-8" />}
-                  color="bg-orange-100 text-orange-600"
-                  onClick={() => handleToolSelect('fractions')}
-                />
-                <ToolCard
-                  title="Százalékszámítás"
-                  desc="Arányok és százalékok vizualizációja"
-                  icon={<Percent className="w-8 h-8" />}
-                  color="bg-pink-100 text-pink-600"
-                  onClick={() => handleToolSelect('percentages')}
-                />
-                <ToolCard
-                  title="Pénztár"
-                  desc="Kifizetések és visszajáró gyakorlása"
-                  icon={<Coins className="w-8 h-8" />}
-                  color="bg-amber-50 text-amber-600"
-                  onClick={() => handleToolSelect('money-calculation')}
-                />
-              </div>
-            </section>
-
-            {/* 3. Algebrai gondolkodás */}
-            <section>
-              <SectionHeader
-                number={3}
-                title="Algebrai gondolkodás"
-                color="purple"
-                subtitle="Cél: absztrakció, egyenletmegoldó vizuális modellekkel"
-              />
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-                <ToolCard
-                  title="Algebra"
-                  desc="Egyenletek és kifejezések szimbolikus megoldása"
-                  icon={<Variable className="w-8 h-8" />}
-                  color="bg-purple-100 text-purple-600"
-                  onClick={() => handleToolSelect('algebra')}
-                />
-                <ToolCard
-                  title="Egyenletmegoldó (Téglalapos)"
-                  desc="Lépésről lépésre, téglalapos vizuális modell"
-                  icon={<Columns className="w-8 h-8" />}
-                  color="bg-purple-100 text-purple-600"
-                  onClick={() => handleToolSelect('equation-solver')}
-                />
-                <ToolCard
-                  title="Mérlegelv"
-                  desc="Egyenletmegoldás kétkarú mérleg modellel"
-                  icon={<Scale className="w-8 h-8" />}
-                  color="bg-indigo-100 text-indigo-600"
-                  onClick={() => handleToolSelect('equation-balance')}
-                />
-              </div>
-            </section>
-
-            {/* 4. Geometria és szerkesztés */}
-            <section>
-              <SectionHeader
-                number={4}
-                title="Geometria és szerkesztés"
-                color="green"
-                subtitle="Cél: térszemlélet, konstrukció, terület-kerület"
-              />
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-                <ToolCard
-                  title="Geometria"
-                  desc="Interaktív alakzatok, terület–kerület, testek és koordinátageometria"
-                  icon={<Shapes className="w-8 h-8" />}
-                  color="bg-green-100 text-green-600"
-                  onClick={() => handleToolSelect('geometry')}
-                />
-                <ToolCard
-                  title="Alapszerkesztés"
-                  desc="Szerkesztés körzővel és vonalzóval"
-                  icon={<Pencil className="w-8 h-8" />}
-                  color="bg-indigo-100 text-indigo-600"
-                  onClick={() => handleToolSelect('construction')}
-                />
-              </div>
-            </section>
-
-            {/* 5. Interaktív / Kreatív eszközök */}
-            <section>
-              <SectionHeader
-                number={5}
-                title="Interaktív / Kreatív eszközök"
-                color="violet"
-                subtitle="Készíts saját tartalmakat!"
-              />
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-                <ToolCard
-                  title="Online Rejtvénykészítő"
-                  desc="Készíts matekos rejtvényeket és töltsd le PDF-ben!"
-                  icon={<span className="text-3xl">🧩</span>}
-                  color="bg-violet-100 text-violet-600"
-                  onClick={() => handleToolSelect('puzzle-maker')}
-                />
-              </div>
-            </section>
-          </div>
-        )}
+          );
+        })()}
 
         {view === 'games-select' && (
           <div className="animate-slide-up">
