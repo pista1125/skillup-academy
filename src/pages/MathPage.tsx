@@ -1466,118 +1466,181 @@ export default function MathPage() {
         )}
 
         {view === 'tools-select' && (
-          <div className="animate-slide-up">
-            <h2 className="font-display text-xl font-bold mb-8 text-center flex items-center justify-center gap-3">
-              <Settings2 className="w-7 h-7" />
-              Speciális Eszközök
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <ToolCard
-                title="Törtek"
-                desc="Törtek szemléltetése és összehasonlítása"
-                icon={<Calculator className="w-8 h-8" />}
-                color="bg-orange-100 text-orange-600"
-                onClick={() => handleToolSelect('fractions')}
-              />
-              <ToolCard
-                title="Oszthatóság"
-                desc="Számok oszthatóságának vizsgálata maradékkal"
-                icon={<Calculator className="w-8 h-8" />}
-                color="bg-emerald-100 text-emerald-600"
-                onClick={() => handleToolSelect('divisibility')}
-              />
-              <ToolCard
-                title="Írásbeli osztás"
-                desc="Lépcsős osztás levezetése egyjegyű osztóval"
-                icon={<Calculator className="w-8 h-8" />}
-                color="bg-indigo-100 text-indigo-600"
-                onClick={() => handleToolSelect('long-division')}
-              />
-              <ToolCard
-                title="Algebra"
-                desc="Egyenletek és kifejezések gyakorlása"
-                icon={<Variable className="w-8 h-8" />}
-                color="bg-purple-100 text-purple-600"
-                onClick={() => handleToolSelect('algebra')}
-              />
-              <ToolCard
-                title="Geometria"
-                desc="Interaktív alakzatok és számítások"
-                icon={<Shapes className="w-8 h-8" />}
-                color="bg-green-100 text-green-600"
-                onClick={() => handleToolSelect('geometry')}
-              />
-              <ToolCard
-                title="Százalékszámítás"
-                desc="Arányok és százalékok vizualizációja"
-                icon={<Percent className="w-8 h-8" />}
-                color="bg-pink-100 text-pink-600"
-                onClick={() => handleToolSelect('percentages')}
-              />
-              <ToolCard
-                title="Egyenletmegoldó (Téglalapos)"
-                desc="Lépésről lépésre, téglalapos lerakós módszer"
-                icon={<Columns className="w-8 h-8" />}
-                color="bg-purple-100 text-purple-600"
-                onClick={() => handleToolSelect('equation-solver')}
-              />
-              <ToolCard
-                title="Tizedestörtek"
-                desc="Helyiértékek, átváltások korongokkal"
-                icon={<span className="text-2xl">🪙</span>}
-                color="bg-amber-100 text-amber-700"
-                onClick={() => handleToolSelect('decimal-fractions')}
-              />
-              <ToolCard
-                title="Számegyenes"
-                desc="Egész számok összeadása és kivonása"
-                icon={<span className="text-2xl">➖</span>}
-                color="bg-blue-100 text-blue-600"
-                onClick={() => handleToolSelect('number-line')}
-              />
-              <ToolCard
-                title="Alapszerkesztés"
-                desc="Szerkesztés körzővel és vonalzóval"
-                icon={<Pencil className="w-8 h-8" />}
-                color="bg-indigo-100 text-indigo-600"
-                onClick={() => handleToolSelect('construction')}
-              />
-              <ToolCard
-                title="Osztás vizuálisan"
-                desc="Helyiérték-blokkokkal és szétbontással"
-                icon={<Grid3X3 className="w-8 h-8" />}
-                color="bg-blue-100 text-blue-600"
-                onClick={() => handleToolSelect('manipulative-division')}
-              />
-              <ToolCard
-                title="Tizedesvessző-eltoló"
-                desc="Szorzás és osztás 10, 100, 1000-rel"
-                icon={<span className="text-2xl">↔️</span>}
-                color="bg-primary/10 text-primary"
-                onClick={() => handleToolSelect('decimal-shifter')}
-              />
-              <ToolCard
-                title="Mérlegelv"
-                desc="Egyenletmegoldás kétkarú mérleggel"
-                icon={<Scale className="w-8 h-8" />}
-                color="bg-indigo-100 text-indigo-600"
-                onClick={() => handleToolSelect('equation-balance')}
-              />
-              <ToolCard
-                title="Pénztár"
-                desc="Kifizetések és visszajáró gyakorlása"
-                icon={<Coins className="w-8 h-8" />}
-                color="bg-amber-50 text-amber-600"
-                onClick={() => handleToolSelect('money-calculation')}
-              />
-              <ToolCard
-                title="Online Rejtvénykészítő"
-                desc="Készíts matekos rejtvényeket és töltsd le PDF-ben!"
-                icon={<span className="text-3xl">🧩</span>}
-                color="bg-violet-100 text-violet-600"
-                onClick={() => handleToolSelect('puzzle-maker')}
-              />
+          <div className="animate-slide-up space-y-12 pb-20">
+            <div className="text-center mb-12">
+              <h2 className="font-display text-3xl font-bold mb-4 flex items-center justify-center gap-3 text-slate-800">
+                <Settings2 className="w-8 h-8 text-primary" />
+                Matematikai Eszköztár
+              </h2>
+              <p className="text-slate-500 max-w-2xl mx-auto">
+                Válogass interaktív eszközeink közül, amelyek segítenek a vizuális megértésben és a gyakorlásban.
+              </p>
             </div>
+
+            {/* 1. Számfogalom és alapműveletek */}
+            <section>
+              <SectionHeader
+                number={1}
+                title="Számfogalom és alapműveletek"
+                color="blue"
+                subtitle="Cél: számérzék, műveleti biztonság"
+              />
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                <ToolCard
+                  title="Számegyenes"
+                  desc="Egész számok összeadása és kivonása"
+                  icon={<span className="text-2xl">➖</span>}
+                  color="bg-blue-100 text-blue-600"
+                  onClick={() => handleToolSelect('number-line')}
+                />
+                <ToolCard
+                  title="Osztás vizuálisan"
+                  desc="Helyiérték-blokkokkal és szétbontással"
+                  icon={<Grid3X3 className="w-8 h-8" />}
+                  color="bg-blue-100 text-blue-600"
+                  onClick={() => handleToolSelect('manipulative-division')}
+                />
+                <ToolCard
+                  title="Írásbeli osztás"
+                  desc="Lépcsős osztás levezetése egyjegyű osztóval"
+                  icon={<Calculator className="w-8 h-8" />}
+                  color="bg-indigo-100 text-indigo-600"
+                  onClick={() => handleToolSelect('long-division')}
+                />
+                <ToolCard
+                  title="Oszthatóság"
+                  desc="Számok oszthatóságának vizsgálata maradékkal"
+                  icon={<Calculator className="w-8 h-8" />}
+                  color="bg-emerald-100 text-emerald-600"
+                  onClick={() => handleToolSelect('divisibility')}
+                />
+                <ToolCard
+                  title="Tizedesvessző-eltoló"
+                  desc="Szorzás és osztás 10, 100, 1000-rel"
+                  icon={<span className="text-2xl">↔️</span>}
+                  color="bg-primary/10 text-primary"
+                  onClick={() => handleToolSelect('decimal-shifter')}
+                />
+                <ToolCard
+                  title="Tizedestörtek"
+                  desc="Helyiértékek, átváltások korongokkal"
+                  icon={<span className="text-2xl">🪙</span>}
+                  color="bg-amber-100 text-amber-700"
+                  onClick={() => handleToolSelect('decimal-fractions')}
+                />
+              </div>
+            </section>
+
+            {/* 2. Törtek és arányosság világa */}
+            <section>
+              <SectionHeader
+                number={2}
+                title="Törtek és arányosság világa"
+                color="orange"
+                subtitle="Cél: törtek megértése és gyakorlati pálmazás"
+              />
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                <ToolCard
+                  title="Törtek"
+                  desc="Törtek szemléltetése és összehasonlítása"
+                  icon={<Calculator className="w-8 h-8" />}
+                  color="bg-orange-100 text-orange-600"
+                  onClick={() => handleToolSelect('fractions')}
+                />
+                <ToolCard
+                  title="Százalékszámítás"
+                  desc="Arányok és százalékok vizualizációja"
+                  icon={<Percent className="w-8 h-8" />}
+                  color="bg-pink-100 text-pink-600"
+                  onClick={() => handleToolSelect('percentages')}
+                />
+                <ToolCard
+                  title="Pénztár"
+                  desc="Kifizetések és visszajáró gyakorlása"
+                  icon={<Coins className="w-8 h-8" />}
+                  color="bg-amber-50 text-amber-600"
+                  onClick={() => handleToolSelect('money-calculation')}
+                />
+              </div>
+            </section>
+
+            {/* 3. Algebrai gondolkodás */}
+            <section>
+              <SectionHeader
+                number={3}
+                title="Algebrai gondolkodás"
+                color="purple"
+                subtitle="Cél: absztrakció, egyenletmegoldó vizuális modellekkel"
+              />
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                <ToolCard
+                  title="Algebra"
+                  desc="Egyenletek és kifejezések szimbolikus megoldása"
+                  icon={<Variable className="w-8 h-8" />}
+                  color="bg-purple-100 text-purple-600"
+                  onClick={() => handleToolSelect('algebra')}
+                />
+                <ToolCard
+                  title="Egyenletmegoldó (Téglalapos)"
+                  desc="Lépésről lépésre, téglalapos vizuális modell"
+                  icon={<Columns className="w-8 h-8" />}
+                  color="bg-purple-100 text-purple-600"
+                  onClick={() => handleToolSelect('equation-solver')}
+                />
+                <ToolCard
+                  title="Mérlegelv"
+                  desc="Egyenletmegoldás kétkarú mérleg modellel"
+                  icon={<Scale className="w-8 h-8" />}
+                  color="bg-indigo-100 text-indigo-600"
+                  onClick={() => handleToolSelect('equation-balance')}
+                />
+              </div>
+            </section>
+
+            {/* 4. Geometria és szerkesztés */}
+            <section>
+              <SectionHeader
+                number={4}
+                title="Geometria és szerkesztés"
+                color="green"
+                subtitle="Cél: térszemlélet, konstrukció, terület-kerület"
+              />
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                <ToolCard
+                  title="Geometria"
+                  desc="Interaktív alakzatok, terület–kerület, testek és koordinátageometria"
+                  icon={<Shapes className="w-8 h-8" />}
+                  color="bg-green-100 text-green-600"
+                  onClick={() => handleToolSelect('geometry')}
+                />
+                <ToolCard
+                  title="Alapszerkesztés"
+                  desc="Szerkesztés körzővel és vonalzóval"
+                  icon={<Pencil className="w-8 h-8" />}
+                  color="bg-indigo-100 text-indigo-600"
+                  onClick={() => handleToolSelect('construction')}
+                />
+              </div>
+            </section>
+
+            {/* 5. Interaktív / Kreatív eszközök */}
+            <section>
+              <SectionHeader
+                number={5}
+                title="Interaktív / Kreatív eszközök"
+                color="violet"
+                subtitle="Készíts saját tartalmakat!"
+              />
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                <ToolCard
+                  title="Online Rejtvénykészítő"
+                  desc="Készíts matekos rejtvényeket és töltsd le PDF-ben!"
+                  icon={<span className="text-3xl">🧩</span>}
+                  color="bg-violet-100 text-violet-600"
+                  onClick={() => handleToolSelect('puzzle-maker')}
+                />
+              </div>
+            </section>
           </div>
         )}
 
