@@ -1441,17 +1441,6 @@ export default function MathPage() {
                 <img src="/logo_header.png" alt="DiákZóna" className="h-12 md:h-16 object-contain translate-y-2" />
                 <span className="text-xl md:text-2xl font-black tracking-tighter">DIÁKZÓNA</span>
               </Button>
-
-              {view !== 'main-select' && (
-                <Button
-                  variant="ghost"
-                  onClick={handleBack}
-                  className="text-white hover:bg-white/20 transition-all border border-white/10 h-9"
-                >
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Vissza
-                </Button>
-              )}
             </div>
 
             <div className="flex items-center gap-2">
@@ -1548,6 +1537,43 @@ export default function MathPage() {
         </div>
       </div>
 
+      {/* Professional Sub-header for Navigation */}
+      <div className={cn(
+        "sticky top-0 z-40 w-full transition-all duration-300",
+        view !== 'main-select' ? "h-14 opacity-100" : "h-0 opacity-0 overflow-hidden"
+      )}>
+        <div className="bg-white/80 backdrop-blur-xl border-b border-slate-200/60 py-2.5 shadow-sm">
+          <div className="w-full px-4 lg:px-12 flex items-center justify-between">
+            <Button
+              variant="ghost"
+              onClick={handleBack}
+              className="text-slate-600 hover:text-primary hover:bg-primary/5 transition-all flex items-center gap-2.5 group rounded-xl px-4"
+            >
+              <div className="p-1.5 rounded-lg bg-slate-100 group-hover:bg-primary/10 group-hover:text-primary transition-all">
+                <ArrowLeft className="w-4 h-4" />
+              </div>
+              <span className="font-bold text-sm tracking-tight text-slate-700">Vissza</span>
+            </Button>
+
+            <div className="hidden md:flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+              <span>MATEMATIKA</span>
+              {selectedGrade && (
+                <>
+                  <ChevronRight className="w-3 h-3" />
+                  <span className="text-primary/70">{selectedGrade}. OSZTÁLY</span>
+                </>
+              )}
+              {selectedTopic && (
+                <>
+                  <ChevronRight className="w-3 h-3" />
+                  <span className="text-slate-500">{currentTopic?.title || 'TÉMAKÖR'}</span>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Content */}
       <div className={cn(
         "container mx-auto px-4 py-8 transition-all duration-500",
@@ -1628,6 +1654,120 @@ export default function MathPage() {
                 Matek Játékok
                 <ChevronRight className="w-6 h-6 ml-auto" />
               </Button>
+            </section>
+
+            {/* --- NEW SECTIONS --- */}
+
+            {/* Math Quote Section */}
+            <section className="py-12 px-6 bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl shadow-xl text-center relative overflow-hidden">
+              <div className="absolute -top-10 -left-10 text-9xl text-white/5 font-black">&ldquo;</div>
+              <div className="absolute -bottom-10 -right-10 text-9xl text-white/5 font-black">&rdquo;</div>
+              <div className="relative z-10 max-w-2xl mx-auto">
+                <blockquote className="text-2xl md:text-3xl font-bold text-white mb-6 leading-tight">
+                  <span className="text-primary-300">„</span>A természet könyve a <span className="text-primary font-black underline decoration-primary/50 underline-offset-4">matematika</span> nyelvén íródott.<span className="text-primary-300">”</span>
+                </blockquote>
+                <p className="text-slate-400 font-medium uppercase tracking-widest text-sm">— Galileo Galilei —</p>
+              </div>
+            </section>
+
+            {/* Developer Bio Section */}
+            <section className="bg-white rounded-3xl shadow-lg border border-slate-100 overflow-hidden">
+              <div className="flex flex-col lg:flex-row">
+                {/* Photo Area */}
+                <div className="lg:w-2/5 xl:w-1/3 relative bg-slate-900 overflow-hidden min-h-[300px] lg:min-h-full flex-shrink-0">
+                  <div className="absolute inset-0 opacity-30">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-primary rounded-full blur-3xl -mr-32 -mt-32"></div>
+                    <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-500 rounded-full blur-3xl -ml-24 -mb-24"></div>
+                  </div>
+                  <img
+                    src="/orsos_istvan.jpg"
+                    alt="Orsós István"
+                    className="absolute inset-0 w-full h-full object-cover object-top"
+                  />
+                  {/* Gradient Overlay for smooth transition on mobile if needed, or just decoration */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-slate-900/50"></div>
+                </div>
+
+                {/* Content Area */}
+                <div className="lg:w-2/3 p-8 lg:p-10 flex flex-col justify-center">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary font-bold text-xs uppercase tracking-widest w-fit mb-4">
+                    <Sparkles className="w-3.5 h-3.5" /> A Fejlesztőről
+                  </div>
+                  <h2 className="text-3xl font-black text-slate-800 mb-2">Orsós István</h2>
+                  <p className="text-lg font-bold text-slate-500 mb-6 border-b border-slate-100 pb-6">Tanár • Mentor • Önkéntes</p>
+
+                  <div className="space-y-4 mb-8">
+                    <p className="text-slate-600 leading-relaxed text-sm md:text-base">
+                      Elhivatott <span className="font-bold text-slate-800">matematikus és fizikus</span> vagyok, aki szenvedéllyel oktat és mentorál. Több éves tapasztalatom van középiskolai tanításban és egyetemi mentorprogramokban.
+                    </p>
+                    <p className="text-slate-600 leading-relaxed text-sm md:text-base">
+                      Célom, hogy tudásommal és tapasztalataimmal minél több embernek segíthessek a fejlődésben és az önmegvalósításban. Aktívan foglalkozom <span className="font-bold text-primary">3D nyomtatással</span> és technológiai innovációkkal.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div className="bg-slate-50 rounded-xl p-3 text-center border border-slate-100">
+                      <div className="font-black text-slate-800">PTE</div>
+                      <div className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Mat-Fiz Mester</div>
+                    </div>
+                    <div className="bg-slate-50 rounded-xl p-3 text-center border border-slate-100">
+                      <div className="font-black text-slate-800">2020<span className="text-slate-400 font-normal">óta</span></div>
+                      <div className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Tanár</div>
+                    </div>
+                    <div className="bg-slate-50 rounded-xl p-3 text-center border border-slate-100">
+                      <div className="font-black text-slate-800">Python</div>
+                      <div className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Programozás</div>
+                    </div>
+                    <div className="bg-slate-50 rounded-xl p-3 text-center border border-slate-100">
+                      <div className="font-black text-slate-800">3D</div>
+                      <div className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Nyomtatás</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Site Stats Section */}
+            <section className="mb-12">
+              <div className="text-center mb-8">
+                <h2 className="font-display text-2xl font-bold text-slate-800 mb-2">Mit találsz a DiákZónán?</h2>
+                <p className="text-slate-500">Folyamatosan bővülő, interaktív matematikai tartalom, ami a tanulást játékká teszi.</p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                {(() => {
+                  // Dinamikus számítások
+                  const toolsCount = mathTopics.filter(t => t.id === 'construction' || t.id === 'number-line' || t.id === 'equation-solver' || t.id === 'equation-balance' || t.id === 'divisibility' || t.id === 'fractions' || t.id === 'decimal-fractions' || t.id === 'manipulative-division' || t.id === 'decimal-shifter' || t.id === 'money-calculation').length + 8; // Adjusting roughly reflecting components created
+                  const gamesCount = 2; // Snake game, Puzzlemaker currently prominent
+                  const topicsCount = mathTopics.filter(t => t.id.startsWith('g')).length;
+
+                  return (
+                    <>
+                      <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex flex-col items-center text-center hover:border-primary/50 transition-all hover:-translate-y-1">
+                        <div className="p-4 rounded-2xl bg-purple-50 text-purple-600 mb-4">
+                          <Wrench className="w-8 h-8" />
+                        </div>
+                        <div className="text-4xl font-black text-slate-800 mb-1">{toolsCount}+</div>
+                        <div className="text-xs font-bold text-slate-400 uppercase tracking-widest">Interaktív Eszköz</div>
+                      </div>
+                      <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex flex-col items-center text-center hover:border-pink-500/50 transition-all hover:-translate-y-1">
+                        <div className="p-4 rounded-2xl bg-pink-50 text-pink-500 mb-4">
+                          <Gamepad2 className="w-8 h-8" />
+                        </div>
+                        <div className="text-4xl font-black text-slate-800 mb-1">{gamesCount}+</div>
+                        <div className="text-xs font-bold text-slate-400 uppercase tracking-widest">Oktató Játék</div>
+                      </div>
+                      <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex flex-col items-center text-center hover:border-blue-500/50 transition-all hover:-translate-y-1">
+                        <div className="p-4 rounded-2xl bg-blue-50 text-blue-500 mb-4">
+                          <BookOpen className="w-8 h-8" />
+                        </div>
+                        <div className="text-4xl font-black text-slate-800 mb-1">{topicsCount}+</div>
+                        <div className="text-xs font-bold text-slate-400 uppercase tracking-widest">Rendszerezett Témakör</div>
+                      </div>
+                    </>
+                  )
+                })()}
+              </div>
             </section>
           </div>
         )}
