@@ -105,6 +105,12 @@ export default function MathPage() {
   const handleSidebarItemClick = (id: string) => {
     // Map section IDs to their parent Topic IDs
     const sectionToTopic: Record<string, string> = {
+      'g4-count-10k': 'g4-count-10k',
+      'g4-measurements': 'g4-measurements',
+      'g4-written-ops': 'g4-written-ops',
+      'g4-long-div': 'g4-long-div',
+      'g4-shapes-solids': 'g4-shapes-solids',
+      'g4-fractions': 'g4-fractions',
       'g5-ops': 'g5-integers',
       'g5-geom-basics': 'g5-geometry-intro',
       'g5-proportions': 'g5-proportion-problems',
@@ -204,7 +210,7 @@ export default function MathPage() {
         } else {
           setView('topic-select');
           // Some topics might show detail instead of full activity
-          if (!((grade === 5 && topicParam.startsWith('g5-')) || grade === 6 || grade === 7)) {
+          if (!((grade === 5 && topicParam.startsWith('g5-')) || grade === 4 || grade === 6 || grade === 7)) {
             setActivityType(topicParam as ActivityType);
             setView('activity');
           }
@@ -279,7 +285,7 @@ export default function MathPage() {
   };
 
   const handleTopicSelect = (topicId: string, forceActivity = false) => {
-    if (!forceActivity && ((selectedGrade === 5 && topicId.startsWith('g5-')) || selectedGrade === 6 || selectedGrade === 7)) {
+    if (!forceActivity && ((selectedGrade === 5 && topicId.startsWith('g5-')) || selectedGrade === 4 || selectedGrade === 6 || selectedGrade === 7)) {
       setExpandedTopicId(expandedTopicId === topicId ? null : topicId);
       // We don't necessarily update URL for expanded topics unless they are "terminal"
       return;
@@ -428,6 +434,170 @@ export default function MathPage() {
   };
 
   const renderTopicContent = (topicId: string) => {
+    if (topicId === 'g4-count-10k') {
+      return (
+        <div className="flex flex-col gap-10 py-6">
+          <section>
+            <SectionHeader id="g4-count-10k" number={1} title="Számfogalom 10 000-ig" color="blue" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="Számok írása, olvasása, kerekítés"
+                type="Teszt"
+                onClick={() => handleActivitySelect('quiz')}
+                icon={<Calculator className="w-6 h-6" />}
+                color="blue"
+              />
+              <ActivityPlaceholder
+                title="Matek Kígyó 🐍"
+                subtitle="Gyűjtsd össze a számokat!"
+                type="Játék"
+                onClick={() => handleActivitySelect('snake-game')}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+              />
+            </div>
+          </section>
+        </div>
+      );
+    }
+
+    if (topicId === 'g4-measurements') {
+      return (
+        <div className="flex flex-col gap-10 py-6">
+          <section>
+            <SectionHeader id="g4-measurements" number={1} title="Mértékegységek" color="cyan" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Pénztár"
+                subtitle="Számolás pénzzel"
+                type="Eszköz"
+                onClick={() => handleActivitySelect('money-calculation')}
+                icon={<Coins className="w-6 h-6" />}
+                color="emerald"
+              />
+            </div>
+          </section>
+        </div>
+      );
+    }
+
+    if (topicId === 'g4-written-ops') {
+      return (
+        <div className="flex flex-col gap-10 py-6">
+          <section>
+            <SectionHeader id="g4-written-ops" number={1} title="Összeadás és kivonás" color="indigo" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Írásbeli műveletek"
+                subtitle="Gyakorlás 10 000-ig"
+                type="Teszt"
+                onClick={() => handleActivitySelect('quiz')}
+                icon={<Calculator className="w-6 h-6" />}
+                color="blue"
+              />
+            </div>
+          </section>
+        </div>
+      );
+    }
+
+    if (topicId === 'g4-negatives') {
+      return (
+        <div className="flex flex-col gap-10 py-6">
+          <section>
+            <SectionHeader id="g4-negatives" number={1} title="Pozitív és negatív számok" color="blue" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Számegyenes"
+                subtitle="Negatív számok ábrázolása"
+                type="Eszköz"
+                onClick={() => handleActivitySelect('number-line')}
+                icon={<MoveHorizontal className="w-6 h-6" />}
+                color="blue"
+              />
+            </div>
+          </section>
+        </div>
+      );
+    }
+
+    if (topicId === 'g4-long-div') {
+      return (
+        <div className="flex flex-col gap-10 py-6">
+          <section>
+            <SectionHeader id="g4-long-div" number={1} title="Osztás egyjegyű osztóval" color="indigo" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Írásbeli osztás"
+                subtitle="Lépcsős osztás levezetése"
+                type="Eszköz"
+                onClick={() => handleActivitySelect('long-division')}
+                icon={<Box className="w-6 h-6" />}
+                color="indigo"
+              />
+            </div>
+          </section>
+        </div>
+      );
+    }
+
+    if (topicId === 'g4-shapes-solids') {
+      return (
+        <div className="flex flex-col gap-10 py-6">
+          <section>
+            <SectionHeader id="g4-shapes-solids" number={1} title="Geometria" color="green" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Síkidom vagy Test?"
+                subtitle="2D és 3D alakzatok"
+                type="Játék"
+                onClick={() => handleActivitySelect('shape-classification')}
+                icon={<Box className="w-6 h-6" />}
+                color="emerald"
+              />
+            </div>
+          </section>
+        </div>
+      );
+    }
+
+    if (topicId === 'g4-fractions') {
+      return (
+        <div className="flex flex-col gap-10 py-6">
+          <section>
+            <SectionHeader id="g4-fractions" number={1} title="Törtek alapjai" color="orange" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Törtek vizuálisan"
+                subtitle="Törtek ábrázolása"
+                type="Eszköz"
+                onClick={() => handleActivitySelect('fractions-visualizer')}
+                icon={<Percent className="w-6 h-6" />}
+                color="orange"
+              />
+            </div>
+          </section>
+        </div>
+      );
+    }
+
+    if (topicId === 'g4-grouping' || topicId === 'g4-written-mult' || topicId === 'g4-time') {
+      return (
+        <div className="py-2">
+          <div className="mb-4 p-4 bg-blue-50/50 rounded-2xl border border-blue-100 flex items-center gap-3">
+            <BookOpen className="w-5 h-5 text-blue-500" />
+            <p className="text-sm font-medium text-blue-700 italic">Ehhez a témakörhöz jelenleg a tankönyvi anyagok érhetőek el.</p>
+          </div>
+          <MaterialGallery
+            grade={4}
+            onView={handleMaterialSelect}
+            initialMaterialId={new URLSearchParams(location.search).get('material')}
+          />
+        </div>
+      );
+    }
+
     if (topicId === 'g5-integers') {
       return (
         <div className="flex flex-col gap-10 py-6">
@@ -1268,7 +1438,7 @@ export default function MathPage() {
                 onClick={handleHome}
                 className="bg-white/10 text-white hover:bg-white/20 font-black px-4 border border-white/20 shadow-lg backdrop-blur-md transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
               >
-                <img src="/logo_header.png" alt="DiákZóna" className="h-12 md:h-16 object-contain" />
+                <img src="/logo_header.png" alt="DiákZóna" className="h-12 md:h-16 object-contain translate-y-2" />
                 <span className="text-xl md:text-2xl font-black tracking-tighter">DIÁKZÓNA</span>
               </Button>
 
@@ -1463,7 +1633,14 @@ export default function MathPage() {
         )}
 
         {view === 'topic-select' && (() => {
-          const gradeNavItems: NavItem[] = selectedGrade === 5 ? [
+          const gradeNavItems: NavItem[] = selectedGrade === 4 ? [
+            { id: 'g4-count-10k', label: 'Számolás 10k-ig', icon: <Calculator className="w-4 h-4" /> },
+            { id: 'g4-measurements', label: 'Mérések', icon: <Scale className="w-4 h-4" /> },
+            { id: 'g4-written-ops', label: 'Írásbeli műveletek', icon: <Calculator className="w-4 h-4" /> },
+            { id: 'g4-long-div', label: 'Írásbeli osztás', icon: <Box className="w-4 h-4" /> },
+            { id: 'g4-shapes-solids', label: 'Síkidomok, testek', icon: <Shapes className="w-4 h-4" /> },
+            { id: 'g4-fractions', label: 'Törtszámok', icon: <Percent className="w-4 h-4" /> },
+          ] : selectedGrade === 5 ? [
             { id: 'g5-ops', label: 'Alapműveletek', icon: <Calculator className="w-4 h-4" /> },
             { id: 'g5-geom-basics', label: 'Geometria', icon: <Shapes className="w-4 h-4" /> },
             { id: 'g5-proportions', label: 'Arányosság', icon: <Percent className="w-4 h-4" /> },
@@ -1496,7 +1673,7 @@ export default function MathPage() {
                       isExpanded={expandedTopicId === topic.id}
                       onClick={() => handleTopicSelect(topic.id)}
                     >
-                      {((selectedGrade === 5 && topic.id.startsWith('g5-')) || selectedGrade === 6 || selectedGrade === 7) && renderTopicContent(topic.id)}
+                      {((selectedGrade === 5 && topic.id.startsWith('g5-')) || selectedGrade === 4 || selectedGrade === 6 || selectedGrade === 7) && renderTopicContent(topic.id)}
                     </MathTopicCard>
                   ))}
                   {getFilteredTopics().length === 0 && (
