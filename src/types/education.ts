@@ -3,7 +3,8 @@ export type Subject = 'math';
 export type GradeLevel =
   | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8  // Elementary
   | 'high-1' | 'high-2' | 'high-3' | 'high-4'  // High school
-  | 'graduation';  // Érettségi
+  | 'graduation'  // Érettségi
+  | 'admission';   // Felvételi
 
 export interface Topic {
   id: string;

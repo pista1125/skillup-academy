@@ -23,6 +23,7 @@ const gradeLabels: Record<GradeLevel, string> = {
   'high-3': '11. osztály',
   'high-4': '12. osztály',
   'graduation': 'Érettségi',
+  'admission': 'Felvételi',
 };
 
 const gradeColors: Record<string, { base: string; selected: string; hover: string }> = {
@@ -92,12 +93,30 @@ export function GradeSelector({ selectedGrade, onSelectGrade }: GradeSelectorPro
         </div>
       </div>
 
-      {/* Graduation Prep */}
-      <div>
+      {/* Special Preparations */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Admission Prep */}
+        <button
+          onClick={() => onSelectGrade('admission')}
+          className={`
+            p-5 rounded-2xl font-black text-xl transition-all duration-300 flex items-center justify-center gap-3 border-2
+            ${selectedGrade === 'admission'
+              ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-xl scale-[1.02] border-transparent'
+              : 'bg-white border-emerald-100 text-emerald-700 hover:border-emerald-400 hover:bg-emerald-50 shadow-sm'
+            }
+          `}
+        >
+          <div className={`p-2 rounded-lg ${selectedGrade === 'admission' ? 'bg-white/20' : 'bg-emerald-100'}`}>
+            <School className="w-6 h-6" />
+          </div>
+          Felvételi felkészítés
+        </button>
+
+        {/* Graduation Prep */}
         <button
           onClick={() => onSelectGrade('graduation')}
           className={`
-            w-full p-5 rounded-2xl font-black text-xl transition-all duration-300 flex items-center justify-center gap-3 border-2
+            p-5 rounded-2xl font-black text-xl transition-all duration-300 flex items-center justify-center gap-3 border-2
             ${selectedGrade === 'graduation'
               ? 'bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 text-white shadow-xl scale-[1.02] border-transparent'
               : 'bg-white border-purple-100 text-purple-700 hover:border-purple-400 hover:bg-purple-50 shadow-sm'
