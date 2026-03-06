@@ -397,6 +397,22 @@ export const mathTopics: MathTopic[] = [
     grades: [7, 8],
   },
   {
+    id: 'logic-blocks',
+    title: 'Logikai készlet',
+    description: 'Válogatások, halmazok',
+    icon: '🧩',
+    color: 'from-violet-500 to-purple-600',
+    grades: [5],
+  },
+  {
+    id: 'venn-diagram-game',
+    title: 'Számok csoportosítása',
+    description: 'Venn-diagram, páros és egyjegyű számok',
+    icon: '⭕',
+    color: 'from-blue-500 to-amber-500',
+    grades: [5],
+  },
+  {
     id: 'construction',
     title: 'Alapszerkesztés',
     icon: Pencil,

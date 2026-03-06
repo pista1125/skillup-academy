@@ -44,6 +44,8 @@ import DecimalShifterTool from '@/components/math/DecimalShifterTool';
 import { PuzzleMakerTool } from '@/components/math/PuzzleMakerTool';
 import { GeometryModule } from '@/components/math/GeometryModule';
 import { SymmetryQuiz } from '@/components/math/SymmetryQuiz';
+import { LogicBlocksGame } from '@/components/math/LogicBlocksGame';
+import { VennDiagramGame } from '@/components/math/VennDiagramGame';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -81,7 +83,7 @@ type ViewState = 'main-select' | 'topic-select' | 'tools-select' | 'games-select
 type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'reflection-quiz'
   | 'divisibility-rules'
   | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game' | 'circle-parts'
-  | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz' | 'triangle-angles-quiz' | 'g7-rational-numbers' | 'g7-expression-usage' | 'decimal-fractions' | 'number-line' | 'construction' | 'decimal-quiz' | 'decimal-multiplication-quiz' | 'decimal-division-quiz' | 'decimal-shifter' | 'manipulative-division' | 'equation-solver' | 'equation-balance' | 'money-calculation' | 'fractions-visualizer' | 'fractions-quiz' | 'fractions-multiplier' | 'fractions-visual-matcher' | 'fractions-divider' | 'decimal-multiplier' | 'decimal-divider' | 'decimal-multiplier-select' | 'decimal-divider-select' | 'grade1-addition10' | 'grade1-snake' | 'grade2-coloring' | 'grade2-quiz' | 'grade2-blocks' | 'grade2-snake' | 'grade3-coloring' | 'grade3-quiz' | 'grade3-blocks' | 'grade3-snake' | 'grade3-alapmuveletek' | 'grade3-tower-builder' | 'grade3-money-quiz' | 'grade3-money-level-select' | 'fractions-to-decimal-matcher' | 'puzzle-maker' | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems';
+  | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz' | 'triangle-angles-quiz' | 'g7-rational-numbers' | 'g7-expression-usage' | 'decimal-fractions' | 'number-line' | 'construction' | 'decimal-quiz' | 'decimal-multiplication-quiz' | 'decimal-division-quiz' | 'decimal-shifter' | 'manipulative-division' | 'equation-solver' | 'equation-balance' | 'money-calculation' | 'fractions-visualizer' | 'fractions-quiz' | 'fractions-multiplier' | 'fractions-visual-matcher' | 'fractions-divider' | 'decimal-multiplier' | 'decimal-divider' | 'decimal-multiplier-select' | 'decimal-divider-select' | 'grade1-addition10' | 'grade1-snake' | 'grade2-coloring' | 'grade2-quiz' | 'grade2-blocks' | 'grade2-snake' | 'grade3-coloring' | 'grade3-quiz' | 'grade3-blocks' | 'grade3-snake' | 'grade3-alapmuveletek' | 'grade3-tower-builder' | 'grade3-money-quiz' | 'grade3-money-level-select' | 'fractions-to-decimal-matcher' | 'puzzle-maker' | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'logic-blocks' | 'venn-diagram-game';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
 const slugToGrade = (slug: string): GradeLevel | null => {
@@ -650,31 +652,135 @@ export default function MathPage() {
       return (
         <div className="flex flex-col gap-10 py-6">
           <section>
-            <SectionHeader id="g5-geom-basics" number={1} title="Geometriai Alapok" color="green" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+            <SectionHeader number={1} title="Csoportosítások" color="blue" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Alapszerkesztés"
-                subtitle="Körző és vonalzó használata"
-                type="Eszköz"
-                onClick={() => handleActivitySelect('construction')}
-                icon={<Pencil className="w-6 h-6" />}
-                color="indigo"
+                title="Venn-diagram számokkal"
+                subtitle="Tulajdonságok"
+                type="Kezdés"
+                onClick={() => handleActivitySelect('venn-diagram-game', topicId)}
+                icon={<Circle className="w-6 h-6" />}
+                color="blue"
               />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={2} title="Halmazok" color="violet" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Válogatások, Halmazok"
+                subtitle="Elemek csoportosítása"
+                type="Kezdés"
+                onClick={() => handleActivitySelect('logic-blocks', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="violet"
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={3} title="Test, felület, vonal, pont" color="emerald" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
               <ActivityPlaceholder
                 title="Síkidom vagy Test?"
                 subtitle="2D és 3D alakzatok"
-                type="Játék"
-                onClick={() => handleActivitySelect('shape-classification')}
+                type="Kezdés"
+                onClick={() => handleActivitySelect('shape-classification', topicId)}
                 icon={<Box className="w-6 h-6" />}
                 color="emerald"
               />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={4} title="A szög" color="amber" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Szögek párosítása"
+                subtitle="Szögtípusok felismerése"
+                type="Gyakorlás"
+                onClick={() => handleActivitySelect('angle-matching', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={5} title="Síkidomok, sokszögek" color="teal" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Háromszögek"
+                subtitle="Csoportosítás tulajdonságok szerint"
+                type="Kezdés"
+                onClick={() => handleActivitySelect('triangle-classification', topicId)}
+                icon={<Triangle className="w-6 h-6" />}
+                color="teal"
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={6} title="Testek építése, szemléltetése" color="pink" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Építs testeket!"
+                subtitle="Térbeli alakzatok"
+                type="Hamarosan"
+                disabled
+                icon={<Box className="w-6 h-6" />}
+                color="slate"
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={7} title="Egyenesek síkban, térben" color="indigo" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
               <ActivityPlaceholder
                 title="Egyenesek helyzete"
                 subtitle="Párhuzamos és merőleges"
                 type="Gyakorlás"
-                onClick={() => handleActivitySelect('line-relationships')}
+                onClick={() => handleActivitySelect('line-relationships', topicId)}
                 icon={<MoveHorizontal className="w-6 h-6 rotate-45" />}
-                color="green"
+                color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Alapszerkesztés"
+                subtitle="Körző és vonalzó használata"
+                type="Eszköz"
+                onClick={() => handleActivitySelect('construction', topicId)}
+                icon={<Pencil className="w-6 h-6" />}
+                color="indigo"
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={8} title="Téglalap, négyzet" color="rose" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Négyszögek fajtái"
+                subtitle="Négyszögek felismerése"
+                type="Kezdés"
+                onClick={() => handleActivitySelect('quadrilateral-classification', topicId)}
+                icon={<Square className="w-6 h-6" />}
+                color="rose"
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={9} title="Összefoglalás" color="purple" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Tengelyes tükrözés teszt"
+                subtitle="Ellenőrizd a tudásod!"
+                type="Teszt"
+                onClick={() => handleActivitySelect('reflection-quiz', topicId)}
+                icon={<Sparkles className="w-6 h-6" />}
+                color="purple"
               />
             </div>
           </section>
@@ -2084,6 +2190,14 @@ export default function MathPage() {
 
                 {activityType === 'divisibility' && (
                   <DivisibilityTool onBack={handleBack} />
+                )}
+
+                {activityType === 'logic-blocks' && (
+                  <LogicBlocksGame onBack={handleBack} />
+                )}
+
+                {activityType === 'venn-diagram-game' && (
+                  <VennDiagramGame onBack={handleBack} />
                 )}
 
                 {activityType === 'snake-game' && (
