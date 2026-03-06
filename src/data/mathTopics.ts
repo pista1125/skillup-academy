@@ -413,6 +413,22 @@ export const mathTopics: MathTopic[] = [
     grades: [5],
   },
   {
+    id: 'grouping-game',
+    title: 'Tárgyak csoportosítása',
+    description: 'Állatok, járművek, anyagok szétválogatása',
+    icon: '📦',
+    color: 'from-emerald-500 to-teal-500',
+    grades: [5],
+  },
+  {
+    id: 'number-grouping-game',
+    title: 'Számok csoportosítása',
+    description: 'Páros, páratlan, prímek, oszthatóság',
+    icon: '🔢',
+    color: 'from-indigo-500 to-blue-500',
+    grades: [5],
+  },
+  {
     id: 'construction',
     title: 'Alapszerkesztés',
     icon: Pencil,

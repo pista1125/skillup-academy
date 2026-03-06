@@ -46,6 +46,11 @@ import { GeometryModule } from '@/components/math/GeometryModule';
 import { SymmetryQuiz } from '@/components/math/SymmetryQuiz';
 import { LogicBlocksGame } from '@/components/math/LogicBlocksGame';
 import { VennDiagramGame } from '@/components/math/VennDiagramGame';
+import { GroupingGame } from '@/components/math/GroupingGame';
+import { NumberGroupingGame } from '@/components/math/NumberGroupingGame';
+import { ThemeToggle } from '@/components/ThemeToggle';
+import { SidebarMenu } from '@/components/SidebarMenu';
+import { SiteFooter } from '@/components/SiteFooter';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -83,7 +88,7 @@ type ViewState = 'main-select' | 'topic-select' | 'tools-select' | 'games-select
 type ActivityType = 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring' | 'divisibility' | 'materials' | 'long-division' | 'angle-matching' | 'shape-classification' | 'line-relationships' | 'reflection-quiz'
   | 'divisibility-rules'
   | 'divisibility-powers' | 'grade1-basic' | 'grade2-basic' | 'grade3-basic' | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification' | 'snake-game' | 'circle-parts'
-  | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz' | 'triangle-angles-quiz' | 'g7-rational-numbers' | 'g7-expression-usage' | 'decimal-fractions' | 'number-line' | 'construction' | 'decimal-quiz' | 'decimal-multiplication-quiz' | 'decimal-division-quiz' | 'decimal-shifter' | 'manipulative-division' | 'equation-solver' | 'equation-balance' | 'money-calculation' | 'fractions-visualizer' | 'fractions-quiz' | 'fractions-multiplier' | 'fractions-visual-matcher' | 'fractions-divider' | 'decimal-multiplier' | 'decimal-divider' | 'decimal-multiplier-select' | 'decimal-divider-select' | 'grade1-addition10' | 'grade1-snake' | 'grade2-coloring' | 'grade2-quiz' | 'grade2-blocks' | 'grade2-snake' | 'grade3-coloring' | 'grade3-quiz' | 'grade3-blocks' | 'grade3-snake' | 'grade3-alapmuveletek' | 'grade3-tower-builder' | 'grade3-money-quiz' | 'grade3-money-level-select' | 'fractions-to-decimal-matcher' | 'puzzle-maker' | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'logic-blocks' | 'venn-diagram-game';
+  | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz' | 'triangle-angles-quiz' | 'g7-rational-numbers' | 'g7-expression-usage' | 'decimal-fractions' | 'number-line' | 'construction' | 'decimal-quiz' | 'decimal-multiplication-quiz' | 'decimal-division-quiz' | 'decimal-shifter' | 'manipulative-division' | 'equation-solver' | 'equation-balance' | 'money-calculation' | 'fractions-visualizer' | 'fractions-quiz' | 'fractions-multiplier' | 'fractions-visual-matcher' | 'fractions-divider' | 'decimal-multiplier' | 'decimal-divider' | 'decimal-multiplier-select' | 'decimal-divider-select' | 'grade1-addition10' | 'grade1-snake' | 'grade2-coloring' | 'grade2-quiz' | 'grade2-blocks' | 'grade2-snake' | 'grade3-coloring' | 'grade3-quiz' | 'grade3-blocks' | 'grade3-snake' | 'grade3-alapmuveletek' | 'grade3-tower-builder' | 'grade3-money-quiz' | 'grade3-money-level-select' | 'fractions-to-decimal-matcher' | 'puzzle-maker' | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'logic-blocks' | 'venn-diagram-game' | 'grouping-game' | 'number-grouping-game';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
 const slugToGrade = (slug: string): GradeLevel | null => {
@@ -655,12 +660,22 @@ export default function MathPage() {
             <SectionHeader number={1} title="Csoportosítások" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Venn-diagram számokkal"
-                subtitle="Tulajdonságok"
-                type="Kezdés"
-                onClick={() => handleActivitySelect('venn-diagram-game', topicId)}
-                icon={<Circle className="w-6 h-6" />}
+                title="Tárgyak csoportosítása"
+                subtitle="Állatok, járművek, anyagok"
+                type="Játék"
+                emoji="📦"
+                onClick={() => handleActivitySelect('grouping-game', topicId)}
+                icon={<Box className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Számok csoportosítása"
+                subtitle="Páros, prímek, oszthatóság"
+                type="Játék"
+                emoji="🔢"
+                onClick={() => handleActivitySelect('number-grouping-game', topicId)}
+                icon={<Binary className="w-6 h-6" />}
+                color="indigo"
               />
             </div>
           </section>
@@ -675,6 +690,14 @@ export default function MathPage() {
                 onClick={() => handleActivitySelect('logic-blocks', topicId)}
                 icon={<Target className="w-6 h-6" />}
                 color="violet"
+              />
+              <ActivityPlaceholder
+                title="Venn-diagram számokkal"
+                subtitle="Tulajdonságok"
+                type="Kezdés"
+                onClick={() => handleActivitySelect('venn-diagram-game', topicId)}
+                icon={<Circle className="w-6 h-6" />}
+                color="amber"
               />
             </div>
           </section>
@@ -1527,7 +1550,7 @@ export default function MathPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-transparent text-foreground">
       {/* Header */}
       <div className="bg-gradient-math text-white py-4 px-4 shadow-xl relative z-50">
         {/* Decorative background elements wrapped to avoid clipping absolute children like search results */}
@@ -1539,6 +1562,7 @@ export default function MathPage() {
         <div className="w-full px-4 lg:px-12 relative z-10">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-3">
+              <SidebarMenu />
               <Button
                 variant="ghost"
                 onClick={handleHome}
@@ -1631,6 +1655,7 @@ export default function MathPage() {
                   </div>
                 )}
               </div>
+              <ThemeToggle />
               <Button
                 variant="secondary"
                 onClick={() => { window.location.assign('https://kviz.diakzona.hu/'); }}
@@ -2196,6 +2221,14 @@ export default function MathPage() {
                   <LogicBlocksGame onBack={handleBack} />
                 )}
 
+                {activityType === 'grouping-game' && (
+                  <GroupingGame onBack={handleBack} />
+                )}
+
+                {activityType === 'number-grouping-game' && (
+                  <NumberGroupingGame onBack={handleBack} />
+                )}
+
                 {activityType === 'venn-diagram-game' && (
                   <VennDiagramGame onBack={handleBack} />
                 )}
@@ -2382,6 +2415,7 @@ export default function MathPage() {
           </div>
         )}
       </div>
+      <SiteFooter />
     </div>
   );
 }
