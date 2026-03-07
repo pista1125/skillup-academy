@@ -20,6 +20,7 @@ export interface VennLevel {
     items: VennItem[];
     icon: string;
     gradient: string;
+    universalSetLabel?: string;
 }
 
 export const VENN_LEVELS: VennLevel[] = [
@@ -161,6 +162,152 @@ export const VENN_LEVELS: VennLevel[] = [
             { id: 'v6_8', label: 'Roller', correctSetIds: ['wheels'] },
             { id: 'v6_9', label: 'Busz', correctSetIds: ['wheels'] },
             { id: 'v6_10', label: 'Vonalzó', correctSetIds: ['school'] }
+        ]
+    },
+    {
+        id: 7,
+        title: 'Számok tulajdonságai I.',
+        description: 'Válogasd szét a számokat! Páros vagy 5-tel osztható? Alaphalmaz: 1-20',
+        icon: '🔢',
+        gradient: 'from-blue-600 to-indigo-700',
+        universalSetLabel: 'Alaphalmaz: {1, 2, ..., 20}',
+        sets: [
+            { id: 'even', label: 'Páros számok', color: 'border-blue-500 bg-blue-500/10', shape: 'circle' },
+            { id: 'div5', label: '5-tel osztható', color: 'border-emerald-500 bg-emerald-500/10', shape: 'circle' }
+        ],
+        items: [
+            { id: 'v7_1', label: '10', correctSetIds: ['even', 'div5'] },
+            { id: 'v7_2', label: '20', correctSetIds: ['even', 'div5'] },
+            { id: 'v7_3', label: '2', correctSetIds: ['even'] },
+            { id: 'v7_4', label: '4', correctSetIds: ['even'] },
+            { id: 'v7_5', label: '5', correctSetIds: ['div5'] },
+            { id: 'v7_6', label: '15', correctSetIds: ['div5'] },
+            { id: 'v7_7', label: '3', correctSetIds: [] },
+            { id: 'v7_8', label: '7', correctSetIds: [] },
+            { id: 'v7_9', label: '13', correctSetIds: [] },
+            { id: 'v7_10', label: '19', correctSetIds: [] }
+        ]
+    },
+    {
+        id: 8,
+        title: 'Számok tulajdonságai II.',
+        description: 'Keresd a 3-mal osztható és a 25-nél nagyobb számokat!',
+        icon: '🧮',
+        gradient: 'from-purple-600 to-pink-700',
+        universalSetLabel: 'Alaphalmaz: Egész számok 1-50-ig',
+        sets: [
+            { id: 'div3', label: '3-mal osztható', color: 'border-purple-500 bg-purple-500/10', shape: 'rectangle' },
+            { id: 'gt25', label: '25-nél nagyobb', color: 'border-pink-500 bg-pink-500/10', shape: 'rectangle' }
+        ],
+        items: [
+            { id: 'v8_1', label: '30', correctSetIds: ['div3', 'gt25'] },
+            { id: 'v8_2', label: '45', correctSetIds: ['div3', 'gt25'] },
+            { id: 'v8_3', label: '9', correctSetIds: ['div3'] },
+            { id: 'v8_4', label: '12', correctSetIds: ['div3'] },
+            { id: 'v8_5', label: '26', correctSetIds: ['gt25'] },
+            { id: 'v8_6', label: '40', correctSetIds: ['gt25'] },
+            { id: 'v8_7', label: '7', correctSetIds: [] },
+            { id: 'v8_8', label: '13', correctSetIds: [] },
+            { id: 'v8_9', label: '17', correctSetIds: [] },
+            { id: 'v8_10', label: '22', correctSetIds: [] }
+        ]
+    },
+    {
+        id: 9,
+        title: 'Prímszámok és Osztók (3 halmaz)',
+        description: 'Bonyolultabb válogatás: Prím, 2-nél nagyobb vagy 12 osztója?',
+        icon: '🧪',
+        gradient: 'from-amber-500 to-orange-600',
+        universalSetLabel: 'Alaphalmaz: Számok 1-15-ig',
+        sets: [
+            { id: 'prime', label: 'Prímszám', color: 'border-amber-500 bg-amber-500/10', shape: 'circle' },
+            { id: 'gt2', label: '2-nél nagyobb', color: 'border-orange-500 bg-orange-500/10', shape: 'circle' },
+            { id: 'div12', label: '12 osztója', color: 'border-red-500 bg-red-500/10', shape: 'circle' }
+        ],
+        items: [
+            { id: 'v9_1', label: '3', correctSetIds: ['prime', 'gt2', 'div12'] },
+            { id: 'v9_2', label: '2', correctSetIds: ['prime', 'div12'] },
+            { id: 'v9_3', label: '5', correctSetIds: ['prime', 'gt2'] },
+            { id: 'v9_4', label: '7', correctSetIds: ['prime', 'gt2'] },
+            { id: 'v9_5', label: '4', correctSetIds: ['gt2', 'div12'] },
+            { id: 'v9_6', label: '6', correctSetIds: ['gt2', 'div12'] },
+            { id: 'v9_7', label: '12', correctSetIds: ['gt2', 'div12'] },
+            { id: 'v9_8', label: '1', correctSetIds: ['div12'] },
+            { id: 'v9_9', label: '9', correctSetIds: ['gt2'] },
+            { id: 'v9_10', label: '11', correctSetIds: ['prime', 'gt2'] }
+        ]
+    },
+    {
+        id: 10,
+        title: 'Számhalmazok III.',
+        description: 'Négyzetszámok és 10-nél kisebb számok válogatása.',
+        icon: '🔳',
+        gradient: 'from-emerald-600 to-teal-700',
+        universalSetLabel: 'Alaphalmaz: {1-30}',
+        sets: [
+            { id: 'square', label: 'Négyzetszám', color: 'border-emerald-500 bg-emerald-500/10', shape: 'ellipse' },
+            { id: 'lt10', label: '10-nél kisebb', color: 'border-teal-500 bg-teal-500/10', shape: 'ellipse' }
+        ],
+        items: [
+            { id: 'v10_1', label: '1', correctSetIds: ['square', 'lt10'] },
+            { id: 'v10_2', label: '4', correctSetIds: ['square', 'lt10'] },
+            { id: 'v10_3', label: '9', correctSetIds: ['square', 'lt10'] },
+            { id: 'v10_4', label: '16', correctSetIds: ['square'] },
+            { id: 'v10_5', label: '25', correctSetIds: ['square'] },
+            { id: 'v10_6', label: '2', correctSetIds: ['lt10'] },
+            { id: 'v10_7', label: '7', correctSetIds: ['lt10'] },
+            { id: 'v10_8', label: '11', correctSetIds: [] },
+            { id: 'v10_9', label: '20', correctSetIds: [] },
+            { id: 'v10_10', label: '29', correctSetIds: [] }
+        ]
+    },
+    {
+        id: 11,
+        title: 'Összetett Halmazok (3 halmaz)',
+        description: 'Válogass 10-zel osztható, páratlan és 30-nál kisebb számokat!',
+        icon: '🌀',
+        gradient: 'from-cyan-600 to-blue-700',
+        universalSetLabel: 'Alaphalmaz: Egész számok 1-100-ig',
+        sets: [
+            { id: 'div10', label: '10-zel osztható', color: 'border-cyan-500 bg-cyan-500/10', shape: 'circle' },
+            { id: 'odd', label: 'Páratlan szám', color: 'border-rose-500 bg-rose-500/10', shape: 'circle' },
+            { id: 'lt30', label: '30-nál kisebb', color: 'border-blue-500 bg-blue-500/10', shape: 'circle' }
+        ],
+        items: [
+            { id: 'v11_1', label: '10', correctSetIds: ['div10', 'lt30'] },
+            { id: 'v11_2', label: '20', correctSetIds: ['div10', 'lt30'] },
+            { id: 'v11_3', label: '40', correctSetIds: ['div10'] },
+            { id: 'v11_4', label: '5', correctSetIds: ['odd', 'lt30'] },
+            { id: 'v11_5', label: '15', correctSetIds: ['odd', 'lt30'] },
+            { id: 'v11_6', label: '35', correctSetIds: ['odd'] },
+            { id: 'v11_7', label: '8', correctSetIds: ['lt30'] },
+            { id: 'v11_8', label: '25', correctSetIds: ['odd', 'lt30'] },
+            { id: 'v11_9', label: '100', correctSetIds: ['div10'] },
+            { id: 'v11_10', label: '31', correctSetIds: ['odd'] }
+        ]
+    },
+    {
+        id: 12,
+        title: 'Számhalmazok Mestere',
+        description: 'Utolsó kihívás: 2-vel osztható és 4-nél nagyobb számok.',
+        icon: '🎓',
+        gradient: 'from-slate-700 to-slate-900',
+        universalSetLabel: 'Alaphalmaz: Számok 1-20-ig',
+        sets: [
+            { id: 'div2', label: '2-vel osztható', color: 'border-slate-400 bg-slate-400/10', shape: 'circle' },
+            { id: 'gt4', label: '4-nél nagyobb', color: 'border-indigo-400 bg-indigo-400/10', shape: 'circle' }
+        ],
+        items: [
+            { id: 'v12_1', label: '6', correctSetIds: ['div2', 'gt4'] },
+            { id: 'v12_2', label: '10', correctSetIds: ['div2', 'gt4'] },
+            { id: 'v12_3', label: '2', correctSetIds: ['div2'] },
+            { id: 'v12_4', label: '4', correctSetIds: ['div2'] },
+            { id: 'v12_5', label: '5', correctSetIds: ['gt4'] },
+            { id: 'v12_6', label: '11', correctSetIds: ['gt4'] },
+            { id: 'v12_7', label: '1', correctSetIds: [] },
+            { id: 'v12_8', label: '3', correctSetIds: [] },
+            { id: 'v12_9', label: '13', correctSetIds: ['gt4'] },
+            { id: 'v12_10', label: '18', correctSetIds: ['div2', 'gt4'] }
         ]
     }
 ];

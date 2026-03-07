@@ -280,8 +280,9 @@ export function VennDiagramGame({ onBack, initialLevelIndex, allowedLevelIndices
                         className="absolute inset-0 cursor-pointer"
                         onClick={() => handleRegionClick('outside')}
                     >
-                        <div className="absolute top-4 right-4 text-[10px] font-black uppercase tracking-widest text-slate-400 bg-white/50 px-3 py-1.5 rounded-full border border-slate-100">
-                            Csoporton kívül
+                        <div className="absolute top-4 right-4 text-[10px] font-black uppercase tracking-widest text-slate-400 bg-white/50 px-3 py-1.5 rounded-full border border-slate-100 flex flex-col items-end">
+                            <span>{level.universalSetLabel || 'Csoporton kívül'}</span>
+                            {!level.universalSetLabel && <span className="text-[8px] opacity-70 mt-0.5">Kattints ide, ha sehova sem tartozik</span>}
                         </div>
                         {renderPlacedItems('outside')}
                     </div>

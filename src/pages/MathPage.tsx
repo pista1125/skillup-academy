@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { SectionHeader } from '@/components/math/SectionHeader';
 import { ActivityPlaceholder } from '@/components/math/ActivityPlaceholder';
@@ -8,6 +8,7 @@ import DecimalDivisionQuiz from '@/components/math/DecimalDivisionQuiz';
 import { mathTopics } from '@/data/mathTopics';
 import { MathTopicCard } from '@/components/math/MathTopicCard';
 import { ScrollSpySidebar, NavItem } from '@/components/math/ScrollSpySidebar';
+import { HorizontalTopicNav } from '@/components/math/HorizontalTopicNav';
 import { MathQuiz } from '@/components/math/MathQuiz';
 import { GradeSelector } from '@/components/GradeSelector';
 import { FractionVisualizer } from '@/components/math/FractionVisualizer';
@@ -50,6 +51,9 @@ import { GroupingGame } from '@/components/math/GroupingGame';
 import { NumberGroupingGame } from '@/components/math/NumberGroupingGame';
 import { SudokuGame } from '@/components/math/SudokuGame';
 import { SudokuGeneratorTool } from '@/components/math/SudokuGeneratorTool';
+import { VennInterpretationQuiz } from '@/components/math/VennInterpretationQuiz';
+import { VennReadingGame } from '@/components/math/VennReadingGame';
+import { VENN_READING_OBJECTS, VENN_READING_NUMBERS } from '@/data/vennReadingLevels';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { SidebarMenu } from '@/components/SidebarMenu';
 import { SiteFooter } from '@/components/SiteFooter';
@@ -108,10 +112,12 @@ type ActivityType =
   | 'grade1-addition10' | 'grade1-snake' | 'grade2-coloring' | 'grade2-quiz'
   | 'grade2-blocks' | 'grade2-snake' | 'grade3-coloring' | 'grade3-quiz'
   | 'grade3-blocks' | 'grade3-snake' | 'grade3-alapmuveletek' | 'grade3-tower-builder'
-  | 'grade3-money-quiz' | 'grade3-money-level-select' | 'fractions-to-decimal-matcher'
-  | 'puzzle-maker' | 'percent-value-word-problems' | 'percent-rate-word-problems'
-  | 'percent-base-word-problems' | 'logic-blocks' | 'venn-diagram-game'
-  | 'grouping-game' | 'number-grouping-game' | 'sudoku' | 'sudoku-generator';
+  | 'grade3-money-quiz' | 'triangle-angles-quiz' | 'decimal-fractions-tool' | 'number-line-tool'
+  | 'manipulative-division' | 'construction-tool' | 'money-calculation'
+  | 'decimal-shifter-tool' | 'puzzle-maker' | 'geometry-module'
+  | 'logic-blocks' | 'venn-diagram-game' | 'grouping-game' | 'number-grouping'
+  | 'sudoku-game' | 'sudoku-generator' | 'venn-interpretation-quiz'
+  | 'venn-reading-objects' | 'venn-reading-numbers';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
 const slugToGrade = (slug: string): GradeLevel | null => {
@@ -132,6 +138,33 @@ export default function MathPage() {
   const [expandedTopicId, setExpandedTopicId] = useState<string | null>(null);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [vennLevel, setVennLevel] = useState<number | null>(null);
+
+  const gradeNavItems: NavItem[] = useMemo(() => {
+    if (view !== 'topic-select') return [];
+    if (selectedGrade === 4) return [
+      { id: 'g4-count-10k', label: 'Számolás 10k-ig', icon: <Calculator className="w-4 h-4" /> },
+      { id: 'g4-measurements', label: 'Mérések', icon: <Scale className="w-4 h-4" /> },
+      { id: 'g4-written-ops', label: 'Írásbeli műveletek', icon: <Calculator className="w-4 h-4" /> },
+      { id: 'g4-long-div', label: 'Írásbeli osztás', icon: <Box className="w-4 h-4" /> },
+      { id: 'g4-shapes-solids', label: 'Síkidomok, testek', icon: <Shapes className="w-4 h-4" /> },
+      { id: 'g4-fractions', label: 'Törtszámok', icon: <Percent className="w-4 h-4" /> },
+    ];
+    if (selectedGrade === 5) return [
+      { id: 'g5-ops', label: 'Alapműveletek', icon: <Calculator className="w-4 h-4" /> },
+      { id: 'g5-geom-basics', label: 'Geometria', icon: <Shapes className="w-4 h-4" /> },
+      { id: 'g5-proportions', label: 'Arányosság', icon: <Percent className="w-4 h-4" /> },
+    ];
+    if (selectedGrade === 7) return [
+      { id: 'g7-lines', label: 'Nevezetes vonalak', icon: <MoveHorizontal className="w-4 h-4" /> },
+      { id: 'g7-triangles', label: 'Háromszögek', icon: <Triangle className="w-4 h-4" /> },
+      { id: 'g7-quads', label: 'Négyszögek', icon: <Square className="w-4 h-4" /> },
+      { id: 'g7-expressions', label: 'Kifejezések', icon: <Variable className="w-4 h-4" /> },
+      { id: 'g7-percent-val', label: 'Százalékérték', icon: <Percent className="w-4 h-4" /> },
+      { id: 'g7-percent-rate', label: 'Százalékláb', icon: <Percent className="w-4 h-4" /> },
+      { id: 'g7-percent-base', label: 'Százalékalap', icon: <Percent className="w-4 h-4" /> },
+    ];
+    return [];
+  }, [selectedGrade, view]);
 
   const handleSidebarItemClick = (id: string) => {
     // Map section IDs to their parent Topic IDs
@@ -714,22 +747,6 @@ export default function MathPage() {
             <SectionHeader number={2} title="Halmazok" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Válogatások, Halmazok"
-                subtitle="Elemek csoportosítása"
-                type="Kezdés"
-                onClick={() => handleActivitySelect('logic-blocks', topicId)}
-                icon={<Target className="w-6 h-6" />}
-                color="violet"
-              />
-              <ActivityPlaceholder
-                title="Venn-diagram (Számok)"
-                subtitle="Páros és < 20 számok"
-                type="Kezdés"
-                onClick={() => handleActivitySelect('venn-diagram-game', topicId, 0)}
-                icon={<Circle className="w-6 h-6" />}
-                color="amber"
-              />
-              <ActivityPlaceholder
                 title="Venn-diagram elhelyezés"
                 subtitle="Tárgyak és tulajdonságok"
                 type="Játék"
@@ -737,6 +754,42 @@ export default function MathPage() {
                 onClick={() => handleActivitySelect('venn-diagram-game', topicId)}
                 icon={<Target className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Venn-diagram (Számhalmazok)"
+                subtitle="Oszthatóság, prímek, alaphalmaz"
+                type="Játék"
+                emoji="🔢"
+                onClick={() => handleActivitySelect('venn-diagram-game', topicId, -2)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Hogy mondanád?"
+                subtitle="Venn-diagramok leírása"
+                type="Kvíz"
+                emoji="💬"
+                onClick={() => handleActivitySelect('venn-interpretation-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="purple"
+              />
+              <ActivityPlaceholder
+                title="Venn-diagram leolvasás (Tárgyas)"
+                subtitle="Melyik hova tartozik?"
+                type="Játék"
+                emoji="🔍"
+                onClick={() => handleActivitySelect('venn-reading-objects', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="orange"
+              />
+              <ActivityPlaceholder
+                title="Venn-diagram leolvasás (Számok)"
+                subtitle="Számok tulajdonságai"
+                type="Játék"
+                emoji="🧐"
+                onClick={() => handleActivitySelect('venn-reading-numbers', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="cyan"
               />
             </div>
           </section>
@@ -1727,7 +1780,17 @@ export default function MathPage() {
                 <span className="font-bold text-sm tracking-tight text-slate-700">Vissza</span>
               </Button>
 
-              <div className="hidden md:flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+              {/* Horizontal Topic Navigation */}
+              {gradeNavItems.length > 0 && (
+                <div className="flex-1 flex justify-center px-4">
+                  <HorizontalTopicNav items={gradeNavItems} onItemClick={handleSidebarItemClick} />
+                </div>
+              )}
+
+              <div className={cn(
+                "hidden md:flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-slate-400",
+                gradeNavItems.length > 0 && "lg:hidden" // Hide breadcrumbs when nav is visible on large screens
+              )}>
                 <span>MATEMATIKA</span>
                 {selectedGrade && (
                   <>
@@ -1946,34 +2009,9 @@ export default function MathPage() {
         )}
 
         {view === 'topic-select' && (() => {
-          const gradeNavItems: NavItem[] = selectedGrade === 4 ? [
-            { id: 'g4-count-10k', label: 'Számolás 10k-ig', icon: <Calculator className="w-4 h-4" /> },
-            { id: 'g4-measurements', label: 'Mérések', icon: <Scale className="w-4 h-4" /> },
-            { id: 'g4-written-ops', label: 'Írásbeli műveletek', icon: <Calculator className="w-4 h-4" /> },
-            { id: 'g4-long-div', label: 'Írásbeli osztás', icon: <Box className="w-4 h-4" /> },
-            { id: 'g4-shapes-solids', label: 'Síkidomok, testek', icon: <Shapes className="w-4 h-4" /> },
-            { id: 'g4-fractions', label: 'Törtszámok', icon: <Percent className="w-4 h-4" /> },
-          ] : selectedGrade === 5 ? [
-            { id: 'g5-ops', label: 'Alapműveletek', icon: <Calculator className="w-4 h-4" /> },
-            { id: 'g5-geom-basics', label: 'Geometria', icon: <Shapes className="w-4 h-4" /> },
-            { id: 'g5-proportions', label: 'Arányosság', icon: <Percent className="w-4 h-4" /> },
-          ] : selectedGrade === 7 ? [
-            { id: 'g7-lines', label: 'Nevezetes vonalak', icon: <MoveHorizontal className="w-4 h-4" /> },
-            { id: 'g7-triangles', label: 'Háromszögek', icon: <Triangle className="w-4 h-4" /> },
-            { id: 'g7-quads', label: 'Négyszögek', icon: <Square className="w-4 h-4" /> },
-            { id: 'g7-expressions', label: 'Kifejezések', icon: <Variable className="w-4 h-4" /> },
-            { id: 'g7-percent-val', label: 'Százalékérték', icon: <Percent className="w-4 h-4" /> },
-            { id: 'g7-percent-rate', label: 'Százalékláb', icon: <Percent className="w-4 h-4" /> },
-            { id: 'g7-percent-base', label: 'Százalékalap', icon: <Percent className="w-4 h-4" /> },
-          ] : [];
-
-          const hasSidebar = gradeNavItems.length > 0;
-
           return (
             <div className="animate-slide-up pb-20 relative text-left">
-              {hasSidebar && <ScrollSpySidebar items={gradeNavItems} onCollapseChange={setIsSidebarCollapsed} onItemClick={handleSidebarItemClick} />}
-
-              <div className={cn("flex-1 transition-all duration-500", hasSidebar && (isSidebarCollapsed ? "lg:pl-16" : "lg:pl-36"))}>
+              <div className="flex-1 transition-all duration-500">
                 <div className="flex items-center gap-2 mb-8">
                   <Sparkles className="w-6 h-6 text-primary" />
                   <h2 className="font-display text-2xl font-bold">Válaszd ki a témakört!</h2>
@@ -2288,9 +2326,24 @@ export default function MathPage() {
                 {activityType === 'venn-diagram-game' && (
                   <VennDiagramGame
                     onBack={handleBack}
-                    initialLevelIndex={vennLevel ?? undefined}
-                    allowedLevelIndices={vennLevel === null ? [1, 2, 3, 4, 5, 6] : undefined}
+                    initialLevelIndex={vennLevel !== null && vennLevel >= 0 ? vennLevel : undefined}
+                    allowedLevelIndices={
+                      vennLevel === -2 ? [7, 8, 9, 10, 11, 12] :
+                        (vennLevel === null ? [1, 2, 3, 4, 5, 6] : undefined)
+                    }
                   />
+                )}
+
+                {activityType === 'venn-interpretation-quiz' && (
+                  <VennInterpretationQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'venn-reading-objects' && (
+                  <VennReadingGame levels={VENN_READING_OBJECTS} onBack={handleBack} />
+                )}
+
+                {activityType === 'venn-reading-numbers' && (
+                  <VennReadingGame levels={VENN_READING_NUMBERS} onBack={handleBack} />
                 )}
 
                 {activityType === 'sudoku' && (
