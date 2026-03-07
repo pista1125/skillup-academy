@@ -49,6 +49,7 @@ import { VennDiagramGame } from '@/components/math/VennDiagramGame';
 import { GroupingGame } from '@/components/math/GroupingGame';
 import { NumberGroupingGame } from '@/components/math/NumberGroupingGame';
 import { SudokuGame } from '@/components/math/SudokuGame';
+import { SudokuGeneratorTool } from '@/components/math/SudokuGeneratorTool';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { SidebarMenu } from '@/components/SidebarMenu';
 import { SiteFooter } from '@/components/SiteFooter';
@@ -110,7 +111,7 @@ type ActivityType =
   | 'grade3-money-quiz' | 'grade3-money-level-select' | 'fractions-to-decimal-matcher'
   | 'puzzle-maker' | 'percent-value-word-problems' | 'percent-rate-word-problems'
   | 'percent-base-word-problems' | 'logic-blocks' | 'venn-diagram-game'
-  | 'grouping-game' | 'number-grouping-game' | 'sudoku';
+  | 'grouping-game' | 'number-grouping-game' | 'sudoku' | 'sudoku-generator';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
 const slugToGrade = (slug: string): GradeLevel | null => {
@@ -2187,6 +2188,13 @@ export default function MathPage() {
                       color="bg-violet-100 text-violet-600"
                       onClick={() => handleToolSelect('puzzle-maker')}
                     />
+                    <ToolCard
+                      title="Sudoku Generátor"
+                      desc="Generálj és nyomtass egyedi Sudoku feladványokat!"
+                      icon={<Grid3X3 className="w-8 h-8" />}
+                      color="bg-blue-100 border-blue-200 text-blue-600"
+                      onClick={() => handleToolSelect('sudoku-generator')}
+                    />
                   </div>
                 </section>
               </div>
@@ -2376,6 +2384,10 @@ export default function MathPage() {
 
                 {activityType === 'money-calculation' && (
                   <MoneyCalculationTool onBack={handleBack} />
+                )}
+
+                {activityType === 'sudoku-generator' && (
+                  <SudokuGeneratorTool onBack={handleBack} />
                 )}
 
                 {activityType === 'puzzle-maker' && (
