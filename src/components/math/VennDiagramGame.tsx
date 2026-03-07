@@ -1,339 +1,414 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { ArrowLeft, RefreshCw, CheckCircle2, XCircle, Info } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ArrowLeft, RefreshCw, CheckCircle2, XCircle, Info, Move, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import confetti from 'canvas-confetti';
+import { VENN_LEVELS, VennLevel, VennItem, VennSet } from '@/data/vennLevels';
 
-type Region = 'leftOnly' | 'rightOnly' | 'intersection' | 'outside';
+type RegionId =
+    | 'aOnly' | 'bOnly' | 'cOnly'
+    | 'ab' | 'ac' | 'bc' | 'abc'
+    | 'outside';
 
-interface PlacedNumber {
-    value: number;
-    region: Region;
+interface PlacedItem {
+    item: VennItem;
+    regionId: RegionId;
     x: number;
     y: number;
 }
 
-const TOTAL_NUMBERS = 15;
+// Add the original numeric level as the first level
+const NUMERIC_LEVEL: VennLevel = {
+    id: 0,
+    title: 'Számok csoportosítása',
+    description: 'Válogasd szét a számokat! Páros vagy kisebb mint 20?',
+    icon: '🔢',
+    gradient: 'from-blue-500 to-indigo-600',
+    sets: [
+        { id: 'even', label: 'Páros számok', color: 'border-blue-500 bg-blue-500/10', shape: 'circle' },
+        { id: 'small', label: '20-nál kisebb', color: 'border-amber-500 bg-amber-500/10', shape: 'circle' }
+    ],
+    items: Array.from({ length: 15 }, (_, i) => {
+        const val = Math.floor(Math.random() * 50);
+        const isEven = val % 2 === 0;
+        const isSmall = val < 20;
+        const correctSetIds = [];
+        if (isEven) correctSetIds.push('even');
+        if (isSmall) correctSetIds.push('small');
+        return { id: `num_${i}`, label: val.toString(), correctSetIds };
+    })
+};
 
-export function VennDiagramGame({ onBack }: { onBack: () => void }) {
-    const [numbers, setNumbers] = useState<number[]>([]);
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [placedNumbers, setPlacedNumbers] = useState<PlacedNumber[]>([]);
+const ALL_LEVELS = [NUMERIC_LEVEL, ...VENN_LEVELS];
+
+export function VennDiagramGame({ onBack, initialLevelIndex, allowedLevelIndices }: {
+    onBack: () => void,
+    initialLevelIndex?: number,
+    allowedLevelIndices?: number[]
+}) {
+    const [selectedLevelIndex, setSelectedLevelIndex] = useState<number | null>(initialLevelIndex ?? null);
+    const [completedLevels, setCompletedLevels] = useState<Set<number>>(new Set());
+
+    const [unplacedItems, setUnplacedItems] = useState<VennItem[]>([]);
+    const [placedItems, setPlacedItems] = useState<PlacedItem[]>([]);
+    const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
     const [message, setMessage] = useState<{ text: string, type: 'success' | 'error' | 'info' } | null>(null);
-    const [isCompleted, setIsCompleted] = useState(false);
+    const [isLevelComplete, setIsLevelComplete] = useState(false);
 
-    // Animation state
-    const [animatingNumber, setAnimatingNumber] = useState<{ value: number, targetRegion: Region } | null>(null);
+    const level = selectedLevelIndex !== null ? ALL_LEVELS[selectedLevelIndex] : null;
 
-    // Refs for regions to calculate random positions inside them
-    const leftCircleRef = useRef<HTMLDivElement>(null);
-    const rightCircleRef = useRef<HTMLDivElement>(null);
-    const intersectionRef = useRef<HTMLDivElement>(null);
-    const outsideRef = useRef<HTMLDivElement>(null);
+    const initLevel = (index: number) => {
+        const lvl = ALL_LEVELS[index];
+        if (!lvl) return;
 
-    useEffect(() => {
-        initGame();
-    }, []);
+        // For the numeric level, we regenerate items each time
+        const items = lvl.id === 0 ? NUMERIC_LEVEL.items : lvl.items;
 
-    const initGame = () => {
-        // Generate numbers ensuring at least one in each category
-        const newNumbers: number[] = [];
-
-        // Helper to get random int
-        const getRandom = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
-
-        // 1. Even and >= 20 (Left only) -> e.g. 24, 30
-        newNumbers.push(getRandom(10, 25) * 2); // 20 to 50 even
-
-        // 2. Odd and < 20 (Right only) -> e.g. 13, 7
-        newNumbers.push(getRandom(0, 9) * 2 + 1); // 1 to 19 odd
-
-        // 3. Even and < 20 (Intersection) -> e.g. 14, 8
-        newNumbers.push(getRandom(0, 9) * 2); // 0 to 18 even
-
-        // 4. Odd and >= 20 (Outside) -> e.g. 25, 33
-        newNumbers.push(getRandom(10, 24) * 2 + 1); // 21 to 49 odd
-
-        // Fill the rest randomly between 0 and 50
-        while (newNumbers.length < TOTAL_NUMBERS) {
-            newNumbers.push(getRandom(0, 50));
-        }
-
-        // Shuffle
-        for (let i = newNumbers.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [newNumbers[i], newNumbers[j]] = [newNumbers[j], newNumbers[i]];
-        }
-
-        setNumbers(newNumbers);
-        setCurrentIndex(0);
-        setPlacedNumbers([]);
-        setMessage({ text: 'Kattints arra a területre, ahová a szám tartozik!', type: 'info' });
-        setIsCompleted(false);
-        setAnimatingNumber(null);
+        setUnplacedItems([...items].sort(() => Math.random() - 0.5));
+        setPlacedItems([]);
+        setSelectedItemId(null);
+        setIsLevelComplete(false);
+        setMessage({ text: 'Válaszd ki az elemet, majd kattints a megfelelő területre!', type: 'info' });
+        setSelectedLevelIndex(index);
     };
 
-    const getCorrectRegion = (num: number): Region => {
-        const isEven = num % 2 === 0;
-        const isLessThan20 = num < 20;
-
-        if (isEven && isLessThan20) return 'intersection';
-        if (isEven && !isLessThan20) return 'leftOnly';
-        if (!isEven && isLessThan20) return 'rightOnly';
-        return 'outside';
+    const goToMenu = () => {
+        if (initialLevelIndex !== undefined) {
+            onBack();
+            return;
+        }
+        setSelectedLevelIndex(null);
+        setIsLevelComplete(false);
+        setSelectedItemId(null);
+        setMessage(null);
     };
 
-    const handleRegionClick = (region: Region) => {
-        if (isCompleted || animatingNumber || currentIndex >= numbers.length) return;
+    const handleItemClick = (item: VennItem) => {
+        if (isLevelComplete) return;
+        setSelectedItemId(item.id);
+        setMessage({ text: `Kiválasztva: ${item.label}. Hová tennéd?`, type: 'info' });
+    };
 
-        const currentNum = numbers[currentIndex];
-        const correctRegion = getCorrectRegion(currentNum);
+    const getTargetRegionId = (item: VennItem, level: VennLevel): RegionId => {
+        const setIds = item.correctSetIds;
+        if (level.sets.length === 2) {
+            const hasA = setIds.includes(level.sets[0].id);
+            const hasB = setIds.includes(level.sets[1].id);
+            if (hasA && hasB) return 'ab';
+            if (hasA) return 'aOnly';
+            if (hasB) return 'bOnly';
+            return 'outside';
+        } else {
+            const hasA = setIds.includes(level.sets[0].id);
+            const hasB = setIds.includes(level.sets[1].id);
+            const hasC = setIds.includes(level.sets[2].id);
+            if (hasA && hasB && hasC) return 'abc';
+            if (hasA && hasB) return 'ab';
+            if (hasA && hasC) return 'ac';
+            if (hasB && hasC) return 'bc';
+            if (hasA) return 'aOnly';
+            if (hasB) return 'bOnly';
+            if (hasC) return 'cOnly';
+            return 'outside';
+        }
+    };
 
-        if (region === correctRegion) {
+    const handleRegionClick = (regionId: RegionId) => {
+        if (isLevelComplete || !selectedItemId || !level) return;
+
+        const item = unplacedItems.find(i => i.id === selectedItemId);
+        if (!item) return;
+
+        const correctRegionId = getTargetRegionId(item, level);
+
+        if (regionId === correctRegionId) {
             // Correct placement
-            setAnimatingNumber({ value: currentNum, targetRegion: region });
+            const regionItems = placedItems.filter(pi => pi.regionId === regionId);
+            const count = regionItems.length;
+
+            // Random offset for visual variety
+            const x = (Math.random() - 0.5) * 40;
+            const y = (Math.random() - 0.5) * 40;
+
+            setPlacedItems(prev => [...prev, { item, regionId, x, y }]);
+            setUnplacedItems(prev => prev.filter(i => i.id !== item.id));
+            setSelectedItemId(null);
             setMessage({ text: 'Helyes!', type: 'success' });
 
-            // Wait for animation to finish before updating state
-            setTimeout(() => {
-                // Calculate position to prevent stacking.
-                // We'll use a simple deterministic spiral or grid based on the number
-                // of items already in that specific region.
-                setPlacedNumbers(prev => {
-                    const regionItemsCount = prev.filter(p => p.region === region).length;
-
-                    let offsetX = 0;
-                    let offsetY = 0;
-
-                    if (region === 'intersection') {
-                        // Intersection is narrow, stack them vertically
-                        offsetX = 0;
-                        offsetY = (regionItemsCount * 30) - 40; // Starts slightly high, goes down
-                    } else if (region === 'leftOnly' || region === 'rightOnly') {
-                        // Outer circles are wider, use a wider spiral/grid spacing
-                        // Center is 0,0. We want to place them around the center but not in the intersection area.
-                        // We push 'leftOnly' to the left (negative X) and 'rightOnly' to the right (positive X)
-
-                        const baseOffsetDirection = region === 'leftOnly' ? -1 : 1;
-
-                        // First item is centered (but shifted away from intersection)
-                        // Subsequent items form a ring or grid
-                        const positions = [
-                            { x: 30 * baseOffsetDirection, y: 0 },
-                            { x: 70 * baseOffsetDirection, y: -30 },
-                            { x: 70 * baseOffsetDirection, y: 30 },
-                            { x: 20 * baseOffsetDirection, y: -40 },
-                            { x: 20 * baseOffsetDirection, y: 40 },
-                            { x: 60 * baseOffsetDirection, y: -60 },
-                            { x: 60 * baseOffsetDirection, y: 60 },
-                            { x: 100 * baseOffsetDirection, y: 0 },
-                            { x: 90 * baseOffsetDirection, y: -40 },
-                            { x: 90 * baseOffsetDirection, y: 40 },
-                        ];
-
-                        // Fallback to random if we have more items than planned positions
-                        if (regionItemsCount < positions.length) {
-                            offsetX = positions[regionItemsCount].x;
-                            offsetY = positions[regionItemsCount].y;
-                        } else {
-                            offsetX = (Math.random() - 0.5) * 80 + (50 * baseOffsetDirection);
-                            offsetY = (Math.random() - 0.5) * 80;
-                        }
-                    } else {
-                        // outside is handled separately in render, x y don't matter as much here
-                        offsetX = 0;
-                        offsetY = 0;
-                    }
-
-                    return [...prev, { value: currentNum, region, x: offsetX, y: offsetY }];
-                });
-
-                setAnimatingNumber(null);
-
-                if (currentIndex + 1 >= numbers.length) {
-                    setIsCompleted(true);
-                    setMessage({ text: 'Gratulálok! Az összes számot a helyére tetted!', type: 'success' });
-                    confetti({
-                        particleCount: 150,
-                        spread: 100,
-                        origin: { y: 0.6 }
-                    });
-                } else {
-                    setCurrentIndex(prev => prev + 1);
-                    setMessage({ text: 'Kattints arra a területre, ahová a szám tartozik!', type: 'info' });
-                }
-            }, 500); // 500ms matches CSS transition duration
-
+            if (unplacedItems.length === 1) { // Current item was the last one
+                setIsLevelComplete(true);
+                setCompletedLevels(prev => new Set([...prev, selectedLevelIndex!]));
+                setMessage({ text: 'Gratulálok! Minden elemet a helyére tettél!', type: 'success' });
+                confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 } });
+            }
         } else {
-            // Incorrect placement
-            setMessage({ text: 'Hoppá! Gondold át újra, milyen tulajdonságai vannak ennek a számnak!', type: 'error' });
+            setMessage({ text: 'Hoppá! Gondold át újra, ez hova tartozik!', type: 'error' });
+            setSelectedItemId(null);
         }
     };
 
-    const renderPlacedNumbers = (region: Region) => {
-        return placedNumbers
-            .filter(pn => pn.region === region)
-            .map((pn, i) => (
+    // ── Level Menu ──────────────────────────────
+    if (selectedLevelIndex === null) {
+        return (
+            <div className="max-w-5xl mx-auto px-4 py-8 animate-in fade-in duration-500 select-none">
+                <div className="flex items-center gap-4 mb-8">
+                    <Button variant="ghost" size="icon" onClick={onBack} className="rounded-full shadow-sm bg-white/50 backdrop-blur hover:bg-white hover:shadow-md transition-all">
+                        <ArrowLeft className="w-5 h-5 text-slate-600" />
+                    </Button>
+                    <div>
+                        <h2 className="text-2xl font-black text-slate-800 tracking-tight">Venn-diagram feladatok</h2>
+                        <div className="text-slate-500 font-medium">Halmazok közös részei</div>
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {ALL_LEVELS
+                        .map((lvl, i) => ({ lvl, i }))
+                        .filter(({ i }) => !allowedLevelIndices || allowedLevelIndices.includes(i))
+                        .map(({ lvl, i }) => {
+                            const isDone = completedLevels.has(i);
+                            return (
+                                <button
+                                    key={lvl.id}
+                                    onClick={() => initLevel(i)}
+                                    className={cn(
+                                        "relative rounded-3xl p-6 text-left text-white shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.03] active:scale-[0.98] bg-gradient-to-br",
+                                        lvl.gradient
+                                    )}
+                                >
+                                    {isDone && (
+                                        <div className="absolute top-4 right-4 bg-white/90 text-emerald-600 rounded-full w-8 h-8 flex items-center justify-center shadow-sm">
+                                            <CheckCircle2 className="w-5 h-5" />
+                                        </div>
+                                    )}
+                                    <div className="text-4xl mb-3">{lvl.icon}</div>
+                                    <h3 className="text-xl font-black mb-1">{lvl.title}</h3>
+                                    <p className="text-white/80 text-sm font-medium leading-snug">{lvl.description}</p>
+                                    <div className="mt-4 flex gap-2">
+                                        <span className="text-[10px] bg-white/20 px-2 py-1 rounded-full font-bold uppercase tracking-wider">
+                                            {lvl.sets.length} halmaz
+                                        </span>
+                                    </div>
+                                </button>
+                            );
+                        })}
+                </div>
+            </div>
+        );
+    }
+
+    // ── Level Rendering Logic ──────────────────────────────
+    const renderSetShape = (set: VennSet, index: number, total: number) => {
+        const isA = index === 0;
+        const isB = index === 1;
+        const isC = index === 2;
+
+        let baseClass = cn(
+            "absolute border-4 transition-all z-10",
+            set.color
+        );
+
+        if (total === 2) {
+            // 2 Sets Layout
+            const sizeClass = "w-[60%] h-[60%]";
+            const posClass = isA ? "left-[10%] top-[20%]" : "right-[10%] top-[20%]";
+
+            if (set.shape === 'circle') return <div className={cn(baseClass, sizeClass, posClass, "rounded-full")} />;
+            if (set.shape === 'rectangle') return <div className={cn(baseClass, sizeClass, posClass, "rounded-3xl")} />;
+            if (set.shape === 'ellipse') return <div className={cn(baseClass, "w-[65%] h-[45%]", isA ? "left-[5%] top-[27%]" : "right-[5%] top-[27%]", "rounded-[50%]")} />;
+            if (set.shape === 'heart') return (
+                <div className={cn(baseClass, sizeClass, posClass, "border-transparent bg-transparent flex items-center justify-center")}>
+                    <Heart className={cn("w-full h-full fill-current stroke-[4px]", set.color.split(' ')[0].replace('border-', 'text-'))} />
+                </div>
+            );
+        } else {
+            // 3 Sets Layout (Simplified Circles)
+            const size = "w-[50%] h-[50%]";
+            let pos = "";
+            if (isA) pos = "left-[25%] top-[10%]";
+            if (isB) pos = "left-[10%] bottom-[15%]";
+            if (isC) pos = "right-[10%] bottom-[15%]";
+
+            return <div className={cn(baseClass, size, pos, "rounded-full")} />;
+        }
+        return null;
+    };
+
+    const renderPlacedItems = (regionId: RegionId) => {
+        return placedItems
+            .filter(pi => pi.regionId === regionId)
+            .map((pi, i) => (
                 <div
-                    key={i}
-                    className="absolute font-bold text-slate-800 bg-white/80 rounded-full w-8 h-8 flex items-center justify-center shadow-sm text-sm"
+                    key={pi.item.id}
+                    className="absolute bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg shadow-sm border border-slate-200 text-[10px] font-bold text-slate-800 whitespace-nowrap animate-in zoom-in"
                     style={{
-                        transform: `translate(calc(-50% + ${pn.x}px), calc(-50% + ${pn.y}px))`,
+                        transform: `translate(calc(-50% + ${pi.x}px), calc(-50% + ${pi.y}px))`,
                         left: '50%',
                         top: '50%',
-                        zIndex: 10
+                        zIndex: 30
                     }}
                 >
-                    {pn.value}
+                    {pi.item.label}
                 </div>
             ));
     };
 
-    const currentNumber = numbers[currentIndex];
-
     return (
-        <div className="max-w-6xl mx-auto px-4 py-8 animate-in fade-in duration-500 relative select-none">
-            <div className="flex items-center justify-between mb-8">
+        <div className="max-w-6xl mx-auto px-4 py-8 animate-in fade-in duration-500 relative select-none flex flex-col min-h-[calc(100vh-100px)]">
+            <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-4">
-                    <Button variant="ghost" size="icon" onClick={onBack} className="rounded-full shadow-sm bg-white/50 backdrop-blur hover:bg-white hover:shadow-md transition-all">
+                    <Button variant="ghost" size="icon" onClick={goToMenu} className="rounded-full shadow-sm bg-white/50 backdrop-blur hover:bg-white hover:shadow-md transition-all">
                         <ArrowLeft className="w-5 h-5 text-slate-600" />
                     </Button>
-                    <h2 className="text-2xl font-black text-slate-800 tracking-tight">Csoportosítások (Venn-diagram)</h2>
+                    <div>
+                        <h2 className="text-2xl font-black text-slate-800 tracking-tight">Venn-diagram</h2>
+                        <div className="text-slate-500 font-medium">{level.title}</div>
+                    </div>
                 </div>
-                <Button onClick={initGame} variant="outline" className="rounded-xl shadow-sm bg-white text-slate-600 hover:text-slate-900 border-slate-200 gap-2">
+                <Button onClick={() => initLevel(selectedLevelIndex!)} variant="outline" className="rounded-xl shadow-sm bg-white text-slate-600 hover:text-slate-900 border-slate-200 gap-2">
                     <RefreshCw className="w-4 h-4" />
                     Újra
                 </Button>
             </div>
 
-            {message && (
-                <div className={cn(
-                    "mb-8 p-4 rounded-xl flex items-center gap-3 animate-in slide-in-from-top-4 font-medium max-w-2xl mx-auto",
-                    message.type === 'success' ? "bg-emerald-50 text-emerald-700 border border-emerald-200" :
-                        message.type === 'error' ? "bg-rose-50 text-rose-700 border border-rose-200" :
-                            "bg-blue-50 text-blue-700 border border-blue-200"
-                )}>
-                    {message.type === 'success' && <CheckCircle2 className="w-5 h-5 shrink-0" />}
-                    {message.type === 'error' && <XCircle className="w-5 h-5 shrink-0" />}
-                    {message.type === 'info' && <Info className="w-5 h-5 shrink-0" />}
-                    {message.text}
-                </div>
-            )}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 flex-grow">
+                {/* Visual Area */}
+                <div className="lg:col-span-2 relative min-h-[500px] bg-white/40 rounded-3xl border-2 border-dashed border-slate-200 overflow-hidden flex items-center justify-center p-4">
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-                {/* Left Side: Current Number and Info */}
-                <div className="lg:col-span-1 flex flex-col gap-6">
-                    {/* Game Header / Current Number */}
-                    <div className="bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-slate-200 flex flex-col items-center justify-center relative overflow-hidden min-h-[300px]">
-                        <div className="absolute top-0 left-0 w-full h-1 bg-slate-100">
-                            <div
-                                className="h-full bg-primary transition-all duration-500"
-                                style={{ width: `${(currentIndex / Math.max(1, numbers.length)) * 100}%` }}
-                            />
-                        </div>
-
-                        <div className="uppercase tracking-widest text-sm font-bold text-slate-400 mb-6 font-display">Beosztandó szám</div>
-
-                        <div className="relative w-32 h-32 flex items-center justify-center">
-                            {!isCompleted && !animatingNumber && currentNumber !== undefined && (
-                                <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-primary to-blue-600 text-white shadow-xl flex items-center justify-center text-5xl font-black animate-in zoom-in-50 duration-300">
-                                    {currentNumber}
-                                </div>
-                            )}
-
-                            {animatingNumber && (
-                                <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-emerald-400 to-emerald-600 text-white shadow-xl flex items-center justify-center text-5xl font-black absolute z-50 animate-out zoom-out-50 duration-500">
-                                    {animatingNumber.value}
-                                </div>
-                            )}
-
-                            {isCompleted && (
-                                <div className="text-emerald-500 font-bold text-2xl">Kész!</div>
-                            )}
-                        </div>
-
-                        <div className="mt-8 text-sm font-bold text-slate-400 bg-slate-50 px-4 py-2 rounded-full border border-slate-100">
-                            {Math.min(currentIndex + 1, TOTAL_NUMBERS)} / {TOTAL_NUMBERS}
-                        </div>
-                    </div>
-
-                    <div className="text-left text-slate-500 text-sm italic flex items-start gap-3 bg-white/60 p-5 rounded-2xl border border-slate-200/60 shadow-sm">
-                        <Info className="w-5 h-5 shrink-0 mt-0.5 text-blue-500" />
-                        A körökön kívüli területre (Egyik sem) kattintva teheted le a számokat, amik egyik feltételnek sem felelnek meg.
-                    </div>
-                </div>
-
-                {/* Right Side: Venn Diagram Area */}
-                <div className="lg:col-span-2">
+                    {/* Background "Outside" Area */}
                     <div
-                        className="relative bg-white/60 backdrop-blur rounded-3xl border-2 border-slate-200 border-dashed p-4 md:p-12 min-h-[400px] flex items-center justify-center overflow-hidden group hover:bg-slate-50 transition-colors"
+                        className="absolute inset-0 cursor-pointer"
                         onClick={() => handleRegionClick('outside')}
-                        ref={outsideRef}
                     >
-                        {/* Background label for outside */}
-                        <div className="absolute top-4 right-4 text-slate-400 font-bold uppercase tracking-widest text-sm bg-white/80 px-4 py-2 rounded-xl border border-slate-200 shadow-sm">
-                            Egyik sem
+                        <div className="absolute top-4 right-4 text-[10px] font-black uppercase tracking-widest text-slate-400 bg-white/50 px-3 py-1.5 rounded-full border border-slate-100">
+                            Csoporton kívül
                         </div>
+                        {renderPlacedItems('outside')}
+                    </div>
 
-                        <div className="w-full max-w-xl relative flex items-center justify-center aspect-[2/1] my-8" onClick={(e) => e.stopPropagation()}>
-                            {/* Intersection (Center) Area Logic layer */}
-                            <div
-                                className="absolute inset-0 z-20 flex items-center justify-center cursor-pointer pointer-events-none"
-                            >
-                                {/* We use a specific clipping path for the intersection click area to be accurate */}
+                    {/* Diagram Container */}
+                    <div className="relative w-full aspect-[4/3] max-w-lg z-10" onClick={(e) => e.stopPropagation()}>
+
+                        {/* Render Set Outlines */}
+                        {level.sets.map((set, i) => renderSetShape(set, i, level.sets.length))}
+
+                        {/* Interactive Regions Overlays */}
+                        {level.sets.length === 2 ? (
+                            <>
+                                {/* A Only */}
                                 <div
-                                    className="w-[30%] h-[70%] bg-transparent rounded-[100%] pointer-events-auto hover:bg-white/30 transition-colors"
-                                    onClick={() => handleRegionClick('intersection')}
-                                    title="Páros és Kisebb mint 20"
-                                    ref={intersectionRef}
-                                ></div>
-                            </div>
-
-                            {/* Left Circle: Even Numbers */}
-                            <div
-                                className="absolute left-[5%] w-[55%] pb-[55%] rounded-full border-4 border-blue-500/80 bg-blue-500/10 cursor-pointer hover:bg-blue-500/20 transition-all z-10"
-                                onClick={() => handleRegionClick('leftOnly')}
-                                ref={leftCircleRef}
-                            >
-                                <div className="absolute top-[-30px] md:top-[-40px] left-1/2 -translate-x-1/2 bg-blue-100 text-blue-700 font-bold border border-blue-200 px-4 py-1.5 rounded-xl shadow-sm text-sm md:text-base whitespace-nowrap">
-                                    Páros számok
+                                    className="absolute left-[15%] top-[25%] w-[30%] h-[50%] z-20 cursor-pointer hover:bg-black/5 rounded-full flex items-center justify-center"
+                                    onClick={() => handleRegionClick('aOnly')}
+                                >
+                                    <div className="absolute top-[-20px] left-0 text-[10px] font-bold text-slate-500 uppercase">{level.sets[0].label}</div>
+                                    {renderPlacedItems('aOnly')}
                                 </div>
-                                {renderPlacedNumbers('leftOnly')}
-                            </div>
-
-                            {/* Right Circle: Less than 20 */}
-                            <div
-                                className="absolute right-[5%] w-[55%] pb-[55%] rounded-full border-4 border-amber-500/80 bg-amber-500/10 cursor-pointer hover:bg-amber-500/20 transition-all z-10"
-                                onClick={() => handleRegionClick('rightOnly')}
-                                style={{ mixBlendMode: 'multiply' }}
-                                ref={rightCircleRef}
-                            >
-                                <div className="absolute top-[-30px] md:top-[-40px] left-1/2 -translate-x-1/2 bg-amber-100 text-amber-700 font-bold border border-amber-200 px-4 py-1.5 rounded-xl shadow-sm text-sm md:text-base whitespace-nowrap">
-                                    20-nál kisebb
+                                {/* B Only */}
+                                <div
+                                    className="absolute right-[15%] top-[25%] w-[30%] h-[50%] z-20 cursor-pointer hover:bg-black/5 rounded-full flex items-center justify-center"
+                                    onClick={() => handleRegionClick('bOnly')}
+                                >
+                                    <div className="absolute top-[-20px] right-0 text-[10px] font-bold text-slate-500 uppercase text-right">{level.sets[1].label}</div>
+                                    {renderPlacedItems('bOnly')}
                                 </div>
-                                {renderPlacedNumbers('rightOnly')}
+                                {/* Intersection */}
+                                <div
+                                    className="absolute left-[38%] top-[30%] w-[24%] h-[40%] z-30 cursor-pointer hover:bg-white/20 rounded-full flex items-center justify-center border-2 border-white/30 border-dashed"
+                                    onClick={() => handleRegionClick('ab')}
+                                >
+                                    {renderPlacedItems('ab')}
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                {/* 3 Sets Interaction Blocks (Simplified placeholders for clicks) */}
+                                <div className="absolute inset-0 z-20">
+                                    {/* A, B, C Names */}
+                                    <div className="absolute left-[40%] top-[5%] text-[10px] font-bold text-slate-500 uppercase">{level.sets[0].label}</div>
+                                    <div className="absolute left-0 bottom-[10%] text-[10px] font-bold text-slate-500 uppercase">{level.sets[1].label}</div>
+                                    <div className="absolute right-0 bottom-[10%] text-[10px] font-bold text-slate-500 uppercase text-right">{level.sets[2].label}</div>
+
+                                    {/* Region A Only */}
+                                    <div onClick={() => handleRegionClick('aOnly')} className="absolute left-[40%] top-[15%] w-[20%] h-[20%] hover:bg-black/5 flex items-center justify-center">{renderPlacedItems('aOnly')}</div>
+                                    {/* Region B Only */}
+                                    <div onClick={() => handleRegionClick('bOnly')} className="absolute left-[15%] bottom-[20%] w-[20%] h-[20%] hover:bg-black/5 flex items-center justify-center">{renderPlacedItems('bOnly')}</div>
+                                    {/* Region C Only */}
+                                    <div onClick={() => handleRegionClick('cOnly')} className="absolute right-[15%] bottom-[20%] w-[20%] h-[20%] hover:bg-black/5 flex items-center justify-center">{renderPlacedItems('cOnly')}</div>
+
+                                    {/* Intersections */}
+                                    <div onClick={() => handleRegionClick('ab')} className="absolute left-[25%] top-[40%] w-[15%] h-[15%] hover:bg-white/20 text-[9px] font-bold flex items-center justify-center">{renderPlacedItems('ab')}</div>
+                                    <div onClick={() => handleRegionClick('ac')} className="absolute right-[25%] top-[40%] w-[15%] h-[15%] hover:bg-white/20 text-[9px] font-bold flex items-center justify-center">{renderPlacedItems('ac')}</div>
+                                    <div onClick={() => handleRegionClick('bc')} className="absolute left-[42%] bottom-[15%] w-[15%] h-[15%] hover:bg-white/20 text-[9px] font-bold flex items-center justify-center">{renderPlacedItems('bc')}</div>
+
+                                    {/* Central Intersection */}
+                                    <div onClick={() => handleRegionClick('abc')} className="absolute left-[42%] top-[45%] w-[16%] h-[12%] hover:bg-white/30 border-2 border-white/20 border-dashed flex items-center justify-center">{renderPlacedItems('abc')}</div>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                </div>
+
+                {/* Controls & Items Area */}
+                <div className="flex flex-col gap-6">
+                    {/* Message Area */}
+                    <div className="min-h-[80px]">
+                        {message && (
+                            <div className={cn(
+                                "p-4 rounded-2xl flex items-center gap-3 animate-in slide-in-from-top-4 font-bold border-2",
+                                message.type === 'success' ? "bg-emerald-50 text-emerald-700 border-emerald-100" :
+                                    message.type === 'error' ? "bg-rose-50 text-rose-700 border-rose-100" :
+                                        "bg-blue-50 text-blue-700 border-blue-100"
+                            )}>
+                                {message.type === 'success' && <CheckCircle2 className="w-5 h-5 shrink-0" />}
+                                {message.type === 'error' && <XCircle className="w-5 h-5 shrink-0" />}
+                                {message.type === 'info' && <Info className="w-5 h-5 shrink-0" />}
+                                {message.text}
                             </div>
+                        )}
+                    </div>
+
+                    {/* Item List */}
+                    <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 flex flex-col flex-grow">
+                        <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-xs font-black uppercase tracking-widest text-slate-400">Beosztandó elemek</h3>
+                            <span className="text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-1 rounded-full">
+                                {unplacedItems.length} hátra
+                            </span>
                         </div>
 
-                        {/* Render intersection numbers centrally */}
-                        <div className="absolute inset-0 pointer-events-none z-30">
-                            {renderPlacedNumbers('intersection')}
-                        </div>
-
-                        {/* Render outside numbers scattered */}
-                        {placedNumbers.filter(pn => pn.region === 'outside').map((pn, i) => (
-                            <div
-                                key={i}
-                                className="absolute font-bold text-slate-800 bg-white/90 backdrop-blur shadow-md rounded-full w-10 h-10 flex items-center justify-center text-sm z-10 border border-slate-200 hover:scale-110 transition-transform"
-                                style={{
-                                    // Fixed positions around the edges for outside numbers
-                                    left: `${8 + (i * 17) % 84}%`,
-                                    top: `${80 - (i % 2) * 60}%`
-                                }}
-                            >
-                                {pn.value}
+                        {!isLevelComplete ? (
+                            <div className="flex flex-wrap gap-2 content-start overflow-y-auto max-h-[300px] p-1">
+                                {unplacedItems.map(item => (
+                                    <button
+                                        key={item.id}
+                                        onClick={() => handleItemClick(item)}
+                                        className={cn(
+                                            "px-4 py-2 rounded-xl font-bold text-sm transition-all border-2",
+                                            selectedItemId === item.id
+                                                ? "bg-primary text-white border-primary shadow-md scale-105 z-10"
+                                                : "bg-slate-50 text-slate-700 border-slate-100 hover:border-slate-300 hover:bg-white"
+                                        )}
+                                    >
+                                        {item.label}
+                                    </button>
+                                ))}
                             </div>
-                        ))}
+                        ) : (
+                            <div className="flex-grow flex flex-col items-center justify-center gap-4 text-center">
+                                <div className="text-4xl">🏆</div>
+                                <h4 className="text-xl font-black text-slate-800">Szép munka!</h4>
+                                <Button onClick={goToMenu} variant="outline" className="rounded-xl w-full">
+                                    Vissza a listához
+                                </Button>
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="bg-blue-50/50 p-4 rounded-2xl border border-blue-100 flex items-start gap-3">
+                        <Info className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
+                        <p className="text-[11px] text-blue-700 font-medium leading-relaxed">
+                            Kattints egy elemre, majd válaszd ki azt a területet a diagramon, ahová szerinted tartozik. Ha sehova, kattints a "Csoporton kívül" részre!
+                        </p>
                     </div>
                 </div>
             </div>
