@@ -77,9 +77,11 @@ export function UserMenu() {
                         </DropdownMenuItem>
                         <DropdownMenuSeparator className="bg-slate-100 dark:bg-slate-800 mx-1" />
                         <DropdownMenuItem
-                            onSelect={(e) => {
-                                e.preventDefault();
-                                setTimeout(() => signOut(), 100);
+                            onSelect={() => {
+                                setTimeout(() => {
+                                    document.body.style.pointerEvents = '';
+                                    signOut();
+                                }, 500);
                             }}
                             className="rounded-xl p-3 focus:bg-rose-50 dark:focus:bg-rose-950/20 cursor-pointer group transition-all"
                         >

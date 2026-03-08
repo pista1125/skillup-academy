@@ -65,13 +65,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 }
                 if (!mounted) return;
 
-                setSession(session);
-                setUser(session?.user ?? null);
-
                 if (session?.user) {
-                    const metaName = session.user.user_metadata?.full_name as string | undefined;
-                    await fetchProfile(session.user.id, metaName);
+                    // Verify that the user actually still exists on the server
+                    const { data: { user: verifiedUser }, error: userError } = await supabase.auth.getUser();
+                    if (userError || !verifiedUser) {
+                        await supabase.auth.signOut();
+                        setSession(null);
+                        setUser(null);
+                        setProfile(null);
+                        setLoading(false);
+                        return;
+                    }
+
+                    setSession(session);
+                    setUser(verifiedUser);
+
+                    const metaName = verifiedUser.user_metadata?.full_name as string | undefined;
+                    await fetchProfile(verifiedUser.id, metaName);
                 } else {
+                    setSession(null);
+                    setUser(null);
                     setLoading(false);
                 }
             } catch (err) {
