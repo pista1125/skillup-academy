@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Session, User } from '@supabase/supabase-js';
 
@@ -30,39 +30,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [profile, setProfile] = useState<Profile | null>(null);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        // Get initial session
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            setSession(session);
-            setUser(session?.user ?? null);
-            if (session?.user) {
-                const metaName = session.user.user_metadata?.full_name as string | undefined;
-                fetchProfile(session.user.id, metaName);
-            } else {
-                setLoading(false);
-            }
-        });
-
-        // Listen for auth changes
-        const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
-            setSession(session);
-            setUser(session?.user ?? null);
-            if (session?.user) {
-                const metaName = session.user.user_metadata?.full_name as string | undefined;
-                await fetchProfile(session.user.id, metaName);
-            } else {
-                setProfile(null);
-                setLoading(false);
-            }
-        });
-
-        return () => {
-            subscription.unsubscribe();
-        };
-    }, []);
-
-    const fetchProfile = async (userId: string, userMetaName?: string | null) => {
-        // Set a quick fallback from auth metadata immediately (no DB round-trip needed)
+    const fetchProfile = useCallback(async (userId: string, userMetaName?: string | null) => {
+        // Immediate fallback from auth metadata so the name appears right away
         if (userMetaName) {
             setProfile(prev => prev ?? { id: userId, full_name: userMetaName, updated_at: '' });
         }
@@ -83,11 +52,74 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         } finally {
             setLoading(false);
         }
-    };
+    }, []);
 
-    const signOut = async () => {
-        await supabase.auth.signOut();
-    };
+    useEffect(() => {
+        let mounted = true;
+
+        const initAuth = async () => {
+            try {
+                const { data: { session }, error } = await supabase.auth.getSession();
+                if (error) {
+                    console.error('Error getting session:', error);
+                }
+                if (!mounted) return;
+
+                setSession(session);
+                setUser(session?.user ?? null);
+
+                if (session?.user) {
+                    const metaName = session.user.user_metadata?.full_name as string | undefined;
+                    await fetchProfile(session.user.id, metaName);
+                } else {
+                    setLoading(false);
+                }
+            } catch (err) {
+                console.error('Unexpected error in initAuth:', err);
+                if (mounted) setLoading(false);
+            }
+        };
+
+        initAuth();
+
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+            if (!mounted) return;
+            // INITIAL_SESSION is handled by getSession() above to avoid race conditions.
+            if (_event === 'INITIAL_SESSION') return;
+
+            setSession(session);
+            setUser(session?.user ?? null);
+
+            if (session?.user) {
+                const metaName = session.user.user_metadata?.full_name as string | undefined;
+                await fetchProfile(session.user.id, metaName);
+            } else {
+                setProfile(null);
+                setLoading(false);
+            }
+        });
+
+        return () => {
+            mounted = false;
+            subscription.unsubscribe();
+        };
+    }, [fetchProfile]);
+
+    const signOut = useCallback(async () => {
+        try {
+            // First, clear UI state immediately for responsive feel
+            setSession(null);
+            setUser(null);
+            setProfile(null);
+
+            const { error } = await supabase.auth.signOut();
+            if (error) {
+                console.error('Error signing out of Supabase:', error);
+            }
+        } catch (err) {
+            console.error('Unexpected error signing out:', err);
+        }
+    }, []);
 
     const value = {
         session,

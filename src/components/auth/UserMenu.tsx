@@ -54,7 +54,7 @@ export function UserMenu() {
                             {initials}
                         </AvatarFallback>
                     </Avatar>
-                    <span className="text-sm tracking-tight hidden md:inline truncate max-w-[120px]">
+                    <span className="text-sm tracking-tight hidden sm:inline truncate max-w-[120px]">
                         {profile?.full_name || user.email}
                     </span>
                 </Button>
