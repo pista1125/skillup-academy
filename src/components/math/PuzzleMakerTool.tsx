@@ -15,10 +15,13 @@ import {
     CheckCircle,
     AlertCircle,
     Beaker,
+    LogIn,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import jsPDF from 'jspdf';
 import { supabase } from '@/lib/supabase';
+import { useAuth } from '@/contexts/AuthContext';
+import { AuthModal } from '@/components/auth/AuthModal';
 
 interface PuzzleQuestion {
     id: number;
@@ -54,6 +57,9 @@ const DEMO_QUESTIONS: PuzzleQuestion[] = [
 ];
 
 export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
+    const { user, loading: authLoading } = useAuth();
+    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+
     const [questions, setQuestions] = useState<PuzzleQuestion[]>([
         { id: 1, question: '', answer: '' },
         { id: 2, question: '', answer: '' },
@@ -275,8 +281,18 @@ export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
         doc.save(`${puzzleTitle.replace(/\s+/g, '_')}.pdf`);
     };
 
+    if (authLoading) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
+                <Loader2 className="w-8 h-8 animate-spin text-violet-500" />
+                <p className="text-slate-500 font-medium">Betöltés...</p>
+            </div>
+        );
+    }
+
     return (
         <div className="space-y-6">
+            <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
             {/* Header Card */}
             <div className="bg-gradient-to-br from-violet-500 via-fuchsia-500 to-pink-500 rounded-3xl p-6 text-white shadow-xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl" />
@@ -348,7 +364,13 @@ export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
 
                                 <div className="flex items-center gap-2">
                                     <Button
-                                        onClick={generateWithAI}
+                                        onClick={() => {
+                                            if (!user) {
+                                                setIsAuthModalOpen(true);
+                                                return;
+                                            }
+                                            generateWithAI();
+                                        }}
                                         disabled={aiLoading}
                                         className={cn(
                                             'flex-1 rounded-xl gap-2 font-bold text-sm transition-all',
@@ -365,6 +387,7 @@ export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
                                         ) : (
                                             <>
                                                 <Send className="w-4 h-4" />
+                                                {!user && <Key className="w-3.5 h-3.5 mr-1 text-emerald-100" />}
                                                 AI Kitöltés
                                             </>
                                         )}
@@ -378,6 +401,11 @@ export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
                                         Teszt
                                     </Button>
                                 </div>
+                                {!user && (
+                                    <p className="mt-2 text-[10px] text-emerald-400 font-bold uppercase tracking-wider text-center bg-white/5 py-1 rounded-lg border border-white/5">
+                                        🔒 Jelentkezz be az AI használatához!
+                                    </p>
+                                )}
                             </div>
 
                             {/* AI feedback messages */}

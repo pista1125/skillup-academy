@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
-import { Loader2, LogIn, UserPlus } from "lucide-react";
+import { Loader2, LogIn, UserPlus, Chrome } from "lucide-react";
 
 interface AuthModalProps {
     isOpen: boolean;
@@ -67,6 +67,22 @@ export function AuthModal({ isOpen, onClose, defaultTab = 'login' }: AuthModalPr
             onClose();
         } catch (error: any) {
             toast.error(error.message || "Hiba a regisztráció során");
+        } finally {
+            setLoading(false);
+        }
+    };
+    const handleGoogleLogin = async () => {
+        setLoading(true);
+        try {
+            const { error } = await supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    redirectTo: window.location.origin
+                }
+            });
+            if (error) throw error;
+        } catch (error: any) {
+            toast.error(error.message || "Hiba a Google bejelentkezés során");
         } finally {
             setLoading(false);
         }
@@ -176,6 +192,32 @@ export function AuthModal({ isOpen, onClose, defaultTab = 'login' }: AuthModalPr
                         </form>
                     </TabsContent>
                 </Tabs>
+
+                <div className="relative my-4">
+                    <div className="absolute inset-0 flex items-center">
+                        <span className="w-full border-t border-slate-200 dark:border-slate-800"></span>
+                    </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                        <span className="bg-white dark:bg-slate-950 px-2 text-slate-500">Vagy folytasd ezzel</span>
+                    </div>
+                </div>
+
+                <Button
+                    type="button"
+                    variant="outline"
+                    className="w-full rounded-xl h-11 font-bold border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900 transition-all flex items-center justify-center gap-2"
+                    onClick={handleGoogleLogin}
+                    disabled={loading}
+                >
+                    {loading ? (
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                    ) : (
+                        <>
+                            <Chrome className="w-5 h-5 text-[#4285F4]" />
+                            Google Authentication
+                        </>
+                    )}
+                </Button>
             </DialogContent>
         </Dialog>
     );

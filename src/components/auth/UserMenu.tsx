@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { AuthModal } from './AuthModal';
 import { User, LogOut, Settings, LogIn, UserCircle } from 'lucide-react';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export function UserMenu() {
     const { user, profile, signOut, loading } = useAuth();
@@ -45,6 +45,7 @@ export function UserMenu() {
                             className="bg-white/10 text-white hover:bg-white/20 font-bold pl-2 pr-4 border border-white/20 shadow-lg backdrop-blur-md transition-all hover:scale-105 active:scale-95 flex items-center gap-3 rounded-xl h-10 ring-offset-primary focus:ring-2 focus:ring-white/50"
                         >
                             <Avatar className="h-7 w-7 border border-white/30 shadow-sm">
+                                <AvatarImage src={user?.user_metadata?.avatar_url} />
                                 <AvatarFallback className="bg-primary text-white text-[10px] font-black">
                                     {initials}
                                 </AvatarFallback>

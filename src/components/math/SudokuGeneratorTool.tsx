@@ -10,11 +10,15 @@ import {
     Info,
     Grid3X3,
     FileText,
-    DownloadCloud
+    DownloadCloud,
+    Key,
+    Loader2,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import jsPDF from 'jspdf';
 import { generateSudoku, SudokuType, SudokuDifficulty } from '@/lib/sudokuUtils';
+import { useAuth } from '@/contexts/AuthContext';
+import { AuthModal } from '@/components/auth/AuthModal';
 
 interface SudokuGeneratorToolProps {
     onBack: () => void;
@@ -28,6 +32,8 @@ export function SudokuGeneratorTool({ onBack }: SudokuGeneratorToolProps) {
     const [quantity, setQuantity] = useState<Quantity>(1);
     const [previewPuzzle, setPreviewPuzzle] = useState<{ board: number[][]; solution: number[][] } | null>(null);
     const [isGenerating, setIsGenerating] = useState(false);
+    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+    const { user } = useAuth();
 
     // Initial preview
     useEffect(() => {
@@ -48,6 +54,10 @@ export function SudokuGeneratorTool({ onBack }: SudokuGeneratorToolProps) {
     };
 
     const downloadPDF = () => {
+        if (!user) {
+            setIsAuthModalOpen(true);
+            return;
+        }
         setIsGenerating(true);
 
         // Use a timeout to allow the UI to update the loading state
@@ -301,10 +311,19 @@ export function SudokuGeneratorTool({ onBack }: SudokuGeneratorToolProps) {
                                 disabled={isGenerating}
                                 className="w-full h-14 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-black text-lg shadow-lg shadow-blue-500/20 gap-3"
                             >
-                                {isGenerating ? <RefreshCw className="w-6 h-6 animate-spin" /> : <DownloadCloud className="w-6 h-6" />}
-                                PDF Generálása
+                                {isGenerating ? <RefreshCw className="w-6 h-6 animate-spin" /> : (
+                                    <>
+                                        {!user ? <Key className="w-6 h-6" /> : <DownloadCloud className="w-6 h-6" />}
+                                        PDF Generálása
+                                    </>
+                                )}
                             </Button>
-                            <p className="text-[10px] text-slate-400 text-center mt-3 font-medium">
+                            {!user && (
+                                <p className="text-[10px] text-amber-600 text-center mt-3 font-bold uppercase tracking-wider">
+                                    🔒 Jelentkezz be a letöltéshez!
+                                </p>
+                            )}
+                            <p className="text-[10px] text-slate-400 text-center mt-1 font-medium">
                                 A PDF tartalmazni fogja a feladványokat és a megoldókulcsot is külön oldalon.
                             </p>
                         </div>
@@ -397,6 +416,7 @@ export function SudokuGeneratorTool({ onBack }: SudokuGeneratorToolProps) {
                     </div>
                 </div>
             </div>
+            <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
         </div>
     );
 }
