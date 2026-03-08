@@ -107,11 +107,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const signOut = useCallback(async () => {
         try {
-            // First, clear UI state immediately for responsive feel
-            setSession(null);
-            setUser(null);
-            setProfile(null);
-
             const { error } = await supabase.auth.signOut();
             if (error) {
                 console.error('Error signing out of Supabase:', error);

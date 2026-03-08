@@ -118,7 +118,7 @@ export function SidebarMenu() {
                             <SheetClose asChild>
                                 <Button
                                     variant="ghost"
-                                    onClick={() => signOut()}
+                                    onClick={() => setTimeout(() => signOut(), 150)}
                                     className="w-full justify-start text-slate-500 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/20 rounded-xl font-bold transition-all"
                                 >
                                     <LogOut className="w-5 h-5 mr-3" />
