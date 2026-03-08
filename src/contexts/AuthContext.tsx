@@ -36,7 +36,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             setSession(session);
             setUser(session?.user ?? null);
             if (session?.user) {
-                fetchProfile(session.user.id);
+                const metaName = session.user.user_metadata?.full_name as string | undefined;
+                fetchProfile(session.user.id, metaName);
             } else {
                 setLoading(false);
             }
@@ -47,7 +48,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             setSession(session);
             setUser(session?.user ?? null);
             if (session?.user) {
-                await fetchProfile(session.user.id);
+                const metaName = session.user.user_metadata?.full_name as string | undefined;
+                await fetchProfile(session.user.id, metaName);
             } else {
                 setProfile(null);
                 setLoading(false);
@@ -59,7 +61,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         };
     }, []);
 
-    const fetchProfile = async (userId: string) => {
+    const fetchProfile = async (userId: string, userMetaName?: string | null) => {
+        // Set a quick fallback from auth metadata immediately (no DB round-trip needed)
+        if (userMetaName) {
+            setProfile(prev => prev ?? { id: userId, full_name: userMetaName, updated_at: '' });
+        }
         try {
             const { data, error } = await supabase
                 .from('profiles')
