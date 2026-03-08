@@ -57,6 +57,7 @@ import { VENN_READING_OBJECTS, VENN_READING_NUMBERS } from '@/data/vennReadingLe
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { SidebarMenu } from '@/components/SidebarMenu';
 import { SiteFooter } from '@/components/SiteFooter';
+import { UserMenu } from '@/components/auth/UserMenu';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -1749,6 +1750,7 @@ export default function MathPage() {
                     </div>
                   )}
                 </div>
+                <UserMenu />
                 <ThemeToggle />
                 <Button
                   variant="secondary"
