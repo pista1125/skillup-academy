@@ -35,7 +35,7 @@ export function UserMenu() {
                     className="bg-white/10 text-white hover:bg-white/20 font-bold px-4 border border-white/20 shadow-lg backdrop-blur-md transition-all hover:scale-105 active:scale-95 flex items-center gap-2 rounded-xl h-10"
                 >
                     <LogIn className="w-4 h-4" />
-                    <span className="hidden sm:inline">Bejelentkezés</span>
+                    <span className="inline">Bejelentkezés</span>
                 </Button>
             ) : (
                 <DropdownMenu>
@@ -49,7 +49,7 @@ export function UserMenu() {
                                     {initials}
                                 </AvatarFallback>
                             </Avatar>
-                            <span className="text-sm tracking-tight hidden sm:inline truncate max-w-[120px]">
+                            <span className="text-sm tracking-tight truncate max-w-[120px]">
                                 {profile?.full_name || user?.email}
                             </span>
                         </Button>
