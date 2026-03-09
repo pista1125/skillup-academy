@@ -56,39 +56,67 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     useEffect(() => {
         let mounted = true;
+        const initStarted = { current: false };
 
-        // Unified auth initialization and listener
-        const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-            if (!mounted) return;
+        // Safety timeout to prevent the app from hanging forever in a loading state
+        const safetyTimeout = setTimeout(() => {
+            if (mounted && loading) {
+                console.warn('Auth initialization timed out, forcing loading to false');
+                setLoading(false);
+            }
+        }, 5000);
 
-            // Handle the session state
-            setSession(session);
-            setUser(session?.user ?? null);
+        const handleAuthAction = async (currSession: Session | null) => {
+            if (!mounted || initStarted.current) return;
+            initStarted.current = true;
 
-            if (session?.user) {
-                const metaName = session.user.user_metadata?.full_name as string | undefined;
-                await fetchProfile(session.user.id, metaName);
+            setSession(currSession);
+            setUser(currSession?.user ?? null);
+
+            if (currSession?.user) {
+                const metaName = currSession.user.user_metadata?.full_name as string | undefined;
+                await fetchProfile(currSession.user.id, metaName);
             } else {
                 setProfile(null);
                 setLoading(false);
             }
+            clearTimeout(safetyTimeout);
+        };
 
-            // Note: loading is also set to false inside fetchProfile finally block
-            // if a user exists. If no user, we set it false here.
+        // Unified auth listener
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+            if (!mounted) return;
+            console.log('Auth state change:', event, !!session);
+
+            // If we already started init, just update the state without re-running full fetchProfile
+            // unless it's a fresh event after init.
+            if (initStarted.current) {
+                setSession(session);
+                setUser(session?.user ?? null);
+                if (!session) {
+                    setProfile(null);
+                } else if (event === 'SIGNED_IN') {
+                    // Re-fetch profile if a new login happens
+                    const metaName = session.user.user_metadata?.full_name as string | undefined;
+                    fetchProfile(session.user.id, metaName);
+                }
+                return;
+            }
+
+            // Initial call if getSession hasn't finished yet
+            handleAuthAction(session);
         });
 
-        // Check current session immediately in case onAuthStateChange is late or already fired
+        // Check current session immediately
         const checkInitialSession = async () => {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (!mounted) return;
-
-            if (session) {
-                setSession(session);
-                setUser(session.user);
-                const metaName = session.user.user_metadata?.full_name as string | undefined;
-                await fetchProfile(session.user.id, metaName);
-            } else {
-                setLoading(false);
+            try {
+                const { data: { session } } = await supabase.auth.getSession();
+                if (mounted && !initStarted.current) {
+                    handleAuthAction(session);
+                }
+            } catch (err) {
+                console.error('Error in getSession:', err);
+                if (mounted) setLoading(false);
             }
         };
 
@@ -97,8 +125,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return () => {
             mounted = false;
             subscription.unsubscribe();
+            clearTimeout(safetyTimeout);
         };
-    }, [fetchProfile]);
+    }, [fetchProfile, loading]);
 
     const signOut = useCallback(async () => {
         try {
