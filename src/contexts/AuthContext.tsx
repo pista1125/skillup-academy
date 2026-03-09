@@ -57,49 +57,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     useEffect(() => {
         let mounted = true;
 
-        const initAuth = async () => {
-            try {
-                const { data: { session }, error } = await supabase.auth.getSession();
-                if (error) {
-                    console.error('Error getting session:', error);
-                }
-                if (!mounted) return;
-
-                if (session?.user) {
-                    // Verify that the user actually still exists on the server
-                    const { data: { user: verifiedUser }, error: userError } = await supabase.auth.getUser();
-                    if (userError || !verifiedUser) {
-                        await supabase.auth.signOut();
-                        setSession(null);
-                        setUser(null);
-                        setProfile(null);
-                        setLoading(false);
-                        return;
-                    }
-
-                    setSession(session);
-                    setUser(verifiedUser);
-
-                    const metaName = verifiedUser.user_metadata?.full_name as string | undefined;
-                    await fetchProfile(verifiedUser.id, metaName);
-                } else {
-                    setSession(null);
-                    setUser(null);
-                    setLoading(false);
-                }
-            } catch (err) {
-                console.error('Unexpected error in initAuth:', err);
-                if (mounted) setLoading(false);
-            }
-        };
-
-        initAuth();
-
-        const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+        // Unified auth initialization and listener
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
             if (!mounted) return;
-            // INITIAL_SESSION is handled by getSession() above to avoid race conditions.
-            if (_event === 'INITIAL_SESSION') return;
 
+            // Handle the session state
             setSession(session);
             setUser(session?.user ?? null);
 
@@ -110,7 +72,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 setProfile(null);
                 setLoading(false);
             }
+
+            // Note: loading is also set to false inside fetchProfile finally block
+            // if a user exists. If no user, we set it false here.
         });
+
+        // Check current session immediately in case onAuthStateChange is late or already fired
+        const checkInitialSession = async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (!mounted) return;
+
+            if (session) {
+                setSession(session);
+                setUser(session.user);
+                const metaName = session.user.user_metadata?.full_name as string | undefined;
+                await fetchProfile(session.user.id, metaName);
+            } else {
+                setLoading(false);
+            }
+        };
+
+        checkInitialSession();
 
         return () => {
             mounted = false;
