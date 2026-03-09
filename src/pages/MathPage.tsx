@@ -58,6 +58,8 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import { SidebarMenu } from '@/components/SidebarMenu';
 import { SiteFooter } from '@/components/SiteFooter';
 import { UserMenu } from '@/components/auth/UserMenu';
+import { AxialSymmetryGame } from '@/components/math/AxialSymmetryGame';
+import { SymmetryErrorGame } from '@/components/math/SymmetryErrorGame';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -116,9 +118,10 @@ type ActivityType =
   | 'grade3-money-quiz' | 'triangle-angles-quiz' | 'decimal-fractions-tool' | 'number-line-tool'
   | 'manipulative-division' | 'construction-tool' | 'money-calculation'
   | 'decimal-shifter-tool' | 'puzzle-maker' | 'geometry-module'
-  | 'logic-blocks' | 'venn-diagram-game' | 'grouping-game' | 'number-grouping'
-  | 'sudoku-game' | 'sudoku-generator' | 'venn-interpretation-quiz'
-  | 'venn-reading-objects' | 'venn-reading-numbers';
+  | 'logic-blocks' | 'venn-diagram-game' | 'grouping-game' | 'number-grouping-game'
+  | 'sudoku' | 'sudoku-generator' | 'venn-interpretation-quiz'
+  | 'venn-reading-objects' | 'venn-reading-numbers' | 'axial-symmetry' | 'symmetry-error'
+  | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
 const slugToGrade = (slug: string): GradeLevel | null => {
@@ -2521,6 +2524,14 @@ export default function MathPage() {
                     onComplete={handleQuizComplete}
                     onBack={handleBack}
                   />
+                )}
+
+                {activityType === 'axial-symmetry' && (
+                  <AxialSymmetryGame onBack={handleBack} />
+                )}
+
+                {activityType === 'symmetry-error' && (
+                  <SymmetryErrorGame onBack={handleBack} />
                 )}
 
                 {activityType === 'geometry' && (

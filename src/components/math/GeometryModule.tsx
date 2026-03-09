@@ -145,6 +145,22 @@ export function GeometryModule({ onBack, onStartActivity, isInline = false }: Ge
                             color="emerald"
                             onClick={() => onStartActivity?.('reflection-quiz')}
                         />
+                        <ActivityPlaceholder
+                            title="Húzd a helyére!"
+                            subtitle="Tükrözés pontról pontra"
+                            type="Gyakorlás"
+                            icon={<Zap className="w-6 h-6 text-amber-500" />}
+                            color="emerald"
+                            onClick={() => onStartActivity?.('axial-symmetry')}
+                        />
+                        <ActivityPlaceholder
+                            title="Találd meg a hibát!"
+                            subtitle="Diagnosztikai feladat"
+                            type="Gyakorlás"
+                            icon={<Target className="w-6 h-6 text-rose-500" />}
+                            color="emerald"
+                            onClick={() => onStartActivity?.('symmetry-error')}
+                        />
                     </div>
                 </section>
 
