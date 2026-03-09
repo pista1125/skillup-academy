@@ -184,10 +184,10 @@ export function GeometryModule({ onBack, onStartActivity, isInline = false }: Ge
                         <ActivityPlaceholder
                             title="Szimmetriatengely"
                             subtitle="Keresd meg a tengelyt!"
-                            type="Hamarosan"
+                            type="Gyakorlás"
                             icon={<MoveHorizontal className="w-6 h-6" />}
                             color="violet"
-                            disabled
+                            onClick={() => onStartActivity?.('axial-symmetry-quiz')}
                         />
                     </div>
                 </section>

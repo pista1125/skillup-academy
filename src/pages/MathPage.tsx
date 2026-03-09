@@ -60,6 +60,8 @@ import { SiteFooter } from '@/components/SiteFooter';
 import { UserMenu } from '@/components/auth/UserMenu';
 import { AxialSymmetryGame } from '@/components/math/AxialSymmetryGame';
 import { SymmetryErrorGame } from '@/components/math/SymmetryErrorGame';
+import { AxialSymmetryQuiz } from '@/components/math/AxialSymmetryQuiz';
+import { SymmetryConstructionTool } from '@/components/math/SymmetryConstructionTool';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -90,7 +92,8 @@ import {
   Grid3X3,
   Columns,
   Coins,
-  LayoutGrid
+  LayoutGrid,
+  Repeat
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -120,7 +123,7 @@ type ActivityType =
   | 'decimal-shifter-tool' | 'puzzle-maker' | 'geometry-module'
   | 'logic-blocks' | 'venn-diagram-game' | 'grouping-game' | 'number-grouping-game'
   | 'sudoku' | 'sudoku-generator' | 'venn-interpretation-quiz'
-  | 'venn-reading-objects' | 'venn-reading-numbers' | 'axial-symmetry' | 'symmetry-error'
+  | 'venn-reading-objects' | 'venn-reading-numbers' | 'axial-symmetry' | 'symmetry-error' | 'symmetry-construction' | 'axial-symmetry-quiz'
   | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
@@ -408,6 +411,8 @@ export default function MathPage() {
       finalActivityType = 'money-calculation';
     } else if (topicId === 'puzzle-maker') {
       finalActivityType = 'puzzle-maker';
+    } else if (topicId === 'symmetry-construction') {
+      finalActivityType = 'symmetry-construction';
     } else {
       finalActivityType = 'quiz';
     }
@@ -695,6 +700,14 @@ export default function MathPage() {
                 onClick={() => handleActivitySelect('symmetry-error', topicId)}
                 icon={<Target className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Szimmetria eszköz"
+                subtitle="Szerkessz tükörképeket!"
+                type="Eszköz"
+                onClick={() => handleActivitySelect('symmetry-construction', topicId)}
+                icon={<Repeat className="w-6 h-6" />}
+                color="indigo"
               />
             </div>
           </section>
@@ -1754,128 +1767,132 @@ export default function MathPage() {
   };
 
   return (
-    <div className="min-h-screen bg-transparent text-foreground">
+    <div className={cn("min-h-screen bg-transparent text-foreground flex flex-col", activityType === 'symmetry-construction' && "p-0 overflow-hidden h-screen")}>
       {/* Header */}
-      <div className="sticky top-0 z-50 w-full">
-        {/* Main Header */}
-        <div className="bg-gradient-math text-white py-3 px-4 shadow-xl relative">
-          {/* Decorative background elements */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 blur-3xl"></div>
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-400/10 rounded-full -ml-24 -mb-24 blur-2xl"></div>
-          </div>
+      {activityType !== 'symmetry-construction' && (
+        <div className="sticky top-0 z-50 w-full">
+          {/* Main Header */}
+          <div className="bg-gradient-math text-white py-3 px-4 shadow-xl relative">
+            {/* Decorative background elements */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 blur-3xl"></div>
+              <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-400/10 rounded-full -ml-24 -mb-24 blur-2xl"></div>
+            </div>
 
-          <div className="w-full px-4 lg:px-12 relative z-10">
-            <div className="flex justify-between items-center">
-              <div className="flex items-center gap-3">
-                <SidebarMenu />
-                <Button
-                  variant="ghost"
-                  onClick={handleHome}
-                  className="bg-white/10 text-white hover:bg-white/20 font-black px-4 border border-white/20 shadow-lg backdrop-blur-md transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
-                >
-                  <img src="/logo_header.png" alt="DiákZóna" className="h-12 md:h-16 object-contain translate-y-2" />
-                  <span className="text-xl md:text-2xl font-black tracking-tighter">Diákzóna</span>
-                </Button>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <div ref={searchRef} className="relative hidden sm:flex items-center group">
-                  <input
-                    type="text"
-                    placeholder="Keresés..."
-                    value={searchQuery}
-                    onFocus={() => setShowResults(true)}
-                    onChange={(e) => {
-                      setSearchQuery(e.target.value);
-                      setShowResults(true);
-                    }}
-                    onKeyDown={(e) => e.key === 'Enter' && handleSearchSubmit()}
-                    className="bg-white/10 hover:bg-white/20 focus:bg-white/20 border border-white/10 focus:border-white/30 rounded-xl py-2 pl-4 pr-10 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all w-40 md:w-56 backdrop-blur-md"
-                  />
-                  <div className="absolute right-1 flex items-center gap-1">
-                    {searchQuery && (
-                      <button
-                        onClick={() => {
-                          setSearchQuery('');
-                          setShowResults(false);
-                        }}
-                        className="p-1.5 rounded-lg hover:bg-white/10 text-white/50 hover:text-white transition-all"
-                      >
-                        <X className="w-3.5 h-3.5" />
-                      </button>
-                    )}
-                    <button
-                      onClick={() => handleSearchSubmit()}
-                      className="p-1.5 bg-white/20 hover:bg-white/30 rounded-lg text-white transition-all shadow-sm"
-                    >
-                      <Search className="w-4 h-4" />
-                    </button>
-                  </div>
-
-                  {/* Dropdown Results */}
-                  {showResults && searchQuery.trim() !== '' && (
-                    <div className="absolute top-full left-0 right-0 mt-2 bg-white/95 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                      <div className="max-h-[320px] overflow-y-auto p-2">
-                        {getSearchResults().length > 0 ? (
-                          getSearchResults().slice(0, 6).map(topic => (
-                            <button
-                              key={topic.id}
-                              onClick={() => {
-                                handleTopicSelect(topic.id, true);
-                                setShowResults(false);
-                                setSearchQuery('');
-                              }}
-                              className="w-full flex items-center gap-3 p-3 hover:bg-black/5 rounded-xl transition-all text-left group/item"
-                            >
-                              <div className="w-10 h-10 flex items-center justify-center bg-slate-100 rounded-lg text-2xl group-hover/item:scale-110 transition-transform">
-                                {typeof topic.icon === 'string' ? (
-                                  topic.icon
-                                ) : (
-                                  <topic.icon className="w-6 h-6" />
-                                )}
-                              </div>
-                              <div className="flex-1 min-w-0">
-                                <div className="font-bold text-sm text-slate-800 truncate">{topic.title}</div>
-                                <div className="text-[10px] text-slate-500 line-clamp-1">{topic.description}</div>
-                              </div>
-                              <ChevronRight className="w-3 h-3 text-slate-300 group-hover/item:text-primary transition-colors" />
-                            </button>
-                          ))
-                        ) : (
-                          <div className="p-4 text-center">
-                            <div className="text-2xl mb-1">🔍</div>
-                            <p className="text-xs text-slate-400">Nincs találat a keresésre.</p>
-                          </div>
-                        )}
-
-                        {getSearchResults().length > 6 && (
-                          <button
-                            onClick={() => handleSearchSubmit()}
-                            className="w-full p-2 text-center text-xs font-bold text-primary hover:bg-primary/5 rounded-lg transition-all"
-                          >
-                            Összes találat megtekintése ({getSearchResults().length})
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  )}
+            <div className="w-full px-4 lg:px-12 relative z-10">
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-3">
+                  <SidebarMenu />
+                  <Button
+                    variant="ghost"
+                    onClick={handleHome}
+                    className="bg-white/10 text-white hover:bg-white/20 font-black px-4 border border-white/20 shadow-lg backdrop-blur-md transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
+                  >
+                    <img src="/logo_header.png" alt="DiákZóna" className="h-12 md:h-16 object-contain translate-y-2" />
+                    <span className="text-xl md:text-2xl font-black tracking-tighter">Diákzóna</span>
+                  </Button>
                 </div>
-                <UserMenu />
-                <ThemeToggle />
-                <Button
-                  variant="secondary"
-                  onClick={() => { window.location.assign('https://kviz.diakzona.hu/'); }}
-                  className="bg-emerald-500 text-white hover:bg-emerald-600 font-extrabold px-6 shadow-lg shadow-emerald-500/30 border-none transition-all hover:scale-105 active:scale-95 h-9"
-                >
-                  online kvíz
-                </Button>
+
+                <div className="flex items-center gap-2">
+                  <div ref={searchRef} className="relative hidden sm:flex items-center group">
+                    <input
+                      type="text"
+                      placeholder="Keresés..."
+                      value={searchQuery}
+                      onFocus={() => setShowResults(true)}
+                      onChange={(e) => {
+                        setSearchQuery(e.target.value);
+                        setShowResults(true);
+                      }}
+                      onKeyDown={(e) => e.key === 'Enter' && handleSearchSubmit()}
+                      className="bg-white/10 hover:bg-white/20 focus:bg-white/20 border border-white/10 focus:border-white/30 rounded-xl py-2 pl-4 pr-10 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all w-40 md:w-56 backdrop-blur-md"
+                    />
+                    <div className="absolute right-1 flex items-center gap-1">
+                      {searchQuery && (
+                        <button
+                          onClick={() => {
+                            setSearchQuery('');
+                            setShowResults(false);
+                          }}
+                          className="p-1.5 rounded-lg hover:bg-white/10 text-white/50 hover:text-white transition-all"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      )}
+                      <button
+                        onClick={() => handleSearchSubmit()}
+                        className="p-1.5 bg-white/20 hover:bg-white/30 rounded-lg text-white transition-all shadow-sm"
+                      >
+                        <Search className="w-4 h-4" />
+                      </button>
+                    </div>
+
+                    {/* Dropdown Results */}
+                    {showResults && searchQuery.trim() !== '' && (
+                      <div className="absolute top-full left-0 right-0 mt-2 bg-white/95 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                        <div className="max-h-[320px] overflow-y-auto p-2">
+                          {getSearchResults().length > 0 ? (
+                            getSearchResults().slice(0, 6).map(topic => (
+                              <button
+                                key={topic.id}
+                                onClick={() => {
+                                  handleTopicSelect(topic.id, true);
+                                  setShowResults(false);
+                                  setSearchQuery('');
+                                }}
+                                className="w-full flex items-center gap-3 p-3 hover:bg-black/5 rounded-xl transition-all text-left group/item"
+                              >
+                                <div className="w-10 h-10 flex items-center justify-center bg-slate-100 rounded-lg text-2xl group-hover/item:scale-110 transition-transform">
+                                  {typeof topic.icon === 'string' ? (
+                                    topic.icon
+                                  ) : (
+                                    <topic.icon className="w-6 h-6" />
+                                  )}
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <div className="font-bold text-sm text-slate-800 truncate">{topic.title}</div>
+                                  <div className="text-[10px] text-slate-500 line-clamp-1">{topic.description}</div>
+                                </div>
+                                <ChevronRight className="w-3 h-3 text-slate-300 group-hover/item:text-primary transition-colors" />
+                              </button>
+                            ))
+                          ) : (
+                            <div className="p-4 text-center">
+                              <div className="text-2xl mb-1">🔍</div>
+                              <p className="text-xs text-slate-400">Nincs találat a keresésre.</p>
+                            </div>
+                          )}
+
+                          {getSearchResults().length > 6 && (
+                            <button
+                              onClick={() => handleSearchSubmit()}
+                              className="w-full p-2 text-center text-xs font-bold text-primary hover:bg-primary/5 rounded-lg transition-all"
+                            >
+                              Összes találat megtekintése ({getSearchResults().length})
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <UserMenu />
+                  <ThemeToggle />
+                  <Button
+                    variant="secondary"
+                    onClick={() => { window.location.assign('https://kviz.diakzona.hu/'); }}
+                    className="bg-emerald-500 text-white hover:bg-emerald-600 font-extrabold px-6 shadow-lg shadow-emerald-500/30 border-none transition-all hover:scale-105 active:scale-95 h-9"
+                  >
+                    online kvíz
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
         </div>
+      )}
 
-        {/* Professional Sub-header for Navigation (no gap) */}
+      {/* Professional Sub-header for Navigation (no gap) */}
+      {activityType !== 'symmetry-construction' && (
         <div className={cn(
           "w-full transition-all duration-300",
           view !== 'main-select' ? "h-10 opacity-100" : "h-0 opacity-0 overflow-hidden"
@@ -1921,7 +1938,7 @@ export default function MathPage() {
             </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Content */}
       <div className={cn(
@@ -2322,6 +2339,13 @@ export default function MathPage() {
                       color="bg-indigo-100 text-indigo-600"
                       onClick={() => handleToolSelect('construction')}
                     />
+                    <ToolCard
+                      title="Szimmetria szerkesztő"
+                      desc="Tengelyes és középpontos tükrözés eszköze"
+                      icon={<Repeat className="w-8 h-8" />}
+                      color="bg-indigo-100 text-indigo-600"
+                      onClick={() => handleToolSelect('symmetry-construction')}
+                    />
                   </div>
                 </section>
 
@@ -2543,6 +2567,10 @@ export default function MathPage() {
                   <ConstructionTool onBack={handleBack} />
                 )}
 
+                {activityType === 'symmetry-construction' && (
+                  <SymmetryConstructionTool onBack={handleBack} />
+                )}
+
                 {activityType === 'manipulative-division' && (
                   <ManipulativeDivision onBack={handleBack} />
                 )}
@@ -2642,6 +2670,10 @@ export default function MathPage() {
                   <SymmetryErrorGame onBack={handleBack} />
                 )}
 
+                {activityType === 'axial-symmetry-quiz' && (
+                  <AxialSymmetryQuiz onBack={handleBack} />
+                )}
+
                 {activityType === 'geometry' && (
                   <div className="text-center py-12 bg-card rounded-2xl border border-border">
                     <div className="text-6xl mb-4">📐</div>
@@ -2653,11 +2685,12 @@ export default function MathPage() {
                   </div>
                 )}
               </div>
-            )}
+            )
+            }
           </div>
         )}
+        {activityType !== 'symmetry-construction' && <SiteFooter />}
       </div>
-      <SiteFooter />
     </div>
   );
 }
