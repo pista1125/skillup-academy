@@ -620,15 +620,123 @@ export default function MathPage() {
       return (
         <div className="flex flex-col gap-10 py-6">
           <section>
-            <SectionHeader id="g4-shapes-solids" number={1} title="Geometria" color="green" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+            <SectionHeader number={1} title="Sikidom és sokszög" color="emerald" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Sokszögek"
+                subtitle="Alakzatok felismerése"
+                type="Gyakorlás"
+                onClick={() => handleActivitySelect('shape-classification', topicId)}
+                icon={<Shapes className="w-6 h-6" />}
+                color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Egyenesek"
+                subtitle="Párhuzamos és merőleges"
+                type="Gyakorlás"
+                onClick={() => handleActivitySelect('line-relationships', topicId)}
+                icon={<MoveHorizontal className="w-6 h-6 rotate-45" />}
+                color="indigo"
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={2} title="A kör" color="rose" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Kör részei"
+                subtitle="Sugár és átmérő"
+                type="Gyakorlás"
+                onClick={() => handleActivitySelect('circle-parts', topicId)}
+                icon={<Circle className="w-6 h-6" />}
+                color="rose"
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={3} title="A testek" color="amber" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
               <ActivityPlaceholder
                 title="Síkidom vagy Test?"
                 subtitle="2D és 3D alakzatok"
                 type="Játék"
-                onClick={() => handleActivitySelect('shape-classification')}
+                onClick={() => handleActivitySelect('shape-classification', topicId)}
                 icon={<Box className="w-6 h-6" />}
-                color="emerald"
+                color="amber"
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={4} title="A tükrözés" color="purple" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Tengelyes tükrözés"
+                subtitle="Tükörkép keresése"
+                type="Teszt"
+                onClick={() => handleActivitySelect('reflection-quiz', topicId)}
+                icon={<MoveHorizontal className="w-6 h-6" />}
+                color="purple"
+              />
+              <ActivityPlaceholder
+                title="Húzd a helyére!"
+                subtitle="Tükrözés gyakorlása"
+                type="Gyakorlás"
+                onClick={() => handleActivitySelect('axial-symmetry', topicId)}
+                icon={<Zap className="w-6 h-6" />}
+                color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Találd meg a hibát!"
+                subtitle="Diagnosztikai feladat"
+                type="Gyakorlás"
+                onClick={() => handleActivitySelect('symmetry-error', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={5} title="Nagyítás, kicsinyítés" color="blue" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Nagyítás és kicsinyítés"
+                subtitle="Arányok és méretek"
+                type="Hamarosan"
+                disabled
+                icon={<Scale className="w-6 h-6" />}
+                color="slate"
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={6} title="Eltolás, elforgatás" color="orange" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Transzformációk"
+                subtitle="Alakzatok mozgatása"
+                type="Hamarosan"
+                disabled
+                icon={<MoveHorizontal className="w-6 h-6 rotate-90" />}
+                color="slate"
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={7} title="Tájékozódás" color="cyan" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Tájékozódás térben"
+                subtitle="Irányok és helyzetek"
+                type="Hamarosan"
+                disabled
+                icon={<Target className="w-6 h-6" />}
+                color="slate"
               />
             </div>
           </section>
