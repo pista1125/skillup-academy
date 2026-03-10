@@ -123,6 +123,8 @@ type GeometryObject = {
     reflectionType?: 'axial' | 'central';
     reflectionRefId?: string; // ID of the axis line or center point
     sides?: number; // For regular polygons
+    label?: string; // e.g. 'e' for lines
+    pointLabels?: Record<string, string>; // Maps virtual point IDs to labels, e.g. regular polygon vertices
 };
 
 type Tool = 'select' | 'point' | 'line' | 'segment' | 'polygon' | 'regular-polygon' | 'special-shape' | 'axial-reflect' | 'central-reflect' | 'eraser' | 'pan';
@@ -248,6 +250,46 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
 
     // --- Derived State (Points & Objects) ---
 
+    // Label Generators
+    const getNextPointLabel = useCallback((currentPoints: Record<string, Point>, currentObjects: Record<string, GeometryObject>) => {
+        let maxCharCode = 64; // 'A' is 65
+
+        // Check base points
+        Object.values(currentPoints).forEach(p => {
+            if (p.label && p.label.length === 1 && p.label >= 'A' && p.label <= 'Z') {
+                const code = p.label.charCodeAt(0);
+                if (code > maxCharCode) maxCharCode = code;
+            }
+        });
+
+        // Check virtual points in objects
+        Object.values(currentObjects).forEach(obj => {
+            if (obj.pointLabels) {
+                Object.values(obj.pointLabels).forEach(label => {
+                    if (label && label.length === 1 && label >= 'A' && label <= 'Z') {
+                        const code = label.charCodeAt(0);
+                        if (code > maxCharCode) maxCharCode = code;
+                    }
+                });
+            }
+        });
+
+        return String.fromCharCode(maxCharCode + 1 > 90 ? 65 : maxCharCode + 1);
+    }, []);
+
+    const getNextLineLabel = useCallback((currentObjects: Record<string, GeometryObject>) => {
+        let maxCharCode = 100; // 'e' is 101
+
+        Object.values(currentObjects).forEach(obj => {
+            if ((obj.type === 'line' || obj.type === 'segment') && obj.label && obj.label.length === 1 && obj.label >= 'e' && obj.label <= 'z') {
+                const code = obj.label.charCodeAt(0);
+                if (code > maxCharCode) maxCharCode = code;
+            }
+        });
+
+        return String.fromCharCode(maxCharCode + 1 > 122 ? 101 : maxCharCode + 1);
+    }, []);
+
     const calculateRegularPolygonPoints = (p1: { x: number, y: number }, p2: { x: number, y: number }, sides: number) => {
         // Edge-based: p1 and p2 are two adjacent vertices
         const dx = p2.x - p1.x;
@@ -289,7 +331,7 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
     };
 
     const allPoints = useMemo(() => {
-        let result: Record<string, { x: number, y: number }> = { ...points };
+        let result: Record<string, Point> = { ...points };
 
         // Handle dependencies (reflections of reflections, etc.)
         // We use a simple iterative approach to resolve dependencies up to 3 levels deep
@@ -309,8 +351,10 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                             if (!p) return;
                             const reflected = reflectPointCentral(p, centerPoint);
                             const targetId = obj.pointIds[idx];
-                            if (!result[targetId] || result[targetId].x !== reflected.x || result[targetId].y !== reflected.y) {
-                                result[targetId] = reflected;
+                            const expectedLabel = p.label ? p.label + "'" : undefined;
+
+                            if (!result[targetId] || result[targetId].x !== reflected.x || result[targetId].y !== reflected.y || result[targetId].label !== expectedLabel) {
+                                result[targetId] = { id: targetId, ...reflected, label: expectedLabel };
                                 changed = true;
                             }
                         });
@@ -327,8 +371,10 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                             if (!p) return;
                             const reflected = reflectPointAxial(p, p1, p2);
                             const targetId = obj.pointIds[idx];
-                            if (!result[targetId] || result[targetId].x !== reflected.x || result[targetId].y !== reflected.y) {
-                                result[targetId] = reflected;
+                            const expectedLabel = p.label ? p.label + "'" : undefined;
+
+                            if (!result[targetId] || result[targetId].x !== reflected.x || result[targetId].y !== reflected.y || result[targetId].label !== expectedLabel) {
+                                result[targetId] = { id: targetId, ...reflected, label: expectedLabel };
                                 changed = true;
                             }
                         });
@@ -341,8 +387,9 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                         vertices.forEach((v, idx) => {
                             if (idx >= 2) {
                                 const targetId = obj.pointIds[idx];
-                                if (!result[targetId] || result[targetId].x !== v.x || result[targetId].y !== v.y) {
-                                    result[targetId] = v;
+                                const expectedLabel = obj.pointLabels ? obj.pointLabels[targetId] : undefined;
+                                if (!result[targetId] || result[targetId].x !== v.x || result[targetId].y !== v.y || result[targetId].label !== expectedLabel) {
+                                    result[targetId] = { id: targetId, ...v, label: expectedLabel };
                                     changed = true;
                                 }
                             }
@@ -354,7 +401,7 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
         }
 
         return result;
-    }, [points, objects, regularPolygonSides]);
+    }, [points, objects, regularPolygonSides, reflectPointCentral, reflectPointAxial]);
 
     // --- Interaction Handlers ---
 
@@ -380,9 +427,10 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
         // Create point if needed
         if (!clickedPointId && activeTool !== 'select' && activeTool !== 'axial-reflect' && activeTool !== 'central-reflect' && activeTool !== 'eraser') {
             const newId = `p-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
+            const label = getNextPointLabel(points, objects);
             currentPoints = {
                 ...points,
-                [newId]: { id: newId, x: pos.x, y: pos.y }
+                [newId]: { id: newId, x: pos.x, y: pos.y, label }
             };
             setPoints(currentPoints);
             clickedPointId = newId;
@@ -799,18 +847,43 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                 const ux = dx / len, uy = dy / len;
                 const x1 = pts[0].x - ux * 10000, y1 = pts[0].y - uy * 10000;
                 const x2 = pts[0].x + ux * 10000, y2 = pts[0].y + uy * 10000;
+                const lineLabelX = pts[1].x + ux * 30 * (viewBox.width / 1200) - uy * 15 * (viewBox.width / 1200);
+                const lineLabelY = pts[1].y + uy * 30 * (viewBox.width / 1200) + ux * 15 * (viewBox.width / 1200);
                 return (
                     <g key={obj.id}>
                         <line {...hitAreaProps} x1={x1} y1={y1} x2={x2} y2={y2} />
                         <line {...props} x1={x1} y1={y1} x2={x2} y2={y2} stroke={obj.color} strokeWidth={sw} />
+                        {obj.label && (
+                            <text
+                                x={lineLabelX} y={lineLabelY} fill={obj.color} fontSize={18 * (viewBox.width / 1200)}
+                                fontFamily="serif" fontStyle="italic" className="pointer-events-none select-none"
+                            >
+                                {obj.label}
+                            </text>
+                        )}
                     </g>
                 );
             case 'segment':
                 if (pts.length < 2) return null;
+                const segMidX = (pts[0].x + pts[1].x) / 2;
+                const segMidY = (pts[0].y + pts[1].y) / 2;
+                const sDx = pts[1].x - pts[0].x, sDy = pts[1].y - pts[0].y;
+                const sLen = Math.sqrt(sDx * sDx + sDy * sDy);
+                const sUx = sDx / sLen, sUy = sDy / sLen;
+                const segLabelX = segMidX - sUy * 15 * (viewBox.width / 1200);
+                const segLabelY = segMidY + sUx * 15 * (viewBox.width / 1200);
                 return (
                     <g key={obj.id}>
                         <line {...hitAreaProps} x1={pts[0].x} y1={pts[0].y} x2={pts[1].x} y2={pts[1].y} />
                         <line {...props} x1={pts[0].x} y1={pts[0].y} x2={pts[1].x} y2={pts[1].y} stroke={obj.color} strokeWidth={sw} />
+                        {obj.label && (
+                            <text
+                                x={segLabelX} y={segLabelY} fill={obj.color} fontSize={18 * (viewBox.width / 1200)}
+                                fontFamily="serif" fontStyle="italic" className="pointer-events-none select-none"
+                            >
+                                {obj.label}
+                            </text>
+                        )}
                     </g>
                 );
             case 'polygon':
@@ -1018,25 +1091,41 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                     {renderGrid()}
                     {Object.values(objects).map(renderObject)}
                     {Object.entries(allPoints).map(([id, p]) => (
-                        <circle
-                            key={id} cx={p.x} cy={p.y}
-                            r={(hoveredPointId === id || draggedPointId === id ? 8 : 5) * (viewBox.width / 1200)}
-                            fill={draggedPointId === id ? "#3b82f6" : (points[id] ? "#1e40af" : "#6366f1")}
-                            fillOpacity={points[id] ? 1 : 0.6}
-                            className={cn(
-                                points[id] ? "cursor-move" : "pointer-events-none",
-                                activeTool === 'eraser' && hoveredPointId === id ? "fill-red-500 scale-125" : ""
+                        <g key={id}>
+                            <circle
+                                cx={p.x} cy={p.y}
+                                r={(hoveredPointId === id || draggedPointId === id ? 8 : 5) * (viewBox.width / 1200)}
+                                fill={draggedPointId === id ? "#3b82f6" : (points[id] ? "#1e40af" : "#6366f1")}
+                                fillOpacity={points[id] ? 1 : 0.6}
+                                className={cn(
+                                    points[id] ? "cursor-move" : "pointer-events-none",
+                                    activeTool === 'eraser' && hoveredPointId === id ? "fill-red-500 scale-125" : ""
+                                )}
+                                pointerEvents={activeTool === 'eraser' ? 'auto' : (points[id] ? 'auto' : 'none')}
+                                onMouseEnter={() => setHoveredPointId(id)}
+                                onMouseLeave={() => setHoveredPointId(null)}
+                                onClick={(e) => {
+                                    if (activeTool === 'eraser') {
+                                        e.stopPropagation();
+                                        handlePointEraser(id);
+                                    }
+                                }}
+                            />
+                            {p.label && (
+                                <text
+                                    x={p.x + 10 * (viewBox.width / 1200)}
+                                    y={p.y - 10 * (viewBox.width / 1200)}
+                                    fontSize={16 * (viewBox.width / 1200)}
+                                    fill={points[id] ? "#1e40af" : "#6366f1"}
+                                    fontFamily="serif"
+                                    fontStyle="italic"
+                                    fontWeight="bold"
+                                    className="pointer-events-none select-none"
+                                >
+                                    {p.label}
+                                </text>
                             )}
-                            pointerEvents={activeTool === 'eraser' ? 'auto' : (points[id] ? 'auto' : 'none')}
-                            onMouseEnter={() => setHoveredPointId(id)}
-                            onMouseLeave={() => setHoveredPointId(null)}
-                            onClick={(e) => {
-                                if (activeTool === 'eraser') {
-                                    e.stopPropagation();
-                                    handlePointEraser(id);
-                                }
-                            }}
-                        />
+                        </g>
                     ))}
                     {/* Ghost preview for regular polygon */}
                     {activeTool === 'regular-polygon' && selection.length === 1 && (
