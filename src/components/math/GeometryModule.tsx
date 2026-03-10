@@ -189,6 +189,14 @@ export function GeometryModule({ onBack, onStartActivity, isInline = false }: Ge
                             color="violet"
                             onClick={() => onStartActivity?.('axial-symmetry-quiz')}
                         />
+                        <ActivityPlaceholder
+                            title="A szimmetria körbevesz"
+                            subtitle="Interaktív bemutató"
+                            type="Bemutató"
+                            icon={<BookOpen className="w-6 h-6" />}
+                            color="violet"
+                            onClick={() => onStartActivity?.('axial-symmetry-presentation')}
+                        />
                     </div>
                 </section>
 

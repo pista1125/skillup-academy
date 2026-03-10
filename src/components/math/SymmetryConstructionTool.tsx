@@ -30,7 +30,16 @@ import {
     X,
     Dot,
     Minus,
-    Shapes as ShapesIcon
+    Shapes as ShapesIcon,
+    Heart,
+    Star,
+    Cloud,
+    Anchor,
+    Zap,
+    Home,
+    TreePine,
+    Navigation,
+    Award
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -49,7 +58,60 @@ type Point = {
     label?: string;
 };
 
-type GeometryType = 'point' | 'line' | 'polygon' | 'regular-polygon';
+type GeometryType = 'point' | 'line' | 'segment' | 'polygon' | 'regular-polygon';
+
+export type SpecialShapeType = 'heart' | 'star' | 'cross' | 'arrow' | 'house' | 'pine' | 'lightning' | 'cloud' | 'butterfly' | 'anchor';
+
+export const SPECIAL_SHAPES: Record<SpecialShapeType, { x: number, y: number }[]> = {
+    heart: [
+        { x: 0, y: 0.5 }, { x: -0.5, y: -0.2 }, { x: -1, y: -0.6 }, { x: -0.8, y: -1 }, { x: -0.3, y: -1 }, { x: 0, y: -0.6 },
+        { x: 0.3, y: -1 }, { x: 0.8, y: -1 }, { x: 1, y: -0.6 }, { x: 0.5, y: -0.2 }
+    ],
+    star: [
+        { x: 0, y: -1 }, { x: 0.22, y: -0.31 }, { x: 0.95, y: -0.31 }, { x: 0.36, y: 0.12 }, { x: 0.59, y: 0.81 },
+        { x: 0, y: 0.38 }, { x: -0.59, y: 0.81 }, { x: -0.36, y: 0.12 }, { x: -0.95, y: -0.31 }, { x: -0.22, y: -0.31 }
+    ],
+    cross: [
+        { x: -0.2, y: -1 }, { x: 0.2, y: -1 }, { x: 0.2, y: -0.2 }, { x: 1, y: -0.2 }, { x: 1, y: 0.2 },
+        { x: 0.2, y: 0.2 }, { x: 0.2, y: 1 }, { x: -0.2, y: 1 }, { x: -0.2, y: 0.2 }, { x: -1, y: 0.2 },
+        { x: -1, y: -0.2 }, { x: -0.2, y: -0.2 }
+    ],
+    arrow: [
+        { x: -0.8, y: -0.2 }, { x: 0.2, y: -0.2 }, { x: 0.2, y: -0.6 }, { x: 1, y: 0 }, { x: 0.2, y: 0.6 },
+        { x: 0.2, y: 0.2 }, { x: -0.8, y: 0.2 }
+    ],
+    house: [
+        { x: 0, y: -1 }, { x: 1, y: -0.2 }, { x: 0.8, y: -0.2 }, { x: 0.8, y: 1 }, { x: 0.3, y: 1 },
+        { x: 0.3, y: 0.3 }, { x: -0.3, y: 0.3 }, { x: -0.3, y: 1 }, { x: -0.8, y: 1 }, { x: -0.8, y: -0.2 },
+        { x: -1, y: -0.2 }
+    ],
+    pine: [
+        { x: 0, y: -1 }, { x: 0.4, y: -0.4 }, { x: 0.2, y: -0.4 }, { x: 0.6, y: 0.2 }, { x: 0.3, y: 0.2 },
+        { x: 0.8, y: 0.8 }, { x: 0.2, y: 0.8 }, { x: 0.2, y: 1 }, { x: -0.2, y: 1 }, { x: -0.2, y: 0.8 },
+        { x: -0.8, y: 0.8 }, { x: -0.3, y: 0.2 }, { x: -0.6, y: 0.2 }, { x: -0.2, y: -0.4 }, { x: -0.4, y: -0.4 }
+    ],
+    lightning: [
+        { x: 0.3, y: -1 }, { x: -0.8, y: 0.1 }, { x: -0.1, y: 0.1 }, { x: -0.4, y: 1 }, { x: 0.8, y: -0.2 },
+        { x: 0.2, y: -0.2 }
+    ],
+    cloud: [
+        { x: -0.4, y: 0.6 }, { x: -0.8, y: 0.6 }, { x: -1, y: 0.2 }, { x: -0.8, y: -0.2 }, { x: -0.4, y: -0.2 },
+        { x: -0.3, y: -0.6 }, { x: 0.2, y: -0.8 }, { x: 0.6, y: -0.5 }, { x: 0.9, y: -0.2 }, { x: 1, y: 0.2 },
+        { x: 0.8, y: 0.6 }, { x: 0.4, y: 0.6 }
+    ],
+    butterfly: [
+        { x: 0, y: -0.6 }, { x: 0.8, y: -1 }, { x: 1, y: -0.4 }, { x: 0.5, y: 0 }, { x: 0.9, y: 0.6 },
+        { x: 0.6, y: 1 }, { x: 0.1, y: 0.4 }, { x: 0, y: 1 }, { x: -0.1, y: 0.4 }, { x: -0.6, y: 1 },
+        { x: -0.9, y: 0.6 }, { x: -0.5, y: 0 }, { x: -1, y: -0.4 }, { x: -0.8, y: -1 }
+    ],
+    anchor: [
+        { x: 0, y: -0.8 }, { x: 0.2, y: -0.8 }, { x: 0.2, y: -0.6 }, { x: 0.1, y: -0.6 }, { x: 0.1, y: 0.6 },
+        { x: 0.5, y: 0.5 }, { x: 0.7, y: 0.3 }, { x: 0.9, y: 0.7 }, { x: 0.6, y: 1 }, { x: 0.2, y: 1 },
+        { x: 0.2, y: 0.8 }, { x: -0.2, y: 0.8 }, { x: -0.2, y: 1 }, { x: -0.6, y: 1 }, { x: -0.9, y: 0.7 },
+        { x: -0.7, y: 0.3 }, { x: -0.5, y: 0.5 }, { x: -0.1, y: 0.6 }, { x: -0.1, y: -0.6 }, { x: -0.2, y: -0.6 },
+        { x: -0.2, y: -0.8 }
+    ]
+};
 
 type GeometryObject = {
     id: string;
@@ -63,7 +125,7 @@ type GeometryObject = {
     sides?: number; // For regular polygons
 };
 
-type Tool = 'select' | 'point' | 'line' | 'polygon' | 'regular-polygon' | 'axial-reflect' | 'central-reflect' | 'eraser' | 'pan';
+type Tool = 'select' | 'point' | 'line' | 'segment' | 'polygon' | 'regular-polygon' | 'special-shape' | 'axial-reflect' | 'central-reflect' | 'eraser' | 'pan';
 
 type BackgroundType = 'blank' | 'grid' | 'coordinate';
 
@@ -84,15 +146,60 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
     const [draggedPointId, setDraggedPointId] = useState<string | null>(null);
     const [reflectingObjectId, setReflectingObjectId] = useState<string | null>(null);
     const [regularPolygonSides, setRegularPolygonSides] = useState(6);
+    const [activeSpecialShape, setActiveSpecialShape] = useState<SpecialShapeType>('heart');
 
     // View State (Pan & Zoom)
     const [viewBox, setViewBox] = useState({ x: -600, y: -400, width: 1200, height: 800 });
     const [isPanning, setIsPanning] = useState(false);
     const [lastMousePos, setLastMousePos] = useState({ x: 0, y: 0 });
+    const [hoveredObjectId, setHoveredObjectId] = useState<string | null>(null);
+    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+    const [draggedObjectId, setDraggedObjectId] = useState<string | null>(null);
+    const [initialDragPoints, setInitialDragPoints] = useState<Record<string, { x: number, y: number }>>({});
+
+    const [history, setHistory] = useState<{ points: Record<string, Point>, objects: Record<string, GeometryObject> }[]>([]);
+    const [historyIndex, setHistoryIndex] = useState(-1);
+
+    const pushToHistory = useCallback((newPoints: Record<string, Point>, newObjects: Record<string, GeometryObject>) => {
+        setHistory(prev => {
+            const next = prev.slice(0, historyIndex + 1);
+            return [...next, { points: newPoints, objects: newObjects }].slice(-50); // Keep last 50 steps
+        });
+        setHistoryIndex(prev => prev + 1);
+    }, [historyIndex]);
+
+    const undo = useCallback(() => {
+        if (historyIndex > 0) {
+            const prevState = history[historyIndex - 1];
+            setPoints(prevState.points);
+            setObjects(prevState.objects);
+            setHistoryIndex(prev => prev - 1);
+            setSelection([]);
+        } else if (historyIndex === 0) {
+            setPoints({});
+            setObjects({});
+            setHistoryIndex(-1);
+            setSelection([]);
+        }
+    }, [history, historyIndex]);
 
     const svgRef = useRef<SVGSVGElement>(null);
 
-    // --- Coordinate Transformation ---
+    useEffect(() => {
+        const svg = svgRef.current;
+        if (!svg) return;
+
+        const preventDefault = (e: WheelEvent) => {
+            if (e.ctrlKey || e.metaKey || Math.abs(e.deltaY) > 1) {
+                e.preventDefault();
+            }
+        };
+
+        svg.addEventListener('wheel', preventDefault, { passive: false });
+        return () => svg.removeEventListener('wheel', preventDefault);
+    }, []);
+
+    // --- Helpers ---
 
     const getSVGPoint = useCallback((clientX: number, clientY: number) => {
         if (!svgRef.current) return { x: 0, y: 0 };
@@ -142,68 +249,109 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
     // --- Derived State (Points & Objects) ---
 
     const calculateRegularPolygonPoints = (p1: { x: number, y: number }, p2: { x: number, y: number }, sides: number) => {
-        const center = p1;
-        const vertex = p2;
-        const dx = vertex.x - center.x;
-        const dy = vertex.y - center.y;
-        const radius = Math.sqrt(dx * dx + dy * dy);
-        const startAngle = Math.atan2(dy, dx);
+        // Edge-based: p1 and p2 are two adjacent vertices
+        const dx = p2.x - p1.x;
+        const dy = p2.y - p1.y;
+        const sideLen = Math.sqrt(dx * dx + dy * dy);
+        if (sideLen < 1) return [p1, p2];
 
+        // Exterior angle
+        const angle = (2 * Math.PI) / sides;
+        // Rotation matrix to get the next point
+        // Vector from p1 to p2: (dx, dy)
+        // To get p3, rotate (p2-p1) around p2 by (PI - angle)
+        // Wait, a simpler way: center of the polygon can be found.
+        // For a regular polygon with side s and n sides, radius R = s / (2 * sin(PI/n))
+        // Distance from midpoint of edge to center: h = s / (2 * tan(PI/n))
+        const midX = (p1.x + p2.x) / 2;
+        const midY = (p1.y + p2.y) / 2;
+
+        // Perpendicular vector to (p2-p1)
+        const nx = -dy / sideLen;
+        const ny = dx / sideLen;
+
+        const h = sideLen / (2 * Math.tan(Math.PI / sides));
+        // Center of the polygon (one of two possible)
+        const cx = midX + nx * h;
+        const cy = midY + ny * h;
+
+        // Now rotate p1 around (cx, cy) to get all points
         const vertices: { x: number, y: number }[] = [];
+        const startAngle = Math.atan2(p1.y - cy, p1.x - cx);
         for (let i = 0; i < sides; i++) {
-            const angle = startAngle + i * (2 * Math.PI / sides);
+            const a = startAngle + i * (2 * Math.PI / sides);
             vertices.push({
-                x: center.x + radius * Math.cos(angle),
-                y: center.y + radius * Math.sin(angle)
+                x: cx + Math.cos(a) * (sideLen / (2 * Math.sin(Math.PI / sides))),
+                y: cy + Math.sin(a) * (sideLen / (2 * Math.sin(Math.PI / sides)))
             });
         }
         return vertices;
     };
 
     const allPoints = useMemo(() => {
-        const result: Record<string, { x: number, y: number }> = { ...points };
+        let result: Record<string, { x: number, y: number }> = { ...points };
 
-        // Sequential pass to handle dependencies (reflections of reflections)
-        // Note: For deep nesting, this logic might need a topological sort, but simple pass works for most cases
-        Object.values(objects).forEach(obj => {
-            if (obj.isReflection && obj.reflectionSourceId && obj.reflectionRefId) {
-                const sourceObj = objects[obj.reflectionSourceId];
-                if (!sourceObj) return;
+        // Handle dependencies (reflections of reflections, etc.)
+        // We use a simple iterative approach to resolve dependencies up to 3 levels deep
+        for (let iteration = 0; iteration < 3; iteration++) {
+            let changed = false;
+            Object.values(objects).forEach(obj => {
+                if (obj.isReflection && obj.reflectionSourceId && obj.reflectionRefId) {
+                    const sourceObj = objects[obj.reflectionSourceId];
+                    if (!sourceObj) return;
 
-                if (obj.reflectionType === 'central') {
-                    const centerPoint = points[obj.reflectionRefId] || result[obj.reflectionRefId];
-                    if (!centerPoint) return;
+                    if (obj.reflectionType === 'central') {
+                        const centerPoint = points[obj.reflectionRefId] || result[obj.reflectionRefId];
+                        if (!centerPoint) return;
 
-                    sourceObj.pointIds.forEach((pId, idx) => {
-                        const p = points[pId] || result[pId];
-                        if (!p) return;
-                        result[obj.pointIds[idx]] = reflectPointCentral(p, centerPoint);
-                    });
-                } else if (obj.reflectionType === 'axial') {
-                    const axisLine = objects[obj.reflectionRefId];
-                    if (!axisLine || axisLine.pointIds.length < 2) return;
+                        sourceObj.pointIds.forEach((pId, idx) => {
+                            const p = points[pId] || result[pId];
+                            if (!p) return;
+                            const reflected = reflectPointCentral(p, centerPoint);
+                            const targetId = obj.pointIds[idx];
+                            if (!result[targetId] || result[targetId].x !== reflected.x || result[targetId].y !== reflected.y) {
+                                result[targetId] = reflected;
+                                changed = true;
+                            }
+                        });
+                    } else if (obj.reflectionType === 'axial') {
+                        const axisLine = objects[obj.reflectionRefId];
+                        if (!axisLine || axisLine.pointIds.length < 2) return;
 
-                    const p1 = points[axisLine.pointIds[0]] || result[axisLine.pointIds[0]];
-                    const p2 = points[axisLine.pointIds[1]] || result[axisLine.pointIds[1]];
-                    if (!p1 || !p2) return;
+                        const p1 = points[axisLine.pointIds[0]] || result[axisLine.pointIds[0]];
+                        const p2 = points[axisLine.pointIds[1]] || result[axisLine.pointIds[1]];
+                        if (!p1 || !p2) return;
 
-                    sourceObj.pointIds.forEach((pId, idx) => {
-                        const p = points[pId] || result[pId];
-                        if (!p) return;
-                        result[obj.pointIds[idx]] = reflectPointAxial(p, p1, p2);
-                    });
+                        sourceObj.pointIds.forEach((pId, idx) => {
+                            const p = points[pId] || result[pId];
+                            if (!p) return;
+                            const reflected = reflectPointAxial(p, p1, p2);
+                            const targetId = obj.pointIds[idx];
+                            if (!result[targetId] || result[targetId].x !== reflected.x || result[targetId].y !== reflected.y) {
+                                result[targetId] = reflected;
+                                changed = true;
+                            }
+                        });
+                    }
+                } else if (obj.type === 'regular-polygon' && !obj.isReflection) {
+                    const p1 = points[obj.pointIds[0]];
+                    const p2 = points[obj.pointIds[1]];
+                    if (p1 && p2) {
+                        const vertices = calculateRegularPolygonPoints(p1, p2, obj.sides || regularPolygonSides);
+                        vertices.forEach((v, idx) => {
+                            if (idx >= 2) {
+                                const targetId = obj.pointIds[idx];
+                                if (!result[targetId] || result[targetId].x !== v.x || result[targetId].y !== v.y) {
+                                    result[targetId] = v;
+                                    changed = true;
+                                }
+                            }
+                        });
+                    }
                 }
-            } else if (obj.type === 'regular-polygon' && !obj.isReflection) {
-                const p1 = points[obj.pointIds[0]];
-                const p2 = points[obj.pointIds[1]];
-                if (p1 && p2) {
-                    const vertices = calculateRegularPolygonPoints(p1, p2, obj.sides || regularPolygonSides);
-                    vertices.forEach((v, idx) => {
-                        if (idx >= 2) result[obj.pointIds[idx]] = v;
-                    });
-                }
-            }
-        });
+            });
+            if (!changed) break;
+        }
 
         return result;
     }, [points, objects, regularPolygonSides]);
@@ -212,7 +360,7 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
 
     const handleCanvasClick = (e: React.MouseEvent) => {
         if (draggedPointId || isPanning) return;
-        if (activeTool === 'select' || activeTool === 'pan') {
+        if ((['select', 'pan'] as Tool[]).includes(activeTool)) {
             setSelection([]);
             setReflectingObjectId(null);
             return;
@@ -221,20 +369,22 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
         const pos = getSVGPoint(e.clientX, e.clientY);
         const tolerance = 15 * (viewBox.width / 1200);
 
-        // Find existing point
-        const existingPoint = Object.values(points).find(p =>
+        // Find existing point in allPoints (including virtual ones)
+        const existingPoint = Object.entries(allPoints).find(([_, p]) =>
             Math.sqrt(Math.pow(p.x - pos.x, 2) + Math.pow(p.y - pos.y, 2)) < tolerance
         );
 
-        let clickedPointId = existingPoint?.id;
+        let clickedPointId = existingPoint ? existingPoint[0] : null;
+        let currentPoints = points;
 
         // Create point if needed
         if (!clickedPointId && activeTool !== 'select' && activeTool !== 'axial-reflect' && activeTool !== 'central-reflect' && activeTool !== 'eraser') {
             const newId = `p-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
-            setPoints(prev => ({
-                ...prev,
+            currentPoints = {
+                ...points,
                 [newId]: { id: newId, x: pos.x, y: pos.y }
-            }));
+            };
+            setPoints(currentPoints);
             clickedPointId = newId;
         }
 
@@ -243,28 +393,47 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
         // Tool Logic
         if (activeTool === 'point') {
             const id = `obj-${Date.now()}`;
-            setObjects(prev => ({
-                ...prev,
-                [id]: { id, type: 'point', pointIds: [clickedPointId!], color: 'blue', isReflection: false }
-            }));
+            const newObjects = {
+                ...objects,
+                [id]: { id, type: 'point' as const, pointIds: [clickedPointId!], color: 'blue', isReflection: false }
+            };
+            setObjects(newObjects);
+            pushToHistory(currentPoints, newObjects);
         } else if (activeTool === 'line') {
             if (selection.length === 0) {
                 setSelection([clickedPointId]);
             } else if (selection[0] !== clickedPointId) {
                 const id = `obj-${Date.now()}`;
-                setObjects(prev => ({
-                    ...prev,
-                    [id]: { id, type: 'line', pointIds: [selection[0], clickedPointId!], color: 'black', isReflection: false }
-                }));
+                const newObjects = {
+                    ...objects,
+                    [id]: { id, type: 'line' as const, pointIds: [selection[0], clickedPointId!], color: 'black', isReflection: false }
+                };
+                setObjects(newObjects);
+                pushToHistory(currentPoints, newObjects);
+                setSelection([]);
+            }
+        } else if (activeTool === 'segment') {
+            if (selection.length === 0) {
+                setSelection([clickedPointId]);
+            } else if (selection[0] !== clickedPointId) {
+                const id = `obj-${Date.now()}`;
+                const newObjects = {
+                    ...objects,
+                    [id]: { id, type: 'segment' as const, pointIds: [selection[0], clickedPointId!], color: 'black', isReflection: false }
+                };
+                setObjects(newObjects);
+                pushToHistory(currentPoints, newObjects);
                 setSelection([]);
             }
         } else if (activeTool === 'polygon') {
             if (selection.length >= 3 && clickedPointId === selection[0]) {
                 const id = `obj-${Date.now()}`;
-                setObjects(prev => ({
-                    ...prev,
-                    [id]: { id, type: 'polygon', pointIds: [...selection], color: 'blue', isReflection: false }
-                }));
+                const newObjects = {
+                    ...objects,
+                    [id]: { id, type: 'polygon' as const, pointIds: [...selection], color: 'blue', isReflection: false }
+                };
+                setObjects(newObjects);
+                pushToHistory(currentPoints, newObjects);
                 setSelection([]);
             } else {
                 setSelection(prev => [...prev, clickedPointId!]);
@@ -279,12 +448,46 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                 for (let i = 2; i < sides; i++) {
                     vertexIds.push(`p-reg-${id}-${i}`);
                 }
-                setObjects(prev => ({
-                    ...prev,
-                    [id]: { id, type: 'regular-polygon', pointIds: vertexIds, color: 'blue', isReflection: false, sides }
-                }));
+                const newObjects = {
+                    ...objects,
+                    [id]: { id, type: 'regular-polygon' as const, pointIds: vertexIds, color: 'blue', isReflection: false, sides }
+                };
+                setObjects(newObjects);
+                pushToHistory(currentPoints, newObjects);
                 setSelection([]);
             }
+        } else if (activeTool === 'special-shape') {
+            const shapePoints = SPECIAL_SHAPES[activeSpecialShape];
+            const scale = 60 * (viewBox.width / 1200); // Scale relative to zoom
+
+            const newPoints: Record<string, Point> = {};
+            const pointIds: string[] = [];
+
+            shapePoints.forEach((sp, idx) => {
+                const id = `pt-${Date.now()}-${idx}`;
+                newPoints[id] = { id, x: pos.x + sp.x * scale, y: pos.y + sp.y * scale };
+                pointIds.push(id);
+            });
+
+            const objId = `obj-${Date.now()}`;
+            const newObjects = {
+                ...objects,
+                [objId]: {
+                    id: objId,
+                    type: 'polygon' as const,
+                    pointIds,
+                    color: `hsl(${Math.random() * 360}, 70%, 50%)`,
+                    isReflection: false
+                }
+            };
+
+            const finalPoints = { ...points, ...newPoints };
+            setPoints(finalPoints);
+            setObjects(newObjects);
+            pushToHistory(finalPoints, newObjects);
+
+            // Switch back to select tool after placing to allow immediate dragging
+            setActiveTool('select');
         }
     };
 
@@ -300,13 +503,15 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                     const id = `refl-a-${Date.now()}`;
                     const sourceObj = objects[reflectingObjectId];
                     const pointIds = sourceObj.pointIds.map((_, i) => `p-refla-${id}-${i}`);
-                    setObjects(prev => ({
-                        ...prev,
+                    const newObjects: Record<string, GeometryObject> = {
+                        ...objects,
                         [id]: {
                             id, type: sourceObj.type, pointIds, color: 'green', isReflection: true,
-                            reflectionSourceId: reflectingObjectId!, reflectionType: 'axial', reflectionRefId: objId
+                            reflectionSourceId: reflectingObjectId!, reflectionType: 'axial' as const, reflectionRefId: objId
                         }
-                    }));
+                    };
+                    setObjects(newObjects);
+                    pushToHistory(points, newObjects);
                     setReflectingObjectId(null);
                     setSelection([]);
                 }
@@ -320,71 +525,170 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                     const id = `refl-c-${Date.now()}`;
                     const sourceObj = objects[reflectingObjectId];
                     const pointIds = sourceObj.pointIds.map((_, i) => `p-reflc-${id}-${i}`);
-                    setObjects(prev => ({
-                        ...prev,
+                    const newObjects: Record<string, GeometryObject> = {
+                        ...objects,
                         [id]: {
                             id, type: sourceObj.type, pointIds, color: 'green', isReflection: true,
-                            reflectionSourceId: reflectingObjectId!, reflectionType: 'central', reflectionRefId: targetObj.pointIds[0]
+                            reflectionSourceId: reflectingObjectId!, reflectionType: 'central' as const, reflectionRefId: targetObj.pointIds[0]
                         }
-                    }));
+                    };
+                    setObjects(newObjects);
+                    pushToHistory(points, newObjects);
                     setReflectingObjectId(null);
                 }
             }
         } else if (activeTool === 'eraser') {
-            setObjects(prev => {
-                const next = { ...prev };
-                delete next[objId];
-                // Cascade delete
-                Object.keys(next).forEach(k => {
-                    if (next[k].reflectionSourceId === objId || next[k].reflectionRefId === objId) delete next[k];
+            const newObjects = { ...objects };
+            const newPoints = { ...points };
+
+            const deleteObjRecursive = (id: string) => {
+                if (!newObjects[id]) return;
+                const obj = newObjects[id];
+                delete newObjects[id];
+
+                // If it's a 'point' object, check if the point itself should be removed
+                if (obj.type === 'point') {
+                    const pId = obj.pointIds[0];
+                    if (!Object.values(newObjects).some(o => o.pointIds.includes(pId))) {
+                        delete newPoints[pId];
+                    }
+                }
+
+                // Cascade delete reflections
+                Object.keys(newObjects).forEach(k => {
+                    if (newObjects[k].reflectionSourceId === id || newObjects[k].reflectionRefId === id) {
+                        deleteObjRecursive(k);
+                    }
                 });
-                return next;
-            });
+            };
+
+            deleteObjRecursive(objId);
+
+            setObjects(newObjects);
+            setPoints(newPoints);
+            pushToHistory(newPoints, newObjects);
         }
     };
 
+    const handlePointEraser = (pId: string) => {
+        const newPoints = { ...points };
+        delete newPoints[pId];
+
+        const newObjects = { ...objects };
+        let changed = true;
+        while (changed) {
+            changed = false;
+            Object.keys(newObjects).forEach(objId => {
+                const obj = newObjects[objId];
+                const dependsOnPoint = obj.pointIds.includes(pId);
+                const dependsOnSource = obj.reflectionSourceId && !newObjects[obj.reflectionSourceId];
+                const dependsOnRef = obj.reflectionRefId === pId || (obj.reflectionRefId && !newObjects[obj.reflectionRefId] && !points[obj.reflectionRefId]);
+
+                if (dependsOnPoint || dependsOnSource || dependsOnRef) {
+                    delete newObjects[objId];
+                    changed = true;
+                }
+            });
+        }
+
+        setPoints(newPoints);
+        setObjects(newObjects);
+        pushToHistory(newPoints, newObjects);
+    };
+
     const handleMouseDown = (e: React.MouseEvent) => {
-        if (activeTool === 'pan' || e.button === 1 || (activeTool === 'select' && !hoveredPointId)) {
+        if (activeTool === 'pan' || e.button === 1 || (activeTool === 'select' && !hoveredPointId && !hoveredObjectId)) {
             setIsPanning(true);
             setLastMousePos({ x: e.clientX, y: e.clientY });
             return;
         }
-        if (activeTool === 'select' && hoveredPointId) {
-            setDraggedPointId(hoveredPointId);
+        if (activeTool === 'select') {
+            if (hoveredPointId && points[hoveredPointId]) {
+                setDraggedPointId(hoveredPointId);
+            } else if (hoveredObjectId) {
+                const obj = objects[hoveredObjectId];
+                if (!obj.isReflection) {
+                    setDraggedObjectId(hoveredObjectId);
+                    const initial: Record<string, { x: number, y: number }> = {};
+                    obj.pointIds.forEach(pId => {
+                        if (points[pId]) initial[pId] = { ...points[pId] };
+                    });
+                    setInitialDragPoints(initial);
+                    setLastMousePos({ x: e.clientX, y: e.clientY });
+                }
+            }
         }
     };
 
     const handleMouseMove = (e: React.MouseEvent) => {
-        if (isPanning) {
-            const dx = (e.clientX - lastMousePos.x) * (viewBox.width / svgRef.current!.clientWidth);
-            const dy = (e.clientY - lastMousePos.y) * (viewBox.height / svgRef.current!.clientHeight);
+        if (isPanning && svgRef.current) {
+            const dx = (e.clientX - lastMousePos.x) * (viewBox.width / svgRef.current.clientWidth);
+            const dy = (e.clientY - lastMousePos.y) * (viewBox.height / svgRef.current.clientHeight);
             setViewBox(prev => ({ ...prev, x: prev.x - dx, y: prev.y - dy }));
             setLastMousePos({ x: e.clientX, y: e.clientY });
             return;
         }
 
-        const pos = getSVGPoint(e.clientX, e.clientY);
+        const rawPos = getSVGPoint(e.clientX, e.clientY);
+        const pos = { ...rawPos };
+        setMousePos(pos);
+
+        // Angle snapping for regular polygon (Shift key)
+        if (activeTool === 'regular-polygon' && selection.length === 1 && e.shiftKey) {
+            const p1 = allPoints[selection[0]];
+            const dx = pos.x - p1.x;
+            const dy = pos.y - p1.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            const angle = Math.atan2(dy, dx);
+            const snappedAngle = Math.round(angle / (Math.PI / 12)) * (Math.PI / 12); // Snap to 15 degrees
+            pos.x = p1.x + dist * Math.cos(snappedAngle);
+            pos.y = p1.y + dist * Math.sin(snappedAngle);
+        }
+
         if (draggedPointId) {
             setPoints(prev => ({
                 ...prev,
                 [draggedPointId]: { ...prev[draggedPointId], x: pos.x, y: pos.y }
             }));
+        } else if (draggedObjectId && svgRef.current) {
+            const dx = (e.clientX - lastMousePos.x) * (viewBox.width / svgRef.current.clientWidth);
+            const dy = (e.clientY - lastMousePos.y) * (viewBox.height / svgRef.current.clientHeight);
+
+            setPoints(prev => {
+                const next = { ...prev };
+                Object.keys(initialDragPoints).forEach(pId => {
+                    if (next[pId]) {
+                        next[pId] = {
+                            ...next[pId],
+                            x: next[pId].x + dx,
+                            y: next[pId].y + dy
+                        };
+                    }
+                });
+                return next;
+            });
+            setLastMousePos({ x: e.clientX, y: e.clientY });
         } else {
             const tolerance = 15 * (viewBox.width / 1200);
-            const p = Object.values(points).find(pt =>
+            const pEntry = Object.entries(allPoints).find(([_, pt]) =>
                 Math.sqrt(Math.pow(pt.x - pos.x, 2) + Math.pow(pt.y - pos.y, 2)) < tolerance
             );
-            setHoveredPointId(p?.id || null);
+            setHoveredPointId(pEntry ? pEntry[0] : null);
         }
     };
 
     const handleMouseUp = () => {
+        if (draggedPointId || draggedObjectId) {
+            pushToHistory(points, objects);
+        }
         setDraggedPointId(null);
+        setDraggedObjectId(null);
+        setInitialDragPoints({});
         setIsPanning(false);
     };
 
     const handleWheel = (e: React.WheelEvent) => {
-        const factor = e.deltaY > 0 ? 1.1 : 0.9;
+        const factor = e.deltaY > 0 ? 1.05 : 0.95;
         const rect = svgRef.current!.getBoundingClientRect();
         const mouseX = e.clientX - rect.left;
         const mouseY = e.clientY - rect.top;
@@ -405,6 +709,28 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
         });
     };
 
+    const performZoom = useCallback((factor: number) => {
+        setViewBox(prev => {
+            const newWidth = prev.width * factor;
+            const newHeight = prev.height * factor;
+            if (newWidth > 10000 || newWidth < 100) return prev;
+
+            // Zoom towards center of current view
+            const dx = (newWidth - prev.width) / 2;
+            const dy = (newHeight - prev.height) / 2;
+
+            return {
+                x: prev.x - dx,
+                y: prev.y - dy,
+                width: newWidth,
+                height: newHeight
+            };
+        });
+    }, []);
+
+    const zoomIn = () => performZoom(0.9);
+    const zoomOut = () => performZoom(1.1);
+
     // --- Rendering ---
 
     const renderGrid = () => {
@@ -416,10 +742,10 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
         const endY = Math.ceil((viewBox.y + viewBox.height) / GRID_SIZE) * GRID_SIZE;
 
         for (let x = startX; x <= endX; x += GRID_SIZE) {
-            lines.push(<line key={`v-${x}`} x1={x} y1={startY} x2={x} y2={endY} stroke="#f1f5f9" strokeWidth={1 * (viewBox.width / 1200)} />);
+            lines.push(<line key={`v-${x}`} x1={x} y1={startY} x2={x} y2={endY} stroke="#cbd5e1" strokeWidth={1 * (viewBox.width / 1200)} />);
         }
         for (let y = startY; y <= endY; y += GRID_SIZE) {
-            lines.push(<line key={`h-${y}`} x1={startX} y1={y} x2={endX} y2={y} stroke="#f1f5f9" strokeWidth={1 * (viewBox.width / 1200)} />);
+            lines.push(<line key={`h-${y}`} x1={startX} y1={y} x2={endX} y2={y} stroke="#cbd5e1" strokeWidth={1 * (viewBox.width / 1200)} />);
         }
 
         if (background === 'coordinate') {
@@ -441,11 +767,27 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
         if (pts.length === 0) return null;
         const isReflecting = reflectingObjectId === obj.id;
         const sw = 3 * (viewBox.width / 1200);
+        const isEraserHover = activeTool === 'eraser' && hoveredObjectId === obj.id;
 
         const props = {
             key: obj.id,
+            onMouseEnter: () => setHoveredObjectId(obj.id),
+            onMouseLeave: () => setHoveredObjectId(null),
             onClick: (e: React.MouseEvent) => { e.stopPropagation(); handleObjectClick(obj.id); },
-            className: cn("cursor-pointer transition-all", isReflecting ? "stroke-yellow-400 stroke-[6]" : "", activeTool === 'eraser' ? "hover:opacity-50" : "")
+            className: cn(
+                "cursor-pointer transition-all duration-200",
+                isReflecting ? "stroke-yellow-400 stroke-[6]" : (isEraserHover ? "stroke-red-500 stroke-[4]" : "hover:stroke-blue-400/50"),
+                activeTool === 'eraser' ? "hover:opacity-80" : ""
+            )
+        };
+
+        // Hit area for easier selection/erasing
+        const hitAreaProps = {
+            ...props,
+            stroke: "transparent",
+            strokeWidth: 20 * (viewBox.width / 1200),
+            fill: "transparent",
+            className: props.className + " opacity-0"
         };
 
         switch (obj.type) {
@@ -455,12 +797,32 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                 const dx = pts[1].x - pts[0].x, dy = pts[1].y - pts[0].y;
                 const len = Math.sqrt(dx * dx + dy * dy);
                 const ux = dx / len, uy = dy / len;
-                return <line {...props} x1={pts[0].x - ux * 10000} y1={pts[0].y - uy * 10000} x2={pts[0].x + ux * 10000} y2={pts[0].y + uy * 10000} stroke={obj.color} strokeWidth={sw} />;
+                const x1 = pts[0].x - ux * 10000, y1 = pts[0].y - uy * 10000;
+                const x2 = pts[0].x + ux * 10000, y2 = pts[0].y + uy * 10000;
+                return (
+                    <g key={obj.id}>
+                        <line {...hitAreaProps} x1={x1} y1={y1} x2={x2} y2={y2} />
+                        <line {...props} x1={x1} y1={y1} x2={x2} y2={y2} stroke={obj.color} strokeWidth={sw} />
+                    </g>
+                );
+            case 'segment':
+                if (pts.length < 2) return null;
+                return (
+                    <g key={obj.id}>
+                        <line {...hitAreaProps} x1={pts[0].x} y1={pts[0].y} x2={pts[1].x} y2={pts[1].y} />
+                        <line {...props} x1={pts[0].x} y1={pts[0].y} x2={pts[1].x} y2={pts[1].y} stroke={obj.color} strokeWidth={sw} />
+                    </g>
+                );
             case 'polygon':
             case 'regular-polygon':
                 if (pts.length < 3) return null;
                 const d = `M ${pts.map(p => `${p.x} ${p.y}`).join(' L ')} Z`;
-                return <path {...props} d={d} fill={obj.color} fillOpacity={0.15} stroke={obj.color} strokeWidth={sw} strokeLinejoin="round" />;
+                return (
+                    <g key={obj.id}>
+                        <path {...hitAreaProps} d={d} />
+                        <path {...props} d={d} fill={obj.color} fillOpacity={0.15} stroke={obj.color} strokeWidth={sw} strokeLinejoin="round" />
+                    </g>
+                );
         }
     };
 
@@ -472,20 +834,37 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
             </Button>
 
             {/* Float Toolbar (Central Top) */}
-            <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[70] flex items-center gap-1 bg-white/90 backdrop-blur-md p-1.5 rounded-2xl border border-slate-200 shadow-2xl overflow-x-auto max-w-[90vw]">
+            <div
+                className="absolute top-4 left-1/2 -translate-x-1/2 z-[70] flex items-center gap-1 bg-white/90 backdrop-blur-md p-1.5 rounded-2xl border border-slate-200 shadow-2xl overflow-x-auto max-w-[90vw]"
+                onClick={e => e.stopPropagation()}
+            >
                 <Button variant={activeTool === 'select' ? 'default' : 'ghost'} size="sm" onClick={() => setActiveTool('select')} className="rounded-xl px-4">
                     <MousePointer2 className="w-4 h-4 mr-2 text-blue-500" /> Mozgatás
                 </Button>
 
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant={(activeTool === 'point' || activeTool === 'line') ? 'secondary' : 'ghost'} size="sm" className="rounded-xl px-4">
+                        <Button
+                            variant={(activeTool === 'point' || activeTool === 'line' || activeTool === 'segment') ? 'secondary' : 'ghost'}
+                            size="sm"
+                            className="rounded-xl px-4"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                if (activeTool !== 'point' && activeTool !== 'line' && activeTool !== 'segment') {
+                                    setActiveTool('point');
+                                    setSelection([]);
+                                }
+                            }}
+                        >
                             <Dot className="w-4 h-4 mr-2" /> Pontok <ChevronDown className="w-3 h-3 ml-2 opacity-50" />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start">
+                    <DropdownMenuContent align="start" className="z-[100]">
                         <DropdownMenuItem onClick={() => { setActiveTool('point'); setSelection([]); }}>
                             <Dot className="w-4 h-4 mr-2 text-blue-500" /> Pont lehelyezése
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => { setActiveTool('segment'); setSelection([]); }}>
+                            <Minus className="w-4 h-4 mr-2 text-slate-700" /> Szakasz rajzolása
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => { setActiveTool('line'); setSelection([]); }}>
                             <Minus className="w-4 h-4 mr-2 text-slate-700" /> Egyenes rajzolása
@@ -495,11 +874,22 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
 
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant={(activeTool === 'polygon' || activeTool === 'regular-polygon') ? 'secondary' : 'ghost'} size="sm" className="rounded-xl px-4">
+                        <Button
+                            variant={(activeTool === 'polygon' || activeTool === 'regular-polygon') ? 'secondary' : 'ghost'}
+                            size="sm"
+                            className="rounded-xl px-4"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                if (activeTool !== 'polygon' && activeTool !== 'regular-polygon') {
+                                    setActiveTool('polygon');
+                                    setSelection([]);
+                                }
+                            }}
+                        >
                             <ShapesIcon className="w-4 h-4 mr-2" /> Alakzatok <ChevronDown className="w-3 h-3 ml-2 opacity-50" />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start">
+                    <DropdownMenuContent align="start" className="z-[100]">
                         <DropdownMenuItem onClick={() => { setActiveTool('polygon'); setSelection([]); }}>
                             <Square className="w-4 h-4 mr-2 text-indigo-500" /> Szabad sokszög
                         </DropdownMenuItem>
@@ -512,11 +902,75 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
 
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant={(activeTool === 'axial-reflect' || activeTool === 'central-reflect') ? 'secondary' : 'ghost'} size="sm" className="rounded-xl px-4 text-green-700">
+                        <Button
+                            variant={(activeTool === 'special-shape') ? 'secondary' : 'ghost'}
+                            size="sm"
+                            className="rounded-xl px-4"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                if (activeTool !== 'special-shape') {
+                                    setActiveTool('special-shape');
+                                    setSelection([]);
+                                }
+                            }}
+                        >
+                            <Star className="w-4 h-4 mr-2 text-yellow-500" /> Speciális <ChevronDown className="w-3 h-3 ml-2 opacity-50" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start" className="z-[100] grid grid-cols-2 gap-1 p-2">
+                        {(Object.keys(SPECIAL_SHAPES) as SpecialShapeType[]).map((shapeKey) => {
+                            const icons: Record<SpecialShapeType, React.ReactNode> = {
+                                heart: <Heart className="w-4 h-4 text-rose-500" />,
+                                star: <Star className="w-4 h-4 text-yellow-500" />,
+                                cross: <Plus className="w-4 h-4 text-slate-700" />,
+                                arrow: <Navigation className="w-4 h-4 text-blue-500" />,
+                                house: <Home className="w-4 h-4 text-orange-500" />,
+                                pine: <TreePine className="w-4 h-4 text-emerald-600" />,
+                                lightning: <Zap className="w-4 h-4 text-amber-500" />,
+                                cloud: <Cloud className="w-4 h-4 text-sky-400" />,
+                                butterfly: <ShapesIcon className="w-4 h-4 text-purple-500" />,
+                                anchor: <Anchor className="w-4 h-4 text-slate-800" />
+                            };
+                            const labels: Record<SpecialShapeType, string> = {
+                                heart: 'Szív', star: 'Csillag', cross: 'Kereszt', arrow: 'Nyíl',
+                                house: 'Ház', pine: 'Fenyő', lightning: 'Villám', cloud: 'Felhő',
+                                butterfly: 'Pillangó', anchor: 'Horgony'
+                            };
+                            return (
+                                <DropdownMenuItem
+                                    key={shapeKey}
+                                    onClick={() => {
+                                        setActiveSpecialShape(shapeKey);
+                                        setActiveTool('special-shape');
+                                        setSelection([]);
+                                    }}
+                                    className="cursor-pointer flex items-center gap-2"
+                                >
+                                    {icons[shapeKey]} <span className="text-xs">{labels[shapeKey]}</span>
+                                </DropdownMenuItem>
+                            );
+                        })}
+                    </DropdownMenuContent>
+                </DropdownMenu>
+
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button
+                            variant={(activeTool === 'axial-reflect' || activeTool === 'central-reflect') ? 'secondary' : 'ghost'}
+                            size="sm"
+                            className="rounded-xl px-4 text-green-700"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                if (activeTool !== 'axial-reflect' && activeTool !== 'central-reflect') {
+                                    setActiveTool('axial-reflect');
+                                    setReflectingObjectId(null);
+                                }
+                            }}
+                        >
                             <Copy className="w-4 h-4 mr-2" /> Tükrözés <ChevronDown className="w-3 h-3 ml-2 opacity-50" />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start">
+                    <DropdownMenuContent align="start" className="z-[100]">
                         <DropdownMenuItem onClick={() => { setActiveTool('axial-reflect'); setSelection([]); }}>
                             <Copy className="w-4 h-4 mr-2 text-green-600" /> Tengelyes tükrözés
                         </DropdownMenuItem>
@@ -528,7 +982,19 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
 
                 <div className="h-6 w-px bg-slate-200 mx-1" />
 
-                <Button variant={activeTool === 'eraser' ? 'default' : 'ghost'} size="sm" onClick={() => setActiveTool('eraser')} className={cn("rounded-xl px-4", activeTool === 'eraser' ? "bg-red-500 hover:bg-red-600" : "text-red-500 hover:bg-red-50")}>
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={undo}
+                    disabled={historyIndex < 0}
+                    className="rounded-xl px-4 text-slate-600 disabled:opacity-30"
+                >
+                    <Undo2 className="w-4 h-4 mr-2" /> Vissza
+                </Button>
+
+                <div className="h-6 w-px bg-slate-200 mx-1" />
+
+                <Button variant={activeTool === 'eraser' ? 'default' : 'ghost'} size="sm" onClick={() => setActiveTool('eraser')} className={cn("rounded-xl px-4 transition-colors", activeTool === 'eraser' ? "bg-red-500 hover:bg-red-600 text-white" : "text-red-500 hover:bg-red-50")}>
                     <Eraser className="w-4 h-4 mr-2" /> Radír
                 </Button>
                 <Button variant="ghost" size="sm" onClick={() => { setPoints({}); setObjects({}); setSelection([]); }} className="rounded-xl px-4 text-slate-500 hover:text-red-600">
@@ -536,11 +1002,11 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                 </Button>
             </div>
 
-            {/* Canvas */}
-            <div className="flex-1 w-full relative group">
+            {/* Canvas Area */}
+            <div className="flex-1 w-full relative overflow-hidden bg-slate-50">
                 <svg
                     ref={svgRef}
-                    className={cn("w-full h-full bg-white", activeTool === 'pan' || isPanning ? "cursor-grabbing" : "cursor-crosshair")}
+                    className={cn("w-full h-full bg-white transition-opacity duration-300", activeTool === 'pan' || isPanning ? "cursor-grabbing" : "cursor-crosshair")}
                     onMouseDown={handleMouseDown}
                     onMouseMove={handleMouseMove}
                     onMouseUp={handleMouseUp}
@@ -551,14 +1017,40 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                 >
                     {renderGrid()}
                     {Object.values(objects).map(renderObject)}
-                    {Object.values(points).map(p => (
+                    {Object.entries(allPoints).map(([id, p]) => (
                         <circle
-                            key={p.id} cx={p.x} cy={p.y}
-                            r={(hoveredPointId === p.id || draggedPointId === p.id ? 8 : 5) * (viewBox.width / 1200)}
-                            fill={draggedPointId === p.id ? "#3b82f6" : "#1e40af"}
-                            className="pointer-events-none"
+                            key={id} cx={p.x} cy={p.y}
+                            r={(hoveredPointId === id || draggedPointId === id ? 8 : 5) * (viewBox.width / 1200)}
+                            fill={draggedPointId === id ? "#3b82f6" : (points[id] ? "#1e40af" : "#6366f1")}
+                            fillOpacity={points[id] ? 1 : 0.6}
+                            className={cn(
+                                points[id] ? "cursor-move" : "pointer-events-none",
+                                activeTool === 'eraser' && hoveredPointId === id ? "fill-red-500 scale-125" : ""
+                            )}
+                            pointerEvents={activeTool === 'eraser' ? 'auto' : (points[id] ? 'auto' : 'none')}
+                            onMouseEnter={() => setHoveredPointId(id)}
+                            onMouseLeave={() => setHoveredPointId(null)}
+                            onClick={(e) => {
+                                if (activeTool === 'eraser') {
+                                    e.stopPropagation();
+                                    handlePointEraser(id);
+                                }
+                            }}
                         />
                     ))}
+                    {/* Ghost preview for regular polygon */}
+                    {activeTool === 'regular-polygon' && selection.length === 1 && (
+                        <g className="pointer-events-none opacity-30">
+                            {(() => {
+                                const p1 = allPoints[selection[0]];
+                                const p2 = mousePos;
+                                const pts = calculateRegularPolygonPoints(p1, p2, regularPolygonSides);
+                                const d = `M ${pts.map(p => `${p.x} ${p.y}`).join(' L ')} Z`;
+                                return <path d={d} fill="blue" stroke="blue" strokeWidth={2} />;
+                            })()}
+                        </g>
+                    )}
+
                     {/* Visual aid for polygon construction */}
                     {activeTool === 'polygon' && selection.length > 0 && (
                         <g className="pointer-events-none opacity-50">
@@ -570,40 +1062,46 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                     )}
                 </svg>
 
-                {/* Corner Controls */}
-                <div className="absolute top-4 right-4 flex flex-col gap-2 z-[70]">
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="secondary" size="sm" className="shadow-lg rounded-xl opacity-80 hover:opacity-100">
-                                <Settings className="w-4 h-4 mr-2" /> Háttér
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => setBackground('blank')}>Üres</DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => setBackground('grid')}>Négyzetrács</DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => setBackground('coordinate')}>Koordinátarendszer</DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                    <Button variant="secondary" size="icon" onClick={() => setViewBox({ x: -600, y: -400, width: 1200, height: 800 })} className="shadow-lg rounded-xl opacity-80 hover:opacity-100">
+                {/* Overlays */}
+                <div className="absolute top-4 right-4 z-[80]">
+                    <Button variant="secondary" size="icon" onClick={() => setViewBox({ x: -600, y: -400, width: 1200, height: 800 })} className="shadow-xl bg-white/90 hover:bg-white rounded-2xl" title="Visszaállítás">
                         <RefreshCw className="w-4 h-4" />
                     </Button>
                 </div>
 
-                <div className="absolute bottom-4 right-4 flex flex-col gap-2 z-[70]">
-                    <Button variant="secondary" size="icon" onClick={() => handleWheel({ deltaY: -500, clientX: 0, clientY: 0 } as any)} className="shadow-lg rounded-xl opacity-80 hover:opacity-100">
-                        <ZoomIn className="w-5 h-5" />
-                    </Button>
-                    <Button variant="secondary" size="icon" onClick={() => handleWheel({ deltaY: 500, clientX: 0, clientY: 0 } as any)} className="shadow-lg rounded-xl opacity-80 hover:opacity-100">
-                        <ZoomOut className="w-5 h-5" />
-                    </Button>
+                <div className="absolute bottom-6 right-6 flex flex-col gap-3 z-[80] items-end">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="secondary" size="sm" className="shadow-xl bg-white/90 hover:bg-white rounded-2xl px-4 py-6 border-slate-200">
+                                <Settings className="w-5 h-5 mr-2 text-slate-600" /> Háttér
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="z-[100] rounded-xl p-2 min-w-[160px]">
+                            <DropdownMenuItem className="rounded-lg cursor-pointer" onClick={() => setBackground('blank')}>Üres</DropdownMenuItem>
+                            <DropdownMenuItem className="rounded-lg cursor-pointer" onClick={() => setBackground('grid')}>Négyzetrács</DropdownMenuItem>
+                            <DropdownMenuItem className="rounded-lg cursor-pointer" onClick={() => setBackground('coordinate')}>Koordinátarendszer</DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+
+                    <div className="flex flex-col gap-1 bg-white/90 backdrop-blur-md p-1.5 rounded-2xl border border-slate-200 shadow-2xl">
+                        <Button variant="ghost" size="icon" onClick={zoomIn} className="rounded-xl h-12 w-12 hover:bg-blue-50 text-slate-600 hover:text-blue-600 transition-all" title="Nagyítás">
+                            <ZoomIn className="w-6 h-6" />
+                        </Button>
+                        <div className="h-px bg-slate-100 mx-2" />
+                        <Button variant="ghost" size="icon" onClick={zoomOut} className="rounded-xl h-12 w-12 hover:bg-blue-50 text-slate-600 hover:text-blue-600 transition-all" title="Kicsinyítés">
+                            <ZoomOut className="w-6 h-6" />
+                        </Button>
+                    </div>
                 </div>
 
-                {/* Status Help */}
-                <div className="absolute bottom-4 left-4 bg-white/70 backdrop-blur-sm px-4 py-2 rounded-xl border border-slate-200 shadow-md pointer-events-none text-xs text-slate-600 z-[70]">
-                    {activeTool === 'select' && "Mozgasd a pontokat."}
-                    {activeTool === 'polygon' && selection.length > 0 && "Kattints az első körre a bezáráshoz."}
-                    {activeTool === 'axial-reflect' && (!reflectingObjectId ? "Válassz tükrözendő alakzatot." : "Válassz egy egyenest tengelynek.")}
-                    {selection.length > 0 && `Kiválasztva: ${selection.length} pont`}
+                <div className="absolute bottom-6 left-6 bg-white/90 backdrop-blur-md px-5 py-3 rounded-2xl border border-slate-200 shadow-xl pointer-events-none text-sm font-medium text-slate-600 z-[80]">
+                    {activeTool === 'select' && "💡 Mozgasd a kék pontokat a szerkesztéshez."}
+                    {activeTool === 'polygon' && selection.length > 0 && "🎯 Kattints az első pontra a sokszög bezárásához."}
+                    {activeTool === 'regular-polygon' && selection.length === 1 && "📐 Mozgasd az egeret a mérethez (Shift: szög-tapadás)."}
+                    {activeTool === 'axial-reflect' && (!reflectingObjectId ? "📐 Válassz egy alakzatot tükrözéshez." : "📏 Jelöld ki a tengelyt (egyenest).")}
+                    {activeTool === 'eraser' && "🧹 Kattints egy alakzatra vagy pontra a törléshez."}
+                    {selection.length > 0 && !reflectingObjectId && activeTool !== 'regular-polygon' && `✨ Kijelölve: ${selection.length} pont`}
+                    {(!activeTool || (activeTool === 'select' && selection.length === 0)) && "🚀 Válassz egy eszközt a fenti menüből!"}
                 </div>
             </div>
         </div>

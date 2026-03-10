@@ -62,6 +62,7 @@ import { AxialSymmetryGame } from '@/components/math/AxialSymmetryGame';
 import { SymmetryErrorGame } from '@/components/math/SymmetryErrorGame';
 import { AxialSymmetryQuiz } from '@/components/math/AxialSymmetryQuiz';
 import { SymmetryConstructionTool } from '@/components/math/SymmetryConstructionTool';
+import { AxialSymmetryPresentation } from '@/components/math/AxialSymmetryPresentation';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -123,7 +124,7 @@ type ActivityType =
   | 'decimal-shifter-tool' | 'puzzle-maker' | 'geometry-module'
   | 'logic-blocks' | 'venn-diagram-game' | 'grouping-game' | 'number-grouping-game'
   | 'sudoku' | 'sudoku-generator' | 'venn-interpretation-quiz'
-  | 'venn-reading-objects' | 'venn-reading-numbers' | 'axial-symmetry' | 'symmetry-error' | 'symmetry-construction' | 'axial-symmetry-quiz'
+  | 'venn-reading-objects' | 'venn-reading-numbers' | 'axial-symmetry' | 'symmetry-error' | 'symmetry-construction' | 'axial-symmetry-quiz' | 'axial-symmetry-presentation'
   | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
@@ -2672,6 +2673,10 @@ export default function MathPage() {
 
                 {activityType === 'axial-symmetry-quiz' && (
                   <AxialSymmetryQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'axial-symmetry-presentation' && (
+                  <AxialSymmetryPresentation onBack={handleBack} />
                 )}
 
                 {activityType === 'geometry' && (
