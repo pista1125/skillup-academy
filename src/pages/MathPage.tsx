@@ -63,6 +63,7 @@ import { SymmetryErrorGame } from '@/components/math/SymmetryErrorGame';
 import { AxialSymmetryQuiz } from '@/components/math/AxialSymmetryQuiz';
 import { SymmetryConstructionTool } from '@/components/math/SymmetryConstructionTool';
 import { AxialSymmetryPresentation } from '@/components/math/AxialSymmetryPresentation';
+import { StudentFeedbackHub } from '@/components/feedback/StudentFeedbackHub';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -125,7 +126,7 @@ type ActivityType =
   | 'logic-blocks' | 'venn-diagram-game' | 'grouping-game' | 'number-grouping-game'
   | 'sudoku' | 'sudoku-generator' | 'venn-interpretation-quiz'
   | 'venn-reading-objects' | 'venn-reading-numbers' | 'axial-symmetry' | 'symmetry-error' | 'symmetry-construction' | 'axial-symmetry-quiz' | 'axial-symmetry-presentation'
-  | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems';
+  | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
 const slugToGrade = (slug: string): GradeLevel | null => {
@@ -2374,6 +2375,13 @@ export default function MathPage() {
                       color="bg-blue-100 border-blue-200 text-blue-600"
                       onClick={() => handleToolSelect('sudoku-generator')}
                     />
+                    <ToolCard
+                      title="Diák visszajelzés (Céltábla)"
+                      desc="Kérj visszajelzést a diákoktól az óra végén!"
+                      icon={<Target className="w-8 h-8" />}
+                      color="bg-rose-100 text-rose-600"
+                      onClick={() => handleToolSelect('student-feedback')}
+                    />
                   </div>
                 </section>
               </div>
@@ -2677,6 +2685,10 @@ export default function MathPage() {
 
                 {activityType === 'axial-symmetry-presentation' && (
                   <AxialSymmetryPresentation onBack={handleBack} />
+                )}
+
+                {activityType === 'student-feedback' && (
+                  <StudentFeedbackHub onBack={handleBack} />
                 )}
 
                 {activityType === 'geometry' && (

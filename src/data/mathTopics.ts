@@ -460,6 +460,14 @@ export const mathTopics: MathTopic[] = [
     color: 'from-violet-500 to-fuchsia-600',
     grades: [1, 2, 3, 4, 5, 7, 8],
   },
+  {
+    id: 'student-feedback',
+    title: 'Diák visszajelzés (Céltábla)',
+    description: 'Kérj visszajelzést a diákokról az óra végén egy interaktív céltáblás játékkal!',
+    icon: '🎯',
+    color: 'from-rose-500 to-pink-600',
+    grades: [], // Available as a tool
+  },
 ];
 
 export const gradeDescriptions: Record<number, string> = {
