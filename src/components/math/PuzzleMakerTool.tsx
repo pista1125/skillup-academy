@@ -16,6 +16,7 @@ import {
     AlertCircle,
     Beaker,
     LogIn,
+    GripVertical
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import jsPDF from 'jspdf';
@@ -27,6 +28,8 @@ interface PuzzleQuestion {
     id: number;
     question: string;
     answer: string;
+    offset?: number;
+    highlightIndex?: number;
 }
 
 interface PuzzleMakerToolProps {
@@ -71,27 +74,56 @@ export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
     const [showPreview, setShowPreview] = useState(false);
     const [nextId, setNextId] = useState(6);
 
-    const [aiPrompt, setAiPrompt] = useState('');
+    const [aiTopic, setAiTopic] = useState('');
+    const [aiQuestionCount, setAiQuestionCount] = useState(10);
+    const [aiHiddenWord, setAiHiddenWord] = useState('');
     const [aiLoading, setAiLoading] = useState(false);
     const [aiError, setAiError] = useState('');
     const [aiSuccess, setAiSuccess] = useState(false);
 
+    const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+    const [isDraggingVisually, setIsDraggingVisually] = useState(false);
+
+
+    const applyDynamicOffsets = (qs: PuzzleQuestion[]): PuzzleQuestion[] => {
+        const hasHighlight = qs.some(q => q.highlightIndex !== undefined && q.highlightIndex >= 0);
+        if (!hasHighlight) {
+            return qs.map(q => ({ ...q, offset: 0 }));
+        }
+
+        let maxHighlightIndex = 0;
+        qs.forEach(q => {
+            if (q.highlightIndex !== undefined && q.highlightIndex > maxHighlightIndex) {
+                maxHighlightIndex = q.highlightIndex;
+            }
+        });
+
+        return qs.map(q => {
+            const offset = q.highlightIndex !== undefined && q.highlightIndex >= 0 
+                ? maxHighlightIndex - q.highlightIndex 
+                : 0; 
+            return { ...q, offset };
+        });
+    };
 
     const addQuestion = () => {
         if (questions.length >= MAX_QUESTIONS) return;
-        setQuestions([...questions, { id: nextId, question: '', answer: '' }]);
+        const newQuestions = [...questions, { id: nextId, question: '', answer: '' }];
+        setQuestions(applyDynamicOffsets(newQuestions));
         setNextId(nextId + 1);
     };
 
     const removeQuestion = (id: number) => {
         if (questions.length <= MIN_QUESTIONS) return;
-        setQuestions(questions.filter((q) => q.id !== id));
+        const newQuestions = questions.filter((q) => q.id !== id);
+        setQuestions(applyDynamicOffsets(newQuestions));
     };
 
-    const updateQuestion = (id: number, field: 'question' | 'answer', value: string) => {
-        setQuestions(
-            questions.map((q) => (q.id === id ? { ...q, [field]: value } : q))
-        );
+    const updateQuestion = (id: number, field: 'question' | 'answer' | 'highlightIndex', value: any) => {
+        setQuestions(prev => {
+            const updated = prev.map((q) => (q.id === id ? { ...q, [field]: value } : q));
+            return applyDynamicOffsets(updated);
+        });
     };
 
     const isValid = questions.every((q) => q.question.trim() && q.answer.trim());
@@ -107,9 +139,15 @@ export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
 
     // AI generation
     const generateWithAI = async () => {
-        if (!aiPrompt.trim()) {
-            setAiError('Kérlek írd le, milyen rejtvényt szeretnél!');
+        if (!aiTopic.trim()) {
+            setAiError('Kérlek add meg a témakört!');
             return;
+        }
+
+        const cleanHiddenWord = aiHiddenWord.trim().replace(/\s+/g, '');
+        if (cleanHiddenWord && cleanHiddenWord.length !== aiQuestionCount) {
+             setAiError(`A kért kérdések száma (${aiQuestionCount}) nem egyezik meg a fő megfejtés hosszával (${cleanHiddenWord.length})!`);
+             return;
         }
 
         setAiLoading(true);
@@ -118,7 +156,11 @@ export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
 
         try {
             const { data, error } = await supabase.functions.invoke('generate-puzzle', {
-                body: { prompt: aiPrompt.trim() },
+                body: { 
+                    topic: aiTopic.trim(), 
+                    questionCount: aiQuestionCount,
+                    hiddenWord: aiHiddenWord.trim()
+                },
             });
 
             if (error) {
@@ -142,10 +184,12 @@ export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
             const newQuestions: PuzzleQuestion[] = validQuestions.map((q: any, idx: number) => ({
                 id: nextId + idx,
                 question: String(q.question),
-                answer: String(q.answer),
+                answer: String(q.answer).toUpperCase(), // Convert to uppercase here to make things easier
+                offset: q.offset || 0,
+                highlightIndex: q.highlightIndex !== undefined ? q.highlightIndex : -1,
             }));
 
-            setQuestions(newQuestions);
+            setQuestions(applyDynamicOffsets(newQuestions));
             setNextId(nextId + newQuestions.length);
 
             if (data.title) {
@@ -216,19 +260,40 @@ export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
                 doc.text(`${idx + 1}.`, marginX, rowY + cellSize / 2 + 1);
 
                 // Draw cells
-                const cellsStartX = marginX + 10;
+                const cellsStartX = marginX + 10 + (q.offset || 0) * (cellSize + 1);
                 answerChars.forEach((char, charIdx) => {
                     const cx = cellsStartX + charIdx * (cellSize + 1);
-                    doc.setDrawColor(180, 180, 180);
-                    doc.setLineWidth(0.3);
-                    doc.rect(cx, rowY, cellSize, cellSize);
+                    const isSpace = char === ' ';
+                    const isHighlighted = q.highlightIndex === charIdx;
 
-                    if (isSolution) {
-                        doc.setFont('helvetica', 'bold');
-                        doc.setFontSize(10);
-                        doc.setTextColor(79, 70, 229); // Indigo-600
-                        doc.text(pdfSanitize(char), cx + cellSize / 2, rowY + cellSize / 2 + 1.2, { align: 'center' });
-                        doc.setTextColor(0, 0, 0);
+                    if (isSpace) {
+                        // Draw solid filled block for spaces
+                        doc.setFillColor(100, 100, 100);
+                        doc.setDrawColor(100, 100, 100);
+                        doc.rect(cx, rowY, cellSize, cellSize, 'FD'); // Fill and border
+                    } else {
+                        // Regular cell
+                        if (isHighlighted) {
+                            // Highlighted column cell
+                            doc.setFillColor(240, 245, 255); // Very light blue
+                            doc.setDrawColor(79, 70, 229); // Indigo-600 outline
+                            doc.setLineWidth(0.6);
+                            doc.rect(cx, rowY, cellSize, cellSize, 'FD');
+                        } else {
+                            // Normal cell
+                            doc.setFillColor(255, 255, 255);
+                            doc.setDrawColor(180, 180, 180);
+                            doc.setLineWidth(0.3);
+                            doc.rect(cx, rowY, cellSize, cellSize, 'FD');
+                        }
+
+                        if (isSolution) {
+                            doc.setFont('helvetica', 'bold');
+                            doc.setFontSize(10);
+                            doc.setTextColor(isHighlighted ? 79 : 0, isHighlighted ? 70 : 0, isHighlighted ? 229 : 0);
+                            doc.text(pdfSanitize(char), cx + cellSize / 2, rowY + cellSize / 2 + 1.2, { align: 'center' });
+                            doc.setTextColor(0, 0, 0);
+                        }
                     }
                 });
             });
@@ -339,30 +404,52 @@ export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
                                 </h3>
                             </div>
 
-                            {/* AI Prompt */}
-                            <div className="space-y-2">
-                                <textarea
-                                    value={aiPrompt}
-                                    onChange={(e) => { setAiPrompt(e.target.value); setAiError(''); }}
-                                    className="w-full px-3 py-2.5 bg-black/30 border border-white/10 rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all placeholder:text-slate-500 resize-none"
-                                    rows={2}
-                                    placeholder={'Írd le milyen rejtvényt szeretnél! Pl: 10 kérdés összeadásból és kivonásból 3. osztályosoknak'}
-                                />
-
-                                {/* Sample prompt chips */}
-                                <div className="flex flex-wrap gap-1.5 mb-2">
-                                    {SAMPLE_PROMPTS.map((prompt, idx) => (
-                                        <button
-                                            key={idx}
-                                            onClick={() => { setAiPrompt(prompt); setAiError(''); }}
-                                            className="px-2 py-1 text-[10px] font-medium bg-white/5 hover:bg-white/15 text-slate-400 hover:text-white border border-white/10 hover:border-emerald-500/30 rounded-lg transition-all"
-                                        >
-                                            {prompt}
-                                        </button>
-                                    ))}
+                            {/* AI Inputs */}
+                            <div className="space-y-3">
+                                {/* Topic Input */}
+                                <div>
+                                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+                                        Évfolyam és Témakör
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={aiTopic}
+                                        onChange={(e) => { setAiTopic(e.target.value); setAiError(''); }}
+                                        className="w-full px-3 py-2 bg-black/30 border border-white/10 rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all placeholder:text-slate-500"
+                                        placeholder="pl. Történelem 5. osztály, Árpád-ház"
+                                    />
                                 </div>
 
-                                <div className="flex items-center gap-2">
+                                {/* Count and Hidden Word Row */}
+                                <div className="flex gap-3">
+                                    <div className="flex-[0.4]">
+                                        <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+                                            Kérdések (3-15)
+                                        </label>
+                                        <input
+                                            type="number"
+                                            min={3}
+                                            max={15}
+                                            value={aiQuestionCount}
+                                            onChange={(e) => { setAiQuestionCount(parseInt(e.target.value)); setAiError(''); }}
+                                            className="w-full px-3 py-2 bg-black/30 border border-white/10 rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all"
+                                        />
+                                    </div>
+                                    <div className="flex-[0.6]">
+                                        <label className="block text-[10px] font-bold text-emerald-400/80 uppercase tracking-wider mb-1 flex items-center gap-1">
+                                            <Key className="w-3 h-3" /> Fő megfejtés (opcionális)
+                                        </label>
+                                        <input
+                                            type="text"
+                                            value={aiHiddenWord}
+                                            onChange={(e) => { setAiHiddenWord(e.target.value); setAiError(''); }}
+                                            className="w-full px-3 py-2 bg-black/30 border border-emerald-500/30 rounded-xl text-sm text-emerald-50 font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all placeholder:text-slate-600"
+                                            placeholder="pl. KIRÁLY"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="pt-2">
                                     <Button
                                         onClick={() => {
                                             if (!user) {
@@ -373,7 +460,7 @@ export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
                                         }}
                                         disabled={aiLoading}
                                         className={cn(
-                                            'flex-1 rounded-xl gap-2 font-bold text-sm transition-all',
+                                            'w-full rounded-xl gap-2 font-bold text-sm transition-all',
                                             aiLoading
                                                 ? 'bg-slate-700 text-slate-400'
                                                 : 'bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white shadow-lg shadow-emerald-500/20'
@@ -386,26 +473,18 @@ export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
                                             </>
                                         ) : (
                                             <>
-                                                <Send className="w-4 h-4" />
+                                                <Sparkles className="w-4 h-4" />
                                                 {!user && <Key className="w-3.5 h-3.5 mr-1 text-emerald-100" />}
-                                                AI Kitöltés
+                                                Rejtvény Készítése
                                             </>
                                         )}
                                     </Button>
-                                    <Button
-                                        onClick={fillWithDemo}
-                                        disabled={aiLoading}
-                                        className="rounded-xl gap-1.5 font-bold text-sm bg-violet-600 hover:bg-violet-700 text-white transition-all"
-                                    >
-                                        <Beaker className="w-4 h-4" />
-                                        Teszt
-                                    </Button>
+                                    {!user && (
+                                        <p className="mt-2 text-[10px] text-emerald-400 font-bold uppercase tracking-wider text-center bg-white/5 py-1.5 rounded-lg border border-white/5">
+                                            🔒 Jelentkezz be az AI használatához!
+                                        </p>
+                                    )}
                                 </div>
-                                {!user && (
-                                    <p className="mt-2 text-[10px] text-emerald-400 font-bold uppercase tracking-wider text-center bg-white/5 py-1 rounded-lg border border-white/5">
-                                        🔒 Jelentkezz be az AI használatához!
-                                    </p>
-                                )}
                             </div>
 
                             {/* AI feedback messages */}
@@ -460,10 +539,52 @@ export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
                             {questions.map((q, idx) => (
                                 <div
                                     key={q.id}
-                                    className="group bg-slate-50 hover:bg-violet-50/50 rounded-xl p-3.5 border border-slate-100 hover:border-violet-200 transition-all"
+                                    draggable={true}
+                                    onDragStart={(e) => {
+                                        setDraggedIndex(idx);
+                                        e.dataTransfer.effectAllowed = 'move';
+                                        // Delay visual change to next frame so browser captures opaque element as drag ghost
+                                        setTimeout(() => setIsDraggingVisually(true), 0);
+                                    }}
+                                    onDragOver={(e) => {
+                                        e.preventDefault(); // Necessary to allow dropping and continuous firing
+                                        if (draggedIndex === null || draggedIndex === idx) return;
+
+                                        const targetRect = e.currentTarget.getBoundingClientRect();
+                                        const targetMiddle = targetRect.top + targetRect.height / 2;
+                                        const isDraggingDown = draggedIndex < idx;
+
+                                        // Only swap if mouse passed the 50% threshold of the target element
+                                        if (isDraggingDown && e.clientY < targetMiddle) return;
+                                        if (!isDraggingDown && e.clientY > targetMiddle) return;
+
+                                        // Reorder questions array dynamically
+                                        const newQuestions = [...questions];
+                                        const [draggedItem] = newQuestions.splice(draggedIndex, 1);
+                                        newQuestions.splice(idx, 0, draggedItem);
+                                        
+                                        setQuestions(applyDynamicOffsets(newQuestions));
+                                        setDraggedIndex(idx); // Update the dragged index to the new position
+                                    }}
+                                    onDrop={(e) => {
+                                        e.preventDefault();
+                                        setDraggedIndex(null);
+                                        setIsDraggingVisually(false);
+                                    }}
+                                    onDragEnd={(e) => {
+                                        setDraggedIndex(null);
+                                        setIsDraggingVisually(false);
+                                    }}
+                                    className={cn(
+                                        "group bg-blue-50 hover:bg-blue-100 rounded-xl p-3.5 border transition-all shadow-sm cursor-grab active:cursor-grabbing",
+                                        (draggedIndex === idx && isDraggingVisually) ? "opacity-30 border-dashed border-blue-400 bg-blue-100/50" : "opacity-100 border-solid border-blue-200 hover:border-blue-400"
+                                    )}
                                 >
                                     <div className="flex items-start gap-3">
-                                        <div className="flex-shrink-0 w-7 h-7 rounded-lg bg-violet-100 text-violet-600 flex items-center justify-center font-black text-xs mt-1">
+                                        <div className="flex-shrink-0 flex items-center justify-center pt-2 text-blue-400 group-hover:text-blue-600 transition-colors">
+                                            <GripVertical className="w-5 h-5" />
+                                        </div>
+                                        <div className="flex-shrink-0 w-7 h-7 rounded-lg bg-blue-200 text-blue-800 flex items-center justify-center font-black text-xs mt-1">
                                             {idx + 1}
                                         </div>
                                         <div className="flex-1 space-y-2">
@@ -483,15 +604,36 @@ export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
                                                     placeholder="Megoldás (pl. 5)"
                                                 />
                                                 {q.answer && (
-                                                    <div className="flex gap-0.5">
-                                                        {q.answer.split('').map((char, ci) => (
-                                                            <div
-                                                                key={ci}
-                                                                className="w-6 h-6 border-2 border-violet-300 bg-violet-50 rounded flex items-center justify-center text-[10px] font-black text-violet-600"
-                                                            >
-                                                                {char.toUpperCase()}
-                                                            </div>
-                                                        ))}
+                                                    <div className="flex gap-0.5" style={{ marginLeft: `${(q.offset || 0) * 1.625}rem` }}>
+                                                        {q.answer.split('').map((char, ci) => {
+                                                            const isSpace = char === ' ';
+                                                            const isHighlighted = q.highlightIndex === ci;
+
+                                                            if (isSpace) {
+                                                                return (
+                                                                    <div
+                                                                        key={ci}
+                                                                        className="w-6 h-6 bg-slate-800 rounded flex-shrink-0"
+                                                                    />
+                                                                );
+                                                            }
+
+                                                            return (
+                                                                <button
+                                                                    key={ci}
+                                                                    onClick={() => updateQuestion(q.id, 'highlightIndex', isHighlighted ? -1 : ci)}
+                                                                    className={cn(
+                                                                        "w-6 h-6 border-2 rounded flex items-center justify-center text-[10px] font-black flex-shrink-0 cursor-pointer hover:opacity-80 transition-all focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-emerald-400",
+                                                                        isHighlighted
+                                                                            ? "border-emerald-400 bg-emerald-100 text-emerald-700 hover:bg-emerald-200"
+                                                                            : "border-violet-300 bg-violet-50 text-violet-600 hover:bg-violet-100"
+                                                                    )}
+                                                                    title={isHighlighted ? "Kiemelés törlése" : "Kijelölés fő megfejtés részeként"}
+                                                                >
+                                                                    {char.toUpperCase()}
+                                                                </button>
+                                                            );
+                                                        })}
                                                     </div>
                                                 )}
                                             </div>
@@ -575,14 +717,31 @@ export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
                                     <span className="w-5 text-right text-[10px] font-bold text-slate-500 flex-shrink-0">
                                         {idx + 1}.
                                     </span>
-                                    <div className="flex gap-0.5">
+                                    <div className="flex gap-0.5" style={{ marginLeft: `${(q.offset || 0) * 1.75}rem` }}>
                                         {q.answer ? (
-                                            q.answer.split('').map((_, ci) => (
-                                                <div
-                                                    key={ci}
-                                                    className="w-6 h-6 sm:w-7 sm:h-7 border border-slate-300 rounded-sm bg-slate-50"
-                                                />
-                                            ))
+                                            q.answer.split('').map((char, ci) => {
+                                                const isSpace = char === ' ';
+                                                const isHighlighted = q.highlightIndex === ci;
+
+                                                if (isSpace) {
+                                                    return (
+                                                        <div
+                                                            key={ci}
+                                                            className="w-6 h-6 sm:w-7 sm:h-7 bg-slate-800 rounded-sm flex-shrink-0"
+                                                        />
+                                                    );
+                                                }
+
+                                                return (
+                                                    <div
+                                                        key={ci}
+                                                        className={cn(
+                                                            "w-6 h-6 sm:w-7 sm:h-7 border border-slate-300 rounded-sm flex-shrink-0",
+                                                            isHighlighted ? "bg-emerald-100/50 border-emerald-300 border-2" : "bg-slate-50"
+                                                        )}
+                                                    />
+                                                );
+                                            })
                                         ) : (
                                             <div className="text-[10px] text-slate-300 italic">
                                                 (megoldás)

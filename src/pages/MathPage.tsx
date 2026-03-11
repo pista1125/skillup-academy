@@ -64,6 +64,7 @@ import { AxialSymmetryQuiz } from '@/components/math/AxialSymmetryQuiz';
 import { SymmetryConstructionTool } from '@/components/math/SymmetryConstructionTool';
 import { AxialSymmetryPresentation } from '@/components/math/AxialSymmetryPresentation';
 import { StudentFeedbackHub } from '@/components/feedback/StudentFeedbackHub';
+import { WordSearchTool } from '@/components/math/WordSearchTool';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -126,7 +127,7 @@ type ActivityType =
   | 'logic-blocks' | 'venn-diagram-game' | 'grouping-game' | 'number-grouping-game'
   | 'sudoku' | 'sudoku-generator' | 'venn-interpretation-quiz'
   | 'venn-reading-objects' | 'venn-reading-numbers' | 'axial-symmetry' | 'symmetry-error' | 'symmetry-construction' | 'axial-symmetry-quiz' | 'axial-symmetry-presentation'
-  | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback';
+  | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
 const slugToGrade = (slug: string): GradeLevel | null => {
@@ -2369,6 +2370,13 @@ export default function MathPage() {
                       onClick={() => handleToolSelect('puzzle-maker')}
                     />
                     <ToolCard
+                      title="Szókereső Készítő"
+                      desc="Készíts saját szókeresőt, letölthető megoldókulccsal!"
+                      icon={<span className="text-3xl">🔎</span>}
+                      color="bg-indigo-100 text-indigo-600"
+                      onClick={() => handleToolSelect('word-search')}
+                    />
+                    <ToolCard
                       title="Sudoku Generátor"
                       desc="Generálj és nyomtass egyedi Sudoku feladványokat!"
                       icon={<Grid3X3 className="w-8 h-8" />}
@@ -2598,6 +2606,10 @@ export default function MathPage() {
 
                 {activityType === 'puzzle-maker' && (
                   <PuzzleMakerTool onBack={handleBack} />
+                )}
+
+                {activityType === 'word-search' && (
+                  <WordSearchTool />
                 )}
 
                 {activityType === 'equation-balance' && (
