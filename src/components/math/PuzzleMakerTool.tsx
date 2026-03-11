@@ -23,6 +23,8 @@ import jsPDF from 'jspdf';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { AuthModal } from '@/components/auth/AuthModal';
+import { notoSansRegularBase64 } from '@/assets/fonts/NotoSans-Regular-base64';
+import { notoSansBoldBase64 } from '@/assets/fonts/NotoSans-Bold-base64';
 
 interface PuzzleQuestion {
     id: number;
@@ -82,8 +84,9 @@ export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
     const [aiSuccess, setAiSuccess] = useState(false);
 
     const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
-    const [isDraggingVisually, setIsDraggingVisually] = useState(false);
+    const [isDraggingVisually, setIsDraggingVisually] = useState<boolean>(false);
 
+    const [isExporting, setIsExporting] = useState<boolean>(false);
 
     const applyDynamicOffsets = (qs: PuzzleQuestion[]): PuzzleQuestion[] => {
         const hasHighlight = qs.some(q => q.highlightIndex !== undefined && q.highlightIndex >= 0);
@@ -205,44 +208,48 @@ export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
         }
     };
 
-    const downloadPDF = () => {
+    const downloadPDF = async () => {
         if (!isValid) return;
+        setIsExporting(true);
 
-        const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-        const pageW = 210;
-        const marginX = 15;
-        const contentW = pageW - marginX * 2;
+        try {
+            const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+            
+            doc.addFileToVFS('NotoSans-Regular.ttf', notoSansRegularBase64);
+            doc.addFont('NotoSans-Regular.ttf', 'NotoSans', 'normal');
+            
+            doc.addFileToVFS('NotoSans-Bold.ttf', notoSansBoldBase64);
+            doc.addFont('NotoSans-Bold.ttf', 'NotoSans', 'bold');
 
-        // Helper to sanitize text for PDF (handling Hungarian characters that are missing in standard WinAnsi)
-        const pdfSanitize = (text: string) => {
-            if (!text) return '';
-            return text
-                .replace(/ő/g, 'ö').replace(/Ő/g, 'Ö')
-                .replace(/ű/g, 'ü').replace(/Ű/g, 'Ü')
-                .replace(/–/g, '-'); // Replace en-dash with standard hyphen
-        };
+            const pageW = 210;
+            const marginX = 15;
+            const contentW = pageW - marginX * 2;
 
-        const renderPage = (isSolution: boolean) => {
+            const fixText = (text: string) => {
+                return doc.splitTextToSize(text, 1000)[0] || '';
+            };
+
+            const renderPage = (isSolution: boolean) => {
             // Header
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(22);
+            doc.setFont('NotoSans', 'bold');
             doc.setTextColor(121, 87, 213); // Violet-500
-            doc.text(pdfSanitize(puzzleTitle), pageW / 2, 20, { align: 'center' });
+            doc.setFontSize(22);
+            doc.text(fixText(puzzleTitle), pageW / 2, 20, { align: 'center' });
 
             if (isSolution) {
-                doc.setFontSize(10);
                 doc.setTextColor(219, 39, 119); // Pink-600
-                doc.text('MEGOLDÓKULCS - TANÁRI PÉLDÁNY', pageW / 2, 27, { align: 'center' });
+                doc.setFont('NotoSans', 'bold');
+                doc.setFontSize(10);
+                doc.text(fixText('MEGOLDÓKULCS - TANÁRI PÉLDÁNY'), pageW / 2, 27, { align: 'center' });
             }
 
-            doc.setTextColor(0, 0, 0);
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(10);
             doc.setTextColor(120, 120, 120);
+            doc.setFont('NotoSans', 'normal');
+            doc.setFontSize(10);
             const instructionText = isSolution
                 ? 'Ellenőrizd a megoldásokat az alábbi táblázat alapján!'
                 : 'Töltsd ki az üres kockákat a kérdésekre kapott válaszokkal!';
-            doc.text(pdfSanitize(instructionText), pageW / 2, 32, { align: 'center' });
+            doc.text(fixText(instructionText), pageW / 2, 32, { align: 'center' });
             doc.setTextColor(0, 0, 0);
 
             // === PUZZLE GRID ===
@@ -255,9 +262,9 @@ export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
                 const rowY = gridStartY + idx * rowHeight;
 
                 // Question number label
-                doc.setFont('helvetica', 'bold');
+                doc.setFont('NotoSans', 'bold');
                 doc.setFontSize(9);
-                doc.text(`${idx + 1}.`, marginX, rowY + cellSize / 2 + 1);
+                doc.text(fixText(`${idx + 1}.`), marginX, rowY + cellSize / 2 + 1);
 
                 // Draw cells
                 const cellsStartX = marginX + 10 + (q.offset || 0) * (cellSize + 1);
@@ -282,16 +289,16 @@ export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
                         } else {
                             // Normal cell
                             doc.setFillColor(255, 255, 255);
-                            doc.setDrawColor(180, 180, 180);
+                            doc.setDrawColor(100, 100, 100);
                             doc.setLineWidth(0.3);
                             doc.rect(cx, rowY, cellSize, cellSize, 'FD');
                         }
 
                         if (isSolution) {
-                            doc.setFont('helvetica', 'bold');
+                            doc.setFont('NotoSans', 'bold');
                             doc.setFontSize(10);
                             doc.setTextColor(isHighlighted ? 79 : 0, isHighlighted ? 70 : 0, isHighlighted ? 229 : 0);
-                            doc.text(pdfSanitize(char), cx + cellSize / 2, rowY + cellSize / 2 + 1.2, { align: 'center' });
+                            doc.text(fixText(char), cx + cellSize / 2, rowY + cellSize / 2 + 1.2, { align: 'center' });
                             doc.setTextColor(0, 0, 0);
                         }
                     }
@@ -305,13 +312,13 @@ export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
             doc.setLineWidth(0.5);
             doc.line(marginX, questionsStartY - 8, marginX + contentW, questionsStartY - 8);
 
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(14);
+            doc.setFont('NotoSans', 'bold');
             doc.setTextColor(79, 70, 229); // Indigo-600
-            doc.text(pdfSanitize('Kérdések'), marginX, questionsStartY);
+            doc.setFontSize(14);
+            doc.text(fixText('Kérdések'), marginX, questionsStartY);
             doc.setTextColor(0, 0, 0);
 
-            doc.setFont('helvetica', 'normal');
+            doc.setFont('NotoSans', 'normal');
             doc.setFontSize(11);
 
             questions.forEach((q, idx) => {
@@ -320,20 +327,21 @@ export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
                 // New page if overflow
                 if (qY > 280) {
                     doc.addPage();
-                    // Need to reset Y or something? Simplification: we assume they fit for now.
                 }
 
-                doc.setFont('helvetica', 'bold');
-                doc.text(`${idx + 1}.`, marginX, qY);
-                doc.setFont('helvetica', 'normal');
-                doc.text(pdfSanitize(q.question), marginX + 8, qY);
+                doc.setFont('NotoSans', 'bold');
+                doc.setFontSize(11);
+                doc.text(fixText(`${idx + 1}.`), marginX, qY);
+                doc.setFont('NotoSans', 'normal');
+                doc.text(fixText(q.question), marginX + 8, qY);
             });
 
             // Footer
             const footerY = 285;
-            doc.setFontSize(8);
             doc.setTextColor(180, 180, 180);
-            doc.text(pdfSanitize('Készült a DiákZóna Online Rejtvénykészítővel - diakzona.hu'), pageW / 2, footerY, { align: 'center' });
+            doc.setFont('NotoSans', 'normal');
+            doc.setFontSize(8);
+            doc.text(fixText('Készült a DiákZóna Online Rejtvénykészítővel - diakzona.hu'), pageW / 2, footerY, { align: 'center' });
         };
 
         // Page 1: Student Version
@@ -344,6 +352,12 @@ export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
         renderPage(true);
 
         doc.save(`${puzzleTitle.replace(/\s+/g, '_')}.pdf`);
+        } catch (error) {
+            console.error('PDF Generation failed:', error);
+            setAiError('Hiba történt a letöltés során.');
+        } finally {
+            setIsExporting(false);
+        }
     };
 
     if (authLoading) {
@@ -668,7 +682,7 @@ export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
                         </Button>
                         <Button
                             onClick={downloadPDF}
-                            disabled={!isValid}
+                            disabled={!isValid || isExporting}
                             className={cn(
                                 'flex-1 rounded-xl gap-2 font-bold shadow-lg transition-all',
                                 isValid
@@ -677,7 +691,7 @@ export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
                             )}
                         >
                             <Download className="w-4 h-4" />
-                            Letöltés PDF-ben
+                            {isExporting ? 'Készítés...' : 'Letöltés PDF-ben'}
                         </Button>
                     </div>
 

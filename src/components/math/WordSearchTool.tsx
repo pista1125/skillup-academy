@@ -8,10 +8,11 @@ import {
     Eye,
     EyeOff
 } from 'lucide-react';
+import { notoSansRegularBase64 } from '@/assets/fonts/NotoSans-Regular-base64';
+import { notoSansBoldBase64 } from '@/assets/fonts/NotoSans-Bold-base64';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import jsPDF from 'jspdf';
-
 // ----------------------------------------------------------------------
 // Types & Algorithms
 // ----------------------------------------------------------------------
@@ -83,6 +84,7 @@ export function WordSearchTool() {
     const [grid, setGrid] = useState<GridCell[][]>([]);
     const [placedWordsList, setPlacedWordsList] = useState<string[]>([]);
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
+    const [isExporting, setIsExporting] = useState<boolean>(false);
 
     // ----------------------------------------------------------------------
     // Handlers
@@ -202,31 +204,42 @@ export function WordSearchTool() {
     // ----------------------------------------------------------------------
     // PDF Export
     // ----------------------------------------------------------------------
-    const exportToPDF = () => {
+    const exportToPDF = async () => {
         if (grid.length === 0) return;
+        setIsExporting(true);
 
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const MARGIN = 20;
-        const PAGE_WIDTH = pdf.internal.pageSize.getWidth();
-        
-        // Helper to draw a page
-        const drawPage = (isSolution: boolean, titleStr: string) => {
-            pdf.setFont("helvetica", "bold");
-            pdf.setFontSize(22);
-            pdf.setTextColor(51, 65, 85); // Slate-700
-            pdf.text(titleStr, PAGE_WIDTH / 2, MARGIN + 10, { align: 'center' });
+        try {
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            
+            pdf.addFileToVFS('NotoSans-Regular.ttf', notoSansRegularBase64);
+            pdf.addFont('NotoSans-Regular.ttf', 'NotoSans', 'normal');
+            
+            pdf.addFileToVFS('NotoSans-Bold.ttf', notoSansBoldBase64);
+            pdf.addFont('NotoSans-Bold.ttf', 'NotoSans', 'bold');
 
-            // Grid rendering
+            const MARGIN = 20;
+            const PAGE_WIDTH = pdf.internal.pageSize.getWidth();
+            const PAGE_HEIGHT = pdf.internal.pageSize.getHeight();
+
+            const fixText = (text: string) => {
+                return pdf.splitTextToSize(text, 1000)[0] || '';
+            };
+
+            const drawPage = (isSolution: boolean, titleStr: string) => {
+                pdf.setTextColor(51, 65, 85);
+                pdf.setFont("NotoSans", "bold");
+                pdf.setFontSize(22);
+                pdf.text(fixText(titleStr), PAGE_WIDTH / 2, MARGIN + 10, { align: 'center' });
+
             const MAX_GRID_WIDTH = PAGE_WIDTH - (MARGIN * 2);
-            const cellSizeRaw = Math.min(MAX_GRID_WIDTH / gridWidth, 12); // Max 12mm per cell
-            const cellSize = Math.max(cellSizeRaw, 5); // Min 5mm per cell
+            const cellSizeRaw = Math.min(MAX_GRID_WIDTH / gridWidth, 14);
+            const cellSize = Math.max(cellSizeRaw, 5);
 
             const totalGridWidth = cellSize * gridWidth;
             const startX = (PAGE_WIDTH - totalGridWidth) / 2;
             const startY = MARGIN + 25;
 
-            // Font size conversion: cellSize (mm) to pt is ~2.83. We want it to fill the cell well.
-            pdf.setFontSize(cellSize * 2.2);
+            const gridFontSize = cellSize * 1.8;
 
             for (let r = 0; r < gridHeight; r++) {
                 for (let c = 0; c < gridWidth; c++) {
@@ -234,62 +247,68 @@ export function WordSearchTool() {
                     const y = startY + (r * cellSize);
                     const cell = grid[r][c];
 
-                    // Draw box
-                    pdf.setDrawColor(203, 213, 225); // Slate-300
+                    pdf.setDrawColor(100, 100, 100);
                     
                     if (isSolution && cell.isPartOfWord) {
-                        pdf.setFillColor(34, 197, 94); // Green-500
+                        pdf.setFillColor(34, 197, 94);
                     } else {
-                        pdf.setFillColor(255, 255, 255); // White
+                        pdf.setFillColor(255, 255, 255);
                     }
                     
                     pdf.setLineWidth(0.2);
                     pdf.rect(x, y, cellSize, cellSize, 'FD');
 
-                    // Draw letter
-                    if (isSolution && cell.isPartOfWord) { // Solution Key -> white text on green
-                        pdf.setTextColor(255, 255, 255); // White
-                        pdf.setFont("helvetica", "bold");
-                    } else { // Normal or noise
-                        pdf.setTextColor(51, 65, 85); // Slate-700
-                        pdf.setFont("helvetica", "normal");
+                    if (isSolution && cell.isPartOfWord) {
+                        pdf.setTextColor(255, 255, 255);
+                        pdf.setFont("NotoSans", "bold");
+                    } else {
+                        pdf.setTextColor(51, 65, 85);
+                        pdf.setFont("NotoSans", "normal");
                     }
                     
-                    // Center both horizontally and vertically
-                    pdf.text(cell.letter, x + (cellSize / 2), y + (cellSize / 2), { align: 'center', baseline: 'middle' });
+                    pdf.setFontSize(gridFontSize);
+                    const textY = y + (cellSize * 0.70); 
+                    pdf.text(fixText(cell.letter), x + (cellSize / 2), textY, { align: 'center' });
                 }
             }
 
-            // Word Bank
             const wordBankY = startY + (gridHeight * cellSize) + 15;
-            pdf.setFont("helvetica", "bold");
-            pdf.setFontSize(14);
             pdf.setTextColor(51, 65, 85);
-            pdf.text("Keresd meg az alábbi szavakat:", MARGIN, wordBankY);
+            pdf.setFont("NotoSans", "bold");
+            pdf.setFontSize(14);
+            pdf.text(fixText("Keresd meg az alábbi szavakat:"), MARGIN, wordBankY);
 
-            pdf.setFont("helvetica", "normal");
+            pdf.setFont("NotoSans", "normal");
             pdf.setFontSize(12);
             let currentY = wordBankY + 10;
-            let currentX = MARGIN;
-            const colWidth = (PAGE_WIDTH - (MARGIN * 2)) / 3; // 3 columns
+            const colWidth = (PAGE_WIDTH - (MARGIN * 2)) / 3;
 
             placedWordsList.forEach((w, index) => {
                 const colNum = index % 3;
                 if (index > 0 && colNum === 0) {
                     currentY += 8;
                 }
-                pdf.text(w, MARGIN + (colNum * colWidth), currentY);
+                pdf.text(fixText(w), MARGIN + (colNum * colWidth), currentY);
             });
+
+            const footerY = PAGE_HEIGHT - 10;
+            pdf.setTextColor(180, 180, 180);
+            pdf.setFont("NotoSans", "normal");
+            pdf.setFontSize(8);
+            pdf.text(fixText('Készült a DiákZóna Szókereső Készítő alkalmazásával - diakzona.hu'), PAGE_WIDTH / 2, footerY, { align: 'center' });
         };
 
-        // Page 1: Student copy (No solution)
         drawPage(false, 'Szókereső');
-
-        // Page 2: Teacher copy (Solution)
         pdf.addPage();
         drawPage(true, 'Szókereső - Megoldókulcs');
 
         pdf.save('szokereso_feladat.pdf');
+        } catch (error) {
+            console.error('Error generating PDF:', error);
+            setErrorMsg('Hiba tortént a letoltés soran.');
+        } finally {
+            setIsExporting(false);
+        }
     };
 
     // ----------------------------------------------------------------------
@@ -413,9 +432,10 @@ export function WordSearchTool() {
                                     <Button 
                                         onClick={exportToPDF}
                                         className="bg-emerald-600 hover:bg-emerald-700 shadow-sm"
+                                        disabled={isExporting}
                                     >
                                         <Download className="w-4 h-4 mr-2" />
-                                        Letöltés (PDF + Kulcs)
+                                        {isExporting ? 'Készítés...' : 'Letöltés (PDF + Kulcs)'}
                                     </Button>
                                 </div>
                             )}
