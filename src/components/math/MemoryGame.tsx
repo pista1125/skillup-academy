@@ -23,6 +23,8 @@ interface MemoryItem {
   y: number; // 0-100 percentage
   size: number; // in pixels
   rotation?: number;
+  isFilled?: boolean;
+  borderWidth?: number;
 }
 
 interface MemoryExercise {
@@ -35,7 +37,7 @@ interface MemoryLevel {
   exercises: MemoryExercise[];
 }
 
-const SHAPES = ['circle', 'square', 'triangle', 'pentagon', 'star', 'diamond'];
+const SHAPES = ['circle', 'square', 'triangle', 'pentagon', 'star', 'diamond', 'arrow', 'line', 'cross'];
 const COLORS = ['#ef4444', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#06b6d4'];
 const EMOJIS = ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐨', '🐯', '🦁', '🐮', '🐷', '🐸', '🐵'];
 const FRUITS = ['🍎', '🍐', '🍊', '🍋', '🍌', '🍉', '🍇', '🍓', '🫐', '🍒', '🍑', '🥭', '🍍', '🥥', '🥝'];
@@ -45,34 +47,94 @@ const generateExercises = (): MemoryLevel[] => {
   const levels: MemoryLevel[] = [];
   const difficultyNames = ['Nagyon könnyű', 'Könnyű', 'Közepes', 'Nehéz', 'Mester'];
 
+  const getComposition = (centerX: number, centerY: number, sizeMult: number): MemoryItem[] => {
+    const type = Math.floor(Math.random() * 4);
+    const color = COLORS[Math.floor(Math.random() * COLORS.length)];
+    const items: MemoryItem[] = [];
+
+    if (type === 0) { // Compass / Symbol from drawing
+      items.push({ type: 'shape', content: 'circle', x: centerX, y: centerY, size: 80 * sizeMult, color, rotation: 0 });
+      items.push({ type: 'shape', content: 'diamond', x: centerX, y: centerY, size: 30 * sizeMult, color, rotation: 0 });
+      items.push({ type: 'shape', content: 'arrow', x: centerX, y: centerY - 45 * sizeMult, size: 50 * sizeMult, color, rotation: 180 }); // Top
+      items.push({ type: 'shape', content: 'arrow', x: centerX - 45 * sizeMult, y: centerY, size: 50 * sizeMult, color, rotation: 90 }); // Left
+      items.push({ type: 'shape', content: 'triangle', x: centerX + 50 * sizeMult, y: centerY, size: 40 * sizeMult, color, rotation: 90, isFilled: true }); // Right filled
+      items.push({ type: 'shape', content: 'triangle', x: centerX, y: centerY + 55 * sizeMult, size: 60 * sizeMult, color, rotation: 0 }); // Bottom triangle
+      items.push({ type: 'shape', content: 'circle', x: centerX, y: centerY + 58 * sizeMult, size: 25 * sizeMult, color, rotation: 0 }); // Circle inside bottom triangle
+    } else if (type === 1) { // Flower / Sun
+      items.push({ type: 'shape', content: 'circle', x: centerX, y: centerY, size: 60 * sizeMult, color, rotation: 0, isFilled: true });
+      for (let i = 0; i < 8; i++) {
+        const angle = (i * 45) * Math.PI / 180;
+        items.push({ 
+          type: 'shape', 
+          content: 'triangle', 
+          x: centerX + Math.cos(angle) * 40 * sizeMult, 
+          y: centerY + Math.sin(angle) * 40 * sizeMult, 
+          size: 30 * sizeMult, 
+          color, 
+          rotation: (i * 45) + 90 
+        });
+      }
+    } else if (type === 2) { // Robot / Face
+      items.push({ type: 'shape', content: 'square', x: centerX, y: centerY, size: 100 * sizeMult, color, rotation: 0 });
+      items.push({ type: 'shape', content: 'circle', x: centerX - 25 * sizeMult, y: centerY - 20 * sizeMult, size: 20 * sizeMult, color, rotation: 0, isFilled: true });
+      items.push({ type: 'shape', content: 'circle', x: centerX + 25 * sizeMult, y: centerY - 20 * sizeMult, size: 20 * sizeMult, color, rotation: 0, isFilled: true });
+      items.push({ type: 'shape', content: 'triangle', x: centerX, y: centerY + 5 * sizeMult, size: 25 * sizeMult, color, rotation: 0 });
+      items.push({ type: 'shape', content: 'line', x: centerX, y: centerY + 30 * sizeMult, size: 30 * sizeMult, color, rotation: 90 });
+    } else { // Abstract Tree
+      items.push({ type: 'shape', content: 'triangle', x: centerX, y: centerY - 10 * sizeMult, size: 80 * sizeMult, color, rotation: 0, isFilled: true });
+      items.push({ type: 'shape', content: 'triangle', x: centerX, y: centerY - 35 * sizeMult, size: 60 * sizeMult, color, rotation: 0, isFilled: true });
+      items.push({ type: 'shape', content: 'square', x: centerX, y: centerY + 25 * sizeMult, size: 30 * sizeMult, color, rotation: 0, isFilled: true });
+    }
+    return items;
+  };
+
   for (let l = 0; l < 5; l++) {
     const exercises: MemoryExercise[] = [];
     for (let e = 1; e <= 10; e++) {
       const items: MemoryItem[] = [];
-      const itemCount = l === 0 ? (e <= 5 ? 1 : 2) : 
-                        l === 1 ? (e <= 5 ? 3 : 4) :
-                        l === 2 ? (e <= 5 ? 5 : 6) :
-                        l === 3 ? (e <= 5 ? 7 : 8) : 10;
+      
+      const useComposition = l >= 1 && Math.random() > 0.3;
 
-      for (let i = 0; i < itemCount; i++) {
-        let type: 'shape' | 'emoji' | 'text' = 'shape';
-        if (l >= 3) type = Math.random() > 0.3 ? 'emoji' : 'shape';
-        if (l === 4) type = Math.random() > 0.5 ? 'emoji' : (Math.random() > 0.5 ? 'text' : 'shape');
+      if (useComposition) {
+        items.push(...getComposition(30 + Math.random() * 40, 30 + Math.random() * 40, 1 + (l * 0.2)));
+        // Add some noise items for higher levels
+        if (l >= 3) {
+           for (let i = 0; i < l; i++) {
+            items.push({
+              type: 'emoji',
+              content: EMOJIS[Math.floor(Math.random() * EMOJIS.length)],
+              x: 10 + Math.random() * 80,
+              y: 10 + Math.random() * 80,
+              size: 40,
+            });
+           }
+        }
+      } else {
+        const itemCount = l === 0 ? (e <= 5 ? 1 : 2) : 
+                          l === 1 ? (e <= 5 ? 3 : 4) :
+                          l === 2 ? (e <= 5 ? 5 : 6) :
+                          l === 3 ? (e <= 5 ? 7 : 8) : 10;
 
-        let content = '';
-        if (type === 'shape') content = SHAPES[Math.floor(Math.random() * SHAPES.length)];
-        else if (type === 'emoji') content = [...EMOJIS, ...FRUITS][Math.floor(Math.random() * (EMOJIS.length + FRUITS.length))];
-        else content = Math.floor(Math.random() * 100).toString();
+        for (let i = 0; i < itemCount; i++) {
+          let type: 'shape' | 'emoji' | 'text' = 'shape';
+          if (l >= 3) type = Math.random() > 0.3 ? 'emoji' : 'shape';
+          if (l === 4) type = Math.random() > 0.5 ? 'emoji' : (Math.random() > 0.5 ? 'text' : 'shape');
 
-        items.push({
-          type,
-          content,
-          color: type === 'shape' ? COLORS[Math.floor(Math.random() * COLORS.length)] : undefined,
-          x: 10 + Math.random() * 80,
-          y: 10 + Math.random() * 80,
-          size: 40 + Math.random() * 40,
-          rotation: l >= 2 ? Math.random() * 360 : 0
-        });
+          let content = '';
+          if (type === 'shape') content = SHAPES[Math.floor(Math.random() * SHAPES.length)];
+          else if (type === 'emoji') content = [...EMOJIS, ...FRUITS][Math.floor(Math.random() * (EMOJIS.length + FRUITS.length))];
+          else content = Math.floor(Math.random() * 100).toString();
+
+          items.push({
+            type,
+            content,
+            color: type === 'shape' ? COLORS[Math.floor(Math.random() * COLORS.length)] : undefined,
+            x: 10 + Math.random() * 80,
+            y: 10 + Math.random() * 80,
+            size: 40 + Math.random() * 40,
+            rotation: l >= 2 ? Math.random() * 360 : 0
+          });
+        }
       }
       exercises.push({ id: e, items });
     }
@@ -137,7 +199,8 @@ export default function MemoryGame() {
       transform: `translate(-50%, -50%) rotate(${item.rotation || 0}deg)`,
       fontSize: `${item.size}px`,
       color: item.color,
-      position: 'absolute' as const
+      position: 'absolute' as const,
+      zIndex: item.content === 'circle' && !item.isFilled ? 10 : 1 // Bring outlines to front
     };
 
     if (item.type === 'emoji' || item.type === 'text') {
@@ -145,45 +208,90 @@ export default function MemoryGame() {
     }
 
     if (item.type === 'shape') {
+      const commonProps = {
+        style: {
+          width: item.size,
+          height: item.size,
+          backgroundColor: item.isFilled ? item.color : 'transparent',
+          border: !item.isFilled ? `3px solid ${item.color}` : 'none',
+        }
+      };
+
       return (
         <div key={idx} style={style}>
-          {item.content === 'circle' && <div className="rounded-full" style={{ width: item.size, height: item.size, backgroundColor: item.color }} />}
-          {item.content === 'square' && <div style={{ width: item.size, height: item.size, backgroundColor: item.color }} />}
+          {item.content === 'circle' && (
+            <div className="rounded-full" style={{ ...commonProps.style }} />
+          )}
+          {item.content === 'square' && (
+            <div style={{ ...commonProps.style }} />
+          )}
           {item.content === 'triangle' && (
-            <div 
-              style={{ 
-                width: 0, 
-                height: 0, 
-                borderLeft: `${item.size / 2}px solid transparent`,
-                borderRight: `${item.size / 2}px solid transparent`,
-                borderBottom: `${item.size}px solid ${item.color}`
-              }} 
-            />
+            <svg width={item.size} height={item.size} viewBox="0 0 100 100" className="overflow-visible">
+              <path 
+                d="M 50 0 L 100 100 L 0 100 Z" 
+                fill={item.isFilled ? item.color : "none"} 
+                stroke={item.color} 
+                strokeWidth={item.isFilled ? 0 : 8} 
+              />
+            </svg>
           )}
           {item.content === 'star' && (
              <div className="flex items-center justify-center" style={{ width: item.size, height: item.size, color: item.color }}>
-                <Star size={item.size} fill="currentColor" />
+                <Star size={item.size} fill={item.isFilled ? "currentColor" : "none"} stroke="currentColor" strokeWidth={2} />
              </div>
           )}
           {item.content === 'pentagon' && (
             <div 
               style={{ 
-                width: item.size, 
-                height: item.size, 
-                backgroundColor: item.color,
+                ...commonProps.style,
                 clipPath: 'polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%)'
               }} 
             />
           )}
           {item.content === 'diamond' && (
              <div 
-             style={{ 
-               width: item.size, 
-               height: item.size, 
-               backgroundColor: item.color,
-               clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)'
-             }} 
-           />
+              style={{ 
+                ...commonProps.style,
+                clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)'
+              }} 
+            />
+          )}
+          {item.content === 'arrow' && (
+            <div className="relative flex flex-col items-center justify-center" style={{ width: item.size, height: item.size }}>
+              <div 
+                style={{ 
+                  width: 3, 
+                  height: item.size * 0.7, 
+                  backgroundColor: item.color 
+                }} 
+              />
+              <div 
+                style={{ 
+                  width: 0, 
+                  height: 0, 
+                  borderLeft: `${item.size * 0.25}px solid transparent`,
+                  borderRight: `${item.size * 0.25}px solid transparent`,
+                  borderBottom: `${item.size * 0.3}px solid ${item.color}`,
+                  position: 'absolute',
+                  top: 0
+                }} 
+              />
+            </div>
+          )}
+          {item.content === 'line' && (
+            <div 
+              style={{ 
+                width: item.size, 
+                height: 3, 
+                backgroundColor: item.color 
+              }} 
+            />
+          )}
+          {item.content === 'cross' && (
+            <div className="relative" style={{ width: item.size, height: item.size }}>
+              <div className="absolute inset-0 m-auto" style={{ width: item.size, height: 3, backgroundColor: item.color }} />
+              <div className="absolute inset-0 m-auto" style={{ width: 3, height: item.size, backgroundColor: item.color }} />
+            </div>
           )}
         </div>
       );
