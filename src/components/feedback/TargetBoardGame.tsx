@@ -3,6 +3,7 @@ import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, CheckCircle2, UserCircle2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { cn } from '@/lib/utils';
 
 interface TargetBoardGameProps {
   session: any;
@@ -36,9 +37,9 @@ export function TargetBoardGame({ session, onComplete }: TargetBoardGameProps) {
   const numAspects = aspects.length;
   
   // Game constants
-  const BOARD_SIZE = 500;
+  const BOARD_SIZE = 650; // Increased to give more room for labels
   const CENTER = BOARD_SIZE / 2;
-  const MAX_RADIUS = 220;
+  const MAX_RADIUS = 180; // Decreased target size slightly to give labels more room
   const RINGS = 10;
   const RING_STEP = MAX_RADIUS / RINGS;
 
@@ -231,20 +232,34 @@ export function TargetBoardGame({ session, onComplete }: TargetBoardGameProps) {
       // Szempont felirat
       const labelAngle = angle + (sectorAngle / 2);
       // Picit kijebb visszük a feliratot
-      const labelPt = polarToCartesian(CENTER, CENTER, MAX_RADIUS + 30, labelAngle);
+      const labelPt = polarToCartesian(CENTER, CENTER, MAX_RADIUS + 50, labelAngle);
       
+      const aspectText = aspects[i] || '';
+      // Becsült szélesség a szöveg hossza alapján (kb. 8px karakterenként)
+      const labelWidth = Math.max(130, aspectText.length * 9 + 20);
+
       lines.push(
         <g key={`label-${i}`} transform={`translate(${labelPt.x}, ${labelPt.y})`}>
-          <rect x="-60" y="-12" width="120" height="24" rx="4" fill="white" stroke="#e2e8f0" />
+          <rect 
+            x={-labelWidth / 2} 
+            y="-18" 
+            width={labelWidth} 
+            height="36" 
+            rx="12" 
+            fill="white" 
+            stroke="#6366f1" 
+            strokeWidth="2"
+            className="drop-shadow-md"
+          />
           <text 
             textAnchor="middle" 
             dominantBaseline="middle" 
-            fontSize="12" 
-            fontWeight="bold"
-            fill="#334155"
+            fontSize="15" 
+            fontWeight="900"
+            fill="#1e293b"
             className="select-none pointer-events-none"
           >
-            {aspects[i]?.length > 15 ? aspects[i].substring(0, 13) + '...' : aspects[i]}
+            {aspectText}
           </text>
         </g>
       );
@@ -289,25 +304,25 @@ export function TargetBoardGame({ session, onComplete }: TargetBoardGameProps) {
   };
 
   return (
-    <div className="flex flex-col h-full bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden">
-      {/* Header */}
-      <div className="bg-white px-6 py-4 border-b flex items-center justify-between shadow-sm z-10">
+    <div className="flex flex-col h-screen bg-slate-50 border-none overflow-hidden">
+      {/* Compact Header */}
+      <div className="bg-white px-6 py-2 border-b flex items-center justify-between shadow-sm z-10 shrink-0">
         <div className="flex items-center gap-4">
-          <Button variant="ghost" onClick={handleEndSession} className="text-slate-500 hover:text-slate-800">
-            <ArrowLeft className="w-5 h-5 mr-2" /> Bejezés
+          <Button variant="ghost" size="sm" onClick={handleEndSession} className="text-slate-500 hover:text-slate-800 h-8">
+            <ArrowLeft className="w-4 h-4 mr-1.5" /> Bejezés
           </Button>
-          <div>
-            <h2 className="text-xl font-bold text-slate-800">{session.lesson_info}</h2>
-            <p className="text-sm text-slate-500">{session.className} - {students.length} diák</p>
+          <div className="flex items-baseline gap-2">
+            <h2 className="text-lg font-bold text-slate-800">{session.lesson_info}</h2>
+            <p className="text-xs text-slate-500">{session.className} • {students.length} diák</p>
           </div>
         </div>
         
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-medium text-slate-600 bg-slate-100 px-3 py-1 rounded-full">
-            <CheckCircle2 className="w-4 h-4 inline mr-1 text-emerald-500" />
+        <div className="flex items-center gap-3">
+          <span className="text-xs font-bold text-slate-600 bg-slate-100 px-3 py-1 rounded-full flex items-center gap-1.5">
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
             {completedStudents.size} / {students.length} kész
           </span>
-          <Button onClick={handleEndSession} className="bg-emerald-600 hover:bg-emerald-700">
+          <Button size="sm" onClick={handleEndSession} className="bg-emerald-600 hover:bg-emerald-700 h-8 text-xs font-bold">
             Összesítés mentése
           </Button>
         </div>
@@ -315,9 +330,9 @@ export function TargetBoardGame({ session, onComplete }: TargetBoardGameProps) {
 
       <div className="flex flex-1 overflow-hidden">
         {/* Game Area */}
-        <div className="flex-1 flex flex-col items-center justify-center p-8 bg-slate-50/50">
+        <div className="flex-1 flex flex-col items-center justify-start pt-4 lg:pt-8 bg-slate-50/50 overflow-y-auto custom-scrollbar">
           
-          <div className="mb-6 text-center">
+          <div className="mb-4 text-center shrink-0">
             {activeStudentId ? (
               <div className="animate-in fade-in slide-in-from-top-4">
                 <h3 className="text-2xl font-bold flex items-center justify-center gap-3 text-indigo-700">
@@ -348,7 +363,7 @@ export function TargetBoardGame({ session, onComplete }: TargetBoardGameProps) {
               height={BOARD_SIZE} 
               viewBox={`0 0 ${BOARD_SIZE} ${BOARD_SIZE}`}
               onClick={handleBoardClick}
-              className="bg-white rounded-full shadow-inner"
+              className="bg-white rounded-full shadow-inner overflow-visible"
             >
               {/* Outer Board */}
               <circle cx={CENTER} cy={CENTER} r={MAX_RADIUS + 5} fill="#334155" />
@@ -365,37 +380,44 @@ export function TargetBoardGame({ session, onComplete }: TargetBoardGameProps) {
           </div>
         </div>
 
-        {/* Sidebar */}
-        <div className="w-72 bg-white border-l z-10 flex flex-col">
-          <div className="p-4 border-b bg-slate-50">
-            <h3 className="font-bold text-slate-700">Osztálynévsor</h3>
+        {/* Sidebar - More compact width and Grid-based */}
+        <div className="w-[380px] bg-white border-l z-10 flex flex-col shadow-[-4px_0_15px_-3px_rgba(0,0,0,0.05)]">
+          <div className="p-3 border-b bg-slate-50/50 flex items-center justify-between">
+            <h3 className="font-bold text-slate-700 text-sm">Osztálynévsor</h3>
           </div>
-          <div className="flex-1 overflow-y-auto p-3 space-y-2">
-            {students.map(student => {
-              const isCompleted = completedStudents.has(student.id);
-              const isActive = activeStudentId === student.id;
-              
-              return (
-                <button
-                  key={student.id}
-                  onClick={() => !isCompleted && setActiveStudentId(student.id)}
-                  disabled={isCompleted}
-                  className={`w-full flex items-center justify-between p-3 rounded-xl transition-all text-left ${
-                    isActive 
-                      ? 'bg-indigo-600 text-white shadow-md transform scale-105' 
-                      : isCompleted 
-                        ? 'bg-emerald-50 border border-emerald-100 text-emerald-700 opacity-70' 
-                        : 'bg-white border hover:border-indigo-300 hover:bg-indigo-50 text-slate-700 shadow-sm'
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">{student.avatar_id}</span>
-                    <span className="font-semibold">{student.name}</span>
-                  </div>
-                  {isCompleted && <CheckCircle2 className="w-5 h-5 text-emerald-500" />}
-                </button>
-              );
-            })}
+          <div className="flex-1 overflow-y-auto p-2.5 custom-scrollbar">
+            <div className="grid grid-cols-2 gap-2">
+              {students.map(student => {
+                const isCompleted = completedStudents.has(student.id);
+                const isActive = activeStudentId === student.id;
+                
+                return (
+                  <button
+                    key={student.id}
+                    onClick={() => !isCompleted && setActiveStudentId(student.id)}
+                    disabled={isCompleted}
+                    className={`flex items-center justify-between p-2.5 rounded-xl transition-all text-left group ${
+                      isActive 
+                        ? 'bg-indigo-600 text-white shadow-lg ring-2 ring-indigo-300 ring-offset-1' 
+                        : isCompleted 
+                          ? 'bg-slate-50 border border-slate-100 text-slate-400' 
+                          : 'bg-white border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/50 text-slate-700 shadow-sm'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span className="text-xl shrink-0">{student.avatar_id}</span>
+                      <span className={cn(
+                        "font-bold text-xs truncate",
+                        isActive ? "text-white" : isCompleted ? "text-slate-400" : "text-slate-700"
+                      )}>
+                        {student.name}
+                      </span>
+                    </div>
+                    {isCompleted && <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>

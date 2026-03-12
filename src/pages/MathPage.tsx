@@ -65,6 +65,8 @@ import { SymmetryConstructionTool } from '@/components/math/SymmetryConstruction
 import { AxialSymmetryPresentation } from '@/components/math/AxialSymmetryPresentation';
 import { StudentFeedbackHub } from '@/components/feedback/StudentFeedbackHub';
 import { WordSearchTool } from '@/components/math/WordSearchTool';
+import MemoryGame from '@/components/math/MemoryGame';
+import { EquationBalanceQuiz } from '@/components/math/EquationBalanceQuiz';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -96,7 +98,8 @@ import {
   Columns,
   Coins,
   LayoutGrid,
-  Repeat
+  Repeat,
+  Brain
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -127,7 +130,7 @@ type ActivityType =
   | 'logic-blocks' | 'venn-diagram-game' | 'grouping-game' | 'number-grouping-game'
   | 'sudoku' | 'sudoku-generator' | 'venn-interpretation-quiz'
   | 'venn-reading-objects' | 'venn-reading-numbers' | 'axial-symmetry' | 'symmetry-error' | 'symmetry-construction' | 'axial-symmetry-quiz' | 'axial-symmetry-presentation'
-  | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search';
+  | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search' | 'memory-game' | 'equation-balance-quiz';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
 const slugToGrade = (slug: string): GradeLevel | null => {
@@ -1708,6 +1711,22 @@ export default function MathPage() {
               />
             </div>
           </section>
+
+          <section>
+            <SectionHeader id="g7-equations" number={4} title="Egyenletek" color="indigo" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Egyenletmegoldás"
+                subtitle="Mérlegelv szemléltetéssel"
+                type="Kezdés"
+                onClick={() => {
+                  handleActivitySelect('equation-balance-quiz', topicId);
+                }}
+                icon={<Scale className="w-6 h-6" />}
+                color="indigo"
+              />
+            </div>
+          </section>
         </div>
       );
     }
@@ -1770,9 +1789,12 @@ export default function MathPage() {
   };
 
   return (
-    <div className={cn("min-h-screen bg-transparent text-foreground flex flex-col", activityType === 'symmetry-construction' && "p-0 overflow-hidden h-screen")}>
+    <div className={cn(
+      "min-h-screen bg-transparent text-foreground flex flex-col", 
+      activityType === 'symmetry-construction' && "p-0 overflow-hidden h-screen"
+    )}>
       {/* Header */}
-      {activityType !== 'symmetry-construction' && (
+      {activityType !== 'symmetry-construction' && activityType !== 'student-feedback' && (
         <div className="sticky top-0 z-50 w-full">
           {/* Main Header */}
           <div className="bg-gradient-math text-white py-3 px-4 shadow-xl relative">
@@ -2418,6 +2440,13 @@ export default function MathPage() {
                 color="bg-emerald-100 border-emerald-200"
                 onClick={() => handleActivitySelect('snake-game')}
               />
+              <ToolCard
+                title="Memóriajáték"
+                desc="Jegyezd meg az ábrákat és teszteld a memóriád!"
+                icon={<Brain className="w-8 h-8" />}
+                color="bg-indigo-100 border-indigo-200 text-indigo-600"
+                onClick={() => handleActivitySelect('memory-game')}
+              />
               <div className="p-6 bg-white/50 rounded-2xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center text-center opacity-70">
                 <div className="text-3xl mb-2">🏗️</div>
                 <p className="text-sm font-bold text-slate-500">Toronyépítő</p>
@@ -2612,8 +2641,16 @@ export default function MathPage() {
                   <WordSearchTool />
                 )}
 
+                {activityType === 'memory-game' && (
+                   <MemoryGame />
+                )}
+
                 {activityType === 'equation-balance' && (
                   <EquationBalanceTool onBack={handleBack} />
+                )}
+
+                {activityType === 'equation-balance-quiz' && (
+                   <EquationBalanceQuiz onBack={handleBack} />
                 )}
 
                 {activityType === 'materials' && (
@@ -2718,7 +2755,7 @@ export default function MathPage() {
             }
           </div>
         )}
-        {activityType !== 'symmetry-construction' && <SiteFooter />}
+        {activityType !== 'symmetry-construction' && activityType !== 'student-feedback' && <SiteFooter />}
       </div>
     </div>
   );

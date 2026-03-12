@@ -468,6 +468,14 @@ export const mathTopics: MathTopic[] = [
     color: 'from-rose-500 to-pink-600',
     grades: [], // Available as a tool
   },
+  {
+    id: 'memory-game',
+    title: 'Memóriajáték',
+    description: 'Jegyezd meg az ábrákat és teszteld a memóriád! (5 nehézségi szint)',
+    icon: '🧠',
+    color: 'from-indigo-500 to-purple-600',
+    grades: [1, 2, 3, 4, 5, 6, 7, 8],
+  },
 ];
 
 export const gradeDescriptions: Record<number, string> = {
