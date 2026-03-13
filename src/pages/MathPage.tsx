@@ -68,6 +68,7 @@ import { StudentFeedbackHub } from '@/components/feedback/StudentFeedbackHub';
 import { WordSearchTool } from '@/components/math/WordSearchTool';
 import MemoryGame from '@/components/math/MemoryGame';
 import { EquationBalanceQuiz } from '@/components/math/EquationBalanceQuiz';
+import ChessGame from '@/components/math/ChessGame';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -132,7 +133,7 @@ type ActivityType =
   | 'sudoku' | 'sudoku-generator' | 'venn-interpretation-quiz'
   | 'venn-reading-objects' | 'venn-reading-numbers' | 'axial-symmetry' | 'symmetry-error' | 'symmetry-construction' | 'axial-symmetry-quiz' | 'axial-symmetry-presentation'
   | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search' | 'memory-game' | 'equation-balance-quiz'
-  | 'toto-maker';
+  | 'toto-maker' | 'chess-game';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
 const slugToGrade = (slug: string): GradeLevel | null => {
@@ -2456,6 +2457,13 @@ export default function MathPage() {
                 color="bg-indigo-100 border-indigo-200 text-indigo-600"
                 onClick={() => handleActivitySelect('memory-game')}
               />
+              <ToolCard
+                title="Sakk Mester"
+                desc="Játssz a gép ellen vagy hívd ki barátaidat!"
+                icon={<span className="text-3xl">♟️</span>}
+                color="bg-slate-100 border-slate-200 text-slate-700"
+                onClick={() => handleActivitySelect('chess-game')}
+              />
               <div className="p-6 bg-white/50 rounded-2xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center text-center opacity-70">
                 <div className="text-3xl mb-2">🏗️</div>
                 <p className="text-sm font-bold text-slate-500">Toronyépítő</p>
@@ -2656,6 +2664,10 @@ export default function MathPage() {
 
                 {activityType === 'memory-game' && (
                    <MemoryGame />
+                )}
+
+                {activityType === 'chess-game' && (
+                  <ChessGame onBack={handleBack} />
                 )}
 
                 {activityType === 'equation-balance' && (
