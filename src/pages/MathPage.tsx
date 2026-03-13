@@ -43,6 +43,7 @@ import { EquationBalanceTool } from '@/components/math/EquationBalanceTool';
 import { MoneyCalculationTool } from '@/components/math/MoneyCalculationTool';
 import DecimalShifterTool from '@/components/math/DecimalShifterTool';
 import { PuzzleMakerTool } from '@/components/math/PuzzleMakerTool';
+import { TotoTool } from '@/components/math/TotoTool';
 import { GeometryModule } from '@/components/math/GeometryModule';
 import { SymmetryQuiz } from '@/components/math/SymmetryQuiz';
 import { LogicBlocksGame } from '@/components/math/LogicBlocksGame';
@@ -130,7 +131,8 @@ type ActivityType =
   | 'logic-blocks' | 'venn-diagram-game' | 'grouping-game' | 'number-grouping-game'
   | 'sudoku' | 'sudoku-generator' | 'venn-interpretation-quiz'
   | 'venn-reading-objects' | 'venn-reading-numbers' | 'axial-symmetry' | 'symmetry-error' | 'symmetry-construction' | 'axial-symmetry-quiz' | 'axial-symmetry-presentation'
-  | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search' | 'memory-game' | 'equation-balance-quiz';
+  | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search' | 'memory-game' | 'equation-balance-quiz'
+  | 'toto-maker';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
 const slugToGrade = (slug: string): GradeLevel | null => {
@@ -2392,6 +2394,13 @@ export default function MathPage() {
                       onClick={() => handleToolSelect('puzzle-maker')}
                     />
                     <ToolCard
+                      title="Totó Készítő"
+                      desc="Készíts 13+1 kérdéses totót egyedi megfejtéssel és töltsd le PDF-ben!"
+                      icon={<span className="text-3xl">🏆</span>}
+                      color="bg-amber-100 text-amber-600"
+                      onClick={() => handleToolSelect('toto-maker')}
+                    />
+                    <ToolCard
                       title="Szókereső Készítő"
                       desc="Készíts saját szókeresőt, letölthető megoldókulccsal!"
                       icon={<span className="text-3xl">🔎</span>}
@@ -2635,6 +2644,10 @@ export default function MathPage() {
 
                 {activityType === 'puzzle-maker' && (
                   <PuzzleMakerTool onBack={handleBack} />
+                )}
+
+                {activityType === 'toto-maker' && (
+                  <TotoTool onBack={handleBack} />
                 )}
 
                 {activityType === 'word-search' && (

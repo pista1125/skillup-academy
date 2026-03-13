@@ -461,6 +461,14 @@ export const mathTopics: MathTopic[] = [
     grades: [1, 2, 3, 4, 5, 7, 8],
   },
   {
+    id: 'toto-maker',
+    title: 'Totó Készítő',
+    description: 'Készíts 13+1 kérdéses totót egyedi megfejtéssel és töltsd le PDF-ben!',
+    icon: '🏆',
+    color: 'from-amber-500 to-orange-600',
+    grades: [1, 2, 3, 4, 5, 6, 7, 8],
+  },
+  {
     id: 'student-feedback',
     title: 'Diák visszajelzés (Céltábla)',
     description: 'Kérj visszajelzést a diákokról az óra végén egy interaktív céltáblás játékkal!',

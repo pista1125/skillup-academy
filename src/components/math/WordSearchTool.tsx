@@ -8,6 +8,7 @@ import {
     Eye,
     EyeOff
 } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import { notoSansRegularBase64 } from '@/assets/fonts/NotoSans-Regular-base64';
 import { notoSansBoldBase64 } from '@/assets/fonts/NotoSans-Bold-base64';
 import { Button } from "@/components/ui/button";
@@ -17,8 +18,10 @@ import jsPDF from 'jspdf';
 // Types & Algorithms
 // ----------------------------------------------------------------------
 
-type Direction = 'RIGHT' | 'LEFT' | 'DOWN' | 'UP';
-const ALL_DIRECTIONS: Direction[] = ['RIGHT', 'LEFT', 'DOWN', 'UP'];
+type Direction = 'RIGHT' | 'LEFT' | 'DOWN' | 'UP' | 'DIAGONAL_DR' | 'DIAGONAL_DL' | 'DIAGONAL_UR' | 'DIAGONAL_UL';
+const BASIC_DIRECTIONS: Direction[] = ['RIGHT', 'LEFT', 'DOWN', 'UP'];
+const DIAGONAL_DIRECTIONS: Direction[] = ['DIAGONAL_DR', 'DIAGONAL_DL', 'DIAGONAL_UR', 'DIAGONAL_UL'];
+const ALL_DIRECTIONS: Direction[] = [...BASIC_DIRECTIONS, ...DIAGONAL_DIRECTIONS];
 
 interface PlacedWord {
     word: string;
@@ -40,10 +43,14 @@ const generateRandomLetter = () => {
 
 const getDirOffsets = (dir: Direction) => {
     switch (dir) {
-        case 'RIGHT': return { dr: 0, dc: 1 };
-        case 'LEFT':  return { dr: 0, dc: -1 };
-        case 'DOWN':  return { dr: 1, dc: 0 };
-        case 'UP':    return { dr: -1, dc: 0 };
+        case 'RIGHT':       return { dr: 0, dc: 1 };
+        case 'LEFT':        return { dr: 0, dc: -1 };
+        case 'DOWN':        return { dr: 1, dc: 0 };
+        case 'UP':          return { dr: -1, dc: 0 };
+        case 'DIAGONAL_DR': return { dr: 1, dc: 1 };
+        case 'DIAGONAL_DL': return { dr: 1, dc: -1 };
+        case 'DIAGONAL_UR': return { dr: -1, dc: 1 };
+        case 'DIAGONAL_UL': return { dr: -1, dc: -1 };
     }
 };
 
@@ -79,6 +86,7 @@ export function WordSearchTool() {
     const [newWord, setNewWord] = useState('');
     const [gridWidth, setGridWidth] = useState<number>(10);
     const [gridHeight, setGridHeight] = useState<number>(10);
+    const [enabledDirections, setEnabledDirections] = useState<Set<string>>(new Set(['RIGHT', 'DOWN', 'DIAGONAL']));
     const [showSolution, setShowSolution] = useState<boolean>(true);
     
     const [grid, setGrid] = useState<GridCell[][]>([]);
@@ -127,36 +135,43 @@ export function WordSearchTool() {
         const sortedWords = [...words].sort((a, b) => b.length - a.length);
         const placed: string[] = [];
         
-        // To satisfy the 4 directions rule
-        let usedDirections = new Set<Direction>();
-        
+        // Determine available directions based on toggles
+        const activePool: Direction[] = [];
+        if (enabledDirections.has('RIGHT')) activePool.push('RIGHT');
+        if (enabledDirections.has('LEFT')) activePool.push('LEFT');
+        if (enabledDirections.has('DOWN')) activePool.push('DOWN');
+        if (enabledDirections.has('UP')) activePool.push('UP');
+        if (enabledDirections.has('DIAGONAL')) activePool.push(...DIAGONAL_DIRECTIONS);
+
+        if (activePool.length === 0) {
+            setErrorMsg('Válassz ki legalább egy irányt!');
+            setGrid([]);
+            setPlacedWordsList([]);
+            return;
+        }
+
         for (let i = 0; i < sortedWords.length; i++) {
             const word = sortedWords[i];
             let placedSuccessfully = false;
             let attempts = 0;
-            const MAX_ATTEMPTS = 200;
+            const MAX_ATTEMPTS = 400;
 
-            // Determine preferred direction for the first few words to ensure variety
-            let preferredDir: Direction | null = null;
-            if (sortedWords.length >= 4 && i < 4) {
-                // Try to assign a unique direction to the first 4 words
-                const unused = ALL_DIRECTIONS.filter(d => !usedDirections.has(d));
-                if (unused.length > 0) {
-                    preferredDir = unused[Math.floor(Math.random() * unused.length)];
-                }
-            }
+            // Variety logic: try to use all active groups
+            const activeGroups = Array.from(enabledDirections);
+            let preferredGroup = activeGroups[i % activeGroups.length];
+            let preferredPool: Direction[] = [];
+            if (preferredGroup === 'DIAGONAL') preferredPool = DIAGONAL_DIRECTIONS;
+            else preferredPool = [preferredGroup as Direction];
 
             while (!placedSuccessfully && attempts < MAX_ATTEMPTS) {
                 const row = Math.floor(Math.random() * gridHeight);
                 const col = Math.floor(Math.random() * gridWidth);
                 
-                // If we have a preferred direction, try that first for some attempts
-                let dir = preferredDir && attempts < 50 
-                    ? preferredDir 
-                    : ALL_DIRECTIONS[Math.floor(Math.random() * ALL_DIRECTIONS.length)];
+                // Use preferred pool for first attempts to force variety
+                let dir = (attempts < 100 && preferredPool.length > 0)
+                    ? preferredPool[Math.floor(Math.random() * preferredPool.length)]
+                    : activePool[Math.floor(Math.random() * activePool.length)];
 
-                // Check bounds for this specific word length + direction
-                // (optimization to avoid calling canPlaceWord uselessly)
                 const { dr, dc } = getDirOffsets(dir);
                 const endR = row + (word.length - 1) * dr;
                 const endC = col + (word.length - 1) * dc;
@@ -166,7 +181,6 @@ export function WordSearchTool() {
                         placeWord(newGrid, word, row, col, dir);
                         placedSuccessfully = true;
                         placed.push(word);
-                        usedDirections.add(dir);
                      }
                 }
                 attempts++;
@@ -359,6 +373,42 @@ export function WordSearchTool() {
                                         onChange={(e) => setGridHeight(parseInt(e.target.value) || 10)}
                                     />
                                 </div>
+                            </div>
+                        </div>
+
+                        {/* Directions */}
+                        <div className="bg-slate-50 p-6 rounded-xl border border-slate-100 space-y-4">
+                            <h3 className="text-lg font-bold text-slate-700 flex items-center gap-2">
+                                <Settings className="w-5 h-5 text-indigo-500" />
+                                Szavak iránya
+                            </h3>
+                            <div className="flex flex-wrap gap-2">
+                                {[
+                                    { id: 'RIGHT', label: '➡', title: 'Balról jobbra' },
+                                    { id: 'LEFT', label: '⬅', title: 'Jobbról balra' },
+                                    { id: 'DOWN', label: '⬇', title: 'Föntről le' },
+                                    { id: 'UP', label: '⬆', title: 'Lentről föl' },
+                                    { id: 'DIAGONAL', label: '↗', title: 'Átlósan' },
+                                ].map((dir) => (
+                                    <button
+                                        key={dir.id}
+                                        title={dir.title}
+                                        onClick={() => {
+                                            const newDirs = new Set(enabledDirections);
+                                            if (newDirs.has(dir.id)) newDirs.delete(dir.id);
+                                            else newDirs.add(dir.id);
+                                            setEnabledDirections(newDirs);
+                                        }}
+                                        className={cn(
+                                            "w-10 h-10 flex items-center justify-center rounded-lg border-2 transition-all font-bold text-lg",
+                                            enabledDirections.has(dir.id)
+                                                ? "bg-indigo-600 border-indigo-600 text-white shadow-md shadow-indigo-200"
+                                                : "bg-white border-slate-200 text-slate-400 hover:border-indigo-300 hover:text-indigo-400"
+                                        )}
+                                    >
+                                        {dir.label}
+                                    </button>
+                                ))}
                             </div>
                         </div>
 
