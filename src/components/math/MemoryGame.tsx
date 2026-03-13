@@ -10,144 +10,35 @@ import {
   ChevronLeft, 
   ChevronRight,
   Brain,
-  Star,
-  Settings2
+  Settings2,
+  Wrench
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import MemoryEditor from './MemoryEditor';
+import { DEFAULT_LEVELS } from '@/data/memoryData';
+import * as LucideIcons from 'lucide-react';
 
 interface MemoryItem {
-  type: 'shape' | 'emoji' | 'text';
-  content: string; // "circle", "square", "triangle", or emoji, or text
-  color?: string;
-  x: number; // 0-100 percentage
-  y: number; // 0-100 percentage
-  size: number; // in pixels
-  rotation?: number;
-  isFilled?: boolean;
-  borderWidth?: number;
+  id: string;
+  type: 'shape' | 'lucide' | 'emoji';
+  content: string;
+  color: string;
+  x: number;
+  y: number;
+  size: number;
+  rotation: number;
+  isFilled: boolean;
+  flipX: boolean;
+  flipY: boolean;
+  zIndex: number;
 }
-
-interface MemoryExercise {
-  id: number;
-  items: MemoryItem[];
-}
-
-interface MemoryLevel {
-  difficulty: string;
-  exercises: MemoryExercise[];
-}
-
-const SHAPES = ['circle', 'square', 'triangle', 'pentagon', 'star', 'diamond', 'arrow', 'line', 'cross'];
-const COLORS = ['#ef4444', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#06b6d4'];
-const EMOJIS = ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐨', '🐯', '🦁', '🐮', '🐷', '🐸', '🐵'];
-const FRUITS = ['🍎', '🍐', '🍊', '🍋', '🍌', '🍉', '🍇', '🍓', '🫐', '🍒', '🍑', '🥭', '🍍', '🥥', '🥝'];
-
-// Generate exercises
-const generateExercises = (): MemoryLevel[] => {
-  const levels: MemoryLevel[] = [];
-  const difficultyNames = ['Nagyon könnyű', 'Könnyű', 'Közepes', 'Nehéz', 'Mester'];
-
-  const getComposition = (centerX: number, centerY: number, sizeMult: number): MemoryItem[] => {
-    const type = Math.floor(Math.random() * 4);
-    const color = COLORS[Math.floor(Math.random() * COLORS.length)];
-    const items: MemoryItem[] = [];
-
-    if (type === 0) { // Compass / Symbol from drawing
-      items.push({ type: 'shape', content: 'circle', x: centerX, y: centerY, size: 80 * sizeMult, color, rotation: 0 });
-      items.push({ type: 'shape', content: 'diamond', x: centerX, y: centerY, size: 30 * sizeMult, color, rotation: 0 });
-      items.push({ type: 'shape', content: 'arrow', x: centerX, y: centerY - 45 * sizeMult, size: 50 * sizeMult, color, rotation: 180 }); // Top
-      items.push({ type: 'shape', content: 'arrow', x: centerX - 45 * sizeMult, y: centerY, size: 50 * sizeMult, color, rotation: 90 }); // Left
-      items.push({ type: 'shape', content: 'triangle', x: centerX + 50 * sizeMult, y: centerY, size: 40 * sizeMult, color, rotation: 90, isFilled: true }); // Right filled
-      items.push({ type: 'shape', content: 'triangle', x: centerX, y: centerY + 55 * sizeMult, size: 60 * sizeMult, color, rotation: 0 }); // Bottom triangle
-      items.push({ type: 'shape', content: 'circle', x: centerX, y: centerY + 58 * sizeMult, size: 25 * sizeMult, color, rotation: 0 }); // Circle inside bottom triangle
-    } else if (type === 1) { // Flower / Sun
-      items.push({ type: 'shape', content: 'circle', x: centerX, y: centerY, size: 60 * sizeMult, color, rotation: 0, isFilled: true });
-      for (let i = 0; i < 8; i++) {
-        const angle = (i * 45) * Math.PI / 180;
-        items.push({ 
-          type: 'shape', 
-          content: 'triangle', 
-          x: centerX + Math.cos(angle) * 40 * sizeMult, 
-          y: centerY + Math.sin(angle) * 40 * sizeMult, 
-          size: 30 * sizeMult, 
-          color, 
-          rotation: (i * 45) + 90 
-        });
-      }
-    } else if (type === 2) { // Robot / Face
-      items.push({ type: 'shape', content: 'square', x: centerX, y: centerY, size: 100 * sizeMult, color, rotation: 0 });
-      items.push({ type: 'shape', content: 'circle', x: centerX - 25 * sizeMult, y: centerY - 20 * sizeMult, size: 20 * sizeMult, color, rotation: 0, isFilled: true });
-      items.push({ type: 'shape', content: 'circle', x: centerX + 25 * sizeMult, y: centerY - 20 * sizeMult, size: 20 * sizeMult, color, rotation: 0, isFilled: true });
-      items.push({ type: 'shape', content: 'triangle', x: centerX, y: centerY + 5 * sizeMult, size: 25 * sizeMult, color, rotation: 0 });
-      items.push({ type: 'shape', content: 'line', x: centerX, y: centerY + 30 * sizeMult, size: 30 * sizeMult, color, rotation: 90 });
-    } else { // Abstract Tree
-      items.push({ type: 'shape', content: 'triangle', x: centerX, y: centerY - 10 * sizeMult, size: 80 * sizeMult, color, rotation: 0, isFilled: true });
-      items.push({ type: 'shape', content: 'triangle', x: centerX, y: centerY - 35 * sizeMult, size: 60 * sizeMult, color, rotation: 0, isFilled: true });
-      items.push({ type: 'shape', content: 'square', x: centerX, y: centerY + 25 * sizeMult, size: 30 * sizeMult, color, rotation: 0, isFilled: true });
-    }
-    return items;
-  };
-
-  for (let l = 0; l < 5; l++) {
-    const exercises: MemoryExercise[] = [];
-    for (let e = 1; e <= 10; e++) {
-      const items: MemoryItem[] = [];
-      
-      const useComposition = l >= 1 && Math.random() > 0.3;
-
-      if (useComposition) {
-        items.push(...getComposition(30 + Math.random() * 40, 30 + Math.random() * 40, 1 + (l * 0.2)));
-        // Add some noise items for higher levels
-        if (l >= 3) {
-           for (let i = 0; i < l; i++) {
-            items.push({
-              type: 'emoji',
-              content: EMOJIS[Math.floor(Math.random() * EMOJIS.length)],
-              x: 10 + Math.random() * 80,
-              y: 10 + Math.random() * 80,
-              size: 40,
-            });
-           }
-        }
-      } else {
-        const itemCount = l === 0 ? (e <= 5 ? 1 : 2) : 
-                          l === 1 ? (e <= 5 ? 3 : 4) :
-                          l === 2 ? (e <= 5 ? 5 : 6) :
-                          l === 3 ? (e <= 5 ? 7 : 8) : 10;
-
-        for (let i = 0; i < itemCount; i++) {
-          let type: 'shape' | 'emoji' | 'text' = 'shape';
-          if (l >= 3) type = Math.random() > 0.3 ? 'emoji' : 'shape';
-          if (l === 4) type = Math.random() > 0.5 ? 'emoji' : (Math.random() > 0.5 ? 'text' : 'shape');
-
-          let content = '';
-          if (type === 'shape') content = SHAPES[Math.floor(Math.random() * SHAPES.length)];
-          else if (type === 'emoji') content = [...EMOJIS, ...FRUITS][Math.floor(Math.random() * (EMOJIS.length + FRUITS.length))];
-          else content = Math.floor(Math.random() * 100).toString();
-
-          items.push({
-            type,
-            content,
-            color: type === 'shape' ? COLORS[Math.floor(Math.random() * COLORS.length)] : undefined,
-            x: 10 + Math.random() * 80,
-            y: 10 + Math.random() * 80,
-            size: 40 + Math.random() * 40,
-            rotation: l >= 2 ? Math.random() * 360 : 0
-          });
-        }
-      }
-      exercises.push({ id: e, items });
-    }
-    levels.push({ difficulty: difficultyNames[l], exercises });
-  }
-  return levels;
-};
-
-const LEVELS = generateExercises();
 
 export default function MemoryGame() {
+  const [isEditorMode, setIsEditorMode] = useState(false);
   const [levelIdx, setLevelIdx] = useState(0);
   const [exerciseIdx, setExerciseIdx] = useState(0);
+  const [allLevels, setAllLevels] = useState(DEFAULT_LEVELS);
+  
   const [isVisible, setIsVisible] = useState(true);
   const [timerSeconds, setTimerSeconds] = useState(20);
   const [timeLeft, setTimeLeft] = useState(0);
@@ -155,6 +46,23 @@ export default function MemoryGame() {
   const [showSettings, setShowSettings] = useState(false);
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Load levels from local storage
+  useEffect(() => {
+    const saved = localStorage.getItem('memory_game_custom_levels');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        const merged = DEFAULT_LEVELS.map((level, lIdx) => ({
+          ...level,
+          exercises: parsed[lIdx] || level.exercises
+        }));
+        setAllLevels(merged);
+      } catch (e) {
+        console.error("Failed to load saved levels", e);
+      }
+    }
+  }, [isEditorMode]);
 
   useEffect(() => {
     if (isTimerRunning && timeLeft > 0) {
@@ -189,115 +97,72 @@ export default function MemoryGame() {
     setIsVisible(true);
   };
 
-  const currentLevel = LEVELS[levelIdx];
+  const currentLevel = allLevels[levelIdx];
   const currentExercise = currentLevel.exercises[exerciseIdx];
 
-  const renderItem = (item: MemoryItem, idx: number) => {
-    const style = {
+  const renderItem = (item: MemoryItem) => {
+    const style: React.CSSProperties = {
       left: `${item.x}%`,
       top: `${item.y}%`,
-      transform: `translate(-50%, -50%) rotate(${item.rotation || 0}deg)`,
+      transform: `translate(-50%, -50%) rotate(${item.rotation}deg) scaleX(${item.flipX ? -1 : 1}) scaleY(${item.flipY ? -1 : 1})`,
       fontSize: `${item.size}px`,
       color: item.color,
-      position: 'absolute' as const,
-      zIndex: item.content === 'circle' && !item.isFilled ? 10 : 1 // Bring outlines to front
+      position: 'absolute',
+      zIndex: item.zIndex
     };
 
-    if (item.type === 'emoji' || item.type === 'text') {
-      return <div key={idx} style={style}>{item.content}</div>;
+    if (item.type === 'emoji') {
+      return <div key={item.id} style={style}>{item.content}</div>;
+    }
+
+    if (item.type === 'lucide') {
+      const IconComp = (LucideIcons as any)[item.content];
+      return (
+        <div key={item.id} style={style}>
+          {IconComp && <IconComp size={item.size} strokeWidth={item.isFilled ? 3 : 2} fill={item.isFilled ? 'currentColor' : 'none'} />}
+        </div>
+      );
     }
 
     if (item.type === 'shape') {
-      const commonProps = {
-        style: {
-          width: item.size,
-          height: item.size,
-          backgroundColor: item.isFilled ? item.color : 'transparent',
-          border: !item.isFilled ? `3px solid ${item.color}` : 'none',
-        }
-      };
-
       return (
-        <div key={idx} style={style}>
-          {item.content === 'circle' && (
-            <div className="rounded-full" style={{ ...commonProps.style }} />
-          )}
-          {item.content === 'square' && (
-            <div style={{ ...commonProps.style }} />
-          )}
-          {item.content === 'triangle' && (
-            <svg width={item.size} height={item.size} viewBox="0 0 100 100" className="overflow-visible">
-              <path 
-                d="M 50 0 L 100 100 L 0 100 Z" 
-                fill={item.isFilled ? item.color : "none"} 
-                stroke={item.color} 
-                strokeWidth={item.isFilled ? 0 : 8} 
-              />
-            </svg>
-          )}
-          {item.content === 'star' && (
-             <div className="flex items-center justify-center" style={{ width: item.size, height: item.size, color: item.color }}>
-                <Star size={item.size} fill={item.isFilled ? "currentColor" : "none"} stroke="currentColor" strokeWidth={2} />
-             </div>
-          )}
-          {item.content === 'pentagon' && (
-            <div 
-              style={{ 
-                ...commonProps.style,
-                clipPath: 'polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%)'
-              }} 
-            />
-          )}
-          {item.content === 'diamond' && (
-             <div 
-              style={{ 
-                ...commonProps.style,
-                clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)'
-              }} 
-            />
-          )}
-          {item.content === 'arrow' && (
-            <div className="relative flex flex-col items-center justify-center" style={{ width: item.size, height: item.size }}>
-              <div 
-                style={{ 
-                  width: 3, 
-                  height: item.size * 0.7, 
-                  backgroundColor: item.color 
-                }} 
-              />
-              <div 
-                style={{ 
-                  width: 0, 
-                  height: 0, 
-                  borderLeft: `${item.size * 0.25}px solid transparent`,
-                  borderRight: `${item.size * 0.25}px solid transparent`,
-                  borderBottom: `${item.size * 0.3}px solid ${item.color}`,
-                  position: 'absolute',
-                  top: 0
-                }} 
-              />
-            </div>
-          )}
-          {item.content === 'line' && (
-            <div 
-              style={{ 
-                width: item.size, 
-                height: 3, 
-                backgroundColor: item.color 
-              }} 
-            />
-          )}
-          {item.content === 'cross' && (
-            <div className="relative" style={{ width: item.size, height: item.size }}>
-              <div className="absolute inset-0 m-auto" style={{ width: item.size, height: 3, backgroundColor: item.color }} />
-              <div className="absolute inset-0 m-auto" style={{ width: 3, height: item.size, backgroundColor: item.color }} />
-            </div>
-          )}
+        <div key={item.id} style={style}>
+          <div 
+            style={{ 
+              width: item.size, 
+              height: item.size, 
+              backgroundColor: item.isFilled ? item.color : 'transparent',
+              border: !item.isFilled ? `3px solid ${item.color}` : 'none'
+            }} 
+            className={cn(
+              item.content === 'circle' && "rounded-full",
+              item.content === 'square' && "rounded-none"
+            )}
+           />
         </div>
       );
     }
     return null;
   };
+
+  if (isEditorMode) {
+    return (
+      <div className="w-full max-w-7xl mx-auto p-4 flex flex-col gap-6 h-screen">
+        <div className="flex justify-between items-center bg-white dark:bg-slate-900 p-4 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl">
+           <div className="flex items-center gap-3">
+              <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-xl text-indigo-600">
+                 <Wrench size={20} />
+              </div>
+              <h1 className="font-bold text-lg">Szerkesztő Mód</h1>
+           </div>
+           <Button onClick={() => setIsEditorMode(false)} className="rounded-xl gap-2">
+              Vissza a játékhoz
+           </Button>
+        </div>
+        <MemoryEditor />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-6xl mx-auto p-4 flex flex-col gap-6">
@@ -312,21 +177,26 @@ export default function MemoryGame() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2 bg-white dark:bg-slate-800 p-2 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-          {LEVELS.map((level, idx) => (
-            <button
-              key={idx}
-              onClick={() => { setLevelIdx(idx); setExerciseIdx(0); resetTimer(); }}
-              className={cn(
-                "px-4 py-2 rounded-xl text-sm font-medium transition-all",
-                levelIdx === idx 
-                  ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200 dark:shadow-none scale-105" 
-                  : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700"
-              )}
-            >
-              {level.difficulty}
-            </button>
-          ))}
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="icon" onClick={() => setIsEditorMode(true)} className="rounded-full bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 hover:text-indigo-600">
+             <Settings2 size={20} />
+          </Button>
+          <div className="flex items-center gap-2 bg-white dark:bg-slate-800 p-2 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+            {allLevels.map((level, idx) => (
+              <button
+                key={idx}
+                onClick={() => { setLevelIdx(idx); setExerciseIdx(0); resetTimer(); }}
+                className={cn(
+                  "px-4 py-2 rounded-xl text-sm font-medium transition-all",
+                  levelIdx === idx 
+                    ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200 dark:shadow-none scale-105" 
+                    : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700"
+                )}
+              >
+                {level.difficulty}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -468,7 +338,14 @@ export default function MemoryGame() {
             
             {isVisible ? (
               <div className="relative w-full h-full p-12">
-                {currentExercise.items.map((item, idx) => renderItem(item, idx))}
+                {currentExercise.items?.map((item: any) => renderItem(item))}
+                {(!currentExercise.items || currentExercise.items.length === 0) && (
+                   <div className="flex flex-col items-center justify-center opacity-30 h-full">
+                      <Brain size={64} className="mb-4" />
+                      <p className="font-bold">Nincs még feladat ezen a szinten</p>
+                      <p className="text-sm">Válts szerkesztő módra az ábrák elhelyezéséhez!</p>
+                   </div>
+                )}
               </div>
             ) : (
               <div className="flex flex-col items-center gap-6 relative z-10 animate-in fade-in zoom-in duration-300">

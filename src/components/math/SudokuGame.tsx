@@ -20,6 +20,7 @@ export function SudokuGame({ onBack }: { onBack: () => void }) {
     const [initialBoard, setInitialBoard] = useState<number[][]>([]);
     const [solution, setSolution] = useState<number[][]>([]);
     const [selectedCell, setSelectedCell] = useState<[number, number] | null>(null);
+    const [lastError, setLastError] = useState<[number, number] | null>(null);
 
     const [mistakes, setMistakes] = useState(0);
     const [time, setTime] = useState(0);
@@ -69,6 +70,7 @@ export function SudokuGame({ onBack }: { onBack: () => void }) {
             const newBoard = board.map(row => [...row]);
             newBoard[r][c] = num;
             setBoard(newBoard);
+            setLastError(null);
 
             // Check for win
             const isComplete = newBoard.every((row, ri) =>
@@ -82,7 +84,9 @@ export function SudokuGame({ onBack }: { onBack: () => void }) {
             }
         } else {
             setMistakes(prev => prev + 1);
-            // Optional: Add visual feedack for wrong number
+            setLastError([r, c]);
+            // Clear error after animation
+            setTimeout(() => setLastError(null), 1000);
         }
     }, [selectedCell, board, solution, initialBoard, gameState]);
 
@@ -124,6 +128,7 @@ export function SudokuGame({ onBack }: { onBack: () => void }) {
                         const isSameValue = selectedCell && val !== 0 && val === board[selectedCell[0]][selectedCell[1]];
                         const isInitial = initialBoard[r][c] !== 0;
                         const isDiagonal = type === 'extreme' && (r === c || r + c === size - 1);
+                        const isError = lastError?.[0] === r && lastError?.[1] === c;
 
                         return (
                             <div
@@ -131,11 +136,12 @@ export function SudokuGame({ onBack }: { onBack: () => void }) {
                                 onClick={() => handleCellClick(r, c)}
                                 className={cn(
                                     "flex items-center justify-center text-xl sm:text-2xl font-bold cursor-pointer transition-all border border-slate-300 relative",
-                                    "hover:bg-primary/20",
-                                    isSelected ? "bg-primary text-white z-20" :
-                                        isSameValue ? "bg-amber-100" :
-                                            isRelated ? "bg-slate-50" : "bg-white",
-                                    isInitial ? "text-slate-900" : "text-primary",
+                                    "hover:bg-primary/10",
+                                    isSelected ? "bg-indigo-600 text-white ring-2 ring-inset ring-indigo-400 z-20 shadow-[0_0_15px_rgba(79,70,229,0.3)]" :
+                                        isError ? "bg-rose-100 text-rose-600 animate-shake" :
+                                            isSameValue ? "bg-indigo-100" :
+                                                isRelated ? "bg-slate-50" : "bg-white",
+                                    isInitial ? (isSelected ? "text-white" : "text-slate-900") : (isSelected ? "text-indigo-100" : "text-indigo-600"),
                                     // Thick borders for subgrids
                                     (c + 1) % subW === 0 && c < size - 1 && "border-r-4 border-r-slate-800",
                                     (r + 1) % subH === 0 && r < size - 1 && "border-b-4 border-b-slate-800",
