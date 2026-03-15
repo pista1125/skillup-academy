@@ -46,18 +46,6 @@ export function TargetBoardGame({ session, onComplete, isStudentView, studentId 
   const RINGS = 10;
   const RING_STEP = MAX_RADIUS / RINGS;
 
-  useEffect(() => {
-    fetchStudents();
-    if (session.feedback_mode === 'individual') {
-      fetchProgress();
-      subscribeToProgress();
-    }
-    
-    if (isStudentView && studentId) {
-      setActiveStudentId(studentId);
-    }
-  }, [session.id, session.class_id, isStudentView, studentId]);
-
   const fetchStudents = async () => {
     const { data, error } = await supabase
       .from('feedback_students')
@@ -118,7 +106,11 @@ export function TargetBoardGame({ session, onComplete, isStudentView, studentId 
             const { student_id, progress, status } = payload.new as any;
             setStudentProgress(prev => ({ ...prev, [student_id]: progress }));
             if (status === 'read') {
-              setCompletedStudents(prev => new Set([...Array.from(prev), student_id]));
+              setCompletedStudents(prev => {
+                const next = new Set(prev);
+                next.add(student_id);
+                return next;
+              });
             }
           }
         }
@@ -133,16 +125,38 @@ export function TargetBoardGame({ session, onComplete, isStudentView, studentId 
         },
         (payload) => {
           if (payload.new) {
-            setCompletedStudents(prev => new Set([...Array.from(prev), payload.new.student_id]));
+            setCompletedStudents(prev => {
+              const next = new Set(prev);
+              next.add(payload.new.student_id);
+              return next;
+            });
           }
         }
       )
       .subscribe();
 
-    return () => {
-      supabase.removeChannel(channel);
-    };
+    return channel;
   };
+
+  useEffect(() => {
+    fetchStudents();
+    let channel: any = null;
+
+    if (session.feedback_mode === 'individual') {
+      fetchProgress();
+      channel = subscribeToProgress();
+    }
+    
+    if (isStudentView && studentId) {
+      setActiveStudentId(studentId);
+    }
+
+    return () => {
+      if (channel) {
+        supabase.removeChannel(channel);
+      }
+    };
+  }, [session.id, session.class_id, isStudentView, studentId]);
 
   const getAngle = (cx: number, cy: number, ex: number, ey: number) => {
     const dy = ey - cy;
