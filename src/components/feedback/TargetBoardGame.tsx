@@ -421,7 +421,7 @@ export function TargetBoardGame({ session, onComplete, isStudentView, studentId 
   };
 
   return (
-    <div className="flex flex-col min-h-[600px] bg-white border-none overflow-hidden rounded-[2.5rem]">
+    <div className="flex flex-col h-screen bg-slate-50 border-none overflow-hidden">
       {/* Compact Header */}
       <div className="bg-white px-6 py-2 border-b flex items-center justify-between shadow-sm z-10 shrink-0">
         <div className="flex items-center gap-4">
@@ -447,7 +447,7 @@ export function TargetBoardGame({ session, onComplete, isStudentView, studentId 
 
       <div className="flex flex-1 overflow-hidden">
         {/* Game Area */}
-        <div className="flex-1 flex flex-col items-center justify-start pt-4 lg:pt-8 bg-white overflow-y-auto custom-scrollbar">
+        <div className="flex-1 flex flex-col items-center justify-start pt-4 lg:pt-8 bg-slate-50/50 overflow-y-auto custom-scrollbar">
           
           <div className="mb-4 text-center shrink-0">
             {activeStudentId ? (
