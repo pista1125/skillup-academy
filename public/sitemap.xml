@@ -1,21 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Főoldalak -->
   <url>
     <loc>https://diakzona.hu/</loc>
-    <lastmod>2024-03-15</lastmod>
+    <lastmod>2026-03-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://diakzona.hu/eszkozok</loc>
-    <lastmod>2024-03-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://diakzona.hu/jatekok</loc>
-    <lastmod>2024-03-15</lastmod>
+    <lastmod>2026-03-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
+  <url>
+    <loc>https://diakzona.hu/jatekok</loc>
+    <lastmod>2026-03-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Évfolyamok -->
+  <url><loc>https://diakzona.hu/1-osztaly</loc><lastmod>2026-03-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://diakzona.hu/2-osztaly</loc><lastmod>2026-03-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://diakzona.hu/3-osztaly</loc><lastmod>2026-03-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://diakzona.hu/4-osztaly</loc><lastmod>2026-03-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://diakzona.hu/5-osztaly</loc><lastmod>2026-03-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://diakzona.hu/6-osztaly</loc><lastmod>2026-03-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://diakzona.hu/7-osztaly</loc><lastmod>2026-03-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://diakzona.hu/8-osztaly</loc><lastmod>2026-03-15</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+
+  <!-- Eszközök és Játékok (Közvetlen linkek) -->
+  <url><loc>https://diakzona.hu/eszkozok/number-line</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://diakzona.hu/eszkozok/long-division</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://diakzona.hu/eszkozok/fractions</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://diakzona.hu/eszkozok/percentages</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://diakzona.hu/eszkozok/geometry</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://diakzona.hu/eszkozok/construction</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://diakzona.hu/jatekok/snake-game</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://diakzona.hu/jatekok/chess-game</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://diakzona.hu/jatekok/sudoku</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://diakzona.hu/jatekok/memory-game</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- Témakörök évfolyamok szerint -->
+  <!-- 4. osztály -->
+  <url><loc>https://diakzona.hu/4-osztaly/g4-count-10k</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://diakzona.hu/4-osztaly/g4-measurements</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://diakzona.hu/4-osztaly/g4-written-ops</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://diakzona.hu/4-osztaly/g4-long-div</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://diakzona.hu/4-osztaly/g4-fractions</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+
+  <!-- 5. osztály -->
+  <url><loc>https://diakzona.hu/5-osztaly/g5-integers</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://diakzona.hu/5-osztaly/g5-fractions-decimals</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://diakzona.hu/5-osztaly/g5-geometry-intro</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://diakzona.hu/5-osztaly/g5-proportion-problems</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+
+  <!-- 6. osztály -->
+  <url><loc>https://diakzona.hu/6-osztaly/g6-integers-divisibility</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://diakzona.hu/6-osztaly/g6-fractions</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://diakzona.hu/6-osztaly/g6-geometry-symmetry</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://diakzona.hu/6-osztaly/g6-ratio-percent-word</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+
+  <!-- 7. osztály -->
+  <url><loc>https://diakzona.hu/7-osztaly/g7-rational-algebra</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://diakzona.hu/7-osztaly/g7-geom-trans</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://diakzona.hu/7-osztaly/g7-powers-divisibility</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://diakzona.hu/7-osztaly/g7-percent-equations</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+
+  <!-- 8. osztály -->
+  <url><loc>https://diakzona.hu/8-osztaly/geometry</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://diakzona.hu/8-osztaly/percentages</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://diakzona.hu/8-osztaly/algebra</loc><lastmod>2026-03-15</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
 </urlset>
