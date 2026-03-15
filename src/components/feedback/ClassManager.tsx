@@ -4,7 +4,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Plus, Trash2, Edit2, Check, X, Users, UserPlus, Smile } from 'lucide-react';
+import { Plus, Trash2, Edit2, Check, X, Users, UserPlus, Smile, Link, Unlink, Search, Mail } from 'lucide-react';
 import { toast } from 'sonner';
 import {
   Dialog,
@@ -76,6 +76,18 @@ interface Student {
   class_id: string;
   name: string;
   avatar_id: string;
+  profile_id?: string | null;
+  profile?: {
+    full_name: string | null;
+    username: string | null;
+  } | null;
+}
+
+interface Profile {
+  id: string;
+  full_name: string | null;
+  username: string | null;
+  email?: string; // We might get this indirectly if stored in profiles, or we might just use full_name
 }
 
 export function ClassManager() {
@@ -99,6 +111,13 @@ export function ClassManager() {
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
   const [avatarMode, setAvatarMode] = useState<'new' | 'edit'>('new');
   const [activeCategory, setActiveCategory] = useState(AVATAR_CATEGORIES[0].id);
+
+  // Link Account State
+  const [isLinkModalOpen, setIsLinkModalOpen] = useState(false);
+  const [linkingStudentId, setLinkingStudentId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<Profile[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -136,7 +155,10 @@ export function ClassManager() {
   const fetchStudents = async (classId: string) => {
     const { data, error } = await supabase
       .from('feedback_students')
-      .select('*')
+      .select(`
+        *,
+        profile:profiles(full_name, username)
+      `)
       .eq('class_id', classId)
       .order('name');
 
@@ -268,6 +290,69 @@ export function ClassManager() {
       setEditStudentAvatar(avatar);
     }
     setIsAvatarModalOpen(false);
+  };
+
+  const searchProfiles = async () => {
+    if (!searchQuery.trim() || searchQuery.length < 3) {
+      toast.error('Legalább 3 karaktert írj be a kereséshez!');
+      return;
+    }
+
+    setIsSearching(true);
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('id, full_name, username')
+      .or(`full_name.ilike.%${searchQuery}%,username.ilike.%${searchQuery}%`)
+      .limit(10);
+
+    if (error) {
+      toast.error('Hiba a keresés során');
+    } else {
+      setSearchResults(data || []);
+      if (data?.length === 0) toast.info('Nincs találat');
+    }
+    setIsSearching(false);
+  };
+
+  const linkAccount = async (profileId: string) => {
+    if (!linkingStudentId) return;
+
+    const { error } = await supabase
+      .from('feedback_students')
+      .update({ profile_id: profileId })
+      .eq('id', linkingStudentId);
+
+    if (error) {
+      toast.error('Hiba az összekapcsoláskor');
+    } else {
+      toast.success('Fiók sikeresen összekapcsolva');
+      fetchStudents(selectedClassId!);
+      setIsLinkModalOpen(false);
+      setLinkingStudentId(null);
+      setSearchQuery('');
+      setSearchResults([]);
+    }
+  };
+
+  const unlinkAccount = async (studentId: string) => {
+    if (!confirm('Biztosan megszünteted az összekapcsolást ezzel a fiókkal?')) return;
+
+    const { error } = await supabase
+      .from('feedback_students')
+      .update({ profile_id: null })
+      .eq('id', studentId);
+
+    if (error) {
+      toast.error('Hiba a megszüntetéskor');
+    } else {
+      toast.success('Összekapcsolás megszüntetve');
+      fetchStudents(selectedClassId!);
+    }
+  };
+
+  const openLinkModal = (studentId: string) => {
+    setLinkingStudentId(studentId);
+    setIsLinkModalOpen(true);
   };
 
   if (isLoading && classes.length === 0) {
@@ -412,6 +497,20 @@ export function ClassManager() {
                           <Button 
                             variant="ghost" 
                             size="icon" 
+                            className={cn(
+                              "h-8 w-8",
+                              student.profile_id 
+                                ? "text-emerald-500 hover:text-red-500 hover:bg-red-50" 
+                                : "text-slate-400 hover:text-indigo-600 hover:bg-indigo-50"
+                            )}
+                            onClick={() => student.profile_id ? unlinkAccount(student.id) : openLinkModal(student.id)}
+                            title={student.profile_id ? "Összekapcsolás megszüntetése" : "Összekapcsolás felhasználói fiókkal"}
+                          >
+                            {student.profile_id ? <Unlink className="w-4 h-4" /> : <Link className="w-4 h-4" />}
+                          </Button>
+                          <Button 
+                            variant="ghost" 
+                            size="icon" 
                             className="h-8 w-8 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50"
                             onClick={() => startEditStudent(student)}
                           >
@@ -426,6 +525,14 @@ export function ClassManager() {
                             <Trash2 className="w-4 h-4" />
                           </Button>
                         </div>
+                      </div>
+                    )}
+                    {student.profile_id && (
+                      <div className="px-3 pb-2 flex items-center gap-1.5 ">
+                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                        <span className="text-[10px] font-bold text-emerald-600 truncate">
+                          Összekapcsolva: {student.profile?.full_name || student.profile?.username}
+                        </span>
                       </div>
                     )}
                   </div>
@@ -497,6 +604,71 @@ export function ClassManager() {
                     >
                       Kész
                     </Button>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+            
+            {/* Link Account Modal */}
+            <Dialog open={isLinkModalOpen} onOpenChange={setIsLinkModalOpen}>
+              <DialogContent className="max-w-md bg-white border-none shadow-2xl rounded-[2.5rem] p-8">
+                <DialogHeader>
+                  <DialogTitle className="text-2xl font-black text-slate-800 flex items-center gap-3">
+                    <Link className="w-6 h-6 text-indigo-500" />
+                    Fiók összekapcsolása
+                  </DialogTitle>
+                </DialogHeader>
+
+                <div className="space-y-4 mt-4">
+                  <p className="text-sm text-slate-500">
+                    Keress rá a diákra a teljes neve vagy felhasználóneve alapján, hogy össze tudd kapcsolni a regisztrált fiókjával.
+                  </p>
+                  
+                  <div className="flex gap-2">
+                    <div className="relative flex-1">
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                      <Input 
+                        placeholder="Név vagy felhasználónév..." 
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && searchProfiles()}
+                        className="pl-10 rounded-xl"
+                      />
+                    </div>
+                    <Button 
+                      onClick={searchProfiles} 
+                      disabled={isSearching || searchQuery.length < 3}
+                      className="bg-indigo-600 hover:bg-indigo-700 rounded-xl"
+                    >
+                      Keresés
+                    </Button>
+                  </div>
+
+                  <div className="max-h-[300px] overflow-y-auto mt-4 space-y-2 custom-scrollbar pr-1">
+                    {isSearching ? (
+                      <div className="text-center py-8 text-slate-400 text-sm">Keresés...</div>
+                    ) : searchResults.length > 0 ? (
+                      searchResults.map(profile => (
+                        <div 
+                          key={profile.id}
+                          className="flex items-center justify-between p-3 rounded-xl border border-slate-100 bg-slate-50/50 hover:bg-indigo-50/30 hover:border-indigo-100 transition-colors group"
+                        >
+                          <div className="flex flex-col">
+                            <span className="font-bold text-slate-800 text-sm">{profile.full_name || profile.username}</span>
+                            <span className="text-[10px] text-slate-400">@{profile.username}</span>
+                          </div>
+                          <Button 
+                            size="sm" 
+                            onClick={() => linkAccount(profile.id)}
+                            className="bg-white text-indigo-600 border border-indigo-200 hover:bg-indigo-600 hover:text-white rounded-lg h-8 text-xs font-bold"
+                          >
+                            Összekapcsolás
+                          </Button>
+                        </div>
+                      ))
+                    ) : searchQuery.length >= 3 ? (
+                      <div className="text-center py-8 text-slate-400 text-sm italic">Nincs találat a megadott névre.</div>
+                    ) : null}
                   </div>
                 </div>
               </DialogContent>

@@ -4,8 +4,9 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Target, Play } from 'lucide-react';
+import { Target, Play, Monitor, Smartphone } from 'lucide-react';
 import { toast } from 'sonner';
+import { cn } from '@/lib/utils';
 
 interface ClassGroup {
   id: string;
@@ -21,6 +22,7 @@ export function TargetBoardSetup({ onStart }: TargetBoardSetupProps) {
   const [classes, setClasses] = useState<ClassGroup[]>([]);
   const [selectedClassId, setSelectedClassId] = useState<string>('');
   const [lessonInfo, setLessonInfo] = useState('');
+  const [feedbackMode, setFeedbackMode] = useState<'projected' | 'individual'>('projected');
   
   // Szempontok (2-4 között lehet)
   const [aspectCount, setAspectCount] = useState<2 | 3 | 4>(3);
@@ -75,7 +77,8 @@ export function TargetBoardSetup({ onStart }: TargetBoardSetupProps) {
         class_id: selectedClassId,
         tool_type: 'target_board',
         aspects: aspects,
-        lesson_info: lessonInfo
+        lesson_info: lessonInfo,
+        feedback_mode: feedbackMode
       })
       .select()
       .single();
@@ -83,6 +86,36 @@ export function TargetBoardSetup({ onStart }: TargetBoardSetupProps) {
     if (error) {
       toast.error('Hiba a játék indításakor');
       return;
+    }
+
+    // Ha egyéni mód, értesítések kiküldése a bekötött diákoknak
+    if (feedbackMode === 'individual') {
+      const { data: students } = await supabase
+        .from('feedback_students')
+        .select('id, profile_id')
+        .eq('class_id', selectedClassId)
+        .not('profile_id', 'is', null);
+
+      if (students && students.length > 0) {
+        const notifications = students.map(s => ({
+          session_id: session.id,
+          student_id: s.id,
+          profile_id: s.profile_id,
+          status: 'unread'
+        }));
+
+        const { error: notifyError } = await supabase
+          .from('feedback_notifications')
+          .insert(notifications);
+
+        if (notifyError) {
+          console.error('Hiba az értesítések küldésekor:', notifyError);
+        } else {
+          toast.success(`${students.length} diáknak küldtünk értesítést.`);
+        }
+      } else {
+        toast.warning('Ebben az osztályban nincs egyetlen fiókhoz kapcsolt diák sem, aki egyénileg tudna visszajelezni.');
+      }
     }
 
     // Átadjuk a fő komponensnek a létrehozott sessiont
@@ -104,7 +137,7 @@ export function TargetBoardSetup({ onStart }: TargetBoardSetupProps) {
 
   return (
     <div className="max-w-2xl mx-auto space-y-8">
-      <div className="space-y-4">
+      <div className="space-y-6">
         <div>
           <Label className="text-lg font-semibold text-slate-800">1. Válaszd ki az osztályt</Label>
           <p className="text-sm text-slate-500 mb-3">Melyik osztálytól kérsz most visszajelzést?</p>
@@ -173,6 +206,57 @@ export function TargetBoardSetup({ onStart }: TargetBoardSetupProps) {
                 />
               </div>
             ))}
+          </div>
+        </div>
+
+        <div className="pt-4 border-t">
+          <Label className="text-lg font-semibold text-slate-800">4. Visszajelzés módja</Label>
+          <p className="text-sm text-slate-500 mb-4">Hogyan szeretnéd összegyűjteni a válaszokat?</p>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <button
+              onClick={() => setFeedbackMode('projected')}
+              className={cn(
+                "flex items-start gap-4 p-4 rounded-2xl border-2 transition-all text-left",
+                feedbackMode === 'projected'
+                  ? "border-indigo-500 bg-indigo-50 shadow-sm"
+                  : "border-slate-100 bg-white hover:border-slate-200"
+              )}
+            >
+              <div className={cn("p-2 rounded-xl", feedbackMode === 'projected' ? "bg-indigo-500 text-white" : "bg-slate-100 text-slate-400")}>
+                <Monitor className="w-5 h-5" />
+              </div>
+              <div>
+                <div className={cn("font-bold text-sm", feedbackMode === 'projected' ? "text-indigo-900" : "text-slate-700")}>
+                  Közös gép (Kivetítve)
+                </div>
+                <div className="text-[11px] text-slate-500 font-medium leading-relaxed mt-1">
+                  A diákok kijönnek a tanári géphez és egyesével adják le a voksukat.
+                </div>
+              </div>
+            </button>
+
+            <button
+              onClick={() => setFeedbackMode('individual')}
+              className={cn(
+                "flex items-start gap-4 p-4 rounded-2xl border-2 transition-all text-left",
+                feedbackMode === 'individual'
+                  ? "border-emerald-500 bg-emerald-50 shadow-sm"
+                  : "border-slate-100 bg-white hover:border-slate-200"
+              )}
+            >
+              <div className={cn("p-2 rounded-xl", feedbackMode === 'individual' ? "bg-emerald-500 text-white" : "bg-slate-100 text-slate-400")}>
+                <Smartphone className="w-5 h-5" />
+              </div>
+              <div>
+                <div className={cn("font-bold text-sm", feedbackMode === 'individual' ? "text-emerald-900" : "text-slate-700")}>
+                  Saját eszköz (Direct)
+                </div>
+                <div className="text-[11px] text-slate-500 font-medium leading-relaxed mt-1">
+                  Minden gyerek a saját telefonján/gépén kap értesítést és ott jelez vissza.
+                </div>
+              </div>
+            </button>
           </div>
         </div>
       </div>

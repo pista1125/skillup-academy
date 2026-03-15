@@ -8,6 +8,8 @@ import { cn } from '@/lib/utils';
 interface TargetBoardGameProps {
   session: any;
   onComplete: () => void;
+  isStudentView?: boolean;
+  studentId?: string;
 }
 
 interface Student {
@@ -23,13 +25,14 @@ interface Shot {
   y: number;
 }
 
-export function TargetBoardGame({ session, onComplete }: TargetBoardGameProps) {
+export function TargetBoardGame({ session, onComplete, isStudentView, studentId }: TargetBoardGameProps) {
   const [students, setStudents] = useState<Student[]>([]);
   const [activeStudentId, setActiveStudentId] = useState<string | null>(null);
   const [completedStudents, setCompletedStudents] = useState<Set<string>>(new Set());
   
   // Shots by student -> aspectIndex -> shot
   const [studentShots, setStudentShots] = useState<Record<string, Record<number, Shot>>>({});
+  const [studentProgress, setStudentProgress] = useState<Record<string, number>>({});
   
   const svgRef = useRef<SVGSVGElement>(null);
 
@@ -45,7 +48,15 @@ export function TargetBoardGame({ session, onComplete }: TargetBoardGameProps) {
 
   useEffect(() => {
     fetchStudents();
-  }, [session.class_id]);
+    if (session.feedback_mode === 'individual') {
+      fetchProgress();
+      subscribeToProgress();
+    }
+    
+    if (isStudentView && studentId) {
+      setActiveStudentId(studentId);
+    }
+  }, [session.id, session.class_id, isStudentView, studentId]);
 
   const fetchStudents = async () => {
     const { data, error } = await supabase
@@ -57,6 +68,80 @@ export function TargetBoardGame({ session, onComplete }: TargetBoardGameProps) {
     if (data) {
       setStudents(data);
     }
+  };
+
+  const fetchProgress = async () => {
+    const { data } = await supabase
+      .from('feedback_notifications')
+      .select('student_id, progress, status')
+      .eq('session_id', session.id);
+    
+    if (data) {
+      const progressMap: Record<string, number> = {};
+      const completed = new Set<string>();
+      data.forEach(n => {
+        progressMap[n.student_id] = n.progress || 0;
+        if (n.status === 'read') completed.add(n.student_id);
+      });
+      setStudentProgress(progressMap);
+      setCompletedStudents(completed);
+    }
+    
+    // Also fetch any existing results to mark completed
+    const { data: results } = await supabase
+      .from('feedback_results')
+      .select('student_id')
+      .eq('session_id', session.id);
+    
+    if (results) {
+      setCompletedStudents(prev => {
+        const next = new Set(prev);
+        results.forEach(r => next.add(r.student_id));
+        return next;
+      });
+    }
+  };
+
+  const subscribeToProgress = () => {
+    const channel = supabase
+      .channel(`session_progress_${session.id}`)
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'feedback_notifications',
+          filter: `session_id=eq.${session.id}`
+        },
+        (payload) => {
+          if (payload.new) {
+            const { student_id, progress, status } = payload.new as any;
+            setStudentProgress(prev => ({ ...prev, [student_id]: progress }));
+            if (status === 'read') {
+              setCompletedStudents(prev => new Set([...Array.from(prev), student_id]));
+            }
+          }
+        }
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'feedback_results',
+          filter: `session_id=eq.${session.id}`
+        },
+        (payload) => {
+          if (payload.new) {
+            setCompletedStudents(prev => new Set([...Array.from(prev), payload.new.student_id]));
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   };
 
   const getAngle = (cx: number, cy: number, ex: number, ey: number) => {
@@ -107,13 +192,28 @@ export function TargetBoardGame({ session, onComplete }: TargetBoardGameProps) {
         [aspectIndex]: { aspectIndex, score, x: svgP.x, y: svgP.y } 
       };
       
+      const newProgress = Object.keys(newShots).length;
+      
+      // Update progress in database if in individual mode
+      if (isStudentView && studentId) {
+        updateProgress(studentId, newProgress);
+      }
+      
       // Check if student completed all aspects
-      if (Object.keys(newShots).length === numAspects) {
+      if (newProgress === numAspects) {
         saveStudentResults(activeStudentId, newShots);
       }
       
       return { ...prev, [activeStudentId]: newShots };
     });
+  };
+
+  const updateProgress = async (studentId: string, progress: number) => {
+    await supabase
+      .from('feedback_notifications')
+      .update({ progress })
+      .eq('session_id', session.id)
+      .eq('student_id', studentId);
   };
 
   const saveStudentResults = async (studentId: string, shots: Record<number, Shot>) => {
@@ -134,12 +234,29 @@ export function TargetBoardGame({ session, onComplete }: TargetBoardGameProps) {
         next.add(studentId);
         return next;
       });
+
+      // Mark notification as read
+      if (isStudentView) {
+        await supabase
+          .from('feedback_notifications')
+          .update({ status: 'read' })
+          .eq('session_id', session.id)
+          .eq('student_id', studentId);
+      }
       
       toast.success(`${students.find(s => s.id === studentId)?.name} eredménye elmentve!`);
-      // Kijelölés törlése picit később, hogy lássa a lövést
-      setTimeout(() => {
-        if (activeStudentId === studentId) setActiveStudentId(null);
-      }, 1500);
+      
+      if (isStudentView) {
+        // Automatically finish for student
+        setTimeout(() => {
+          onComplete();
+        }, 2000);
+      } else {
+        // Kijelölés törlése picit később, hogy lássa a lövést
+        setTimeout(() => {
+          if (activeStudentId === studentId) setActiveStudentId(null);
+        }, 1500);
+      }
     } else {
       toast.error('Hiba az eredmény mentésekor!');
     }
@@ -337,12 +454,12 @@ export function TargetBoardGame({ session, onComplete }: TargetBoardGameProps) {
               <div className="animate-in fade-in slide-in-from-top-4">
                 <h3 className="text-2xl font-bold flex items-center justify-center gap-3 text-indigo-700">
                   <span className="text-4xl">{students.find(s => s.id === activeStudentId)?.avatar_id}</span>
-                  {students.find(s => s.id === activeStudentId)?.name} következik!
+                  {isStudentView ? 'Te következel!' : `${students.find(s => s.id === activeStudentId)?.name} következik!`}
                 </h3>
-                <p className="text-slate-600 mt-1">
-                  Kattints a céltáblára a szempontokon belül! Minél beljebb, annál jobb.
+                <p className="text-sm text-slate-600 mt-1 max-w-md mx-auto">
+                  Kattints a céltáblára a szempontokon belül! Minél beljebb kattintasz, annál jobb értékelést adsz.
                 </p>
-                <div className="mt-2 text-sm font-medium text-indigo-500">
+                <div className="mt-2 text-sm font-black text-indigo-500 bg-indigo-50 px-4 py-1.5 rounded-full inline-block">
                   {Object.keys(studentShots[activeStudentId] || {}).length} / {numAspects} lövés
                 </div>
               </div>
@@ -378,48 +495,80 @@ export function TargetBoardGame({ session, onComplete }: TargetBoardGameProps) {
               {renderActiveShots()}
             </svg>
           </div>
+          
+          {isStudentView && activeStudentId && completedStudents.has(activeStudentId) && (
+            <div className="mt-8 bg-emerald-500 text-white px-8 py-4 rounded-3xl shadow-lg border-4 border-emerald-300 animate-bounce flex items-center gap-4">
+               <span className="text-3xl">🎉</span>
+               <span className="text-xl font-black">Köszönjük a visszajelzést! Mentés...</span>
+            </div>
+          )}
         </div>
 
-        {/* Sidebar - More compact width and Grid-based */}
-        <div className="w-[380px] bg-white border-l z-10 flex flex-col shadow-[-4px_0_15px_-3px_rgba(0,0,0,0.05)]">
-          <div className="p-3 border-b bg-slate-50/50 flex items-center justify-between">
-            <h3 className="font-bold text-slate-700 text-sm">Osztálynévsor</h3>
-          </div>
-          <div className="flex-1 overflow-y-auto p-2.5 custom-scrollbar">
-            <div className="grid grid-cols-2 gap-2">
-              {students.map(student => {
-                const isCompleted = completedStudents.has(student.id);
-                const isActive = activeStudentId === student.id;
-                
-                return (
-                  <button
-                    key={student.id}
-                    onClick={() => !isCompleted && setActiveStudentId(student.id)}
-                    disabled={isCompleted}
-                    className={`flex items-center justify-between p-2.5 rounded-xl transition-all text-left group ${
-                      isActive 
-                        ? 'bg-indigo-600 text-white shadow-lg ring-2 ring-indigo-300 ring-offset-1' 
-                        : isCompleted 
-                          ? 'bg-slate-50 border border-slate-100 text-slate-400' 
-                          : 'bg-white border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/50 text-slate-700 shadow-sm'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2 min-w-0">
-                      <span className="text-xl shrink-0">{student.avatar_id}</span>
-                      <span className={cn(
-                        "font-bold text-xs truncate",
-                        isActive ? "text-white" : isCompleted ? "text-slate-400" : "text-slate-700"
-                      )}>
-                        {student.name}
-                      </span>
-                    </div>
-                    {isCompleted && <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />}
-                  </button>
-                );
-              })}
+        {/* Sidebar - HIDDEN in student view */}
+        {!isStudentView && (
+          <div className="w-[380px] bg-white border-l z-10 flex flex-col shadow-[-4px_0_15px_-3px_rgba(0,0,0,0.05)]">
+            <div className="p-3 border-b bg-slate-50/50 flex items-center justify-between">
+              <h3 className="font-bold text-slate-700 text-sm">Osztálynévsor</h3>
+              {session.feedback_mode === 'individual' && (
+                <span className="text-[10px] font-black uppercase text-indigo-500 tracking-wider">Élő követés aktív</span>
+              )}
+            </div>
+            <div className="flex-1 overflow-y-auto p-2.5 custom-scrollbar">
+              <div className="grid grid-cols-2 gap-2">
+                {students.map(student => {
+                  const isCompleted = completedStudents.has(student.id);
+                  const isActive = activeStudentId === student.id;
+                  const progress = studentProgress[student.id] || 0;
+                  
+                  return (
+                    <button
+                      key={student.id}
+                      onClick={() => !isCompleted && setActiveStudentId(student.id)}
+                      disabled={isCompleted}
+                      className={`flex flex-col p-2.5 rounded-xl transition-all text-left relative overflow-hidden group ${
+                        isActive 
+                          ? 'bg-indigo-600 text-white shadow-lg ring-2 ring-indigo-300 ring-offset-1' 
+                          : isCompleted 
+                            ? 'bg-slate-50 border border-slate-100 text-slate-400' 
+                            : 'bg-white border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/50 text-slate-700 shadow-sm'
+                      }`}
+                    >
+                      {/* Progress Bar for Individual Mode */}
+                      {session.feedback_mode === 'individual' && !isCompleted && progress > 0 && (
+                        <div 
+                          className="absolute bottom-0 left-0 h-1 bg-indigo-400/30 transition-all duration-500" 
+                          style={{ width: `${(progress / numAspects) * 100}%` }}
+                        />
+                      )}
+
+                      <div className="flex items-center justify-between w-full">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <span className="text-xl shrink-0">{student.avatar_id}</span>
+                          <span className={cn(
+                            "font-bold text-[11px] truncate",
+                            isActive ? "text-white" : isCompleted ? "text-slate-400" : "text-slate-700"
+                          )}>
+                            {student.name}
+                          </span>
+                        </div>
+                        {isCompleted && <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />}
+                      </div>
+                      
+                      {session.feedback_mode === 'individual' && !isCompleted && progress > 0 && (
+                        <div className={cn(
+                          "text-[9px] font-bold mt-1",
+                          isActive ? "text-indigo-100" : "text-indigo-500"
+                        )}>
+                          Feldolgozva: {progress} / {numAspects}
+                        </div>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

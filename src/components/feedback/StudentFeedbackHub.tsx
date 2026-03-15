@@ -8,8 +8,8 @@ import { TargetBoardGame } from './TargetBoardGame';
 import { FeedbackResults } from './FeedbackResults';
 import { useAuth } from '@/contexts/AuthContext';
 
-type ActiveTab = 'setup' | 'classes' | 'results';
-type AppState = 'hub' | 'playing' | 'viewing_results_detail';
+type ActiveTab = 'setup' | 'classes' | 'results' | 'notifications';
+type AppState = 'hub' | 'playing' | 'viewing_results_detail' | 'student_playing';
 
 interface StudentFeedbackHubProps {
   onBack?: () => void;
@@ -20,6 +20,50 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
   const [activeTab, setActiveTab] = useState<ActiveTab>('setup');
   const [appState, setAppState] = useState<AppState>('hub');
   const [currentSession, setCurrentSession] = useState<any>(null);
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const [activeNotification, setActiveNotification] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    if (user) {
+      fetchNotifications();
+      const channel = supabase
+        .channel('new_feedback_notifications')
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: 'feedback_notifications', filter: `profile_id=eq.${user.id}` },
+          () => fetchNotifications()
+        )
+        .subscribe();
+      
+      return () => {
+        supabase.removeChannel(channel);
+      };
+    }
+  }, [user]);
+
+  const fetchNotifications = async () => {
+    setLoading(true);
+    const { data } = await supabase
+      .from('feedback_notifications')
+      .select(`
+        *,
+        session:feedback_sessions(*)
+      `)
+      .eq('profile_id', user?.id)
+      .eq('status', 'unread')
+      .order('created_at', { ascending: false });
+    
+    if (data) {
+      setNotifications(data);
+    }
+    setLoading(false);
+  };
+
+  const handleJoinSession = (notification: any) => {
+    setActiveNotification(notification);
+    setCurrentSession(notification.session);
+    setAppState('student_playing');
+  };
 
   if (!user) {
     return (
@@ -54,6 +98,22 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
     );
   }
 
+  if (appState === 'student_playing' && activeNotification) {
+    return (
+      <TargetBoardGame 
+        session={currentSession} 
+        isStudentView={true}
+        studentId={activeNotification.student_id}
+        onComplete={() => {
+          setAppState('hub');
+          setActiveNotification(null);
+          setCurrentSession(null);
+          fetchNotifications();
+        }} 
+      />
+    );
+  }
+
   return (
     <div className="w-full max-w-6xl mx-auto py-8">
       <div className="flex items-center justify-between mb-8">
@@ -68,9 +128,9 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
               Vissza
             </Button>
           )}
-          <h1 className="text-3xl font-bold text-slate-800 mb-2">Tanári Visszajelzés</h1>
+          <h1 className="text-3xl font-bold text-slate-800 mb-2">Visszajelzés Hub</h1>
           <p className="text-slate-600">
-            Gyűjts visszajelzést a diákoktól játékos formában az óra végén.
+            Kezeld az osztályokat, indíts új visszajelzést, vagy válaszolj a tanáraidnak.
           </p>
         </div>
       </div>
@@ -129,6 +189,34 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
       </div>
 
       <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-8">
+        {notifications.length > 0 && appState === 'hub' && (
+          <div className="mb-8 animate-in fade-in slide-in-from-top-4 duration-500">
+            <h2 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-rose-500"></span>
+              </span>
+              Aktív felkérések
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {notifications.map(n => (
+                <div key={n.id} className="bg-indigo-50 border-2 border-indigo-100 p-4 rounded-2xl flex flex-col justify-between shadow-sm">
+                  <div>
+                    <h4 className="font-black text-indigo-900">{n.session?.lesson_info || 'Visszajelzés'}</h4>
+                    <p className="text-xs text-indigo-600 font-bold mt-1 uppercase tracking-tight">Céltáblás értékelés</p>
+                  </div>
+                  <Button 
+                    onClick={() => handleJoinSession(n)}
+                    className="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl h-10 font-bold"
+                  >
+                    Csatlakozás
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {activeTab === 'classes' && <ClassManager />}
         {activeTab === 'setup' && <TargetBoardSetup onStart={handleStartGame} />}
         {activeTab === 'results' && <FeedbackResults />}

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -10,12 +11,49 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { AuthModal } from './AuthModal';
-import { User, LogOut, Settings, LogIn, UserCircle } from 'lucide-react';
+import { User, LogOut, Settings, LogIn, UserCircle, Bell, Target } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export function UserMenu() {
     const { user, profile, signOut, loading } = useAuth();
     const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+    const [notificationCount, setNotificationCount] = useState(0);
+
+    useEffect(() => {
+        if (user) {
+            fetchNotificationCount();
+            
+            const channel = supabase
+                .channel('user_menu_notifications')
+                .on(
+                    'postgres_changes',
+                    { 
+                        event: '*', 
+                        schema: 'public', 
+                        table: 'feedback_notifications', 
+                        filter: `profile_id=eq.${user.id}` 
+                    },
+                    () => fetchNotificationCount()
+                )
+                .subscribe();
+
+            return () => {
+                supabase.removeChannel(channel);
+            };
+        }
+    }, [user]);
+
+    const fetchNotificationCount = async () => {
+        const { count, error } = await supabase
+            .from('feedback_notifications')
+            .select('*', { count: 'exact', head: true })
+            .eq('profile_id', user?.id)
+            .eq('status', 'unread');
+        
+        if (!error && count !== null) {
+            setNotificationCount(count);
+        }
+    };
 
     if (loading) {
         return <div className="w-10 h-10 rounded-xl bg-white/10 animate-pulse" />;
@@ -47,12 +85,17 @@ export function UserMenu() {
                             <Avatar className="h-7 w-7 border border-white/30 shadow-sm">
                                 <AvatarImage src={user?.user_metadata?.avatar_url} />
                                 <AvatarFallback className="bg-primary text-white text-[10px] font-black">
-                                    {initials}
+                                {initials}
                                 </AvatarFallback>
                             </Avatar>
                             <span className="text-sm tracking-tight truncate max-w-[120px]">
                                 {profile?.full_name || user?.email}
                             </span>
+                            {notificationCount > 0 && (
+                                <span className="absolute -top-1 -right-1 w-4 h-4 bg-rose-500 text-white text-[10px] font-black rounded-full flex items-center justify-center border-2 border-white animate-bounce-subtle">
+                                    {notificationCount}
+                                </span>
+                            )}
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="w-56 mt-2 rounded-2xl p-2 shadow-2xl border-slate-100 dark:border-slate-800" align="end">
@@ -68,6 +111,23 @@ export function UserMenu() {
                             </p>
                         </div>
                         <DropdownMenuSeparator className="bg-slate-100 dark:bg-slate-800 mx-1" />
+                        
+                        {notificationCount > 0 && (
+                            <>
+                                <DropdownMenuItem 
+                                    className="rounded-xl p-3 focus:bg-indigo-50 dark:focus:bg-indigo-950/20 cursor-pointer group transition-all"
+                                    onSelect={() => window.location.href = '#/feedback'}
+                                >
+                                    <Target className="w-4 h-4 mr-3 text-indigo-500 animate-pulse" />
+                                    <div className="flex flex-col">
+                                        <span className="font-bold text-sm text-indigo-600">Visszajelzés várható!</span>
+                                        <span className="text-[10px] text-slate-400">{notificationCount} aktív felkérésed van</span>
+                                    </div>
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator className="bg-slate-100 dark:bg-slate-800 mx-1" />
+                            </>
+                        )}
+
                         <DropdownMenuItem className="rounded-xl p-3 focus:bg-primary/5 cursor-pointer group transition-all">
                             <UserCircle className="w-4 h-4 mr-3 text-slate-400 group-hover:text-primary" />
                             <span className="font-bold text-sm text-slate-700 dark:text-slate-300 group-hover:text-primary">Profilom</span>
