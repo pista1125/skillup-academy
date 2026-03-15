@@ -296,6 +296,41 @@ export function TotoTool({ onBack }: TotoToolProps) {
                     }
                 });
 
+                // Solution Row (Letters)
+                currentY += 10;
+                if (currentY > 260) {
+                    doc.addPage();
+                    currentY = 20;
+                }
+
+                doc.setFont('NotoSans', 'bold');
+                doc.setFontSize(11);
+                doc.text('Megoldás sáv (Betűk a sarkokból)', marginX, currentY);
+                currentY += 6;
+
+                const solBoxW = contentW / Math.max(questions.length, 10);
+                const solBoxH = 12;
+                
+                questions.forEach((_, qIdx) => {
+                    const bx = marginX + qIdx * solBoxW;
+                    
+                    // Box for number
+                    doc.setFillColor(243, 244, 246);
+                    doc.rect(bx, currentY, solBoxW, 6, 'F');
+                    doc.setDrawColor(200);
+                    doc.rect(bx, currentY, solBoxW, 6);
+                    doc.setFontSize(7);
+                    doc.text(`${qIdx + 1}`, bx + solBoxW/2, currentY + 4, { align: 'center' });
+
+                    // Box for letter
+                    doc.rect(bx, currentY + 6, solBoxW, solBoxH);
+                    if (isSolution) {
+                        const solChar = getSolutionChar(qIdx);
+                        doc.setFontSize(10);
+                        doc.text(solChar, bx + solBoxW/2, currentY + 6 + 8, { align: 'center' });
+                    }
+                });
+
                 // Footer
                 doc.setFontSize(8);
                 doc.setTextColor(180);
@@ -480,15 +515,28 @@ export function TotoTool({ onBack }: TotoToolProps) {
                             ))}
                         </div>
                         
-                        <div className="mt-4 pt-4 border-t border-slate-100 flex justify-between items-center">
-                            <span className="text-[6px] text-slate-300 font-bold uppercase tracking-widest">DIÁKZÓNA.HU</span>
-                            {solutionWord && (
-                                <div className="flex gap-1">
-                                    {solutionWord.replace(/\s+/g, '').split('').map((_, i) => (
-                                        <div key={i} className="w-2 h-2 border border-slate-200 rounded-[1px]" />
-                                    ))}
-                                </div>
-                            )}
+                        <div className="mt-4 pt-4 border-t border-slate-100 space-y-3">
+                            <div className="flex justify-between items-center">
+                                <span className="text-[6px] text-slate-300 font-bold uppercase tracking-widest">DIÁKZÓNA.HU</span>
+                                <span className="text-[6px] text-slate-400 font-bold">MEGOLDÁS SÁV</span>
+                            </div>
+                            
+                            <div className="flex flex-wrap gap-0.5">
+                                {questions.map((_, i) => (
+                                    <div key={i} className="flex flex-col flex-1 min-w-[12px]">
+                                        <div className="h-2 bg-slate-50 border border-slate-200 border-b-0 flex items-center justify-center">
+                                            <span className="text-[4px] font-bold text-slate-400">{i + 1}</span>
+                                        </div>
+                                        <div className="h-4 border border-slate-200 flex items-center justify-center bg-white">
+                                            {showPreview && (
+                                                <span className="text-[6px] font-black text-amber-600">
+                                                    {getSolutionChar(i)}
+                                                </span>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                     
