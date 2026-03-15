@@ -342,6 +342,7 @@ export default function MathPage() {
         }
       } else {
         setView('topic-select');
+        setActivityType('quiz'); // Reset activity type when no topic or activity is selected
       }
     }
   }, [location.pathname, gradeParam, topicParam, activityParam, location.search]);
@@ -563,6 +564,10 @@ export default function MathPage() {
     setView(nextView);
     setSelectedGrade(nextGrade);
     setSelectedTopic(nextTopic);
+    // Explicitly reset activityType unless we are staying in activity view
+    if (nextView !== 'activity') {
+      setActivityType('quiz');
+    }
     updateURL(nextView, nextGrade, nextTopic, null);
   };
 
@@ -1842,7 +1847,7 @@ export default function MathPage() {
       activityType === 'symmetry-construction' && "p-0 overflow-hidden h-screen"
     )}>
       {/* Header */}
-      {activityType !== 'symmetry-construction' && activityType !== 'student-feedback' && (
+      {(activityType !== 'symmetry-construction' && activityType !== 'student-feedback') || view !== 'activity' ? (
         <div className="sticky top-0 z-50 w-full">
           {/* Main Header */}
           <div className="bg-gradient-math text-white py-3 px-4 shadow-xl relative">
@@ -1962,7 +1967,7 @@ export default function MathPage() {
             </div>
           </div>
         </div>
-      )}
+      ) : null}
 
       {/* Professional Sub-header for Navigation (no gap) */}
       {activityType !== 'symmetry-construction' && (
@@ -2717,7 +2722,7 @@ export default function MathPage() {
             }
           </div>
         )}
-        {activityType !== 'symmetry-construction' && activityType !== 'student-feedback' && <SiteFooter />}
+        {((activityType !== 'symmetry-construction' && activityType !== 'student-feedback') || view !== 'activity') && <SiteFooter />}
       </div>
     </div>
   );

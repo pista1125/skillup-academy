@@ -125,7 +125,7 @@ export function UserMenu() {
                             <>
                                 <DropdownMenuItem 
                                     className="rounded-xl p-3 focus:bg-indigo-50 dark:focus:bg-indigo-950/20 cursor-pointer group transition-all"
-                                    onSelect={() => window.location.href = '#/feedback'}
+                                    onSelect={() => navigate('/eszkozok/student-feedback')}
                                 >
                                     <Target className="w-4 h-4 mr-3 text-indigo-500 animate-pulse" />
                                     <div className="flex flex-col">

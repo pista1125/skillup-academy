@@ -16,7 +16,7 @@ interface StudentFeedbackHubProps {
 }
 
 export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const [activeTab, setActiveTab] = useState<ActiveTab>('setup');
   const [appState, setAppState] = useState<AppState>('hub');
   const [currentSession, setCurrentSession] = useState<any>(null);
@@ -40,6 +40,12 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
       };
     }
   }, [user]);
+
+  useEffect(() => {
+    if (profile?.role === 'student' && activeTab === 'setup') {
+      setActiveTab('results'); // Default to results or something else for students if no notifications
+    }
+  }, [profile, activeTab]);
 
   const fetchNotifications = async () => {
     setLoading(true);
@@ -71,8 +77,7 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
         <Target className="w-16 h-16 text-indigo-200 mb-4" />
         <h2 className="text-2xl font-bold text-slate-800 mb-2">Diák Visszajelzés</h2>
         <p className="text-slate-600 mb-6 text-center max-w-md">
-          A visszajelzések készítéséhez és mentéséhez be kell jelentkezned tanári fiókoddal, 
-          mivel ezek érzékeny adatok.
+          A visszajelzések készítéséhez és mentéséhez be kell jelentkezned.
         </p>
       </div>
     );
@@ -135,58 +140,60 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div 
-          onClick={() => setActiveTab('classes')}
-          className={`flex flex-col items-center p-6 rounded-2xl cursor-pointer transition-all ${
-            activeTab === 'classes' 
-              ? 'bg-indigo-50 border-2 border-indigo-500 shadow-sm' 
-              : 'bg-white border-2 border-slate-100 hover:border-indigo-200 hover:bg-slate-50'
-          }`}
-        >
-          <div className={`p-4 rounded-full mb-4 ${activeTab === 'classes' ? 'bg-indigo-100 text-indigo-600' : 'bg-slate-100 text-slate-500'}`}>
-            <Users className="w-8 h-8" />
+      {profile?.role === 'teacher' && (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div 
+            onClick={() => setActiveTab('classes')}
+            className={`flex flex-col items-center p-6 rounded-2xl cursor-pointer transition-all ${
+              activeTab === 'classes' 
+                ? 'bg-indigo-50 border-2 border-indigo-500 shadow-sm' 
+                : 'bg-white border-2 border-slate-100 hover:border-indigo-200 hover:bg-slate-50'
+            }`}
+          >
+            <div className={`p-4 rounded-full mb-4 ${activeTab === 'classes' ? 'bg-indigo-100 text-indigo-600' : 'bg-slate-100 text-slate-500'}`}>
+              <Users className="w-8 h-8" />
+            </div>
+            <h3 className="font-bold text-lg text-slate-800">Osztályok Kezelése</h3>
+            <p className="text-sm text-center text-slate-500 mt-2">
+              Hozd létre az osztályokat és válaszd ki a diákok avatárjait
+            </p>
           </div>
-          <h3 className="font-bold text-lg text-slate-800">Osztályok Kezelése</h3>
-          <p className="text-sm text-center text-slate-500 mt-2">
-            Hozd létre az osztályokat és válaszd ki a diákok avatárjait
-          </p>
-        </div>
 
-        <div 
-          onClick={() => setActiveTab('setup')}
-          className={`flex flex-col items-center p-6 rounded-2xl cursor-pointer transition-all ${
-            activeTab === 'setup' 
-              ? 'bg-rose-50 border-2 border-rose-500 shadow-sm' 
-              : 'bg-white border-2 border-slate-100 hover:border-rose-200 hover:bg-slate-50'
-          }`}
-        >
-          <div className={`p-4 rounded-full mb-4 ${activeTab === 'setup' ? 'bg-rose-100 text-rose-600' : 'bg-slate-100 text-slate-500'}`}>
-            <Target className="w-8 h-8" />
+          <div 
+            onClick={() => setActiveTab('setup')}
+            className={`flex flex-col items-center p-6 rounded-2xl cursor-pointer transition-all ${
+              activeTab === 'setup' 
+                ? 'bg-rose-50 border-2 border-rose-500 shadow-sm' 
+                : 'bg-white border-2 border-slate-100 hover:border-rose-200 hover:bg-slate-50'
+            }`}
+          >
+            <div className={`p-4 rounded-full mb-4 ${activeTab === 'setup' ? 'bg-rose-100 text-rose-600' : 'bg-slate-100 text-slate-500'}`}>
+              <Target className="w-8 h-8" />
+            </div>
+            <h3 className="font-bold text-lg text-slate-800">Új Visszajelzés</h3>
+            <p className="text-sm text-center text-slate-500 mt-2">
+              Indítsd el a céltáblás értékelést 2-4 szempont alapján
+            </p>
           </div>
-          <h3 className="font-bold text-lg text-slate-800">Új Visszajelzés</h3>
-          <p className="text-sm text-center text-slate-500 mt-2">
-            Indítsd el a céltáblás értékelést 2-4 szempont alapján
-          </p>
-        </div>
 
-        <div 
-          onClick={() => setActiveTab('results')}
-          className={`flex flex-col items-center p-6 rounded-2xl cursor-pointer transition-all ${
-            activeTab === 'results' 
-              ? 'bg-emerald-50 border-2 border-emerald-500 shadow-sm' 
-              : 'bg-white border-2 border-slate-100 hover:border-emerald-200 hover:bg-slate-50'
-          }`}
-        >
-          <div className={`p-4 rounded-full mb-4 ${activeTab === 'results' ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-100 text-slate-500'}`}>
-            <BarChart3 className="w-8 h-8" />
+          <div 
+            onClick={() => setActiveTab('results')}
+            className={`flex flex-col items-center p-6 rounded-2xl cursor-pointer transition-all ${
+              activeTab === 'results' 
+                ? 'bg-emerald-50 border-2 border-emerald-500 shadow-sm' 
+                : 'bg-white border-2 border-slate-100 hover:border-emerald-200 hover:bg-slate-50'
+            }`}
+          >
+            <div className={`p-4 rounded-full mb-4 ${activeTab === 'results' ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-100 text-slate-500'}`}>
+              <BarChart3 className="w-8 h-8" />
+            </div>
+            <h3 className="font-bold text-lg text-slate-800">Eredmények</h3>
+            <p className="text-sm text-center text-slate-500 mt-2">
+              Nézd meg a korábbi órák értékeléseinek statisztikáit
+            </p>
           </div>
-          <h3 className="font-bold text-lg text-slate-800">Eredmények</h3>
-          <p className="text-sm text-center text-slate-500 mt-2">
-            Nézd meg a korábbi órák értékeléseinek statisztikáit
-          </p>
         </div>
-      </div>
+      )}
 
       <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-8">
         {notifications.length > 0 && appState === 'hub' && (
