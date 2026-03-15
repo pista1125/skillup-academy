@@ -5,6 +5,9 @@ import { Session, User } from '@supabase/supabase-js';
 interface Profile {
     id: string;
     full_name: string | null;
+    username: string | null;
+    role: 'teacher' | 'student';
+    avatar_url: string | null;
     updated_at: string;
 }
 
@@ -14,6 +17,7 @@ interface AuthContextType {
     profile: Profile | null;
     loading: boolean;
     signOut: () => Promise<void>;
+    refreshProfile: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -22,6 +26,7 @@ const AuthContext = createContext<AuthContextType>({
     profile: null,
     loading: true,
     signOut: async () => { },
+    refreshProfile: async () => { },
 });
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -33,7 +38,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const fetchProfile = useCallback(async (userId: string, userMetaName?: string | null) => {
         // Immediate fallback from auth metadata so the name appears right away
         if (userMetaName) {
-            setProfile(prev => prev ?? { id: userId, full_name: userMetaName, updated_at: '' });
+            setProfile(prev => prev ?? { 
+                id: userId, 
+                full_name: userMetaName, 
+                username: null,
+                role: 'student',
+                avatar_url: null,
+                updated_at: '' 
+            });
         }
         try {
             const { data, error } = await supabase
@@ -53,6 +65,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             setLoading(false);
         }
     }, []);
+
+    const refreshProfile = useCallback(async () => {
+        if (user) {
+            await fetchProfile(user.id);
+        }
+    }, [user, fetchProfile]);
 
     useEffect(() => {
         let mounted = true;
@@ -146,6 +164,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         profile,
         loading,
         signOut,
+        refreshProfile,
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

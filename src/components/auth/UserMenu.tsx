@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -16,6 +18,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export function UserMenu() {
     const { user, profile, signOut, loading } = useAuth();
+    const navigate = useNavigate();
     const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
     const [notificationCount, setNotificationCount] = useState(0);
 
@@ -63,6 +66,9 @@ export function UserMenu() {
     const initials = profile?.full_name
         ? profile.full_name.split(' ').map(n => n[0]).join('').toUpperCase()
         : user?.email?.substring(0, 2).toUpperCase() || '??';
+    
+    // Use avatar_url if available
+    const displayAvatar = profile?.avatar_url || user?.user_metadata?.avatar_url;
 
     return (
         <>
@@ -83,9 +89,12 @@ export function UserMenu() {
                             className="bg-white/10 text-white hover:bg-white/20 font-bold pl-2 pr-4 border border-white/20 shadow-lg backdrop-blur-md transition-all hover:scale-105 active:scale-95 flex items-center gap-3 rounded-xl h-10 ring-offset-primary focus:ring-2 focus:ring-white/50"
                         >
                             <Avatar className="h-7 w-7 border border-white/30 shadow-sm">
-                                <AvatarImage src={user?.user_metadata?.avatar_url} />
-                                <AvatarFallback className="bg-primary text-white text-[10px] font-black">
-                                {initials}
+                                <AvatarImage src={displayAvatar} />
+                                <AvatarFallback className={cn(
+                                    "text-[10px] font-black text-white",
+                                    profile?.role === 'teacher' ? "bg-rose-500" : "bg-primary"
+                                )}>
+                                    {profile?.avatar_url || initials}
                                 </AvatarFallback>
                             </Avatar>
                             <span className="text-sm tracking-tight truncate max-w-[120px]">
@@ -128,7 +137,10 @@ export function UserMenu() {
                             </>
                         )}
 
-                        <DropdownMenuItem className="rounded-xl p-3 focus:bg-primary/5 cursor-pointer group transition-all">
+                        <DropdownMenuItem 
+                            onSelect={() => navigate('/profil')}
+                            className="rounded-xl p-3 focus:bg-primary/5 cursor-pointer group transition-all"
+                        >
                             <UserCircle className="w-4 h-4 mr-3 text-slate-400 group-hover:text-primary" />
                             <span className="font-bold text-sm text-slate-700 dark:text-slate-300 group-hover:text-primary">Profilom</span>
                         </DropdownMenuItem>

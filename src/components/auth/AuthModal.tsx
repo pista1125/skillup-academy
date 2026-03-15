@@ -12,7 +12,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
-import { Loader2, LogIn, UserPlus, Chrome } from "lucide-react";
+import { Loader2, LogIn, UserPlus, Chrome, GraduationCap, School } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface AuthModalProps {
     isOpen: boolean;
@@ -26,6 +27,7 @@ export function AuthModal({ isOpen, onClose, defaultTab = 'login' }: AuthModalPr
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [fullName, setFullName] = useState('');
+    const [role, setRole] = useState<'teacher' | 'student'>('student');
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -59,6 +61,7 @@ export function AuthModal({ isOpen, onClose, defaultTab = 'login' }: AuthModalPr
                 options: {
                     data: {
                         full_name: fullName,
+                        role: role,
                     }
                 }
             });
@@ -175,6 +178,38 @@ export function AuthModal({ isOpen, onClose, defaultTab = 'login' }: AuthModalPr
                                     className="rounded-xl"
                                 />
                             </div>
+                             <div className="space-y-2">
+                                <Label>Ki vagy Te?</Label>
+                                <div className="grid grid-cols-2 gap-3 mt-1">
+                                    <button
+                                        type="button"
+                                        onClick={() => setRole('student')}
+                                        className={cn(
+                                            "flex flex-col items-center p-3 rounded-xl border-2 transition-all text-center",
+                                            role === 'student' 
+                                                ? "bg-indigo-50 border-indigo-500 shadow-sm" 
+                                                : "bg-white border-slate-100 hover:border-slate-200"
+                                        )}
+                                    >
+                                        <span className="text-2xl mb-1">🎒</span>
+                                        <span className={cn("text-xs font-bold", role === 'student' ? "text-indigo-700" : "text-slate-600")}>Diák vagyok</span>
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => setRole('teacher')}
+                                        className={cn(
+                                            "flex flex-col items-center p-3 rounded-xl border-2 transition-all text-center",
+                                            role === 'teacher' 
+                                                ? "bg-rose-50 border-rose-500 shadow-sm" 
+                                                : "bg-white border-slate-100 hover:border-slate-200"
+                                        )}
+                                    >
+                                        <span className="text-2xl mb-1">👨‍🏫</span>
+                                        <span className={cn("text-xs font-bold", role === 'teacher' ? "text-rose-700" : "text-slate-600")}>Tanár vagyok</span>
+                                    </button>
+                                </div>
+                            </div>
+
                             <div className="space-y-2">
                                 <Label htmlFor="confirm-password">Jelszó megerősítése</Label>
                                 <Input

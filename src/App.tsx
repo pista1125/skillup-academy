@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ScrollToTop } from "./components/ScrollToTop";
 
 import MathPage from "./pages/MathPage";
+import ProfilePage from "./pages/ProfilePage";
 import NotFound from "./pages/NotFound";
 
 import { AuthProvider } from "./contexts/AuthContext";
@@ -29,6 +30,7 @@ const App = () => (
             <Route path="/eszkozok/:topic" element={<MathPage />} />
             <Route path="/jatekok" element={<MathPage />} />
             <Route path="/jatekok/:topic" element={<MathPage />} />
+            <Route path="/profil" element={<ProfilePage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

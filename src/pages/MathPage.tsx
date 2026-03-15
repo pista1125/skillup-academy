@@ -1842,7 +1842,7 @@ export default function MathPage() {
       activityType === 'symmetry-construction' && "p-0 overflow-hidden h-screen"
     )}>
       {/* Header */}
-      {activityType !== 'symmetry-construction' && activityType !== 'student-feedback' && (
+      {activityType !== 'symmetry-construction' && (
         <div className="sticky top-0 z-50 w-full">
           {/* Main Header */}
           <div className="bg-gradient-math text-white py-3 px-4 shadow-xl relative">
@@ -2717,7 +2717,7 @@ export default function MathPage() {
             }
           </div>
         )}
-        {activityType !== 'symmetry-construction' && activityType !== 'student-feedback' && <SiteFooter />}
+        {activityType !== 'symmetry-construction' && <SiteFooter />}
       </div>
     </div>
   );
