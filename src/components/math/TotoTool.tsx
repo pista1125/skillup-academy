@@ -59,6 +59,7 @@ export function TotoTool({ onBack }: TotoToolProps) {
     const [aiError, setAiError] = useState('');
     const [aiSuccess, setAiSuccess] = useState(false);
 
+    const [groupCount, setGroupCount] = useState(1);
     const [isExporting, setIsExporting] = useState(false);
 
     const generateRandomLetter = () => {
@@ -142,8 +143,17 @@ export function TotoTool({ onBack }: TotoToolProps) {
         }
     };
 
+    const getOptionSymbol = (idx: number) => {
+        if (idx === 0) return '1';
+        if (idx === 1) return '2';
+        return 'X';
+    };
+
     const getSolutionChar = (qIdx: number) => {
-        if (!solutionWord) return '';
+        if (!solutionWord) {
+            const q = questions[qIdx];
+            return q ? getOptionSymbol(q.correctAnswerIndex) : '';
+        }
         const cleanWord = solutionWord.replace(/\s+/g, '').toUpperCase();
         if (isTopToBottom) {
             return cleanWord[qIdx] || '';
@@ -179,162 +189,223 @@ export function TotoTool({ onBack }: TotoToolProps) {
             const renderPage = (isSolution: boolean) => {
                 doc.setFont('NotoSans', 'bold');
                 doc.setTextColor(217, 119, 6); // Amber-600
-                doc.setFontSize(24);
-                doc.text(fixText(title), pageW / 2, 20, { align: 'center' });
+                doc.setFontSize(22);
+                doc.text(fixText(title), pageW / 2, 18, { align: 'center' });
 
-                doc.setFontSize(10);
+                doc.setFontSize(9);
                 doc.setTextColor(100, 100, 100);
                 doc.setFont('NotoSans', 'normal');
-                doc.text(fixText('Válaszd ki a helyes megoldást a három lehetőség közül!'), pageW / 2, 28, { align: 'center' });
+                doc.text(fixText('Válaszd ki a helyes megoldást a három lehetőség közül!'), pageW / 2, 24, { align: 'center' });
 
                 if (isSolution) {
                     doc.setTextColor(220, 38, 38);
                     doc.setFont('NotoSans', 'bold');
-                    doc.text('MEGOLDÓKULCS', pageW / 2, 34, { align: 'center' });
+                    doc.text('MEGOLDÓKULCS', pageW / 2, 29, { align: 'center' });
                 }
 
-                let currentY = 45;
-                const rowH = 10;
-                const colWs = [15, 60, 45, 45]; // #, Ques, Options... wait, traditional toto is grid
+                let currentY = 38;
                 
-                // Let's do Question List followed by Toto Table
+                // --- Question List (Dynamic Layout) ---
                 doc.setFont('NotoSans', 'bold');
-                doc.setFontSize(12);
-                doc.setTextColor(0,0,0);
-                doc.text('Kérdések', marginX, currentY);
-                currentY += 8;
-
-                doc.setFont('NotoSans', 'normal');
                 doc.setFontSize(10);
-                questions.forEach((q, idx) => {
-                    const qText = `${idx + 1}. ${q.question}`;
-                    const lines = doc.splitTextToSize(qText, contentW);
-                    doc.text(lines, marginX, currentY);
-                    currentY += lines.length * 5 + 2;
+                doc.setTextColor(50, 50, 50);
+                doc.text('Kérdések', marginX, currentY);
+                currentY += 6;
 
-                    if (currentY > 270) {
-                        doc.addPage();
-                        currentY = 20;
+                const colCount = groupCount <= 2 ? groupCount : 2;
+                const rowCount = groupCount > 2 ? 2 : 1;
+                const colWidth = contentW / colCount;
+                
+                // Balance questions across grid cells
+                const questionsPerCell = Math.ceil(questions.length / groupCount);
+                
+                doc.setFont('NotoSans', 'normal');
+                doc.setFontSize(8.5);
+                doc.setTextColor(0, 0, 0);
+
+                const gridStartY = currentY;
+                let gridMaxY = currentY;
+                const cellHeight = 13; // Estimated base height per question block
+
+                for (let r = 0; r < rowCount; r++) {
+                    let maxRowY = gridStartY + (r * 0); // Placeholder
+                    const rowStartY = currentY;
+
+                    for (let c = 0; c < colCount; c++) {
+                        const cellIdx = r * colCount + c;
+                        if (cellIdx >= groupCount) continue;
+
+                        const colX = marginX + c * colWidth;
+                        let colY = rowStartY;
+
+                        const qStart = cellIdx * questionsPerCell;
+                        const qEnd = Math.min(qStart + questionsPerCell, questions.length);
+                        const cellQuestions = questions.slice(qStart, qEnd);
+
+                        cellQuestions.forEach((q, idxInCell) => {
+                            const globalIdx = qStart + idxInCell;
+                            const qText = `${globalIdx + 1}. ${q.question}`;
+                            const lines = doc.splitTextToSize(qText, colWidth - 10);
+                            doc.text(lines, colX + 5, colY);
+                            colY += lines.length * 4.2 + 1.8;
+                        });
+
+                        if (colY > gridMaxY) gridMaxY = colY;
+                        if (colY > maxRowY) maxRowY = colY;
                     }
-                });
 
-                currentY += 10;
-                if (currentY > 200) {
-                    doc.addPage();
-                    currentY = 20;
+                    // Draw vertical separator if needed
+                    if (colCount > 1 && r === 0) {
+                        doc.setDrawColor(200);
+                        doc.setLineDashPattern([2, 1], 0);
+                        doc.line(marginX + colWidth, gridStartY - 3, marginX + colWidth, Math.max(gridMaxY, gridStartY + 20));
+                        // Scissor icon at top of vertical line
+                        doc.setFont('ZapfDingbats', 'normal');
+                        doc.setFontSize(10);
+                        doc.text('!', marginX + colWidth - 2.5, gridStartY - 5);
+                        doc.setFont('NotoSans', 'normal');
+                        doc.setLineDashPattern([], 0);
+                    }
+
+                    // Draw horizontal separator if needed (only for 2-row grid)
+                    if (rowCount > 1 && r === 0) {
+                        const hrY = maxRowY + 4;
+                        doc.setDrawColor(200);
+                        doc.setLineDashPattern([2, 1], 0);
+                        doc.line(marginX - 5, hrY, marginX + contentW + 5, hrY);
+                        // Scissor icon at left of horizontal line
+                        doc.setFont('ZapfDingbats', 'normal');
+                        doc.setFontSize(10);
+                        doc.text('!', marginX - 8, hrY + 1.5);
+                        doc.setFont('NotoSans', 'normal');
+                        doc.setLineDashPattern([], 0);
+                        currentY = hrY + 6;
+                    } else {
+                        currentY = maxRowY + 8;
+                    }
                 }
 
-                // Toto Table
+                if (gridMaxY > currentY) currentY = gridMaxY + 8;
+                
+                // --- Toto Table & Solution (Smart Breaking) ---
+                const tableRowH = 9.5;
+                const headerH = 15;
+                const solSávH = 25;
+                const totalTableH = headerH + (questions.length * tableRowH) + solSávH;
+
+                // Move to new page IF the whole table doesn't fit AND it's not already at the top of a page
+                if (currentY + totalTableH > 280 && currentY > 50) {
+                    doc.addPage();
+                    currentY = 18;
+                }
+
                 doc.setFont('NotoSans', 'bold');
-                doc.setFontSize(12);
+                doc.setFontSize(10.5);
                 doc.text('Válaszok (Totó táblázat)', marginX, currentY);
-                currentY += 8;
+                currentY += 6;
 
                 const tableX = marginX;
                 const cellW = (contentW) / 4;
-                const cellH = 12;
+                const cellH = tableRowH;
 
-                // Header
-                doc.setFillColor(243, 244, 246);
-                doc.rect(tableX, currentY, contentW, cellH, 'F');
-                doc.setDrawColor(200);
-                doc.rect(tableX, currentY, contentW, cellH);
-                
-                doc.setFontSize(9);
-                doc.text('Sorszám', tableX + cellW/2, currentY + 7, { align: 'center' });
-                doc.text('1', tableX + cellW + cellW/2, currentY + 7, { align: 'center' });
-                doc.text('2', tableX + cellW * 2 + cellW/2, currentY + 7, { align: 'center' });
-                doc.text('X (3)', tableX + cellW * 3 + cellW/2, currentY + 7, { align: 'center' });
-                
-                currentY += cellH;
+                const drawTableHeader = (y: number) => {
+                    doc.setFillColor(243, 244, 246);
+                    doc.rect(tableX, y, contentW, cellH, 'F');
+                    doc.setDrawColor(200);
+                    doc.rect(tableX, y, contentW, cellH);
+                    doc.setFontSize(8);
+                    doc.setFont('NotoSans', 'bold');
+                    doc.text('Sorszám', tableX + cellW/2, y + 6, { align: 'center' });
+                    doc.text('1', tableX + cellW + cellW/2, y + 6, { align: 'center' });
+                    doc.text('2', tableX + cellW * 2 + cellW/2, y + 6, { align: 'center' });
+                    doc.text('X (3)', tableX + cellW * 3 + cellW/2, y + 6, { align: 'center' });
+                    return y + cellH;
+                };
+
+                currentY = drawTableHeader(currentY);
 
                 questions.forEach((q, qIdx) => {
+                    // Row break check: Allow split ONLY if the whole table couldn't fit on one page
+                    if (currentY + cellH + (qIdx === questions.length - 1 ? solSávH : 0) > 285) {
+                        doc.addPage();
+                        currentY = 18;
+                        currentY = drawTableHeader(currentY);
+                    }
+
                     doc.rect(tableX, currentY, contentW, cellH);
                     doc.line(tableX + cellW, currentY, tableX + cellW, currentY + cellH);
                     doc.line(tableX + cellW*2, currentY, tableX + cellW*2, currentY + cellH);
                     doc.line(tableX + cellW*3, currentY, tableX + cellW*3, currentY + cellH);
 
                     doc.setFont('NotoSans', 'bold');
-                    doc.text(`${qIdx + 1}.`, tableX + cellW/2, currentY + 7, { align: 'center' });
+                    doc.setFontSize(9);
+                    doc.text(`${qIdx + 1}.`, tableX + cellW/2, currentY + 6, { align: 'center' });
 
                     const solChar = getSolutionChar(qIdx);
 
                     q.options.forEach((opt, oIdx) => {
                         const startX = tableX + cellW * (oIdx + 1);
                         doc.setFont('NotoSans', 'normal');
-                        doc.setFontSize(8);
+                        doc.setFontSize(7.5);
                         
-                        // Main option text
-                        const optLines = doc.splitTextToSize(opt, cellW - 4);
-                        doc.text(optLines, startX + 2, currentY + 5);
+                        const optLines = doc.splitTextToSize(opt, cellW - 5);
+                        doc.text(optLines, startX + 2, currentY + 4.5);
 
-                        // Corner letter
                         const isCorrect = q.correctAnswerIndex === oIdx;
-                        const letter = isCorrect ? solChar : q.randomLetters[oIdx];
+                        // ONLY SHOW LETTER IF solutionWord exists
+                        const letter = solutionWord ? (isCorrect ? solChar : q.randomLetters[oIdx]) : '';
                         
                         if (letter) {
                             doc.setFont('NotoSans', 'bold');
                             doc.setFontSize(6);
-                            doc.setTextColor(150);
-                            doc.text(letter, startX + cellW - 2, currentY + cellH - 1, { align: 'right' });
+                            doc.setTextColor(180);
+                            doc.text(letter, startX + cellW - 1.5, currentY + cellH - 0.8, { align: 'right' });
                             doc.setTextColor(0);
                         }
 
                         if (isSolution && isCorrect) {
-                            doc.setDrawColor(34, 197, 94); // Green-500
-                            doc.setLineWidth(0.5);
-                            doc.rect(startX + 1, currentY + 1, cellW - 2, cellH - 2);
+                            doc.setDrawColor(34, 197, 94);
+                            doc.setLineWidth(0.4);
+                            doc.rect(startX + 0.5, currentY + 0.5, cellW - 1, cellH - 1);
                             doc.setLineWidth(0.2);
                             doc.setDrawColor(200);
                         }
                     });
 
                     currentY += cellH;
-                    if (currentY > 280) {
-                        doc.addPage();
-                        currentY = 20;
-                    }
                 });
 
                 // Solution Row (Letters)
-                currentY += 10;
-                if (currentY > 260) {
-                    doc.addPage();
-                    currentY = 20;
-                }
-
-                doc.setFont('NotoSans', 'bold');
-                doc.setFontSize(11);
-                doc.text('Megoldás sáv (Betűk a sarkokból)', marginX, currentY);
                 currentY += 6;
+                doc.setFont('NotoSans', 'bold');
+                doc.setFontSize(10);
+                doc.text('Megoldás sáv (Betűk a sarkokból)', marginX, currentY);
+                currentY += 5;
 
-                const solBoxW = contentW / Math.max(questions.length, 10);
-                const solBoxH = 12;
+                const solBoxW = Math.min(contentW / Math.max(questions.length, 10), 13);
+                const solBoxH = 9;
                 
                 questions.forEach((_, qIdx) => {
                     const bx = marginX + qIdx * solBoxW;
-                    
-                    // Box for number
                     doc.setFillColor(243, 244, 246);
-                    doc.rect(bx, currentY, solBoxW, 6, 'F');
+                    doc.rect(bx, currentY, solBoxW, 5, 'F');
                     doc.setDrawColor(200);
-                    doc.rect(bx, currentY, solBoxW, 6);
-                    doc.setFontSize(7);
-                    doc.text(`${qIdx + 1}`, bx + solBoxW/2, currentY + 4, { align: 'center' });
+                    doc.rect(bx, currentY, solBoxW, 5);
+                    doc.setFontSize(6);
+                    doc.text(`${qIdx + 1}`, bx + solBoxW/2, currentY + 3.5, { align: 'center' });
 
-                    // Box for letter
-                    doc.rect(bx, currentY + 6, solBoxW, solBoxH);
+                    doc.rect(bx, currentY + 5, solBoxW, solBoxH);
                     if (isSolution) {
                         const solChar = getSolutionChar(qIdx);
-                        doc.setFontSize(10);
-                        doc.text(solChar, bx + solBoxW/2, currentY + 6 + 8, { align: 'center' });
+                        doc.setFontSize(solutionWord ? 9 : 7);
+                        doc.text(solChar, bx + solBoxW/2, currentY + 5 + (solutionWord ? 6.5 : 6), { align: 'center' });
                     }
                 });
 
                 // Footer
                 doc.setFontSize(8);
                 doc.setTextColor(180);
-                doc.text('Készült a DiákZóna Totó Készítővel - diakzona.hu', pageW / 2, 285, { align: 'center' });
+                doc.text('Készült a DiákZóna Totó Készítővel - diakzona.hu', pageW / 2, 288, { align: 'center' });
             };
 
             renderPage(false);
@@ -426,6 +497,26 @@ export function TotoTool({ onBack }: TotoToolProps) {
                                 </Button>
                             </div>
                         </div>
+
+                        <div className="space-y-2 pt-2 border-t border-slate-100">
+                            <label className="text-[10px] font-bold text-slate-500 uppercase flex items-center gap-2">
+                                <Trophy className="w-3 h-3" /> PDF Elosztás (Csoportok száma)
+                            </label>
+                            <div className="flex gap-2">
+                                {[1, 2, 3, 4].map(num => (
+                                    <Button
+                                        key={num}
+                                        variant={groupCount === num ? 'default' : 'outline'}
+                                        size="sm"
+                                        onClick={() => setGroupCount(num)}
+                                        className="flex-1 text-xs h-9 font-bold"
+                                    >
+                                        {num}
+                                    </Button>
+                                ))}
+                            </div>
+                            <p className="text-[9px] text-slate-400">A kérdéseket ennyi oszlopba rendezi a PDF-ben, hogy könnyebb legyen szétosztani.</p>
+                        </div>
                     </div>
 
                     {/* Questions */}
@@ -493,7 +584,8 @@ export function TotoTool({ onBack }: TotoToolProps) {
                                     <div className="flex-1 grid grid-cols-3 gap-1">
                                         {[0,1,2].map(oIdx => {
                                             const isCorrect = q.correctAnswerIndex === oIdx;
-                                            const char = isCorrect ? getSolutionChar(qIdx) : q.randomLetters[oIdx];
+                                            // ONLY SHOW LETTER IF solutionWord exists
+                                            const char = solutionWord ? (isCorrect ? getSolutionChar(qIdx) : q.randomLetters[oIdx]) : '';
                                             return (
                                                 <div key={oIdx} className="h-6 border border-slate-200 rounded-sm relative flex items-center px-1 bg-slate-50/50">
                                                     <span className="text-[6px] text-slate-600 truncate max-w-[80%]">
@@ -529,7 +621,7 @@ export function TotoTool({ onBack }: TotoToolProps) {
                                         </div>
                                         <div className="h-4 border border-slate-200 flex items-center justify-center bg-white">
                                             {showPreview && (
-                                                <span className="text-[6px] font-black text-amber-600">
+                                                <span className={`font-black ${solutionWord ? 'text-[6px] text-amber-600' : 'text-[5px] text-slate-400'}`}>
                                                     {getSolutionChar(i)}
                                                 </span>
                                             )}
