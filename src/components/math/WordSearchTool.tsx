@@ -88,6 +88,7 @@ export function WordSearchTool() {
     const [gridHeight, setGridHeight] = useState<number>(10);
     const [enabledDirections, setEnabledDirections] = useState<Set<string>>(new Set(['RIGHT', 'DOWN', 'DIAGONAL']));
     const [showSolution, setShowSolution] = useState<boolean>(true);
+    const [showWordsOnStudentSheet, setShowWordsOnStudentSheet] = useState<boolean>(true);
     
     const [grid, setGrid] = useState<GridCell[][]>([]);
     const [placedWordsList, setPlacedWordsList] = useState<string[]>([]);
@@ -286,24 +287,74 @@ export function WordSearchTool() {
                 }
             }
 
-            const wordBankY = startY + (gridHeight * cellSize) + 15;
+            let sectionY = startY + (gridHeight * cellSize) + 15;
+
+            // Helper for drawing arrows manually (for 100% reliability)
+            const drawPDFArrow = (p: any, x: number, y: number, dir: string) => {
+                const size = 5;
+                const headSize = 2;
+                p.setDrawColor(79, 70, 229);
+                p.setFillColor(79, 70, 229);
+                p.setLineWidth(1.2);
+
+                if (dir === 'RIGHT') {
+                    p.line(x - size, y, x + size, y);
+                    p.triangle(x + size, y, x + size - headSize, y - headSize, x + size - headSize, y + headSize, 'FD');
+                } else if (dir === 'LEFT') {
+                    p.line(x + size, y, x - size, y);
+                    p.triangle(x - size, y, x - size + headSize, y - headSize, x - size + headSize, y + headSize, 'FD');
+                } else if (dir === 'UP') {
+                    p.line(x, y + size, x, y - size);
+                    p.triangle(x, y - size, x - headSize, y - size + headSize, x + headSize, y - size + headSize, 'FD');
+                } else if (dir === 'DOWN') {
+                    p.line(x, y - size, x, y + size);
+                    p.triangle(x, y + size, x - headSize, y + size - headSize, x + headSize, y + size - headSize, 'FD');
+                } else if (dir === 'DIAGONAL') {
+                    const offset = size / 1.414;
+                    const hOffset = headSize / 1.414;
+                    p.line(x - offset, y + offset, x + offset, y - offset);
+                    p.triangle(x + offset, y - offset, x + offset - headSize, y - offset, x + offset, y - offset + headSize, 'FD');
+                }
+            };
+
+            // 1. SEARCH DIRECTIONS (Always visible)
             pdf.setTextColor(51, 65, 85);
             pdf.setFont("NotoSans", "bold");
             pdf.setFontSize(14);
-            pdf.text(fixText("Keresd meg az alábbi szavakat:"), MARGIN, wordBankY);
+            pdf.text(fixText("Keresési irányok:"), MARGIN, sectionY);
 
-            pdf.setFont("NotoSans", "normal");
-            pdf.setFontSize(12);
-            let currentY = wordBankY + 10;
-            const colWidth = (PAGE_WIDTH - (MARGIN * 2)) / 3;
-
-            placedWordsList.forEach((w, index) => {
-                const colNum = index % 3;
-                if (index > 0 && colNum === 0) {
-                    currentY += 8;
-                }
-                pdf.text(fixText(w), MARGIN + (colNum * colWidth), currentY);
+            const dirs = Array.from(enabledDirections);
+            let arrowX = MARGIN + pdf.getTextWidth(fixText("Keresési irányok: ")) + 8;
+            
+            dirs.forEach((d) => {
+                drawPDFArrow(pdf, arrowX, sectionY - 1.5, d);
+                arrowX += 15;
             });
+
+            sectionY += 15;
+
+            sectionY += 15;
+
+            // 2. WORD LIST (Conditional for student, always for teacher)
+            if (showWordsOnStudentSheet || isSolution) {
+                pdf.setTextColor(51, 65, 85);
+                pdf.setFont("NotoSans", "bold");
+                pdf.setFontSize(14);
+                pdf.text(fixText("Keresendő szavak:"), MARGIN, sectionY);
+
+                pdf.setFont("NotoSans", "normal");
+                pdf.setFontSize(12);
+                let currentY = sectionY + 10;
+                const colWidth = (PAGE_WIDTH - (MARGIN * 2)) / 3;
+
+                placedWordsList.forEach((w, index) => {
+                    const colNum = index % 3;
+                    if (index > 0 && colNum === 0) {
+                        currentY += 8;
+                    }
+                    pdf.text(fixText(w), MARGIN + (colNum * colWidth), currentY);
+                });
+            }
 
             const footerY = PAGE_HEIGHT - 10;
             pdf.setTextColor(180, 180, 180);
@@ -349,40 +400,42 @@ export function WordSearchTool() {
                     {/* LEFT COLUMN - CONTROLS */}
                     <div className="lg:col-span-4 space-y-8">
                         {/* Settings */}
-                        <div className="bg-slate-50 p-6 rounded-xl border border-slate-100 space-y-6">
-                            <h3 className="text-lg font-bold text-slate-700 flex items-center gap-2">
-                                <Settings className="w-5 h-5 text-indigo-500" />
+                        <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 space-y-4">
+                            <h3 className="text-sm font-bold text-slate-700 flex items-center gap-2">
+                                <Settings className="w-4 h-4 text-indigo-500" />
                                 Rács Mérete
                             </h3>
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="space-y-2">
-                                    <label className="text-sm font-semibold text-slate-600">Oszlopok (Szélesség)</label>
+                            <div className="grid grid-cols-2 gap-3">
+                                <div className="space-y-1">
+                                    <label className="text-[10px] font-bold text-slate-500 uppercase">Oszlopok</label>
                                     <Input 
                                         type="number" 
                                         min={3} max={30} 
                                         value={gridWidth} 
                                         onChange={(e) => setGridWidth(parseInt(e.target.value) || 10)}
+                                        className="h-8 text-sm"
                                     />
                                 </div>
-                                <div className="space-y-2">
-                                    <label className="text-sm font-semibold text-slate-600">Sorok (Magasság)</label>
+                                <div className="space-y-1">
+                                    <label className="text-[10px] font-bold text-slate-500 uppercase">Sorok</label>
                                     <Input 
                                         type="number" 
                                         min={3} max={30} 
                                         value={gridHeight} 
                                         onChange={(e) => setGridHeight(parseInt(e.target.value) || 10)}
+                                        className="h-8 text-sm"
                                     />
                                 </div>
                             </div>
                         </div>
 
                         {/* Directions */}
-                        <div className="bg-slate-50 p-6 rounded-xl border border-slate-100 space-y-4">
-                            <h3 className="text-lg font-bold text-slate-700 flex items-center gap-2">
-                                <Settings className="w-5 h-5 text-indigo-500" />
+                        <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 space-y-3">
+                            <h3 className="text-sm font-bold text-slate-700 flex items-center gap-2">
+                                <Settings className="w-4 h-4 text-indigo-500" />
                                 Szavak iránya
                             </h3>
-                            <div className="flex flex-wrap gap-2">
+                            <div className="flex flex-wrap gap-1.5">
                                 {[
                                     { id: 'RIGHT', label: '➡', title: 'Balról jobbra' },
                                     { id: 'LEFT', label: '⬅', title: 'Jobbról balra' },
@@ -400,16 +453,45 @@ export function WordSearchTool() {
                                             setEnabledDirections(newDirs);
                                         }}
                                         className={cn(
-                                            "w-10 h-10 flex items-center justify-center rounded-lg border-2 transition-all font-bold text-lg",
+                                            "w-8 h-8 flex items-center justify-center rounded-lg border-2 transition-all font-bold text-base",
                                             enabledDirections.has(dir.id)
-                                                ? "bg-indigo-600 border-indigo-600 text-white shadow-md shadow-indigo-200"
-                                                : "bg-white border-slate-200 text-slate-400 hover:border-indigo-300 hover:text-indigo-400"
+                                                ? "bg-indigo-600 border-indigo-600 text-white shadow-sm"
+                                                : "bg-white border-slate-200 text-slate-400 hover:border-indigo-300"
                                         )}
                                     >
                                         {dir.label}
                                     </button>
                                 ))}
                             </div>
+                        </div>
+
+                        {/* Student Word List Toggle */}
+                        <div className="bg-white p-3 rounded-xl border border-slate-100 shadow-sm space-y-2">
+                            <button
+                                onClick={() => setShowWordsOnStudentSheet(!showWordsOnStudentSheet)}
+                                className={cn(
+                                    "w-full flex items-center justify-between px-3 py-2 rounded-lg border transition-all",
+                                    showWordsOnStudentSheet 
+                                        ? "bg-amber-50 border-amber-200 text-amber-700" 
+                                        : "bg-slate-50 border-slate-200 text-slate-500"
+                                )}
+                            >
+                                <div className="flex items-center gap-2">
+                                    {showWordsOnStudentSheet ? <Eye className="w-4 h-4 text-amber-500" /> : <EyeOff className="w-4 h-4 text-slate-400" />}
+                                    <span className="text-xs font-bold uppercase tracking-tight">Keresendő szavak a lapon</span>
+                                </div>
+                                <span className={cn(
+                                    "text-[10px] font-black px-1.5 py-0.5 rounded-md uppercase",
+                                    showWordsOnStudentSheet ? "bg-amber-500 text-white" : "bg-slate-200 text-slate-400"
+                                )}>
+                                    {showWordsOnStudentSheet ? 'Látható' : 'Rejtett'}
+                                </span>
+                            </button>
+                            <p className="text-[9px] text-slate-400 px-1 leading-tight">
+                                {showWordsOnStudentSheet 
+                                    ? "A szavak rajta lesznek a diák lapján." 
+                                    : "A diák lapjáról hiányozni fognak a szavak (nehezítés)."}
+                            </p>
                         </div>
 
                         {/* Word List */}
