@@ -66,9 +66,8 @@ import { SymmetryConstructionTool } from '@/components/math/SymmetryConstruction
 import { AxialSymmetryPresentation } from '@/components/math/AxialSymmetryPresentation';
 import { StudentFeedbackHub } from '@/components/feedback/StudentFeedbackHub';
 import { WordSearchTool } from '@/components/math/WordSearchTool';
-import MemoryGame from '@/components/math/MemoryGame';
-import { EquationBalanceQuiz } from '@/components/math/EquationBalanceQuiz';
 import ChessGame from '@/components/math/ChessGame';
+import { MatchingCreator } from '@/components/math/MatchingCreator';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -101,7 +100,8 @@ import {
   Coins,
   LayoutGrid,
   Repeat,
-  Brain
+  Brain,
+  Puzzle
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -133,7 +133,7 @@ type ActivityType =
   | 'sudoku' | 'sudoku-generator' | 'venn-interpretation-quiz'
   | 'venn-reading-objects' | 'venn-reading-numbers' | 'axial-symmetry' | 'symmetry-error' | 'symmetry-construction' | 'axial-symmetry-quiz' | 'axial-symmetry-presentation'
   | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search' | 'memory-game' | 'equation-balance-quiz'
-  | 'toto-maker' | 'chess-game';
+  | 'toto-maker' | 'chess-game' | 'matching-creator';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
 const slugToGrade = (slug: string): GradeLevel | null => {
@@ -174,6 +174,7 @@ const TOOLS: ActivityConfig[] = [
   // creative
   { id: 'puzzle-maker', title: 'Online Rejtvénykészítő', desc: 'Készíts matekos rejtvényeket és töltsd le PDF-ben!', icon: <span className="text-3xl">🧩</span>, color: 'bg-violet-100 text-violet-600', category: 'sec-creative' },
   { id: 'toto-maker', title: 'Totó Készítő', desc: 'Készíts 13+1 kérdéses totót egyedi megfejtéssel és töltsd le PDF-ben!', icon: <span className="text-3xl">🏆</span>, color: 'bg-amber-100 text-amber-600', category: 'sec-creative' },
+  { id: 'matching-creator', title: 'Párosító Készítő', desc: 'Készíts koordinátás párosító feladatot és töltsd le PDF-ben!', icon: <Puzzle className="w-8 h-8" />, color: 'bg-blue-100 text-blue-600', category: 'sec-creative' },
   { id: 'word-search', title: 'Szókereső Készítő', desc: 'Készíts saját szókeresőt, letölthető megoldókulccsal!', icon: <span className="text-3xl">🔎</span>, color: 'bg-indigo-100 text-indigo-600', category: 'sec-creative' },
   { id: 'sudoku-generator', title: 'Sudoku Generátor', desc: 'Generálj és nyomtass egyedi Sudoku feladványokat!', icon: <Calculator className="w-8 h-8" />, color: 'bg-blue-100 text-blue-600', category: 'sec-creative' },
   { id: 'student-feedback', title: 'Diák visszajelzés (Céltábla)', desc: 'Kérj visszajelzést a diákoktól az óra végén!', icon: <Target className="w-8 h-8" />, color: 'bg-rose-100 text-rose-600', category: 'sec-creative' },
@@ -2598,6 +2599,10 @@ export default function MathPage() {
 
                 {activityType === 'toto-maker' && (
                   <TotoTool onBack={handleBack} />
+                )}
+
+                {activityType === 'matching-creator' && (
+                  <MatchingCreator onBack={handleBack} />
                 )}
 
                 {activityType === 'word-search' && (
