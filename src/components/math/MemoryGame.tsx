@@ -11,12 +11,16 @@ import {
   ChevronRight,
   Brain,
   Settings2,
-  Wrench
+  Wrench,
+  Ear,
+  Shapes,
+  ArrowLeft
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import MemoryEditor from './MemoryEditor';
 import { DEFAULT_LEVELS } from '@/data/memoryData';
 import * as LucideIcons from 'lucide-react';
+import AuditoryMemoryGame from './AuditoryMemoryGame';
 
 interface MemoryItem {
   id: string;
@@ -34,6 +38,7 @@ interface MemoryItem {
 }
 
 export default function MemoryGame() {
+  const [gameMode, setGameMode] = useState<'selection' | 'visual' | 'auditory'>('selection');
   const [isEditorMode, setIsEditorMode] = useState(false);
   const [levelIdx, setLevelIdx] = useState(0);
   const [exerciseIdx, setExerciseIdx] = useState(0);
@@ -145,6 +150,78 @@ export default function MemoryGame() {
     return null;
   };
 
+  if (gameMode === 'selection') {
+    return (
+      <div className="w-full max-w-4xl mx-auto p-4 flex flex-col items-center gap-12 py-20 animate-in fade-in slide-in-from-bottom-8 duration-700">
+        <div className="text-center space-y-4">
+          <div className="inline-flex p-4 bg-indigo-100 dark:bg-indigo-900/30 rounded-3xl text-indigo-600 dark:text-indigo-400 mb-2">
+            <Brain size={48} />
+          </div>
+          <h1 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight">Memóriajáték</h1>
+          <p className="text-xl text-slate-500 dark:text-slate-400 max-w-lg mx-auto">
+            Válaszd ki, milyen típusú memóriaterheléssel szeretnél ma megküzdeni!
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
+          <button 
+            onClick={() => setGameMode('visual')}
+            className="group relative flex flex-col items-center p-10 bg-white dark:bg-slate-900 rounded-[3rem] border-2 border-slate-100 dark:border-slate-800 shadow-xl hover:shadow-2xl hover:border-indigo-500/50 transition-all duration-500 overflow-hidden"
+          >
+            <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
+              <Shapes size={120} />
+            </div>
+            <div className="w-24 h-24 bg-indigo-50 dark:bg-indigo-900/20 rounded-2xl flex items-center justify-center text-indigo-600 mb-6 group-hover:scale-110 transition-transform duration-500">
+              <Shapes size={48} />
+            </div>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Vizuális</h2>
+            <p className="text-slate-500 dark:text-slate-400 text-center">
+              Jegyezd meg az ábrák formáját, színét és elhelyezkedését a képernyőn.
+            </p>
+            <div className="mt-8 px-8 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+              Kezdés
+            </div>
+          </button>
+
+          <button 
+            onClick={() => setGameMode('auditory')}
+            className="group relative flex flex-col items-center p-10 bg-white dark:bg-slate-900 rounded-[3rem] border-2 border-slate-100 dark:border-slate-800 shadow-xl hover:shadow-2xl hover:border-amber-500/50 transition-all duration-500 overflow-hidden"
+          >
+            <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
+              <Ear size={120} />
+            </div>
+            <div className="w-24 h-24 bg-amber-50 dark:bg-amber-900/20 rounded-2xl flex items-center justify-center text-amber-600 mb-6 group-hover:scale-110 transition-transform duration-500">
+              <Ear size={48} />
+            </div>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Hallás utáni</h2>
+            <p className="text-slate-500 dark:text-slate-400 text-center">
+              Figyeld a tanár által felolvasott kérdéseket és jegyezd meg a válaszokat.
+            </p>
+            <div className="mt-8 px-8 py-3 bg-amber-600 text-white rounded-2xl font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+              Kezdés
+            </div>
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (gameMode === 'auditory') {
+    return (
+      <div className="relative">
+        <Button 
+          variant="ghost" 
+          onClick={() => setGameMode('selection')}
+          className="absolute top-4 left-4 z-50 rounded-xl gap-2 hover:bg-amber-100 dark:hover:bg-amber-900/30 text-amber-600"
+        >
+          <ArrowLeft size={20} />
+          Vissza
+        </Button>
+        <AuditoryMemoryGame />
+      </div>
+    );
+  }
+
   if (isEditorMode) {
     return (
       <div className="w-full max-w-7xl mx-auto p-4 flex flex-col gap-6 h-screen">
@@ -165,14 +242,23 @@ export default function MemoryGame() {
   }
 
   return (
-    <div className="w-full max-w-6xl mx-auto p-4 flex flex-col gap-6">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white/50 dark:bg-slate-900/50 p-6 rounded-3xl border border-white dark:border-slate-800 shadow-xl backdrop-blur-md">
+    <div className="w-full max-w-6xl mx-auto p-4 flex flex-col gap-6 relative">
+      <Button 
+        variant="ghost" 
+        onClick={() => setGameMode('selection')}
+        className="absolute top-0 -left-4 z-50 rounded-xl gap-2 hover:bg-indigo-100 dark:hover:bg-indigo-900/30 text-indigo-600"
+      >
+        <ArrowLeft size={20} />
+        Vissza a választáshoz
+      </Button>
+
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white/50 dark:bg-slate-900/50 p-6 rounded-3xl border border-white dark:border-slate-800 shadow-xl backdrop-blur-md mt-12">
         <div className="flex items-center gap-4">
           <div className="p-3 bg-indigo-100 dark:bg-indigo-900/30 rounded-2xl text-indigo-600 dark:text-indigo-400">
             <Brain size={32} />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Memóriajáték</h1>
+            <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Vizuális Memóriajáték</h1>
             <p className="text-slate-500 dark:text-slate-400">Figyeld meg és jegyezd meg az ábrákat!</p>
           </div>
         </div>
