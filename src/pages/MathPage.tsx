@@ -437,7 +437,14 @@ export default function MathPage() {
     window.scrollTo(0, 0);
 
     let finalActivityType: ActivityType = 'quiz';
-    if (topicId === 'fractions') {
+
+    // Check if it's a direct game or tool first
+    const isGame = GAMES.some(g => g.id === topicId);
+    const isTool = TOOLS.some(t => t.id === topicId);
+
+    if (isGame || isTool) {
+      finalActivityType = topicId as ActivityType;
+    } else if (topicId === 'fractions') {
       finalActivityType = 'fractions';
     } else if (topicId === 'basic-operations' && selectedGrade === 1) {
       finalActivityType = 'grade1-basic';
@@ -553,11 +560,11 @@ export default function MathPage() {
       } else if (selectedGrade) {
         nextView = 'topic-select';
         nextTopic = null;
-      } else if (location.pathname.startsWith('/eszkozok')) {
-        nextView = 'tools-select';
-        nextTopic = null;
-      } else if (location.pathname.startsWith('/jatekok')) {
+      } else if (location.pathname.startsWith('/jatekok') || GAMES.some(g => g.id === activityType)) {
         nextView = 'games-select';
+        nextTopic = null;
+      } else if (location.pathname.startsWith('/eszkozok') || TOOLS.some(t => t.id === activityType)) {
+        nextView = 'tools-select';
         nextTopic = null;
       } else {
         nextView = 'main-select';
