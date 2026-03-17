@@ -13,9 +13,10 @@ import {
     Puzzle,
     CheckCircle2,
     Variable,
-    Image as ImageIcon,
+    ImageIcon,
     FileText,
-    Sigma
+    Sigma,
+    Upload
 } from 'lucide-react';
 import katex from 'katex';
 import 'katex/dist/katex.min.css';
@@ -168,6 +169,38 @@ export function MatchingCreator({ onBack }: MatchingCreatorProps) {
         setPairs(pairs.map(p => p.id === id ? { ...p, [typeKey]: type } : p));
     };
 
+    const processImageFile = (file: File): Promise<string> => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => resolve(e.target?.result as string);
+            reader.onerror = (e) => reject(e);
+            reader.readAsDataURL(file);
+        });
+    };
+
+    const handleImageUpload = async (id: string, side: 'a' | 'b', file: File) => {
+        try {
+            const base64 = await processImageFile(file);
+            updatePair(id, side, base64);
+            updatePairType(id, side, 'image');
+        } catch (err) {
+            toast.error('Hiba a kép feldolgozása során');
+        }
+    };
+
+    const handlePaste = async (id: string, side: 'a' | 'b', e: React.ClipboardEvent) => {
+        const items = e.clipboardData.items;
+        for (let i = 0; i < items.length; i++) {
+            if (items[i].type.indexOf('image') !== -1) {
+                const file = items[i].getAsFile();
+                if (file) {
+                    e.preventDefault();
+                    await handleImageUpload(id, side, file);
+                }
+            }
+        }
+    };
+
     const generateWithAI = async () => {
         if (!aiTopic.trim()) {
             setAiError('Kérlek add meg a témakört!');
@@ -189,9 +222,9 @@ export function MatchingCreator({ onBack }: MatchingCreatorProps) {
             const newPairs: MatchingPair[] = data.pairs.map((p: any) => ({
                 id: Math.random().toString(36).substr(2, 9),
                 a: p.a,
-                aType: p.a?.includes('\\') ? 'math' : 'text',
+                aType: p.aType || (p.a?.includes('\\') ? 'math' : 'text'),
                 b: p.b,
-                bType: p.b?.includes('\\') ? 'math' : 'text'
+                bType: p.bType || (p.b?.includes('\\') ? 'math' : 'text')
             }));
 
             setPairs(newPairs);
@@ -467,7 +500,7 @@ export function MatchingCreator({ onBack }: MatchingCreatorProps) {
                                             <div className="flex bg-white rounded-lg border border-slate-200 p-0.5">
                                                 <Button size="icon" variant="ghost" onClick={() => updatePairType(p.id, 'a', 'math')} className={cn("h-7 w-7 rounded-md", p.aType === 'math' ? "bg-blue-100 text-blue-600" : "text-slate-400")} title="Matematika (LaTeX)"><Sigma className="w-3.5 h-3.5" /></Button>
                                                 <Button size="icon" variant="ghost" onClick={() => updatePairType(p.id, 'a', 'text')} className={cn("h-7 w-7 rounded-md", p.aType === 'text' ? "bg-blue-100 text-blue-600" : "text-slate-400")} title="Szöveg"><FileText className="w-3.5 h-3.5" /></Button>
-                                                <Button size="icon" variant="ghost" onClick={() => updatePairType(p.id, 'a', 'image')} className={cn("h-7 w-7 rounded-md", p.aType === 'image' ? "bg-blue-100 text-blue-600" : "text-slate-400")} title="Kép (URL)"><ImageIcon className="w-3.5 h-3.5" /></Button>
+                                                <Button size="icon" variant="ghost" onClick={() => updatePairType(p.id, 'a', 'image')} className={cn("h-7 w-7 rounded-md", p.aType === 'image' ? "bg-blue-100 text-blue-600" : "text-slate-400")} title="Kép (URL / Feltöltés / Ctrl+V)"><ImageIcon className="w-3.5 h-3.5" /></Button>
                                                 {p.aType === 'math' && (
                                                     <Button 
                                                         size="sm" variant="ghost" className="h-7 px-2 text-[10px] font-bold text-blue-500 border-l border-slate-200"
@@ -477,28 +510,52 @@ export function MatchingCreator({ onBack }: MatchingCreatorProps) {
                                                     </Button>
                                                 )}
                                                 {p.aType === 'image' && (
-                                                    <Button 
-                                                        size="sm" variant="ghost" className="h-7 px-2 text-[10px] font-bold text-blue-500 border-l border-slate-200"
-                                                        onClick={() => {
-                                                            const url = window.prompt('Illeszd be a kép URL címét:', p.a);
-                                                            if (url !== null) updatePair(p.id, 'a', url);
-                                                        }}
-                                                    >
-                                                        Kép beírása
-                                                    </Button>
+                                                    <div className="flex border-l border-slate-200">
+                                                        <Button 
+                                                            size="sm" variant="ghost" className="h-7 px-2 text-[10px] font-bold text-blue-500"
+                                                            onClick={() => {
+                                                                const url = window.prompt('Illeszd be a kép URL címét:', p.a.startsWith('data:') ? '' : p.a);
+                                                                if (url !== null) updatePair(p.id, 'a', url);
+                                                            }}
+                                                        >
+                                                            Link
+                                                        </Button>
+                                                        <label className="h-7 px-2 flex items-center justify-center cursor-pointer hover:bg-slate-100 rounded text-blue-500 transition-colors">
+                                                            <Upload className="w-3.5 h-3.5" />
+                                                            <input 
+                                                                type="file" className="hidden" accept="image/*" 
+                                                                onChange={(e) => e.target.files?.[0] && handleImageUpload(p.id, 'a', e.target.files[0])} 
+                                                            />
+                                                        </label>
+                                                    </div>
                                                 )}
                                             </div>
                                             <input 
-                                                value={p.a} onChange={e => updatePair(p.id, 'a', e.target.value)}
-                                                placeholder={p.aType === 'math' ? "LaTeX (pl. \\frac{2}{3})" : p.aType === 'image' ? "Kép URL" : "Szöveg"} 
-                                                className="flex-1 bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-sm"
+                                                value={p.a.startsWith('data:') ? '[Feltöltött kép]' : p.a} 
+                                                onChange={e => updatePair(p.id, 'a', e.target.value)}
+                                                onPaste={(e) => handlePaste(p.id, 'a', e)}
+                                                readOnly={p.a.startsWith('data:')}
+                                                placeholder={p.aType === 'math' ? "LaTeX (pl. \\frac{2}{3})" : p.aType === 'image' ? "URL vagy Ctrl+V" : "Szöveg"} 
+                                                className={cn(
+                                                    "flex-1 bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-sm",
+                                                    p.a.startsWith('data:') && "bg-slate-50 text-slate-500 italic"
+                                                )}
                                             />
+                                            {p.a.startsWith('data:') && (
+                                                <Button size="icon" variant="ghost" onClick={() => updatePair(p.id, 'a', '')} className="h-8 w-8 text-slate-400 hover:text-red-500"><Trash2 className="w-3.5 h-3.5" /></Button>
+                                            )}
                                         </div>
                                         {p.a.trim() && (
                                             <div className="ml-11 p-2 bg-white rounded-lg border border-slate-100 min-h-[40px] flex items-center justify-center">
                                                 {p.aType === 'math' && <MathRenderer tex={p.a} className="text-sm font-bold" />}
                                                 {p.aType === 'text' && <span className="text-sm font-bold">{p.a}</span>}
-                                                {p.aType === 'image' && <img src={p.a} alt="preview" className="max-h-12 rounded object-contain" onError={(e) => (e.currentTarget.src = 'https://placehold.co/100x100?text=Sérült+Kép')} />}
+                                                {p.aType === 'image' && (
+                                                    p.a.startsWith('http') || p.a.startsWith('data:') ? (
+                                                        <img src={p.a} alt="preview" className="max-h-24 rounded object-contain shadow-sm" onError={(e) => (e.currentTarget.src = 'https://placehold.co/100x100?text=Hibás+URL')} />
+                                                    ) : (
+                                                        <div className="text-[10px] text-slate-400 italic py-2">Érvénytelen kép URL</div>
+                                                    )
+                                                )}
                                             </div>
                                         )}
                                     </div>
@@ -511,7 +568,7 @@ export function MatchingCreator({ onBack }: MatchingCreatorProps) {
                                             <div className="flex bg-white rounded-lg border border-slate-200 p-0.5">
                                                 <Button size="icon" variant="ghost" onClick={() => updatePairType(p.id, 'b', 'math')} className={cn("h-7 w-7 rounded-md", p.bType === 'math' ? "bg-indigo-100 text-indigo-600" : "text-slate-400")} title="Matematika (LaTeX)"><Sigma className="w-3.5 h-3.5" /></Button>
                                                 <Button size="icon" variant="ghost" onClick={() => updatePairType(p.id, 'b', 'text')} className={cn("h-7 w-7 rounded-md", p.bType === 'text' ? "bg-indigo-100 text-indigo-600" : "text-slate-400")} title="Szöveg"><FileText className="w-3.5 h-3.5" /></Button>
-                                                <Button size="icon" variant="ghost" onClick={() => updatePairType(p.id, 'b', 'image')} className={cn("h-7 w-7 rounded-md", p.bType === 'image' ? "bg-indigo-100 text-indigo-600" : "text-slate-400")} title="Kép (URL)"><ImageIcon className="w-3.5 h-3.5" /></Button>
+                                                <Button size="icon" variant="ghost" onClick={() => updatePairType(p.id, 'b', 'image')} className={cn("h-7 w-7 rounded-md", p.bType === 'image' ? "bg-indigo-100 text-indigo-600" : "text-slate-400")} title="Kép (URL / Feltöltés / Ctrl+V)"><ImageIcon className="w-3.5 h-3.5" /></Button>
                                                 {p.bType === 'math' && (
                                                     <Button 
                                                         size="sm" variant="ghost" className="h-7 px-2 text-[10px] font-bold text-indigo-500 border-l border-slate-200"
@@ -521,28 +578,52 @@ export function MatchingCreator({ onBack }: MatchingCreatorProps) {
                                                     </Button>
                                                 )}
                                                 {p.bType === 'image' && (
-                                                    <Button 
-                                                        size="sm" variant="ghost" className="h-7 px-2 text-[10px] font-bold text-indigo-500 border-l border-slate-200"
-                                                        onClick={() => {
-                                                            const url = window.prompt('Illeszd be a kép URL címét:', p.b);
-                                                            if (url !== null) updatePair(p.id, 'b', url);
-                                                        }}
-                                                    >
-                                                        Kép beírása
-                                                    </Button>
+                                                    <div className="flex border-l border-slate-200">
+                                                        <Button 
+                                                            size="sm" variant="ghost" className="h-7 px-2 text-[10px] font-bold text-indigo-500"
+                                                            onClick={() => {
+                                                                const url = window.prompt('Illeszd be a kép URL címét:', p.b.startsWith('data:') ? '' : p.b);
+                                                                if (url !== null) updatePair(p.id, 'b', url);
+                                                            }}
+                                                        >
+                                                            Link
+                                                        </Button>
+                                                        <label className="h-7 px-2 flex items-center justify-center cursor-pointer hover:bg-slate-100 rounded text-indigo-500 transition-colors">
+                                                            <Upload className="w-3.5 h-3.5" />
+                                                            <input 
+                                                                type="file" className="hidden" accept="image/*" 
+                                                                onChange={(e) => e.target.files?.[0] && handleImageUpload(p.id, 'b', e.target.files[0])} 
+                                                            />
+                                                        </label>
+                                                    </div>
                                                 )}
                                             </div>
                                             <input 
-                                                value={p.b} onChange={e => updatePair(p.id, 'b', e.target.value)}
-                                                placeholder={p.bType === 'math' ? "LaTeX (pl. \\frac{2}{3})" : p.bType === 'image' ? "Kép URL" : "Szöveg"} 
-                                                className="flex-1 bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-sm"
+                                                value={p.b.startsWith('data:') ? '[Feltöltött kép]' : p.b} 
+                                                onChange={e => updatePair(p.id, 'b', e.target.value)}
+                                                onPaste={(e) => handlePaste(p.id, 'b', e)}
+                                                readOnly={p.b.startsWith('data:')}
+                                                placeholder={p.bType === 'math' ? "LaTeX (pl. \\frac{2}{3})" : p.bType === 'image' ? "URL vagy Ctrl+V" : "Szöveg"} 
+                                                className={cn(
+                                                    "flex-1 bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-sm",
+                                                    p.b.startsWith('data:') && "bg-slate-50 text-slate-500 italic"
+                                                )}
                                             />
+                                            {p.b.startsWith('data:') && (
+                                                <Button size="icon" variant="ghost" onClick={() => updatePair(p.id, 'b', '')} className="h-8 w-8 text-slate-400 hover:text-red-500"><Trash2 className="w-3.5 h-3.5" /></Button>
+                                            )}
                                         </div>
                                         {p.b.trim() && (
                                             <div className="ml-11 p-2 bg-white rounded-lg border border-slate-100 min-h-[40px] flex items-center justify-center">
                                                 {p.bType === 'math' && <MathRenderer tex={p.b} className="text-sm font-bold" />}
                                                 {p.bType === 'text' && <span className="text-sm font-bold">{p.b}</span>}
-                                                {p.bType === 'image' && <img src={p.b} alt="preview" className="max-h-12 rounded object-contain" onError={(e) => (e.currentTarget.src = 'https://placehold.co/100x100?text=Sérült+Kép')} />}
+                                                {p.bType === 'image' && (
+                                                    p.b.startsWith('http') || p.b.startsWith('data:') ? (
+                                                        <img src={p.b} alt="preview" className="max-h-24 rounded object-contain shadow-sm" onError={(e) => (e.currentTarget.src = 'https://placehold.co/100x100?text=Hibás+URL')} />
+                                                    ) : (
+                                                        <div className="text-[10px] text-slate-400 italic py-2">Érvénytelen kép URL</div>
+                                                    )
+                                                )}
                                             </div>
                                         )}
                                     </div>

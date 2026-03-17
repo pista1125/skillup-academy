@@ -68,6 +68,10 @@ import { StudentFeedbackHub } from '@/components/feedback/StudentFeedbackHub';
 import { WordSearchTool } from '@/components/math/WordSearchTool';
 import ChessGame from '@/components/math/ChessGame';
 import { MatchingCreator } from '@/components/math/MatchingCreator';
+import { EquationBalanceQuiz } from '@/components/math/EquationBalanceQuiz';
+import { WordProblemsQuiz } from '@/components/math/WordProblemsQuiz';
+import { Grade7GeometryModule } from '@/components/math/Grade7GeometryModule';
+import MemoryGame from '@/components/math/MemoryGame';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -133,6 +137,7 @@ type ActivityType =
   | 'sudoku' | 'sudoku-generator' | 'venn-interpretation-quiz'
   | 'venn-reading-objects' | 'venn-reading-numbers' | 'axial-symmetry' | 'symmetry-error' | 'symmetry-construction' | 'axial-symmetry-quiz' | 'axial-symmetry-presentation'
   | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search' | 'memory-game' | 'equation-balance-quiz'
+  | 'g7-word-problems'
   | 'toto-maker' | 'chess-game' | 'matching-creator';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
@@ -1237,7 +1242,7 @@ export default function MathPage() {
       );
     }
 
-    if (topicId === 'g7-geom-trans' || topicId === 'g7-geometry') {
+    if (topicId === 'g7-geom-trans') {
       return (
         <div className="flex flex-col gap-10 py-6">
           <section>
@@ -1779,8 +1784,30 @@ export default function MathPage() {
                 icon={<Scale className="w-6 h-6" />}
                 color="indigo"
               />
+              <ActivityPlaceholder
+                title="Szöveges egyenletek"
+                subtitle="10 feladat / szint"
+                type="Gyakorlás"
+                onClick={() => {
+                  handleActivitySelect('g7-word-problems', topicId);
+                }}
+                icon={<BookOpen className="w-6 h-6" />}
+                color="indigo"
+              />
             </div>
           </section>
+        </div>
+      );
+    }
+
+    if (topicId === 'g7-geometry') {
+      return (
+        <div className="py-2">
+          <Grade7GeometryModule
+            onBack={handleBack}
+            isInline
+            onStartActivity={(type) => handleActivitySelect(type as ActivityType)}
+          />
         </div>
       );
     }
@@ -2563,6 +2590,10 @@ export default function MathPage() {
 
                 {activityType === 'word-problems' && (
                   <WordProblemsModule onBack={handleBack} />
+                )}
+
+                {activityType === 'g7-word-problems' && (
+                  <WordProblemsQuiz onBack={handleBack} />
                 )}
 
                 {activityType === 'number-line' && (
