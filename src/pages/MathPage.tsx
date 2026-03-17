@@ -71,7 +71,7 @@ import { MatchingCreator } from '@/components/math/MatchingCreator';
 import { EquationBalanceQuiz } from '@/components/math/EquationBalanceQuiz';
 import { WordProblemsQuiz } from '@/components/math/WordProblemsQuiz';
 import { Grade7GeometryModule } from '@/components/math/Grade7GeometryModule';
-import MemoryGame from '@/components/math/MemoryGame';
+import MemoryGameComponent from '@/components/math/MemoryGame';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -2641,7 +2641,7 @@ export default function MathPage() {
                 )}
 
                 {activityType === 'memory-game' && (
-                   <MemoryGame />
+                   <MemoryGameComponent />
                 )}
 
                 {activityType === 'chess-game' && (
