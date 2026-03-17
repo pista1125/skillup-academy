@@ -72,6 +72,7 @@ import { EquationBalanceQuiz } from '@/components/math/EquationBalanceQuiz';
 import { WordProblemsQuiz } from '@/components/math/WordProblemsQuiz';
 import { Grade7GeometryModule } from '@/components/math/Grade7GeometryModule';
 import MemoryGameComponent from '@/components/math/MemoryGame';
+import HanoiGame from '@/components/math/HanoiGame';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -105,7 +106,8 @@ import {
   LayoutGrid,
   Repeat,
   Brain,
-  Puzzle
+  Puzzle,
+  Trophy
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -138,7 +140,8 @@ type ActivityType =
   | 'venn-reading-objects' | 'venn-reading-numbers' | 'axial-symmetry' | 'symmetry-error' | 'symmetry-construction' | 'axial-symmetry-quiz' | 'axial-symmetry-presentation'
   | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search' | 'memory-game' | 'equation-balance-quiz'
   | 'g7-word-problems'
-  | 'toto-maker' | 'chess-game' | 'matching-creator';
+  | 'toto-maker' | 'chess-game' | 'matching-creator'
+  | 'hanoi-tower';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
 const slugToGrade = (slug: string): GradeLevel | null => {
@@ -187,6 +190,13 @@ const TOOLS: ActivityConfig[] = [
 
 const GAMES: ActivityConfig[] = [
   { id: 'sudoku', title: 'Sudoku Mester', desc: 'Klasszikus és extrém Sudoku feladványok', icon: <Calculator className="w-8 h-8" />, color: 'bg-blue-100 border-blue-200 text-blue-600' },
+  {
+    id: 'hanoi-tower',
+    title: 'Hanoi tornyai',
+    desc: 'Logikai és stratégiai játék a korongokkal.',
+    icon: <Trophy className="w-8 h-8 text-amber-500" />,
+    color: 'bg-amber-50 dark:bg-amber-900/20'
+  },
   { id: 'snake-game', title: 'Matek Kígyó', desc: 'Gyűjtsd össze a helyes válaszokat a kígyóval!', icon: <span className="text-3xl">🐍</span>, color: 'bg-emerald-100 border-emerald-200' },
   { id: 'memory-game', title: 'Memóriajáték', desc: 'Jegyezd meg az ábrákat és teszteld a memóriád!', icon: <Brain className="w-8 h-8" />, color: 'bg-indigo-100 border-indigo-200 text-indigo-600' },
   { id: 'chess-game', title: 'Sakk Mester', desc: 'Játssz a gép ellen vagy hívd ki barátaidat!', icon: <span className="text-3xl">♟️</span>, color: 'bg-slate-100 border-slate-200 text-slate-700' },
@@ -367,7 +377,7 @@ export default function MathPage() {
       path = topic ? `/jatekok/${topic}` : '/jatekok';
     } else if (newView === 'activity' && !grade) {
       // Handle tool/game activity without grade
-      const isGame = activity === 'snake-game';
+      const isGame = GAMES.some(g => g.id === activity);
       path = isGame ? `/jatekok/${topic || activity}` : `/eszkozok/${topic || activity}`;
     } else if (grade) {
       path = `/${gradeToSlug(grade)}`;
@@ -2642,6 +2652,10 @@ export default function MathPage() {
 
                 {activityType === 'memory-game' && (
                    <MemoryGameComponent />
+                )}
+
+                {activityType === 'hanoi-tower' && (
+                   <HanoiGame onBack={handleBack} />
                 )}
 
                 {activityType === 'chess-game' && (
