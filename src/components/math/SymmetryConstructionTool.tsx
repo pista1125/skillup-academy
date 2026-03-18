@@ -493,12 +493,25 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                 const id = `obj-${Date.now()}`;
                 const sides = regularPolygonSides;
                 const vertexIds: string[] = [selection[0], clickedPointId!];
+                const pointLabels: Record<string, string> = {};
+
+                // Generate labels for the additional points
+                let tempObjects = { ...objects };
                 for (let i = 2; i < sides; i++) {
-                    vertexIds.push(`p-reg-${id}-${i}`);
+                    const vId = `p-reg-${id}-${i}`;
+                    vertexIds.push(vId);
+                    const label = getNextPointLabel(currentPoints, tempObjects);
+                    pointLabels[vId] = label;
+                    // Mock object to let getNextPointLabel see this label in next iteration
+                    tempObjects = {
+                        ...tempObjects,
+                        [id]: { id, type: 'regular-polygon' as const, pointIds: vertexIds, color: 'blue', isReflection: false, sides, pointLabels }
+                    };
                 }
+
                 const newObjects = {
                     ...objects,
-                    [id]: { id, type: 'regular-polygon' as const, pointIds: vertexIds, color: 'blue', isReflection: false, sides }
+                    [id]: { id, type: 'regular-polygon' as const, pointIds: vertexIds, color: 'blue', isReflection: false, sides, pointLabels }
                 };
                 setObjects(newObjects);
                 pushToHistory(currentPoints, newObjects);
@@ -968,7 +981,15 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => { setActiveTool('regular-polygon'); setSelection([]); }} className="flex gap-2 items-center">
                             <Hexagon className="w-4 h-4 mr-2 text-indigo-500" /> Szabályos sokszög
-                            <input type="number" min="3" max="20" value={regularPolygonSides} onClick={e => e.stopPropagation()} onChange={e => setRegularPolygonSides(Number(e.target.value))} className="w-10 h-7 border rounded text-center text-xs ml-auto" />
+                            <input 
+                                type="number" 
+                                min="3" 
+                                max="20" 
+                                value={regularPolygonSides} 
+                                onClick={e => e.stopPropagation()} 
+                                onChange={e => setRegularPolygonSides(Number(e.target.value))} 
+                                className="w-12 h-7 border border-slate-300 rounded text-center text-xs ml-auto bg-white text-slate-900 focus:outline-none focus:ring-1 focus:ring-blue-500" 
+                            />
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
