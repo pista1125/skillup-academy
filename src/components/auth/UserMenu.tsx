@@ -68,7 +68,7 @@ export function UserMenu() {
         : user?.email?.substring(0, 2).toUpperCase() || '??';
     
     // Use avatar_url if available
-    const displayAvatar = profile?.avatar_url || user?.user_metadata?.avatar_url;
+    const displayAvatar = profile?.avatar_url || user?.user_metadata?.avatar_url || user?.user_metadata?.picture;
 
     return (
         <>

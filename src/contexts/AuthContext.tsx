@@ -35,15 +35,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [profile, setProfile] = useState<Profile | null>(null);
     const [loading, setLoading] = useState(true);
 
-    const fetchProfile = useCallback(async (userId: string, userMetaName?: string | null) => {
-        // Immediate fallback from auth metadata so the name appears right away
-        if (userMetaName) {
+    const fetchProfile = useCallback(async (userId: string, userMetaName?: string | null, userMetaAvatar?: string | null) => {
+        // Immediate fallback from auth metadata so the name and avatar appears right away
+        if (userMetaName || userMetaAvatar) {
             setProfile(prev => prev ?? { 
                 id: userId, 
-                full_name: userMetaName, 
+                full_name: userMetaName || null, 
                 username: null,
                 role: 'student',
-                avatar_url: null,
+                avatar_url: userMetaAvatar || null,
                 updated_at: '' 
             });
         }
@@ -93,7 +93,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
             if (currSession?.user) {
                 const metaName = currSession.user.user_metadata?.full_name as string | undefined;
-                await fetchProfile(currSession.user.id, metaName);
+                const metaAvatar = (currSession.user.user_metadata?.avatar_url || currSession.user.user_metadata?.picture) as string | undefined;
+                await fetchProfile(currSession.user.id, metaName, metaAvatar);
             } else {
                 setProfile(null);
                 setLoading(false);
@@ -116,7 +117,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 } else if (event === 'SIGNED_IN') {
                     // Re-fetch profile if a new login happens
                     const metaName = session.user.user_metadata?.full_name as string | undefined;
-                    fetchProfile(session.user.id, metaName);
+                    const metaAvatar = (session.user.user_metadata?.avatar_url || session.user.user_metadata?.picture) as string | undefined;
+                    fetchProfile(session.user.id, metaName, metaAvatar);
                 }
                 return;
             }

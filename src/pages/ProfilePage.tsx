@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/lib/supabase';
@@ -37,6 +37,43 @@ export default function ProfilePage() {
   const [avatarUrl, setAvatarUrl] = useState(profile?.avatar_url || '');
   const [role, setRole] = useState<'teacher' | 'student'>(profile?.role || 'student');
   const [activeTab, setActiveTab] = useState<'personal' | 'activity' | 'settings'>('personal');
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const googlePhoto = user?.user_metadata?.avatar_url || user?.user_metadata?.picture;
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !user) return;
+
+    if (file.size > 2 * 1024 * 1024) {
+      toast.error('A kép mérete nem lehet nagyobb, mint 2MB');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${user.id}/${Date.now()}.${fileExt}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('avatars')
+        .upload(fileName, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('avatars')
+        .getPublicUrl(fileName);
+
+      setAvatarUrl(publicUrl);
+      toast.success('Kép sikeresen feltöltve! Ne felejtsd el elmenteni a módosításokat.');
+    } catch (error: any) {
+      console.error('Upload error:', error);
+      toast.error('Hiba a kép feltöltésekor: ' + (error.message || 'Ismeretlen hiba'));
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (profile) {
@@ -110,17 +147,28 @@ export default function ProfilePage() {
 
                <div className="relative">
                 <div className="relative inline-block group mb-4">
-                  <Avatar className="h-24 w-24 border-4 border-white dark:border-slate-800 shadow-2xl mx-auto ring-4 ring-slate-50 dark:ring-slate-900 transition-transform group-hover:scale-105 duration-500">
+                  <Avatar className="h-24 w-24 border-4 border-white dark:border-slate-800 shadow-2xl mx-auto ring-4 ring-slate-50 dark:ring-slate-900 transition-transform group-hover:scale-105 duration-500 overflow-hidden">
+                    <AvatarImage src={avatarUrl} className="object-cover" />
                     <AvatarFallback className={cn(
                       "text-3xl font-black text-white",
                       role === 'teacher' ? "bg-gradient-to-br from-rose-500 to-orange-500" : "bg-gradient-to-br from-indigo-500 to-purple-500"
                     )}>
-                      {avatarUrl || initials}
+                      {(avatarUrl && !avatarUrl.startsWith('http')) ? avatarUrl : initials}
                     </AvatarFallback>
                   </Avatar>
-                  <div className="absolute -bottom-1 -right-1 bg-white dark:bg-slate-800 rounded-full p-2 shadow-lg border border-slate-100 dark:border-slate-700 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                  <button 
+                    onClick={() => fileInputRef.current?.click()}
+                    className="absolute -bottom-1 -right-1 bg-white dark:bg-slate-800 rounded-full p-2 shadow-lg border border-slate-100 dark:border-slate-700 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors z-10"
+                  >
                     <Camera className="w-4 h-4 text-slate-500" />
-                  </div>
+                  </button>
+                  <input 
+                    type="file" 
+                    ref={fileInputRef} 
+                    className="hidden" 
+                    accept="image/*" 
+                    onChange={handleFileUpload} 
+                  />
                 </div>
                 <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 tracking-tight">{fullName || 'Névtelen'}</h2>
                 <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">{user?.email}</p>
@@ -204,7 +252,19 @@ export default function ProfilePage() {
                     </div>
 
                     <div className="space-y-2">
-                       <Label className="text-sm font-bold text-slate-700 dark:text-slate-300 ml-1">Válassz Avatárt</Label>
+                       <div className="flex items-center justify-between mb-2">
+                        <Label className="text-sm font-bold text-slate-700 dark:text-slate-300 ml-1">Karakterválasztás</Label>
+                        {googlePhoto && avatarUrl !== googlePhoto && (
+                          <Button 
+                            variant="link" 
+                            size="sm" 
+                            className="text-indigo-600 dark:text-indigo-400 font-bold p-0 h-auto"
+                            onClick={() => setAvatarUrl(googlePhoto)}
+                          >
+                            Használd a Google fotóm
+                          </Button>
+                        )}
+                       </div>
                        <div className="grid grid-cols-6 gap-3 pt-2">
                          {AVATARS.map((emoji) => (
                            <button
