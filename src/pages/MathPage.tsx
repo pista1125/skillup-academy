@@ -71,6 +71,8 @@ import { MatchingCreator } from '@/components/math/MatchingCreator';
 import { EquationBalanceQuiz } from '@/components/math/EquationBalanceQuiz';
 import { WordProblemsQuiz } from '@/components/math/WordProblemsQuiz';
 import { Grade7GeometryModule } from '@/components/math/Grade7GeometryModule';
+import { RatioIntroQuiz } from '@/components/math/RatioIntroQuiz';
+import { RatioCreatorQuiz } from '@/components/math/RatioCreatorQuiz';
 import MemoryGameComponent from '@/components/math/MemoryGame';
 import HanoiGame from '@/components/math/HanoiGame';
 import { QuizResult, GradeLevel } from '@/types/education';
@@ -107,7 +109,8 @@ import {
   Repeat,
   Brain,
   Puzzle,
-  Trophy
+  Trophy,
+  Flag
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -139,7 +142,7 @@ type ActivityType =
   | 'sudoku' | 'sudoku-generator' | 'venn-interpretation-quiz'
   | 'venn-reading-objects' | 'venn-reading-numbers' | 'axial-symmetry' | 'symmetry-error' | 'symmetry-construction' | 'axial-symmetry-quiz' | 'axial-symmetry-presentation'
   | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search' | 'memory-game' | 'equation-balance-quiz'
-  | 'g7-word-problems'
+  | 'ratio-intro' | 'ratio-creator' | 'g7-word-problems'
   | 'toto-maker' | 'chess-game' | 'matching-creator'
   | 'hanoi-tower';
 
@@ -1573,7 +1576,83 @@ export default function MathPage() {
       return (
         <div className="flex flex-col gap-10 py-6">
           <section>
-            <SectionHeader number={1} title="Százalékszámítás" color="rose" />
+            <SectionHeader number={1} title="Az arány fogalma" color="orange" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Arány felismerés"
+                subtitle="Zászlók, poharak, kísérletek"
+                type="Teszt"
+                onClick={() => handleActivitySelect('ratio-intro')}
+                icon={<Flag className="w-6 h-6" />}
+                color="orange"
+              />
+              <ActivityPlaceholder
+                title="Arány alkotó"
+                subtitle="Színezés, keverés, elosztás"
+                type="Interaktív"
+                onClick={() => handleActivitySelect('ratio-creator')}
+                icon={<Sparkles className="w-6 h-6" />}
+                color="orange"
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={2} title="Arányos osztás" color="amber" />
+            <div className="py-2">
+              <MaterialGallery
+                grade={6}
+                onView={handleMaterialSelect}
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={3} title="Egyenes arányosság" color="yellow" />
+            <div className="py-2">
+              <MaterialGallery
+                grade={6}
+                onView={handleMaterialSelect}
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={4} title="Egyenes arányosság grafikonja" color="lime" />
+            <div className="py-2">
+              <MaterialGallery
+                grade={6}
+                onView={handleMaterialSelect}
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={5} title="Szabályok, megfeleltetések" color="emerald" />
+            <div className="py-2">
+              <MaterialGallery
+                grade={6}
+                onView={handleMaterialSelect}
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={6} title="Törtrész" color="teal" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Törtek vizuálisan"
+                subtitle="Törtek ábrázolása"
+                type="Eszköz"
+                onClick={() => handleActivitySelect('fractions-visualizer')}
+                icon={<Percent className="w-6 h-6" />}
+                color="orange"
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={7} title="Százalékszámítás" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
               <ActivityPlaceholder
                 title="Mennyiségek"
@@ -1612,7 +1691,35 @@ export default function MathPage() {
           </section>
 
           <section>
-            <SectionHeader number={2} title="Szöveges feladatok" color="teal" />
+            <SectionHeader number={8} title="A százalékszámítás gyakorlása" color="pink" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Szöveges feladatok"
+                subtitle="Gyakorlati problémák (%)"
+                type="Gyakorlás"
+                onClick={() => handleActivitySelect('percent-value-word-problems')}
+                icon={<Percent className="w-6 h-6" />}
+                color="pink"
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={9} title="Nyitott mondatok" color="violet" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Egyenletmegoldó"
+                subtitle="Vizuális modell"
+                type="Eszköz"
+                onClick={() => handleActivitySelect('equation-solver')}
+                icon={<Calculator className="w-6 h-6" />}
+                color="violet"
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={10} title="Szöveges feladatok" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
               <ActivityPlaceholder
                 title="Matek Kvíz"
@@ -1624,9 +1731,30 @@ export default function MathPage() {
               />
             </div>
           </section>
+
+          <section>
+            <SectionHeader number={11} title="Több megoldás is lehet" color="slate" />
+            <div className="py-2">
+              <MaterialGallery
+                grade={6}
+                onView={handleMaterialSelect}
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={12} title="Összefoglalás" color="indigo" />
+            <div className="py-2">
+              <MaterialGallery
+                grade={6}
+                onView={handleMaterialSelect}
+              />
+            </div>
+          </section>
         </div>
       );
     }
+
 
     if (topicId === 'g6-measurements' || topicId === 'g6-statistics' || topicId === 'g6-finance') {
       return (
@@ -2675,6 +2803,14 @@ export default function MathPage() {
 
                 {activityType === 'equation-balance-quiz' && (
                    <EquationBalanceQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'ratio-intro' && (
+                   <RatioIntroQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'ratio-creator' && (
+                   <RatioCreatorQuiz onBack={handleBack} />
                 )}
 
                 {activityType === 'materials' && (
