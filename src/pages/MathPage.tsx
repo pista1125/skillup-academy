@@ -75,6 +75,7 @@ import { RatioIntroQuiz } from '@/components/math/RatioIntroQuiz';
 import { RatioCreatorQuiz } from '@/components/math/RatioCreatorQuiz';
 import MemoryGameComponent from '@/components/math/MemoryGame';
 import HanoiGame from '@/components/math/HanoiGame';
+import { CompetencyAssessment } from '@/components/math/CompetencyAssessment';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -144,7 +145,7 @@ type ActivityType =
   | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search' | 'memory-game' | 'equation-balance-quiz'
   | 'ratio-intro' | 'ratio-creator' | 'g7-word-problems'
   | 'toto-maker' | 'chess-game' | 'matching-creator'
-  | 'hanoi-tower';
+  | 'hanoi-tower' | 'competency-assessment';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
 const slugToGrade = (slug: string): GradeLevel | null => {
@@ -227,12 +228,14 @@ export default function MathPage() {
       { id: 'g4-written-ops', label: 'Írásbeli műveletek', icon: <Calculator className="w-4 h-4" /> },
       { id: 'g4-long-div', label: 'Írásbeli osztás', icon: <Box className="w-4 h-4" /> },
       { id: 'g4-shapes-solids', label: 'Síkidomok, testek', icon: <Shapes className="w-4 h-4" /> },
+      { id: 'g4-competency', label: 'Kompetencia Mérés', icon: <Target className="w-4 h-4" /> },
       { id: 'g4-fractions', label: 'Törtszámok', icon: <Percent className="w-4 h-4" /> },
     ];
     if (selectedGrade === 5) return [
       { id: 'g5-ops', label: 'Alapműveletek', icon: <Calculator className="w-4 h-4" /> },
       { id: 'g5-geom-basics', label: 'Geometria', icon: <Shapes className="w-4 h-4" /> },
       { id: 'g5-proportions', label: 'Arányosság', icon: <Percent className="w-4 h-4" /> },
+      { id: 'g5-competency', label: 'Kompetencia Mérés', icon: <Target className="w-4 h-4" /> },
     ];
     if (selectedGrade === 7) return [
       { id: 'g7-lines', label: 'Nevezetes vonalak', icon: <MoveHorizontal className="w-4 h-4" /> },
@@ -254,10 +257,12 @@ export default function MathPage() {
       'g4-written-ops': 'g4-written-ops',
       'g4-long-div': 'g4-long-div',
       'g4-shapes-solids': 'g4-shapes-solids',
+      'g4-competency': 'competency-assessment',
       'g4-fractions': 'g4-fractions',
       'g5-ops': 'g5-integers',
       'g5-geom-basics': 'g5-geometry-intro',
       'g5-proportions': 'g5-proportion-problems',
+      'g5-competency': 'competency-assessment',
       'g7-lines': 'g7-geom-trans',
       'g7-triangles': 'g7-geom-trans',
       'g7-quads': 'g7-geom-trans',
@@ -494,6 +499,8 @@ export default function MathPage() {
       finalActivityType = 'puzzle-maker';
     } else if (topicId === 'symmetry-construction') {
       finalActivityType = 'symmetry-construction';
+    } else if (topicId === 'competency-assessment') {
+      finalActivityType = 'competency-assessment';
     } else {
       finalActivityType = 'quiz';
     }
@@ -598,6 +605,26 @@ export default function MathPage() {
   };
 
   const renderTopicContent = (topicId: string) => {
+    if (topicId === 'competency-assessment') {
+      return (
+        <div className="flex flex-col gap-10 py-6">
+          <section>
+            <SectionHeader id="competency-assessment" number={1} title="Havi Kompetencia Mérés" color="blue" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Szeptember - Június"
+                subtitle="10 feladatsor"
+                type="Kezdés"
+                onClick={() => handleActivitySelect('competency-assessment')}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+              />
+            </div>
+          </section>
+        </div>
+      );
+    }
+
     if (topicId === 'g4-count-10k') {
       return (
         <div className="flex flex-col gap-10 py-6">
@@ -2791,6 +2818,10 @@ export default function MathPage() {
 
                 {activityType === 'hanoi-tower' && (
                    <HanoiGame onBack={handleBack} />
+                )}
+
+                {activityType === 'competency-assessment' && selectedGrade && (
+                  <CompetencyAssessment onBack={handleBack} grade={selectedGrade} />
                 )}
 
                 {activityType === 'chess-game' && (

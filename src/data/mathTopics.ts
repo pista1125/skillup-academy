@@ -484,6 +484,14 @@ export const mathTopics: MathTopic[] = [
     color: 'from-indigo-500 to-purple-600',
     grades: [1, 2, 3, 4, 5, 6, 7, 8],
   },
+  {
+    id: 'competency-assessment',
+    title: 'Kompetencia Mérés (Havi)',
+    description: '10 havi kompetencia-alapú feladatsor 4. és 5. osztályosoknak, letölthető PDF eredménnyel.',
+    icon: '🎯',
+    color: 'from-blue-600 to-indigo-700',
+    grades: [4, 5],
+  },
 ];
 
 export const gradeDescriptions: Record<number, string> = {

@@ -1,0 +1,165 @@
+﻿export type CompetencyTaskType = 'multiple-choice' | 'number-input' | 'true-false' | 'matching';
+
+export interface CompetencyTask {
+  id: string;
+  type: CompetencyTaskType;
+  context?: string;
+  tableData?: string[][];
+  question: string;
+  options?: string[];
+  correctAnswer: any;
+  pairs?: { left: string; right: string; id: string }[];
+  hint?: string;
+  points: number;
+  image?: string;
+}
+
+export interface MonthlyCompetency {
+  id: string;
+  name: string;
+  topic: string;
+  tasks: CompetencyTask[];
+}
+
+const GRADE_4_DATA: MonthlyCompetency[] = [
+  {
+    id: 'september',
+    name: 'Szeptember',
+    topic: 'Év eleji ismétlés - Az iskola kezdete',
+    tasks: [
+      { id: 'sep-1', type: 'number-input', context: 'Az iskolakezdés előtt az osztály kirándulni ment az állatkertbe. A jegypénztárnál az alábbi tábla állt:', tableData: [['Jegy típus', 'Ár (Ft)'], ['Gyerek', '1200'], ['Felnőtt', '2500'], ['Csoportos', '1000']], question: 'Ha 10 gyerek és 2 felnőtt kísérő megy, összesen hány forintba kerülnek csak a gyerekjegyek?', correctAnswer: 12000, points: 1 },
+      { id: 'sep-2', type: 'multiple-choice', context: 'Az állatkertben az egyik elefánt súlya 4587 kg. A gondozó kerekítve vezeti be a naplójába.', question: 'Melyik a súly százasokra kerekített értéke?', options: ['4500 kg', '4580 kg', '4600 kg', '5000 kg'], correctAnswer: 2, points: 1 },
+      { id: 'sep-3', type: 'number-input', context: 'A majomházban 345 banánt kaptak reggel, és 218-at délután a majmok.', question: 'Hány banánt ettek meg összesen ezen a napon?', correctAnswer: 563, points: 1 },
+      { id: 'sep-4', type: 'number-input', context: 'Az iskolai büfében a gyerekek tízórait vettek. Peti 800 forinttal indult el otthonról, és egy szendvics 364 forintba került.', question: 'Hány forintja maradt Petinek a vásárlás után?', correctAnswer: 436, points: 1 },
+      { id: 'sep-5', type: 'multiple-choice', context: 'A tornaterem hossza 4 méter és még 5 centiméter az egyik ugrásnál.', question: 'Hány centiméter ez összesen?', options: ['45 cm', '405 cm', '450 cm', '4005 cm'], correctAnswer: 1, points: 1 },
+      { id: 'sep-6', type: 'number-input', context: 'A suliból hazafelé Emi és a barátai vettek egy-egy gombóc fagyit. Egy gombóc ára 150 Ft. Emi három gombócot kért.', question: 'Mennyit fizetett Emi összesen?', correctAnswer: 450, points: 1 },
+      { id: 'sep-7', type: 'matching', context: 'Párosítsd a szorzásokat az eredményükkel!', question: 'Párosíts!', pairs: [{ id: 'p1', left: '7 * 8', right: '56' }, { id: 'p2', left: '6 * 9', right: '54' }, { id: 'p3', left: '4 * 12', right: '48' }], correctAnswer: null, points: 1 },
+      { id: 'sep-8', type: 'true-false', question: 'Igaz vagy Hamis? A 678 páros szám.', options: ['Igaz', 'Hamis'], correctAnswer: 0, points: 1 },
+      { id: 'sep-9', type: 'number-input', context: 'A kertben a virágok sorba vannak ültetve: 120, 150, 180, ... látható a távolság centiméterben.', question: 'Mi a következő szám a sorozatban?', correctAnswer: 210, points: 1 },
+      { id: 'sep-10', type: 'multiple-choice', context: 'Történelem órán a római számokat ismételjük.', question: 'Melyik római szám jelöli a 90-et?', options: ['LXXXX', 'XC', 'CX', 'IC'], correctAnswer: 1, points: 1 }
+    ]
+  },
+  {
+    id: 'october',
+    name: 'Október',
+    topic: 'Számfogalom 10 000-ig',
+    tasks: [
+      { id: 'oct-1', type: 'number-input', context: 'Az almáskertben 4523 kg almát szüreteltek le.', question: 'Hány teljes 100 kg-os láda tölthető meg ebből?', correctAnswer: 45, points: 1 },
+      { id: 'oct-2', type: 'multiple-choice', context: 'Négy teherautó súlya: 4509 kg, 4591 kg, 4099 kg, 4901 kg.', question: 'Melyik a legnehezebb?', options: ['4509 kg', '4591 kg', '4099 kg', '4901 kg'], correctAnswer: 3, points: 1 },
+      { id: 'oct-3', type: 'number-input', context: 'Egy falu lakossága 6789 fő.', question: 'Kerekítsd tizesekre!', correctAnswer: 6790, points: 1 },
+      { id: 'oct-4', type: 'number-input', question: 'Négyezer-hatvankettő számjegyekkel?', correctAnswer: 4062, points: 1 },
+      { id: 'oct-5', type: 'multiple-choice', context: 'A 7450 tízes szomszédai.', question: 'Melyik a kisebb tízes szomszéd?', options: ['7440', '7449', '7445', '7400'], correctAnswer: 0, points: 1 },
+      { id: 'oct-6', type: 'number-input', context: '7000 forintot vettünk fel ezresekben.', question: 'Hány bankjegyet kaptunk?', correctAnswer: 7, points: 1 },
+      { id: 'oct-7', type: 'matching', context: 'Kerekítés százasokra.', question: 'Párosíts!', pairs: [{ id: 'p1', left: '1245', right: '1200' }, { id: 'p2', left: '1251', right: '1300' }, { id: 'p3', left: '1299', right: '1300' }], correctAnswer: null, points: 1 },
+      { id: 'oct-8', type: 'true-false', question: 'A 10 000 a legkisebb ötjegyű szám.', options: ['Igaz', 'Hamis'], correctAnswer: 0, points: 1 },
+      { id: 'oct-9', type: 'number-input', context: 'Kártyák: 3, 0, 8, 1.', question: 'Legkisebb négyjegyű szám?', correctAnswer: 1038, points: 1 },
+      { id: 'oct-10', type: 'multiple-choice', context: 'Sorozat: 3400, 3450, ..., 3550.', question: 'Hiányzó szám?', options: ['3460', '3500', '3510', '3490'], correctAnswer: 1, points: 1 }
+    ]
+  },
+  {
+    id: 'november',
+    name: 'November',
+    topic: 'Írásbeli összeadás és kivonás',
+    tasks: [
+      { id: 'nov-1', type: 'number-input', context: 'Adomány: 4567 Ft és 1232 Ft.', question: 'Összesen hány forint?', correctAnswer: 5799, points: 1 },
+      { id: 'nov-2', type: 'number-input', context: 'Raktár: 8765 kg, elvittek 4321 kg-ot.', question: 'Mennyi maradt?', correctAnswer: 4444, points: 1 },
+      { id: 'nov-3', type: 'number-input', question: '3456 + 2789 = ?', correctAnswer: 6245, points: 1 },
+      { id: 'nov-4', type: 'number-input', context: 'Futás: 6000 m-ből megvan 2456 m.', question: 'Hány méter van hátra?', correctAnswer: 3544, points: 1 },
+      { id: 'nov-5', type: 'multiple-choice', context: 'Konzerv: 1450 és 1280.', question: 'Összesen?', options: ['2630', '2730', '2830', '2530'], correctAnswer: 1, points: 1 },
+      { id: 'nov-6', type: 'number-input', context: 'Cél 5000 Ft, van 2345 Ft.', question: 'Mennyi hiányzik?', correctAnswer: 2655, points: 1 },
+      { id: 'nov-7', type: 'matching', context: 'Becslés százasokra.', question: 'Párosíts!', pairs: [{ id: 'p1', left: '1234 + 456', right: '1700' }, { id: 'p2', left: '2345 - 1120', right: '1200' }, { id: 'p3', left: '999 + 999', right: '2000' }], correctAnswer: null, points: 1 },
+      { id: 'nov-8', type: 'true-false', question: 'Ha az egyik tagot növelem 100-zal, az összeg is nő 100-zal.', options: ['Igaz', 'Hamis'], correctAnswer: 0, points: 1 },
+      { id: 'nov-9', type: 'number-input', context: '456 felnőtt + 389 gyerek.', question: 'Összesen?', correctAnswer: 845, points: 1 },
+      { id: 'nov-10', type: 'multiple-choice', options: ['4500-1200', '1200+1200', '6000-4000', '800+1800'], question: 'Legkisebb eredmény?', correctAnswer: 2, points: 1 }
+    ]
+  },
+  { id: 'december', name: 'December', topic: 'Szorzás és osztás', tasks: [
+    { id: 'dec-1', type: 'number-input', context: '40 csomag, benne 7-7 szaloncukor.', question: 'Összesen?', correctAnswer: 280, points: 1 },
+    { id: 'dec-2', type: 'number-input', context: '450 süti, 9 asztal.', question: 'Asztalonként?', correctAnswer: 50, points: 1 },
+    { id: 'dec-3', type: 'number-input', context: '4 doboz, 120 izzó fejenként.', question: 'Összesen?', correctAnswer: 480, points: 1 },
+    { id: 'dec-4', type: 'number-input', context: '720 hógolyó, 80 csapat.', question: 'Csapatonként?', correctAnswer: 9, points: 1 },
+    { id: 'dec-5', type: 'multiple-choice', context: '12 dísz/doboz, 6 doboz.', question: 'Összesen?', options: ['60', '72', '84', '96'], correctAnswer: 1, points: 1 },
+    { id: 'dec-6', type: 'number-input', context: '450 Ft-ért hány 5 Ft-os angyalka vehető?', question: 'Darabszám?', correctAnswer: 90, points: 1 },
+    { id: 'dec-7', type: 'matching', question: 'Párosíts!', pairs: [{ id: '1', left: '150*2', right: '300' }, { id: '2', left: '900:3', right: '300' }, { id: '3', left: '60*5', right: '300' }], correctAnswer: null, points: 1 },
+    { id: 'dec-8', type: 'true-false', question: 'Bármit 0-val szorozva 0 az eredmény.', options: ['Igaz', 'Hamis'], correctAnswer: 0, points: 1 },
+    { id: 'dec-9', type: 'number-input', question: 'Melyik szám * 6 = 480?', correctAnswer: 80, points: 1 },
+    { id: 'dec-10', type: 'multiple-choice', context: '4 alma 200 Ft.', question: '10 alma?', options: ['400 Ft', '500 Ft', '600 Ft', '450 Ft'], correctAnswer: 1, points: 1 }
+  ]},
+  { id: 'january', name: 'Január', topic: 'Írásbeli műveletek', tasks: [
+    { id: 'jan-1', type: 'number-input', context: '4 csapat * 342 fő.', question: 'Összesen?', correctAnswer: 1368, points: 1 },
+    { id: 'jan-2', type: 'number-input', context: '6 futam * 125 fő.', question: 'Összesen?', correctAnswer: 750, points: 1 },
+    { id: 'jan-3', type: 'number-input', context: '844 korong / 4 suli.', question: 'Sulinként?', correctAnswer: 211, points: 1 },
+    { id: 'jan-4', type: 'number-input', context: '455 takaró / 5 sátor.', question: 'Sátoronként?', correctAnswer: 91, points: 1 },
+    { id: 'jan-5', type: 'multiple-choice', context: '5 * 125 kg jég.', question: 'Összesen?', options: ['625 kg', '525 kg', '725 kg', '600 kg'], correctAnswer: 0, points: 1 },
+    { id: 'jan-6', type: 'number-input', question: '300 : 6 = ?', correctAnswer: 50, points: 1 },
+    { id: 'jan-7', type: 'matching', question: 'Párosíts!', pairs: [{ id: '1', left: '13:4', right: '1' }, { id: '2', left: '26:5', right: '1' }, { id: '3', left: '19:3', right: '1' }], correctAnswer: null, points: 1 },
+    { id: 'jan-8', type: 'true-false', question: 'X : 1 = X minden számra.', options: ['Igaz', 'Hamis'], correctAnswer: 0, points: 1 },
+    { id: 'jan-9', type: 'number-input', question: 'X : 7 = 40, maradék 2. Mi az X?', correctAnswer: 282, points: 1 },
+    { id: 'jan-10', type: 'multiple-choice', question: '234 * 10 = ?', options: ['234', '2340', '23400', '23.4'], correctAnswer: 1, points: 1 }
+  ]},
+  { id: 'february', name: 'Február', topic: 'Törtek', tasks: [
+    { id: 'feb-1', type: 'multiple-choice', question: 'Melyik a fél?', options: ['1/1', '1/4', '1/2', '3/4'], correctAnswer: 2, points: 1 },
+    { id: 'feb-2', type: 'multiple-choice', question: 'Melyik a háromnegyed?', options: ['1/3', '3/4', '4/3', '1/4'], correctAnswer: 1, points: 1 },
+    { id: 'feb-3', type: 'number-input', question: 'Hány negyed egy egész?', correctAnswer: 4, points: 1 },
+    { id: 'feb-4', type: 'multiple-choice', question: 'Hány tized egy egész?', options: ['1', '10', '100', '5'], correctAnswer: 1, points: 1 },
+    { id: 'feb-5', type: 'multiple-choice', question: '20 fele?', options: ['5', '10', '15', '2'], correctAnswer: 1, points: 1 },
+    { id: 'feb-6', type: 'number-input', question: '24 negyede?', correctAnswer: 6, points: 1 },
+    { id: 'feb-7', type: 'matching', question: 'Párosíts!', pairs: [{ id: '1', left: '1/2', right: '0,5' }, { id: '2', left: '1/10', right: '0,1' }, { id: '3', left: '5/10', right: '0,5' }], correctAnswer: null, points: 1 },
+    { id: 'feb-8', type: 'true-false', question: '1/4 > 1/2', options: ['Igaz', 'Hamis'], correctAnswer: 1, points: 1 },
+    { id: 'feb-9', type: 'multiple-choice', question: '8 szeletből 2 szelet?', options: ['1/2', '1/4', '1/8', '2/4'], correctAnswer: 1, points: 1 },
+    { id: 'feb-10', type: 'number-input', question: '4 negyedből 3 megeszünk. Marad?', correctAnswer: 1, points: 1 }
+  ]},
+  { id: 'march', name: 'Március', topic: 'Geometria', tasks: [
+    { id: 'mar-1', type: 'multiple-choice', question: '4 egyenlő oldal, 4 derékszög?', options: ['Téglalap', 'Négyzet', 'Háromszög', 'Kör'], correctAnswer: 1, points: 1 },
+    { id: 'mar-2', type: 'number-input', question: 'Hány oldala van az ötszögnek?', correctAnswer: 5, points: 1 },
+    { id: 'mar-3', type: 'number-input', context: 'Négyzet oldala 5 m.', question: 'Kerület?', correctAnswer: 20, points: 1 },
+    { id: 'mar-4', type: 'multiple-choice', question: '6 négyzet alapú lap?', options: ['Téglatest', 'Kocka', 'Gömb', 'Henger'], correctAnswer: 1, points: 1 },
+    { id: 'mar-5', type: 'number-input', question: 'Kocka csúcsainak száma?', correctAnswer: 8, points: 1 },
+    { id: 'mar-6', type: 'number-input', context: 'Téglalap: 4 cm és 6 cm.', question: 'Kerület?', correctAnswer: 20, points: 1 },
+    { id: 'mar-7', type: 'matching', question: 'Párosíts!', pairs: [{ id: '1', left: 'Párhuzamos', right: '||' }, { id: '2', left: 'Merőleges', right: '⊥' }, { id: '3', left: 'Mili', right: 'mm' }], correctAnswer: null, points: 1 },
+    { id: 'mar-8', type: 'true-false', question: 'A körnek nincsenek csúcsai.', options: ['Igaz', 'Hamis'], correctAnswer: 0, points: 1 },
+    { id: 'mar-9', type: 'number-input', question: 'Téglatest éleinek száma?', correctAnswer: 12, points: 1 },
+    { id: 'mar-10', type: 'multiple-choice', question: 'Melyik NEM síkidom oldal?', options: ['Szakasz', 'Görbe', 'Törött', 'Pont'], correctAnswer: 3, points: 1 }
+  ]},
+  { id: 'april', name: 'Április', topic: 'Mérések', tasks: [
+    { id: 'apr-1', type: 'number-input', question: '3 m = ? cm', correctAnswer: 300, points: 1 },
+    { id: 'apr-2', type: 'multiple-choice', question: '1 kg vas vs 1 kg toll?', options: ['Vas', 'Toll', 'Egyforma', '?'], correctAnswer: 2, points: 1 },
+    { id: 'apr-3', type: 'number-input', question: '2 kg = ? dkg', correctAnswer: 200, points: 1 },
+    { id: 'apr-4', type: 'number-input', question: '5 l = ? dl', correctAnswer: 50, points: 1 },
+    { id: 'apr-5', type: 'multiple-choice', question: 'Medence űrtartalma?', options: ['ml', 'dl', 'l', 'kg'], correctAnswer: 2, points: 1 },
+    { id: 'apr-6', type: 'number-input', question: '5 * 10 dkg = ? dkg', correctAnswer: 50, points: 1 },
+    { id: 'apr-7', type: 'matching', question: 'Átváltás', pairs: [{ id: '1', left: '1 km', right: '1000 m' }, { id: '2', left: '1 m', right: '100 cm' }, { id: '3', left: '1 dm', right: '10 cm' }], correctAnswer: null, points: 1 },
+    { id: 'apr-8', type: 'true-false', question: '750 ml > 1 l', options: ['Igaz', 'Hamis'], correctAnswer: 1, points: 1 },
+    { id: 'apr-9', type: 'number-input', question: '0,5 kg = ? g', correctAnswer: 500, points: 1 },
+    { id: 'apr-10', type: 'multiple-choice', question: 'Mivel mérjük a kerítést?', options: ['Mérleg', 'Mérőszalag', 'Mérőpohár', 'Óra'], correctAnswer: 1, points: 1 }
+  ]},
+  { id: 'may', name: 'Május', topic: 'Logika', tasks: [
+    { id: 'may-1', type: 'multiple-choice', question: 'Sorrend: Piros, Kék.', options: ['1', '2', '3', '4'], correctAnswer: 1, points: 1 },
+    { id: 'may-2', type: 'number-input', question: 'Peti v Kati. Hányféle?', correctAnswer: 2, points: 1 },
+    { id: 'may-3', type: 'multiple-choice', context: '3 piros, 2 kék lufi.', question: 'Esélyesebb?', options: ['Piros', 'Kék', 'Egyforma', '?'], correctAnswer: 0, points: 1 },
+    { id: 'may-4', type: 'number-input', context: 'Eső: 5, 3, 4 nap.', question: 'Összesen?', correctAnswer: 12, points: 1 },
+    { id: 'may-5', type: 'multiple-choice', context: 'Minden kutya állat. Bodri kutya.', question: 'Bodri...?', options: ['Macska', 'Állat', 'Ember', '?'], correctAnswer: 1, points: 1 },
+    { id: 'may-6', type: 'number-input', question: 'Kétjegyűek 1, 2-ből?', correctAnswer: 4, points: 1 },
+    { id: 'may-7', type: 'matching', question: 'Esély', pairs: [{ id: '1', left: 'Nap felkel', right: 'Biztos' }, { id: '2', left: 'Jövő héten esik', right: 'Lehetséges' }, { id: '3', left: '2+2=5', right: 'Lehetetlen' }], correctAnswer: null, points: 1 },
+    { id: 'may-8', type: 'true-false', question: 'Statisztika segít látni az adatokat.', options: ['Igaz', 'Hamis'], correctAnswer: 0, points: 1 },
+    { id: 'may-9', type: 'number-input', context: '130, 140, 135, 145 cm.', question: 'Legmagasabb?', correctAnswer: 145, points: 1 },
+    { id: 'may-10', type: 'multiple-choice', question: '2 kockás összeg esély?', options: ['6', '11', '12', '36'], correctAnswer: 1, points: 1 }
+  ]},
+  { id: 'june', name: 'Június', topic: 'Ismétlés', tasks: [
+    { id: 'jun-1', type: 'number-input', question: '5000 + 4000 = ?', correctAnswer: 9000, points: 1 },
+    { id: 'jun-2', type: 'multiple-choice', options: ['999', '1001', '1010', '9099'], question: 'Legnagyobb?', correctAnswer: 3, points: 1 },
+    { id: 'jun-3', type: 'number-input', question: '0,5 m = ? cm', correctAnswer: 50, points: 1 },
+    { id: 'jun-4', type: 'number-input', question: '150 * 2 = ?', correctAnswer: 300, points: 1 },
+    { id: 'jun-5', type: 'multiple-choice', question: '3 oldala van?', options: ['Négyzet', 'Háromszög', 'Kör', 'Pont'], correctAnswer: 1, points: 1 },
+    { id: 'jun-6', type: 'number-input', question: '120 perc = ? óra', correctAnswer: 2, points: 1 },
+    { id: 'jun-7', type: 'matching', question: 'Párosíts!', pairs: [{ id: '1', left: '20*5', right: '100' }, { id: '2', left: '400:4', right: '100' }, { id: '3', left: '1000:10', right: '100' }], correctAnswer: null, points: 1 },
+    { id: 'jun-8', type: 'true-false', question: 'Vége a 4. osztálynak!', options: ['Igaz', 'Hamis'], correctAnswer: 0, points: 1 },
+    { id: 'jun-9', type: 'number-input', question: '10 kutya * 4 láb?', correctAnswer: 40, points: 1 },
+    { id: 'jun-10', type: 'multiple-choice', question: 'Szuper vagy!', options: ['OK', 'Boldog', 'Okos', 'Igen'], correctAnswer: 3, points: 1 }
+  ]}
+];
+
+const GRADE_5_DATA: MonthlyCompetency[] = [
+  {
+    id: 'september',
+    name: 'Szeptember',
