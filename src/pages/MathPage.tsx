@@ -237,6 +237,12 @@ export default function MathPage() {
       { id: 'g5-proportions', label: 'Arányosság', icon: <Percent className="w-4 h-4" /> },
       { id: 'g5-competency', label: 'Kompetencia Mérés', icon: <Target className="w-4 h-4" /> },
     ];
+    if (selectedGrade === 6) return [
+      { id: 'g6-integers', label: 'Egész számok', icon: <Calculator className="w-4 h-4" /> },
+      { id: 'g6-fractions', label: 'Törtek', icon: <Percent className="w-4 h-4" /> },
+      { id: 'g6-geometry', label: 'Geometria', icon: <Shapes className="w-4 h-4" /> },
+      { id: 'g6-competency', label: 'Kompetencia Mérés', icon: <Target className="w-4 h-4" /> },
+    ];
     if (selectedGrade === 7) return [
       { id: 'g7-lines', label: 'Nevezetes vonalak', icon: <MoveHorizontal className="w-4 h-4" /> },
       { id: 'g7-triangles', label: 'Háromszögek', icon: <Triangle className="w-4 h-4" /> },
@@ -245,6 +251,7 @@ export default function MathPage() {
       { id: 'g7-percent-val', label: 'Százalékérték', icon: <Percent className="w-4 h-4" /> },
       { id: 'g7-percent-rate', label: 'Százalékláb', icon: <Percent className="w-4 h-4" /> },
       { id: 'g7-percent-base', label: 'Százalékalap', icon: <Percent className="w-4 h-4" /> },
+      { id: 'g7-competency', label: 'Kompetencia Mérés', icon: <Target className="w-4 h-4" /> },
     ];
     return [];
   }, [selectedGrade, view]);
@@ -270,6 +277,8 @@ export default function MathPage() {
       'g7-percent-val': 'g7-percent-equations',
       'g7-percent-rate': 'g7-percent-equations',
       'g7-percent-base': 'g7-percent-equations',
+      'g6-competency': 'competency-assessment',
+      'g7-competency': 'competency-assessment',
     };
 
     const parentTopicId = sectionToTopic[id];

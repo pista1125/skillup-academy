@@ -19,27 +19,66 @@ import jsPDF from 'jspdf';
 import { COMPETENCY_DATA, MonthlyCompetency, CompetencyTask } from '@/data/competencyData';
 import { notoSansRegularBase64 } from '@/assets/fonts/NotoSans-Regular-base64';
 import { notoSansBoldBase64 } from '@/assets/fonts/NotoSans-Bold-base64';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface CompetencyAssessmentProps {
   onBack: () => void;
   grade: number;
 }
 
+const FEEDBACK_SECTIONS = {
+  understanding: {
+    title: '1. Hogyan értettem meg a feladatokat?',
+    rows: [
+      { id: 'u1', text: 'Megértettem, mit kérnek a feladatok' },
+      { id: 'u2', text: 'Tudtam, hogyan kezdjek hozzá' },
+      { id: 'u3', text: 'A legtöbb feladatot önállóan oldottam meg' }
+    ],
+    options: ['Igen', 'Részben', 'Nem']
+  },
+  performance: {
+    title: '2. Mennyire ment jól a megoldás? (1–5)',
+    rows: [
+      { id: 'p1', text: 'Számolás' },
+      { id: 'p2', text: 'Szöveges feladatok' },
+      { id: 'p3', text: 'Gondolkodás / logika' },
+      { id: 'p4', text: 'Időbeosztás' }
+    ],
+    options: [1, 2, 3, 4, 5]
+  },
+  difficulties: {
+    title: '3. Mi okozott nehézséget?',
+    options: ['Szöveg megértése', 'Számolás', 'Figyelmetlenség', 'Időhiány', 'Nem tudtam, hogyan kezdjem el']
+  },
+  improvement: {
+    title: '6. Hogyan tudnék fejlődni?',
+    options: ['Többet kell gyakorolnom', 'Jobban figyelek órán', 'Segítséget kérek', 'Lassabban, átgondoltabban dolgozom']
+  }
+};
+
 export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProps) {
+  const { profile, user } = useAuth();
+  const userName = profile?.full_name || user?.email || 'Tanuló';
   const gradeData = COMPETENCY_DATA[grade] || [];
   const [selectedMonth, setSelectedMonth] = useState<MonthlyCompetency | null>(null);
+  const [view, setView] = useState<'months' | 'options' | 'test' | 'feedback'>('months');
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, any>>({});
+  const [feedbackAnswers, setFeedbackAnswers] = useState<Record<string, any>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isFeedbackSubmitted, setIsFeedbackSubmitted] = useState(false);
   const [showResultsSummary, setShowResultsSummary] = useState(false);
   const [score, setScore] = useState(0);
   const [isExporting, setIsExporting] = useState(false);
 
   const handleMonthSelect = (month: MonthlyCompetency) => {
     setSelectedMonth(month);
+    setView('options');
     setCurrentStep(0);
     setAnswers({});
+    setFeedbackAnswers({});
     setIsSubmitted(false);
+    setIsFeedbackSubmitted(false);
     setShowResultsSummary(false);
     setScore(0);
     window.scrollTo(0, 0);
@@ -106,9 +145,10 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
 
       doc.setFontSize(16);
       doc.setTextColor(0, 0, 0);
-      doc.text(`Eredmény: ${score} / 10 pont (${score * 10}%)`, marginX, 40);
+      doc.text(`Tanuló: ${userName}`, marginX, 40);
+      doc.text(`Eredmény: ${score} / 10 pont (${score * 10}%)`, marginX, 48);
 
-      let currentY = 50;
+      let currentY = 58;
       const fixText = (text: string, w: number) => doc.splitTextToSize(text, w);
 
       selectedMonth.tasks.forEach((task, idx) => {
@@ -163,7 +203,148 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
         currentY += 12;
       });
 
+      // Add Watermark
+      const pageCount = (doc as any).internal.getNumberOfPages();
+      for (let i = 1; i <= pageCount; i++) {
+          doc.setPage(i);
+          doc.setFontSize(10);
+          doc.setTextColor(180, 180, 180);
+          doc.setFont('NotoSans', 'bold');
+          doc.text('diakzona.hu - Kompetenciamérés útján készült feladatokkal', pageW / 2, 287, { align: 'center' });
+      }
+
       doc.save(`Kompetencia_Meres_${selectedMonth.id}.pdf`);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const downloadFeedbackPDF = async () => {
+    if (!selectedMonth || !isFeedbackSubmitted) return;
+
+    setIsExporting(true);
+    try {
+      const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+      doc.addFileToVFS('NotoSans-Regular.ttf', notoSansRegularBase64);
+      doc.addFont('NotoSans-Regular.ttf', 'NotoSans', 'normal');
+      doc.addFileToVFS('NotoSans-Bold.ttf', notoSansBoldBase64);
+      doc.addFont('NotoSans-Bold.ttf', 'NotoSans', 'bold');
+
+      const pageW = 210;
+      const marginX = 20;
+      const contentW = pageW - marginX * 2;
+      
+      doc.setFont('NotoSans', 'bold');
+      doc.setTextColor(30, 41, 59); // Slate-800
+      doc.setFontSize(22);
+      doc.text('TANULÓI ÖNÉRTÉKELŐ LAP', pageW / 2, 20, { align: 'center' });
+      
+      doc.setFontSize(12);
+      doc.setTextColor(100, 100, 100);
+      doc.text(`Név: ${userName}`, marginX, 35);
+      doc.text(`Osztály: ${grade}. osztály`, pageW - marginX - 40, 35);
+      doc.text(`Dátum: ${new Date().toLocaleDateString('hu-HU')}`, marginX, 42);
+      doc.text(`Feladatlap témája: ${selectedMonth.name} - ${selectedMonth.topic}`, marginX, 49);
+
+      let currentY = 60;
+      const fixText = (text: string, w: number) => doc.splitTextToSize(text, w);
+
+      // Section 1: Understanding (Table-like)
+      doc.setFont('NotoSans', 'bold');
+      doc.text(FEEDBACK_SECTIONS.understanding.title, marginX, currentY);
+      currentY += 8;
+      doc.setFont('NotoSans', 'normal');
+      FEEDBACK_SECTIONS.understanding.rows.forEach(row => {
+          const val = feedbackAnswers.understanding?.[row.id];
+          doc.text(`[${val || ' '}] ${row.text}`, marginX + 5, currentY);
+          currentY += 6;
+      });
+      currentY += 4;
+
+      // Section 2: Performance
+      doc.setFont('NotoSans', 'bold');
+      doc.text(FEEDBACK_SECTIONS.performance.title, marginX, currentY);
+      currentY += 8;
+      doc.setFont('NotoSans', 'normal');
+      FEEDBACK_SECTIONS.performance.rows.forEach(row => {
+          const val = feedbackAnswers.performance?.[row.id];
+          doc.text(`${row.text}: ${val || '-'} / 5`, marginX + 5, currentY);
+          currentY += 6;
+      });
+      currentY += 4;
+
+      // Section 3: Difficulties
+      doc.setFont('NotoSans', 'bold');
+      doc.text(FEEDBACK_SECTIONS.difficulties.title, marginX, currentY);
+      currentY += 8;
+      doc.setFont('NotoSans', 'normal');
+      const diffs = feedbackAnswers.difficulties || [];
+      const diffText = diffs.length > 0 ? diffs.join(', ') : 'Nincs megjelölve';
+      if (feedbackAnswers.difficultyOther) diffText += ` (${feedbackAnswers.difficultyOther})`;
+      const diffLines = fixText(diffText, contentW - 10);
+      doc.text(diffLines, marginX + 5, currentY);
+      currentY += diffLines.length * 5 + 6;
+
+      // Section 4 & 5
+      doc.setFont('NotoSans', 'bold');
+      doc.text('4. Mi ment jól?', marginX, currentY);
+      currentY += 7;
+      doc.setFont('NotoSans', 'normal');
+      const sLines = fixText(feedbackAnswers.strengths || '-', contentW - 10);
+      doc.text(sLines, marginX + 5, currentY);
+      currentY += sLines.length * 5 + 8;
+
+      doc.setFont('NotoSans', 'bold');
+      doc.text('5. Mi nem ment jól?', marginX, currentY);
+      currentY += 7;
+      doc.setFont('NotoSans', 'normal');
+      const wLines = fixText(feedbackAnswers.weaknesses || '-', contentW - 10);
+      doc.text(wLines, marginX + 5, currentY);
+      currentY += wLines.length * 5 + 8;
+
+      if (currentY > 230) { doc.addPage(); currentY = 20; }
+
+      // Section 6: Improvement
+      doc.setFont('NotoSans', 'bold');
+      doc.text(FEEDBACK_SECTIONS.improvement.title, marginX, currentY);
+      currentY += 8;
+      doc.setFont('NotoSans', 'normal');
+      const imps = feedbackAnswers.improvement || [];
+      const impText = imps.length > 0 ? imps.join(', ') : 'Nincs megjelölve';
+      if (feedbackAnswers.improvementOther) impText += ` (${feedbackAnswers.improvementOther})`;
+      const impLines = fixText(impText, contentW - 10);
+      doc.text(impLines, marginX + 5, currentY);
+      currentY += impLines.length * 5 + 8;
+
+      // Section 7: Satisfaction
+      doc.setFont('NotoSans', 'bold');
+      doc.text('7. Mennyire voltam elégedett a munkámmal? (1-5)', marginX, currentY);
+      currentY += 8;
+      doc.setFont('NotoSans', 'normal');
+      doc.text(`Értékelés: ${feedbackAnswers.satisfaction || '-'} / 5`, marginX + 5, currentY);
+      currentY += 12;
+
+      // Section 8: Teacher
+      doc.setFont('NotoSans', 'bold');
+      doc.text('8. Tanári megjegyzés', marginX, currentY);
+      currentY += 8;
+      doc.setFont('NotoSans', 'normal');
+      const tLines = fixText(feedbackAnswers.teacherRemark || '__________________________________________________________________', contentW - 10);
+      doc.text(tLines, marginX + 5, currentY);
+
+      // Add Watermark
+      const pageCount = (doc as any).internal.getNumberOfPages();
+      for (let i = 1; i <= pageCount; i++) {
+          doc.setPage(i);
+          doc.setFontSize(10);
+          doc.setTextColor(180, 180, 180);
+          doc.setFont('NotoSans', 'bold');
+          doc.text('diakzona.hu - Kompetenciamérés útján készült feladatokkal', pageW / 2, 287, { align: 'center' });
+      }
+
+      doc.save(`Visszajelzes_${selectedMonth.id}.pdf`);
     } catch (err) {
       console.error(err);
     } finally {
@@ -187,7 +368,7 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
             </div>
             <div className="text-center md:text-left">
               <h2 className="text-3xl font-black tracking-tight mb-1">Kompetencia Mérés</h2>
-              <p className="text-blue-100 text-lg font-medium opacity-90">Havi interaktív feladatsorok 4. osztályosoknak</p>
+              <p className="text-blue-100 text-lg font-medium opacity-90">Havi interaktív feladatsorok {grade}. osztályosoknak</p>
             </div>
           </div>
         </div>
@@ -215,6 +396,331 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
               </div>
             </button>
           ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (view === 'options' && selectedMonth) {
+    return (
+      <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <div className="bg-white rounded-[3rem] p-10 border-2 border-slate-100 shadow-xl relative overflow-hidden">
+          <Button variant="ghost" size="sm" onClick={() => { setSelectedMonth(null); setView('months'); }} className="text-slate-400 hover:text-blue-600 mb-8 rounded-xl">
+            <ArrowLeft className="w-4 h-4 mr-2" /> Vissza a hónapokhoz
+          </Button>
+          
+          <div className="text-center space-y-4 mb-12">
+            <div className="w-20 h-20 bg-blue-50 text-blue-600 rounded-3xl flex items-center justify-center mx-auto mb-4">
+              <Calendar className="w-10 h-10" />
+            </div>
+            <h2 className="text-4xl font-black text-slate-900">{selectedMonth.name}</h2>
+            <p className="text-xl font-bold text-slate-400 uppercase tracking-widest">{selectedMonth.topic}</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <button
+              onClick={() => setView('test')}
+              className="group p-8 rounded-[2.5rem] border-4 border-slate-50 bg-slate-50 hover:border-blue-500 hover:bg-white transition-all duration-300 text-center space-y-4"
+            >
+              <div className="w-16 h-16 bg-white text-blue-600 rounded-2xl flex items-center justify-center mx-auto shadow-sm group-hover:bg-blue-600 group-hover:text-white transition-all transform group-hover:scale-110">
+                <Target className="w-8 h-8" />
+              </div>
+              <h3 className="text-2xl font-black text-slate-900">Teszt indítása</h3>
+              <p className="text-slate-500 font-medium">10 interaktív feladat megoldása és PDF generálás.</p>
+            </button>
+
+            <button
+              onClick={() => setView('feedback')}
+              className="group p-8 rounded-[2.5rem] border-4 border-slate-50 bg-slate-50 hover:border-emerald-500 hover:bg-white transition-all duration-300 text-center space-y-4"
+            >
+              <div className="w-16 h-16 bg-white text-emerald-600 rounded-2xl flex items-center justify-center mx-auto shadow-sm group-hover:bg-emerald-600 group-hover:text-white transition-all transform group-hover:scale-110">
+                <Sparkles className="w-8 h-8" />
+              </div>
+              <h3 className="text-2xl font-black text-slate-900">Visszajelzés</h3>
+              <p className="text-slate-500 font-medium">Oszd meg véleményedet és tapasztalataidat a témával kapcsolatban.</p>
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (view === 'feedback' && selectedMonth) {
+    const isComplete = 
+      feedbackAnswers.understanding && Object.keys(feedbackAnswers.understanding).length === 3 &&
+      feedbackAnswers.performance && Object.keys(feedbackAnswers.performance).length === 4 &&
+      feedbackAnswers.satisfaction;
+
+    if (isFeedbackSubmitted) {
+      return (
+        <div className="max-w-2xl mx-auto py-12 px-6 animate-in zoom-in-95 duration-500">
+          <div className="bg-white rounded-[3rem] p-12 border-4 border-emerald-100 shadow-2xl text-center space-y-8">
+            <div className="w-20 h-20 bg-emerald-600 rounded-3xl flex items-center justify-center mx-auto shadow-xl rotate-3">
+              <CheckCircle2 className="w-10 h-10 text-white" />
+            </div>
+            <h2 className="text-3xl font-black text-slate-900">Köszönjük a visszajelzést!</h2>
+            <p className="text-slate-500 font-bold text-lg">Válaszaidat rögzítettük az Önértékelő Lapon.</p>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Button 
+                onClick={() => setView('options')} 
+                className="h-14 rounded-2xl border-4 border-slate-900 bg-white text-slate-900 hover:bg-slate-50 font-black text-lg transition-all"
+              >
+                Vissza a menübe
+              </Button>
+              <Button 
+                onClick={downloadFeedbackPDF}
+                disabled={isExporting}
+                className="h-14 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-lg shadow-lg shadow-emerald-100 transition-all flex items-center justify-center gap-2"
+              >
+                <Download className="w-5 h-5" /> PDF Mentése
+              </Button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 px-4 mb-20">
+        <div className="bg-white rounded-[2.5rem] p-6 md:p-12 border-2 border-slate-100 shadow-xl">
+          <div className="flex items-center justify-between mb-10">
+            <div>
+              <h2 className="text-3xl font-black text-slate-900">Tanulói Önértékelő Lap</h2>
+              <p className="text-slate-500 font-bold">{selectedMonth.name} - {selectedMonth.topic}</p>
+            </div>
+            <Button variant="ghost" size="icon" onClick={() => setView('options')} className="rounded-full">
+              <ArrowLeft className="w-6 h-6" />
+            </Button>
+          </div>
+
+          <div className="space-y-12">
+            {/* Section 1: Understanding */}
+            <section className="space-y-6">
+              <h3 className="text-xl font-black text-slate-800 bg-slate-50 p-4 rounded-2xl border-l-8 border-blue-500">
+                {FEEDBACK_SECTIONS.understanding.title}
+              </h3>
+              <div className="space-y-4">
+                {FEEDBACK_SECTIONS.understanding.rows.map(row => (
+                  <div key={row.id} className="flex flex-col md:flex-row md:items-center justify-between p-4 bg-white border-2 border-slate-50 rounded-2xl gap-4">
+                    <span className="font-bold text-slate-700">{row.text}</span>
+                    <div className="flex gap-2">
+                      {FEEDBACK_SECTIONS.understanding.options.map(opt => (
+                        <button
+                          key={opt}
+                          onClick={() => setFeedbackAnswers(prev => ({
+                            ...prev,
+                            understanding: { ...prev.understanding, [row.id]: opt }
+                          }))}
+                          className={cn(
+                            "px-4 py-2 rounded-xl text-sm font-black transition-all border-2",
+                            feedbackAnswers.understanding?.[row.id] === opt
+                              ? "bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-100"
+                              : "bg-slate-50 border-slate-50 text-slate-400 hover:border-blue-200"
+                          )}
+                        >
+                          {opt}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Section 2: Performance */}
+            <section className="space-y-6">
+              <h3 className="text-xl font-black text-slate-800 bg-slate-50 p-4 rounded-2xl border-l-8 border-emerald-500">
+                {FEEDBACK_SECTIONS.performance.title}
+              </h3>
+              <div className="space-y-4">
+                {FEEDBACK_SECTIONS.performance.rows.map(row => (
+                  <div key={row.id} className="flex flex-col md:flex-row md:items-center justify-between p-4 bg-white border-2 border-slate-50 rounded-2xl gap-4">
+                    <span className="font-bold text-slate-700">{row.text}</span>
+                    <div className="flex gap-1 md:gap-2">
+                      {FEEDBACK_SECTIONS.performance.options.map(num => (
+                        <button
+                          key={num}
+                          onClick={() => setFeedbackAnswers(prev => ({
+                            ...prev,
+                            performance: { ...prev.performance, [row.id]: num }
+                          }))}
+                          className={cn(
+                            "w-10 h-10 md:w-12 md:h-12 rounded-xl text-lg font-black transition-all border-2 flex items-center justify-center",
+                            feedbackAnswers.performance?.[row.id] === num
+                              ? "bg-emerald-600 border-emerald-600 text-white shadow-lg shadow-emerald-100 scale-110"
+                              : "bg-slate-50 border-slate-50 text-slate-400 hover:border-emerald-200"
+                          )}
+                        >
+                          {num}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Section 3: Difficulties */}
+            <section className="space-y-6">
+              <h3 className="text-xl font-black text-slate-800 bg-slate-50 p-4 rounded-2xl border-l-8 border-orange-500">
+                {FEEDBACK_SECTIONS.difficulties.title}
+              </h3>
+              <div className="flex flex-wrap gap-3">
+                {FEEDBACK_SECTIONS.difficulties.options.map(opt => {
+                  const isSelected = (feedbackAnswers.difficulties || []).includes(opt);
+                  return (
+                    <button
+                      key={opt}
+                      onClick={() => {
+                        const current = feedbackAnswers.difficulties || [];
+                        setFeedbackAnswers(prev => ({
+                          ...prev,
+                          difficulties: isSelected 
+                            ? current.filter(i => i !== opt)
+                            : [...current, opt]
+                        }));
+                      }}
+                      className={cn(
+                        "px-6 py-3 rounded-2xl font-bold transition-all border-2",
+                        isSelected
+                          ? "bg-orange-500 border-orange-500 text-white shadow-lg shadow-orange-100"
+                          : "bg-slate-50 border-slate-50 text-slate-500 hover:border-orange-200"
+                      )}
+                    >
+                      {opt}
+                    </button>
+                  );
+                })}
+              </div>
+              <input 
+                type="text"
+                placeholder="Egyéb nehézség..."
+                value={feedbackAnswers.difficultyOther || ''}
+                onChange={(e) => setFeedbackAnswers(prev => ({ ...prev, difficultyOther: e.target.value }))}
+                className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 outline-none focus:border-orange-500 focus:bg-white transition-all font-bold"
+              />
+            </section>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Section 4: What went well */}
+              <section className="space-y-4">
+                <h3 className="text-xl font-black text-slate-800">4. Mi ment jól?</h3>
+                <textarea
+                  value={feedbackAnswers.strengths || ''}
+                  onChange={(e) => setFeedbackAnswers(prev => ({ ...prev, strengths: e.target.value }))}
+                  placeholder="Írj legalább egy dolgot..."
+                  className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 min-h-[120px] outline-none focus:border-blue-500 focus:bg-white transition-all font-bold"
+                />
+              </section>
+
+              {/* Section 5: What didn't go well */}
+              <section className="space-y-4">
+                <h3 className="text-xl font-black text-slate-800">5. Mi nem ment jól?</h3>
+                <textarea
+                  value={feedbackAnswers.weaknesses || ''}
+                  onChange={(e) => setFeedbackAnswers(prev => ({ ...prev, weaknesses: e.target.value }))}
+                  placeholder="Írd le, mi okozott gondot..."
+                  className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 min-h-[120px] outline-none focus:border-red-500 focus:bg-white transition-all font-bold"
+                />
+              </section>
+            </div>
+
+            {/* Section 6: Improvement */}
+            <section className="space-y-6">
+              <h3 className="text-xl font-black text-slate-800 bg-slate-50 p-4 rounded-2xl border-l-8 border-purple-500">
+                {FEEDBACK_SECTIONS.improvement.title}
+              </h3>
+              <div className="flex flex-wrap gap-3">
+                {FEEDBACK_SECTIONS.improvement.options.map(opt => {
+                  const isSelected = (feedbackAnswers.improvement || []).includes(opt);
+                  return (
+                    <button
+                      key={opt}
+                      onClick={() => {
+                        const current = feedbackAnswers.improvement || [];
+                        setFeedbackAnswers(prev => ({
+                          ...prev,
+                          improvement: isSelected 
+                            ? current.filter(i => i !== opt)
+                            : [...current, opt]
+                        }));
+                      }}
+                      className={cn(
+                        "px-6 py-3 rounded-2xl font-bold transition-all border-2",
+                        isSelected
+                          ? "bg-purple-500 border-purple-500 text-white shadow-lg shadow-purple-100"
+                          : "bg-slate-50 border-slate-50 text-slate-500 hover:border-purple-200"
+                      )}
+                    >
+                      {opt}
+                    </button>
+                  );
+                })}
+              </div>
+              <input 
+                type="text"
+                placeholder="Egyéb fejlődési lehetőség..."
+                value={feedbackAnswers.improvementOther || ''}
+                onChange={(e) => setFeedbackAnswers(prev => ({ ...prev, improvementOther: e.target.value }))}
+                className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 outline-none focus:border-purple-500 focus:bg-white transition-all font-bold"
+              />
+            </section>
+
+            {/* Section 7: Satisfaction */}
+            <section className="space-y-6">
+              <h3 className="text-xl font-black text-slate-800 bg-slate-50 p-4 rounded-2xl border-l-8 border-pink-500">
+                7. Mennyire voltam elégedett a munkámmal?
+              </h3>
+              <div className="flex justify-between items-center bg-white p-6 rounded-3xl border-2 border-slate-50">
+                {[
+                  { val: 1, label: '😞' },
+                  { val: 2, label: '😐' },
+                  { val: 3, label: '🙂' },
+                  { val: 4, label: '😊' },
+                  { val: 5, label: '😄' }
+                ].map(item => (
+                  <button
+                    key={item.val}
+                    onClick={() => setFeedbackAnswers(prev => ({ ...prev, satisfaction: item.val }))}
+                    className={cn(
+                      "flex flex-col items-center gap-2 transition-all p-3 rounded-2xl",
+                      feedbackAnswers.satisfaction === item.val
+                        ? "bg-pink-50 scale-125"
+                        : "opacity-40 hover:opacity-100 hover:bg-slate-50"
+                    )}
+                  >
+                    <span className="text-4xl">{item.label}</span>
+                    <span className="text-xs font-black text-pink-600">{item.val}</span>
+                  </button>
+                ))}
+              </div>
+            </section>
+
+            {/* Section 8: Teacher Remark */}
+            <section className="space-y-4">
+               <h3 className="text-xl font-black text-slate-800 flex items-center gap-2">
+                 <span>8. ✍️ Tanári megjegyzés</span>
+                 <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">(opcionális)</span>
+               </h3>
+               <textarea
+                  value={feedbackAnswers.teacherRemark || ''}
+                  onChange={(e) => setFeedbackAnswers(prev => ({ ...prev, teacherRemark: e.target.value }))}
+                  placeholder="Ez a rész a tanárnak van fenntartva, de te is írhatsz ide..."
+                  className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 min-h-[100px] outline-none focus:border-slate-500 focus:bg-white transition-all font-bold"
+                />
+            </section>
+          </div>
+
+          <div className="pt-10 border-t border-slate-100 mt-10">
+            <Button 
+              disabled={!isComplete}
+              onClick={() => setIsFeedbackSubmitted(true)}
+              className="w-full h-16 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xl shadow-lg shadow-blue-100 disabled:opacity-50 transition-all flex items-center justify-center gap-3"
+            >
+              <CheckCircle2 className="w-6 h-6" /> Kitöltés befejezése
+            </Button>
+          </div>
         </div>
       </div>
     );
@@ -269,7 +775,7 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
             <div className="pt-8">
               <Button 
                 variant="ghost" 
-                onClick={() => setSelectedMonth(null)}
+                onClick={() => { setSelectedMonth(null); setView('months'); }}
                 className="text-slate-400 font-bold hover:text-blue-500"
               >
                 Új teszt választása
@@ -281,7 +787,7 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
     );
   }
 
-  const currentTask = selectedMonth.tasks[currentStep];
+  const currentTask = selectedMonth!.tasks[currentStep];
   const progress = ((currentStep + 1) / 10) * 100;
 
   return (
@@ -290,7 +796,7 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
       <div className="bg-white rounded-3xl p-6 border-2 border-slate-100 shadow-sm sticky top-4 z-10">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" onClick={() => setSelectedMonth(null)} className="rounded-full">
+            <Button variant="ghost" size="icon" onClick={() => setView('options')} className="rounded-full">
               <ArrowLeft className="w-5 h-5" />
             </Button>
             <div>
@@ -534,8 +1040,8 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
 
       {isSubmitted && currentStep === 9 && (
         <div className="text-center pt-8">
-           <Button variant="ghost" onClick={() => setSelectedMonth(null)} className="text-slate-400 font-bold hover:text-blue-500 transition-colors">
-              Kilépés és más hónap választása
+           <Button variant="ghost" onClick={() => setView('options')} className="text-slate-400 font-bold hover:text-blue-500 transition-colors">
+              Kilépés a menübe
            </Button>
         </div>
       )}
