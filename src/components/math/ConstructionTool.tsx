@@ -211,13 +211,25 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
             if (isDraggingRuler) {
                 setRulerPos(prev => ({ ...prev, x: prev.x + dx, y: prev.y + dy }));
             } else if (isRotatingRuler) {
-                const rdx = pos.x - rulerPos.x;
-                const rdy = pos.y - rulerPos.y;
-                const angle = Math.atan2(rdy, rdx) * 180 / Math.PI;
-                if (isRotatingRuler === 'left') {
-                    setRulerPos(prev => ({ ...prev, angle: angle }));
+                const angleRad = rulerPos.angle * Math.PI / 180;
+                if (isRotatingRuler === 'right') {
+                    // Anchor is left end (rulerPos.x, y)
+                    const rdx = pos.x - rulerPos.x;
+                    const rdy = pos.y - rulerPos.y;
+                    setRulerPos(prev => ({ ...prev, angle: Math.atan2(rdy, rdx) * 180 / Math.PI }));
                 } else {
-                    setRulerPos(prev => ({ ...prev, angle: angle - 180 }));
+                    // Anchor is right end
+                    const anchorX = rulerPos.x + RULER_WIDTH * Math.cos(angleRad);
+                    const anchorY = rulerPos.y + RULER_WIDTH * Math.sin(angleRad);
+                    const rdx = anchorX - pos.x;
+                    const rdy = anchorY - pos.y;
+                    const newAngle = Math.atan2(rdy, rdx) * 180 / Math.PI;
+                    const newAngleRad = newAngle * Math.PI / 180;
+                    setRulerPos({
+                        x: anchorX - RULER_WIDTH * Math.cos(newAngleRad),
+                        y: anchorY - RULER_WIDTH * Math.sin(newAngleRad),
+                        angle: newAngle
+                    });
                 }
             } else if (isDraggingProtractor) {
                 setProtractorPos(prev => ({ ...prev, x: prev.x + dx, y: prev.y + dy }));
@@ -242,9 +254,35 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
                 const hdx = pos.x - compassPos.x;
                 const hdy = pos.y - compassPos.y;
                 const currentRelAngle = Math.atan2(hdy, hdx) * 180 / Math.PI;
-                const newAngle = initialCompassAngle + (currentRelAngle - dragStartAngle);
-
+                let delta = currentRelAngle - dragStartAngle;
+                
+                // Normalize delta to [-180, 180] to handle wrap-around smoothly
+                while (delta > 180) delta -= 360;
+                while (delta < -180) delta += 360;
+                
+                const newAngle = initialCompassAngle + delta;
                 setCompassPos(prev => ({ ...prev, angle: newAngle }));
+
+                // Real-time drawing
+                if (isPencilDown) {
+                    const diff = newAngle - startAngle;
+                    if (Math.abs(diff) < 355) {
+                        const startRad = startAngle * Math.PI / 180;
+                        const endRad = newAngle * Math.PI / 180;
+                        const r = compassPos.radius;
+                        const cx = compassPos.x;
+                        const cy = compassPos.y;
+                        
+                        const x1 = cx + r * Math.cos(startRad);
+                        const y1 = cy + r * Math.sin(startRad);
+                        const x2 = cx + r * Math.cos(endRad);
+                        const y2 = cy + r * Math.sin(endRad);
+                        
+                        const largeArc = Math.abs(diff) > 180 ? 1 : 0;
+                        const sweep = diff > 0 ? 1 : 0;
+                        setDrawingPath(`M ${x1} ${y1} A ${r} ${r} 0 ${largeArc} ${sweep} ${x2} ${y2}`);
+                    }
+                }
             }
             setLastMousePos({ x: e.clientX, y: e.clientY });
             setLastSVGPos(pos);
@@ -288,10 +326,9 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
                 setIsDrawing(false);
                 const angleDiff = compassPos.angle - startAngle;
 
-                // If they rotated almost 360 degrees, make it a circle
                 if (Math.abs(angleDiff) >= 355) {
                     setElements(prev => [...prev, {
-                        id: Date.now().toString(),
+                        id: `circle-${Date.now()}`,
                         type: 'circle',
                         path: '',
                         cx: compassPos.x,
@@ -300,29 +337,16 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
                         color: 'black',
                         width: 2
                     }]);
-                } else {
-                    // Create an SVG arc
-                    const startRad = startAngle * Math.PI / 180;
-                    const endRad = compassPos.angle * Math.PI / 180;
-
-                    const x1 = compassPos.x + compassPos.radius * Math.cos(startRad);
-                    const y1 = compassPos.y + compassPos.radius * Math.sin(startRad);
-                    const x2 = compassPos.x + compassPos.radius * Math.cos(endRad);
-                    const y2 = compassPos.y + compassPos.radius * Math.sin(endRad);
-
-                    const largeArc = Math.abs(angleDiff) > 180 ? 1 : 0;
-                    const sweep = angleDiff > 0 ? 1 : 0;
-
-                    const d = `M ${x1} ${y1} A ${compassPos.radius} ${compassPos.radius} 0 ${largeArc} ${sweep} ${x2} ${y2}`;
-
+                } else if (drawingPath) {
                     setElements(prev => [...prev, {
-                        id: Date.now().toString(),
+                        id: `arc-${Date.now()}`,
                         type: 'arc',
-                        path: d,
+                        path: drawingPath,
                         color: 'black',
                         width: 2
                     }]);
                 }
+                setDrawingPath('');
             }
         };
 
@@ -365,7 +389,7 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
                         <Button
                             variant={activeTool === 'point' ? 'default' : 'ghost'}
                             size="sm"
-                            onClick={() => setActiveTool(activeTool === 'point' ? 'cursor' : 'point')}
+                            onClick={() => setActiveTool(activeTool === 'point' ? 'move' : 'point')}
                             className={cn("h-8", activeTool === 'point' ? "shadow-sm" : "")}
                             title="Pont"
                         >
@@ -374,7 +398,7 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
                         <Button
                             variant={activeTool === 'ruler-line' ? 'default' : 'ghost'}
                             size="sm"
-                            onClick={() => setActiveTool(activeTool === 'ruler-line' ? 'cursor' : 'ruler-line')}
+                            onClick={() => setActiveTool(activeTool === 'ruler-line' ? 'move' : 'ruler-line')}
                             className={cn("h-8", activeTool === 'ruler-line' ? "shadow-sm" : "")}
                             title="Egyenes"
                         >
@@ -423,8 +447,8 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
                     <Button
                         variant={activeTool === 'eraser' ? 'default' : 'outline'}
                         size="sm"
-                        onClick={() => setActiveTool(activeTool === 'eraser' ? 'cursor' : 'eraser')}
-                        title="Eraser"
+                        onClick={() => setActiveTool(activeTool === 'eraser' ? 'move' : 'eraser')}
+                        title="Radír"
                         className={cn("h-8", activeTool === 'eraser' ? "bg-red-500 hover:bg-red-600 border-red-600" : "")}
                     >
                         <Eraser className="w-4 h-4 mr-2" />
@@ -566,7 +590,7 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
                             );
                         })}
                         {isDrawing && drawingPath && (
-                            <path d={drawingPath} stroke="#3b82f6" strokeWidth="2" strokeDasharray="4" fill="none" />
+                            <path d={drawingPath} stroke="black" strokeWidth="2" fill="none" />
                         )}
 
                         {/* Ruler Tool */}
@@ -590,18 +614,21 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
                                     filter="url(#shadow)"
                                 />
                                 
-                                {/* Ticks */}
-                                {Array.from({ length: 41 }).map((_, i) => (
-                                    <line
-                                        key={i}
-                                        x1={i * 10}
-                                        y1="0"
-                                        x2={i * 10}
-                                        y2={i % 10 === 0 ? RULER_HEIGHT / 2 : (i % 5 === 0 ? RULER_HEIGHT * 0.3 : RULER_HEIGHT * 0.15)}
-                                        stroke="#1e293b"
-                                        strokeWidth="1"
-                                    />
-                                ))}
+                                {/* Scale / Markings */}
+                                <g>
+                                    {Array.from({ length: Math.floor(RULER_WIDTH / 10) + 1 }).map((_, i) => (
+                                        <g key={i} transform={`translate(${i * 10}, 0)`}>
+                                            <line x1="0" y1="0" x2="0" y2={i % 10 === 0 ? 25 : (i % 5 === 0 ? 18 : 10)} 
+                                                stroke="#1e293b" strokeWidth={i % 10 === 0 ? 1.5 : 0.5} opacity={0.8}
+                                            />
+                                            {i % 10 === 0 && i < RULER_WIDTH / 10 && (
+                                                <text x="2" y="40" fontSize="10" fill="#1e293b" className="select-none pointer-events-none font-bold">
+                                                    {i / 10}
+                                                </text>
+                                            )}
+                                        </g>
+                                    ))}
+                                </g>
 
                                 {/* Rotate Handles */}
                                 <rect
@@ -649,17 +676,19 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
                                     </linearGradient>
                                 </defs>
 
-                                {/* Needle Leg (Left) - Smooth Curve */}
+                                {/* Needle Leg (Left) - Professional Curve */}
                                 <g filter="url(#shadow)">
                                     <path
-                                        d={`M 0 0 C 0 -60 -15 -130 0 -170`}
+                                        d={`M 0 -20 C -10 -60 -20 -120 0 -170`}
                                         stroke="url(#compass-metal)"
-                                        strokeWidth="10"
+                                        strokeWidth="12"
                                         strokeLinecap="round"
                                         fill="none"
                                     />
-                                    <path d="M 0 0 L -2 15 L 0 20 L 2 15 Z" fill="#475569" /> {/* Needle point */}
-                                    <circle cx="0" cy="0" r="10" fill="transparent" className="pointer-events-auto cursor-move"
+                                    {/* Professional sharp point at 0,0 */}
+                                    <path d="M 0 0 L -2.5 -15 L 0 -20 L 2.5 -15 Z" fill="#475569" />
+                                    
+                                    <circle cx="0" cy="0" r="15" fill="transparent" className="pointer-events-auto cursor-move"
                                         onMouseDown={(e) => { 
                                             e.stopPropagation(); 
                                             setIsDraggingCompass('needle'); 
@@ -668,28 +697,28 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
                                     />
                                 </g>
 
-                                {/* Pencil Leg (Right) - Smooth Curve */}
+                                {/* Pencil Leg (Right) - Professional Curve */}
                                 <g filter="url(#shadow)">
                                     <path
-                                        d={`M ${compassPos.radius} 0 C ${compassPos.radius} -60 ${compassPos.radius/2 + 5} -130 0 -170`}
+                                        d={`M ${compassPos.radius} -20 C ${compassPos.radius} -80 ${compassPos.radius/2 + 5} -140 0 -170`}
                                         stroke="url(#compass-metal)"
-                                        strokeWidth="10"
+                                        strokeWidth="12"
                                         strokeLinecap="round"
                                         fill="none"
                                     />
                                     {/* Pencil Holder */}
-                                    <rect x={compassPos.radius - 8} y="-10" width="16" height="25" rx="4" fill="#64748b" />
+                                    <rect x={compassPos.radius - 8} y="-35" width="16" height="25" rx="4" fill="#64748b" />
                                     {/* Pencil Tip */}
                                     {isPencilDown && (
                                         <path
-                                            d={`M ${compassPos.radius - 4} 15 L ${compassPos.radius + 4} 15 L ${compassPos.radius} 25 Z`}
+                                            d={`M ${compassPos.radius - 4} -10 L ${compassPos.radius + 4} -10 L ${compassPos.radius} 0 Z`}
                                             fill="#3b82f6"
                                         />
                                     )}
                                     {/* Radius Adjustment Handle */}
                                     <circle
                                         cx={compassPos.radius}
-                                        cy="0"
+                                        cy="-20"
                                         r="12"
                                         fill="rgba(59, 130, 246, 0.2)"
                                         className="pointer-events-auto cursor-nwse-resize hover:fill-blue-500/40"
@@ -701,7 +730,7 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
                                     />
                                 </g>
 
-                                {/* Top Handle / Pivot */}
+                                {/* Top Handle / Pivot - Shifted above hinge */}
                                 <g
                                     className="pointer-events-auto cursor-grab active:cursor-grabbing"
                                     onMouseDown={(e) => {
@@ -715,6 +744,11 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
                                         if (isPencilDown) {
                                             setIsDrawing(true);
                                             setStartAngle(compassPos.angle);
+                                            // Start with a small line at current position
+                                            const startRad = compassPos.angle * Math.PI / 180;
+                                            const x = compassPos.x + compassPos.radius * Math.cos(startRad);
+                                            const y = compassPos.y + compassPos.radius * Math.sin(startRad);
+                                            setDrawingPath(`M ${x} ${y} L ${x} ${y}`);
                                         }
                                     }}
                                 >
@@ -724,7 +758,7 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
                                 </g>
 
                                 {/* Pencil Toggle Button - Fixed near compass using foreignObject */}
-                                <foreignObject x={compassPos.radius + 20} y="-20" width="40" height="40" className="pointer-events-auto">
+                                <foreignObject x={compassPos.radius + 20} y="-40" width="40" height="40" className="pointer-events-auto">
                                     <div className="flex items-center justify-center w-full h-full">
                                         <Button
                                             variant={isPencilDown ? "default" : "outline"}
@@ -737,40 +771,6 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
                                         </Button>
                                     </div>
                                 </foreignObject>
-
-                                {/* Active Arc Preview while drawing */}
-                                {isDrawing && isDraggingCompass === 'handle' && isPencilDown && (
-                                    <g>
-                                        {/* Start point marker */}
-                                        <circle
-                                            cx={compassPos.radius * Math.cos((startAngle - compassPos.angle) * Math.PI / 180)}
-                                            cy={compassPos.radius * Math.sin((startAngle - compassPos.angle) * Math.PI / 180)}
-                                            r="4"
-                                            fill="#3b82f6"
-                                            opacity="0.5"
-                                        />
-                                        {Math.abs(compassPos.angle - startAngle) >= 355 ? (
-                                            <circle cx="0" cy="0" r={compassPos.radius} stroke="#3b82f6" strokeWidth="2" fill="none" strokeDasharray="4 4" />
-                                        ) : (
-                                            <path
-                                                d={(() => {
-                                                    const diff = startAngle - compassPos.angle;
-                                                    const startRad = diff * Math.PI / 180;
-                                                    const x1 = compassPos.radius * Math.cos(startRad);
-                                                    const y1 = compassPos.radius * Math.sin(startRad);
-                                                    const largeArc = Math.abs(diff) > 180 ? 1 : 0;
-                                                    const sweep = diff < 0 ? 1 : 0;
-
-                                                    return `M ${x1} ${y1} A ${compassPos.radius} ${compassPos.radius} 0 ${largeArc} ${sweep} ${compassPos.radius} 0`;
-                                                })()}
-                                                stroke="#3b82f6"
-                                                strokeWidth="2"
-                                                fill="none"
-                                                strokeDasharray="4 4"
-                                            />
-                                        )}
-                                    </g>
-                                )}
                             </g>
                         )}
                         {/* Protractor Tool */}
