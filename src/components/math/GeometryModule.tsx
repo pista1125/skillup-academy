@@ -30,7 +30,7 @@ export function GeometryModule({ onBack, onStartActivity, isInline = false }: Ge
             isInline ? "gap-6 py-2" : "gap-10 py-6 slide-in-from-bottom-4"
         )}>
             {!isInline && (
-                <div className="flex items-center justify-between bg-white/60 backdrop-blur-md p-6 rounded-3xl border border-green-100 shadow-sm sticky top-0 z-10 mx-1">
+                <div className="flex items-center justify-between bg-white/60 backdrop-blur-md p-6 rounded-3xl border border-green-100 shadow-sm mx-1">
                     <div className="flex items-center gap-4">
                         <div className="p-3 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl text-white shadow-lg shadow-green-200">
                             <Shapes className="w-7 h-7" />

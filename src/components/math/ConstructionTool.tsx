@@ -12,9 +12,25 @@ import {
     Grid3X3,
     Move,
     Eraser,
-    Undo2
+    Undo2,
+    ZoomIn,
+    ZoomOut,
+    Maximize,
+    Minimize,
+    ChevronDown,
+    Dot,
+    Minus,
+    Type,
+    Shapes as ShapesIcon,
+    PenTool
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface ConstructionToolProps {
     onBack: () => void;
@@ -66,6 +82,11 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
     const [startAngle, setStartAngle] = useState(0); // For compass
     const [freehandPoints, setFreehandPoints] = useState<{ x: number, y: number }[]>([]);
 
+    // View State (Pan & Zoom)
+    const [viewBox, setViewBox] = useState({ x: 0, y: 0, width: 1200, height: 800 });
+    const [isPanning, setIsPanning] = useState(false);
+    const [isPencilDown, setIsPencilDown] = useState(true); // For compass
+
     const containerRef = useRef<HTMLDivElement>(null);
     const [lastMousePos, setLastMousePos] = useState({ x: 0, y: 0 });
 
@@ -74,13 +95,16 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
     const RULER_HEIGHT = 60;
 
     // --- Helpers ---
-    const getMousePos = (e: React.MouseEvent | MouseEvent) => {
-        if (!containerRef.current) return { x: 0, y: 0 };
-        const rect = containerRef.current.getBoundingClientRect();
-        return {
-            x: e.clientX - rect.left,
-            y: e.clientY - rect.top
-        };
+    const svgRef = useRef<SVGSVGElement>(null);
+
+    const getSVGPoint = (clientX: number, clientY: number) => {
+        if (!svgRef.current) return { x: 0, y: 0 };
+        const svg = svgRef.current;
+        const pt = svg.createSVGPoint();
+        pt.x = clientX;
+        pt.y = clientY;
+        const transformed = pt.matrixTransform(svg.getScreenCTM()?.inverse());
+        return { x: transformed.x, y: transformed.y };
     };
 
     const handleUndo = () => {
@@ -96,7 +120,13 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
     // --- Event Handlers ---
 
     const handleMouseDown = (e: React.MouseEvent) => {
-        const pos = getMousePos(e);
+        if (e.button === 1 || activeTool === 'cursor') {
+            setIsPanning(true);
+            setLastMousePos({ x: e.clientX, y: e.clientY });
+            return;
+        }
+
+        const pos = getSVGPoint(e.clientX, e.clientY);
 
         if (activeTool === 'pencil') {
             setIsDrawing(true);
@@ -104,12 +134,11 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
             setDrawingPath(`M ${pos.x} ${pos.y}`);
         } else if (activeTool === 'ruler-line' && showRuler) {
             setIsDrawing(true);
-            // Snap to ruler edge if possible or just start line
             setStartPoint(pos);
             setDrawingPath(`M ${pos.x} ${pos.y} L ${pos.x} ${pos.y}`);
         } else if (activeTool === 'point') {
             setElements(prev => [...prev, {
-                id: Date.now().toString(),
+                id: `pt-${Date.now()}`,
                 type: 'point',
                 path: '',
                 cx: pos.x,
@@ -121,28 +150,31 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
     };
 
     const handleMouseMove = (e: React.MouseEvent) => {
+        if (isPanning && svgRef.current) {
+            const dx = (e.clientX - lastMousePos.x) * (viewBox.width / svgRef.current.clientWidth);
+            const dy = (e.clientY - lastMousePos.y) * (viewBox.height / svgRef.current.clientHeight);
+            setViewBox(prev => ({ ...prev, x: prev.x - dx, y: prev.y - dy }));
+            setLastMousePos({ x: e.clientX, y: e.clientY });
+            return;
+        }
+
         if (!isDrawing) return;
-        const pos = getMousePos(e);
+        const pos = getSVGPoint(e.clientX, e.clientY);
 
         if (activeTool === 'pencil') {
             const lastPoint = freehandPoints[freehandPoints.length - 1];
-            // Only add point if moved enough
             const dist = Math.sqrt(Math.pow(pos.x - lastPoint.x, 2) + Math.pow(pos.y - lastPoint.y, 2));
-            if (dist > 3) {
+            if (dist > 2) {
                 setFreehandPoints(prev => [...prev, pos]);
                 setDrawingPath(prev => `${prev} L ${pos.x} ${pos.y}`);
             }
         } else if (activeTool === 'ruler-line' && showRuler) {
-            // Constrain to ruler angle
             const angleRad = rulerPos.angle * Math.PI / 180;
             const dx = pos.x - startPoint.x;
             const dy = pos.y - startPoint.y;
-
-            // Project (dx, dy) onto the ruler's vector (cos, sin)
             const dotProduct = dx * Math.cos(angleRad) + dy * Math.sin(angleRad);
             const constrainedX = startPoint.x + dotProduct * Math.cos(angleRad);
             const constrainedY = startPoint.y + dotProduct * Math.sin(angleRad);
-
             setDrawingPath(`M ${startPoint.x} ${startPoint.y} L ${constrainedX} ${constrainedY}`);
         }
     };
@@ -166,11 +198,11 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
         const handleGlobalMove = (e: MouseEvent) => {
             if (!isDraggingCompass && !isDraggingRuler && !isRotatingRuler && !isDraggingProtractor && !isRotatingProtractor) return;
 
-            const pos = getMousePos(e);
+            const pos = getSVGPoint(e.clientX, e.clientY);
 
-            if (isDraggingRuler) {
-                const dx = pos.x - lastMousePos.x;
-                const dy = pos.y - lastMousePos.y;
+            if (isDraggingRuler && svgRef.current) {
+                const dx = (e.clientX - lastMousePos.x) * (viewBox.width / svgRef.current.clientWidth);
+                const dy = (e.clientY - lastMousePos.y) * (viewBox.height / svgRef.current.clientHeight);
                 setRulerPos(prev => ({ ...prev, x: prev.x + dx, y: prev.y + dy }));
             } else if (isRotatingRuler) {
                 const dx = pos.x - rulerPos.x;
@@ -181,24 +213,21 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
                 } else {
                     setRulerPos(prev => ({ ...prev, angle: angle - 180 }));
                 }
-            } else if (isDraggingProtractor) {
-                const dx = pos.x - lastMousePos.x;
-                const dy = pos.y - lastMousePos.y;
+            } else if (isDraggingProtractor && svgRef.current) {
+                const dx = (e.clientX - lastMousePos.x) * (viewBox.width / svgRef.current.clientWidth);
+                const dy = (e.clientY - lastMousePos.y) * (viewBox.height / svgRef.current.clientHeight);
                 setProtractorPos(prev => ({ ...prev, x: prev.x + dx, y: prev.y + dy }));
             } else if (isRotatingProtractor) {
                 const dx = pos.x - protractorPos.x;
                 const dy = pos.y - protractorPos.y;
                 setProtractorPos(prev => ({ ...prev, angle: Math.atan2(dy, dx) * 180 / Math.PI }));
-            } else if (isDraggingCompass === 'needle') {
-                // Move entire compass
-                const dx = e.movementX;
-                const dy = e.movementY;
+            } else if (isDraggingCompass === 'needle' && svgRef.current) {
+                const dx = (e.clientX - lastMousePos.x) * (viewBox.width / svgRef.current.clientWidth);
+                const dy = (e.clientY - lastMousePos.y) * (viewBox.height / svgRef.current.clientHeight);
                 setCompassPos(prev => ({ ...prev, x: prev.x + dx, y: prev.y + dy }));
             }
 
             if (isDraggingCompass === 'pencil') {
-                // Adjust radius and angle (legs open/close + rotate)
-                // Needle is at compassPos.x, compassPos.y
                 const dx = pos.x - compassPos.x;
                 const dy = pos.y - compassPos.y;
                 const newRadius = Math.sqrt(dx * dx + dy * dy);
@@ -208,7 +237,6 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
             }
 
             if (isDraggingCompass === 'handle') {
-                // Rotate around needle without changing radius
                 const dx = pos.x - compassPos.x;
                 const dy = pos.y - compassPos.y;
                 const currentRelAngle = Math.atan2(dy, dx) * 180 / Math.PI;
@@ -216,7 +244,32 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
 
                 setCompassPos(prev => ({ ...prev, angle: newAngle }));
             }
-            setLastMousePos(pos);
+            setLastMousePos({ x: e.clientX, y: e.clientY });
+        };
+
+        const handleWheel = (e: WheelEvent) => {
+            const factor = e.deltaY > 0 ? 1.05 : 0.95;
+            const svg = svgRef.current;
+            if (!svg) return;
+
+            const rect = svg.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+
+            const svgX = viewBox.x + (mouseX / rect.width) * viewBox.width;
+            const svgY = viewBox.y + (mouseY / rect.height) * viewBox.height;
+
+            const newWidth = viewBox.width * factor;
+            const newHeight = viewBox.height * factor;
+
+            if (newWidth > 10000 || newWidth < 100) return;
+
+            setViewBox({
+                x: svgX - (mouseX / rect.width) * newWidth,
+                y: svgY - (mouseY / rect.height) * newHeight,
+                width: newWidth,
+                height: newHeight
+            });
         };
 
         const handleGlobalUp = () => {
@@ -226,7 +279,7 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
             setIsDraggingProtractor(false);
             setIsRotatingProtractor(false);
 
-            if (isDrawing && isDraggingCompass === 'handle') {
+            if (isDrawing && isDraggingCompass === 'handle' && isPencilDown) {
                 setIsDrawing(false);
                 const angleDiff = compassPos.angle - startAngle;
 
@@ -270,108 +323,125 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
 
         window.addEventListener('mousemove', handleGlobalMove);
         window.addEventListener('mouseup', handleGlobalUp);
+        svgRef.current?.addEventListener('wheel', handleWheel, { passive: false });
         return () => {
             window.removeEventListener('mousemove', handleGlobalMove);
             window.removeEventListener('mouseup', handleGlobalUp);
+            svgRef.current?.removeEventListener('wheel', handleWheel);
         };
     }, [isDraggingRuler, isRotatingRuler, isDraggingCompass, rulerPos, compassPos, isDrawing, startAngle]);
 
     // --- Rendering ---
 
     return (
-        <div className="flex flex-col gap-4 w-full h-[calc(100vh-100px)] max-w-7xl mx-auto">
-            {/* Header */}
-            <div className="flex items-center justify-between bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+        <div className="fixed inset-0 z-50 bg-slate-50 flex flex-col overflow-hidden select-none">
+            {/* Top Toolbar */}
+            <div className="flex items-center justify-between bg-white/80 backdrop-blur-md p-2 border-b border-slate-200 z-50 shadow-sm px-4">
                 <div className="flex items-center gap-2">
-                    <Button variant="ghost" onClick={onBack} size="sm">
+                    <Button variant="ghost" onClick={onBack} size="sm" className="hover:bg-slate-100">
                         <ArrowLeft className="w-4 h-4 mr-2" />
                         Vissza
                     </Button>
-                    <div className="h-6 w-px bg-slate-200 mx-2" />
+                    <div className="h-4 w-px bg-slate-200 mx-2" />
                     <h2 className="font-bold text-slate-700">Alapszerkesztés</h2>
                 </div>
 
                 <div className="flex items-center gap-2">
-                    <Button
-                        variant={background === 'blank' ? 'secondary' : 'ghost'}
-                        size="sm" onClick={() => setBackground('blank')}
-                        title="Üres lap"
-                    >
-                        <div className="w-4 h-4 border border-slate-400 bg-white" />
-                    </Button>
-                    <Button
-                        variant={background === 'grid' ? 'secondary' : 'ghost'}
-                        size="sm" onClick={() => setBackground('grid')}
-                        title="Négyzetrács"
-                    >
-                        <Grid3X3 className="w-4 h-4" />
-                    </Button>
+                    {/* Points & Lines Group */}
+                    <div className="flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200 shadow-sm">
+                        <Button
+                            variant={activeTool === 'point' ? 'default' : 'ghost'}
+                            size="sm"
+                            onClick={() => setActiveTool(activeTool === 'point' ? 'cursor' : 'point')}
+                            className={cn("h-8", activeTool === 'point' ? "shadow-sm" : "")}
+                            title="Pont"
+                        >
+                            <Dot className="w-5 h-5" />
+                        </Button>
+                        <Button
+                            variant={activeTool === 'ruler-line' ? 'default' : 'ghost'}
+                            size="sm"
+                            onClick={() => setActiveTool(activeTool === 'ruler-line' ? 'cursor' : 'ruler-line')}
+                            className={cn("h-8", activeTool === 'ruler-line' ? "shadow-sm" : "")}
+                            title="Egyenes"
+                        >
+                            <Minus className="w-5 h-5 rotate-45" />
+                        </Button>
+                    </div>
+
                     <div className="h-6 w-px bg-slate-200 mx-2" />
+
+                    {/* Cursor / Select */}
                     <Button
-                        variant={activeTool === 'pencil' ? 'default' : 'outline'}
-                        onClick={() => setActiveTool(activeTool === 'pencil' ? 'cursor' : 'pencil')}
-                        title="Szabadkézi rajz"
+                        variant={activeTool === 'cursor' ? 'default' : 'outline'}
+                        size="sm"
+                        onClick={() => setActiveTool('cursor')}
+                        title="Selection"
+                        className="h-8"
                     >
-                        <Pencil className="w-4 h-4 mr-2" />
-                        Ceruza
+                        <MousePointer2 className="w-4 h-4 mr-2" />
+                        Kijelölés
                     </Button>
-                    <Button
-                        variant={activeTool === 'point' ? 'default' : 'outline'}
-                        onClick={() => setActiveTool(activeTool === 'point' ? 'cursor' : 'point')}
-                        title="Pont lehelyezése"
-                    >
-                        <div className="w-4 h-4 rounded-full bg-current" />
-                        <span className="ml-2">Pont</span>
-                    </Button>
-                    <Button
-                        variant={activeTool === 'ruler-line' ? 'default' : 'outline'}
-                        onClick={() => setActiveTool(activeTool === 'ruler-line' ? 'cursor' : 'ruler-line')}
-                        title="Vonalzó menti egyenes"
-                    >
-                        <Move className="w-4 h-4 mr-2" />
-                        Egyenes
-                    </Button>
+
+                    {/* Pencil Dropdown */}
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button
+                                variant={activeTool === 'pencil' ? 'default' : 'outline'}
+                                size="sm"
+                                className="h-8"
+                            >
+                                <Pencil className="w-4 h-4 mr-2" />
+                                Ceruza
+                                <ChevronDown className="w-3 h-3 ml-2" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={() => setActiveTool('pencil')}>
+                                <Pencil className="w-4 h-4 mr-2" />
+                                Szabadkézi rajz
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => setElements([])} className="text-red-500">
+                                <Trash2 className="w-4 h-4 mr-2" />
+                                Rajzlap ürítése
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+
                     <Button
                         variant={activeTool === 'eraser' ? 'default' : 'outline'}
+                        size="sm"
                         onClick={() => setActiveTool(activeTool === 'eraser' ? 'cursor' : 'eraser')}
-                        title="Radír"
-                        className={activeTool === 'eraser' ? "bg-red-500 hover:bg-red-600" : ""}
+                        title="Eraser"
+                        className={cn("h-8", activeTool === 'eraser' ? "bg-red-500 hover:bg-red-600 border-red-600" : "")}
                     >
                         <Eraser className="w-4 h-4 mr-2" />
                         Radír
                     </Button>
-                    <Button
-                        variant={showProtractor ? 'default' : 'outline'}
-                        onClick={() => setShowProtractor(!showProtractor)}
-                        title="Szögmérő"
-                    >
-                        <CircleIcon className="w-4 h-4 mr-2" />
-                        Szögmérő
-                    </Button>
-                    <div className="h-6 w-px bg-slate-200 mx-2" />
-                    <Button
-                        variant="outline"
-                        onClick={handleUndo}
-                        disabled={elements.length === 0}
-                        title="Visszavonás"
-                    >
-                        <Undo2 className="w-4 h-4 mr-2" />
-                        Vissza
-                    </Button>
-                    <Button variant="outline" onClick={() => setElements([])} className="text-red-500 hover:bg-red-50">
-                        <Trash2 className="w-4 h-4 mr-2" />
-                        Törlés
-                    </Button>
+
+                    <div className="h-6 w-px bg-slate-200 mx-4" />
+
+                    <div className="flex items-center gap-1">
+                        <Button variant="ghost" size="icon" onClick={() => setBackground(background === 'grid' ? 'blank' : 'grid')} title="Grid">
+                             <Grid3X3 className={cn("w-4 h-4", background === 'grid' ? "text-blue-500" : "text-slate-400")} />
+                        </Button>
+                        <Button variant="ghost" size="icon" onClick={handleUndo} disabled={elements.length === 0} title="Undo">
+                             <Undo2 className="w-4 h-4" />
+                        </Button>
+                    </div>
                 </div>
             </div>
 
-            <div className="flex flex-1 gap-4 overflow-hidden">
-                {/* Toolbar */}
-                <Card className="w-20 shrink-0 border-slate-200 shadow-sm">
-                    <CardContent className="p-2 flex flex-col gap-4 items-center pt-4">
+            <div className="flex flex-1 relative overflow-hidden">
+                {/* Left Floating Sidebar */}
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 flex flex-col gap-3 z-50">
+                    <Card className="p-2 flex flex-col gap-3 shadow-xl border-slate-200 bg-white/90 backdrop-blur-sm rounded-2xl">
                         <Button
                             variant={showRuler ? "default" : "outline"}
-                            className={cn("w-12 h-12 rounded-xl p-0", showRuler ? "bg-amber-500 hover:bg-amber-600" : "")}
+                            className={cn(
+                                "w-12 h-12 rounded-xl p-0 transition-all",
+                                showRuler ? "bg-amber-500 hover:bg-amber-600 shadow-lg scale-105" : "hover:bg-amber-50"
+                            )}
                             onClick={() => setShowRuler(!showRuler)}
                             title="Vonalzó"
                         >
@@ -379,32 +449,75 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
                         </Button>
                         <Button
                             variant={showCompass ? "default" : "outline"}
-                            className={cn("w-12 h-12 rounded-xl p-0", showCompass ? "bg-blue-500 hover:bg-blue-600" : "")}
+                            className={cn(
+                                "w-12 h-12 rounded-xl p-0 transition-all",
+                                showCompass ? "bg-blue-500 hover:bg-blue-600 shadow-lg scale-105" : "hover:bg-blue-50"
+                            )}
                             onClick={() => setShowCompass(!showCompass)}
                             title="Körző"
                         >
                             <CircleIcon className="w-6 h-6" />
                         </Button>
-                    </CardContent>
-                </Card>
+                        <Button
+                            variant={showProtractor ? "default" : "outline"}
+                            className={cn(
+                                "w-12 h-12 rounded-xl p-0 transition-all",
+                                showProtractor ? "bg-purple-500 hover:bg-purple-600 shadow-lg scale-105" : "hover:bg-purple-50"
+                            )}
+                            onClick={() => setShowProtractor(!showProtractor)}
+                            title="Szögmérő"
+                        >
+                            <ShapesIcon className="w-6 h-6" />
+                        </Button>
+                    </Card>
 
-                {/* Canvas */}
+                    <Card className="p-1 flex flex-col gap-1 shadow-lg border-slate-200 bg-white/80 backdrop-blur-sm rounded-xl">
+                        <Button variant="ghost" size="icon" onClick={() => {
+                            setViewBox(prev => ({ ...prev, width: prev.width * 0.9, height: prev.height * 0.9, x: prev.x + prev.width * 0.05, y: prev.y + prev.height * 0.05 }))
+                        }} title="Zoom In">
+                             <ZoomIn className="w-4 h-4" />
+                        </Button>
+                        <Button variant="ghost" size="icon" onClick={() => {
+                            setViewBox(prev => ({ ...prev, width: prev.width * 1.1, height: prev.height * 1.1, x: prev.x - prev.width * 0.05, y: prev.y - prev.height * 0.05 }))
+                        }} title="Zoom Out">
+                             <ZoomOut className="w-4 h-4" />
+                        </Button>
+                    </Card>
+                </div>
+
+                {/* Main Canvas */}
                 <div
                     ref={containerRef}
-                    className="flex-1 bg-white rounded-2xl border border-slate-200 shadow-inner relative overflow-hidden select-none cursor-crosshair"
-                    style={{
-                        backgroundImage: background === 'grid'
-                            ? 'linear-gradient(#e2e8f0 1px, transparent 1px), linear-gradient(90deg, #e2e8f0 1px, transparent 1px)'
-                            : 'none',
-                        backgroundSize: '20px 20px'
-                    }}
+                    className="flex-1 bg-[#f8fafc] relative overflow-hidden select-none cursor-crosshair"
                     onMouseDown={handleMouseDown}
                     onMouseMove={handleMouseMove}
                     onMouseUp={handleMouseUp}
                     onMouseLeave={handleMouseUp}
                 >
                     {/* Drawing Layer (SVG) */}
-                    <svg className="absolute inset-0 w-full h-full pointer-events-none">
+                    <svg
+                        ref={svgRef}
+                        className="absolute inset-0 w-full h-full"
+                        viewBox={`${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`}
+                    >
+                        {/* Background Grid */}
+                        {background === 'grid' && (
+                            <defs>
+                                <pattern id="construction-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#e2e8f0" strokeWidth="1" />
+                                </pattern>
+                            </defs>
+                        )}
+                        {background === 'grid' && (
+                            <rect
+                                x={viewBox.x}
+                                y={viewBox.y}
+                                width={viewBox.width}
+                                height={viewBox.height}
+                                fill="url(#construction-grid)"
+                                className="pointer-events-none"
+                            />
+                        )}
                         {elements.map(el => {
                             const commonProps = {
                                 key: el.id,
@@ -495,81 +608,115 @@ export function ConstructionTool({ onBack }: ConstructionToolProps) {
                                     transform: `rotate(${compassPos.angle}deg)`
                                 }}
                             >
-                                {/* Compass Legs SVG */}
-                                <svg
-                                    className="absolute overflow-visible"
-                                    width="1" height="1"
-                                    style={{ left: 0, top: 0 }}
-                                >
-                                    <defs>
-                                        <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-                                            <feGaussianBlur in="SourceAlpha" stdDeviation="2" />
-                                            <feOffset dx="1" dy="1" result="offsetblur" />
-                                            <feComponentTransfer>
-                                                <feFuncA type="linear" slope="0.3" />
-                                            </feComponentTransfer>
-                                            <feMerge>
-                                                <feMergeNode />
-                                                <feMergeNode in="SourceGraphic" />
-                                            </feMerge>
-                                        </filter>
-                                    </defs>
-
-                                    {/* Needle Leg */}
-                                    <path
-                                        d={`M 0 0 L -10 -150 L 0 -170`}
-                                        stroke="#94a3b8"
-                                        strokeWidth="8"
-                                        strokeLinecap="round"
-                                        fill="none"
-                                        filter="url(#shadow)"
-                                    />
-                                    {/* Needle Tip */}
-                                    <circle cx="0" cy="0" r="2" fill="#475569" className="pointer-events-auto cursor-move"
-                                        onMouseDown={(e) => { e.stopPropagation(); setIsDraggingCompass('needle'); }}
-                                    />
-
-                                    {/* Pencil Leg */}
-                                    <path
-                                        d={`M ${compassPos.radius} 0 L ${compassPos.radius / 2 + 5} -150 L 0 -170`}
-                                        stroke="#94a3b8"
-                                        strokeWidth="8"
-                                        strokeLinecap="round"
-                                        fill="none"
-                                        filter="url(#shadow)"
-                                    />
-
-                                    {/* Handle / Pivot Joint */}
-                                    <g
-                                        className="pointer-events-auto cursor-grab active:cursor-grabbing"
-                                        onMouseDown={(e) => {
-                                            e.stopPropagation();
-                                            const pos = getMousePos(e as any);
-                                            const dx = pos.x - compassPos.x;
-                                            const dy = pos.y - compassPos.y;
-                                            setDragStartAngle(Math.atan2(dy, dx) * 180 / Math.PI);
-                                            setInitialCompassAngle(compassPos.angle);
-                                            setIsDraggingCompass('handle');
-                                            setIsDrawing(true);
-                                            setStartAngle(compassPos.angle);
-                                        }}
+                                    {/* Compass Legs SVG */}
+                                    <svg
+                                        className="absolute overflow-visible"
+                                        width="1" height="1"
+                                        style={{ left: 0, top: 0 }}
                                     >
-                                        <circle cx="0" cy="-170" r="12" fill="#475569" />
-                                        <rect x="-4" y="-200" width="8" height="30" rx="4" fill="#64748b" />
-                                    </g>
+                                        <defs>
+                                            <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                                                <feGaussianBlur in="SourceAlpha" stdDeviation="2" />
+                                                <feOffset dx="1" dy="1" result="offsetblur" />
+                                                <feComponentTransfer>
+                                                    <feFuncA type="linear" slope="0.3" />
+                                                </feComponentTransfer>
+                                                <feMerge>
+                                                    <feMergeNode />
+                                                    <feMergeNode in="SourceGraphic" />
+                                                </feMerge>
+                                            </filter>
+                                            <linearGradient id="compass-metal" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                <stop offset="0%" stopColor="#94a3b8" />
+                                                <stop offset="50%" stopColor="#cbd5e1" />
+                                                <stop offset="100%" stopColor="#94a3b8" />
+                                            </linearGradient>
+                                        </defs>
 
-                                    {/* Pencil Tip / Lead */}
-                                    <g
-                                        className="pointer-events-auto cursor-nwse-resize"
-                                        onMouseDown={(e) => {
-                                            e.stopPropagation();
-                                            setIsDraggingCompass('pencil');
-                                        }}
-                                    >
-                                        <path d={`M ${compassPos.radius - 4} 0 L ${compassPos.radius + 4} 0 L ${compassPos.radius} 10 Z`} fill="#3b82f6" />
-                                        <circle cx={compassPos.radius} cy="0" r="6" fill="transparent" />
-                                    </g>
-                                </svg>
+                                        {/* Needle Leg (Left) */}
+                                        <g filter="url(#shadow)">
+                                            <path
+                                                d={`M 0 0 L -8 -130 Q -10 -150 0 -170`}
+                                                stroke="url(#compass-metal)"
+                                                strokeWidth="10"
+                                                strokeLinecap="round"
+                                                fill="none"
+                                            />
+                                            <path d="M 0 0 L -2 15 L 0 20 L 2 15 Z" fill="#475569" /> {/* Needle point */}
+                                            <circle cx="0" cy="0" r="4" fill="#475569" className="pointer-events-auto cursor-move"
+                                                onMouseDown={(e) => { e.stopPropagation(); setIsDraggingCompass('needle'); }}
+                                            />
+                                        </g>
+
+                                        {/* Pencil Leg (Right) */}
+                                        <g filter="url(#shadow)">
+                                            <path
+                                                d={`M ${compassPos.radius} 0 L ${compassPos.radius + 8} -130 Q ${compassPos.radius / 2} -150 0 -170`}
+                                                stroke="url(#compass-metal)"
+                                                strokeWidth="10"
+                                                strokeLinecap="round"
+                                                fill="none"
+                                            />
+                                            {/* Pencil Holder */}
+                                            <rect x={compassPos.radius - 8} y="-10" width="16" height="25" rx="4" fill="#64748b" />
+                                            {/* Pencil Tip */}
+                                            {isPencilDown && (
+                                                <path
+                                                    d={`M ${compassPos.radius - 4} 15 L ${compassPos.radius + 4} 15 L ${compassPos.radius} 25 Z`}
+                                                    fill="#3b82f6"
+                                                />
+                                            )}
+                                        </g>
+
+                                        {/* Top Handle / Pivot */}
+                                        <g
+                                            className="pointer-events-auto cursor-grab active:cursor-grabbing"
+                                            onMouseDown={(e) => {
+                                                e.stopPropagation();
+                                                const pos = getSVGPoint(e.clientX, e.clientY);
+                                                const dx = pos.x - compassPos.x;
+                                                const dy = pos.y - compassPos.y;
+                                                setDragStartAngle(Math.atan2(dy, dx) * 180 / Math.PI);
+                                                setInitialCompassAngle(compassPos.angle);
+                                                setIsDraggingCompass('handle');
+                                                if (isPencilDown) {
+                                                    setIsDrawing(true);
+                                                    setStartAngle(compassPos.angle);
+                                                }
+                                            }}
+                                        >
+                                            <circle cx="0" cy="-170" r="14" fill="#475569" />
+                                            <rect x="-5" y="-210" width="10" height="40" rx="5" fill="url(#compass-metal)" stroke="#475569" strokeWidth="1" />
+                                            {/* Pivot Bolt */}
+                                            <circle cx="0" cy="-170" r="4" fill="#94a3b8" />
+                                        </g>
+
+                                        {/* Radius Adjustment Handle (Pencil Leg) */}
+                                        <circle
+                                            cx={compassPos.radius}
+                                            cy="0"
+                                            r="12"
+                                            fill="rgba(59, 130, 246, 0.2)"
+                                            className="pointer-events-auto cursor-nwse-resize hover:fill-blue-500/40"
+                                            onMouseDown={(e) => {
+                                                e.stopPropagation();
+                                                setIsDraggingCompass('pencil');
+                                            }}
+                                        />
+
+                                        {/* Pencil Toggle Button (Floating near compass) */}
+                                        <foreignObject x={compassPos.radius + 20} y="-20" width="40" height="40" className="pointer-events-auto">
+                                            <Button
+                                                variant={isPencilDown ? "default" : "outline"}
+                                                size="icon"
+                                                className={cn("w-8 h-8 rounded-full shadow-md transition-all", isPencilDown ? "bg-blue-500" : "bg-white")}
+                                                onClick={(e) => { e.stopPropagation(); setIsPencilDown(!isPencilDown); }}
+                                                title={isPencilDown ? "Felemelés" : "Letétel"}
+                                            >
+                                                <PenTool className="w-4 h-4" />
+                                            </Button>
+                                        </foreignObject>
+                                    </svg>
 
                                 {/* Current Arc visual while drawing */}
                                 {isDrawing && (

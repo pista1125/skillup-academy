@@ -125,7 +125,7 @@ export function WordProblemsQuiz({ onBack }: WordProblemsQuizProps) {
         const accuracy = Math.round((score / selectedSet.problems.length) * 100);
 
         return (
-            <div className="max-w-3xl mx-auto py-12 animate-in fade-in zoom-in duration-700">
+            <div className="max-w-xl mx-auto py-12 animate-in fade-in zoom-in duration-700">
                 <div className="bg-white rounded-[3.5rem] p-10 md:p-16 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] border border-slate-100 text-center relative overflow-hidden">
                     <div className="absolute top-0 left-0 w-full h-3 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" />
                     
@@ -251,7 +251,7 @@ export function WordProblemsQuiz({ onBack }: WordProblemsQuizProps) {
     const currentProblem = selectedSet.problems[currentProblemIndex];
 
     return (
-        <div className="max-w-5xl mx-auto py-8 space-y-8 animate-in fade-in duration-500">
+        <div className="max-w-5xl mx-auto py-4 space-y-4 animate-in fade-in duration-500">
             {/* Top Navigation Bar */}
             <div className="bg-white/80 backdrop-blur-2xl p-6 rounded-[2.5rem] shadow-2xl border border-white/50 flex flex-wrap items-center justify-between gap-6 transition-all">
                 <div className="flex items-center gap-6">
@@ -297,21 +297,21 @@ export function WordProblemsQuiz({ onBack }: WordProblemsQuizProps) {
                 <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-500 opacity-[0.02] rounded-full -mr-40 -mt-40 blur-3xl pointer-events-none group-hover:opacity-[0.05] transition-opacity duration-1000" />
                 <div className="absolute bottom-0 left-0 w-80 h-80 bg-purple-500 opacity-[0.02] rounded-full -ml-40 -mb-40 blur-3xl pointer-events-none group-hover:opacity-[0.05] transition-opacity duration-1000" />
 
-                <div className="p-10 md:p-20 relative z-10">
-                    <div className="flex flex-col gap-12">
+                <div className="p-6 md:p-10 relative z-10">
+                    <div className="flex flex-col gap-4">
                         {/* Question */}
-                        <div className="space-y-8">
+                        <div className="space-y-4">
                             <div className="inline-flex items-center gap-3 px-5 py-2.5 bg-indigo-50 rounded-2xl text-sm font-black text-indigo-600 shadow-sm border border-indigo-100">
                                 <Zap className="w-5 h-5 fill-indigo-600" />
                                 {currentProblemIndex + 1}. FELADAT
                             </div>
-                            <h2 className="text-3xl md:text-4xl font-black text-slate-800 leading-[1.3] tracking-tight">
+                            <h2 className="text-xl md:text-2xl font-black text-slate-800 leading-[1.3] tracking-tight">
                                 {currentProblem.question}
                             </h2>
                         </div>
 
                         {/* Input Area */}
-                        <div className="space-y-10">
+                        <div className="space-y-4">
                             {renderInput(currentProblem.answerTemplate, currentProblem)}
 
                             <div className="flex flex-wrap items-center gap-6 min-h-[4.5rem]">
@@ -319,7 +319,7 @@ export function WordProblemsQuiz({ onBack }: WordProblemsQuizProps) {
                                     <Button
                                         onClick={checkAnswer}
                                         disabled={!userAnswer}
-                                        className="h-20 px-14 rounded-[1.5rem] text-xl font-black shadow-2xl shadow-indigo-200 hover:shadow-indigo-300 transition-all hover:-translate-y-1 active:translate-y-0 bg-indigo-600 disabled:opacity-50 disabled:translate-y-0"
+                                        className="h-14 px-14 rounded-[1.5rem] text-xl font-black shadow-2xl shadow-indigo-200 hover:shadow-indigo-300 transition-all hover:-translate-y-1 active:translate-y-0 bg-indigo-600 disabled:opacity-50 disabled:translate-y-0"
                                     >
                                         Ellenőrzés
                                     </Button>
@@ -329,14 +329,14 @@ export function WordProblemsQuiz({ onBack }: WordProblemsQuizProps) {
                                     <div className="flex flex-wrap items-center gap-4 animate-in slide-in-from-left-6 duration-300">
                                         <Button
                                             onClick={checkAnswer}
-                                            className="h-20 px-12 rounded-[1.5rem] text-xl font-black bg-rose-500 hover:bg-rose-600 shadow-xl shadow-rose-200"
+                                            className="h-14 px-12 rounded-[1.5rem] text-xl font-black bg-rose-500 hover:bg-rose-600 shadow-xl shadow-rose-200"
                                         >
                                             Újra próbálom
                                         </Button>
                                         <Button
                                             variant="outline"
                                             onClick={() => setShowCorrectAnswer(true)}
-                                            className="h-20 px-10 rounded-[1.5rem] text-lg font-bold border-4 hover:bg-slate-50 transition-all shadow-lg"
+                                            className="h-14 px-10 rounded-[1.5rem] text-lg font-bold border-4 hover:bg-slate-50 transition-all shadow-lg"
                                         >
                                             Megoldás mutatása
                                         </Button>

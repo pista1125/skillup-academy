@@ -368,7 +368,7 @@ export default function MathPage() {
         } else {
           setView('topic-select');
           // Some topics might show detail instead of full activity
-          if (!((grade === 5 && topicParam.startsWith('g5-')) || grade === 4 || grade === 6 || grade === 7)) {
+          if (topicParam === 'competency-assessment' || !((grade === 5 && topicParam.startsWith('g5-')) || grade === 4 || grade === 6 || grade === 7)) {
             setActivityType(topicParam as ActivityType);
             setView('activity');
           }
@@ -400,7 +400,8 @@ export default function MathPage() {
       path = `/${gradeToSlug(grade)}`;
       if (topic) {
         path += `/${topic}`;
-        if (newView === 'activity' && activity) {
+        // Only append activity if it's different from the topic to avoid redundant URLs
+        if (newView === 'activity' && activity && activity !== topic) {
           path += `/${activity}`;
         }
       }
@@ -624,7 +625,7 @@ export default function MathPage() {
                 title="Szeptember - Június"
                 subtitle="10 feladatsor"
                 type="Kezdés"
-                onClick={() => handleActivitySelect('competency-assessment')}
+                onClick={() => handleActivitySelect('competency-assessment', topicId)}
                 icon={<Target className="w-6 h-6" />}
                 color="blue"
               />
@@ -644,7 +645,7 @@ export default function MathPage() {
                 title="Gyakorló Kvíz"
                 subtitle="Számok írása, olvasása, kerekítés"
                 type="Teszt"
-                onClick={() => handleActivitySelect('quiz')}
+                onClick={() => handleActivitySelect('quiz', topicId)}
                 icon={<Calculator className="w-6 h-6" />}
                 color="blue"
               />
@@ -652,7 +653,7 @@ export default function MathPage() {
                 title="Matek Kígyó 🐍"
                 subtitle="Gyűjtsd össze a számokat!"
                 type="Játék"
-                onClick={() => handleActivitySelect('snake-game')}
+                onClick={() => handleActivitySelect('snake-game', topicId)}
                 icon={<Target className="w-6 h-6" />}
                 color="emerald"
               />
@@ -672,7 +673,7 @@ export default function MathPage() {
                 title="Pénztár"
                 subtitle="Számolás pénzzel"
                 type="Eszköz"
-                onClick={() => handleActivitySelect('money-calculation')}
+                onClick={() => handleActivitySelect('money-calculation', topicId)}
                 icon={<Coins className="w-6 h-6" />}
                 color="emerald"
               />
@@ -692,7 +693,7 @@ export default function MathPage() {
                 title="Írásbeli műveletek"
                 subtitle="Gyakorlás 10 000-ig"
                 type="Teszt"
-                onClick={() => handleActivitySelect('quiz')}
+                onClick={() => handleActivitySelect('quiz', topicId)}
                 icon={<Calculator className="w-6 h-6" />}
                 color="blue"
               />
@@ -712,7 +713,7 @@ export default function MathPage() {
                 title="Számegyenes"
                 subtitle="Negatív számok ábrázolása"
                 type="Eszköz"
-                onClick={() => handleActivitySelect('number-line')}
+                onClick={() => handleActivitySelect('number-line', topicId)}
                 icon={<MoveHorizontal className="w-6 h-6" />}
                 color="blue"
               />
@@ -732,7 +733,7 @@ export default function MathPage() {
                 title="Írásbeli osztás"
                 subtitle="Lépcsős osztás levezetése"
                 type="Eszköz"
-                onClick={() => handleActivitySelect('long-division')}
+                onClick={() => handleActivitySelect('long-division', topicId)}
                 icon={<Box className="w-6 h-6" />}
                 color="indigo"
               />
@@ -924,7 +925,7 @@ export default function MathPage() {
                 title="Gyakorló Kvíz"
                 subtitle="Összeadás, kivonás, szorzás, osztás"
                 type="Teszt"
-                onClick={() => handleActivitySelect('quiz')}
+                onClick={() => handleActivitySelect('quiz', topicId)}
                 icon={<Calculator className="w-6 h-6" />}
                 color="blue"
               />
@@ -932,7 +933,7 @@ export default function MathPage() {
                 title="Írásbeli osztás"
                 subtitle="Lépcsős osztás levezetése"
                 type="Eszköz"
-                onClick={() => handleActivitySelect('long-division')}
+                onClick={() => handleActivitySelect('long-division', topicId)}
                 icon={<Box className="w-6 h-6" />}
                 color="indigo"
               />
@@ -1159,7 +1160,7 @@ export default function MathPage() {
                 title="Szöveges feladatok"
                 subtitle="Gyakorlati problémák"
                 type="Indítás"
-                onClick={() => handleActivitySelect('word-problems')}
+                onClick={() => handleActivitySelect('word-problems', topicId)}
                 icon={<Sparkles className="w-6 h-6" />}
                 color="teal"
               />
@@ -1167,7 +1168,7 @@ export default function MathPage() {
                 title="Százalékszámítás"
                 subtitle="Alap, érték, láb"
                 type="Gyakorlás"
-                onClick={() => { setPercentMode(null); handleActivitySelect('percentages'); }}
+                onClick={() => { setPercentMode(null); handleActivitySelect('percentages', topicId); }}
                 icon={<Percent className="w-6 h-6" />}
                 color="rose"
               />
@@ -1590,7 +1591,7 @@ export default function MathPage() {
           <FractionsModule
             onBack={handleBack}
             isInline
-            onStartActivity={(type) => handleActivitySelect(type as ActivityType)}
+            onStartActivity={(type) => handleActivitySelect(type as ActivityType, topicId)}
           />
         </div>
       );
@@ -1602,7 +1603,7 @@ export default function MathPage() {
           <GeometryModule
             onBack={handleBack}
             isInline
-            onStartActivity={(type) => handleActivitySelect(type as ActivityType)}
+            onStartActivity={(type) => handleActivitySelect(type as ActivityType, topicId)}
           />
         </div>
       );
@@ -1618,7 +1619,7 @@ export default function MathPage() {
                 title="Arány felismerés"
                 subtitle="Zászlók, poharak, kísérletek"
                 type="Teszt"
-                onClick={() => handleActivitySelect('ratio-intro')}
+                onClick={() => handleActivitySelect('ratio-intro', topicId)}
                 icon={<Flag className="w-6 h-6" />}
                 color="orange"
               />
@@ -1626,7 +1627,7 @@ export default function MathPage() {
                 title="Arány alkotó"
                 subtitle="Színezés, keverés, elosztás"
                 type="Interaktív"
-                onClick={() => handleActivitySelect('ratio-creator')}
+                onClick={() => handleActivitySelect('ratio-creator', topicId)}
                 icon={<Sparkles className="w-6 h-6" />}
                 color="orange"
               />
@@ -1680,7 +1681,7 @@ export default function MathPage() {
                 title="Törtek vizuálisan"
                 subtitle="Törtek ábrázolása"
                 type="Eszköz"
-                onClick={() => handleActivitySelect('fractions-visualizer')}
+                onClick={() => handleActivitySelect('fractions-visualizer', topicId)}
                 icon={<Percent className="w-6 h-6" />}
                 color="orange"
               />
@@ -1696,7 +1697,7 @@ export default function MathPage() {
                 type="Teszt"
                 onClick={() => {
                   setPercentMode('calculate-value');
-                  handleActivitySelect('percentages');
+                  handleActivitySelect('percentages', topicId);
                 }}
                 icon={<Percent className="w-6 h-6" />}
                 color="rose"
@@ -1707,7 +1708,7 @@ export default function MathPage() {
                 type="Teszt"
                 onClick={() => {
                   setPercentMode('calculate-rate');
-                  handleActivitySelect('percentages');
+                  handleActivitySelect('percentages', topicId);
                 }}
                 icon={<Percent className="w-6 h-6" />}
                 color="emerald"
@@ -1718,7 +1719,7 @@ export default function MathPage() {
                 type="Teszt"
                 onClick={() => {
                   setPercentMode('calculate-base');
-                  handleActivitySelect('percentages');
+                  handleActivitySelect('percentages', topicId);
                 }}
                 icon={<Percent className="w-6 h-6" />}
                 color="blue"
@@ -1733,7 +1734,7 @@ export default function MathPage() {
                 title="Szöveges feladatok"
                 subtitle="Gyakorlati problémák (%)"
                 type="Gyakorlás"
-                onClick={() => handleActivitySelect('percent-value-word-problems')}
+                onClick={() => handleActivitySelect('percent-value-word-problems', topicId)}
                 icon={<Percent className="w-6 h-6" />}
                 color="pink"
               />
@@ -1747,7 +1748,7 @@ export default function MathPage() {
                 title="Egyenletmegoldó"
                 subtitle="Vizuális modell"
                 type="Eszköz"
-                onClick={() => handleActivitySelect('equation-solver')}
+                onClick={() => handleActivitySelect('equation-solver', topicId)}
                 icon={<Calculator className="w-6 h-6" />}
                 color="violet"
               />
@@ -1761,7 +1762,7 @@ export default function MathPage() {
                 title="Matek Kvíz"
                 subtitle="Vegyes szöveges feladatok"
                 type="Teszt"
-                onClick={() => handleActivitySelect('word-problems')}
+                onClick={() => handleActivitySelect('word-problems', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
               />
@@ -1819,7 +1820,7 @@ export default function MathPage() {
                 title="Racionális számok"
                 subtitle="Műveletek ésszerűen"
                 type="Kezdés"
-                onClick={() => handleActivitySelect('g7-rational-numbers')}
+                onClick={() => handleActivitySelect('g7-rational-numbers', topicId)}
                 icon={<Calculator className="w-6 h-6" />}
                 color="blue"
               />
@@ -1850,7 +1851,7 @@ export default function MathPage() {
                 title="Betűs kifejezések"
                 subtitle="Változók használata"
                 type="Kezdés"
-                onClick={() => handleActivitySelect('g7-expression-usage')}
+                onClick={() => handleActivitySelect('g7-expression-usage', topicId)}
                 icon={<Variable className="w-6 h-6" />}
                 color="purple"
               />
@@ -1987,7 +1988,7 @@ export default function MathPage() {
           <Grade7GeometryModule
             onBack={handleBack}
             isInline
-            onStartActivity={(type) => handleActivitySelect(type as ActivityType)}
+            onStartActivity={(type) => handleActivitySelect(type as ActivityType, topicId)}
           />
         </div>
       );
@@ -2059,29 +2060,29 @@ export default function MathPage() {
       {(activityType !== 'symmetry-construction' && activityType !== 'student-feedback') || view !== 'activity' ? (
         <div className="sticky top-0 z-50 w-full">
           {/* Main Header */}
-          <div className="bg-gradient-math text-white py-3 px-4 shadow-xl relative">
-            {/* Decorative background elements */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 blur-3xl"></div>
-              <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-400/10 rounded-full -ml-24 -mb-24 blur-2xl"></div>
-            </div>
+            <div className="bg-gradient-math text-white py-2 md:py-3 px-3 md:px-4 shadow-xl relative transition-all duration-300">
+              {/* Decorative background elements */}
+              <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-50">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 blur-3xl"></div>
+                <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-400/10 rounded-full -ml-24 -mb-24 blur-2xl"></div>
+              </div>
 
-            <div className="w-full px-4 lg:px-12 relative z-10">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-3">
-                  <SidebarMenu />
-                  <Button
-                    variant="ghost"
-                    onClick={handleHome}
-                    className="bg-white/10 text-white hover:bg-white/20 font-black px-4 border border-white/20 shadow-lg backdrop-blur-md transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
-                  >
-                    <img src="/logo_header.png" alt="DiákZóna" className="h-12 md:h-16 object-contain translate-y-2" />
-                    <span className="text-xl md:text-2xl font-black tracking-tighter">Diákzóna</span>
-                  </Button>
-                </div>
+              <div className="w-full px-2 lg:px-12 relative z-10">
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-1.5 md:gap-3">
+                    <SidebarMenu />
+                    <Button
+                      variant="ghost"
+                      onClick={handleHome}
+                      className="bg-white/10 text-white hover:bg-white/20 font-black px-2 md:px-4 border border-white/20 shadow-lg backdrop-blur-md transition-all hover:scale-105 active:scale-95 flex items-center gap-1.5 md:gap-2"
+                    >
+                      <img src="/logo_header.png" alt="DiákZóna" className="h-10 md:h-16 object-contain translate-y-1.5 md:translate-y-2" />
+                      <span className="text-lg sm:text-xl md:text-2xl font-black tracking-tighter">Diákzóna</span>
+                    </Button>
+                  </div>
 
-                <div className="flex items-center gap-2">
-                  <div ref={searchRef} className="relative hidden sm:flex items-center group">
+                  <div className="flex items-center gap-1 md:gap-2">
+                    <div ref={searchRef} className="relative hidden lg:flex items-center group">
                     <input
                       type="text"
                       placeholder="Keresés..."
@@ -2163,13 +2164,13 @@ export default function MathPage() {
                     )}
                   </div>
                   <UserMenu />
-                  <ThemeToggle />
                   <Button
                     variant="secondary"
                     onClick={() => { window.location.assign('https://kviz.diakzona.hu/'); }}
-                    className="bg-emerald-500 text-white hover:bg-emerald-600 font-extrabold px-6 shadow-lg shadow-emerald-500/30 border-none transition-all hover:scale-105 active:scale-95 h-9"
+                    className="bg-emerald-500 text-white hover:bg-emerald-600 font-extrabold px-3 md:px-6 shadow-lg shadow-emerald-500/30 border-none transition-all hover:scale-105 active:scale-95 h-9"
                   >
-                    online kvíz
+                    <span className="hidden sm:inline">online kvíz</span>
+                    <span className="sm:hidden">kvíz</span>
                   </Button>
                 </div>
               </div>

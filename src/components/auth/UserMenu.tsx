@@ -59,7 +59,7 @@ export function UserMenu() {
     };
 
     if (loading) {
-        return <div className="w-10 h-10 rounded-xl bg-white/10 animate-pulse" />;
+        return <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 animate-pulse" />;
     }
 
     // Get initials for avatar
@@ -76,28 +76,28 @@ export function UserMenu() {
                 <Button
                     variant="ghost"
                     onClick={() => setIsAuthModalOpen(true)}
-                    className="bg-white/10 text-white hover:bg-white/20 font-bold px-4 border border-white/20 shadow-lg backdrop-blur-md transition-all hover:scale-105 active:scale-95 flex items-center gap-2 rounded-xl h-10"
+                    className="bg-white/10 text-white hover:bg-white/20 font-bold px-2 sm:px-4 border border-white/20 shadow-lg backdrop-blur-md transition-all hover:scale-105 active:scale-95 flex items-center gap-1.5 sm:gap-2 rounded-xl h-9 sm:h-10"
                 >
                     <LogIn className="w-4 h-4" />
-                    <span className="inline">Bejelentkezés</span>
+                    <span className="inline text-sm sm:text-base">Bejelentkezés</span>
                 </Button>
             ) : (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button
                             variant="ghost"
-                            className="bg-white/10 text-white hover:bg-white/20 font-bold pl-2 pr-4 border border-white/20 shadow-lg backdrop-blur-md transition-all hover:scale-105 active:scale-95 flex items-center gap-3 rounded-xl h-10 ring-offset-primary focus:ring-2 focus:ring-white/50"
+                            className="bg-white/10 text-white hover:bg-white/20 font-bold pl-1.5 pr-2 sm:pl-2 sm:pr-4 border border-white/20 shadow-lg backdrop-blur-md transition-all hover:scale-105 active:scale-95 flex items-center gap-1.5 sm:gap-3 rounded-xl h-9 sm:h-10 ring-offset-primary focus:ring-2 focus:ring-white/50"
                         >
-                            <Avatar className="h-7 w-7 border border-white/30 shadow-sm">
+                            <Avatar className="h-6 w-6 sm:h-7 sm:w-7 border border-white/30 shadow-sm">
                                 <AvatarImage src={displayAvatar} />
                                 <AvatarFallback className={cn(
-                                    "text-[10px] font-black text-white",
+                                    "text-[8px] sm:text-[10px] font-black text-white",
                                     profile?.role === 'teacher' ? "bg-rose-500" : "bg-primary"
                                 )}>
                                     {profile?.avatar_url || initials}
                                 </AvatarFallback>
                             </Avatar>
-                            <span className="text-sm tracking-tight truncate max-w-[120px]">
+                            <span className="text-xs sm:text-sm tracking-tight truncate max-w-[60px] xs:max-w-[80px] sm:max-w-[120px]">
                                 {profile?.full_name || user?.email}
                             </span>
                             {notificationCount > 0 && (

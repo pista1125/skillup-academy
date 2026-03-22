@@ -26,7 +26,7 @@ export function ThemeToggle() {
             variant="ghost"
             size="icon"
             onClick={toggleTheme}
-            className="rounded-xl w-10 h-10 bg-white/10 text-white hover:bg-white/20 border border-white/20 shadow-lg backdrop-blur-md transition-all hover:scale-105 active:scale-95"
+            className="rounded-xl w-9 h-9 sm:w-10 sm:h-10 bg-white/10 text-white hover:bg-white/20 border border-white/20 shadow-lg backdrop-blur-md transition-all hover:scale-105 active:scale-95 flex items-center justify-center p-0"
             aria-label="Téma váltása"
         >
             {theme === "light" ? (

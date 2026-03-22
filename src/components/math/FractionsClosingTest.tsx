@@ -71,7 +71,7 @@ export function FractionsClosingTest({ onBack }: FractionsClosingTestProps) {
 
     if (!difficulty) {
         return (
-            <div className="flex flex-col gap-8 max-w-4xl mx-auto w-full animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="flex flex-col gap-8 max-w-2xl mx-auto w-full animate-in fade-in slide-in-from-bottom-4 duration-500">
                 <div className="flex items-center justify-between px-2">
                     <Button variant="ghost" onClick={onBack} size="sm" className="hover:bg-slate-100 text-xs text-slate-500">
                         <ArrowLeft className="w-3.5 h-3.5 mr-1" />
@@ -130,9 +130,9 @@ export function FractionsClosingTest({ onBack }: FractionsClosingTestProps) {
     }
 
     return (
-        <div className="max-w-3xl mx-auto space-y-6">
+        <div className="max-w-3xl mx-auto space-y-3">
             {/* Header / Progress */}
-            <div className="flex items-center justify-between bg-white/80 backdrop-blur-md p-4 rounded-3xl border border-slate-100 shadow-sm sticky top-4 z-10 transition-all">
+            <div className="flex items-center justify-between bg-white/80 backdrop-blur-md p-4 rounded-3xl border border-slate-100 shadow-sm z-10 transition-all">
                 <div className="flex gap-4 items-center flex-1 pr-8">
                     <Button variant="ghost" size="icon" onClick={() => setDifficulty(null)} className="shrink-0 hover:bg-slate-50 rounded-xl">
                         <ArrowLeft className="w-5 h-5 text-slate-400" />
@@ -157,22 +157,22 @@ export function FractionsClosingTest({ onBack }: FractionsClosingTestProps) {
 
             {/* Question Area */}
             <Card className="border-2 border-slate-100 shadow-2xl rounded-[2.5rem] overflow-hidden bg-white animate-in fade-in slide-in-from-bottom-8 duration-500">
-                <CardContent className="p-8 sm:p-12 space-y-8">
-                    <div className="space-y-6">
+                <CardContent className="p-4 sm:p-6 space-y-4">
+                    <div className="space-y-4">
                         <div className="flex items-center gap-3">
                             <div className={cn(
                                 "flex items-center justify-center w-10 h-10 rounded-2xl text-white shadow-lg",
                                 difficulty === 'easy' ? "bg-emerald-500" : difficulty === 'medium' ? "bg-amber-500" : "bg-rose-500"
                             )}>
-                                <Target className="w-6 h-6" />
+                                <Target className="w-5 h-5" />
                             </div>
-                            <h3 className="text-xl sm:text-2xl font-black text-slate-800 leading-tight">
+                            <h3 className="text-lg sm:text-xl font-black text-slate-800 leading-tight">
                                 {currentQuestion.question}
                             </h3>
                         </div>
 
                         {/* Rendering different question types */}
-                        <div className="min-h-[200px] flex items-center justify-center">
+                        <div className="min-h-[150px] flex items-center justify-center">
                             {currentQuestion.type === 'multiple-choice' && (
                                 <MultipleChoice
                                     options={currentQuestion.options || []}
@@ -216,27 +216,27 @@ export function FractionsClosingTest({ onBack }: FractionsClosingTestProps) {
                     </div>
 
                     {showFeedback && (
-                        <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-300 border-t pt-8">
+                        <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-300 border-t pt-4">
                             <div className={cn(
-                                "p-6 rounded-3xl border-2 flex flex-col items-center gap-3",
+                                "p-4 rounded-3xl border-2 flex flex-col items-center gap-2",
                                 isCorrect ? "bg-emerald-50 border-emerald-100 text-emerald-800" : "bg-rose-50 border-rose-100 text-rose-800"
                             )}>
                                 <div className="flex items-center gap-3">
                                     {isCorrect ? (
-                                        <><CheckCircle2 className="w-8 h-8 text-emerald-600" /><span className="text-2xl font-black uppercase">Szuper!</span></>
+                                        <><CheckCircle2 className="w-6 h-6 text-emerald-600" /><span className="text-xl font-black uppercase">Szuper!</span></>
                                     ) : (
-                                        <><XCircle className="w-8 h-8 text-rose-600" /><span className="text-2xl font-black uppercase">Javítsd legközelebb!</span></>
+                                        <><XCircle className="w-6 h-6 text-rose-600" /><span className="text-xl font-black uppercase">Javítsd legközelebb!</span></>
                                     )}
                                 </div>
                                 {!isCorrect && currentQuestion.hint && (
-                                    <p className="text-center font-bold opacity-80 mt-1 max-w-sm">
+                                    <p className="text-center font-bold opacity-80 mt-1 max-w-sm text-sm">
                                         Segítség: {currentQuestion.hint}
                                     </p>
                                 )}
                             </div>
                             <Button
                                 onClick={nextQuestion}
-                                className="w-full h-16 text-xl font-bold bg-slate-900 text-white hover:bg-slate-800 shadow-xl rounded-[1.5rem] group"
+                                className="w-full h-12 text-xl font-bold bg-slate-900 text-white hover:bg-slate-800 shadow-xl rounded-[1.5rem] group"
                             >
                                 {currentIndex < questions.length - 1 ? (
                                     <>Következő feladat <ChevronRight className="ml-2 w-6 h-6 group-hover:translate-x-1 transition-transform" /></>

@@ -87,7 +87,7 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false, ini
                 isInline ? "gap-6 py-2" : "gap-10 py-6 slide-in-from-bottom-4"
             )}>
                 {!isInline && (
-                    <div className="flex items-center justify-between bg-white/60 backdrop-blur-md p-6 rounded-3xl border border-orange-100 shadow-sm sticky top-0 z-10 mx-1">
+                    <div className="flex items-center justify-between bg-white/60 backdrop-blur-md p-6 rounded-3xl border border-orange-100 shadow-sm mx-1">
                         <div className="flex items-center gap-4">
                             <div className="p-3 bg-gradient-to-br from-orange-400 to-amber-500 rounded-2xl text-white shadow-lg shadow-orange-200">
                                 <Pizza className="w-7 h-7" />

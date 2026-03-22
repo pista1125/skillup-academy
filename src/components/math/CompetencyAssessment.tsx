@@ -403,7 +403,7 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
 
   if (view === 'options' && selectedMonth) {
     return (
-      <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <div className="max-w-4xl mx-auto space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="bg-white rounded-[3rem] p-10 border-2 border-slate-100 shadow-xl relative overflow-hidden">
           <Button variant="ghost" size="sm" onClick={() => { setSelectedMonth(null); setView('months'); }} className="text-slate-400 hover:text-blue-600 mb-8 rounded-xl">
             <ArrowLeft className="w-4 h-4 mr-2" /> Vissza a hónapokhoz
@@ -482,7 +482,7 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
     }
 
     return (
-      <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 px-4 mb-20">
+      <div className="max-w-4xl mx-auto space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500 px-4 mb-20">
         <div className="bg-white rounded-[2.5rem] p-6 md:p-12 border-2 border-slate-100 shadow-xl">
           <div className="flex items-center justify-between mb-10">
             <div>
@@ -791,9 +791,9 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
   const progress = ((currentStep + 1) / 10) * 100;
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 animate-in slide-in-from-bottom-8 duration-500 mb-20">
+    <div className="max-w-4xl mx-auto space-y-3 animate-in slide-in-from-bottom-8 duration-500 mb-20">
       {/* Progress & Header */}
-      <div className="bg-white rounded-3xl p-6 border-2 border-slate-100 shadow-sm sticky top-4 z-10">
+      <div className="bg-white rounded-3xl p-4 border-2 border-slate-100 shadow-sm z-10">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-4">
             <Button variant="ghost" size="icon" onClick={() => setView('options')} className="rounded-full">
@@ -828,7 +828,7 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
       {/* Task Content */}
       <div className="min-h-[400px] flex flex-col">
         <div className={cn(
-          "flex-1 bg-white rounded-[2.5rem] p-6 md:p-10 border-2 transition-all duration-500 shadow-lg relative overflow-hidden",
+          "flex-1 bg-white rounded-[2.5rem] p-5 md:p-6 border-2 transition-all duration-500 shadow-lg relative overflow-hidden",
           isSubmitted 
             ? (currentTask.type === 'matching' ? "border-blue-100" : (String(answers[currentTask.id]) === String(currentTask.correctAnswer) ? "border-green-200 bg-green-50/5" : "border-red-200 bg-red-50/5"))
             : "border-slate-100"
@@ -838,11 +838,11 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
             #{currentStep + 1}
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 relative z-10">
             {/* Left Side: Context & Data */}
-            <div className="space-y-6">
+            <div className="space-y-3">
               {currentTask.image && (
-                <div className="mb-6 flex justify-center lg:justify-start">
+                <div className="mb-2 flex justify-center lg:justify-start">
                   {currentTask.image.length <= 4 ? (
                     <span className="text-8xl animate-bounce-subtle">{currentTask.image}</span>
                   ) : (
@@ -857,7 +857,7 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
 
               {currentTask.context && (
                 <div className="prose prose-slate max-w-none">
-                  <p className="text-slate-600 font-bold leading-relaxed text-lg italic">
+                  <p className="text-slate-600 font-bold leading-relaxed text-base italic">
                     {currentTask.context}
                   </p>
                 </div>
@@ -894,8 +894,8 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
             </div>
 
             {/* Right Side: Question & Answers */}
-            <div className="space-y-6 lg:border-l lg:pl-10 lg:border-slate-100">
-              <h3 className="text-xl md:text-2xl font-black text-slate-900 leading-tight">
+            <div className="space-y-3 lg:border-l lg:pl-6 lg:border-slate-100">
+              <h3 className="text-lg md:text-xl font-black text-slate-900 leading-tight">
                 {currentTask.question}
               </h3>
 
@@ -990,12 +990,12 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
       </div>
 
       {/* Navigation Footer */}
-      <div className="flex items-center justify-between gap-6 pt-2">
+      <div className="flex items-center justify-between gap-6 pt-1">
         <Button 
           variant="outline" 
           onClick={() => setCurrentStep(prev => Math.max(0, prev - 1))}
           disabled={currentStep === 0}
-          className="h-12 px-6 rounded-2xl border-2 font-bold text-slate-600 hover:bg-slate-50 transition-all flex item-center gap-2"
+          className="h-10 px-6 rounded-2xl border-2 font-bold text-slate-600 hover:bg-slate-50 transition-all flex item-center gap-2"
         >
           <ChevronLeft className="w-4 h-4" /> Előző
         </Button>
@@ -1004,14 +1004,14 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
           currentStep < 9 ? (
             <Button 
               onClick={() => setCurrentStep(prev => prev + 1)}
-              className="h-12 px-8 rounded-2xl bg-blue-600 hover:bg-blue-700 font-black text-lg shadow-lg shadow-blue-200 transition-all flex items-center gap-2"
+              className="h-10 px-8 rounded-2xl bg-blue-600 hover:bg-blue-700 font-black text-lg shadow-lg shadow-blue-200 transition-all flex items-center gap-2"
             >
               Következő <ChevronRight className="w-5 h-5" />
             </Button>
           ) : (
             <Button 
               onClick={handleSubmit} 
-              className="h-12 px-8 rounded-2xl bg-green-600 hover:bg-green-700 font-black text-lg shadow-lg shadow-green-200 transition-all"
+              className="h-10 px-8 rounded-2xl bg-green-600 hover:bg-green-700 font-black text-lg shadow-lg shadow-green-200 transition-all"
             >
               Teszt beküldése
             </Button>
@@ -1021,7 +1021,7 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
              {currentStep < 9 ? (
                <Button 
                   onClick={() => setCurrentStep(prev => prev + 1)}
-                  className="h-12 px-8 rounded-2xl bg-slate-900 hover:bg-black font-black text-lg shadow-lg transition-all flex items-center gap-2"
+                  className="h-10 px-8 rounded-2xl bg-slate-900 hover:bg-black font-black text-lg shadow-lg transition-all flex items-center gap-2"
                 >
                   Következő <ChevronRight className="w-5 h-5" />
                 </Button>
@@ -1029,7 +1029,7 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
                <Button 
                 onClick={downloadPDF} 
                 disabled={isExporting}
-                className="h-12 px-8 rounded-2xl bg-emerald-600 hover:bg-emerald-700 font-black text-lg shadow-lg shadow-emerald-200 transition-all flex items-center gap-2"
+                className="h-10 px-8 rounded-2xl bg-emerald-600 hover:bg-emerald-700 font-black text-lg shadow-lg shadow-emerald-200 transition-all flex items-center gap-2"
               >
                 <Download className="w-5 h-5" /> PDF Mentése
               </Button>

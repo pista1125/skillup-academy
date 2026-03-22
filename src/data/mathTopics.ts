@@ -16,7 +16,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Tankönyvek letöltése és interaktív tanórai használata',
     icon: '📚',
     color: 'from-indigo-500 to-purple-600',
-    grades: [6, 7],
+    grades: [1, 2, 3, 4, 5, 6, 7, 8],
   },
   // 6. osztályos témakörök (Roman numerals as requested)
   {
@@ -99,7 +99,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Alakzatok, területek, kerületek, térfogatok',
     icon: '📐',
     color: 'from-green-500 to-green-600',
-    grades: [2, 3, 8],
+    grades: [8],
   },
   {
     id: 'percentages',
@@ -115,7 +115,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Gyakorlati problémák megoldása',
     icon: '📝',
     color: 'from-teal-500 to-teal-600',
-    grades: [1, 2, 3, 8],
+    grades: [8],
   },
   {
     id: 'measurements',
@@ -147,7 +147,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Összeadás, kivonás, szorzás, osztás',
     icon: '🔢',
     color: 'from-blue-500 to-blue-600',
-    grades: [1, 2, 3],
+    grades: [],
   },
   {
     id: 'algebra',
@@ -370,7 +370,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Gyűjtsd össze a helyes válaszokat a kígyóval! (Összeadás, kivonás, szorzás, osztás)',
     icon: '🐍',
     color: 'from-emerald-400 to-green-600',
-    grades: [1, 2, 3, 4, 5, 6, 7, 8],
+    grades: [],
   },
   {
     id: 'long-division',
@@ -394,7 +394,7 @@ export const mathTopics: MathTopic[] = [
     icon: MoveHorizontal,
     description: 'Egész számok összeadása és kivonása a számegyenesen.',
     color: 'from-blue-500 to-indigo-600',
-    grades: [7, 8],
+    grades: [],
   },
   {
     id: 'logic-blocks',
@@ -402,7 +402,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Válogatások, halmazok',
     icon: '🧩',
     color: 'from-violet-500 to-purple-600',
-    grades: [5],
+    grades: [],
   },
   {
     id: 'venn-diagram-game',
@@ -410,7 +410,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Venn-diagram, páros és egyjegyű számok',
     icon: '⭕',
     color: 'from-blue-500 to-amber-500',
-    grades: [5],
+    grades: [],
   },
   {
     id: 'grouping-game',
@@ -418,7 +418,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Állatok, járművek, anyagok szétválogatása',
     icon: '📦',
     color: 'from-emerald-500 to-teal-500',
-    grades: [5],
+    grades: [],
   },
   {
     id: 'number-grouping-game',
@@ -426,7 +426,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Páros, páratlan, prímek, oszthatóság',
     icon: '🔢',
     color: 'from-indigo-500 to-blue-500',
-    grades: [5],
+    grades: [],
   },
   {
     id: 'construction',
@@ -434,7 +434,7 @@ export const mathTopics: MathTopic[] = [
     icon: Pencil,
     description: 'Szerkesztés körzővel és vonalzóval.',
     color: 'from-blue-500 to-indigo-600',
-    grades: [7, 8],
+    grades: [],
   },
   {
     id: 'equation-solver',
@@ -442,7 +442,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Egyenletek megoldása téglalapos (bar model) módszerrel',
     icon: '📊',
     color: 'from-blue-500 to-indigo-600',
-    grades: [7, 8],
+    grades: [],
   },
   {
     id: 'money-calculation',
@@ -450,7 +450,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Érmék használata, beváltás és felbontás gyakorlása',
     icon: '💰',
     color: 'from-emerald-500 to-teal-600',
-    grades: [1, 2, 3, 5],
+    grades: [],
   },
   {
     id: 'puzzle-maker',
@@ -458,7 +458,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Készíts matekos rejtvényeket és töltsd le PDF-ben!',
     icon: '🧩',
     color: 'from-violet-500 to-fuchsia-600',
-    grades: [1, 2, 3, 4, 5, 7, 8],
+    grades: [],
   },
   {
     id: 'toto-maker',
@@ -466,7 +466,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Készíts 13+1 kérdéses totót egyedi megfejtéssel és töltsd le PDF-ben!',
     icon: '🏆',
     color: 'from-amber-500 to-orange-600',
-    grades: [1, 2, 3, 4, 5, 6, 7, 8],
+    grades: [],
   },
   {
     id: 'student-feedback',
@@ -482,7 +482,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Jegyezd meg az ábrákat és teszteld a memóriád! (5 nehézségi szint)',
     icon: '🧠',
     color: 'from-indigo-500 to-purple-600',
-    grades: [1, 2, 3, 4, 5, 6, 7, 8],
+    grades: [],
   },
   {
     id: 'competency-assessment',
