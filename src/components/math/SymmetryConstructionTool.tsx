@@ -39,7 +39,8 @@ import {
     Home,
     TreePine,
     Navigation,
-    Award
+    Award,
+    Hash as GuideLineIcon
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -149,6 +150,7 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
     const [reflectingObjectId, setReflectingObjectId] = useState<string | null>(null);
     const [regularPolygonSides, setRegularPolygonSides] = useState(6);
     const [activeSpecialShape, setActiveSpecialShape] = useState<SpecialShapeType>('heart');
+    const [showReflectionLines, setShowReflectionLines] = useState(false);
 
     // View State (Pan & Zoom)
     const [viewBox, setViewBox] = useState({ x: -600, y: -400, width: 1200, height: 800 });
@@ -417,15 +419,29 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
         const tolerance = 15 * (viewBox.width / 1200);
 
         // Find existing point in allPoints (including virtual ones)
-        const existingPoint = Object.entries(allPoints).find(([_, p]) =>
-            Math.sqrt(Math.pow(p.x - pos.x, 2) + Math.pow(p.y - pos.y, 2)) < tolerance
-        );
+        // For polygon closing, use a larger tolerance for the FIRST point
+        const getPointAt = (p: { x: number, y: number }, tol: number) => 
+            Object.entries(allPoints).find(([_, pt]) =>
+                Math.sqrt(Math.pow(pt.x - p.x, 2) + Math.pow(pt.y - p.y, 2)) < tol
+            );
 
-        let clickedPointId = existingPoint ? existingPoint[0] : null;
+        let existingPointEntry = getPointAt(pos, tolerance);
+        
+        // Special case: if we are in polygon mode and have at least 3 points, 
+        // try to find the FIRST point with LARGER tolerance to make closing easier
+        if (activeTool === 'polygon' && selection.length >= 2) {
+            const firstPoint = allPoints[selection[0]];
+            const distToFirst = Math.sqrt(Math.pow(firstPoint.x - pos.x, 2) + Math.pow(firstPoint.y - pos.y, 2));
+            if (distToFirst < tolerance * 2) {
+                existingPointEntry = [selection[0], firstPoint];
+            }
+        }
+
+        let clickedPointId = existingPointEntry ? existingPointEntry[0] : null;
         let currentPoints = points;
 
         // Create point if needed
-        if (!clickedPointId && activeTool !== 'select' && activeTool !== 'axial-reflect' && activeTool !== 'central-reflect' && activeTool !== 'eraser') {
+        if (!clickedPointId && activeTool !== 'select' && activeTool !== 'axial-reflect' && activeTool !== 'central-reflect' && activeTool !== 'eraser' && activeTool !== 'pan') {
             const newId = `p-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
             const label = getNextPointLabel(points, objects);
             currentPoints = {
@@ -691,7 +707,20 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
         }
 
         const rawPos = getSVGPoint(e.clientX, e.clientY);
-        const pos = { ...rawPos };
+        let pos = { ...rawPos };
+
+        // Point snapping for drawing tools
+        const drawingTools: Tool[] = ['line', 'segment', 'polygon', 'regular-polygon'];
+        if (drawingTools.includes(activeTool)) {
+            const tolerance = 15 * (viewBox.width / 1200);
+            const snappingPoint = Object.values(allPoints).find(pt => 
+                Math.sqrt(Math.pow(pt.x - pos.x, 2) + Math.pow(pt.y - pos.y, 2)) < tolerance * 1.5
+            );
+            if (snappingPoint) {
+                pos = { x: snappingPoint.x, y: snappingPoint.y };
+            }
+        }
+
         setMousePos(pos);
 
         // Angle snapping for regular polygon (Shift key)
@@ -836,7 +865,7 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
             onMouseLeave: () => setHoveredObjectId(null),
             onClick: (e: React.MouseEvent) => { e.stopPropagation(); handleObjectClick(obj.id); },
             className: cn(
-                "cursor-pointer transition-all duration-200",
+                "cursor-pointer",
                 isReflecting ? "stroke-yellow-400 stroke-[6]" : (isEraserHover ? "stroke-red-500 stroke-[4]" : "hover:stroke-blue-400/50"),
                 activeTool === 'eraser' ? "hover:opacity-80" : ""
             )
@@ -1047,6 +1076,20 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                     </DropdownMenuContent>
                 </DropdownMenu>
 
+                <div className="h-6 w-px bg-slate-200 mx-1" />
+
+                <Button
+                    variant={showReflectionLines ? 'secondary' : 'ghost'}
+                    size="sm"
+                    onClick={() => setShowReflectionLines(!showReflectionLines)}
+                    className={cn("rounded-xl px-4", showReflectionLines ? "text-green-600 bg-green-50" : "text-slate-600")}
+                    title="Segédvonalak mutatása/elrejtése"
+                >
+                    <GuideLineIcon className="w-4 h-4 mr-2" /> Segédvonalak
+                </Button>
+
+                <div className="h-6 w-px bg-slate-200 mx-1" />
+
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button
@@ -1111,6 +1154,31 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                 >
                     {renderGrid()}
                     {Object.values(objects).map(renderObject)}
+                    
+                    {/* Reflection Guides */}
+                    {showReflectionLines && Object.values(objects).map(obj => {
+                        if (!obj.isReflection || !obj.reflectionSourceId) return null;
+                        const sourceObj = objects[obj.reflectionSourceId];
+                        if (!sourceObj) return null;
+
+                        return obj.pointIds.map((pId, idx) => {
+                            const pSource = allPoints[sourceObj.pointIds[idx]];
+                            const pTarget = allPoints[pId];
+                            if (!pSource || !pTarget) return null;
+                            return (
+                                <line
+                                    key={`guide-${obj.id}-${idx}`}
+                                    x1={pSource.x} y1={pSource.y}
+                                    x2={pTarget.x} y2={pTarget.y}
+                                    stroke="#94a3b8"
+                                    strokeWidth={1.5 * (viewBox.width / 1200)}
+                                    strokeDasharray="5,5"
+                                    className="pointer-events-none opacity-60"
+                                />
+                            );
+                        });
+                    })}
+
                     {Object.entries(allPoints).map(([id, p]) => (
                         <g key={id}>
                             <circle
@@ -1118,18 +1186,43 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                                 r={(hoveredPointId === id || draggedPointId === id ? 8 : 5) * (viewBox.width / 1200)}
                                 fill={draggedPointId === id ? "#3b82f6" : (points[id] ? "#1e40af" : "#6366f1")}
                                 fillOpacity={points[id] ? 1 : 0.6}
+                                stroke={reflectingObjectId && objects[reflectingObjectId]?.pointIds[0] === id ? "#facc15" : "none"}
+                                strokeWidth={reflectingObjectId && objects[reflectingObjectId]?.pointIds[0] === id ? 4 : 0}
                                 className={cn(
-                                    points[id] ? "cursor-move" : "pointer-events-none",
-                                    activeTool === 'eraser' && hoveredPointId === id ? "fill-red-500 scale-125" : ""
+                                    activeTool === 'select' && points[id] ? "cursor-move" : "cursor-crosshair",
+                                    !points[id] && !(['eraser', 'axial-reflect', 'central-reflect', 'select', 'polygon', 'line', 'segment'].includes(activeTool)) ? "pointer-events-none" : "",
+                                    activeTool === 'eraser' && hoveredPointId === id ? "fill-red-500 scale-125" : "",
+                                    (activeTool === 'axial-reflect' || activeTool === 'central-reflect') ? "cursor-copy hover:fill-yellow-400" : "",
+                                    reflectingObjectId && objects[reflectingObjectId]?.pointIds[0] === id ? "animate-pulse" : ""
                                 )}
-                                pointerEvents={activeTool === 'eraser' ? 'auto' : (points[id] ? 'auto' : 'none')}
+                                pointerEvents={(['eraser', 'axial-reflect', 'central-reflect', 'select', 'polygon', 'line', 'segment'].includes(activeTool)) ? 'auto' : (points[id] ? 'auto' : 'none')}
                                 onMouseEnter={() => setHoveredPointId(id)}
                                 onMouseLeave={() => setHoveredPointId(null)}
                                 onClick={(e) => {
                                     if (activeTool === 'eraser') {
                                         e.stopPropagation();
                                         handlePointEraser(id);
+                                    } else if (activeTool === 'axial-reflect' || activeTool === 'central-reflect') {
+                                        e.stopPropagation();
+                                        // Find if an object exists for this point
+                                        let objId = Object.keys(objects).find(k => objects[k].type === 'point' && objects[k].pointIds[0] === id);
+                                        
+                                        if (!objId) {
+                                            // Create a point object for it on the fly if it's a base point
+                                            if (points[id]) {
+                                                objId = `obj-pt-${Date.now()}`;
+                                                const newObjects = {
+                                                    ...objects,
+                                                    [objId]: { id: objId, type: 'point' as const, pointIds: [id], color: '#3b82f6', isReflection: false }
+                                                };
+                                                setObjects(newObjects);
+                                                handleObjectClick(objId);
+                                            }
+                                        } else {
+                                            handleObjectClick(objId);
+                                        }
                                     }
+                                    // For polygon, line, segment: don't stop propagation, let handleCanvasClick handle it!
                                 }}
                             />
                             {p.label && (

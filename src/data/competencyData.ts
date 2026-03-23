@@ -1449,7 +1449,7 @@ const GRADE_6_DATA: MonthlyCompetency[] = [
       {
         "id": "g6-june-2",
         "type": "number-input",
-        "question": "3/4 + 0,25 = ?",
+        "question": "Mennyi: 3/4 + 0,25 ?",
         "correctAnswer": 1,
         "points": 1,
         "image": "🎯",
@@ -1470,10 +1470,7 @@ const GRADE_6_DATA: MonthlyCompetency[] = [
         "question": "Osztható-e 234 9-cel?",
         "correctAnswer": 0,
         "points": 1,
-        "options": [
-          "Igaz",
-          "Hamis"
-        ],
+        "options": ["Igaz", "Hamis"],
         "image": "🎯",
         "context": "Gondolkodj okosan és találd meg a megoldást!"
       },
@@ -1489,7 +1486,7 @@ const GRADE_6_DATA: MonthlyCompetency[] = [
       {
         "id": "g6-june-6",
         "type": "number-input",
-        "question": "Derékszögű háromszög egyik szöge 30, mennyi a másik hegyesszöge?",
+        "question": "Derékszögű háromszög egyik szöge 30°, mennyi a másik hegyesszöge?",
         "correctAnswer": 60,
         "points": 1,
         "image": "🎯",
@@ -1499,24 +1496,11 @@ const GRADE_6_DATA: MonthlyCompetency[] = [
         "id": "g6-june-7",
         "type": "matching",
         "question": "Párosíts testeket!",
-        "correctAnswer": null,
         "points": 1,
         "pairs": [
-          {
-            "id": "1",
-            "left": "Kocka",
-            "right": "6 lap"
-          },
-          {
-            "id": "2",
-            "left": "Gúla",
-            "right": "csúcs"
-          },
-          {
-            "id": "3",
-            "left": "Henger",
-            "right": "kör alapú"
-          }
+          { "id": "1", "left": "Kocka", "right": "6 lap" },
+          { "id": "2", "left": "Gúla", "right": "csúcs" },
+          { "id": "3", "left": "Henger", "right": "kör alapú" }
         ],
         "image": "🎯",
         "context": "A matematika segít megérteni az összefüggéseket."
@@ -1545,12 +1529,7 @@ const GRADE_6_DATA: MonthlyCompetency[] = [
         "question": "Szuper éved volt?",
         "correctAnswer": 3,
         "points": 1,
-        "options": [
-          "Igen",
-          "Persze",
-          "Naná",
-          "Mindhárom"
-        ],
+        "options": ["Igen", "Persze", "Naná", "Mindhárom"],
         "image": "🎯",
         "context": "Egy újabb izgalmas matematikai kihívás vár rád!"
       }
@@ -1560,1239 +1539,1033 @@ const GRADE_6_DATA: MonthlyCompetency[] = [
 
 const GRADE_7_DATA: MonthlyCompetency[] = [
   {
-    "id": "september",
-    "name": "Szeptember",
-    "topic": "Racionális számok",
-    "tasks": [
+    id: 'september',
+    name: 'Szeptember',
+    topic: 'Gondolkodjunk! (Kombinatorika, gráfok, logika)',
+    tasks: [
       {
-        "id": "g7-september-1",
-        "type": "number-input",
-        "question": "Mennyi: |-5| + |3|?",
-        "correctAnswer": 8,
-        "points": 1,
-        "image": "🎯",
-        "context": "Gondolkodj okosan és találd meg a megoldást!"
-      },
-      {
-        "id": "g7-september-2",
-        "type": "multiple-choice",
-        "question": "Melyik a legnagyobb?",
-        "correctAnswer": 2,
-        "points": 1,
-        "options": [
-          "-2,5",
-          "-3",
-          "0,1",
-          "-0,5"
+        id: 'g7-sep-11',
+        type: 'multiple-choice',
+        context: '### Fagylalt választék\n\nEgy fagyizó választékát az alábbi táblázat tartalmazza:',
+        tableData: [
+          ['Tölcsér típusa', 'Gombóc íze'],
+          ['Ostyás', 'Vanília'],
+          ['Csokis', 'Csoki'],
+          ['Színes', 'Eper'],
+          ['', 'Puncs'],
+          ['', 'Pisztácia']
         ],
-        "image": "🎯",
-        "context": "A matematika segít megérteni az összefüggéseket."
+        question: 'A fenti táblázatban látható fagyizó választékából hányféleképpen kérhetünk egy gombóc fagyit egy tölcsérbe?',
+        options: ['8', '15', '12', '18'],
+        correctAnswer: 1,
+        points: 1,
+        image: '🍦'
       },
       {
-        "id": "g7-september-3",
-        "type": "number-input",
-        "question": "Mennyi: -12 + (-8)?",
-        "correctAnswer": -20,
-        "points": 1,
-        "image": "🎯",
-        "context": "A matematika segít megérteni az összefüggéseket."
+        id: 'g7-sep-12',
+        type: 'true-false',
+        question: 'Igaz vagy hamis? "Ha egy gráf minden csúcsának fokszáma 2, akkor a gráf egyetlen körből áll."',
+        options: ['Igaz', 'Hamis'],
+        correctAnswer: 1,
+        points: 1,
+        image: '🕸️'
       },
       {
-        "id": "g7-september-4",
-        "type": "true-false",
-        "question": "Igaz-Hamis: Minden egész szám racionális szám.",
-        "correctAnswer": 0,
-        "points": 1,
-        "options": [
-          "Igaz",
-          "Hamis"
+        id: 'g7-sep-13',
+        type: 'matching',
+        question: 'Párosítsd a logikai kifejezéseket a jelentésükkel! (Írd be a sorszámot)',
+        hint: '1: Nem igaz, hogy...; 2: Következtetés; 3: Konjunkció',
+        pairs: [
+          { id: '1', left: 'Állítás tagadása', right: '1' },
+          { id: '2', left: 'Ha A, akkor B', right: '2' },
+          { id: '3', left: 'A és B', right: '3' }
         ],
-        "image": "🎯",
-        "context": "Egy újabb izgalmas matematikai kihívás vár rád!"
+        correctAnswer: null,
+        points: 1,
+        image: '🧠'
       },
       {
-        "id": "g7-september-5",
-        "type": "number-input",
-        "question": "Mennyi: -3 * (-4)?",
-        "correctAnswer": 12,
-        "points": 1,
-        "image": "🎯",
-        "context": "A matematika segít megérteni az összefüggéseket."
+        id: 'g7-sep-14',
+        type: 'number-input',
+        question: 'Hány különböző háromjegyű szám alkotható a 2, 5, 8 számjegyekből, ha egy számjegyet csak egyszer használhatunk fel?',
+        correctAnswer: 6,
+        points: 1,
+        image: '🔢'
       },
       {
-        "id": "g7-september-6",
-        "type": "number-input",
-        "question": "Melyik az ellentettje a 3/4-nek?",
-        "correctAnswer": "-3/4",
-        "points": 1,
-        "image": "🎯",
-        "context": "Egy újabb izgalmas matematikai kihívás vár rád!"
+        id: 'g7-sep-15',
+        type: 'multiple-choice',
+        question: 'Egy 5 fős baráti társaságban mindenki mindenkivel kezet fog egyszer. Hány kézfogás történik összesen?',
+        options: ['5', '10', '15', '20'],
+        correctAnswer: 1,
+        points: 1,
+        image: '🤝'
       },
       {
-        "id": "g7-september-7",
-        "type": "matching",
-        "question": "Párosíts!",
-        "correctAnswer": null,
-        "points": 1,
-        "pairs": [
-          {
-            "id": "1",
-            "left": "|-2|",
-            "right": "2"
-          },
-          {
-            "id": "2",
-            "left": "ellentett 2",
-            "right": "-2"
-          },
-          {
-            "id": "3",
-            "left": "reciproka 2",
-            "right": "0,5"
-          }
+        id: 'g7-sep-16',
+        type: 'true-false',
+        question: 'Igaz vagy hamis? "Egy gráfban a fokszámok összege mindig páros szám."',
+        options: ['Igaz', 'Hamis'],
+        correctAnswer: 0,
+        points: 1,
+        image: '📊'
+      },
+      {
+        id: 'g7-sep-17',
+        type: 'multiple-choice',
+        question: 'Hányféleképpen állhat sorba 4 gyerek (Anna, Béla, Cecil, Dóra)?',
+        options: ['4', '12', '16', '24'],
+        correctAnswer: 3,
+        points: 1,
+        image: '🚶'
+      },
+      {
+        id: 'g7-sep-18',
+        type: 'number-input',
+        question: 'Egy dobozban 4 piros és 2 kék golyó van. Legalább hány golyót kell kihúznunk csukott szemmel, hogy biztosan legyen köztük piros?',
+        correctAnswer: 3,
+        points: 1,
+        image: '🔴'
+      },
+      {
+        id: 'g7-sep-19',
+        type: 'matching',
+        question: 'Párosítsd a gráf fogalmakat a leírásukkal! (Írd be a sorszámot)',
+        hint: '1: A gráf pontja; 2: Két pontot összekötő vonal; 3: Egy pontból induló élek száma',
+        pairs: [
+          { id: '1', left: 'Csúcs', right: '1' },
+          { id: '2', left: 'Él', right: '2' },
+          { id: '3', left: 'Fokszám', right: '3' }
         ],
-        "image": "🎯",
-        "context": "A matematika segít megérteni az összefüggéseket."
+        correctAnswer: null,
+        points: 1,
+        image: '📍'
       },
       {
-        "id": "g7-september-8",
-        "type": "number-input",
-        "question": "(-20) : 4 = ?",
-        "correctAnswer": -5,
-        "points": 1,
-        "image": "🎯",
-        "context": "Egy újabb izgalmas matematikai kihívás vár rád!"
-      },
-      {
-        "id": "g7-september-9",
-        "type": "number-input",
-        "question": "Hány egész szám van -3 és 2 között?",
-        "correctAnswer": 6,
-        "points": 1,
-        "image": "🎯",
-        "context": "Gondolkodj okosan és találd meg a megoldást!"
-      },
-      {
-        "id": "g7-september-10",
-        "type": "number-input",
-        "question": "2/3 - 1 = ?",
-        "correctAnswer": "-1/3",
-        "points": 1,
-        "image": "🎯",
-        "context": "Egy újabb izgalmas matematikai kihívás vár rád!"
+        id: 'g7-sep-20',
+        type: 'number-input',
+        question: 'A fenti gráfban hány él van?',
+        correctAnswer: 5,
+        points: 1,
+        image: 'file:///C:/Users/Istvan/.gemini/antigravity/brain/fea06463-b919-4891-885f-4becd15561f7/graph_abcd_diagonal_1774267955425.png'
       }
     ]
   },
   {
-    "id": "october",
-    "name": "Október",
-    "topic": "Hatványozás és Normálalak",
-    "tasks": [
+    id: 'october',
+    name: 'Október',
+    topic: 'Racionális számok (Törtek, tizedes törtek)',
+    tasks: [
       {
-        "id": "g7-october-1",
-        "type": "number-input",
-        "question": "Mennyi: 2^4?",
-        "correctAnswer": 16,
-        "points": 1,
-        "image": "⚡",
-        "context": "A baktériumok osztódása során a számuk hatványozottan nő."
+        id: 'g7-oct-21',
+        type: 'multiple-choice',
+        question: 'Mennyi a 2/5 és az 1/4 szorzata?',
+        options: ['1/4', '1/10', '3/9', '1/2'],
+        correctAnswer: 1,
+        points: 1,
+        image: '✖️'
       },
       {
-        "id": "g7-october-2",
-        "type": "number-input",
-        "question": "Mennyi: (-3)^2?",
-        "correctAnswer": 9,
-        "points": 1,
-        "image": "⚡",
-        "context": "A digitális világban az adattárolás mértékegységei a 2 hatványai."
+        id: 'g7-oct-22',
+        type: 'number-input',
+        question: 'Mennyi a 7/2 tizedestört alakja?',
+        correctAnswer: 3.5,
+        points: 1,
+        image: '📝'
       },
       {
-        "id": "g7-october-3",
-        "type": "multiple-choice",
-        "question": "Melyik a 450 000 normálalakja?",
-        "correctAnswer": 1,
-        "points": 1,
-        "options": [
-          "45 * 10^4",
-          "4,5 * 10^5",
-          "0,45 * 10^6"
+        id: 'g7-oct-23',
+        type: 'true-false',
+        question: 'Igaz vagy hamis? "Minden egész szám felírható tört alakban."',
+        options: ['Igaz', 'Hamis'],
+        correctAnswer: 0,
+        points: 1,
+        image: '✅'
+      },
+      {
+        id: 'g7-oct-24',
+        type: 'multiple-choice',
+        question: 'Melyik szám a legkisebb?',
+        options: ['-2,5', '-3,1', '-1,8', '-4'],
+        correctAnswer: 3,
+        points: 1,
+        image: '📉'
+      },
+      {
+        id: 'g7-oct-25',
+        type: 'matching',
+        question: 'Párosítsd a törteket a tizedestört párjukkal! (Írd be a tizedestörtet)',
+        pairs: [
+          { id: '1', left: '1/2', right: '0,5' },
+          { id: '2', left: '1/4', right: '0,25' },
+          { id: '3', left: '3/5', right: '0,6' }
         ],
-        "image": "⚡",
-        "context": "A baktériumok osztódása során a számuk hatványozottan nő."
+        correctAnswer: null,
+        points: 1,
+        image: '🔗'
       },
       {
-        "id": "g7-october-4",
-        "type": "true-false",
-        "question": "Igaz-Hamis: a^0 = 1 minden a != 0-ra.",
-        "correctAnswer": 0,
-        "points": 1,
-        "options": [
-          "Igaz",
-          "Hamis"
-        ],
-        "image": "⚡",
-        "context": "A baktériumok osztódása során a számuk hatványozottan nő."
+        id: 'g7-oct-26',
+        type: 'number-input',
+        question: 'Mennyi 1/2 + 1/3?',
+        correctAnswer: '5/6',
+        points: 1,
+        image: '➕'
       },
       {
-        "id": "g7-october-5",
-        "type": "number-input",
-        "question": "Mennyi: 10^3 * 10^2?",
-        "correctAnswer": 100000,
-        "points": 1,
-        "image": "⚡",
-        "context": "A digitális világban az adattárolás mértékegységei a 2 hatványai."
+        id: 'g7-oct-27',
+        type: 'multiple-choice',
+        question: 'Kerekítsd a 3,14159 számot századokra!',
+        options: ['3,14', '3,15', '3,1', '3,2'],
+        correctAnswer: 0,
+        points: 1,
+        image: '🎯'
       },
       {
-        "id": "g7-october-6",
-        "type": "number-input",
-        "question": "Hány számjegyből áll: 2^3 * 5^3?",
-        "correctAnswer": 4,
-        "points": 1,
-        "image": "⚡",
-        "context": "A digitális világban az adattárolás mértékegységei a 2 hatványai."
+        id: 'g7-oct-28',
+        type: 'true-false',
+        question: 'Igaz vagy hamis? "Két negatív szám szorzata mindig pozitív."',
+        options: ['Igaz', 'Hamis'],
+        correctAnswer: 0,
+        points: 1,
+        image: '➖'
       },
       {
-        "id": "g7-october-7",
-        "type": "matching",
-        "question": "Párosíts hatványokat!",
-        "correctAnswer": null,
-        "points": 1,
-        "pairs": [
-          {
-            "id": "1",
-            "left": "2^3",
-            "right": "8"
-          },
-          {
-            "id": "2",
-            "left": "3^2",
-            "right": "9"
-          },
-          {
-            "id": "3",
-            "left": "4^2",
-            "right": "16"
-          }
-        ],
-        "image": "⚡",
-        "context": "A sakkjáték feltalálója minden mezőre kétszer annyi búzát kért."
+        id: 'g7-oct-29',
+        type: 'number-input',
+        question: 'Mennyi |-8| - |3|?',
+        correctAnswer: 5,
+        points: 1,
+        image: '📏'
       },
       {
-        "id": "g7-october-8",
-        "type": "number-input",
-        "question": "Mennyi: (2^3)^2?",
-        "correctAnswer": 64,
-        "points": 1,
-        "image": "⚡",
-        "context": "A csillagászok a hatalmas távolságokat 10 hatványaival jelölik."
-      },
-      {
-        "id": "g7-october-9",
-        "type": "number-input",
-        "question": "Normálalak: 0,005 = 5 * 10^?",
-        "correctAnswer": -3,
-        "points": 1,
-        "image": "⚡",
-        "context": "A digitális világban az adattárolás mértékegységei a 2 hatványai."
-      },
-      {
-        "id": "g7-october-10",
-        "type": "number-input",
-        "question": "(-1)^101 = ?",
-        "correctAnswer": -1,
-        "points": 1,
-        "image": "⚡",
-        "context": "A baktériumok osztódása során a számuk hatványozottan nő."
+        id: 'g7-oct-30',
+        type: 'multiple-choice',
+        context: 'Anna 👧: "Ma 1/3 részt olvastam el a könyvből."\nBence 👦: "Én tegnap 1/6 részt olvastam el belőle."',
+        question: 'Hányad részét olvasták el összesen a könyvnek?',
+        options: ['1/3', '1/2', '5/6', '2/3'],
+        correctAnswer: 1,
+        points: 1,
+        image: '📖'
       }
     ]
   },
   {
-    "id": "november",
-    "name": "November",
-    "topic": "Algebrai kifejezések és Egyenletek",
-    "tasks": [
+    id: 'november',
+    name: 'November',
+    topic: 'Betűs kifejezések és helyettesítési érték',
+    tasks: [
       {
-        "id": "g7-november-1",
-        "type": "number-input",
-        "question": "Egyszerűsítsd: 2x + 3x - x = ?",
-        "correctAnswer": "4x",
-        "points": 1,
-        "image": "🎯",
-        "context": "Egy újabb izgalmas matematikai kihívás vár rád!"
+        id: 'g7-nov-31',
+        type: 'number-input',
+        question: 'Helyettesítsd be a=3-at: 2a + 5 = ?',
+        correctAnswer: 11,
+        points: 1,
+        image: '🔠'
       },
       {
-        "id": "g7-november-2",
-        "type": "number-input",
-        "question": "Mennyi a behelyettesítési érték: 2a + 3, ha a=4?",
-        "correctAnswer": 11,
-        "points": 1,
-        "image": "🎯",
-        "context": "A matematika segít megérteni az összefüggéseket."
+        id: 'g7-nov-32',
+        type: 'multiple-choice',
+        question: 'Hogyan írjuk fel betűkkel: "egy szám kétszeresénél 3-mal több"?',
+        options: ['x+3', '2x+3', '3x+2', '2+3x'],
+        correctAnswer: 1,
+        points: 1,
+        image: '📝'
       },
       {
-        "id": "g7-november-3",
-        "type": "number-input",
-        "question": "Oldd meg: x + 5 = 12",
-        "correctAnswer": 7,
-        "points": 1,
-        "image": "🎯",
-        "context": "Egy újabb izgalmas matematikai kihívás vár rád!"
+        id: 'g7-nov-33',
+        type: 'true-false',
+        question: 'Igaz vagy hamis? "A 3x és a 3y egynemű kifejezések."',
+        options: ['Igaz', 'Hamis'],
+        correctAnswer: 1,
+        points: 1,
+        image: '⚖️'
       },
       {
-        "id": "g7-november-4",
-        "type": "number-input",
-        "question": "Oldd meg: 2x = 10",
-        "correctAnswer": 5,
-        "points": 1,
-        "image": "🎯",
-        "context": "Gondolkodj okosan és találd meg a megoldást!"
+        id: 'g7-nov-34',
+        type: 'number-input',
+        question: 'Vond össze: 4x + 2x - x = ?',
+        correctAnswer: '5x',
+        points: 1,
+        image: '➕'
       },
       {
-        "id": "g7-november-5",
-        "type": "true-false",
-        "question": "Igaz-Hamis: Az egyenlet mindkét oldalához hozzáadhatunk ugyanannyit.",
-        "correctAnswer": 0,
-        "points": 1,
-        "options": [
-          "Igaz",
-          "Hamis"
+        id: 'g7-nov-35',
+        type: 'multiple-choice',
+        question: 'Mennyi a helyettesítési értéke x=2, y=5 esetén: 3x - y?',
+        options: ['1', '11', '6', '-1'],
+        correctAnswer: 0,
+        points: 1,
+        image: '🔢'
+      },
+      {
+        id: 'g7-nov-36',
+        type: 'true-false',
+        question: 'Igaz vagy hamis? "Az a * b = b * a felcserélhetőségi azonosság."',
+        options: ['Igaz', 'Hamis'],
+        correctAnswer: 0,
+        points: 1,
+        image: '🔄'
+      },
+      {
+        id: 'g7-nov-37',
+        type: 'number-input',
+        question: 'Bontsd fel a zárójelet: 3(x + 4) = ?',
+        correctAnswer: '3x + 12',
+        points: 1,
+        image: '📦'
+      },
+      {
+        id: 'g7-nov-38',
+        type: 'multiple-choice',
+        question: 'Melyik kifejezés jelenti "egy szám négyzete"?',
+        options: ['2x', 'x+x', 'x^2', 'x+2'],
+        correctAnswer: 2,
+        points: 1,
+        image: '⬛'
+      },
+      {
+        id: 'g7-nov-39',
+        type: 'matching',
+        question: 'Párosítsd a kifejezéseket a nevükkel! (Írd be a számot)',
+        hint: '1: Együttható; 2: Változó; 3: Konstans',
+        pairs: [
+          { id: '1', left: 'A "3" a 3x-ben', right: '1' },
+          { id: '2', left: 'Az "x" a 3x-ben', right: '2' },
+          { id: '3', left: 'A "+5" a 3x+5-ben', right: '3' }
         ],
-        "image": "🎯",
-        "context": "Egy újabb izgalmas matematikai kihívás vár rád!"
+        correctAnswer: null,
+        points: 1,
+        image: '🏷️'
       },
       {
-        "id": "g7-november-6",
-        "type": "multiple-choice",
-        "question": "Kifejezés: a szám felénél 3-mal több?",
-        "correctAnswer": 1,
-        "points": 1,
-        "options": [
-          "2x+3",
-          "x/2+3",
-          "3x/2"
-        ],
-        "image": "🎯",
-        "context": "Egy újabb izgalmas matematikai kihívás vár rád!"
-      },
-      {
-        "id": "g7-november-7",
-        "type": "matching",
-        "question": "Párosíts fogalmakat!",
-        "correctAnswer": null,
-        "points": 1,
-        "pairs": [
-          {
-            "id": "1",
-            "left": "tag",
-            "right": "összeadás"
-          },
-          {
-            "id": "2",
-            "left": "tényező",
-            "right": "szorzás"
-          },
-          {
-            "id": "3",
-            "left": "együttható",
-            "right": "változó előtti"
-          }
-        ],
-        "image": "🎯",
-        "context": "Egy újabb izgalmas matematikai kihívás vár rád!"
-      },
-      {
-        "id": "g7-november-8",
-        "type": "number-input",
-        "question": "Oldd meg: 3x - 4 = 11",
-        "correctAnswer": 5,
-        "points": 1,
-        "image": "🎯",
-        "context": "Egy újabb izgalmas matematikai kihívás vár rád!"
-      },
-      {
-        "id": "g7-november-9",
-        "type": "multiple-choice",
-        "question": "Mi az alaphalmaz, ha x csak természetes szám lehet?",
-        "correctAnswer": 0,
-        "points": 1,
-        "options": [
-          "N",
-          "Z",
-          "Q"
-        ],
-        "image": "🎯",
-        "context": "A matematika segít megérteni az összefüggéseket."
-      },
-      {
-        "id": "g7-november-10",
-        "type": "number-input",
-        "question": "Oldd meg: x/2 = 10",
-        "correctAnswer": 20,
-        "points": 1,
-        "image": "🎯",
-        "context": "A matematika segít megérteni az összefüggéseket."
+        id: 'g7-nov-40',
+        type: 'number-input',
+        context: 'Egy téglalap oldalai "a" és "b".',
+        question: 'Írd fel a kerület képletét!',
+        correctAnswer: '2a + 2b',
+        points: 1,
+        image: '📐'
       }
     ]
   },
   {
-    "id": "december",
-    "name": "December",
-    "topic": "Arányosság",
-    "tasks": [
+    id: 'december',
+    name: 'December',
+    topic: 'Geometriai transzformációk (Tükrözés, szimmetria)',
+    tasks: [
       {
-        "id": "g7-december-1",
-        "type": "number-input",
-        "question": "Egyenes arányosság: ha 3 óra alatt 150 km, mennyi 5 óra alatt?",
-        "correctAnswer": 250,
-        "points": 1,
-        "image": "🎯",
-        "context": "Gondolkodj okosan és találd meg a megoldást!"
+        id: 'g7-dec-41',
+        type: 'multiple-choice',
+        question: 'Hány szimmetriatengelye van a négyzetnek?',
+        options: ['4', '2', '0', '8'],
+        correctAnswer: 0,
+        points: 1,
+        image: '⬛'
       },
       {
-        "id": "g7-december-2",
-        "type": "number-input",
-        "question": "Fordított arányosság: 2 munkás 6 nap, 4 munkás hány nap?",
-        "correctAnswer": 3,
-        "points": 1,
-        "image": "🎯",
-        "context": "Egy újabb izgalmas matematikai kihívás vár rád!"
+        id: 'g7-dec-42',
+        type: 'number-input',
+        question: 'Hány fokos elforgatás a derékszög?',
+        correctAnswer: 90,
+        points: 1,
+        image: '📐'
       },
       {
-        "id": "g7-december-3",
-        "type": "number-input",
-        "question": "1:200 000 térképen 5 cm a valóságban hány km?",
-        "correctAnswer": 10,
-        "points": 1,
-        "image": "🎯",
-        "context": "A matematika segít megérteni az összefüggéseket."
+        id: 'g7-dec-43',
+        type: 'true-false',
+        question: 'Igaz vagy hamis? "A tengelyes tükrözés távolságtartó transzformáció."',
+        options: ['Igaz', 'Hamis'],
+        correctAnswer: 0,
+        points: 1,
+        image: '🪞'
       },
       {
-        "id": "g7-december-4",
-        "type": "true-false",
-        "question": "Igaz-Hamis: A fordított arányosság grafikonja egyenes.",
-        "correctAnswer": 1,
-        "points": 1,
-        "options": [
-          "Igaz",
-          "Hamis"
+        id: 'g7-dec-44',
+        type: 'multiple-choice',
+        question: 'Melyik betű rendelkezik középpontos szimmetriával?',
+        options: ['A', 'M', 'S', 'E'],
+        correctAnswer: 2,
+        points: 1,
+        image: '🔡'
+      },
+      {
+        id: 'g7-dec-45',
+        type: 'matching',
+        question: 'Párosítsd a transzformációkat a tulajdonságukkal! (Írd be a sorszámot)',
+        hint: '1: Tükrözés; 2: Eltolás; 3: Forgatás',
+        pairs: [
+          { id: '1', left: 'Megfordítja az irányítást', right: '1' },
+          { id: '2', left: 'Párhuzamos eltolás', right: '2' },
+          { id: '3', left: 'Középpont körüli mozgás', right: '3' }
         ],
-        "image": "🎯",
-        "context": "Gondolkodj okosan és találd meg a megoldást!"
+        correctAnswer: null,
+        points: 1,
+        image: '🔄'
       },
       {
-        "id": "g7-december-5",
-        "type": "number-input",
-        "question": "Arány: 300 Ft-ot 2:3 arányban osztunk el. Mennyi a kisebb rész?",
-        "correctAnswer": 120,
-        "points": 1,
-        "image": "🎯",
-        "context": "Gondolkodj okosan és találd meg a megoldást!"
+        id: 'g7-dec-46',
+        type: 'number-input',
+        question: 'Hány fokos a középpontos tükrözésnek megfelelő elforgatás?',
+        correctAnswer: 180,
+        points: 1,
+        image: '🌀'
       },
       {
-        "id": "g7-december-6",
-        "type": "number-input",
-        "question": "Két szám aránya 4:5, az összegük 90. Melyik a nagyobb szám?",
-        "correctAnswer": 50,
-        "points": 1,
-        "image": "🎯",
-        "context": "Gondolkodj okosan és találd meg a megoldást!"
+        id: 'g7-dec-47',
+        type: 'multiple-choice',
+        question: 'Mi a tengelyes tükrözés fixpontjainak halmaza?',
+        options: ['A tükörtengely', 'A tükörkép', 'Egyetlen pont', 'Üres halmaz'],
+        correctAnswer: 0,
+        points: 1,
+        image: '📍'
       },
       {
-        "id": "g7-december-7",
-        "type": "matching",
-        "question": "Párosíts arányosságot!",
-        "correctAnswer": null,
-        "points": 1,
-        "pairs": [
-          {
-            "id": "1",
-            "left": "egyenes",
-            "right": "hányados állandó"
-          },
-          {
-            "id": "2",
-            "left": "fordított",
-            "right": "szorzat állandó"
-          },
-          {
-            "id": "3",
-            "left": "méretarány",
-            "right": "térkép/valóság"
-          }
+        id: 'g7-dec-48',
+        type: 'true-false',
+        question: 'Igaz vagy hamis? "A körnek végtelen sok szimmetriatengelye van."',
+        options: ['Igaz', 'Hamis'],
+        correctAnswer: 0,
+        points: 1,
+        image: '⭕'
+      },
+      {
+        id: 'g7-dec-49',
+        type: 'matching',
+        question: 'Hány szimmetriatengelye van? (Párosítsd a számot)',
+        pairs: [
+          { id: '1', left: 'Téglalap', right: '2' },
+          { id: '2', left: 'Szabályos háromszög', right: '3' },
+          { id: '3', left: 'Egyenlő szárú háromszög', right: '1' }
         ],
-        "image": "🎯",
-        "context": "Gondolkodj okosan és találd meg a megoldást!"
+        correctAnswer: null,
+        points: 1,
+        image: '📐'
       },
       {
-        "id": "g7-december-8",
-        "type": "number-input",
-        "question": "Ha x * y = 24 (fordított), és x=2, mennyi y?",
-        "correctAnswer": 12,
-        "points": 1,
-        "image": "🎯",
-        "context": "A matematika segít megérteni az összefüggéseket."
-      },
-      {
-        "id": "g7-december-9",
-        "type": "number-input",
-        "question": "Ha x / y = 5 (egyenes), és x=20, mennyi y?",
-        "correctAnswer": 4,
-        "points": 1,
-        "image": "🎯",
-        "context": "Gondolkodj okosan és találd meg a megoldást!"
-      },
-      {
-        "id": "g7-december-10",
-        "type": "number-input",
-        "question": "3:4 = 9:x. Mennyi x?",
-        "correctAnswer": 12,
-        "points": 1,
-        "image": "🎯",
-        "context": "Egy újabb izgalmas matematikai kihívás vár rád!"
+        id: 'g7-dec-50',
+        type: 'number-input',
+        context: 'Egy pont koordinátái P(2; 3).',
+        question: 'Hányadik síknegyedben van a pont?',
+        correctAnswer: 1,
+        points: 1,
+        image: '🗺️'
       }
     ]
   },
   {
-    "id": "january",
-    "name": "Január",
-    "topic": "Százalékszámítás",
-    "tasks": [
+    id: 'january',
+    name: 'Január',
+    topic: 'Hatványozás és oszthatóság',
+    tasks: [
       {
-        "id": "g7-january-1",
-        "type": "number-input",
-        "question": "Mennyi 500-nak a 15%-a?",
-        "correctAnswer": 75,
-        "points": 1,
-        "image": "🎯",
-        "context": "Egy újabb izgalmas matematikai kihívás vár rád!"
+        id: 'g7-jan-51',
+        type: 'multiple-choice',
+        question: 'Mennyi 10^5 értéke?',
+        options: ['1 000', '10 000', '100 000', '1 000 000'],
+        correctAnswer: 2,
+        points: 1,
+        image: '⚡'
       },
       {
-        "id": "g7-january-2",
-        "type": "number-input",
-        "question": "Hány százaléka a 20 a 80-nak?",
-        "correctAnswer": 25,
-        "points": 1,
-        "image": "🎯",
-        "context": "Gondolkodj okosan és találd meg a megoldást!"
+        id: 'g7-jan-52',
+        type: 'number-input',
+        question: 'Mennyi 4^3?',
+        correctAnswer: 64,
+        points: 1,
+        image: '🔢'
       },
       {
-        "id": "g7-january-3",
-        "type": "number-input",
-        "question": "Melyik számnak a 40%-a a 60?",
-        "correctAnswer": 150,
-        "points": 1,
-        "image": "🎯",
-        "context": "Gondolkodj okosan és találd meg a megoldást!"
+        id: 'g7-jan-53',
+        type: 'true-false',
+        question: 'Igaz vagy hamis? "A 10^0 értéke 0."',
+        options: ['Igaz', 'Hamis'],
+        correctAnswer: 1,
+        points: 1,
+        image: '⭕'
       },
       {
-        "id": "g7-january-4",
-        "type": "true-false",
-        "question": "Igaz-Hamis: A 120% nagyobb az egésznél.",
-        "correctAnswer": 0,
-        "points": 1,
-        "options": [
-          "Igaz",
-          "Hamis"
+        id: 'g7-jan-54',
+        type: 'multiple-choice',
+        question: 'Melyik a 300 000 normálalakja?',
+        options: ['3 * 10^4', '3 * 10^5', '30 * 10^4', '0,3 * 10^6'],
+        correctAnswer: 1,
+        points: 1,
+        image: '📏'
+      },
+      {
+        id: 'g7-jan-55',
+        type: 'matching',
+        question: 'Párosítsd a hatványokat az értékükkel!',
+        pairs: [
+          { id: '1', left: '2^4', right: '16' },
+          { id: '2', left: '3^3', right: '27' },
+          { id: '3', left: '5^2', right: '25' }
         ],
-        "image": "🎯",
-        "context": "A matematika segít megérteni az összefüggéseket."
+        correctAnswer: null,
+        points: 1,
+        image: '🔗'
       },
       {
-        "id": "g7-january-5",
-        "type": "multiple-choice",
-        "question": "Árat 10%-kal emelünk, majd 10%-kal csökkentünk. Mi történik?",
-        "correctAnswer": 1,
-        "points": 1,
-        "options": [
-          "Változatlan",
-          "Csökken",
-          "Nő"
+        id: 'g7-jan-56',
+        type: 'number-input',
+        question: 'Mennyi a kitevő: 2^x = 16?',
+        correctAnswer: 4,
+        points: 1,
+        image: '❓'
+      },
+      {
+        id: 'g7-jan-57',
+        type: 'multiple-choice',
+        question: 'Mely számjegyekre végződhet egy 5-tel osztható szám?',
+        options: ['Páros számokra', 'Csak 5-re', '0-ra vagy 5-re', 'Bármelyikre'],
+        correctAnswer: 2,
+        points: 1,
+        image: '🔢'
+      },
+      {
+        id: 'g7-jan-58',
+        type: 'true-false',
+        question: 'Igaz vagy hamis? "A 123 osztható 3-mal."',
+        options: ['Igaz', 'Hamis'],
+        correctAnswer: 0,
+        points: 1,
+        image: '✅'
+      },
+      {
+        id: 'g7-jan-59',
+        type: 'matching',
+        question: 'Párosítsd az oszthatósági szabályokat!',
+        pairs: [
+          { id: '1', left: 'Osztható 2-vel', right: 'Páros végű' },
+          { id: '2', left: 'Osztható 3-mal', right: 'Számjegyösszeg' },
+          { id: '3', left: 'Osztható 10-zel', right: '0-ra végződik' }
         ],
-        "image": "🎯",
-        "context": "Gondolkodj okosan és találd meg a megoldást!"
+        correctAnswer: null,
+        points: 1,
+        image: '⚙️'
       },
       {
-        "id": "g7-january-6",
-        "type": "number-input",
-        "question": "Mennyi 1000 Ft-nak a 125%-a?",
-        "correctAnswer": 1250,
-        "points": 1,
-        "image": "🎯",
-        "context": "A matematika segít megérteni az összefüggéseket."
-      },
-      {
-        "id": "g7-january-7",
-        "type": "matching",
-        "question": "Párosíts százalékokat!",
-        "correctAnswer": null,
-        "points": 1,
-        "pairs": [
-          {
-            "id": "1",
-            "left": "0,1",
-            "right": "10%"
-          },
-          {
-            "id": "2",
-            "left": "0,05",
-            "right": "5%"
-          },
-          {
-            "id": "3",
-            "left": "0,5",
-            "right": "50%"
-          }
-        ],
-        "image": "🎯",
-        "context": "Gondolkodj okosan és találd meg a megoldást!"
-      },
-      {
-        "id": "g7-january-8",
-        "type": "number-input",
-        "question": "Egy 50 000 Ft-os telefon 10%-os akcióban?",
-        "correctAnswer": 45000,
-        "points": 1,
-        "image": "🎯",
-        "context": "Gondolkodj okosan és találd meg a megoldást!"
-      },
-      {
-        "id": "g7-january-9",
-        "type": "number-input",
-        "question": "Hány százalék marad, ha 3/5 részt elköltünk?",
-        "correctAnswer": 40,
-        "points": 1,
-        "image": "🎯",
-        "context": "Gondolkodj okosan és találd meg a megoldást!"
-      },
-      {
-        "id": "g7-january-10",
-        "type": "number-input",
-        "question": "Mennyi a 0,5%-a a 1000-nek?",
-        "correctAnswer": 5,
-        "points": 1,
-        "image": "🎯",
-        "context": "Egy újabb izgalmas matematikai kihívás vár rád!"
+        id: 'g7-jan-60',
+        type: 'number-input',
+        question: 'Melyik a legkisebb természetes szám, amivel minden szám osztható?',
+        correctAnswer: 1,
+        points: 1,
+        image: '🥇'
       }
     ]
   },
   {
-    "id": "february",
-    "name": "Február",
-    "topic": "Geometria - Kör és Henger",
-    "tasks": [
+    id: 'february',
+    name: 'Február',
+    topic: 'Arányosság és százalékszámítás',
+    tasks: [
       {
-        "id": "g7-february-1",
-        "type": "number-input",
-        "question": "Mennyi a kör kerülete, ha r=5? (Pi=3,14)",
-        "correctAnswer": 31.4,
-        "points": 1,
-        "image": "📐",
-        "context": "A kertész különleges alakzatú ágyásokat alakít ki a parkban."
+        id: 'g7-feb-61',
+        type: 'multiple-choice',
+        context: 'Egy recepthez 2 főre 300g liszt kell.',
+        question: 'Mennyi liszt kell 3 főre?',
+        options: ['150g', '450g', '600g', '900g'],
+        correctAnswer: 1,
+        points: 1,
+        image: '🥣'
       },
       {
-        "id": "g7-february-2",
-        "type": "number-input",
-        "question": "Mennyi a kör területe, ha r=10? (Pi=3,14)",
-        "correctAnswer": 314,
-        "points": 1,
-        "image": "📐",
-        "context": "A 3D nyomtatás során a testek rétegről rétegre épülnek fel."
+        id: 'g7-feb-62',
+        type: 'number-input',
+        question: 'Mennyi 200-nak a 30%-a?',
+        correctAnswer: 60,
+        points: 1,
+        image: '📊'
       },
       {
-        "id": "g7-february-3",
-        "type": "multiple-choice",
-        "question": "Kör két pontját összekötő belső szakasz?",
-        "correctAnswer": 2,
-        "points": 1,
-        "options": [
-          "Sugár",
-          "Ív",
-          "Húr"
+        id: 'g7-feb-63',
+        type: 'true-false',
+        question: 'Igaz vagy hamis? "Az egyenes arányosság grafikonja egy origón átmenő egyenes."',
+        options: ['Igaz', 'Hamis'],
+        correctAnswer: 0,
+        points: 1,
+        image: '📈'
+      },
+      {
+        id: 'g7-feb-64',
+        type: 'multiple-choice',
+        question: 'Melyik méretarány jelent nagyobb kicsinyítést?',
+        options: ['1:100', '1:10', '1:1000', '1:1'],
+        correctAnswer: 2,
+        points: 1,
+        image: '🗺️'
+      },
+      {
+        id: 'g7-feb-65',
+        type: 'matching',
+        question: 'Párosítsd a törteket a százalékértékükkel!',
+        pairs: [
+          { id: '1', left: '1/2', right: '50%' },
+          { id: '2', left: '1/4', right: '25%' },
+          { id: '3', left: '1/10', right: '10%' }
         ],
-        "image": "📐",
-        "context": "Az építész egy modern ház alaprajzát tervezi meg a rajzasztalon."
+        correctAnswer: null,
+        points: 1,
+        image: '🔗'
       },
       {
-        "id": "g7-february-4",
-        "type": "true-false",
-        "question": "Igaz-Hamis: Az átmérő a sugár kétszerese.",
-        "correctAnswer": 0,
-        "points": 1,
-        "options": [
-          "Igaz",
-          "Hamis"
+        id: 'g7-feb-66',
+        type: 'number-input',
+        question: 'Ha 4 munkás 6 óra alatt végez, hány óra alatt végez 2 munkás? (Fordított arányosság)',
+        correctAnswer: 12,
+        points: 1,
+        image: '👷'
+      },
+      {
+        id: 'g7-feb-67',
+        type: 'multiple-choice',
+        context: 'Egy termék ára 5000 Ft, de 10% kedvezményt kapunk.',
+        question: 'Mennyibe kerül a termék?',
+        options: ['4500 Ft', '4000 Ft', '5500 Ft', '4900 Ft'],
+        correctAnswer: 0,
+        points: 1,
+        image: '🏷️'
+      },
+      {
+        id: 'g7-feb-68',
+        type: 'true-false',
+        question: 'Igaz vagy hamis? "A 120% kisebb az egésznél."',
+        options: ['Igaz', 'Hamis'],
+        correctAnswer: 1,
+        points: 1,
+        image: '❌'
+      },
+      {
+        id: 'g7-feb-69',
+        type: 'matching',
+        question: 'Párosítsd az arányokat az osztási részekkel! (Összesen 100 egység)',
+        pairs: [
+          { id: '1', left: '1:1', right: '50-50' },
+          { id: '2', left: '1:4', right: '20-80' },
+          { id: '3', left: '2:3', right: '40-60' }
         ],
-        "image": "📐",
-        "context": "A művész geometriai formákból építi fel absztrakt festményét."
+        correctAnswer: null,
+        points: 1,
+        image: '🍰'
       },
       {
-        "id": "g7-february-5",
-        "type": "number-input",
-        "question": "Hány lapja van a hengernek?",
-        "correctAnswer": 3,
-        "points": 1,
-        "image": "📐",
-        "context": "A 3D nyomtatás során a testek rétegről rétegre épülnek fel."
-      },
-      {
-        "id": "g7-february-6",
-        "type": "number-input",
-        "question": "Mennyi a kör kerülete kerekítve (d=10, pi=3)?",
-        "correctAnswer": 30,
-        "points": 1,
-        "image": "📐",
-        "context": "Az építész egy modern ház alaprajzát tervezi meg a rajzasztalon."
-      },
-      {
-        "id": "g7-february-7",
-        "type": "matching",
-        "question": "Párosíts kör képleteket!",
-        "correctAnswer": null,
-        "points": 1,
-        "pairs": [
-          {
-            "id": "1",
-            "left": "K",
-            "right": "2*r*pi"
-          },
-          {
-            "id": "2",
-            "left": "T",
-            "right": "r^2*pi"
-          },
-          {
-            "id": "3",
-            "left": "d",
-            "right": "2*r"
-          }
-        ],
-        "image": "📐",
-        "context": "Az építész egy modern ház alaprajzát tervezi meg a rajzasztalon."
-      },
-      {
-        "id": "g7-february-8",
-        "type": "number-input",
-        "question": "Mekkora a 360 fokos ívhez tartozó középponti szög?",
-        "correctAnswer": 360,
-        "points": 1,
-        "image": "📐",
-        "context": "A 3D nyomtatás során a testek rétegről rétegre épülnek fel."
-      },
-      {
-        "id": "g7-february-9",
-        "type": "number-input",
-        "question": "Kör kerülete 62,8. Mennyi a sugara? (pi=3,14)",
-        "correctAnswer": 10,
-        "points": 1,
-        "image": "📐",
-        "context": "A 3D nyomtatás során a testek rétegről rétegre épülnek fel."
-      },
-      {
-        "id": "g7-february-10",
-        "type": "multiple-choice",
-        "question": "Melyik nem a kör része?",
-        "correctAnswer": 2,
-        "points": 1,
-        "options": [
-          "Szelet",
-          "Cikk",
-          "Él"
-        ],
-        "image": "📐",
-        "context": "A 3D nyomtatás során a testek rétegről rétegre épülnek fel."
+        id: 'g7-feb-70',
+        type: 'number-input',
+        question: 'Hány százaléka a 5 a 25-nek?',
+        correctAnswer: 20,
+        points: 1,
+        image: '🔢'
       }
     ]
   },
   {
-    "id": "march",
-    "name": "Március",
-    "topic": "Geometria - Hasábok és Pythagoras",
-    "tasks": [
+    id: 'march',
+    name: 'Március',
+    topic: 'Egyenletek és egyenlőtlenségek',
+    tasks: [
       {
-        "id": "g7-march-1",
-        "type": "number-input",
-        "question": "Kocka térfogata: a=3. V=?",
-        "correctAnswer": 27,
-        "points": 1,
-        "image": "📐",
-        "context": "A kertész különleges alakzatú ágyásokat alakít ki a parkban."
+        id: 'g7-mar-71',
+        type: 'number-input',
+        context: 'Egy boltban 3 egyforma csoki és egy 200 Ft-os üdítő összesen 800 Ft-ba került.',
+        question: 'Hány forintba került egy csoki? (Egyenlet: 3x + 200 = 800)',
+        correctAnswer: 200,
+        points: 1,
+        image: '🍫'
       },
       {
-        "id": "g7-march-2",
-        "type": "number-input",
-        "question": "Téglatest felszíne: a=2, b=3, c=4. A=?",
-        "correctAnswer": 52,
-        "points": 1,
-        "image": "📐",
-        "context": "Az építész egy modern ház alaprajzát tervezi meg a rajzasztalon."
+        id: 'g7-mar-72',
+        type: 'multiple-choice',
+        question: 'Mi a megoldása az x + 5 = 12 egyenletnek?',
+        options: ['5', '7', '17', '12'],
+        correctAnswer: 1,
+        points: 1,
+        image: '⚖️'
       },
       {
-        "id": "g7-march-3",
-        "type": "number-input",
-        "question": "Derékszögű háromszög: a=3, b=4. Mennyi az átfogó (c)?",
-        "correctAnswer": 5,
-        "points": 1,
-        "image": "📐",
-        "context": "A 3D nyomtatás során a testek rétegről rétegre épülnek fel."
+        id: 'g7-mar-73',
+        type: 'true-false',
+        question: 'Igaz vagy hamis? "Az egyenlet mindkét oldalához hozzáadhatjuk ugyanazt a számot."',
+        options: ['Igaz', 'Hamis'],
+        correctAnswer: 0,
+        points: 1,
+        image: '✅'
       },
       {
-        "id": "g7-march-4",
-        "type": "true-false",
-        "question": "Igaz-Hamis: A hasáb oldallapjai mindig téglalapok.",
-        "correctAnswer": 0,
-        "points": 1,
-        "options": [
-          "Igaz",
-          "Hamis"
+        id: 'g7-mar-74',
+        type: 'number-input',
+        question: 'Mennyi x értéke: 2x - 4 = 10?',
+        correctAnswer: 7,
+        points: 1,
+        image: '🔢'
+      },
+      {
+        id: 'g7-mar-75',
+        type: 'multiple-choice',
+        question: 'Melyik x értékre igaz: 3x > 15?',
+        options: ['3', '4', '5', '6'],
+        correctAnswer: 3,
+        points: 1,
+        image: '📈'
+      },
+      {
+        id: 'g7-mar-76',
+        type: 'true-false',
+        question: 'Igaz vagy hamis? "Ha egy egyenletet 0-val szorzunk, a megoldás nem változik."',
+        options: ['Igaz', 'Hamis'],
+        correctAnswer: 1,
+        points: 1,
+        image: '❌'
+      },
+      {
+        id: 'g7-mar-77',
+        type: 'matching',
+        question: 'Párosítsd a szöveges feladatokat az egyenletekkel!',
+        pairs: [
+          { id: '1', left: 'Valaminek a fele 10', right: 'x/2 = 10' },
+          { id: '2', left: 'Valaminél 5-tel több 20', right: 'x+5 = 20' },
+          { id: '3', left: 'Valami kétszerese 30', right: '2x = 30' }
         ],
-        "image": "📐",
-        "context": "A kertész különleges alakzatú ágyásokat alakít ki a parkban."
+        correctAnswer: null,
+        points: 1,
+        image: '📝'
       },
       {
-        "id": "g7-march-5",
-        "type": "number-input",
-        "question": "Mennyi: 1 liter = ? dm3",
-        "correctAnswer": 1,
-        "points": 1,
-        "image": "📐",
-        "context": "A kertész különleges alakzatú ágyásokat alakít ki a parkban."
+        id: 'g7-mar-78',
+        type: 'number-input',
+        question: 'Oldd meg: 5x + 3 = 2x + 12!',
+        correctAnswer: 3,
+        points: 1,
+        image: '🖋️'
       },
       {
-        "id": "g7-march-6",
-        "type": "number-input",
-        "question": "Hány csúcsa van egy ötszög alapú hasábnak?",
-        "correctAnswer": 10,
-        "points": 1,
-        "image": "📐",
-        "context": "A 3D nyomtatás során a testek rétegről rétegre épülnek fel."
+        id: 'g7-mar-79',
+        type: 'multiple-choice',
+        context: 'Gondoltam egy számra. Megszoroztam 4-gyel, kivontam belőle 2-t, és 18-at kaptam.',
+        question: 'Melyik számra gondoltam?',
+        options: ['4', '5', '6', '7'],
+        correctAnswer: 1,
+        points: 1,
+        image: '🧠'
       },
       {
-        "id": "g7-march-7",
-        "type": "matching",
-        "question": "Párosíts hasáb képleteket!",
-        "correctAnswer": null,
-        "points": 1,
-        "pairs": [
-          {
-            "id": "1",
-            "left": "Kocka V",
-            "right": "a^3"
-          },
-          {
-            "id": "2",
-            "left": "Téglatest V",
-            "right": "a*b*c"
-          },
-          {
-            "id": "3",
-            "left": "Pythagoras",
-            "right": "a^2+b^2=c^2"
-          }
-        ],
-        "image": "📐",
-        "context": "A kertész különleges alakzatú ágyásokat alakít ki a parkban."
-      },
-      {
-        "id": "g7-march-8",
-        "type": "number-input",
-        "question": "Hány éle van a háromszög alapú hasábnak?",
-        "correctAnswer": 9,
-        "points": 1,
-        "image": "📐",
-        "context": "A művész geometriai formákból építi fel absztrakt festményét."
-      },
-      {
-        "id": "g7-march-9",
-        "type": "multiple-choice",
-        "question": "Felszín mértékegysége?",
-        "correctAnswer": 1,
-        "points": 1,
-        "options": [
-          "cm",
-          "cm2",
-          "cm3"
-        ],
-        "image": "📐",
-        "context": "A művész geometriai formákból építi fel absztrakt festményét."
-      },
-      {
-        "id": "g7-march-10",
-        "type": "number-input",
-        "question": "Mennyi a kocka felszíne, ha a=2?",
-        "correctAnswer": 24,
-        "points": 1,
-        "image": "📐",
-        "context": "A művész geometriai formákból építi fel absztrakt festményét."
+        id: 'g7-mar-80',
+        type: 'number-input',
+        question: 'Hány megoldása van a 0 * x = 5 egyenletnek?',
+        correctAnswer: 0,
+        points: 1,
+        image: '🚫'
       }
     ]
   },
   {
-    "id": "april",
-    "name": "Április",
-    "topic": "Egyenletek és Egyenlőtlenségek",
-    "tasks": [
+    id: 'april',
+    name: 'Április',
+    topic: 'Geometria I. (Síkidomok tulajdonságai)',
+    tasks: [
       {
-        "id": "g7-april-1",
-        "type": "number-input",
-        "question": "Oldd meg: 2x + 1 = 7",
-        "correctAnswer": 3,
-        "points": 1,
-        "image": "🎯",
-        "context": "Gondolkodj okosan és találd meg a megoldást!"
+        id: 'g7-apr-81',
+        type: 'multiple-choice',
+        question: 'Hány fokos a szabályos háromszög egy belső szöge?',
+        options: ['45°', '60°', '90°', '120°'],
+        correctAnswer: 1,
+        points: 1,
+        image: '🔺'
       },
       {
-        "id": "g7-april-2",
-        "type": "number-input",
-        "question": "Oldd meg: 3(x - 2) = 12",
-        "correctAnswer": 6,
-        "points": 1,
-        "image": "🎯",
-        "context": "Gondolkodj okosan és találd meg a megoldást!"
+        id: 'g7-apr-82',
+        type: 'number-input',
+        question: 'Mennyi a háromszög belső szögeinek összege?',
+        correctAnswer: 180,
+        points: 1,
+        image: '📐'
       },
       {
-        "id": "g7-april-3",
-        "type": "number-input",
-        "question": "Oldd meg: x/4 + 2 = 5",
-        "correctAnswer": 12,
-        "points": 1,
-        "image": "🎯",
-        "context": "A matematika segít megérteni az összefüggéseket."
+        id: 'g7-apr-83',
+        type: 'true-false',
+        question: 'Igaz vagy hamis? "A rombusz minden oldala egyenlő hosszú."',
+        options: ['Igaz', 'Hamis'],
+        correctAnswer: 0,
+        points: 1,
+        image: '🔷'
       },
       {
-        "id": "g7-april-4",
-        "type": "true-false",
-        "question": "Igaz-Hamis: Az x < 5 megoldása a 5 is.",
-        "correctAnswer": 1,
-        "points": 1,
-        "options": [
-          "Igaz",
-          "Hamis"
+        id: 'g7-apr-84',
+        type: 'multiple-choice',
+        question: 'Melyik négyszögnek nem feltétlenül párhuzamosak a szemközti oldalai?',
+        options: ['Négyzet', 'Téglalap', 'Trapéz', 'Rombusz'],
+        correctAnswer: 2,
+        points: 1,
+        image: '⏹️'
+      },
+      {
+        id: 'g7-apr-85',
+        type: 'matching',
+        question: 'Párosítsd a háromszögeket a tulajdonságukkal!',
+        pairs: [
+          { id: '1', left: 'Derékszögű', right: '90°-os szög' },
+          { id: '2', left: 'Egyenlő szárú', right: '2 egyenlő oldal' },
+          { id: '3', left: 'Tompaszögű', right: '180° > szög > 90°' }
         ],
-        "image": "🎯",
-        "context": "Gondolkodj okosan és találd meg a megoldást!"
+        correctAnswer: null,
+        points: 1,
+        image: '🔗'
       },
       {
-        "id": "g7-april-5",
-        "type": "number-input",
-        "question": "Melyik a legnagyobb egész megoldás: x < 3,5?",
-        "correctAnswer": 3,
-        "points": 1,
-        "image": "🎯",
-        "context": "Egy újabb izgalmas matematikai kihívás vár rád!"
+        id: 'g7-apr-86',
+        type: 'number-input',
+        question: 'Hány átlója van egy ötszögnek?',
+        correctAnswer: 5,
+        points: 1,
+        image: '⬝'
       },
       {
-        "id": "g7-april-6",
-        "type": "number-input",
-        "question": "Oldd meg: 5x = 2x + 9",
-        "correctAnswer": 3,
-        "points": 1,
-        "image": "🎯",
-        "context": "Egy újabb izgalmas matematikai kihívás vár rád!"
+        id: 'g7-apr-87',
+        type: 'multiple-choice',
+        question: 'Melyik testnek van kör alapja?',
+        options: ['Kocka', 'Henger', 'Gúla', 'Hasáb'],
+        correctAnswer: 1,
+        points: 1,
+        image: '🥫'
       },
       {
-        "id": "g7-april-7",
-        "type": "matching",
-        "question": "Párosíts jeleket!",
-        "correctAnswer": null,
-        "points": 1,
-        "pairs": [
-          {
-            "id": "1",
-            "left": "<",
-            "right": "kisebb"
-          },
-          {
-            "id": "2",
-            "left": ">",
-            "right": "nagyobb"
-          },
-          {
-            "id": "3",
-            "left": "<=",
-            "right": "kisebb vagy egyenlő"
-          }
+        id: 'g7-apr-88',
+        type: 'true-false',
+        question: 'Igaz vagy hamis? "A kör kerülete a sugár és a pi szorzata."',
+        options: ['Igaz', 'Hamis'],
+        correctAnswer: 1,
+        points: 1,
+        image: '⭕'
+      },
+      {
+        id: 'g7-apr-89',
+        type: 'matching',
+        question: 'Párosítsd a kör részeit a leírásukkal!',
+        pairs: [
+          { id: '1', left: 'Sugár', right: 'Középpont és kerület távolsága' },
+          { id: '2', left: 'Átmérő', right: 'A sugár kétszerese' },
+          { id: '3', left: 'Húr', right: 'Két pontot összekötő szakasz' }
         ],
-        "image": "🎯",
-        "context": "A matematika segít megérteni az összefüggéseket."
+        correctAnswer: null,
+        points: 1,
+        image: '🎯'
       },
       {
-        "id": "g7-april-8",
-        "type": "number-input",
-        "question": "Oldd meg: -2x = 8",
-        "correctAnswer": -4,
-        "points": 1,
-        "image": "🎯",
-        "context": "A matematika segít megérteni az összefüggéseket."
-      },
-      {
-        "id": "g7-april-9",
-        "type": "number-input",
-        "question": "X felénél 5-tel több a 15. Mennyi x?",
-        "correctAnswer": 20,
-        "points": 1,
-        "image": "🎯",
-        "context": "A matematika segít megérteni az összefüggéseket."
-      },
-      {
-        "id": "g7-april-10",
-        "type": "multiple-choice",
-        "question": "Melyik x megoldás: 2x > 10?",
-        "correctAnswer": 2,
-        "points": 1,
-        "options": [
-          "4",
-          "5",
-          "6"
-        ],
-        "image": "🎯",
-        "context": "Egy újabb izgalmas matematikai kihívás vár rád!"
+        id: 'g7-apr-90',
+        type: 'number-input',
+        question: 'Mekkora az r=5 sugarú kör átmérője?',
+        correctAnswer: 10,
+        points: 1,
+        image: '📏'
       }
     ]
   },
   {
-    "id": "may",
-    "name": "Május",
-    "topic": "Adatkezelés és Valószínűség",
-    "tasks": [
+    id: 'may',
+    name: 'Május',
+    topic: 'Geometria II. (Terület, felszín, térfogat)',
+    tasks: [
       {
-        "id": "g7-may-1",
-        "type": "number-input",
-        "question": "Mennyi az átlaga: 10, 20, 30?",
-        "correctAnswer": 20,
-        "points": 1,
-        "image": "🎯",
-        "context": "Egy újabb izgalmas matematikai kihívás vár rád!"
+        id: 'g7-may-91',
+        type: 'number-input',
+        context: 'Egy téglalap oldalai 4 cm és 6 cm.',
+        question: 'Mekkora a területe cm2-ben?',
+        correctAnswer: 24,
+        points: 1,
+        image: '📏'
       },
       {
-        "id": "g7-may-2",
-        "type": "multiple-choice",
-        "question": "Dobókocka: mi az esélye 5-nél nagyobb számot dobni?",
-        "correctAnswer": 0,
-        "points": 1,
-        "options": [
-          "1/6",
-          "1/3",
-          "1/2"
+        id: 'g7-may-92',
+        type: 'multiple-choice',
+        question: 'Melyik képlet a háromszög területe?',
+        options: ['a * b', 'a * m / 2', 'a + b + c', 'a * a'],
+        correctAnswer: 1,
+        points: 1,
+        image: '📐'
+      },
+      {
+        id: 'g7-may-93',
+        type: 'true-false',
+        question: 'Igaz vagy hamis? "A hasáb térfogata alapterület szorozva magasság."',
+        options: ['Igaz', 'Hamis'],
+        correctAnswer: 0,
+        points: 1,
+        image: '📦'
+      },
+      {
+        id: 'g7-may-94',
+        type: 'multiple-choice',
+        question: 'Mennyi az a=2 kocka felszíne?',
+        options: ['8', '16', '24', '32'],
+        correctAnswer: 2,
+        points: 1,
+        image: '🧊'
+      },
+      {
+        id: 'g7-may-95',
+        type: 'matching',
+        question: 'Párosítsd a mértékegységeket!',
+        pairs: [
+          { id: '1', left: 'Hosszúság', right: 'm' },
+          { id: '2', left: 'Terület', right: 'm2' },
+          { id: '3', left: 'Térfogat', right: 'm3' }
         ],
-        "image": "🎯",
-        "context": "Gondolkodj okosan és találd meg a megoldást!"
+        correctAnswer: null,
+        points: 1,
+        image: '🔗'
       },
       {
-        "id": "g7-may-3",
-        "type": "number-input",
-        "question": "Medián (2, 4, 6, 8)?",
-        "correctAnswer": 5,
-        "points": 1,
-        "image": "🎯",
-        "context": "Egy újabb izgalmas matematikai kihívás vár rád!"
+        id: 'g7-may-96',
+        type: 'number-input',
+        question: 'Hány liter 1 dm3 víz?',
+        correctAnswer: 1,
+        points: 1,
+        image: '💧'
       },
       {
-        "id": "g7-may-4",
-        "type": "true-false",
-        "question": "Igaz-Hamis: A biztos esemény valószínűsége 100%.",
-        "correctAnswer": 0,
-        "points": 1,
-        "options": [
-          "Igaz",
-          "Hamis"
+        id: 'g7-may-97',
+        type: 'multiple-choice',
+        context: 'Egy akvárium 50x30x40 cm-es.',
+        question: 'Mekkora a térfogata literben?',
+        options: ['60 l', '600 l', '6 l', '60 000 l'],
+        correctAnswer: 0,
+        points: 1,
+        image: '🐠'
+      },
+      {
+        id: 'g7-may-98',
+        type: 'true-false',
+        question: 'Igaz vagy hamis? "A deltoid területe az átlók szorzatának fele."',
+        options: ['Igaz', 'Hamis'],
+        correctAnswer: 0,
+        points: 1,
+        image: '🪁'
+      },
+      {
+        id: 'g7-may-99',
+        type: 'matching',
+        question: 'Párosítsd a síkidomokat a területképletükkel!',
+        pairs: [
+          { id: '1', left: 'Négyzet', right: 'a^2' },
+          { id: '2', left: 'Téglalap', right: 'a * b' },
+          { id: '3', left: 'Paralelogramma', right: 'a * m' }
         ],
-        "image": "🎯",
-        "context": "A matematika segít megérteni az összefüggéseket."
+        correctAnswer: null,
+        points: 1,
+        image: '📐'
       },
       {
-        "id": "g7-may-5",
-        "type": "number-input",
-        "question": "Hányféleképpen választható ki 2 gyerek 4-ből?",
-        "correctAnswer": 6,
-        "points": 1,
-        "image": "🎯",
-        "context": "Egy újabb izgalmas matematikai kihívás vár rád!"
-      },
-      {
-        "id": "g7-may-6",
-        "type": "number-input",
-        "question": "Módusz (1, 1, 2, 2, 2, 3)?",
-        "correctAnswer": 2,
-        "points": 1,
-        "image": "🎯",
-        "context": "Egy újabb izgalmas matematikai kihívás vár rád!"
-      },
-      {
-        "id": "g7-may-7",
-        "type": "matching",
-        "question": "Párosíts statisztikát!",
-        "correctAnswer": null,
-        "points": 1,
-        "pairs": [
-          {
-            "id": "1",
-            "left": "Átlag",
-            "right": "számtani"
-          },
-          {
-            "id": "2",
-            "left": "Módusz",
-            "right": "tipikus"
-          },
-          {
-            "id": "3",
-            "left": "Medián",
-            "right": "középső"
-          }
-        ],
-        "image": "🎯",
-        "context": "Gondolkodj okosan és találd meg a megoldást!"
-      },
-      {
-        "id": "g7-may-8",
-        "type": "number-input",
-        "question": "Esély: Két kockával dobunk. Hányféle kimenetel van?",
-        "correctAnswer": 36,
-        "points": 1,
-        "image": "🎯",
-        "context": "Gondolkodj okosan és találd meg a megoldást!"
-      },
-      {
-        "id": "g7-may-9",
-        "type": "number-input",
-        "question": "Terjedelem (5, 10, 15, 20)?",
-        "correctAnswer": 15,
-        "points": 1,
-        "image": "🎯",
-        "context": "A matematika segít megérteni az összefüggéseket."
-      },
-      {
-        "id": "g7-may-10",
-        "type": "number-input",
-        "question": "Mekkora szöget zár be a kördiagramon a 25%?",
-        "correctAnswer": 90,
-        "points": 1,
-        "image": "🎯",
-        "context": "A matematika segít megérteni az összefüggéseket."
+        id: 'g7-may-100',
+        type: 'number-input',
+        question: 'Mekkora az r=10 kör területe? (pi=3,14)',
+        correctAnswer: 314,
+        points: 1,
+        image: '🎯'
       }
     ]
   },
   {
-    "id": "june",
-    "name": "Június",
-    "topic": "Év végi összefoglalás",
-    "tasks": [
+    id: 'june',
+    name: 'Június',
+    topic: 'Hozzárendelések, statisztika és valószínűség',
+    tasks: [
       {
-        "id": "g7-june-1",
-        "type": "number-input",
-        "question": "Mennyi: 2^3 + 3^2?",
-        "correctAnswer": 17,
-        "points": 1,
-        "image": "🎯",
-        "context": "Gondolkodj okosan és találd meg a megoldást!"
+        id: 'g7-jun-101',
+        type: 'multiple-choice',
+        context: 'Egy dobókockával dobunk egyszer.',
+        question: 'Mennyi a valószínűsége, hogy 6-ost dobunk?',
+        options: ['1', '1/2', '1/6', '0'],
+        correctAnswer: 2,
+        points: 1,
+        image: '🎲'
       },
       {
-        "id": "g7-june-2",
-        "type": "number-input",
-        "question": "Mennyi 400-nak a 5%-a?",
-        "correctAnswer": 20,
-        "points": 1,
-        "image": "🎯",
-        "context": "Gondolkodj okosan és találd meg a megoldást!"
+        id: 'g7-jun-102',
+        type: 'number-input',
+        context: 'Adatok: 2, 5, 5, 8, 10.',
+        question: 'Mennyi az átlag?',
+        correctAnswer: 6,
+        points: 1,
+        image: '📊'
       },
       {
-        "id": "g7-june-3",
-        "type": "number-input",
-        "question": "Oldd meg: 4x - 2 = 10",
-        "correctAnswer": 3,
-        "points": 1,
-        "image": "🎯",
-        "context": "Gondolkodj okosan és találd meg a megoldást!"
+        id: 'g7-jun-103',
+        type: 'true-false',
+        question: 'Igaz vagy hamis? "A medián a középső elem sorbarendezett adatok esetén."',
+        options: ['Igaz', 'Hamis'],
+        correctAnswer: 0,
+        points: 1,
+        image: '📈'
       },
       {
-        "id": "g7-june-4",
-        "type": "number-input",
-        "question": "R=10 kör kerülete? (pi=3)",
-        "correctAnswer": 60,
-        "points": 1,
-        "image": "🎯",
-        "context": "Egy újabb izgalmas matematikai kihívás vár rád!"
+        id: 'g7-jun-104',
+        type: 'multiple-choice',
+        question: 'Mi a módusza a következő adatoknak: 3, 4, 4, 5, 6, 4?',
+        options: ['3', '4', '5', '6'],
+        correctAnswer: 1,
+        points: 1,
+        image: '🎯'
       },
       {
-        "id": "g7-june-5",
-        "type": "true-false",
-        "question": "Igaz-Hamis: Pythagoras tétele csak derékszögű háromszögre igaz.",
-        "correctAnswer": 0,
-        "points": 1,
-        "options": [
-          "Igaz",
-          "Hamis"
+        id: 'g7-jun-105',
+        type: 'matching',
+        question: 'Párosítsd a statisztikai fogalmakat!',
+        pairs: [
+          { id: '1', left: 'Átlag', right: 'Összeg / darabszám' },
+          { id: '2', left: 'Módusz', right: 'Leggyakoribb elem' },
+          { id: '3', left: 'Terjedelem', right: 'Max - Min' }
         ],
-        "image": "🎯",
-        "context": "Gondolkodj okosan és találd meg a megoldást!"
+        correctAnswer: null,
+        points: 1,
+        image: '🔗'
       },
       {
-        "id": "g7-june-6",
-        "type": "number-input",
-        "question": "Mennyi 10^-2 tizedes tört alakban?",
-        "correctAnswer": 0.01,
-        "points": 1,
-        "image": "🎯",
-        "context": "A matematika segít megérteni az összefüggéseket."
+        id: 'g7-jun-106',
+        type: 'number-input',
+        question: 'Egy érmét kétszer feldobunk. Hányféle kimenetel lehetséges?',
+        correctAnswer: 4,
+        points: 1,
+        image: '🪙'
       },
       {
-        "id": "g7-june-7",
-        "type": "matching",
-        "question": "Párosíts test tulajdonságait!",
-        "correctAnswer": null,
-        "points": 1,
-        "pairs": [
-          {
-            "id": "1",
-            "left": "Hasáb",
-            "right": "2 alap"
-          },
-          {
-            "id": "2",
-            "left": "Gúla",
-            "right": "1 alap"
-          },
-          {
-            "id": "3",
-            "left": "Gömb",
-            "right": "0 él"
-          }
+        id: 'g7-jun-107',
+        type: 'multiple-choice',
+        question: 'Melyik grafikon alkalmas a részek és egész arányának szemléltetésére?',
+        options: ['Oszlopgrafikon', 'Vonalgrafikon', 'Kördiagram', 'Piktogram'],
+        correctAnswer: 2,
+        points: 1,
+        image: '🥧'
+      },
+      {
+        id: 'g7-jun-108',
+        type: 'true-false',
+        question: 'Igaz vagy hamis? "A biztos esemény valószínűsége 1."',
+        options: ['Igaz', 'Hamis'],
+        correctAnswer: 0,
+        points: 1,
+        image: '✅'
+      },
+      {
+        id: 'g7-jun-109',
+        type: 'matching',
+        question: 'Párosítsd a hozzárendeléseket!',
+        pairs: [
+          { id: '1', left: 'Egy-egy értelmű', right: 'Minden X-hez pontosan egy Y' },
+          { id: '2', left: 'Több-egy értelmű', right: 'Több X-hez ugyanaz az Y' },
+          { id: '3', left: 'Inverz', right: 'Fordított irányú' }
         ],
-        "image": "🎯",
-        "context": "A matematika segít megérteni az összefüggéseket."
+        correctAnswer: null,
+        points: 1,
+        image: '🔄'
       },
       {
-        "id": "g7-june-8",
-        "type": "number-input",
-        "question": "Hány fokos a szabályos ötszög egy belső szöge?",
-        "correctAnswer": 108,
-        "points": 1,
-        "image": "🎯",
-        "context": "Gondolkodj okosan és találd meg a megoldást!"
-      },
-      {
-        "id": "g7-june-9",
-        "type": "number-input",
-        "question": "Egy bicikli 60 000 Ft, 10% áfa után?",
-        "correctAnswer": 66000,
-        "points": 1,
-        "image": "🎯",
-        "context": "Egy újabb izgalmas matematikai kihívás vár rád!"
-      },
-      {
-        "id": "g7-june-10",
-        "type": "multiple-choice",
-        "question": "Hajrá!",
-        "correctAnswer": 3,
-        "points": 1,
-        "options": [
-          "Szia",
-          "Oké",
-          "Kösz",
-          "Szuper"
-        ],
-        "image": "🎯",
-        "context": "Egy újabb izgalmas matematikai kihívás vár rád!"
+        id: 'g7-jun-110',
+        type: 'number-input',
+        context: 'Egy zsákban 3 piros és 7 kék golyó van.',
+        question: 'Mennyi a piros húzásának valószínűsége %-ban?',
+        correctAnswer: 30,
+        points: 1,
+        image: '🔴'
       }
     ]
   }
