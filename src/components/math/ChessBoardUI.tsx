@@ -162,9 +162,9 @@ export default function ChessBoardUI({
   return (
     <div className="flex flex-col lg:flex-row gap-6 w-full max-w-6xl mx-auto">
       {/* Board Column */}
-      <div className="flex-1">
-        <Card className="p-4 rounded-[2rem] border-slate-200 dark:border-slate-800 shadow-2xl bg-white dark:bg-slate-900 overflow-hidden relative">
-          <div className="aspect-square relative">
+      <div className="flex-1 flex justify-center items-center">
+        <Card className="w-full max-w-[min(100%,75vh)] p-4 rounded-[2rem] border-slate-200 dark:border-slate-800 shadow-2xl bg-white dark:bg-slate-900 overflow-hidden relative transition-all duration-300">
+          <div className="aspect-square relative mx-auto">
             <Chessboard 
               position={game.fen()} 
               onPieceDrop={onDrop} 
