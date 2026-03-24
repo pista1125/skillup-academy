@@ -213,7 +213,7 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
           doc.text('diakzona.hu - Kompetenciamérés útján készült feladatokkal', pageW / 2, 287, { align: 'center' });
       }
 
-      doc.save(`Kompetencia_Meres_${selectedMonth.id}.pdf`);
+      doc.save(`Kompetencia_Meres_${selectedMonth.id}_${userName.replace(/\s+/g, '_')}.pdf`);
     } catch (err) {
       console.error(err);
     } finally {
@@ -343,7 +343,7 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
           doc.text('diakzona.hu - Kompetenciamérés útján készült feladatokkal', pageW / 2, 287, { align: 'center' });
       }
 
-      doc.save(`Visszajelzes_${selectedMonth.id}.pdf`);
+      doc.save(`Visszajelzes_${selectedMonth.id}_${userName.replace(/\s+/g, '_')}.pdf`);
     } catch (err) {
       console.error(err);
     } finally {
