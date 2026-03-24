@@ -245,10 +245,9 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
       doc.setTextColor(100, 100, 100);
       doc.text(`Név: ${userName}`, marginX, 35);
       doc.text(`Osztály: ${grade}. osztály`, pageW - marginX - 40, 35);
-      doc.text(`Dátum: ${new Date().toLocaleDateString('hu-HU')}`, marginX, 42);
-      doc.text(`Feladatlap témája: ${selectedMonth.name} - ${selectedMonth.topic}`, marginX, 49);
+      doc.text(`Feladatlap témája: ${selectedMonth.name} - ${selectedMonth.topic}`, marginX, 42);
 
-      let currentY = 60;
+      let currentY = 53;
       const fixText = (text: string, w: number) => doc.splitTextToSize(text, w);
 
       // Section 1: Understanding (Table-like)
@@ -281,7 +280,7 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
       currentY += 8;
       doc.setFont('NotoSans', 'normal');
       const diffs = feedbackAnswers.difficulties || [];
-      const diffText = diffs.length > 0 ? diffs.join(', ') : 'Nincs megjelölve';
+      let diffText = diffs.length > 0 ? diffs.join(', ') : 'Nincs megjelölve';
       if (feedbackAnswers.difficultyOther) diffText += ` (${feedbackAnswers.difficultyOther})`;
       const diffLines = fixText(diffText, contentW - 10);
       doc.text(diffLines, marginX + 5, currentY);
@@ -312,7 +311,7 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
       currentY += 8;
       doc.setFont('NotoSans', 'normal');
       const imps = feedbackAnswers.improvement || [];
-      const impText = imps.length > 0 ? imps.join(', ') : 'Nincs megjelölve';
+      let impText = imps.length > 0 ? imps.join(', ') : 'Nincs megjelölve';
       if (feedbackAnswers.improvementOther) impText += ` (${feedbackAnswers.improvementOther})`;
       const impLines = fixText(impText, contentW - 10);
       doc.text(impLines, marginX + 5, currentY);
@@ -772,7 +771,16 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
               </Button>
             </div>
 
-            <div className="pt-8">
+            <div className="pt-6">
+              <Button 
+                onClick={() => setView('options')} 
+                className="w-full h-16 rounded-2xl border-4 border-slate-900 bg-white text-slate-900 hover:bg-slate-50 font-black text-xl transition-all shadow-md"
+              >
+                Vissza a menübe
+              </Button>
+            </div>
+
+            <div className="pt-4">
               <Button 
                 variant="ghost" 
                 onClick={() => { setSelectedMonth(null); setView('months'); }}
