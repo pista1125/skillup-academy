@@ -1,13 +1,18 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Slider } from '@/components/ui/slider';
 import { 
   ArrowLeft, 
   RotateCcw, 
   Trophy, 
   HelpCircle, 
   Settings2,
-  Play
+  Play,
+  ZoomIn,
+  ZoomOut,
+  ChevronRight,
+  ChevronLeft
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -15,11 +20,13 @@ type RodState = number[]; // Array of disk sizes
 
 export default function HanoiGame({ onBack }: { onBack: () => void }) {
   const [diskCount, setDiskCount] = useState(3);
+  const [tempDiskCount, setTempDiskCount] = useState(3);
   const [rods, setRods] = useState<RodState[]>([[], [], []]);
   const [selectedRod, setSelectedRod] = useState<number | null>(null);
   const [moves, setMoves] = useState(0);
   const [gameState, setGameState] = useState<'selection' | 'playing' | 'won'>('selection');
   const [showHelp, setShowHelp] = useState(false);
+  const [zoom, setZoom] = useState(1);
 
   const initGame = (count: number) => {
     const initialDisks = Array.from({ length: count }, (_, i) => count - i);
@@ -74,32 +81,69 @@ export default function HanoiGame({ onBack }: { onBack: () => void }) {
 
   if (gameState === 'selection') {
     return (
-      <div className="w-full max-w-4xl mx-auto p-4 flex flex-col items-center gap-12 py-20 animate-in fade-in slide-in-from-bottom-8 duration-700">
+      <div className="w-full max-w-4xl mx-auto p-4 flex flex-col items-center gap-6 py-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
         <div className="text-center space-y-4">
-          <div className="inline-flex p-4 bg-primary/10 rounded-3xl text-primary mb-2">
-            <Trophy size={48} />
-          </div>
           <h1 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight">Hanoi tornyai</h1>
           <p className="text-xl text-slate-500 dark:text-slate-400 max-w-lg mx-auto">
             Hány koronggal szeretnél megpróbálkozni?
           </p>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-4">
-          {[3, 4, 5, 6, 7].map(n => (
+        <div className="w-full max-w-md space-y-8 bg-white dark:bg-slate-900 p-10 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-2xl">
+          <div className="space-y-6">
+            <div className="flex justify-between items-end mb-2">
+               <div>
+                 <span className="text-sm font-bold text-slate-400 uppercase tracking-widest block mb-1">Nehézségi szint</span>
+                 <h2 className="text-3xl font-black text-slate-900 dark:text-white">{tempDiskCount} korong</h2>
+               </div>
+               <div className="text-right">
+                  <span className="text-xs font-bold text-primary bg-primary/10 px-3 py-1 rounded-full uppercase">
+                    {tempDiskCount <= 4 ? 'Kezdő' : tempDiskCount <= 7 ? 'Haladó' : tempDiskCount <= 10 ? 'Mester' : 'Legenda'}
+                  </span>
+               </div>
+            </div>
+            
+            <Slider 
+              value={[tempDiskCount]} 
+              onValueChange={(val) => setTempDiskCount(val[0])}
+              min={3} 
+              max={15} 
+              step={1}
+              className="py-4"
+            />
+            
+            <div className="flex justify-between text-[10px] font-black text-slate-400 uppercase tracking-tighter">
+              <span>3 korong</span>
+              <span>15 korong</span>
+            </div>
+          </div>
+
+          <Button 
+            onClick={() => initGame(tempDiskCount)}
+            className="w-full h-16 rounded-2xl bg-primary text-white text-xl font-black shadow-lg shadow-primary/20 hover:shadow-xl transition-all group gap-3"
+          >
+            Játék indítása
+            <ChevronRight className="group-hover:translate-x-1 transition-transform" />
+          </Button>
+        </div>
+
+        <div className="flex flex-wrap justify-center gap-3 opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all">
+          {[3, 5, 8, 12].map(n => (
             <button
               key={n}
-              onClick={() => initGame(n)}
-              className="w-20 h-20 bg-white dark:bg-slate-900 rounded-2xl border-2 border-slate-100 dark:border-slate-800 shadow-xl hover:shadow-2xl hover:border-primary transition-all duration-300 flex flex-col items-center justify-center group"
+              onClick={() => {
+                setTempDiskCount(n);
+                initGame(n);
+              }}
+              className="px-4 py-2 bg-white dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700 text-sm font-bold text-slate-500 hover:text-primary hover:border-primary transition-all"
             >
-              <span className="text-2xl font-black text-slate-900 dark:text-white group-hover:scale-110 transition-transform">{n}</span>
-              <span className="text-[10px] uppercase font-bold text-slate-400">korong</span>
+              {n} korong
             </button>
           ))}
         </div>
 
         <div className="max-w-md bg-white/50 dark:bg-slate-900/50 p-6 rounded-3xl border border-white dark:border-slate-800 shadow-xl backdrop-blur-md">
-           <h3 className="font-bold flex items-center gap-2 mb-2">
+           <h3 className="font-bold flex items-center gap-2 mb-2 text-slate-800 dark:text-white">
              <HelpCircle size={18} className="text-primary" />
              A játék lényege
            </h3>
@@ -124,44 +168,68 @@ export default function HanoiGame({ onBack }: { onBack: () => void }) {
       </Button>
 
       {/* Header Info */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white/50 dark:bg-slate-900/50 p-6 rounded-3xl border border-white dark:border-slate-800 shadow-xl backdrop-blur-md mt-12">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white/50 dark:bg-slate-900/50 p-6 rounded-3xl border border-white dark:border-slate-800 shadow-xl backdrop-blur-md mt-4">
         <div className="flex items-center gap-4">
           <div className="p-3 bg-primary/10 rounded-2xl text-primary">
-            <Trophy size={32} />
+            <Trophy size={28} />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Hanoi tornyai</h1>
-            <p className="text-slate-500 dark:text-slate-400">
+            <h1 className="text-2xl font-bold text-slate-900 dark:text-white inline-block">Hanoi tornyai</h1>
+            <p className="text-slate-500 dark:text-slate-400 text-sm">
               Cél: {diskCount} korong átrakása
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="flex flex-col items-end px-4 py-2 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+        <div className="flex items-center gap-2">
+          <div className="flex flex-col items-end px-4 py-2 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm mr-2">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Lépések</span>
-            <span className="text-xl font-black text-slate-900 dark:text-white">{moves} / <span className="text-slate-300">{minMoves}</span></span>
+            <span className="text-xl font-black text-slate-900 dark:text-white">{moves} / <span className="text-slate-300 whitespace-nowrap">{minMoves.toLocaleString()}</span></span>
           </div>
+          
+          <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl border border-slate-200 dark:border-slate-700 h-12">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={() => setZoom(prev => Math.max(0.5, prev - 0.1))}
+              className="rounded-lg h-full w-10 text-slate-500"
+            >
+              <ZoomOut size={18} />
+            </Button>
+            <div className="w-px bg-slate-200 dark:bg-slate-600 my-2 mx-1" />
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={() => setZoom(prev => Math.min(2, prev + 0.1))}
+              className="rounded-lg h-full w-10 text-slate-500"
+            >
+              <ZoomIn size={18} />
+            </Button>
+          </div>
+
           <Button 
             variant="outline" 
             size="icon" 
-            onClick={() => setGameState('selection')}
-            className="rounded-xl h-12 w-12 border-slate-200"
+            onClick={() => {
+              setTempDiskCount(diskCount);
+              setGameState('selection');
+            }}
+            className="rounded-xl h-12 w-12 border-slate-200 bg-white dark:bg-slate-800"
           >
             <Settings2 size={24} />
           </Button>
           <Button 
             onClick={() => initGame(diskCount)}
-            className="rounded-xl h-12 gap-2 bg-slate-900 text-white"
+            className="rounded-xl h-12 gap-2 bg-slate-900 text-white hover:bg-slate-800 shadow-lg shadow-black/5"
           >
             <RotateCcw size={20} />
-            Újra
+            <span className="hidden sm:inline">Újra</span>
           </Button>
         </div>
       </div>
 
       {/* Game Board */}
-      <Card className="aspect-[16/9] md:aspect-[16/7] rounded-[2.5rem] border-slate-200 dark:border-slate-800 shadow-2xl relative overflow-hidden bg-slate-50/50 dark:bg-slate-900/50 flex items-end justify-around py-16 px-12 group transition-all duration-700">
+      <Card className="aspect-[16/9] md:aspect-[16/7] rounded-[2.5rem] border-slate-200 dark:border-slate-800 shadow-2xl relative overflow-hidden bg-slate-50/50 dark:bg-slate-900/50 flex items-end justify-around py-10 px-6 group transition-all duration-700">
         <div className="absolute inset-0 bg-grid-slate-200/50 dark:bg-grid-slate-800/50 [mask-image:radial-gradient(ellipse_at_center,white,transparent)]" />
         
         {rods.map((rodDisks, idx) => (
@@ -183,24 +251,32 @@ export default function HanoiGame({ onBack }: { onBack: () => void }) {
             <div className="absolute bottom-[-10px] w-full h-4 bg-slate-400 dark:bg-slate-600 rounded-full z-0" />
 
             {/* Disks */}
-            <div className="flex flex-col-reverse items-center w-full z-10 gap-1 pb-1">
+            <div className="flex flex-col-reverse items-center w-full z-10 gap-0.5 pb-2">
               {rodDisks.map((size, dIdx) => {
                 const isSelected = selectedRod === idx && dIdx === rodDisks.length - 1;
+                const diskHeight = Math.min(32, (300 / diskCount) * zoom);
                 return (
                   <div
                     key={`${idx}-${size}`}
                     style={{ 
-                      width: `${(size / diskCount) * 100}%`,
-                      height: '32px',
+                      width: `${(size / (diskCount + 1)) * 100}%`,
+                      height: `${diskHeight}px`,
                       background: `hsl(${(size * 360) / diskCount}, 70%, 50%)`,
-                      boxShadow: isSelected ? '0 10px 25px -5px rgba(0,0,0,0.3), 0 0 15px currentColor' : '0 4px 6px -1px rgba(0,0,0,0.1)'
+                      boxShadow: isSelected ? '0 10px 25px -5px rgba(0,0,0,0.3), 0 0 15px currentColor' : '0 2px 4px -1px rgba(0,0,0,0.1)'
                     }}
                     className={cn(
-                      "rounded-full border-2 border-black/10 transition-all duration-500 flex items-center justify-center text-white font-bold text-xs ring-offset-2",
-                      isSelected && "translate-y-[-40px] scale-105 z-20"
+                      "rounded-full border border-black/10 transition-all duration-300 flex items-center justify-center text-white font-bold ring-offset-2",
+                      isSelected && "translate-y-[-40px] scale-105 z-20 shadow-2xl"
                     )}
                   >
-                    <span className="opacity-50">{size}</span>
+                    {diskHeight > 16 && (
+                      <span className={cn(
+                        "opacity-80 pointer-events-none select-none",
+                        diskHeight < 24 ? "text-[8px]" : "text-xs"
+                      )}>
+                        {size}
+                      </span>
+                    )}
                   </div>
                 );
               })}
