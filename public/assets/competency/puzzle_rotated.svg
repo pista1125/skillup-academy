@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+    <rect width="900" height="600" fill="#ffffff" />
+    <g transform="translate(60, 60)">
+        
+    <path d="M100,50 L200,200 L0,200 Z" fill="#3498db" />
+    <path d="M400,200 L500,50 L300,50 Z" fill="#3498db" opacity="0.5" transform="translate(0, 150)" />
+    <text x="100" y="250" text-anchor="middle" font-size="32" font-weight="bold">Eredeti</text>
+    <text x="400" y="400" text-anchor="middle" font-size="32" font-weight="bold">B változat</text>
+
+    </g>
+</svg>

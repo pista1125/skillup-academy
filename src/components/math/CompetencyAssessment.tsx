@@ -24,6 +24,7 @@ import { useAuth } from '@/contexts/AuthContext';
 interface CompetencyAssessmentProps {
   onBack: () => void;
   grade: number;
+  mode?: 'monthly' | 'mock';
 }
 
 const FEEDBACK_SECTIONS = {
@@ -56,10 +57,14 @@ const FEEDBACK_SECTIONS = {
   }
 };
 
-export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProps) {
+export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: CompetencyAssessmentProps) {
   const { profile, user } = useAuth();
   const userName = profile?.full_name || user?.email || 'Tanuló';
   const gradeData = COMPETENCY_DATA[grade] || [];
+  const filteredData = mode === 'mock' 
+    ? gradeData.filter(m => m.id.includes('probameres'))
+    : gradeData.filter(m => !m.id.includes('probameres'));
+
   const [selectedMonth, setSelectedMonth] = useState<MonthlyCompetency | null>(null);
   const [view, setView] = useState<'months' | 'options' | 'test' | 'feedback'>('months');
   const [currentStep, setCurrentStep] = useState(0);
@@ -102,6 +107,14 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
         let allCorrect = true;
         task.pairs?.forEach(pair => {
             if (String(answers[`${task.id}-${pair.id}`]).trim() !== String(pair.right).trim()) {
+                allCorrect = false;
+            }
+        });
+        if (allCorrect) currentScore += 1;
+      } else if (task.type === 'multi-true-false') {
+        let allCorrect = true;
+        task.pairs?.forEach(pair => {
+            if (answers[`${task.id}-${pair.id}`] !== pair.right) {
                 allCorrect = false;
             }
         });
@@ -178,6 +191,8 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
         let isCorrect = false;
         if (task.type === 'matching') {
             isCorrect = task.pairs?.every(p => String(answers[`${task.id}-${p.id}`]) === String(p.right)) || false;
+        } else if (task.type === 'multi-true-false') {
+            isCorrect = task.pairs?.every(p => answers[`${task.id}-${p.id}`] === p.right) || false;
         } else {
             isCorrect = String(userAnswer) === String(task.correctAnswer);
         }
@@ -354,44 +369,39 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
   if (!selectedMonth) {
     return (
       <div className="space-y-8 animate-in fade-in duration-500">
-        <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl p-10 text-white shadow-2xl relative overflow-hidden">
+        <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl p-8 text-white shadow-2xl relative overflow-hidden">
           <div className="absolute -top-10 -right-10 opacity-10">
-            <Sparkles className="w-64 h-64" />
+            <Sparkles className="w-48 h-48" />
           </div>
-          <Button variant="ghost" size="sm" onClick={onBack} className="text-white hover:bg-white/20 border border-white/20 mb-8 rounded-xl px-6">
+          <Button variant="ghost" size="sm" onClick={onBack} className="text-white hover:bg-white/20 border border-white/20 mb-6 rounded-xl px-5 h-9">
             <ArrowLeft className="w-4 h-4 mr-2" /> Vissza a tárgyakhoz
           </Button>
-          <div className="flex flex-col md:flex-row items-center gap-8 relative z-10">
-            <div className="p-4 bg-white/10 rounded-2xl backdrop-blur-xl border border-white/20">
-              <BookOpen className="w-12 h-12" />
-            </div>
-            <div className="text-center md:text-left">
-              <h2 className="text-3xl font-black tracking-tight mb-1">Kompetencia Mérés</h2>
-              <p className="text-blue-100 text-lg font-medium opacity-90">Havi interaktív feladatsorok {grade}. osztályosoknak</p>
-            </div>
+          <div className="relative z-10">
+            <h2 className="text-2xl md:text-3xl font-black tracking-tight mb-1">Kompetencia Mérés</h2>
+            <p className="text-blue-100 text-sm md:text-base font-medium opacity-90">Havi interaktív feladatsorok {grade}. osztályosoknak</p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {gradeData.map((month) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {filteredData.map((month) => (
             <button
               key={month.id}
               onClick={() => handleMonthSelect(month)}
-              className="group bg-white rounded-[2.5rem] p-8 border-2 border-slate-100 hover:border-blue-500 hover:shadow-2xl transition-all duration-300 text-left relative overflow-hidden"
+              className="group bg-white rounded-3xl p-6 md:p-7 border-2 border-slate-100 hover:border-blue-500 hover:shadow-xl transition-all duration-300 text-left relative overflow-hidden"
             >
-              <div className="flex items-center justify-between mb-6">
-                <div className="p-4 bg-blue-50 text-blue-600 rounded-2xl group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 transform group-hover:scale-110">
-                  <Calendar className="w-8 h-8" />
+              <div className="flex items-center justify-between mb-4">
+                <div className="p-3.5 bg-blue-50 text-blue-600 rounded-xl group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 transform group-hover:scale-110">
+                  <Calendar className="w-7 h-7" />
                 </div>
-                <div className="w-12 h-12 flex items-center justify-center rounded-full bg-slate-50 text-slate-300 group-hover:bg-blue-50 group-hover:text-blue-500 transition-colors">
+                <div className="w-11 h-11 flex items-center justify-center rounded-full bg-slate-50 text-slate-300 group-hover:bg-blue-50 group-hover:text-blue-500 transition-colors">
                   <ChevronRight className="w-6 h-6 transform group-hover:translate-x-1 transition-all" />
                 </div>
               </div>
-              <h3 className="text-2xl font-black text-slate-900 mb-2">{month.name}</h3>
-              <p className="text-slate-500 font-medium mb-6 line-clamp-1">{month.topic}</p>
+              <h3 className="text-xl md:text-2xl font-black text-slate-900 mb-1.5">{month.name}</h3>
+              <p className="text-slate-500 text-sm md:text-base font-medium mb-5 line-clamp-1">{month.topic}</p>
               <div className="flex items-center gap-3">
-                <span className="px-4 py-2 bg-blue-50 text-blue-700 rounded-xl text-xs font-black uppercase tracking-widest">10 Feladat</span>
-                <span className="px-4 py-2 bg-slate-50 text-slate-500 rounded-xl text-xs font-black uppercase tracking-widest">10 Pont</span>
+                <span className="px-3.5 py-1.5 bg-blue-50 text-blue-700 rounded-xl text-[11px] font-black uppercase tracking-widest">10 Feladat</span>
+                <span className="px-3.5 py-1.5 bg-slate-50 text-slate-500 rounded-xl text-[11px] font-black uppercase tracking-widest">10 Pont</span>
               </div>
             </button>
           ))}
@@ -402,41 +412,38 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
 
   if (view === 'options' && selectedMonth) {
     return (
-      <div className="max-w-4xl mx-auto space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
-        <div className="bg-white rounded-[3rem] p-10 border-2 border-slate-100 shadow-xl relative overflow-hidden">
-          <Button variant="ghost" size="sm" onClick={() => { setSelectedMonth(null); setView('months'); }} className="text-slate-400 hover:text-blue-600 mb-8 rounded-xl">
-            <ArrowLeft className="w-4 h-4 mr-2" /> Vissza a hónapokhoz
+      <div className="max-w-2xl mx-auto space-y-3 animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <div className="bg-white rounded-[2rem] p-6 md:p-10 border-2 border-slate-100 shadow-xl relative overflow-hidden">
+          <Button variant="ghost" size="sm" onClick={() => { setSelectedMonth(null); setView('months'); }} className="text-slate-400 hover:text-blue-600 mb-2 rounded-xl h-8">
+            <ArrowLeft className="w-4 h-4 mr-2" /> Vissza a választáshoz
           </Button>
           
-          <div className="text-center space-y-4 mb-12">
-            <div className="w-20 h-20 bg-blue-50 text-blue-600 rounded-3xl flex items-center justify-center mx-auto mb-4">
-              <Calendar className="w-10 h-10" />
-            </div>
-            <h2 className="text-4xl font-black text-slate-900">{selectedMonth.name}</h2>
-            <p className="text-xl font-bold text-slate-400 uppercase tracking-widest">{selectedMonth.topic}</p>
+          <div className="text-center space-y-1 mb-8">
+            <h2 className="text-2xl md:text-3xl font-black text-slate-900 leading-tight">{selectedMonth.name}</h2>
+            <p className="text-xs md:text-sm font-bold text-slate-400 uppercase tracking-widest">{selectedMonth.topic}</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <button
               onClick={() => setView('test')}
-              className="group p-8 rounded-[2.5rem] border-4 border-slate-50 bg-slate-50 hover:border-blue-500 hover:bg-white transition-all duration-300 text-center space-y-4"
+              className="group p-5 md:p-6 rounded-[1.5rem] border-4 border-slate-50 bg-slate-50 hover:border-blue-500 hover:bg-white transition-all duration-300 text-center space-y-2.5"
             >
-              <div className="w-16 h-16 bg-white text-blue-600 rounded-2xl flex items-center justify-center mx-auto shadow-sm group-hover:bg-blue-600 group-hover:text-white transition-all transform group-hover:scale-110">
-                <Target className="w-8 h-8" />
+              <div className="w-10 h-10 bg-white text-blue-600 rounded-xl flex items-center justify-center mx-auto shadow-sm group-hover:bg-blue-600 group-hover:text-white transition-all transform group-hover:scale-110">
+                <Target className="w-5 h-5" />
               </div>
-              <h3 className="text-2xl font-black text-slate-900">Teszt indítása</h3>
-              <p className="text-slate-500 font-medium">10 interaktív feladat megoldása és PDF generálás.</p>
+              <h3 className="text-lg font-black text-slate-900">Teszt indítása</h3>
+              <p className="text-slate-400 text-[13px] font-medium leading-relaxed px-2">10 interaktív feladat megoldása és PDF generálás.</p>
             </button>
 
             <button
               onClick={() => setView('feedback')}
-              className="group p-8 rounded-[2.5rem] border-4 border-slate-50 bg-slate-50 hover:border-emerald-500 hover:bg-white transition-all duration-300 text-center space-y-4"
+              className="group p-5 md:p-6 rounded-[1.5rem] border-4 border-slate-50 bg-slate-50 hover:border-emerald-500 hover:bg-white transition-all duration-300 text-center space-y-2.5"
             >
-              <div className="w-16 h-16 bg-white text-emerald-600 rounded-2xl flex items-center justify-center mx-auto shadow-sm group-hover:bg-emerald-600 group-hover:text-white transition-all transform group-hover:scale-110">
-                <Sparkles className="w-8 h-8" />
+              <div className="w-10 h-10 bg-white text-emerald-600 rounded-xl flex items-center justify-center mx-auto shadow-sm group-hover:bg-emerald-600 group-hover:text-white transition-all transform group-hover:scale-110">
+                <Sparkles className="w-5 h-5" />
               </div>
-              <h3 className="text-2xl font-black text-slate-900">Visszajelzés</h3>
-              <p className="text-slate-500 font-medium">Oszd meg véleményedet és tapasztalataidat a témával kapcsolatban.</p>
+              <h3 className="text-lg font-black text-slate-900">Visszajelzés</h3>
+              <p className="text-slate-400 text-[13px] font-medium leading-relaxed px-2">Oszd meg véleményedet és tapasztalataidat a témával kapcsolatban.</p>
             </button>
           </div>
         </div>
@@ -453,10 +460,7 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
     if (isFeedbackSubmitted) {
       return (
         <div className="max-w-2xl mx-auto py-12 px-6 animate-in zoom-in-95 duration-500">
-          <div className="bg-white rounded-[3rem] p-12 border-4 border-emerald-100 shadow-2xl text-center space-y-8">
-            <div className="w-20 h-20 bg-emerald-600 rounded-3xl flex items-center justify-center mx-auto shadow-xl rotate-3">
-              <CheckCircle2 className="w-10 h-10 text-white" />
-            </div>
+          <div className="bg-white rounded-[3rem] p-12 border-4 border-emerald-100 shadow-2xl text-center space-y-6">
             <h2 className="text-3xl font-black text-slate-900">Köszönjük a visszajelzést!</h2>
             <p className="text-slate-500 font-bold text-lg">Válaszaidat rögzítettük az Önértékelő Lapon.</p>
             
@@ -799,7 +803,7 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
   const progress = ((currentStep + 1) / 10) * 100;
 
   return (
-    <div className="max-w-4xl mx-auto space-y-3 animate-in slide-in-from-bottom-8 duration-500 mb-20">
+    <div className="max-w-[95%] mx-auto space-y-3 animate-in slide-in-from-bottom-8 duration-500 mb-20">
       {/* Progress & Header */}
       <div className="bg-white rounded-3xl p-4 border-2 border-slate-100 shadow-sm z-10">
         <div className="flex items-center justify-between mb-4">
@@ -809,17 +813,17 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
             </Button>
             <div>
               <h2 className="text-xl font-black text-slate-900">{selectedMonth.name}</h2>
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{selectedMonth.topic}</p>
+              <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">{selectedMonth.topic}</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
              {isSubmitted ? (
                <div className="flex items-center gap-3 bg-blue-50 px-3 py-1.5 rounded-xl border border-blue-100">
                   <Trophy className="w-4 h-4 text-blue-600" />
-                  <span className="font-bold text-blue-700 text-sm">{score} / 10 Pont</span>
+                  <span className="font-bold text-blue-700 text-base">{score} / 10 Pont</span>
                </div>
              ) : (
-               <span className="font-bold text-slate-400 text-sm">{currentStep + 1} / 10</span>
+               <span className="font-bold text-slate-400 text-base">{currentStep + 1} / 10</span>
              )}
           </div>
         </div>
@@ -836,7 +840,7 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
       {/* Task Content */}
       <div className="min-h-[400px] flex flex-col">
         <div className={cn(
-          "flex-1 bg-white rounded-[2.5rem] p-5 md:p-6 border-2 transition-all duration-500 shadow-lg relative overflow-hidden",
+          "flex-1 bg-white rounded-[2.5rem] p-6 md:p-8 border-2 transition-all duration-500 shadow-lg relative overflow-hidden",
           isSubmitted 
             ? (currentTask.type === 'matching' ? "border-blue-100" : (String(answers[currentTask.id]) === String(currentTask.correctAnswer) ? "border-green-200 bg-green-50/5" : "border-red-200 bg-red-50/5"))
             : "border-slate-100"
@@ -846,7 +850,7 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
             #{currentStep + 1}
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 relative z-10">
             {/* Left Side: Context & Data */}
             <div className="space-y-3">
               {currentTask.image && (
@@ -857,7 +861,7 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
                     <img 
                       src={currentTask.image} 
                       alt="Task illustration" 
-                      className="max-h-48 rounded-2xl shadow-lg border-4 border-white rotate-1 hover:rotate-0 transition-transform duration-500"
+                      className="max-h-[600px] w-auto rounded-2xl shadow-lg border-4 border-white rotate-1 hover:rotate-0 transition-transform duration-500"
                     />
                   )}
                 </div>
@@ -877,7 +881,7 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
                     <thead className="bg-slate-100 sticky top-0">
                       <tr>
                         {currentTask.tableData[0].map((cell, i) => (
-                          <th key={i} className="p-3 text-xs font-black text-slate-600 border-b border-slate-200">{cell}</th>
+                          <th key={i} className="p-4 text-base font-black text-slate-600 border-b border-slate-200">{cell}</th>
                         ))}
                       </tr>
                     </thead>
@@ -885,7 +889,7 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
                       {currentTask.tableData.slice(1).map((row, i) => (
                         <tr key={i} className="hover:bg-slate-50 transition-colors">
                           {row.map((cell, j) => (
-                            <td key={j} className="p-3 text-xs font-medium text-slate-800 border-b border-slate-100">{cell}</td>
+                            <td key={j} className="p-4 text-base font-bold text-slate-800 border-b border-slate-100">{cell}</td>
                           ))}
                         </tr>
                       ))}
@@ -903,7 +907,7 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
 
             {/* Right Side: Question & Answers */}
             <div className="space-y-3 lg:border-l lg:pl-6 lg:border-slate-100">
-              <h3 className="text-lg md:text-xl font-black text-slate-900 leading-tight">
+              <h3 className="text-xl md:text-2xl font-black text-slate-900 leading-tight">
                 {currentTask.question}
               </h3>
 
@@ -920,7 +924,7 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
                           disabled={isSubmitted}
                           onClick={() => handleAnswerChange(currentTask.id, oIdx)}
                           className={cn(
-                            "p-4 rounded-2xl border-2 text-left transition-all duration-300 font-bold text-base",
+                            "p-5 rounded-2xl border-2 text-left transition-all duration-300 font-bold text-lg",
                             isUserSelected 
                               ? "border-blue-500 bg-blue-50 text-blue-700 shadow-md translate-x-1" 
                               : "border-slate-100 hover:border-blue-200 hover:bg-slate-50 text-slate-600",
@@ -963,7 +967,7 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
                   <div className="space-y-3">
                     {currentTask.pairs?.map((pair) => (
                       <div key={pair.id} className="flex items-center gap-3">
-                        <div className="flex-1 p-3 bg-slate-50 border-2 border-slate-100 rounded-xl font-bold text-slate-700 text-sm shadow-sm">
+                        <div className="flex-1 p-4 bg-slate-50 border-2 border-slate-100 rounded-xl font-bold text-slate-700 text-lg shadow-sm">
                           {pair.left}
                         </div>
                         <div className="text-blue-500 font-black">➔</div>
@@ -975,7 +979,7 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
                             onChange={(e) => handleAnswerChange(`${currentTask.id}-${pair.id}`, e.target.value)}
                             placeholder="..."
                             className={cn(
-                              "w-32 bg-white border-2 rounded-xl px-3 py-2 text-center text-base font-black outline-none transition-all",
+                              "w-48 bg-white border-2 rounded-xl px-4 py-3 text-center text-xl font-black outline-none transition-all",
                               isSubmitted 
                                 ? (String(answers[`${currentTask.id}-${pair.id}`]) === String(pair.right) ? "border-green-500 bg-green-50 text-green-700" : "border-red-500 bg-red-50 text-red-700")
                                 : "border-slate-100 focus:border-blue-500 shadow-sm"
@@ -986,6 +990,39 @@ export function CompetencyAssessment({ onBack, grade }: CompetencyAssessmentProp
                                {pair.right}
                              </div>
                           )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : currentTask.type === 'multi-true-false' ? (
+                  <div className="space-y-4">
+                    {currentTask.pairs?.map((pair) => (
+                      <div key={pair.id} className="bg-slate-50 p-4 rounded-2xl border-2 border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <span className="font-bold text-slate-700 text-lg flex-1">{pair.left}</span>
+                        <div className="flex gap-2">
+                          {['Igaz', 'Hamis'].map((label, idx) => {
+                            const val = idx === 0;
+                            const isSelected = answers[`${currentTask.id}-${pair.id}`] === val;
+                            const isCorrect = pair.right === val;
+                            
+                            return (
+                              <button
+                                key={label}
+                                disabled={isSubmitted}
+                                onClick={() => handleAnswerChange(`${currentTask.id}-${pair.id}`, val)}
+                                className={cn(
+                                  "px-6 py-2 rounded-xl border-2 font-black transition-all",
+                                  isSelected 
+                                    ? "bg-blue-600 border-blue-600 text-white shadow-md" 
+                                    : "bg-white border-slate-200 text-slate-500 hover:border-blue-300",
+                                  isSubmitted && isCorrect && "ring-4 ring-green-100 border-green-500",
+                                  isSubmitted && isSelected && !isCorrect && "border-red-500 bg-red-50 text-red-700"
+                                )}
+                              >
+                                {label}
+                              </button>
+                            );
+                          })}
                         </div>
                       </div>
                     ))}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+    <rect width="900" height="600" fill="#ffffff" />
+    <g transform="translate(60, 60)">
+        
+    <text x="0" y="30" font-family="Arial" font-size="36" font-weight="bold">Választási eredmény (%)</text>
+    <text x="0" y="110" font-size="32" font-weight="bold">A párt: 40%</text>
+    <text x="0" y="170" font-size="32" font-weight="bold">B párt: 40%</text>
+    <text x="0" y="230" font-size="32" font-weight="bold">C párt: 20%</text>
+    
+    <g transform="translate(500, 350)">
+        <path d="M-220,0 A220,220 0 0,1 220,0 L0,0 Z" fill="#ecf0f1" stroke="#333" stroke-width="5" />
+        <path d="M0,0 L-220,0 A220,220 0 0,1 -67.9,-209.1 Z" fill="#3498db" />
+        <path d="M0,0 L-67.9,-209.1 A220,220 0 0,1 178,-129.2 Z" fill="#e74c3c" />
+        <path d="M0,0 L178,-129.2 A220,220 0 0,1 220,0 Z" fill="#f1c40f" />
+        <text x="-120" y="-60" font-size="32" fill="#fff" font-weight="bold" text-anchor="middle">40%</text>
+        <text x="30" y="-120" font-size="32" fill="#fff" font-weight="bold" text-anchor="middle">40%</text>
+        <text x="130" y="-30" font-size="28" fill="#333" font-weight="bold" text-anchor="middle">20%</text>
+    </g>
+
+    </g>
+</svg>

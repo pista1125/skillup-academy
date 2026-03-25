@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+    <rect width="600" height="400" fill="#ffffff" />
+    <g transform="translate(60, 40)">
+        
+    <circle cx="250" cy="160" r="120" fill="none" stroke="#333" stroke-width="1" />
+    <path d="M250,160 L250,40 A120,120 0 0,1 370,160 Z" fill="#3498db" />
+    <path d="M250,160 L370,160 A120,120 0 0,1 250,280 Z" fill="#e74c3c" />
+    <path d="M250,160 L250,280 A120,120 0 0,1 130,160 Z" fill="#2ecc71" />
+    <path d="M250,160 L130,160 A120,120 0 0,1 250,40 Z" fill="#f1c40f" />
+    <text x="400" y="60" font-family="Arial" font-size="12" fill="#3498db">Kaland (25%)</text>
+    <text x="400" y="90" font-family="Arial" font-size="12" fill="#e74c3c">Sci-fi (25%)</text>
+    <text x="400" y="120" font-family="Arial" font-size="12" fill="#2ecc71">Történelem (25%)</text>
+    <text x="400" y="150" font-family="Arial" font-size="12" fill="#f1c40f">Ifjúsági (25%)</text>
+
+    </g>
+</svg>

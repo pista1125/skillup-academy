@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+    <rect width="900" height="600" fill="#ffffff" />
+    <g transform="translate(60, 60)">
+        
+    <text x="0" y="30" font-family="Arial" font-size="36" font-weight="bold" fill="#1e40af">HOGYAN JUSSUNK EL A KÖNYVTÁRBA?</text>
+    
+    <rect x="0" y="70" width="780" height="130" rx="15" fill="#1e40af15" stroke="#1e40af" stroke-width="3" />
+    <text x="20" y="110" font-family="Arial" font-size="28" font-weight="bold" fill="#1e40af">Busszal</text>
+    <text x="20" y="150" font-family="Arial" font-size="22" fill="#333">• Séta: 8 perc</text>
+    <text x="300" y="150" font-family="Arial" font-size="22" fill="#333">• Gyakoriság: XX:10-kor</text>
+    <text x="580" y="150" font-family="Arial" font-size="22" fill="#333">• Menetidő: 28 perc</text>
+    
+    
+    <rect x="0" y="220" width="780" height="130" rx="15" fill="#e11d4815" stroke="#e11d48" stroke-width="3" />
+    <text x="20" y="260" font-family="Arial" font-size="28" font-weight="bold" fill="#e11d48">Villamossal</text>
+    <text x="20" y="300" font-family="Arial" font-size="22" fill="#333">• Séta: 12 perc</text>
+    <text x="300" y="300" font-family="Arial" font-size="22" fill="#333">• Gyakoriság: 5 percenként</text>
+    <text x="580" y="300" font-family="Arial" font-size="22" fill="#333">• Menetidő: 15 perc</text>
+    
+    
+    <rect x="0" y="370" width="780" height="130" rx="15" fill="#15803d15" stroke="#15803d" stroke-width="3" />
+    <text x="20" y="410" font-family="Arial" font-size="28" font-weight="bold" fill="#15803d">Biciklivel</text>
+    <text x="20" y="450" font-family="Arial" font-size="22" fill="#333">• Séta: 0 perc</text>
+    <text x="300" y="450" font-family="Arial" font-size="22" fill="#333">• Gyakoriság: Azonnal</text>
+    <text x="580" y="450" font-family="Arial" font-size="22" fill="#333">• Menetidő: 38 perc</text>
+    
+
+    </g>
+</svg>

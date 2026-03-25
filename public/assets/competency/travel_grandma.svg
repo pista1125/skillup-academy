@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+    <rect width="900" height="600" fill="#ffffff" />
+    <g transform="translate(60, 60)">
+        
+    <text x="0" y="30" font-family="Arial" font-size="36" font-weight="bold" fill="#166534">LÁTOGATÁS A NAGYIHOZ</text>
+    
+    <rect x="0" y="70" width="780" height="130" rx="15" fill="#15803d15" stroke="#15803d" stroke-width="3" />
+    <text x="20" y="110" font-family="Arial" font-size="28" font-weight="bold" fill="#15803d">A járat</text>
+    <text x="20" y="150" font-family="Arial" font-size="22" fill="#333">• Séta: 10 perc</text>
+    <text x="300" y="150" font-family="Arial" font-size="22" fill="#333">• Gyakoriság: XX:30-kor</text>
+    <text x="580" y="150" font-family="Arial" font-size="22" fill="#333">• Menetidő: 40 perc</text>
+    
+    
+    <rect x="0" y="220" width="780" height="130" rx="15" fill="#16653415" stroke="#166534" stroke-width="3" />
+    <text x="20" y="260" font-family="Arial" font-size="28" font-weight="bold" fill="#166534">B járat</text>
+    <text x="20" y="300" font-family="Arial" font-size="22" fill="#333">• Séta: 25 perc</text>
+    <text x="300" y="300" font-family="Arial" font-size="22" fill="#333">• Gyakoriság: XX:45-kor</text>
+    <text x="580" y="300" font-family="Arial" font-size="22" fill="#333">• Menetidő: 15 perc</text>
+    
+
+    </g>
+</svg>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+    <rect width="900" height="600" fill="#ffffff" />
+    <g transform="translate(60, 60)">
+        
+    <text x="0" y="30" font-family="Arial" font-size="36" font-weight="bold" fill="#0369a1">KIRÁNDULÁSI KÖLTSÉGEK</text>
+    
+    <rect x="0" y="70" width="700" height="100" fill="#0369a1" rx="15" />
+    <text x="350" y="130" font-family="Arial" font-size="32" font-weight="bold" fill="#fff" text-anchor="middle">Buszbérlés: 50.000 Ft (összesen)</text>
+    
+    
+    <rect x="0" y="200" width="350" height="60" fill="#1e40af" stroke="#fff" stroke-width="2" />
+    <text x="175" y="238" font-family="Arial" font-size="24" font-weight="bold" fill="#fff" text-anchor="middle">Belépőjegy</text>
+    
+    
+    <rect x="350" y="200" width="350" height="60" fill="#1e40af" stroke="#fff" stroke-width="2" />
+    <text x="525" y="238" font-family="Arial" font-size="24" font-weight="bold" fill="#fff" text-anchor="middle">Ár / fő</text>
+    
+    
+    
+    <rect x="0" y="260" width="350" height="60" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+    <text x="175" y="298" font-family="Arial" font-size="22" font-weight="bold" fill="#334155" text-anchor="middle">Diák</text>
+    
+    
+    <rect x="350" y="260" width="350" height="60" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+    <text x="525" y="298" font-family="Arial" font-size="22" font-weight="bold" fill="#334155" text-anchor="middle">2000 Ft</text>
+    
+    
+    
+    <rect x="0" y="320" width="350" height="60" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+    <text x="175" y="358" font-family="Arial" font-size="22" font-weight="bold" fill="#334155" text-anchor="middle">Felnőtt (kísérő)</text>
+    
+    
+    <rect x="350" y="320" width="350" height="60" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+    <text x="525" y="358" font-family="Arial" font-size="22" font-weight="bold" fill="#334155" text-anchor="middle">3000 Ft</text>
+    
+    
+    <text x="0" y="440" font-family="Arial" font-size="28" font-weight="bold" fill="#0c4a6e">Létszám: 25 diák és 2 tanár.</text>
+
+    </g>
+</svg>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+    <rect width="900" height="600" fill="#ffffff" />
+    <g transform="translate(60, 60)">
+        
+    <text x="0" y="30" font-family="Arial" font-size="36" font-weight="bold">Hátizsák tartalma (kg)</text>
+    <text x="0" y="110" font-size="32" font-weight="bold">Tankönyv: 4kg</text>
+    <text x="0" y="170" font-size="32" font-weight="bold">Laptop: 3kg</text>
+    <text x="0" y="230" font-size="32" font-weight="bold">Uzsonna: 1kg</text>
+    
+    <g transform="translate(500, 80)">
+        <rect x="0" y="0" width="150" height="400" fill="#ecf0f1" stroke="#333" stroke-width="5" />
+        <rect x="0" y="0" width="150" height="200" fill="#34495e" /> <!-- 50% -->
+        <rect x="0" y="200" width="150" height="150" fill="#7f8c8d" /> <!-- 37.5% -->
+        <rect x="0" y="350" width="150" height="50" fill="#bdc3c7" /> <!-- 12.5% -->
+        <text x="75" y="110" text-anchor="middle" font-size="28" fill="#fff" font-weight="bold">4kg</text>
+        <text x="75" y="285" text-anchor="middle" font-size="28" fill="#fff" font-weight="bold">3kg</text>
+        <text x="75" y="385" text-anchor="middle" font-size="22" fill="#333" font-weight="bold">1kg</text>
+    </g>
+
+    </g>
+</svg>

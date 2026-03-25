@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+    <rect width="900" height="600" fill="#ffffff" />
+    <g transform="translate(60, 60)">
+        
+    <text x="0" y="30" font-family="Arial" font-size="36" font-weight="bold" fill="#15803d">DIÁKMUNKA ELSZÁMOLÁS</text>
+    
+    
+    <rect x="0" y="70" width="250" height="60" fill="#1e40af" stroke="#fff" stroke-width="2" />
+    <text x="125" y="108" font-family="Arial" font-size="24" font-weight="bold" fill="#fff" text-anchor="middle">Napok</text>
+    
+    
+    <rect x="250" y="70" width="200" height="60" fill="#1e40af" stroke="#fff" stroke-width="2" />
+    <text x="350" y="108" font-family="Arial" font-size="24" font-weight="bold" fill="#fff" text-anchor="middle">Óraszám</text>
+    
+    
+    <rect x="450" y="70" width="250" height="60" fill="#1e40af" stroke="#fff" stroke-width="2" />
+    <text x="575" y="108" font-family="Arial" font-size="24" font-weight="bold" fill="#fff" text-anchor="middle">Órabér</text>
+    
+    
+    
+    <rect x="0" y="130" width="250" height="60" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+    <text x="125" y="168" font-family="Arial" font-size="22" font-weight="bold" fill="#334155" text-anchor="middle">Hétfő - Szerda</text>
+    
+    
+    <rect x="250" y="130" width="200" height="60" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+    <text x="350" y="168" font-family="Arial" font-size="22" font-weight="bold" fill="#334155" text-anchor="middle">13 óra</text>
+    
+    
+    <rect x="450" y="130" width="250" height="60" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+    <text x="575" y="168" font-family="Arial" font-size="22" font-weight="bold" fill="#334155" text-anchor="middle">1200 Ft/h</text>
+    
+    
+    
+    <rect x="0" y="190" width="250" height="60" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+    <text x="125" y="228" font-family="Arial" font-size="22" font-weight="bold" fill="#334155" text-anchor="middle">Csütörtök - Péntek</text>
+    
+    
+    <rect x="250" y="190" width="200" height="60" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+    <text x="350" y="228" font-family="Arial" font-size="22" font-weight="bold" fill="#334155" text-anchor="middle">12 óra</text>
+    
+    
+    <rect x="450" y="190" width="250" height="60" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+    <text x="575" y="228" font-family="Arial" font-size="22" font-weight="bold" fill="#334155" text-anchor="middle">1500 Ft/h</text>
+    
+    
+    <rect x="0" y="280" width="700" height="150" fill="#f0fdf4" rx="15" stroke="#bcf0da" stroke-width="4" />
+    <text x="350" y="340" font-family="Arial" font-size="28" font-weight="bold" fill="#166534" text-anchor="middle">Számold ki az összesített keresetet!</text>
+
+    </g>
+</svg>

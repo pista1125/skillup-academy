@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+    <rect width="900" height="600" fill="#ffffff" />
+    <g transform="translate(60, 60)">
+        
+    <rect x="0" y="0" width="750" height="400" fill="#4338ca" rx="30" />
+    <text x="375" y="60" text-anchor="middle" font-family="Arial" font-size="44" font-weight="bold" fill="#fff">MOBO-NET CSOMAG</text>
+    
+    <rect x="75" y="100" width="600" height="120" fill="#fff" rx="20" />
+    <text x="375" y="170" text-anchor="middle" font-family="Arial" font-size="36" font-weight="bold" fill="#4338ca">Alapdíj: 3000 Ft / hó (5GB)</text>
+    
+    <rect x="75" y="250" width="600" height="100" fill="#a5b4fc" rx="20" />
+    <text x="375" y="315" text-anchor="middle" font-family="Arial" font-size="32" font-weight="bold" fill="#1e1b4b">Túlforgalmazási díj: 500 Ft / minden további 1GB</text>
+    
+    <text x="375" y="460" text-anchor="middle" font-family="Arial" font-size="32" font-weight="bold" fill="#312e81">Mennyit kell fizetni, ha 12GB volt a havi forgalmad?</text>
+
+    </g>
+</svg>

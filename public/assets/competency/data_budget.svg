@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+    <rect width="900" height="600" fill="#ffffff" />
+    <g transform="translate(60, 60)">
+        
+    <text x="0" y="30" font-family="Arial" font-size="36" font-weight="bold">Havi kiadás</text>
+    <g transform="translate(450, 300)">
+        <circle cx="0" cy="0" r="180" fill="none" stroke="#eee" stroke-width="100" />
+        <path d="M0,-180 A180,180 0 0,1 171,56" fill="none" stroke="#2ecc71" stroke-width="100" />
+        <path d="M171,56 A180,180 0 0,1 -171,56" fill="none" stroke="#e67e22" stroke-width="100" />
+        <path d="M-171,56 A180,180 0 0,1 0,-180" fill="none" stroke="#3498db" stroke-width="100" />
+        <text x="0" y="15" text-anchor="middle" font-size="48" font-weight="bold">40/40/20</text>
+    </g>
+
+    </g>
+</svg>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+    <rect width="900" height="600" fill="#ffffff" />
+    <g transform="translate(60, 60)">
+        
+    
+    <rect x="10" y="65" width="180" height="70" rx="12" fill="#7f8c8d" stroke="#333" stroke-width="5" />
+    <text x="100" y="110" font-family="Arial" font-size="28" text-anchor="middle" fill="#fff" font-weight="bold">RAKTÁR</text>
+    
+    <rect x="310" y="65" width="180" height="70" rx="12" fill="#e67e22" stroke="#333" stroke-width="5" />
+    <text x="400" y="110" font-family="Arial" font-size="28" text-anchor="middle" fill="#fff" font-weight="bold">KEZELŐ</text>
+    
+    <rect x="610" y="65" width="180" height="70" rx="12" fill="#bdc3c7" stroke="#333" stroke-width="5" />
+    <text x="700" y="110" font-family="Arial" font-size="28" text-anchor="middle" fill="#fff" font-weight="bold">FOLYOSÓ</text>
+    <line x1="100" y1="100" x2="400" y2="100" stroke="#333" stroke-width="8" />
+    <line x1="400" y1="100" x2="700" y2="100" stroke="#333" stroke-width="8" />
+
+    </g>
+</svg>

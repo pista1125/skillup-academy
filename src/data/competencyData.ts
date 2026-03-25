@@ -1,4 +1,4 @@
-export type CompetencyTaskType = 'multiple-choice' | 'number-input' | 'true-false' | 'matching';
+export type CompetencyTaskType = 'multiple-choice' | 'number-input' | 'true-false' | 'matching' | 'multi-true-false';
 
 export interface CompetencyTask {
   id: string;
@@ -8,7 +8,8 @@ export interface CompetencyTask {
   question: string;
   options?: string[];
   correctAnswer: any;
-  pairs?: { left: string; right: string; id: string }[];
+  pairs?: { left: string; right: any; id: string }[];
+ pieces?: { id: string; image: string; rotation: number }[];
   hint?: string;
   points: number;
   image?: string;
@@ -244,7 +245,7 @@ const GRADE_5_DATA: MonthlyCompetency[] = [
     { id: 'g5-feb-6', type: 'true-false', image: '📑', context: 'A téglalap oldalai közötti kapcsolatokat tanulmányozzuk geometria órán.', question: 'Igaz vagy Hamis? Egy téglalap szemközti oldalai mindig egyenlő hosszúak.', options: ['Igaz', 'Hamis'], correctAnswer: 0, points: 1 },
     { id: 'g5-feb-7', type: 'matching', image: '📐', context: 'A képletek segítenek a gyors számolásban. Párosítsd az alakzatokat a hozzájuk tartozó kerület/terület képlettel!', question: 'Párosítsd össze!', pairs: [{ id: '1', left: 'Téglalap K', right: '2*(a+b)' }, { id: '2', left: 'Téglalap T', right: 'a*b' }, { id: '3', left: 'Négyzet K', right: '4*a' }], correctAnswer: null, points: 1 },
     { id: 'g5-feb-8', type: 'multiple-choice', image: '⚖️', context: 'Két különböző méretű területet akarunk összehasonlítani.', question: 'Melyik terület a nagyobb: 1 m² vagy 100 cm²?', options: ['1 m²', '100 cm²', 'Egyformák', 'Nem összehasonlíthatóak'], correctAnswer: 0, points: 1 },
-    { id: 'g5-feb-9', type: '🏠', context: 'Egy konyha alaprajza 3 méter széles és 4 méter hosszú.', question: 'Hány négyzetméter járólap kell a konyha padlójára?', correctAnswer: 12, points: 1 },
+    { id: 'g5-feb-9', type: 'number-input', image: '🏠', context: 'Egy konyha alaprajza 3 méter széles és 4 méter hosszú.', question: 'Hány négyzetméter járólap kell a konyha padlójára?', correctAnswer: 12, points: 1 },
     { id: 'g5-feb-10', type: 'true-false', image: '🚧', context: 'A kerítés és a telek területe közötti különbséget beszéljük meg.', question: 'Igaz vagy Hamis? A kerület az alakzatot határoló vonal hossza.', options: ['Igaz', 'Hamis'], correctAnswer: 0, points: 1 }
   ]},
   { id: 'march', name: 'Március', topic: 'Mértékegységek és Testek', tasks: [
@@ -1496,6 +1497,7 @@ const GRADE_6_DATA: MonthlyCompetency[] = [
         "id": "g6-june-7",
         "type": "matching",
         "question": "Párosíts testeket!",
+        "correctAnswer": null,
         "points": 1,
         "pairs": [
           { "id": "1", "left": "Kocka", "right": "6 lap" },
@@ -2568,8 +2570,735 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         image: '🔴'
       }
     ]
+  },
+  {
+    id: 'probameres-1',
+    name: 'Probamérés 1',
+    topic: 'Adatértelmezés és diagramok',
+    tasks: [
+      { 
+        id: 'p1-1', 
+        type: 'multiple-choice', 
+        context: '### Kerti parti\n\nAnita kerti partit szeretne adni. A feltételek:\n- Az esti hőmérséklet legalább 18°C legyen.\n- A csapadék esélye ne haladja meg a 20%-ot.',
+        question: 'A diagram alapján melyik nap a legalkalmasabb a partira?', 
+        options: ['Hétfő', 'Szerda', 'Csütörtök', 'Péntek'], 
+        correctAnswer: 3, 
+        points: 1, 
+        image: '/assets/competency/weather_diagram.svg' 
+      },
+      { 
+        id: 'p1-2', 
+        type: 'number-input', 
+        context: '### Elektromos autó töltése\n\nAz autó tölöttségi szintje 8 és 10 óra között állandó volt (nem mozdult az autó).',
+        question: 'Hány órán keresztül tartott, amíg az autó 20%-ról 90%-ra feltöltődött (10 órától 18 óráig)?', 
+        correctAnswer: 8, 
+        points: 1, 
+        image: '/assets/competency/electric_car.svg' 
+      },
+      { 
+        id: 'p1-3', 
+        type: 'multiple-choice', 
+        context: '### Iskolai ebéd\n\nA grafikon a négy választható menü népszerűségét mutatja.',
+        question: 'Melyik menüt választották a legtöbben?', 
+        options: ['A (Hús)', 'B (Tészta)', 'C (Zöldség)', 'D (Vegán)'], 
+        correctAnswer: 1, 
+        points: 1, 
+        image: '/assets/competency/school_lunch.svg' 
+      },
+      { 
+        id: 'p1-4', 
+        type: 'number-input', 
+        context: '### Maraton\n\nA futó sebessége a távolság függvényében változik.',
+        question: 'Hány kilométernél érte el a futó a legnagyobb sebességét (a grafikon legmagasabb pontja)?', 
+        correctAnswer: 4, 
+        points: 1, 
+        image: '/assets/competency/marathon.svg' 
+      },
+      { 
+        id: 'p1-5', 
+        type: 'number-input', 
+        context: '### Növény növekedése\n\nKét növény fejlődését vizsgáltuk 5 héten keresztül. A sárga szaggatott vonal az árnyékos helyen lévő növényt jelöli.',
+        question: 'Hány centiméter különbség van a két növény között az 5. hét végén? (Használd a grafikont!)', 
+        correctAnswer: 190, 
+        points: 1, 
+        image: '/assets/competency/plant_growth.svg' 
+      },
+      { 
+        id: 'p1-6', 
+        type: 'multiple-choice', 
+        context: '### Mobil adatforgalom\n\nA kék oszlop a videónézést, a lila a közösségi médiát jelöli.',
+        question: 'Hogyan változott az összesített adatforgalom januárhoz képest júniusra?', 
+        options: ['Csökkent', 'Nőtt', 'Nem változott', 'Nem meghatározható'], 
+        correctAnswer: 1, 
+        points: 1, 
+        image: '/assets/competency/data_usage.svg' 
+      },
+      { 
+        id: 'p1-7', 
+        type: 'matching', 
+        context: '### Víztározó\n\nA kék vonal a vízszintet, a szürke oszlopok a csapadékot jelölik.',
+        question: 'Párosítsd a csapadékmennyiséget a hónapokkal!', 
+        pairs: [
+          { id: 'a', left: 'Legtöbb csapadék', right: 'Október' },
+          { id: 'b', left: 'Legkevesebb csapadék', right: 'Augusztus' },
+          { id: 'c', left: 'Közepes csapadék', right: 'Május' }
+        ], 
+        correctAnswer: null, 
+        points: 1, 
+        image: '/assets/competency/reservoir.svg' 
+      },
+      { 
+        id: 'p1-8', 
+        type: 'number-input', 
+        context: '### Könyvtár\n\nAz elmúlt hónapban összesen 400 könyvet kölcsönöztek ki a diákok.',
+        question: 'Hány kalandregényt (kék szelet) vettek ki, ha ez a teljes forgalom 25%-a?', 
+        correctAnswer: 100, 
+        points: 1, 
+        image: '/assets/competency/library_books.svg' 
+      },
+      { 
+        id: 'p1-9', 
+        type: 'true-false', 
+        context: '### Buszjárat késése\n\nA fekete pontok a tervezett, a kék pontok a tényleges érkezést jelzik.',
+        question: 'Igaz-Hamis: Volt olyan megálló, ahol a busz pontosan érkezett (a két pont fedi egymást).', 
+        options: ['Igaz', 'Hamis'], 
+        correctAnswer: 1, 
+        points: 1, 
+        image: '/assets/competency/bus_arrival.svg' 
+      },
+      { 
+        id: 'p1-10', 
+        type: 'number-input', 
+        context: '### Kerékpártúra\n\nA szintvonal a túra tengerszint feletti magasságát mutatja.',
+        question: 'Milyen magasra jutottak fel a túra legmagasabb pontján (méterben)?', 
+        correctAnswer: 900, 
+        points: 1, 
+        image: '/assets/competency/elevation_profile.svg' 
+      }
+    ]
+  },
+  {
+    id: 'probameres-2',
+    name: 'Probamérés 2',
+    topic: 'Alakzatok és vizuális logika',
+    tasks: [
+      { 
+        id: 'p2-1', 
+        type: 'multiple-choice', 
+        context: '### Pótkulcs\n\nFeri kulcsot másoltat. A képen látható az eredeti kulcs és 4 választható mintázat.',
+        question: 'Melyik mintázat (1-4) felel meg az eredeti kulcsnak?', 
+        options: ['1. minta', '2. minta', '3. minta', '4. minta'], 
+        correctAnswer: 2, 
+        points: 1, 
+        image: '/assets/competency/puzzle_key.svg' 
+      },
+      { 
+        id: 'p2-2', 
+        type: 'multiple-choice', 
+        context: '### Hiányzó darab\n\nA négyzethálóban egy logikai szabály szerint követik egymást az alakzatok.',
+        question: 'Melyik alakzat illik a kérdőjel helyére?', 
+        options: ['A (Zöld kör)', 'B (Lila négyzet)', 'C (Sötét háromszög)', 'D (Narancs gyűrű)'], 
+        correctAnswer: 0, 
+        points: 1, 
+        image: '/assets/competency/puzzle_missing.svg' 
+      },
+      { 
+        id: 'p2-3', 
+        type: 'multiple-choice', 
+        context: '### Forgatott alakzat\n\nA felső kék háromszöget elforgattuk.',
+        question: 'Melyik betűjelű (A, B, C) alakzatot kapjuk 180 fokos elforgatás után?', 
+        options: ['A alakzat', 'B alakzat', 'C alakzat'], 
+        correctAnswer: 1, 
+        points: 1, 
+        image: '/assets/competency/puzzle_rotated.svg' 
+      },
+      { 
+        id: 'p2-4', 
+        type: 'multiple-choice', 
+        context: '### Árnyékkép\n\nEgy narancssárga alakzat árnyékát keressük.',
+        question: 'Melyik fekete alakzat (A, B, C) a pontos árnyéka a fentinek?', 
+        options: ['A alakzat', 'B alakzat', 'C alakzat'], 
+        correctAnswer: 0, 
+        points: 1, 
+        image: '/assets/competency/puzzle_shadow.svg' 
+      },
+      { 
+        id: 'p2-5', 
+        type: 'multiple-choice', 
+        context: '### Kockaháló\n\nA képen egy félig összeállított kocka és két lehetséges háló látható.',
+        question: 'Melyik háló (A vagy B) hajtogatható össze úgy, hogy a kék-X-es lap a piros lap mellett legyen?', 
+        options: ['A háló', 'B háló', 'Egyik sem'], 
+        correctAnswer: 0, 
+        points: 1, 
+        image: '/assets/competency/puzzle_cube.svg' 
+      },
+      { 
+        id: 'p2-6', 
+        type: 'multiple-choice', 
+        context: '### Szimmetria\n\nA piros szaggatott vonal a tükörtengely.',
+        question: 'Melyik kiegészítés (A vagy B) teszi tengelyesen szimmetrikussá az alakzatot?', 
+        options: ['A kiegészítés', 'B kiegészítés'], 
+        correctAnswer: 1, 
+        points: 1, 
+        image: '/assets/competency/puzzle_symmetry.svg' 
+      },
+      { 
+        id: 'p2-7', 
+        type: 'multiple-choice', 
+        context: '### Csempézés\n\nEgy hatszögletű csempékből álló mintát kell kiegészíteni.',
+        question: 'Melyik forma (1, 2, 3) illik pontosan a kérdőjel helyére?', 
+        options: ['1. (Kék hatszög)', '2. (Piros négyzet)', '3. (Zöld kör)'], 
+        correctAnswer: 0, 
+        points: 1, 
+        image: '/assets/competency/puzzle_tiling.svg' 
+      },
+      { 
+        id: 'p2-8', 
+        type: 'multiple-choice', 
+        context: '### Formasorozat\n\nA sorozat: Kör -> Négyzet -> Háromszög -> ?',
+        question: 'Melyik alakzat legyen a következő a sorban a szabály alapján?', 
+        options: ['A (Szürke kör)', 'B (Üres négyzet)', 'C (Kék rombusz)'], 
+        correctAnswer: 2, 
+        points: 1, 
+        image: '/assets/competency/puzzle_series.svg' 
+      },
+      { 
+        id: 'p2-9', 
+        type: 'multiple-choice', 
+        context: '### Átfedés\n\nKét áttetsző színes alakzatot fektettünk egymásra.',
+        question: 'Melyik két alapformából állt össze a képen látható kompozíció?', 
+        options: ['Kör + Négyzet', 'Háromszög + Kör', 'Négyzet + Háromszög'], 
+        correctAnswer: 0, 
+        points: 1, 
+        image: '/assets/competency/puzzle_overlap.svg' 
+      },
+      { 
+        id: 'p2-10', 
+        type: 'multiple-choice', 
+        context: '### Fogaskerekek\n\nHárom egymáshoz kapcsolódó fogaskerék (A, B, C).',
+        question: 'Ha az "A" kerék az óramutató járásával MEGEGYEZŐEN forog, merre forog a "C" jelű?', 
+        options: ['Megegyezően', 'Ellentétesen'], 
+        correctAnswer: 0, 
+        points: 1, 
+        image: '/assets/competency/puzzle_gears.svg' 
+      }
+    ]
+  },
+  {
+    id: 'probameres-3',
+    name: 'Probamérés 3',
+    topic: 'Hálózatok és gráfok',
+    tasks: [
+      { 
+        id: 'p3-1', 
+        type: 'number-input', 
+        context: '### Kórházi térkép\n\nMolli egy állatkórházban dolgozik. A térkép segít neki eligazodni a helyiségek között.',
+        question: 'Hány helyiségen kell minimum áthaladni a BEJÁRAT-tól a RAKTÁR-ig (a bejáratot és a raktárt is beleértve)?', 
+        correctAnswer: 4, 
+        points: 1, 
+        image: '/assets/competency/graph_hospital.svg' 
+      },
+      { 
+        id: 'p3-2', 
+        type: 'multiple-choice', 
+        context: '### Buszhálózat\n\nA városi buszközlekedés csomópontjait vizsgáljuk.',
+        question: 'Melyik megálló (stop) tekinthető központi átszállóhelynek (HUB), ahol több vonal is találkozik?', 
+        options: ['Stop A', 'HUB X', 'Stop B', 'Stop C'], 
+        correctAnswer: 1, 
+        points: 1, 
+        image: '/assets/competency/graph_bus.svg' 
+      },
+      { 
+        id: 'p3-3', 
+        type: 'multiple-choice', 
+        context: '### Baráti kör\n\nA vonalak az ismeretségeket jelölik a gyerekek között.',
+        question: 'A gráf alapján kinek van a legtöbb ismerőse (közvetlen kapcsolata)?', 
+        options: ['Anna', 'Béla', 'Cecil', 'Dóra'], 
+        correctAnswer: 1, 
+        points: 1, 
+        image: '/assets/competency/graph_social.svg' 
+      },
+      { 
+        id: 'p3-4', 
+        type: 'number-input', 
+        context: '### Túraútvonalak\n\nA Start pontról a Cél felé tartunk.',
+        question: 'Hány kilométer a legrövidebb út a Starttól a Célig?', 
+        correctAnswer: 13, 
+        points: 1, 
+        image: '/assets/competency/graph_hiking.svg' 
+      },
+      { 
+        id: 'p3-5', 
+        type: 'multiple-choice', 
+        context: '### Tápláléklánc\n\nA nyilak az energiaáramlást mutatják (ki kit eszik meg).',
+        question: 'Melyik élőlény áll a tápláléklánc csúcsán (őt nem eszi meg senki a gráfban)?', 
+        options: ['Fű', 'Szöcske', 'Egér', 'Sas'], 
+        correctAnswer: 3, 
+        points: 1, 
+        image: '/assets/competency/graph_foodweb.svg' 
+      },
+      { 
+        id: 'p3-6', 
+        type: 'multiple-choice', 
+        context: '### Munkafolyamat\n\nA szoftverfejlesztés lépéseit nyilak kötik össze.',
+        question: 'Melyik fázist kell mindenképpen befejezni ahhoz, hogy az "A modul" és a "B modul" fejlesztése elkezdődhessen?', 
+        options: ['START', 'TERV', 'TESZT'], 
+        correctAnswer: 1, 
+        points: 1, 
+        image: '/assets/competency/graph_workflow.svg' 
+      },
+      { 
+        id: 'p3-7', 
+        type: 'multiple-choice', 
+        context: '### Számítógépes hálózat\n\nAz ábrán egy irodai hálózat felépítése látható.',
+        question: 'Melyik eszközön halad át az összes forgalom, ha a PC 1 adatot szeretne küldeni a Szervernek?', 
+        options: ['PC 2', 'Router', 'Közvetlen a kapcsolat'], 
+        correctAnswer: 1, 
+        points: 1, 
+        image: '/assets/competency/graph_network.svg' 
+      },
+      { 
+        id: 'p3-8', 
+        type: 'true-false', 
+        context: '### Hidak\n\nHárom szigetet hidak kötnek össze.',
+        question: 'Igaz-Hamis: Be lehet járni az összes szigetet úgy, hogy mindegyiket pontosan egyszer érintjük?', 
+        options: ['Igaz', 'Hamis'], 
+        correctAnswer: 0, 
+        points: 1, 
+        image: '/assets/competency/graph_bridges.svg' 
+      },
+      { 
+        id: 'p3-9', 
+        type: 'multiple-choice', 
+        context: '### Céges hierarchia\n\nEgy vállalat szervezeti felépítését látjuk.',
+        question: 'Kinek a közvetlen beosztottja DOLGOZÓ B?', 
+        options: ['IGAZGATÓ', 'MENEDZSER 1', 'MENEDZSER 2'], 
+        correctAnswer: 1, 
+        points: 1, 
+        image: '/assets/competency/graph_hierarchy.svg' 
+      },
+      { 
+        id: 'p3-10', 
+        type: 'multiple-choice', 
+        context: '### Áramkör\n\nL1 és L2 két lámpát jelöl egy áramkörben.',
+        question: 'Ha az elemről elindul az áram, melyik lámpa fog világítani (ha mindkét ág zárva van)?', 
+        options: ['Csak L1', 'Csak L2', 'Mindkettő', 'Egyik sem'], 
+        correctAnswer: 2, 
+        points: 1, 
+        image: '/assets/competency/graph_circuit.svg' 
+      }
+    ]
+  },
+  {
+    id: 'probameres-4',
+    name: 'Probamérés 4',
+    topic: 'Adatpárosítás és arányok',
+    tasks: [
+      { 
+        id: 'p4-1', 
+        type: 'multiple-choice', 
+        context: '### Virágföld összetétele\n\nEgy kertészeti áruház háromféle anyagból keveri a virágföldet. A táblázat az összetevők mennyiségét mutatja literben.',
+        question: 'Melyik ábra mutatja a táblázatban szereplő 5 : 2 : 3 arányt (Komposzt : Kerti föld : Homok)?', 
+        options: ['A fenti ábra helyes', 'Az ábra hibás arányokat mutat', 'Hiányzik egy összetevő'], 
+        correctAnswer: 0, 
+        points: 1, 
+        image: '/assets/competency/data_soil.svg' 
+      },
+      { 
+        id: 'p4-2', 
+        type: 'multiple-choice', 
+        context: '### Smoothie recept\n\nAz ábrán látható smoothie banánból (300ml), eperből (100ml) és joghurtból (100ml) áll.',
+        question: 'A pohárban látható rétegek közül melyik alkotja a smoothie legnagyobb részét (60%)?', 
+        options: ['Banán (sárga)', 'Eper (piros)', 'Joghurt (fehér)'], 
+        correctAnswer: 0, 
+        points: 1, 
+        image: '/assets/competency/data_smoothie.svg' 
+      },
+      { 
+        id: 'p4-3', 
+        type: 'multiple-choice', 
+        context: '### Iskolai könyvtár\n\nA könyvtár állományának arányait kördiagram szemlélteti.',
+        question: 'Ha a Regények aránya 50%, melyik szín jelöli ezt a kategóriát a diagramon?', 
+        options: ['Kék', 'Narancs', 'Zöld'], 
+        correctAnswer: 2, 
+        points: 1, 
+        image: '/assets/competency/data_library.svg' 
+      },
+      { 
+        id: 'p4-4', 
+        type: 'multiple-choice', 
+        context: '### Hulladék összetétel\n\nA grafikon a szelektív hulladékgyűjtő tartalmát mutatja.',
+        question: 'Melyik anyagból van a legkevesebb (10%) a gyűjtőben a területi arányok alapján?', 
+        options: ['Papír (kék)', 'Műanyag (zöld)', 'Fém (piros)'], 
+        correctAnswer: 2, 
+        points: 1, 
+        image: '/assets/competency/data_waste.svg' 
+      },
+      { 
+        id: 'p4-5', 
+        type: 'multiple-choice', 
+        context: '### Választási eredmény\n\nA diagram a szavazatok megoszlását mutatja 40% - 40% - 20% arányban.',
+        question: 'Melyik szín jelöli a legkisebb támogatottságú (20%) C pártot?', 
+        options: ['Kék', 'Piros', 'Sárga'], 
+        correctAnswer: 2, 
+        points: 1, 
+        image: '/assets/competency/data_election.svg' 
+      },
+      { 
+        id: 'p4-6', 
+        type: 'multiple-choice', 
+        context: '### Hátizsák súlya\n\nA táska összsúlya 8 kg, ebből a tankönyv 4 kg (50%).',
+        question: 'Melyik szürke árnyalatú sáv jelöli a tankönyvek súlyát a hátizsák ábráján?', 
+        options: ['Legfelső (legsötétebb)', 'Középső', 'Legalsó'], 
+        correctAnswer: 0, 
+        points: 1, 
+        image: '/assets/competency/data_backpack.svg' 
+      },
+      { 
+        id: 'p4-7', 
+        type: 'multiple-choice', 
+        context: '### Légkör összetétele\n\nA Föld légkörének gázösszetételét egy négyzethálós ábrán szemléltetjük.',
+        question: 'Melyik gáz foglalja el a legnagyobb területet (78%) az ábrán?', 
+        options: ['Nitrogén (kék)', 'Oxigén (piros)', 'Egyéb gázok (fekete)'], 
+        correctAnswer: 0, 
+        points: 1, 
+        image: '/assets/competency/data_atmosphere.svg' 
+      },
+      { 
+        id: 'p4-8', 
+        type: 'multiple-choice', 
+        context: '### Havi kiadás\n\nA család havi költségvetését gyűrűdiagramon ábrázoltuk.',
+        question: 'Ha a Rezsí és az Étel költsége megegyezik (40-40%), melyik két szín tartozik ezekhez?', 
+        options: ['Zöld és Narancs', 'Zöld és Kék', 'Narancs és Kék'], 
+        correctAnswer: 0, 
+        points: 1, 
+        image: '/assets/competency/data_budget.svg' 
+      },
+      { 
+        id: 'p4-9', 
+        type: 'multiple-choice', 
+        context: '### Arany ötvözet\n\nEgy 20 grammos ékszer 15g aranyat, 3g ezüstöt és 2g rezet tartalmaz.',
+        question: 'Milyen színű sáv jelöli az ezüstöt (15%) a vízszintes grafikonon?', 
+        options: ['Sárga', 'Szürke', 'Narancs'], 
+        correctAnswer: 1, 
+        points: 1, 
+        image: '/assets/competency/data_jewel.svg' 
+      },
+      { 
+        id: 'p4-10', 
+        type: 'multiple-choice', 
+        context: '### Kedvenc sportok\n\n20 diákot kérdeztünk meg a kedvenc sportjáról. 12 diák a focit választotta.',
+        question: 'Az ábrán minden kör/négyzet egy diákot jelöl. Melyik jelcsoport mutatja a focistákat?', 
+        options: ['Fekete körök', 'Kék négyzetek', 'Zöld négyzetek'], 
+        correctAnswer: 0, 
+        points: 1, 
+        image: '/assets/competency/data_icons.svg' 
+      }
+    ]
+  },
+  {
+    id: 'probameres-5',
+    name: 'Probamérés 5',
+    topic: 'Valós életbeli számítások',
+    tasks: [
+      { 
+        id: 'p5-1', 
+        type: 'number-input', 
+        context: '### Születésnap a játszóházban\n\nZalán születésnapját egy játszóházban tartják, ahol az árak a napszaktól és a naptól függenek.',
+        question: 'Mennyibe fog kerülni a játszóház bérleti díja, ha kedden 14:00-tól 17:00-ig tartják a szülinapot (18 gyerek és 3 felnőtt kísérő)?', 
+        correctAnswer: 9180, 
+        points: 1, 
+        image: '/assets/competency/calc_birthday.svg' 
+      },
+      { 
+        id: 'p5-2', 
+        type: 'multiple-choice', 
+        context: '### Nyári munkabér\n\nEgy diák a héten különböző órákat dolgozott, és az órabére is növekedett a megnövekedett teher miatt.',
+        question: 'Melyik megállapítás igaz a diák heti átlagos órabérére vonatkozóan a táblázat alapján?', 
+        options: [
+          'Az átlagos órabér pontosan 1500 Ft.',
+          'Az órabér minden nap azonos volt.',
+          'A hét második felében magasabb volt az órabér.',
+          'Kevesebbet kapott, mint 1000 Ft óránként.'
+        ], 
+        correctAnswer: 2, 
+        points: 1, 
+        image: '/assets/competency/calc_work.svg' 
+      },
+      { 
+        id: 'p5-3', 
+        type: 'multi-true-false', 
+        context: '### Piaci bevásárlás\n\nAz árak kilogrammonként értendőek. Vizsgáld meg a bevásárlólistát!',
+        question: 'Döntsd el az állításokról, hogy igazak vagy hamisak!', 
+        pairs: [
+          { id: 'tf1', left: 'Az alma drágább, mint a narancs.', right: false },
+          { id: 'tf2', left: '3 kg banán többe kerül, mint 1000 Ft.', right: true },
+          { id: 'tf3', left: 'Az összesített végösszeg 3100 Ft.', right: true }
+        ], 
+        correctAnswer: null, 
+        points: 1, 
+        image: '/assets/competency/calc_groceries.svg' 
+      },
+      { 
+        id: 'p5-4', 
+        type: 'true-false', 
+        context: '### Osztálykirándulás\n\nA költségek a buszbérlésből és a színházjegyekből állnak össze.',
+        question: 'Igaz-e, hogy ha 30 diák megy el a kirándulásra, akkor az összköltség meghaladja a 120 000 Ft-ot?', 
+        options: ['Igaz', 'Hamis'], 
+        correctAnswer: 0, 
+        points: 1, 
+        image: '/assets/competency/calc_trip.svg' 
+      },
+      { 
+        id: 'p5-5', 
+        type: 'multiple-choice', 
+        context: '### Mobilnet számla\n\nA havi alapdíj 5GB-ot tartalmaz, ezen felül minden megkezdett GB extra díjjal jár.',
+        question: 'Mi a legkedvezőbb döntés, ha valaki rendszeresen 10GB-ot forgalmaz havonta?', 
+        options: [
+          'Marad az alapcsomagnál és fizeti az extra díjat.',
+          'Nagyobb adatcsomagra vált fix 5000 Ft-ért.',
+          'Kevesebb internetet használ.',
+          'Csak éjszaka internetezik.'
+        ], 
+        correctAnswer: 1, 
+        points: 1, 
+        image: '/assets/competency/calc_mobile_data.svg' 
+      },
+      { 
+        id: 'p5-6', 
+        type: 'multi-true-false', 
+        context: '### Fit-Mix Edzőterem\n\nA havi bérlet mellé személyi edzéseket is lehet kérni. Vizsgáld az árakat!',
+        question: 'Mely állítások igazak a fitneszterem kínálatára?', 
+        pairs: [
+          { id: 'gym1', left: 'A havi bérlet 15 000 Ft-ba kerül.', right: true },
+          { id: 'gym2', left: '4 személyi edzés összesen 16 000 Ft.', right: true },
+          { id: 'gym3', left: 'Napi jegy nem váltható.', right: false }
+        ], 
+        correctAnswer: null, 
+        points: 1, 
+        image: '/assets/competency/calc_gym.svg' 
+      },
+      { 
+        id: 'p5-7', 
+        type: 'number-input', 
+        context: '### Villanyszámla részletező\n\nA számla egy fix alapdíjból és a tényleges fogyasztás díjából áll.',
+        question: 'Hány Ft a tényleges fogyasztás díja (alapdíj nélkül), ha a végösszeg 7200 Ft és az alapdíj 1200 Ft?', 
+        correctAnswer: 6000, 
+        points: 1, 
+        image: '/assets/competency/calc_electricity.svg' 
+      },
+      { 
+        id: 'p5-8', 
+        type: 'multiple-choice', 
+        context: '### Mozi délután\n\nDiákjegyeket és popcornt vásároltok a barátaiddal.',
+        question: 'Melyik csomaggal járnak a legjobban a gyerekek?', 
+        options: [
+          'Külön jegy + külön popcorn (2600 Ft)',
+          'Diák menü: jegy és közepes popcorn (2200 Ft)',
+          'Családi jegy 4 főre (9000 Ft)',
+          'Szerda délutáni kedvezmény (1800 Ft)'
+        ], 
+        correctAnswer: 3, 
+        points: 1, 
+        image: '/assets/competency/calc_cinema.svg' 
+      },
+      { 
+        id: 'p5-9', 
+        type: 'multi-true-false', 
+        context: '### Pizza rendelés\n\nA Margarita alap ára 2500 Ft, minden extra feltét 500 Ft.',
+        question: 'Döntsd el az állításokról, igazak vagy hamisak!', 
+        pairs: [
+          { id: 'piz1', left: 'Egy 3 feltétes pizza 4000 Ft.', right: true },
+          { id: 'piz2', left: 'Két Margarita pizza ára 5000 Ft.', right: true },
+          { id: 'piz3', left: 'A feltétek drágábbak, mint maga az alap.', right: false }
+        ], 
+        correctAnswer: null, 
+        points: 1, 
+        image: '/assets/competency/calc_pizza.svg' 
+      },
+      { 
+        id: 'p5-10', 
+        type: 'number-input', 
+        context: '### Autókölcsönzés feltételei\n\nA bérlés díja a napok számától és a megtett kilométerektől függ.',
+        question: 'Hány kilométert tehetünk meg összesen 2 nap alatt, hogy a bérleti díj ne lépje át a 40 000 Ft-ot (napidíj: 12000 Ft, km díj: 50 Ft)?', 
+        correctAnswer: 320, 
+        points: 1, 
+        image: '/assets/competency/calc_car_rental.svg' 
+      }
+    ]
+  },
+  {
+    id: 'probameres-6',
+    name: 'Probamérés 6',
+    topic: 'Utazás és időtervezés',
+    tasks: [
+      { 
+        id: 'p6-1', 
+        type: 'multiple-choice', 
+        context: '### Könyvtár\n\nFeri a könyvtárba igyekszik, ahová három módon is el tud jutni. Most 16:55 van.',
+        question: 'Melyik közlekedési mód a leggyorsabb számára, ha figyelembe veszi a sétát és a járatok indulását?', 
+        options: ['A (Busszal)', 'B (Villamossal)', 'C (Biciklivel)'], 
+        correctAnswer: 1, 
+        points: 1, 
+        image: '/assets/competency/travel_library.svg' 
+      },
+      { 
+        id: 'p6-2', 
+        type: 'number-input', 
+        context: '### Könyvtár érkezés\n\nFeri számára a leggyorsabb a villamos volt. A sétája 12 percig tartott, és a villamos 17:10-kor indult.',
+        question: 'Hány óra hány perckor ér a könyvtárba, ha a menetidő 15 perc? Írd be a percet (pl. 25)!', 
+        correctAnswer: 25, 
+        points: 1, 
+        image: '/assets/competency/travel_library.svg' 
+      },
+      { 
+        id: 'p6-3', 
+        type: 'multiple-choice', 
+        context: '### Edzésre menet\n\nSára 14:15-kor döntötte el, hogy elindul az edzésre. Figyeld a táblázat adatait!',
+        question: 'Melyik választással érkezik meg a legkorábban?', 
+        options: ['7-es busz', 'Gyalog', 'Rollerrel'], 
+        correctAnswer: 2, 
+        points: 1, 
+        image: '/assets/competency/travel_sport.svg' 
+      },
+      { 
+        id: 'p6-4', 
+        type: 'number-input', 
+        context: '### Mozi előtti találkozó\n\nZita 17:40-kor indul. A film 18:30-kor kezdődik.',
+        question: 'Hány perccel a film kezdete előtt érkezik meg a leggyorsabb (Villamos) járattal?', 
+        correctAnswer: 13, 
+        points: 1, 
+        image: '/assets/competency/travel_cinema.svg' 
+      },
+      { 
+        id: 'p6-5', 
+        type: 'multiple-choice', 
+        context: '### Bolti bevásárlás\n\nAz üzlet 19:30-kor zár, te pedig 18:50-kor indulsz el otthonról.',
+        question: 'Melyik módszerrel érsz oda a leggyorsabban, ha a buszra 12 percet gyalogolsz a megállóhoz?', 
+        options: ['Gyalog', '12-es busz'], 
+        correctAnswer: 1, 
+        points: 1, 
+        image: '/assets/competency/travel_shop.svg' 
+      },
+      { 
+        id: 'p6-6', 
+        type: 'number-input', 
+        context: '### Iskola\n\nDávid 7:15-kor indul. A metróhoz 15 percet gyalogol, és a szerelvények 3 percenként járnak.',
+        question: 'Ha a metróút 12 perc, hány óra hány perckor ér be az iskolába? Írd be a percet (7:XX)!', 
+        correctAnswer: 45, 
+        points: 1, 
+        image: '/assets/competency/travel_school.svg' 
+      },
+      { 
+        id: 'p6-7', 
+        type: 'multiple-choice', 
+        context: '### Koncertre utazás\n\nA koncert helyszínére vonat- vagy buszjárat közlekedik. Mindketten 19:10-kor indultok.',
+        question: 'Melyik közlekedési eszközzel érkeztek meg korábban a koncertre?', 
+        options: ['Vonat', 'Távolsági busz'], 
+        correctAnswer: 1, 
+        points: 1, 
+        image: '/assets/competency/travel_concert.svg' 
+      },
+      { 
+        id: 'p6-8', 
+        type: 'number-input', 
+        context: '### Uszoda\n\nAdél 9:30-kor indul. A trolihoz 8 percet sétál, és a troli minden óra 00, 10, 20... percében indul.',
+        question: 'Hány percet tölt Adél összesen úton (séta + várakozás + 18 perc utazás)?', 
+        correctAnswer: 28, 
+        points: 1, 
+        image: '/assets/competency/travel_swimming.svg' 
+      },
+      { 
+        id: 'p6-9', 
+        type: 'multiple-choice', 
+        context: '### Zeneiskola\n\nBálintnak 15:25-kor kell elindulnia. A táblázat a lehetőségeit mutatja.',
+        question: 'Melyik módon jut el hamarabb a zeneiskolába?', 
+        options: ['Villamos', 'Gyalog'], 
+        correctAnswer: 1, 
+        points: 1, 
+        image: '/assets/competency/travel_music.svg' 
+      },
+      { 
+        id: 'p6-10', 
+        type: 'number-input', 
+        context: '### Látogatás a nagyihoz\n\nEszter 10:15-kor indul. Két járat közül választhat.',
+        question: 'Hány perc a különbség a két járat érkezési ideje között (percben)?', 
+        correctAnswer: 10, 
+        points: 1, 
+        image: '/assets/competency/travel_grandma.svg' 
+      }
+    ]
+  },
+  {
+    id: 'probameres-7',
+    name: 'Probamérés 7',
+    topic: 'Felszín és Térfogat',
+    tasks: [
+      { id: 'p7-1', type: 'number-input', question: 'Egy kocka éle 3 cm. Mekkora a térfogata cm3-ben?', correctAnswer: 27, points: 1, image: '🧊' },
+      { id: 'p7-2', type: 'number-input', question: 'Egy téglatest élei 2, 4 és 5 cm. Mekkora a felszíne cm2-ben?', correctAnswer: 76, points: 1, image: '📦' },
+      { id: 'p7-3', type: 'multiple-choice', question: 'Melyik testnek van 6 négyzet alapú lapja?', options: ['Téglatest', 'Kocka', 'Henger', 'Gúla'], correctAnswer: 1, points: 1, image: '🧊' },
+      { id: 'p7-4', type: 'true-false', question: 'Igaz vagy Hamis? A henger térfogata: alapterület * magasság.', options: ['Igaz', 'Hamis'], correctAnswer: 0, points: 1, image: '🥫' },
+      { id: 'p7-5', type: 'number-input', question: 'Hány dm3 van 2 m3-ben?', correctAnswer: 2000, points: 1, image: '📦' },
+      { id: 'p7-6', type: 'multiple-choice', question: 'Hogyan változik a kocka térfogata, ha az élét a 3-szorosára növeljük?', options: ['3-szoros lesz', '9-szeres lesz', '27-szeres lesz', '6-szoros lesz'], correctAnswer: 2, points: 1, image: '📈' },
+      { id: 'p7-7', type: 'matching', question: 'Párosítsd a testeket az éleik számával!', pairs: [{ id: 'a', left: 'Kocka', right: '12' }, { id: 'b', left: 'Háromszög alapú hasáb', right: '9' }, { id: 'c', left: 'Négyszög alapú gúla', right: '8' }], correctAnswer: null, points: 1, image: '🔗' },
+      { id: 'p7-8', type: 'number-input', question: 'Egy 10 cm élű kocka hány liter vizet tud befogadni?', correctAnswer: 1, points: 1, image: '💧' },
+      { id: 'p7-9', type: 'true-false', question: 'Igaz vagy Hamis? A gúla térfogata harmada az ugyanolyan alapú és magasságú hasábénak.', options: ['Igaz', 'Hamis'], correctAnswer: 0, points: 1, image: '📐' },
+      { id: 'p7-10', type: 'number-input', question: 'Mekkora a térfogata egy 5 cm alapterületű és 10 cm magasságú hasábnak?', correctAnswer: 50, points: 1, image: '📦' }
+    ]
+  },
+  {
+    id: 'probameres-8',
+    name: 'Probamérés 8',
+    topic: 'Arányosság és Százalékszámítás',
+    tasks: [
+      { id: 'p8-1', type: 'number-input', question: 'Mennyi 500-nak a 15%-a?', correctAnswer: 75, points: 1, image: '📊' },
+      { id: 'p8-2', type: 'multiple-choice', question: 'Mennyi a 20-nak a 120%-a?', options: ['12', '22', '24', '40'], correctAnswer: 2, points: 1, image: '📈' },
+      { id: 'p8-3', type: 'number-input', question: 'Hány százaléka a 40 a 200-nak?', correctAnswer: 20, points: 1, image: '🔢' },
+      { id: 'p8-4', type: 'true-false', question: 'Igaz vagy Hamis? Ha egy termék árát 10%-kal felemeljük, majd 10%-kal csökkentjük, az eredeti árat kapjuk.', options: ['Igaz', 'Hamis'], correctAnswer: 1, points: 1, image: '💸' },
+      { id: 'p8-5', type: 'number-input', question: 'Egy 8000 Ft-os cipő 20% kedvezménnyel mennyibe kerül?', correctAnswer: 6400, points: 1, image: '👟' },
+      { id: 'p8-6', type: 'multiple-choice', question: 'Ha 3 kg alma 1500 Ft, mennyibe kerül 5 kg?', options: ['2000 Ft', '2500 Ft', '3000 Ft', '1800 Ft'], correctAnswer: 1, points: 1, image: '🍎' },
+      { id: 'p8-7', type: 'matching', question: 'Párosítsd az arányokat a törtekkel!', pairs: [{ id: 'a', left: '25%', right: '1/4' }, { id: 'b', left: '50%', right: '1/2' }, { id: 'c', left: '75%', right: '3/4' }], correctAnswer: null, points: 1, image: '🔗' },
+      { id: 'p8-8', type: 'number-input', question: 'Melyik számnak a 40%-a a 80?', correctAnswer: 200, points: 1, image: '❓' },
+      { id: 'p8-9', type: 'true-false', question: 'Igaz vagy Hamis? A fordított arányosság grafikonja egy hiperbola.', options: ['Igaz', 'Hamis'], correctAnswer: 0, points: 1, image: '📊' },
+      { id: 'p8-10', type: 'number-input', question: 'Ha 4 munkás 10 nap alatt végez, hány munkás kell, hogy 5 nap alatt végezzenek?', correctAnswer: 8, points: 1, image: '👷' }
+    ]
+  },
+  {
+    id: 'probameres-9',
+    name: 'Probamérés 9',
+    topic: 'Adatok és Valószínűség',
+    tasks: [
+      { id: 'p9-1', type: 'number-input', question: 'Mennyi az átlaga az 1, 3, 5, 7, 9 számoknak?', correctAnswer: 5, points: 1, image: '📊' },
+      { id: 'p9-2', type: 'multiple-choice', question: 'Mi a módusza: 2, 3, 3, 4, 5, 3, 2?', options: ['2', '3', '4', '5'], correctAnswer: 1, points: 1, image: '🎯' },
+      { id: 'p9-3', type: 'number-input', question: 'Mi a mediánja: 10, 2, 5, 8, 12?', correctAnswer: 8, points: 1, image: '📈' },
+      { id: 'p9-4', type: 'true-false', question: 'Igaz vagy Hamis? A valószínűség értéke mindig 0 és 1 (vagy 0% és 100%) közé esik.', options: ['Igaz', 'Hamis'], correctAnswer: 0, points: 1, image: '✅' },
+      { id: 'p9-5', type: 'multiple-choice', question: 'Mennyi a valószínűsége, hogy egy dobókockával páros számot dobunk?', options: ['1/6', '1/3', '1/2', '2/3'], correctAnswer: 2, points: 1, image: '🎲' },
+      { id: 'p9-6', type: 'number-input', question: 'Egy zsákban 4 zöld és 6 sárga golyó van. Mekkora a zöld húzásának esélye %-ban?', correctAnswer: 40, points: 1, image: '🟢' },
+      { id: 'p9-7', type: 'matching', question: 'Párosítsd a kifejezéseket!', pairs: [{ id: 'a', left: 'Mindenki kedvenc színe', right: 'Módusz' }, { id: 'b', left: 'Osztályzatok összege / létszám', right: 'Átlag' }, { id: 'c', left: 'Középső jegy', right: 'Medián' }], correctAnswer: null, points: 1, image: '🔗' },
+      { id: 'p9-8', type: 'true-false', question: 'Igaz vagy Hamis? A biztos esemény valószínűsége 0.', options: ['Igaz', 'Hamis'], correctAnswer: 1, points: 1, image: '🚫' },
+      { id: 'p9-9', type: 'number-input', question: 'Hányféleképpen dobhatunk két pénzérmével?', correctAnswer: 4, points: 1, image: '🪙' },
+      { id: 'p9-10', type: 'multiple-choice', question: 'Melyik diagram a legjobb időbeli változás szemléltetésére?', options: ['Kördiagram', 'Vonalgrafikon', 'Oszlopdiagram', 'Piktogram'], correctAnswer: 1, points: 1, image: '📈' }
+    ]
+  },
+  {
+    id: 'probameres-10',
+    name: 'Probamérés 10',
+    topic: 'Vegyes feladatok',
+    tasks: [
+      { id: 'p10-1', type: 'number-input', question: 'Mennyi 2^3 + 3^2?', correctAnswer: 17, points: 1, image: '⚡' },
+      { id: 'p10-2', type: 'multiple-choice', question: 'Melyik szám osztható 3-mal és 5-tel is?', options: ['10', '12', '15', '20'], correctAnswer: 2, points: 1, image: '➗' },
+      { id: 'p10-3', type: 'number-input', question: 'Egy téglalap kerülete 20 cm, egyik oldala 4 cm. Mekkora a másik oldal?', correctAnswer: 6, points: 1, image: '📏' },
+      { id: 'p10-4', type: 'true-false', question: 'Igaz vagy Hamis? | -5 | = 5', options: ['Igaz', 'Hamis'], correctAnswer: 0, points: 1, image: '✅' },
+      { id: 'p10-5', type: 'number-input', question: 'Oldd meg: 3x - 5 = 10', correctAnswer: 5, points: 1, image: '⚖️' },
+      { id: 'p10-6', type: 'multiple-choice', question: 'Mekkora a 60 fokos szög kiegészítő szöge (180-ra)?', options: ['30°', '90°', '120°', '150°'], correctAnswer: 2, points: 1, image: '📐' },
+      { id: 'p10-7', type: 'matching', question: 'Párosítsd a mértékegységeket!', pairs: [{ id: 'a', left: '1 liter', right: '1 dm3' }, { id: 'b', left: '1 kg', right: '1000 g' }, { id: 'c', left: '1 km', right: '1000 m' }], correctAnswer: null, points: 1, image: '🔗' },
+      { id: 'p10-8', type: 'number-input', question: 'Hány literes egy 20l-es kanna negyede?', correctAnswer: 5, points: 1, image: '🥛' },
+      { id: 'p10-9', type: 'true-false', question: 'Igaz vagy Hamis? A háromszög bármely két oldalának összege nagyobb a harmadik oldalnál.', options: ['Igaz', 'Hamis'], correctAnswer: 0, points: 1, image: '🔺' },
+      { id: 'p10-10', type: 'multiple-choice', question: 'Gratulálunk a mérésekhez! Hogy érzed magad?', options: ['Fáradtan', 'Boldogan', 'Okosabban', 'Készen a szünetre'], correctAnswer: 2, points: 1, image: '🎉' }
+    ]
   }
 ];
+
 
 export const COMPETENCY_DATA: Record<number, MonthlyCompetency[]> = {
   4: GRADE_4_DATA,

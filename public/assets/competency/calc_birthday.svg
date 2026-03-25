@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+    <rect width="900" height="600" fill="#ffffff" />
+    <g transform="translate(60, 60)">
+        
+    <text x="0" y="30" font-family="Arial" font-size="36" font-weight="bold" fill="#1e40af">JÁTSZÓHÁZ ÁRLISTA</text>
+    
+    <!-- Table Header 1 -->
+    
+    <rect x="0" y="70" width="200" height="120" fill="#1e40af" stroke="#fff" stroke-width="2" />
+    <text x="100" y="138" font-family="Arial" font-size="24" font-weight="bold" fill="#fff" text-anchor="middle">Idősáv</text>
+    
+    
+    <rect x="200" y="70" width="250" height="60" fill="#1e40af" stroke="#fff" stroke-width="2" />
+    <text x="325" y="108" font-family="Arial" font-size="24" font-weight="bold" fill="#fff" text-anchor="middle">09:00 - 14:00</text>
+    
+    
+    <rect x="450" y="70" width="250" height="60" fill="#1e40af" stroke="#fff" stroke-width="2" />
+    <text x="575" y="108" font-family="Arial" font-size="24" font-weight="bold" fill="#fff" text-anchor="middle">14:00 - 19:00</text>
+    
+    
+    <!-- Table Header 2 -->
+    
+    <rect x="200" y="130" width="125" height="60" fill="#1e40af" stroke="#fff" stroke-width="2" />
+    <text x="262.5" y="168" font-family="Arial" font-size="24" font-weight="bold" fill="#fff" text-anchor="middle">Gyerek</text>
+    
+    
+    <rect x="325" y="130" width="125" height="60" fill="#1e40af" stroke="#fff" stroke-width="2" />
+    <text x="387.5" y="168" font-family="Arial" font-size="24" font-weight="bold" fill="#fff" text-anchor="middle">Kísérő</text>
+    
+    
+    <rect x="450" y="130" width="125" height="60" fill="#1e40af" stroke="#fff" stroke-width="2" />
+    <text x="512.5" y="168" font-family="Arial" font-size="24" font-weight="bold" fill="#fff" text-anchor="middle">Gyerek</text>
+    
+    
+    <rect x="575" y="130" width="125" height="60" fill="#1e40af" stroke="#fff" stroke-width="2" />
+    <text x="637.5" y="168" font-family="Arial" font-size="24" font-weight="bold" fill="#fff" text-anchor="middle">Kísérő</text>
+    
+    
+    <!-- Row 1: Hétfő-Csütörtök -->
+    
+    <rect x="0" y="190" width="200" height="60" fill="#1e40af" stroke="#fff" stroke-width="2" />
+    <text x="100" y="228" font-family="Arial" font-size="24" font-weight="bold" fill="#fff" text-anchor="middle">Hétfő - Csütörtök</text>
+    
+    
+    <rect x="200" y="190" width="125" height="60" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+    <text x="262.5" y="228" font-family="Arial" font-size="22" font-weight="bold" fill="#334155" text-anchor="middle">120 zed</text>
+    
+    
+    <rect x="325" y="190" width="125" height="60" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+    <text x="387.5" y="228" font-family="Arial" font-size="22" font-weight="bold" fill="#334155" text-anchor="middle">60 zed</text>
+    
+    
+    <rect x="450" y="190" width="125" height="60" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+    <text x="512.5" y="228" font-family="Arial" font-size="22" font-weight="bold" fill="#334155" text-anchor="middle">160 zed</text>
+    
+    
+    <rect x="575" y="190" width="125" height="60" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+    <text x="637.5" y="228" font-family="Arial" font-size="22" font-weight="bold" fill="#334155" text-anchor="middle">60 zed</text>
+    
+    
+    <!-- Row 2: Péntek-Vasárnap -->
+    
+    <rect x="0" y="250" width="200" height="60" fill="#1e40af" stroke="#fff" stroke-width="2" />
+    <text x="100" y="288" font-family="Arial" font-size="24" font-weight="bold" fill="#fff" text-anchor="middle">Péntek - Vasárnap</text>
+    
+    
+    <rect x="200" y="250" width="125" height="60" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+    <text x="262.5" y="288" font-family="Arial" font-size="22" font-weight="bold" fill="#334155" text-anchor="middle">140 zed</text>
+    
+    
+    <rect x="325" y="250" width="125" height="60" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+    <text x="387.5" y="288" font-family="Arial" font-size="22" font-weight="bold" fill="#334155" text-anchor="middle">80 zed</text>
+    
+    
+    <rect x="450" y="250" width="125" height="60" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+    <text x="512.5" y="288" font-family="Arial" font-size="22" font-weight="bold" fill="#334155" text-anchor="middle">180 zed</text>
+    
+    
+    <rect x="575" y="250" width="125" height="60" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+    <text x="637.5" y="288" font-family="Arial" font-size="22" font-weight="bold" fill="#334155" text-anchor="middle">80 zed</text>
+    
+    
+    <text x="0" y="360" font-family="Arial" font-size="24" font-weight="bold" fill="#64748b">* Az árak fejenként és óránként értendőek.</text>
+
+    </g>
+</svg>

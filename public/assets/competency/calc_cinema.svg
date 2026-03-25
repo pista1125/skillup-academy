@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+    <rect width="900" height="600" fill="#ffffff" />
+    <g transform="translate(60, 60)">
+        
+    <rect x="0" y="0" width="750" height="400" fill="#18181b" rx="20" />
+    <text x="375" y="60" text-anchor="middle" font-family="Arial" font-size="40" font-weight="bold" fill="#fbbf24">STAR-MOVIE MOZI</text>
+    
+    
+    <rect x="50" y="100" width="325" height="60" fill="#1e40af" stroke="#fff" stroke-width="2" />
+    <text x="212.5" y="138" font-family="Arial" font-size="24" font-weight="bold" fill="#fff" text-anchor="middle">Diák jegy</text>
+    
+    
+    <rect x="375" y="100" width="325" height="60" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+    <text x="537.5" y="138" font-family="Arial" font-size="22" font-weight="bold" fill="#334155" text-anchor="middle">1800 Ft</text>
+    
+    
+    
+    <rect x="50" y="160" width="325" height="60" fill="#1e40af" stroke="#fff" stroke-width="2" />
+    <text x="212.5" y="198" font-family="Arial" font-size="24" font-weight="bold" fill="#fff" text-anchor="middle">Normál jegy</text>
+    
+    
+    <rect x="375" y="160" width="325" height="60" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+    <text x="537.5" y="198" font-family="Arial" font-size="22" font-weight="bold" fill="#334155" text-anchor="middle">2200 Ft</text>
+    
+    
+    
+    <rect x="50" y="220" width="325" height="60" fill="#1e40af" stroke="#fff" stroke-width="2" />
+    <text x="212.5" y="258" font-family="Arial" font-size="24" font-weight="bold" fill="#fff" text-anchor="middle">Popcorn (Nagy)</text>
+    
+    
+    <rect x="375" y="220" width="325" height="60" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+    <text x="537.5" y="258" font-family="Arial" font-size="22" font-weight="bold" fill="#334155" text-anchor="middle">1200 Ft</text>
+    
+    
+    <text x="375" y="340" text-anchor="middle" font-family="Arial" font-size="28" font-weight="bold" fill="#fff">3 diák mozikba megy, ketten nagy popcornt is kérnek.</text>
+
+    </g>
+</svg>

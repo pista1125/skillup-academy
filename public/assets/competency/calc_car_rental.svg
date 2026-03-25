@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+    <rect width="900" height="600" fill="#ffffff" />
+    <g transform="translate(60, 60)">
+        
+    <rect x="0" y="0" width="750" height="400" fill="#f8fafc" stroke="#334155" stroke-width="10" rx="30" />
+    <text x="375" y="80" text-anchor="middle" font-family="Arial" font-size="44" font-weight="bold" fill="#334155">CAR-RENT FLYER</text>
+    
+    <rect x="100" y="120" width="550" height="80" fill="#334155" rx="15" />
+    <text x="375" y="170" text-anchor="middle" font-family="Arial" font-size="32" font-weight="bold" fill="#fff">Napi bérleti díj: 12.000 Ft</text>
+    
+    <rect x="100" y="220" width="550" height="80" fill="#94a3b8" rx="15" />
+    <text x="375" y="270" text-anchor="middle" font-family="Arial" font-size="32" font-weight="bold" fill="#334155">Kilométer díj: 50 Ft / km</text>
+    
+    <text x="375" y="470" text-anchor="middle" font-family="Arial" font-size="28" font-weight="bold" fill="#1e293b">2 napos bérlés, 300 megtett kilométer után mennyi a végösszeg?</text>
+
+    </g>
+</svg>

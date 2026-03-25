@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+    <rect width="900" height="600" fill="#ffffff" />
+    <g transform="translate(60, 60)">
+        
+    <rect x="0" y="0" width="750" height="450" fill="#fefce8" stroke="#fde047" stroke-width="4" rx="20" />
+    <text x="375" y="50" text-anchor="middle" font-family="Arial" font-size="36" font-weight="bold" fill="#854d0e">HAVI ENERGIA SZÁMLA</text>
+    
+    <line x1="50" y1="80" x2="700" y2="80" stroke="#854d0e" stroke-width="2" />
+    
+    <text x="50" y="140" font-family="Arial" font-size="30" font-weight="bold" fill="#333">Rendszerhasználati alapdíj:</text>
+    <text x="600" y="140" font-family="Arial" font-size="30" font-weight="bold" fill="#333" text-anchor="end">1200 Ft</text>
+    
+    <text x="50" y="210" font-family="Arial" font-size="30" font-weight="bold" fill="#333">Havi fogyasztás:</text>
+    <text x="600" y="210" font-family="Arial" font-size="30" font-weight="bold" fill="#333" text-anchor="end">150 kWh</text>
+    
+    <text x="50" y="280" font-family="Arial" font-size="30" font-weight="bold" fill="#333">Egységár:</text>
+    <text x="600" y="280" font-family="Arial" font-size="30" font-weight="bold" fill="#333" text-anchor="end">40 Ft / kWh</text>
+    
+    <rect x="50" y="340" width="650" height="80" fill="#facc15" rx="15" />
+    <text x="375" y="390" text-anchor="middle" font-family="Arial" font-size="32" font-weight="bold" fill="#422006">ÖSSZESEN FIZETENDŐ: ? Ft</text>
+
+    </g>
+</svg>

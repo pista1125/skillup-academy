@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+    <rect width="600" height="400" fill="#ffffff" />
+    <g transform="translate(60, 40)">
+        
+    <!-- Axes -->
+    <line x1="0" y1="320" x2="500" y2="320" stroke="#333" stroke-width="2" />
+    <line x1="0" y1="0" x2="0" y2="320" stroke="#333" stroke-width="2" />
+    <line x1="500" y1="0" x2="500" y2="320" stroke="#333" stroke-width="2" />
+    
+    <!-- Y-axis labels Left (Temp) -->
+    <text x="-10" y="325" font-family="Arial" font-size="12" text-anchor="end">0</text>
+    <text x="-10" y="165" font-family="Arial" font-size="12" text-anchor="end">10</text>
+    <text x="-10" y="5" font-family="Arial" font-size="12" text-anchor="end">20</text>
+    <text x="-40" y="160" font-family="Arial" font-size="14" text-anchor="middle" transform="rotate(-90, -40, 160)">Hőmérséklet (°C)</text>
+
+    <!-- Y-axis labels Right (Rain) -->
+    <text x="510" y="325" font-family="Arial" font-size="12" text-anchor="start">0</text>
+    <text x="510" y="165" font-family="Arial" font-size="12" text-anchor="start">25</text>
+    <text x="510" y="5" font-family="Arial" font-size="12" text-anchor="start">50</text>
+    <text x="550" y="160" font-family="Arial" font-size="14" text-anchor="middle" transform="rotate(90, 550, 160)">Csapadék (%)</text>
+
+    <!-- Data - Bars (Rain) -->
+    <rect x="20" y="307" width="30" height="13" fill="#3498db" opacity="0.7" /> <!-- Mon 2% -->
+    <rect x="90" y="160" width="30" height="160" fill="#3498db" opacity="0.7" /> <!-- Tue 25% -->
+    <rect x="160" y="256" width="30" height="64" fill="#3498db" opacity="0.7" /> <!-- Wed 10% -->
+    <rect x="230" y="288" width="30" height="32" fill="#3498db" opacity="0.7" /> <!-- Thu 5% -->
+    <rect x="300" y="224" width="30" height="96" fill="#3498db" opacity="0.7" /> <!-- Fri 15% -->
+    <rect x="370" y="64" width="30" height="256" fill="#3498db" opacity="0.7" /> <!-- Sat 40% -->
+    <rect x="440" y="96" width="30" height="224" fill="#3498db" opacity="0.7" /> <!-- Sun 35% -->
+
+    <!-- Data - Line (Temp) -->
+    <polyline points="35,128 105,112 175,32 245,48 315,0 385,16 455,80" fill="none" stroke="#e74c3c" stroke-width="3" />
+    <circle cx="35" cy="128" r="4" fill="#e74c3c" />
+    <circle cx="105" cy="112" r="4" fill="#e74c3c" />
+    <circle cx="175" cy="32" r="4" fill="#e74c3c" />
+    <circle cx="245" cy="48" r="4" fill="#e74c3c" />
+    <circle cx="315" cy="0" r="4" fill="#e74c3c" />
+    <circle cx="385" cy="16" r="4" fill="#e74c3c" />
+    <circle cx="455" cy="80" r="4" fill="#e74c3c" />
+
+    <!-- X-axis labels -->
+    <text x="35" y="340" font-family="Arial" font-size="12" text-anchor="middle">H</text>
+    <text x="105" y="340" font-family="Arial" font-size="12" text-anchor="middle">K</text>
+    <text x="175" y="340" font-family="Arial" font-size="12" text-anchor="middle">Sze</text>
+    <text x="245" y="340" font-family="Arial" font-size="12" text-anchor="middle">Cs</text>
+    <text x="315" y="340" font-family="Arial" font-size="12" text-anchor="middle">P</text>
+    <text x="385" y="340" font-family="Arial" font-size="12" text-anchor="middle">Szo</text>
+    <text x="455" y="340" font-family="Arial" font-size="12" text-anchor="middle">V</text>
+
+    <!-- Legend -->
+    <line x1="150" y1="370" x2="180" y2="370" stroke="#e74c3c" stroke-width="3" />
+    <text x="185" y="375" font-family="Arial" font-size="12">Hőmérséklet</text>
+    <rect x="280" y="362" width="20" height="15" fill="#3498db" opacity="0.7" />
+    <text x="305" y="375" font-family="Arial" font-size="12">Csapadék</text>
+
+    </g>
+</svg>

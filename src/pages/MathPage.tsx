@@ -76,6 +76,7 @@ import { RatioCreatorQuiz } from '@/components/math/RatioCreatorQuiz';
 import MemoryGameComponent from '@/components/math/MemoryGame';
 import HanoiGame from '@/components/math/HanoiGame';
 import { CompetencyAssessment } from '@/components/math/CompetencyAssessment';
+import { COMPETENCY_DATA } from '@/data/competencyData';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -509,8 +510,8 @@ export default function MathPage() {
       finalActivityType = 'puzzle-maker';
     } else if (topicId === 'symmetry-construction') {
       finalActivityType = 'symmetry-construction';
-    } else if (topicId === 'competency-assessment') {
-      finalActivityType = 'competency-assessment';
+    } else if (topicId === 'competency-assessment' || topicId === 'competency-mock-assessment') {
+      finalActivityType = topicId as ActivityType;
     } else {
       finalActivityType = 'quiz';
     }
@@ -629,6 +630,16 @@ export default function MathPage() {
                 icon={<Target className="w-6 h-6" />}
                 color="blue"
               />
+              {selectedGrade && COMPETENCY_DATA[selectedGrade]?.some(m => m.id.includes('probameres')) && (
+                <ActivityPlaceholder
+                  title="Probamérés"
+                  subtitle="10 feladatsor"
+                  type="Kezdés"
+                  onClick={() => handleActivitySelect('competency-mock-assessment', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="indigo"
+                />
+              )}
             </div>
           </section>
         </div>
@@ -2831,7 +2842,11 @@ export default function MathPage() {
                 )}
 
                 {activityType === 'competency-assessment' && selectedGrade && (
-                  <CompetencyAssessment onBack={handleBack} grade={selectedGrade} />
+                  <CompetencyAssessment onBack={handleBack} grade={selectedGrade} mode="monthly" />
+                )}
+
+                {activityType === 'competency-mock-assessment' && selectedGrade && (
+                  <CompetencyAssessment onBack={handleBack} grade={selectedGrade} mode="mock" />
                 )}
 
                 {activityType === 'chess-game' && (

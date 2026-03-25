@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+    <rect width="900" height="600" fill="#ffffff" />
+    <g transform="translate(60, 60)">
+        
+    <text x="0" y="30" font-family="Arial" font-size="36" font-weight="bold">Budapest Hőmérséklet (°C)</text>
+    <line x1="0" y1="450" x2="750" y2="450" stroke="#333" stroke-width="5" />
+    <line x1="0" y1="450" x2="0" y2="75" stroke="#333" stroke-width="5" />
+    <path d="M0,375 L150,330 L300,225 L450,180 L600,150 L750,195" fill="none" stroke="#e74c3c" stroke-width="8" />
+    <text x="375" y="510" text-anchor="middle" font-size="32" font-weight="bold">Hétfő -> Szombat</text>
+
+    </g>
+</svg>
