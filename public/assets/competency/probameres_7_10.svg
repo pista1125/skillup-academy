@@ -1,0 +1,24 @@
+<svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="900" height="600" fill="#f8fafc" rx="20"/>
+  <text x="450" y="50" font-family="Arial, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#0f172a">Energiafogyasztás és Díjszabás</text>
+  <rect x="50" y="80" width="800" height="300" fill="white" stroke="#e2e8f0" stroke-width="2" rx="15"/>
+  <text x="450" y="115" font-family="Arial, sans-serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#334155">Áramtarifa (Ft / kWh):</text>
+  <g transform="translate(100, 150)">
+    <rect x="0" y="0" width="200" height="150" fill="#f1f5f9" rx="10"/>
+    <text x="100" y="40" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle">"NAPPALI"</text>
+    <text x="100" y="80" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">06:00 - 22:00</text>
+    <text x="100" y="115" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#2563eb">40 Ft</text>
+    
+    <g transform="translate(450, 0)">
+      <rect x="0" y="0" width="200" height="150" fill="#0f172a" rx="10"/>
+      <text x="100" y="40" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="white">"ÉJSZAKAI"</text>
+      <text x="100" y="80" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#94a3b8">22:00 - 06:00</text>
+      <text x="100" y="115" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#facc15">25 Ft</text>
+    </g>
+  </g>
+  <rect x="50" y="400" width="800" height="150" fill="white" stroke="#e2e8f0" stroke-width="2" rx="15"/>
+  <text x="450" y="435" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#334155">HÁZTARTÁSI GÉPEK:</text>
+  <text x="150" y="480" font-family="Arial, sans-serif" font-size="16">Mosógép (1 ciklus = 2 kWh)</text>
+  <text x="150" y="515" font-family="Arial, sans-serif" font-size="16">Bojler (folyamatosan 0,5 kWh / óra)</text>
+  <text x="500" y="480" font-family="Arial, sans-serif" font-size="16">Hűtő (napi 2,4 kWh összesen)</text>
+</svg>

@@ -1,0 +1,35 @@
+<svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="900" height="600" fill="#f5f3ff" rx="20"/>
+  <text x="450" y="50" font-family="Arial, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#4c1d95">Egészséges Étrend</text>
+  <rect x="50" y="80" width="800" height="300" fill="white" stroke="#ddd6fe" stroke-width="2" rx="15"/>
+  <text x="450" y="115" font-family="Arial, sans-serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#6d28d9">Tápanyagtartalom (100g termékben):</text>
+  <g transform="translate(80, 140)">
+    <rect width="740" height="40" fill="#f5f3ff"/>
+    <text x="100" y="28" font-family="Arial, sans-serif" font-size="18" font-weight="bold">Termék</text>
+    <text x="300" y="28" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">Energia (kcal)</text>
+    <text x="500" y="28" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">Fehérje (g)</text>
+    <text x="680" y="28" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">Cukor (g)</text>
+    <g transform="translate(0, 45)">
+      <text x="100" y="25" font-family="Arial, sans-serif" font-size="18">Zabkása</text>
+      <text x="300" y="25" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">380</text>
+      <text x="500" y="25" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">13</text>
+      <text x="680" y="25" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">1</text>
+    </g>
+    <g transform="translate(0, 85)">
+      <text x="100" y="25" font-family="Arial, sans-serif" font-size="18">Gyümölcsös joghurt</text>
+      <text x="300" y="25" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">110</text>
+      <text x="500" y="25" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">4</text>
+      <text x="680" y="25" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">15</text>
+    </g>
+     <g transform="translate(0, 125)">
+      <text x="100" y="25" font-family="Arial, sans-serif" font-size="18">Natúr joghurt</text>
+      <text x="300" y="25" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">60</text>
+      <text x="500" y="25" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">5</text>
+      <text x="680" y="25" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">4</text>
+    </g>
+  </g>
+  <rect x="50" y="400" width="800" height="150" fill="#ede9fe" stroke="#a78bfa" stroke-width="2" rx="15"/>
+  <text x="450" y="435" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="#5b21b6">NAPI CÉL KITŰZÉSE:</text>
+  <text x="450" y="475" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">Fehérje: legalább 10g / étkezés</text>
+  <text x="450" y="505" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">Cukor: maximum 10g / étkezés</text>
+</svg>

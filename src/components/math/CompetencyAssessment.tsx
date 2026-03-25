@@ -119,6 +119,13 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
             }
         });
         if (allCorrect) currentScore += 1;
+      } else if (task.type === 'multi-choice') {
+        const userAnswers = (answers[task.id] || []) as number[];
+        const correctAnswers = (task.correctAnswer || []) as number[];
+        const isAllCorrect = 
+          userAnswers.length === correctAnswers.length &&
+          userAnswers.every(val => correctAnswers.includes(val));
+        if (isAllCorrect) currentScore += 1;
       } else {
         if (String(userAnswer) === String(task.correctAnswer)) {
           currentScore += 1;
@@ -204,15 +211,27 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
         let answerText = '';
         if (task.type === 'matching') {
             answerText = 'Beküldve';
-        } else if (task.type === 'multiple-choice' || task.type === 'true-false') {
-            answerText = task.options?.[userAnswer] || 'Nincs válasz';
+        } else if (task.type === 'multi-choice') {
+            const indices = (userAnswer || []) as number[];
+            answerText = indices.length > 0 
+                ? indices.map(idx => String.fromCharCode(65 + idx)).join(', ')
+                : 'Nincs válasz';
         } else {
             answerText = String(userAnswer || 'Nincs válasz');
         }
         
         doc.text(answerText, marginX + 25, currentY);
+        let correctText = '';
+        if (task.type === 'multiple-choice' || task.type === 'true-false') {
+            correctText = task.options?.[task.correctAnswer] || '';
+        } else if (task.type === 'multi-choice') {
+            correctText = (task.correctAnswer as number[]).map(idx => String.fromCharCode(65 + idx)).join(', ');
+        } else {
+            correctText = String(task.correctAnswer);
+        }
+
         doc.setTextColor(isCorrect ? 34 : 220, isCorrect ? 197 : 38, isCorrect ? 94 : 38);
-        doc.text(isCorrect ? ' [HELYES]' : ` [HIBA - Megoldás: ${task.type === 'multiple-choice' || task.type === 'true-false' ? task.options?.[task.correctAnswer] : task.correctAnswer}]`, marginX + 25 + doc.getTextWidth(answerText) + 2, currentY);
+        doc.text(isCorrect ? ' [HELYES]' : ` [HIBA - Megoldás: ${correctText}]`, marginX + 25 + doc.getTextWidth(answerText) + 2, currentY);
         doc.setTextColor(0, 0, 0);
         
         currentY += 12;
@@ -1026,6 +1045,51 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
                         </div>
                       </div>
                     ))}
+                  </div>
+                ) : currentTask.type === 'multi-choice' ? (
+                  <div className="grid grid-cols-1 gap-3">
+                    {currentTask.options?.map((option, idx) => {
+                      const currentAnswers = (answers[currentTask.id] || []) as number[];
+                      const isSelected = currentAnswers.includes(idx);
+                      const isCorrect = (currentTask.correctAnswer as number[]).includes(idx);
+                      
+                      return (
+                        <button
+                          key={idx}
+                          disabled={isSubmitted}
+                          onClick={() => {
+                            const newAnswers = isSelected
+                              ? currentAnswers.filter(i => i !== idx)
+                              : [...currentAnswers, idx];
+                            handleAnswerChange(currentTask.id, newAnswers);
+                          }}
+                          className={cn(
+                            "flex items-center gap-4 p-5 rounded-2xl border-2 transition-all text-left",
+                            isSelected
+                              ? "border-blue-500 bg-blue-50 text-blue-700 shadow-sm"
+                              : "border-slate-100 hover:border-blue-200 hover:bg-slate-50 text-slate-600",
+                            isSubmitted && isCorrect && "border-green-500 bg-green-50 text-green-700 ring-2 ring-green-50",
+                            isSubmitted && isSelected && !isCorrect && "border-red-500 bg-red-50 text-red-700 ring-2 ring-red-50"
+                          )}
+                        >
+                          <div className={cn(
+                            "w-8 h-8 rounded-lg flex items-center justify-center font-black transition-colors",
+                            isSelected ? "bg-blue-600 text-white" : "bg-white text-slate-400 border border-slate-200"
+                          )}>
+                            {String.fromCharCode(65 + idx)}
+                          </div>
+                          <span className="font-bold text-lg flex-1">{option}</span>
+                          <div className="ml-auto">
+                            <div className={cn(
+                              "w-6 h-6 rounded border-2 flex items-center justify-center transition-all",
+                              isSelected ? "bg-blue-600 border-blue-600" : "bg-white border-slate-300"
+                            )}>
+                              {isSelected && <div className="w-2 h-2 bg-white rounded-sm" />}
+                            </div>
+                          </div>
+                        </button>
+                      );
+                    })}
                   </div>
                 ) : null}
               </div>

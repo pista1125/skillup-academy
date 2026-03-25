@@ -1,0 +1,34 @@
+<svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="900" height="600" fill="#fdf2f8" rx="20"/>
+  <text x="450" y="50" font-family="Arial, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#831843">Mozizás a barátokkal</text>
+  <rect x="50" y="80" width="380" height="480" fill="white" stroke="#fbcfe8" stroke-width="2" rx="15"/>
+  <text x="240" y="120" font-family="Arial, sans-serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#be185d">Barátok ráérése:</text>
+  <g transform="translate(70, 150)">
+    <text x="20" y="30" font-family="Arial, sans-serif" font-size="18" font-weight="bold">Anna:</text>
+    <text x="120" y="30" font-family="Arial, sans-serif" font-size="18">14:00 után bármikor</text>
+    <text x="20" y="80" font-family="Arial, sans-serif" font-size="18" font-weight="bold">Bence:</text>
+    <text x="120" y="80" font-family="Arial, sans-serif" font-size="18">Csak 17:00-ig</text>
+    <text x="20" y="130" font-family="Arial, sans-serif" font-size="18" font-weight="bold">Csilla:</text>
+    <text x="120" y="130" font-family="Arial, sans-serif" font-size="18">15:30 - 18:00 között</text>
+    <text x="20" y="180" font-family="Arial, sans-serif" font-size="18" font-weight="bold">Dávid:</text>
+    <text x="120" y="180" font-family="Arial, sans-serif" font-size="18">15:00-tól szabad</text>
+  </g>
+  <rect x="470" y="80" width="380" height="480" fill="white" stroke="#fbcfe8" stroke-width="2" rx="15"/>
+  <text x="660" y="120" font-family="Arial, sans-serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#be185d">Filmvetítések (hossz: 90 perc):</text>
+  <g transform="translate(490, 150)">
+    <rect width="340" height="50" fill="#fdf2f8" rx="10"/>
+    <text x="170" y="32" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">A galaxis őrzői: 14:15</text>
+    <g transform="translate(0, 70)">
+      <rect width="340" height="50" fill="#fdf2f8" rx="10"/>
+      <text x="170" y="32" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">Űrkaland: 15:30</text>
+    </g>
+    <g transform="translate(0, 140)">
+      <rect width="340" height="50" fill="#fdf2f8" rx="10"/>
+      <text x="170" y="32" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">Csillagok között: 16:00</text>
+    </g>
+     <g transform="translate(0, 210)">
+      <rect width="340" height="50" fill="#fdf2f8" rx="10"/>
+      <text x="170" y="32" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">Mars mentőakció: 17:15</text>
+    </g>
+  </g>
+</svg>

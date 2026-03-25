@@ -1,0 +1,58 @@
+<svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="900" height="600" fill="#f8fafc" rx="20"/>
+  <text x="450" y="50" font-family="Arial, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#1e293b">Sportorvosi Vizsgálat - Időpontok</text>
+  <rect x="50" y="80" width="800" height="250" fill="white" stroke="#e2e8f0" stroke-width="2" rx="10"/>
+  <text x="65" y="110" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#334155">Tomi délutáni időbeosztása (iskola 15:00-ig):</text>
+  <g transform="translate(65, 130)">
+    <rect width="770" height="40" fill="#f1f5f9"/>
+    <text x="100" y="28" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">Idő</text>
+    <text x="230" y="28" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">Hétfő</text>
+    <text x="360" y="28" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">Kedd</text>
+    <text x="490" y="28" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">Szerda</text>
+    <text x="620" y="28" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">Csütörtök</text>
+    <text x="730" y="28" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">Péntek</text>
+    <g transform="translate(0, 40)">
+      <text x="100" y="30" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">15:00</text>
+      <text x="230" y="30" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">-</text>
+      <text x="360" y="30" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#2563eb">angol</text>
+      <text x="490" y="30" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">-</text>
+      <text x="620" y="30" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">-</text>
+      <text x="730" y="30" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#dc2626">filmklub</text>
+    </g>
+    <g transform="translate(0, 80)">
+      <text x="100" y="30" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">16:00</text>
+      <text x="230" y="30" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">-</text>
+      <text x="360" y="30" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#2563eb">angol</text>
+      <text x="490" y="30" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">-</text>
+      <text x="620" y="30" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">-</text>
+      <text x="730" y="30" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#dc2626">filmklub</text>
+    </g>
+    <g transform="translate(0, 120)">
+      <text x="100" y="30" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">17:00-19:00</text>
+      <text x="230" y="30" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#16a34a">edzés</text>
+      <text x="360" y="30" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">-</text>
+      <text x="490" y="30" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#16a34a">edzés</text>
+      <text x="620" y="30" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">-</text>
+      <text x="730" y="30" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#dc2626">filmklub</text>
+    </g>
+  </g>
+  <rect x="250" y="350" width="400" height="220" fill="white" stroke="#e2e8f0" stroke-width="2" rx="10"/>
+  <text x="450" y="380" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="#334155">SPORTORVOS RENDELÉS</text>
+  <g transform="translate(270, 400)">
+    <rect width="360" height="35" fill="#f8fafc"/>
+    <text x="90" y="25" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle">Napok</text>
+    <text x="270" y="25" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle">Rendelési idő</text>
+    <g transform="translate(0, 35)">
+      <text x="90" y="25" font-family="Arial, sans-serif" font-size="16" text-anchor="middle">hétfő, szerda</text>
+      <text x="270" y="25" font-family="Arial, sans-serif" font-size="16" text-anchor="middle">12:00 - 16:00</text>
+    </g>
+    <g transform="translate(0, 70)">
+      <text x="90" y="25" font-family="Arial, sans-serif" font-size="16" text-anchor="middle">kedd, csütörtök</text>
+      <text x="270" y="25" font-family="Arial, sans-serif" font-size="16" text-anchor="middle">08:00 - 12:00</text>
+    </g>
+    <g transform="translate(0, 105)">
+      <text x="90" y="25" font-family="Arial, sans-serif" font-size="16" text-anchor="middle">péntek</text>
+      <text x="270" y="25" font-family="Arial, sans-serif" font-size="16" text-anchor="middle">10:00 - 16:00</text>
+    </g>
+  </g>
+</svg>

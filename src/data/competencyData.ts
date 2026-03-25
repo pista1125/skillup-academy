@@ -1,4 +1,4 @@
-export type CompetencyTaskType = 'multiple-choice' | 'number-input' | 'true-false' | 'matching' | 'multi-true-false';
+export type CompetencyTaskType = 'multiple-choice' | 'number-input' | 'true-false' | 'matching' | 'multi-true-false' | 'multi-choice';
 
 export interface CompetencyTask {
   id: string;
@@ -3232,18 +3232,107 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
   {
     id: 'probameres-7',
     name: 'Probamérés 7',
-    topic: 'Felszín és Térfogat',
+    topic: 'Összetett adatelemzés',
     tasks: [
-      { id: 'p7-1', type: 'number-input', question: 'Egy kocka éle 3 cm. Mekkora a térfogata cm3-ben?', correctAnswer: 27, points: 1, image: '🧊' },
-      { id: 'p7-2', type: 'number-input', question: 'Egy téglatest élei 2, 4 és 5 cm. Mekkora a felszíne cm2-ben?', correctAnswer: 76, points: 1, image: '📦' },
-      { id: 'p7-3', type: 'multiple-choice', question: 'Melyik testnek van 6 négyzet alapú lapja?', options: ['Téglatest', 'Kocka', 'Henger', 'Gúla'], correctAnswer: 1, points: 1, image: '🧊' },
-      { id: 'p7-4', type: 'true-false', question: 'Igaz vagy Hamis? A henger térfogata: alapterület * magasság.', options: ['Igaz', 'Hamis'], correctAnswer: 0, points: 1, image: '🥫' },
-      { id: 'p7-5', type: 'number-input', question: 'Hány dm3 van 2 m3-ben?', correctAnswer: 2000, points: 1, image: '📦' },
-      { id: 'p7-6', type: 'multiple-choice', question: 'Hogyan változik a kocka térfogata, ha az élét a 3-szorosára növeljük?', options: ['3-szoros lesz', '9-szeres lesz', '27-szeres lesz', '6-szoros lesz'], correctAnswer: 2, points: 1, image: '📈' },
-      { id: 'p7-7', type: 'matching', question: 'Párosítsd a testeket az éleik számával!', pairs: [{ id: 'a', left: 'Kocka', right: '12' }, { id: 'b', left: 'Háromszög alapú hasáb', right: '9' }, { id: 'c', left: 'Négyszög alapú gúla', right: '8' }], correctAnswer: null, points: 1, image: '🔗' },
-      { id: 'p7-8', type: 'number-input', question: 'Egy 10 cm élű kocka hány liter vizet tud befogadni?', correctAnswer: 1, points: 1, image: '💧' },
-      { id: 'p7-9', type: 'true-false', question: 'Igaz vagy Hamis? A gúla térfogata harmada az ugyanolyan alapú és magasságú hasábénak.', options: ['Igaz', 'Hamis'], correctAnswer: 0, points: 1, image: '📐' },
-      { id: 'p7-10', type: 'number-input', question: 'Mekkora a térfogata egy 5 cm alapterületű és 10 cm magasságú hasábnak?', correctAnswer: 50, points: 1, image: '📦' }
+      { 
+        id: 'p7-1', 
+        type: 'multi-choice', 
+        context: 'Tomi délutáni időbeosztása és a sportorvos rendelési ideje látható az ábrán. Tomi 15:00-ig iskolában van, és nem akar lemaradni az edzéseiről sem.',
+        question: 'Melyik nap(ok)on tud elmenni a sportorvoshoz? Jelöld meg az összes helyes választ!', 
+        options: ['Hétfő', 'Kedd', 'Szerda', 'Csütörtök', 'Péntek'],
+        correctAnswer: [0, 2, 4], 
+        points: 1, 
+        image: '/assets/competency/probameres_7_1.svg' 
+      },
+      { 
+        id: 'p7-2', 
+        type: 'multi-choice', 
+        context: 'Négy barát moziba készül. Az ábrán látható a szabadidejük és a moziműsor (a filmek 90 percesek).',
+        question: 'Melyik film(ek)re tudnak beülni mind a négyen egyszerre? Jelöld meg az összes helyes választ!', 
+        options: ['A galaxis őrzői (14:15)', 'Űrkaland (15:30)', 'Csillagok között (16:00)', 'Mars mentőakció (17:15)'],
+        correctAnswer: [1], 
+        points: 1, 
+        image: '/assets/competency/probameres_7_2.svg' 
+      },
+      { 
+        id: 'p7-3', 
+        type: 'multiple-choice', 
+        context: 'A család nagyvásárlást tart. Két üzlet árait és a bevásárlólistát láthatod az ábrán.',
+        question: 'Összességében melyik helyen fizetnek kevesebbet a teljes listáért?', 
+        options: ['ABC Áruház', 'Piaci árusok', 'Mindkettő ugyanannyi', 'A budget-be egyik sem fér bele'],
+        correctAnswer: 1,
+        points: 1, 
+        image: '/assets/competency/probameres_7_3.svg' 
+      },
+      { 
+        id: 'p7-4', 
+        type: 'multi-choice', 
+        context: 'Lili vonattal érkezik a pályaudvarra, majd busszal megy az iskolába. Az átszállás legalább 8 perc gyaloglást igényel.',
+        question: 'Melyik vonat-busz párosítással ér be az iskola kezdésére (08:50)? Jelöld meg az összes jót!', 
+        options: ['S70 (07:45) + 10-es busz', 'S71 (07:55) + 12-es busz', 'S70 (08:15) + 10-es busz', 'S71 (08:25) + 12-es busz'],
+        correctAnswer: [0, 1, 2], 
+        points: 1, 
+        image: '/assets/competency/probameres_7_4.svg' 
+      },
+      { 
+        id: 'p7-5', 
+        type: 'multi-choice', 
+        context: 'Az ábrán három termék tápanyagtartalma látható. A cél: legalább 10g fehérje és legfeljebb 10g cukor 100 grammban.',
+        question: 'Melyik termék(ek) felelnek meg mindkét feltételnek egyszerre?', 
+        options: ['Zabkása', 'Gyümölcsös joghurt', 'Natúr joghurt', 'Egyik sem'],
+        correctAnswer: [0], 
+        points: 1, 
+        image: '/assets/competency/probameres_7_5.svg' 
+      },
+      { 
+        id: 'p7-6', 
+        type: 'multiple-choice', 
+        context: 'Peti egy ritka könyvet keres. Két könyvtár nyitvatartása és a könyv állapota látható az ábrán.',
+        question: 'Melyik nap és melyik könyvtárban tudja legkorábban megszerezni, ha 15:00-ig ér rá?', 
+        options: ['Hétfő - Központi', 'Kedd - Ménfőcsanaki', 'Szerda - Központi', 'Csütörtök - Ménfőcsanaki'],
+        correctAnswer: 1, 
+        points: 1, 
+        image: '/assets/competency/probameres_7_6.svg' 
+      },
+      { 
+        id: 'p7-7', 
+        type: 'multiple-choice', 
+        context: 'Gábor mobilcsomagot választ. Havi 50 db SMS-t küld és 10 GB mobiladatot használ.',
+        question: 'Melyik csomaggal jár anyagilag kedvezőbben a megadott használat mellett?', 
+        options: ['"DIÁK" csomag', '"SZUPER" csomag', 'Egyenlő a költségük', 'Egyikben sem elég az adat'],
+        correctAnswer: 1, 
+        points: 1, 
+        image: '/assets/competency/probameres_7_7.svg' 
+      },
+      { 
+        id: 'p7-8', 
+        type: 'multi-choice', 
+        context: 'Az ábrán a hétvégi előrejelzés és három tervezett rendezvény feltételei láthatók.',
+        question: 'Melyik rendezvény(eke)t lehet megrendezni az időjárás alapján? Jelöld meg az összes helyeset!', 
+        options: ['Horgászverseny (Szo)', 'Koncert (Szo este)', 'Koncert (Vas este)', 'Kerékpár (Hé)'],
+        correctAnswer: [0, 1], 
+        points: 1, 
+        image: '/assets/competency/probameres_7_8.svg' 
+      },
+      { 
+        id: 'p7-9', 
+        type: 'multiple-choice', 
+        context: 'Süteményt sütünk 12 főre. Az ábrán a recept és az otthoni készlet látható.',
+        question: 'Melyik összetevőből NINCS elegendő mennyiség a recepthez?', 
+        options: ['Liszt', 'Cukor', 'Tojás', 'Vaj'],
+        correctAnswer: 3, 
+        points: 1, 
+        image: '/assets/competency/probameres_7_9.svg' 
+      },
+      { 
+        id: 'p7-10', 
+        type: 'number-input', 
+        context: 'Az elektromos művek nappali és éjszakai áramtarifát alkalmaz. A mosógép fogyasztása ciklusonként 2 kWh.',
+        question: 'Hány forintba kerül a mosógép egyetlen ciklusa, ha este 23:00-kor indítjuk el?', 
+        correctAnswer: 50, 
+        points: 1, 
+        image: '/assets/competency/probameres_7_10.svg' 
+      }
     ]
   },
   {

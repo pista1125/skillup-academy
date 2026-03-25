@@ -1,0 +1,31 @@
+<svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="900" height="600" fill="#fff7ed" rx="20"/>
+  <text x="450" y="50" font-family="Arial, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#9a3412">Heti bevásárlás - Árlisták</text>
+  <rect x="50" y="80" width="250" height="480" fill="white" stroke="#fed7aa" stroke-width="2" rx="15"/>
+  <text x="175" y="115" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="#c2410c">ABC ÁRUHÁZ</text>
+  <g transform="translate(70, 150)">
+    <text x="0" y="20" font-family="Arial, sans-serif" font-size="16">Tej (1L): 320 Ft</text>
+    <text x="0" y="55" font-family="Arial, sans-serif" font-size="16">Kenyér (1kg): 650 Ft</text>
+    <text x="0" y="90" font-family="Arial, sans-serif" font-size="16">Alma (1kg): 450 Ft</text>
+    <text x="0" y="125" font-family="Arial, sans-serif" font-size="16">Tojás (10db): 720 Ft</text>
+    <text x="0" y="160" font-family="Arial, sans-serif" font-size="16">Vaj (250g): 980 Ft</text>
+  </g>
+  <rect x="325" y="80" width="250" height="480" fill="white" stroke="#fed7aa" stroke-width="2" rx="15"/>
+  <text x="450" y="115" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="#c2410c">PIACI ÁRUSOK</text>
+  <g transform="translate(345, 150)">
+    <text x="0" y="20" font-family="Arial, sans-serif" font-size="16">Tej (1L): 350 Ft</text>
+    <text x="0" y="55" font-family="Arial, sans-serif" font-size="16">Kenyér (1kg): 720 Ft</text>
+    <text x="0" y="90" font-family="Arial, sans-serif" font-size="16">Alma (1kg): 380 Ft</text>
+    <text x="0" y="125" font-family="Arial, sans-serif" font-size="16">Tojás (10db): 650 Ft</text>
+    <text x="0" y="160" font-family="Arial, sans-serif" font-size="16">Vaj (250g): 1050 Ft</text>
+  </g>
+  <rect x="600" y="80" width="250" height="480" fill="#ffedd5" stroke="#fb923c" stroke-width="2" rx="15"/>
+  <text x="725" y="115" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="#9a3412">BEVÁSÁRLÓLISTA</text>
+  <g transform="translate(620, 150)">
+    <text x="0" y="20" font-family="Arial, sans-serif" font-size="18" font-weight="bold">2 L Tej</text>
+    <text x="0" y="60" font-family="Arial, sans-serif" font-size="18" font-weight="bold">1 kg Kenyér</text>
+    <text x="0" y="100" font-family="Arial, sans-serif" font-size="18" font-weight="bold">2 kg Alma</text>
+    <text x="0" y="140" font-family="Arial, sans-serif" font-size="18" font-weight="bold">20 db Tojás</text>
+    <text x="0" y="180" font-family="Arial, sans-serif" font-size="18" font-weight="bold">Budget: 4500 Ft</text>
+  </g>
+</svg>

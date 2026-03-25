@@ -1,0 +1,24 @@
+<svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="900" height="600" fill="#f0fdf4" rx="20"/>
+  <text x="450" y="50" font-family="Arial, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#14532d">Városi Közlekedés</text>
+  <rect x="50" y="80" width="380" height="480" fill="white" stroke="#bbf7d0" stroke-width="2" rx="15"/>
+  <text x="240" y="120" font-family="Arial, sans-serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#15803d">Vonat érkezés (Pályaudvar):</text>
+  <g transform="translate(70, 150)">
+    <text x="20" y="30" font-family="Arial, sans-serif" font-size="18" font-weight="bold">S70:</text>
+    <text x="100" y="30" font-family="Arial, sans-serif" font-size="18">07:45, 08:15, 08:45</text>
+    <text x="20" y="80" font-family="Arial, sans-serif" font-size="18" font-weight="bold">S71:</text>
+    <text x="100" y="80" font-family="Arial, sans-serif" font-size="18">07:55, 08:25, 08:55</text>
+    <text x="20" y="180" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#166534">Átszállási idő:</text>
+    <text x="20" y="210" font-family="Arial, sans-serif" font-size="18">Minimum 8 perc gyaloglás!</text>
+  </g>
+  <rect x="470" y="80" width="380" height="480" fill="white" stroke="#bbf7d0" stroke-width="2" rx="15"/>
+  <text x="660" y="120" font-family="Arial, sans-serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#15803d">Busz indulás (Pályaudvar):</text>
+  <g transform="translate(490, 150)">
+    <text x="20" y="30" font-family="Arial, sans-serif" font-size="18" font-weight="bold">10-es:</text>
+    <text x="100" y="30" font-family="Arial, sans-serif" font-size="18">08:05, 08:35, 09:05</text>
+    <text x="20" y="80" font-family="Arial, sans-serif" font-size="18" font-weight="bold">12-es:</text>
+    <text x="100" y="80" font-family="Arial, sans-serif" font-size="18">08:12, 08:42, 09:12</text>
+    <text x="20" y="180" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#166534">Cél:</text>
+    <text x="20" y="210" font-family="Arial, sans-serif" font-size="18">Iskola 08:50-re!</text>
+  </g>
+</svg>

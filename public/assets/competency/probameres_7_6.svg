@@ -1,0 +1,22 @@
+<svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="900" height="600" fill="#fffbeb" rx="20"/>
+  <text x="450" y="50" font-family="Arial, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#78350f">Könyvtári Kölcsönzés</text>
+  <rect x="50" y="80" width="380" height="480" fill="white" stroke="#fcd34d" stroke-width="2" rx="15"/>
+  <text x="240" y="120" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="#b45309">KÖZPONTI KÖNYVTÁR</text>
+  <g transform="translate(70, 150)">
+    <text x="0" y="20" font-family="Arial, sans-serif" font-size="16">Nyitvatartás: H-P 10:00 - 18:00</text>
+    <text x="0" y="55" font-family="Arial, sans-serif" font-size="16">Keresett könyv: KÖLCSÖNÖZVE</text>
+    <text x="0" y="90" font-family="Arial, sans-serif" font-size="16">Várható visszahozatal: Szerda</text>
+  </g>
+  <rect x="470" y="80" width="380" height="480" fill="white" stroke="#fcd34d" stroke-width="2" rx="15"/>
+  <text x="660" y="120" font-family="Arial, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" fill="#b45309">MÉNFŐCSANAKI FIÓK</text>
+  <g transform="translate(490, 150)">
+    <text x="0" y="20" font-family="Arial, sans-serif" font-size="16">Nyitvatartás: K, Cs 08:00 - 16:00</text>
+    <text x="0" y="55" font-family="Arial, sans-serif" font-size="16">Keresett könyv: ELÉRHETŐ (1 db)</text>
+    <text x="0" y="90" font-family="Arial, sans-serif" font-size="16">Utazási idő: 45 perc a központtól</text>
+  </g>
+  <rect x="250" y="380" width="400" height="150" fill="#fef3c7" stroke="#fbbf24" stroke-width="2" rx="15"/>
+  <text x="450" y="415" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#92400e">FELADAT:</text>
+  <text x="450" y="445" font-family="Arial, sans-serif" font-size="16" text-anchor="middle">Peti hétfőn és kedden 15:00-ig ér rá.</text>
+  <text x="450" y="475" font-family="Arial, sans-serif" font-size="16" text-anchor="middle">Melyik nap tudja megszerezni a könyvet?</text>
+</svg>

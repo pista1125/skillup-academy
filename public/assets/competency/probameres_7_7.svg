@@ -1,0 +1,23 @@
+<svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="900" height="600" fill="#ecfdf5" rx="20"/>
+  <text x="450" y="50" font-family="Arial, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#065f46">Mobilflotta Választás</text>
+  <rect x="50" y="80" width="380" height="480" fill="white" stroke="#6ee7b7" stroke-width="2" rx="15"/>
+  <text x="240" y="120" font-family="Arial, sans-serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#047857">"DIÁK" CSOMAG</text>
+  <g transform="translate(70, 160)">
+    <text x="0" y="20" font-family="Arial, sans-serif" font-size="18">Hvidíj: 2500 Ft</text>
+    <text x="0" y="60" font-family="Arial, sans-serif" font-size="18">Beszéd: 0 Ft / perc (hálózaton)</text>
+    <text x="0" y="100" font-family="Arial, sans-serif" font-size="18">SMS: 40 Ft / db</text>
+    <text x="0" y="140" font-family="Arial, sans-serif" font-size="18">Adatkeret: 5 GB</text>
+  </g>
+  <rect x="470" y="80" width="380" height="480" fill="white" stroke="#6ee7b7" stroke-width="2" rx="15"/>
+  <text x="660" y="120" font-family="Arial, sans-serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#047857">"SZUPER" CSOMAG</text>
+  <g transform="translate(490, 160)">
+    <text x="0" y="20" font-family="Arial, sans-serif" font-size="18">Hvidíj: 4000 Ft</text>
+    <text x="0" y="60" font-family="Arial, sans-serif" font-size="18">Beszéd: 20 Ft / perc (bárhova)</text>
+    <text x="0" y="100" font-family="Arial, sans-serif" font-size="18">SMS: 0 Ft (ingyenes)</text>
+    <text x="0" y="140" font-family="Arial, sans-serif" font-size="18">Adatkeret: 20 GB</text>
+  </g>
+  <rect x="150" y="420" width="600" height="120" fill="#d1fae5" stroke="#10b981" stroke-width="2" rx="15"/>
+  <text x="450" y="455" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#064e3b">FELHASZNÁLÁS:</text>
+  <text x="450" y="490" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">Havi 50 db SMS-t küldök, és 10 GB adatot használok.</text>
+</svg>

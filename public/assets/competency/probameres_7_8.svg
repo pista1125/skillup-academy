@@ -1,0 +1,36 @@
+<svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="900" height="600" fill="#f0f9ff" rx="20"/>
+  <text x="450" y="50" font-family="Arial, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#0c4a6e">Meteorológiai Előrejelzés</text>
+  <rect x="50" y="80" width="800" height="200" fill="white" stroke="#bae6fd" stroke-width="2" rx="15"/>
+  <text x="450" y="115" font-family="Arial, sans-serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#0369a1">A hétvégi előrejelzés:</text>
+  <g transform="translate(100, 150)">
+    <rect width="200" height="100" fill="#e0f2fe" rx="10"/>
+    <text x="100" y="30" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">SZOMBAT</text>
+    <text x="100" y="60" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">12°C - 22°C</text>
+    <text x="100" y="85" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#0369a1">Napsütéses</text>
+    
+    <g transform="translate(250, 0)">
+      <rect width="200" height="100" fill="#fef2f2" rx="10"/>
+      <text x="100" y="30" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">VASÁRNAP</text>
+      <text x="100" y="60" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">10°C - 16°C</text>
+      <text x="100" y="85" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#dc2626">Eső (80%)</text>
+    </g>
+    
+    <g transform="translate(500, 0)">
+      <rect width="200" height="100" fill="#f0f9ff" rx="10"/>
+      <text x="100" y="30" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle">HÉTFŐ</text>
+      <text x="100" y="60" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">15°C - 24°C</text>
+      <text x="100" y="85" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#0369a1">Napos, szeles</text>
+    </g>
+  </g>
+  <rect x="50" y="310" width="800" height="240" fill="white" stroke="#bae6fd" stroke-width="2" rx="15"/>
+  <text x="450" y="345" font-family="Arial, sans-serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#0369a1">RENDEZVÉNYEK:</text>
+  <g transform="translate(80, 370)">
+     <text x="0" y="25" font-family="Arial, sans-serif" font-size="18" font-weight="bold">1. Gyereknapi horgászverseny:</text>
+     <text x="30" y="55" font-family="Arial, sans-serif" font-size="16">Feltételek: Napsütés, max. 25°C hőmérséklet.</text>
+     <text x="0" y="100" font-family="Arial, sans-serif" font-size="18" font-weight="bold">2. Szabadtéri koncert:</text>
+     <text x="30" y="130" font-family="Arial, sans-serif" font-size="16">Feltételek: Nincs eső, legalább 18°C este.</text>
+     <text x="0" y="175" font-family="Arial, sans-serif" font-size="18" font-weight="bold">3. Kerékpártúra:</text>
+     <text x="30" y="205" font-family="Arial, sans-serif" font-size="16">Feltételek: Szélcsend, de a napsütés nem kötelező.</text>
+  </g>
+</svg>
