@@ -14,7 +14,9 @@ import {
   ChevronRight,
   ChevronLeft,
   Settings2,
-  X
+  X,
+  LayoutDashboard,
+  Columns
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -55,6 +57,8 @@ export default function MemoryEditor() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState(CATEGORIES[0].id);
+  const [isLeftPanelOpen, setIsLeftPanelOpen] = useState(true);
+  const [isRightPanelOpen, setIsRightPanelOpen] = useState(false);
   
   const canvasRef = useRef<HTMLDivElement>(null);
   
@@ -111,6 +115,13 @@ export default function MemoryEditor() {
       saveToLocal(newExercises);
     }
   };
+
+  // Auto-open right panel when an item is selected
+  useEffect(() => {
+    if (selectedId) {
+      setIsRightPanelOpen(true);
+    }
+  }, [selectedId]);
 
   const deleteSelectedItem = () => {
     if (!selectedId) return;
@@ -195,20 +206,29 @@ export default function MemoryEditor() {
   };
 
   return (
-    <div className="flex h-[800px] w-full bg-slate-50 dark:bg-slate-950 rounded-[3rem] overflow-hidden border border-slate-200 dark:border-slate-800 shadow-2xl">
+    <div className="flex flex-1 w-full bg-slate-50 dark:bg-slate-950 overflow-hidden relative">
       {/* Sidebar: Shape Library */}
-      <div className="w-80 flex flex-col border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
-        <div className="p-6 border-b border-slate-100 dark:border-slate-800">
-          <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+      <div className={cn(
+        "absolute left-0 top-20 bottom-0 z-40 w-72 shrink-0 flex flex-col border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xl transition-transform duration-300 ease-in-out",
+        !isLeftPanelOpen && "-translate-x-full"
+      )}>
+        <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+          <h2 className="text-xl font-bold flex items-center gap-2">
             <Layers className="text-indigo-600" /> Alakzat-tár
           </h2>
+          <Button variant="ghost" size="icon" onClick={() => setIsLeftPanelOpen(false)} className="rounded-full">
+            <X size={18} />
+          </Button>
+        </div>
+
+        <div className="p-4 border-b border-slate-50 dark:border-slate-800">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
             <Input 
               placeholder="Keresés..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 rounded-xl bg-slate-50 dark:bg-slate-800 border-none"
+              className="pl-10 rounded-xl bg-slate-50 dark:bg-slate-800 border-none h-10"
             />
           </div>
         </div>
@@ -220,8 +240,8 @@ export default function MemoryEditor() {
 
             return (
               <div key={category.id}>
-                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-2 flex items-center gap-2">
-                  <category.icon size={14} /> {category.label}
+                <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 px-2 flex items-center gap-2">
+                  <category.icon size={12} /> {category.label}
                 </h3>
                 <div className="grid grid-cols-4 gap-2">
                   {shapes.map(shape => (
@@ -231,7 +251,7 @@ export default function MemoryEditor() {
                       title={shape.name}
                       className="aspect-square flex items-center justify-center bg-slate-50 dark:bg-slate-800 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-xl border border-transparent hover:border-indigo-200 dark:hover:border-indigo-800 transition-all text-slate-700 dark:text-slate-300"
                     >
-                      {renderShapeIcon(shape)}
+                      {renderShapeIcon(shape, 20)}
                     </button>
                   ))}
                 </div>
@@ -247,11 +267,16 @@ export default function MemoryEditor() {
         <div className="h-20 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-8 bg-white/50 dark:bg-slate-900/50 backdrop-blur-md">
           <div className="flex items-center gap-6">
              <div className="flex items-center gap-3">
+                {!isLeftPanelOpen && (
+                  <Button variant="default" size="icon" onClick={() => setIsLeftPanelOpen(true)} className="rounded-xl shadow-lg bg-indigo-600">
+                    <Layers size={18} />
+                  </Button>
+                )}
                 <Button variant="outline" size="icon" className="rounded-full" onClick={() => setLevelIdx(Math.max(0, levelIdx - 1))}>
                    <ChevronLeft size={16} />
                 </Button>
                 <div className="text-center w-24">
-                  <div className="text-[10px] font-bold text-slate-400 uppercase">Szint</div>
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Szint</div>
                   <div className="font-bold flex items-center justify-center gap-2">
                     {levelIdx + 1} <span className="text-xs text-slate-400">/ 5</span>
                   </div>
@@ -291,7 +316,7 @@ export default function MemoryEditor() {
         {/* Canvas */}
         <div 
           ref={canvasRef}
-          className="flex-1 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:24px_24px] dark:bg-[radial-gradient(#1e293b_1px,transparent_1px)] relative overflow-hidden"
+          className="flex-1 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:24px_24px] dark:bg-[radial-gradient(#1e293b_1px,transparent_1px)] relative overflow-hidden z-10"
           onClick={() => setSelectedId(null)}
           onMouseMove={(e) => {
              if (selectedId && e.buttons === 1) {
@@ -309,13 +334,24 @@ export default function MemoryEditor() {
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-white/90 dark:bg-slate-800/90 backdrop-blur px-6 py-2 rounded-full border border-slate-200 dark:border-slate-700 text-sm text-slate-500 font-medium shadow-xl">
              Kattints a formára a mozgatáshoz és szerkesztéshez
           </div>
+
+          {!isRightPanelOpen && selectedId && (
+            <Button 
+               variant="default" 
+               size="icon" 
+               onClick={(e) => { e.stopPropagation(); setIsRightPanelOpen(true); }} 
+               className="absolute top-4 right-4 rounded-xl shadow-lg bg-indigo-600 z-30"
+            >
+              <Settings2 size={18} />
+            </Button>
+          )}
         </div>
       </div>
 
       {/* Property Editor Panel */}
       <div className={cn(
-        "w-80 border-l border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 flex flex-col gap-6 transition-transform duration-300",
-        !selectedId && "translate-x-full"
+        "absolute right-0 top-20 bottom-0 z-40 w-72 shrink-0 border-l border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 flex flex-col gap-6 shadow-2xl transition-transform duration-300 ease-in-out",
+        !isRightPanelOpen && "translate-x-full"
       )}>
         {selectedItem ? (
           <>
@@ -323,7 +359,7 @@ export default function MemoryEditor() {
               <h2 className="font-bold flex items-center gap-2">
                 <Settings2 className="text-indigo-600 w-5 h-5" /> Tulajdonságok
               </h2>
-              <Button variant="ghost" size="icon" onClick={() => setSelectedId(null)} className="rounded-full">
+              <Button variant="ghost" size="icon" onClick={() => setIsRightPanelOpen(false)} className="rounded-full">
                 <X size={18} />
               </Button>
             </div>

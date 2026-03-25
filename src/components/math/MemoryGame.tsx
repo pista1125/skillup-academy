@@ -152,15 +152,12 @@ export default function MemoryGame() {
 
   if (gameMode === 'selection') {
     return (
-      <div className="w-full max-w-4xl mx-auto p-4 flex flex-col items-center gap-12 py-20 animate-in fade-in slide-in-from-bottom-8 duration-700">
-        <div className="text-center space-y-4">
-          <div className="inline-flex p-4 bg-indigo-100 dark:bg-indigo-900/30 rounded-3xl text-indigo-600 dark:text-indigo-400 mb-2">
-            <Brain size={48} />
+      <div className="w-full max-w-4xl mx-auto p-4 flex flex-col items-center gap-6 py-6 animate-in fade-in slide-in-from-bottom-8 duration-700">
+        <div className="text-center space-y-2">
+          <div className="inline-flex p-3 bg-indigo-100 dark:bg-indigo-900/30 rounded-2xl text-indigo-600 dark:text-indigo-400">
+            <Brain size={32} />
           </div>
-          <h1 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight">Memóriajáték</h1>
-          <p className="text-xl text-slate-500 dark:text-slate-400 max-w-lg mx-auto">
-            Válaszd ki, milyen típusú memóriaterheléssel szeretnél ma megküzdeni!
-          </p>
+          <h1 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">Memóriajáték</h1>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
@@ -168,17 +165,17 @@ export default function MemoryGame() {
             onClick={() => setGameMode('visual')}
             className="group relative flex flex-col items-center p-10 bg-white dark:bg-slate-900 rounded-[3rem] border-2 border-slate-100 dark:border-slate-800 shadow-xl hover:shadow-2xl hover:border-indigo-500/50 transition-all duration-500 overflow-hidden"
           >
-            <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
-              <Shapes size={120} />
+            <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+              <Shapes size={80} />
             </div>
-            <div className="w-24 h-24 bg-indigo-50 dark:bg-indigo-900/20 rounded-2xl flex items-center justify-center text-indigo-600 mb-6 group-hover:scale-110 transition-transform duration-500">
-              <Shapes size={48} />
+            <div className="w-16 h-16 bg-indigo-50 dark:bg-indigo-900/20 rounded-2xl flex items-center justify-center text-indigo-600 mb-4 group-hover:scale-110 transition-transform duration-500">
+              <Shapes size={32} />
             </div>
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Vizuális</h2>
-            <p className="text-slate-500 dark:text-slate-400 text-center">
-              Jegyezd meg az ábrák formáját, színét és elhelyezkedését a képernyőn.
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-1">Vizuális</h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400 text-center">
+              Jegyezd meg az ábrák formáját, színét és elhelyezkedését.
             </p>
-            <div className="mt-8 px-8 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+            <div className="mt-4 px-6 py-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-500">
               Kezdés
             </div>
           </button>
@@ -187,17 +184,17 @@ export default function MemoryGame() {
             onClick={() => setGameMode('auditory')}
             className="group relative flex flex-col items-center p-10 bg-white dark:bg-slate-900 rounded-[3rem] border-2 border-slate-100 dark:border-slate-800 shadow-xl hover:shadow-2xl hover:border-amber-500/50 transition-all duration-500 overflow-hidden"
           >
-            <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
-              <Ear size={120} />
+            <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+              <Ear size={80} />
             </div>
-            <div className="w-24 h-24 bg-amber-50 dark:bg-amber-900/20 rounded-2xl flex items-center justify-center text-amber-600 mb-6 group-hover:scale-110 transition-transform duration-500">
-              <Ear size={48} />
+            <div className="w-16 h-16 bg-amber-50 dark:bg-amber-900/20 rounded-2xl flex items-center justify-center text-amber-600 mb-4 group-hover:scale-110 transition-transform duration-500">
+              <Ear size={32} />
             </div>
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Hallás utáni</h2>
-            <p className="text-slate-500 dark:text-slate-400 text-center">
-              Figyeld a tanár által felolvasott kérdéseket és jegyezd meg a válaszokat.
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-1">Hallás utáni</h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400 text-center">
+              Figyeld a tanár által felolvasott kérdéseket.
             </p>
-            <div className="mt-8 px-8 py-3 bg-amber-600 text-white rounded-2xl font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+            <div className="mt-4 px-6 py-2 bg-amber-600 text-white rounded-xl font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-500">
               Kezdés
             </div>
           </button>
@@ -224,19 +221,21 @@ export default function MemoryGame() {
 
   if (isEditorMode) {
     return (
-      <div className="w-full max-w-7xl mx-auto p-4 flex flex-col gap-6 h-screen">
-        <div className="flex justify-between items-center bg-white dark:bg-slate-900 p-4 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl">
+      <div className="w-full max-w-7xl mx-auto flex flex-col gap-6 animate-in fade-in duration-500">
+        <div className="flex justify-between items-center bg-white dark:bg-slate-900 p-4 rounded-[2rem] border border-slate-200 dark:border-slate-800 shadow-xl">
            <div className="flex items-center gap-3">
               <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-xl text-indigo-600">
                  <Wrench size={20} />
               </div>
               <h1 className="font-bold text-lg">Szerkesztő Mód</h1>
            </div>
-           <Button onClick={() => setIsEditorMode(false)} className="rounded-xl gap-2">
-              Vissza a játékhoz
+           <Button variant="outline" onClick={() => setIsEditorMode(false)} className="rounded-xl gap-2 font-bold border-indigo-200 text-indigo-600 hover:bg-indigo-50">
+              Kilépés a szerkesztőből
            </Button>
         </div>
-        <MemoryEditor />
+        <div className="w-full bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden h-[850px] flex flex-col relative">
+          <MemoryEditor />
+        </div>
       </div>
     );
   }
