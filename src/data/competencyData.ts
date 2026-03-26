@@ -2585,7 +2585,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['Hétfő', 'Szerda', 'Csütörtök', 'Péntek'], 
         correctAnswer: 3, 
         points: 1, 
-        image: '/assets/competency/weather_diagram.svg' 
+        image: '/assets/competency/probameres-1/probameres_1_weather_diagram.svg' 
       },
       { 
         id: 'p1-2', 
@@ -2594,7 +2594,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         question: 'Hány órán keresztül tartott, amíg az autó 20%-ról 90%-ra feltöltődött (10 órától 18 óráig)?', 
         correctAnswer: 8, 
         points: 1, 
-        image: '/assets/competency/electric_car.svg' 
+        image: '/assets/competency/probameres-1/probameres_1_electric_car.svg' 
       },
       { 
         id: 'p1-3', 
@@ -2604,7 +2604,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['A (Hús)', 'B (Tészta)', 'C (Zöldség)', 'D (Vegán)'], 
         correctAnswer: 1, 
         points: 1, 
-        image: '/assets/competency/school_lunch.svg' 
+        image: '/assets/competency/probameres-1/probameres_1_school_lunch.svg' 
       },
       { 
         id: 'p1-4', 
@@ -2613,7 +2613,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         question: 'Hány kilométernél érte el a futó a legnagyobb sebességét (a grafikon legmagasabb pontja)?', 
         correctAnswer: 4, 
         points: 1, 
-        image: '/assets/competency/marathon.svg' 
+        image: '/assets/competency/probameres-1/probameres_1_marathon.svg' 
       },
       { 
         id: 'p1-5', 
@@ -2622,7 +2622,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         question: 'Hány centiméter különbség van a két növény között az 5. hét végén? (Használd a grafikont!)', 
         correctAnswer: 190, 
         points: 1, 
-        image: '/assets/competency/plant_growth.svg' 
+        image: '/assets/competency/probameres-1/probameres_1_plant_growth.svg' 
       },
       { 
         id: 'p1-6', 
@@ -2632,7 +2632,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['Csökkent', 'Nőtt', 'Nem változott', 'Nem meghatározható'], 
         correctAnswer: 1, 
         points: 1, 
-        image: '/assets/competency/data_usage.svg' 
+        image: '/assets/competency/probameres-1/probameres_1_data_usage.svg' 
       },
       { 
         id: 'p1-7', 
@@ -2646,7 +2646,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         ], 
         correctAnswer: null, 
         points: 1, 
-        image: '/assets/competency/reservoir.svg' 
+        image: '/assets/competency/probameres-1/probameres_1_reservoir.svg' 
       },
       { 
         id: 'p1-8', 
@@ -2655,7 +2655,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         question: 'Hány kalandregényt (kék szelet) vettek ki, ha ez a teljes forgalom 25%-a?', 
         correctAnswer: 100, 
         points: 1, 
-        image: '/assets/competency/library_books.svg' 
+        image: '/assets/competency/probameres-1/probameres_1_library_books.svg' 
       },
       { 
         id: 'p1-9', 
@@ -2665,7 +2665,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['Igaz', 'Hamis'], 
         correctAnswer: 1, 
         points: 1, 
-        image: '/assets/competency/bus_arrival.svg' 
+        image: '/assets/competency/probameres-1/probameres_1_bus_arrival.svg' 
       },
       { 
         id: 'p1-10', 
@@ -2674,7 +2674,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         question: 'Milyen magasra jutottak fel a túra legmagasabb pontján (méterben)?', 
         correctAnswer: 900, 
         points: 1, 
-        image: '/assets/competency/elevation_profile.svg' 
+        image: '/assets/competency/probameres-1/probameres_1_elevation_profile.svg' 
       }
     ]
   },
@@ -2691,7 +2691,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['1. minta', '2. minta', '3. minta', '4. minta'], 
         correctAnswer: 2, 
         points: 1, 
-        image: '/assets/competency/puzzle_key.svg' 
+        image: '/assets/competency/probameres-2/probameres_2_puzzle_key.svg' 
       },
       { 
         id: 'p2-2', 
@@ -2701,7 +2701,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['A (Zöld kör)', 'B (Lila négyzet)', 'C (Sötét háromszög)', 'D (Narancs gyűrű)'], 
         correctAnswer: 0, 
         points: 1, 
-        image: '/assets/competency/puzzle_missing.svg' 
+        image: '/assets/competency/probameres-2/probameres_2_puzzle_missing.svg' 
       },
       { 
         id: 'p2-3', 
@@ -2711,7 +2711,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['A alakzat', 'B alakzat', 'C alakzat'], 
         correctAnswer: 1, 
         points: 1, 
-        image: '/assets/competency/puzzle_rotated.svg' 
+        image: '/assets/competency/probameres-2/probameres_2_puzzle_rotated.svg' 
       },
       { 
         id: 'p2-4', 
@@ -2721,7 +2721,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['A alakzat', 'B alakzat', 'C alakzat'], 
         correctAnswer: 0, 
         points: 1, 
-        image: '/assets/competency/puzzle_shadow.svg' 
+        image: '/assets/competency/probameres-2/probameres_2_puzzle_shadow.svg' 
       },
       { 
         id: 'p2-5', 
@@ -2731,7 +2731,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['A háló', 'B háló', 'Egyik sem'], 
         correctAnswer: 0, 
         points: 1, 
-        image: '/assets/competency/puzzle_cube.svg' 
+        image: '/assets/competency/probameres-2/probameres_2_puzzle_cube.svg' 
       },
       { 
         id: 'p2-6', 
@@ -2741,7 +2741,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['A kiegészítés', 'B kiegészítés'], 
         correctAnswer: 1, 
         points: 1, 
-        image: '/assets/competency/puzzle_symmetry.svg' 
+        image: '/assets/competency/probameres-2/probameres_2_puzzle_symmetry.svg' 
       },
       { 
         id: 'p2-7', 
@@ -2751,7 +2751,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['1. (Kék hatszög)', '2. (Piros négyzet)', '3. (Zöld kör)'], 
         correctAnswer: 0, 
         points: 1, 
-        image: '/assets/competency/puzzle_tiling.svg' 
+        image: '/assets/competency/probameres-2/probameres_2_puzzle_tiling.svg' 
       },
       { 
         id: 'p2-8', 
@@ -2761,7 +2761,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['A (Szürke kör)', 'B (Üres négyzet)', 'C (Kék rombusz)'], 
         correctAnswer: 2, 
         points: 1, 
-        image: '/assets/competency/puzzle_series.svg' 
+        image: '/assets/competency/probameres-2/probameres_2_puzzle_series.svg' 
       },
       { 
         id: 'p2-9', 
@@ -2771,7 +2771,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['Kör + Négyzet', 'Háromszög + Kör', 'Négyzet + Háromszög'], 
         correctAnswer: 0, 
         points: 1, 
-        image: '/assets/competency/puzzle_overlap.svg' 
+        image: '/assets/competency/probameres-2/probameres_2_puzzle_overlap.svg' 
       },
       { 
         id: 'p2-10', 
@@ -2781,7 +2781,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['Megegyezően', 'Ellentétesen'], 
         correctAnswer: 0, 
         points: 1, 
-        image: '/assets/competency/puzzle_gears.svg' 
+        image: '/assets/competency/probameres-2/probameres_2_puzzle_gears.svg' 
       }
     ]
   },
@@ -2797,7 +2797,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         question: 'Hány helyiségen kell minimum áthaladni a BEJÁRAT-tól a RAKTÁR-ig (a bejáratot és a raktárt is beleértve)?', 
         correctAnswer: 4, 
         points: 1, 
-        image: '/assets/competency/graph_hospital.svg' 
+        image: '/assets/competency/probameres-3/probameres_3_graph_hospital.svg' 
       },
       { 
         id: 'p3-2', 
@@ -2807,7 +2807,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['Stop A', 'HUB X', 'Stop B', 'Stop C'], 
         correctAnswer: 1, 
         points: 1, 
-        image: '/assets/competency/graph_bus.svg' 
+        image: '/assets/competency/probameres-3/probameres_3_graph_bus.svg' 
       },
       { 
         id: 'p3-3', 
@@ -2817,7 +2817,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['Anna', 'Béla', 'Cecil', 'Dóra'], 
         correctAnswer: 1, 
         points: 1, 
-        image: '/assets/competency/graph_social.svg' 
+        image: '/assets/competency/probameres-3/probameres_3_graph_social.svg' 
       },
       { 
         id: 'p3-4', 
@@ -2826,7 +2826,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         question: 'Hány kilométer a legrövidebb út a Starttól a Célig?', 
         correctAnswer: 13, 
         points: 1, 
-        image: '/assets/competency/graph_hiking.svg' 
+        image: '/assets/competency/probameres-3/probameres_3_graph_hiking.svg' 
       },
       { 
         id: 'p3-5', 
@@ -2836,7 +2836,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['Fű', 'Szöcske', 'Egér', 'Sas'], 
         correctAnswer: 3, 
         points: 1, 
-        image: '/assets/competency/graph_foodweb.svg' 
+        image: '/assets/competency/probameres-3/probameres_3_graph_foodweb.svg' 
       },
       { 
         id: 'p3-6', 
@@ -2846,7 +2846,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['START', 'TERV', 'TESZT'], 
         correctAnswer: 1, 
         points: 1, 
-        image: '/assets/competency/graph_workflow.svg' 
+        image: '/assets/competency/probameres-3/probameres_3_graph_workflow.svg' 
       },
       { 
         id: 'p3-7', 
@@ -2856,7 +2856,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['PC 2', 'Router', 'Közvetlen a kapcsolat'], 
         correctAnswer: 1, 
         points: 1, 
-        image: '/assets/competency/graph_network.svg' 
+        image: '/assets/competency/probameres-3/probameres_3_graph_network.svg' 
       },
       { 
         id: 'p3-8', 
@@ -2866,7 +2866,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['Igaz', 'Hamis'], 
         correctAnswer: 0, 
         points: 1, 
-        image: '/assets/competency/graph_bridges.svg' 
+        image: '/assets/competency/probameres-3/probameres_3_graph_bridges.svg' 
       },
       { 
         id: 'p3-9', 
@@ -2876,7 +2876,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['IGAZGATÓ', 'MENEDZSER 1', 'MENEDZSER 2'], 
         correctAnswer: 1, 
         points: 1, 
-        image: '/assets/competency/graph_hierarchy.svg' 
+        image: '/assets/competency/probameres-3/probameres_3_graph_hierarchy.svg' 
       },
       { 
         id: 'p3-10', 
@@ -2886,7 +2886,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['Csak L1', 'Csak L2', 'Mindkettő', 'Egyik sem'], 
         correctAnswer: 2, 
         points: 1, 
-        image: '/assets/competency/graph_circuit.svg' 
+        image: '/assets/competency/probameres-3/probameres_3_graph_circuit.svg' 
       }
     ]
   },
@@ -2903,7 +2903,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['A fenti ábra helyes', 'Az ábra hibás arányokat mutat', 'Hiányzik egy összetevő'], 
         correctAnswer: 0, 
         points: 1, 
-        image: '/assets/competency/data_soil.svg' 
+        image: '/assets/competency/probameres-4/probameres_4_data_soil.svg' 
       },
       { 
         id: 'p4-2', 
@@ -2913,7 +2913,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['Banán (sárga)', 'Eper (piros)', 'Joghurt (fehér)'], 
         correctAnswer: 0, 
         points: 1, 
-        image: '/assets/competency/data_smoothie.svg' 
+        image: '/assets/competency/probameres-4/probameres_4_data_smoothie.svg' 
       },
       { 
         id: 'p4-3', 
@@ -2923,7 +2923,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['Kék', 'Narancs', 'Zöld'], 
         correctAnswer: 2, 
         points: 1, 
-        image: '/assets/competency/data_library.svg' 
+        image: '/assets/competency/probameres-4/probameres_4_data_library.svg' 
       },
       { 
         id: 'p4-4', 
@@ -2933,7 +2933,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['Papír (kék)', 'Műanyag (zöld)', 'Fém (piros)'], 
         correctAnswer: 2, 
         points: 1, 
-        image: '/assets/competency/data_waste.svg' 
+        image: '/assets/competency/probameres-4/probameres_4_data_waste.svg' 
       },
       { 
         id: 'p4-5', 
@@ -2943,7 +2943,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['Kék', 'Piros', 'Sárga'], 
         correctAnswer: 2, 
         points: 1, 
-        image: '/assets/competency/data_election.svg' 
+        image: '/assets/competency/probameres-4/probameres_4_data_election.svg' 
       },
       { 
         id: 'p4-6', 
@@ -2953,7 +2953,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['Legfelső (legsötétebb)', 'Középső', 'Legalsó'], 
         correctAnswer: 0, 
         points: 1, 
-        image: '/assets/competency/data_backpack.svg' 
+        image: '/assets/competency/probameres-4/probameres_4_data_backpack.svg' 
       },
       { 
         id: 'p4-7', 
@@ -2963,7 +2963,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['Nitrogén (kék)', 'Oxigén (piros)', 'Egyéb gázok (fekete)'], 
         correctAnswer: 0, 
         points: 1, 
-        image: '/assets/competency/data_atmosphere.svg' 
+        image: '/assets/competency/probameres-4/probameres_4_data_atmosphere.svg' 
       },
       { 
         id: 'p4-8', 
@@ -2973,7 +2973,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['Zöld és Narancs', 'Zöld és Kék', 'Narancs és Kék'], 
         correctAnswer: 0, 
         points: 1, 
-        image: '/assets/competency/data_budget.svg' 
+        image: '/assets/competency/probameres-4/probameres_4_data_budget.svg' 
       },
       { 
         id: 'p4-9', 
@@ -2983,7 +2983,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['Sárga', 'Szürke', 'Narancs'], 
         correctAnswer: 1, 
         points: 1, 
-        image: '/assets/competency/data_jewel.svg' 
+        image: '/assets/competency/probameres-4/probameres_4_data_jewel.svg' 
       },
       { 
         id: 'p4-10', 
@@ -2993,7 +2993,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['Fekete körök', 'Kék négyzetek', 'Zöld négyzetek'], 
         correctAnswer: 0, 
         points: 1, 
-        image: '/assets/competency/data_icons.svg' 
+        image: '/assets/competency/probameres-4/probameres_4_data_icons.svg' 
       }
     ]
   },
@@ -3009,7 +3009,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         question: 'Mennyibe fog kerülni a játszóház bérleti díja, ha kedden 14:00-tól 17:00-ig tartják a szülinapot (18 gyerek és 3 felnőtt kísérő)?', 
         correctAnswer: 9180, 
         points: 1, 
-        image: '/assets/competency/calc_birthday.svg' 
+        image: '/assets/competency/probameres-5/probameres_5_calc_birthday.svg' 
       },
       { 
         id: 'p5-2', 
@@ -3024,7 +3024,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         ], 
         correctAnswer: 2, 
         points: 1, 
-        image: '/assets/competency/calc_work.svg' 
+        image: '/assets/competency/probameres-5/probameres_5_calc_work.svg' 
       },
       { 
         id: 'p5-3', 
@@ -3038,7 +3038,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         ], 
         correctAnswer: null, 
         points: 1, 
-        image: '/assets/competency/calc_groceries.svg' 
+        image: '/assets/competency/probameres-5/probameres_5_calc_groceries.svg' 
       },
       { 
         id: 'p5-4', 
@@ -3048,7 +3048,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['Igaz', 'Hamis'], 
         correctAnswer: 0, 
         points: 1, 
-        image: '/assets/competency/calc_trip.svg' 
+        image: '/assets/competency/probameres-5/probameres_5_calc_trip.svg' 
       },
       { 
         id: 'p5-5', 
@@ -3063,7 +3063,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         ], 
         correctAnswer: 1, 
         points: 1, 
-        image: '/assets/competency/calc_mobile_data.svg' 
+        image: '/assets/competency/probameres-5/probameres_5_calc_mobile_data.svg' 
       },
       { 
         id: 'p5-6', 
@@ -3077,7 +3077,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         ], 
         correctAnswer: null, 
         points: 1, 
-        image: '/assets/competency/calc_gym.svg' 
+        image: '/assets/competency/probameres-5/probameres_5_calc_gym.svg' 
       },
       { 
         id: 'p5-7', 
@@ -3086,7 +3086,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         question: 'Hány Ft a tényleges fogyasztás díja (alapdíj nélkül), ha a végösszeg 7200 Ft és az alapdíj 1200 Ft?', 
         correctAnswer: 6000, 
         points: 1, 
-        image: '/assets/competency/calc_electricity.svg' 
+        image: '/assets/competency/probameres-5/probameres_5_calc_electricity.svg' 
       },
       { 
         id: 'p5-8', 
@@ -3101,7 +3101,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         ], 
         correctAnswer: 3, 
         points: 1, 
-        image: '/assets/competency/calc_cinema.svg' 
+        image: '/assets/competency/probameres-5/probameres_5_calc_cinema.svg' 
       },
       { 
         id: 'p5-9', 
@@ -3115,7 +3115,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         ], 
         correctAnswer: null, 
         points: 1, 
-        image: '/assets/competency/calc_pizza.svg' 
+        image: '/assets/competency/probameres-5/probameres_5_calc_pizza.svg' 
       },
       { 
         id: 'p5-10', 
@@ -3124,7 +3124,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         question: 'Hány kilométert tehetünk meg összesen 2 nap alatt, hogy a bérleti díj ne lépje át a 40 000 Ft-ot (napidíj: 12000 Ft, km díj: 50 Ft)?', 
         correctAnswer: 320, 
         points: 1, 
-        image: '/assets/competency/calc_car_rental.svg' 
+        image: '/assets/competency/probameres-5/probameres_5_calc_car_rental.svg' 
       }
     ]
   },
@@ -3141,7 +3141,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['A (Busszal)', 'B (Villamossal)', 'C (Biciklivel)'], 
         correctAnswer: 1, 
         points: 1, 
-        image: '/assets/competency/travel_library.svg' 
+        image: '/assets/competency/probameres-6/probameres_6_travel_library.svg' 
       },
       { 
         id: 'p6-2', 
@@ -3160,7 +3160,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['7-es busz', 'Gyalog', 'Rollerrel'], 
         correctAnswer: 2, 
         points: 1, 
-        image: '/assets/competency/travel_sport.svg' 
+        image: '/assets/competency/probameres-6/probameres_6_travel_sport.svg' 
       },
       { 
         id: 'p6-4', 
@@ -3169,7 +3169,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         question: 'Hány perccel a film kezdete előtt érkezik meg a leggyorsabb (Villamos) járattal?', 
         correctAnswer: 13, 
         points: 1, 
-        image: '/assets/competency/travel_cinema.svg' 
+        image: '/assets/competency/probameres-6/probameres_6_travel_cinema.svg' 
       },
       { 
         id: 'p6-5', 
@@ -3179,7 +3179,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['Gyalog', '12-es busz'], 
         correctAnswer: 1, 
         points: 1, 
-        image: '/assets/competency/travel_shop.svg' 
+        image: '/assets/competency/probameres-6/probameres_6_travel_shop.svg' 
       },
       { 
         id: 'p6-6', 
@@ -3188,7 +3188,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         question: 'Ha a metróút 12 perc, hány óra hány perckor ér be az iskolába? Írd be a percet (7:XX)!', 
         correctAnswer: 45, 
         points: 1, 
-        image: '/assets/competency/travel_school.svg' 
+        image: '/assets/competency/probameres-6/probameres_6_travel_school.svg' 
       },
       { 
         id: 'p6-7', 
@@ -3198,7 +3198,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['Vonat', 'Távolsági busz'], 
         correctAnswer: 1, 
         points: 1, 
-        image: '/assets/competency/travel_concert.svg' 
+        image: '/assets/competency/probameres-6/probameres_6_travel_concert.svg' 
       },
       { 
         id: 'p6-8', 
@@ -3207,7 +3207,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         question: 'Hány percet tölt Adél összesen úton (séta + várakozás + 18 perc utazás)?', 
         correctAnswer: 28, 
         points: 1, 
-        image: '/assets/competency/travel_swimming.svg' 
+        image: '/assets/competency/probameres-6/probameres_6_travel_swimming.svg' 
       },
       { 
         id: 'p6-9', 
@@ -3217,7 +3217,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['Villamos', 'Gyalog'], 
         correctAnswer: 1, 
         points: 1, 
-        image: '/assets/competency/travel_music.svg' 
+        image: '/assets/competency/probameres-6/probameres_6_travel_music.svg' 
       },
       { 
         id: 'p6-10', 
@@ -3226,7 +3226,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         question: 'Hány perc a különbség a két járat érkezési ideje között (percben)?', 
         correctAnswer: 10, 
         points: 1, 
-        image: '/assets/competency/travel_grandma.svg' 
+        image: '/assets/competency/probameres-6/probameres_6_travel_grandma.svg' 
       }
     ]
   },
@@ -3243,7 +3243,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['Hétfő', 'Kedd', 'Szerda', 'Csütörtök', 'Péntek'],
         correctAnswer: [0, 2, 4], 
         points: 1, 
-        image: '/assets/competency/probameres_7_1.svg' 
+        image: '/assets/competency/probameres-7/probameres_7_1.svg' 
       },
       { 
         id: 'p7-2', 
@@ -3253,7 +3253,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['A galaxis őrzői (14:15)', 'Űrkaland (15:30)', 'Csillagok között (16:00)', 'Mars mentőakció (17:15)'],
         correctAnswer: [1], 
         points: 1, 
-        image: '/assets/competency/probameres_7_2.svg' 
+        image: '/assets/competency/probameres-7/probameres_7_2.svg' 
       },
       { 
         id: 'p7-3', 
@@ -3263,7 +3263,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['ABC Áruház', 'Piaci árusok', 'Mindkettő ugyanannyi', 'A budget-be egyik sem fér bele'],
         correctAnswer: 1,
         points: 1, 
-        image: '/assets/competency/probameres_7_3.svg' 
+        image: '/assets/competency/probameres-7/probameres_7_3.svg' 
       },
       { 
         id: 'p7-4', 
@@ -3273,7 +3273,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['S70 (07:45) + 10-es busz', 'S71 (07:55) + 12-es busz', 'S70 (08:15) + 10-es busz', 'S71 (08:25) + 12-es busz'],
         correctAnswer: [0, 1, 2], 
         points: 1, 
-        image: '/assets/competency/probameres_7_4.svg' 
+        image: '/assets/competency/probameres-7/probameres_7_4.svg' 
       },
       { 
         id: 'p7-5', 
@@ -3283,7 +3283,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['Zabkása', 'Gyümölcsös joghurt', 'Natúr joghurt', 'Egyik sem'],
         correctAnswer: [0], 
         points: 1, 
-        image: '/assets/competency/probameres_7_5.svg' 
+        image: '/assets/competency/probameres-7/probameres_7_5.svg' 
       },
       { 
         id: 'p7-6', 
@@ -3293,7 +3293,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['Hétfő - Központi', 'Kedd - Ménfőcsanaki', 'Szerda - Központi', 'Csütörtök - Ménfőcsanaki'],
         correctAnswer: 1, 
         points: 1, 
-        image: '/assets/competency/probameres_7_6.svg' 
+        image: '/assets/competency/probameres-7/probameres_7_6.svg' 
       },
       { 
         id: 'p7-7', 
@@ -3303,7 +3303,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['"DIÁK" csomag', '"SZUPER" csomag', 'Egyenlő a költségük', 'Egyikben sem elég az adat'],
         correctAnswer: 1, 
         points: 1, 
-        image: '/assets/competency/probameres_7_7.svg' 
+        image: '/assets/competency/probameres-7/probameres_7_7.svg' 
       },
       { 
         id: 'p7-8', 
@@ -3313,7 +3313,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['Horgászverseny (Szo)', 'Koncert (Szo este)', 'Koncert (Vas este)', 'Kerékpár (Hé)'],
         correctAnswer: [0, 1], 
         points: 1, 
-        image: '/assets/competency/probameres_7_8.svg' 
+        image: '/assets/competency/probameres-7/probameres_7_8.svg' 
       },
       { 
         id: 'p7-9', 
@@ -3323,7 +3323,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         options: ['Liszt', 'Cukor', 'Tojás', 'Vaj'],
         correctAnswer: 3, 
         points: 1, 
-        image: '/assets/competency/probameres_7_9.svg' 
+        image: '/assets/competency/probameres-7/probameres_7_9.svg' 
       },
       { 
         id: 'p7-10', 
@@ -3332,7 +3332,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
         question: 'Hány forintba kerül a mosógép egyetlen ciklusa, ha este 23:00-kor indítjuk el?', 
         correctAnswer: 50, 
         points: 1, 
-        image: '/assets/competency/probameres_7_10.svg' 
+        image: '/assets/competency/probameres-7/probameres_7_10.svg' 
       }
     ]
   },
@@ -3459,7 +3459,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
       {
         id: 'g7-p9-1',
         type: 'multi-choice',
-        image: '/assets/competency/probameres_9_1.svg',
+        image: '/assets/competency/probameres-9/probameres_9_1.svg',
         context: 'Egy gyógyszergyárban a tabletták minőségét egy gép ellenőrzi. A gép a következő feltételek szerint választ ki tablettákat a levélből:\n- Legalább egy oszlopból 2 tablettát választ,\n- Minden sorból legalább 1 tablettát választ,\n- Az egész levélből legalább 3 tablettát választ.',
         question: 'Mely ábrák mutatják a gép szabályainak megfelelő választást? Válaszd ki az összes jót!',
         options: [
@@ -3474,7 +3474,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
       {
         id: 'g7-p9-2',
         type: 'multi-choice',
-        image: '/assets/competency/probameres_9_2.svg',
+        image: '/assets/competency/probameres-9/probameres_9_2.svg',
         context: 'Lili virágokat ültet a kertbe a következő szabályok szerint:\n- Legalább 3 virág legyen egy csoportban,\n- Két azonos színű virág nem kerülhet közvetlenül egymás mellé,\n- Minden csoportban kell lennie legalább egy sárga virágnak.',
         question: 'Melyik virág-összeállítások felelnek meg Lili szabályainak? Válassz ki minden helyeset!',
         options: [
@@ -3489,7 +3489,7 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
       {
         id: 'g7-p9-3',
         type: 'multi-choice',
-        image: '/assets/competency/probameres_9_3.svg',
+        image: '/assets/competency/probameres-9/probameres_9_3.svg',
         context: 'A technikai kiállításra való belépés feltételei a következők:\n- A kártyán szerepelnie kell a "DIÁK" vagy "TANÁR" feliratnak,\n- A kártya 2024 végéig érvényes feleljen meg (lejár: 2024.12 vagy később),\n- A kártyán lennie kell egy QR-kódnak az azonosításhoz.',
         question: 'Mely kártyákkal lehet belépni a kiállításra? Válassz ki minden helyeset!',
         options: [

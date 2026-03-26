@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+    <rect width="600" height="400" fill="#ffffff" />
+    
+    <!-- Left Section: Original -->
+    <g transform="translate(30, 30)">
+        <text x="0" y="20" font-family="Arial" font-size="24" font-weight="bold" fill="#2c3e50">Pótkulcs</text>
+        <text x="0" y="50" font-family="Arial" font-size="16" fill="#7f8c8d">Eredeti</text>
+        
+        <!-- Original Key -->
+        <g transform="translate(0, 80) scale(0.6)">
+            <rect x="0" y="150" width="180" height="30" fill="#7f8c8d" />
+            <circle cx="30" cy="165" r="45" fill="#7f8c8d" />
+            <!-- Correct Teeth Pattern (U-shape) -->
+            <path d="M180,150 L180,195 L195,195 L195,180 L210,180 L210,195" fill="none" stroke="#7f8c8d" stroke-width="10" />
+        </g>
+    </g>
+
+    <!-- Right Section: Patterns (2x2 Grid) -->
+    <g transform="translate(250, 30)">
+        <text x="0" y="20" font-family="Arial" font-size="18" font-weight="bold" fill="#2c3e50">Választható minták:</text>
+        
+        <!-- Minta 1 -->
+        <g transform="translate(0, 50) scale(0.5)">
+            <text x="0" y="100" font-family="Arial" font-size="48" font-weight="bold" fill="#3498db">1.</text>
+            <rect x="50" y="150" width="180" height="30" fill="#95a5a6" />
+            <circle cx="80" cy="165" r="45" fill="#95a5a6" />
+            <path d="M230,150 L230,180 L245,180 L245,195 L260,195 L260,180" fill="none" stroke="#95a5a6" stroke-width="10" />
+        </g>
+
+        <!-- Minta 2 (CORRECT) -->
+        <g transform="translate(200, 50) scale(0.5)">
+            <text x="0" y="100" font-family="Arial" font-size="48" font-weight="bold" fill="#3498db">2.</text>
+            <rect x="50" y="150" width="180" height="30" fill="#95a5a6" />
+            <circle cx="80" cy="165" r="45" fill="#95a5a6" />
+            <path d="M230,150 L230,195 L245,195 L245,180 L260,180 L260,195" fill="none" stroke="#95a5a6" stroke-width="10" />
+        </g>
+
+        <!-- Minta 3 -->
+        <g transform="translate(0, 180) scale(0.5)">
+            <text x="0" y="100" font-family="Arial" font-size="48" font-weight="bold" fill="#3498db">3.</text>
+            <rect x="50" y="150" width="180" height="30" fill="#95a5a6" />
+            <circle cx="80" cy="165" r="45" fill="#95a5a6" />
+            <path d="M230,150 L230,195 L245,195 L245,170 L260,170 L260,195" fill="none" stroke="#95a5a6" stroke-width="10" />
+        </g>
+
+        <!-- Minta 4 -->
+        <g transform="translate(200, 180) scale(0.5)">
+            <text x="0" y="100" font-family="Arial" font-size="48" font-weight="bold" fill="#3498db">4.</text>
+            <rect x="50" y="150" width="180" height="30" fill="#95a5a6" />
+            <circle cx="80" cy="165" r="45" fill="#95a5a6" />
+            <path d="M230,150 L230,195 L245,195 L245,180 L260,180 L260,165" fill="none" stroke="#95a5a6" stroke-width="10" />
+        </g>
+    </g>
+</svg>
