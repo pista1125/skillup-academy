@@ -1,0 +1,41 @@
+<svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="600" height="400" fill="#f8fafc" rx="20"/>
+  
+  <!-- Option A: DIÁK, 2025.06, QR -->
+  <g transform="translate(50, 50)">
+    <rect width="200" height="120" fill="white" stroke="#3b82f6" stroke-width="3" rx="10"/>
+    <text x="10" y="30" font-family="Arial" font-weight="bold" fill="#1e293b" font-size="20">DIÁK</text>
+    <text x="10" y="60" font-family="Arial" fill="#64748b" font-size="14">Lejár: 2025.06</text>
+    <!-- QR Code placeholder -->
+    <rect x="140" y="60" width="40" height="40" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <rect x="145" y="65" width="30" height="30" fill="none" stroke="#1e293b" stroke-dasharray="2,2"/>
+    <circle cx="160" cy="80" r="5" fill="#1e293b" opacity="0.3"/>
+    <text x="100" y="140" font-family="Arial" font-weight="bold" fill="#1e293b" text-anchor="middle">"A" kártya</text>
+  </g>
+
+  <!-- Option B: LÁTOGATÓ, 2024.12, QR -->
+  <g transform="translate(350, 50)">
+    <rect width="200" height="120" fill="white" stroke="#e2e8f0" stroke-width="3" rx="10"/>
+    <text x="10" y="30" font-family="Arial" font-weight="bold" fill="#1e293b" font-size="18">LÁTOGATÓ</text>
+    <text x="10" y="60" font-family="Arial" fill="#64748b" font-size="14">Lejár: 2024.12</text>
+    <rect x="140" y="60" width="40" height="40" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="100" y="140" font-family="Arial" font-weight="bold" fill="#1e293b" text-anchor="middle">"B" kártya</text>
+  </g>
+
+  <!-- Option C: TANÁR, 2024.10, NO QR -->
+  <g transform="translate(50, 230)">
+    <rect width="200" height="120" fill="white" stroke="#e2e8f0" stroke-width="3" rx="10"/>
+    <text x="10" y="30" font-family="Arial" font-weight="bold" fill="#1e293b" font-size="20">TANÁR</text>
+    <text x="10" y="60" font-family="Arial" fill="#64748b" font-size="14">Lejár: 2024.10</text>
+    <text x="100" y="140" font-family="Arial" font-weight="bold" fill="#1e293b" text-anchor="middle">"C" kártya</text>
+  </g>
+
+  <!-- Option D: DIÁK, 2024.12, QR -->
+  <g transform="translate(350, 230)">
+    <rect width="200" height="120" fill="white" stroke="#3b82f6" stroke-width="3" rx="10"/>
+    <text x="10" y="30" font-family="Arial" font-weight="bold" fill="#1e293b" font-size="20">DIÁK</text>
+    <text x="10" y="60" font-family="Arial" fill="#64748b" font-size="14">Lejár: 2024.12</text>
+    <rect x="140" y="60" width="40" height="40" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="100" y="140" font-family="Arial" font-weight="bold" fill="#1e293b" text-anchor="middle">"D" kártya</text>
+  </g>
+</svg>

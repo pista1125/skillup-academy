@@ -1,4 +1,4 @@
-export type CompetencyTaskType = 'multiple-choice' | 'number-input' | 'true-false' | 'matching' | 'multi-true-false' | 'multi-choice';
+export type CompetencyTaskType = 'multiple-choice' | 'number-input' | 'true-false' | 'matching' | 'multi-true-false' | 'multi-choice' | 'gap-fill';
 
 export interface CompetencyTask {
   id: string;
@@ -13,6 +13,7 @@ export interface CompetencyTask {
   hint?: string;
   points: number;
   image?: string;
+  gap_template?: string;
 }
 
 export interface MonthlyCompetency {
@@ -3338,35 +3339,268 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
   {
     id: 'probameres-8',
     name: 'Probamérés 8',
-    topic: 'Arányosság és Százalékszámítás',
+    topic: 'Életszerű számítások',
     tasks: [
-      { id: 'p8-1', type: 'number-input', question: 'Mennyi 500-nak a 15%-a?', correctAnswer: 75, points: 1, image: '📊' },
-      { id: 'p8-2', type: 'multiple-choice', question: 'Mennyi a 20-nak a 120%-a?', options: ['12', '22', '24', '40'], correctAnswer: 2, points: 1, image: '📈' },
-      { id: 'p8-3', type: 'number-input', question: 'Hány százaléka a 40 a 200-nak?', correctAnswer: 20, points: 1, image: '🔢' },
-      { id: 'p8-4', type: 'true-false', question: 'Igaz vagy Hamis? Ha egy termék árát 10%-kal felemeljük, majd 10%-kal csökkentjük, az eredeti árat kapjuk.', options: ['Igaz', 'Hamis'], correctAnswer: 1, points: 1, image: '💸' },
-      { id: 'p8-5', type: 'number-input', question: 'Egy 8000 Ft-os cipő 20% kedvezménnyel mennyibe kerül?', correctAnswer: 6400, points: 1, image: '👟' },
-      { id: 'p8-6', type: 'multiple-choice', question: 'Ha 3 kg alma 1500 Ft, mennyibe kerül 5 kg?', options: ['2000 Ft', '2500 Ft', '3000 Ft', '1800 Ft'], correctAnswer: 1, points: 1, image: '🍎' },
-      { id: 'p8-7', type: 'matching', question: 'Párosítsd az arányokat a törtekkel!', pairs: [{ id: 'a', left: '25%', right: '1/4' }, { id: 'b', left: '50%', right: '1/2' }, { id: 'c', left: '75%', right: '3/4' }], correctAnswer: null, points: 1, image: '🔗' },
-      { id: 'p8-8', type: 'number-input', question: 'Melyik számnak a 40%-a a 80?', correctAnswer: 200, points: 1, image: '❓' },
-      { id: 'p8-9', type: 'true-false', question: 'Igaz vagy Hamis? A fordított arányosság grafikonja egy hiperbola.', options: ['Igaz', 'Hamis'], correctAnswer: 0, points: 1, image: '📊' },
-      { id: 'p8-10', type: 'number-input', question: 'Ha 4 munkás 10 nap alatt végez, hány munkás kell, hogy 5 nap alatt végezzenek?', correctAnswer: 8, points: 1, image: '👷' }
+      {
+        id: 'g7-p8-1',
+        type: 'gap-fill',
+        image: '💰',
+        context: 'Barnus 9 hete minden héten 800 zedet félretett a zsebpénzéből, hogy focis kártyákat vegyen. Egy csomag kártya 350 zedbe kerül, és annyit szeretne venni belőle, amennyit csak tud.',
+        question: 'Hány kártyacsomagot tud venni a félretett pénzéből, és mennyi pénze marad? Gépeld be a válaszodat!',
+        gap_template: '[gap] csomagot tud venni, és marad még [gap] zedje.',
+        correctAnswer: ['20', '200'],
+        points: 1
+      },
+      {
+        id: 'g7-p8-2',
+        type: 'multiple-choice',
+        image: '🚲',
+        context: 'Egy kerékpárboltban minden modellre 20% kedvezmény jár ezen a héten. Marci kiszemelt egy 65 000 Ft-os túrakerékpárt.',
+        question: 'Mennyit kell fizetnie Marcinak a kerékpárért a pénztárnál?',
+        options: ['13 000 Ft', '52 000 Ft', '58 500 Ft', '55 000 Ft'],
+        correctAnswer: 1,
+        points: 1
+      },
+      {
+        id: 'g7-p8-3',
+        type: 'true-false',
+        image: '🥾',
+        context: 'Egy túracsoport egyenletesen halad a hegyen: 2 óra alatt 8 kilométert tesznek meg.',
+        question: 'Igaz vagy Hamis? Ha ugyanezzel a tempóval haladnak tovább, akkor 5 óra alatt összesen 20 kilométert érnek el.',
+        options: ['Igaz', 'Hamis'],
+        correctAnswer: 0,
+        points: 1
+      },
+      {
+        id: 'g7-p8-4',
+        type: 'matching',
+        image: '🍰',
+        context: 'Egy cukrászda különleges máktortát készít. A recept szerint 300g mákhoz 150g cukor és 3 tojás szükséges.',
+        question: 'Párosítsd össze a megváltoztatott alapanyag-mennyiségeket az eredeti arány megtartásával!',
+        pairs: [
+          { id: '1', left: '600g mák', right: '300g cukor' },
+          { id: '2', left: '100g mák', right: '50g cukor' },
+          { id: '3', left: '450g mák', right: '225g cukor' }
+        ],
+        correctAnswer: null,
+        points: 1
+      },
+      {
+        id: 'g7-p8-5',
+        type: 'number-input',
+        image: '📱',
+        context: 'Lili mobilcsomagja 10 GB mobiladatot tartalmaz havonta. Ha túllépi a keretet, minden megkezdett 500 MB-ért 450 Ft-ot kell fizetnie. Lili ebben a hónapban 11,2 GB-ot forgalmazott.',
+        question: 'Hány forint plusz költséggel terhelik meg a számláját? (Csak a számot írd be!)',
+        correctAnswer: 1350,
+        points: 1
+      },
+      {
+        id: 'g7-p8-6',
+        type: 'gap-fill',
+        image: '🎨',
+        context: 'Kati ki szeretné festeni a szobáját. Egy vödör festék (5 liter) 40 m² falfelületre elég. A szoba falainak és a plafonnak az összfelülete 112 m².',
+        question: 'Hány vödör festéket kell vennie a teljes felületre, és mennyi festéke marad, ha minden vödröt teljesen felhasznál?',
+        gap_template: 'Összesen [gap] vödröt kell vennie, és marad [gap] liter festéke.',
+        correctAnswer: ['3', '1'],
+        points: 1
+      },
+      {
+        id: 'g7-p8-7',
+        type: 'multiple-choice',
+        image: '🚌',
+        context: 'A teljes árú buszjegy 450 Ft. A diákjegy ára 90%-os kedvezménnyel vásárolható meg a bérlettel rendelkező tanulóknak.',
+        question: 'Mennyibe kerül egy diákjegy?',
+        options: ['45 Ft', '90 Ft', '405 Ft', '50 Ft'],
+        correctAnswer: 0,
+        points: 1
+      },
+      {
+        id: 'g7-p8-8',
+        type: 'true-false',
+        image: '🏃',
+        context: 'Egy futóedzésen 30 perc alatt 450 kalóriát égetünk el. A sportoló úgy dönt, hogy még 10 percet fut.',
+        question: 'Igaz vagy Hamis? Ha a tempó nem változik, a további 10 perc alatt még pontosan 150 kalóriát éget el.',
+        options: ['Igaz', 'Hamis'],
+        correctAnswer: 0,
+        points: 1
+      },
+      {
+        id: 'g7-p8-9',
+        type: 'multi-choice',
+        image: '🍕',
+        context: 'Egy pizzázó hétvégi akciót hirdet: minden óriáspizza mellé 1 literes üdítő jár ingyen (értéke 600 Ft), VAGY 15% kedvezmény mindenre. Egy óriáspizza ára 5000 Ft.',
+        question: 'Melyik állítás(ok) igazak két pizza rendelése esetén? Jelöld be a helyeseket!',
+        options: [
+          'Az üdítőket választva többet spórolunk, mint a 15%-kal.',
+          'A 15% kedvezmény többet ér, mint a két ingyen üdítő.',
+          'A két üdítő összértéke 1200 Ft.',
+          'A 15% kedvezmény pontosan 1500 Ft-ot ér.'
+        ],
+        correctAnswer: [1, 2, 3],
+        points: 1
+      },
+      {
+        id: 'g7-p8-10',
+        type: 'gap-fill',
+        image: '🏦',
+        context: 'Peti betett 120 000 Ft-ot a bankba éves 5%-os kamatra. év végén megkapja a kamatot, de az állam 15% kamatadót von le belőle.',
+        question: 'Mennyi lesz a kamat összege az adó levonása után, és mennyi pénze lesz Petinek összesen a bankban az év végén?',
+        gap_template: 'A nettó kamat [gap] Ft lesz, az év végi egyenleg pedig [gap] Ft.',
+        correctAnswer: ['5100', '125100'],
+        points: 1
+      }
     ]
   },
   {
     id: 'probameres-9',
     name: 'Probamérés 9',
-    topic: 'Adatok és Valószínűség',
+    topic: 'Logikai kiválasztás és Szabálykövetés',
     tasks: [
-      { id: 'p9-1', type: 'number-input', question: 'Mennyi az átlaga az 1, 3, 5, 7, 9 számoknak?', correctAnswer: 5, points: 1, image: '📊' },
-      { id: 'p9-2', type: 'multiple-choice', question: 'Mi a módusza: 2, 3, 3, 4, 5, 3, 2?', options: ['2', '3', '4', '5'], correctAnswer: 1, points: 1, image: '🎯' },
-      { id: 'p9-3', type: 'number-input', question: 'Mi a mediánja: 10, 2, 5, 8, 12?', correctAnswer: 8, points: 1, image: '📈' },
-      { id: 'p9-4', type: 'true-false', question: 'Igaz vagy Hamis? A valószínűség értéke mindig 0 és 1 (vagy 0% és 100%) közé esik.', options: ['Igaz', 'Hamis'], correctAnswer: 0, points: 1, image: '✅' },
-      { id: 'p9-5', type: 'multiple-choice', question: 'Mennyi a valószínűsége, hogy egy dobókockával páros számot dobunk?', options: ['1/6', '1/3', '1/2', '2/3'], correctAnswer: 2, points: 1, image: '🎲' },
-      { id: 'p9-6', type: 'number-input', question: 'Egy zsákban 4 zöld és 6 sárga golyó van. Mekkora a zöld húzásának esélye %-ban?', correctAnswer: 40, points: 1, image: '🟢' },
-      { id: 'p9-7', type: 'matching', question: 'Párosítsd a kifejezéseket!', pairs: [{ id: 'a', left: 'Mindenki kedvenc színe', right: 'Módusz' }, { id: 'b', left: 'Osztályzatok összege / létszám', right: 'Átlag' }, { id: 'c', left: 'Középső jegy', right: 'Medián' }], correctAnswer: null, points: 1, image: '🔗' },
-      { id: 'p9-8', type: 'true-false', question: 'Igaz vagy Hamis? A biztos esemény valószínűsége 0.', options: ['Igaz', 'Hamis'], correctAnswer: 1, points: 1, image: '🚫' },
-      { id: 'p9-9', type: 'number-input', question: 'Hányféleképpen dobhatunk két pénzérmével?', correctAnswer: 4, points: 1, image: '🪙' },
-      { id: 'p9-10', type: 'multiple-choice', question: 'Melyik diagram a legjobb időbeli változás szemléltetésére?', options: ['Kördiagram', 'Vonalgrafikon', 'Oszlopdiagram', 'Piktogram'], correctAnswer: 1, points: 1, image: '📈' }
+      {
+        id: 'g7-p9-1',
+        type: 'multi-choice',
+        image: '/assets/competency/probameres_9_1.svg',
+        context: 'Egy gyógyszergyárban a tabletták minőségét egy gép ellenőrzi. A gép a következő feltételek szerint választ ki tablettákat a levélből:\n- Legalább egy oszlopból 2 tablettát választ,\n- Minden sorból legalább 1 tablettát választ,\n- Az egész levélből legalább 3 tablettát választ.',
+        question: 'Mely ábrák mutatják a gép szabályainak megfelelő választást? Válaszd ki az összes jót!',
+        options: [
+          '"A" ábra',
+          '"B" ábra',
+          '"C" ábra',
+          '"D" ábra'
+        ],
+        correctAnswer: [0, 2],
+        points: 1
+      },
+      {
+        id: 'g7-p9-2',
+        type: 'multi-choice',
+        image: '/assets/competency/probameres_9_2.svg',
+        context: 'Lili virágokat ültet a kertbe a következő szabályok szerint:\n- Legalább 3 virág legyen egy csoportban,\n- Két azonos színű virág nem kerülhet közvetlenül egymás mellé,\n- Minden csoportban kell lennie legalább egy sárga virágnak.',
+        question: 'Melyik virág-összeállítások felelnek meg Lili szabályainak? Válassz ki minden helyeset!',
+        options: [
+          '"A" ábra',
+          '"B" ábra',
+          '"C" ábra',
+          '"D" ábra'
+        ],
+        correctAnswer: [0, 2],
+        points: 1
+      },
+      {
+        id: 'g7-p9-3',
+        type: 'multi-choice',
+        image: '/assets/competency/probameres_9_3.svg',
+        context: 'A technikai kiállításra való belépés feltételei a következők:\n- A kártyán szerepelnie kell a "DIÁK" vagy "TANÁR" feliratnak,\n- A kártya 2024 végéig érvényes feleljen meg (lejár: 2024.12 vagy később),\n- A kártyán lennie kell egy QR-kódnak az azonosításhoz.',
+        question: 'Mely kártyákkal lehet belépni a kiállításra? Válassz ki minden helyeset!',
+        options: [
+          '"A" kártya',
+          '"B" kártya',
+          '"C" kártya',
+          '"D" kártya'
+        ],
+        correctAnswer: [0, 3],
+        points: 1
+      },
+      {
+        id: 'g7-p9-4',
+        type: 'multiple-choice',
+        image: '📦',
+        context: 'Egy futárszolgálat az alábbi csomagokat szállítja el alapáron:\n- A súly nem haladja meg a 10 kg-ot,\n- A hosszúság, szélesség és magasság összege max 150 cm,\n- Nem tartalmaz folyadékot.',
+        question: 'Melyik csomagot szállítják el alapáron?',
+        options: [
+          '12 kg, 120 cm összméret, száraz áru',
+          '8 kg, 160 cm összméret, száraz áru',
+          '9 kg, 110 cm összméret, 1 liter olaj',
+          '7 kg, 130 cm összméret, száraz áru'
+        ],
+        correctAnswer: 3,
+        points: 1
+      },
+      {
+        id: 'g7-p9-5',
+        type: 'multi-choice',
+        image: '🔑',
+        context: 'A biztonságos jelszó feltételei a Skill-Up Akadémián:\n- Legalább 8 karakter hosszú,\n- Tartalmaz legalább egy számot,\n- Tartalmaz legalább egy nagybetűt.',
+        question: 'Melyik jelszavak tekinthetők biztonságosnak a szabályok szerint?',
+        options: [
+          'Almafa123',
+          'titokzatos',
+          'Jelszo_2024',
+          'ErősJelszó'
+        ],
+        correctAnswer: [0, 2],
+        points: 1
+      },
+      {
+        id: 'g7-p9-6',
+        type: 'multi-choice',
+        image: '🅿️',
+        context: 'A parkolás szabályai a belvárosban:\n- Munkanapokon 8:00 és 18:00 között díjköteles,\n- Hétvégén és ünnepnapokon ingyenes,\n- Mozgáskorlátozott helyen csak engedéllyel lehet parkolni.',
+        question: 'Melyik esetben parkol hatályos szabályok szerint a sofőr díjfizetés nélkül?',
+        options: [
+          'Péntek 19:00, normál helyen, nincs engedélye',
+          'Kedd 10:00, normál helyen, nincs engedélye',
+          'Szombat 14:00, mozgáskorlátozott helyen, nincs engedélye',
+          'Vasárnap 09:00, normál helyen, nincs engedélye'
+        ],
+        correctAnswer: [0, 3],
+        points: 1
+      },
+      {
+        id: 'g7-p9-7',
+        type: 'multiple-choice',
+        image: '🛒',
+        context: 'Bevásárlási szabályok Otitól:\n- Csak akkor vegyél tejet, ha az lejárata távolabbi mint 3 nap,\n- Ha veszel kenyeret, ne vegyél zsemlét,\n- Az összérték ne haladja meg az 5000 Ft-ot.',
+        question: 'Melyik kosár felel meg Oti összes kérésének?',
+        options: [
+          'Tej (lejár holnap), Kenyér, Sajt (4200 Ft)',
+          'Kenyér, Zsemle, Tej (lejár 5 nap múlva) (3500 Ft)',
+          'Tej (lejár 6 nap múlva), Kenyér, Vaj (4800 Ft)',
+          'Tej (lejár 5 nap múlva), Zsemle, Felvágott (5200 Ft)'
+        ],
+        correctAnswer: 2,
+        points: 1
+      },
+      {
+        id: 'g7-p9-8',
+        type: 'true-false',
+        image: '🎲',
+        context: 'A "Gyorsasági" társasjáték szabálya: \n- Ha párosat dobsz, kétszer annyit léphetsz előre,\n- Ha 1-est dobsz, vissza kell menned a Start mezőre,\n- A játékot az nyeri, aki pontosan a 20-as mezőre érkezik.',
+        question: 'Igaz vagy Hamis? Ha a 18-as mezőn állsz és 2-est dobsz, akkor megnyerted a játékot.',
+        options: ['Igaz', 'Hamis'],
+        correctAnswer: 1,
+        points: 1
+      },
+      {
+        id: 'g7-p9-9',
+        type: 'multi-choice',
+        image: '🎬',
+        context: 'Mozizási feltételek a barátokkal:\n- A film legkorábban 16:00-kor kezdődhet,\n- Csak szinkronizált film jöhet szóba,\n- A film hossza ne legyen több 130 percnél.',
+        question: 'Melyik filmek felelnek meg a baráti társaságnak?',
+        options: [
+          'Űrkalandok (16:15, szinkronizált, 110 perc)',
+          'Sárkányok (15:30, feliratos, 120 perc)',
+          'Vígjáték (18:00, szinkronizált, 140 perc)',
+          'Hősök útja (17:45, szinkronizált, 105 perc)'
+        ],
+        correctAnswer: [0, 3],
+        points: 1
+      },
+      {
+        id: 'g7-p9-10',
+        type: 'multiple-choice',
+        image: '🚌',
+        context: 'Buszjárat választási szabályok:\n- Az iskola 8:00-kor kezdődik, legalább 5 perccel előbb be kell érni,\n- Legfeljebb egy átszállást szeretnél,\n- Alacsonypadlós buszra van szükséged a kutyád miatt.',
+        question: 'Melyik járatot választod?',
+        options: [
+          '7:15-kor indul, nincs átszállás, 7:45-re ér be, alacsonypadlós',
+          '7:30-kor indul, 2 átszállás, 7:55-re ér be, alacsonypadlós',
+          '7:20-kor indul, nincs átszállás, 7:58-ra ér be, alacsonypadlós',
+          '7:10-kor indul, 1 átszállás, 7:40-re ér be, magaspadlós'
+        ],
+        correctAnswer: 0,
+        points: 1
+      }
     ]
   },
   {

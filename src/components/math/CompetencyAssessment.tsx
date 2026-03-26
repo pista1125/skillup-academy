@@ -126,6 +126,14 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
           userAnswers.length === correctAnswers.length &&
           userAnswers.every(val => correctAnswers.includes(val));
         if (isAllCorrect) currentScore += 1;
+      } else if (task.type === 'gap-fill') {
+        let allCorrect = true;
+        (task.correctAnswer as string[]).forEach((ans, i) => {
+          if (String(answers[`${task.id}-${i}`] || '').trim() !== String(ans).trim()) {
+            allCorrect = false;
+          }
+        });
+        if (allCorrect) currentScore += 1;
       } else {
         if (String(userAnswer) === String(task.correctAnswer)) {
           currentScore += 1;
@@ -200,6 +208,8 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
             isCorrect = task.pairs?.every(p => String(answers[`${task.id}-${p.id}`]) === String(p.right)) || false;
         } else if (task.type === 'multi-true-false') {
             isCorrect = task.pairs?.every(p => answers[`${task.id}-${p.id}`] === p.right) || false;
+        } else if (task.type === 'gap-fill') {
+            isCorrect = (task.correctAnswer as string[]).every((ans, i) => String(answers[`${task.id}-${i}`] || '').trim() === String(ans).trim());
         } else {
             isCorrect = String(userAnswer) === String(task.correctAnswer);
         }
@@ -216,6 +226,8 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
             answerText = indices.length > 0 
                 ? indices.map(idx => String.fromCharCode(65 + idx)).join(', ')
                 : 'Nincs válasz';
+        } else if (task.type === 'gap-fill') {
+            answerText = (task.correctAnswer as string[]).map((_, i) => answers[`${task.id}-${i}`] || '_').join(', ');
         } else {
             answerText = String(userAnswer || 'Nincs válasz');
         }
@@ -226,6 +238,8 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
             correctText = task.options?.[task.correctAnswer] || '';
         } else if (task.type === 'multi-choice') {
             correctText = (task.correctAnswer as number[]).map(idx => String.fromCharCode(65 + idx)).join(', ');
+        } else if (task.type === 'gap-fill') {
+            correctText = (task.correctAnswer as string[]).join(', ');
         } else {
             correctText = String(task.correctAnswer);
         }
@@ -388,39 +402,39 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
   if (!selectedMonth) {
     return (
       <div className="space-y-8 animate-in fade-in duration-500">
-        <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl p-8 text-white shadow-2xl relative overflow-hidden">
+        <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl p-6 md:p-7 text-white shadow-2xl relative overflow-hidden">
           <div className="absolute -top-10 -right-10 opacity-10">
             <Sparkles className="w-48 h-48" />
           </div>
-          <Button variant="ghost" size="sm" onClick={onBack} className="text-white hover:bg-white/20 border border-white/20 mb-6 rounded-xl px-5 h-9">
-            <ArrowLeft className="w-4 h-4 mr-2" /> Vissza a tárgyakhoz
+          <Button variant="ghost" size="sm" onClick={onBack} className="text-white hover:bg-white/20 border border-white/20 mb-4 rounded-xl px-4 h-8 text-xs">
+            <ArrowLeft className="w-3.5 h-3.5 mr-2" /> Vissza a tárgyakhoz
           </Button>
           <div className="relative z-10">
-            <h2 className="text-2xl md:text-3xl font-black tracking-tight mb-1">Kompetencia Mérés</h2>
-            <p className="text-blue-100 text-sm md:text-base font-medium opacity-90">Havi interaktív feladatsorok {grade}. osztályosoknak</p>
+            <h2 className="text-xl md:text-2xl font-black tracking-tight mb-1">Kompetencia Mérés</h2>
+            <p className="text-blue-100 text-[13px] md:text-sm font-medium opacity-90">Havi interaktív feladatsorok {grade}. osztályosoknak</p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
           {filteredData.map((month) => (
             <button
               key={month.id}
               onClick={() => handleMonthSelect(month)}
-              className="group bg-white rounded-3xl p-6 md:p-7 border-2 border-slate-100 hover:border-blue-500 hover:shadow-xl transition-all duration-300 text-left relative overflow-hidden"
+              className="group bg-white rounded-2xl p-5 md:p-6 border-2 border-slate-100 hover:border-blue-500 hover:shadow-lg transition-all duration-300 text-left relative overflow-hidden"
             >
-              <div className="flex items-center justify-between mb-4">
-                <div className="p-3.5 bg-blue-50 text-blue-600 rounded-xl group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 transform group-hover:scale-110">
-                  <Calendar className="w-7 h-7" />
+              <div className="flex items-center justify-between mb-3">
+                <div className="p-3 bg-blue-50 text-blue-600 rounded-xl group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 transform group-hover:scale-110">
+                  <Calendar className="w-6 h-6" />
                 </div>
-                <div className="w-11 h-11 flex items-center justify-center rounded-full bg-slate-50 text-slate-300 group-hover:bg-blue-50 group-hover:text-blue-500 transition-colors">
-                  <ChevronRight className="w-6 h-6 transform group-hover:translate-x-1 transition-all" />
+                <div className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-50 text-slate-300 group-hover:bg-blue-50 group-hover:text-blue-500 transition-colors">
+                  <ChevronRight className="w-5 h-5 transform group-hover:translate-x-1 transition-all" />
                 </div>
               </div>
-              <h3 className="text-xl md:text-2xl font-black text-slate-900 mb-1.5">{month.name}</h3>
-              <p className="text-slate-500 text-sm md:text-base font-medium mb-5 line-clamp-1">{month.topic}</p>
-              <div className="flex items-center gap-3">
-                <span className="px-3.5 py-1.5 bg-blue-50 text-blue-700 rounded-xl text-[11px] font-black uppercase tracking-widest">10 Feladat</span>
-                <span className="px-3.5 py-1.5 bg-slate-50 text-slate-500 rounded-xl text-[11px] font-black uppercase tracking-widest">10 Pont</span>
+              <h3 className="text-lg md:text-xl font-black text-slate-900 mb-1">{month.name}</h3>
+              <p className="text-slate-500 text-[13px] md:text-sm font-medium mb-4 line-clamp-1">{month.topic}</p>
+              <div className="flex items-center gap-2">
+                <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-lg text-[10px] font-black uppercase tracking-widest">10 Feladat</span>
+                <span className="px-3 py-1 bg-slate-50 text-slate-500 rounded-lg text-[10px] font-black uppercase tracking-widest">10 Pont</span>
               </div>
             </button>
           ))}
@@ -432,37 +446,37 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
   if (view === 'options' && selectedMonth) {
     return (
       <div className="max-w-2xl mx-auto space-y-2 animate-in fade-in slide-in-from-bottom-4 duration-500">
-        <div className="bg-white rounded-[2rem] p-4 md:p-6 border-2 border-slate-100 shadow-xl relative overflow-hidden">
-          <Button variant="ghost" size="sm" onClick={() => { setSelectedMonth(null); setView('months'); }} className="text-slate-400 hover:text-blue-600 mb-1 rounded-xl h-7">
-            <ArrowLeft className="w-4 h-4 mr-2" /> Vissza
+        <div className="bg-white rounded-[1.5rem] p-3 md:p-5 border-2 border-slate-100 shadow-xl relative overflow-hidden">
+          <Button variant="ghost" size="sm" onClick={() => { setSelectedMonth(null); setView('months'); }} className="text-slate-400 hover:text-blue-600 mb-1 rounded-xl h-6 text-xs">
+            <ArrowLeft className="w-3.5 h-3.5 mr-2" /> Vissza
           </Button>
           
-          <div className="text-center space-y-0.5 mb-6">
-            <h2 className="text-lg md:text-xl font-black text-slate-900 leading-tight">{selectedMonth.name}</h2>
-            <p className="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-widest">{selectedMonth.topic}</p>
+          <div className="text-center space-y-0.5 mb-4">
+            <h2 className="text-sm md:text-base font-black text-slate-900 leading-tight">{selectedMonth.name}</h2>
+            <p className="text-[8px] md:text-[10px] font-bold text-slate-400 uppercase tracking-widest">{selectedMonth.topic}</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <button
               onClick={() => setView('test')}
-              className="group p-5 md:p-6 rounded-[1.5rem] border-4 border-slate-50 bg-slate-50 hover:border-blue-500 hover:bg-white transition-all duration-300 text-center space-y-2.5"
+              className="group p-4 md:p-5 rounded-xl border-4 border-slate-50 bg-slate-50 hover:border-blue-500 hover:bg-white transition-all duration-300 text-center space-y-2"
             >
-              <div className="w-10 h-10 bg-white text-blue-600 rounded-xl flex items-center justify-center mx-auto shadow-sm group-hover:bg-blue-600 group-hover:text-white transition-all transform group-hover:scale-110">
-                <Target className="w-5 h-5" />
+              <div className="w-9 h-9 bg-white text-blue-600 rounded-xl flex items-center justify-center mx-auto shadow-sm group-hover:bg-blue-600 group-hover:text-white transition-all transform group-hover:scale-110">
+                <Target className="w-4 h-4" />
               </div>
-              <h3 className="text-lg font-black text-slate-900">Teszt indítása</h3>
-              <p className="text-slate-400 text-[13px] font-medium leading-relaxed px-2">10 interaktív feladat megoldása és PDF generálás.</p>
+              <h3 className="text-base font-black text-slate-900">Teszt indítása</h3>
+              <p className="text-slate-400 text-[12px] font-medium leading-relaxed px-2">10 interaktív feladat megoldása és PDF generálás.</p>
             </button>
 
             <button
               onClick={() => setView('feedback')}
-              className="group p-5 md:p-6 rounded-[1.5rem] border-4 border-slate-50 bg-slate-50 hover:border-emerald-500 hover:bg-white transition-all duration-300 text-center space-y-2.5"
+              className="group p-4 md:p-5 rounded-xl border-4 border-slate-50 bg-slate-50 hover:border-emerald-500 hover:bg-white transition-all duration-300 text-center space-y-2"
             >
-              <div className="w-10 h-10 bg-white text-emerald-600 rounded-xl flex items-center justify-center mx-auto shadow-sm group-hover:bg-emerald-600 group-hover:text-white transition-all transform group-hover:scale-110">
-                <Sparkles className="w-5 h-5" />
+              <div className="w-9 h-9 bg-white text-emerald-600 rounded-xl flex items-center justify-center mx-auto shadow-sm group-hover:bg-emerald-600 group-hover:text-white transition-all transform group-hover:scale-110">
+                <Sparkles className="w-4 h-4" />
               </div>
-              <h3 className="text-lg font-black text-slate-900">Visszajelzés</h3>
-              <p className="text-slate-400 text-[13px] font-medium leading-relaxed px-2">Oszd meg véleményedet és tapasztalataidat a témával kapcsolatban.</p>
+              <h3 className="text-base font-black text-slate-900">Visszajelzés</h3>
+              <p className="text-slate-400 text-[12px] font-medium leading-relaxed px-2">Oszd meg véleményedet és tapasztalataidat a témával kapcsolatban.</p>
             </button>
           </div>
         </div>
@@ -504,28 +518,28 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
     }
 
     return (
-      <div className="max-w-4xl mx-auto space-y-3 animate-in fade-in slide-in-from-bottom-4 duration-500 px-4 mb-20">
-        <div className="bg-white rounded-[2rem] p-4 md:p-8 border-2 border-slate-100 shadow-xl">
-          <div className="flex items-center justify-between mb-6">
+      <div className="max-w-4xl mx-auto space-y-2.5 animate-in fade-in slide-in-from-bottom-4 duration-500 px-4 mb-20">
+        <div className="bg-white rounded-2xl p-3 md:p-6 border-2 border-slate-100 shadow-xl">
+          <div className="flex items-center justify-between mb-4">
             <div>
-              <h2 className="text-xl font-black text-slate-900">Tanulói Önértékelő Lap</h2>
-              <p className="text-sm text-slate-500 font-bold">{selectedMonth.name} - {selectedMonth.topic}</p>
+              <h2 className="text-lg font-black text-slate-900">Tanulói Önértékelő Lap</h2>
+              <p className="text-xs text-slate-500 font-bold">{selectedMonth.name} - {selectedMonth.topic}</p>
             </div>
-            <Button variant="ghost" size="icon" onClick={() => setView('options')} className="rounded-full">
-              <ArrowLeft className="w-5 h-5" />
+            <Button variant="ghost" size="icon" onClick={() => setView('options')} className="rounded-full w-8 h-8">
+              <ArrowLeft className="w-4 h-4" />
             </Button>
           </div>
 
-          <div className="space-y-12">
+          <div className="space-y-8">
             {/* Section 1: Understanding */}
-            <section className="space-y-6">
-              <h3 className="text-xl font-black text-slate-800 bg-slate-50 p-4 rounded-2xl border-l-8 border-blue-500">
+            <section className="space-y-4">
+              <h3 className="text-lg font-black text-slate-800 bg-slate-50 p-3 rounded-xl border-l-4 border-blue-500">
                 {FEEDBACK_SECTIONS.understanding.title}
               </h3>
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {FEEDBACK_SECTIONS.understanding.rows.map(row => (
-                  <div key={row.id} className="flex flex-col md:flex-row md:items-center justify-between p-4 bg-white border-2 border-slate-50 rounded-2xl gap-4">
-                    <span className="font-bold text-slate-700">{row.text}</span>
+                  <div key={row.id} className="flex flex-col md:flex-row md:items-center justify-between p-3 bg-white border-2 border-slate-50 rounded-xl gap-3">
+                    <span className="font-bold text-slate-700 text-sm">{row.text}</span>
                     <div className="flex gap-2">
                       {FEEDBACK_SECTIONS.understanding.options.map(opt => (
                         <button
@@ -535,7 +549,7 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
                             understanding: { ...prev.understanding, [row.id]: opt }
                           }))}
                           className={cn(
-                            "px-4 py-2 rounded-xl text-sm font-black transition-all border-2",
+                            "px-3 py-1.5 rounded-lg text-xs font-black transition-all border-2",
                             feedbackAnswers.understanding?.[row.id] === opt
                               ? "bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-100"
                               : "bg-slate-50 border-slate-50 text-slate-400 hover:border-blue-200"
@@ -551,14 +565,14 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
             </section>
 
             {/* Section 2: Performance */}
-            <section className="space-y-6">
-              <h3 className="text-xl font-black text-slate-800 bg-slate-50 p-4 rounded-2xl border-l-8 border-emerald-500">
+            <section className="space-y-4">
+              <h3 className="text-lg font-black text-slate-800 bg-slate-50 p-3 rounded-xl border-l-4 border-emerald-500">
                 {FEEDBACK_SECTIONS.performance.title}
               </h3>
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {FEEDBACK_SECTIONS.performance.rows.map(row => (
-                  <div key={row.id} className="flex flex-col md:flex-row md:items-center justify-between p-4 bg-white border-2 border-slate-50 rounded-2xl gap-4">
-                    <span className="font-bold text-slate-700">{row.text}</span>
+                  <div key={row.id} className="flex flex-col md:flex-row md:items-center justify-between p-3 bg-white border-2 border-slate-50 rounded-xl gap-3">
+                    <span className="font-bold text-slate-700 text-sm">{row.text}</span>
                     <div className="flex gap-1 md:gap-2">
                       {FEEDBACK_SECTIONS.performance.options.map(num => (
                         <button
@@ -584,11 +598,11 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
             </section>
 
             {/* Section 3: Difficulties */}
-            <section className="space-y-6">
-              <h3 className="text-xl font-black text-slate-800 bg-slate-50 p-4 rounded-2xl border-l-8 border-orange-500">
+            <section className="space-y-4">
+              <h3 className="text-lg font-black text-slate-800 bg-slate-50 p-3 rounded-xl border-l-4 border-orange-500">
                 {FEEDBACK_SECTIONS.difficulties.title}
               </h3>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-2.5">
                 {FEEDBACK_SECTIONS.difficulties.options.map(opt => {
                   const isSelected = (feedbackAnswers.difficulties || []).includes(opt);
                   return (
@@ -604,9 +618,9 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
                         }));
                       }}
                       className={cn(
-                        "px-6 py-3 rounded-2xl font-bold transition-all border-2",
+                        "px-5 py-2.5 rounded-xl font-bold transition-all border-2 text-[13px]",
                         isSelected
-                          ? "bg-orange-500 border-orange-500 text-white shadow-lg shadow-orange-100"
+                          ? "bg-orange-500 border-orange-500 text-white shadow-md shadow-orange-100"
                           : "bg-slate-50 border-slate-50 text-slate-500 hover:border-orange-200"
                       )}
                     >
@@ -620,40 +634,40 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
                 placeholder="Egyéb nehézség..."
                 value={feedbackAnswers.difficultyOther || ''}
                 onChange={(e) => setFeedbackAnswers(prev => ({ ...prev, difficultyOther: e.target.value }))}
-                className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 outline-none focus:border-orange-500 focus:bg-white transition-all font-bold"
+                className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 outline-none focus:border-orange-500 focus:bg-white transition-all font-bold text-sm"
               />
             </section>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Section 4: What went well */}
-              <section className="space-y-4">
-                <h3 className="text-xl font-black text-slate-800">4. Mi ment jól?</h3>
+              <section className="space-y-3">
+                <h3 className="text-lg font-black text-slate-800">4. Mi ment jól?</h3>
                 <textarea
                   value={feedbackAnswers.strengths || ''}
                   onChange={(e) => setFeedbackAnswers(prev => ({ ...prev, strengths: e.target.value }))}
                   placeholder="Írj legalább egy dolgot..."
-                  className="w-full bg-slate-50 dark:bg-slate-800 border-2 border-slate-100 dark:border-slate-700 rounded-2xl p-4 min-h-[100px] outline-none focus:border-blue-500 focus:bg-white transition-all font-bold"
+                  className="w-full bg-slate-50 dark:bg-slate-800 border-2 border-slate-100 dark:border-slate-700 rounded-xl p-3 min-h-[90px] outline-none focus:border-blue-500 focus:bg-white transition-all font-bold text-sm"
                 />
               </section>
 
               {/* Section 5: What didn't go well */}
-              <section className="space-y-4">
-                <h3 className="text-xl font-black text-slate-800">5. Mi nem ment jól?</h3>
+              <section className="space-y-3">
+                <h3 className="text-lg font-black text-slate-800">5. Mi nem ment jól?</h3>
                 <textarea
                   value={feedbackAnswers.weaknesses || ''}
                   onChange={(e) => setFeedbackAnswers(prev => ({ ...prev, weaknesses: e.target.value }))}
                   placeholder="Írd le, mi okozott gondot..."
-                  className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 min-h-[120px] outline-none focus:border-red-500 focus:bg-white transition-all font-bold"
+                  className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 min-h-[110px] outline-none focus:border-red-500 focus:bg-white transition-all font-bold text-sm"
                 />
               </section>
             </div>
 
             {/* Section 6: Improvement */}
-            <section className="space-y-6">
-              <h3 className="text-xl font-black text-slate-800 bg-slate-50 p-4 rounded-2xl border-l-8 border-purple-500">
+            <section className="space-y-4">
+              <h3 className="text-lg font-black text-slate-800 bg-slate-50 p-3 rounded-xl border-l-4 border-purple-500">
                 {FEEDBACK_SECTIONS.improvement.title}
               </h3>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-2.5">
                 {FEEDBACK_SECTIONS.improvement.options.map(opt => {
                   const isSelected = (feedbackAnswers.improvement || []).includes(opt);
                   return (
@@ -669,9 +683,9 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
                         }));
                       }}
                       className={cn(
-                        "px-6 py-3 rounded-2xl font-bold transition-all border-2",
+                        "px-5 py-2.5 rounded-xl font-bold transition-all border-2 text-[13px]",
                         isSelected
-                          ? "bg-purple-500 border-purple-500 text-white shadow-lg shadow-purple-100"
+                          ? "bg-purple-500 border-purple-500 text-white shadow-md shadow-purple-100"
                           : "bg-slate-50 border-slate-50 text-slate-500 hover:border-purple-200"
                       )}
                     >
@@ -685,13 +699,13 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
                 placeholder="Egyéb fejlődési lehetőség..."
                 value={feedbackAnswers.improvementOther || ''}
                 onChange={(e) => setFeedbackAnswers(prev => ({ ...prev, improvementOther: e.target.value }))}
-                className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 outline-none focus:border-purple-500 focus:bg-white transition-all font-bold"
+                className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 outline-none focus:border-purple-500 focus:bg-white transition-all font-bold text-sm"
               />
             </section>
 
             {/* Section 7: Satisfaction */}
-            <section className="space-y-6">
-              <h3 className="text-xl font-black text-slate-800 bg-slate-50 p-4 rounded-2xl border-l-8 border-pink-500">
+            <section className="space-y-4">
+              <h3 className="text-lg font-black text-slate-800 bg-slate-50 p-3 rounded-xl border-l-4 border-pink-500">
                 7. Mennyire voltam elégedett a munkámmal?
               </h3>
               <div className="flex justify-between items-center bg-white p-6 rounded-3xl border-2 border-slate-50">
@@ -706,41 +720,41 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
                     key={item.val}
                     onClick={() => setFeedbackAnswers(prev => ({ ...prev, satisfaction: item.val }))}
                     className={cn(
-                      "flex flex-col items-center gap-2 transition-all p-3 rounded-2xl",
+                      "flex flex-col items-center gap-2 transition-all p-2 rounded-xl",
                       feedbackAnswers.satisfaction === item.val
-                        ? "bg-pink-50 scale-125"
+                        ? "bg-pink-50 scale-110"
                         : "opacity-40 hover:opacity-100 hover:bg-slate-50"
                     )}
                   >
-                    <span className="text-4xl">{item.label}</span>
-                    <span className="text-xs font-black text-pink-600">{item.val}</span>
+                    <span className="text-3xl">{item.label}</span>
+                    <span className="text-[10px] font-black text-pink-600">{item.val}</span>
                   </button>
                 ))}
               </div>
             </section>
 
             {/* Section 8: Teacher Remark */}
-            <section className="space-y-4">
-               <h3 className="text-xl font-black text-slate-800 flex items-center gap-2">
+            <section className="space-y-3">
+               <h3 className="text-lg font-black text-slate-800 flex items-center gap-2">
                  <span>8. ✍️ Tanári megjegyzés</span>
-                 <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">(opcionális)</span>
+                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">(opcionális)</span>
                </h3>
                <textarea
                   value={feedbackAnswers.teacherRemark || ''}
                   onChange={(e) => setFeedbackAnswers(prev => ({ ...prev, teacherRemark: e.target.value }))}
                   placeholder="Ez a rész a tanárnak van fenntartva, de te is írhatsz ide..."
-                  className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 min-h-[100px] outline-none focus:border-slate-500 focus:bg-white transition-all font-bold"
+                  className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 min-h-[90px] outline-none focus:border-slate-500 focus:bg-white transition-all font-bold text-sm"
                 />
             </section>
           </div>
 
-          <div className="pt-10 border-t border-slate-100 mt-10">
+          <div className="pt-6 border-t border-slate-100 mt-6">
             <Button 
               disabled={!isComplete}
               onClick={() => setIsFeedbackSubmitted(true)}
-              className="w-full h-16 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xl shadow-lg shadow-blue-100 disabled:opacity-50 transition-all flex items-center justify-center gap-3"
+              className="w-full h-13 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-lg shadow-md shadow-blue-100 disabled:opacity-50 transition-all flex items-center justify-center gap-2.5"
             >
-              <CheckCircle2 className="w-6 h-6" /> Kitöltés befejezése
+              <CheckCircle2 className="w-5 h-5" /> Kitöltés befejezése
             </Button>
           </div>
         </div>
@@ -757,16 +771,16 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
           </div>
           
           <div className="relative z-10">
-            <div className="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl rotate-3">
-              <Trophy className="w-7 h-7 text-white" />
+            <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-xl rotate-3">
+              <Trophy className="w-6 h-6 text-white" />
             </div>
             
-            <h2 className="text-2xl font-black text-slate-900 mb-1">Szép munka!</h2>
+            <h2 className="text-xl font-black text-slate-900 mb-1">Szép munka!</h2>
             <p className="text-slate-500 font-bold text-sm mb-4 italic">Befejezted a(z) {selectedMonth.name} havi kompetencia mérést.</p>
             
-            <div className="bg-slate-50 rounded-[1.5rem] p-4 border-2 border-slate-100 mb-6">
-              <div className="text-4xl font-black text-blue-600 mb-1">{score} / 10</div>
-              <div className="text-sm font-black text-slate-400 uppercase tracking-widest">Elért pontszám</div>
+            <div className="bg-slate-50 rounded-[1.5rem] p-3 border-2 border-slate-100 mb-5">
+              <div className="text-3xl font-black text-blue-600 mb-1">{score} / 10</div>
+              <div className="text-[12px] font-black text-slate-400 uppercase tracking-widest">Elért pontszám</div>
               <div className="mt-4 h-3 w-full bg-slate-200 rounded-full overflow-hidden">
                 <div 
                   className="h-full bg-blue-500 transition-all duration-1000"
@@ -797,7 +811,7 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
             <div className="pt-3">
               <Button 
                 onClick={() => setView('options')} 
-                className="w-full h-12 rounded-xl border-4 border-slate-900 bg-white text-slate-900 hover:bg-slate-50 font-black text-base transition-all shadow-md"
+                className="w-full h-11 rounded-xl border-4 border-slate-900 bg-white text-slate-900 hover:bg-slate-50 font-black text-base transition-all shadow-md"
               >
                 Vissza a menübe
               </Button>
@@ -822,17 +836,17 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
   const progress = ((currentStep + 1) / 10) * 100;
 
   return (
-    <div className="max-w-[95%] mx-auto space-y-3 animate-in slide-in-from-bottom-8 duration-500 mb-20">
+    <div className="max-w-[90%] mx-auto space-y-1.5 animate-in slide-in-from-bottom-8 duration-500 mb-20">
       {/* Progress & Header */}
       <div className="bg-white rounded-3xl p-4 border-2 border-slate-100 shadow-sm z-10">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" onClick={() => setView('options')} className="rounded-full">
-              <ArrowLeft className="w-5 h-5" />
+            <Button variant="ghost" size="icon" onClick={() => setView('options')} className="rounded-full w-7 h-7">
+              <ArrowLeft className="w-3.5 h-3.5" />
             </Button>
             <div>
-              <h2 className="text-xl font-black text-slate-900">{selectedMonth.name}</h2>
-              <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">{selectedMonth.topic}</p>
+              <h2 className="text-base md:text-lg font-black text-slate-900">{selectedMonth.name}</h2>
+              <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">{selectedMonth.topic}</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -842,7 +856,7 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
                   <span className="font-bold text-blue-700 text-base">{score} / 10 Pont</span>
                </div>
              ) : (
-               <span className="font-bold text-slate-400 text-base">{currentStep + 1} / 10</span>
+               <span className="font-bold text-slate-400 text-sm">{currentStep + 1} / 10</span>
              )}
           </div>
         </div>
@@ -857,15 +871,15 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
       </div>
 
       {/* Task Content */}
-      <div className="min-h-[400px] flex flex-col">
+      <div className="min-h-[350px] flex flex-col">
         <div className={cn(
-          "flex-1 bg-white rounded-[2.5rem] p-6 md:p-8 border-2 transition-all duration-500 shadow-lg relative overflow-hidden",
+          "flex-1 bg-white rounded-[2rem] p-4 md:p-5 border-2 transition-all duration-500 shadow-md relative overflow-hidden",
           isSubmitted 
             ? (currentTask.type === 'matching' ? "border-blue-100" : (String(answers[currentTask.id]) === String(currentTask.correctAnswer) ? "border-green-200 bg-green-50/5" : "border-red-200 bg-red-50/5"))
             : "border-slate-100"
         )}>
           {/* Question Number Badge */}
-          <div className="absolute top-6 right-6 w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center text-xl font-black text-slate-200">
+          <div className="absolute top-3 right-3 w-9 h-9 bg-slate-50 rounded-full flex items-center justify-center text-base font-black text-slate-200">
             #{currentStep + 1}
           </div>
 
@@ -880,7 +894,7 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
                     <img 
                       src={currentTask.image} 
                       alt="Task illustration" 
-                      className="max-h-[600px] w-auto rounded-2xl shadow-lg border-4 border-white rotate-1 hover:rotate-0 transition-transform duration-500"
+                      className="max-h-[450px] w-auto rounded-xl shadow-lg border-2 border-white rotate-1 hover:rotate-0 transition-transform duration-500"
                     />
                   )}
                 </div>
@@ -888,19 +902,19 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
 
               {currentTask.context && (
                 <div className="prose prose-slate max-w-none">
-                  <p className="text-slate-600 font-bold leading-relaxed text-base italic">
+                  <p className="text-slate-600 font-bold leading-relaxed text-sm italic">
                     {currentTask.context}
                   </p>
                 </div>
               )}
 
               {currentTask.tableData && (
-                <div className="overflow-x-auto rounded-xl border border-slate-200 shadow-sm max-h-[300px]">
+                <div className="overflow-x-auto rounded-lg border border-slate-200 shadow-sm max-h-[300px]">
                   <table className="w-full text-left border-collapse sticky-header">
                     <thead className="bg-slate-100 sticky top-0">
                       <tr>
                         {currentTask.tableData[0].map((cell, i) => (
-                          <th key={i} className="p-4 text-base font-black text-slate-600 border-b border-slate-200">{cell}</th>
+                          <th key={i} className="p-2.5 text-[13px] font-black text-slate-600 border-b border-slate-200">{cell}</th>
                         ))}
                       </tr>
                     </thead>
@@ -908,7 +922,7 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
                       {currentTask.tableData.slice(1).map((row, i) => (
                         <tr key={i} className="hover:bg-slate-50 transition-colors">
                           {row.map((cell, j) => (
-                            <td key={j} className="p-4 text-base font-bold text-slate-800 border-b border-slate-100">{cell}</td>
+                            <td key={j} className="p-2.5 text-[13px] font-bold text-slate-800 border-b border-slate-100">{cell}</td>
                           ))}
                         </tr>
                       ))}
@@ -926,7 +940,7 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
 
             {/* Right Side: Question & Answers */}
             <div className="space-y-3 lg:border-l lg:pl-6 lg:border-slate-100">
-              <h3 className="text-lg md:text-xl font-black text-slate-900 dark:text-white leading-tight">
+              <h3 className="text-sm md:text-base font-black text-slate-900 dark:text-white leading-tight">
                 {currentTask.question}
               </h3>
 
@@ -943,9 +957,9 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
                           disabled={isSubmitted}
                           onClick={() => handleAnswerChange(currentTask.id, oIdx)}
                           className={cn(
-                            "p-5 rounded-2xl border-2 text-left transition-all duration-300 font-bold text-lg",
+                            "p-2.5 rounded-lg border-2 text-left transition-all duration-300 font-bold text-sm",
                             isUserSelected 
-                              ? "border-blue-500 bg-blue-50 text-blue-700 shadow-md translate-x-1" 
+                              ? "border-blue-500 bg-blue-50 text-blue-700 shadow-sm translate-x-1" 
                               : "border-slate-100 hover:border-blue-200 hover:bg-slate-50 text-slate-600",
                             isSubmitted && isCorrect && "border-green-500 bg-green-50 text-green-700 ring-2 ring-green-100",
                             isSubmitted && isUserSelected && !isCorrect && "border-red-500 bg-red-50 text-red-700 ring-2 ring-red-100"
@@ -953,8 +967,8 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
                         >
                           <div className="flex items-center justify-between">
                             <span>{option}</span>
-                            {isSubmitted && isCorrect && <CheckCircle2 className="w-5 h-5 text-green-500" />}
-                            {isSubmitted && isUserSelected && !isCorrect && <XCircle className="w-5 h-5 text-red-500" />}
+                            {isSubmitted && isCorrect && <CheckCircle2 className="w-3.5 h-3.5 text-green-500" />}
+                            {isSubmitted && isUserSelected && !isCorrect && <XCircle className="w-3.5 h-3.5 text-red-500" />}
                           </div>
                         </button>
                       );
@@ -969,7 +983,7 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
                       onChange={(e) => handleAnswerChange(currentTask.id, e.target.value)}
                       placeholder="Írd ide a választ..."
                       className={cn(
-                        "w-full bg-slate-50 border-4 rounded-2xl px-6 py-4 outline-none transition-all font-black text-2xl text-center shadow-inner",
+                        "w-full bg-slate-50 border-2 rounded-lg px-4 py-2.5 outline-none transition-all font-black text-lg text-center shadow-inner",
                         isSubmitted 
                           ? (String(answers[currentTask.id]) === String(currentTask.correctAnswer) ? "border-green-500 bg-green-50 text-green-700" : "border-red-500 bg-red-50 text-red-700")
                           : "border-slate-100 focus:border-blue-500 focus:bg-white"
@@ -986,10 +1000,10 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
                   <div className="space-y-3">
                     {currentTask.pairs?.map((pair) => (
                       <div key={pair.id} className="flex items-center gap-3">
-                        <div className="flex-1 p-4 bg-slate-50 border-2 border-slate-100 rounded-xl font-bold text-slate-700 text-lg shadow-sm">
+                        <div className="flex-1 p-2.5 bg-slate-50 border-2 border-slate-100 rounded-lg font-bold text-slate-700 text-sm shadow-sm">
                           {pair.left}
                         </div>
-                        <div className="text-blue-500 font-black">➔</div>
+                        <div className="text-blue-500 font-black text-sm">➔</div>
                         <div className="relative">
                           <input
                             type="text"
@@ -998,7 +1012,7 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
                             onChange={(e) => handleAnswerChange(`${currentTask.id}-${pair.id}`, e.target.value)}
                             placeholder="..."
                             className={cn(
-                              "w-48 bg-white border-2 rounded-xl px-4 py-3 text-center text-xl font-black outline-none transition-all",
+                              "w-32 bg-white border-2 rounded-lg px-2 py-1.5 text-center text-base font-black outline-none transition-all",
                               isSubmitted 
                                 ? (String(answers[`${currentTask.id}-${pair.id}`]) === String(pair.right) ? "border-green-500 bg-green-50 text-green-700" : "border-red-500 bg-red-50 text-red-700")
                                 : "border-slate-100 focus:border-blue-500 shadow-sm"
@@ -1016,8 +1030,8 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
                 ) : currentTask.type === 'multi-true-false' ? (
                   <div className="space-y-4">
                     {currentTask.pairs?.map((pair) => (
-                      <div key={pair.id} className="bg-slate-50 p-4 rounded-2xl border-2 border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                        <span className="font-bold text-slate-700 text-lg flex-1">{pair.left}</span>
+                      <div key={pair.id} className="bg-slate-50 p-2.5 rounded-lg border-2 border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-2.5">
+                        <span className="font-bold text-slate-700 text-sm flex-1">{pair.left}</span>
                         <div className="flex gap-2">
                           {['Igaz', 'Hamis'].map((label, idx) => {
                             const val = idx === 0;
@@ -1030,11 +1044,11 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
                                 disabled={isSubmitted}
                                 onClick={() => handleAnswerChange(`${currentTask.id}-${pair.id}`, val)}
                                 className={cn(
-                                  "px-6 py-2 rounded-xl border-2 font-black transition-all",
+                                  "px-3 py-1 rounded-lg border-2 font-black text-xs transition-all",
                                   isSelected 
-                                    ? "bg-blue-600 border-blue-600 text-white shadow-md" 
+                                    ? "bg-blue-600 border-blue-600 text-white shadow-sm" 
                                     : "bg-white border-slate-200 text-slate-500 hover:border-blue-300",
-                                  isSubmitted && isCorrect && "ring-4 ring-green-100 border-green-500",
+                                  isSubmitted && isCorrect && "ring-2 ring-green-100 border-green-500",
                                   isSubmitted && isSelected && !isCorrect && "border-red-500 bg-red-50 text-red-700"
                                 )}
                               >
@@ -1064,21 +1078,21 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
                             handleAnswerChange(currentTask.id, newAnswers);
                           }}
                           className={cn(
-                            "flex items-center gap-4 p-5 rounded-2xl border-2 transition-all text-left",
+                            "flex items-center gap-2.5 p-3 rounded-lg border-2 transition-all text-left",
                             isSelected
-                              ? "border-blue-500 bg-blue-50 text-blue-700 shadow-sm"
+                              ? "border-blue-500 bg-blue-50 text-blue-700 shadow-xs"
                               : "border-slate-100 hover:border-blue-200 hover:bg-slate-50 text-slate-600",
-                            isSubmitted && isCorrect && "border-green-500 bg-green-50 text-green-700 ring-2 ring-green-50",
-                            isSubmitted && isSelected && !isCorrect && "border-red-500 bg-red-50 text-red-700 ring-2 ring-red-50"
+                            isSubmitted && isCorrect && "border-green-500 bg-green-50 text-green-700 ring-1 ring-green-50",
+                            isSubmitted && isSelected && !isCorrect && "border-red-500 bg-red-50 text-red-700 ring-1 ring-red-50"
                           )}
                         >
                           <div className={cn(
-                            "w-8 h-8 rounded-lg flex items-center justify-center font-black transition-colors",
+                            "w-6 h-6 rounded-md flex items-center justify-center font-black text-xs transition-colors",
                             isSelected ? "bg-blue-600 text-white" : "bg-white text-slate-400 border border-slate-200"
                           )}>
                             {String.fromCharCode(65 + idx)}
                           </div>
-                          <span className="font-bold text-lg flex-1">{option}</span>
+                          <span className="font-bold text-sm flex-1">{option}</span>
                           <div className="ml-auto">
                             <div className={cn(
                               "w-6 h-6 rounded border-2 flex items-center justify-center transition-all",
@@ -1090,6 +1104,37 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
                         </button>
                       );
                     })}
+                  </div>
+                ) : currentTask.type === 'gap-fill' ? (
+                  <div className="w-full bg-slate-50/50 p-4 md:p-5 rounded-xl border-2 border-slate-100/50">
+                    <div className="text-sm md:text-base font-bold text-slate-700 leading-relaxed flex flex-wrap items-center gap-x-2 gap-y-4">
+                      {currentTask.gap_template?.split('[gap]').map((part, i, arr) => (
+                        <span key={i} className="flex flex-wrap items-center gap-2">
+                          <span className="py-2">{part}</span>
+                          {i < arr.length - 1 && (
+                            <div className="relative inline-block mx-1">
+                              <input
+                                type="text"
+                                disabled={isSubmitted}
+                                value={answers[`${currentTask.id}-${i}`] || ''}
+                                onChange={(e) => handleAnswerChange(`${currentTask.id}-${i}`, e.target.value)}
+                                className={cn(
+                                  "w-24 bg-white border-2 rounded-lg px-2 py-1 text-center text-base font-black outline-none transition-all shadow-sm",
+                                  isSubmitted 
+                                    ? (String(answers[`${currentTask.id}-${i}`] || '').trim() === String((currentTask.correctAnswer as string[])[i]).trim() ? "border-green-500 bg-green-50 text-green-700" : "border-red-500 bg-red-50 text-red-700")
+                                    : "border-slate-100 focus:border-blue-500 focus:ring-4 focus:ring-blue-50"
+                                )}
+                              />
+                              {isSubmitted && String(answers[`${currentTask.id}-${i}`] || '').trim() !== String((currentTask.correctAnswer as string[])[i]).trim() && (
+                                <div className="absolute -bottom-7 left-0 right-0 text-center text-[11px] font-black text-green-600 bg-green-50 rounded-lg py-0.5 border border-green-100 z-10 shadow-sm">
+                                  {(currentTask.correctAnswer as string[])[i]}
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 ) : null}
               </div>
@@ -1104,23 +1149,23 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
           variant="outline" 
           onClick={() => setCurrentStep(prev => Math.max(0, prev - 1))}
           disabled={currentStep === 0}
-          className="h-10 px-6 rounded-2xl border-2 font-bold text-slate-600 hover:bg-slate-50 transition-all flex item-center gap-2"
+          className="h-8 px-4 rounded-lg border-2 font-bold text-slate-600 hover:bg-slate-50 transition-all flex item-center gap-2 text-sm"
         >
-          <ChevronLeft className="w-4 h-4" /> Előző
+          <ChevronLeft className="w-3.5 h-3.5" /> Előző
         </Button>
 
         {!isSubmitted ? (
           currentStep < 9 ? (
             <Button 
               onClick={() => setCurrentStep(prev => prev + 1)}
-              className="h-10 px-8 rounded-2xl bg-blue-600 hover:bg-blue-700 font-black text-lg shadow-lg shadow-blue-200 transition-all flex items-center gap-2"
+              className="h-8 px-5 rounded-lg bg-blue-600 hover:bg-blue-700 font-black text-sm shadow-md shadow-blue-200 transition-all flex items-center gap-2"
             >
-              Következő <ChevronRight className="w-5 h-5" />
+              Következő <ChevronRight className="w-3.5 h-3.5" />
             </Button>
           ) : (
             <Button 
               onClick={handleSubmit} 
-              className="h-10 px-8 rounded-2xl bg-green-600 hover:bg-green-700 font-black text-lg shadow-lg shadow-green-200 transition-all"
+              className="h-8 px-5 rounded-lg bg-green-600 hover:bg-green-700 font-black text-sm shadow-md shadow-green-200 transition-all"
             >
               Teszt beküldése
             </Button>

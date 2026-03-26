@@ -1,0 +1,48 @@
+<svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="600" height="400" fill="#f8fafc" rx="20"/>
+  
+  <!-- Option A -->
+  <g transform="translate(50, 50)">
+    <text x="60" y="-10" font-family="Arial" font-weight="bold" fill="#1e293b" text-anchor="middle">"A" ábra</text>
+    <rect width="120" height="80" fill="white" stroke="#e2e8f0" stroke-width="2" rx="10"/>
+    <circle cx="30" cy="25" r="10" fill="#bae6fd"/>
+    <circle cx="90" cy="25" r="10" fill="#e2e8f0"/>
+    <circle cx="30" cy="55" r="10" fill="#bae6fd"/>
+    <circle cx="90" cy="55" r="10" fill="#bae6fd"/>
+    <!-- Rules: Col1: 2, Col2: 1. Total 3. Row1: 1, Row2: 2. -> CORRECT -->
+  </g>
+
+  <!-- Option B -->
+  <g transform="translate(350, 50)">
+    <text x="60" y="-10" font-family="Arial" font-weight="bold" fill="#1e293b" text-anchor="middle">"B" ábra</text>
+    <rect width="120" height="80" fill="white" stroke="#e2e8f0" stroke-width="2" rx="10"/>
+    <circle cx="30" cy="25" r="10" fill="#bae6fd"/>
+    <circle cx="90" cy="25" r="10" fill="#bae6fd"/>
+    <circle cx="30" cy="55" r="10" fill="#e2e8f0"/>
+    <circle cx="90" cy="55" r="10" fill="#e2e8f0"/>
+    <!-- Rules: Row2 empty -> INCORRECT -->
+  </g>
+
+  <!-- Option C -->
+  <g transform="translate(50, 250)">
+    <text x="60" y="-10" font-family="Arial" font-weight="bold" fill="#1e293b" text-anchor="middle">"C" ábra</text>
+    <rect width="120" height="80" fill="white" stroke="#e2e8f0" stroke-width="2" rx="10"/>
+    <circle cx="30" cy="25" r="10" fill="#bae6fd"/>
+    <circle cx="90" cy="25" r="10" fill="#bae6fd"/>
+    <circle cx="30" cy="55" r="10" fill="#bae6fd"/>
+    <circle cx="90" cy="55" r="10" fill="#bae6fd"/>
+    <!-- Rules: Col1: 2, Col2: 2. Total 4. Row1: 2, Row2: 2. -> CORRECT -->
+  </g>
+
+  <!-- Option D -->
+  <g transform="translate(350, 250)">
+    <text x="60" y="-10" font-family="Arial" font-weight="bold" fill="#1e293b" text-anchor="middle">"D" ábra</text>
+    <rect width="120" height="80" fill="white" stroke="#e2e8f0" stroke-width="2" rx="10"/>
+    <circle cx="30" cy="25" r="10" fill="#bae6fd"/>
+    <circle cx="90" cy="25" r="10" fill="#e2e8f0"/>
+    <circle cx="30" cy="55" r="10" fill="#e2e8f0"/>
+    <circle cx="90" cy="55" r="10" fill="#e2e8f0"/>
+    <!-- Rules: Total 2 -> INCORRECT (min 3) -->
+  </g>
+</svg>
