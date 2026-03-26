@@ -431,15 +431,15 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
 
   if (view === 'options' && selectedMonth) {
     return (
-      <div className="max-w-2xl mx-auto space-y-3 animate-in fade-in slide-in-from-bottom-4 duration-500">
-        <div className="bg-white rounded-[2rem] p-6 md:p-10 border-2 border-slate-100 shadow-xl relative overflow-hidden">
-          <Button variant="ghost" size="sm" onClick={() => { setSelectedMonth(null); setView('months'); }} className="text-slate-400 hover:text-blue-600 mb-2 rounded-xl h-8">
-            <ArrowLeft className="w-4 h-4 mr-2" /> Vissza a választáshoz
+      <div className="max-w-2xl mx-auto space-y-2 animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <div className="bg-white rounded-[2rem] p-4 md:p-6 border-2 border-slate-100 shadow-xl relative overflow-hidden">
+          <Button variant="ghost" size="sm" onClick={() => { setSelectedMonth(null); setView('months'); }} className="text-slate-400 hover:text-blue-600 mb-1 rounded-xl h-7">
+            <ArrowLeft className="w-4 h-4 mr-2" /> Vissza
           </Button>
           
-          <div className="text-center space-y-1 mb-8">
-            <h2 className="text-2xl md:text-3xl font-black text-slate-900 leading-tight">{selectedMonth.name}</h2>
-            <p className="text-xs md:text-sm font-bold text-slate-400 uppercase tracking-widest">{selectedMonth.topic}</p>
+          <div className="text-center space-y-0.5 mb-6">
+            <h2 className="text-lg md:text-xl font-black text-slate-900 leading-tight">{selectedMonth.name}</h2>
+            <p className="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-widest">{selectedMonth.topic}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -478,10 +478,10 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
 
     if (isFeedbackSubmitted) {
       return (
-        <div className="max-w-2xl mx-auto py-12 px-6 animate-in zoom-in-95 duration-500">
-          <div className="bg-white rounded-[3rem] p-12 border-4 border-emerald-100 shadow-2xl text-center space-y-6">
-            <h2 className="text-3xl font-black text-slate-900">Köszönjük a visszajelzést!</h2>
-            <p className="text-slate-500 font-bold text-lg">Válaszaidat rögzítettük az Önértékelő Lapon.</p>
+        <div className="max-w-2xl mx-auto py-4 px-6 animate-in zoom-in-95 duration-500">
+          <div className="bg-white rounded-[2rem] pt-4 pb-6 px-6 border-4 border-emerald-100 shadow-2xl text-center space-y-4">
+            <h2 className="text-xl font-black text-slate-900">Köszönjük!</h2>
+            <p className="text-slate-500 font-bold text-base">Válaszaidat rögzítettük az Önértékelő Lapon.</p>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Button 
@@ -504,15 +504,15 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
     }
 
     return (
-      <div className="max-w-4xl mx-auto space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500 px-4 mb-20">
-        <div className="bg-white rounded-[2.5rem] p-6 md:p-12 border-2 border-slate-100 shadow-xl">
-          <div className="flex items-center justify-between mb-10">
+      <div className="max-w-4xl mx-auto space-y-3 animate-in fade-in slide-in-from-bottom-4 duration-500 px-4 mb-20">
+        <div className="bg-white rounded-[2rem] p-4 md:p-8 border-2 border-slate-100 shadow-xl">
+          <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-3xl font-black text-slate-900">Tanulói Önértékelő Lap</h2>
-              <p className="text-slate-500 font-bold">{selectedMonth.name} - {selectedMonth.topic}</p>
+              <h2 className="text-xl font-black text-slate-900">Tanulói Önértékelő Lap</h2>
+              <p className="text-sm text-slate-500 font-bold">{selectedMonth.name} - {selectedMonth.topic}</p>
             </div>
             <Button variant="ghost" size="icon" onClick={() => setView('options')} className="rounded-full">
-              <ArrowLeft className="w-6 h-6" />
+              <ArrowLeft className="w-5 h-5" />
             </Button>
           </div>
 
@@ -632,7 +632,7 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
                   value={feedbackAnswers.strengths || ''}
                   onChange={(e) => setFeedbackAnswers(prev => ({ ...prev, strengths: e.target.value }))}
                   placeholder="Írj legalább egy dolgot..."
-                  className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 min-h-[120px] outline-none focus:border-blue-500 focus:bg-white transition-all font-bold"
+                  className="w-full bg-slate-50 dark:bg-slate-800 border-2 border-slate-100 dark:border-slate-700 rounded-2xl p-4 min-h-[100px] outline-none focus:border-blue-500 focus:bg-white transition-all font-bold"
                 />
               </section>
 
@@ -750,23 +750,23 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
 
   if (showResultsSummary && selectedMonth) {
     return (
-      <div className="max-w-2xl mx-auto py-12 px-6 animate-in zoom-in-95 duration-500">
-        <div className="bg-white rounded-[3rem] p-12 border-4 border-blue-100 shadow-2xl text-center space-y-8 relative overflow-hidden">
-          <div className="absolute -top-10 -left-10 text-blue-50 opacity-50">
-            <Sparkles className="w-40 h-40" />
+      <div className="max-w-2xl mx-auto py-2 px-6 animate-in zoom-in-95 duration-500">
+        <div className="bg-white rounded-[2rem] pt-4 pb-6 px-6 border-4 border-blue-100 shadow-2xl text-center space-y-4 relative overflow-hidden">
+          <div className="absolute -top-5 -left-5 text-blue-50 opacity-50">
+            <Sparkles className="w-20 h-20" />
           </div>
           
           <div className="relative z-10">
-            <div className="w-24 h-24 bg-blue-600 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-xl rotate-3">
-              <Trophy className="w-12 h-12 text-white" />
+            <div className="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl rotate-3">
+              <Trophy className="w-7 h-7 text-white" />
             </div>
             
-            <h2 className="text-4xl font-black text-slate-900 mb-2">Szép munka!</h2>
-            <p className="text-slate-500 font-bold text-lg mb-8 italic">Befejezted a(z) {selectedMonth.name} havi kompetencia mérést.</p>
+            <h2 className="text-2xl font-black text-slate-900 mb-1">Szép munka!</h2>
+            <p className="text-slate-500 font-bold text-sm mb-4 italic">Befejezted a(z) {selectedMonth.name} havi kompetencia mérést.</p>
             
-            <div className="bg-slate-50 rounded-[2rem] p-8 border-2 border-slate-100 mb-10">
-              <div className="text-6xl font-black text-blue-600 mb-2">{score} / 10</div>
-              <div className="text-xl font-black text-slate-400 uppercase tracking-widest">Elért pontszám</div>
+            <div className="bg-slate-50 rounded-[1.5rem] p-4 border-2 border-slate-100 mb-6">
+              <div className="text-4xl font-black text-blue-600 mb-1">{score} / 10</div>
+              <div className="text-sm font-black text-slate-400 uppercase tracking-widest">Elért pontszám</div>
               <div className="mt-4 h-3 w-full bg-slate-200 rounded-full overflow-hidden">
                 <div 
                   className="h-full bg-blue-500 transition-all duration-1000"
@@ -775,29 +775,29 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <Button 
                 onClick={() => {
                   setShowResultsSummary(false);
                   setCurrentStep(0);
                 }}
-                className="h-16 rounded-2xl border-4 border-slate-900 bg-white text-slate-900 hover:bg-slate-50 font-black text-xl transition-all shadow-md"
+                className="h-12 rounded-xl border-4 border-slate-900 bg-white text-slate-900 hover:bg-slate-50 font-black text-base transition-all shadow-md"
               >
-                <CheckCircle2 className="w-6 h-6 mr-2" /> Ellenőrzés
+                <CheckCircle2 className="w-4 h-4 mr-2" /> Ellenőrzés
               </Button>
               <Button 
                 onClick={downloadPDF}
                 disabled={isExporting}
-                className="h-16 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xl transition-all shadow-xl shadow-blue-100"
+                className="h-12 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-base transition-all shadow-xl shadow-blue-100"
               >
-                <Download className="w-6 h-6 mr-2" /> PDF Mentése
+                <Download className="w-4 h-4 mr-2" /> Mentés
               </Button>
             </div>
 
-            <div className="pt-6">
+            <div className="pt-3">
               <Button 
                 onClick={() => setView('options')} 
-                className="w-full h-16 rounded-2xl border-4 border-slate-900 bg-white text-slate-900 hover:bg-slate-50 font-black text-xl transition-all shadow-md"
+                className="w-full h-12 rounded-xl border-4 border-slate-900 bg-white text-slate-900 hover:bg-slate-50 font-black text-base transition-all shadow-md"
               >
                 Vissza a menübe
               </Button>
@@ -847,7 +847,7 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
           </div>
         </div>
         {!isSubmitted && (
-          <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+          <div className="h-3 w-full bg-slate-100 rounded-full overflow-hidden">
             <div 
               className="h-full bg-blue-500 transition-all duration-500 ease-out"
               style={{ width: `${progress}%` }}
@@ -926,7 +926,7 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
 
             {/* Right Side: Question & Answers */}
             <div className="space-y-3 lg:border-l lg:pl-6 lg:border-slate-100">
-              <h3 className="text-xl md:text-2xl font-black text-slate-900 leading-tight">
+              <h3 className="text-lg md:text-xl font-black text-slate-900 dark:text-white leading-tight">
                 {currentTask.question}
               </h3>
 
