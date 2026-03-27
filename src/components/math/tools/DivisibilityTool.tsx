@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowLeft, Calculator, CheckCircle2, XCircle, RotateCcw, Lightbulb, Binary, Hash } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { PrimeFactorization } from './PrimeFactorization';
+import { PrimeFactorization } from "@/components/math/grade-6/PrimeFactorization";
 
 interface DivisibilityToolProps {
     onBack: () => void;

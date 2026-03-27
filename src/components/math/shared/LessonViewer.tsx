@@ -14,7 +14,7 @@ import {
     Trash2
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { DivisibilityTool } from './DivisibilityTool';
+import { DivisibilityTool } from "@/components/math/tools/DivisibilityTool";
 
 interface LessonViewerProps {
     material: {

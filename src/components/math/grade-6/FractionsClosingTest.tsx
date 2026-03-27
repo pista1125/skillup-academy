@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
-import { Question, QuestionType, Fraction, CLOSING_TEST_DATA } from './FractionsClosingTestData';
+import { Question, QuestionType, Fraction, CLOSING_TEST_DATA } from "@/components/math/grade-6/FractionsClosingTestData";
 
 interface FractionsClosingTestProps {
     onBack: () => void;

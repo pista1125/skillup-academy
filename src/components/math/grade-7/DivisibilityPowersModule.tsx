@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { DivisibilityTool } from './DivisibilityTool';
-import { PrimeFactorization } from './PrimeFactorization';
-import { DivisibilityQuiz } from './DivisibilityQuiz';
-import { PrimeFactorizationMatcher } from './PrimeFactorizationMatcher';
-import { GCDQuiz } from './GCDQuiz';
-import { LCMQuiz } from './LCMQuiz';
+import { DivisibilityTool } from "@/components/math/tools/DivisibilityTool";
+import { PrimeFactorization } from "@/components/math/grade-7/PrimeFactorization";
+import { DivisibilityQuiz } from "@/components/math/grade-7/DivisibilityQuiz";
+import { PrimeFactorizationMatcher } from "@/components/math/grade-7/PrimeFactorizationMatcher";
+import { GCDQuiz } from "@/components/math/grade-7/GCDQuiz";
+import { LCMQuiz } from "@/components/math/grade-7/LCMQuiz";
 import {
     Calculator,
     Zap,

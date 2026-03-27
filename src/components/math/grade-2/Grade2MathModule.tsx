@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { MathQuiz } from './MathQuiz';
-import { MathColoringGame } from './MathColoringGame';
-import { MathSnakeGame } from './MathSnakeGame';
+import { MathQuiz } from "@/components/math/shared/MathQuiz";
+import { MathColoringGame } from "@/components/math/games/MathColoringGame";
+import { MathSnakeGame } from "@/components/math/games/MathSnakeGame";
 import {
     Calculator,
     Palette,
@@ -13,7 +13,7 @@ import {
     Blocks,
     Target
 } from 'lucide-react';
-import { BuildingBlocksComparison } from './BuildingBlocksComparison';
+import { BuildingBlocksComparison } from "@/components/math/grade-4/BuildingBlocksComparison";
 import { cn } from '@/lib/utils';
 
 interface Grade2MathModuleProps {

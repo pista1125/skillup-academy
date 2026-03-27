@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { NavItem } from './ScrollSpySidebar';
+import { NavItem } from "@/components/math/shared/ScrollSpySidebar";
 
 interface HorizontalTopicNavProps {
     items: NavItem[];

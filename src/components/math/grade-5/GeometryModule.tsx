@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { SectionHeader } from './SectionHeader';
-import { ActivityPlaceholder } from './ActivityPlaceholder';
+import { SectionHeader } from "@/components/math/shared/SectionHeader";
+import { ActivityPlaceholder } from "@/components/math/shared/ActivityPlaceholder";
 import {
     ChevronRight,
     ArrowLeft,

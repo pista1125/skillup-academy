@@ -1,22 +1,22 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { FractionVisualizer } from './FractionVisualizer';
-import { FractionsQuiz } from './FractionsQuiz';
-import { FractionMultiplicationMatcher } from './FractionMultiplicationMatcher';
-import { FractionVisualMatcher } from './FractionVisualMatcher';
-import { FractionDivisionMatcher } from './FractionDivisionMatcher';
-import { DecimalFractionsTool } from './DecimalFractionsTool';
-import DecimalFractionsQuiz from './DecimalFractionsQuiz';
-import DecimalMultiplicationQuiz from './DecimalMultiplicationQuiz';
-import DecimalDivisionQuiz from './DecimalDivisionQuiz';
-import DecimalShifterTool from './DecimalShifterTool';
-import { DecimalMultiplicationMatcher } from './DecimalMultiplicationMatcher';
-import { DecimalDivisionMatcher } from './DecimalDivisionMatcher';
-import { NumberLineTool } from './NumberLineTool';
-import { FractionToDecimalMatcher } from './FractionToDecimalMatcher';
-import { FractionsClosingTest } from './FractionsClosingTest';
-import { SectionHeader } from './SectionHeader';
-import { ActivityPlaceholder } from './ActivityPlaceholder';
+import { FractionVisualizer } from "@/components/math/tools/FractionVisualizer";
+import { FractionsQuiz } from "@/components/math/grade-6/FractionsQuiz";
+import { FractionMultiplicationMatcher } from "@/components/math/grade-6/FractionMultiplicationMatcher";
+import { FractionVisualMatcher } from "@/components/math/grade-6/FractionVisualMatcher";
+import { FractionDivisionMatcher } from "@/components/math/grade-6/FractionDivisionMatcher";
+import { DecimalFractionsTool } from "@/components/math/tools/DecimalFractionsTool";
+import DecimalFractionsQuiz from "@/components/math/grade-6/DecimalFractionsQuiz";
+import DecimalMultiplicationQuiz from "@/components/math/grade-6/DecimalMultiplicationQuiz";
+import DecimalDivisionQuiz from "@/components/math/grade-6/DecimalDivisionQuiz";
+import DecimalShifterTool from "@/components/math/tools/DecimalShifterTool";
+import { DecimalMultiplicationMatcher } from "@/components/math/grade-6/DecimalMultiplicationMatcher";
+import { DecimalDivisionMatcher } from "@/components/math/grade-6/DecimalDivisionMatcher";
+import { NumberLineTool } from "@/components/math/tools/NumberLineTool";
+import { FractionToDecimalMatcher } from "@/components/math/grade-6/FractionToDecimalMatcher";
+import { FractionsClosingTest } from "@/components/math/grade-6/FractionsClosingTest";
+import { SectionHeader } from "@/components/math/shared/SectionHeader";
+import { ActivityPlaceholder } from "@/components/math/shared/ActivityPlaceholder";
 import {
     Binary,
     ChevronRight,
