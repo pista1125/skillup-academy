@@ -3606,18 +3606,108 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
   {
     id: 'probameres-10',
     name: 'Probamérés 10',
-    topic: 'Vegyes feladatok',
+    topic: 'Tájékozódás a térképen (v4)',
     tasks: [
-      { id: 'p10-1', type: 'number-input', question: 'Mennyi 2^3 + 3^2?', correctAnswer: 17, points: 1, image: '⚡' },
-      { id: 'p10-2', type: 'multiple-choice', question: 'Melyik szám osztható 3-mal és 5-tel is?', options: ['10', '12', '15', '20'], correctAnswer: 2, points: 1, image: '➗' },
-      { id: 'p10-3', type: 'number-input', question: 'Egy téglalap kerülete 20 cm, egyik oldala 4 cm. Mekkora a másik oldal?', correctAnswer: 6, points: 1, image: '📏' },
-      { id: 'p10-4', type: 'true-false', question: 'Igaz vagy Hamis? | -5 | = 5', options: ['Igaz', 'Hamis'], correctAnswer: 0, points: 1, image: '✅' },
-      { id: 'p10-5', type: 'number-input', question: 'Oldd meg: 3x - 5 = 10', correctAnswer: 5, points: 1, image: '⚖️' },
-      { id: 'p10-6', type: 'multiple-choice', question: 'Mekkora a 60 fokos szög kiegészítő szöge (180-ra)?', options: ['30°', '90°', '120°', '150°'], correctAnswer: 2, points: 1, image: '📐' },
-      { id: 'p10-7', type: 'matching', question: 'Párosítsd a mértékegységeket!', pairs: [{ id: 'a', left: '1 liter', right: '1 dm3' }, { id: 'b', left: '1 kg', right: '1000 g' }, { id: 'c', left: '1 km', right: '1000 m' }], correctAnswer: null, points: 1, image: '🔗' },
-      { id: 'p10-8', type: 'number-input', question: 'Hány literes egy 20l-es kanna negyede?', correctAnswer: 5, points: 1, image: '🥛' },
-      { id: 'p10-9', type: 'true-false', question: 'Igaz vagy Hamis? A háromszög bármely két oldalának összege nagyobb a harmadik oldalnál.', options: ['Igaz', 'Hamis'], correctAnswer: 0, points: 1, image: '🔺' },
-      { id: 'p10-10', type: 'multiple-choice', question: 'Gratulálunk a mérésekhez! Hogy érzed magad?', options: ['Fáradtan', 'Boldogan', 'Okosabban', 'Készen a szünetre'], correctAnswer: 2, points: 1, image: '🎉' }
+      { 
+        id: 'p10-1', 
+        type: 'multiple-choice', 
+        context: 'Csanád az édesapjával autózik. Az egyik útkereszteződés előtt az alábbi táblát látják.',
+        question: 'Melyik betűvel jelzett nyíl mutatja a térképen, hogy hol vannak épp Csanádék, ha a nyilak az autók haladási irányát mutatják? (Zedújfalú balra, Majorpuszta jobbra)', 
+        options: ['A', 'B', 'C', 'D'], 
+        correctAnswer: 1, 
+        points: 1, 
+        image: '/assets/competency/probameres-10/probameres_10_orient_1.svg' 
+      },
+      { 
+        id: 'p10-2', 
+        type: 'multiple-choice', 
+        context: 'Melyik betűvel jelzett nyíl mutatja a térképen, hogy hol vannak épp Csanádék, ha a nyilak az autók haladási irányát mutatják?',
+        question: 'Jelöld meg a helyes válasz betűjelét! (Halászfalva egyenesen, Vártornya balra)', 
+        options: ['A', 'B', 'C', 'D'], 
+        correctAnswer: 3, 
+        points: 1, 
+        image: '/assets/competency/probameres-10/probameres_10_orient_2.svg' 
+      },
+      { 
+        id: 'p10-3', 
+        type: 'multiple-choice', 
+        context: 'Melyik betűvel jelzett nyíl mutatja a térképen, hogy hol vannak épp Csanádék, ha a nyilak az autók haladási irányát mutatják?',
+        question: 'Jelöld meg a helyes válasz betűjelét! (Erdőhát balra, Zöldhát jobbra)', 
+        options: ['A', 'B', 'C', 'D'], 
+        correctAnswer: 2, 
+        points: 1, 
+        image: '/assets/competency/probameres-10/probameres_10_orient_3.svg' 
+      },
+      { 
+        id: 'p10-4', 
+        type: 'multiple-choice', 
+        context: 'Melyik betűvel jelzett nyíl mutatja a térképen, hogy hol vannak épp Csanádék, ha a nyilak az autók haladási irányát mutatják?',
+        question: 'Jelöld meg a helyes válasz betűjelét! (Zedújfalú balra, Majorpuszta jobbra, Halászfalva egyenesen)', 
+        options: ['A', 'B', 'C', 'D'], 
+        correctAnswer: 0, 
+        points: 1, 
+        image: '/assets/competency/probameres-10/probameres_10_orient_4.svg' 
+      },
+      { 
+        id: 'p10-5', 
+        type: 'multiple-choice', 
+        context: 'Melyik betűvel jelzett nyíl mutatja a térképen, hogy hol vannak épp Csanádék, ha a nyilak az autók haladási irányát mutatják?',
+        question: 'Jelöld meg a helyes válasz betűjelét! (Vártornya egyenesen, Zedújfalú balra)', 
+        options: ['A', 'B', 'C', 'D'], 
+        correctAnswer: 1, 
+        points: 1, 
+        image: '/assets/competency/probameres-10/probameres_10_orient_5.svg' 
+      },
+      { 
+        id: 'p10-6', 
+        type: 'multiple-choice', 
+        context: 'Melyik betűvel jelzett nyíl mutatja a térképen, hogy hol vannak épp Csanádék, ha a nyilak az autók haladási irányát mutatják?',
+        question: 'Jelöld meg a helyes válasz betűjelét! (Vártornya jobbra, Zöldhát balra)', 
+        options: ['A', 'B', 'C', 'D'], 
+        correctAnswer: 3, 
+        points: 1, 
+        image: '/assets/competency/probameres-10/probameres_10_orient_6.svg' 
+      },
+      { 
+        id: 'p10-7', 
+        type: 'multiple-choice', 
+        context: 'Melyik betűvel jelzett nyíl mutatja a térképen, hogy hol vannak épp Csanádék, ha a nyilak az autók haladási irányát mutatják?',
+        question: 'Jelöld meg a helyes válasz betűjelét! (Zedújfalú egyenesen, Halászfalva jobbra)', 
+        options: ['A', 'B', 'C', 'D'], 
+        correctAnswer: 1, 
+        points: 1, 
+        image: '/assets/competency/probameres-10/probameres_10_orient_7.svg' 
+      },
+      { 
+        id: 'p10-8', 
+        type: 'multiple-choice', 
+        context: 'Melyik betűvel jelzett nyíl mutatja a térképen, hogy hol vannak épp Csanádék, ha a nyilak az autók haladási irányát mutatják?',
+        question: 'Jelöld meg a helyes válasz betűjelét! (Majorpuszta egyenesen, Halászfalva balra)', 
+        options: ['A', 'B', 'C', 'D'], 
+        correctAnswer: 2, 
+        points: 1, 
+        image: '/assets/competency/probameres-10/probameres_10_orient_8.svg' 
+      },
+      { 
+        id: 'p10-9', 
+        type: 'multiple-choice', 
+        context: 'Melyik betűvel jelzett nyíl mutatja a térképen, hogy hol vannak épp Csanádék, ha a nyilak az autók haladási irányát mutatják?',
+        question: 'Jelöld meg a helyes válasz betűjelét! (Erdőhát egyenesen)', 
+        options: ['A', 'B', 'C', 'D'], 
+        correctAnswer: 0, 
+        points: 1, 
+        image: '/assets/competency/probameres-10/probameres_10_orient_9.svg' 
+      },
+      { 
+        id: 'p10-10', 
+        type: 'multiple-choice', 
+        context: 'Melyik betűvel jelzett nyíl mutatja a térképen, hogy hol vannak épp Csanádék, ha a nyilak az autók haladási irányát mutatják?',
+        question: 'Jelöld meg a helyes válasz betűjelét! (Zedújfalú jobbra, Halászfalva balra)', 
+        options: ['A', 'B', 'C', 'D'], 
+        correctAnswer: 3, 
+        points: 1, 
+        image: '/assets/competency/probameres-10/probameres_10_orient_10.svg' 
+      }
     ]
   }
 ];
