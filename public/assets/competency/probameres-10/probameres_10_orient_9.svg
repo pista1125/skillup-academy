@@ -1,56 +1,78 @@
-<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
-  <g transform="translate(80, 20)">
-    <rect width="640" height="130" rx="10" fill="#71717a" stroke="white" stroke-width="4" />
-    <rect width="630" height="120" x="5" y="5" rx="6" fill="#71717a" stroke="white" stroke-width="2" />
-    <path d="M 310 90 L 310 70 L 300 70 L 320 50 L 340 70 L 330 70 L 330 90 Z" fill="white" />
-    <text x="360" y="90" fill="white" font-family="Arial" font-size="28" font-weight="bold" text-anchor="start">Erdőhát</text>
-  </g>
-  <rect x="70" y="160" width="660" height="400" fill="white" stroke="#a1a1aa" stroke-width="2" />
-  <path d="M 70 420 L 210 470 L 310 470 L 430 380 L 490 330 L 580 260" stroke="#94a3b8" stroke-width="8" fill="none" stroke-linejoin="round" />
-  <path d="M 580 260 L 630 220 L 730 210" stroke="#94a3b8" stroke-width="8" fill="none" stroke-linejoin="round" />
-  <path d="M 580 260 L 650 265 L 730 255" stroke="#94a3b8" stroke-width="8" fill="none" stroke-linejoin="round" />
-  <path d="M 590 480 L 630 510 L 730 540" stroke="#94a3b8" stroke-width="8" fill="none" stroke-linejoin="round" />
-  <path d="M 480 490 L 590 480" stroke="#94a3b8" stroke-width="8" fill="none" stroke-linejoin="round" />
-  <path d="M 210 470 L 210 500 L 240 560" stroke="#cbd5e1" stroke-width="4" fill="none" stroke-linejoin="round" />
-  <path d="M 210 470 L 180 490 L 140 560" stroke="#cbd5e1" stroke-width="4" fill="none" stroke-linejoin="round" />
-  <path d="M 310 470 L 320 560" stroke="#cbd5e1" stroke-width="4" fill="none" stroke-linejoin="round" />
-  <path d="M 310 470 L 270 280 L 170 160" stroke="#cbd5e1" stroke-width="4" fill="none" stroke-linejoin="round" />
-  <path d="M 430 380 L 420 300 L 460 160" stroke="#cbd5e1" stroke-width="4" fill="none" stroke-linejoin="round" />
-  <path d="M 430 380 L 480 490" stroke="#cbd5e1" stroke-width="4" fill="none" stroke-linejoin="round" />
-  <path d="M 480 490 L 470 530 L 510 560" stroke="#cbd5e1" stroke-width="4" fill="none" stroke-linejoin="round" />
-  <path d="M 590 480 L 590 400 L 550 350 L 580 260" stroke="#cbd5e1" stroke-width="4" fill="none" stroke-linejoin="round" />
-  <path d="M 590 480 L 650 350 L 730 420" stroke="#cbd5e1" stroke-width="4" fill="none" stroke-linejoin="round" />
-  <circle cx="210" cy="470" r="10" fill="#94a3b8" />
-  <text x="210" y="450" font-family="Arial" font-size="20" font-weight="bold" fill="#64748b" text-anchor="middle">Erdőhát</text>
-  <circle cx="310" cy="470" r="8" fill="#94a3b8" />
-  <text x="310" y="450" font-family="Arial" font-size="16" fill="#64748b" text-anchor="middle">Majorpuszta</text>
-  <circle cx="430" cy="380" r="8" fill="#94a3b8" />
-  <text x="450" y="370" font-family="Arial" font-size="16" fill="#64748b" text-anchor="start">Zöldhát</text>
-  <circle cx="580" cy="260" r="12" fill="#94a3b8" />
-  <text x="540" y="245" font-family="Arial" font-size="22" font-weight="bold" fill="#64748b" text-anchor="middle">Zedújfalú</text>
-  <circle cx="480" cy="490" r="8" fill="#94a3b8" />
-  <text x="480" y="515" font-family="Arial" font-size="16" fill="#64748b" text-anchor="middle">Halászfalva</text>
-  <circle cx="590" cy="480" r="8" fill="#94a3b8" />
-  <text x="590" y="505" font-family="Arial" font-size="16" fill="#64748b" text-anchor="middle">Vártornya</text>
+<svg width="800" height="650" viewBox="0 0 800 650" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad3" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#fef08a;stop-opacity:1" /><stop offset="100%" style="stop-color:#d97706;stop-opacity:1" /></linearGradient>
+    <filter id="whiteHalo"><feMorphology operator="dilate" radius="2"/><feFlood flood-color="white" opacity="0.9"/><feComposite operator="in" in2="SourceAlpha"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <symbol id="bush" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#a16207" opacity="0.8"/><circle cx="9" cy="14" r="5" fill="#78350f" opacity="0.6"/><circle cx="15" cy="10" r="4" fill="#78350f" opacity="0.6"/></symbol>
+  </defs>
+  <rect width="800" height="650" fill="url(#bgGrad3)" />
   
-  <g transform="translate(380, 417) rotate(144)">
-    <rect x="-15" y="-10" width="30" height="20" fill="black" />
-    <path d="M 15 -14 L 30 0 L 15 14 Z" fill="black" />
-    <text x="0" y="45" font-family="Arial" font-size="28" font-weight="bold" fill="black" transform="rotate(-144)">A</text>
+  <path d="M 50 300 L 550 300" stroke="#64748b" stroke-width="12" fill="none" stroke-linecap="round" />
+  <path d="M 350 300 L 350 650" stroke="#64748b" stroke-width="12" fill="none" stroke-linecap="round" />
+  <path d="M 550 150 L 550 300 L 600 500 L 350 500" stroke="#64748b" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+
+  <use href="#bush" x="100" y="200" width="40" height="40" />
+  <use href="#bush" x="250" y="400" width="30" height="30" />
+  <use href="#bush" x="500" y="420" width="50" height="50" />
+  <use href="#bush" x="650" y="300" width="40" height="40" />
+  <use href="#bush" x="420" y="220" width="40" height="40" />
+
+  <text x="75" y="290" font-family="Arial" font-size="16" font-weight="bold" fill="#334155" text-anchor="middle" filter="url(#whiteHalo)">Nyugatváros</text>
+  <text x="365" y="630" font-family="Arial" font-size="16" font-weight="bold" fill="#334155" filter="url(#whiteHalo)">Határ</text>
+  <text x="565" y="170" font-family="Arial" font-size="16" font-weight="bold" fill="#334155" filter="url(#whiteHalo)">Északhegy</text>
+
+  <circle cx="150" cy="300" r="10" fill="#1e293b" stroke="white" stroke-width="3" />
+  <text x="150" y="280" font-family="Arial" font-size="20" font-weight="bold" fill="#0f172a" text-anchor="middle" filter="url(#whiteHalo)">Homokrét</text>
+  <circle cx="350" cy="300" r="10" fill="#1e293b" stroke="white" stroke-width="3" />
+  <text x="330" y="280" font-family="Arial" font-size="20" font-weight="bold" fill="#0f172a" text-anchor="end" filter="url(#whiteHalo)">Szárazd</text>
+  <circle cx="550" cy="300" r="10" fill="#1e293b" stroke="white" stroke-width="3" />
+  <text x="570" y="280" font-family="Arial" font-size="20" font-weight="bold" fill="#0f172a" text-anchor="start" filter="url(#whiteHalo)">Síkfalva</text>
+  <circle cx="350" cy="500" r="10" fill="#1e293b" stroke="white" stroke-width="3" />
+  <text x="330" y="520" font-family="Arial" font-size="20" font-weight="bold" fill="#0f172a" text-anchor="end" filter="url(#whiteHalo)">Mezőtúr</text>
+  <circle cx="600" cy="500" r="10" fill="#1e293b" stroke="white" stroke-width="3" />
+  <text x="620" y="520" font-family="Arial" font-size="20" font-weight="bold" fill="#0f172a" text-anchor="start" filter="url(#whiteHalo)">Pusztaföldvár</text>
+
+
+  <!-- SIGN A -->
+  <g transform="translate(45, 10)">
+    <text x="-35" y="45" font-size="32" font-family="Arial" font-weight="bold" fill="#1e293b">A)</text>
+    <rect width="360" height="65" rx="8" fill="#334155" stroke="white" stroke-width="3" />
+    <path d="M 45 32 L 30 32 L 30 22 L 10 42 L 30 62 L 30 52 L 45 52 Z" fill="white" />
+    <text x="55" y="42" fill="white" font-family="Arial" font-size="20" font-weight="bold">Homokrét</text>
+    <text x="290" y="42" fill="white" font-family="Arial" font-size="20" font-weight="bold" text-anchor="end">Síkfalva</text>
+    <path d="M 300 32 L 315 32 L 315 22 L 335 42 L 315 62 L 315 52 L 300 52 Z" fill="white" />
   </g>
-  <g transform="translate(260, 470) rotate(0)">
-    <rect x="-15" y="-10" width="30" height="20" fill="black" />
-    <path d="M 15 -14 L 30 0 L 15 14 Z" fill="black" />
-    <text x="0" y="45" font-family="Arial" font-size="28" font-weight="bold" fill="black" transform="rotate(0)">B</text>
+  <!-- SIGN B -->
+  <g transform="translate(435, 10)">
+    <text x="-35" y="45" font-size="32" font-family="Arial" font-weight="bold" fill="#1e293b">B)</text>
+    <rect width="360" height="65" rx="8" fill="#334155" stroke="white" stroke-width="3" />
+    <text x="290" y="42" fill="white" font-family="Arial" font-size="20" font-weight="bold" text-anchor="end">Mezőtúr</text>
+    <path d="M 300 32 L 315 32 L 315 22 L 335 42 L 315 62 L 315 52 L 300 52 Z" fill="white" />
+    <path d="M 60 55 L 60 35 L 50 35 L 70 15 L 90 35 L 80 35 L 80 55 Z" fill="white" />
+    <text x="100" y="42" fill="white" font-family="Arial" font-size="20" font-weight="bold">Pusztaföldvár</text>
   </g>
-  <g transform="translate(450, 425) rotate(65)">
-    <rect x="-15" y="-10" width="30" height="20" fill="black" />
-    <path d="M 15 -14 L 30 0 L 15 14 Z" fill="black" />
-    <text x="0" y="45" font-family="Arial" font-size="28" font-weight="bold" fill="black" transform="rotate(-65)">C</text>
+  <!-- SIGN C -->
+  <g transform="translate(45, 85)">
+    <text x="-35" y="45" font-size="32" font-family="Arial" font-weight="bold" fill="#1e293b">C)</text>
+    <rect width="360" height="65" rx="8" fill="#334155" stroke="white" stroke-width="3" />
+    <path d="M 60 55 L 60 35 L 50 35 L 70 15 L 90 35 L 80 35 L 80 55 Z" fill="white" />
+    <text x="100" y="42" fill="white" font-family="Arial" font-size="20" font-weight="bold">Síkfalva</text>
+    <path d="M 230 32 L 215 32 L 215 22 L 195 42 L 215 62 L 215 52 L 230 52 Z" fill="white" />
+    <text x="240" y="42" fill="white" font-family="Arial" font-size="20" font-weight="bold">Északhegy</text>
   </g>
-  <g transform="translate(315, 510) rotate(-90)">
-    <rect x="-15" y="-10" width="30" height="20" fill="black" />
-    <path d="M 15 -14 L 30 0 L 15 14 Z" fill="black" />
-    <text x="0" y="45" font-family="Arial" font-size="28" font-weight="bold" fill="black" transform="rotate(90)">D</text>
+  <!-- SIGN D -->
+  <g transform="translate(435, 85)">
+    <text x="-35" y="45" font-size="32" font-family="Arial" font-weight="bold" fill="#1e293b">D)</text>
+    <rect width="360" height="65" rx="8" fill="#334155" stroke="white" stroke-width="3" />
+    <text x="290" y="42" fill="white" font-family="Arial" font-size="20" font-weight="bold" text-anchor="end">Homokrét</text>
+    <path d="M 300 32 L 315 32 L 315 22 L 335 42 L 315 62 L 315 52 L 300 52 Z" fill="white" />
+    <path d="M 45 32 L 30 32 L 30 22 L 10 42 L 30 62 L 30 52 L 45 52 Z" fill="white" />
+    <text x="55" y="42" fill="white" font-family="Arial" font-size="20" font-weight="bold">Nyugatváros</text>
+  </g>
+
+  <!-- Only ONE Arrow -->
+  <g transform="translate(350, 400)">
+    <g transform="rotate(-90)">
+      <path d="M -15 -10 L 15 -10 L 15 -16 L 30 0 L 15 16 L 15 10 L -15 10 Z" fill="#f97316" stroke="white" stroke-width="2" />
+    </g>
   </g>
 </svg>
