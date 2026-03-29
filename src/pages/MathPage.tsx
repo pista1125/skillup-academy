@@ -2290,9 +2290,6 @@ export default function MathPage() {
         {view === 'main-select' && (
           <div className="animate-slide-up space-y-12">
             <section>
-              <h2 className="font-display text-xl font-bold mb-8 text-left">
-                Melyik szinten szeretnél gyakorolni?
-              </h2>
               <GradeSelector
                 selectedGrade={selectedGrade}
                 onSelectGrade={handleGradeSelect}
