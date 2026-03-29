@@ -60,12 +60,20 @@ export default function MemoryGame() {
         const parsed = JSON.parse(saved);
         const merged = DEFAULT_LEVELS.map((level, lIdx) => ({
           ...level,
-          exercises: parsed[lIdx] || level.exercises
+          exercises: level.exercises.map((defEx, exIdx) => {
+             const customEx = parsed[lIdx] && parsed[lIdx][exIdx];
+             if (customEx && customEx.items && customEx.items.length > 0) {
+               return customEx;
+             }
+             return defEx;
+          })
         }));
         setAllLevels(merged);
       } catch (e) {
         console.error("Failed to load saved levels", e);
       }
+    } else {
+      setAllLevels(DEFAULT_LEVELS);
     }
   }, [isEditorMode]);
 

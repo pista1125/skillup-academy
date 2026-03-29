@@ -26,6 +26,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import { SHAPE_LIBRARY, CATEGORIES, COLORS, ShapeDefinition } from '@/lib/memoryShapes';
 import * as LucideIcons from 'lucide-react';
+import { DEFAULT_LEVELS } from '@/data/memoryData';
 
 interface MemoryItem {
   id: string;
@@ -51,7 +52,7 @@ export default function MemoryEditor() {
   const [levelIdx, setLevelIdx] = useState(0);
   const [exerciseIdx, setExerciseIdx] = useState(0);
   const [exercises, setExercises] = useState<MemoryExercise[][]>(
-    Array.from({ length: 5 }, () => Array.from({ length: 10 }, (_, i) => ({ id: i + 1, items: [] })))
+    DEFAULT_LEVELS.map(level => level.exercises)
   );
   
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -67,7 +68,17 @@ export default function MemoryEditor() {
     const saved = localStorage.getItem('memory_game_custom_levels');
     if (saved) {
       try {
-        setExercises(JSON.parse(saved));
+        const parsed = JSON.parse(saved);
+        const merged = DEFAULT_LEVELS.map((level, lIdx) => {
+          return level.exercises.map((defEx, exIdx) => {
+             const customEx = parsed[lIdx] && parsed[lIdx][exIdx];
+             if (customEx && customEx.items && customEx.items.length > 0) {
+               return customEx;
+             }
+             return defEx;
+          });
+        });
+        setExercises(merged);
       } catch (e) {
         console.error("Failed to load saved exercises", e);
       }
