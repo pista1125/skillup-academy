@@ -116,7 +116,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-type ViewState = 'main-select' | 'topic-select' | 'tools-select' | 'games-select' | 'activity' | 'geometry-select' | 'search-results';
+type ViewState = 'main-select' | 'topic-select' | 'tools-select' | 'games-select' | 'competency-select' | 'activity' | 'geometry-select' | 'search-results';
 type ActivityType =
   | 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring'
   | 'divisibility' | 'materials' | 'long-division' | 'angle-matching'
@@ -229,20 +229,17 @@ export default function MathPage() {
       { id: 'g4-written-ops', label: 'Írásbeli műveletek', icon: <Calculator className="w-4 h-4" /> },
       { id: 'g4-long-div', label: 'Írásbeli osztás', icon: <Box className="w-4 h-4" /> },
       { id: 'g4-shapes-solids', label: 'Síkidomok, testek', icon: <Shapes className="w-4 h-4" /> },
-      { id: 'g4-competency', label: 'Kompetencia Mérés', icon: <Target className="w-4 h-4" /> },
       { id: 'g4-fractions', label: 'Törtszámok', icon: <Percent className="w-4 h-4" /> },
     ];
     if (selectedGrade === 5) return [
       { id: 'g5-ops', label: 'Alapműveletek', icon: <Calculator className="w-4 h-4" /> },
       { id: 'g5-geom-basics', label: 'Geometria', icon: <Shapes className="w-4 h-4" /> },
       { id: 'g5-proportions', label: 'Arányosság', icon: <Percent className="w-4 h-4" /> },
-      { id: 'g5-competency', label: 'Kompetencia Mérés', icon: <Target className="w-4 h-4" /> },
     ];
     if (selectedGrade === 6) return [
       { id: 'g6-integers', label: 'Egész számok', icon: <Calculator className="w-4 h-4" /> },
       { id: 'g6-fractions', label: 'Törtek', icon: <Percent className="w-4 h-4" /> },
       { id: 'g6-geometry', label: 'Geometria', icon: <Shapes className="w-4 h-4" /> },
-      { id: 'g6-competency', label: 'Kompetencia Mérés', icon: <Target className="w-4 h-4" /> },
     ];
     if (selectedGrade === 7) return [
       { id: 'g7-lines', label: 'Nevezetes vonalak', icon: <MoveHorizontal className="w-4 h-4" /> },
@@ -252,7 +249,6 @@ export default function MathPage() {
       { id: 'g7-percent-val', label: 'Százalékérték', icon: <Percent className="w-4 h-4" /> },
       { id: 'g7-percent-rate', label: 'Százalékláb', icon: <Percent className="w-4 h-4" /> },
       { id: 'g7-percent-base', label: 'Százalékalap', icon: <Percent className="w-4 h-4" /> },
-      { id: 'g7-competency', label: 'Kompetencia Mérés', icon: <Target className="w-4 h-4" /> },
     ];
     return [];
   }, [selectedGrade, view]);
@@ -265,12 +261,10 @@ export default function MathPage() {
       'g4-written-ops': 'g4-written-ops',
       'g4-long-div': 'g4-long-div',
       'g4-shapes-solids': 'g4-shapes-solids',
-      'g4-competency': 'competency-assessment',
       'g4-fractions': 'g4-fractions',
       'g5-ops': 'g5-integers',
       'g5-geom-basics': 'g5-geometry-intro',
       'g5-proportions': 'g5-proportion-problems',
-      'g5-competency': 'competency-assessment',
       'g7-lines': 'g7-geom-trans',
       'g7-triangles': 'g7-geom-trans',
       'g7-quads': 'g7-geom-trans',
@@ -278,8 +272,6 @@ export default function MathPage() {
       'g7-percent-val': 'g7-percent-equations',
       'g7-percent-rate': 'g7-percent-equations',
       'g7-percent-base': 'g7-percent-equations',
-      'g6-competency': 'competency-assessment',
-      'g7-competency': 'competency-assessment',
     };
 
     const parentTopicId = sectionToTopic[id];
@@ -352,6 +344,26 @@ export default function MathPage() {
       return;
     }
 
+    if (location.pathname.startsWith('/kompetencia')) {
+      const slugMatch = location.pathname.match(/\/kompetencia\/(.+)/);
+      if (slugMatch) {
+        let type = 'competency-assessment';
+        if (slugMatch[1].includes('-mock')) {
+          type = 'competency-mock-assessment';
+        }
+        const parsedGrade = slugToGrade(slugMatch[1].replace('-mock', ''));
+        if (parsedGrade) {
+          setSelectedGrade(parsedGrade);
+          setActivityType(type as ActivityType);
+          setView('activity');
+        }
+      } else {
+        setView('competency-select');
+        setSelectedGrade(null);
+      }
+      return;
+    }
+
     const grade = slugToGrade(gradeParam || '');
     if (grade) {
       setSelectedGrade(grade);
@@ -393,6 +405,11 @@ export default function MathPage() {
       path = topic ? `/eszkozok/${topic}` : '/eszkozok';
     } else if (newView === 'games-select') {
       path = topic ? `/jatekok/${topic}` : '/jatekok';
+    } else if (newView === 'competency-select') {
+      path = '/kompetencia';
+    } else if (newView === 'activity' && (activity === 'competency-assessment' || activity === 'competency-mock-assessment') && grade) {
+      // Kompetencia activity specific routing
+      path = `/kompetencia/${gradeToSlug(grade)}${activity === 'competency-mock-assessment' ? '-mock' : ''}`;
     } else if (newView === 'activity' && !grade) {
       // Handle tool/game activity without grade
       const isGame = GAMES.some(g => g.id === activity);
@@ -521,9 +538,16 @@ export default function MathPage() {
     updateURL('activity', selectedGrade, topicId, finalActivityType);
   };
 
-  const handleActivitySelect = (type: ActivityType, topicId?: string, level?: number) => {
+  const handleActivitySelect = (type: ActivityType, topicId?: string, level?: number, gradeOverride?: GradeLevel) => {
     setActivityType(type);
     if (topicId) setSelectedTopic(topicId);
+    
+    // If a grade is provided explicitly (e.g., from the competency hub), set it immediately
+    const finalGrade = gradeOverride !== undefined ? gradeOverride : selectedGrade;
+    if (gradeOverride !== undefined) {
+      setSelectedGrade(gradeOverride);
+    }
+
     if (level !== undefined) {
       setVennLevel(level);
     } else {
@@ -531,7 +555,7 @@ export default function MathPage() {
     }
     setView('activity');
     window.scrollTo(0, 0);
-    updateURL('activity', selectedGrade, topicId || selectedTopic, type);
+    updateURL('activity', finalGrade, topicId || selectedTopic, type);
   };
 
   const handleToolSelect = (toolId: string) => {
@@ -578,6 +602,10 @@ export default function MathPage() {
       if (selectedTopic === 'geometry' && selectedGrade === 6) {
         nextView = 'geometry-select';
         nextTopic = null;
+      } else if (activityType === 'competency-assessment' || activityType === 'competency-mock-assessment') {
+        nextView = 'competency-select';
+        nextTopic = null;
+        nextGrade = null;
       } else if (selectedGrade) {
         nextView = 'topic-select';
         nextTopic = null;
@@ -599,7 +627,7 @@ export default function MathPage() {
       nextView = 'main-select';
       nextGrade = null;
       nextTopic = null;
-    } else if (view === 'tools-select' || view === 'games-select' || view === 'search-results') {
+    } else if (view === 'tools-select' || view === 'games-select' || view === 'search-results' || view === 'competency-select') {
       nextView = 'main-select';
       nextGrade = null;
       nextTopic = null;
@@ -617,33 +645,7 @@ export default function MathPage() {
 
   const renderTopicContent = (topicId: string) => {
     if (topicId === 'competency-assessment') {
-      return (
-        <div className="flex flex-col gap-10 py-6">
-          <section>
-            <SectionHeader id="competency-assessment" number={1} title="Havi Kompetencia Mérés" color="blue" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Szeptember - Június"
-                subtitle="10 feladatsor"
-                type="Kezdés"
-                onClick={() => handleActivitySelect('competency-assessment', topicId)}
-                icon={<Target className="w-6 h-6" />}
-                color="blue"
-              />
-              {selectedGrade && COMPETENCY_DATA[selectedGrade]?.some(m => m.id.includes('probameres')) && (
-                <ActivityPlaceholder
-                  title="Probamérés"
-                  subtitle="10 feladatsor"
-                  type="Kezdés"
-                  onClick={() => handleActivitySelect('competency-mock-assessment', topicId)}
-                  icon={<Target className="w-6 h-6" />}
-                  color="indigo"
-                />
-              )}
-            </div>
-          </section>
-        </div>
-      );
+      return null;
     }
 
     if (topicId === 'g4-count-10k') {
@@ -2310,6 +2312,17 @@ export default function MathPage() {
               </Button>
 
               <Button
+                onClick={() => { setView('competency-select'); updateURL('competency-select', null, null, null); }}
+                className="flex-1 h-20 text-lg font-bold gap-4 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 shadow-lg shadow-emerald-500/20 group transition-all text-white"
+              >
+                <div className="p-2 bg-white/10 rounded-lg group-hover:rotate-12 transition-transform">
+                  <Target className="w-6 h-6" />
+                </div>
+                Kompetencia felkészítés
+                <ChevronRight className="w-6 h-6 ml-auto" />
+              </Button>
+
+              <Button
                 onClick={() => { setView('games-select'); updateURL('games-select', null, null, null); }}
                 className="flex-1 h-20 text-lg font-bold gap-4 bg-gradient-to-r from-pink-600 to-orange-600 hover:from-pink-700 hover:to-orange-700 shadow-lg shadow-pink-500/20 group transition-all"
               >
@@ -2624,7 +2637,7 @@ export default function MathPage() {
                   desc={game.desc}
                   icon={game.icon}
                   color={game.color}
-                  onClick={() => handleActivitySelect(game.id)}
+                  onClick={() => handleActivitySelect(game.id as ActivityType)}
                 />
               ))}
               <div className="p-6 bg-white/50 rounded-2xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center text-center opacity-70">
@@ -2632,6 +2645,68 @@ export default function MathPage() {
                 <p className="text-sm font-bold text-slate-500">Toronyépítő</p>
                 <p className="text-xs text-slate-400">Hamarosan érkezik...</p>
               </div>
+            </div>
+          </div>
+        )}
+
+        {view === 'competency-select' && (
+          <div className="animate-slide-up space-y-8 pb-20">
+            <div className="text-center mb-12">
+              <h2 className="font-display text-3xl font-bold mb-4 flex items-center justify-center gap-3 text-slate-800">
+                <Target className="w-8 h-8 text-emerald-500" />
+                Kompetenciamérés Felkészítés
+              </h2>
+              <p className="text-slate-500 max-w-2xl mx-auto">
+                Készülj fel a mérésekre! Válaszd ki az évfolyamodat a folyamatosan elérhető tesztsorainkhoz.
+              </p>
+            </div>
+            
+            <div className="space-y-12">
+              {[4, 5, 6, 7, 8].map(grade => {
+                return (
+                  <section key={grade} className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden group hover:border-emerald-200 transition-all">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-emerald-100 transition-colors"></div>
+                    <SectionHeader number={grade} title={`${grade}. Osztály`} color="emerald" id={`comp-grade-${grade}`} />
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6 relative z-10">
+                      {/* Havi mérés */}
+                      {grade >= 4 && grade <= 7 && (
+                        <ActivityPlaceholder
+                          title="Szeptember - Június"
+                          subtitle="10 feladatsor"
+                          type="Kezdés"
+                          onClick={() => {
+                            handleActivitySelect('competency-assessment', `g${grade}-competency`, undefined, grade as GradeLevel);
+                          }}
+                          icon={<Target className="w-6 h-6 text-emerald-600" />}
+                          color="emerald"
+                        />
+                      )}
+                      
+                      {/* Próbamérés */}
+                      {grade === 7 && COMPETENCY_DATA[7]?.some(m => m.id.includes('probameres')) && (
+                        <ActivityPlaceholder
+                          title="Próbamérés"
+                          subtitle="Kiegészítő tesztek"
+                          type="Kezdés"
+                          onClick={() => {
+                            handleActivitySelect('competency-mock-assessment', 'g7-competency', undefined, 7);
+                          }}
+                          icon={<Target className="w-6 h-6 text-indigo-600" />}
+                          color="indigo"
+                        />
+                      )}
+                      
+                      {/* Várakozás üzenet */}
+                      {grade === 8 && (
+                        <div className="p-6 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center text-center opacity-70 col-span-2">
+                          <div className="text-3xl mb-2">🚧</div>
+                          <p className="text-sm font-bold text-slate-500">Hamarosan érkezik...</p>
+                        </div>
+                      )}
+                    </div>
+                  </section>
+                );
+              })}
             </div>
           </div>
         )}

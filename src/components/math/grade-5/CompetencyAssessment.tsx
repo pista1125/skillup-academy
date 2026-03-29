@@ -406,9 +406,6 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
           <div className="absolute -top-10 -right-10 opacity-10">
             <Sparkles className="w-48 h-48" />
           </div>
-          <Button variant="ghost" size="sm" onClick={onBack} className="text-white hover:bg-white/20 border border-white/20 mb-4 rounded-xl px-4 h-8 text-xs">
-            <ArrowLeft className="w-3.5 h-3.5 mr-2" /> Vissza a tárgyakhoz
-          </Button>
           <div className="relative z-10">
             <h2 className="text-xl md:text-2xl font-black tracking-tight mb-1">Kompetencia Mérés</h2>
             <p className="text-blue-100 text-[13px] md:text-sm font-medium opacity-90">Havi interaktív feladatsorok {grade}. osztályosoknak</p>

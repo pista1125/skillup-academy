@@ -490,7 +490,7 @@ export const mathTopics: MathTopic[] = [
     description: '10 havi kompetencia-alapú feladatsor 4-7. osztályosoknak, letölthető PDF eredménnyel.',
     icon: '🎯',
     color: 'from-blue-600 to-indigo-700',
-    grades: [4, 5, 6, 7],
+    grades: [],
   },
 ];
 
