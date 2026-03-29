@@ -52,29 +52,9 @@ export default function MemoryGame() {
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Load levels from local storage
+  // Use hardcoded levels for the game, ignore local storage modifications
   useEffect(() => {
-    const saved = localStorage.getItem('memory_game_custom_levels');
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        const merged = DEFAULT_LEVELS.map((level, lIdx) => ({
-          ...level,
-          exercises: level.exercises.map((defEx, exIdx) => {
-             const customEx = parsed[lIdx] && parsed[lIdx][exIdx];
-             if (customEx && customEx.items && customEx.items.length > 0) {
-               return customEx;
-             }
-             return defEx;
-          })
-        }));
-        setAllLevels(merged);
-      } catch (e) {
-        console.error("Failed to load saved levels", e);
-      }
-    } else {
-      setAllLevels(DEFAULT_LEVELS);
-    }
+    setAllLevels(DEFAULT_LEVELS);
   }, [isEditorMode]);
 
   useEffect(() => {
