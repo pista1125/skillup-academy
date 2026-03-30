@@ -286,8 +286,9 @@ export function MatrixSortingGame({ onBack }: { onBack: () => void }) {
     const [taskIndex, setTaskIndex] = useState(0);
     const [tasks, setTasks] = useState<MatrixTask[]>([]);
     
-    // key: item id -> value: {row, col}
-    const [placedItems, setPlacedItems] = useState<Record<string, { row: number, col: number }>>({});
+    // key: task index -> item id -> {row, col}
+    const [allPlacedItems, setAllPlacedItems] = useState<Record<number, Record<string, { row: number, col: number }>>>({});
+    const [solvedTasks, setSolvedTasks] = useState<Record<number, boolean>>({});
     const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
     
     // Evaluation state
@@ -296,13 +297,24 @@ export function MatrixSortingGame({ onBack }: { onBack: () => void }) {
     const [correctCount, setCorrectCount] = useState(0); // whole tasks completely correct
     const [xpEarned, setXpEarned] = useState(0);
 
+    const placedItems = allPlacedItems[taskIndex] || {};
+
+    const updatePlacedItems = useCallback((updater: Record<string, { row: number, col: number }> | ((prev: Record<string, { row: number, col: number }>) => Record<string, { row: number, col: number }>)) => {
+        setAllPlacedItems(prev => {
+            const prevForTask = prev[taskIndex] || {};
+            const nextForTask = typeof updater === 'function' ? updater(prevForTask) : updater;
+            return { ...prev, [taskIndex]: nextForTask };
+        });
+    }, [taskIndex]);
+
     const startQuiz = useCallback((level: Difficulty) => {
         setDifficulty(level);
         // Shuffle tasks randomly but take 5 (all of them since there are 5 per level)
         const shuffled = [...TASKS[level]].sort(() => Math.random() - 0.5);
         setTasks(shuffled);
         setTaskIndex(0);
-        setPlacedItems({});
+        setAllPlacedItems({});
+        setSolvedTasks({});
         setSelectedItemId(null);
         setHasChecked(false);
         setQuizComplete(false);
@@ -318,10 +330,10 @@ export function MatrixSortingGame({ onBack }: { onBack: () => void }) {
     }, [currentTask, placedItems]);
 
     const handleItemClick = (id: string) => {
-        if (hasChecked) return;
+        if (hasChecked || solvedTasks[taskIndex]) return;
         // If clicking an already placed item, move it back to bank
         if (placedItems[id]) {
-            setPlacedItems(prev => {
+            updatePlacedItems(prev => {
                 const next = { ...prev };
                 delete next[id];
                 return next;
@@ -339,9 +351,9 @@ export function MatrixSortingGame({ onBack }: { onBack: () => void }) {
     };
 
     const handleCellClick = (r: number, c: number) => {
-        if (hasChecked || !selectedItemId) return;
+        if (hasChecked || !selectedItemId || solvedTasks[taskIndex]) return;
 
-        setPlacedItems(prev => ({
+        updatePlacedItems(prev => ({
             ...prev,
             [selectedItemId]: { row: r, col: c }
         }));
@@ -364,17 +376,28 @@ export function MatrixSortingGame({ onBack }: { onBack: () => void }) {
 
         if (allCorrect) {
             triggerConfetti();
-            setCorrectCount(prev => prev + 1);
-            setXpEarned(prev => prev + (difficulty === 'easy' ? 10 : difficulty === 'medium' ? 15 : 20));
+            if (!solvedTasks[taskIndex]) {
+                setCorrectCount(prev => prev + 1);
+                setXpEarned(prev => prev + (difficulty === 'easy' ? 10 : difficulty === 'medium' ? 15 : 20));
+                setSolvedTasks(prev => ({ ...prev, [taskIndex]: true }));
+            }
             
             setTimeout(() => {
-                nextTask();
+                const newSolved = { ...solvedTasks, [taskIndex]: true };
+                if (Object.keys(newSolved).length === tasks.length) {
+                    setQuizComplete(true);
+                    setTimeout(triggerConfetti, 100);
+                } else {
+                    if (taskIndex < tasks.length - 1) {
+                        handleNext();
+                    }
+                }
             }, 2500);
         } else {
             // Flash wrong items and return them to the bank after a short delay
             setHasChecked(true); // locks UI
             setTimeout(() => {
-                setPlacedItems(prev => {
+                updatePlacedItems(prev => {
                     const next = { ...prev };
                     currentMismatches.forEach(id => delete next[id]);
                     return next;
@@ -384,10 +407,17 @@ export function MatrixSortingGame({ onBack }: { onBack: () => void }) {
         }
     };
 
-    const nextTask = () => {
+    const handlePrev = () => {
+        if (taskIndex > 0) {
+            setTaskIndex(prev => prev - 1);
+            setSelectedItemId(null);
+            setHasChecked(false);
+        }
+    };
+
+    const handleNext = () => {
         if (taskIndex < tasks.length - 1) {
             setTaskIndex(prev => prev + 1);
-            setPlacedItems({});
             setSelectedItemId(null);
             setHasChecked(false);
         } else {
@@ -475,7 +505,7 @@ export function MatrixSortingGame({ onBack }: { onBack: () => void }) {
                         <div className="grid grid-cols-2 gap-4 text-center">
                             <div className="bg-emerald-50 border-2 border-emerald-100 p-4 rounded-[1.5rem]">
                                 <span className="block text-[10px] font-bold text-emerald-400 uppercase tracking-widest mb-1">Eredmény</span>
-                                <span className="text-4xl font-black text-emerald-600">{tasks.length}/{tasks.length}</span>
+                                <span className="text-4xl font-black text-emerald-600">{Object.keys(solvedTasks).length}/{tasks.length}</span>
                             </div>
                             <div className="bg-blue-50 border-2 border-blue-100 p-4 rounded-[1.5rem] flex flex-col justify-center items-center">
                                 <span className="block text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-1">XP szerzett</span>
@@ -537,11 +567,23 @@ export function MatrixSortingGame({ onBack }: { onBack: () => void }) {
                 <Button variant="ghost" size="icon" className="hover:bg-slate-100 text-slate-400" onClick={() => setDifficulty(null)}>
                     <ArrowLeft className="w-6 h-6" />
                 </Button>
-                <div className="flex-1 px-8">
+                <div className="flex-1 px-8 hidden md:block">
                     <ProgressBar current={taskIndex + 1} total={tasks.length} variant="math" size="lg" />
                 </div>
-                <div className="flex items-center gap-2 bg-indigo-100 text-indigo-700 px-4 py-1.5 rounded-full font-bold">
-                    <span>{taskIndex + 1} / {tasks.length}</span>
+                <div className="flex items-center gap-2">
+                    <Button variant="outline" size="icon" onClick={handlePrev} disabled={taskIndex === 0} className="rounded-xl h-10 w-10">
+                        <ChevronRight className="w-5 h-5 rotate-180" />
+                    </Button>
+                    <div className="flex items-center gap-2 bg-indigo-100 text-indigo-700 px-4 py-2 rounded-xl font-bold">
+                        <span>{taskIndex + 1} / {tasks.length}</span>
+                    </div>
+                    <Button 
+                       variant={taskIndex === tasks.length - 1 ? "default" : "outline"} 
+                       onClick={handleNext} 
+                       className={cn("rounded-xl h-10 px-3", taskIndex === tasks.length - 1 && "bg-indigo-500 hover:bg-indigo-600 text-white")}
+                    >
+                        {taskIndex === tasks.length - 1 ? "Befejezés" : <ChevronRight className="w-5 h-5" />}
+                    </Button>
                 </div>
             </div>
 
@@ -641,18 +683,26 @@ export function MatrixSortingGame({ onBack }: { onBack: () => void }) {
                     </div>
 
                     <div className="mt-4 flex justify-end">
-                        <Button 
-                            disabled={!allPlaced || hasChecked}
-                            onClick={checkAnswers}
-                            className={cn(
-                                "h-14 px-10 font-black text-lg rounded-2xl w-full md:w-auto shadow-xl transition-all",
-                                allPlaced 
-                                    ? "bg-emerald-500 hover:bg-emerald-600 text-white hover:-translate-y-1 shadow-emerald-500/30" 
-                                    : "bg-slate-100 text-slate-400 cursor-not-allowed"
-                            )}
-                        >
-                            {!hasChecked ? 'Kész, ellenőrzés!' : 'Ellenőrzés folyamatban...'}
-                        </Button>
+                        {!solvedTasks[taskIndex] && (
+                            <Button 
+                                disabled={!allPlaced || hasChecked}
+                                onClick={checkAnswers}
+                                className={cn(
+                                    "h-14 px-10 font-black text-lg rounded-2xl w-full md:w-auto shadow-xl transition-all",
+                                    allPlaced 
+                                        ? "bg-emerald-500 hover:bg-emerald-600 text-white hover:-translate-y-1 shadow-emerald-500/30" 
+                                        : "bg-slate-100 text-slate-400 cursor-not-allowed"
+                                )}
+                            >
+                                {!hasChecked ? 'Kész, ellenőrzés!' : 'Ellenőrzés folyamatban...'}
+                            </Button>
+                        )}
+                        {solvedTasks[taskIndex] && (
+                            <div className="h-14 px-8 rounded-2xl bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center gap-2 border-2 border-emerald-200">
+                                <CheckCircle2 className="w-6 h-6" />
+                                Helyes megoldás!
+                            </div>
+                        )}
                     </div>
 
                 </CardContent>
