@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   ArrowLeft,
@@ -21,10 +21,9 @@ import { notoSansRegularBase64 } from '@/assets/fonts/NotoSans-Regular-base64';
 import { notoSansBoldBase64 } from '@/assets/fonts/NotoSans-Bold-base64';
 import { useAuth } from '@/contexts/AuthContext';
 
-interface CompetencyAssessmentProps {
+interface MonthlyAssessmentProps {
   onBack: () => void;
   grade: number;
-  mode?: 'monthly' | 'mock';
 }
 
 const FEEDBACK_SECTIONS = {
@@ -57,13 +56,14 @@ const FEEDBACK_SECTIONS = {
   }
 };
 
-export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: CompetencyAssessmentProps) {
+export function MonthlyAssessment({ onBack, grade }: MonthlyAssessmentProps) {
   const { profile, user } = useAuth();
   const userName = profile?.full_name || user?.email || 'Tanuló';
   const gradeData = COMPETENCY_DATA[grade] || [];
-  const filteredData = mode === 'mock' 
-    ? gradeData.filter(m => m.id.includes('probameres'))
-    : gradeData.filter(m => !m.id.includes('probameres'));
+  
+  const filteredData = useMemo(() => {
+    return gradeData.filter(m => !m.id.includes('probameres') && !m.id.includes('topic'));
+  }, [gradeData]);
 
   const [selectedMonth, setSelectedMonth] = useState<MonthlyCompetency | null>(null);
   const [view, setView] = useState<'months' | 'options' | 'test' | 'feedback'>('months');
@@ -165,7 +165,8 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
       doc.setFont('NotoSans', 'bold');
       doc.setTextColor(37, 99, 235);
       doc.setFontSize(22);
-      doc.text(`Kompetencia Mérés - ${selectedMonth.name}`, pageW / 2, 20, { align: 'center' });
+      const title = 'Kompetencia Mérés';
+      doc.text(`${title} - ${selectedMonth.name}`, pageW / 2, 20, { align: 'center' });
       
       doc.setFontSize(14);
       doc.setTextColor(100, 100, 100);
@@ -251,7 +252,6 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
         currentY += 12;
       });
 
-      // Add Watermark
       const pageCount = (doc as any).internal.getNumberOfPages();
       for (let i = 1; i <= pageCount; i++) {
           doc.setPage(i);
@@ -285,7 +285,7 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
       const contentW = pageW - marginX * 2;
       
       doc.setFont('NotoSans', 'bold');
-      doc.setTextColor(30, 41, 59); // Slate-800
+      doc.setTextColor(30, 41, 59);
       doc.setFontSize(22);
       doc.text('TANULÓI ÖNÉRTÉKELŐ LAP', pageW / 2, 20, { align: 'center' });
       
@@ -298,7 +298,6 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
       let currentY = 53;
       const fixText = (text: string, w: number) => doc.splitTextToSize(text, w);
 
-      // Section 1: Understanding (Table-like)
       doc.setFont('NotoSans', 'bold');
       doc.text(FEEDBACK_SECTIONS.understanding.title, marginX, currentY);
       currentY += 8;
@@ -310,7 +309,6 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
       });
       currentY += 4;
 
-      // Section 2: Performance
       doc.setFont('NotoSans', 'bold');
       doc.text(FEEDBACK_SECTIONS.performance.title, marginX, currentY);
       currentY += 8;
@@ -322,7 +320,6 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
       });
       currentY += 4;
 
-      // Section 3: Difficulties
       doc.setFont('NotoSans', 'bold');
       doc.text(FEEDBACK_SECTIONS.difficulties.title, marginX, currentY);
       currentY += 8;
@@ -334,7 +331,6 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
       doc.text(diffLines, marginX + 5, currentY);
       currentY += diffLines.length * 5 + 6;
 
-      // Section 4 & 5
       doc.setFont('NotoSans', 'bold');
       doc.text('4. Mi ment jól?', marginX, currentY);
       currentY += 7;
@@ -353,7 +349,6 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
 
       if (currentY > 230) { doc.addPage(); currentY = 20; }
 
-      // Section 6: Improvement
       doc.setFont('NotoSans', 'bold');
       doc.text(FEEDBACK_SECTIONS.improvement.title, marginX, currentY);
       currentY += 8;
@@ -365,7 +360,6 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
       doc.text(impLines, marginX + 5, currentY);
       currentY += impLines.length * 5 + 8;
 
-      // Section 7: Satisfaction
       doc.setFont('NotoSans', 'bold');
       doc.text('7. Mennyire voltam elégedett a munkámmal? (1-5)', marginX, currentY);
       currentY += 8;
@@ -373,7 +367,6 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
       doc.text(`Értékelés: ${feedbackAnswers.satisfaction || '-'} / 5`, marginX + 5, currentY);
       currentY += 12;
 
-      // Section 8: Teacher
       doc.setFont('NotoSans', 'bold');
       doc.text('8. Tanári megjegyzés', marginX, currentY);
       currentY += 8;
@@ -381,7 +374,6 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
       const tLines = fixText(feedbackAnswers.teacherRemark || '__________________________________________________________________', contentW - 10);
       doc.text(tLines, marginX + 5, currentY);
 
-      // Add Watermark
       const pageCount = (doc as any).internal.getNumberOfPages();
       for (let i = 1; i <= pageCount; i++) {
           doc.setPage(i);
@@ -407,8 +399,12 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
             <Sparkles className="w-48 h-48" />
           </div>
           <div className="relative z-10">
-            <h2 className="text-xl md:text-2xl font-black tracking-tight mb-1">Kompetencia Mérés</h2>
-            <p className="text-blue-100 text-[13px] md:text-sm font-medium opacity-90">Havi interaktív feladatsorok {grade}. osztályosoknak</p>
+            <h2 className="text-xl md:text-2xl font-black tracking-tight mb-1">
+              Kompetencia Mérés
+            </h2>
+            <p className="text-blue-100 text-[13px] md:text-sm font-medium opacity-90">
+              Havi interaktív feladatsorok {grade}. osztályosoknak
+            </p>
           </div>
         </div>
 
@@ -707,13 +703,12 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
               </h3>
               <div className="flex justify-between items-center bg-white p-6 rounded-3xl border-2 border-slate-50">
                 {[
-                  { val: 1, label: '😞' },
-                  { val: 2, label: '😐' },
+                  { val: 1, label: '☹️' },
+                  { val: 2, label: '🙁' },
                   { val: 3, label: '🙂' },
                   { val: 4, label: '😊' },
                   { val: 5, label: '😄' }
-                ].map(item => (
-                  <button
+                ].map(item => (<button
                     key={item.val}
                     onClick={() => setFeedbackAnswers(prev => ({ ...prev, satisfaction: item.val }))}
                     className={cn(
@@ -748,7 +743,7 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
           <div className="pt-6 border-t border-slate-100 mt-6">
             <Button 
               disabled={!isComplete}
-              onClick={() => setIsFeedbackSubmitted(true)}
+              onClick={() => { setIsFeedbackSubmitted(true); window.scrollTo(0, 0); }}
               className="w-full h-13 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-lg shadow-md shadow-blue-100 disabled:opacity-50 transition-all flex items-center justify-center gap-2.5"
             >
               <CheckCircle2 className="w-5 h-5" /> Kitöltés befejezése
@@ -1000,7 +995,7 @@ export function CompetencyAssessment({ onBack, grade, mode = 'monthly' }: Compet
                         <div className="flex-1 p-2.5 bg-slate-50 border-2 border-slate-100 rounded-lg font-bold text-slate-700 text-sm shadow-sm">
                           {pair.left}
                         </div>
-                        <div className="text-blue-500 font-black text-sm">➔</div>
+                        <div className="text-blue-500 font-black text-sm">âž”</div>
                         <div className="relative">
                           <input
                             type="text"

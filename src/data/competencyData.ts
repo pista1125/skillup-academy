@@ -3713,9 +3713,33 @@ const GRADE_7_DATA: MonthlyCompetency[] = [
 ];
 
 
+const GRADE_6_TOPICS_DATA: MonthlyCompetency[] = [
+  { id: 'g6-topic-1-1', name: 'Számok világa', topic: 'Számfogalom, helyiértékek, számhalmazok', tasks: [{ id: 'g6-topic-1-1-p', type: 'number-input', question: 'Ez a témakör hamarosan bővül feladatokkal! Írd be a 0-t a folytatáshoz.', correctAnswer: 0, points: 1, context: 'Témakörönkénti felkészülés' }] },
+  { id: 'g6-topic-1-2', name: 'Műveletmester', topic: 'Alapműveletek, sorrend, kerekítés', tasks: [{ id: 'g6-topic-1-2-p', type: 'number-input', question: 'Ez a témakör hamarosan bővül feladatokkal! Írd be a 0-t a folytatáshoz.', correctAnswer: 0, points: 1, context: 'Témakörönkénti felkészülés' }] },
+  { id: 'g6-topic-1-3', name: 'Mérőműhely', topic: 'Mértékegységek, átváltások, időszámítás', tasks: [{ id: 'g6-topic-1-3-p', type: 'number-input', question: 'Ez a témakör hamarosan bővül feladatokkal! Írd be a 0-t a folytatáshoz.', correctAnswer: 0, points: 1, context: 'Témakörönkénti felkészülés' }] },
+  { id: 'g6-topic-1-4', name: 'Oszthatósági kaland', topic: 'Osztók, többszörösök, szabályok', tasks: [{ id: 'g6-topic-1-4-p', type: 'number-input', question: 'Ez a témakör hamarosan bővül feladatokkal! Írd be a 0-t a folytatáshoz.', correctAnswer: 0, points: 1, context: 'Témakörönkénti felkészülés' }] },
+  { id: 'g6-topic-2-1', name: 'Összefüggések', topic: 'Hozzárendelések, táblázatok, grafikonok', tasks: [{ id: 'g6-topic-2-1-p', type: 'number-input', question: 'Ez a témakör hamarosan bővül feladatokkal! Írd be a 0-t a folytatáshoz.', correctAnswer: 0, points: 1, context: 'Témakörönkénti felkészülés' }] },
+  { id: 'g6-topic-2-2', name: 'Aránypárok', topic: 'Egyenes és fordított arányosság', tasks: [{ id: 'g6-topic-2-2-p', type: 'number-input', question: 'Ez a témakör hamarosan bővül feladatokkal! Írd be a 0-t a folytatáshoz.', correctAnswer: 0, points: 1, context: 'Témakörönkénti felkészülés' }] },
+  { id: 'g6-topic-2-3', name: 'Betűs kifejezések', topic: 'Paraméterek, egyenletek, egyenlőtlenségek', tasks: [{ id: 'g6-topic-2-3-p', type: 'number-input', question: 'Ez a témakör hamarosan bővül feladatokkal! Írd be a 0-t a folytatáshoz.', correctAnswer: 0, points: 1, context: 'Témakörönkénti felkészülés' }] },
+  { id: 'g6-topic-2-4', name: 'Mintázatok & Sorok', topic: 'Sorozatok, szabálykövetés', tasks: [{ id: 'g6-topic-2-4-p', type: 'number-input', question: 'Ez a témakör hamarosan bővül feladatokkal! Írd be a 0-t a folytatáshoz.', correctAnswer: 0, points: 1, context: 'Témakörönkénti felkészülés' }] },
+  { id: 'g6-topic-3-1', name: 'Síkgeometria', topic: 'Síkbeli alakzatok, transzformációk, terület-kerület', tasks: [{ id: 'g6-topic-3-1-p', type: 'number-input', question: 'Ez a témakör hamarosan bővül feladatokkal! Írd be a 0-t a folytatáshoz.', correctAnswer: 0, points: 1, context: 'Témakörönkénti felkészülés' }] },
+  { id: 'g6-topic-3-2', name: 'Térgeometria', topic: 'Testek ábrázolása, paraméterei, felszín-térfogat', tasks: [{ id: 'g6-topic-3-2-p', type: 'number-input', question: 'Ez a témakör hamarosan bővül feladatokkal! Írd be a 0-t a folytatáshoz.', correctAnswer: 0, points: 1, context: 'Témakörönkénti felkészülés' }] },
+  { id: 'g6-topic-3-3', name: 'Iránytű', topic: 'Tájékozódás, irányok, koordináta-rendszer', tasks: [{ id: 'g6-topic-3-3-p', type: 'number-input', question: 'Ez a témakör hamarosan bővül feladatokkal! Írd be a 0-t a folytatáshoz.', correctAnswer: 0, points: 1, context: 'Témakörönkénti felkészülés' }] },
+  { id: 'g6-topic-4-1', name: 'Adatgyűjtés', topic: 'Statisztikai adatok gyűjtése, elemzése', tasks: [{ id: 'g6-topic-4-1-p', type: 'number-input', question: 'Ez a témakör hamarosan bővül feladatokkal! Írd be a 0-t a folytatáshoz.', correctAnswer: 0, points: 1, context: 'Témakörönkénti felkészülés' }] },
+  { id: 'g6-topic-4-2', name: 'Grafikonmágus', topic: 'Adatábrázolás különböző formákban', tasks: [{ id: 'g6-topic-4-2-p', type: 'number-input', question: 'Ez a témakör hamarosan bővül feladatokkal! Írd be a 0-t a folytatáshoz.', correctAnswer: 0, points: 1, context: 'Témakörönkénti felkészülés' }] },
+  { id: 'g6-topic-4-3', name: 'Átlagszámítás', topic: 'Statisztikai számítások: átlag, medián, módusz', tasks: [{ id: 'g6-topic-4-3-p', type: 'number-input', question: 'Ez a témakör hamarosan bővül feladatokkal! Írd be a 0-t a folytatáshoz.', correctAnswer: 0, points: 1, context: 'Témakörönkénti felkészülés' }] },
+  { id: 'g6-topic-4-4', name: 'Elemző műhely', topic: 'Statisztikai módszerek és értelmezés', tasks: [{ id: 'g6-topic-4-4-p', type: 'number-input', question: 'Ez a témakör hamarosan bővül feladatokkal! Írd be a 0-t a folytatáshoz.', correctAnswer: 0, points: 1, context: 'Témakörönkénti felkészülés' }] },
+  { id: 'g6-topic-4-5', name: 'Szerencsefaktor', topic: 'Valószínűség-számítás alapjai', tasks: [{ id: 'g6-topic-4-5-p', type: 'number-input', question: 'Ez a témakör hamarosan bővül feladatokkal! Írd be a 0-t a folytatáshoz.', correctAnswer: 0, points: 1, context: 'Témakörönkénti felkészülés' }] },
+  { id: 'g6-topic-4-6', name: 'Lehetőségek száma', topic: 'Kombinatorika, összeszámlálás', tasks: [{ id: 'g6-topic-4-6-p', type: 'number-input', question: 'Ez a témakör hamarosan bővül feladatokkal! Írd be a 0-t a folytatáshoz.', correctAnswer: 0, points: 1, context: 'Témakörönkénti felkészülés' }] },
+  { id: 'g6-topic-4-7', name: 'Útvonaltervező', topic: 'Eseménygrafok, élek és utak', tasks: [{ id: 'g6-topic-4-7-p', type: 'number-input', question: 'Ez a témakör hamarosan bővül feladatokkal! Írd be a 0-t a folytatáshoz.', correctAnswer: 0, points: 1, context: 'Témakörönkénti felkészülés' }] },
+  { id: 'g6-topic-4-8', name: 'Halmazok világa', topic: 'Halmazműveletek és tulajdonságok', tasks: [{ id: 'g6-topic-4-8-p', type: 'number-input', question: 'Ez a témakör hamarosan bővül feladatokkal! Írd be a 0-t a folytatáshoz.', correctAnswer: 0, points: 1, context: 'Témakörönkénti felkészülés' }] },
+  { id: 'g6-topic-4-9', name: 'Logikai fejtörők', topic: 'Logikai műveletek és igazságértékek', tasks: [{ id: 'g6-topic-4-9-p', type: 'number-input', question: 'Ez a témakör hamarosan bővül feladatokkal! Írd be a 0-t a folytatáshoz.', correctAnswer: 0, points: 1, context: 'Témakörönkénti felkészülés' }] }
+];
+
 export const COMPETENCY_DATA: Record<number, MonthlyCompetency[]> = {
   4: GRADE_4_DATA,
   5: GRADE_5_DATA,
-  6: GRADE_6_DATA,
+  6: [...GRADE_6_DATA, ...GRADE_6_TOPICS_DATA],
   7: GRADE_7_DATA
 };
+

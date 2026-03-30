@@ -77,7 +77,12 @@ import { DirectProportionQuiz } from "@/components/math/grade-6/DirectProportion
 import { MatrixSortingGame } from "@/components/math/games/MatrixSortingGame";
 import MemoryGameComponent from "@/components/math/games/MemoryGame";
 import HanoiGame from "@/components/math/games/HanoiGame";
-import { CompetencyAssessment } from "@/components/math/grade-4/CompetencyAssessment";
+import { MonthlyAssessment as G4Monthly } from "@/components/math/competency/4/MonthlyAssessment";
+import { MonthlyAssessment as G5Monthly } from "@/components/math/competency/5/MonthlyAssessment";
+import { MonthlyAssessment as G6Monthly } from "@/components/math/competency/6/MonthlyAssessment";
+import { TopicsAssessment as G6Topics } from "@/components/math/competency/6/TopicsAssessment";
+import { MonthlyAssessment as G7Monthly } from "@/components/math/competency/7/MonthlyAssessment";
+import { MockAssessment as G7Mock } from "@/components/math/competency/7/MockAssessment";
 import { COMPETENCY_DATA } from '@/data/competencyData';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
@@ -149,7 +154,7 @@ type ActivityType =
   | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search' | 'memory-game' | 'equation-balance-quiz'
   | 'ratio-intro' | 'ratio-creator' | 'g7-word-problems' | 'direct-proportion-quiz' | 'matrix-sorting-game'
   | 'toto-maker' | 'chess-game' | 'matching-creator'
-  | 'hanoi-tower' | 'competency-assessment';
+  | 'hanoi-tower' | 'competency-assessment' | 'competency-mock-assessment' | 'competency-topics-assessment';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
 const slugToGrade = (slug: string): GradeLevel | null => {
@@ -410,9 +415,8 @@ export default function MathPage() {
       path = topic ? `/jatekok/${topic}` : '/jatekok';
     } else if (newView === 'competency-select') {
       path = '/kompetencia';
-    } else if (newView === 'activity' && (activity === 'competency-assessment' || activity === 'competency-mock-assessment') && grade) {
       // Kompetencia activity specific routing
-      path = `/kompetencia/${gradeToSlug(grade)}${activity === 'competency-mock-assessment' ? '-mock' : ''}`;
+      path = `/kompetencia/${gradeToSlug(grade)}${activity === 'competency-mock-assessment' ? '-mock' : activity === 'competency-topics-assessment' ? '-topics' : ''}`;
     } else if (newView === 'activity' && !grade) {
       // Handle tool/game activity without grade
       const isGame = GAMES.some(g => g.id === activity);
@@ -530,7 +534,7 @@ export default function MathPage() {
       finalActivityType = 'puzzle-maker';
     } else if (topicId === 'symmetry-construction') {
       finalActivityType = 'symmetry-construction';
-    } else if (topicId === 'competency-assessment' || topicId === 'competency-mock-assessment') {
+    } else if (topicId === 'competency-assessment' || topicId === 'competency-mock-assessment' || topicId === 'competency-topics-assessment') {
       finalActivityType = topicId as ActivityType;
     } else {
       finalActivityType = 'quiz';
@@ -605,7 +609,7 @@ export default function MathPage() {
       if (selectedTopic === 'geometry' && selectedGrade === 6) {
         nextView = 'geometry-select';
         nextTopic = null;
-      } else if (activityType === 'competency-assessment' || activityType === 'competency-mock-assessment') {
+      } else if (activityType === 'competency-assessment' || activityType === 'competency-mock-assessment' || activityType === 'competency-topics-assessment') {
         nextView = 'competency-select';
         nextTopic = null;
         nextGrade = null;
@@ -2711,6 +2715,20 @@ export default function MathPage() {
                           color="emerald"
                         />
                       )}
+
+                      {/* Témakörök (Grade 6) */}
+                      {grade === 6 && (
+                        <ActivityPlaceholder
+                          title="Témakörök"
+                          subtitle="Témakörönkénti felkészítés"
+                          type="Kezdés"
+                          onClick={() => {
+                            handleActivitySelect('competency-topics-assessment', 'g6-competency', undefined, 6);
+                          }}
+                          icon={<Shapes className="w-6 h-6 text-blue-600" />}
+                          color="blue"
+                        />
+                      )}
                       
                       {/* Próbamérés */}
                       {grade === 7 && COMPETENCY_DATA[7]?.some(m => m.id.includes('probameres')) && (
@@ -2947,11 +2965,27 @@ export default function MathPage() {
                 )}
 
                 {activityType === 'competency-assessment' && selectedGrade && (
-                  <CompetencyAssessment onBack={handleBack} grade={selectedGrade} mode="monthly" />
+                  (() => {
+                    if (selectedGrade === 4) return <G4Monthly onBack={handleBack} grade={4} />;
+                    if (selectedGrade === 5) return <G5Monthly onBack={handleBack} grade={5} />;
+                    if (selectedGrade === 6) return <G6Monthly onBack={handleBack} grade={6} />;
+                    if (selectedGrade === 7) return <G7Monthly onBack={handleBack} grade={7} />;
+                    return <G8Monthly onBack={handleBack} grade={8} />;
+                  })()
                 )}
 
                 {activityType === 'competency-mock-assessment' && selectedGrade && (
-                  <CompetencyAssessment onBack={handleBack} grade={selectedGrade} mode="mock" />
+                  (() => {
+                    if (selectedGrade === 4) return <G4Mock onBack={handleBack} grade={4} />;
+                    if (selectedGrade === 5) return <G5Mock onBack={handleBack} grade={5} />;
+                    if (selectedGrade === 6) return <G6Mock onBack={handleBack} grade={6} />;
+                    if (selectedGrade === 7) return <G7Mock onBack={handleBack} grade={7} />;
+                    return <G8Mock onBack={handleBack} grade={8} />;
+                  })()
+                )}
+
+                {activityType === 'competency-topics-assessment' && selectedGrade === 6 && (
+                  <G6Topics onBack={handleBack} grade={6} />
                 )}
 
                 {activityType === 'chess-game' && (
