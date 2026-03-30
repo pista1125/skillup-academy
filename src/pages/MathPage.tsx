@@ -73,6 +73,8 @@ import { WordProblemsQuiz } from "@/components/math/grade-5/WordProblemsQuiz";
 import { Grade7GeometryModule } from "@/components/math/grade-7/Grade7GeometryModule";
 import { RatioIntroQuiz } from "@/components/math/grade-6/RatioIntroQuiz";
 import { RatioCreatorQuiz } from "@/components/math/grade-6/RatioCreatorQuiz";
+import { DirectProportionQuiz } from "@/components/math/grade-6/DirectProportionQuiz";
+import { MatrixSortingGame } from "@/components/math/games/MatrixSortingGame";
 import MemoryGameComponent from "@/components/math/games/MemoryGame";
 import HanoiGame from "@/components/math/games/HanoiGame";
 import { CompetencyAssessment } from "@/components/math/grade-4/CompetencyAssessment";
@@ -106,6 +108,7 @@ import {
   Heart,
   Grid3X3,
   Columns,
+  Table,
   Coins,
   LayoutGrid,
   Repeat,
@@ -144,7 +147,7 @@ type ActivityType =
   | 'sudoku' | 'sudoku-generator' | 'venn-interpretation-quiz'
   | 'venn-reading-objects' | 'venn-reading-numbers' | 'axial-symmetry' | 'symmetry-error' | 'symmetry-construction' | 'axial-symmetry-quiz' | 'axial-symmetry-presentation'
   | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search' | 'memory-game' | 'equation-balance-quiz'
-  | 'ratio-intro' | 'ratio-creator' | 'g7-word-problems'
+  | 'ratio-intro' | 'ratio-creator' | 'g7-word-problems' | 'direct-proportion-quiz' | 'matrix-sorting-game'
   | 'toto-maker' | 'chess-game' | 'matching-creator'
   | 'hanoi-tower' | 'competency-assessment';
 
@@ -912,7 +915,7 @@ export default function MathPage() {
       );
     }
 
-    if (topicId === 'g4-grouping' || topicId === 'g4-written-mult' || topicId === 'g4-time') {
+    if (topicId === 'g4-written-mult' || topicId === 'g4-time') {
       return (
         <div className="py-2">
           <div className="mb-4 p-4 bg-blue-50/50 rounded-2xl border border-blue-100 flex items-center gap-3">
@@ -1156,6 +1159,26 @@ export default function MathPage() {
                 onClick={() => handleActivitySelect('reflection-quiz', topicId)}
                 icon={<Sparkles className="w-6 h-6" />}
                 color="purple"
+              />
+            </div>
+          </section>
+        </div>
+      );
+    }
+
+    if (topicId === 'g4-grouping') {
+      return (
+        <div className="flex flex-col gap-10 py-6">
+          <section>
+            <SectionHeader id="g4-matrix-sorting" number={1} title="Válogatások táblázatba" color="indigo" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Táblázatos válogatás"
+                subtitle="Elhelyezés a 2x2-es hálóban"
+                type="Játék"
+                onClick={() => handleActivitySelect('matrix-sorting-game', topicId)}
+                icon={<Table className="w-6 h-6" />}
+                color="indigo"
               />
             </div>
           </section>
@@ -1659,6 +1682,16 @@ export default function MathPage() {
 
           <section>
             <SectionHeader number={3} title="Egyenes arányosság" color="yellow" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-4">
+              <ActivityPlaceholder
+                title="Kvíz"
+                subtitle="Egyenesen arányos?"
+                type="Teszt"
+                onClick={() => handleActivitySelect('direct-proportion-quiz', topicId)}
+                icon={<Scale className="w-6 h-6" />}
+                color="orange"
+              />
+            </div>
             <div className="py-2">
               <MaterialGallery
                 grade={6}
@@ -2939,6 +2972,14 @@ export default function MathPage() {
 
                 {activityType === 'ratio-creator' && (
                    <RatioCreatorQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'direct-proportion-quiz' && (
+                   <DirectProportionQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'matrix-sorting-game' && (
+                   <MatrixSortingGame onBack={handleBack} />
                 )}
 
                 {activityType === 'materials' && (
