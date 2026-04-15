@@ -70,6 +70,7 @@ import ChessGame from "@/components/math/games/ChessGame";
 import { MatchingCreator } from "@/components/math/tools/MatchingCreator";
 import { EquationBalanceQuiz } from "@/components/math/grade-7/EquationBalanceQuiz";
 import { WordProblemsQuiz } from "@/components/math/grade-5/WordProblemsQuiz";
+import PerimeterQuiz from "@/components/math/grade-5/PerimeterQuiz";
 import { Grade7GeometryModule } from "@/components/math/grade-7/Grade7GeometryModule";
 import { RatioIntroQuiz } from "@/components/math/grade-6/RatioIntroQuiz";
 import { RatioCreatorQuiz } from "@/components/math/grade-6/RatioCreatorQuiz";
@@ -154,7 +155,7 @@ type ActivityType =
   | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search' | 'memory-game' | 'equation-balance-quiz'
   | 'ratio-intro' | 'ratio-creator' | 'g7-word-problems' | 'direct-proportion-quiz' | 'matrix-sorting-game'
   | 'toto-maker' | 'chess-game' | 'matching-creator'
-  | 'hanoi-tower' | 'competency-assessment' | 'competency-mock-assessment' | 'competency-topics-assessment';
+  | 'hanoi-tower' | 'competency-assessment' | 'competency-mock-assessment' | 'competency-topics-assessment' | 'perimeter-quiz';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
 const slugToGrade = (slug: string): GradeLevel | null => {
@@ -536,6 +537,8 @@ export default function MathPage() {
       finalActivityType = 'symmetry-construction';
     } else if (topicId === 'competency-assessment' || topicId === 'competency-mock-assessment' || topicId === 'competency-topics-assessment') {
       finalActivityType = topicId as ActivityType;
+    } else if (topicId === 'perimeter-quiz') {
+      finalActivityType = 'perimeter-quiz';
     } else {
       finalActivityType = 'quiz';
     }
@@ -1218,7 +1221,7 @@ export default function MathPage() {
       );
     }
 
-    if (topicId === 'g5-measurements' || topicId === 'g5-location-sequences' || topicId === 'g5-stats') {
+    if (topicId === 'g5-location-sequences' || topicId === 'g5-stats') {
       return (
         <div className="py-2">
           <MaterialGallery
@@ -2052,6 +2055,68 @@ export default function MathPage() {
             onView={handleMaterialSelect}
             initialMaterialId={new URLSearchParams(location.search).get('material')}
           />
+        </div>
+      );
+    }
+
+    if (topicId === 'g5-measurements') {
+      return (
+        <div className="flex flex-col gap-10 py-6">
+          <section>
+            <SectionHeader number={1} title="A hosszúság mérése" color="cyan" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Mértékegységek"
+                subtitle="Hosszúság átváltás"
+                type="Hamarosan"
+                disabled
+                icon={<Scale className="w-6 h-6" />}
+                color="slate"
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={2} title="Téglalap, négyzet kerülete" color="blue" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Kerület Kvíz"
+                subtitle="Négyzet és téglalap"
+                type="Kezdés"
+                onClick={() => handleActivitySelect('perimeter-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
+                color="blue"
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={3} title="A terület mérése" color="indigo" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Területegységek"
+                subtitle="Mérés és átváltás"
+                type="Hamarosan"
+                disabled
+                icon={<Shapes className="w-6 h-6" />}
+                color="slate"
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader number={4} title="Téglalap, négyzet területe" color="emerald" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Terület Kvíz"
+                subtitle="Alapok és gyakorlás"
+                type="Hamarosan"
+                disabled
+                icon={<LayoutGrid className="w-6 h-6" />}
+                color="slate"
+              />
+            </div>
+          </section>
         </div>
       );
     }
@@ -2970,17 +3035,14 @@ export default function MathPage() {
                     if (selectedGrade === 5) return <G5Monthly onBack={handleBack} grade={5} />;
                     if (selectedGrade === 6) return <G6Monthly onBack={handleBack} grade={6} />;
                     if (selectedGrade === 7) return <G7Monthly onBack={handleBack} grade={7} />;
-                    return <G8Monthly onBack={handleBack} grade={8} />;
+                    return <div className="p-10 text-center">8. évfolyam mérések hamarosan...</div>;
                   })()
                 )}
 
                 {activityType === 'competency-mock-assessment' && selectedGrade && (
                   (() => {
-                    if (selectedGrade === 4) return <G4Mock onBack={handleBack} grade={4} />;
-                    if (selectedGrade === 5) return <G5Mock onBack={handleBack} grade={5} />;
-                    if (selectedGrade === 6) return <G6Mock onBack={handleBack} grade={6} />;
                     if (selectedGrade === 7) return <G7Mock onBack={handleBack} grade={7} />;
-                    return <G8Mock onBack={handleBack} grade={8} />;
+                    return <div className="p-10 text-center">Ebben az évfolyamban még nincs próbamérés.</div>;
                   })()
                 )}
 
@@ -3072,6 +3134,10 @@ export default function MathPage() {
 
                 {activityType === 'percent-base-word-problems' && (
                   <PercentWordProblems onBack={handleBack} type="base" />
+                )}
+
+                {activityType === 'perimeter-quiz' && (
+                  <PerimeterQuiz onBack={handleBack} />
                 )}
 
                 {activityType === 'quiz' && (
