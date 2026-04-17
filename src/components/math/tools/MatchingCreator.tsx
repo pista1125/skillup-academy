@@ -56,9 +56,19 @@ interface MatchingCreatorProps {
 const MAX_PAIRS = 10;
 const MIN_PAIRS = 2;
 
+const sanitizeLatex = (tex: string) => {
+    if (!tex) return '';
+    // Fix common character encoding issues where \f, \n, \t are interpreted as control chars
+    return tex
+        .replace(/\u000c/g, '\\f')
+        .replace(/\n/g, ' ')
+        .replace(/\r/g, ' ');
+};
+
 const MathRenderer = ({ tex, className }: { tex: string, className?: string }) => {
     try {
-        const html = katex.renderToString(tex, {
+        const sanitized = sanitizeLatex(tex);
+        const html = katex.renderToString(sanitized, {
             throwOnError: false,
             displayMode: false
         });
@@ -78,6 +88,7 @@ export function MatchingCreator({ onBack }: MatchingCreatorProps) {
         { id: '3', a: '', aType: 'math', b: '', bType: 'text' }
     ]);
     const [title, setTitle] = useState('Párosító Feladat');
+    const [solution, setSolution] = useState('');
     const [showPreview, setShowPreview] = useState(false);
     const [shuffledItems, setShuffledItems] = useState<GridItem[]>([]);
 
@@ -115,12 +126,12 @@ export function MatchingCreator({ onBack }: MatchingCreatorProps) {
     }, [pairs]);
 
     const handleShuffle = () => {
+        const validPairs = pairs.filter(p => p.a.trim() || p.b.trim());
         const items: GridItem[] = [];
-        pairs.forEach(p => {
-            if (p.a.trim() || p.b.trim()) {
-                items.push({ id: `${p.id}-a`, content: p.a, type: p.aType, pairId: p.id, side: 'a' });
-                items.push({ id: `${p.id}-b`, content: p.b, type: p.bType, pairId: p.id, side: 'b' });
-            }
+        
+        validPairs.forEach(p => {
+            items.push({ id: `${p.id}-a`, content: p.a, type: p.aType, pairId: p.id, side: 'a' });
+            items.push({ id: `${p.id}-b`, content: p.b, type: p.bType, pairId: p.id, side: 'b' });
         });
 
         // Shuffle
@@ -137,6 +148,21 @@ export function MatchingCreator({ onBack }: MatchingCreatorProps) {
         });
 
         setShuffledItems(items);
+    };
+
+    const pairToSolutionMap = React.useMemo(() => {
+        const map = new Map<string, string>();
+        if (!solution.trim()) return map;
+        // Map letters based on the order they appear in the recording sheet (Side A items)
+        const sideAItems = shuffledItems.filter(it => it.side === 'a');
+        sideAItems.forEach((it, i) => {
+            map.set(it.pairId, solution[i % solution.length]?.toUpperCase() || '');
+        });
+        return map;
+    }, [shuffledItems, solution]);
+
+    const getSolutionChar = (pairId: string) => {
+        return pairToSolutionMap.get(pairId) || '';
     };
 
     const addPair = () => {
@@ -258,7 +284,7 @@ export function MatchingCreator({ onBack }: MatchingCreatorProps) {
             const contentW = pageW - marginX * 2;
             
             const renderPage = async (isSolution: boolean) => {
-                // Header
+                // ... same header as before ...
                 doc.setFont('NotoSans', 'bold');
                 doc.setTextColor(59, 130, 246);
                 doc.setFontSize(22);
@@ -275,127 +301,208 @@ export function MatchingCreator({ onBack }: MatchingCreatorProps) {
                     doc.text('MEGOLDÓKULCS', pageW / 2, 34, { align: 'center' });
                 }
 
-                // Grid Config
-                const gridX = marginX + 10;
-                const gridY = 45;
-                const cellW = (contentW - 10) / cols;
-                const cellH = 30;
                 const rowCount = Math.ceil(shuffledItems.length / cols);
+                const gridX = marginX;
+                const gridY = 45;
+                const gridImageW = contentW;
 
-                // Grid Border
-                doc.setDrawColor(0);
-                doc.setLineWidth(0.5);
-                doc.rect(gridX - 10, gridY - 10, contentW, (rowCount * cellH) + 10);
-                
-                // Headers (A-D)
-                doc.setFont('NotoSans', 'bold');
-                doc.setFontSize(14);
-                doc.setTextColor(0);
-                colLabels.forEach((label, i) => {
-                    const x = gridX + i * cellW;
-                    doc.rect(x, gridY - 10, cellW, 10);
-                    doc.text(label, x + cellW / 2, gridY - 3, { align: 'center' });
-                });
+                // Create a temporary container for the snapshot and append to BODY
+                // Detached elements often cause missing styles/fonts in toPng
+                const tempContainer = document.createElement('div');
+                tempContainer.style.position = 'fixed';
+                tempContainer.style.left = '-9999px';
+                tempContainer.style.top = '0';
+                document.body.appendChild(tempContainer);
 
-                // Sidebar and Cells
-                for (let r = 0; r < rowCount; r++) {
-                    const y = gridY + r * cellH;
-                    doc.rect(gridX - 10, y, 10, cellH);
-                    doc.text(`${r + 1}.`, gridX - 5, y + cellH / 2 + 2, { align: 'center' });
+                try {
+                    const style = document.createElement('style');
+                    style.innerHTML = `
+                        .pdf-grid { 
+                            display: grid; 
+                            grid-template-columns: 40px repeat(${cols}, 1fr); 
+                            border-top: 2px solid black; 
+                            border-left: 2px solid black; 
+                            background: white;
+                            width: 800px;
+                        }
+                        .pdf-cell { 
+                            border-right: 2px solid black; 
+                            border-bottom: 2px solid black; 
+                            height: 100px; 
+                            display: flex; 
+                            align-items: center; 
+                            justify-content: center; 
+                            padding: 10px;
+                            font-family: 'Noto Sans', sans-serif;
+                            overflow: hidden;
+                        }
+                        .pdf-header { background: #f8fafc; font-weight: bold; font-size: 24px; }
+                        .pdf-side-label { background: #f8fafc; font-weight: bold; font-size: 24px; }
+                        .pdf-content { font-weight: bold; font-size: 28px; text-align: center; }
+                        .pdf-math { font-size: 42px; width: 100%; display: flex; justify-content: center; }
+                    `;
+                    tempContainer.appendChild(style);
 
-                    for (let c = 0; c < cols; c++) {
-                        const x = gridX + c * cellW;
-                        const idx = r * cols + c;
-                        const item = shuffledItems[idx];
-                        
-                        doc.rect(x, y, cellW, cellH);
-                        if (item && hiddenRenderRef.current) {
-                            // Render content to image
-                            const container = hiddenRenderRef.current;
-                            container.innerHTML = '';
-                            const contentEl = document.createElement('div');
-                            contentEl.style.width = '200px';
-                            contentEl.style.height = '120px';
-                            contentEl.style.display = 'flex';
-                            contentEl.style.alignItems = 'center';
-                            contentEl.style.justifyContent = 'center';
-                            contentEl.style.padding = '10px';
-                            contentEl.style.background = 'white';
+                    const gridEl = document.createElement('div');
+                    gridEl.className = 'pdf-grid';
 
-                            if (item.type === 'math') {
-                                const mathHtml = katex.renderToString(item.content, { 
-                                    throwOnError: false
-                                });
-                                contentEl.innerHTML = `<div style="font-size: 32px; font-weight: bold; width: 100%; display: flex; justify-content: center;">${mathHtml}</div>`;
-                            } else if (item.type === 'image') {
-                                contentEl.innerHTML = `<img src="${item.content}" style="max-width: 100%; max-height: 100%; object-fit: contain;" />`;
-                            } else {
-                                contentEl.innerHTML = `<span style="font-size: 18px; font-weight: bold; text-align: center; font-family: 'Noto Sans', sans-serif;">${item.content}</span>`;
+                    // Header
+                    const corner = document.createElement('div');
+                    corner.className = 'pdf-cell pdf-header';
+                    gridEl.appendChild(corner);
+
+                    colLabels.forEach(l => {
+                        const cell = document.createElement('div');
+                        cell.className = 'pdf-cell pdf-header';
+                        cell.innerText = l;
+                        gridEl.appendChild(cell);
+                    });
+
+                    // Rows
+                    for (let r = 0; r < rowCount; r++) {
+                        const labelCell = document.createElement('div');
+                        labelCell.className = 'pdf-cell pdf-side-label';
+                        labelCell.innerText = `${r + 1}.`;
+                        gridEl.appendChild(labelCell);
+
+                        for (let c = 0; c < cols; c++) {
+                            const idx = r * cols + c;
+                            const item = shuffledItems[idx];
+                            const cell = document.createElement('div');
+                            cell.className = 'pdf-cell pdf-content';
+
+                            if (item) {
+                                if (item.type === 'math') {
+                                    const sanitized = sanitizeLatex(item.content);
+                                    const mathHtml = katex.renderToString(sanitized, { throwOnError: false });
+                                    cell.innerHTML = `<div class="pdf-math">${mathHtml}</div>`;
+                                } else if (item.type === 'image') {
+                                    cell.innerHTML = `<img src="${item.content}" crossorigin="anonymous" style="max-width: 100%; max-height: 100%; object-fit: contain;" />`;
+                                } else {
+                                    cell.innerText = item.content;
+                                }
                             }
-                            
-                            container.appendChild(contentEl);
-                            
-                            // Let images load
-                            if (item.type === 'image') {
-                                await new Promise(res => {
-                                    const img = contentEl.querySelector('img');
-                                    if (img?.complete) res(null);
-                                    else if (img) img.onload = () => res(null);
-                                    else res(null);
-                                });
-                            }
-
-                            const dataUrl = await toPng(contentEl, { pixelRatio: 2 });
-                            doc.addImage(dataUrl, 'PNG', x + 2, y + 2, cellW - 4, cellH - 4);
+                            gridEl.appendChild(cell);
                         }
                     }
-                }
 
-                // Recording Sheet
-                let sheetY = gridY + rowCount * cellH + 20;
-                if (sheetY > 250) {
-                    doc.addPage();
-                    sheetY = 20;
-                }
+                    tempContainer.appendChild(gridEl);
 
-                doc.setFont('NotoSans', 'bold');
-                doc.setFontSize(14);
-                doc.setTextColor(0);
-                doc.text('Keresd a párját!', marginX, sheetY);
-                sheetY += 8;
+                    // Wait for images
+                    const imgs = gridEl.querySelectorAll('img');
+                    await Promise.all(Array.from(imgs).map(img => {
+                        if (img.complete) return Promise.resolve();
+                        return new Promise(res => { img.onload = res; img.onerror = res; });
+                    }));
 
-                doc.setFontSize(10);
-                doc.setFont('NotoSans', 'normal');
-                doc.text('Például: A1 - C2', marginX, sheetY);
-                sheetY += 10;
-
-                const colW = contentW / 2;
-                const sideAItems = shuffledItems.filter(it => it.side === 'a');
-                const halfCount = Math.ceil(sideAItems.length / 2);
-
-                for (let i = 0; i < sideAItems.length; i++) {
-                    const item = sideAItems[i];
-                    const isSecondCol = i >= halfCount;
-                    const r = isSecondCol ? i - halfCount : i;
-                    const x = marginX + (isSecondCol ? colW : 0);
-                    const y = sheetY + r * 10;
-
-                    doc.setFont('NotoSans', 'bold');
-                    doc.setFontSize(12);
-                    doc.text(`${item.gridPos} - `, x, y);
-                    doc.setDrawColor(200);
-                    doc.line(x + 12, y + 1, x + 45, y + 1);
-
-                    if (isSolution) {
-                        const otherSide = shuffledItems.find(it => it.pairId === item.pairId && it.side === 'b');
-                        doc.setTextColor(220, 38, 38);
-                        doc.text(otherSide?.gridPos || '', x + 18, y);
-                        doc.setTextColor(0);
+                    const dataUrl = await toPng(gridEl, { 
+                        pixelRatio: 2, 
+                        backgroundColor: 'white',
+                        cacheBust: true 
+                    });
+                    const imgProps = doc.getImageProperties(dataUrl);
+                    const pdfImgH = (imgProps.height * gridImageW) / imgProps.width;
+                    
+                    doc.addImage(dataUrl, 'PNG', gridX, gridY, gridImageW, pdfImgH);
+                    
+                    // --- Recording Sheet & Solution Key ---
+                    let sheetY = gridY + pdfImgH + 20;
+                    if (sheetY > 230) {
+                        doc.addPage();
+                        sheetY = 20;
                     }
+
+                    // Title for the section
+                    doc.setFont('NotoSans', 'bold');
+                    doc.setFontSize(14);
+                    doc.setTextColor(0);
+                    doc.text('Keresd a párját!', marginX, sheetY);
+                    
+                    doc.setFontSize(9);
+                    doc.setFont('NotoSans', 'normal');
+                    doc.setTextColor(100);
+                    doc.text('Párosítsd össze az elemeket, majd keresd ki a kódot!', marginX, sheetY + 6);
+                    
+                    sheetY += 15;
+
+                    const sideAItems = shuffledItems.filter(it => it.side === 'a');
+                    const sideBItems = shuffledItems.filter(it => it.side === 'b').sort((a, b) => (a.gridPos || '').localeCompare(b.gridPos || ''));
+                    
+                    // Column widths
+                    const leftColW = contentW * 0.6;
+                    const rightColW = contentW * 0.4;
+                    const rightStartX = marginX + leftColW + 5;
+
+                    // 1. Left Column: Matching Items (Single Column)
+                    doc.setFontSize(12);
+                    doc.setTextColor(0);
+                    
+                    for (let i = 0; i < sideAItems.length; i++) {
+                        const item = sideAItems[i];
+                        const y = sheetY + i * 11;
+
+                        if (y > 280) { // Safety break
+                            break;
+                        }
+
+                        doc.setFont('NotoSans', 'bold');
+                        doc.text(`${item.gridPos} - `, marginX, y);
+                        
+                        doc.setDrawColor(200);
+                        doc.setLineDash([1, 1], 0);
+                        doc.line(marginX + 12, y + 1, marginX + 45, y + 1);
+                        doc.setLineDash([], 0);
+
+                        doc.setDrawColor(180);
+                        doc.rect(marginX + 48, y - 5, 7, 7);
+
+                        if (isSolution) {
+                            doc.setTextColor(220, 38, 38);
+                            doc.text(getSolutionChar(item.pairId), marginX + 49.5, y + 0.5);
+                            doc.setTextColor(0);
+                        }
+                    }
+
+                    // 2. Right Column: Solution Key (Table)
+                    if (solution.trim()) {
+                        let keyY = sheetY;
+                        
+                        doc.setFont('NotoSans', 'bold');
+                        doc.setFontSize(10);
+                        doc.setTextColor(150);
+                        doc.text('MEGOLDÓKULCS', rightStartX + rightColW / 2, keyY - 5, { align: 'center' });
+
+                        const keyCellW = 10;
+                        const keyCellH = 10;
+                        const itemsPerRow = Math.floor(rightColW / keyCellW);
+                        
+                        sideBItems.forEach((it, idx) => {
+                            const row = Math.floor(idx / itemsPerRow);
+                            const col = idx % itemsPerRow;
+                            const x = rightStartX + col * keyCellW;
+                            const currY = keyY + row * (keyCellH + 2);
+
+                            doc.setDrawColor(200);
+                            doc.rect(x, currY, keyCellW, keyCellH / 2);
+                            doc.rect(x, currY + keyCellH / 2, keyCellW, keyCellH / 2);
+                            
+                            doc.setFontSize(7);
+                            doc.setTextColor(100);
+                            doc.text(it.gridPos || '', x + keyCellW / 2, currY + 3.5, { align: 'center' });
+                            
+                            doc.setFontSize(10);
+                            doc.setFont('NotoSans', 'bold');
+                            doc.setTextColor(59, 130, 246);
+                            doc.text(getSolutionChar(it.pairId), x + keyCellW / 2, currY + 8.5, { align: 'center' });
+                        });
+                    }
+                } finally {
+                    document.body.removeChild(tempContainer);
                 }
 
                 doc.setFontSize(8);
                 doc.setTextColor(180);
+                doc.setFont('NotoSans', 'normal');
                 doc.text('diakzona.hu', pageW / 2, 285, { align: 'center' });
             };
 
@@ -469,10 +576,21 @@ export function MatchingCreator({ onBack }: MatchingCreatorProps) {
 
                     {/* Basic Info */}
                     <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-4">
-                        <input 
-                            type="text" placeholder="Lecke címe" value={title} onChange={e => setTitle(e.target.value)}
-                            className="w-full text-lg font-bold border-none focus:ring-0 p-0"
-                        />
+                        <div className="space-y-1">
+                            <label className="text-[10px] font-bold text-slate-400 uppercase ml-1">Lecke címe</label>
+                            <input 
+                                type="text" placeholder="Lecke címe" value={title} onChange={e => setTitle(e.target.value)}
+                                className="w-full text-lg font-bold border-none focus:ring-0 p-0"
+                            />
+                        </div>
+                        <div className="h-px bg-slate-100" />
+                        <div className="space-y-1">
+                            <label className="text-[10px] font-bold text-slate-400 uppercase ml-1">Megoldás (Pl. egy szó, amit a párosítás kiad)</label>
+                            <input 
+                                type="text" placeholder="Megoldási szó (opcionális)" value={solution} onChange={e => setSolution(e.target.value)}
+                                className="w-full text-sm font-semibold border-none focus:ring-0 p-0 text-blue-600 placeholder:text-slate-300"
+                            />
+                        </div>
                     </div>
 
                     {/* Pairs Editor */}
@@ -682,16 +800,37 @@ export function MatchingCreator({ onBack }: MatchingCreatorProps) {
                                 ))}
                             </div>
 
-                            <div className="mt-8 space-y-4 px-2">
-                                <h5 className="font-bold text-sm">Keresd a párját!</h5>
-                                <p className="text-[10px] font-medium">Például: <span className="text-blue-500 font-bold">A1 - C2</span></p>
-                                <div className="grid grid-cols-2 gap-x-8 gap-y-3 pt-2">
-                                    {shuffledItems.filter(it => it.side === 'a').map((it, i) => (
-                                        <div key={i} className="flex items-center gap-2 border-b border-slate-100 pb-1">
-                                            <span className="text-xs font-bold">{it.gridPos} - </span>
-                                            <div className="flex-1 h-3 border-b border-slate-200 border-dashed" />
+                            <div className="mt-8 space-y-6 px-2">
+                                <div className="flex gap-4">
+                                    <div className="flex-1 space-y-4">
+                                        <h5 className="font-bold text-sm">Keresd a párját!</h5>
+                                        <p className="text-[10px] font-medium italic text-slate-500">Párosítsd össze az elemeket!</p>
+                                        <div className="space-y-3 pt-2">
+                                            {shuffledItems.filter(it => it.side === 'a').map((it, i) => (
+                                                <div key={i} className="flex items-center gap-2">
+                                                    <span className="text-xs font-bold w-10">{it.gridPos} - </span>
+                                                    <div className="flex-1 h-5 border-b border-slate-200 border-dashed" />
+                                                    <div className="w-6 h-6 border-2 border-slate-300 rounded flex items-center justify-center text-[10px] font-black text-blue-600 bg-slate-50">
+                                                        {solution && showPreview ? getSolutionChar(it.pairId) : ''}
+                                                    </div>
+                                                </div>
+                                            ))}
                                         </div>
-                                    ))}
+                                    </div>
+
+                                    {solution && (
+                                        <div className="w-[120px] pt-1 border-l border-slate-100 pl-4">
+                                            <h5 className="font-bold text-[10px] mb-3 text-center uppercase tracking-wider text-slate-400">Kulcs</h5>
+                                            <div className="grid grid-cols-3 gap-1">
+                                                {shuffledItems.filter(it => it.side === 'b').sort((a, b) => (a.gridPos || '').localeCompare(b.gridPos || '')).map((it, i) => (
+                                                    <div key={i} className="flex flex-col border border-slate-200 rounded overflow-hidden shadow-sm">
+                                                        <div className="bg-slate-50 text-[8px] font-bold py-0.5 border-b border-slate-200 text-center">{it.gridPos}</div>
+                                                        <div className="bg-white text-[10px] font-black py-1 text-center text-blue-600">{getSolutionChar(it.pairId)}</div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
