@@ -36,11 +36,13 @@ import {
     Cloud,
     Anchor,
     Zap,
+    Award,
+    Hash as GuideLineIcon,
+    Ruler,
+    Eye,
     Home,
     TreePine,
-    Navigation,
-    Award,
-    Hash as GuideLineIcon
+    Navigation
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -151,6 +153,10 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
     const [regularPolygonSides, setRegularPolygonSides] = useState(6);
     const [activeSpecialShape, setActiveSpecialShape] = useState<SpecialShapeType>('heart');
     const [showReflectionLines, setShowReflectionLines] = useState(false);
+    const [showPointLabels, setShowPointLabels] = useState(true);
+    const [showLineLabels, setShowLineLabels] = useState(true);
+    const [showDistances, setShowDistances] = useState(false);
+    const [showAxes, setShowAxes] = useState(true);
 
     // View State (Pan & Zoom)
     const [viewBox, setViewBox] = useState({ x: -600, y: -400, width: 1200, height: 800 });
@@ -539,10 +545,15 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
 
             const newPoints: Record<string, Point> = {};
             const pointIds: string[] = [];
+            let tempPoints = { ...points };
+            let tempObjects = { ...objects };
 
             shapePoints.forEach((sp, idx) => {
                 const id = `pt-${Date.now()}-${idx}`;
-                newPoints[id] = { id, x: pos.x + sp.x * scale, y: pos.y + sp.y * scale };
+                const label = getNextPointLabel(tempPoints, tempObjects);
+                const newPoint = { id, x: pos.x + sp.x * scale, y: pos.y + sp.y * scale, label };
+                newPoints[id] = newPoint;
+                tempPoints[id] = newPoint;
                 pointIds.push(id);
             });
 
@@ -855,6 +866,10 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
     const renderObject = (obj: GeometryObject) => {
         const pts = obj.pointIds.map(id => allPoints[id]).filter(Boolean);
         if (pts.length === 0) return null;
+
+        // Check if this is an axis and should be hidden
+        const isAxis = Object.values(objects).some(o => o.isReflection && o.reflectionRefId === obj.id);
+        if (isAxis && !showAxes) return null;
         const isReflecting = reflectingObjectId === obj.id;
         const sw = 3 * (viewBox.width / 1200);
         const isEraserHover = activeTool === 'eraser' && hoveredObjectId === obj.id;
@@ -895,7 +910,7 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                     <g key={obj.id}>
                         <line {...hitAreaProps} x1={x1} y1={y1} x2={x2} y2={y2} />
                         <line {...props} x1={x1} y1={y1} x2={x2} y2={y2} stroke={obj.color} strokeWidth={sw} />
-                        {obj.label && (
+                        {obj.label && showLineLabels && (
                             <text
                                 x={lineLabelX} y={lineLabelY} fill={obj.color} fontSize={18 * (viewBox.width / 1200)}
                                 fontFamily="serif" fontStyle="italic" className="pointer-events-none select-none"
@@ -918,12 +933,22 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                     <g key={obj.id}>
                         <line {...hitAreaProps} x1={pts[0].x} y1={pts[0].y} x2={pts[1].x} y2={pts[1].y} />
                         <line {...props} x1={pts[0].x} y1={pts[0].y} x2={pts[1].x} y2={pts[1].y} stroke={obj.color} strokeWidth={sw} />
-                        {obj.label && (
+                        {obj.label && showLineLabels && (
                             <text
                                 x={segLabelX} y={segLabelY} fill={obj.color} fontSize={18 * (viewBox.width / 1200)}
                                 fontFamily="serif" fontStyle="italic" className="pointer-events-none select-none"
                             >
                                 {obj.label}
+                            </text>
+                        )}
+                        {showDistances && (
+                            <text
+                                x={segMidX + sUy * 15 * (viewBox.width / 1200)}
+                                y={segMidY - sUx * 15 * (viewBox.width / 1200)}
+                                fill="#b45309" fontSize={14 * (viewBox.width / 1200)}
+                                fontWeight="bold" textAnchor="middle" className="pointer-events-none select-none"
+                            >
+                                {parseFloat((sLen / GRID_SIZE).toFixed(1))}
                             </text>
                         )}
                     </g>
@@ -936,6 +961,28 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                     <g key={obj.id}>
                         <path {...hitAreaProps} d={d} />
                         <path {...props} d={d} fill={obj.color} fillOpacity={0.15} stroke={obj.color} strokeWidth={sw} strokeLinejoin="round" />
+                        {showDistances && pts.map((p, i) => {
+                            const p1 = p;
+                            const p2 = pts[(i + 1) % pts.length];
+                            const midX = (p1.x + p2.x) / 2;
+                            const midY = (p1.y + p2.y) / 2;
+                            const dx = p2.x - p1.x, dy = p2.y - p1.y;
+                            const len = Math.sqrt(dx * dx + dy * dy);
+                            if (len < 5) return null;
+                            const ux = dx / len, uy = dy / len;
+                            // Offset towards outside? For polygon it's tricky. Let's just offset slightly.
+                            return (
+                                <text
+                                    key={`dist-${obj.id}-${i}`}
+                                    x={midX + uy * 15 * (viewBox.width / 1200)}
+                                    y={midY - ux * 15 * (viewBox.width / 1200)}
+                                    fill="#b45309" fontSize={13 * (viewBox.width / 1200)}
+                                    fontWeight="bold" textAnchor="middle" className="pointer-events-none select-none"
+                                >
+                                    {parseFloat((len / GRID_SIZE).toFixed(1))}
+                                </text>
+                            );
+                        })}
                     </g>
                 );
         }
@@ -1078,15 +1125,78 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
 
                 <div className="h-6 w-px bg-slate-200 mx-1" />
 
-                <Button
-                    variant={showReflectionLines ? 'secondary' : 'ghost'}
-                    size="sm"
-                    onClick={() => setShowReflectionLines(!showReflectionLines)}
-                    className={cn("rounded-xl px-4", showReflectionLines ? "text-green-600 bg-green-50" : "text-slate-600")}
-                    title="Segédvonalak mutatása/elrejtése"
-                >
-                    <GuideLineIcon className="w-4 h-4 mr-2" /> Segédvonalak
-                </Button>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button
+                            variant={(showReflectionLines || showDistances || !showAxes || !showPointLabels || !showLineLabels) ? 'secondary' : 'ghost'}
+                            size="sm"
+                            className={cn("rounded-xl px-4", (showReflectionLines || showDistances) ? "text-blue-600 bg-blue-50" : "text-slate-600")}
+                            title="Megjelenítési beállítások"
+                        >
+                            <Eye className="w-4 h-4 mr-2" /> Megjelenítés <ChevronDown className="w-3 h-3 ml-2 opacity-50" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start" className="z-[100] p-2 min-w-[220px]">
+                        <div className="px-2 py-1.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">Segédvonalak</div>
+                        <DropdownMenuItem 
+                            onClick={(e) => { e.stopPropagation(); setShowReflectionLines(!showReflectionLines); }}
+                            className="flex items-center justify-between"
+                        >
+                            <span>Tükrözési segédvonalak</span>
+                            <div className={cn("w-4 h-4 rounded border flex items-center justify-center", showReflectionLines ? "bg-green-500 border-green-500" : "border-slate-300")}>
+                                {showReflectionLines && <X className="w-3 h-3 text-white" />}
+                            </div>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem 
+                            onClick={(e) => { e.stopPropagation(); setShowAxes(!showAxes); }}
+                            className="flex items-center justify-between"
+                        >
+                            <span>Tükrözési tengelyek</span>
+                            <div className={cn("w-4 h-4 rounded border flex items-center justify-center", showAxes ? "bg-green-500 border-green-500" : "border-slate-300")}>
+                                {showAxes && <X className="w-3 h-3 text-white" />}
+                            </div>
+                        </DropdownMenuItem>
+
+                        <div className="h-px bg-slate-100 my-1 mx-1" />
+                        <div className="px-2 py-1.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">Mérések és Nevek</div>
+                        
+                        <DropdownMenuItem 
+                            onClick={(e) => { e.stopPropagation(); setShowDistances(!showDistances); }}
+                            className="flex items-center justify-between"
+                        >
+                            <span className="flex items-center gap-2">
+                                <Ruler className="w-3.5 h-3.5" /> Távolságok
+                            </span>
+                            <div className={cn("w-4 h-4 rounded border flex items-center justify-center", showDistances ? "bg-amber-500 border-amber-500" : "border-slate-300")}>
+                                {showDistances && <X className="w-3 h-3 text-white" />}
+                            </div>
+                        </DropdownMenuItem>
+
+                        <DropdownMenuItem 
+                            onClick={(e) => { e.stopPropagation(); setShowPointLabels(!showPointLabels); }}
+                            className="flex items-center justify-between"
+                        >
+                            <span className="flex items-center gap-2">
+                                <Type className="w-3.5 h-3.5" /> Pontok nevei
+                            </span>
+                            <div className={cn("w-4 h-4 rounded border flex items-center justify-center", showPointLabels ? "bg-blue-500 border-blue-500" : "border-slate-300")}>
+                                {showPointLabels && <X className="w-3 h-3 text-white" />}
+                            </div>
+                        </DropdownMenuItem>
+                        
+                        <DropdownMenuItem 
+                            onClick={(e) => { e.stopPropagation(); setShowLineLabels(!showLineLabels); }}
+                            className="flex items-center justify-between"
+                        >
+                            <span className="flex items-center gap-2">
+                                <Type className="w-3.5 h-3.5" /> Vonalak nevei
+                            </span>
+                            <div className={cn("w-4 h-4 rounded border flex items-center justify-center", showLineLabels ? "bg-blue-500 border-blue-500" : "border-slate-300")}>
+                                {showLineLabels && <X className="w-3 h-3 text-white" />}
+                            </div>
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
 
                 <div className="h-6 w-px bg-slate-200 mx-1" />
 
@@ -1225,7 +1335,7 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                                     // For polygon, line, segment: don't stop propagation, let handleCanvasClick handle it!
                                 }}
                             />
-                            {p.label && (
+                            {p.label && showPointLabels && (
                                 <text
                                     x={p.x + 10 * (viewBox.width / 1200)}
                                     y={p.y - 10 * (viewBox.width / 1200)}
