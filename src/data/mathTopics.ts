@@ -485,11 +485,11 @@ export const mathTopics: MathTopic[] = [
     grades: [],
   },
   {
-    id: 'competency-assessment',
-    title: 'Kompetencia Mérés (Havi)',
-    description: '10 havi kompetencia-alapú feladatsor 4-7. osztályosoknak, letölthető PDF eredménnyel.',
-    icon: '🎯',
-    color: 'from-blue-600 to-indigo-700',
+    id: 'perimeter-area',
+    title: 'Kerület, terület',
+    description: 'Alakzatok kerületének és területének szemléltetése egységnégyzetekkel.',
+    icon: '📏',
+    color: 'from-cyan-500 to-blue-500',
     grades: [],
   },
 ];

@@ -64,6 +64,7 @@ import { SymmetryErrorGame } from "@/components/math/games/SymmetryErrorGame";
 import { AxialSymmetryQuiz } from "@/components/math/grade-6/AxialSymmetryQuiz";
 import { SymmetryConstructionTool } from "@/components/math/tools/SymmetryConstructionTool";
 import { AxialSymmetryPresentation } from "@/components/math/grade-6/AxialSymmetryPresentation";
+import { PerimeterAreaTool } from "@/components/math/tools/PerimeterAreaTool";
 import { StudentFeedbackHub } from '@/components/feedback/StudentFeedbackHub';
 import { WordSearchTool } from "@/components/math/tools/WordSearchTool";
 import ChessGame from "@/components/math/games/ChessGame";
@@ -155,7 +156,7 @@ type ActivityType =
   | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search' | 'memory-game' | 'equation-balance-quiz'
   | 'ratio-intro' | 'ratio-creator' | 'g7-word-problems' | 'direct-proportion-quiz' | 'matrix-sorting-game'
   | 'toto-maker' | 'chess-game' | 'matching-creator'
-  | 'hanoi-tower' | 'competency-assessment' | 'competency-mock-assessment' | 'competency-topics-assessment' | 'perimeter-quiz';
+  | 'hanoi-tower' | 'competency-assessment' | 'competency-mock-assessment' | 'competency-topics-assessment' | 'perimeter-quiz' | 'perimeter-area';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
 const slugToGrade = (slug: string): GradeLevel | null => {
@@ -193,6 +194,7 @@ const TOOLS: ActivityConfig[] = [
   { id: 'geometry', title: 'Geometria', desc: 'Interaktív alakzatok, terület–kerület, testek és koordinátageometria', icon: <Shapes className="w-8 h-8" />, color: 'bg-green-100 text-green-600', category: 'sec-geometry' },
   { id: 'construction', title: 'Alapszerkesztés', desc: 'Szerkesztés körzővel és vonalzóval', icon: <Pencil className="w-8 h-8" />, color: 'bg-indigo-100 text-indigo-600', category: 'sec-geometry' },
   { id: 'symmetry-construction', title: 'Szimmetria szerkesztő', desc: 'Tengelyes és középpontos tükrözés eszköze', icon: <Repeat className="w-8 h-8" />, color: 'bg-indigo-100 text-indigo-600', category: 'sec-geometry' },
+  { id: 'perimeter-area', title: 'Kerület, terület', desc: 'Alakzatok kerületének és területének szemléltetése egységnégyzetekkel', icon: <LayoutGrid className="w-8 h-8" />, color: 'bg-cyan-100 text-cyan-600', category: 'sec-geometry' },
   // creative
   { id: 'puzzle-maker', title: 'Online Rejtvénykészítő', desc: 'Készíts matekos rejtvényeket és töltsd le PDF-ben!', icon: <span className="text-3xl">🧩</span>, color: 'bg-violet-100 text-violet-600', category: 'sec-creative' },
   { id: 'toto-maker', title: 'Totó Készítő', desc: 'Készíts 13+1 kérdéses totót egyedi megfejtéssel és töltsd le PDF-ben!', icon: <span className="text-3xl">🏆</span>, color: 'bg-amber-100 text-amber-600', category: 'sec-creative' },
@@ -535,6 +537,8 @@ export default function MathPage() {
       finalActivityType = 'puzzle-maker';
     } else if (topicId === 'symmetry-construction') {
       finalActivityType = 'symmetry-construction';
+    } else if (topicId === 'perimeter-area') {
+      finalActivityType = 'perimeter-area';
     } else if (topicId === 'competency-assessment' || topicId === 'competency-mock-assessment' || topicId === 'competency-topics-assessment') {
       finalActivityType = topicId as ActivityType;
     } else if (topicId === 'perimeter-quiz') {
@@ -2169,10 +2173,10 @@ export default function MathPage() {
   return (
     <div className={cn(
       "min-h-screen bg-transparent text-foreground flex flex-col", 
-      activityType === 'symmetry-construction' && "p-0 overflow-hidden h-screen"
+      (activityType === 'symmetry-construction' || activityType === 'perimeter-area') && "p-0 overflow-hidden h-screen"
     )}>
       {/* Header */}
-      {(activityType !== 'symmetry-construction' && activityType !== 'student-feedback') || view !== 'activity' ? (
+      {(activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'student-feedback') || view !== 'activity' ? (
         <div className="sticky top-0 z-50 w-full">
           {/* Main Header */}
             <div className="bg-gradient-math text-white py-2 md:py-3 px-3 md:px-4 shadow-xl relative transition-all duration-300">
@@ -2345,8 +2349,9 @@ export default function MathPage() {
 
       {/* Content */}
       <div className={cn(
-        "container mx-auto px-4 py-8 transition-all duration-500",
-        view === 'activity' || view === 'topic-select' || view === 'tools-select' || view === 'main-select' ? "max-w-none lg:px-12" : "max-w-4xl"
+        activityType !== 'perimeter-area' && "container mx-auto px-4 py-8",
+        "transition-all duration-500",
+        (view === 'activity' || view === 'topic-select' || view === 'tools-select' || view === 'main-select') && activityType !== 'perimeter-area' ? "max-w-none lg:px-12" : (activityType === 'perimeter-area' ? "max-w-none p-0 w-full h-full" : "max-w-4xl")
       )}>
         {view === 'search-results' && (
           <div className="animate-slide-up">
@@ -3164,6 +3169,9 @@ export default function MathPage() {
                 {activityType === 'axial-symmetry-presentation' && (
                   <AxialSymmetryPresentation onBack={handleBack} />
                 )}
+                {activityType === 'perimeter-area' && (
+                  <PerimeterAreaTool onBack={handleBack} />
+                )}
 
                 {activityType === 'student-feedback' && (
                   <StudentFeedbackHub onBack={handleBack} />
@@ -3184,7 +3192,7 @@ export default function MathPage() {
             }
           </div>
         )}
-        {((activityType !== 'symmetry-construction' && activityType !== 'student-feedback') || view !== 'activity') && <SiteFooter />}
+        {((activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'student-feedback') || view !== 'activity') && <SiteFooter />}
       </div>
     </div>
   );
