@@ -84,6 +84,7 @@ import { MonthlyAssessment as G5Monthly } from "@/components/math/competency/5/M
 import { MonthlyAssessment as G6Monthly } from "@/components/math/competency/6/MonthlyAssessment";
 import { TopicsAssessment as G6Topics } from "@/components/math/competency/6/TopicsAssessment";
 import { MonthlyAssessment as G7Monthly } from "@/components/math/competency/7/MonthlyAssessment";
+import TorpedoGame from "@/components/math/games/TorpedoGame";
 import { MockAssessment as G7Mock } from "@/components/math/competency/7/MockAssessment";
 import { COMPETENCY_DATA } from '@/data/competencyData';
 import { QuizResult, GradeLevel } from '@/types/education';
@@ -155,7 +156,7 @@ type ActivityType =
   | 'venn-reading-objects' | 'venn-reading-numbers' | 'axial-symmetry' | 'symmetry-error' | 'symmetry-construction' | 'axial-symmetry-quiz' | 'axial-symmetry-presentation'
   | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search' | 'memory-game' | 'equation-balance-quiz'
   | 'ratio-intro' | 'ratio-creator' | 'g7-word-problems' | 'direct-proportion-quiz' | 'matrix-sorting-game'
-  | 'toto-maker' | 'chess-game' | 'matching-creator'
+  | 'toto-maker' | 'chess-game' | 'torpedo-game' | 'matching-creator'
   | 'hanoi-tower' | 'competency-assessment' | 'competency-mock-assessment' | 'competency-topics-assessment' | 'perimeter-quiz' | 'perimeter-area';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
@@ -216,6 +217,7 @@ const GAMES: ActivityConfig[] = [
   { id: 'snake-game', title: 'Matek Kígyó', desc: 'Gyűjtsd össze a helyes válaszokat a kígyóval!', icon: <span className="text-3xl">🐍</span>, color: 'bg-emerald-100 border-emerald-200' },
   { id: 'memory-game', title: 'Memóriajáték', desc: 'Jegyezd meg az ábrákat és teszteld a memóriád!', icon: <Brain className="w-8 h-8" />, color: 'bg-indigo-100 border-indigo-200 text-indigo-600' },
   { id: 'chess-game', title: 'Sakk Mester', desc: 'Játssz a gép ellen vagy hívd ki barátaidat!', icon: <span className="text-3xl">♟️</span>, color: 'bg-slate-100 border-slate-200 text-slate-700' },
+  { id: 'torpedo-game', title: 'Torpedó Matek', desc: 'Süllyeszd el az ellenfél hajóit koordinátákkal!', icon: <span className="text-3xl">⚓</span>, color: 'bg-indigo-100 border-indigo-200 text-indigo-700' },
 ];
 
 export default function MathPage() {
@@ -3057,6 +3059,10 @@ export default function MathPage() {
 
                 {activityType === 'chess-game' && (
                   <ChessGame onBack={handleBack} />
+                )}
+
+                {activityType === 'torpedo-game' && (
+                  <TorpedoGame onBack={handleBack} />
                 )}
 
                 {activityType === 'equation-balance' && (

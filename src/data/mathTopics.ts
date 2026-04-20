@@ -492,6 +492,14 @@ export const mathTopics: MathTopic[] = [
     color: 'from-cyan-500 to-blue-500',
     grades: [],
   },
+  {
+    id: 'torpedo-game',
+    title: 'Torpedó Matek',
+    description: 'Süllyeszd el az ellenfél hajóit koordináták megadásával! Játssz a barátaid ellen.',
+    icon: '⚓',
+    color: 'from-indigo-600 to-blue-500',
+    grades: [5, 6, 7],
+  },
 ];
 
 export const gradeDescriptions: Record<number, string> = {
