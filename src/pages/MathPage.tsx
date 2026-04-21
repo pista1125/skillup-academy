@@ -72,6 +72,8 @@ import { MatchingCreator } from "@/components/math/tools/MatchingCreator";
 import { EquationBalanceQuiz } from "@/components/math/grade-7/EquationBalanceQuiz";
 import { WordProblemsQuiz } from "@/components/math/grade-5/WordProblemsQuiz";
 import PerimeterQuiz from "@/components/math/grade-5/PerimeterQuiz";
+import AreaConversionQuiz from "@/components/math/grade-5/AreaConversionQuiz";
+import AreaCalculationQuiz from "@/components/math/grade-5/AreaCalculationQuiz";
 import { Grade7GeometryModule } from "@/components/math/grade-7/Grade7GeometryModule";
 import { RatioIntroQuiz } from "@/components/math/grade-6/RatioIntroQuiz";
 import { RatioCreatorQuiz } from "@/components/math/grade-6/RatioCreatorQuiz";
@@ -123,7 +125,8 @@ import {
   Brain,
   Puzzle,
   Trophy,
-  Flag
+  Flag,
+  ArrowRightLeft
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -157,7 +160,7 @@ type ActivityType =
   | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search' | 'memory-game' | 'equation-balance-quiz'
   | 'ratio-intro' | 'ratio-creator' | 'g7-word-problems' | 'direct-proportion-quiz' | 'matrix-sorting-game'
   | 'toto-maker' | 'chess-game' | 'torpedo-game' | 'matching-creator'
-  | 'hanoi-tower' | 'competency-assessment' | 'competency-mock-assessment' | 'competency-topics-assessment' | 'perimeter-quiz' | 'perimeter-area';
+  | 'hanoi-tower' | 'competency-assessment' | 'competency-mock-assessment' | 'competency-topics-assessment' | 'perimeter-quiz' | 'perimeter-area' | 'area-conversion-quiz' | 'area-calculation-quiz';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
 const slugToGrade = (slug: string): GradeLevel | null => {
@@ -2100,12 +2103,12 @@ export default function MathPage() {
             <SectionHeader number={3} title="A terület mérése" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Területegységek"
-                subtitle="Mérés és átváltás"
-                type="Hamarosan"
-                disabled
-                icon={<Shapes className="w-6 h-6" />}
-                color="slate"
+                title="Terület átváltás"
+                subtitle="Mértékegység gyakorlás"
+                type="Kezdés"
+                onClick={() => handleActivitySelect('area-conversion-quiz', topicId)}
+                icon={<ArrowRightLeft className="w-6 h-6" />}
+                color="indigo"
               />
             </div>
           </section>
@@ -2115,11 +2118,11 @@ export default function MathPage() {
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
                 title="Terület Kvíz"
-                subtitle="Alapok és gyakorlás"
-                type="Hamarosan"
-                disabled
+                subtitle="Téglalap és négyzet"
+                type="Kezdés"
+                onClick={() => handleActivitySelect('area-calculation-quiz', topicId)}
                 icon={<LayoutGrid className="w-6 h-6" />}
-                color="slate"
+                color="emerald"
               />
             </div>
           </section>
@@ -3149,6 +3152,14 @@ export default function MathPage() {
 
                 {activityType === 'perimeter-quiz' && (
                   <PerimeterQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'area-conversion-quiz' && (
+                  <AreaConversionQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'area-calculation-quiz' && (
+                  <AreaCalculationQuiz onBack={handleBack} />
                 )}
 
                 {activityType === 'quiz' && (
