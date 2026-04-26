@@ -81,14 +81,8 @@ import { DirectProportionQuiz } from "@/components/math/grade-6/DirectProportion
 import { MatrixSortingGame } from "@/components/math/games/MatrixSortingGame";
 import MemoryGameComponent from "@/components/math/games/MemoryGame";
 import HanoiGame from "@/components/math/games/HanoiGame";
-import { MonthlyAssessment as G4Monthly } from "@/components/math/competency/4/MonthlyAssessment";
-import { MonthlyAssessment as G5Monthly } from "@/components/math/competency/5/MonthlyAssessment";
-import { MonthlyAssessment as G6Monthly } from "@/components/math/competency/6/MonthlyAssessment";
-import { TopicsAssessment as G6Topics } from "@/components/math/competency/6/TopicsAssessment";
-import { MonthlyAssessment as G7Monthly } from "@/components/math/competency/7/MonthlyAssessment";
 import TorpedoGame from "@/components/math/games/TorpedoGame";
-import { MockAssessment as G7Mock } from "@/components/math/competency/7/MockAssessment";
-import { COMPETENCY_DATA } from '@/data/competencyData';
+import CompetencyMatrixHub from '@/components/math/competency-matrix/CompetencyMatrixHub';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -160,7 +154,7 @@ type ActivityType =
   | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search' | 'memory-game' | 'equation-balance-quiz'
   | 'ratio-intro' | 'ratio-creator' | 'g7-word-problems' | 'direct-proportion-quiz' | 'matrix-sorting-game'
   | 'toto-maker' | 'chess-game' | 'torpedo-game' | 'matching-creator'
-  | 'hanoi-tower' | 'competency-assessment' | 'competency-mock-assessment' | 'competency-topics-assessment' | 'perimeter-quiz' | 'perimeter-area' | 'area-conversion-quiz' | 'area-calculation-quiz';
+  | 'hanoi-tower' | 'perimeter-quiz' | 'perimeter-area' | 'area-conversion-quiz' | 'area-calculation-quiz';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
 const slugToGrade = (slug: string): GradeLevel | null => {
@@ -424,7 +418,7 @@ export default function MathPage() {
     } else if (newView === 'competency-select') {
       path = '/kompetencia';
       // Kompetencia activity specific routing
-      path = `/kompetencia/${gradeToSlug(grade)}${activity === 'competency-mock-assessment' ? '-mock' : activity === 'competency-topics-assessment' ? '-topics' : ''}`;
+      path = grade ? `/kompetencia/${gradeToSlug(grade)}` : '/kompetencia';
     } else if (newView === 'activity' && !grade) {
       // Handle tool/game activity without grade
       const isGame = GAMES.some(g => g.id === activity);
@@ -544,8 +538,7 @@ export default function MathPage() {
       finalActivityType = 'symmetry-construction';
     } else if (topicId === 'perimeter-area') {
       finalActivityType = 'perimeter-area';
-    } else if (topicId === 'competency-assessment' || topicId === 'competency-mock-assessment' || topicId === 'competency-topics-assessment') {
-      finalActivityType = topicId as ActivityType;
+
     } else if (topicId === 'perimeter-quiz') {
       finalActivityType = 'perimeter-quiz';
     } else {
@@ -621,10 +614,7 @@ export default function MathPage() {
       if (selectedTopic === 'geometry' && selectedGrade === 6) {
         nextView = 'geometry-select';
         nextTopic = null;
-      } else if (activityType === 'competency-assessment' || activityType === 'competency-mock-assessment' || activityType === 'competency-topics-assessment') {
-        nextView = 'competency-select';
-        nextTopic = null;
-        nextGrade = null;
+
       } else if (selectedGrade) {
         nextView = 'topic-select';
         nextTopic = null;
@@ -656,7 +646,7 @@ export default function MathPage() {
     setSelectedGrade(nextGrade);
     setSelectedTopic(nextTopic);
     // Explicitly reset activityType unless we are staying in activity view
-    if (nextView !== 'activity') {
+    if ((nextView as string) !== 'activity') {
       setActivityType('quiz');
     }
     updateURL(nextView, nextGrade, nextTopic, null);
@@ -2356,7 +2346,7 @@ export default function MathPage() {
       <div className={cn(
         activityType !== 'perimeter-area' && "container mx-auto px-4 py-8",
         "transition-all duration-500",
-        (view === 'activity' || view === 'topic-select' || view === 'tools-select' || view === 'main-select') && activityType !== 'perimeter-area' ? "max-w-none lg:px-12" : (activityType === 'perimeter-area' ? "max-w-none p-0 w-full h-full" : "max-w-4xl")
+        (view === 'activity' || view === 'topic-select' || view === 'tools-select' || view === 'main-select' || view === 'competency-select') && activityType !== 'perimeter-area' ? "max-w-none lg:px-12" : (activityType === 'perimeter-area' ? "max-w-none p-0 w-full h-full" : "max-w-4xl")
       )}>
         {view === 'search-results' && (
           <div className="animate-slide-up">
@@ -2759,79 +2749,7 @@ export default function MathPage() {
         )}
 
         {view === 'competency-select' && (
-          <div className="animate-slide-up space-y-8 pb-20">
-            <div className="text-center mb-12">
-              <h2 className="font-display text-3xl font-bold mb-4 flex items-center justify-center gap-3 text-slate-800">
-                <Target className="w-8 h-8 text-emerald-500" />
-                Kompetenciamérés Felkészítés
-              </h2>
-              <p className="text-slate-500 max-w-2xl mx-auto">
-                Készülj fel a mérésekre! Válaszd ki az évfolyamodat a folyamatosan elérhető tesztsorainkhoz.
-              </p>
-            </div>
-            
-            <div className="space-y-12">
-              {[4, 5, 6, 7, 8].map(grade => {
-                return (
-                  <section key={grade} className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden group hover:border-emerald-200 transition-all">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-emerald-100 transition-colors"></div>
-                    <SectionHeader number={grade} title={`${grade}. Osztály`} color="emerald" id={`comp-grade-${grade}`} />
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6 relative z-10">
-                      {/* Havi mérés */}
-                      {grade >= 4 && grade <= 7 && (
-                        <ActivityPlaceholder
-                          title="Szeptember - Június"
-                          subtitle="10 feladatsor"
-                          type="Kezdés"
-                          onClick={() => {
-                            handleActivitySelect('competency-assessment', `g${grade}-competency`, undefined, grade as GradeLevel);
-                          }}
-                          icon={<Target className="w-6 h-6 text-emerald-600" />}
-                          color="emerald"
-                        />
-                      )}
-
-                      {/* Témakörök (Grade 6) */}
-                      {grade === 6 && (
-                        <ActivityPlaceholder
-                          title="Témakörök"
-                          subtitle="Témakörönkénti felkészítés"
-                          type="Kezdés"
-                          onClick={() => {
-                            handleActivitySelect('competency-topics-assessment', 'g6-competency', undefined, 6);
-                          }}
-                          icon={<Shapes className="w-6 h-6 text-blue-600" />}
-                          color="blue"
-                        />
-                      )}
-                      
-                      {/* Próbamérés */}
-                      {grade === 7 && COMPETENCY_DATA[7]?.some(m => m.id.includes('probameres')) && (
-                        <ActivityPlaceholder
-                          title="Próbamérés"
-                          subtitle="Kiegészítő tesztek"
-                          type="Kezdés"
-                          onClick={() => {
-                            handleActivitySelect('competency-mock-assessment', 'g7-competency', undefined, 7);
-                          }}
-                          icon={<Target className="w-6 h-6 text-indigo-600" />}
-                          color="indigo"
-                        />
-                      )}
-                      
-                      {/* Várakozás üzenet */}
-                      {grade === 8 && (
-                        <div className="p-6 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center text-center opacity-70 col-span-2">
-                          <div className="text-3xl mb-2">🚧</div>
-                          <p className="text-sm font-bold text-slate-500">Hamarosan érkezik...</p>
-                        </div>
-                      )}
-                    </div>
-                  </section>
-                );
-              })}
-            </div>
-          </div>
+          <CompetencyMatrixHub onBack={handleHome} />
         )}
 
         {view === 'activity' && (
@@ -3039,26 +2957,7 @@ export default function MathPage() {
                    <HanoiGame onBack={handleBack} />
                 )}
 
-                {activityType === 'competency-assessment' && selectedGrade && (
-                  (() => {
-                    if (selectedGrade === 4) return <G4Monthly onBack={handleBack} grade={4} />;
-                    if (selectedGrade === 5) return <G5Monthly onBack={handleBack} grade={5} />;
-                    if (selectedGrade === 6) return <G6Monthly onBack={handleBack} grade={6} />;
-                    if (selectedGrade === 7) return <G7Monthly onBack={handleBack} grade={7} />;
-                    return <div className="p-10 text-center">8. évfolyam mérések hamarosan...</div>;
-                  })()
-                )}
 
-                {activityType === 'competency-mock-assessment' && selectedGrade && (
-                  (() => {
-                    if (selectedGrade === 7) return <G7Mock onBack={handleBack} grade={7} />;
-                    return <div className="p-10 text-center">Ebben az évfolyamban még nincs próbamérés.</div>;
-                  })()
-                )}
-
-                {activityType === 'competency-topics-assessment' && selectedGrade === 6 && (
-                  <G6Topics onBack={handleBack} grade={6} />
-                )}
 
                 {activityType === 'chess-game' && (
                   <ChessGame onBack={handleBack} />
@@ -3222,6 +3121,7 @@ interface ToolCardProps {
   color: string;
   onClick: () => void;
 }
+
 
 function ToolCard({ title, desc, icon, color, onClick }: ToolCardProps) {
   return (

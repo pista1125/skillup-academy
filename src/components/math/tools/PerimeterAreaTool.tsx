@@ -43,11 +43,11 @@ import { toast } from 'sonner';
 
 // --- Types ---
 
-type Point = {
+interface Point {
     id: string;
     x: number;
     y: number;
-};
+}
 
 type Unit = 'cm' | 'dm' | 'm' | 'km';
 
@@ -235,7 +235,7 @@ export function PerimeterAreaTool({ onBack }: PerimeterAreaToolProps) {
     };
 
     const getSVGPoint = useCallback((clientX: number, clientY: number) => {
-        if (!svgRef.current) return { x: 0, y: 0 };
+        if (!svgRef.current) return { id: 'temp', x: 0, y: 0 };
         const pt = svgRef.current.createSVGPoint();
         pt.x = clientX; pt.y = clientY;
         const transformed = pt.matrixTransform(svgRef.current.getScreenCTM()?.inverse());
@@ -244,7 +244,7 @@ export function PerimeterAreaTool({ onBack }: PerimeterAreaToolProps) {
             x = Math.round(x / GRID_SIZE) * GRID_SIZE;
             y = Math.round(y / GRID_SIZE) * GRID_SIZE;
         }
-        return { x, y };
+        return { id: `pos-${Date.now()}`, x, y };
     }, [background, activeTool]);
 
     // --- Calculations ---
