@@ -53,7 +53,7 @@ interface MatchingCreatorProps {
     onBack: () => void;
 }
 
-const MAX_PAIRS = 10;
+const MAX_PAIRS = 12;
 const MIN_PAIRS = 2;
 
 const sanitizeLatex = (tex: string) => {
@@ -165,6 +165,11 @@ export function MatchingCreator({ onBack }: MatchingCreatorProps) {
         return pairToSolutionMap.get(pairId) || '';
     };
 
+    const getPartnerGridPos = (pairId: string, currentSide: 'a' | 'b') => {
+        const partner = shuffledItems.find(it => it.pairId === pairId && it.side !== currentSide);
+        return partner?.gridPos || '';
+    };
+
     const addPair = () => {
         if (pairs.length >= MAX_PAIRS) return;
         setPairs([...pairs, { 
@@ -268,6 +273,11 @@ export function MatchingCreator({ onBack }: MatchingCreatorProps) {
         const validPairs = pairs.filter(p => p.a.trim() && p.b.trim());
         if (validPairs.length < MIN_PAIRS) {
             toast.error('Legalább 2 teljes pár szükséges!');
+            return;
+        }
+
+        if (solution.trim() && solution.length !== validPairs.length) {
+            toast.error(`A megoldási szó hossza (${solution.length}) nem egyezik a párok számával (${validPairs.length})!`);
             return;
         }
 
@@ -388,11 +398,23 @@ export function MatchingCreator({ onBack }: MatchingCreatorProps) {
 
                     tempContainer.appendChild(gridEl);
 
-                    // Wait for images
+                    // Wait for images with timeout and error handling
                     const imgs = gridEl.querySelectorAll('img');
                     await Promise.all(Array.from(imgs).map(img => {
                         if (img.complete) return Promise.resolve();
-                        return new Promise(res => { img.onload = res; img.onerror = res; });
+                        return new Promise(res => { 
+                            img.onload = res; 
+                            img.onerror = () => {
+                                // If image fails (CORS or 404), replace with a placeholder
+                                const parent = img.parentElement;
+                                if (parent) {
+                                    parent.innerHTML = '<div style="font-size: 8px; color: #94a3b8; border: 1px dashed #cbd5e1; padding: 4px; border-radius: 4px;">Kép hiba</div>';
+                                }
+                                res(null); 
+                            };
+                            // Timeout after 5s
+                            setTimeout(res, 5000);
+                        });
                     }));
 
                     const dataUrl = await toPng(gridEl, { 
@@ -406,8 +428,8 @@ export function MatchingCreator({ onBack }: MatchingCreatorProps) {
                     doc.addImage(dataUrl, 'PNG', gridX, gridY, gridImageW, pdfImgH);
                     
                     // --- Recording Sheet & Solution Key ---
-                    let sheetY = gridY + pdfImgH + 20;
-                    if (sheetY > 230) {
+                    let sheetY = gridY + pdfImgH + 15;
+                    if (sheetY > 220) {
                         doc.addPage();
                         sheetY = 20;
                     }
@@ -427,60 +449,79 @@ export function MatchingCreator({ onBack }: MatchingCreatorProps) {
 
                     const sideAItems = shuffledItems.filter(it => it.side === 'a');
                     const sideBItems = shuffledItems.filter(it => it.side === 'b').sort((a, b) => (a.gridPos || '').localeCompare(b.gridPos || ''));
-                    
-                    // Column widths
-                    const leftColW = contentW * 0.6;
-                    const rightColW = contentW * 0.4;
-                    const rightStartX = marginX + leftColW + 5;
+                    const isTwoColumn = sideAItems.length >= 7;
 
-                    // 1. Left Column: Matching Items (Single Column)
-                    doc.setFontSize(12);
+                    // 1. Matching Items
+                    doc.setFontSize(11);
                     doc.setTextColor(0);
                     
+                    const itemsPerCol = isTwoColumn ? Math.ceil(sideAItems.length / 2) : sideAItems.length;
+                    const colW = isTwoColumn ? (contentW - 10) / 2 : contentW * 0.6;
+                    const rowH = 10;
+
                     for (let i = 0; i < sideAItems.length; i++) {
                         const item = sideAItems[i];
-                        const y = sheetY + i * 11;
-
-                        if (y > 280) { // Safety break
-                            break;
-                        }
+                        const colIdx = isTwoColumn ? Math.floor(i / itemsPerCol) : 0;
+                        const rowIdx = isTwoColumn ? i % itemsPerCol : i;
+                        
+                        const x = marginX + colIdx * (colW + 10);
+                        const y = sheetY + rowIdx * rowH;
 
                         doc.setFont('NotoSans', 'bold');
-                        doc.text(`${item.gridPos} - `, marginX, y);
+                        doc.text(`${item.gridPos} - `, x, y);
                         
                         doc.setDrawColor(200);
                         doc.setLineDash([1, 1], 0);
-                        doc.line(marginX + 12, y + 1, marginX + 45, y + 1);
+                        doc.line(x + 12, y + 1, x + 35, y + 1);
                         doc.setLineDash([], 0);
 
                         doc.setDrawColor(180);
-                        doc.rect(marginX + 48, y - 5, 7, 7);
+                        doc.rect(x + 38, y - 5, 7, 7);
 
                         if (isSolution) {
                             doc.setTextColor(220, 38, 38);
-                            doc.text(getSolutionChar(item.pairId), marginX + 49.5, y + 0.5);
+                            // Partner grid pos on the dashed line
+                            doc.setFontSize(9);
+                            doc.text(getPartnerGridPos(item.pairId, 'a'), x + 15, y);
+                            // Solution char in the box
+                            doc.setFontSize(11);
+                            doc.text(getSolutionChar(item.pairId), x + 39.5, y + 0.5);
                             doc.setTextColor(0);
                         }
                     }
 
-                    // 2. Right Column: Solution Key (Table)
+                    // Calculate positioning for Solution Key
+                    let keyX = marginX;
+                    let keyY = sheetY + itemsPerCol * rowH + 10;
+                    let customTableW = contentW;
+
+                    if (!isTwoColumn) {
+                        keyX = marginX + colW + 5;
+                        keyY = sheetY;
+                        customTableW = contentW - colW - 5;
+                    }
+
+                    if (keyY > 260 && isTwoColumn) {
+                        doc.addPage();
+                        keyY = 20;
+                    }
+
+                    // 2. Solution Key (Table)
                     if (solution.trim()) {
-                        let keyY = sheetY;
-                        
                         doc.setFont('NotoSans', 'bold');
                         doc.setFontSize(10);
                         doc.setTextColor(150);
-                        doc.text('MEGOLDÓKULCS', rightStartX + rightColW / 2, keyY - 5, { align: 'center' });
+                        doc.text('MEGOLDÓKULCS', keyX + customTableW / 2, keyY - 5, { align: 'center' });
 
-                        const keyCellW = 10;
-                        const keyCellH = 10;
-                        const itemsPerRow = Math.floor(rightColW / keyCellW);
+                        const keyCellW = Math.min(12, customTableW / 6);
+                        const keyCellH = 12;
+                        const itemsPerRow = Math.floor(customTableW / keyCellW);
                         
                         sideBItems.forEach((it, idx) => {
                             const row = Math.floor(idx / itemsPerRow);
                             const col = idx % itemsPerRow;
-                            const x = rightStartX + col * keyCellW;
-                            const currY = keyY + row * (keyCellH + 2);
+                            const x = keyX + col * keyCellW;
+                            const currY = keyY + row * (keyCellH + 5);
 
                             doc.setDrawColor(200);
                             doc.rect(x, currY, keyCellW, keyCellH / 2);
@@ -488,13 +529,41 @@ export function MatchingCreator({ onBack }: MatchingCreatorProps) {
                             
                             doc.setFontSize(7);
                             doc.setTextColor(100);
-                            doc.text(it.gridPos || '', x + keyCellW / 2, currY + 3.5, { align: 'center' });
+                            doc.text(it.gridPos || '', x + keyCellW / 2, currY + 4, { align: 'center' });
                             
                             doc.setFontSize(10);
                             doc.setFont('NotoSans', 'bold');
                             doc.setTextColor(59, 130, 246);
-                            doc.text(getSolutionChar(it.pairId), x + keyCellW / 2, currY + 8.5, { align: 'center' });
+                            doc.text(getSolutionChar(it.pairId), x + keyCellW / 2, currY + 10, { align: 'center' });
                         });
+
+                        // 3. New: Pair Mappings (Only in solution mode)
+                        if (isSolution) {
+                            let mapY = keyY + Math.ceil(sideBItems.length / itemsPerRow) * (keyCellH + 5) + 8;
+                            let mapX = isTwoColumn ? marginX : keyX;
+                            let mapW = isTwoColumn ? contentW : customTableW;
+
+                            if (mapY > 260) {
+                                doc.addPage();
+                                mapY = 20;
+                            }
+                            
+                            doc.setFontSize(9);
+                            doc.setTextColor(120);
+                            doc.text('Párkereső kulcs:', mapX, mapY);
+                            
+                            doc.setFontSize(8);
+                            doc.setFont('NotoSans', 'normal');
+                            const mappings = sideAItems.map(it => `${it.gridPos} \u2192 ${getPartnerGridPos(it.pairId, 'a')}`);
+                            const colsToUse = isTwoColumn ? 4 : 2;
+                            const mapColW = mapW / colsToUse;
+                            
+                            mappings.forEach((m, i) => {
+                                const r = Math.floor(i / colsToUse);
+                                const c = i % colsToUse;
+                                doc.text(m, mapX + c * mapColW, mapY + 6 + r * 5);
+                            });
+                        }
                     }
                 } finally {
                     document.body.removeChild(tempContainer);
@@ -503,7 +572,7 @@ export function MatchingCreator({ onBack }: MatchingCreatorProps) {
                 doc.setFontSize(8);
                 doc.setTextColor(180);
                 doc.setFont('NotoSans', 'normal');
-                doc.text('diakzona.hu', pageW / 2, 285, { align: 'center' });
+                doc.text('Készült a diákzóna.hu párosító készítővel', pageW / 2, 285, { align: 'center' });
             };
 
             await renderPage(false);
@@ -560,7 +629,7 @@ export function MatchingCreator({ onBack }: MatchingCreatorProps) {
                             <div className="flex gap-3">
                                 <div className="flex-1">
                                     <label className="text-[10px] font-bold text-slate-400 uppercase">Párok száma</label>
-                                    <input type="number" value={aiPairCount} min={2} max={10} onChange={e => setAiPairCount(Number(e.target.value))} className="w-full bg-black/30 border border-white/10 rounded-xl px-3 py-1.5 text-white" />
+                                    <input type="number" value={aiPairCount} min={2} max={12} onChange={e => setAiPairCount(Number(e.target.value))} className="w-full bg-black/30 border border-white/10 rounded-xl px-3 py-1.5 text-white" />
                                 </div>
                                 <Button 
                                     onClick={() => user ? generateWithAI() : setIsAuthModalOpen(true)} 
@@ -588,8 +657,16 @@ export function MatchingCreator({ onBack }: MatchingCreatorProps) {
                             <label className="text-[10px] font-bold text-slate-400 uppercase ml-1">Megoldás (Pl. egy szó, amit a párosítás kiad)</label>
                             <input 
                                 type="text" placeholder="Megoldási szó (opcionális)" value={solution} onChange={e => setSolution(e.target.value)}
-                                className="w-full text-sm font-semibold border-none focus:ring-0 p-0 text-blue-600 placeholder:text-slate-300"
+                                className={cn(
+                                    "w-full text-sm font-semibold border-none focus:ring-0 p-0 text-blue-600 placeholder:text-slate-300",
+                                    solution.trim() && solution.length !== pairs.filter(p => p.a.trim() && p.b.trim()).length && "text-red-500"
+                                )}
                             />
+                            {solution.trim() && solution.length !== pairs.filter(p => p.a.trim() && p.b.trim()).length && (
+                                <p className="text-[10px] text-red-500 font-bold mt-1 animate-pulse">
+                                    ⚠️ A szó hossza ({solution.length}) nem egyezik a párok számával ({pairs.filter(p => p.a.trim() && p.b.trim()).length})!
+                                </p>
+                            )}
                         </div>
                     </div>
 
@@ -801,37 +878,72 @@ export function MatchingCreator({ onBack }: MatchingCreatorProps) {
                             </div>
 
                             <div className="mt-8 space-y-6 px-2">
-                                <div className="flex gap-4">
-                                    <div className="flex-1 space-y-4">
-                                        <h5 className="font-bold text-sm">Keresd a párját!</h5>
-                                        <p className="text-[10px] font-medium italic text-slate-500">Párosítsd össze az elemeket!</p>
-                                        <div className="space-y-3 pt-2">
-                                            {shuffledItems.filter(it => it.side === 'a').map((it, i) => (
-                                                <div key={i} className="flex items-center gap-2">
-                                                    <span className="text-xs font-bold w-10">{it.gridPos} - </span>
-                                                    <div className="flex-1 h-5 border-b border-slate-200 border-dashed" />
-                                                    <div className="w-6 h-6 border-2 border-slate-300 rounded flex items-center justify-center text-[10px] font-black text-blue-600 bg-slate-50">
-                                                        {solution && showPreview ? getSolutionChar(it.pairId) : ''}
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
+                                {(() => {
+                                    const sideAItems = shuffledItems.filter(it => it.side === 'a');
+                                    const sideBItems = shuffledItems.filter(it => it.side === 'b').sort((a, b) => (a.gridPos || '').localeCompare(b.gridPos || ''));
+                                    const isTwoColumn = sideAItems.length >= 7;
 
-                                    {solution && (
-                                        <div className="w-[120px] pt-1 border-l border-slate-100 pl-4">
-                                            <h5 className="font-bold text-[10px] mb-3 text-center uppercase tracking-wider text-slate-400">Kulcs</h5>
-                                            <div className="grid grid-cols-3 gap-1">
-                                                {shuffledItems.filter(it => it.side === 'b').sort((a, b) => (a.gridPos || '').localeCompare(b.gridPos || '')).map((it, i) => (
-                                                    <div key={i} className="flex flex-col border border-slate-200 rounded overflow-hidden shadow-sm">
-                                                        <div className="bg-slate-50 text-[8px] font-bold py-0.5 border-b border-slate-200 text-center">{it.gridPos}</div>
-                                                        <div className="bg-white text-[10px] font-black py-1 text-center text-blue-600">{getSolutionChar(it.pairId)}</div>
-                                                    </div>
-                                                ))}
+                                    return (
+                                        <div className={cn("flex gap-4", isTwoColumn ? "flex-col" : "flex-row")}>
+                                            <div className={cn("space-y-4", isTwoColumn ? "w-full" : "w-[60%]")}>
+                                                <div>
+                                                    <h5 className="font-bold text-sm">Keresd a párját!</h5>
+                                                    <p className="text-[10px] font-medium italic text-slate-500">Párosítsd össze az elemeket!</p>
+                                                </div>
+                                                
+                                                <div className={cn("grid gap-x-4 gap-y-2 pt-2", isTwoColumn ? "grid-cols-2" : "grid-cols-1")}>
+                                                    {sideAItems.map((it, i) => (
+                                                        <div key={i} className="flex items-center gap-2">
+                                                            <span className="text-[10px] font-bold w-12">{it.gridPos} - </span>
+                                                            <div className="flex-1 h-4 border-b border-slate-200 border-dashed relative">
+                                                                {solution && showPreview && (
+                                                                    <div className="absolute inset-0 flex items-center justify-center text-[8px] font-bold text-red-500 -top-0.5">
+                                                                        {getPartnerGridPos(it.pairId, 'a')}
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                            <div className="w-5 h-5 border-2 border-slate-300 rounded flex items-center justify-center text-[10px] font-black text-blue-600 bg-slate-50">
+                                                                {solution && showPreview ? getSolutionChar(it.pairId) : ''}
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
                                             </div>
+
+                                            {solution && (
+                                                <div className={cn("pt-4", isTwoColumn ? "border-t border-slate-100" : "flex-1 border-l border-slate-100 pl-4")}>
+                                                    <h5 className="font-bold text-[10px] mb-3 text-center uppercase tracking-wider text-slate-400">Kulcs</h5>
+                                                    <div className={cn("grid gap-1", isTwoColumn ? "grid-cols-6" : "grid-cols-3")}>
+                                                        {sideBItems.map((it, i) => (
+                                                            <div key={i} className="flex flex-col border border-slate-200 rounded overflow-hidden shadow-sm">
+                                                                <div className="bg-slate-50 text-[7px] font-bold py-0.5 border-b border-slate-200 text-center">{it.gridPos}</div>
+                                                                <div className="bg-white text-[9px] font-black py-0.5 text-center text-blue-600">{getSolutionChar(it.pairId)}</div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                    
+                                                    {showPreview && (
+                                                        <div className="mt-4 pt-3 border-t border-slate-50">
+                                                            <h6 className="text-[8px] font-bold text-slate-400 uppercase mb-2">Párkereső:</h6>
+                                                            <div className={cn("grid gap-1", isTwoColumn ? "grid-cols-3" : "grid-cols-2")}>
+                                                                {sideAItems.map((it, i) => (
+                                                                    <div key={i} className="text-[8px] text-slate-500 font-medium">
+                                                                        {it.gridPos} → {getPartnerGridPos(it.pairId, 'a')}
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
                                         </div>
-                                    )}
-                                </div>
+                                    );
+                                })()}
+                            </div>
+                            
+                            {/* Watermark in preview */}
+                            <div className="absolute bottom-2 left-0 right-0 text-center">
+                                <span className="text-[6px] text-slate-300 uppercase tracking-widest font-medium">Készült a diákzóna.hu párosító készítővel</span>
                             </div>
                         </div>
                     </div>
