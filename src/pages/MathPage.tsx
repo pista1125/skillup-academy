@@ -69,6 +69,7 @@ import { StudentFeedbackHub } from '@/components/feedback/StudentFeedbackHub';
 import { WordSearchTool } from "@/components/math/tools/WordSearchTool";
 import ChessGame from "@/components/math/games/ChessGame";
 import { MatchingCreator } from "@/components/math/tools/MatchingCreator";
+import { VolumeSurfaceTool } from "@/components/math/tools/VolumeSurfaceTool";
 import { EquationBalanceQuiz } from "@/components/math/grade-7/EquationBalanceQuiz";
 import { WordProblemsQuiz } from "@/components/math/grade-5/WordProblemsQuiz";
 import PerimeterQuiz from "@/components/math/grade-5/PerimeterQuiz";
@@ -154,7 +155,7 @@ type ActivityType =
   | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search' | 'memory-game' | 'equation-balance-quiz'
   | 'ratio-intro' | 'ratio-creator' | 'g7-word-problems' | 'direct-proportion-quiz' | 'matrix-sorting-game'
   | 'toto-maker' | 'chess-game' | 'torpedo-game' | 'matching-creator'
-  | 'hanoi-tower' | 'perimeter-quiz' | 'perimeter-area' | 'area-conversion-quiz' | 'area-calculation-quiz';
+  | 'hanoi-tower' | 'perimeter-quiz' | 'perimeter-area' | 'volume-surface' | 'area-conversion-quiz' | 'area-calculation-quiz';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
 const slugToGrade = (slug: string): GradeLevel | null => {
@@ -193,6 +194,7 @@ const TOOLS: ActivityConfig[] = [
   { id: 'construction', title: 'Alapszerkesztés', desc: 'Szerkesztés körzővel és vonalzóval', icon: <Pencil className="w-8 h-8" />, color: 'bg-indigo-100 text-indigo-600', category: 'sec-geometry' },
   { id: 'symmetry-construction', title: 'Szimmetria szerkesztő', desc: 'Tengelyes és középpontos tükrözés eszköze', icon: <Repeat className="w-8 h-8" />, color: 'bg-indigo-100 text-indigo-600', category: 'sec-geometry' },
   { id: 'perimeter-area', title: 'Kerület, terület', desc: 'Alakzatok kerületének és területének szemléltetése egységnégyzetekkel', icon: <LayoutGrid className="w-8 h-8" />, color: 'bg-cyan-100 text-cyan-600', category: 'sec-geometry' },
+  { id: 'volume-surface', title: 'Térfogat és felszín', desc: '3D testek kiterítése és feltöltése egységkockákkal', icon: <span className="text-3xl">📦</span>, color: 'bg-indigo-100 text-indigo-600', category: 'sec-geometry' },
   // creative
   { id: 'puzzle-maker', title: 'Online Rejtvénykészítő', desc: 'Készíts matekos rejtvényeket és töltsd le PDF-ben!', icon: <span className="text-3xl">🧩</span>, color: 'bg-violet-100 text-violet-600', category: 'sec-creative' },
   { id: 'toto-maker', title: 'Totó Készítő', desc: 'Készíts 13+1 kérdéses totót egyedi megfejtéssel és töltsd le PDF-ben!', icon: <span className="text-3xl">🏆</span>, color: 'bg-amber-100 text-amber-600', category: 'sec-creative' },
@@ -538,6 +540,8 @@ export default function MathPage() {
       finalActivityType = 'symmetry-construction';
     } else if (topicId === 'perimeter-area') {
       finalActivityType = 'perimeter-area';
+    } else if (topicId === 'volume-surface') {
+      finalActivityType = 'volume-surface';
 
     } else if (topicId === 'perimeter-quiz') {
       finalActivityType = 'perimeter-quiz';
@@ -1109,12 +1113,12 @@ export default function MathPage() {
             <SectionHeader number={6} title="Testek építése, szemléltetése" color="pink" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Építs testeket!"
-                subtitle="Térbeli alakzatok"
-                type="Hamarosan"
-                disabled
+                title="Térfogat és felszín"
+                subtitle="Testek kiterítése és feltöltése"
+                type="Eszköz"
+                onClick={() => handleActivitySelect('volume-surface', topicId)}
                 icon={<Box className="w-6 h-6" />}
-                color="slate"
+                color="pink"
               />
             </div>
           </section>
@@ -2116,6 +2120,20 @@ export default function MathPage() {
               />
             </div>
           </section>
+
+          <section>
+            <SectionHeader number={5} title="Térfogat és felszín" color="pink" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="3D Szemléltető"
+                subtitle="Kiterítés és feltöltés"
+                type="Eszköz"
+                onClick={() => handleActivitySelect('volume-surface', topicId)}
+                icon={<Box className="w-6 h-6" />}
+                color="pink"
+              />
+            </div>
+          </section>
         </div>
       );
     }
@@ -3088,6 +3106,9 @@ export default function MathPage() {
                 {activityType === 'perimeter-area' && (
                   <PerimeterAreaTool onBack={handleBack} />
                 )}
+                {activityType === 'volume-surface' && (
+                  <VolumeSurfaceTool onBack={handleBack} />
+                )}
 
                 {activityType === 'student-feedback' && (
                   <StudentFeedbackHub onBack={handleBack} />
@@ -3108,7 +3129,7 @@ export default function MathPage() {
             }
           </div>
         )}
-        {((activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'student-feedback') || view !== 'activity') && <SiteFooter />}
+        {((activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'volume-surface' && activityType !== 'student-feedback') || view !== 'activity') && <SiteFooter />}
       </div>
     </div>
   );
