@@ -83,6 +83,7 @@ import { MatrixSortingGame } from "@/components/math/games/MatrixSortingGame";
 import MemoryGameComponent from "@/components/math/games/MemoryGame";
 import HanoiGame from "@/components/math/games/HanoiGame";
 import TorpedoGame from "@/components/math/games/TorpedoGame";
+import { ParallelogramAreaQuiz } from "@/components/math/grade-7/ParallelogramAreaQuiz";
 import CompetencyMatrixHub from '@/components/math/competency-matrix/CompetencyMatrixHub';
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
@@ -155,7 +156,7 @@ type ActivityType =
   | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search' | 'memory-game' | 'equation-balance-quiz'
   | 'ratio-intro' | 'ratio-creator' | 'g7-word-problems' | 'direct-proportion-quiz' | 'matrix-sorting-game'
   | 'toto-maker' | 'chess-game' | 'torpedo-game' | 'matching-creator'
-  | 'hanoi-tower' | 'perimeter-quiz' | 'perimeter-area' | 'volume-surface' | 'area-conversion-quiz' | 'area-calculation-quiz';
+  | 'hanoi-tower' | 'perimeter-quiz' | 'perimeter-area' | 'volume-surface' | 'area-conversion-quiz' | 'area-calculation-quiz' | 'parallelogram-area-quiz';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
 const slugToGrade = (slug: string): GradeLevel | null => {
@@ -542,9 +543,10 @@ export default function MathPage() {
       finalActivityType = 'perimeter-area';
     } else if (topicId === 'volume-surface') {
       finalActivityType = 'volume-surface';
-
     } else if (topicId === 'perimeter-quiz') {
       finalActivityType = 'perimeter-quiz';
+    } else if (topicId === 'parallelogram-area-quiz') {
+      finalActivityType = 'parallelogram-area-quiz';
     } else {
       finalActivityType = 'quiz';
     }
@@ -3077,6 +3079,10 @@ export default function MathPage() {
 
                 {activityType === 'area-calculation-quiz' && (
                   <AreaCalculationQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'parallelogram-area-quiz' && (
+                  <ParallelogramAreaQuiz onBack={handleBack} />
                 )}
 
                 {activityType === 'quiz' && (

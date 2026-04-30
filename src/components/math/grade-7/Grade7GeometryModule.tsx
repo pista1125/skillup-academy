@@ -152,6 +152,14 @@ export function Grade7GeometryModule({ onBack, onStartActivity, isInline = false
                             color="emerald"
                             onClick={() => onStartActivity?.('parallelogram-area')}
                         />
+                        <ActivityPlaceholder
+                            title="Terület Kvíz"
+                            subtitle="Paralelogramma területe"
+                            type="Kvíz"
+                            icon={<Target className="w-6 h-6" />}
+                            color="emerald"
+                            onClick={() => onStartActivity?.('parallelogram-area-quiz')}
+                        />
                     </div>
                 </section>
 
