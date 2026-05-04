@@ -545,7 +545,7 @@ export default function MathPage() {
       finalActivityType = 'volume-surface';
     } else if (topicId === 'perimeter-quiz') {
       finalActivityType = 'perimeter-quiz';
-    } else if (topicId === 'parallelogram-area-quiz') {
+    } else if (topicId === 'parallelogram-area' || topicId === 'parallelogram-area-quiz') {
       finalActivityType = 'parallelogram-area-quiz';
     } else {
       finalActivityType = 'quiz';
@@ -3081,7 +3081,7 @@ export default function MathPage() {
                   <AreaCalculationQuiz onBack={handleBack} />
                 )}
 
-                {activityType === 'parallelogram-area-quiz' && (
+                {(activityType === 'parallelogram-area-quiz' || activityType === 'parallelogram-area' as ActivityType) && (
                   <ParallelogramAreaQuiz onBack={handleBack} />
                 )}
 
