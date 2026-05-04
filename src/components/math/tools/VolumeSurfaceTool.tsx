@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import React, { useState, useRef, useMemo, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, PerspectiveCamera, Grid, Text, ContactShadows, Environment, Center } from '@react-three/drei';
+import { OrbitControls, PerspectiveCamera, Grid, Text, ContactShadows, Environment, Center, PivotControls } from '@react-three/drei';
 import { Button } from '@/components/ui/button';
 import { 
     ArrowLeft, 
@@ -118,7 +118,7 @@ const RectangularPrism = ({
             />
 
             {/* FRONT */}
-            <group position={[0, -height/2, depth/2]} rotation={[-angle, 0, 0]}>
+            <group position={[0, -height/2, depth/2]} rotation={[angle, 0, 0]}>
                 <Face 
                     width={width} 
                     height={height} 
@@ -129,12 +129,12 @@ const RectangularPrism = ({
                 />
                 
                 {/* TOP (Attached to Front) */}
-                <group position={[0, height, 0]} rotation={[-angle, 0, 0]}>
+                <group position={[0, height, 0]} rotation={[angle - Math.PI / 2, 0, 0]}>
                     <Face 
                         width={width} 
                         height={depth} 
                         position={[0, depth/2, 0]} 
-                        rotation={[-Math.PI / 2, 0, 0]} 
+                        rotation={[0, 0, 0]} 
                         color="#8b5cf6" 
                         label="Fedőlap"
                     />
@@ -142,7 +142,7 @@ const RectangularPrism = ({
             </group>
 
             {/* BACK */}
-            <group position={[0, -height/2, -depth/2]} rotation={[angle, 0, 0]}>
+            <group position={[0, -height/2, -depth/2]} rotation={[-angle, 0, 0]}>
                 <Face 
                     width={width} 
                     height={height} 
@@ -158,7 +158,7 @@ const RectangularPrism = ({
                 <Face 
                     width={depth} 
                     height={height} 
-                    position={[-depth/2, height/2, 0]} 
+                    position={[0, height/2, 0]} 
                     rotation={[0, -Math.PI / 2, 0]} 
                     color="#10b981" 
                     label="Bal"
@@ -170,7 +170,7 @@ const RectangularPrism = ({
                 <Face 
                     width={depth} 
                     height={height} 
-                    position={[depth/2, height/2, 0]} 
+                    position={[0, height/2, 0]} 
                     rotation={[0, Math.PI / 2, 0]} 
                     color="#ec4899" 
                     label="Jobb"
@@ -215,7 +215,7 @@ const VolumeFill = ({
                             ]}
                         >
                             <boxGeometry args={[0.95, 0.95, 0.95]} />
-                            <meshStandardMaterial color="#6366f1" transparent opacity={0.8} />
+                            <meshStandardMaterial color="#6366f1" roughness={0.2} metalness={0.1} />
                         </mesh>
                     );
                 }
@@ -236,6 +236,7 @@ export function VolumeSurfaceTool({ onBack }: VolumeSurfaceToolProps) {
     const [isFilling, setIsFilling] = useState(false);
     const [fillCount, setFillCount] = useState(0);
     const [autoFill, setAutoFill] = useState(false);
+    const [isSelected, setIsSelected] = useState(false);
 
     const volume = dimensions.width * dimensions.height * dimensions.depth;
     const surfaceArea = 2 * (dimensions.width * dimensions.height + dimensions.height * dimensions.depth + dimensions.width * dimensions.depth);
@@ -325,28 +326,44 @@ export function VolumeSurfaceTool({ onBack }: VolumeSurfaceToolProps) {
             <main className="flex-1 relative flex overflow-hidden">
                 {/* 3D Scene */}
                 <div className="flex-1 bg-slate-100 relative">
-                    <Canvas shadows camera={{ position: [5, 5, 5], fov: 50 }}>
+                    <Canvas 
+                        shadows 
+                        camera={{ position: [5, 5, 5], fov: 50 }}
+                        onPointerMissed={() => setIsSelected(false)}
+                    >
                         <ambientLight intensity={0.5} />
                         <pointLight position={[10, 10, 10]} castShadow />
                         <spotLight position={[-10, 10, 10]} angle={0.15} penumbra={1} intensity={1} castShadow />
                         
-                        <Center top>
-                            <RectangularPrism 
-                                width={dimensions.width} 
-                                height={dimensions.height} 
-                                depth={dimensions.depth} 
-                                unfoldProgress={unfoldProgress}
-                                showFaces={!isFilling}
-                            />
-                            
-                            <VolumeFill 
-                                width={dimensions.width} 
-                                height={dimensions.height} 
-                                depth={dimensions.depth} 
-                                fillCount={fillCount}
-                                visible={isFilling}
-                            />
-                        </Center>
+                        <PivotControls 
+                            anchor={[0, -1, 0]} 
+                            depthTest={false} 
+                            lineWidth={3} 
+                            axisColors={['#ef4444', '#10b981', '#3b82f6']} 
+                            scale={2}
+                            activeAxes={[true, true, true]}
+                            visible={isSelected}
+                        >
+                            <group onClick={(e) => { e.stopPropagation(); setIsSelected(true); }}>
+                                <Center top>
+                                    <RectangularPrism 
+                                        width={dimensions.width} 
+                                        height={dimensions.height} 
+                                        depth={dimensions.depth} 
+                                        unfoldProgress={unfoldProgress}
+                                        showFaces={true}
+                                    />
+                                    
+                                    <VolumeFill 
+                                        width={dimensions.width} 
+                                        height={dimensions.height} 
+                                        depth={dimensions.depth} 
+                                        fillCount={fillCount}
+                                        visible={isFilling}
+                                    />
+                                </Center>
+                            </group>
+                        </PivotControls>
 
                         <ContactShadows 
                             position={[0, -2, 0]} 
