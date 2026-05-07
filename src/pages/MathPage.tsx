@@ -75,6 +75,7 @@ import { WordProblemsQuiz } from "@/components/math/grade-5/WordProblemsQuiz";
 import PerimeterQuiz from "@/components/math/grade-5/PerimeterQuiz";
 import AreaConversionQuiz from "@/components/math/grade-5/AreaConversionQuiz";
 import AreaCalculationQuiz from "@/components/math/grade-5/AreaCalculationQuiz";
+import VolumeQuiz from "@/components/math/grade-5/VolumeQuiz";
 import { Grade7GeometryModule } from "@/components/math/grade-7/Grade7GeometryModule";
 import { RatioIntroQuiz } from "@/components/math/grade-6/RatioIntroQuiz";
 import { RatioCreatorQuiz } from "@/components/math/grade-6/RatioCreatorQuiz";
@@ -156,7 +157,7 @@ type ActivityType =
   | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search' | 'memory-game' | 'equation-balance-quiz'
   | 'ratio-intro' | 'ratio-creator' | 'g7-word-problems' | 'direct-proportion-quiz' | 'matrix-sorting-game'
   | 'toto-maker' | 'chess-game' | 'torpedo-game' | 'matching-creator'
-  | 'hanoi-tower' | 'perimeter-quiz' | 'perimeter-area' | 'volume-surface' | 'area-conversion-quiz' | 'area-calculation-quiz' | 'parallelogram-area-quiz';
+  | 'hanoi-tower' | 'perimeter-quiz' | 'perimeter-area' | 'volume-surface' | 'volume-quiz' | 'area-conversion-quiz' | 'area-calculation-quiz' | 'parallelogram-area-quiz';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
 const slugToGrade = (slug: string): GradeLevel | null => {
@@ -2134,6 +2135,14 @@ export default function MathPage() {
                 icon={<Box className="w-6 h-6" />}
                 color="pink"
               />
+              <ActivityPlaceholder
+                title="Térfogat Kvíz"
+                subtitle="Kocka és téglatest"
+                type="Kezdés"
+                onClick={() => handleActivitySelect('volume-quiz', topicId)}
+                icon={<Box className="w-6 h-6" />}
+                color="indigo"
+              />
             </div>
           </section>
         </div>
@@ -3083,6 +3092,10 @@ export default function MathPage() {
 
                 {(activityType === 'parallelogram-area-quiz' || activityType === 'parallelogram-area' as ActivityType) && (
                   <ParallelogramAreaQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'volume-quiz' && (
+                  <VolumeQuiz onBack={handleBack} />
                 )}
 
                 {activityType === 'quiz' && (
