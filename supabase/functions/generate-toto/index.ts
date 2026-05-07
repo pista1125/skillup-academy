@@ -48,8 +48,8 @@ SZABÁLYOK:
 - A "questions" tömb elemei:
     - "question": A kérdés szövege.
     - "options": Egy tömb, ami pontosan 3 választ tartalmaz.
-    - "correctAnswerIndex": A helyes válasz indexe (0, 1 vagy 2).
-- FONTOS - VÉLETLENSZERŰSÉG: A helyes válasz pozíciója (correctAnswerIndex) minden kérdésnél változzon! TILOS minden helyes választ az első helyre (0. index) tenni. Keverd őket össze: legyen köztük 0-s, 1-es és 2-es indexű helyes válasz is, nagyjából egyenletes eloszlásban.
+    - FONTOS: Mindig a HELYES választ tedd az "options" tömb ELSŐ helyére (0. index)! A többi két helyre kerüljenek a rossz válaszok.
+    - "correctAnswerIndex": Mindig legyen 0 (mivel a helyes válasz az első helyen van).
 - A kérdések legyenek érdekesek és illeszkedjenek a megadott témakörhöz.
 - A válaszlehetőségek legyenek rövidek, egyértelműek.
 - CSAK érvényes JSON-t adj vissza, Markdown formatting nélkül!`

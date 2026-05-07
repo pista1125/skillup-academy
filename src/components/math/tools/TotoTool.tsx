@@ -66,6 +66,18 @@ export function TotoTool({ onBack }: TotoToolProps) {
         return HUNGARIAN_ALPHABET[Math.floor(Math.random() * HUNGARIAN_ALPHABET.length)];
     };
 
+    const shuffleOptions = (options: string[], incomingCorrectIndex: number) => {
+        const indexedOptions = options.map((opt, i) => ({ opt, isCorrect: i === incomingCorrectIndex }));
+        const shuffled = [...indexedOptions];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        const newOptions = shuffled.map(o => o.opt);
+        const newCorrectIndex = shuffled.findIndex(o => o.isCorrect);
+        return { shuffled: newOptions, newCorrectIndex };
+    };
+
     const updateNoiseLetters = (qs: TotoQuestion[]) => {
         return qs.map(q => ({
             ...q,
@@ -123,13 +135,16 @@ export function TotoTool({ onBack }: TotoToolProps) {
             if (error) throw new Error(error.message || 'Hiba az AI hívás során');
             if (!data.questions) throw new Error('Érvénytelen válasz az AI-tól');
 
-            const newQuestions: TotoQuestion[] = data.questions.map((q: any, idx: number) => ({
-                id: nextId + idx,
-                question: q.question,
-                options: q.options,
-                correctAnswerIndex: q.correctAnswerIndex,
-                randomLetters: [generateRandomLetter(), generateRandomLetter(), generateRandomLetter()]
-            }));
+            const newQuestions: TotoQuestion[] = data.questions.map((q: any, idx: number) => {
+                const { shuffled, newCorrectIndex } = shuffleOptions(q.options, q.correctAnswerIndex);
+                return {
+                    id: nextId + idx,
+                    question: q.question,
+                    options: shuffled,
+                    correctAnswerIndex: newCorrectIndex,
+                    randomLetters: [generateRandomLetter(), generateRandomLetter(), generateRandomLetter()]
+                };
+            });
 
             setQuestions(newQuestions);
             setNextId(nextId + newQuestions.length);
