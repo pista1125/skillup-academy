@@ -48,7 +48,7 @@ SZABÁLYOK:
 - A "questions" tömb elemei:
     - "question": A kérdés szövege.
     - "options": Egy tömb, ami pontosan 3 választ tartalmaz.
-    - "correctAnswerIndex": A helyes válasz indexe a tömbben (0, 1 vagy 2). ÜGYELJ RÁ, hogy a helyes válaszok ne mindig ugyanazon az indexen legyenek! Keverd őket véletlenszerűen a 0, 1 és 2 indexek között, ne legyen az összes kérdésnél ugyanaz a helyes opció (pl. ne legyen mindegyik az 1-es).
+    - FONTOS: Mindig a HELYES választ tedd az "options" tömb ELSŐ helyére (0. index)! A többi két helyre kerüljenek a rossz válaszok.
 - A kérdések legyenek érdekesek és illeszkedjenek a megadott témakörhöz.
 - A válaszlehetőségek legyenek rövidek, egyértelműek.
 - CSAK érvényes JSON-t adj vissza, Markdown formatting nélkül!`
