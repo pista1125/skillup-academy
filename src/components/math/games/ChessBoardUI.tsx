@@ -39,6 +39,8 @@ export default function ChessBoardUI({
   const [game, setGame] = useState(new Chess());
   const [moveHistory, setMoveHistory] = useState<string[]>([]);
   const [lastMove, setLastMove] = useState<any>(null);
+  const [moveFrom, setMoveFrom] = useState<string | null>(null);
+  const [optionSquares, setOptionSquares] = useState<any>({});
   const [engine, setEngine] = useState<ChessAI | null>(null);
 
   const orientation = isWhite ? 'white' : 'black';
@@ -100,39 +102,107 @@ export default function ChessBoardUI({
       setMoveHistory(update.history());
       return update;
     });
+    setMoveFrom(null);
+    setOptionSquares({});
+  }
+
+  function makeAMove(move: any) {
+    const nextGame = new Chess(game.fen());
+    let result = null;
+    try {
+      result = nextGame.move(move);
+    } catch (e) {
+      return null;
+    }
+
+    if (result === null) return null;
+
+    setGame(nextGame);
+    setMoveHistory(nextGame.history());
+
+    if (onMove) {
+      onMove(nextGame.fen(), result.lan || result.san);
+    }
+
+    setMoveFrom(null);
+    setOptionSquares({});
+    return result;
+  }
+
+  function getMoveOptions(square: string) {
+    const moves = game.moves({
+      square: square as any,
+      verbose: true,
+    });
+    if (moves.length === 0) {
+      setOptionSquares({});
+      return false;
+    }
+
+    const newSquares: any = {};
+    moves.map((move) => {
+      newSquares[move.to] = {
+        background:
+          game.get(move.to as any) && game.get(move.to as any).color !== game.get(square as any).color
+            ? "radial-gradient(circle, rgba(255,0,0,.1) 85%, transparent 85%)"
+            : "radial-gradient(circle, rgba(0,0,0,.1) 25%, transparent 25%)",
+        borderRadius: "50%",
+      };
+      return move;
+    });
+    newSquares[square] = {
+      background: "rgba(255, 255, 0, 0.4)",
+    };
+    setOptionSquares(newSquares);
+    return true;
+  }
+
+  function onSquareClick(square: string) {
+    if (mode === 'friend' && game.turn() !== (isWhite ? 'w' : 'b')) return;
+
+    // from
+    if (!moveFrom) {
+      const piece = game.get(square as any);
+      if (piece && piece.color === game.turn()) {
+        const hasMoves = getMoveOptions(square);
+        if (hasMoves) setMoveFrom(square);
+      }
+      return;
+    }
+
+    // to
+    const move = {
+      from: moveFrom,
+      to: square,
+      promotion: "q",
+    };
+
+    const result = makeAMove(move);
+
+    // if invalid, check if we clicked another of our pieces
+    if (result === null) {
+      const piece = game.get(square as any);
+      if (piece && piece.color === game.turn()) {
+        setMoveFrom(square);
+        getMoveOptions(square);
+      } else {
+        setMoveFrom(null);
+        setOptionSquares({});
+      }
+      return;
+    }
   }
 
   function onDrop(sourceSquare: string, targetSquare: string) {
     if (mode === 'friend' && game.turn() !== (isWhite ? 'w' : 'b')) return false;
 
-    let move = null;
-    let newFen = '';
-    
-    // Create actual next state to get its FEN
-    const nextGame = new Chess(game.fen());
-    try {
-      move = nextGame.move({
-        from: sourceSquare,
-        to: targetSquare,
-        promotion: 'q',
-      });
-      newFen = nextGame.fen();
-    } catch (e) {
-      return false;
-    }
+    const result = makeAMove({
+      from: sourceSquare,
+      to: targetSquare,
+      promotion: "q",
+    });
 
-    if (move === null) return false;
-
-    // Update state locally first
-    setGame(nextGame);
-    setMoveHistory(nextGame.history());
-
-    // Send the NEW state to server/AI
-    if (onMove) {
-      onMove(newFen, (move as any).lan || (move as any).san);
-    }
-
-    return true;
+    return result !== null;
   }
 
   const resetGame = () => {
@@ -168,7 +238,9 @@ export default function ChessBoardUI({
             <Chessboard 
               position={game.fen()} 
               onPieceDrop={onDrop} 
+              onSquareClick={onSquareClick}
               boardOrientation={orientation}
+              customSquareStyles={optionSquares}
               customBoardStyle={{
                 borderRadius: '1rem',
                 boxShadow: '0 5px 15px rgba(0, 0, 0, 0.5)'
