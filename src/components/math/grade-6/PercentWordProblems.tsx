@@ -30,13 +30,13 @@ interface PercentWordProblemsProps {
 export function PercentWordProblems({ onBack, type }: PercentWordProblemsProps) {
     const [selectedSet, setSelectedSet] = useState<PercentWordProblemSet | null>(null);
     const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
-    const [userAnswer, setUserAnswer] = useState('');
-    const [feedback, setFeedback] = useState<'correct' | 'incorrect' | null>(null);
-    const [showResult, setShowResult] = useState(false);
+    const [userAnswers, setUserAnswers] = useState<Record<number, string>>({});
+    const [feedbacks, setFeedbacks] = useState<Record<number, 'correct' | 'incorrect' | null>>({});
+    const [questionAttempts, setQuestionAttempts] = useState<Record<number, number>>({});
+    const [showSolutions, setShowSolutions] = useState<Record<number, boolean>>({});
     const [score, setScore] = useState(0);
     const [xpEarned, setXpEarned] = useState(0);
-    const [attempts, setAttempts] = useState(0);
-    const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
+    const [showResult, setShowResult] = useState(false);
 
     // Determine data set and metadata based on type
     const dataSets = type === 'value' ? percentValueWordProblems :
@@ -56,23 +56,27 @@ export function PercentWordProblems({ onBack, type }: PercentWordProblemsProps) 
     const handleSelectSet = (set: PercentWordProblemSet) => {
         setSelectedSet(set);
         setCurrentProblemIndex(0);
-        setUserAnswer('');
-        setFeedback(null);
+        setUserAnswers({});
+        setFeedbacks({});
+        setQuestionAttempts({});
+        setShowSolutions({});
         setShowResult(false);
         setScore(0);
         setXpEarned(0);
-        setAttempts(0);
-        setShowCorrectAnswer(false);
     };
 
     const checkAnswer = () => {
-        if (!currentProblem || !userAnswer) return;
+        const userAnswer = userAnswers[currentProblemIndex] || '';
+        const feedback = feedbacks[currentProblemIndex];
+        const attempts = questionAttempts[currentProblemIndex] || 0;
+
+        if (!currentProblem || !userAnswer || feedback === 'correct') return;
 
         const normalizedUserAnswer = userAnswer.replace(',', '.').trim();
         const isCorrect = parseFloat(normalizedUserAnswer) === currentProblem.answer;
 
         if (isCorrect) {
-            setFeedback('correct');
+            setFeedbacks(prev => ({ ...prev, [currentProblemIndex]: 'correct' }));
             if (attempts === 0) {
                 setScore(prev => prev + 1);
                 const xp = selectedSet?.difficulty === 'easy' ? 10 : selectedSet?.difficulty === 'medium' ? 15 : 20;
@@ -86,8 +90,8 @@ export function PercentWordProblems({ onBack, type }: PercentWordProblemsProps) 
                 colors: [type === 'value' ? '#fb7185' : type === 'rate' ? '#10b981' : '#3b82f6', '#ffffff']
             });
         } else {
-            setFeedback('incorrect');
-            setAttempts(prev => prev + 1);
+            setFeedbacks(prev => ({ ...prev, [currentProblemIndex]: 'incorrect' }));
+            setQuestionAttempts(prev => ({ ...prev, [currentProblemIndex]: (prev[currentProblemIndex] || 0) + 1 }));
         }
     };
 
@@ -96,10 +100,6 @@ export function PercentWordProblems({ onBack, type }: PercentWordProblemsProps) 
 
         if (currentProblemIndex < selectedSet.problems.length - 1) {
             setCurrentProblemIndex(prev => prev + 1);
-            setUserAnswer('');
-            setFeedback(null);
-            setAttempts(0);
-            setShowCorrectAnswer(false);
         } else {
             setShowResult(true);
         }
@@ -107,17 +107,20 @@ export function PercentWordProblems({ onBack, type }: PercentWordProblemsProps) 
 
     const renderAnswerTemplate = (template: string) => {
         const parts = template.split('{x}');
+        const userAnswer = userAnswers[currentProblemIndex] || '';
+        const feedback = feedbacks[currentProblemIndex];
+
         return (
             <div className="flex flex-wrap items-center gap-2 text-xl md:text-2xl font-medium text-slate-700 bg-slate-50 p-4 md:p-6 rounded-2xl border-2 border-slate-100">
                 <span>{parts[0]}</span>
                 <div className="relative">
-                    <Input
+                    <input
                         type="text"
                         value={userAnswer}
-                        onChange={(e) => setUserAnswer(e.target.value)}
+                        onChange={(e) => setUserAnswers(prev => ({ ...prev, [currentProblemIndex]: e.target.value }))}
                         disabled={feedback === 'correct'}
                         className={cn(
-                            "w-24 md:w-32 text-center text-2xl font-bold h-12 md:h-14 rounded-xl border-2 transition-all",
+                            "w-24 md:w-32 text-center text-2xl font-bold h-12 md:h-14 rounded-xl border-2 transition-all outline-none",
                             feedback === 'correct' ? "bg-emerald-50 border-emerald-500 text-emerald-700" :
                                 feedback === 'incorrect' ? "bg-rose-50 border-rose-500 text-rose-700 animate-shake" :
                                     "bg-white border-slate-200 focus:border-primary focus:ring-4 focus:ring-primary/10"
@@ -180,10 +183,13 @@ export function PercentWordProblems({ onBack, type }: PercentWordProblemsProps) 
                             </Button>
                             <Button
                                 variant="outline"
-                                onClick={onBack}
+                                onClick={() => {
+                                    setSelectedSet(null);
+                                    setShowResult(false);
+                                }}
                                 className="flex-1 h-16 rounded-2xl text-lg font-bold border-2 hover:bg-slate-50 transition-all"
                             >
-                                Vissza a témákhoz
+                                Vissza a szintekhez
                             </Button>
                         </div>
                     </div>
@@ -309,6 +315,26 @@ export function PercentWordProblems({ onBack, type }: PercentWordProblemsProps) 
                     <div className="flex flex-col gap-10">
                         {/* Question Section */}
                         <div className="space-y-6">
+                            <div className="flex flex-wrap gap-2 mb-4">
+                                {selectedSet.problems.map((_, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => setCurrentProblemIndex(index)}
+                                        className={cn(
+                                            "w-10 h-10 rounded-xl font-bold transition-all border-2",
+                                            currentProblemIndex === index
+                                                ? "bg-primary border-primary text-white shadow-lg shadow-primary/30 scale-110"
+                                                : feedbacks[index] === 'correct'
+                                                    ? "bg-emerald-50 border-emerald-200 text-emerald-600"
+                                                    : feedbacks[index] === 'incorrect'
+                                                        ? "bg-rose-50 border-rose-200 text-rose-600"
+                                                        : "bg-white border-slate-100 text-slate-400 hover:border-slate-300"
+                                        )}
+                                    >
+                                        {index + 1}
+                                    </button>
+                                ))}
+                            </div>
                             <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-full text-sm font-bold text-slate-600">
                                 <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse" />
                                 {currentProblemIndex + 1}. Feladat
@@ -324,17 +350,17 @@ export function PercentWordProblems({ onBack, type }: PercentWordProblemsProps) 
 
                             {/* Feedback and Helper Buttons */}
                             <div className="flex flex-wrap items-center gap-4 py-2">
-                                {feedback === null && (
+                                {feedbacks[currentProblemIndex] !== 'correct' && (
                                     <Button
                                         onClick={checkAnswer}
-                                        disabled={!userAnswer}
+                                        disabled={!(userAnswers[currentProblemIndex] || '')}
                                         className="h-14 px-10 rounded-2xl text-lg font-black shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all hover:-translate-y-1 active:translate-y-0"
                                     >
                                         Ellenőrzés
                                     </Button>
                                 )}
 
-                                {feedback === 'incorrect' && !showCorrectAnswer && (
+                                {feedbacks[currentProblemIndex] === 'incorrect' && !showSolutions[currentProblemIndex] && (
                                     <div className="flex flex-wrap items-center gap-3 animate-in slide-in-from-left-4">
                                         <Button
                                             onClick={checkAnswer}
@@ -344,7 +370,7 @@ export function PercentWordProblems({ onBack, type }: PercentWordProblemsProps) 
                                         </Button>
                                         <Button
                                             variant="outline"
-                                            onClick={() => setShowCorrectAnswer(true)}
+                                            onClick={() => setShowSolutions(prev => ({ ...prev, [currentProblemIndex]: true }))}
                                             className="h-14 px-6 rounded-2xl font-bold border-2"
                                         >
                                             Megnézem a megoldást
@@ -352,18 +378,18 @@ export function PercentWordProblems({ onBack, type }: PercentWordProblemsProps) 
                                     </div>
                                 )}
 
-                                {showCorrectAnswer && (
+                                {showSolutions[currentProblemIndex] && (
                                     <div className="bg-amber-50 text-amber-800 px-6 py-4 rounded-2xl border-2 border-amber-200 font-bold animate-in zoom-in">
                                         A helyes válasz: <span className="text-2xl ml-2">{currentProblem.answer}{currentProblem.suffix ? ' ' + currentProblem.suffix : ''}</span>
                                     </div>
                                 )}
 
-                                {(feedback === 'correct' || showCorrectAnswer) && (
+                                {(feedbacks[currentProblemIndex] === 'correct' || showSolutions[currentProblemIndex]) && (
                                     <Button
                                         onClick={nextProblem}
                                         className="h-14 px-10 rounded-2xl text-lg font-black bg-emerald-500 hover:bg-emerald-600 shadow-lg shadow-emerald-500/20 animate-in fade-in"
                                     >
-                                        Következő feladat
+                                        {currentProblemIndex < selectedSet.problems.length - 1 ? 'Következő feladat' : 'Befejezés'}
                                         <ChevronRight className="ml-2 w-5 h-5" />
                                     </Button>
                                 )}
