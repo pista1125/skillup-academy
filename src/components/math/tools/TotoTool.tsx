@@ -235,7 +235,7 @@ export function TotoTool({ onBack }: TotoToolProps) {
                 const questionsPerCell = Math.ceil(questions.length / groupCount);
                 
                 doc.setFont('NotoSans', 'normal');
-                doc.setFontSize(8.5);
+                doc.setFontSize(9);
                 doc.setTextColor(0, 0, 0);
 
                 const gridStartY = currentY;
@@ -260,6 +260,7 @@ export function TotoTool({ onBack }: TotoToolProps) {
                         cellQuestions.forEach((q, idxInCell) => {
                             const globalIdx = qStart + idxInCell;
                             const qText = `${globalIdx + 1}. ${q.question}`;
+                            doc.setFontSize(9);
                             const lines = doc.splitTextToSize(qText, colWidth - 10);
                             doc.text(lines, colX + 5, colY);
                             colY += lines.length * 4.2 + 1.8;
@@ -279,6 +280,7 @@ export function TotoTool({ onBack }: TotoToolProps) {
                         doc.setFontSize(10);
                         doc.text('!', marginX + colWidth - 2.5, gridStartY - 5);
                         doc.setFont('NotoSans', 'normal');
+                        doc.setFontSize(9);
                         doc.setLineDashPattern([], 0);
                     }
 
@@ -293,6 +295,7 @@ export function TotoTool({ onBack }: TotoToolProps) {
                         doc.setFontSize(10);
                         doc.text('!', marginX - 8, hrY + 1.5);
                         doc.setFont('NotoSans', 'normal');
+                        doc.setFontSize(9);
                         doc.setLineDashPattern([], 0);
                         currentY = hrY + 6;
                     } else {
