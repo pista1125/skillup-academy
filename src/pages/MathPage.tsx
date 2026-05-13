@@ -3148,7 +3148,7 @@ export default function MathPage() {
             }
           </div>
         )}
-        {((activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'volume-surface' && activityType !== 'student-feedback') || view !== 'activity') && <SiteFooter />}
+        {((activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'volume-surface' && activityType !== 'student-feedback' && activityType !== 'volume-quiz') || view !== 'activity') && <SiteFooter />}
       </div>
     </div>
   );

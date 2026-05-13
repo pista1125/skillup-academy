@@ -281,12 +281,9 @@ export default function VolumeQuiz({ onBack }: { onBack: () => void }) {
 
     if (!difficulty) {
         return (
-            <div className="max-w-5xl mx-auto p-4 animate-in fade-in slide-in-from-bottom-4 duration-500 overflow-hidden">
-                <Button variant="ghost" onClick={onBack} size="sm" className="mb-6 rounded-xl hover:bg-slate-100">
-                    <ArrowLeft className="w-4 h-4 mr-1" /> Vissza
-                </Button>
+            <div className="max-w-5xl mx-auto p-2 animate-in fade-in slide-in-from-bottom-4 duration-500 overflow-hidden">
                 
-                <div className="text-center mb-10">
+                <div className="text-center mb-6">
                     <div className="inline-flex p-4 bg-indigo-100 rounded-3xl text-indigo-600 mb-4">
                         <Box className="w-10 h-10" />
                     </div>
@@ -408,7 +405,22 @@ export default function VolumeQuiz({ onBack }: { onBack: () => void }) {
             <Card className="flex-1 overflow-hidden rounded-[32px] border-none shadow-xl bg-white flex flex-col relative">
                 <div className="flex-1 grid grid-cols-1 md:grid-cols-5 gap-4 p-6 md:p-8 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200">
                     {/* Left Side: Illustration */}
-                    <div className="md:col-span-3 flex flex-col justify-center gap-6">
+                    <div className="md:col-span-3 flex flex-col justify-start gap-4">
+                        <div className="p-4 bg-slate-50 rounded-3xl border border-slate-100">
+                             <div className="flex items-center gap-3 mb-1">
+                                <Target className="w-4 h-4 text-primary" />
+                                <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em]">Feladat</span>
+                             </div>
+                             <h2 className="text-lg md:text-xl font-black text-slate-800 tracking-tight leading-tight">
+                                {currentQ.text}
+                             </h2>
+                             {difficulty === 'hard' && (
+                                <p className="mt-1 text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-lg w-fit">
+                                    Figyelj a mértékegység-váltásra!
+                                </p>
+                             )}
+                        </div>
+
                         <VolumeBox 
                             a={currentQ.a} 
                             b={currentQ.b} 
@@ -418,25 +430,10 @@ export default function VolumeQuiz({ onBack }: { onBack: () => void }) {
                             unitC={currentQ.unitC}
                             missingSide={currentQ.missingSide}
                         />
-                        
-                        <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100">
-                             <div className="flex items-center gap-3 mb-2">
-                                <Target className="w-5 h-5 text-primary" />
-                                <span className="text-xs font-black text-primary uppercase tracking-[0.2em]">Feladat</span>
-                             </div>
-                             <h2 className="text-2xl md:text-3xl font-black text-slate-800 tracking-tight leading-tight">
-                                {currentQ.text}
-                             </h2>
-                             {difficulty === 'hard' && (
-                                <p className="mt-3 text-sm font-bold text-amber-600 bg-amber-50 px-3 py-1 rounded-lg w-fit">
-                                    Figyelj a mértékegység-váltásra!
-                                </p>
-                             )}
-                        </div>
                     </div>
 
                     {/* Right Side: Interaction */}
-                    <div className="md:col-span-2 flex flex-col justify-start md:justify-center items-center bg-slate-50/30 rounded-3xl p-6 min-h-[400px]">
+                    <div className="md:col-span-2 flex flex-col justify-start items-center bg-slate-50/30 rounded-3xl p-6">
                         {currentQ.questionType === 'multiple-choice' && (
                             <div className="grid grid-cols-1 gap-3 w-full">
                                 {currentQ.options?.map((opt, idx) => (
