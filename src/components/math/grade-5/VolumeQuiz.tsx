@@ -45,12 +45,16 @@ function VolumeBox({ a, b, c, unitA, unitB, unitC, showLabels = true, missingSid
     const skewX = d * Math.cos(Math.PI / 4);
     const skewY = d * Math.sin(Math.PI / 4);
 
-    const originX = 40;
-    const originY = 80 + skewY;
+    const padding = 60; // Increased padding to avoid clipping
+    const originX = padding;
+    const originY = padding + skewY;
+
+    const svgWidth = w + skewX + padding * 2;
+    const svgHeight = h + skewY + padding * 2;
 
     return (
-        <div className="relative flex flex-col items-center justify-center p-8 bg-white rounded-3xl border border-slate-100 shadow-inner overflow-hidden min-h-[300px]">
-            <svg width={w + skewX + 100} height={h + skewY + 100} viewBox={`0 0 ${w + skewX + 100} ${h + skewY + 100}`} className="drop-shadow-xl">
+        <div className="relative flex flex-col items-center justify-center p-4 bg-white rounded-3xl border border-slate-100 shadow-inner min-h-[350px]">
+            <svg width={svgWidth} height={svgHeight} viewBox={`0 0 ${svgWidth} ${svgHeight}`} className="drop-shadow-xl overflow-visible">
                 {/* Back faces (dashed) */}
                 <path 
                     d={`M ${originX + skewX} ${originY - skewY} L ${originX + skewX} ${originY - skewY + h} M ${originX + skewX} ${originY - skewY + h} L ${originX} ${originY + h} M ${originX + skewX} ${originY - skewY + h} L ${originX + w + skewX} ${originY - skewY + h}`}
@@ -89,20 +93,20 @@ function VolumeBox({ a, b, c, unitA, unitB, unitC, showLabels = true, missingSid
                 {/* Labels */}
                 {showLabels && (
                     <>
-                        <text x={originX + w/2} y={originY + h + 25} textAnchor="middle" className="font-black text-slate-700 text-sm italic">
+                        <text x={originX + w/2} y={originY + h + 30} textAnchor="middle" className="font-black text-slate-700 text-sm italic">
                             {missingSide === 'a' ? 'a = ?' : `a = ${a} ${unitA}`}
                         </text>
-                        <text x={originX + w + skewX/2 + 10} y={originY + h/2 + 25} textAnchor="start" className="font-black text-slate-700 text-sm italic">
+                        <text x={originX + w + skewX/2 + 12} y={originY + h/2 + skewY/2} textAnchor="start" className="font-black text-slate-700 text-sm italic">
                             {missingSide === 'c' ? 'c = ?' : `c = ${c} ${unitC}`}
                         </text>
-                        <text x={originX + w + skewX/2 + 5} y={originY - skewY/2 + 5} textAnchor="start" className="font-black text-slate-700 text-sm italic">
+                        <text x={originX + w + skewX/2 + 8} y={originY - skewY/2 - 10} textAnchor="start" className="font-black text-slate-700 text-sm italic">
                             {missingSide === 'b' ? 'b = ?' : `b = ${b} ${unitB}`}
                         </text>
                     </>
                 )}
             </svg>
             
-            <div className="mt-8 text-xs font-bold text-slate-400 uppercase tracking-widest bg-slate-100 px-3 py-1 rounded-full">
+            <div className="mt-4 text-xs font-bold text-slate-400 uppercase tracking-widest bg-slate-100 px-3 py-1 rounded-full">
                 {a === b && b === c ? 'Kocka' : 'Téglatest'} ábrázolása
             </div>
         </div>
