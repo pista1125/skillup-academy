@@ -53,7 +53,7 @@ function VolumeBox({ a, b, c, unitA, unitB, unitC, showLabels = true, missingSid
     const svgHeight = h + skewY + padding * 2;
 
     return (
-        <div className="relative flex flex-col items-center justify-center p-4 bg-white rounded-3xl border border-slate-100 shadow-inner min-h-[350px]">
+        <div className="relative flex flex-col items-center justify-center p-4 bg-white rounded-3xl border border-slate-100 shadow-inner min-h-[300px]">
             <svg width={svgWidth} height={svgHeight} viewBox={`0 0 ${svgWidth} ${svgHeight}`} className="drop-shadow-xl overflow-visible">
                 {/* Back faces (dashed) */}
                 <path 
@@ -406,7 +406,7 @@ export default function VolumeQuiz({ onBack }: { onBack: () => void }) {
             </div>
 
             <Card className="flex-1 overflow-hidden rounded-[32px] border-none shadow-xl bg-white flex flex-col relative">
-                <div className="flex-1 grid grid-cols-1 md:grid-cols-5 gap-4 p-6 md:p-8 overflow-hidden">
+                <div className="flex-1 grid grid-cols-1 md:grid-cols-5 gap-4 p-6 md:p-8 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200">
                     {/* Left Side: Illustration */}
                     <div className="md:col-span-3 flex flex-col justify-center gap-6">
                         <VolumeBox 
@@ -436,7 +436,7 @@ export default function VolumeQuiz({ onBack }: { onBack: () => void }) {
                     </div>
 
                     {/* Right Side: Interaction */}
-                    <div className="md:col-span-2 flex flex-col justify-center items-center bg-slate-50/30 rounded-3xl p-6">
+                    <div className="md:col-span-2 flex flex-col justify-start md:justify-center items-center bg-slate-50/30 rounded-3xl p-6 min-h-[400px]">
                         {currentQ.questionType === 'multiple-choice' && (
                             <div className="grid grid-cols-1 gap-3 w-full">
                                 {currentQ.options?.map((opt, idx) => (
