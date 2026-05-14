@@ -34,9 +34,9 @@ interface VolumeBoxProps {
 }
 
 function VolumeBox({ a, b, c, unitA, unitB, unitC, showLabels = true, missingSide }: VolumeBoxProps) {
-    // Normalize for display (max size around 200px)
+    // Normalize for display (max size around 100px now)
     const maxVal = Math.max(a, b, c);
-    const baseScale = Math.min(120 / maxVal, 40); 
+    const baseScale = Math.min(60 / maxVal, 20); 
     
     // Isometric-ish projection parameters
     const w = a * baseScale;
@@ -45,7 +45,7 @@ function VolumeBox({ a, b, c, unitA, unitB, unitC, showLabels = true, missingSid
     const skewX = d * Math.cos(Math.PI / 4);
     const skewY = d * Math.sin(Math.PI / 4);
 
-    const padding = 60; // Increased padding to avoid clipping
+    const padding = 30; // Reduced padding
     const originX = padding;
     const originY = padding + skewY;
 
@@ -53,15 +53,15 @@ function VolumeBox({ a, b, c, unitA, unitB, unitC, showLabels = true, missingSid
     const svgHeight = h + skewY + padding * 2;
 
     return (
-        <div className="relative flex flex-col items-center justify-center p-4 bg-white rounded-3xl border border-slate-100 shadow-inner min-h-[300px]">
-            <svg width={svgWidth} height={svgHeight} viewBox={`0 0 ${svgWidth} ${svgHeight}`} className="drop-shadow-xl overflow-visible">
+        <div className="relative flex flex-col items-center justify-center p-2 bg-white rounded-2xl border border-slate-100 shadow-inner min-h-[150px]">
+            <svg width={svgWidth} height={svgHeight} viewBox={`0 0 ${svgWidth} ${svgHeight}`} className="drop-shadow-lg overflow-visible">
                 {/* Back faces (dashed) */}
                 <path 
                     d={`M ${originX + skewX} ${originY - skewY} L ${originX + skewX} ${originY - skewY + h} M ${originX + skewX} ${originY - skewY + h} L ${originX} ${originY + h} M ${originX + skewX} ${originY - skewY + h} L ${originX + w + skewX} ${originY - skewY + h}`}
                     fill="none"
                     stroke="#cbd5e1"
                     strokeWidth="1"
-                    strokeDasharray="4 4"
+                    strokeDasharray="3 3"
                 />
 
                 {/* Main Faces */}
@@ -70,7 +70,7 @@ function VolumeBox({ a, b, c, unitA, unitB, unitC, showLabels = true, missingSid
                     d={`M ${originX + w} ${originY} L ${originX + w + skewX} ${originY - skewY} L ${originX + w + skewX} ${originY - skewY + h} L ${originX + w} ${originY + h} Z`}
                     fill="#f1f5f9"
                     stroke="#1e293b"
-                    strokeWidth="2"
+                    strokeWidth="1.5"
                     strokeLinejoin="round"
                 />
                 {/* Top Face */}
@@ -78,7 +78,7 @@ function VolumeBox({ a, b, c, unitA, unitB, unitC, showLabels = true, missingSid
                     d={`M ${originX} ${originY} L ${originX + skewX} ${originY - skewY} L ${originX + w + skewX} ${originY - skewY} L ${originX + w} ${originY} Z`}
                     fill="#e2e8f0"
                     stroke="#1e293b"
-                    strokeWidth="2"
+                    strokeWidth="1.5"
                     strokeLinejoin="round"
                 />
                 {/* Front Face */}
@@ -86,28 +86,28 @@ function VolumeBox({ a, b, c, unitA, unitB, unitC, showLabels = true, missingSid
                     x={originX} y={originY} width={w} height={h}
                     fill="#f8fafc"
                     stroke="#1e293b"
-                    strokeWidth="2"
+                    strokeWidth="1.5"
                     strokeLinejoin="round"
                 />
 
                 {/* Labels */}
                 {showLabels && (
                     <>
-                        <text x={originX + w/2} y={originY + h + 30} textAnchor="middle" className="font-black text-slate-700 text-sm italic">
+                        <text x={originX + w/2} y={originY + h + 20} textAnchor="middle" className="font-black text-slate-700 text-[10px] italic">
                             {missingSide === 'a' ? 'a = ?' : `a = ${a} ${unitA}`}
                         </text>
-                        <text x={originX + w + skewX/2 + 12} y={originY + h/2 + skewY/2} textAnchor="start" className="font-black text-slate-700 text-sm italic">
+                        <text x={originX + w + 6} y={originY + h/2} textAnchor="start" className="font-black text-slate-700 text-[10px] italic">
                             {missingSide === 'c' ? 'c = ?' : `c = ${c} ${unitC}`}
                         </text>
-                        <text x={originX + w + skewX/2 + 8} y={originY - skewY/2 - 10} textAnchor="start" className="font-black text-slate-700 text-sm italic">
+                        <text x={originX + w + skewX/2 + 6} y={originY + h - skewY/2 + 4} textAnchor="start" className="font-black text-slate-700 text-[10px] italic">
                             {missingSide === 'b' ? 'b = ?' : `b = ${b} ${unitB}`}
                         </text>
                     </>
                 )}
             </svg>
             
-            <div className="mt-4 text-xs font-bold text-slate-400 uppercase tracking-widest bg-slate-100 px-3 py-1 rounded-full">
-                {a === b && b === c ? 'Kocka' : 'Téglatest'} ábrázolása
+            <div className="mt-2 text-[8px] font-bold text-slate-400 uppercase tracking-widest bg-slate-100 px-2 py-0.5 rounded-full">
+                {a === b && b === c ? 'Kocka' : 'Téglatest'}
             </div>
         </div>
     );
@@ -391,7 +391,7 @@ export default function VolumeQuiz({ onBack }: { onBack: () => void }) {
     const isSub = submitted[currentIndex];
 
     return (
-        <div className="max-w-5xl mx-auto p-2 h-[90vh] flex flex-col">
+        <div className="max-w-5xl mx-auto p-2 flex flex-col">
             <div className="flex items-center justify-between mb-2 px-2">
                 <Button variant="ghost" size="sm" onClick={() => setDifficulty(null)} className="rounded-xl h-8 text-xs">
                     <ArrowLeft className="w-3 h-3 mr-1" /> Kilépés
@@ -405,7 +405,7 @@ export default function VolumeQuiz({ onBack }: { onBack: () => void }) {
             </div>
 
             <Card className="flex-1 overflow-hidden rounded-[32px] border-none shadow-xl bg-white flex flex-col relative">
-                <div className="flex-1 grid grid-cols-1 md:grid-cols-5 gap-4 p-6 md:p-8 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-200">
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-4 p-6 md:p-8">
                     {/* Left Side: Illustration */}
                     <div className="md:col-span-3 flex flex-col justify-start gap-4">
                         <div className="p-4 bg-slate-50 rounded-3xl border border-slate-100">
