@@ -1,91 +1,93 @@
-import { useState, useRef, useEffect, useMemo } from 'react';
+import { useState, useRef, useEffect, useMemo, lazy, Suspense } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { SectionHeader } from "@/components/math/shared/SectionHeader";
 import { ActivityPlaceholder } from "@/components/math/shared/ActivityPlaceholder";
-import DecimalFractionsQuiz from "@/components/math/grade-5/DecimalFractionsQuiz";
-import DecimalMultiplicationQuiz from "@/components/math/grade-5/DecimalMultiplicationQuiz";
-import DecimalDivisionQuiz from "@/components/math/grade-5/DecimalDivisionQuiz";
 import { mathTopics } from '@/data/mathTopics';
 import { MathTopicCard } from "@/components/math/shared/MathTopicCard";
 import { ScrollSpySidebar, NavItem } from "@/components/math/shared/ScrollSpySidebar";
 import { HorizontalTopicNav } from "@/components/math/shared/HorizontalTopicNav";
-import { MathQuiz } from "@/components/math/shared/MathQuiz";
 import { GradeSelector } from '@/components/GradeSelector';
-import { FractionVisualizer } from "@/components/math/tools/FractionVisualizer";
-import { FractionsModule } from "@/components/math/grade-4/FractionsModule";
-import { Grade1MathModule } from "@/components/math/grade-1/Grade1MathModule";
-import { Grade2MathModule } from "@/components/math/grade-2/Grade2MathModule";
-import { Grade3MathModule } from "@/components/math/grade-3/Grade3MathModule";
-import { AlgebraQuiz } from "@/components/math/grade-7/AlgebraQuiz";
-import { MathColoringGame } from "@/components/math/games/MathColoringGame";
-import { DivisibilityTool } from "@/components/math/tools/DivisibilityTool";
-import { MaterialGallery } from "@/components/math/shared/MaterialGallery";
-import { LessonViewer } from "@/components/math/shared/LessonViewer";
-import { LongDivisionTool } from "@/components/math/tools/LongDivisionTool";
-import { MathSnakeGame } from "@/components/math/games/MathSnakeGame";
-import { AngleMatcher } from "@/components/math/grade-7/AngleMatcher";
-import { ShapeClassifier } from "@/components/math/grade-4/ShapeClassifier";
-import { LineRelationships } from "@/components/math/grade-4/LineRelationships";
-import { DivisibilityPowersModule } from "@/components/math/grade-6/DivisibilityPowersModule";
-import { WordProblemsModule } from "@/components/math/grade-5/WordProblemsModule";
-import { TriangleClassifier } from "@/components/math/grade-6/TriangleClassifier";
-import { QuadrilateralClassifier } from "@/components/math/grade-6/QuadrilateralClassifier";
-import { CirclePartsGame } from "@/components/math/games/CirclePartsGame";
-import { TriangleAnglesQuiz } from "@/components/math/grade-7/TriangleAnglesQuiz";
-import { DecimalFractionsTool } from "@/components/math/tools/DecimalFractionsTool";
-import { NumberLineTool } from "@/components/math/tools/NumberLineTool";
-import { ManipulativeDivision } from "@/components/math/tools/ManipulativeDivision";
-import { ConstructionTool } from "@/components/math/tools/ConstructionTool";
-import { PercentagesQuiz } from "@/components/math/grade-6/PercentagesQuiz";
-import { PercentWordProblems } from "@/components/math/grade-6/PercentWordProblems";
-import { EquationSolverTool } from "@/components/math/tools/EquationSolverTool";
-import { EquationBalanceTool } from "@/components/math/tools/EquationBalanceTool";
-import { MoneyCalculationTool } from "@/components/math/tools/MoneyCalculationTool";
-import DecimalShifterTool from "@/components/math/tools/DecimalShifterTool";
-import { PuzzleMakerTool } from "@/components/math/tools/PuzzleMakerTool";
-import { TotoTool } from "@/components/math/tools/TotoTool";
-import { GeometryModule } from "@/components/math/grade-5/GeometryModule";
-import { SymmetryQuiz } from "@/components/math/grade-6/SymmetryQuiz";
-import { LogicBlocksGame } from "@/components/math/games/LogicBlocksGame";
-import { VennDiagramGame } from "@/components/math/games/VennDiagramGame";
-import { GroupingGame } from "@/components/math/games/GroupingGame";
-import { NumberGroupingGame } from "@/components/math/games/NumberGroupingGame";
-import { SudokuGame } from "@/components/math/games/SudokuGame";
-import { SudokuGeneratorTool } from "@/components/math/tools/SudokuGeneratorTool";
-import { VennInterpretationQuiz } from "@/components/math/grade-5/VennInterpretationQuiz";
-import { VennReadingGame } from "@/components/math/games/VennReadingGame";
 import { VENN_READING_OBJECTS, VENN_READING_NUMBERS } from '@/data/vennReadingLevels';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { SidebarMenu } from '@/components/SidebarMenu';
 import { SiteFooter } from '@/components/SiteFooter';
 import { UserMenu } from '@/components/auth/UserMenu';
-import { AxialSymmetryGame } from "@/components/math/games/AxialSymmetryGame";
-import { SymmetryErrorGame } from "@/components/math/games/SymmetryErrorGame";
-import { AxialSymmetryQuiz } from "@/components/math/grade-6/AxialSymmetryQuiz";
-import { SymmetryConstructionTool } from "@/components/math/tools/SymmetryConstructionTool";
-import { AxialSymmetryPresentation } from "@/components/math/grade-6/AxialSymmetryPresentation";
-import { PerimeterAreaTool } from "@/components/math/tools/PerimeterAreaTool";
-import { StudentFeedbackHub } from '@/components/feedback/StudentFeedbackHub';
-import { WordSearchTool } from "@/components/math/tools/WordSearchTool";
-import ChessGame from "@/components/math/games/ChessGame";
-import { MatchingCreator } from "@/components/math/tools/MatchingCreator";
-import { VolumeSurfaceTool } from "@/components/math/tools/VolumeSurfaceTool";
-import { EquationBalanceQuiz } from "@/components/math/grade-7/EquationBalanceQuiz";
-import { WordProblemsQuiz } from "@/components/math/grade-5/WordProblemsQuiz";
-import PerimeterQuiz from "@/components/math/grade-5/PerimeterQuiz";
-import AreaConversionQuiz from "@/components/math/grade-5/AreaConversionQuiz";
-import AreaCalculationQuiz from "@/components/math/grade-5/AreaCalculationQuiz";
-import VolumeQuiz from "@/components/math/grade-5/VolumeQuiz";
-import { Grade7GeometryModule } from "@/components/math/grade-7/Grade7GeometryModule";
-import { RatioIntroQuiz } from "@/components/math/grade-6/RatioIntroQuiz";
-import { RatioCreatorQuiz } from "@/components/math/grade-6/RatioCreatorQuiz";
-import { DirectProportionQuiz } from "@/components/math/grade-6/DirectProportionQuiz";
-import { MatrixSortingGame } from "@/components/math/games/MatrixSortingGame";
-import MemoryGameComponent from "@/components/math/games/MemoryGame";
-import HanoiGame from "@/components/math/games/HanoiGame";
-import TorpedoGame from "@/components/math/games/TorpedoGame";
-import { ParallelogramAreaQuiz } from "@/components/math/grade-7/ParallelogramAreaQuiz";
 import CompetencyMatrixHub from '@/components/math/competency-matrix/CompetencyMatrixHub';
+
+// Lazy load heavy components
+const DecimalFractionsQuiz = lazy(() => import("@/components/math/grade-5/DecimalFractionsQuiz")) as any;
+const DecimalMultiplicationQuiz = lazy(() => import("@/components/math/grade-5/DecimalMultiplicationQuiz")) as any;
+const DecimalDivisionQuiz = lazy(() => import("@/components/math/grade-5/DecimalDivisionQuiz")) as any;
+const MathQuiz = lazy(() => import("@/components/math/shared/MathQuiz").then(m => ({ default: m.MathQuiz }))) as any;
+const FractionVisualizer = lazy(() => import("@/components/math/tools/FractionVisualizer").then(m => ({ default: m.FractionVisualizer }))) as any;
+const FractionsModule = lazy(() => import("@/components/math/grade-4/FractionsModule").then(m => ({ default: m.FractionsModule }))) as any;
+const Grade1MathModule = lazy(() => import("@/components/math/grade-1/Grade1MathModule").then(m => ({ default: m.Grade1MathModule }))) as any;
+const Grade2MathModule = lazy(() => import("@/components/math/grade-2/Grade2MathModule").then(m => ({ default: m.Grade2MathModule }))) as any;
+const Grade3MathModule = lazy(() => import("@/components/math/grade-3/Grade3MathModule").then(m => ({ default: m.Grade3MathModule }))) as any;
+const AlgebraQuiz = lazy(() => import("@/components/math/grade-7/AlgebraQuiz").then(m => ({ default: m.AlgebraQuiz }))) as any;
+const MathColoringGame = lazy(() => import("@/components/math/games/MathColoringGame").then(m => ({ default: m.MathColoringGame }))) as any;
+const DivisibilityTool = lazy(() => import("@/components/math/tools/DivisibilityTool").then(m => ({ default: m.DivisibilityTool }))) as any;
+const MaterialGallery = lazy(() => import("@/components/math/shared/MaterialGallery").then(m => ({ default: m.MaterialGallery }))) as any;
+const LessonViewer = lazy(() => import("@/components/math/shared/LessonViewer").then(m => ({ default: m.LessonViewer }))) as any;
+const LongDivisionTool = lazy(() => import("@/components/math/tools/LongDivisionTool").then(m => ({ default: m.LongDivisionTool }))) as any;
+const MathSnakeGame = lazy(() => import("@/components/math/games/MathSnakeGame").then(m => ({ default: m.MathSnakeGame }))) as any;
+const AngleMatcher = lazy(() => import("@/components/math/grade-7/AngleMatcher").then(m => ({ default: m.AngleMatcher }))) as any;
+const ShapeClassifier = lazy(() => import("@/components/math/grade-4/ShapeClassifier").then(m => ({ default: m.ShapeClassifier }))) as any;
+const LineRelationships = lazy(() => import("@/components/math/grade-4/LineRelationships").then(m => ({ default: m.LineRelationships }))) as any;
+const DivisibilityPowersModule = lazy(() => import("@/components/math/grade-6/DivisibilityPowersModule").then(m => ({ default: m.DivisibilityPowersModule }))) as any;
+const WordProblemsModule = lazy(() => import("@/components/math/grade-5/WordProblemsModule").then(m => ({ default: m.WordProblemsModule }))) as any;
+const TriangleClassifier = lazy(() => import("@/components/math/grade-6/TriangleClassifier").then(m => ({ default: m.TriangleClassifier }))) as any;
+const QuadrilateralClassifier = lazy(() => import("@/components/math/grade-6/QuadrilateralClassifier").then(m => ({ default: m.QuadrilateralClassifier }))) as any;
+const CirclePartsGame = lazy(() => import("@/components/math/games/CirclePartsGame").then(m => ({ default: m.CirclePartsGame }))) as any;
+const TriangleAnglesQuiz = lazy(() => import("@/components/math/grade-7/TriangleAnglesQuiz").then(m => ({ default: m.TriangleAnglesQuiz }))) as any;
+const DecimalFractionsTool = lazy(() => import("@/components/math/tools/DecimalFractionsTool").then(m => ({ default: m.DecimalFractionsTool }))) as any;
+const NumberLineTool = lazy(() => import("@/components/math/tools/NumberLineTool").then(m => ({ default: m.NumberLineTool }))) as any;
+const ManipulativeDivision = lazy(() => import("@/components/math/tools/ManipulativeDivision").then(m => ({ default: m.ManipulativeDivision }))) as any;
+const ConstructionTool = lazy(() => import("@/components/math/tools/ConstructionTool").then(m => ({ default: m.ConstructionTool }))) as any;
+const PercentagesQuiz = lazy(() => import("@/components/math/grade-6/PercentagesQuiz").then(m => ({ default: m.PercentagesQuiz }))) as any;
+const PercentWordProblems = lazy(() => import("@/components/math/grade-6/PercentWordProblems").then(m => ({ default: m.PercentWordProblems }))) as any;
+const EquationSolverTool = lazy(() => import("@/components/math/tools/EquationSolverTool").then(m => ({ default: m.EquationSolverTool }))) as any;
+const EquationBalanceTool = lazy(() => import("@/components/math/tools/EquationBalanceTool").then(m => ({ default: m.EquationBalanceTool }))) as any;
+const MoneyCalculationTool = lazy(() => import("@/components/math/tools/MoneyCalculationTool").then(m => ({ default: m.MoneyCalculationTool }))) as any;
+const DecimalShifterTool = lazy(() => import("@/components/math/tools/DecimalShifterTool")) as any;
+const PuzzleMakerTool = lazy(() => import("@/components/math/tools/PuzzleMakerTool").then(m => ({ default: m.PuzzleMakerTool }))) as any;
+const TotoTool = lazy(() => import("@/components/math/tools/TotoTool").then(m => ({ default: m.TotoTool }))) as any;
+const GeometryModule = lazy(() => import("@/components/math/grade-5/GeometryModule").then(m => ({ default: m.GeometryModule }))) as any;
+const SymmetryQuiz = lazy(() => import("@/components/math/grade-6/SymmetryQuiz").then(m => ({ default: m.SymmetryQuiz }))) as any;
+const LogicBlocksGame = lazy(() => import("@/components/math/games/LogicBlocksGame").then(m => ({ default: m.LogicBlocksGame }))) as any;
+const VennDiagramGame = lazy(() => import("@/components/math/games/VennDiagramGame").then(m => ({ default: m.VennDiagramGame }))) as any;
+const GroupingGame = lazy(() => import("@/components/math/games/GroupingGame").then(m => ({ default: m.GroupingGame }))) as any;
+const NumberGroupingGame = lazy(() => import("@/components/math/games/NumberGroupingGame").then(m => ({ default: m.NumberGroupingGame }))) as any;
+const SudokuGame = lazy(() => import("@/components/math/games/SudokuGame").then(m => ({ default: m.SudokuGame }))) as any;
+const SudokuGeneratorTool = lazy(() => import("@/components/math/tools/SudokuGeneratorTool").then(m => ({ default: m.SudokuGeneratorTool }))) as any;
+const VennInterpretationQuiz = lazy(() => import("@/components/math/grade-5/VennInterpretationQuiz").then(m => ({ default: m.VennInterpretationQuiz }))) as any;
+const VennReadingGame = lazy(() => import("@/components/math/games/VennReadingGame").then(m => ({ default: m.VennReadingGame }))) as any;
+const AxialSymmetryGame = lazy(() => import("@/components/math/games/AxialSymmetryGame").then(m => ({ default: m.AxialSymmetryGame }))) as any;
+const SymmetryErrorGame = lazy(() => import("@/components/math/games/SymmetryErrorGame").then(m => ({ default: m.SymmetryErrorGame }))) as any;
+const AxialSymmetryQuiz = lazy(() => import("@/components/math/grade-6/AxialSymmetryQuiz").then(m => ({ default: m.AxialSymmetryQuiz }))) as any;
+const SymmetryConstructionTool = lazy(() => import("@/components/math/tools/SymmetryConstructionTool").then(m => ({ default: m.SymmetryConstructionTool }))) as any;
+const AxialSymmetryPresentation = lazy(() => import("@/components/math/grade-6/AxialSymmetryPresentation").then(m => ({ default: m.AxialSymmetryPresentation }))) as any;
+const PerimeterAreaTool = lazy(() => import("@/components/math/tools/PerimeterAreaTool").then(m => ({ default: m.PerimeterAreaTool }))) as any;
+const StudentFeedbackHub = lazy(() => import("@/components/feedback/StudentFeedbackHub").then(m => ({ default: m.StudentFeedbackHub }))) as any;
+const WordSearchTool = lazy(() => import("@/components/math/tools/WordSearchTool").then(m => ({ default: m.WordSearchTool }))) as any;
+const ChessGame = lazy(() => import("@/components/math/games/ChessGame")) as any;
+const MatchingCreator = lazy(() => import("@/components/math/tools/MatchingCreator").then(m => ({ default: m.MatchingCreator }))) as any;
+const VolumeSurfaceTool = lazy(() => import("@/components/math/tools/VolumeSurfaceTool").then(m => ({ default: m.VolumeSurfaceTool }))) as any;
+const EquationBalanceQuiz = lazy(() => import("@/components/math/grade-7/EquationBalanceQuiz").then(m => ({ default: m.EquationBalanceQuiz }))) as any;
+const WordProblemsQuiz = lazy(() => import("@/components/math/grade-5/WordProblemsQuiz").then(m => ({ default: m.WordProblemsQuiz }))) as any;
+const PerimeterQuiz = lazy(() => import("@/components/math/grade-5/PerimeterQuiz")) as any;
+const AreaConversionQuiz = lazy(() => import("@/components/math/grade-5/AreaConversionQuiz")) as any;
+const AreaCalculationQuiz = lazy(() => import("@/components/math/grade-5/AreaCalculationQuiz")) as any;
+const VolumeQuiz = lazy(() => import("@/components/math/grade-5/VolumeQuiz")) as any;
+const Grade7GeometryModule = lazy(() => import("@/components/math/grade-7/Grade7GeometryModule").then(m => ({ default: m.Grade7GeometryModule }))) as any;
+const RatioIntroQuiz = lazy(() => import("@/components/math/grade-6/RatioIntroQuiz").then(m => ({ default: m.RatioIntroQuiz }))) as any;
+const RatioCreatorQuiz = lazy(() => import("@/components/math/grade-6/RatioCreatorQuiz").then(m => ({ default: m.RatioCreatorQuiz }))) as any;
+const DirectProportionQuiz = lazy(() => import("@/components/math/grade-6/DirectProportionQuiz").then(m => ({ default: m.DirectProportionQuiz }))) as any;
+const MatrixSortingGame = lazy(() => import("@/components/math/games/MatrixSortingGame").then(m => ({ default: m.MatrixSortingGame }))) as any;
+const MemoryGameComponent = lazy(() => import("@/components/math/games/MemoryGame")) as any;
+const HanoiGame = lazy(() => import("@/components/math/games/HanoiGame")) as any;
+const TorpedoGame = lazy(() => import("@/components/math/games/TorpedoGame")) as any;
+const ParallelogramAreaQuiz = lazy(() => import("@/components/math/grade-7/ParallelogramAreaQuiz").then(m => ({ default: m.ParallelogramAreaQuiz }))) as any;
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -2783,6 +2785,17 @@ export default function MathPage() {
 
         {view === 'activity' && (
           <div className="animate-slide-up">
+            <Suspense fallback={
+              <div className="flex flex-col items-center justify-center py-32 space-y-6 animate-pulse">
+                <div className="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 bg-primary/40 rounded-full animate-ping" />
+                </div>
+                <div className="space-y-2 text-center">
+                  <h3 className="text-xl font-bold text-slate-700">Töltés...</h3>
+                  <p className="text-slate-400">Pár pillanat és kezdhetjük!</p>
+                </div>
+              </div>
+            }>
             {/* HUB MODULES - Handle their own sets of activities exclusively */}
             {(activityType === 'fractions' || activityType.startsWith('fractions-') || activityType.startsWith('decimal-')) ? (
               <FractionsModule
@@ -3144,10 +3157,10 @@ export default function MathPage() {
                   </div>
                 )}
               </div>
-            )
-            }
-          </div>
-        )}
+            )}
+          </Suspense>
+        </div>
+      )}
         {((activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'volume-surface' && activityType !== 'student-feedback' && activityType !== 'volume-quiz') || view !== 'activity') && <SiteFooter />}
       </div>
     </div>
