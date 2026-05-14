@@ -255,6 +255,8 @@ export default function VolumeQuiz({ onBack }: { onBack: () => void }) {
     };
 
     const handleAnswerUpdate = (val: any) => {
+        if (submitted[currentIndex]) return;
+        
         const newAnswers = [...answers];
         newAnswers[currentIndex] = val;
         setAnswers(newAnswers);
@@ -438,16 +440,18 @@ export default function VolumeQuiz({ onBack }: { onBack: () => void }) {
                             <div className="grid grid-cols-1 gap-3 w-full">
                                 {currentQ.options?.map((opt, idx) => (
                                     <button
-                                        key={idx} onClick={() => handleAnswerUpdate(opt)}
+                                        key={idx} 
+                                        onClick={() => handleAnswerUpdate(opt)}
+                                        disabled={isSub}
                                         className={cn(
-                                            "h-16 rounded-2xl text-2xl font-black transition-all border-2 flex items-center justify-center gap-3",
+                                            "h-10 rounded-2xl text-base font-black transition-all border-2 flex items-center justify-center gap-3",
                                             userChoice === opt 
                                                 ? (isSub && opt === currentQ.answer ? "bg-emerald-500 border-emerald-500 text-white shadow-lg shadow-emerald-200" : "bg-primary border-primary text-white shadow-lg shadow-primary/20")
-                                                : "bg-white border-slate-100 hover:border-primary/30 text-slate-600 hover:shadow-md"
+                                                : "bg-white border-slate-100 hover:border-primary/30 text-slate-600 hover:shadow-md disabled:hover:border-slate-100 disabled:hover:shadow-none"
                                         )}
                                     >
                                         {opt}
-                                        <span className="text-sm font-bold opacity-60">{currentQ.targetUnit}</span>
+                                        <span className="text-xs font-bold opacity-60">{currentQ.targetUnit}</span>
                                     </button>
                                 ))}
                             </div>
@@ -457,16 +461,18 @@ export default function VolumeQuiz({ onBack }: { onBack: () => void }) {
                             <div className="flex flex-col gap-4 w-full">
                                 {[true, false].map((val) => (
                                     <button
-                                        key={val ? 't' : 'f'} onClick={() => handleAnswerUpdate(val)}
+                                        key={val ? 't' : 'f'} 
+                                        onClick={() => handleAnswerUpdate(val)}
+                                        disabled={isSub}
                                         className={cn(
-                                            "flex-1 h-24 rounded-3xl border-2 flex flex-col items-center justify-center transition-all",
+                                            "flex-1 h-12 rounded-3xl border-2 flex flex-col items-center justify-center transition-all",
                                             userChoice === val
                                                 ? (isSub && val === currentQ.isTrue ? "bg-emerald-500 border-emerald-500 text-white" : "bg-primary border-primary text-white")
-                                                : "bg-white border-slate-100 hover:border-primary/30 text-slate-400"
+                                                : "bg-white border-slate-100 hover:border-primary/30 text-slate-400 disabled:hover:border-slate-100"
                                         )}
                                     >
-                                        {val ? <Check className="w-8 h-8 mb-1" /> : <XCircle className="w-8 h-8 mb-1" />}
-                                        <span className="font-black">{val ? 'Igaz' : 'Hamis'}</span>
+                                        {val ? <Check className="w-4 h-4 mb-0.5" /> : <XCircle className="w-4 h-4 mb-0.5" />}
+                                        <span className="font-black text-sm">{val ? 'Igaz' : 'Hamis'}</span>
                                     </button>
                                 ))}
                             </div>
@@ -478,10 +484,11 @@ export default function VolumeQuiz({ onBack }: { onBack: () => void }) {
                                     <Input
                                         value={userChoice || ""} 
                                         onChange={(e) => handleAnswerUpdate(e.target.value)}
-                                        className="h-20 text-4xl font-black text-center pr-20 rounded-2xl border-2 border-slate-100 focus:border-primary"
+                                        disabled={isSub}
+                                        className="h-10 text-xl font-black text-center pr-20 rounded-2xl border-2 border-slate-100 focus:border-primary"
                                         placeholder="..."
                                     />
-                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 font-black text-slate-300 text-xl">{currentQ.targetUnit}</span>
+                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 font-black text-slate-300 text-sm">{currentQ.targetUnit}</span>
                                 </div>
                                 <p className="text-center text-xs text-slate-400 font-bold uppercase tracking-widest">Írd be a pontos értéket!</p>
                             </div>
