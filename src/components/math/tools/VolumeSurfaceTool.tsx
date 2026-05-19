@@ -38,7 +38,9 @@ const Face = ({
     rotation, 
     color, 
     opacity = 0.6,
-    label
+    label,
+    showLabels,
+    labelText
 }: { 
     width: number, 
     height: number, 
@@ -46,7 +48,9 @@ const Face = ({
     rotation: [number, number, number],
     color: string,
     opacity?: number,
-    label?: string
+    label?: string,
+    showLabels?: boolean,
+    labelText?: string
 }) => {
     return (
         <group position={position} rotation={rotation}>
@@ -65,18 +69,20 @@ const Face = ({
                 <edgesGeometry args={[useMemo(() => new THREE.PlaneGeometry(width, height), [width, height])]} />
                 <lineBasicMaterial color={color} linewidth={2} />
             </lineSegments>
-            {/* {label && (
+            {showLabels && (
                 <Text
-                    position={[0, 0, 0.01]}
-                    fontSize={Math.min(width, height) * 0.2}
-                    color="white"
+                    position={[0, 0, 0.02]}
+                    fontSize={Math.min(width, height) * 0.16}
+                    color="#1e293b"
                     anchorX="center"
                     anchorY="middle"
-                    font="/fonts/Inter-Bold.woff"
+                    fontWeight="bold"
+                    outlineColor="white"
+                    outlineWidth={0.02}
                 >
-                    {label}
+                    {labelText || `${label}\n(${width} × ${height})`}
                 </Text>
-            )} */}
+            )}
         </group>
     );
 };
@@ -89,19 +95,22 @@ const RectangularPrism = ({
     height, 
     depth, 
     unfoldProgress,
-    showFaces = true
+    showFaces = true,
+    showLabels = false
 }: { 
     width: number, 
     height: number, 
     depth: number, 
     unfoldProgress: number,
-    showFaces?: boolean
+    showFaces?: boolean,
+    showLabels?: boolean
 }) => {
     // Unfold logic:
     // 0 = Folded (Prism)
     // 1 = Unfolded (Flat Net)
     
     const angle = (unfoldProgress * Math.PI) / 2;
+    const showFaceLabels = showLabels && unfoldProgress <= 0.5;
 
     if (!showFaces) return null;
 
@@ -115,6 +124,8 @@ const RectangularPrism = ({
                 rotation={[-Math.PI / 2, 0, 0]} 
                 color="#3b82f6" 
                 label="Alap"
+                showLabels={showFaceLabels}
+                labelText={`Alap\n(a = ${width}, c = ${depth})`}
             />
 
             {/* FRONT */}
@@ -126,6 +137,8 @@ const RectangularPrism = ({
                     rotation={[0, 0, 0]} 
                     color="#ef4444" 
                     label="Előlap"
+                    showLabels={showFaceLabels}
+                    labelText={`Előlap\n(a = ${width}, b = ${height})`}
                 />
                 
                 {/* TOP (Attached to Front) */}
@@ -135,8 +148,10 @@ const RectangularPrism = ({
                         height={depth} 
                         position={[0, depth/2, 0]} 
                         rotation={[0, 0, 0]} 
-                        color="#8b5cf6" 
+                        color="#3b82f6" // Matched to Bottom (blue)
                         label="Fedőlap"
+                        showLabels={showFaceLabels}
+                        labelText={`Fedőlap\n(a = ${width}, c = ${depth})`}
                     />
                 </group>
             </group>
@@ -148,8 +163,10 @@ const RectangularPrism = ({
                     height={height} 
                     position={[0, height/2, 0]} 
                     rotation={[0, Math.PI, 0]} 
-                    color="#f59e0b" 
+                    color="#ef4444" // Matched to Front (red)
                     label="Hátlap"
+                    showLabels={showFaceLabels}
+                    labelText={`Hátlap\n(a = ${width}, b = ${height})`}
                 />
             </group>
 
@@ -161,7 +178,9 @@ const RectangularPrism = ({
                     position={[0, height/2, 0]} 
                     rotation={[0, -Math.PI / 2, 0]} 
                     color="#10b981" 
-                    label="Bal"
+                    label="Bal lap"
+                    showLabels={showFaceLabels}
+                    labelText={`Bal lap\n(c = ${depth}, b = ${height})`}
                 />
             </group>
 
@@ -172,10 +191,143 @@ const RectangularPrism = ({
                     height={height} 
                     position={[0, height/2, 0]} 
                     rotation={[0, Math.PI / 2, 0]} 
-                    color="#ec4899" 
-                    label="Jobb"
+                    color="#10b981" // Matched to Left (green)
+                    label="Jobb lap"
+                    showLabels={showFaceLabels}
+                    labelText={`Jobb lap\n(c = ${depth}, b = ${height})`}
                 />
             </group>
+
+            {/* UNFLIPPED, PERFECTLY READABLE OVERLAY LABELS WHEN UNFOLDED */}
+            {showLabels && unfoldProgress > 0.5 && (
+                <group position={[0, -height/2 + 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+                    {/* BOTTOM label */}
+                    <Text 
+                        position={[0, 0, 0.01]} 
+                        fontSize={Math.min(width, depth) * 0.14}
+                        color="#1e293b" 
+                        fontWeight="bold" 
+                        outlineColor="white" 
+                        outlineWidth={0.02}
+                    >
+                        {`Alap\nT = ${width * depth} e²\n(a = ${width}, c = ${depth})`}
+                    </Text>
+                    
+                    {/* FRONT label */}
+                    <Text 
+                        position={[0, depth/2 + height/2, 0.01]} 
+                        fontSize={Math.min(width, height) * 0.14}
+                        color="#1e293b" 
+                        fontWeight="bold" 
+                        outlineColor="white" 
+                        outlineWidth={0.02}
+                    >
+                        {`Előlap\nT = ${width * height} e²\n(a = ${width}, b = ${height})`}
+                    </Text>
+                    
+                    {/* TOP label */}
+                    <Text 
+                        position={[0, depth/2 + height + depth/2, 0.01]} 
+                        fontSize={Math.min(width, depth) * 0.14}
+                        color="#1e293b" 
+                        fontWeight="bold" 
+                        outlineColor="white" 
+                        outlineWidth={0.02}
+                    >
+                        {`Fedőlap\nT = ${width * depth} e²\n(a = ${width}, c = ${depth})`}
+                    </Text>
+                    
+                    {/* BACK label */}
+                    <Text 
+                        position={[0, -depth/2 - height/2, 0.01]} 
+                        fontSize={Math.min(width, height) * 0.14}
+                        color="#1e293b" 
+                        fontWeight="bold" 
+                        outlineColor="white" 
+                        outlineWidth={0.02}
+                    >
+                        {`Hátlap\nT = ${width * height} e²\n(a = ${width}, b = ${height})`}
+                    </Text>
+                    
+                    {/* LEFT label */}
+                    <Text 
+                        position={[-width/2 - depth/2, 0, 0.01]} 
+                        fontSize={Math.min(depth, height) * 0.14}
+                        color="#1e293b" 
+                        fontWeight="bold" 
+                        outlineColor="white" 
+                        outlineWidth={0.02}
+                    >
+                        {`Bal lap\nT = ${depth * height} e²\n(c = ${depth}, b = ${height})`}
+                    </Text>
+                    
+                    {/* RIGHT label */}
+                    <Text 
+                        position={[width/2 + depth/2, 0, 0.01]} 
+                        fontSize={Math.min(depth, height) * 0.14}
+                        color="#1e293b" 
+                        fontWeight="bold" 
+                        outlineColor="white" 
+                        outlineWidth={0.02}
+                    >
+                        {`Jobb lap\nT = ${depth * height} e²\n(c = ${depth}, b = ${height})`}
+                    </Text>
+                </group>
+            )}
+
+            {showLabels && unfoldProgress < 0.1 && (
+                <group>
+                    {/* Width label along the bottom-front edge */}
+                    <Text
+                        position={[0, -height/2 - 0.4, depth/2 + 0.1]}
+                        fontSize={0.3}
+                        color="#1e293b"
+                        anchorX="center"
+                        anchorY="middle"
+                        backgroundColor="white"
+                        backgroundPadding={0.06}
+                        borderRadius={0.04}
+                        outlineColor="white"
+                        outlineWidth={0.01}
+                    >
+                        {`a = ${width} egység`}
+                    </Text>
+                    
+                    {/* Height label along the front-right edge */}
+                    <Text
+                        position={[width/2 + 0.4, 0, depth/2 + 0.1]}
+                        fontSize={0.3}
+                        color="#1e293b"
+                        anchorX="center"
+                        anchorY="middle"
+                        backgroundColor="white"
+                        backgroundPadding={0.06}
+                        borderRadius={0.04}
+                        rotation={[0, 0, -Math.PI / 2]}
+                        outlineColor="white"
+                        outlineWidth={0.01}
+                    >
+                        {`b = ${height} egység`}
+                    </Text>
+                    
+                    {/* Depth label along the bottom-right edge */}
+                    <Text
+                        position={[width/2 + 0.1, -height/2 - 0.4, 0]}
+                        fontSize={0.3}
+                        color="#1e293b"
+                        anchorX="center"
+                        anchorY="middle"
+                        backgroundColor="white"
+                        backgroundPadding={0.06}
+                        borderRadius={0.04}
+                        rotation={[0, Math.PI / 4, 0]}
+                        outlineColor="white"
+                        outlineWidth={0.01}
+                    >
+                        {`c = ${depth} egység`}
+                    </Text>
+                </group>
+            )}
         </group>
     );
 };
@@ -237,6 +389,9 @@ export function VolumeSurfaceTool({ onBack }: VolumeSurfaceToolProps) {
     const [fillCount, setFillCount] = useState(0);
     const [autoFill, setAutoFill] = useState(false);
     const [isSelected, setIsSelected] = useState(false);
+    const [resetKey, setResetKey] = useState(0);
+    const [showLabels, setShowLabels] = useState(false);
+    const controlsRef = useRef<any>(null);
 
     const volume = dimensions.width * dimensions.height * dimensions.depth;
     const surfaceArea = 2 * (dimensions.width * dimensions.height + dimensions.height * dimensions.depth + dimensions.width * dimensions.depth);
@@ -280,6 +435,12 @@ export function VolumeSurfaceTool({ onBack }: VolumeSurfaceToolProps) {
         setIsFilling(false);
         setFillCount(0);
         setAutoFill(false);
+        setIsSelected(false);
+        setShowLabels(false);
+        setResetKey(prev => prev + 1);
+        if (controlsRef.current) {
+            controlsRef.current.reset();
+        }
     };
 
     const updateDimension = (dim: keyof typeof dimensions, val: number) => {
@@ -336,6 +497,7 @@ export function VolumeSurfaceTool({ onBack }: VolumeSurfaceToolProps) {
                         <spotLight position={[-10, 10, 10]} angle={0.15} penumbra={1} intensity={1} castShadow />
                         
                         <PivotControls 
+                            key={resetKey}
                             anchor={[0, -1, 0]} 
                             depthTest={false} 
                             lineWidth={3} 
@@ -352,6 +514,7 @@ export function VolumeSurfaceTool({ onBack }: VolumeSurfaceToolProps) {
                                         depth={dimensions.depth} 
                                         unfoldProgress={unfoldProgress}
                                         showFaces={true}
+                                        showLabels={showLabels}
                                     />
                                     
                                     <VolumeFill 
@@ -382,7 +545,7 @@ export function VolumeSurfaceTool({ onBack }: VolumeSurfaceToolProps) {
                             sectionColor="#334155"
                         />
                         <Environment preset="city" />
-                        <OrbitControls makeDefault />
+                        <OrbitControls ref={controlsRef} makeDefault />
                     </Canvas>
 
                     {/* Quick Stats Overlay */}
@@ -474,6 +637,17 @@ export function VolumeSurfaceTool({ onBack }: VolumeSurfaceToolProps) {
                                 >
                                     <Layout className="w-5 h-5" />
                                     {isUnfolded ? "Test összehajtása" : "Test kiterítése (Felszín)"}
+                                </Button>
+
+                                <Button 
+                                    className={cn(
+                                        "w-full h-14 rounded-2xl font-bold justify-start px-6 gap-3 transition-all",
+                                        showLabels ? "bg-blue-600 hover:bg-blue-700 text-white shadow-blue-200" : "bg-white text-slate-700 border-2 border-slate-100 hover:border-indigo-200"
+                                    )}
+                                    onClick={() => setShowLabels(!showLabels)}
+                                >
+                                    <Ruler className="w-5 h-5" />
+                                    {showLabels ? "Méretek elrejtése" : "Méretek megjelenítése"}
                                 </Button>
 
                                 <Button 

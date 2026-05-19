@@ -498,7 +498,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Süllyeszd el az ellenfél hajóit koordináták megadásával! Játssz a barátaid ellen.',
     icon: '⚓',
     color: 'from-indigo-600 to-blue-500',
-    grades: [5, 6, 7],
+    grades: [6, 7],
   },
 ];
 

@@ -75,10 +75,13 @@ const MatchingCreator = lazy(() => import("@/components/math/tools/MatchingCreat
 const VolumeSurfaceTool = lazy(() => import("@/components/math/tools/VolumeSurfaceTool").then(m => ({ default: m.VolumeSurfaceTool }))) as any;
 const EquationBalanceQuiz = lazy(() => import("@/components/math/grade-7/EquationBalanceQuiz").then(m => ({ default: m.EquationBalanceQuiz }))) as any;
 const WordProblemsQuiz = lazy(() => import("@/components/math/grade-5/WordProblemsQuiz").then(m => ({ default: m.WordProblemsQuiz }))) as any;
+const UnitConverterTool = lazy(() => import("@/components/math/tools/UnitConverterTool").then(m => ({ default: m.UnitConverterTool }))) as any;
+const CapacityConverterTool = lazy(() => import("@/components/math/tools/CapacityConverterTool").then(m => ({ default: m.CapacityConverterTool }))) as any;
 const PerimeterQuiz = lazy(() => import("@/components/math/grade-5/PerimeterQuiz")) as any;
 const AreaConversionQuiz = lazy(() => import("@/components/math/grade-5/AreaConversionQuiz")) as any;
 const AreaCalculationQuiz = lazy(() => import("@/components/math/grade-5/AreaCalculationQuiz")) as any;
 const VolumeQuiz = lazy(() => import("@/components/math/grade-5/VolumeQuiz")) as any;
+const SurfaceAreaQuiz = lazy(() => import("@/components/math/grade-5/SurfaceAreaQuiz")) as any;
 const Grade7GeometryModule = lazy(() => import("@/components/math/grade-7/Grade7GeometryModule").then(m => ({ default: m.Grade7GeometryModule }))) as any;
 const RatioIntroQuiz = lazy(() => import("@/components/math/grade-6/RatioIntroQuiz").then(m => ({ default: m.RatioIntroQuiz }))) as any;
 const RatioCreatorQuiz = lazy(() => import("@/components/math/grade-6/RatioCreatorQuiz").then(m => ({ default: m.RatioCreatorQuiz }))) as any;
@@ -158,8 +161,8 @@ type ActivityType =
   | 'venn-reading-objects' | 'venn-reading-numbers' | 'axial-symmetry' | 'symmetry-error' | 'symmetry-construction' | 'axial-symmetry-quiz' | 'axial-symmetry-presentation'
   | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search' | 'memory-game' | 'equation-balance-quiz'
   | 'ratio-intro' | 'ratio-creator' | 'g7-word-problems' | 'direct-proportion-quiz' | 'matrix-sorting-game'
-  | 'toto-maker' | 'chess-game' | 'torpedo-game' | 'matching-creator'
-  | 'hanoi-tower' | 'perimeter-quiz' | 'perimeter-area' | 'volume-surface' | 'volume-quiz' | 'area-conversion-quiz' | 'area-calculation-quiz' | 'parallelogram-area-quiz';
+  | 'toto-maker' | 'chess-game' | 'torpedo-game' | 'matching-creator' | 'unit-converter' | 'capacity-converter'
+  | 'hanoi-tower' | 'perimeter-quiz' | 'perimeter-area' | 'volume-surface' | 'volume-quiz' | 'surface-area-quiz' | 'area-conversion-quiz' | 'area-calculation-quiz' | 'parallelogram-area-quiz';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
 const slugToGrade = (slug: string): GradeLevel | null => {
@@ -199,6 +202,9 @@ const TOOLS: ActivityConfig[] = [
   { id: 'symmetry-construction', title: 'Szimmetria szerkesztő', desc: 'Tengelyes és középpontos tükrözés eszköze', icon: <Repeat className="w-8 h-8" />, color: 'bg-indigo-100 text-indigo-600', category: 'sec-geometry' },
   { id: 'perimeter-area', title: 'Kerület, terület', desc: 'Alakzatok kerületének és területének szemléltetése egységnégyzetekkel', icon: <LayoutGrid className="w-8 h-8" />, color: 'bg-cyan-100 text-cyan-600', category: 'sec-geometry' },
   { id: 'volume-surface', title: 'Térfogat és felszín', desc: '3D testek kiterítése és feltöltése egységkockákkal', icon: <span className="text-3xl">📦</span>, color: 'bg-indigo-100 text-indigo-600', category: 'sec-geometry' },
+  // measurements
+  { id: 'unit-converter', title: 'Hosszúság átváltás', desc: 'Mértékegységek (m, dm, cm, mm) vizuális ábrázolása', icon: <Scale className="w-8 h-8" />, color: 'bg-teal-100 text-teal-600', category: 'sec-measurements' },
+  { id: 'capacity-converter', title: 'Űrmértékegység átváltó', desc: 'Folyadékok áttöltése mérőpoharakba (l, dl, cl, ml)', icon: <span className="text-3xl">🚰</span>, color: 'bg-blue-100 text-blue-600', category: 'sec-measurements' },
   // creative
   { id: 'puzzle-maker', title: 'Online Rejtvénykészítő', desc: 'Készíts matekos rejtvényeket és töltsd le PDF-ben!', icon: <span className="text-3xl">🧩</span>, color: 'bg-violet-100 text-violet-600', category: 'sec-creative' },
   { id: 'toto-maker', title: 'Totó Készítő', desc: 'Készíts 13+1 kérdéses totót egyedi megfejtéssel és töltsd le PDF-ben!', icon: <span className="text-3xl">🏆</span>, color: 'bg-amber-100 text-amber-600', category: 'sec-creative' },
@@ -2075,11 +2081,11 @@ export default function MathPage() {
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
                 title="Mértékegységek"
-                subtitle="Hosszúság átváltás"
-                type="Hamarosan"
-                disabled
+                subtitle="Hosszúság átváltás eszköze"
+                type="Eszköz"
+                onClick={() => handleActivitySelect('unit-converter', topicId)}
                 icon={<Scale className="w-6 h-6" />}
-                color="slate"
+                color="cyan"
               />
             </div>
           </section>
@@ -2130,10 +2136,10 @@ export default function MathPage() {
             <SectionHeader number={5} title="Térfogat és felszín" color="pink" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="3D Szemléltető"
-                subtitle="Kiterítés és feltöltés"
-                type="Eszköz"
-                onClick={() => handleActivitySelect('volume-surface', topicId)}
+                title="Felszín Kvíz"
+                subtitle="Kocka és téglatest"
+                type="Kezdés"
+                onClick={() => handleActivitySelect('surface-area-quiz', topicId)}
                 icon={<Box className="w-6 h-6" />}
                 color="pink"
               />
@@ -2616,6 +2622,7 @@ export default function MathPage() {
             { id: 'sec-fractions', label: 'Törtek', icon: <Percent className="w-4 h-4" /> },
             { id: 'sec-algebra', label: 'Algebra', icon: <Variable className="w-4 h-4" /> },
             { id: 'sec-geometry', label: 'Geometria', icon: <Shapes className="w-4 h-4" /> },
+            { id: 'sec-measurements', label: 'Mértékegység', icon: <Scale className="w-4 h-4" /> },
             { id: 'sec-creative', label: 'Kreatív', icon: <Sparkles className="w-4 h-4" /> },
           ];
 
@@ -2726,11 +2733,34 @@ export default function MathPage() {
                   </div>
                 </section>
 
-                {/* 5. Interaktív / Kreatív eszközök */}
+                {/* 5. Mértékegység átváltás */}
+                <section>
+                  <SectionHeader
+                    id="sec-measurements"
+                    number={5}
+                    title="Mértékegység átváltás"
+                    color="teal"
+                    subtitle="Cél: hosszúság mértékegységek vizuális megértése"
+                  />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
+                    {TOOLS.filter(t => t.category === 'sec-measurements').map(tool => (
+                      <ToolCard
+                        key={tool.id}
+                        title={tool.title}
+                        desc={tool.desc}
+                        icon={tool.icon}
+                        color={tool.color}
+                        onClick={() => handleToolSelect(tool.id)}
+                      />
+                    ))}
+                  </div>
+                </section>
+
+                {/* 6. Interaktív / Kreatív eszközök */}
                 <section>
                   <SectionHeader
                     id="sec-creative"
-                    number={5}
+                    number={6}
                     title="Interaktív / Kreatív eszközök"
                     color="violet"
                     subtitle="Készíts saját tartalmakat!"
@@ -2963,6 +2993,14 @@ export default function MathPage() {
                   <ManipulativeDivision onBack={handleBack} />
                 )}
 
+                {activityType === 'unit-converter' && (
+                  <UnitConverterTool onBack={handleBack} />
+                )}
+
+                {activityType === 'capacity-converter' && (
+                  <CapacityConverterTool onBack={handleBack} />
+                )}
+
                 {activityType === 'equation-solver' && (
                   <EquationSolverTool onBack={handleBack} />
                 )}
@@ -3111,6 +3149,10 @@ export default function MathPage() {
                   <VolumeQuiz onBack={handleBack} />
                 )}
 
+                {activityType === 'surface-area-quiz' && (
+                  <SurfaceAreaQuiz onBack={handleBack} />
+                )}
+
                 {activityType === 'quiz' && (
                   <MathQuiz
                     grade={typeof selectedGrade === 'number' ? selectedGrade : 5}
@@ -3161,7 +3203,7 @@ export default function MathPage() {
           </Suspense>
         </div>
       )}
-        {((activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'volume-surface' && activityType !== 'student-feedback' && activityType !== 'volume-quiz') || view !== 'activity') && <SiteFooter />}
+        {((activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'volume-surface' && activityType !== 'student-feedback' && activityType !== 'volume-quiz' && activityType !== 'surface-area-quiz' && activityType !== 'unit-converter' && activityType !== 'capacity-converter') || view !== 'activity') && <SiteFooter />}
       </div>
     </div>
   );
