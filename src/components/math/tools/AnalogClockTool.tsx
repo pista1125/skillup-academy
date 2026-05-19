@@ -658,13 +658,13 @@ export function AnalogClockTool({ onBack }: AnalogClockToolProps) {
                 x2="150"
                 y2="65"
                 transform={`rotate(${minuteAngle} 150 150)`}
-                stroke="#d97706"
+                stroke="#16a34a"
                 strokeWidth="5"
                 strokeLinecap="round"
               />
 
               {/* Central pin design */}
-              <circle cx="150" cy="150" r="8" fill="#d97706" />
+              <circle cx="150" cy="150" r="8" fill="#16a34a" />
               <circle cx="150" cy="150" r="3" fill="#ffffff" />
 
               {/* Interactive drag areas at tips */}
@@ -703,7 +703,7 @@ export function AnalogClockTool({ onBack }: AnalogClockToolProps) {
                       cx="150"
                       cy="65"
                       r="5"
-                      fill="#d97706"
+                      fill="#16a34a"
                       stroke="#ffffff"
                       strokeWidth="1.5"
                       className="pointer-events-none"
