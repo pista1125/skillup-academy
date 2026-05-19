@@ -77,6 +77,7 @@ const EquationBalanceQuiz = lazy(() => import("@/components/math/grade-7/Equatio
 const WordProblemsQuiz = lazy(() => import("@/components/math/grade-5/WordProblemsQuiz").then(m => ({ default: m.WordProblemsQuiz }))) as any;
 const UnitConverterTool = lazy(() => import("@/components/math/tools/UnitConverterTool").then(m => ({ default: m.UnitConverterTool }))) as any;
 const CapacityConverterTool = lazy(() => import("@/components/math/tools/CapacityConverterTool").then(m => ({ default: m.CapacityConverterTool }))) as any;
+const AnalogClockTool = lazy(() => import("@/components/math/tools/AnalogClockTool").then(m => ({ default: m.AnalogClockTool }))) as any;
 const PerimeterQuiz = lazy(() => import("@/components/math/grade-5/PerimeterQuiz")) as any;
 const AreaConversionQuiz = lazy(() => import("@/components/math/grade-5/AreaConversionQuiz")) as any;
 const AreaCalculationQuiz = lazy(() => import("@/components/math/grade-5/AreaCalculationQuiz")) as any;
@@ -161,7 +162,7 @@ type ActivityType =
   | 'venn-reading-objects' | 'venn-reading-numbers' | 'axial-symmetry' | 'symmetry-error' | 'symmetry-construction' | 'axial-symmetry-quiz' | 'axial-symmetry-presentation'
   | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search' | 'memory-game' | 'equation-balance-quiz'
   | 'ratio-intro' | 'ratio-creator' | 'g7-word-problems' | 'direct-proportion-quiz' | 'matrix-sorting-game'
-  | 'toto-maker' | 'chess-game' | 'torpedo-game' | 'matching-creator' | 'unit-converter' | 'capacity-converter'
+  | 'toto-maker' | 'chess-game' | 'torpedo-game' | 'matching-creator' | 'unit-converter' | 'capacity-converter' | 'analog-clock'
   | 'hanoi-tower' | 'perimeter-quiz' | 'perimeter-area' | 'volume-surface' | 'volume-quiz' | 'surface-area-quiz' | 'area-conversion-quiz' | 'area-calculation-quiz' | 'parallelogram-area-quiz';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
@@ -205,6 +206,8 @@ const TOOLS: ActivityConfig[] = [
   // measurements
   { id: 'unit-converter', title: 'Hosszúság átváltás', desc: 'Mértékegységek (m, dm, cm, mm) vizuális ábrázolása', icon: <Scale className="w-8 h-8" />, color: 'bg-teal-100 text-teal-600', category: 'sec-measurements' },
   { id: 'capacity-converter', title: 'Űrmértékegység átváltó', desc: 'Folyadékok áttöltése mérőpoharakba (l, dl, cl, ml)', icon: <span className="text-3xl">🚰</span>, color: 'bg-blue-100 text-blue-600', category: 'sec-measurements' },
+  // measuring instruments
+  { id: 'analog-clock', title: 'Számlapos óra', desc: 'Időpontok leolvasása és beállítása a számlapon', icon: <span className="text-3xl">⏰</span>, color: 'bg-amber-100 text-amber-600', category: 'sec-measuring-instruments' },
   // creative
   { id: 'puzzle-maker', title: 'Online Rejtvénykészítő', desc: 'Készíts matekos rejtvényeket és töltsd le PDF-ben!', icon: <span className="text-3xl">🧩</span>, color: 'bg-violet-100 text-violet-600', category: 'sec-creative' },
   { id: 'toto-maker', title: 'Totó Készítő', desc: 'Készíts 13+1 kérdéses totót egyedi megfejtéssel és töltsd le PDF-ben!', icon: <span className="text-3xl">🏆</span>, color: 'bg-amber-100 text-amber-600', category: 'sec-creative' },
@@ -2623,6 +2626,7 @@ export default function MathPage() {
             { id: 'sec-algebra', label: 'Algebra', icon: <Variable className="w-4 h-4" /> },
             { id: 'sec-geometry', label: 'Geometria', icon: <Shapes className="w-4 h-4" /> },
             { id: 'sec-measurements', label: 'Mértékegység', icon: <Scale className="w-4 h-4" /> },
+            { id: 'sec-measuring-instruments', label: 'Mérőeszközök', icon: <Wrench className="w-4 h-4" /> },
             { id: 'sec-creative', label: 'Kreatív', icon: <Sparkles className="w-4 h-4" /> },
           ];
 
@@ -2756,11 +2760,34 @@ export default function MathPage() {
                   </div>
                 </section>
 
-                {/* 6. Interaktív / Kreatív eszközök */}
+                {/* 7. Mérőeszközök */}
+                <section>
+                  <SectionHeader
+                    id="sec-measuring-instruments"
+                    number={7}
+                    title="Mérőeszközök"
+                    color="amber"
+                    subtitle="Cél: óra leolvasása, időmérés vizuális gyakorlása"
+                  />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
+                    {TOOLS.filter(t => t.category === 'sec-measuring-instruments').map(tool => (
+                      <ToolCard
+                        key={tool.id}
+                        title={tool.title}
+                        desc={tool.desc}
+                        icon={tool.icon}
+                        color={tool.color}
+                        onClick={() => handleToolSelect(tool.id)}
+                      />
+                    ))}
+                  </div>
+                </section>
+
+                {/* 8. Interaktív / Kreatív eszközök */}
                 <section>
                   <SectionHeader
                     id="sec-creative"
-                    number={6}
+                    number={8}
                     title="Interaktív / Kreatív eszközök"
                     color="violet"
                     subtitle="Készíts saját tartalmakat!"
@@ -3001,6 +3028,10 @@ export default function MathPage() {
                   <CapacityConverterTool onBack={handleBack} />
                 )}
 
+                {activityType === 'analog-clock' && (
+                  <AnalogClockTool onBack={handleBack} />
+                )}
+
                 {activityType === 'equation-solver' && (
                   <EquationSolverTool onBack={handleBack} />
                 )}
@@ -3203,7 +3234,7 @@ export default function MathPage() {
           </Suspense>
         </div>
       )}
-        {((activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'volume-surface' && activityType !== 'student-feedback' && activityType !== 'volume-quiz' && activityType !== 'surface-area-quiz' && activityType !== 'unit-converter' && activityType !== 'capacity-converter') || view !== 'activity') && <SiteFooter />}
+        {((activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'volume-surface' && activityType !== 'student-feedback' && activityType !== 'volume-quiz' && activityType !== 'surface-area-quiz' && activityType !== 'unit-converter' && activityType !== 'capacity-converter' && activityType !== 'analog-clock') || view !== 'activity') && <SiteFooter />}
       </div>
     </div>
   );
