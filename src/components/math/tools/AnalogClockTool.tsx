@@ -601,7 +601,7 @@ export function AnalogClockTool({ onBack }: AnalogClockToolProps) {
                     y={coords.y}
                     textAnchor="middle"
                     dominantBaseline="middle"
-                    className="text-[9px] font-black text-amber-500/80 fill-current"
+                    className="text-[9px] font-black text-green-600 fill-current"
                   >
                     {minVal}
                   </text>
