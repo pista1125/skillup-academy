@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Mail, ShieldCheck, FileText, Info, Sparkles, Instagram, Facebook, Youtube } from "lucide-react";
 
 export function SiteFooter() {
@@ -41,18 +42,18 @@ export function SiteFooter() {
                             Jogi Információk
                         </h4>
                         <nav className="flex flex-col gap-4">
-                            <a href="#" className="flex items-center gap-3 text-sm font-bold text-slate-300 hover:text-white transition-all group">
+                            <Link to="/rolunk" className="flex items-center gap-3 text-sm font-bold text-slate-300 hover:text-white transition-all group">
                                 <Info className="w-4 h-4 text-slate-500 group-hover:text-emerald-500 transition-all" /> Rólunk
-                            </a>
+                            </Link>
                             <a href="#" className="flex items-center gap-3 text-sm font-bold text-slate-300 hover:text-white transition-all group">
                                 <Mail className="w-4 h-4 text-slate-500 group-hover:text-emerald-500 transition-all" /> Beszélj velünk
                             </a>
-                            <a href="#" className="flex items-center gap-3 text-sm font-bold text-slate-300 hover:text-white transition-all group">
+                            <Link to="/adatkezeles" className="flex items-center gap-3 text-sm font-bold text-slate-300 hover:text-white transition-all group">
                                 <ShieldCheck className="w-4 h-4 text-slate-500 group-hover:text-emerald-500 transition-all" /> Adatkezelési tájékoztató
-                            </a>
-                            <a href="#" className="flex items-center gap-3 text-sm font-bold text-slate-300 hover:text-white transition-all group">
+                            </Link>
+                            <Link to="/felhasznalasi-feltetelek" className="flex items-center gap-3 text-sm font-bold text-slate-300 hover:text-white transition-all group">
                                 <FileText className="w-4 h-4 text-slate-500 group-hover:text-emerald-500 transition-all" /> Felhasználási feltételek
-                            </a>
+                            </Link>
                         </nav>
                     </div>
 

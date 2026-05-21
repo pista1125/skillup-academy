@@ -10,6 +10,9 @@ import { AuthProvider } from "./contexts/AuthContext";
 
 const MathPage = lazy(() => import("./pages/MathPage"));
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
+const AboutPage = lazy(() => import("./pages/AboutPage"));
+const PrivacyPage = lazy(() => import("./pages/PrivacyPage"));
+const TermsPage = lazy(() => import("./pages/TermsPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -33,6 +36,9 @@ const App = () => (
             <Route path="/jatekok" element={<MathPage />} />
             <Route path="/jatekok/:topic" element={<MathPage />} />
             <Route path="/profil" element={<ProfilePage />} />
+            <Route path="/rolunk" element={<AboutPage />} />
+            <Route path="/adatkezeles" element={<PrivacyPage />} />
+            <Route path="/felhasznalasi-feltetelek" element={<TermsPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
     Dialog,
     DialogContent,
@@ -10,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
 import { Loader2, LogIn, UserPlus, Chrome, GraduationCap, School } from "lucide-react";
@@ -28,6 +30,7 @@ export function AuthModal({ isOpen, onClose, defaultTab = 'login' }: AuthModalPr
     const [confirmPassword, setConfirmPassword] = useState('');
     const [fullName, setFullName] = useState('');
     const [role, setRole] = useState<'teacher' | 'student'>('student');
+    const [acceptedTerms, setAcceptedTerms] = useState(false);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -51,6 +54,10 @@ export function AuthModal({ isOpen, onClose, defaultTab = 'login' }: AuthModalPr
         e.preventDefault();
         if (password !== confirmPassword) {
             toast.error("A jelszavak nem egyeznek!");
+            return;
+        }
+        if (!acceptedTerms) {
+            toast.error("Kérjük, fogadd el a Felhasználási feltételeket és az Adatkezelési tájékoztatót!");
             return;
         }
         setLoading(true);
@@ -221,6 +228,27 @@ export function AuthModal({ isOpen, onClose, defaultTab = 'login' }: AuthModalPr
                                     className="rounded-xl"
                                 />
                             </div>
+                            
+                            <div className="flex items-start gap-2.5 pt-2">
+                                <Checkbox
+                                    id="accept-terms"
+                                    checked={acceptedTerms}
+                                    onCheckedChange={(checked) => setAcceptedTerms(checked === true)}
+                                    className="mt-0.5 border-slate-300 dark:border-slate-700 data-[state=checked]:bg-emerald-500 data-[state=checked]:border-emerald-500"
+                                />
+                                <Label htmlFor="accept-terms" className="text-xs text-slate-500 leading-snug cursor-pointer select-none font-medium">
+                                    Elolvastam és elfogadom a{" "}
+                                    <Link to="/felhasznalasi-feltetelek" target="_blank" className="text-emerald-500 hover:text-emerald-400 font-bold underline">
+                                        Felhasználási feltételeket
+                                    </Link>{" "}
+                                    és az{" "}
+                                    <Link to="/adatkezeles" target="_blank" className="text-emerald-500 hover:text-emerald-400 font-bold underline">
+                                        Adatkezelési tájékoztatót
+                                    </Link>
+                                    .
+                                </Label>
+                            </div>
+
                             <Button type="submit" className="w-full rounded-xl h-11 font-bold bg-gradient-math" disabled={loading}>
                                 {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <><UserPlus className="w-5 h-5 mr-2" /> Regisztráció</>}
                             </Button>
