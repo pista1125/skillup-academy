@@ -12,9 +12,9 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import { SidebarMenu } from '@/components/SidebarMenu';
 import { SiteFooter } from '@/components/SiteFooter';
 import { UserMenu } from '@/components/auth/UserMenu';
-import CompetencyMatrixHub from '@/components/math/competency-matrix/CompetencyMatrixHub';
 
 // Lazy load heavy components
+const CompetencyMatrixHub = lazy(() => import("@/components/math/competency-matrix/CompetencyMatrixHub")) as any;
 const DecimalFractionsQuiz = lazy(() => import("@/components/math/grade-5/DecimalFractionsQuiz")) as any;
 const DecimalMultiplicationQuiz = lazy(() => import("@/components/math/grade-5/DecimalMultiplicationQuiz")) as any;
 const DecimalDivisionQuiz = lazy(() => import("@/components/math/grade-5/DecimalDivisionQuiz")) as any;
@@ -2853,7 +2853,19 @@ export default function MathPage() {
         )}
 
         {view === 'competency-select' && (
-          <CompetencyMatrixHub onBack={handleHome} />
+          <Suspense fallback={
+            <div className="flex flex-col items-center justify-center py-32 space-y-6 animate-pulse">
+              <div className="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center">
+                <div className="w-12 h-12 bg-primary/40 rounded-full animate-ping" />
+              </div>
+              <div className="space-y-2 text-center">
+                <h3 className="text-xl font-bold text-slate-700">Felkészítő betöltése...</h3>
+                <p className="text-slate-400">Pár pillanat és kezdhetjük!</p>
+              </div>
+            </div>
+          }>
+            <CompetencyMatrixHub onBack={handleHome} />
+          </Suspense>
         )}
 
         {view === 'activity' && (
