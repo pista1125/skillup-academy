@@ -84,6 +84,8 @@ const AreaCalculationQuiz = lazy(() => import("@/components/math/grade-5/AreaCal
 const VolumeQuiz = lazy(() => import("@/components/math/grade-5/VolumeQuiz")) as any;
 const SurfaceAreaQuiz = lazy(() => import("@/components/math/grade-5/SurfaceAreaQuiz")) as any;
 const Grade7GeometryModule = lazy(() => import("@/components/math/grade-7/Grade7GeometryModule").then(m => ({ default: m.Grade7GeometryModule }))) as any;
+const MappingQuiz = lazy(() => import("@/components/math/grade-7/MappingQuiz").then(m => ({ default: m.MappingQuiz }))) as any;
+const Grade7StatsModule = lazy(() => import("@/components/math/grade-7/Grade7StatsModule").then(m => ({ default: m.Grade7StatsModule }))) as any;
 const RatioIntroQuiz = lazy(() => import("@/components/math/grade-6/RatioIntroQuiz").then(m => ({ default: m.RatioIntroQuiz }))) as any;
 const RatioCreatorQuiz = lazy(() => import("@/components/math/grade-6/RatioCreatorQuiz").then(m => ({ default: m.RatioCreatorQuiz }))) as any;
 const DirectProportionQuiz = lazy(() => import("@/components/math/grade-6/DirectProportionQuiz").then(m => ({ default: m.DirectProportionQuiz }))) as any;
@@ -163,7 +165,7 @@ type ActivityType =
   | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search' | 'memory-game' | 'equation-balance-quiz'
   | 'ratio-intro' | 'ratio-creator' | 'g7-word-problems' | 'direct-proportion-quiz' | 'matrix-sorting-game'
   | 'toto-maker' | 'chess-game' | 'torpedo-game' | 'matching-creator' | 'unit-converter' | 'capacity-converter' | 'analog-clock'
-  | 'hanoi-tower' | 'perimeter-quiz' | 'perimeter-area' | 'volume-surface' | 'volume-quiz' | 'surface-area-quiz' | 'area-conversion-quiz' | 'area-calculation-quiz' | 'parallelogram-area-quiz';
+  | 'hanoi-tower' | 'perimeter-quiz' | 'perimeter-area' | 'volume-surface' | 'volume-quiz' | 'surface-area-quiz' | 'area-conversion-quiz' | 'area-calculation-quiz' | 'parallelogram-area-quiz' | 'g7-mapping-quiz';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
 const slugToGrade = (slug: string): GradeLevel | null => {
@@ -2064,7 +2066,21 @@ export default function MathPage() {
       );
     }
 
-    if (topicId === 'g7-logic' || topicId === 'g7-stats' || topicId === 'g7-other') {
+    if (topicId === 'g7-stats') {
+      return (
+        <div className="py-2">
+          <Grade7StatsModule
+            onBack={handleBack}
+            isInline
+            onStartActivity={(type: string) => handleActivitySelect(type as ActivityType, topicId)}
+            onViewMaterial={handleMaterialSelect}
+            initialMaterialId={new URLSearchParams(location.search).get('material')}
+          />
+        </div>
+      );
+    }
+
+    if (topicId === 'g7-logic' || topicId === 'g7-other') {
       return (
         <div className="py-2">
           <MaterialGallery
@@ -3004,6 +3020,10 @@ export default function MathPage() {
                   <WordProblemsQuiz onBack={handleBack} />
                 )}
 
+                {activityType === 'g7-mapping-quiz' && (
+                  <MappingQuiz onBack={handleBack} />
+                )}
+
                 {activityType === 'number-line' && (
                   <NumberLineTool onBack={handleBack} />
                 )}
@@ -3234,7 +3254,7 @@ export default function MathPage() {
           </Suspense>
         </div>
       )}
-        {((activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'volume-surface' && activityType !== 'student-feedback' && activityType !== 'volume-quiz' && activityType !== 'surface-area-quiz' && activityType !== 'unit-converter' && activityType !== 'capacity-converter' && activityType !== 'analog-clock') || view !== 'activity') && <SiteFooter />}
+        {((activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'volume-surface' && activityType !== 'student-feedback' && activityType !== 'volume-quiz' && activityType !== 'surface-area-quiz' && activityType !== 'unit-converter' && activityType !== 'capacity-converter' && activityType !== 'analog-clock' && activityType !== 'g7-mapping-quiz') || view !== 'activity') && <SiteFooter />}
       </div>
     </div>
   );
