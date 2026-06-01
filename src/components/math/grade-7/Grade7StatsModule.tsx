@@ -64,6 +64,14 @@ export function Grade7StatsModule({
                             color="blue"
                             onClick={() => onStartActivity?.('g7-mapping-quiz')}
                         />
+                        <ActivityPlaceholder
+                            title="Függvény leolvasás"
+                            subtitle="Táblázat kitöltése grafikonról"
+                            type="Kvíz / Játék"
+                            icon={<LineChart className="w-6 h-6" />}
+                            color="cyan"
+                            onClick={() => onStartActivity?.('g7-function-table-quiz')}
+                        />
                     </div>
                 </section>
 

@@ -85,6 +85,7 @@ const VolumeQuiz = lazy(() => import("@/components/math/grade-5/VolumeQuiz")) as
 const SurfaceAreaQuiz = lazy(() => import("@/components/math/grade-5/SurfaceAreaQuiz")) as any;
 const Grade7GeometryModule = lazy(() => import("@/components/math/grade-7/Grade7GeometryModule").then(m => ({ default: m.Grade7GeometryModule }))) as any;
 const MappingQuiz = lazy(() => import("@/components/math/grade-7/MappingQuiz").then(m => ({ default: m.MappingQuiz }))) as any;
+const FunctionTableQuiz = lazy(() => import("@/components/math/grade-7/FunctionTableQuiz").then(m => ({ default: m.FunctionTableQuiz }))) as any;
 const Grade7StatsModule = lazy(() => import("@/components/math/grade-7/Grade7StatsModule").then(m => ({ default: m.Grade7StatsModule }))) as any;
 const RatioIntroQuiz = lazy(() => import("@/components/math/grade-6/RatioIntroQuiz").then(m => ({ default: m.RatioIntroQuiz }))) as any;
 const RatioCreatorQuiz = lazy(() => import("@/components/math/grade-6/RatioCreatorQuiz").then(m => ({ default: m.RatioCreatorQuiz }))) as any;
@@ -165,7 +166,7 @@ type ActivityType =
   | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search' | 'memory-game' | 'equation-balance-quiz'
   | 'ratio-intro' | 'ratio-creator' | 'g7-word-problems' | 'direct-proportion-quiz' | 'matrix-sorting-game'
   | 'toto-maker' | 'chess-game' | 'torpedo-game' | 'matching-creator' | 'unit-converter' | 'capacity-converter' | 'analog-clock'
-  | 'hanoi-tower' | 'perimeter-quiz' | 'perimeter-area' | 'volume-surface' | 'volume-quiz' | 'surface-area-quiz' | 'area-conversion-quiz' | 'area-calculation-quiz' | 'parallelogram-area-quiz' | 'g7-mapping-quiz';
+  | 'hanoi-tower' | 'perimeter-quiz' | 'perimeter-area' | 'volume-surface' | 'volume-quiz' | 'surface-area-quiz' | 'area-conversion-quiz' | 'area-calculation-quiz' | 'parallelogram-area-quiz' | 'g7-mapping-quiz' | 'g7-function-table-quiz';
 
 const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
 const slugToGrade = (slug: string): GradeLevel | null => {
@@ -411,11 +412,14 @@ export default function MathPage() {
           if (topicParam === 'competency-assessment' || !((grade === 5 && topicParam.startsWith('g5-')) || grade === 4 || grade === 6 || grade === 7)) {
             setActivityType(topicParam as ActivityType);
             setView('activity');
+          } else {
+            setExpandedTopicId(topicParam);
           }
         }
       } else {
         setView('topic-select');
         setActivityType('quiz'); // Reset activity type when no topic or activity is selected
+        setExpandedTopicId(null);
       }
     }
   }, [location.pathname, gradeParam, topicParam, activityParam, location.search]);
@@ -490,8 +494,9 @@ export default function MathPage() {
 
   const handleTopicSelect = (topicId: string, forceActivity = false) => {
     if (!forceActivity && ((selectedGrade === 5 && topicId.startsWith('g5-')) || selectedGrade === 4 || selectedGrade === 6 || selectedGrade === 7)) {
-      setExpandedTopicId(expandedTopicId === topicId ? null : topicId);
-      // We don't necessarily update URL for expanded topics unless they are "terminal"
+      const nextExpanded = expandedTopicId === topicId ? null : topicId;
+      setExpandedTopicId(nextExpanded);
+      updateURL('topic-select', selectedGrade, nextExpanded, null);
       return;
     }
 
@@ -637,7 +642,8 @@ export default function MathPage() {
 
       } else if (selectedGrade) {
         nextView = 'topic-select';
-        nextTopic = null;
+        const isExpandable = (selectedGrade === 5 && selectedTopic?.startsWith('g5-')) || selectedGrade === 4 || selectedGrade === 6 || selectedGrade === 7;
+        nextTopic = isExpandable ? selectedTopic : null;
       } else if (location.pathname.startsWith('/jatekok') || GAMES.some(g => g.id === activityType)) {
         nextView = 'games-select';
         nextTopic = null;
@@ -665,6 +671,9 @@ export default function MathPage() {
     setView(nextView);
     setSelectedGrade(nextGrade);
     setSelectedTopic(nextTopic);
+    if (nextView === 'main-select') {
+      setExpandedTopicId(null);
+    }
     // Explicitly reset activityType unless we are staying in activity view
     if ((nextView as string) !== 'activity') {
       setActivityType('quiz');
@@ -3036,6 +3045,10 @@ export default function MathPage() {
                   <MappingQuiz onBack={handleBack} />
                 )}
 
+                {activityType === 'g7-function-table-quiz' && (
+                  <FunctionTableQuiz onBack={handleBack} />
+                )}
+
                 {activityType === 'number-line' && (
                   <NumberLineTool onBack={handleBack} />
                 )}
@@ -3266,7 +3279,7 @@ export default function MathPage() {
           </Suspense>
         </div>
       )}
-        {((activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'volume-surface' && activityType !== 'student-feedback' && activityType !== 'volume-quiz' && activityType !== 'surface-area-quiz' && activityType !== 'unit-converter' && activityType !== 'capacity-converter' && activityType !== 'analog-clock' && activityType !== 'g7-mapping-quiz') || view !== 'activity') && <SiteFooter />}
+        {((activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'volume-surface' && activityType !== 'student-feedback' && activityType !== 'volume-quiz' && activityType !== 'surface-area-quiz' && activityType !== 'unit-converter' && activityType !== 'capacity-converter' && activityType !== 'analog-clock' && activityType !== 'g7-mapping-quiz' && activityType !== 'g7-function-table-quiz') || view !== 'activity') && <SiteFooter />}
       </div>
     </div>
   );
