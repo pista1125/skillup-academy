@@ -11,7 +11,8 @@ import {
   X, 
   PlayCircle,
   SearchIcon,
-  Gamepad2
+  Gamepad2,
+  Crosshair
 } from 'lucide-react';
 import { TorpedoService, TorpedoMatch } from '@/lib/torpedo/TorpedoService';
 import { supabase } from '@/lib/supabase';
@@ -21,9 +22,11 @@ import { toast } from 'sonner';
 interface TorpedoLobbyProps {
   onStartGame: (matchId: string, opponentName?: string) => void;
   onJoinMatch: (match: TorpedoMatch) => void;
+  onStartLocalGame: (difficulty: 'easy' | 'medium' | 'hard') => void;
 }
 
-export default function TorpedoLobby({ onStartGame, onJoinMatch }: TorpedoLobbyProps) {
+export default function TorpedoLobby({ onStartGame, onJoinMatch, onStartLocalGame }: TorpedoLobbyProps) {
+  const [selectedDifficulty, setSelectedDifficulty] = useState<'easy' | 'medium' | 'hard'>('medium');
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [friends, setFriends] = useState<any[]>([]);
@@ -121,8 +124,53 @@ export default function TorpedoLobby({ onStartGame, onJoinMatch }: TorpedoLobbyP
     <div className="w-full max-w-5xl mx-auto flex flex-col gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         
-        {/* Left Column: Player Search */}
+        {/* Left Column: Play vs Bot & Player Search */}
         <div className="md:col-span-1 flex flex-col gap-6">
+          {/* Gép Elleni Játék */}
+          <Card className="p-6 rounded-3xl border-slate-200 dark:border-slate-800 shadow-xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl relative overflow-hidden group">
+            <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:scale-110 transition-transform duration-500">
+               <Gamepad2 size={64} className="text-indigo-600" />
+            </div>
+            
+            <h3 className="text-xl font-black mb-2 flex items-center gap-2 text-slate-800 dark:text-white italic">
+              <Crosshair size={22} className="text-indigo-600 animate-pulse" />
+              GÉP ELLENI JÁTÉK
+            </h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mb-4">
+              Gyakorold a koordináták használatát a számítógép ellen különböző nehézségeken!
+            </p>
+            
+            <div className="flex flex-col gap-3">
+              <div className="grid grid-cols-3 gap-2 p-1 bg-slate-100 dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-inner">
+                {(['easy', 'medium', 'hard'] as const).map(diff => (
+                  <button
+                    key={diff}
+                    type="button"
+                    onClick={() => setSelectedDifficulty(diff)}
+                    className={cn(
+                      "py-2 px-1 rounded-xl text-[10px] font-black transition-all uppercase tracking-tight text-center",
+                      selectedDifficulty === diff 
+                        ? diff === 'easy' ? "bg-emerald-500 text-white shadow-md"
+                          : diff === 'medium' ? "bg-amber-500 text-white shadow-md"
+                          : "bg-rose-500 text-white shadow-md"
+                        : "text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800"
+                    )}
+                  >
+                    {diff === 'easy' ? 'Könnyű' : diff === 'medium' ? 'Közepes' : 'Nehéz'}
+                  </button>
+                ))}
+              </div>
+              
+              <Button 
+                onClick={() => onStartLocalGame(selectedDifficulty)} 
+                className="h-12 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-black italic tracking-tighter uppercase shadow-lg shadow-indigo-500/20 transition-all active:scale-95 gap-2"
+              >
+                <PlayCircle size={18} />
+                JÁTÉK INDÍTÁSA
+              </Button>
+            </div>
+          </Card>
+
           <Card className="p-6 rounded-3xl border-slate-200 dark:border-slate-800 shadow-xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl">
             <h3 className="text-xl font-black mb-4 flex items-center gap-2 text-slate-800 dark:text-white">
               <Search size={22} className="text-secondary" />

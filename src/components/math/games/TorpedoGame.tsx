@@ -41,6 +41,34 @@ export default function TorpedoGame({ onBack }: TorpedoGameProps) {
     fetchMatchAndMove(matchId, 'placement');
   };
 
+  const handleStartLocalGame = (difficulty: 'easy' | 'medium' | 'hard') => {
+    const localMatch: TorpedoMatch = {
+      id: `local-${Date.now()}`,
+      p1_id: userId || 'player',
+      p2_id: 'computer',
+      p1_ships: [],
+      p2_ships: [],
+      p1_moves: [],
+      p2_moves: [],
+      turn_id: userId || 'player',
+      status: 'placing',
+      winner_id: null,
+      settings: {
+        axis_type: axisType,
+        is_local: true,
+        difficulty: difficulty
+      } as any,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      p1_profile: { full_name: 'Te' },
+      p2_profile: { 
+        full_name: difficulty === 'easy' ? 'Gép (Könnyű)' : difficulty === 'medium' ? 'Gép (Közepes)' : 'Gép (Nehéz)' 
+      }
+    };
+    setCurrentMatch(localMatch);
+    setGameState('placement');
+  };
+
   const handleJoinMatch = (match: TorpedoMatch) => {
     setCurrentMatch(match);
     if (match.status === 'waiting') {
@@ -82,6 +110,29 @@ export default function TorpedoGame({ onBack }: TorpedoGameProps) {
 
   const handlePlacementComplete = async (ships: any[]) => {
     if (!currentMatch) return;
+    
+    if (currentMatch.settings.is_local) {
+      try {
+        const { generateBotShips } = await import('@/lib/torpedo/botHelpers');
+        const botShips = generateBotShips();
+        
+        const updatedMatch: TorpedoMatch = {
+          ...currentMatch,
+          p1_ships: ships,
+          p2_ships: botShips,
+          status: 'playing',
+          turn_id: currentMatch.p1_id // Player goes first
+        };
+        
+        setCurrentMatch(updatedMatch);
+        setGameState('combat');
+        toast.success('Hajók elhelyezve! Kezdődik a csata.');
+      } catch (e) {
+        toast.error('Hiba a bot flotta generálásakor');
+      }
+      return;
+    }
+
     try {
       await TorpedoService.submitShips(currentMatch.id, ships);
       toast.success('Hajók elmentve! Várakozás az ellenfélre...');
@@ -166,6 +217,7 @@ export default function TorpedoGame({ onBack }: TorpedoGameProps) {
           <TorpedoLobby 
             onStartGame={handleStartGame} 
             onJoinMatch={handleJoinMatch} 
+            onStartLocalGame={handleStartLocalGame}
           />
         )}
 

@@ -44,6 +44,7 @@ export default function TorpedoCombat({ match: initialMatch, userId, onBack }: T
   const isMyTurn = match.turn_id === userId && match.status === 'playing';
 
   useEffect(() => {
+    if (match.settings?.is_local) return;
     const channel = TorpedoService.subscribeToMatch(match.id, (payload) => {
       const updated = payload.new as TorpedoMatch;
       setMatch(prev => ({
@@ -71,6 +72,81 @@ export default function TorpedoCombat({ match: initialMatch, userId, onBack }: T
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [myMoves, opponentMoves]);
+
+  // Bot Turn Logic
+  useEffect(() => {
+    if (!match.settings?.is_local || match.status !== 'playing' || match.turn_id !== 'computer') {
+      return;
+    }
+
+    let isSubscribed = true;
+
+    const botTurn = async () => {
+      // Simulate thinking time (1.2 seconds)
+      await new Promise(resolve => setTimeout(resolve, 1200));
+      if (!isSubscribed) return;
+
+      try {
+        const { getBotNextMove } = await import('@/lib/torpedo/botHelpers');
+        
+        const botMoveCoords = getBotNextMove(
+          match.settings.difficulty || 'medium',
+          match.p1_ships,
+          match.p2_moves
+        );
+
+        playSound('shoot');
+
+        // Check if bot hit player's ships
+        const hit = myShips.some((ship: any) => 
+          ship.cells.some((cell: any) => cell.x === botMoveCoords.x && cell.y === botMoveCoords.y)
+        );
+
+        const newMove = {
+          x: botMoveCoords.x,
+          y: botMoveCoords.y,
+          hit,
+          timestamp: new Date().toISOString()
+        };
+
+        const updatedP2Moves = [...match.p2_moves, newMove];
+
+        // Check bot win condition
+        const totalShipCells = myShips.reduce((acc: number, ship: any) => acc + ship.cells.length, 0);
+        const totalHits = updatedP2Moves.filter((m: any) => m.hit).length;
+        const botWon = totalHits === totalShipCells;
+
+        // Display coordinate label
+        let coordLabel = '';
+        if (match.settings.axis_type === 'letter') {
+          const colIdx = COLS.indexOf(botMoveCoords.x);
+          coordLabel = `${LETTERS[colIdx]}${botMoveCoords.y}`;
+        } else {
+          coordLabel = `${botMoveCoords.x}, ${botMoveCoords.y}`;
+        }
+
+        const updatedMatch: TorpedoMatch = {
+          ...match,
+          p2_moves: updatedP2Moves,
+          status: botWon ? 'finished' : match.status,
+          winner_id: botWon ? 'computer' : match.winner_id,
+          turn_id: hit ? 'computer' : userId // Bot gets to shoot again if hit, else player's turn
+        };
+
+        setMatch(updatedMatch);
+        setLastAction(`ELLENFÉL LŐTT: ${hit ? 'TALÁLAT!' : 'MELLÉ...'} - ${coordLabel}`);
+        playSound(hit ? 'hit' : 'miss');
+      } catch (error) {
+        console.error('Bot turn error:', error);
+      }
+    };
+
+    botTurn();
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, [match.turn_id, match.status, match.settings?.is_local]);
 
   const playSound = (type: 'hit' | 'miss' | 'shoot') => {
     if (isMuted) return;
@@ -115,6 +191,42 @@ export default function TorpedoCombat({ match: initialMatch, userId, onBack }: T
 
     if (myMoves.some((m: any) => m.x === targetX && m.y === targetY)) {
       toast.error('Ide már lőttél!');
+      return;
+    }
+
+    if (match.settings.is_local) {
+      playSound('shoot');
+      
+      const hit = opponentShips.some((ship: any) => 
+        ship.cells.some((cell: any) => cell.x === targetX && cell.y === targetY)
+      );
+      
+      const newMove = { 
+        x: targetX, 
+        y: targetY, 
+        hit, 
+        timestamp: new Date().toISOString() 
+      };
+      
+      const updatedP1Moves = [...match.p1_moves, newMove];
+      
+      // Check win condition
+      const totalShipCells = opponentShips.reduce((acc: number, ship: any) => acc + ship.cells.length, 0);
+      const totalHits = updatedP1Moves.filter((m: any) => m.hit).length;
+      const won = totalHits === totalShipCells;
+      
+      const updatedMatch: TorpedoMatch = {
+        ...match,
+        p1_moves: updatedP1Moves,
+        status: won ? 'finished' : match.status,
+        winner_id: won ? userId : match.winner_id,
+        turn_id: hit ? match.p1_id : 'computer' // Player gets to shoot again if hit, else computer's turn
+      };
+      
+      setMatch(updatedMatch);
+      setCoordInput('');
+      setLastAction(`${hit ? 'TALÁLAT!' : 'MELLÉ...'} - ${input}`);
+      playSound(hit ? 'hit' : 'miss');
       return;
     }
 
