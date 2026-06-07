@@ -45,7 +45,7 @@ export default function TorpedoLobby({ onStartGame, onJoinMatch, onStartLocalGam
       .subscribe();
 
     return () => {
-      matchesSub.unsubscribe();
+      supabase.removeChannel(matchesSub);
     };
   }, []);
 

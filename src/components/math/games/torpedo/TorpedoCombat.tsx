@@ -47,23 +47,26 @@ export default function TorpedoCombat({ match: initialMatch, userId, onBack }: T
     if (match.settings?.is_local) return;
     const channel = TorpedoService.subscribeToMatch(match.id, (payload) => {
       const updated = payload.new as TorpedoMatch;
-      setMatch(prev => ({
-        ...prev,
-        ...updated,
-        p1_profile: prev.p1_profile,
-        p2_profile: prev.p2_profile
-      }));
+      
+      setMatch(prev => {
+        const oldMoves = isP1 ? prev.p2_moves : prev.p1_moves;
+        const newMoves = isP1 ? updated.p2_moves : updated.p1_moves;
+        if (newMoves.length > oldMoves.length) {
+          const lastMove = newMoves[newMoves.length - 1];
+          playSound(lastMove.hit ? 'hit' : 'miss');
+        }
 
-      const oldMoves = isP1 ? match.p2_moves : match.p1_moves;
-      const newMoves = isP1 ? updated.p2_moves : updated.p1_moves;
-      if (newMoves.length > oldMoves.length) {
-        const lastMove = newMoves[newMoves.length - 1];
-        playSound(lastMove.hit ? 'hit' : 'miss');
-      }
+        return {
+          ...prev,
+          ...updated,
+          p1_profile: prev.p1_profile,
+          p2_profile: prev.p2_profile
+        };
+      });
     });
 
     return () => {
-      channel.unsubscribe();
+      supabase.removeChannel(channel);
     };
   }, [match.id, isP1]);
 
@@ -146,7 +149,7 @@ export default function TorpedoCombat({ match: initialMatch, userId, onBack }: T
     return () => {
       isSubscribed = false;
     };
-  }, [match.turn_id, match.status, match.settings?.is_local]);
+  }, [match.turn_id, match.status, match.settings?.is_local, match.p2_moves.length, userId]);
 
   const playSound = (type: 'hit' | 'miss' | 'shoot') => {
     if (isMuted) return;
@@ -236,6 +239,31 @@ export default function TorpedoCombat({ match: initialMatch, userId, onBack }: T
       setCoordInput('');
       setLastAction(`${move.hit ? 'TALÁLAT!' : 'MELLÉ...'} - ${input}`);
       playSound(move.hit ? 'hit' : 'miss');
+
+      // Update local state immediately for PvP games
+      setMatch(prev => {
+        const isP1 = prev.p1_id === userId;
+        const updatedMoves = isP1 ? [...prev.p1_moves, move] : [...prev.p2_moves, move];
+        
+        let nextTurn = prev.turn_id;
+        if (!move.hit) {
+          nextTurn = isP1 ? prev.p2_id : prev.p1_id;
+        }
+        
+        const opponentShips = isP1 ? prev.p2_ships : prev.p1_ships;
+        const totalShipCells = opponentShips.reduce((acc: number, ship: any) => acc + ship.cells.length, 0);
+        const totalHits = updatedMoves.filter((m: any) => m.hit).length;
+        const won = totalHits === totalShipCells;
+        
+        return {
+          ...prev,
+          p1_moves: isP1 ? updatedMoves : prev.p1_moves,
+          p2_moves: !isP1 ? updatedMoves : prev.p2_moves,
+          turn_id: nextTurn,
+          status: won ? 'finished' : prev.status,
+          winner_id: won ? userId : prev.winner_id
+        };
+      });
     } catch (e) {
       toast.error('Hiba a lövés leadásakor');
     }
