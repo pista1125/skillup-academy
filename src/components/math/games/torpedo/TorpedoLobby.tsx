@@ -12,7 +12,8 @@ import {
   PlayCircle,
   SearchIcon,
   Gamepad2,
-  Crosshair
+  Crosshair,
+  Trash2
 } from 'lucide-react';
 import { TorpedoService, TorpedoMatch } from '@/lib/torpedo/TorpedoService';
 import { supabase } from '@/lib/supabase';
@@ -119,7 +120,17 @@ export default function TorpedoLobby({ onStartGame, onJoinMatch, onStartLocalGam
       toast.error('Hiba a játék indításakor');
     }
   };
-
+  const handleDeleteMatch = async (e: React.MouseEvent, matchId: string) => {
+    e.stopPropagation();
+    if (!confirm('Biztosan törölni szeretnéd ezt a játékot?')) return;
+    try {
+      await TorpedoService.deleteMatch(matchId);
+      toast.success('Játék sikeresen törölve.');
+      loadMatchesData();
+    } catch (err) {
+      toast.error('Hiba a játék törlésekor.');
+    }
+  };
   return (
     <div className="w-full max-w-5xl mx-auto flex flex-col gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -256,10 +267,24 @@ export default function TorpedoLobby({ onStartGame, onJoinMatch, onStartLocalGam
                           {opponentName || 'Várakozás...'}
                         </span>
                       </div>
-                      <div className={cn(
-                        "w-3 h-3 rounded-full",
-                        isMyTurn ? "bg-emerald-400 animate-pulse" : "bg-white/30"
-                      )} />
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={(e) => handleDeleteMatch(e, match.id)}
+                          className={cn(
+                            "p-1.5 rounded-lg transition-colors duration-150 outline-none",
+                            isMyTurn && !isWaiting 
+                              ? "text-rose-500 hover:bg-rose-50" 
+                              : "text-white/40 hover:text-rose-400 hover:bg-white/10"
+                          )}
+                          title="Játék törlése"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                        <div className={cn(
+                          "w-3 h-3 rounded-full",
+                          isMyTurn ? "bg-emerald-400 animate-pulse" : "bg-white/30"
+                        )} />
+                      </div>
                     </div>
                     
                     <Button 

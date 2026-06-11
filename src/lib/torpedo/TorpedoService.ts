@@ -67,7 +67,49 @@ export const TorpedoService = {
       .order('updated_at', { ascending: false });
 
     if (error) throw error;
+
+    // Auto-close matches that have been inactive for more than 3 days
+    const threeDaysAgo = new Date();
+    threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
+
+    const matchesToClose = data.filter(m => 
+      m.status !== 'finished' && 
+      new Date(m.updated_at) < threeDaysAgo
+    );
+
+    if (matchesToClose.length > 0) {
+      const matchIdsToClose = matchesToClose.map(m => m.id);
+      
+      // Perform background update
+      supabase
+        .from('torpedo_matches')
+        .update({ status: 'finished' })
+        .in('id', matchIdsToClose)
+        .then(() => {
+          console.log(`Auto-closed ${matchesToClose.length} inactive matches`);
+        })
+        .catch(err => {
+          console.error('Failed to auto-close inactive matches:', err);
+        });
+
+      // Update local copy immediately
+      return data.map(m => {
+        if (matchIdsToClose.includes(m.id)) {
+          return { ...m, status: 'finished' };
+        }
+        return m;
+      });
+    }
+
     return data;
+  },
+
+  async deleteMatch(matchId: string) {
+    const { error } = await supabase
+      .from('torpedo_matches')
+      .delete()
+      .eq('id', matchId);
+    if (error) throw error;
   },
 
   async acceptMatch(matchId: string) {
