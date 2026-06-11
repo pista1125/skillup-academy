@@ -25,15 +25,37 @@ const SHIP_TYPES = [
   { size: 1, count: 4, label: 'Tengeralattjáró (1)' },
 ];
 
-const COLS = [-5, -4, -3, -2, -1, 1, 2, 3, 4, 5];
-const ROWS = [5, 4, 3, 2, 1, -1, -2, -3, -4, -5];
+const COLS = [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5];
+const ROWS = [5, 4, 3, 2, 1, 0, -1, -2, -3, -4, -5];
 
-const LETTERS = ['-E', '-D', '-C', '-B', '-A', 'A', 'B', 'C', 'D', 'E'];
+const LETTERS = ['-E', '-D', '-C', '-B', '-A', 'O', 'A', 'B', 'C', 'D', 'E'];
+
+const getShipLineCoordinates = (ship: any) => {
+  const xs = ship.cells.map((c: any) => c.x);
+  const ys = ship.cells.map((c: any) => c.y);
+  const minX = Math.min(...xs);
+  const maxX = Math.max(...xs);
+  const minY = Math.min(...ys);
+  const maxY = Math.max(...ys);
+
+  const startColIdx = COLS.indexOf(minX);
+  const endColIdx = COLS.indexOf(maxX);
+  const startRowIdx = ROWS.indexOf(maxY);
+  const endRowIdx = ROWS.indexOf(minY);
+
+  return {
+    left: `${(startColIdx / 10) * 100}%`,
+    top: `${(startRowIdx / 10) * 100}%`,
+    width: `${((endColIdx - startColIdx) / 10) * 100}%`,
+    height: `${((endRowIdx - startRowIdx) / 10) * 100}%`
+  };
+};
 
 export default function TorpedoPlacement({ onComplete, axisType }: TorpedoPlacementProps) {
   const [placedShips, setPlacedShips] = useState<any[]>([]);
   const [currentShipSize, setCurrentShipSize] = useState<number | null>(null);
   const [orientation, setOrientation] = useState<'h' | 'v'>('h');
+  const [hoveredPoint, setHoveredPoint] = useState<{ x: number; y: number } | null>(null);
 
   const getCellLabel = (x: number, y: number) => {
     if (axisType === 'letter') {
@@ -150,53 +172,166 @@ export default function TorpedoPlacement({ onComplete, axisType }: TorpedoPlacem
       
       {/* Placement Board */}
       <div className="flex-1 flex flex-col items-center">
-        <Card className="p-4 sm:p-8 rounded-[2.5rem] bg-white dark:bg-slate-900 shadow-2xl border-slate-200 dark:border-slate-800 relative overflow-hidden">
+        <Card className="p-6 sm:p-10 rounded-[2.5rem] bg-white dark:bg-slate-900 shadow-2xl border-slate-200 dark:border-slate-800 relative overflow-visible">
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" />
           
-          {/* Legend / Axes */}
-          <div className="grid grid-cols-[30px_repeat(10,1fr)] gap-1 mb-1">
-             <div />
-             {COLS.map((c, i) => (
-               <div key={c} className="text-center text-[10px] font-black text-slate-400 uppercase tracking-tighter">
-                 {axisType === 'letter' ? LETTERS[i] : c}
-               </div>
-             ))}
-          </div>
-
-          <div className="flex gap-1">
-            <div className="flex flex-col gap-1 pr-1">
-              {ROWS.map(r => (
-                <div key={r} className="h-8 sm:h-10 flex items-center justify-center text-[10px] font-black text-slate-400 w-6">
+          <div className="flex items-center">
+            {/* Y-Axis Labels aligned to grid lines */}
+            <div className="relative h-[280px] w-8 mr-3 sm:h-[360px] sm:mr-4">
+              {ROWS.map((r, i) => (
+                <div 
+                  key={r} 
+                  className="absolute text-[10px] font-black text-slate-400 w-full text-right pr-2 leading-none"
+                  style={{ top: `${(i / 10) * 100}%`, transform: 'translateY(-50%)' }}
+                >
                   {r}
                 </div>
               ))}
             </div>
 
-            <div className="grid grid-cols-10 gap-1 sm:gap-1.5 bg-slate-100 dark:bg-slate-800/50 p-1 sm:p-2 rounded-2xl border-2 border-slate-200 dark:border-slate-800 shadow-inner">
-              {ROWS.map(y => (
-                COLS.map(x => {
-                  const isOccupied = placedShips.some(s => s.cells.some((c: any) => c.x === x && c.y === y));
-                  const isCurrentValid = currentShipSize && isValidPlacement(x, y, currentShipSize, orientation, placedShips);
-                  
+            {/* Grid and X-Axis Labels */}
+            <div className="flex flex-col">
+              {/* Responsive Grid Container */}
+              <div className="w-[280px] h-[280px] sm:w-[360px] sm:h-[360px] relative bg-slate-50 dark:bg-slate-950/20 rounded-2xl border-2 border-slate-200 dark:border-slate-800 shadow-inner overflow-visible">
+                {/* 10x10 cell lines grid */}
+                <div className="absolute inset-0 grid grid-cols-10 grid-rows-10 pointer-events-none p-0">
+                  {Array.from({ length: 100 }).map((_, idx) => {
+                    const col = idx % 10;
+                    const row = Math.floor(idx / 10);
+                    return (
+                      <div 
+                        key={idx} 
+                        className={cn(
+                          "border-slate-200/50 dark:border-slate-800/40",
+                          col < 9 && "border-r",
+                          row < 9 && "border-b"
+                        )}
+                      />
+                    );
+                  })}
+                </div>
+
+                {/* Major Axes lines representing 0 (Centered) with arrowheads */}
+                <div className="absolute left-1/2 top-0 bottom-0 w-[2.5px] bg-slate-400 dark:bg-slate-600 -translate-x-1/2 z-10 pointer-events-none overflow-visible">
+                  <svg className="absolute top-[-9px] left-1/2 -translate-x-1/2 w-2.5 h-2.5 text-slate-400 dark:text-slate-600 fill-current" viewBox="0 0 10 10">
+                    <polygon points="0,10 5,0 10,10" />
+                  </svg>
+                </div>
+                <div className="absolute top-1/2 left-0 right-0 h-[2.5px] bg-slate-400 dark:bg-slate-600 -translate-y-1/2 z-10 pointer-events-none overflow-visible">
+                  <svg className="absolute right-[-9px] top-1/2 -translate-y-1/2 w-2.5 h-2.5 text-slate-400 dark:text-slate-600 fill-current" viewBox="0 0 10 10">
+                    <polygon points="0,0 10,5 0,10" />
+                  </svg>
+                </div>
+
+                {/* Render Placed Ships as connecting lines/capsules */}
+                {placedShips.map((ship, idx) => {
+                  const { left, top, width, height } = getShipLineCoordinates(ship);
+                  const isHorizontal = ship.orientation === 'h';
                   return (
-                    <button
-                      key={`${x}-${y}`}
-                      onClick={() => handleCellClick(x, y)}
-                      className={cn(
-                        "w-8 h-8 sm:w-10 sm:h-10 rounded-lg transition-all duration-200 flex items-center justify-center relative group",
-                        isOccupied 
-                          ? "bg-indigo-600 text-white shadow-lg scale-90 ring-4 ring-indigo-500/20" 
-                          : "bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:border-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/20"
-                      )}
-                    >
-                      {isOccupied && <Anchor size={16} className="animate-in fade-in zoom-in" />}
-                      {!isOccupied && isCurrentValid && (
-                        <div className="absolute inset-0 bg-emerald-500/10 rounded-lg border-2 border-emerald-500/30 opacity-0 group-hover:opacity-100" />
-                      )}
-                    </button>
+                    <div 
+                      key={idx}
+                      className="absolute bg-indigo-600/90 dark:bg-indigo-500/90 border border-indigo-400 dark:border-indigo-600 rounded-full z-15 shadow-lg flex items-center justify-center transition-all duration-300 pointer-events-none"
+                      style={{
+                        left,
+                        top,
+                        width: isHorizontal ? `calc(${width} + 18px)` : '16px',
+                        height: isHorizontal ? '16px' : `calc(${height} + 18px)`,
+                        transform: isHorizontal ? 'translate(-9px, -50%)' : 'translate(-50%, -9px)'
+                      }}
+                    />
                   );
-                })
-              ))}
+                })}
+
+                {/* Render Placement Hover Preview */}
+                {(() => {
+                  if (!hoveredPoint || !currentShipSize) return null;
+                  const previewCells = isValidPlacement(hoveredPoint.x, hoveredPoint.y, currentShipSize, orientation, placedShips);
+                  if (!previewCells) return null;
+
+                  const xs = previewCells.map(c => c.x);
+                  const ys = previewCells.map(c => c.y);
+                  const minX = Math.min(...xs);
+                  const maxX = Math.max(...xs);
+                  const minY = Math.min(...ys);
+                  const maxY = Math.max(...ys);
+
+                  const startColIdx = COLS.indexOf(minX);
+                  const endColIdx = COLS.indexOf(maxX);
+                  const startRowIdx = ROWS.indexOf(maxY);
+                  const endRowIdx = ROWS.indexOf(minY);
+
+                  const left = `${(startColIdx / 10) * 100}%`;
+                  const top = `${(startRowIdx / 10) * 100}%`;
+                  const width = `${((endColIdx - startColIdx) / 10) * 100}%`;
+                  const height = `${((endRowIdx - startRowIdx) / 10) * 100}%`;
+                  
+                  const isHorizontal = orientation === 'h';
+
+                  return (
+                    <div 
+                      className="absolute bg-emerald-500/30 border-2 border-dashed border-emerald-500 rounded-full z-15 animate-pulse pointer-events-none"
+                      style={{
+                        left,
+                        top,
+                        width: isHorizontal ? `calc(${width} + 18px)` : '16px',
+                        height: isHorizontal ? '16px' : `calc(${height} + 18px)`,
+                        transform: isHorizontal ? 'translate(-9px, -50%)' : 'translate(-50%, -9px)'
+                      }}
+                    />
+                  );
+                })()}
+
+                {/* Interactive Points at Grid Line Intersections */}
+                {ROWS.map((y, rowIdx) => (
+                  COLS.map((x, colIdx) => {
+                    const left = `${(colIdx / 10) * 100}%`;
+                    const top = `${(rowIdx / 10) * 100}%`;
+                    
+                    const isOccupied = placedShips.some(s => s.cells.some((c: any) => c.x === x && c.y === y));
+                    
+                    // Determine if point is part of preview cells
+                    const previewCells = hoveredPoint && currentShipSize
+                      ? isValidPlacement(hoveredPoint.x, hoveredPoint.y, currentShipSize, orientation, placedShips)
+                      : null;
+                    const isPreview = previewCells?.some((c: any) => c.x === x && c.y === y);
+
+                    return (
+                      <button
+                        key={`${x}-${y}`}
+                        onClick={() => handleCellClick(x, y)}
+                        onMouseEnter={() => setHoveredPoint({ x, y })}
+                        onMouseLeave={() => setHoveredPoint(null)}
+                        className="absolute w-8 h-8 flex items-center justify-center -translate-x-1/2 -translate-y-1/2 z-20 group outline-none"
+                        style={{ left, top }}
+                      >
+                        {isOccupied ? (
+                          <div className="w-5 h-5 rounded-full bg-indigo-600 border-2 border-white dark:border-slate-900 flex items-center justify-center text-white shadow-md shadow-indigo-500/30 scale-100 group-hover:scale-110 transition-transform">
+                            <Anchor size={10} />
+                          </div>
+                        ) : isPreview ? (
+                          <div className="w-4 h-4 rounded-full bg-emerald-500 border-2 border-white dark:border-slate-900 shadow-md shadow-emerald-500/30 animate-pulse" />
+                        ) : (
+                          // Faint interactive dot for intersections
+                          <div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700 group-hover:w-3.5 group-hover:h-3.5 group-hover:bg-indigo-500 group-hover:border-2 group-hover:border-white dark:group-hover:border-slate-900 group-hover:shadow-md group-hover:shadow-indigo-500/30 transition-all duration-150" />
+                        )}
+                      </button>
+                    );
+                  })
+                ))}
+              </div>
+
+              {/* X-Axis Labels aligned to grid lines */}
+              <div className="relative w-[280px] h-6 mt-3 sm:w-[360px] sm:mt-4">
+                {COLS.map((c, i) => (
+                  <div 
+                    key={c} 
+                    className="absolute text-[10px] font-black text-slate-400 uppercase tracking-tighter leading-none"
+                    style={{ left: `${(i / 10) * 100}%`, transform: 'translateX(-50%)' }}
+                  >
+                    {axisType === 'letter' ? LETTERS[i] : c}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </Card>

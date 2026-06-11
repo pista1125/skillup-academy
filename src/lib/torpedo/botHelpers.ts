@@ -1,5 +1,6 @@
-export const COLS = [-5, -4, -3, -2, -1, 1, 2, 3, 4, 5];
-export const ROWS = [5, 4, 3, 2, 1, -1, -2, -3, -4, -5];
+export const COLS = [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5];
+export const ROWS = [5, 4, 3, 2, 1, 0, -1, -2, -3, -4, -5];
+
 
 export const SHIP_TYPES = [
   { size: 4, count: 1 },

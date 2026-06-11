@@ -18,6 +18,7 @@ import {
 import { TorpedoService, TorpedoMatch } from '@/lib/torpedo/TorpedoService';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { supabase } from '@/lib/supabase';
 
 interface TorpedoCombatProps {
   match: TorpedoMatch;
@@ -25,9 +26,30 @@ interface TorpedoCombatProps {
   onBack: () => void;
 }
 
-const COLS = [-5, -4, -3, -2, -1, 1, 2, 3, 4, 5];
-const ROWS = [5, 4, 3, 2, 1, -1, -2, -3, -4, -5];
-const LETTERS = ['-E', '-D', '-C', '-B', '-A', 'A', 'B', 'C', 'D', 'E'];
+const COLS = [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5];
+const ROWS = [5, 4, 3, 2, 1, 0, -1, -2, -3, -4, -5];
+const LETTERS = ['-E', '-D', '-C', '-B', '-A', 'O', 'A', 'B', 'C', 'D', 'E'];
+
+const getShipLineCoordinates = (ship: any) => {
+  const xs = ship.cells.map((c: any) => c.x);
+  const ys = ship.cells.map((c: any) => c.y);
+  const minX = Math.min(...xs);
+  const maxX = Math.max(...xs);
+  const minY = Math.min(...ys);
+  const maxY = Math.max(...ys);
+
+  const startColIdx = COLS.indexOf(minX);
+  const endColIdx = COLS.indexOf(maxX);
+  const startRowIdx = ROWS.indexOf(maxY);
+  const endRowIdx = ROWS.indexOf(minY);
+
+  return {
+    left: `${(startColIdx / 10) * 100}%`,
+    top: `${(startRowIdx / 10) * 100}%`,
+    width: `${((endColIdx - startColIdx) / 10) * 100}%`,
+    height: `${((endRowIdx - startRowIdx) / 10) * 100}%`
+  };
+};
 
 export default function TorpedoCombat({ match: initialMatch, userId, onBack }: TorpedoCombatProps) {
   const [match, setMatch] = useState<TorpedoMatch>(initialMatch);
@@ -163,39 +185,19 @@ export default function TorpedoCombat({ match: initialMatch, userId, onBack }: T
     audio.play().catch(() => {});
   };
 
-  const handleShoot = async (e?: React.FormEvent) => {
-    if (e) e.preventDefault();
+  const handlePointClick = (x: number, y: number) => {
     if (!isMyTurn) return;
-
-    const input = coordInput.trim().toUpperCase();
-    let targetX: number | null = null;
-    let targetY: number | null = null;
-
-    if (match.settings.axis_type === 'letter') {
-      const matchRegex = /^([-A-E]|[A-E])\s*(-?[1-5])$/.exec(input);
-      if (matchRegex) {
-        const letter = matchRegex[1];
-        targetY = parseInt(matchRegex[2]);
-        const letterIdx = LETTERS.indexOf(letter);
-        if (letterIdx !== -1) targetX = COLS[letterIdx];
-      }
-    } else {
-      const matchRegex = /^(-?\d+)\s*[, ]\s*(-?\d+)$/.exec(input);
-      if (matchRegex) {
-        targetX = parseInt(matchRegex[1]);
-        targetY = parseInt(matchRegex[2]);
-      }
-    }
-
-    if (targetX === null || targetY === null || !COLS.includes(targetX) || !ROWS.includes(targetY)) {
-      toast.error('Érvénytelen koordináta!');
-      return;
-    }
-
-    if (myMoves.some((m: any) => m.x === targetX && m.y === targetY)) {
+    if (myMoves.some((m: any) => m.x === x && m.y === y)) {
       toast.error('Ide már lőttél!');
       return;
     }
+    executeShoot(x, y);
+  };
+
+  const executeShoot = async (targetX: number, targetY: number) => {
+    const inputLabel = match.settings.axis_type === 'letter' 
+      ? `${LETTERS[COLS.indexOf(targetX)]}${targetY}` 
+      : `${targetX}, ${targetY}`;
 
     if (match.settings.is_local) {
       playSound('shoot');
@@ -228,7 +230,7 @@ export default function TorpedoCombat({ match: initialMatch, userId, onBack }: T
       
       setMatch(updatedMatch);
       setCoordInput('');
-      setLastAction(`${hit ? 'TALÁLAT!' : 'MELLÉ...'} - ${input}`);
+      setLastAction(`${hit ? 'TALÁLAT!' : 'MELLÉ...'} - ${inputLabel}`);
       playSound(hit ? 'hit' : 'miss');
       return;
     }
@@ -237,7 +239,7 @@ export default function TorpedoCombat({ match: initialMatch, userId, onBack }: T
       playSound('shoot');
       const move = await TorpedoService.makeMove(match.id, targetX, targetY);
       setCoordInput('');
-      setLastAction(`${move.hit ? 'TALÁLAT!' : 'MELLÉ...'} - ${input}`);
+      setLastAction(`${move.hit ? 'TALÁLAT!' : 'MELLÉ...'} - ${inputLabel}`);
       playSound(move.hit ? 'hit' : 'miss');
 
       // Update local state immediately for PvP games
@@ -269,61 +271,177 @@ export default function TorpedoCombat({ match: initialMatch, userId, onBack }: T
     }
   };
 
+  const handleShoot = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!isMyTurn) return;
+
+    const input = coordInput.trim().toUpperCase();
+    let targetX: number | null = null;
+    let targetY: number | null = null;
+
+    if (match.settings.axis_type === 'letter') {
+      const matchRegex = /^([-A-E]|O|0|[A-E])\s*(-?[0-5])$/.exec(input);
+      if (matchRegex) {
+        const letter = matchRegex[1];
+        targetY = parseInt(matchRegex[2]);
+        const letterIdx = LETTERS.indexOf(letter);
+        if (letterIdx !== -1) targetX = COLS[letterIdx];
+      }
+    } else {
+      const matchRegex = /^(-?\d+)\s*[, ]\s*(-?\d+)$/.exec(input);
+      if (matchRegex) {
+        targetX = parseInt(matchRegex[1]);
+        targetY = parseInt(matchRegex[2]);
+      }
+    }
+
+    if (targetX === null || targetY === null || !COLS.includes(targetX) || !ROWS.includes(targetY)) {
+      toast.error('Érvénytelen koordináta!');
+      return;
+    }
+
+    if (myMoves.some((m: any) => m.x === targetX && m.y === targetY)) {
+      toast.error('Ide már lőttél!');
+      return;
+    }
+
+    executeShoot(targetX, targetY);
+  };
+
   const renderBoard = (isOwn: boolean) => {
     const ships = isOwn ? myShips : [];
     const moves = isOwn ? opponentMoves : myMoves;
 
     return (
-      <div className="flex flex-col items-center">
-        {/* Horizontal Axis Labels */}
-        <div className="grid grid-cols-[20px_repeat(10,1fr)] gap-0.5 w-full mb-1">
-           <div />
-           {COLS.map((c, i) => (
-             <div key={c} className="text-center text-[9px] font-black text-slate-400">
-               {match.settings.axis_type === 'letter' ? LETTERS[i] : c}
-             </div>
-           ))}
+      <div className="flex items-center justify-center">
+        {/* Y-Axis Labels aligned to grid lines */}
+        <div className="relative h-[220px] w-6 mr-1.5 sm:h-[300px] sm:mr-3">
+          {ROWS.map((r, i) => (
+            <div 
+              key={r} 
+              className="absolute text-[9px] font-black text-slate-400 w-full text-right pr-1 leading-none"
+              style={{ top: `${(i / 10) * 100}%`, transform: 'translateY(-50%)' }}
+            >
+              {r}
+            </div>
+          ))}
         </div>
 
-        <div className="flex gap-1 relative">
-          {/* Vertical Axis Labels */}
-          <div className="flex flex-col gap-0.5 pr-0.5">
-            {ROWS.map(r => (
-              <div key={r} className="h-6 sm:h-8 flex items-center justify-center text-[9px] font-black text-slate-400 w-4">
-                {r}
-              </div>
+        {/* Grid and X-Axis Labels */}
+        <div className="flex flex-col">
+          {/* Responsive Grid Container */}
+          <div className={cn(
+            "w-[220px] h-[220px] sm:w-[300px] sm:h-[300px] relative rounded-2xl border-2 shadow-inner overflow-visible",
+            isOwn ? "bg-slate-50 dark:bg-slate-900/30 border-slate-200 dark:border-slate-800" : "bg-indigo-900/5 border-indigo-500/20"
+          )}>
+            {/* 10x10 cell lines grid */}
+            <div className="absolute inset-0 grid grid-cols-10 grid-rows-10 pointer-events-none p-0">
+              {Array.from({ length: 100 }).map((_, idx) => {
+                const col = idx % 10;
+                const row = Math.floor(idx / 10);
+                return (
+                  <div 
+                    key={idx} 
+                    className={cn(
+                      "border-slate-200/50 dark:border-slate-800/40",
+                      col < 9 && "border-r",
+                      row < 9 && "border-b"
+                    )}
+                  />
+                );
+              })}
+            </div>
+
+            {/* Major Axes lines representing 0 (Centered) with arrowheads */}
+            <div className="absolute left-1/2 top-0 bottom-0 w-[2px] bg-slate-400 dark:bg-slate-600 -translate-x-1/2 z-10 pointer-events-none overflow-visible">
+              <svg className="absolute top-[-9px] left-1/2 -translate-x-1/2 w-2.5 h-2.5 text-slate-400 dark:text-slate-600 fill-current" viewBox="0 0 10 10">
+                <polygon points="0,10 5,0 10,10" />
+              </svg>
+            </div>
+            <div className="absolute top-1/2 left-0 right-0 h-[2px] bg-slate-400 dark:bg-slate-600 -translate-y-1/2 z-10 pointer-events-none overflow-visible">
+              <svg className="absolute right-[-9px] top-1/2 -translate-y-1/2 w-2.5 h-2.5 text-slate-400 dark:text-slate-600 fill-current" viewBox="0 0 10 10">
+                <polygon points="0,0 10,5 0,10" />
+              </svg>
+            </div>
+
+            {/* Render Placed Ships (only on player's own board) as capsules */}
+            {isOwn && ships.map((ship, idx) => {
+              const { left, top, width, height } = getShipLineCoordinates(ship);
+              const isHorizontal = ship.orientation === 'h';
+              return (
+                <div 
+                  key={idx}
+                  className="absolute bg-indigo-600/90 dark:bg-indigo-500/90 border border-indigo-400 dark:border-indigo-600 rounded-full z-15 shadow-md flex items-center justify-center transition-all duration-300 pointer-events-none"
+                  style={{
+                    left,
+                    top,
+                    width: isHorizontal ? `calc(${width} + 14px)` : '12px',
+                    height: isHorizontal ? '12px' : `calc(${height} + 14px)`,
+                    transform: isHorizontal ? 'translate(-7px, -50%)' : 'translate(-50%, -7px)'
+                  }}
+                />
+              );
+            })}
+
+            {/* Interactive/Visual Points at Grid Line Intersections */}
+            {ROWS.map((y, rowIdx) => (
+              COLS.map((x, colIdx) => {
+                const left = `${(colIdx / 10) * 100}%`;
+                const top = `${(rowIdx / 10) * 100}%`;
+                
+                const shipCell = ships.find((s: any) => s.cells.some((c: any) => c.x === x && c.y === y));
+                const move = moves.find((m: any) => m.x === x && m.y === y);
+                const isClickable = !isOwn && isMyTurn && !move;
+
+                return (
+                  <button
+                    key={`${x}-${y}`}
+                    onClick={() => isClickable && handlePointClick(x, y)}
+                    disabled={!isClickable}
+                    className={cn(
+                      "absolute w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center -translate-x-1/2 -translate-y-1/2 z-20 group outline-none",
+                      isClickable ? "cursor-crosshair" : "cursor-default"
+                    )}
+                    style={{ left, top }}
+                  >
+                    {move ? (
+                      move.hit ? (
+                        // Hit indicator
+                        <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-rose-500 border-2 border-white dark:border-slate-900 flex items-center justify-center text-white shadow-md shadow-rose-500/30 animate-pulse">
+                          <Zap size={8} className="sm:w-2.5 sm:h-2.5" />
+                        </div>
+                      ) : (
+                        // Miss indicator
+                        <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-blue-100 dark:bg-blue-900/50 border-2 border-blue-400 dark:border-blue-600 flex items-center justify-center text-blue-500">
+                          <Waves size={6} className="sm:w-2 sm:h-2" />
+                        </div>
+                      )
+                    ) : isOwn && shipCell ? (
+                      // Ship node on own board (if not hit yet)
+                      <div className="w-3.5 h-3.5 sm:w-4.5 sm:h-4.5 rounded-full bg-indigo-600 border border-white dark:border-slate-900 shadow-sm animate-in zoom-in" />
+                    ) : (
+                      // Default tiny dot
+                      <div className={cn(
+                        "w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700 transition-all duration-155",
+                        isClickable && "group-hover:w-3.5 group-hover:h-3.5 group-hover:bg-rose-500 group-hover:border-2 group-hover:border-white dark:group-hover:border-slate-900 group-hover:shadow-md group-hover:shadow-rose-500/30"
+                      )} />
+                    )}
+                  </button>
+                );
+              })
             ))}
           </div>
 
-          {/* Grid Container */}
-          <div className={cn(
-            "grid grid-cols-10 gap-0.5 p-0.5 rounded-lg border-2 shadow-inner relative overflow-hidden",
-            isOwn ? "bg-slate-100 dark:bg-slate-800/50 border-slate-200 dark:border-slate-800" : "bg-indigo-900/10 border-indigo-500/20"
-          )}>
-            {/* Centered Axes Lines */}
-            <div className="absolute left-1/2 top-0 bottom-0 w-[2px] bg-slate-300 dark:bg-slate-600 -translate-x-1/2 z-0 pointer-events-none" />
-            <div className="absolute top-1/2 left-0 right-0 h-[2px] bg-slate-300 dark:bg-slate-600 -translate-y-1/2 z-0 pointer-events-none" />
-
-            {ROWS.map(y => (
-              COLS.map(x => {
-                const shipCell = ships.find((s: any) => s.cells.some((c: any) => c.x === x && c.y === y));
-                const move = moves.find((m: any) => m.x === x && m.y === y);
-                
-                return (
-                  <div
-                    key={`${x}-${y}`}
-                    className={cn(
-                      "w-6 h-6 sm:w-8 sm:h-8 rounded-sm transition-all duration-300 flex items-center justify-center relative z-10",
-                      shipCell ? "bg-indigo-600 shadow-sm" : "bg-white/60 dark:bg-slate-900/60 backdrop-blur-[1px]",
-                      move && (move.hit ? "ring-1 ring-rose-500 bg-rose-500/20" : "bg-blue-200/40 dark:bg-blue-900/20")
-                    )}
-                  >
-                    {!shipCell && move && !move.hit && <Waves size={10} className="text-blue-500/60" />}
-                    {move && move.hit && <Zap size={10} className="text-rose-500 animate-pulse" />}
-                    {shipCell && move && move.hit && <div className="absolute inset-0 bg-rose-500/30 animate-pulse" />}
-                  </div>
-                );
-              })
+          {/* X-Axis Labels aligned to grid lines */}
+          <div className="relative w-[220px] h-6 mt-1.5 sm:w-[300px] sm:mt-3">
+            {COLS.map((c, i) => (
+              <div 
+                key={c} 
+                className="absolute text-[9px] font-black text-slate-400 uppercase tracking-tighter leading-none"
+                style={{ left: `${(i / 10) * 100}%`, transform: 'translateX(-50%)' }}
+              >
+                {match.settings.axis_type === 'letter' ? LETTERS[i] : c}
+              </div>
             ))}
           </div>
         </div>
