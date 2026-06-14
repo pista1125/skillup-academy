@@ -60,12 +60,22 @@ export default function ChessBoardUI({
       console.log('Subscribing to match:', matchId);
       const subscription = ChessService.subscribeToMatch(matchId, (payload) => {
         const newFen = payload.new.fen;
+        const lastMoveStr = payload.new.last_move;
         // Skip if it's our own move (we already updated locally)
         setGame((current) => {
           if (newFen === current.fen()) return current;
           console.log('Syncing new FEN from remote');
           const newGame = new Chess(newFen);
           setMoveHistory(newGame.history());
+          
+          if (lastMoveStr && lastMoveStr.length >= 4) {
+            const from = lastMoveStr.substring(0, 2);
+            const to = lastMoveStr.substring(2, 4);
+            setLastMove({ from, to });
+          } else {
+            setLastMove(null);
+          }
+          
           return newGame;
         });
       });
@@ -97,9 +107,23 @@ export default function ChessBoardUI({
 
   function safeGameMutate(modify: (g: Chess) => void) {
     setGame((g) => {
-      const update = new Chess(g.fen());
+      const update = new Chess();
+      try {
+        update.loadPgn(g.pgn());
+      } catch (e) {
+        update.load(g.fen());
+      }
       modify(update);
       setMoveHistory(update.history());
+      
+      const history = update.history({ verbose: true });
+      if (history.length > 0) {
+        const last = history[history.length - 1];
+        setLastMove({ from: last.from, to: last.to });
+      } else {
+        setLastMove(null);
+      }
+      
       return update;
     });
     setMoveFrom(null);
@@ -107,7 +131,12 @@ export default function ChessBoardUI({
   }
 
   function makeAMove(move: any) {
-    const nextGame = new Chess(game.fen());
+    const nextGame = new Chess();
+    try {
+      nextGame.loadPgn(game.pgn());
+    } catch (e) {
+      nextGame.load(game.fen());
+    }
     let result = null;
     try {
       result = nextGame.move(move);
@@ -119,6 +148,7 @@ export default function ChessBoardUI({
 
     setGame(nextGame);
     setMoveHistory(nextGame.history());
+    setLastMove({ from: result.from, to: result.to });
 
     if (onMove) {
       onMove(nextGame.fen(), result.lan || result.san);
@@ -227,6 +257,38 @@ export default function ChessBoardUI({
     return null;
   };
 
+  const customSquareStyles = useMemo(() => {
+    const styles: any = {};
+
+    // 1. Highlight last move (from and to squares)
+    if (lastMove) {
+      styles[lastMove.from] = {
+        background: "rgba(251, 191, 36, 0.35)", // Subtle amber/gold overlay
+      };
+      styles[lastMove.to] = {
+        background: "rgba(251, 191, 36, 0.35)", // Subtle amber/gold overlay
+      };
+    }
+
+    // 2. Highlight checked king in red
+    if (game.isCheck()) {
+      const turn = game.turn();
+      const kingPiece = game.board().flat().find(p => p && p.type === 'k' && p.color === turn);
+      if (kingPiece) {
+        styles[kingPiece.square] = {
+          background: "rgba(239, 68, 68, 0.4)", // soft red square background
+          border: "2px solid #ef4444", // red border around the square
+        };
+      }
+    }
+
+    // 3. Merge active piece selection and possible move options
+    return {
+      ...styles,
+      ...optionSquares,
+    };
+  }, [lastMove, game, optionSquares]);
+
   const currentTurn = game.turn() === 'w' ? 'Világos' : 'Sötét';
 
   return (
@@ -234,13 +296,13 @@ export default function ChessBoardUI({
       {/* Board Column */}
       <div className="flex-1 flex justify-center items-center">
         <Card className="w-full max-w-[min(100%,75vh)] p-4 rounded-[2rem] border-slate-200 dark:border-slate-800 shadow-2xl bg-white dark:bg-slate-900 overflow-hidden relative transition-all duration-300">
-          <div className="aspect-square relative mx-auto">
+          <div className="aspect-square relative mx-auto w-full">
             <Chessboard 
               position={game.fen()} 
               onPieceDrop={onDrop} 
               onSquareClick={onSquareClick}
               boardOrientation={orientation}
-              customSquareStyles={optionSquares}
+              customSquareStyles={customSquareStyles}
               customBoardStyle={{
                 borderRadius: '1rem',
                 boxShadow: '0 5px 15px rgba(0, 0, 0, 0.5)'
@@ -248,6 +310,66 @@ export default function ChessBoardUI({
               customDarkSquareStyle={{ backgroundColor: '#475569' }}
               customLightSquareStyle={{ backgroundColor: '#94a3b8' }}
             />
+
+            {/* Game Over Centered Overlay */}
+            {game.isGameOver() && (
+              <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-slate-950/80 backdrop-blur-sm rounded-2xl p-6 text-center animate-in fade-in duration-300">
+                <div className={cn(
+                  "bg-white dark:bg-slate-900 border-2 rounded-3xl p-8 max-w-sm w-full shadow-2xl scale-in-95 duration-300",
+                  game.isCheckmate() ? "border-rose-500 dark:border-rose-500" : "border-slate-500 dark:border-slate-500"
+                )}>
+                  {game.isCheckmate() ? (
+                    <>
+                      <div className="w-16 h-16 bg-rose-100 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce border-2 border-rose-500">
+                        <Trophy className="w-8 h-8" />
+                      </div>
+                      
+                      <h2 className="text-2xl font-black text-rose-600 dark:text-rose-500 mb-2 uppercase tracking-wide">
+                        Sakk-matt!
+                      </h2>
+                      <p className="text-slate-500 dark:text-slate-400 font-bold mb-4">
+                        Sakk-matt és vége a játéknak.
+                      </p>
+                      
+                      <p className="text-xl font-extrabold text-slate-800 dark:text-white mb-6">
+                        {(() => {
+                          const turn = game.turn();
+                          const playerWon = (isWhite && turn === 'b') || (!isWhite && turn === 'w');
+                          return playerWon ? 'Gratulálok, győztél!' : 'Sakk-matt! Vége a játéknak.';
+                        })()}
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <div className="w-16 h-16 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-slate-500">
+                        <Info className="w-8 h-8" />
+                      </div>
+                      
+                      <h2 className="text-2xl font-black text-slate-700 dark:text-slate-300 mb-2 uppercase tracking-wide">
+                        Játék vége
+                      </h2>
+                      <p className="text-slate-500 dark:text-slate-400 font-bold mb-6 font-medium">
+                        {game.isDraw() ? 'Döntetlen!' : game.isStalemate() ? 'Patt (Döntetlen)!' : 'Döntetlen / Vége a játéknak.'}
+                      </p>
+                    </>
+                  )}
+                  
+                  <div className="flex flex-col gap-2">
+                    <Button 
+                      onClick={resetGame}
+                      className={cn(
+                        "w-full text-white font-bold rounded-xl py-3 shadow-md transition-all text-sm",
+                        game.isCheckmate() 
+                          ? "bg-rose-600 hover:bg-rose-700 shadow-rose-200 dark:shadow-none" 
+                          : "bg-indigo-600 hover:bg-indigo-700 shadow-indigo-200 dark:shadow-none"
+                      )}
+                    >
+                      Új játék indítása
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
           
           <div className="mt-4 flex justify-between items-center px-2">
