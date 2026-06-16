@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { 
@@ -7,7 +7,9 @@ import {
   Trophy,
   Users,
   Settings2,
-  HelpCircle
+  HelpCircle,
+  Maximize2,
+  Minimize2
 } from 'lucide-react';
 import TorpedoLobby from "./torpedo/TorpedoLobby";
 import TorpedoPlacement from "./torpedo/TorpedoPlacement";
@@ -28,6 +30,8 @@ export default function TorpedoGame({ onBack }: TorpedoGameProps) {
   const [currentMatch, setCurrentMatch] = useState<TorpedoMatch | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [axisType, setAxisType] = useState<'number' | 'letter'>('number');
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -35,9 +39,28 @@ export default function TorpedoGame({ onBack }: TorpedoGameProps) {
     });
   }, []);
 
+  // Listen for fullscreen changes (e.g. pressing Escape)
+  useEffect(() => {
+    const handleFsChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', handleFsChange);
+    return () => document.removeEventListener('fullscreenchange', handleFsChange);
+  }, []);
+
+  const toggleFullscreen = async () => {
+    if (!document.fullscreenElement) {
+      try {
+        await containerRef.current?.requestFullscreen();
+      } catch (e) {
+        toast.error('Teljes képernyős mód nem támogatott ebben a böngészőben.');
+      }
+    } else {
+      document.exitFullscreen();
+    }
+  };
+
   const handleStartGame = (matchId: string) => {
-    // This is called when a new match is created from lobby
-    // We fetch it and move to placement
     fetchMatchAndMove(matchId, 'placement');
   };
 
@@ -72,13 +95,11 @@ export default function TorpedoGame({ onBack }: TorpedoGameProps) {
   const handleJoinMatch = (match: TorpedoMatch) => {
     setCurrentMatch(match);
     if (match.status === 'waiting') {
-      // If it's a pending invitation for us, we need to accept it
       if (match.p2_id === userId) {
         TorpedoService.acceptMatch(match.id).then(() => {
           setGameState('placement');
         });
       } else {
-        // We are p1, just waiting
         setGameState('placement');
       }
     } else if (match.status === 'placing') {
@@ -121,7 +142,7 @@ export default function TorpedoGame({ onBack }: TorpedoGameProps) {
           p1_ships: ships,
           p2_ships: botShips,
           status: 'playing',
-          turn_id: currentMatch.p1_id // Player goes first
+          turn_id: currentMatch.p1_id
         };
         
         setCurrentMatch(updatedMatch);
@@ -136,7 +157,6 @@ export default function TorpedoGame({ onBack }: TorpedoGameProps) {
     try {
       await TorpedoService.submitShips(currentMatch.id, ships);
       toast.success('Hajók elmentve! Várakozás az ellenfélre...');
-      // Move to combat - the combat component will wait if status is still 'placing'
       fetchMatchAndMove(currentMatch.id, 'combat');
     } catch (e) {
       toast.error('Hiba az elhelyezés mentésekor');
@@ -156,38 +176,47 @@ export default function TorpedoGame({ onBack }: TorpedoGameProps) {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 p-4 md:p-8">
+    <div
+      ref={containerRef}
+      className={cn(
+        "bg-slate-50 dark:bg-slate-950 transition-all duration-300",
+        isFullscreen
+          ? "fixed inset-0 z-[9999] overflow-y-auto p-3 md:p-6"
+          : "min-h-screen p-3 md:p-8"
+      )}
+    >
       {/* Header */}
-      <div className="max-w-7xl mx-auto mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
+      <div className="max-w-7xl mx-auto mb-4 md:mb-8 flex items-center justify-between gap-2">
+        {/* Left: back + title */}
+        <div className="flex items-center gap-2 md:gap-4 min-w-0">
           <Button 
             variant="ghost" 
             onClick={gameState === 'lobby' ? onBack : () => setGameState('lobby')}
-            className="rounded-2xl h-12 px-6 hover:bg-white dark:hover:bg-indigo-900/20 border border-transparent hover:border-slate-200 dark:hover:border-slate-800 transition-all font-black italic gap-2"
+            className="rounded-2xl h-10 md:h-12 px-3 md:px-6 hover:bg-white dark:hover:bg-indigo-900/20 border border-transparent hover:border-slate-200 dark:hover:border-slate-800 transition-all font-black italic gap-2 shrink-0"
           >
-            <ArrowLeft className="w-5 h-5" />
-            {gameState === 'lobby' ? 'VISSZA' : 'LOBBI'}
+            <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
+            <span className="hidden sm:inline">{gameState === 'lobby' ? 'VISSZA' : 'LOBBI'}</span>
           </Button>
 
-          <div className="h-10 w-[2px] bg-slate-200 dark:bg-slate-800 hidden md:block" />
-
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-indigo-600 rounded-2xl text-white shadow-lg shadow-indigo-500/30">
-              <Anchor size={24} />
+          <div className="flex items-center gap-2 md:gap-3 min-w-0">
+            <div className="p-2 md:p-2.5 bg-indigo-600 rounded-xl md:rounded-2xl text-white shadow-lg shadow-indigo-500/30 shrink-0">
+              <Anchor size={18} className="md:hidden" />
+              <Anchor size={22} className="hidden md:block" />
             </div>
-            <h1 className="text-2xl md:text-3xl font-black text-slate-800 dark:text-white tracking-tighter italic uppercase">
+            <h1 className="text-lg md:text-3xl font-black text-slate-800 dark:text-white tracking-tighter italic uppercase truncate">
               TORPEDÓ <span className="text-indigo-600">MATEK</span>
             </h1>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        {/* Right: controls */}
+        <div className="flex items-center gap-2 shrink-0">
           {gameState === 'lobby' && (
-            <div className="flex bg-white dark:bg-slate-900 p-1.5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+            <div className="hidden sm:flex bg-white dark:bg-slate-900 p-1.5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
               <button 
                 onClick={() => setAxisType('number')}
                 className={cn(
-                  "px-4 py-2 rounded-xl text-xs font-black transition-all uppercase tracking-tight",
+                  "px-3 py-1.5 rounded-xl text-xs font-black transition-all uppercase tracking-tight",
                   axisType === 'number' ? "bg-indigo-600 text-white shadow-md" : "text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800"
                 )}
               >
@@ -196,7 +225,7 @@ export default function TorpedoGame({ onBack }: TorpedoGameProps) {
               <button 
                 onClick={() => setAxisType('letter')}
                 className={cn(
-                  "px-4 py-2 rounded-xl text-xs font-black transition-all uppercase tracking-tight",
+                  "px-3 py-1.5 rounded-xl text-xs font-black transition-all uppercase tracking-tight",
                   axisType === 'letter' ? "bg-indigo-600 text-white shadow-md" : "text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800"
                 )}
               >
@@ -205,12 +234,43 @@ export default function TorpedoGame({ onBack }: TorpedoGameProps) {
             </div>
           )}
 
-          <div className="flex items-center gap-2 px-6 py-2.5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-            <Trophy size={18} className="text-amber-500" />
+          <div className="hidden md:flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+            <Trophy size={16} className="text-amber-500" />
             <span className="text-sm font-black text-slate-700 dark:text-slate-300">0 Pont</span>
           </div>
+
+          {/* Fullscreen toggle */}
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={toggleFullscreen}
+            className="h-10 w-10 md:h-11 md:w-11 rounded-2xl border-2 border-slate-200 dark:border-slate-800 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 hover:border-indigo-300 transition-all"
+            title={isFullscreen ? 'Kilépés a teljes képernyőből' : 'Teljes képernyő'}
+          >
+            {isFullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
+          </Button>
         </div>
       </div>
+
+      {/* Axis switcher on mobile (lobby only) */}
+      {gameState === 'lobby' && (
+        <div className="sm:hidden max-w-7xl mx-auto mb-4 flex bg-white dark:bg-slate-900 p-1.5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm w-fit">
+          <button
+            onClick={() => setAxisType('number')}
+            className={cn(
+              "px-4 py-2 rounded-xl text-xs font-black transition-all uppercase",
+              axisType === 'number' ? "bg-indigo-600 text-white shadow-md" : "text-slate-500"
+            )}
+          >Számok</button>
+          <button
+            onClick={() => setAxisType('letter')}
+            className={cn(
+              "px-4 py-2 rounded-xl text-xs font-black transition-all uppercase",
+              axisType === 'letter' ? "bg-indigo-600 text-white shadow-md" : "text-slate-500"
+            )}
+          >Betűk</button>
+        </div>
+      )}
 
       <div className="max-w-7xl mx-auto">
         {gameState === 'lobby' && (
@@ -223,10 +283,10 @@ export default function TorpedoGame({ onBack }: TorpedoGameProps) {
 
         {gameState === 'placement' && currentMatch && (
           <div className="animate-in fade-in slide-in-from-top-4 duration-500">
-            <div className="mb-8 text-center max-w-2xl mx-auto">
-               <h2 className="text-3xl font-black mb-3 italic tracking-tighter">ELHELYEZÉSI FÁZIS</h2>
-               <p className="text-slate-500 dark:text-slate-400 font-medium">
-                 Helyezd el a flottádat a 10x10-es koordináta-rendszerben! Ügyelj rá, hogy a hajók ne érintkezzenek egymással.
+            <div className="mb-4 md:mb-8 text-center max-w-2xl mx-auto">
+               <h2 className="text-2xl md:text-3xl font-black mb-2 italic tracking-tighter">ELHELYEZÉSI FÁZIS</h2>
+               <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
+                 Helyezd el a flottádat a 10×10-es koordináta-rendszerben! Ügyelj rá, hogy a hajók ne érintkezzenek egymással.
                </p>
             </div>
             <TorpedoPlacement 
@@ -245,23 +305,25 @@ export default function TorpedoGame({ onBack }: TorpedoGameProps) {
         )}
       </div>
 
-      {/* Footer Info */}
-      <div className="max-w-7xl mx-auto mt-16 flex flex-col md:flex-row items-center justify-between gap-6 opacity-30 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-500">
-         <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2">
-               <Users size={16} />
-               <span className="text-xs font-bold uppercase">PvP Játékmód</span>
-            </div>
-            <div className="flex items-center gap-2">
-               <Settings2 size={16} />
-               <span className="text-xs font-bold uppercase">Koordináta Gyakorlás</span>
-            </div>
-         </div>
-         <div className="flex items-center gap-2 text-xs font-bold uppercase">
-            <HelpCircle size={16} />
-            <span>Útmutató a játékhoz</span>
-         </div>
-      </div>
+      {/* Footer Info – only on lobby, hidden on mobile */}
+      {gameState === 'lobby' && (
+        <div className="hidden md:flex max-w-7xl mx-auto mt-16 items-center justify-between gap-6 opacity-30 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-500">
+           <div className="flex items-center gap-6">
+              <div className="flex items-center gap-2">
+                 <Users size={16} />
+                 <span className="text-xs font-bold uppercase">PvP Játékmód</span>
+              </div>
+              <div className="flex items-center gap-2">
+                 <Settings2 size={16} />
+                 <span className="text-xs font-bold uppercase">Koordináta Gyakorlás</span>
+              </div>
+           </div>
+           <div className="flex items-center gap-2 text-xs font-bold uppercase">
+              <HelpCircle size={16} />
+              <span>Útmutató a játékhoz</span>
+           </div>
+        </div>
+      )}
     </div>
   );
 }
