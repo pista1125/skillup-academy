@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { Chess } from 'chess.js';
 import { Chessboard } from 'react-chessboard';
 import { ChessAI, getDifficultyDepth } from '@/lib/chess/ChessAI';
@@ -12,10 +12,13 @@ import {
   User,
   Cpu,
   History,
-  Info
+  Info,
+  Lightbulb,
+  Loader2
 } from 'lucide-react';
 import { ChessService } from '@/lib/chess/ChessService';
 import { cn } from '@/lib/utils';
+import MathChallengeModal from '@/components/math/games/MathChallengeModal';
 
 interface ChessBoardUIProps {
   mode: 'ai' | 'friend';
@@ -43,6 +46,12 @@ export default function ChessBoardUI({
   const [optionSquares, setOptionSquares] = useState<any>({});
   const [engine, setEngine] = useState<ChessAI | null>(null);
 
+  // Hint system
+  const [showMathModal, setShowMathModal] = useState(false);
+  const [isLoadingHint, setIsLoadingHint] = useState(false);
+  const [hintSquares, setHintSquares] = useState<any>({});
+  const hintEngineRef = useRef<ChessAI | null>(null);
+
   const orientation = isWhite ? 'white' : 'black';
 
   // Initialize AI engine
@@ -53,6 +62,56 @@ export default function ChessBoardUI({
       return () => ai.terminate();
     }
   }, [mode]);
+
+  // Initialize a dedicated hint engine (works in both modes)
+  useEffect(() => {
+    const hintAI = new ChessAI();
+    hintEngineRef.current = hintAI;
+    return () => hintAI.terminate();
+  }, []);
+
+  // Clear hint highlight after 6 seconds
+  useEffect(() => {
+    if (Object.keys(hintSquares).length > 0) {
+      const timer = setTimeout(() => setHintSquares({}), 6000);
+      return () => clearTimeout(timer);
+    }
+  }, [hintSquares]);
+
+  const handleHintRequest = () => {
+    if (game.isGameOver()) return;
+    setShowMathModal(true);
+  };
+
+  const handleMathSuccess = async () => {
+    setIsLoadingHint(true);
+    try {
+      const hintAI = hintEngineRef.current;
+      if (!hintAI) return;
+      // Use depth 15 for a good quality hint regardless of game difficulty
+      const bestMove = await hintAI.getBestMove(game.fen(), 15);
+      if (bestMove && bestMove.length >= 4) {
+        const from = bestMove.substring(0, 2);
+        const to = bestMove.substring(2, 4);
+        setHintSquares({
+          [from]: {
+            background: 'radial-gradient(circle, rgba(16,185,129,0.55) 85%, transparent 85%)',
+            border: '3px solid rgba(16,185,129,0.9)',
+            borderRadius: '4px',
+          },
+          [to]: {
+            background: 'radial-gradient(circle, rgba(16,185,129,0.35) 85%, transparent 85%)',
+            border: '3px solid rgba(16,185,129,0.7)',
+            borderRadius: '4px',
+          },
+        });
+      }
+    } catch (e) {
+      console.error('Hint error:', e);
+    } finally {
+      setIsLoadingHint(false);
+    }
+  };
 
   // Subscribe to real-time updates for multiplayer
   useEffect(() => {
@@ -282,12 +341,14 @@ export default function ChessBoardUI({
       }
     }
 
-    // 3. Merge active piece selection and possible move options
+    // 3. Merge hint squares (shown after math challenge success)
+    // 4. Merge active piece selection and possible move options
     return {
       ...styles,
+      ...hintSquares,
       ...optionSquares,
     };
-  }, [lastMove, game, optionSquares]);
+  }, [lastMove, game, optionSquares, hintSquares]);
 
   const currentTurn = game.turn() === 'w' ? 'Világos' : 'Sötét';
 
@@ -459,6 +520,27 @@ export default function ChessBoardUI({
               Uj játék
             </Button>
           </div>
+
+          {/* Hint Button */}
+          <Button
+            variant="outline"
+            onClick={handleHintRequest}
+            disabled={game.isGameOver() || isLoadingHint}
+            className={cn(
+              "w-full rounded-xl border-2 h-10 font-bold text-xs transition-all mt-1",
+              Object.keys(hintSquares).length > 0
+                ? "border-emerald-500 text-emerald-600 bg-emerald-50 dark:bg-emerald-950/20 hover:bg-emerald-100 dark:hover:bg-emerald-950/30"
+                : "border-amber-400 text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-950/20 hover:border-amber-500"
+            )}
+          >
+            {isLoadingHint ? (
+              <><Loader2 size={14} className="mr-2 animate-spin" />Számolom...</>
+            ) : Object.keys(hintSquares).length > 0 ? (
+              <><Lightbulb size={14} className="mr-2 fill-emerald-500" />Tipp aktív!</>
+            ) : (
+              <><Lightbulb size={14} className="mr-2" />Legjobb lépés kérése</>
+            )}
+          </Button>
         </Card>
 
         {/* Game Stats Card */}
@@ -478,6 +560,13 @@ export default function ChessBoardUI({
           </div>
         </Card>
       </div>
+
+      {/* Math Challenge Modal */}
+      <MathChallengeModal
+        isOpen={showMathModal}
+        onClose={() => setShowMathModal(false)}
+        onSuccess={handleMathSuccess}
+      />
     </div>
   );
 }
