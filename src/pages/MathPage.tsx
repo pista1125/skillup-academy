@@ -15,6 +15,7 @@ import { UserMenu } from '@/components/auth/UserMenu';
 
 // Lazy load heavy components
 const CompetencyMatrixHub = lazy(() => import("@/components/math/competency-matrix/CompetencyMatrixHub")) as any;
+const GraduationPrep = lazy(() => import("@/components/math/graduation/GraduationPrep")) as any;
 const DecimalFractionsQuiz = lazy(() => import("@/components/math/grade-5/DecimalFractionsQuiz")) as any;
 const DecimalMultiplicationQuiz = lazy(() => import("@/components/math/grade-5/DecimalMultiplicationQuiz")) as any;
 const DecimalDivisionQuiz = lazy(() => import("@/components/math/grade-5/DecimalDivisionQuiz")) as any;
@@ -133,7 +134,8 @@ import {
   Puzzle,
   Trophy,
   Flag,
-  ArrowRightLeft
+  ArrowRightLeft,
+  GraduationCap
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -169,8 +171,23 @@ type ActivityType =
   | 'toto-maker' | 'chess-game' | 'torpedo-game' | 'matching-creator' | 'unit-converter' | 'capacity-converter' | 'analog-clock'
   | 'hanoi-tower' | 'color-sequence-game' | 'perimeter-quiz' | 'perimeter-area' | 'volume-surface' | 'volume-quiz' | 'surface-area-quiz' | 'area-conversion-quiz' | 'area-calculation-quiz' | 'parallelogram-area-quiz' | 'g7-mapping-quiz' | 'g7-function-table-quiz';
 
-const gradeToSlug = (grade: GradeLevel): string => `${grade}-osztaly`;
+const gradeToSlug = (grade: GradeLevel): string => {
+  if (grade === 'graduation') return 'erettsegi';
+  if (grade === 'admission') return 'felveteli';
+  if (grade === 'high-1') return '9-osztaly';
+  if (grade === 'high-2') return '10-osztaly';
+  if (grade === 'high-3') return '11-osztaly';
+  if (grade === 'high-4') return '12-osztaly';
+  return `${grade}-osztaly`;
+};
+
 const slugToGrade = (slug: string): GradeLevel | null => {
+  if (slug === 'erettsegi') return 'graduation';
+  if (slug === 'felveteli') return 'admission';
+  if (slug === '9-osztaly') return 'high-1';
+  if (slug === '10-osztaly') return 'high-2';
+  if (slug === '11-osztaly') return 'high-3';
+  if (slug === '12-osztaly') return 'high-4';
   const match = slug.match(/^(\d)-osztaly$/);
   return match ? parseInt(match[1]) as GradeLevel : null;
 };
@@ -218,7 +235,7 @@ const TOOLS: ActivityConfig[] = [
   { id: 'matching-creator', title: 'Párosító Készítő', desc: 'Készíts koordinátás párosító feladatot és töltsd le PDF-ben!', icon: <Puzzle className="w-8 h-8" />, color: 'bg-blue-100 text-blue-600', category: 'sec-creative' },
   { id: 'word-search', title: 'Szókereső Készítő', desc: 'Készíts saját szókeresőt, letölthető megoldókulccsal!', icon: <span className="text-3xl">🔎</span>, color: 'bg-indigo-100 text-indigo-600', category: 'sec-creative' },
   { id: 'sudoku-generator', title: 'Sudoku Generátor', desc: 'Generálj és nyomtass egyedi Sudoku feladványokat!', icon: <Calculator className="w-8 h-8" />, color: 'bg-blue-100 text-blue-600', category: 'sec-creative' },
-  { id: 'student-feedback', title: 'Diák visszajelzés (Céltábla)', desc: 'Kérj visszajelzést a diákoktól az óra végén!', icon: <Target className="w-8 h-8" />, color: 'bg-rose-100 text-rose-600', category: 'sec-creative' },
+  { id: 'student-feedback', title: 'Diák visszajelzés (Céltábla)', desc: 'Kérj visszajelzést a diákoktól az óra végén!', icon: <Target className="w-8 h-8" />, color: 'bg-rose-100 text-rose-600', category: 'sec-teacher' },
 ];
 
 const GAMES: ActivityConfig[] = [
@@ -2617,6 +2634,23 @@ export default function MathPage() {
         )}
 
         {view === 'topic-select' && (() => {
+          if (selectedGrade === 'graduation') {
+            return (
+              <Suspense fallback={
+                <div className="flex flex-col items-center justify-center py-32 space-y-6 animate-pulse text-left">
+                  <div className="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center">
+                    <div className="w-12 h-12 bg-primary/40 rounded-full animate-ping" />
+                  </div>
+                  <div className="space-y-2 text-center">
+                    <h3 className="text-xl font-bold text-slate-700">Töltés...</h3>
+                    <p className="text-slate-400">Érettségi felkészítő betöltése...</p>
+                  </div>
+                </div>
+              }>
+                <GraduationPrep onBack={handleHome} />
+              </Suspense>
+            );
+          }
           return (
             <div className="animate-slide-up pb-20 relative text-left">
               <div className="flex-1 transition-all duration-500">
@@ -2655,6 +2689,7 @@ export default function MathPage() {
             { id: 'sec-measurements', label: 'Mértékegység', icon: <Scale className="w-4 h-4" /> },
             { id: 'sec-measuring-instruments', label: 'Mérőeszközök', icon: <Wrench className="w-4 h-4" /> },
             { id: 'sec-creative', label: 'Kreatív', icon: <Sparkles className="w-4 h-4" /> },
+            { id: 'sec-teacher', label: 'Tanári', icon: <GraduationCap className="w-4 h-4" /> },
           ];
 
           return (
@@ -2787,11 +2822,11 @@ export default function MathPage() {
                   </div>
                 </section>
 
-                {/* 7. Mérőeszközök */}
+                {/* 6. Mérőeszközök */}
                 <section>
                   <SectionHeader
                     id="sec-measuring-instruments"
-                    number={7}
+                    number={6}
                     title="Mérőeszközök"
                     color="amber"
                     subtitle="Cél: óra leolvasása, időmérés vizuális gyakorlása"
@@ -2810,17 +2845,40 @@ export default function MathPage() {
                   </div>
                 </section>
 
-                {/* 8. Interaktív / Kreatív eszközök */}
+                {/* 7. Interaktív / Kreatív eszközök */}
                 <section>
                   <SectionHeader
                     id="sec-creative"
-                    number={8}
+                    number={7}
                     title="Interaktív / Kreatív eszközök"
                     color="violet"
                     subtitle="Készíts saját tartalmakat!"
                   />
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
                     {TOOLS.filter(t => t.category === 'sec-creative').map(tool => (
+                      <ToolCard
+                        key={tool.id}
+                        title={tool.title}
+                        desc={tool.desc}
+                        icon={tool.icon}
+                        color={tool.color}
+                        onClick={() => handleToolSelect(tool.id)}
+                      />
+                    ))}
+                  </div>
+                </section>
+
+                {/* 8. Tanári eszközök */}
+                <section>
+                  <SectionHeader
+                    id="sec-teacher"
+                    number={8}
+                    title="Tanári eszközök"
+                    color="rose"
+                    subtitle="Segédanyagok és visszajelzések"
+                  />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
+                    {TOOLS.filter(t => t.category === 'sec-teacher').map(tool => (
                       <ToolCard
                         key={tool.id}
                         title={tool.title}
