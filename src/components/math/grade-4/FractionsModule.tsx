@@ -42,11 +42,12 @@ interface FractionsModuleProps {
     onStartActivity?: (type: string) => void;
     isInline?: boolean;
     initialView?: string;
+    onlyType?: 'common' | 'decimal';
 }
 
 type ViewType = 'menu' | 'visualizer' | 'quiz' | 'multiplier' | 'visual-matcher' | 'divider' | 'decimal-fractions' | 'number-line' | 'decimal-multiplier' | 'decimal-divider' | 'decimal-multiplier-select' | 'decimal-divider-select' | 'decimal-quiz' | 'decimal-multiplication-quiz' | 'decimal-division-quiz' | 'decimal-shifter' | 'to-decimal-matcher' | 'closing-test';
 
-export function FractionsModule({ onBack, onStartActivity, isInline = false, initialView }: FractionsModuleProps) {
+export function FractionsModule({ onBack, onStartActivity, isInline = false, initialView, onlyType }: FractionsModuleProps) {
     const [view, setView] = useState<ViewType | string>(() => {
         if (!initialView || initialView === 'fractions' || initialView === 'g5-fractions-decimals') {
             return 'menu';
@@ -105,7 +106,9 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false, ini
                 )}
 
                 <div className="space-y-12">
-                    <section>
+                    {onlyType !== 'decimal' && (
+                        <>
+                            <section>
                         <SectionHeader number={1} title="Ismerkedés a törtekkel" color="blue" />
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                             <ActivityPlaceholder
@@ -230,8 +233,12 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false, ini
                             />
                         </div>
                     </section>
+                        </>
+                    )}
 
-                    <section>
+                    {onlyType !== 'common' && (
+                        <>
+                            <section>
                         <SectionHeader number={10} title="Tizedes törtek" color="amber" />
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                             <ActivityPlaceholder
@@ -368,6 +375,8 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false, ini
                             />
                         </div>
                     </section>
+                        </>
+                    )}
                 </div>
             </div>
         );
