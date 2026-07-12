@@ -112,6 +112,8 @@ import {
   Percent,
   ChevronRight,
   ChevronLeft,
+  ChevronUp,
+  ChevronDown,
   Home,
   Sparkles,
   Target,
@@ -360,6 +362,7 @@ export default function MathPage() {
   const [vennLevel, setVennLevel] = useState<number | null>(null);
   const [activeGrade5TopicId, setActiveGrade5TopicId] = useState<string>('g5-integers');
   const [activeGrade5SubSectionId, setActiveGrade5SubSectionId] = useState<string | null>(null);
+  const [isGrade5MobileMenuOpen, setIsGrade5MobileMenuOpen] = useState(false);
 
   const gradeNavItems: NavItem[] = useMemo(() => {
     if (view !== 'topic-select') return [];
@@ -2776,10 +2779,10 @@ export default function MathPage() {
           if (selectedGrade === 5) {
             const activeTopic = grade5Topics.find(t => t.id === activeGrade5TopicId) || grade5Topics[1];
             return (
-              <div className="flex h-full w-full bg-slate-50 text-slate-800 rounded-3xl overflow-hidden shadow-xl border border-slate-200/60 animate-slide-up relative text-left">
-                {/* Left Sidebar */}
+              <div className="flex flex-col lg:flex-row h-full w-full bg-slate-50 text-slate-800 rounded-3xl overflow-hidden shadow-xl border border-slate-200/60 animate-slide-up relative text-left">
+                {/* Left Sidebar (Desktop only) */}
                 <aside className={cn(
-                  "bg-white border-r border-slate-200/80 flex flex-col transition-all duration-300 relative z-20 shrink-0",
+                  "hidden lg:flex bg-white border-r border-slate-200/80 flex-col transition-all duration-300 relative z-20 shrink-0",
                   isSidebarCollapsed ? "w-16" : "w-64"
                 )}>
                   {/* Collapsible toggle */}
@@ -2858,8 +2861,120 @@ export default function MathPage() {
                   </nav>
                 </aside>
 
+                {/* ── MOBILE BOTTOM DRAWER (< lg) ──────────────────────────── */}
+                {/* Backdrop overlay */}
+                {isGrade5MobileMenuOpen && (
+                  <div
+                    className="fixed inset-0 bg-black/45 z-40 lg:hidden"
+                    onClick={() => setIsGrade5MobileMenuOpen(false)}
+                  />
+                )}
+
+                {/* Bottom drawer panel */}
+                <div
+                  className={cn(
+                    "fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-white text-slate-800 rounded-t-3xl shadow-[0_-8px_30px_rgba(0,0,0,0.15)] border-t border-slate-200/80 transition-transform duration-300 ease-in-out",
+                    isGrade5MobileMenuOpen ? "translate-y-0" : "translate-y-[calc(100%-3rem)]"
+                  )}
+                  style={{ maxHeight: '75vh' }}
+                >
+                  {/* Drawer handle / toggle strip */}
+                  <button
+                    onClick={() => setIsGrade5MobileMenuOpen(!isGrade5MobileMenuOpen)}
+                    className="w-full h-12 flex items-center justify-between px-5 bg-slate-50 border-b border-slate-200/60 rounded-t-3xl flex-shrink-0"
+                  >
+                    <div className="flex items-center gap-2 min-w-0">
+                      <Sparkles className="w-4 h-4 text-purple-600 animate-pulse flex-shrink-0" />
+                      <span className="font-display font-black text-xs tracking-wider uppercase text-purple-700 flex-shrink-0">
+                        Témakörök
+                      </span>
+                      <span className="bg-purple-100 text-purple-700 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full truncate">
+                        {activeTopic.title}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1.5 text-slate-500 flex-shrink-0">
+                      <span className="text-[10px] font-extrabold uppercase tracking-wider">{isGrade5MobileMenuOpen ? 'Bezárás' : 'Megnyitás'}</span>
+                      {isGrade5MobileMenuOpen
+                        ? <ChevronDown className="w-4 h-4 text-purple-600" />
+                        : <ChevronUp className="w-4 h-4 text-purple-600 animate-bounce" style={{ animationDuration: '2s' }} />
+                      }
+                    </div>
+                  </button>
+
+                  {/* Scrollable content inside drawer */}
+                  <div className="overflow-y-auto p-4 space-y-4" style={{ maxHeight: 'calc(75vh - 3rem)' }}>
+                    <div className="flex justify-end border-b border-slate-100 pb-2">
+                      <button
+                        onClick={() => {
+                          setIsGrade5MobileMenuOpen(false);
+                          handleHome();
+                        }}
+                        className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-800 transition-colors text-xs font-bold"
+                      >
+                        <Home className="w-3.5 h-3.5" />
+                        Vissza a főoldalra
+                      </button>
+                    </div>
+
+                    <nav className="space-y-2.5">
+                      {grade5Topics.map((topic) => {
+                        const isTopicActive = activeGrade5TopicId === topic.id;
+                        return (
+                          <div key={topic.id} className="space-y-1">
+                            <button
+                              onClick={() => {
+                                setActiveGrade5TopicId(topic.id);
+                                setActiveGrade5SubSectionId(null);
+                                if (topic.subsections.length === 0) {
+                                  setIsGrade5MobileMenuOpen(false);
+                                }
+                              }}
+                              className={cn(
+                                "w-full text-left p-3 rounded-2xl transition-all font-bold text-xs flex items-center gap-3",
+                                isTopicActive
+                                  ? "bg-purple-600 text-white shadow-md shadow-purple-100"
+                                  : "hover:bg-slate-150 bg-slate-50 text-slate-700 hover:text-slate-900 border border-slate-200/40"
+                              )}
+                            >
+                              <span className="text-base">{topic.icon}</span>
+                              <span className="flex-1">{topic.title}</span>
+                            </button>
+
+                            {/* Subsections list inside mobile drawer */}
+                            {isTopicActive && topic.subsections.length > 0 && (
+                              <div className="pl-3 pr-1 py-1 border-l-2 border-purple-200 space-y-1.5 ml-4 mt-1.5">
+                                {topic.subsections.map((sub) => {
+                                  const isSubActive = activeGrade5SubSectionId === sub.id;
+                                  return (
+                                    <button
+                                      key={sub.id}
+                                      onClick={() => {
+                                        setActiveGrade5SubSectionId(sub.id);
+                                        setIsGrade5MobileMenuOpen(false);
+                                      }}
+                                      className={cn(
+                                        "w-full text-left py-2.5 pr-3 rounded-xl text-[11px] font-bold transition-all flex items-center justify-between",
+                                        isSubActive
+                                          ? "bg-purple-50 text-purple-700 font-extrabold border-l-2 border-purple-600"
+                                          : "hover:bg-slate-100 bg-slate-50/50 text-slate-600 hover:text-slate-800",
+                                        isSubActive ? "pl-3.5" : "pl-4"
+                                      )}
+                                    >
+                                      <span className="truncate mr-2">{sub.label}</span>
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </nav>
+                  </div>
+                </div>
+
                 {/* Right Content Area */}
-                <main className="flex-1 bg-slate-50/30 p-6 md:p-8 overflow-y-auto h-full scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
+                <main className="flex-1 bg-slate-50/30 p-6 md:p-8 pb-16 lg:pb-8 overflow-y-auto h-full scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
                   <div className="max-w-6xl mx-auto space-y-8">
                     {/* Header Card */}
                     <div className="bg-white border border-slate-200/80 rounded-3xl p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-sm">
