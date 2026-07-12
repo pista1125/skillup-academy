@@ -147,7 +147,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Összeadás, kivonás, szorzás, osztás',
     icon: '🔢',
     color: 'from-blue-500 to-blue-600',
-    grades: [],
+    grades: [1, 2, 3],
   },
   {
     id: 'algebra',

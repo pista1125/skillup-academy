@@ -364,33 +364,24 @@ export default function MathPage() {
   const [activeGrade5SubSectionId, setActiveGrade5SubSectionId] = useState<string | null>(null);
   const [isGrade5MobileMenuOpen, setIsGrade5MobileMenuOpen] = useState(false);
 
+  const isUpperGradeLayout = selectedGrade !== null && (typeof selectedGrade === 'number' || selectedGrade.startsWith('high-'));
+
+  const getGradeLabel = (grade: GradeLevel | null): string => {
+    if (!grade) return '';
+    if (grade === 'graduation') return 'Érettségi';
+    if (grade === 'admission') return 'Felvételi';
+    if (grade === 'high-1') return '9. osztály';
+    if (grade === 'high-2') return '10. osztály';
+    if (grade === 'high-3') return '11. osztály';
+    if (grade === 'high-4') return '12. osztály';
+    return `${grade}. osztály`;
+  };
+
   const gradeNavItems: NavItem[] = useMemo(() => {
     if (view !== 'topic-select') return [];
-    if (selectedGrade === 4) return [
-      { id: 'g4-count-10k', label: 'Számolás 10k-ig', icon: <Calculator className="w-4 h-4" /> },
-      { id: 'g4-measurements', label: 'Mérések', icon: <Scale className="w-4 h-4" /> },
-      { id: 'g4-written-ops', label: 'Írásbeli műveletek', icon: <Calculator className="w-4 h-4" /> },
-      { id: 'g4-long-div', label: 'Írásbeli osztás', icon: <Box className="w-4 h-4" /> },
-      { id: 'g4-shapes-solids', label: 'Síkidomok, testek', icon: <Shapes className="w-4 h-4" /> },
-      { id: 'g4-fractions', label: 'Törtszámok', icon: <Percent className="w-4 h-4" /> },
-    ];
-    if (selectedGrade === 5) return [];
-    if (selectedGrade === 6) return [
-      { id: 'g6-integers', label: 'Egész számok', icon: <Calculator className="w-4 h-4" /> },
-      { id: 'g6-fractions', label: 'Törtek', icon: <Percent className="w-4 h-4" /> },
-      { id: 'g6-geometry', label: 'Geometria', icon: <Shapes className="w-4 h-4" /> },
-    ];
-    if (selectedGrade === 7) return [
-      { id: 'g7-lines', label: 'Nevezetes vonalak', icon: <MoveHorizontal className="w-4 h-4" /> },
-      { id: 'g7-triangles', label: 'Háromszögek', icon: <Triangle className="w-4 h-4" /> },
-      { id: 'g7-quads', label: 'Négyszögek', icon: <Square className="w-4 h-4" /> },
-      { id: 'g7-expressions', label: 'Kifejezések', icon: <Variable className="w-4 h-4" /> },
-      { id: 'g7-percent-val', label: 'Százalékérték', icon: <Percent className="w-4 h-4" /> },
-      { id: 'g7-percent-rate', label: 'Százalékláb', icon: <Percent className="w-4 h-4" /> },
-      { id: 'g7-percent-base', label: 'Százalékalap', icon: <Percent className="w-4 h-4" /> },
-    ];
+    if (isUpperGradeLayout) return [];
     return [];
-  }, [selectedGrade, view]);
+  }, [selectedGrade, view, isUpperGradeLayout]);
 
   const handleSidebarItemClick = (id: string) => {
     // Map section IDs to their parent Topic IDs
@@ -602,6 +593,10 @@ export default function MathPage() {
     setSelectedGrade(grade);
     setView('topic-select');
     setExpandedTopicId(null);
+    if (typeof grade === 'number' || grade.startsWith('high-')) {
+      setActiveGrade5TopicId('materials');
+      setActiveGrade5SubSectionId(null);
+    }
     updateURL('topic-select', grade, null, null);
   };
 
@@ -797,6 +792,36 @@ export default function MathPage() {
   const renderTopicContent = (topicId: string) => {
     if (topicId === 'competency-assessment') {
       return null;
+    }
+
+    if (topicId === 'basic-operations') {
+      if (selectedGrade === 1) {
+        return (
+          <Grade1MathModule
+            onBack={handleBack}
+            initialView="grade1-basic"
+            onStartActivity={(type) => handleActivitySelect(type as ActivityType, topicId)}
+          />
+        );
+      }
+      if (selectedGrade === 2) {
+        return (
+          <Grade2MathModule
+            onBack={handleBack}
+            initialView="grade2-basic"
+            onStartActivity={(type) => handleActivitySelect(type as ActivityType, topicId)}
+          />
+        );
+      }
+      if (selectedGrade === 3) {
+        return (
+          <Grade3MathModule
+            onBack={handleBack}
+            initialView="grade3-basic"
+            onStartActivity={(type) => handleActivitySelect(type as ActivityType, topicId)}
+          />
+        );
+      }
     }
 
     if (topicId === 'g4-count-10k') {
@@ -1516,167 +1541,176 @@ export default function MathPage() {
     }
 
     if (topicId === 'g7-geom-trans') {
+      const showAll = !activeGrade5SubSectionId;
       return (
         <div className="flex flex-col gap-10 py-6">
-          <section>
-            <SectionHeader id="g7-lines" number={1} title="Háromszögek nevezetes vonalai" color="blue" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Súlyvonalak, magasságvonalak"
-                subtitle="Elmélet és szerkesztés"
-                type="Kezdés"
-                disabled
-                icon={<MoveHorizontal className="w-6 h-6" />}
-                color="blue"
-              />
-              <ActivityPlaceholder
-                title="Középvonalak"
-                subtitle="Háromszög részei"
-                type="Gyakorlás"
-                disabled
-                icon={<Triangle className="w-6 h-6" />}
-                color="slate"
-              />
-            </div>
-          </section>
+          {(showAll || activeGrade5SubSectionId === 'g7-trans-lines') && (
+            <section>
+              <SectionHeader id="g7-lines" number={1} title="Háromszögek nevezetes vonalai" color="blue" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Súlyvonalak, magasságvonalak"
+                  subtitle="Elmélet és szerkesztés"
+                  type="Kezdés"
+                  disabled
+                  icon={<MoveHorizontal className="w-6 h-6" />}
+                  color="blue"
+                />
+                <ActivityPlaceholder
+                  title="Középvonalak"
+                  subtitle="Háromszög részei"
+                  type="Gyakorlás"
+                  disabled
+                  icon={<Triangle className="w-6 h-6" />}
+                  color="slate"
+                />
+              </div>
+            </section>
+          )}
 
-          <section>
-            <SectionHeader id="g7-triangles" number={2} title="Háromszögek" color="emerald" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Háromszögek fajtái"
-                subtitle="Osztályozás tulajdonságok alapján"
-                type="Kezdés"
-                onClick={() => handleActivitySelect('triangle-classification', topicId)}
-                icon={<Triangle className="w-6 h-6" />}
-                color="emerald"
-              />
-              <ActivityPlaceholder
-                title="Háromszögek szögei"
-                subtitle="Belső és külső szögek"
-                type="Teszt"
-                onClick={() => handleActivitySelect('triangle-angles-quiz', topicId)}
-                icon={<Sparkles className="w-6 h-6 text-amber-500" />}
-                color="emerald"
-              />
-              <ActivityPlaceholder
-                title="Szögtípusok"
-                subtitle="Felismerés és párosítás"
-                type="Gyakorlás"
-                onClick={() => handleActivitySelect('angle-matching', topicId)}
-                icon={<Target className="w-6 h-6" />}
-                color="emerald"
-              />
-            </div>
-          </section>
+          {(showAll || activeGrade5SubSectionId === 'g7-trans-triangles') && (
+            <section>
+              <SectionHeader id="g7-triangles" number={2} title="Háromszögek" color="emerald" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Háromszögek fajtái"
+                  subtitle="Osztályozás tulajdonságok alapján"
+                  type="Kezdés"
+                  onClick={() => handleActivitySelect('triangle-classification', topicId)}
+                  icon={<Triangle className="w-6 h-6" />}
+                  color="emerald"
+                />
+                <ActivityPlaceholder
+                  title="Háromszögek szögei"
+                  subtitle="Belső és külső szögek"
+                  type="Teszt"
+                  onClick={() => handleActivitySelect('triangle-angles-quiz', topicId)}
+                  icon={<Sparkles className="w-6 h-6 text-amber-500" />}
+                  color="emerald"
+                />
+                <ActivityPlaceholder
+                  title="Szögtípusok"
+                  subtitle="Felismerés és párosítás"
+                  type="Gyakorlás"
+                  onClick={() => handleActivitySelect('angle-matching', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="emerald"
+                />
+              </div>
+            </section>
+          )}
 
-          <section>
-            <SectionHeader id="g7-quads" number={3} title="Négyszögek" color="amber" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Négyszögek fajtái"
-                subtitle="Tulajdonságok és csoportosítás"
-                type="Kezdés"
-                onClick={() => handleActivitySelect('quadrilateral-classification', topicId)}
-                icon={<Square className="w-6 h-6" />}
-                color="amber"
-              />
-              <ActivityPlaceholder
-                title="Terület és kerület"
-                subtitle="Speciális négyszögek"
-                type="Hamarosan"
-                disabled
-                icon={<Calculator className="w-6 h-6" />}
-                color="slate"
-              />
-            </div>
-          </section>
+          {(showAll || activeGrade5SubSectionId === 'g7-trans-quads') && (
+            <>
+              <section>
+                <SectionHeader id="g7-quads" number={3} title="Négyszögek" color="amber" />
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                  <ActivityPlaceholder
+                    title="Négyszögek fajtái"
+                    subtitle="Tulajdonságok és csoportosítás"
+                    type="Kezdés"
+                    onClick={() => handleActivitySelect('quadrilateral-classification', topicId)}
+                    icon={<Square className="w-6 h-6" />}
+                    color="amber"
+                  />
+                  <ActivityPlaceholder
+                    title="Terület és kerület"
+                    subtitle="Speciális négyszögek"
+                    type="Hamarosan"
+                    disabled
+                    icon={<Calculator className="w-6 h-6" />}
+                    color="slate"
+                  />
+                </div>
+              </section>
 
-          <section>
-            <SectionHeader number={4} title="Geometriai transzformációk" color="indigo" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Eltolás és forgatás"
-                subtitle="Alapfogalmak"
-                type="Kezdés"
-                disabled
-                icon={<MoveHorizontal className="w-6 h-6 rotate-45" />}
-                color="indigo"
-              />
-            </div>
-          </section>
+              <section>
+                <SectionHeader number={4} title="Geometriai transzformációk" color="indigo" />
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                  <ActivityPlaceholder
+                    title="Eltolás és forgatás"
+                    subtitle="Alapfogalmak"
+                    type="Kezdés"
+                    disabled
+                    icon={<MoveHorizontal className="w-6 h-6 rotate-45" />}
+                    color="indigo"
+                  />
+                </div>
+              </section>
 
-          <section>
-            <SectionHeader number={5} title="Középpontos tükrözés" color="violet" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Pont és alakzat tükrözése"
-                subtitle="Szerkesztési lépések"
-                type="Kezdés"
-                disabled
-                icon={<MoveHorizontal className="w-6 h-6" />}
-                color="violet"
-              />
-            </div>
-          </section>
+              <section>
+                <SectionHeader number={5} title="Középpontos tükrözés" color="violet" />
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                  <ActivityPlaceholder
+                    title="Pont és alakzat tükrözése"
+                    subtitle="Szerkesztési lépések"
+                    type="Kezdés"
+                    disabled
+                    icon={<MoveHorizontal className="w-6 h-6" />}
+                    color="violet"
+                  />
+                </div>
+              </section>
 
-          <section>
-            <SectionHeader number={6} title="Tengelyes tükrözés" color="rose" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Szimmetria tengelyek"
-                subtitle="Alakzatok tükrözése"
-                type="Kezdés"
-                disabled
-                icon={<MoveHorizontal className="w-6 h-6 -rotate-45" />}
-                color="rose"
-              />
-              <ActivityPlaceholder
-                title="Egyenesek helyzete"
-                subtitle="Párhuzamos és merőleges"
-                type="Gyakorlás"
-                onClick={() => handleActivitySelect('line-relationships', topicId)}
-                icon={<MoveHorizontal className="w-6 h-6 rotate-45" />}
-                color="rose"
-              />
-            </div>
-          </section>
+              <section>
+                <SectionHeader number={6} title="Tengelyes tükrözés" color="rose" />
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                  <ActivityPlaceholder
+                    title="Szimmetria tengelyek"
+                    subtitle="Alakzatok tükrözése"
+                    type="Kezdés"
+                    disabled
+                    icon={<MoveHorizontal className="w-6 h-6 -rotate-45" />}
+                    color="rose"
+                  />
+                  <ActivityPlaceholder
+                    title="Egyenesek helyzete"
+                    subtitle="Párhuzamos és merőleges"
+                    type="Gyakorlás"
+                    onClick={() => handleActivitySelect('line-relationships', topicId)}
+                    icon={<MoveHorizontal className="w-6 h-6 rotate-45" />}
+                    color="rose"
+                  />
+                </div>
+              </section>
 
-          <section>
-            <SectionHeader number={7} title="Szabályos sokszögek" color="teal" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Síkidom vagy Test?"
-                subtitle="Szabályos alakzatok elkülönítése"
-                type="Kezdés"
-                onClick={() => handleActivitySelect('shape-classification', topicId)}
-                icon={<Box className="w-6 h-6" />}
-                color="teal"
-              />
-            </div>
-          </section>
+              <section>
+                <SectionHeader number={7} title="Szabályos sokszögek" color="teal" />
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                  <ActivityPlaceholder
+                    title="Síkidom vagy Test?"
+                    subtitle="Szabályos alakzatok elkülönítése"
+                    type="Kezdés"
+                    onClick={() => handleActivitySelect('shape-classification', topicId)}
+                    icon={<Box className="w-6 h-6" />}
+                    color="teal"
+                  />
+                </div>
+              </section>
 
-          <section>
-            <SectionHeader number={8} title="Kör" color="red" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Kör és részei"
-                subtitle="Sugár, átmérő, húr felismerése"
-                type="Kezdés"
-                onClick={() => handleActivitySelect('circle-parts', topicId)}
-                icon={<Circle className="w-6 h-6" />}
-                color="red"
-              />
-              <ActivityPlaceholder
-                title="Kör területe, kerülete"
-                subtitle="Számítási feladatok"
-                type="Hamarosan"
-                disabled
-                icon={<Calculator className="w-6 h-6" />}
-                color="slate"
-              />
-            </div>
-          </section>
+              <section>
+                <SectionHeader number={8} title="Kör" color="red" />
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                  <ActivityPlaceholder
+                    title="Kör és részei"
+                    subtitle="Sugár, átmérő, húr felismerése"
+                    type="Kezdés"
+                    onClick={() => handleActivitySelect('circle-parts', topicId)}
+                    icon={<Circle className="w-6 h-6" />}
+                    color="red"
+                  />
+                  <ActivityPlaceholder
+                    title="Kör területe, kerülete"
+                    subtitle="Számítási feladatok"
+                    type="Hamarosan"
+                    disabled
+                    icon={<Calculator className="w-6 h-6" />}
+                    color="slate"
+                  />
+                </div>
+              </section>
+            </>
+          )}
         </div>
       );
     }
@@ -1696,107 +1730,114 @@ export default function MathPage() {
     }
 
     if (topicId === 'g6-integers-divisibility') {
+      const showAll = !activeGrade5SubSectionId;
       return (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <button
-            onClick={() => handleActivitySelect('divisibility-theory')}
-            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
-          >
-            <div className="p-3 bg-amber-50 rounded-xl text-amber-600 group-hover:scale-110 transition-transform">
-              <BookOpen className="w-8 h-8" />
-            </div>
-            <div className="text-center">
-              <h4 className="font-bold text-sm">Tananyag</h4>
-              <p className="text-[10px] text-slate-500">Hatványozás és oszthatóság elmélete</p>
-            </div>
-          </button>
+          {(showAll || activeGrade5SubSectionId === 'g6-div-theory') && (
+            <button
+              onClick={() => handleActivitySelect('divisibility-theory')}
+              className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
+            >
+              <div className="p-3 bg-amber-50 rounded-xl text-amber-600 group-hover:scale-110 transition-transform">
+                <BookOpen className="w-8 h-8" />
+              </div>
+              <div className="text-center">
+                <h4 className="font-bold text-sm">Tananyag</h4>
+                <p className="text-[10px] text-slate-500">Hatványozás és oszthatóság elmélete</p>
+              </div>
+            </button>
+          )}
 
-          <button
-            onClick={() => handleActivitySelect('divisibility')}
-            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
-          >
-            <div className="p-3 bg-emerald-50 rounded-xl text-emerald-600 group-hover:scale-110 transition-transform">
-              <Calculator className="w-8 h-8" />
-            </div>
-            <div className="text-center">
-              <h4 className="font-bold text-sm">Oszthatóság</h4>
-              <p className="text-[10px] text-slate-500">Szabályok és interaktív ellenőrző</p>
-            </div>
-          </button>
+          {(showAll || activeGrade5SubSectionId === 'g6-div-ops') && (
+            <>
+              <button
+                onClick={() => handleActivitySelect('divisibility')}
+                className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
+              >
+                <div className="p-3 bg-emerald-50 rounded-xl text-emerald-600 group-hover:scale-110 transition-transform">
+                  <Calculator className="w-8 h-8" />
+                </div>
+                <div className="text-center">
+                  <h4 className="font-bold text-sm">Oszthatóság</h4>
+                  <p className="text-[10px] text-slate-500">Szabályok és interaktív ellenőrző</p>
+                </div>
+              </button>
 
-          <button
-            onClick={() => handleActivitySelect('divisibility-factorization')}
-            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
-          >
-            <div className="p-3 bg-indigo-50 rounded-xl text-indigo-600 group-hover:scale-110 transition-transform">
-              <Binary className="w-8 h-8" />
-            </div>
-            <div className="text-center">
-              <h4 className="font-bold text-sm">Prímtényezők</h4>
-              <p className="text-[10px] text-slate-500">Számok felbontása prímszámokra</p>
-            </div>
-          </button>
+              <button
+                onClick={() => handleActivitySelect('divisibility-factorization')}
+                className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
+              >
+                <div className="p-3 bg-indigo-50 rounded-xl text-indigo-600 group-hover:scale-110 transition-transform">
+                  <Binary className="w-8 h-8" />
+                </div>
+                <div className="text-center">
+                  <h4 className="font-bold text-sm">Prímtényezők</h4>
+                  <p className="text-[10px] text-slate-500">Számok felbontása prímszámokra</p>
+                </div>
+              </button>
 
-          <button
-            onClick={() => handleActivitySelect('divisibility-quiz')}
-            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group relative overflow-hidden"
-          >
-            <div className="absolute top-0 right-0 p-1">
-              <Sparkles className="w-3 h-3 text-rose-500 animate-pulse" />
-            </div>
-            <div className="p-3 bg-rose-50 rounded-xl text-rose-600 group-hover:scale-110 transition-transform">
-              <Gamepad2 className="w-8 h-8" />
-            </div>
-            <div className="text-center">
-              <h4 className="font-bold text-sm">Kvíz Játék</h4>
-              <p className="text-[10px] text-slate-500">Tedd próbára a tudásod!</p>
-            </div>
-          </button>
+              <button
+                onClick={() => handleActivitySelect('divisibility-quiz')}
+                className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group relative overflow-hidden"
+              >
+                <div className="absolute top-0 right-0 p-1">
+                  <Sparkles className="w-3 h-3 text-rose-500 animate-pulse" />
+                </div>
+                <div className="p-3 bg-rose-50 rounded-xl text-rose-600 group-hover:scale-110 transition-transform">
+                  <Gamepad2 className="w-8 h-8" />
+                </div>
+                <div className="text-center">
+                  <h4 className="font-bold text-sm">Kvíz Játék</h4>
+                  <p className="text-[10px] text-slate-500">Tedd próbára a tudásod!</p>
+                </div>
+              </button>
 
-          <button
-            onClick={() => handleActivitySelect('divisibility-matcher')}
-            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
-          >
-            <div className="p-3 bg-violet-50 rounded-xl text-violet-600 group-hover:scale-110 transition-transform">
-              <Target className="w-8 h-8" />
-            </div>
-            <div className="text-center">
-              <h4 className="font-bold text-sm">Párosító Játék</h4>
-              <p className="text-[10px] text-slate-500">Prímtényezők gyakorlása</p>
-            </div>
-          </button>
+              <button
+                onClick={() => handleActivitySelect('divisibility-matcher')}
+                className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
+              >
+                <div className="p-3 bg-violet-50 rounded-xl text-violet-600 group-hover:scale-110 transition-transform">
+                  <Target className="w-8 h-8" />
+                </div>
+                <div className="text-center">
+                  <h4 className="font-bold text-sm">Párosító Játék</h4>
+                  <p className="text-[10px] text-slate-500">Prímtényezők gyakorlása</p>
+                </div>
+              </button>
 
-          <button
-            onClick={() => handleActivitySelect('divisibility-gcdquiz')}
-            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group relative overflow-hidden"
-          >
-            <div className="absolute top-0 right-0 p-1">
-              <Sparkles className="w-3 h-3 text-rose-500 animate-pulse" />
-            </div>
-            <div className="p-3 bg-indigo-50 rounded-xl text-indigo-600 group-hover:scale-110 transition-transform">
-              <Zap className="w-8 h-8" />
-            </div>
-            <div className="text-center">
-              <h4 className="font-bold text-sm">LKÖ Kvíz</h4>
-              <p className="text-[10px] text-slate-500">Legnagyobb közös osztó gyakorlása</p>
-            </div>
-          </button>
+              <button
+                onClick={() => handleActivitySelect('divisibility-gcdquiz')}
+                className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group relative overflow-hidden"
+              >
+                <div className="absolute top-0 right-0 p-1">
+                  <Sparkles className="w-3 h-3 text-rose-500 animate-pulse" />
+                </div>
+                <div className="p-3 bg-indigo-50 rounded-xl text-indigo-600 group-hover:scale-110 transition-transform">
+                  <Zap className="w-8 h-8" />
+                </div>
+                <div className="text-center">
+                  <h4 className="font-bold text-sm">LKÖ Kvíz</h4>
+                  <p className="text-[10px] text-slate-500">Legnagyobb közös osztó gyakorlása</p>
+                </div>
+              </button>
 
-          <button
-            onClick={() => handleActivitySelect('divisibility-lkktquiz')}
-            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group relative overflow-hidden"
-          >
-            <div className="absolute top-0 right-0 p-1">
-              <Sparkles className="w-3 h-3 text-rose-500 animate-pulse" />
-            </div>
-            <div className="p-3 bg-amber-50 rounded-xl text-amber-600 group-hover:scale-110 transition-transform">
-              <Sparkles className="w-8 h-8" />
-            </div>
-            <div className="text-center">
-              <h4 className="font-bold text-sm">LKKT Kvíz</h4>
-              <p className="text-[10px] text-slate-500">Legkisebb közös többszörös gyakorlása</p>
-            </div>
-          </button>
+              <button
+                onClick={() => handleActivitySelect('divisibility-lkktquiz')}
+                className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group relative overflow-hidden"
+              >
+                <div className="absolute top-0 right-0 p-1">
+                  <Sparkles className="w-3 h-3 text-rose-500 animate-pulse" />
+                </div>
+                <div className="p-3 bg-amber-50 rounded-xl text-amber-600 group-hover:scale-110 transition-transform">
+                  <Sparkles className="w-8 h-8" />
+                </div>
+                <div className="text-center">
+                  <h4 className="font-bold text-sm">LKKT Kvíz</h4>
+                  <p className="text-[10px] text-slate-500">Legkisebb közös többszörös gyakorlása</p>
+                </div>
+              </button>
+            </>
+          )}
         </div>
       );
     }
@@ -1826,194 +1867,211 @@ export default function MathPage() {
     }
 
     if (topicId === 'g6-ratio-percent-word') {
+      const showAll = !activeGrade5SubSectionId;
       return (
         <div className="flex flex-col gap-10 py-6">
-          <section>
-            <SectionHeader number={1} title="Az arány fogalma" color="orange" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Arány felismerés"
-                subtitle="Zászlók, poharak, kísérletek"
-                type="Teszt"
-                onClick={() => handleActivitySelect('ratio-intro', topicId)}
-                icon={<Flag className="w-6 h-6" />}
-                color="orange"
-              />
-              <ActivityPlaceholder
-                title="Arány alkotó"
-                subtitle="Színezés, keverés, elosztás"
-                type="Interaktív"
-                onClick={() => handleActivitySelect('ratio-creator', topicId)}
-                icon={<Sparkles className="w-6 h-6" />}
-                color="orange"
-              />
-            </div>
-          </section>
+          {(showAll || activeGrade5SubSectionId === 'g6-ratio-intro') && (
+            <>
+              <section>
+                <SectionHeader number={1} title="Az arány fogalma" color="orange" />
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                  <ActivityPlaceholder
+                    title="Arány felismerés"
+                    subtitle="Zászlók, poharak, kísérletek"
+                    type="Teszt"
+                    onClick={() => handleActivitySelect('ratio-intro', topicId)}
+                    icon={<Flag className="w-6 h-6" />}
+                    color="orange"
+                  />
+                  <ActivityPlaceholder
+                    title="Arány alkotó"
+                    subtitle="Színezés, keverés, elosztás"
+                    type="Interaktív"
+                    onClick={() => handleActivitySelect('ratio-creator', topicId)}
+                    icon={<Sparkles className="w-6 h-6" />}
+                    color="orange"
+                  />
+                </div>
+              </section>
 
-          <section>
-            <SectionHeader number={2} title="Arányos osztás" color="amber" />
-            <div className="py-2">
-              <MaterialGallery
-                grade={6}
-                onView={handleMaterialSelect}
-              />
-            </div>
-          </section>
+              <section>
+                <SectionHeader number={2} title="Arányos osztás" color="amber" />
+                <div className="py-2">
+                  <MaterialGallery
+                    grade={6}
+                    onView={handleMaterialSelect}
+                  />
+                </div>
+              </section>
+            </>
+          )}
 
-          <section>
-            <SectionHeader number={3} title="Egyenes arányosság" color="yellow" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-4">
-              <ActivityPlaceholder
-                title="Kvíz"
-                subtitle="Egyenesen arányos?"
-                type="Teszt"
-                onClick={() => handleActivitySelect('direct-proportion-quiz', topicId)}
-                icon={<Scale className="w-6 h-6" />}
-                color="orange"
-              />
-            </div>
-            <div className="py-2">
-              <MaterialGallery
-                grade={6}
-                onView={handleMaterialSelect}
-              />
-            </div>
-          </section>
+          {(showAll || activeGrade5SubSectionId === 'g6-ratio-proportion') && (
+            <>
+              <section>
+                <SectionHeader number={3} title="Egyenes arányosság" color="yellow" />
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-4">
+                  <ActivityPlaceholder
+                    title="Kvíz"
+                    subtitle="Egyenesen arányos?"
+                    type="Teszt"
+                    onClick={() => handleActivitySelect('direct-proportion-quiz', topicId)}
+                    icon={<Scale className="w-6 h-6" />}
+                    color="orange"
+                  />
+                </div>
+                <div className="py-2">
+                  <MaterialGallery
+                    grade={6}
+                    onView={handleMaterialSelect}
+                  />
+                </div>
+              </section>
 
-          <section>
-            <SectionHeader number={4} title="Egyenes arányosság grafikonja" color="lime" />
-            <div className="py-2">
-              <MaterialGallery
-                grade={6}
-                onView={handleMaterialSelect}
-              />
-            </div>
-          </section>
+              <section>
+                <SectionHeader number={4} title="Egyenes arányosság grafikonja" color="lime" />
+                <div className="py-2">
+                  <MaterialGallery
+                    grade={6}
+                    onView={handleMaterialSelect}
+                  />
+                </div>
+              </section>
 
-          <section>
-            <SectionHeader number={5} title="Szabályok, megfeleltetések" color="emerald" />
-            <div className="py-2">
-              <MaterialGallery
-                grade={6}
-                onView={handleMaterialSelect}
-              />
-            </div>
-          </section>
+              <section>
+                <SectionHeader number={5} title="Szabályok, megfeleltetések" color="emerald" />
+                <div className="py-2">
+                  <MaterialGallery
+                    grade={6}
+                    onView={handleMaterialSelect}
+                  />
+                </div>
+              </section>
+            </>
+          )}
 
-          <section>
-            <SectionHeader number={6} title="Törtrész" color="teal" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Törtek vizuálisan"
-                subtitle="Törtek ábrázolása"
-                type="Eszköz"
-                onClick={() => handleActivitySelect('fractions-visualizer', topicId)}
-                icon={<Percent className="w-6 h-6" />}
-                color="orange"
-              />
-            </div>
-          </section>
+          {(showAll || activeGrade5SubSectionId === 'g6-ratio-percent') && (
+            <>
+              <section>
+                <SectionHeader number={6} title="Törtrész" color="teal" />
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                  <ActivityPlaceholder
+                    title="Törtek vizuálisan"
+                    subtitle="Törtek ábrázolása"
+                    type="Eszköz"
+                    onClick={() => handleActivitySelect('fractions-visualizer', topicId)}
+                    icon={<Percent className="w-6 h-6" />}
+                    color="orange"
+                  />
+                </div>
+              </section>
 
-          <section>
-            <SectionHeader number={7} title="Százalékszámítás" color="rose" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Mennyiségek"
-                subtitle="Százalékérték számítás"
-                type="Teszt"
-                onClick={() => {
-                  setPercentMode('calculate-value');
-                  handleActivitySelect('percentages', topicId);
-                }}
-                icon={<Percent className="w-6 h-6" />}
-                color="rose"
-              />
-              <ActivityPlaceholder
-                title="Százalékláb"
-                subtitle="Arány megadása %-ban"
-                type="Teszt"
-                onClick={() => {
-                  setPercentMode('calculate-rate');
-                  handleActivitySelect('percentages', topicId);
-                }}
-                icon={<Percent className="w-6 h-6" />}
-                color="emerald"
-              />
-              <ActivityPlaceholder
-                title="Százalékalap"
-                subtitle="Visszaszámolás az egészre"
-                type="Teszt"
-                onClick={() => {
-                  setPercentMode('calculate-base');
-                  handleActivitySelect('percentages', topicId);
-                }}
-                icon={<Percent className="w-6 h-6" />}
-                color="blue"
-              />
-            </div>
-          </section>
+              <section>
+                <SectionHeader number={7} title="Százalékszámítás" color="rose" />
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                  <ActivityPlaceholder
+                    title="Mennyiségek"
+                    subtitle="Százalékérték számítás"
+                    type="Teszt"
+                    onClick={() => {
+                      setPercentMode('calculate-value');
+                      handleActivitySelect('percentages', topicId);
+                    }}
+                    icon={<Percent className="w-6 h-6" />}
+                    color="rose"
+                  />
+                  <ActivityPlaceholder
+                    title="Százalékláb"
+                    subtitle="Arány megadása %-ban"
+                    type="Teszt"
+                    onClick={() => {
+                      setPercentMode('calculate-rate');
+                      handleActivitySelect('percentages', topicId);
+                    }}
+                    icon={<Percent className="w-6 h-6" />}
+                    color="emerald"
+                  />
+                  <ActivityPlaceholder
+                    title="Százalékalap"
+                    subtitle="Visszaszámolás az egészre"
+                    type="Teszt"
+                    onClick={() => {
+                      setPercentMode('calculate-base');
+                      handleActivitySelect('percentages', topicId);
+                    }}
+                    icon={<Percent className="w-6 h-6" />}
+                    color="blue"
+                  />
+                </div>
+              </section>
 
-          <section>
-            <SectionHeader number={8} title="A százalékszámítás gyakorlása" color="pink" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Szöveges feladatok"
-                subtitle="Gyakorlati problémák (%)"
-                type="Gyakorlás"
-                onClick={() => handleActivitySelect('percent-value-word-problems', topicId)}
-                icon={<Percent className="w-6 h-6" />}
-                color="pink"
-              />
-            </div>
-          </section>
+              <section>
+                <SectionHeader number={8} title="A százalékszámítás gyakorlása" color="pink" />
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                  <ActivityPlaceholder
+                    title="Szöveges feladatok"
+                    subtitle="Gyakorlati problémák (%)"
+                    type="Gyakorlás"
+                    onClick={() => handleActivitySelect('percent-value-word-problems', topicId)}
+                    icon={<Percent className="w-6 h-6" />}
+                    color="pink"
+                  />
+                </div>
+              </section>
+            </>
+          )}
 
-          <section>
-            <SectionHeader number={9} title="Nyitott mondatok" color="violet" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Egyenletmegoldó"
-                subtitle="Vizuális modell"
-                type="Eszköz"
-                onClick={() => handleActivitySelect('equation-solver', topicId)}
-                icon={<Calculator className="w-6 h-6" />}
-                color="violet"
-              />
-            </div>
-          </section>
+          {(showAll || activeGrade5SubSectionId === 'g6-ratio-problems') && (
+            <>
+              <section>
+                <SectionHeader number={9} title="Nyitott mondatok" color="violet" />
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                  <ActivityPlaceholder
+                    title="Egyenletmegoldó"
+                    subtitle="Vizuális modell"
+                    type="Eszköz"
+                    onClick={() => handleActivitySelect('equation-solver', topicId)}
+                    icon={<Calculator className="w-6 h-6" />}
+                    color="violet"
+                  />
+                </div>
+              </section>
 
-          <section>
-            <SectionHeader number={10} title="Szöveges feladatok" color="teal" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Matek Kvíz"
-                subtitle="Vegyes szöveges feladatok"
-                type="Teszt"
-                onClick={() => handleActivitySelect('word-problems', topicId)}
-                icon={<BookOpen className="w-6 h-6" />}
-                color="teal"
-              />
-            </div>
-          </section>
+              <section>
+                <SectionHeader number={10} title="Szöveges feladatok" color="teal" />
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                  <ActivityPlaceholder
+                    title="Matek Kvíz"
+                    subtitle="Vegyes szöveges feladatok"
+                    type="Teszt"
+                    onClick={() => handleActivitySelect('word-problems', topicId)}
+                    icon={<BookOpen className="w-6 h-6" />}
+                    color="teal"
+                  />
+                </div>
+              </section>
 
-          <section>
-            <SectionHeader number={11} title="Több megoldás is lehet" color="slate" />
-            <div className="py-2">
-              <MaterialGallery
-                grade={6}
-                onView={handleMaterialSelect}
-              />
-            </div>
-          </section>
+              <section>
+                <SectionHeader number={11} title="Több megoldás is lehet" color="slate" />
+                <div className="py-2">
+                  <MaterialGallery
+                    grade={6}
+                    onView={handleMaterialSelect}
+                  />
+                </div>
+              </section>
 
-          <section>
-            <SectionHeader number={12} title="Összefoglalás" color="indigo" />
-            <div className="py-2">
-              <MaterialGallery
-                grade={6}
-                onView={handleMaterialSelect}
-              />
-            </div>
-          </section>
+              <section>
+                <SectionHeader number={12} title="Összefoglalás" color="indigo" />
+                <div className="py-2">
+                  <MaterialGallery
+                    grade={6}
+                    onView={handleMaterialSelect}
+                  />
+                </div>
+              </section>
+            </>
+          )}
         </div>
       );
     }
@@ -2036,174 +2094,188 @@ export default function MathPage() {
     }
 
     if (topicId === 'g7-rational-algebra') {
+      const showAll = !activeGrade5SubSectionId;
       return (
         <div className="flex flex-col gap-10 py-6">
           {/* Section 1 */}
-          <section>
-            <SectionHeader number={1} title="Racionális számok" color="blue" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Racionális számok"
-                subtitle="Műveletek ésszerűen"
-                type="Kezdés"
-                onClick={() => handleActivitySelect('g7-rational-numbers', topicId)}
-                icon={<Calculator className="w-6 h-6" />}
-                color="blue"
-              />
-              <ActivityPlaceholder
-                title="Pozitív és negatív számok"
-                subtitle="Gyakorló feladatok"
-                type="Hamarosan"
-                disabled
-                icon={<Target className="w-6 h-6" />}
-                color="slate"
-              />
-              <ActivityPlaceholder
-                title="Törtek és tizedestörtek"
-                subtitle="Értékelő teszt"
-                type="Teszt"
-                disabled
-                icon={<BookOpen className="w-6 h-6" />}
-                color="slate"
-              />
-            </div>
-          </section>
+          {(showAll || activeGrade5SubSectionId === 'g7-rat-numbers') && (
+            <section>
+              <SectionHeader number={1} title="Racionális számok" color="blue" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Racionális számok"
+                  subtitle="Műveletek ésszerűen"
+                  type="Kezdés"
+                  onClick={() => handleActivitySelect('g7-rational-numbers', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="blue"
+                />
+                <ActivityPlaceholder
+                  title="Pozitív és negatív számok"
+                  subtitle="Gyakorló feladatok"
+                  type="Hamarosan"
+                  disabled
+                  icon={<Target className="w-6 h-6" />}
+                  color="slate"
+                />
+                <ActivityPlaceholder
+                  title="Törtek és tizedestörtek"
+                  subtitle="Értékelő teszt"
+                  type="Teszt"
+                  disabled
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="slate"
+                />
+              </div>
+            </section>
+          )}
 
           {/* Section 2 */}
-          <section>
-            <SectionHeader id="g7-expressions" number={2} title="Számok és betűs kifejezések használata" color="purple" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Betűs kifejezések"
-                subtitle="Változók használata"
-                type="Kezdés"
-                onClick={() => handleActivitySelect('g7-expression-usage', topicId)}
-                icon={<Variable className="w-6 h-6" />}
-                color="purple"
-              />
-              <ActivityPlaceholder
-                title="Helyettesítési érték"
-                subtitle="Számolás betűkkel"
-                type="Gyakorlás"
-                disabled
-                icon={<Zap className="w-6 h-6" />}
-                color="slate"
-              />
-            </div>
-          </section>
+          {(showAll || activeGrade5SubSectionId === 'g7-rat-expressions') && (
+            <section>
+              <SectionHeader id="g7-expressions" number={2} title="Számok és betűs kifejezések használata" color="purple" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Betűs kifejezések"
+                  subtitle="Változók használata"
+                  type="Kezdés"
+                  onClick={() => handleActivitySelect('g7-expression-usage', topicId)}
+                  icon={<Variable className="w-6 h-6" />}
+                  color="purple"
+                />
+                <ActivityPlaceholder
+                  title="Helyettesítési érték"
+                  subtitle="Számolás betűkkel"
+                  type="Gyakorlás"
+                  disabled
+                  icon={<Zap className="w-6 h-6" />}
+                  color="slate"
+                />
+              </div>
+            </section>
+          )}
         </div>
       );
     }
 
     if (topicId === 'g7-percent-equations' || topicId === 'percentages') {
+      const showAll = !activeGrade5SubSectionId;
       return (
         <div className="flex flex-col gap-10 py-6">
-          <section>
-            <SectionHeader id="g7-percent-val" number={1} title="Százalékérték" color="rose" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Százalékérték teszt"
-                subtitle="Mennyi az alap adott %-a?"
-                type="Teszt"
-                onClick={() => {
-                  setPercentMode('calculate-value');
-                  handleActivitySelect('percentages', topicId);
-                }}
-                icon={<Percent className="w-6 h-6" />}
-                color="rose"
-              />
-              <ActivityPlaceholder
-                title="Szöveges feladatok"
-                subtitle="10 feladat / szint"
-                type="Gyakorlás"
-                onClick={() => {
-                  handleActivitySelect('percent-value-word-problems', topicId);
-                }}
-                icon={<BookOpen className="w-6 h-6" />}
-                color="rose"
-              />
-            </div>
-          </section>
+          {(showAll || activeGrade5SubSectionId === 'g7-eq-percent') && (
+            <section>
+              <SectionHeader id="g7-percent-val" number={1} title="Százalékérték" color="rose" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Százalékérték teszt"
+                  subtitle="Mennyi az alap adott %-a?"
+                  type="Teszt"
+                  onClick={() => {
+                    setPercentMode('calculate-value');
+                    handleActivitySelect('percentages', topicId);
+                  }}
+                  icon={<Percent className="w-6 h-6" />}
+                  color="rose"
+                />
+                <ActivityPlaceholder
+                  title="Szöveges feladatok"
+                  subtitle="10 feladat / szint"
+                  type="Gyakorlás"
+                  onClick={() => {
+                    handleActivitySelect('percent-value-word-problems', topicId);
+                  }}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="rose"
+                />
+              </div>
+            </section>
+          )}
 
-          <section>
-            <SectionHeader id="g7-percent-rate" number={2} title="Százalékláb" color="emerald" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Százalékláb teszt"
-                subtitle="Hány százaléka a rész az egésznek?"
-                type="Teszt"
-                onClick={() => {
-                  setPercentMode('calculate-rate');
-                  handleActivitySelect('percentages', topicId);
-                }}
-                icon={<Percent className="w-6 h-6" />}
-                color="emerald"
-              />
-              <ActivityPlaceholder
-                title="Szöveges feladatok"
-                subtitle="10 feladat / szint"
-                type="Gyakorlás"
-                onClick={() => {
-                  handleActivitySelect('percent-rate-word-problems', topicId);
-                }}
-                icon={<BookOpen className="w-6 h-6" />}
-                color="emerald"
-              />
-            </div>
-          </section>
+          {(showAll || activeGrade5SubSectionId === 'g7-eq-rate') && (
+            <section>
+              <SectionHeader id="g7-percent-rate" number={2} title="Százalékláb" color="emerald" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Százalékláb teszt"
+                  subtitle="Hány százaléka a rész az egésznek?"
+                  type="Teszt"
+                  onClick={() => {
+                    setPercentMode('calculate-rate');
+                    handleActivitySelect('percentages', topicId);
+                  }}
+                  icon={<Percent className="w-6 h-6" />}
+                  color="emerald"
+                />
+                <ActivityPlaceholder
+                  title="Szöveges feladatok"
+                  subtitle="10 feladat / szint"
+                  type="Gyakorlás"
+                  onClick={() => {
+                    handleActivitySelect('percent-rate-word-problems', topicId);
+                  }}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="emerald"
+                />
+              </div>
+            </section>
+          )}
 
-          <section>
-            <SectionHeader id="g7-percent-base" number={3} title="Százalékalap" color="blue" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Százalékalap teszt"
-                subtitle="Mennyi a 100%, ha ismerjük a részt?"
-                type="Teszt"
-                onClick={() => {
-                  setPercentMode('calculate-base');
-                  handleActivitySelect('percentages', topicId);
-                }}
-                icon={<Percent className="w-6 h-6" />}
-                color="blue"
-              />
-              <ActivityPlaceholder
-                title="Szöveges feladatok"
-                subtitle="10 feladat / szint"
-                type="Gyakorlás"
-                onClick={() => {
-                  handleActivitySelect('percent-base-word-problems', topicId);
-                }}
-                icon={<BookOpen className="w-6 h-6" />}
-                color="blue"
-              />
-            </div>
-          </section>
+          {(showAll || activeGrade5SubSectionId === 'g7-eq-base') && (
+            <section>
+              <SectionHeader id="g7-percent-base" number={3} title="Százalékalap" color="blue" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Százalékalap teszt"
+                  subtitle="Mennyi a 100%, ha ismerjük a részt?"
+                  type="Teszt"
+                  onClick={() => {
+                    setPercentMode('calculate-base');
+                    handleActivitySelect('percentages', topicId);
+                  }}
+                  icon={<Percent className="w-6 h-6" />}
+                  color="blue"
+                />
+                <ActivityPlaceholder
+                  title="Szöveges feladatok"
+                  subtitle="10 feladat / szint"
+                  type="Gyakorlás"
+                  onClick={() => {
+                    handleActivitySelect('percent-base-word-problems', topicId);
+                  }}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="blue"
+                />
+              </div>
+            </section>
+          )}
 
-          <section>
-            <SectionHeader id="g7-equations" number={4} title="Egyenletek" color="indigo" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Egyenletmegoldás"
-                subtitle="Mérlegelv szemléltetéssel"
-                type="Kezdés"
-                onClick={() => {
-                  handleActivitySelect('equation-balance-quiz', topicId);
-                }}
-                icon={<Scale className="w-6 h-6" />}
-                color="indigo"
-              />
-              <ActivityPlaceholder
-                title="Szöveges egyenletek"
-                subtitle="10 feladat / szint"
-                type="Gyakorlás"
-                onClick={() => {
-                  handleActivitySelect('g7-word-problems', topicId);
-                }}
-                icon={<BookOpen className="w-6 h-6" />}
-                color="indigo"
-              />
-            </div>
-          </section>
+          {(showAll || activeGrade5SubSectionId === 'g7-eq-solve') && (
+            <section>
+              <SectionHeader id="g7-equations" number={4} title="Egyenletek" color="indigo" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Egyenletmegoldás"
+                  subtitle="Mérlegelv szemléltetéssel"
+                  type="Kezdés"
+                  onClick={() => {
+                    handleActivitySelect('equation-balance-quiz', topicId);
+                  }}
+                  icon={<Scale className="w-6 h-6" />}
+                  color="indigo"
+                />
+                <ActivityPlaceholder
+                  title="Szöveges egyenletek"
+                  subtitle="10 feladat / szint"
+                  type="Gyakorlás"
+                  onClick={() => {
+                    handleActivitySelect('g7-word-problems', topicId);
+                  }}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="indigo"
+                />
+              </div>
+            </section>
+          )}
         </div>
       );
     }
@@ -2378,7 +2450,7 @@ export default function MathPage() {
   return (
     <div className={cn(
       "min-h-screen bg-transparent text-foreground flex flex-col", 
-      ((activityType === 'symmetry-construction' || activityType === 'perimeter-area') || (selectedGrade === 5 && view === 'topic-select')) && "p-0 overflow-hidden h-screen"
+      ((activityType === 'symmetry-construction' || activityType === 'perimeter-area') || (isUpperGradeLayout && view === 'topic-select')) && "p-0 overflow-hidden h-screen"
     )}>
       {/* Header */}
       {(activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'student-feedback') || view !== 'activity' ? (
@@ -2537,7 +2609,7 @@ export default function MathPage() {
                 {selectedGrade && (
                   <>
                     <ChevronRight className="w-3 h-3" />
-                    <span className="text-primary/70">{selectedGrade}. OSZTÁLY</span>
+                    <span className="text-primary/70">{getGradeLabel(selectedGrade).toUpperCase()}</span>
                   </>
                 )}
                 {selectedTopic && (
@@ -2554,10 +2626,10 @@ export default function MathPage() {
 
       {/* Content */}
       <div className={cn(
-        (activityType !== 'perimeter-area' && !(selectedGrade === 5 && view === 'topic-select')) && "container mx-auto px-4 py-8",
+        (activityType !== 'perimeter-area' && !(isUpperGradeLayout && view === 'topic-select')) && "container mx-auto px-4 py-8",
         "transition-all duration-500",
         (view === 'activity' || view === 'topic-select' || view === 'tools-select' || view === 'main-select' || view === 'competency-select') && activityType !== 'perimeter-area' ? "max-w-none lg:px-12" : (activityType === 'perimeter-area' ? "max-w-none p-0 w-full h-full" : "max-w-4xl"),
-        (selectedGrade === 5 && view === 'topic-select') && "w-full p-0 max-w-none flex-1 overflow-hidden"
+        (isUpperGradeLayout && view === 'topic-select') && "w-full p-0 max-w-none flex-1 overflow-hidden"
       )}>
         {view === 'search-results' && (
           <div className="animate-slide-up">
@@ -2778,8 +2850,80 @@ export default function MathPage() {
               </Suspense>
             );
           }
-          if (selectedGrade === 5) {
-            const activeTopic = grade5Topics.find(t => t.id === activeGrade5TopicId) || grade5Topics[1];
+          if (typeof selectedGrade === 'number' || (selectedGrade !== null && selectedGrade.startsWith('high-'))) {
+            const getGradeTopicsList = () => {
+              if (selectedGrade === 5) return grade5Topics;
+
+              let filtered: any[] = [];
+              if (typeof selectedGrade === 'number') {
+                filtered = mathTopics.filter(t => t.grades.includes(selectedGrade as number) && t.id !== 'materials');
+              } else if (selectedGrade && selectedGrade.startsWith('high-')) {
+                filtered = mathTopics.filter(t => ['algebra', 'geometry', 'percentages', 'word-problems'].includes(t.id));
+              }
+              
+              const list: any[] = [];
+              const materialsTopic = mathTopics.find(t => t.id === 'materials');
+              if (materialsTopic) {
+                list.push({
+                  id: 'materials',
+                  title: 'Tananyagok és Könyvek',
+                  icon: '📚',
+                  color: 'from-indigo-500 to-purple-600',
+                  subsections: []
+                });
+              }
+
+              filtered.forEach(t => {
+                let subsections: { id: string, label: string }[] = [];
+                // Add subsections for Grade 6
+                if (t.id === 'g6-integers-divisibility') {
+                  subsections = [
+                    { id: 'g6-div-theory', label: '1. Oszthatóság elmélet' },
+                    { id: 'g6-div-ops', label: '2. Gyakorlás & Játékok' }
+                  ];
+                } else if (t.id === 'g6-ratio-percent-word') {
+                  subsections = [
+                    { id: 'g6-ratio-intro', label: '1. Az arány fogalma' },
+                    { id: 'g6-ratio-proportion', label: '2. Egyenes arányosság' },
+                    { id: 'g6-ratio-percent', label: '3. Százalékszámítás' },
+                    { id: 'g6-ratio-problems', label: '4. Szöveges feladatok' }
+                  ];
+                }
+                // Add subsections for Grade 7
+                else if (t.id === 'g7-rational-algebra') {
+                  subsections = [
+                    { id: 'g7-rat-numbers', label: '1. Racionális számok' },
+                    { id: 'g7-rat-expressions', label: '2. Kifejezések' }
+                  ];
+                } else if (t.id === 'g7-percent-equations') {
+                  subsections = [
+                    { id: 'g7-eq-percent', label: '1. Százalékérték' },
+                    { id: 'g7-eq-rate', label: '2. Százalékláb' },
+                    { id: 'g7-eq-base', label: '3. Százalékalap' },
+                    { id: 'g7-eq-solve', label: '4. Egyenletek' }
+                  ];
+                } else if (t.id === 'g7-geom-trans') {
+                  subsections = [
+                    { id: 'g7-trans-lines', label: '1. Nevezetes vonalak' },
+                    { id: 'g7-trans-triangles', label: '2. Háromszögek' },
+                    { id: 'g7-trans-quads', label: '3. Négyszögek' }
+                  ];
+                }
+
+                list.push({
+                  id: t.id,
+                  title: t.title,
+                  icon: typeof t.icon === 'string' ? t.icon : '📐',
+                  color: t.color,
+                  subsections: subsections
+                });
+              });
+
+              return list;
+            };
+
+            const currentGradeTopics = getGradeTopicsList();
+            const activeTopic = currentGradeTopics.find(t => t.id === activeGrade5TopicId) || currentGradeTopics[0];
 
             const handleTouchStart = (e: React.TouchEvent) => {
               touchStartY.current = e.touches[0].clientY;
@@ -2819,7 +2963,7 @@ export default function MathPage() {
                     {!isSidebarCollapsed && (
                       <div className="flex items-center gap-2">
                         <Sparkles className="w-5 h-5 text-purple-600 animate-pulse" />
-                        <span className="font-display font-black text-sm tracking-wider uppercase text-purple-700">5. OSZTÁLY</span>
+                        <span className="font-display font-black text-sm tracking-wider uppercase text-purple-700">{getGradeLabel(selectedGrade)}</span>
                       </div>
                     )}
                     <button
@@ -2833,7 +2977,7 @@ export default function MathPage() {
 
                   {/* Sidebar Nav */}
                   <nav className="flex-1 overflow-y-auto p-3 space-y-2.5 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
-                    {grade5Topics.map((topic) => {
+                    {currentGradeTopics.map((topic) => {
                       const isTopicActive = activeGrade5TopicId === topic.id;
                       return (
                         <div key={topic.id} className="space-y-1">
@@ -2856,7 +3000,7 @@ export default function MathPage() {
                           {/* Subsections list */}
                           {isTopicActive && !isSidebarCollapsed && topic.subsections.length > 0 && (
                             <div className="pl-2 pr-1 py-1 border-l-2 border-purple-200 space-y-1 ml-3 mt-1">
-                              {topic.subsections.map((sub) => {
+                              {topic.subsections.map((sub: any) => {
                                 const isSubActive = activeGrade5SubSectionId === sub.id;
                                 return (
                                   <button
@@ -2955,7 +3099,7 @@ export default function MathPage() {
                     </div>
 
                     <nav className="space-y-2.5">
-                      {grade5Topics.map((topic) => {
+                      {currentGradeTopics.map((topic) => {
                         const isTopicActive = activeGrade5TopicId === topic.id;
                         return (
                           <div key={topic.id} className="space-y-1">
@@ -2981,7 +3125,7 @@ export default function MathPage() {
                             {/* Subsections list inside mobile drawer */}
                             {isTopicActive && topic.subsections.length > 0 && (
                               <div className="pl-3 pr-1 py-1 border-l-2 border-purple-200 space-y-1.5 ml-4 mt-1.5">
-                                {topic.subsections.map((sub) => {
+                                {topic.subsections.map((sub: any) => {
                                   const isSubActive = activeGrade5SubSectionId === sub.id;
                                   return (
                                     <button
@@ -3025,7 +3169,7 @@ export default function MathPage() {
                         </div>
                         <p className="text-xs text-slate-500">
                           {activeGrade5SubSectionId
-                            ? activeTopic.subsections.find(s => s.id === activeGrade5SubSectionId)?.label
+                            ? activeTopic.subsections.find((s: any) => s.id === activeGrade5SubSectionId)?.label
                             : "Válassz egy alfejezetet vagy nézd meg az összes feladatot!"}
                         </p>
                       </div>
@@ -3036,7 +3180,7 @@ export default function MathPage() {
                       {activeGrade5TopicId === 'materials' ? (
                         <div className="py-2">
                           <MaterialGallery
-                            grade={5}
+                            grade={selectedGrade as number}
                             onView={handleMaterialSelect}
                             initialMaterialId={new URLSearchParams(location.search).get('material')}
                           />
