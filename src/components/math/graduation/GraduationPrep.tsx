@@ -56,6 +56,7 @@ type TabType = 'requirements' | 'lesson' | 'videos' | 'quiz' | 'papers';
 export default function GraduationPrep({ onBack }: GraduationPrepProps) {
   // Sidebar states
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedTopicId, setSelectedTopicId] = useState<string>('g-methods-sets');
   const [selectedSubtopicId, setSelectedSubtopicId] = useState<string>('g-sets');
 
@@ -171,13 +172,109 @@ export default function GraduationPrep({ onBack }: GraduationPrepProps) {
     toast.info('Videó betöltése... DiákZóna Stúdió elindítva! 🎬');
   };
 
+  // Shared sidebar nav content (used in both desktop sidebar and mobile drawer)
+  const SidebarContent = ({ showFull }: { showFull: boolean }) => (
+    <>
+      {/* Sidebar Topics and Subtopics */}
+      <nav className="flex-1 overflow-y-auto p-3 space-y-4">
+        {graduationTopics.map((topic) => {
+          const isTopicActive = selectedTopicId === topic.id;
+          return (
+            <div key={topic.id} className="space-y-1">
+              {/* Topic Title Button */}
+              <button
+                onClick={() => {
+                  setSelectedTopicId(topic.id);
+                  if (topic.subtopics.length > 0) {
+                    setSelectedSubtopicId(topic.subtopics[0].id);
+                  }
+                  if (isSidebarCollapsed) {
+                    setIsSidebarCollapsed(false);
+                  }
+                  setIsMobileMenuOpen(false);
+                }}
+                className={cn(
+                  "w-full text-left p-2.5 rounded-xl transition-all font-semibold text-xs flex items-center gap-2.5",
+                  isTopicActive
+                    ? "bg-purple-600 text-white font-bold shadow-md"
+                    : "hover:bg-slate-800 text-slate-300"
+                )}
+              >
+                <span className="text-base">{topic.icon}</span>
+                {showFull && <span className="line-clamp-2">{topic.title}</span>}
+              </button>
+
+              {/* Subtopics List */}
+              {isTopicActive && showFull && (
+                <div className="pl-2 pr-1 py-1 border-l-2 border-purple-500/30 space-y-1 ml-3 mt-1">
+                  {topic.subtopics.map((subtopic) => {
+                    const isSubtopicActive = selectedSubtopicId === subtopic.id;
+                    const quizKey = `${subtopic.id}_${level}`;
+                    const isQuizDone = completedQuizzes.includes(quizKey);
+
+                    return (
+                      <button
+                        key={subtopic.id}
+                        onClick={() => {
+                          setSelectedSubtopicId(subtopic.id);
+                          setIsPlayingVideo(false);
+                          setIsMobileMenuOpen(false);
+                        }}
+                        className={cn(
+                          "w-full text-left py-2 pr-3 rounded-lg text-[11px] font-medium transition-all flex items-center justify-between",
+                          isSubtopicActive
+                            ? "bg-purple-950/60 text-purple-300 font-bold border-l-2 border-purple-400"
+                            : "hover:bg-slate-800/50 text-slate-400 hover:text-slate-200",
+                          subtopic.level === 1
+                            ? (isSubtopicActive ? "pl-5" : "pl-6")
+                            : subtopic.level === 2
+                              ? (isSubtopicActive ? "pl-8" : "pl-9")
+                              : (isSubtopicActive ? "pl-2" : "pl-3")
+                        )}
+                      >
+                        <span className="truncate mr-2">{subtopic.title}</span>
+                        {isQuizDone && (
+                          <span className="text-emerald-500 text-xs flex-shrink-0" title="Kvíz sikeresen teljesítve">
+                            ✓
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </nav>
+
+      {/* Sidebar Footer - Stats */}
+      {showFull && (
+        <div className="p-4 border-t border-slate-800 bg-slate-950">
+          <div className="flex items-center gap-3 justify-between text-xs text-slate-400">
+            <span className="font-semibold text-slate-300 flex items-center gap-1">
+              <Award className="w-4 h-4 text-amber-500" />
+              Összes Pontszám:
+            </span>
+            <span className="font-black text-amber-400 text-sm">{userXp} XP</span>
+          </div>
+          <div className="mt-2 text-[10px] text-slate-500 flex items-center justify-between">
+            <span>Befejezett kvízek:</span>
+            <span className="font-bold text-slate-300">{completedQuizzes.length} db</span>
+          </div>
+        </div>
+      )}
+    </>
+  );
+
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-slate-50 text-slate-900 rounded-3xl overflow-hidden border border-slate-100 shadow-xl relative">
-      {/* 1. Left Collapsible Sidebar */}
+
+      {/* ── DESKTOP SIDEBAR (lg+) ─────────────────────────────────── */}
       <aside
         className={cn(
-          "bg-slate-900 text-slate-100 flex flex-col border-r border-slate-800 transition-all duration-300 relative z-30",
-          isSidebarCollapsed ? "w-full lg:w-16" : "w-full lg:w-80"
+          "hidden lg:flex bg-slate-900 text-slate-100 flex-col border-r border-slate-800 transition-all duration-300 relative z-30",
+          isSidebarCollapsed ? "lg:w-16" : "lg:w-80"
         )}
       >
         {/* Sidebar Header */}
@@ -195,104 +292,62 @@ export default function GraduationPrep({ onBack }: GraduationPrepProps) {
           )}
           <button
             onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-            className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-slate-100 hidden lg:block"
+            className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-slate-100"
           >
             {isSidebarCollapsed ? <ChevronRight className="w-5 h-5" /> : <ChevronLeft className="w-5 h-5" />}
           </button>
         </div>
-
-        {/* Sidebar Topics and Subtopics */}
-        <nav className="flex-1 overflow-y-auto p-3 space-y-4">
-          {graduationTopics.map((topic) => {
-            const isTopicActive = selectedTopicId === topic.id;
-            return (
-              <div key={topic.id} className="space-y-1">
-                {/* Topic Title Button */}
-                <button
-                  onClick={() => {
-                    setSelectedTopicId(topic.id);
-                    // Select first subtopic automatically
-                    if (topic.subtopics.length > 0) {
-                      setSelectedSubtopicId(topic.subtopics[0].id);
-                    }
-                    if (isSidebarCollapsed) {
-                      setIsSidebarCollapsed(false);
-                    }
-                  }}
-                  className={cn(
-                    "w-full text-left p-2.5 rounded-xl transition-all font-semibold text-xs flex items-center gap-2.5",
-                    isTopicActive
-                      ? "bg-purple-600 text-white font-bold shadow-md"
-                      : "hover:bg-slate-800 text-slate-300"
-                  )}
-                >
-                  <span className="text-base">{topic.icon}</span>
-                  {!isSidebarCollapsed && <span className="line-clamp-2">{topic.title}</span>}
-                </button>
-
-                {/* Subtopics List (Rendered only if this topic is active and sidebar is not collapsed) */}
-                {isTopicActive && !isSidebarCollapsed && (
-                  <div className="pl-2 pr-1 py-1 border-l-2 border-purple-500/30 space-y-1 ml-3 mt-1">
-                    {topic.subtopics.map((subtopic) => {
-                      const isSubtopicActive = selectedSubtopicId === subtopic.id;
-                      const quizKey = `${subtopic.id}_${level}`;
-                      const isQuizDone = completedQuizzes.includes(quizKey);
-
-                      return (
-                        <button
-                          key={subtopic.id}
-                          onClick={() => {
-                            setSelectedSubtopicId(subtopic.id);
-                            setIsPlayingVideo(false);
-                          }}
-                          className={cn(
-                            "w-full text-left py-2 pr-3 rounded-lg text-[11px] font-medium transition-all flex items-center justify-between",
-                            isSubtopicActive
-                              ? "bg-purple-950/60 text-purple-300 font-bold border-l-2 border-purple-400"
-                              : "hover:bg-slate-800/50 text-slate-400 hover:text-slate-200",
-                            subtopic.level === 1
-                              ? (isSubtopicActive ? "pl-5" : "pl-6")
-                              : subtopic.level === 2
-                                ? (isSubtopicActive ? "pl-8" : "pl-9")
-                                : (isSubtopicActive ? "pl-2" : "pl-3")
-                          )}
-                        >
-                          <span className="truncate mr-2">{subtopic.title}</span>
-                          {isQuizDone && (
-                            <span className="text-emerald-500 text-xs flex-shrink-0" title="Kvíz sikeresen teljesítve">
-                              ✓
-                            </span>
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </nav>
-
-        {/* Sidebar Footer - Stats */}
-        {!isSidebarCollapsed && (
-          <div className="p-4 border-t border-slate-850 bg-slate-950 rounded-b-3xl">
-            <div className="flex items-center gap-3 justify-between text-xs text-slate-400">
-              <span className="font-semibold text-slate-300 flex items-center gap-1">
-                <Award className="w-4 h-4 text-amber-500" />
-                Összes Pontszám:
-              </span>
-              <span className="font-black text-amber-400 text-sm">{userXp} XP</span>
-            </div>
-            <div className="mt-2 text-[10px] text-slate-500 flex items-center justify-between">
-              <span>Befejezett kvízek:</span>
-              <span className="font-bold text-slate-300">{completedQuizzes.length} db</span>
-            </div>
-          </div>
-        )}
+        <SidebarContent showFull={!isSidebarCollapsed} />
       </aside>
 
+      {/* ── MOBILE BOTTOM DRAWER (< lg) ──────────────────────────── */}
+      {/* Backdrop overlay */}
+      {isMobileMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
+      {/* Bottom drawer panel */}
+      <div
+        className={cn(
+          "fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-slate-900 text-slate-100 rounded-t-2xl shadow-2xl border-t border-slate-700 transition-transform duration-300 ease-in-out",
+          isMobileMenuOpen ? "translate-y-0" : "translate-y-[calc(100%-3rem)]"
+        )}
+        style={{ maxHeight: '75vh' }}
+      >
+        {/* Drawer handle / toggle strip */}
+        <button
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="w-full h-12 flex items-center justify-between px-5 bg-slate-950 rounded-t-2xl border-b border-slate-800 flex-shrink-0"
+        >
+          <div className="flex items-center gap-2">
+            <GraduationCap className="w-5 h-5 text-purple-400" />
+            <span className="font-black text-xs uppercase tracking-wider text-purple-200">
+              Témakörök
+            </span>
+            <span className="bg-purple-700/50 text-purple-300 text-[10px] font-bold px-2 py-0.5 rounded-full">
+              {activeSubtopic.title.substring(0, 18)}{activeSubtopic.title.length > 18 ? '…' : ''}
+            </span>
+          </div>
+          <div className="flex items-center gap-2 text-slate-400">
+            <span className="text-[10px] font-semibold">{isMobileMenuOpen ? 'Bezárás' : 'Témakörök'}</span>
+            {isMobileMenuOpen
+              ? <ChevronDown className="w-5 h-5" />
+              : <ChevronUp className="w-5 h-5" />
+            }
+          </div>
+        </button>
+
+        {/* Scrollable content inside drawer */}
+        <div className="overflow-y-auto" style={{ maxHeight: 'calc(75vh - 3rem)' }}>
+          <SidebarContent showFull={true} />
+        </div>
+      </div>
+
       {/* 2. Main Content Area */}
-      <main className="flex-1 flex flex-col min-w-0 bg-white">
+      <main className="flex-1 flex flex-col min-w-0 bg-white pb-12 lg:pb-0">
         {/* Main Header / Hero Section */}
         <header className="p-6 bg-gradient-to-r from-purple-700 via-indigo-700 to-blue-800 text-white shadow-md relative overflow-hidden">
           {/* Decorative shapes */}
