@@ -423,6 +423,8 @@ export default function MathPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showResults, setShowResults] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
+  const touchStartY = useRef(0);
+  const touchEndY = useRef(0);
 
   const getSearchResults = () => {
     if (!searchQuery.trim()) return [];
@@ -2778,6 +2780,25 @@ export default function MathPage() {
           }
           if (selectedGrade === 5) {
             const activeTopic = grade5Topics.find(t => t.id === activeGrade5TopicId) || grade5Topics[1];
+
+            const handleTouchStart = (e: React.TouchEvent) => {
+              touchStartY.current = e.touches[0].clientY;
+              touchEndY.current = e.touches[0].clientY;
+            };
+
+            const handleTouchMove = (e: React.TouchEvent) => {
+              touchEndY.current = e.touches[0].clientY;
+            };
+
+            const handleTouchEnd = () => {
+              const diffY = touchStartY.current - touchEndY.current;
+              if (diffY > 50) {
+                setIsGrade5MobileMenuOpen(true);
+              } else if (diffY < -50) {
+                setIsGrade5MobileMenuOpen(false);
+              }
+            };
+
             return (
               <div className="flex flex-col lg:flex-row h-full w-full bg-slate-50 text-slate-800 rounded-3xl overflow-hidden shadow-xl border border-slate-200/60 animate-slide-up relative text-left">
                 {/* Left Sidebar (Desktop only) */}
@@ -2870,17 +2891,37 @@ export default function MathPage() {
                   />
                 )}
 
+                {/* Floating center tab button (Visible when closed) */}
+                {!isGrade5MobileMenuOpen && (
+                  <button
+                    onClick={() => setIsGrade5MobileMenuOpen(true)}
+                    onTouchStart={handleTouchStart}
+                    onTouchMove={handleTouchMove}
+                    onTouchEnd={handleTouchEnd}
+                    className="fixed bottom-0 left-1/2 -translate-x-1/2 z-50 lg:hidden h-9 w-fit px-4 bg-purple-600 text-white font-extrabold text-[11px] tracking-wider uppercase rounded-t-2xl shadow-[0_-4px_15px_rgba(147,51,234,0.35)] flex items-center justify-center gap-1.5 transition-all active:scale-95 animate-in fade-in slide-in-from-bottom-5 duration-300"
+                  >
+                    <ChevronUp className="w-4 h-4 animate-bounce" style={{ animationDuration: '2s' }} />
+                    <span className="font-extrabold text-[11px] tracking-wider">Témakörök</span>
+                  </button>
+                )}
+
                 {/* Bottom drawer panel */}
                 <div
+                  onTouchStart={handleTouchStart}
+                  onTouchMove={handleTouchMove}
+                  onTouchEnd={handleTouchEnd}
                   className={cn(
                     "fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-white text-slate-800 rounded-t-3xl shadow-[0_-8px_30px_rgba(0,0,0,0.15)] border-t border-slate-200/80 transition-transform duration-300 ease-in-out",
-                    isGrade5MobileMenuOpen ? "translate-y-0" : "translate-y-[calc(100%-3rem)]"
+                    isGrade5MobileMenuOpen ? "translate-y-0" : "translate-y-full"
                   )}
                   style={{ maxHeight: '75vh' }}
                 >
                   {/* Drawer handle / toggle strip */}
                   <button
-                    onClick={() => setIsGrade5MobileMenuOpen(!isGrade5MobileMenuOpen)}
+                    onClick={() => setIsGrade5MobileMenuOpen(false)}
+                    onTouchStart={handleTouchStart}
+                    onTouchMove={handleTouchMove}
+                    onTouchEnd={handleTouchEnd}
                     className="w-full h-12 flex items-center justify-between px-5 bg-slate-50 border-b border-slate-200/60 rounded-t-3xl flex-shrink-0"
                   >
                     <div className="flex items-center gap-2 min-w-0">
@@ -2893,11 +2934,8 @@ export default function MathPage() {
                       </span>
                     </div>
                     <div className="flex items-center gap-1.5 text-slate-500 flex-shrink-0">
-                      <span className="text-[10px] font-extrabold uppercase tracking-wider">{isGrade5MobileMenuOpen ? 'Bezárás' : 'Megnyitás'}</span>
-                      {isGrade5MobileMenuOpen
-                        ? <ChevronDown className="w-4 h-4 text-purple-600" />
-                        : <ChevronUp className="w-4 h-4 text-purple-600 animate-bounce" style={{ animationDuration: '2s' }} />
-                      }
+                      <span className="text-[10px] font-extrabold uppercase tracking-wider">Bezárás</span>
+                      <ChevronDown className="w-4 h-4 text-purple-600" />
                     </div>
                   </button>
 
