@@ -16,6 +16,7 @@ import { UserMenu } from '@/components/auth/UserMenu';
 // Lazy load heavy components
 const CompetencyMatrixHub = lazy(() => import("@/components/math/competency-matrix/CompetencyMatrixHub")) as any;
 const GraduationPrep = lazy(() => import("@/components/math/graduation/GraduationPrep")) as any;
+const AdmissionPrep = lazy(() => import("@/components/math/admission/AdmissionPrep")) as any;
 const DecimalFractionsQuiz = lazy(() => import("@/components/math/grade-5/DecimalFractionsQuiz")) as any;
 const DecimalMultiplicationQuiz = lazy(() => import("@/components/math/grade-5/DecimalMultiplicationQuiz")) as any;
 const DecimalDivisionQuiz = lazy(() => import("@/components/math/grade-5/DecimalDivisionQuiz")) as any;
@@ -2847,6 +2848,23 @@ export default function MathPage() {
                 </div>
               }>
                 <GraduationPrep onBack={handleHome} />
+              </Suspense>
+            );
+          }
+          if (selectedGrade === 'admission') {
+            return (
+              <Suspense fallback={
+                <div className="flex flex-col items-center justify-center py-32 space-y-6 animate-pulse text-left">
+                  <div className="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center">
+                    <div className="w-12 h-12 bg-primary/40 rounded-full animate-ping" />
+                  </div>
+                  <div className="space-y-2 text-center">
+                    <h3 className="text-xl font-bold text-slate-700">Töltés...</h3>
+                    <p className="text-slate-400">Felvételi felkészítő betöltése...</p>
+                  </div>
+                </div>
+              }>
+                <AdmissionPrep onBack={handleHome} />
               </Suspense>
             );
           }
