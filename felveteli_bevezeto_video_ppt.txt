@@ -1,0 +1,137 @@
+================================================================================
+KÖZÉPISKOLAI FELVÉTELI FELKÉSZÍTŐ – BEVEZETŐ VIDEÓ PPT DIAVÁZLAT
+================================================================================
+
+Ez a dokumentum tartalmazza a bevezető videó alatt vetíthető bemutató (PPT) 
+felépítését. Minden diánál jelölve van, hogy az egyes egérkattintásokra (Click)
+milyen információknak kell megjelenniük, igazodva a forgatókönyv szövegéhez.
+
+--------------------------------------------------------------------------------
+
+DIA 1: Címkép (Üdvözlés)
+[Vizuális háttér: A SkillUp Academy színvilágával megegyező elegáns lila-indigo gradiens, finom geometriai mintákkal.]
+
+- Alapállapot (megjelenéskor):
+    * SkillUp Academy logó (középen fent)
+- Kattintás 1:
+    * Főcím megjelenik: "Középiskolai Felvételi Felkészítő" (nagy, fehér, félkövér betűkkel)
+- Kattintás 2:
+    * Alcím megjelenik: "Matematika Központi Írásbeli"
+- Kattintás 3:
+    * Bemutatkozás szöveg alul: "Presenter: Orsós István"
+
+--> Hangzó szöveg kapcsolódás: "Sziasztok! Nagyon sok szeretettel köszöntelek titeket..."
+
+--------------------------------------------------------------------------------
+
+DIA 2: Kiknek szól a felkészítő?
+[Vizuális háttér: Sötétszürke háttér, rajta 3 nagy színes kártya helye látszik halványan kontúrozva.]
+
+- Alapállapot (megjelenéskor):
+    * Cím: "Testreszabott Felkészülés"
+- Kattintás 1:
+    * Első kártya beúszik (Lila): "9. osztályos felvételi (8-ról)"
+- Kattintás 2:
+    * Második kártya beúszik (Kék): "6 osztályos gimnáziumi felvételi"
+- Kattintás 3:
+    * Harmadik kártya beúszik (Zöld): "8 osztályos gimnáziumi felvételi"
+- Kattintás 4:
+    * Egy kiemelő nyíl mutat a kártyákra, felette szöveggel: "Bármikor váltható szint a jobb felső sarokban!"
+
+--> Hangzó szöveg kapcsolódás: "Ez a rendszer úgy lett felépítve... a jobb felső sarokban található választógombbal..."
+
+--------------------------------------------------------------------------------
+
+DIA 3: A Felkészítő Felépítése (1–5. Témakörök)
+[Vizuális háttér: Bal oldalon egy nagy "10 Témakör" feliratú ikon, jobb oldalon hely az első 5 modulnak.]
+
+- Alapállapot (megjelenéskor):
+    * Cím: "A Felkészítő Felépítése – 10 Tematikus Modul (1. rész)"
+- Kattintás 1:
+    * Megjelenik: "1. Gondolkodási módszerek, logika, kombinatorika"
+- Kattintás 2:
+    * Megjelenik: "2. Számelmélet és számok"
+- Kattintás 3:
+    * Megjelenik: "3. Algebra (egyenletek és szöveges feladatok)"
+- Kattintás 4:
+    * Megjelenik: "4. Százalékszámítás"
+- Kattintás 5:
+    * Megjelenik: "5. Függvények, hozzárendelések és koordinátageometria"
+
+--> Hangzó szöveg kapcsolódás: "A felkészítő 10 nagy témakörre... 1-től 5-ig..."
+
+--------------------------------------------------------------------------------
+
+DIA 4: A Felkészítő Felépítése (6–10. Témakörök)
+[Vizuális háttér: Az előző dia szerkezete, de most a 6–10. moduloknak.]
+
+- Alapállapot (megjelenéskor):
+    * Cím: "A Felkészítő Felépítése – 10 Tematikus Modul (2. rész)"
+- Kattintás 1:
+    * Megjelenik: "6. Statisztika és valószínűség"
+- Kattintás 2:
+    * Megjelenik: "7. Geometria – síkidomok"
+- Kattintás 3:
+    * Megjelenik: "8. Geometriai transzformációk és szimmetria"
+- Kattintás 4:
+    * Megjelenik: "9. Geometria – háromszögek"
+- Kattintás 5:
+    * Megjelenik: "10. Kerület, terület, felszín, térfogat (mérés)"
+
+--> Hangzó szöveg kapcsolódás: "...valamint a 6. Statisztika és valószínűség témakörtől a 10. Kerület, terület..."
+
+--------------------------------------------------------------------------------
+
+DIA 5: Hogyan tanuljunk? – Az 5 fül módszere
+[Vizuális háttér: Egy folyamat ábra, ahol 5 lépés követi egymást vízszintesen vagy függőlegesen.]
+
+- Alapállapot (megjelenéskor):
+    * Cím: "Minden témakörben 5 lépéses segítség vár:"
+- Kattintás 1:
+    * 1. Lépés ikonnal: "KÖVETELMÉNYEK" (Hivatalos Oktatási Hivatal követelmények)
+- Kattintás 2:
+    * 2. Lépés ikonnal: "KIDOLGOZOTT TANANYAG" (Elmélet, képletek és megoldott példák)
+- Kattintás 3:
+    * 3. Lépés ikonnal: "VIDEÓTÁR" (Magyarázó videók és típusfeladatok levezetése)
+- Kattintás 4:
+    * 4. Lépés ikonnal: "GYAKORLÓ KVÍZ" (Tesztek azonnali magyarázattal + XP pontok)
+- Kattintás 5:
+    * 5. Lépés ikonnal: "FELVÉTELI FELADATSOROK" (Korábbi évek feladatsorainak szerkezete)
+
+--> Hangzó szöveg kapcsolódás: "Minden egyes témakörön belül öt darab fület találtok..."
+
+--------------------------------------------------------------------------------
+
+DIA 6: Javasolt felkészülési stratégia
+[Vizuális háttér: Motiváló grafika, esetleg egy céltábla vagy egy lépcsőfok, ami a felvételi sikerhez vezet.]
+
+- Alapállapot (megjelenéskor):
+    * Cím: "Hogyan érd el a maximális eredményt?"
+- Kattintás 1:
+    * Megjelenik: "1. Válassz szintet a felkészüléshez!" (9., 6. vagy 8. osztályos)
+- Kattintás 2:
+    * Megjelenik: "2. Haladj lépésről lépésre!" (Tananyag ➡️ Oktatóvideó)
+- Kattintás 3:
+    * Megjelenik: "3. Teszteld magad interaktív kvízzel!"
+- Kattintás 4:
+    * Megjelenik: "4. Tanulj a hibáidból!" (Olvasd el a kvíz magyarázatait!)
+- Kattintás 5:
+    * Kiemelt, villogó doboz: "Gyűjtsd az XP pontokat és zárd le zöld pipával a témaköröket!"
+
+--> Hangzó szöveg kapcsolódás: "A javaslatom a következő: Először válaszd ki a célodat..."
+
+--------------------------------------------------------------------------------
+
+DIA 7: Zárás (Sok sikert!)
+[Vizuális háttér: Mint az első diánál, ünnepélyesebb és motiváló kivitelben, confetti grafikával a háttérben.]
+
+- Alapállapot (megjelenéskor):
+    * Főcím: "Készülj fel magabiztosan!"
+- Kattintás 1:
+    * Megjelenik: "Sok sikert kíván a SkillUp Academy csapata!"
+- Kattintás 2:
+    * Honlapcím/gomb: "Kezdjük el a tanulást!"
+
+--> Hangzó szöveg kapcsolódás: "A felvételi vizsga egy mérföldkő... Sok sikert kívánok a felkészüléshez..."
+
+================================================================================

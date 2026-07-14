@@ -1,0 +1,74 @@
+================================================================================
+BEVEZETŐ VIDEÓ forgatókönyv – Középiskolai Felvételi Felkészítő (SkillUp Academy)
+================================================================================
+
+[KÉPI VILÁG JAVASLAT:
+Kamera a beszélőre (tanár/mentor) fókuszál, barátságos, nyitott és professzionális környezetben. A videó alatt időnként képernyőfelvételek (B-roll) úsznak be, amelyek bemutatják a SkillUp Academy felületének használatát (a menüt, a szintek közötti váltást, a tananyagot és a kvízeket).]
+
+--------------------------------------------------------------------------------
+
+[START - BEVEZETÉS / KÖSZÖNTÉS]
+
+(Kamera a beszélőn, mosolyog, közvetlen hangnem)
+"Sziasztok! Nagyon sok szeretettel köszöntelek titeket itt a SkillUp Academy középiskolai felvételi felkészítő felületén! Orsós István vagyok, és ebben a rövid bevezető videóban megmutatom nektek, hogyan tudjátok a lehető leghatékonyabban használni ezt a felületet, hogy a központi írásbeli felvételin a maximumot hozzátok ki magatokból."
+
+--------------------------------------------------------------------------------
+
+[KIKNEK SZÓL?]
+
+(Bevágás a képernyőről: Egérrel a jobb felső sarokban a választógombra mutat, ahol a 9. évf., 6 évf. gimn., és 8 évf. gimn. szintek látszanak)
+"Ez a rendszer úgy lett felépítve, hogy teljesen személyre szabható legyen. Akár a 8. osztály utáni 9. évfolyamra készültök, akár a 6 osztályos vagy a 8 osztályos gimnáziumi felvételit célozzátok meg, a jobb felső sarokban található választógombbal egyetlen kattintással kiválaszthatjátok a nektek megfelelő szintet. A rendszer azonnal az adott korosztály követelményeihez és nehézségéhez igazítja a teljes tananyagot és a teszteket."
+
+--------------------------------------------------------------------------------
+
+[A 10 TÉMAKÖR BEMUTATÁSA]
+
+(Bevágás a képernyőről: A bal oldali menüsáv görgetése, ahol látszanak a témakörök ikonjai és címei)
+"A felkészítő 10 nagy témakörre, úgynevezett modulra van felosztva. Ezek a modulok teljesen lefedik a matematika felvételi vizsga teljes követelményrendszerét:
+1. Gondolkodási módszerek, logika és kombinatorika – ahol a szisztematikus összeszámolást és az állítások igazságértékét tanuljuk.
+2. Számelmélet és számok – a törtektől, tizedes törtektől a prímszámokon át az LKÖ és LKKT számításokig.
+3. Algebra – az egyenletek, betűs kifejezések és a szöveges feladatok világa.
+4. Százalékszámítás – árengedmények, áremelések és arányok gyors kiszámítása.
+5. Függvények és koordinátageometria – pontok ábrázolása, diagramok és szabályok felismerése.
+6. Statisztika és valószínűség – átlag, módusz, medián és a klasszikus valószínűség alapjai.
+7. Síkgeometria – háromszögek, négyszögek és sokszögek tulajdonságai.
+8. Geometriai transzformációk és szimmetria – tükrözések és egybevágóság.
+9. Geometria – háromszögek nevezetes vonalai és a háromszög-egyenlőtlenség.
+és végül a 10. Kerület, terület, felszín és térfogat mérése – hasábok, deltoidok, trapézok és más síkidomok geometriai mérései."
+
+--------------------------------------------------------------------------------
+
+[HOGYAN MŰKÖDIK A RENDSZER? A FÜLEK HASZNÁLATA]
+
+(Kamera vissza a beszélőre, majd képernyő bevágás a témakörökön belüli fülekről)
+"Minden egyes témakörön belül öt darab fület találtok, amelyek lépésről lépésre vezetnek végig a tanulási folyamaton:
+
+1. KÖVETELMÉNYEK fül: Itt láthatjátok pontosan, mit ír elő az Oktatási Hivatal hivatalos tanterve az adott osztályfoknak. Így pontosan tudni fogjátok, mi várható a vizsgán.
+2. KIDOLGOZOTT TANANYAG fül: Ide gyűjtöttük össze nektek a legfontosabb elméleti összefoglalókat, képleteket és a típusfeladatok levezetését – érthetően, képletekkel és magyarázatokkal alátámasztva.
+3. VIDEÓTÁR fül: Minden témakörhöz találtok oktatóvideókat, ahol a leggyakoribb felvételi típusfeladatokat oldjuk meg közösen, lépésről lépésre. Ezen a videótáron belül fogjátok elérni a most készülő felvételeket is!
+4. GYAKORLÓ KVÍZ fül: Ahol interaktív módon tesztelhetitek a tudásotokat. Minden kérdés után azonnali visszajelzést kaptok, és ha elrontjátok, részletes szöveges magyarázat segít megérteni a helyes megoldást. A kvízekkel XP-t, azaz tapasztalati pontot gyűjthettek, ami mutatja a haladásotokat és motivál a folytatásra!
+5. FELVÉTELI FELADATSOROK fül: Ha már magabiztosak vagytok a témakörben, itt valódi, korábbi évek (például 2023, 2024) felvételi feladatsorainak felépítését és pontozását elemezhetitek ki."
+
+--------------------------------------------------------------------------------
+
+[MIÉRT LESZ EZ JÓ NEKED? / JAVASOLT STRATÉGIA]
+
+(Kamera a beszélőn, lelkesítő, biztató hangsúly)
+"Miért nagyszerű ez a felkészítő? Mert nemcsak száraz elméletet adunk a kezedbe, hanem interaktív gyakorlási lehetőséget is. 
+
+A javaslatom a következő:
+Először válaszd ki a célodat (pl. 9. évfolyam). Menj végig a modulokon szép sorban. Olvasd el az elméletet, nézd meg a videót, majd oldd meg a kvízt. Ha elrontasz egy kérdést, ne csüggedj: olvasd el a magyarázatot, tanulj belőle, és próbáld meg újra!
+
+A cél az, hogy minél több XP-t gyűjts és minél több témakört zárj le zöld pipával!"
+
+--------------------------------------------------------------------------------
+
+[LEZÁRÁS / SOK SIKERT]
+
+(Kamera beszélőn, mosoly, lelkes integetés a végén)
+"A felvételi vizsga egy mérföldkő, de megfelelő felkészüléssel és szisztematikus gyakorlással teljesen magabiztosan ülhetsz majd be a vizsgaterembe. Mi itt vagyunk, hogy segítsünk ezen az úton!
+
+Sok sikert kívánok a felkészüléshez és a feladatok megoldásához! Vágjunk is bele az első témakörrel!"
+
+[END OF VIDEO]
+================================================================================

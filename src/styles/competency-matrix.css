@@ -24,10 +24,16 @@
   
   display: grid;
   grid-template-columns: 320px minmax(0, 1fr);
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   background: var(--bg);
   color: var(--text);
   line-height: 1.5;
+  transition: grid-template-columns 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.competency-matrix-shell.sidebar-collapsed {
+  grid-template-columns: 0px minmax(0, 1fr);
 }
 
 .competency-matrix-shell * { box-sizing: border-box; }
@@ -52,9 +58,77 @@
   border-right: 1px solid var(--border);
   padding: 24px 20px;
   overflow-y: auto;
-  max-height: 100vh;
-  position: sticky;
-  top: 0;
+  height: 100vh;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 320px;
+}
+
+.competency-matrix-shell.sidebar-collapsed .sidebar {
+  width: 0;
+  padding-left: 0;
+  padding-right: 0;
+  border-right: none;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.competency-matrix-shell .sidebar-toggle {
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: var(--radius-sm);
+  transition: all 0.15s;
+  border: 1px solid var(--border);
+  background: var(--bg-elev);
+}
+.competency-matrix-shell .sidebar-toggle:hover {
+  background: #f1f5f9;
+  color: var(--text);
+}
+
+.competency-matrix-shell .sidebar-toggle-open {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 14px;
+  color: var(--text);
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  z-index: 10;
+  transition: all 0.15s;
+}
+.competency-matrix-shell .sidebar-toggle-open:hover {
+  background: #f1f5f9;
+  border-color: var(--border-strong);
+}
+
+.competency-matrix-shell .task-select-dropdown {
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-elev);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  max-width: 240px;
+  box-shadow: var(--shadow);
+  transition: border-color 0.15s;
+}
+.competency-matrix-shell .task-select-dropdown:focus {
+  border-color: var(--primary);
 }
 
 .competency-matrix-shell .sidebar h1 {
@@ -123,6 +197,9 @@
 .competency-matrix-shell .main {
   padding: 32px 40px;
   width: 100%;
+  height: 100vh;
+  overflow-y: auto;
+  position: relative;
 }
 
 .competency-matrix-shell .main-header {
@@ -527,6 +604,22 @@
 .competency-matrix-shell .probameres-progress .dot.current.wrong {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
+}
+
+/* Fullscreen and Single Task view styling */
+.competency-matrix-shell .main:fullscreen {
+  background: var(--bg);
+  padding: 40px;
+  overflow-y: auto;
+}
+
+.competency-matrix-shell .single-task-container {
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 /* Responsive */

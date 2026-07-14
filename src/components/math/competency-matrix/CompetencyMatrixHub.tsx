@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect, useRef } from 'react';
 import TaskCard from './TaskCard';
 import PracticeTests from './PracticeTests';
 import { CONTENT_AREAS, THINKING_LEVELS } from './taxonomy';
@@ -13,6 +13,16 @@ export default function CompetencyMatrixHub({ onBack }: { onBack: () => void }) 
   const [contentFilter, setContentFilter] = useState<string | null>(null);
   const [thinkingFilter, setThinkingFilter] = useState<string | null>(null);
   const [search, setSearch] = useState('');
+  
+  // Sidebar state
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  
+  // Single task navigation state
+  const [activeTaskIndex, setActiveTaskIndex] = useState(0);
+
+  // Fullscreen state and ref
+  const mainRef = useRef<HTMLElement>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const filtered = useMemo(() => {
     let list = tasks;
@@ -29,6 +39,37 @@ export default function CompetencyMatrixHub({ onBack }: { onBack: () => void }) 
     }
     return list;
   }, [tasks, contentFilter, thinkingFilter, search]);
+
+  // Reset active task index when filters or search query change
+  useEffect(() => {
+    setActiveTaskIndex(0);
+  }, [contentFilter, thinkingFilter, search]);
+
+  // Fullscreen toggle handler
+  const toggleFullscreen = () => {
+    if (!mainRef.current) return;
+    if (!document.fullscreenElement) {
+      mainRef.current.requestFullscreen().then(() => {
+        setIsFullscreen(true);
+      }).catch(err => {
+        console.error("Fullscreen error:", err);
+      });
+    } else {
+      document.exitFullscreen();
+      setIsFullscreen(false);
+    }
+  };
+
+  // Sync state with browser fullscreen changes (e.g. Esc key pressed)
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
+  }, []);
 
   const countByContent = useMemo(() => {
     const c = {};
@@ -51,20 +92,21 @@ export default function CompetencyMatrixHub({ onBack }: { onBack: () => void }) 
 
   const { contentAreas, thinkingLevels } = taxonomy;
 
-  const handleHome = () => {
-    // This will be provided via props if needed, but for now we just use a local clear
-    setContentFilter(null);
-    setThinkingFilter(null);
-    setSearch('');
-  };
-
-
   return (
-    <div className="competency-matrix-shell">
+    <div className={`competency-matrix-shell ${isSidebarOpen ? '' : 'sidebar-collapsed'}`}>
       <aside className="sidebar">
-        <button className="btn-back" onClick={onBack} style={{ marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8, background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', fontSize: 14, fontWeight: 500 }}>
-          ← Vissza a főoldalra
-        </button>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+          <button className="btn-back" onClick={onBack} style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', fontSize: 14, fontWeight: 500 }}>
+            ← Vissza a főoldalra
+          </button>
+          <button 
+            className="sidebar-toggle"
+            onClick={() => setIsSidebarOpen(false)}
+            title="Menü bezárása"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+        </div>
         <h1>Kompetencia 6.</h1>
         <div className="subtitle">Matematika feladatok — OKM 2021 tartalmi keret alapján</div>
 
@@ -103,44 +145,72 @@ export default function CompetencyMatrixHub({ onBack }: { onBack: () => void }) 
           <h3>Tartalmi terület</h3>
           <button
             className={`filter-chip ${!contentFilter ? 'active' : ''}`}
-            onClick={() => setContentFilter(null)}
+            onClick={() => {
+              setContentFilter(null);
+              if (!thinkingFilter && !search) setIsSidebarOpen(true);
+            }}
           >
             <span>Mind</span>
             <span className="count">{tasks.length}</span>
           </button>
-          {contentAreas.map((c) => (
-            <button
-              key={c.id}
-              className={`filter-chip ${contentFilter === c.id ? 'active' : ''}`}
-              onClick={() => setContentFilter(contentFilter === c.id ? null : c.id)}
-            >
-              <span className="dot" style={{ background: c.color }} />
-              <span>{c.name}</span>
-              <span className="count">{countByContent[c.id] || 0}</span>
-            </button>
-          ))}
+          {contentAreas.map((c) => {
+            const isActive = contentFilter === c.id;
+            return (
+              <button
+                key={c.id}
+                className={`filter-chip ${isActive ? 'active' : ''}`}
+                onClick={() => {
+                  const nextFilter = isActive ? null : c.id;
+                  setContentFilter(nextFilter);
+                  if (nextFilter) {
+                    setIsSidebarOpen(false);
+                  } else if (!thinkingFilter && !search) {
+                    setIsSidebarOpen(true);
+                  }
+                }}
+              >
+                <span className="dot" style={{ background: c.color }} />
+                <span>{c.name}</span>
+                <span className="count">{countByContent[c.id] || 0}</span>
+              </button>
+            );
+          })}
         </div>
 
         <div className="filter-group">
           <h3>Gondolkodási szint</h3>
           <button
             className={`filter-chip ${!thinkingFilter ? 'active' : ''}`}
-            onClick={() => setThinkingFilter(null)}
+            onClick={() => {
+              setThinkingFilter(null);
+              if (!contentFilter && !search) setIsSidebarOpen(true);
+            }}
           >
             <span>Mind</span>
             <span className="count">{tasks.length}</span>
           </button>
-          {thinkingLevels.map((l) => (
-            <button
-              key={l.id}
-              className={`filter-chip ${thinkingFilter === l.id ? 'active' : ''}`}
-              onClick={() => setThinkingFilter(thinkingFilter === l.id ? null : l.id)}
-            >
-              <span className="dot" style={{ background: l.color }} />
-              <span>{l.name}</span>
-              <span className="count">{countByThinking[l.id] || 0}</span>
-            </button>
-          ))}
+          {thinkingLevels.map((l) => {
+            const isActive = thinkingFilter === l.id;
+            return (
+              <button
+                key={l.id}
+                className={`filter-chip ${isActive ? 'active' : ''}`}
+                onClick={() => {
+                  const nextFilter = isActive ? null : l.id;
+                  setThinkingFilter(nextFilter);
+                  if (nextFilter) {
+                    setIsSidebarOpen(false);
+                  } else if (!contentFilter && !search) {
+                    setIsSidebarOpen(true);
+                  }
+                }}
+              >
+                <span className="dot" style={{ background: l.color }} />
+                <span>{l.name}</span>
+                <span className="count">{countByThinking[l.id] || 0}</span>
+              </button>
+            );
+          })}
         </div>
 
         <div className="filter-group">
@@ -154,11 +224,22 @@ export default function CompetencyMatrixHub({ onBack }: { onBack: () => void }) 
         </>)}
       </aside>
 
-      <main className="main">
+      <main className="main" ref={mainRef}>
+        {!isSidebarOpen && (
+          <button 
+            className="sidebar-toggle-open"
+            onClick={() => setIsSidebarOpen(true)}
+            title="Menü megnyitása"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            Menü
+          </button>
+        )}
+
         {view === 'practice' ? (
           <PracticeTests contentAreas={contentAreas} thinkingLevels={thinkingLevels} />
         ) : (<>
-        <header className="main-header">
+        <header className="main-header" style={{ paddingLeft: !isSidebarOpen ? 80 : 0 }}>
           <div>
             <h2>
               {contentFilter || thinkingFilter
@@ -171,9 +252,34 @@ export default function CompetencyMatrixHub({ onBack }: { onBack: () => void }) 
               {!contentFilter && !thinkingFilter && `${tasks.length} feladat a teljes mátrixban.`}
             </div>
           </div>
-          <button className="btn btn-secondary" onClick={() => { setContentFilter(null); setThinkingFilter(null); setSearch(''); }}>
-            Szűrők törlése
-          </button>
+          
+          {/* Top-right controls: dropdown select and clear button */}
+          {(contentFilter || thinkingFilter || search) && filtered.length > 0 ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-muted)' }}>Ugrás:</span>
+                <select
+                  value={activeTaskIndex}
+                  onChange={(e) => setActiveTaskIndex(Number(e.target.value))}
+                  className="task-select-dropdown"
+                >
+                  {filtered.map((t, idx) => (
+                    <option key={t.id} value={idx}>
+                      {idx + 1}. feladat: {t.title}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              
+              <button className="btn btn-secondary" onClick={() => { setContentFilter(null); setThinkingFilter(null); setSearch(''); setIsSidebarOpen(true); }}>
+                Szűrők törlése
+              </button>
+            </div>
+          ) : (
+            <button className="btn btn-secondary" onClick={() => { setContentFilter(null); setThinkingFilter(null); setSearch(''); setIsSidebarOpen(true); }}>
+              Szűrők törlése
+            </button>
+          )}
         </header>
 
         {/* Show matrix OR Task list (not both at once) */}
@@ -192,7 +298,7 @@ export default function CompetencyMatrixHub({ onBack }: { onBack: () => void }) 
                 {thinkingLevels.map((l) => {
                   const cnt = countMatrix[`${c.id}::${l.id}`] || 0;
                   return (
-                    <button key={l.id} className="cell" onClick={() => { setContentFilter(c.id); setThinkingFilter(l.id); }}>
+                    <button key={l.id} className="cell" onClick={() => { setContentFilter(c.id); setThinkingFilter(l.id); setIsSidebarOpen(false); }}>
                       <div className="count" style={{ color: cnt > 0 ? c.color : '#cbd5e1' }}>{cnt}</div>
                       <div className="cell-desc">{cnt} feladat</div>
                     </button>
@@ -208,22 +314,68 @@ export default function CompetencyMatrixHub({ onBack }: { onBack: () => void }) 
                 Ezekhez a szűrőkhöz nincs feladat. Próbálj másikat választani.
               </div>
             ) : (
-              <div className="task-list">
-                {filtered.map((t) => (
-                  <TaskCard key={t.id} task={t} contentAreas={contentAreas} thinkingLevels={thinkingLevels} />
-                ))}
+              <div className="single-task-container">
+                {filtered[activeTaskIndex] && (
+                  <TaskCard 
+                    key={filtered[activeTaskIndex].id} 
+                    task={filtered[activeTaskIndex]} 
+                    contentAreas={contentAreas} 
+                    thinkingLevels={thinkingLevels} 
+                  />
+                )}
+                
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 12, gap: 16, flexWrap: 'wrap' }}>
+                  <button 
+                    className="btn btn-secondary" 
+                    onClick={() => { setContentFilter(null); setThinkingFilter(null); setSearch(''); setIsSidebarOpen(true); }}
+                    style={{ padding: '10px 20px' }}
+                  >
+                    ← Vissza a mátrixhoz
+                  </button>
+
+                  <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                    <button
+                      className="btn btn-secondary"
+                      onClick={toggleFullscreen}
+                      style={{ display: 'flex', alignItems: 'center', gap: 6 }}
+                      title="Teljes képernyős mód"
+                    >
+                      {isFullscreen ? (
+                        <>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 14h6v6m10-6h-6v6M4 10h6V4m10 6h-6V4"/></svg>
+                          <span>Kilépés</span>
+                        </>
+                      ) : (
+                        <>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+                          <span>Teljes képernyő</span>
+                        </>
+                      )}
+                    </button>
+
+                    <button
+                      className="btn btn-secondary"
+                      disabled={activeTaskIndex === 0}
+                      onClick={() => setActiveTaskIndex(prev => prev - 1)}
+                      style={{ display: 'flex', alignItems: 'center', gap: 4 }}
+                    >
+                      ← Előző
+                    </button>
+                    <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-muted)', padding: '0 8px' }}>
+                      {activeTaskIndex + 1} / {filtered.length}
+                    </span>
+                    <button
+                      className="btn btn-secondary"
+                      disabled={activeTaskIndex === filtered.length - 1}
+                      onClick={() => setActiveTaskIndex(prev => prev + 1)}
+                      style={{ display: 'flex', alignItems: 'center', gap: 4 }}
+                    >
+                      Következő →
+                    </button>
+                  </div>
+                </div>
               </div>
             )}
-            
-            <div style={{ marginTop: 40, textAlign: 'center' }}>
-              <button 
-                className="btn btn-secondary" 
-                onClick={() => { setContentFilter(null); setThinkingFilter(null); setSearch(''); }}
-                style={{ padding: '12px 24px', fontSize: 16 }}
-              >
-                ← Vissza a mátrixhoz
-              </button>
-            </div>
           </>
         )}
         </>)}
