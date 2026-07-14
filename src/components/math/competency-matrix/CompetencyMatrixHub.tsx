@@ -237,7 +237,12 @@ export default function CompetencyMatrixHub({ onBack }: { onBack: () => void }) 
         )}
 
         {view === 'practice' ? (
-          <PracticeTests contentAreas={contentAreas} thinkingLevels={thinkingLevels} />
+          <PracticeTests 
+            contentAreas={contentAreas} 
+            thinkingLevels={thinkingLevels} 
+            isFullscreen={isFullscreen}
+            toggleFullscreen={toggleFullscreen}
+          />
         ) : (<>
         <header className="main-header" style={{ paddingLeft: !isSidebarOpen ? 80 : 0 }}>
           <div>
@@ -324,7 +329,7 @@ export default function CompetencyMatrixHub({ onBack }: { onBack: () => void }) 
                   />
                 )}
                 
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 12, gap: 16, flexWrap: 'wrap' }}>
+                <div className="action-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 12, gap: 16, flexWrap: 'wrap' }}>
                   <button 
                     className="btn btn-secondary" 
                     onClick={() => { setContentFilter(null); setThinkingFilter(null); setSearch(''); setIsSidebarOpen(true); }}

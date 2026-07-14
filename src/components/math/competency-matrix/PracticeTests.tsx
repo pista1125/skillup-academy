@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import TaskCard from './TaskCard';
+import { toast } from 'sonner';
 
 import { ALL_PRACTICE_TESTS } from './loader';
 
@@ -34,9 +35,11 @@ interface ThinkingLevel {
 interface PracticeTestsProps {
   contentAreas: ContentArea[];
   thinkingLevels: ThinkingLevel[];
+  isFullscreen?: boolean;
+  toggleFullscreen?: () => void;
 }
 
-export default function PracticeTests({ contentAreas, thinkingLevels }: PracticeTestsProps) {
+export default function PracticeTests({ contentAreas, thinkingLevels, isFullscreen = false, toggleFullscreen }: PracticeTestsProps) {
   const [tests] = useState(ALL_PRACTICE_TESTS);
   const [list] = useState(ALL_PRACTICE_TESTS.map(t => ({
     id: t.id,
@@ -53,14 +56,42 @@ export default function PracticeTests({ contentAreas, thinkingLevels }: Practice
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
 
+  // New state variables for the timer
+  const [timeLimit, setTimeLimit] = useState(45); // in minutes
+  const [timeLeft, setTimeLeft] = useState(45 * 60); // in seconds
+  const [timerRunning, setTimerRunning] = useState(false);
+  const [isStarted, setIsStarted] = useState(false);
+
   useEffect(() => {
     if (!selectedId) { setTest(null); return; }
     setCursor(0);
     setAnswers({});
     setSubmitted(false);
-    const found = PRACTICE_TESTS.find(t => t.id === selectedId);
+    setIsStarted(false);
+    setTimerRunning(false);
+    const found = tests.find(t => t.id === selectedId);
     setTest(found || null);
-  }, [selectedId]);
+  }, [selectedId, tests]);
+
+  // Countdown timer effect
+  useEffect(() => {
+    if (!timerRunning || timeLeft <= 0 || submitted) return;
+
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          setTimerRunning(false);
+          setSubmitted(true);
+          toast.warning("Lejárt az időd! A teszt automatikusan kiértékelésre került. ⏱️");
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [timerRunning, timeLeft, submitted]);
 
 
   // Test list view
@@ -71,7 +102,7 @@ export default function PracticeTests({ contentAreas, thinkingLevels }: Practice
           <div>
             <h2>Próbamérések</h2>
             <div className="meta">
-              Válassz egy 20-feladatos próbamérést. Minden teszt a mátrix 12 cellájának vegyes válogatása.
+              Válassz egy próbamérést a felkészülésed teszteléséhez. Minden teszt a mátrix celláin alapuló egyenletes feladatválogatás.
             </div>
           </div>
         </div>
@@ -95,6 +126,58 @@ export default function PracticeTests({ contentAreas, thinkingLevels }: Practice
 
   if (test === null) return <div className="empty-state">Feladatok betöltése…</div>;
 
+  // Start Screen for the selected test
+  if (!isStarted) {
+    return (
+      <div style={{ maxWidth: 600, margin: '40px auto' }}>
+        <div style={{ background: 'var(--bg-elev)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', padding: 32, boxShadow: 'var(--shadow)', textAlign: 'center' }}>
+          <div style={{ fontSize: 48, marginBottom: 16 }}>⏱️</div>
+          <h2 style={{ fontSize: 24, fontWeight: 700, marginBottom: 8, color: 'var(--text)' }}>{test.title} indítása</h2>
+          <p style={{ color: 'var(--text-muted)', fontSize: 14, marginBottom: 24 }}>
+            Ez a próbamérés <strong>{test.tasks.length} feladatot</strong> tartalmaz, amelyek a kompetenciamátrix összes témaköréből egyenletesen lettek kiválasztva.
+          </p>
+          
+          <div style={{ marginBottom: 32 }}>
+            <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--text-muted)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              Válassz időkorlátot:
+            </label>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, justifyContent: 'center' }}>
+              {[30, 45, 60, 90, 120].map((mins) => (
+                <button
+                  key={mins}
+                  onClick={() => {
+                    setTimeLimit(mins);
+                    setTimeLeft(mins * 60);
+                  }}
+                  className={`btn ${timeLimit === mins ? 'btn-primary' : 'btn-secondary'}`}
+                  style={{ padding: '10px 16px', fontSize: 13 }}
+                >
+                  {mins === 30 ? 'Fél óra (30p)' : mins === 60 ? '1 óra (60p)' : mins === 120 ? '2 óra (120p)' : `${mins} perc`}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
+            <button className="btn btn-secondary" onClick={() => setSelectedId(null)} style={{ padding: '12px 24px' }}>
+              Mégse
+            </button>
+            <button 
+              className="btn btn-primary" 
+              onClick={() => {
+                setIsStarted(true);
+                setTimerRunning(true);
+              }}
+              style={{ padding: '12px 32px', fontSize: 15, fontWeight: 600 }}
+            >
+              Mérés indítása →
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const total = test.tasks.length;
   const task = test.tasks[cursor];
   const done = Object.keys(answers).length;
@@ -109,18 +192,43 @@ export default function PracticeTests({ contentAreas, thinkingLevels }: Practice
   };
 
   return (
-    <div>
-      <div className="main-header">
+    <div className="single-task-container">
+      <div className="main-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
         <div>
           <h2>{test.title}</h2>
-          <div className="meta">
-            {cursor + 1}. / {total} feladat — megválaszolt: {done} / {total}
+          <div className="meta" style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+            <span>{cursor + 1}. / {total} feladat — megválaszolt: {done} / {total}</span>
             {submitted && <> &nbsp;·&nbsp; <strong style={{ color: '#16a34a' }}>Eredmény: {score} / {total}</strong></>}
           </div>
         </div>
-        <button className="btn btn-secondary" onClick={() => setSelectedId(null)}>
-          ← Vissza a próbamérésekhez
-        </button>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          {/* Timer Display */}
+          {!submitted && (
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+              padding: '8px 16px',
+              background: timeLeft < 300 ? '#fee2e2' : 'var(--bg-elev)',
+              border: '1px solid',
+              borderColor: timeLeft < 300 ? '#fca5a5' : 'var(--border)',
+              borderRadius: '8px',
+              color: timeLeft < 300 ? '#991b1b' : 'var(--text)',
+              fontWeight: '700',
+              fontSize: '15px',
+              boxShadow: 'var(--shadow)',
+              fontFamily: 'monospace'
+            }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ animation: timeLeft < 300 ? 'pulse 1s infinite' : 'none' }}><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              <span>{Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}</span>
+            </div>
+          )}
+
+          <button className="btn btn-secondary" onClick={() => { setSelectedId(null); setIsStarted(false); setTimerRunning(false); }}>
+            ← Kilépés
+          </button>
+        </div>
       </div>
 
       <div className="probameres-progress">
@@ -146,30 +254,66 @@ export default function PracticeTests({ contentAreas, thinkingLevels }: Practice
         submitted={submitted}
       />
 
-      <div className="action-row" style={{ marginTop: 20, justifyContent: 'space-between' }}>
-        <button className="btn btn-secondary" disabled={cursor === 0} onClick={() => setCursor((c) => c - 1)}>
-          ← Előző
+      <div className="action-row" style={{ marginTop: 20, justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
+        <button 
+          className="btn btn-secondary" 
+          onClick={() => { setSelectedId(null); setIsStarted(false); setTimerRunning(false); }}
+          style={{ padding: '10px 20px' }}
+        >
+          ← Kilépés a tesztből
         </button>
-        {!submitted && cursor < total - 1 && (
-          <button className="btn btn-primary" onClick={() => setCursor((c) => c + 1)}>
-            Következő →
+
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+          {toggleFullscreen && (
+            <button
+              className="btn btn-secondary"
+              onClick={toggleFullscreen}
+              style={{ display: 'flex', alignItems: 'center', gap: 6 }}
+              title="Teljes képernyős mód"
+            >
+              {isFullscreen ? (
+                <>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 14h6v6m10-6h-6v6M4 10h6V4m10 6h-6V4"/></svg>
+                  <span>Kilépés</span>
+                </>
+              ) : (
+                <>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+                  <span>Teljes képernyő</span>
+                </>
+              )}
+            </button>
+          )}
+
+          <button className="btn btn-secondary" disabled={cursor === 0} onClick={() => setCursor((c) => c - 1)}>
+            ← Előző
           </button>
-        )}
-        {!submitted && cursor === total - 1 && (
-          <button className="btn btn-primary" onClick={() => setSubmitted(true)}>
-            Beadom a tesztet
-          </button>
-        )}
-        {submitted && cursor < total - 1 && (
-          <button className="btn btn-primary" onClick={() => setCursor((c) => c + 1)}>
-            Következő →
-          </button>
-        )}
-        {submitted && cursor === total - 1 && (
-          <button className="btn btn-secondary" onClick={() => { setSelectedId(null); }}>
-            Befejezés
-          </button>
-        )}
+          
+          <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-muted)', padding: '0 8px' }}>
+            {cursor + 1} / {total}
+          </span>
+
+          {!submitted && cursor < total - 1 && (
+            <button className="btn btn-primary" onClick={() => setCursor((c) => c + 1)}>
+              Következő →
+            </button>
+          )}
+          {!submitted && cursor === total - 1 && (
+            <button className="btn btn-primary" onClick={() => { setSubmitted(true); setTimerRunning(false); }}>
+              Beadom a tesztet
+            </button>
+          )}
+          {submitted && cursor < total - 1 && (
+            <button className="btn btn-primary" onClick={() => setCursor((c) => c + 1)}>
+              Következő →
+            </button>
+          )}
+          {submitted && cursor === total - 1 && (
+            <button className="btn btn-secondary" onClick={() => { setSelectedId(null); setIsStarted(false); setTimerRunning(false); }}>
+              Befejezés
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -609,8 +609,114 @@
 /* Fullscreen and Single Task view styling */
 .competency-matrix-shell .main:fullscreen {
   background: var(--bg);
-  padding: 40px;
+  padding: 16px 24px;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.competency-matrix-shell .main:fullscreen .main-header,
+.competency-matrix-shell .main:fullscreen .probameres-progress,
+.competency-matrix-shell .main:fullscreen .action-row {
+  flex-shrink: 0;
+}
+
+.competency-matrix-shell .main:fullscreen .main-header {
+  margin-bottom: 8px;
+  gap: 8px;
+}
+
+.competency-matrix-shell .main:fullscreen .main-header h2 {
+  font-size: 18px;
+}
+
+.competency-matrix-shell .main:fullscreen .main-header .meta {
+  font-size: 12px;
+}
+
+.competency-matrix-shell .main:fullscreen .probameres-progress {
+  margin-bottom: 8px;
+  padding: 6px 10px;
+  gap: 4px;
+}
+
+.competency-matrix-shell .main:fullscreen .probameres-progress .dot {
+  width: 25px;
+  height: 25px;
+  font-size: 11px;
+}
+
+.competency-matrix-shell .main:fullscreen .single-task-container {
+  flex: 1;
+  max-width: 1080px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  gap: 12px;
+  min-height: 0;
+}
+
+.competency-matrix-shell .main:fullscreen .task-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin-bottom: 0;
+  min-height: 0;
+}
+
+.competency-matrix-shell .main:fullscreen .task-card .head {
+  flex-shrink: 0;
+  padding: 6px 14px;
+}
+
+.competency-matrix-shell .main:fullscreen .task-card .head .title {
+  font-size: 14px;
+}
+
+.competency-matrix-shell .main:fullscreen .task-card .body.task-body-grid {
+  flex: 1;
+  overflow: hidden;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1fr;
+  padding: 14px 20px;
+  gap: 20px;
+  min-height: 0;
+}
+
+.competency-matrix-shell .main:fullscreen .task-card .body.task-body-single {
+  flex: 1;
   overflow-y: auto;
+  padding: 14px 20px;
+  min-height: 0;
+}
+
+.competency-matrix-shell .main:fullscreen .task-left-column,
+.competency-matrix-shell .main:fullscreen .task-right-column {
+  height: 100%;
+  max-height: 100%;
+  overflow-y: auto;
+  padding-right: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.competency-matrix-shell .main:fullscreen .task-left-column::-webkit-scrollbar,
+.competency-matrix-shell .main:fullscreen .task-right-column::-webkit-scrollbar {
+  width: 6px;
+}
+.competency-matrix-shell .main:fullscreen .task-left-column::-webkit-scrollbar-thumb,
+.competency-matrix-shell .main:fullscreen .task-right-column::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
 }
 
 .competency-matrix-shell .single-task-container {
