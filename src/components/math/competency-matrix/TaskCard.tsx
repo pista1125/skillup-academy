@@ -74,6 +74,8 @@ export default function TaskCard({ task, contentAreas, thinkingLevels }: TaskCar
     setShowSolution(false);
   };
 
+  const hasLeftContent = !!task.scenario || !!task.visual;
+
   return (
     <article className="task-card">
       <header className="head">
@@ -88,87 +90,93 @@ export default function TaskCard({ task, contentAreas, thinkingLevels }: TaskCar
         </span>
       </header>
 
-      <div className="body">
-        {task.scenario && (
-          <div className="scenario">
-            <ReactMarkdown {...MD_PLUGINS}>{task.scenario}</ReactMarkdown>
+      <div className={`body ${hasLeftContent ? 'task-body-grid' : 'task-body-single'}`}>
+        {hasLeftContent && (
+          <div className="task-left-column">
+            {task.scenario && (
+              <div className="scenario">
+                <ReactMarkdown {...MD_PLUGINS}>{task.scenario}</ReactMarkdown>
+              </div>
+            )}
+
+            {task.visual && (
+              <div className="visual-wrap">
+                <ErrorBoundary>
+                  <Visual spec={task.visual} />
+                </ErrorBoundary>
+              </div>
+            )}
           </div>
         )}
 
-        {task.visual && (
-          <div className="visual-wrap">
-            <ErrorBoundary>
-              <Visual spec={task.visual} />
-            </ErrorBoundary>
+        <div className="task-right-column">
+          <div className="question">
+            <ReactMarkdown {...MD_PLUGINS}>{task.question}</ReactMarkdown>
           </div>
-        )}
 
-        <div className="question">
-          <ReactMarkdown {...MD_PLUGINS}>{task.question}</ReactMarkdown>
-        </div>
+          {hasOptions ? (
+            <div className="options">
+              {task.options.map((opt, idx) => {
+                let cls = 'option-btn';
+                if (checked && selected === opt) cls += isCorrect ? ' correct' : ' incorrect';
+                else if (showSolution && opt === task.answer) cls += ' reveal';
+                else if (selected === opt) cls += ' selected';
+                return (
+                  <button key={`${idx}-${opt}`} className={cls} disabled={checked && isCorrect} onClick={() => !checked && setSelected(opt)}>
+                    {opt}
+                  </button>
+                );
+              })}
+            </div>
+          ) : typeof task.answer === 'string' ? (
+            <input
+              className="answer-input"
+              value={inputVal}
+              onChange={(e) => setInputVal(e.target.value)}
+              placeholder="Írd be a válaszod..."
+              disabled={checked && isCorrect}
+            />
+          ) : (
+            <div style={{ fontSize: 13, color: '#64748b' }}>
+              Nyitott feladat — nézd meg a megoldást.
+            </div>
+          )}
 
-        {hasOptions ? (
-          <div className="options">
-            {task.options.map((opt, idx) => {
-              let cls = 'option-btn';
-              if (checked && selected === opt) cls += isCorrect ? ' correct' : ' incorrect';
-              else if (showSolution && opt === task.answer) cls += ' reveal';
-              else if (selected === opt) cls += ' selected';
-              return (
-                <button key={`${idx}-${opt}`} className={cls} disabled={checked && isCorrect} onClick={() => !checked && setSelected(opt)}>
-                  {opt}
-                </button>
-              );
-            })}
-          </div>
-        ) : typeof task.answer === 'string' ? (
-          <input
-            className="answer-input"
-            value={inputVal}
-            onChange={(e) => setInputVal(e.target.value)}
-            placeholder="Írd be a válaszod..."
-            disabled={checked && isCorrect}
-          />
-        ) : (
-          <div style={{ fontSize: 13, color: '#64748b' }}>
-            Nyitott feladat — nézd meg a megoldást.
-          </div>
-        )}
-
-        <div className="action-row">
-          {(hasOptions || typeof task.answer === 'string') && (
-            <button className="btn btn-primary" onClick={handleCheck} disabled={hasOptions ? !selected : !inputVal.trim()}>
-              Ellenőrzés
+          <div className="action-row">
+            {(hasOptions || typeof task.answer === 'string') && (
+              <button className="btn btn-primary" onClick={handleCheck} disabled={hasOptions ? !selected : !inputVal.trim()}>
+                Ellenőrzés
+              </button>
+            )}
+            <button className="btn btn-secondary" onClick={handleReveal}>
+              {showSolution ? 'Megoldás látható' : 'Megoldás mutatása'}
             </button>
-          )}
-          <button className="btn btn-secondary" onClick={handleReveal}>
-            {showSolution ? 'Megoldás látható' : 'Megoldás mutatása'}
-          </button>
-          <button className="btn btn-ghost" onClick={handleReset}>Újra</button>
+            <button className="btn btn-ghost" onClick={handleReset}>Újra</button>
 
-          {checked && !isCorrect && (
-            <span className="feedback bad">✗ Nem ez a jó megoldás — próbáld újra, vagy nézd meg!</span>
+            {checked && !isCorrect && (
+              <span className="feedback bad">✗ Nem ez a jó megoldás — próbáld újra, vagy nézd meg!</span>
+            )}
+            {checked && isCorrect && (
+              <span className="feedback ok">✓ Szuper, helyes válasz!</span>
+            )}
+          </div>
+
+          {showSolution && (
+            <div className="solution">
+              <h3>Megoldás lépésről lépésre</h3>
+              <div className="solution-body">
+                <ReactMarkdown {...MD_PLUGINS}>{task.solution}</ReactMarkdown>
+              </div>
+            </div>
           )}
-          {checked && isCorrect && (
-            <span className="feedback ok">✓ Szuper, helyes válasz!</span>
+
+          {task.keywords && task.keywords.length > 0 && (
+            <div className="keywords">
+              {task.keywords.map((k) => <span key={k} className="keyword">#{k}</span>)}
+            </div>
           )}
         </div>
-
-        {task.keywords && task.keywords.length > 0 && (
-          <div className="keywords">
-            {task.keywords.map((k) => <span key={k} className="keyword">#{k}</span>)}
-          </div>
-        )}
       </div>
-
-      {showSolution && (
-        <div className="solution">
-          <h3>Megoldás lépésről lépésre</h3>
-          <div className="solution-body">
-            <ReactMarkdown {...MD_PLUGINS}>{task.solution}</ReactMarkdown>
-          </div>
-        </div>
-      )}
     </article>
   );
 }

@@ -222,6 +222,7 @@ function TaskCardControlled({ task, contentAreas, thinkingLevels, selectedAnswer
   const thinkingInfo = thinkingLevels.find((l) => l.id === task.thinkingLevel);
   const hasOptions = Array.isArray(task.options) && task.options.length > 0;
   const isCorrect = hasOptions && selectedAnswer === task.answer;
+  const hasLeftContent = !!task.scenario || !!task.visual;
 
   return (
     <article className="task-card">
@@ -237,67 +238,73 @@ function TaskCardControlled({ task, contentAreas, thinkingLevels, selectedAnswer
         </span>
       </header>
 
-      <div className="body">
-        {task.scenario && (
-          <div className="scenario">
-            <ReactMarkdown {...MD_PLUGINS}>{task.scenario}</ReactMarkdown>
+      <div className={`body ${hasLeftContent ? 'task-body-grid' : 'task-body-single'}`}>
+        {hasLeftContent && (
+          <div className="task-left-column">
+            {task.scenario && (
+              <div className="scenario">
+                <ReactMarkdown {...MD_PLUGINS}>{task.scenario}</ReactMarkdown>
+              </div>
+            )}
+
+            {task.visual && (
+              <div className="visual-wrap">
+                <ErrorBoundary>
+                  <Visual spec={task.visual} />
+                </ErrorBoundary>
+              </div>
+            )}
           </div>
         )}
 
-        {task.visual && (
-          <div className="visual-wrap">
-            <ErrorBoundary>
-              <Visual spec={task.visual} />
-            </ErrorBoundary>
+        <div className="task-right-column">
+          <div className="question">
+            <ReactMarkdown {...MD_PLUGINS}>{task.question}</ReactMarkdown>
           </div>
-        )}
 
-        <div className="question">
-          <ReactMarkdown {...MD_PLUGINS}>{task.question}</ReactMarkdown>
+          {hasOptions ? (
+            <div className="options">
+              {task.options.map((opt, idx) => {
+                let cls = 'option-btn';
+                if (submitted) {
+                  if (opt === task.answer) cls += ' correct';
+                  else if (opt === selectedAnswer) cls += ' incorrect';
+                } else if (opt === selectedAnswer) {
+                  cls += ' selected';
+                }
+                return (
+                  <button key={`${idx}-${opt}`} className={cls} disabled={submitted} onClick={() => onAnswer(opt)}>
+                    {opt}
+                  </button>
+                );
+              })}
+            </div>
+          ) : (
+            <input
+              className="answer-input"
+              value={selectedAnswer || ''}
+              onChange={(e) => onAnswer(e.target.value)}
+              placeholder="Írd be a válaszod..."
+              disabled={submitted}
+            />
+          )}
+
+          {submitted && (
+            <div className={`feedback ${isCorrect ? 'ok' : 'bad'}`}>
+              {isCorrect ? '✓ Helyes válasz' : `✗ Helyes válasz: ${task.answer}`}
+            </div>
+          )}
+
+          {submitted && task.solution && (
+            <div className="solution">
+              <h3>Megoldás</h3>
+              <div className="solution-body">
+                <ReactMarkdown {...MD_PLUGINS}>{task.solution}</ReactMarkdown>
+              </div>
+            </div>
+          )}
         </div>
-
-        {hasOptions ? (
-          <div className="options">
-            {task.options.map((opt, idx) => {
-              let cls = 'option-btn';
-              if (submitted) {
-                if (opt === task.answer) cls += ' correct';
-                else if (opt === selectedAnswer) cls += ' incorrect';
-              } else if (opt === selectedAnswer) {
-                cls += ' selected';
-              }
-              return (
-                <button key={`${idx}-${opt}`} className={cls} disabled={submitted} onClick={() => onAnswer(opt)}>
-                  {opt}
-                </button>
-              );
-            })}
-          </div>
-        ) : (
-          <input
-            className="answer-input"
-            value={selectedAnswer || ''}
-            onChange={(e) => onAnswer(e.target.value)}
-            placeholder="Írd be a válaszod..."
-            disabled={submitted}
-          />
-        )}
-
-        {submitted && (
-          <div className={`feedback ${isCorrect ? 'ok' : 'bad'}`}>
-            {isCorrect ? '✓ Helyes válasz' : `✗ Helyes válasz: ${task.answer}`}
-          </div>
-        )}
       </div>
-
-      {submitted && task.solution && (
-        <div className="solution">
-          <h3>Megoldás</h3>
-          <div className="solution-body">
-            <ReactMarkdown {...MD_PLUGINS}>{task.solution}</ReactMarkdown>
-          </div>
-        </div>
-      )}
     </article>
   );
 }
