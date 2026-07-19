@@ -332,7 +332,7 @@ export default function AdmissionPrep({ onBack }: AdmissionPrepProps) {
 
       {/* ── MAIN CONTENT AREA ────────────────────────────────────── */}
       <main className="flex-1 flex flex-col min-w-0 bg-white pb-12 lg:pb-0 overflow-y-auto">
-        <header className="p-6 bg-gradient-to-r from-purple-700 via-indigo-700 to-blue-800 text-white shadow-md relative overflow-hidden">
+        <header className="py-3 px-6 shrink-0 bg-gradient-to-r from-purple-700 via-indigo-700 to-blue-800 text-white shadow-md relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full transform translate-x-20 -translate-y-20 pointer-events-none" />
           <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-white/5 rounded-full pointer-events-none" />
 
@@ -409,7 +409,7 @@ export default function AdmissionPrep({ onBack }: AdmissionPrepProps) {
         </header>
 
         {/* Horizontal Navigation Menu */}
-        <div className="border-b border-slate-200 bg-slate-50 px-6 py-2 sticky top-0 z-20 flex overflow-x-auto gap-1 md:gap-2 no-scrollbar">
+        <div className="border-b border-slate-200 bg-slate-50 px-6 py-2 shrink-0 flex overflow-x-auto gap-1 md:gap-2 no-scrollbar">
           <Button
             variant="ghost"
             size="sm"
@@ -487,7 +487,7 @@ export default function AdmissionPrep({ onBack }: AdmissionPrepProps) {
         </div>
 
         {/* Tab Contents */}
-        <div className="flex-1 p-6 overflow-y-auto max-w-5xl mx-auto w-full">
+        <div className="p-6 max-w-5xl mx-auto w-full">
           {/* 1. Requirements Tab */}
           {activeTab === 'requirements' && (
             <div className="animate-slide-up space-y-6 text-left">
