@@ -268,7 +268,7 @@ export default function GraduationPrep({ onBack }: GraduationPrepProps) {
   );
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen bg-slate-50 text-slate-900 rounded-3xl overflow-hidden border border-slate-100 shadow-xl relative">
+    <div className="flex flex-col lg:flex-row h-full w-full bg-slate-50 text-slate-900 overflow-hidden relative">
 
       {/* ── DESKTOP SIDEBAR (lg+) ─────────────────────────────────── */}
       <aside

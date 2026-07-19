@@ -259,7 +259,7 @@ export default function AdmissionPrep({ onBack }: AdmissionPrepProps) {
   );
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen bg-slate-50 text-slate-900 rounded-3xl overflow-hidden border border-slate-200/60 shadow-xl relative text-left">
+    <div className="flex flex-col lg:flex-row h-full w-full bg-slate-50 text-slate-900 overflow-hidden relative text-left">
       
       {/* ── DESKTOP SIDEBAR (lg+) ─────────────────────────────────── */}
       <aside

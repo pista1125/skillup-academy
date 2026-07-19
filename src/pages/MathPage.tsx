@@ -365,7 +365,14 @@ export default function MathPage() {
   const [activeGrade5SubSectionId, setActiveGrade5SubSectionId] = useState<string | null>(null);
   const [isGrade5MobileMenuOpen, setIsGrade5MobileMenuOpen] = useState(false);
 
-  const isUpperGradeLayout = selectedGrade !== null && (typeof selectedGrade === 'number' || selectedGrade.startsWith('high-'));
+  const isUpperGradeLayout = selectedGrade !== null && (
+    typeof selectedGrade === 'number' || 
+    (typeof selectedGrade === 'string' && (
+      selectedGrade.startsWith('high-') || 
+      selectedGrade === 'admission' || 
+      selectedGrade === 'graduation'
+    ))
+  );
 
   const getGradeLabel = (grade: GradeLevel | null): string => {
     if (!grade) return '';
@@ -2577,7 +2584,7 @@ export default function MathPage() {
       ) : null}
 
       {/* Professional Sub-header for Navigation (no gap) */}
-      {activityType !== 'symmetry-construction' && (
+      {activityType !== 'symmetry-construction' && selectedGrade !== 'admission' && selectedGrade !== 'graduation' && (
         <div className={cn(
           "w-full transition-all duration-300",
           view !== 'main-select' ? "h-10 opacity-100" : "h-0 opacity-0 overflow-hidden"
@@ -2629,8 +2636,15 @@ export default function MathPage() {
       <div className={cn(
         (activityType !== 'perimeter-area' && !(isUpperGradeLayout && view === 'topic-select')) && "container mx-auto px-4 py-8",
         "transition-all duration-500",
-        (view === 'activity' || view === 'topic-select' || view === 'tools-select' || view === 'main-select' || view === 'competency-select') && activityType !== 'perimeter-area' ? "max-w-none lg:px-12" : (activityType === 'perimeter-area' ? "max-w-none p-0 w-full h-full" : "max-w-4xl"),
-        (isUpperGradeLayout && view === 'topic-select') && "w-full p-0 max-w-none flex-1 overflow-hidden"
+        (isUpperGradeLayout && view === 'topic-select')
+          ? "w-full p-0 max-w-none flex-1 overflow-hidden"
+          : (activityType === 'perimeter-area'
+            ? "max-w-none p-0 w-full h-full"
+            : ((view === 'activity' || view === 'topic-select' || view === 'tools-select' || view === 'main-select' || view === 'competency-select')
+              ? "max-w-none lg:px-12"
+              : "max-w-4xl"
+            )
+          )
       )}>
         {view === 'search-results' && (
           <div className="animate-slide-up">
@@ -2795,7 +2809,7 @@ export default function MathPage() {
                 <p className="text-slate-500">Folyamatosan bővülő, interaktív matematikai tartalom, ami a tanulást játékká teszi.</p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {(() => {
                   // Dinamikus számítások az új tömbök alapján
                   const toolsCount = TOOLS.length;
@@ -2824,6 +2838,13 @@ export default function MathPage() {
                         </div>
                         <div className="text-4xl font-black text-slate-800 mb-1">{topicsCount}+</div>
                         <div className="text-xs font-bold text-slate-400 uppercase tracking-widest">Rendszerezett Témakör</div>
+                      </div>
+                      <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex flex-col items-center text-center hover:border-emerald-500/50 transition-all hover:-translate-y-1">
+                        <div className="p-4 rounded-2xl bg-emerald-50 text-emerald-600 mb-4">
+                          <Target className="w-8 h-8" />
+                        </div>
+                        <div className="text-4xl font-black text-slate-800 mb-1">1000+</div>
+                        <div className="text-xs font-bold text-slate-400 uppercase tracking-widest">Gyakorló Feladat</div>
                       </div>
                     </>
                   )
@@ -2962,7 +2983,7 @@ export default function MathPage() {
             };
 
             return (
-              <div className="flex flex-col lg:flex-row h-full w-full bg-slate-50 text-slate-800 rounded-3xl overflow-hidden shadow-xl border border-slate-200/60 animate-slide-up relative text-left">
+              <div className="flex flex-col lg:flex-row h-full w-full bg-slate-50 text-slate-800 overflow-hidden animate-slide-up relative text-left">
                 {/* Left Sidebar (Desktop only) */}
                 <aside className={cn(
                   "hidden lg:flex bg-white border-r border-slate-200/80 flex-col transition-all duration-300 relative z-20 shrink-0",
@@ -2980,7 +3001,6 @@ export default function MathPage() {
                   <div className="p-4 border-b border-slate-100 flex items-center justify-between">
                     {!isSidebarCollapsed && (
                       <div className="flex items-center gap-2">
-                        <Sparkles className="w-5 h-5 text-purple-600 animate-pulse" />
                         <span className="font-display font-black text-sm tracking-wider uppercase text-purple-700">{getGradeLabel(selectedGrade)}</span>
                       </div>
                     )}
@@ -3905,7 +3925,7 @@ export default function MathPage() {
           </Suspense>
         </div>
       )}
-        {selectedGrade !== 5 && view !== 'competency-select' && ((activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'volume-surface' && activityType !== 'student-feedback' && activityType !== 'volume-quiz' && activityType !== 'surface-area-quiz' && activityType !== 'unit-converter' && activityType !== 'capacity-converter' && activityType !== 'analog-clock' && activityType !== 'g7-mapping-quiz' && activityType !== 'g7-function-table-quiz') || view !== 'activity') && <SiteFooter />}
+        {!isUpperGradeLayout && view !== 'competency-select' && ((activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'volume-surface' && activityType !== 'student-feedback' && activityType !== 'volume-quiz' && activityType !== 'surface-area-quiz' && activityType !== 'unit-converter' && activityType !== 'capacity-converter' && activityType !== 'analog-clock' && activityType !== 'g7-mapping-quiz' && activityType !== 'g7-function-table-quiz') || view !== 'activity') && <SiteFooter />}
       </div>
     </div>
   );
