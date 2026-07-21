@@ -26,13 +26,27 @@ import {
   Info,
   ExternalLink,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Download
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { toast } from 'sonner';
+import { exportElementToPDF } from '@/utils/pdfExport';
+import { gondolkodasiModszerekLessons } from './gondolkodasi-modszerek/gondolkodasiModszerekLessons';
+import {
+  VennTwoSets,
+  VennClassProblem,
+  Graph5NodesDiagram
+} from './gondolkodasi-modszerek/GondolkodasiModszerekDiagrams';
+import { szamelmeletAlgebraLessons } from './szamelmelet-algebra/szamelmeletAlgebraLessons';
+import {
+  PrimesVennDiagram,
+  MeansInequalityDiagram,
+  QuadraticParabolaDiagram
+} from './szamelmelet-algebra/SzamelmeletAlgebraDiagrams';
 
 import {
   graduationTopics,
@@ -51,7 +65,7 @@ interface GraduationPrepProps {
   onBack: () => void;
 }
 
-type TabType = 'requirements' | 'lesson' | 'videos' | 'quiz' | 'papers';
+type TabType = 'lesson' | 'videos' | 'quiz' | 'papers';
 
 export default function GraduationPrep({ onBack }: GraduationPrepProps) {
   // Sidebar states
@@ -64,7 +78,7 @@ export default function GraduationPrep({ onBack }: GraduationPrepProps) {
   const [level, setLevel] = useState<'intermediate' | 'advanced'>('intermediate');
 
   // Active view tab inside the subtopic
-  const [activeTab, setActiveTab] = useState<TabType>('requirements');
+  const [activeTab, setActiveTab] = useState<TabType>('lesson');
 
   // Quiz states
   const [quizQuestions, setQuizQuestions] = useState<GraduationQuizQuestion[]>([]);
@@ -92,6 +106,18 @@ export default function GraduationPrep({ onBack }: GraduationPrepProps) {
   const activeSubtopic = useMemo(() => {
     return activeTopic.subtopics.find((s) => s.id === selectedSubtopicId) || activeTopic.subtopics[0];
   }, [activeTopic, selectedSubtopicId]);
+
+  const currentLessonText = useMemo(() => {
+    const customGondolkodasi = gondolkodasiModszerekLessons[activeSubtopic.id];
+    if (customGondolkodasi) {
+      return level === 'intermediate' ? customGondolkodasi.intermediate : customGondolkodasi.advanced;
+    }
+    const customAlgebra = szamelmeletAlgebraLessons[activeSubtopic.id];
+    if (customAlgebra) {
+      return level === 'intermediate' ? customAlgebra.intermediate : customAlgebra.advanced;
+    }
+    return level === 'intermediate' ? activeSubtopic.lessonIntermediate : activeSubtopic.lessonAdvanced;
+  }, [activeSubtopic, level]);
 
   // Load questions when subtopic or level changes
   useEffect(() => {
@@ -413,21 +439,6 @@ export default function GraduationPrep({ onBack }: GraduationPrepProps) {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => setActiveTab('requirements')}
-            className={cn(
-              "rounded-xl text-xs font-bold gap-2 px-4 flex-shrink-0 transition-all",
-              activeTab === 'requirements'
-                ? "bg-purple-50 text-purple-700 hover:bg-purple-100 border-b-2 border-purple-600 rounded-b-none"
-                : "text-slate-600 hover:bg-slate-100"
-            )}
-          >
-            <Info className="w-4 h-4" />
-            Követelmények
-          </Button>
-
-          <Button
-            variant="ghost"
-            size="sm"
             onClick={() => setActiveTab('lesson')}
             className={cn(
               "rounded-xl text-xs font-bold gap-2 px-4 flex-shrink-0 transition-all",
@@ -488,68 +499,114 @@ export default function GraduationPrep({ onBack }: GraduationPrepProps) {
 
         {/* Tab Contents */}
         <div className="p-6 max-w-5xl mx-auto w-full">
-          {/* 1. Requirements Tab */}
-          {activeTab === 'requirements' && (
-            <div className="animate-slide-up space-y-6 text-left">
-              <div className="bg-slate-50 border border-slate-150 rounded-2xl p-6 relative">
-                <h3 className="text-base font-black text-slate-800 flex items-center gap-2 mb-4">
-                  <Info className="w-5 h-5 text-purple-600" />
-                  Részletes Követelményrendszer – {level === 'intermediate' ? 'Középszint' : 'Emelt szint'}
-                </h3>
-                <p className="text-slate-600 text-sm leading-relaxed whitespace-pre-wrap">
-                  {level === 'intermediate'
-                    ? activeSubtopic.requirementsIntermediate
-                    : activeSubtopic.requirementsAdvanced}
-                </p>
-                <div className="mt-6 flex items-center gap-2 text-xs text-slate-400 border-t border-slate-200 pt-4">
-                  <Clock className="w-4 h-4" />
-                  <span>Hivatalos vizsgakövetelmények alapján frissítve a 2024-es érettségi reformok szerint.</span>
-                </div>
-              </div>
-
-              {/* Tips or Summary Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Card className="rounded-2xl border-slate-100 shadow-sm">
-                  <CardHeader className="p-4 pb-2">
-                    <CardTitle className="text-xs font-black text-purple-700 uppercase tracking-widest">
-                      Tipp a tanuláshoz 💡
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="p-4 pt-0 text-xs text-slate-600 leading-relaxed">
-                    Olvasd el a Kidolgozott Tananyagot, ahol minden fontos képletet megtalálsz levezetéssel együtt, majd nézd meg a témához készült videókat a mélyebb megértés érdekében.
-                  </CardContent>
-                </Card>
-
-                <Card className="rounded-2xl border-slate-100 shadow-sm">
-                  <CardHeader className="p-4 pb-2">
-                    <CardTitle className="text-xs font-black text-purple-700 uppercase tracking-widest">
-                      Hogyan vizsgázz? 📝
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="p-4 pt-0 text-xs text-slate-600 leading-relaxed">
-                    {level === 'intermediate'
-                      ? 'Középszinten a típusfeladatok magabiztos ismerete a legfontosabb. Ügyelj a számolási hibák elkerülésére és a részeredmények ellenőrzésére!'
-                      : 'Emelt szinten a tételek bizonyítása és a logikus, szabatos kifejtés elengedhetetlen a maximális pontszám eléréséhez.'}
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          )}
-
-          {/* 2. Written Lesson Tab */}
+          {/* Written Lesson Tab */}
           {activeTab === 'lesson' && (
-            <div className="animate-slide-up text-left bg-white border border-slate-100 shadow-sm rounded-2xl p-6 md:p-10 prose max-w-none">
-              <div className="flex items-center gap-2 mb-6 border-b pb-4">
-                <BookOpen className="w-6 h-6 text-purple-600" />
-                <h2 className="text-lg font-black text-slate-800 m-0">
-                  {activeSubtopic.title} – Kidolgozott Tananyag
-                </h2>
+            <div id="graduation-lesson-printable" className="animate-slide-up text-left bg-white border border-slate-100 shadow-sm rounded-2xl p-6 md:p-10 prose max-w-none relative">
+              <div className="flex flex-wrap items-center justify-between gap-4 mb-6 border-b pb-4 no-pdf">
+                <div className="flex items-center gap-2">
+                  <BookOpen className="w-6 h-6 text-purple-600" />
+                  <h2 className="text-lg font-black text-slate-800 m-0">
+                    {activeSubtopic.title} – Kidolgozott Tananyag
+                  </h2>
+                </div>
+                <Button
+                  onClick={() => exportElementToPDF('graduation-lesson-printable', activeSubtopic.title)}
+                  variant="outline"
+                  size="sm"
+                  className="gap-2 border-purple-200 text-purple-700 hover:bg-purple-50 font-bold rounded-xl shadow-xs"
+                >
+                  <Download className="w-4 h-4 text-purple-600" />
+                  Mentés PDF-ben
+                </Button>
               </div>
-              <ReactMarkdown {...MD_PLUGINS}>
-                {level === 'intermediate'
-                  ? activeSubtopic.lessonIntermediate
-                  : activeSubtopic.lessonAdvanced}
+
+              <ReactMarkdown
+                {...MD_PLUGINS}
+                components={{
+                  h1: ({ children }) => (
+                    <h1 className="text-2xl md:text-3xl font-black text-center text-purple-950 my-6 pb-4 border-b border-purple-100">
+                      {children}
+                    </h1>
+                  ),
+                  h2: ({ children }) => (
+                    <h2 className="text-xl font-black text-slate-800 mt-8 mb-4 border-b border-slate-100 pb-2">
+                      {children}
+                    </h2>
+                  ),
+                  h3: ({ children }) => (
+                    <h3 className="text-base md:text-lg font-bold text-purple-900 mt-6 mb-3">
+                      {children}
+                    </h3>
+                  ),
+                  p: ({ children }) => (
+                    <p className="text-justify text-slate-700 leading-relaxed md:leading-loose my-4">
+                      {children}
+                    </p>
+                  ),
+                  li: ({ children }) => (
+                    <li className="text-justify text-slate-700 leading-relaxed md:leading-loose my-2">
+                      {children}
+                    </li>
+                  ),
+                  blockquote: ({ children }) => (
+                    <blockquote className="border-l-4 border-purple-500 bg-purple-50/60 p-4 rounded-r-xl my-4 text-justify leading-relaxed">
+                      {children}
+                    </blockquote>
+                  )
+                }}
+              >
+                {currentLessonText}
               </ReactMarkdown>
+
+              {/* Interactive Visual Diagrams */}
+              {activeSubtopic.id === 'g-sets' && (
+                <div className="mt-8 pt-6 border-t border-slate-100">
+                  <h3 className="text-base font-extrabold text-purple-950 mb-2 flex items-center gap-2">
+                    <span className="p-1 bg-purple-100 text-purple-700 rounded-lg">📊</span>
+                    Vizuális Ábrák a Tananyaghoz
+                  </h3>
+                  <VennTwoSets highlight="none" title="Két Halmaz Szemléltetése (Venn-diagram)" />
+                  <VennClassProblem />
+                </div>
+              )}
+
+              {activeSubtopic.id === 'g-set-operations' && (
+                <div className="mt-8 pt-6 border-t border-slate-100">
+                  <h3 className="text-base font-extrabold text-purple-950 mb-2 flex items-center gap-2">
+                    <span className="p-1 bg-purple-100 text-purple-700 rounded-lg">📊</span>
+                    Vizuális Ábra: Metszet (A ∩ B)
+                  </h3>
+                  <VennTwoSets highlight="intersection" title="A és B halmazok metszete" />
+                </div>
+              )}
+
+              {activeSubtopic.id === 'g-graphs' && (
+                <div className="mt-8 pt-6 border-t border-slate-100">
+                  <h3 className="text-base font-extrabold text-emerald-950 mb-2 flex items-center gap-2">
+                    <span className="p-1 bg-emerald-100 text-emerald-700 rounded-lg">🕸️</span>
+                    Gráf Ábrázolása
+                  </h3>
+                  <Graph5NodesDiagram />
+                </div>
+              )}
+
+              {activeSubtopic.id === 'g-natural-numbers' && (
+                <div className="mt-8 pt-6 border-t border-slate-100">
+                  <PrimesVennDiagram />
+                </div>
+              )}
+
+              {activeSubtopic.id === 'g-quadratic-equations' && (
+                <div className="mt-8 pt-6 border-t border-slate-100">
+                  <QuadraticParabolaDiagram />
+                </div>
+              )}
+
+              {activeSubtopic.id === 'g-means-inequalities' && (
+                <div className="mt-8 pt-6 border-t border-slate-100">
+                  <MeansInequalityDiagram />
+                </div>
+              )}
             </div>
           )}
 
