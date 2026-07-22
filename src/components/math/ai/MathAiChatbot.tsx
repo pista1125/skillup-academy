@@ -205,21 +205,21 @@ Készen állok a **${topicTitle} > ${subtopicTitle}** témakör feladataira. Mib
   ];
 
   return (
-    <div className="flex flex-col h-[750px] w-full bg-slate-50/80 rounded-2xl border border-slate-200/80 shadow-md overflow-hidden my-4">
+    <div className="flex flex-col w-full bg-slate-50/80 rounded-2xl border border-slate-200/80 shadow-md overflow-hidden my-2 relative">
       {/* 1. Header Bar */}
       <div className="bg-gradient-to-r from-emerald-700 via-teal-700 to-indigo-800 text-white px-5 py-3.5 flex items-center justify-between shadow-sm">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-inner">
-            <Bot className="w-6 h-6 text-emerald-300 animate-pulse" />
+          <div className="w-9 h-9 rounded-xl bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-inner">
+            <Bot className="w-5 h-5 text-emerald-300 animate-pulse" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="font-extrabold text-base tracking-wide">SkillUp AI Korrepetitor</h3>
+              <h3 className="font-extrabold text-sm tracking-wide">SkillUp AI Korrepetitor</h3>
               <span className="px-2 py-0.5 bg-emerald-400/20 border border-emerald-300/30 text-emerald-200 text-[10px] font-bold rounded-full uppercase tracking-wider">
                 GPT-4o Vision
               </span>
             </div>
-            <p className="text-xs text-emerald-100/80 truncate max-w-md">
+            <p className="text-[11px] text-emerald-100/80 truncate max-w-md">
               {topicTitle} &bull; <span className="font-semibold text-white">{subtopicTitle}</span> ({levelOrGrade})
             </p>
           </div>
@@ -228,7 +228,7 @@ Készen állok a **${topicTitle} > ${subtopicTitle}** témakör feladataira. Mib
         <button
           onClick={handleResetChat}
           title="Beszélgetés törlése / Új indítás"
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-white/10 hover:bg-white/20 active:bg-white/30 text-xs font-semibold rounded-lg transition-all border border-white/15"
+          className="flex items-center gap-1.5 px-3 py-1 bg-white/10 hover:bg-white/20 active:bg-white/30 text-xs font-semibold rounded-lg transition-all border border-white/15"
         >
           <RotateCcw className="w-3.5 h-3.5" />
           <span>Új chat</span>
@@ -236,7 +236,7 @@ Készen állok a **${topicTitle} > ${subtopicTitle}** témakör feladataira. Mib
       </div>
 
       {/* 2. Messages List */}
-      <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
+      <div className="p-4 sm:p-6 space-y-4 min-h-[250px]">
         {messages.map((msg) => (
           <div
             key={msg.id}
@@ -305,101 +305,104 @@ Készen állok a **${topicTitle} > ${subtopicTitle}** témakör feladataira. Mib
         <div ref={chatBottomRef} />
       </div>
 
-      {/* 3. Error Banner */}
-      {errorMsg && (
-        <div className="mx-4 mb-2 p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl flex items-center gap-2">
-          <AlertCircle className="w-4 h-4 shrink-0 text-red-600" />
-          <span className="flex-1 font-medium">{errorMsg}</span>
-          <button onClick={() => setErrorMsg(null)} className="text-red-500 hover:text-red-800">
-            <X className="w-4 h-4" />
-          </button>
-        </div>
-      )}
-
-      {/* 4. Quick Starter Prompts Chips */}
-      {messages.length < 3 && !isLoading && (
-        <div className="px-4 pb-2 flex items-center gap-2 overflow-x-auto no-scrollbar">
-          {quickPrompts.map((qp, idx) => {
-            const IconComponent = qp.icon;
-            return (
-              <button
-                key={idx}
-                onClick={() => handleSendMessage(qp.text)}
-                className="px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 rounded-full text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 shrink-0 shadow-2xs"
-              >
-                <IconComponent className="w-3.5 h-3.5 text-emerald-600" />
-                <span>{qp.label}</span>
-              </button>
-            );
-          })}
-        </div>
-      )}
-
-      {/* 5. Image Attachment Preview */}
-      {selectedImage && (
-        <div className="px-4 pt-2 bg-white border-t border-slate-100 flex items-center gap-3">
-          <div className="relative group">
-            <img src={selectedImage} alt="Előnézet" className="w-14 h-14 object-cover rounded-lg border-2 border-emerald-500 shadow-sm" />
-            <button
-              onClick={removeSelectedImage}
-              className="absolute -top-1.5 -right-1.5 bg-red-500 text-white rounded-full p-0.5 shadow-md hover:bg-red-600 transition-colors"
-            >
-              <X className="w-3.5 h-3.5" />
+      {/* 3. Sticky Bottom Section (Quick Prompts + Image Preview + Input Bar) */}
+      <div className="sticky bottom-0 z-10 bg-white border-t border-slate-200/80 shadow-lg">
+        {/* Error Banner */}
+        {errorMsg && (
+          <div className="mx-4 mt-2 p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 shrink-0 text-red-600" />
+            <span className="flex-1 font-medium">{errorMsg}</span>
+            <button onClick={() => setErrorMsg(null)} className="text-red-500 hover:text-red-800">
+              <X className="w-4 h-4" />
             </button>
           </div>
-          <span className="text-xs text-slate-500 font-medium">Kép csatolva! Küldd el a kérdéseddel együtt.</span>
+        )}
+
+        {/* Quick Starter Prompts Chips */}
+        {messages.length < 3 && !isLoading && (
+          <div className="px-4 pt-2.5 flex items-center gap-2 overflow-x-auto no-scrollbar">
+            {quickPrompts.map((qp, idx) => {
+              const IconComponent = qp.icon;
+              return (
+                <button
+                  key={idx}
+                  onClick={() => handleSendMessage(qp.text)}
+                  className="px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 rounded-full text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 shrink-0 shadow-2xs"
+                >
+                  <IconComponent className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>{qp.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Image Attachment Preview */}
+        {selectedImage && (
+          <div className="px-4 pt-2 bg-white border-t border-slate-100 flex items-center gap-3">
+            <div className="relative group">
+              <img src={selectedImage} alt="Előnézet" className="w-14 h-14 object-cover rounded-lg border-2 border-emerald-500 shadow-sm" />
+              <button
+                onClick={removeSelectedImage}
+                className="absolute -top-1.5 -right-1.5 bg-red-500 text-white rounded-full p-0.5 shadow-md hover:bg-red-600 transition-colors"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </div>
+            <span className="text-xs text-slate-500 font-medium">Kép csatolva! Küldd el a kérdéseddel együtt.</span>
+          </div>
+        )}
+
+        {/* Input Control Bar */}
+        <div className="p-3 sm:p-4 flex items-center gap-2">
+          {/* Hidden File Input */}
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleImageChange}
+            accept="image/*"
+            className="hidden"
+          />
+
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            title="Kép csatolása (fotó feladatról, füzetről)"
+            disabled={isLoading}
+            className={`p-2.5 rounded-xl border transition-all ${
+              selectedImage
+                ? 'bg-emerald-100 border-emerald-400 text-emerald-700'
+                : 'bg-slate-100 hover:bg-slate-200 border-slate-200 text-slate-600'
+            }`}
+          >
+            <ImageIcon className="w-5 h-5" />
+          </button>
+
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSendMessage();
+              }
+            }}
+            placeholder="Kérdezz a feladatról, tananyagról..."
+            disabled={isLoading}
+            className="flex-1 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-slate-800 placeholder-slate-400"
+          />
+
+          <button
+            type="button"
+            onClick={() => handleSendMessage()}
+            disabled={isLoading || (!input.trim() && !selectedImage)}
+            className="px-4 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 active:scale-95 disabled:opacity-50 disabled:scale-100 text-white rounded-xl font-bold text-sm flex items-center gap-1.5 shadow-sm transition-all"
+          >
+            <Sparkles className="w-4 h-4" />
+            <span className="hidden sm:inline">Küldés</span>
+          </button>
         </div>
-      )}
-
-      {/* 6. Input Control Bar */}
-      <div className="p-3 sm:p-4 bg-white border-t border-slate-200/80 flex items-center gap-2">
-        {/* Hidden File Input */}
-        <input
-          type="file"
-          ref={fileInputRef}
-          onChange={handleImageChange}
-          accept="image/*"
-          className="hidden"
-        />
-
-        <button
-          type="button"
-          onClick={() => fileInputRef.current?.click()}
-          title="Kép csatolása (fotó feladatról, füzetről)"
-          disabled={isLoading}
-          className={`p-2.5 rounded-xl border transition-all ${
-            selectedImage
-              ? 'bg-emerald-100 border-emerald-400 text-emerald-700'
-              : 'bg-slate-100 hover:bg-slate-200 border-slate-200 text-slate-600'
-          }`}
-        >
-          <ImageIcon className="w-5 h-5" />
-        </button>
-
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-              e.preventDefault();
-              handleSendMessage();
-            }
-          }}
-          placeholder="Kérdezz a feladatról, tananyagról..."
-          disabled={isLoading}
-          className="flex-1 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-slate-800 placeholder-slate-400"
-        />
-
-        <button
-          type="button"
-          onClick={() => handleSendMessage()}
-          disabled={isLoading || (!input.trim() && !selectedImage)}
-          className="px-4 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 active:scale-95 disabled:opacity-50 disabled:scale-100 text-white rounded-xl font-bold text-sm flex items-center gap-1.5 shadow-sm transition-all"
-        >
-          <Sparkles className="w-4 h-4" />
-          <span className="hidden sm:inline">Küldés</span>
-        </button>
       </div>
     </div>
   );

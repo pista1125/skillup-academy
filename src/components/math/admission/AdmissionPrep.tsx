@@ -492,7 +492,7 @@ export default function AdmissionPrep({ onBack }: AdmissionPrepProps) {
         </div>
 
         {/* Tab Contents */}
-        <div className="p-6 max-w-5xl mx-auto w-full">
+        <div className={cn("p-6 max-w-5xl mx-auto w-full", activeTab === 'ai-assistant' && "p-3 sm:p-4")}>
           {/* Written Lesson Tab */}
           {activeTab === 'lesson' && (
             <div id="admission-lesson-printable" className="animate-slide-up text-left bg-white border border-slate-150 shadow-sm rounded-2xl p-6 md:p-10 prose max-w-none relative">
