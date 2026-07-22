@@ -47,6 +47,16 @@ import {
   MeansInequalityDiagram,
   QuadraticParabolaDiagram
 } from './szamelmelet-algebra/SzamelmeletAlgebraDiagrams';
+import { geometriaLessons } from './geometria-trigonometria/geometriaLessons';
+import {
+  TrianglePythagorasDiagram,
+  TriangleSpecialLinesDiagram,
+  CircleTangentThalesDiagram,
+  CircleEquationDiagram,
+  CoordinateLineVectorDiagram,
+  QuadrilateralsDiagram,
+  TrigUnitCircleDiagram
+} from './geometria-trigonometria/GeometriaDiagrams';
 
 import {
   graduationTopics,
@@ -61,11 +71,14 @@ const MD_PLUGINS = {
   rehypePlugins: [rehypeKatex]
 };
 
+import { MathAiChatbot } from '../ai/MathAiChatbot';
+import { Bot, Sparkles } from 'lucide-react';
+
 interface GraduationPrepProps {
   onBack: () => void;
 }
 
-type TabType = 'lesson' | 'videos' | 'quiz' | 'papers';
+type TabType = 'lesson' | 'ai-assistant' | 'videos' | 'quiz' | 'papers';
 
 export default function GraduationPrep({ onBack }: GraduationPrepProps) {
   // Sidebar states
@@ -115,6 +128,10 @@ export default function GraduationPrep({ onBack }: GraduationPrepProps) {
     const customAlgebra = szamelmeletAlgebraLessons[activeSubtopic.id];
     if (customAlgebra) {
       return level === 'intermediate' ? customAlgebra.intermediate : customAlgebra.advanced;
+    }
+    const customGeometria = geometriaLessons[activeSubtopic.id];
+    if (customGeometria) {
+      return level === 'intermediate' ? customGeometria.intermediate : customGeometria.advanced;
     }
     return level === 'intermediate' ? activeSubtopic.lessonIntermediate : activeSubtopic.lessonAdvanced;
   }, [activeSubtopic, level]);
@@ -454,6 +471,21 @@ export default function GraduationPrep({ onBack }: GraduationPrepProps) {
           <Button
             variant="ghost"
             size="sm"
+            onClick={() => setActiveTab('ai-assistant')}
+            className={cn(
+              "rounded-xl text-xs font-bold gap-2 px-4 flex-shrink-0 transition-all",
+              activeTab === 'ai-assistant'
+                ? "bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border-b-2 border-emerald-600 rounded-b-none"
+                : "text-slate-600 hover:bg-slate-100"
+            )}
+          >
+            <Bot className="w-4 h-4 text-emerald-600" />
+            AI Korrepetitor
+          </Button>
+
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => setActiveTab('videos')}
             className={cn(
               "rounded-xl text-xs font-bold gap-2 px-4 flex-shrink-0 transition-all",
@@ -607,6 +639,55 @@ export default function GraduationPrep({ onBack }: GraduationPrepProps) {
                   <MeansInequalityDiagram />
                 </div>
               )}
+
+              {(activeSubtopic.id === 'g-elem-geom' || activeSubtopic.id === 'g-triangles') && (
+                <div className="mt-8 pt-6 border-t border-slate-100">
+                  <TrianglePythagorasDiagram />
+                  <TriangleSpecialLinesDiagram />
+                </div>
+              )}
+
+              {activeSubtopic.id === 'g-quadrilaterals' && (
+                <div className="mt-8 pt-6 border-t border-slate-100">
+                  <QuadrilateralsDiagram />
+                </div>
+              )}
+
+              {activeSubtopic.id === 'g-circle-equation' && (
+                <div className="mt-8 pt-6 border-t border-slate-100">
+                  <CircleEquationDiagram />
+                </div>
+              )}
+
+              {activeSubtopic.id === 'g-circle' && (
+                <div className="mt-8 pt-6 border-t border-slate-100">
+                  <CircleTangentThalesDiagram />
+                </div>
+              )}
+
+              {(activeSubtopic.id === 'g-coordinate-geometry' || activeSubtopic.id === 'g-line-equation') && (
+                <div className="mt-8 pt-6 border-t border-slate-100">
+                  <CoordinateLineVectorDiagram />
+                </div>
+              )}
+
+              {activeSubtopic.id === 'g-trigonometry' && (
+                <div className="mt-8 pt-6 border-t border-slate-100">
+                  <TrigUnitCircleDiagram />
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* 2. AI Assistant Tab */}
+          {activeTab === 'ai-assistant' && (
+            <div className="animate-slide-up">
+              <MathAiChatbot
+                examType="graduation"
+                topicTitle={activeTopic.title}
+                subtopicTitle={activeSubtopic.title}
+                levelOrGrade={level === 'intermediate' ? 'Középszint' : 'Emelt szint'}
+              />
             </div>
           )}
 

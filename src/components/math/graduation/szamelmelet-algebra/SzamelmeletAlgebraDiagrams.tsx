@@ -14,7 +14,7 @@ export function PrimesVennDiagram() {
         <h4 className="text-sm font-bold text-slate-800">LNKO és LKKT Prímtényezős Venn-diagramja (24 és 36)</h4>
       </div>
       <p className="text-xs text-slate-500 mb-4 max-w-lg">
-        $24 = 2 \\cdot 2 \\cdot 2 \\cdot 3$ és $36 = 2 \\cdot 2 \\cdot 3 \\cdot 3$. A közös prímtényezők adják az LNKO-t, az összes prímtényező uniója az LKKT-t.
+        24 = 2 · 2 · 2 · 3 és 36 = 2 · 2 · 3 · 3. A közös prímtényezők adják az LNKO-t, az összes prímtényező uniója az LKKT-t.
       </p>
 
       <div className="w-full max-w-md aspect-[16/9] relative flex items-center justify-center">
@@ -64,11 +64,11 @@ export function PrimesVennDiagram() {
       <div className="grid grid-cols-2 gap-3 w-full mt-4 text-xs font-semibold">
         <div className="p-3 bg-blue-100/90 text-blue-950 rounded-xl border border-blue-200">
           <span className="block font-black text-sm">LNKO(24, 36) = 12</span>
-          <span className="text-[11px] text-blue-800">Metszet: $2 \\cdot 2 \\cdot 3 = 12$</span>
+          <span className="text-[11px] text-blue-800">Metszet: 2 · 2 · 3 = 12</span>
         </div>
         <div className="p-3 bg-indigo-100/90 text-indigo-950 rounded-xl border border-indigo-200">
           <span className="block font-black text-sm">LKKT(24, 36) = 72</span>
-          <span className="text-[11px] text-indigo-800">Unió: $2^3 \\cdot 3^2 = 72$</span>
+          <span className="text-[11px] text-indigo-800">Unió: 2³ · 3² = 72</span>
         </div>
       </div>
     </div>
@@ -85,10 +85,10 @@ export function MeansInequalityDiagram() {
         <span className="px-2.5 py-0.5 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-wider rounded-full">
           Geometriai Bizonyítás
         </span>
-        <h4 className="text-sm font-bold text-slate-800">Számtani és Mértani Közép Egyenlőtlensége ($\frac{a+b}{2} \ge \sqrt{ab}$)</h4>
+        <h4 className="text-sm font-bold text-slate-800">Számtani és Mértani Közép Egyenlőtlensége ((a+b)/2 ≥ √(ab))</h4>
       </div>
       <p className="text-xs text-slate-500 mb-4 max-w-lg">
-        Az $a+b$ átmérőjű félkör sugara a számtani közép ($\frac{a+b}{2}$), míg az $a$ és $b$ szakaszok érintkezési pontjából emelt merőleges magasság a mértani közép ($\sqrt{ab}$). A sugár mindig $\ge$ mint a magasság!
+        Az a+b átmérőjű félkör sugara a számtani közép ((a+b)/2), míg az a és b szakaszok érintkezési pontjából emelt merőleges magasság a mértani közép (√(ab)). A sugár mindig ≥ mint a magasság!
       </p>
 
       <div className="w-full max-w-md aspect-[16/9] relative flex items-center justify-center">
@@ -123,7 +123,7 @@ export function MeansInequalityDiagram() {
       </div>
 
       <div className="mt-3 p-2 bg-indigo-100/80 text-indigo-950 rounded-xl text-xs font-semibold w-full">
-        💡 Mivel a derékszögű háromszög átfogója (sugár) mindig hosszabb a befogójánál (magasság), ezért $\frac{a+b}{2} \ge \sqrt{ab}$!
+        💡 Mivel a derékszögű háromszög átfogója (sugár) mindig hosszabb a befogójánál (magasság), ezért (a+b)/2 ≥ √(ab)!
       </div>
     </div>
   );
@@ -139,7 +139,7 @@ export function QuadraticParabolaDiagram() {
         <span className="px-2.5 py-0.5 bg-purple-600 text-white text-[10px] font-black uppercase tracking-wider rounded-full">
           Másodfokú Függvény
         </span>
-        <h4 className="text-sm font-bold text-slate-800">Parabola és a Diszkrimináns ($D = b^2 - 4ac$)</h4>
+        <h4 className="text-sm font-bold text-slate-800">Parabola és a Diszkrimináns (D = b² - 4ac)</h4>
       </div>
 
       <div className="w-full max-w-md aspect-[16/9] relative flex items-center justify-center">

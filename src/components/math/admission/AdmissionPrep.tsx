@@ -44,11 +44,14 @@ const MD_PLUGINS = {
   rehypePlugins: [rehypeKatex]
 };
 
+import { MathAiChatbot } from '../ai/MathAiChatbot';
+import { Bot } from 'lucide-react';
+
 interface AdmissionPrepProps {
   onBack: () => void;
 }
 
-type TabType = 'lesson' | 'videos' | 'quiz' | 'papers';
+type TabType = 'lesson' | 'ai-assistant' | 'videos' | 'quiz' | 'papers';
 type ExamType = '9-osztaly' | '6-osztaly' | '8-osztaly';
 
 export default function AdmissionPrep({ onBack }: AdmissionPrepProps) {
@@ -430,6 +433,21 @@ export default function AdmissionPrep({ onBack }: AdmissionPrepProps) {
           <Button
             variant="ghost"
             size="sm"
+            onClick={() => setActiveTab('ai-assistant')}
+            className={cn(
+              "rounded-xl text-xs font-bold gap-2 px-4 flex-shrink-0 transition-all",
+              activeTab === 'ai-assistant'
+                ? "bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border-b-2 border-emerald-600 rounded-b-none font-extrabold"
+                : "text-slate-600 hover:bg-slate-100"
+            )}
+          >
+            <Bot className="w-4 h-4 text-emerald-600" />
+            AI Korrepetitor
+          </Button>
+
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => setActiveTab('videos')}
             className={cn(
               "rounded-xl text-xs font-bold gap-2 px-4 flex-shrink-0 transition-all",
@@ -535,6 +553,24 @@ export default function AdmissionPrep({ onBack }: AdmissionPrepProps) {
                  examType === '6-osztaly' ? activeSubtopic.lesson6th :
                  activeSubtopic.lesson8th}
               </ReactMarkdown>
+            </div>
+          )}
+
+          {/* 2. AI Assistant Tab */}
+          {activeTab === 'ai-assistant' && (
+            <div className="animate-slide-up">
+              <MathAiChatbot
+                examType="admission"
+                topicTitle={activeTopic.title}
+                subtopicTitle={activeSubtopic.title}
+                levelOrGrade={
+                  examType === '9-osztaly'
+                    ? '8. osztályos (4 évfolyamos gimnázium)'
+                    : examType === '6-osztaly'
+                    ? '6. osztályos gimnázium'
+                    : '4. osztályos gimnázium'
+                }
+              />
             </div>
           )}
 

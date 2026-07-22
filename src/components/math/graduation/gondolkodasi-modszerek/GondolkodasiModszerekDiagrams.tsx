@@ -105,10 +105,10 @@ export function VennClassProblem() {
         <span className="px-2.5 py-0.5 bg-purple-600 text-white text-[10px] font-black uppercase tracking-wider rounded-full">
           Ábrázolás Venn-diagrammal
         </span>
-        <h4 className="text-sm font-bold text-slate-800">Osztálylétszám Feladat ($U = 30$ fő)</h4>
+        <h4 className="text-sm font-bold text-slate-800">Osztálylétszám Feladat (U = 30 fő)</h4>
       </div>
       <p className="text-xs text-slate-500 mb-4 max-w-lg">
-        Az alábbi Venn-diagram szemlélteti az Angol ($A$) és Német ($N$) nyelvet tanuló diákok eloszlását.
+        Az alábbi Venn-diagram szemlélteti az Angol (A) és Német (N) nyelvet tanuló diákok eloszlását.
       </p>
 
       <div className="w-full max-w-md aspect-[16/9] relative flex items-center justify-center">
@@ -163,19 +163,19 @@ export function VennClassProblem() {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full mt-4 text-xs font-semibold">
         <div className="p-2 bg-purple-100/80 text-purple-900 rounded-xl border border-purple-200">
           <span className="block font-black text-sm">13 fő</span>
-          <span className="text-[10px] text-purple-700">Csak Angol ($20 - 7$)</span>
+          <span className="text-[10px] text-purple-700">Csak Angol (20 - 7)</span>
         </div>
         <div className="p-2 bg-indigo-100 text-indigo-950 rounded-xl border border-indigo-300 shadow-xs">
           <span className="block font-black text-sm text-indigo-700">7 fő</span>
-          <span className="text-[10px] text-indigo-800">Mindkettő ($A \cap N$)</span>
+          <span className="text-[10px] text-indigo-800">Mindkettő (A ∩ N)</span>
         </div>
         <div className="p-2 bg-blue-100/80 text-blue-900 rounded-xl border border-blue-200">
           <span className="block font-black text-sm">5 fő</span>
-          <span className="text-[10px] text-blue-700">Csak Német ($12 - 7$)</span>
+          <span className="text-[10px] text-blue-700">Csak Német (12 - 7)</span>
         </div>
         <div className="p-2 bg-slate-100 text-slate-800 rounded-xl border border-slate-200">
           <span className="block font-black text-sm">5 fő</span>
-          <span className="text-[10px] text-slate-500">Egyik sem ($30 - 25$)</span>
+          <span className="text-[10px] text-slate-500">Egyik sem (30 - 25)</span>
         </div>
       </div>
     </div>
@@ -190,7 +190,7 @@ export function Graph5NodesDiagram() {
         Gráf fokszámok ábrázolása (5 csúcsú gráf)
       </h4>
       <p className="text-xs text-slate-500 mb-3">
-        Fokszámok: $3, 3, 3, 2, 1$ (Fokszámok összege: $3+3+3+2+1 = 12 = 2 \cdot 6$ él)
+        Fokszámok: 3, 3, 3, 2, 1 (Fokszámok összege: 3+3+3+2+1 = 12 = 2 · 6 él)
       </p>
 
       <div className="w-full max-w-sm aspect-[4/3] relative">
