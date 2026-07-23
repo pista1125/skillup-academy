@@ -96,15 +96,26 @@ export default function AdmissionPrep({ onBack }: AdmissionPrepProps) {
     return activeTopic.subtopics.find((s) => s.id === selectedSubtopicId) || activeTopic.subtopics[0];
   }, [activeTopic, selectedSubtopicId]);
 
-  // Load questions when subtopic or examType changes
+  const [quizDifficulty, setQuizDifficulty] = useState<'easy' | 'medium' | 'hard'>('easy');
+
+  // Load questions when subtopic, examType or quizDifficulty changes
   useEffect(() => {
-    let questions = activeSubtopic.quiz9th;
-    if (examType === '6-osztaly') questions = activeSubtopic.quiz6th;
-    if (examType === '8-osztaly') questions = activeSubtopic.quiz8th;
-    
+    let questions: AdmissionQuizQuestion[] = [];
+    if (quizDifficulty === 'easy' && activeSubtopic.quizEasy && activeSubtopic.quizEasy.length > 0) {
+      questions = activeSubtopic.quizEasy;
+    } else if (quizDifficulty === 'medium' && activeSubtopic.quizMedium && activeSubtopic.quizMedium.length > 0) {
+      questions = activeSubtopic.quizMedium;
+    } else if (quizDifficulty === 'hard' && activeSubtopic.quizHard && activeSubtopic.quizHard.length > 0) {
+      questions = activeSubtopic.quizHard;
+    } else {
+      if (examType === '6-osztaly') questions = activeSubtopic.quiz6th || [];
+      else if (examType === '8-osztaly') questions = activeSubtopic.quiz8th || [];
+      else questions = activeSubtopic.quiz9th || [];
+    }
+
     setQuizQuestions(questions);
     resetQuizState();
-  }, [activeSubtopic, examType]);
+  }, [activeSubtopic, examType, quizDifficulty]);
 
   const resetQuizState = () => {
     setCurrentQuestionIndex(0);
@@ -661,6 +672,46 @@ export default function AdmissionPrep({ onBack }: AdmissionPrepProps) {
           {/* 4. Quiz Tab */}
           {activeTab === 'quiz' && (
             <div className="animate-slide-up text-left max-w-xl mx-auto">
+              {/* Difficulty Level Selector Bar */}
+              <div className="mb-6 bg-slate-100/90 p-1.5 rounded-2xl border border-slate-200 shadow-inner flex items-center gap-1.5">
+                <button
+                  onClick={() => setQuizDifficulty('easy')}
+                  className={cn(
+                    "flex-1 py-2.5 px-3 rounded-xl text-xs font-black transition-all flex items-center justify-center gap-1.5",
+                    quizDifficulty === 'easy'
+                      ? "bg-emerald-600 text-white shadow-md scale-[1.02]"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/50"
+                  )}
+                >
+                  <span>🟢 Könnyű</span>
+                  <span className="text-[10px] opacity-85">(1. szint)</span>
+                </button>
+                <button
+                  onClick={() => setQuizDifficulty('medium')}
+                  className={cn(
+                    "flex-1 py-2.5 px-3 rounded-xl text-xs font-black transition-all flex items-center justify-center gap-1.5",
+                    quizDifficulty === 'medium'
+                      ? "bg-amber-500 text-white shadow-md scale-[1.02]"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/50"
+                  )}
+                >
+                  <span>🟡 Közepes</span>
+                  <span className="text-[10px] opacity-85">(2. szint)</span>
+                </button>
+                <button
+                  onClick={() => setQuizDifficulty('hard')}
+                  className={cn(
+                    "flex-1 py-2.5 px-3 rounded-xl text-xs font-black transition-all flex items-center justify-center gap-1.5",
+                    quizDifficulty === 'hard'
+                      ? "bg-rose-600 text-white shadow-md scale-[1.02]"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/50"
+                  )}
+                >
+                  <span>🔴 Nehéz</span>
+                  <span className="text-[10px] opacity-85">(3. szint)</span>
+                </button>
+              </div>
+
               {quizQuestions.length === 0 ? (
                 <div className="text-center py-12 p-8 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200">
                   <Info className="w-8 h-8 text-slate-400 mx-auto mb-3" />
@@ -729,8 +780,14 @@ export default function AdmissionPrep({ onBack }: AdmissionPrepProps) {
                 <Card className="rounded-3xl border-slate-100 shadow-md">
                   <CardHeader className="p-6 pb-2">
                     <div className="flex items-center justify-between text-xs text-slate-400 font-semibold mb-2">
-                      <span className="bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full font-bold">
-                        {currentQuestionIndex + 1}. Kérdés / {quizQuestions.length}
+                      <span className={cn(
+                        "px-3 py-1 rounded-full font-bold text-xs flex items-center gap-1.5",
+                        quizDifficulty === 'easy' && "bg-emerald-100 text-emerald-800 border border-emerald-200",
+                        quizDifficulty === 'medium' && "bg-amber-100 text-amber-800 border border-amber-200",
+                        quizDifficulty === 'hard' && "bg-rose-100 text-rose-800 border border-rose-200"
+                      )}>
+                        <span>{currentQuestionIndex + 1}. Kérdés / {quizQuestions.length}</span>
+                        <span className="opacity-70">&bull; {quizDifficulty === 'easy' ? 'Könnyű' : quizDifficulty === 'medium' ? 'Közepes' : 'Nehéz'}</span>
                       </span>
                       <span>Felvételi gyakorló</span>
                     </div>

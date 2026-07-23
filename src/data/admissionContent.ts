@@ -1,4 +1,5 @@
 import { LucideIcon } from 'lucide-react';
+import { gondolkodasiTopic } from '../components/math/admission/gondolkodasi-modszerek-logika-kombinatorika/gondolkodasiLessons';
 
 export interface AdmissionQuizQuestion {
   id: string;
@@ -18,9 +19,12 @@ export interface AdmissionSubtopicContent {
   lesson9th: string;
   lesson6th: string;
   lesson8th: string;
-  quiz9th: AdmissionQuizQuestion[];
-  quiz6th: AdmissionQuizQuestion[];
-  quiz8th: AdmissionQuizQuestion[];
+  quiz9th?: AdmissionQuizQuestion[];
+  quiz6th?: AdmissionQuizQuestion[];
+  quiz8th?: AdmissionQuizQuestion[];
+  quizEasy?: AdmissionQuizQuestion[];
+  quizMedium?: AdmissionQuizQuestion[];
+  quizHard?: AdmissionQuizQuestion[];
 }
 
 export interface AdmissionTopic {
@@ -87,100 +91,9 @@ export const admissionExamPapers: AdmissionExamPaper[] = [
 ];
 
 export const admissionTopics: AdmissionTopic[] = [
+  gondolkodasiTopic,
   {
-    id: "a-logic-comb",
-    title: "1. Gondolkodási módszerek, logika, kombinatorika",
-    icon: "💡",
-    color: "from-purple-500 to-indigo-600",
-    subtopics: [
-      {
-        id: "a-comb-elemi",
-        title: "Elemi kombinatorika (összeszámolás, sorrendek száma, kiválasztás)",
-        level: 0,
-        requirements9th: "Tudja meghatározni a lehetséges eseteket egyszerű összeszámolási feladatokban. Értse az elemek sorrendjét (permutáció) és a kiválasztást.",
-        requirements6th: "Képes legyen kiszámolni a lehetséges eseteket ágrajzzal vagy szisztematikus felsorolással.",
-        requirements8th: "Soroljon fel egyszerű lehetőségeket színekkel, számjegyekkel szisztematikus sorrendben.",
-        lesson9th: "### Elemi kombinatorika\n\nA kombinatorikában azt vizsgáljuk, hányféleképpen választhatunk ki, csoportosíthatunk vagy rendezhetünk el elemeket.\n\n- **Sorrendek (Permutáció):** $n$ darab különböző elem sorrendjeinek száma: $n!$. Pl. 3 könyv elrendezése a polcon: $3! = 3 \\cdot 2 \\cdot 1 = 6$.\n- **Kiválasztás és összeszámolás:** Szisztematikus felsorolással vagy a szorzási szabállyal. Pl. ha van 3 nadrágunk és 4 pólónk, akkor $3 \\cdot 4 = 12$ különböző öltözetet tudunk összeállítani.",
-        lesson6th: "### Hogyan számoljunk össze lehetőségeket?\n\nA legbiztosabb módszer a **szisztematikus felsorolás** (kezdve a legkisebbel/legnagyobbal) vagy az **ágrajz** (döntési fa) rajzolása. Pl. Hány kétjegyű szám alkotható az 1, 2, 3 számjegyekből? Felsorolva: 11, 12, 13, 21, 22, 23, 31, 32, 33 (összesen 9 eset).",
-        lesson8th: "### Játék a számokkal és színekkel\n\nHa van piros, kék és zöld golyónk, hányféleképpen tehetjük őket egymás mellé sorba?\n- **P - K - Z**\n- **P - Z - K**\n- **K - P - Z**\n- **K - Z - P**\n- **Z - P - K**\n- **Z - K - P**\nÖsszesen 6 lehetőségünk van. Mindig kövessünk egy rendszert, hogy ne hagyjunk ki egyet sem!",
-        quiz9th: [
-          {
-            id: "q-comb-9-1",
-            question: "Hány különböző 3-jegyű számot tudunk képezni a 2, 4, 6 számjegyekből, ha mindegyik számjegy csak egyszer szerepelhet?",
-            options: ["3", "6", "9", "27"],
-            correctAnswer: 1,
-            explanation: "Mivel mindegyik számjegy csak egyszer szerepelhet, ez 3 elem sorrendjeinek száma (permutáció): 3! = 3 * 2 * 1 = 6."
-          }
-        ],
-        quiz6th: [
-          {
-            id: "q-comb-6-1",
-            question: "Ha egy étteremben 3-féle levest és 2-féle főételt lehet választani, hányféle különböző kétfogásos ebéd állítható össze?",
-            options: ["5", "6", "8", "9"],
-            correctAnswer: 1,
-            explanation: "Minden leveshez 2 főétel választható, így a lehetőségek száma: 3 * 2 = 6."
-          }
-        ],
-        quiz8th: [
-          {
-            id: "q-comb-8-1",
-            question: "Hányféleképpen színezhetünk ki két egymás melletti négyzetet pirosra vagy kékre?",
-            options: ["2", "3", "4", "6"],
-            correctAnswer: 2,
-            explanation: "Mindkét négyzet 2-féle színű lehet: PP, PK, KP, KK (összesen 4 lehetőség)."
-          }
-        ]
-      },
-      {
-        id: "a-logic-allitasok",
-        title: "Matematikai állítások (igaz/hamis állítások megfogalmazása, eldöntése, tagadása)",
-        level: 1,
-        requirements9th: "Tudja eldönteni egyszerű matematikai állítások igazságértékét. Ismerje a tagadás, az 'és', a 'vagy' szavak logikai szerepét, a 'ha... akkor...' szószerkezeteket.",
-        requirements6th: "Tudja eldönteni állításokról, hogy igazak vagy hamisak. Értse az 'és', 'vagy' szavak alapvető használatát.",
-        requirements8th: "Egyszerű állításokról tudja megmondani, hogy igazak vagy sem a mindennapi életben.",
-        lesson9th: "### Matematikai logika alapjai\n\nEgy állítás olyan kijelentés, amelyről egyértelműen eldönthető, hogy igaz (I) vagy hamis (H).\n\n- **Tagadás:** Ha egy állítás igaz, a tagadása hamis. Pl. 'minden páros szám osztható 2-vel' (I) -> tagadása: 'létezik olyan páros szám, amely nem osztható 2-vel' (H).\n- **Logikai összekötők:**\n  - **És:** Csak akkor igaz, ha mindkettő igaz.\n  - **Vagy:** Akkor igaz, ha legalább az egyik igaz.\n  - **Ha... akkor...:** Következtetéses állítások szerkezete.",
-        lesson6th: "### Igaz vagy Hamis állítások\n\nEgy állítás igazságát ellenőrizhetjük példák keresésével, vagy ellenpéldával megcáfolhatjuk.\n- **Pl.** 'Minden téglalap négyzet' -> Ez egy **hamis** állítás, mert van olyan téglalap, amelynek a szomszédos oldalai nem egyenlőek (ellenpélda).\n- 'Van olyan háromszög, amely derékszögű' -> Ez **igaz**.",
-        lesson8th: "### Figyeljünk a szavakra!\n\n- **Minden:** Kivétel nélkül mindegyikre igaznak kell lennie. Pl. 'Minden páratlan szám 1-re végződik' -> Hamis, mert pl. a 3 is páratlan.\n- **Létezik / Van olyan:** Elég egyetlen egy darabot találnunk, hogy az állítás igaz legyen. Pl. 'Van olyan szám, ami páros' -> Igaz (pl. 2).",
-        quiz9th: [
-          {
-            id: "q-log-9-1",
-            question: "Mi a 'Minden diák szeret tanulni' állítás tagadása?",
-            options: [
-              "Nincs olyan diák, aki szeret tanulni.",
-              "Minden diák utál tanulni.",
-              "Van olyan diák, aki nem szeret tanulni.",
-              "Néhány diák szeret tanulni."
-            ],
-            correctAnswer: 2,
-            explanation: "A 'minden' tagadása az, hogy 'van olyan, ami nem'. Így a helyes tagadás: 'Van olyan diák, aki nem szeret tanulni'."
-          }
-        ],
-        quiz6th: [
-          {
-            id: "q-log-6-1",
-            question: "Melyik állítás IGAZ az alábbiak közül?",
-            options: [
-              "Minden páros szám osztható 4-gyel.",
-              "Minden 10-zel osztható szám osztható 5-tel is.",
-              "Minden háromszögnek van derékszöge.",
-              "Nincs olyan prímszám, ami páros."
-            ],
-            correctAnswer: 1,
-            explanation: "Mivel a 10 osztható 5-tel, minden többszöröse is osztható lesz 5-tel. A többi állítás hamis."
-          }
-        ],
-        quiz8th: [
-          {
-            id: "q-log-8-1",
-            question: "Igaz vagy Hamis? 'Minden négyzet téglalap.'",
-            options: ["Igaz", "Hamis"],
-            correctAnswer: 0,
-            explanation: "Igaz, mert a négyzet egy olyan téglalap, amelynek minden oldala egyenlő hosszúságú."
-          }
-        ]
-      }
-    ]
-  },
+    id: "a-numbers",
   {
     id: "a-numbers",
     title: "2. Számelmélet és számok",

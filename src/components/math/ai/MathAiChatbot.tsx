@@ -35,6 +35,45 @@ export interface MathAiChatbotProps {
   levelOrGrade: string;
 }
 
+/**
+ * Preprocesses AI responses to convert non-standard math delimiters
+ * (such as \[...\], \(...\), [ \cdot ... ], (\cdot ...)) into standard KaTeX delimiters ($...$ and $$...$$).
+ */
+function preprocessMathContent(content: string): string {
+  if (!content) return '';
+
+  let text = content;
+
+  // 1. Replace explicit LaTeX block delimiters \[ ... \] with $$ ... $$
+  text = text.replace(/\\\[([\s\S]*?)\\\]/g, (_, math) => `\n$$\n${math.trim()}\n$$\n`);
+
+  // 2. Replace explicit LaTeX inline delimiters \( ... \) with $ ... $
+  text = text.replace(/\\\(([\s\S]*?)\\\)/g, (_, math) => `$${math.trim()}$`);
+
+  // 3. Convert square brackets containing LaTeX commands (e.g. [ 3 \cdot 2a = 6a ]) into $$ ... $$
+  text = text.replace(/\[\s*([^\]\n]*?\\[a-zA-Z]+[^\]\n]*?)\s*\]/g, (_, math) => `$$${math.trim()}$$`);
+
+  // 4. Convert parenthesized LaTeX expressions (e.g. (3 \cdot (2a + 3b)) or (5 \cdot (x + 4))) into $ ... $
+  text = text.replace(/\(([^()\n]*?\\[a-zA-Z]+[^()\n]*?)\)/g, (_, math) => `$${math.trim()}$`);
+
+  // 5. Catch remaining un-delimited lines/fragments containing commands like \cdot, \frac, \sqrt, \pm, \cdot
+  const parts = text.split(/(\$\$[\s\S]*?\$\$|\$[^\$\n]+?\$)/g);
+  text = parts
+    .map((part) => {
+      if (part.startsWith('$')) return part;
+      return part.replace(/([a-zA-Z0-9\(\)\[\]\s\+\-\*\/\=\,\.\<\:\>]*(?:\\[a-zA-Z]+)+[a-zA-Z0-9\(\)\[\]\s\+\-\*\/\=\,\.\<\:\>]*)/g, (match) => {
+        const trimmed = match.trim();
+        if (/\\[a-zA-Z]+/.test(trimmed) && !trimmed.includes('\n')) {
+          return `$${trimmed}$`;
+        }
+        return match;
+      });
+    })
+    .join('');
+
+  return text;
+}
+
 export function MathAiChatbot({
   examType,
   topicTitle,
@@ -49,7 +88,7 @@ export function MathAiChatbot({
       
 Jelenleg a **${topicTitle}** témakör **${subtopicTitle}** fejezetében tudok segíteni (${levelOrGrade}).
 
-Tegyél fel egy kérdést, kérezz elméletet, kérj feladatot, vagy akár **küldj egy fotót** a matematika füzetedről/feladatlapról!`,
+Tegyél fel egy kérdést, kérjezz elméletet, kérj feladatot, vagy **másold be közvetlenül a képernyőfotót (Ctrl+V)** / küldj egy képet!`,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);
@@ -71,7 +110,35 @@ Tegyél fel egy kérdést, kérezz elméletet, kérj feladatot, vagy akár **kü
     scrollToBottom();
   }, [messages, isLoading]);
 
-  // Handle image file selection
+  // Handle Clipboard Paste (Ctrl+V / Cmd+V screenshot paste)
+  const handlePaste = (e: React.ClipboardEvent) => {
+    const items = e.clipboardData?.items;
+    if (!items) return;
+
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      if (item.type.startsWith('image/')) {
+        e.preventDefault();
+        const file = item.getAsFile();
+        if (!file) continue;
+
+        if (file.size > 10 * 1024 * 1024) {
+          setErrorMsg('A beillesztett kép mérete maximum 10 MB lehet!');
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = () => {
+          setSelectedImage(reader.result as string);
+          setErrorMsg(null);
+        };
+        reader.readAsDataURL(file);
+        break;
+      }
+    }
+  };
+
+  // Handle image file selection via file picker button
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -117,7 +184,6 @@ Tegyél fel egy kérdést, kérezz elméletet, kérj feladatot, vagy akár **kü
     const updatedMessages = [...messages, newUserMessage];
     setMessages(updatedMessages);
     setInput('');
-    const imagePayload = selectedImage;
     setSelectedImage(null);
     if (fileInputRef.current) fileInputRef.current.value = '';
 
@@ -200,12 +266,15 @@ Készen állok a **${topicTitle} > ${subtopicTitle}** témakör feladataira. Mib
   // Quick prompt chips
   const quickPrompts = [
     { label: 'Magyarázd el egyszerűbben!', icon: HelpCircle, text: 'Magyarázd el kérlek ezt az alfejezetet (vagy tételt) nagyon egyszerűen és közérthetően!' },
-    { label: 'Adj egy gyakorló feladatot!', icon: BookOpen, text: 'Adj egy típustípustípustípustípus feladatot ehhez az alfejezethez, de a megoldást még ne lődd le rögtön!' },
-    { label: 'Ellenőrizd a megoldásomat!', icon: CheckCircle2, text: 'Szeretném ha leellenőriznéd a feladatmegoldásomat! Leírom vagy feltöltöm képen.' }
+    { label: 'Adj egy gyakorló feladatot!', icon: BookOpen, text: 'Adj egy típusfeladatot ehhez az alfejezethez, de a megoldást még ne lődd le rögtön!' },
+    { label: 'Ellenőrizd a megoldásomat!', icon: CheckCircle2, text: 'Szeretném ha leellenőriznéd a feladatmegoldásomat! Leírom vagy beillesztem (Ctrl+V) képen.' }
   ];
 
   return (
-    <div className="flex flex-col w-full bg-slate-50/80 rounded-2xl border border-slate-200/80 shadow-md overflow-hidden my-2 relative">
+    <div
+      onPaste={handlePaste}
+      className="flex flex-col w-full bg-slate-50/80 rounded-2xl border border-slate-200/80 shadow-md overflow-hidden my-2 relative"
+    >
       {/* 1. Header Bar */}
       <div className="bg-gradient-to-r from-emerald-700 via-teal-700 to-indigo-800 text-white px-5 py-3.5 flex items-center justify-between shadow-sm">
         <div className="flex items-center gap-3">
@@ -268,13 +337,13 @@ Készen állok a **${topicTitle} > ${subtopicTitle}** témakör feladataira. Mib
                 </div>
               )}
 
-              {/* Message Markdown Content */}
+              {/* Message Markdown Content with Preprocessed Math */}
               <div className="prose prose-sm max-w-none dark:prose-invert prose-headings:font-bold prose-headings:text-inherit prose-p:my-1 prose-ul:my-1 text-inherit">
                 <ReactMarkdown
                   remarkPlugins={[remarkMath, remarkGfm]}
                   rehypePlugins={[rehypeKatex]}
                 >
-                  {msg.content}
+                  {preprocessMathContent(msg.content)}
                 </ReactMarkdown>
               </div>
 
@@ -339,17 +408,28 @@ Készen állok a **${topicTitle} > ${subtopicTitle}** témakör feladataira. Mib
 
         {/* Image Attachment Preview */}
         {selectedImage && (
-          <div className="px-4 pt-2 bg-white border-t border-slate-100 flex items-center gap-3">
-            <div className="relative group">
-              <img src={selectedImage} alt="Előnézet" className="w-14 h-14 object-cover rounded-lg border-2 border-emerald-500 shadow-sm" />
-              <button
-                onClick={removeSelectedImage}
-                className="absolute -top-1.5 -right-1.5 bg-red-500 text-white rounded-full p-0.5 shadow-md hover:bg-red-600 transition-colors"
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
+          <div className="px-4 pt-2 bg-white border-t border-slate-100 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="relative group">
+                <img src={selectedImage} alt="Előnézet" className="w-14 h-14 object-cover rounded-lg border-2 border-emerald-500 shadow-sm" />
+                <button
+                  onClick={removeSelectedImage}
+                  className="absolute -top-1.5 -right-1.5 bg-red-500 text-white rounded-full p-0.5 shadow-md hover:bg-red-600 transition-colors"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </div>
+              <div>
+                <span className="text-xs font-bold text-emerald-800 block">Kép csatolva (vágólapról vagy fájlból)!</span>
+                <span className="text-[11px] text-slate-500">Küldd el a kérdéseddel együtt.</span>
+              </div>
             </div>
-            <span className="text-xs text-slate-500 font-medium">Kép csatolva! Küldd el a kérdéseddel együtt.</span>
+            <button
+              onClick={removeSelectedImage}
+              className="text-xs text-red-600 hover:underline font-semibold px-2 py-1"
+            >
+              Törlés
+            </button>
           </div>
         )}
 
@@ -367,11 +447,11 @@ Készen állok a **${topicTitle} > ${subtopicTitle}** témakör feladataira. Mib
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            title="Kép csatolása (fotó feladatról, füzetről)"
+            title="Kép csatolása gombbal vagy Ctrl+V beillesztéssel"
             disabled={isLoading}
-            className={`p-2.5 rounded-xl border transition-all ${
+            className={`p-2.5 rounded-xl border transition-all flex items-center gap-1.5 ${
               selectedImage
-                ? 'bg-emerald-100 border-emerald-400 text-emerald-700'
+                ? 'bg-emerald-100 border-emerald-400 text-emerald-700 font-bold'
                 : 'bg-slate-100 hover:bg-slate-200 border-slate-200 text-slate-600'
             }`}
           >
@@ -382,13 +462,14 @@ Készen állok a **${topicTitle} > ${subtopicTitle}** témakör feladataira. Mib
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
+            onPaste={handlePaste}
             onKeyDown={(e) => {
               if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 handleSendMessage();
               }
             }}
-            placeholder="Kérdezz a feladatról, tananyagról..."
+            placeholder="Kérdezz a feladatról (beilleszthetsz képernyőfotót Ctrl+V-vel is)..."
             disabled={isLoading}
             className="flex-1 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-slate-800 placeholder-slate-400"
           />

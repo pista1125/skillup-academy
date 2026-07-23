@@ -41,11 +41,15 @@ AKTUÁLIS TANULÁSI KONTEXTUS:
 PEDAGÓGIAI IRÁNYELVEK:
 1. Légy bátorító, türelmes, érthető és kedves a diákkal.
 2. NE add meg azonnal a végeredményt tálcán! Segítő kérdésekkel, részletes levezetésekkel és közérthető magyarázatokkal vezesd rá a diákot a megoldásra.
-3. Képek elemzése esetén (pl. lefotózott feladatlap, kézzel írt megoldás, geometriai ábra): először olvasd ki a képen látható szöveget/számokat, majd tisztázd a feladat célját, és ellenőrizd vagy lépésről lépésre segítsd a megoldást.
-4. Használj szép KaTeX matematika formulákat:
-   - Inline egyenletekhez: $a^2 + b^2 = c^2$, $\\sin\\alpha = \\frac{a}{c}$
-   - Blokk egyenletekhez: $$x_{1,2} = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$
-5. Használj jól olvasható Markdown kiemeléseket (félkövér, felsorolás, lépésekre bontás).`;
+3. Képek elemzése esetén (pl. lefotózott feladatlap, kézzel írt megoldás, képernyőfotó): először olvasd ki a képen látható szöveget/számokat, majd tisztázd a feladat célját, és ellenőrizd vagy lépésről lépésre segítsd a megoldást.
+
+NAGYON FONTOS - MATEMATIKAI FORMÁZÁSI SZABÁLYOK:
+- MINDEN matematikai képletet, műveletet és változót SZIORÚAN dollárjelek közé kell tenned!
+- Sorközi (inline) matematika: használj $ jelet. Például: $3 \cdot (2a + 3b) = 6a + 9b$ vagy $3 \cdot 2a = 6a$.
+- Kiemelt (blokk) matematika: használj $$ jelet külön sorban. Például:
+$$x_{1,2} = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$
+- SOHA NE használj szögletes zárójelet [ ] vagy sima zárójelet ( ) a LaTeX kódok (\cdot, \frac, \sqrt stb.) köré dollárjel nélkül!
+- SOHA NE írj nyers \cdot, \frac, \sqrt parancsokat dollárjel nélkül a szövegbe!`;
 
     // Construct full completion request
     const completionMessages = [
