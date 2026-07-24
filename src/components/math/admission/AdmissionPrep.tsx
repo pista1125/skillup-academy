@@ -23,7 +23,9 @@ import {
   ChevronUp,
   Clock,
   Home,
-  Download
+  Download,
+  Sparkles,
+  Lightbulb
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -97,6 +99,8 @@ export default function AdmissionPrep({ onBack }: AdmissionPrepProps) {
   }, [activeTopic, selectedSubtopicId]);
 
   const [quizDifficulty, setQuizDifficulty] = useState<'easy' | 'medium' | 'hard'>('easy');
+  const [quizStarted, setQuizStarted] = useState<boolean>(false);
+  const [showSolutionSteps, setShowSolutionSteps] = useState<boolean>(false);
 
   // Load questions when subtopic, examType or quizDifficulty changes
   useEffect(() => {
@@ -123,6 +127,7 @@ export default function AdmissionPrep({ onBack }: AdmissionPrepProps) {
     setIsAnswerChecked(false);
     setCorrectAnswersCount(0);
     setIsQuizFinished(false);
+    setShowSolutionSteps(false);
   };
 
   // Handle quiz answer check
@@ -143,6 +148,7 @@ export default function AdmissionPrep({ onBack }: AdmissionPrepProps) {
   const handleNextQuestion = () => {
     setSelectedOption(null);
     setIsAnswerChecked(false);
+    setShowSolutionSteps(false);
 
     if (currentQuestionIndex + 1 < quizQuestions.length) {
       setCurrentQuestionIndex((prev) => prev + 1);
@@ -507,10 +513,10 @@ export default function AdmissionPrep({ onBack }: AdmissionPrepProps) {
           {/* Written Lesson Tab */}
           {activeTab === 'lesson' && (
             <div id="admission-lesson-printable" className="animate-slide-up text-left bg-white border border-slate-150 shadow-sm rounded-2xl p-6 md:p-10 prose max-w-none relative">
-              <div className="flex flex-wrap items-center justify-between gap-4 mb-6 border-b pb-4 no-pdf">
-                <div className="flex items-center gap-2">
-                  <BookOpen className="w-6 h-6 text-purple-600" />
-                  <h2 className="text-lg font-black text-slate-800 m-0">
+              <div className="flex items-start justify-between gap-4 mb-6 border-b pb-4 no-pdf">
+                <div className="flex items-start gap-2.5 flex-1 min-w-0">
+                  <BookOpen className="w-6 h-6 text-purple-600 shrink-0 mt-1" />
+                  <h2 className="text-lg font-black text-slate-800 m-0 leading-snug">
                     {activeSubtopic.title} – Kidolgozott Tananyag
                   </h2>
                 </div>
@@ -518,7 +524,7 @@ export default function AdmissionPrep({ onBack }: AdmissionPrepProps) {
                   onClick={() => exportElementToPDF('admission-lesson-printable', activeSubtopic.title)}
                   variant="outline"
                   size="sm"
-                  className="gap-2 border-purple-200 text-purple-700 hover:bg-purple-50 font-bold rounded-xl shadow-xs"
+                  className="gap-2 border-purple-200 text-purple-700 hover:bg-purple-50 font-bold rounded-xl shadow-xs shrink-0 whitespace-nowrap"
                 >
                   <Download className="w-4 h-4 text-purple-600" />
                   Mentés PDF-ben
@@ -671,126 +677,231 @@ export default function AdmissionPrep({ onBack }: AdmissionPrepProps) {
 
           {/* 4. Quiz Tab */}
           {activeTab === 'quiz' && (
-            <div className="animate-slide-up text-left max-w-xl mx-auto">
-              {/* Difficulty Level Selector Bar */}
-              <div className="mb-6 bg-slate-100/90 p-1.5 rounded-2xl border border-slate-200 shadow-inner flex items-center gap-1.5">
-                <button
-                  onClick={() => setQuizDifficulty('easy')}
-                  className={cn(
-                    "flex-1 py-2.5 px-3 rounded-xl text-xs font-black transition-all flex items-center justify-center gap-1.5",
-                    quizDifficulty === 'easy'
-                      ? "bg-emerald-600 text-white shadow-md scale-[1.02]"
-                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/50"
-                  )}
-                >
-                  <span>🟢 Könnyű</span>
-                  <span className="text-[10px] opacity-85">(1. szint)</span>
-                </button>
-                <button
-                  onClick={() => setQuizDifficulty('medium')}
-                  className={cn(
-                    "flex-1 py-2.5 px-3 rounded-xl text-xs font-black transition-all flex items-center justify-center gap-1.5",
-                    quizDifficulty === 'medium'
-                      ? "bg-amber-500 text-white shadow-md scale-[1.02]"
-                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/50"
-                  )}
-                >
-                  <span>🟡 Közepes</span>
-                  <span className="text-[10px] opacity-85">(2. szint)</span>
-                </button>
-                <button
-                  onClick={() => setQuizDifficulty('hard')}
-                  className={cn(
-                    "flex-1 py-2.5 px-3 rounded-xl text-xs font-black transition-all flex items-center justify-center gap-1.5",
-                    quizDifficulty === 'hard'
-                      ? "bg-rose-600 text-white shadow-md scale-[1.02]"
-                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/50"
-                  )}
-                >
-                  <span>🔴 Nehéz</span>
-                  <span className="text-[10px] opacity-85">(3. szint)</span>
-                </button>
-              </div>
-
-              {quizQuestions.length === 0 ? (
-                <div className="text-center py-12 p-8 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200">
-                  <Info className="w-8 h-8 text-slate-400 mx-auto mb-3" />
-                  <p className="text-slate-500 text-sm">Ehhez a témakörhöz és felvételi típushoz jelenleg még nincsenek feltöltve tesztkérdések.</p>
-                </div>
-              ) : isQuizFinished ? (
-                /* Quiz Complete Card */
-                <Card className="rounded-3xl border-slate-100 shadow-lg text-center overflow-hidden">
-                  <div className="h-32 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 flex items-center justify-center text-white relative">
-                    <Award className="w-16 h-16 text-yellow-300 drop-shadow-md animate-bounce" />
-                    <div className="absolute bottom-2 text-xs font-bold text-purple-100">Kvíz befejezve!</div>
+            <div>
+              {!quizStarted ? (
+                /* Level Selection Landing Screen */
+                <div className="animate-slide-up space-y-6 max-w-3xl mx-auto text-left">
+                  <div className="text-center space-y-2 bg-gradient-to-r from-purple-900 via-indigo-900 to-slate-900 text-white p-8 rounded-3xl shadow-xl relative overflow-hidden">
+                    <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-purple-500/20 rounded-full blur-2xl pointer-events-none" />
+                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 border border-white/20 rounded-full text-xs font-bold text-purple-200 uppercase tracking-widest mb-2">
+                      <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
+                      Gyakorló Kvíz
+                    </div>
+                    <h2 className="text-2xl md:text-3xl font-black font-display tracking-tight text-white">
+                      Válaszd ki a nehézségi szintet!
+                    </h2>
+                    <p className="text-sm text-purple-200/90 max-w-lg mx-auto leading-relaxed">
+                      Teszteld a tudásodat a(z) <span className="font-bold text-white">{activeSubtopic.title}</span> fejezetből 3 különböző nehézségi szinten!
+                    </p>
                   </div>
-                  <CardContent className="p-6 space-y-6">
-                    <div>
-                      <h3 className="text-lg font-black text-slate-800">Szép munka!</h3>
-                      <p className="text-xs text-slate-400 mt-1">Sikeresen megválaszoltad az összes kérdést.</p>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    {/* Easy Level Card */}
+                    <div
+                      onClick={() => {
+                        setQuizDifficulty('easy');
+                        setQuizStarted(true);
+                        resetQuizState();
+                      }}
+                      className="bg-white hover:bg-emerald-50/50 border-2 border-emerald-200 hover:border-emerald-500 rounded-3xl p-6 shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col justify-between group relative overflow-hidden"
+                    >
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                          <span className="w-10 h-10 rounded-2xl bg-emerald-100 text-emerald-700 font-black text-lg flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform">
+                            1
+                          </span>
+                          <span className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-100/80 px-2.5 py-1 rounded-full border border-emerald-200">
+                            🟢 Könnyű
+                          </span>
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-black text-slate-800 group-hover:text-emerald-800 transition-colors">
+                            Alapszintű Kvíz
+                          </h3>
+                          <p className="text-xs text-slate-500 mt-2 leading-relaxed">
+                            Alapvető típusfeladatok, szisztematikus felsorolás és közérthető feladványok.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="mt-6 pt-4 border-t border-emerald-100 flex items-center justify-between text-xs font-extrabold text-emerald-700">
+                        <span>10 Kérdés</span>
+                        <span className="flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                          Indítás →
+                        </span>
+                      </div>
                     </div>
 
-                    <div className="flex items-center justify-center gap-6 py-2">
-                      <div className="text-center">
-                        <div className="text-2xl font-black text-slate-800">{correctAnswersCount} / {quizQuestions.length}</div>
-                        <div className="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Helyes válasz</div>
+                    {/* Medium Level Card */}
+                    <div
+                      onClick={() => {
+                        setQuizDifficulty('medium');
+                        setQuizStarted(true);
+                        resetQuizState();
+                      }}
+                      className="bg-white hover:bg-amber-50/50 border-2 border-amber-200 hover:border-amber-500 rounded-3xl p-6 shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col justify-between group relative overflow-hidden"
+                    >
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                          <span className="w-10 h-10 rounded-2xl bg-amber-100 text-amber-700 font-black text-lg flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform">
+                            2
+                          </span>
+                          <span className="text-[11px] font-extrabold uppercase tracking-wider text-amber-700 bg-amber-100/80 px-2.5 py-1 rounded-full border border-amber-200">
+                            🟡 Közepes
+                          </span>
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-black text-slate-800 group-hover:text-amber-800 transition-colors">
+                            Középhaladó Kvíz
+                          </h3>
+                          <p className="text-xs text-slate-500 mt-2 leading-relaxed">
+                            Összetettebb sorrendek, gondolkodtató feladatok és logikai kapcsolatok.
+                          </p>
+                        </div>
                       </div>
-                      <div className="w-px h-10 bg-slate-200" />
-                      <div className="text-center">
-                        <div className="text-2xl font-black text-amber-500">+{xpEarned} XP</div>
-                        <div className="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">XP jutalom</div>
-                      </div>
-                      <div className="w-px h-10 bg-slate-200" />
-                      <div className="text-center">
-                        <div className="text-2xl font-black text-purple-600">{scorePercentage}%</div>
-                        <div className="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Eredmény</div>
+
+                      <div className="mt-6 pt-4 border-t border-amber-100 flex items-center justify-between text-xs font-extrabold text-amber-700">
+                        <span>10 Kérdés</span>
+                        <span className="flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                          Indítás →
+                        </span>
                       </div>
                     </div>
 
-                    <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100 text-xs text-slate-600">
-                      {scorePercentage === 100 ? (
-                        <p className="font-bold text-emerald-600">Hibátlan teljesítmény! Gratulálunk a 100%-hoz! 🌟</p>
-                      ) : scorePercentage >= 60 ? (
-                        <p className="font-semibold text-indigo-600">Sikeres teszt! Már jó úton jársz a felkészülésben. 👍</p>
-                      ) : (
-                        <p className="text-amber-600 font-semibold">Gyakorolj még egy kicsit a kidolgozott tananyag segítségével, majd próbáld újra! 💪</p>
-                      )}
-                    </div>
+                    {/* Hard Level Card */}
+                    <div
+                      onClick={() => {
+                        setQuizDifficulty('hard');
+                        setQuizStarted(true);
+                        resetQuizState();
+                      }}
+                      className="bg-white hover:bg-rose-50/50 border-2 border-rose-200 hover:border-rose-500 rounded-3xl p-6 shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col justify-between group relative overflow-hidden"
+                    >
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                          <span className="w-10 h-10 rounded-2xl bg-rose-100 text-rose-700 font-black text-lg flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform">
+                            3
+                          </span>
+                          <span className="text-[11px] font-extrabold uppercase tracking-wider text-rose-700 bg-rose-100/80 px-2.5 py-1 rounded-full border border-rose-200">
+                            🔴 Nehéz
+                          </span>
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-black text-slate-800 group-hover:text-rose-800 transition-colors">
+                            Haladó Kvíz
+                          </h3>
+                          <p className="text-xs text-slate-500 mt-2 leading-relaxed">
+                            Nehezebb felvételi típusfeladatok és mélyebb gondolkodást igénylő kérdések.
+                          </p>
+                        </div>
+                      </div>
 
-                    <div className="flex gap-3">
-                      <Button
-                        onClick={resetQuizState}
-                        variant="outline"
-                        className="flex-1 rounded-xl h-11 text-xs font-bold gap-2"
-                      >
-                        <RotateCcw className="w-4 h-4" />
-                        Újraindítás
-                      </Button>
-                      <Button
-                        onClick={() => setActiveTab('lesson')}
-                        className="flex-1 bg-purple-600 hover:bg-purple-700 text-white rounded-xl h-11 text-xs font-bold"
-                      >
-                        Vissza a Tananyaghoz
-                      </Button>
+                      <div className="mt-6 pt-4 border-t border-rose-100 flex items-center justify-between text-xs font-extrabold text-rose-700">
+                        <span>10 Kérdés</span>
+                        <span className="flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                          Indítás →
+                        </span>
+                      </div>
                     </div>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               ) : (
-                /* Question Card */
-                <Card className="rounded-3xl border-slate-100 shadow-md">
-                  <CardHeader className="p-6 pb-2">
-                    <div className="flex items-center justify-between text-xs text-slate-400 font-semibold mb-2">
-                      <span className={cn(
-                        "px-3 py-1 rounded-full font-bold text-xs flex items-center gap-1.5",
-                        quizDifficulty === 'easy' && "bg-emerald-100 text-emerald-800 border border-emerald-200",
-                        quizDifficulty === 'medium' && "bg-amber-100 text-amber-800 border border-amber-200",
-                        quizDifficulty === 'hard' && "bg-rose-100 text-rose-800 border border-rose-200"
-                      )}>
-                        <span>{currentQuestionIndex + 1}. Kérdés / {quizQuestions.length}</span>
-                        <span className="opacity-70">&bull; {quizDifficulty === 'easy' ? 'Könnyű' : quizDifficulty === 'medium' ? 'Közepes' : 'Nehéz'}</span>
-                      </span>
-                      <span>Felvételi gyakorló</span>
+                /* Active Quiz View */
+                <div className="animate-slide-up text-left max-w-3xl mx-auto w-full">
+                  {quizQuestions.length === 0 ? (
+                    <div className="text-center py-12 p-8 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200">
+                      <Info className="w-8 h-8 text-slate-400 mx-auto mb-3" />
+                      <p className="text-slate-500 text-sm">Ehhez a témakörhöz és felvételi típushoz jelenleg még nincsenek feltöltve tesztkérdések.</p>
+                      <Button onClick={() => setQuizStarted(false)} variant="outline" className="mt-4 rounded-xl text-xs font-bold">
+                        Vissza a szintválasztáshoz
+                      </Button>
                     </div>
+                  ) : isQuizFinished ? (
+                    /* Quiz Complete Card */
+                    <Card className="rounded-3xl border-slate-100 shadow-lg text-center overflow-hidden">
+                      <div className="h-32 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 flex items-center justify-center text-white relative">
+                        <Award className="w-16 h-16 text-yellow-300 drop-shadow-md animate-bounce" />
+                        <div className="absolute bottom-2 text-xs font-bold text-purple-100">Kvíz befejezve!</div>
+                      </div>
+                      <CardContent className="p-6 space-y-6">
+                        <div>
+                          <h3 className="text-lg font-black text-slate-800">Szép munka!</h3>
+                          <p className="text-xs text-slate-400 mt-1">Sikeresen megválaszoltad az összes kérdést.</p>
+                        </div>
+
+                        <div className="flex items-center justify-center gap-6 py-2">
+                          <div className="text-center">
+                            <div className="text-2xl font-black text-slate-800">{correctAnswersCount} / {quizQuestions.length}</div>
+                            <div className="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Helyes válasz</div>
+                          </div>
+                          <div className="w-px h-10 bg-slate-200" />
+                          <div className="text-center">
+                            <div className="text-2xl font-black text-amber-500">+{xpEarned} XP</div>
+                            <div className="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">XP jutalom</div>
+                          </div>
+                          <div className="w-px h-10 bg-slate-200" />
+                          <div className="text-center">
+                            <div className="text-2xl font-black text-purple-600">{scorePercentage}%</div>
+                            <div className="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Eredmény</div>
+                          </div>
+                        </div>
+
+                        <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100 text-xs text-slate-600">
+                          {scorePercentage === 100 ? (
+                            <p className="font-bold text-emerald-600">Hibátlan teljesítmény! Gratulálunk a 100%-hoz! 🌟</p>
+                          ) : scorePercentage >= 60 ? (
+                            <p className="font-semibold text-indigo-600">Sikeres teszt! Már jó úton jársz a felkészülésben. 👍</p>
+                          ) : (
+                            <p className="text-amber-600 font-semibold">Gyakorolj még egy kicsit a kidolgozott tananyag segítségével, majd próbáld újra! 💪</p>
+                          )}
+                        </div>
+
+                        <div className="flex flex-wrap gap-2.5">
+                          <Button
+                            onClick={resetQuizState}
+                            variant="outline"
+                            className="flex-1 rounded-xl h-11 text-xs font-bold gap-2"
+                          >
+                            <RotateCcw className="w-4 h-4" />
+                            Újraindítás
+                          </Button>
+                          <Button
+                            onClick={() => setQuizStarted(false)}
+                            variant="outline"
+                            className="flex-1 border-purple-200 text-purple-700 hover:bg-purple-50 rounded-xl h-11 text-xs font-bold gap-2"
+                          >
+                            Szintváltás
+                          </Button>
+                          <Button
+                            onClick={() => setActiveTab('lesson')}
+                            className="flex-1 bg-purple-600 hover:bg-purple-700 text-white rounded-xl h-11 text-xs font-bold"
+                          >
+                            Vissza a Tananyaghoz
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ) : (
+                    /* Question Card */
+                    <Card className="rounded-3xl border-slate-100 shadow-md">
+                      <CardHeader className="p-6 pb-2">
+                        <div className="flex items-center justify-between text-xs text-slate-400 font-semibold mb-2">
+                          <span className={cn(
+                            "px-3 py-1 rounded-full font-bold text-xs flex items-center gap-1.5",
+                            quizDifficulty === 'easy' && "bg-emerald-100 text-emerald-800 border border-emerald-200",
+                            quizDifficulty === 'medium' && "bg-amber-100 text-amber-800 border border-amber-200",
+                            quizDifficulty === 'hard' && "bg-rose-100 text-rose-800 border border-rose-200"
+                          )}>
+                            <span>{currentQuestionIndex + 1}. Kérdés / {quizQuestions.length}</span>
+                            <span className="opacity-70">&bull; {quizDifficulty === 'easy' ? 'Könnyű' : quizDifficulty === 'medium' ? 'Közepes' : 'Nehéz'}</span>
+                          </span>
+                          <button
+                            onClick={() => setQuizStarted(false)}
+                            className="text-xs font-bold text-purple-600 hover:text-purple-800 hover:underline flex items-center gap-1"
+                          >
+                            ← Szintváltás
+                          </button>
+                        </div>
                     <Progress value={((currentQuestionIndex) / quizQuestions.length) * 100} className="h-1.5 bg-slate-100" />
                   </CardHeader>
                   <CardContent className="p-6 space-y-6">
@@ -840,17 +951,32 @@ export default function AdmissionPrep({ onBack }: AdmissionPrepProps) {
                     </div>
 
                     <div className="space-y-4">
-                      {isAnswerChecked && (
-                        <div className="p-4 bg-slate-50 border border-slate-150 rounded-2xl text-xs text-slate-600 animate-slide-up flex gap-3">
-                          <Info className="w-5 h-5 text-purple-600 flex-shrink-0 mt-0.5 animate-pulse" />
-                          <div>
-                            <span className="font-bold text-slate-800 block mb-1">Magyarázat:</span>
-                            <ReactMarkdown {...MD_PLUGINS}>
-                              {quizQuestions[currentQuestionIndex].explanation}
-                            </ReactMarkdown>
+                      {/* Solution Steps Button & Card */}
+                      <div className="space-y-3 pt-2 border-t border-slate-100">
+                        <button
+                          type="button"
+                          onClick={() => setShowSolutionSteps((prev) => !prev)}
+                          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold text-amber-800 bg-amber-50 hover:bg-amber-100 border border-amber-200 transition-all shadow-2xs"
+                        >
+                          <Lightbulb className="w-4 h-4 text-amber-600 animate-pulse" />
+                          <span>{showSolutionSteps || isAnswerChecked ? 'Megoldási lépések elrejtése' : '💡 Megoldási lépések megjelenítése'}</span>
+                          {showSolutionSteps || isAnswerChecked ? <ChevronUp className="w-3.5 h-3.5 text-amber-700" /> : <ChevronDown className="w-3.5 h-3.5 text-amber-700" />}
+                        </button>
+
+                        {(showSolutionSteps || isAnswerChecked) && (
+                          <div className="p-4 bg-gradient-to-br from-amber-50/90 via-purple-50/40 to-indigo-50/60 border border-amber-200/80 rounded-2xl text-xs text-slate-700 space-y-2 animate-slide-up shadow-sm">
+                            <div className="flex items-center gap-2 text-amber-900 font-extrabold text-xs border-b border-amber-200/60 pb-2">
+                              <Lightbulb className="w-4 h-4 text-amber-600" />
+                              <span>Részletes Megoldási Lépések & Magyarázat:</span>
+                            </div>
+                            <div className="prose prose-sm max-w-none text-slate-800 leading-relaxed pt-1">
+                              <ReactMarkdown {...MD_PLUGINS}>
+                                {quizQuestions[currentQuestionIndex].explanation}
+                              </ReactMarkdown>
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )}
+                      </div>
 
                       <div className="flex gap-2">
                         {!isAnswerChecked ? (
@@ -877,6 +1003,8 @@ export default function AdmissionPrep({ onBack }: AdmissionPrepProps) {
               )}
             </div>
           )}
+        </div>
+      )}
 
           {/* 5. Exam Papers Tab */}
           {activeTab === 'papers' && (
