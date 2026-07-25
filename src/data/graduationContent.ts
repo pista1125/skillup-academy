@@ -16,8 +16,12 @@ export interface GraduationSubtopicContent {
   requirementsAdvanced: string;
   lessonIntermediate: string;
   lessonAdvanced: string;
-  quizIntermediate: GraduationQuizQuestion[];
-  quizAdvanced: GraduationQuizQuestion[];
+  quizIntermediate?: GraduationQuizQuestion[];
+  quizAdvanced?: GraduationQuizQuestion[];
+  quizEasy?: GraduationQuizQuestion[];
+  quizMedium?: GraduationQuizQuestion[];
+  quizHard?: GraduationQuizQuestion[];
+  onlyAdvanced?: boolean;
 }
 
 export interface GraduationTopic {
@@ -1221,19 +1225,12 @@ export const graduationTopics: GraduationTopic[] = [
         id: "g-differential-calculus",
         title: "Differenciálszámítás",
         level: 1,
-        requirementsIntermediate: "Értse a derivált fizikai és geometriai jelentését (érintő meredeksége).",
+        onlyAdvanced: true,
+        requirementsIntermediate: "A differenciálszámítás kizárólag emelt szintű érettségi tananyag.",
         requirementsAdvanced: "Alkalmazza a deriválási szabályokat (szorzat, hányados, láncszabály). Végezzen teljes függvényvizsgálatot.",
-        lessonIntermediate: "### A derivált\\n\\nA derivált a függvény változási sebessége egy adott pontban. Geometriailag a ponthoz húzott érintő meredeksége (meredekség = $f'(x)$).",
-        lessonAdvanced: "### Deriválási szabályok\\n\\n- Szorzat: $(u \\cdot v)' = u'v + uv'$\\n- Hányados: $(u/v)' = \\frac{u'v - uv'}{v^2}$\\n- Láncszabály (összetett): $(f(g(x)))' = f'(g(x)) \\cdot g'(x)$",
-        quizIntermediate: [
-          {
-            id: "q-diff-i1",
-            question: "Mi a geometriai jelentése a függvény deriváltjának egy adott pontban?",
-            options: ["A görbe alatti terület.", "A ponthoz tartozó érintő meredeksége.", "A függvényérték.", "A zérushely."],
-            correctAnswer: 1,
-            explanation: "A derivált megadja az érintő meredekségét (tangensét)."
-          }
-        ],
+        lessonIntermediate: "### Differenciálszámítás\n\nA differenciálszámítás (deriválás) a **középszintű érettségin nem szerepel**, kizárólag az emelt szintű érettségi követelményrendszerének része.\n\nKérjük, válts át **Emelt szintre** a felső menüben a tananyag és a feladatok megtekintéséhez!",
+        lessonAdvanced: "### Deriválási szabályok\n\n- Szorzat: $(u \\cdot v)' = u'v + uv'$\n- Hányados: $(u/v)' = \\frac{u'v - uv'}{v^2}$\n- Láncszabály (összetett): $(f(g(x)))' = f'(g(x)) \\cdot g'(x)$",
+        quizIntermediate: [],
         quizAdvanced: [
           {
             id: "q-diff-a1",
@@ -1248,19 +1245,12 @@ export const graduationTopics: GraduationTopic[] = [
         id: "g-integral-calculus",
         title: "Integrálszámítás",
         level: 1,
-        requirementsIntermediate: "Ismerje a határozott integrál fogalmát (területszámítás).",
+        onlyAdvanced: true,
+        requirementsIntermediate: "Az integrálszámítás kizárólag emelt szintű érettségi tananyag.",
         requirementsAdvanced: "Ismerje a primitív függvény fogalmát és a Newton-Leibniz tételt.",
-        lessonIntermediate: "### Integrál fogalma\\n\\nA határozott integrál megadja a függvény grafikonja és az x-tengely közötti területet egy $[a, b]$ intervallumon.",
-        lessonAdvanced: "### Newton-Leibniz tétel\\n\\n$$\\int_a^b f(x)\\,dx = F(b) - F(a)$$\\nahol $F'(x) = f(x)$ (primitív függvény).",
-        quizIntermediate: [
-          {
-            id: "q-int-i1",
-            question: "Mit számolunk ki a határozott integrállal?",
-            options: ["Az érintő meredekségét", "A függvény zérushelyét", "A görbe alatti területet", "A függvény maximumát"],
-            correctAnswer: 2,
-            explanation: "A határozott integrál geometriai jelentése a görbe alatti előjeles terület."
-          }
-        ],
+        lessonIntermediate: "### Integrálszámítás\n\nAz integrálszámítás a **középszintű érettségin nem szerepel**, kizárólag az emelt szintű érettségi követelményrendszerének része.\n\nKérjük, válts át **Emelt szintre** a felső menüben a tananyag és a feladatok megtekintéséhez!",
+        lessonAdvanced: "### Newton-Leibniz tétel\n\n$$\\int_a^b f(x)\\,dx = F(b) - F(a)$$\nahol $F'(x) = f(x)$ (primitív függvény).",
+        quizIntermediate: [],
         quizAdvanced: [
           {
             id: "q-int-a1",

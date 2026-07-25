@@ -29,8 +29,10 @@ import {
   ChevronUp,
   Download,
   Sparkles,
-  Lightbulb
+  Lightbulb,
+  Bot
 } from 'lucide-react';
+
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -38,18 +40,21 @@ import { Progress } from '@/components/ui/progress';
 import { toast } from 'sonner';
 import { exportElementToPDF } from '@/utils/pdfExport';
 import { gondolkodasiModszerekLessons } from './gondolkodasi-modszerek/gondolkodasiModszerekLessons';
+import { gondolkodasiQuizzes } from './gondolkodasi-modszerek/gondolkodasiModszerekQuizzes';
 import {
   VennTwoSets,
   VennClassProblem,
   Graph5NodesDiagram
 } from './gondolkodasi-modszerek/GondolkodasiModszerekDiagrams';
 import { szamelmeletAlgebraLessons } from './szamelmelet-algebra/szamelmeletAlgebraLessons';
+import { szamelmeletAlgebraQuizzes } from './szamelmelet-algebra/szamelmeletAlgebraQuizzes';
 import {
   PrimesVennDiagram,
   MeansInequalityDiagram,
   QuadraticParabolaDiagram
 } from './szamelmelet-algebra/SzamelmeletAlgebraDiagrams';
 import { geometriaLessons } from './geometria-trigonometria/geometriaLessons';
+import { geometriaQuizzes } from './geometria-trigonometria/geometriaQuizzes';
 import {
   TrianglePythagorasDiagram,
   TriangleSpecialLinesDiagram,
@@ -59,6 +64,10 @@ import {
   QuadrilateralsDiagram,
   TrigUnitCircleDiagram
 } from './geometria-trigonometria/GeometriaDiagrams';
+import { fuggvenyekAnalizisLessons } from './fuggvenyek-analizis/fuggvenyekAnalizisLessons';
+import { fuggvenyekAnalizisQuizzes } from './fuggvenyek-analizis/fuggvenyekAnalizisQuizzes';
+import { statisztikaValoszinusegLessons } from './statisztika-valoszinusegszamitas/statisztikaValoszinusegLessons';
+import { statisztikaValoszinusegQuizzes } from './statisztika-valoszinusegszamitas/statisztikaValoszinusegQuizzes';
 
 import {
   graduationTopics,
@@ -74,7 +83,6 @@ const MD_PLUGINS = {
 };
 
 import { MathAiChatbot } from '../ai/MathAiChatbot';
-import { Bot, Sparkles } from 'lucide-react';
 
 interface GraduationPrepProps {
   onBack: () => void;
@@ -119,8 +127,27 @@ export default function GraduationPrep({ onBack }: GraduationPrepProps) {
   }, [selectedTopicId]);
 
   const activeSubtopic = useMemo(() => {
-    return activeTopic.subtopics.find((s) => s.id === selectedSubtopicId) || activeTopic.subtopics[0];
-  }, [activeTopic, selectedSubtopicId]);
+    const availableSubtopics = activeTopic.subtopics.filter(
+      (s) => level === 'advanced' || !s.onlyAdvanced
+    );
+    return (
+      availableSubtopics.find((s) => s.id === selectedSubtopicId) ||
+      availableSubtopics[0] ||
+      activeTopic.subtopics[0]
+    );
+  }, [activeTopic, selectedSubtopicId, level]);
+
+  // Fallback to valid subtopic if current subtopic is advanced-only when switching to intermediate level
+  useEffect(() => {
+    const availableSubtopics = activeTopic.subtopics.filter(
+      (s) => level === 'advanced' || !s.onlyAdvanced
+    );
+    if (!availableSubtopics.some((s) => s.id === selectedSubtopicId)) {
+      if (availableSubtopics.length > 0) {
+        setSelectedSubtopicId(availableSubtopics[0].id);
+      }
+    }
+  }, [activeTopic, level, selectedSubtopicId]);
 
   const currentLessonText = useMemo(() => {
     const customGondolkodasi = gondolkodasiModszerekLessons[activeSubtopic.id];
@@ -135,6 +162,14 @@ export default function GraduationPrep({ onBack }: GraduationPrepProps) {
     if (customGeometria) {
       return level === 'intermediate' ? customGeometria.intermediate : customGeometria.advanced;
     }
+    const customFuggvenyek = fuggvenyekAnalizisLessons[activeSubtopic.id];
+    if (customFuggvenyek) {
+      return level === 'intermediate' ? customFuggvenyek.intermediate : customFuggvenyek.advanced;
+    }
+    const customStatisztika = statisztikaValoszinusegLessons[activeSubtopic.id];
+    if (customStatisztika) {
+      return level === 'intermediate' ? customStatisztika.intermediate : customStatisztika.advanced;
+    }
     return level === 'intermediate' ? activeSubtopic.lessonIntermediate : activeSubtopic.lessonAdvanced;
   }, [activeSubtopic, level]);
 
@@ -144,9 +179,26 @@ export default function GraduationPrep({ onBack }: GraduationPrepProps) {
 
   // Load questions when subtopic, level or quizDifficulty changes
   useEffect(() => {
-    const questions = level === 'intermediate'
-      ? activeSubtopic.quizIntermediate
-      : activeSubtopic.quizAdvanced;
+    const subId = activeSubtopic.id;
+    const customQuizMap =
+      gondolkodasiQuizzes[subId] ||
+      szamelmeletAlgebraQuizzes[subId] ||
+      geometriaQuizzes[subId] ||
+      fuggvenyekAnalizisQuizzes[subId] ||
+      statisztikaValoszinusegQuizzes[subId];
+
+    let questions: GraduationQuizQuestion[] = [];
+
+    if (customQuizMap) {
+      questions = customQuizMap[quizDifficulty] || customQuizMap.easy;
+    } else if (activeSubtopic.quizEasy || activeSubtopic.quizMedium || activeSubtopic.quizHard) {
+      questions = (quizDifficulty === 'easy' ? activeSubtopic.quizEasy : quizDifficulty === 'medium' ? activeSubtopic.quizMedium : activeSubtopic.quizHard) || activeSubtopic.quizEasy || [];
+    } else {
+      questions = level === 'intermediate'
+        ? (activeSubtopic.quizIntermediate || [])
+        : (activeSubtopic.quizAdvanced || []);
+    }
+
     setQuizQuestions(questions);
     resetQuizState();
   }, [activeSubtopic, level, quizDifficulty]);
@@ -258,8 +310,10 @@ export default function GraduationPrep({ onBack }: GraduationPrepProps) {
               {/* Subtopics List */}
               {isTopicActive && showFull && (
                 <div className="pl-2 pr-1 py-1 border-l-2 border-purple-500/30 space-y-1 ml-3 mt-1">
-                  {topic.subtopics.map((subtopic) => {
-                    const isSubtopicActive = selectedSubtopicId === subtopic.id;
+                  {topic.subtopics
+                    .filter((subtopic) => level === 'advanced' || !subtopic.onlyAdvanced)
+                    .map((subtopic) => {
+                      const isSubtopicActive = selectedSubtopicId === subtopic.id;
                     const quizKey = `${subtopic.id}_${level}`;
                     const isQuizDone = completedQuizzes.includes(quizKey);
 
@@ -1027,7 +1081,7 @@ export default function GraduationPrep({ onBack }: GraduationPrepProps) {
                             quizDifficulty === 'medium' && "bg-amber-100 text-amber-800 border border-amber-200",
                             quizDifficulty === 'hard' && "bg-rose-100 text-rose-800 border border-rose-200"
                           )}>
-                            <span>{currentIndex + 1}. Kérdés / {quizQuestions.length}</span>
+                            <span>{currentQuestionIndex + 1}. Kérdés / {quizQuestions.length}</span>
                             <span className="opacity-70">&bull; {quizDifficulty === 'easy' ? 'Könnyű' : quizDifficulty === 'medium' ? 'Közepes' : 'Nehéz'}</span>
                           </span>
                           <button
@@ -1037,21 +1091,21 @@ export default function GraduationPrep({ onBack }: GraduationPrepProps) {
                             ← Szintváltás
                           </button>
                         </div>
-                        <Progress value={((currentIndex) / quizQuestions.length) * 100} className="h-1.5 bg-slate-100" />
+                        <Progress value={((currentQuestionIndex) / quizQuestions.length) * 100} className="h-1.5 bg-slate-100" />
                   </CardHeader>
                   <CardContent className="p-6 space-y-6">
                     {/* Question Markdown */}
                     <div className="text-sm font-bold text-slate-800 leading-relaxed bg-slate-50 p-4 rounded-2xl border border-slate-150">
                       <ReactMarkdown {...MD_PLUGINS}>
-                        {quizQuestions[currentIndex].question}
+                        {quizQuestions[currentQuestionIndex].question}
                       </ReactMarkdown>
                     </div>
 
                     {/* Options List */}
                     <div className="space-y-2.5">
-                      {quizQuestions[currentIndex].options.map((option, idx) => {
+                      {quizQuestions[currentQuestionIndex].options.map((option, idx) => {
                         const isSelected = selectedOption === idx;
-                        const isCorrectAnswer = idx === quizQuestions[currentIndex].correctAnswer;
+                        const isCorrectAnswer = idx === quizQuestions[currentQuestionIndex].correctAnswer;
                         const showCorrect = isAnswerChecked && isCorrectAnswer;
                         const showIncorrect = isAnswerChecked && isSelected && !isCorrectAnswer;
 
@@ -1109,7 +1163,7 @@ export default function GraduationPrep({ onBack }: GraduationPrepProps) {
                             </div>
                             <div className="prose prose-sm max-w-none text-slate-800 leading-relaxed pt-1">
                               <ReactMarkdown {...MD_PLUGINS}>
-                                {quizQuestions[currentIndex].explanation}
+                                {quizQuestions[currentQuestionIndex].explanation}
                               </ReactMarkdown>
                             </div>
                           </div>

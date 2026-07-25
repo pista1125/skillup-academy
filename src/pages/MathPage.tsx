@@ -54,6 +54,7 @@ const MoneyCalculationTool = lazy(() => import("@/components/math/tools/MoneyCal
 const DecimalShifterTool = lazy(() => import("@/components/math/tools/DecimalShifterTool")) as any;
 const PuzzleMakerTool = lazy(() => import("@/components/math/tools/PuzzleMakerTool").then(m => ({ default: m.PuzzleMakerTool }))) as any;
 const TotoTool = lazy(() => import("@/components/math/tools/TotoTool").then(m => ({ default: m.TotoTool }))) as any;
+const SmartWhiteboardTool = lazy(() => import("@/components/math/tools/SmartWhiteboardTool").then(m => ({ default: m.SmartWhiteboardTool }))) as any;
 const GeometryModule = lazy(() => import("@/components/math/grade-5/GeometryModule").then(m => ({ default: m.GeometryModule }))) as any;
 const SymmetryQuiz = lazy(() => import("@/components/math/grade-6/SymmetryQuiz").then(m => ({ default: m.SymmetryQuiz }))) as any;
 const LogicBlocksGame = lazy(() => import("@/components/math/games/LogicBlocksGame").then(m => ({ default: m.LogicBlocksGame }))) as any;
@@ -174,7 +175,7 @@ type ActivityType =
   | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search' | 'memory-game' | 'equation-balance-quiz'
   | 'ratio-intro' | 'ratio-creator' | 'g7-word-problems' | 'direct-proportion-quiz' | 'matrix-sorting-game'
   | 'toto-maker' | 'chess-game' | 'torpedo-game' | 'matching-creator' | 'unit-converter' | 'capacity-converter' | 'analog-clock'
-  | 'hanoi-tower' | 'color-sequence-game' | 'perimeter-quiz' | 'perimeter-area' | 'volume-surface' | 'volume-quiz' | 'surface-area-quiz' | 'area-conversion-quiz' | 'area-calculation-quiz' | 'parallelogram-area-quiz' | 'g7-mapping-quiz' | 'g7-function-table-quiz';
+  | 'hanoi-tower' | 'color-sequence-game' | 'perimeter-quiz' | 'perimeter-area' | 'volume-surface' | 'volume-quiz' | 'surface-area-quiz' | 'area-conversion-quiz' | 'area-calculation-quiz' | 'parallelogram-area-quiz' | 'g7-mapping-quiz' | 'g7-function-table-quiz' | 'smart-whiteboard';
 
 const gradeToSlug = (grade: GradeLevel): string => {
   if (grade === 'graduation') return 'erettsegi';
@@ -330,6 +331,7 @@ const TOOLS: ActivityConfig[] = [
   { id: 'word-search', title: 'Szókereső Készítő', desc: 'Készíts saját szókeresőt, letölthető megoldókulccsal!', icon: <span className="text-3xl">🔎</span>, color: 'bg-indigo-100 text-indigo-600', category: 'sec-creative' },
   { id: 'sudoku-generator', title: 'Sudoku Generátor', desc: 'Generálj és nyomtass egyedi Sudoku feladványokat!', icon: <Calculator className="w-8 h-8" />, color: 'bg-blue-100 text-blue-600', category: 'sec-creative' },
   { id: 'student-feedback', title: 'Diák visszajelzés (Céltábla)', desc: 'Kérj visszajelzést a diákoktól az óra végén!', icon: <Target className="w-8 h-8" />, color: 'bg-rose-100 text-rose-600', category: 'sec-teacher' },
+  { id: 'smart-whiteboard', title: 'AI Interaktív Okostábla', desc: 'Érintőképernyős tantermi okostábla AI alakzat- és függvényfelismeréssel', icon: <span className="text-3xl">🪄</span>, color: 'bg-purple-100 text-purple-700 border-purple-200', category: 'sec-teacher' },
 ];
 
 const GAMES: ActivityConfig[] = [
@@ -3791,6 +3793,10 @@ export default function MathPage() {
 
                 {activityType === 'matrix-sorting-game' && (
                    <MatrixSortingGame onBack={handleBack} />
+                )}
+
+                {activityType === 'smart-whiteboard' && (
+                  <SmartWhiteboardTool onBack={handleBack} />
                 )}
 
                 {activityType === 'materials' && (
