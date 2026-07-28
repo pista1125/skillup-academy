@@ -209,7 +209,6 @@ export default function AdmissionPrep({ onBack }: AdmissionPrepProps) {
                   if (isSidebarCollapsed) {
                     setIsSidebarCollapsed(false);
                   }
-                  setIsMobileMenuOpen(false);
                 }}
                 className={cn(
                   "w-full text-left p-2.5 rounded-xl transition-all font-semibold text-xs flex items-center gap-2.5",
