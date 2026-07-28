@@ -3807,10 +3807,6 @@ export default function MathPage() {
                   />
                 )}
 
-                {activeMaterial && (
-                  <LessonViewer material={activeMaterial} onClose={() => handleMaterialSelect(null)} />
-                )}
-
                 {activityType === 'algebra' && (
                   <AlgebraQuiz
                     grade={typeof selectedGrade === 'number' ? selectedGrade : 7}
@@ -3932,6 +3928,9 @@ export default function MathPage() {
         </div>
       )}
         {!isUpperGradeLayout && view !== 'competency-select' && ((activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'volume-surface' && activityType !== 'student-feedback' && activityType !== 'volume-quiz' && activityType !== 'surface-area-quiz' && activityType !== 'unit-converter' && activityType !== 'capacity-converter' && activityType !== 'analog-clock' && activityType !== 'g7-mapping-quiz' && activityType !== 'g7-function-table-quiz') || view !== 'activity') && <SiteFooter />}
+        {activeMaterial && (
+          <LessonViewer material={activeMaterial} onClose={() => handleMaterialSelect(null)} />
+        )}
       </div>
     </div>
   );

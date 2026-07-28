@@ -11,7 +11,8 @@ import {
     Calculator as CalcIcon,
     ChevronRight,
     ChevronLeft,
-    Trash2
+    Trash2,
+    BookOpen
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { DivisibilityTool } from "@/components/math/tools/DivisibilityTool";
@@ -36,6 +37,11 @@ export function LessonViewer({ material, onClose }: LessonViewerProps) {
     useEffect(() => {
         if (activeTool === 'whiteboard' && canvasRef.current) {
             const canvas = canvasRef.current;
+            const parent = canvas.parentElement;
+            if (parent && parent.clientWidth > 0 && parent.clientHeight > 0) {
+                canvas.width = parent.clientWidth;
+                canvas.height = parent.clientHeight;
+            }
             const ctx = canvas.getContext('2d');
             if (ctx) {
                 ctx.lineCap = 'round';
@@ -119,15 +125,11 @@ export function LessonViewer({ material, onClose }: LessonViewerProps) {
                     "flex-1 flex flex-col h-full bg-slate-300 transition-all duration-300",
                     showToolbox ? "mr-0" : ""
                 )}>
-                    <object
-                        data={`${material.path}#toolbar=0&navpanes=0&scrollbar=1`}
-                        type="application/pdf"
-                        className="w-full h-full"
-                    >
-                        <p className="p-10 text-center">
-                            A PDF nem jeleníthető meg. <a href={material.path} target="_blank" className="text-primary underline">Kattints ide a megnyitáshoz!</a>
-                        </p>
-                    </object>
+                    <iframe
+                        src={`${material.path}#toolbar=1&navpanes=0`}
+                        className="w-full h-full border-0"
+                        title={material.title}
+                    />
                 </div>
 
                 {/* Toolbox Trigger */}
@@ -230,5 +232,3 @@ export function LessonViewer({ material, onClose }: LessonViewerProps) {
         </div>
     );
 }
-
-import { BookOpen } from 'lucide-react';

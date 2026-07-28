@@ -14,16 +14,16 @@ interface Material {
 
 const GRADE_5_MATERIALS: Material[] = [
     {
-        id: 'mat05ma',
+        id: 'mat05ta',
         title: 'Matematika 5. Tankönyv',
-        description: 'Általános iskolai tankönyv ötödik évfolyam számára (OH-MAT05MA)',
+        description: 'Általános iskolai tankönyv ötödik évfolyam számára (OH-MAT05TA)',
         fileName: 'OH-MAT05TA__teljes.pdf',
         path: '/assets/materials/math/grade5/OH-MAT05TA__teljes.pdf'
     },
     {
-        id: 'mat05ta',
+        id: 'mat05ma',
         title: 'Matematika 5. Munkafüzet',
-        description: 'Általános iskolai munkafüzet ötödik évfolyam számára (OH-MAT05TA)',
+        description: 'Általános iskolai munkafüzet ötödik évfolyam számára (OH-MAT05MA)',
         fileName: 'OH-MAT05MA__teljes.pdf',
         path: '/assets/materials/math/grade5/OH-MAT05MA__teljes.pdf'
     }
@@ -31,35 +31,52 @@ const GRADE_5_MATERIALS: Material[] = [
 
 const GRADE_6_MATERIALS: Material[] = [
     {
-        id: 'mat06ma',
-        title: 'Matematika 6. Tankönyv',
-        description: 'Általános iskolai tankönyv hatodik évfolyam számára (OH-MAT06MA)',
-        fileName: 'OH-MAT06MA__teljes.pdf',
-        path: '/assets/materials/math/grade6/OH-MAT06MA__teljes.pdf'
-    },
-    {
         id: 'mat06ta',
-        title: 'Matematika 6. Munkafüzet',
-        description: 'Általános iskolai munkafüzet hatodik évfolyam számára (OH-MAT06TA)',
+        title: 'Matematika 6. Tankönyv',
+        description: 'Általános iskolai tankönyv hatodik évfolyam számára (OH-MAT06TA)',
         fileName: 'OH-MAT06TA__teljes.pdf',
         path: '/assets/materials/math/grade6/OH-MAT06TA__teljes.pdf'
+    },
+    {
+        id: 'mat06ma',
+        title: 'Matematika 6. Munkafüzet',
+        description: 'Általános iskolai munkafüzet hatodik évfolyam számára (OH-MAT06MA)',
+        fileName: 'OH-MAT06MA__teljes.pdf',
+        path: '/assets/materials/math/grade6/OH-MAT06MA__teljes.pdf'
     }
 ];
 
 const GRADE_7_MATERIALS: Material[] = [
     {
-        id: 'primtenyezos-7',
-        title: 'Prímtényezős felbontás',
-        description: 'Interaktív segédlet a prímtényezőkre bontáshoz és az oszthatósághoz',
-        fileName: 'primtenyezos_felbontas.pdf',
-        path: '/assets/materials/math/grade7/primtenyezos_felbontas.pdf'
+        id: 'mat07ta',
+        title: 'Matematika 7. Tankönyv',
+        description: 'Általános iskolai tankönyv hetedik évfolyam számára (OH-MAT07TA)',
+        fileName: 'OH-MAT07TA__teljes.pdf',
+        path: '/assets/materials/math/grade7/OH-MAT07TA__teljes.pdf'
     },
     {
-        id: 'oszthatosag-7',
-        title: 'Oszthatósági szabályok',
-        description: 'Bevezetés az oszthatósági szabályokba (letölthető PPT)',
-        fileName: 'oszthatosagi_szabalyok.pptx',
-        path: '/assets/materials/math/grade7/oszthatosagi_szabalyok.pptx'
+        id: 'mat07ma',
+        title: 'Matematika 7. Munkafüzet',
+        description: 'Általános iskolai munkafüzet hetedik évfolyam számára (OH-MAT07MA)',
+        fileName: 'OH-MAT07MA__teljes.pdf',
+        path: '/assets/materials/math/grade7/OH-MAT07MA__teljes.pdf'
+    }
+];
+
+const GRADE_8_MATERIALS: Material[] = [
+    {
+        id: 'mat08ta',
+        title: 'Matematika 8. Tankönyv',
+        description: 'Általános iskolai tankönyv nyolcadik évfolyam számára (OH-MAT08TA)',
+        fileName: 'OH-MAT08TA__teljes.pdf',
+        path: '/assets/materials/math/grade8/OH-MAT08TA__teljes.pdf'
+    },
+    {
+        id: 'mat08ma',
+        title: 'Matematika 8. Munkafüzet',
+        description: 'Általános iskolai munkafüzet nyolcadik évfolyam számára (OH-MAT08MA)',
+        fileName: 'OH-MAT08MA__teljes.pdf',
+        path: '/assets/materials/math/grade8/OH-MAT08MA__teljes.pdf'
     }
 ];
 
@@ -70,7 +87,12 @@ interface MaterialGalleryProps {
 }
 
 export function MaterialGallery({ grade, onView, initialMaterialId }: MaterialGalleryProps) {
-    const materials = grade === 5 ? GRADE_5_MATERIALS : grade === 6 ? GRADE_6_MATERIALS : GRADE_7_MATERIALS;
+    const materials =
+        grade === 5 ? GRADE_5_MATERIALS :
+        grade === 6 ? GRADE_6_MATERIALS :
+        grade === 7 ? GRADE_7_MATERIALS :
+        grade === 8 ? GRADE_8_MATERIALS :
+        GRADE_7_MATERIALS;
 
     useEffect(() => {
         if (initialMaterialId) {
@@ -125,13 +147,6 @@ export function MaterialGallery({ grade, onView, initialMaterialId }: MaterialGa
                     </CardContent>
                 </Card>
             ))}
-            <div className="md:col-span-2 p-8 bg-blue-50/50 rounded-2xl border-2 border-dashed border-blue-200 flex flex-col items-center text-center space-y-2">
-                <Eye className="w-10 h-10 text-blue-400 opacity-50" />
-                <h4 className="font-bold text-blue-900">További anyagok</h4>
-                <p className="text-sm text-blue-800/60 max-w-md">
-                    Ha van egyéb PDF fájlod, másold a <code>public/assets/materials/math/grade{grade}</code> mappába, és töltsd be itt!
-                </p>
-            </div>
         </div>
     );
 }
