@@ -23,7 +23,7 @@ import 'katex/dist/katex.min.css';
 import { toPng } from 'html-to-image';
 import { cn } from '@/lib/utils';
 import jsPDF from 'jspdf';
-import { supabase } from '@/lib/supabase';
+import { invokeAiFunction } from '@/lib/aiService';
 import { useAuth } from '@/contexts/AuthContext';
 import { AuthModal } from '@/components/auth/AuthModal';
 import { notoSansRegularBase64 } from '@/assets/fonts/NotoSans-Regular-base64';
@@ -262,8 +262,10 @@ export function MatchingCreator({ onBack }: MatchingCreatorProps) {
         setAiSuccess(false);
 
         try {
-            const { data, error } = await supabase.functions.invoke('generate-matching-pairs', {
-                body: { topic: aiTopic.trim(), pairCount: aiPairCount, groupSize },
+            const { data, error } = await invokeAiFunction('generate-matching-pairs', {
+                topic: aiTopic.trim(), 
+                pairCount: aiPairCount, 
+                groupSize 
             });
 
             if (error) throw new Error(error.message || 'Hiba az AI hívás során');

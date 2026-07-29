@@ -1,20 +1,18 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { supabase } from '@/lib/supabase';
+import { db, storage } from '@/lib/firebase';
+import { doc, setDoc } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 import { 
   User, 
-  Mail, 
-  Shield, 
   Camera, 
   ChevronLeft, 
   Loader2, 
-  Check, 
-  Moon, 
   Sun,
   Layout,
   History,
@@ -39,7 +37,7 @@ export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState<'personal' | 'activity' | 'settings'>('personal');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const googlePhoto = user?.user_metadata?.avatar_url || user?.user_metadata?.picture;
+  const googlePhoto = user?.photoURL;
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -53,17 +51,9 @@ export default function ProfilePage() {
     setLoading(true);
     try {
       const fileExt = file.name.split('.').pop();
-      const fileName = `${user.id}/${Date.now()}.${fileExt}`;
-
-      const { error: uploadError } = await supabase.storage
-        .from('avatars')
-        .upload(fileName, file);
-
-      if (uploadError) throw uploadError;
-
-      const { data: { publicUrl } } = supabase.storage
-        .from('avatars')
-        .getPublicUrl(fileName);
+      const storageRef = ref(storage, `avatars/${user.uid}/${Date.now()}.${fileExt}`);
+      await uploadBytes(storageRef, file);
+      const publicUrl = await getDownloadURL(storageRef);
 
       setAvatarUrl(publicUrl);
       toast.success('Kép sikeresen feltöltve! Ne felejtsd el elmenteni a módosításokat.');
@@ -87,18 +77,14 @@ export default function ProfilePage() {
     if (!user) return;
     setLoading(true);
     try {
-      const { error } = await supabase
-        .from('profiles')
-        .update({
-          full_name: fullName,
-          avatar_url: avatarUrl,
-          role: role,
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', user.id);
+      await setDoc(doc(db, 'profiles', user.uid), {
+        id: user.uid,
+        full_name: fullName,
+        avatar_url: avatarUrl,
+        role: role,
+        updated_at: new Date().toISOString(),
+      }, { merge: true });
 
-      if (error) throw error;
-      
       await refreshProfile();
       toast.success('Profil sikeresen frissítve!');
     } catch (error: any) {
@@ -342,7 +328,7 @@ export default function ProfilePage() {
                 <div className="space-y-8">
                   <div>
                     <h3 className="text-3xl font-black text-slate-800 dark:text-white tracking-tight mb-2">Aktivitásaim</h3>
-                    <p className="text-slate-500 dark:text-slate-400">Nézd meg, miket csináltál mostanában az oldalon.</p>
+                    <p className="text-slate-500 dark:text-slate-400 font-medium">Nézd meg, miket csináltál mostanában az oldalon.</p>
                   </div>
 
                   <div className="space-y-4">
@@ -374,7 +360,7 @@ export default function ProfilePage() {
                 <div className="space-y-10">
                   <div>
                     <h3 className="text-3xl font-black text-slate-800 dark:text-white tracking-tight mb-2">Beállítások</h3>
-                    <p className="text-slate-500 dark:text-slate-400">Személyre szabhatod az oldal működését és megjelenését.</p>
+                    <p className="text-slate-500 dark:text-slate-400 font-medium">Személyre szabhatod az oldal működését és megjelenését.</p>
                   </div>
 
                   <div className="space-y-6">

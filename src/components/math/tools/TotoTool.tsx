@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import jsPDF from 'jspdf';
-import { supabase } from '@/lib/supabase';
+import { invokeAiFunction } from '@/lib/aiService';
 import { useAuth } from '@/contexts/AuthContext';
 import { AuthModal } from '@/components/auth/AuthModal';
 import { notoSansRegularBase64 } from '@/assets/fonts/NotoSans-Regular-base64';
@@ -128,8 +128,9 @@ export function TotoTool({ onBack }: TotoToolProps) {
         setAiSuccess(false);
 
         try {
-            const { data, error } = await supabase.functions.invoke('generate-toto', {
-                body: { topic: aiTopic.trim(), questionCount: aiQuestionCount },
+            const { data, error } = await invokeAiFunction('generate-toto', {
+                topic: aiTopic.trim(), 
+                questionCount: aiQuestionCount
             });
 
             if (error) throw new Error(error.message || 'Hiba az AI hívás során');

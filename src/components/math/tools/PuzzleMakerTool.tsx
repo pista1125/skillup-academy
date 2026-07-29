@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import jsPDF from 'jspdf';
-import { supabase } from '@/lib/supabase';
+import { invokeAiFunction } from '@/lib/aiService';
 import { useAuth } from '@/contexts/AuthContext';
 import { AuthModal } from '@/components/auth/AuthModal';
 import { notoSansRegularBase64 } from '@/assets/fonts/NotoSans-Regular-base64';
@@ -158,12 +158,10 @@ export function PuzzleMakerTool({ onBack }: PuzzleMakerToolProps) {
         setAiSuccess(false);
 
         try {
-            const { data, error } = await supabase.functions.invoke('generate-puzzle', {
-                body: { 
-                    topic: aiTopic.trim(), 
-                    questionCount: aiQuestionCount,
-                    hiddenWord: aiHiddenWord.trim()
-                },
+            const { data, error } = await invokeAiFunction('generate-puzzle', {
+                topic: aiTopic.trim(), 
+                questionCount: aiQuestionCount,
+                hiddenWord: aiHiddenWord.trim()
             });
 
             if (error) {

@@ -1,4 +1,16 @@
-import { supabase } from '@/lib/supabase';
+import { db, auth } from '@/lib/firebase';
+import { 
+  collection, 
+  doc, 
+  getDoc, 
+  getDocs, 
+  addDoc, 
+  updateDoc, 
+  deleteDoc, 
+  query, 
+  where, 
+  onSnapshot 
+} from 'firebase/firestore';
 
 export interface TorpedoMatch {
   id: string;
@@ -22,125 +34,114 @@ export interface TorpedoMatch {
 }
 
 export const TorpedoService = {
-  async searchProfiles(query: string) {
-    const { data, error } = await supabase.rpc('search_profiles', {
-      search_query: query
+  async searchProfiles(searchQuery: string) {
+    const q = query(collection(db, 'profiles'));
+    const snapshot = await getDocs(q);
+    const results: any[] = [];
+    const lowerQuery = searchQuery.toLowerCase();
+
+    snapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      if (
+        (data.full_name && data.full_name.toLowerCase().includes(lowerQuery)) ||
+        (data.username && data.username.toLowerCase().includes(lowerQuery))
+      ) {
+        results.push({ id: docSnap.id, ...data });
+      }
     });
-    if (error) throw error;
-    return data;
+    return results;
   },
 
   async createMatch(opponentId: string | null, axisType: 'number' | 'letter' = 'number') {
-    const { data: { user } } = await supabase.auth.getUser();
+    const user = auth.currentUser;
     if (!user) throw new Error('User not authenticated');
 
+    const now = new Date().toISOString();
     const matchData = {
-      p1_id: user.id,
+      p1_id: user.uid,
       p2_id: opponentId,
-      status: opponentId ? 'waiting' : 'placing', // If solo, skip waiting
-      turn_id: user.id,
-      settings: { axis_type: axisType }
+      p1_ships: [],
+      p2_ships: [],
+      p1_moves: [],
+      p2_moves: [],
+      status: opponentId ? 'waiting' : 'placing',
+      turn_id: user.uid,
+      winner_id: null,
+      settings: { axis_type: axisType },
+      created_at: now,
+      updated_at: now,
     };
 
-    const { data, error } = await supabase
-      .from('torpedo_matches')
-      .insert(matchData)
-      .select()
-      .single();
-    
-    if (error) throw error;
-    return data;
+    const docRef = await addDoc(collection(db, 'torpedo_matches'), matchData);
+    return { id: docRef.id, ...matchData };
   },
 
   async getMatches() {
-    const { data: { user } } = await supabase.auth.getUser();
+    const user = auth.currentUser;
     if (!user) throw new Error('User not authenticated');
 
-    const { data, error } = await supabase
-      .from('torpedo_matches')
-      .select(`
-        *,
-        p1_profile:profiles!torpedo_matches_p1_id_fkey(full_name),
-        p2_profile:profiles!torpedo_matches_p2_id_fkey(full_name)
-      `)
-      .or(`p1_id.eq.${user.id},p2_id.eq.${user.id}`)
-      .order('updated_at', { ascending: false });
+    const q1 = query(collection(db, 'torpedo_matches'), where('p1_id', '==', user.uid));
+    const q2 = query(collection(db, 'torpedo_matches'), where('p2_id', '==', user.uid));
 
-    if (error) throw error;
+    const [snap1, snap2] = await Promise.all([getDocs(q1), getDocs(q2)]);
 
-    // Auto-close matches that have been inactive for more than 3 days
-    const threeDaysAgo = new Date();
-    threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
+    const matchMap = new Map<string, any>();
+    
+    snap1.forEach(docSnap => matchMap.set(docSnap.id, { id: docSnap.id, ...docSnap.data() }));
+    snap2.forEach(docSnap => matchMap.set(docSnap.id, { id: docSnap.id, ...docSnap.data() }));
 
-    const matchesToClose = data.filter(m => 
-      m.status !== 'finished' && 
-      new Date(m.updated_at) < threeDaysAgo
-    );
+    const matches = Array.from(matchMap.values());
 
-    if (matchesToClose.length > 0) {
-      const matchIdsToClose = matchesToClose.map(m => m.id);
-      
-      // Perform background update
-      supabase
-        .from('torpedo_matches')
-        .update({ status: 'finished' })
-        .in('id', matchIdsToClose)
-        .then(() => {
-          console.log(`Auto-closed ${matchesToClose.length} inactive matches`);
-        })
-        .catch(err => {
-          console.error('Failed to auto-close inactive matches:', err);
-        });
-
-      // Update local copy immediately
-      return data.map(m => {
-        if (matchIdsToClose.includes(m.id)) {
-          return { ...m, status: 'finished' };
+    // Populate profile names if available
+    for (const m of matches) {
+      if (m.p1_id) {
+        const p1Snap = await getDoc(doc(db, 'profiles', m.p1_id));
+        if (p1Snap.exists()) {
+          m.p1_profile = { full_name: p1Snap.data().full_name || 'Játékos 1' };
         }
-        return m;
-      });
+      }
+      if (m.p2_id) {
+        const p2Snap = await getDoc(doc(db, 'profiles', m.p2_id));
+        if (p2Snap.exists()) {
+          m.p2_profile = { full_name: p2Snap.data().full_name || 'Játékos 2' };
+        }
+      }
     }
 
-    return data;
+    return matches.sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
   },
 
   async deleteMatch(matchId: string) {
-    const { error } = await supabase
-      .from('torpedo_matches')
-      .delete()
-      .eq('id', matchId);
-    if (error) throw error;
+    await deleteDoc(doc(db, 'torpedo_matches', matchId));
   },
 
   async acceptMatch(matchId: string) {
-    const { error } = await supabase
-      .from('torpedo_matches')
-      .update({ status: 'placing' })
-      .eq('id', matchId);
-    if (error) throw error;
+    await updateDoc(doc(db, 'torpedo_matches', matchId), {
+      status: 'placing',
+      updated_at: new Date().toISOString(),
+    });
   },
 
   async submitShips(matchId: string, ships: any[]) {
-    const { data: { user } } = await supabase.auth.getUser();
+    const user = auth.currentUser;
     if (!user) throw new Error('User not authenticated');
 
-    const { data: match, error: getError } = await supabase
-      .from('torpedo_matches')
-      .select('*')
-      .eq('id', matchId)
-      .single();
+    const matchSnap = await getDoc(doc(db, 'torpedo_matches', matchId));
+    if (!matchSnap.exists()) throw new Error('Match not found');
 
-    if (getError) throw getError;
+    const match = matchSnap.data();
+    const isP1 = match.p1_id === user.uid;
 
-    const isP1 = match.p1_id === user.id;
-    const updateData: any = {};
+    const updateData: any = {
+      updated_at: new Date().toISOString(),
+    };
+
     if (isP1) {
       updateData.p1_ships = ships;
     } else {
       updateData.p2_ships = ships;
     }
 
-    // Check if both have ships now
     const hasP1Ships = isP1 ? true : (match.p1_ships && match.p1_ships.length > 0);
     const hasP2Ships = !isP1 ? true : (match.p2_ships && match.p2_ships.length > 0);
 
@@ -148,32 +149,23 @@ export const TorpedoService = {
       updateData.status = 'playing';
     }
 
-    const { error } = await supabase
-      .from('torpedo_matches')
-      .update(updateData)
-      .eq('id', matchId);
-
-    if (error) throw error;
+    await updateDoc(doc(db, 'torpedo_matches', matchId), updateData);
   },
 
   async makeMove(matchId: string, x: number, y: number) {
-    const { data: { user } } = await supabase.auth.getUser();
+    const user = auth.currentUser;
     if (!user) throw new Error('User not authenticated');
 
-    const { data: match, error: getError } = await supabase
-      .from('torpedo_matches')
-      .select('*')
-      .eq('id', matchId)
-      .single();
+    const matchSnap = await getDoc(doc(db, 'torpedo_matches', matchId));
+    if (!matchSnap.exists()) throw new Error('Match not found');
 
-    if (getError) throw getError;
-    if (match.turn_id !== user.id) throw new Error('Not your turn');
+    const match = matchSnap.data();
+    if (match.turn_id !== user.uid) throw new Error('Not your turn');
 
-    const isP1 = match.p1_id === user.id;
-    const opponentShips = isP1 ? match.p2_ships : match.p1_ships;
-    const myMoves = isP1 ? match.p1_moves : match.p2_moves;
+    const isP1 = match.p1_id === user.uid;
+    const opponentShips = isP1 ? (match.p2_ships || []) : (match.p1_ships || []);
+    const myMoves = isP1 ? (match.p1_moves || []) : (match.p2_moves || []);
 
-    // Check if hit
     const hit = opponentShips.some((ship: any) => 
       ship.cells.some((cell: any) => cell.x === x && cell.y === y)
     );
@@ -181,45 +173,41 @@ export const TorpedoService = {
     const newMove = { x, y, hit, timestamp: new Date().toISOString() };
     const updatedMoves = [...myMoves, newMove];
 
-    const updateData: any = {};
+    const updateData: any = {
+      updated_at: new Date().toISOString(),
+    };
+
     if (isP1) {
       updateData.p1_moves = updatedMoves;
     } else {
       updateData.p2_moves = updatedMoves;
     }
 
-    // Turn logic: shoot again on hit
     if (!hit) {
       updateData.turn_id = isP1 ? match.p2_id : match.p1_id;
     }
 
-    // Win condition check
-    const totalShipCells = opponentShips.reduce((acc: number, ship: any) => acc + ship.cells.length, 0);
+    const totalShipCells = opponentShips.reduce((acc: number, ship: any) => acc + (ship.cells ? ship.cells.length : 0), 0);
     const totalHits = updatedMoves.filter((m: any) => m.hit).length;
 
-    if (totalHits === totalShipCells) {
+    if (totalHits > 0 && totalHits === totalShipCells) {
       updateData.status = 'finished';
-      updateData.winner_id = user.id;
+      updateData.winner_id = user.uid;
     }
 
-    const { error } = await supabase
-      .from('torpedo_matches')
-      .update(updateData)
-      .eq('id', matchId);
-
-    if (error) throw error;
+    await updateDoc(doc(db, 'torpedo_matches', matchId), updateData);
     return newMove;
   },
 
   subscribeToMatch(matchId: string, onUpdate: (payload: any) => void) {
-    return supabase
-      .channel(`torpedo:${matchId}`)
-      .on('postgres_changes', { 
-        event: 'UPDATE', 
-        schema: 'public', 
-        table: 'torpedo_matches',
-        filter: `id=eq.${matchId}`
-      }, onUpdate)
-      .subscribe();
+    const unsubscribe = onSnapshot(doc(db, 'torpedo_matches', matchId), (snapshot) => {
+      if (snapshot.exists()) {
+        onUpdate({ new: { id: snapshot.id, ...snapshot.data() } });
+      }
+    });
+
+    return {
+      unsubscribe: () => unsubscribe()
+    };
   }
 };

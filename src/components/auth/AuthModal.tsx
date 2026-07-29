@@ -12,9 +12,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { supabase } from "@/lib/supabase";
+import { auth, db } from "@/lib/firebase";
+import { 
+    signInWithEmailAndPassword, 
+    createUserWithEmailAndPassword, 
+    updateProfile, 
+    signInWithPopup, 
+    GoogleAuthProvider 
+} from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 import { toast } from "sonner";
-import { Loader2, LogIn, UserPlus, Chrome, GraduationCap, School } from "lucide-react";
+import { Loader2, LogIn, UserPlus, Chrome } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface AuthModalProps {
@@ -36,11 +44,7 @@ export function AuthModal({ isOpen, onClose, defaultTab = 'login' }: AuthModalPr
         e.preventDefault();
         setLoading(true);
         try {
-            const { error } = await supabase.auth.signInWithPassword({
-                email,
-                password,
-            });
-            if (error) throw error;
+            await signInWithEmailAndPassword(auth, email, password);
             toast.success("Sikeres bejelentkezés!");
             onClose();
         } catch (error: any) {
@@ -62,17 +66,23 @@ export function AuthModal({ isOpen, onClose, defaultTab = 'login' }: AuthModalPr
         }
         setLoading(true);
         try {
-            const { error } = await supabase.auth.signUp({
-                email,
-                password,
-                options: {
-                    data: {
-                        full_name: fullName,
-                        role: role,
-                    }
-                }
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            if (fullName) {
+                await updateProfile(user, { displayName: fullName });
+            }
+
+            // Create initial profile document in Firestore
+            await setDoc(doc(db, 'profiles', user.uid), {
+                id: user.uid,
+                full_name: fullName || null,
+                username: email.split('@')[0],
+                role: role,
+                avatar_url: user.photoURL || null,
+                updated_at: new Date().toISOString(),
             });
-            if (error) throw error;
+
             toast.success("Sikeres regisztráció! Most már be vagy jelentkezve.");
             onClose();
         } catch (error: any) {
@@ -81,16 +91,26 @@ export function AuthModal({ isOpen, onClose, defaultTab = 'login' }: AuthModalPr
             setLoading(false);
         }
     };
+
     const handleGoogleLogin = async () => {
         setLoading(true);
         try {
-            const { error } = await supabase.auth.signInWithOAuth({
-                provider: 'google',
-                options: {
-                    redirectTo: window.location.origin
-                }
-            });
-            if (error) throw error;
+            const provider = new GoogleAuthProvider();
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+
+            // Ensure profile exists in Firestore
+            await setDoc(doc(db, 'profiles', user.uid), {
+                id: user.uid,
+                full_name: user.displayName || null,
+                username: user.email?.split('@')[0] || null,
+                role: role,
+                avatar_url: user.photoURL || null,
+                updated_at: new Date().toISOString(),
+            }, { merge: true });
+
+            toast.success("Sikeres bejelentkezés!");
+            onClose();
         } catch (error: any) {
             toast.error(error.message || "Hiba a Google bejelentkezés során");
         } finally {

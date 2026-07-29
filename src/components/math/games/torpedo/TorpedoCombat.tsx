@@ -20,7 +20,6 @@ import {
 import { TorpedoService, TorpedoMatch } from '@/lib/torpedo/TorpedoService';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
-import { supabase } from '@/lib/supabase';
 
 interface TorpedoCombatProps {
   match: TorpedoMatch;
@@ -71,7 +70,7 @@ export default function TorpedoCombat({ match: initialMatch, userId, onBack }: T
 
   useEffect(() => {
     if (match.settings?.is_local) return;
-    const channel = TorpedoService.subscribeToMatch(match.id, (payload) => {
+    const sub = TorpedoService.subscribeToMatch(match.id, (payload) => {
       const updated = payload.new as TorpedoMatch;
       
       setMatch(prev => {
@@ -92,7 +91,7 @@ export default function TorpedoCombat({ match: initialMatch, userId, onBack }: T
     });
 
     return () => {
-      supabase.removeChannel(channel);
+      sub.unsubscribe();
     };
   }, [match.id, isP1]);
 

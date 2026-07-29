@@ -9,14 +9,14 @@ import {
   Cpu, 
   Users, 
   Check, 
-  X, 
   ShieldCheck,
   Sword,
   SearchIcon,
   PlayCircle
 } from 'lucide-react';
 import { ChessService } from '@/lib/chess/ChessService';
-import { supabase } from '@/lib/supabase';
+import { auth, db } from '@/lib/firebase';
+import { collection, onSnapshot } from 'firebase/firestore';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -25,7 +25,7 @@ interface ChessLobbyProps {
 }
 
 export default function ChessLobby({ onStartGame }: ChessLobbyProps) {
-  const [activeTab, setActiveTab] = useState<'ai' | 'friends'>('ai');
+  const [activeTab, setActiveTab] = useState<'ai' | 'friends'>('friends');
   const [difficulty, setDifficulty] = useState(3);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -36,24 +36,20 @@ export default function ChessLobby({ onStartGame }: ChessLobbyProps) {
   const [currentUser, setCurrentUser] = useState<any>(null);
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => setCurrentUser(data.user));
-    loadFriendsData();
+    const unsubscribeAuth = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setCurrentUser(user);
+        loadFriendsData();
+      }
+    });
 
-    // Subscribe to friends table changes
-    const friendsSub = supabase
-      .channel('friends_changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'friends' }, () => loadFriendsData())
-      .subscribe();
-
-    // Subscribe to match changes
-    const matchesSub = supabase
-      .channel('matches_changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'chess_matches' }, () => loadMatchesData())
-      .subscribe();
+    const unsubscribeFriends = onSnapshot(collection(db, 'friends'), () => loadFriendsData());
+    const unsubscribeMatches = onSnapshot(collection(db, 'chess_matches'), () => loadMatchesData());
 
     return () => {
-      friendsSub.unsubscribe();
-      matchesSub.unsubscribe();
+      unsubscribeAuth();
+      unsubscribeFriends();
+      unsubscribeMatches();
     };
   }, []);
 
@@ -86,7 +82,7 @@ export default function ChessLobby({ onStartGame }: ChessLobbyProps) {
     setIsSearching(true);
     try {
       const results = await ChessService.searchProfiles(searchQuery);
-      setSearchResults(results.filter((p: any) => p.id !== currentUser?.id));
+      setSearchResults(results.filter((p: any) => p.id !== currentUser?.uid));
     } catch (e) {
       toast.error('Hiba a keresés során');
     } finally {
@@ -115,152 +111,177 @@ export default function ChessLobby({ onStartGame }: ChessLobbyProps) {
   };
 
   const joinMatch = async (match: any) => {
-    if (match.status === 'waiting' && match.black_id === currentUser.id) {
+    if (match.status === 'waiting' && match.black_id === currentUser?.uid) {
       await ChessService.acceptMatch(match.id);
     }
-    
-    const isWhite = match.white_id === currentUser.id;
-    const opponentProfile = isWhite ? match.black_profile : match.white_profile;
-    
+    const isWhite = match.white_id === currentUser?.uid;
+    const opponentName = isWhite ? match.black_profile?.full_name : match.white_profile?.full_name;
     onStartGame('friend', {
       matchId: match.id,
-      opponentId: isWhite ? match.black_id : match.white_id,
-      opponentName: opponentProfile?.full_name || 'Ellenfelek',
-      isWhite
+      isWhite,
+      opponentName: opponentName || 'Ellenfeled'
     });
   };
 
+  const startNewMatch = async (friendId: string, friendName: string) => {
+    try {
+      const match = await ChessService.createMatch(friendId, true);
+      toast.success(`Mérkőzés felajánlva: ${friendName}!`);
+      onStartGame('friend', {
+        matchId: match.id,
+        isWhite: true,
+        opponentName: friendName
+      });
+    } catch (e) {
+      toast.error('Nem sikerült elindítani a mérkőzést.');
+    }
+  };
+
   return (
-    <div className="w-full max-w-4xl mx-auto flex flex-col gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="flex bg-white dark:bg-slate-900 p-2 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-800">
+    <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in zoom-in-95 duration-300">
+      {/* Mode Selector Tabs */}
+      <div className="flex bg-slate-200/60 dark:bg-slate-800/60 p-1.5 rounded-2xl max-w-md mx-auto backdrop-blur-md border border-white/20">
         <button
           onClick={() => setActiveTab('ai')}
           className={cn(
-            "flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-bold transition-all",
+            "flex-1 py-3 px-6 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-all duration-300",
             activeTab === 'ai' 
-              ? "bg-indigo-600 text-white shadow-md" 
-              : "text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800"
+              ? "bg-white dark:bg-slate-900 text-amber-600 dark:text-amber-400 shadow-xl scale-[1.02]" 
+              : "text-slate-600 dark:text-slate-400 hover:text-slate-900"
           )}
         >
-          <Cpu size={20} />
-          <span>Robot ellen</span>
+          <Cpu className="w-4 h-4" />
+          Gép Ellen (AI)
         </button>
         <button
           onClick={() => setActiveTab('friends')}
           className={cn(
-            "flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-bold transition-all",
+            "flex-1 py-3 px-6 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-all duration-300",
             activeTab === 'friends' 
-              ? "bg-indigo-600 text-white shadow-md" 
-              : "text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800"
+              ? "bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-xl scale-[1.02]" 
+              : "text-slate-600 dark:text-slate-400 hover:text-slate-900"
           )}
         >
-          <Users size={20} />
-          <span>Barátok ellen</span>
+          <Users className="w-4 h-4" />
+          Barátok & Többjátékos
         </button>
       </div>
 
-      {activeTab === 'ai' ? (
-        <Card className="p-8 rounded-3xl border-slate-200 dark:border-slate-800 shadow-xl bg-white dark:bg-slate-900 text-center flex flex-col items-center">
-          <div className="p-6 bg-indigo-50 dark:bg-indigo-900/30 rounded-full text-indigo-600 dark:text-indigo-400 mb-6 scale-110">
-            <Cpu size={48} />
+      {/* AI Mode Selection */}
+      {activeTab === 'ai' && (
+        <Card className="p-8 rounded-3xl border-2 border-amber-500/20 bg-gradient-to-b from-amber-500/5 to-transparent backdrop-blur-md shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 p-8 opacity-10 font-black text-9xl select-none pointer-events-none text-amber-500">
+            🤖
           </div>
-          <h2 className="text-3xl font-black text-slate-800 dark:text-white mb-2">Válassz nehézséget!</h2>
-          <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-sm">
-            Készülj fel a játszmára a Stockfish motor ellen. Minél magasabb a szint, annál mélyebben számol a gép.
-          </p>
-
-          <div className="grid grid-cols-5 gap-3 w-full max-w-md mb-8">
-            {[1, 2, 3, 4, 5].map((level) => (
-              <button
-                key={level}
-                onClick={() => setDifficulty(level)}
-                className={cn(
-                  "aspect-square rounded-2xl flex flex-col items-center justify-center gap-1 border-2 transition-all",
-                  difficulty === level 
-                    ? "bg-indigo-50 dark:bg-indigo-900/30 border-indigo-600 text-indigo-600 dark:text-indigo-400 shadow-lg scale-110" 
-                    : "bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 text-slate-400 hover:border-slate-200"
-                )}
-              >
-                <ShieldCheck size={difficulty === level ? 24 : 18} />
-                <span className="text-xs font-bold">{level}</span>
-              </button>
-            ))}
-          </div>
-
-          <div className="flex gap-4 w-full justify-center">
-            <div className="px-6 py-2 bg-slate-50 dark:bg-slate-800 rounded-full text-xs font-bold text-slate-500 uppercase tracking-widest border border-slate-100 dark:border-slate-800">
-              Szint: {['Gyerekjáték', 'Könnyű', 'Közepes', 'Nehéz', 'Mester'][difficulty-1]}
+          
+          <div className="max-w-xl space-y-6 relative z-10">
+            <div>
+              <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                <Cpu className="w-6 h-6 text-amber-500" />
+                Válassz Nehézségi Szintet!
+              </h2>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                Gyakorolj a Stockfish által hajtott sakk motor ellen. Állítsd be a neked megfelelő kihívást!
+              </p>
             </div>
+
+            {/* Difficulty Slider / Cards */}
+            <div className="grid grid-cols-5 gap-3">
+              {[
+                { lvl: 1, label: 'Kezdő', emoji: '🌱' },
+                { lvl: 2, label: 'Könnyű', emoji: '🐣' },
+                { lvl: 3, label: 'Közepes', emoji: '🦊' },
+                { lvl: 4, label: 'Nehéz', emoji: '🦁' },
+                { lvl: 5, label: 'Mester', emoji: '👑' },
+              ].map(({ lvl, label, emoji }) => (
+                <button
+                  key={lvl}
+                  onClick={() => setDifficulty(lvl)}
+                  className={cn(
+                    "flex flex-col items-center p-3 rounded-2xl border-2 transition-all text-center",
+                    difficulty === lvl 
+                      ? "bg-amber-500 border-amber-500 text-white shadow-lg shadow-amber-500/30 scale-105" 
+                      : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-amber-400 text-slate-700 dark:text-slate-300"
+                  )}
+                >
+                  <span className="text-2xl mb-1">{emoji}</span>
+                  <span className="text-[10px] font-black uppercase tracking-wider">{label}</span>
+                </button>
+              ))}
+            </div>
+
+            <Button
+              onClick={() => onStartGame('ai', { difficulty })}
+              className="w-full h-14 rounded-2xl text-lg font-black bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-xl shadow-amber-500/20 transition-all hover:scale-[1.02] active:scale-95"
+            >
+              <PlayCircle className="w-6 h-6 mr-2" />
+              Játék Indítása (Szint {difficulty})
+            </Button>
           </div>
-
-          <Button 
-            onClick={() => onStartGame('ai', { difficulty })}
-            className="mt-8 h-12 px-12 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold gap-3 shadow-xl shadow-indigo-500/30 transition-all hover:scale-105 active:scale-95"
-          >
-            <Sword size={20} />
-            Játék indítása
-          </Button>
         </Card>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="flex flex-col gap-6">
-            {/* Friend Search */}
-            <Card className="p-6 rounded-3xl border-slate-200 dark:border-slate-800 shadow-lg bg-white dark:bg-slate-900">
-              <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-                <Search size={18} className="text-indigo-600" />
-                Barátok keresése
-              </h3>
-              <form onSubmit={handleSearch} className="flex gap-2 mb-4">
-                <div className="relative flex-1">
-                  <SearchIcon size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                  <Input 
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Teljes név..." 
-                    className="pl-9 rounded-xl border-slate-200 dark:border-slate-800"
-                  />
-                </div>
-                <Button type="submit" disabled={isSearching} className="rounded-xl bg-indigo-600 hover:bg-indigo-700">
-                  {isSearching ? <Clock size={16} className="animate-spin" /> : 'Keresés'}
-                </Button>
-              </form>
+      )}
 
-              <div className="space-y-2 max-h-48 overflow-y-auto pr-2">
-                {searchResults.map(profile => (
-                  <div key={profile.id} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
-                    <span className="font-bold text-sm">{profile.full_name}</span>
-                    <Button 
-                      size="sm" 
-                      variant="ghost" 
-                      onClick={() => sendRequest(profile.id)}
-                      className="text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 p-2 h-auto"
-                    >
-                      <UserPlus size={18} />
-                    </Button>
-                  </div>
-                ))}
-                {searchResults.length === 0 && searchQuery && !isSearching && (
-                  <p className="text-center text-xs text-slate-400 py-4">Nincs találat</p>
-                )}
-              </div>
+      {/* Friends & Multiplayer Mode */}
+      {activeTab === 'friends' && (
+        <div className="grid md:grid-cols-2 gap-6">
+          {/* Active Matches & Invites */}
+          <div className="space-y-6">
+            <Card className="p-6 rounded-3xl border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-md">
+              <h3 className="text-lg font-black text-slate-800 dark:text-slate-100 flex items-center gap-2 mb-4">
+                <Sword className="w-5 h-5 text-indigo-500" />
+                Aktív Mérkőzéseid
+              </h3>
+
+              {activeMatches.length === 0 ? (
+                <div className="text-center py-8 text-slate-400 text-sm italic">
+                  Nincs folyamatban lévő mérkőzésed.
+                </div>
+              ) : (
+                <div className="space-y-3 max-h-60 overflow-y-auto pr-1">
+                  {activeMatches.map((m) => {
+                    const isWhite = m.white_id === currentUser?.uid;
+                    const oppName = isWhite ? m.black_profile?.full_name : m.white_profile?.full_name;
+                    return (
+                      <div key={m.id} className="flex items-center justify-between p-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm">
+                        <div className="flex items-center gap-3">
+                          <span className="text-xl">{isWhite ? '♔' : '♚'}</span>
+                          <div>
+                            <div className="font-bold text-sm text-slate-800 dark:text-slate-100">
+                              {oppName || 'Várakozás barátra...'}
+                            </div>
+                            <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
+                              {m.status === 'waiting' ? 'Várakozik' : 'Folyamatban'}
+                            </div>
+                          </div>
+                        </div>
+                        <Button 
+                          size="sm" 
+                          onClick={() => joinMatch(m)}
+                          className="rounded-xl font-bold bg-indigo-600 hover:bg-indigo-700 text-white"
+                        >
+                          {m.status === 'waiting' && m.black_id === currentUser?.uid ? 'Elfogadás' : 'Folytatás'}
+                        </Button>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </Card>
 
             {/* Friend Requests */}
             {requests.length > 0 && (
-              <Card className="p-6 rounded-3xl border-slate-200 dark:border-slate-800 shadow-lg bg-indigo-50 dark:bg-indigo-900/10 border-indigo-100 dark:border-indigo-900">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 mb-4">
-                  Barátkérések ({requests.length})
+              <Card className="p-6 rounded-3xl border-amber-500/30 bg-amber-500/5 backdrop-blur-md">
+                <h3 className="text-lg font-black text-amber-600 dark:text-amber-400 flex items-center gap-2 mb-4">
+                  <ShieldCheck className="w-5 h-5" />
+                  Beérkező Barátkérések ({requests.length})
                 </h3>
                 <div className="space-y-2">
-                  {requests.map(req => (
-                    <div key={req.id} className="flex items-center justify-between p-3 bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-indigo-100 dark:border-indigo-900">
-                      <span className="font-bold text-sm">{req.profiles?.full_name}</span>
-                      <div className="flex gap-1">
-                        <Button size="sm" variant="ghost" onClick={() => acceptRequest(req.id)} className="text-emerald-600 p-1.5 h-auto">
-                          <Check size={18} />
-                        </Button>
-                        <Button size="sm" variant="ghost" className="text-rose-600 p-1.5 h-auto">
-                          <X size={18} />
+                  {requests.map((r) => (
+                    <div key={r.id} className="flex items-center justify-between p-3 rounded-2xl bg-white dark:bg-slate-800 border border-amber-200 dark:border-amber-900/40">
+                      <span className="font-bold text-sm">{r.profiles?.full_name}</span>
+                      <div className="flex gap-2">
+                        <Button size="icon" onClick={() => acceptRequest(r.id)} className="h-8 w-8 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white">
+                          <Check className="w-4 h-4" />
                         </Button>
                       </div>
                     </div>
@@ -268,78 +289,70 @@ export default function ChessLobby({ onStartGame }: ChessLobbyProps) {
                 </div>
               </Card>
             )}
+
+            {/* Friends List */}
+            <Card className="p-6 rounded-3xl border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-md">
+              <h3 className="text-lg font-black text-slate-800 dark:text-slate-100 flex items-center gap-2 mb-4">
+                <Users className="w-5 h-5 text-indigo-500" />
+                Barátaid ({friends.length})
+              </h3>
+              {friends.length === 0 ? (
+                <div className="text-center py-6 text-slate-400 text-sm italic">
+                  Még nincsenek barátaid. Keress diáktársakat a jobb oldali keresővel!
+                </div>
+              ) : (
+                <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
+                  {friends.map((f) => (
+                    <div key={f.id} className="flex items-center justify-between p-3 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700">
+                      <span className="font-bold text-sm">{f.full_name}</span>
+                      <Button 
+                        size="sm" 
+                        variant="secondary"
+                        onClick={() => startNewMatch(f.id, f.full_name)}
+                        className="rounded-xl font-bold bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400"
+                      >
+                        Kihívás ⚔️
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </Card>
           </div>
 
-          {/* Friends List & Active Matches */}
-          <div className="flex flex-col gap-6">
-            {/* Active Matches / Invitations */}
-            {activeMatches.length > 0 && (
-              <Card className="p-6 rounded-3xl border-slate-200 dark:border-slate-800 shadow-lg bg-indigo-600 text-white">
-                <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-                  <PlayCircle size={18} />
-                  Folyamatban lévő meccsek
-                </h3>
-                <div className="space-y-3">
-                  {activeMatches.map(match => {
-                    const isWhite = match.white_id === currentUser?.id;
-                    const opponentName = isWhite ? match.black_profile?.full_name : match.white_profile?.full_name;
-                    const isMyTurn = (match.fen.split(' ')[1] === 'w' && isWhite) || (match.fen.split(' ')[1] === 'b' && !isWhite);
-                    const isWaiting = match.status === 'waiting';
-
-                    return (
-                      <div key={match.id} className="flex items-center justify-between p-3 bg-white/10 hover:bg-white/20 rounded-xl border border-white/10 transition-all">
-                        <div className="flex flex-col">
-                          <span className="font-bold text-sm">
-                            {isWaiting ? `Meghívás: ${opponentName}` : `Meccs: ${opponentName}`}
-                          </span>
-                          <span className="text-[10px] opacity-70">
-                            {isWaiting ? 'Várakozás az elfogadásra...' : (isMyTurn ? 'Te következel!' : 'Partner következik')}
-                          </span>
-                        </div>
-                        <Button 
-                          size="sm" 
-                          onClick={() => joinMatch(match)}
-                          className="bg-white text-indigo-600 hover:bg-indigo-50 rounded-xl font-bold h-8 px-4"
-                        >
-                          {isWaiting && match.black_id === currentUser?.id ? 'Elfogadás' : 'Belépés'}
-                        </Button>
-                      </div>
-                    );
-                  })}
-                </div>
-              </Card>
-            )}
-
-            <Card className="p-6 rounded-3xl border-slate-200 dark:border-slate-800 shadow-lg bg-white dark:bg-slate-900 flex flex-col">
-              <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-                <Users size={18} className="text-indigo-600" />
-                Barátaim
+          {/* Search New Friends */}
+          <div className="space-y-6">
+            <Card className="p-6 rounded-3xl border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-md">
+              <h3 className="text-lg font-black text-slate-800 dark:text-slate-100 flex items-center gap-2 mb-4">
+                <SearchIcon className="w-5 h-5 text-indigo-500" />
+                Keress Diáktársakat!
               </h3>
-              <div className="space-y-3 overflow-y-auto max-h-[300px] pr-2">
-                {friends.map(friend => (
-                  <div key={friend.id} className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800 group hover:border-indigo-200 hover:bg-white transition-all">
-                    <div className="flex flex-col">
-                      <span className="font-bold">{friend.full_name}</span>
-                      <span className="text-[10px] text-slate-400 flex items-center gap-1">
-                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Online
-                      </span>
-                    </div>
+              
+              <form onSubmit={handleSearch} className="flex gap-2 mb-4">
+                <Input
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Keresés név alapján..."
+                  className="rounded-xl"
+                />
+                <Button type="submit" disabled={isSearching} className="rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold">
+                  <Search className="w-4 h-4" />
+                </Button>
+              </form>
+
+              <div className="space-y-2 max-h-80 overflow-y-auto">
+                {searchResults.map((p) => (
+                  <div key={p.id} className="flex items-center justify-between p-3 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700">
+                    <span className="font-bold text-sm">{p.full_name || 'Névtelen diák'}</span>
                     <Button 
-                      size="sm"
-                      onClick={() => onStartGame('friend', { opponentId: friend.id, opponentName: friend.full_name })}
-                      className="rounded-xl bg-indigo-600 hover:bg-indigo-700 opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all shadow-lg"
+                      size="sm" 
+                      onClick={() => sendRequest(p.id)}
+                      className="rounded-xl font-bold bg-emerald-500 hover:bg-emerald-600 text-white"
                     >
-                      Kihívás
+                      <UserPlus className="w-4 h-4 mr-1" /> Jelölés
                     </Button>
                   </div>
                 ))}
-                {friends.length === 0 && (
-                  <div className="flex flex-col items-center justify-center py-20 text-center opacity-30">
-                    <Users size={48} className="mb-4" />
-                    <p className="font-bold">Még nincsenek barátaid</p>
-                    <p className="text-sm">Keress ismerősöket a név alapján!</p>
-                  </div>
-                )}
               </div>
             </Card>
           </div>

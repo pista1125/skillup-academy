@@ -1,5 +1,12 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
+import { db, auth } from '@/lib/firebase';
+import { 
+  collection, 
+  getDocs, 
+  addDoc, 
+  query, 
+  where 
+} from 'firebase/firestore';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -24,7 +31,6 @@ export function TargetBoardSetup({ onStart }: TargetBoardSetupProps) {
   const [lessonInfo, setLessonInfo] = useState('');
   const [feedbackMode, setFeedbackMode] = useState<'projected' | 'individual'>('projected');
   
-  // Szempontok (2-4 között lehet)
   const [aspectCount, setAspectCount] = useState<2 | 3 | 4>(3);
   const [aspects, setAspects] = useState<string[]>(['Mennyire volt érthető az anyag?', 'Mennyire érezted jól magad?', 'Mennyire voltál aktív?']);
 
@@ -33,14 +39,18 @@ export function TargetBoardSetup({ onStart }: TargetBoardSetupProps) {
   }, [user]);
 
   const fetchClasses = async () => {
-    const { data } = await supabase
-      .from('feedback_classes')
-      .select('id, name')
-      .order('created_at', { ascending: false });
-    
-    if (data) {
-      setClasses(data);
-      if (data.length > 0) setSelectedClassId(data[0].id);
+    if (!user) return;
+    try {
+      const q = query(collection(db, 'feedback_classes'), where('teacher_id', '==', user.uid));
+      const snapshot = await getDocs(q);
+      const list: ClassGroup[] = [];
+      snapshot.forEach(docSnap => {
+        list.push({ id: docSnap.id, name: docSnap.data().name });
+      });
+      setClasses(list);
+      if (list.length > 0) setSelectedClassId(list[0].id);
+    } catch (e) {
+      console.error('Error fetching classes:', e);
     }
   };
 
@@ -62,213 +72,182 @@ export function TargetBoardSetup({ onStart }: TargetBoardSetupProps) {
   };
 
   const startSession = async () => {
-    // Validációk
     if (!selectedClassId) return toast.error('Válassz egy osztályt!');
     if (!lessonInfo.trim()) return toast.error('Add meg a tanóra azonosítóját!');
     if (aspects.some(a => !a.trim())) return toast.error('Minden szempontot tölts ki!');
 
     const selectedClass = classes.find(c => c.id === selectedClassId);
 
-    // Adatbázisba felvétel - egy új session létrehozása
-    const { data: session, error } = await supabase
-      .from('feedback_sessions')
-      .insert({
-        teacher_id: user!.id,
+    try {
+      const now = new Date().toISOString();
+      const sessionData = {
+        teacher_id: user!.uid,
         class_id: selectedClassId,
+        class_name: selectedClass?.name || '',
         tool_type: 'target_board',
         aspects: aspects,
         lesson_info: lessonInfo,
-        feedback_mode: feedbackMode
-      })
-      .select()
-      .single();
+        feedback_mode: feedbackMode,
+        created_at: now
+      };
 
-    if (error) {
-      toast.error('Hiba a játék indításakor');
-      return;
-    }
+      const docRef = await addDoc(collection(db, 'feedback_sessions'), sessionData);
+      const createdSession = { id: docRef.id, ...sessionData };
 
-    // Ha egyéni mód, értesítések kiküldése a bekötött diákoknak
-    if (feedbackMode === 'individual') {
-      const { data: students } = await supabase
-        .from('feedback_students')
-        .select('id, profile_id')
-        .eq('class_id', selectedClassId)
-        .not('profile_id', 'is', null);
+      if (feedbackMode === 'individual') {
+        const q = query(collection(db, 'feedback_students'), where('class_id', '==', selectedClassId));
+        const snapshot = await getDocs(q);
+        const linkedStudents: any[] = [];
 
-      if (students && students.length > 0) {
-        const notifications = students.map(s => ({
-          session_id: session.id,
-          student_id: s.id,
-          profile_id: s.profile_id,
-          status: 'unread'
-        }));
+        snapshot.forEach(docSnap => {
+          const data = docSnap.data();
+          if (data.profile_id) {
+            linkedStudents.push({ id: docSnap.id, profile_id: data.profile_id });
+          }
+        });
 
-        const { error: notifyError } = await supabase
-          .from('feedback_notifications')
-          .insert(notifications);
-
-        if (notifyError) {
-          console.error('Hiba az értesítések küldésekor:', notifyError);
+        if (linkedStudents.length > 0) {
+          for (const s of linkedStudents) {
+            await addDoc(collection(db, 'feedback_notifications'), {
+              session_id: createdSession.id,
+              student_id: s.id,
+              profile_id: s.profile_id,
+              status: 'unread',
+              created_at: now
+            });
+          }
+          toast.success(`${linkedStudents.length} diáknak küldtünk értesítést.`);
         } else {
-          toast.success(`${students.length} diáknak küldtünk értesítést.`);
+          toast.warning('Ebben az osztályban nincs egyetlen fiókhoz kapcsolt diák sem, aki egyénileg tudna visszajelezni.');
         }
-      } else {
-        toast.warning('Ebben az osztályban nincs egyetlen fiókhoz kapcsolt diák sem, aki egyénileg tudna visszajelezni.');
       }
-    }
 
-    // Átadjuk a fő komponensnek a létrehozott sessiont
-    onStart({
-      ...session,
-      className: selectedClass?.name
-    });
+      onStart(createdSession);
+    } catch (error) {
+      toast.error('Hiba a játék indításakor');
+      console.error(error);
+    }
   };
 
-  if (classes.length === 0) {
-    return (
-      <div className="text-center py-12">
-        <Target className="w-16 h-16 text-slate-200 mx-auto mb-4" />
-        <h3 className="text-lg font-bold text-slate-700 mb-2">Még nincsenek osztályaid</h3>
-        <p className="text-slate-500 mb-6">Először hozz létre egy osztályt az "Osztályok Kezelése" menüpontban!</p>
-      </div>
-    );
-  }
-
   return (
-    <div className="max-w-2xl mx-auto space-y-8">
-      <div className="space-y-6">
+    <div className="max-w-3xl mx-auto p-6 bg-white rounded-3xl border border-slate-100 shadow-sm">
+      <div className="flex items-center gap-3 mb-6 pb-6 border-b border-slate-100">
+        <Target className="w-8 h-8 text-indigo-600" />
         <div>
-          <Label className="text-lg font-semibold text-slate-800">1. Válaszd ki az osztályt</Label>
-          <p className="text-sm text-slate-500 mb-3">Melyik osztálytól kérsz most visszajelzést?</p>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-            {classes.map(cls => (
-              <button
-                key={cls.id}
-                onClick={() => setSelectedClassId(cls.id)}
-                className={`p-3 rounded-xl border-2 text-left font-medium transition-all ${
-                  selectedClassId === cls.id 
-                    ? 'border-rose-500 bg-rose-50 text-rose-700' 
-                    : 'border-slate-200 bg-white text-slate-600 hover:border-rose-200 hover:bg-slate-50'
-                }`}
-              >
-                {cls.name}
-              </button>
-            ))}
-          </div>
+          <h2 className="text-xl font-bold text-slate-800">Új Céltáblás Visszajelzés Beállítása</h2>
+          <p className="text-sm text-slate-500">Állítsd be a szempontokat és indítsd el a visszajelzést az osztályodnak.</p>
+        </div>
+      </div>
+
+      <div className="space-y-6">
+        {/* Osztály Kijelölése */}
+        <div className="space-y-2">
+          <Label className="font-bold">Osztály Kiválasztása</Label>
+          {classes.length === 0 ? (
+            <p className="text-sm text-slate-500 italic">Még nincs létrehozott osztályod. Kérlek, először hozz létre egyet az Osztályok Kezelése fülön!</p>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {classes.map(c => (
+                <Button
+                  key={c.id}
+                  type="button"
+                  variant={selectedClassId === c.id ? 'default' : 'outline'}
+                  onClick={() => setSelectedClassId(c.id)}
+                  className={`rounded-xl font-bold ${selectedClassId === c.id ? 'bg-indigo-600 text-white' : ''}`}
+                >
+                  {c.name}
+                </Button>
+              ))}
+            </div>
+          )}
         </div>
 
-        <div className="pt-4 border-t">
-          <Label className="text-lg font-semibold text-slate-800">2. Tanóra azonosítója (pl. dátum vagy téma)</Label>
-          <p className="text-sm text-slate-500 mb-2">Ez segít később a visszakeresésben.</p>
-          <Input 
-            placeholder="Pl. Matek 5. óra, vagy Törtek gyakorlása..." 
+        {/* Tanóra Infó */}
+        <div className="space-y-2">
+          <Label className="font-bold">Tanóra Azonosítója / Címe</Label>
+          <Input
+            placeholder="Pl. 7. osztály - Pithagorasz tétel tanóra"
             value={lessonInfo}
             onChange={(e) => setLessonInfo(e.target.value)}
-            className="text-lg py-6"
+            className="rounded-xl"
           />
         </div>
 
-        <div className="pt-4 border-t">
-          <div className="flex items-center justify-between mb-2">
-            <div>
-              <Label className="text-lg font-semibold text-slate-800">3. Visszajelzési szempontok</Label>
-              <p className="text-sm text-slate-500">A céltábla eszerint lesz felosztva (2-4 részre).</p>
+        {/* Visszajelzési Mód Kiválasztása */}
+        <div className="space-y-2">
+          <Label className="font-bold">Visszajelzési Mód</Label>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div
+              onClick={() => setFeedbackMode('projected')}
+              className={cn(
+                "p-4 rounded-2xl border-2 cursor-pointer transition-all flex items-start gap-3",
+                feedbackMode === 'projected' ? "border-indigo-600 bg-indigo-50/50" : "border-slate-100 hover:border-slate-200"
+              )}
+            >
+              <Monitor className="w-6 h-6 text-indigo-600 shrink-0 mt-1" />
+              <div>
+                <p className="font-bold text-slate-800">Projektoros Mód</p>
+                <p className="text-xs text-slate-500">Egy közös képernyőn a diákok egymás után dobják a nyilaikat.</p>
+              </div>
             </div>
-            <div className="flex bg-slate-100 rounded-lg p-1">
-              {[2, 3, 4].map((num) => (
-                <button
-                  key={num}
-                  onClick={() => handleAspectCountChange(num as 2|3|4)}
-                  className={`px-4 py-1 rounded-md text-sm font-medium transition-colors ${
-                    aspectCount === num ? 'bg-white shadow-sm text-rose-600' : 'text-slate-500 hover:text-slate-700'
-                  }`}
-                >
-                  {num} szempont
-                </button>
-              ))}
+
+            <div
+              onClick={() => setFeedbackMode('individual')}
+              className={cn(
+                "p-4 rounded-2xl border-2 cursor-pointer transition-all flex items-start gap-3",
+                feedbackMode === 'individual' ? "border-indigo-600 bg-indigo-50/50" : "border-slate-100 hover:border-slate-200"
+              )}
+            >
+              <Smartphone className="w-6 h-6 text-indigo-600 shrink-0 mt-1" />
+              <div>
+                <p className="font-bold text-slate-800">Egyéni Saját Eszköz Mód</p>
+                <p className="text-xs text-slate-500">A diákok saját okostelefonjukról válaszolnak értesítés alapján.</p>
+              </div>
             </div>
           </div>
-          
-          <div className="space-y-3 mt-4">
-            {aspects.map((aspect, idx) => (
-              <div key={idx} className="flex items-center gap-3">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold shrink-0 ${
-                  ['bg-indigo-500', 'bg-emerald-500', 'bg-amber-500', 'bg-purple-500'][idx]
-                }`}>
-                  {idx + 1}
-                </div>
-                <Input 
-                  value={aspect}
-                  onChange={(e) => handleAspectChange(idx, e.target.value)}
-                  placeholder={`${idx + 1}. kérdés vagy szempont...`}
-                  className="flex-1"
-                />
-              </div>
+        </div>
+
+        {/* Szempontok száma */}
+        <div className="space-y-2">
+          <Label className="font-bold">Szempontok Száma</Label>
+          <div className="flex gap-3">
+            {([2, 3, 4] as const).map(count => (
+              <Button
+                key={count}
+                type="button"
+                variant={aspectCount === count ? 'default' : 'outline'}
+                onClick={() => handleAspectCountChange(count)}
+                className={`rounded-xl font-bold flex-1 ${aspectCount === count ? 'bg-indigo-600 text-white' : ''}`}
+              >
+                {count} Szempont
+              </Button>
             ))}
           </div>
         </div>
 
-        <div className="pt-4 border-t">
-          <Label className="text-lg font-semibold text-slate-800">4. Visszajelzés módja</Label>
-          <p className="text-sm text-slate-500 mb-4">Hogyan szeretnéd összegyűjteni a válaszokat?</p>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <button
-              onClick={() => setFeedbackMode('projected')}
-              className={cn(
-                "flex items-start gap-4 p-4 rounded-2xl border-2 transition-all text-left",
-                feedbackMode === 'projected'
-                  ? "border-indigo-500 bg-indigo-50 shadow-sm"
-                  : "border-slate-100 bg-white hover:border-slate-200"
-              )}
-            >
-              <div className={cn("p-2 rounded-xl", feedbackMode === 'projected' ? "bg-indigo-500 text-white" : "bg-slate-100 text-slate-400")}>
-                <Monitor className="w-5 h-5" />
-              </div>
-              <div>
-                <div className={cn("font-bold text-sm", feedbackMode === 'projected' ? "text-indigo-900" : "text-slate-700")}>
-                  Közös gép (Kivetítve)
-                </div>
-                <div className="text-[11px] text-slate-500 font-medium leading-relaxed mt-1">
-                  A diákok kijönnek a tanári géphez és egyesével adják le a voksukat.
-                </div>
-              </div>
-            </button>
-
-            <button
-              onClick={() => setFeedbackMode('individual')}
-              className={cn(
-                "flex items-start gap-4 p-4 rounded-2xl border-2 transition-all text-left",
-                feedbackMode === 'individual'
-                  ? "border-emerald-500 bg-emerald-50 shadow-sm"
-                  : "border-slate-100 bg-white hover:border-slate-200"
-              )}
-            >
-              <div className={cn("p-2 rounded-xl", feedbackMode === 'individual' ? "bg-emerald-500 text-white" : "bg-slate-100 text-slate-400")}>
-                <Smartphone className="w-5 h-5" />
-              </div>
-              <div>
-                <div className={cn("font-bold text-sm", feedbackMode === 'individual' ? "text-emerald-900" : "text-slate-700")}>
-                  Saját eszköz (Direct)
-                </div>
-                <div className="text-[11px] text-slate-500 font-medium leading-relaxed mt-1">
-                  Minden gyerek a saját telefonján/gépén kap értesítést és ott jelez vissza.
-                </div>
-              </div>
-            </button>
-          </div>
+        {/* Szempontok Kitöltése */}
+        <div className="space-y-3 pt-2">
+          <Label className="font-bold">Szempontok Szövege</Label>
+          {aspects.map((aspect, idx) => (
+            <div key={idx} className="flex items-center gap-3">
+              <span className="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center shrink-0">
+                {idx + 1}
+              </span>
+              <Input
+                value={aspect}
+                onChange={(e) => handleAspectChange(idx, e.target.value)}
+                placeholder={`${idx + 1}. szempont megadása...`}
+                className="rounded-xl flex-1"
+              />
+            </div>
+          ))}
         </div>
-      </div>
 
-      <div className="pt-6 border-t flex justify-end">
-        <Button 
-          onClick={startSession} 
-          size="lg" 
-          className="bg-rose-600 hover:bg-rose-700 text-white font-bold px-8 py-6 rounded-2xl text-lg shadow-sm group"
+        <Button
+          onClick={startSession}
+          className="w-full h-12 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-base mt-6 shadow-md"
         >
-           <span>Visszajelzés Indítása</span>
-           <Play className="w-5 h-5 ml-2 group-hover:scale-110 transition-transform" />
+          <Play className="w-5 h-5 mr-2" /> Visszajelzés Indítása
         </Button>
       </div>
     </div>

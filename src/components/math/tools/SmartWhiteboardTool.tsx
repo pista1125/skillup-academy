@@ -33,7 +33,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { supabase } from '@/lib/supabase';
+import { invokeAiFunction } from '@/lib/aiService';
 
 interface SmartWhiteboardToolProps {
   onBack?: () => void;
@@ -826,11 +826,9 @@ export const SmartWhiteboardTool: React.FC<SmartWhiteboardToolProps> = ({ onBack
     const bbox = getBoundingBox(ptsToAnalyze.length > 0 ? ptsToAnalyze : [{ x: 200, y: 150 }]);
 
     try {
-      const { data } = await supabase.functions.invoke('ai-whiteboard-recognizer', {
-        body: {
-          strokes: targetStrokes,
-          action: 'recognize-shape'
-        }
+      const { data } = await invokeAiFunction('ai-whiteboard-recognizer', {
+        strokes: targetStrokes,
+        action: 'recognize-shape'
       });
 
       if (data?.shape) {

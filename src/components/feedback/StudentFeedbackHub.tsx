@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
+import { db } from '@/lib/firebase';
+import { collection, doc, getDoc, getDocs, query, where, onSnapshot } from 'firebase/firestore';
 import { Button } from '@/components/ui/button';
 import { Target, Users, BarChart3, ChevronLeft } from 'lucide-react';
-import { ClassManager } from './ClassManager';
+import ClassManager from './ClassManager';
 import { TargetBoardSetup } from './TargetBoardSetup';
 import { TargetBoardGame } from './TargetBoardGame';
 import { FeedbackResults } from './FeedbackResults';
@@ -22,48 +23,44 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
   const [currentSession, setCurrentSession] = useState<any>(null);
   const [notifications, setNotifications] = useState<any[]>([]);
   const [activeNotification, setActiveNotification] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     if (user) {
-      fetchNotifications();
-      const channel = supabase
-        .channel('new_feedback_notifications')
-        .on(
-          'postgres_changes',
-          { event: '*', schema: 'public', table: 'feedback_notifications', filter: `profile_id=eq.${user.id}` },
-          () => fetchNotifications()
-        )
-        .subscribe();
-      
-      return () => {
-        supabase.removeChannel(channel);
-      };
+      const q = query(
+        collection(db, 'feedback_notifications'),
+        where('profile_id', '==', user.uid),
+        where('status', '==', 'unread')
+      );
+
+      const unsubscribe = onSnapshot(q, async (snapshot) => {
+        const list: any[] = [];
+        for (const docSnap of snapshot.docs) {
+          const nData = docSnap.data();
+          let sessionData = null;
+          if (nData.session_id) {
+            const sSnap = await getDoc(doc(db, 'feedback_sessions', nData.session_id));
+            if (sSnap.exists()) {
+              sessionData = { id: sSnap.id, ...sSnap.data() };
+            }
+          }
+          list.push({
+            id: docSnap.id,
+            ...nData,
+            session: sessionData
+          });
+        }
+        setNotifications(list);
+      });
+
+      return () => unsubscribe();
     }
   }, [user]);
 
   useEffect(() => {
     if (profile?.role === 'student' && activeTab === 'setup') {
-      setActiveTab('results'); // Default to results or something else for students if no notifications
+      setActiveTab('results');
     }
   }, [profile, activeTab]);
-
-  const fetchNotifications = async () => {
-    setLoading(true);
-    const { data } = await supabase
-      .from('feedback_notifications')
-      .select(`
-        *,
-        session:feedback_sessions(*)
-      `)
-      .eq('profile_id', user?.id)
-      .eq('status', 'unread')
-      .order('created_at', { ascending: false });
-    
-    if (data) {
-      setNotifications(data);
-    }
-    setLoading(false);
-  };
 
   const handleJoinSession = (notification: any) => {
     setActiveNotification(notification);
@@ -113,7 +110,6 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
           setAppState('hub');
           setActiveNotification(null);
           setCurrentSession(null);
-          fetchNotifications();
         }} 
       />
     );
@@ -150,82 +146,62 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
                 : 'bg-white border-2 border-slate-100 hover:border-indigo-200 hover:bg-slate-50'
             }`}
           >
-            <div className={`p-4 rounded-full mb-4 ${activeTab === 'classes' ? 'bg-indigo-100 text-indigo-600' : 'bg-slate-100 text-slate-500'}`}>
-              <Users className="w-8 h-8" />
-            </div>
-            <h3 className="font-bold text-lg text-slate-800">Osztályok Kezelése</h3>
-            <p className="text-sm text-center text-slate-500 mt-2">
-              Hozd létre az osztályokat és válaszd ki a diákok avatárjait
-            </p>
+            <Users className="w-8 h-8 text-indigo-500 mb-2" />
+            <h3 className="font-bold text-slate-800">Osztályok Kezelése</h3>
+            <p className="text-xs text-slate-500 text-center mt-1">Osztályok és diákok létrehozása</p>
           </div>
 
           <div 
             onClick={() => setActiveTab('setup')}
             className={`flex flex-col items-center p-6 rounded-2xl cursor-pointer transition-all ${
               activeTab === 'setup' 
-                ? 'bg-rose-50 border-2 border-rose-500 shadow-sm' 
-                : 'bg-white border-2 border-slate-100 hover:border-rose-200 hover:bg-slate-50'
+                ? 'bg-indigo-50 border-2 border-indigo-500 shadow-sm' 
+                : 'bg-white border-2 border-slate-100 hover:border-indigo-200 hover:bg-slate-50'
             }`}
           >
-            <div className={`p-4 rounded-full mb-4 ${activeTab === 'setup' ? 'bg-rose-100 text-rose-600' : 'bg-slate-100 text-slate-500'}`}>
-              <Target className="w-8 h-8" />
-            </div>
-            <h3 className="font-bold text-lg text-slate-800">Új Visszajelzés</h3>
-            <p className="text-sm text-center text-slate-500 mt-2">
-              Indítsd el a céltáblás értékelést 2-4 szempont alapján
-            </p>
+            <Target className="w-8 h-8 text-indigo-500 mb-2" />
+            <h3 className="font-bold text-slate-800">Új Visszajelzés</h3>
+            <p className="text-xs text-slate-500 text-center mt-1">Céltáblás visszajelzés indítása</p>
           </div>
 
           <div 
             onClick={() => setActiveTab('results')}
             className={`flex flex-col items-center p-6 rounded-2xl cursor-pointer transition-all ${
               activeTab === 'results' 
-                ? 'bg-emerald-50 border-2 border-emerald-500 shadow-sm' 
-                : 'bg-white border-2 border-slate-100 hover:border-emerald-200 hover:bg-slate-50'
+                ? 'bg-indigo-50 border-2 border-indigo-500 shadow-sm' 
+                : 'bg-white border-2 border-slate-100 hover:border-indigo-200 hover:bg-slate-50'
             }`}
           >
-            <div className={`p-4 rounded-full mb-4 ${activeTab === 'results' ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-100 text-slate-500'}`}>
-              <BarChart3 className="w-8 h-8" />
-            </div>
-            <h3 className="font-bold text-lg text-slate-800">Eredmények</h3>
-            <p className="text-sm text-center text-slate-500 mt-2">
-              Nézd meg a korábbi órák értékeléseinek statisztikáit
-            </p>
+            <BarChart3 className="w-8 h-8 text-indigo-500 mb-2" />
+            <h3 className="font-bold text-slate-800">Eredmények</h3>
+            <p className="text-xs text-slate-500 text-center mt-1">Korábbi visszajelzések elemzése</p>
           </div>
         </div>
       )}
 
-      <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-8">
-        {notifications.length > 0 && appState === 'hub' && (
-          <div className="mb-8 animate-in fade-in slide-in-from-top-4 duration-500">
-            <h2 className="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
-              <span className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-rose-500"></span>
-              </span>
-              Aktív felkérések
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {notifications.map(n => (
-                <div key={n.id} className="bg-indigo-50 border-2 border-indigo-100 p-4 rounded-2xl flex flex-col justify-between shadow-sm">
-                  <div>
-                    <h4 className="font-black text-indigo-900">{n.session?.lesson_info || 'Visszajelzés'}</h4>
-                    <p className="text-xs text-indigo-600 font-bold mt-1 uppercase tracking-tight">Céltáblás értékelés</p>
-                  </div>
-                  <Button 
-                    onClick={() => handleJoinSession(n)}
-                    className="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl h-10 font-bold"
-                  >
-                    Csatlakozás
-                  </Button>
-                </div>
-              ))}
-            </div>
+      {/* Notifications Banner for Students */}
+      {notifications.length > 0 && (
+        <div className="bg-gradient-to-r from-amber-500 to-orange-500 rounded-2xl p-6 text-white mb-8 shadow-lg">
+          <h3 className="text-xl font-bold mb-2">Visszajelzési felkérésed van!</h3>
+          <p className="text-amber-100 text-sm mb-4">A tanárod új visszajelzést kér tőled.</p>
+          <div className="flex flex-wrap gap-3">
+            {notifications.map((n) => (
+              <Button
+                key={n.id}
+                onClick={() => handleJoinSession(n)}
+                className="bg-white text-orange-600 hover:bg-amber-50 font-bold rounded-xl"
+              >
+                Visszajelzés adása: {n.session?.title || 'Feladat'}
+              </Button>
+            ))}
           </div>
-        )}
+        </div>
+      )}
 
+      {/* Active Tab Content */}
+      <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm">
         {activeTab === 'classes' && <ClassManager />}
-        {activeTab === 'setup' && <TargetBoardSetup onStart={handleStartGame} />}
+        {activeTab === 'setup' && <TargetBoardSetup onStartGame={handleStartGame} />}
         {activeTab === 'results' && <FeedbackResults />}
       </div>
     </div>

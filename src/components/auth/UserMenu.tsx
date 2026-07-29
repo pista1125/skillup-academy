@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { supabase } from '@/lib/supabase';
+import { db } from '@/lib/firebase';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import {
@@ -13,7 +14,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { AuthModal } from './AuthModal';
-import { User, LogOut, Settings, LogIn, UserCircle, Bell, Target } from 'lucide-react';
+import { LogOut, Settings, LogIn, UserCircle, Target } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export function UserMenu() {
@@ -23,52 +24,32 @@ export function UserMenu() {
     const [notificationCount, setNotificationCount] = useState(0);
 
     useEffect(() => {
-        if (user) {
-            fetchNotificationCount();
-            
-            const channel = supabase
-                .channel('user_menu_notifications')
-                .on(
-                    'postgres_changes',
-                    { 
-                        event: '*', 
-                        schema: 'public', 
-                        table: 'feedback_notifications', 
-                        filter: `profile_id=eq.${user.id}` 
-                    },
-                    () => fetchNotificationCount()
-                )
-                .subscribe();
+        if (!user) return;
 
-            return () => {
-                supabase.removeChannel(channel);
-            };
-        }
+        const q = query(
+            collection(db, 'feedback_notifications'),
+            where('profile_id', '==', user.uid),
+            where('status', '==', 'unread')
+        );
+
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            setNotificationCount(snapshot.size);
+        }, (error) => {
+            console.error('Error fetching notification count:', error);
+        });
+
+        return () => unsubscribe();
     }, [user]);
-
-    const fetchNotificationCount = async () => {
-        const { count, error } = await supabase
-            .from('feedback_notifications')
-            .select('*', { count: 'exact', head: true })
-            .eq('profile_id', user?.id)
-            .eq('status', 'unread');
-        
-        if (!error && count !== null) {
-            setNotificationCount(count);
-        }
-    };
 
     if (loading) {
         return <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 animate-pulse" />;
     }
 
-    // Get initials for avatar
     const initials = profile?.full_name
         ? profile.full_name.split(' ').map(n => n[0]).join('').toUpperCase()
         : user?.email?.substring(0, 2).toUpperCase() || '??';
-    
-    // Use avatar_url if available
-    const displayAvatar = profile?.avatar_url || user?.user_metadata?.avatar_url || user?.user_metadata?.picture;
+
+    const displayAvatar = profile?.avatar_url || user?.photoURL || undefined;
 
     return (
         <>
@@ -86,7 +67,7 @@ export function UserMenu() {
                     <DropdownMenuTrigger asChild>
                         <Button
                             variant="ghost"
-                            className="bg-white/10 text-white hover:bg-white/20 font-bold pl-1.5 pr-2 sm:pl-2 sm:pr-4 border border-white/20 shadow-lg backdrop-blur-md transition-all hover:scale-105 active:scale-95 flex items-center gap-1.5 sm:gap-3 rounded-xl h-9 sm:h-10 ring-offset-primary focus:ring-2 focus:ring-white/50"
+                            className="bg-white/10 text-white hover:bg-white/20 font-bold pl-1.5 pr-2 sm:pl-2 sm:pr-4 border border-white/20 shadow-lg backdrop-blur-md transition-all hover:scale-105 active:scale-95 flex items-center gap-1.5 sm:gap-3 rounded-xl h-9 sm:h-10 ring-offset-primary focus:ring-2 focus:ring-white/50 relative"
                         >
                             <Avatar className="h-6 w-6 sm:h-7 sm:w-7 border border-white/30 shadow-sm">
                                 <AvatarImage src={displayAvatar} />
@@ -94,7 +75,7 @@ export function UserMenu() {
                                     "text-[8px] sm:text-[10px] font-black text-white",
                                     profile?.role === 'teacher' ? "bg-rose-500" : "bg-primary"
                                 )}>
-                                    {profile?.avatar_url || initials}
+                                    {initials}
                                 </AvatarFallback>
                             </Avatar>
                             <span className="text-xs sm:text-sm tracking-tight truncate max-w-[60px] xs:max-w-[80px] sm:max-w-[120px]">

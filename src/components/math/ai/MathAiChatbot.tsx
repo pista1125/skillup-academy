@@ -18,7 +18,7 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import remarkGfm from 'remark-gfm';
 import 'katex/dist/katex.min.css';
-import { supabase } from '../../../lib/supabase';
+import { invokeAiFunction } from '../../../lib/aiService';
 
 export interface ChatMessage {
   id: string;
@@ -209,16 +209,14 @@ Tegyél fel egy kérdést, kérjezz elméletet, kérj feladatot, vagy **másold 
           };
         });
 
-      // Call Supabase Edge Function math-ai-assistant
-      const { data, error } = await supabase.functions.invoke('math-ai-assistant', {
-        body: {
-          messages: apiMessages,
-          context: {
-            examType,
-            topicTitle,
-            subtopicTitle,
-            levelOrGrade
-          }
+      // Call Native AI Assistant
+      const { data, error } = await invokeAiFunction('math-ai-assistant', {
+        messages: apiMessages,
+        context: {
+          examType,
+          topicTitle,
+          subtopicTitle,
+          levelOrGrade
         }
       });
 
