@@ -23,6 +23,8 @@ export const db = getFirestore(app, 'databasediakzona');
 
 export const storage = getStorage(app);
 
-export const analyticsPromise = isSupported().then((supported) => supported ? getAnalytics(app) : null);
+export const analyticsPromise = isSupported()
+    .then((supported) => supported ? getAnalytics(app) : null)
+    .catch(() => null);
 
 export default app;
