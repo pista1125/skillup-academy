@@ -13,6 +13,7 @@ const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
 const PrivacyPage = lazy(() => import("./pages/PrivacyPage"));
 const TermsPage = lazy(() => import("./pages/TermsPage"));
+const TutoringPage = lazy(() => import("./pages/TutoringPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -28,6 +29,8 @@ const App = () => (
           <Suspense fallback={null}>
             <Routes>
             <Route path="/" element={<MathPage />} />
+            <Route path="/korrepetalas" element={<TutoringPage />} />
+            <Route path="/online-korrepetalas" element={<TutoringPage />} />
             <Route path="/:grade" element={<MathPage />} />
             <Route path="/:grade/:topic" element={<MathPage />} />
             <Route path="/:grade/:topic/:activity" element={<MathPage />} />

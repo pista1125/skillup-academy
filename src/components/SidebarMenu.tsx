@@ -20,7 +20,7 @@ export function SidebarMenu() {
     const [isTutoringModalOpen, setIsTutoringModalOpen] = useState(false);
 
     const menuItems = [
-        { label: 'Online Korrepetálás', icon: <Video className="w-5 h-5 text-purple-500" />, onClick: () => setIsTutoringModalOpen(true) },
+        { label: 'Online Korrepetálás', icon: <Video className="w-5 h-5 text-purple-500" />, href: '/korrepetalas' },
         { label: 'Rólunk', icon: <Info className="w-5 h-5" />, href: '/rolunk' },
         { label: 'Beszélj velünk', icon: <Mail className="w-5 h-5" />, href: '#' },
         { label: 'Adatkezelési tájékoztató', icon: <ShieldCheck className="w-5 h-5" />, href: '/adatkezeles' },

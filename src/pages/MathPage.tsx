@@ -2575,7 +2575,7 @@ export default function MathPage() {
                   <UserMenu />
                   <Button
                     variant="default"
-                    onClick={() => setIsTutoringModalOpen(true)}
+                    onClick={() => navigate('/korrepetalas')}
                     className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 font-extrabold px-3 md:px-5 shadow-lg shadow-purple-500/30 border border-white/20 transition-all hover:scale-105 active:scale-95 h-9 flex items-center gap-1.5 rounded-xl"
                   >
                     <Video className="w-4 h-4" />
