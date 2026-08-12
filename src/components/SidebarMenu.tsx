@@ -7,21 +7,24 @@ import {
     SheetTrigger,
     SheetClose,
 } from "@/components/ui/sheet";
-import { Menu, Info, Mail, ShieldCheck, FileText, ChevronRight, LogOut, UserCircle, LogIn } from "lucide-react";
+import { Menu, Info, Mail, ShieldCheck, FileText, ChevronRight, LogOut, UserCircle, LogIn, Video } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from '@/contexts/AuthContext';
 import { AuthModal } from './auth/AuthModal';
 import { Avatar, AvatarFallback } from './ui/avatar';
+import { OnlineTutoringModal } from './tutoring/OnlineTutoringModal';
 
 export function SidebarMenu() {
     const { user, profile, signOut } = useAuth();
     const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+    const [isTutoringModalOpen, setIsTutoringModalOpen] = useState(false);
 
     const menuItems = [
-        { label: 'Rólunk', icon: <Info className="w-5 h-5" />, href: '#' },
+        { label: 'Online Korrepetálás', icon: <Video className="w-5 h-5 text-purple-500" />, onClick: () => setIsTutoringModalOpen(true) },
+        { label: 'Rólunk', icon: <Info className="w-5 h-5" />, href: '/rolunk' },
         { label: 'Beszélj velünk', icon: <Mail className="w-5 h-5" />, href: '#' },
-        { label: 'Adatkezelési tájékoztató', icon: <ShieldCheck className="w-5 h-5" />, href: '#' },
-        { label: 'Felhasználási feltételek', icon: <FileText className="w-5 h-5" />, href: '#' },
+        { label: 'Adatkezelési tájékoztató', icon: <ShieldCheck className="w-5 h-5" />, href: '/adatkezeles' },
+        { label: 'Felhasználási feltételek', icon: <FileText className="w-5 h-5" />, href: '/felhasznalasi-feltetelek' },
     ];
 
     const initials = profile?.full_name
@@ -95,18 +98,34 @@ export function SidebarMenu() {
                             <nav className="space-y-1">
                                 {menuItems.map((item, index) => (
                                     <SheetClose asChild key={index}>
-                                        <a
-                                            href={item.href}
-                                            className="flex items-center justify-between p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-900 transition-all group text-slate-700 dark:text-slate-300"
-                                        >
-                                            <div className="flex items-center gap-4">
-                                                <div className="p-2 bg-slate-50 dark:bg-slate-800 rounded-lg group-hover:bg-primary/10 group-hover:text-primary transition-all">
-                                                    {item.icon}
+                                        {item.onClick ? (
+                                            <button
+                                                type="button"
+                                                onClick={item.onClick}
+                                                className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-900 transition-all group text-slate-700 dark:text-slate-300 text-left"
+                                            >
+                                                <div className="flex items-center gap-4">
+                                                    <div className="p-2 bg-slate-50 dark:bg-slate-800 rounded-lg group-hover:bg-primary/10 group-hover:text-primary transition-all">
+                                                        {item.icon}
+                                                    </div>
+                                                    <span className="font-bold text-sm tracking-tight">{item.label}</span>
                                                 </div>
-                                                <span className="font-bold text-sm tracking-tight">{item.label}</span>
-                                            </div>
-                                            <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-primary transition-all" />
-                                        </a>
+                                                <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-primary transition-all" />
+                                            </button>
+                                        ) : (
+                                            <a
+                                                href={item.href}
+                                                className="flex items-center justify-between p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-900 transition-all group text-slate-700 dark:text-slate-300"
+                                            >
+                                                <div className="flex items-center gap-4">
+                                                    <div className="p-2 bg-slate-50 dark:bg-slate-800 rounded-lg group-hover:bg-primary/10 group-hover:text-primary transition-all">
+                                                        {item.icon}
+                                                    </div>
+                                                    <span className="font-bold text-sm tracking-tight">{item.label}</span>
+                                                </div>
+                                                <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-primary transition-all" />
+                                            </a>
+                                        )}
                                     </SheetClose>
                                 ))}
                             </nav>
@@ -138,6 +157,7 @@ export function SidebarMenu() {
                 </SheetContent>
             </Sheet>
             <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
+            <OnlineTutoringModal isOpen={isTutoringModalOpen} onClose={() => setIsTutoringModalOpen(false)} />
         </>
     );
 }

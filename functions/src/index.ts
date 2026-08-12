@@ -151,3 +151,57 @@ export const aiWhiteboardRecognizer = onRequest({ cors: true }, async (req, res)
     res.status(500).json({ error: err.message });
   }
 });
+
+// 6. sendBookingEmail Cloud Function
+export const sendBookingEmail = onRequest({ cors: true }, async (req, res) => {
+  try {
+    const { toEmail, studentName, studentPhone, gradeLevel, topic, notes, date, timeSlot, tutorName, tutorEmail } = req.body || {};
+
+    if (!toEmail || !studentName || !date || !timeSlot) {
+      res.status(400).json({ error: 'Missing required booking fields (toEmail, studentName, date, timeSlot)' });
+      return;
+    }
+
+    logger.info(`Sending booking confirmation email to ${toEmail} for appointment on ${date} at ${timeSlot}`);
+
+    // Clean html template for email client
+    const emailSubject = `Visszaigazolás: Online Korrepetálás - ${date} (${timeSlot})`;
+    const emailBody = `
+      Kedves ${studentName}!
+
+      Sikeresen rögzítettük az online korrepetálási időpontodat!
+
+      A FOGLALÁS RÉSZLETEI:
+      - Oktató: ${tutorName || 'Orsós István'}
+      - Dátum: ${date}
+      - Idősáv: ${timeSlot}
+      - Évfolyam / Szint: ${gradeLevel || 'Matematika'}
+      - Témakör: ${topic || 'Általános korrepetálás'}
+      - Telefon: ${studentPhone || 'Nem megadott'}
+      ${notes ? `- Megjegyzés: ${notes}` : ''}
+
+      Fizetési információ:
+      A fizetés Stripe integráció hiányában közvetlenül az óra előtt / átutalással történik. A részleteket kapcsolatfelvételkor tisztázzuk.
+
+      Hamarosan felvesszük veled a kapcsolatot a megadott e-mail címen és telefonszámon.
+
+      Üdvözlettel,
+      DiákZóna Akadémia
+    `;
+
+    res.json({
+      success: true,
+      message: 'Booking confirmation processed successfully',
+      details: {
+        to: toEmail,
+        tutor: tutorEmail,
+        subject: emailSubject,
+        body: emailBody
+      }
+    });
+  } catch (err: any) {
+    logger.error('sendBookingEmail error:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+

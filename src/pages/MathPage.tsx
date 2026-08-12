@@ -12,6 +12,7 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import { SidebarMenu } from '@/components/SidebarMenu';
 import { SiteFooter } from '@/components/SiteFooter';
 import { UserMenu } from '@/components/auth/UserMenu';
+import { OnlineTutoringModal } from '@/components/tutoring/OnlineTutoringModal';
 
 // Lazy load heavy components
 const CompetencyMatrixHub = lazy(() => import("@/components/math/competency-matrix/CompetencyMatrixHub")) as any;
@@ -141,7 +142,8 @@ import {
   Trophy,
   Flag,
   ArrowRightLeft,
-  GraduationCap
+  GraduationCap,
+  Video
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -366,6 +368,7 @@ export default function MathPage() {
   const [activeGrade5TopicId, setActiveGrade5TopicId] = useState<string>('g5-integers');
   const [activeGrade5SubSectionId, setActiveGrade5SubSectionId] = useState<string | null>(null);
   const [isGrade5MobileMenuOpen, setIsGrade5MobileMenuOpen] = useState(false);
+  const [isTutoringModalOpen, setIsTutoringModalOpen] = useState(false);
 
   const isUpperGradeLayout = selectedGrade !== null && (
     typeof selectedGrade === 'number' || 
@@ -2571,6 +2574,15 @@ export default function MathPage() {
                   </div>
                   <UserMenu />
                   <Button
+                    variant="default"
+                    onClick={() => setIsTutoringModalOpen(true)}
+                    className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 font-extrabold px-3 md:px-5 shadow-lg shadow-purple-500/30 border border-white/20 transition-all hover:scale-105 active:scale-95 h-9 flex items-center gap-1.5 rounded-xl"
+                  >
+                    <Video className="w-4 h-4" />
+                    <span className="hidden sm:inline">Online Korrepetálás</span>
+                    <span className="sm:hidden">Korrepetálás</span>
+                  </Button>
+                  <Button
                     variant="secondary"
                     onClick={() => { window.location.assign('https://kviz.diakzona.hu/'); }}
                     className="bg-emerald-500 text-white hover:bg-emerald-600 font-extrabold px-3 md:px-6 shadow-lg shadow-emerald-500/30 border-none transition-all hover:scale-105 active:scale-95 h-9"
@@ -3931,6 +3943,7 @@ export default function MathPage() {
         {activeMaterial && (
           <LessonViewer material={activeMaterial} onClose={() => handleMaterialSelect(null)} />
         )}
+        <OnlineTutoringModal isOpen={isTutoringModalOpen} onClose={() => setIsTutoringModalOpen(false)} />
       </div>
     </div>
   );

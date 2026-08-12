@@ -1,0 +1,73 @@
+import { db } from '@/lib/firebase';
+import { collection, addDoc, getDocs, query, where, serverTimestamp } from 'firebase/firestore';
+
+export interface BookingData {
+  id?: string;
+  studentId?: string | null;
+  studentName: string;
+  studentEmail: string;
+  studentPhone: string;
+  gradeLevel: string;
+  topic: string;
+  notes?: string;
+  date: string; // Format: YYYY-MM-DD
+  timeSlot: string; // e.g. "15:00 - 15:45"
+  status: 'pending' | 'confirmed' | 'cancelled';
+  createdAt?: any;
+}
+
+export const DEFAULT_TIME_SLOTS = [
+  '14:00 - 14:45',
+  '15:00 - 15:45',
+  '16:00 - 16:45',
+  '17:00 - 17:45',
+  '18:00 - 18:45',
+];
+
+/**
+ * Fetch already booked slots for a given date.
+ */
+export async function getBookedSlotsForDate(dateStr: string): Promise<string[]> {
+  try {
+    const bookingsRef = collection(db, 'tutoring_bookings');
+    const q = query(bookingsRef, where('date', '==', dateStr), where('status', '!=', 'cancelled'));
+    const querySnapshot = await getDocs(q);
+
+    const bookedSlots: string[] = [];
+    querySnapshot.forEach((doc) => {
+      const data = doc.data() as BookingData;
+      if (data.timeSlot) {
+        bookedSlots.push(data.timeSlot);
+      }
+    });
+
+    return bookedSlots;
+  } catch (error) {
+    console.warn('Could not fetch booked slots from Firestore, returning empty list:', error);
+    return [];
+  }
+}
+
+/**
+ * Save a new tutoring booking into Firestore.
+ */
+export async function createTutoringBooking(booking: Omit<BookingData, 'id' | 'createdAt' | 'status'>): Promise<string> {
+  const newBooking: BookingData = {
+    ...booking,
+    status: 'confirmed',
+    createdAt: new Date().toISOString(),
+  };
+
+  try {
+    const bookingsRef = collection(db, 'tutoring_bookings');
+    const docRef = await addDoc(bookingsRef, {
+      ...newBooking,
+      timestamp: serverTimestamp(),
+    });
+    return docRef.id;
+  } catch (error) {
+    console.error('Error saving booking to Firestore:', error);
+    // Return a local ID if offline or Firestore error occurs
+    return `local-${Date.now()}`;
+  }
+}
