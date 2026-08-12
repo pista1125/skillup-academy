@@ -40,13 +40,13 @@ export function generateGoogleMeetLink(dateStr: string, timeSlot: string): strin
 export async function getBookedSlotsForDate(dateStr: string): Promise<string[]> {
   try {
     const bookingsRef = collection(db, 'tutoring_bookings');
-    const q = query(bookingsRef, where('date', '==', dateStr), where('status', '!=', 'cancelled'));
+    const q = query(bookingsRef, where('date', '==', dateStr));
     const querySnapshot = await getDocs(q);
 
     const bookedSlots: string[] = [];
     querySnapshot.forEach((doc) => {
       const data = doc.data() as BookingData;
-      if (data.timeSlot) {
+      if (data.timeSlot && data.status !== 'cancelled') {
         bookedSlots.push(data.timeSlot);
       }
     });
