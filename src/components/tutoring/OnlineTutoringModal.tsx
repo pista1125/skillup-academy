@@ -54,6 +54,7 @@ export const OnlineTutoringModal: React.FC<OnlineTutoringModalProps> = ({ isOpen
 
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [confirmedBookingId, setConfirmedBookingId] = useState<string | null>(null);
+  const [confirmedMeetLink, setConfirmedMeetLink] = useState<string | null>(null);
 
   // Auto-fill student profile if logged in
   useEffect(() => {
@@ -109,8 +110,8 @@ export const OnlineTutoringModal: React.FC<OnlineTutoringModalProps> = ({ isOpen
     const dateStr = format(selectedDate, 'yyyy-MM-dd');
 
     try {
-      // 1. Save booking to Firestore
-      const bookingId = await createTutoringBooking({
+      // 1. Save booking to Firestore and get meetLink
+      const { id: bookingId, meetLink } = await createTutoringBooking({
         studentId: user?.uid || null,
         studentName: formData.studentName,
         studentEmail: formData.studentEmail,
@@ -123,8 +124,9 @@ export const OnlineTutoringModal: React.FC<OnlineTutoringModalProps> = ({ isOpen
       });
 
       setConfirmedBookingId(bookingId);
+      setConfirmedMeetLink(meetLink);
 
-      // 2. Dispatch email notification
+      // 2. Dispatch email notification with meetLink
       await sendBookingConfirmationEmail({
         studentId: user?.uid || null,
         studentName: formData.studentName,
@@ -135,6 +137,7 @@ export const OnlineTutoringModal: React.FC<OnlineTutoringModalProps> = ({ isOpen
         notes: formData.notes,
         date: dateStr,
         timeSlot: selectedTimeSlot,
+        meetLink,
         status: 'confirmed',
       });
 
@@ -152,6 +155,7 @@ export const OnlineTutoringModal: React.FC<OnlineTutoringModalProps> = ({ isOpen
     setStep(1);
     setSelectedTimeSlot(null);
     setConfirmedBookingId(null);
+    setConfirmedMeetLink(null);
     onClose();
   };
 
@@ -324,6 +328,27 @@ export const OnlineTutoringModal: React.FC<OnlineTutoringModalProps> = ({ isOpen
                   <strong className="text-slate-800 dark:text-slate-200 font-bold">{formData.topic}</strong>
                 </div>
               </div>
+
+              {/* Google Meet Link Banner */}
+              {confirmedMeetLink && (
+                <div className="p-4 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/60 rounded-2xl text-center space-y-2">
+                  <p className="text-xs font-bold text-emerald-800 dark:text-emerald-300">
+                    🎥 Az online órád Google Meet szobája elkészült:
+                  </p>
+                  <a
+                    href={confirmedMeetLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-xl text-sm shadow-md transition-all hover:scale-105"
+                  >
+                    <Video className="w-4 h-4" />
+                    Csatlakozás a Google Meet Órához
+                  </a>
+                  <p className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
+                    (A csatlakozási linket e-mailben is átküldtük!)
+                  </p>
+                </div>
+              )}
 
               {/* Payment Notice (Stripe postponed) */}
               <div className="p-4 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/60 rounded-2xl text-left flex items-start gap-3">

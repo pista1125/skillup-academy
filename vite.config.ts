@@ -20,7 +20,7 @@ const emailApiPlugin = () => ({
       req.on('end', async () => {
         try {
           const data = JSON.parse(body || '{}');
-          const { toEmail, studentName, studentPhone, gradeLevel, topic, notes, date, timeSlot } = data;
+          const { toEmail, studentName, studentPhone, gradeLevel, topic, notes, date, timeSlot, meetLink } = data;
 
           const transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -29,6 +29,8 @@ const emailApiPlugin = () => ({
               pass: process.env.GMAIL_APP_PASSWORD || 'oboiairinricsurq',
             },
           });
+
+          const actualMeetLink = meetLink || `https://meet.google.com/lookup/diakzona-${(date || '').replace(/-/g, '')}`;
 
           const htmlContent = `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px; background-color: #ffffff;">
@@ -47,8 +49,15 @@ const emailApiPlugin = () => ({
                 ${notes ? `<p style="margin: 5px 0;"><strong>Megjegyzés:</strong> ${notes}</p>` : ''}
               </div>
 
+              <div style="text-align: center; margin: 25px 0;">
+                <a href="${actualMeetLink}" target="_blank" style="background-color: #00832d; color: #ffffff; padding: 14px 28px; font-weight: bold; text-decoration: none; border-radius: 10px; display: inline-block; font-size: 15px; box-shadow: 0 4px 6px rgba(0,131,45,0.2);">
+                  🎥 Csatlakozás a Google Meet Órához
+                </a>
+                <p style="font-size: 12px; color: #64748b; margin-top: 8px;">Kattints a fenti gombra az óra kezdete előtt 5 perccel!</p>
+              </div>
+
               <p style="font-size: 13px; color: #64748b; background-color: #fffbeb; border: 1px solid #fef3c7; padding: 12px; border-radius: 8px;">
-                📌 <strong>Fizetési információ:</strong> A fizetés közvetlenül az óra előtt / átutalással történik. A csatlakozási linket és a részleteket e-mailben/telefonon egyeztetjük.
+                📌 <strong>Fizetési információ:</strong> A fizetés közvetlenül az óra előtt / átutalással történik.
               </p>
 
               <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
