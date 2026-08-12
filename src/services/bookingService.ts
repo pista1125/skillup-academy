@@ -26,10 +26,12 @@ export const DEFAULT_TIME_SLOTS = [
 ];
 
 /**
- * Helper to generate a clean Google Meet room URL for an appointment
+ * Permanent Google Meet room link for Orsós István / DiákZóna Akadémia
  */
+export const PERMANENT_MEET_LINK = 'https://meet.google.com/gqy-sazd-yuz';
+
 export function generateGoogleMeetLink(dateStr: string, timeSlot: string): string {
-  return `https://meet.google.com/diakzona-online`;
+  return PERMANENT_MEET_LINK;
 }
 
 /**
@@ -60,7 +62,7 @@ export async function getBookedSlotsForDate(dateStr: string): Promise<string[]> 
  * Save a new tutoring booking into Firestore.
  */
 export async function createTutoringBooking(booking: Omit<BookingData, 'id' | 'createdAt' | 'status'>): Promise<{ id: string; meetLink: string }> {
-  const meetLink = booking.meetLink || generateGoogleMeetLink(booking.date, booking.timeSlot);
+  const meetLink = booking.meetLink || PERMANENT_MEET_LINK;
   
   const newBooking: BookingData = {
     ...booking,

@@ -173,7 +173,7 @@ export const sendBookingEmail = onRequest({ cors: true }, async (req, res) => {
       },
     });
 
-    const actualMeetLink = meetLink || `https://meet.google.com/lookup/diakzona-${(date || '').replace(/-/g, '')}`;
+    const actualMeetLink = meetLink || 'https://meet.google.com/gqy-sazd-yuz';
 
     const htmlContent = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px; background-color: #ffffff;">

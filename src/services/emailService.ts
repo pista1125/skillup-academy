@@ -1,6 +1,6 @@
 import { db } from '@/lib/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { BookingData } from './bookingService';
+import { BookingData, PERMANENT_MEET_LINK } from './bookingService';
 
 export interface EmailResult {
   success: boolean;
@@ -9,10 +9,10 @@ export interface EmailResult {
 
 /**
  * Send booking confirmation email.
- * Supports EmailJS (from kapcsolat@diakzona.hu), Web3Forms, Resend, and Firestore mail trigger.
  */
 export async function sendBookingConfirmationEmail(booking: BookingData): Promise<EmailResult> {
-  const actualMeetLink = booking.meetLink || 'https://meet.google.com/diakzona-online';
+  const actualMeetLink = booking.meetLink || PERMANENT_MEET_LINK;
+  const subjectStr = `Visszaigazolás: Online Korrepetálás - ${booking.date} (${booking.timeSlot})`;
 
   const textContent = `
 Kedves ${booking.studentName}!
@@ -28,7 +28,7 @@ A FOGLALÁS RÉSZLETEI:
 - Telefonszám: ${booking.studentPhone}
 ${booking.notes ? `- Megjegyzés: ${booking.notes}` : ''}
 
-GOOGLE MEET SZOBALINK:
+GOOGLE MEET CSATLAKOZÁSI LINK:
 ${actualMeetLink}
 
 Fizetési információ:
@@ -89,7 +89,7 @@ DiákZóna Akadémia
           notes: booking.notes || '',
           date: booking.date,
           timeSlot: booking.timeSlot,
-          meetLink: booking.meetLink,
+          meetLink: actualMeetLink,
         }),
       }).catch((err) => console.warn('Vite email API fetch warning:', err));
     }
@@ -106,69 +106,6 @@ DiákZóna Akadémia
       },
       createdAt: serverTimestamp(),
     }).catch((e) => console.warn('Firestore mail write warning:', e));
-
-    // 2. EmailJS Integration (sending FROM kapcsolat@diakzona.hu)
-    const emailJsServiceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-    const emailJsTemplateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-    const emailJsPublicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-
-    if (emailJsServiceId && emailJsTemplateId && emailJsPublicKey) {
-      await fetch('https://api.emailjs.com/api/v1.0/email/send', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          service_id: emailJsServiceId,
-          template_id: emailJsTemplateId,
-          user_id: emailJsPublicKey,
-          template_params: {
-            to_email: booking.studentEmail,
-            student_name: booking.studentName,
-            student_phone: booking.studentPhone,
-            grade_level: booking.gradeLevel,
-            topic: booking.topic,
-            date: booking.date,
-            time_slot: booking.timeSlot,
-            notes: booking.notes || 'Nincs',
-            admin_email: 'kapcsolat@diakzona.hu',
-          },
-        }),
-      }).catch((e) => console.warn('EmailJS send error:', e));
-    }
-
-    // 3. Web3Forms Integration
-    const web3FormsKey = import.meta.env.VITE_WEB3FORMS_KEY;
-    if (web3FormsKey) {
-      await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          access_key: web3FormsKey,
-          subject: subjectStr,
-          from_name: 'DiákZóna Akadémia (kapcsolat@diakzona.hu)',
-          to_email: booking.studentEmail,
-          email: booking.studentEmail,
-          message: textContent,
-        }),
-      }).catch((e) => console.warn('Web3Forms dispatch error:', e));
-    }
-
-    // 4. Resend Integration
-    const resendApiKey = import.meta.env.VITE_RESEND_API_KEY;
-    if (resendApiKey) {
-      await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${resendApiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          from: 'DiákZóna Akadémia <kapcsolat@diakzona.hu>',
-          to: [booking.studentEmail, 'kapcsolat@diakzona.hu'],
-          subject: subjectStr,
-          html: htmlContent,
-        }),
-      }).catch((e) => console.warn('Resend API dispatch error:', e));
-    }
 
     return {
       success: true,
