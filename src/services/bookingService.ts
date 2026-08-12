@@ -29,9 +29,7 @@ export const DEFAULT_TIME_SLOTS = [
  * Helper to generate a clean Google Meet room URL for an appointment
  */
 export function generateGoogleMeetLink(dateStr: string, timeSlot: string): string {
-  const cleanDate = dateStr.replace(/-/g, '');
-  const cleanTime = timeSlot.split(':')[0] || '14';
-  return `https://meet.google.com/lookup/diakzona-${cleanDate}-${cleanTime}`;
+  return `https://meet.google.com/diakzona-online`;
 }
 
 /**

@@ -12,7 +12,7 @@ export interface EmailResult {
  * Supports EmailJS (from kapcsolat@diakzona.hu), Web3Forms, Resend, and Firestore mail trigger.
  */
 export async function sendBookingConfirmationEmail(booking: BookingData): Promise<EmailResult> {
-  const subjectStr = `Visszaigazolás: Online Korrepetálás - ${booking.date} (${booking.timeSlot})`;
+  const actualMeetLink = booking.meetLink || 'https://meet.google.com/diakzona-online';
 
   const textContent = `
 Kedves ${booking.studentName}!
@@ -28,8 +28,11 @@ A FOGLALÁS RÉSZLETEI:
 - Telefonszám: ${booking.studentPhone}
 ${booking.notes ? `- Megjegyzés: ${booking.notes}` : ''}
 
+GOOGLE MEET SZOBALINK:
+${actualMeetLink}
+
 Fizetési információ:
-A fizetés közvetlenül az óra előtt / átutalással történik. A csatlakozási linket és a részleteket e-mailben/telefonon egyeztetjük.
+A fizetés közvetlenül az óra előtt / átutalással történik.
 
 Üdvözlettel,
 DiákZóna Akadémia
@@ -53,8 +56,15 @@ DiákZóna Akadémia
         ${booking.notes ? `<p style="margin: 5px 0;"><strong>Megjegyzés:</strong> ${booking.notes}</p>` : ''}
       </div>
 
+      <div style="text-align: center; margin: 25px 0;">
+        <a href="${actualMeetLink}" target="_blank" style="background-color: #00832d; color: #ffffff; padding: 14px 28px; font-weight: bold; text-decoration: none; border-radius: 10px; display: inline-block; font-size: 15px; box-shadow: 0 4px 6px rgba(0,131,45,0.2);">
+          🎥 Csatlakozás a Google Meet Órához
+        </a>
+        <p style="font-size: 12px; color: #64748b; margin-top: 8px;">Kattints a fenti gombra az óra kezdete előtt 5 perccel!</p>
+      </div>
+
       <p style="font-size: 13px; color: #64748b; background-color: #fffbeb; border: 1px solid #fef3c7; padding: 12px; border-radius: 8px;">
-        📌 <strong>Fizetési információ:</strong> A fizetés közvetlenül az óra előtt / átutalással történik. A csatlakozási linket és a részleteket e-mailben/telefonon egyeztetjük.
+        📌 <strong>Fizetési információ:</strong> A fizetés közvetlenül az óra előtt / átutalással történik.
       </p>
 
       <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
