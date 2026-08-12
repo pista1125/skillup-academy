@@ -75,24 +75,26 @@ DiákZóna Akadémia
   try {
     const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
-    // 0. Local Dev Server Email Dispatch (only on localhost)
-    if (isLocal) {
-      await fetch('/api/send-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          toEmail: booking.studentEmail,
-          studentName: booking.studentName,
-          studentPhone: booking.studentPhone,
-          gradeLevel: booking.gradeLevel,
-          topic: booking.topic,
-          notes: booking.notes || '',
-          date: booking.date,
-          timeSlot: booking.timeSlot,
-          meetLink: actualMeetLink,
-        }),
-      }).catch((err) => console.warn('Vite email API fetch warning:', err));
-    }
+    // 0. Primary Email Dispatch: Local Vite API on localhost, deployed Firebase Cloud Function in production
+    const emailEndpoint = isLocal
+      ? '/api/send-email'
+      : 'https://us-central1-diakzona.cloudfunctions.net/sendBookingEmail';
+
+    await fetch(emailEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        toEmail: booking.studentEmail,
+        studentName: booking.studentName,
+        studentPhone: booking.studentPhone,
+        gradeLevel: booking.gradeLevel,
+        topic: booking.topic,
+        notes: booking.notes || '',
+        date: booking.date,
+        timeSlot: booking.timeSlot,
+        meetLink: actualMeetLink,
+      }),
+    }).catch((err) => console.warn('Email endpoint dispatch info:', err));
 
     // 1. Write to Firestore 'mail' collection (Firebase Trigger Email)
     const mailCollectionRef = collection(db, 'mail');
