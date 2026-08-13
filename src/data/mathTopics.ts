@@ -6,7 +6,7 @@ export interface MathTopic {
   description: string;
   icon: string | LucideIcon;
   color: string;
-  grades: number[];
+  grades: (number | string)[];
 }
 
 export const mathTopics: MathTopic[] = [
@@ -16,7 +16,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Tankönyvek letöltése és interaktív tanórai használata',
     icon: '📚',
     color: 'from-indigo-500 to-purple-600',
-    grades: [1, 2, 3, 4, 5, 6, 7, 8],
+    grades: [1, 2, 3, 4, 5, 6, 7, 8, 'high-1'],
   },
   // 6. osztályos témakörök (Roman numerals as requested)
   {
@@ -362,6 +362,56 @@ export const mathTopics: MathTopic[] = [
     icon: '📔',
     color: 'from-slate-400 to-slate-500',
     grades: [7],
+  },
+
+  // 9. osztályos témakörök
+  {
+    id: 'g9-kombinatorika-halmazok',
+    title: 'I. KOMBINATORIKA, HALMAZOK',
+    description: 'Halmazok megadása, műveletek halmazokkal, kombinatorikai alapismeretek és feladatok',
+    icon: '🧩',
+    color: 'from-blue-500 to-indigo-600',
+    grades: ['high-1'],
+  },
+  {
+    id: 'g9-szamok-vilaga',
+    title: 'II. A SZÁMOK VILÁGA',
+    description: 'Számhalmazok, hatványozás, gyökvonás, oszthatóság és számelméleti alapok',
+    icon: '🔢',
+    color: 'from-amber-500 to-orange-600',
+    grades: ['high-1'],
+  },
+  {
+    id: 'g9-egyenletek-azonossagok',
+    title: 'III. EGYENLETEK ÉS AZONOSSÁGOK',
+    description: 'Nevezetes azonosságok, algebrai kifejezések, elsőfokú és másodfokú egyenletek',
+    icon: '🔤',
+    color: 'from-purple-500 to-purple-600',
+    grades: ['high-1'],
+  },
+  {
+    id: 'g9-bevezetes-geometriaba',
+    title: 'IV. BEVEZETÉS A GEOMETRIÁBA',
+    description: 'Geometriai alapfogalmak, szögek, háromszögek, szerkesztések és tételek',
+    icon: '📐',
+    color: 'from-green-500 to-green-600',
+    grades: ['high-1'],
+  },
+  {
+    id: 'g9-fuggvenyek',
+    title: 'V. FÜGGVÉNYEK',
+    description: 'Függvény fogalma, ábrázolása, jellemezése, lineáris és hatványfüggvények',
+    icon: '📈',
+    color: 'from-cyan-500 to-blue-500',
+    grades: ['high-1'],
+  },
+  {
+    id: 'g9-egybevagosag-negyszogek',
+    title: 'VI. EGYBEVÁGÓSÁG, NÉGYSZÖGEK',
+    description: 'Egybevágósági transzformációk, négyszögek tulajdonságai és sokszögek',
+    icon: '🔄',
+    color: 'from-rose-500 to-pink-600',
+    grades: ['high-1'],
   },
 
   {

@@ -2415,8 +2415,8 @@ export default function MathPage() {
       );
     }
 
-    // Default fallback for Grade 5-7 topics that don't have custom interactive content yet
-    if (topicId.startsWith('g5-') || selectedGrade === 6 || selectedGrade === 7) {
+    // Default fallback for Grade 5-7 & Grade 9 topics that don't have custom interactive content yet
+    if (topicId.startsWith('g5-') || topicId.startsWith('g9-') || selectedGrade === 6 || selectedGrade === 7 || (typeof selectedGrade === 'string' && selectedGrade.startsWith('high-'))) {
       return (
         <div className="py-2">
           <div className="mb-4 p-4 bg-blue-50/50 rounded-2xl border border-blue-100 flex items-center gap-3">
@@ -2424,7 +2424,7 @@ export default function MathPage() {
             <p className="text-sm font-medium text-blue-700 italic">Ehhez a témakörhöz jelenleg a tankönyvi anyagok érhetőek el.</p>
           </div>
           <MaterialGallery
-            grade={selectedGrade || 5}
+            grade={selectedGrade || 'high-1'}
             onView={handleMaterialSelect}
             initialMaterialId={new URLSearchParams(location.search).get('material')}
           />
@@ -2446,8 +2446,8 @@ export default function MathPage() {
       if (typeof selectedGrade === 'number') {
         topics = mathTopics.filter(t => t.grades.includes(selectedGrade as number));
       } else {
-        // Default for high school/graduation
-        topics = mathTopics.filter(t => ['algebra', 'geometry', 'percentages', 'word-problems'].includes(t.id));
+        const gradeTopics = mathTopics.filter(t => t.grades.includes(selectedGrade as any));
+        topics = gradeTopics.length > 0 ? gradeTopics : mathTopics.filter(t => ['algebra', 'geometry', 'percentages', 'word-problems'].includes(t.id));
       }
     }
 
@@ -2911,7 +2911,8 @@ export default function MathPage() {
               if (typeof selectedGrade === 'number') {
                 filtered = mathTopics.filter(t => t.grades.includes(selectedGrade as number) && t.id !== 'materials');
               } else if (selectedGrade && selectedGrade.startsWith('high-')) {
-                filtered = mathTopics.filter(t => ['algebra', 'geometry', 'percentages', 'word-problems'].includes(t.id));
+                const specific = mathTopics.filter(t => t.grades.includes(selectedGrade as any) && t.id !== 'materials');
+                filtered = specific.length > 0 ? specific : mathTopics.filter(t => ['algebra', 'geometry', 'percentages', 'word-problems'].includes(t.id));
               }
               
               const list: any[] = [];

@@ -5,6 +5,7 @@ import { hu } from 'date-fns/locale';
 import { Button } from '@/components/ui/button';
 import { SiteFooter } from '@/components/SiteFooter';
 import { UserMenu } from '@/components/auth/UserMenu';
+import { SidebarMenu } from '@/components/SidebarMenu';
 import { useAuth } from '@/contexts/AuthContext';
 import { BookingCalendar } from '@/components/tutoring/BookingCalendar';
 import { BookingForm, BookingFormData } from '@/components/tutoring/BookingForm';
@@ -12,12 +13,9 @@ import { createTutoringBooking } from '@/services/bookingService';
 import { sendBookingConfirmationEmail } from '@/services/emailService';
 import { toast } from 'sonner';
 import {
-  ChevronLeft,
-  Sparkles,
   Video,
   GraduationCap,
   Target,
-  Clock,
   Calendar as CalendarIcon,
   CheckCircle,
   User,
@@ -27,9 +25,7 @@ import {
   BookOpen,
   HelpCircle,
   CreditCard,
-  PhoneCall,
-  ShieldCheck,
-  Star
+  ShieldCheck
 } from 'lucide-react';
 
 export default function TutoringPage() {
@@ -112,7 +108,6 @@ export default function TutoringPage() {
     const dateStr = format(selectedDate, 'yyyy-MM-dd');
 
     try {
-      // 1. Save booking to Firestore and generate Meet URL
       const { id: bookingId, meetLink } = await createTutoringBooking({
         studentId: user?.uid || null,
         studentName: formData.studentName,
@@ -128,7 +123,6 @@ export default function TutoringPage() {
       setConfirmedBookingId(bookingId);
       setConfirmedMeetLink(meetLink);
 
-      // 2. Dispatch confirmation email
       await sendBookingConfirmationEmail({
         studentId: user?.uid || null,
         studentName: formData.studentName,
@@ -162,146 +156,152 @@ export default function TutoringPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex flex-col">
-      {/* Top Header */}
-      <header className="sticky top-0 z-50 w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200/60 dark:border-slate-800 py-3 px-4">
-        <div className="max-w-7xl w-full mx-auto flex items-center justify-between">
-          <Button
-            variant="ghost"
-            onClick={() => navigate('/')}
-            className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100 rounded-xl flex items-center gap-1.5 font-bold"
-          >
-            <ChevronLeft className="w-5 h-5" />
-            Vissza a főoldalra
-          </Button>
+      {/* EXACT FULL MAIN HEADER (SAME AS MAIN PAGE & OTHER PAGES) */}
+      <div className="sticky top-0 z-50 w-full">
+        <div className="bg-gradient-math text-white py-2 md:py-3 px-3 md:px-4 shadow-xl relative transition-all duration-300">
+          <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-50">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 blur-3xl"></div>
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-400/10 rounded-full -ml-24 -mb-24 blur-2xl"></div>
+          </div>
 
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
-              <img src="/logo_header.png" alt="DiákZóna Logo" className="h-9 object-contain" />
-              <span className="text-xl font-black tracking-tighter text-emerald-500 hidden sm:inline uppercase">
-                DIÁKZÓNA
-              </span>
+          <div className="w-full px-2 lg:px-12 relative z-10">
+            <div className="flex justify-between items-center">
+              <div className="flex items-center gap-1.5 md:gap-3">
+                <SidebarMenu />
+                <Button
+                  variant="ghost"
+                  onClick={() => navigate('/')}
+                  className="bg-white/10 text-white hover:bg-white/20 font-black px-2 md:px-4 border border-white/20 shadow-lg backdrop-blur-md transition-all hover:scale-105 active:scale-95 flex items-center gap-1.5 md:gap-2"
+                >
+                  <img src="/logo_header.png" alt="DiákZóna" className="h-10 md:h-16 object-contain translate-y-1.5 md:translate-y-2" />
+                  <span className="text-lg sm:text-xl md:text-2xl font-black tracking-tighter">Diákzóna</span>
+                </Button>
+              </div>
+
+              <div className="flex items-center gap-1 md:gap-2">
+                <UserMenu />
+                <Button
+                  variant="default"
+                  onClick={() => navigate('/korrepetalas')}
+                  className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 font-extrabold px-3 md:px-5 shadow-lg shadow-purple-500/30 border border-white/20 transition-all hover:scale-105 active:scale-95 h-9 flex items-center gap-1.5 rounded-xl"
+                >
+                  <Video className="w-4 h-4" />
+                  <span className="hidden sm:inline">Online Korrepetálás</span>
+                  <span className="sm:hidden">Korrepetálás</span>
+                </Button>
+                <Button
+                  variant="secondary"
+                  onClick={() => { window.location.assign('https://kviz.diakzona.hu/'); }}
+                  className="bg-emerald-500 text-white hover:bg-emerald-600 font-extrabold px-3 md:px-6 shadow-lg shadow-emerald-500/30 border-none transition-all hover:scale-105 active:scale-95 h-9"
+                >
+                  <span className="hidden sm:inline">online kvíz</span>
+                  <span className="sm:hidden">kvíz</span>
+                </Button>
+              </div>
             </div>
-            <UserMenu />
           </div>
         </div>
-      </header>
+      </div>
 
       {/* Main Content */}
-      <main className="flex-1 w-full max-w-6xl mx-auto px-4 py-8 md:py-16 space-y-16">
-        {/* Hero Section */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 text-white rounded-3xl p-8 md:p-14 shadow-2xl">
-          {/* Decorative background glow */}
-          <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl pointer-events-none"></div>
-          <div className="absolute bottom-0 left-0 w-80 h-80 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none"></div>
+      <main className="flex-1 w-full max-w-7xl mx-auto px-4 lg:px-12 py-6 md:py-10 space-y-10">
+        {/* Simple & Clean Header Banner */}
+        <section className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 md:p-8 shadow-sm space-y-4">
+          <div className="flex items-center gap-2 text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
+            <Video className="w-4 h-4" />
+            Online Korrepetálás & Magánóra
+          </div>
 
-          <div className="relative z-10 max-w-3xl space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-emerald-300 font-bold text-xs uppercase tracking-widest backdrop-blur-md">
-              <Video className="w-4 h-4 text-emerald-400" />
-              Online Korrepetálás & Magánóra
-            </div>
+          <h1 className="text-xl md:text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+            Matematika felkészítés Orsós István szaktanárral
+          </h1>
 
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
-              Személyre szabott matematika felkészítés <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-amber-300">Orsós István</span> szaktanárral
-            </h1>
+          <p className="text-xs md:text-sm text-slate-600 dark:text-slate-400 font-normal leading-relaxed max-w-2xl">
+            Egyéni matematika felkészítés 8. osztályos felvételire, közép- és emelt szintű érettségire vagy általános korrepetálásra Google Meet online tanteremben.
+          </p>
 
-            <p className="text-base md:text-xl text-slate-200 font-medium leading-relaxed">
-              Szerezz magabiztos tudást a középiskolai felvételin, érettségin vagy a dolgozatok során. Egyéni odafigyelés, gyakorlatias magyarázatok és élő Google Meet tanterem.
-            </p>
+          <div className="pt-1 flex items-center gap-3">
+            <Button
+              onClick={scrollToBooking}
+              size="sm"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-2 rounded-xl text-xs shadow-sm"
+            >
+              <CalendarIcon className="w-3.5 h-3.5 mr-1.5" />
+              Időpont foglalása
+            </Button>
 
-            <div className="flex flex-wrap items-center gap-4 pt-2">
-              <Button
-                onClick={scrollToBooking}
-                size="lg"
-                className="bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold px-8 py-6 rounded-2xl shadow-xl shadow-emerald-500/30 transition-all hover:scale-105"
-              >
-                <CalendarIcon className="w-5 h-5 mr-2.5" />
-                Időpont Foglalása Most
-              </Button>
-
-              <div className="flex items-center gap-2 text-xs font-bold text-slate-300 px-4 py-2 bg-white/10 rounded-xl border border-white/10">
-                <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                100% Egyéni figyelem & Élő Meet szoba
-              </div>
-            </div>
+            <span className="text-[11px] text-slate-500 font-medium flex items-center gap-1">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+              Élő Google Meet csatlakozással
+            </span>
           </div>
         </section>
 
-        {/* What We Offer - 3 Cards Grid */}
-        <section className="space-y-8">
-          <div className="text-center space-y-2 max-w-2xl mx-auto">
-            <h2 className="text-2xl md:text-4xl font-black tracking-tight">Miben tudunk segíteni?</h2>
-            <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">
-              Válaszd ki a céljaidnak megfelelő felkészítést, és foglalj időpontot a naptárunkban!
-            </p>
-          </div>
+        {/* 3 Offer Cards (Compact) */}
+        <section className="space-y-4">
+          <h2 className="text-base font-bold text-slate-800 dark:text-slate-200">Miben tudunk segíteni?</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Card 1 */}
-            <div className="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none space-y-4 hover:border-emerald-500/50 transition-all duration-300">
-              <div className="w-12 h-12 bg-emerald-500/10 text-emerald-500 rounded-2xl flex items-center justify-center font-black">
-                <Target className="w-6 h-6" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-2">
+              <div className="w-8 h-8 bg-emerald-500/10 text-emerald-600 rounded-lg flex items-center justify-center">
+                <Target className="w-4 h-4" />
               </div>
-              <h3 className="text-xl font-bold tracking-tight">8. Osztályos Felvételi Felkészítő</h3>
-              <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
-                Középiskolai írásbeli felvételi típusfeladatok, felvételi feladatsorok átbeszélése, egyenletek és síkgeometria részletes begyakorlása.
+              <h3 className="text-sm font-bold">8. Osztályos Felvételi</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                Felvételi feladatsorok átbeszélése, típusfeladatok, egyenletek és síkgeometria felkészítő.
               </p>
             </div>
 
-            {/* Card 2 */}
-            <div className="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none space-y-4 hover:border-purple-500/50 transition-all duration-300">
-              <div className="w-12 h-12 bg-purple-500/10 text-purple-500 rounded-2xl flex items-center justify-center font-black">
-                <GraduationCap className="w-6 h-6" />
+            <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-2">
+              <div className="w-8 h-8 bg-purple-500/10 text-purple-600 rounded-lg flex items-center justify-center">
+                <GraduationCap className="w-4 h-4" />
               </div>
-              <h3 className="text-xl font-bold tracking-tight">Érettségi Felkészítés (Közép / Emelt)</h3>
-              <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
-                Kidolgozott tételsorok, típusfeladatok megoldása, időbeosztási és pontszerző stratégiák a magabiztos érettségi jegyért.
+              <h3 className="text-sm font-bold">Érettségi Felkészítés</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                Közép- és emelt szintű érettségi feladatsorok, felkészülés a pontszerző stratégiákkal.
               </p>
             </div>
 
-            {/* Card 3 */}
-            <div className="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none space-y-4 hover:border-indigo-500/50 transition-all duration-300">
-              <div className="w-12 h-12 bg-indigo-500/10 text-indigo-500 rounded-2xl flex items-center justify-center font-black">
-                <BookOpen className="w-6 h-6" />
+            <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-2">
+              <div className="w-8 h-8 bg-indigo-500/10 text-indigo-600 rounded-lg flex items-center justify-center">
+                <BookOpen className="w-4 h-4" />
               </div>
-              <h3 className="text-xl font-bold tracking-tight">Általános Korrepetálás (5-12. Osztály)</h3>
-              <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
-                Törtek, tizedestörtek, algebra, geometria és függvények érthető elmagyarázása. Dolgozatra és témazáróra készülés stresszmentesen.
+              <h3 className="text-sm font-bold">Általános Korrepetálás</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                5-12. osztályos tananyag elmagyarázása, hiányosságok pótlása és témazáró felkészítés.
               </p>
             </div>
           </div>
         </section>
 
-        {/* Embedded Booking Section */}
-        <section ref={bookingSectionRef} className="scroll-mt-24 space-y-6">
-          <div className="text-center space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary font-bold text-xs uppercase tracking-widest">
-              <CalendarIcon className="w-4 h-4" /> Időpontválasztó Naptár
-            </div>
-            <h2 className="text-2xl md:text-4xl font-black tracking-tight">Foglalj Időpontot az Online Órára</h2>
-            <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">
-              Válaszd ki a neked megfelelő napot és szabad idősávot!
+        {/* Embedded Booking Section (Compact) */}
+        <section ref={bookingSectionRef} className="scroll-mt-20 space-y-4">
+          <div className="space-y-1">
+            <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">Időpont foglalása</h2>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              Válaszd ki a megfelelő dátumot és szabad idősávot!
             </p>
           </div>
 
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 md:p-10 shadow-2xl">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 md:p-6 shadow-sm">
             {/* Stepper Header */}
-            <div className="flex items-center justify-between pb-6 mb-6 border-b border-slate-100 dark:border-slate-800 text-xs font-bold">
-              <div className={`flex items-center gap-2 ${step >= 1 ? 'text-primary' : 'text-slate-400'}`}>
-                <span className="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center font-black">
+            <div className="flex items-center justify-between pb-4 mb-5 border-b border-slate-100 dark:border-slate-800 text-[11px] font-bold">
+              <div className={`flex items-center gap-1.5 ${step >= 1 ? 'text-primary' : 'text-slate-400'}`}>
+                <span className="w-5 h-5 rounded-full bg-primary/10 text-primary flex items-center justify-center text-[10px] font-bold">
                   1
                 </span>
-                <span>Időpont & Dátum</span>
+                <span>Időpont választás</span>
               </div>
-              <div className="w-12 h-[2px] bg-slate-200 dark:bg-slate-800"></div>
-              <div className={`flex items-center gap-2 ${step >= 2 ? 'text-primary' : 'text-slate-400'}`}>
-                <span className="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center font-black">
+              <div className="w-8 h-[1px] bg-slate-200 dark:bg-slate-800"></div>
+              <div className={`flex items-center gap-1.5 ${step >= 2 ? 'text-primary' : 'text-slate-400'}`}>
+                <span className="w-5 h-5 rounded-full bg-primary/10 text-primary flex items-center justify-center text-[10px] font-bold">
                   2
                 </span>
-                <span>Diák Adatai</span>
+                <span>Diák adatai</span>
               </div>
-              <div className="w-12 h-[2px] bg-slate-200 dark:bg-slate-800"></div>
-              <div className={`flex items-center gap-2 ${step === 3 ? 'text-emerald-500' : 'text-slate-400'}`}>
-                <span className="w-7 h-7 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center font-black">
+              <div className="w-8 h-[1px] bg-slate-200 dark:bg-slate-800"></div>
+              <div className={`flex items-center gap-1.5 ${step === 3 ? 'text-emerald-600' : 'text-slate-400'}`}>
+                <span className="w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-600 flex items-center justify-center text-[10px] font-bold">
                   3
                 </span>
                 <span>Visszaigazolás</span>
@@ -310,7 +310,7 @@ export default function TutoringPage() {
 
             {/* Step 1: Calendar & Slot Picker */}
             {step === 1 && (
-              <div className="space-y-6">
+              <div className="space-y-4">
                 <BookingCalendar
                   selectedDate={selectedDate}
                   onSelectDate={setSelectedDate}
@@ -318,15 +318,16 @@ export default function TutoringPage() {
                   onSelectTimeSlot={setSelectedTimeSlot}
                 />
 
-                <div className="flex justify-end pt-4 border-t border-slate-100 dark:border-slate-800">
+                <div className="flex justify-end pt-3 border-t border-slate-100 dark:border-slate-800">
                   <Button
                     type="button"
                     onClick={handleNextStep}
                     disabled={!selectedDate || !selectedTimeSlot}
-                    className="rounded-xl font-bold bg-gradient-math px-8 py-6 shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform text-base"
+                    size="sm"
+                    className="font-bold bg-primary text-white px-5 py-2 rounded-xl text-xs shadow-sm"
                   >
                     Tovább az adatokhoz
-                    <ArrowRight className="w-5 h-5 ml-2" />
+                    <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
                   </Button>
                 </div>
               </div>
@@ -334,11 +335,11 @@ export default function TutoringPage() {
 
             {/* Step 2: Student Details Form */}
             {step === 2 && (
-              <form onSubmit={handleSubmitBooking} className="space-y-6">
-                <div className="p-4 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 flex items-center justify-between">
+              <form onSubmit={handleSubmitBooking} className="space-y-4">
+                <div className="p-3 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-between">
                   <div>
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Kiválasztott időpont:</p>
-                    <p className="text-base font-black text-slate-800 dark:text-slate-100 mt-0.5">
+                    <p className="text-[10px] font-bold text-slate-400 uppercase">Kiválasztott időpont:</p>
+                    <p className="text-xs font-bold text-slate-800 dark:text-slate-100">
                       {selectedDate ? format(selectedDate, 'yyyy. MMMM d. (EEEE)', { locale: hu }) : ''} — {selectedTimeSlot}
                     </p>
                   </div>
@@ -347,7 +348,7 @@ export default function TutoringPage() {
                     variant="ghost"
                     size="sm"
                     onClick={handleBackStep}
-                    className="text-xs font-bold text-primary hover:bg-primary/10 rounded-xl"
+                    className="text-[11px] font-bold text-primary h-7 px-2"
                   >
                     Módosítás
                   </Button>
@@ -358,31 +359,33 @@ export default function TutoringPage() {
                   onChange={(updated) => setFormData((prev) => ({ ...prev, ...updated }))}
                 />
 
-                <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
+                <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-800">
                   <Button
                     type="button"
                     variant="outline"
+                    size="sm"
                     onClick={handleBackStep}
-                    className="rounded-xl font-bold border-slate-200 dark:border-slate-800 px-6 py-5"
+                    className="font-bold border-slate-200 dark:border-slate-800 px-4 text-xs h-9"
                   >
-                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    <ArrowLeft className="w-3.5 h-3.5 mr-1.5" />
                     Vissza
                   </Button>
 
                   <Button
                     type="submit"
                     disabled={submitting}
-                    className="rounded-xl font-extrabold bg-emerald-500 hover:bg-emerald-600 text-white px-8 py-6 text-base shadow-lg shadow-emerald-500/20 hover:scale-[1.02] transition-transform"
+                    size="sm"
+                    className="font-bold bg-emerald-600 hover:bg-emerald-700 text-white px-6 text-xs h-9 shadow-sm"
                   >
                     {submitting ? (
                       <>
-                        <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                        Foglalás rögzítése...
+                        <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" />
+                        Rögzítés...
                       </>
                     ) : (
                       <>
                         Foglalás Véglegesítése
-                        <CheckCircle className="w-5 h-5 ml-2" />
+                        <CheckCircle className="w-3.5 h-3.5 ml-1.5" />
                       </>
                     )}
                   </Button>
@@ -392,76 +395,73 @@ export default function TutoringPage() {
 
             {/* Step 3: Success Confirmation */}
             {step === 3 && (
-              <div className="text-center py-6 space-y-6 animate-in zoom-in-95 duration-300 max-w-xl mx-auto">
-                <div className="w-20 h-20 bg-emerald-100 dark:bg-emerald-950/60 rounded-full flex items-center justify-center mx-auto text-emerald-500 shadow-xl shadow-emerald-500/10">
-                  <CheckCircle className="w-12 h-12" />
+              <div className="text-center py-4 space-y-4 max-w-md mx-auto">
+                <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-950/60 rounded-full flex items-center justify-center mx-auto text-emerald-600">
+                  <CheckCircle className="w-7 h-7" />
                 </div>
 
                 <div>
-                  <h3 className="text-3xl font-black text-slate-800 dark:text-slate-100 tracking-tight">
-                    Foglalásodat sikeresen rögzítettük!
+                  <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100">
+                    Foglalásod sikeresen rögzítve!
                   </h3>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 font-medium mt-1">
-                    Visszaigazoló e-mailt küldtünk a megadott e-mail címre: <strong className="text-slate-800 dark:text-slate-200">{formData.studentEmail}</strong>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                    Visszaigazoló e-mailt küldtünk a következő címre: <strong>{formData.studentEmail}</strong>
                   </p>
                 </div>
 
-                <div className="p-6 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 text-left space-y-3">
-                  <div className="flex items-center gap-3 text-sm">
-                    <CalendarIcon className="w-4 h-4 text-primary shrink-0" />
-                    <span className="text-slate-600 dark:text-slate-400">Időpont:</span>
-                    <strong className="text-slate-800 dark:text-slate-200 font-black">
+                <div className="p-4 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 text-left space-y-2 text-xs">
+                  <div className="flex items-center gap-2">
+                    <CalendarIcon className="w-3.5 h-3.5 text-primary shrink-0" />
+                    <span className="text-slate-500">Időpont:</span>
+                    <strong className="text-slate-800 dark:text-slate-200">
                       {selectedDate ? format(selectedDate, 'yyyy. MMMM d.', { locale: hu }) : ''} ({selectedTimeSlot})
                     </strong>
                   </div>
 
-                  <div className="flex items-center gap-3 text-sm">
-                    <User className="w-4 h-4 text-primary shrink-0" />
-                    <span className="text-slate-600 dark:text-slate-400">Diák:</span>
-                    <strong className="text-slate-800 dark:text-slate-200 font-bold">{formData.studentName}</strong>
+                  <div className="flex items-center gap-2">
+                    <User className="w-3.5 h-3.5 text-primary shrink-0" />
+                    <span className="text-slate-500">Diák:</span>
+                    <strong className="text-slate-800 dark:text-slate-200">{formData.studentName}</strong>
                   </div>
 
-                  <div className="flex items-center gap-3 text-sm">
-                    <GraduationCap className="w-4 h-4 text-primary shrink-0" />
-                    <span className="text-slate-600 dark:text-slate-400">Témakör / Szint:</span>
-                    <strong className="text-slate-800 dark:text-slate-200 font-bold">{formData.topic}</strong>
+                  <div className="flex items-center gap-2">
+                    <GraduationCap className="w-3.5 h-3.5 text-primary shrink-0" />
+                    <span className="text-slate-500">Témakör:</span>
+                    <strong className="text-slate-800 dark:text-slate-200">{formData.topic}</strong>
                   </div>
                 </div>
 
                 {/* Google Meet Room Card */}
                 {confirmedMeetLink && (
-                  <div className="p-6 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/60 rounded-2xl text-center space-y-3">
-                    <p className="text-sm font-bold text-emerald-800 dark:text-emerald-300">
-                      🎥 Az online órád hivatalos Google Meet szobája elkészült:
+                  <div className="p-4 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/60 rounded-xl text-center space-y-2">
+                    <p className="text-xs font-bold text-emerald-800 dark:text-emerald-300">
+                      🎥 Online Google Meet szoba belépési link:
                     </p>
                     <a
                       href={confirmedMeetLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-2xl text-base shadow-lg shadow-emerald-600/30 transition-all hover:scale-105"
+                      className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs shadow-sm"
                     >
-                      <Video className="w-5 h-5" />
+                      <Video className="w-4 h-4" />
                       Csatlakozás a Google Meet Órához
                     </a>
-                    <p className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">
-                      (A csatlakozási gombot elküldtük a megadott e-mail címedre is!)
-                    </p>
                   </div>
                 )}
 
                 {/* Payment Notice */}
-                <div className="p-4 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/60 rounded-2xl text-left flex items-start gap-3">
-                  <CreditCard className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
-                  <div className="text-xs text-amber-800 dark:text-amber-300 font-medium">
-                    <strong className="font-bold block mb-0.5">Fizetési tájékoztató:</strong>
-                    A fizetés közvetlenül az óra előtt / átutalással történik. Az ehhez szükséges információkat és a részleteket e-mailben is átküldjük.
+                <div className="p-3 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/60 rounded-xl text-left flex items-start gap-2">
+                  <CreditCard className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+                  <div className="text-[11px] text-amber-800 dark:text-amber-300 font-medium">
+                    <strong>Fizetési infó:</strong> A fizetés közvetlenül az óra előtt / átutalással történik. A részleteket e-mailben is elküldtük.
                   </div>
                 </div>
 
-                <div className="pt-4">
+                <div className="pt-2">
                   <Button
                     onClick={resetBooking}
-                    className="rounded-2xl font-black bg-gradient-math px-8 py-6 text-base shadow-lg shadow-primary/20 hover:scale-105 transition-transform"
+                    size="sm"
+                    className="font-bold bg-primary px-6 py-2 text-xs rounded-xl"
                   >
                     Újabb Időpont Foglalása
                   </Button>
@@ -471,40 +471,29 @@ export default function TutoringPage() {
           </div>
         </section>
 
-        {/* Gyakori Kérdések (FAQ) */}
-        <section className="space-y-6 max-w-3xl mx-auto">
-          <div className="text-center space-y-2">
-            <h2 className="text-2xl font-black tracking-tight flex items-center justify-center gap-2">
-              <HelpCircle className="w-6 h-6 text-primary" />
-              Gyakori Kérdések
-            </h2>
-          </div>
+        {/* Gyakori Kérdések (FAQ - Compact) */}
+        <section className="space-y-3 max-w-2xl mx-auto pt-2">
+          <h2 className="text-sm font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+            <HelpCircle className="w-4 h-4 text-primary" />
+            Gyakori Kérdések
+          </h2>
 
-          <div className="space-y-4">
-            <div className="p-5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-2">
-              <h3 className="font-bold text-base text-slate-800 dark:text-slate-100">
-                Hogyan zajlik egy online korrepetálási óra?
+          <div className="space-y-2 text-xs">
+            <div className="p-3.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 space-y-1">
+              <h3 className="font-bold text-slate-800 dark:text-slate-100">
+                Hogyan zajlik az online korrepetálás?
               </h3>
-              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                Az órák a Google Meet rendszerén keresztül zajlanak élő videóhívásban, interaktív virtuális tábla használatával. A diák valós időben látja a feladatok megoldásának minden lépését.
+              <p className="text-slate-500 dark:text-slate-400 leading-normal">
+                Az órák a Google Meet rendszerén keresztül zajlanak élő videóhívásban és online táblával.
               </p>
             </div>
 
-            <div className="p-5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-2">
-              <h3 className="font-bold text-base text-slate-800 dark:text-slate-100">
-                Milyen technikai feltételek szükségesek a csatlakozáshoz?
+            <div className="p-3.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 space-y-1">
+              <h3 className="font-bold text-slate-800 dark:text-slate-100">
+                Mire van szükség a csatlakozáshoz?
               </h3>
-              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                Csupán egy számítógépre, tabletre vagy okostelefonra és stabil internetkapcsolatra van szükség. Nem kell külön alkalmazást letölteni, a megadott Google Meet gombra kattintva azonnal beléphetsz az órára.
-              </p>
-            </div>
-
-            <div className="p-5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-2">
-              <h3 className="font-bold text-base text-slate-800 dark:text-slate-100">
-                Hogyan kapom meg az e-mail visszaigazolást?
-              </h3>
-              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                A foglalás véglegesítése után a rendszer azonnal elküldi a visszaigazolást a kapcsolat@diakzona.hu e-mail címünkről a megadott e-mail címedre a pontos időponttal és a Google Meet belépési gombbal.
+              <p className="text-slate-500 dark:text-slate-400 leading-normal">
+                Számítógépre, tabletre vagy telefonra és internetkapcsolatra. A Google Meet gombra kattintva azonnal beléphetsz.
               </p>
             </div>
           </div>

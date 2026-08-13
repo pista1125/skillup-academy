@@ -86,6 +86,23 @@ const GRADE_8_MATERIALS: Material[] = [
     }
 ];
 
+const GRADE_9_MATERIALS: Material[] = [
+    {
+        id: 'mat09ta',
+        title: 'Matematika 9. Tankönyv',
+        description: 'Középiskolai tankönyv kilencedik évfolyam számára (OH-MAT09TA)',
+        fileName: 'OH-MAT09TA__teljes.pdf',
+        path: getStorageUrl('9_osztaly', 'OH-MAT09TA__teljes.pdf')
+    },
+    {
+        id: 'mat09ma',
+        title: 'Matematika 9. Munkafüzet',
+        description: 'Középiskolai munkafüzet kilencedik évfolyam számára (OH-MAT09MA)',
+        fileName: 'OH-MAT09MA__teljes.pdf',
+        path: getStorageUrl('9_osztaly', 'OH-MAT09MA__teljes.pdf')
+    }
+];
+
 interface MaterialGalleryProps {
     grade: GradeLevel;
     onView: (material: Material) => void;
@@ -98,6 +115,7 @@ export function MaterialGallery({ grade, onView, initialMaterialId }: MaterialGa
         grade === 6 ? GRADE_6_MATERIALS :
         grade === 7 ? GRADE_7_MATERIALS :
         grade === 8 ? GRADE_8_MATERIALS :
+        (grade === 'high-1' || grade === 9) ? GRADE_9_MATERIALS :
         GRADE_7_MATERIALS;
 
     useEffect(() => {
