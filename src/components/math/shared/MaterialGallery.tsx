@@ -18,6 +18,30 @@ const getStorageUrl = (folder: string, fileName: string) => {
     return `${FIREBASE_STORAGE_BASE}/${encodeURIComponent(folder)}%2F${encodeURIComponent(fileName)}?alt=media`;
 };
 
+const GRADE_4_MATERIALS: Material[] = [
+    {
+        id: 'mat04ta',
+        title: 'Matematika 4. Tankönyv',
+        description: 'Általános iskolai tankönyv negyedik évfolyam számára (OH-MAT04TA)',
+        fileName: 'OH-MAT04TA__teljes.pdf',
+        path: getStorageUrl('4_osztaly', 'OH-MAT04TA__teljes.pdf')
+    },
+    {
+        id: 'mat04ma1',
+        title: 'Matematika 4. Munkafüzet I. kötet',
+        description: 'Általános iskolai munkafüzet I. kötet negyedik évfolyam számára (OH-MAT04MA_I)',
+        fileName: 'OH-MAT04MA_I__teljes.pdf',
+        path: getStorageUrl('4_osztaly', 'OH-MAT04MA_I__teljes.pdf')
+    },
+    {
+        id: 'mat04ma2',
+        title: 'Matematika 4. Munkafüzet II. kötet',
+        description: 'Általános iskolai munkafüzet II. kötet negyedik évfolyam számára (OH-MAT04MA_II)',
+        fileName: 'OH-MAT04MA_II__teljes.pdf',
+        path: getStorageUrl('4_osztaly', 'OH-MAT04MA_II__teljes.pdf')
+    }
+];
+
 const GRADE_5_MATERIALS: Material[] = [
     {
         id: 'mat05ta',
@@ -88,18 +112,25 @@ const GRADE_8_MATERIALS: Material[] = [
 
 const GRADE_9_MATERIALS: Material[] = [
     {
-        id: 'mat09ta',
-        title: 'Matematika 9. Tankönyv',
-        description: 'Középiskolai tankönyv kilencedik évfolyam számára (OH-MAT09TA)',
-        fileName: 'OH-MAT09TA__teljes.pdf',
-        path: getStorageUrl('9_osztaly', 'OH-MAT09TA__teljes.pdf')
+        id: 'mat09ta1',
+        title: 'Matematika 9. I. kötet',
+        description: 'Középiskolai tankönyv 9. évfolyam I. kötet (OH-MAT09TA_I)',
+        fileName: 'OH-MAT09TA_I__teljes.pdf',
+        path: getStorageUrl('9_osztaly', 'OH-MAT09TA_I__teljes.pdf')
     },
     {
-        id: 'mat09ma',
-        title: 'Matematika 9. Munkafüzet',
-        description: 'Középiskolai munkafüzet kilencedik évfolyam számára (OH-MAT09MA)',
-        fileName: 'OH-MAT09MA__teljes.pdf',
-        path: getStorageUrl('9_osztaly', 'OH-MAT09MA__teljes.pdf')
+        id: 'mat09ta2',
+        title: 'Matematika 9. II. kötet',
+        description: 'Középiskolai tankönyv 9. évfolyam II. kötet (OH-MAT09TA_II)',
+        fileName: 'OH-MAT09TA_II__teljes.pdf',
+        path: getStorageUrl('9_osztaly', 'OH-MAT09TA_II__teljes.pdf')
+    },
+    {
+        id: 'mat09megoldas2',
+        title: 'Matematika 9. II. kötet Megoldások',
+        description: 'Részletes feladatmegoldások a 9. osztályos II. kötethez (OH-MAT09-TA_II)',
+        fileName: 'OH-MAT09-TA_II-Megoldások-OA-2023-10-18.pdf',
+        path: getStorageUrl('9_osztaly', 'OH-MAT09-TA_II-Megoldások-OA-2023-10-18.pdf')
     }
 ];
 
@@ -111,6 +142,7 @@ interface MaterialGalleryProps {
 
 export function MaterialGallery({ grade, onView, initialMaterialId }: MaterialGalleryProps) {
     const materials =
+        grade === 4 ? GRADE_4_MATERIALS :
         grade === 5 ? GRADE_5_MATERIALS :
         grade === 6 ? GRADE_6_MATERIALS :
         grade === 7 ? GRADE_7_MATERIALS :
@@ -128,7 +160,7 @@ export function MaterialGallery({ grade, onView, initialMaterialId }: MaterialGa
     }, [initialMaterialId, grade]);
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
             {materials.map((material) => (
                 <Card key={material.id} className="overflow-hidden border-2 hover:border-primary/50 transition-colors group">
                     <CardHeader className="bg-slate-50 border-b group-hover:bg-primary/5 transition-colors">

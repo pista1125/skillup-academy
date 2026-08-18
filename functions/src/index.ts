@@ -3,11 +3,21 @@ import * as logger from "firebase-functions/logger";
 import OpenAI from "openai";
 import cors from "cors";
 import nodemailer from "nodemailer";
+import * as admin from "firebase-admin";
+import Stripe from "stripe";
+
+if (!admin.apps.length) {
+  admin.initializeApp();
+}
 
 const corsHandler = cors({ origin: true });
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY || "";
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
+
+const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY || "";
+const stripe = new Stripe(STRIPE_SECRET_KEY);
+
 
 // 1. generatePuzzle Cloud Function
 export const generatePuzzle = onRequest({ cors: true }, async (req, res) => {
@@ -224,4 +234,219 @@ export const sendBookingEmail = onRequest({ cors: true }, async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+/**
+ * 7. Helper: Számlázz.hu E-számla generálása (Számlázz Agent XML API)
+ */
+async function createSzamlazzInvoice(data: {
+  studentName: string;
+  studentEmail: string;
+  topic: string;
+  date: string;
+  timeSlot: string;
+  amount: number;
+}) {
+  const agentToken = process.env.SZAMLAZZ_AGENT_TOKEN || 'DEMO';
+  const today = new Date().toISOString().split('T')[0];
+
+  const xmlBody = `<?xml version="1.0" encoding="UTF-8"?>
+<xmlszamla xmlns="http://www.szamlazz.hu/xmlszamla" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <beallitasok>
+    <szamlaagentkulcs>${agentToken}</szamlaagentkulcs>
+    <eszamla>true</eszamla>
+    <kulsoSzamlaszam></kulsoSzamlaszam>
+    <offline>false</offline>
+    <autokilepes>true</autokilepes>
+  </beallitasok>
+  <fejlec>
+    <kelt>${today}</kelt>
+    <teljesites>${today}</teljesites>
+    <fizetesiHatarido>${today}</fizetesiHatarido>
+    <fizmod>Bankkártya</fizmod>
+    <penznem>HUF</penznem>
+    <szamlaNyelve>hu</szamlaNyelve>
+    <megjegyzes>Stripe fizetéssel teljesítve (DiákZóna Akadémia)</megjegyzes>
+  </fejlec>
+  <elado></elado>
+  <vevo>
+    <nev>${data.studentName}</nev>
+    <email>${data.studentEmail}</email>
+    <sendEmail>true</sendEmail>
+  </vevo>
+  <tetelek>
+    <tetel>
+      <megnevezes>Online Matematika Korrepetálás - ${data.topic} (${data.date} ${data.timeSlot})</megnevezes>
+      <mennyiseg>1.0</mennyiseg>
+      <mennyisegiEgyseg>óra</mennyisegiEgyseg>
+      <egysegar>${data.amount}</egysegar>
+      <adokulcs>AAM</adokulcs>
+      <nettoErtek>${data.amount}</nettoErtek>
+      <afaErtek>0</afaErtek>
+      <bruttoErtek>${data.amount}</bruttoErtek>
+    </tetel>
+  </tetelek>
+</xmlszamla>`;
+
+  try {
+    const formData = new URLSearchParams();
+    formData.append('action-xmlagentxml', xmlBody);
+
+    const response = await fetch('https://www.szamlazz.hu/szamla/', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
+
+    const textResult = await response.text();
+    logger.info('Számlázz.hu API response:', textResult);
+    return { success: true, textResult };
+  } catch (err: any) {
+    logger.error('Számlázz.hu invoice generation error:', err);
+    return { success: false, error: err.message };
+  }
+}
+
+// 8. createStripeCheckoutSession Cloud Function
+export const createStripeCheckoutSession = onRequest({ cors: true }, async (req, res) => {
+  try {
+    const {
+      studentName,
+      studentEmail,
+      studentPhone,
+      gradeLevel,
+      topic,
+      notes = '',
+      date,
+      timeSlot,
+      amount = 6000,
+    } = req.body || {};
+
+    if (!studentEmail || !studentName || !date || !timeSlot) {
+      res.status(400).json({ error: 'Missing required booking fields (studentEmail, studentName, date, timeSlot)' });
+      return;
+    }
+
+    const origin = req.headers.origin || 'http://localhost:5173';
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      customer_email: studentEmail,
+      line_items: [
+        {
+          price_data: {
+            currency: 'huf',
+            product_data: {
+              name: `Online Korrepetálás - ${topic || 'Matematika'}`,
+              description: `Dátum: ${date}, Idősáv: ${timeSlot} | Oktató: Orsós István`,
+            },
+            unit_amount: amount * 100,
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      success_url: `${origin}/korrepetalas?payment=success&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/korrepetalas?payment=cancelled`,
+      metadata: {
+        studentName,
+        studentEmail,
+        studentPhone: studentPhone || '',
+        gradeLevel: gradeLevel || '',
+        topic: topic || '',
+        notes: notes || '',
+        date,
+        timeSlot,
+        amount: String(amount),
+      },
+    });
+
+    res.json({ url: session.url, sessionId: session.id });
+  } catch (err: any) {
+    logger.error('createStripeCheckoutSession error:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 9. stripeWebhook Cloud Function (Handles successful payments & invoice triggering)
+export const stripeWebhook = onRequest({ cors: true }, async (req, res) => {
+  const sig = req.headers['stripe-signature'];
+  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+  let event: Stripe.Event;
+
+  try {
+    if (endpointSecret && sig) {
+      event = stripe.webhooks.constructEvent(req.rawBody || (req as any).body, sig, endpointSecret);
+    } else {
+      event = req.body;
+    }
+  } catch (err: any) {
+    logger.error(`Webhook signature verification failed:`, err.message);
+    res.status(400).send(`Webhook Error: ${err.message}`);
+    return;
+  }
+
+  if (event.type === 'checkout.session.completed') {
+    const session = event.data.object as Stripe.Checkout.Session;
+    const metadata = session.metadata || {};
+
+    logger.info('Stripe Payment Succeeded for session:', session.id, metadata);
+
+    const {
+      studentName,
+      studentEmail,
+      studentPhone,
+      gradeLevel,
+      topic,
+      notes,
+      date,
+      timeSlot,
+      amount,
+    } = metadata;
+
+    if (studentEmail && date && timeSlot) {
+      // 1. Mentés Firestore adatbázisba
+      try {
+        const bookingsRef = admin.firestore().collection('tutoring_bookings');
+        await bookingsRef.add({
+          studentName,
+          studentEmail,
+          studentPhone,
+          gradeLevel,
+          topic,
+          notes,
+          date,
+          timeSlot,
+          meetLink: 'https://meet.google.com/gqy-sazd-yuz',
+          status: 'confirmed',
+          paid: true,
+          stripeSessionId: session.id,
+          createdAt: admin.firestore.FieldValue.serverTimestamp(),
+        });
+        logger.info('Booking saved to Firestore successfully from Webhook');
+      } catch (dbErr) {
+        logger.error('Firestore save error in webhook:', dbErr);
+      }
+
+      // 2. Számlázz.hu e-számla kiállítása
+      try {
+        await createSzamlazzInvoice({
+          studentName: studentName || 'Diák',
+          studentEmail,
+          topic: topic || 'Matematika',
+          date,
+          timeSlot,
+          amount: Number(amount) || 6000,
+        });
+      } catch (szamlazzErr) {
+        logger.error('Számlázz.hu invoice error:', szamlazzErr);
+      }
+    }
+  }
+
+  res.json({ received: true });
+});
+
 

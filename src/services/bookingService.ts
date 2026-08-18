@@ -83,3 +83,27 @@ export async function createTutoringBooking(booking: Omit<BookingData, 'id' | 'c
     return { id: `local-${Date.now()}`, meetLink };
   }
 }
+
+/**
+ * Initiate Stripe Checkout session for tutoring payment.
+ */
+export async function createStripeBookingSession(booking: Omit<BookingData, 'id' | 'createdAt' | 'status'>, amount = 6000): Promise<{ url: string }> {
+  const functionUrl = 'https://us-central1-diakzona.cloudfunctions.net/createStripeCheckoutSession';
+  
+  const response = await fetch(functionUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      ...booking,
+      amount,
+    }),
+  });
+
+  if (!response.ok) {
+    const errData = await response.json().catch(() => ({}));
+    throw new Error(errData.error || 'Fizetési munkamenet indítása sikertelen.');
+  }
+
+  return response.json();
+}
+
