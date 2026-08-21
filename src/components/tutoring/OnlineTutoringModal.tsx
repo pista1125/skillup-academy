@@ -27,7 +27,7 @@ import {
 import { useAuth } from '@/contexts/AuthContext';
 import { BookingCalendar } from './BookingCalendar';
 import { BookingForm, BookingFormData } from './BookingForm';
-import { createTutoringBooking } from '@/services/bookingService';
+import { createTutoringBooking, createStripeBookingSession } from '@/services/bookingService';
 import { sendBookingConfirmationEmail } from '@/services/emailService';
 import { toast } from 'sonner';
 
@@ -110,8 +110,9 @@ export const OnlineTutoringModal: React.FC<OnlineTutoringModalProps> = ({ isOpen
     const dateStr = format(selectedDate, 'yyyy-MM-dd');
 
     try {
-      // 1. Save booking to Firestore and get meetLink
-      const { id: bookingId, meetLink } = await createTutoringBooking({
+      toast.loading('Stripe fizetési felület előkészítése...', { id: 'modal-stripe-loading' });
+
+      const { url } = await createStripeBookingSession({
         studentId: user?.uid || null,
         studentName: formData.studentName,
         studentEmail: formData.studentEmail,
@@ -121,32 +122,19 @@ export const OnlineTutoringModal: React.FC<OnlineTutoringModalProps> = ({ isOpen
         notes: formData.notes,
         date: dateStr,
         timeSlot: selectedTimeSlot,
-      });
+      }, 5000);
 
-      setConfirmedBookingId(bookingId);
-      setConfirmedMeetLink(meetLink);
+      toast.dismiss('modal-stripe-loading');
 
-      // 2. Dispatch email notification with meetLink
-      await sendBookingConfirmationEmail({
-        studentId: user?.uid || null,
-        studentName: formData.studentName,
-        studentEmail: formData.studentEmail,
-        studentPhone: formData.studentPhone,
-        gradeLevel: formData.gradeLevel,
-        topic: formData.topic,
-        notes: formData.notes,
-        date: dateStr,
-        timeSlot: selectedTimeSlot,
-        meetLink,
-        status: 'confirmed',
-      });
-
-      toast.success('Foglalás sikeresen rögzítve!');
-      setStep(3);
-    } catch (err) {
+      if (url) {
+        window.location.href = url;
+      } else {
+        throw new Error('Nem érkezett érvényes fizetési link.');
+      }
+    } catch (err: any) {
+      toast.dismiss('modal-stripe-loading');
       console.error('Failed to submit booking:', err);
-      toast.error('Hiba történt a foglalás során. Kérjük próbáld újra!');
-    } finally {
+      toast.error(err.message || 'Hiba történt a fizetési felület indítása során!');
       setSubmitting(false);
     }
   };
@@ -258,6 +246,20 @@ export const OnlineTutoringModal: React.FC<OnlineTutoringModalProps> = ({ isOpen
                 onChange={(updated) => setFormData((prev) => ({ ...prev, ...updated }))}
               />
 
+              {/* Pricing banner */}
+              <div className="p-3.5 bg-indigo-50 dark:bg-indigo-950/40 rounded-2xl border border-indigo-200 dark:border-indigo-900/60 flex items-center justify-between text-xs">
+                <div className="flex items-center gap-2">
+                  <CreditCard className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                  <div>
+                    <span className="font-bold text-slate-800 dark:text-slate-200">Óradíj: 5 000 Ft / alkalom</span>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400">Biztonságos Stripe bankkártyás fizetés</p>
+                  </div>
+                </div>
+                <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-1 rounded-lg border border-emerald-200 dark:border-emerald-800">
+                  Azonnali e-számla
+                </span>
+              </div>
+
               <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
                 <Button
                   type="button"
@@ -272,17 +274,18 @@ export const OnlineTutoringModal: React.FC<OnlineTutoringModalProps> = ({ isOpen
                 <Button
                   type="submit"
                   disabled={submitting}
-                  className="rounded-xl font-extrabold bg-emerald-500 hover:bg-emerald-600 text-white px-6 shadow-lg shadow-emerald-500/20 hover:scale-[1.02] transition-transform"
+                  className="rounded-xl font-extrabold bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white px-6 shadow-lg shadow-emerald-500/20 hover:scale-[1.02] transition-transform"
                 >
                   {submitting ? (
                     <>
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Foglalás rögzítése...
+                      Átirányítás a Stripe-ra...
                     </>
                   ) : (
                     <>
-                      Foglalás Véglegesítése
-                      <CheckCircle className="w-4 h-4 ml-2" />
+                      <CreditCard className="w-4 h-4 mr-2" />
+                      Fizetés és Véglegesítés (5 000 Ft)
+                      <ArrowRight className="w-4 h-4 ml-2" />
                     </>
                   )}
                 </Button>

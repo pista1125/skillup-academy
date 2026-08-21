@@ -85,25 +85,39 @@ export async function createTutoringBooking(booking: Omit<BookingData, 'id' | 'c
 }
 
 /**
- * Initiate Stripe Checkout session for tutoring payment.
+ * Initiate Stripe Checkout session for tutoring payment (5000 HUF).
  */
-export async function createStripeBookingSession(booking: Omit<BookingData, 'id' | 'createdAt' | 'status'>, amount = 6000): Promise<{ url: string }> {
-  const functionUrl = 'https://us-central1-diakzona.cloudfunctions.net/createStripeCheckoutSession';
+export async function createStripeBookingSession(
+  booking: Omit<BookingData, 'id' | 'createdAt' | 'status'>,
+  amount = 5000
+): Promise<{ url: string; sessionId?: string }> {
+  const functionUrl = 'https://createstripecheckoutsession-ljp5sa765q-uc.a.run.app';
   
   const response = await fetch(functionUrl, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify({
-      ...booking,
+      studentId: booking.studentId || null,
+      studentName: booking.studentName,
+      studentEmail: booking.studentEmail,
+      studentPhone: booking.studentPhone,
+      gradeLevel: booking.gradeLevel,
+      topic: booking.topic,
+      notes: booking.notes || '',
+      date: booking.date,
+      timeSlot: booking.timeSlot,
       amount,
     }),
   });
 
   if (!response.ok) {
     const errData = await response.json().catch(() => ({}));
-    throw new Error(errData.error || 'Fizetési munkamenet indítása sikertelen.');
+    throw new Error(errData.error || 'A fizetési folyamat indítása sikertelen.');
   }
 
   return response.json();
 }
+
 

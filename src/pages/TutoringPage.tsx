@@ -9,7 +9,7 @@ import { SidebarMenu } from '@/components/SidebarMenu';
 import { useAuth } from '@/contexts/AuthContext';
 import { BookingCalendar } from '@/components/tutoring/BookingCalendar';
 import { BookingForm, BookingFormData } from '@/components/tutoring/BookingForm';
-import { createTutoringBooking } from '@/services/bookingService';
+import { createTutoringBooking, createStripeBookingSession } from '@/services/bookingService';
 import { sendBookingConfirmationEmail } from '@/services/emailService';
 import { toast } from 'sonner';
 import {
@@ -25,7 +25,8 @@ import {
   BookOpen,
   HelpCircle,
   CreditCard,
-  ShieldCheck
+  ShieldCheck,
+  Lock
 } from 'lucide-react';
 
 export default function TutoringPage() {
@@ -49,6 +50,21 @@ export default function TutoringPage() {
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [confirmedBookingId, setConfirmedBookingId] = useState<string | null>(null);
   const [confirmedMeetLink, setConfirmedMeetLink] = useState<string | null>(null);
+
+  // Check URL search parameters for Stripe redirect
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const payment = searchParams.get('payment');
+    if (payment === 'success') {
+      setStep(3);
+      setConfirmedMeetLink('https://meet.google.com/gqy-sazd-yuz');
+      toast.success('Sikeres bankkártyás fizetés (5 000 Ft)! A foglalásodat és számládat rögzítettük.', { duration: 6000 });
+      window.history.replaceState({}, document.title, window.location.pathname);
+    } else if (payment === 'cancelled') {
+      toast.error('A bankkártyás fizetés megszakadt. A foglaláshoz kérjük próbáld újra!');
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, []);
 
   // Pre-fill profile info if user is logged in
   useEffect(() => {
@@ -108,7 +124,9 @@ export default function TutoringPage() {
     const dateStr = format(selectedDate, 'yyyy-MM-dd');
 
     try {
-      const { id: bookingId, meetLink } = await createTutoringBooking({
+      toast.loading('Stripe fizetési felület előkészítése...', { id: 'stripe-loading' });
+
+      const { url } = await createStripeBookingSession({
         studentId: user?.uid || null,
         studentName: formData.studentName,
         studentEmail: formData.studentEmail,
@@ -118,31 +136,19 @@ export default function TutoringPage() {
         notes: formData.notes,
         date: dateStr,
         timeSlot: selectedTimeSlot,
-      });
+      }, 5000);
 
-      setConfirmedBookingId(bookingId);
-      setConfirmedMeetLink(meetLink);
+      toast.dismiss('stripe-loading');
 
-      await sendBookingConfirmationEmail({
-        studentId: user?.uid || null,
-        studentName: formData.studentName,
-        studentEmail: formData.studentEmail,
-        studentPhone: formData.studentPhone,
-        gradeLevel: formData.gradeLevel,
-        topic: formData.topic,
-        notes: formData.notes,
-        date: dateStr,
-        timeSlot: selectedTimeSlot,
-        meetLink,
-        status: 'confirmed',
-      });
-
-      toast.success('Foglalásod sikeresen rögzítésre került!');
-      setStep(3);
-    } catch (err) {
-      console.error('Failed to submit booking:', err);
-      toast.error('Hiba történt a foglalás rögzítése során!');
-    } finally {
+      if (url) {
+        window.location.href = url;
+      } else {
+        throw new Error('Nem érkezett érvényes fizetési link.');
+      }
+    } catch (err: any) {
+      toast.dismiss('stripe-loading');
+      console.error('Failed to initiate Stripe checkout:', err);
+      toast.error(err.message || 'Hiba történt a fizetési felület megnyitása során!');
       setSubmitting(false);
     }
   };
@@ -359,6 +365,21 @@ export default function TutoringPage() {
                   onChange={(updated) => setFormData((prev) => ({ ...prev, ...updated }))}
                 />
 
+                {/* Payment summary alert */}
+                <div className="p-3 bg-indigo-50/80 dark:bg-indigo-950/40 rounded-xl border border-indigo-200 dark:border-indigo-900/60 flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-2">
+                    <CreditCard className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0" />
+                    <div>
+                      <p className="font-bold text-slate-800 dark:text-slate-200">Online Óradíj: 5 000 Ft / alkalom</p>
+                      <p className="text-[11px] text-slate-500 dark:text-slate-400">Biztonságos Stripe bankkártyás fizetéssel & azonnali e-számlával</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1 text-[11px] text-emerald-600 dark:text-emerald-400 font-bold">
+                    <Lock className="w-3.5 h-3.5" />
+                    <span>SSL 256-bit</span>
+                  </div>
+                </div>
+
                 <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-800">
                   <Button
                     type="button"
@@ -375,17 +396,18 @@ export default function TutoringPage() {
                     type="submit"
                     disabled={submitting}
                     size="sm"
-                    className="font-bold bg-emerald-600 hover:bg-emerald-700 text-white px-6 text-xs h-9 shadow-sm"
+                    className="font-bold bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white px-6 text-xs h-9 shadow-md shadow-emerald-500/20"
                   >
                     {submitting ? (
                       <>
                         <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" />
-                        Rögzítés...
+                        Átirányítás a Stripe-ra...
                       </>
                     ) : (
                       <>
-                        Foglalás Véglegesítése
-                        <CheckCircle className="w-3.5 h-3.5 ml-1.5" />
+                        <CreditCard className="w-3.5 h-3.5 mr-1.5" />
+                        Fizetés és Véglegesítés (5 000 Ft)
+                        <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
                       </>
                     )}
                   </Button>
@@ -402,10 +424,10 @@ export default function TutoringPage() {
 
                 <div>
                   <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100">
-                    Foglalásod sikeresen rögzítve!
+                    Sikeres Fizetés & Időpont Foglalás! 🎉
                   </h3>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                    Visszaigazoló e-mailt küldtünk a következő címre: <strong>{formData.studentEmail}</strong>
+                    A foglalási díj (<strong>5 000 Ft</strong>) kiegyenlítve. A visszaigazoló e-mailt és az e-számlát elküldtük a megadott e-mail címre.
                   </p>
                 </div>
 
@@ -414,47 +436,40 @@ export default function TutoringPage() {
                     <CalendarIcon className="w-3.5 h-3.5 text-primary shrink-0" />
                     <span className="text-slate-500">Időpont:</span>
                     <strong className="text-slate-800 dark:text-slate-200">
-                      {selectedDate ? format(selectedDate, 'yyyy. MMMM d.', { locale: hu }) : ''} ({selectedTimeSlot})
+                      {selectedDate ? format(selectedDate, 'yyyy. MMMM d.', { locale: hu }) : ''} ({selectedTimeSlot || 'Kiválasztott sáv'})
                     </strong>
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <User className="w-3.5 h-3.5 text-primary shrink-0" />
-                    <span className="text-slate-500">Diák:</span>
-                    <strong className="text-slate-800 dark:text-slate-200">{formData.studentName}</strong>
+                    <CreditCard className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                    <span className="text-slate-500">Fizetve:</span>
+                    <strong className="text-emerald-700 dark:text-emerald-400 font-bold">5 000 Ft (Stripe Teszt)</strong>
                   </div>
 
                   <div className="flex items-center gap-2">
                     <GraduationCap className="w-3.5 h-3.5 text-primary shrink-0" />
                     <span className="text-slate-500">Témakör:</span>
-                    <strong className="text-slate-800 dark:text-slate-200">{formData.topic}</strong>
+                    <strong className="text-slate-800 dark:text-slate-200">{formData.topic || 'Online Korrepetálás'}</strong>
                   </div>
                 </div>
 
                 {/* Google Meet Room Card */}
-                {confirmedMeetLink && (
-                  <div className="p-4 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/60 rounded-xl text-center space-y-2">
-                    <p className="text-xs font-bold text-emerald-800 dark:text-emerald-300">
-                      🎥 Online Google Meet szoba belépési link:
-                    </p>
-                    <a
-                      href={confirmedMeetLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs shadow-sm"
-                    >
-                      <Video className="w-4 h-4" />
-                      Csatlakozás a Google Meet Órához
-                    </a>
-                  </div>
-                )}
-
-                {/* Payment Notice */}
-                <div className="p-3 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/60 rounded-xl text-left flex items-start gap-2">
-                  <CreditCard className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
-                  <div className="text-[11px] text-amber-800 dark:text-amber-300 font-medium">
-                    <strong>Fizetési infó:</strong> A fizetés közvetlenül az óra előtt / átutalással történik. A részleteket e-mailben is elküldtük.
-                  </div>
+                <div className="p-4 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/60 rounded-xl text-center space-y-2">
+                  <p className="text-xs font-bold text-emerald-800 dark:text-emerald-300">
+                    🎥 Online Google Meet szoba belépési link:
+                  </p>
+                  <a
+                    href="https://meet.google.com/gqy-sazd-yuz"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs shadow-sm"
+                  >
+                    <Video className="w-4 h-4" />
+                    Csatlakozás a Google Meet Órához
+                  </a>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                    A linket a megadott e-mail címre is elküldtük.
+                  </p>
                 </div>
 
                 <div className="pt-2">
