@@ -1,102 +1,175 @@
 import { useState, useEffect, useCallback, useRef, TouchEvent } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import {
     ArrowLeft,
     RotateCcw,
     Trophy,
     Heart,
-    Star,
-    Zap,
     ArrowUp,
     ArrowDown,
     ArrowLeftIcon,
-    ArrowRightIcon
+    ArrowRightIcon,
+    Flame,
+    Pause,
+    Play,
+    ChevronRight,
+    School,
+    CheckCircle2,
+    Maximize2,
+    Minimize2,
+    Palette
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import confetti from 'canvas-confetti';
+import {
+    OperationType,
+    DifficultyType,
+    MathProblem,
+    OPERATION_DEFINITIONS,
+    DIFFICULTY_CONFIG,
+    getAvailableOperationsForGrade,
+    generateSnakeProblem,
+    generateSnakeDistractors
+} from './snake/mathSnakeGenerator';
 
 type Direction = 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
 type Position = { x: number; y: number };
-type Operation = '+' | '-' | '×' | '÷';
-type Difficulty = 'EASY' | 'MEDIUM' | 'HARD';
-
-interface MathProblem {
-    question: string;
-    answer: number;
-}
+type MenuStep = 'GRADE' | 'OPERATION' | 'DIFFICULTY' | 'PLAYING';
+type BoardTheme = 'DARK' | 'BLACK';
 
 const GRID_SIZE = 15;
-const CELL_SIZE = 30;
-const DIFFICULTIES: Record<Difficulty, { label: string; speed: number; color: string; hoverColor: string }> = {
-    EASY: { label: 'Lassú', speed: 450, color: 'bg-emerald-100 text-emerald-700 border-emerald-200', hoverColor: 'hover:border-emerald-400' },
-    MEDIUM: { label: 'Közepes', speed: 200, color: 'bg-blue-100 text-blue-700 border-blue-200', hoverColor: 'hover:border-blue-400' },
-    HARD: { label: 'Gyors', speed: 120, color: 'bg-rose-100 text-rose-700 border-rose-200', hoverColor: 'hover:border-rose-400' }
+// Increased cell size by 4px from 28 to 32
+const CELL_SIZE = 32;
+
+interface GradeCategory {
+    title: string;
+    description: string;
+    badgeColor: string;
+    grades: Array<{ grade: number; label: string; desc: string; icon: string }>;
+}
+
+const GRADE_CATEGORIES: GradeCategory[] = [
+    {
+        title: 'Alsó tagozat',
+        description: '1–4. osztály: Alapműveletek, szorzótáblák és bennfoglalás',
+        badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-300',
+        grades: [
+            { grade: 1, label: '1. osztály', desc: 'Összeadás és kivonás 20-ig', icon: '🌱' },
+            { grade: 2, label: '2. osztály', desc: 'Szorzótábla alapok (2, 5, 10) & 100-as kör', icon: '🌿' },
+            { grade: 3, label: '3. osztály', desc: 'Teljes szorzótábla és bennfoglalás 1000-ig', icon: '🌳' },
+            { grade: 4, label: '4. osztály', desc: 'Szorzás, osztás és fejszámolás 10 000-ig', icon: '🍎' }
+        ]
+    },
+    {
+        title: 'Felső tagozat',
+        description: '5–8. osztály: Többjegyű szorzás-osztás, negatív számok és hatványozás',
+        badgeColor: 'bg-blue-100 text-blue-800 border-blue-300',
+        grades: [
+            { grade: 5, label: '5. osztály', desc: 'Minden szám szorzása & osztása', icon: '📐' },
+            { grade: 6, label: '6. osztály', desc: 'Negatív számok és törtrészek', icon: '⚡' },
+            { grade: 7, label: '7. osztály', desc: 'Hatványozás (xⁿ) & negatív műveletek', icon: '🚀' },
+            { grade: 8, label: '8. osztály', desc: 'Összetett hatványok és algebra', icon: '🌌' }
+        ]
+    },
+    {
+        title: 'Középiskola',
+        description: '9–12. osztály: 6 művelet (+, −, ×, ÷, xⁿ, √x) és érettségi szint',
+        badgeColor: 'bg-purple-100 text-purple-800 border-purple-300',
+        grades: [
+            { grade: 9, label: '9. osztály', desc: 'Gyökvonás (√x) bevezetése, 6 művelet', icon: '💎' },
+            { grade: 10, label: '10. osztály', desc: 'Gyökök, hatványok, logaritmus', icon: '🔮' },
+            { grade: 11, label: '11. osztály', desc: 'Felsőfokú gyökvonás és kombinatorika', icon: '👑' },
+            { grade: 12, label: '12. osztály', desc: 'Érettségi szintű összetett feladatok', icon: '🏆' }
+        ]
+    }
+];
+
+const INITIAL_SNAKE: Position[] = [
+    { x: 7, y: 7 },
+    { x: 6, y: 7 },
+    { x: 5, y: 7 }
+];
+
+const isOppositeDirection = (dir1: Direction, dir2: Direction): boolean => {
+    return (
+        (dir1 === 'UP' && dir2 === 'DOWN') ||
+        (dir1 === 'DOWN' && dir2 === 'UP') ||
+        (dir1 === 'LEFT' && dir2 === 'RIGHT') ||
+        (dir1 === 'RIGHT' && dir2 === 'LEFT')
+    );
 };
 
-function generateProblem(operation: Operation, grade: number): MathProblem {
-    let maxNum = 10;
+export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => void; grade?: number }) {
+    // Menu navigation state
+    const [step, setStep] = useState<MenuStep>('GRADE');
+    const [selectedGrade, setSelectedGrade] = useState<number>(initialGrade || 1);
+    const [selectedOperation, setSelectedOperation] = useState<OperationType | null>(null);
+    const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyType>('MEDIUM');
 
-    if (grade === 1) maxNum = 10;
-    else if (grade === 2) maxNum = 100;
-    else if (grade === 3) maxNum = 100;
-    else if (grade === 4) maxNum = 100;
+    // Visual preferences
+    const [boardTheme, setBoardTheme] = useState<BoardTheme>('DARK');
+    const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
-    if (operation === '+') {
-        const a = Math.floor(Math.random() * maxNum) + 1;
-        const b = Math.floor(Math.random() * maxNum) + 1;
-        return { question: `${a} + ${b}`, answer: a + b };
-    } else if (operation === '-') {
-        const a = Math.floor(Math.random() * maxNum) + 1;
-        const b = Math.floor(Math.random() * a) + 1;
-        return { question: `${a} - ${b}`, answer: a - b };
-    } else if (operation === '×') {
-        const a = Math.floor(Math.random() * 10) + 1;
-        const b = Math.floor(Math.random() * 10) + 1;
-        return { question: `${a} × ${b}`, answer: a * b };
-    } else { // division
-        const b = Math.floor(Math.random() * 9) + 2;
-        const result = Math.floor(Math.random() * 10) + 1;
-        const a = b * result;
-        return { question: `${a} ÷ ${b}`, answer: result };
-    }
-}
-
-function generateRandomNumbers(correctAnswer: number, count: number = 3): number[] {
-    const numbers = new Set<number>([correctAnswer]);
-
-    while (numbers.size < count) {
-        const num = Math.floor(Math.random() * Math.max(20, correctAnswer * 2));
-        if (num !== correctAnswer && num > 0) {
-            numbers.add(num);
-        }
-    }
-
-    return Array.from(numbers);
-}
-
-export function MathSnakeGame({ onBack, grade = 1 }: { onBack: () => void; grade?: number }) {
-    const [operation, setOperation] = useState<Operation | null>(null);
-    const [snake, setSnake] = useState<Position[]>([{ x: 7, y: 7 }]);
+    // Snake game state
+    const [snake, setSnake] = useState<Position[]>(INITIAL_SNAKE);
     const [direction, setDirection] = useState<Direction>('RIGHT');
     const [numbers, setNumbers] = useState<Array<{ pos: Position; value: number }>>([]);
-    const [problem, setProblem] = useState<MathProblem>({ question: '', answer: 0 });
+    const [problem, setProblem] = useState<MathProblem | null>(null);
     const [score, setScore] = useState(0);
+    const [streak, setStreak] = useState(0);
+    const [bestStreak, setBestStreak] = useState(0);
+    const [correctCount, setCorrectCount] = useState(0);
     const [gameOver, setGameOver] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
     const [isStarted, setIsStarted] = useState(false);
-    const [difficulty, setDifficulty] = useState<Difficulty>('MEDIUM');
-    const [speed, setSpeed] = useState(DIFFICULTIES.MEDIUM.speed);
+    const [speed, setSpeed] = useState(DIFFICULTY_CONFIG.MEDIUM.speed);
+
     const directionRef = useRef<Direction>('RIGHT');
+    const lastMovedDirectionRef = useRef<Direction>('RIGHT');
+    const directionQueueRef = useRef<Direction[]>([]);
     const gameLoopRef = useRef<NodeJS.Timeout | null>(null);
     const touchStartRef = useRef<{ x: number; y: number } | null>(null);
-    const SWIPE_THRESHOLD = 30;
+    const SWIPE_THRESHOLD = 25;
 
-    const spawnNumbers = useCallback(() => {
-        const availableNumbers = generateRandomNumbers(problem.answer, 4);
+    // Available operations for the chosen grade
+    const availableOps = getAvailableOperationsForGrade(selectedGrade);
+
+    // Scroll to top whenever step / menu screen changes
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        document.documentElement.scrollTo({ top: 0, behavior: 'smooth' });
+        document.body.scrollTo({ top: 0, behavior: 'smooth' });
+    }, [step]);
+
+    // Fullscreen toggle handler
+    const toggleFullscreen = () => {
+        setIsFullscreen(prev => !prev);
+    };
+
+    // Safe direction queue handler
+    const queueDirection = useCallback((newDirection: Direction) => {
+        if (gameOver || isPaused) return;
+
+        const lastPlannedDirection = directionQueueRef.current.length > 0
+            ? directionQueueRef.current[directionQueueRef.current.length - 1]
+            : lastMovedDirectionRef.current;
+
+        if (!isOppositeDirection(lastPlannedDirection, newDirection) && lastPlannedDirection !== newDirection) {
+            if (directionQueueRef.current.length < 2) {
+                directionQueueRef.current.push(newDirection);
+            }
+        }
+    }, [gameOver, isPaused]);
+
+    // Spawn numbers on the board
+    const spawnNumbers = useCallback((targetProblem: MathProblem) => {
+        const distractors = generateSnakeDistractors(targetProblem.answer, 3);
+        const allValues = [targetProblem.answer, ...distractors].sort(() => Math.random() - 0.5);
         const newNumbers: Array<{ pos: Position; value: number }> = [];
 
-        availableNumbers.forEach(value => {
+        allValues.forEach(value => {
             let pos: Position;
             let attempts = 0;
 
@@ -107,51 +180,87 @@ export function MathSnakeGame({ onBack, grade = 1 }: { onBack: () => void; grade
                 };
                 attempts++;
             } while (
-                attempts < 50 &&
-                newNumbers.some(n => n.pos.x === pos.x && n.pos.y === pos.y)
+                attempts < 60 &&
+                (newNumbers.some(n => n.pos.x === pos.x && n.pos.y === pos.y) ||
+                 snake.some(s => s.x === pos.x && s.y === pos.y))
             );
 
-            if (attempts < 50) {
+            if (attempts < 60) {
                 newNumbers.push({ pos, value });
             }
         });
 
         setNumbers(newNumbers);
-    }, [problem.answer]);
+    }, [snake]);
 
+    // Start a new round / problem
+    const nextRound = useCallback((op: OperationType, gr: number, diff: DifficultyType) => {
+        const newProb = generateSnakeProblem(op, gr, diff);
+        setProblem(newProb);
+        spawnNumbers(newProb);
+    }, [spawnNumbers]);
+
+    // Reset game session
     const resetGame = useCallback(() => {
-        if (!operation) return;
-        setSnake([{ x: 7, y: 7 }]);
+        if (!selectedOperation) return;
+        setSnake(INITIAL_SNAKE);
         setDirection('RIGHT');
         directionRef.current = 'RIGHT';
+        lastMovedDirectionRef.current = 'RIGHT';
+        directionQueueRef.current = [];
         setScore(0);
+        setStreak(0);
+        setCorrectCount(0);
         setGameOver(false);
         setIsPaused(false);
         setIsStarted(false);
-        setSpeed(DIFFICULTIES[difficulty].speed);
-        const newProblem = generateProblem(operation, grade);
-        setProblem(newProblem);
-    }, [operation, grade]);
+        setSpeed(DIFFICULTY_CONFIG[selectedDifficulty].speed);
+        nextRound(selectedOperation, selectedGrade, selectedDifficulty);
+    }, [selectedOperation, selectedGrade, selectedDifficulty, nextRound]);
 
-    useEffect(() => {
-        if (operation) {
-            const newProblem = generateProblem(operation, grade);
-            setProblem(newProblem);
+    // Launch game when difficulty is selected
+    const startGame = (diff: DifficultyType) => {
+        setSelectedDifficulty(diff);
+        setSpeed(DIFFICULTY_CONFIG[diff].speed);
+        setStep('PLAYING');
+        setSnake(INITIAL_SNAKE);
+        setDirection('RIGHT');
+        directionRef.current = 'RIGHT';
+        lastMovedDirectionRef.current = 'RIGHT';
+        directionQueueRef.current = [];
+        setScore(0);
+        setStreak(0);
+        setCorrectCount(0);
+        setGameOver(false);
+        setIsPaused(false);
+        setIsStarted(false);
+
+        if (selectedOperation) {
+            const newProb = generateSnakeProblem(selectedOperation, selectedGrade, diff);
+            setProblem(newProb);
+            spawnNumbers(newProb);
         }
-    }, [operation, grade]);
+    };
 
-    useEffect(() => {
-        spawnNumbers();
-    }, [problem, spawnNumbers]);
-
+    // Snake movement loop
     const moveSnake = useCallback(() => {
-        if (gameOver || isPaused || !isStarted) return;
+        if (gameOver || isPaused || !isStarted || !problem || !selectedOperation) return;
+
+        // Dequeue next queued direction if available
+        if (directionQueueRef.current.length > 0) {
+            const nextDirection = directionQueueRef.current.shift()!;
+            directionRef.current = nextDirection;
+            setDirection(nextDirection);
+        }
+
+        const currentDir = directionRef.current;
+        lastMovedDirectionRef.current = currentDir;
 
         setSnake(prevSnake => {
             const head = prevSnake[0];
             let newHead: Position;
 
-            switch (directionRef.current) {
+            switch (currentDir) {
                 case 'UP':
                     newHead = { x: head.x, y: head.y - 1 };
                     break;
@@ -183,28 +292,42 @@ export function MathSnakeGame({ onBack, grade = 1 }: { onBack: () => void; grade
 
             if (eatenNumber) {
                 if (eatenNumber.value === problem.answer) {
-                    // Correct answer
-                    setScore(prev => prev + 10);
-                    setSpeed(prev => Math.max(100, prev - 5));
+                    // Correct answer!
+                    setStreak(prev => {
+                        const newStreak = prev + 1;
+                        if (newStreak > bestStreak) setBestStreak(newStreak);
+                        return newStreak;
+                    });
+                    setCorrectCount(prev => prev + 1);
+
+                    const points = 10 + Math.min(streak * 2, 20);
+                    setScore(prev => prev + points);
+
+                    // Speed up slightly
+                    setSpeed(prev => Math.max(90, prev - 4));
 
                     confetti({
-                        particleCount: 30,
-                        spread: 50,
+                        particleCount: 35,
+                        spread: 55,
                         origin: { y: 0.6 },
-                        colors: ['#10b981', '#34d399', '#6ee7b7']
+                        colors: ['#10b981', '#3b82f6', '#f59e0b', '#ec4899']
                     });
 
-                    const newProblem = generateProblem(operation!, grade);
-                    setProblem(newProblem);
+                    // Advance problem
+                    const nextProb = generateSnakeProblem(selectedOperation, selectedGrade, selectedDifficulty);
+                    setProblem(nextProb);
+                    spawnNumbers(nextProb);
 
                     return [newHead, ...prevSnake];
                 } else {
-                    // Wrong answer
+                    // Wrong answer!
+                    setStreak(0);
                     setScore(prev => Math.max(0, prev - 5));
 
-                    // Generate new problem even on wrong answer
-                    const newProblem = generateProblem(operation!, grade);
-                    setProblem(newProblem);
+                    // Regenerate problem
+                    const nextProb = generateSnakeProblem(selectedOperation, selectedGrade, selectedDifficulty);
+                    setProblem(nextProb);
+                    spawnNumbers(nextProb);
 
                     if (prevSnake.length > 1) {
                         return [newHead, ...prevSnake.slice(0, -1)];
@@ -216,14 +339,15 @@ export function MathSnakeGame({ onBack, grade = 1 }: { onBack: () => void; grade
 
             return [newHead, ...prevSnake.slice(0, -1)];
         });
-    }, [gameOver, isPaused, numbers, problem.answer, isStarted, operation, grade]);
+    }, [gameOver, isPaused, isStarted, problem, selectedOperation, numbers, streak, bestStreak, selectedGrade, selectedDifficulty, spawnNumbers]);
 
+    // Game loop timer
     useEffect(() => {
         if (gameLoopRef.current) {
             clearInterval(gameLoopRef.current);
         }
 
-        if (!gameOver && !isPaused && isStarted) {
+        if (step === 'PLAYING' && !gameOver && !isPaused && isStarted) {
             gameLoopRef.current = setInterval(moveSnake, speed);
         }
 
@@ -232,58 +356,40 @@ export function MathSnakeGame({ onBack, grade = 1 }: { onBack: () => void; grade
                 clearInterval(gameLoopRef.current);
             }
         };
-    }, [moveSnake, speed, gameOver, isPaused, isStarted]);
+    }, [step, moveSnake, speed, gameOver, isPaused, isStarted]);
 
+    // Keyboard controls
     useEffect(() => {
         const handleKeyPress = (e: KeyboardEvent) => {
-            if (gameOver) return;
+            if (step !== 'PLAYING' || gameOver) return;
 
-            const key = e.key;
-            const currentDir = directionRef.current;
+            const key = e.key.toLowerCase();
 
-            // Prevent default scrolling for arrow keys
-            if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' '].includes(key)) {
+            if (['arrowup', 'arrowdown', 'arrowleft', 'arrowright', 'w', 'a', 's', 'd', ' '].includes(key)) {
                 e.preventDefault();
             }
 
-            if (key === 'ArrowUp' && currentDir !== 'DOWN') {
-                directionRef.current = 'UP';
-                setDirection('UP');
-            } else if (key === 'ArrowDown' && currentDir !== 'UP') {
-                directionRef.current = 'DOWN';
-                setDirection('DOWN');
-            } else if (key === 'ArrowLeft' && currentDir !== 'RIGHT') {
-                directionRef.current = 'LEFT';
-                setDirection('LEFT');
-            } else if (key === 'ArrowRight' && currentDir !== 'LEFT') {
-                directionRef.current = 'RIGHT';
-                setDirection('RIGHT');
-            } else if (key === ' ') {
+            if (key === 'arrowup' || key === 'w') {
+                queueDirection('UP');
+            } else if (key === 'arrowdown' || key === 's') {
+                queueDirection('DOWN');
+            } else if (key === 'arrowleft' || key === 'a') {
+                queueDirection('LEFT');
+            } else if (key === 'arrowright' || key === 'd') {
+                queueDirection('RIGHT');
+            } else if (key === ' ' || key === 'p') {
                 setIsPaused(prev => !prev);
+            } else if (key === 'escape' && isFullscreen) {
+                setIsFullscreen(false);
             }
         };
 
         window.addEventListener('keydown', handleKeyPress);
         return () => window.removeEventListener('keydown', handleKeyPress);
-    }, [gameOver]);
+    }, [step, gameOver, isFullscreen, queueDirection]);
 
     const handleDirectionClick = (newDirection: Direction) => {
-        if (gameOver || isPaused) return;
-        const currentDir = directionRef.current;
-
-        if (newDirection === 'UP' && currentDir !== 'DOWN') {
-            directionRef.current = 'UP';
-            setDirection('UP');
-        } else if (newDirection === 'DOWN' && currentDir !== 'UP') {
-            directionRef.current = 'DOWN';
-            setDirection('DOWN');
-        } else if (newDirection === 'LEFT' && currentDir !== 'RIGHT') {
-            directionRef.current = 'LEFT';
-            setDirection('LEFT');
-        } else if (newDirection === 'RIGHT' && currentDir !== 'LEFT') {
-            directionRef.current = 'RIGHT';
-            setDirection('RIGHT');
-        }
+        queueDirection(newDirection);
     };
 
     const handleTouchStart = (e: TouchEvent) => {
@@ -300,21 +406,19 @@ export function MathSnakeGame({ onBack, grade = 1 }: { onBack: () => void; grade
         const deltaY = e.changedTouches[0].clientY - touchStartRef.current.y;
 
         if (Math.abs(deltaX) > Math.abs(deltaY)) {
-            // Horizontal swipe
             if (Math.abs(deltaX) > SWIPE_THRESHOLD) {
                 if (deltaX > 0) {
-                    handleDirectionClick('RIGHT');
+                    queueDirection('RIGHT');
                 } else {
-                    handleDirectionClick('LEFT');
+                    queueDirection('LEFT');
                 }
             }
         } else {
-            // Vertical swipe
             if (Math.abs(deltaY) > SWIPE_THRESHOLD) {
                 if (deltaY > 0) {
-                    handleDirectionClick('DOWN');
+                    queueDirection('DOWN');
                 } else {
-                    handleDirectionClick('UP');
+                    queueDirection('UP');
                 }
             }
         }
@@ -322,305 +426,627 @@ export function MathSnakeGame({ onBack, grade = 1 }: { onBack: () => void; grade
         touchStartRef.current = null;
     };
 
-    // Operation selection screen
-    if (!operation) {
+    // ==========================================
+    // STEP 1: GRADE SELECTION SCREEN (1-12)
+    // ==========================================
+    if (step === 'GRADE') {
         return (
-            <div className="flex flex-col gap-8 max-w-4xl mx-auto w-full animate-in fade-in slide-in-from-bottom-4 duration-500">
-                <div className="flex items-center justify-between px-2">
-                    <Button variant="ghost" onClick={onBack} size="sm" className="hover:bg-slate-100 text-xs">
-                        <ArrowLeft className="w-3.5 h-3.5 mr-1" />
-                        Vissza
+            <div className="flex flex-col gap-3 w-full px-1 sm:px-3 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                {/* Header */}
+                <div className="flex items-center justify-between bg-white/90 backdrop-blur-md px-4 py-3 rounded-2xl border border-emerald-100 shadow-sm w-full">
+                    <Button variant="ghost" onClick={onBack} size="sm" className="hover:bg-slate-100 text-xs sm:text-sm font-bold h-9 px-3.5 rounded-xl">
+                        <ArrowLeft className="w-4 h-4 mr-1.5" />
+                        Vissza a játékokhoz
                     </Button>
-                    <h2 className="text-2xl font-bold text-slate-800">Válassz műveletet!</h2>
-                    <div className="w-16"></div>
+                    <div className="text-center">
+                        <h1 className="text-base sm:text-xl font-black bg-gradient-to-r from-emerald-600 to-teal-700 bg-clip-text text-transparent flex items-center justify-center gap-2">
+                            <span>🐍</span> Matek Kígyó 1–12. Osztály
+                        </h1>
+                    </div>
+                    <div className="w-28 hidden sm:block"></div>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-8">
-                    <button
-                        onClick={() => setOperation('+')}
-                        className="flex flex-col items-center p-8 bg-white border-2 border-blue-100 rounded-3xl hover:border-blue-400 hover:shadow-xl hover:scale-105 transition-all group"
-                    >
-                        <div className="p-6 bg-blue-100 text-blue-600 rounded-full mb-4 text-5xl font-black group-hover:rotate-12 transition-transform">
-                            +
-                        </div>
-                        <h3 className="text-xl font-black text-blue-900">Összeadás</h3>
-                    </button>
+                {/* Grade Sections */}
+                <div className="space-y-3 w-full">
+                    {GRADE_CATEGORIES.map((cat, idx) => (
+                        <div key={idx} className="bg-white/95 rounded-2xl p-3.5 sm:p-4 border-2 shadow-sm space-y-2 w-full">
+                            <div className="flex items-center justify-between gap-2 border-b pb-1.5">
+                                <h2 className="text-sm sm:text-base font-black text-slate-800 flex items-center gap-2">
+                                    <School className="w-4 h-4 text-emerald-600" />
+                                    {cat.title}
+                                </h2>
+                                <span className={cn("text-xs font-bold px-2.5 py-0.5 rounded-full border", cat.badgeColor)}>
+                                    {cat.grades[0].grade}–{cat.grades[cat.grades.length - 1].grade}. évfolyam
+                                </span>
+                            </div>
 
-                    <button
-                        onClick={() => setOperation('-')}
-                        className="flex flex-col items-center p-8 bg-white border-2 border-emerald-100 rounded-3xl hover:border-emerald-400 hover:shadow-xl hover:scale-105 transition-all group"
-                    >
-                        <div className="p-6 bg-emerald-100 text-emerald-600 rounded-full mb-4 text-5xl font-black group-hover:rotate-12 transition-transform">
-                            −
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+                                {cat.grades.map(g => {
+                                    const isSelected = selectedGrade === g.grade;
+                                    return (
+                                        <button
+                                            key={g.grade}
+                                            onClick={() => {
+                                                setSelectedGrade(g.grade);
+                                                setStep('OPERATION');
+                                            }}
+                                            className={cn(
+                                                "group flex items-center justify-between p-3 sm:p-3.5 rounded-2xl text-left border-2 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 bg-white",
+                                                isSelected
+                                                    ? "border-emerald-500 ring-2 ring-emerald-400/40 bg-emerald-50/50 shadow-sm"
+                                                    : "border-slate-200 hover:border-emerald-400 hover:bg-emerald-50/20"
+                                            )}
+                                        >
+                                            <div className="flex items-center gap-3 min-w-0 flex-1">
+                                                <span className="text-2xl p-1.5 bg-slate-100 rounded-xl group-hover:scale-110 transition-transform flex-shrink-0">
+                                                    {g.icon}
+                                                </span>
+                                                <div className="min-w-0 flex-1">
+                                                    <div className="font-black text-slate-800 text-sm sm:text-base group-hover:text-emerald-700 transition-colors truncate">
+                                                        {g.label}
+                                                    </div>
+                                                    <div className="text-xs text-slate-500 font-medium truncate mt-0.5">
+                                                        {g.desc}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-emerald-600 transition-colors flex-shrink-0 ml-1" />
+                                        </button>
+                                    );
+                                })}
+                            </div>
                         </div>
-                        <h3 className="text-xl font-black text-emerald-900">Kivonás</h3>
-                    </button>
-
-                    <button
-                        onClick={() => setOperation('×')}
-                        className="flex flex-col items-center p-8 bg-white border-2 border-amber-100 rounded-3xl hover:border-amber-400 hover:shadow-xl hover:scale-105 transition-all group"
-                    >
-                        <div className="p-6 bg-amber-100 text-amber-600 rounded-full mb-4 text-5xl font-black group-hover:rotate-12 transition-transform">
-                            ×
-                        </div>
-                        <h3 className="text-xl font-black text-amber-900">Szorzás</h3>
-                    </button>
-
-                    <button
-                        onClick={() => setOperation('÷')}
-                        className="flex flex-col items-center p-8 bg-white border-2 border-rose-100 rounded-3xl hover:border-rose-400 hover:shadow-xl hover:scale-105 transition-all group"
-                    >
-                        <div className="p-6 bg-rose-100 text-rose-600 rounded-full mb-4 text-5xl font-black group-hover:rotate-12 transition-transform">
-                            ÷
-                        </div>
-                        <h3 className="text-xl font-black text-rose-900">Osztás</h3>
-                    </button>
+                    ))}
                 </div>
             </div>
         );
     }
 
-    return (
-        <div className="flex flex-col gap-6 max-w-4xl mx-auto w-full animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div className="flex items-center justify-between bg-white/50 p-4 rounded-2xl border border-pink-100 shadow-sm">
-                <Button variant="ghost" onClick={onBack} size="sm" className="hover:bg-slate-100 text-xs">
-                    <ArrowLeft className="w-3.5 h-3.5 mr-1" />
-                    Vissza
-                </Button>
-                <div className="flex flex-col items-center">
-                    <h2 className="text-lg font-bold flex items-center gap-2">
-                        🐍 Matek Kígyó
-                    </h2>
-                    <span className="text-xs text-slate-500">Használd a nyilakat!</span>
-                </div>
-                <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-1 bg-amber-50 px-3 py-1 rounded-full border border-amber-100">
-                        <Trophy className="w-3.5 h-3.5 text-amber-500" />
-                        <span className="text-xs font-bold text-amber-700">{score}</span>
+    // ==========================================
+    // STEP 2: OPERATION SELECTION SCREEN - 2 ROWS & LARGER CARDS
+    // ==========================================
+    if (step === 'OPERATION') {
+        return (
+            <div className="flex flex-col gap-4 w-full px-1 sm:px-3 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                {/* Header */}
+                <div className="flex items-center justify-between bg-white/90 backdrop-blur-md px-4 py-3 rounded-2xl border border-emerald-100 shadow-sm w-full">
+                    <Button
+                        variant="ghost"
+                        onClick={() => setStep('GRADE')}
+                        size="sm"
+                        className="hover:bg-slate-100 text-xs sm:text-sm font-bold h-9 px-3.5 rounded-xl"
+                    >
+                        <ArrowLeft className="w-4 h-4 mr-1.5" />
+                        Osztály módosítása
+                    </Button>
+                    <div className="text-center flex items-center gap-2">
+                        <Badge variant="outline" className="bg-emerald-100 text-emerald-800 text-xs sm:text-sm font-bold px-3 py-1">
+                            🎓 {selectedGrade}. osztály
+                        </Badge>
+                        <span className="text-base sm:text-lg font-black text-slate-800">
+                            Válassz műveletet!
+                        </span>
                     </div>
-                    <Button variant="ghost" onClick={resetGame} size="sm" className="text-muted-foreground text-xs">
+                    <div className="w-28 hidden sm:block"></div>
+                </div>
+
+                {/* Operations Grid: 2-Row Layout with Larger Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-4 w-full">
+                    {availableOps.map(opKey => {
+                        const meta = OPERATION_DEFINITIONS[opKey];
+                        return (
+                            <button
+                                key={opKey}
+                                onClick={() => {
+                                    setSelectedOperation(opKey);
+                                    setStep('DIFFICULTY');
+                                }}
+                                className={cn(
+                                    "group relative flex flex-col items-center text-center p-5 sm:p-6 rounded-3xl bg-white border-2 transition-all duration-200 hover:shadow-xl hover:-translate-y-1",
+                                    meta.borderColor
+                                )}
+                            >
+                                <div className={cn(
+                                    "w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center text-3xl sm:text-4xl font-black text-white shadow-md mb-3 group-hover:scale-110 transition-transform bg-gradient-to-br",
+                                    meta.color
+                                )}>
+                                    {meta.symbol}
+                                </div>
+                                <h3 className="text-base sm:text-lg font-black text-slate-800 mb-1 group-hover:text-emerald-700 transition-colors">
+                                    {meta.title}
+                                </h3>
+                                <p className="text-xs sm:text-sm text-slate-500 leading-relaxed mb-4 line-clamp-2">
+                                    {meta.description}
+                                </p>
+                                <div className="mt-auto w-full py-2 px-3 rounded-xl bg-slate-50 font-bold text-xs sm:text-sm text-slate-700 flex items-center justify-center gap-1 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                                    <span>Kiválasztás</span>
+                                    <ChevronRight className="w-4 h-4" />
+                                </div>
+                            </button>
+                        );
+                    })}
+                </div>
+
+                {/* Info Box about Grade Unlocks */}
+                <div className="bg-amber-50/90 rounded-2xl p-3 border border-amber-200 text-xs text-amber-900 flex items-center gap-2.5 w-full">
+                    <span className="text-base">💡</span>
+                    <p className="text-amber-800">
+                        1. o: +, − • 2. o: × (alapok) • 3. o: ÷ • 7. o: Hatványozás (xⁿ) • 9. o: Gyökvonás (√x).
+                    </p>
+                </div>
+            </div>
+        );
+    }
+
+    // ==========================================
+    // STEP 3: DIFFICULTY SELECTION SCREEN
+    // ==========================================
+    if (step === 'DIFFICULTY') {
+        const opMeta = selectedOperation ? OPERATION_DEFINITIONS[selectedOperation] : null;
+
+        return (
+            <div className="flex flex-col gap-4 w-full max-w-4xl mx-auto px-1 sm:px-3 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                {/* Header */}
+                <div className="flex items-center justify-between bg-white/90 backdrop-blur-md px-4 py-3 rounded-2xl border border-emerald-100 shadow-sm w-full">
+                    <Button
+                        variant="ghost"
+                        onClick={() => setStep('OPERATION')}
+                        size="sm"
+                        className="hover:bg-slate-100 text-xs sm:text-sm font-bold h-9 px-3.5 rounded-xl"
+                    >
+                        <ArrowLeft className="w-4 h-4 mr-1.5" />
+                        Műveletváltás
+                    </Button>
+                    <div className="text-center flex items-center gap-2">
+                        <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-300 text-xs sm:text-sm font-bold">
+                            🎓 {selectedGrade}. osztály
+                        </Badge>
+                        {opMeta && (
+                            <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-300 text-xs sm:text-sm font-bold">
+                                {opMeta.symbol} {opMeta.title}
+                            </Badge>
+                        )}
+                        <span className="text-sm sm:text-base font-black text-slate-800 hidden sm:inline">
+                            Nehézség választása
+                        </span>
+                    </div>
+                    <div className="w-28 hidden sm:block"></div>
+                </div>
+
+                {/* Difficulty Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 w-full">
+                    {(['EASY', 'MEDIUM', 'HARD'] as DifficultyType[]).map(diffKey => {
+                        const config = DIFFICULTY_CONFIG[diffKey];
+                        const isSelected = selectedDifficulty === diffKey;
+
+                        return (
+                            <button
+                                key={diffKey}
+                                onClick={() => startGame(diffKey)}
+                                className={cn(
+                                    "group relative flex flex-col p-5 sm:p-6 rounded-3xl bg-white border-2 text-left transition-all duration-200 hover:shadow-lg hover:-translate-y-1",
+                                    config.color,
+                                    isSelected && "ring-2 ring-emerald-400"
+                                )}
+                            >
+                                <div className="flex items-center justify-between mb-3">
+                                    <span className="text-xs font-black px-3 py-1 rounded-full bg-white shadow-sm border border-slate-200">
+                                        {config.badge}
+                                    </span>
+                                    <Flame className={cn(
+                                        "w-5 h-5",
+                                        diffKey === 'EASY' ? "text-emerald-500" : diffKey === 'MEDIUM' ? "text-blue-500" : "text-rose-500"
+                                    )} />
+                                </div>
+                                <h3 className="text-base sm:text-lg font-black text-slate-900 mb-1.5">
+                                    {config.label}
+                                </h3>
+                                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+                                    {config.desc}
+                                </p>
+                                <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-slate-800 group-hover:text-emerald-600">
+                                    <span>Indítás</span>
+                                    <ChevronRight className="w-4 h-4" />
+                                </div>
+                            </button>
+                        );
+                    })}
+                </div>
+            </div>
+        );
+    }
+
+    // ==========================================
+    // STEP 4: PLAYING SCREEN - EDGE TO EDGE FULL WIDTH LAYOUT
+    // ==========================================
+    const opMeta = selectedOperation ? OPERATION_DEFINITIONS[selectedOperation] : null;
+    const boardBgClass = boardTheme === 'BLACK' ? 'bg-black' : 'bg-slate-950';
+
+    return (
+        <div
+            className={cn(
+                "flex flex-col gap-3 w-full transition-all duration-300",
+                isFullscreen
+                    ? "fixed inset-0 z-50 bg-slate-950 p-3 sm:p-5 overflow-y-auto min-h-screen"
+                    : "w-full px-1 sm:px-2"
+            )}
+        >
+            {/* Top Bar / Navigation and Status */}
+            <div className={cn(
+                "flex flex-wrap items-center justify-between gap-2 px-3 py-2 rounded-2xl border shadow-sm backdrop-blur-md w-full",
+                isFullscreen
+                    ? "bg-slate-900/90 border-slate-800 text-white"
+                    : "bg-white/90 border-emerald-100"
+            )}>
+                <div className="flex items-center gap-1.5">
+                    <Button
+                        variant="ghost"
+                        onClick={() => {
+                            if (isFullscreen) setIsFullscreen(false);
+                            setStep('OPERATION');
+                        }}
+                        size="sm"
+                        className={cn(
+                            "text-xs font-bold px-2 h-7.5",
+                            isFullscreen ? "text-slate-200 hover:bg-slate-800" : "hover:bg-slate-100"
+                        )}
+                    >
+                        <ArrowLeft className="w-3.5 h-3.5 mr-1" />
+                        Menü
+                    </Button>
+                    <div className="flex items-center gap-1">
+                        <Badge variant="outline" className="bg-emerald-500/10 text-emerald-600 border-emerald-500/30 font-bold text-[11px] px-2 py-0.5">
+                            {selectedGrade}. osztály
+                        </Badge>
+                        {opMeta && (
+                            <Badge variant="outline" className="bg-blue-500/10 text-blue-600 border-blue-500/30 font-bold text-[11px] px-2 py-0.5">
+                                {opMeta.title}
+                            </Badge>
+                        )}
+                        <Badge variant="outline" className="bg-slate-500/10 text-slate-500 border-slate-500/30 font-bold text-[11px] px-2 py-0.5 hidden sm:inline-flex">
+                            {DIFFICULTY_CONFIG[selectedDifficulty].label}
+                        </Badge>
+                    </div>
+                </div>
+
+                {/* Top Controls & Action Buttons */}
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                    {/* Theme selector button */}
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setBoardTheme(prev => prev === 'DARK' ? 'BLACK' : 'DARK')}
+                        className={cn(
+                            "text-xs font-bold px-2.5 h-7.5 rounded-xl",
+                            isFullscreen ? "border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700" : ""
+                        )}
+                        title="Téma váltása (Sötétkék / Fekete)"
+                    >
+                        <Palette className="w-3.5 h-3.5 mr-1 text-emerald-500" />
+                        <span>{boardTheme === 'DARK' ? 'Sötétkék' : 'Fekete'}</span>
+                    </Button>
+
+                    {/* Fullscreen button */}
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={toggleFullscreen}
+                        className={cn(
+                            "text-xs font-bold px-2.5 h-7.5 rounded-xl",
+                            isFullscreen ? "border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700" : ""
+                        )}
+                        title={isFullscreen ? "Kilépés a teljes képernyőből" : "Teljes képernyős mód"}
+                    >
+                        {isFullscreen ? (
+                            <>
+                                <Minimize2 className="w-3.5 h-3.5 mr-1 text-amber-400" />
+                                <span className="hidden sm:inline">Kilépés</span>
+                            </>
+                        ) : (
+                            <>
+                                <Maximize2 className="w-3.5 h-3.5 mr-1 text-emerald-500" />
+                                <span className="hidden sm:inline">Teljes Képernyő</span>
+                            </>
+                        )}
+                    </Button>
+
+                    <Button
+                        variant="ghost"
+                        onClick={resetGame}
+                        size="sm"
+                        className={cn(
+                            "text-xs font-bold h-7.5 px-2",
+                            isFullscreen ? "text-slate-300 hover:bg-slate-800" : "text-slate-600 hover:bg-slate-100"
+                        )}
+                    >
                         <RotateCcw className="w-3.5 h-3.5 mr-1" />
                         Újra
                     </Button>
                 </div>
             </div>
 
-            <Card className="border-2 shadow-sm bg-gradient-to-br from-pink-50 to-purple-50 p-6">
-                <div className="mb-6 text-center">
-                    <div className="inline-block bg-white px-8 py-4 rounded-3xl border-4 border-pink-200 shadow-lg">
-                        <p className="text-sm font-bold text-pink-600 mb-1">Melyik a helyes válasz?</p>
-                        <p className="text-4xl font-black text-slate-800">{problem.question} = ?</p>
-                    </div>
-                </div>
-
-                <div
-                    className="relative mx-auto bg-white rounded-2xl border-4 border-slate-300 shadow-inner touch-none"
-                    style={{
-                        width: GRID_SIZE * CELL_SIZE,
-                        height: GRID_SIZE * CELL_SIZE
-                    }}
-                    onTouchStart={handleTouchStart}
-                    onTouchEnd={handleTouchEnd}
-                >
-                    {/* Grid */}
-                    {Array.from({ length: GRID_SIZE }).map((_, y) =>
-                        Array.from({ length: GRID_SIZE }).map((_, x) => (
+            {/* Main Game Arena: Two Columns Layout stretched across full width */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start w-full">
+                {/* LEFT COLUMN: The Snake Game Board (lg:col-span-7) */}
+                <div className="lg:col-span-7 flex flex-col items-center justify-center w-full">
+                    <div
+                        className={cn(
+                            "relative rounded-3xl shadow-2xl touch-none overflow-hidden transition-colors duration-300 border-4",
+                            boardBgClass,
+                            boardTheme === 'BLACK' ? "border-slate-800" : "border-slate-700"
+                        )}
+                        style={{
+                            width: GRID_SIZE * CELL_SIZE,
+                            height: GRID_SIZE * CELL_SIZE
+                        }}
+                        onTouchStart={handleTouchStart}
+                        onTouchEnd={handleTouchEnd}
+                    >
+                        {/* Snake Body Segments */}
+                        {snake.map((segment, index) => (
                             <div
-                                key={`${x}-${y}`}
-                                className="absolute border border-slate-100"
-                                style={{
-                                    left: x * CELL_SIZE,
-                                    top: y * CELL_SIZE,
-                                    width: CELL_SIZE,
-                                    height: CELL_SIZE,
-                                }}
-                            />
-                        ))
-                    )}
-
-                    {/* Snake */}
-                    {snake.map((segment, index) => (
-                        <div
-                            key={index}
-                            className={cn(
-                                "absolute rounded-lg transition-all duration-100",
-                                index === 0
-                                    ? "bg-gradient-to-br from-emerald-400 to-emerald-600 shadow-lg z-10"
-                                    : "bg-gradient-to-br from-emerald-300 to-emerald-500"
-                            )}
-                            style={{
-                                left: segment.x * CELL_SIZE + 2,
-                                top: segment.y * CELL_SIZE + 2,
-                                width: CELL_SIZE - 4,
-                                height: CELL_SIZE - 4,
-                            }}
-                        >
-                            {index === 0 && (
-                                <div className="flex items-center justify-center h-full text-white text-xs">
-                                    {direction === 'UP' && '⬆️'}
-                                    {direction === 'DOWN' && '⬇️'}
-                                    {direction === 'LEFT' && '⬅️'}
-                                    {direction === 'RIGHT' && '➡️'}
-                                </div>
-                            )}
-                        </div>
-                    ))}
-
-                    {/* Numbers */}
-                    {numbers.map((num, index) => (
-                        <div
-                            key={index}
-                            className="absolute rounded-xl flex items-center justify-center font-black text-lg shadow-lg transition-all duration-200 hover:scale-110 bg-gradient-to-br from-blue-300 to-blue-500 text-white border-2 border-blue-600"
-                            style={{
-                                left: num.pos.x * CELL_SIZE + 2,
-                                top: num.pos.y * CELL_SIZE + 2,
-                                width: CELL_SIZE - 4,
-                                height: CELL_SIZE - 4,
-                            }}
-                        >
-                            {num.value}
-                        </div>
-                    ))}
-
-                    {/* Game Over Overlay */}
-                    {gameOver && (
-                        <div className="absolute inset-0 bg-black/60 flex items-center justify-center rounded-xl backdrop-blur-sm">
-                            <div className="bg-white p-8 rounded-3xl shadow-2xl text-center animate-in zoom-in duration-300">
-                                <div className="text-6xl mb-4">😢</div>
-                                <h3 className="text-3xl font-black text-slate-800 mb-2">Vége a játéknak!</h3>
-                                <p className="text-xl font-bold text-slate-600 mb-4">Pontszám: {score}</p>
-                                <Button
-                                    onClick={resetGame}
-                                    className="bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold px-8 py-3 rounded-2xl shadow-lg"
-                                >
-                                    Új játék
-                                </Button>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Pause Overlay */}
-                    {isPaused && !gameOver && (
-                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center rounded-xl backdrop-blur-sm">
-                            <div className="bg-white p-6 rounded-2xl shadow-xl">
-                                <p className="text-2xl font-black text-slate-800">Szünet</p>
-                                <p className="text-sm text-slate-500 mt-1">Nyomd meg a SPACE-t a folytatáshoz</p>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Start Overlay */}
-                    {!isStarted && !gameOver && (
-                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center rounded-xl backdrop-blur-sm z-20">
-                            <div className="bg-white p-8 rounded-3xl shadow-2xl text-center animate-in zoom-in duration-300">
-                                <div className="text-6xl mb-4">🎮</div>
-                                <h3 className="text-3xl font-black text-slate-800 mb-2">Felkészültél?</h3>
-                                <p className="text-slate-500 mb-6">Nyomd meg a gombot az indításhoz!</p>
-                                <Button
-                                    onClick={() => setIsStarted(true)}
-                                    className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold px-12 py-4 rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all text-xl"
-                                >
-                                    Indítás!
-                                </Button>
-                            </div>
-                        </div>
-                    )}
-                </div>
-
-                <div className="mt-6 grid grid-cols-2 gap-4">
-                    <div className="bg-white p-4 rounded-2xl border-2 border-emerald-100 text-center">
-                        <div className="flex items-center justify-center gap-2 mb-1">
-                            <Heart className="w-4 h-4 text-emerald-600" />
-                            <span className="text-xs font-bold text-emerald-600">Kígyó hossza</span>
-                        </div>
-                        <p className="text-2xl font-black text-slate-800">{snake.length}</p>
-                    </div>
-                    <div className="bg-white p-4 rounded-2xl border-2 border-blue-100 text-center">
-                        <div className="flex items-center justify-center gap-2 mb-1">
-                            <Zap className="w-4 h-4 text-blue-600" />
-                            <span className="text-xs font-bold text-blue-600">Sebesség</span>
-                        </div>
-                        <p className="text-2xl font-black text-slate-800">{Math.round((DIFFICULTIES[difficulty].speed / speed) * 100)}%</p>
-                    </div>
-                </div>
-
-                {/* Difficulty Selection */}
-                <div className="mt-6">
-                    <p className="text-center text-sm font-bold text-slate-600 mb-3">Sebesség beállítása</p>
-                    <div className="flex justify-center gap-3">
-                        {(Object.entries(DIFFICULTIES) as [Difficulty, typeof DIFFICULTIES['EASY']][]).map(([key, config]) => (
-                            <button
-                                key={key}
-                                onClick={() => {
-                                    setDifficulty(key);
-                                    if (gameOver || snake.length === 1) {
-                                        setSpeed(config.speed);
-                                    }
-                                }}
+                                key={index}
                                 className={cn(
-                                    "px-4 py-2 rounded-xl border-2 transition-all font-bold text-sm",
-                                    difficulty === key
-                                        ? "border-slate-800 shadow-md scale-105 " + config.color
-                                        : "bg-white border-slate-100 text-slate-400 " + config.hoverColor
+                                    "absolute rounded-xl transition-all duration-75 flex items-center justify-center",
+                                    index === 0
+                                        ? "bg-gradient-to-br from-emerald-400 via-emerald-500 to-teal-600 shadow-lg z-10 ring-2 ring-emerald-300"
+                                        : "bg-gradient-to-br from-emerald-400 to-emerald-600 opacity-90"
                                 )}
+                                style={{
+                                    left: segment.x * CELL_SIZE + 2,
+                                    top: segment.y * CELL_SIZE + 2,
+                                    width: CELL_SIZE - 4,
+                                    height: CELL_SIZE - 4,
+                                }}
                             >
-                                {config.label}
-                            </button>
+                                {index === 0 && (
+                                    <div className="text-xs select-none">
+                                        {direction === 'UP' && '👀'}
+                                        {direction === 'DOWN' && '👀'}
+                                        {direction === 'LEFT' && '👀'}
+                                        {direction === 'RIGHT' && '👀'}
+                                    </div>
+                                )}
+                            </div>
                         ))}
+
+                        {/* Number Food Items (Solid glossy style - NO flashing) */}
+                        {numbers.map((num, index) => (
+                            <div
+                                key={index}
+                                className="absolute rounded-xl flex items-center justify-center font-black text-sm shadow-lg transition-transform duration-200 hover:scale-105 bg-gradient-to-br from-amber-400 via-orange-500 to-amber-600 text-white border-2 border-amber-200/80 select-none"
+                                style={{
+                                    left: num.pos.x * CELL_SIZE + 2,
+                                    top: num.pos.y * CELL_SIZE + 2,
+                                    width: CELL_SIZE - 4,
+                                    height: CELL_SIZE - 4,
+                                }}
+                            >
+                                {num.value}
+                            </div>
+                        ))}
+
+                        {/* Start Game Overlay */}
+                        {!isStarted && !gameOver && (
+                            <div className="absolute inset-0 bg-black/75 flex items-center justify-center rounded-2xl backdrop-blur-md z-30 p-4">
+                                <div className="bg-white p-6 rounded-3xl shadow-2xl text-center max-w-xs w-full animate-in zoom-in-95 duration-300">
+                                    <div className="text-4xl mb-2">🐍</div>
+                                    <h3 className="text-xl font-black text-slate-800 mb-1">Készen állsz?</h3>
+                                    <p className="text-xs text-slate-500 mb-4">
+                                        {selectedGrade}. osztály • {opMeta?.title} • {DIFFICULTY_CONFIG[selectedDifficulty].label}
+                                    </p>
+                                    <Button
+                                        onClick={() => setIsStarted(true)}
+                                        className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-black py-3.5 rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all text-sm"
+                                    >
+                                        <Play className="w-4 h-4 mr-1.5" />
+                                        Játék Indítása!
+                                    </Button>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Pause Overlay */}
+                        {isPaused && !gameOver && isStarted && (
+                            <div className="absolute inset-0 bg-black/60 flex items-center justify-center rounded-2xl backdrop-blur-sm z-30">
+                                <div className="bg-white p-5 rounded-3xl shadow-2xl text-center max-w-xs w-full">
+                                    <Pause className="w-8 h-8 text-emerald-600 mx-auto mb-1.5" />
+                                    <p className="text-lg font-black text-slate-800">Szünet</p>
+                                    <p className="text-xs text-slate-500 mt-0.5 mb-3">Nyomd meg a SPACE-t a folytatáshoz</p>
+                                    <Button
+                                        onClick={() => setIsPaused(false)}
+                                        size="sm"
+                                        className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl"
+                                    >
+                                        Folytatás
+                                    </Button>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Game Over Overlay */}
+                        {gameOver && (
+                            <div className="absolute inset-0 bg-black/80 flex items-center justify-center rounded-2xl backdrop-blur-md z-30 p-4">
+                                <div className="bg-white p-6 rounded-3xl shadow-2xl text-center max-w-xs w-full animate-in zoom-in-95 duration-300 space-y-3">
+                                    <div className="text-4xl">🏆</div>
+                                    <div>
+                                        <h3 className="text-xl font-black text-slate-800">Játék Vége!</h3>
+                                        <p className="text-xs text-slate-500 mt-0.5">Szép munka, gyakorolj tovább!</p>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-2 bg-slate-50 p-2.5 rounded-2xl border border-slate-100 text-center">
+                                        <div>
+                                            <p className="text-[10px] text-slate-400 font-bold">Pontszám</p>
+                                            <p className="text-lg font-black text-emerald-600">{score}</p>
+                                        </div>
+                                        <div>
+                                            <p className="text-[10px] text-slate-400 font-bold">Megoldások</p>
+                                            <p className="text-lg font-black text-blue-600">{correctCount}</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-1.5 pt-1">
+                                        <Button
+                                            onClick={resetGame}
+                                            className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold py-2.5 rounded-2xl shadow text-xs"
+                                        >
+                                            <RotateCcw className="w-3.5 h-3.5 mr-1.5" />
+                                            Új játék ezzel a beállítással
+                                        </Button>
+                                        <div className="grid grid-cols-2 gap-1.5">
+                                            <Button
+                                                variant="outline"
+                                                onClick={() => {
+                                                    if (isFullscreen) setIsFullscreen(false);
+                                                    setStep('DIFFICULTY');
+                                                }}
+                                                className="text-[11px] font-bold rounded-xl h-8"
+                                            >
+                                                Nehézség váltás
+                                            </Button>
+                                            <Button
+                                                variant="outline"
+                                                onClick={() => {
+                                                    if (isFullscreen) setIsFullscreen(false);
+                                                    setStep('OPERATION');
+                                                }}
+                                                className="text-[11px] font-bold rounded-xl h-8"
+                                            >
+                                                Művelet váltás
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
 
-                {/* Mobile Controls */}
-                <div className="mt-6 md:hidden">
-                    <p className="text-center text-sm font-bold text-slate-600 mb-3">Irányítás</p>
-                    <div className="grid grid-cols-3 gap-2 max-w-xs mx-auto">
-                        <div></div>
-                        <Button
-                            onClick={() => handleDirectionClick('UP')}
-                            disabled={gameOver}
-                            className="h-16 bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white rounded-2xl shadow-lg active:scale-95 transition-transform"
-                        >
-                            <ArrowUp className="w-8 h-8" />
-                        </Button>
-                        <div></div>
-                        <Button
-                            onClick={() => handleDirectionClick('LEFT')}
-                            disabled={gameOver}
-                            className="h-16 bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white rounded-2xl shadow-lg active:scale-95 transition-transform"
-                        >
-                            <ArrowLeftIcon className="w-8 h-8" />
-                        </Button>
-                        <Button
-                            onClick={() => handleDirectionClick('DOWN')}
-                            disabled={gameOver}
-                            className="h-16 bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white rounded-2xl shadow-lg active:scale-95 transition-transform"
-                        >
-                            <ArrowDown className="w-8 h-8" />
-                        </Button>
-                        <Button
-                            onClick={() => handleDirectionClick('RIGHT')}
-                            disabled={gameOver}
-                            className="h-16 bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white rounded-2xl shadow-lg active:scale-95 transition-transform"
-                        >
-                            <ArrowRightIcon className="w-8 h-8" />
-                        </Button>
-                    </div>
-                </div>
-            </Card>
+                {/* RIGHT COLUMN: Big Question Card & Live Status Dashboard (lg:col-span-5) */}
+                <div className="lg:col-span-5 flex flex-col gap-3 w-full">
+                    {/* Big Prominent Math Question Card */}
+                    <Card className={cn(
+                        "border p-4 sm:p-5 rounded-3xl shadow-sm text-center transition-all duration-300",
+                        isFullscreen
+                            ? "bg-slate-900 border-slate-800 text-white"
+                            : "bg-gradient-to-br from-emerald-50/80 via-white to-teal-50/80 border-emerald-200"
+                    )}>
+                        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 text-[11px] font-bold uppercase tracking-wider mb-1.5">
+                            <span>🎯</span> Keresd ezt a helyes számot:
+                        </div>
 
-            <div className="bg-blue-50 p-6 rounded-2xl border border-blue-100 flex gap-4">
-                <div className="text-4xl">💡</div>
-                <div className="text-sm text-blue-900 space-y-2">
-                    <p className="font-bold">Hogyan játssz?</p>
-                    <ul className="list-disc list-inside space-y-1">
-                        <li>Használd a <strong>nyíl billentyűket</strong> a kígyó irányításához</li>
-                        <li>Edd meg a <strong>helyes választ</strong> (sárga szám) hogy növekedj! 🎉</li>
-                        <li>Kerüld a rossz válaszokat (piros számok) - ezek csökkentik a kígyót! 😱</li>
-                        <li>Ne ütközz a falba vagy saját magadba!</li>
-                        <li><strong>SPACE</strong> - szünet</li>
-                    </ul>
+                        {/* Large Crystal Clear Question */}
+                        <div className="my-1 py-3 px-3 bg-white dark:bg-slate-950 rounded-2xl border-2 border-emerald-100 shadow-inner">
+                            <p className="text-3xl sm:text-5xl font-black tracking-tight text-slate-900 dark:text-white">
+                                {problem ? problem.question : ''} = <span className="text-emerald-500">?</span>
+                            </p>
+                        </div>
+
+                        {streak > 1 && (
+                            <div className="mt-1.5 inline-flex items-center gap-1.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white px-2.5 py-0.5 rounded-full text-[11px] font-black shadow-sm animate-bounce">
+                                <Flame className="w-3.5 h-3.5" />
+                                <span>{streak}x Pontszorzó!</span>
+                            </div>
+                        )}
+                    </Card>
+
+                    {/* Stats Dashboard */}
+                    <div className="grid grid-cols-2 gap-2.5">
+                        <div className={cn(
+                            "p-3 rounded-2xl border shadow-sm text-center",
+                            isFullscreen ? "bg-slate-900 border-slate-800" : "bg-white border-amber-100"
+                        )}>
+                            <div className="flex items-center justify-center gap-1 mb-0.5 text-amber-500">
+                                <Trophy className="w-3.5 h-3.5" />
+                                <span className="text-[11px] font-bold">Pontszám</span>
+                            </div>
+                            <p className="text-xl font-black text-amber-600">{score}</p>
+                        </div>
+
+                        <div className={cn(
+                            "p-3 rounded-2xl border shadow-sm text-center",
+                            isFullscreen ? "bg-slate-900 border-slate-800" : "bg-white border-emerald-100"
+                        )}>
+                            <div className="flex items-center justify-center gap-1 mb-0.5 text-emerald-500">
+                                <Heart className="w-3.5 h-3.5" />
+                                <span className="text-[11px] font-bold">Kígyó hossza</span>
+                            </div>
+                            <p className="text-xl font-black text-emerald-600">{snake.length}</p>
+                        </div>
+
+                        <div className={cn(
+                            "p-3 rounded-2xl border shadow-sm text-center",
+                            isFullscreen ? "bg-slate-900 border-slate-800" : "bg-white border-blue-100"
+                        )}>
+                            <div className="flex items-center justify-center gap-1 mb-0.5 text-blue-500">
+                                <CheckCircle2 className="w-3.5 h-3.5" />
+                                <span className="text-[11px] font-bold">Megoldások</span>
+                            </div>
+                            <p className="text-xl font-black text-blue-600">{correctCount}</p>
+                        </div>
+
+                        <div className={cn(
+                            "p-3 rounded-2xl border shadow-sm text-center",
+                            isFullscreen ? "bg-slate-900 border-slate-800" : "bg-white border-purple-100"
+                        )}>
+                            <div className="flex items-center justify-center gap-1 mb-0.5 text-purple-500">
+                                <Flame className="w-3.5 h-3.5" />
+                                <span className="text-[11px] font-bold">Legjobb széria</span>
+                            </div>
+                            <p className="text-xl font-black text-purple-600">{bestStreak}x</p>
+                        </div>
+                    </div>
+
+                    {/* Controls & Quick Tips */}
+                    <Card className={cn(
+                        "p-3 rounded-2xl border text-[11px] shadow-sm",
+                        isFullscreen ? "bg-slate-900/80 border-slate-800 text-slate-300" : "bg-slate-50 border-slate-200 text-slate-700"
+                    )}>
+                        <p className="font-bold mb-0.5 flex items-center gap-1 text-slate-900 dark:text-white">
+                            <span>🎮</span> Irányítás:
+                        </p>
+                        <p className="leading-snug">
+                            <strong>Nyilak</strong> vagy <strong>W, A, S, D</strong> mozgatás • <strong>SPACE</strong> szünet • <strong>ESC</strong> teljes képernyő kilépés
+                        </p>
+                    </Card>
+
+                    {/* Mobile Touch Controls for small screens */}
+                    <div className="lg:hidden mt-1">
+                        <div className="grid grid-cols-3 gap-2 max-w-[180px] mx-auto">
+                            <div></div>
+                            <Button
+                                onClick={() => handleDirectionClick('UP')}
+                                disabled={gameOver || !isStarted}
+                                className="h-11 bg-emerald-600 text-white rounded-xl shadow active:scale-95"
+                            >
+                                <ArrowUp className="w-5 h-5" />
+                            </Button>
+                            <div></div>
+                            <Button
+                                onClick={() => handleDirectionClick('LEFT')}
+                                disabled={gameOver || !isStarted}
+                                className="h-11 bg-emerald-600 text-white rounded-xl shadow active:scale-95"
+                            >
+                                <ArrowLeftIcon className="w-5 h-5" />
+                            </Button>
+                            <Button
+                                onClick={() => handleDirectionClick('DOWN')}
+                                disabled={gameOver || !isStarted}
+                                className="h-11 bg-emerald-600 text-white rounded-xl shadow active:scale-95"
+                            >
+                                <ArrowDown className="w-5 h-5" />
+                            </Button>
+                            <Button
+                                onClick={() => handleDirectionClick('RIGHT')}
+                                disabled={gameOver || !isStarted}
+                                className="h-11 bg-emerald-600 text-white rounded-xl shadow active:scale-95"
+                            >
+                                <ArrowRightIcon className="w-5 h-5" />
+                            </Button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div >
+        </div>
     );
 }
