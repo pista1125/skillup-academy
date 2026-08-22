@@ -40,8 +40,6 @@ type MenuStep = 'GRADE' | 'OPERATION' | 'DIFFICULTY' | 'PLAYING';
 type BoardTheme = 'DARK' | 'BLACK';
 
 const GRID_SIZE = 15;
-// Increased cell size by 4px from 28 to 32
-const CELL_SIZE = 32;
 
 interface GradeCategory {
     title: string;
@@ -111,6 +109,7 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
     // Visual preferences
     const [boardTheme, setBoardTheme] = useState<BoardTheme>('DARK');
     const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+    const [cellSize, setCellSize] = useState<number>(32);
 
     // Snake game state
     const [snake, setSnake] = useState<Position[]>(INITIAL_SNAKE);
@@ -131,10 +130,33 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
     const directionQueueRef = useRef<Direction[]>([]);
     const gameLoopRef = useRef<NodeJS.Timeout | null>(null);
     const touchStartRef = useRef<{ x: number; y: number } | null>(null);
-    const SWIPE_THRESHOLD = 25;
+    const SWIPE_THRESHOLD = 20;
 
     // Available operations for the chosen grade
     const availableOps = getAvailableOperationsForGrade(selectedGrade);
+
+    // Responsive cell size calculator
+    const updateCellSize = useCallback(() => {
+        if (typeof window === 'undefined') return;
+        const screenW = window.innerWidth;
+        const screenH = window.innerHeight;
+
+        // Calculate available space
+        const availableW = screenW - 24;
+        // In fullscreen, also consider vertical height constraints on mobile
+        const maxDim = isFullscreen
+            ? Math.min(availableW, screenH - 180, 520)
+            : Math.min(availableW, 480);
+
+        const calculated = Math.max(18, Math.min(32, Math.floor(maxDim / GRID_SIZE)));
+        setCellSize(calculated);
+    }, [isFullscreen]);
+
+    useEffect(() => {
+        updateCellSize();
+        window.addEventListener('resize', updateCellSize);
+        return () => window.removeEventListener('resize', updateCellSize);
+    }, [updateCellSize]);
 
     // Scroll to top whenever step / menu screen changes
     useEffect(() => {
@@ -657,39 +679,210 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
     }
 
     // ==========================================
-    // STEP 4: PLAYING SCREEN - EDGE TO EDGE FULL WIDTH LAYOUT
+    // STEP 4: PLAYING SCREEN
     // ==========================================
     const opMeta = selectedOperation ? OPERATION_DEFINITIONS[selectedOperation] : null;
     const boardBgClass = boardTheme === 'BLACK' ? 'bg-black' : 'bg-slate-950';
 
+    // ----------------------------------------------------
+    // DEDICATED FULLSCREEN MODE (Clean, No-Distraction View)
+    // ----------------------------------------------------
+    if (isFullscreen) {
+        return (
+            <div className="fixed inset-0 z-50 bg-slate-950 flex flex-col items-center justify-between p-2 sm:p-4 overflow-y-auto select-none min-h-screen">
+                {/* Minimal Top Control Bar */}
+                <div className="flex items-center justify-between w-full max-w-lg px-1 pt-1 pb-1">
+                    <div className="flex items-center gap-1.5">
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                                setIsFullscreen(false);
+                                setStep('OPERATION');
+                            }}
+                            className="text-slate-300 hover:text-white text-xs font-bold h-7 px-2"
+                        >
+                            <ArrowLeft className="w-3.5 h-3.5 mr-1" />
+                            Menü
+                        </Button>
+                        <Badge variant="outline" className="text-emerald-400 border-emerald-400/40 text-xs font-bold px-2 py-0.5">
+                            🏆 {score} pont
+                        </Badge>
+                        {streak > 1 && (
+                            <Badge className="bg-amber-500 text-white text-[11px] font-black px-2 py-0.5 animate-bounce">
+                                🔥 {streak}x
+                            </Badge>
+                        )}
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setBoardTheme(prev => prev === 'DARK' ? 'BLACK' : 'DARK')}
+                            className="text-xs h-7 px-2 border-slate-700 bg-slate-900 text-slate-300 hover:bg-slate-800"
+                        >
+                            <Palette className="w-3 h-3 mr-1 text-emerald-400" />
+                            <span>{boardTheme === 'DARK' ? 'Kék' : 'Fekete'}</span>
+                        </Button>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={toggleFullscreen}
+                            className="text-xs h-7 px-2 border-slate-700 bg-slate-900 text-amber-400 hover:bg-slate-800 font-bold"
+                        >
+                            <Minimize2 className="w-3.5 h-3.5 mr-1" />
+                            <span>Kilépés</span>
+                        </Button>
+                    </div>
+                </div>
+
+                {/* Big Prominent Question Banner Directly on Top of the Board */}
+                <div className="w-full max-w-lg mx-auto bg-slate-900/90 border border-emerald-500/30 rounded-2xl p-2.5 sm:p-3 text-center shadow-lg my-1">
+                    <p className="text-2xl sm:text-4xl font-black text-white tracking-wide">
+                        {problem ? problem.question : ''} = <span className="text-emerald-400">?</span>
+                    </p>
+                </div>
+
+                {/* Centered Board */}
+                <div className="flex items-center justify-center my-auto">
+                    <div
+                        className={cn(
+                            "relative rounded-2xl shadow-2xl touch-none overflow-hidden transition-colors duration-300 border-2",
+                            boardBgClass,
+                            boardTheme === 'BLACK' ? "border-slate-800" : "border-slate-700"
+                        )}
+                        style={{
+                            width: GRID_SIZE * cellSize,
+                            height: GRID_SIZE * cellSize
+                        }}
+                        onTouchStart={handleTouchStart}
+                        onTouchEnd={handleTouchEnd}
+                    >
+                        {/* Snake Body Segments */}
+                        {snake.map((segment, index) => (
+                            <div
+                                key={index}
+                                className={cn(
+                                    "absolute rounded-lg transition-all duration-75 flex items-center justify-center",
+                                    index === 0
+                                        ? "bg-gradient-to-br from-emerald-400 via-emerald-500 to-teal-600 shadow-md z-10 ring-1 ring-emerald-300"
+                                        : "bg-gradient-to-br from-emerald-400 to-emerald-600 opacity-90"
+                                )}
+                                style={{
+                                    left: segment.x * cellSize + 1,
+                                    top: segment.y * cellSize + 1,
+                                    width: cellSize - 2,
+                                    height: cellSize - 2,
+                                }}
+                            >
+                                {index === 0 && (
+                                    <div className="text-xs select-none">
+                                        {direction === 'UP' && '👀'}
+                                        {direction === 'DOWN' && '👀'}
+                                        {direction === 'LEFT' && '👀'}
+                                        {direction === 'RIGHT' && '👀'}
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+
+                        {/* Number Food Items */}
+                        {numbers.map((num, index) => (
+                            <div
+                                key={index}
+                                className="absolute rounded-lg flex items-center justify-center font-black shadow-md transition-transform duration-200 bg-gradient-to-br from-amber-400 via-orange-500 to-amber-600 text-white border border-amber-200/80 select-none"
+                                style={{
+                                    left: num.pos.x * cellSize + 1,
+                                    top: num.pos.y * cellSize + 1,
+                                    width: cellSize - 2,
+                                    height: cellSize - 2,
+                                    fontSize: cellSize < 24 ? '11px' : '13px',
+                                }}
+                            >
+                                {num.value}
+                            </div>
+                        ))}
+
+                        {/* Start Game Overlay */}
+                        {!isStarted && !gameOver && (
+                            <div className="absolute inset-0 bg-black/80 flex items-center justify-center rounded-xl backdrop-blur-md z-30 p-3">
+                                <div className="bg-white p-5 rounded-2xl shadow-2xl text-center max-w-xs w-full animate-in zoom-in-95 duration-200">
+                                    <div className="text-3xl mb-1.5">🐍</div>
+                                    <h3 className="text-lg font-black text-slate-800 mb-0.5">Készen állsz?</h3>
+                                    <p className="text-[11px] text-slate-500 mb-3">
+                                        {selectedGrade}. osztály • {opMeta?.title}
+                                    </p>
+                                    <Button
+                                        onClick={() => setIsStarted(true)}
+                                        className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-black py-2.5 rounded-xl shadow text-xs"
+                                    >
+                                        <Play className="w-4 h-4 mr-1" />
+                                        Játék Indítása!
+                                    </Button>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Pause Overlay */}
+                        {isPaused && !gameOver && isStarted && (
+                            <div className="absolute inset-0 bg-black/70 flex items-center justify-center rounded-xl backdrop-blur-sm z-30">
+                                <div className="bg-white p-4 rounded-2xl shadow-2xl text-center max-w-xs w-full">
+                                    <Pause className="w-6 h-6 text-emerald-600 mx-auto mb-1" />
+                                    <p className="text-base font-black text-slate-800">Szünet</p>
+                                    <Button
+                                        onClick={() => setIsPaused(false)}
+                                        size="sm"
+                                        className="w-full mt-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg text-xs"
+                                    >
+                                        Folytatás
+                                    </Button>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Game Over Overlay */}
+                        {gameOver && (
+                            <div className="absolute inset-0 bg-black/85 flex items-center justify-center rounded-xl backdrop-blur-md z-30 p-3">
+                                <div className="bg-white p-5 rounded-2xl shadow-2xl text-center max-w-xs w-full space-y-2.5">
+                                    <div className="text-3xl">🏆</div>
+                                    <div>
+                                        <h3 className="text-lg font-black text-slate-800">Játék Vége!</h3>
+                                        <p className="text-xs text-slate-500">Pontszám: <strong className="text-emerald-600 font-black">{score}</strong></p>
+                                    </div>
+                                    <Button
+                                        onClick={resetGame}
+                                        className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold py-2 rounded-xl text-xs"
+                                    >
+                                        <RotateCcw className="w-3.5 h-3.5 mr-1" />
+                                        Új játék
+                                    </Button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Bottom simple hint */}
+                <div className="text-center text-slate-400 text-[11px] pb-1">
+                    <span>📱 Irányítás: Ujjhúzás (swipe) a játéktéren vagy nyilak</span>
+                </div>
+            </div>
+        );
+    }
+
+    // ----------------------------------------------------
+    // STANDARD / REGULAR PLAYING VIEW (Responsive)
+    // ----------------------------------------------------
     return (
-        <div
-            className={cn(
-                "flex flex-col gap-3 w-full transition-all duration-300",
-                isFullscreen
-                    ? "fixed inset-0 z-50 bg-slate-950 p-3 sm:p-5 overflow-y-auto min-h-screen"
-                    : "w-full px-1 sm:px-2"
-            )}
-        >
+        <div className="flex flex-col gap-3 w-full px-1 sm:px-2 transition-all duration-300">
             {/* Top Bar / Navigation and Status */}
-            <div className={cn(
-                "flex flex-wrap items-center justify-between gap-2 px-3 py-2 rounded-2xl border shadow-sm backdrop-blur-md w-full",
-                isFullscreen
-                    ? "bg-slate-900/90 border-slate-800 text-white"
-                    : "bg-white/90 border-emerald-100"
-            )}>
+            <div className="flex flex-wrap items-center justify-between gap-2 px-3 py-2 rounded-2xl border shadow-sm backdrop-blur-md w-full bg-white/90 border-emerald-100">
                 <div className="flex items-center gap-1.5">
                     <Button
                         variant="ghost"
-                        onClick={() => {
-                            if (isFullscreen) setIsFullscreen(false);
-                            setStep('OPERATION');
-                        }}
+                        onClick={() => setStep('OPERATION')}
                         size="sm"
-                        className={cn(
-                            "text-xs font-bold px-2 h-7.5",
-                            isFullscreen ? "text-slate-200 hover:bg-slate-800" : "hover:bg-slate-100"
-                        )}
+                        className="text-xs font-bold px-2 h-7.5 hover:bg-slate-100"
                     >
                         <ArrowLeft className="w-3.5 h-3.5 mr-1" />
                         Menü
@@ -711,53 +904,33 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
 
                 {/* Top Controls & Action Buttons */}
                 <div className="flex items-center gap-1.5 sm:gap-2">
-                    {/* Theme selector button */}
                     <Button
                         variant="outline"
                         size="sm"
                         onClick={() => setBoardTheme(prev => prev === 'DARK' ? 'BLACK' : 'DARK')}
-                        className={cn(
-                            "text-xs font-bold px-2.5 h-7.5 rounded-xl",
-                            isFullscreen ? "border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700" : ""
-                        )}
+                        className="text-xs font-bold px-2.5 h-7.5 rounded-xl"
                         title="Téma váltása (Sötétkék / Fekete)"
                     >
                         <Palette className="w-3.5 h-3.5 mr-1 text-emerald-500" />
                         <span>{boardTheme === 'DARK' ? 'Sötétkék' : 'Fekete'}</span>
                     </Button>
 
-                    {/* Fullscreen button */}
                     <Button
                         variant="outline"
                         size="sm"
                         onClick={toggleFullscreen}
-                        className={cn(
-                            "text-xs font-bold px-2.5 h-7.5 rounded-xl",
-                            isFullscreen ? "border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700" : ""
-                        )}
-                        title={isFullscreen ? "Kilépés a teljes képernyőből" : "Teljes képernyős mód"}
+                        className="text-xs font-bold px-2.5 h-7.5 rounded-xl text-emerald-600 border-emerald-200 hover:bg-emerald-50"
+                        title="Teljes képernyős mód"
                     >
-                        {isFullscreen ? (
-                            <>
-                                <Minimize2 className="w-3.5 h-3.5 mr-1 text-amber-400" />
-                                <span className="hidden sm:inline">Kilépés</span>
-                            </>
-                        ) : (
-                            <>
-                                <Maximize2 className="w-3.5 h-3.5 mr-1 text-emerald-500" />
-                                <span className="hidden sm:inline">Teljes Képernyő</span>
-                            </>
-                        )}
+                        <Maximize2 className="w-3.5 h-3.5 mr-1 text-emerald-500" />
+                        <span>Teljes Képernyő</span>
                     </Button>
 
                     <Button
                         variant="ghost"
                         onClick={resetGame}
                         size="sm"
-                        className={cn(
-                            "text-xs font-bold h-7.5 px-2",
-                            isFullscreen ? "text-slate-300 hover:bg-slate-800" : "text-slate-600 hover:bg-slate-100"
-                        )}
+                        className="text-xs font-bold h-7.5 px-2 text-slate-600 hover:bg-slate-100"
                     >
                         <RotateCcw className="w-3.5 h-3.5 mr-1" />
                         Újra
@@ -765,9 +938,23 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                 </div>
             </div>
 
-            {/* Main Game Arena: Two Columns Layout stretched across full width */}
+            {/* Mobile View: Question shown FIRST on top */}
+            <div className="lg:hidden w-full">
+                <Card className="border p-3.5 rounded-2xl shadow-sm text-center bg-gradient-to-br from-emerald-50/80 via-white to-teal-50/80 border-emerald-200">
+                    <div className="text-[10px] text-emerald-600 font-bold uppercase tracking-wider mb-1">
+                        🎯 Keresd ezt az eredményt:
+                    </div>
+                    <div className="py-2 px-2 bg-white rounded-xl border border-emerald-100 shadow-inner">
+                        <p className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+                            {problem ? problem.question : ''} = <span className="text-emerald-500">?</span>
+                        </p>
+                    </div>
+                </Card>
+            </div>
+
+            {/* Main Game Arena: Responsive Columns Layout */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start w-full">
-                {/* LEFT COLUMN: The Snake Game Board (lg:col-span-7) */}
+                {/* LEFT / CENTER: The Snake Game Board */}
                 <div className="lg:col-span-7 flex flex-col items-center justify-center w-full">
                     <div
                         className={cn(
@@ -776,8 +963,8 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                             boardTheme === 'BLACK' ? "border-slate-800" : "border-slate-700"
                         )}
                         style={{
-                            width: GRID_SIZE * CELL_SIZE,
-                            height: GRID_SIZE * CELL_SIZE
+                            width: GRID_SIZE * cellSize,
+                            height: GRID_SIZE * cellSize
                         }}
                         onTouchStart={handleTouchStart}
                         onTouchEnd={handleTouchEnd}
@@ -793,10 +980,10 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                                         : "bg-gradient-to-br from-emerald-400 to-emerald-600 opacity-90"
                                 )}
                                 style={{
-                                    left: segment.x * CELL_SIZE + 2,
-                                    top: segment.y * CELL_SIZE + 2,
-                                    width: CELL_SIZE - 4,
-                                    height: CELL_SIZE - 4,
+                                    left: segment.x * cellSize + 1,
+                                    top: segment.y * cellSize + 1,
+                                    width: cellSize - 2,
+                                    height: cellSize - 2,
                                 }}
                             >
                                 {index === 0 && (
@@ -810,16 +997,17 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                             </div>
                         ))}
 
-                        {/* Number Food Items (Solid glossy style - NO flashing) */}
+                        {/* Number Food Items */}
                         {numbers.map((num, index) => (
                             <div
                                 key={index}
-                                className="absolute rounded-xl flex items-center justify-center font-black text-sm shadow-lg transition-transform duration-200 hover:scale-105 bg-gradient-to-br from-amber-400 via-orange-500 to-amber-600 text-white border-2 border-amber-200/80 select-none"
+                                className="absolute rounded-xl flex items-center justify-center font-black shadow-lg transition-transform duration-200 hover:scale-105 bg-gradient-to-br from-amber-400 via-orange-500 to-amber-600 text-white border-2 border-amber-200/80 select-none"
                                 style={{
-                                    left: num.pos.x * CELL_SIZE + 2,
-                                    top: num.pos.y * CELL_SIZE + 2,
-                                    width: CELL_SIZE - 4,
-                                    height: CELL_SIZE - 4,
+                                    left: num.pos.x * cellSize + 1,
+                                    top: num.pos.y * cellSize + 1,
+                                    width: cellSize - 2,
+                                    height: cellSize - 2,
+                                    fontSize: cellSize < 24 ? '11px' : '13px',
                                 }}
                             >
                                 {num.value}
@@ -829,15 +1017,15 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                         {/* Start Game Overlay */}
                         {!isStarted && !gameOver && (
                             <div className="absolute inset-0 bg-black/75 flex items-center justify-center rounded-2xl backdrop-blur-md z-30 p-4">
-                                <div className="bg-white p-6 rounded-3xl shadow-2xl text-center max-w-xs w-full animate-in zoom-in-95 duration-300">
-                                    <div className="text-4xl mb-2">🐍</div>
-                                    <h3 className="text-xl font-black text-slate-800 mb-1">Készen állsz?</h3>
-                                    <p className="text-xs text-slate-500 mb-4">
-                                        {selectedGrade}. osztály • {opMeta?.title} • {DIFFICULTY_CONFIG[selectedDifficulty].label}
+                                <div className="bg-white p-5 rounded-3xl shadow-2xl text-center max-w-xs w-full animate-in zoom-in-95 duration-300">
+                                    <div className="text-3xl mb-1.5">🐍</div>
+                                    <h3 className="text-xl font-black text-slate-800 mb-0.5">Készen állsz?</h3>
+                                    <p className="text-xs text-slate-500 mb-3">
+                                        {selectedGrade}. osztály • {opMeta?.title}
                                     </p>
                                     <Button
                                         onClick={() => setIsStarted(true)}
-                                        className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-black py-3.5 rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all text-sm"
+                                        className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-black py-3 rounded-2xl shadow hover:scale-105 active:scale-95 transition-all text-xs"
                                     >
                                         <Play className="w-4 h-4 mr-1.5" />
                                         Játék Indítása!
@@ -856,7 +1044,7 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                                     <Button
                                         onClick={() => setIsPaused(false)}
                                         size="sm"
-                                        className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl"
+                                        className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs"
                                     >
                                         Folytatás
                                     </Button>
@@ -867,10 +1055,10 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                         {/* Game Over Overlay */}
                         {gameOver && (
                             <div className="absolute inset-0 bg-black/80 flex items-center justify-center rounded-2xl backdrop-blur-md z-30 p-4">
-                                <div className="bg-white p-6 rounded-3xl shadow-2xl text-center max-w-xs w-full animate-in zoom-in-95 duration-300 space-y-3">
+                                <div className="bg-white p-5 rounded-3xl shadow-2xl text-center max-w-xs w-full animate-in zoom-in-95 duration-300 space-y-3">
                                     <div className="text-4xl">🏆</div>
                                     <div>
-                                        <h3 className="text-xl font-black text-slate-800">Játék Vége!</h3>
+                                        <h3 className="text-lg font-black text-slate-800">Játék Vége!</h3>
                                         <p className="text-xs text-slate-500 mt-0.5">Szép munka, gyakorolj tovább!</p>
                                     </div>
 
@@ -896,20 +1084,14 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                                         <div className="grid grid-cols-2 gap-1.5">
                                             <Button
                                                 variant="outline"
-                                                onClick={() => {
-                                                    if (isFullscreen) setIsFullscreen(false);
-                                                    setStep('DIFFICULTY');
-                                                }}
+                                                onClick={() => setStep('DIFFICULTY')}
                                                 className="text-[11px] font-bold rounded-xl h-8"
                                             >
                                                 Nehézség váltás
                                             </Button>
                                             <Button
                                                 variant="outline"
-                                                onClick={() => {
-                                                    if (isFullscreen) setIsFullscreen(false);
-                                                    setStep('OPERATION');
-                                                }}
+                                                onClick={() => setStep('OPERATION')}
                                                 className="text-[11px] font-bold rounded-xl h-8"
                                             >
                                                 Művelet váltás
@@ -922,22 +1104,16 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                     </div>
                 </div>
 
-                {/* RIGHT COLUMN: Big Question Card & Live Status Dashboard (lg:col-span-5) */}
+                {/* RIGHT COLUMN (Desktop): Big Question Card & Live Status Dashboard (lg:col-span-5) */}
                 <div className="lg:col-span-5 flex flex-col gap-3 w-full">
-                    {/* Big Prominent Math Question Card */}
-                    <Card className={cn(
-                        "border p-4 sm:p-5 rounded-3xl shadow-sm text-center transition-all duration-300",
-                        isFullscreen
-                            ? "bg-slate-900 border-slate-800 text-white"
-                            : "bg-gradient-to-br from-emerald-50/80 via-white to-teal-50/80 border-emerald-200"
-                    )}>
+                    {/* Big Prominent Math Question Card (Desktop) */}
+                    <Card className="hidden lg:block border p-5 rounded-3xl shadow-sm text-center bg-gradient-to-br from-emerald-50/80 via-white to-teal-50/80 border-emerald-200">
                         <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 text-[11px] font-bold uppercase tracking-wider mb-1.5">
                             <span>🎯</span> Keresd ezt a helyes számot:
                         </div>
 
-                        {/* Large Crystal Clear Question */}
-                        <div className="my-1 py-3 px-3 bg-white dark:bg-slate-950 rounded-2xl border-2 border-emerald-100 shadow-inner">
-                            <p className="text-3xl sm:text-5xl font-black tracking-tight text-slate-900 dark:text-white">
+                        <div className="my-1 py-3 px-3 bg-white rounded-2xl border-2 border-emerald-100 shadow-inner">
+                            <p className="text-4xl font-black tracking-tight text-slate-900">
                                 {problem ? problem.question : ''} = <span className="text-emerald-500">?</span>
                             </p>
                         </div>
@@ -952,10 +1128,7 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
 
                     {/* Stats Dashboard */}
                     <div className="grid grid-cols-2 gap-2.5">
-                        <div className={cn(
-                            "p-3 rounded-2xl border shadow-sm text-center",
-                            isFullscreen ? "bg-slate-900 border-slate-800" : "bg-white border-amber-100"
-                        )}>
+                        <div className="p-3 rounded-2xl border shadow-sm text-center bg-white border-amber-100">
                             <div className="flex items-center justify-center gap-1 mb-0.5 text-amber-500">
                                 <Trophy className="w-3.5 h-3.5" />
                                 <span className="text-[11px] font-bold">Pontszám</span>
@@ -963,10 +1136,7 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                             <p className="text-xl font-black text-amber-600">{score}</p>
                         </div>
 
-                        <div className={cn(
-                            "p-3 rounded-2xl border shadow-sm text-center",
-                            isFullscreen ? "bg-slate-900 border-slate-800" : "bg-white border-emerald-100"
-                        )}>
+                        <div className="p-3 rounded-2xl border shadow-sm text-center bg-white border-emerald-100">
                             <div className="flex items-center justify-center gap-1 mb-0.5 text-emerald-500">
                                 <Heart className="w-3.5 h-3.5" />
                                 <span className="text-[11px] font-bold">Kígyó hossza</span>
@@ -974,10 +1144,7 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                             <p className="text-xl font-black text-emerald-600">{snake.length}</p>
                         </div>
 
-                        <div className={cn(
-                            "p-3 rounded-2xl border shadow-sm text-center",
-                            isFullscreen ? "bg-slate-900 border-slate-800" : "bg-white border-blue-100"
-                        )}>
+                        <div className="p-3 rounded-2xl border shadow-sm text-center bg-white border-blue-100">
                             <div className="flex items-center justify-center gap-1 mb-0.5 text-blue-500">
                                 <CheckCircle2 className="w-3.5 h-3.5" />
                                 <span className="text-[11px] font-bold">Megoldások</span>
@@ -985,10 +1152,7 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                             <p className="text-xl font-black text-blue-600">{correctCount}</p>
                         </div>
 
-                        <div className={cn(
-                            "p-3 rounded-2xl border shadow-sm text-center",
-                            isFullscreen ? "bg-slate-900 border-slate-800" : "bg-white border-purple-100"
-                        )}>
+                        <div className="p-3 rounded-2xl border shadow-sm text-center bg-white border-purple-100">
                             <div className="flex items-center justify-center gap-1 mb-0.5 text-purple-500">
                                 <Flame className="w-3.5 h-3.5" />
                                 <span className="text-[11px] font-bold">Legjobb széria</span>
@@ -998,19 +1162,16 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                     </div>
 
                     {/* Controls & Quick Tips */}
-                    <Card className={cn(
-                        "p-3 rounded-2xl border text-[11px] shadow-sm",
-                        isFullscreen ? "bg-slate-900/80 border-slate-800 text-slate-300" : "bg-slate-50 border-slate-200 text-slate-700"
-                    )}>
-                        <p className="font-bold mb-0.5 flex items-center gap-1 text-slate-900 dark:text-white">
+                    <Card className="p-3 rounded-2xl border text-[11px] shadow-sm bg-slate-50 border-slate-200 text-slate-700">
+                        <p className="font-bold mb-0.5 flex items-center gap-1 text-slate-900">
                             <span>🎮</span> Irányítás:
                         </p>
                         <p className="leading-snug">
-                            <strong>Nyilak</strong> vagy <strong>W, A, S, D</strong> mozgatás • <strong>SPACE</strong> szünet • <strong>ESC</strong> teljes képernyő kilépés
+                            <strong>Nyilak</strong> vagy <strong>W, A, S, D</strong> mozgatás • <strong>Ujjhúzás (swipe)</strong> mobilon • <strong>SPACE</strong> szünet
                         </p>
                     </Card>
 
-                    {/* Mobile Touch Controls for small screens */}
+                    {/* Mobile Touch Arrow Pad */}
                     <div className="lg:hidden mt-1">
                         <div className="grid grid-cols-3 gap-2 max-w-[180px] mx-auto">
                             <div></div>

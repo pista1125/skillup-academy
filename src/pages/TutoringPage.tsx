@@ -26,7 +26,8 @@ import {
   HelpCircle,
   CreditCard,
   ShieldCheck,
-  Lock
+  Lock,
+  Sparkles
 } from 'lucide-react';
 
 export default function TutoringPage() {
@@ -171,37 +172,41 @@ export default function TutoringPage() {
           </div>
 
           <div className="w-full px-2 lg:px-12 relative z-10">
-            <div className="flex justify-between items-center">
-              <div className="flex items-center gap-1.5 md:gap-3">
+            <div className="flex justify-between items-center gap-1.5">
+              <div className="flex items-center gap-1 sm:gap-2.5">
                 <SidebarMenu />
                 <Button
                   variant="ghost"
                   onClick={() => navigate('/')}
-                  className="bg-white/10 text-white hover:bg-white/20 font-black px-2 md:px-4 border border-white/20 shadow-lg backdrop-blur-md transition-all hover:scale-105 active:scale-95 flex items-center gap-1.5 md:gap-2"
+                  className="bg-white/10 text-white hover:bg-white/20 font-black px-1.5 sm:px-3 border border-white/20 shadow-md backdrop-blur-md transition-all hover:scale-105 active:scale-95 flex items-center gap-1 sm:gap-2 h-8 sm:h-10 rounded-xl"
                 >
-                  <img src="/logo_header.png" alt="DiákZóna" className="h-10 md:h-16 object-contain translate-y-1.5 md:translate-y-2" />
-                  <span className="text-lg sm:text-xl md:text-2xl font-black tracking-tighter">Diákzóna</span>
+                  <img src="/logo_header.png" alt="DiákZóna" className="h-7 sm:h-12 object-contain" />
+                  <span className="text-sm sm:text-lg md:text-xl font-black tracking-tighter">Diákzóna</span>
                 </Button>
               </div>
 
-              <div className="flex items-center gap-1 md:gap-2">
+              <div className="flex items-center gap-1 sm:gap-2">
                 <UserMenu />
                 <Button
                   variant="default"
                   onClick={() => navigate('/korrepetalas')}
-                  className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 font-extrabold px-3 md:px-5 shadow-lg shadow-purple-500/30 border border-white/20 transition-all hover:scale-105 active:scale-95 h-9 flex items-center gap-1.5 rounded-xl"
+                  className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 font-extrabold px-2.5 sm:px-3.5 shadow-md shadow-purple-500/30 border border-white/20 transition-all hover:scale-105 active:scale-95 h-8 sm:h-9 flex items-center gap-1.5 rounded-xl"
+                  title="Online Korrepetálás"
                 >
-                  <Video className="w-4 h-4" />
-                  <span className="hidden sm:inline">Online Korrepetálás</span>
-                  <span className="sm:hidden">Korrepetálás</span>
+                  <Video className="w-4 h-4 flex-shrink-0" />
+                  <span className="hidden md:inline text-xs sm:text-sm">Online Korrepetálás</span>
                 </Button>
                 <Button
                   variant="secondary"
                   onClick={() => { window.location.assign('https://kviz.diakzona.hu/'); }}
-                  className="bg-emerald-500 text-white hover:bg-emerald-600 font-extrabold px-3 md:px-6 shadow-lg shadow-emerald-500/30 border-none transition-all hover:scale-105 active:scale-95 h-9"
+                  className="bg-emerald-500 text-white hover:bg-emerald-600 font-extrabold px-2.5 sm:px-3.5 shadow-md shadow-emerald-500/30 border-none transition-all hover:scale-105 active:scale-95 h-8 sm:h-9 flex items-center gap-1.5 rounded-xl"
+                  title="Online Kvíz"
                 >
-                  <span className="hidden sm:inline">online kvíz</span>
-                  <span className="sm:hidden">kvíz</span>
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 flex-shrink-0">
+                    <circle cx="12" cy="3" r="1.8" />
+                    <path d="M13 6.5L8 14H12.5L10.5 21.5L17 12H12.5L13.5 6.5H13Z" />
+                  </svg>
+                  <span className="hidden md:inline text-xs sm:text-sm">Online Kvíz</span>
                 </Button>
               </div>
             </div>

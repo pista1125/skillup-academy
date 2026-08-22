@@ -57,19 +57,21 @@ export function UserMenu() {
                 <Button
                     variant="ghost"
                     onClick={() => setIsAuthModalOpen(true)}
-                    className="bg-white/10 text-white hover:bg-white/20 font-bold px-2 sm:px-4 border border-white/20 shadow-lg backdrop-blur-md transition-all hover:scale-105 active:scale-95 flex items-center gap-1.5 sm:gap-2 rounded-xl h-9 sm:h-10"
+                    className="bg-white/10 text-white hover:bg-white/20 font-bold px-2 sm:px-3.5 border border-white/20 shadow-md backdrop-blur-md transition-all hover:scale-105 active:scale-95 flex items-center gap-1.5 rounded-xl h-8 sm:h-9"
+                    title="Bejelentkezés"
                 >
-                    <LogIn className="w-4 h-4" />
-                    <span className="inline text-sm sm:text-base">Bejelentkezés</span>
+                    <LogIn className="w-4 h-4 flex-shrink-0" />
+                    <span className="hidden sm:inline text-xs sm:text-sm">Bejelentkezés</span>
                 </Button>
             ) : (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button
                             variant="ghost"
-                            className="bg-white/10 text-white hover:bg-white/20 font-bold pl-1.5 pr-2 sm:pl-2 sm:pr-4 border border-white/20 shadow-lg backdrop-blur-md transition-all hover:scale-105 active:scale-95 flex items-center gap-1.5 sm:gap-3 rounded-xl h-9 sm:h-10 ring-offset-primary focus:ring-2 focus:ring-white/50 relative"
+                            className="bg-white/10 text-white hover:bg-white/20 font-bold p-1 sm:pl-2 sm:pr-3.5 border border-white/20 shadow-md backdrop-blur-md transition-all hover:scale-105 active:scale-95 flex items-center gap-1.5 sm:gap-2.5 rounded-xl h-8 sm:h-9 ring-offset-primary focus:ring-2 focus:ring-white/50 relative"
+                            title={profile?.full_name || user?.email || 'Fiók'}
                         >
-                            <Avatar className="h-6 w-6 sm:h-7 sm:w-7 border border-white/30 shadow-sm">
+                            <Avatar className="h-6 w-6 sm:h-7 sm:w-7 border border-white/30 shadow-sm flex-shrink-0">
                                 <AvatarImage src={displayAvatar} />
                                 <AvatarFallback className={cn(
                                     "text-[8px] sm:text-[10px] font-black text-white",
@@ -78,11 +80,11 @@ export function UserMenu() {
                                     {initials}
                                 </AvatarFallback>
                             </Avatar>
-                            <span className="text-xs sm:text-sm tracking-tight truncate max-w-[60px] xs:max-w-[80px] sm:max-w-[120px]">
+                            <span className="hidden sm:inline text-xs sm:text-sm tracking-tight truncate max-w-[80px] md:max-w-[120px]">
                                 {profile?.full_name || user?.email}
                             </span>
                             {notificationCount > 0 && (
-                                <span className="absolute -top-1 -right-1 w-4 h-4 bg-rose-500 text-white text-[10px] font-black rounded-full flex items-center justify-center border-2 border-white animate-bounce-subtle">
+                                <span className="absolute -top-1 -right-1 w-3.5 h-3.5 sm:w-4 sm:h-4 bg-rose-500 text-white text-[9px] sm:text-[10px] font-black rounded-full flex items-center justify-center border border-white animate-bounce-subtle">
                                     {notificationCount}
                                 </span>
                             )}

@@ -4,6 +4,7 @@ import {
     SheetContent,
     SheetHeader,
     SheetTitle,
+    SheetDescription,
     SheetTrigger,
     SheetClose,
 } from "@/components/ui/sheet";
@@ -21,6 +22,18 @@ export function SidebarMenu() {
 
     const menuItems = [
         { label: 'Online Korrepetálás', icon: <Video className="w-5 h-5 text-purple-500" />, href: '/korrepetalas' },
+        {
+            label: 'Online Kvíz',
+            icon: (
+                <div className="w-5 h-5 flex items-center justify-center text-purple-600">
+                    <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+                        <circle cx="12" cy="3" r="1.8" />
+                        <path d="M13 6.5L8 14H12.5L10.5 21.5L17 12H12.5L13.5 6.5H13Z" />
+                    </svg>
+                </div>
+            ),
+            onClick: () => { window.location.assign('https://kviz.diakzona.hu/'); }
+        },
         { label: 'Rólunk', icon: <Info className="w-5 h-5" />, href: '/rolunk' },
         { label: 'Beszélj velünk', icon: <Mail className="w-5 h-5" />, href: '#' },
         { label: 'Adatkezelési tájékoztató', icon: <ShieldCheck className="w-5 h-5" />, href: '/adatkezeles' },
@@ -38,9 +51,9 @@ export function SidebarMenu() {
                     <Button
                         variant="ghost"
                         size="icon"
-                        className="bg-white/10 text-white hover:bg-white/20 border border-white/20 shadow-lg backdrop-blur-md transition-all hover:scale-105 active:scale-95 rounded-xl h-10 w-10 flex-shrink-0"
+                        className="bg-white/10 text-white hover:bg-white/20 border border-white/20 shadow-md backdrop-blur-md transition-all hover:scale-105 active:scale-95 rounded-xl h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0"
                     >
-                        <Menu className="w-6 h-6" />
+                        <Menu className="w-4 h-4 sm:w-6 sm:h-6" />
                     </Button>
                 </SheetTrigger>
                 <SheetContent side="left" className="w-[300px] sm:w-[400px] bg-white dark:bg-slate-950 border-r border-slate-200 dark:border-slate-800 p-0 flex flex-col">
@@ -50,6 +63,7 @@ export function SidebarMenu() {
                             <img src="/logo_header.png" alt="DiákZóna" className="h-10 object-contain" />
                             <SheetTitle className="text-xl font-black tracking-tighter text-white uppercase">DIÁKZÓNA</SheetTitle>
                         </div>
+                        <SheetDescription className="sr-only">Navigációs és fiók menü</SheetDescription>
                     </SheetHeader>
 
                     <div className="flex-1 py-4 overflow-y-auto">
