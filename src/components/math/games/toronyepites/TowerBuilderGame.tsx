@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -17,7 +17,9 @@ import {
     CheckCircle2,
     XCircle,
     Layers,
-    Play
+    Play,
+    Maximize2,
+    Minimize2
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import confetti from 'canvas-confetti';
@@ -127,8 +129,54 @@ export function TowerBuilderGame({ onBack, grade: initialGrade }: { onBack: () =
     const [streak, setStreak] = useState(0);
     const [roundData, setRoundData] = useState<TowerRoundData | null>(null);
     const [activeTowerId, setActiveTowerId] = useState<1 | 2>(1);
-    const [feedback, setFeedback] = useState<'correct' | 'wrong' | null>(null);
+    const [selectedComparison, setSelectedComparison] = useState<'<' | '=' | '>' | null>(null);
+    const [feedback, setFeedback] = useState<'correct' | 'wrong' | 'comparison-wrong' | 'missing-comparison' | null>(null);
     const [isComplete, setIsComplete] = useState(false);
+    const [isFullscreen, setIsFullscreen] = useState(false);
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    // Fullscreen listeners
+    useEffect(() => {
+        const handleFsChange = () => {
+            setIsFullscreen(!!document.fullscreenElement);
+        };
+        document.addEventListener('fullscreenchange', handleFsChange);
+        return () => document.removeEventListener('fullscreenchange', handleFsChange);
+    }, []);
+
+    // Escape key listener
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape' && isFullscreen) {
+                if (document.fullscreenElement) {
+                    document.exitFullscreen().catch(() => {});
+                }
+                setIsFullscreen(false);
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [isFullscreen]);
+
+    // Toggle Fullscreen handler
+    const toggleFullscreen = async () => {
+        try {
+            if (!document.fullscreenElement) {
+                if (containerRef.current?.requestFullscreen) {
+                    await containerRef.current.requestFullscreen();
+                }
+                setIsFullscreen(true);
+            } else {
+                if (document.exitFullscreen) {
+                    await document.exitFullscreen();
+                }
+                setIsFullscreen(false);
+            }
+        } catch (err) {
+            // Fallback to CSS fullscreen
+            setIsFullscreen(prev => !prev);
+        }
+    };
 
     // Scroll to top on step change
     useEffect(() => {
@@ -143,6 +191,7 @@ export function TowerBuilderGame({ onBack, grade: initialGrade }: { onBack: () =
         const newRound = generateTowerRound(op, gr, diff);
         setRoundData(newRound);
         setActiveTowerId(1);
+        setSelectedComparison(null);
         setFeedback(null);
     }, []);
 
@@ -153,6 +202,7 @@ export function TowerBuilderGame({ onBack, grade: initialGrade }: { onBack: () =
         setRound(1);
         setScore(0);
         setStreak(0);
+        setSelectedComparison(null);
         setIsComplete(false);
 
         if (selectedOperation) {
@@ -165,10 +215,23 @@ export function TowerBuilderGame({ onBack, grade: initialGrade }: { onBack: () =
         setRound(1);
         setScore(0);
         setStreak(0);
+        setSelectedComparison(null);
         setIsComplete(false);
         if (selectedOperation) {
             startNewRound(selectedOperation, selectedGrade, selectedDifficulty);
         }
+    };
+
+    // Cycle comparison on click
+    const cycleComparison = () => {
+        if (feedback === 'correct') return;
+        setSelectedComparison(prev => {
+            if (prev === null) return '<';
+            if (prev === '<') return '=';
+            if (prev === '=') return '>';
+            return '<';
+        });
+        setFeedback(null);
     };
 
     // Update active tower height
@@ -214,10 +277,20 @@ export function TowerBuilderGame({ onBack, grade: initialGrade }: { onBack: () =
     const handleCheck = () => {
         if (!roundData) return;
 
+        if (selectedComparison === null) {
+            setFeedback('missing-comparison');
+            return;
+        }
+
+        const trueComparison: '<' | '=' | '>' =
+            roundData.tower1.target < roundData.tower2.target ? '<' :
+            roundData.tower1.target > roundData.tower2.target ? '>' : '=';
+
         const isTower1Correct = roundData.tower1.current === roundData.tower1.target;
         const isTower2Correct = roundData.tower2.current === roundData.tower2.target;
+        const isComparisonCorrect = selectedComparison === trueComparison;
 
-        if (isTower1Correct && isTower2Correct) {
+        if (isTower1Correct && isTower2Correct && isComparisonCorrect) {
             setFeedback('correct');
             setScore(prev => prev + 10 + Math.min(streak * 2, 20));
             setStreak(prev => prev + 1);
@@ -238,6 +311,9 @@ export function TowerBuilderGame({ onBack, grade: initialGrade }: { onBack: () =
                     setIsComplete(true);
                 }
             }, 2000);
+        } else if (isTower1Correct && isTower2Correct && !isComparisonCorrect) {
+            setFeedback('comparison-wrong');
+            setStreak(0);
         } else {
             setFeedback('wrong');
             setStreak(0);
@@ -586,13 +662,29 @@ export function TowerBuilderGame({ onBack, grade: initialGrade }: { onBack: () =
     const isTower2Ready = roundData.tower2.current > 0;
 
     return (
-        <div className="flex flex-col gap-3.5 w-full max-w-5xl mx-auto px-1 sm:px-3 animate-in fade-in duration-300">
+        <div
+            ref={containerRef}
+            className={cn(
+                "flex flex-col gap-3.5 w-full mx-auto animate-in fade-in duration-300",
+                isFullscreen
+                    ? "fixed inset-0 z-50 bg-slate-950/95 text-slate-100 p-3 sm:p-6 overflow-y-auto max-w-none backdrop-blur-xl"
+                    : "max-w-5xl px-1 sm:px-3"
+            )}
+        >
             {/* Top Navigation & Status Bar */}
-            <div className="flex flex-wrap items-center justify-between gap-2 px-3.5 py-2.5 rounded-2xl bg-white/95 border border-blue-100 shadow-sm backdrop-blur-md">
+            <div className="flex flex-wrap items-center justify-between gap-2 px-3.5 py-2.5 rounded-2xl bg-white/95 text-slate-900 border border-blue-100 shadow-sm backdrop-blur-md">
                 <div className="flex items-center gap-2">
                     <Button
                         variant="ghost"
-                        onClick={() => setStep('OPERATION')}
+                        onClick={() => {
+                            if (isFullscreen) {
+                                if (document.fullscreenElement) {
+                                    document.exitFullscreen().catch(() => {});
+                                }
+                                setIsFullscreen(false);
+                            }
+                            setStep('OPERATION');
+                        }}
                         size="sm"
                         className="text-xs font-bold h-8 px-2.5 hover:bg-slate-100 rounded-xl"
                     >
@@ -625,6 +717,32 @@ export function TowerBuilderGame({ onBack, grade: initialGrade }: { onBack: () =
                         <RotateCcw className="w-3.5 h-3.5 mr-1" />
                         Újra
                     </Button>
+
+                    {/* Fullscreen Toggle Button */}
+                    <Button
+                        variant="ghost"
+                        onClick={toggleFullscreen}
+                        size="sm"
+                        className={cn(
+                            "text-xs font-bold h-8 px-2.5 rounded-xl transition-all flex items-center gap-1.5 border",
+                            isFullscreen
+                                ? "bg-amber-500 text-white border-amber-600 hover:bg-amber-600 shadow-sm"
+                                : "text-slate-700 border-slate-200 hover:bg-slate-100"
+                        )}
+                        title={isFullscreen ? "Kilépés a teljes képernyőből (Esc)" : "Teljes képernyős mód"}
+                    >
+                        {isFullscreen ? (
+                            <>
+                                <Minimize2 className="w-3.5 h-3.5" />
+                                <span className="hidden sm:inline">Kicsinyítés</span>
+                            </>
+                        ) : (
+                            <>
+                                <Maximize2 className="w-3.5 h-3.5" />
+                                <span className="hidden sm:inline">Teljes képernyő</span>
+                            </>
+                        )}
+                    </Button>
                 </div>
             </div>
 
@@ -632,12 +750,13 @@ export function TowerBuilderGame({ onBack, grade: initialGrade }: { onBack: () =
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start w-full">
                 {/* LEFT: Dual Physical Towers Visual Display (lg:col-span-7) */}
                 <div className="lg:col-span-7 flex flex-col gap-3 w-full">
-                    {/* Tower Switcher Tabs */}
-                    <div className="grid grid-cols-2 gap-2 w-full">
+                    {/* Tower Switcher Tabs with Center Comparison Box */}
+                    <div className="grid grid-cols-12 gap-2 items-stretch w-full">
+                        {/* Tower 1 Tab (col-span-5) */}
                         <button
                             onClick={() => { setActiveTowerId(1); setFeedback(null); }}
                             className={cn(
-                                "flex flex-col p-3 rounded-2xl border-2 text-left transition-all",
+                                "col-span-5 flex flex-col p-3 rounded-2xl border-2 text-left transition-all",
                                 activeTowerId === 1
                                     ? "bg-blue-50/90 border-blue-500 shadow-md ring-2 ring-blue-300/50"
                                     : "bg-white border-slate-200 hover:border-blue-300"
@@ -651,7 +770,7 @@ export function TowerBuilderGame({ onBack, grade: initialGrade }: { onBack: () =
                                     <CheckCircle2 className="w-4 h-4 text-emerald-500" />
                                 )}
                             </div>
-                            <p className="text-base sm:text-lg font-black text-slate-900">
+                            <p className="text-sm sm:text-base font-black text-slate-900 truncate">
                                 {roundData.tower1.question} = <span className="text-blue-600">?</span>
                             </p>
                             <div className="mt-1 flex items-center justify-between text-[11px] font-bold text-slate-500">
@@ -659,10 +778,33 @@ export function TowerBuilderGame({ onBack, grade: initialGrade }: { onBack: () =
                             </div>
                         </button>
 
+                        {/* Center Comparison Cube (col-span-2) */}
+                        <div
+                            onClick={cycleComparison}
+                            title="Kattints ide a relációs jel módosításához!"
+                            className={cn(
+                                "col-span-2 flex flex-col items-center justify-center h-full min-h-[76px] p-2 rounded-2xl border-2 cursor-pointer transition-all shadow-sm group select-none",
+                                selectedComparison === null
+                                    ? "bg-amber-50/80 border-dashed border-amber-300 text-amber-500 hover:bg-amber-100/70"
+                                    : "bg-gradient-to-br from-amber-400 to-orange-500 border-amber-600 text-amber-950 shadow-md scale-105"
+                            )}
+                        >
+                            <span className="text-[10px] font-black uppercase tracking-tighter text-slate-500 group-hover:text-slate-800">
+                                {selectedComparison === null ? 'Jel' : 'Reláció'}
+                            </span>
+                            <span className={cn(
+                                "text-2xl sm:text-3xl font-black transition-transform group-hover:scale-110",
+                                selectedComparison === null ? "text-amber-500 animate-pulse" : "text-white drop-shadow"
+                            )}>
+                                {selectedComparison || '?'}
+                            </span>
+                        </div>
+
+                        {/* Tower 2 Tab (col-span-5) */}
                         <button
                             onClick={() => { setActiveTowerId(2); setFeedback(null); }}
                             className={cn(
-                                "flex flex-col p-3 rounded-2xl border-2 text-left transition-all",
+                                "col-span-5 flex flex-col p-3 rounded-2xl border-2 text-left transition-all",
                                 activeTowerId === 2
                                     ? "bg-purple-50/90 border-purple-500 shadow-md ring-2 ring-purple-300/50"
                                     : "bg-white border-slate-200 hover:border-purple-300"
@@ -676,7 +818,7 @@ export function TowerBuilderGame({ onBack, grade: initialGrade }: { onBack: () =
                                     <CheckCircle2 className="w-4 h-4 text-emerald-500" />
                                 )}
                             </div>
-                            <p className="text-base sm:text-lg font-black text-slate-900">
+                            <p className="text-sm sm:text-base font-black text-slate-900 truncate">
                                 {roundData.tower2.question} = <span className="text-purple-600">?</span>
                             </p>
                             <div className="mt-1 flex items-center justify-between text-[11px] font-bold text-slate-500">
@@ -685,13 +827,39 @@ export function TowerBuilderGame({ onBack, grade: initialGrade }: { onBack: () =
                         </button>
                     </div>
 
+                    {/* Quick Comparison Sign Selector Toolbar */}
+                    <div className="flex flex-wrap items-center justify-between gap-2 p-2 px-3.5 rounded-2xl bg-white text-slate-900 border-2 border-amber-200/80 shadow-sm">
+                        <span className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                            <span>⚖️</span> <strong>Válaszd ki a jelet a tornyok közé:</strong>
+                        </span>
+                        <div className="flex items-center gap-2">
+                            {(['<', '=', '>'] as const).map(op => (
+                                <button
+                                    key={op}
+                                    onClick={() => { setSelectedComparison(op); setFeedback(null); }}
+                                    className={cn(
+                                        "w-11 h-9 rounded-xl font-black text-lg border-2 transition-all flex items-center justify-center shadow-sm",
+                                        selectedComparison === op
+                                            ? "bg-gradient-to-r from-amber-400 to-orange-500 text-white border-amber-600 shadow-md scale-105"
+                                            : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-amber-50 hover:border-amber-300"
+                                    )}
+                                >
+                                    {op}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
                     {/* The Visual Physical Towers Ground */}
-                    <div className="grid grid-cols-2 gap-3 h-[380px] sm:h-[440px] bg-gradient-to-b from-slate-900 to-slate-950 p-3 rounded-3xl border-4 border-slate-800 shadow-2xl relative">
-                        {/* Column 1: Tower 1 */}
+                    <div className={cn(
+                        "grid grid-cols-12 gap-2 bg-gradient-to-b from-slate-900 to-slate-950 p-3 rounded-3xl border-4 border-slate-800 shadow-2xl relative transition-all duration-300",
+                        isFullscreen ? "h-[48vh] sm:h-[58vh]" : "h-[380px] sm:h-[440px]"
+                    )}>
+                        {/* Column 1: Tower 1 (col-span-5) */}
                         <div
                             onClick={() => { setActiveTowerId(1); setFeedback(null); }}
                             className={cn(
-                                "flex flex-col h-full rounded-2xl border-2 transition-all cursor-pointer relative bg-slate-950/60 overflow-hidden",
+                                "col-span-5 flex flex-col h-full rounded-2xl border-2 transition-all cursor-pointer relative bg-slate-950/60 overflow-hidden",
                                 activeTowerId === 1
                                     ? "border-blue-400 ring-2 ring-blue-500/30"
                                     : "border-slate-800 opacity-80 hover:opacity-100"
@@ -707,11 +875,31 @@ export function TowerBuilderGame({ onBack, grade: initialGrade }: { onBack: () =
                             <div className="h-2 bg-slate-800 w-full rounded-b-xl"></div>
                         </div>
 
-                        {/* Column 2: Tower 2 */}
+                        {/* Central Comparison Slot in Arena (col-span-2) */}
+                        <div
+                            onClick={cycleComparison}
+                            title="Kattints ide a relációs jel módosításához!"
+                            className="col-span-2 flex flex-col items-center justify-center gap-2 relative z-10 cursor-pointer select-none"
+                        >
+                            <div className="w-0.5 h-full bg-slate-800/80 absolute top-0 bottom-0 left-1/2 -translate-x-1/2 -z-10"></div>
+                            <div className={cn(
+                                "w-11 h-11 sm:w-14 sm:h-14 rounded-2xl border-2 flex items-center justify-center text-xl sm:text-2xl font-black shadow-xl transition-all hover:scale-110",
+                                selectedComparison === null
+                                    ? "bg-slate-900/90 border-dashed border-amber-400/70 text-amber-400 animate-pulse"
+                                    : "bg-gradient-to-br from-amber-400 to-orange-500 border-amber-300 text-white ring-4 ring-amber-500/30"
+                            )}>
+                                {selectedComparison || '?'}
+                            </div>
+                            <span className="text-[10px] font-bold text-slate-400 bg-slate-900/80 px-2 py-0.5 rounded-full border border-slate-800 text-center">
+                                {selectedComparison === '<' ? 'Kisebb' : selectedComparison === '>' ? 'Nagyobb' : selectedComparison === '=' ? 'Egyenlő' : 'Válassz!'}
+                            </span>
+                        </div>
+
+                        {/* Column 2: Tower 2 (col-span-5) */}
                         <div
                             onClick={() => { setActiveTowerId(2); setFeedback(null); }}
                             className={cn(
-                                "flex flex-col h-full rounded-2xl border-2 transition-all cursor-pointer relative bg-slate-950/60 overflow-hidden",
+                                "col-span-5 flex flex-col h-full rounded-2xl border-2 transition-all cursor-pointer relative bg-slate-950/60 overflow-hidden",
                                 activeTowerId === 2
                                     ? "border-purple-400 ring-2 ring-purple-500/30"
                                     : "border-slate-800 opacity-80 hover:opacity-100"
@@ -807,8 +995,22 @@ export function TowerBuilderGame({ onBack, grade: initialGrade }: { onBack: () =
                     <div className="space-y-2">
                         {feedback === 'correct' && (
                             <div className="p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-center font-bold text-sm flex items-center justify-center gap-2 animate-in zoom-in-95">
-                                <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-                                <span>Helyes! Mindkét torony pontosan megépült! 🎉</span>
+                                <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0" />
+                                <span>Helyes! Mindkét torony és a relációs jel ({selectedComparison}) is hibátlan! 🎉</span>
+                            </div>
+                        )}
+
+                        {feedback === 'comparison-wrong' && (
+                            <div className="p-3 rounded-2xl bg-amber-50 border border-amber-300 text-amber-900 text-center font-bold text-xs sm:text-sm flex items-center justify-center gap-2 animate-in shake">
+                                <HelpCircle className="w-5 h-5 text-amber-600 flex-shrink-0" />
+                                <span>A tornyok magassága jó, de a relációs jel (&lt;, =, &gt;) nem stimmel!</span>
+                            </div>
+                        )}
+
+                        {feedback === 'missing-comparison' && (
+                            <div className="p-3 rounded-2xl bg-amber-50 border border-amber-300 text-amber-900 text-center font-bold text-xs sm:text-sm flex items-center justify-center gap-2 animate-in shake">
+                                <HelpCircle className="w-5 h-5 text-amber-600 flex-shrink-0" />
+                                <span>Kérlek válaszd ki a relációs jelet (&lt;, =, &gt;) a két torony közé!</span>
                             </div>
                         )}
 
