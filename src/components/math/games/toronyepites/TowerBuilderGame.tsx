@@ -388,10 +388,10 @@ export function TowerBuilderGame({ onBack, grade: initialGrade }: { onBack: () =
     // ==========================================
     if (step === 'GRADE') {
         return (
-            <div className="flex flex-col gap-4 w-full px-1 sm:px-3 max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-2 duration-300">
+            <div className="flex flex-col gap-5 w-full px-2 sm:px-6 lg:px-10 max-w-none animate-in fade-in slide-in-from-bottom-2 duration-300">
                 {/* Header */}
-                <div className="flex items-center justify-between bg-white/90 backdrop-blur-md px-4 py-3 rounded-2xl border border-blue-100 shadow-sm w-full">
-                    <Button variant="ghost" onClick={onBack} size="sm" className="hover:bg-slate-100 text-xs sm:text-sm font-bold h-9 px-3.5 rounded-xl">
+                <div className="flex items-center justify-between bg-white/90 backdrop-blur-md px-4 py-3.5 rounded-3xl border border-blue-100 shadow-sm w-full">
+                    <Button variant="ghost" onClick={onBack} size="sm" className="hover:bg-slate-100 text-xs sm:text-sm font-bold h-9 px-3.5 rounded-2xl">
                         <ArrowLeft className="w-4 h-4 mr-1.5" />
                         Vissza a játékokhoz
                     </Button>
@@ -403,8 +403,8 @@ export function TowerBuilderGame({ onBack, grade: initialGrade }: { onBack: () =
                     <div className="w-28 hidden sm:block"></div>
                 </div>
 
-                {/* Grade Cards Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 w-full">
+                {/* Grade Cards Grid (Responsive full width) */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 w-full">
                     {TOWER_GRADES.map(g => {
                         const isSelected = selectedGrade === g.grade;
 
@@ -416,40 +416,41 @@ export function TowerBuilderGame({ onBack, grade: initialGrade }: { onBack: () =
                                     setStep('OPERATION');
                                 }}
                                 className={cn(
-                                    "group relative flex items-center justify-between p-5 sm:p-6 rounded-3xl bg-white border-2 text-left transition-all duration-200 hover:shadow-xl hover:-translate-y-1",
+                                    "group relative flex flex-col items-start justify-between p-6 rounded-3xl bg-white border-2 text-left transition-all duration-200 hover:shadow-xl hover:-translate-y-1 w-full",
                                     g.color,
                                     isSelected && "ring-2 ring-blue-400"
                                 )}
                             >
-                                <div className="flex items-center gap-4 min-w-0 flex-1">
-                                    <span className="text-3xl p-2.5 bg-white rounded-2xl shadow-sm border border-slate-100 group-hover:scale-110 transition-transform flex-shrink-0">
+                                <div className="flex items-center gap-3 w-full mb-3">
+                                    <span className="text-3xl p-3 bg-white rounded-2xl shadow-sm border border-slate-100 group-hover:scale-110 transition-transform flex-shrink-0">
                                         {g.icon}
                                     </span>
                                     <div className="min-w-0 flex-1">
-                                        <div className="flex items-center gap-2 mb-1">
-                                            <h3 className="font-black text-slate-800 text-base sm:text-lg group-hover:text-blue-700 transition-colors">
-                                                {g.label}
-                                            </h3>
-                                            <span className="text-[11px] font-black px-2 py-0.5 rounded-full bg-blue-100 text-blue-800">
-                                                {g.badge}
-                                            </span>
-                                        </div>
-                                        <p className="text-xs sm:text-sm text-slate-500 font-medium">
-                                            {g.desc}
-                                        </p>
+                                        <h3 className="font-black text-slate-800 text-lg group-hover:text-blue-700 transition-colors">
+                                            {g.label}
+                                        </h3>
+                                        <span className="text-[11px] font-black px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 inline-block mt-0.5">
+                                            {g.badge}
+                                        </span>
                                     </div>
                                 </div>
-                                <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-blue-600 transition-colors flex-shrink-0 ml-2" />
+                                <p className="text-xs sm:text-sm text-slate-500 font-medium mb-4 leading-relaxed flex-1">
+                                    {g.desc}
+                                </p>
+                                <div className="w-full pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-slate-700 group-hover:text-blue-600">
+                                    <span>Kiválasztás</span>
+                                    <ChevronRight className="w-4 h-4" />
+                                </div>
                             </button>
                         );
                     })}
                 </div>
 
                 {/* Information Card */}
-                <div className="bg-blue-50/80 rounded-2xl p-4 border border-blue-200 text-xs sm:text-sm text-blue-900 flex items-center gap-3">
-                    <span className="text-xl">💡</span>
+                <div className="bg-blue-50/80 rounded-3xl p-5 border border-blue-200 text-xs sm:text-sm text-blue-900 flex items-center gap-3.5 w-full">
+                    <span className="text-2xl">💡</span>
                     <p className="leading-relaxed">
-                        A Toronyépítő játékban a matematikai feladatok eredményeit vizuális <strong>Dienes-tömbökből</strong> építed fel! Számolj fejben és emeld magasba a tornyokat!
+                        A Toronyépítő játékban a matematikai feladatok eredményeit vizuális <strong>Dienes-tömbökből</strong> építed fel! Számolj fejben, hasonlítsd össze a magasságokat, és emeld magasba a tornyokat!
                     </p>
                 </div>
             </div>
@@ -461,14 +462,14 @@ export function TowerBuilderGame({ onBack, grade: initialGrade }: { onBack: () =
     // ==========================================
     if (step === 'OPERATION') {
         return (
-            <div className="flex flex-col gap-4 w-full px-1 sm:px-3 max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-2 duration-300">
+            <div className="flex flex-col gap-5 w-full px-2 sm:px-6 lg:px-10 max-w-none animate-in fade-in slide-in-from-bottom-2 duration-300">
                 {/* Header */}
-                <div className="flex items-center justify-between bg-white/90 backdrop-blur-md px-4 py-3 rounded-2xl border border-blue-100 shadow-sm w-full">
+                <div className="flex items-center justify-between bg-white/90 backdrop-blur-md px-4 py-3.5 rounded-3xl border border-blue-100 shadow-sm w-full">
                     <Button
                         variant="ghost"
                         onClick={() => setStep('GRADE')}
                         size="sm"
-                        className="hover:bg-slate-100 text-xs sm:text-sm font-bold h-9 px-3.5 rounded-xl"
+                        className="hover:bg-slate-100 text-xs sm:text-sm font-bold h-9 px-3.5 rounded-2xl"
                     >
                         <ArrowLeft className="w-4 h-4 mr-1.5" />
                         Osztály módosítása
@@ -484,8 +485,8 @@ export function TowerBuilderGame({ onBack, grade: initialGrade }: { onBack: () =
                     <div className="w-28 hidden sm:block"></div>
                 </div>
 
-                {/* Operations Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5 w-full">
+                {/* Operations Grid (Responsive full width) */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-5 w-full">
                     {availableOps.map(opKey => {
                         const meta = TOWER_OPERATION_DEFINITIONS[opKey];
                         return (
@@ -496,12 +497,12 @@ export function TowerBuilderGame({ onBack, grade: initialGrade }: { onBack: () =
                                     setStep('DIFFICULTY');
                                 }}
                                 className={cn(
-                                    "group relative flex flex-col items-center text-center p-5 sm:p-6 rounded-3xl bg-white border-2 transition-all duration-200 hover:shadow-xl hover:-translate-y-1",
+                                    "group relative flex flex-col items-center text-center p-6 rounded-3xl bg-white border-2 transition-all duration-200 hover:shadow-xl hover:-translate-y-1 w-full",
                                     meta.borderColor
                                 )}
                             >
                                 <div className={cn(
-                                    "w-14 h-14 rounded-2xl flex items-center justify-center text-3xl font-black text-white shadow-md mb-3 group-hover:scale-110 transition-transform bg-gradient-to-br",
+                                    "w-16 h-16 rounded-2xl flex items-center justify-center text-3xl font-black text-white shadow-md mb-3 group-hover:scale-110 transition-transform bg-gradient-to-br",
                                     meta.color
                                 )}>
                                     {meta.symbol}
@@ -512,7 +513,7 @@ export function TowerBuilderGame({ onBack, grade: initialGrade }: { onBack: () =
                                 <p className="text-xs sm:text-sm text-slate-500 leading-relaxed mb-4 line-clamp-2">
                                     {meta.description}
                                 </p>
-                                <div className="mt-auto w-full py-2 px-3 rounded-xl bg-slate-50 font-bold text-xs sm:text-sm text-slate-700 flex items-center justify-center gap-1 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                <div className="mt-auto w-full py-2.5 px-3 rounded-2xl bg-slate-50 font-bold text-xs sm:text-sm text-slate-700 flex items-center justify-center gap-1 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                                     <span>Kiválasztás</span>
                                     <ChevronRight className="w-4 h-4" />
                                 </div>
@@ -531,14 +532,14 @@ export function TowerBuilderGame({ onBack, grade: initialGrade }: { onBack: () =
         const opMeta = selectedOperation ? TOWER_OPERATION_DEFINITIONS[selectedOperation] : null;
 
         return (
-            <div className="flex flex-col gap-4 w-full max-w-4xl mx-auto px-1 sm:px-3 animate-in fade-in slide-in-from-bottom-2 duration-300">
+            <div className="flex flex-col gap-5 w-full max-w-none px-2 sm:px-6 lg:px-10 animate-in fade-in slide-in-from-bottom-2 duration-300">
                 {/* Header */}
-                <div className="flex items-center justify-between bg-white/90 backdrop-blur-md px-4 py-3 rounded-2xl border border-blue-100 shadow-sm w-full">
+                <div className="flex items-center justify-between bg-white/90 backdrop-blur-md px-4 py-3.5 rounded-3xl border border-blue-100 shadow-sm w-full">
                     <Button
                         variant="ghost"
                         onClick={() => setStep('OPERATION')}
                         size="sm"
-                        className="hover:bg-slate-100 text-xs sm:text-sm font-bold h-9 px-3.5 rounded-xl"
+                        className="hover:bg-slate-100 text-xs sm:text-sm font-bold h-9 px-3.5 rounded-2xl"
                     >
                         <ArrowLeft className="w-4 h-4 mr-1.5" />
                         Műveletváltás
@@ -560,7 +561,7 @@ export function TowerBuilderGame({ onBack, grade: initialGrade }: { onBack: () =
                 </div>
 
                 {/* Difficulty Cards */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 w-full">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 w-full">
                     {(['EASY', 'MEDIUM', 'HARD'] as TowerDifficultyType[]).map(diffKey => {
                         const config = TOWER_DIFFICULTY_CONFIG[diffKey];
 
@@ -569,7 +570,7 @@ export function TowerBuilderGame({ onBack, grade: initialGrade }: { onBack: () =
                                 key={diffKey}
                                 onClick={() => handleStartGame(diffKey)}
                                 className={cn(
-                                    "group relative flex flex-col p-5 sm:p-6 rounded-3xl bg-white border-2 text-left transition-all duration-200 hover:shadow-lg hover:-translate-y-1",
+                                    "group relative flex flex-col p-6 rounded-3xl bg-white border-2 text-left transition-all duration-200 hover:shadow-xl hover:-translate-y-1 w-full",
                                     config.color
                                 )}
                             >
@@ -579,13 +580,13 @@ export function TowerBuilderGame({ onBack, grade: initialGrade }: { onBack: () =
                                     </span>
                                     <Flame className="w-5 h-5 text-amber-500" />
                                 </div>
-                                <h3 className="text-base sm:text-lg font-black text-slate-900 mb-1.5">
+                                <h3 className="text-lg font-black text-slate-900 mb-1.5">
                                     {config.label}
                                 </h3>
-                                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+                                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4 flex-1">
                                     {config.desc}
                                 </p>
-                                <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-slate-800 group-hover:text-blue-600">
+                                <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm font-bold text-slate-800 group-hover:text-blue-600">
                                     <span>Építés Indítása</span>
                                     <ChevronRight className="w-4 h-4" />
                                 </div>
@@ -602,7 +603,7 @@ export function TowerBuilderGame({ onBack, grade: initialGrade }: { onBack: () =
     // ==========================================
     if (isComplete) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-[60vh] gap-6 max-w-md mx-auto p-6 bg-white rounded-3xl shadow-xl border-2 border-amber-200 text-center animate-in zoom-in-95 duration-300">
+            <div className="flex flex-col items-center justify-center min-h-[60vh] gap-6 max-w-2xl mx-auto p-6 sm:p-10 bg-white rounded-3xl shadow-xl border-2 border-amber-200 text-center animate-in zoom-in-95 duration-300 w-full">
                 <div className="p-6 bg-amber-100 rounded-full animate-bounce">
                     <Trophy className="w-20 h-20 text-amber-600" />
                 </div>
@@ -613,7 +614,7 @@ export function TowerBuilderGame({ onBack, grade: initialGrade }: { onBack: () =
                     </p>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3 w-full bg-slate-50 p-3.5 rounded-2xl border">
+                <div className="grid grid-cols-2 gap-3 w-full bg-slate-50 p-4 rounded-2xl border">
                     <div>
                         <p className="text-xs text-slate-400 font-bold">Összpontszám</p>
                         <p className="text-2xl font-black text-blue-600">{score} pont</p>
@@ -668,7 +669,7 @@ export function TowerBuilderGame({ onBack, grade: initialGrade }: { onBack: () =
                 "flex flex-col gap-3.5 w-full mx-auto animate-in fade-in duration-300",
                 isFullscreen
                     ? "fixed inset-0 z-50 bg-slate-950/95 text-slate-100 p-3 sm:p-6 overflow-y-auto max-w-none backdrop-blur-xl"
-                    : "max-w-5xl px-1 sm:px-3"
+                    : "w-full max-w-none px-2 sm:px-4 lg:px-6"
             )}
         >
             {/* Top Navigation & Status Bar */}

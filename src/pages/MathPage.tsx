@@ -2655,11 +2655,11 @@ export default function MathPage() {
 
       {/* Content */}
       <div className={cn(
-        (activityType !== 'perimeter-area' && activityType !== 'snake-game' && activityType !== 'tower-builder' && !(isUpperGradeLayout && view === 'topic-select')) && "container mx-auto px-4 py-8",
+        (activityType !== 'perimeter-area' && activityType !== 'snake-game' && activityType !== 'tower-builder' && activityType !== 'grade2-blocks' && activityType !== 'grade3-blocks' && activityType !== 'grade3-tower-builder' && !(isUpperGradeLayout && view === 'topic-select')) && "container mx-auto px-4 py-8",
         "transition-all duration-500",
         (isUpperGradeLayout && view === 'topic-select')
           ? "w-full p-0 max-w-none flex-1 overflow-hidden"
-          : (activityType === 'perimeter-area' || activityType === 'snake-game' || activityType === 'tower-builder'
+          : (activityType === 'perimeter-area' || activityType === 'snake-game' || activityType === 'tower-builder' || activityType === 'grade2-blocks' || activityType === 'grade3-blocks' || activityType === 'grade3-tower-builder'
             ? "max-w-none p-0 w-full h-full"
             : ((view === 'activity' || view === 'topic-select' || view === 'tools-select' || view === 'games-select' || view === 'main-select' || view === 'competency-select')
               ? "max-w-none lg:px-12"
