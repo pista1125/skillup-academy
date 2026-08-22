@@ -7,9 +7,9 @@ import {
   Maximize2, 
   Minimize2
 } from 'lucide-react';
-import TorpedoLobby from "./torpedo/TorpedoLobby";
-import TorpedoPlacement from "./torpedo/TorpedoPlacement";
-import TorpedoCombat from "./torpedo/TorpedoCombat";
+import TorpedoLobby from "./TorpedoLobby";
+import TorpedoPlacement from "./TorpedoPlacement";
+import TorpedoCombat from "./TorpedoCombat";
 import { TorpedoService, TorpedoMatch } from '@/lib/torpedo/TorpedoService';
 import { auth, db } from '@/lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';

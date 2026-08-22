@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import { ChessService } from '@/lib/chess/ChessService';
 import { cn } from '@/lib/utils';
-import MathChallengeModal from '@/components/math/games/MathChallengeModal';
+import MathChallengeModal from './MathChallengeModal';
 
 interface ChessBoardUIProps {
   mode: 'ai' | 'friend';

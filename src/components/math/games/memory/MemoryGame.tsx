@@ -17,10 +17,10 @@ import {
   ArrowLeft
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import MemoryEditor from "@/components/math/games/MemoryEditor";
+import MemoryEditor from "./MemoryEditor";
 import { DEFAULT_LEVELS } from '@/data/memoryData';
 import * as LucideIcons from 'lucide-react';
-import AuditoryMemoryGame from "@/components/math/games/AuditoryMemoryGame";
+import AuditoryMemoryGame from "./AuditoryMemoryGame";
 
 interface MemoryItem {
   id: string;

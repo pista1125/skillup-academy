@@ -8,8 +8,8 @@ import {
   Users,
   Cpu
 } from 'lucide-react';
-import ChessBoardUI from "@/components/math/games/ChessBoardUI";
-import ChessLobby from "@/components/math/games/ChessLobby";
+import ChessBoardUI from "./ChessBoardUI";
+import ChessLobby from "./ChessLobby";
 import { ChessService } from '@/lib/chess/ChessService';
 import { toast } from 'sonner';
 

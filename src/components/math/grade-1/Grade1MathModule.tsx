@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Grade1Addition } from "@/components/math/grade-1/Grade1Addition";
-import { MathSnakeGame } from "@/components/math/games/MathSnakeGame";
+import { MathSnakeGame } from "@/components/math/games/snake/MathSnakeGame";
 import {
     Gamepad2,
     ArrowLeft,

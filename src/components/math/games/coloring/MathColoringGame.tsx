@@ -243,8 +243,13 @@ function getDisplayColor(result: number): string {
     return COLOR_MAP[result] || '#94a3b8';
 }
 
-export function MathColoringGame({ onBack, grade = 1, operation = 'addition' }: MathColoringGameProps) {
-    const availableScenes = SCENES.filter(s => s.grade === grade && s.operation === operation);
+export function MathColoringGame({ onBack, grade: initialGrade = 1, operation: initialOperation = 'addition' }: MathColoringGameProps) {
+    const [selectedGrade, setSelectedGrade] = useState<number>(initialGrade || 1);
+    const [selectedOperation, setSelectedOperation] = useState<'addition' | 'multiplication'>(
+        initialGrade === 2 ? 'multiplication' : initialOperation
+    );
+
+    const availableScenes = SCENES.filter(s => s.grade === selectedGrade && s.operation === selectedOperation);
 
     const [currentSceneId, setCurrentSceneId] = useState(availableScenes[0]?.id || SCENES[0].id);
     const [solved, setSolved] = useState<Set<string>>(new Set());
@@ -255,6 +260,20 @@ export function MathColoringGame({ onBack, grade = 1, operation = 'addition' }: 
 
     const currentScene = availableScenes.find(s => s.id === currentSceneId) || availableScenes[0] || SCENES[0];
     const activeArea = currentScene.areas.find(a => a.id === activeId);
+
+    const handleGradeSwitch = (g: number, op: 'addition' | 'multiplication') => {
+        setSelectedGrade(g);
+        setSelectedOperation(op);
+        const scenes = SCENES.filter(s => s.grade === g && s.operation === op);
+        if (scenes.length > 0) {
+            setCurrentSceneId(scenes[0].id);
+        }
+        setSolved(new Set());
+        setActiveId(null);
+        setGameWon(false);
+        setFeedback(null);
+        setAnswer('');
+    };
 
     const uniqueResults = Array.from(new Set(currentScene.areas.map(a =>
         getAreaResult(a, currentScene.operation)
@@ -308,21 +327,53 @@ export function MathColoringGame({ onBack, grade = 1, operation = 'addition' }: 
     };
 
     return (
-        <div className="flex flex-col items-center gap-6 max-w-4xl mx-auto py-4">
+        <div className="flex flex-col items-center gap-4 max-w-4xl mx-auto py-2 w-full px-2">
+            {/* Top Grade Selection Bar */}
+            <div className="flex items-center justify-between w-full bg-white px-4 py-2.5 rounded-2xl border border-pink-100 shadow-sm">
+                <Button variant="ghost" onClick={onBack} size="sm" className="font-bold text-xs sm:text-sm rounded-xl">
+                    <ArrowLeft className="w-4 h-4 mr-1.5" /> Vissza a játékokhoz
+                </Button>
+                <div className="flex items-center gap-2">
+                    <button
+                        onClick={() => handleGradeSwitch(1, 'addition')}
+                        className={cn(
+                            "px-3 py-1.5 rounded-xl font-bold text-xs sm:text-sm transition-all",
+                            selectedGrade === 1
+                                ? "bg-pink-500 text-white shadow-md shadow-pink-200"
+                                : "bg-slate-100 text-slate-600 hover:bg-pink-50"
+                        )}
+                    >
+                        🌱 1. osztály (Összeadás)
+                    </button>
+                    <button
+                        onClick={() => handleGradeSwitch(2, 'multiplication')}
+                        className={cn(
+                            "px-3 py-1.5 rounded-xl font-bold text-xs sm:text-sm transition-all",
+                            selectedGrade === 2
+                                ? "bg-pink-500 text-white shadow-md shadow-pink-200"
+                                : "bg-slate-100 text-slate-600 hover:bg-pink-50"
+                        )}
+                    >
+                        🌿 2. osztály (Szorzás)
+                    </button>
+                </div>
+            </div>
+
             <Card className="w-full bg-white shadow-xl border-t-8 border-t-pink-400 rounded-3xl overflow-hidden">
-                <div className="flex flex-wrap justify-center gap-2 md:gap-4 p-4 border-b border-pink-100 bg-white/50">
+                {/* Scene selector */}
+                <div className="flex flex-wrap justify-center gap-2 md:gap-3 p-3 border-b border-pink-100 bg-pink-50/30">
                     {availableScenes.map((scene) => (
                         <Button
                             key={scene.id}
                             variant={currentSceneId === scene.id ? "default" : "ghost"}
                             onClick={() => handleSceneChange(scene.id)}
                             className={cn(
-                                "rounded-2xl px-4 md:px-6 h-10 md:h-12 font-bold transition-all",
-                                currentSceneId === scene.id ? "bg-pink-500 hover:bg-pink-600 shadow-lg shadow-pink-200" : "text-slate-500 hover:bg-pink-50"
+                                "rounded-2xl px-3 md:px-5 h-9 md:h-11 font-bold transition-all text-xs sm:text-sm",
+                                currentSceneId === scene.id ? "bg-pink-500 hover:bg-pink-600 shadow-md shadow-pink-200" : "text-slate-600 hover:bg-pink-100/60"
                             )}
                         >
-                            <span className="text-lg md:text-xl mr-2">{scene.icon}</span>
-                            <span className="hidden sm:inline">{scene.name}</span>
+                            <span className="text-base md:text-lg mr-1.5">{scene.icon}</span>
+                            <span>{scene.name}</span>
                         </Button>
                     ))}
                 </div>

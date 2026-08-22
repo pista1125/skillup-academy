@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { MathQuiz } from "@/components/math/shared/MathQuiz";
-import { MathColoringGame } from "@/components/math/games/MathColoringGame";
-import { MathSnakeGame } from "@/components/math/games/MathSnakeGame";
+import { MathSnakeGame } from "@/components/math/games/snake/MathSnakeGame";
 import {
     Calculator,
-    Palette,
     ArrowLeft,
     Sparkles,
     Zap,
@@ -13,7 +11,7 @@ import {
     Blocks,
     Target
 } from 'lucide-react';
-import { BuildingBlocksComparison } from "@/components/math/grade-4/BuildingBlocksComparison";
+import { TowerBuilderGame } from "@/components/math/games/toronyepites/TowerBuilderGame";
 import { cn } from '@/lib/utils';
 
 interface Grade2MathModuleProps {
@@ -70,7 +68,7 @@ export function Grade2MathModule({ onBack, initialView, onStartActivity }: Grade
                     </Button>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <MathCard
                         title="Alapműveletek"
                         description="Mélyítsd el a tudásod az összeadás, kivonás és szorzás világában!"
@@ -79,17 +77,8 @@ export function Grade2MathModule({ onBack, initialView, onStartActivity }: Grade
                         onClick={() => onStartActivity?.('grade2-quiz')}
                     />
                     <KidsCard
-                        title="Szorzó-Színező"
-                        description="Számold ki a szorzatot és színezz ki 5 izgalmas új képet!"
-                        icon={<Palette className="w-12 h-12" />}
-                        color="bg-indigo-50 text-indigo-500 border-indigo-100"
-                        onClick={() => onStartActivity?.('grade2-coloring')}
-                        highlight
-                        badge="PRÉMIUM"
-                    />
-                    <KidsCard
                         title="Toronyépítő"
-                        description="Építs tornyokat és hasonlítsd össze őket! Melyik a több?"
+                        description="Építs tornyokat Dienes-tömbökből és számolj!"
                         icon={<Blocks className="w-12 h-12" />}
                         color="bg-blue-50 text-blue-500 border-blue-100"
                         onClick={() => onStartActivity?.('grade2-blocks')}
@@ -139,7 +128,7 @@ export function Grade2MathModule({ onBack, initialView, onStartActivity }: Grade
             )}
 
             {view === 'blocks' && (
-                <BuildingBlocksComparison onBack={handleBackToMenu} />
+                <TowerBuilderGame grade={2} onBack={handleBackToMenu} />
             )}
 
             {view === 'snake' && (

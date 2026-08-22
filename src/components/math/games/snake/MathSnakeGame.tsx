@@ -32,7 +32,7 @@ import {
     getAvailableOperationsForGrade,
     generateSnakeProblem,
     generateSnakeDistractors
-} from './snake/mathSnakeGenerator';
+} from './mathSnakeGenerator';
 
 type Direction = 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
 type Position = { x: number; y: number };

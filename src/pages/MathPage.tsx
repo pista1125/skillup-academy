@@ -28,12 +28,12 @@ const Grade1MathModule = lazy(() => import("@/components/math/grade-1/Grade1Math
 const Grade2MathModule = lazy(() => import("@/components/math/grade-2/Grade2MathModule").then(m => ({ default: m.Grade2MathModule }))) as any;
 const Grade3MathModule = lazy(() => import("@/components/math/grade-3/Grade3MathModule").then(m => ({ default: m.Grade3MathModule }))) as any;
 const AlgebraQuiz = lazy(() => import("@/components/math/grade-7/AlgebraQuiz").then(m => ({ default: m.AlgebraQuiz }))) as any;
-const MathColoringGame = lazy(() => import("@/components/math/games/MathColoringGame").then(m => ({ default: m.MathColoringGame }))) as any;
+const MathColoringGame = lazy(() => import("@/components/math/games/coloring/MathColoringGame").then(m => ({ default: m.MathColoringGame }))) as any;
 const DivisibilityTool = lazy(() => import("@/components/math/tools/DivisibilityTool").then(m => ({ default: m.DivisibilityTool }))) as any;
 const MaterialGallery = lazy(() => import("@/components/math/shared/MaterialGallery").then(m => ({ default: m.MaterialGallery }))) as any;
 const LessonViewer = lazy(() => import("@/components/math/shared/LessonViewer").then(m => ({ default: m.LessonViewer }))) as any;
 const LongDivisionTool = lazy(() => import("@/components/math/tools/LongDivisionTool").then(m => ({ default: m.LongDivisionTool }))) as any;
-const MathSnakeGame = lazy(() => import("@/components/math/games/MathSnakeGame").then(m => ({ default: m.MathSnakeGame }))) as any;
+const MathSnakeGame = lazy(() => import("@/components/math/games/snake/MathSnakeGame").then(m => ({ default: m.MathSnakeGame }))) as any;
 const AngleMatcher = lazy(() => import("@/components/math/grade-7/AngleMatcher").then(m => ({ default: m.AngleMatcher }))) as any;
 const ShapeClassifier = lazy(() => import("@/components/math/grade-4/ShapeClassifier").then(m => ({ default: m.ShapeClassifier }))) as any;
 const LineRelationships = lazy(() => import("@/components/math/grade-4/LineRelationships").then(m => ({ default: m.LineRelationships }))) as any;
@@ -41,7 +41,7 @@ const DivisibilityPowersModule = lazy(() => import("@/components/math/grade-6/Di
 const WordProblemsModule = lazy(() => import("@/components/math/grade-5/WordProblemsModule").then(m => ({ default: m.WordProblemsModule }))) as any;
 const TriangleClassifier = lazy(() => import("@/components/math/grade-6/TriangleClassifier").then(m => ({ default: m.TriangleClassifier }))) as any;
 const QuadrilateralClassifier = lazy(() => import("@/components/math/grade-6/QuadrilateralClassifier").then(m => ({ default: m.QuadrilateralClassifier }))) as any;
-const CirclePartsGame = lazy(() => import("@/components/math/games/CirclePartsGame").then(m => ({ default: m.CirclePartsGame }))) as any;
+const CirclePartsGame = lazy(() => import("@/components/math/grade-6/CirclePartsGame").then(m => ({ default: m.CirclePartsGame }))) as any;
 const TriangleAnglesQuiz = lazy(() => import("@/components/math/grade-7/TriangleAnglesQuiz").then(m => ({ default: m.TriangleAnglesQuiz }))) as any;
 const DecimalFractionsTool = lazy(() => import("@/components/math/tools/DecimalFractionsTool").then(m => ({ default: m.DecimalFractionsTool }))) as any;
 const NumberLineTool = lazy(() => import("@/components/math/tools/NumberLineTool").then(m => ({ default: m.NumberLineTool }))) as any;
@@ -58,24 +58,24 @@ const TotoTool = lazy(() => import("@/components/math/tools/TotoTool").then(m =>
 const SmartWhiteboardTool = lazy(() => import("@/components/math/tools/SmartWhiteboardTool").then(m => ({ default: m.SmartWhiteboardTool }))) as any;
 const GeometryModule = lazy(() => import("@/components/math/grade-5/GeometryModule").then(m => ({ default: m.GeometryModule }))) as any;
 const SymmetryQuiz = lazy(() => import("@/components/math/grade-6/SymmetryQuiz").then(m => ({ default: m.SymmetryQuiz }))) as any;
-const LogicBlocksGame = lazy(() => import("@/components/math/games/LogicBlocksGame").then(m => ({ default: m.LogicBlocksGame }))) as any;
-const VennDiagramGame = lazy(() => import("@/components/math/games/VennDiagramGame").then(m => ({ default: m.VennDiagramGame }))) as any;
-const GroupingGame = lazy(() => import("@/components/math/games/GroupingGame").then(m => ({ default: m.GroupingGame }))) as any;
-const NumberGroupingGame = lazy(() => import("@/components/math/games/NumberGroupingGame").then(m => ({ default: m.NumberGroupingGame }))) as any;
-const SudokuGame = lazy(() => import("@/components/math/games/SudokuGame").then(m => ({ default: m.SudokuGame }))) as any;
+const LogicBlocksGame = lazy(() => import("@/components/math/grade-1/LogicBlocksGame").then(m => ({ default: m.LogicBlocksGame }))) as any;
+const VennDiagramGame = lazy(() => import("@/components/math/grade-5/venn/VennDiagramGame").then(m => ({ default: m.VennDiagramGame }))) as any;
+const GroupingGame = lazy(() => import("@/components/math/grade-1/grouping/GroupingGame").then(m => ({ default: m.GroupingGame }))) as any;
+const NumberGroupingGame = lazy(() => import("@/components/math/grade-1/grouping/NumberGroupingGame").then(m => ({ default: m.NumberGroupingGame }))) as any;
+const SudokuGame = lazy(() => import("@/components/math/games/sudoku/SudokuGame").then(m => ({ default: m.SudokuGame }))) as any;
 const SudokuGeneratorTool = lazy(() => import("@/components/math/tools/SudokuGeneratorTool").then(m => ({ default: m.SudokuGeneratorTool }))) as any;
 const VennInterpretationQuiz = lazy(() => import("@/components/math/grade-5/VennInterpretationQuiz").then(m => ({ default: m.VennInterpretationQuiz }))) as any;
-const VennReadingGame = lazy(() => import("@/components/math/games/VennReadingGame").then(m => ({ default: m.VennReadingGame }))) as any;
-const AxialSymmetryGame = lazy(() => import("@/components/math/games/AxialSymmetryGame").then(m => ({ default: m.AxialSymmetryGame }))) as any;
-const SymmetryErrorGame = lazy(() => import("@/components/math/games/SymmetryErrorGame").then(m => ({ default: m.SymmetryErrorGame }))) as any;
+const VennReadingGame = lazy(() => import("@/components/math/grade-5/venn/VennReadingGame").then(m => ({ default: m.VennReadingGame }))) as any;
+const AxialSymmetryGame = lazy(() => import("@/components/math/grade-6/symmetry/AxialSymmetryGame").then(m => ({ default: m.AxialSymmetryGame }))) as any;
+const SymmetryErrorGame = lazy(() => import("@/components/math/grade-6/symmetry/SymmetryErrorGame").then(m => ({ default: m.SymmetryErrorGame }))) as any;
 const AxialSymmetryQuiz = lazy(() => import("@/components/math/grade-6/AxialSymmetryQuiz").then(m => ({ default: m.AxialSymmetryQuiz }))) as any;
 const SymmetryConstructionTool = lazy(() => import("@/components/math/tools/SymmetryConstructionTool").then(m => ({ default: m.SymmetryConstructionTool }))) as any;
 const AxialSymmetryPresentation = lazy(() => import("@/components/math/grade-6/AxialSymmetryPresentation").then(m => ({ default: m.AxialSymmetryPresentation }))) as any;
 const PerimeterAreaTool = lazy(() => import("@/components/math/tools/PerimeterAreaTool").then(m => ({ default: m.PerimeterAreaTool }))) as any;
 const StudentFeedbackHub = lazy(() => import("@/components/feedback/StudentFeedbackHub").then(m => ({ default: m.StudentFeedbackHub }))) as any;
 const WordSearchTool = lazy(() => import("@/components/math/tools/WordSearchTool").then(m => ({ default: m.WordSearchTool }))) as any;
-const ChessGame = lazy(() => import("@/components/math/games/ChessGame")) as any;
-const ColorSequenceGame = lazy(() => import("@/components/math/games/ColorSequenceGame")) as any;
+const ChessGame = lazy(() => import("@/components/math/games/chess/ChessGame")) as any;
+const ColorSequenceGame = lazy(() => import("@/components/math/games/color-sequence/ColorSequenceGame")) as any;
 const MatchingCreator = lazy(() => import("@/components/math/tools/MatchingCreator").then(m => ({ default: m.MatchingCreator }))) as any;
 const VolumeSurfaceTool = lazy(() => import("@/components/math/tools/VolumeSurfaceTool").then(m => ({ default: m.VolumeSurfaceTool }))) as any;
 const EquationBalanceQuiz = lazy(() => import("@/components/math/grade-7/EquationBalanceQuiz").then(m => ({ default: m.EquationBalanceQuiz }))) as any;
@@ -95,10 +95,11 @@ const Grade7StatsModule = lazy(() => import("@/components/math/grade-7/Grade7Sta
 const RatioIntroQuiz = lazy(() => import("@/components/math/grade-6/RatioIntroQuiz").then(m => ({ default: m.RatioIntroQuiz }))) as any;
 const RatioCreatorQuiz = lazy(() => import("@/components/math/grade-6/RatioCreatorQuiz").then(m => ({ default: m.RatioCreatorQuiz }))) as any;
 const DirectProportionQuiz = lazy(() => import("@/components/math/grade-6/DirectProportionQuiz").then(m => ({ default: m.DirectProportionQuiz }))) as any;
-const MatrixSortingGame = lazy(() => import("@/components/math/games/MatrixSortingGame").then(m => ({ default: m.MatrixSortingGame }))) as any;
-const MemoryGameComponent = lazy(() => import("@/components/math/games/MemoryGame")) as any;
-const HanoiGame = lazy(() => import("@/components/math/games/HanoiGame")) as any;
-const TorpedoGame = lazy(() => import("@/components/math/games/TorpedoGame")) as any;
+const MatrixSortingGame = lazy(() => import("@/components/math/grade-1/grouping/MatrixSortingGame").then(m => ({ default: m.MatrixSortingGame }))) as any;
+const MemoryGameComponent = lazy(() => import("@/components/math/games/memory/MemoryGame")) as any;
+const HanoiGame = lazy(() => import("@/components/math/games/hanoi/HanoiGame")) as any;
+const TorpedoGame = lazy(() => import("@/components/math/games/torpedo/TorpedoGame")) as any;
+const TowerBuilderGame = lazy(() => import("@/components/math/games/toronyepites/TowerBuilderGame").then(m => ({ default: m.TowerBuilderGame }))) as any;
 const ParallelogramAreaQuiz = lazy(() => import("@/components/math/grade-7/ParallelogramAreaQuiz").then(m => ({ default: m.ParallelogramAreaQuiz }))) as any;
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
@@ -346,6 +347,8 @@ const GAMES: ActivityConfig[] = [
     color: 'bg-amber-50 dark:bg-amber-900/20'
   },
   { id: 'snake-game', title: 'Matek Kígyó', desc: 'Gyűjtsd össze a helyes válaszokat a kígyóval!', icon: <span className="text-3xl">🐍</span>, color: 'bg-emerald-100 border-emerald-200' },
+  { id: 'tower-builder', title: 'Toronyépítő', desc: 'Építs tornyokat Dienes-tömbökből és számolj!', icon: <span className="text-3xl">🏗️</span>, color: 'bg-blue-100 border-blue-200 text-blue-700' },
+  { id: 'coloring', title: 'Számolj és Színezz!', desc: 'Számold ki az eredményt és színezd ki a képeket!', icon: <span className="text-3xl">🎨</span>, color: 'bg-pink-100 border-pink-200 text-pink-700' },
   { id: 'memory-game', title: 'Memóriajáték', desc: 'Jegyezd meg az ábrákat és teszteld a memóriád!', icon: <Brain className="w-8 h-8" />, color: 'bg-indigo-100 border-indigo-200 text-indigo-600' },
   { id: 'color-sequence-game', title: 'Szín-sorrend emlékezet', desc: 'Ismételd meg a villogó színes gombok sorrendjét!', icon: <Brain className="w-8 h-8 text-pink-500 animate-pulse" />, color: 'bg-pink-50 dark:bg-pink-900/20 text-pink-600 border-pink-200' },
   { id: 'chess-game', title: 'Sakk Mester', desc: 'Játssz a gép ellen vagy hívd ki barátaidat!', icon: <span className="text-3xl">♟️</span>, color: 'bg-slate-100 border-slate-200 text-slate-700' },
@@ -2602,7 +2605,7 @@ export default function MathPage() {
       ) : null}
 
       {/* Professional Sub-header for Navigation (no gap) */}
-      {activityType !== 'symmetry-construction' && activityType !== 'snake-game' && selectedGrade !== 'admission' && selectedGrade !== 'graduation' && (
+      {activityType !== 'symmetry-construction' && activityType !== 'snake-game' && activityType !== 'tower-builder' && selectedGrade !== 'admission' && selectedGrade !== 'graduation' && (
         <div className={cn(
           "w-full transition-all duration-300",
           view !== 'main-select' ? "h-10 opacity-100" : "h-0 opacity-0 overflow-hidden"
@@ -2652,13 +2655,13 @@ export default function MathPage() {
 
       {/* Content */}
       <div className={cn(
-        (activityType !== 'perimeter-area' && activityType !== 'snake-game' && !(isUpperGradeLayout && view === 'topic-select')) && "container mx-auto px-4 py-8",
+        (activityType !== 'perimeter-area' && activityType !== 'snake-game' && activityType !== 'tower-builder' && !(isUpperGradeLayout && view === 'topic-select')) && "container mx-auto px-4 py-8",
         "transition-all duration-500",
         (isUpperGradeLayout && view === 'topic-select')
           ? "w-full p-0 max-w-none flex-1 overflow-hidden"
-          : (activityType === 'perimeter-area' || activityType === 'snake-game'
+          : (activityType === 'perimeter-area' || activityType === 'snake-game' || activityType === 'tower-builder'
             ? "max-w-none p-0 w-full h-full"
-            : ((view === 'activity' || view === 'topic-select' || view === 'tools-select' || view === 'main-select' || view === 'competency-select')
+            : ((view === 'activity' || view === 'topic-select' || view === 'tools-select' || view === 'games-select' || view === 'main-select' || view === 'competency-select')
               ? "max-w-none lg:px-12"
               : "max-w-4xl"
             )
@@ -3497,12 +3500,17 @@ export default function MathPage() {
         })()}
 
         {view === 'games-select' && (
-          <div className="animate-slide-up">
-            <h2 className="font-display text-2xl font-bold mb-8 text-center flex items-center justify-center gap-3">
-              <Sparkles className="w-7 h-7 text-pink-500" />
-              Matematikai Játékok
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="animate-slide-up w-full">
+            <div className="text-center mb-8">
+              <h2 className="font-display text-2xl sm:text-3xl font-black text-slate-800 flex items-center justify-center gap-3 mb-2">
+                <Sparkles className="w-8 h-8 text-pink-500 animate-pulse" />
+                Matematikai Játékok
+              </h2>
+              <p className="text-sm text-slate-500 font-medium max-w-xl mx-auto">
+                Fejleszd a logikád, gyakorold a számolást és játssz önállóan vagy barátaiddal!
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 sm:gap-5 w-full">
               {GAMES.map(game => (
                 <ToolCard
                   key={game.id}
@@ -3513,11 +3521,6 @@ export default function MathPage() {
                   onClick={() => handleActivitySelect(game.id as ActivityType)}
                 />
               ))}
-              <div className="p-6 bg-white/50 rounded-2xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center text-center opacity-70">
-                <div className="text-3xl mb-2">🏗️</div>
-                <p className="text-sm font-bold text-slate-500">Toronyépítő</p>
-                <p className="text-xs text-slate-400">Hamarosan érkezik...</p>
-              </div>
             </div>
           </div>
         )}
@@ -3628,6 +3631,14 @@ export default function MathPage() {
 
                 {activityType === 'snake-game' && (
                   <MathSnakeGame onBack={handleBack} grade={typeof selectedGrade === 'number' ? selectedGrade : 3} />
+                )}
+
+                {(activityType === 'tower-builder' || activityType === 'grade2-blocks' || activityType === 'grade3-blocks' || activityType === 'grade3-tower-builder') && (
+                  <TowerBuilderGame onBack={handleBack} grade={typeof selectedGrade === 'number' && selectedGrade <= 4 ? selectedGrade : 1} />
+                )}
+
+                {(activityType === 'coloring' || activityType === 'grade2-coloring' || activityType === 'grade3-coloring') && (
+                  <MathColoringGame onBack={handleBack} grade={typeof selectedGrade === 'number' && selectedGrade <= 4 ? selectedGrade : 1} />
                 )}
 
                 {activityType === 'long-division' && (
@@ -3944,7 +3955,7 @@ export default function MathPage() {
           </Suspense>
         </div>
       )}
-        {activityType !== 'snake-game' && !isUpperGradeLayout && view !== 'competency-select' && ((activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'volume-surface' && activityType !== 'student-feedback' && activityType !== 'volume-quiz' && activityType !== 'surface-area-quiz' && activityType !== 'unit-converter' && activityType !== 'capacity-converter' && activityType !== 'analog-clock' && activityType !== 'g7-mapping-quiz' && activityType !== 'g7-function-table-quiz') || view !== 'activity') && <SiteFooter />}
+        {activityType !== 'snake-game' && activityType !== 'tower-builder' && !isUpperGradeLayout && view !== 'competency-select' && ((activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'volume-surface' && activityType !== 'student-feedback' && activityType !== 'volume-quiz' && activityType !== 'surface-area-quiz' && activityType !== 'unit-converter' && activityType !== 'capacity-converter' && activityType !== 'analog-clock' && activityType !== 'g7-mapping-quiz' && activityType !== 'g7-function-table-quiz') || view !== 'activity') && <SiteFooter />}
         {activeMaterial && (
           <LessonViewer material={activeMaterial} onClose={() => handleMaterialSelect(null)} />
         )}
@@ -3967,14 +3978,14 @@ function ToolCard({ title, desc, icon, color, onClick }: ToolCardProps) {
   return (
     <button
       onClick={onClick}
-      className="flex items-center gap-6 p-6 bg-card rounded-2xl border-2 border-border hover:border-primary transition-all text-left shadow-sm group"
+      className="flex items-center gap-4 sm:gap-5 p-5 sm:p-6 bg-white rounded-3xl border-2 border-slate-100 hover:border-primary/40 hover:shadow-xl hover:-translate-y-1 transition-all duration-200 text-left shadow-sm group w-full"
     >
-      <div className={cn("p-4 rounded-xl transition-transform group-hover:scale-110", color)}>
+      <div className={cn("p-3.5 sm:p-4 rounded-2xl transition-transform group-hover:scale-110 flex-shrink-0 shadow-sm flex items-center justify-center", color)}>
         {icon}
       </div>
-      <div>
-        <h3 className="font-display font-bold text-lg">{title}</h3>
-        <p className="text-sm text-muted-foreground leading-snug">{desc}</p>
+      <div className="min-w-0 flex-1">
+        <h3 className="font-display font-bold text-base sm:text-lg text-slate-800 group-hover:text-primary transition-colors">{title}</h3>
+        <p className="text-xs sm:text-sm text-slate-500 leading-snug line-clamp-2 mt-0.5">{desc}</p>
       </div>
     </button>
   );
