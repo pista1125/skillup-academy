@@ -14,9 +14,40 @@ interface Material {
 
 const FIREBASE_STORAGE_BASE = "https://firebasestorage.googleapis.com/v0/b/diakzona.firebasestorage.app/o";
 
-const getStorageUrl = (folder: string, fileName: string) => {
+export const getStorageUrl = (folder: string, fileName: string) => {
     return `${FIREBASE_STORAGE_BASE}/${encodeURIComponent(folder)}%2F${encodeURIComponent(fileName)}?alt=media`;
 };
+
+export const GRADE_1_MATERIALS: Material[] = [
+    {
+        id: 'mat01ta1',
+        title: 'Matematika 1. Tankönyv I. kötet',
+        description: 'Általános iskolai tankönyv 1. évfolyam I. kötet (OH-MAT01TA_I)',
+        fileName: 'OH-MAT01TA_I__teljes.pdf',
+        path: getStorageUrl('1_osztaly', 'OH-MAT01TA_I__teljes.pdf')
+    },
+    {
+        id: 'mat01ta2',
+        title: 'Matematika 1. Tankönyv II. kötet',
+        description: 'Általános iskolai tankönyv 1. évfolyam II. kötet (OH-MAT01TA_II)',
+        fileName: 'OH-MAT01TA_II__teljes.pdf',
+        path: getStorageUrl('1_osztaly', 'OH-MAT01TA_II__teljes.pdf')
+    },
+    {
+        id: 'mat01ma1',
+        title: 'Matematika 1. Munkafüzet I. kötet',
+        description: 'Általános iskolai munkafüzet 1. évfolyam I. kötet (OH-MAT01MA_I)',
+        fileName: 'OH-MAT01MA_I__teljes.pdf',
+        path: getStorageUrl('1_osztaly', 'OH-MAT01MA_I__teljes.pdf')
+    },
+    {
+        id: 'mat01ma2',
+        title: 'Matematika 1. Munkafüzet II. kötet',
+        description: 'Általános iskolai munkafüzet 1. évfolyam II. kötet (OH-MAT01MA_II)',
+        fileName: 'OH-MAT01MA_II__teljes.pdf',
+        path: getStorageUrl('1_osztaly', 'OH-MAT01MA_II__teljes.pdf')
+    }
+];
 
 const GRADE_4_MATERIALS: Material[] = [
     {
@@ -142,13 +173,14 @@ interface MaterialGalleryProps {
 
 export function MaterialGallery({ grade, onView, initialMaterialId }: MaterialGalleryProps) {
     const materials =
+        (grade === 1 || grade === '1') ? GRADE_1_MATERIALS :
         grade === 4 ? GRADE_4_MATERIALS :
         grade === 5 ? GRADE_5_MATERIALS :
         grade === 6 ? GRADE_6_MATERIALS :
         grade === 7 ? GRADE_7_MATERIALS :
         grade === 8 ? GRADE_8_MATERIALS :
         (grade === 'high-1' || grade === 9) ? GRADE_9_MATERIALS :
-        GRADE_7_MATERIALS;
+        GRADE_1_MATERIALS;
 
     useEffect(() => {
         if (initialMaterialId) {
