@@ -1,0 +1,15 @@
+# II. Sorozatok (12. osztály)
+- A számsorozat fogalma, megadási módjai (explicit képlet, rekurzív megadás)
+- Sorozatok vizsgálata: monotonitás, korlátosság, határérték szemlélete
+- Számtani sorozatok:
+  - Definíció, differencia (d)
+  - n-edik tag kiszámítása: a_n = a_1 + (n - 1)d
+  - Első n tag összege: S_n = ((a_1 + a_n) / 2) · n
+- Mértani sorozatok:
+  - Definíció, hányados (q)
+  - n-edik tag kiszámítása: a_n = a_1 · q^(n - 1)
+  - Első n tag összege: S_n = a_1 · (q^n - 1) / (q - 1)
+- Pénzügyi matematikai alkalmazások:
+  - Egyszerű és kamatos kamatszámítás
+  - Gyűjtőjáradék és örökjáradék
+  - Hiteltörlesztés, törlesztőrészlet és annuitás

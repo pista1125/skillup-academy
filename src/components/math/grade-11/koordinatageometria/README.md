@@ -1,0 +1,11 @@
+# VI. Koordinátageometria (11. osztály)
+- Vektorok koordinátái a síkban, műveletek síkvektorokkal (összeadás, kivonás, skalárral szorzás)
+- Két pont távolsága, szakasz felezőpontjának és harmadolópontjának koordinátái
+- Vektorok skaláris szorzata, hajlásszögének meghatározása, merőlegességi feltétel: a · b = 0
+- Az egyenes egyenletei:
+  - Normálvektoros egyenlet: Ax + By = Ax₀ + By₀
+  - Irányvektoros és iránytényezős (meredekséges) alak: y - y₀ = m(x - x₀)
+- Két egyenes metszéspontja, párhuzamosság és merőlegesség feltétele
+- Pont és egyenes távolsága
+- A kör egyenlete: (x - u)² + (y - v)² = r²
+- Kör és egyenes metszéspontjai, kör érintőjének egyenlete adott pontban
