@@ -49,6 +49,61 @@ export const GRADE_1_MATERIALS: Material[] = [
     }
 ];
 
+export const GRADE_2_MATERIALS: Material[] = [
+    {
+        id: 'mat02ta1',
+        title: 'Matematika 2. Tankönyv I. kötet',
+        description: 'Általános iskolai tankönyv 2. évfolyam I. kötet (OH-MAT02TA_I)',
+        fileName: 'OH-MAT02TA_I__teljes.pdf',
+        path: getStorageUrl('2_osztaly', 'OH-MAT02TA_I__teljes.pdf')
+    },
+    {
+        id: 'mat02ta2',
+        title: 'Matematika 2. Tankönyv II. kötet',
+        description: 'Általános iskolai tankönyv 2. évfolyam II. kötet (OH-MAT02TA_II)',
+        fileName: 'OH-MAT02TA_II__teljes.pdf',
+        path: getStorageUrl('2_osztaly', 'OH-MAT02TA_II__teljes.pdf')
+    },
+    {
+        id: 'mat02ma1',
+        title: 'Matematika 2. Munkafüzet I. kötet',
+        description: 'Általános iskolai munkafüzet 2. évfolyam I. kötet (OH-MAT02MA_I)',
+        fileName: 'OH-MAT02MA_I__teljes.pdf',
+        path: getStorageUrl('2_osztaly', 'OH-MAT02MA_I__teljes.pdf')
+    },
+    {
+        id: 'mat02ma2',
+        title: 'Matematika 2. Munkafüzet II. kötet',
+        description: 'Általános iskolai munkafüzet 2. évfolyam II. kötet (OH-MAT02MA_II)',
+        fileName: 'OH-MAT02MA_II__teljes.pdf',
+        path: getStorageUrl('2_osztaly', 'OH-MAT02MA_II__teljes.pdf')
+    }
+];
+
+export const GRADE_3_MATERIALS: Material[] = [
+    {
+        id: 'mat03ta',
+        title: 'Matematika 3. Tankönyv',
+        description: 'Általános iskolai tankönyv harmadik évfolyam számára (OH-MAT03TA)',
+        fileName: 'OH-MAT03TA__teljes.pdf',
+        path: getStorageUrl('3_osztaly', 'OH-MAT03TA__teljes.pdf')
+    },
+    {
+        id: 'mat03ma1',
+        title: 'Matematika 3. Munkafüzet I. kötet',
+        description: 'Általános iskolai munkafüzet I. kötet harmadik évfolyam számára (OH-MAT03MA_I)',
+        fileName: 'OH-MAT03MA_I__teljes.pdf',
+        path: getStorageUrl('3_osztaly', 'OH-MAT03MA_I__teljes.pdf')
+    },
+    {
+        id: 'mat03ma2',
+        title: 'Matematika 3. Munkafüzet II. kötet',
+        description: 'Általános iskolai munkafüzet II. kötet harmadik évfolyam számára (OH-MAT03MA_II)',
+        fileName: 'OH-MAT03MA_II__teljes.pdf',
+        path: getStorageUrl('3_osztaly', 'OH-MAT03MA_II__teljes.pdf')
+    }
+];
+
 const GRADE_4_MATERIALS: Material[] = [
     {
         id: 'mat04ta',
@@ -141,17 +196,17 @@ const GRADE_8_MATERIALS: Material[] = [
     }
 ];
 
-const GRADE_9_MATERIALS: Material[] = [
+export const GRADE_9_MATERIALS: Material[] = [
     {
         id: 'mat09ta1',
-        title: 'Matematika 9. I. kötet',
+        title: 'Matematika 9. Tankönyv I. kötet',
         description: 'Középiskolai tankönyv 9. évfolyam I. kötet (OH-MAT09TA_I)',
         fileName: 'OH-MAT09TA_I__teljes.pdf',
         path: getStorageUrl('9_osztaly', 'OH-MAT09TA_I__teljes.pdf')
     },
     {
         id: 'mat09ta2',
-        title: 'Matematika 9. II. kötet',
+        title: 'Matematika 9. Tankönyv II. kötet',
         description: 'Középiskolai tankönyv 9. évfolyam II. kötet (OH-MAT09TA_II)',
         fileName: 'OH-MAT09TA_II__teljes.pdf',
         path: getStorageUrl('9_osztaly', 'OH-MAT09TA_II__teljes.pdf')
@@ -162,6 +217,130 @@ const GRADE_9_MATERIALS: Material[] = [
         description: 'Részletes feladatmegoldások a 9. osztályos II. kötethez (OH-MAT09-TA_II)',
         fileName: 'OH-MAT09-TA_II-Megoldások-OA-2023-10-18.pdf',
         path: getStorageUrl('9_osztaly', 'OH-MAT09-TA_II-Megoldások-OA-2023-10-18.pdf')
+    },
+    {
+        id: 'mat09ae',
+        title: 'Matematika 9–12. Az emelt szintű érettségihez',
+        description: 'Középiskolai tananyag az emelt szintű érettségihez (OH-MAT912AE)',
+        fileName: 'OH-MAT912AE__teljes.pdf',
+        path: getStorageUrl('9_osztaly', 'OH-MAT912AE__teljes.pdf')
+    }
+];
+
+export const GRADE_10_MATERIALS: Material[] = [
+    {
+        id: 'mat10ta1',
+        title: 'Matematika 10. Tankönyv I. kötet',
+        description: 'Középiskolai tankönyv 10. évfolyam I. kötet (OH-MAT10TA_I)',
+        fileName: 'OH-MAT10TA_I__teljes.pdf',
+        path: getStorageUrl('10_osztaly', 'OH-MAT10TA_I__teljes.pdf')
+    },
+    {
+        id: 'mat10ta2',
+        title: 'Matematika 10. Tankönyv II. kötet',
+        description: 'Középiskolai tankönyv 10. évfolyam II. kötet (OH-MAT10TA_II)',
+        fileName: 'OH-MAT10TA_II__teljes.pdf',
+        path: getStorageUrl('10_osztaly', 'OH-MAT10TA_II__teljes.pdf')
+    },
+    {
+        id: 'mat10fgv',
+        title: 'Négyjegyű függvénytáblázatok 9–12.',
+        description: 'Matematikai, fizikai, kémiai összefüggések és adatok (OH-FGV912GY)',
+        fileName: 'OH-FGV912GY__teljes.pdf',
+        path: getStorageUrl('10_osztaly', 'OH-FGV912GY__teljes.pdf')
+    },
+    {
+        id: 'mat10gy',
+        title: 'Matematika 9–12. Gyakorló és feladatgyűjtemény',
+        description: 'Gyakorló és érettségire felkészítő feladatgyűjtemény (OH-MAT912GY)',
+        fileName: 'OH-MAT912GY__teljes.pdf',
+        path: getStorageUrl('10_osztaly', 'OH-MAT912GY__teljes.pdf')
+    },
+    {
+        id: 'mat10ae',
+        title: 'Matematika 9–12. Az emelt szintű érettségihez',
+        description: 'Középiskolai tananyag az emelt szintű érettségihez (OH-MAT912AE)',
+        fileName: 'OH-MAT912AE__teljes.pdf',
+        path: getStorageUrl('10_osztaly', 'OH-MAT912AE__teljes.pdf')
+    },
+    {
+        id: 'mat10sne',
+        title: 'Matematika 10. SNI Munkafüzet 2. kötet',
+        description: 'Sajátos nevelési igényű tanulók számára készült munkafüzet (OH-SNE-MAT10M-2)',
+        fileName: 'OH-SNE-MAT10M-2__teljes.pdf',
+        path: getStorageUrl('10_osztaly', 'OH-SNE-MAT10M-2__teljes.pdf')
+    }
+];
+
+export const GRADE_11_MATERIALS: Material[] = [
+    {
+        id: 'mat11ta',
+        title: 'Matematika 11. Tankönyv',
+        description: 'Középiskolai tankönyv 11. évfolyam számára (OH-MAT11TA)',
+        fileName: 'OH-MAT11TA__teljes.pdf',
+        path: getStorageUrl('11_osztaly', 'OH-MAT11TA__teljes.pdf')
+    },
+    {
+        id: 'mat11fgv',
+        title: 'Négyjegyű függvénytáblázatok 9–12.',
+        description: 'Matematikai, fizikai, kémiai összefüggések és adatok (OH-FGV912GY)',
+        fileName: 'OH-FGV912GY__teljes.pdf',
+        path: getStorageUrl('11_osztaly', 'OH-FGV912GY__teljes.pdf')
+    },
+    {
+        id: 'mat11ae',
+        title: 'Matematika 9–12. Az emelt szintű érettségihez',
+        description: 'Középiskolai tananyag az emelt szintű érettségihez (OH-MAT912AE)',
+        fileName: 'OH-MAT912AE__teljes.pdf',
+        path: getStorageUrl('11_osztaly', 'OH-MAT912AE__teljes.pdf')
+    }
+];
+
+export const GRADE_12_MATERIALS: Material[] = [
+    {
+        id: 'mat12gy',
+        title: 'Matematika 9–12. Gyakorló és feladatgyűjtemény',
+        description: 'Gyakorló és érettségire felkészítő feladatgyűjtemény (OH-MAT912GY)',
+        fileName: 'OH-MAT912GY__teljes.pdf',
+        path: getStorageUrl('12_osztaly', 'OH-MAT912GY__teljes.pdf')
+    },
+    {
+        id: 'mat12fgv',
+        title: 'Négyjegyű függvénytáblázatok 9–12.',
+        description: 'Matematikai, fizikai, kémiai összefüggések és adatok (OH-FGV912GY)',
+        fileName: 'OH-FGV912GY__teljes.pdf',
+        path: getStorageUrl('12_osztaly', 'OH-FGV912GY__teljes.pdf')
+    },
+    {
+        id: 'mat12ae',
+        title: 'Matematika 9–12. Az emelt szintű érettségihez',
+        description: 'Középiskolai tananyag az emelt szintű érettségihez (OH-MAT912AE)',
+        fileName: 'OH-MAT912AE__teljes.pdf',
+        path: getStorageUrl('12_osztaly', 'OH-MAT912AE__teljes.pdf')
+    }
+];
+
+export const GRADUATION_MATERIALS: Material[] = [
+    {
+        id: 'grad_gy',
+        title: 'Matematika 9–12. Gyakorló és feladatgyűjtemény',
+        description: 'Gyakorló és érettségire felkészítő feladatgyűjtemény (OH-MAT912GY)',
+        fileName: 'OH-MAT912GY__teljes.pdf',
+        path: getStorageUrl('12_osztaly', 'OH-MAT912GY__teljes.pdf')
+    },
+    {
+        id: 'grad_fgv',
+        title: 'Négyjegyű függvénytáblázatok 9–12.',
+        description: 'Hivatalos érettségi négyjegyű függvénytáblázatok (OH-FGV912GY)',
+        fileName: 'OH-FGV912GY__teljes.pdf',
+        path: getStorageUrl('12_osztaly', 'OH-FGV912GY__teljes.pdf')
+    },
+    {
+        id: 'grad_ae',
+        title: 'Matematika 9–12. Az emelt szintű érettségihez',
+        description: 'Középiskolai tananyag az emelt szintű érettségihez (OH-MAT912AE)',
+        fileName: 'OH-MAT912AE__teljes.pdf',
+        path: getStorageUrl('12_osztaly', 'OH-MAT912AE__teljes.pdf')
     }
 ];
 
@@ -174,12 +353,18 @@ interface MaterialGalleryProps {
 export function MaterialGallery({ grade, onView, initialMaterialId }: MaterialGalleryProps) {
     const materials =
         (grade === 1 || grade === '1') ? GRADE_1_MATERIALS :
-        grade === 4 ? GRADE_4_MATERIALS :
-        grade === 5 ? GRADE_5_MATERIALS :
-        grade === 6 ? GRADE_6_MATERIALS :
-        grade === 7 ? GRADE_7_MATERIALS :
-        grade === 8 ? GRADE_8_MATERIALS :
-        (grade === 'high-1' || grade === 9) ? GRADE_9_MATERIALS :
+        (grade === 2 || grade === '2') ? GRADE_2_MATERIALS :
+        (grade === 3 || grade === '3') ? GRADE_3_MATERIALS :
+        (grade === 4 || grade === '4') ? GRADE_4_MATERIALS :
+        (grade === 5 || grade === '5') ? GRADE_5_MATERIALS :
+        (grade === 6 || grade === '6') ? GRADE_6_MATERIALS :
+        (grade === 7 || grade === '7') ? GRADE_7_MATERIALS :
+        (grade === 8 || grade === '8') ? GRADE_8_MATERIALS :
+        (grade === 'high-1' || grade === 9 || grade === '9') ? GRADE_9_MATERIALS :
+        (grade === 'high-2' || grade === 10 || grade === '10') ? GRADE_10_MATERIALS :
+        (grade === 'high-3' || grade === 11 || grade === '11') ? GRADE_11_MATERIALS :
+        (grade === 'high-4' || grade === 12 || grade === '12') ? GRADE_12_MATERIALS :
+        (grade === 'graduation') ? GRADUATION_MATERIALS :
         GRADE_1_MATERIALS;
 
     useEffect(() => {

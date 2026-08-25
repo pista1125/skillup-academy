@@ -83,12 +83,14 @@ const MD_PLUGINS = {
 };
 
 import { MathAiChatbot } from '../ai/MathAiChatbot';
+import { MaterialGallery } from '@/components/math/shared/MaterialGallery';
+import { LessonViewer } from '@/components/math/shared/LessonViewer';
 
 interface GraduationPrepProps {
   onBack: () => void;
 }
 
-type TabType = 'lesson' | 'ai-assistant' | 'videos' | 'quiz' | 'papers';
+type TabType = 'lesson' | 'ai-assistant' | 'videos' | 'quiz' | 'papers' | 'materials';
 
 export default function GraduationPrep({ onBack }: GraduationPrepProps) {
   // Sidebar states
@@ -96,6 +98,7 @@ export default function GraduationPrep({ onBack }: GraduationPrepProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedTopicId, setSelectedTopicId] = useState<string>('g-methods-sets');
   const [selectedSubtopicId, setSelectedSubtopicId] = useState<string>('g-sets');
+  const [activeMaterial, setActiveMaterial] = useState<{ title: string; path: string } | null>(null);
 
   // Exam prep level: intermediate (középszint) or advanced (emelt szint)
   const [level, setLevel] = useState<'intermediate' | 'advanced'>('intermediate');
@@ -587,6 +590,21 @@ export default function GraduationPrep({ onBack }: GraduationPrepProps) {
           >
             <Calendar className="w-4 h-4" />
             Érettségi Feladatsorok
+          </Button>
+
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setActiveTab('materials')}
+            className={cn(
+              "rounded-xl text-xs font-bold gap-2 px-4 flex-shrink-0 transition-all",
+              activeTab === 'materials'
+                ? "bg-purple-50 text-purple-700 hover:bg-purple-100 border-b-2 border-purple-600 rounded-b-none"
+                : "text-slate-600 hover:bg-slate-100"
+            )}
+          >
+            <BookOpen className="w-4 h-4" />
+            Tankönyvek & Függvénytáblázat 📚
           </Button>
         </div>
 
@@ -1270,6 +1288,36 @@ export default function GraduationPrep({ onBack }: GraduationPrepProps) {
                   </Card>
                 ))}
               </div>
+            </div>
+          )}
+
+          {/* Textbooks & Formula Booklet Tab */}
+          {activeTab === 'materials' && (
+            <div className="animate-slide-up text-left space-y-6">
+              <div className="bg-gradient-to-r from-purple-50 via-indigo-50 to-blue-50 border border-purple-100 rounded-3xl p-6 shadow-sm">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="p-3 bg-white rounded-2xl shadow-xs border border-purple-100 text-purple-600">
+                    <BookOpen className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-black text-slate-800">
+                      Középiskolai és Érettségi Segédanyagok
+                    </h3>
+                    <p className="text-xs text-slate-500 font-medium">
+                      Hivatalos négyjegyű függvénytáblázat, emelt szintű érettségi tananyag és gyakorló feladatgyűjtemény
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <MaterialGallery
+                grade="graduation"
+                onView={(mat) => setActiveMaterial(mat)}
+              />
+
+              {activeMaterial && (
+                <LessonViewer material={activeMaterial} onClose={() => setActiveMaterial(null)} />
+              )}
             </div>
           )}
         </div>

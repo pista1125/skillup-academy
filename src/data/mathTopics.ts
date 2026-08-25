@@ -16,7 +16,7 @@ export const mathTopics: MathTopic[] = [
     description: 'Tankönyvek letöltése és interaktív tanórai használata',
     icon: '📚',
     color: 'from-indigo-500 to-purple-600',
-    grades: [1, 2, 3, 4, 5, 6, 7, 8, 'high-1'],
+    grades: [1, 2, 3, 4, 5, 6, 7, 8, 'high-1', 'high-2', 'high-3', 'high-4', 'graduation', 'admission', 9, 10, 11, 12],
   },
   // 6. osztályos témakörök (Roman numerals as requested)
   {
