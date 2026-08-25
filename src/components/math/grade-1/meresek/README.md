@@ -1,0 +1,6 @@
+# IV. Mérések (1. osztály)
+- Hosszúság mérése (cm, m)
+- Tömeg mérése (kg, dkg)
+- Űrtartalom mérése (l, dl)
+- Idő mérése (óra, napszakok, napok)
+- Pénzhasználat (forint, érmék)

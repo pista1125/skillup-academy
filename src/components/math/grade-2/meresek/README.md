@@ -1,0 +1,6 @@
+# VI. Mérések és időmérés (2. osztály)
+- Idő mérése (óra, perc, napszakok, naptár)
+- Hosszúság mérése (m, dm, cm, mm)
+- Tömeg mérése (kg, dkg)
+- Űrtartalom mérése (l, dl, cl)
+- Pénzhasználat (Ft, pénzérmék és bankjegyek)

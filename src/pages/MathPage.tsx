@@ -18,37 +18,37 @@ import { OnlineTutoringModal } from '@/components/tutoring/OnlineTutoringModal';
 const CompetencyMatrixHub = lazy(() => import("@/components/math/competency-matrix/CompetencyMatrixHub")) as any;
 const GraduationPrep = lazy(() => import("@/components/math/graduation/GraduationPrep")) as any;
 const AdmissionPrep = lazy(() => import("@/components/math/admission/AdmissionPrep")) as any;
-const DecimalFractionsQuiz = lazy(() => import("@/components/math/grade-5/DecimalFractionsQuiz")) as any;
-const DecimalMultiplicationQuiz = lazy(() => import("@/components/math/grade-5/DecimalMultiplicationQuiz")) as any;
-const DecimalDivisionQuiz = lazy(() => import("@/components/math/grade-5/DecimalDivisionQuiz")) as any;
+const DecimalFractionsQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/DecimalFractionsQuiz")) as any;
+const DecimalMultiplicationQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/DecimalMultiplicationQuiz")) as any;
+const DecimalDivisionQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/DecimalDivisionQuiz")) as any;
 const MathQuiz = lazy(() => import("@/components/math/shared/MathQuiz").then(m => ({ default: m.MathQuiz }))) as any;
 const FractionVisualizer = lazy(() => import("@/components/math/tools/FractionVisualizer").then(m => ({ default: m.FractionVisualizer }))) as any;
-const FractionsModule = lazy(() => import("@/components/math/grade-4/FractionsModule").then(m => ({ default: m.FractionsModule }))) as any;
+const FractionsModule = lazy(() => import("@/components/math/grade-4/tortszamok/FractionsModule").then(m => ({ default: m.FractionsModule }))) as any;
 const Grade1MathModule = lazy(() => import("@/components/math/grade-1/Grade1MathModule").then(m => ({ default: m.Grade1MathModule }))) as any;
 const Grade2MathModule = lazy(() => import("@/components/math/grade-2/Grade2MathModule").then(m => ({ default: m.Grade2MathModule }))) as any;
 const Grade3MathModule = lazy(() => import("@/components/math/grade-3/Grade3MathModule").then(m => ({ default: m.Grade3MathModule }))) as any;
-const AlgebraQuiz = lazy(() => import("@/components/math/grade-7/AlgebraQuiz").then(m => ({ default: m.AlgebraQuiz }))) as any;
+const AlgebraQuiz = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/AlgebraQuiz").then(m => ({ default: m.AlgebraQuiz }))) as any;
 const MathColoringGame = lazy(() => import("@/components/math/games/coloring/MathColoringGame").then(m => ({ default: m.MathColoringGame }))) as any;
 const DivisibilityTool = lazy(() => import("@/components/math/tools/DivisibilityTool").then(m => ({ default: m.DivisibilityTool }))) as any;
 const MaterialGallery = lazy(() => import("@/components/math/shared/MaterialGallery").then(m => ({ default: m.MaterialGallery }))) as any;
 const LessonViewer = lazy(() => import("@/components/math/shared/LessonViewer").then(m => ({ default: m.LessonViewer }))) as any;
 const LongDivisionTool = lazy(() => import("@/components/math/tools/LongDivisionTool").then(m => ({ default: m.LongDivisionTool }))) as any;
 const MathSnakeGame = lazy(() => import("@/components/math/games/snake/MathSnakeGame").then(m => ({ default: m.MathSnakeGame }))) as any;
-const AngleMatcher = lazy(() => import("@/components/math/grade-7/AngleMatcher").then(m => ({ default: m.AngleMatcher }))) as any;
-const ShapeClassifier = lazy(() => import("@/components/math/grade-4/ShapeClassifier").then(m => ({ default: m.ShapeClassifier }))) as any;
-const LineRelationships = lazy(() => import("@/components/math/grade-4/LineRelationships").then(m => ({ default: m.LineRelationships }))) as any;
-const DivisibilityPowersModule = lazy(() => import("@/components/math/grade-6/DivisibilityPowersModule").then(m => ({ default: m.DivisibilityPowersModule }))) as any;
-const WordProblemsModule = lazy(() => import("@/components/math/grade-5/WordProblemsModule").then(m => ({ default: m.WordProblemsModule }))) as any;
-const TriangleClassifier = lazy(() => import("@/components/math/grade-6/TriangleClassifier").then(m => ({ default: m.TriangleClassifier }))) as any;
-const QuadrilateralClassifier = lazy(() => import("@/components/math/grade-6/QuadrilateralClassifier").then(m => ({ default: m.QuadrilateralClassifier }))) as any;
-const CirclePartsGame = lazy(() => import("@/components/math/grade-6/CirclePartsGame").then(m => ({ default: m.CirclePartsGame }))) as any;
-const TriangleAnglesQuiz = lazy(() => import("@/components/math/grade-7/TriangleAnglesQuiz").then(m => ({ default: m.TriangleAnglesQuiz }))) as any;
+const AngleMatcher = lazy(() => import("@/components/math/grade-7/geometria/AngleMatcher").then(m => ({ default: m.AngleMatcher }))) as any;
+const ShapeClassifier = lazy(() => import("@/components/math/grade-4/sikidomok-testek/ShapeClassifier").then(m => ({ default: m.ShapeClassifier }))) as any;
+const LineRelationships = lazy(() => import("@/components/math/grade-4/sikidomok-testek/LineRelationships").then(m => ({ default: m.LineRelationships }))) as any;
+const DivisibilityPowersModule = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/DivisibilityPowersModule").then(m => ({ default: m.DivisibilityPowersModule }))) as any;
+const WordProblemsModule = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/WordProblemsModule").then(m => ({ default: m.WordProblemsModule }))) as any;
+const TriangleClassifier = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/TriangleClassifier").then(m => ({ default: m.TriangleClassifier }))) as any;
+const QuadrilateralClassifier = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/QuadrilateralClassifier").then(m => ({ default: m.QuadrilateralClassifier }))) as any;
+const CirclePartsGame = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/CirclePartsGame").then(m => ({ default: m.CirclePartsGame }))) as any;
+const TriangleAnglesQuiz = lazy(() => import("@/components/math/grade-7/geometria/TriangleAnglesQuiz").then(m => ({ default: m.TriangleAnglesQuiz }))) as any;
 const DecimalFractionsTool = lazy(() => import("@/components/math/tools/DecimalFractionsTool").then(m => ({ default: m.DecimalFractionsTool }))) as any;
 const NumberLineTool = lazy(() => import("@/components/math/tools/NumberLineTool").then(m => ({ default: m.NumberLineTool }))) as any;
 const ManipulativeDivision = lazy(() => import("@/components/math/tools/ManipulativeDivision").then(m => ({ default: m.ManipulativeDivision }))) as any;
 const ConstructionTool = lazy(() => import("@/components/math/tools/ConstructionTool").then(m => ({ default: m.ConstructionTool }))) as any;
-const PercentagesQuiz = lazy(() => import("@/components/math/grade-6/PercentagesQuiz").then(m => ({ default: m.PercentagesQuiz }))) as any;
-const PercentWordProblems = lazy(() => import("@/components/math/grade-6/PercentWordProblems").then(m => ({ default: m.PercentWordProblems }))) as any;
+const PercentagesQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/PercentagesQuiz").then(m => ({ default: m.PercentagesQuiz }))) as any;
+const PercentWordProblems = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/PercentWordProblems").then(m => ({ default: m.PercentWordProblems }))) as any;
 const EquationSolverTool = lazy(() => import("@/components/math/tools/EquationSolverTool").then(m => ({ default: m.EquationSolverTool }))) as any;
 const EquationBalanceTool = lazy(() => import("@/components/math/tools/EquationBalanceTool").then(m => ({ default: m.EquationBalanceTool }))) as any;
 const MoneyCalculationTool = lazy(() => import("@/components/math/tools/MoneyCalculationTool").then(m => ({ default: m.MoneyCalculationTool }))) as any;
@@ -56,21 +56,21 @@ const DecimalShifterTool = lazy(() => import("@/components/math/tools/DecimalShi
 const PuzzleMakerTool = lazy(() => import("@/components/math/tools/PuzzleMakerTool").then(m => ({ default: m.PuzzleMakerTool }))) as any;
 const TotoTool = lazy(() => import("@/components/math/tools/TotoTool").then(m => ({ default: m.TotoTool }))) as any;
 const SmartWhiteboardTool = lazy(() => import("@/components/math/tools/SmartWhiteboardTool").then(m => ({ default: m.SmartWhiteboardTool }))) as any;
-const GeometryModule = lazy(() => import("@/components/math/grade-5/GeometryModule").then(m => ({ default: m.GeometryModule }))) as any;
-const SymmetryQuiz = lazy(() => import("@/components/math/grade-6/SymmetryQuiz").then(m => ({ default: m.SymmetryQuiz }))) as any;
-const LogicBlocksGame = lazy(() => import("@/components/math/grade-1/LogicBlocksGame").then(m => ({ default: m.LogicBlocksGame }))) as any;
-const VennDiagramGame = lazy(() => import("@/components/math/grade-5/venn/VennDiagramGame").then(m => ({ default: m.VennDiagramGame }))) as any;
+const GeometryModule = lazy(() => import("@/components/math/grade-5/bevezetes-a-geometriaba/GeometryModule").then(m => ({ default: m.GeometryModule }))) as any;
+const SymmetryQuiz = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/SymmetryQuiz").then(m => ({ default: m.SymmetryQuiz }))) as any;
+const LogicBlocksGame = lazy(() => import("@/components/math/games/logic-blocks/LogicBlocksGame").then(m => ({ default: m.LogicBlocksGame }))) as any;
+const VennDiagramGame = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/venn/VennDiagramGame").then(m => ({ default: m.VennDiagramGame }))) as any;
 const GroupingGame = lazy(() => import("@/components/math/grade-1/grouping/GroupingGame").then(m => ({ default: m.GroupingGame }))) as any;
 const NumberGroupingGame = lazy(() => import("@/components/math/grade-1/grouping/NumberGroupingGame").then(m => ({ default: m.NumberGroupingGame }))) as any;
 const SudokuGame = lazy(() => import("@/components/math/games/sudoku/SudokuGame").then(m => ({ default: m.SudokuGame }))) as any;
 const SudokuGeneratorTool = lazy(() => import("@/components/math/tools/SudokuGeneratorTool").then(m => ({ default: m.SudokuGeneratorTool }))) as any;
-const VennInterpretationQuiz = lazy(() => import("@/components/math/grade-5/VennInterpretationQuiz").then(m => ({ default: m.VennInterpretationQuiz }))) as any;
-const VennReadingGame = lazy(() => import("@/components/math/grade-5/venn/VennReadingGame").then(m => ({ default: m.VennReadingGame }))) as any;
-const AxialSymmetryGame = lazy(() => import("@/components/math/grade-6/symmetry/AxialSymmetryGame").then(m => ({ default: m.AxialSymmetryGame }))) as any;
-const SymmetryErrorGame = lazy(() => import("@/components/math/grade-6/symmetry/SymmetryErrorGame").then(m => ({ default: m.SymmetryErrorGame }))) as any;
-const AxialSymmetryQuiz = lazy(() => import("@/components/math/grade-6/AxialSymmetryQuiz").then(m => ({ default: m.AxialSymmetryQuiz }))) as any;
+const VennInterpretationQuiz = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/VennInterpretationQuiz").then(m => ({ default: m.VennInterpretationQuiz }))) as any;
+const VennReadingGame = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/venn/VennReadingGame").then(m => ({ default: m.VennReadingGame }))) as any;
+const AxialSymmetryGame = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/symmetry/AxialSymmetryGame").then(m => ({ default: m.AxialSymmetryGame }))) as any;
+const SymmetryErrorGame = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/symmetry/SymmetryErrorGame").then(m => ({ default: m.SymmetryErrorGame }))) as any;
+const AxialSymmetryQuiz = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/AxialSymmetryQuiz").then(m => ({ default: m.AxialSymmetryQuiz }))) as any;
 const SymmetryConstructionTool = lazy(() => import("@/components/math/tools/SymmetryConstructionTool").then(m => ({ default: m.SymmetryConstructionTool }))) as any;
-const AxialSymmetryPresentation = lazy(() => import("@/components/math/grade-6/AxialSymmetryPresentation").then(m => ({ default: m.AxialSymmetryPresentation }))) as any;
+const AxialSymmetryPresentation = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/AxialSymmetryPresentation").then(m => ({ default: m.AxialSymmetryPresentation }))) as any;
 const PerimeterAreaTool = lazy(() => import("@/components/math/tools/PerimeterAreaTool").then(m => ({ default: m.PerimeterAreaTool }))) as any;
 const StudentFeedbackHub = lazy(() => import("@/components/feedback/StudentFeedbackHub").then(m => ({ default: m.StudentFeedbackHub }))) as any;
 const WordSearchTool = lazy(() => import("@/components/math/tools/WordSearchTool").then(m => ({ default: m.WordSearchTool }))) as any;
@@ -78,29 +78,37 @@ const ChessGame = lazy(() => import("@/components/math/games/chess/ChessGame")) 
 const ColorSequenceGame = lazy(() => import("@/components/math/games/color-sequence/ColorSequenceGame")) as any;
 const MatchingCreator = lazy(() => import("@/components/math/tools/MatchingCreator").then(m => ({ default: m.MatchingCreator }))) as any;
 const VolumeSurfaceTool = lazy(() => import("@/components/math/tools/VolumeSurfaceTool").then(m => ({ default: m.VolumeSurfaceTool }))) as any;
-const EquationBalanceQuiz = lazy(() => import("@/components/math/grade-7/EquationBalanceQuiz").then(m => ({ default: m.EquationBalanceQuiz }))) as any;
-const WordProblemsQuiz = lazy(() => import("@/components/math/grade-5/WordProblemsQuiz").then(m => ({ default: m.WordProblemsQuiz }))) as any;
+const EquationBalanceQuiz = lazy(() => import("@/components/math/grade-7/szazalekszamitas-egyenletek/EquationBalanceQuiz").then(m => ({ default: m.EquationBalanceQuiz }))) as any;
+const WordProblemsQuiz = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/WordProblemsQuiz").then(m => ({ default: m.WordProblemsQuiz }))) as any;
 const UnitConverterTool = lazy(() => import("@/components/math/tools/UnitConverterTool").then(m => ({ default: m.UnitConverterTool }))) as any;
 const CapacityConverterTool = lazy(() => import("@/components/math/tools/CapacityConverterTool").then(m => ({ default: m.CapacityConverterTool }))) as any;
 const AnalogClockTool = lazy(() => import("@/components/math/tools/AnalogClockTool").then(m => ({ default: m.AnalogClockTool }))) as any;
-const PerimeterQuiz = lazy(() => import("@/components/math/grade-5/PerimeterQuiz")) as any;
-const AreaConversionQuiz = lazy(() => import("@/components/math/grade-5/AreaConversionQuiz")) as any;
-const AreaCalculationQuiz = lazy(() => import("@/components/math/grade-5/AreaCalculationQuiz")) as any;
-const VolumeQuiz = lazy(() => import("@/components/math/grade-5/VolumeQuiz")) as any;
-const SurfaceAreaQuiz = lazy(() => import("@/components/math/grade-5/SurfaceAreaQuiz")) as any;
-const Grade7GeometryModule = lazy(() => import("@/components/math/grade-7/Grade7GeometryModule").then(m => ({ default: m.Grade7GeometryModule }))) as any;
-const MappingQuiz = lazy(() => import("@/components/math/grade-7/MappingQuiz").then(m => ({ default: m.MappingQuiz }))) as any;
-const FunctionTableQuiz = lazy(() => import("@/components/math/grade-7/FunctionTableQuiz").then(m => ({ default: m.FunctionTableQuiz }))) as any;
-const Grade7StatsModule = lazy(() => import("@/components/math/grade-7/Grade7StatsModule").then(m => ({ default: m.Grade7StatsModule }))) as any;
-const RatioIntroQuiz = lazy(() => import("@/components/math/grade-6/RatioIntroQuiz").then(m => ({ default: m.RatioIntroQuiz }))) as any;
-const RatioCreatorQuiz = lazy(() => import("@/components/math/grade-6/RatioCreatorQuiz").then(m => ({ default: m.RatioCreatorQuiz }))) as any;
-const DirectProportionQuiz = lazy(() => import("@/components/math/grade-6/DirectProportionQuiz").then(m => ({ default: m.DirectProportionQuiz }))) as any;
+const PerimeterQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/PerimeterQuiz")) as any;
+const AreaConversionQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/AreaConversionQuiz")) as any;
+const AreaCalculationQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/AreaCalculationQuiz")) as any;
+const VolumeQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/VolumeQuiz")) as any;
+const SurfaceAreaQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/SurfaceAreaQuiz")) as any;
+const Grade7GeometryModule = lazy(() => import("@/components/math/grade-7/geometria/Grade7GeometryModule").then(m => ({ default: m.Grade7GeometryModule }))) as any;
+const MappingQuiz = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/MappingQuiz").then(m => ({ default: m.MappingQuiz }))) as any;
+const FunctionTableQuiz = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/FunctionTableQuiz").then(m => ({ default: m.FunctionTableQuiz }))) as any;
+const Grade7StatsModule = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/Grade7StatsModule").then(m => ({ default: m.Grade7StatsModule }))) as any;
+const RatioIntroQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/RatioIntroQuiz").then(m => ({ default: m.RatioIntroQuiz }))) as any;
+const RatioCreatorQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/RatioCreatorQuiz").then(m => ({ default: m.RatioCreatorQuiz }))) as any;
+const DirectProportionQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/DirectProportionQuiz").then(m => ({ default: m.DirectProportionQuiz }))) as any;
 const MatrixSortingGame = lazy(() => import("@/components/math/grade-1/grouping/MatrixSortingGame").then(m => ({ default: m.MatrixSortingGame }))) as any;
 const MemoryGameComponent = lazy(() => import("@/components/math/games/memory/MemoryGame")) as any;
 const HanoiGame = lazy(() => import("@/components/math/games/hanoi/HanoiGame")) as any;
 const TorpedoGame = lazy(() => import("@/components/math/games/torpedo/TorpedoGame")) as any;
 const TowerBuilderGame = lazy(() => import("@/components/math/games/toronyepites/TowerBuilderGame").then(m => ({ default: m.TowerBuilderGame }))) as any;
-const ParallelogramAreaQuiz = lazy(() => import("@/components/math/grade-7/ParallelogramAreaQuiz").then(m => ({ default: m.ParallelogramAreaQuiz }))) as any;
+const ParallelogramAreaQuiz = lazy(() => import("@/components/math/grade-7/geometria/ParallelogramAreaQuiz").then(m => ({ default: m.ParallelogramAreaQuiz }))) as any;
+const Grade8AlgebraQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/AlgebraQuiz").then(m => ({ default: m.AlgebraQuiz }))) as any;
+const Grade8PercentagesQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/PercentagesQuiz").then(m => ({ default: m.PercentagesQuiz }))) as any;
+const Grade8PercentWordProblems = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/PercentWordProblems").then(m => ({ default: m.PercentWordProblems }))) as any;
+const Grade8RatioIntroQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/RatioIntroQuiz").then(m => ({ default: m.RatioIntroQuiz }))) as any;
+const Grade8RatioCreatorQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/RatioCreatorQuiz").then(m => ({ default: m.RatioCreatorQuiz }))) as any;
+const Grade8EquationBalanceQuiz = lazy(() => import("@/components/math/grade-8/egyenletek/EquationBalanceQuiz").then(m => ({ default: m.EquationBalanceQuiz }))) as any;
+const Grade8WordProblemsModule = lazy(() => import("@/components/math/grade-8/keszuljunk-a-felvetelire/WordProblemsModule").then(m => ({ default: m.WordProblemsModule }))) as any;
+const Grade8WordProblemsQuiz = lazy(() => import("@/components/math/grade-8/keszuljunk-a-felvetelire/WordProblemsQuiz").then(m => ({ default: m.WordProblemsQuiz }))) as any;
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -144,7 +152,9 @@ import {
   Flag,
   ArrowRightLeft,
   GraduationCap,
-  Video
+  Video,
+  PieChart,
+  CheckCircle2
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -178,7 +188,8 @@ type ActivityType =
   | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search' | 'memory-game' | 'equation-balance-quiz'
   | 'ratio-intro' | 'ratio-creator' | 'g7-word-problems' | 'direct-proportion-quiz' | 'matrix-sorting-game'
   | 'toto-maker' | 'chess-game' | 'torpedo-game' | 'matching-creator' | 'unit-converter' | 'capacity-converter' | 'analog-clock'
-  | 'hanoi-tower' | 'color-sequence-game' | 'perimeter-quiz' | 'perimeter-area' | 'volume-surface' | 'volume-quiz' | 'surface-area-quiz' | 'area-conversion-quiz' | 'area-calculation-quiz' | 'parallelogram-area-quiz' | 'g7-mapping-quiz' | 'g7-function-table-quiz' | 'smart-whiteboard';
+  | 'hanoi-tower' | 'color-sequence-game' | 'perimeter-quiz' | 'perimeter-area' | 'volume-surface' | 'volume-quiz' | 'surface-area-quiz' | 'area-conversion-quiz' | 'area-calculation-quiz' | 'parallelogram-area-quiz' | 'g7-mapping-quiz' | 'g7-function-table-quiz' | 'smart-whiteboard'
+  | 'g8-algebra' | 'g8-percentages' | 'g8-percent-word-problems' | 'g8-ratio-intro' | 'g8-ratio-creator' | 'g8-equation-balance' | 'g8-word-problems-module' | 'g8-word-problems-quiz';
 
 const gradeToSlug = (grade: GradeLevel): string => {
   if (grade === 'graduation') return 'erettsegi';
@@ -617,7 +628,7 @@ export default function MathPage() {
   };
 
   const handleTopicSelect = (topicId: string, forceActivity = false) => {
-    if (!forceActivity && ((selectedGrade === 5 && topicId.startsWith('g5-')) || selectedGrade === 4 || selectedGrade === 6 || selectedGrade === 7)) {
+    if (!forceActivity && ((selectedGrade === 5 && topicId.startsWith('g5-')) || selectedGrade === 4 || selectedGrade === 6 || selectedGrade === 7 || selectedGrade === 8)) {
       const nextExpanded = expandedTopicId === topicId ? null : topicId;
       setExpandedTopicId(nextExpanded);
       updateURL('topic-select', selectedGrade, nextExpanded, null);
@@ -2418,8 +2429,128 @@ export default function MathPage() {
       );
     }
 
-    // Default fallback for Grade 5-7 & Grade 9 topics that don't have custom interactive content yet
-    if (topicId.startsWith('g5-') || topicId.startsWith('g9-') || selectedGrade === 6 || selectedGrade === 7 || (typeof selectedGrade === 'string' && selectedGrade.startsWith('high-'))) {
+    if (topicId === 'g8-numbers-letters') {
+      return (
+        <div className="flex flex-col gap-10 py-6">
+          <section>
+            <SectionHeader id="g8-algebra" number={1} title="Algebra és betűs kifejezések" color="blue" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Algebra Kvíz"
+                subtitle="Kifejezések, helyettesítés, azonosságok"
+                type="Kvíz"
+                onClick={() => handleActivitySelect('g8-algebra', topicId)}
+                icon={<Variable className="w-6 h-6" />}
+                color="blue"
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader id="g8-percentages" number={2} title="Százalékszámítás" color="indigo" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Százalékszámítás Kvíz"
+                subtitle="Alap, érték, láb gyakorlása"
+                type="Kvíz"
+                onClick={() => handleActivitySelect('g8-percentages', topicId)}
+                icon={<Percent className="w-6 h-6" />}
+                color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Szöveges feladatok"
+                subtitle="Százalékos összefüggések"
+                type="Feladatok"
+                onClick={() => handleActivitySelect('g8-percent-word-problems', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
+                color="emerald"
+              />
+            </div>
+          </section>
+
+          <section>
+            <SectionHeader id="g8-ratios" number={3} title="Arány és arányos osztás" color="amber" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Arány Bevezető"
+                subtitle="Arány fogalma és egyszerűsítés"
+                type="Kvíz"
+                onClick={() => handleActivitySelect('g8-ratio-intro', topicId)}
+                icon={<PieChart className="w-6 h-6" />}
+                color="amber"
+              />
+              <ActivityPlaceholder
+                title="Aránykészítő"
+                subtitle="Kreatív aránypárok"
+                type="Játék"
+                onClick={() => handleActivitySelect('g8-ratio-creator', topicId)}
+                icon={<Sparkles className="w-6 h-6" />}
+                color="pink"
+              />
+            </div>
+          </section>
+        </div>
+      );
+    }
+
+    if (topicId === 'g8-equations') {
+      return (
+        <div className="flex flex-col gap-10 py-6">
+          <section>
+            <SectionHeader id="g8-eq-balance" number={1} title="Egyenletek és mérlegelv" color="purple" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Mérlegelv Kvíz"
+                subtitle="Egyenletmegoldás vizuálisan"
+                type="Kvíz"
+                onClick={() => handleActivitySelect('g8-equation-balance', topicId)}
+                icon={<Scale className="w-6 h-6" />}
+                color="purple"
+              />
+              <ActivityPlaceholder
+                title="Egyenletmegoldó eszköz"
+                subtitle="Lépésről lépésre levezetés"
+                type="Eszköz"
+                onClick={() => handleActivitySelect('equation-solver', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
+                color="indigo"
+              />
+            </div>
+          </section>
+        </div>
+      );
+    }
+
+    if (topicId === 'g8-admissions-prep') {
+      return (
+        <div className="flex flex-col gap-10 py-6">
+          <section>
+            <SectionHeader id="g8-prep-word" number={1} title="Felvételi felkészítő & Szöveges feladatok" color="rose" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Szöveges Feladatok Modul"
+                subtitle="Komplex felvételi típusfeladatok"
+                type="Modul"
+                onClick={() => handleActivitySelect('g8-word-problems-module', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
+                color="rose"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="Szöveges és logikai feladványok"
+                type="Kvíz"
+                onClick={() => handleActivitySelect('g8-word-problems-quiz', topicId)}
+                icon={<CheckCircle2 className="w-6 h-6" />}
+                color="emerald"
+              />
+            </div>
+          </section>
+        </div>
+      );
+    }
+
+    // Default fallback for topics that don't have custom interactive content yet
+    if (topicId.startsWith('g1-') || topicId.startsWith('g2-') || topicId.startsWith('g3-') || topicId.startsWith('g5-') || topicId.startsWith('g8-') || topicId.startsWith('g9-') || selectedGrade === 1 || selectedGrade === 2 || selectedGrade === 3 || selectedGrade === 6 || selectedGrade === 7 || selectedGrade === 8 || (typeof selectedGrade === 'string' && selectedGrade.startsWith('high-'))) {
       return (
         <div className="py-2">
           <div className="mb-4 p-4 bg-blue-50/50 rounded-2xl border border-blue-100 flex items-center gap-3">
@@ -2427,7 +2558,7 @@ export default function MathPage() {
             <p className="text-sm font-medium text-blue-700 italic">Ehhez a témakörhöz jelenleg a tankönyvi anyagok érhetőek el.</p>
           </div>
           <MaterialGallery
-            grade={selectedGrade || 'high-1'}
+            grade={selectedGrade || 8}
             onView={handleMaterialSelect}
             initialMaterialId={new URLSearchParams(location.search).get('material')}
           />
@@ -2968,6 +3099,22 @@ export default function MathPage() {
                     { id: 'g7-trans-lines', label: '1. Nevezetes vonalak' },
                     { id: 'g7-trans-triangles', label: '2. Háromszögek' },
                     { id: 'g7-trans-quads', label: '3. Négyszögek' }
+                  ];
+                }
+                // Add subsections for Grade 8
+                else if (t.id === 'g8-numbers-letters') {
+                  subsections = [
+                    { id: 'g8-algebra', label: '1. Algebra és kifejezések' },
+                    { id: 'g8-percentages', label: '2. Százalékszámítás' },
+                    { id: 'g8-ratios', label: '3. Arányok és arányos osztás' }
+                  ];
+                } else if (t.id === 'g8-equations') {
+                  subsections = [
+                    { id: 'g8-eq-balance', label: '1. Egyenletek & Mérlegelv' }
+                  ];
+                } else if (t.id === 'g8-admissions-prep') {
+                  subsections = [
+                    { id: 'g8-prep-word', label: '1. Szöveges & felvételi feladatok' }
                   ];
                 }
 
@@ -3719,6 +3866,38 @@ export default function MathPage() {
 
                 {activityType === 'g7-function-table-quiz' && (
                   <FunctionTableQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-algebra' && (
+                  <Grade8AlgebraQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-percentages' && (
+                  <Grade8PercentagesQuiz onBack={handleBack} initialMode={percentMode} />
+                )}
+
+                {activityType === 'g8-percent-word-problems' && (
+                  <Grade8PercentWordProblems onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-ratio-intro' && (
+                  <Grade8RatioIntroQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-ratio-creator' && (
+                  <Grade8RatioCreatorQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-equation-balance' && (
+                  <Grade8EquationBalanceQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-word-problems-module' && (
+                  <Grade8WordProblemsModule onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-word-problems-quiz' && (
+                  <Grade8WordProblemsQuiz onBack={handleBack} />
                 )}
 
                 {activityType === 'number-line' && (

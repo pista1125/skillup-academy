@@ -17,7 +17,7 @@ import {
     Download,
     FileText
 } from 'lucide-react';
-import { BuildingBlocksComparison } from "@/components/math/grade-4/BuildingBlocksComparison";
+import { BuildingBlocksComparison } from "@/components/math/grade-4/szamolas-10000-ig/BuildingBlocksComparison";
 import { TowerBuilderGame } from "@/components/math/games/toronyepites/TowerBuilderGame";
 import { MoneyCountingQuiz, Difficulty } from "@/components/math/grade-3/MoneyCountingQuiz";
 import { LessonViewer } from "@/components/math/shared/LessonViewer";
