@@ -563,9 +563,9 @@ export const mathTopics: MathTopic[] = [
   {
     id: 'g7-logic',
     title: 'I. GONDOLKODJUNK!',
-    description: 'Logikai feladatok, halmazok, kombinatorika',
+    description: 'Kombinatorika, gráfok, logikai állítások és matematikai játékok',
     icon: '💡',
-    color: 'from-blue-400 to-indigo-500',
+    color: 'from-blue-500 to-indigo-600',
     grades: [7],
   },
   {

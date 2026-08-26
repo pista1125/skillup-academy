@@ -220,7 +220,10 @@ import {
   LineChart,
   Eye,
   BarChart3,
-  Globe
+  Globe,
+  Network,
+  Lightbulb,
+  Dices
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -496,6 +499,22 @@ export default function MathPage() {
       'g5-ops': 'g5-integers',
       'g5-geom-basics': 'g5-geometry-intro',
       'g5-proportions': 'g5-proportion-problems',
+      'g7-sec-szamold-ossze': 'g7-logic',
+      'g7-sec-rendezd-sorba': 'g7-logic',
+      'g7-sec-hany-eset-van': 'g7-logic',
+      'g7-sec-grafok': 'g7-logic',
+      'g7-sec-igazold-cafold': 'g7-logic',
+      'g7-sec-matematikai-jatekok': 'g7-logic',
+      'g7-sec-osszefoglalas': 'g7-logic',
+      'g7-sec-rat-egesz-attekintes': 'g7-rational-algebra',
+      'g7-sec-rat-tortek-tizedes': 'g7-rational-algebra',
+      'g7-sec-rat-muveletek': 'g7-rational-algebra',
+      'g7-sec-rat-szoveges': 'g7-rational-algebra',
+      'g7-sec-rat-osszetett-zarojel': 'g7-rational-algebra',
+      'g7-sec-rat-szamok-betuk': 'g7-rational-algebra',
+      'g7-sec-rat-osszevonas-ertek': 'g7-rational-algebra',
+      'g7-sec-rat-zarojel-kiemeles': 'g7-rational-algebra',
+      'g7-sec-rat-osszefoglalas': 'g7-rational-algebra',
       'g7-lines': 'g7-geom-trans',
       'g7-triangles': 'g7-geom-trans',
       'g7-quads': 'g7-geom-trans',
@@ -652,7 +671,7 @@ export default function MathPage() {
     const grade = slugToGrade(gradeParam || '');
     if (grade) {
       setSelectedGrade(grade);
-      const defaultTopic = grade === 8 ? 'g8-numbers-letters' : grade === 7 ? 'g7-rational-algebra' : grade === 6 ? 'g6-integers-divisibility' : grade === 5 ? 'g5-integers' : 'materials';
+      const defaultTopic = grade === 8 ? 'g8-numbers-letters' : grade === 7 ? 'g7-logic' : grade === 6 ? 'g6-integers-divisibility' : grade === 5 ? 'g5-integers' : 'materials';
       if (topicParam) {
         setSelectedTopic(topicParam);
         setActiveGrade5TopicId(topicParam);
@@ -749,7 +768,7 @@ export default function MathPage() {
     setSelectedGrade(grade);
     setView('topic-select');
     if (typeof grade === 'number' || (typeof grade === 'string' && grade.startsWith('high-'))) {
-      const defaultTopic = grade === 8 ? 'g8-numbers-letters' : grade === 7 ? 'g7-rational-algebra' : grade === 6 ? 'g6-integers-divisibility' : grade === 5 ? 'g5-integers' : 'materials';
+      const defaultTopic = grade === 8 ? 'g8-numbers-letters' : grade === 7 ? 'g7-logic' : grade === 6 ? 'g6-integers-divisibility' : grade === 5 ? 'g5-integers' : 'materials';
       setActiveGrade5TopicId(defaultTopic);
       setExpandedTopicId(defaultTopic);
       setActiveGrade5SubSectionId(null);
@@ -2256,59 +2275,163 @@ export default function MathPage() {
       const showAll = !activeGrade5SubSectionId;
       return (
         <div className="flex flex-col gap-10 py-6">
-          {/* Section 1 */}
-          {(showAll || activeGrade5SubSectionId === 'g7-rat-numbers') && (
+          {/* Section 1: Az egész számok tulajdonságainak áttekintése */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-rat-egesz-attekintes') && (
             <section>
-              <SectionHeader number={1} title="Racionális számok" color="blue" />
+              <SectionHeader id="g7-sec-rat-egesz-attekintes" number={1} title="Az egész számok tulajdonságainak áttekintése" color="blue" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Racionális számok"
-                  subtitle="Műveletek ésszerűen"
-                  type="Kezdés"
-                  onClick={() => handleActivitySelect('g7-rational-numbers', topicId)}
+                  title="Egész számok áttekintése"
+                  subtitle="Előjelek, abszolútérték, ellentett"
+                  type="Hamarosan"
+                  emoji="➕"
+                  disabled={true}
                   icon={<Calculator className="w-6 h-6" />}
                   color="blue"
-                />
-                <ActivityPlaceholder
-                  title="Pozitív és negatív számok"
-                  subtitle="Gyakorló feladatok"
-                  type="Hamarosan"
-                  disabled
-                  icon={<Target className="w-6 h-6" />}
-                  color="slate"
-                />
-                <ActivityPlaceholder
-                  title="Törtek és tizedestörtek"
-                  subtitle="Értékelő teszt"
-                  type="Teszt"
-                  disabled
-                  icon={<BookOpen className="w-6 h-6" />}
-                  color="slate"
                 />
               </div>
             </section>
           )}
 
-          {/* Section 2 */}
-          {(showAll || activeGrade5SubSectionId === 'g7-rat-expressions') && (
+          {/* Section 2: Törtek, tizedes törtek – minden, amit erről tudni kell */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-rat-tortek-tizedes') && (
             <section>
-              <SectionHeader id="g7-expressions" number={2} title="Számok és betűs kifejezések használata" color="purple" />
+              <SectionHeader id="g7-sec-rat-tortek-tizedes" number={2} title="Törtek, tizedes törtek – minden, amit erről tudni kell" color="violet" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Betűs kifejezések"
-                  subtitle="Változók használata"
-                  type="Kezdés"
-                  onClick={() => handleActivitySelect('g7-expression-usage', topicId)}
+                  title="Törtek és tizedes törtek"
+                  subtitle="Bővítés, egyszerűsítés, átváltások"
+                  type="Hamarosan"
+                  emoji="🍕"
+                  disabled={true}
+                  icon={<Layers className="w-6 h-6" />}
+                  color="violet"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 3: Műveletek a racionális számok halmazán */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-rat-muveletek') && (
+            <section>
+              <SectionHeader id="g7-sec-rat-muveletek" number={3} title="Műveletek a racionális számok halmazán" color="indigo" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Műveletek racionális számokkal"
+                  subtitle="Alapműveletek, reciprokok, előjelek"
+                  type="Hamarosan"
+                  emoji="🔢"
+                  disabled={true}
+                  icon={<Binary className="w-6 h-6" />}
+                  color="indigo"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 4: Szöveges feladatok */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-rat-szoveges') && (
+            <section>
+              <SectionHeader id="g7-sec-rat-szoveges" number={4} title="Szöveges feladatok" color="emerald" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Szöveges feladatok"
+                  subtitle="Törtrész- és arányszámítás"
+                  type="Hamarosan"
+                  emoji="📝"
+                  disabled={true}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="emerald"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 5: Összetett műveletek, zárójelfelbontás */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-rat-osszetett-zarojel') && (
+            <section>
+              <SectionHeader id="g7-sec-rat-osszetett-zarojel" number={5} title="Összetett műveletek, zárójelfelbontás" color="cyan" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Összetett műveletek"
+                  subtitle="Műveleti sorrend, zárójelszabályok"
+                  type="Hamarosan"
+                  emoji="🧮"
+                  disabled={true}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="cyan"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 6: Számok és betűk használata */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-rat-szamok-betuk') && (
+            <section>
+              <SectionHeader id="g7-sec-rat-szamok-betuk" number={6} title="Számok és betűk használata" color="purple" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Számok és betűk használata"
+                  subtitle="Változók, algebrai kifejezések"
+                  type="Hamarosan"
+                  emoji="🔤"
+                  disabled={true}
                   icon={<Variable className="w-6 h-6" />}
                   color="purple"
                 />
+              </div>
+            </section>
+          )}
+
+          {/* Section 7: Összevonás, helyettesítési érték */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-rat-osszevonas-ertek') && (
+            <section>
+              <SectionHeader id="g7-sec-rat-osszevonas-ertek" number={7} title="Összevonás, helyettesítési érték" color="amber" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Helyettesítési érték"
-                  subtitle="Számolás betűkkel"
-                  type="Gyakorlás"
-                  disabled
+                  title="Összevonás és behelyettesítés"
+                  subtitle="Egynemű tagok, számérték"
+                  type="Hamarosan"
+                  emoji="🎯"
+                  disabled={true}
+                  icon={<Target className="w-6 h-6" />}
+                  color="amber"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 8: Zárójelfelbontás, kiemelés */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-rat-zarojel-kiemeles') && (
+            <section>
+              <SectionHeader id="g7-sec-rat-zarojel-kiemeles" number={8} title="Zárójelfelbontás, kiemelés" color="orange" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Zárójelfelbontás, kiemelés"
+                  subtitle="Beszorzás és közös tényező kiemelése"
+                  type="Hamarosan"
+                  emoji="⚡"
+                  disabled={true}
                   icon={<Zap className="w-6 h-6" />}
-                  color="slate"
+                  color="orange"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 9: Összefoglalás */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-rat-osszefoglalas') && (
+            <section>
+              <SectionHeader id="g7-sec-rat-osszefoglalas" number={9} title="Összefoglalás" color="rose" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Összefoglalás"
+                  subtitle="II. Racionális számok és kifejezések ismétlése"
+                  type="Hamarosan"
+                  emoji="🏆"
+                  disabled={true}
+                  icon={<Trophy className="w-6 h-6" />}
+                  color="rose"
                 />
               </div>
             </section>
@@ -2465,7 +2588,7 @@ export default function MathPage() {
       );
     }
 
-    if (topicId === 'g7-logic' || topicId === 'g7-other') {
+    if (topicId === 'g7-other') {
       return (
         <div className="py-2">
           <MaterialGallery
@@ -2473,6 +2596,139 @@ export default function MathPage() {
             onView={handleMaterialSelect}
             initialMaterialId={new URLSearchParams(location.search).get('material')}
           />
+        </div>
+      );
+    }
+
+    if (topicId === 'g7-logic') {
+      const showAll = !activeGrade5SubSectionId;
+      return (
+        <div className="flex flex-col gap-10 py-6">
+          {/* Section 1: Számold össze! */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-szamold-ossze') && (
+            <section>
+              <SectionHeader id="g7-sec-szamold-ossze" number={1} title="Számold össze!" color="blue" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Számold össze!"
+                  subtitle="Leszámlálás és elemi kombinatorika"
+                  type="Hamarosan"
+                  emoji="🔢"
+                  disabled={true}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="blue"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 2: Rendezd sorba! */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-rendezd-sorba') && (
+            <section>
+              <SectionHeader id="g7-sec-rendezd-sorba" number={2} title="Rendezd sorba!" color="violet" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Rendezd sorba!"
+                  subtitle="Sorrendek, permutációk alapjai"
+                  type="Hamarosan"
+                  emoji="🔀"
+                  disabled={true}
+                  icon={<Layers className="w-6 h-6" />}
+                  color="violet"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 3: Hány eset van? */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-hany-eset-van') && (
+            <section>
+              <SectionHeader id="g7-sec-hany-eset-van" number={3} title="Hány eset van?" color="indigo" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Hány eset van?"
+                  subtitle="Esetszétválasztás, szorzási szabály"
+                  type="Hamarosan"
+                  emoji="🎲"
+                  disabled={true}
+                  icon={<Dices className="w-6 h-6" />}
+                  color="indigo"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 4: Gráfok */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-grafok') && (
+            <section>
+              <SectionHeader id="g7-sec-grafok" number={4} title="Gráfok" color="emerald" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Gráfok"
+                  subtitle="Csúcsok, élek, fokszámok összefüggései"
+                  type="Hamarosan"
+                  emoji="🕸️"
+                  disabled={true}
+                  icon={<Network className="w-6 h-6" />}
+                  color="emerald"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 5: Igazold! Cáfold! */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-igazold-cafold') && (
+            <section>
+              <SectionHeader id="g7-sec-igazold-cafold" number={5} title="Igazold! Cáfold!" color="cyan" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Igazold! Cáfold!"
+                  subtitle="Kijelentések, bizonyítások és ellenpéldák"
+                  type="Hamarosan"
+                  emoji="💡"
+                  disabled={true}
+                  icon={<Lightbulb className="w-6 h-6" />}
+                  color="cyan"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 6: Matematikai játékok */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-matematikai-jatekok') && (
+            <section>
+              <SectionHeader id="g7-sec-matematikai-jatekok" number={6} title="Matematikai játékok" color="amber" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Matematikai játékok"
+                  subtitle="Nyerő stratégiák, szimmetria, logikai fejtörők"
+                  type="Hamarosan"
+                  emoji="🎮"
+                  disabled={true}
+                  icon={<Gamepad2 className="w-6 h-6" />}
+                  color="amber"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 7: Összefoglalás */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-osszefoglalas') && (
+            <section>
+              <SectionHeader id="g7-sec-osszefoglalas" number={7} title="Összefoglalás" color="rose" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Összefoglalás"
+                  subtitle="I. Gondolkodjunk! fejezet rendszerezése és tesztje"
+                  type="Hamarosan"
+                  emoji="🏆"
+                  disabled={true}
+                  icon={<Trophy className="w-6 h-6" />}
+                  color="rose"
+                />
+              </div>
+            </section>
+          )}
         </div>
       );
     }
@@ -4126,10 +4382,27 @@ export default function MathPage() {
                   ];
                 }
                 // Add subsections for Grade 7
-                else if (t.id === 'g7-rational-algebra') {
+                if (t.id === 'g7-logic') {
                   subsections = [
-                    { id: 'g7-rat-numbers', label: '1. Racionális számok' },
-                    { id: 'g7-rat-expressions', label: '2. Kifejezések' }
+                    { id: 'g7-sec-szamold-ossze', label: '1. Számold össze!' },
+                    { id: 'g7-sec-rendezd-sorba', label: '2. Rendezd sorba!' },
+                    { id: 'g7-sec-hany-eset-van', label: '3. Hány eset van?' },
+                    { id: 'g7-sec-grafok', label: '4. Gráfok' },
+                    { id: 'g7-sec-igazold-cafold', label: '5. Igazold! Cáfold!' },
+                    { id: 'g7-sec-matematikai-jatekok', label: '6. Matematikai játékok' },
+                    { id: 'g7-sec-osszefoglalas', label: '7. Összefoglalás' }
+                  ];
+                } else if (t.id === 'g7-rational-algebra') {
+                  subsections = [
+                    { id: 'g7-sec-rat-egesz-attekintes', label: '1. Egész számok áttekintése' },
+                    { id: 'g7-sec-rat-tortek-tizedes', label: '2. Törtek, tizedes törtek' },
+                    { id: 'g7-sec-rat-muveletek', label: '3. Műveletek racionális számokkal' },
+                    { id: 'g7-sec-rat-szoveges', label: '4. Szöveges feladatok' },
+                    { id: 'g7-sec-rat-osszetett-zarojel', label: '5. Összetett műveletek, zárójel' },
+                    { id: 'g7-sec-rat-szamok-betuk', label: '6. Számok és betűk használata' },
+                    { id: 'g7-sec-rat-osszevonas-ertek', label: '7. Összevonás, helyettesítési érték' },
+                    { id: 'g7-sec-rat-zarojel-kiemeles', label: '8. Zárójelfelbontás, kiemelés' },
+                    { id: 'g7-sec-rat-osszefoglalas', label: '9. Összefoglalás' }
                   ];
                 } else if (t.id === 'g7-percent-equations') {
                   subsections = [
