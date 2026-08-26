@@ -101,14 +101,62 @@ const HanoiGame = lazy(() => import("@/components/math/games/hanoi/HanoiGame")) 
 const TorpedoGame = lazy(() => import("@/components/math/games/torpedo/TorpedoGame")) as any;
 const TowerBuilderGame = lazy(() => import("@/components/math/games/toronyepites/TowerBuilderGame").then(m => ({ default: m.TowerBuilderGame }))) as any;
 const ParallelogramAreaQuiz = lazy(() => import("@/components/math/grade-7/geometria/ParallelogramAreaQuiz").then(m => ({ default: m.ParallelogramAreaQuiz }))) as any;
-const Grade8AlgebraQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/AlgebraQuiz").then(m => ({ default: m.AlgebraQuiz }))) as any;
-const Grade8PercentagesQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/PercentagesQuiz").then(m => ({ default: m.PercentagesQuiz }))) as any;
-const Grade8PercentWordProblems = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/PercentWordProblems").then(m => ({ default: m.PercentWordProblems }))) as any;
-const Grade8RatioIntroQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/RatioIntroQuiz").then(m => ({ default: m.RatioIntroQuiz }))) as any;
-const Grade8RatioCreatorQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/RatioCreatorQuiz").then(m => ({ default: m.RatioCreatorQuiz }))) as any;
-const Grade8EquationBalanceQuiz = lazy(() => import("@/components/math/grade-8/egyenletek/EquationBalanceQuiz").then(m => ({ default: m.EquationBalanceQuiz }))) as any;
+const Grade8AlgebraQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/betus-kifejezesek-ismetles/AlgebraQuiz").then(m => ({ default: m.AlgebraQuiz }))) as any;
 const Grade8WordProblemsModule = lazy(() => import("@/components/math/grade-8/keszuljunk-a-felvetelire/WordProblemsModule").then(m => ({ default: m.WordProblemsModule }))) as any;
 const Grade8WordProblemsQuiz = lazy(() => import("@/components/math/grade-8/keszuljunk-a-felvetelire/WordProblemsQuiz").then(m => ({ default: m.WordProblemsQuiz }))) as any;
+const Grade8LogicQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/logika-feladatok/LogicQuiz").then(m => ({ default: m.LogicQuiz }))) as any;
+const Grade8SetBasicsQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/mit-tudunk-a-halmazokrol/SetBasicsQuiz").then(m => ({ default: m.SetBasicsQuiz }))) as any;
+const Grade8SetOperationsQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/muveletek-halmazokkal/SetOperationsQuiz").then(m => ({ default: m.SetOperationsQuiz }))) as any;
+const Grade8RationalSetQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/a-racionalis-szamok-halmaza/RationalSetQuiz").then(m => ({ default: m.RationalSetQuiz }))) as any;
+const Grade8RationalOperationsQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/mit-tudunk-a-racionalis-szamokrol/RationalOperationsQuiz").then(m => ({ default: m.RationalOperationsQuiz }))) as any;
+const Grade8PowersQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/hatvanyozas/PowersQuiz").then(m => ({ default: m.PowersQuiz }))) as any;
+const Grade8SquareRootConceptQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/a-negyzetgyok-fogalma/SquareRootConceptQuiz").then(m => ({ default: m.SquareRootConceptQuiz }))) as any;
+const Grade8SquareRootsQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/szamok-negyzetgyoke/SquareRootsQuiz").then(m => ({ default: m.SquareRootsQuiz }))) as any;
+const Grade8AlgebraIntroQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/betus-kifejezesek-ismetles/AlgebraIntroQuiz").then(m => ({ default: m.AlgebraIntroQuiz }))) as any;
+const Grade8FactoringQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/betus-kifejezesek-szorzasa-es-kiemeles/FactoringQuiz").then(m => ({ default: m.FactoringQuiz }))) as any;
+const Grade8PolynomialMultQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/tobbtagu-kifejezesek-szorzata/PolynomialMultQuiz").then(m => ({ default: m.PolynomialMultQuiz }))) as any;
+const Grade8Chapter1SummaryQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/osszefoglalas/Chapter1SummaryQuiz").then(m => ({ default: m.Chapter1SummaryQuiz }))) as any;
+const Grade8CongruenceTransformQuiz = lazy(() => import("@/components/math/grade-8/geometria/egybevagosagi-transzformaciok-ismetles/CongruenceTransformQuiz").then(m => ({ default: m.CongruenceTransformQuiz }))) as any;
+const Grade8TransformationsQuiz = lazy(() => import("@/components/math/grade-8/geometria/transzformaciok/TransformationsQuiz").then(m => ({ default: m.TransformationsQuiz }))) as any;
+const Grade8GeometrySoftwareQuiz = lazy(() => import("@/components/math/grade-8/geometria/hasznaljunk-szerkesztoprogramot/GeometrySoftwareQuiz").then(m => ({ default: m.GeometrySoftwareQuiz }))) as any;
+const Grade8SimilarityQuiz = lazy(() => import("@/components/math/grade-8/geometria/hasonlosag/SimilarityQuiz").then(m => ({ default: m.SimilarityQuiz }))) as any;
+const Grade8CentralSimilarityQuiz = lazy(() => import("@/components/math/grade-8/geometria/a-kozeppontos-hasonlosag/CentralSimilarityQuiz").then(m => ({ default: m.CentralSimilarityQuiz }))) as any;
+const Grade8GeometricConstructionsQuiz = lazy(() => import("@/components/math/grade-8/geometria/szerkesztesek/GeometricConstructionsQuiz").then(m => ({ default: m.GeometricConstructionsQuiz }))) as any;
+const Grade8Chapter2GeometrySummaryQuiz = lazy(() => import("@/components/math/grade-8/geometria/osszefoglalas/Chapter2GeometrySummaryQuiz").then(m => ({ default: m.Chapter2GeometrySummaryQuiz }))) as any;
+const Grade8EquationBalanceQuiz = lazy(() => import("@/components/math/grade-8/egyenletek/egyenletek/EquationBalanceQuiz").then(m => ({ default: m.EquationBalanceQuiz }))) as any;
+const Grade8EquationsQuiz = lazy(() => import("@/components/math/grade-8/egyenletek/egyenletek/EquationsQuiz").then(m => ({ default: m.EquationsQuiz }))) as any;
+const Grade8NumbersAgesQuiz = lazy(() => import("@/components/math/grade-8/egyenletek/szoveges-feladatok-szamokrol-eletkorokrol/NumbersAgesQuiz").then(m => ({ default: m.NumbersAgesQuiz }))) as any;
+const Grade8MixingWordProblemsQuiz = lazy(() => import("@/components/math/grade-8/egyenletek/szoveges-feladatok-osszekeveresrol/MixingWordProblemsQuiz").then(m => ({ default: m.MixingWordProblemsQuiz }))) as any;
+const Grade8MotionWorkProblemsQuiz = lazy(() => import("@/components/math/grade-8/egyenletek/szoveges-feladatok-mozgasrol-munkarol/MotionWorkProblemsQuiz").then(m => ({ default: m.MotionWorkProblemsQuiz }))) as any;
+const Grade8GeometricEquationsQuiz = lazy(() => import("@/components/math/grade-8/egyenletek/szoveges-geometriai-feladatok/GeometricEquationsQuiz").then(m => ({ default: m.GeometricEquationsQuiz }))) as any;
+const Grade8MixedWordProblemsQuiz = lazy(() => import("@/components/math/grade-8/egyenletek/vegyes-feladatok/MixedWordProblemsQuiz").then(m => ({ default: m.MixedWordProblemsQuiz }))) as any;
+const Grade8FinancialProblemsQuiz = lazy(() => import("@/components/math/grade-8/egyenletek/penzugyi-feladatok/FinancialProblemsQuiz").then(m => ({ default: m.FinancialProblemsQuiz }))) as any;
+const Grade8Chapter3EquationsSummaryQuiz = lazy(() => import("@/components/math/grade-8/egyenletek/osszefoglalas/Chapter3EquationsSummaryQuiz").then(m => ({ default: m.Chapter3EquationsSummaryQuiz }))) as any;
+const Grade8ConstructionsMeasurementsQuiz = lazy(() => import("@/components/math/grade-8/pitagorasz-tetel/szerkesztesek-meresek/ConstructionsMeasurementsQuiz").then(m => ({ default: m.ConstructionsMeasurementsQuiz }))) as any;
+const Grade8PythagorasTheoremQuiz = lazy(() => import("@/components/math/grade-8/pitagorasz-tetel/a-pitagorasz-tetel/PythagorasTheoremQuiz").then(m => ({ default: m.PythagorasTheoremQuiz }))) as any;
+const Grade8ConversePythagorasQuiz = lazy(() => import("@/components/math/grade-8/pitagorasz-tetel/a-pitagorasz-tetel-megforditasa/ConversePythagorasQuiz").then(m => ({ default: m.ConversePythagorasQuiz }))) as any;
+const Grade8PythagorasApplicationsQuiz = lazy(() => import("@/components/math/grade-8/pitagorasz-tetel/a-pitagorasz-tetel-alkalmazasa/PythagorasApplicationsQuiz").then(m => ({ default: m.PythagorasApplicationsQuiz }))) as any;
+const Grade8CalculatorProjectQuiz = lazy(() => import("@/components/math/grade-8/pitagorasz-tetel/alkalmazas-szamologep-projektmunka/CalculatorProjectQuiz").then(m => ({ default: m.CalculatorProjectQuiz }))) as any;
+const Grade8SpecialRightTrianglesQuiz = lazy(() => import("@/components/math/grade-8/pitagorasz-tetel/nevezetes-derekszogu-haromszogek/SpecialRightTrianglesQuiz").then(m => ({ default: m.SpecialRightTrianglesQuiz }))) as any;
+const Grade8Chapter5PythagorasSummaryQuiz = lazy(() => import("@/components/math/grade-8/pitagorasz-tetel/osszefoglalas/Chapter5PythagorasSummaryQuiz").then(m => ({ default: m.Chapter5PythagorasSummaryQuiz }))) as any;
+const Grade8DirectProportionG8Quiz = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/egyenes-aranyossag/DirectProportionG8Quiz").then(m => ({ default: m.DirectProportionG8Quiz }))) as any;
+const Grade8FunctionsGraphsQuiz = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/hozzarendelesek-es-grafikonjaik/FunctionsGraphsQuiz").then(m => ({ default: m.FunctionsGraphsQuiz }))) as any;
+const Grade8InverseProportionQuiz = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/forditott-aranyossag/InverseProportionQuiz").then(m => ({ default: m.InverseProportionQuiz }))) as any;
+const Grade8ReadingGraphsQuiz = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/olvassunk-a-grafikonrol/ReadingGraphsQuiz").then(m => ({ default: m.ReadingGraphsQuiz }))) as any;
+const Grade8PlottingGraphsQuiz = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/keszitsunk-grafikont/PlottingGraphsQuiz").then(m => ({ default: m.PlottingGraphsQuiz }))) as any;
+const Grade8FrequencyStatisticsQuiz = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/gyakorisag-relativ-gyakorisag-atlag/FrequencyStatisticsQuiz").then(m => ({ default: m.FrequencyStatisticsQuiz }))) as any;
+const Grade8ProbabilityGameQuiz = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/jatek/ProbabilityGameQuiz").then(m => ({ default: m.ProbabilityGameQuiz }))) as any;
+const Grade8ProbabilityBasicsQuiz = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/valoszinuseg/ProbabilityBasicsQuiz").then(m => ({ default: m.ProbabilityBasicsQuiz }))) as any;
+const Grade8ProbabilityProblemsQuiz = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/valoszinusegszamitasi-feladatok/ProbabilityProblemsQuiz").then(m => ({ default: m.ProbabilityProblemsQuiz }))) as any;
+const Grade8FindingPatternsQuiz = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/keressunk-osszefuggeseket/FindingPatternsQuiz").then(m => ({ default: m.FindingPatternsQuiz }))) as any;
+const Grade8SequencesQuiz = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/sorozatok/SequencesQuiz").then(m => ({ default: m.SequencesQuiz }))) as any;
+const Grade8Chapter6SummaryQuiz = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/osszefoglalas/Chapter6SummaryQuiz").then(m => ({ default: m.Chapter6SummaryQuiz }))) as any;
+const Grade8SolidsReviewQuiz = lazy(() => import("@/components/math/grade-8/testek/mit-tanultunk-eddig-ismetles/SolidsReviewQuiz").then(m => ({ default: m.SolidsReviewQuiz }))) as any;
+const Grade8PyramidsIntroQuiz = lazy(() => import("@/components/math/grade-8/testek/gulak/PyramidsIntroQuiz").then(m => ({ default: m.PyramidsIntroQuiz }))) as any;
+const Grade8PyramidSurfaceVolumeQuiz = lazy(() => import("@/components/math/grade-8/testek/a-gula-felszine-es-terfogata/PyramidSurfaceVolumeQuiz").then(m => ({ default: m.PyramidSurfaceVolumeQuiz }))) as any;
+const Grade8SphereQuiz = lazy(() => import("@/components/math/grade-8/testek/a-gomb/SphereQuiz").then(m => ({ default: m.SphereQuiz }))) as any;
+const Grade8EarthGeometryQuiz = lazy(() => import("@/components/math/grade-8/testek/a-fold/EarthGeometryQuiz").then(m => ({ default: m.EarthGeometryQuiz }))) as any;
+const Grade8Chapter7SolidsSummaryQuiz = lazy(() => import("@/components/math/grade-8/testek/osszefoglalas/Chapter7SolidsSummaryQuiz").then(m => ({ default: m.Chapter7SolidsSummaryQuiz }))) as any;
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -154,30 +202,51 @@ import {
   GraduationCap,
   Video,
   PieChart,
-  CheckCircle2
+  CheckCircle2,
+  Layers,
+  Scissors,
+  Award,
+  Boxes,
+  RefreshCw,
+  GitCompare,
+  MonitorPlay,
+  Maximize2,
+  Compass,
+  FlaskConical,
+  Timer,
+  Users,
+  Ruler,
+  TrendingUp,
+  LineChart,
+  Eye,
+  BarChart3,
+  Globe
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 type ViewState = 'main-select' | 'topic-select' | 'tools-select' | 'games-select' | 'competency-select' | 'activity' | 'geometry-select' | 'search-results';
 type ActivityType =
-  | 'quiz' | 'fractions' | 'algebra' | 'geometry' | 'percentages' | 'coloring'
-  | 'divisibility' | 'materials' | 'long-division' | 'angle-matching'
-  | 'shape-classification' | 'line-relationships' | 'reflection-quiz'
-  | 'divisibility-rules' | 'divisibility-powers'
-  | 'grade1-basic' | 'grade2-basic' | 'grade3-basic'
-  | 'word-problems' | 'triangle-classification' | 'quadrilateral-classification'
-  | 'snake-game' | 'circle-parts'
-  | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz'
-  | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz'
-  | 'triangle-angles-quiz' | 'g7-rational-numbers' | 'g7-expression-usage'
-  | 'decimal-fractions' | 'number-line' | 'construction' | 'decimal-quiz'
-  | 'decimal-multiplication-quiz' | 'decimal-division-quiz' | 'decimal-shifter'
-  | 'manipulative-division' | 'equation-solver' | 'equation-balance' | 'money-calculation'
-  | 'fractions-visualizer' | 'fractions-quiz' | 'fractions-multiplier'
-  | 'fractions-visual-matcher' | 'fractions-divider' | 'decimal-multiplier'
-  | 'decimal-divider' | 'decimal-multiplier-select' | 'decimal-divider-select'
-  | 'grade1-addition10' | 'grade1-snake' | 'grade2-coloring' | 'grade2-quiz'
-  | 'grade2-blocks' | 'grade2-snake' | 'grade3-coloring' | 'grade3-quiz'
+  | 'fraction-quiz' | 'decimal-quiz' | 'fraction-table' | 'percent-table'
+  | 'decimal-cards' | 'decimal-operations' | 'number-line' | 'fraction-comparison'
+  | 'coordinate-geometry' | 'coordinate-polygon' | 'angle-measurement'
+  | 'coordinate-transform' | 'fraction-tool' | 'construction'
+  | 'fraction-addition-tool' | 'fraction-subtraction-tool' | 'fraction-multiplication-tool'
+  | 'fraction-division-tool' | 'decimal-visualizer-tool' | 'decimal-addition-subtraction-tool'
+  | 'decimal-multiplication-tool' | 'decimal-division-tool' | 'percentage-calculator-tool'
+  | 'prime-factorization-tool' | 'gcd-lcm-tool' | 'number-set-visualizer-tool'
+  | 'coordinate-game' | 'equation-solver-tool' | 'pythagorean-tool'
+  | 'pythagorean-practice' | 'surface-area-volume-tool' | 'algebraic-expressions-tool'
+  | 'probability-tool' | 'set-operations-tool' | 'function-plotter-tool'
+  | 'combinatorics-tool' | 'statistics-tool' | 'geometric-shapes-tool'
+  | 'congruence-transformations-tool' | 'similarity-transformations-tool'
+  | 'coordinate-plane-tool' | 'powers-roots-tool' | 'percentage-calculation-tool'
+  | 'proportion-tool' | 'interest-calculator-tool'
+  | 'direct-proportionality-game' | 'inverse-proportionality-game' | 'graph-reading-tool'
+  | 'table-of-values-tool' | 'relative-frequency-tool' | 'mean-mode-median-tool'
+  | 'probability-simulation-tool' | 'geometric-probability-tool' | 'arithmetic-sequence-tool'
+  | 'geometric-sequence-tool' | 'fibonacci-sequence-tool'
+  | 'grade3-addition-quiz' | 'grade3-subtraction-quiz' | 'grade3-multiplication-quiz' | 'grade3-division-quiz'
+  | 'grade3-fractions-quiz' | 'grade3-geometry-quiz' | 'grade3-measurement-quiz' | 'grade3-word-problems-quiz'
   | 'grade3-blocks' | 'grade3-snake' | 'grade3-alapmuveletek' | 'grade3-tower-builder'
   | 'grade3-money-quiz' | 'triangle-angles-quiz' | 'decimal-fractions-tool' | 'number-line-tool'
   | 'manipulative-division' | 'construction-tool' | 'money-calculation'
@@ -188,8 +257,13 @@ type ActivityType =
   | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search' | 'memory-game' | 'equation-balance-quiz'
   | 'ratio-intro' | 'ratio-creator' | 'g7-word-problems' | 'direct-proportion-quiz' | 'matrix-sorting-game'
   | 'toto-maker' | 'chess-game' | 'torpedo-game' | 'matching-creator' | 'unit-converter' | 'capacity-converter' | 'analog-clock'
-  | 'hanoi-tower' | 'color-sequence-game' | 'perimeter-quiz' | 'perimeter-area' | 'volume-surface' | 'volume-quiz' | 'surface-area-quiz' | 'area-conversion-quiz' | 'area-calculation-quiz' | 'parallelogram-area-quiz' | 'g7-mapping-quiz' | 'g7-function-table-quiz' | 'smart-whiteboard'
-  | 'g8-algebra' | 'g8-percentages' | 'g8-percent-word-problems' | 'g8-ratio-intro' | 'g8-ratio-creator' | 'g8-equation-balance' | 'g8-word-problems-module' | 'g8-word-problems-quiz';
+  | 'g8-algebra' | 'g8-equation-balance' | 'g8-word-problems-module' | 'g8-word-problems-quiz'
+  | 'g8-logic' | 'g8-set-basics' | 'g8-set-operations' | 'g8-rational-set' | 'g8-rational-operations' | 'g8-powers' | 'g8-sqrt-concept' | 'g8-square-roots' | 'g8-algebra-intro' | 'g8-factoring' | 'g8-polynomial-mult' | 'g8-chapter1-summary'
+  | 'g8-geom-congruence' | 'g8-geom-transforms' | 'g8-geom-software' | 'g8-geom-similarity' | 'g8-geom-central-similarity' | 'g8-geom-constructions' | 'g8-geom-summary'
+  | 'g8-eq-basic' | 'g8-eq-numbers-ages' | 'g8-eq-mixing' | 'g8-eq-motion-work' | 'g8-eq-geometry' | 'g8-eq-mixed' | 'g8-eq-financial' | 'g8-eq-summary'
+  | 'g8-pyth-constructions' | 'g8-pyth-theorem' | 'g8-pyth-converse' | 'g8-pyth-applications' | 'g8-pyth-calculator' | 'g8-pyth-special-triangles' | 'g8-pyth-summary'
+  | 'g8-func-direct' | 'g8-func-graphs' | 'g8-func-inverse' | 'g8-func-reading' | 'g8-func-plotting' | 'g8-func-frequency' | 'g8-func-game' | 'g8-func-prob-basics' | 'g8-func-prob-problems' | 'g8-func-patterns' | 'g8-func-sequences' | 'g8-func-summary'
+  | 'g8-solids-review' | 'g8-solids-pyramids-intro' | 'g8-solids-pyramids-calc' | 'g8-solids-sphere' | 'g8-solids-earth' | 'g8-solids-summary';
 
 const gradeToSlug = (grade: GradeLevel): string => {
   if (grade === 'graduation') return 'erettsegi';
@@ -429,6 +503,58 @@ export default function MathPage() {
       'g7-percent-val': 'g7-percent-equations',
       'g7-percent-rate': 'g7-percent-equations',
       'g7-percent-base': 'g7-percent-equations',
+      'g8-sec-logika': 'g8-numbers-letters',
+      'g8-sec-halmazok-alap': 'g8-numbers-letters',
+      'g8-sec-halmaz-muveletek': 'g8-numbers-letters',
+      'g8-sec-racionalis-halmaz': 'g8-numbers-letters',
+      'g8-sec-racionalis-muvelet': 'g8-numbers-letters',
+      'g8-sec-hatvanyozas': 'g8-numbers-letters',
+      'g8-sec-negyzetgyok-fogalom': 'g8-numbers-letters',
+      'g8-sec-szamok-negyzetgyoke': 'g8-numbers-letters',
+      'g8-sec-betus-ismetles': 'g8-numbers-letters',
+      'g8-sec-betus-szorzas': 'g8-numbers-letters',
+      'g8-sec-tobbtagu-szorzat': 'g8-numbers-letters',
+      'g8-sec-osszefoglalas': 'g8-numbers-letters',
+      'g8-sec-geom-egybevagosag': 'g8-geometry',
+      'g8-sec-geom-transzformaciok': 'g8-geometry',
+      'g8-sec-geom-szerkesztoprogram': 'g8-geometry',
+      'g8-sec-geom-hasonlosag': 'g8-geometry',
+      'g8-sec-geom-kozeppontos': 'g8-geometry',
+      'g8-sec-geom-szerkesztesek': 'g8-geometry',
+      'g8-sec-geom-osszefoglalas': 'g8-geometry',
+      'g8-sec-eq-alap': 'g8-equations',
+      'g8-sec-eq-szamok-kor': 'g8-equations',
+      'g8-sec-eq-keveres': 'g8-equations',
+      'g8-sec-eq-mozgas-munka': 'g8-equations',
+      'g8-sec-eq-geometria': 'g8-equations',
+      'g8-sec-eq-vegyes': 'g8-equations',
+      'g8-sec-eq-penzugy': 'g8-equations',
+      'g8-sec-eq-osszefoglalas': 'g8-equations',
+      'g8-sec-pyth-szerkesztes': 'g8-pythagoras',
+      'g8-sec-pyth-tetel': 'g8-pythagoras',
+      'g8-sec-pyth-megforditas': 'g8-pythagoras',
+      'g8-sec-pyth-alkalmazas': 'g8-pythagoras',
+      'g8-sec-pyth-szamologep': 'g8-pythagoras',
+      'g8-sec-pyth-nevezetes': 'g8-pythagoras',
+      'g8-sec-pyth-osszefoglalas': 'g8-pythagoras',
+      'g8-sec-func-egyenes': 'g8-functions-probability-sequences',
+      'g8-sec-func-grafikonok': 'g8-functions-probability-sequences',
+      'g8-sec-func-forditott': 'g8-functions-probability-sequences',
+      'g8-sec-func-olvasas': 'g8-functions-probability-sequences',
+      'g8-sec-func-rajzolas': 'g8-functions-probability-sequences',
+      'g8-sec-func-gyakorisag': 'g8-functions-probability-sequences',
+      'g8-sec-func-jatek': 'g8-functions-probability-sequences',
+      'g8-sec-func-valoszinuseg': 'g8-functions-probability-sequences',
+      'g8-sec-func-feladatok': 'g8-functions-probability-sequences',
+      'g8-sec-func-mintazat': 'g8-functions-probability-sequences',
+      'g8-sec-func-sorozatok': 'g8-functions-probability-sequences',
+      'g8-sec-func-osszefoglalas': 'g8-functions-probability-sequences',
+      'g8-sec-solids-ismetles': 'g8-solids',
+      'g8-sec-solids-gulak': 'g8-solids',
+      'g8-sec-solids-gula-szamitas': 'g8-solids',
+      'g8-sec-solids-gomb': 'g8-solids',
+      'g8-sec-solids-fold': 'g8-solids',
+      'g8-sec-solids-osszefoglalas': 'g8-solids',
     };
 
     const parentTopicId = sectionToTopic[id];
@@ -526,8 +652,10 @@ export default function MathPage() {
     const grade = slugToGrade(gradeParam || '');
     if (grade) {
       setSelectedGrade(grade);
+      const defaultTopic = grade === 8 ? 'g8-numbers-letters' : grade === 7 ? 'g7-rational-algebra' : grade === 6 ? 'g6-integers-divisibility' : grade === 5 ? 'g5-integers' : 'materials';
       if (topicParam) {
         setSelectedTopic(topicParam);
+        setActiveGrade5TopicId(topicParam);
         if (activityParam) {
           setActivityType(activityParam as ActivityType);
           setView('activity');
@@ -540,7 +668,7 @@ export default function MathPage() {
         } else {
           setView('topic-select');
           // Some topics might show detail instead of full activity
-          if (topicParam === 'competency-assessment' || !((grade === 5 && topicParam.startsWith('g5-')) || grade === 4 || grade === 6 || grade === 7)) {
+          if (topicParam === 'competency-assessment' || !((grade === 5 && topicParam.startsWith('g5-')) || grade === 4 || grade === 6 || grade === 7 || grade === 8)) {
             setActivityType(topicParam as ActivityType);
             setView('activity');
           } else {
@@ -550,7 +678,8 @@ export default function MathPage() {
       } else {
         setView('topic-select');
         setActivityType('quiz'); // Reset activity type when no topic or activity is selected
-        setExpandedTopicId(null);
+        setActiveGrade5TopicId(defaultTopic);
+        setExpandedTopicId(defaultTopic);
       }
     }
   }, [location.pathname, gradeParam, topicParam, activityParam, location.search]);
@@ -619,10 +748,13 @@ export default function MathPage() {
   const handleGradeSelect = (grade: GradeLevel) => {
     setSelectedGrade(grade);
     setView('topic-select');
-    setExpandedTopicId(null);
-    if (typeof grade === 'number' || grade.startsWith('high-')) {
-      setActiveGrade5TopicId('materials');
+    if (typeof grade === 'number' || (typeof grade === 'string' && grade.startsWith('high-'))) {
+      const defaultTopic = grade === 8 ? 'g8-numbers-letters' : grade === 7 ? 'g7-rational-algebra' : grade === 6 ? 'g6-integers-divisibility' : grade === 5 ? 'g5-integers' : 'materials';
+      setActiveGrade5TopicId(defaultTopic);
+      setExpandedTopicId(defaultTopic);
       setActiveGrade5SubSectionId(null);
+    } else {
+      setExpandedTopicId(null);
     }
     updateURL('topic-select', grade, null, null);
   };
@@ -2430,93 +2562,534 @@ export default function MathPage() {
     }
 
     if (topicId === 'g8-numbers-letters') {
+      const showAll = !activeGrade5SubSectionId;
       return (
         <div className="flex flex-col gap-10 py-6">
-          <section>
-            <SectionHeader id="g8-algebra" number={1} title="Algebra és betűs kifejezések" color="blue" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Algebra Kvíz"
-                subtitle="Kifejezések, helyettesítés, azonosságok"
-                type="Kvíz"
-                onClick={() => handleActivitySelect('g8-algebra', topicId)}
-                icon={<Variable className="w-6 h-6" />}
-                color="blue"
-              />
-            </div>
-          </section>
+          {/* Section 1: Logika feladatok */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-logika') && (
+            <section>
+              <SectionHeader id="g8-sec-logika" number={1} title="Logika feladatok" color="blue" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Logika Kvíz"
+                  subtitle="Állítások, tagadás, skatulya-elv"
+                  type="Kvíz"
+                  emoji="🧠"
+                  onClick={() => handleActivitySelect('g8-logic', topicId)}
+                  icon={<Brain className="w-6 h-6" />}
+                  color="blue"
+                />
+              </div>
+            </section>
+          )}
 
-          <section>
-            <SectionHeader id="g8-percentages" number={2} title="Százalékszámítás" color="indigo" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Százalékszámítás Kvíz"
-                subtitle="Alap, érték, láb gyakorlása"
-                type="Kvíz"
-                onClick={() => handleActivitySelect('g8-percentages', topicId)}
-                icon={<Percent className="w-6 h-6" />}
-                color="indigo"
-              />
-              <ActivityPlaceholder
-                title="Szöveges feladatok"
-                subtitle="Százalékos összefüggések"
-                type="Feladatok"
-                onClick={() => handleActivitySelect('g8-percent-word-problems', topicId)}
-                icon={<Calculator className="w-6 h-6" />}
-                color="emerald"
-              />
-            </div>
-          </section>
+          {/* Section 2: Mit tudunk a halmazokról? */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-halmazok-alap') && (
+            <section>
+              <SectionHeader id="g8-sec-halmazok-alap" number={2} title="Mit tudunk a halmazokról?" color="violet" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Halmaz Alapfogalmak"
+                  subtitle="Relációk, részhalmazok száma"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => handleActivitySelect('g8-set-basics', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="violet"
+                />
+              </div>
+            </section>
+          )}
 
-          <section>
-            <SectionHeader id="g8-ratios" number={3} title="Arány és arányos osztás" color="amber" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Arány Bevezető"
-                subtitle="Arány fogalma és egyszerűsítés"
-                type="Kvíz"
-                onClick={() => handleActivitySelect('g8-ratio-intro', topicId)}
-                icon={<PieChart className="w-6 h-6" />}
-                color="amber"
-              />
-              <ActivityPlaceholder
-                title="Aránykészítő"
-                subtitle="Kreatív aránypárok"
-                type="Játék"
-                onClick={() => handleActivitySelect('g8-ratio-creator', topicId)}
-                icon={<Sparkles className="w-6 h-6" />}
-                color="pink"
-              />
-            </div>
-          </section>
+          {/* Section 3: Műveletek halmazokkal */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-halmaz-muveletek') && (
+            <section>
+              <SectionHeader id="g8-sec-halmaz-muveletek" number={3} title="Műveletek halmazokkal" color="indigo" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Halmazműveletek"
+                  subtitle="Metszet, unió, különbség, szita"
+                  type="Kvíz"
+                  emoji="📑"
+                  onClick={() => handleActivitySelect('g8-set-operations', topicId)}
+                  icon={<Layers className="w-6 h-6" />}
+                  color="indigo"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 4: A racionális számok halmaza */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-racionalis-halmaz') && (
+            <section>
+              <SectionHeader id="g8-sec-racionalis-halmaz" number={4} title="A racionális számok halmaza" color="emerald" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Racionális Számok (ℚ)"
+                  subtitle="Törtek, tizedestörtek, abszolútérték"
+                  type="Kvíz"
+                  emoji="🔢"
+                  onClick={() => handleActivitySelect('g8-rational-set', topicId)}
+                  icon={<Binary className="w-6 h-6" />}
+                  color="emerald"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 5: Mit tudunk a racionális számokról? */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-racionalis-muvelet') && (
+            <section>
+              <SectionHeader id="g8-sec-racionalis-muvelet" number={5} title="Mit tudunk a racionális számokról?" color="cyan" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Műveletek Racionálisan"
+                  subtitle="Előjelek, törtek, műveleti sorrend"
+                  type="Kvíz"
+                  emoji="🧮"
+                  onClick={() => handleActivitySelect('g8-rational-operations', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="cyan"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 6: Hatványozás */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-hatvanyozas') && (
+            <section>
+              <SectionHeader id="g8-sec-hatvanyozas" number={6} title="Hatványozás" color="amber" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Hatványozás & Normálalak"
+                  subtitle="Azonosságok, negatív kitevő"
+                  type="Kvíz"
+                  emoji="⚡"
+                  onClick={() => handleActivitySelect('g8-powers', topicId)}
+                  icon={<Zap className="w-6 h-6" />}
+                  color="amber"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 7: A négyzetgyök fogalma */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-negyzetgyok-fogalom') && (
+            <section>
+              <SectionHeader id="g8-sec-negyzetgyok-fogalom" number={7} title="A négyzetgyök fogalma" color="rose" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Négyzetgyök Fogalma"
+                  subtitle="Nemnegativitás, értelmezési tartomány"
+                  type="Kvíz"
+                  emoji="📐"
+                  onClick={() => handleActivitySelect('g8-sqrt-concept', topicId)}
+                  icon={<Square className="w-6 h-6" />}
+                  color="rose"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 8: Számok négyzetgyöke */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-szamok-negyzetgyoke') && (
+            <section>
+              <SectionHeader id="g8-sec-szamok-negyzetgyoke" number={8} title="Számok négyzetgyöke" color="pink" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Számok Négyzetgyöke"
+                  subtitle="Azonosságok, kiemelés, becslés"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => handleActivitySelect('g8-square-roots', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="pink"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 9: Betűs kifejezések (ismétlés) */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-betus-ismetles') && (
+            <section>
+              <SectionHeader id="g8-sec-betus-ismetles" number={9} title="Betűs kifejezések (ismétlés)" color="blue" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Betűs Kifejezések"
+                  subtitle="Egynemű tagok, helyettesítési érték"
+                  type="Kvíz"
+                  emoji="🔤"
+                  onClick={() => handleActivitySelect('g8-algebra-intro', topicId)}
+                  icon={<Variable className="w-6 h-6" />}
+                  color="blue"
+                />
+                <ActivityPlaceholder
+                  title="Algebra Gyakorló"
+                  subtitle="Egyenletek, kifejezések"
+                  type="Gyakorlás"
+                  onClick={() => handleActivitySelect('g8-algebra', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="indigo"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 10: Betűs kifejezések szorzása és a kiemelés */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-betus-szorzas') && (
+            <section>
+              <SectionHeader id="g8-sec-betus-szorzas" number={10} title="Betűs kifejezések szorzása és a kiemelés" color="purple" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Szorzás & Kiemelés"
+                  subtitle="Zárójelbontás, közös tényező kiemelése"
+                  type="Kvíz"
+                  emoji="✂️"
+                  onClick={() => handleActivitySelect('g8-factoring', topicId)}
+                  icon={<Scissors className="w-6 h-6" />}
+                  color="purple"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 11: Többtagú kifejezések szorzata */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-tobbtagu-szorzat') && (
+            <section>
+              <SectionHeader id="g8-sec-tobbtagu-szorzat" number={11} title="Többtagú kifejezések szorzata" color="indigo" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Nevezetes Azonosságok"
+                  subtitle="(a+b)², (a-b)², a²-b² kifejtése"
+                  type="Kvíz"
+                  emoji="📦"
+                  onClick={() => handleActivitySelect('g8-polynomial-mult', topicId)}
+                  icon={<Boxes className="w-6 h-6" />}
+                  color="indigo"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 12: Összefoglalás */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-osszefoglalas') && (
+            <section>
+              <SectionHeader id="g8-sec-osszefoglalas" number={12} title="Összefoglalás" color="yellow" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="I. Fejezet Témazáró Kvíz"
+                  subtitle="Számok és betűk átfogó teszt"
+                  type="Témazáró"
+                  emoji="🏆"
+                  onClick={() => handleActivitySelect('g8-chapter1-summary', topicId)}
+                  icon={<Award className="w-6 h-6" />}
+                  color="amber"
+                />
+              </div>
+            </section>
+          )}
+        </div>
+      );
+    }
+
+    if (topicId === 'g8-geometry') {
+      const showAll = !activeGrade5SubSectionId;
+      return (
+        <div className="flex flex-col gap-10 py-6">
+          {/* Section 1: Egybevágósági transzformációk (ismétlés) */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-geom-egybevagosag') && (
+            <section>
+              <SectionHeader id="g8-sec-geom-egybevagosag" number={1} title="Egybevágósági transzformációk (ismétlés)" color="emerald" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Egybevágósági Kvíz"
+                  subtitle="Tükrözések, eltolás, forgatás"
+                  type="Kvíz"
+                  emoji="🔄"
+                  onClick={() => handleActivitySelect('g8-geom-congruence', topicId)}
+                  icon={<RefreshCw className="w-6 h-6" />}
+                  color="emerald"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 2: Transzformációk */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-geom-transzformaciok') && (
+            <section>
+              <SectionHeader id="g8-sec-geom-transzformaciok" number={2} title="Transzformációk" color="teal" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Transzformációk"
+                  subtitle="Invariánsok, fixpontok, leképezések"
+                  type="Kvíz"
+                  emoji="🔀"
+                  onClick={() => handleActivitySelect('g8-geom-transforms', topicId)}
+                  icon={<GitCompare className="w-6 h-6" />}
+                  color="teal"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 3: Használjunk szerkesztőprogramot! */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-geom-szerkesztoprogram') && (
+            <section>
+              <SectionHeader id="g8-sec-geom-szerkesztoprogram" number={3} title="Használjunk szerkesztőprogramot!" color="cyan" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Szerkesztőprogram Kvíz"
+                  subtitle="Dinamikus geometria, mértani helyek"
+                  type="Kvíz"
+                  emoji="💻"
+                  onClick={() => handleActivitySelect('g8-geom-software', topicId)}
+                  icon={<MonitorPlay className="w-6 h-6" />}
+                  color="cyan"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 4: Hasonlóság */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-geom-hasonlosag') && (
+            <section>
+              <SectionHeader id="g8-sec-geom-hasonlosag" number={4} title="Hasonlóság" color="blue" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Hasonlóság Kvíz"
+                  subtitle="Hasonlósági arány, alapesetek, területek aránya"
+                  type="Kvíz"
+                  emoji="📐"
+                  onClick={() => handleActivitySelect('g8-geom-similarity', topicId)}
+                  icon={<Maximize2 className="w-6 h-6" />}
+                  color="blue"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 5: A középpontos hasonlóság */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-geom-kozeppontos') && (
+            <section>
+              <SectionHeader id="g8-sec-geom-kozeppontos" number={5} title="A középpontos hasonlóság (Kiegészítő tananyag)" color="indigo" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Középpontos Hasonlóság"
+                  subtitle="Centrum, λ arányszám, párhuzamos szelők"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => handleActivitySelect('g8-geom-central-similarity', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="indigo"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 6: Szerkesztések */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-geom-szerkesztesek') && (
+            <section>
+              <SectionHeader id="g8-sec-geom-szerkesztesek" number={6} title="Szerkesztések (Kiegészítő tananyag)" color="amber" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Geometriai Szerkesztések"
+                  subtitle="Szakaszosztás, negyedik arányos"
+                  type="Kvíz"
+                  emoji="🧭"
+                  onClick={() => handleActivitySelect('g8-geom-constructions', topicId)}
+                  icon={<Compass className="w-6 h-6" />}
+                  color="amber"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 7: Összefoglalás */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-geom-osszefoglalas') && (
+            <section>
+              <SectionHeader id="g8-sec-geom-osszefoglalas" number={7} title="Összefoglalás" color="yellow" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="II. Fejezet Témazáró Kvíz"
+                  subtitle="Geometria átfogó teszt"
+                  type="Témazáró"
+                  emoji="🏆"
+                  onClick={() => handleActivitySelect('g8-geom-summary', topicId)}
+                  icon={<Award className="w-6 h-6" />}
+                  color="amber"
+                />
+              </div>
+            </section>
+          )}
         </div>
       );
     }
 
     if (topicId === 'g8-equations') {
+      const showAll = !activeGrade5SubSectionId;
       return (
         <div className="flex flex-col gap-10 py-6">
-          <section>
-            <SectionHeader id="g8-eq-balance" number={1} title="Egyenletek és mérlegelv" color="purple" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Mérlegelv Kvíz"
-                subtitle="Egyenletmegoldás vizuálisan"
-                type="Kvíz"
-                onClick={() => handleActivitySelect('g8-equation-balance', topicId)}
-                icon={<Scale className="w-6 h-6" />}
-                color="purple"
-              />
-              <ActivityPlaceholder
-                title="Egyenletmegoldó eszköz"
-                subtitle="Lépésről lépésre levezetés"
-                type="Eszköz"
-                onClick={() => handleActivitySelect('equation-solver', topicId)}
-                icon={<Calculator className="w-6 h-6" />}
-                color="indigo"
-              />
-            </div>
-          </section>
+          {/* Section 1: Egyenletek */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-eq-alap') && (
+            <section>
+              <SectionHeader id="g8-sec-eq-alap" number={1} title="Egyenletek" color="purple" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Egyenletek Kvíz"
+                  subtitle="Zárójelbontás, törtes egyenletek, kikötések"
+                  type="Kvíz"
+                  emoji="⚖️"
+                  onClick={() => handleActivitySelect('g8-eq-basic', topicId)}
+                  icon={<Scale className="w-6 h-6" />}
+                  color="purple"
+                />
+                <ActivityPlaceholder
+                  title="Mérlegelv Gyakorló"
+                  subtitle="Vizuális egyenletmegoldás két karral"
+                  type="Gyakorló"
+                  emoji="⚖️"
+                  onClick={() => handleActivitySelect('g8-equation-balance', topicId)}
+                  icon={<Scale className="w-6 h-6" />}
+                  color="indigo"
+                />
+                <ActivityPlaceholder
+                  title="Egyenletmegoldó eszköz"
+                  subtitle="Lépésről lépésre levezetés"
+                  type="Eszköz"
+                  emoji="🧮"
+                  onClick={() => handleActivitySelect('equation-solver', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="blue"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 2: Szöveges feladatok számokról, életkorokról */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-eq-szamok-kor') && (
+            <section>
+              <SectionHeader id="g8-sec-eq-szamok-kor" number={2} title="Szöveges feladatok számokról, életkorokról" color="rose" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Számok és Életkorok"
+                  subtitle="Kétjegyű számok és életkori modellek"
+                  type="Kvíz"
+                  emoji="👥"
+                  onClick={() => handleActivitySelect('g8-eq-numbers-ages', topicId)}
+                  icon={<Users className="w-6 h-6" />}
+                  color="rose"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 3: Szöveges feladatok összekeverésről */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-eq-keveres') && (
+            <section>
+              <SectionHeader id="g8-sec-eq-keveres" number={3} title="Szöveges feladatok összekeverésről" color="teal" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Keverési Feladatok"
+                  subtitle="Oldatok, tömegszázalék, ötvözetek"
+                  type="Kvíz"
+                  emoji="🧪"
+                  onClick={() => handleActivitySelect('g8-eq-mixing', topicId)}
+                  icon={<FlaskConical className="w-6 h-6" />}
+                  color="teal"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 4: Szöveges feladatok mozgásról, munkáról */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-eq-mozgas-munka') && (
+            <section>
+              <SectionHeader id="g8-sec-eq-mozgas-munka" number={4} title="Szöveges feladatok mozgásról, munkáról" color="blue" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Mozgás és Munka"
+                  subtitle="s = v · t, találkozás, utolérés, munka"
+                  type="Kvíz"
+                  emoji="⏱️"
+                  onClick={() => handleActivitySelect('g8-eq-motion-work', topicId)}
+                  icon={<Timer className="w-6 h-6" />}
+                  color="blue"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 5: Szöveges geometriai feladatok */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-eq-geometria') && (
+            <section>
+              <SectionHeader id="g8-sec-eq-geometria" number={5} title="Szöveges geometriai feladatok" color="emerald" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Geometriai Egyenletek"
+                  subtitle="Kerület, terület és szögek egyenletekkel"
+                  type="Kvíz"
+                  emoji="📐"
+                  onClick={() => handleActivitySelect('g8-eq-geometry', topicId)}
+                  icon={<Shapes className="w-6 h-6" />}
+                  color="emerald"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 6: Vegyes feladatok */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-eq-vegyes') && (
+            <section>
+              <SectionHeader id="g8-sec-eq-vegyes" number={6} title="Vegyes feladatok" color="violet" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Vegyes Szöveges Feladatok"
+                  subtitle="Összetett és felvételi típusú feladatok"
+                  type="Kvíz"
+                  emoji="🧠"
+                  onClick={() => handleActivitySelect('g8-eq-mixed', topicId)}
+                  icon={<Brain className="w-6 h-6" />}
+                  color="violet"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 7: Pénzügyi feladatok */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-eq-penzugy') && (
+            <section>
+              <SectionHeader id="g8-sec-eq-penzugy" number={7} title="Pénzügyi feladatok" color="amber" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Pénzügyi Számítások"
+                  subtitle="Árváltozások, kamat, megtakarítás"
+                  type="Kvíz"
+                  emoji="💰"
+                  onClick={() => handleActivitySelect('g8-eq-financial', topicId)}
+                  icon={<Coins className="w-6 h-6" />}
+                  color="amber"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 8: Összefoglalás */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-eq-osszefoglalas') && (
+            <section>
+              <SectionHeader id="g8-sec-eq-osszefoglalas" number={8} title="Összefoglalás" color="yellow" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="III. Fejezet Témazáró Kvíz"
+                  subtitle="Egyenletek átfogó teszt"
+                  type="Témazáró"
+                  emoji="🏆"
+                  onClick={() => handleActivitySelect('g8-eq-summary', topicId)}
+                  icon={<Award className="w-6 h-6" />}
+                  color="amber"
+                />
+              </div>
+            </section>
+          )}
         </div>
       );
     }
@@ -2545,6 +3118,477 @@ export default function MathPage() {
               />
             </div>
           </section>
+        </div>
+      );
+    }
+
+    if (topicId === 'g8-pythagoras') {
+      const showAll = !activeGrade5SubSectionId;
+      return (
+        <div className="flex flex-col gap-10 py-6">
+          {/* Section 1: Szerkesztések, mérések */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-pyth-szerkesztes') && (
+            <section>
+              <SectionHeader id="g8-sec-pyth-szerkesztes" number={1} title="Szerkesztések, mérések" color="amber" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Szerkesztések & Mérések"
+                  subtitle="Thálész-tétel, területek mérése"
+                  type="Kvíz"
+                  emoji="📏"
+                  onClick={() => handleActivitySelect('g8-pyth-constructions', topicId)}
+                  icon={<Ruler className="w-6 h-6" />}
+                  color="amber"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 2: A Pitagorasz-tétel */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-pyth-tetel') && (
+            <section>
+              <SectionHeader id="g8-sec-pyth-tetel" number={2} title="A Pitagorasz-tétel" color="orange" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Pitagorasz-tétel Kvíz"
+                  subtitle="a² + b² = c², befogók és átfogó"
+                  type="Kvíz"
+                  emoji="📐"
+                  onClick={() => handleActivitySelect('g8-pyth-theorem', topicId)}
+                  icon={<Triangle className="w-6 h-6" />}
+                  color="orange"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 3: A Pitagorasz-tétel megfordítása */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-pyth-megforditas') && (
+            <section>
+              <SectionHeader id="g8-sec-pyth-megforditas" number={3} title="A Pitagorasz-tétel megfordítása" color="yellow" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Megfordítás & Számhármasok"
+                  subtitle="Derékszögűség, 3-4-5, 5-12-13"
+                  type="Kvíz"
+                  emoji="🔄"
+                  onClick={() => handleActivitySelect('g8-pyth-converse', topicId)}
+                  icon={<GitCompare className="w-6 h-6" />}
+                  color="yellow"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 4: A Pitagorasz-tétel alkalmazása */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-pyth-alkalmazas') && (
+            <section>
+              <SectionHeader id="g8-sec-pyth-alkalmazas" number={4} title="A Pitagorasz-tétel alkalmazása" color="emerald" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Síkbeli Alkalmazások"
+                  subtitle="Négyzet, téglalap, rombusz, trapéz"
+                  type="Kvíz"
+                  emoji="🔷"
+                  onClick={() => handleActivitySelect('g8-pyth-applications', topicId)}
+                  icon={<Shapes className="w-6 h-6" />}
+                  color="emerald"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 5: Számológép & Projektmunka */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-pyth-szamologep') && (
+            <section>
+              <SectionHeader id="g8-sec-pyth-szamologep" number={5} title="Számológép és Projektmunka" color="cyan" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Számológép & Projekt"
+                  subtitle="Gyökcsiga (Theodórosz), hajtogatás"
+                  type="Kvíz"
+                  emoji="🧮"
+                  onClick={() => handleActivitySelect('g8-pyth-calculator', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="cyan"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 6: Nevezetes derékszögű háromszögek */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-pyth-nevezetes') && (
+            <section>
+              <SectionHeader id="g8-sec-pyth-nevezetes" number={6} title="Nevezetes derékszögű háromszögek" color="indigo" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Nevezetes Háromszögek"
+                  subtitle="30°-60°-90° és 45°-45°-90°"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => handleActivitySelect('g8-pyth-special-triangles', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="indigo"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 7: Összefoglalás */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-pyth-osszefoglalas') && (
+            <section>
+              <SectionHeader id="g8-sec-pyth-osszefoglalas" number={7} title="Összefoglalás" color="rose" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="V. Fejezet Témazáró Kvíz"
+                  subtitle="Pitagorasz-tétel átfogó teszt"
+                  type="Témazáró"
+                  emoji="🏆"
+                  onClick={() => handleActivitySelect('g8-pyth-summary', topicId)}
+                  icon={<Award className="w-6 h-6" />}
+                  color="amber"
+                />
+              </div>
+            </section>
+          )}
+        </div>
+      );
+    }
+
+    if (topicId === 'g8-functions-probability-sequences') {
+      const showAll = !activeGrade5SubSectionId || activeGrade5SubSectionId === 'all';
+      return (
+        <div className="space-y-12">
+          {/* Section 1: Egyenes arányosság */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-func-egyenes') && (
+            <section>
+              <SectionHeader id="g8-sec-func-egyenes" number={1} title="Egyenes arányosság" color="cyan" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Egyenes Arányosság Kvíz"
+                  subtitle="y = k · x, arányossági tényező"
+                  type="Kvíz"
+                  emoji="📈"
+                  onClick={() => handleActivitySelect('g8-func-direct', topicId)}
+                  icon={<TrendingUp className="w-6 h-6" />}
+                  color="cyan"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 2: Hozzárendelések és grafikonjaik */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-func-grafikonok') && (
+            <section>
+              <SectionHeader id="g8-sec-func-grafikonok" number={2} title="Hozzárendelések és grafikonjaik" color="blue" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Függvények & Grafikonok"
+                  subtitle="y = ax + b, meredekség, zérushely"
+                  type="Kvíz"
+                  emoji="📊"
+                  onClick={() => handleActivitySelect('g8-func-graphs', topicId)}
+                  icon={<LineChart className="w-6 h-6" />}
+                  color="blue"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 3: Fordított arányosság */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-func-forditott') && (
+            <section>
+              <SectionHeader id="g8-sec-func-forditott" number={3} title="Fordított arányosság" color="indigo" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Fordított Arányosság Kvíz"
+                  subtitle="y = k / x, hiperbola, szorzat állandó"
+                  type="Kvíz"
+                  emoji="🔄"
+                  onClick={() => handleActivitySelect('g8-func-inverse', topicId)}
+                  icon={<ArrowRightLeft className="w-6 h-6" />}
+                  color="indigo"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 4: Olvassunk a grafikonról! */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-func-olvasas') && (
+            <section>
+              <SectionHeader id="g8-sec-func-olvasas" number={4} title="Olvassunk a grafikonról!" color="teal" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Grafikon Leolvasása"
+                  subtitle="Menetdiagramok, szélsőértékek, szakaszok"
+                  type="Kvíz"
+                  emoji="👁️"
+                  onClick={() => handleActivitySelect('g8-func-reading', topicId)}
+                  icon={<Eye className="w-6 h-6" />}
+                  color="teal"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 5: Készítsünk grafikont! */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-func-rajzolas') && (
+            <section>
+              <SectionHeader id="g8-sec-func-rajzolas" number={5} title="Készítsünk grafikont!" color="blue" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Grafikon Készítés Kvíz"
+                  subtitle="Értéktáblázat, skálázás, pontok ábrázolása"
+                  type="Gyakorló"
+                  emoji="✏️"
+                  onClick={() => handleActivitySelect('g8-func-plotting', topicId)}
+                  icon={<Pencil className="w-6 h-6" />}
+                  color="blue"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 6: Gyakoriság, relatív gyakoriság, átlag */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-func-gyakorisag') && (
+            <section>
+              <SectionHeader id="g8-sec-func-gyakorisag" number={6} title="Gyakoriság, relatív gyakoriság, átlag" color="emerald" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Statisztika & Átlag Kvíz"
+                  subtitle="Átlag, medián, módusz, diagramok"
+                  type="Kvíz"
+                  emoji="📊"
+                  onClick={() => handleActivitySelect('g8-func-frequency', topicId)}
+                  icon={<BarChart3 className="w-6 h-6" />}
+                  color="emerald"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 7: Játék */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-func-jatek') && (
+            <section>
+              <SectionHeader id="g8-sec-func-jatek" number={7} title="Játék" color="purple" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Matematikai Játékok"
+                  subtitle="Nyerő stratégiák, Nim, esélyek"
+                  type="Játék"
+                  emoji="🎲"
+                  onClick={() => handleActivitySelect('g8-func-game', topicId)}
+                  icon={<Gamepad2 className="w-6 h-6" />}
+                  color="purple"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 8: Valószínűség */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-func-valoszinuseg') && (
+            <section>
+              <SectionHeader id="g8-sec-func-valoszinuseg" number={8} title="Valószínűség" color="amber" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Klasszikus Valószínűség"
+                  subtitle="P = kedvező / összes, események"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => handleActivitySelect('g8-func-prob-basics', topicId)}
+                  icon={<Percent className="w-6 h-6" />}
+                  color="amber"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 9: Valószínűségszámítási feladatok */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-func-feladatok') && (
+            <section>
+              <SectionHeader id="g8-sec-func-feladatok" number={9} title="Valószínűségszámítási feladatok" color="rose" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Összetett Valószínűségi Feladatok"
+                  subtitle="Két kocka, kártyák, golyóhúzások"
+                  type="Gyakorló"
+                  emoji="🧠"
+                  onClick={() => handleActivitySelect('g8-func-prob-problems', topicId)}
+                  icon={<Brain className="w-6 h-6" />}
+                  color="rose"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 10: Keressünk összefüggéseket! */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-func-mintazat') && (
+            <section>
+              <SectionHeader id="g8-sec-func-mintazat" number={10} title="Keressünk összefüggéseket!" color="amber" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Összefüggések Keresése"
+                  subtitle="Mintázatok, képletek felírása, n ↦ f(n)"
+                  type="Kvíz"
+                  emoji="🔍"
+                  onClick={() => handleActivitySelect('g8-func-patterns', topicId)}
+                  icon={<Search className="w-6 h-6" />}
+                  color="amber"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 11: Sorozatok */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-func-sorozatok') && (
+            <section>
+              <SectionHeader id="g8-sec-func-sorozatok" number={11} title="Sorozatok" color="cyan" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Számsorozatok Kvíz"
+                  subtitle="Számtani, mértani, Fibonacci sorozat"
+                  type="Kvíz"
+                  emoji="🔢"
+                  onClick={() => handleActivitySelect('g8-func-sequences', topicId)}
+                  icon={<Layers className="w-6 h-6" />}
+                  color="cyan"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 12: Összefoglalás */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-func-osszefoglalas') && (
+            <section>
+              <SectionHeader id="g8-sec-func-osszefoglalas" number={12} title="Összefoglalás" color="emerald" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="VI. Fejezet Témazáró Kvíz"
+                  subtitle="Hozzárendelések, statisztika, sorozatok teszt"
+                  type="Témazáró"
+                  emoji="🏆"
+                  onClick={() => handleActivitySelect('g8-func-summary', topicId)}
+                  icon={<Award className="w-6 h-6" />}
+                  color="emerald"
+                />
+              </div>
+            </section>
+          )}
+        </div>
+      );
+    }
+
+    if (topicId === 'g8-solids') {
+      const showAll = !activeGrade5SubSectionId || activeGrade5SubSectionId === 'all';
+      return (
+        <div className="space-y-12">
+          {/* Section 1: Mit tanultunk eddig? (ismétlés) */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-solids-ismetles') && (
+            <section>
+              <SectionHeader id="g8-sec-solids-ismetles" number={1} title="Mit tanultunk eddig? (ismétlés)" color="indigo" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Testek Ismétlő Kvíz"
+                  subtitle="Kocka, téglatest, hasáb, henger, mértékegységek"
+                  type="Kvíz"
+                  emoji="📦"
+                  onClick={() => handleActivitySelect('g8-solids-review', topicId)}
+                  icon={<Box className="w-6 h-6" />}
+                  color="indigo"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 2: Gúlák */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-solids-gulak') && (
+            <section>
+              <SectionHeader id="g8-sec-solids-gulak" number={2} title="Gúlák" color="amber" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Gúlák Tulajdonságai"
+                  subtitle="Alaplap, palást, oldalélek, háló, Euler-tétel"
+                  type="Kvíz"
+                  emoji="🔺"
+                  onClick={() => handleActivitySelect('g8-solids-pyramids-intro', topicId)}
+                  icon={<Triangle className="w-6 h-6" />}
+                  color="amber"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 3: A gúla felszíne és térfogata */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-solids-gula-szamitas') && (
+            <section>
+              <SectionHeader id="g8-sec-solids-gula-szamitas" number={3} title="A gúla felszíne és térfogata (Kiegészítő tananyag)" color="rose" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Gúla Felszín és Térfogat"
+                  subtitle="A = Ta + Tp, V = (Ta · m) / 3, Pitagorasz-tétel"
+                  type="Gyakorló"
+                  emoji="📐"
+                  onClick={() => handleActivitySelect('g8-solids-pyramids-calc', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="rose"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 4: A gömb */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-solids-gomb') && (
+            <section>
+              <SectionHeader id="g8-sec-solids-gomb" number={4} title="A gömb" color="blue" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="A Gömb Geometriája"
+                  subtitle="A = 4πr², V = (4/3)πr³, főkör, félgömb"
+                  type="Kvíz"
+                  emoji="⚪"
+                  onClick={() => handleActivitySelect('g8-solids-sphere', topicId)}
+                  icon={<Circle className="w-6 h-6" />}
+                  color="blue"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 5: A Föld */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-solids-fold') && (
+            <section>
+              <SectionHeader id="g8-sec-solids-fold" number={5} title="A Föld" color="teal" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="A Föld Mint Gömb"
+                  subtitle="R ≈ 6370 km, Egyenlítő, fokhálózat, felszín"
+                  type="Kvíz"
+                  emoji="🌍"
+                  onClick={() => handleActivitySelect('g8-solids-earth', topicId)}
+                  icon={<Globe className="w-6 h-6" />}
+                  color="teal"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 6: Összefoglalás */}
+          {(showAll || activeGrade5SubSectionId === 'g8-sec-solids-osszefoglalas') && (
+            <section>
+              <SectionHeader id="g8-sec-solids-osszefoglalas" number={6} title="Összefoglalás" color="indigo" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="VII. Fejezet Témazáró Kvíz"
+                  subtitle="Hasábok, gúlák, gömbök átfogó teszt"
+                  type="Témazáró"
+                  emoji="🏆"
+                  onClick={() => handleActivitySelect('g8-solids-summary', topicId)}
+                  icon={<Award className="w-6 h-6" />}
+                  color="indigo"
+                />
+              </div>
+            </section>
+          )}
         </div>
       );
     }
@@ -3104,17 +4148,77 @@ export default function MathPage() {
                 // Add subsections for Grade 8
                 else if (t.id === 'g8-numbers-letters') {
                   subsections = [
-                    { id: 'g8-algebra', label: '1. Algebra és kifejezések' },
-                    { id: 'g8-percentages', label: '2. Százalékszámítás' },
-                    { id: 'g8-ratios', label: '3. Arányok és arányos osztás' }
+                    { id: 'g8-sec-logika', label: '1. Logika feladatok' },
+                    { id: 'g8-sec-halmazok-alap', label: '2. Mit tudunk a halmazokról?' },
+                    { id: 'g8-sec-halmaz-muveletek', label: '3. Műveletek halmazokkal' },
+                    { id: 'g8-sec-racionalis-halmaz', label: '4. A racionális számok halmaza' },
+                    { id: 'g8-sec-racionalis-muvelet', label: '5. Mit tudunk a racionális számokról?' },
+                    { id: 'g8-sec-hatvanyozas', label: '6. Hatványozás' },
+                    { id: 'g8-sec-negyzetgyok-fogalom', label: '7. A négyzetgyök fogalma' },
+                    { id: 'g8-sec-szamok-negyzetgyoke', label: '8. Számok négyzetgyöke' },
+                    { id: 'g8-sec-betus-ismetles', label: '9. Betűs kifejezések (ismétlés)' },
+                    { id: 'g8-sec-betus-szorzas', label: '10. Betűs kifejezések szorzása és a kiemelés' },
+                    { id: 'g8-sec-tobbtagu-szorzat', label: '11. Többtagú kifejezések szorzata' },
+                    { id: 'g8-sec-osszefoglalas', label: '12. Összefoglalás' }
+                  ];
+                } else if (t.id === 'g8-geometry') {
+                  subsections = [
+                    { id: 'g8-sec-geom-egybevagosag', label: '1. Egybevágósági transzformációk' },
+                    { id: 'g8-sec-geom-transzformaciok', label: '2. Transzformációk' },
+                    { id: 'g8-sec-geom-szerkesztoprogram', label: '3. Használjunk szerkesztőprogramot!' },
+                    { id: 'g8-sec-geom-hasonlosag', label: '4. Hasonlóság' },
+                    { id: 'g8-sec-geom-kozeppontos', label: '5. A középpontos hasonlóság' },
+                    { id: 'g8-sec-geom-szerkesztesek', label: '6. Szerkesztések' },
+                    { id: 'g8-sec-geom-osszefoglalas', label: '7. Összefoglalás' }
                   ];
                 } else if (t.id === 'g8-equations') {
                   subsections = [
-                    { id: 'g8-eq-balance', label: '1. Egyenletek & Mérlegelv' }
+                    { id: 'g8-sec-eq-alap', label: '1. Egyenletek' },
+                    { id: 'g8-sec-eq-szamok-kor', label: '2. Szöveges feladatok számokról, életkorokról' },
+                    { id: 'g8-sec-eq-keveres', label: '3. Szöveges feladatok összekeverésről' },
+                    { id: 'g8-sec-eq-mozgas-munka', label: '4. Szöveges feladatok mozgásról, munkáról' },
+                    { id: 'g8-sec-eq-geometria', label: '5. Szöveges geometriai feladatok' },
+                    { id: 'g8-sec-eq-vegyes', label: '6. Vegyes feladatok' },
+                    { id: 'g8-sec-eq-penzugy', label: '7. Pénzügyi feladatok' },
+                    { id: 'g8-sec-eq-osszefoglalas', label: '8. Összefoglalás' }
                   ];
                 } else if (t.id === 'g8-admissions-prep') {
                   subsections = [
                     { id: 'g8-prep-word', label: '1. Szöveges & felvételi feladatok' }
+                  ];
+                } else if (t.id === 'g8-pythagoras') {
+                  subsections = [
+                    { id: 'g8-sec-pyth-szerkesztes', label: '1. Szerkesztések, mérések' },
+                    { id: 'g8-sec-pyth-tetel', label: '2. A Pitagorasz-tétel' },
+                    { id: 'g8-sec-pyth-megforditas', label: '3. A Pitagorasz-tétel megfordítása' },
+                    { id: 'g8-sec-pyth-alkalmazas', label: '4. A Pitagorasz-tétel alkalmazása' },
+                    { id: 'g8-sec-pyth-szamologep', label: '5. Számológép & Projektmunka' },
+                    { id: 'g8-sec-pyth-nevezetes', label: '6. Nevezetes derékszögű háromszögek' },
+                    { id: 'g8-sec-pyth-osszefoglalas', label: '7. Összefoglalás' }
+                  ];
+                } else if (t.id === 'g8-functions-probability-sequences') {
+                  subsections = [
+                    { id: 'g8-sec-func-egyenes', label: '1. Egyenes arányosság' },
+                    { id: 'g8-sec-func-grafikonok', label: '2. Hozzárendelések és grafikonjaik' },
+                    { id: 'g8-sec-func-forditott', label: '3. Fordított arányosság' },
+                    { id: 'g8-sec-func-olvasas', label: '4. Olvassunk a grafikonról!' },
+                    { id: 'g8-sec-func-rajzolas', label: '5. Készítsünk grafikont!' },
+                    { id: 'g8-sec-func-gyakorisag', label: '6. Gyakoriság, relatív gyakoriság, átlag' },
+                    { id: 'g8-sec-func-jatek', label: '7. Játék' },
+                    { id: 'g8-sec-func-valoszinuseg', label: '8. Valószínűség' },
+                    { id: 'g8-sec-func-feladatok', label: '9. Valószínűségszámítási feladatok' },
+                    { id: 'g8-sec-func-mintazat', label: '10. Keressünk összefüggéseket!' },
+                    { id: 'g8-sec-func-sorozatok', label: '11. Sorozatok' },
+                    { id: 'g8-sec-func-osszefoglalas', label: '12. Összefoglalás' }
+                  ];
+                } else if (t.id === 'g8-solids') {
+                  subsections = [
+                    { id: 'g8-sec-solids-ismetles', label: '1. Mit tanultunk eddig? (ismétlés)' },
+                    { id: 'g8-sec-solids-gulak', label: '2. Gúlák' },
+                    { id: 'g8-sec-solids-gula-szamitas', label: '3. A gúla felszíne és térfogata' },
+                    { id: 'g8-sec-solids-gomb', label: '4. A gömb' },
+                    { id: 'g8-sec-solids-fold', label: '5. A Föld' },
+                    { id: 'g8-sec-solids-osszefoglalas', label: '6. Összefoglalás' }
                   ];
                 }
 
@@ -3175,7 +4279,7 @@ export default function MathPage() {
                     )}
                     <button
                       onClick={handleHome}
-                      className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-500 hover:text-slate-700 transition-colors ml-auto"
+                      className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-700 hover:text-slate-950 transition-colors ml-auto"
                       title="Főoldal"
                     >
                       <Home className="w-4 h-4" />
@@ -3186,27 +4290,50 @@ export default function MathPage() {
                   <nav className="flex-1 overflow-y-auto p-3 space-y-2.5 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
                     {currentGradeTopics.map((topic) => {
                       const isTopicActive = activeGrade5TopicId === topic.id;
+                      const hasSubsections = topic.subsections && topic.subsections.length > 0;
+                      const isExpanded = expandedTopicId === topic.id;
+
                       return (
                         <div key={topic.id} className="space-y-1">
                           <button
                             onClick={() => {
-                              setActiveGrade5TopicId(topic.id);
-                              setActiveGrade5SubSectionId(null);
+                              if (isExpanded) {
+                                setExpandedTopicId(null);
+                              } else {
+                                setActiveGrade5TopicId(topic.id);
+                                setActiveGrade5SubSectionId(null);
+                                setExpandedTopicId(hasSubsections ? topic.id : null);
+                              }
                             }}
                             className={cn(
-                              "w-full text-left p-2.5 rounded-xl transition-all font-semibold text-xs flex items-center gap-2.5",
+                              "w-full text-left p-2.5 rounded-xl transition-all font-bold text-xs flex items-center gap-2.5 group",
                               isTopicActive
-                                ? "bg-purple-600 text-white font-bold shadow-md shadow-purple-100"
-                                : "hover:bg-slate-100 text-slate-600 hover:text-slate-900"
+                                ? "bg-purple-600 text-white font-black shadow-md shadow-purple-100"
+                                : "hover:bg-slate-100 text-slate-900 hover:text-black font-bold"
                             )}
                           >
-                            <span className="text-base">{topic.icon}</span>
-                            {!isSidebarCollapsed && <span className="line-clamp-2">{topic.title}</span>}
+                            <span className="text-base shrink-0">{topic.icon}</span>
+                            {!isSidebarCollapsed && (
+                              <>
+                                <span className="line-clamp-2 flex-1 font-bold">{topic.title}</span>
+                                {hasSubsections && (
+                                  <span
+                                    className={cn(
+                                      "p-0.5 rounded transition-transform duration-200 shrink-0",
+                                      isTopicActive ? "text-white/90 group-hover:text-white" : "text-slate-700 group-hover:text-slate-950"
+                                    )}
+                                    title={isExpanded ? "Altémák összecsukása" : "Altémák lenyitása"}
+                                  >
+                                    <ChevronDown className={cn("w-3.5 h-3.5 transition-transform duration-200", !isExpanded && "-rotate-90")} />
+                                  </span>
+                                )}
+                              </>
+                            )}
                           </button>
 
                           {/* Subsections list */}
-                          {isTopicActive && !isSidebarCollapsed && topic.subsections.length > 0 && (
-                            <div className="pl-2 pr-1 py-1 border-l-2 border-purple-200 space-y-1 ml-3 mt-1">
+                          {isExpanded && !isSidebarCollapsed && hasSubsections && (
+                            <div className="pl-2 pr-1 py-1 border-l-2 border-purple-300 space-y-1 ml-3 mt-1 animate-in fade-in-50 slide-in-from-top-1 duration-150">
                               {topic.subsections.map((sub: any) => {
                                 const isSubActive = activeGrade5SubSectionId === sub.id;
                                 return (
@@ -3214,10 +4341,10 @@ export default function MathPage() {
                                     key={sub.id}
                                     onClick={() => setActiveGrade5SubSectionId(sub.id)}
                                     className={cn(
-                                      "w-full text-left py-2 pr-3 rounded-lg text-[11px] font-medium transition-all flex items-center justify-between",
+                                      "w-full text-left py-2 pr-3 rounded-lg text-xs font-bold transition-all flex items-center justify-between",
                                       isSubActive
-                                        ? "bg-purple-50 text-purple-700 font-bold border-l-2 border-purple-600"
-                                        : "hover:bg-slate-50 text-slate-500 hover:text-slate-800",
+                                        ? "bg-purple-100 text-purple-950 font-black border-l-2 border-purple-700"
+                                        : "hover:bg-slate-100 text-slate-900 hover:text-black",
                                       isSubActive ? "pl-2" : "pl-3"
                                     )}
                                   >
@@ -3262,7 +4389,7 @@ export default function MathPage() {
                   onTouchMove={handleTouchMove}
                   onTouchEnd={handleTouchEnd}
                   className={cn(
-                    "fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-white text-slate-800 rounded-t-3xl shadow-[0_-8px_30px_rgba(0,0,0,0.15)] border-t border-slate-200/80 transition-transform duration-300 ease-in-out",
+                    "fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-white text-slate-900 rounded-t-3xl shadow-[0_-8px_30px_rgba(0,0,0,0.15)] border-t border-slate-200/80 transition-transform duration-300 ease-in-out",
                     isGrade5MobileMenuOpen ? "translate-y-0" : "translate-y-full"
                   )}
                   style={{ maxHeight: '75vh' }}
@@ -3277,14 +4404,14 @@ export default function MathPage() {
                   >
                     <div className="flex items-center gap-2 min-w-0">
                       <Sparkles className="w-4 h-4 text-purple-600 animate-pulse flex-shrink-0" />
-                      <span className="font-display font-black text-xs tracking-wider uppercase text-purple-700 flex-shrink-0">
+                      <span className="font-display font-black text-xs tracking-wider uppercase text-purple-800 flex-shrink-0">
                         Témakörök
                       </span>
-                      <span className="bg-purple-100 text-purple-700 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full truncate">
+                      <span className="bg-purple-100 text-purple-900 text-[10px] font-black px-2.5 py-0.5 rounded-full truncate">
                         {activeTopic.title}
                       </span>
                     </div>
-                    <div className="flex items-center gap-1.5 text-slate-500 flex-shrink-0">
+                    <div className="flex items-center gap-1.5 text-slate-800 flex-shrink-0">
                       <span className="text-[10px] font-extrabold uppercase tracking-wider">Bezárás</span>
                       <ChevronDown className="w-4 h-4 text-purple-600" />
                     </div>
@@ -3298,7 +4425,7 @@ export default function MathPage() {
                           setIsGrade5MobileMenuOpen(false);
                           handleHome();
                         }}
-                        className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-800 transition-colors text-xs font-bold"
+                        className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-900 hover:text-black transition-colors text-xs font-bold"
                       >
                         <Home className="w-3.5 h-3.5" />
                         Vissza a főoldalra
@@ -3308,30 +4435,41 @@ export default function MathPage() {
                     <nav className="space-y-2.5">
                       {currentGradeTopics.map((topic) => {
                         const isTopicActive = activeGrade5TopicId === topic.id;
+                        const hasSubsections = topic.subsections && topic.subsections.length > 0;
+                        const isExpanded = expandedTopicId === topic.id;
+
                         return (
                           <div key={topic.id} className="space-y-1">
                             <button
                               onClick={() => {
-                                setActiveGrade5TopicId(topic.id);
-                                setActiveGrade5SubSectionId(null);
-                                if (topic.subsections.length === 0) {
-                                  setIsGrade5MobileMenuOpen(false);
+                                if (isExpanded) {
+                                  setExpandedTopicId(null);
+                                } else {
+                                  setActiveGrade5TopicId(topic.id);
+                                  setActiveGrade5SubSectionId(null);
+                                  setExpandedTopicId(hasSubsections ? topic.id : null);
+                                  if (!hasSubsections) {
+                                    setIsGrade5MobileMenuOpen(false);
+                                  }
                                 }
                               }}
                               className={cn(
-                                "w-full text-left p-3 rounded-2xl transition-all font-bold text-xs flex items-center gap-3",
+                                "w-full text-left p-3 rounded-2xl transition-all font-bold text-xs flex items-center gap-3 group",
                                 isTopicActive
-                                  ? "bg-purple-600 text-white shadow-md shadow-purple-100"
-                                  : "hover:bg-slate-150 bg-slate-50 text-slate-700 hover:text-slate-900 border border-slate-200/40"
+                                  ? "bg-purple-600 text-white font-black shadow-md shadow-purple-100"
+                                  : "hover:bg-slate-100 bg-slate-50 text-slate-900 hover:text-black font-bold border border-slate-200/60"
                               )}
                             >
-                              <span className="text-base">{topic.icon}</span>
-                              <span className="flex-1">{topic.title}</span>
+                              <span className="text-base shrink-0">{topic.icon}</span>
+                              <span className="flex-1 font-bold">{topic.title}</span>
+                              {hasSubsections && (
+                                <ChevronDown className={cn("w-4 h-4 transition-transform duration-200 shrink-0", !isExpanded && "-rotate-90", isTopicActive ? "text-white/80" : "text-slate-700")} />
+                              )}
                             </button>
 
                             {/* Subsections list inside mobile drawer */}
-                            {isTopicActive && topic.subsections.length > 0 && (
-                              <div className="pl-3 pr-1 py-1 border-l-2 border-purple-200 space-y-1.5 ml-4 mt-1.5">
+                            {isExpanded && hasSubsections && (
+                              <div className="pl-3 pr-1 py-1 border-l-2 border-purple-300 space-y-1.5 ml-4 mt-1.5 animate-in fade-in-50 slide-in-from-top-1 duration-150">
                                 {topic.subsections.map((sub: any) => {
                                   const isSubActive = activeGrade5SubSectionId === sub.id;
                                   return (
@@ -3342,10 +4480,10 @@ export default function MathPage() {
                                         setIsGrade5MobileMenuOpen(false);
                                       }}
                                       className={cn(
-                                        "w-full text-left py-2.5 pr-3 rounded-xl text-[11px] font-bold transition-all flex items-center justify-between",
+                                        "w-full text-left py-2.5 pr-3 rounded-xl text-xs font-bold transition-all flex items-center justify-between",
                                         isSubActive
-                                          ? "bg-purple-50 text-purple-700 font-extrabold border-l-2 border-purple-600"
-                                          : "hover:bg-slate-100 bg-slate-50/50 text-slate-600 hover:text-slate-800",
+                                          ? "bg-purple-100 text-purple-950 font-black border-l-2 border-purple-700"
+                                          : "hover:bg-slate-100 bg-slate-50 text-slate-900 hover:text-black",
                                         isSubActive ? "pl-3.5" : "pl-4"
                                       )}
                                     >
@@ -3868,28 +5006,120 @@ export default function MathPage() {
                   <FunctionTableQuiz onBack={handleBack} />
                 )}
 
+                {activityType === 'g8-logic' && (
+                  <Grade8LogicQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-set-basics' && (
+                  <Grade8SetBasicsQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-set-operations' && (
+                  <Grade8SetOperationsQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-rational-set' && (
+                  <Grade8RationalSetQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-rational-operations' && (
+                  <Grade8RationalOperationsQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-powers' && (
+                  <Grade8PowersQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-sqrt-concept' && (
+                  <Grade8SquareRootConceptQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-square-roots' && (
+                  <Grade8SquareRootsQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-algebra-intro' && (
+                  <Grade8AlgebraIntroQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-factoring' && (
+                  <Grade8FactoringQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-polynomial-mult' && (
+                  <Grade8PolynomialMultQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-chapter1-summary' && (
+                  <Grade8Chapter1SummaryQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-geom-congruence' && (
+                  <Grade8CongruenceTransformQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-geom-transforms' && (
+                  <Grade8TransformationsQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-geom-software' && (
+                  <Grade8GeometrySoftwareQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-geom-similarity' && (
+                  <Grade8SimilarityQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-geom-central-similarity' && (
+                  <Grade8CentralSimilarityQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-geom-constructions' && (
+                  <Grade8GeometricConstructionsQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-geom-summary' && (
+                  <Grade8Chapter2GeometrySummaryQuiz onBack={handleBack} />
+                )}
+
                 {activityType === 'g8-algebra' && (
                   <Grade8AlgebraQuiz onBack={handleBack} />
                 )}
 
-                {activityType === 'g8-percentages' && (
-                  <Grade8PercentagesQuiz onBack={handleBack} initialMode={percentMode} />
-                )}
-
-                {activityType === 'g8-percent-word-problems' && (
-                  <Grade8PercentWordProblems onBack={handleBack} />
-                )}
-
-                {activityType === 'g8-ratio-intro' && (
-                  <Grade8RatioIntroQuiz onBack={handleBack} />
-                )}
-
-                {activityType === 'g8-ratio-creator' && (
-                  <Grade8RatioCreatorQuiz onBack={handleBack} />
+                {activityType === 'g8-eq-basic' && (
+                  <Grade8EquationsQuiz onBack={handleBack} />
                 )}
 
                 {activityType === 'g8-equation-balance' && (
                   <Grade8EquationBalanceQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-eq-numbers-ages' && (
+                  <Grade8NumbersAgesQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-eq-mixing' && (
+                  <Grade8MixingWordProblemsQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-eq-motion-work' && (
+                  <Grade8MotionWorkProblemsQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-eq-geometry' && (
+                  <Grade8GeometricEquationsQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-eq-mixed' && (
+                  <Grade8MixedWordProblemsQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-eq-financial' && (
+                  <Grade8FinancialProblemsQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-eq-summary' && (
+                  <Grade8Chapter3EquationsSummaryQuiz onBack={handleBack} />
                 )}
 
                 {activityType === 'g8-word-problems-module' && (
@@ -3898,6 +5128,106 @@ export default function MathPage() {
 
                 {activityType === 'g8-word-problems-quiz' && (
                   <Grade8WordProblemsQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-pyth-constructions' && (
+                  <Grade8ConstructionsMeasurementsQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-pyth-theorem' && (
+                  <Grade8PythagorasTheoremQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-pyth-converse' && (
+                  <Grade8ConversePythagorasQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-pyth-applications' && (
+                  <Grade8PythagorasApplicationsQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-pyth-calculator' && (
+                  <Grade8CalculatorProjectQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-pyth-special-triangles' && (
+                  <Grade8SpecialRightTrianglesQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-pyth-summary' && (
+                  <Grade8Chapter5PythagorasSummaryQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-func-direct' && (
+                  <Grade8DirectProportionG8Quiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-func-graphs' && (
+                  <Grade8FunctionsGraphsQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-func-inverse' && (
+                  <Grade8InverseProportionQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-func-reading' && (
+                  <Grade8ReadingGraphsQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-func-plotting' && (
+                  <Grade8PlottingGraphsQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-func-frequency' && (
+                  <Grade8FrequencyStatisticsQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-func-game' && (
+                  <Grade8ProbabilityGameQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-func-prob-basics' && (
+                  <Grade8ProbabilityBasicsQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-func-prob-problems' && (
+                  <Grade8ProbabilityProblemsQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-func-patterns' && (
+                  <Grade8FindingPatternsQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-func-sequences' && (
+                  <Grade8SequencesQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-func-summary' && (
+                  <Grade8Chapter6SummaryQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-solids-review' && (
+                  <Grade8SolidsReviewQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-solids-pyramids-intro' && (
+                  <Grade8PyramidsIntroQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-solids-pyramids-calc' && (
+                  <Grade8PyramidSurfaceVolumeQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-solids-sphere' && (
+                  <Grade8SphereQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-solids-earth' && (
+                  <Grade8EarthGeometryQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g8-solids-summary' && (
+                  <Grade8Chapter7SolidsSummaryQuiz onBack={handleBack} />
                 )}
 
                 {activityType === 'number-line' && (

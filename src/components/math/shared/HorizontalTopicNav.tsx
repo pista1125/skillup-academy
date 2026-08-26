@@ -63,26 +63,26 @@ export function HorizontalTopicNav({ items, onItemClick }: HorizontalTopicNavPro
                     className={cn(
                         "flex items-center gap-1.5 px-3 py-1 rounded-lg transition-all whitespace-nowrap",
                         activeId === item.id
-                            ? "bg-primary/10 text-primary shadow-sm"
-                            : "text-slate-500 hover:bg-slate-100 hover:text-slate-800"
+                            ? "bg-purple-100 text-purple-950 font-black shadow-sm"
+                            : "text-slate-900 font-bold hover:bg-slate-100 hover:text-black"
                     )}
                 >
                     {item.icon && (
                         <div className={cn(
                             "w-4 h-4 flex items-center justify-center transition-transform",
-                            activeId === item.id ? "scale-110" : "opacity-70"
+                            activeId === item.id ? "scale-110" : "text-slate-700 opacity-90"
                         )}>
                             {item.icon}
                         </div>
                     )}
                     <span className={cn(
                         "text-[10px] md:text-xs font-bold tracking-tight uppercase",
-                        activeId === item.id ? "opacity-100" : "opacity-80"
+                        activeId === item.id ? "opacity-100 font-black" : "opacity-95 font-bold"
                     )}>
                         {item.label}
                     </span>
                     {activeId === item.id && (
-                        <div className="w-1 h-1 rounded-full bg-primary animate-pulse ml-0.5" />
+                        <div className="w-1 h-1 rounded-full bg-purple-700 animate-pulse ml-0.5" />
                     )}
                 </button>
             ))}

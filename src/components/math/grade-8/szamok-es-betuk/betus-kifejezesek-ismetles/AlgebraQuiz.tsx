@@ -7,8 +7,8 @@ import { Input } from '@/components/ui/input';
 import { CheckCircle, XCircle, ArrowRight, Trophy, RotateCcw, ArrowLeft } from 'lucide-react';
 
 interface AlgebraQuizProps {
-  grade: number;
-  onComplete: (result: QuizResult) => void;
+  grade?: number;
+  onComplete?: (result: QuizResult) => void;
   onBack: () => void;
 }
 
@@ -20,7 +20,7 @@ interface AlgebraProblem {
   hint?: string;
 }
 
-function generateAlgebraProblem(grade: number): AlgebraProblem {
+function generateAlgebraProblem(grade: number = 8): AlgebraProblem {
   const id = Math.random().toString(36).substr(2, 9);
   let a: number, b: number, x: number, equation: string;
   
@@ -67,7 +67,7 @@ function generateAlgebraProblem(grade: number): AlgebraProblem {
   }
 }
 
-export function AlgebraQuiz({ grade, onComplete, onBack }: AlgebraQuizProps) {
+export function AlgebraQuiz({ grade = 8, onComplete, onBack }: AlgebraQuizProps) {
   const [problems, setProblems] = useState<AlgebraProblem[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [userAnswer, setUserAnswer] = useState('');
@@ -108,12 +108,14 @@ export function AlgebraQuiz({ grade, onComplete, onBack }: AlgebraQuizProps) {
       setIsCorrect(null);
     } else {
       setQuizComplete(true);
-      onComplete({
-        totalQuestions: TOTAL_QUESTIONS,
-        correctAnswers: correctCount + (isCorrect ? 1 : 0),
-        percentage: Math.round(((correctCount + (isCorrect ? 1 : 0)) / TOTAL_QUESTIONS) * 100),
-        xpEarned: xpEarned + (isCorrect ? XP_PER_CORRECT : 0),
-      });
+      if (onComplete) {
+        onComplete({
+          totalQuestions: TOTAL_QUESTIONS,
+          correctAnswers: correctCount + (isCorrect ? 1 : 0),
+          percentage: Math.round(((correctCount + (isCorrect ? 1 : 0)) / TOTAL_QUESTIONS) * 100),
+          xpEarned: xpEarned + (isCorrect ? XP_PER_CORRECT : 0),
+        });
+      }
     }
   }, [currentIndex, correctCount, isCorrect, xpEarned, onComplete]);
 
@@ -175,7 +177,23 @@ export function AlgebraQuiz({ grade, onComplete, onBack }: AlgebraQuizProps) {
             <Button variant="outline" onClick={onBack} className="flex-1">
               Vissza
             </Button>
-            <Button onClick={() => window.location.reload()} className="flex-1 bg-gradient-to-r from-purple-500 to-purple-600 hover:opacity-90">
+            <Button 
+              onClick={() => {
+                const newProblems = Array.from({ length: TOTAL_QUESTIONS }, () => 
+                  generateAlgebraProblem(grade)
+                );
+                setProblems(newProblems);
+                setCurrentIndex(0);
+                setUserAnswer('');
+                setShowResult(false);
+                setShowHint(false);
+                setIsCorrect(null);
+                setCorrectCount(0);
+                setQuizComplete(false);
+                setXpEarned(0);
+              }} 
+              className="flex-1 bg-gradient-to-r from-purple-500 to-purple-600 hover:opacity-90"
+            >
               <RotateCcw className="w-4 h-4 mr-2" />
               Újra
             </Button>
@@ -312,3 +330,5 @@ export function AlgebraQuiz({ grade, onComplete, onBack }: AlgebraQuizProps) {
     </div>
   );
 }
+
+export default AlgebraQuiz;

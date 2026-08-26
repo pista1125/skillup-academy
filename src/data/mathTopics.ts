@@ -629,7 +629,7 @@ export const mathTopics: MathTopic[] = [
   {
     id: 'g8-numbers-letters',
     title: 'I. SZÁMOK ÉS BETŰK',
-    description: 'Számelmélet, racionális és valós számok, hatványozás, algebrai kifejezések és azonosságok',
+    description: 'Logika, halmazok, racionális számok, hatványozás, négyzetgyök és algebrai azonosságok',
     icon: '🔤',
     color: 'from-blue-500 to-indigo-600',
     grades: [8],
@@ -637,7 +637,7 @@ export const mathTopics: MathTopic[] = [
   {
     id: 'g8-geometry',
     title: 'II. GEOMETRIA',
-    description: 'Síkgeometria, háromszögek, négyszögek, sokszögek, kör, egybevágóság és hasonlóság',
+    description: 'Egybevágóság, geometriai transzformációk, szerkesztőprogramok, hasonlóság és szerkesztések',
     icon: '📐',
     color: 'from-green-500 to-emerald-600',
     grades: [8],
@@ -645,7 +645,7 @@ export const mathTopics: MathTopic[] = [
   {
     id: 'g8-equations',
     title: 'III. EGYENLETEK',
-    description: 'Elsőfokú és törtes egyenletek, egyenlőtlenségek, egyenletrendszerek és szöveges feladatok',
+    description: 'Egyenletek, mérlegelv, életkori, keverési, mozgásos, geometriai és pénzügyi feladatok',
     icon: '⚖️',
     color: 'from-purple-500 to-purple-600',
     grades: [8],
@@ -661,7 +661,7 @@ export const mathTopics: MathTopic[] = [
   {
     id: 'g8-pythagoras',
     title: 'V. A PITAGORASZ-TÉTEL',
-    description: 'A Pitagorasz-tétel és megfordítása, alkalmazása sík- és térbeli alakzatokban',
+    description: 'Szerkesztések, a Pitagorasz-tétel és megfordítása, síkbeli alkalmazások, számológép és nevezetes háromszögek',
     icon: '📐',
     color: 'from-amber-500 to-orange-600',
     grades: [8],
@@ -669,7 +669,7 @@ export const mathTopics: MathTopic[] = [
   {
     id: 'g8-functions-probability-sequences',
     title: 'VI. HOZZÁRENDELÉSEK, VALÓSZÍNŰSÉGEK, SOROZATOK',
-    description: 'Lineáris és másodfokú függvények, valószínűségszámítás, statisztika, számsorozatok',
+    description: 'Egyenes és fordított arányosság, függvénygrafikonok, statisztika, valószínűségszámítás és számsorozatok',
     icon: '📈',
     color: 'from-cyan-500 to-blue-500',
     grades: [8],
@@ -677,7 +677,7 @@ export const mathTopics: MathTopic[] = [
   {
     id: 'g8-solids',
     title: 'VII. TESTEK',
-    description: 'Henger, kúp, gúla, gömb és hasábok felszíne és térfogata',
+    description: 'Hasábok, hengerek, gúlák felszíne és térfogata, a gömb geometriája és a Föld modellje',
     icon: '📦',
     color: 'from-indigo-500 to-violet-600',
     grades: [8],

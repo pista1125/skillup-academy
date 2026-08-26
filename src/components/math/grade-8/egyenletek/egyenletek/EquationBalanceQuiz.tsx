@@ -168,7 +168,6 @@ export function EquationBalanceQuiz({ onBack }: { onBack?: () => void }) {
         }
         // Weights
         let remaining = Math.abs(c);
-        const isNeg = c < 0;
         
         while (remaining >= 10) {
             items.push(
@@ -403,3 +402,5 @@ export function EquationBalanceQuiz({ onBack }: { onBack?: () => void }) {
         </div>
     );
 }
+
+export default EquationBalanceQuiz;

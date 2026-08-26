@@ -80,7 +80,7 @@ export function ScrollSpySidebar({ items, onCollapseChange, onItemClick }: Scrol
                 <div className="p-2 border-b border-slate-100/50 flex justify-center">
                     <button
                         onClick={() => setIsCollapsed(!isCollapsed)}
-                        className="p-1.5 hover:bg-white rounded-lg text-slate-400 hover:text-primary transition-all duration-300"
+                        className="p-1.5 hover:bg-white rounded-lg text-slate-600 hover:text-primary transition-all duration-300"
                         title={isCollapsed ? "Navigáció megnyitása" : "Navigáció bezárása"}
                     >
                         {isCollapsed ? <Menu className="w-5 h-5" /> : <X className="w-5 h-5" />}
@@ -97,7 +97,7 @@ export function ScrollSpySidebar({ items, onCollapseChange, onItemClick }: Scrol
                                     "group w-full flex flex-col items-center justify-center p-2 rounded-xl text-center transition-all duration-300 relative",
                                     activeId === item.id
                                         ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
-                                        : "hover:bg-primary/5 text-slate-600 hover:text-primary"
+                                        : "hover:bg-slate-100 text-slate-900 hover:text-black font-bold"
                                 )}
                                 title={isCollapsed ? item.label : undefined}
                             >
@@ -109,14 +109,14 @@ export function ScrollSpySidebar({ items, onCollapseChange, onItemClick }: Scrol
                                 {item.icon && (
                                     <div className={cn(
                                         "transition-all duration-300",
-                                        activeId === item.id ? "text-primary-foreground scale-110" : "text-slate-400 group-hover:text-primary"
+                                        activeId === item.id ? "text-primary-foreground scale-110" : "text-slate-700 group-hover:text-primary"
                                     )}>
                                         {item.icon}
                                     </div>
                                 )}
 
                                 <span className={cn(
-                                    "text-[9px] font-bold mt-1 transition-all duration-500 whitespace-nowrap overflow-hidden leading-tight",
+                                    "text-[9px] font-bold mt-1 transition-all duration-500 whitespace-nowrap overflow-hidden leading-tight text-slate-900 group-hover:text-black",
                                     isCollapsed ? "w-0 opacity-0 h-0" : "w-full opacity-100"
                                 )}>
                                     {item.label}
