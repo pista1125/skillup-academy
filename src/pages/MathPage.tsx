@@ -266,7 +266,14 @@ type ActivityType =
   | 'g8-eq-basic' | 'g8-eq-numbers-ages' | 'g8-eq-mixing' | 'g8-eq-motion-work' | 'g8-eq-geometry' | 'g8-eq-mixed' | 'g8-eq-financial' | 'g8-eq-summary'
   | 'g8-pyth-constructions' | 'g8-pyth-theorem' | 'g8-pyth-converse' | 'g8-pyth-applications' | 'g8-pyth-calculator' | 'g8-pyth-special-triangles' | 'g8-pyth-summary'
   | 'g8-func-direct' | 'g8-func-graphs' | 'g8-func-inverse' | 'g8-func-reading' | 'g8-func-plotting' | 'g8-func-frequency' | 'g8-func-game' | 'g8-func-prob-basics' | 'g8-func-prob-problems' | 'g8-func-patterns' | 'g8-func-sequences' | 'g8-func-summary'
-  | 'g8-solids-review' | 'g8-solids-pyramids-intro' | 'g8-solids-pyramids-calc' | 'g8-solids-sphere' | 'g8-solids-earth' | 'g8-solids-summary';
+  | 'g8-solids-review' | 'g8-solids-pyramids-intro' | 'g8-solids-pyramids-calc' | 'g8-solids-sphere' | 'g8-solids-earth' | 'g8-solids-summary'
+  | 'angle-matching' | 'triangle-classification' | 'quadrilateral-classification'
+  | 'shape-classification' | 'line-relationships' | 'reflection-quiz' | 'circle-parts'
+  | 'area-conversion-quiz' | 'volume-quiz' | 'surface-area-quiz' | 'area-calculation-quiz'
+  | 'parallelogram-area-quiz' | 'parallelogram-area' | 'volume-surface' | 'perimeter-area'
+  | 'divisibility-powers' | 'divisibility-theory' | 'divisibility-factorization' | 'divisibility-quiz' | 'divisibility-matcher' | 'divisibility-gcdquiz' | 'divisibility-lkktquiz'
+  | 'percentages' | 'perimeter-quiz' | 'area-conversion' | 'volume-conversion' | 'triangle-area' | 'g7-geometry-summary'
+  | 'g7-mapping-quiz' | 'g7-function-table-quiz';
 
 const gradeToSlug = (grade: GradeLevel): string => {
   if (grade === 'graduation') return 'erettsegi';
@@ -514,14 +521,67 @@ export default function MathPage() {
       'g7-sec-rat-szamok-betuk': 'g7-rational-algebra',
       'g7-sec-rat-osszevonas-ertek': 'g7-rational-algebra',
       'g7-sec-rat-zarojel-kiemeles': 'g7-rational-algebra',
-      'g7-sec-rat-osszefoglalas': 'g7-rational-algebra',
-      'g7-lines': 'g7-geom-trans',
-      'g7-triangles': 'g7-geom-trans',
-      'g7-quads': 'g7-geom-trans',
+      'g7-sec-trans-fogalmak': 'g7-geom-trans',
+      'g7-sec-trans-haromszog-vonalak': 'g7-geom-trans',
+      'g7-sec-trans-haromszog-negyszog': 'g7-geom-trans',
+      'g7-sec-trans-transzformaciok': 'g7-geom-trans',
+      'g7-sec-trans-kozeppontos-tukrozes': 'g7-geom-trans',
+      'g7-sec-trans-kozeppontos-alkalmazas': 'g7-geom-trans',
+      'g7-sec-trans-szogparok': 'g7-geom-trans',
+      'g7-sec-trans-szimmetria': 'g7-geom-trans',
+      'g7-sec-trans-paralelogramma-deltoid': 'g7-geom-trans',
+      'g7-sec-trans-kozeppontosan-szimmetrikus': 'g7-geom-trans',
+      'g7-sec-trans-szabalyos-sokszogek': 'g7-geom-trans',
+      'g7-sec-trans-kor': 'g7-geom-trans',
+      'g7-sec-trans-szerkesztesek': 'g7-geom-trans',
+      'g7-sec-trans-osszefoglalas': 'g7-geom-trans',
+      'g7-sec-pow-nagy-szamok': 'g7-powers-divisibility',
+      'g7-sec-pow-alkalmazas': 'g7-powers-divisibility',
+      'g7-sec-pow-mit-tanultunk-ismetles': 'g7-powers-divisibility',
+      'g7-sec-pow-logika': 'g7-powers-divisibility',
+      'g7-sec-pow-prim-felbontas': 'g7-powers-divisibility',
+      'g7-sec-pow-szabaly-keszites': 'g7-powers-divisibility',
+      'g7-sec-pow-osztok-tobbszorosok': 'g7-powers-divisibility',
+      'g7-sec-pow-lnko': 'g7-powers-divisibility',
+      'g7-sec-pow-lkkt': 'g7-powers-divisibility',
+      'g7-sec-pow-jatekok': 'g7-powers-divisibility',
+      'g7-sec-pow-osszefoglalas': 'g7-powers-divisibility',
       'g7-expressions': 'g7-rational-algebra',
+      'g7-sec-pct-aranyossag': 'g7-percent-equations',
+      'g7-sec-pct-mit-tanultunk': 'g7-percent-equations',
+      'g7-sec-pct-100-szazalek': 'g7-percent-equations',
+      'g7-sec-pct-hany-szazalek': 'g7-percent-equations',
+      'g7-sec-pct-gyakorlas': 'g7-percent-equations',
+      'g7-sec-pct-osszetett': 'g7-percent-equations',
+      'g7-sec-pct-szoveges': 'g7-percent-equations',
+      'g7-sec-pct-egyenlet-modszerek': 'g7-percent-equations',
+      'g7-sec-pct-merlegelv': 'g7-percent-equations',
+      'g7-sec-pct-egyenletek-merlegelvvel': 'g7-percent-equations',
+      'g7-sec-pct-szoveges-egyenlettel': 'g7-percent-equations',
+      'g7-sec-pct-osszefoglalas': 'g7-percent-equations',
       'g7-percent-val': 'g7-percent-equations',
       'g7-percent-rate': 'g7-percent-equations',
       'g7-percent-base': 'g7-percent-equations',
+      'g7-sec-geom-egybevagosag': 'g7-geometry',
+      'g7-sec-geom-oldalak-szogek': 'g7-geometry',
+      'g7-sec-geom-sokszogek-szogei-atloi': 'g7-geometry',
+      'g7-sec-geom-mertekegysegek': 'g7-geometry',
+      'g7-sec-geom-paralelogramma-terulet': 'g7-geometry',
+      'g7-sec-geom-haromszog-terulet': 'g7-geometry',
+      'g7-sec-geom-trapez-terulet': 'g7-geometry',
+      'g7-sec-geom-deltoid-terulet': 'g7-geometry',
+      'g7-sec-geom-hasab-felszin-terfogat': 'g7-geometry',
+      'g7-sec-geom-testek-terben-sikban': 'g7-geometry',
+      'g7-sec-geom-szabaduloszoba': 'g7-geometry',
+      'g7-sec-geom-osszefoglalas': 'g7-geometry',
+      'g7-sec-stats-halmazok-hozzarendeles': 'g7-stats',
+      'g7-sec-stats-megadasi-modok': 'g7-stats',
+      'g7-sec-stats-olvassunk-grafikonrol': 'g7-stats',
+      'g7-sec-stats-atlag-modusz-median': 'g7-stats',
+      'g7-sec-stats-gyakorisag-relativ': 'g7-stats',
+      'g7-sec-stats-valoszinuseg': 'g7-stats',
+      'g7-sec-stats-tippelj-kiserletezz': 'g7-stats',
+      'g7-sec-stats-osszefoglalas': 'g7-stats',
       'g8-sec-logika': 'g8-numbers-letters',
       'g8-sec-halmazok-alap': 'g8-numbers-letters',
       'g8-sec-halmaz-muveletek': 'g8-numbers-letters',
@@ -1722,172 +1782,551 @@ export default function MathPage() {
       const showAll = !activeGrade5SubSectionId;
       return (
         <div className="flex flex-col gap-10 py-6">
-          {(showAll || activeGrade5SubSectionId === 'g7-trans-lines') && (
+          {/* Section 1: Geometriai fogalmak */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-trans-fogalmak') && (
             <section>
-              <SectionHeader id="g7-lines" number={1} title="Háromszögek nevezetes vonalai" color="blue" />
+              <SectionHeader id="g7-sec-trans-fogalmak" number={1} title="Geometriai fogalmak" color="blue" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Súlyvonalak, magasságvonalak"
-                  subtitle="Elmélet és szerkesztés"
-                  type="Kezdés"
-                  disabled
-                  icon={<MoveHorizontal className="w-6 h-6" />}
+                  title="Szögek párosítása"
+                  subtitle="Hegyesszög, derékszög, tompaszög stb."
+                  type="Gyakorlás"
+                  emoji="🎯"
+                  onClick={() => handleActivitySelect('angle-matching', 'g7-geom-trans')}
+                  icon={<Target className="w-6 h-6" />}
                   color="blue"
                 />
                 <ActivityPlaceholder
-                  title="Középvonalak"
-                  subtitle="Háromszög részei"
+                  title="Síkidom vagy Test?"
+                  subtitle="2D és 3D geometriai alakzatok"
                   type="Gyakorlás"
-                  disabled
+                  emoji="📦"
+                  onClick={() => handleActivitySelect('shape-classification', 'g7-geom-trans')}
+                  icon={<Box className="w-6 h-6" />}
+                  color="indigo"
+                />
+                <ActivityPlaceholder
+                  title="Egyenesek helyzete"
+                  subtitle="Párhuzamos, merőleges, metsző"
+                  type="Gyakorlás"
+                  emoji="📏"
+                  onClick={() => handleActivitySelect('line-relationships', 'g7-geom-trans')}
+                  icon={<MoveHorizontal className="w-6 h-6" />}
+                  color="cyan"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 2: Háromszögek nevezetes vonalai */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-trans-haromszog-vonalak') && (
+            <section>
+              <SectionHeader id="g7-sec-trans-haromszog-vonalak" number={2} title="Háromszögek nevezetes vonalai" color="indigo" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Alapszerkesztések"
+                  subtitle="Körző és vonalzó szerkesztő eszköz"
+                  type="Gyakorlás"
+                  emoji="📐"
+                  onClick={() => handleActivitySelect('construction', 'g7-geom-trans')}
+                  icon={<Pencil className="w-6 h-6" />}
+                  color="indigo"
+                />
+                <ActivityPlaceholder
+                  title="Nevezetes vonalak"
+                  subtitle="Oldalfelezők, szögfelezők, magasságok és súlyvonalak"
+                  type="Hamarosan"
+                  emoji="📏"
+                  disabled={true}
                   icon={<Triangle className="w-6 h-6" />}
+                  color="purple"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 3: Háromszögek és négyszögek */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-trans-haromszog-negyszog') && (
+            <section>
+              <SectionHeader id="g7-sec-trans-haromszog-negyszog" number={3} title="Háromszögek és négyszögek" color="emerald" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Háromszögek fajtái"
+                  subtitle="Oldalak és szögek szerinti csoportosítás"
+                  type="Gyakorlás"
+                  emoji="🔺"
+                  onClick={() => handleActivitySelect('triangle-classification', 'g7-geom-trans')}
+                  icon={<Triangle className="w-6 h-6" />}
+                  color="emerald"
+                />
+                <ActivityPlaceholder
+                  title="Háromszögek szögei kvíz"
+                  subtitle="Belső és külső szögek kiszámítása"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => handleActivitySelect('triangle-angles-quiz', 'g7-geom-trans')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="teal"
+                />
+                <ActivityPlaceholder
+                  title="Négyszögek fajtái"
+                  subtitle="Négyszögek tulajdonságai és típusai"
+                  type="Gyakorlás"
+                  emoji="🟩"
+                  onClick={() => handleActivitySelect('quadrilateral-classification', 'g7-geom-trans')}
+                  icon={<Square className="w-6 h-6" />}
+                  color="green"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 4: Geometriai transzformációk */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-trans-transzformaciok') && (
+            <section>
+              <SectionHeader id="g7-sec-trans-transzformaciok" number={4} title="Geometriai transzformációk" color="teal" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Egyenesek helyzete"
+                  subtitle="Transzformációs tengelyek és egyenesek"
+                  type="Gyakorlás"
+                  emoji="↔️"
+                  onClick={() => handleActivitySelect('line-relationships', 'g7-geom-trans')}
+                  icon={<MoveHorizontal className="w-6 h-6" />}
+                  color="teal"
+                />
+                <ActivityPlaceholder
+                  title="Transzformációk"
+                  subtitle="Egybevágóságok és invariáns tulajdonságok"
+                  type="Hamarosan"
+                  emoji="🔄"
+                  disabled={true}
+                  icon={<RefreshCw className="w-6 h-6" />}
+                  color="emerald"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 5: Középpontos tükrözés */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-trans-kozeppontos-tukrozes') && (
+            <section>
+              <SectionHeader id="g7-sec-trans-kozeppontos-tukrozes" number={5} title="Középpontos tükrözés" color="cyan" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Tükrözés kvíz"
+                  subtitle="Alakzatok tükörképeinek felismerése"
+                  type="Kvíz"
+                  emoji="🔄"
+                  onClick={() => handleActivitySelect('reflection-quiz', 'g7-geom-trans')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="cyan"
+                />
+                <ActivityPlaceholder
+                  title="Középpontos tükrözés"
+                  subtitle="Pont és alakzat tükrözése, szerkesztés"
+                  type="Hamarosan"
+                  emoji="🎯"
+                  disabled={true}
+                  icon={<Sparkles className="w-6 h-6" />}
+                  color="blue"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 6: A középpontos tükrözés alkalmazása */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-trans-kozeppontos-alkalmazas') && (
+            <section>
+              <SectionHeader id="g7-sec-trans-kozeppontos-alkalmazas" number={6} title="A középpontos tükrözés alkalmazása" color="sky" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Tükrözési alkalmazások"
+                  subtitle="Pont és szakasz tükrözése, szimmetria"
+                  type="Gyakorlás"
+                  emoji="✨"
+                  onClick={() => handleActivitySelect('symmetry-construction', 'g7-geom-trans')}
+                  icon={<Shapes className="w-6 h-6" />}
+                  color="sky"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 7: Szögpárok */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-trans-szogparok') && (
+            <section>
+              <SectionHeader id="g7-sec-trans-szogparok" number={7} title="Szögpárok" color="amber" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Szögek és Szögpárok"
+                  subtitle="Mellékszögek, csúcsszögek, pótszögek felismerése"
+                  type="Gyakorlás"
+                  emoji="📐"
+                  onClick={() => handleActivitySelect('angle-matching', 'g7-geom-trans')}
+                  icon={<Compass className="w-6 h-6" />}
+                  color="amber"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 8: Középpontos és tengelyes szimmetria */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-trans-szimmetria') && (
+            <section>
+              <SectionHeader id="g7-sec-trans-szimmetria" number={8} title="Középpontos és tengelyes szimmetria" color="violet" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Tengelyes szimmetria kvíz"
+                  subtitle="Szimmetriatengelyek keresése és berajzolása"
+                  type="Kvíz"
+                  emoji="🦋"
+                  onClick={() => handleActivitySelect('axial-symmetry-quiz', 'g7-geom-trans')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="violet"
+                />
+                <ActivityPlaceholder
+                  title="Szimmetria a világban"
+                  subtitle="Interaktív prezentáció természetbeli példákkal"
+                  type="Gyakorlás"
+                  emoji="🌟"
+                  onClick={() => handleActivitySelect('axial-symmetry-presentation', 'g7-geom-trans')}
+                  icon={<Sparkles className="w-6 h-6" />}
+                  color="purple"
+                />
+                <ActivityPlaceholder
+                  title="Tengelyes tükrözés rajzoló"
+                  subtitle="Rajzold meg az alakzat pontos tükörképét!"
+                  type="Játék"
+                  emoji="🪞"
+                  onClick={() => handleActivitySelect('axial-symmetry', 'g7-geom-trans')}
+                  icon={<Shapes className="w-6 h-6" />}
+                  color="indigo"
+                />
+                <ActivityPlaceholder
+                  title="Szimmetria hibakereső"
+                  subtitle="Keresd meg a hibás tükrözést!"
+                  type="Játék"
+                  emoji="🔍"
+                  onClick={() => handleActivitySelect('symmetry-error', 'g7-geom-trans')}
+                  icon={<Zap className="w-6 h-6" />}
+                  color="pink"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 9: Paralelogramma és deltoid */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-trans-paralelogramma-deltoid') && (
+            <section>
+              <SectionHeader id="g7-sec-trans-paralelogramma-deltoid" number={9} title="Paralelogramma és deltoid" color="purple" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Paralelogramma és deltoid"
+                  subtitle="Négyszögek szimmetriái és tulajdonságai"
+                  type="Gyakorlás"
+                  emoji="🪁"
+                  onClick={() => handleActivitySelect('quadrilateral-classification', 'g7-geom-trans')}
+                  icon={<LayoutGrid className="w-6 h-6" />}
+                  color="purple"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 10: Középpontosan szimmetrikus alakzatok */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-trans-kozeppontosan-szimmetrikus') && (
+            <section>
+              <SectionHeader id="g7-sec-trans-kozeppontosan-szimmetrikus" number={10} title="Középpontosan szimmetrikus alakzatok" color="rose" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Középpontos szimmetria"
+                  subtitle="Forgásszimmetria és szimmetriaközéppont teszt"
+                  type="Kvíz"
+                  emoji="💠"
+                  onClick={() => handleActivitySelect('reflection-quiz', 'g7-geom-trans')}
+                  icon={<Boxes className="w-6 h-6" />}
+                  color="rose"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 11: Szabályos sokszögek */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-trans-szabalyos-sokszogek') && (
+            <section>
+              <SectionHeader id="g7-sec-trans-szabalyos-sokszogek" number={11} title="Szabályos sokszögek" color="orange" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Sokszögek csoportosítása"
+                  subtitle="Szabályos n-szögek szögei és szimmetriái"
+                  type="Gyakorlás"
+                  emoji="🛑"
+                  onClick={() => handleActivitySelect('shape-classification', 'g7-geom-trans')}
+                  icon={<Shapes className="w-6 h-6" />}
+                  color="orange"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 12: A kör */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-trans-kor') && (
+            <section>
+              <SectionHeader id="g7-sec-trans-kor" number={12} title="A kör" color="red" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="A kör és részei"
+                  subtitle="Sugár, átmérő, húr, ív, körcikk és körszelet"
+                  type="Játék"
+                  emoji="⭕"
+                  onClick={() => handleActivitySelect('circle-parts', 'g7-geom-trans')}
+                  icon={<Circle className="w-6 h-6" />}
+                  color="red"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 13: Szerkesztések */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-trans-szerkesztesek') && (
+            <section>
+              <SectionHeader id="g7-sec-trans-szerkesztesek" number={13} title="Szerkesztések" color="teal" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Geometriai szerkesztő"
+                  subtitle="Körzővel és vonalzóval végzett alapszerkesztések"
+                  type="Gyakorlás"
+                  emoji="✏️"
+                  onClick={() => handleActivitySelect('construction', 'g7-geom-trans')}
+                  icon={<Pencil className="w-6 h-6" />}
+                  color="teal"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 14: Összefoglalás */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-trans-osszefoglalas') && (
+            <section>
+              <SectionHeader id="g7-sec-trans-osszefoglalas" number={14} title="Összefoglalás" color="slate" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Transzformációk Záróteszt"
+                  subtitle="III. Geometriai transzformációk összefoglaló kvíz"
+                  type="Teszt"
+                  emoji="🏆"
+                  onClick={() => handleActivitySelect('quiz', 'g7-geom-trans')}
+                  icon={<Trophy className="w-6 h-6" />}
                   color="slate"
                 />
               </div>
             </section>
           )}
+        </div>
+      );
+    }
 
-          {(showAll || activeGrade5SubSectionId === 'g7-trans-triangles') && (
+    if (topicId === 'g7-powers-divisibility') {
+      const showAll = !activeGrade5SubSectionId;
+      return (
+        <div className="flex flex-col gap-10 py-6">
+          {/* Section 1: Nagy számok és a hatványalak */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-pow-nagy-szamok') && (
             <section>
-              <SectionHeader id="g7-triangles" number={2} title="Háromszögek" color="emerald" />
+              <SectionHeader id="g7-sec-pow-nagy-szamok" number={1} title="Nagy számok és a hatványalak" color="amber" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Háromszögek fajtái"
-                  subtitle="Osztályozás tulajdonságok alapján"
-                  type="Kezdés"
-                  onClick={() => handleActivitySelect('triangle-classification', topicId)}
-                  icon={<Triangle className="w-6 h-6" />}
-                  color="emerald"
+                  title="Nagy számok és a hatványalak"
+                  subtitle="Hatványozás fogalma, 10 hatványai és normálalak"
+                  type="Hamarosan"
+                  emoji="🔢"
+                  disabled={true}
+                  icon={<Binary className="w-6 h-6" />}
+                  color="amber"
                 />
+              </div>
+            </section>
+          )}
+
+          {/* Section 2: Hatványok alkalmazása */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-pow-alkalmazas') && (
+            <section>
+              <SectionHeader id="g7-sec-pow-alkalmazas" number={2} title="Hatványok alkalmazása" color="orange" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Háromszögek szögei"
-                  subtitle="Belső és külső szögek"
-                  type="Teszt"
-                  onClick={() => handleActivitySelect('triangle-angles-quiz', topicId)}
-                  icon={<Sparkles className="w-6 h-6 text-amber-500" />}
-                  color="emerald"
+                  title="Hatványok alkalmazása"
+                  subtitle="Hatványozás azonosságai, előjeles számok és törtek hatványai"
+                  type="Hamarosan"
+                  emoji="⚡"
+                  disabled={true}
+                  icon={<Zap className="w-6 h-6" />}
+                  color="orange"
                 />
+              </div>
+            </section>
+          )}
+
+          {/* Section 3: Mit tanultunk az oszthatóságról? (Ismétlés) */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-pow-mit-tanultunk-ismetles') && (
+            <section>
+              <SectionHeader id="g7-sec-pow-mit-tanultunk-ismetles" number={3} title="Mit tanultunk az oszthatóságról? (Ismétlés)" color="blue" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Szögtípusok"
-                  subtitle="Felismerés és párosítás"
-                  type="Gyakorlás"
-                  onClick={() => handleActivitySelect('angle-matching', topicId)}
-                  icon={<Target className="w-6 h-6" />}
+                  title="Mit tanultunk az oszthatóságról?"
+                  subtitle="Alapvető szabályok (2, 3, 4, 5, 8, 9, 10, 25, 100), összeg és szorzat"
+                  type="Hamarosan"
+                  emoji="🔄"
+                  disabled={true}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="blue"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 4: Egy kis logika */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-pow-logika') && (
+            <section>
+              <SectionHeader id="g7-sec-pow-logika" number={4} title="Egy kis logika" color="indigo" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Egy kis logika"
+                  subtitle="Logikai következtetések, szükséges és elégséges feltételek"
+                  type="Hamarosan"
+                  emoji="💡"
+                  disabled={true}
+                  icon={<Lightbulb className="w-6 h-6" />}
+                  color="indigo"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 5: A prímszámok. A számok prímtényezős felbontása */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-pow-prim-felbontas') && (
+            <section>
+              <SectionHeader id="g7-sec-pow-prim-felbontas" number={5} title="A prímszámok. A számok prímtényezős felbontása" color="emerald" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Prímszámok és felbontás"
+                  subtitle="Számelmélet alaptétele, prímfelbontás és kanonikus alak"
+                  type="Hamarosan"
+                  emoji="🧱"
+                  disabled={true}
+                  icon={<Boxes className="w-6 h-6" />}
                   color="emerald"
                 />
               </div>
             </section>
           )}
 
-          {(showAll || activeGrade5SubSectionId === 'g7-trans-quads') && (
-            <>
-              <section>
-                <SectionHeader id="g7-quads" number={3} title="Négyszögek" color="amber" />
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-                  <ActivityPlaceholder
-                    title="Négyszögek fajtái"
-                    subtitle="Tulajdonságok és csoportosítás"
-                    type="Kezdés"
-                    onClick={() => handleActivitySelect('quadrilateral-classification', topicId)}
-                    icon={<Square className="w-6 h-6" />}
-                    color="amber"
-                  />
-                  <ActivityPlaceholder
-                    title="Terület és kerület"
-                    subtitle="Speciális négyszögek"
-                    type="Hamarosan"
-                    disabled
-                    icon={<Calculator className="w-6 h-6" />}
-                    color="slate"
-                  />
-                </div>
-              </section>
+          {/* Section 6: Készítsünk magunknak oszthatósági szabályokat! */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-pow-szabaly-keszites') && (
+            <section>
+              <SectionHeader id="g7-sec-pow-szabaly-keszites" number={6} title="Készítsünk magunknak oszthatósági szabályokat!" color="teal" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Oszthatósági szabályok alkotása"
+                  subtitle="Összetett szabályok (6, 12, 15, 18, 36, 45) relatív prímekkel"
+                  type="Hamarosan"
+                  emoji="🛠️"
+                  disabled={true}
+                  icon={<Wrench className="w-6 h-6" />}
+                  color="teal"
+                />
+              </div>
+            </section>
+          )}
 
-              <section>
-                <SectionHeader number={4} title="Geometriai transzformációk" color="indigo" />
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                  <ActivityPlaceholder
-                    title="Eltolás és forgatás"
-                    subtitle="Alapfogalmak"
-                    type="Kezdés"
-                    disabled
-                    icon={<MoveHorizontal className="w-6 h-6 rotate-45" />}
-                    color="indigo"
-                  />
-                </div>
-              </section>
+          {/* Section 7: Osztókról, többszörösökről még egyszer */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-pow-osztok-tobbszorosok') && (
+            <section>
+              <SectionHeader id="g7-sec-pow-osztok-tobbszorosok" number={7} title="Osztókról, többszörösökről még egyszer" color="cyan" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Osztók és többszörösök"
+                  subtitle="Osztópárok, osztók száma és négyzetszámok tulajdonsága"
+                  type="Hamarosan"
+                  emoji="📊"
+                  disabled={true}
+                  icon={<Table className="w-6 h-6" />}
+                  color="cyan"
+                />
+              </div>
+            </section>
+          )}
 
-              <section>
-                <SectionHeader number={5} title="Középpontos tükrözés" color="violet" />
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                  <ActivityPlaceholder
-                    title="Pont és alakzat tükrözése"
-                    subtitle="Szerkesztési lépések"
-                    type="Kezdés"
-                    disabled
-                    icon={<MoveHorizontal className="w-6 h-6" />}
-                    color="violet"
-                  />
-                </div>
-              </section>
+          {/* Section 8: Legnagyobb közös osztó */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-pow-lnko') && (
+            <section>
+              <SectionHeader id="g7-sec-pow-lnko" number={8} title="Legnagyobb közös osztó" color="violet" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Legnagyobb közös osztó (LNKO)"
+                  subtitle="Közös osztók, prímfelbontásos kiszámítás és relatív prímek"
+                  type="Hamarosan"
+                  emoji="🎯"
+                  disabled={true}
+                  icon={<Target className="w-6 h-6" />}
+                  color="violet"
+                />
+              </div>
+            </section>
+          )}
 
-              <section>
-                <SectionHeader number={6} title="Tengelyes tükrözés" color="rose" />
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                  <ActivityPlaceholder
-                    title="Szimmetria tengelyek"
-                    subtitle="Alakzatok tükrözése"
-                    type="Kezdés"
-                    disabled
-                    icon={<MoveHorizontal className="w-6 h-6 -rotate-45" />}
-                    color="rose"
-                  />
-                  <ActivityPlaceholder
-                    title="Egyenesek helyzete"
-                    subtitle="Párhuzamos és merőleges"
-                    type="Gyakorlás"
-                    onClick={() => handleActivitySelect('line-relationships', topicId)}
-                    icon={<MoveHorizontal className="w-6 h-6 rotate-45" />}
-                    color="rose"
-                  />
-                </div>
-              </section>
+          {/* Section 9: Legkisebb közös többszörös */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-pow-lkkt') && (
+            <section>
+              <SectionHeader id="g7-sec-pow-lkkt" number={9} title="Legkisebb közös többszörös" color="purple" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Legkisebb közös többszörös (LKKT)"
+                  subtitle="Közös többszörösök, közös nevező és LNKO·LKKT tétel"
+                  type="Hamarosan"
+                  emoji="📈"
+                  disabled={true}
+                  icon={<TrendingUp className="w-6 h-6" />}
+                  color="purple"
+                />
+              </div>
+            </section>
+          )}
 
-              <section>
-                <SectionHeader number={7} title="Szabályos sokszögek" color="teal" />
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                  <ActivityPlaceholder
-                    title="Síkidom vagy Test?"
-                    subtitle="Szabályos alakzatok elkülönítése"
-                    type="Kezdés"
-                    onClick={() => handleActivitySelect('shape-classification', topicId)}
-                    icon={<Box className="w-6 h-6" />}
-                    color="teal"
-                  />
-                </div>
-              </section>
+          {/* Section 10: Matematikai játékok */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-pow-jatekok') && (
+            <section>
+              <SectionHeader id="g7-sec-pow-jatekok" number={10} title="Matematikai játékok" color="rose" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Matematikai játékok"
+                  subtitle="Számelméleti játékok, nyerő stratégiák és paritás"
+                  type="Hamarosan"
+                  emoji="🎮"
+                  disabled={true}
+                  icon={<Gamepad2 className="w-6 h-6" />}
+                  color="rose"
+                />
+              </div>
+            </section>
+          )}
 
-              <section>
-                <SectionHeader number={8} title="Kör" color="red" />
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                  <ActivityPlaceholder
-                    title="Kör és részei"
-                    subtitle="Sugár, átmérő, húr felismerése"
-                    type="Kezdés"
-                    onClick={() => handleActivitySelect('circle-parts', topicId)}
-                    icon={<Circle className="w-6 h-6" />}
-                    color="red"
-                  />
-                  <ActivityPlaceholder
-                    title="Kör területe, kerülete"
-                    subtitle="Számítási feladatok"
-                    type="Hamarosan"
-                    disabled
-                    icon={<Calculator className="w-6 h-6" />}
-                    color="slate"
-                  />
-                </div>
-              </section>
-            </>
+          {/* Section 11: Összefoglalás */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-pow-osszefoglalas') && (
+            <section>
+              <SectionHeader id="g7-sec-pow-osszefoglalas" number={11} title="Összefoglalás" color="slate" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Összefoglalás"
+                  subtitle="IV. Hatványozás, oszthatóság fejezet átfogó rendszerezése"
+                  type="Hamarosan"
+                  emoji="🏆"
+                  disabled={true}
+                  icon={<Trophy className="w-6 h-6" />}
+                  color="slate"
+                />
+              </div>
+            </section>
           )}
         </div>
       );
@@ -2444,116 +2883,217 @@ export default function MathPage() {
       const showAll = !activeGrade5SubSectionId;
       return (
         <div className="flex flex-col gap-10 py-6">
-          {(showAll || activeGrade5SubSectionId === 'g7-eq-percent') && (
+          {/* Section 1: Az arányosságról még egyszer */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-pct-aranyossag') && (
             <section>
-              <SectionHeader id="g7-percent-val" number={1} title="Százalékérték" color="rose" />
+              <SectionHeader id="g7-sec-pct-aranyossag" number={1} title="Az arányosságról még egyszer" color="blue" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Százalékérték teszt"
-                  subtitle="Mennyi az alap adott %-a?"
-                  type="Teszt"
-                  onClick={() => {
-                    setPercentMode('calculate-value');
-                    handleActivitySelect('percentages', topicId);
-                  }}
-                  icon={<Percent className="w-6 h-6" />}
-                  color="rose"
-                />
-                <ActivityPlaceholder
-                  title="Szöveges feladatok"
-                  subtitle="10 feladat / szint"
-                  type="Gyakorlás"
-                  onClick={() => {
-                    handleActivitySelect('percent-value-word-problems', topicId);
-                  }}
-                  icon={<BookOpen className="w-6 h-6" />}
-                  color="rose"
-                />
-              </div>
-            </section>
-          )}
-
-          {(showAll || activeGrade5SubSectionId === 'g7-eq-rate') && (
-            <section>
-              <SectionHeader id="g7-percent-rate" number={2} title="Százalékláb" color="emerald" />
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-                <ActivityPlaceholder
-                  title="Százalékláb teszt"
-                  subtitle="Hány százaléka a rész az egésznek?"
-                  type="Teszt"
-                  onClick={() => {
-                    setPercentMode('calculate-rate');
-                    handleActivitySelect('percentages', topicId);
-                  }}
-                  icon={<Percent className="w-6 h-6" />}
-                  color="emerald"
-                />
-                <ActivityPlaceholder
-                  title="Szöveges feladatok"
-                  subtitle="10 feladat / szint"
-                  type="Gyakorlás"
-                  onClick={() => {
-                    handleActivitySelect('percent-rate-word-problems', topicId);
-                  }}
-                  icon={<BookOpen className="w-6 h-6" />}
-                  color="emerald"
-                />
-              </div>
-            </section>
-          )}
-
-          {(showAll || activeGrade5SubSectionId === 'g7-eq-base') && (
-            <section>
-              <SectionHeader id="g7-percent-base" number={3} title="Százalékalap" color="blue" />
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-                <ActivityPlaceholder
-                  title="Százalékalap teszt"
-                  subtitle="Mennyi a 100%, ha ismerjük a részt?"
-                  type="Teszt"
-                  onClick={() => {
-                    setPercentMode('calculate-base');
-                    handleActivitySelect('percentages', topicId);
-                  }}
-                  icon={<Percent className="w-6 h-6" />}
-                  color="blue"
-                />
-                <ActivityPlaceholder
-                  title="Szöveges feladatok"
-                  subtitle="10 feladat / szint"
-                  type="Gyakorlás"
-                  onClick={() => {
-                    handleActivitySelect('percent-base-word-problems', topicId);
-                  }}
-                  icon={<BookOpen className="w-6 h-6" />}
+                  title="Az arányosságról még egyszer"
+                  subtitle="Egyenes és fordított arányosság, arányos osztás"
+                  type="Hamarosan"
+                  emoji="⚖️"
+                  disabled={true}
+                  icon={<TrendingUp className="w-6 h-6" />}
                   color="blue"
                 />
               </div>
             </section>
           )}
 
-          {(showAll || activeGrade5SubSectionId === 'g7-eq-solve') && (
+          {/* Section 2: Mit tanultunk a százalékszámításról? */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-pct-mit-tanultunk') && (
             <section>
-              <SectionHeader id="g7-equations" number={4} title="Egyenletek" color="indigo" />
+              <SectionHeader id="g7-sec-pct-mit-tanultunk" number={2} title="Mit tanultunk a százalékszámításról?" color="rose" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Egyenletmegoldás"
-                  subtitle="Mérlegelv szemléltetéssel"
-                  type="Kezdés"
-                  onClick={() => {
-                    handleActivitySelect('equation-balance-quiz', topicId);
-                  }}
+                  title="Százalékszámítás alapjai"
+                  subtitle="Százalék fogalma, alap, százalékláb, százalékérték"
+                  type="Hamarosan"
+                  emoji="📊"
+                  disabled={true}
+                  icon={<Percent className="w-6 h-6" />}
+                  color="rose"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 3: A 100% kiszámítása */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-pct-100-szazalek') && (
+            <section>
+              <SectionHeader id="g7-sec-pct-100-szazalek" number={3} title="A 100% kiszámítása" color="emerald" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="A 100% kiszámítása"
+                  subtitle="Százalékalap meghatározása értékből és lábból"
+                  type="Hamarosan"
+                  emoji="💯"
+                  disabled={true}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="emerald"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 4: Hány százalék? */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-pct-hany-szazalek') && (
+            <section>
+              <SectionHeader id="g7-sec-pct-hany-szazalek" number={4} title="Hány százalék?" color="cyan" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Hány százalék?"
+                  subtitle="Százalékláb kiszámítása tört és tizedes alakból"
+                  type="Hamarosan"
+                  emoji="❓"
+                  disabled={true}
+                  icon={<Percent className="w-6 h-6" />}
+                  color="cyan"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 5: A százalékszámítás gyakorlása */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-pct-gyakorlas') && (
+            <section>
+              <SectionHeader id="g7-sec-pct-gyakorlas" number={5} title="A százalékszámítás gyakorlása" color="amber" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Százalékszámítás gyakorlása"
+                  subtitle="Százalékos növekedés és csökkenés egylépésben"
+                  type="Hamarosan"
+                  emoji="📈"
+                  disabled={true}
+                  icon={<Sparkles className="w-6 h-6" />}
+                  color="amber"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 6: Összetett százalékszámítási feladatok */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-pct-osszetett') && (
+            <section>
+              <SectionHeader id="g7-sec-pct-osszetett" number={6} title="Összetett százalékszámítási feladatok" color="purple" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Összetett feladatok"
+                  subtitle="Egymást követő árváltozások, kamat, keverékek"
+                  type="Hamarosan"
+                  emoji="🧩"
+                  disabled={true}
+                  icon={<Layers className="w-6 h-6" />}
+                  color="purple"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 7: Szöveges feladatok */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-pct-szoveges') && (
+            <section>
+              <SectionHeader id="g7-sec-pct-szoveges" number={7} title="Szöveges feladatok" color="teal" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Szöveges feladatok"
+                  subtitle="Gyakorlati problémák modellezése és megoldása"
+                  type="Hamarosan"
+                  emoji="📝"
+                  disabled={true}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="teal"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 8: Egyenletmegoldási módszerek: próbálgatás és lebontogatás */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-pct-egyenlet-modszerek') && (
+            <section>
+              <SectionHeader id="g7-sec-pct-egyenlet-modszerek" number={8} title="Egyenletmegoldási módszerek: próbálgatás és lebontogatás" color="indigo" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Próbálgatás és lebontogatás"
+                  subtitle="Alaphalmaz, gyökök, szisztematikus próbálgatás, lebontogatás"
+                  type="Hamarosan"
+                  emoji="🔍"
+                  disabled={true}
+                  icon={<Search className="w-6 h-6" />}
+                  color="indigo"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 9: A mérlegelv */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-pct-merlegelv') && (
+            <section>
+              <SectionHeader id="g7-sec-pct-merlegelv" number={9} title="A mérlegelv" color="sky" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="A mérlegelv"
+                  subtitle="Mérleg modell, ekvivalens átalakítások és ellenőrzés"
+                  type="Hamarosan"
+                  emoji="⚖️"
+                  disabled={true}
                   icon={<Scale className="w-6 h-6" />}
-                  color="indigo"
+                  color="sky"
                 />
+              </div>
+            </section>
+          )}
+
+          {/* Section 10: Egyenletek megoldása mérlegelvvel */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-pct-egyenletek-merlegelvvel') && (
+            <section>
+              <SectionHeader id="g7-sec-pct-egyenletek-merlegelvvel" number={10} title="Egyenletek megoldása mérlegelvvel" color="violet" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Szöveges egyenletek"
-                  subtitle="10 feladat / szint"
-                  type="Gyakorlás"
-                  onClick={() => {
-                    handleActivitySelect('g7-word-problems', topicId);
-                  }}
-                  icon={<BookOpen className="w-6 h-6" />}
-                  color="indigo"
+                  title="Egyenletek mérlegelvvel"
+                  subtitle="Zárójelek, törtek eltüntetése, rendezési algoritmus"
+                  type="Hamarosan"
+                  emoji="🧮"
+                  disabled={true}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="violet"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 11: Szöveges feladatok megoldása egyenlettel */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-pct-szoveges-egyenlettel') && (
+            <section>
+              <SectionHeader id="g7-sec-pct-szoveges-egyenlettel" number={11} title="Szöveges feladatok megoldása egyenlettel" color="orange" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Szöveges feladatok egyenlettel"
+                  subtitle="Az 5 lépéses modell, életkoros és számelméleti feladatok"
+                  type="Hamarosan"
+                  emoji="💡"
+                  disabled={true}
+                  icon={<Pencil className="w-6 h-6" />}
+                  color="orange"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 12: Összefoglalás */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-pct-osszefoglalas') && (
+            <section>
+              <SectionHeader id="g7-sec-pct-osszefoglalas" number={12} title="Összefoglalás" color="slate" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Összefoglalás"
+                  subtitle="V. Százalékszámítás, egyenletek átfogó rendszerezése"
+                  type="Hamarosan"
+                  emoji="🏆"
+                  disabled={true}
+                  icon={<Trophy className="w-6 h-6" />}
+                  color="slate"
                 />
               </div>
             </section>
@@ -2563,27 +3103,483 @@ export default function MathPage() {
     }
 
     if (topicId === 'g7-geometry') {
+      const showAll = !activeGrade5SubSectionId;
       return (
-        <div className="py-2">
-          <Grade7GeometryModule
-            onBack={handleBack}
-            isInline
-            onStartActivity={(type) => handleActivitySelect(type as ActivityType, topicId)}
-          />
+        <div className="flex flex-col gap-10 py-6">
+          {/* Section 1: Egybevágó háromszögek, szerkesztések */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-geom-egybevagosag') && (
+            <section>
+              <SectionHeader id="g7-sec-geom-egybevagosag" number={1} title="Egybevágó háromszögek, szerkesztések" color="blue" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Alapszerkesztések"
+                  subtitle="Körző és vonalzó szerkesztő eszköz"
+                  type="Gyakorlás"
+                  emoji="📐"
+                  onClick={() => handleActivitySelect('construction', 'g7-geometry')}
+                  icon={<Pencil className="w-6 h-6" />}
+                  color="blue"
+                />
+                <ActivityPlaceholder
+                  title="Háromszögek fajtái"
+                  subtitle="Egybevágóság 4 alapesete és csoportosítás"
+                  type="Gyakorlás"
+                  emoji="🔺"
+                  onClick={() => handleActivitySelect('triangle-classification', 'g7-geometry')}
+                  icon={<Triangle className="w-6 h-6" />}
+                  color="indigo"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 2: Összefüggések a háromszög oldalai és szögei között */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-geom-oldalak-szogek') && (
+            <section>
+              <SectionHeader id="g7-sec-geom-oldalak-szogek" number={2} title="Összefüggések a háromszög oldalai és szögei között" color="indigo" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Háromszögek szögei kvíz"
+                  subtitle="Belső és külső szögek kiszámítása"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => handleActivitySelect('triangle-angles-quiz', 'g7-geometry')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="indigo"
+                />
+                <ActivityPlaceholder
+                  title="Háromszög-egyenlőtlenség"
+                  subtitle="Oldalak és szemközti szögek kapcsolata"
+                  type="Gyakorlás"
+                  emoji="📏"
+                  onClick={() => handleActivitySelect('triangle-classification', 'g7-geometry')}
+                  icon={<Ruler className="w-6 h-6" />}
+                  color="purple"
+                />
+                <ActivityPlaceholder
+                  title="Szögek párosítása"
+                  subtitle="Hegyesszög, derékszög, tompaszög stb."
+                  type="Gyakorlás"
+                  emoji="🧭"
+                  onClick={() => handleActivitySelect('angle-matching', 'g7-geometry')}
+                  icon={<Sparkles className="w-6 h-6" />}
+                  color="violet"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 3: Sokszögek szögei és átlói */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-geom-sokszogek-szogei-atloi') && (
+            <section>
+              <SectionHeader id="g7-sec-geom-sokszogek-szogei-atloi" number={3} title="Sokszögek szögei és átlói" color="purple" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Sokszögek osztályozása"
+                  subtitle="Négyszögek és konvex sokszögek tulajdonságai"
+                  type="Gyakorlás"
+                  emoji="🛑"
+                  onClick={() => handleActivitySelect('quadrilateral-classification', 'g7-geometry')}
+                  icon={<Shapes className="w-6 h-6" />}
+                  color="purple"
+                />
+                <ActivityPlaceholder
+                  title="Sokszögek szögei és átlói"
+                  subtitle="Átlók száma és belső szögek összege"
+                  type="Hamarosan"
+                  emoji="⚡"
+                  disabled={true}
+                  icon={<Zap className="w-6 h-6" />}
+                  color="violet"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 4: A terület és a térfogat mértékegységei */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-geom-mertekegysegek') && (
+            <section>
+              <SectionHeader id="g7-sec-geom-mertekegysegek" number={4} title="A terület és a térfogat mértékegységei" color="cyan" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Területmértékegységek kvíz"
+                  subtitle="mm², cm², dm², m², ár, ha átváltások"
+                  type="Kvíz"
+                  emoji="📏"
+                  onClick={() => handleActivitySelect('area-conversion-quiz', 'g7-geometry')}
+                  icon={<Ruler className="w-6 h-6" />}
+                  color="cyan"
+                />
+                <ActivityPlaceholder
+                  title="Térfogat és űrmértékek kvíz"
+                  subtitle="m³, dm³, cm³, mm³, liter, hl átváltások"
+                  type="Kvíz"
+                  emoji="📦"
+                  onClick={() => handleActivitySelect('volume-quiz', 'g7-geometry')}
+                  icon={<Box className="w-6 h-6" />}
+                  color="blue"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 5: A paralelogramma területe */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-geom-paralelogramma-terulet') && (
+            <section>
+              <SectionHeader id="g7-sec-geom-paralelogramma-terulet" number={5} title="A paralelogramma területe" color="emerald" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Paralelogramma terület kvíz"
+                  subtitle="T = a · ma interaktív ábrás számítások"
+                  type="Kvíz"
+                  emoji="🟩"
+                  onClick={() => handleActivitySelect('parallelogram-area-quiz', 'g7-geometry')}
+                  icon={<Square className="w-6 h-6" />}
+                  color="emerald"
+                />
+                <ActivityPlaceholder
+                  title="Paralelogrammák típusai"
+                  subtitle="Téglalap, négyzet, rombusz tulajdonságai"
+                  type="Gyakorlás"
+                  emoji="🔷"
+                  onClick={() => handleActivitySelect('quadrilateral-classification', 'g7-geometry')}
+                  icon={<Shapes className="w-6 h-6" />}
+                  color="teal"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 6: A háromszög területe */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-geom-haromszog-terulet') && (
+            <section>
+              <SectionHeader id="g7-sec-geom-haromszog-terulet" number={6} title="A háromszög területe" color="teal" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Háromszög területe gyakorlás"
+                  subtitle="T = (a · ma) / 2 és derékszögű háromszög"
+                  type="Gyakorlás"
+                  emoji="🔺"
+                  onClick={() => handleActivitySelect('area-calculation-quiz', 'g7-geometry')}
+                  icon={<Triangle className="w-6 h-6" />}
+                  color="teal"
+                />
+                <ActivityPlaceholder
+                  title="Háromszögek csoportosítása"
+                  subtitle="Oldalak és magasságok kapcsolata"
+                  type="Gyakorlás"
+                  emoji="📐"
+                  onClick={() => handleActivitySelect('triangle-classification', 'g7-geometry')}
+                  icon={<Shapes className="w-6 h-6" />}
+                  color="emerald"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 7: A trapéz területe */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-geom-trapez-terulet') && (
+            <section>
+              <SectionHeader id="g7-sec-geom-trapez-terulet" number={7} title="A trapéz területe" color="green" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Trapézok felismerése"
+                  subtitle="Alapok, szárak és középvonal tulajdonságai"
+                  type="Gyakorlás"
+                  emoji="⏢"
+                  onClick={() => handleActivitySelect('quadrilateral-classification', 'g7-geometry')}
+                  icon={<Shapes className="w-6 h-6" />}
+                  color="green"
+                />
+                <ActivityPlaceholder
+                  title="Trapéz területszámítás"
+                  subtitle="T = ((a+c)/2) · m képlet feladatai"
+                  type="Hamarosan"
+                  emoji="📐"
+                  disabled={true}
+                  icon={<Target className="w-6 h-6" />}
+                  color="emerald"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 8: A deltoid területe */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-geom-deltoid-terulet') && (
+            <section>
+              <SectionHeader id="g7-sec-geom-deltoid-terulet" number={8} title="A deltoid területe" color="amber" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Deltoid tulajdonságai"
+                  subtitle="Merőleges átlók és szimmetria"
+                  type="Gyakorlás"
+                  emoji="🪁"
+                  onClick={() => handleActivitySelect('quadrilateral-classification', 'g7-geometry')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="amber"
+                />
+                <ActivityPlaceholder
+                  title="Deltoid területe"
+                  subtitle="T = (e · f) / 2 képlet feladatai"
+                  type="Hamarosan"
+                  emoji="✨"
+                  disabled={true}
+                  icon={<Shapes className="w-6 h-6" />}
+                  color="yellow"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 9: A hasáb felszíne és térfogata */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-geom-hasab-felszin-terfogat') && (
+            <section>
+              <SectionHeader id="g7-sec-geom-hasab-felszin-terfogat" number={9} title="A hasáb felszíne és térfogata" color="orange" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Felszín és térfogat eszköz"
+                  subtitle="3D testek térfogata és felszíne"
+                  type="Eszköz"
+                  emoji="🏛️"
+                  onClick={() => handleActivitySelect('volume-surface', 'g7-geometry')}
+                  icon={<Box className="w-6 h-6" />}
+                  color="orange"
+                />
+                <ActivityPlaceholder
+                  title="Felszínszámítás kvíz"
+                  subtitle="Téglatest, kocka és hasáb felszíne"
+                  type="Kvíz"
+                  emoji="📐"
+                  onClick={() => handleActivitySelect('surface-area-quiz', 'g7-geometry')}
+                  icon={<Layers className="w-6 h-6" />}
+                  color="amber"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 10: Testek térben és síkban */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-geom-testek-terben-sikban') && (
+            <section>
+              <SectionHeader id="g7-sec-geom-testek-terben-sikban" number={10} title="Testek térben és síkban" color="rose" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Síkidom vagy Test?"
+                  subtitle="2D és 3D alakzatok szétválogatása"
+                  type="Gyakorlás"
+                  emoji="🧊"
+                  onClick={() => handleActivitySelect('shape-classification', 'g7-geometry')}
+                  icon={<Box className="w-6 h-6" />}
+                  color="rose"
+                />
+                <ActivityPlaceholder
+                  title="Testhálók és nézetek"
+                  subtitle="Kiterített hálók és Euler-tétel"
+                  type="Hamarosan"
+                  emoji="📦"
+                  disabled={true}
+                  icon={<Layers className="w-6 h-6" />}
+                  color="pink"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 11: Szabadulószoba */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-geom-szabaduloszoba') && (
+            <section>
+              <SectionHeader id="g7-sec-geom-szabaduloszoba" number={11} title="Szabadulószoba" color="violet" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Geometriai Szabadulószoba"
+                  subtitle="Interaktív kódfejtés és geometriai feladványok"
+                  type="Kvíz"
+                  emoji="🔐"
+                  onClick={() => handleActivitySelect('quiz', 'g7-geometry')}
+                  icon={<Sparkles className="w-6 h-6" />}
+                  color="violet"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 12: Összefoglalás */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-geom-osszefoglalas') && (
+            <section>
+              <SectionHeader id="g7-sec-geom-osszefoglalas" number={12} title="Összefoglalás" color="slate" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Geometria Záróteszt"
+                  subtitle="VI. Geometria átfogó összefoglaló kvíz"
+                  type="Teszt"
+                  emoji="🏆"
+                  onClick={() => handleActivitySelect('quiz', 'g7-geometry')}
+                  icon={<Trophy className="w-6 h-6" />}
+                  color="slate"
+                />
+              </div>
+            </section>
+          )}
         </div>
       );
     }
 
     if (topicId === 'g7-stats') {
+      const showAll = !activeGrade5SubSectionId;
       return (
-        <div className="py-2">
-          <Grade7StatsModule
-            onBack={handleBack}
-            isInline
-            onStartActivity={(type: string) => handleActivitySelect(type as ActivityType, topicId)}
-            onViewMaterial={handleMaterialSelect}
-            initialMaterialId={new URLSearchParams(location.search).get('material')}
-          />
+        <div className="flex flex-col gap-10 py-6">
+          {/* Section 1: Két halmaz közötti hozzárendelések */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-stats-halmazok-hozzarendeles') && (
+            <section>
+              <SectionHeader id="g7-sec-stats-halmazok-hozzarendeles" number={1} title="Két halmaz közötti hozzárendelések" color="blue" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Hozzárendelés Kvíz"
+                  subtitle="Halmazok összekötése nyilakkal, függvény fogalma"
+                  type="Kvíz"
+                  emoji="🔄"
+                  onClick={() => handleActivitySelect('g7-mapping-quiz', 'g7-stats')}
+                  icon={<ArrowRightLeft className="w-6 h-6" />}
+                  color="blue"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 2: A hozzárendelések megadási módjai */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-stats-megadasi-modok') && (
+            <section>
+              <SectionHeader id="g7-sec-stats-megadasi-modok" number={2} title="A hozzárendelések megadási módjai" color="indigo" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Megadási módok kvíz"
+                  subtitle="Utasítás, képlet, értéktáblázat és számpárok"
+                  type="Kvíz"
+                  emoji="📋"
+                  onClick={() => handleActivitySelect('g7-mapping-quiz', 'g7-stats')}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="indigo"
+                />
+                <ActivityPlaceholder
+                  title="Függvény leolvasás"
+                  subtitle="Táblázat kitöltése szabály alapján"
+                  type="Gyakorlás"
+                  emoji="🔢"
+                  onClick={() => handleActivitySelect('g7-function-table-quiz', 'g7-stats')}
+                  icon={<LineChart className="w-6 h-6" />}
+                  color="purple"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 3: Olvassunk a grafikonról! */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-stats-olvassunk-grafikonrol') && (
+            <section>
+              <SectionHeader id="g7-sec-stats-olvassunk-grafikonrol" number={3} title="Olvassunk a grafikonról!" color="cyan" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Függvény leolvasás"
+                  subtitle="Táblázat kitöltése grafikonról, folyamatok elemzése"
+                  type="Kvíz"
+                  emoji="📈"
+                  onClick={() => handleActivitySelect('g7-function-table-quiz', 'g7-stats')}
+                  icon={<LineChart className="w-6 h-6" />}
+                  color="cyan"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 4: Átlag, módusz, medián */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-stats-atlag-modusz-median') && (
+            <section>
+              <SectionHeader id="g7-sec-stats-atlag-modusz-median" number={4} title="Átlag, módusz, medián" color="emerald" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Átlag, módusz, medián"
+                  subtitle="Számtani közép, leggyakoribb érték és terjedelem"
+                  type="Hamarosan"
+                  emoji="📊"
+                  disabled={true}
+                  icon={<BarChart3 className="w-6 h-6" />}
+                  color="emerald"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 5: Gyakoriság, relatív gyakoriság */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-stats-gyakorisag-relativ') && (
+            <section>
+              <SectionHeader id="g7-sec-stats-gyakorisag-relativ" number={5} title="Gyakoriság, relatív gyakoriság" color="teal" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Gyakoriság és Relatív gyakoriság"
+                  subtitle="Gyakorisági táblázatok, tört és százalékos alak, kördiagram"
+                  type="Hamarosan"
+                  emoji="📑"
+                  disabled={true}
+                  icon={<PieChart className="w-6 h-6" />}
+                  color="teal"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 6: Valószínűség */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-stats-valoszinuseg') && (
+            <section>
+              <SectionHeader id="g7-sec-stats-valoszinuseg" number={6} title="Valószínűség" color="amber" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Klasszikus valószínűség"
+                  subtitle="P(A) = kedvező / összes eset, kocka- és érmedobás"
+                  type="Hamarosan"
+                  emoji="🎲"
+                  disabled={true}
+                  icon={<Dices className="w-6 h-6" />}
+                  color="amber"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 7: Tippelj, kísérletezz, ellenőrizz! */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-stats-tippelj-kiserletezz') && (
+            <section>
+              <SectionHeader id="g7-sec-stats-tippelj-kiserletezz" number={7} title="Tippelj, kísérletezz, ellenőrizz!" color="orange" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Kísérletek és statisztika"
+                  subtitle="A nagy számok törvénye, relatív gyakoriság vs. valószínűség"
+                  type="Hamarosan"
+                  emoji="🧪"
+                  disabled={true}
+                  icon={<FlaskConical className="w-6 h-6" />}
+                  color="orange"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 8: Összefoglalás */}
+          {(showAll || activeGrade5SubSectionId === 'g7-sec-stats-osszefoglalas') && (
+            <section>
+              <SectionHeader id="g7-sec-stats-osszefoglalas" number={8} title="Összefoglalás" color="slate" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Hozzárendelések és statisztika teszt"
+                  subtitle="VII. fejezet átfogó összefoglaló kvíz"
+                  type="Teszt"
+                  emoji="🏆"
+                  onClick={() => handleActivitySelect('quiz', 'g7-stats')}
+                  icon={<Trophy className="w-6 h-6" />}
+                  color="slate"
+                />
+              </div>
+            </section>
+          )}
         </div>
       );
     }
@@ -4406,16 +5402,75 @@ export default function MathPage() {
                   ];
                 } else if (t.id === 'g7-percent-equations') {
                   subsections = [
-                    { id: 'g7-eq-percent', label: '1. Százalékérték' },
-                    { id: 'g7-eq-rate', label: '2. Százalékláb' },
-                    { id: 'g7-eq-base', label: '3. Százalékalap' },
-                    { id: 'g7-eq-solve', label: '4. Egyenletek' }
+                    { id: 'g7-sec-pct-aranyossag', label: '1. Arányosság' },
+                    { id: 'g7-sec-pct-mit-tanultunk', label: '2. Százalékszámítás alapjai' },
+                    { id: 'g7-sec-pct-100-szazalek', label: '3. A 100% kiszámítása' },
+                    { id: 'g7-sec-pct-hany-szazalek', label: '4. Hány százalék?' },
+                    { id: 'g7-sec-pct-gyakorlas', label: '5. Százalékszámítás gyakorlása' },
+                    { id: 'g7-sec-pct-osszetett', label: '6. Összetett feladatok' },
+                    { id: 'g7-sec-pct-szoveges', label: '7. Szöveges feladatok' },
+                    { id: 'g7-sec-pct-egyenlet-modszerek', label: '8. Próbálgatás, lebontogatás' },
+                    { id: 'g7-sec-pct-merlegelv', label: '9. A mérlegelv' },
+                    { id: 'g7-sec-pct-egyenletek-merlegelvvel', label: '10. Egyenletek mérlegelvvel' },
+                    { id: 'g7-sec-pct-szoveges-egyenlettel', label: '11. Szöveges feladatok egyenlettel' },
+                    { id: 'g7-sec-pct-osszefoglalas', label: '12. Összefoglalás' }
                   ];
                 } else if (t.id === 'g7-geom-trans') {
                   subsections = [
-                    { id: 'g7-trans-lines', label: '1. Nevezetes vonalak' },
-                    { id: 'g7-trans-triangles', label: '2. Háromszögek' },
-                    { id: 'g7-trans-quads', label: '3. Négyszögek' }
+                    { id: 'g7-sec-trans-fogalmak', label: '1. Geometriai fogalmak' },
+                    { id: 'g7-sec-trans-haromszog-vonalak', label: '2. Háromszögek nevezetes vonalai' },
+                    { id: 'g7-sec-trans-haromszog-negyszog', label: '3. Háromszögek és négyszögek' },
+                    { id: 'g7-sec-trans-transzformaciok', label: '4. Geometriai transzformációk' },
+                    { id: 'g7-sec-trans-kozeppontos-tukrozes', label: '5. Középpontos tükrözés' },
+                    { id: 'g7-sec-trans-kozeppontos-alkalmazas', label: '6. A középpontos tükrözés alkalmazása' },
+                    { id: 'g7-sec-trans-szogparok', label: '7. Szögpárok' },
+                    { id: 'g7-sec-trans-szimmetria', label: '8. Középpontos és tengelyes szimmetria' },
+                    { id: 'g7-sec-trans-paralelogramma-deltoid', label: '9. Paralelogramma és deltoid' },
+                    { id: 'g7-sec-trans-kozeppontosan-szimmetrikus', label: '10. Középpontosan szimmetrikus alakzatok' },
+                    { id: 'g7-sec-trans-szabalyos-sokszogek', label: '11. Szabályos sokszögek' },
+                    { id: 'g7-sec-trans-kor', label: '12. A kör' },
+                    { id: 'g7-sec-trans-szerkesztesek', label: '13. Szerkesztések' },
+                    { id: 'g7-sec-trans-osszefoglalas', label: '14. Összefoglalás' }
+                  ];
+                } else if (t.id === 'g7-powers-divisibility') {
+                  subsections = [
+                    { id: 'g7-sec-pow-nagy-szamok', label: '1. Nagy számok és hatványalak' },
+                    { id: 'g7-sec-pow-alkalmazas', label: '2. Hatványok alkalmazása' },
+                    { id: 'g7-sec-pow-mit-tanultunk-ismetles', label: '3. Mit tanultunk az oszthatóságról?' },
+                    { id: 'g7-sec-pow-logika', label: '4. Egy kis logika' },
+                    { id: 'g7-sec-pow-prim-felbontas', label: '5. Prímszámok, felbontás' },
+                    { id: 'g7-sec-pow-szabaly-keszites', label: '6. Oszthatósági szabályok' },
+                    { id: 'g7-sec-pow-osztok-tobbszorosok', label: '7. Osztókról, többszörösökről' },
+                    { id: 'g7-sec-pow-lnko', label: '8. Legnagyobb közös osztó' },
+                    { id: 'g7-sec-pow-lkkt', label: '9. Legkisebb közös többszörös' },
+                    { id: 'g7-sec-pow-jatekok', label: '10. Matematikai játékok' },
+                    { id: 'g7-sec-pow-osszefoglalas', label: '11. Összefoglalás' }
+                  ];
+                } else if (t.id === 'g7-geometry') {
+                  subsections = [
+                    { id: 'g7-sec-geom-egybevagosag', label: '1. Egybevágó háromszögek' },
+                    { id: 'g7-sec-geom-oldalak-szogek', label: '2. Háromszög oldalai, szögei' },
+                    { id: 'g7-sec-geom-sokszogek-szogei-atloi', label: '3. Sokszögek szögei, átlói' },
+                    { id: 'g7-sec-geom-mertekegysegek', label: '4. Mértékegységek' },
+                    { id: 'g7-sec-geom-paralelogramma-terulet', label: '5. Paralelogramma területe' },
+                    { id: 'g7-sec-geom-haromszog-terulet', label: '6. Háromszög területe' },
+                    { id: 'g7-sec-geom-trapez-terulet', label: '7. Trapéz területe' },
+                    { id: 'g7-sec-geom-deltoid-terulet', label: '8. Deltoid területe' },
+                    { id: 'g7-sec-geom-hasab-felszin-terfogat', label: '9. Hasáb felszíne, térfogata' },
+                    { id: 'g7-sec-geom-testek-terben-sikban', label: '10. Testek térben és síkban' },
+                    { id: 'g7-sec-geom-szabaduloszoba', label: 'Szabadulószoba' },
+                    { id: 'g7-sec-geom-osszefoglalas', label: '11. Összefoglalás' }
+                  ];
+                } else if (t.id === 'g7-stats') {
+                  subsections = [
+                    { id: 'g7-sec-stats-halmazok-hozzarendeles', label: '1. Két halmaz közötti hozzárendelések' },
+                    { id: 'g7-sec-stats-megadasi-modok', label: '2. Megadási módok' },
+                    { id: 'g7-sec-stats-olvassunk-grafikonrol', label: '3. Olvassunk a grafikonról!' },
+                    { id: 'g7-sec-stats-atlag-modusz-median', label: '4. Átlag, módusz, medián' },
+                    { id: 'g7-sec-stats-gyakorisag-relativ', label: '5. Gyakoriság, relatív gyakoriság' },
+                    { id: 'g7-sec-stats-valoszinuseg', label: '6. Valószínűség' },
+                    { id: 'g7-sec-stats-tippelj-kiserletezz', label: '7. Tippelj, kísérletezz!' },
+                    { id: 'g7-sec-stats-osszefoglalas', label: '8. Összefoglalás' }
                   ];
                 }
                 // Add subsections for Grade 8

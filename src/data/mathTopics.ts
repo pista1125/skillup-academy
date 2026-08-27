@@ -579,7 +579,7 @@ export const mathTopics: MathTopic[] = [
   {
     id: 'g7-geom-trans',
     title: 'III. GEOMETRIAI TRANSZFORMÁCIÓK',
-    description: 'Tengelyes és középpontos tükrözés, eltolás',
+    description: 'Geometriai fogalmak, háromszögek nevezetes vonalai, szögpárok, szimmetriák, négyszögek, sokszögek, kör és szerkesztések',
     icon: '🔄',
     color: 'from-emerald-500 to-teal-600',
     grades: [7],
@@ -587,7 +587,7 @@ export const mathTopics: MathTopic[] = [
   {
     id: 'g7-powers-divisibility',
     title: 'IV. HATVÁNYOZÁS, OSZTHATÓSÁG',
-    description: 'A hatványozás fogalma, oszthatósági szabályok bővítése',
+    description: 'Nagy számok normálalakja, hatványozás azonosságai, oszthatósági szabályok, prímszámok, LNKO és LKKT',
     icon: '⚡',
     color: 'from-amber-400 to-orange-500',
     grades: [7],
@@ -595,7 +595,7 @@ export const mathTopics: MathTopic[] = [
   {
     id: 'g7-percent-equations',
     title: 'V. SZÁZALÉKSZÁMÍTÁS, EGYENLETEK',
-    description: 'Százalékszámítás alkalmazása, elsőfokú egyenletek',
+    description: 'Arányosság, százalékszámítás alapjai és összetett feladatai, mérlegelv, elsőfokú egyenletek',
     icon: '📊',
     color: 'from-rose-500 to-pink-600',
     grades: [7],
@@ -603,7 +603,7 @@ export const mathTopics: MathTopic[] = [
   {
     id: 'g7-geometry',
     title: 'VI. GEOMETRIA',
-    description: 'Szerkesztések, kerület, terület, felszín, térfogat',
+    description: 'Egybevágó háromszögek, sokszögek átlói és szögei, síkidomok területe, hasábok felszíne és térfogata',
     icon: '📐',
     color: 'from-green-500 to-green-600',
     grades: [7],
@@ -611,7 +611,7 @@ export const mathTopics: MathTopic[] = [
   {
     id: 'g7-stats',
     title: 'VII. HOZZÁRENDELÉSEK, STATISZTIKA',
-    description: 'Függvények, adatok ábrázolása és elemzése',
+    description: 'Hozzárendelések, grafikonok, átlag, módusz, medián, gyakoriság és valószínűségszámítás',
     icon: '📈',
     color: 'from-cyan-500 to-blue-500',
     grades: [7],
