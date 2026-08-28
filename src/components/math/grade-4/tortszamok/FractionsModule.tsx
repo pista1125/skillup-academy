@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { FractionVisualizer } from "@/components/math/tools/FractionVisualizer";
 import { FractionsQuiz } from "./FractionsQuiz";
-import { FractionMultiplicationMatcher } from "@/components/math/grade-6/tortek/FractionMultiplicationMatcher";
+import { FractionMultiplicationMatcher } from "@/components/math/grade-6/tortek/szorzas-torttel-a-reciprok/FractionMultiplicationMatcher";
 import { FractionVisualMatcher } from "./FractionVisualMatcher";
-import { FractionDivisionMatcher } from "@/components/math/grade-6/tortek/FractionDivisionMatcher";
+import { FractionDivisionMatcher } from "@/components/math/grade-6/tortek/osztas-torttel/FractionDivisionMatcher";
 import { DecimalFractionsTool } from "@/components/math/tools/DecimalFractionsTool";
 import DecimalFractionsQuiz from "@/components/math/grade-5/tortek-tizedestortek/DecimalFractionsQuiz";
 import DecimalMultiplicationQuiz from "@/components/math/grade-5/tortek-tizedestortek/DecimalMultiplicationQuiz";
@@ -14,7 +14,7 @@ import { DecimalMultiplicationMatcher } from "@/components/math/grade-5/tortek-t
 import { DecimalDivisionMatcher } from "@/components/math/grade-5/tortek-tizedestortek/DecimalDivisionMatcher";
 import { NumberLineTool } from "@/components/math/tools/NumberLineTool";
 import { FractionToDecimalMatcher } from "@/components/math/grade-5/tortek-tizedestortek/FractionToDecimalMatcher";
-import { FractionsClosingTest } from "@/components/math/grade-6/tortek/FractionsClosingTest";
+import { FractionsClosingTest } from "@/components/math/grade-6/tortek/osszefoglalas/FractionsClosingTest";
 import { SectionHeader } from "@/components/math/shared/SectionHeader";
 import { ActivityPlaceholder } from "@/components/math/shared/ActivityPlaceholder";
 import {

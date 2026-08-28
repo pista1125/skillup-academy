@@ -67,14 +67,6 @@ export const mathTopics: MathTopic[] = [
     color: 'from-pink-500 to-rose-500',
     grades: [6],
   },
-  {
-    id: 'g6-finance',
-    title: 'VII. MINDENNAPI PÉNZÜGYEINK',
-    description: 'Pénzügyi ismeretek, költségvetés',
-    icon: '💰',
-    color: 'from-emerald-500 to-teal-600',
-    grades: [6],
-  },
 
   // Other topics (Grade 6 removed from these as they are now integrated into the sections above or removed)
   {
