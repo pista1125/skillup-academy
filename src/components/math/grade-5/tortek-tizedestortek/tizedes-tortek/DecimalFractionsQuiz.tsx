@@ -24,7 +24,7 @@ interface DecimalFractionsQuizProps {
     onBack: () => void;
 }
 
-export default function DecimalFractionsQuiz({ onBack }: DecimalFractionsQuizProps) {
+export function DecimalFractionsQuiz({ onBack }: DecimalFractionsQuizProps) {
     const [difficulty, setDifficulty] = useState<Difficulty | null>(null);
     const [questions, setQuestions] = useState<Question[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -291,3 +291,5 @@ export default function DecimalFractionsQuiz({ onBack }: DecimalFractionsQuizPro
         </div>
     );
 }
+
+export default DecimalFractionsQuiz;

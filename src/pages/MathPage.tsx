@@ -18,9 +18,15 @@ import { OnlineTutoringModal } from '@/components/tutoring/OnlineTutoringModal';
 const CompetencyMatrixHub = lazy(() => import("@/components/math/competency-matrix/CompetencyMatrixHub")) as any;
 const GraduationPrep = lazy(() => import("@/components/math/graduation/GraduationPrep")) as any;
 const AdmissionPrep = lazy(() => import("@/components/math/admission/AdmissionPrep")) as any;
-const DecimalFractionsQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/DecimalFractionsQuiz")) as any;
-const DecimalMultiplicationQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/DecimalMultiplicationQuiz")) as any;
-const DecimalDivisionQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/DecimalDivisionQuiz")) as any;
+const DecimalFractionsQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek").then(m => ({ default: m.DecimalFractionsQuiz }))) as any;
+const DecimalMultiplicationQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek").then(m => ({ default: m.DecimalMultiplicationQuiz }))) as any;
+const DecimalDivisionQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek").then(m => ({ default: m.DecimalDivisionQuiz }))) as any;
+const Grade5FractionVisualMatcher = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek").then(m => ({ default: m.FractionVisualMatcher }))) as any;
+const Grade5FractionsQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek").then(m => ({ default: m.FractionsQuiz }))) as any;
+const Grade5FractionsModule = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek").then(m => ({ default: m.FractionsModule }))) as any;
+const Grade5DecimalMultiplicationMatcher = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek").then(m => ({ default: m.DecimalMultiplicationMatcher }))) as any;
+const Grade5DecimalDivisionMatcher = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek").then(m => ({ default: m.DecimalDivisionMatcher }))) as any;
+const Grade5FractionToDecimalMatcher = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek").then(m => ({ default: m.FractionToDecimalMatcher }))) as any;
 const MathQuiz = lazy(() => import("@/components/math/shared/MathQuiz").then(m => ({ default: m.MathQuiz }))) as any;
 const FractionVisualizer = lazy(() => import("@/components/math/tools/FractionVisualizer").then(m => ({ default: m.FractionVisualizer }))) as any;
 const FractionsModule = lazy(() => import("@/components/math/grade-4/tortszamok/FractionsModule").then(m => ({ default: m.FractionsModule }))) as any;
@@ -108,6 +114,7 @@ const Grade7GeometryModule = lazy(() => import("@/components/math/grade-7/geomet
 const MappingQuiz = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/MappingQuiz").then(m => ({ default: m.MappingQuiz }))) as any;
 const FunctionTableQuiz = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/FunctionTableQuiz").then(m => ({ default: m.FunctionTableQuiz }))) as any;
 const Grade7StatsModule = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/Grade7StatsModule").then(m => ({ default: m.Grade7StatsModule }))) as any;
+const Grade5BuildingBlocksComparison = lazy(() => import("@/components/math/grade-5/egesz-szamok/a-helyiertekes-iras/BuildingBlocksComparison").then(m => ({ default: m.BuildingBlocksComparison }))) as any;
 const RatioIntroQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/az-arany-fogalma/RatioIntroQuiz").then(m => ({ default: m.RatioIntroQuiz }))) as any;
 const RatioCreatorQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/az-arany-fogalma/RatioCreatorQuiz").then(m => ({ default: m.RatioCreatorQuiz }))) as any;
 const DirectProportionQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/egyenes-aranyossag/DirectProportionQuiz").then(m => ({ default: m.DirectProportionQuiz }))) as any;
@@ -342,7 +349,22 @@ const grade5Topics: Grade5Topic[] = [
     icon: '🔢',
     color: 'from-blue-500 to-blue-600',
     subsections: [
-      { id: 'g5-integers-ops', label: '1. Alapműveletek' }
+      { id: 'g5-int-sec-1', label: '1. A számok kialakulása, a római számok' },
+      { id: 'g5-int-sec-2', label: '2. A helyiértékes írás' },
+      { id: 'g5-int-sec-3', label: '3. A számjegyek hármas csoportosítása és a számok kiolvasása' },
+      { id: 'g5-int-sec-4', label: '4. A természetes számok helyesírása' },
+      { id: 'g5-int-sec-5', label: '5. Számrendszerek' },
+      { id: 'g5-int-sec-6', label: '6. A számok ábrázolása a számegyenesen' },
+      { id: 'g5-int-sec-7', label: '7. Becslés, kerekítés' },
+      { id: 'g5-int-sec-8', label: '8. Összeadás, írásbeli összeadás' },
+      { id: 'g5-int-sec-9', label: '9. Kivonás, írásbeli kivonás' },
+      { id: 'g5-int-sec-10', label: '10. Szorzás, írásbeli szorzás' },
+      { id: 'g5-int-sec-11', label: '11. Osztás, írásbeli osztás kétjegyű osztóval' },
+      { id: 'g5-int-sec-12', label: '12. Műveletek tulajdonságai, műveleti sorrend, zárójelek' },
+      { id: 'g5-int-sec-13', label: '13. Negatív számok' },
+      { id: 'g5-int-sec-14', label: '14. A számok ellentettje és abszolút értéke' },
+      { id: 'g5-int-sec-15', label: '15. Egész számok összeadása és kivonása' },
+      { id: 'g5-int-sec-16', label: '16. Összefoglalás' }
     ]
   },
   {
@@ -351,8 +373,22 @@ const grade5Topics: Grade5Topic[] = [
     icon: '🍕',
     color: 'from-orange-500 to-amber-600',
     subsections: [
-      { id: 'g5-fractions-common', label: '1. Közönséges törtek' },
-      { id: 'g5-fractions-decimal', label: '2. Tizedes törtek' }
+      { id: 'g5-frac-sec-1', label: '1. Ismerkedés a törtekkel' },
+      { id: 'g5-frac-sec-2', label: '2. Törtek bővítése, egyszerűsítése, összehasonlítása' },
+      { id: 'g5-frac-sec-3', label: '3. Törtek ábrázolása számegyenesen, vegyes törtek' },
+      { id: 'g5-frac-sec-4', label: '4. Egyenlő nevezőjű törtek összeadása és kivonása' },
+      { id: 'g5-frac-sec-5', label: '5. Különböző nevezőjű törtek összeadása és kivonása' },
+      { id: 'g5-frac-sec-6', label: '6. Tört szorzása természetes számmal' },
+      { id: 'g5-frac-sec-7', label: '7. Tört osztása pozitív egész számmal' },
+      { id: 'g5-frac-sec-8', label: '8. Műveletek sorrendje, zárójelfelbontás' },
+      { id: 'g5-frac-sec-9', label: '9. Mit tanultunk eddig? Gyakoroljunk!' },
+      { id: 'g5-frac-sec-10', label: '10. Tizedes törtek' },
+      { id: 'g5-frac-sec-11', label: '11. Tizedes törtek ábrázolása, kerekítése és összehasonlítása' },
+      { id: 'g5-frac-sec-12', label: '12. Tizedes törtek összeadása és kivonása' },
+      { id: 'g5-frac-sec-13', label: '13. Tizedes törtek szorzása természetes számmal' },
+      { id: 'g5-frac-sec-14', label: '14. Tizedes törtek osztása pozitív egész számmal' },
+      { id: 'g5-frac-sec-15', label: '15. Közönséges törtek tizedes tört alakja' },
+      { id: 'g5-frac-sec-16', label: '16. Összefoglalás' }
     ]
   },
   {
@@ -1365,33 +1401,298 @@ export default function MathPage() {
       const showAll = !activeGrade5SubSectionId;
       return (
         <div className="flex flex-col gap-10 py-6">
-          {(showAll || activeGrade5SubSectionId === 'g5-integers-ops') && (
+          {/* Section 1: A számok kialakulása, a római számok */}
+          {(showAll || activeGrade5SubSectionId === 'g5-int-sec-1') && (
             <section>
-              <SectionHeader id="g5-ops" number={1} title="Alapműveletek" color="blue" />
+              <SectionHeader id="g5-int-sec-1" number={1} title="A számok kialakulása, a római számok" color="amber" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Gyakorló Kvíz"
-                  subtitle="Összeadás, kivonás, szorzás, osztás"
-                  type="Teszt"
-                  onClick={() => handleActivitySelect('quiz', topicId)}
+                  title="Római számok"
+                  subtitle="Számok története és római számírás"
+                  type="Hamarosan"
+                  emoji="🏛️"
+                  disabled={true}
+                  icon={<Binary className="w-6 h-6" />}
+                  color="amber"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 2: A helyiértékes írás */}
+          {(showAll || activeGrade5SubSectionId === 'g5-int-sec-2') && (
+            <section>
+              <SectionHeader id="g5-int-sec-2" number={2} title="A helyiértékes írás" color="blue" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Építőkockás összehasonlítás"
+                  subtitle="Számok összehasonlítása kockákkal és relációjelekkel"
+                  type="Játék"
+                  emoji="🧱"
+                  onClick={() => handleActivitySelect('g5-building-blocks-comparison', topicId)}
+                  icon={<Box className="w-6 h-6" />}
+                  color="blue"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 3: A számjegyek hármas csoportosítása és a számok kiolvasása */}
+          {(showAll || activeGrade5SubSectionId === 'g5-int-sec-3') && (
+            <section>
+              <SectionHeader id="g5-int-sec-3" number={3} title="A számjegyek hármas csoportosítása és a számok kiolvasása" color="indigo" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Számok kiolvasása"
+                  subtitle="Számcsoportok és osztályok helyes leolvasása"
+                  type="Hamarosan"
+                  emoji="🗣️"
+                  disabled={true}
+                  icon={<Binary className="w-6 h-6" />}
+                  color="indigo"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 4: A természetes számok helyesírása */}
+          {(showAll || activeGrade5SubSectionId === 'g5-int-sec-4') && (
+            <section>
+              <SectionHeader id="g5-int-sec-4" number={4} title="A természetes számok helyesírása" color="violet" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Számok helyesírása"
+                  subtitle="Kétezres szabály és kötőjelezés"
+                  type="Hamarosan"
+                  emoji="✍️"
+                  disabled={true}
+                  icon={<Pencil className="w-6 h-6" />}
+                  color="violet"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 5: Számrendszerek */}
+          {(showAll || activeGrade5SubSectionId === 'g5-int-sec-5') && (
+            <section>
+              <SectionHeader id="g5-int-sec-5" number={5} title="Számrendszerek" color="cyan" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Számrendszerek"
+                  subtitle="Tízes és kettes (bináris) számrendszer"
+                  type="Hamarosan"
+                  emoji="💻"
+                  disabled={true}
+                  icon={<Binary className="w-6 h-6" />}
+                  color="cyan"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 6: A számok ábrázolása a számegyenesen */}
+          {(showAll || activeGrade5SubSectionId === 'g5-int-sec-6') && (
+            <section>
+              <SectionHeader id="g5-int-sec-6" number={6} title="A számok ábrázolása a számegyenesen" color="emerald" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Számegyenes"
+                  subtitle="Számok ábrázolása és leolvasása"
+                  type="Eszköz"
+                  emoji="📏"
+                  onClick={() => handleActivitySelect('number-line', topicId)}
+                  icon={<MoveHorizontal className="w-6 h-6" />}
+                  color="emerald"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 7: Becslés, kerekítés */}
+          {(showAll || activeGrade5SubSectionId === 'g5-int-sec-7') && (
+            <section>
+              <SectionHeader id="g5-int-sec-7" number={7} title="Becslés, kerekítés" color="teal" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Kerekítés és Becslés"
+                  subtitle="Tízesekre, százasokra, ezresekre kerekítés"
+                  type="Hamarosan"
+                  emoji="🎯"
+                  disabled={true}
+                  icon={<Target className="w-6 h-6" />}
+                  color="teal"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 8: Összeadás, írásbeli összeadás */}
+          {(showAll || activeGrade5SubSectionId === 'g5-int-sec-8') && (
+            <section>
+              <SectionHeader id="g5-int-sec-8" number={8} title="Összeadás, írásbeli összeadás" color="blue" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Írásbeli összeadás"
+                  subtitle="Többjegyű számok összeadása átlépéssel"
+                  type="Hamarosan"
+                  emoji="➕"
+                  disabled={true}
                   icon={<Calculator className="w-6 h-6" />}
                   color="blue"
                 />
+              </div>
+            </section>
+          )}
+
+          {/* Section 9: Kivonás, írásbeli kivonás */}
+          {(showAll || activeGrade5SubSectionId === 'g5-int-sec-9') && (
+            <section>
+              <SectionHeader id="g5-int-sec-9" number={9} title="Kivonás, írásbeli kivonás" color="rose" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Írásbeli kivonás"
+                  subtitle="Pótlási elv és átlépések gyakorlása"
+                  type="Hamarosan"
+                  emoji="➖"
+                  disabled={true}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="rose"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 10: Szorzás, írásbeli szorzás */}
+          {(showAll || activeGrade5SubSectionId === 'g5-int-sec-10') && (
+            <section>
+              <SectionHeader id="g5-int-sec-10" number={10} title="Szorzás, írásbeli szorzás" color="amber" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Írásbeli szorzás"
+                  subtitle="Egy- és kétjegyű szorzóval"
+                  type="Hamarosan"
+                  emoji="✖️"
+                  disabled={true}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="amber"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 11: Osztás, írásbeli osztás kétjegyű osztóval */}
+          {(showAll || activeGrade5SubSectionId === 'g5-int-sec-11') && (
+            <section>
+              <SectionHeader id="g5-int-sec-11" number={11} title="Osztás, írásbeli osztás kétjegyű osztóval" color="indigo" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
                   title="Írásbeli osztás"
                   subtitle="Lépcsős osztás levezetése"
                   type="Eszköz"
+                  emoji="➗"
                   onClick={() => handleActivitySelect('long-division', topicId)}
                   icon={<Box className="w-6 h-6" />}
                   color="indigo"
                 />
                 <ActivityPlaceholder
-                  title="Számegyenes"
-                  subtitle="Egész számok szemléltetése"
+                  title="Osztás vizuálisan"
+                  subtitle="Helyiérték-blokkokkal és szétbontással"
                   type="Eszköz"
-                  onClick={() => handleActivitySelect('number-line')}
+                  emoji="🧮"
+                  onClick={() => handleActivitySelect('manipulative-division', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="blue"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 12: Műveletek tulajdonságai, műveleti sorrend, zárójelek */}
+          {(showAll || activeGrade5SubSectionId === 'g5-int-sec-12') && (
+            <section>
+              <SectionHeader id="g5-int-sec-12" number={12} title="Műveletek tulajdonságai, műveleti sorrend, zárójelek" color="purple" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Műveleti sorrend"
+                  subtitle="Zárójelek és műveletek elsőbbsége"
+                  type="Hamarosan"
+                  emoji="🔢"
+                  disabled={true}
+                  icon={<Binary className="w-6 h-6" />}
+                  color="purple"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 13: Negatív számok */}
+          {(showAll || activeGrade5SubSectionId === 'g5-int-sec-13') && (
+            <section>
+              <SectionHeader id="g5-int-sec-13" number={13} title="Negatív számok" color="cyan" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Negatív számok"
+                  subtitle="Hőmérő, adósság és magasságok"
+                  type="Hamarosan"
+                  emoji="❄️"
+                  disabled={true}
+                  icon={<Target className="w-6 h-6" />}
+                  color="cyan"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 14: A számok ellentettje és abszolút értéke */}
+          {(showAll || activeGrade5SubSectionId === 'g5-int-sec-14') && (
+            <section>
+              <SectionHeader id="g5-int-sec-14" number={14} title="A számok ellentettje és abszolút értéke" color="orange" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Ellentett és Abszolút Érték"
+                  subtitle="Nullától mért távolság és szimmetria"
+                  type="Hamarosan"
+                  emoji="🔄"
+                  disabled={true}
+                  icon={<MoveHorizontal className="w-6 h-6" />}
+                  color="orange"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 15: Egész számok összeadása és kivonása */}
+          {(showAll || activeGrade5SubSectionId === 'g5-int-sec-15') && (
+            <section>
+              <SectionHeader id="g5-int-sec-15" number={15} title="Egész számok összeadása és kivonása" color="blue" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Számegyenes összeadás/kivonás"
+                  subtitle="Előjeles számok összeadása és kivonása"
+                  type="Eszköz"
+                  emoji="➖"
+                  onClick={() => handleActivitySelect('number-line', topicId)}
                   icon={<MoveHorizontal className="w-6 h-6" />}
                   color="blue"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 16: Összefoglalás */}
+          {(showAll || activeGrade5SubSectionId === 'g5-int-sec-16') && (
+            <section>
+              <SectionHeader id="g5-int-sec-16" number={16} title="Összefoglalás" color="slate" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Összefoglaló felkészítő"
+                  subtitle="I. Az egész számok témazáró összefoglalás"
+                  type="Hamarosan"
+                  emoji="🏆"
+                  disabled={true}
+                  icon={<Trophy className="w-6 h-6" />}
+                  color="slate"
                 />
               </div>
             </section>
@@ -1401,21 +1702,333 @@ export default function MathPage() {
     }
 
     if (topicId === 'g5-fractions-decimals') {
-      const isFractionActivity = activityType === 'fractions' || activityType?.startsWith('fractions-') || activityType?.startsWith('decimal-');
-      let onlyType: 'common' | 'decimal' | undefined = undefined;
-      if (activeGrade5SubSectionId === 'g5-fractions-common') {
-        onlyType = 'common';
-      } else if (activeGrade5SubSectionId === 'g5-fractions-decimal') {
-        onlyType = 'decimal';
-      }
+      const showAll = !activeGrade5SubSectionId;
       return (
-        <FractionsModule
-          isInline
-          onBack={() => setExpandedTopicId(null)}
-          onStartActivity={(type) => handleActivitySelect(type as ActivityType, topicId)}
-          initialView={isFractionActivity ? activityType : 'menu'}
-          onlyType={onlyType}
-        />
+        <div className="flex flex-col gap-10 py-6">
+          {/* Section 1: Ismerkedés a törtekkel */}
+          {(showAll || activeGrade5SubSectionId === 'g5-frac-sec-1') && (
+            <section>
+              <SectionHeader id="g5-frac-sec-1" number={1} title="Ismerkedés a törtekkel" color="orange" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Törtek alapjai"
+                  subtitle="Tört fogalma, számláló, nevező"
+                  type="Teszt"
+                  emoji="🍕"
+                  onClick={() => handleActivitySelect('g5-fractions-quiz', topicId)}
+                  icon={<Pizza className="w-6 h-6" />}
+                  color="orange"
+                />
+                <ActivityPlaceholder
+                  title="Tört Képpárosító"
+                  subtitle="Vizuális törtek és törtszámok"
+                  type="Játék"
+                  emoji="🧩"
+                  onClick={() => handleActivitySelect('g5-fraction-visual-matcher', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="amber"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 2: Törtek bővítése, egyszerűsítése, összehasonlítása */}
+          {(showAll || activeGrade5SubSectionId === 'g5-frac-sec-2') && (
+            <section>
+              <SectionHeader id="g5-frac-sec-2" number={2} title="Törtek bővítése, egyszerűsítése, összehasonlítása" color="amber" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Törtek Vizualizáló"
+                  subtitle="Törtek bővítése és egyszerűsítése"
+                  type="Eszköz"
+                  emoji="🔍"
+                  onClick={() => handleActivitySelect('fraction-visualizer', topicId)}
+                  icon={<Search className="w-6 h-6" />}
+                  color="amber"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 3: Törtek ábrázolása számegyenesen, vegyes törtek */}
+          {(showAll || activeGrade5SubSectionId === 'g5-frac-sec-3') && (
+            <section>
+              <SectionHeader id="g5-frac-sec-3" number={3} title="Törtek ábrázolása számegyenesen, vegyes törtek" color="blue" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Számegyenes törtbeosztással"
+                  subtitle="Vegyes törtek és áltörtek ábrázolása"
+                  type="Eszköz"
+                  emoji="📏"
+                  onClick={() => handleActivitySelect('number-line', topicId)}
+                  icon={<MoveHorizontal className="w-6 h-6" />}
+                  color="blue"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 4: Egyenlő nevezőjű törtek összeadása és kivonása */}
+          {(showAll || activeGrade5SubSectionId === 'g5-frac-sec-4') && (
+            <section>
+              <SectionHeader id="g5-frac-sec-4" number={4} title="Egyenlő nevezőjű törtek összeadása és kivonása" color="emerald" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Azonos nevezőjű törtek műveletei"
+                  subtitle="Összeadás és kivonás azonos nevezővel"
+                  type="Hamarosan"
+                  emoji="➕"
+                  disabled={true}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="emerald"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 5: Különböző nevezőjű törtek összeadása és kivonása */}
+          {(showAll || activeGrade5SubSectionId === 'g5-frac-sec-5') && (
+            <section>
+              <SectionHeader id="g5-frac-sec-5" number={5} title="Különböző nevezőjű törtek összeadása és kivonása" color="teal" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Közös nevező és műveletek"
+                  subtitle="Különböző nevezőjű törtek összeadása/kivonása"
+                  type="Hamarosan"
+                  emoji="➗"
+                  disabled={true}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="teal"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 6: Tört szorzása természetes számmal */}
+          {(showAll || activeGrade5SubSectionId === 'g5-frac-sec-6') && (
+            <section>
+              <SectionHeader id="g5-frac-sec-6" number={6} title="Tört szorzása természetes számmal" color="purple" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Tört szorzása egész számmal"
+                  subtitle="Számláló szorzása és egyszerűsítés"
+                  type="Hamarosan"
+                  emoji="✖️"
+                  disabled={true}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="purple"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 7: Tört osztása pozitív egész számmal */}
+          {(showAll || activeGrade5SubSectionId === 'g5-frac-sec-7') && (
+            <section>
+              <SectionHeader id="g5-frac-sec-7" number={7} title="Tört osztása pozitív egész számmal" color="indigo" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Tört osztása egész számmal"
+                  subtitle="Számláló osztása és nevező szorzása"
+                  type="Hamarosan"
+                  emoji="➗"
+                  disabled={true}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="indigo"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 8: Műveletek sorrendje, zárójelfelbontás */}
+          {(showAll || activeGrade5SubSectionId === 'g5-frac-sec-8') && (
+            <section>
+              <SectionHeader id="g5-frac-sec-8" number={8} title="Műveletek sorrendje, zárójelfelbontás" color="violet" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Műveleti sorrend törtekkel"
+                  subtitle="Zárójeles törtszámítások"
+                  type="Hamarosan"
+                  emoji="🔢"
+                  disabled={true}
+                  icon={<Binary className="w-6 h-6" />}
+                  color="violet"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 9: Mit tanultunk eddig? Gyakoroljunk! */}
+          {(showAll || activeGrade5SubSectionId === 'g5-frac-sec-9') && (
+            <section>
+              <SectionHeader id="g5-frac-sec-9" number={9} title="Mit tanultunk eddig? Gyakoroljunk!" color="rose" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Törtek Modul"
+                  subtitle="Közönséges törtek átfogó interaktív gyakorlása"
+                  type="Gyakorlás"
+                  emoji="📚"
+                  onClick={() => handleActivitySelect('g5-fractions-module', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="rose"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 10: Tizedes törtek */}
+          {(showAll || activeGrade5SubSectionId === 'g5-frac-sec-10') && (
+            <section>
+              <SectionHeader id="g5-frac-sec-10" number={10} title="Tizedes törtek" color="amber" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Tizedestörtek Kvíz"
+                  subtitle="Helyiértékek és fogalmak"
+                  type="Teszt"
+                  emoji="🪙"
+                  onClick={() => handleActivitySelect('decimal-fractions-quiz', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="amber"
+                />
+                <ActivityPlaceholder
+                  title="Tizedestört Korongok"
+                  subtitle="Helyiértékek átváltása korongokkal"
+                  type="Eszköz"
+                  emoji="🪙"
+                  onClick={() => handleActivitySelect('decimal-fractions', topicId)}
+                  icon={<Coins className="w-6 h-6" />}
+                  color="yellow"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 11: Tizedes törtek ábrázolása, kerekítése és összehasonlítása */}
+          {(showAll || activeGrade5SubSectionId === 'g5-frac-sec-11') && (
+            <section>
+              <SectionHeader id="g5-frac-sec-11" number={11} title="Tizedes törtek ábrázolása, kerekítése és összehasonlítása" color="blue" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Tizedesvessző-eltoló"
+                  subtitle="Szorzás és osztás 10, 100, 1000-rel"
+                  type="Eszköz"
+                  emoji="↔️"
+                  onClick={() => handleActivitySelect('decimal-shifter', topicId)}
+                  icon={<MoveHorizontal className="w-6 h-6" />}
+                  color="blue"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 12: Tizedes törtek összeadása és kivonása */}
+          {(showAll || activeGrade5SubSectionId === 'g5-frac-sec-12') && (
+            <section>
+              <SectionHeader id="g5-frac-sec-12" number={12} title="Tizedes törtek összeadása és kivonása" color="cyan" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Írásbeli összeadás/kivonás"
+                  subtitle="Tizedesvessző a vessző alá"
+                  type="Hamarosan"
+                  emoji="➕"
+                  disabled={true}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="cyan"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 13: Tizedes törtek szorzása természetes számmal */}
+          {(showAll || activeGrade5SubSectionId === 'g5-frac-sec-13') && (
+            <section>
+              <SectionHeader id="g5-frac-sec-13" number={13} title="Tizedes törtek szorzása természetes számmal" color="emerald" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Szorzás Kvíz"
+                  subtitle="Tizedestört szorzása egész számmal"
+                  type="Teszt"
+                  emoji="✖️"
+                  onClick={() => handleActivitySelect('decimal-multiplication-quiz', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="emerald"
+                />
+                <ActivityPlaceholder
+                  title="Szorzás Párosító"
+                  subtitle="Interaktív szorzópárosító játék"
+                  type="Játék"
+                  emoji="🧩"
+                  onClick={() => handleActivitySelect('decimal-multiplication-matcher', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="green"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 14: Tizedes törtek osztása pozitív egész számmal */}
+          {(showAll || activeGrade5SubSectionId === 'g5-frac-sec-14') && (
+            <section>
+              <SectionHeader id="g5-frac-sec-14" number={14} title="Tizedes törtek osztása pozitív egész számmal" color="indigo" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Osztás Kvíz"
+                  subtitle="Tizedestört osztása egész számmal"
+                  type="Teszt"
+                  emoji="➗"
+                  onClick={() => handleActivitySelect('decimal-division-quiz', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="indigo"
+                />
+                <ActivityPlaceholder
+                  title="Osztás Párosító"
+                  subtitle="Interaktív osztópárosító játék"
+                  type="Játék"
+                  emoji="🧩"
+                  onClick={() => handleActivitySelect('decimal-division-matcher', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="blue"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 15: Közönséges törtek tizedes tört alakja */}
+          {(showAll || activeGrade5SubSectionId === 'g5-frac-sec-15') && (
+            <section>
+              <SectionHeader id="g5-frac-sec-15" number={15} title="Közönséges törtek tizedes tört alakja" color="purple" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Tört - Tizedes Átváltó"
+                  subtitle="Közönséges tört és tizedestört párosító"
+                  type="Játék"
+                  emoji="🔄"
+                  onClick={() => handleActivitySelect('g5-fraction-to-decimal-matcher', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="purple"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 16: Összefoglalás */}
+          {(showAll || activeGrade5SubSectionId === 'g5-frac-sec-16') && (
+            <section>
+              <SectionHeader id="g5-frac-sec-16" number={16} title="Összefoglalás" color="slate" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Összefoglaló felkészítő"
+                  subtitle="II. Törtek, tizedes törtek témazáró összefoglalás"
+                  type="Hamarosan"
+                  emoji="🏆"
+                  disabled={true}
+                  icon={<Trophy className="w-6 h-6" />}
+                  color="slate"
+                />
+              </div>
+            </section>
+          )}
+        </div>
       );
     }
 
@@ -7217,6 +7830,10 @@ export default function MathPage() {
                   <DivisibilityTool onBack={handleBack} />
                 )}
 
+                {activityType === 'g5-building-blocks-comparison' && (
+                  <Grade5BuildingBlocksComparison onBack={handleBack} />
+                )}
+
                 {activityType === 'logic-blocks' && (
                   <LogicBlocksGame onBack={handleBack} />
                 )}
@@ -7390,6 +8007,54 @@ export default function MathPage() {
 
                 {activityType === 'g6-fractions-closing-test' && (
                   <Grade6FractionsClosingTest onBack={handleBack} />
+                )}
+
+                {activityType === 'g5-fraction-visual-matcher' && (
+                  <Grade5FractionVisualMatcher onBack={handleBack} />
+                )}
+
+                {activityType === 'g5-fractions-quiz' && (
+                  <Grade5FractionsQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g5-fractions-module' && (
+                  <Grade5FractionsModule onBack={handleBack} />
+                )}
+
+                {activityType === 'fraction-visualizer' && (
+                  <FractionVisualizer onBack={handleBack} />
+                )}
+
+                {activityType === 'decimal-fractions-quiz' && (
+                  <DecimalFractionsQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'decimal-fractions' && (
+                  <DecimalFractionsTool onBack={handleBack} />
+                )}
+
+                {activityType === 'decimal-shifter' && (
+                  <DecimalShifterTool onBack={handleBack} />
+                )}
+
+                {activityType === 'decimal-multiplication-quiz' && (
+                  <DecimalMultiplicationQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'decimal-multiplication-matcher' && (
+                  <Grade5DecimalMultiplicationMatcher onBack={handleBack} />
+                )}
+
+                {activityType === 'decimal-division-quiz' && (
+                  <DecimalDivisionQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'decimal-division-matcher' && (
+                  <Grade5DecimalDivisionMatcher onBack={handleBack} />
+                )}
+
+                {activityType === 'g5-fraction-to-decimal-matcher' && (
+                  <Grade5FractionToDecimalMatcher onBack={handleBack} />
                 )}
 
                 {activityType === 'triangle-angles-quiz' && (
