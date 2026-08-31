@@ -91,7 +91,7 @@ const ShapeVisual = ({ question }: { question: Question }) => {
     );
 };
 
-export default function PerimeterQuiz({ onBack }: { onBack: () => void }) {
+export function PerimeterQuiz({ onBack }: { onBack: () => void }) {
     const [difficulty, setDifficulty] = useState<Difficulty | null>(null);
     const [questions, setQuestions] = useState<Question[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -445,3 +445,5 @@ export default function PerimeterQuiz({ onBack }: { onBack: () => void }) {
         </div>
     );
 }
+
+export default PerimeterQuiz;

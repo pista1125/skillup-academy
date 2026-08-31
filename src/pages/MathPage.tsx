@@ -105,11 +105,11 @@ const WordProblemsQuiz = lazy(() => import("@/components/math/grade-5/aranyossag
 const UnitConverterTool = lazy(() => import("@/components/math/tools/UnitConverterTool").then(m => ({ default: m.UnitConverterTool }))) as any;
 const CapacityConverterTool = lazy(() => import("@/components/math/tools/CapacityConverterTool").then(m => ({ default: m.CapacityConverterTool }))) as any;
 const AnalogClockTool = lazy(() => import("@/components/math/tools/AnalogClockTool").then(m => ({ default: m.AnalogClockTool }))) as any;
-const PerimeterQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/PerimeterQuiz")) as any;
-const AreaConversionQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/AreaConversionQuiz")) as any;
-const AreaCalculationQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/AreaCalculationQuiz")) as any;
-const VolumeQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/VolumeQuiz")) as any;
-const SurfaceAreaQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/SurfaceAreaQuiz")) as any;
+const PerimeterQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat").then(m => ({ default: m.PerimeterQuiz }))) as any;
+const AreaConversionQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat").then(m => ({ default: m.AreaConversionQuiz }))) as any;
+const AreaCalculationQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat").then(m => ({ default: m.AreaCalculationQuiz }))) as any;
+const VolumeQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat").then(m => ({ default: m.VolumeQuiz }))) as any;
+const SurfaceAreaQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat").then(m => ({ default: m.SurfaceAreaQuiz }))) as any;
 const Grade7GeometryModule = lazy(() => import("@/components/math/grade-7/geometria/Grade7GeometryModule").then(m => ({ default: m.Grade7GeometryModule }))) as any;
 const MappingQuiz = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/MappingQuiz").then(m => ({ default: m.MappingQuiz }))) as any;
 const FunctionTableQuiz = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/FunctionTableQuiz").then(m => ({ default: m.FunctionTableQuiz }))) as any;
@@ -217,6 +217,7 @@ import {
   Columns,
   Table,
   Coins,
+  Layout,
   LayoutGrid,
   Repeat,
   Brain,
@@ -413,14 +414,36 @@ const grade5Topics: Grade5Topic[] = [
     title: 'IV. HOSSZÚSÁG, TERÜLET, TÉRFOGAT',
     icon: '📏',
     color: 'from-cyan-500 to-blue-500',
-    subsections: []
+    subsections: [
+      { id: 'g5-meas-sec-1', label: '1. A hosszúság mérése' },
+      { id: 'g5-meas-sec-2', label: '2. Téglalap, négyzet kerülete' },
+      { id: 'g5-meas-sec-3', label: '3. A terület mérése' },
+      { id: 'g5-meas-sec-4', label: '4. Téglalap, négyzet területe' },
+      { id: 'g5-meas-sec-5', label: '5. Téglatest, kocka' },
+      { id: 'g5-meas-sec-6', label: '6. Téglatest, kocka felszíne' },
+      { id: 'g5-meas-sec-7', label: '7. A térfogat mérése' },
+      { id: 'g5-meas-sec-8', label: '8. Téglatest, kocka térfogata' },
+      { id: 'g5-meas-sec-9', label: '9. Gyakorlati feladatok' },
+      { id: 'g5-meas-sec-10', label: '10. Összefoglalás' }
+    ]
   },
   {
     id: 'g5-location-sequences',
     title: 'V. HELYMEGHATÁROZÁS, SOROZATOK',
     icon: '📍',
     color: 'from-violet-500 to-purple-600',
-    subsections: []
+    subsections: [
+      { id: 'g5-loc-sec-1', label: '1. A helymeghatározás szerepe környezetünkben' },
+      { id: 'g5-loc-sec-2', label: '2. Helymeghatározás' },
+      { id: 'g5-loc-sec-3', label: '3. A derékszögű koordináta-rendszer' },
+      { id: 'g5-loc-sec-4', label: '4. Pontok ábrázolása' },
+      { id: 'g5-loc-sec-5', label: '5. Tájékozódás síkban, térben (kiegészítő tananyag)' },
+      { id: 'g5-loc-sec-6', label: '6. Ritmusok, díszítések' },
+      { id: 'g5-loc-sec-7', label: '7. Keressünk összefüggéseket!' },
+      { id: 'g5-loc-sec-8', label: '8. Sorozatok' },
+      { id: 'g5-loc-sec-9', label: '9. Nevezetes, érdekes sorozatok' },
+      { id: 'g5-loc-sec-10', label: '10. Összefoglalás' }
+    ]
   },
   {
     id: 'g5-proportion-problems',
@@ -428,7 +451,17 @@ const grade5Topics: Grade5Topic[] = [
     icon: '📝',
     color: 'from-teal-500 to-teal-600',
     subsections: [
-      { id: 'g5-prop-ops', label: '1. Arányosság és alkalmazása' }
+      { id: 'g5-prop-sec-1', label: '1. A tömeg mérése, mértékegységei' },
+      { id: 'g5-prop-sec-2', label: '2. Az űrtartalom mérése, mértékegységei' },
+      { id: 'g5-prop-sec-3', label: '3. Az idő mérése, mértékegységei' },
+      { id: 'g5-prop-sec-4', label: '4. Mértékegység-átváltások' },
+      { id: 'g5-prop-sec-5', label: '5. Arányosságok, változó mennyiségek' },
+      { id: 'g5-prop-sec-6', label: '6. Egyenes arányosság' },
+      { id: 'g5-prop-sec-7', label: '7. Nyitott mondatok' },
+      { id: 'g5-prop-sec-8', label: '8. Keressük a megoldásokat!' },
+      { id: 'g5-prop-sec-9', label: '9. Egyszerű szöveges feladatok' },
+      { id: 'g5-prop-sec-10', label: '10. Szöveges feladatok a hétköznapjainkban' },
+      { id: 'g5-prop-sec-11', label: '11. Összefoglalás' }
     ]
   },
   {
@@ -436,7 +469,14 @@ const grade5Topics: Grade5Topic[] = [
     title: 'VII. ADATGYŰJTÉS, STATISZTIKA',
     icon: '📈',
     color: 'from-pink-500 to-rose-500',
-    subsections: []
+    subsections: [
+      { id: 'g5-stats-sec-1', label: '1. Játékok' },
+      { id: 'g5-stats-sec-2', label: '2. Táblázatok, grafikonok' },
+      { id: 'g5-stats-sec-3', label: '3. Adatgyűjtés, az adatok ábrázolása' },
+      { id: 'g5-stats-sec-4', label: '4. Átlag és tulajdonságai' },
+      { id: 'g5-stats-sec-5', label: '5. Lehetetlen, lehetséges, biztos' },
+      { id: 'g5-stats-sec-6', label: '6. Összefoglalás' }
+    ]
   }
 ];
 
@@ -2238,6 +2278,202 @@ export default function MathPage() {
       );
     }
 
+    if (topicId === 'g5-measurements') {
+      const showAll = !activeGrade5SubSectionId;
+      return (
+        <div className="flex flex-col gap-10 py-6">
+          {/* Section 1: A hosszúság mérése */}
+          {(showAll || activeGrade5SubSectionId === 'g5-meas-sec-1') && (
+            <section>
+              <SectionHeader id="g5-meas-sec-1" number={1} title="A hosszúság mérése" color="blue" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Mértékegység-váltó"
+                  subtitle="Hosszúságmértékek átváltása"
+                  type="Eszköz"
+                  emoji="📏"
+                  onClick={() => handleActivitySelect('unit-converter', topicId)}
+                  icon={<MoveHorizontal className="w-6 h-6" />}
+                  color="blue"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 2: Téglalap, négyzet kerülete */}
+          {(showAll || activeGrade5SubSectionId === 'g5-meas-sec-2') && (
+            <section>
+              <SectionHeader id="g5-meas-sec-2" number={2} title="Téglalap, négyzet kerülete" color="emerald" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Kerület Kvíz"
+                  subtitle="Téglalap és négyzet kerületszámítása"
+                  type="Teszt"
+                  emoji="📐"
+                  onClick={() => handleActivitySelect('perimeter-quiz', topicId)}
+                  icon={<Square className="w-6 h-6" />}
+                  color="emerald"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 3: A terület mérése */}
+          {(showAll || activeGrade5SubSectionId === 'g5-meas-sec-3') && (
+            <section>
+              <SectionHeader id="g5-meas-sec-3" number={3} title="A terület mérése" color="amber" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Terület Mértékegységek"
+                  subtitle="Területmértékek és átváltások kvíz"
+                  type="Teszt"
+                  emoji="🔲"
+                  onClick={() => handleActivitySelect('area-conversion-quiz', topicId)}
+                  icon={<Layout className="w-6 h-6" />}
+                  color="amber"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 4: Téglalap, négyzet területe */}
+          {(showAll || activeGrade5SubSectionId === 'g5-meas-sec-4') && (
+            <section>
+              <SectionHeader id="g5-meas-sec-4" number={4} title="Téglalap, négyzet területe" color="orange" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Területszámítás Kvíz"
+                  subtitle="Téglalap és négyzet területe és hiányzó oldala"
+                  type="Teszt"
+                  emoji="🟩"
+                  onClick={() => handleActivitySelect('area-calc-quiz', topicId)}
+                  icon={<Square className="w-6 h-6" />}
+                  color="orange"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 5: Téglatest, kocka */}
+          {(showAll || activeGrade5SubSectionId === 'g5-meas-sec-5') && (
+            <section>
+              <SectionHeader id="g5-meas-sec-5" number={5} title="Téglatest, kocka" color="purple" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Térbeli alakzatok"
+                  subtitle="Téglatest és kocka csúcsai, élei, lapjai"
+                  type="Hamarosan"
+                  emoji="📦"
+                  disabled={true}
+                  icon={<Box className="w-6 h-6" />}
+                  color="purple"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 6: Téglatest, kocka felszíne */}
+          {(showAll || activeGrade5SubSectionId === 'g5-meas-sec-6') && (
+            <section>
+              <SectionHeader id="g5-meas-sec-6" number={6} title="Téglatest, kocka felszíne" color="pink" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Felszínszámítás Kvíz"
+                  subtitle="Téglatest és kocka határoló lapjai és felszíne"
+                  type="Teszt"
+                  emoji="🎁"
+                  onClick={() => handleActivitySelect('surface-area-quiz', topicId)}
+                  icon={<Box className="w-6 h-6" />}
+                  color="pink"
+                />
+                <ActivityPlaceholder
+                  title="Térfogat és felszín szemléltető"
+                  subtitle="Testek kiterítése és hálója"
+                  type="Eszköz"
+                  emoji="📦"
+                  onClick={() => handleActivitySelect('volume-surface', topicId)}
+                  icon={<Box className="w-6 h-6" />}
+                  color="rose"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 7: A térfogat mérése */}
+          {(showAll || activeGrade5SubSectionId === 'g5-meas-sec-7') && (
+            <section>
+              <SectionHeader id="g5-meas-sec-7" number={7} title="A térfogat mérése" color="cyan" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Űrmérték-váltó"
+                  subtitle="Térfogat- és űrmértékek átváltása"
+                  type="Eszköz"
+                  emoji="🧪"
+                  onClick={() => handleActivitySelect('capacity-converter', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="cyan"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 8: Téglatest, kocka térfogata */}
+          {(showAll || activeGrade5SubSectionId === 'g5-meas-sec-8') && (
+            <section>
+              <SectionHeader id="g5-meas-sec-8" number={8} title="Téglatest, kocka térfogata" color="indigo" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Térfogatszámítás Kvíz"
+                  subtitle="Téglatest és kocka térfogata egységkockákkal"
+                  type="Teszt"
+                  emoji="🧊"
+                  onClick={() => handleActivitySelect('volume-quiz', topicId)}
+                  icon={<Box className="w-6 h-6" />}
+                  color="indigo"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 9: Gyakorlati feladatok */}
+          {(showAll || activeGrade5SubSectionId === 'g5-meas-sec-9') && (
+            <section>
+              <SectionHeader id="g5-meas-sec-9" number={9} title="Gyakorlati feladatok" color="teal" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Gyakorlati számítások"
+                  subtitle="Valós életbeli mérési és területszámítási feladatok"
+                  type="Hamarosan"
+                  emoji="🏠"
+                  disabled={true}
+                  icon={<Sparkles className="w-6 h-6" />}
+                  color="teal"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 10: Összefoglalás */}
+          {(showAll || activeGrade5SubSectionId === 'g5-meas-sec-10') && (
+            <section>
+              <SectionHeader id="g5-meas-sec-10" number={10} title="Összefoglalás" color="slate" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Összefoglaló felkészítő"
+                  subtitle="IV. Hosszúság, terület, térfogat összefoglalás"
+                  type="Hamarosan"
+                  emoji="🏆"
+                  disabled={true}
+                  icon={<Trophy className="w-6 h-6" />}
+                  color="slate"
+                />
+              </div>
+            </section>
+          )}
+        </div>
+      );
+    }
+
     if (topicId === 'g4-grouping') {
       return (
         <div className="flex flex-col gap-10 py-6">
@@ -2262,25 +2498,244 @@ export default function MathPage() {
       const showAll = !activeGrade5SubSectionId;
       return (
         <div className="flex flex-col gap-10 py-6">
-          {(showAll || activeGrade5SubSectionId === 'g5-prop-ops') && (
+          {/* Section 1: A tömeg mérése, mértékegységei */}
+          {(showAll || activeGrade5SubSectionId === 'g5-prop-sec-1') && (
             <section>
-              <SectionHeader id="g5-proportions" number={1} title="Arányosság és alkalmazása" color="teal" />
+              <SectionHeader id="g5-prop-sec-1" number={1} title="A tömeg mérése, mértékegységei" color="blue" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Szöveges feladatok"
-                  subtitle="Gyakorlati problémák"
+                  title="Tömegmértékek Kvíz"
+                  subtitle="Tömeg mértékegységei és átváltásai"
+                  type="Hamarosan"
+                  emoji="⚖️"
+                  disabled={true}
+                  icon={<Scale className="w-6 h-6" />}
+                  color="blue"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 2: Az űrtartalom mérése, mértékegységei */}
+          {(showAll || activeGrade5SubSectionId === 'g5-prop-sec-2') && (
+            <section>
+              <SectionHeader id="g5-prop-sec-2" number={2} title="Az űrtartalom mérése, mértékegységei" color="cyan" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Űrmérték-váltó"
+                  subtitle="Térfogat és űrmértékek átváltása"
+                  type="Eszköz"
+                  emoji="🧪"
+                  onClick={() => handleActivitySelect('capacity-converter', topicId)}
+                  icon={<FlaskConical className="w-6 h-6" />}
+                  color="cyan"
+                />
+                <ActivityPlaceholder
+                  title="Űrtartalom Kvíz"
+                  subtitle="Folyadékok mérése és mértékváltások"
+                  type="Hamarosan"
+                  emoji="🫗"
+                  disabled={true}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="cyan"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 3: Az idő mérése, mértékegységei */}
+          {(showAll || activeGrade5SubSectionId === 'g5-prop-sec-3') && (
+            <section>
+              <SectionHeader id="g5-prop-sec-3" number={3} title="Az idő mérése, mértékegységei" color="amber" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Analóg Óra Szemléltető"
+                  subtitle="Óra, perc leolvasása és beállítása"
+                  type="Eszköz"
+                  emoji="⏰"
+                  onClick={() => handleActivitySelect('analog-clock', topicId)}
+                  icon={<Timer className="w-6 h-6" />}
+                  color="amber"
+                />
+                <ActivityPlaceholder
+                  title="Időmérés Kvíz"
+                  subtitle="Időtartamok számítása és átváltások"
+                  type="Hamarosan"
+                  emoji="⏳"
+                  disabled={true}
+                  icon={<Timer className="w-6 h-6" />}
+                  color="amber"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 4: Mértékegység-átváltások */}
+          {(showAll || activeGrade5SubSectionId === 'g5-prop-sec-4') && (
+            <section>
+              <SectionHeader id="g5-prop-sec-4" number={4} title="Mértékegység-átváltások" color="emerald" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Mértékegység-váltó"
+                  subtitle="Hossz, tömeg és űr mértékegységek"
+                  type="Eszköz"
+                  emoji="📏"
+                  onClick={() => handleActivitySelect('unit-converter', topicId)}
+                  icon={<ArrowRightLeft className="w-6 h-6" />}
+                  color="emerald"
+                />
+                <ActivityPlaceholder
+                  title="Összetett Átváltások"
+                  subtitle="Vegyes mértékegységek átváltása és számolás"
+                  type="Hamarosan"
+                  emoji="🔄"
+                  disabled={true}
+                  icon={<RefreshCw className="w-6 h-6" />}
+                  color="emerald"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 5: Arányosságok, változó mennyiségek */}
+          {(showAll || activeGrade5SubSectionId === 'g5-prop-sec-5') && (
+            <section>
+              <SectionHeader id="g5-prop-sec-5" number={5} title="Arányosságok, változó mennyiségek" color="indigo" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Változó mennyiségek"
+                  subtitle="Összefüggések táblázatokban és mindennapi helyzetekben"
+                  type="Hamarosan"
+                  emoji="📊"
+                  disabled={true}
+                  icon={<GitCompare className="w-6 h-6" />}
+                  color="indigo"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 6: Egyenes arányosság */}
+          {(showAll || activeGrade5SubSectionId === 'g5-prop-sec-6') && (
+            <section>
+              <SectionHeader id="g5-prop-sec-6" number={6} title="Egyenes arányosság" color="violet" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Egyenes Arányosság Kvíz"
+                  subtitle="Hármasszabály és egységre következtetés"
+                  type="Hamarosan"
+                  emoji="📈"
+                  disabled={true}
+                  icon={<TrendingUp className="w-6 h-6" />}
+                  color="violet"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 7: Nyitott mondatok */}
+          {(showAll || activeGrade5SubSectionId === 'g5-prop-sec-7') && (
+            <section>
+              <SectionHeader id="g5-prop-sec-7" number={7} title="Nyitott mondatok" color="purple" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Nyitott Mondatok Kvíz"
+                  subtitle="Egyenlőségek, egyenlőtlenségek és ismeretlenek"
+                  type="Hamarosan"
+                  emoji="🔤"
+                  disabled={true}
+                  icon={<Variable className="w-6 h-6" />}
+                  color="purple"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 8: Keressük a megoldásokat! */}
+          {(showAll || activeGrade5SubSectionId === 'g5-prop-sec-8') && (
+            <section>
+              <SectionHeader id="g5-prop-sec-8" number={8} title="Keressük a megoldásokat!" color="pink" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Lebontogatási Módszer"
+                  subtitle="Egyenletek megoldása fordított műveletekkel"
+                  type="Hamarosan"
+                  emoji="🔍"
+                  disabled={true}
+                  icon={<Search className="w-6 h-6" />}
+                  color="pink"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 9: Egyszerű szöveges feladatok */}
+          {(showAll || activeGrade5SubSectionId === 'g5-prop-sec-9') && (
+            <section>
+              <SectionHeader id="g5-prop-sec-9" number={9} title="Egyszerű szöveges feladatok" color="teal" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Szöveges feladatok modul"
+                  subtitle="Gyakorlati problémák és feladatmegoldó lépések"
                   type="Indítás"
+                  emoji="📝"
                   onClick={() => handleActivitySelect('word-problems', topicId)}
                   icon={<Sparkles className="w-6 h-6" />}
                   color="teal"
                 />
                 <ActivityPlaceholder
-                  title="Százalékszámítás"
-                  subtitle="Alap, érték, láb"
-                  type="Gyakorlás"
-                  onClick={() => { setPercentMode(null); handleActivitySelect('percentages', topicId); }}
-                  icon={<Percent className="w-6 h-6" />}
-                  color="rose"
+                  title="Szöveges Feladatok Kvíz"
+                  subtitle="Kvíz feladatok megoldása lépésről lépésre"
+                  type="Teszt"
+                  emoji="✍️"
+                  onClick={() => handleActivitySelect('word-problems-quiz', topicId)}
+                  icon={<Pencil className="w-6 h-6" />}
+                  color="teal"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 10: Szöveges feladatok a hétköznapjainkban */}
+          {(showAll || activeGrade5SubSectionId === 'g5-prop-sec-10') && (
+            <section>
+              <SectionHeader id="g5-prop-sec-10" number={10} title="Szöveges feladatok a hétköznapjainkban" color="orange" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Pénzügyi és Vásárlási Számítások"
+                  subtitle="Pénzkezelés, visszajáró és költségvetés"
+                  type="Eszköz"
+                  emoji="💰"
+                  onClick={() => handleActivitySelect('money-calculation', topicId)}
+                  icon={<Coins className="w-6 h-6" />}
+                  color="orange"
+                />
+                <ActivityPlaceholder
+                  title="Hétköznapi Feladatok Kvíz"
+                  subtitle="Vásárlás, utazás és receptek számításai"
+                  type="Hamarosan"
+                  emoji="🛒"
+                  disabled={true}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="orange"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 11: Összefoglalás */}
+          {(showAll || activeGrade5SubSectionId === 'g5-prop-sec-11') && (
+            <section>
+              <SectionHeader id="g5-prop-sec-11" number={11} title="Összefoglalás" color="slate" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Összefoglaló felkészítő"
+                  subtitle="VI. Mérés, arányosság, szöveges feladatok összefoglalás"
+                  type="Hamarosan"
+                  emoji="🏆"
+                  disabled={true}
+                  icon={<Trophy className="w-6 h-6" />}
+                  color="slate"
                 />
               </div>
             </section>
@@ -2289,14 +2744,340 @@ export default function MathPage() {
       );
     }
 
-    if (topicId === 'g5-location-sequences' || topicId === 'g5-stats') {
+    if (topicId === 'g5-location-sequences') {
+      const showAll = !activeGrade5SubSectionId;
       return (
-        <div className="py-2">
-          <MaterialGallery
-            grade={5}
-            onView={handleMaterialSelect}
-            initialMaterialId={new URLSearchParams(location.search).get('material')}
-          />
+        <div className="flex flex-col gap-10 py-6">
+          {/* Section 1: A helymeghatározás szerepe környezetünkben */}
+          {(showAll || activeGrade5SubSectionId === 'g5-loc-sec-1') && (
+            <section>
+              <SectionHeader id="g5-loc-sec-1" number={1} title="A helymeghatározás szerepe környezetünkben" color="blue" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Környezeti tájékozódás"
+                  subtitle="Címek, házszámok és térképi tájékozódás"
+                  type="Hamarosan"
+                  emoji="🗺️"
+                  disabled={true}
+                  icon={<Compass className="w-6 h-6" />}
+                  color="blue"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 2: Helymeghatározás */}
+          {(showAll || activeGrade5SubSectionId === 'g5-loc-sec-2') && (
+            <section>
+              <SectionHeader id="g5-loc-sec-2" number={2} title="Helymeghatározás" color="indigo" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Torpedó Játék"
+                  subtitle="Tájékozódás a rácshálón és mezők azonosítása"
+                  type="Játék"
+                  emoji="⚓"
+                  onClick={() => handleActivitySelect('torpedo-game', topicId)}
+                  icon={<Gamepad2 className="w-6 h-6" />}
+                  color="indigo"
+                />
+                <ActivityPlaceholder
+                  title="Helymeghatározás Kvíz"
+                  subtitle="Rácsháló, oszlopok és sorok azonosítása"
+                  type="Hamarosan"
+                  emoji="🎯"
+                  disabled={true}
+                  icon={<Grid3X3 className="w-6 h-6" />}
+                  color="indigo"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 3: A derékszögű koordináta-rendszer */}
+          {(showAll || activeGrade5SubSectionId === 'g5-loc-sec-3') && (
+            <section>
+              <SectionHeader id="g5-loc-sec-3" number={3} title="A derékszögű koordináta-rendszer" color="purple" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Koordináta-rendszer"
+                  subtitle="Tengelyek, origó és síknegyedek alapjai"
+                  type="Hamarosan"
+                  emoji="📈"
+                  disabled={true}
+                  icon={<LayoutGrid className="w-6 h-6" />}
+                  color="purple"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 4: Pontok ábrázolása */}
+          {(showAll || activeGrade5SubSectionId === 'g5-loc-sec-4') && (
+            <section>
+              <SectionHeader id="g5-loc-sec-4" number={4} title="Pontok ábrázolása" color="violet" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Pontábrázolás Kvíz"
+                  subtitle="Rendezett számpárok leolvasása és megadása"
+                  type="Hamarosan"
+                  emoji="📍"
+                  disabled={true}
+                  icon={<Target className="w-6 h-6" />}
+                  color="violet"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 5: Tájékozódás síkban, térben (kiegészítő tananyag) */}
+          {(showAll || activeGrade5SubSectionId === 'g5-loc-sec-5') && (
+            <section>
+              <SectionHeader id="g5-loc-sec-5" number={5} title="Tájékozódás síkban, térben (kiegészítő tananyag)" color="teal" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Térbeli tájékozódás"
+                  subtitle="3D pozíciók és földrajzi fokhálózat"
+                  type="Hamarosan"
+                  emoji="🌐"
+                  disabled={true}
+                  icon={<Globe className="w-6 h-6" />}
+                  color="teal"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 6: Ritmusok, díszítések */}
+          {(showAll || activeGrade5SubSectionId === 'g5-loc-sec-6') && (
+            <section>
+              <SectionHeader id="g5-loc-sec-6" number={6} title="Ritmusok, díszítések" color="emerald" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Sorminták és Ritmusok"
+                  subtitle="Ismétlődő motívumok és geometriai minták"
+                  type="Hamarosan"
+                  emoji="🎨"
+                  disabled={true}
+                  icon={<Sparkles className="w-6 h-6" />}
+                  color="emerald"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 7: Keressünk összefüggéseket! */}
+          {(showAll || activeGrade5SubSectionId === 'g5-loc-sec-7') && (
+            <section>
+              <SectionHeader id="g5-loc-sec-7" number={7} title="Keressünk összefüggéseket!" color="amber" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Szabálykereső"
+                  subtitle="Bemenet-kimenet táblázatok és számgépek"
+                  type="Hamarosan"
+                  emoji="🔍"
+                  disabled={true}
+                  icon={<Lightbulb className="w-6 h-6" />}
+                  color="amber"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 8: Sorozatok */}
+          {(showAll || activeGrade5SubSectionId === 'g5-loc-sec-8') && (
+            <section>
+              <SectionHeader id="g5-loc-sec-8" number={8} title="Sorozatok" color="orange" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Számsorozatok Kvíz"
+                  subtitle="Képzési szabályok, folytatás és hiányzó tagok"
+                  type="Hamarosan"
+                  emoji="🔢"
+                  disabled={true}
+                  icon={<TrendingUp className="w-6 h-6" />}
+                  color="orange"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 9: Nevezetes, érdekes sorozatok */}
+          {(showAll || activeGrade5SubSectionId === 'g5-loc-sec-9') && (
+            <section>
+              <SectionHeader id="g5-loc-sec-9" number={9} title="Nevezetes, érdekes sorozatok" color="rose" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Híres sorozatok"
+                  subtitle="Négyzetszámok, háromszögszámok és Fibonacci"
+                  type="Hamarosan"
+                  emoji="🌀"
+                  disabled={true}
+                  icon={<Brain className="w-6 h-6" />}
+                  color="rose"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 10: Összefoglalás */}
+          {(showAll || activeGrade5SubSectionId === 'g5-loc-sec-10') && (
+            <section>
+              <SectionHeader id="g5-loc-sec-10" number={10} title="Összefoglalás" color="slate" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Összefoglaló felkészítő"
+                  subtitle="V. Helymeghatározás, sorozatok összefoglalás"
+                  type="Hamarosan"
+                  emoji="🏆"
+                  disabled={true}
+                  icon={<Trophy className="w-6 h-6" />}
+                  color="slate"
+                />
+              </div>
+            </section>
+          )}
+        </div>
+      );
+    }
+
+    if (topicId === 'g5-stats') {
+      const showAll = !activeGrade5SubSectionId;
+      return (
+        <div className="flex flex-col gap-10 py-6">
+          {/* Section 1: Játékok */}
+          {(showAll || activeGrade5SubSectionId === 'g5-stats-sec-1') && (
+            <section>
+              <SectionHeader id="g5-stats-sec-1" number={1} title="Játékok" color="purple" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Venn-diagram (Tárgyak)"
+                  subtitle="Tárgyak és formák szétválogatása"
+                  type="Játék"
+                  emoji="⭕"
+                  onClick={() => handleActivitySelect('venn-reading-objects', topicId)}
+                  icon={<Shapes className="w-6 h-6" />}
+                  color="purple"
+                />
+                <ActivityPlaceholder
+                  title="Venn-diagram (Számok)"
+                  subtitle="Számhalmazok és tulajdonságok"
+                  type="Játék"
+                  emoji="🔢"
+                  onClick={() => handleActivitySelect('venn-reading-numbers', topicId)}
+                  icon={<Binary className="w-6 h-6" />}
+                  color="indigo"
+                />
+                <ActivityPlaceholder
+                  title="Logikai Készlet"
+                  subtitle="Formák, színek, méretek válogatása"
+                  type="Játék"
+                  emoji="🧩"
+                  onClick={() => handleActivitySelect('logic-blocks', topicId)}
+                  icon={<Puzzle className="w-6 h-6" />}
+                  color="blue"
+                />
+                <ActivityPlaceholder
+                  title="Venn-diagram Kvíz"
+                  subtitle="Halmazok és metszetek leolvasása"
+                  type="Teszt"
+                  emoji="📋"
+                  onClick={() => handleActivitySelect('venn-interpretation-quiz', topicId)}
+                  icon={<CheckCircle2 className="w-6 h-6" />}
+                  color="emerald"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 2: Táblázatok, grafikonok */}
+          {(showAll || activeGrade5SubSectionId === 'g5-stats-sec-2') && (
+            <section>
+              <SectionHeader id="g5-stats-sec-2" number={2} title="Táblázatok, grafikonok" color="blue" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Grafikonok és Táblázatok"
+                  subtitle="Oszlop-, vonal- és kördiagramok leolvasása"
+                  type="Hamarosan"
+                  emoji="📊"
+                  disabled={true}
+                  icon={<BarChart3 className="w-6 h-6" />}
+                  color="blue"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 3: Adatgyűjtés, az adatok ábrázolása */}
+          {(showAll || activeGrade5SubSectionId === 'g5-stats-sec-3') && (
+            <section>
+              <SectionHeader id="g5-stats-sec-3" number={3} title="Adatgyűjtés, az adatok ábrázolása" color="cyan" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Adatgyűjtés és Strigulázás"
+                  subtitle="Gyakorisági táblázat és diagramkészítés"
+                  type="Hamarosan"
+                  emoji="📝"
+                  disabled={true}
+                  icon={<Table className="w-6 h-6" />}
+                  color="cyan"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 4: Átlag és tulajdonságai */}
+          {(showAll || activeGrade5SubSectionId === 'g5-stats-sec-4') && (
+            <section>
+              <SectionHeader id="g5-stats-sec-4" number={4} title="Átlag és tulajdonságai" color="amber" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Átlagszámítás Kvíz"
+                  subtitle="Számtani közép számítása és tulajdonságai"
+                  type="Hamarosan"
+                  emoji="➗"
+                  disabled={true}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="amber"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 5: Lehetetlen, lehetséges, biztos */}
+          {(showAll || activeGrade5SubSectionId === 'g5-stats-sec-5') && (
+            <section>
+              <SectionHeader id="g5-stats-sec-5" number={5} title="Lehetetlen, lehetséges, biztos" color="rose" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Valószínűségi Játékok"
+                  subtitle="Események minősítése, kocka- és érmekísérletek"
+                  type="Hamarosan"
+                  emoji="🎲"
+                  disabled={true}
+                  icon={<Dices className="w-6 h-6" />}
+                  color="rose"
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 6: Összefoglalás */}
+          {(showAll || activeGrade5SubSectionId === 'g5-stats-sec-6') && (
+            <section>
+              <SectionHeader id="g5-stats-sec-6" number={6} title="Összefoglalás" color="slate" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Összefoglaló felkészítő"
+                  subtitle="VII. Adatgyűjtés, statisztika összefoglalás"
+                  type="Hamarosan"
+                  emoji="🏆"
+                  disabled={true}
+                  icon={<Trophy className="w-6 h-6" />}
+                  color="slate"
+                />
+              </div>
+            </section>
+          )}
         </div>
       );
     }
@@ -8097,7 +8878,7 @@ export default function MathPage() {
                   <PerimeterAreaTool onBack={handleBack} />
                 )}
 
-                {activityType === 'volume-surface-tool' && (
+                {(activityType === 'volume-surface-tool' || activityType === 'volume-surface') && (
                   <VolumeSurfaceTool onBack={handleBack} />
                 )}
 

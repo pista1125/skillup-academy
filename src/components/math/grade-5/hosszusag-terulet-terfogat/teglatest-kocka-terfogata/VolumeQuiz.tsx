@@ -14,11 +14,104 @@ import {
     Check,
     Zap,
     Crown,
-    Star,
-    ArrowRightLeft
+    Box,
+    LayoutGrid
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import confetti from 'canvas-confetti';
+
+// --- Helper Components ---
+
+interface VolumeBoxProps {
+    a: number;
+    b: number;
+    c: number;
+    unitA?: string;
+    unitB?: string;
+    unitC?: string;
+    showLabels?: boolean;
+    missingSide?: 'a' | 'b' | 'c';
+}
+
+function VolumeBox({ a, b, c, unitA, unitB, unitC, showLabels = true, missingSide }: VolumeBoxProps) {
+    // Normalize for display (max size around 100px now)
+    const maxVal = Math.max(a, b, c);
+    const baseScale = Math.min(60 / maxVal, 20); 
+    
+    // Isometric-ish projection parameters
+    const w = a * baseScale;
+    const h = c * baseScale;
+    const d = b * baseScale * 0.6; // Depth is skewed and shortened
+    const skewX = d * Math.cos(Math.PI / 4);
+    const skewY = d * Math.sin(Math.PI / 4);
+
+    const padding = 30; // Reduced padding
+    const originX = padding;
+    const originY = padding + skewY;
+
+    const svgWidth = w + skewX + padding * 2;
+    const svgHeight = h + skewY + padding * 2;
+
+    return (
+        <div className="relative flex flex-col items-center justify-center p-2 bg-white rounded-2xl border border-slate-100 shadow-inner min-h-[150px]">
+            <svg width={svgWidth} height={svgHeight} viewBox={`0 0 ${svgWidth} ${svgHeight}`} className="drop-shadow-lg overflow-visible">
+                {/* Back faces (dashed) */}
+                <path 
+                    d={`M ${originX + skewX} ${originY - skewY} L ${originX + skewX} ${originY - skewY + h} M ${originX + skewX} ${originY - skewY + h} L ${originX} ${originY + h} M ${originX + skewX} ${originY - skewY + h} L ${originX + w + skewX} ${originY - skewY + h}`}
+                    fill="none"
+                    stroke="#cbd5e1"
+                    strokeWidth="1"
+                    strokeDasharray="3 3"
+                />
+
+                {/* Main Faces */}
+                {/* Right Face */}
+                <path 
+                    d={`M ${originX + w} ${originY} L ${originX + w + skewX} ${originY - skewY} L ${originX + w + skewX} ${originY - skewY + h} L ${originX + w} ${originY + h} Z`}
+                    fill="#f1f5f9"
+                    stroke="#1e293b"
+                    strokeWidth="1.5"
+                    strokeLinejoin="round"
+                />
+                {/* Top Face */}
+                <path 
+                    d={`M ${originX} ${originY} L ${originX + skewX} ${originY - skewY} L ${originX + w + skewX} ${originY - skewY} L ${originX + w} ${originY} Z`}
+                    fill="#e2e8f0"
+                    stroke="#1e293b"
+                    strokeWidth="1.5"
+                    strokeLinejoin="round"
+                />
+                {/* Front Face */}
+                <rect 
+                    x={originX} y={originY} width={w} height={h}
+                    fill="#f8fafc"
+                    stroke="#1e293b"
+                    strokeWidth="1.5"
+                    strokeLinejoin="round"
+                />
+
+                {/* Labels */}
+                {showLabels && (
+                    <>
+                        <text x={originX + w/2} y={originY + h + 20} textAnchor="middle" className="font-black text-slate-700 text-[10px] italic">
+                            {missingSide === 'a' ? 'a = ?' : `a = ${a} ${unitA}`}
+                        </text>
+                        <text x={originX + w + 6} y={originY + h/2} textAnchor="start" className="font-black text-slate-700 text-[10px] italic">
+                            {missingSide === 'c' ? 'c = ?' : `c = ${c} ${unitC}`}
+                        </text>
+                        <text x={originX + w + skewX/2 + 6} y={originY + h - skewY/2 + 4} textAnchor="start" className="font-black text-slate-700 text-[10px] italic">
+                            {missingSide === 'b' ? 'b = ?' : `b = ${b} ${unitB}`}
+                        </text>
+                    </>
+                )}
+            </svg>
+            
+            <div className="mt-2 text-[8px] font-bold text-slate-400 uppercase tracking-widest bg-slate-100 px-2 py-0.5 rounded-full">
+                {a === b && b === c ? 'Kocka' : 'Téglatest'}
+            </div>
+        </div>
+    );
+}
 
 // --- Types & Constants ---
 
@@ -27,21 +120,25 @@ type QuestionType = 'multiple-choice' | 'true-false' | 'input';
 
 interface Question {
     id: number;
+    shapeType: 'cube' | 'prism';
     questionType: QuestionType;
-    value: number;
-    fromUnit: string;
-    toUnit: string;
+    a: number;
+    b: number;
+    c: number;
+    unitA: string;
+    unitB: string;
+    unitC: string;
+    targetUnit: string;
     answer: number;
     text: string;
     options?: number[];
     isTrue?: boolean;
+    missingSide?: 'a' | 'b' | 'c';
 }
-
-const UNITS = ['mm²', 'cm²', 'dm²', 'm²', 'km²'];
 
 // --- Component ---
 
-export default function AreaConversionQuiz({ onBack }: { onBack: () => void }) {
+export function VolumeQuiz({ onBack }: { onBack: () => void }) {
     const [difficulty, setDifficulty] = useState<Difficulty | null>(null);
     const [questions, setQuestions] = useState<Question[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -53,46 +150,45 @@ export default function AreaConversionQuiz({ onBack }: { onBack: () => void }) {
         const newQuestions: Question[] = [];
         
         const easyTasks = [
-            { v: 100, f: 'cm²', t: 'dm²', a: 1 },
-            { v: 5, f: 'dm²', t: 'cm²', a: 500 },
-            { v: 2, f: 'm²', t: 'dm²', a: 200 },
-            { v: 600, f: 'mm²', t: 'cm²', a: 6 },
-            { v: 4, f: 'm²', t: 'cm²', a: 40000 },
-            { v: 10000, f: 'cm²', t: 'm²', a: 1 },
-            { v: 800, f: 'dm²', t: 'm²', a: 8 },
-            { v: 12, f: 'cm²', t: 'mm²', a: 1200 },
-            { v: 3, f: 'm²', t: 'dm²', a: 300 },
-            { v: 1, f: 'km²', t: 'm²', a: 1000000 },
+            { a: 2, b: 2, c: 2, unit: 'cm', ans: 8 },
+            { a: 3, b: 2, c: 4, unit: 'cm', ans: 24 },
+            { a: 5, b: 5, c: 5, unit: 'dm', ans: 125 },
+            { a: 10, b: 2, c: 3, unit: 'm', ans: 60 },
+            { a: 4, b: 4, c: 4, unit: 'cm', ans: 64 },
+            { a: 6, b: 3, c: 2, unit: 'dm', ans: 36 },
+            { a: 2, b: 10, c: 5, unit: 'm', ans: 100 },
+            { a: 3, b: 3, c: 3, unit: 'dm', ans: 27 },
+            { a: 8, b: 2, c: 5, unit: 'cm', ans: 80 },
+            { a: 1, b: 1, c: 1, unit: 'm', ans: 1 },
         ];
 
         const mediumTasks = [
-            { v: 0.5, f: 'm²', t: 'dm²', a: 50 },
-            { v: 1.2, f: 'dm²', t: 'cm²', a: 120 },
-            { v: 2.5, f: 'cm²', t: 'mm²', a: 250 },
-            { v: 45, f: 'dm²', t: 'm²', a: 0.45 },
-            { v: 0.75, f: 'm²', t: 'cm²', a: 7500 },
-            { v: 150, f: 'cm²', t: 'dm²', a: 1.5 },
-            { v: 0.01, f: 'm²', t: 'cm²', a: 100 },
-            { v: 3.4, f: 'dm²', t: 'cm²', a: 340 },
-            { v: 5.1, f: 'm²', t: 'dm²', a: 510 },
-            { v: 0.005, f: 'km²', t: 'm²', a: 5000 },
+            { a: 2.5, b: 4, c: 2, unit: 'cm', ans: 20 },
+            { a: 10, b: 0.5, c: 8, unit: 'm', ans: 40 },
+            { a: 4, b: 2.5, c: 6, unit: 'dm', ans: 60 },
+            { V: 60, a: 3, b: 4, c: 5, missing: 'c', unit: 'cm', ans: 5 },
+            { V: 100, a: 5, b: 4, c: 5, missing: 'b', unit: 'm', ans: 4 },
+            { a: 1.5, b: 2, c: 10, unit: 'dm', ans: 30 },
+            { V: 24, a: 4, b: 3, c: 2, missing: 'a', unit: 'cm', ans: 2 },
+            { a: 0.5, b: 0.5, c: 10, unit: 'm', ans: 2.5 },
+            { a: 12, b: 5, c: 2, unit: 'cm', ans: 120 },
+            { a: 7, b: 2, c: 1.5, unit: 'dm', ans: 21 },
         ];
 
         const hardTasks = [
-            { v: 123.4, f: 'cm²', t: 'dm²', a: 1.234 },
-            { v: 0.0001, f: 'km²', t: 'm²', a: 100 },
-            { v: 0.075, f: 'm²', t: 'cm²', a: 750 },
-            { v: 5678, f: 'mm²', t: 'cm²', a: 56.78 },
-            { v: 1.2, f: 'km²', t: 'm²', a: 1200000 },
-            { v: 345, f: 'cm²', t: 'm²', a: 0.0345 },
-            { v: 0.00045, f: 'm²', t: 'cm²', a: 4.5 },
-            { v: 15.6, f: 'dm²', t: 'mm²', a: 156000 },
-            { v: 12.34, f: 'm²', t: 'cm²', a: 123400 },
-            { v: 0.025, f: 'km²', t: 'm²', a: 25000 },
+            { a: 50, b: 20, c: 10, unitA: 'cm', unitB: 'cm', unitC: 'cm', target: 'dm³ (liter)', ans: 10 },
+            { a: 2, b: 0.5, c: 3, unitA: 'm', unitB: 'm', unitC: 'm', target: 'liter', ans: 3000 },
+            { a: 40, b: 3, c: 2, unitA: 'cm', unitB: 'dm', unitC: 'dm', target: 'dm³', ans: 24 },
+            { a: 1, b: 1, c: 1, unitA: 'm', unitB: 'm', unitC: 'm', target: 'dm³', ans: 1000 },
+            { a: 15, b: 10, c: 4, unitA: 'cm', unitB: 'cm', unitC: 'cm', target: 'dl', ans: 6 },
+            { a: 2.5, b: 4, c: 1, unitA: 'dm', unitB: 'dm', unitC: 'm', target: 'liter', ans: 100 },
+            { a: 8, b: 5, c: 2, unitA: 'dm', unitB: 'dm', unitC: 'dm', target: 'liter', ans: 80 },
+            { a: 2, b: 1.5, c: 1, unitA: 'm', unitB: 'm', unitC: 'm', target: 'm³', ans: 3 },
+            { a: 5, b: 5, c: 20, unitA: 'cm', unitB: 'cm', unitC: 'mm', target: 'cm³', ans: 50 },
+            { a: 0.2, b: 0.3, c: 0.5, unitA: 'm', unitB: 'm', unitC: 'm', target: 'liter', ans: 30 },
         ];
 
-        const sourceTasks = diff === 'easy' ? easyTasks : diff === 'medium' ? mediumTasks : hardTasks;
-        const shuffled = [...sourceTasks].sort(() => Math.random() - 0.5);
+        const shuffled = (diff === 'easy' ? [...easyTasks] : diff === 'medium' ? [...mediumTasks] : [...hardTasks]).sort(() => Math.random() - 0.5);
 
         for (let i = 0; i < 10; i++) {
             const task = shuffled[i];
@@ -100,33 +196,50 @@ export default function AreaConversionQuiz({ onBack }: { onBack: () => void }) {
             
             let options: number[] | undefined;
             let isTrue: boolean | undefined;
-            let text = `${task.v} ${task.f} = ? ${task.t}`;
+            
+            const shapeType = task.a === task.b && task.b === task.c ? 'cube' : 'prism';
+            const unitA = (task as any).unitA || (task as any).unit || 'cm';
+            const unitB = (task as any).unitB || (task as any).unit || 'cm';
+            const unitC = (task as any).unitC || (task as any).unit || 'cm';
+            const targetUnit = (task as any).target || `${unitA}³`;
+            const answer = task.ans;
+
+            let questionText = `Mekkora a térfogat ${targetUnit} egységben?`;
+            if ((task as any).missing) {
+                questionText = `Mekkora a hiányzó oldal (${(task as any).missing}) hossza, ha a térfogat ${(task as any).V} ${unitA}³?`;
+            }
 
             if (qType === 'multiple-choice') {
-                const optSet = new Set([task.a]);
+                const optSet = new Set([answer]);
                 while (optSet.size < 4) {
-                    const factor = Math.random() > 0.5 ? 10 : 0.1;
-                    const offset = (Math.floor(Math.random() * 5) + 1) * (Math.random() > 0.5 ? 1 : -1);
-                    const alt = Math.max(0.0001, Math.round((task.a * factor + offset) * 10000) / 10000);
+                    const factor = Math.random() > 0.5 ? 2 : 0.5;
+                    const offset = (Math.floor(Math.random() * 20) + 1);
+                    const alt = Math.max(1, Math.round((answer * factor + offset)));
                     optSet.add(alt);
                 }
                 options = Array.from(optSet).sort(() => Math.random() - 0.5);
             } else if (qType === 'true-false') {
                 isTrue = Math.random() > 0.5;
-                const displayVal = isTrue ? task.a : (Math.random() > 0.5 ? task.a * 10 : task.a / 10);
-                text = `${task.v} ${task.f} = ${displayVal} ${task.t}?`;
+                const displayVal = isTrue ? answer : (Math.random() > 0.5 ? answer + 10 : Math.max(1, answer - 5));
+                (task as any).displayText = `A térfogat ${displayVal} ${targetUnit}?`;
             }
 
             newQuestions.push({
                 id: i,
+                shapeType,
                 questionType: qType,
-                value: task.v,
-                fromUnit: task.f,
-                toUnit: task.t,
-                answer: task.a,
-                text,
+                a: task.a,
+                b: task.b,
+                c: task.c,
+                unitA,
+                unitB,
+                unitC,
+                targetUnit,
+                answer,
+                text: (task as any).displayText || questionText,
                 options,
-                isTrue
+                isTrue,
+                missingSide: (task as any).missing
             });
         }
         setQuestions(newQuestions);
@@ -142,6 +255,8 @@ export default function AreaConversionQuiz({ onBack }: { onBack: () => void }) {
     };
 
     const handleAnswerUpdate = (val: any) => {
+        if (submitted[currentIndex]) return;
+        
         const newAnswers = [...answers];
         newAnswers[currentIndex] = val;
         setAnswers(newAnswers);
@@ -155,8 +270,10 @@ export default function AreaConversionQuiz({ onBack }: { onBack: () => void }) {
         const score = questions.reduce((acc, q, idx) => {
             const userVal = answers[idx];
             if (userVal === null) return acc;
+            const normalizedUserVal = typeof userVal === 'string' ? parseFloat(userVal.replace(',','.')) : userVal;
+            
             if (q.questionType === 'multiple-choice') return userVal === q.answer ? acc + 1 : acc;
-            if (q.questionType === 'input') return parseFloat(userVal.toString().replace(',','.')) === q.answer ? acc + 1 : acc;
+            if (q.questionType === 'input') return normalizedUserVal === q.answer ? acc + 1 : acc;
             return userVal === q.isTrue ? acc + 1 : acc;
         }, 0);
 
@@ -166,17 +283,14 @@ export default function AreaConversionQuiz({ onBack }: { onBack: () => void }) {
 
     if (!difficulty) {
         return (
-            <div className="max-w-5xl mx-auto p-4 animate-in fade-in slide-in-from-bottom-4 duration-500 overflow-hidden">
-                <Button variant="ghost" onClick={onBack} size="sm" className="mb-6 rounded-xl hover:bg-slate-100">
-                    <ArrowLeft className="w-4 h-4 mr-1" /> Vissza
-                </Button>
+            <div className="max-w-5xl mx-auto p-2 animate-in fade-in slide-in-from-bottom-4 duration-500 overflow-hidden">
                 
-                <div className="text-center mb-10">
-                    <div className="inline-flex p-4 bg-primary/10 rounded-3xl text-primary mb-4">
-                        <ArrowRightLeft className="w-10 h-10" />
+                <div className="text-center mb-6">
+                    <div className="inline-flex p-4 bg-indigo-100 rounded-3xl text-indigo-600 mb-4">
+                        <Box className="w-10 h-10" />
                     </div>
-                    <h1 className="text-4xl font-black text-slate-800 mb-2 tracking-tight">Mértékegység átváltások (Terület)</h1>
-                    <p className="text-slate-500 font-medium text-lg">Gyakorold a terület mértékegységeinek egyszerű és pontos átváltását!</p>
+                    <h1 className="text-4xl font-black text-slate-800 mb-2 tracking-tight">Térfogatszámítás Kvíz</h1>
+                    <p className="text-slate-500 font-medium text-lg">Számítsd ki a kockák és téglatestek térfogatát!</p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -184,21 +298,21 @@ export default function AreaConversionQuiz({ onBack }: { onBack: () => void }) {
                         { 
                             id: 'easy' as Difficulty, 
                             title: 'Könnyű', 
-                            desc: 'Csak egész számok. Alapvető váltások mm², cm², dm², m² között.',
+                            desc: 'Egyszerű egész számok, kockák és téglatestek alapjai.',
                             icon: Sparkles,
                             color: 'emerald'
                         },
                         { 
                             id: 'medium' as Difficulty, 
                             title: 'Haladó', 
-                            desc: 'Megjelennek a tizedes törtek is. Izgalmasabb feladatok m²-ig.',
+                            desc: 'Tizedes számok és hiányzó oldalhossz kiszámítása.',
                             icon: Zap,
                             color: 'sky'
                         },
                         { 
                             id: 'hard' as Difficulty, 
                             title: 'Mester', 
-                            desc: 'Akár km²-es váltások és kisebb tizedesek. Válj a terület mesterévé!',
+                            desc: 'Mértékegység-átváltások (liter, dm³, m³) és szöveges feladatok.',
                             icon: Crown,
                             color: 'violet'
                         }
@@ -248,8 +362,10 @@ export default function AreaConversionQuiz({ onBack }: { onBack: () => void }) {
         const score = questions.reduce((acc, q, idx) => {
             const userVal = answers[idx];
             if (userVal === null) return acc;
+             const normalizedUserVal = typeof userVal === 'string' ? parseFloat(userVal.replace(',','.')) : userVal;
+            
             if (q.questionType === 'multiple-choice') return userVal === q.answer ? acc + 1 : acc;
-            if (q.questionType === 'input') return parseFloat(userVal.toString().replace(',','.')) === q.answer ? acc + 1 : acc;
+            if (q.questionType === 'input') return normalizedUserVal === q.answer ? acc + 1 : acc;
             return userVal === q.isTrue ? acc + 1 : acc;
         }, 0);
 
@@ -275,7 +391,7 @@ export default function AreaConversionQuiz({ onBack }: { onBack: () => void }) {
     const isSub = submitted[currentIndex];
 
     return (
-        <div className="max-w-5xl mx-auto p-2 h-[90vh] flex flex-col">
+        <div className="max-w-5xl mx-auto p-2 flex flex-col">
             <div className="flex items-center justify-between mb-2 px-2">
                 <Button variant="ghost" size="sm" onClick={() => setDifficulty(null)} className="rounded-xl h-8 text-xs">
                     <ArrowLeft className="w-3 h-3 mr-1" /> Kilépés
@@ -289,78 +405,90 @@ export default function AreaConversionQuiz({ onBack }: { onBack: () => void }) {
             </div>
 
             <Card className="flex-1 overflow-hidden rounded-[32px] border-none shadow-xl bg-white flex flex-col relative">
-                <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 p-6 md:p-8 overflow-hidden">
-                    {/* Left Side: Question */}
-                    <div className="flex flex-col justify-center gap-6 md:border-r md:pr-8">
-                        <div className="space-y-2">
-                            <span className="text-xs font-black text-primary uppercase tracking-[0.2em]">Feladat</span>
-                            <h2 className="text-4xl md:text-5xl font-black text-slate-800 tracking-tight leading-tight">
-                                {currentQ.questionType === 'true-false' ? currentQ.text : `${currentQ.value} ${currentQ.fromUnit} =`}
-                            </h2>
-                            {currentQ.questionType !== 'true-false' && (
-                                <p className="text-2xl font-bold text-slate-400">... {currentQ.toUnit}</p>
-                            )}
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-4 p-6 md:p-8">
+                    {/* Left Side: Illustration */}
+                    <div className="md:col-span-3 flex flex-col justify-start gap-4">
+                        <div className="p-4 bg-slate-50 rounded-3xl border border-slate-100">
+                             <div className="flex items-center gap-3 mb-1">
+                                <Target className="w-4 h-4 text-primary" />
+                                <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em]">Feladat</span>
+                             </div>
+                             <h2 className="text-lg md:text-xl font-black text-slate-800 tracking-tight leading-tight">
+                                {currentQ.text}
+                             </h2>
+                             {difficulty === 'hard' && (
+                                <p className="mt-1 text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-lg w-fit">
+                                    Figyelj a mértékegység-váltásra!
+                                </p>
+                             )}
                         </div>
-                        
-                        <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100">
-                             <p className="text-slate-500 font-medium leading-relaxed">
-                                {currentQ.questionType === 'true-false' 
-                                    ? "Döntsd el, hogy az állítás igaz vagy hamis!" 
-                                    : `Váltsd át a megadott területet ${currentQ.toUnit} egységbe!`}
-                             </p>
-                        </div>
+
+                        <VolumeBox 
+                            a={currentQ.a} 
+                            b={currentQ.b} 
+                            c={currentQ.c} 
+                            unitA={currentQ.unitA}
+                            unitB={currentQ.unitB}
+                            unitC={currentQ.unitC}
+                            missingSide={currentQ.missingSide}
+                        />
                     </div>
 
                     {/* Right Side: Interaction */}
-                    <div className="flex flex-col justify-center items-center bg-slate-50/30 rounded-3xl p-6">
+                    <div className="md:col-span-2 flex flex-col justify-start items-center bg-slate-50/30 rounded-3xl p-6">
                         {currentQ.questionType === 'multiple-choice' && (
-                            <div className="grid grid-cols-1 gap-3 w-full max-w-sm">
+                            <div className="grid grid-cols-1 gap-3 w-full">
                                 {currentQ.options?.map((opt, idx) => (
                                     <button
-                                        key={idx} onClick={() => handleAnswerUpdate(opt)}
+                                        key={idx} 
+                                        onClick={() => handleAnswerUpdate(opt)}
+                                        disabled={isSub}
                                         className={cn(
-                                            "h-20 rounded-2xl text-2xl font-black transition-all border-2 flex items-center justify-center gap-3",
+                                            "h-10 rounded-2xl text-base font-black transition-all border-2 flex items-center justify-center gap-3",
                                             userChoice === opt 
                                                 ? (isSub && opt === currentQ.answer ? "bg-emerald-500 border-emerald-500 text-white shadow-lg shadow-emerald-200" : "bg-primary border-primary text-white shadow-lg shadow-primary/20")
-                                                : "bg-white border-slate-100 hover:border-primary/30 text-slate-600 hover:shadow-md"
+                                                : "bg-white border-slate-100 hover:border-primary/30 text-slate-600 hover:shadow-md disabled:hover:border-slate-100 disabled:hover:shadow-none"
                                         )}
                                     >
                                         {opt}
-                                        <span className="text-sm font-bold opacity-60">{currentQ.toUnit}</span>
+                                        <span className="text-xs font-bold opacity-60">{currentQ.targetUnit}</span>
                                     </button>
                                 ))}
                             </div>
                         )}
 
                         {currentQ.questionType === 'true-false' && (
-                            <div className="flex gap-4 w-full max-w-sm">
+                            <div className="flex flex-col gap-4 w-full">
                                 {[true, false].map((val) => (
                                     <button
-                                        key={val ? 't' : 'f'} onClick={() => handleAnswerUpdate(val)}
+                                        key={val ? 't' : 'f'} 
+                                        onClick={() => handleAnswerUpdate(val)}
+                                        disabled={isSub}
                                         className={cn(
-                                            "flex-1 h-32 rounded-3xl border-2 flex flex-col items-center justify-center transition-all",
+                                            "flex-1 h-12 rounded-3xl border-2 flex flex-col items-center justify-center transition-all",
                                             userChoice === val
                                                 ? (isSub && val === currentQ.isTrue ? "bg-emerald-500 border-emerald-500 text-white" : "bg-primary border-primary text-white")
-                                                : "bg-white border-slate-100 hover:border-primary/30 text-slate-400"
+                                                : "bg-white border-slate-100 hover:border-primary/30 text-slate-400 disabled:hover:border-slate-100"
                                         )}
                                     >
-                                        {val ? <Check className="w-8 h-8 mb-1" /> : <XCircle className="w-8 h-8 mb-1" />}
-                                        <span className="font-black">{val ? 'Igaz' : 'Hamis'}</span>
+                                        {val ? <Check className="w-4 h-4 mb-0.5" /> : <XCircle className="w-4 h-4 mb-0.5" />}
+                                        <span className="font-black text-sm">{val ? 'Igaz' : 'Hamis'}</span>
                                     </button>
                                 ))}
                             </div>
                         )}
 
                         {currentQ.questionType === 'input' && (
-                            <div className="w-full max-w-sm flex flex-col gap-4">
+                            <div className="w-full flex flex-col gap-4">
                                 <div className="relative">
                                     <Input
                                         value={userChoice || ""} 
                                         onChange={(e) => handleAnswerUpdate(e.target.value)}
-                                        className="h-20 text-4xl font-black text-center pr-20 rounded-2xl border-2 border-slate-100 focus:border-primary"
+                                        disabled={isSub}
+                                        className="h-10 text-xl font-black text-center pr-20 rounded-2xl border-2 border-slate-100 focus:border-primary"
                                         placeholder="..."
                                     />
-                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 font-black text-slate-300 text-xl">{currentQ.toUnit}</span>
+                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 font-black text-slate-300 text-sm">{currentQ.targetUnit}</span>
                                 </div>
                                 <p className="text-center text-xs text-slate-400 font-bold uppercase tracking-widest">Írd be a pontos értéket!</p>
                             </div>
@@ -368,7 +496,7 @@ export default function AreaConversionQuiz({ onBack }: { onBack: () => void }) {
 
                         {isSub && (
                             <div className={cn(
-                                "mt-6 py-3 px-8 rounded-2xl text-sm font-bold animate-in fade-in slide-in-from-top-2 flex items-center gap-2 shadow-sm",
+                                "mt-6 py-3 px-8 rounded-2xl text-sm font-bold animate-in fade-in slide-in-from-top-2 flex items-center gap-2 shadow-sm w-full justify-center",
                                 (userChoice === currentQ.answer || 
                                  (currentQ.questionType === 'input' && parseFloat(userChoice?.toString().replace(',','.')) === currentQ.answer) ||
                                  userChoice === currentQ.isTrue)
@@ -379,7 +507,7 @@ export default function AreaConversionQuiz({ onBack }: { onBack: () => void }) {
                                  (currentQ.questionType === 'input' && parseFloat(userChoice?.toString().replace(',','.')) === currentQ.answer) ||
                                  userChoice === currentQ.isTrue) 
                                  ? "Szuper! ✨" 
-                                 : `Helyes válasz: ${currentQ.questionType === 'true-false' ? (currentQ.isTrue ? 'Igaz' : 'Hamis') : currentQ.answer + ' ' + currentQ.toUnit}`}
+                                 : `Helyes válasz: ${currentQ.questionType === 'true-false' ? (currentQ.isTrue ? 'Igaz' : 'Hamis') : currentQ.answer + ' ' + currentQ.targetUnit}`}
                             </div>
                         )}
                     </div>
@@ -429,3 +557,5 @@ export default function AreaConversionQuiz({ onBack }: { onBack: () => void }) {
         </div>
     );
 }
+
+export default VolumeQuiz;

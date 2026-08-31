@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -14,105 +14,73 @@ import {
     Check,
     Zap,
     Crown,
-    Box,
-    LayoutGrid
+    Star,
+    LayoutGrid,
+    RectangleHorizontal,
+    Square as SquareIcon
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import confetti from 'canvas-confetti';
 
 // --- Helper Components ---
 
-interface SurfaceAreaBoxProps {
+interface GridShapeProps {
+    type: 'rectangle' | 'square';
     a: number;
-    b: number;
-    c: number;
-    unitA?: string;
-    unitB?: string;
-    unitC?: string;
-    showLabels?: boolean;
-    missingSide?: 'a' | 'b' | 'c';
-    isCube?: boolean;
+    b?: number;
+    unit: string;
+    showGrid?: boolean;
+    displayScale?: number;
 }
 
-function SurfaceAreaBox({ a, b, c, unitA, unitB, unitC, showLabels = true, missingSide, isCube }: SurfaceAreaBoxProps) {
-    // Normalize for display (max size around 100px)
-    const maxVal = Math.max(a, b, c);
-    const baseScale = Math.min(60 / (maxVal || 1), 20); 
+function GridShape({ type, a, b, unit, showGrid = true, displayScale = 1 }: GridShapeProps) {
+    const width = a;
+    const height = type === 'square' ? a : (b || a);
     
-    // Isometric-ish projection parameters
-    const w = a * baseScale;
-    const h = c * baseScale;
-    const d = b * baseScale * 0.6; // Depth is skewed and shortened
-    const skewX = d * Math.cos(Math.PI / 4);
-    const skewY = d * Math.sin(Math.PI / 4);
-
-    const padding = 30; // Reduced padding
-    const originX = padding;
-    const originY = padding + skewY;
-
-    const svgWidth = w + skewX + padding * 2;
-    const svgHeight = h + skewY + padding * 2;
+    // Normalize for display (max size around 200px)
+    const maxVal = Math.max(width, height);
+    const scale = Math.min(200 / maxVal, 40); // cap size
+    
+    const displayWidth = width * scale;
+    const displayHeight = height * scale;
 
     return (
-        <div className="relative flex flex-col items-center justify-center p-2 bg-white rounded-2xl border border-slate-100 shadow-inner min-h-[150px]">
-            <svg width={svgWidth} height={svgHeight} viewBox={`0 0 ${svgWidth} ${svgHeight}`} className="drop-shadow-lg overflow-visible">
-                {/* Back faces (dashed) */}
-                <path 
-                    d={`M ${originX + skewX} ${originY - skewY} L ${originX + skewX} ${originY - skewY + h} M ${originX + skewX} ${originY - skewY + h} L ${originX} ${originY + h} M ${originX + skewX} ${originY - skewY + h} L ${originX + w + skewX} ${originY - skewY + h}`}
-                    fill="none"
-                    stroke="#cbd5e1"
-                    strokeWidth="1"
-                    strokeDasharray="3 3"
-                />
-
-                {/* Main Faces with different shades of a color to emphasize faces for surface area */}
-                {/* Right Face */}
-                <path 
-                    d={`M ${originX + w} ${originY} L ${originX + w + skewX} ${originY - skewY} L ${originX + w + skewX} ${originY - skewY + h} L ${originX + w} ${originY + h} Z`}
-                    fill="#e0e7ff"
-                    stroke="#4f46e5"
-                    strokeWidth="1.5"
-                    strokeLinejoin="round"
-                />
-                {/* Top Face */}
-                <path 
-                    d={`M ${originX} ${originY} L ${originX + skewX} ${originY - skewY} L ${originX + w + skewX} ${originY - skewY} L ${originX + w} ${originY} Z`}
-                    fill="#c7d2fe"
-                    stroke="#4f46e5"
-                    strokeWidth="1.5"
-                    strokeLinejoin="round"
-                />
-                {/* Front Face */}
-                <rect 
-                    x={originX} y={originY} width={w} height={h}
-                    fill="#a5b4fc"
-                    stroke="#4f46e5"
-                    strokeWidth="1.5"
-                    strokeLinejoin="round"
-                />
-
-                {/* Labels */}
-                {showLabels && (
-                    <>
-                        <text x={originX + w/2} y={originY + h + 20} textAnchor="middle" className="font-black text-slate-700 text-[10px] italic">
-                            {missingSide === 'a' ? 'a = ?' : `a = ${a} ${unitA}`}
-                        </text>
-                        {(!isCube || missingSide) && (
-                            <>
-                                <text x={originX + w + 6} y={originY + h/2} textAnchor="start" className="font-black text-slate-700 text-[10px] italic">
-                                    {missingSide === 'c' ? 'c = ?' : `c = ${c} ${unitC}`}
-                                </text>
-                                <text x={originX + w + skewX/2 + 6} y={originY + h - skewY/2 + 4} textAnchor="start" className="font-black text-slate-700 text-[10px] italic">
-                                    {missingSide === 'b' ? 'b = ?' : `b = ${b} ${unitB}`}
-                                </text>
-                            </>
-                        )}
-                    </>
+        <div className="relative flex flex-col items-center justify-center p-8 bg-white rounded-3xl border border-slate-100 shadow-inner overflow-hidden">
+            <div 
+                className="relative border-4 border-slate-800 bg-emerald-50/50 transition-all duration-500"
+                style={{ 
+                    width: `${displayWidth}px`, 
+                    height: `${displayHeight}px`,
+                }}
+            >
+                {showGrid && (
+                    <div 
+                        className="absolute inset-0 opacity-20 pointer-events-none"
+                        style={{
+                            backgroundImage: `linear-gradient(to right, #000 1px, transparent 1px), linear-gradient(to bottom, #000 1px, transparent 1px)`,
+                            backgroundSize: `${scale}px ${scale}px`
+                        }}
+                    />
                 )}
-            </svg>
+                
+                {/* Labels */}
+                <div className="absolute -top-8 left-1/2 -translate-x-1/2 font-black text-slate-800 text-lg">
+                    {a} {unit}
+                </div>
+                {type === 'rectangle' && (
+                    <div className="absolute -right-12 top-1/2 -translate-y-1/2 font-black text-slate-800 text-lg rotate-90 origin-center whitespace-nowrap">
+                        {b} {unit}
+                    </div>
+                )}
+                {type === 'square' && (
+                    <div className="absolute -right-12 top-1/2 -translate-y-1/2 font-black text-slate-800 text-lg rotate-90 origin-center whitespace-nowrap">
+                        {a} {unit}
+                    </div>
+                )}
+            </div>
             
-            <div className="mt-2 text-[8px] font-bold text-indigo-400 uppercase tracking-widest bg-indigo-50 px-2 py-0.5 rounded-full">
-                {isCube ? 'Kocka' : 'Téglatest'}
+            <div className="mt-8 text-xs font-bold text-slate-400 uppercase tracking-widest bg-slate-100 px-3 py-1 rounded-full">
+                {type === 'square' ? 'Négyzet' : 'Téglalap'} ábrázolása
             </div>
         </div>
     );
@@ -125,26 +93,22 @@ type QuestionType = 'multiple-choice' | 'true-false' | 'input';
 
 interface Question {
     id: number;
-    shapeType: 'cube' | 'prism';
+    shapeType: 'rectangle' | 'square';
     questionType: QuestionType;
     a: number;
-    b: number;
-    c: number;
+    b?: number;
     unitA: string;
     unitB: string;
-    unitC: string;
     targetUnit: string;
     answer: number;
     text: string;
     options?: number[];
     isTrue?: boolean;
-    missingSide?: 'a' | 'b' | 'c';
-    A?: number; // Surface Area if given
 }
 
 // --- Component ---
 
-export default function SurfaceAreaQuiz({ onBack }: { onBack: () => void }) {
+export function AreaCalculationQuiz({ onBack }: { onBack: () => void }) {
     const [difficulty, setDifficulty] = useState<Difficulty | null>(null);
     const [questions, setQuestions] = useState<Question[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -156,47 +120,42 @@ export default function SurfaceAreaQuiz({ onBack }: { onBack: () => void }) {
         const newQuestions: Question[] = [];
         
         const easyTasks = [
-            { a: 2, b: 2, c: 2, unit: 'cm', ans: 24 }, // Cube: 6 * 2^2 = 24
-            { a: 3, b: 2, c: 4, unit: 'cm', ans: 52 }, // Prism: 2*(6 + 12 + 8) = 52
-            { a: 5, b: 5, c: 5, unit: 'dm', ans: 150 }, // Cube: 6 * 25 = 150
-            { a: 10, b: 2, c: 3, unit: 'm', ans: 112 }, // Prism: 2*(20 + 30 + 6) = 112
-            { a: 4, b: 4, c: 4, unit: 'cm', ans: 96 },
-            { a: 6, b: 3, c: 2, unit: 'dm', ans: 72 }, // Prism: 2*(18 + 12 + 6) = 72
-            { a: 1, b: 1, c: 1, unit: 'm', ans: 6 },
-            { a: 3, b: 3, c: 3, unit: 'dm', ans: 54 },
-            { a: 5, b: 2, c: 4, unit: 'cm', ans: 76 }, // 2*(10 + 20 + 8) = 76
-            { a: 2, b: 4, c: 2, unit: 'cm', ans: 40 }, // 2*(8 + 4 + 8) = 40
+            { type: 'square', a: 3, b: 3, unit: 'cm', ans: 9 },
+            { type: 'rectangle', a: 5, b: 2, unit: 'cm', ans: 10 },
+            { type: 'rectangle', a: 6, b: 4, unit: 'dm', ans: 24 },
+            { type: 'square', a: 4, b: 4, unit: 'm', ans: 16 },
+            { type: 'rectangle', a: 8, b: 3, unit: 'mm', ans: 24 },
+            { type: 'square', a: 5, b: 5, unit: 'cm', ans: 25 },
+            { type: 'rectangle', a: 7, b: 2, unit: 'dm', ans: 14 },
+            { type: 'rectangle', a: 4, b: 3, unit: 'm', ans: 12 },
+            { type: 'square', a: 2, b: 2, unit: 'cm', ans: 4 },
+            { type: 'rectangle', a: 10, b: 5, unit: 'cm', ans: 50 },
         ];
 
         const mediumTasks = [
-            { a: 20, b: 3, c: 4, unitA: 'mm', unitB: 'cm', unitC: 'cm', target: 'cm²', ans: 52 }, // a=2cm. SA=2*(6 + 8 + 12) = 52
-            { a: 1, b: 5, c: 8, unitA: 'm', unitB: 'dm', unitC: 'dm', target: 'dm²', ans: 320 }, // a=10dm. SA=2*(50 + 80 + 40) = 340 wait. 2*(50 + 80 + 40) = 2*(170) = 340. Ans=340
-            { a: 4, b: 2.5, c: 6, unitA: 'dm', unitB: 'dm', unitC: 'dm', target: 'dm²', ans: 98 }, // 2*(10 + 24 + 15) = 98
-            { a: 50, b: 50, c: 50, unitA: 'cm', unitB: 'cm', unitC: 'cm', target: 'dm²', ans: 150 }, // 5dm. SA=6*25=150
-            { a: 10, b: 2, c: 3, unitA: 'dm', unitB: 'm', unitC: 'm', target: 'm²', ans: 22 }, // a=1m. SA=2*(2 + 3 + 6) = 22
-            { a: 15, b: 1.5, c: 2, unitA: 'cm', unitB: 'dm', unitC: 'dm', target: 'cm²', ans: 1350 }, // b=15cm, c=20cm. SA=2*(225 + 300 + 300)=1650 wait. 2*(15*15 + 15*20 + 15*20) = 2*(225 + 300 + 300) = 1650. Let's do simple: a=10cm,b=2dm,c=20cm -> a=1,b=2,c=2 dm -> SA=2*(2+2+4)=16dm² -> 1600cm².
-            { a: 10, b: 20, c: 20, unitA: 'cm', unitB: 'cm', unitC: 'cm', target: 'dm²', ans: 16 }, // a=1,b=2,c=2 dm -> SA=16 dm²
-            { a: 5, b: 0.5, c: 1, unitA: 'cm', unitB: 'dm', unitC: 'dm', target: 'cm²', ans: 170 }, // a=5,b=5,c=10 cm -> 2*(25 + 50 + 50)=250 cm²
-            { a: 12, b: 5, c: 2, unitA: 'cm', unitB: 'cm', unitC: 'cm', target: 'cm²', ans: 188 }, // 2*(60 + 24 + 10) = 188
-            { a: 7, b: 2, c: 1, unitA: 'dm', unitB: 'dm', unitC: 'dm', target: 'dm²', ans: 46 }, // 2*(14 + 7 + 2) = 46
+            { type: 'rectangle', a: 12, b: 5, unit: 'cm', ans: 60 },
+            { type: 'square', a: 6.5, b: 6.5, unit: 'cm', ans: 42.25 },
+            { type: 'rectangle', a: 15, b: 4, unit: 'm', ans: 60 },
+            { type: 'rectangle', a: 0.5, b: 4, unit: 'm', ans: 2 },
+            { type: 'square', a: 12, b: 12, unit: 'dm', ans: 144 },
+            { type: 'rectangle', a: 20, b: 7.5, unit: 'cm', ans: 150 },
+            { type: 'rectangle', a: 1.5, b: 6, unit: 'dm', ans: 9 },
+            { type: 'square', a: 2.5, b: 2.5, unit: 'cm', ans: 6.25 },
+            { type: 'rectangle', a: 25, b: 10, unit: 'mm', ans: 250 },
+            { type: 'rectangle', a: 1.2, b: 5, unit: 'm', ans: 6 },
         ];
 
-        // Let's fix medium task 2 and 6 and 8
-        mediumTasks[1].ans = 340; 
-        mediumTasks[5] = { a: 10, b: 2, c: 20, unitA: 'cm', unitB: 'dm', unitC: 'cm', target: 'cm²', ans: 1600 }; 
-        mediumTasks[7] = { a: 5, b: 0.5, c: 1, unitA: 'cm', unitB: 'dm', unitC: 'dm', target: 'cm²', ans: 250 }; 
-
         const hardTasks = [
-            { A: 54, a: 3, b: 3, c: 3, missing: 'a', unitA: 'cm', unitB: 'cm', unitC: 'cm', target: 'cm', ans: 3 }, // Cube SA=54 -> a=3
-            { A: 150, a: 5, b: 5, c: 5, missing: 'a', unitA: 'dm', unitB: 'dm', unitC: 'dm', target: 'dm', ans: 5 }, // Cube SA=150 -> a=5
-            { A: 52, a: 3, b: 2, c: 4, missing: 'c', unitA: 'cm', unitB: 'cm', unitC: 'cm', target: 'cm', ans: 4 }, // Prism SA=52, a=3,b=2 -> 2*(6 + 3c + 2c)=52 -> 12 + 10c = 52 -> 10c = 40 -> c=4
-            { A: 24, a: 2, b: 2, c: 2, missing: 'a', unitA: 'm', unitB: 'm', unitC: 'm', target: 'm', ans: 2 }, // Cube SA=24 -> a=2
-            { A: 96, a: 4, b: 4, c: 4, missing: 'a', unitA: 'cm', unitB: 'cm', unitC: 'cm', target: 'cm', ans: 4 }, // Cube SA=96 -> a=4
-            { A: 112, a: 10, b: 2, c: 3, missing: 'c', unitA: 'm', unitB: 'm', unitC: 'm', target: 'm', ans: 3 }, // Prism SA=112, a=10, b=2 -> 2*(20 + 10c + 2c)=112 -> 40 + 24c = 112 -> 24c = 72 -> c=3
-            { A: 40, a: 2, b: 4, c: 2, missing: 'b', unitA: 'cm', unitB: 'cm', unitC: 'cm', target: 'cm', ans: 4 }, // Prism SA=40, a=2,c=2 -> 2*(2b + 4 + 2b)=40 -> 8b + 8 = 40 -> 8b = 32 -> b=4
-            { A: 72, a: 6, b: 3, c: 2, missing: 'a', unitA: 'dm', unitB: 'dm', unitC: 'dm', target: 'dm', ans: 6 }, // Prism SA=72, b=3,c=2 -> 2*(3a + 2a + 6)=72 -> 10a + 12 = 72 -> 10a = 60 -> a=6
-            { A: 600, a: 10, b: 10, c: 10, missing: 'a', unitA: 'mm', unitB: 'mm', unitC: 'mm', target: 'mm', ans: 10 }, // Cube SA=600 -> a=10
-            { A: 148, a: 4, b: 5, c: 6, missing: 'c', unitA: 'cm', unitB: 'cm', unitC: 'cm', target: 'cm', ans: 6 }, // Prism SA=148, a=4,b=5 -> 2*(20 + 4c + 5c)=148 -> 40 + 18c = 148 -> 18c = 108 -> c=6
+            { type: 'rectangle', a: 50, b: 3, unitA: 'mm', unitB: 'cm', target: 'cm²', ans: 15 },
+            { type: 'rectangle', a: 0.5, b: 20, unitA: 'm', unitB: 'dm', target: 'm²', ans: 1 },
+            { type: 'square', a: 80, b: 80, unitA: 'mm', unitB: 'mm', target: 'cm²', ans: 64 },
+            { type: 'rectangle', a: 1.2, b: 100, unitA: 'dm', unitB: 'mm', target: 'dm²', ans: 1.2 },
+            { type: 'rectangle', a: 2.5, b: 40, unitA: 'm', unitB: 'cm', target: 'm²', ans: 1 },
+            { type: 'square', a: 0.3, b: 0.3, unitA: 'm', unitB: 'm', target: 'dm²', ans: 9 },
+            { type: 'rectangle', a: 12.5, b: 40, unitA: 'cm', unitB: 'mm', target: 'cm²', ans: 50 },
+            { type: 'rectangle', a: 0.1, b: 50, unitA: 'km', unitB: 'm', target: 'm²', ans: 5000 },
+            { type: 'square', a: 15, b: 15, unitA: 'dm', unitB: 'dm', target: 'm²', ans: 2.25 },
+            { type: 'rectangle', a: 75, b: 1.2, unitA: 'cm', unitB: 'm', target: 'm²', ans: 0.9 },
         ];
 
         const shuffled = (diff === 'easy' ? [...easyTasks] : diff === 'medium' ? [...mediumTasks] : [...hardTasks]).sort(() => Math.random() - 0.5);
@@ -208,44 +167,24 @@ export default function SurfaceAreaQuiz({ onBack }: { onBack: () => void }) {
             let options: number[] | undefined;
             let isTrue: boolean | undefined;
             
-            const isCube = task.a === task.b && task.b === task.c;
-            const shapeType = isCube ? 'cube' : 'prism';
-            const unitA = (task as any).unitA || (task as any).unit || 'cm';
-            const unitB = (task as any).unitB || (task as any).unit || 'cm';
-            const unitC = (task as any).unitC || (task as any).unit || 'cm';
+            const shapeType = task.type as 'rectangle' | 'square';
+            const unitA = (task as any).unitA || (task as any).unit;
+            const unitB = (task as any).unitB || (task as any).unit;
             const targetUnit = (task as any).target || `${unitA}²`;
-            const answer = task.ans;
-
-            let questionText = `Mekkora a felszín ${targetUnit} egységben?`;
-            if ((task as any).missing) {
-                if (isCube) {
-                    questionText = `Mekkora a kocka éle, ha a felszíne ${(task as any).A} ${targetUnit}?`;
-                } else {
-                    questionText = `Mekkora a hiányzó él (${(task as any).missing}) hossza, ha a felszín ${(task as any).A} ${targetUnit.replace('cm', 'cm²').replace('dm', 'dm²').replace('m', 'm²')}?`;
-                }
-            } else if (diff === 'medium') {
-                questionText = `Mekkora a felszín ${targetUnit} egységben? (Váltsd át a mértékegységeket!)`;
-            }
 
             if (qType === 'multiple-choice') {
-                const optSet = new Set([answer]);
+                const optSet = new Set([task.ans]);
                 while (optSet.size < 4) {
-                    const factor = Math.random() > 0.5 ? 1.2 : 0.8;
-                    const offset = (Math.floor(Math.random() * 10) + 1) * (Math.random() > 0.5 ? 1 : -1);
-                    let alt = Math.max(1, Math.round((answer * factor + offset)));
-                    if (alt === answer) alt += 2;
+                    const factor = Math.random() > 0.5 ? 2 : 0.5;
+                    const offset = (Math.floor(Math.random() * 10) + 1);
+                    const alt = Math.max(0.1, Math.round((task.ans * factor + offset) * 100) / 100);
                     optSet.add(alt);
                 }
                 options = Array.from(optSet).sort(() => Math.random() - 0.5);
             } else if (qType === 'true-false') {
                 isTrue = Math.random() > 0.5;
-                const offset = (Math.floor(Math.random() * 5) + 1) * 2; // Even offset
-                const displayVal = isTrue ? answer : Math.max(1, answer + (Math.random() > 0.5 ? offset : -offset));
-                if ((task as any).missing) {
-                     (task as any).displayText = `A hiányzó él hossza ${displayVal} ${targetUnit}?`;
-                } else {
-                     (task as any).displayText = `A felszín ${displayVal} ${targetUnit}?`;
-                }
+                const displayVal = isTrue ? task.ans : (Math.random() > 0.5 ? task.ans + 5 : Math.max(1, task.ans - 3));
+                (task as any).displayText = `A terület ${displayVal} ${targetUnit}?`;
             }
 
             newQuestions.push({
@@ -253,18 +192,14 @@ export default function SurfaceAreaQuiz({ onBack }: { onBack: () => void }) {
                 shapeType,
                 questionType: qType,
                 a: task.a,
-                b: task.b,
-                c: task.c,
+                b: shapeType === 'rectangle' ? task.b : undefined,
                 unitA,
                 unitB,
-                unitC,
                 targetUnit,
-                answer,
-                text: (task as any).displayText || questionText,
+                answer: task.ans,
+                text: (task as any).displayText || `Mekkora a terület ${targetUnit} egységben?`,
                 options,
-                isTrue,
-                missingSide: (task as any).missing,
-                A: (task as any).A,
+                isTrue
             });
         }
         setQuestions(newQuestions);
@@ -280,8 +215,6 @@ export default function SurfaceAreaQuiz({ onBack }: { onBack: () => void }) {
     };
 
     const handleAnswerUpdate = (val: any) => {
-        if (submitted[currentIndex]) return;
-        
         const newAnswers = [...answers];
         newAnswers[currentIndex] = val;
         setAnswers(newAnswers);
@@ -308,14 +241,17 @@ export default function SurfaceAreaQuiz({ onBack }: { onBack: () => void }) {
 
     if (!difficulty) {
         return (
-            <div className="max-w-5xl mx-auto p-2 animate-in fade-in slide-in-from-bottom-4 duration-500 overflow-hidden">
+            <div className="max-w-5xl mx-auto p-4 animate-in fade-in slide-in-from-bottom-4 duration-500 overflow-hidden">
+                <Button variant="ghost" onClick={onBack} size="sm" className="mb-6 rounded-xl hover:bg-slate-100">
+                    <ArrowLeft className="w-4 h-4 mr-1" /> Vissza
+                </Button>
                 
-                <div className="text-center mb-6">
-                    <div className="inline-flex p-4 bg-indigo-100 rounded-3xl text-indigo-600 mb-4">
-                        <Box className="w-10 h-10" />
+                <div className="text-center mb-10">
+                    <div className="inline-flex p-4 bg-primary/10 rounded-3xl text-primary mb-4">
+                        <LayoutGrid className="w-10 h-10" />
                     </div>
-                    <h1 className="text-4xl font-black text-slate-800 mb-2 tracking-tight">Felszínszámítás Kvíz</h1>
-                    <p className="text-slate-500 font-medium text-lg">Számítsd ki a kockák és téglatestek felszínét!</p>
+                    <h1 className="text-4xl font-black text-slate-800 mb-2 tracking-tight">Területszámítás Kvíz</h1>
+                    <p className="text-slate-500 font-medium text-lg">Számítsd ki a téglalapok és négyzetek területét!</p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -323,21 +259,21 @@ export default function SurfaceAreaQuiz({ onBack }: { onBack: () => void }) {
                         { 
                             id: 'easy' as Difficulty, 
                             title: 'Könnyű', 
-                            desc: 'Egyszerű egész számok, azonos mértékegységek. Alapok gyakorlása.',
+                            desc: 'Egyszerű egész számok, látható négyzetháló a számoláshoz.',
                             icon: Sparkles,
                             color: 'emerald'
                         },
                         { 
                             id: 'medium' as Difficulty, 
                             title: 'Haladó', 
-                            desc: 'Különböző mértékegységek! Válts át azonos mértékegységre a számolás előtt.',
+                            desc: 'Nagyobb számok és tizedesek. Itt már a képlet a biztosabb!',
                             icon: Zap,
                             color: 'sky'
                         },
                         { 
                             id: 'hard' as Difficulty, 
                             title: 'Mester', 
-                            desc: 'Visszafele gondolkodás. Keresd meg a hiányzó él hosszát a felszín ismeretében.',
+                            desc: 'Vegyes mértékegységek és nehezebb tizedesek. Figyelj a váltásra!',
                             icon: Crown,
                             color: 'violet'
                         }
@@ -416,7 +352,7 @@ export default function SurfaceAreaQuiz({ onBack }: { onBack: () => void }) {
     const isSub = submitted[currentIndex];
 
     return (
-        <div className="max-w-5xl mx-auto p-2 flex flex-col">
+        <div className="max-w-5xl mx-auto p-2 h-[90vh] flex flex-col">
             <div className="flex items-center justify-between mb-2 px-2">
                 <Button variant="ghost" size="sm" onClick={() => setDifficulty(null)} className="rounded-xl h-8 text-xs">
                     <ArrowLeft className="w-3 h-3 mr-1" /> Kilépés
@@ -430,54 +366,49 @@ export default function SurfaceAreaQuiz({ onBack }: { onBack: () => void }) {
             </div>
 
             <Card className="flex-1 overflow-hidden rounded-[32px] border-none shadow-xl bg-white flex flex-col relative">
-                <div className="grid grid-cols-1 md:grid-cols-5 gap-4 p-6 md:p-8">
+                <div className="flex-1 grid grid-cols-1 md:grid-cols-5 gap-4 p-6 md:p-8 overflow-hidden">
                     {/* Left Side: Illustration */}
-                    <div className="md:col-span-3 flex flex-col justify-start gap-4">
-                        <div className="p-4 bg-slate-50 rounded-3xl border border-slate-100">
-                             <div className="flex items-center gap-3 mb-1">
-                                <Target className="w-4 h-4 text-primary" />
-                                <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em]">Feladat</span>
+                    <div className="md:col-span-3 flex flex-col justify-center gap-6">
+                        <GridShape 
+                            type={currentQ.shapeType} 
+                            a={currentQ.a} 
+                            b={currentQ.b} 
+                            unit={currentQ.unitA} 
+                            showGrid={difficulty === 'easy'} 
+                        />
+                        
+                        <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100">
+                             <div className="flex items-center gap-3 mb-2">
+                                <Target className="w-5 h-5 text-primary" />
+                                <span className="text-xs font-black text-primary uppercase tracking-[0.2em]">Feladat</span>
                              </div>
-                             <h2 className="text-lg md:text-xl font-black text-slate-800 tracking-tight leading-tight">
+                             <h2 className="text-2xl md:text-3xl font-black text-slate-800 tracking-tight leading-tight">
                                 {currentQ.text}
                              </h2>
-                             {difficulty === 'medium' && (
-                                <p className="mt-1 text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-lg w-fit">
-                                    Figyelj a mértékegység-váltásra!
+                             {difficulty === 'hard' && currentQ.unitA !== currentQ.unitB && (
+                                <p className="mt-3 text-sm font-bold text-amber-600 bg-amber-50 px-3 py-1 rounded-lg w-fit">
+                                    Vigyázat! Különböző mértékegységek!
                                 </p>
                              )}
                         </div>
-
-                        <SurfaceAreaBox 
-                            a={currentQ.a} 
-                            b={currentQ.b} 
-                            c={currentQ.c} 
-                            unitA={currentQ.unitA}
-                            unitB={currentQ.unitB}
-                            unitC={currentQ.unitC}
-                            missingSide={currentQ.missingSide}
-                            isCube={currentQ.shapeType === 'cube'}
-                        />
                     </div>
 
                     {/* Right Side: Interaction */}
-                    <div className="md:col-span-2 flex flex-col justify-start items-center bg-slate-50/30 rounded-3xl p-6">
+                    <div className="md:col-span-2 flex flex-col justify-center items-center bg-slate-50/30 rounded-3xl p-6">
                         {currentQ.questionType === 'multiple-choice' && (
                             <div className="grid grid-cols-1 gap-3 w-full">
                                 {currentQ.options?.map((opt, idx) => (
                                     <button
-                                        key={idx} 
-                                        onClick={() => handleAnswerUpdate(opt)}
-                                        disabled={isSub}
+                                        key={idx} onClick={() => handleAnswerUpdate(opt)}
                                         className={cn(
-                                            "h-10 rounded-2xl text-base font-black transition-all border-2 flex items-center justify-center gap-3",
+                                            "h-16 rounded-2xl text-2xl font-black transition-all border-2 flex items-center justify-center gap-3",
                                             userChoice === opt 
                                                 ? (isSub && opt === currentQ.answer ? "bg-emerald-500 border-emerald-500 text-white shadow-lg shadow-emerald-200" : "bg-primary border-primary text-white shadow-lg shadow-primary/20")
-                                                : "bg-white border-slate-100 hover:border-primary/30 text-slate-600 hover:shadow-md disabled:hover:border-slate-100 disabled:hover:shadow-none"
+                                                : "bg-white border-slate-100 hover:border-primary/30 text-slate-600 hover:shadow-md"
                                         )}
                                     >
                                         {opt}
-                                        <span className="text-xs font-bold opacity-60">{currentQ.targetUnit}</span>
+                                        <span className="text-sm font-bold opacity-60">{currentQ.targetUnit}</span>
                                     </button>
                                 ))}
                             </div>
@@ -487,18 +418,16 @@ export default function SurfaceAreaQuiz({ onBack }: { onBack: () => void }) {
                             <div className="flex flex-col gap-4 w-full">
                                 {[true, false].map((val) => (
                                     <button
-                                        key={val ? 't' : 'f'} 
-                                        onClick={() => handleAnswerUpdate(val)}
-                                        disabled={isSub}
+                                        key={val ? 't' : 'f'} onClick={() => handleAnswerUpdate(val)}
                                         className={cn(
-                                            "flex-1 h-12 rounded-3xl border-2 flex flex-col items-center justify-center transition-all",
+                                            "flex-1 h-24 rounded-3xl border-2 flex flex-col items-center justify-center transition-all",
                                             userChoice === val
                                                 ? (isSub && val === currentQ.isTrue ? "bg-emerald-500 border-emerald-500 text-white" : "bg-primary border-primary text-white")
-                                                : "bg-white border-slate-100 hover:border-primary/30 text-slate-400 disabled:hover:border-slate-100"
+                                                : "bg-white border-slate-100 hover:border-primary/30 text-slate-400"
                                         )}
                                     >
-                                        {val ? <Check className="w-4 h-4 mb-0.5" /> : <XCircle className="w-4 h-4 mb-0.5" />}
-                                        <span className="font-black text-sm">{val ? 'Igaz' : 'Hamis'}</span>
+                                        {val ? <Check className="w-8 h-8 mb-1" /> : <XCircle className="w-8 h-8 mb-1" />}
+                                        <span className="font-black">{val ? 'Igaz' : 'Hamis'}</span>
                                     </button>
                                 ))}
                             </div>
@@ -510,11 +439,10 @@ export default function SurfaceAreaQuiz({ onBack }: { onBack: () => void }) {
                                     <Input
                                         value={userChoice || ""} 
                                         onChange={(e) => handleAnswerUpdate(e.target.value)}
-                                        disabled={isSub}
-                                        className="h-10 text-xl font-black text-center pr-20 rounded-2xl border-2 border-slate-100 focus:border-primary"
+                                        className="h-20 text-4xl font-black text-center pr-20 rounded-2xl border-2 border-slate-100 focus:border-primary"
                                         placeholder="..."
                                     />
-                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 font-black text-slate-300 text-sm">{currentQ.targetUnit}</span>
+                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 font-black text-slate-300 text-xl">{currentQ.targetUnit}</span>
                                 </div>
                                 <p className="text-center text-xs text-slate-400 font-bold uppercase tracking-widest">Írd be a pontos értéket!</p>
                             </div>
@@ -583,3 +511,5 @@ export default function SurfaceAreaQuiz({ onBack }: { onBack: () => void }) {
         </div>
     );
 }
+
+export default AreaCalculationQuiz;

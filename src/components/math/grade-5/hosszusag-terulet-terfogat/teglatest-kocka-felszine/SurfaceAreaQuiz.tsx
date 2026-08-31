@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -22,7 +22,7 @@ import confetti from 'canvas-confetti';
 
 // --- Helper Components ---
 
-interface VolumeBoxProps {
+interface SurfaceAreaBoxProps {
     a: number;
     b: number;
     c: number;
@@ -31,12 +31,13 @@ interface VolumeBoxProps {
     unitC?: string;
     showLabels?: boolean;
     missingSide?: 'a' | 'b' | 'c';
+    isCube?: boolean;
 }
 
-function VolumeBox({ a, b, c, unitA, unitB, unitC, showLabels = true, missingSide }: VolumeBoxProps) {
-    // Normalize for display (max size around 100px now)
+function SurfaceAreaBox({ a, b, c, unitA, unitB, unitC, showLabels = true, missingSide, isCube }: SurfaceAreaBoxProps) {
+    // Normalize for display (max size around 100px)
     const maxVal = Math.max(a, b, c);
-    const baseScale = Math.min(60 / maxVal, 20); 
+    const baseScale = Math.min(60 / (maxVal || 1), 20); 
     
     // Isometric-ish projection parameters
     const w = a * baseScale;
@@ -64,28 +65,28 @@ function VolumeBox({ a, b, c, unitA, unitB, unitC, showLabels = true, missingSid
                     strokeDasharray="3 3"
                 />
 
-                {/* Main Faces */}
+                {/* Main Faces with different shades of a color to emphasize faces for surface area */}
                 {/* Right Face */}
                 <path 
                     d={`M ${originX + w} ${originY} L ${originX + w + skewX} ${originY - skewY} L ${originX + w + skewX} ${originY - skewY + h} L ${originX + w} ${originY + h} Z`}
-                    fill="#f1f5f9"
-                    stroke="#1e293b"
+                    fill="#e0e7ff"
+                    stroke="#4f46e5"
                     strokeWidth="1.5"
                     strokeLinejoin="round"
                 />
                 {/* Top Face */}
                 <path 
                     d={`M ${originX} ${originY} L ${originX + skewX} ${originY - skewY} L ${originX + w + skewX} ${originY - skewY} L ${originX + w} ${originY} Z`}
-                    fill="#e2e8f0"
-                    stroke="#1e293b"
+                    fill="#c7d2fe"
+                    stroke="#4f46e5"
                     strokeWidth="1.5"
                     strokeLinejoin="round"
                 />
                 {/* Front Face */}
                 <rect 
                     x={originX} y={originY} width={w} height={h}
-                    fill="#f8fafc"
-                    stroke="#1e293b"
+                    fill="#a5b4fc"
+                    stroke="#4f46e5"
                     strokeWidth="1.5"
                     strokeLinejoin="round"
                 />
@@ -96,18 +97,22 @@ function VolumeBox({ a, b, c, unitA, unitB, unitC, showLabels = true, missingSid
                         <text x={originX + w/2} y={originY + h + 20} textAnchor="middle" className="font-black text-slate-700 text-[10px] italic">
                             {missingSide === 'a' ? 'a = ?' : `a = ${a} ${unitA}`}
                         </text>
-                        <text x={originX + w + 6} y={originY + h/2} textAnchor="start" className="font-black text-slate-700 text-[10px] italic">
-                            {missingSide === 'c' ? 'c = ?' : `c = ${c} ${unitC}`}
-                        </text>
-                        <text x={originX + w + skewX/2 + 6} y={originY + h - skewY/2 + 4} textAnchor="start" className="font-black text-slate-700 text-[10px] italic">
-                            {missingSide === 'b' ? 'b = ?' : `b = ${b} ${unitB}`}
-                        </text>
+                        {(!isCube || missingSide) && (
+                            <>
+                                <text x={originX + w + 6} y={originY + h/2} textAnchor="start" className="font-black text-slate-700 text-[10px] italic">
+                                    {missingSide === 'c' ? 'c = ?' : `c = ${c} ${unitC}`}
+                                </text>
+                                <text x={originX + w + skewX/2 + 6} y={originY + h - skewY/2 + 4} textAnchor="start" className="font-black text-slate-700 text-[10px] italic">
+                                    {missingSide === 'b' ? 'b = ?' : `b = ${b} ${unitB}`}
+                                </text>
+                            </>
+                        )}
                     </>
                 )}
             </svg>
             
-            <div className="mt-2 text-[8px] font-bold text-slate-400 uppercase tracking-widest bg-slate-100 px-2 py-0.5 rounded-full">
-                {a === b && b === c ? 'Kocka' : 'Téglatest'}
+            <div className="mt-2 text-[8px] font-bold text-indigo-400 uppercase tracking-widest bg-indigo-50 px-2 py-0.5 rounded-full">
+                {isCube ? 'Kocka' : 'Téglatest'}
             </div>
         </div>
     );
@@ -134,11 +139,12 @@ interface Question {
     options?: number[];
     isTrue?: boolean;
     missingSide?: 'a' | 'b' | 'c';
+    A?: number; // Surface Area if given
 }
 
 // --- Component ---
 
-export default function VolumeQuiz({ onBack }: { onBack: () => void }) {
+export function SurfaceAreaQuiz({ onBack }: { onBack: () => void }) {
     const [difficulty, setDifficulty] = useState<Difficulty | null>(null);
     const [questions, setQuestions] = useState<Question[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -150,42 +156,47 @@ export default function VolumeQuiz({ onBack }: { onBack: () => void }) {
         const newQuestions: Question[] = [];
         
         const easyTasks = [
-            { a: 2, b: 2, c: 2, unit: 'cm', ans: 8 },
-            { a: 3, b: 2, c: 4, unit: 'cm', ans: 24 },
-            { a: 5, b: 5, c: 5, unit: 'dm', ans: 125 },
-            { a: 10, b: 2, c: 3, unit: 'm', ans: 60 },
-            { a: 4, b: 4, c: 4, unit: 'cm', ans: 64 },
-            { a: 6, b: 3, c: 2, unit: 'dm', ans: 36 },
-            { a: 2, b: 10, c: 5, unit: 'm', ans: 100 },
-            { a: 3, b: 3, c: 3, unit: 'dm', ans: 27 },
-            { a: 8, b: 2, c: 5, unit: 'cm', ans: 80 },
-            { a: 1, b: 1, c: 1, unit: 'm', ans: 1 },
+            { a: 2, b: 2, c: 2, unit: 'cm', ans: 24 }, // Cube: 6 * 2^2 = 24
+            { a: 3, b: 2, c: 4, unit: 'cm', ans: 52 }, // Prism: 2*(6 + 12 + 8) = 52
+            { a: 5, b: 5, c: 5, unit: 'dm', ans: 150 }, // Cube: 6 * 25 = 150
+            { a: 10, b: 2, c: 3, unit: 'm', ans: 112 }, // Prism: 2*(20 + 30 + 6) = 112
+            { a: 4, b: 4, c: 4, unit: 'cm', ans: 96 },
+            { a: 6, b: 3, c: 2, unit: 'dm', ans: 72 }, // Prism: 2*(18 + 12 + 6) = 72
+            { a: 1, b: 1, c: 1, unit: 'm', ans: 6 },
+            { a: 3, b: 3, c: 3, unit: 'dm', ans: 54 },
+            { a: 5, b: 2, c: 4, unit: 'cm', ans: 76 }, // 2*(10 + 20 + 8) = 76
+            { a: 2, b: 4, c: 2, unit: 'cm', ans: 40 }, // 2*(8 + 4 + 8) = 40
         ];
 
         const mediumTasks = [
-            { a: 2.5, b: 4, c: 2, unit: 'cm', ans: 20 },
-            { a: 10, b: 0.5, c: 8, unit: 'm', ans: 40 },
-            { a: 4, b: 2.5, c: 6, unit: 'dm', ans: 60 },
-            { V: 60, a: 3, b: 4, c: 5, missing: 'c', unit: 'cm', ans: 5 },
-            { V: 100, a: 5, b: 4, c: 5, missing: 'b', unit: 'm', ans: 4 },
-            { a: 1.5, b: 2, c: 10, unit: 'dm', ans: 30 },
-            { V: 24, a: 4, b: 3, c: 2, missing: 'a', unit: 'cm', ans: 2 },
-            { a: 0.5, b: 0.5, c: 10, unit: 'm', ans: 2.5 },
-            { a: 12, b: 5, c: 2, unit: 'cm', ans: 120 },
-            { a: 7, b: 2, c: 1.5, unit: 'dm', ans: 21 },
+            { a: 20, b: 3, c: 4, unitA: 'mm', unitB: 'cm', unitC: 'cm', target: 'cm²', ans: 52 }, // a=2cm. SA=2*(6 + 8 + 12) = 52
+            { a: 1, b: 5, c: 8, unitA: 'm', unitB: 'dm', unitC: 'dm', target: 'dm²', ans: 320 }, // a=10dm. SA=2*(50 + 80 + 40) = 340 wait. 2*(50 + 80 + 40) = 2*(170) = 340. Ans=340
+            { a: 4, b: 2.5, c: 6, unitA: 'dm', unitB: 'dm', unitC: 'dm', target: 'dm²', ans: 98 }, // 2*(10 + 24 + 15) = 98
+            { a: 50, b: 50, c: 50, unitA: 'cm', unitB: 'cm', unitC: 'cm', target: 'dm²', ans: 150 }, // 5dm. SA=6*25=150
+            { a: 10, b: 2, c: 3, unitA: 'dm', unitB: 'm', unitC: 'm', target: 'm²', ans: 22 }, // a=1m. SA=2*(2 + 3 + 6) = 22
+            { a: 15, b: 1.5, c: 2, unitA: 'cm', unitB: 'dm', unitC: 'dm', target: 'cm²', ans: 1350 }, // b=15cm, c=20cm. SA=2*(225 + 300 + 300)=1650 wait. 2*(15*15 + 15*20 + 15*20) = 2*(225 + 300 + 300) = 1650. Let's do simple: a=10cm,b=2dm,c=20cm -> a=1,b=2,c=2 dm -> SA=2*(2+2+4)=16dm² -> 1600cm².
+            { a: 10, b: 20, c: 20, unitA: 'cm', unitB: 'cm', unitC: 'cm', target: 'dm²', ans: 16 }, // a=1,b=2,c=2 dm -> SA=16 dm²
+            { a: 5, b: 0.5, c: 1, unitA: 'cm', unitB: 'dm', unitC: 'dm', target: 'cm²', ans: 170 }, // a=5,b=5,c=10 cm -> 2*(25 + 50 + 50)=250 cm²
+            { a: 12, b: 5, c: 2, unitA: 'cm', unitB: 'cm', unitC: 'cm', target: 'cm²', ans: 188 }, // 2*(60 + 24 + 10) = 188
+            { a: 7, b: 2, c: 1, unitA: 'dm', unitB: 'dm', unitC: 'dm', target: 'dm²', ans: 46 }, // 2*(14 + 7 + 2) = 46
         ];
 
+        // Let's fix medium task 2 and 6 and 8
+        mediumTasks[1].ans = 340; 
+        mediumTasks[5] = { a: 10, b: 2, c: 20, unitA: 'cm', unitB: 'dm', unitC: 'cm', target: 'cm²', ans: 1600 }; 
+        mediumTasks[7] = { a: 5, b: 0.5, c: 1, unitA: 'cm', unitB: 'dm', unitC: 'dm', target: 'cm²', ans: 250 }; 
+
         const hardTasks = [
-            { a: 50, b: 20, c: 10, unitA: 'cm', unitB: 'cm', unitC: 'cm', target: 'dm³ (liter)', ans: 10 },
-            { a: 2, b: 0.5, c: 3, unitA: 'm', unitB: 'm', unitC: 'm', target: 'liter', ans: 3000 },
-            { a: 40, b: 3, c: 2, unitA: 'cm', unitB: 'dm', unitC: 'dm', target: 'dm³', ans: 24 },
-            { a: 1, b: 1, c: 1, unitA: 'm', unitB: 'm', unitC: 'm', target: 'dm³', ans: 1000 },
-            { a: 15, b: 10, c: 4, unitA: 'cm', unitB: 'cm', unitC: 'cm', target: 'dl', ans: 6 },
-            { a: 2.5, b: 4, c: 1, unitA: 'dm', unitB: 'dm', unitC: 'm', target: 'liter', ans: 100 },
-            { a: 8, b: 5, c: 2, unitA: 'dm', unitB: 'dm', unitC: 'dm', target: 'liter', ans: 80 },
-            { a: 2, b: 1.5, c: 1, unitA: 'm', unitB: 'm', unitC: 'm', target: 'm³', ans: 3 },
-            { a: 5, b: 5, c: 20, unitA: 'cm', unitB: 'cm', unitC: 'mm', target: 'cm³', ans: 50 },
-            { a: 0.2, b: 0.3, c: 0.5, unitA: 'm', unitB: 'm', unitC: 'm', target: 'liter', ans: 30 },
+            { A: 54, a: 3, b: 3, c: 3, missing: 'a', unitA: 'cm', unitB: 'cm', unitC: 'cm', target: 'cm', ans: 3 }, // Cube SA=54 -> a=3
+            { A: 150, a: 5, b: 5, c: 5, missing: 'a', unitA: 'dm', unitB: 'dm', unitC: 'dm', target: 'dm', ans: 5 }, // Cube SA=150 -> a=5
+            { A: 52, a: 3, b: 2, c: 4, missing: 'c', unitA: 'cm', unitB: 'cm', unitC: 'cm', target: 'cm', ans: 4 }, // Prism SA=52, a=3,b=2 -> 2*(6 + 3c + 2c)=52 -> 12 + 10c = 52 -> 10c = 40 -> c=4
+            { A: 24, a: 2, b: 2, c: 2, missing: 'a', unitA: 'm', unitB: 'm', unitC: 'm', target: 'm', ans: 2 }, // Cube SA=24 -> a=2
+            { A: 96, a: 4, b: 4, c: 4, missing: 'a', unitA: 'cm', unitB: 'cm', unitC: 'cm', target: 'cm', ans: 4 }, // Cube SA=96 -> a=4
+            { A: 112, a: 10, b: 2, c: 3, missing: 'c', unitA: 'm', unitB: 'm', unitC: 'm', target: 'm', ans: 3 }, // Prism SA=112, a=10, b=2 -> 2*(20 + 10c + 2c)=112 -> 40 + 24c = 112 -> 24c = 72 -> c=3
+            { A: 40, a: 2, b: 4, c: 2, missing: 'b', unitA: 'cm', unitB: 'cm', unitC: 'cm', target: 'cm', ans: 4 }, // Prism SA=40, a=2,c=2 -> 2*(2b + 4 + 2b)=40 -> 8b + 8 = 40 -> 8b = 32 -> b=4
+            { A: 72, a: 6, b: 3, c: 2, missing: 'a', unitA: 'dm', unitB: 'dm', unitC: 'dm', target: 'dm', ans: 6 }, // Prism SA=72, b=3,c=2 -> 2*(3a + 2a + 6)=72 -> 10a + 12 = 72 -> 10a = 60 -> a=6
+            { A: 600, a: 10, b: 10, c: 10, missing: 'a', unitA: 'mm', unitB: 'mm', unitC: 'mm', target: 'mm', ans: 10 }, // Cube SA=600 -> a=10
+            { A: 148, a: 4, b: 5, c: 6, missing: 'c', unitA: 'cm', unitB: 'cm', unitC: 'cm', target: 'cm', ans: 6 }, // Prism SA=148, a=4,b=5 -> 2*(20 + 4c + 5c)=148 -> 40 + 18c = 148 -> 18c = 108 -> c=6
         ];
 
         const shuffled = (diff === 'easy' ? [...easyTasks] : diff === 'medium' ? [...mediumTasks] : [...hardTasks]).sort(() => Math.random() - 0.5);
@@ -197,31 +208,44 @@ export default function VolumeQuiz({ onBack }: { onBack: () => void }) {
             let options: number[] | undefined;
             let isTrue: boolean | undefined;
             
-            const shapeType = task.a === task.b && task.b === task.c ? 'cube' : 'prism';
+            const isCube = task.a === task.b && task.b === task.c;
+            const shapeType = isCube ? 'cube' : 'prism';
             const unitA = (task as any).unitA || (task as any).unit || 'cm';
             const unitB = (task as any).unitB || (task as any).unit || 'cm';
             const unitC = (task as any).unitC || (task as any).unit || 'cm';
-            const targetUnit = (task as any).target || `${unitA}³`;
+            const targetUnit = (task as any).target || `${unitA}²`;
             const answer = task.ans;
 
-            let questionText = `Mekkora a térfogat ${targetUnit} egységben?`;
+            let questionText = `Mekkora a felszín ${targetUnit} egységben?`;
             if ((task as any).missing) {
-                questionText = `Mekkora a hiányzó oldal (${(task as any).missing}) hossza, ha a térfogat ${(task as any).V} ${unitA}³?`;
+                if (isCube) {
+                    questionText = `Mekkora a kocka éle, ha a felszíne ${(task as any).A} ${targetUnit}?`;
+                } else {
+                    questionText = `Mekkora a hiányzó él (${(task as any).missing}) hossza, ha a felszín ${(task as any).A} ${targetUnit.replace('cm', 'cm²').replace('dm', 'dm²').replace('m', 'm²')}?`;
+                }
+            } else if (diff === 'medium') {
+                questionText = `Mekkora a felszín ${targetUnit} egységben? (Váltsd át a mértékegységeket!)`;
             }
 
             if (qType === 'multiple-choice') {
                 const optSet = new Set([answer]);
                 while (optSet.size < 4) {
-                    const factor = Math.random() > 0.5 ? 2 : 0.5;
-                    const offset = (Math.floor(Math.random() * 20) + 1);
-                    const alt = Math.max(1, Math.round((answer * factor + offset)));
+                    const factor = Math.random() > 0.5 ? 1.2 : 0.8;
+                    const offset = (Math.floor(Math.random() * 10) + 1) * (Math.random() > 0.5 ? 1 : -1);
+                    let alt = Math.max(1, Math.round((answer * factor + offset)));
+                    if (alt === answer) alt += 2;
                     optSet.add(alt);
                 }
                 options = Array.from(optSet).sort(() => Math.random() - 0.5);
             } else if (qType === 'true-false') {
                 isTrue = Math.random() > 0.5;
-                const displayVal = isTrue ? answer : (Math.random() > 0.5 ? answer + 10 : Math.max(1, answer - 5));
-                (task as any).displayText = `A térfogat ${displayVal} ${targetUnit}?`;
+                const offset = (Math.floor(Math.random() * 5) + 1) * 2; // Even offset
+                const displayVal = isTrue ? answer : Math.max(1, answer + (Math.random() > 0.5 ? offset : -offset));
+                if ((task as any).missing) {
+                     (task as any).displayText = `A hiányzó él hossza ${displayVal} ${targetUnit}?`;
+                } else {
+                     (task as any).displayText = `A felszín ${displayVal} ${targetUnit}?`;
+                }
             }
 
             newQuestions.push({
@@ -239,7 +263,8 @@ export default function VolumeQuiz({ onBack }: { onBack: () => void }) {
                 text: (task as any).displayText || questionText,
                 options,
                 isTrue,
-                missingSide: (task as any).missing
+                missingSide: (task as any).missing,
+                A: (task as any).A,
             });
         }
         setQuestions(newQuestions);
@@ -289,8 +314,8 @@ export default function VolumeQuiz({ onBack }: { onBack: () => void }) {
                     <div className="inline-flex p-4 bg-indigo-100 rounded-3xl text-indigo-600 mb-4">
                         <Box className="w-10 h-10" />
                     </div>
-                    <h1 className="text-4xl font-black text-slate-800 mb-2 tracking-tight">Térfogatszámítás Kvíz</h1>
-                    <p className="text-slate-500 font-medium text-lg">Számítsd ki a kockák és téglatestek térfogatát!</p>
+                    <h1 className="text-4xl font-black text-slate-800 mb-2 tracking-tight">Felszínszámítás Kvíz</h1>
+                    <p className="text-slate-500 font-medium text-lg">Számítsd ki a kockák és téglatestek felszínét!</p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -298,21 +323,21 @@ export default function VolumeQuiz({ onBack }: { onBack: () => void }) {
                         { 
                             id: 'easy' as Difficulty, 
                             title: 'Könnyű', 
-                            desc: 'Egyszerű egész számok, kockák és téglatestek alapjai.',
+                            desc: 'Egyszerű egész számok, azonos mértékegységek. Alapok gyakorlása.',
                             icon: Sparkles,
                             color: 'emerald'
                         },
                         { 
                             id: 'medium' as Difficulty, 
                             title: 'Haladó', 
-                            desc: 'Tizedes számok és hiányzó oldalhossz kiszámítása.',
+                            desc: 'Különböző mértékegységek! Válts át azonos mértékegységre a számolás előtt.',
                             icon: Zap,
                             color: 'sky'
                         },
                         { 
                             id: 'hard' as Difficulty, 
                             title: 'Mester', 
-                            desc: 'Mértékegység-átváltások (liter, dm³, m³) és szöveges feladatok.',
+                            desc: 'Visszafele gondolkodás. Keresd meg a hiányzó él hosszát a felszín ismeretében.',
                             icon: Crown,
                             color: 'violet'
                         }
@@ -416,14 +441,14 @@ export default function VolumeQuiz({ onBack }: { onBack: () => void }) {
                              <h2 className="text-lg md:text-xl font-black text-slate-800 tracking-tight leading-tight">
                                 {currentQ.text}
                              </h2>
-                             {difficulty === 'hard' && (
+                             {difficulty === 'medium' && (
                                 <p className="mt-1 text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-lg w-fit">
                                     Figyelj a mértékegység-váltásra!
                                 </p>
                              )}
                         </div>
 
-                        <VolumeBox 
+                        <SurfaceAreaBox 
                             a={currentQ.a} 
                             b={currentQ.b} 
                             c={currentQ.c} 
@@ -431,6 +456,7 @@ export default function VolumeQuiz({ onBack }: { onBack: () => void }) {
                             unitB={currentQ.unitB}
                             unitC={currentQ.unitC}
                             missingSide={currentQ.missingSide}
+                            isCube={currentQ.shapeType === 'cube'}
                         />
                     </div>
 
@@ -557,3 +583,5 @@ export default function VolumeQuiz({ onBack }: { onBack: () => void }) {
         </div>
     );
 }
+
+export default SurfaceAreaQuiz;
