@@ -865,7 +865,7 @@ export default function MathPage() {
   const renderTopicContent = (topicId: string) => {
     if (selectedGrade === 'admission') return <AdmissionPrepView onBack={handleHome} />;
     if (selectedGrade === 'graduation') return <GraduationPrepView onBack={handleHome} />;
-    if (selectedGrade === 'competency' || topicId === 'competency-assessment') return <CompetencyAssessmentView onBack={handleHome} />;
+    if (topicId === 'competency-assessment') return <CompetencyAssessmentView onBack={handleHome} />;
 
     const viewProps: GradeViewProps = {
       topicId,
@@ -883,10 +883,10 @@ export default function MathPage() {
     if (selectedGrade === 6) return <Grade6View {...viewProps} />;
     if (selectedGrade === 7) return <Grade7View {...viewProps} />;
     if (selectedGrade === 8) return <Grade8View {...viewProps} />;
-    if (selectedGrade === 'high-1' || selectedGrade === 9) return <Grade9View {...viewProps} />;
-    if (selectedGrade === 'high-2' || selectedGrade === 10) return <Grade10View {...viewProps} />;
-    if (selectedGrade === 'high-3' || selectedGrade === 11) return <Grade11View {...viewProps} />;
-    if (selectedGrade === 'high-4' || selectedGrade === 12) return <Grade12View {...viewProps} />;
+    if (selectedGrade === 'high-1') return <Grade9View {...viewProps} />;
+    if (selectedGrade === 'high-2') return <Grade10View {...viewProps} />;
+    if (selectedGrade === 'high-3') return <Grade11View {...viewProps} />;
+    if (selectedGrade === 'high-4') return <Grade12View {...viewProps} />;
 
     return (
       <div className="py-2">
