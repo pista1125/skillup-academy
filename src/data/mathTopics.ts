@@ -445,16 +445,8 @@ export const mathTopics: MathTopic[] = [
     grades: [4],
   },
   {
-    id: 'g4-long-div',
-    title: 'V. ÍRÁSBELI OSZTÁS EGYJEGYŰ OSZTÓVAL',
-    description: 'Lépcsős osztás algoritmusának elsajátítása',
-    icon: '➗',
-    color: 'from-indigo-400 to-blue-600',
-    grades: [4],
-  },
-  {
     id: 'g4-shapes-solids',
-    title: 'VI. SÍKIDOMOK ÉS TESTEK',
+    title: 'V. SÍKIDOMOK ÉS TESTEK',
     description: 'Geometriai alakzatok tulajdonságai és csoportosítása',
     icon: '📐',
     color: 'from-green-500 to-green-600',
@@ -462,7 +454,7 @@ export const mathTopics: MathTopic[] = [
   },
   {
     id: 'g4-grouping',
-    title: 'VII. VÁLOGATÁSOK, CSOPORTOSÍTÁSOK',
+    title: 'VI. VÁLOGATÁSOK, CSOPORTOSÍTÁSOK',
     description: 'Halmazok, kombinatorika és logikai válogatások',
     icon: '🧪',
     color: 'from-purple-500 to-indigo-600',
@@ -470,7 +462,7 @@ export const mathTopics: MathTopic[] = [
   },
   {
     id: 'g4-written-mult',
-    title: 'VIII. ÍRÁSBELI SZORZÁS KÉTJEGYŰ SZORZÓVAL',
+    title: 'VII. ÍRÁSBELI SZORZÁS KÉTJEGYŰ SZORZÓVAL',
     description: 'Szorzás technikája többjegyű számokkal',
     icon: '✖️',
     color: 'from-amber-500 to-orange-600',
@@ -478,18 +470,10 @@ export const mathTopics: MathTopic[] = [
   },
   {
     id: 'g4-fractions',
-    title: 'IX. A TÖRTSZÁMOK',
+    title: 'VIII. A TÖRTSZÁMOK',
     description: 'Törtek fogalma, összehasonlítása és ábrázolása',
     icon: '🍕',
     color: 'from-orange-500 to-amber-600',
-    grades: [4],
-  },
-  {
-    id: 'g4-time',
-    title: 'X. AZ IDŐ MÉRÉSE',
-    description: 'Óra, perc, másodperc és naptár használata',
-    icon: '⏱️',
-    color: 'from-rose-500 to-pink-600',
     grades: [4],
   },
 

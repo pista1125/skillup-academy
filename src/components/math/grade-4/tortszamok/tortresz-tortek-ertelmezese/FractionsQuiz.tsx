@@ -7,13 +7,8 @@ import { XPBadge } from '@/components/XPBadge';
 import {
     CheckCircle2,
     XCircle,
-    ArrowRight,
     ArrowLeft,
-    RotateCcw,
     Trophy,
-    HelpCircle,
-    Sparkles,
-    Zap,
     ChevronRight,
     Star,
     Medal,
@@ -44,11 +39,6 @@ function gcd(a: number, b: number): number {
 
 function lcm(a: number, b: number): number {
     return (a * b) / gcd(a, b);
-}
-
-function simplify(f: Fraction): Fraction {
-    const common = gcd(f.num, f.den);
-    return { num: f.num / common, den: f.den / common };
 }
 
 function generateProblem(difficulty: Difficulty): FractionProblem {
@@ -297,7 +287,6 @@ export function FractionsQuiz({ onBack, initialDifficulty = null }: FractionsQui
     }
 
     const current = problems[currentIndex];
-    const isCorrect = parseInt(userNum) * current.result.den === parseInt(userDen) * current.result.num;
 
     return (
         <div className="max-w-2xl mx-auto space-y-6">
