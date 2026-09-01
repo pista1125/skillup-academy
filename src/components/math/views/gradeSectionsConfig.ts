@@ -15,6 +15,63 @@ export interface NavTopicItem {
 }
 
 export const sectionToTopicMap: Record<string, string> = {
+  // Grade 2
+  'g2-numbers-to-20': 'g2-numbers-to-20',
+  'g2-count20-sec-1': 'g2-numbers-to-20',
+  'g2-count20-sec-2': 'g2-numbers-to-20',
+  'g2-count20-sec-3': 'g2-numbers-to-20',
+  'g2-count20-sec-4': 'g2-numbers-to-20',
+  'g2-count20-sec-5': 'g2-numbers-to-20',
+  'g2-count20-sec-6': 'g2-numbers-to-20',
+  'g2-count20-sec-7': 'g2-numbers-to-20',
+  'g2-numbers-to-50': 'g2-numbers-to-50',
+  'g2-count50-sec-1': 'g2-numbers-to-50',
+  'g2-count50-sec-2': 'g2-numbers-to-50',
+  'g2-count50-sec-3': 'g2-numbers-to-50',
+  'g2-count50-sec-4': 'g2-numbers-to-50',
+  'g2-count50-sec-5': 'g2-numbers-to-50',
+  'g2-count50-sec-6': 'g2-numbers-to-50',
+  'g2-numbers-to-100': 'g2-numbers-to-100',
+  'g2-count100-sec-1': 'g2-numbers-to-100',
+  'g2-count100-sec-2': 'g2-numbers-to-100',
+  'g2-count100-sec-3': 'g2-numbers-to-100',
+  'g2-count100-sec-4': 'g2-numbers-to-100',
+  'g2-count100-sec-5': 'g2-numbers-to-100',
+  'g2-count100-sec-6': 'g2-numbers-to-100',
+  'g2-roman-numbers': 'g2-roman-numbers',
+  'g2-roman-sec-1': 'g2-roman-numbers',
+  'g2-roman-sec-2': 'g2-roman-numbers',
+  'g2-roman-sec-3': 'g2-roman-numbers',
+  'g2-roman-sec-4': 'g2-roman-numbers',
+  'g2-multiplication': 'g2-multiplication',
+  'g2-mult-sec-2': 'g2-multiplication',
+  'g2-mult-sec-3': 'g2-multiplication',
+  'g2-mult-sec-4': 'g2-multiplication',
+  'g2-mult-sec-5': 'g2-multiplication',
+  'g2-mult-sec-6': 'g2-multiplication',
+  'g2-mult-sec-7': 'g2-multiplication',
+  'g2-mult-sec-8': 'g2-multiplication',
+  'g2-mult-sec-9': 'g2-multiplication',
+  'g2-mult-sec-10': 'g2-multiplication',
+  'g2-division': 'g2-division',
+  'g2-div-sec-2': 'g2-division',
+  'g2-div-sec-3': 'g2-division',
+  'g2-div-sec-4': 'g2-division',
+  'g2-div-sec-5': 'g2-division',
+  'g2-div-sec-6': 'g2-division',
+  'g2-div-sec-7': 'g2-division',
+  'g2-div-sec-8': 'g2-division',
+  'g2-div-sec-9': 'g2-division',
+  'g2-div-sec-10': 'g2-division',
+  'g2-geometry': 'g2-geometry',
+  'g2-geo-sec-1': 'g2-geometry',
+  'g2-geo-sec-2': 'g2-geometry',
+  'g2-geo-sec-3': 'g2-geometry',
+  'g2-measurements': 'g2-measurements',
+  'g2-meas-sec-1': 'g2-measurements',
+  'g2-meas-sec-2': 'g2-measurements',
+  'g2-meas-sec-3': 'g2-measurements',
+
   // Grade 3
   'g3-count-100': 'g3-count-100',
   'g3-count-sec-1': 'g3-count-100',
@@ -335,8 +392,79 @@ export function getGradeSubsections(
   filtered.forEach(t => {
     let subsections: SubsectionItem[] = [];
 
-    // Grade 3 Subsections
-    if (t.id === 'g3-count-100') {
+    // Grade 2 Subsections
+    if (t.id === 'g2-numbers-to-20') {
+      subsections = [
+        { id: 'g2-count20-sec-1', label: '1. Számok 0-tól 20-ig' },
+        { id: 'g2-count20-sec-2', label: '2. Összeadás 10-es számkör' },
+        { id: 'g2-count20-sec-3', label: '3. Kivonás 10-es számkör' },
+        { id: 'g2-count20-sec-4', label: '4. Összeadás 20-as számkör' },
+        { id: 'g2-count20-sec-5', label: '5. Kivonás 20-as számkör' },
+        { id: 'g2-count20-sec-6', label: '6. Szöveges feladatok' },
+        { id: 'g2-count20-sec-7', label: '7. Megálló' }
+      ];
+    } else if (t.id === 'g2-numbers-to-50') {
+      subsections = [
+        { id: 'g2-count50-sec-1', label: '1. Számok 50-ig' },
+        { id: 'g2-count50-sec-2', label: '2. Összeadás 50-es számkör' },
+        { id: 'g2-count50-sec-3', label: '3. Kivonás 50-es számkör' },
+        { id: 'g2-count50-sec-4', label: '4. Összeadás, kivonás kerek tízesekkel' },
+        { id: 'g2-count50-sec-5', label: '5. Szöveges feladatok' },
+        { id: 'g2-count50-sec-6', label: '6. Megálló' }
+      ];
+    } else if (t.id === 'g2-numbers-to-100') {
+      subsections = [
+        { id: 'g2-count100-sec-1', label: '1. Számok 100-ig' },
+        { id: 'g2-count100-sec-2', label: '2. Összeadás 100-as számkör' },
+        { id: 'g2-count100-sec-3', label: '3. Kivonás 100-as számkör' },
+        { id: 'g2-count100-sec-4', label: '4. Összeadás, kivonás kerek tízesekkel' },
+        { id: 'g2-count100-sec-5', label: '5. Szöveges feladatok' },
+        { id: 'g2-count100-sec-6', label: '6. Megálló' }
+      ];
+    } else if (t.id === 'g2-roman-numbers') {
+      subsections = [
+        { id: 'g2-roman-sec-1', label: '1. Római számok értelmezése' },
+        { id: 'g2-roman-sec-2', label: '2. Római számok 0-10-ig' },
+        { id: 'g2-roman-sec-3', label: '3. Római számok 0-50-ig' },
+        { id: 'g2-roman-sec-4', label: '4. Római számok 0-100-ig' }
+      ];
+    } else if (t.id === 'g2-multiplication') {
+      subsections = [
+        { id: 'g2-mult-sec-2', label: '1. Szorzás 2-vel' },
+        { id: 'g2-mult-sec-3', label: '2. Szorzás 3-mal' },
+        { id: 'g2-mult-sec-4', label: '3. Szorzás 4-gyel' },
+        { id: 'g2-mult-sec-5', label: '4. Szorzás 5-tel' },
+        { id: 'g2-mult-sec-6', label: '5. Szorzás 6-tal' },
+        { id: 'g2-mult-sec-7', label: '6. Szorzás 7-tel' },
+        { id: 'g2-mult-sec-8', label: '7. Szorzás 8-cal' },
+        { id: 'g2-mult-sec-9', label: '8. Szorzás 9-cel' },
+        { id: 'g2-mult-sec-10', label: '9. Szorzás 10-zel' }
+      ];
+    } else if (t.id === 'g2-division') {
+      subsections = [
+        { id: 'g2-div-sec-2', label: '1. Osztás 2-vel' },
+        { id: 'g2-div-sec-3', label: '2. Osztás 3-mal' },
+        { id: 'g2-div-sec-4', label: '3. Osztás 4-gyel' },
+        { id: 'g2-div-sec-5', label: '4. Osztás 5-tel' },
+        { id: 'g2-div-sec-6', label: '5. Osztás 6-tal' },
+        { id: 'g2-div-sec-7', label: '6. Osztás 7-tel' },
+        { id: 'g2-div-sec-8', label: '7. Osztás 8-cal' },
+        { id: 'g2-div-sec-9', label: '8. Osztás 9-cel' },
+        { id: 'g2-div-sec-10', label: '9. Osztás 10-zel' }
+      ];
+    } else if (t.id === 'g2-geometry') {
+      subsections = [
+        { id: 'g2-geo-sec-1', label: '1. Bevezető' },
+        { id: 'g2-geo-sec-2', label: '2. Testek, síkidomok' },
+        { id: 'g2-geo-sec-3', label: '3. Szimmetria, tükrözés' }
+      ];
+    } else if (t.id === 'g2-measurements') {
+      subsections = [
+        { id: 'g2-meas-sec-1', label: '1. Hosszúság mérés' },
+        { id: 'g2-meas-sec-2', label: '2. Tömeg mérés' },
+        { id: 'g2-meas-sec-3', label: '3. Űrtartalom mérés' }
+      ];
+    } else if (t.id === 'g3-count-100') {
       subsections = [
         { id: 'g3-count-sec-1', label: '1. Számok 100-ig' },
         { id: 'g3-count-sec-2', label: '2. Összeadás és kivonás' },
