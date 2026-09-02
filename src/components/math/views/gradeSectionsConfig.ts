@@ -15,6 +15,69 @@ export interface NavTopicItem {
 }
 
 export const sectionToTopicMap: Record<string, string> = {
+  // Grade 1
+  'g1-prep-period': 'g1-prep-period',
+  'g1-prep-sec-1': 'g1-prep-period',
+  'g1-prep-sec-2': 'g1-prep-period',
+  'g1-prep-sec-3': 'g1-prep-period',
+  'g1-prep-sec-4': 'g1-prep-period',
+  'g1-prep-sec-5': 'g1-prep-period',
+  'g1-prep-sec-6': 'g1-prep-period',
+  'g1-prep-sec-7': 'g1-prep-period',
+  'g1-prep-sec-8': 'g1-prep-period',
+  'g1-numbers-to-5': 'g1-numbers-to-5',
+  'g1-count5-sec-1': 'g1-numbers-to-5',
+  'g1-count5-sec-2': 'g1-numbers-to-5',
+  'g1-count5-sec-3': 'g1-numbers-to-5',
+  'g1-count5-sec-4': 'g1-numbers-to-5',
+  'g1-count5-sec-5': 'g1-numbers-to-5',
+  'g1-count5-sec-6': 'g1-numbers-to-5',
+  'g1-count5-sec-7': 'g1-numbers-to-5',
+  'g1-count5-sec-8': 'g1-numbers-to-5',
+  'g1-count5-sec-9': 'g1-numbers-to-5',
+  'g1-numbers-to-10': 'g1-numbers-to-10',
+  'g1-count10-sec-1': 'g1-numbers-to-10',
+  'g1-count10-sec-2': 'g1-numbers-to-10',
+  'g1-count10-sec-3': 'g1-numbers-to-10',
+  'g1-count10-sec-4': 'g1-numbers-to-10',
+  'g1-count10-sec-5': 'g1-numbers-to-10',
+  'g1-count10-sec-6': 'g1-numbers-to-10',
+  'g1-count10-sec-7': 'g1-numbers-to-10',
+  'g1-count10-sec-8': 'g1-numbers-to-10',
+  'g1-count10-sec-9': 'g1-numbers-to-10',
+  'g1-count10-sec-10': 'g1-numbers-to-10',
+  'g1-count10-sec-11': 'g1-numbers-to-10',
+  'g1-count10-sec-12': 'g1-numbers-to-10',
+  'g1-count10-sec-13': 'g1-numbers-to-10',
+  'g1-count10-sec-14': 'g1-numbers-to-10',
+  'g1-count10-sec-15': 'g1-numbers-to-10',
+  'g1-count10-sec-16': 'g1-numbers-to-10',
+  'g1-count10-sec-17': 'g1-numbers-to-10',
+  'g1-count10-sec-18': 'g1-numbers-to-10',
+  'g1-count10-sec-19': 'g1-numbers-to-10',
+  'g1-count10-sec-20': 'g1-numbers-to-10',
+  'g1-geometry': 'g1-geometry',
+  'g1-geo-sec-1': 'g1-geometry',
+  'g1-geo-sec-2': 'g1-geometry',
+  'g1-geo-sec-3': 'g1-geometry',
+  'g1-measurements': 'g1-measurements',
+  'g1-meas-sec-1': 'g1-measurements',
+  'g1-meas-sec-2': 'g1-measurements',
+  'g1-meas-sec-3': 'g1-measurements',
+  'g1-meas-sec-4': 'g1-measurements',
+  'g1-numbers-to-20': 'g1-numbers-to-20',
+  'g1-count20-sec-1': 'g1-numbers-to-20',
+  'g1-count20-sec-2': 'g1-numbers-to-20',
+  'g1-count20-sec-3': 'g1-numbers-to-20',
+  'g1-count20-sec-4': 'g1-numbers-to-20',
+  'g1-count20-sec-5': 'g1-numbers-to-20',
+  'g1-count20-sec-6': 'g1-numbers-to-20',
+  'g1-count20-sec-7': 'g1-numbers-to-20',
+  'g1-count20-sec-8': 'g1-numbers-to-20',
+  'g1-count20-sec-9': 'g1-numbers-to-20',
+  'g1-count20-sec-10': 'g1-numbers-to-20',
+  'g1-count20-sec-11': 'g1-numbers-to-20',
+
   // Grade 2
   'g2-numbers-to-20': 'g2-numbers-to-20',
   'g2-count20-sec-1': 'g2-numbers-to-20',
@@ -392,8 +455,81 @@ export function getGradeSubsections(
   filtered.forEach(t => {
     let subsections: SubsectionItem[] = [];
 
-    // Grade 2 Subsections
-    if (t.id === 'g2-numbers-to-20') {
+    // Grade 1 Subsections
+    if (t.id === 'g1-prep-period') {
+      subsections = [
+        { id: 'g1-prep-sec-1', label: '1. Válogatások' },
+        { id: 'g1-prep-sec-2', label: '2. Összehasonlítások' },
+        { id: 'g1-prep-sec-3', label: '3. Logikai lapok' },
+        { id: 'g1-prep-sec-4', label: '4. Pálcikák és korongok' },
+        { id: 'g1-prep-sec-5', label: '5. Színesrúd-készlet' },
+        { id: 'g1-prep-sec-6', label: '6. Tájékozódás' },
+        { id: 'g1-prep-sec-7', label: '7. Számlálások' },
+        { id: 'g1-prep-sec-8', label: '8. Több, kevesebb, ugyanannyi' }
+      ];
+    } else if (t.id === 'g1-numbers-to-5') {
+      subsections = [
+        { id: 'g1-count5-sec-1', label: '1. Az egy' },
+        { id: 'g1-count5-sec-2', label: '2. A kettő' },
+        { id: 'g1-count5-sec-3', label: '3. A nulla' },
+        { id: 'g1-count5-sec-4', label: '4. A három' },
+        { id: 'g1-count5-sec-5', label: '5. A négy' },
+        { id: 'g1-count5-sec-6', label: '6. Az öt' },
+        { id: 'g1-count5-sec-7', label: '7. Összeadás 0-tól 5-ig' },
+        { id: 'g1-count5-sec-8', label: '8. Kivonás 0-tól 5-ig' },
+        { id: 'g1-count5-sec-9', label: '9. Megálló' }
+      ];
+    } else if (t.id === 'g1-numbers-to-10') {
+      subsections = [
+        { id: 'g1-count10-sec-1', label: '1. A hat' },
+        { id: 'g1-count10-sec-2', label: '2. Számolás 0-tól 6-ig' },
+        { id: 'g1-count10-sec-3', label: '3. Páros és páratlan számok' },
+        { id: 'g1-count10-sec-4', label: '4. Megálló' },
+        { id: 'g1-count10-sec-5', label: '5. A hét' },
+        { id: 'g1-count10-sec-6', label: '6. Számolás 0-tól 7-ig' },
+        { id: 'g1-count10-sec-7', label: '7. Számszomszédok' },
+        { id: 'g1-count10-sec-8', label: '8. Megálló' },
+        { id: 'g1-count10-sec-9', label: '9. A nyolc' },
+        { id: 'g1-count10-sec-10', label: '10. Számolás 0-tól 8-ig' },
+        { id: 'g1-count10-sec-11', label: '11. Nyitott mondatok' },
+        { id: 'g1-count10-sec-12', label: '12. Megálló' },
+        { id: 'g1-count10-sec-13', label: '13. A kilenc' },
+        { id: 'g1-count10-sec-14', label: '14. Számolás 0-tól 9-ig' },
+        { id: 'g1-count10-sec-15', label: '15. A sorszámnevek' },
+        { id: 'g1-count10-sec-16', label: '16. Megálló' },
+        { id: 'g1-count10-sec-17', label: '17. A tíz' },
+        { id: 'g1-count10-sec-18', label: '18. Számolás 0-tól 10-ig' },
+        { id: 'g1-count10-sec-19', label: '19. Szöveges feladatok' },
+        { id: 'g1-count10-sec-20', label: '20. Megálló' }
+      ];
+    } else if (t.id === 'g1-geometry') {
+      subsections = [
+        { id: 'g1-geo-sec-1', label: '1. Vonalak' },
+        { id: 'g1-geo-sec-2', label: '2. Síkidomok' },
+        { id: 'g1-geo-sec-3', label: '3. Testek' }
+      ];
+    } else if (t.id === 'g1-measurements') {
+      subsections = [
+        { id: 'g1-meas-sec-1', label: '1. A hosszúság mérése' },
+        { id: 'g1-meas-sec-2', label: '2. A tömeg mérése' },
+        { id: 'g1-meas-sec-3', label: '3. Az űrtartalom mérése' },
+        { id: 'g1-meas-sec-4', label: '4. Az idő mérése' }
+      ];
+    } else if (t.id === 'g1-numbers-to-20') {
+      subsections = [
+        { id: 'g1-count20-sec-1', label: '1. A tizenegy' },
+        { id: 'g1-count20-sec-2', label: '2. A tizenkettő' },
+        { id: 'g1-count20-sec-3', label: '3. A tizenhárom' },
+        { id: 'g1-count20-sec-4', label: '4. A tizennégy' },
+        { id: 'g1-count20-sec-5', label: '5. A tizenöt' },
+        { id: 'g1-count20-sec-6', label: '6. A tizenhat' },
+        { id: 'g1-count20-sec-7', label: '7. A tizenhét' },
+        { id: 'g1-count20-sec-8', label: '8. A tizennyolc' },
+        { id: 'g1-count20-sec-9', label: '9. A tizenkilenc' },
+        { id: 'g1-count20-sec-10', label: '10. A húsz' },
+        { id: 'g1-count20-sec-11', label: '11. Számolás 20-ig' }
+      ];
+    } else if (t.id === 'g2-numbers-to-20') {
       subsections = [
         { id: 'g2-count20-sec-1', label: '1. Számok 0-tól 20-ig' },
         { id: 'g2-count20-sec-2', label: '2. Összeadás 10-es számkör' },
