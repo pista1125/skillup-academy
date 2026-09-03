@@ -647,7 +647,7 @@ export const mathTopics: MathTopic[] = [
   {
     id: 'g9-szamok-vilaga',
     title: 'II. A SZÁMOK VILÁGA',
-    description: 'Számhalmazok, hatványozás, gyökvonás, oszthatóság és számelméleti alapok',
+    description: 'Számhalmazok, műveletek törtekkel, arányosság, százalék, hatványozás, négyzetgyök, normálalak és kamatos kamat',
     icon: '🔢',
     color: 'from-amber-500 to-orange-600',
     grades: ['high-1', 9],
@@ -655,7 +655,7 @@ export const mathTopics: MathTopic[] = [
   {
     id: 'g9-egyenletek-azonossagok',
     title: 'III. EGYENLETEK ÉS AZONOSSÁGOK',
-    description: 'Nevezetes azonosságok, algebrai kifejezések, elsőfokú és másodfokú egyenletek',
+    description: 'Algebrai kifejezések, nevezetes azonosságok, szorzattá alakítás, egyenletek, mérlegelv és elsőfokú kétismeretlenes egyenletrendszerek',
     icon: '🔤',
     color: 'from-purple-500 to-purple-600',
     grades: ['high-1', 9],
@@ -663,7 +663,7 @@ export const mathTopics: MathTopic[] = [
   {
     id: 'g9-bevezetes-geometriaba',
     title: 'IV. BEVEZETÉS A GEOMETRIÁBA',
-    description: 'Geometriai alapfogalmak, szögek, háromszögek, szerkesztések és tételek',
+    description: 'Síkgeometriai alapfogalmak, háromszögek, Pitagorasz-tétel, távolságok, a kör, nevezetes vonalak, Thalész-tétel és területszámítás',
     icon: '📐',
     color: 'from-green-500 to-green-600',
     grades: ['high-1', 9],
@@ -671,7 +671,7 @@ export const mathTopics: MathTopic[] = [
   {
     id: 'g9-fuggvenyek',
     title: 'V. FÜGGVÉNYEK',
-    description: 'Függvény fogalma, ábrázolása, jellemezése, lineáris és hatványfüggvények',
+    description: 'Táblázatok, diagramok, függvény fogalma, egyenes és fordított arányosság, lineáris, abszolútérték- és másodfokú függvények, jellemzés, szélsőértékek és grafikus egyenletmegoldás',
     icon: '📈',
     color: 'from-cyan-500 to-blue-500',
     grades: ['high-1', 9],
@@ -679,7 +679,7 @@ export const mathTopics: MathTopic[] = [
   {
     id: 'g9-egybevagosag-negyszogek',
     title: 'VI. EGYBEVÁGÓSÁG, NÉGYSZÖGEK',
-    description: 'Egybevágósági transzformációk, négyszögek tulajdonságai és sokszögek',
+    description: 'Forgatás, középpontos és tengelyes tükrözés, vektorok és eltolás, szerkesztések, szimmetrikus négyszögek és területszámítás',
     icon: '🔄',
     color: 'from-rose-500 to-pink-600',
     grades: ['high-1', 9],

@@ -419,7 +419,92 @@ export const sectionToTopicMap: Record<string, string> = {
   'g8-sec-solids-gula-szamitas': 'g8-solids',
   'g8-sec-solids-gomb': 'g8-solids',
   'g8-sec-solids-fold': 'g8-solids',
-  'g8-sec-solids-osszefoglalas': 'g8-solids'
+  'g8-sec-solids-osszefoglalas': 'g8-solids',
+
+  // Grade 9
+  'g9-kombinatorika-halmazok': 'g9-kombinatorika-halmazok',
+  'g9-sec-hanyfelekeppen': 'g9-kombinatorika-halmazok',
+  'g9-sec-grafok': 'g9-kombinatorika-halmazok',
+  'g9-sec-szamzarak': 'g9-kombinatorika-halmazok',
+  'g9-sec-osszeszamlalas': 'g9-kombinatorika-halmazok',
+  'g9-sec-gyakorlas-kombi': 'g9-kombinatorika-halmazok',
+  'g9-sec-halmazok': 'g9-kombinatorika-halmazok',
+  'g9-sec-halmaz-muveletek': 'g9-kombinatorika-halmazok',
+  'g9-sec-szitaformula': 'g9-kombinatorika-halmazok',
+  'g9-sec-intervallumok': 'g9-kombinatorika-halmazok',
+  'g9-sec-gyakorlas-halmaz': 'g9-kombinatorika-halmazok',
+  'g9-sec-tudasproba': 'g9-kombinatorika-halmazok',
+
+  'g9-szamok-vilaga': 'g9-szamok-vilaga',
+  'g9-sec-muveletek-szamhalmazokban': 'g9-szamok-vilaga',
+  'g9-sec-szamolas-tortekkel': 'g9-szamok-vilaga',
+  'g9-sec-racionalis-irracionalis': 'g9-szamok-vilaga',
+  'g9-sec-aranyossag': 'g9-szamok-vilaga',
+  'g9-sec-aranyos-osztas': 'g9-szamok-vilaga',
+  'g9-sec-szazalekszamitas': 'g9-szamok-vilaga',
+  'g9-sec-hatvanyozas': 'g9-szamok-vilaga',
+  'g9-sec-gyakorlas-hatvany': 'g9-szamok-vilaga',
+  'g9-sec-negyzetgyok': 'g9-szamok-vilaga',
+  'g9-sec-szamok-normalalakja': 'g9-szamok-vilaga',
+  'g9-sec-szamolas-normalalakkal': 'g9-szamok-vilaga',
+  'g9-sec-kamatos-kamat': 'g9-szamok-vilaga',
+  'g9-sec-tudasproba-szamok': 'g9-szamok-vilaga',
+
+  'g9-egyenletek-azonossagok': 'g9-egyenletek-azonossagok',
+  'g9-sec-betuk-szerepe': 'g9-egyenletek-azonossagok',
+  'g9-sec-algebrai-szamolas': 'g9-egyenletek-azonossagok',
+  'g9-sec-nevezetes-szorzatok': 'g9-egyenletek-azonossagok',
+  'g9-sec-szorzatta-alakitas': 'g9-egyenletek-azonossagok',
+  'g9-sec-egyenletek-alap': 'g9-egyenletek-azonossagok',
+  'g9-sec-problemamegoldas-egyenletekkel': 'g9-egyenletek-azonossagok',
+  'g9-sec-alaphalmaz-megoldashalmaz': 'g9-egyenletek-azonossagok',
+  'g9-sec-egyenletek-megoldasa': 'g9-egyenletek-azonossagok',
+  'g9-sec-ketismeretlenes-egyenletrendszer': 'g9-egyenletek-azonossagok',
+
+  'g9-bevezetes-geometriaba': 'g9-bevezetes-geometriaba',
+  'g9-sec-sik-geometria': 'g9-bevezetes-geometriaba',
+  'g9-sec-altalanos-szimmetrikus-haromszogek': 'g9-bevezetes-geometriaba',
+  'g9-sec-pitagorasz': 'g9-bevezetes-geometriaba',
+  'g9-sec-kulonleges-derekszogu': 'g9-bevezetes-geometriaba',
+  'g9-sec-tavolsagok': 'g9-bevezetes-geometriaba',
+  'g9-sec-a-kor': 'g9-bevezetes-geometriaba',
+  'g9-sec-nevezetes-vonalak-1': 'g9-bevezetes-geometriaba',
+  'g9-sec-nevezetes-vonalak-2': 'g9-bevezetes-geometriaba',
+  'g9-sec-gyakorlas-geom': 'g9-bevezetes-geometriaba',
+  'g9-sec-thalesz': 'g9-bevezetes-geometriaba',
+  'g9-sec-thalesz-alkalmazas': 'g9-bevezetes-geometriaba',
+  'g9-sec-haromszog-kerulet-terulet': 'g9-bevezetes-geometriaba',
+  'g9-sec-tudasproba-geom': 'g9-bevezetes-geometriaba',
+
+  'g9-fuggvenyek': 'g9-fuggvenyek',
+  'g9-sec-tablazatok': 'g9-fuggvenyek',
+  'g9-sec-diagramok': 'g9-fuggvenyek',
+  'g9-sec-valtozasok-abrazolasa': 'g9-fuggvenyek',
+  'g9-sec-grafikonok-mindennapokban': 'g9-fuggvenyek',
+  'g9-sec-fuggveny-fogalma': 'g9-fuggvenyek',
+  'g9-sec-keszitsunk-grafikont': 'g9-fuggvenyek',
+  'g9-sec-aranyossagok-fuggvenye': 'g9-fuggvenyek',
+  'g9-sec-egyenesek-meredeksege': 'g9-fuggvenyek',
+  'g9-sec-linearis-fuggvenyek': 'g9-fuggvenyek',
+  'g9-sec-abszolut-fuggveny': 'g9-fuggvenyek',
+  'g9-sec-fuggvenyek-jellemzese': 'g9-fuggvenyek',
+  'g9-sec-szelsoertekek': 'g9-fuggvenyek',
+  'g9-sec-masodfoku-negyzetgyok': 'g9-fuggvenyek',
+  'g9-sec-fuggveny-gyakorlat': 'g9-fuggvenyek',
+  'g9-sec-egyenletek-grafikus': 'g9-fuggvenyek',
+  'g9-sec-egyenlotlensegek': 'g9-fuggvenyek',
+  'g9-sec-abszolut-egyenletek': 'g9-fuggvenyek',
+  'g9-sec-tudasproba-fuggveny': 'g9-fuggvenyek',
+
+  'g9-egybevagosag-negyszogek': 'g9-egybevagosag-negyszogek',
+  'g9-sec-forgatas-kozeppontos-tukrozes': 'g9-egybevagosag-negyszogek',
+  'g9-sec-vektorok-eltolas': 'g9-egybevagosag-negyszogek',
+  'g9-sec-tengelyes-tukrozes': 'g9-egybevagosag-negyszogek',
+  'g9-sec-szerkesztesek': 'g9-egybevagosag-negyszogek',
+  'g9-sec-transzformaciok-gyakorlatban': 'g9-egybevagosag-negyszogek',
+  'g9-sec-szimmetrikus-negyszogek': 'g9-egybevagosag-negyszogek',
+  'g9-sec-negyszogek-terulete': 'g9-egybevagosag-negyszogek',
+  'g9-sec-tudasproba-negyszogek': 'g9-egybevagosag-negyszogek'
 };
 
 export function getGradeSubsections(
@@ -1045,6 +1130,96 @@ export function getGradeSubsections(
         { id: 'g8-sec-solids-gomb', label: '4. A gömb' },
         { id: 'g8-sec-solids-fold', label: '5. A Föld' },
         { id: 'g8-sec-solids-osszefoglalas', label: '6. Összefoglalás' }
+      ];
+    } else if (t.id === 'g9-kombinatorika-halmazok') {
+      subsections = [
+        { id: 'g9-sec-hanyfelekeppen', label: '1. Hányféleképpen lehet?' },
+        { id: 'g9-sec-grafok', label: '2. Gráfok' },
+        { id: 'g9-sec-szamzarak', label: '3. Számzárak' },
+        { id: 'g9-sec-osszeszamlalas', label: '4. Folytatjuk az összeszámlálást' },
+        { id: 'g9-sec-gyakorlas-kombi', label: '5. Gyakorlás' },
+        { id: 'g9-sec-halmazok', label: '6. Halmazok' },
+        { id: 'g9-sec-halmaz-muveletek', label: '7. Halmazok uniója, metszete, különbsége' },
+        { id: 'g9-sec-szitaformula', label: '8. A szitaformula' },
+        { id: 'g9-sec-intervallumok', label: '9. Intervallumok' },
+        { id: 'g9-sec-gyakorlas-halmaz', label: '10. Gyakorlás' },
+        { id: 'g9-sec-tudasproba', label: '11. Gyakorlás, tudáspróba' }
+      ];
+    } else if (t.id === 'g9-szamok-vilaga') {
+      subsections = [
+        { id: 'g9-sec-muveletek-szamhalmazokban', label: '1. Műveletek számhalmazokban' },
+        { id: 'g9-sec-szamolas-tortekkel', label: '2. Számolás törtekkel' },
+        { id: 'g9-sec-racionalis-irracionalis', label: '3. Racionális és irracionális számok' },
+        { id: 'g9-sec-aranyossag', label: '4. Arányosság' },
+        { id: 'g9-sec-aranyos-osztas', label: '5. Arányos osztás' },
+        { id: 'g9-sec-szazalekszamitas', label: '6. Százalékszámítás' },
+        { id: 'g9-sec-hatvanyozas', label: '7. Hatványozás' },
+        { id: 'g9-sec-gyakorlas-hatvany', label: '8. Gyakorlás' },
+        { id: 'g9-sec-negyzetgyok', label: '9. A négyzetgyök' },
+        { id: 'g9-sec-szamok-normalalakja', label: '10. Számok normálalakja' },
+        { id: 'g9-sec-szamolas-normalalakkal', label: '11. Számolás normálalakkal' },
+        { id: 'g9-sec-kamatos-kamat', label: '12. Kamatos kamat' },
+        { id: 'g9-sec-tudasproba-szamok', label: '13. Gyakorlás, tudáspróba' }
+      ];
+    } else if (t.id === 'g9-egyenletek-azonossagok') {
+      subsections = [
+        { id: 'g9-sec-betuk-szerepe', label: '1. A betűk szerepe a számolásban' },
+        { id: 'g9-sec-algebrai-szamolas', label: '2. Számolás az algebrában' },
+        { id: 'g9-sec-nevezetes-szorzatok', label: '3. Nevezetes szorzatok' },
+        { id: 'g9-sec-szorzatta-alakitas', label: '4. Szorzattá alakítás' },
+        { id: 'g9-sec-egyenletek-alap', label: '5. Egyenletek' },
+        { id: 'g9-sec-problemamegoldas-egyenletekkel', label: '6. Problémamegoldás egyenletekkel' },
+        { id: 'g9-sec-alaphalmaz-megoldashalmaz', label: '7. Alaphalmaz, értelmezési tartomány, megoldáshalmaz' },
+        { id: 'g9-sec-egyenletek-megoldasa', label: '8. Egyenletek megoldása' },
+        { id: 'g9-sec-ketismeretlenes-egyenletrendszer', label: '9. Elsőfokú kétismeretlenes egyenletrendszer' }
+      ];
+    } else if (t.id === 'g9-bevezetes-geometriaba') {
+      subsections = [
+        { id: 'g9-sec-sik-geometria', label: '1. A sík geometriája' },
+        { id: 'g9-sec-altalanos-szimmetrikus-haromszogek', label: '2. Általános és szimmetrikus háromszögek' },
+        { id: 'g9-sec-pitagorasz', label: '3. Pitagorasz tétele' },
+        { id: 'g9-sec-kulonleges-derekszogu', label: '4. Különleges derékszögű háromszögek' },
+        { id: 'g9-sec-tavolsagok', label: '5. Távolságok' },
+        { id: 'g9-sec-a-kor', label: '6. A kör' },
+        { id: 'g9-sec-nevezetes-vonalak-1', label: '7. A háromszög nevezetes vonalai és pontjai I.' },
+        { id: 'g9-sec-nevezetes-vonalak-2', label: '8. A háromszög nevezetes vonalai és pontjai II.' },
+        { id: 'g9-sec-gyakorlas-geom', label: '9. Gyakorlás' },
+        { id: 'g9-sec-thalesz', label: '10. Thalész tétele' },
+        { id: 'g9-sec-thalesz-alkalmazas', label: '11. A Thalész-tétel alkalmazásai' },
+        { id: 'g9-sec-haromszog-kerulet-terulet', label: '12. Háromszögek kerülete és területe' },
+        { id: 'g9-sec-tudasproba-geom', label: '13. Gyakorlás, tudáspróba' }
+      ];
+    } else if (t.id === 'g9-fuggvenyek') {
+      subsections = [
+        { id: 'g9-sec-tablazatok', label: '1. Táblázatok' },
+        { id: 'g9-sec-diagramok', label: '2. Diagramok' },
+        { id: 'g9-sec-valtozasok-abrazolasa', label: '3. Változások ábrázolása' },
+        { id: 'g9-sec-grafikonok-mindennapokban', label: '4. Grafikonok a mindennapokban' },
+        { id: 'g9-sec-fuggveny-fogalma', label: '5. A függvény fogalma' },
+        { id: 'g9-sec-keszitsunk-grafikont', label: '6. Készítsünk grafikont!' },
+        { id: 'g9-sec-aranyossagok-fuggvenye', label: '7. Az egyenes arányosság és a fordított arányosság függvénye' },
+        { id: 'g9-sec-egyenesek-meredeksege', label: '8. Egyenesek meredeksége' },
+        { id: 'g9-sec-linearis-fuggvenyek', label: '9. Lineáris függvények' },
+        { id: 'g9-sec-abszolut-fuggveny', label: '10. Abszolútérték-függvény' },
+        { id: 'g9-sec-fuggvenyek-jellemzese', label: '11. Függvények jellemzése' },
+        { id: 'g9-sec-szelsoertekek', label: '12. Szélsőértékek' },
+        { id: 'g9-sec-masodfoku-negyzetgyok', label: '13. Másodfokú függvény és a négyzetgyök-függvény' },
+        { id: 'g9-sec-fuggveny-gyakorlat', label: '14. Gyakorlati feladatok' },
+        { id: 'g9-sec-egyenletek-grafikus', label: '15. Egyenletek grafikus megoldása' },
+        { id: 'g9-sec-egyenlotlensegek', label: '16. Egyenlőtlenségek' },
+        { id: 'g9-sec-abszolut-egyenletek', label: '17. Abszolút értékes egyenletek' },
+        { id: 'g9-sec-tudasproba-fuggveny', label: '18. Gyakorlás, tudáspróba' }
+      ];
+    } else if (t.id === 'g9-egybevagosag-negyszogek') {
+      subsections = [
+        { id: 'g9-sec-forgatas-kozeppontos-tukrozes', label: '1. Forgatás és középpontos tükrözés' },
+        { id: 'g9-sec-vektorok-eltolas', label: '2. Vektorok és az eltolás' },
+        { id: 'g9-sec-tengelyes-tukrozes', label: '3. Tengelyes tükrözés' },
+        { id: 'g9-sec-szerkesztesek', label: '4. Szerkesztések' },
+        { id: 'g9-sec-transzformaciok-gyakorlatban', label: '5. Egybevágósági transzformációk a gyakorlatban' },
+        { id: 'g9-sec-szimmetrikus-negyszogek', label: '6. Szimmetrikus négyszögek' },
+        { id: 'g9-sec-negyszogek-terulete', label: '7. Nevezetes négyszögek területe' },
+        { id: 'g9-sec-tudasproba-negyszogek', label: '8. Gyakorlás, tudáspróba' }
       ];
     }
 
