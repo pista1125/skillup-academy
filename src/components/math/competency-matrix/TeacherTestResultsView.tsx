@@ -153,27 +153,49 @@ export default function TeacherTestResultsView({ onBackToBrowse }: TeacherTestRe
     return allIds;
   }, [teacherClasses, classFilter]);
 
-  // Filtered and sorted submissions strictly by teacher's classes
-  const filteredSubmissions = useMemo(() => {
+  // Base submissions accessible to this teacher (accounting for classFilter and enrolled students)
+  const teacherClassSubmissions = useMemo(() => {
     let list = [...submissions];
 
     // Privacy filter: If teacher has classes, filter to their enrolled students
     if (teacherClasses.length > 0) {
       list = list.filter(s => {
         if (allowedStudentIds.has(s.userId)) return true;
-        // Fallback: check matching email or code in enrolled students
+        // Fallback: check matching email or name in enrolled students
         return teacherClasses.some(c => 
           (classFilter === 'all' || c.id === classFilter) &&
           c.students?.some(st => 
+            (st.userId && s.userId && st.userId === s.userId) ||
             (st.email && s.studentEmail && st.email.toLowerCase() === s.studentEmail.toLowerCase()) ||
             (st.name && s.studentName && st.name.toLowerCase() === s.studentName.toLowerCase())
           )
         );
       });
     } else if (!isMainAdmin) {
-      // Non-admin teacher with no enrolled classes yet
+      // Non-admin teacher with no enrolled classes yet -> 0 visible submissions
       list = [];
     }
+
+    return list;
+  }, [submissions, teacherClasses, allowedStudentIds, isMainAdmin, classFilter]);
+
+  // Summary statistics calculated strictly from the teacher's visible student submissions
+  const stats = useMemo(() => {
+    const totalCount = teacherClassSubmissions.length;
+    if (totalCount === 0) return { totalCount: 0, completedCount: 0, inProgressCount: 0, uniqueStudents: 0, avgPercentage: 0, maxScore: 0 };
+
+    const completedCount = teacherClassSubmissions.filter(s => s.status === 'completed' || !s.status).length;
+    const inProgressCount = teacherClassSubmissions.filter(s => s.status === 'in_progress').length;
+    const uniqueStudents = new Set(teacherClassSubmissions.map(s => s.userId || s.studentEmail || s.studentName)).size;
+    const avgPercentage = Math.round(teacherClassSubmissions.reduce((acc, s) => acc + (s.percentage || 0), 0) / totalCount);
+    const maxScore = Math.max(...teacherClassSubmissions.map(s => s.score || 0));
+
+    return { totalCount, completedCount, inProgressCount, uniqueStudents, avgPercentage, maxScore };
+  }, [teacherClassSubmissions]);
+
+  // Filtered and sorted submissions applying UI filters (testFilter, statusFilter, searchQuery, sortBy)
+  const filteredSubmissions = useMemo(() => {
+    let list = [...teacherClassSubmissions];
 
     if (testFilter !== 'all') {
       list = list.filter(s => s.testId === testFilter);
@@ -215,21 +237,7 @@ export default function TeacherTestResultsView({ onBackToBrowse }: TeacherTestRe
     });
 
     return list;
-  }, [submissions, teacherClasses, allowedStudentIds, isMainAdmin, classFilter, testFilter, statusFilter, searchQuery, sortBy]);
-
-  // Summary statistics
-  const stats = useMemo(() => {
-    const totalCount = submissions.length;
-    if (totalCount === 0) return { totalCount: 0, completedCount: 0, inProgressCount: 0, uniqueStudents: 0, avgPercentage: 0, maxScore: 0 };
-
-    const completedCount = submissions.filter(s => s.status === 'completed' || !s.status).length;
-    const inProgressCount = submissions.filter(s => s.status === 'in_progress').length;
-    const uniqueStudents = new Set(submissions.map(s => s.userId || s.studentEmail || s.studentName)).size;
-    const avgPercentage = Math.round(submissions.reduce((acc, s) => acc + (s.percentage || 0), 0) / totalCount);
-    const maxScore = Math.max(...submissions.map(s => s.score || 0));
-
-    return { totalCount, completedCount, inProgressCount, uniqueStudents, avgPercentage, maxScore };
-  }, [submissions]);
+  }, [teacherClassSubmissions, testFilter, statusFilter, searchQuery, sortBy]);
 
   const formatDuration = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -485,10 +493,10 @@ export default function TeacherTestResultsView({ onBackToBrowse }: TeacherTestRe
         <div className="empty-state" style={{ padding: 48, textAlign: 'center' }}>
           <BookOpen className="w-10 h-10 mx-auto mb-3 text-slate-400" />
           <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--text)', marginBottom: 4 }}>
-            {submissions.length === 0 ? 'Még nem érkezett kitöltés ebből az osztályból' : 'Nincs a szűrésnek megfelelő kitöltés'}
+            {teacherClassSubmissions.length === 0 ? 'Még nem érkezett kitöltés ebből az osztályból' : 'Nincs a szűrésnek megfelelő kitöltés'}
           </div>
           <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>
-            {submissions.length === 0 
+            {teacherClassSubmissions.length === 0 
               ? 'Amikor a diákjaid elkezdenek vagy beküldenek egy próbamérést, az eredményeik itt fognak megjelenni.'
               : 'Próbáld meg módosítani a fenti osztályszűrőt, a próbamérést vagy a keresési feltételt.'}
           </div>
