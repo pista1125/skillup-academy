@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { 
@@ -6,12 +6,15 @@ import {
   Crown, 
   Trophy,
   Users,
-  Cpu
+  Cpu,
+  Maximize2,
+  Minimize2
 } from 'lucide-react';
 import ChessBoardUI from "./ChessBoardUI";
 import ChessLobby from "./ChessLobby";
 import { ChessService } from '@/lib/chess/ChessService';
 import { toast } from 'sonner';
+import { cn } from '@/lib/utils';
 
 interface ChessGameProps {
   onBack?: () => void;
@@ -19,6 +22,8 @@ interface ChessGameProps {
 
 export default function ChessGame({ onBack }: ChessGameProps) {
   const [gameState, setGameState] = useState<'lobby' | 'playing'>('lobby');
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [matchOptions, setMatchOptions] = useState<{
     mode: 'ai' | 'friend';
     difficulty?: number;
@@ -27,6 +32,30 @@ export default function ChessGame({ onBack }: ChessGameProps) {
     matchId?: string;
     isWhite?: boolean;
   }>({ mode: 'ai' });
+
+  useEffect(() => {
+    const handleFsChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', handleFsChange);
+    return () => document.removeEventListener('fullscreenchange', handleFsChange);
+  }, []);
+
+  const toggleFullscreen = async () => {
+    if (!document.fullscreenElement) {
+      try {
+        if (containerRef.current?.requestFullscreen) {
+          await containerRef.current.requestFullscreen();
+        }
+      } catch (e) {
+        toast.error('A teljes képernyős mód nem indítható el ebben a böngészőben.');
+      }
+    } else {
+      if (document.exitFullscreen) {
+        await document.exitFullscreen().catch(() => {});
+      }
+    }
+  };
 
   const handleStartGame = async (mode: 'ai' | 'friend', options: any) => {
     if (mode === 'friend') {
@@ -76,9 +105,15 @@ export default function ChessGame({ onBack }: ChessGameProps) {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 p-4 md:p-8">
+    <div 
+      ref={containerRef}
+      className={cn(
+        "min-h-screen bg-slate-50 dark:bg-slate-950 p-4 md:p-8 flex flex-col transition-all",
+        isFullscreen && "p-4 md:p-6 overflow-y-auto"
+      )}
+    >
       {/* Header */}
-      <div className="max-w-6xl mx-auto mb-8 flex items-center justify-between">
+      <div className="max-w-6xl mx-auto mb-6 flex items-center justify-between w-full">
         <Button 
           variant="ghost" 
           onClick={gameState === 'lobby' ? onBack : () => setGameState('lobby')}
@@ -97,16 +132,28 @@ export default function ChessGame({ onBack }: ChessGameProps) {
           </h1>
         </div>
 
-        <div className="hidden md:flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-          <Trophy size={16} className="text-amber-500" />
-          <span className="text-sm font-bold text-slate-600 dark:text-slate-400">0 Pont</span>
+        <div className="flex items-center gap-2">
+          <div className="hidden md:flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+            <Trophy size={16} className="text-amber-500" />
+            <span className="text-sm font-bold text-slate-600 dark:text-slate-400">0 Pont</span>
+          </div>
+
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleFullscreen}
+            className="rounded-xl hover:bg-white dark:hover:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm text-slate-600 dark:text-slate-300 h-10 w-10"
+            title={isFullscreen ? "Kilépés a teljes képernyőből" : "Teljes képernyő"}
+          >
+            {isFullscreen ? <Minimize2 className="w-5 h-5" /> : <Maximize2 className="w-5 h-5" />}
+          </Button>
         </div>
       </div>
 
       {gameState === 'lobby' ? (
         <ChessLobby onStartGame={handleStartGame} />
       ) : (
-        <div className="animate-in fade-in zoom-in-95 duration-500">
+        <div className="animate-in fade-in zoom-in-95 duration-500 flex-1 flex flex-col justify-start">
           <ChessBoardUI 
             mode={matchOptions.mode}
             difficulty={matchOptions.difficulty}

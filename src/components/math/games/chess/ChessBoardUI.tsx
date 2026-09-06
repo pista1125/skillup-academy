@@ -51,8 +51,16 @@ export default function ChessBoardUI({
   const [isLoadingHint, setIsLoadingHint] = useState(false);
   const [hintSquares, setHintSquares] = useState<any>({});
   const hintEngineRef = useRef<ChessAI | null>(null);
+  const movesEndRef = useRef<HTMLDivElement>(null);
 
   const orientation = isWhite ? 'white' : 'black';
+
+  // Auto-scroll moves history to bottom on new move
+  useEffect(() => {
+    if (movesEndRef.current) {
+      movesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }, [moveHistory]);
 
   // Initialize AI engine
   useEffect(() => {
@@ -353,9 +361,9 @@ export default function ChessBoardUI({
   const currentTurn = game.turn() === 'w' ? 'Világos' : 'Sötét';
 
   return (
-    <div className="flex flex-col lg:flex-row gap-6 w-full max-w-6xl mx-auto">
+    <div className="flex flex-col lg:flex-row gap-6 w-full max-w-6xl mx-auto items-start justify-center">
       {/* Board Column */}
-      <div className="flex-1 flex justify-center items-center">
+      <div className="flex-1 w-full flex justify-center items-start self-start">
         <Card className="w-full max-w-[min(100%,75vh)] p-4 rounded-[2rem] border-slate-200 dark:border-slate-800 shadow-2xl bg-white dark:bg-slate-900 overflow-hidden relative transition-all duration-300">
           <div className="aspect-square relative mx-auto w-full">
             <Chessboard 
@@ -433,13 +441,13 @@ export default function ChessBoardUI({
             )}
           </div>
           
-          <div className="mt-4 flex justify-between items-center px-2">
+          <div className="mt-4 flex justify-between items-center px-2 min-h-[32px]">
             <div className="flex items-center gap-3">
               <div className={cn(
                 "w-3 h-3 rounded-full animate-pulse",
                 game.turn() === 'w' ? "bg-white border border-slate-300" : "bg-slate-900"
               )} />
-              <span className="font-bold text-slate-600 dark:text-slate-400">
+              <span className="font-bold text-slate-600 dark:text-slate-400 text-sm">
                 {currentTurn} következik
               </span>
             </div>
@@ -453,7 +461,7 @@ export default function ChessBoardUI({
       </div>
 
       {/* Info Column */}
-      <div className="w-full lg:w-80 flex flex-col gap-4">
+      <div className="w-full lg:w-80 flex flex-col gap-4 self-start">
         {/* Players Card */}
         <Card className="p-4 rounded-2xl border-slate-200 dark:border-slate-800 shadow-lg bg-white dark:bg-slate-900">
           <div className="flex flex-col gap-4">
@@ -479,27 +487,39 @@ export default function ChessBoardUI({
         </Card>
 
         {/* Moves Card */}
-        <Card className="flex-1 p-4 rounded-2xl border-slate-200 dark:border-slate-800 shadow-lg bg-white dark:bg-slate-900 flex flex-col gap-3">
+        <Card className="p-4 rounded-2xl border-slate-200 dark:border-slate-800 shadow-lg bg-white dark:bg-slate-900 flex flex-col gap-3">
           <div className="flex items-center gap-2 text-slate-400 text-xs font-bold uppercase tracking-widest px-1">
             <History size={14} />
             <span>Lépések előzménye</span>
+            {moveHistory.length > 0 && (
+              <span className="ml-auto text-[10px] bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full font-bold text-slate-500">
+                {Math.ceil(moveHistory.length / 2)}. lépés
+              </span>
+            )}
           </div>
-          <div className="flex-1 bg-slate-50 dark:bg-slate-800/50 rounded-xl p-3 overflow-y-auto max-h-48 border border-slate-100 dark:border-slate-800 font-mono text-xs">
-            <div className="grid grid-cols-2 gap-x-4 gap-y-1">
-              {Array.from({ length: Math.ceil(moveHistory.length / 2) }).map((_, i) => (
-                <div key={i} className="contents">
-                  <div className="text-slate-400 text-right pr-2">{i + 1}.</div>
-                  <div className="flex gap-4">
-                    <span className="font-bold text-slate-700 dark:text-slate-200">
-                      {moveHistory[i * 2]}
-                    </span>
-                    <span className="font-bold text-indigo-600 dark:text-indigo-400">
-                      {moveHistory[i * 2 + 1] || ''}
-                    </span>
+          <div className="h-44 bg-slate-50 dark:bg-slate-800/50 rounded-xl p-3 overflow-y-auto border border-slate-100 dark:border-slate-800 font-mono text-xs scroll-smooth">
+            {moveHistory.length === 0 ? (
+              <div className="h-full flex items-center justify-center text-slate-400 dark:text-slate-500 italic text-center">
+                Még nincs rögzített lépés
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 gap-x-4 gap-y-1">
+                {Array.from({ length: Math.ceil(moveHistory.length / 2) }).map((_, i) => (
+                  <div key={i} className="contents">
+                    <div className="text-slate-400 text-right pr-2">{i + 1}.</div>
+                    <div className="flex gap-4">
+                      <span className="font-bold text-slate-700 dark:text-slate-200">
+                        {moveHistory[i * 2]}
+                      </span>
+                      <span className="font-bold text-indigo-600 dark:text-indigo-400">
+                        {moveHistory[i * 2 + 1] || ''}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+                <div ref={movesEndRef} />
+              </div>
+            )}
           </div>
           
           <div className="grid grid-cols-2 gap-2 mt-auto">
