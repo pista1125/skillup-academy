@@ -18,11 +18,12 @@ import {
     createUserWithEmailAndPassword, 
     updateProfile, 
     signInWithPopup, 
-    GoogleAuthProvider 
+    GoogleAuthProvider,
+    sendPasswordResetEmail
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { toast } from "sonner";
-import { Loader2, LogIn, UserPlus, Chrome } from "lucide-react";
+import { Loader2, LogIn, UserPlus, Chrome, KeyRound } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface AuthModalProps {
@@ -33,12 +34,30 @@ interface AuthModalProps {
 
 export function AuthModal({ isOpen, onClose, defaultTab = 'login' }: AuthModalProps) {
     const [loading, setLoading] = useState(false);
+    const [resetLoading, setResetLoading] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [fullName, setFullName] = useState('');
     const [role, setRole] = useState<'teacher' | 'student'>('student');
     const [acceptedTerms, setAcceptedTerms] = useState(false);
+
+    const handleForgotPassword = async () => {
+        if (!email.trim()) {
+            toast.error("Kérjük, előbb add meg az e-mail címedet a fenti mezőben!");
+            return;
+        }
+        setResetLoading(true);
+        try {
+            await sendPasswordResetEmail(auth, email.trim());
+            toast.success(`Jelszó-visszaállító link elküldve a(z) ${email} címre! Kérjük, ellenőrizd a beérkező leveleidet.`);
+        } catch (error: any) {
+            console.error("Password reset error:", error);
+            toast.error(error.message || "Nem sikerült elküldeni a jelszó-visszaállító levelet.");
+        } finally {
+            setResetLoading(false);
+        }
+    };
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -153,7 +172,17 @@ export function AuthModal({ isOpen, onClose, defaultTab = 'login' }: AuthModalPr
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="password">Jelszó</Label>
+                                <div className="flex items-center justify-between">
+                                    <Label htmlFor="password">Jelszó</Label>
+                                    <button
+                                        type="button"
+                                        onClick={handleForgotPassword}
+                                        disabled={resetLoading}
+                                        className="text-xs text-blue-600 hover:text-blue-700 hover:underline font-medium transition-colors"
+                                    >
+                                        {resetLoading ? "Küldés..." : "Elfelejtett jelszó?"}
+                                    </button>
+                                </div>
                                 <Input
                                     id="password"
                                     type="password"
