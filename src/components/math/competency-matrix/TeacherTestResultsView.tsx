@@ -1,10 +1,16 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 import { 
   getTeacherCompetencySubmissions, 
   subscribeTeacherCompetencySubmissions,
   deleteCompetencySubmission, 
   CompetencyTestSubmission 
 } from '@/services/competencySubmissionService';
+import { 
+  TeacherClass, 
+  subscribeTeacherClasses 
+} from '@/services/teacherClassService';
 import { exportCompetencySubmissionToPDF, formatAnswer } from '@/utils/competencyPdfExport';
 import { toast } from 'sonner';
 import { 
@@ -23,7 +29,9 @@ import {
   RefreshCw,
   ArrowUpDown,
   BookOpen,
-  Radio
+  Radio,
+  GraduationCap,
+  ArrowRight
 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -44,10 +52,17 @@ interface TeacherTestResultsViewProps {
 }
 
 export default function TeacherTestResultsView({ onBackToBrowse }: TeacherTestResultsViewProps) {
+  const { user, profile } = useAuth();
+  const navigate = useNavigate();
+
   const [submissions, setSubmissions] = useState<CompetencyTestSubmission[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedSubmission, setSelectedSubmission] = useState<CompetencyTestSubmission | null>(null);
   const [modalFilter, setModalFilter] = useState<'all' | 'wrong' | 'correct'>('all');
+
+  // Teacher classes
+  const [teacherClasses, setTeacherClasses] = useState<TeacherClass[]>([]);
+  const [classFilter, setClassFilter] = useState<string>('all');
 
   // Filters
   const [testFilter, setTestFilter] = useState<string>('all');
@@ -55,7 +70,16 @@ export default function TeacherTestResultsView({ onBackToBrowse }: TeacherTestRe
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [sortBy, setSortBy] = useState<'date_desc' | 'date_asc' | 'score_desc' | 'score_asc' | 'name_asc'>('date_desc');
 
-  // Real-time live Firestore subscription
+  // Subscribe to teacher's classes
+  useEffect(() => {
+    if (!user) return;
+    const unsubscribe = subscribeTeacherClasses(user.uid, (classes) => {
+      setTeacherClasses(classes);
+    });
+    return () => unsubscribe();
+  }, [user]);
+
+  // Real-time live Firestore subscription for submissions
   useEffect(() => {
     setLoading(true);
     const unsubscribe = subscribeTeacherCompetencySubmissions(
@@ -111,9 +135,45 @@ export default function TeacherTestResultsView({ onBackToBrowse }: TeacherTestRe
     }
   };
 
-  // Filtered and sorted submissions
+  // Determine authorized student IDs for this teacher
+  const isMainAdmin = user?.email?.toLowerCase() === 'pista1125@gmail.com';
+
+  const allowedStudentIds = useMemo(() => {
+    if (classFilter !== 'all') {
+      const targetClass = teacherClasses.find(c => c.id === classFilter);
+      return new Set((targetClass?.students || []).map(s => s.userId).filter(Boolean));
+    }
+
+    const allIds = new Set<string>();
+    teacherClasses.forEach(c => {
+      (c.students || []).forEach(s => {
+        if (s.userId) allIds.add(s.userId);
+      });
+    });
+    return allIds;
+  }, [teacherClasses, classFilter]);
+
+  // Filtered and sorted submissions strictly by teacher's classes
   const filteredSubmissions = useMemo(() => {
     let list = [...submissions];
+
+    // Privacy filter: If teacher has classes, filter to their enrolled students
+    if (teacherClasses.length > 0) {
+      list = list.filter(s => {
+        if (allowedStudentIds.has(s.userId)) return true;
+        // Fallback: check matching email or code in enrolled students
+        return teacherClasses.some(c => 
+          (classFilter === 'all' || c.id === classFilter) &&
+          c.students?.some(st => 
+            (st.email && s.studentEmail && st.email.toLowerCase() === s.studentEmail.toLowerCase()) ||
+            (st.name && s.studentName && st.name.toLowerCase() === s.studentName.toLowerCase())
+          )
+        );
+      });
+    } else if (!isMainAdmin) {
+      // Non-admin teacher with no enrolled classes yet
+      list = [];
+    }
 
     if (testFilter !== 'all') {
       list = list.filter(s => s.testId === testFilter);
@@ -155,7 +215,7 @@ export default function TeacherTestResultsView({ onBackToBrowse }: TeacherTestRe
     });
 
     return list;
-  }, [submissions, testFilter, statusFilter, searchQuery, sortBy]);
+  }, [submissions, teacherClasses, allowedStudentIds, isMainAdmin, classFilter, testFilter, statusFilter, searchQuery, sortBy]);
 
   // Summary statistics
   const stats = useMemo(() => {
@@ -299,6 +359,28 @@ export default function TeacherTestResultsView({ onBackToBrowse }: TeacherTestRe
         justifyContent: 'space-between',
         boxShadow: 'var(--shadow)' 
       }}>
+        {/* Class Selector (if teacher has classes) */}
+        {teacherClasses.length > 0 && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <label style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-muted)' }}>Osztály:</label>
+            <select 
+              value={classFilter} 
+              onChange={(e) => setClassFilter(e.target.value)}
+              className="task-select-dropdown"
+              style={{ maxWidth: 220 }}
+            >
+              <option value="all">
+                Minden saját osztályom ({teacherClasses.reduce((sum, c) => sum + (c.students?.length || 0), 0)} diák)
+              </option>
+              {teacherClasses.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name} ({c.students?.length || 0} diák)
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
         {/* Test Selector */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <label style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-muted)' }}>Próbateszt:</label>
@@ -306,7 +388,7 @@ export default function TeacherTestResultsView({ onBackToBrowse }: TeacherTestRe
             value={testFilter} 
             onChange={(e) => setTestFilter(e.target.value)}
             className="task-select-dropdown"
-            style={{ maxWidth: 200 }}
+            style={{ maxWidth: 190 }}
           >
             <option value="all">Minden próbamérés</option>
             {Array.from({ length: 10 }).map((_, i) => {
@@ -327,7 +409,7 @@ export default function TeacherTestResultsView({ onBackToBrowse }: TeacherTestRe
             value={statusFilter} 
             onChange={(e) => setStatusFilter(e.target.value as any)}
             className="task-select-dropdown"
-            style={{ maxWidth: 190 }}
+            style={{ maxWidth: 180 }}
           >
             <option value="all">Minden állapot ({stats.totalCount})</option>
             <option value="completed">🟢 Befejezett ({stats.completedCount})</option>
@@ -336,12 +418,12 @@ export default function TeacherTestResultsView({ onBackToBrowse }: TeacherTestRe
         </div>
 
         {/* Search */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 1, minWidth: 200, maxWidth: 320 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 1, minWidth: 200, maxWidth: 300 }}>
           <div style={{ position: 'relative', width: '100%' }}>
             <Search className="w-4 h-4 text-slate-400" style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)' }} />
             <input
               type="text"
-              placeholder="Keresés diák neve vagy emailje..."
+              placeholder="Keresés diák neve..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{
@@ -364,7 +446,7 @@ export default function TeacherTestResultsView({ onBackToBrowse }: TeacherTestRe
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as any)}
             className="task-select-dropdown"
-            style={{ maxWidth: 180 }}
+            style={{ maxWidth: 170 }}
           >
             <option value="date_desc">Legújabb elöl</option>
             <option value="date_asc">Legrégebbi elöl</option>
@@ -375,22 +457,40 @@ export default function TeacherTestResultsView({ onBackToBrowse }: TeacherTestRe
         </div>
       </div>
 
-      {/* Submissions List */}
+      {/* Submissions List or Empty States */}
       {loading ? (
         <div className="empty-state" style={{ padding: 48 }}>
           <RefreshCw className="w-8 h-8 animate-spin mx-auto mb-3 text-blue-500" />
           <div>Eredmények betöltése a felhőből...</div>
         </div>
+      ) : teacherClasses.length === 0 && !isMainAdmin ? (
+        <div className="empty-state" style={{ padding: 48, background: 'var(--bg-elev)', borderRadius: 'var(--radius)', border: '1px dashed var(--border)', textAlign: 'center' }}>
+          <GraduationCap className="w-14 h-14 mx-auto mb-3 text-rose-500 opacity-80" />
+          <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--text)', marginBottom: 6 }}>
+            Még nincsenek rögzített osztályaid és diákjaid
+          </div>
+          <div style={{ fontSize: 13, color: 'var(--text-muted)', maxWidth: 520, margin: '0 auto 20px auto', lineHeight: 1.5 }}>
+            A diákok kompetenciamérés eredményeinek megtekintéséhez először hozd létre az osztályaidat a profilodban, és add hozzá a tanulókat a személyes <strong>6 jegyű kódjuk</strong> alapján!
+          </div>
+          <button 
+            className="btn btn-primary"
+            onClick={() => navigate('/profil')}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '10px 22px', fontSize: 14 }}
+          >
+            <span>Osztályaim és Diákjaim kezelése a Profilban</span>
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
       ) : filteredSubmissions.length === 0 ? (
-        <div className="empty-state" style={{ padding: 48 }}>
+        <div className="empty-state" style={{ padding: 48, textAlign: 'center' }}>
           <BookOpen className="w-10 h-10 mx-auto mb-3 text-slate-400" />
           <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--text)', marginBottom: 4 }}>
-            {submissions.length === 0 ? 'Még nem érkezett kitöltés' : 'Nincs a szűrésnek megfelelő kitöltés'}
+            {submissions.length === 0 ? 'Még nem érkezett kitöltés ebből az osztályból' : 'Nincs a szűrésnek megfelelő kitöltés'}
           </div>
           <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>
             {submissions.length === 0 
               ? 'Amikor a diákjaid elkezdenek vagy beküldenek egy próbamérést, az eredményeik itt fognak megjelenni.'
-              : 'Próbáld meg módosítani a fenti szűrőket vagy a keresési feltételt.'}
+              : 'Próbáld meg módosítani a fenti osztályszűrőt, a próbamérést vagy a keresési feltételt.'}
           </div>
         </div>
       ) : (

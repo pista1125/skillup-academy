@@ -18,10 +18,26 @@ import {
   History,
   TrendingUp,
   Award,
-  Bell
+  Bell,
+  Copy,
+  Users,
+  Plus,
+  Trash2,
+  UserPlus,
+  Check,
+  KeyRound,
+  GraduationCap
 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
+import { 
+  TeacherClass, 
+  subscribeTeacherClasses, 
+  createTeacherClass, 
+  deleteTeacherClass, 
+  addStudentToClassByCode, 
+  removeStudentFromClass 
+} from '@/services/teacherClassService';
 
 const AVATARS = [
   '🎒', '🎓', '👨‍🏫', '👩‍🏫', '🖍️', '🧪', '🧬', '🚀', '🎨', '🧩', '🎸', '⚽'
@@ -34,8 +50,16 @@ export default function ProfilePage() {
   const [fullName, setFullName] = useState(profile?.full_name || '');
   const [avatarUrl, setAvatarUrl] = useState(profile?.avatar_url || '');
   const [role, setRole] = useState<'teacher' | 'student'>(profile?.role || 'student');
-  const [activeTab, setActiveTab] = useState<'personal' | 'activity' | 'settings'>('personal');
+  const [activeTab, setActiveTab] = useState<'personal' | 'classes' | 'activity' | 'settings'>('personal');
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Teacher class management states
+  const [teacherClasses, setTeacherClasses] = useState<TeacherClass[]>([]);
+  const [selectedClassId, setSelectedClassId] = useState<string | null>(null);
+  const [newClassName, setNewClassName] = useState('');
+  const [studentCodeInput, setStudentCodeInput] = useState('');
+  const [isAddingStudent, setIsAddingStudent] = useState(false);
+  const [isCreatingClass, setIsCreatingClass] = useState(false);
 
   const googlePhoto = user?.photoURL;
 
@@ -73,6 +97,75 @@ export default function ProfilePage() {
     }
   }, [profile]);
 
+  // Subscribe to teacher's classes
+  useEffect(() => {
+    if (!user || role !== 'teacher') return;
+    const unsubscribe = subscribeTeacherClasses(user.uid, (classes) => {
+      setTeacherClasses(classes);
+      if (classes.length > 0) {
+        setSelectedClassId((prev) => prev || classes[0].id);
+      }
+    });
+    return () => unsubscribe();
+  }, [user, role]);
+
+  const handleCreateClass = async () => {
+    if (!newClassName.trim() || !user) return;
+    setIsCreatingClass(true);
+    try {
+      const classId = await createTeacherClass(user.uid, newClassName.trim());
+      setNewClassName('');
+      setSelectedClassId(classId);
+      toast.success('Osztály sikeresen létrehozva!');
+    } catch (error: any) {
+      toast.error('Hiba az osztály létrehozásakor: ' + error.message);
+    } finally {
+      setIsCreatingClass(false);
+    }
+  };
+
+  const handleDeleteClass = async (classId: string, className: string) => {
+    if (!window.confirm(`Biztosan törölni szeretnéd a(z) "${className}" osztályt?`)) return;
+    try {
+      await deleteTeacherClass(classId);
+      toast.success('Osztály sikeresen törölve.');
+      if (selectedClassId === classId) {
+        const remaining = teacherClasses.filter(c => c.id !== classId);
+        setSelectedClassId(remaining.length > 0 ? remaining[0].id : null);
+      }
+    } catch (error: any) {
+      toast.error('Hiba a törlés során: ' + error.message);
+    }
+  };
+
+  const handleAddStudent = async () => {
+    if (!selectedClassId || !studentCodeInput.trim()) return;
+    setIsAddingStudent(true);
+    try {
+      const res = await addStudentToClassByCode(selectedClassId, studentCodeInput.trim());
+      if (res.success) {
+        toast.success(`Diák sikeresen hozzáadva: ${res.studentName}! 🎉`);
+        setStudentCodeInput('');
+      } else {
+        toast.error(res.error || 'Nem sikerült hozzáadni a diákot.');
+      }
+    } catch (error: any) {
+      toast.error('Hiba történt: ' + error.message);
+    } finally {
+      setIsAddingStudent(false);
+    }
+  };
+
+  const handleRemoveStudent = async (classId: string, studentUserId: string, studentName: string) => {
+    if (!window.confirm(`Biztosan eltávolítod ${studentName} diákot ebből az osztályból?`)) return;
+    try {
+      await removeStudentFromClass(classId, studentUserId);
+      toast.success(`${studentName} sikeresen eltávolítva az osztályból.`);
+    } catch (error: any) {
+      toast.error('Hiba az eltávolításkor: ' + error.message);
+    }
+  };
+
   const handleUpdateProfile = async () => {
     if (!user) return;
     setLoading(true);
@@ -97,6 +190,8 @@ export default function ProfilePage() {
   const initials = fullName
     ? fullName.split(' ').map(n => n[0]).join('').toUpperCase()
     : user?.email?.substring(0, 2).toUpperCase() || '??';
+
+  const selectedClass = teacherClasses.find(c => c.id === selectedClassId) || null;
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
@@ -158,25 +253,76 @@ export default function ProfilePage() {
                 </div>
                 <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 tracking-tight">{fullName || 'Névtelen'}</h2>
                 <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">{user?.email}</p>
+
+                {/* 6-Digit User Code Box */}
+                <div className="mt-6 p-4 rounded-2xl bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-indigo-950/40 dark:via-purple-950/30 dark:to-slate-900 border border-indigo-100 dark:border-indigo-900/50 text-left">
+                  <div className="flex items-center justify-between gap-2 mb-1.5">
+                    <span className="text-[11px] font-black uppercase text-indigo-700 dark:text-indigo-300 tracking-wider flex items-center gap-1">
+                      <KeyRound className="w-3.5 h-3.5" />
+                      {role === 'teacher' ? 'Tanári Kódod' : 'Saját Diák Kódod'}
+                    </span>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => {
+                        if (profile?.user_code) {
+                          navigator.clipboard.writeText(profile.user_code);
+                          toast.success(`Kód kimásolva: ${profile.user_code}`);
+                        }
+                      }}
+                      className="h-6 px-2 text-[11px] font-bold text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 rounded-md"
+                    >
+                      <Copy className="w-3 h-3 mr-1" /> Másolás
+                    </Button>
+                  </div>
+                  <div className="text-2xl font-black tracking-widest text-indigo-950 dark:text-indigo-100 font-mono text-center py-1">
+                    {profile?.user_code ? `${profile.user_code.slice(0, 3)} ${profile.user_code.slice(3)}` : 'Betöltés...'}
+                  </div>
+                  <p className="text-[10.5px] text-slate-500 dark:text-slate-400 text-center mt-1 leading-snug">
+                    {role === 'teacher' 
+                      ? 'Ezzel az azonosítóval rendelkezel a rendszerben.'
+                      : 'Ezt a kódot add meg a tanárodnak, hogy felvehessen az osztályába!'}
+                  </p>
+                </div>
               </div>
 
-              <div className="mt-8 pt-8 border-t border-slate-50 dark:border-slate-800 flex flex-col gap-2">
+              <div className="mt-6 pt-6 border-t border-slate-50 dark:border-slate-800 flex flex-col gap-2">
                 <Button 
                   variant="ghost" 
                   onClick={() => setActiveTab('personal')}
                   className={cn(
-                    "w-full justify-start rounded-xl py-6 font-bold",
+                    "w-full justify-start rounded-xl py-5 font-bold",
                     activeTab === 'personal' ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-950/20 dark:text-indigo-400" : "text-slate-600 dark:text-slate-400"
                   )}
                 >
                   <User className="w-5 h-5 mr-3" />
                   Személyes Adatok
                 </Button>
+
+                {role === 'teacher' && (
+                  <Button 
+                    variant="ghost" 
+                    onClick={() => setActiveTab('classes')}
+                    className={cn(
+                      "w-full justify-start rounded-xl py-5 font-bold",
+                      activeTab === 'classes' ? "bg-rose-50 text-rose-700 dark:bg-rose-950/20 dark:text-rose-400" : "text-slate-600 dark:text-slate-400"
+                    )}
+                  >
+                    <GraduationCap className="w-5 h-5 mr-3 text-rose-500" />
+                    <span>Osztályaim & Diákjaim</span>
+                    {teacherClasses.length > 0 && (
+                      <span className="ml-auto bg-rose-200 dark:bg-rose-900/60 text-rose-800 dark:text-rose-200 text-[10px] font-black px-2 py-0.5 rounded-full">
+                        {teacherClasses.length}
+                      </span>
+                    )}
+                  </Button>
+                )}
+
                 <Button 
                   variant="ghost" 
                   onClick={() => setActiveTab('activity')}
                   className={cn(
-                    "w-full justify-start rounded-xl py-6 font-bold",
+                    "w-full justify-start rounded-xl py-5 font-bold",
                     activeTab === 'activity' ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-950/20 dark:text-indigo-400" : "text-slate-600 dark:text-slate-400"
                   )}
                 >
@@ -187,7 +333,7 @@ export default function ProfilePage() {
                   variant="ghost" 
                   onClick={() => setActiveTab('settings')}
                   className={cn(
-                    "w-full justify-start rounded-xl py-6 font-bold",
+                    "w-full justify-start rounded-xl py-5 font-bold",
                     activeTab === 'settings' ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-950/20 dark:text-indigo-400" : "text-slate-600 dark:text-slate-400"
                   )}
                 >
@@ -320,6 +466,206 @@ export default function ProfilePage() {
                     >
                       {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : 'Beállítások Mentése'}
                     </Button>
+                  </div>
+                </div>
+              )}
+
+              {/* Teacher Class & Student Management */}
+              {activeTab === 'classes' && role === 'teacher' && (
+                <div className="space-y-8 animate-in fade-in duration-300">
+                  <div className="border-b border-slate-100 dark:border-slate-800 pb-6">
+                    <h3 className="text-3xl font-black text-slate-800 dark:text-white tracking-tight mb-2 flex items-center gap-3">
+                      <GraduationCap className="w-8 h-8 text-rose-500" />
+                      Osztályaim és Diákjaim
+                    </h3>
+                    <p className="text-slate-500 dark:text-slate-400 font-medium">
+                      Hozz létre osztályokat, és add hozzá a diákokat a <strong>6 jegyű azonosító kódjuk</strong> alapján. A kompetenciamérés eredménytárában kizárólag a saját osztályaidba felvett diákok feladatlapjait fogod látni.
+                    </p>
+                  </div>
+
+                  <div className="grid md:grid-cols-12 gap-6">
+                    {/* Left: Class list */}
+                    <div className="md:col-span-4 bg-slate-50 dark:bg-slate-950/60 p-5 rounded-3xl border border-slate-200/60 dark:border-slate-800 flex flex-col min-h-[460px]">
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-xs font-black uppercase text-slate-400 tracking-wider">
+                          Osztályok ({teacherClasses.length})
+                        </span>
+                      </div>
+
+                      {/* Add new class form */}
+                      <div className="flex gap-2 mb-4">
+                        <Input
+                          placeholder="Új osztály (pl. 6.A)..."
+                          value={newClassName}
+                          onChange={(e) => setNewClassName(e.target.value)}
+                          onKeyDown={(e) => e.key === 'Enter' && handleCreateClass()}
+                          className="h-10 rounded-xl text-sm bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700"
+                        />
+                        <Button
+                          size="icon"
+                          onClick={handleCreateClass}
+                          disabled={isCreatingClass || !newClassName.trim()}
+                          className="h-10 w-10 shrink-0 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold"
+                          title="Osztály létrehozása"
+                        >
+                          <Plus className="w-4 h-4" />
+                        </Button>
+                      </div>
+
+                      {/* Class list items */}
+                      <div className="flex-1 overflow-y-auto space-y-2 pr-1">
+                        {teacherClasses.length === 0 ? (
+                          <div className="text-center py-10 text-slate-400 text-xs italic">
+                            Még nem hoztál létre osztályt. Írd be a nevet fent (pl. 6.A) és nyomj a + gombra!
+                          </div>
+                        ) : (
+                          teacherClasses.map((c) => {
+                            const isSelected = selectedClassId === c.id;
+                            const count = c.students?.length || 0;
+                            return (
+                              <div
+                                key={c.id}
+                                onClick={() => setSelectedClassId(c.id)}
+                                className={cn(
+                                  "flex items-center justify-between p-3 rounded-2xl cursor-pointer transition-all border",
+                                  isSelected
+                                    ? "bg-white dark:bg-slate-900 border-rose-500 shadow-md shadow-rose-500/5 text-rose-900 dark:text-rose-100 font-bold ring-2 ring-rose-500/20"
+                                    : "bg-white/60 dark:bg-slate-900/40 border-slate-200/70 dark:border-slate-800 hover:border-slate-300 text-slate-700 dark:text-slate-300"
+                                )}
+                              >
+                                <div className="flex items-center gap-2 truncate">
+                                  <span className="truncate">{c.name}</span>
+                                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 font-semibold">
+                                    {count} diák
+                                  </span>
+                                </div>
+                                <Button
+                                  size="icon"
+                                  variant="ghost"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleDeleteClass(c.id, c.name);
+                                  }}
+                                  className="h-7 w-7 text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-lg"
+                                  title="Osztály törlése"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </Button>
+                              </div>
+                            );
+                          })
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Right: Enrolled students in selected class */}
+                    <div className="md:col-span-8 bg-slate-50 dark:bg-slate-950/60 p-6 rounded-3xl border border-slate-200/60 dark:border-slate-800 flex flex-col min-h-[460px]">
+                      {!selectedClass ? (
+                        <div className="flex-1 flex flex-col items-center justify-center text-slate-400 py-12">
+                          <Users className="w-12 h-12 mb-3 opacity-30 text-rose-500" />
+                          <p className="font-bold text-base text-slate-600 dark:text-slate-300">
+                            Válassz ki vagy hozz létre egy osztályt a bal oldali listában!
+                          </p>
+                        </div>
+                      ) : (
+                        <>
+                          <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-200/60 dark:border-slate-800">
+                            <div>
+                              <h4 className="text-xl font-black text-slate-800 dark:text-slate-100">
+                                🏫 {selectedClass.name} diákjai
+                              </h4>
+                              <p className="text-xs text-slate-400 mt-0.5">
+                                Összesen {selectedClass.students?.length || 0} diák van rögzítve ebben az osztályban.
+                              </p>
+                            </div>
+                          </div>
+
+                          {/* Add student by 6-digit code input */}
+                          <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 mb-5 shadow-sm">
+                            <Label className="text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5 block">
+                              Diák felvétele 6 számjegyű kód alapján:
+                            </Label>
+                            <div className="flex gap-2">
+                              <div className="relative flex-1">
+                                <KeyRound className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                                <Input
+                                  placeholder="Írd be a diák 6 jegyű kódját (pl. 582914)..."
+                                  value={studentCodeInput}
+                                  onChange={(e) => setStudentCodeInput(e.target.value)}
+                                  onKeyDown={(e) => e.key === 'Enter' && handleAddStudent()}
+                                  maxLength={10}
+                                  className="pl-9 h-11 rounded-xl text-sm font-mono tracking-wider bg-slate-50/50 dark:bg-slate-950/50"
+                                />
+                              </div>
+                              <Button
+                                onClick={handleAddStudent}
+                                disabled={isAddingStudent || !studentCodeInput.trim()}
+                                className="h-11 px-5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold flex items-center gap-1.5 shadow-md shadow-emerald-600/10"
+                              >
+                                {isAddingStudent ? (
+                                  <Loader2 className="w-4 h-4 animate-spin" />
+                                ) : (
+                                  <>
+                                    <UserPlus className="w-4 h-4" />
+                                    <span>Hozzáadás</span>
+                                  </>
+                                )}
+                              </Button>
+                            </div>
+                            <p className="text-[11px] text-slate-400 mt-2">
+                              💡 <em>Tipp: A diák a saját profiljában látja a személyes 6 jegyű kódját, amit bármikor megadhat neked.</em>
+                            </p>
+                          </div>
+
+                          {/* Student roster */}
+                          <div className="flex-1 overflow-y-auto space-y-2.5 pr-1">
+                            {(!selectedClass.students || selectedClass.students.length === 0) ? (
+                              <div className="text-center py-12 text-slate-400 text-sm italic bg-white/40 dark:bg-slate-900/40 rounded-2xl border border-dashed border-slate-200 dark:border-slate-800 p-6">
+                                Ebben az osztályban még nincsenek diákok. Kérd el a diákjaidtól a 6 jegyű kódjukat, és add hozzá őket a fenti mezőben!
+                              </div>
+                            ) : (
+                              selectedClass.students.map((student) => (
+                                <div
+                                  key={student.userId || student.userCode}
+                                  className="flex items-center justify-between p-3.5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:border-slate-300 transition-all"
+                                >
+                                  <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-300 border border-indigo-100 dark:border-indigo-900 flex items-center justify-center text-lg font-black shrink-0">
+                                      {student.avatarUrl && student.avatarUrl.length <= 4 
+                                        ? student.avatarUrl 
+                                        : student.name.charAt(0).toUpperCase()}
+                                    </div>
+                                    <div>
+                                      <div className="flex items-center gap-2">
+                                        <span className="font-bold text-sm text-slate-800 dark:text-slate-100">
+                                          {student.name}
+                                        </span>
+                                        <span className="font-mono text-[11px] font-extrabold bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 px-2 py-0.5 rounded-md border border-indigo-200/60 dark:border-indigo-800">
+                                          🔑 {student.userCode}
+                                        </span>
+                                      </div>
+                                      <div className="text-xs text-slate-400">
+                                        {student.email || 'Nincs megadva email'}
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <Button
+                                    size="icon"
+                                    variant="ghost"
+                                    onClick={() => handleRemoveStudent(selectedClass.id, student.userId, student.name)}
+                                    className="h-8 w-8 text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/20 rounded-xl"
+                                    title="Diák eltávolítása az osztályból"
+                                  >
+                                    <Trash2 className="w-4 h-4" />
+                                  </Button>
+                                </div>
+                              ))
+                            )}
+                          </div>
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
               )}

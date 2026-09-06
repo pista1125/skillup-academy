@@ -13,7 +13,10 @@ export interface Profile {
     avatar_url: string | null;
     updated_at: string;
     email?: string | null;
+    user_code?: string;
 }
+
+const generate6DigitCode = () => Math.floor(100000 + Math.random() * 900000).toString();
 
 interface AuthContextType {
     session: { user: User } | null;
@@ -55,8 +58,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                     data.role = 'teacher';
                     data.full_name = data.full_name || 'Orsós István';
                 }
+                if (!data.user_code) {
+                    const code = generate6DigitCode();
+                    data.user_code = code;
+                    await setDoc(userRef, { user_code: code }, { merge: true });
+                }
                 setProfile(data);
             } else {
+                const newCode = generate6DigitCode();
                 const newProfile: Profile = {
                     id: firebaseUser.uid,
                     full_name: isPista ? 'Orsós István' : (firebaseUser.displayName || null),
@@ -65,6 +74,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                     avatar_url: firebaseUser.photoURL || null,
                     updated_at: new Date().toISOString(),
                     email: firebaseUser.email || null,
+                    user_code: newCode
                 };
                 await setDoc(userRef, newProfile);
                 setProfile(newProfile);
@@ -80,6 +90,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 avatar_url: firebaseUser.photoURL || null,
                 updated_at: new Date().toISOString(),
                 email: firebaseUser.email || null,
+                user_code: '100000'
             });
         } finally {
             setLoading(false);
