@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { db, storage } from '@/lib/firebase';
+import { auth, db, storage } from '@/lib/firebase';
+import { updatePassword, sendPasswordResetEmail } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { Button } from '@/components/ui/button';
@@ -14,6 +15,7 @@ import {
   ChevronLeft, 
   Loader2, 
   Sun,
+  Moon,
   Layout,
   History,
   TrendingUp,
@@ -26,10 +28,17 @@ import {
   UserPlus,
   Check,
   KeyRound,
+  Lock,
+  Eye,
+  EyeOff,
+  Shield,
+  Mail,
+  Settings as SettingsIcon,
   GraduationCap
 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
+import { useThemeSync } from '@/components/ThemeToggle';
 import { 
   TeacherClass, 
   subscribeTeacherClasses, 
@@ -46,12 +55,32 @@ const AVATARS = [
 export default function ProfilePage() {
   const { user, profile, refreshProfile } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const { theme, setTheme } = useThemeSync();
+
   const [loading, setLoading] = useState(false);
   const [fullName, setFullName] = useState(profile?.full_name || '');
   const [avatarUrl, setAvatarUrl] = useState(profile?.avatar_url || '');
   const [role, setRole] = useState<'teacher' | 'student'>(profile?.role || 'student');
   const [activeTab, setActiveTab] = useState<'personal' | 'classes' | 'activity' | 'settings'>('personal');
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Sync activeTab with URL query parameter (?tab=settings etc.)
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const tab = params.get('tab');
+    if (tab && ['personal', 'classes', 'activity', 'settings'].includes(tab)) {
+      setActiveTab(tab as any);
+    }
+  }, [location.search]);
+
+  // Password change states
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
+  const [isSendingResetEmail, setIsSendingResetEmail] = useState(false);
 
   // Teacher class management states
   const [teacherClasses, setTeacherClasses] = useState<TeacherClass[]>([]);
@@ -184,6 +213,56 @@ export default function ProfilePage() {
       toast.error(error.message || 'Hiba a profil frissítésekor');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleUpdatePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!auth.currentUser) {
+      toast.error('Nincs bejelentkezett felhasználó!');
+      return;
+    }
+    if (newPassword.length < 6) {
+      toast.error('A jelszónak legalább 6 karakter hosszúnak kell lennie!');
+      return;
+    }
+    if (newPassword !== confirmNewPassword) {
+      toast.error('A megadott új jelszavak nem egyeznek!');
+      return;
+    }
+
+    setIsUpdatingPassword(true);
+    try {
+      await updatePassword(auth.currentUser, newPassword);
+      toast.success('A jelszavad sikeresen megváltozott! 🎉');
+      setNewPassword('');
+      setConfirmNewPassword('');
+    } catch (error: any) {
+      console.error('Password update error:', error);
+      if (error.code === 'auth/requires-recent-login') {
+        toast.error('Biztonsági okokból a jelszó módosításához friss bejelentkezés szükséges. Kérjük, küldj jelszó-visszaállító linket az e-mailedre!');
+      } else {
+        toast.error(error.message || 'Hiba történt a jelszó módosítása során.');
+      }
+    } finally {
+      setIsUpdatingPassword(false);
+    }
+  };
+
+  const handleSendResetEmail = async () => {
+    if (!user?.email) {
+      toast.error('Nem található érvényes e-mail cím a fiókhoz!');
+      return;
+    }
+    setIsSendingResetEmail(true);
+    try {
+      await sendPasswordResetEmail(auth, user.email);
+      toast.success(`Jelszó-visszaállító link elküldve a(z) ${user.email} címre! Kérjük, nézd meg a beérkező leveleidet.`);
+    } catch (error: any) {
+      console.error('Password reset email error:', error);
+      toast.error(error.message || 'Nem sikerült elküldeni a jelszó-visszaállító e-mailt.');
+    } finally {
+      setIsSendingResetEmail(false);
     }
   };
 
@@ -703,42 +782,209 @@ export default function ProfilePage() {
               )}
 
               {activeTab === 'settings' && (
-                <div className="space-y-10">
+                <div className="space-y-8">
                   <div>
-                    <h3 className="text-3xl font-black text-slate-800 dark:text-white tracking-tight mb-2">Beállítások</h3>
-                    <p className="text-slate-500 dark:text-slate-400 font-medium">Személyre szabhatod az oldal működését és megjelenését.</p>
+                    <h3 className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white tracking-tight mb-1">
+                      ⚙️ Beállítások
+                    </h3>
+                    <p className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm font-medium">
+                      Fiókod biztonsági beállításai, jelszókezelés és megjelenési témák.
+                    </p>
                   </div>
 
-                  <div className="space-y-6">
-                     <div className="p-6 bg-slate-50 dark:bg-slate-950/50 rounded-3xl border border-slate-200/50 dark:border-slate-800 flex items-center justify-between">
-                       <div className="flex items-center gap-4">
-                         <div className="w-12 h-12 bg-amber-100 dark:bg-amber-900/20 text-amber-600 rounded-xl flex items-center justify-center">
-                           <Sun className="w-6 h-6" />
-                         </div>
-                         <div>
-                            <p className="font-bold text-slate-800 dark:text-slate-100">Sötét / Világos Mód</p>
-                            <p className="text-xs text-slate-500 font-medium tracking-tight">Válts a környezetednek megfelelő témára</p>
-                         </div>
-                       </div>
-                       <Button variant="outline" className="rounded-xl border-slate-200 dark:border-slate-800">
-                         Váltás
-                       </Button>
-                     </div>
+                  {/* 1. PASSWORD CHANGE / SECURITY CARD */}
+                  <div className="bg-white dark:bg-slate-900/90 rounded-3xl p-6 sm:p-7 border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/40 dark:shadow-none space-y-6">
+                    <div className="flex items-center gap-3 pb-4 border-b border-slate-100 dark:border-slate-800">
+                      <div className="w-10 h-10 rounded-2xl bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold">
+                        <Lock className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h4 className="text-lg font-black text-slate-800 dark:text-slate-100">
+                          Jelszó Megváltoztatása
+                        </h4>
+                        <p className="text-xs text-slate-400">
+                          Állíts be egy új, biztonságos jelszót a fiókodhoz (legalább 6 karakter).
+                        </p>
+                      </div>
+                    </div>
 
-                     <div className="p-6 bg-slate-50 dark:bg-slate-950/50 rounded-3xl border border-slate-200/50 dark:border-slate-800 flex items-center justify-between">
-                       <div className="flex items-center gap-4">
-                         <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/20 text-blue-600 rounded-xl flex items-center justify-center">
-                           <Bell className="w-6 h-6" />
-                         </div>
-                         <div>
-                            <p className="font-bold text-slate-800 dark:text-slate-100">Értesítések</p>
-                            <p className="text-xs text-slate-500 font-medium tracking-tight">Kérsz-e értesítést az új feladatokról?</p>
-                         </div>
-                       </div>
-                       <div className="bg-indigo-600 h-6 w-11 rounded-full relative cursor-pointer">
-                         <div className="absolute right-1 top-1 w-4 h-4 bg-white rounded-full shadow-sm"></div>
-                       </div>
-                     </div>
+                    <form onSubmit={handleUpdatePassword} className="space-y-4 max-w-xl">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="space-y-1.5">
+                          <Label htmlFor="new-pass" className="text-xs font-bold text-slate-700 dark:text-slate-300">
+                            Új jelszó
+                          </Label>
+                          <div className="relative">
+                            <Input
+                              id="new-pass"
+                              type={showNewPassword ? "text" : "password"}
+                              placeholder="••••••••"
+                              value={newPassword}
+                              onChange={(e) => setNewPassword(e.target.value)}
+                              required
+                              className="rounded-xl h-11 pr-10 bg-slate-50/50 dark:bg-slate-950/50"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setShowNewPassword(!showNewPassword)}
+                              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors p-1"
+                              tabIndex={-1}
+                              title={showNewPassword ? "Jelszó elrejtése" : "Jelszó megjelenítése"}
+                            >
+                              {showNewPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <Label htmlFor="confirm-pass" className="text-xs font-bold text-slate-700 dark:text-slate-300">
+                            Új jelszó megerősítése
+                          </Label>
+                          <div className="relative">
+                            <Input
+                              id="confirm-pass"
+                              type={showConfirmPassword ? "text" : "password"}
+                              placeholder="••••••••"
+                              value={confirmNewPassword}
+                              onChange={(e) => setConfirmNewPassword(e.target.value)}
+                              required
+                              className="rounded-xl h-11 pr-10 bg-slate-50/50 dark:bg-slate-950/50"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors p-1"
+                              tabIndex={-1}
+                              title={showConfirmPassword ? "Jelszó elrejtése" : "Jelszó megjelenítése"}
+                            >
+                              {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-3 pt-2">
+                        <Button
+                          type="submit"
+                          disabled={isUpdatingPassword || !newPassword || !confirmNewPassword}
+                          className="rounded-xl h-11 px-6 font-bold bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-600/10 flex items-center gap-2"
+                        >
+                          {isUpdatingPassword ? (
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                          ) : (
+                            <>
+                              <Check className="w-4 h-4" />
+                              <span>Jelszó Mentése</span>
+                            </>
+                          )}
+                        </Button>
+
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={handleSendResetEmail}
+                          disabled={isSendingResetEmail}
+                          className="rounded-xl h-11 px-4 font-bold border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2"
+                        >
+                          {isSendingResetEmail ? (
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                          ) : (
+                            <>
+                              <Mail className="w-4 h-4 text-blue-500" />
+                              <span>Jelszó-visszaállító link küldése e-mailben</span>
+                            </>
+                          )}
+                        </Button>
+                      </div>
+                    </form>
+                  </div>
+
+                  {/* 2. THEME & APPEARANCE CARD */}
+                  <div className="bg-white dark:bg-slate-900/90 rounded-3xl p-6 sm:p-7 border border-slate-200/80 dark:border-slate-800 shadow-lg shadow-slate-200/40 dark:shadow-none space-y-4">
+                    <div className="flex items-center gap-3 pb-4 border-b border-slate-100 dark:border-slate-800">
+                      <div className="w-10 h-10 rounded-2xl bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold">
+                        <Sun className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h4 className="text-lg font-black text-slate-800 dark:text-slate-100">
+                          Megjelenés és Téma
+                        </h4>
+                        <p className="text-xs text-slate-400">
+                          Válts a hófehér (Light) és a tiszta fekete (Dark) megjelenési módok között.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1 max-w-lg">
+                      <button
+                        type="button"
+                        onClick={() => setTheme('light')}
+                        className={cn(
+                          "flex items-center gap-4 p-4 rounded-2xl border-2 text-left transition-all",
+                          theme === 'light'
+                            ? "bg-indigo-50/50 border-indigo-600 shadow-md shadow-indigo-600/10 dark:bg-indigo-950/30"
+                            : "bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 hover:border-slate-300"
+                        )}
+                      >
+                        <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-amber-500 shadow-sm shrink-0">
+                          <Sun className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <p className="font-extrabold text-sm text-slate-800 dark:text-slate-100">Világos Téma</p>
+                          <p className="text-[11px] text-slate-400 font-medium">Tiszta fehér háttér</p>
+                        </div>
+                        {theme === 'light' && (
+                          <div className="ml-auto w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs">
+                            ✓
+                          </div>
+                        )}
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setTheme('dark')}
+                        className={cn(
+                          "flex items-center gap-4 p-4 rounded-2xl border-2 text-left transition-all",
+                          theme === 'dark'
+                            ? "bg-indigo-950/30 border-indigo-500 shadow-md shadow-indigo-500/10"
+                            : "bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 hover:border-slate-300"
+                        )}
+                      >
+                        <div className="w-10 h-10 rounded-xl bg-black border border-zinc-800 flex items-center justify-center text-yellow-300 shadow-sm shrink-0">
+                          <Moon className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <p className="font-extrabold text-sm text-slate-800 dark:text-slate-100">Sötét Téma</p>
+                          <p className="text-[11px] text-slate-400 font-medium">Tiszta fekete háttér</p>
+                        </div>
+                        {theme === 'dark' && (
+                          <div className="ml-auto w-5 h-5 rounded-full bg-indigo-500 text-white flex items-center justify-center text-xs">
+                            ✓
+                          </div>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* 3. ACCOUNT INFO SUMMARY CARD */}
+                  <div className="bg-slate-50 dark:bg-slate-950/50 rounded-3xl p-6 border border-slate-200/60 dark:border-slate-800 space-y-3">
+                    <h4 className="text-sm font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                      Fiók Információk
+                    </h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                      <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/80 dark:border-slate-800">
+                        <span className="text-slate-400 block mb-1">E-mail cím:</span>
+                        <span className="font-bold text-slate-800 dark:text-slate-100 truncate block">{user?.email}</span>
+                      </div>
+                      <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/80 dark:border-slate-800">
+                        <span className="text-slate-400 block mb-1">Szerepkör:</span>
+                        <span className="font-bold text-slate-800 dark:text-slate-100">{role === 'teacher' ? '👨‍🏫 Tanár' : '🎒 Diák'}</span>
+                      </div>
+                      <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/80 dark:border-slate-800">
+                        <span className="text-slate-400 block mb-1">Egyedi Kód:</span>
+                        <span className="font-mono font-black text-indigo-600 dark:text-indigo-400">{profile?.user_code || '—'}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}

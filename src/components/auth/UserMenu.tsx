@@ -127,7 +127,10 @@ export function UserMenu() {
                             <UserCircle className="w-4 h-4 mr-3 text-slate-400 group-hover:text-primary" />
                             <span className="font-bold text-sm text-slate-700 dark:text-slate-300 group-hover:text-primary">Profilom</span>
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="rounded-xl p-3 focus:bg-primary/5 cursor-pointer group transition-all">
+                        <DropdownMenuItem 
+                            onSelect={() => navigate('/profil?tab=settings')}
+                            className="rounded-xl p-3 focus:bg-primary/5 cursor-pointer group transition-all"
+                        >
                             <Settings className="w-4 h-4 mr-3 text-slate-400 group-hover:text-primary" />
                             <span className="font-bold text-sm text-slate-700 dark:text-slate-300 group-hover:text-primary">Beállítások</span>
                         </DropdownMenuItem>
