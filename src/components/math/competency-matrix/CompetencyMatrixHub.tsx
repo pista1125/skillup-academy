@@ -1,15 +1,20 @@
 import React, { useMemo, useState, useEffect, useRef } from 'react';
 import TaskCard from './TaskCard';
 import PracticeTests from './PracticeTests';
+import TeacherTestResultsView from './TeacherTestResultsView';
+import { useAuth } from '@/contexts/AuthContext';
 import { CONTENT_AREAS, THINKING_LEVELS } from './taxonomy';
 import { ALL_TASKS } from './loader';
 import '@/styles/competency-matrix.css';
 import 'katex/dist/katex.min.css';
 
 export default function CompetencyMatrixHub({ onBack }: { onBack: () => void }) {
+  const { user, profile } = useAuth();
+  const isTeacher = profile?.role === 'teacher' || user?.email?.toLowerCase() === 'pista1125@gmail.com';
+
   const [tasks] = useState(ALL_TASKS);
   const taxonomy = { contentAreas: CONTENT_AREAS, thinkingLevels: THINKING_LEVELS };
-  const [view, setView] = useState('browse'); // 'browse' | 'practice'
+  const [view, setView] = useState('browse'); // 'browse' | 'practice' | 'results'
   const [contentFilter, setContentFilter] = useState<string | null>(null);
   const [thinkingFilter, setThinkingFilter] = useState<string | null>(null);
   const [search, setSearch] = useState('');
@@ -126,6 +131,15 @@ export default function CompetencyMatrixHub({ onBack }: { onBack: () => void }) 
             <span>📝 Próbamérések</span>
             <span className="count">10</span>
           </button>
+          {isTeacher && (
+            <button
+              className={`filter-chip ${view === 'results' ? 'active' : ''}`}
+              onClick={() => setView('results')}
+            >
+              <span>📊 Diákok Eredményei</span>
+              <span className="count" style={{ background: '#2563eb', color: '#fff', fontSize: 10, padding: '1px 6px', borderRadius: 4 }}>Tanár</span>
+            </button>
+          )}
         </div>
 
         {view === 'browse' && (
@@ -236,7 +250,9 @@ export default function CompetencyMatrixHub({ onBack }: { onBack: () => void }) 
           </button>
         )}
 
-        {view === 'practice' ? (
+        {view === 'results' ? (
+          <TeacherTestResultsView onBackToBrowse={() => setView('browse')} />
+        ) : view === 'practice' ? (
           <PracticeTests 
             contentAreas={contentAreas} 
             thinkingLevels={thinkingLevels} 
