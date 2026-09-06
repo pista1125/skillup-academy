@@ -316,16 +316,40 @@ export default function PracticeTests({ contentAreas, thinkingLevels, isFullscre
     localStorage.setItem(getDraftKey(test.id), JSON.stringify(draftData));
 
     // Update Firestore in-progress record
+    const updatePayload = {
+      answers: answersMap,
+      score: correctCount,
+      answeredCount,
+      percentage,
+      durationSeconds: Math.max(1, durationSeconds),
+      breakdownByArea: areaStats,
+      breakdownByLevel: levelStats
+    };
+
     if (submissionDocIdRef.current) {
-      updateCompetencySubmissionProgress(submissionDocIdRef.current, {
-        answers: answersMap,
+      updateCompetencySubmissionProgress(submissionDocIdRef.current, updatePayload);
+    } else {
+      const studentName = profile?.full_name || user?.displayName || (user?.email ? user.email.split('@')[0] : 'Diák');
+      createOrStartCompetencySubmission({
+        userId: user?.uid || '',
+        studentName,
+        studentEmail: user?.email || '',
+        testId: test.id,
+        testTitle: test.title,
+        startedAt: startTimeRef.current || new Date().toISOString(),
+        status: 'in_progress',
+        durationSeconds: Math.max(1, durationSeconds),
+        timeLimitMinutes: timeLimit,
         score: correctCount,
         answeredCount,
+        totalTasks,
         percentage,
-        durationSeconds: Math.max(1, durationSeconds),
         breakdownByArea: areaStats,
-        breakdownByLevel: levelStats
-      });
+        breakdownByLevel: levelStats,
+        answers: answersMap
+      }).then(id => {
+        submissionDocIdRef.current = id;
+      }).catch(err => console.error("Error auto-creating in-progress submission onAnswer:", err));
     }
   };
 

@@ -9,7 +9,9 @@ import {
   deleteDoc, 
   query, 
   orderBy, 
-  Timestamp 
+  Timestamp,
+  onSnapshot,
+  Unsubscribe
 } from 'firebase/firestore';
 
 export interface CompetencyAnswerItem {
@@ -217,6 +219,70 @@ export async function getTeacherCompetencySubmissions(): Promise<CompetencyTestS
     console.error('Error fetching competency test submissions:', error);
     throw error;
   }
+}
+
+/**
+ * Real-time subscription to all competency practice test submissions for the teacher view.
+ * Automatically notifies when any student starts, answers a question, or submits a test.
+ */
+export function subscribeTeacherCompetencySubmissions(
+  onData: (submissions: CompetencyTestSubmission[]) => void,
+  onError?: (error: Error) => void
+): Unsubscribe {
+  const colRef = collection(db, COLLECTION_NAME);
+  const q = query(colRef, orderBy('createdAt', 'desc'));
+
+  return onSnapshot(
+    q,
+    (snapshot) => {
+      const submissions: CompetencyTestSubmission[] = [];
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        const answers = data.answers || {};
+        const answeredCount = data.answeredCount !== undefined 
+          ? data.answeredCount 
+          : Object.keys(answers).length;
+
+        submissions.push({
+          id: docSnap.id,
+          userId: data.userId || '',
+          studentName: data.studentName || 'Névtelen Diák',
+          studentEmail: data.studentEmail || '',
+          testId: data.testId || '',
+          testTitle: data.testTitle || '',
+          startedAt: data.startedAt || '',
+          completedAt: data.completedAt || '',
+          lastActiveAt: data.lastActiveAt || data.completedAt || data.startedAt || '',
+          status: data.status === 'in_progress' ? 'in_progress' : 'completed',
+          durationSeconds: data.durationSeconds || 0,
+          timeLimitMinutes: data.timeLimitMinutes || 45,
+          score: data.score || 0,
+          answeredCount,
+          totalTasks: data.totalTasks || 31,
+          percentage: data.percentage || 0,
+          breakdownByArea: data.breakdownByArea || {
+            M: { total: 0, correct: 0 },
+            H: { total: 0, correct: 0 },
+            A: { total: 0, correct: 0 },
+            S: { total: 0, correct: 0 }
+          },
+          breakdownByLevel: data.breakdownByLevel || {
+            T: { total: 0, correct: 0 },
+            A: { total: 0, correct: 0 },
+            K: { total: 0, correct: 0 }
+          },
+          answers,
+          createdAt: data.createdAt
+        });
+      });
+
+      onData(submissions);
+    },
+    (error) => {
+      console.error('Error in competency submissions real-time subscription:', error);
+      if (onError) onError(error);
+    }
+  );
 }
 
 /**

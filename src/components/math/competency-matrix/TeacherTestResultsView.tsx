@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { 
   getTeacherCompetencySubmissions, 
+  subscribeTeacherCompetencySubmissions,
   deleteCompetencySubmission, 
   CompetencyTestSubmission 
 } from '@/services/competencySubmissionService';
@@ -21,7 +22,8 @@ import {
   FileText, 
   RefreshCw,
   ArrowUpDown,
-  BookOpen
+  BookOpen,
+  Radio
 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -53,6 +55,33 @@ export default function TeacherTestResultsView({ onBackToBrowse }: TeacherTestRe
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [sortBy, setSortBy] = useState<'date_desc' | 'date_asc' | 'score_desc' | 'score_asc' | 'name_asc'>('date_desc');
 
+  // Real-time live Firestore subscription
+  useEffect(() => {
+    setLoading(true);
+    const unsubscribe = subscribeTeacherCompetencySubmissions(
+      (data) => {
+        setSubmissions(data);
+        setLoading(false);
+
+        // Keep opened detailed modal synchronized in real time
+        setSelectedSubmission((current) => {
+          if (!current || !current.id) return current;
+          const fresh = data.find((s) => s.id === current.id);
+          return fresh || current;
+        });
+      },
+      (error) => {
+        console.error('Real-time subscription error:', error);
+        toast.error('Hiba a valós idejű szinkronizáció során.');
+        setLoading(false);
+      }
+    );
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
   const fetchSubmissions = async () => {
     setLoading(true);
     try {
@@ -65,10 +94,6 @@ export default function TeacherTestResultsView({ onBackToBrowse }: TeacherTestRe
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    fetchSubmissions();
-  }, []);
 
   const handleDelete = async (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -171,14 +196,18 @@ export default function TeacherTestResultsView({ onBackToBrowse }: TeacherTestRe
       {/* Header */}
       <div className="main-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16 }}>
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
             <h2>📊 Diákok Próbamérés Eredményei</h2>
             <span style={{ fontSize: 12, fontWeight: 700, background: '#dbeafe', color: '#1d4ed8', padding: '3px 8px', borderRadius: 6 }}>
               Tanári Nézet
             </span>
+            <span style={{ fontSize: 11, fontWeight: 700, background: '#dcfce7', color: '#15803d', padding: '3px 8px', borderRadius: 6, display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#16a34a' }}></span>
+              Élő szinkronizáció
+            </span>
           </div>
           <div className="meta">
-            A 10 országos kompetenciamérés próbateszt kitöltéseinek valós idejű tanári összesítése, értékelése és PDF exportja.
+            A 10 országos kompetenciamérés próbateszt kitöltéseinek valós idejű, másodpercenként frissülő tanári felügyelete, értékelése és PDF exportja.
           </div>
         </div>
 
