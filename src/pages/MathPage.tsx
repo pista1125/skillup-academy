@@ -138,8 +138,36 @@ const FunctionTableQuiz = lazy(() => import("@/components/math/grade-7/hozzarend
 const Grade7StatsModule = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/Grade7StatsModule").then(m => ({ default: m.Grade7StatsModule }))) as any;
 const Grade5RomanNumeralsTheory = lazy(() => import("@/components/math/grade-5/egesz-szamok/a-szamok-kialakulasa-a-romai-szamok/RomanNumeralsTheory").then(m => ({ default: m.RomanNumeralsTheory }))) as any;
 const Grade5RomanNumeralsQuiz = lazy(() => import("@/components/math/grade-5/egesz-szamok/a-szamok-kialakulasa-a-romai-szamok/RomanNumeralsQuiz").then(m => ({ default: m.RomanNumeralsQuiz }))) as any;
+const Grade5PlaceValueTheory = lazy(() => import("@/components/math/grade-5/egesz-szamok/a-helyiertekes-iras/PlaceValueTheory").then(m => ({ default: m.PlaceValueTheory }))) as any;
 const Grade5PlaceValueQuiz = lazy(() => import("@/components/math/grade-5/egesz-szamok/a-helyiertekes-iras/PlaceValueQuiz").then(m => ({ default: m.PlaceValueQuiz }))) as any;
+const Grade5NumberReadingTheory = lazy(() => import("@/components/math/grade-5/egesz-szamok/a-szamjegyek-harmas-csoportositasa-es-a-szamok-kiolvasasa/NumberReadingTheory").then(m => ({ default: m.NumberReadingTheory }))) as any;
 const Grade5NumberReadingQuiz = lazy(() => import("@/components/math/grade-5/egesz-szamok/a-szamjegyek-harmas-csoportositasa-es-a-szamok-kiolvasasa/NumberReadingQuiz").then(m => ({ default: m.NumberReadingQuiz }))) as any;
+const Grade5NumberSpellingTheory = lazy(() => import("@/components/math/grade-5/egesz-szamok/a-termeszetes-szamok-helyesirasa/NumberSpellingTheory").then(m => ({ default: m.NumberSpellingTheory }))) as any;
+const Grade5NumberSpellingQuiz = lazy(() => import("@/components/math/grade-5/egesz-szamok/a-termeszetes-szamok-helyesirasa/NumberSpellingQuiz").then(m => ({ default: m.NumberSpellingQuiz }))) as any;
+const Grade5NumberSystemsTheory = lazy(() => import("@/components/math/grade-5/egesz-szamok/szamrendszerek/NumberSystemsTheory").then(m => ({ default: m.NumberSystemsTheory }))) as any;
+const Grade5NumberSystemsQuiz = lazy(() => import("@/components/math/grade-5/egesz-szamok/szamrendszerek/NumberSystemsQuiz").then(m => ({ default: m.NumberSystemsQuiz }))) as any;
+const Grade5NumberLineTheory = lazy(() => import("@/components/math/grade-5/egesz-szamok/a-szamok-abrazolasa-a-szamegyenesen/NumberLineTheory").then(m => ({ default: m.NumberLineTheory }))) as any;
+const Grade5NumberLineQuiz = lazy(() => import("@/components/math/grade-5/egesz-szamok/a-szamok-abrazolasa-a-szamegyenesen/NumberLineQuiz").then(m => ({ default: m.NumberLineQuiz }))) as any;
+const Grade5RoundingTheory = lazy(() => import("@/components/math/grade-5/egesz-szamok/becsles-kerekites/RoundingTheory").then(m => ({ default: m.RoundingTheory }))) as any;
+const Grade5RoundingQuiz = lazy(() => import("@/components/math/grade-5/egesz-szamok/becsles-kerekites/RoundingQuiz").then(m => ({ default: m.RoundingQuiz }))) as any;
+const Grade5AdditionTheory = lazy(() => import("@/components/math/grade-5/egesz-szamok/osszeadas-irasbeli-osszeadas/AdditionTheory").then(m => ({ default: m.AdditionTheory }))) as any;
+const Grade5AdditionQuiz = lazy(() => import("@/components/math/grade-5/egesz-szamok/osszeadas-irasbeli-osszeadas/AdditionQuiz").then(m => ({ default: m.AdditionQuiz }))) as any;
+const Grade5SubtractionTheory = lazy(() => import("@/components/math/grade-5/egesz-szamok/kivonas-irasbeli-kivonas/SubtractionTheory").then(m => ({ default: m.SubtractionTheory }))) as any;
+const Grade5SubtractionQuiz = lazy(() => import("@/components/math/grade-5/egesz-szamok/kivonas-irasbeli-kivonas/SubtractionQuiz").then(m => ({ default: m.SubtractionQuiz }))) as any;
+const Grade5MultiplicationTheory = lazy(() => import("@/components/math/grade-5/egesz-szamok/szorzas-irasbeli-szorzas/MultiplicationTheory").then(m => ({ default: m.MultiplicationTheory }))) as any;
+const Grade5MultiplicationQuiz = lazy(() => import("@/components/math/grade-5/egesz-szamok/szorzas-irasbeli-szorzas/MultiplicationQuiz").then(m => ({ default: m.MultiplicationQuiz }))) as any;
+const Grade5DivisionTheory = lazy(() => import("@/components/math/grade-5/egesz-szamok/osztas-irasbeli-osztas-ketjegyu-osztoval/DivisionTheory").then(m => ({ default: m.DivisionTheory }))) as any;
+const Grade5DivisionQuiz = lazy(() => import("@/components/math/grade-5/egesz-szamok/osztas-irasbeli-osztas-ketjegyu-osztoval/DivisionQuiz").then(m => ({ default: m.DivisionQuiz }))) as any;
+const Grade5OrderOfOperationsTheory = lazy(() => import("@/components/math/grade-5/egesz-szamok/muveletek-tulajdonsagai-muveleti-sorrend-zarojelek/OrderOfOperationsTheory").then(m => ({ default: m.OrderOfOperationsTheory }))) as any;
+const Grade5OrderOfOperationsQuiz = lazy(() => import("@/components/math/grade-5/egesz-szamok/muveletek-tulajdonsagai-muveleti-sorrend-zarojelek/OrderOfOperationsQuiz").then(m => ({ default: m.OrderOfOperationsQuiz }))) as any;
+const Grade5NegativeNumbersTheory = lazy(() => import("@/components/math/grade-5/egesz-szamok/negativ-szamok/NegativeNumbersTheory").then(m => ({ default: m.NegativeNumbersTheory }))) as any;
+const Grade5NegativeNumbersQuiz = lazy(() => import("@/components/math/grade-5/egesz-szamok/negativ-szamok/NegativeNumbersQuiz").then(m => ({ default: m.NegativeNumbersQuiz }))) as any;
+const Grade5OppositeAbsoluteTheory = lazy(() => import("@/components/math/grade-5/egesz-szamok/a-szamok-ellentettje-es-abszolut-erteke/OppositeAbsoluteTheory").then(m => ({ default: m.OppositeAbsoluteTheory }))) as any;
+const Grade5OppositeAbsoluteQuiz = lazy(() => import("@/components/math/grade-5/egesz-szamok/a-szamok-ellentettje-es-abszolut-erteke/OppositeAbsoluteQuiz").then(m => ({ default: m.OppositeAbsoluteQuiz }))) as any;
+const Grade5IntegerAdditionSubtractionTheory = lazy(() => import("@/components/math/grade-5/egesz-szamok/egesz-szamok-osszeadasa-es-kivonasa/IntegerAdditionSubtractionTheory").then(m => ({ default: m.IntegerAdditionSubtractionTheory }))) as any;
+const Grade5IntegerAdditionSubtractionQuiz = lazy(() => import("@/components/math/grade-5/egesz-szamok/egesz-szamok-osszeadasa-es-kivonasa/IntegerAdditionSubtractionQuiz").then(m => ({ default: m.IntegerAdditionSubtractionQuiz }))) as any;
+const Grade5Chapter1SummaryTheory = lazy(() => import("@/components/math/grade-5/egesz-szamok/osszefoglalas/Chapter1SummaryTheory").then(m => ({ default: m.Chapter1SummaryTheory }))) as any;
+const Grade5Chapter1SummaryQuiz = lazy(() => import("@/components/math/grade-5/egesz-szamok/osszefoglalas/Chapter1SummaryQuiz").then(m => ({ default: m.Chapter1SummaryQuiz }))) as any;
 const RatioIntroQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/az-arany-fogalma/RatioIntroQuiz").then(m => ({ default: m.RatioIntroQuiz }))) as any;
 const RatioCreatorQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/az-arany-fogalma/RatioCreatorQuiz").then(m => ({ default: m.RatioCreatorQuiz }))) as any;
 const DirectProportionQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/egyenes-aranyossag/DirectProportionQuiz").then(m => ({ default: m.DirectProportionQuiz }))) as any;
@@ -330,7 +358,7 @@ type ActivityType =
   | 'g7-mapping-quiz' | 'g7-function-table-quiz'
   | 'decimal-division-matcher' | 'decimal-division-quiz' | 'decimal-multiplication-matcher' | 'decimal-multiplication-quiz'
   | 'decimal-fractions' | 'decimal-fractions-quiz' | 'decimal-shifter'
-  | 'g5-fraction-to-decimal-matcher' | 'g5-fraction-visual-matcher' | 'g5-fractions-quiz' | 'g5-fractions-module' | 'g5-roman-numerals-theory' | 'g5-roman-numerals-quiz' | 'g5-place-value-quiz' | 'g5-number-reading-quiz'
+  | 'g5-fraction-to-decimal-matcher' | 'g5-fraction-visual-matcher' | 'g5-fractions-quiz' | 'g5-fractions-module' | 'g5-roman-numerals-theory' | 'g5-roman-numerals-quiz' | 'g5-place-value-theory' | 'g5-place-value-quiz' | 'g5-number-reading-theory' | 'g5-number-reading-quiz' | 'g5-number-spelling-theory' | 'g5-number-spelling-quiz' | 'g5-number-systems-theory' | 'g5-number-systems-quiz' | 'g5-number-line-theory' | 'g5-number-line-quiz' | 'g5-rounding-theory' | 'g5-rounding-quiz' | 'g5-addition-theory' | 'g5-addition-quiz' | 'g5-subtraction-theory' | 'g5-subtraction-quiz' | 'g5-multiplication-theory' | 'g5-multiplication-quiz' | 'g5-division-theory' | 'g5-division-quiz' | 'g5-order-of-operations-theory' | 'g5-order-of-operations-quiz' | 'g5-negative-numbers-theory' | 'g5-negative-numbers-quiz' | 'g5-opposite-absolute-theory' | 'g5-opposite-absolute-quiz' | 'g5-integer-addition-subtraction-theory' | 'g5-integer-addition-subtraction-quiz' | 'g5-chapter1-summary-theory' | 'g5-chapter1-summary-quiz'
   | 'g6-fraction-visual-matcher' | 'g6-fractions-quiz' | 'g6-fraction-multiplier' | 'g6-fraction-divider'
   | 'g6-decimal-quiz' | 'g6-to-decimal-matcher' | 'g6-decimal-multiplier-quiz' | 'g6-decimal-multiplier'
   | 'g6-decimal-divider-quiz' | 'g6-decimal-divider' | 'g6-fractions-closing-test'
@@ -2048,12 +2076,169 @@ export default function MathPage() {
                   <Grade5RomanNumeralsQuiz onBack={handleBack} />
                 )}
 
+                {activityType === 'g5-place-value-theory' && (
+                  <Grade5PlaceValueTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-place-value-quiz')}
+                  />
+                )}
+
                 {activityType === 'g5-place-value-quiz' && (
                   <Grade5PlaceValueQuiz onBack={handleBack} />
                 )}
 
+                {activityType === 'g5-number-reading-theory' && (
+                  <Grade5NumberReadingTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-number-reading-quiz')}
+                  />
+                )}
+
                 {activityType === 'g5-number-reading-quiz' && (
                   <Grade5NumberReadingQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g5-number-spelling-theory' && (
+                  <Grade5NumberSpellingTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-number-spelling-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-number-spelling-quiz' && (
+                  <Grade5NumberSpellingQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g5-number-systems-theory' && (
+                  <Grade5NumberSystemsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-number-systems-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-number-systems-quiz' && (
+                  <Grade5NumberSystemsQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g5-number-line-theory' && (
+                  <Grade5NumberLineTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-number-line-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-number-line-quiz' && (
+                  <Grade5NumberLineQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g5-rounding-theory' && (
+                  <Grade5RoundingTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-rounding-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-rounding-quiz' && (
+                  <Grade5RoundingQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g5-addition-theory' && (
+                  <Grade5AdditionTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-addition-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-addition-quiz' && (
+                  <Grade5AdditionQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g5-subtraction-theory' && (
+                  <Grade5SubtractionTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-subtraction-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-subtraction-quiz' && (
+                  <Grade5SubtractionQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g5-multiplication-theory' && (
+                  <Grade5MultiplicationTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-multiplication-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-multiplication-quiz' && (
+                  <Grade5MultiplicationQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g5-division-theory' && (
+                  <Grade5DivisionTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-division-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-division-quiz' && (
+                  <Grade5DivisionQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g5-order-of-operations-theory' && (
+                  <Grade5OrderOfOperationsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-order-of-operations-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-order-of-operations-quiz' && (
+                  <Grade5OrderOfOperationsQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g5-negative-numbers-theory' && (
+                  <Grade5NegativeNumbersTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-negative-numbers-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-negative-numbers-quiz' && (
+                  <Grade5NegativeNumbersQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g5-opposite-absolute-theory' && (
+                  <Grade5OppositeAbsoluteTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-opposite-absolute-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-opposite-absolute-quiz' && (
+                  <Grade5OppositeAbsoluteQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g5-integer-addition-subtraction-theory' && (
+                  <Grade5IntegerAdditionSubtractionTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-integer-addition-subtraction-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-integer-addition-subtraction-quiz' && (
+                  <Grade5IntegerAdditionSubtractionQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g5-chapter1-summary-theory' && (
+                  <Grade5Chapter1SummaryTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-chapter1-summary-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-chapter1-summary-quiz' && (
+                  <Grade5Chapter1SummaryQuiz onBack={handleBack} />
                 )}
 
                 {activityType === 'logic-blocks' && (

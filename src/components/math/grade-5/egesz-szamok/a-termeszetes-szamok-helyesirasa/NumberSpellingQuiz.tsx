@@ -11,33 +11,28 @@ import {
   Sparkles,
   CheckCircle2,
   XCircle,
-  HelpCircle,
   BookOpen,
-  Award,
   Zap,
-  ArrowRightLeft,
-  Star,
   ChevronRight,
   Layers,
   LayoutGrid,
   FileQuestion,
-  Shuffle,
-  Gamepad2,
   Flame,
+  Pencil,
   Maximize2,
   Minimize2
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { RomanNumeralsMatcher } from './RomanNumeralsMatcher';
+import { NumberSpellingMatcher } from './NumberSpellingMatcher';
 
 export type DifficultyLevel = 1 | 2 | 3;
 export type GameMode = 'quiz' | 'matcher';
 
 interface QuizQuestion {
   id: string;
-  type: 'arabic-to-roman' | 'roman-to-arabic';
   prompt: string;
   highlightValue: string;
+  questionTypeBadge: string;
   options: string[];
   correctAnswer: string;
   explanation: string;
@@ -49,7 +44,7 @@ interface LevelConfig {
   title: string;
   subtitle: string;
   range: string;
-  symbols: string;
+  focus: string;
   color: string;
   badgeBg: string;
   badgeBorder: string;
@@ -63,140 +58,169 @@ const QUIZ_LEVELS: Record<DifficultyLevel, LevelConfig> = {
   1: {
     level: 1,
     title: '1. Könnyű szint',
-    subtitle: 'Alapok: 1–20 közötti számok',
-    range: '1 – 20',
-    symbols: 'I (1), V (5), X (10)',
-    color: 'emerald',
-    badgeBg: 'bg-emerald-50 dark:bg-emerald-950/40',
-    badgeBorder: 'border-emerald-200 dark:border-emerald-800',
-    badgeText: 'text-emerald-700 dark:text-emerald-300',
-    accentGradient: 'from-emerald-500 to-teal-600',
-    iconBg: 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/50 dark:text-emerald-400',
+    subtitle: 'Számok 2 000-ig (Kétezres szabály, egybeírás)',
+    range: '1 – 2 000',
+    focus: 'Egybeírás 2000-ig, tőszámnevek és alapvető sorszámnevek',
+    color: 'violet',
+    badgeBg: 'bg-violet-50 dark:bg-violet-950/40',
+    badgeBorder: 'border-violet-200 dark:border-violet-800',
+    badgeText: 'text-violet-700 dark:text-violet-300',
+    accentGradient: 'from-violet-500 to-indigo-600',
+    iconBg: 'bg-violet-500',
     questions: [
       {
-        id: 'l1-q1',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '5',
-        options: ['V', 'IV', 'VI', 'X'],
-        correctAnswer: 'V',
-        explanation: 'Az 5-ös szám római számjegye a V.',
-        breakdown: [{ label: '5', value: 'V' }]
-      },
-      {
-        id: 'l1-q2',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'VIII',
-        options: ['8', '7', '9', '13'],
-        correctAnswer: '8',
-        explanation: 'VIII = 5 (V) + 1 + 1 + 1 (III) = 8. (Összeadás elve)',
+        id: 'q1-1',
+        prompt: 'Hogyan írjuk le helyesen betűvel a megadott számot?',
+        highlightValue: '15',
+        questionTypeBadge: 'Tőszámnév ≤ 2 000',
+        options: ['tizenöt', 'tizen-öt', 'tíz öt', 'tizen öt'],
+        correctAnswer: 'tizenöt',
+        explanation: 'A 2000-nél nem nagyobb összetett tőszámneveket egyetlen szóba írjuk, kötőjel nélkül.',
         breakdown: [
-          { label: 'V', value: '5' },
-          { label: 'III', value: '+ 3' },
-          { label: 'Összesen', value: '8' }
+          { label: 'Szám', value: '15' },
+          { label: 'Szabály', value: '≤ 2 000: egybeírás' },
+          { label: 'Helyes alak', value: 'tizenöt' }
         ]
       },
       {
-        id: 'l1-q3',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '4',
-        options: ['IV', 'IIII', 'VI', 'V'],
-        correctAnswer: 'IV',
-        explanation: 'A 4-et kivonással képezzük: IV = 5 - 1 = 4. Négy egyforma jel (IIII) soha nem állhat egymás mellett!',
-        breakdown: [{ label: '5 - 1', value: 'IV = 4' }]
-      },
-      {
-        id: 'l1-q4',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'IX',
-        options: ['9', '11', '8', '19'],
-        correctAnswer: '9',
-        explanation: 'IX = 10 (X) - 1 (I) = 9. Ha a kisebb értékű I a nagyobb X előtt áll, kivonjuk annak értékét.',
-        breakdown: [{ label: '10 - 1', value: 'IX = 9' }]
-      },
-      {
-        id: 'l1-q5',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '12',
-        options: ['XII', 'VII', 'XX', 'IIX'],
-        correctAnswer: 'XII',
-        explanation: '12 = 10 (X) + 2 (II) = XII.',
+        id: 'q1-2',
+        prompt: 'Hogyan írjuk le helyesen betűvel a következő számot?',
+        highlightValue: '482',
+        questionTypeBadge: 'Tőszámnév ≤ 2 000',
+        options: [
+          'négyszáznyolcvankettő',
+          'négyszáz-nyolcvankettő',
+          'négyszáz nyolcvankettő',
+          'négyszáz-nyolcvan-kettő'
+        ],
+        correctAnswer: 'négyszáznyolcvankettő',
+        explanation: '2000-ig minden összetett számot teljesen egybeírunk: négyszáznyolcvankettő.',
         breakdown: [
-          { label: '10', value: 'X' },
-          { label: '2', value: 'II' },
-          { label: 'Összesen', value: 'XII' }
+          { label: 'Szám', value: '482' },
+          { label: 'Szabály', value: '≤ 2 000: egybeírás' },
+          { label: 'Helyes alak', value: 'négyszáznyolcvankettő' }
         ]
       },
       {
-        id: 'l1-q6',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'XIV',
-        options: ['14', '16', '15', '24'],
-        correctAnswer: '14',
-        explanation: 'XIV = 10 (X) + 4 (IV) = 14.',
+        id: 'q1-3',
+        prompt: 'Hogyan írjuk le helyesen betűvel az 1 500-at?',
+        highlightValue: '1 500',
+        questionTypeBadge: 'Kétezres szabály',
+        options: ['ezerötszáz', 'ezer-ötszáz', 'ezer ötszáz', 'egy-ezerötszáz'],
+        correctAnswer: 'ezerötszáz',
+        explanation: 'Mivel 1500 ≤ 2000, ezért egybeírjuk kötőjel nélkül: ezerötszáz.',
         breakdown: [
-          { label: 'X', value: '10' },
-          { label: 'IV', value: '+ 4' },
-          { label: 'Összesen', value: '14' }
+          { label: 'Szám', value: '1 500' },
+          { label: 'Határ', value: '1500 ≤ 2000' },
+          { label: 'Helyes alak', value: 'ezerötszáz' }
         ]
       },
       {
-        id: 'l1-q7',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '16',
-        options: ['XVI', 'XIV', 'XIX', 'XVII'],
-        correctAnswer: 'XVI',
-        explanation: '16 = 10 (X) + 5 (V) + 1 (I) = XVI.',
+        id: 'q1-4',
+        prompt: 'Hogyan írjuk le helyesen az 1 999-et betűvel?',
+        highlightValue: '1 999',
+        questionTypeBadge: 'Kétezres szabály',
+        options: [
+          'ezerkilencszázkilencvenkilenc',
+          'ezer-kilencszázkilencvenkilenc',
+          'ezerkilencszáz-kilencvenkilenc',
+          'ezer kilencszáz kilencvenkilenc'
+        ],
+        correctAnswer: 'ezerkilencszázkilencvenkilenc',
+        explanation: '1999 még a 2000-es határ alatt van, így egyetlen hosszú szóként írjuk le.',
         breakdown: [
-          { label: '10', value: 'X' },
-          { label: '5', value: 'V' },
-          { label: '1', value: 'I' },
-          { label: 'Összesen', value: 'XVI' }
+          { label: 'Szám', value: '1 999' },
+          { label: 'Szabály', value: '≤ 2 000: egybeírás' },
+          { label: 'Helyes alak', value: 'ezerkilencszázkilencvenkilenc' }
         ]
       },
       {
-        id: 'l1-q8',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'XIX',
-        options: ['19', '21', '18', '99'],
-        correctAnswer: '19',
-        explanation: 'XIX = 10 (X) + 9 (IX) = 19.',
+        id: 'q1-5',
+        prompt: 'Hogyan írjuk le helyesen a 2 000-et betűvel?',
+        highlightValue: '2 000',
+        questionTypeBadge: 'Kerek határszám',
+        options: ['kétezer', 'két-ezer', 'kettő ezer', 'két ezer'],
+        correctAnswer: 'kétezer',
+        explanation: 'A 2000 pontosan a határ, és egybeírjuk: kétezer.',
         breakdown: [
-          { label: 'X', value: '10' },
-          { label: 'IX', value: '+ 9' },
-          { label: 'Összesen', value: '19' }
+          { label: 'Szám', value: '2 000' },
+          { label: 'Szabály', value: 'Kerek ezres: egybeírás' },
+          { label: 'Helyes alak', value: 'kétezer' }
         ]
       },
       {
-        id: 'l1-q9',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '20',
-        options: ['XX', 'VV', 'X', 'XXI'],
-        correctAnswer: 'XX',
-        explanation: '20 = 10 (X) + 10 (X) = XX. A V betű sosem ismétlődik, ezért a VV hibás!',
-        breakdown: [{ label: '10 + 10', value: 'XX = 20' }]
+        id: 'q1-6',
+        prompt: 'Melyik a szabályos leírása az 5. sorszámnévnek?',
+        highlightValue: '5.',
+        questionTypeBadge: 'Sorszámnév',
+        options: ['ötödik', '5.-ik', 'öt-ödik', '5-ik'],
+        correctAnswer: 'ötödik',
+        explanation: 'A sorszámnév utáni pont már kifejezi az „-ik” képzőt, betűvel leírva: ötödik.',
+        breakdown: [
+          { label: 'Jelölés', value: '5.' },
+          { label: 'Típus', value: 'Sorszámnév' },
+          { label: 'Kiejtés', value: 'ötödik' }
+        ]
       },
       {
-        id: 'l1-q10',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'XVIII',
-        options: ['18', '17', '19', '16'],
-        correctAnswer: '18',
-        explanation: 'XVIII = 10 (X) + 5 (V) + 3 (III) = 18.',
+        id: 'q1-7',
+        prompt: 'Miért HIBÁS az „1 500 = ezer-ötszáz” felírás?',
+        highlightValue: 'ezer-ötszáz',
+        questionTypeBadge: 'Hibaelemzés',
+        options: [
+          'Mert 2 000-ig minden összetett számot egybeírunk',
+          'Mert az ezer után mindig szóközt kell tenni',
+          'Mert az ötszáz elé két kötőjel kell',
+          'Mert az 1500-at csak római számmal szabad leírni'
+        ],
+        correctAnswer: 'Mert 2 000-ig minden összetett számot egybeírunk',
+        explanation: 'A kétezres szabály szerint 2000-ig nem használunk kötőjelet a számnevekben.',
         breakdown: [
-          { label: 'X', value: '10' },
-          { label: 'V', value: '+ 5' },
-          { label: 'III', value: '+ 3' },
-          { label: 'Összesen', value: '18' }
+          { label: 'Hibás alak', value: 'ezer-ötszáz' },
+          { label: 'Hiba oka', value: 'Felesleges kötőjel 2000 alatt' },
+          { label: 'Helyes alak', value: 'ezerötszáz' }
+        ]
+      },
+      {
+        id: 'q1-8',
+        prompt: 'Hogyan írjuk le helyesen a 780-at betűvel?',
+        highlightValue: '780',
+        questionTypeBadge: 'Tőszámnév ≤ 2 000',
+        options: ['hétszáznyolcvan', 'hétszáz-nyolcvan', 'hét-száz-nyolcvan', 'hétszáz nyolcvan'],
+        correctAnswer: 'hétszáznyolcvan',
+        explanation: '780 ≤ 2000, így teljesen egybeírjuk: hétszáznyolcvan.',
+        breakdown: [
+          { label: 'Szám', value: '780' },
+          { label: 'Szabály', value: '≤ 2 000: egybeírás' },
+          { label: 'Helyes alak', value: 'hétszáznyolcvan' }
+        ]
+      },
+      {
+        id: 'q1-9',
+        prompt: 'Milyen kérdésre válaszolnak a tőszámnevek (pl. egy, tíz, száz)?',
+        highlightValue: 'Tőszámnevek',
+        questionTypeBadge: 'Nyelvtani fogalom',
+        options: ['Hány? Mennyi?', 'Hányadik?', 'Hányad rész?', 'Milyen?'],
+        correctAnswer: 'Hány? Mennyi?',
+        explanation: 'A tőszámnevek mennyiséget fejeznek ki, kérdésük: Hány? Mennyi?',
+        breakdown: [
+          { label: 'Szófaj', value: 'Tőszámnév' },
+          { label: 'Kérdése', value: 'Hány? Mennyi?' },
+          { label: 'Példa', value: 'öt, húsz, száz' }
+        ]
+      },
+      {
+        id: 'q1-10',
+        prompt: 'Hogyan írjuk le betűvel a 12. sorszámnevet?',
+        highlightValue: '12.',
+        questionTypeBadge: 'Sorszámnév',
+        options: ['tizenkettedik', '12-edik', 'tizenkettő-ik', 'tizenkettődik'],
+        correctAnswer: 'tizenkettedik',
+        explanation: '12. betűvel leírva: tizenkettedik (vagy tizenkettedik helyezett).',
+        breakdown: [
+          { label: 'Szám', value: '12.' },
+          { label: 'Szófaj', value: 'Sorszámnév' },
+          { label: 'Helyes alak', value: 'tizenkettedik' }
         ]
       }
     ]
@@ -204,147 +228,178 @@ const QUIZ_LEVELS: Record<DifficultyLevel, LevelConfig> = {
   2: {
     level: 2,
     title: '2. Közepes szint',
-    subtitle: 'Számok 20–50-ig, új alapjel: L (50)',
-    range: '20 – 50',
-    symbols: 'X (10), XL (40), L (50)',
-    color: 'amber',
-    badgeBg: 'bg-amber-50 dark:bg-amber-950/40',
-    badgeBorder: 'border-amber-200 dark:border-amber-800',
-    badgeText: 'text-amber-700 dark:text-amber-300',
-    accentGradient: 'from-amber-500 to-orange-600',
-    iconBg: 'bg-amber-100 text-amber-600 dark:bg-amber-900/50 dark:text-amber-400',
+    subtitle: 'Számok 2 001 – 99 999 (Kötőjelezés és kerek ezresek)',
+    range: '2 001 – 99 999',
+    focus: 'Kötőjel az osztályhatárokon, kerek ezresek kivétele',
+    color: 'indigo',
+    badgeBg: 'bg-indigo-50 dark:bg-indigo-950/40',
+    badgeBorder: 'border-indigo-200 dark:border-indigo-800',
+    badgeText: 'text-indigo-700 dark:text-indigo-300',
+    accentGradient: 'from-indigo-500 to-violet-600',
+    iconBg: 'bg-indigo-500',
     questions: [
       {
-        id: 'l2-q1',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '24',
-        options: ['XXIV', 'XXVI', 'XXIIII', 'XIV'],
-        correctAnswer: 'XXIV',
-        explanation: '24 = 20 (XX) + 4 (IV) = XXIV.',
+        id: 'q2-1',
+        prompt: 'Hogyan írjuk le helyesen a 2 001-et betűvel?',
+        highlightValue: '2 001',
+        questionTypeBadge: 'Kétezres szabály > 2000',
+        options: ['kétezer-egy', 'kétezeregy', 'két ezer egy', 'kétezer egy'],
+        correctAnswer: 'kétezer-egy',
+        explanation: 'Mivel 2001 > 2000, az ezresek és az egyesek osztálya közé kötőjelet teszünk: kétezer-egy.',
         breakdown: [
-          { label: '20', value: 'XX' },
-          { label: '4', value: 'IV' },
-          { label: 'Összesen', value: 'XXIV' }
+          { label: 'Szám', value: '2 001' },
+          { label: 'Feltétel', value: '2001 > 2000' },
+          { label: 'Kötőjel helye', value: 'kétezer-egy' }
         ]
       },
       {
-        id: 'l2-q2',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'XXIX',
-        options: ['29', '31', '28', '39'],
-        correctAnswer: '29',
-        explanation: 'XXIX = 20 (XX) + 9 (IX) = 29.',
+        id: 'q2-2',
+        prompt: 'Hogyan írjuk le helyesen a 3 000-et betűvel?',
+        highlightValue: '3 000',
+        questionTypeBadge: 'Kerek ezres',
+        options: ['háromezer', 'három-ezer', 'három ezer', 'harmadezer'],
+        correctAnswer: 'háromezer',
+        explanation: 'A 2000-nél nagyobb kerek ezreseket (ha nincs utánuk egyéb számjegy) egybeírjuk: háromezer.',
         breakdown: [
-          { label: 'XX', value: '20' },
-          { label: 'IX', value: '+ 9' },
-          { label: 'Összesen', value: '29' }
+          { label: 'Szám', value: '3 000' },
+          { label: 'Típus', value: 'Kerek ezres' },
+          { label: 'Helyes alak', value: 'háromezer' }
         ]
       },
       {
-        id: 'l2-q3',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '33',
-        options: ['XXXIII', 'XXIII', 'XLIII', 'XXXXIII'],
-        correctAnswer: 'XXXIII',
-        explanation: '33 = 30 (XXX) + 3 (III) = XXXIII. A maximális 3 darab X és 3 darab I egymás mellett megengedett.',
+        id: 'q2-3',
+        prompt: 'Hogyan írjuk le helyesen a 4 520-at betűvel?',
+        highlightValue: '4 520',
+        questionTypeBadge: 'Kötőjelezés > 2000',
+        options: [
+          'négyezer-ötszázhúsz',
+          'négyezerötszázhúsz',
+          'négyezer ötszázhúsz',
+          'négy-ezer-ötszáz-húsz'
+        ],
+        correctAnswer: 'négyezer-ötszázhúsz',
+        explanation: '4520 > 2000: az ezresek osztálya (négyezer) és az egyesek osztálya (ötszázhúsz) közé kötőjel kerül.',
         breakdown: [
-          { label: '30', value: 'XXX' },
-          { label: '3', value: 'III' },
-          { label: 'Összesen', value: 'XXXIII' }
+          { label: 'Szám', value: '4 520' },
+          { label: 'Osztályok', value: '4 ezer | 520' },
+          { label: 'Helyes alak', value: 'négyezer-ötszázhúsz' }
         ]
       },
       {
-        id: 'l2-q4',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'XXXVIII',
-        options: ['38', '37', '48', '33'],
-        correctAnswer: '38',
-        explanation: 'XXXVIII = 30 (XXX) + 5 (V) + 3 (III) = 38.',
+        id: 'q2-4',
+        prompt: 'Hogyan írjuk le helyesen a 12 300-at betűvel?',
+        highlightValue: '12 300',
+        questionTypeBadge: 'Kötőjelezés > 2000',
+        options: [
+          'tizenkétezer-háromszáz',
+          'tizenkét-ezer-háromszáz',
+          'tizenkétezerháromszáz',
+          'tizenkét ezer háromszáz'
+        ],
+        correctAnswer: 'tizenkétezer-háromszáz',
+        explanation: 'Az ezresek osztályát (tizenkétezer) és a százasokat (háromszáz) kötőjellel választjuk el.',
         breakdown: [
-          { label: 'XXX', value: '30' },
-          { label: 'V', value: '+ 5' },
-          { label: 'III', value: '+ 3' },
-          { label: 'Összesen', value: '38' }
+          { label: 'Szám', value: '12 300' },
+          { label: 'Osztályok', value: '12 ezer | 300' },
+          { label: 'Helyes alak', value: 'tizenkétezer-háromszáz' }
         ]
       },
       {
-        id: 'l2-q5',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '40',
-        options: ['XL', 'XXXX', 'LX', 'L'],
-        correctAnswer: 'XL',
-        explanation: '40 = 50 - 10 = XL (kivonás elve: az 50 (L) előtt áll a 10 (X)). Négy X (XXXX) nem állhat egymás után!',
-        breakdown: [{ label: '50 - 10', value: 'XL = 40' }]
-      },
-      {
-        id: 'l2-q6',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'XLV',
-        options: ['45', '55', '65', '35'],
-        correctAnswer: '45',
-        explanation: 'XLV = 40 (XL) + 5 (V) = 45.',
+        id: 'q2-5',
+        prompt: 'Hogyan írjuk le helyesen a 45 800-at betűvel?',
+        highlightValue: '45 800',
+        questionTypeBadge: 'Kötőjelezés > 2000',
+        options: [
+          'negyvenötezer-nyolcszáz',
+          'negyvenöt-ezer-nyolcszáz',
+          'negyvenötezer nyolcszáz',
+          'negyven-ötezer-nyolcszáz'
+        ],
+        correctAnswer: 'negyvenötezer-nyolcszáz',
+        explanation: 'Az ezresek osztálya (negyvenötezer) egybeírandó, utána kötőjellel kapcsolódik a nyolcszáz.',
         breakdown: [
-          { label: 'XL', value: '40' },
-          { label: 'V', value: '+ 5' },
-          { label: 'Összesen', value: '45' }
+          { label: 'Szám', value: '45 800' },
+          { label: 'Ezresek', value: 'negyvenötezer' },
+          { label: 'Helyes alak', value: 'negyvenötezer-nyolcszáz' }
         ]
       },
       {
-        id: 'l2-q7',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '44',
-        options: ['XLIV', 'XLVI', 'XXXXIV', 'LIV'],
-        correctAnswer: 'XLIV',
-        explanation: '44 = 40 (XL) + 4 (IV) = XLIV. Kétszeres kivonási elv érvényesül (a tízeseknél és egyeseknél is).',
+        id: 'q2-6',
+        prompt: 'Mi a helyes leírása a 70 005 számnak betűvel?',
+        highlightValue: '70 005',
+        questionTypeBadge: 'Kötőjelezés > 2000',
+        options: ['hetvenezer-öt', 'hetvenezer öt', 'hetven-ezer-öt', 'hetvenezeröt'],
+        correctAnswer: 'hetvenezer-öt',
+        explanation: '70 005 = 70 ezer + 5. Mivel > 2000, az ezresek és az egyesek közé kötőjel kerül: hetvenezer-öt.',
         breakdown: [
-          { label: '40', value: 'XL' },
-          { label: '4', value: 'IV' },
-          { label: 'Összesen', value: 'XLIV' }
+          { label: 'Szám', value: '70 005' },
+          { label: 'Osztályok', value: '70 ezer | 5' },
+          { label: 'Helyes alak', value: 'hetvenezer-öt' }
         ]
       },
       {
-        id: 'l2-q8',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'XLIX',
-        options: ['49', '59', '48', '51'],
-        correctAnswer: '49',
-        explanation: 'XLIX = 40 (XL) + 9 (IX) = 49. (Nem írható IL formában, mert a számokat helyiértékek szerint kell felbontani: 40 + 9).',
+        id: 'q2-7',
+        prompt: 'Hogyan írjuk le helyesen a 20 000-et betűvel?',
+        highlightValue: '20 000',
+        questionTypeBadge: 'Kerek tízezres',
+        options: ['húszezer', 'húsz-ezer', 'húsz ezer', 'húszezres'],
+        correctAnswer: 'húszezer',
+        explanation: 'A kerek tízezreseket egyetlen szóba írjuk: húszezer.',
         breakdown: [
-          { label: 'XL', value: '40' },
-          { label: 'IX', value: '+ 9' },
-          { label: 'Összesen', value: '49' }
+          { label: 'Szám', value: '20 000' },
+          { label: 'Típus', value: 'Kerek tízezres' },
+          { label: 'Helyes alak', value: 'húszezer' }
         ]
       },
       {
-        id: 'l2-q9',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '50',
-        options: ['L', 'C', 'XXXXX', 'D'],
-        correctAnswer: 'L',
-        explanation: 'Az 50 római számjele az L.',
-        breakdown: [{ label: '50', value: 'L' }]
+        id: 'q2-8',
+        prompt: 'Hová kerül a kötőjel a 99 999 leírásakor?',
+        highlightValue: '99 999',
+        questionTypeBadge: 'Kötőjel pozíciója',
+        options: [
+          'Az ezresek és az egyesek osztálya közé (kilencvenkilencezer-kilencszázkilencvenkilenc)',
+          'Minden számjegy neve közé (kilencven-kilenc-ezer...)',
+          'Sehová, mert 100 000 alatt mindent egybeírunk',
+          'Az ezer szó elé és után is'
+        ],
+        correctAnswer: 'Az ezresek és az egyesek osztálya közé (kilencvenkilencezer-kilencszázkilencvenkilenc)',
+        explanation: 'A kötőjel kizárólag a hármas számcsoportok (számosztályok) határára kerül.',
+        breakdown: [
+          { label: 'Szám', value: '99 999' },
+          { label: 'Kötőjel helye', value: '...ezer-...' },
+          { label: 'Helyes alak', value: 'kilencvenkilencezer-kilencszázkilencvenkilenc' }
+        ]
       },
       {
-        id: 'l2-q10',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'XLVII',
-        options: ['47', '57', '37', '46'],
-        correctAnswer: '47',
-        explanation: 'XLVII = 40 (XL) + 7 (VII) = 47.',
+        id: 'q2-9',
+        prompt: 'Melyik a helyes sorszámnév alak: 8. ?',
+        highlightValue: '8.',
+        questionTypeBadge: 'Sorszámnév',
+        options: ['nyolcadik', 'nyolcad-ik', '8-adik', 'nyolc-adik'],
+        correctAnswer: 'nyolcadik',
+        explanation: '8. betűvel leírva: nyolcadik.',
         breakdown: [
-          { label: 'XL', value: '40' },
-          { label: 'VII', value: '+ 7' },
-          { label: 'Összesen', value: '47' }
+          { label: 'Jelölés', value: '8.' },
+          { label: 'Helyes alak', value: 'nyolcadik' }
+        ]
+      },
+      {
+        id: 'q2-10',
+        prompt: 'Mi a HIBA a „háromezer ötszáz” alakban?',
+        highlightValue: 'háromezer ötszáz',
+        questionTypeBadge: 'Hibaelemzés',
+        options: [
+          'Szóköz van a kötőjel helyén',
+          'Az ötszázat külön kell választani egybeírással',
+          'A háromezer helyett három ezer kell',
+          'Nem szabad betűvel leírni'
+        ],
+        correctAnswer: 'Szóköz van a kötőjel helyén',
+        explanation: '2000 felett az osztályok határán kötőjelet kell tenni, nem szóközt: háromezer-ötszáz.',
+        breakdown: [
+          { label: 'Hibás alak', value: 'háromezer ötszáz' },
+          { label: 'Hiba oka', value: 'Szóköz kötőjel helyett' },
+          { label: 'Helyes alak', value: 'háromezer-ötszáz' }
         ]
       }
     ]
@@ -352,162 +407,192 @@ const QUIZ_LEVELS: Record<DifficultyLevel, LevelConfig> = {
   3: {
     level: 3,
     title: '3. Nehéz szint',
-    subtitle: 'Számok 50–100-ig, új alapjel: C (100)',
-    range: '50 – 100',
-    symbols: 'L (50), XC (90), C (100)',
+    subtitle: 'Milliók, több kötőjel, dátumok és vegyes helyesírás',
+    range: '100 000 – 100 000 000+',
+    focus: 'Több kötőjeles számok, dátumok és összetett sorszámnevek',
     color: 'purple',
     badgeBg: 'bg-purple-50 dark:bg-purple-950/40',
     badgeBorder: 'border-purple-200 dark:border-purple-800',
     badgeText: 'text-purple-700 dark:text-purple-300',
-    accentGradient: 'from-purple-600 to-indigo-600',
-    iconBg: 'bg-purple-100 text-purple-600 dark:bg-purple-900/50 dark:text-purple-400',
+    accentGradient: 'from-purple-500 to-pink-600',
+    iconBg: 'bg-purple-500',
     questions: [
       {
-        id: 'l3-q1',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '58',
-        options: ['LVIII', 'XLVIII', 'LVII', 'LXVIII'],
-        correctAnswer: 'LVIII',
-        explanation: '58 = 50 (L) + 8 (VIII) = LVIII.',
+        id: 'q3-1',
+        prompt: 'Hogyan írjuk le helyesen az 1 250 000-et betűvel?',
+        highlightValue: '1 250 000',
+        questionTypeBadge: 'Milliók helyesírása',
+        options: [
+          'egymillió-kétszázötvenezer',
+          'egymilliókétszázötvenezer',
+          'egy-millió-kétszázötvenezer',
+          'egymillió kétszázötvenezer'
+        ],
+        correctAnswer: 'egymillió-kétszázötvenezer',
+        explanation: 'A milliók osztálya (egymillió) és az ezresek osztálya (kétszázötvenezer) közé kötőjel kerül.',
         breakdown: [
-          { label: '50', value: 'L' },
-          { label: '8', value: 'VIII' },
-          { label: 'Összesen', value: 'LVIII' }
+          { label: 'Szám', value: '1 250 000' },
+          { label: 'Osztályok', value: '1 millió | 250 ezer' },
+          { label: 'Helyes alak', value: 'egymillió-kétszázötvenezer' }
         ]
       },
       {
-        id: 'l3-q2',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'LXIV',
-        options: ['64', '66', '54', '74'],
-        correctAnswer: '64',
-        explanation: 'LXIV = 60 (LX) + 4 (IV) = 64.',
+        id: 'q3-2',
+        prompt: 'Hogyan írjuk le helyesen a 4 520 030-at betűvel?',
+        highlightValue: '4 520 030',
+        questionTypeBadge: 'Több kötőjeles szám',
+        options: [
+          'négymillió-ötszázhúszezer-harminc',
+          'négymillióötszázhúszezerharminc',
+          'négy-millió-ötszáz-húszezer-harminc',
+          'négymillió ötszázhúszezer harminc'
+        ],
+        correctAnswer: 'négymillió-ötszázhúszezer-harminc',
+        explanation: 'Három osztály van: milliók, ezresek és egyesek, ezért 2 darab kötőjel kerül az osztályhatárokra.',
         breakdown: [
-          { label: 'LX', value: '60' },
-          { label: 'IV', value: '+ 4' },
-          { label: 'Összesen', value: '64' }
+          { label: 'Szám', value: '4 520 030' },
+          { label: 'Tagolás', value: '4 M | 520 e | 030 E' },
+          { label: 'Helyes alak', value: 'négymillió-ötszázhúszezer-harminc' }
         ]
       },
       {
-        id: 'l3-q3',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '73',
-        options: ['LXXIII', 'LXIII', 'LXXXIII', 'LXXIV'],
-        correctAnswer: 'LXXIII',
-        explanation: '73 = 70 (LXX) + 3 (III) = LXXIII.',
+        id: 'q3-3',
+        prompt: 'Hogyan írjuk le helyesen az 5 000 000-t betűvel?',
+        highlightValue: '5 000 000',
+        questionTypeBadge: 'Kerek milliós',
+        options: ['ötmillió', 'öt-millió', 'öt millió', 'ötmilliós'],
+        correctAnswer: 'ötmillió',
+        explanation: 'A kerek milliókat egybeírjuk kötőjel nélkül: ötmillió.',
         breakdown: [
-          { label: '70', value: 'LXX' },
-          { label: '3', value: 'III' },
-          { label: 'Összesen', value: 'LXXIII' }
+          { label: 'Szám', value: '5 000 000' },
+          { label: 'Típus', value: 'Kerek milliós' },
+          { label: 'Helyes alak', value: 'ötmillió' }
         ]
       },
       {
-        id: 'l3-q4',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'LXXVI',
-        options: ['76', '74', '66', '86'],
-        correctAnswer: '76',
-        explanation: 'LXXVI = 70 (LXX) + 6 (VI) = 76.',
+        id: 'q3-4',
+        prompt: 'Hogyan írjuk le helyesen az 5 000 020-at betűvel?',
+        highlightValue: '5 000 020',
+        questionTypeBadge: 'Kihagyott osztály',
+        options: ['ötmillió-húsz', 'ötmillióhúsz', 'öt-millió-húsz', 'ötmillió húsz'],
+        correctAnswer: 'ötmillió-húsz',
+        explanation: 'Az ezresek osztálya 0, így kimarad, a milliók és az egyesek közé pedig kötőjel kerül: ötmillió-húsz.',
         breakdown: [
-          { label: 'LXX', value: '70' },
-          { label: 'VI', value: '+ 6' },
-          { label: 'Összesen', value: '76' }
+          { label: 'Szám', value: '5 000 020' },
+          { label: 'Osztályok', value: '5 M | 0 e | 20 E' },
+          { label: 'Helyes alak', value: 'ötmillió-húsz' }
         ]
       },
       {
-        id: 'l3-q5',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '84',
-        options: ['LXXXIV', 'LXXXVI', 'XCIV', 'LXXIV'],
-        correctAnswer: 'LXXXIV',
-        explanation: '84 = 80 (LXXX) + 4 (IV) = LXXXIV.',
+        id: 'q3-5',
+        prompt: 'Melyik a szabályos magyar dátumírás?',
+        highlightValue: 'Dátumírás',
+        questionTypeBadge: 'Dátumok',
+        options: [
+          '2026. szeptember 7.',
+          '2 026. szeptember 7',
+          '2026 szeptember 7',
+          '2026. szeptember. 7.'
+        ],
+        correctAnswer: '2026. szeptember 7.',
+        explanation: 'Az évszámot nem tagoljuk szóközzel, és az év, valamint a nap után pontot teszünk: 2026. szeptember 7.',
         breakdown: [
-          { label: '80', value: 'LXXX' },
-          { label: '4', value: 'IV' },
-          { label: 'Összesen', value: 'LXXXIV' }
+          { label: 'Évszám', value: '2026. (tagolatlan)' },
+          { label: 'Hónap', value: 'szeptember (kisbetű)' },
+          { label: 'Nap', value: '7. (ponttal)' }
         ]
       },
       {
-        id: 'l3-q6',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'LXXXIX',
-        options: ['89', '99', '79', '88'],
-        correctAnswer: '89',
-        explanation: 'LXXXIX = 80 (LXXX) + 9 (IX) = 89.',
+        id: 'q3-6',
+        prompt: 'Miért HIBÁS a „5.-ik helyen végzett” írásmód?',
+        highlightValue: '5.-ik',
+        questionTypeBadge: 'Hibaelemzés',
+        options: [
+          'Mert a pont már magában jelöli az „-ik” képzőt',
+          'Mert a sorszámnevek elé mindig betűt kell tenni',
+          'Mert a helyén szóközt kellene hagyni',
+          'Mert az 5-öt csak római számmal szabad leírni'
+        ],
+        correctAnswer: 'Mert a pont már magában jelöli az „-ik” képzőt',
+        explanation: 'A számjegy utáni pont már tartalmazza az „-ik” sorszámnévképzőt, így kétszer jelölnénk: helyesen 5. vagy 5-ödik.',
         breakdown: [
-          { label: 'LXXX', value: '80' },
-          { label: 'IX', value: '+ 9' },
-          { label: 'Összesen', value: '89' }
+          { label: 'Hibás alak', value: '5.-ik' },
+          { label: 'Hiba oka', value: 'Kettős képzőjelölés' },
+          { label: 'Helyes alak', value: '5. vagy 5-ödik' }
         ]
       },
       {
-        id: 'l3-q7',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '90',
-        options: ['XC', 'LXXXX', 'CX', 'IC'],
-        correctAnswer: 'XC',
-        explanation: '90 = 100 - 10 = XC (kivonás elve: 100 (C) előtt a 10 (X)). Négy darab X egymás mellett tilos!',
-        breakdown: [{ label: '100 - 10', value: 'XC = 90' }]
-      },
-      {
-        id: 'l3-q8',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'XCIV',
-        options: ['94', '96', '104', '84'],
-        correctAnswer: '94',
-        explanation: 'XCIV = 90 (XC) + 4 (IV) = 94.',
+        id: 'q3-7',
+        prompt: 'Hogyan írjuk le helyesen a 100 005-öt betűvel?',
+        highlightValue: '100 005',
+        questionTypeBadge: 'Kötőjelezés > 2000',
+        options: ['egyszázezer-öt', 'egyszázezer öt', 'egyszáz-ezer-öt', 'egyszázezeröt'],
+        correctAnswer: 'egyszázezer-öt',
+        explanation: '100 005 = egyszázezer (100 ezer) + öt, az osztályhatáron kötőjellel: egyszázezer-öt.',
         breakdown: [
-          { label: 'XC', value: '90' },
-          { label: 'IV', value: '+ 4' },
-          { label: 'Összesen', value: '94' }
+          { label: 'Szám', value: '100 005' },
+          { label: 'Osztályok', value: '100 ezer | 5' },
+          { label: 'Helyes alak', value: 'egyszázezer-öt' }
         ]
       },
       {
-        id: 'l3-q9',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '99',
-        options: ['XCIX', 'IC', 'LXXXXIX', 'CXI'],
-        correctAnswer: 'XCIX',
-        explanation: '99 = 90 + 9 = XC + IX = XCIX. (Figyelem: az IC alak szabálytalan, mert a római számírásban helyiértékek szerint bontjuk a számokat: 90 = XC, 9 = IX!).',
+        id: 'q3-8',
+        prompt: 'Hány darab kötőjel van a 25 300 450 szám betűs leírásában?',
+        highlightValue: '25 300 450',
+        questionTypeBadge: 'Kötőjelek száma',
+        options: [
+          '2 darab (huszonötmillió-háromszázezer-négyszázötven)',
+          '1 darab (huszonötmillió-háromszázezernégyszázötven)',
+          '3 darab (huszon-öt-millió-...)',
+          '0 darab (mindent egybeírunk)'
+        ],
+        correctAnswer: '2 darab (huszonötmillió-háromszázezer-négyszázötven)',
+        explanation: 'Három osztály kapcsolódik össze (milliók, ezresek, egyesek), ami 2 kötőjelet jelent az osztályhatárokon.',
         breakdown: [
-          { label: '90', value: 'XC' },
-          { label: '9', value: 'IX' },
-          { label: 'Összesen', value: 'XCIX' }
+          { label: 'Szám', value: '25 300 450' },
+          { label: 'Határok száma', value: '2 osztályhatár' },
+          { label: 'Helyes alak', value: 'huszonötmillió-háromszázezer-négyszázötven' }
         ]
       },
       {
-        id: 'l3-q10',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'C',
-        options: ['100', '50', '500', '1000'],
-        correctAnswer: '100',
-        explanation: 'A 100 római számjele a C (a latin "centum" = száz szóból ered).',
-        breakdown: [{ label: '100', value: 'C' }]
+        id: 'q3-9',
+        prompt: 'Hogyan írjuk le helyesen toldalékkal az „5. helyen végzettnek” kifejezést számjeggyel?',
+        highlightValue: '5. + toldalék',
+        questionTypeBadge: 'Toldalékolás',
+        options: ['5.-nek vagy 5-nek', '5-ödiknek', '5.-iknek', '5diknek'],
+        correctAnswer: '5.-nek vagy 5-nek',
+        explanation: 'A sorszámnévhez kötőjellel kapcsoljuk a toldalékot (5.-nek vagy 5-nek).',
+        breakdown: [
+          { label: 'Alap', value: '5. (ötödik)' },
+          { label: 'Toldalék', value: '-nek' },
+          { label: 'Helyes alak', value: '5.-nek vagy 5-nek' }
+        ]
+      },
+      {
+        id: 'q3-10',
+        prompt: 'Hogyan írjuk le helyesen a 3 000 000 000 (3 milliárd) számnevet betűvel?',
+        highlightValue: '3 000 000 000',
+        questionTypeBadge: 'Milliárdok',
+        options: ['hárommilliárd', 'három-milliárd', 'három milliárd', 'hárommilliárdos'],
+        correctAnswer: 'hárommilliárd',
+        explanation: 'A kerek milliárdokat egybeírjuk: hárommilliárd.',
+        breakdown: [
+          { label: 'Szám', value: '3 000 000 000' },
+          { label: 'Típus', value: 'Kerek milliárdos' },
+          { label: 'Helyes alak', value: 'hárommilliárd' }
+        ]
       }
     ]
   }
 };
 
-const ROMAN_SYMBOLS_CHEAT_SHEET = [
-  { roman: 'I', arabic: '1', note: 'Alapjel (max. 3x ismételhető)' },
-  { roman: 'V', arabic: '5', note: 'Segédjel (nem ismételhető)' },
-  { roman: 'X', arabic: '10', note: 'Alapjel (max. 3x ismételhető)' },
-  { roman: 'L', arabic: '50', note: 'Segédjel (nem ismételhető)' },
-  { roman: 'C', arabic: '100', note: 'Alapjel (latin: centum)' },
-  { roman: 'IV', arabic: '4', note: 'Kivonás: 5 - 1' },
-  { roman: 'IX', arabic: '9', note: 'Kivonás: 10 - 1' },
-  { roman: 'XL', arabic: '40', note: 'Kivonás: 50 - 10' },
-  { roman: 'XC', arabic: '90', note: 'Kivonás: 100 - 10' }
+const NUMBER_SPELLING_CHEAT_SHEET = [
+  { rule: '≤ 2 000 (Egybeírás)', example: '1500 ➜ ezerötszáz', note: '2000-ig nincs kötőjel!' },
+  { rule: '> 2 000 (Kötőjelezés)', example: '2001 ➜ kétezer-egy', note: 'Osztályok határán kötőjel' },
+  { rule: 'Kerek ezresek/milliók', example: '3000 ➜ háromezer', note: 'Egybeírjuk kötőjel nélkül' },
+  { rule: 'Sorszámnevek', example: '5. ➜ ötödik', note: 'Pont után tilos az -ik (5.-ik ✗)' },
+  { rule: 'Évszámok', example: '2026', note: 'Nincs szóközös tagolás!' },
+  { rule: 'Dátumok', example: '2026. szeptember 7.', note: 'Év és nap után pont' }
 ];
 
 function shuffleArray<T>(array: T[]): T[] {
@@ -519,11 +604,11 @@ function shuffleArray<T>(array: T[]): T[] {
   return arr;
 }
 
-interface RomanNumeralsQuizProps {
+interface NumberSpellingQuizProps {
   onBack: () => void;
 }
 
-export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
+export function NumberSpellingQuiz({ onBack }: NumberSpellingQuizProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [selectedLevel, setSelectedLevel] = useState<DifficultyLevel | null>(null);
@@ -638,45 +723,48 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
     }
   };
 
-  // Keyboard navigation support for options 1-4
+  // Keyboard shortcut listener (1, 2, 3, 4)
   useEffect(() => {
-    if (!selectedLevel || isCompleted || gameMode !== 'quiz') return;
-
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (['1', '2', '3', '4'].includes(e.key) && !isAnswerChecked) {
-        const index = parseInt(e.key, 10) - 1;
+      if (gameMode !== 'quiz' || isAnswerChecked || isCompleted || !selectedLevel) return;
+      const keyMap: { [key: string]: number } = {
+        '1': 0,
+        '2': 1,
+        '3': 2,
+        '4': 3
+      };
+      if (e.key in keyMap) {
+        const optionIdx = keyMap[e.key];
         const currentQ = questions[currentIndex] || (selectedLevel ? QUIZ_LEVELS[selectedLevel].questions[currentIndex] : null);
-        if (currentQ && currentQ.options[index]) {
-          handleOptionClick(currentQ.options[index]);
+        if (currentQ && currentQ.options[optionIdx]) {
+          handleOptionClick(currentQ.options[optionIdx]);
         }
-      } else if (e.key === 'Enter' && isAnswerChecked) {
-        handleNextQuestion();
       }
     };
-
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedLevel, currentIndex, isAnswerChecked, isCompleted, gameMode, questions]);
+  }, [gameMode, isAnswerChecked, isCompleted, selectedLevel, currentIndex, questions]);
 
-  // 1. Difficulty Level Selection Screen
-  if (!selectedLevel) {
+  // 1. Initial Level Selection Screen
+  if (selectedLevel === null) {
     return (
       <div
         ref={containerRef}
         className={cn(
-          "max-w-5xl mx-auto px-4 py-2 sm:py-3 animate-in fade-in slide-in-from-bottom-2 duration-300 text-left",
+          "w-full max-w-5xl mx-auto px-2 sm:px-4 py-2 animate-in fade-in duration-300 text-left",
           isFullscreen && "fixed inset-0 z-50 max-w-none w-screen h-screen bg-slate-100 dark:bg-slate-950 p-4 sm:p-6 overflow-y-auto"
         )}
       >
-        {/* Top bar with back, fullscreen, and cheat sheet buttons */}
-        <div className="flex items-center justify-between gap-3 mb-3">
+        {/* Top bar with back button and cheat sheet */}
+        <div className="flex items-center justify-between gap-2 mb-4">
           <Button
             variant="ghost"
             size="sm"
             onClick={onBack}
-            className="rounded-xl h-9 px-3 border border-slate-200/80 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300"
+            className="rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
           >
-            <ArrowLeft className="w-3.5 h-3.5 mr-1.5" /> Vissza a témakörökhöz
+            <ArrowLeft className="w-4 h-4 mr-1" />
+            Vissza a témakörökhöz
           </Button>
 
           <div className="flex items-center gap-2">
@@ -684,12 +772,12 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
               variant="outline"
               size="sm"
               onClick={toggleFullscreen}
-              className="rounded-xl h-9 px-2.5 text-xs sm:text-sm font-bold border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300"
+              className="rounded-xl h-8 px-2.5 text-xs font-bold border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300"
               title={isFullscreen ? 'Kilépés a teljes képernyőből' : 'Teljes képernyős mód'}
             >
               {isFullscreen ? (
                 <>
-                  <Minimize2 className="w-3.5 h-3.5 mr-1 text-amber-600 dark:text-amber-400" />
+                  <Minimize2 className="w-3.5 h-3.5 mr-1 text-violet-600 dark:text-violet-400" />
                   <span className="hidden sm:inline">Kilépés</span>
                 </>
               ) : (
@@ -704,10 +792,10 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
               variant="outline"
               size="sm"
               onClick={() => setShowCheatSheet(!showCheatSheet)}
-              className="rounded-xl h-9 px-3 border-amber-300 bg-amber-50/60 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800 hover:bg-amber-100 text-xs sm:text-sm font-bold"
+              className="rounded-xl h-8 px-3 text-xs font-bold border-violet-300 bg-violet-50/50 text-violet-800 dark:bg-violet-950/40 dark:text-violet-300 dark:border-violet-800 hover:bg-violet-100"
             >
-              <BookOpen className="w-3.5 h-3.5 mr-1.5 text-amber-600" />
-              Római számok szabályai
+              <BookOpen className="w-3.5 h-3.5 mr-1.5 text-violet-600" />
+              Helyesírási segédlet
             </Button>
           </div>
         </div>
@@ -715,11 +803,11 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
         {/* Hero Header */}
         <div className="text-center max-w-2xl mx-auto mb-4 sm:mb-5">
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight flex items-center justify-center gap-2 mb-1">
-            <span className="text-2xl">🏛️</span>
-            <span>Római Számok Gyakorló</span>
+            <span className="text-2xl">✍️</span>
+            <span>A Számok Helyesírása Gyakorló</span>
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-            Gyakorold a római számírást 1-től 100-ig többválasztós kvízzel vagy kártyanyitogatós párosító játékkal!
+            Gyakorold a kétezres szabályt, a kötőjelezést és a sorszámneveket többválasztós kvízzel vagy kártyanyitogatós memóriajátékkal!
           </p>
 
           {/* Quick Mode Switcher in selection */}
@@ -733,7 +821,7 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
                   : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
               )}
             >
-              <FileQuestion className="w-3.5 h-3.5 text-amber-500" />
+              <FileQuestion className="w-3.5 h-3.5 text-violet-500" />
               Klasszikus Kvíz
             </button>
             <button
@@ -753,29 +841,34 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
 
         {/* Cheat sheet popover/card */}
         {showCheatSheet && (
-          <div className="mb-4 p-4 sm:p-5 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-slate-900 dark:to-slate-850 rounded-2xl border-2 border-amber-200 dark:border-amber-900/60 shadow-md animate-in fade-in duration-200">
+          <div className="mb-4 p-4 sm:p-5 bg-gradient-to-br from-violet-50 to-indigo-50 dark:from-slate-900 dark:to-slate-850 rounded-2xl border-2 border-violet-200 dark:border-violet-900/60 shadow-md animate-in fade-in duration-200">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm sm:text-base font-black text-amber-900 dark:text-amber-200 flex items-center gap-1.5">
-                <Sparkles className="w-4 h-4 text-amber-600" />
-                Római számjegyek és szabályok (1–100)
+              <h3 className="text-sm sm:text-base font-black text-violet-900 dark:text-violet-200 flex items-center gap-1.5">
+                <Sparkles className="w-4 h-4 text-violet-600" />
+                A számok helyesírási szabályai (Kétezres szabály)
               </h3>
               <Button
                 size="sm"
                 variant="ghost"
                 onClick={() => setShowCheatSheet(false)}
-                className="text-amber-800 dark:text-amber-300 hover:bg-amber-200/50 rounded-lg h-7 px-2 text-xs"
+                className="text-violet-800 dark:text-violet-300 hover:bg-violet-200/50 rounded-lg h-7 px-2 text-xs"
               >
                 Bezárás
               </Button>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
-              {ROMAN_SYMBOLS_CHEAT_SHEET.map((item, idx) => (
-                <div key={idx} className="bg-white/95 dark:bg-slate-800/95 p-2.5 rounded-xl border border-amber-100 dark:border-slate-700 shadow-xs text-left">
-                  <div className="text-lg font-serif font-black text-amber-600 dark:text-amber-400">{item.roman}</div>
-                  <div className="text-sm font-black text-slate-800 dark:text-slate-100">= {item.arabic}</div>
-                  <div className="text-[11px] text-slate-500 dark:text-slate-400 leading-tight">{item.note}</div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+              {NUMBER_SPELLING_CHEAT_SHEET.map((item, idx) => (
+                <div key={idx} className="bg-white/95 dark:bg-slate-800/95 p-2.5 rounded-xl border border-violet-100 dark:border-slate-700 shadow-xs text-left">
+                  <div className="text-xs font-black text-violet-600 dark:text-violet-400">{item.rule}</div>
+                  <div className="text-xs font-bold text-slate-800 dark:text-slate-100 mt-0.5">{item.example}</div>
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5">{item.note}</div>
                 </div>
               ))}
+            </div>
+            <div className="mt-3 p-2.5 bg-white/80 dark:bg-slate-800/80 rounded-xl border border-violet-100 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300 flex flex-wrap gap-4">
+              <div><strong>≤ 2000:</strong> Egybeírás (pl. <em>ezerötszáz</em>)</div>
+              <div><strong>&gt; 2000:</strong> Kötőjel az osztályhatáron (pl. <em>kétezer-egy</em>)</div>
+              <div><strong>Kerek ezresek:</strong> Egybeírás (pl. <em>háromezer</em>)</div>
             </div>
           </div>
         )}
@@ -788,14 +881,14 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
               <div
                 key={level}
                 onClick={() => handleStartLevel(level)}
-                className="group relative bg-white dark:bg-slate-900 rounded-2xl p-5 border-2 border-slate-200/80 dark:border-slate-800 hover:border-amber-500 dark:hover:border-amber-500 shadow-sm hover:shadow-lg transition-all duration-200 cursor-pointer flex flex-col justify-between overflow-hidden"
+                className="group relative bg-white dark:bg-slate-900 rounded-2xl p-5 border-2 border-slate-200/80 dark:border-slate-800 hover:border-violet-500 dark:hover:border-violet-500 shadow-sm hover:shadow-lg transition-all duration-200 cursor-pointer flex flex-col justify-between overflow-hidden"
               >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-amber-500/10 to-transparent rounded-bl-full pointer-events-none group-hover:scale-110 transition-transform" />
+                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-violet-500/10 to-transparent rounded-bl-full pointer-events-none group-hover:scale-110 transition-transform" />
 
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform shadow-inner", cfg.iconBg)}>
-                      <span className="font-serif font-black text-lg">{level === 1 ? 'I' : level === 2 ? 'II' : 'III'}</span>
+                    <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform shadow-inner text-white font-serif font-black text-lg", cfg.iconBg)}>
+                      {level === 1 ? 'I' : level === 2 ? 'II' : 'III'}
                     </div>
 
                     <span className={cn("px-2.5 py-1 rounded-full text-[11px] font-black uppercase tracking-wider border", cfg.badgeBg, cfg.badgeBorder, cfg.badgeText)}>
@@ -803,7 +896,7 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
                     </span>
                   </div>
 
-                  <h3 className="text-lg font-black text-slate-900 dark:text-white mb-0.5 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                  <h3 className="text-lg font-black text-slate-900 dark:text-white mb-0.5 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
                     {cfg.title}
                   </h3>
 
@@ -817,8 +910,8 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
                       <span className="font-bold text-slate-800 dark:text-slate-200">{cfg.range}</span>
                     </div>
                     <div className="flex items-center justify-between text-xs">
-                      <span className="text-slate-500 dark:text-slate-400">Főbb jelek:</span>
-                      <span className="font-mono font-bold text-amber-600 dark:text-amber-400">{cfg.symbols}</span>
+                      <span className="text-slate-500 dark:text-slate-400">Fókusz:</span>
+                      <span className="font-mono text-[11px] font-bold text-violet-600 dark:text-violet-400">{cfg.focus}</span>
                     </div>
                   </div>
                 </div>
@@ -857,21 +950,21 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
     return (
       <div className="max-w-xl mx-auto p-4 sm:p-6 text-center animate-in zoom-in-95 duration-300">
         <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl shadow-xl border-2 border-slate-200 dark:border-slate-800 relative overflow-hidden">
-          <div className="w-20 h-20 bg-gradient-to-tr from-amber-400 to-yellow-500 text-white rounded-3xl flex items-center justify-center mx-auto shadow-lg mb-4 ring-8 ring-amber-100 dark:ring-amber-950/60 animate-bounce">
+          <div className="w-20 h-20 bg-gradient-to-tr from-violet-500 to-indigo-600 text-white rounded-3xl flex items-center justify-center mx-auto shadow-lg mb-4 ring-8 ring-violet-100 dark:ring-violet-950/60 animate-bounce">
             <Trophy className="w-10 h-10" />
           </div>
 
           <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mb-1">
-            {isPerfect ? 'Tökéletes Kvíz! 🏆' : isGood ? 'Szép Munka! 🌟' : 'Gyakorolj még egy kicsit! 💪'}
+            {isPerfect ? 'Tökéletes Eredmény! 🏆' : isGood ? 'Szép Munka! 🌟' : 'Gyakorolj még egy kicsit! 💪'}
           </h2>
           <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mb-5">
-            Sikeresen befejezted a <span className="font-bold text-slate-800 dark:text-slate-200">{levelConfig.title}</span> kvízét!
+            Sikeresen befejezted a <span className="font-bold text-slate-800 dark:text-slate-200">{levelConfig.title}</span> feladatait!
           </p>
 
           <div className="grid grid-cols-3 gap-3 bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-700/80 mb-6">
             <div>
               <div className="text-[11px] uppercase font-bold text-slate-400 mb-0.5">Pontszám</div>
-              <div className="text-2xl font-black text-amber-600 dark:text-amber-400">{score} / {totalQuestions}</div>
+              <div className="text-2xl font-black text-violet-600 dark:text-violet-400">{score} / {totalQuestions}</div>
             </div>
             <div className="border-x border-slate-200 dark:border-slate-700">
               <div className="text-[11px] uppercase font-bold text-slate-400 mb-0.5">Eredmény</div>
@@ -889,7 +982,7 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
             {selectedLevel < 3 && (
               <Button
                 onClick={() => handleStartLevel((selectedLevel + 1) as DifficultyLevel, 'quiz')}
-                className="flex-1 h-11 rounded-xl text-sm font-bold bg-amber-600 hover:bg-amber-700 text-white shadow-md flex items-center justify-center gap-1.5"
+                className="flex-1 h-11 rounded-xl text-sm font-bold bg-violet-600 hover:bg-violet-700 text-white shadow-md flex items-center justify-center gap-1.5"
               >
                 Következő szint: {selectedLevel + 1}. szint
                 <ArrowRight className="w-4 h-4 ml-1" />
@@ -923,20 +1016,21 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
     <div
       ref={containerRef}
       className={cn(
-        "w-full max-w-6xl mx-auto px-2 sm:px-4 py-1 animate-in fade-in duration-200 text-left",
+        "w-full max-w-5xl mx-auto px-2 sm:px-4 py-2 animate-in fade-in duration-300 text-left",
         isFullscreen && "fixed inset-0 z-50 max-w-none w-screen h-screen bg-slate-100 dark:bg-slate-950 p-4 sm:p-6 overflow-y-auto"
       )}
     >
-      {/* Top Header Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-2.5 mb-2.5">
+      {/* Top Bar: Back button, Level selector pill, Mode switcher, Score */}
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-200/80 dark:border-slate-800">
         <div className="flex items-center gap-2">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setSelectedLevel(null)}
-            className="h-8 rounded-xl px-2.5 border border-slate-200/80 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium text-xs"
+            className="rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
           >
-            <ArrowLeft className="w-3.5 h-3.5 mr-1" /> Szint választás
+            <ArrowLeft className="w-4 h-4 mr-1" />
+            Szintek
           </Button>
 
           {/* Fullscreen button */}
@@ -944,12 +1038,12 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
             variant="outline"
             size="sm"
             onClick={toggleFullscreen}
-            className="h-8 rounded-xl px-2.5 border-slate-200/80 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-medium text-xs hover:bg-slate-100 dark:hover:bg-slate-800"
+            className="rounded-xl h-8 px-2.5 border-slate-200/80 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-medium text-xs hover:bg-slate-100 dark:hover:bg-slate-800"
             title={isFullscreen ? 'Kilépés a teljes képernyőből' : 'Teljes képernyős mód'}
           >
             {isFullscreen ? (
               <>
-                <Minimize2 className="w-3.5 h-3.5 mr-1 text-amber-600 dark:text-amber-400" />
+                <Minimize2 className="w-3.5 h-3.5 mr-1 text-violet-600 dark:text-violet-400" />
                 <span className="hidden sm:inline">Kilépés</span>
               </>
             ) : (
@@ -959,14 +1053,14 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
               </>
             )}
           </Button>
-        </div>
 
-        {/* Level pills in header */}
-        <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-xl border border-slate-200/60 dark:border-slate-700/60">
+          <div className="h-4 w-px bg-slate-200 dark:bg-slate-700" />
+
+          {/* Quick level switcher pills */}
           {([1, 2, 3] as DifficultyLevel[]).map((lvl) => (
             <button
               key={lvl}
-              onClick={() => handleStartLevel(lvl)}
+              onClick={() => handleStartLevel(lvl, gameMode)}
               className={cn(
                 "px-2.5 py-1 rounded-lg text-xs font-black transition-all",
                 selectedLevel === lvl
@@ -983,7 +1077,7 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
         <div className="flex items-center gap-2">
           {gameMode === 'quiz' ? (
             <div className="flex items-center gap-2 bg-white dark:bg-slate-900 px-3 py-1 rounded-xl border border-slate-200/80 dark:border-slate-800 shadow-xs text-xs">
-              <div className="flex items-center gap-1 font-black text-amber-600 dark:text-amber-400">
+              <div className="flex items-center gap-1 font-black text-violet-600 dark:text-violet-400">
                 <Trophy className="w-3.5 h-3.5" />
                 <span>{score} pont</span>
               </div>
@@ -1032,19 +1126,17 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
                 <div className="flex flex-col gap-3">
                   <Card className="rounded-2xl border-2 border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm overflow-hidden">
                     <CardContent className="p-4 sm:p-5 text-center">
-                      <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-black uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 mb-2 border border-slate-200 dark:border-slate-700">
-                        <ArrowRightLeft className="w-3 h-3 text-amber-600" />
-                        {currentQuestion.type === 'arabic-to-roman'
-                          ? 'Arab szám ➔ Római szám'
-                          : 'Római szám ➔ Arab szám'}
+                      <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-black uppercase tracking-wider bg-violet-50 dark:bg-violet-950/50 text-violet-700 dark:text-violet-300 mb-2 border border-violet-200 dark:border-violet-800">
+                        <Pencil className="w-3 h-3 text-violet-600" />
+                        {currentQuestion.questionTypeBadge}
                       </div>
 
                       <p className="text-xs sm:text-sm font-bold text-slate-600 dark:text-slate-300 mb-2.5">
                         {currentQuestion.prompt}
                       </p>
 
-                      <div className="inline-block px-7 py-2.5 bg-gradient-to-br from-amber-50 to-orange-50/60 dark:from-slate-850 dark:to-slate-800 rounded-2xl border-2 border-amber-200/80 dark:border-slate-700 shadow-inner">
-                        <span className="text-3xl sm:text-4xl font-serif font-black tracking-wider text-slate-900 dark:text-amber-400">
+                      <div className="inline-block px-6 py-2.5 bg-gradient-to-br from-violet-50 to-indigo-50/60 dark:from-slate-850 dark:to-slate-800 rounded-2xl border-2 border-violet-200/80 dark:border-slate-700 shadow-inner">
+                        <span className="text-2xl sm:text-3xl font-mono font-black tracking-wider text-slate-900 dark:text-violet-300">
                           {currentQuestion.highlightValue}
                         </span>
                       </div>
@@ -1095,7 +1187,7 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
                                     key={bIdx}
                                     className="px-1.5 py-0.5 rounded-md bg-white/90 dark:bg-slate-800/90 text-[10px] font-bold font-mono text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700"
                                   >
-                                    {item.label}: <span className="text-amber-600 dark:text-amber-400">{item.value}</span>
+                                    {item.label}: <span className="text-violet-600 dark:text-violet-400">{item.value}</span>
                                   </span>
                                 ))}
                               </div>
@@ -1106,7 +1198,7 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
 
                       <Button
                         onClick={handleNextQuestion}
-                        className="w-full h-10 rounded-xl text-sm font-bold bg-slate-900 hover:bg-slate-800 text-white dark:bg-amber-600 dark:hover:bg-amber-700 shadow-sm transition-all flex items-center justify-center gap-1.5"
+                        className="w-full h-10 rounded-xl text-sm font-bold bg-slate-900 hover:bg-slate-800 text-white dark:bg-violet-600 dark:hover:bg-violet-700 shadow-sm transition-all flex items-center justify-center gap-1.5"
                       >
                         {currentIndex < levelConfig.questions.length - 1 ? (
                           <>
@@ -1140,7 +1232,7 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
                       const isSelected = selectedOption === option;
                       const isCorrect = option === currentQuestion.correctAnswer;
 
-                      let buttonStyle = "bg-white dark:bg-slate-900 border-2 border-slate-200/90 dark:border-slate-800 text-slate-800 dark:text-slate-100 hover:border-amber-500 hover:shadow-xs dark:hover:border-amber-500";
+                      let buttonStyle = "bg-white dark:bg-slate-900 border-2 border-slate-200/90 dark:border-slate-800 text-slate-800 dark:text-slate-100 hover:border-violet-500 hover:shadow-xs dark:hover:border-violet-500";
 
                       if (isAnswerChecked) {
                         if (isCorrect) {
@@ -1158,22 +1250,22 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
                           onClick={() => handleOptionClick(option)}
                           disabled={isAnswerChecked}
                           className={cn(
-                            "relative h-13 sm:h-14 rounded-xl font-serif font-black text-lg sm:text-xl transition-all duration-150 flex items-center justify-between px-4",
+                            "relative h-13 sm:h-14 rounded-xl font-medium text-xs sm:text-sm transition-all duration-150 flex items-center justify-between px-4",
                             buttonStyle
                           )}
                         >
                           <span className="flex items-center gap-2.5">
-                            <span className="w-6 h-6 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs font-sans font-bold flex items-center justify-center border border-slate-200 dark:border-slate-700">
+                            <span className="w-6 h-6 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs font-sans font-bold flex items-center justify-center border border-slate-200 dark:border-slate-700 shrink-0">
                               {idx + 1}
                             </span>
-                            <span>{option}</span>
+                            <span className="font-bold">{option}</span>
                           </span>
 
                           {isAnswerChecked && isCorrect && (
-                            <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 animate-in zoom-in" />
+                            <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 animate-in zoom-in shrink-0 ml-2" />
                           )}
                           {isAnswerChecked && isSelected && !isCorrect && (
-                            <XCircle className="w-5 h-5 text-rose-600 dark:text-rose-400 animate-in zoom-in" />
+                            <XCircle className="w-5 h-5 text-rose-600 dark:text-rose-400 animate-in zoom-in shrink-0 ml-2" />
                           )}
                         </button>
                       );
@@ -1181,9 +1273,9 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
                   </div>
 
                   {!isAnswerChecked && (
-                    <div className="p-2.5 bg-amber-50/60 dark:bg-slate-850/80 rounded-xl border border-amber-200/50 dark:border-slate-800 text-[11px] text-amber-900 dark:text-amber-300 flex items-center gap-1.5 mt-0.5">
-                      <Sparkles className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                      <span>Használd az összeadási és kivonási szabályokat!</span>
+                    <div className="p-2.5 bg-violet-50/60 dark:bg-slate-850/80 rounded-xl border border-violet-200/50 dark:border-slate-800 text-[11px] text-violet-900 dark:text-violet-300 flex items-center gap-1.5 mt-0.5">
+                      <Sparkles className="w-3.5 h-3.5 text-violet-600 shrink-0" />
+                      <span>Ügyelj a kétezres szabályra és a kötőjelezésre!</span>
                     </div>
                   )}
                 </div>
@@ -1191,7 +1283,7 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
             </div>
           ) : (
             /* MATCHER MODE WORKSPACE */
-            <RomanNumeralsMatcher
+            <NumberSpellingMatcher
               level={selectedLevel}
               onNextLevel={
                 selectedLevel < 3
@@ -1208,7 +1300,7 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
           {/* Wordwall Mode Card */}
           <div className="bg-white dark:bg-slate-900 rounded-2xl p-3.5 border-2 border-slate-200/80 dark:border-slate-800 shadow-xs">
             <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2.5 px-1">
-              <Layers className="w-3.5 h-3.5 text-amber-500" />
+              <Layers className="w-3.5 h-3.5 text-violet-500" />
               <span>Sablon / Játékmód</span>
             </div>
 
@@ -1219,13 +1311,13 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
                 className={cn(
                   "w-full p-2.5 rounded-xl text-left font-bold text-xs transition-all flex items-center gap-2.5 border-2",
                   gameMode === 'quiz'
-                    ? "bg-amber-50 dark:bg-amber-950/50 border-amber-400 text-amber-900 dark:text-amber-200 shadow-xs"
+                    ? "bg-violet-50 dark:bg-violet-950/50 border-violet-400 text-violet-900 dark:text-violet-200 shadow-xs"
                     : "bg-slate-50/80 dark:bg-slate-800/60 border-transparent hover:border-slate-200 text-slate-600 dark:text-slate-400"
                 )}
               >
                 <div className={cn(
                   "w-8 h-8 rounded-lg flex items-center justify-center shrink-0",
-                  gameMode === 'quiz' ? "bg-amber-500 text-white" : "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300"
+                  gameMode === 'quiz' ? "bg-violet-500 text-white" : "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300"
                 )}>
                   <FileQuestion className="w-4 h-4" />
                 </div>
@@ -1274,11 +1366,11 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
                   className={cn(
                     "w-full px-3 py-1.5 rounded-xl text-xs font-bold transition-all text-left flex items-center justify-between",
                     selectedLevel === lvl
-                      ? "bg-slate-900 text-white dark:bg-amber-600 dark:text-white"
+                      ? "bg-slate-900 text-white dark:bg-violet-600 dark:text-white"
                       : "hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400"
                   )}
                 >
-                  <span>{lvl}. {lvl === 1 ? 'Könnyű (1–20)' : lvl === 2 ? 'Közepes (20–50)' : 'Nehéz (50–100)'}</span>
+                  <span>{lvl}. {lvl === 1 ? 'Könnyű (1–2 000)' : lvl === 2 ? 'Közepes (2 001–99 999)' : 'Nehéz (100 000+)'}</span>
                   {selectedLevel === lvl && <CheckCircle2 className="w-3.5 h-3.5" />}
                 </button>
               ))}
@@ -1295,7 +1387,7 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
             >
               {isFullscreen ? (
                 <>
-                  <Minimize2 className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+                  <Minimize2 className="w-3.5 h-3.5 text-violet-600 dark:text-violet-400" />
                   Ablakos nézet
                 </>
               ) : (
@@ -1310,10 +1402,10 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
               variant="outline"
               size="sm"
               onClick={() => setShowCheatSheet(!showCheatSheet)}
-              className="w-full h-9 rounded-xl border-amber-300 bg-amber-50/50 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800 hover:bg-amber-100 text-xs font-bold justify-start"
+              className="w-full h-9 rounded-xl border-violet-300 bg-violet-50/50 text-violet-800 dark:bg-violet-950/40 dark:text-violet-300 dark:border-violet-800 hover:bg-violet-100 text-xs font-bold justify-start"
             >
-              <BookOpen className="w-3.5 h-3.5 mr-2 text-amber-600" />
-              Római szabályok segédlet
+              <BookOpen className="w-3.5 h-3.5 mr-2 text-violet-600" />
+              Helyesírási segédlet
             </Button>
 
             <Button
@@ -1329,14 +1421,14 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
         </div>
       </div>
 
-      {/* Rules Modal Overlay if triggered from sidebar */}
+      {/* Rules Modal Overlay */}
       {showCheatSheet && (
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border-2 border-amber-300 dark:border-amber-900 shadow-2xl max-w-2xl w-full text-left">
+          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border-2 border-violet-300 dark:border-violet-900 shadow-2xl max-w-2xl w-full text-left">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-amber-600" />
-                Római számjegyek és szabályok áttekintése (1–100)
+                <Sparkles className="w-5 h-5 text-violet-600" />
+                A számok helyesírási szabályai (Kétezres szabály)
               </h3>
               <Button
                 size="sm"
@@ -1348,28 +1440,25 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
               </Button>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5 mb-4">
-              {ROMAN_SYMBOLS_CHEAT_SHEET.map((item, idx) => (
-                <div key={idx} className="bg-slate-50 dark:bg-slate-800/90 p-2.5 rounded-xl border border-slate-200/80 dark:border-slate-700">
-                  <div className="text-lg font-serif font-black text-amber-600 dark:text-amber-400">{item.roman}</div>
-                  <div className="text-sm font-black text-slate-800 dark:text-slate-100">= {item.arabic}</div>
-                  <div className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5">{item.note}</div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 mb-4">
+              {NUMBER_SPELLING_CHEAT_SHEET.map((item, idx) => (
+                <div key={idx} className="bg-slate-50 dark:bg-slate-800/90 p-3 rounded-xl border border-slate-200/80 dark:border-slate-700">
+                  <div className="text-xs font-black text-violet-600 dark:text-violet-400">{item.rule}</div>
+                  <div className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-0.5">{item.example}</div>
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">{item.note}</div>
                 </div>
               ))}
             </div>
 
-            <div className="text-xs text-slate-600 dark:text-slate-400 bg-amber-50/80 dark:bg-amber-950/40 p-3 rounded-xl border border-amber-200 dark:border-amber-900/60 leading-relaxed mb-4">
-              <p className="font-bold text-amber-900 dark:text-amber-200 mb-1">Főbb elvek:</p>
-              <ul className="list-disc list-inside space-y-0.5">
-                <li><strong>Összeadás elve:</strong> Ha a kisebb jel a nagyobb után áll: pl. VI = 5 + 1 = 6, XV = 10 + 5 = 15.</li>
-                <li><strong>Kivonás elve:</strong> Ha a kisebb jel a nagyobb előtt áll: pl. IV = 4, IX = 9, XL = 40, XC = 90.</li>
-                <li><strong>Ismétlési korlát:</strong> I, X, C legfeljebb 3-szor ismételhető egymás mellett. V, L nem ismételhető!</li>
-              </ul>
+            <div className="text-xs text-slate-600 dark:text-slate-400 bg-violet-50/80 dark:bg-violet-950/40 p-3 rounded-xl border border-violet-200 dark:border-violet-900/60 leading-relaxed mb-4 space-y-1">
+              <p><strong>≤ 2000:</strong> Minden számot egybeírunk: pl. <em>tizenöt, ezerötszáz, kétezer</em>.</p>
+              <p><strong>&gt; 2000:</strong> A hármas számcsoportok (osztályok) határán kötőjelet teszünk: pl. <em>kétezer-egy, negyvenötezer-háromszáz</em>.</p>
+              <p><strong>Kerek ezresek:</strong> Egybeíródnak: pl. <em>háromezer, négyezer, ötmillió</em>.</p>
             </div>
 
             <Button
               onClick={() => setShowCheatSheet(false)}
-              className="w-full h-10 rounded-xl font-bold bg-amber-600 hover:bg-amber-700 text-white"
+              className="w-full h-10 rounded-xl font-bold bg-violet-600 hover:bg-violet-700 text-white"
             >
               Értem, folytatom a játékot!
             </Button>
@@ -1380,4 +1469,5 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
   );
 }
 
-export default RomanNumeralsQuiz;
+export default NumberSpellingQuiz;
+

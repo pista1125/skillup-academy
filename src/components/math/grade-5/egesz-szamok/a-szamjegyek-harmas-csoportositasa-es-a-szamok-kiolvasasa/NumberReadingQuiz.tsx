@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -18,7 +18,9 @@ import {
   LayoutGrid,
   FileQuestion,
   Flame,
-  Volume2
+  Volume2,
+  Maximize2,
+  Minimize2
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { NumberReadingMatcher } from './NumberReadingMatcher';
@@ -492,14 +494,26 @@ const NUMBER_READING_CHEAT_SHEET = [
   { group: 'Milliók osztálya', digits: '7–9. jegy jobbról', example: 'pl. 12 ... ...', note: 'milliók, tízmilliók, százmilliók' }
 ];
 
+function shuffleArray<T>(array: T[]): T[] {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
 interface NumberReadingQuizProps {
   onBack: () => void;
 }
 
 export function NumberReadingQuiz({ onBack }: NumberReadingQuizProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const [selectedLevel, setSelectedLevel] = useState<DifficultyLevel | null>(null);
   const [gameMode, setGameMode] = useState<GameMode>('quiz');
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isAnswerChecked, setIsAnswerChecked] = useState(false);
   const [score, setScore] = useState(0);
@@ -507,6 +521,32 @@ export function NumberReadingQuiz({ onBack }: NumberReadingQuizProps) {
   const [bestStreak, setBestStreak] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
   const [showCheatSheet, setShowCheatSheet] = useState(false);
+
+  // Toggle fullscreen
+  const toggleFullscreen = async () => {
+    if (!containerRef.current) return;
+    if (!document.fullscreenElement) {
+      try {
+        if (containerRef.current.requestFullscreen) {
+          await containerRef.current.requestFullscreen();
+        }
+      } catch (err) {
+        console.error('Fullscreen request failed:', err);
+      }
+    } else {
+      if (document.exitFullscreen) {
+        await document.exitFullscreen();
+      }
+    }
+  };
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(Boolean(document.fullscreenElement));
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
 
   useEffect(() => {
     if (isCompleted) {
@@ -536,6 +576,12 @@ export function NumberReadingQuiz({ onBack }: NumberReadingQuizProps) {
     setStreak(0);
     setBestStreak(0);
     setIsCompleted(false);
+
+    const prepared = QUIZ_LEVELS[level].questions.map((q) => ({
+      ...q,
+      options: shuffleArray(q.options)
+    }));
+    setQuestions(prepared);
   };
 
   const handleOptionClick = (option: string) => {
@@ -543,10 +589,9 @@ export function NumberReadingQuiz({ onBack }: NumberReadingQuizProps) {
     setSelectedOption(option);
     setIsAnswerChecked(true);
 
-    const currentLevelConfig = selectedLevel ? QUIZ_LEVELS[selectedLevel] : null;
-    if (!currentLevelConfig) return;
+    const currentQ = questions[currentIndex] || (selectedLevel ? QUIZ_LEVELS[selectedLevel].questions[currentIndex] : null);
+    if (!currentQ) return;
 
-    const currentQ = currentLevelConfig.questions[currentIndex];
     const isCorrect = option === currentQ.correctAnswer;
 
     if (isCorrect) {
@@ -561,10 +606,9 @@ export function NumberReadingQuiz({ onBack }: NumberReadingQuizProps) {
   };
 
   const handleNextQuestion = () => {
-    if (!selectedLevel) return;
-    const currentQuestions = QUIZ_LEVELS[selectedLevel].questions;
+    const total = questions.length || (selectedLevel ? QUIZ_LEVELS[selectedLevel].questions.length : 0);
 
-    if (currentIndex < currentQuestions.length - 1) {
+    if (currentIndex < total - 1) {
       setCurrentIndex((prev) => prev + 1);
       setSelectedOption(null);
       setIsAnswerChecked(false);
@@ -579,7 +623,7 @@ export function NumberReadingQuiz({ onBack }: NumberReadingQuizProps) {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (['1', '2', '3', '4'].includes(e.key) && !isAnswerChecked) {
         const index = parseInt(e.key, 10) - 1;
-        const currentQ = QUIZ_LEVELS[selectedLevel].questions[currentIndex];
+        const currentQ = questions[currentIndex] || (selectedLevel ? QUIZ_LEVELS[selectedLevel].questions[currentIndex] : null);
         if (currentQ && currentQ.options[index]) {
           handleOptionClick(currentQ.options[index]);
         }
@@ -590,12 +634,18 @@ export function NumberReadingQuiz({ onBack }: NumberReadingQuizProps) {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedLevel, currentIndex, isAnswerChecked, isCompleted, gameMode]);
+  }, [selectedLevel, currentIndex, isAnswerChecked, isCompleted, gameMode, questions]);
 
   // 1. Level Selection Screen
   if (!selectedLevel) {
     return (
-      <div className="max-w-5xl mx-auto px-4 py-2 sm:py-3 animate-in fade-in slide-in-from-bottom-2 duration-300 text-left">
+      <div
+        ref={containerRef}
+        className={cn(
+          "max-w-5xl mx-auto px-4 py-2 sm:py-3 animate-in fade-in slide-in-from-bottom-2 duration-300 text-left",
+          isFullscreen && "fixed inset-0 z-50 max-w-none w-screen h-screen bg-slate-100 dark:bg-slate-950 p-4 sm:p-6 overflow-y-auto"
+        )}
+      >
         <div className="flex items-center justify-between gap-3 mb-3">
           <Button
             variant="ghost"
@@ -606,15 +656,37 @@ export function NumberReadingQuiz({ onBack }: NumberReadingQuizProps) {
             <ArrowLeft className="w-3.5 h-3.5 mr-1.5" /> Vissza a témakörökhöz
           </Button>
 
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setShowCheatSheet(!showCheatSheet)}
-            className="rounded-xl h-9 px-3 border-indigo-300 bg-indigo-50/60 text-indigo-800 dark:bg-indigo-950/40 dark:text-indigo-300 dark:border-indigo-800 hover:bg-indigo-100 text-xs sm:text-sm font-bold"
-          >
-            <BookOpen className="w-3.5 h-3.5 mr-1.5 text-indigo-600" />
-            Számok tagolása és osztályai
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={toggleFullscreen}
+              className="rounded-xl h-9 px-2.5 text-xs sm:text-sm font-bold border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300"
+              title={isFullscreen ? 'Kilépés a teljes képernyőből' : 'Teljes képernyős mód'}
+            >
+              {isFullscreen ? (
+                <>
+                  <Minimize2 className="w-3.5 h-3.5 mr-1 text-indigo-600 dark:text-indigo-400" />
+                  <span className="hidden sm:inline">Kilépés</span>
+                </>
+              ) : (
+                <>
+                  <Maximize2 className="w-3.5 h-3.5 mr-1 text-slate-500" />
+                  <span className="hidden sm:inline">Teljes képernyő</span>
+                </>
+              )}
+            </Button>
+
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowCheatSheet(!showCheatSheet)}
+              className="rounded-xl h-9 px-3 border-indigo-300 bg-indigo-50/60 text-indigo-800 dark:bg-indigo-950/40 dark:text-indigo-300 dark:border-indigo-800 hover:bg-indigo-100 text-xs sm:text-sm font-bold"
+            >
+              <BookOpen className="w-3.5 h-3.5 mr-1.5 text-indigo-600" />
+              Számok tagolása és osztályai
+            </Button>
+          </div>
         </div>
 
         <div className="text-center max-w-2xl mx-auto mb-4 sm:mb-5">
@@ -751,7 +823,7 @@ export function NumberReadingQuiz({ onBack }: NumberReadingQuizProps) {
   }
 
   const levelConfig = QUIZ_LEVELS[selectedLevel];
-  const currentQuestion = levelConfig.questions[currentIndex];
+  const currentQuestion = questions[currentIndex] || levelConfig.questions[currentIndex];
 
   // 2. Quiz Completed View
   if (isCompleted && gameMode === 'quiz') {
@@ -826,16 +898,45 @@ export function NumberReadingQuiz({ onBack }: NumberReadingQuizProps) {
 
   // 3. Active Workspace with Wordwall Sidebar
   return (
-    <div className="w-full max-w-6xl mx-auto px-2 sm:px-4 py-1 animate-in fade-in duration-200 text-left">
+    <div
+      ref={containerRef}
+      className={cn(
+        "w-full max-w-6xl mx-auto px-2 sm:px-4 py-1 animate-in fade-in duration-200 text-left",
+        isFullscreen && "fixed inset-0 z-50 max-w-none w-screen h-screen bg-slate-100 dark:bg-slate-950 p-4 sm:p-6 overflow-y-auto"
+      )}
+    >
       <div className="flex flex-wrap items-center justify-between gap-2.5 mb-2.5">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => setSelectedLevel(null)}
-          className="h-8 rounded-xl px-2.5 border border-slate-200/80 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium text-xs"
-        >
-          <ArrowLeft className="w-3.5 h-3.5 mr-1" /> Szint választás
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setSelectedLevel(null)}
+            className="h-8 rounded-xl px-2.5 border border-slate-200/80 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium text-xs"
+          >
+            <ArrowLeft className="w-3.5 h-3.5 mr-1" /> Szint választás
+          </Button>
+
+          {/* Fullscreen button */}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={toggleFullscreen}
+            className="h-8 rounded-xl px-2.5 border-slate-200/80 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-medium text-xs hover:bg-slate-100 dark:hover:bg-slate-800"
+            title={isFullscreen ? 'Kilépés a teljes képernyőből' : 'Teljes képernyős mód'}
+          >
+            {isFullscreen ? (
+              <>
+                <Minimize2 className="w-3.5 h-3.5 mr-1 text-indigo-600 dark:text-indigo-400" />
+                <span className="hidden sm:inline">Kilépés</span>
+              </>
+            ) : (
+              <>
+                <Maximize2 className="w-3.5 h-3.5 mr-1 text-slate-500" />
+                <span className="hidden sm:inline">Teljes képernyő</span>
+              </>
+            )}
+          </Button>
+        </div>
 
         <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-xl border border-slate-200/60 dark:border-slate-700/60">
           {([1, 2, 3] as DifficultyLevel[]).map((lvl) => (
@@ -1149,6 +1250,25 @@ export function NumberReadingQuiz({ onBack }: NumberReadingQuizProps) {
           </div>
 
           <div className="bg-white dark:bg-slate-900 rounded-2xl p-3.5 border-2 border-slate-200/80 dark:border-slate-800 shadow-xs flex flex-col gap-1.5">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={toggleFullscreen}
+              className="w-full h-9 rounded-xl text-xs font-bold border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-start gap-2"
+            >
+              {isFullscreen ? (
+                <>
+                  <Minimize2 className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+                  Ablakos nézet
+                </>
+              ) : (
+                <>
+                  <Maximize2 className="w-3.5 h-3.5 text-slate-500" />
+                  Teljes képernyő
+                </>
+              )}
+            </Button>
+
             <Button
               variant="outline"
               size="sm"

@@ -186,7 +186,7 @@ export function RomanNumeralsTheory({ onBack, onStartQuiz }: RomanNumeralsTheory
   const romanResult = fromRoman(inputRoman);
 
   return (
-    <div className="w-full max-w-5xl mx-auto px-2 sm:px-4 py-2 animate-in fade-in duration-300 text-left">
+    <div className="w-full px-2 sm:px-4 py-2 animate-in fade-in duration-300 text-left">
       {/* Top Header Bar */}
       <div className="flex flex-wrap items-center justify-between gap-3 mb-4 no-pdf">
         <Button

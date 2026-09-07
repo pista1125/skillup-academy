@@ -11,33 +11,29 @@ import {
   Sparkles,
   CheckCircle2,
   XCircle,
-  HelpCircle,
   BookOpen,
-  Award,
   Zap,
-  ArrowRightLeft,
-  Star,
   ChevronRight,
   Layers,
   LayoutGrid,
   FileQuestion,
-  Shuffle,
-  Gamepad2,
   Flame,
+  Binary,
+  Cpu,
   Maximize2,
   Minimize2
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { RomanNumeralsMatcher } from './RomanNumeralsMatcher';
+import { NumberSystemsMatcher } from './NumberSystemsMatcher';
 
 export type DifficultyLevel = 1 | 2 | 3;
 export type GameMode = 'quiz' | 'matcher';
 
 interface QuizQuestion {
   id: string;
-  type: 'arabic-to-roman' | 'roman-to-arabic';
   prompt: string;
   highlightValue: string;
+  questionTypeBadge: string;
   options: string[];
   correctAnswer: string;
   explanation: string;
@@ -49,7 +45,7 @@ interface LevelConfig {
   title: string;
   subtitle: string;
   range: string;
-  symbols: string;
+  focus: string;
   color: string;
   badgeBg: string;
   badgeBorder: string;
@@ -63,140 +59,144 @@ const QUIZ_LEVELS: Record<DifficultyLevel, LevelConfig> = {
   1: {
     level: 1,
     title: '1. Könnyű szint',
-    subtitle: 'Alapok: 1–20 közötti számok',
-    range: '1 – 20',
-    symbols: 'I (1), V (5), X (10)',
-    color: 'emerald',
-    badgeBg: 'bg-emerald-50 dark:bg-emerald-950/40',
-    badgeBorder: 'border-emerald-200 dark:border-emerald-800',
-    badgeText: 'text-emerald-700 dark:text-emerald-300',
-    accentGradient: 'from-emerald-500 to-teal-600',
-    iconBg: 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/50 dark:text-emerald-400',
+    subtitle: 'Kettes számrendszer alapjai, átváltás 1–15 között',
+    range: '1 – 15 (1 – 1111₂)',
+    focus: 'Bináris számjegyek (0, 1), alapvető helyiértékek (1, 2, 4, 8)',
+    color: 'cyan',
+    badgeBg: 'bg-cyan-50 dark:bg-cyan-950/40',
+    badgeBorder: 'border-cyan-200 dark:border-cyan-800',
+    badgeText: 'text-cyan-700 dark:text-cyan-300',
+    accentGradient: 'from-cyan-500 to-teal-600',
+    iconBg: 'bg-cyan-500',
     questions: [
       {
-        id: 'l1-q1',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '5',
-        options: ['V', 'IV', 'VI', 'X'],
-        correctAnswer: 'V',
-        explanation: 'Az 5-ös szám római számjegye a V.',
-        breakdown: [{ label: '5', value: 'V' }]
-      },
-      {
-        id: 'l1-q2',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'VIII',
-        options: ['8', '7', '9', '13'],
-        correctAnswer: '8',
-        explanation: 'VIII = 5 (V) + 1 + 1 + 1 (III) = 8. (Összeadás elve)',
+        id: 'q1-1',
+        prompt: 'Hányféle számjegyet használunk a kettes (bináris) számrendszerben?',
+        highlightValue: 'Kettes alap',
+        questionTypeBadge: 'Alapfogalom',
+        options: ['2-félét (0 és 1)', '10-félét (0-tól 9-ig)', '1-félét (csak 1)', '3-félét (0, 1, 2)'],
+        correctAnswer: '2-félét (0 és 1)',
+        explanation: 'A kettes (bináris) számrendszer alapja 2, ezért csak kétféle számjegyet használunk: a 0-t és az 1-et.',
         breakdown: [
-          { label: 'V', value: '5' },
-          { label: 'III', value: '+ 3' },
-          { label: 'Összesen', value: '8' }
+          { label: 'Alap', value: 'b = 2' },
+          { label: 'Jegyek', value: '0, 1' }
         ]
       },
       {
-        id: 'l1-q3',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '4',
-        options: ['IV', 'IIII', 'VI', 'V'],
-        correctAnswer: 'IV',
-        explanation: 'A 4-et kivonással képezzük: IV = 5 - 1 = 4. Négy egyforma jel (IIII) soha nem állhat egymás mellett!',
-        breakdown: [{ label: '5 - 1', value: 'IV = 4' }]
-      },
-      {
-        id: 'l1-q4',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'IX',
-        options: ['9', '11', '8', '19'],
-        correctAnswer: '9',
-        explanation: 'IX = 10 (X) - 1 (I) = 9. Ha a kisebb értékű I a nagyobb X előtt áll, kivonjuk annak értékét.',
-        breakdown: [{ label: '10 - 1', value: 'IX = 9' }]
-      },
-      {
-        id: 'l1-q5',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '12',
-        options: ['XII', 'VII', 'XX', 'IIX'],
-        correctAnswer: 'XII',
-        explanation: '12 = 10 (X) + 2 (II) = XII.',
+        id: 'q1-2',
+        prompt: 'Melyik decimális számnak felel meg a 101₂ bináris szám?',
+        highlightValue: '101₂',
+        questionTypeBadge: 'Bináris ➔ Decimális',
+        options: ['5', '6', '3', '101'],
+        correctAnswer: '5',
+        explanation: '101₂ = 1 · 4 + 0 · 2 + 1 · 1 = 4 + 1 = 5.',
         breakdown: [
-          { label: '10', value: 'X' },
-          { label: '2', value: 'II' },
-          { label: 'Összesen', value: 'XII' }
+          { label: 'Helyiértékek', value: '4 + 0 + 1' },
+          { label: 'Összeg', value: '5' }
         ]
       },
       {
-        id: 'l1-q6',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'XIV',
-        options: ['14', '16', '15', '24'],
-        correctAnswer: '14',
-        explanation: 'XIV = 10 (X) + 4 (IV) = 14.',
+        id: 'q1-3',
+        prompt: 'Hogyan írjuk fel a 8-as decimális számot kettes számrendszerben?',
+        highlightValue: '8',
+        questionTypeBadge: 'Decimális ➔ Bináris',
+        options: ['1000₂', '100₂', '111₂', '1001₂'],
+        correctAnswer: '1000₂',
+        explanation: 'A 8 a 2 harmadik hatványa (2³ = 8), ezért kettes számrendszerben 1000₂.',
         breakdown: [
-          { label: 'X', value: '10' },
-          { label: 'IV', value: '+ 4' },
-          { label: 'Összesen', value: '14' }
+          { label: '2³ értéke', value: '8' },
+          { label: 'Bináris alak', value: '1000₂' }
         ]
       },
       {
-        id: 'l1-q7',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '16',
-        options: ['XVI', 'XIV', 'XIX', 'XVII'],
-        correctAnswer: 'XVI',
-        explanation: '16 = 10 (X) + 5 (V) + 1 (I) = XVI.',
+        id: 'q1-4',
+        prompt: 'Melyik decimális számnak felel meg a 110₂ bináris szám?',
+        highlightValue: '110₂',
+        questionTypeBadge: 'Bináris ➔ Decimális',
+        options: ['6', '5', '4', '7'],
+        correctAnswer: '6',
+        explanation: '110₂ = 1 · 4 + 1 · 2 + 0 · 1 = 4 + 2 = 6.',
         breakdown: [
-          { label: '10', value: 'X' },
-          { label: '5', value: 'V' },
-          { label: '1', value: 'I' },
-          { label: 'Összesen', value: 'XVI' }
+          { label: 'Helyiértékek', value: '4 + 2 + 0' },
+          { label: 'Összeg', value: '6' }
         ]
       },
       {
-        id: 'l1-q8',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'XIX',
-        options: ['19', '21', '18', '99'],
-        correctAnswer: '19',
-        explanation: 'XIX = 10 (X) + 9 (IX) = 19.',
+        id: 'q1-5',
+        prompt: 'Melyik decimális számnak felel meg a 1111₂ bináris szám?',
+        highlightValue: '1111₂',
+        questionTypeBadge: 'Bináris ➔ Decimális',
+        options: ['15', '14', '16', '11'],
+        correctAnswer: '15',
+        explanation: '1111₂ = 1 · 8 + 1 · 4 + 1 · 2 + 1 · 1 = 8 + 4 + 2 + 1 = 15.',
         breakdown: [
-          { label: 'X', value: '10' },
-          { label: 'IX', value: '+ 9' },
-          { label: 'Összesen', value: '19' }
+          { label: 'Helyiértékek', value: '8 + 4 + 2 + 1' },
+          { label: 'Összeg', value: '15' }
         ]
       },
       {
-        id: 'l1-q9',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '20',
-        options: ['XX', 'VV', 'X', 'XXI'],
-        correctAnswer: 'XX',
-        explanation: '20 = 10 (X) + 10 (X) = XX. A V betű sosem ismétlődik, ezért a VV hibás!',
-        breakdown: [{ label: '10 + 10', value: 'XX = 20' }]
+        id: 'q1-6',
+        prompt: 'Hogyan írjuk fel a 3-as számot kettes számrendszerben?',
+        highlightValue: '3',
+        questionTypeBadge: 'Decimális ➔ Bináris',
+        options: ['11₂', '10₂', '101₂', '111₂'],
+        correctAnswer: '11₂',
+        explanation: '3 = 2 + 1, ezért binárisan 11₂.',
+        breakdown: [
+          { label: 'Bontás', value: '2 + 1' },
+          { label: 'Bináris alak', value: '11₂' }
+        ]
       },
       {
-        id: 'l1-q10',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'XVIII',
-        options: ['18', '17', '19', '16'],
-        correctAnswer: '18',
-        explanation: 'XVIII = 10 (X) + 5 (V) + 3 (III) = 18.',
+        id: 'q1-7',
+        prompt: 'Melyik decimális számnak felel meg a 1010₂ bináris szám?',
+        highlightValue: '1010₂',
+        questionTypeBadge: 'Bináris ➔ Decimális',
+        options: ['10', '12', '8', '14'],
+        correctAnswer: '10',
+        explanation: '1010₂ = 1 · 8 + 0 · 4 + 1 · 2 + 0 · 1 = 8 + 2 = 10.',
         breakdown: [
-          { label: 'X', value: '10' },
-          { label: 'V', value: '+ 5' },
-          { label: 'III', value: '+ 3' },
-          { label: 'Összesen', value: '18' }
+          { label: 'Helyiértékek', value: '8 + 2' },
+          { label: 'Összeg', value: '10' }
+        ]
+      },
+      {
+        id: 'q1-8',
+        prompt: 'Hogyan nevezzük az informatikában az egyetlen 0 vagy 1 állapotot rögzítő legkisebb információegységet?',
+        highlightValue: '0 vagy 1',
+        questionTypeBadge: 'Informatikai alapfogalom',
+        options: ['Bit (binary digit)', 'Bájt (byte)', 'Pixel', 'Megabájt'],
+        correctAnswer: 'Bit (binary digit)',
+        explanation: 'A bit a binary digit (bináris számjegy) rövidítése, a legkisebb digitális információegység.',
+        breakdown: [
+          { label: 'Kifejezés', value: 'Binary Digit' },
+          { label: 'Rövidítés', value: 'Bit' }
+        ]
+      },
+      {
+        id: 'q1-9',
+        prompt: 'Melyik decimális számnak felel meg a 1100₂ bináris szám?',
+        highlightValue: '1100₂',
+        questionTypeBadge: 'Bináris ➔ Decimális',
+        options: ['12', '10', '14', '6'],
+        correctAnswer: '12',
+        explanation: '1100₂ = 1 · 8 + 1 · 4 + 0 · 2 + 0 · 1 = 8 + 4 = 12.',
+        breakdown: [
+          { label: 'Helyiértékek', value: '8 + 4' },
+          { label: 'Összeg', value: '12' }
+        ]
+      },
+      {
+        id: 'q1-10',
+        prompt: 'Mennyi a helyiértéke a 1000₂ számban az 1-esnek?',
+        highlightValue: '1000₂',
+        questionTypeBadge: 'Helyiérték értelmezés',
+        options: ['8 (2³)', '4 (2²)', '16 (2⁴)', '1000'],
+        correctAnswer: '8 (2³)',
+        explanation: 'Jobbról a negyedik helyiérték a 2³ = 8.',
+        breakdown: [
+          { label: 'Pozíció', value: '4. hely' },
+          { label: 'Helyiérték', value: '2³ = 8' }
         ]
       }
     ]
@@ -204,147 +204,144 @@ const QUIZ_LEVELS: Record<DifficultyLevel, LevelConfig> = {
   2: {
     level: 2,
     title: '2. Közepes szint',
-    subtitle: 'Számok 20–50-ig, új alapjel: L (50)',
-    range: '20 – 50',
-    symbols: 'X (10), XL (40), L (50)',
-    color: 'amber',
-    badgeBg: 'bg-amber-50 dark:bg-amber-950/40',
-    badgeBorder: 'border-amber-200 dark:border-amber-800',
-    badgeText: 'text-amber-700 dark:text-amber-300',
-    accentGradient: 'from-amber-500 to-orange-600',
-    iconBg: 'bg-amber-100 text-amber-600 dark:bg-amber-900/50 dark:text-amber-400',
+    subtitle: 'Számok 16–63 között, 2-hatványok és bájtok',
+    range: '16 – 63 (10000₂ – 111111₂)',
+    focus: '16, 32, 64 helyiértékek, kétirányú átváltás, bájtok fogalma',
+    color: 'teal',
+    badgeBg: 'bg-teal-50 dark:bg-teal-950/40',
+    badgeBorder: 'border-teal-200 dark:border-teal-800',
+    badgeText: 'text-teal-700 dark:text-teal-300',
+    accentGradient: 'from-teal-500 to-cyan-600',
+    iconBg: 'bg-teal-500',
     questions: [
       {
-        id: 'l2-q1',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '24',
-        options: ['XXIV', 'XXVI', 'XXIIII', 'XIV'],
-        correctAnswer: 'XXIV',
-        explanation: '24 = 20 (XX) + 4 (IV) = XXIV.',
+        id: 'q2-1',
+        prompt: 'Mennyi a jobbról számított 5. helyiérték értéke a kettes számrendszerben?',
+        highlightValue: '5. helyiérték',
+        questionTypeBadge: 'Helyiérték számítás',
+        options: ['16 (2⁴)', '32 (2⁵)', '10', '8 (2³)'],
+        correctAnswer: '16 (2⁴)',
+        explanation: 'A kettes számrendszer helyiértékei jobbról: 1 (2⁰), 2 (2¹), 4 (2²), 8 (2³), 16 (2⁴).',
         breakdown: [
-          { label: '20', value: 'XX' },
-          { label: '4', value: 'IV' },
-          { label: 'Összesen', value: 'XXIV' }
+          { label: '5. hely', value: '2⁴' },
+          { label: 'Értéke', value: '16' }
         ]
       },
       {
-        id: 'l2-q2',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'XXIX',
-        options: ['29', '31', '28', '39'],
-        correctAnswer: '29',
-        explanation: 'XXIX = 20 (XX) + 9 (IX) = 29.',
+        id: 'q2-2',
+        prompt: 'Melyik decimális számnak felel meg a 10000₂ szám?',
+        highlightValue: '10000₂',
+        questionTypeBadge: 'Bináris ➔ Decimális',
+        options: ['16', '32', '10', '20'],
+        correctAnswer: '16',
+        explanation: '10000₂ = 1 · 16 = 16.',
         breakdown: [
-          { label: 'XX', value: '20' },
-          { label: 'IX', value: '+ 9' },
-          { label: 'Összesen', value: '29' }
+          { label: 'Helyiérték', value: '16' },
+          { label: 'Összeg', value: '16' }
         ]
       },
       {
-        id: 'l2-q3',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '33',
-        options: ['XXXIII', 'XXIII', 'XLIII', 'XXXXIII'],
-        correctAnswer: 'XXXIII',
-        explanation: '33 = 30 (XXX) + 3 (III) = XXXIII. A maximális 3 darab X és 3 darab I egymás mellett megengedett.',
+        id: 'q2-3',
+        prompt: 'Melyik decimális számnak felel meg a 10101₂ bináris szám?',
+        highlightValue: '10101₂',
+        questionTypeBadge: 'Bináris ➔ Decimális',
+        options: ['21', '19', '23', '25'],
+        correctAnswer: '21',
+        explanation: '10101₂ = 1 · 16 + 0 · 8 + 1 · 4 + 0 · 2 + 1 · 1 = 16 + 4 + 1 = 21.',
         breakdown: [
-          { label: '30', value: 'XXX' },
-          { label: '3', value: 'III' },
-          { label: 'Összesen', value: 'XXXIII' }
+          { label: 'Helyiértékek', value: '16 + 4 + 1' },
+          { label: 'Összeg', value: '21' }
         ]
       },
       {
-        id: 'l2-q4',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'XXXVIII',
-        options: ['38', '37', '48', '33'],
-        correctAnswer: '38',
-        explanation: 'XXXVIII = 30 (XXX) + 5 (V) + 3 (III) = 38.',
+        id: 'q2-4',
+        prompt: 'Hogyan írjuk fel a 25-öt kettes számrendszerben?',
+        highlightValue: '25',
+        questionTypeBadge: 'Decimális ➔ Bináris',
+        options: ['11001₂', '11010₂', '10101₂', '11101₂'],
+        correctAnswer: '11001₂',
+        explanation: '25 = 16 + 8 + 1 = 11001₂.',
         breakdown: [
-          { label: 'XXX', value: '30' },
-          { label: 'V', value: '+ 5' },
-          { label: 'III', value: '+ 3' },
-          { label: 'Összesen', value: '38' }
+          { label: 'Bontás', value: '16 + 8 + 1' },
+          { label: 'Bináris alak', value: '11001₂' }
         ]
       },
       {
-        id: 'l2-q5',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '40',
-        options: ['XL', 'XXXX', 'LX', 'L'],
-        correctAnswer: 'XL',
-        explanation: '40 = 50 - 10 = XL (kivonás elve: az 50 (L) előtt áll a 10 (X)). Négy X (XXXX) nem állhat egymás után!',
-        breakdown: [{ label: '50 - 10', value: 'XL = 40' }]
-      },
-      {
-        id: 'l2-q6',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'XLV',
-        options: ['45', '55', '65', '35'],
-        correctAnswer: '45',
-        explanation: 'XLV = 40 (XL) + 5 (V) = 45.',
+        id: 'q2-5',
+        prompt: 'Melyik decimális számnak felel meg a 100000₂ bináris szám?',
+        highlightValue: '100000₂',
+        questionTypeBadge: 'Bináris ➔ Decimális',
+        options: ['32', '64', '16', '50'],
+        correctAnswer: '32',
+        explanation: '100000₂ = 2⁵ = 32.',
         breakdown: [
-          { label: 'XL', value: '40' },
-          { label: 'V', value: '+ 5' },
-          { label: 'Összesen', value: '45' }
+          { label: '6. helyiérték', value: '2⁵ = 32' },
+          { label: 'Összeg', value: '32' }
         ]
       },
       {
-        id: 'l2-q7',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '44',
-        options: ['XLIV', 'XLVI', 'XXXXIV', 'LIV'],
-        correctAnswer: 'XLIV',
-        explanation: '44 = 40 (XL) + 4 (IV) = XLIV. Kétszeres kivonási elv érvényesül (a tízeseknél és egyeseknél is).',
+        id: 'q2-6',
+        prompt: 'Melyik decimális számnak felel meg a 101010₂ bináris szám?',
+        highlightValue: '101010₂',
+        questionTypeBadge: 'Bináris ➔ Decimális',
+        options: ['42', '40', '44', '38'],
+        correctAnswer: '42',
+        explanation: '101010₂ = 32 + 8 + 2 = 42.',
         breakdown: [
-          { label: '40', value: 'XL' },
-          { label: '4', value: 'IV' },
-          { label: 'Összesen', value: 'XLIV' }
+          { label: 'Helyiértékek', value: '32 + 8 + 2' },
+          { label: 'Összeg', value: '42' }
         ]
       },
       {
-        id: 'l2-q8',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'XLIX',
-        options: ['49', '59', '48', '51'],
-        correctAnswer: '49',
-        explanation: 'XLIX = 40 (XL) + 9 (IX) = 49. (Nem írható IL formában, mert a számokat helyiértékek szerint kell felbontani: 40 + 9).',
+        id: 'q2-7',
+        prompt: 'Hogyan írjuk fel a 48-at kettes számrendszerben?',
+        highlightValue: '48',
+        questionTypeBadge: 'Decimális ➔ Bináris',
+        options: ['110000₂', '101000₂', '111000₂', '100110₂'],
+        correctAnswer: '110000₂',
+        explanation: '48 = 32 + 16, ezért binárisan 110000₂.',
         breakdown: [
-          { label: 'XL', value: '40' },
-          { label: 'IX', value: '+ 9' },
-          { label: 'Összesen', value: '49' }
+          { label: 'Bontás', value: '32 + 16' },
+          { label: 'Bináris alak', value: '110000₂' }
         ]
       },
       {
-        id: 'l2-q9',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '50',
-        options: ['L', 'C', 'XXXXX', 'D'],
-        correctAnswer: 'L',
-        explanation: 'Az 50 római számjele az L.',
-        breakdown: [{ label: '50', value: 'L' }]
+        id: 'q2-8',
+        prompt: 'Melyik decimális számnak felel meg a 111111₂ (hat darab egyes) bináris szám?',
+        highlightValue: '111111₂',
+        questionTypeBadge: 'Bináris ➔ Decimális',
+        options: ['63', '64', '62', '31'],
+        correctAnswer: '63',
+        explanation: '111111₂ = 32 + 16 + 8 + 4 + 2 + 1 = 63 (egyébként 64 - 1 = 63).',
+        breakdown: [
+          { label: 'Helyiértékek', value: '32+16+8+4+2+1' },
+          { label: 'Összeg', value: '63' }
+        ]
       },
       {
-        id: 'l2-q10',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'XLVII',
-        options: ['47', '57', '37', '46'],
-        correctAnswer: '47',
-        explanation: 'XLVII = 40 (XL) + 7 (VII) = 47.',
+        id: 'q2-9',
+        prompt: 'Hány bit alkot 1 bájtot (byte-ot) az informatikában?',
+        highlightValue: '1 Byte',
+        questionTypeBadge: 'Informatikai mértékegység',
+        options: ['8 bit', '4 bit', '16 bit', '10 bit'],
+        correctAnswer: '8 bit',
+        explanation: '1 bájt (byte) pontosan 8 bitből áll, amellyel 256 különböző érték (0–255) írható le.',
         breakdown: [
-          { label: 'XL', value: '40' },
-          { label: 'VII', value: '+ 7' },
-          { label: 'Összesen', value: '47' }
+          { label: '1 Byte', value: '8 Bit' },
+          { label: 'Értéktartomány', value: '0 – 255' }
+        ]
+      },
+      {
+        id: 'q2-10',
+        prompt: 'Melyik decimális számnak felel meg a 11011₂ bináris szám?',
+        highlightValue: '11011₂',
+        questionTypeBadge: 'Bináris ➔ Decimális',
+        options: ['27', '29', '25', '31'],
+        correctAnswer: '27',
+        explanation: '11011₂ = 16 + 8 + 0 + 2 + 1 = 27.',
+        breakdown: [
+          { label: 'Helyiértékek', value: '16 + 8 + 2 + 1' },
+          { label: 'Összeg', value: '27' }
         ]
       }
     ]
@@ -352,162 +349,157 @@ const QUIZ_LEVELS: Record<DifficultyLevel, LevelConfig> = {
   3: {
     level: 3,
     title: '3. Nehéz szint',
-    subtitle: 'Számok 50–100-ig, új alapjel: C (100)',
-    range: '50 – 100',
-    symbols: 'L (50), XC (90), C (100)',
-    color: 'purple',
-    badgeBg: 'bg-purple-50 dark:bg-purple-950/40',
-    badgeBorder: 'border-purple-200 dark:border-purple-800',
-    badgeText: 'text-purple-700 dark:text-purple-300',
-    accentGradient: 'from-purple-600 to-indigo-600',
-    iconBg: 'bg-purple-100 text-purple-600 dark:bg-purple-900/50 dark:text-purple-400',
+    subtitle: 'Nagyobb bináris számok (64–255) és 5-ös alapú rendszer',
+    range: '64 – 255 (1 bájt) & 5-ös alap',
+    focus: 'Bájt felső határa, 5-ös és 60-as számrendszer működése',
+    color: 'indigo',
+    badgeBg: 'bg-indigo-50 dark:bg-indigo-950/40',
+    badgeBorder: 'border-indigo-200 dark:border-indigo-800',
+    badgeText: 'text-indigo-700 dark:text-indigo-300',
+    accentGradient: 'from-indigo-500 to-cyan-600',
+    iconBg: 'bg-indigo-500',
     questions: [
       {
-        id: 'l3-q1',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '58',
-        options: ['LVIII', 'XLVIII', 'LVII', 'LXVIII'],
-        correctAnswer: 'LVIII',
-        explanation: '58 = 50 (L) + 8 (VIII) = LVIII.',
+        id: 'q3-1',
+        prompt: 'Melyik decimális számnak felel meg a 10000000₂ (1-es után hét darab 0) szám?',
+        highlightValue: '10000000₂',
+        questionTypeBadge: 'Bájt legfelső bitje',
+        options: ['128 (2⁷)', '256 (2⁸)', '64 (2⁶)', '100'],
+        correctAnswer: '128 (2⁷)',
+        explanation: 'A 8. helyiérték értéke 2⁷ = 128.',
         breakdown: [
-          { label: '50', value: 'L' },
-          { label: '8', value: 'VIII' },
-          { label: 'Összesen', value: 'LVIII' }
+          { label: '8. helyiérték', value: '2⁷' },
+          { label: 'Értéke', value: '128' }
         ]
       },
       {
-        id: 'l3-q2',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'LXIV',
-        options: ['64', '66', '54', '74'],
-        correctAnswer: '64',
-        explanation: 'LXIV = 60 (LX) + 4 (IV) = 64.',
+        id: 'q3-2',
+        prompt: 'Mennyi 1 bájt (8 bit) legnagyobb lehetséges értéke decimálisan (11111111₂)?',
+        highlightValue: '11111111₂',
+        questionTypeBadge: 'Bájt maximális értéke',
+        options: ['255', '256', '128', '512'],
+        correctAnswer: '255',
+        explanation: '8 darab egyes összege: 128 + 64 + 32 + 16 + 8 + 4 + 2 + 1 = 255 (2⁸ - 1 = 255).',
         breakdown: [
-          { label: 'LX', value: '60' },
-          { label: 'IV', value: '+ 4' },
-          { label: 'Összesen', value: '64' }
+          { label: '8 bit összege', value: '2⁸ - 1' },
+          { label: 'Maximális érték', value: '255' }
         ]
       },
       {
-        id: 'l3-q3',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '73',
-        options: ['LXXIII', 'LXIII', 'LXXXIII', 'LXXIV'],
-        correctAnswer: 'LXXIII',
-        explanation: '73 = 70 (LXX) + 3 (III) = LXXIII.',
-        breakdown: [
-          { label: '70', value: 'LXX' },
-          { label: '3', value: 'III' },
-          { label: 'Összesen', value: 'LXXIII' }
-        ]
-      },
-      {
-        id: 'l3-q4',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'LXXVI',
-        options: ['76', '74', '66', '86'],
-        correctAnswer: '76',
-        explanation: 'LXXVI = 70 (LXX) + 6 (VI) = 76.',
-        breakdown: [
-          { label: 'LXX', value: '70' },
-          { label: 'VI', value: '+ 6' },
-          { label: 'Összesen', value: '76' }
-        ]
-      },
-      {
-        id: 'l3-q5',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '84',
-        options: ['LXXXIV', 'LXXXVI', 'XCIV', 'LXXIV'],
-        correctAnswer: 'LXXXIV',
-        explanation: '84 = 80 (LXXX) + 4 (IV) = LXXXIV.',
-        breakdown: [
-          { label: '80', value: 'LXXX' },
-          { label: '4', value: 'IV' },
-          { label: 'Összesen', value: 'LXXXIV' }
-        ]
-      },
-      {
-        id: 'l3-q6',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'LXXXIX',
-        options: ['89', '99', '79', '88'],
-        correctAnswer: '89',
-        explanation: 'LXXXIX = 80 (LXXX) + 9 (IX) = 89.',
-        breakdown: [
-          { label: 'LXXX', value: '80' },
-          { label: 'IX', value: '+ 9' },
-          { label: 'Összesen', value: '89' }
-        ]
-      },
-      {
-        id: 'l3-q7',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '90',
-        options: ['XC', 'LXXXX', 'CX', 'IC'],
-        correctAnswer: 'XC',
-        explanation: '90 = 100 - 10 = XC (kivonás elve: 100 (C) előtt a 10 (X)). Négy darab X egymás mellett tilos!',
-        breakdown: [{ label: '100 - 10', value: 'XC = 90' }]
-      },
-      {
-        id: 'l3-q8',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'XCIV',
-        options: ['94', '96', '104', '84'],
-        correctAnswer: '94',
-        explanation: 'XCIV = 90 (XC) + 4 (IV) = 94.',
-        breakdown: [
-          { label: 'XC', value: '90' },
-          { label: 'IV', value: '+ 4' },
-          { label: 'Összesen', value: '94' }
-        ]
-      },
-      {
-        id: 'l3-q9',
-        type: 'arabic-to-roman',
-        prompt: 'Melyik a helyes római szám alakja?',
-        highlightValue: '99',
-        options: ['XCIX', 'IC', 'LXXXXIX', 'CXI'],
-        correctAnswer: 'XCIX',
-        explanation: '99 = 90 + 9 = XC + IX = XCIX. (Figyelem: az IC alak szabálytalan, mert a római számírásban helyiértékek szerint bontjuk a számokat: 90 = XC, 9 = IX!).',
-        breakdown: [
-          { label: '90', value: 'XC' },
-          { label: '9', value: 'IX' },
-          { label: 'Összesen', value: 'XCIX' }
-        ]
-      },
-      {
-        id: 'l3-q10',
-        type: 'roman-to-arabic',
-        prompt: 'Melyik arab számnak felel meg?',
-        highlightValue: 'C',
-        options: ['100', '50', '500', '1000'],
+        id: 'q3-3',
+        prompt: 'Melyik decimális számnak felel meg a 1100100₂ bináris szám?',
+        highlightValue: '1100100₂',
+        questionTypeBadge: 'Bináris ➔ Decimális',
+        options: ['100', '96', '104', '110'],
         correctAnswer: '100',
-        explanation: 'A 100 római számjele a C (a latin "centum" = száz szóból ered).',
-        breakdown: [{ label: '100', value: 'C' }]
+        explanation: '1100100₂ = 64 + 32 + 4 = 100.',
+        breakdown: [
+          { label: 'Helyiértékek', value: '64 + 32 + 4' },
+          { label: 'Összeg', value: '100' }
+        ]
+      },
+      {
+        id: 'q3-4',
+        prompt: 'Az 5-ös alapú számrendszerben milyen helyiértékek követik egymást jobbról balra haladva?',
+        highlightValue: '5-ös alap (b = 5)',
+        questionTypeBadge: '5-ös számrendszer',
+        options: ['1, 5, 25, 125, ...', '1, 2, 4, 8, ...', '1, 10, 100, 1000, ...', '5, 10, 15, 20, ...'],
+        correctAnswer: '1, 5, 25, 125, ...',
+        explanation: 'Az 5-ös számrendszer helyiértékei az 5 hatványai: 5⁰ = 1, 5¹ = 5, 5² = 25, 5³ = 125.',
+        breakdown: [
+          { label: 'Hatványok', value: '5⁰, 5¹, 5², 5³' },
+          { label: 'Helyiértékek', value: '1, 5, 25, 125' }
+        ]
+      },
+      {
+        id: 'q3-5',
+        prompt: 'Melyik decimális számnak felel meg a 23₅ (ötös alapú) szám?',
+        highlightValue: '23₅',
+        questionTypeBadge: '5-ös alap ➔ Decimális',
+        options: ['13', '23', '10', '15'],
+        correctAnswer: '13',
+        explanation: '23₅ = 2 · 5 + 3 · 1 = 10 + 3 = 13.',
+        breakdown: [
+          { label: 'Helyiértékek', value: '2 · 5 + 3 · 1' },
+          { label: 'Összeg', value: '13' }
+        ]
+      },
+      {
+        id: 'q3-6',
+        prompt: 'Melyik decimális számnak felel meg a 100₅ (ötös alapú) szám?',
+        highlightValue: '100₅',
+        questionTypeBadge: '5-ös alap ➔ Decimális',
+        options: ['25', '100', '20', '125'],
+        correctAnswer: '25',
+        explanation: '100₅ = 1 · 5² + 0 · 5 + 0 · 1 = 25.',
+        breakdown: [
+          { label: '3. helyiérték', value: '5² = 25' },
+          { label: 'Összeg', value: '25' }
+        ]
+      },
+      {
+        id: 'q3-7',
+        prompt: 'Melyik decimális számnak felel meg a 44₅ (ötös alapú) szám?',
+        highlightValue: '44₅',
+        questionTypeBadge: '5-ös alap ➔ Decimális',
+        options: ['24', '44', '20', '25'],
+        correctAnswer: '24',
+        explanation: '44₅ = 4 · 5 + 4 · 1 = 20 + 4 = 24.',
+        breakdown: [
+          { label: 'Helyiértékek', value: '4 · 5 + 4 · 1' },
+          { label: 'Összeg', value: '24' }
+        ]
+      },
+      {
+        id: 'q3-8',
+        prompt: 'Hány darab tárgyat jelent 1 nagytucat (grosz = 12 × 12)?',
+        highlightValue: '1 grosz (12 tucat)',
+        questionTypeBadge: '12-es számrendszer',
+        options: ['144 darabot', '120 darabot', '100 darabot', '240 darabot'],
+        correctAnswer: '144 darabot',
+        explanation: '1 tucat = 12 db, 1 nagytucat (grosz) = 12 tucat = 12 · 12 = 144 db.',
+        breakdown: [
+          { label: '1 tucat', value: '12 db' },
+          { label: '1 grosz', value: '144 db' }
+        ]
+      },
+      {
+        id: 'q3-9',
+        prompt: 'Melyik ősi mezopotámiai számrendszeren alapul az időmérés (1 óra = 60 perc, 1 perc = 60 másodperc)?',
+        highlightValue: 'Időmérés',
+        questionTypeBadge: 'Történeti számrendszer',
+        options: ['60-as (sexagesimális) rendszeren', '10-es rendszeren', '12-es rendszeren', '100-as rendszeren'],
+        correctAnswer: '60-as (sexagesimális) rendszeren',
+        explanation: 'Az időmérés és a szögmérés (kör 360°-os felosztása) az ókori babiloniak 60-as számrendszeréből maradt ránk.',
+        breakdown: [
+          { label: 'Alap', value: 'b = 60' },
+          { label: 'Alkalmazás', value: 'Idő- és szögmérés' }
+        ]
+      },
+      {
+        id: 'q3-10',
+        prompt: 'Melyik decimális számnak felel meg a 1010100₂ bináris szám?',
+        highlightValue: '1010100₂',
+        questionTypeBadge: 'Bináris ➔ Decimális',
+        options: ['84', '80', '88', '74'],
+        correctAnswer: '84',
+        explanation: '1010100₂ = 64 + 16 + 4 = 84.',
+        breakdown: [
+          { label: 'Helyiértékek', value: '64 + 16 + 4' },
+          { label: 'Összeg', value: '84' }
+        ]
       }
     ]
   }
 };
 
-const ROMAN_SYMBOLS_CHEAT_SHEET = [
-  { roman: 'I', arabic: '1', note: 'Alapjel (max. 3x ismételhető)' },
-  { roman: 'V', arabic: '5', note: 'Segédjel (nem ismételhető)' },
-  { roman: 'X', arabic: '10', note: 'Alapjel (max. 3x ismételhető)' },
-  { roman: 'L', arabic: '50', note: 'Segédjel (nem ismételhető)' },
-  { roman: 'C', arabic: '100', note: 'Alapjel (latin: centum)' },
-  { roman: 'IV', arabic: '4', note: 'Kivonás: 5 - 1' },
-  { roman: 'IX', arabic: '9', note: 'Kivonás: 10 - 1' },
-  { roman: 'XL', arabic: '40', note: 'Kivonás: 50 - 10' },
-  { roman: 'XC', arabic: '90', note: 'Kivonás: 100 - 10' }
+const NUMBER_SYSTEMS_CHEAT_SHEET = [
+  { topic: 'Kettes helyiértékek', formula: '1, 2, 4, 8, 16, 32, 64, 128', note: 'Minden lépésben duplázódik' },
+  { topic: '1 Bit', formula: '0 vagy 1', note: 'Elemi információegység' },
+  { topic: '1 Bájt (Byte)', formula: '8 bit (0 – 255)', note: '2⁸ = 256 állapot' },
+  { topic: 'Átváltás 2 ➔ 10', formula: 'Jegyek · Helyiértékek összege', note: 'Pl. 1101₂ = 8 + 4 + 1 = 13' },
+  { topic: '5-ös számrendszer', formula: '1, 5, 25, 125...', note: 'Pl. 23₅ = 2·5 + 3 = 13' },
+  { topic: '60-as rendszer', formula: '1 óra = 60 p, 1 p = 60 mp', note: 'Kör: 360°' }
 ];
 
 function shuffleArray<T>(array: T[]): T[] {
@@ -519,11 +511,11 @@ function shuffleArray<T>(array: T[]): T[] {
   return arr;
 }
 
-interface RomanNumeralsQuizProps {
+interface NumberSystemsQuizProps {
   onBack: () => void;
 }
 
-export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
+export function NumberSystemsQuiz({ onBack }: NumberSystemsQuizProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [selectedLevel, setSelectedLevel] = useState<DifficultyLevel | null>(null);
@@ -538,7 +530,7 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
   const [isCompleted, setIsCompleted] = useState(false);
   const [showCheatSheet, setShowCheatSheet] = useState(false);
 
-  // Toggle fullscreen
+  // Fullscreen toggler
   const toggleFullscreen = async () => {
     if (!containerRef.current) return;
     if (!document.fullscreenElement) {
@@ -638,45 +630,48 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
     }
   };
 
-  // Keyboard navigation support for options 1-4
+  // Keyboard shortcut listener (1, 2, 3, 4)
   useEffect(() => {
-    if (!selectedLevel || isCompleted || gameMode !== 'quiz') return;
-
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (['1', '2', '3', '4'].includes(e.key) && !isAnswerChecked) {
-        const index = parseInt(e.key, 10) - 1;
+      if (gameMode !== 'quiz' || isAnswerChecked || isCompleted || !selectedLevel) return;
+      const keyMap: { [key: string]: number } = {
+        '1': 0,
+        '2': 1,
+        '3': 2,
+        '4': 3
+      };
+      if (e.key in keyMap) {
+        const optionIdx = keyMap[e.key];
         const currentQ = questions[currentIndex] || (selectedLevel ? QUIZ_LEVELS[selectedLevel].questions[currentIndex] : null);
-        if (currentQ && currentQ.options[index]) {
-          handleOptionClick(currentQ.options[index]);
+        if (currentQ && currentQ.options[optionIdx]) {
+          handleOptionClick(currentQ.options[optionIdx]);
         }
-      } else if (e.key === 'Enter' && isAnswerChecked) {
-        handleNextQuestion();
       }
     };
-
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedLevel, currentIndex, isAnswerChecked, isCompleted, gameMode, questions]);
+  }, [gameMode, isAnswerChecked, isCompleted, selectedLevel, currentIndex, questions]);
 
-  // 1. Difficulty Level Selection Screen
-  if (!selectedLevel) {
+  // 1. Initial Level Selection Screen
+  if (selectedLevel === null) {
     return (
       <div
         ref={containerRef}
         className={cn(
-          "max-w-5xl mx-auto px-4 py-2 sm:py-3 animate-in fade-in slide-in-from-bottom-2 duration-300 text-left",
+          "w-full max-w-5xl mx-auto px-2 sm:px-4 py-2 animate-in fade-in duration-300 text-left",
           isFullscreen && "fixed inset-0 z-50 max-w-none w-screen h-screen bg-slate-100 dark:bg-slate-950 p-4 sm:p-6 overflow-y-auto"
         )}
       >
-        {/* Top bar with back, fullscreen, and cheat sheet buttons */}
-        <div className="flex items-center justify-between gap-3 mb-3">
+        {/* Top bar with back button, fullscreen toggle and cheat sheet */}
+        <div className="flex items-center justify-between gap-2 mb-4">
           <Button
             variant="ghost"
             size="sm"
             onClick={onBack}
-            className="rounded-xl h-9 px-3 border border-slate-200/80 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300"
+            className="rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
           >
-            <ArrowLeft className="w-3.5 h-3.5 mr-1.5" /> Vissza a témakörökhöz
+            <ArrowLeft className="w-4 h-4 mr-1" />
+            Vissza a témakörökhöz
           </Button>
 
           <div className="flex items-center gap-2">
@@ -684,18 +679,18 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
               variant="outline"
               size="sm"
               onClick={toggleFullscreen}
-              className="rounded-xl h-9 px-2.5 text-xs sm:text-sm font-bold border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300"
-              title={isFullscreen ? 'Kilépés a teljes képernyőből' : 'Teljes képernyős mód'}
+              className="rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+              title={isFullscreen ? "Kilépés a teljes képernyőből" : "Teljes képernyő"}
             >
               {isFullscreen ? (
                 <>
-                  <Minimize2 className="w-3.5 h-3.5 mr-1 text-amber-600 dark:text-amber-400" />
-                  <span className="hidden sm:inline">Kilépés</span>
+                  <Minimize2 className="w-3.5 h-3.5 mr-1" />
+                  Ablak
                 </>
               ) : (
                 <>
-                  <Maximize2 className="w-3.5 h-3.5 mr-1 text-slate-500" />
-                  <span className="hidden sm:inline">Teljes képernyő</span>
+                  <Maximize2 className="w-3.5 h-3.5 mr-1" />
+                  Teljes képernyő
                 </>
               )}
             </Button>
@@ -704,10 +699,10 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
               variant="outline"
               size="sm"
               onClick={() => setShowCheatSheet(!showCheatSheet)}
-              className="rounded-xl h-9 px-3 border-amber-300 bg-amber-50/60 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800 hover:bg-amber-100 text-xs sm:text-sm font-bold"
+              className="rounded-xl h-8 px-3 text-xs font-bold border-cyan-300 bg-cyan-50/50 text-cyan-800 dark:bg-cyan-950/40 dark:text-cyan-300 dark:border-cyan-800 hover:bg-cyan-100"
             >
-              <BookOpen className="w-3.5 h-3.5 mr-1.5 text-amber-600" />
-              Római számok szabályai
+              <BookOpen className="w-3.5 h-3.5 mr-1.5 text-cyan-600" />
+              Számrendszerek segédlet
             </Button>
           </div>
         </div>
@@ -715,11 +710,11 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
         {/* Hero Header */}
         <div className="text-center max-w-2xl mx-auto mb-4 sm:mb-5">
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight flex items-center justify-center gap-2 mb-1">
-            <span className="text-2xl">🏛️</span>
-            <span>Római Számok Gyakorló</span>
+            <span className="text-2xl">💻</span>
+            <span>Számrendszerek Gyakorló</span>
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-            Gyakorold a római számírást 1-től 100-ig többválasztós kvízzel vagy kártyanyitogatós párosító játékkal!
+            Gyakorold a kettes (bináris) és tízes számrendszer közötti átváltást többválasztós kvízzel vagy kártyanyitogatós memóriajátékkal!
           </p>
 
           {/* Quick Mode Switcher in selection */}
@@ -733,7 +728,7 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
                   : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
               )}
             >
-              <FileQuestion className="w-3.5 h-3.5 text-amber-500" />
+              <FileQuestion className="w-3.5 h-3.5 text-cyan-500" />
               Klasszikus Kvíz
             </button>
             <button
@@ -753,27 +748,27 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
 
         {/* Cheat sheet popover/card */}
         {showCheatSheet && (
-          <div className="mb-4 p-4 sm:p-5 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-slate-900 dark:to-slate-850 rounded-2xl border-2 border-amber-200 dark:border-amber-900/60 shadow-md animate-in fade-in duration-200">
+          <div className="mb-4 p-4 sm:p-5 bg-gradient-to-br from-cyan-50 to-teal-50 dark:from-slate-900 dark:to-slate-850 rounded-2xl border-2 border-cyan-200 dark:border-cyan-900/60 shadow-md animate-in fade-in duration-200">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm sm:text-base font-black text-amber-900 dark:text-amber-200 flex items-center gap-1.5">
-                <Sparkles className="w-4 h-4 text-amber-600" />
-                Római számjegyek és szabályok (1–100)
+              <h3 className="text-sm sm:text-base font-black text-cyan-900 dark:text-cyan-200 flex items-center gap-1.5">
+                <Sparkles className="w-4 h-4 text-cyan-600" />
+                Számrendszerek áttekintése és szabályok
               </h3>
               <Button
                 size="sm"
                 variant="ghost"
                 onClick={() => setShowCheatSheet(false)}
-                className="text-amber-800 dark:text-amber-300 hover:bg-amber-200/50 rounded-lg h-7 px-2 text-xs"
+                className="text-cyan-800 dark:text-cyan-300 hover:bg-cyan-200/50 rounded-lg h-7 px-2 text-xs"
               >
                 Bezárás
               </Button>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
-              {ROMAN_SYMBOLS_CHEAT_SHEET.map((item, idx) => (
-                <div key={idx} className="bg-white/95 dark:bg-slate-800/95 p-2.5 rounded-xl border border-amber-100 dark:border-slate-700 shadow-xs text-left">
-                  <div className="text-lg font-serif font-black text-amber-600 dark:text-amber-400">{item.roman}</div>
-                  <div className="text-sm font-black text-slate-800 dark:text-slate-100">= {item.arabic}</div>
-                  <div className="text-[11px] text-slate-500 dark:text-slate-400 leading-tight">{item.note}</div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+              {NUMBER_SYSTEMS_CHEAT_SHEET.map((item, idx) => (
+                <div key={idx} className="bg-white/95 dark:bg-slate-800/95 p-2.5 rounded-xl border border-cyan-100 dark:border-slate-700 shadow-xs text-left">
+                  <div className="text-xs font-black text-cyan-600 dark:text-cyan-400">{item.topic}</div>
+                  <div className="text-xs font-mono font-bold text-slate-800 dark:text-slate-100 mt-0.5">{item.formula}</div>
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5">{item.note}</div>
                 </div>
               ))}
             </div>
@@ -788,14 +783,14 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
               <div
                 key={level}
                 onClick={() => handleStartLevel(level)}
-                className="group relative bg-white dark:bg-slate-900 rounded-2xl p-5 border-2 border-slate-200/80 dark:border-slate-800 hover:border-amber-500 dark:hover:border-amber-500 shadow-sm hover:shadow-lg transition-all duration-200 cursor-pointer flex flex-col justify-between overflow-hidden"
+                className="group relative bg-white dark:bg-slate-900 rounded-2xl p-5 border-2 border-slate-200/80 dark:border-slate-800 hover:border-cyan-500 dark:hover:border-cyan-500 shadow-sm hover:shadow-lg transition-all duration-200 cursor-pointer flex flex-col justify-between overflow-hidden"
               >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-amber-500/10 to-transparent rounded-bl-full pointer-events-none group-hover:scale-110 transition-transform" />
+                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-cyan-500/10 to-transparent rounded-bl-full pointer-events-none group-hover:scale-110 transition-transform" />
 
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform shadow-inner", cfg.iconBg)}>
-                      <span className="font-serif font-black text-lg">{level === 1 ? 'I' : level === 2 ? 'II' : 'III'}</span>
+                    <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform shadow-inner text-white font-serif font-black text-lg", cfg.iconBg)}>
+                      {level === 1 ? 'I' : level === 2 ? 'II' : 'III'}
                     </div>
 
                     <span className={cn("px-2.5 py-1 rounded-full text-[11px] font-black uppercase tracking-wider border", cfg.badgeBg, cfg.badgeBorder, cfg.badgeText)}>
@@ -803,7 +798,7 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
                     </span>
                   </div>
 
-                  <h3 className="text-lg font-black text-slate-900 dark:text-white mb-0.5 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                  <h3 className="text-lg font-black text-slate-900 dark:text-white mb-0.5 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
                     {cfg.title}
                   </h3>
 
@@ -817,8 +812,8 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
                       <span className="font-bold text-slate-800 dark:text-slate-200">{cfg.range}</span>
                     </div>
                     <div className="flex items-center justify-between text-xs">
-                      <span className="text-slate-500 dark:text-slate-400">Főbb jelek:</span>
-                      <span className="font-mono font-bold text-amber-600 dark:text-amber-400">{cfg.symbols}</span>
+                      <span className="text-slate-500 dark:text-slate-400">Fókusz:</span>
+                      <span className="font-mono text-[11px] font-bold text-cyan-600 dark:text-cyan-400">{cfg.focus}</span>
                     </div>
                   </div>
                 </div>
@@ -857,21 +852,21 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
     return (
       <div className="max-w-xl mx-auto p-4 sm:p-6 text-center animate-in zoom-in-95 duration-300">
         <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl shadow-xl border-2 border-slate-200 dark:border-slate-800 relative overflow-hidden">
-          <div className="w-20 h-20 bg-gradient-to-tr from-amber-400 to-yellow-500 text-white rounded-3xl flex items-center justify-center mx-auto shadow-lg mb-4 ring-8 ring-amber-100 dark:ring-amber-950/60 animate-bounce">
+          <div className="w-20 h-20 bg-gradient-to-tr from-cyan-500 to-teal-600 text-white rounded-3xl flex items-center justify-center mx-auto shadow-lg mb-4 ring-8 ring-cyan-100 dark:ring-cyan-950/60 animate-bounce">
             <Trophy className="w-10 h-10" />
           </div>
 
           <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mb-1">
-            {isPerfect ? 'Tökéletes Kvíz! 🏆' : isGood ? 'Szép Munka! 🌟' : 'Gyakorolj még egy kicsit! 💪'}
+            {isPerfect ? 'Tökéletes Eredmény! 🏆' : isGood ? 'Szép Munka! 🌟' : 'Gyakorolj még egy kicsit! 💪'}
           </h2>
           <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mb-5">
-            Sikeresen befejezted a <span className="font-bold text-slate-800 dark:text-slate-200">{levelConfig.title}</span> kvízét!
+            Sikeresen befejezted a <span className="font-bold text-slate-800 dark:text-slate-200">{levelConfig.title}</span> feladatait!
           </p>
 
           <div className="grid grid-cols-3 gap-3 bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-700/80 mb-6">
             <div>
               <div className="text-[11px] uppercase font-bold text-slate-400 mb-0.5">Pontszám</div>
-              <div className="text-2xl font-black text-amber-600 dark:text-amber-400">{score} / {totalQuestions}</div>
+              <div className="text-2xl font-black text-cyan-600 dark:text-cyan-400">{score} / {totalQuestions}</div>
             </div>
             <div className="border-x border-slate-200 dark:border-slate-700">
               <div className="text-[11px] uppercase font-bold text-slate-400 mb-0.5">Eredmény</div>
@@ -889,7 +884,7 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
             {selectedLevel < 3 && (
               <Button
                 onClick={() => handleStartLevel((selectedLevel + 1) as DifficultyLevel, 'quiz')}
-                className="flex-1 h-11 rounded-xl text-sm font-bold bg-amber-600 hover:bg-amber-700 text-white shadow-md flex items-center justify-center gap-1.5"
+                className="flex-1 h-11 rounded-xl text-sm font-bold bg-cyan-600 hover:bg-cyan-700 text-white shadow-md flex items-center justify-center gap-1.5"
               >
                 Következő szint: {selectedLevel + 1}. szint
                 <ArrowRight className="w-4 h-4 ml-1" />
@@ -927,46 +922,26 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
         isFullscreen && "fixed inset-0 z-50 max-w-none w-screen h-screen bg-slate-100 dark:bg-slate-950 p-4 sm:p-6 overflow-y-auto"
       )}
     >
-      {/* Top Header Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-2.5 mb-2.5">
+      {/* Top Bar: Back button, Level selector pill, Mode switcher, Score */}
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-200/80 dark:border-slate-800">
         <div className="flex items-center gap-2">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setSelectedLevel(null)}
-            className="h-8 rounded-xl px-2.5 border border-slate-200/80 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium text-xs"
+            className="rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
           >
-            <ArrowLeft className="w-3.5 h-3.5 mr-1" /> Szint választás
+            <ArrowLeft className="w-4 h-4 mr-1" />
+            Szintek
           </Button>
 
-          {/* Fullscreen button */}
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={toggleFullscreen}
-            className="h-8 rounded-xl px-2.5 border-slate-200/80 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-medium text-xs hover:bg-slate-100 dark:hover:bg-slate-800"
-            title={isFullscreen ? 'Kilépés a teljes képernyőből' : 'Teljes képernyős mód'}
-          >
-            {isFullscreen ? (
-              <>
-                <Minimize2 className="w-3.5 h-3.5 mr-1 text-amber-600 dark:text-amber-400" />
-                <span className="hidden sm:inline">Kilépés</span>
-              </>
-            ) : (
-              <>
-                <Maximize2 className="w-3.5 h-3.5 mr-1 text-slate-500" />
-                <span className="hidden sm:inline">Teljes képernyő</span>
-              </>
-            )}
-          </Button>
-        </div>
+          <div className="h-4 w-px bg-slate-200 dark:bg-slate-700" />
 
-        {/* Level pills in header */}
-        <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-xl border border-slate-200/60 dark:border-slate-700/60">
+          {/* Quick level switcher pills */}
           {([1, 2, 3] as DifficultyLevel[]).map((lvl) => (
             <button
               key={lvl}
-              onClick={() => handleStartLevel(lvl)}
+              onClick={() => handleStartLevel(lvl, gameMode)}
               className={cn(
                 "px-2.5 py-1 rounded-lg text-xs font-black transition-all",
                 selectedLevel === lvl
@@ -979,11 +954,31 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
           ))}
         </div>
 
-        {/* Mode / Score indicator */}
+        {/* Mode / Score indicator + Fullscreen toggle */}
         <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={toggleFullscreen}
+            className="rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border-slate-200 dark:border-slate-800"
+            title={isFullscreen ? "Kilépés a teljes képernyőből" : "Teljes képernyő"}
+          >
+            {isFullscreen ? (
+              <>
+                <Minimize2 className="w-3.5 h-3.5 mr-1" />
+                Ablak
+              </>
+            ) : (
+              <>
+                <Maximize2 className="w-3.5 h-3.5 mr-1" />
+                Teljes képernyő
+              </>
+            )}
+          </Button>
+
           {gameMode === 'quiz' ? (
             <div className="flex items-center gap-2 bg-white dark:bg-slate-900 px-3 py-1 rounded-xl border border-slate-200/80 dark:border-slate-800 shadow-xs text-xs">
-              <div className="flex items-center gap-1 font-black text-amber-600 dark:text-amber-400">
+              <div className="flex items-center gap-1 font-black text-cyan-600 dark:text-cyan-400">
                 <Trophy className="w-3.5 h-3.5" />
                 <span>{score} pont</span>
               </div>
@@ -1032,19 +1027,17 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
                 <div className="flex flex-col gap-3">
                   <Card className="rounded-2xl border-2 border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm overflow-hidden">
                     <CardContent className="p-4 sm:p-5 text-center">
-                      <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-black uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 mb-2 border border-slate-200 dark:border-slate-700">
-                        <ArrowRightLeft className="w-3 h-3 text-amber-600" />
-                        {currentQuestion.type === 'arabic-to-roman'
-                          ? 'Arab szám ➔ Római szám'
-                          : 'Római szám ➔ Arab szám'}
+                      <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-black uppercase tracking-wider bg-cyan-50 dark:bg-cyan-950/50 text-cyan-700 dark:text-cyan-300 mb-2 border border-cyan-200 dark:border-cyan-800">
+                        <Binary className="w-3 h-3 text-cyan-600" />
+                        {currentQuestion.questionTypeBadge}
                       </div>
 
                       <p className="text-xs sm:text-sm font-bold text-slate-600 dark:text-slate-300 mb-2.5">
                         {currentQuestion.prompt}
                       </p>
 
-                      <div className="inline-block px-7 py-2.5 bg-gradient-to-br from-amber-50 to-orange-50/60 dark:from-slate-850 dark:to-slate-800 rounded-2xl border-2 border-amber-200/80 dark:border-slate-700 shadow-inner">
-                        <span className="text-3xl sm:text-4xl font-serif font-black tracking-wider text-slate-900 dark:text-amber-400">
+                      <div className="inline-block px-6 py-2.5 bg-gradient-to-br from-cyan-50 to-teal-50/60 dark:from-slate-850 dark:to-slate-800 rounded-2xl border-2 border-cyan-200/80 dark:border-slate-700 shadow-inner">
+                        <span className="text-2xl sm:text-3xl font-mono font-black tracking-wider text-slate-900 dark:text-cyan-300">
                           {currentQuestion.highlightValue}
                         </span>
                       </div>
@@ -1095,7 +1088,7 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
                                     key={bIdx}
                                     className="px-1.5 py-0.5 rounded-md bg-white/90 dark:bg-slate-800/90 text-[10px] font-bold font-mono text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700"
                                   >
-                                    {item.label}: <span className="text-amber-600 dark:text-amber-400">{item.value}</span>
+                                    {item.label}: <span className="text-cyan-600 dark:text-cyan-400">{item.value}</span>
                                   </span>
                                 ))}
                               </div>
@@ -1106,7 +1099,7 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
 
                       <Button
                         onClick={handleNextQuestion}
-                        className="w-full h-10 rounded-xl text-sm font-bold bg-slate-900 hover:bg-slate-800 text-white dark:bg-amber-600 dark:hover:bg-amber-700 shadow-sm transition-all flex items-center justify-center gap-1.5"
+                        className="w-full h-10 rounded-xl text-sm font-bold bg-slate-900 hover:bg-slate-800 text-white dark:bg-cyan-600 dark:hover:bg-cyan-700 shadow-sm transition-all flex items-center justify-center gap-1.5"
                       >
                         {currentIndex < levelConfig.questions.length - 1 ? (
                           <>
@@ -1140,7 +1133,7 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
                       const isSelected = selectedOption === option;
                       const isCorrect = option === currentQuestion.correctAnswer;
 
-                      let buttonStyle = "bg-white dark:bg-slate-900 border-2 border-slate-200/90 dark:border-slate-800 text-slate-800 dark:text-slate-100 hover:border-amber-500 hover:shadow-xs dark:hover:border-amber-500";
+                      let buttonStyle = "bg-white dark:bg-slate-900 border-2 border-slate-200/90 dark:border-slate-800 text-slate-800 dark:text-slate-100 hover:border-cyan-500 hover:shadow-xs dark:hover:border-cyan-500";
 
                       if (isAnswerChecked) {
                         if (isCorrect) {
@@ -1158,22 +1151,22 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
                           onClick={() => handleOptionClick(option)}
                           disabled={isAnswerChecked}
                           className={cn(
-                            "relative h-13 sm:h-14 rounded-xl font-serif font-black text-lg sm:text-xl transition-all duration-150 flex items-center justify-between px-4",
+                            "relative h-13 sm:h-14 rounded-xl font-mono font-bold text-xs sm:text-sm transition-all duration-150 flex items-center justify-between px-4",
                             buttonStyle
                           )}
                         >
                           <span className="flex items-center gap-2.5">
-                            <span className="w-6 h-6 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs font-sans font-bold flex items-center justify-center border border-slate-200 dark:border-slate-700">
+                            <span className="w-6 h-6 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs font-sans font-bold flex items-center justify-center border border-slate-200 dark:border-slate-700 shrink-0">
                               {idx + 1}
                             </span>
-                            <span>{option}</span>
+                            <span className="font-bold">{option}</span>
                           </span>
 
                           {isAnswerChecked && isCorrect && (
-                            <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 animate-in zoom-in" />
+                            <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 animate-in zoom-in shrink-0 ml-2" />
                           )}
                           {isAnswerChecked && isSelected && !isCorrect && (
-                            <XCircle className="w-5 h-5 text-rose-600 dark:text-rose-400 animate-in zoom-in" />
+                            <XCircle className="w-5 h-5 text-rose-600 dark:text-rose-400 animate-in zoom-in shrink-0 ml-2" />
                           )}
                         </button>
                       );
@@ -1181,9 +1174,9 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
                   </div>
 
                   {!isAnswerChecked && (
-                    <div className="p-2.5 bg-amber-50/60 dark:bg-slate-850/80 rounded-xl border border-amber-200/50 dark:border-slate-800 text-[11px] text-amber-900 dark:text-amber-300 flex items-center gap-1.5 mt-0.5">
-                      <Sparkles className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                      <span>Használd az összeadási és kivonási szabályokat!</span>
+                    <div className="p-2.5 bg-cyan-50/60 dark:bg-slate-850/80 rounded-xl border border-cyan-200/50 dark:border-slate-800 text-[11px] text-cyan-900 dark:text-cyan-300 flex items-center gap-1.5 mt-0.5">
+                      <Sparkles className="w-3.5 h-3.5 text-cyan-600 shrink-0" />
+                      <span>Használd a 2 hatványait: 1, 2, 4, 8, 16, 32, 64...</span>
                     </div>
                   )}
                 </div>
@@ -1191,7 +1184,7 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
             </div>
           ) : (
             /* MATCHER MODE WORKSPACE */
-            <RomanNumeralsMatcher
+            <NumberSystemsMatcher
               level={selectedLevel}
               onNextLevel={
                 selectedLevel < 3
@@ -1208,7 +1201,7 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
           {/* Wordwall Mode Card */}
           <div className="bg-white dark:bg-slate-900 rounded-2xl p-3.5 border-2 border-slate-200/80 dark:border-slate-800 shadow-xs">
             <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2.5 px-1">
-              <Layers className="w-3.5 h-3.5 text-amber-500" />
+              <Layers className="w-3.5 h-3.5 text-cyan-500" />
               <span>Sablon / Játékmód</span>
             </div>
 
@@ -1219,13 +1212,13 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
                 className={cn(
                   "w-full p-2.5 rounded-xl text-left font-bold text-xs transition-all flex items-center gap-2.5 border-2",
                   gameMode === 'quiz'
-                    ? "bg-amber-50 dark:bg-amber-950/50 border-amber-400 text-amber-900 dark:text-amber-200 shadow-xs"
+                    ? "bg-cyan-50 dark:bg-cyan-950/50 border-cyan-400 text-cyan-900 dark:text-cyan-200 shadow-xs"
                     : "bg-slate-50/80 dark:bg-slate-800/60 border-transparent hover:border-slate-200 text-slate-600 dark:text-slate-400"
                 )}
               >
                 <div className={cn(
                   "w-8 h-8 rounded-lg flex items-center justify-center shrink-0",
-                  gameMode === 'quiz' ? "bg-amber-500 text-white" : "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300"
+                  gameMode === 'quiz' ? "bg-cyan-500 text-white" : "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300"
                 )}>
                   <FileQuestion className="w-4 h-4" />
                 </div>
@@ -1274,11 +1267,11 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
                   className={cn(
                     "w-full px-3 py-1.5 rounded-xl text-xs font-bold transition-all text-left flex items-center justify-between",
                     selectedLevel === lvl
-                      ? "bg-slate-900 text-white dark:bg-amber-600 dark:text-white"
+                      ? "bg-slate-900 text-white dark:bg-cyan-600 dark:text-white"
                       : "hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400"
                   )}
                 >
-                  <span>{lvl}. {lvl === 1 ? 'Könnyű (1–20)' : lvl === 2 ? 'Közepes (20–50)' : 'Nehéz (50–100)'}</span>
+                  <span>{lvl}. {lvl === 1 ? 'Könnyű (1–15)' : lvl === 2 ? 'Közepes (16–63)' : 'Nehéz (64–255 & 5-ös)'}</span>
                   {selectedLevel === lvl && <CheckCircle2 className="w-3.5 h-3.5" />}
                 </button>
               ))}
@@ -1291,17 +1284,17 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
               variant="outline"
               size="sm"
               onClick={toggleFullscreen}
-              className="w-full h-9 rounded-xl text-xs font-bold border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-start gap-2"
+              className="w-full h-9 rounded-xl border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold justify-start"
             >
               {isFullscreen ? (
                 <>
-                  <Minimize2 className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
-                  Ablakos nézet
+                  <Minimize2 className="w-3.5 h-3.5 mr-2 text-cyan-600" />
+                  Kilépés a teljes képernyőből
                 </>
               ) : (
                 <>
-                  <Maximize2 className="w-3.5 h-3.5 text-slate-500" />
-                  Teljes képernyő
+                  <Maximize2 className="w-3.5 h-3.5 mr-2 text-cyan-600" />
+                  Teljes képernyős mód
                 </>
               )}
             </Button>
@@ -1310,10 +1303,10 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
               variant="outline"
               size="sm"
               onClick={() => setShowCheatSheet(!showCheatSheet)}
-              className="w-full h-9 rounded-xl border-amber-300 bg-amber-50/50 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800 hover:bg-amber-100 text-xs font-bold justify-start"
+              className="w-full h-9 rounded-xl border-cyan-300 bg-cyan-50/50 text-cyan-800 dark:bg-cyan-950/40 dark:text-cyan-300 dark:border-cyan-800 hover:bg-cyan-100 text-xs font-bold justify-start"
             >
-              <BookOpen className="w-3.5 h-3.5 mr-2 text-amber-600" />
-              Római szabályok segédlet
+              <BookOpen className="w-3.5 h-3.5 mr-2 text-cyan-600" />
+              Számrendszerek segédlet
             </Button>
 
             <Button
@@ -1329,14 +1322,14 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
         </div>
       </div>
 
-      {/* Rules Modal Overlay if triggered from sidebar */}
+      {/* Rules Modal Overlay */}
       {showCheatSheet && (
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border-2 border-amber-300 dark:border-amber-900 shadow-2xl max-w-2xl w-full text-left">
+          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border-2 border-cyan-300 dark:border-cyan-900 shadow-2xl max-w-2xl w-full text-left">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-amber-600" />
-                Római számjegyek és szabályok áttekintése (1–100)
+                <Sparkles className="w-5 h-5 text-cyan-600" />
+                Számrendszerek szabályai és helyiértékei
               </h3>
               <Button
                 size="sm"
@@ -1348,28 +1341,25 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
               </Button>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5 mb-4">
-              {ROMAN_SYMBOLS_CHEAT_SHEET.map((item, idx) => (
-                <div key={idx} className="bg-slate-50 dark:bg-slate-800/90 p-2.5 rounded-xl border border-slate-200/80 dark:border-slate-700">
-                  <div className="text-lg font-serif font-black text-amber-600 dark:text-amber-400">{item.roman}</div>
-                  <div className="text-sm font-black text-slate-800 dark:text-slate-100">= {item.arabic}</div>
-                  <div className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5">{item.note}</div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 mb-4">
+              {NUMBER_SYSTEMS_CHEAT_SHEET.map((item, idx) => (
+                <div key={idx} className="bg-slate-50 dark:bg-slate-800/90 p-3 rounded-xl border border-slate-200/80 dark:border-slate-700">
+                  <div className="text-xs font-black text-cyan-600 dark:text-cyan-400">{item.topic}</div>
+                  <div className="text-xs font-mono font-bold text-slate-800 dark:text-slate-200 mt-0.5">{item.formula}</div>
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">{item.note}</div>
                 </div>
               ))}
             </div>
 
-            <div className="text-xs text-slate-600 dark:text-slate-400 bg-amber-50/80 dark:bg-amber-950/40 p-3 rounded-xl border border-amber-200 dark:border-amber-900/60 leading-relaxed mb-4">
-              <p className="font-bold text-amber-900 dark:text-amber-200 mb-1">Főbb elvek:</p>
-              <ul className="list-disc list-inside space-y-0.5">
-                <li><strong>Összeadás elve:</strong> Ha a kisebb jel a nagyobb után áll: pl. VI = 5 + 1 = 6, XV = 10 + 5 = 15.</li>
-                <li><strong>Kivonás elve:</strong> Ha a kisebb jel a nagyobb előtt áll: pl. IV = 4, IX = 9, XL = 40, XC = 90.</li>
-                <li><strong>Ismétlési korlát:</strong> I, X, C legfeljebb 3-szor ismételhető egymás mellett. V, L nem ismételhető!</li>
-              </ul>
+            <div className="text-xs text-slate-600 dark:text-slate-400 bg-cyan-50/80 dark:bg-cyan-950/40 p-3 rounded-xl border border-cyan-200 dark:border-cyan-900/60 leading-relaxed mb-4 space-y-1">
+              <p><strong>Bináris ➔ Decimális:</strong> Ahol 1-es áll, ott add hozzá a helyiértéket (1, 2, 4, 8, 16, 32, 64, 128).</p>
+              <p><strong>Decimális ➔ Bináris:</strong> Vond ki a legnagyobb beleférő 2-hatványt, vagy oszd 2-vel folyamatosan és írd le a maradékokat alulról felfelé.</p>
+              <p><strong>5-ös számrendszer:</strong> Helyiértékek: 1, 5, 25, 125... Számjegyek: 0, 1, 2, 3, 4.</p>
             </div>
 
             <Button
               onClick={() => setShowCheatSheet(false)}
-              className="w-full h-10 rounded-xl font-bold bg-amber-600 hover:bg-amber-700 text-white"
+              className="w-full h-10 rounded-xl font-bold bg-cyan-600 hover:bg-cyan-700 text-white"
             >
               Értem, folytatom a játékot!
             </Button>
@@ -1380,4 +1370,4 @@ export function RomanNumeralsQuiz({ onBack }: RomanNumeralsQuizProps) {
   );
 }
 
-export default RomanNumeralsQuiz;
+export default NumberSystemsQuiz;

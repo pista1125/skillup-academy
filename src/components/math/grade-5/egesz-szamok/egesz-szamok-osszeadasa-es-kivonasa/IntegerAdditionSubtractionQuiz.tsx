@@ -13,23 +13,23 @@ import {
   XCircle,
   BookOpen,
   Zap,
-  ArrowRightLeft,
   ChevronRight,
   Layers,
   LayoutGrid,
   FileQuestion,
   Flame,
-  Binary,
   Maximize2,
-  Minimize2
+  Minimize2,
+  ArrowRightLeft
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { PlaceValueMatcher } from './PlaceValueMatcher';
+import { IntegerAdditionSubtractionMatcher } from './IntegerAdditionSubtractionMatcher';
+import { IntegerAdditionSubtractionSorter } from './IntegerAdditionSubtractionSorter';
 
 export type DifficultyLevel = 1 | 2 | 3;
-export type GameMode = 'quiz' | 'matcher';
+export type GameMode = 'quiz' | 'matcher' | 'sorter';
 
-interface QuizQuestion {
+export interface QuizQuestion {
   id: string;
   prompt: string;
   highlightValue: string;
@@ -55,150 +55,193 @@ interface LevelConfig {
   questions: QuizQuestion[];
 }
 
+const INTEGER_MATH_CHEAT_SHEET = [
+  {
+    topic: 'Pozitív hozzáadása (+ +)',
+    formula: 'a + (+b) = a + b',
+    note: 'Jobbra lépünk a számegyenesen (megtakarítás nő, hőmérséklet emelkedik).'
+  },
+  {
+    topic: 'Negatív hozzáadása (+ -)',
+    formula: 'a + (-b) = a - b',
+    note: 'Balra lépünk a számegyenesen (tartozás nő, hőmérséklet csökken).'
+  },
+  {
+    topic: 'Pozitív kivonása (- +)',
+    formula: 'a - (+b) = a - b',
+    note: 'Balra lépünk a számegyenesen (pénz kiadása / csökkenés).'
+  },
+  {
+    topic: 'Negatív kivonása (- -)',
+    formula: 'a - (-b) = a + b',
+    note: 'Jobbra lépünk a számegyenesen (két mínusz pluszra vált, adósság elengedése = nyereség!).'
+  },
+  {
+    topic: 'Azonos előjelűek összeadása',
+    formula: '(-3) + (-5) = -8',
+    note: 'Összeadjuk az abszolút értékeket, és megtartjuk a közös előjelet.'
+  },
+  {
+    topic: 'Különböző előjelűek összeadása',
+    formula: '(+7) + (-10) = -3',
+    note: 'Nagyobb abszolút értékből kivonjuk a kisebbet, és a nagyobb előjelét kapja.'
+  },
+  {
+    topic: 'Kivonás mint ellentett hozzáadása',
+    formula: 'a - b = a + (-b)',
+    note: 'A kivonást mindig átírhatjuk az ellentett hozzáadására.'
+  },
+  {
+    topic: 'Ellentett számok összege',
+    formula: 'a + (-a) = 0',
+    note: 'Bármely szám és az ellentettjének összege mindig pontosan 0 (pl. -15 + 15 = 0).'
+  }
+];
+
 const QUIZ_LEVELS: Record<DifficultyLevel, LevelConfig> = {
   1: {
     level: 1,
     title: '1. Könnyű szint',
-    subtitle: '3–4 jegyű számok (100–9 999)',
-    range: '100 – 9 999',
-    focus: 'E, T, Sz, E (alaki, helyi, valódi érték)',
+    subtitle: 'Alapvető összeadás és kivonás azonos és különböző előjelekkel',
+    range: '-20 – +20',
+    focus: 'Azonos előjelek összeadása, ellentettek összege, egyszerű kivonás',
     color: 'emerald',
     badgeBg: 'bg-emerald-50 dark:bg-emerald-950/40',
     badgeBorder: 'border-emerald-200 dark:border-emerald-800',
     badgeText: 'text-emerald-700 dark:text-emerald-300',
     accentGradient: 'from-emerald-500 to-teal-600',
-    iconBg: 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/50 dark:text-emerald-400',
+    iconBg: 'bg-emerald-600 text-white',
     questions: [
       {
-        id: 'l1-q1',
-        prompt: 'Melyik számjegy áll a százasok helyiértékén a következő számban?',
-        highlightValue: '4 523',
-        questionTypeBadge: 'Helyiérték leolvasás',
-        options: ['5', '4', '2', '3'],
-        correctAnswer: '5',
-        explanation: 'A 4 523 számban hátulról nézve: 3 az egyes, 2 a tízes, 5 a százas, 4 az ezres.',
+        id: 'q1-1',
+        prompt: 'Mennyi a (+6) + (+7) művelet eredménye?',
+        highlightValue: '(+6) + (+7)',
+        questionTypeBadge: 'Pozitív számok összeadása',
+        options: ['+13', '-13', '+1', '-1'],
+        correctAnswer: '+13',
+        explanation: 'Két pozitív szám összege pozitív szám: 6 + 7 = 13.',
         breakdown: [
-          { label: 'Ezresek (E)', value: '4' },
-          { label: 'Százasok (Sz)', value: '5' },
-          { label: 'Tízesek (T)', value: '2' },
-          { label: 'Egyesek (e)', value: '3' }
+          { label: 'Összeadás', value: '6 + 7' },
+          { label: 'Eredmény', value: '+13' }
         ]
       },
       {
-        id: 'l1-q2',
-        prompt: 'Mennyi a kiemelt 7-es számjegy valódi értéke?',
-        highlightValue: '7 842',
-        questionTypeBadge: 'Valódi érték',
-        options: ['7 000', '700', '70', '7'],
-        correctAnswer: '7 000',
-        explanation: 'A 7-es az ezresek helyiértékén áll, ezért a valódi értéke: 7 · 1000 = 7000.',
+        id: 'q1-2',
+        prompt: 'Mennyi a (-4) + (-5) művelet eredménye?',
+        highlightValue: '(-4) + (-5)',
+        questionTypeBadge: 'Negatív számok összeadása',
+        options: ['-9', '+9', '-1', '+1'],
+        correctAnswer: '-9',
+        explanation: 'Azonos negatív előjeleknél az abszolút értékeket összeadjuk és kitesszük a mínusz jelet: -(4 + 5) = -9.',
         breakdown: [
-          { label: 'Alaki érték', value: '7' },
-          { label: 'Helyiérték', value: '1000' },
-          { label: 'Valódi érték', value: '7 000' }
+          { label: 'Abszolút értékek', value: '4 + 5 = 9' },
+          { label: 'Közös előjel', value: '-9' }
         ]
       },
       {
-        id: 'l1-q3',
-        prompt: 'Melyik szám felel meg a következő helyiértékes összegnek?',
-        highlightValue: '3E + 8Sz + 0T + 5e',
-        questionTypeBadge: 'Összegalak ➔ Szám',
-        options: ['3 805', '3 850', '3 085', '385'],
-        correctAnswer: '3 805',
-        explanation: '3000 + 800 + 0 + 5 = 3 805. A tízes helyiértéken 0 áll.',
-        breakdown: [{ label: '3000 + 800 + 5', value: '3 805' }]
-      },
-      {
-        id: 'l1-q4',
-        prompt: 'Mi a különbség az alaki érték és a helyiérték között a kiemelt számjegyre?',
-        highlightValue: '6 391 (számjegy: 3)',
-        questionTypeBadge: 'Alaki és helyiérték',
-        options: [
-          'Alaki értéke 3, helyiértéke 100',
-          'Alaki értéke 300, helyiértéke 3',
-          'Alaki értéke 100, helyiértéke 300',
-          'Alaki értéke 3, helyiértéke 10'
-        ],
-        correctAnswer: 'Alaki értéke 3, helyiértéke 100',
-        explanation: 'Az alaki érték maga a számjegy (3), a helyiérték a helye a számban (százasok = 100), valódi értéke pedig 3 · 100 = 300.',
+        id: 'q1-3',
+        prompt: 'Mennyi a (+8) + (-3) művelet eredménye?',
+        highlightValue: '(+8) + (-3)',
+        questionTypeBadge: 'Különböző előjelek',
+        options: ['+5', '-5', '+11', '-11'],
+        correctAnswer: '+5',
+        explanation: '8 + (-3) = 8 - 3 = +5. A 8 nagyobb abszolút értékű, mint a 3, így pozitív marad.',
         breakdown: [
-          { label: 'Alaki érték', value: '3' },
-          { label: 'Helyiérték', value: '100 (százas)' },
-          { label: 'Valódi érték', value: '300' }
+          { label: 'Egyszerűsítés', value: '8 - 3' },
+          { label: 'Eredmény', value: '+5' }
         ]
       },
       {
-        id: 'l1-q5',
-        prompt: 'Melyik a helyes helyiértékes összegalakja a számnak?',
-        highlightValue: '2 460',
-        questionTypeBadge: 'Helyiértékes felbontás',
-        options: [
-          '2000 + 400 + 60',
-          '200 + 40 + 6',
-          '2000 + 40 + 6',
-          '2000 + 400 + 6'
-        ],
-        correctAnswer: '2000 + 400 + 60',
-        explanation: '2 460 = 2 · 1000 + 4 · 100 + 6 · 10 + 0 · 1 = 2000 + 400 + 60.',
-        breakdown: [{ label: 'Összeg', value: '2000 + 400 + 60' }]
-      },
-      {
-        id: 'l1-q6',
-        prompt: 'Hány százasból áll a következő szám?',
-        highlightValue: '1 500',
-        questionTypeBadge: 'Helyiérték átváltás',
-        options: ['15 darab százas', '5 darab százas', '150 darab százas', '1 darab százas'],
-        correctAnswer: '15 darab százas',
-        explanation: '1 500 = 15 · 100, tehát 15 darab százasból áll.',
+        id: 'q1-4',
+        prompt: 'Mennyi a (-10) + (+4) művelet eredménye?',
+        highlightValue: '(-10) + (+4)',
+        questionTypeBadge: 'Különböző előjelek',
+        options: ['-6', '+6', '-14', '+14'],
+        correctAnswer: '-6',
+        explanation: 'A nagyobb abszolút értékű 10-ből kivonjuk a 4-et: 10 - 4 = 6, és a 10 negatív előjelét kapja: -6.',
         breakdown: [
-          { label: '1 500 : 100', value: '15' },
-          { label: 'Eredmény', value: '15 százas' }
+          { label: 'Kivonás', value: '10 - 4 = 6' },
+          { label: 'Nagyobb előjele', value: '-6' }
         ]
       },
       {
-        id: 'l1-q7',
-        prompt: 'Melyik számjegynek a legkisebb a helyiértéke a számban?',
-        highlightValue: '8 914',
-        questionTypeBadge: 'Helyiérték sorrend',
-        options: ['4 (egyesek)', '8 (ezresek)', '9 (százasok)', '1 (tízesek)'],
-        correctAnswer: '4 (egyesek)',
-        explanation: 'A legkisebb helyiérték az egyesek helye (1), amin a 4-es áll.',
-        breakdown: [{ label: 'Legkisebb helyiérték', value: '1 (egyes)' }]
-      },
-      {
-        id: 'l1-q8',
-        prompt: 'Mennyi a tízesek helyén álló számjegy valódi értéke?',
-        highlightValue: '5 082',
-        questionTypeBadge: 'Valódi érték',
-        options: ['80', '8', '800', '0'],
-        correctAnswer: '80',
-        explanation: 'A tízesek helyén a 8-as áll, így valódi értéke 8 · 10 = 80.',
-        breakdown: [{ label: '8 · 10', value: '80' }]
-      },
-      {
-        id: 'l1-q9',
-        prompt: 'Melyik szám keletkezik, ha a 6 325-ben felcseréljük az ezresek és tízesek helyén álló számjegyet?',
-        highlightValue: '6 325',
-        questionTypeBadge: 'Számjegycsere',
-        options: ['2 365', '3 625', '6 235', '5 326'],
-        correctAnswer: '2 365',
-        explanation: 'Az ezresek helyén a 6-os, a tízesekén a 2-es állt. Csere után: 2 365.',
+        id: 'q1-5',
+        prompt: 'Mennyi a (+15) + (-15) összeadás eredménye?',
+        highlightValue: '(+15) + (-15)',
+        questionTypeBadge: 'Ellentettek összege',
+        options: ['0', '+30', '-30', '1'],
+        correctAnswer: '0',
+        explanation: 'Egy szám és a saját ellentettjének összege mindig pontosan 0.',
         breakdown: [
-          { label: 'Eredeti', value: '6 3 2 5' },
-          { label: 'Csere (E ↔ T)', value: '2 3 6 5' }
+          { label: 'Ellentétes tagok', value: '+15 és -15' },
+          { label: 'Összeg', value: '0' }
         ]
       },
       {
-        id: 'l1-q10',
-        prompt: 'Melyik a legnagyobb 4-jegyű szám, amely a 2, 0, 8, 5 számjegyekből kirakható (minden jegy egyszer szerepel)?',
-        highlightValue: 'Számjegyek: 2, 0, 8, 5',
-        questionTypeBadge: 'Számképzés',
-        options: ['8 520', '8 502', '8 250', '5 820'],
-        correctAnswer: '8 520',
-        explanation: 'A legnagyobb számhoz a legnagyobb számjegyet kell a legnagyobb helyiértékre tenni: 8 520.',
+        id: 'q1-6',
+        prompt: 'A hőmérséklet -2 °C volt reggel, majd délre emelkedett 6 °C-ot (-2 + 6). Hány fok lett délben?',
+        highlightValue: '-2 °C + 6 °C',
+        questionTypeBadge: 'Hőmérséklet változás',
+        options: ['+4 °C', '-4 °C', '+8 °C', '-8 °C'],
+        correctAnswer: '+4 °C',
+        explanation: '-2-től jobbra lépünk 6 egységet a számegyenesen: -2 + 6 = +4 °C.',
         breakdown: [
-          { label: 'Csökkenő sorrend', value: '8 > 5 > 2 > 0' },
-          { label: 'Legnagyobb szám', value: '8 520' }
+          { label: 'Kezdőpont', value: '-2 °C' },
+          { label: 'Emelkedés', value: '+6 °C' },
+          { label: 'Déli hőmérséklet', value: '+4 °C' }
+        ]
+      },
+      {
+        id: 'q1-7',
+        prompt: 'Mennyi a 7 - (+10) kivonás eredménye?',
+        highlightValue: '7 - (+10)',
+        questionTypeBadge: 'Egész szám kivonása',
+        options: ['-3', '+3', '-17', '+17'],
+        correctAnswer: '-3',
+        explanation: '7 - (+10) = 7 - 10 = -3.',
+        breakdown: [
+          { label: 'Átírás', value: '7 - 10' },
+          { label: 'Eredmény', value: '-3' }
+        ]
+      },
+      {
+        id: 'q1-8',
+        prompt: 'Mennyi a 0 + (-12) művelet értéke?',
+        highlightValue: '0 + (-12)',
+        questionTypeBadge: 'Nulla szerepe',
+        options: ['-12', '+12', '0', '-24'],
+        correctAnswer: '-12',
+        explanation: 'Nullához bármit hozzáadva az eredeti számot kapjuk: 0 + (-12) = -12.',
+        breakdown: [
+          { label: 'Origó', value: '0' },
+          { label: 'Eredmény', value: '-12' }
+        ]
+      },
+      {
+        id: 'q1-9',
+        prompt: 'Mennyi a (-8) + (-12) összeadás eredménye?',
+        highlightValue: '(-8) + (-12)',
+        questionTypeBadge: 'Azonos negatív előjelek',
+        options: ['-20', '+20', '-4', '+4'],
+        correctAnswer: '-20',
+        explanation: 'Mindkét szám negatív: -(8 + 12) = -20.',
+        breakdown: [
+          { label: 'Összegzés', value: '-(8 + 12)' },
+          { label: 'Eredmény', value: '-20' }
+        ]
+      },
+      {
+        id: 'q1-10',
+        prompt: 'Ha Petinek van 500 Ft-ja, de kölcsönkér 1 200 Ft-ot és azt is elkölti (500 - 1200), mekkora az egyenlege?',
+        highlightValue: '500 Ft - 1 200 Ft',
+        questionTypeBadge: 'Pénzügyi egyenleg',
+        options: ['-700 Ft', '+700 Ft', '-1 700 Ft', '0 Ft'],
+        correctAnswer: '-700 Ft',
+        explanation: '500 - 1200 = -700 Ft tartozás keletkezik.',
+        breakdown: [
+          { label: 'Kezdő egyenleg', value: '+500 Ft' },
+          { label: 'Kiadás', value: '-1 200 Ft' },
+          { label: 'Végegyenleg', value: '-700 Ft' }
         ]
       }
     ]
@@ -206,299 +249,318 @@ const QUIZ_LEVELS: Record<DifficultyLevel, LevelConfig> = {
   2: {
     level: 2,
     title: '2. Közepes szint',
-    subtitle: '5–6 jegyű számok (10 000–999 999)',
-    range: '10 000 – 999 999',
-    focus: 'Tízezresek (Té), százezresek (Sze), 0 helyiértékek',
+    subtitle: 'Zárójelfelbontás, negatív szám kivonása, két mínusz összeolvadása',
+    range: '-100 – +100',
+    focus: 'a - (-b) = a + b szabály, zárójelek nélküli alak, hiányzó tagok',
     color: 'amber',
     badgeBg: 'bg-amber-50 dark:bg-amber-950/40',
     badgeBorder: 'border-amber-200 dark:border-amber-800',
     badgeText: 'text-amber-700 dark:text-amber-300',
     accentGradient: 'from-amber-500 to-orange-600',
-    iconBg: 'bg-amber-100 text-amber-600 dark:bg-amber-900/50 dark:text-amber-400',
+    iconBg: 'bg-amber-600 text-white',
     questions: [
       {
-        id: 'l2-q1',
-        prompt: 'Melyik számjegy áll a tízezresek helyiértékén a számban?',
-        highlightValue: '548 921',
-        questionTypeBadge: 'Tízezres helyiérték',
-        options: ['4', '5', '8', '9'],
-        correctAnswer: '4',
-        explanation: 'Hátulról: 1 (e), 2 (T), 9 (Sz), 8 (E), 4 (Té = tízezres), 5 (Sze = százezres).',
+        id: 'q2-1',
+        prompt: 'Mennyi a 12 - (-5) kivonás eredménye a két mínusz összeolvadása után?',
+        highlightValue: '12 - (-5)',
+        questionTypeBadge: 'Negatív kivonása',
+        options: ['17 (12 + 5)', '7 (12 - 5)', '-17', '-7'],
+        correctAnswer: '17 (12 + 5)',
+        explanation: 'A kivonás és a negatív előjel összeolvad pluszra: 12 - (-5) = 12 + 5 = 17.',
         breakdown: [
-          { label: 'Százezres', value: '5' },
-          { label: 'Tízezres', value: '4' },
-          { label: 'Ezres', value: '8' }
+          { label: 'Szabály', value: '-(-b) = +b' },
+          { label: 'Átírva', value: '12 + 5 = 17' }
         ]
       },
       {
-        id: 'l2-q2',
-        prompt: 'Mennyi a kiemelt 6-os számjegy valódi értéke?',
-        highlightValue: '603 415',
-        questionTypeBadge: 'Százezres valódi érték',
-        options: ['600 000', '60 000', '6 000', '600'],
-        correctAnswer: '600 000',
-        explanation: 'A 6-os a százezresek helyén áll, így valódi értéke: 6 · 100 000 = 600 000.',
+        id: 'q2-2',
+        prompt: 'Mennyi a (-6) - (-14) kifejezés értéke?',
+        highlightValue: '(-6) - (-14)',
+        questionTypeBadge: 'Két negatív művelete',
+        options: ['+8 (-6 + 14)', '-20', '-8', '+20'],
+        correctAnswer: '+8 (-6 + 14)',
+        explanation: '(-6) - (-14) = -6 + 14 = 14 - 6 = +8.',
         breakdown: [
-          { label: 'Alaki érték', value: '6' },
-          { label: 'Helyiérték', value: '100 000' },
-          { label: 'Valódi érték', value: '600 000' }
+          { label: 'Zárójel feloldása', value: '-6 + 14' },
+          { label: 'Eredmény', value: '+8' }
         ]
       },
       {
-        id: 'l2-q3',
-        prompt: 'Melyik szám hiányzik a helyiértékes összegből?',
-        highlightValue: '700 000 + ? + 400 + 20 + 9 = 750 429',
-        questionTypeBadge: 'Hiányos felbontás',
-        options: ['50 000', '5 000', '500 000', '500'],
-        correctAnswer: '50 000',
-        explanation: 'A tízezresek helyén az 5-ös áll, melynek valódi értéke 50 000.',
-        breakdown: [{ label: 'Hiányzó tag', value: '50 000' }]
+        id: 'q2-3',
+        prompt: 'Mennyi a (-9) - (+7) kivonás pontos eredménye?',
+        highlightValue: '(-9) - (+7)',
+        questionTypeBadge: 'Pozitív elvétele negatívból',
+        options: ['-16', '-2', '+16', '+2'],
+        correctAnswer: '-16',
+        explanation: '(-9) - (+7) = -9 - 7 = -16 (még 7-tel balrább lépünk).',
+        breakdown: [
+          { label: 'Átírva', value: '-9 - 7' },
+          { label: 'Eredmény', value: '-16' }
+        ]
       },
       {
-        id: 'l2-q4',
-        prompt: 'Melyik szám felel meg a következő leírásnak?',
-        highlightValue: '4Sze + 0Té + 8E + 3Sz + 0T + 7e',
-        questionTypeBadge: 'Helyiérték összerakás',
-        options: ['408 307', '480 307', '48 307', '408 370'],
-        correctAnswer: '408 307',
-        explanation: '400 000 + 8000 + 300 + 7 = 408 307. A tízezres és tízes helyiértékeken 0 áll.',
-        breakdown: [{ label: 'Szám', value: '408 307' }]
+        id: 'q2-4',
+        prompt: 'Hogyan írható fel egyszerűbb alakban zárójelek nélkül az alábbi kifejezés: (+15) + (-8) - (-4) ?',
+        highlightValue: '(+15) + (-8) - (-4)',
+        questionTypeBadge: 'Zárójelek elhagyása',
+        options: ['15 - 8 + 4', '15 + 8 - 4', '15 - 8 - 4', '15 + 8 + 4'],
+        correctAnswer: '15 - 8 + 4',
+        explanation: '+(-8) ➔ -8, és -(-4) ➔ +4, tehát 15 - 8 + 4.',
+        breakdown: [
+          { label: '+(-8)', value: '-8' },
+          { label: '-(-4)', value: '+4' },
+          { label: 'Alak', value: '15 - 8 + 4' }
+        ]
       },
       {
-        id: 'l2-q5',
-        prompt: 'Hány darab ezresből áll a következő szám?',
-        highlightValue: '85 000',
-        questionTypeBadge: 'Ezresek száma',
-        options: ['85', '850', '8,5', '8 500'],
-        correctAnswer: '85',
-        explanation: '85 000 = 85 · 1000, azaz pontosan 85 darab ezres.',
-        breakdown: [{ label: '85 000 : 1000', value: '85 ezres' }]
+        id: 'q2-5',
+        prompt: 'Mennyi a 15 - 8 + 4 műveletsor végeredménye?',
+        highlightValue: '15 - 8 + 4',
+        questionTypeBadge: 'Műveletsor elvégzése',
+        options: ['11', '3', '19', '27'],
+        correctAnswer: '11',
+        explanation: 'Balról jobbra haladva: 15 - 8 = 7, majd 7 + 4 = 11.',
+        breakdown: [
+          { label: '1. lépés', value: '15 - 8 = 7' },
+          { label: '2. lépés', value: '7 + 4 = 11' }
+        ]
       },
       {
-        id: 'l2-q6',
-        prompt: 'Melyik állítás IGAZ a 304 050 számra?',
-        highlightValue: '304 050',
-        questionTypeBadge: 'Tulajdonság ellenőrzés',
-        options: [
-          'A tízezresek, százasok és egyesek helyén 0 áll.',
-          'A százezresek helyén 4 áll.',
-          'A tízesek helyén 0 áll.',
-          'A valódi értéke kisebb, mint 30 000.'
-        ],
-        correctAnswer: 'A tízezresek, százasok és egyesek helyén 0 áll.',
-        explanation: '3 (Sze), 0 (Té), 4 (E), 0 (Sz), 5 (T), 0 (e) -> A 0-k a tízezres, százas és egyes helyeken vannak.',
-        breakdown: [{ label: 'Nullák helye', value: 'Té, Sz, e' }]
+        id: 'q2-6',
+        prompt: 'Mennyi a (-25) - (-25) kifejezés értéke?',
+        highlightValue: '(-25) - (-25)',
+        questionTypeBadge: 'Önmagából kivonás',
+        options: ['0', '-50', '+50', '1'],
+        correctAnswer: '0',
+        explanation: 'Bármely számból kivonva önmagát 0-t kapunk: -25 + 25 = 0.',
+        breakdown: [
+          { label: 'Átírva', value: '-25 + 25' },
+          { label: 'Eredmény', value: '0' }
+        ]
       },
       {
-        id: 'l2-q7',
-        prompt: 'Mennyivel nő a 42 300 értéke, ha az ezresek számjegyét 5-tel megnöveljük?',
-        highlightValue: '42 300 (ezresek +5)',
-        questionTypeBadge: 'Értékváltozás',
-        options: ['5 000-rel', '500-zal', '50 000-rel', '5-tel'],
-        correctAnswer: '5 000-rel',
-        explanation: 'Az ezresek helyiértéke 1000. Ha a számjegyet 5-tel növeljük, az érték 5 · 1000 = 5000-rel nő (47 300 lesz).',
-        breakdown: [{ label: '5 · 1000', value: '5 000' }]
+        id: 'q2-7',
+        prompt: 'Mennyi a -18 - 7 művelet eredménye a számegyenesen lépkedve?',
+        highlightValue: '-18 - 7',
+        questionTypeBadge: 'Negatív szám csökkentése',
+        options: ['-25', '-11', '+11', '+25'],
+        correctAnswer: '-25',
+        explanation: 'A -18-tól balra lépünk 7 egységet: -18 - 7 = -25.',
+        breakdown: [
+          { label: 'Kezdőpont', value: '-18' },
+          { label: 'Lépés balra', value: '7 egység' },
+          { label: 'Érkezés', value: '-25' }
+        ]
       },
       {
-        id: 'l2-q8',
-        prompt: 'Melyik számjegy áll a százezresek helyén a 924 513-ban?',
-        highlightValue: '924 513',
-        questionTypeBadge: 'Helyiérték azonosítás',
-        options: ['9', '2', '4', '5'],
-        correctAnswer: '9',
-        explanation: 'A 6-jegyű szám legelső (bal szélső) jegye a százezres, ami a 9-es.',
-        breakdown: [{ label: 'Százezres jegy', value: '9' }]
+        id: 'q2-8',
+        prompt: 'Mennyi a -30 + 50 kifejezés eredménye?',
+        highlightValue: '-30 + 50',
+        questionTypeBadge: 'Összeg felcserélése',
+        options: ['+20', '-20', '+80', '-80'],
+        correctAnswer: '+20',
+        explanation: '-30 + 50 felcserélhető: 50 - 30 = +20.',
+        breakdown: [
+          { label: 'Tagok cseréje', value: '50 - 30' },
+          { label: 'Eredmény', value: '+20' }
+        ]
       },
       {
-        id: 'l2-q9',
-        prompt: 'Melyik a helyes szorzatos felbontása a 640 050 számnak?',
-        highlightValue: '640 050',
-        questionTypeBadge: 'Szorzatos felbontás',
-        options: [
-          '6 · 100 000 + 4 · 10 000 + 5 · 10',
-          '6 · 10 000 + 4 · 1 000 + 5 · 10',
-          '6 · 100 000 + 4 · 1 000 + 5 · 1',
-          '6 · 100 000 + 4 · 10 000 + 5 · 100'
-        ],
-        correctAnswer: '6 · 100 000 + 4 · 10 000 + 5 · 10',
-        explanation: '6 · 100 000 = 600 000, 4 · 10 000 = 40 000, 5 · 10 = 50. Összegük: 640 050.',
-        breakdown: [{ label: 'Szorzatösszeg', value: '600 000 + 40 000 + 50' }]
+        id: 'q2-9',
+        prompt: 'Melyik szám hiányzik a pontozott helyről: (-8) + ... = +5 ?',
+        highlightValue: '(-8) + x = +5',
+        questionTypeBadge: 'Hiányzó tag meghatározása',
+        options: ['+13', '-13', '+3', '-3'],
+        correctAnswer: '+13',
+        explanation: '-8-hoz 13-at kell adni, hogy elérjük a +5-öt: 5 - (-8) = 5 + 8 = 13.',
+        breakdown: [
+          { label: 'Egyenlet', value: 'x = 5 - (-8)' },
+          { label: 'Megoldás', value: 'x = +13' }
+        ]
       },
       {
-        id: 'l2-q10',
-        prompt: 'Melyik a legkisebb 6-jegyű szám, amelyben minden számjegy különböző?',
-        highlightValue: '6 különböző számjegy',
-        questionTypeBadge: 'Számképzés',
-        options: ['102 345', '123 456', '100 000', '102 340'],
-        correctAnswer: '102 345',
-        explanation: 'A legelső jegy nem lehet 0, így 1-gyel kezdünk, majd növekvő sorrendben a legkisebb még fel nem használt jegyek: 0, 2, 3, 4, 5 -> 102 345.',
-        breakdown: [{ label: 'Legkisebb szám', value: '102 345' }]
+        id: 'q2-10',
+        prompt: 'Mennyi a 100 - (-80) kivonás eredménye?',
+        highlightValue: '100 - (-80)',
+        questionTypeBadge: 'Nagyobb számok kivonása',
+        options: ['180', '20', '-180', '-20'],
+        correctAnswer: '180',
+        explanation: '100 - (-80) = 100 + 80 = 180.',
+        breakdown: [
+          { label: 'Átírás', value: '100 + 80' },
+          { label: 'Eredmény', value: '180' }
+        ]
       }
     ]
   },
   3: {
     level: 3,
     title: '3. Nehéz szint',
-    subtitle: 'Milliós nagyságrend (1 000 000-ig és felette)',
-    range: '1 000 000+',
-    focus: 'Milliók (M), összetett felbontás, helyiérték algebra',
+    subtitle: 'Többtagú műveletsorok, abszolút értékkel kombinált feladatok, egyenletek',
+    range: 'Összetett feladatok és szöveges kontextus',
+    focus: 'Többtagú összegek, abszolút érték + előjelek, szöveges feladványok',
     color: 'purple',
     badgeBg: 'bg-purple-50 dark:bg-purple-950/40',
     badgeBorder: 'border-purple-200 dark:border-purple-800',
     badgeText: 'text-purple-700 dark:text-purple-300',
-    accentGradient: 'from-purple-600 to-indigo-600',
-    iconBg: 'bg-purple-100 text-purple-600 dark:bg-purple-900/50 dark:text-purple-400',
+    accentGradient: 'from-blue-600 to-indigo-700',
+    iconBg: 'bg-purple-600 text-white',
     questions: [
       {
-        id: 'l3-q1',
-        prompt: 'Hány darab tízezres ad ki pontosan 1 milliót (1 000 000)?',
-        highlightValue: '1 000 000 : 10 000 = ?',
-        questionTypeBadge: 'Helyiérték arány',
-        options: ['100 darab', '10 darab', '1 000 darab', '50 darab'],
-        correctAnswer: '100 darab',
-        explanation: '1 000 000 : 10 000 = 100. Száz darab tízezres ér 1 milliót.',
-        breakdown: [{ label: '1 000 000 : 10 000', value: '100' }]
-      },
-      {
-        id: 'l3-q2',
-        prompt: 'Melyik szám felel meg a következő szorzatos alaknak?',
-        highlightValue: '8 · 100 000 + 5 · 1 000 + 4 · 10',
-        questionTypeBadge: 'Szorzatösszeg',
-        options: ['805 040', '850 040', '805 400', '85 040'],
-        correctAnswer: '805 040',
-        explanation: '800 000 + 5 000 + 40 = 805 040.',
+        id: 'q3-1',
+        prompt: 'Mennyi az alábbi műveletsor értéke: (-15) + 30 - 25 - (-10) ?',
+        highlightValue: '(-15) + 30 - 25 - (-10)',
+        questionTypeBadge: 'Többtagú műveletsor',
+        options: ['0', '10', '-20', '-10'],
+        correctAnswer: '0',
+        explanation: '-15 + 30 - 25 + 10 = 15 - 25 + 10 = -10 + 10 = 0.',
         breakdown: [
-          { label: '8 · 100 000', value: '800 000' },
-          { label: '5 · 1 000', value: '5 000' },
-          { label: '4 · 10', value: '40' },
-          { label: 'Összeg', value: '805 040' }
+          { label: 'Zárójel felbontás', value: '-15 + 30 - 25 + 10' },
+          { label: 'Pozitív tagok', value: '30 + 10 = 40' },
+          { label: 'Negatív tagok', value: '-15 - 25 = -40' },
+          { label: 'Összeg', value: '40 - 40 = 0' }
         ]
       },
       {
-        id: 'l3-q3',
-        prompt: 'Egy 6-jegyű számban a százezresek valódi értéke 400 000, a tízeseké 70, a többi helyiértéken 0 áll. Mi a szám?',
-        highlightValue: '400 000 és 70',
-        questionTypeBadge: 'Szöveges helyiérték',
-        options: ['400 070', '40 070', '400 700', '4 000 070'],
-        correctAnswer: '400 070',
-        explanation: '400 000 + 70 = 400 070.',
-        breakdown: [{ label: 'Szám', value: '400 070' }]
-      },
-      {
-        id: 'l3-q4',
-        prompt: 'Mennyivel nagyobb a 6-os valódi értéke az 5-ös valódi értékénél a számban?',
-        highlightValue: '652 000',
-        questionTypeBadge: 'Valódi értékek különbsége',
-        options: ['550 000', '600 000', '50 000', '100 000'],
-        correctAnswer: '550 000',
-        explanation: 'A 6-os valódi értéke 600 000, az 5-ösé 50 000. Különbségük: 600 000 - 50 000 = 550 000.',
+        id: 'q3-2',
+        prompt: 'Mennyi az alábbi kifejezés értéke: -8 - (-15) + (-12) - 5 ?',
+        highlightValue: '-8 - (-15) + (-12) - 5',
+        questionTypeBadge: 'Összetett előjelváltás',
+        options: ['-10', '+10', '-40', '0'],
+        correctAnswer: '-10',
+        explanation: '-8 + 15 - 12 - 5 = 7 - 12 - 5 = -5 - 5 = -10.',
         breakdown: [
-          { label: '6-os értéke', value: '600 000' },
-          { label: '5-ös értéke', value: '50 000' },
-          { label: 'Különbség', value: '550 000' }
+          { label: 'Egyszerűsítve', value: '-8 + 15 - 12 - 5' },
+          { label: 'Részeredmény', value: '7 - 17' },
+          { label: 'Végeredmény', value: '-10' }
         ]
       },
       {
-        id: 'l3-q5',
-        prompt: 'Melyik a legnagyobb 5-jegyű páros szám, amelyben a tízezresek helyén 7 áll, és minden jegye különböző?',
-        highlightValue: 'Feltételek: 5-jegyű, páros, Té=7, különböző jegyek',
-        questionTypeBadge: 'Összetett számképzés',
-        options: ['79 864', '79 854', '79 862', '78 964'],
-        correctAnswer: '79 864',
-        explanation: 'Tízezres: 7. A lehető legnagyobb jegyek: 9, 8, 6, és a legvégére páros jegy kell, ami a még elérhető legnagyobb páros: 4 -> 79 864.',
-        breakdown: [{ label: 'Keresett szám', value: '79 864' }]
+        id: 'q3-3',
+        prompt: 'Melyik x érték teszi igazzá az egyenletet: x - (-12) = 5 ?',
+        highlightValue: 'x - (-12) = 5',
+        questionTypeBadge: 'Egyenlet megoldása',
+        options: ['x = -7', 'x = 7', 'x = 17', 'x = -17'],
+        correctAnswer: 'x = -7',
+        explanation: 'x + 12 = 5 ➔ Mindkét oldalból kivonunk 12-t: x = 5 - 12 = -7.',
+        breakdown: [
+          { label: 'Átírás', value: 'x + 12 = 5' },
+          { label: 'Kivonás', value: 'x = 5 - 12' },
+          { label: 'Gyök', value: 'x = -7' }
+        ]
       },
       {
-        id: 'l3-q6',
-        prompt: 'Hány darab tízesből áll a 34 000 szám?',
-        highlightValue: '34 000 : 10 = ?',
-        questionTypeBadge: 'Tízesek száma',
-        options: ['3 400', '340', '34', '34 000'],
-        correctAnswer: '3 400',
-        explanation: '34 000 : 10 = 3 400. Tehát 3 400 darab tízesből áll.',
-        breakdown: [{ label: '34 000 : 10', value: '3 400 tízes' }]
+        id: 'q3-4',
+        prompt: 'Mennyi a | -14 + 6 | - | 5 - 12 | kifejezés értéke?',
+        highlightValue: '| -14 + 6 | - | 5 - 12 |',
+        questionTypeBadge: 'Abszolút érték műveletekkel',
+        options: ['1 (8 - 7 = 1)', '-1', '15', '-15'],
+        correctAnswer: '1 (8 - 7 = 1)',
+        explanation: '|-14 + 6| = |-8| = 8. És |5 - 12| = |-7| = 7. Különbség: 8 - 7 = 1.',
+        breakdown: [
+          { label: '1. tag', value: '|-8| = 8' },
+          { label: '2. tag', value: '|-7| = 7' },
+          { label: 'Különbség', value: '8 - 7 = 1' }
+        ]
       },
       {
-        id: 'l3-q7',
-        prompt: 'Ha egy számot megszorzunk 100-zal, hogyan változik az egyes számjegyek helyiértéke?',
-        highlightValue: 'Szorzás 100-zal',
-        questionTypeBadge: 'Helyiérték eltolódás',
+        id: 'q3-5',
+        prompt: 'Egy búvár a tengerszint alatt 18 méteren tartózkodik (-18 m). Leereszkedik még 7 métert, majd felúszik 15 métert. Hol tartózkodik most?',
+        highlightValue: '-18 m - 7 m + 15 m',
+        questionTypeBadge: 'Szöveges tengerszint feladat',
         options: [
-          'Minden számjegy 2 hellyel balra tolódik (100-szoros helyiértékre).',
-          'Minden számjegy 1 hellyel balra tolódik.',
-          'Minden számjegy 2 hellyel jobbra tolódik.',
-          'A helyiértékek nem változnak, csak a szám nő.'
+          '-10 m (10 méterrel a víz alatt)',
+          '-40 m',
+          '-26 m',
+          '+4 m'
         ],
-        correctAnswer: 'Minden számjegy 2 hellyel balra tolódik (100-szoros helyiértékre).',
-        explanation: '100-zal való szorzáskor a tízes rendszerben minden jegy két helyiértékkel balra vándorol (pl. az egyesből százas lesz).',
-        breakdown: [{ label: 'Eltolódás', value: '2 hellyel balra' }]
-      },
-      {
-        id: 'l3-q8',
-        prompt: 'Melyik szám egyenlő a következő kifejezéssel: 9Sze + 99E + 9e?',
-        highlightValue: '9Sze + 99E + 9e',
-        questionTypeBadge: 'Összevont helyiérték',
-        options: ['999 009', '909 909', '999 090', '990 009'],
-        correctAnswer: '999 009',
-        explanation: '900 000 + 99 000 + 9 = 999 009.',
+        correctAnswer: '-10 m (10 méterrel a víz alatt)',
+        explanation: '-18 - 7 + 15 = -25 + 15 = -10 m.',
         breakdown: [
-          { label: '9 Sze', value: '900 000' },
-          { label: '99 E', value: '99 000' },
-          { label: '9 e', value: '9' },
-          { label: 'Összeg', value: '999 009' }
+          { label: 'Kezdő mélység', value: '-18 m' },
+          { label: 'Merülés (-7 m)', value: '-25 m' },
+          { label: 'Emelkedés (+15 m)', value: '-10 m' }
         ]
       },
       {
-        id: 'l3-q9',
-        prompt: 'Hány olyan 4-jegyű szám létezik, amelynek az ezresek helyén 5 áll, és minden más helyiértéken 0?',
-        highlightValue: 'Ezres = 5, többi = 0',
-        questionTypeBadge: 'Kombinatorika / Helyiérték',
-        options: ['Pontosan 1 (az 5000)', '10 darab', '100 darab', 'Végtelen sok'],
-        correctAnswer: 'Pontosan 1 (az 5000)',
-        explanation: 'Csak az 5 000 felel meg a leírásnak.',
-        breakdown: [{ label: 'Megoldás', value: '5 000 (1 db)' }]
+        id: 'q3-6',
+        prompt: 'Mennyi a -(-10) + (-20) - (-30) + (-40) műveletsor összege?',
+        highlightValue: '-(-10) + (-20) - (-30) + (-40)',
+        questionTypeBadge: 'Vegyes előjelű műveletsor',
+        options: ['-20 (10 - 20 + 30 - 40)', '+20', '0', '-100'],
+        correctAnswer: '-20 (10 - 20 + 30 - 40)',
+        explanation: '10 - 20 + 30 - 40 = (10 + 30) - (20 + 40) = 40 - 60 = -20.',
+        breakdown: [
+          { label: 'Zárójelek nélkül', value: '10 - 20 + 30 - 40' },
+          { label: 'Pozitív összeg', value: '+40' },
+          { label: 'Negatív összeg', value: '-60' },
+          { label: 'Végeredmény', value: '-20' }
+        ]
       },
       {
-        id: 'l3-q10',
-        prompt: 'Melyik szám a legnagyobb az alábbiak közül?',
-        highlightValue: 'Összehasonlítás',
-        options: [
-          '5 · 100 000 + 9 · 10 000',
-          '550 000',
-          '580 000 + 9 000',
-          '6 · 100 000 - 15 000'
-        ],
-        correctAnswer: '589 000 vs 590 000 -> 5 · 100 000 + 9 · 10 000 = 590 000',
-        explanation: 'A: 590 000, B: 550 000, C: 589 000, D: 585 000. A legnagyobb az 590 000 (5 · 100 000 + 9 · 10 000).',
+        id: 'q3-7',
+        prompt: 'Melyik relációs jel illik az alábbi két kifejezés közé? (-7) - (-10) ___ (-4) + (-2)',
+        highlightValue: '(-7) - (-10) ___ (-4) + (-2)',
+        questionTypeBadge: 'Kifejezések összehasonlítása',
+        options: ['> (mert +3 > -6)', '< (mert +3 < -6)', '= (egyenlőek)', '≤'],
+        correctAnswer: '> (mert +3 > -6)',
+        explanation: 'Bal oldal: -7 + 10 = +3. Jobb oldal: -4 - 2 = -6. Mivel +3 > -6, a > jel a helyes.',
         breakdown: [
-          { label: 'A', value: '590 000 (Legnagyobb)' },
-          { label: 'B', value: '550 000' },
-          { label: 'C', value: '589 000' },
-          { label: 'D', value: '585 000' }
+          { label: 'Bal oldal', value: '+3' },
+          { label: 'Jobb oldal', value: '-6' },
+          { label: 'Reláció', value: '+3 > -6' }
+        ]
+      },
+      {
+        id: 'q3-8',
+        prompt: 'Ha a = -5 és b = -8, mennyi az a - b kifejezés értéke?',
+        highlightValue: 'Ha a = -5, b = -8, mennyi a - b ?',
+        questionTypeBadge: 'Behelyettesítéses feladat',
+        options: [
+          '+3 (-5 - (-8) = -5 + 8)',
+          '-3',
+          '-13',
+          '+13'
+        ],
+        correctAnswer: '+3 (-5 - (-8) = -5 + 8)',
+        explanation: 'a - b = -5 - (-8) = -5 + 8 = +3.',
+        breakdown: [
+          { label: 'Behelyettesítés', value: '-5 - (-8)' },
+          { label: 'Átírás', value: '-5 + 8' },
+          { label: 'Eredmény', value: '+3' }
+        ]
+      },
+      {
+        id: 'q3-9',
+        prompt: 'Mennyi a (-1) + (+2) + (-3) + (+4) + (-5) + (+6) összeg értéke?',
+        highlightValue: '(-1) + 2 - 3 + 4 - 5 + 6',
+        questionTypeBadge: 'Párosításos összegzés',
+        options: ['+3 (1 + 1 + 1 = 3)', '-3', '0', '+21'],
+        correctAnswer: '+3 (1 + 1 + 1 = 3)',
+        explanation: '(-1 + 2) + (-3 + 4) + (-5 + 6) = 1 + 1 + 1 = +3.',
+        breakdown: [
+          { label: '1. pár', value: '-1 + 2 = 1' },
+          { label: '2. pár', value: '-3 + 4 = 1' },
+          { label: '3. pár', value: '-5 + 6 = 1' },
+          { label: 'Összeg', value: '3' }
+        ]
+      },
+      {
+        id: 'q3-10',
+        prompt: 'Mennyi a -50 - (-120) - 70 műveletsor eredménye?',
+        highlightValue: '-50 - (-120) - 70',
+        questionTypeBadge: 'Nagyobb számok műveletsora',
+        options: ['0 (-50 + 120 - 70)', '+140', '-240', '-100'],
+        correctAnswer: '0 (-50 + 120 - 70)',
+        explanation: '-50 + 120 - 70 = 70 - 70 = 0.',
+        breakdown: [
+          { label: '1. lépés', value: '-50 + 120 = 70' },
+          { label: '2. lépés', value: '70 - 70 = 0' }
         ]
       }
     ]
   }
 };
-
-// Fix options in l3-q10 to make them match clean
-QUIZ_LEVELS[3].questions[9].options = [
-  '5 · 100 000 + 9 · 10 000',
-  '550 000',
-  '580 000 + 9 000',
-  '6 · 100 000 - 15 000'
-];
-QUIZ_LEVELS[3].questions[9].correctAnswer = '5 · 100 000 + 9 · 10 000';
-
-const PLACE_VALUE_CHEAT_SHEET = [
-  { unit: 'e (egyes)', value: '1', note: '1. hely jobbról (10⁰)' },
-  { unit: 'T (tízes)', value: '10', note: '2. hely jobbról (10¹)' },
-  { unit: 'Sz (százas)', value: '100', note: '3. hely jobbról (10²)' },
-  { unit: 'E (ezres)', value: '1 000', note: '4. hely jobbról (10³)' },
-  { unit: 'Té (tízezres)', value: '10 000', note: '5. hely jobbról (10⁴)' },
-  { unit: 'Sze (százezres)', value: '100 000', note: '6. hely jobbról (10⁵)' },
-  { unit: 'M (milliós)', value: '1 000 000', note: '7. hely jobbról (10⁶)' }
-];
 
 function shuffleArray<T>(array: T[]): T[] {
   const arr = [...array];
@@ -509,11 +571,11 @@ function shuffleArray<T>(array: T[]): T[] {
   return arr;
 }
 
-interface PlaceValueQuizProps {
+interface IntegerAdditionSubtractionQuizProps {
   onBack: () => void;
 }
 
-export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
+export function IntegerAdditionSubtractionQuiz({ onBack }: IntegerAdditionSubtractionQuizProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [selectedLevel, setSelectedLevel] = useState<DifficultyLevel | null>(null);
@@ -528,7 +590,7 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
   const [isCompleted, setIsCompleted] = useState(false);
   const [showCheatSheet, setShowCheatSheet] = useState(false);
 
-  // Toggle fullscreen
+  // Fullscreen toggler
   const toggleFullscreen = async () => {
     if (!containerRef.current) return;
     if (!document.fullscreenElement) {
@@ -554,6 +616,7 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
     return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
   }, []);
 
+  // Confetti on completion
   useEffect(() => {
     if (isCompleted) {
       const duration = 2.5 * 1000;
@@ -562,7 +625,9 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
 
       const interval = setInterval(() => {
         const timeLeft = animationEnd - Date.now();
-        if (timeLeft <= 0) return clearInterval(interval);
+        if (timeLeft <= 0) {
+          return clearInterval(interval);
+        }
         const particleCount = 50 * (timeLeft / duration);
         confetti({ ...defaults, particleCount, origin: { x: 0.2, y: 0.6 } });
         confetti({ ...defaults, particleCount, origin: { x: 0.8, y: 0.6 } });
@@ -605,7 +670,9 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
       const nextStreak = streak + 1;
       setScore(nextScore);
       setStreak(nextStreak);
-      if (nextStreak > bestStreak) setBestStreak(nextStreak);
+      if (nextStreak > bestStreak) {
+        setBestStreak(nextStreak);
+      }
     } else {
       setStreak(0);
     }
@@ -623,43 +690,56 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
     }
   };
 
+  // Keyboard shortcut listener (1, 2, 3, 4, Enter, Space)
   useEffect(() => {
-    if (!selectedLevel || isCompleted || gameMode !== 'quiz') return;
-
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (['1', '2', '3', '4'].includes(e.key) && !isAnswerChecked) {
-        const index = parseInt(e.key, 10) - 1;
-        const currentQ = questions[currentIndex] || (selectedLevel ? QUIZ_LEVELS[selectedLevel].questions[currentIndex] : null);
-        if (currentQ && currentQ.options[index]) {
-          handleOptionClick(currentQ.options[index]);
+      if (gameMode !== 'quiz' || isCompleted || !selectedLevel) return;
+
+      if (!isAnswerChecked) {
+        const keyMap: { [key: string]: number } = {
+          '1': 0,
+          '2': 1,
+          '3': 2,
+          '4': 3
+        };
+        if (e.key in keyMap) {
+          const optionIdx = keyMap[e.key];
+          const currentQ = questions[currentIndex] || (selectedLevel ? QUIZ_LEVELS[selectedLevel].questions[currentIndex] : null);
+          if (currentQ && currentQ.options[optionIdx]) {
+            handleOptionClick(currentQ.options[optionIdx]);
+          }
         }
-      } else if (e.key === 'Enter' && isAnswerChecked) {
-        handleNextQuestion();
+      } else {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleNextQuestion();
+        }
       }
     };
-
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedLevel, currentIndex, isAnswerChecked, isCompleted, gameMode, questions]);
+  }, [gameMode, isAnswerChecked, isCompleted, selectedLevel, currentIndex, questions]);
 
-  // 1. Level Selection Screen
-  if (!selectedLevel) {
+  // 1. Initial Level Selection Screen
+  if (selectedLevel === null) {
     return (
       <div
         ref={containerRef}
         className={cn(
-          "max-w-5xl mx-auto px-4 py-2 sm:py-3 animate-in fade-in slide-in-from-bottom-2 duration-300 text-left",
+          "w-full max-w-5xl mx-auto px-2 sm:px-4 py-2 animate-in fade-in duration-300 text-left",
           isFullscreen && "fixed inset-0 z-50 max-w-none w-screen h-screen bg-slate-100 dark:bg-slate-950 p-4 sm:p-6 overflow-y-auto"
         )}
       >
-        <div className="flex items-center justify-between gap-3 mb-3">
+        {/* Top bar with back button, fullscreen toggle and cheat sheet */}
+        <div className="flex items-center justify-between gap-2 mb-4">
           <Button
             variant="ghost"
             size="sm"
             onClick={onBack}
-            className="rounded-xl h-9 px-3 border border-slate-200/80 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300"
+            className="rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
           >
-            <ArrowLeft className="w-3.5 h-3.5 mr-1.5" /> Vissza a témakörökhöz
+            <ArrowLeft className="w-4 h-4 mr-1" />
+            Vissza a témakörökhöz
           </Button>
 
           <div className="flex items-center gap-2">
@@ -667,18 +747,18 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
               variant="outline"
               size="sm"
               onClick={toggleFullscreen}
-              className="rounded-xl h-9 px-2.5 text-xs sm:text-sm font-bold border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300"
-              title={isFullscreen ? 'Kilépés a teljes képernyőből' : 'Teljes képernyős mód'}
+              className="rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+              title={isFullscreen ? "Kilépés a teljes képernyőből" : "Teljes képernyő"}
             >
               {isFullscreen ? (
                 <>
-                  <Minimize2 className="w-3.5 h-3.5 mr-1 text-blue-600 dark:text-blue-400" />
-                  <span className="hidden sm:inline">Kilépés</span>
+                  <Minimize2 className="w-3.5 h-3.5 mr-1" />
+                  Ablak
                 </>
               ) : (
                 <>
-                  <Maximize2 className="w-3.5 h-3.5 mr-1 text-slate-500" />
-                  <span className="hidden sm:inline">Teljes képernyő</span>
+                  <Maximize2 className="w-3.5 h-3.5 mr-1" />
+                  Teljes képernyő
                 </>
               )}
             </Button>
@@ -687,28 +767,30 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
               variant="outline"
               size="sm"
               onClick={() => setShowCheatSheet(!showCheatSheet)}
-              className="rounded-xl h-9 px-3 border-blue-300 bg-blue-50/60 text-blue-800 dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-800 hover:bg-blue-100 text-xs sm:text-sm font-bold"
+              className="rounded-xl h-8 px-3 text-xs font-bold border-blue-300 bg-blue-50/50 text-blue-800 dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-800 hover:bg-blue-100"
             >
               <BookOpen className="w-3.5 h-3.5 mr-1.5 text-blue-600" />
-              Helyiérték-táblázat segédlet
+              Műveleti segédlet
             </Button>
           </div>
         </div>
 
+        {/* Hero Header */}
         <div className="text-center max-w-2xl mx-auto mb-4 sm:mb-5">
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight flex items-center justify-center gap-2 mb-1">
-            <span className="text-2xl">🔢</span>
-            <span>A Helyiértékes Írás Gyakorló</span>
+            <span className="text-2xl">➕➖</span>
+            <span>Egész számok összeadása és kivonása Kvíz</span>
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-            Gyakorold az alaki, helyi- és valódi értékeket, valamint a helyiértékes felbontást kvízzel vagy kártyanyitogatóval!
+            Gyakorold az előjeles számok összeadását, a negatív számok kivonását és a zárójelek felbontását!
           </p>
 
-          <div className="inline-flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 p-1 rounded-2xl mt-3 border border-slate-200 dark:border-slate-700">
+          {/* Quick Mode Switcher in selection */}
+          <div className="inline-flex flex-wrap items-center justify-center gap-1.5 bg-slate-100 dark:bg-slate-800 p-1 rounded-2xl mt-3 border border-slate-200 dark:border-slate-700">
             <button
               onClick={() => setGameMode('quiz')}
               className={cn(
-                "flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all",
+                "flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all",
                 gameMode === 'quiz'
                   ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs"
                   : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
@@ -720,24 +802,37 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
             <button
               onClick={() => setGameMode('matcher')}
               className={cn(
-                "flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all",
+                "flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all",
                 gameMode === 'matcher'
                   ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs"
                   : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
               )}
             >
-              <LayoutGrid className="w-3.5 h-3.5 text-indigo-500" />
+              <LayoutGrid className="w-3.5 h-3.5 text-emerald-500" />
               Kártyás Párosító
+            </button>
+            <button
+              onClick={() => setGameMode('sorter')}
+              className={cn(
+                "flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all",
+                gameMode === 'sorter'
+                  ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs"
+                  : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
+              )}
+            >
+              <ArrowRightLeft className="w-3.5 h-3.5 text-cyan-500" />
+              Csoportosító (Húzd a helyére)
             </button>
           </div>
         </div>
 
+        {/* Cheat sheet popover/card */}
         {showCheatSheet && (
           <div className="mb-4 p-4 sm:p-5 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-900 dark:to-slate-850 rounded-2xl border-2 border-blue-200 dark:border-blue-900/60 shadow-md animate-in fade-in duration-200">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm sm:text-base font-black text-blue-900 dark:text-blue-200 flex items-center gap-1.5">
                 <Sparkles className="w-4 h-4 text-blue-600" />
-                Helyiérték-rendszer és fogalmak
+                Előjeles műveletek szabályai és összefoglaló
               </h3>
               <Button
                 size="sm"
@@ -748,42 +843,38 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
                 Bezárás
               </Button>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2">
-              {PLACE_VALUE_CHEAT_SHEET.map((item, idx) => (
-                <div key={idx} className="bg-white/95 dark:bg-slate-800/95 p-2 rounded-xl border border-blue-100 dark:border-slate-700 shadow-xs text-left">
-                  <div className="text-sm font-black text-blue-600 dark:text-blue-400">{item.unit}</div>
-                  <div className="text-xs font-black text-slate-800 dark:text-slate-100">{item.value}</div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2">
+              {INTEGER_MATH_CHEAT_SHEET.map((item, idx) => (
+                <div key={idx} className="bg-white/95 dark:bg-slate-800/95 p-2.5 rounded-xl border border-blue-100 dark:border-slate-700 shadow-xs text-left">
+                  <div className="text-xs font-black text-blue-600 dark:text-blue-400">{item.topic}</div>
+                  <div className="text-xs font-mono font-bold text-slate-800 dark:text-slate-100 mt-0.5">{item.formula}</div>
                   <div className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5">{item.note}</div>
                 </div>
               ))}
             </div>
-            <div className="mt-3 p-2.5 bg-white/80 dark:bg-slate-800/80 rounded-xl border border-blue-100 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300 flex flex-wrap gap-4">
-              <div><strong>Alaki érték:</strong> a leírt számjegy maga (pl. 5)</div>
-              <div><strong>Helyiérték:</strong> a hely, ahol áll (pl. 100)</div>
-              <div><strong>Valódi érték:</strong> Alaki érték · Helyiérték (pl. 5 · 100 = 500)</div>
-            </div>
           </div>
         )}
 
+        {/* Difficulty Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {([1, 2, 3] as DifficultyLevel[]).map((level) => {
             const cfg = QUIZ_LEVELS[level];
             return (
               <div
                 key={level}
-                onClick={() => handleStartLevel(level)}
+                onClick={() => handleStartLevel(level, gameMode)}
                 className="group relative bg-white dark:bg-slate-900 rounded-2xl p-5 border-2 border-slate-200/80 dark:border-slate-800 hover:border-blue-500 dark:hover:border-blue-500 shadow-sm hover:shadow-lg transition-all duration-200 cursor-pointer flex flex-col justify-between overflow-hidden"
               >
                 <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-blue-500/10 to-transparent rounded-bl-full pointer-events-none group-hover:scale-110 transition-transform" />
 
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform shadow-inner", cfg.iconBg)}>
-                      <span className="font-serif font-black text-lg">{level === 1 ? 'I' : level === 2 ? 'II' : 'III'}</span>
+                    <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform shadow-inner text-white font-black text-lg", cfg.iconBg)}>
+                      {level}
                     </div>
 
                     <span className={cn("px-2.5 py-1 rounded-full text-[11px] font-black uppercase tracking-wider border", cfg.badgeBg, cfg.badgeBorder, cfg.badgeText)}>
-                      {gameMode === 'quiz' ? '10 Kérdés' : '10 Pár'}
+                      {gameMode === 'quiz' ? '10 Kérdés' : gameMode === 'matcher' ? '8 Pár' : '10 Elem (3 csoport)'}
                     </span>
                   </div>
 
@@ -802,7 +893,7 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
                     </div>
                     <div className="flex items-center justify-between text-xs">
                       <span className="text-slate-500 dark:text-slate-400">Fókusz:</span>
-                      <span className="font-mono text-[11px] font-bold text-blue-600 dark:text-blue-400">{cfg.focus}</span>
+                      <span className="font-bold text-blue-600 dark:text-blue-400 text-right truncate max-w-[140px]" title={cfg.focus}>{cfg.focus}</span>
                     </div>
                   </div>
                 </div>
@@ -817,7 +908,7 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
                       : "bg-purple-600 hover:bg-purple-700 text-white"
                   )}
                 >
-                  {gameMode === 'quiz' ? 'Kvíz Indítása' : 'Párosító Indítása'}
+                  {gameMode === 'quiz' ? 'Kvíz Indítása' : gameMode === 'matcher' ? 'Párosító Indítása' : 'Csoportosító Indítása'}
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </div>
@@ -828,20 +919,25 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
     );
   }
 
+  // 2. Completion Screen
   const levelConfig = QUIZ_LEVELS[selectedLevel];
-  const currentQuestion = questions[currentIndex] || levelConfig.questions[currentIndex];
+  const totalQuestions = questions.length || levelConfig.questions.length;
 
-  // 2. Quiz Completed View
-  if (isCompleted && gameMode === 'quiz') {
-    const totalQuestions = levelConfig.questions.length;
+  if (isCompleted) {
     const percentage = Math.round((score / totalQuestions) * 100);
     const isPerfect = score === totalQuestions;
-    const isGood = score >= 7;
+    const isGood = percentage >= 70;
 
     return (
-      <div className="max-w-xl mx-auto p-4 sm:p-6 text-center animate-in zoom-in-95 duration-300">
-        <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl shadow-xl border-2 border-slate-200 dark:border-slate-800 relative overflow-hidden">
-          <div className="w-20 h-20 bg-gradient-to-tr from-blue-500 to-indigo-600 text-white rounded-3xl flex items-center justify-center mx-auto shadow-lg mb-4 ring-8 ring-blue-100 dark:ring-blue-950/60 animate-bounce">
+      <div
+        ref={containerRef}
+        className={cn(
+          "w-full max-w-2xl mx-auto px-4 py-8 animate-in zoom-in-95 duration-300 text-center",
+          isFullscreen && "fixed inset-0 z-50 max-w-none w-screen h-screen bg-slate-100 dark:bg-slate-950 p-4 sm:p-6 overflow-y-auto flex items-center justify-center"
+        )}
+      >
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border-2 border-slate-200/80 dark:border-slate-800 shadow-xl max-w-xl w-full">
+          <div className="w-20 h-20 mx-auto mb-4 rounded-3xl bg-gradient-to-br from-amber-400 to-blue-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
             <Trophy className="w-10 h-10" />
           </div>
 
@@ -863,7 +959,7 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
             </div>
             <div>
               <div className="text-[11px] uppercase font-bold text-slate-400 mb-0.5">Legjobb széria</div>
-              <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400 flex items-center justify-center gap-1">
+              <div className="text-2xl font-black text-amber-500 flex items-center justify-center gap-1">
                 <Zap className="w-4 h-4 fill-current" /> {bestStreak}
               </div>
             </div>
@@ -902,7 +998,9 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
     );
   }
 
-  // 3. Active Workspace with Wordwall Sidebar
+  // 3. Active View with Right-side Wordwall Sidebar
+  const currentQuestion = questions[currentIndex] || levelConfig.questions[currentIndex];
+
   return (
     <div
       ref={containerRef}
@@ -911,6 +1009,7 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
         isFullscreen && "fixed inset-0 z-50 max-w-none w-screen h-screen bg-slate-100 dark:bg-slate-950 p-4 sm:p-6 overflow-y-auto"
       )}
     >
+      {/* Top Header Bar */}
       <div className="flex flex-wrap items-center justify-between gap-2.5 mb-2.5">
         <div className="flex items-center gap-2">
           <Button
@@ -944,11 +1043,12 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
           </Button>
         </div>
 
+        {/* Level pills in header */}
         <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-xl border border-slate-200/60 dark:border-slate-700/60">
           {([1, 2, 3] as DifficultyLevel[]).map((lvl) => (
             <button
               key={lvl}
-              onClick={() => handleStartLevel(lvl)}
+              onClick={() => handleStartLevel(lvl, gameMode)}
               className={cn(
                 "px-2.5 py-1 rounded-lg text-xs font-black transition-all",
                 selectedLevel === lvl
@@ -961,6 +1061,7 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
           ))}
         </div>
 
+        {/* Mode / Score indicator */}
         <div className="flex items-center gap-2">
           {gameMode === 'quiz' ? (
             <div className="flex items-center gap-2 bg-white dark:bg-slate-900 px-3 py-1 rounded-xl border border-slate-200/80 dark:border-slate-800 shadow-xs text-xs">
@@ -978,20 +1079,28 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
                 </>
               )}
             </div>
-          ) : (
-            <div className="flex items-center gap-1.5 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 px-3 py-1 rounded-xl border border-indigo-200 dark:border-indigo-800 text-xs font-bold">
+          ) : gameMode === 'matcher' ? (
+            <div className="flex items-center gap-1.5 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 px-3 py-1 rounded-xl border border-emerald-200 dark:border-emerald-800 text-xs font-bold">
               <LayoutGrid className="w-3.5 h-3.5" />
               <span>Párosító Mód</span>
+            </div>
+          ) : (
+            <div className="flex items-center gap-1.5 bg-cyan-50 dark:bg-cyan-950/60 text-cyan-700 dark:text-cyan-300 px-3 py-1 rounded-xl border border-cyan-200 dark:border-cyan-800 text-xs font-bold">
+              <ArrowRightLeft className="w-3.5 h-3.5" />
+              <span>Csoportosító Mód</span>
             </div>
           )}
         </div>
       </div>
 
+      {/* Main Container with Wordwall Sidebar */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
-        {/* Main Workspace (9 cols) */}
+        {/* LEFT / CENTER: Main Game Area (9 cols on large screen) */}
         <div className="lg:col-span-9 flex flex-col gap-3">
           {gameMode === 'quiz' ? (
+            /* QUIZ MODE WORKSPACE */
             <div className="space-y-3">
+              {/* Slim Progress Bar */}
               <div className="space-y-1">
                 <div className="flex items-center justify-between text-[11px] font-bold text-slate-500 dark:text-slate-400 px-1">
                   <span>{levelConfig.title} feladványai</span>
@@ -1007,14 +1116,18 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
               {/* 2-Column Responsive Workspace Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 items-start">
                 {/* Left: Question Card + Explanation */}
-                <div className="flex flex-col gap-3">
-                  <Card className="rounded-2xl border-2 border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm overflow-hidden">
-                    <CardContent className="p-4 sm:p-5 text-center">
-                      <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-black uppercase tracking-wider bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 mb-2 border border-blue-200 dark:border-blue-800">
-                        <Binary className="w-3 h-3 text-blue-600" />
-                        {currentQuestion.questionTypeBadge}
-                      </div>
+                <div className="flex flex-col gap-2.5">
+                  <Card className="border-2 border-slate-200/90 dark:border-slate-800 rounded-2xl shadow-xs overflow-hidden">
+                    <div className="px-3.5 py-2 bg-slate-50 dark:bg-slate-850 border-b border-slate-200/80 dark:border-slate-800 flex items-center justify-between">
+                      <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">
+                        {currentIndex + 1}. Kérdés • {currentQuestion.questionTypeBadge}
+                      </span>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+                        {levelConfig.title}
+                      </span>
+                    </div>
 
+                    <CardContent className="p-4 sm:p-5 text-center">
                       <p className="text-xs sm:text-sm font-bold text-slate-600 dark:text-slate-300 mb-2.5">
                         {currentQuestion.prompt}
                       </p>
@@ -1027,6 +1140,7 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
                     </CardContent>
                   </Card>
 
+                  {/* Explanation & Next Step below question */}
                   {isAnswerChecked && (
                     <div className="space-y-2.5 animate-in fade-in slide-in-from-bottom-2 duration-200">
                       <div className={cn(
@@ -1099,11 +1213,11 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
                   )}
                 </div>
 
-                {/* Right: 4 Options */}
+                {/* Right: 4 Answer Options */}
                 <div className="flex flex-col gap-2">
                   <div className="flex items-center justify-between px-1">
                     <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                      Válaszd ki a megoldást:
+                      Válaszd ki a helyes eredményt:
                     </span>
                     <span className="text-[10px] text-slate-400 dark:text-slate-500">
                       Gombok: [1, 2, 3, 4]
@@ -1133,22 +1247,22 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
                           onClick={() => handleOptionClick(option)}
                           disabled={isAnswerChecked}
                           className={cn(
-                            "relative min-h-[50px] sm:min-h-[56px] rounded-xl font-sans font-black text-sm sm:text-base transition-all duration-150 flex items-center justify-between px-4 text-left py-2",
+                            "relative min-h-13 sm:min-h-14 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all duration-150 flex items-center justify-between px-4 text-left",
                             buttonStyle
                           )}
                         >
                           <span className="flex items-center gap-2.5">
-                            <span className="w-6 h-6 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs font-sans font-bold flex items-center justify-center shrink-0 border border-slate-200 dark:border-slate-700">
+                            <span className="w-6 h-6 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs font-sans font-bold flex items-center justify-center border border-slate-200 dark:border-slate-700 shrink-0">
                               {idx + 1}
                             </span>
-                            <span className="font-mono font-bold text-sm sm:text-base leading-snug">{option}</span>
+                            <span className="font-bold leading-snug">{option}</span>
                           </span>
 
                           {isAnswerChecked && isCorrect && (
-                            <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 ml-2 animate-in zoom-in" />
+                            <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 animate-in zoom-in shrink-0 ml-2" />
                           )}
                           {isAnswerChecked && isSelected && !isCorrect && (
-                            <XCircle className="w-5 h-5 text-rose-600 dark:text-rose-400 shrink-0 ml-2 animate-in zoom-in" />
+                            <XCircle className="w-5 h-5 text-rose-600 dark:text-rose-400 animate-in zoom-in shrink-0 ml-2" />
                           )}
                         </button>
                       );
@@ -1158,14 +1272,15 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
                   {!isAnswerChecked && (
                     <div className="p-2.5 bg-blue-50/60 dark:bg-slate-850/80 rounded-xl border border-blue-200/50 dark:border-slate-800 text-[11px] text-blue-900 dark:text-blue-300 flex items-center gap-1.5 mt-0.5">
                       <Sparkles className="w-3.5 h-3.5 text-blue-600 shrink-0" />
-                      <span>Figyeld a helyiérték-táblázat oszlopait és a számjegyek helyét!</span>
+                      <span>💡 a - (-b) = a + b! A két mínusz találkozásakor mindig összeadást végzünk.</span>
                     </div>
                   )}
                 </div>
               </div>
             </div>
-          ) : (
-            <PlaceValueMatcher
+          ) : gameMode === 'matcher' ? (
+            /* MATCHER MODE WORKSPACE */
+            <IntegerAdditionSubtractionMatcher
               level={selectedLevel}
               onNextLevel={
                 selectedLevel < 3
@@ -1174,11 +1289,23 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
               }
               onOpenRules={() => setShowCheatSheet(true)}
             />
+          ) : (
+            /* SORTER / GROUPING MODE WORKSPACE */
+            <IntegerAdditionSubtractionSorter
+              level={selectedLevel}
+              onNextLevel={
+                selectedLevel < 3
+                  ? () => handleStartLevel((selectedLevel + 1) as DifficultyLevel, 'sorter')
+                  : undefined
+              }
+              onOpenRules={() => setShowCheatSheet(true)}
+            />
           )}
         </div>
 
-        {/* Wordwall Sidebar (3 cols) */}
+        {/* RIGHT: Wordwall-style Activity & Controls Sidebar (3 cols on large screen) */}
         <div className="lg:col-span-3 flex flex-col gap-3">
+          {/* Wordwall Mode Card */}
           <div className="bg-white dark:bg-slate-900 rounded-2xl p-3.5 border-2 border-slate-200/80 dark:border-slate-800 shadow-xs">
             <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2.5 px-1">
               <Layers className="w-3.5 h-3.5 text-blue-500" />
@@ -1186,6 +1313,7 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
             </div>
 
             <div className="flex flex-col gap-1.5">
+              {/* Quiz Mode Button */}
               <button
                 onClick={() => setGameMode('quiz')}
                 className={cn(
@@ -1203,33 +1331,57 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
                 </div>
                 <div>
                   <div className="font-black text-xs">Klasszikus Kvíz</div>
-                  <div className="text-[10px] text-slate-500 dark:text-slate-400 font-normal">Többválasztós teszt</div>
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400 font-normal">10 feladat, 4 opció</div>
                 </div>
               </button>
 
+              {/* Matcher Mode Button */}
               <button
                 onClick={() => setGameMode('matcher')}
                 className={cn(
                   "w-full p-2.5 rounded-xl text-left font-bold text-xs transition-all flex items-center gap-2.5 border-2",
                   gameMode === 'matcher'
-                    ? "bg-indigo-50 dark:bg-indigo-950/50 border-indigo-400 text-indigo-900 dark:text-indigo-200 shadow-xs"
+                    ? "bg-emerald-50 dark:bg-emerald-950/50 border-emerald-400 text-emerald-900 dark:text-emerald-200 shadow-xs"
                     : "bg-slate-50/80 dark:bg-slate-800/60 border-transparent hover:border-slate-200 text-slate-600 dark:text-slate-400"
                 )}
               >
                 <div className={cn(
                   "w-8 h-8 rounded-lg flex items-center justify-center shrink-0",
-                  gameMode === 'matcher' ? "bg-indigo-500 text-white" : "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300"
+                  gameMode === 'matcher' ? "bg-emerald-500 text-white" : "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300"
                 )}>
                   <LayoutGrid className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="font-black text-xs">Kártyanyitogatás</div>
-                  <div className="text-[10px] text-slate-500 dark:text-slate-400 font-normal">Párosító memóriajáték</div>
+                  <div className="font-black text-xs">Kártyanyitogató</div>
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400 font-normal">8 pár megkeresése</div>
+                </div>
+              </button>
+
+              {/* Sorter Mode Button */}
+              <button
+                onClick={() => setGameMode('sorter')}
+                className={cn(
+                  "w-full p-2.5 rounded-xl text-left font-bold text-xs transition-all flex items-center gap-2.5 border-2",
+                  gameMode === 'sorter'
+                    ? "bg-cyan-50 dark:bg-cyan-950/50 border-cyan-400 text-cyan-900 dark:text-cyan-200 shadow-xs"
+                    : "bg-slate-50/80 dark:bg-slate-800/60 border-transparent hover:border-slate-200 text-slate-600 dark:text-slate-400"
+                )}
+              >
+                <div className={cn(
+                  "w-8 h-8 rounded-lg flex items-center justify-center shrink-0",
+                  gameMode === 'sorter' ? "bg-cyan-500 text-white" : "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300"
+                )}>
+                  <ArrowRightLeft className="w-4 h-4" />
+                </div>
+                <div>
+                  <div className="font-black text-xs">Csoportosító</div>
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400 font-normal">Húzd a helyére (3 csoport)</div>
                 </div>
               </button>
             </div>
           </div>
 
+          {/* Quick Level Switcher in Sidebar */}
           <div className="bg-white dark:bg-slate-900 rounded-2xl p-3.5 border-2 border-slate-200/80 dark:border-slate-800 shadow-xs">
             <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2 px-1">
               <Flame className="w-3.5 h-3.5 text-orange-500" />
@@ -1248,29 +1400,30 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
                       : "hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400"
                   )}
                 >
-                  <span>{lvl}. {lvl === 1 ? 'Könnyű (3–4 jegyű)' : lvl === 2 ? 'Közepes (5–6 jegyű)' : 'Nehéz (Milliós)'}</span>
+                  <span>{lvl}. {lvl === 1 ? 'Könnyű szint' : lvl === 2 ? 'Közepes szint' : 'Nehéz szint'}</span>
                   {selectedLevel === lvl && <CheckCircle2 className="w-3.5 h-3.5" />}
                 </button>
               ))}
             </div>
           </div>
 
+          {/* Tools & Rules Actions */}
           <div className="bg-white dark:bg-slate-900 rounded-2xl p-3.5 border-2 border-slate-200/80 dark:border-slate-800 shadow-xs flex flex-col gap-1.5">
             <Button
               variant="outline"
               size="sm"
               onClick={toggleFullscreen}
-              className="w-full h-9 rounded-xl text-xs font-bold border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-start gap-2"
+              className="w-full h-9 rounded-xl border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold justify-start"
             >
               {isFullscreen ? (
                 <>
-                  <Minimize2 className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
-                  Ablakos nézet
+                  <Minimize2 className="w-3.5 h-3.5 mr-2 text-blue-600" />
+                  Kilépés a teljes képernyőből
                 </>
               ) : (
                 <>
-                  <Maximize2 className="w-3.5 h-3.5 text-slate-500" />
-                  Teljes képernyő
+                  <Maximize2 className="w-3.5 h-3.5 mr-2 text-blue-600" />
+                  Teljes képernyős mód
                 </>
               )}
             </Button>
@@ -1282,7 +1435,7 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
               className="w-full h-9 rounded-xl border-blue-300 bg-blue-50/50 text-blue-800 dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-800 hover:bg-blue-100 text-xs font-bold justify-start"
             >
               <BookOpen className="w-3.5 h-3.5 mr-2 text-blue-600" />
-              Helyiérték segédlet
+              Segédlet & Szabályok
             </Button>
 
             <Button
@@ -1298,45 +1451,40 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
         </div>
       </div>
 
+      {/* Rules Modal Overlay */}
       {showCheatSheet && (
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border-2 border-blue-300 dark:border-blue-900 shadow-2xl max-w-2xl w-full text-left">
+          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border-2 border-blue-300 dark:border-blue-900 shadow-2xl max-w-2xl w-full text-left max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
                 <Sparkles className="w-5 h-5 text-blue-600" />
-                Helyiérték-táblázat és alapfogalmak
+                Az egész számok összeadásának és kivonásának szabályai
               </h3>
               <Button
                 size="sm"
                 variant="ghost"
                 onClick={() => setShowCheatSheet(false)}
-                className="rounded-xl h-8 px-2 text-xs"
+                className="text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 rounded-lg h-7 px-2 text-xs"
               >
                 Bezárás
               </Button>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2.5 mb-4">
-              {PLACE_VALUE_CHEAT_SHEET.map((item, idx) => (
-                <div key={idx} className="bg-slate-50 dark:bg-slate-800/90 p-2.5 rounded-xl border border-slate-200/80 dark:border-slate-700">
-                  <div className="text-sm font-black text-blue-600 dark:text-blue-400">{item.unit}</div>
-                  <div className="text-xs font-black text-slate-800 dark:text-slate-100">{item.value}</div>
-                  <div className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5">{item.note}</div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-4">
+              {INTEGER_MATH_CHEAT_SHEET.map((item, idx) => (
+                <div key={idx} className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 space-y-1">
+                  <div className="text-xs font-bold text-blue-600 dark:text-blue-400">{item.topic}</div>
+                  <div className="text-xs font-mono font-bold text-slate-900 dark:text-white">{item.formula}</div>
+                  <div className="text-[11px] text-slate-600 dark:text-slate-300">{item.note}</div>
                 </div>
               ))}
-            </div>
-
-            <div className="text-xs text-slate-600 dark:text-slate-400 bg-blue-50/80 dark:bg-blue-950/40 p-3 rounded-xl border border-blue-200 dark:border-blue-900/60 leading-relaxed mb-4 space-y-1">
-              <p><strong>Alaki érték:</strong> Amilyen számjegyet látsz (0, 1, 2, ..., 9).</p>
-              <p><strong>Helyiérték:</strong> A hely, amit a számjegy elfoglal (egyes=1, tízes=10, százas=100, ezres=1000, tízezres=10 000, százezres=100 000, milliós=1 000 000).</p>
-              <p><strong>Valódi érték:</strong> Alaki érték szorozva a helyiértékkel (pl. a 4-es a tízezres helyen: $4 \cdot 10\ 000 = 40\ 000$).</p>
             </div>
 
             <Button
               onClick={() => setShowCheatSheet(false)}
               className="w-full h-10 rounded-xl font-bold bg-blue-600 hover:bg-blue-700 text-white"
             >
-              Értem, folytatom a játékot!
+              Értem, bezárás
             </Button>
           </div>
         </div>
@@ -1344,5 +1492,3 @@ export function PlaceValueQuiz({ onBack }: PlaceValueQuizProps) {
     </div>
   );
 }
-
-export default PlaceValueQuiz;
