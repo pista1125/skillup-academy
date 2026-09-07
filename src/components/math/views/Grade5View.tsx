@@ -78,11 +78,20 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-int-sec-1" number={1} title="A számok kialakulása, a római számok" color="amber" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Római számok"
-                  subtitle="Számok története és római számírás"
-                  type="Hamarosan"
+                  title="Római számok elmélet"
+                  subtitle="Történet, alapjelek és szabályok PDF letöltéssel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-roman-numerals-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="amber"
+                />
+                <ActivityPlaceholder
+                  title="Római számok kvíz"
+                  subtitle="1-100-ig római számírás 3 nehézségi szinten"
+                  type="Kvíz"
                   emoji="🏛️"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g5-roman-numerals-quiz', topicId)}
                   icon={<Binary className="w-6 h-6" />}
                   color="amber"
                 />
@@ -96,12 +105,12 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-int-sec-2" number={2} title="A helyiértékes írás" color="blue" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Építőkockás összehasonlítás"
-                  subtitle="Számok összehasonlítása kockákkal és relációjelekkel"
-                  type="Játék"
-                  emoji="🧱"
-                  onClick={() => onActivitySelect('g5-building-blocks-comparison', topicId)}
-                  icon={<Box className="w-6 h-6" />}
+                  title="Helyiértékes írás kvíz"
+                  subtitle="Alaki, helyi- és valódi érték 3 nehézségi szinten"
+                  type="Kvíz"
+                  emoji="🔢"
+                  onClick={() => onActivitySelect('g5-place-value-quiz', topicId)}
+                  icon={<Binary className="w-6 h-6" />}
                   color="blue"
                 />
               </div>
@@ -114,11 +123,11 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-int-sec-3" number={3} title="A számjegyek hármas csoportosítása és a számok kiolvasása" color="indigo" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Számok kiolvasása"
-                  subtitle="Számcsoportok és osztályok helyes leolvasása"
-                  type="Hamarosan"
+                  title="Számok kiolvasása kvíz"
+                  subtitle="Hármas tagolás és osztályok 3 nehézségi szinten"
+                  type="Kvíz"
                   emoji="🗣️"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g5-number-reading-quiz', topicId)}
                   icon={<Binary className="w-6 h-6" />}
                   color="indigo"
                 />

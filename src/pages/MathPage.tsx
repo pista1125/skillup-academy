@@ -136,7 +136,10 @@ const Grade7GeometryModule = lazy(() => import("@/components/math/grade-7/geomet
 const MappingQuiz = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/MappingQuiz").then(m => ({ default: m.MappingQuiz }))) as any;
 const FunctionTableQuiz = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/FunctionTableQuiz").then(m => ({ default: m.FunctionTableQuiz }))) as any;
 const Grade7StatsModule = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/Grade7StatsModule").then(m => ({ default: m.Grade7StatsModule }))) as any;
-const Grade5BuildingBlocksComparison = lazy(() => import("@/components/math/grade-5/egesz-szamok/a-helyiertekes-iras/BuildingBlocksComparison").then(m => ({ default: m.BuildingBlocksComparison }))) as any;
+const Grade5RomanNumeralsTheory = lazy(() => import("@/components/math/grade-5/egesz-szamok/a-szamok-kialakulasa-a-romai-szamok/RomanNumeralsTheory").then(m => ({ default: m.RomanNumeralsTheory }))) as any;
+const Grade5RomanNumeralsQuiz = lazy(() => import("@/components/math/grade-5/egesz-szamok/a-szamok-kialakulasa-a-romai-szamok/RomanNumeralsQuiz").then(m => ({ default: m.RomanNumeralsQuiz }))) as any;
+const Grade5PlaceValueQuiz = lazy(() => import("@/components/math/grade-5/egesz-szamok/a-helyiertekes-iras/PlaceValueQuiz").then(m => ({ default: m.PlaceValueQuiz }))) as any;
+const Grade5NumberReadingQuiz = lazy(() => import("@/components/math/grade-5/egesz-szamok/a-szamjegyek-harmas-csoportositasa-es-a-szamok-kiolvasasa/NumberReadingQuiz").then(m => ({ default: m.NumberReadingQuiz }))) as any;
 const RatioIntroQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/az-arany-fogalma/RatioIntroQuiz").then(m => ({ default: m.RatioIntroQuiz }))) as any;
 const RatioCreatorQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/az-arany-fogalma/RatioCreatorQuiz").then(m => ({ default: m.RatioCreatorQuiz }))) as any;
 const DirectProportionQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/egyenes-aranyossag/DirectProportionQuiz").then(m => ({ default: m.DirectProportionQuiz }))) as any;
@@ -327,7 +330,7 @@ type ActivityType =
   | 'g7-mapping-quiz' | 'g7-function-table-quiz'
   | 'decimal-division-matcher' | 'decimal-division-quiz' | 'decimal-multiplication-matcher' | 'decimal-multiplication-quiz'
   | 'decimal-fractions' | 'decimal-fractions-quiz' | 'decimal-shifter'
-  | 'g5-fraction-to-decimal-matcher' | 'g5-fraction-visual-matcher' | 'g5-fractions-quiz' | 'g5-fractions-module' | 'g5-building-blocks-comparison'
+  | 'g5-fraction-to-decimal-matcher' | 'g5-fraction-visual-matcher' | 'g5-fractions-quiz' | 'g5-fractions-module' | 'g5-roman-numerals-theory' | 'g5-roman-numerals-quiz' | 'g5-place-value-quiz' | 'g5-number-reading-quiz'
   | 'g6-fraction-visual-matcher' | 'g6-fractions-quiz' | 'g6-fraction-multiplier' | 'g6-fraction-divider'
   | 'g6-decimal-quiz' | 'g6-to-decimal-matcher' | 'g6-decimal-multiplier-quiz' | 'g6-decimal-multiplier'
   | 'g6-decimal-divider-quiz' | 'g6-decimal-divider' | 'g6-fractions-closing-test'
@@ -2034,8 +2037,23 @@ export default function MathPage() {
                   <DivisibilityTool onBack={handleBack} />
                 )}
 
-                {activityType === 'g5-building-blocks-comparison' && (
-                  <Grade5BuildingBlocksComparison onBack={handleBack} />
+                {activityType === 'g5-roman-numerals-theory' && (
+                  <Grade5RomanNumeralsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-roman-numerals-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-roman-numerals-quiz' && (
+                  <Grade5RomanNumeralsQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g5-place-value-quiz' && (
+                  <Grade5PlaceValueQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g5-number-reading-quiz' && (
+                  <Grade5NumberReadingQuiz onBack={handleBack} />
                 )}
 
                 {activityType === 'logic-blocks' && (
