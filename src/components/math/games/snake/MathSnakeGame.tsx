@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef, TouchEvent } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
 import {
     ArrowLeft,
     RotateCcw,
@@ -20,10 +21,12 @@ import {
     Maximize2,
     Minimize2,
     Palette,
-    Gamepad2
+    Gamepad2,
+    Loader2
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import confetti from 'canvas-confetti';
+import { useAuth } from '@/contexts/AuthContext';
 import {
     OperationType,
     DifficultyType,
@@ -41,6 +44,12 @@ import {
     formatKeyLabel,
     isKeyMatch
 } from './SnakeControlsModal';
+import {
+    SnakeLeaderboardModal
+} from './SnakeLeaderboardModal';
+import {
+    saveSnakeScore
+} from './snakeLeaderboardService';
 
 type Direction = 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
 type Position = { x: number; y: number };
@@ -108,6 +117,8 @@ const isOppositeDirection = (dir1: Direction, dir2: Direction): boolean => {
 };
 
 export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => void; grade?: number }) {
+    const { user, profile } = useAuth();
+
     // Menu navigation state
     const [step, setStep] = useState<MenuStep>('GRADE');
     const [selectedGrade, setSelectedGrade] = useState<number>(initialGrade || 1);
@@ -132,6 +143,18 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
         return DEFAULT_KEY_BINDINGS;
     });
     const [showControlsModal, setShowControlsModal] = useState<boolean>(false);
+
+    // Leaderboard state
+    const [showLeaderboardModal, setShowLeaderboardModal] = useState<boolean>(false);
+    const [guestName, setGuestName] = useState<string>(() => {
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem('math_snake_guest_name') || '';
+        }
+        return '';
+    });
+    const [hasSavedScore, setHasSavedScore] = useState<boolean>(false);
+    const [isSavingScore, setIsSavingScore] = useState<boolean>(false);
+    const [lastSavedScoreId, setLastSavedScoreId] = useState<string | undefined>(undefined);
 
     const handleSaveControls = (newBindings: SnakeKeyBindings) => {
         setKeyBindings(newBindings);
@@ -265,6 +288,9 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
         setGameOver(false);
         setIsPaused(false);
         setIsStarted(false);
+        setHasSavedScore(false);
+        setIsSavingScore(false);
+        setLastSavedScoreId(undefined);
         setSpeed(DIFFICULTY_CONFIG[selectedDifficulty].speed);
         nextRound(selectedOperation, selectedGrade, selectedDifficulty);
     }, [selectedOperation, selectedGrade, selectedDifficulty, nextRound]);
@@ -285,11 +311,70 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
         setGameOver(false);
         setIsPaused(false);
         setIsStarted(false);
+        setHasSavedScore(false);
+        setIsSavingScore(false);
+        setLastSavedScoreId(undefined);
 
         if (selectedOperation) {
             const newProb = generateSnakeProblem(selectedOperation, selectedGrade, diff);
             setProblem(newProb);
             spawnNumbers(newProb);
+        }
+    };
+
+    // Auto-save score on Game Over if user is logged in
+    useEffect(() => {
+        if (gameOver && score > 0 && !hasSavedScore && !isSavingScore) {
+            if (user) {
+                const playerName = profile?.full_name || profile?.username || user.displayName || user.email?.split('@')[0] || 'Diák';
+                setIsSavingScore(true);
+                saveSnakeScore({
+                    userId: user.uid,
+                    playerName,
+                    userCode: profile?.user_code,
+                    grade: selectedGrade,
+                    operation: selectedOperation || 'MIXED',
+                    difficulty: selectedDifficulty,
+                    score,
+                    correctCount,
+                    bestStreak
+                }).then(res => {
+                    setHasSavedScore(true);
+                    if (res.id) setLastSavedScoreId(res.id);
+                    setIsSavingScore(false);
+                }).catch(err => {
+                    console.error('Error auto saving snake score:', err);
+                    setIsSavingScore(false);
+                });
+            }
+        }
+    }, [gameOver, score, hasSavedScore, isSavingScore, user, profile, selectedGrade, selectedOperation, selectedDifficulty, correctCount, bestStreak]);
+
+    // Manual save handler for guests (or modifying name)
+    const handleGuestSaveScore = async () => {
+        if (!guestName.trim() || isSavingScore) return;
+        setIsSavingScore(true);
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('math_snake_guest_name', guestName.trim());
+        }
+        try {
+            const res = await saveSnakeScore({
+                userId: user ? user.uid : null,
+                playerName: guestName.trim(),
+                userCode: profile?.user_code,
+                grade: selectedGrade,
+                operation: selectedOperation || 'MIXED',
+                difficulty: selectedDifficulty,
+                score,
+                correctCount,
+                bestStreak
+            });
+            setHasSavedScore(true);
+            if (res.id) setLastSavedScoreId(res.id);
+        } catch (e) {
+            console.error('Failed to save snake score:', e);
+        } finally {
+            setIsSavingScore(false);
         }
     };
 
@@ -503,16 +588,28 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                             <span>🐍</span> Matek Kígyó 1–12. Osztály
                         </h1>
                     </div>
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setShowControlsModal(true)}
-                        className="border-emerald-200 text-emerald-700 hover:bg-emerald-50 text-xs font-bold h-9 px-3 rounded-xl shadow-2xs flex items-center gap-1.5"
-                        title="Irányítás beállítása"
-                    >
-                        <Gamepad2 className="w-4 h-4 text-emerald-600" />
-                        <span className="hidden sm:inline">Irányítás</span>
-                    </Button>
+                    <div className="flex items-center gap-1.5 sm:gap-2">
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setShowLeaderboardModal(true)}
+                            className="border-amber-200 text-amber-700 bg-amber-50/60 hover:bg-amber-100 text-xs font-bold h-9 px-3 rounded-xl shadow-2xs flex items-center gap-1.5"
+                            title="Top 10 Ranglista megtekintése"
+                        >
+                            <Trophy className="w-4 h-4 text-amber-600" />
+                            <span className="hidden sm:inline">Ranglista</span>
+                        </Button>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setShowControlsModal(true)}
+                            className="border-emerald-200 text-emerald-700 hover:bg-emerald-50 text-xs font-bold h-9 px-3 rounded-xl shadow-2xs flex items-center gap-1.5"
+                            title="Irányítás beállítása"
+                        >
+                            <Gamepad2 className="w-4 h-4 text-emerald-600" />
+                            <span className="hidden sm:inline">Irányítás</span>
+                        </Button>
+                    </div>
                 </div>
 
                 {/* Grade Sections */}
@@ -574,6 +671,12 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                     bindings={keyBindings}
                     onSave={handleSaveControls}
                 />
+                <SnakeLeaderboardModal
+                    isOpen={showLeaderboardModal}
+                    onClose={() => setShowLeaderboardModal(false)}
+                    currentGrade={selectedGrade}
+                    highlightScoreId={lastSavedScoreId}
+                />
             </div>
         );
     }
@@ -603,16 +706,28 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                             Válassz műveletet!
                         </span>
                     </div>
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setShowControlsModal(true)}
-                        className="border-emerald-200 text-emerald-700 hover:bg-emerald-50 text-xs font-bold h-9 px-3 rounded-xl shadow-2xs flex items-center gap-1.5"
-                        title="Irányítás beállítása"
-                    >
-                        <Gamepad2 className="w-4 h-4 text-emerald-600" />
-                        <span className="hidden sm:inline">Irányítás</span>
-                    </Button>
+                    <div className="flex items-center gap-1.5 sm:gap-2">
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setShowLeaderboardModal(true)}
+                            className="border-amber-200 text-amber-700 bg-amber-50/60 hover:bg-amber-100 text-xs font-bold h-9 px-3 rounded-xl shadow-2xs flex items-center gap-1.5"
+                            title="Top 10 Ranglista megtekintése"
+                        >
+                            <Trophy className="w-4 h-4 text-amber-600" />
+                            <span className="hidden sm:inline">Ranglista</span>
+                        </Button>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setShowControlsModal(true)}
+                            className="border-emerald-200 text-emerald-700 hover:bg-emerald-50 text-xs font-bold h-9 px-3 rounded-xl shadow-2xs flex items-center gap-1.5"
+                            title="Irányítás beállítása"
+                        >
+                            <Gamepad2 className="w-4 h-4 text-emerald-600" />
+                            <span className="hidden sm:inline">Irányítás</span>
+                        </Button>
+                    </div>
                 </div>
 
                 {/* Operations Grid: 2-Row Layout with Larger Cards */}
@@ -634,7 +749,7 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                                 <div className={cn(
                                     "w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center text-3xl sm:text-4xl font-black text-white shadow-md mb-3 group-hover:scale-110 transition-transform bg-gradient-to-br",
                                     meta.color
-                                )}>
+                                    )}>
                                     {meta.symbol}
                                 </div>
                                 <h3 className="text-base sm:text-lg font-black text-slate-800 mb-1 group-hover:text-emerald-700 transition-colors">
@@ -665,6 +780,12 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                     onClose={() => setShowControlsModal(false)}
                     bindings={keyBindings}
                     onSave={handleSaveControls}
+                />
+                <SnakeLeaderboardModal
+                    isOpen={showLeaderboardModal}
+                    onClose={() => setShowLeaderboardModal(false)}
+                    currentGrade={selectedGrade}
+                    highlightScoreId={lastSavedScoreId}
                 />
             </div>
         );
@@ -702,16 +823,28 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                             Nehézség választása
                         </span>
                     </div>
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setShowControlsModal(true)}
-                        className="border-emerald-200 text-emerald-700 hover:bg-emerald-50 text-xs font-bold h-9 px-3 rounded-xl shadow-2xs flex items-center gap-1.5"
-                        title="Irányítás beállítása"
-                    >
-                        <Gamepad2 className="w-4 h-4 text-emerald-600" />
-                        <span className="hidden sm:inline">Irányítás</span>
-                    </Button>
+                    <div className="flex items-center gap-1.5 sm:gap-2">
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setShowLeaderboardModal(true)}
+                            className="border-amber-200 text-amber-700 bg-amber-50/60 hover:bg-amber-100 text-xs font-bold h-9 px-3 rounded-xl shadow-2xs flex items-center gap-1.5"
+                            title="Top 10 Ranglista megtekintése"
+                        >
+                            <Trophy className="w-4 h-4 text-amber-600" />
+                            <span className="hidden sm:inline">Ranglista</span>
+                        </Button>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setShowControlsModal(true)}
+                            className="border-emerald-200 text-emerald-700 hover:bg-emerald-50 text-xs font-bold h-9 px-3 rounded-xl shadow-2xs flex items-center gap-1.5"
+                            title="Irányítás beállítása"
+                        >
+                            <Gamepad2 className="w-4 h-4 text-emerald-600" />
+                            <span className="hidden sm:inline">Irányítás</span>
+                        </Button>
+                    </div>
                 </div>
 
                 {/* Difficulty Cards */}
@@ -760,6 +893,12 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                     bindings={keyBindings}
                     onSave={handleSaveControls}
                 />
+                <SnakeLeaderboardModal
+                    isOpen={showLeaderboardModal}
+                    onClose={() => setShowLeaderboardModal(false)}
+                    currentGrade={selectedGrade}
+                    highlightScoreId={lastSavedScoreId}
+                />
             </div>
         );
     }
@@ -801,6 +940,16 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                         )}
                     </div>
                     <div className="flex items-center gap-1.5">
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setShowLeaderboardModal(true)}
+                            className="text-xs h-7 px-2 border-slate-700 bg-slate-900 text-amber-400 hover:bg-slate-800 font-bold"
+                            title="Top 10 Ranglista"
+                        >
+                            <Trophy className="w-3.5 h-3.5 mr-1 text-amber-400" />
+                            <span>Ranglista</span>
+                        </Button>
                         <Button
                             variant="outline"
                             size="sm"
@@ -948,19 +1097,75 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                         {/* Game Over Overlay */}
                         {gameOver && (
                             <div className="absolute inset-0 bg-black/85 flex items-center justify-center rounded-xl backdrop-blur-md z-30 p-3">
-                                <div className="bg-white p-5 rounded-2xl shadow-2xl text-center max-w-xs w-full space-y-2">
+                                <div className="bg-white p-5 rounded-2xl shadow-2xl text-center max-w-xs w-full space-y-2.5">
                                     <div className="text-3xl">🏆</div>
                                     <div>
                                         <h3 className="text-lg font-black text-slate-800">Játék Vége!</h3>
                                         <p className="text-xs text-slate-500">Pontszám: <strong className="text-emerald-600 font-black">{score}</strong></p>
                                     </div>
+
+                                    {/* Leaderboard saving status / prompt */}
+                                    {score > 0 && (
+                                        <>
+                                            {user || hasSavedScore ? (
+                                                <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-2 text-center text-xs">
+                                                    <p className="font-bold text-emerald-800 flex items-center justify-center gap-1">
+                                                        <Trophy className="w-3.5 h-3.5 text-amber-500" />
+                                                        {hasSavedScore ? 'Pontszám mentve a ranglistába!' : isSavingScore ? 'Mentés folyamatban...' : 'Pontszám rögzítve'}
+                                                    </p>
+                                                    <p className="text-[10px] text-emerald-600 truncate mt-0.5">
+                                                        Játékos: <strong>{user ? (profile?.full_name || profile?.username || 'Diák') : guestName}</strong>
+                                                    </p>
+                                                </div>
+                                            ) : (
+                                                <div className="bg-amber-50 border border-amber-200 rounded-xl p-2 text-center space-y-1.5">
+                                                    <p className="text-[11px] font-bold text-amber-900 flex items-center justify-center gap-1">
+                                                        <Trophy className="w-3.5 h-3.5 text-amber-600" />
+                                                        Írd be a neved a ranglistához:
+                                                    </p>
+                                                    <div className="flex items-center gap-1.5">
+                                                        <Input
+                                                            placeholder="Neved..."
+                                                            value={guestName}
+                                                            onChange={e => setGuestName(e.target.value)}
+                                                            onKeyDown={e => {
+                                                                if (e.key === 'Enter') handleGuestSaveScore();
+                                                            }}
+                                                            maxLength={20}
+                                                            className="h-7 text-xs bg-white border-amber-300"
+                                                        />
+                                                        <Button
+                                                            size="sm"
+                                                            onClick={handleGuestSaveScore}
+                                                            disabled={!guestName.trim() || isSavingScore}
+                                                            className="bg-amber-600 hover:bg-amber-700 text-white font-bold h-7 px-2.5 text-xs shrink-0 rounded-lg"
+                                                        >
+                                                            {isSavingScore ? <Loader2 className="w-3 h-3 animate-spin" /> : 'Mentés'}
+                                                        </Button>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </>
+                                    )}
+
                                     <Button
                                         onClick={resetGame}
-                                        className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold py-2 rounded-xl text-xs"
+                                        className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold py-2 rounded-xl text-xs shadow"
                                     >
                                         <RotateCcw className="w-3.5 h-3.5 mr-1" />
                                         Új játék
                                     </Button>
+
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => setShowLeaderboardModal(true)}
+                                        className="w-full bg-amber-50 border-amber-300 text-amber-800 hover:bg-amber-100 font-bold rounded-xl text-xs flex items-center justify-center gap-1"
+                                    >
+                                        <Trophy className="w-3.5 h-3.5 text-amber-600" />
+                                        Ranglista megtekintése (Top 10)
+                                    </Button>
+
                                     <Button
                                         variant="outline"
                                         size="sm"
@@ -986,6 +1191,12 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                     onClose={() => setShowControlsModal(false)}
                     bindings={keyBindings}
                     onSave={handleSaveControls}
+                />
+                <SnakeLeaderboardModal
+                    isOpen={showLeaderboardModal}
+                    onClose={() => setShowLeaderboardModal(false)}
+                    currentGrade={selectedGrade}
+                    highlightScoreId={lastSavedScoreId}
                 />
             </div>
         );
@@ -1025,6 +1236,17 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
 
                 {/* Top Controls & Action Buttons */}
                 <div className="flex items-center gap-1.5 sm:gap-2">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setShowLeaderboardModal(true)}
+                        className="text-xs font-bold px-2.5 h-7.5 rounded-xl text-amber-700 border-amber-300 bg-amber-50/70 hover:bg-amber-100"
+                        title="Top 10 Ranglista megtekintése"
+                    >
+                        <Trophy className="w-3.5 h-3.5 mr-1 text-amber-600" />
+                        <span>Ranglista</span>
+                    </Button>
+
                     <Button
                         variant="outline"
                         size="sm"
@@ -1217,6 +1439,50 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                                         </div>
                                     </div>
 
+                                    {/* Leaderboard saving status / prompt */}
+                                    {score > 0 && (
+                                        <>
+                                            {user || hasSavedScore ? (
+                                                <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-2.5 text-center text-xs">
+                                                    <p className="font-bold text-emerald-800 flex items-center justify-center gap-1">
+                                                        <Trophy className="w-3.5 h-3.5 text-amber-500" />
+                                                        {hasSavedScore ? 'Pontszám mentve a ranglistába!' : isSavingScore ? 'Mentés folyamatban...' : 'Pontszám rögzítve'}
+                                                    </p>
+                                                    <p className="text-[11px] text-emerald-600 truncate mt-0.5">
+                                                        Játékos: <strong>{user ? (profile?.full_name || profile?.username || 'Diák') : guestName}</strong>
+                                                    </p>
+                                                </div>
+                                            ) : (
+                                                <div className="bg-amber-50 border border-amber-200 rounded-2xl p-2.5 text-center space-y-1.5">
+                                                    <p className="text-xs font-bold text-amber-900 flex items-center justify-center gap-1">
+                                                        <Trophy className="w-3.5 h-3.5 text-amber-600" />
+                                                        Írd be a neved a ranglistához:
+                                                    </p>
+                                                    <div className="flex items-center gap-1.5">
+                                                        <Input
+                                                            placeholder="Írd be a neved..."
+                                                            value={guestName}
+                                                            onChange={e => setGuestName(e.target.value)}
+                                                            onKeyDown={e => {
+                                                                if (e.key === 'Enter') handleGuestSaveScore();
+                                                            }}
+                                                            maxLength={24}
+                                                            className="h-8 text-xs bg-white border-amber-300"
+                                                        />
+                                                        <Button
+                                                            size="sm"
+                                                            onClick={handleGuestSaveScore}
+                                                            disabled={!guestName.trim() || isSavingScore}
+                                                            className="bg-amber-600 hover:bg-amber-700 text-white font-bold h-8 px-3 text-xs shrink-0 rounded-xl"
+                                                        >
+                                                            {isSavingScore ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : 'Mentés'}
+                                                        </Button>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </>
+                                    )}
+
                                     <div className="space-y-1.5 pt-1">
                                         <Button
                                             onClick={resetGame}
@@ -1225,6 +1491,16 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                                             <RotateCcw className="w-3.5 h-3.5 mr-1.5" />
                                             Új játék ezzel a beállítással
                                         </Button>
+
+                                        <Button
+                                            variant="outline"
+                                            onClick={() => setShowLeaderboardModal(true)}
+                                            className="w-full bg-amber-50 border-amber-300 text-amber-800 hover:bg-amber-100 font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-2xs"
+                                        >
+                                            <Trophy className="w-3.5 h-3.5 text-amber-600" />
+                                            Ranglista megtekintése (Top 10)
+                                        </Button>
+
                                         <div className="grid grid-cols-2 gap-1.5">
                                             <Button
                                                 variant="outline"
@@ -1389,6 +1665,14 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                 onClose={() => setShowControlsModal(false)}
                 bindings={keyBindings}
                 onSave={handleSaveControls}
+            />
+
+            {/* Leaderboard Modal */}
+            <SnakeLeaderboardModal
+                isOpen={showLeaderboardModal}
+                onClose={() => setShowLeaderboardModal(false)}
+                currentGrade={selectedGrade}
+                highlightScoreId={lastSavedScoreId}
             />
         </div>
     );
