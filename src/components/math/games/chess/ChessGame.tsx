@@ -88,7 +88,7 @@ export default function ChessGame({ onBack }: ChessGameProps) {
       setMatchOptions({
         mode: 'ai',
         difficulty: options.difficulty,
-        isWhite: true
+        isWhite: options.isWhite ?? true
       });
     }
     setGameState('playing');
@@ -108,19 +108,19 @@ export default function ChessGame({ onBack }: ChessGameProps) {
     <div 
       ref={containerRef}
       className={cn(
-        "min-h-screen bg-slate-50 dark:bg-slate-950 p-4 md:p-8 flex flex-col transition-all",
-        isFullscreen && "p-4 md:p-6 overflow-y-auto"
+        "w-full min-h-screen bg-slate-50 dark:bg-slate-950 px-3 sm:px-6 lg:px-12 py-3 md:py-4 flex flex-col transition-all",
+        isFullscreen && "px-3 sm:px-6 lg:px-12 py-3 md:py-4 overflow-y-auto"
       )}
     >
       {/* Header */}
-      <div className="max-w-6xl mx-auto mb-6 flex items-center justify-between w-full">
+      <div className="w-full mb-3 md:mb-4 flex items-center justify-between">
         <Button 
           variant="ghost" 
           onClick={gameState === 'lobby' ? onBack : () => setGameState('lobby')}
-          className="rounded-xl hover:bg-white dark:hover:bg-slate-900 border border-transparent hover:border-slate-200 dark:hover:border-slate-800 transition-all font-bold"
+          className="rounded-xl hover:bg-white dark:hover:bg-slate-900 border border-transparent hover:border-slate-200 dark:hover:border-slate-800 transition-all font-bold text-xs md:text-sm h-9 px-3"
         >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          {gameState === 'lobby' ? 'Vissza a játékokhoz' : 'Ki a lobbiba'}
+          <ArrowLeft className="w-4 h-4 mr-1.5" />
+          {gameState === 'lobby' ? 'Vissza' : 'Lobbi'}
         </Button>
 
         <div className="flex items-center gap-3">

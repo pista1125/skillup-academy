@@ -1097,7 +1097,7 @@ export default function MathPage() {
       ) : null}
 
       {/* Professional Sub-header for Navigation (no gap) */}
-      {activityType !== 'symmetry-construction' && activityType !== 'snake-game' && activityType !== 'tower-builder' && selectedGrade !== 'admission' && selectedGrade !== 'graduation' && (
+      {activityType !== 'chess-game' && activityType !== 'symmetry-construction' && activityType !== 'snake-game' && activityType !== 'tower-builder' && selectedGrade !== 'admission' && selectedGrade !== 'graduation' && (
         <div className={cn(
           "w-full transition-all duration-300",
           view !== 'main-select' ? "h-10 opacity-100" : "h-0 opacity-0 overflow-hidden"
@@ -1147,11 +1147,11 @@ export default function MathPage() {
 
       {/* Content */}
       <div className={cn(
-        (activityType !== 'perimeter-area' && activityType !== 'snake-game' && activityType !== 'tower-builder' && activityType !== 'grade2-blocks' && activityType !== 'grade3-blocks' && activityType !== 'grade3-tower-builder' && !(isUpperGradeLayout && view === 'topic-select')) && "container mx-auto px-4 py-8",
+        (activityType !== 'chess-game' && activityType !== 'perimeter-area' && activityType !== 'snake-game' && activityType !== 'tower-builder' && activityType !== 'grade2-blocks' && activityType !== 'grade3-blocks' && activityType !== 'grade3-tower-builder' && !(isUpperGradeLayout && view === 'topic-select')) && "container mx-auto px-4 py-8",
         "transition-all duration-500",
         (isUpperGradeLayout && view === 'topic-select')
           ? "w-full p-0 max-w-none flex-1 overflow-hidden"
-          : (activityType === 'perimeter-area' || activityType === 'snake-game' || activityType === 'tower-builder' || activityType === 'grade2-blocks' || activityType === 'grade3-blocks' || activityType === 'grade3-tower-builder'
+          : (activityType === 'chess-game' || activityType === 'perimeter-area' || activityType === 'snake-game' || activityType === 'tower-builder' || activityType === 'grade2-blocks' || activityType === 'grade3-blocks' || activityType === 'grade3-tower-builder'
             ? "max-w-none p-0 w-full h-full"
             : ((view === 'activity' || view === 'topic-select' || view === 'tools-select' || view === 'games-select' || view === 'main-select' || view === 'competency-select')
               ? "max-w-none lg:px-12"
@@ -2990,7 +2990,7 @@ export default function MathPage() {
           </Suspense>
         </div>
       )}
-        {activityType !== 'snake-game' && activityType !== 'tower-builder' && !isUpperGradeLayout && view !== 'competency-select' && ((activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'volume-surface' && activityType !== 'student-feedback' && activityType !== 'volume-quiz' && activityType !== 'surface-area-quiz' && activityType !== 'unit-converter' && activityType !== 'capacity-converter' && activityType !== 'analog-clock' && activityType !== 'g7-mapping-quiz' && activityType !== 'g7-function-table-quiz') || view !== 'activity') && <SiteFooter />}
+        {activityType !== 'chess-game' && activityType !== 'snake-game' && activityType !== 'tower-builder' && !isUpperGradeLayout && view !== 'competency-select' && ((activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'volume-surface' && activityType !== 'student-feedback' && activityType !== 'volume-quiz' && activityType !== 'surface-area-quiz' && activityType !== 'unit-converter' && activityType !== 'capacity-converter' && activityType !== 'analog-clock' && activityType !== 'g7-mapping-quiz' && activityType !== 'g7-function-table-quiz') || view !== 'activity') && <SiteFooter />}
         {activeMaterial && (
           <LessonViewer material={activeMaterial} onClose={() => handleMaterialSelect(null)} />
         )}

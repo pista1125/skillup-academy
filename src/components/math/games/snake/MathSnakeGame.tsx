@@ -19,7 +19,8 @@ import {
     CheckCircle2,
     Maximize2,
     Minimize2,
-    Palette
+    Palette,
+    Gamepad2
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import confetti from 'canvas-confetti';
@@ -33,6 +34,13 @@ import {
     generateSnakeProblem,
     generateSnakeDistractors
 } from './mathSnakeGenerator';
+import {
+    SnakeControlsModal,
+    SnakeKeyBindings,
+    DEFAULT_KEY_BINDINGS,
+    formatKeyLabel,
+    isKeyMatch
+} from './SnakeControlsModal';
 
 type Direction = 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
 type Position = { x: number; y: number };
@@ -110,6 +118,27 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
     const [boardTheme, setBoardTheme] = useState<BoardTheme>('DARK');
     const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
     const [cellSize, setCellSize] = useState<number>(32);
+
+    // Custom Controls state (persisted in localStorage)
+    const [keyBindings, setKeyBindings] = useState<SnakeKeyBindings>(() => {
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('math_snake_custom_controls');
+            if (saved) {
+                try {
+                    return JSON.parse(saved);
+                } catch (e) {}
+            }
+        }
+        return DEFAULT_KEY_BINDINGS;
+    });
+    const [showControlsModal, setShowControlsModal] = useState<boolean>(false);
+
+    const handleSaveControls = (newBindings: SnakeKeyBindings) => {
+        setKeyBindings(newBindings);
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('math_snake_custom_controls', JSON.stringify(newBindings));
+        }
+    };
 
     // Snake game state
     const [snake, setSnake] = useState<Position[]>(INITIAL_SNAKE);
@@ -383,32 +412,41 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
     // Keyboard controls
     useEffect(() => {
         const handleKeyPress = (e: KeyboardEvent) => {
+            if (showControlsModal) return;
             if (step !== 'PLAYING' || gameOver) return;
 
-            const key = e.key.toLowerCase();
+            const key = e.key;
+            const code = e.code;
 
-            if (['arrowup', 'arrowdown', 'arrowleft', 'arrowright', 'w', 'a', 's', 'd', ' '].includes(key)) {
+            // Check if key matches any configured binding (or default arrow keys if not overridden)
+            const isUp = isKeyMatch(keyBindings.up, key, code) || isKeyMatch('ArrowUp', key, code);
+            const isDown = isKeyMatch(keyBindings.down, key, code) || isKeyMatch('ArrowDown', key, code);
+            const isLeft = isKeyMatch(keyBindings.left, key, code) || isKeyMatch('ArrowLeft', key, code);
+            const isRight = isKeyMatch(keyBindings.right, key, code) || isKeyMatch('ArrowRight', key, code);
+            const isPause = isKeyMatch(keyBindings.pause, key, code) || key === ' ' || key.toLowerCase() === 'p';
+
+            if (isUp || isDown || isLeft || isRight || isPause) {
                 e.preventDefault();
             }
 
-            if (key === 'arrowup' || key === 'w') {
+            if (isUp) {
                 queueDirection('UP');
-            } else if (key === 'arrowdown' || key === 's') {
+            } else if (isDown) {
                 queueDirection('DOWN');
-            } else if (key === 'arrowleft' || key === 'a') {
+            } else if (isLeft) {
                 queueDirection('LEFT');
-            } else if (key === 'arrowright' || key === 'd') {
+            } else if (isRight) {
                 queueDirection('RIGHT');
-            } else if (key === ' ' || key === 'p') {
+            } else if (isPause) {
                 setIsPaused(prev => !prev);
-            } else if (key === 'escape' && isFullscreen) {
+            } else if (key === 'Escape' && isFullscreen) {
                 setIsFullscreen(false);
             }
         };
 
         window.addEventListener('keydown', handleKeyPress);
         return () => window.removeEventListener('keydown', handleKeyPress);
-    }, [step, gameOver, isFullscreen, queueDirection]);
+    }, [step, gameOver, isFullscreen, showControlsModal, keyBindings, queueDirection]);
 
     const handleDirectionClick = (newDirection: Direction) => {
         queueDirection(newDirection);
@@ -465,7 +503,16 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                             <span>🐍</span> Matek Kígyó 1–12. Osztály
                         </h1>
                     </div>
-                    <div className="w-28 hidden sm:block"></div>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setShowControlsModal(true)}
+                        className="border-emerald-200 text-emerald-700 hover:bg-emerald-50 text-xs font-bold h-9 px-3 rounded-xl shadow-2xs flex items-center gap-1.5"
+                        title="Irányítás beállítása"
+                    >
+                        <Gamepad2 className="w-4 h-4 text-emerald-600" />
+                        <span className="hidden sm:inline">Irányítás</span>
+                    </Button>
                 </div>
 
                 {/* Grade Sections */}
@@ -520,6 +567,13 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                         </div>
                     ))}
                 </div>
+
+                <SnakeControlsModal
+                    isOpen={showControlsModal}
+                    onClose={() => setShowControlsModal(false)}
+                    bindings={keyBindings}
+                    onSave={handleSaveControls}
+                />
             </div>
         );
     }
@@ -549,7 +603,16 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                             Válassz műveletet!
                         </span>
                     </div>
-                    <div className="w-28 hidden sm:block"></div>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setShowControlsModal(true)}
+                        className="border-emerald-200 text-emerald-700 hover:bg-emerald-50 text-xs font-bold h-9 px-3 rounded-xl shadow-2xs flex items-center gap-1.5"
+                        title="Irányítás beállítása"
+                    >
+                        <Gamepad2 className="w-4 h-4 text-emerald-600" />
+                        <span className="hidden sm:inline">Irányítás</span>
+                    </Button>
                 </div>
 
                 {/* Operations Grid: 2-Row Layout with Larger Cards */}
@@ -596,6 +659,13 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                         1. o: +, − • 2. o: × (alapok) • 3. o: ÷ • 7. o: Hatványozás (xⁿ) • 9. o: Gyökvonás (√x).
                     </p>
                 </div>
+
+                <SnakeControlsModal
+                    isOpen={showControlsModal}
+                    onClose={() => setShowControlsModal(false)}
+                    bindings={keyBindings}
+                    onSave={handleSaveControls}
+                />
             </div>
         );
     }
@@ -632,7 +702,16 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                             Nehézség választása
                         </span>
                     </div>
-                    <div className="w-28 hidden sm:block"></div>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setShowControlsModal(true)}
+                        className="border-emerald-200 text-emerald-700 hover:bg-emerald-50 text-xs font-bold h-9 px-3 rounded-xl shadow-2xs flex items-center gap-1.5"
+                        title="Irányítás beállítása"
+                    >
+                        <Gamepad2 className="w-4 h-4 text-emerald-600" />
+                        <span className="hidden sm:inline">Irányítás</span>
+                    </Button>
                 </div>
 
                 {/* Difficulty Cards */}
@@ -674,6 +753,13 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                         );
                     })}
                 </div>
+
+                <SnakeControlsModal
+                    isOpen={showControlsModal}
+                    onClose={() => setShowControlsModal(false)}
+                    bindings={keyBindings}
+                    onSave={handleSaveControls}
+                />
             </div>
         );
     }
@@ -715,6 +801,16 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                         )}
                     </div>
                     <div className="flex items-center gap-1.5">
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setShowControlsModal(true)}
+                            className="text-xs h-7 px-2 border-slate-700 bg-slate-900 text-emerald-400 hover:bg-slate-800 font-bold"
+                            title="Irányítás beállítása"
+                        >
+                            <Gamepad2 className="w-3.5 h-3.5 mr-1" />
+                            <span>Gombok</span>
+                        </Button>
                         <Button
                             variant="outline"
                             size="sm"
@@ -826,15 +922,24 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                         {/* Pause Overlay */}
                         {isPaused && !gameOver && isStarted && (
                             <div className="absolute inset-0 bg-black/70 flex items-center justify-center rounded-xl backdrop-blur-sm z-30">
-                                <div className="bg-white p-4 rounded-2xl shadow-2xl text-center max-w-xs w-full">
+                                <div className="bg-white p-4 rounded-2xl shadow-2xl text-center max-w-xs w-full space-y-1.5">
                                     <Pause className="w-6 h-6 text-emerald-600 mx-auto mb-1" />
                                     <p className="text-base font-black text-slate-800">Szünet</p>
                                     <Button
                                         onClick={() => setIsPaused(false)}
                                         size="sm"
-                                        className="w-full mt-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg text-xs"
+                                        className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg text-xs"
                                     >
                                         Folytatás
+                                    </Button>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => setShowControlsModal(true)}
+                                        className="w-full text-slate-700 font-bold rounded-lg text-xs"
+                                    >
+                                        <Gamepad2 className="w-3.5 h-3.5 mr-1 text-emerald-600" />
+                                        Irányítás beállítása
                                     </Button>
                                 </div>
                             </div>
@@ -843,7 +948,7 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                         {/* Game Over Overlay */}
                         {gameOver && (
                             <div className="absolute inset-0 bg-black/85 flex items-center justify-center rounded-xl backdrop-blur-md z-30 p-3">
-                                <div className="bg-white p-5 rounded-2xl shadow-2xl text-center max-w-xs w-full space-y-2.5">
+                                <div className="bg-white p-5 rounded-2xl shadow-2xl text-center max-w-xs w-full space-y-2">
                                     <div className="text-3xl">🏆</div>
                                     <div>
                                         <h3 className="text-lg font-black text-slate-800">Játék Vége!</h3>
@@ -856,6 +961,15 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                                         <RotateCcw className="w-3.5 h-3.5 mr-1" />
                                         Új játék
                                     </Button>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => setShowControlsModal(true)}
+                                        className="w-full text-slate-700 font-bold rounded-xl text-xs"
+                                    >
+                                        <Gamepad2 className="w-3.5 h-3.5 mr-1 text-emerald-600" />
+                                        Irányítás beállítása
+                                    </Button>
                                 </div>
                             </div>
                         )}
@@ -863,9 +977,16 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                 </div>
 
                 {/* Bottom simple hint */}
-                <div className="text-center text-slate-400 text-[11px] pb-1">
-                    <span>📱 Irányítás: Ujjhúzás (swipe) a játéktéren vagy nyilak</span>
+                <div className="text-center text-slate-400 text-[11px] pb-1 flex items-center justify-center gap-2">
+                    <span>🎮 Gombok: {formatKeyLabel(keyBindings.up)}, {formatKeyLabel(keyBindings.left)}, {formatKeyLabel(keyBindings.down)}, {formatKeyLabel(keyBindings.right)} • Swipe mobilon</span>
                 </div>
+
+                <SnakeControlsModal
+                    isOpen={showControlsModal}
+                    onClose={() => setShowControlsModal(false)}
+                    bindings={keyBindings}
+                    onSave={handleSaveControls}
+                />
             </div>
         );
     }
@@ -904,6 +1025,17 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
 
                 {/* Top Controls & Action Buttons */}
                 <div className="flex items-center gap-1.5 sm:gap-2">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setShowControlsModal(true)}
+                        className="text-xs font-bold px-2.5 h-7.5 rounded-xl text-purple-600 border-purple-200 hover:bg-purple-50"
+                        title="Irányítási gombok testreszabása"
+                    >
+                        <Gamepad2 className="w-3.5 h-3.5 mr-1 text-purple-500" />
+                        <span>Irányítás</span>
+                    </Button>
+
                     <Button
                         variant="outline"
                         size="sm"
@@ -984,6 +1116,7 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                                     top: segment.y * cellSize + 1,
                                     width: cellSize - 2,
                                     height: cellSize - 2,
+                                    fontSize: cellSize < 24 ? '11px' : '13px',
                                 }}
                             >
                                 {index === 0 && (
@@ -1036,18 +1169,29 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
 
                         {/* Pause Overlay */}
                         {isPaused && !gameOver && isStarted && (
-                            <div className="absolute inset-0 bg-black/60 flex items-center justify-center rounded-2xl backdrop-blur-sm z-30">
-                                <div className="bg-white p-5 rounded-3xl shadow-2xl text-center max-w-xs w-full">
-                                    <Pause className="w-8 h-8 text-emerald-600 mx-auto mb-1.5" />
+                            <div className="absolute inset-0 bg-black/60 flex items-center justify-center rounded-2xl backdrop-blur-sm z-30 p-4">
+                                <div className="bg-white p-5 rounded-3xl shadow-2xl text-center max-w-xs w-full space-y-2">
+                                    <Pause className="w-8 h-8 text-emerald-600 mx-auto mb-1" />
                                     <p className="text-lg font-black text-slate-800">Szünet</p>
-                                    <p className="text-xs text-slate-500 mt-0.5 mb-3">Nyomd meg a SPACE-t a folytatáshoz</p>
-                                    <Button
-                                        onClick={() => setIsPaused(false)}
-                                        size="sm"
-                                        className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs"
-                                    >
-                                        Folytatás
-                                    </Button>
+                                    <p className="text-xs text-slate-500">Nyomd meg a <strong className="text-slate-700">{formatKeyLabel(keyBindings.pause)}</strong> gombot a folytatáshoz</p>
+                                    <div className="pt-2 space-y-1.5">
+                                        <Button
+                                            onClick={() => setIsPaused(false)}
+                                            size="sm"
+                                            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs"
+                                        >
+                                            Folytatás
+                                        </Button>
+                                        <Button
+                                            variant="outline"
+                                            onClick={() => setShowControlsModal(true)}
+                                            size="sm"
+                                            className="w-full text-purple-600 border-purple-200 hover:bg-purple-50 font-bold rounded-xl text-xs"
+                                        >
+                                            <Gamepad2 className="w-3.5 h-3.5 mr-1.5 text-purple-500" />
+                                            Irányítás testreszabása
+                                        </Button>
+                                    </div>
                                 </div>
                             </div>
                         )}
@@ -1097,6 +1241,14 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                                                 Művelet váltás
                                             </Button>
                                         </div>
+                                        <Button
+                                            variant="ghost"
+                                            onClick={() => setShowControlsModal(true)}
+                                            className="w-full text-[11px] font-bold text-purple-600 hover:bg-purple-50 rounded-xl h-7"
+                                        >
+                                            <Gamepad2 className="w-3 h-3 mr-1 text-purple-500" />
+                                            Irányítási gombok beállítása
+                                        </Button>
                                     </div>
                                 </div>
                             </div>
@@ -1162,12 +1314,34 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                     </div>
 
                     {/* Controls & Quick Tips */}
-                    <Card className="p-3 rounded-2xl border text-[11px] shadow-sm bg-slate-50 border-slate-200 text-slate-700">
-                        <p className="font-bold mb-0.5 flex items-center gap-1 text-slate-900">
-                            <span>🎮</span> Irányítás:
-                        </p>
-                        <p className="leading-snug">
-                            <strong>Nyilak</strong> vagy <strong>W, A, S, D</strong> mozgatás • <strong>Ujjhúzás (swipe)</strong> mobilon • <strong>SPACE</strong> szünet
+                    <Card className="p-3.5 rounded-2xl border text-[11px] shadow-sm bg-slate-50 border-slate-200 text-slate-700">
+                        <div className="flex items-center justify-between mb-1.5">
+                            <p className="font-bold flex items-center gap-1 text-slate-900">
+                                <span>🎮</span> Aktív Irányítás:
+                            </p>
+                            <button
+                                onClick={() => setShowControlsModal(true)}
+                                className="text-purple-600 hover:text-purple-700 font-bold text-[11px] hover:underline"
+                            >
+                                Módosítás ➔
+                            </button>
+                        </div>
+                        <div className="grid grid-cols-4 gap-1 text-center font-mono text-[10px] mb-1.5">
+                            <div className="bg-white px-1.5 py-1 rounded-lg border border-slate-200 font-bold text-slate-800">
+                                ↑ {formatKeyLabel(keyBindings.up)}
+                            </div>
+                            <div className="bg-white px-1.5 py-1 rounded-lg border border-slate-200 font-bold text-slate-800">
+                                ↓ {formatKeyLabel(keyBindings.down)}
+                            </div>
+                            <div className="bg-white px-1.5 py-1 rounded-lg border border-slate-200 font-bold text-slate-800">
+                                ← {formatKeyLabel(keyBindings.left)}
+                            </div>
+                            <div className="bg-white px-1.5 py-1 rounded-lg border border-slate-200 font-bold text-slate-800">
+                                → {formatKeyLabel(keyBindings.right)}
+                            </div>
+                        </div>
+                        <p className="text-[10px] text-slate-500 leading-tight">
+                            Szünet: <strong className="text-slate-700">{formatKeyLabel(keyBindings.pause)}</strong> • Mobilon: <strong>Swipe / Érintőgombok</strong>
                         </p>
                     </Card>
 
@@ -1208,6 +1382,14 @@ export function MathSnakeGame({ onBack, grade: initialGrade }: { onBack: () => v
                     </div>
                 </div>
             </div>
+
+            {/* Controls Customization Modal */}
+            <SnakeControlsModal
+                isOpen={showControlsModal}
+                onClose={() => setShowControlsModal(false)}
+                bindings={keyBindings}
+                onSave={handleSaveControls}
+            />
         </div>
     );
 }
