@@ -32,11 +32,52 @@ export interface ChessMatch {
   status: 'active' | 'finished' | 'waiting' | 'draw';
   winner_id: string | null;
   draw_offered_by?: string | null;
+  time_limit?: number; // Total seconds, 0 = unlimited
+  white_time_remaining?: number;
+  black_time_remaining?: number;
+  last_move_timestamp?: number | string;
+  end_reason?: string | null;
   created_at: string;
   updated_at: string;
   white_profile?: ChessProfile;
   black_profile?: ChessProfile;
 }
+
+/**
+ * Checks if a player has sufficient material to force/deliver checkmate according to FIDE rules
+ * (e.g. at least 1 pawn, 1 queen, 1 rook, 2 bishops, bishop + knight, or 3+ knights).
+ * Lone King, King + single Bishop, King + single Knight, King + 2 Knights (vs lone King) lack sufficient mating material.
+ */
+export function hasSufficientMatingMaterial(game: any, color: 'w' | 'b'): boolean {
+  try {
+    const board = typeof game.board === 'function' ? game.board() : [];
+    const pieces = board.flat().filter((p: any) => p !== null && p.color === color);
+
+    const pawns = pieces.filter((p: any) => p.type === 'p').length;
+    const queens = pieces.filter((p: any) => p.type === 'q').length;
+    const rooks = pieces.filter((p: any) => p.type === 'r').length;
+    const bishops = pieces.filter((p: any) => p.type === 'b').length;
+    const knights = pieces.filter((p: any) => p.type === 'n').length;
+
+    // Any pawn can promote to a queen/rook
+    if (pawns > 0 || queens > 0 || rooks > 0) return true;
+
+    // 2 or more bishops can mate
+    if (bishops >= 2) return true;
+
+    // Bishop + Knight can mate
+    if (bishops >= 1 && knights >= 1) return true;
+
+    // 3 or more knights can force mate
+    if (knights >= 3) return true;
+
+    return false;
+  } catch (e) {
+    console.error('hasSufficientMatingMaterial error:', e);
+    return false;
+  }
+}
+
 
 export const ALL_STUDENT_PROFILES: ChessProfile[] = [
   { id: "1034f35e-7ae4-4943-80cf-84495c6ca07a", full_name: "Jakab Kiss", username: "tikepek", email: "tikepek@gmail.com", role: "student", user_code: "100101" },
@@ -318,7 +359,7 @@ export const ChessService = {
     }
   },
 
-  async createMatch(opponentId: string | null, isWhite: boolean = true) {
+  async createMatch(opponentId: string | null, isWhite: boolean = true, timeLimit: number = 300) {
     const user = auth.currentUser;
     if (!user) throw new Error('User not authenticated');
 
@@ -330,6 +371,11 @@ export const ChessService = {
       fen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
       last_move: null,
       winner_id: null,
+      time_limit: timeLimit,
+      white_time_remaining: timeLimit,
+      black_time_remaining: timeLimit,
+      last_move_timestamp: Date.now(),
+      end_reason: null,
       created_at: now,
       updated_at: now,
     };
@@ -405,14 +451,40 @@ export const ChessService = {
     await updateDoc(doc(db, 'chess_matches', matchId), {
       status: 'active',
       updated_at: new Date().toISOString(),
+      last_move_timestamp: Date.now()
     });
   },
 
-  async updateMatch(matchId: string, fen: string, lastMove: string, status: string = 'active') {
-    await updateDoc(doc(db, 'chess_matches', matchId), {
+  async updateMatch(
+    matchId: string, 
+    fen: string, 
+    lastMove: string, 
+    status: string = 'active',
+    whiteTimeRemaining?: number,
+    blackTimeRemaining?: number
+  ) {
+    const updateData: any = {
       fen,
       last_move: lastMove,
       status,
+      updated_at: new Date().toISOString(),
+      last_move_timestamp: Date.now()
+    };
+    if (typeof whiteTimeRemaining === 'number') {
+      updateData.white_time_remaining = whiteTimeRemaining;
+    }
+    if (typeof blackTimeRemaining === 'number') {
+      updateData.black_time_remaining = blackTimeRemaining;
+    }
+
+    await updateDoc(doc(db, 'chess_matches', matchId), updateData);
+  },
+
+  async finishMatchOnTimeout(matchId: string, winnerId: string | 'draw', endReason: string) {
+    await updateDoc(doc(db, 'chess_matches', matchId), {
+      status: 'finished',
+      winner_id: winnerId,
+      end_reason: endReason,
       updated_at: new Date().toISOString(),
     });
   },

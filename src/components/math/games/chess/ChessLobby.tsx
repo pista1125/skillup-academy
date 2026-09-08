@@ -19,7 +19,10 @@ import {
   Clock,
   RefreshCw,
   Crown,
-  Trash2
+  Trash2,
+  X,
+  Zap,
+  Timer
 } from 'lucide-react';
 import { ChessService, ChessProfile, ChessMatch } from '@/lib/chess/ChessService';
 import { useAuth } from '@/contexts/AuthContext';
@@ -27,6 +30,22 @@ import { auth, db } from '@/lib/firebase';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+
+export const TIME_PRESETS = [
+  { value: 60, label: '1 perc', sub: 'Bullet ⚡' },
+  { value: 180, label: '3 perc', sub: 'Blitz 🔥' },
+  { value: 300, label: '5 perc', sub: 'Blitz ⏱️' },
+  { value: 600, label: '10 perc', sub: 'Rapid ⏳' },
+  { value: 900, label: '15 perc', sub: 'Rapid ☕' },
+  { value: 0, label: 'Korlátlan', sub: 'Limit nélkül ♾️' },
+];
+
+export function formatTimeLimit(seconds?: number): string {
+  if (seconds === undefined || seconds === null) return '5p';
+  if (seconds === 0) return '♾️ Korlátlan';
+  const mins = Math.round(seconds / 60);
+  return `⏱️ ${mins}p`;
+}
 
 interface ChessLobbyProps {
   onStartGame: (
@@ -37,6 +56,7 @@ interface ChessLobbyProps {
       opponentName?: string; 
       matchId?: string; 
       isWhite?: boolean; 
+      timeLimit?: number;
     }
   ) => void;
 }
@@ -46,6 +66,13 @@ export default function ChessLobby({ onStartGame }: ChessLobbyProps) {
   const [activeTab, setActiveTab] = useState<'friends' | 'ai'>('friends');
   const [difficulty, setDifficulty] = useState(3);
   const [playerColor, setPlayerColor] = useState<'white' | 'black'>('white');
+  const [aiTimeLimit, setAiTimeLimit] = useState<number>(300);
+  
+  // Challenge Dialog states
+  const [challengeTarget, setChallengeTarget] = useState<{ id: string; name: string; avatar_url?: string; user_code?: string } | null>(null);
+  const [challengeTimeLimit, setChallengeTimeLimit] = useState<number>(300);
+  const [challengeColor, setChallengeColor] = useState<'white' | 'black' | 'random'>('white');
+  const [isSubmittingChallenge, setIsSubmittingChallenge] = useState(false);
   
   // 6-digit Code search states
   const [searchCode, setSearchCode] = useState('');
@@ -199,21 +226,36 @@ export default function ChessLobby({ onStartGame }: ChessLobbyProps) {
     onStartGame('friend', {
       matchId: match.id,
       isWhite,
-      opponentName: opponentName || 'Diáktárs'
+      opponentName: opponentName || 'Diáktárs',
+      timeLimit: match.time_limit ?? 300
     });
   };
 
-  const startNewMatch = async (targetUserId: string, targetName: string) => {
+  const openChallengeModal = (target: { id: string; name: string; avatar_url?: string; user_code?: string }) => {
+    setChallengeTarget(target);
+    setChallengeTimeLimit(300);
+    setChallengeColor('white');
+  };
+
+  const handleSendChallenge = async () => {
+    if (!challengeTarget) return;
+    setIsSubmittingChallenge(true);
     try {
-      const match = await ChessService.createMatch(targetUserId, true);
-      toast.success(`Mérkőzés felajánlva: ${targetName}!`);
+      const isWhite = challengeColor === 'random' ? Math.random() < 0.5 : challengeColor === 'white';
+      const match = await ChessService.createMatch(challengeTarget.id, isWhite, challengeTimeLimit);
+      toast.success(`Kihívás elküldve: ${challengeTarget.name}!`);
+      const target = challengeTarget;
+      setChallengeTarget(null);
       onStartGame('friend', {
         matchId: match.id,
-        isWhite: true,
-        opponentName: targetName
+        isWhite,
+        opponentName: target.name,
+        timeLimit: challengeTimeLimit
       });
     } catch (e) {
       toast.error('Nem sikerült elindítani a mérkőzést.');
+    } finally {
+      setIsSubmittingChallenge(false);
     }
   };
 
@@ -507,7 +549,7 @@ export default function ChessLobby({ onStartGame }: ChessLobbyProps) {
                   <div className="flex items-center gap-1.5 shrink-0">
                     <Button
                       size="sm"
-                      onClick={() => startNewMatch(foundStudent.id, foundStudent.full_name)}
+                      onClick={() => openChallengeModal({ id: foundStudent.id, name: foundStudent.full_name, avatar_url: foundStudent.avatar_url, user_code: foundStudent.user_code })}
                       className="h-8 px-3 rounded-xl font-black text-xs bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-sm transition-all active:scale-95"
                     >
                       <Sword className="w-3.5 h-3.5 mr-1" />
@@ -593,7 +635,7 @@ export default function ChessLobby({ onStartGame }: ChessLobbyProps) {
                       <div className="flex items-center gap-1 shrink-0">
                         <Button 
                           size="sm" 
-                          onClick={() => startNewMatch(f.id, f.full_name)}
+                          onClick={() => openChallengeModal({ id: f.id, name: f.full_name, avatar_url: f.avatar_url, user_code: f.user_code })}
                           className="h-7 px-2 rounded-lg font-bold text-[11px] bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950/60 dark:hover:bg-indigo-900 text-indigo-600 dark:text-indigo-400"
                         >
                           <Sword className="w-3 h-3 mr-1" />
@@ -678,6 +720,9 @@ export default function ChessLobby({ onStartGame }: ChessLobbyProps) {
                               <Badge className={cn("text-[9px] px-1 py-0 border", turnInfo.badgeClass)}>
                                 {turnInfo.text}
                               </Badge>
+                              <span className="text-[9px] font-mono text-slate-400">
+                                {formatTimeLimit(m.time_limit)}
+                              </span>
                             </div>
                           </div>
                         </div>
@@ -730,7 +775,7 @@ export default function ChessLobby({ onStartGame }: ChessLobbyProps) {
                 <div className="p-2 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700/60 shadow-xs">
                   <div className="text-base mb-0.5">⚔️</div>
                   <div className="text-[10px] font-bold text-slate-700 dark:text-slate-300">2. Kihívás</div>
-                  <div className="text-[9px] text-slate-400">Írd be a keresőbe</div>
+                  <div className="text-[9px] text-slate-400">Állíts be időt</div>
                 </div>
                 <div className="p-2 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700/60 shadow-xs">
                   <div className="text-base mb-0.5">♟️</div>
@@ -750,10 +795,10 @@ export default function ChessLobby({ onStartGame }: ChessLobbyProps) {
             <div className="text-center space-y-1">
               <h2 className="text-xl md:text-2xl font-black text-slate-800 dark:text-slate-100 flex items-center justify-center gap-2">
                 <Cpu className="w-5 h-5 text-amber-500" />
-                Válassz Nehézségi Szintet!
+                Válassz Nehézségi Szintet & Időkorlátot!
               </h2>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                Gyakorolj a Stockfish AI sakk motor ellen. Állítsd be a neked megfelelő szintet!
+                Gyakorolj a Stockfish AI sakk motor ellen a választott időkorláttal és szinttel!
               </p>
             </div>
 
@@ -783,6 +828,33 @@ export default function ChessLobby({ onStartGame }: ChessLobbyProps) {
                   </span>
                 </button>
               ))}
+            </div>
+
+            {/* Time limit selection for AI */}
+            <div className="space-y-2 pt-1">
+              <div className="flex items-center gap-1.5 text-xs font-black text-slate-700 dark:text-slate-300 uppercase tracking-wider">
+                <Timer className="w-3.5 h-3.5 text-amber-500" />
+                <span>Játékidő (Időkorlát):</span>
+              </div>
+              <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+                {TIME_PRESETS.map((t) => (
+                  <button
+                    key={t.value}
+                    onClick={() => setAiTimeLimit(t.value)}
+                    className={cn(
+                      "flex flex-col items-center justify-center p-2 rounded-xl border transition-all text-center",
+                      aiTimeLimit === t.value
+                        ? "bg-amber-500 border-amber-500 text-white font-black shadow-md shadow-amber-500/20 scale-[1.02]"
+                        : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-amber-400 text-slate-700 dark:text-slate-300 font-bold"
+                    )}
+                  >
+                    <span className="text-xs">{t.label}</span>
+                    <span className={cn("text-[9px]", aiTimeLimit === t.value ? "text-amber-100" : "text-slate-400")}>
+                      {t.sub}
+                    </span>
+                  </button>
+                ))}
+              </div>
             </div>
 
             {/* Color selection & Start button row */}
@@ -816,7 +888,7 @@ export default function ChessLobby({ onStartGame }: ChessLobbyProps) {
               </div>
 
               <Button
-                onClick={() => onStartGame('ai', { difficulty, isWhite: playerColor === 'white' })}
+                onClick={() => onStartGame('ai', { difficulty, isWhite: playerColor === 'white', timeLimit: aiTimeLimit })}
                 className="w-full sm:w-auto flex-1 h-11 rounded-xl text-sm font-black bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md shadow-amber-500/20 transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-1.5"
               >
                 <PlayCircle className="w-5 h-5" />
@@ -825,6 +897,156 @@ export default function ChessLobby({ onStartGame }: ChessLobbyProps) {
             </div>
           </div>
         </Card>
+      )}
+
+      {/* Challenge Modal Dialog */}
+      {challengeTarget && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+          <div className="bg-white dark:bg-slate-900 border-2 border-indigo-500/30 rounded-3xl p-5 md:p-6 max-w-md w-full shadow-2xl space-y-4 animate-in zoom-in-95 duration-200">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
+                  <Sword className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-base font-black text-slate-900 dark:text-slate-100">
+                    Kihívás Beállítása
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    Válaszd ki a játékidőt és a színt!
+                  </p>
+                </div>
+              </div>
+              <Button
+                size="icon"
+                variant="ghost"
+                onClick={() => setChallengeTarget(null)}
+                className="h-8 w-8 rounded-xl text-slate-400 hover:text-slate-600"
+              >
+                <X className="w-4 h-4" />
+              </Button>
+            </div>
+
+            {/* Target Opponent Preview */}
+            <div className="flex items-center gap-3 p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60">
+              <div className="w-10 h-10 rounded-xl bg-indigo-100 dark:bg-indigo-950/60 flex items-center justify-center text-lg shrink-0 overflow-hidden">
+                {renderAvatar(challengeTarget.avatar_url, challengeTarget.name)}
+              </div>
+              <div className="truncate">
+                <div className="flex items-center gap-1.5">
+                  <span className="font-black text-sm text-slate-900 dark:text-slate-100 truncate">
+                    {challengeTarget.name}
+                  </span>
+                  {challengeTarget.user_code && (
+                    <Badge className="bg-indigo-600 text-white text-[9px] px-1 py-0 font-bold shrink-0">
+                      #{challengeTarget.user_code}
+                    </Badge>
+                  )}
+                </div>
+                <span className="text-[11px] text-slate-400">Ellenfél</span>
+              </div>
+            </div>
+
+            {/* Time Control Presets */}
+            <div className="space-y-2">
+              <label className="text-xs font-black text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                <Timer className="w-3.5 h-3.5 text-indigo-500" />
+                Játékidő játékosonként:
+              </label>
+              <div className="grid grid-cols-3 gap-2">
+                {TIME_PRESETS.map((t) => (
+                  <button
+                    key={t.value}
+                    type="button"
+                    onClick={() => setChallengeTimeLimit(t.value)}
+                    className={cn(
+                      "flex flex-col items-center justify-center p-2.5 rounded-xl border-2 transition-all text-center",
+                      challengeTimeLimit === t.value
+                        ? "bg-indigo-600 border-indigo-600 text-white font-black shadow-md shadow-indigo-500/20 scale-[1.02]"
+                        : "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-indigo-400 text-slate-700 dark:text-slate-300 font-bold"
+                    )}
+                  >
+                    <span className="text-xs">{t.label}</span>
+                    <span className={cn("text-[10px]", challengeTimeLimit === t.value ? "text-indigo-200" : "text-slate-400")}>
+                      {t.sub}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Color Preference */}
+            <div className="space-y-2">
+              <label className="text-xs font-black text-slate-700 dark:text-slate-300 uppercase tracking-wider">
+                Választott színed:
+              </label>
+              <div className="grid grid-cols-3 gap-2">
+                <button
+                  type="button"
+                  onClick={() => setChallengeColor('white')}
+                  className={cn(
+                    "py-2 px-3 rounded-xl font-black text-xs flex items-center justify-center gap-1.5 border-2 transition-all",
+                    challengeColor === 'white'
+                      ? "bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-indigo-500 shadow-sm"
+                      : "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300"
+                  )}
+                >
+                  <span>♔</span> Világos
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setChallengeColor('random')}
+                  className={cn(
+                    "py-2 px-3 rounded-xl font-black text-xs flex items-center justify-center gap-1.5 border-2 transition-all",
+                    challengeColor === 'random'
+                      ? "bg-indigo-600 text-white border-indigo-600 shadow-sm"
+                      : "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300"
+                  )}
+                >
+                  <span>🎲</span> Véletlen
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setChallengeColor('black')}
+                  className={cn(
+                    "py-2 px-3 rounded-xl font-black text-xs flex items-center justify-center gap-1.5 border-2 transition-all",
+                    challengeColor === 'black'
+                      ? "bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-indigo-500 shadow-sm"
+                      : "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300"
+                  )}
+                >
+                  <span>♚</span> Sötét
+                </button>
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="flex items-center gap-2 pt-2">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setChallengeTarget(null)}
+                className="flex-1 rounded-xl h-10 text-xs font-bold"
+              >
+                Mégse
+              </Button>
+              <Button
+                type="button"
+                onClick={handleSendChallenge}
+                disabled={isSubmittingChallenge}
+                className="flex-1 rounded-xl h-10 text-xs font-black bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md shadow-amber-500/20"
+              >
+                {isSubmittingChallenge ? (
+                  <RefreshCw className="w-3.5 h-3.5 mr-1.5 animate-spin" />
+                ) : (
+                  <Sword className="w-3.5 h-3.5 mr-1.5" />
+                )}
+                Kihívás küldése
+              </Button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

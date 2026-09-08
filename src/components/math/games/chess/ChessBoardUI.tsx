@@ -17,9 +17,11 @@ import {
   Flag,
   Zap,
   X,
-  Check
+  Check,
+  Clock,
+  Timer
 } from 'lucide-react';
-import { ChessService, ChessMatch } from '@/lib/chess/ChessService';
+import { ChessService, ChessMatch, hasSufficientMatingMaterial } from '@/lib/chess/ChessService';
 import { auth } from '@/lib/firebase';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -31,7 +33,8 @@ interface ChessBoardUIProps {
   matchId?: string;
   opponentName?: string;
   isWhite?: boolean;
-  onMove?: (fen: string, move: string) => void;
+  timeLimit?: number; // in seconds, 0 = unlimited, default 300
+  onMove?: (fen: string, move: string, whiteTime?: number, blackTime?: number) => void;
   onGameEnd?: (winner: 'white' | 'black' | 'draw') => void;
 }
 
@@ -41,6 +44,7 @@ export default function ChessBoardUI({
   matchId,
   opponentName = 'Ellenfél',
   isWhite = true,
+  timeLimit = 300,
   onMove,
   onGameEnd
 }: ChessBoardUIProps) {
@@ -63,6 +67,13 @@ export default function ChessBoardUI({
   const [customWinner, setCustomWinner] = useState<'white' | 'black' | 'draw' | null>(null);
   const [gameEndedReason, setGameEndedReason] = useState<string | null>(null);
   const [showResignConfirm, setShowResignConfirm] = useState(false);
+
+  // Timer states
+  const effectiveTimeLimit = matchData?.time_limit !== undefined ? matchData.time_limit : (timeLimit ?? 300);
+  const isTimedGame = effectiveTimeLimit > 0;
+
+  const [whiteTime, setWhiteTime] = useState<number>(() => timeLimit ?? 300);
+  const [blackTime, setBlackTime] = useState<number>(() => timeLimit ?? 300);
 
   // Hint system
   const [showMathModal, setShowMathModal] = useState(false);
@@ -131,6 +142,86 @@ export default function ChessBoardUI({
     }
   }, [isMyTurn]);
 
+  const formatTime = (seconds: number): string => {
+    if (seconds <= 0) return '00:00';
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  // Sync initial time in AI mode
+  useEffect(() => {
+    if (mode === 'ai' && typeof timeLimit === 'number') {
+      setWhiteTime(timeLimit);
+      setBlackTime(timeLimit);
+    }
+  }, [timeLimit, mode]);
+
+  // Reactive Countdown Timer Effect
+  useEffect(() => {
+    if (!isTimedGame || game.isGameOver() || customWinner) return;
+    if (mode === 'friend' && matchData?.status === 'waiting') return;
+
+    const timer = setInterval(() => {
+      const turn = game.turn();
+      if (turn === 'w') {
+        setWhiteTime((prev) => {
+          if (prev <= 1) {
+            // White time expired!
+            const blackCanMate = hasSufficientMatingMaterial(game, 'b');
+            if (blackCanMate) {
+              setCustomWinner('black');
+              const reason = 'Világos ideje lejárt! Sötét győzött időtúllépéssel ⏱️🏆';
+              setGameEndedReason(reason);
+              if (mode === 'friend' && matchId) {
+                ChessService.finishMatchOnTimeout(matchId, matchData?.black_id || 'black', reason);
+              }
+              if (onGameEnd) onGameEnd('black');
+            } else {
+              setCustomWinner('draw');
+              const reason = 'Világos ideje lejárt, de Sötétnek nincs mattadáshoz elegendő figurája (Döntetlen 🤝)!';
+              setGameEndedReason(reason);
+              if (mode === 'friend' && matchId) {
+                ChessService.finishMatchOnTimeout(matchId, 'draw', reason);
+              }
+              if (onGameEnd) onGameEnd('draw');
+            }
+            return 0;
+          }
+          return prev - 1;
+        });
+      } else {
+        setBlackTime((prev) => {
+          if (prev <= 1) {
+            // Black time expired!
+            const whiteCanMate = hasSufficientMatingMaterial(game, 'w');
+            if (whiteCanMate) {
+              setCustomWinner('white');
+              const reason = 'Sötét ideje lejárt! Világos győzött időtúllépéssel ⏱️🏆';
+              setGameEndedReason(reason);
+              if (mode === 'friend' && matchId) {
+                ChessService.finishMatchOnTimeout(matchId, matchData?.white_id || 'white', reason);
+              }
+              if (onGameEnd) onGameEnd('white');
+            } else {
+              setCustomWinner('draw');
+              const reason = 'Sötét ideje lejárt, de Világosnak nincs mattadáshoz elegendő figurája (Döntetlen 🤝)!';
+              setGameEndedReason(reason);
+              if (mode === 'friend' && matchId) {
+                ChessService.finishMatchOnTimeout(matchId, 'draw', reason);
+              }
+              if (onGameEnd) onGameEnd('draw');
+            }
+            return 0;
+          }
+          return prev - 1;
+        });
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [isTimedGame, game, customWinner, mode, matchData, matchId, onGameEnd]);
+
   // Reactive Premove Execution Effect: runs as soon as it becomes my turn
   useEffect(() => {
     if (isMyTurn && !game.isGameOver() && !customWinner && premoveRef.current) {
@@ -160,13 +251,13 @@ export default function ChessBoardUI({
         toast.success(`⚡ Premove végrehajtva: ${result.san}`);
 
         if (onMove) {
-          onMove(nextGame.fen(), result.lan || result.san);
+          onMove(nextGame.fen(), result.lan || result.san, whiteTime, blackTime);
         }
       } else {
         toast.info('A premove nem volt szabályos az új állásban.');
       }
     }
-  }, [game, isMyTurn, customWinner, clearPremove, onMove]);
+  }, [game, isMyTurn, customWinner, clearPremove, onMove, whiteTime, blackTime]);
 
   const handleHintRequest = () => {
     if (game.isGameOver() || customWinner) return;
@@ -209,9 +300,17 @@ export default function ChessBoardUI({
         const data = payload.new as ChessMatch;
         setMatchData(data);
 
+        // Synchronize timers from Firestore
+        if (typeof data.white_time_remaining === 'number') {
+          setWhiteTime(data.white_time_remaining);
+        }
+        if (typeof data.black_time_remaining === 'number') {
+          setBlackTime(data.black_time_remaining);
+        }
+
         // Check game end states from Firestore
         if (data.status === 'finished' && data.winner_id === 'draw') {
-          setGameEndedReason('Döntetlen megegyezéssel 🤝');
+          setGameEndedReason(data.end_reason || 'Döntetlen megegyezéssel 🤝');
           setCustomWinner('draw');
           if (onGameEnd) onGameEnd('draw');
         } else if (data.status === 'finished' && data.winner_id) {
@@ -219,7 +318,7 @@ export default function ChessBoardUI({
           const didIWin = data.winner_id === currentUid;
           const winnerColor = didIWin ? (isWhite ? 'white' : 'black') : (isWhite ? 'black' : 'white');
           setCustomWinner(winnerColor);
-          setGameEndedReason(didIWin ? 'Győzelem! Az ellenfél feladta a játszmát.' : 'Az ellenfél győzött.');
+          setGameEndedReason(data.end_reason || (didIWin ? 'Győzelem! Az ellenfél feladta a játszmát.' : 'Az ellenfél győzött.'));
           if (onGameEnd) onGameEnd(winnerColor);
         }
 
@@ -344,7 +443,7 @@ export default function ChessBoardUI({
     setLastMove({ from: result.from, to: result.to });
 
     if (onMove) {
-      onMove(nextGame.fen(), result.lan || result.san);
+      onMove(nextGame.fen(), result.lan || result.san, whiteTime, blackTime);
     }
 
     setMoveFrom(null);
@@ -568,26 +667,6 @@ export default function ChessBoardUI({
     return result !== null;
   }
 
-  const resetGame = () => {
-    const newGame = new Chess();
-    setGame(newGame);
-    setMoveHistory([]);
-    setLastMove(null);
-    setCustomWinner(null);
-    setGameEndedReason(null);
-    clearPremove();
-    setMoveFrom(null);
-    setOptionSquares({});
-  };
-
-  const undoMove = () => {
-    if (customWinner) return;
-    safeGameMutate((game) => {
-      game.undo();
-      if (mode === 'ai') game.undo();
-    });
-  };
-
   // Draw Offer Logic
   const handleOfferDraw = async () => {
     if (game.isGameOver() || customWinner) return;
@@ -742,6 +821,31 @@ export default function ChessBoardUI({
     return styles;
   }, [lastMove, game, isMyTurn, optionSquares, premove, premoveFrom, premoveOptionSquares, hintSquares]);
 
+  const resetGame = () => {
+    const g = new Chess();
+    setGame(g);
+    setMoveHistory([]);
+    setLastMove(null);
+    setMoveFrom(null);
+    setOptionSquares({});
+    clearPremove();
+    setCustomWinner(null);
+    setGameEndedReason(null);
+    setIsMyDrawOfferPending(false);
+    setWhiteTime(effectiveTimeLimit);
+    setBlackTime(effectiveTimeLimit);
+  };
+
+  const undoMove = () => {
+    if (mode === 'friend') return;
+    safeGameMutate((g) => {
+      g.undo();
+      if (mode === 'ai') {
+        g.undo();
+      }
+    });
+  };
+
   const currentTurn = game.turn() === 'w' ? 'Világos' : 'Sötét';
   const isGameOver = game.isGameOver() || customWinner !== null;
   const currentUid = auth.currentUser?.uid;
@@ -808,6 +912,40 @@ export default function ChessBoardUI({
         )}
 
         <Card className="w-full max-w-[min(100%,75vh)] p-3 md:p-4 rounded-[2rem] border-slate-200 dark:border-slate-800 shadow-2xl bg-white dark:bg-slate-900 overflow-hidden relative transition-all duration-300">
+          {/* Opponent Top Mini Bar */}
+          <div className="w-full flex items-center justify-between pb-2.5 px-1 border-b border-slate-100 dark:border-slate-800 mb-2">
+            <div className="flex items-center gap-2 truncate">
+              <div className="w-7 h-7 rounded-lg bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-sm font-bold shrink-0 shadow-xs">
+                {isWhite ? '♚' : '♔'}
+              </div>
+              <div className="truncate">
+                <span className="font-bold text-xs text-slate-800 dark:text-slate-100 block truncate max-w-[140px] sm:max-w-[200px]">
+                  {mode === 'ai' ? `Stockfish AI (${difficulty}. szint)` : opponentName}
+                </span>
+                <span className="text-[10px] text-slate-400">
+                  {isWhite ? 'Sötét' : 'Világos'}
+                </span>
+              </div>
+            </div>
+
+            {/* Opponent Clock */}
+            {isTimedGame ? (
+              <div className={cn(
+                "px-2.5 py-1 rounded-xl font-mono font-black text-xs md:text-sm flex items-center gap-1.5 transition-all border shadow-xs",
+                (!isWhite ? game.turn() === 'w' : game.turn() === 'b') && !isGameOver
+                  ? (isWhite ? blackTime : whiteTime) < 30
+                    ? "bg-rose-500/20 text-rose-600 dark:text-rose-400 border-rose-500 animate-pulse ring-2 ring-rose-500/30"
+                    : "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500 ring-2 ring-emerald-500/20"
+                  : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700"
+              )}>
+                <Clock className="w-3.5 h-3.5" />
+                <span>{formatTime(isWhite ? blackTime : whiteTime)}</span>
+              </div>
+            ) : (
+              <span className="text-[10px] text-slate-400 font-mono">♾️ Korlátlan</span>
+            )}
+          </div>
+
           <div className="aspect-square relative mx-auto w-full">
             <Chessboard 
               position={game.fen()} 
@@ -876,7 +1014,11 @@ export default function ChessBoardUI({
                       </div>
                       
                       <h2 className="text-2xl font-black text-slate-800 dark:text-white mb-1 uppercase tracking-wide">
-                        Játék vége
+                        {customWinner ? (
+                          ((isWhite && customWinner === 'white') || (!isWhite && customWinner === 'black')) 
+                            ? 'Győzelem! 🏆' 
+                            : 'Vége a játéknak'
+                        ) : 'Játék vége'}
                       </h2>
                       <p className="text-slate-600 dark:text-slate-300 text-sm font-bold mb-5">
                         {gameEndedReason || 'A mérkőzés befejeződött.'}
@@ -901,8 +1043,42 @@ export default function ChessBoardUI({
               </div>
             )}
           </div>
+
+          {/* User Bottom Mini Bar */}
+          <div className="w-full flex items-center justify-between pt-2.5 px-1 border-t border-slate-100 dark:border-slate-800 mt-2">
+            <div className="flex items-center gap-2">
+              <div className="w-7 h-7 rounded-lg bg-indigo-100 dark:bg-indigo-950/60 flex items-center justify-center text-sm font-bold text-indigo-600 dark:text-indigo-400 shadow-xs">
+                {isWhite ? '♔' : '♚'}
+              </div>
+              <div>
+                <span className="font-bold text-xs text-slate-800 dark:text-slate-100 block">
+                  Te
+                </span>
+                <span className="text-[10px] text-slate-400">
+                  {isWhite ? 'Világos' : 'Sötét'}
+                </span>
+              </div>
+            </div>
+
+            {/* User Clock */}
+            {isTimedGame ? (
+              <div className={cn(
+                "px-2.5 py-1 rounded-xl font-mono font-black text-xs md:text-sm flex items-center gap-1.5 transition-all border shadow-xs",
+                (isWhite ? game.turn() === 'w' : game.turn() === 'b') && !isGameOver
+                  ? (isWhite ? whiteTime : blackTime) < 30
+                    ? "bg-rose-500/20 text-rose-600 dark:text-rose-400 border-rose-500 animate-pulse ring-2 ring-rose-500/30"
+                    : "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500 ring-2 ring-emerald-500/20"
+                  : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700"
+              )}>
+                <Clock className="w-3.5 h-3.5" />
+                <span>{formatTime(isWhite ? whiteTime : blackTime)}</span>
+              </div>
+            ) : (
+              <span className="text-[10px] text-slate-400 font-mono">♾️ Korlátlan</span>
+            )}
+          </div>
           
-          <div className="mt-3 flex justify-between items-center px-2 min-h-[32px]">
+          <div className="mt-2.5 flex justify-between items-center px-2 min-h-[32px]">
             <div className="flex items-center gap-2.5">
               <div className={cn(
                 "w-3 h-3 rounded-full animate-pulse",
@@ -936,30 +1112,44 @@ export default function ChessBoardUI({
                   <span className="text-[10px] text-slate-400">{isMyTurn ? 'Soron vagy' : 'Várakozás'}</span>
                 </div>
               </div>
-              {isMyTurn && (
-                <span className="text-[10px] bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 px-2 py-0.5 rounded-full font-bold animate-pulse">
-                  Te lépsz!
-                </span>
-              )}
+              <div className="flex items-center gap-1.5">
+                {isTimedGame && (
+                  <span className="text-xs font-mono font-black text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 px-2 py-0.5 rounded-lg border border-slate-200 dark:border-slate-700">
+                    {formatTime(isWhite ? whiteTime : blackTime)}
+                  </span>
+                )}
+                {isMyTurn && (
+                  <span className="text-[10px] bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 px-2 py-0.5 rounded-full font-bold animate-pulse">
+                    Te lépsz!
+                  </span>
+                )}
+              </div>
             </div>
 
             <div className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
-              <div className="flex items-center gap-2.5">
-                <div className="p-1.5 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg text-emerald-600 dark:text-emerald-400">
+              <div className="flex items-center gap-2.5 truncate mr-2">
+                <div className="p-1.5 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg text-emerald-600 dark:text-emerald-400 shrink-0">
                   {mode === 'ai' ? <Cpu size={16} /> : <User size={16} />}
                 </div>
-                <div>
-                  <span className="font-bold text-xs block text-slate-800 dark:text-slate-100">
+                <div className="truncate">
+                  <span className="font-bold text-xs block text-slate-800 dark:text-slate-100 truncate">
                     {mode === 'ai' ? `Robot (${difficulty}. szint)` : opponentName} ({isWhite ? 'Sötét ♚' : 'Világos ♔'})
                   </span>
                   <span className="text-[10px] text-slate-400">{!isMyTurn ? 'Gondolkodik...' : 'Várakozik'}</span>
                 </div>
               </div>
-              {!isMyTurn && !isGameOver && (
-                <span className="text-[10px] bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 px-2 py-0.5 rounded-full font-bold">
-                  Lépésben...
-                </span>
-              )}
+              <div className="flex items-center gap-1.5 shrink-0">
+                {isTimedGame && (
+                  <span className="text-xs font-mono font-black text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 px-2 py-0.5 rounded-lg border border-slate-200 dark:border-slate-700">
+                    {formatTime(isWhite ? blackTime : whiteTime)}
+                  </span>
+                )}
+                {!isMyTurn && !isGameOver && (
+                  <span className="text-[10px] bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 px-2 py-0.5 rounded-full font-bold">
+                    Lépésben...
+                  </span>
+                )}
+              </div>
             </div>
           </div>
         </Card>
@@ -1051,7 +1241,7 @@ export default function ChessBoardUI({
               <Button 
                 variant="outline" 
                 onClick={undoMove} 
-                disabled={moveHistory.length === 0 || isGameOver}
+                disabled={moveHistory.length === 0 || isGameOver || mode === 'friend'}
                 className="rounded-xl border-slate-200 dark:border-slate-700 text-xs h-8"
               >
                 <RotateCcw size={13} className="mr-1.5" />

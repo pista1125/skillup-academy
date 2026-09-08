@@ -31,7 +31,8 @@ export default function ChessGame({ onBack }: ChessGameProps) {
     opponentName?: string;
     matchId?: string;
     isWhite?: boolean;
-  }>({ mode: 'ai' });
+    timeLimit?: number;
+  }>({ mode: 'ai', timeLimit: 300 });
 
   useEffect(() => {
     const handleFsChange = () => {
@@ -66,18 +67,20 @@ export default function ChessGame({ onBack }: ChessGameProps) {
           matchId: options.matchId,
           opponentId: options.opponentId,
           opponentName: options.opponentName,
-          isWhite: options.isWhite ?? true
+          isWhite: options.isWhite ?? true,
+          timeLimit: options.timeLimit
         });
       } else if (options.opponentId) {
         // Creating a new match
         try {
-          const match = await ChessService.createMatch(options.opponentId);
+          const match = await ChessService.createMatch(options.opponentId, true, options.timeLimit ?? 300);
           setMatchOptions({
             mode: 'friend',
             matchId: match.id,
             opponentId: options.opponentId,
             opponentName: options.opponentName,
-            isWhite: true // Creator is white
+            isWhite: true, // Creator is white
+            timeLimit: options.timeLimit ?? 300
           });
         } catch (e) {
           toast.error('Hiba a meccs létrehozásakor');
@@ -88,16 +91,17 @@ export default function ChessGame({ onBack }: ChessGameProps) {
       setMatchOptions({
         mode: 'ai',
         difficulty: options.difficulty,
-        isWhite: options.isWhite ?? true
+        isWhite: options.isWhite ?? true,
+        timeLimit: options.timeLimit ?? 300
       });
     }
     setGameState('playing');
   };
 
-  const handleMove = async (fen: string, move: string) => {
+  const handleMove = async (fen: string, move: string, whiteTime?: number, blackTime?: number) => {
     if (matchOptions.mode === 'friend' && matchOptions.matchId) {
       try {
-        await ChessService.updateMatch(matchOptions.matchId, fen, move);
+        await ChessService.updateMatch(matchOptions.matchId, fen, move, 'active', whiteTime, blackTime);
       } catch (e) {
         console.error('Failed to sync move', e);
       }
@@ -160,6 +164,7 @@ export default function ChessGame({ onBack }: ChessGameProps) {
             matchId={matchOptions.matchId}
             opponentName={matchOptions.opponentName}
             isWhite={matchOptions.isWhite}
+            timeLimit={matchOptions.timeLimit}
             onMove={handleMove}
           />
         </div>
