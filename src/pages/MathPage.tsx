@@ -127,6 +127,7 @@ const WordProblemsQuiz = lazy(() => import("@/components/math/grade-5/aranyossag
 const UnitConverterTool = lazy(() => import("@/components/math/tools/UnitConverterTool").then(m => ({ default: m.UnitConverterTool }))) as any;
 const CapacityConverterTool = lazy(() => import("@/components/math/tools/CapacityConverterTool").then(m => ({ default: m.CapacityConverterTool }))) as any;
 const AnalogClockTool = lazy(() => import("@/components/math/tools/AnalogClockTool").then(m => ({ default: m.AnalogClockTool }))) as any;
+const ScientificCalculator = lazy(() => import("@/components/math/tools/ScientificCalculator").then(m => ({ default: m.ScientificCalculator }))) as any;
 const PerimeterQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat").then(m => ({ default: m.PerimeterQuiz }))) as any;
 const AreaConversionQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat").then(m => ({ default: m.AreaConversionQuiz }))) as any;
 const AreaCalculationQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat").then(m => ({ default: m.AreaCalculationQuiz }))) as any;
@@ -437,6 +438,7 @@ const TOOLS: ActivityConfig[] = [
   { id: 'sudoku-generator', title: 'Sudoku Generátor', desc: 'Generálj és nyomtass egyedi Sudoku feladványokat!', icon: <Calculator className="w-8 h-8" />, color: 'bg-blue-100 text-blue-600', category: 'sec-creative' },
   { id: 'student-feedback', title: 'Diák visszajelzés (Céltábla)', desc: 'Kérj visszajelzést a diákoktól az óra végén!', icon: <Target className="w-8 h-8" />, color: 'bg-rose-100 text-rose-600', category: 'sec-teacher' },
   { id: 'smart-whiteboard', title: 'AI Interaktív Okostábla', desc: 'Érintőképernyős tantermi okostábla AI alakzat- és függvényfelismeréssel', icon: <span className="text-3xl">🪄</span>, color: 'bg-purple-100 text-purple-700 border-purple-200', category: 'sec-teacher' },
+  { id: 'scientific-calculator', title: 'Tudományos Számológép (Casio fx-82ES)', desc: 'Natural-V.P.A.M. kétsoros iskolai és érettségi tudományos számológép', icon: <Calculator className="w-8 h-8" />, color: 'bg-primary/10 text-primary border-primary/20', category: 'sec-algebra' },
 ];
 
 const GAMES: ActivityConfig[] = [
@@ -2806,6 +2808,10 @@ export default function MathPage() {
 
                 {activityType === 'matching-creator' && (
                   <MatchingCreator onBack={handleBack} />
+                )}
+
+                {(activityType === 'scientific-calculator' || activityType === 'tudomanyos-szamologep') && (
+                  <ScientificCalculator onBack={handleBack} />
                 )}
 
                 {activityType === 'word-search' && (
