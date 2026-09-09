@@ -1,360 +1,520 @@
-import { useState, useEffect, useCallback } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { ProgressBar } from '@/components/ProgressBar';
-import { XPBadge } from '@/components/XPBadge';
+import React, { useState } from 'react';
 import {
-    CheckCircle2,
-    XCircle,
-    ArrowRight,
-    ArrowLeft,
-    RotateCcw,
-    Trophy,
-    HelpCircle,
-    Sparkles,
-    Zap
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
-
-interface LCMQuestion {
-    id: string;
-    question: string;
-    options: number[];
-    correctAnswer: number;
-    explanation: string;
-    type: 'simple' | 'prime' | 'power' | 'word';
-}
-
-// Helper: Greatest Common Divisor
-function gcd(a: number, b: number): number {
-    a = Math.abs(a);
-    b = Math.abs(b);
-    while (b !== 0) {
-        const temp = b;
-        b = a % b;
-        a = temp;
-    }
-    return a;
-}
-
-// Helper: Least Common Multiple
-function lcm(a: number, b: number): number {
-    if (a === 0 || b === 0) return 0;
-    return Math.abs(a * b) / gcd(a, b);
-}
-
-// Generate the 8 fixed questions for LKKT quiz
-function generateQuestions(): LCMQuestion[] {
-    return [
-        // 1. Egyszerű LKKT számítás
-        {
-            id: '1',
-            question: 'Mennyi a 12 és 18 legkisebb közös többszöröse?',
-            options: shuffleOptions([36, 18, 72, 54]),
-            correctAnswer: 36,
-            explanation: '12 = 2² × 3, 18 = 2 × 3². Az LKKT = 2² × 3² = 4 × 9 = 36',
-            type: 'simple'
-        },
-        // 2. Egyszerű LKKT számítás
-        {
-            id: '2',
-            question: 'Határozd meg a 15 és 20 legkisebb közös többszörösét!',
-            options: shuffleOptions([60, 30, 45, 120]),
-            correctAnswer: 60,
-            explanation: '15 = 3 × 5, 20 = 2² × 5. Az LKKT = 2² × 3 × 5 = 60',
-            type: 'simple'
-        },
-        // 3. Prímtényezős módszer
-        {
-            id: '3',
-            question: 'A 12 = 2² × 3 és a 15 = 3 × 5 prímtényezős felbontása alapján mennyi az LKKT-jük?',
-            options: shuffleOptions([60, 30, 45, 180]),
-            correctAnswer: 60,
-            explanation: 'LKKT = 2² × 3¹ × 5¹ = 4 × 3 × 5 = 60 (minden előforduló prímtényező a legnagyobb kitevőn)',
-            type: 'prime'
-        },
-        // 4. Prímtényezős módszer
-        {
-            id: '4',
-            question: 'Ha a = 2² × 3 × 7 és b = 2 × 3² × 5, akkor mennyi az LKKT(a, b)?',
-            options: shuffleOptions([1260, 630, 420, 2520]),
-            correctAnswer: 1260,
-            explanation: 'Az összes prímtényező: 2, 3, 5, 7. LKKT = 2² × 3² × 5¹ × 7¹ = 4 × 9 × 5 × 7 = 1260',
-            type: 'prime'
-        },
-        // 5. Szöveges feladat
-        {
-            id: '5',
-            question: 'Két autóbusz ugyanarról a megállóról indul: az egyik 15 percenként, a másik 20 percenként. Hány perc múlva indulnak ismét egyszerre?',
-            options: shuffleOptions([60, 30, 40, 120]),
-            correctAnswer: 60,
-            explanation: 'Az LKKT(15, 20) = 60, tehát 60 perc (1 óra) múlva indulnak újra egyszerre.',
-            type: 'word'
-        },
-        // 6. Szöveges feladat
-        {
-            id: '6',
-            question: 'Egy kisiskolában az A harang 8 percenként, a B harang pedig 12 percenként szólal meg. Ha most egyszerre szóltak, hány perc múlva fognak legközelebb újra egyszerre szólni?',
-            options: shuffleOptions([24, 12, 48, 36]),
-            correctAnswer: 24,
-            explanation: 'Az LKKT(8, 12) = 24, tehát 24 perc múlva szólnak ismét egyszerre.',
-            type: 'word'
-        },
-        // 7. Hatványalakból meghatározás
-        {
-            id: '7',
-            question: 'Adott: 180 = 2² × 3² × 5 és 270 = 2 × 3³ × 5. Mennyi az LKKT-jük?',
-            options: shuffleOptions([540, 1080, 270, 90]),
-            correctAnswer: 540,
-            explanation: 'LKKT = 2² × 3³ × 5¹ = 4 × 27 × 5 = 540',
-            type: 'power'
-        },
-        // 8. Hatványalakból meghatározás
-        {
-            id: '8',
-            question: 'Ha x = 2³ × 5² × 7 és y = 2² × 5 × 7², akkor LKKT(x, y) = ?',
-            options: shuffleOptions([9800, 4900, 1400, 2800]),
-            correctAnswer: 9800,
-            explanation: 'LKKT = 2³ × 5² × 7² = 8 × 25 × 49 = 200 × 49 = 9800',
-            type: 'power'
-        }
-    ];
-}
-
-function shuffleOptions(options: number[]): number[] {
-    return [...options].sort(() => Math.random() - 0.5);
-}
+  QuizTemplate,
+  QuizQuestion,
+  CheatSheetCard,
+  CustomGameMode,
+} from '../QuizTemplate';
+import { LCMMatcher } from './LCMMatcher';
+import { LCMSorter } from './LCMSorter';
+import { Sparkles, Layers, Zap, Clock, ShieldCheck, HelpCircle } from 'lucide-react';
 
 interface LCMQuizProps {
-    onBack?: () => void;
+  onBack?: () => void;
 }
 
-export function LCMQuiz({ onBack }: LCMQuizProps) {
-    const [questions, setQuestions] = useState<LCMQuestion[]>([]);
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
-    const [showFeedback, setShowFeedback] = useState(false);
-    const [correctCount, setCorrectCount] = useState(0);
-    const [quizComplete, setQuizComplete] = useState(false);
-    const [xpEarned, setXpEarned] = useState(0);
-
-    const TOTAL_QUESTIONS = 8;
-    const XP_PER_CORRECT = 20;
-
-    const startQuiz = useCallback(() => {
-        const newQuestions = generateQuestions();
-        setQuestions(newQuestions);
-        setCurrentIndex(0);
-        setSelectedAnswer(null);
-        setShowFeedback(false);
-        setCorrectCount(0);
-        setQuizComplete(false);
-        setXpEarned(0);
-    }, []);
-
-    useEffect(() => {
-        startQuiz();
-    }, [startQuiz]);
-
-    const handleAnswer = (answer: number) => {
-        if (showFeedback) return;
-
-        setSelectedAnswer(answer);
-        setShowFeedback(true);
-
-        const isCorrect = answer === questions[currentIndex].correctAnswer;
-        if (isCorrect) {
-            setCorrectCount(prev => prev + 1);
-            setXpEarned(prev => prev + XP_PER_CORRECT);
-        }
-    };
-
-    const nextQuestion = () => {
-        if (currentIndex < TOTAL_QUESTIONS - 1) {
-            setCurrentIndex(prev => prev + 1);
-            setSelectedAnswer(null);
-            setShowFeedback(false);
-        } else {
-            setQuizComplete(true);
-        }
-    };
-
-    if (questions.length === 0) return null;
-
-    if (quizComplete) {
-        const percentage = Math.round((correctCount / TOTAL_QUESTIONS) * 100);
-
-        return (
-            <div className="max-w-md mx-auto animate-in fade-in zoom-in duration-500">
-                <Card className="border-2 border-indigo-100 shadow-xl overflow-hidden rounded-3xl">
-                    <div className="bg-gradient-to-br from-indigo-500 to-purple-600 p-8 text-center text-white">
-                        <div className="w-20 h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                            <Trophy className="w-10 h-10" />
-                        </div>
-                        <h2 className="text-3xl font-black mb-1">
-                            {percentage >= 80 ? 'Kiváló!' : percentage >= 60 ? 'Szép munka!' : 'Gyakorolj tovább!'}
-                        </h2>
-                        <p className="text-indigo-100 opacity-90">LKKT kvíz befejezve</p>
-                    </div>
-                    <CardContent className="p-8 space-y-8 bg-white">
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="bg-slate-50 p-4 rounded-2xl text-center border border-slate-100">
-                                <span className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Pontosság</span>
-                                <span className="text-3xl font-black text-slate-800">{percentage}%</span>
-                            </div>
-                            <div className="bg-slate-50 p-4 rounded-2xl text-center border border-slate-100">
-                                <span className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Helyes válasz</span>
-                                <span className="text-3xl font-black text-slate-800">{correctCount}/{TOTAL_QUESTIONS}</span>
-                            </div>
-                        </div>
-
-                        <div className="flex justify-center">
-                            <XPBadge xp={xpEarned} />
-                        </div>
-
-                        <div className="flex gap-3">
-                            {onBack && (
-                                <Button variant="outline" onClick={onBack} className="flex-1 rounded-2xl h-12">
-                                    <ArrowLeft className="w-4 h-4 mr-2" />
-                                    Vissza
-                                </Button>
-                            )}
-                            <Button
-                                onClick={startQuiz}
-                                className="flex-1 h-12 text-lg font-bold bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 shadow-lg shadow-indigo-500/20 rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98]"
-                            >
-                                <RotateCcw className="w-5 h-5 mr-2" />
-                                Új játék
-                            </Button>
-                        </div>
-                    </CardContent>
-                </Card>
-            </div>
-        );
-    }
-
-    const currentQuestion = questions[currentIndex];
-    const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
-
-    // Get type label
-    const getTypeLabel = (type: string) => {
-        switch (type) {
-            case 'simple': return 'Egyszerű LKKT számítás';
-            case 'prime': return 'Prímtényezős módszer';
-            case 'power': return 'Hatványalakból meghatározás';
-            case 'word': return 'Szöveges feladat';
-            default: return 'LKKT feladat';
-        }
-    };
-
-    return (
-        <div className="max-w-2xl mx-auto space-y-6">
-            <div className="flex items-center justify-between bg-white/50 p-4 rounded-2xl border border-indigo-100 shadow-sm">
-                <div className="flex gap-4 items-center flex-1 pr-8">
-                    {onBack && (
-                        <Button variant="ghost" size="icon" onClick={onBack} className="shrink-0">
-                            <ArrowLeft className="w-5 h-5" />
-                        </Button>
-                    )}
-                    <div className="text-xs font-black text-slate-400 whitespace-nowrap uppercase tracking-widest">
-                        {currentIndex + 1} / {TOTAL_QUESTIONS}
-                    </div>
-                    <div className="flex-1">
-                        <ProgressBar
-                            current={currentIndex + 1}
-                            total={TOTAL_QUESTIONS}
-                            variant="math"
-                            size="md"
-                        />
-                    </div>
-                </div>
-                <XPBadge xp={xpEarned} />
-            </div>
-
-            <Card className="border-2 border-slate-100 shadow-xl rounded-3xl overflow-hidden bg-white">
-                <CardContent className="p-0">
-                    <div className="p-8 md:p-12 text-center space-y-8">
-                        <div className="space-y-4">
-                            <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 text-indigo-600 rounded-full text-sm font-bold">
-                                <Sparkles className="w-4 h-4" />
-                                {getTypeLabel(currentQuestion.type)}
-                            </div>
-
-                            <h3 className="text-xl md:text-2xl font-bold text-slate-800 leading-relaxed px-4">
-                                {currentQuestion.question}
-                            </h3>
-                        </div>
-
-                        {!showFeedback ? (
-                            <div className="grid grid-cols-2 gap-4 max-w-md mx-auto pt-4">
-                                {currentQuestion.options.map((option, index) => (
-                                    <Button
-                                        key={index}
-                                        onClick={() => handleAnswer(option)}
-                                        className="h-16 text-xl font-black bg-slate-100 hover:bg-indigo-500 text-slate-800 hover:text-white border-2 border-slate-200 hover:border-indigo-500 shadow-sm rounded-2xl transition-all hover:scale-105 active:scale-95"
-                                    >
-                                        {option}
-                                    </Button>
-                                ))}
-                            </div>
-                        ) : (
-                            <div className="space-y-6 pt-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
-                                <div className={cn(
-                                    "p-6 rounded-3xl border-2 flex flex-col items-center gap-3 transition-all",
-                                    isCorrect
-                                        ? "bg-emerald-50 border-emerald-100 text-emerald-800"
-                                        : "bg-rose-50 border-rose-100 text-rose-800"
-                                )}>
-                                    <div className="flex items-center gap-3">
-                                        {isCorrect ? (
-                                            <>
-                                                <CheckCircle2 className="w-8 h-8 text-emerald-600" />
-                                                <span className="text-2xl font-black uppercase">Helyes!</span>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <XCircle className="w-8 h-8 text-rose-600" />
-                                                <span className="text-2xl font-black uppercase">Hoppá!</span>
-                                            </>
-                                        )}
-                                    </div>
-
-                                    <div className="text-center">
-                                        {!isCorrect && (
-                                            <p className="font-bold mb-2">
-                                                A helyes válasz: <span className="text-lg">{currentQuestion.correctAnswer}</span>
-                                            </p>
-                                        )}
-                                        <div className="bg-white/60 p-3 rounded-xl border border-white mt-2 max-w-md">
-                                            <p className="text-sm font-medium flex items-center justify-center gap-2">
-                                                <HelpCircle className="w-4 h-4 opacity-50" />
-                                                {currentQuestion.explanation}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <Button
-                                    onClick={nextQuestion}
-                                    className="w-full h-14 text-lg font-bold bg-slate-900 text-white hover:bg-slate-800 shadow-xl rounded-2xl group transition-all"
-                                >
-                                    {currentIndex < TOTAL_QUESTIONS - 1 ? (
-                                        <>
-                                            Következő feladat
-                                            <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                                        </>
-                                    ) : (
-                                        <>
-                                            Eredmények megtekintése
-                                            <Zap className="w-5 h-5 ml-2 text-amber-400" />
-                                        </>
-                                    )}
-                                </Button>
-                            </div>
-                        )}
-                    </div>
-                </CardContent>
-            </Card>
+const CHEAT_SHEET_CARDS: CheatSheetCard[] = [
+  {
+    id: 'cs-lcm-definition',
+    title: 'Az LKKT fogalma és jelölése',
+    icon: <Sparkles className="w-5 h-5 text-amber-500" />,
+    color: 'amber',
+    content: (
+      <div className="space-y-1.5 text-xs text-slate-700 dark:text-slate-300">
+        <div>• <strong>LKKT([a, b]):</strong> A legkisebb pozitív egész szám, amely <em>a</em>-nak és <em>b</em>-nek is többszöröse.</div>
+        <div>• Jelölése: <strong>[a, b]</strong> vagy <strong>LKKT(a, b)</strong>.</div>
+        <div className="text-[11px] text-slate-500">Pl. [4, 6] = 12, mert 12 a legkisebb közös többszörös.</div>
+      </div>
+    ),
+  },
+  {
+    id: 'cs-prime-factor-rule',
+    title: 'Prímtényezős meghatározás',
+    icon: <Zap className="w-5 h-5 text-amber-500" />,
+    color: 'amber',
+    content: (
+      <div className="space-y-1.5 text-xs text-slate-700 dark:text-slate-300">
+        <p>1. Bontsd fel a számokat prímtényezőikre!</p>
+        <p>2. Az LKKT-be <strong>minden előforduló prímtényezőt a LEGNAGYOBB kitevőjén</strong> vedd be!</p>
+        <div className="p-1.5 rounded bg-amber-50 dark:bg-amber-950/40 text-[11px] font-mono">
+          12 = 2² · 3, 18 = 2 · 3² ⟹ [12, 18] = 2² · 3² = 36
         </div>
-    );
+      </div>
+    ),
+  },
+  {
+    id: 'cs-coprime-case',
+    title: 'Relatív prímek LKKT-je',
+    icon: <ShieldCheck className="w-5 h-5 text-emerald-500" />,
+    color: 'emerald',
+    content: (
+      <div className="space-y-1 text-xs text-slate-700 dark:text-slate-300">
+        <p>Ha két számnak nincs közös prímtényezője (LNKO = 1), akkor az LKKT a <strong>két szám szorzata</strong>:</p>
+        <div className="font-mono text-emerald-700 dark:text-emerald-300 font-bold">
+          [a, b] = a · b
+        </div>
+        <div className="text-[11px] text-slate-500">Pl. [5, 7] = 35, [8, 9] = 72, [4, 15] = 60.</div>
+      </div>
+    ),
+  },
+  {
+    id: 'cs-divisor-case',
+    title: 'Ha az egyik osztója a másiknak',
+    icon: <Layers className="w-5 h-5 text-amber-500" />,
+    color: 'amber',
+    content: (
+      <div className="space-y-1 text-xs text-slate-700 dark:text-slate-300">
+        <p>Ha $a$ osztója $b$-nek ($a \mid b$), akkor az LKKT mindig a <strong>nagyobb szám ($b$)</strong>:</p>
+        <div className="font-mono text-amber-700 dark:text-amber-300 font-bold">
+          [6, 18] = 18 | [5, 20] = 20 | [7, 28] = 28
+        </div>
+      </div>
+    ),
+  },
+  {
+    id: 'cs-gcd-lcm-relation',
+    title: 'LNKO és LKKT szorzatszabálya',
+    icon: <Zap className="w-5 h-5 text-indigo-500" />,
+    color: 'indigo',
+    content: (
+      <div className="space-y-1 text-xs text-slate-700 dark:text-slate-300">
+        <div className="p-1.5 rounded bg-indigo-50 dark:bg-indigo-950/40 font-mono text-indigo-700 dark:text-indigo-300 font-bold text-center">
+          a · b = (a, b) · [a, b]
+        </div>
+        <div className="text-[11px] text-slate-500">
+          Két szám szorzata = legnagyobb közös osztójuk × legkisebb közös többszörösük.
+        </div>
+      </div>
+    ),
+  },
+  {
+    id: 'cs-word-problems',
+    title: 'Gyakorlati periódusok és találkozások',
+    icon: <Clock className="w-5 h-5 text-amber-500" />,
+    color: 'amber',
+    content: (
+      <div className="space-y-1 text-xs text-slate-700 dark:text-slate-300">
+        <p>Ha két esemény $a$ illetve $b$ időközönként ismétlődik, az <strong>első közös találkozás ideje $[a, b]$</strong> időegység múlva lesz!</p>
+        <div className="text-[11px] text-slate-500">Pl. 6 és 8 perces köridők ⟹ [6, 8] = 24 perc múlva találkoznak.</div>
+      </div>
+    ),
+  },
+];
+
+const EASY_QUESTIONS: QuizQuestion[] = [
+  {
+    id: 'e1',
+    question: 'Mit jelent a Legkisebb Közös Többszörös (LKKT) fogalma?',
+    options: [
+      'A legkisebb pozitív egész számot, amely mindkét számnak többszöröse.',
+      'A legnagyobb számot, amivel mindkét szám osztható.',
+      'A két szám összegét.',
+      'A két szám különbségét.',
+    ],
+    correctAnswer: 'A legkisebb pozitív egész számot, amely mindkét számnak többszöröse.',
+    explanation: 'A Legkisebb Közös Többszörös [a, b] az a legkisebb pozitív egész szám, amely maradék nélkül osztható a-val és b-vel is.',
+    breakdown: [
+      { label: 'Definíció', value: 'Legkisebb pozitív közös többszörös' },
+      { label: 'Jelölés', value: '[a, b] vagy LKKT(a, b)' },
+    ],
+  },
+  {
+    id: 'e2',
+    question: 'Mennyi a 4 és 6 legkisebb közös többszöröse [4, 6]?',
+    options: ['12', '24', '6', '8'],
+    correctAnswer: '12',
+    explanation: '4 többszörösei: 4, 8, 12, 16... | 6 többszörösei: 6, 12, 18... A legkisebb közös a 12.',
+    breakdown: [
+      { label: '4 többszörösei', value: '4, 8, 12, 16, 20...' },
+      { label: '6 többszörösei', value: '6, 12, 18, 24...' },
+      { label: 'Legkisebb közös', value: '[4, 6] = 12' },
+    ],
+  },
+  {
+    id: 'e3',
+    question: 'Mennyi a 6 és 8 legkisebb közös többszöröse [6, 8]?',
+    options: ['24', '48', '14', '16'],
+    correctAnswer: '24',
+    explanation: '6 = 2 · 3, 8 = 2³. Az LKKT = 2³ · 3 = 8 · 3 = 24. (Vagy felsorolással: 6, 12, 18, 24 és 8, 16, 24).',
+    breakdown: [
+      { label: '6 többszörösei', value: '6, 12, 18, 24...' },
+      { label: '8 többszörösei', value: '8, 16, 24...' },
+      { label: 'LKKT', value: '24' },
+    ],
+  },
+  {
+    id: 'e4',
+    question: 'Mennyi az 5 és 10 legkisebb közös többszöröse [5, 10]?',
+    options: ['10', '50', '5', '20'],
+    correctAnswer: '10',
+    explanation: 'Mivel az 5 osztója a 10-nek, a legkisebb közös többszörösük maga a nagyobb szám: [5, 10] = 10.',
+    breakdown: [
+      { label: 'Összefüggés', value: '5 | 10 (osztója a másiknak)' },
+      { label: 'Szabály', value: 'Az LKKT a nagyobb szám (10)' },
+    ],
+  },
+  {
+    id: 'e5',
+    question: 'Mennyi a 3 és 7 legkisebb közös többszöröse [3, 7]?',
+    options: ['21', '10', '14', '42'],
+    correctAnswer: '21',
+    explanation: 'Mivel 3 és 7 relatív prímek (mindkettő prím), az LKKT a szorzatuk: 3 · 7 = 21.',
+    breakdown: [
+      { label: 'Relatív prímek', value: 'LNKO(3, 7) = 1' },
+      { label: 'LKKT számítás', value: '3 · 7 = 21' },
+    ],
+  },
+  {
+    id: 'e6',
+    question: 'Melyik számnak van a legkevesebb többszöröse a pozitív egészek körében?',
+    options: [
+      'Mindegyik nem nulla számnak végtelen sok többszöröse van.',
+      'A prímszámoknak van a legkevesebb.',
+      'A 100-nak van a legkevesebb.',
+      'Az 1-nek van a legkevesebb.',
+    ],
+    correctAnswer: 'Mindegyik nem nulla számnak végtelen sok többszöröse van.',
+    explanation: 'Bármely nem nulla egész számnak végtelen sok többszöröse létezik (1 · a, 2 · a, 3 · a, ...).',
+    breakdown: [
+      { label: 'Többszörösök száma', value: 'Végtelen sorozat' },
+    ],
+  },
+  {
+    id: 'e7',
+    question: 'Mennyi a 10 és 15 legkisebb közös többszöröse [10, 15]?',
+    options: ['30', '150', '60', '15'],
+    correctAnswer: '30',
+    explanation: '10 = 2 · 5, 15 = 3 · 5. Az LKKT = 2 · 3 · 5 = 30.',
+    breakdown: [
+      { label: '10 többszörösei', value: '10, 20, 30, 40...' },
+      { label: '15 többszörösei', value: '15, 30, 45...' },
+      { label: 'LKKT', value: '30' },
+    ],
+  },
+  {
+    id: 'e8',
+    question: 'Mennyi a 7 és 14 legkisebb közös többszöröse [7, 14]?',
+    options: ['14', '98', '7', '28'],
+    correctAnswer: '14',
+    explanation: 'Mivel 7 osztója 14-nek, [7, 14] = 14.',
+    breakdown: [
+      { label: 'Kapcsolat', value: '7 · 2 = 14 ⟹ [7, 14] = 14' },
+    ],
+  },
+  {
+    id: 'e9',
+    question: 'Melyik szám közös többszöröse a 3-nak és a 4-nek?',
+    options: ['24', '14', '16', '15'],
+    correctAnswer: '24',
+    explanation: '[3, 4] = 12. A 12 összes többszöröse (12, 24, 36, 48...) közös többszörös. A választási lehetőségek közül a 24 ilyen.',
+    breakdown: [
+      { label: '[3, 4]', value: '12' },
+      { label: 'Közös többszörösök', value: '12, 24, 36, 48...' },
+    ],
+  },
+  {
+    id: 'e10',
+    question: 'Mennyi a 8 és 12 legkisebb közös többszöröse [8, 12]?',
+    options: ['24', '96', '48', '16'],
+    correctAnswer: '24',
+    explanation: '8 = 2³, 12 = 2² · 3. Az LKKT = 2³ · 3 = 8 · 3 = 24.',
+    breakdown: [
+      { label: '8 = 2³', value: '12 = 2² · 3' },
+      { label: 'LKKT', value: '2³ · 3 = 24' },
+    ],
+  },
+];
+
+const MEDIUM_QUESTIONS: QuizQuestion[] = [
+  {
+    id: 'm1',
+    question: 'Hogyan képezzük két szám LKKT-jét a prímtényezős felbontásból?',
+    options: [
+      'Minden előforduló prímtényezőt a legnagyobb hatványán szorzunk össze.',
+      'Csak a közös prímtényezőket szorozzuk össze a legkisebb hatványon.',
+      'Minden prímtényezőt csak az 1. hatványon szorzunk össze.',
+      'A két szám prímtényezőinek számát összeadjuk.',
+    ],
+    correctAnswer: 'Minden előforduló prímtényezőt a legnagyobb hatványán szorzunk össze.',
+    explanation: 'Az LKKT definíciója szerint minden előforduló prímtényezőt a két számban szereplő legnagyobb kitevővel kell bevenni a szorzatba.',
+    breakdown: [
+      { label: 'Minden prím', value: 'Ami legalább az egyik számban szerepel' },
+      { label: 'Kitevő', value: 'A maximális kitevő: max(eA, eB)' },
+    ],
+  },
+  {
+    id: 'm2',
+    question: 'Mennyi a 12 és 18 legkisebb közös többszöröse [12, 18]?',
+    options: ['36', '72', '54', '18'],
+    correctAnswer: '36',
+    explanation: '12 = 2² · 3, 18 = 2 · 3². Az LKKT = 2² · 3² = 4 · 9 = 36.',
+    breakdown: [
+      { label: '12 felbontása', value: '2² · 3¹' },
+      { label: '18 felbontása', value: '2¹ · 3²' },
+      { label: 'LKKT kiválasztás', value: '2² · 3² = 4 · 9 = 36' },
+    ],
+  },
+  {
+    id: 'm3',
+    question: 'Mennyi a 15 és 20 legkisebb közös többszöröse [15, 20]?',
+    options: ['60', '300', '120', '30'],
+    correctAnswer: '60',
+    explanation: '15 = 3 · 5, 20 = 2² · 5. Az LKKT = 2² · 3 · 5 = 4 · 3 · 5 = 60.',
+    breakdown: [
+      { label: '15 = 3 · 5', value: '20 = 2² · 5' },
+      { label: 'LKKT', value: '2² · 3 · 5 = 60' },
+    ],
+  },
+  {
+    id: 'm4',
+    question: 'Mennyi a 16 és 24 legkisebb közös többszöröse [16, 24]?',
+    options: ['48', '96', '384', '32'],
+    correctAnswer: '48',
+    explanation: '16 = 2⁴, 24 = 2³ · 3. Az LKKT = 2⁴ · 3 = 16 · 3 = 48.',
+    breakdown: [
+      { label: '16 = 2⁴', value: '24 = 2³ · 3' },
+      { label: 'LKKT', value: '2⁴ · 3 = 48' },
+    ],
+  },
+  {
+    id: 'm5',
+    question: 'Mennyi a 18 és 27 legkisebb közös többszöröse [18, 27]?',
+    options: ['54', '108', '81', '27'],
+    correctAnswer: '54',
+    explanation: '18 = 2 · 3², 27 = 3³. Az LKKT = 2 · 3³ = 2 · 27 = 54.',
+    breakdown: [
+      { label: '18 = 2 · 3²', value: '27 = 3³' },
+      { label: 'LKKT', value: '2 · 3³ = 54' },
+    ],
+  },
+  {
+    id: 'm6',
+    question: 'Mennyi a három szám: 4, 6 és 8 legkisebb közös többszöröse [4, 6, 8]?',
+    options: ['24', '48', '192', '12'],
+    correctAnswer: '24',
+    explanation: '4 = 2², 6 = 2 · 3, 8 = 2³. Az LKKT = 2³ · 3 = 8 · 3 = 24.',
+    breakdown: [
+      { label: 'Prímfelbontások', value: '4 = 2², 6 = 2·3, 8 = 2³' },
+      { label: 'Legnagyobb hatványok', value: '2³ · 3 = 24' },
+    ],
+  },
+  {
+    id: 'm7',
+    question: 'Mennyi a 20 és 30 legkisebb közös többszöröse [20, 30]?',
+    options: ['60', '600', '120', '30'],
+    correctAnswer: '60',
+    explanation: '20 = 2² · 5, 30 = 2 · 3 · 5. Az LKKT = 2² · 3 · 5 = 60.',
+    breakdown: [
+      { label: '20 = 2² · 5', value: '30 = 2 · 3 · 5' },
+      { label: 'LKKT', value: '2² · 3 · 5 = 60' },
+    ],
+  },
+  {
+    id: 'm8',
+    question: 'Mennyi a 24 és 36 legkisebb közös többszöröse [24, 36]?',
+    options: ['72', '144', '864', '48'],
+    correctAnswer: '72',
+    explanation: '24 = 2³ · 3, 36 = 2² · 3². Az LKKT = 2³ · 3² = 8 · 9 = 72.',
+    breakdown: [
+      { label: '24 = 2³ · 3', value: '36 = 2² · 3²' },
+      { label: 'LKKT', value: '2³ · 3² = 72' },
+    ],
+  },
+  {
+    id: 'm9',
+    question: 'Mennyi a három prím: 2, 3 és 5 legkisebb közös többszöröse [2, 3, 5]?',
+    options: ['30', '10', '15', '60'],
+    correctAnswer: '30',
+    explanation: 'Mivel a 2, 3 és 5 páronként relatív prímek, az LKKT a szorzatuk: 2 · 3 · 5 = 30.',
+    breakdown: [
+      { label: 'Prímek szorzata', value: '2 · 3 · 5 = 30' },
+    ],
+  },
+  {
+    id: 'm10',
+    question: 'Két villanykörte periodikusan felvillan: az egyik 4 másodpercenként, a másik 6 másodpercenként. Hány másodpercenként villannak fel egyszerre?',
+    options: ['12 másodpercenként', '24 másodpercenként', '10 másodpercenként', '2 másodpercenként'],
+    correctAnswer: '12 másodpercenként',
+    explanation: 'A közös villanások periódusa a két villanási idő legkisebb közös többszöröse: [4, 6] = 12 másodperc.',
+    breakdown: [
+      { label: '1. lámpa villan', value: '4, 8, 12, 16, 20, 24...' },
+      { label: '2. lámpa villan', value: '6, 12, 18, 24...' },
+      { label: 'Közös periódus', value: '[4, 6] = 12 másodperc' },
+    ],
+  },
+];
+
+const HARD_QUESTIONS: QuizQuestion[] = [
+  {
+    id: 'h1',
+    question: 'Adott két szám prímfelbontása: A = 2³ · 3² · 5 és B = 2² · 3³ · 7. Mennyi az LKKT(A, B)?',
+    options: [
+      '2³ · 3³ · 5 · 7',
+      '2² · 3²',
+      '2³ · 3³',
+      '2⁵ · 3⁵ · 5 · 7',
+    ],
+    correctAnswer: '2³ · 3³ · 5 · 7',
+    explanation: 'Minden előforduló prímet (2, 3, 5, 7) a legnagyobb hatványon veszünk: 2³ (A-ból), 3³ (B-ből), 5¹ (A-ból), 7¹ (B-ből) ⟹ 2³ · 3³ · 5 · 7 = 8 · 27 · 5 · 7 = 7560.',
+    breakdown: [
+      { label: '2-es hatvány', value: 'max(3, 2) = 3 ⟹ 2³' },
+      { label: '3-as hatvány', value: 'max(2, 3) = 3 ⟹ 3³' },
+      { label: '5-ös és 7-es', value: '5¹ · 7¹' },
+      { label: 'Eredmény', value: '2³ · 3³ · 5 · 7' },
+    ],
+  },
+  {
+    id: 'h2',
+    question: 'Két pozitív egész szám szorzata a · b = 720, és a legnagyobb közös osztójuk (a, b) = 6. Mennyi a legkisebb közös többszörösük [a, b]?',
+    options: ['120', '4320', '60', '72'],
+    correctAnswer: '120',
+    explanation: 'A tétel szerint a · b = (a, b) · [a, b]. Ebből [a, b] = (a · b) / (a, b) = 720 / 6 = 120.',
+    breakdown: [
+      { label: 'Képlet', value: 'a · b = (a, b) · [a, b]' },
+      { label: 'Behelyettesítés', value: '720 = 6 · [a, b]' },
+      { label: 'LKKT', value: '[a, b] = 720 / 6 = 120' },
+    ],
+  },
+  {
+    id: 'h3',
+    question: 'Két futó egyszerre indul egy körpálya azonos pontjáról. Az egyik 6 perc, a másik 8 perc alatt fut körbe. Hány kört tesz meg a gyorsabb futó az első találkozásukig a rajtvonalnál?',
+    options: ['4 kört', '3 kört', '24 kört', '2 kört'],
+    correctAnswer: '4 kört',
+    explanation: 'A találkozás ideje [6, 8] = 24 perc múlva lesz. A gyorsabb futó körideje 6 perc, így ő 24 : 6 = 4 kört tesz meg.',
+    breakdown: [
+      { label: 'Találkozási idő', value: '[6, 8] = 24 perc' },
+      { label: 'Gyorsabb körök száma', value: '24 : 6 = 4 kör' },
+      { label: 'Lassabb körök száma', value: '24 : 8 = 3 kör' },
+    ],
+  },
+  {
+    id: 'h4',
+    question: 'Melyik a legkisebb háromjegyű szám, amely 6-nak és 8-nak is közös többszöröse?',
+    options: ['120', '104', '112', '144'],
+    correctAnswer: '120',
+    explanation: '[6, 8] = 24. A 24 többszörösei: 24, 48, 72, 96, 120, 144... A legkisebb háromjegyű szám a 120 (5 · 24).',
+    breakdown: [
+      { label: 'LKKT(6, 8)', value: '24' },
+      { label: '24 többszörösei', value: '96 < 100, következő: 120' },
+      { label: 'Legkisebb 3-jegyű', value: '120' },
+    ],
+  },
+  {
+    id: 'h5',
+    question: 'Mennyi a 14, 21 és 35 legkisebb közös többszöröse [14, 21, 35]?',
+    options: ['210', '420', '105', '70'],
+    correctAnswer: '210',
+    explanation: '14 = 2 · 7, 21 = 3 · 7, 35 = 5 · 7. Az LKKT = 2 · 3 · 5 · 7 = 210.',
+    breakdown: [
+      { label: 'Prímfelbontások', value: '14 = 2·7, 21 = 3·7, 35 = 5·7' },
+      { label: 'LKKT', value: '2 · 3 · 5 · 7 = 210' },
+    ],
+  },
+  {
+    id: 'h6',
+    question: 'Mennyi a legkisebb közös nevezője az 1/12, 5/18 és 7/24 törteknek?',
+    options: ['72', '36', '144', '24'],
+    correctAnswer: '72',
+    explanation: 'A legkisebb közös nevező a nevezők LKKT-je: [12, 18, 24]. 12 = 2²·3, 18 = 2·3², 24 = 2³·3. LKKT = 2³ · 3² = 8 · 9 = 72.',
+    breakdown: [
+      { label: 'Nevezők', value: '12, 18, 24' },
+      { label: 'LKKT(12, 18, 24)', value: '2³ · 3² = 8 · 9 = 72' },
+    ],
+  },
+  {
+    id: 'h7',
+    question: 'Egy virágkötőnek kevesebb mint 100 szál rózsája van. Ha 6-osával vagy 8-asával köti csokorba, mindig 3 szál marad ki. Hány rózsája lehet?',
+    options: ['27, 51, 75 vagy 99', '24, 48 vagy 72', '30, 54 vagy 78', 'Csak a 27'],
+    correctAnswer: '27, 51, 75 vagy 99',
+    explanation: 'A rózsák száma 3-mal több, mint a 6 és 8 közös többszöröse. [6, 8] = 24. A lehetséges számok: 24k + 3. k=1: 27, k=2: 51, k=3: 75, k=4: 99 (mind < 100).',
+    breakdown: [
+      { label: '[6, 8]', value: '24' },
+      { label: 'Alak', value: '24k + 3' },
+      { label: 'Megoldások < 100', value: '27, 51, 75, 99' },
+    ],
+  },
+  {
+    id: 'h8',
+    question: 'Ha [a, b] = a · b, mit mondhatunk biztosan az a és b számokról?',
+    options: [
+      'a és b relatív prímek, vagyis legnagyobb közös osztójuk 1.',
+      'Mindkét szám páratlan.',
+      'Mindkét szám prímszám.',
+      'a és b egyenlőek.',
+    ],
+    correctAnswer: 'a és b relatív prímek, vagyis legnagyobb közös osztójuk 1.',
+    explanation: 'Mivel a · b = (a, b) · [a, b], ha [a, b] = a · b, akkor (a, b) = 1, vagyis a és b relatív prímek.',
+    breakdown: [
+      { label: 'Képlet', value: 'a · b = (a, b) · [a, b]' },
+      { label: 'Következmény', value: '(a, b) = 1 ⟹ relatív prímek' },
+    ],
+  },
+  {
+    id: 'h9',
+    question: 'Mennyi a 45 és 60 legkisebb közös többszöröse [45, 60]?',
+    options: ['180', '2700', '90', '120'],
+    correctAnswer: '180',
+    explanation: '45 = 3² · 5, 60 = 2² · 3 · 5. Az LKKT = 2² · 3² · 5 = 4 · 9 · 5 = 180.',
+    breakdown: [
+      { label: '45 = 3² · 5', value: '60 = 2² · 3 · 5' },
+      { label: 'LKKT', value: '2² · 3² · 5 = 180' },
+    ],
+  },
+  {
+    id: 'h10',
+    question: 'Három buszjárat az állomásról 15, 20 és 30 percenként indul. Ha reggel 6:00-kor egyszerre indultak, mikor indulnak legközelebb újra egyszerre?',
+    options: ['7:00-kor (60 perc múlva)', '8:00-kor (120 perc múlva)', '6:30-kor', '7:30-kor'],
+    correctAnswer: '7:00-kor (60 perc múlva)',
+    explanation: 'A közös indulási idő a periódusok LKKT-je: [15, 20, 30] = 60 perc (1 óra). 6:00 + 1 óra = 7:00.',
+    breakdown: [
+      { label: '[15, 20, 30]', value: '60 perc = 1 óra' },
+      { label: 'Újra egyszerre', value: '6:00 + 60 perc = 7:00' },
+    ],
+  },
+];
+
+export function LCMQuiz({ onBack }: LCMQuizProps) {
+  const [activeCustomGame, setActiveCustomGame] = useState<'matcher' | 'sorter' | null>(null);
+
+  if (activeCustomGame === 'matcher') {
+    return <LCMMatcher onBack={() => setActiveCustomGame(null)} />;
+  }
+
+  if (activeCustomGame === 'sorter') {
+    return <LCMSorter onBack={() => setActiveCustomGame(null)} />;
+  }
+
+  const customGameModes: CustomGameMode[] = [
+    {
+      id: 'matcher',
+      title: 'Kártyapárosító Játék',
+      description: 'Párosítsd össze a számpárokat, prímfelbontásokat és az LKKT-t 3 szinten!',
+      badgeText: '8 Pár / Szint',
+      icon: <Layers className="w-5 h-5 text-amber-500" />,
+      onClick: () => setActiveCustomGame('matcher'),
+    },
+    {
+      id: 'sorter',
+      title: 'Csoportosító Játék',
+      description: 'Rendezd a számpárokat LKKT kapcsolataik és értékeik alapján!',
+      badgeText: '10 Elem / Szint',
+      icon: <Sparkles className="w-5 h-5 text-orange-500" />,
+      onClick: () => setActiveCustomGame('sorter'),
+    },
+  ];
+
+  return (
+    <QuizTemplate
+      title="Többszörös, LKKT Kvíz"
+      description="Gyakorold a többszörösöket, a közös többszörösöket és a Legkisebb Közös Többszörös kiszámítását 3 nehézségi szinten!"
+      badgeText="6. Osztály • Oszthatóság"
+      themeColor="amber"
+      easyQuestions={EASY_QUESTIONS}
+      mediumQuestions={MEDIUM_QUESTIONS}
+      hardQuestions={HARD_QUESTIONS}
+      cheatSheetCards={CHEAT_SHEET_CARDS}
+      customGameModes={customGameModes}
+      onBack={onBack}
+    />
+  );
 }

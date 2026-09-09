@@ -81,9 +81,20 @@ const Grade6PrimeFactorizationTheory = lazy(() => import("@/components/math/grad
 const Grade6PrimeFactorizationQuiz = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/hany-osztoja-van/PrimeFactorizationQuiz").then(m => ({ default: m.PrimeFactorizationQuiz }))) as any;
 const Grade6PrimeFactorization = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/hany-osztoja-van/PrimeFactorization").then(m => ({ default: m.PrimeFactorization }))) as any;
 const Grade6PrimeFactorizationMatcher = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/hany-osztoja-van/PrimeFactorizationMatcher").then(m => ({ default: m.PrimeFactorizationMatcher }))) as any;
-const Grade6DivisibilityQuiz = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/osszetett-oszthatosagi-szabalyok/DivisibilityQuiz").then(m => ({ default: m.DivisibilityQuiz }))) as any;
+const Grade6DivisibilityBy2510Theory = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/oszthatosag-2-vel-5-tel-10-zel/DivisibilityBy2510Theory").then(m => ({ default: m.DivisibilityBy2510Theory }))) as any;
+const Grade6DivisibilityBy2510Quiz = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/oszthatosag-2-vel-5-tel-10-zel/DivisibilityBy2510Quiz").then(m => ({ default: m.DivisibilityBy2510Quiz }))) as any;
+const Grade6DivisibilityBy39Theory = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/oszthatosag-3-mal-es-9-cel/DivisibilityBy39Theory").then(m => ({ default: m.DivisibilityBy39Theory }))) as any;
+const Grade6DivisibilityBy39Quiz = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/oszthatosag-3-mal-es-9-cel/DivisibilityBy39Quiz").then(m => ({ default: m.DivisibilityBy39Quiz }))) as any;
+const Grade6DivisibilityBy4100Theory = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/oszthatosag-4-gyel-es-100-zal/DivisibilityBy4100Theory").then(m => ({ default: m.DivisibilityBy4100Theory }))) as any;
+const Grade6DivisibilityBy4100Quiz = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/oszthatosag-4-gyel-es-100-zal/DivisibilityBy4100Quiz").then(m => ({ default: m.DivisibilityBy4100Quiz }))) as any;
+const Grade6DivisibilityCompositeTheory = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/osszetett-oszthatosagi-szabalyok/DivisibilityCompositeTheory").then(m => ({ default: m.DivisibilityCompositeTheory }))) as any;
+const Grade6DivisibilityCompositeQuiz = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/osszetett-oszthatosagi-szabalyok/DivisibilityCompositeQuiz").then(m => ({ default: m.DivisibilityCompositeQuiz }))) as any;
+const Grade6LCMTheory = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/tobbszoros-kozos-tobbszoros/LCMTheory").then(m => ({ default: m.LCMTheory }))) as any;
 const Grade6LCMQuiz = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/tobbszoros-kozos-tobbszoros/LCMQuiz").then(m => ({ default: m.LCMQuiz }))) as any;
+const Grade6GCDTheory = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/oszto-kozos-oszto/GCDTheory").then(m => ({ default: m.GCDTheory }))) as any;
 const Grade6GCDQuiz = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/oszto-kozos-oszto/GCDQuiz").then(m => ({ default: m.GCDQuiz }))) as any;
+const Grade6Chapter1SummaryTheory = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/osszefoglalas/Chapter1SummaryTheory").then(m => ({ default: m.Chapter1SummaryTheory }))) as any;
+const Grade6Chapter1SummaryQuiz = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/osszefoglalas/Chapter1SummaryQuiz").then(m => ({ default: m.Chapter1SummaryQuiz }))) as any;
 const Grade6FractionVisualMatcher = lazy(() => import("@/components/math/grade-6/tortek/mit-tanultunk-a-tortekrol-ismetles/FractionVisualMatcher").then(m => ({ default: m.FractionVisualMatcher }))) as any;
 const Grade6FractionsQuiz = lazy(() => import("@/components/math/grade-6/tortek/mit-tanultunk-a-tortekrol-ismetles/FractionsQuiz").then(m => ({ default: m.FractionsQuiz }))) as any;
 const Grade6FractionMultiplicationMatcher = lazy(() => import("@/components/math/grade-6/tortek/szorzas-torttel-a-reciprok/FractionMultiplicationMatcher").then(m => ({ default: m.FractionMultiplicationMatcher }))) as any;
@@ -380,6 +391,13 @@ type ActivityType =
   | 'g6-integers-divisors-theory' | 'g6-integers-divisors-quiz'
   | 'g6-integers-remainders-theory' | 'g6-integers-remainders-quiz'
   | 'g6-integers-factorization-theory' | 'g6-integers-factorization-quiz'
+  | 'g6-integers-divisibility-2-5-10-theory' | 'g6-integers-divisibility-2-5-10-quiz'
+  | 'g6-integers-divisibility-3-9-theory' | 'g6-integers-divisibility-3-9-quiz'
+  | 'g6-integers-divisibility-4-100-theory' | 'g6-integers-divisibility-4-100-quiz'
+  | 'g6-integers-composite-divisibility-theory' | 'g6-integers-composite-divisibility-quiz'
+  | 'g6-integers-lcm-theory' | 'g6-integers-lcm-quiz'
+  | 'g6-integers-gcd-theory' | 'g6-integers-gcd-quiz'
+  | 'g6-integers-summary-theory' | 'g6-integers-summary-quiz'
   | 'g6-fraction-visual-matcher' | 'g6-fractions-quiz' | 'g6-fraction-multiplier' | 'g6-fraction-divider'
   | 'g6-decimal-quiz' | 'g6-to-decimal-matcher' | 'g6-decimal-multiplier-quiz' | 'g6-decimal-multiplier'
   | 'g6-decimal-divider-quiz' | 'g6-decimal-divider' | 'g6-fractions-closing-test'
@@ -2399,6 +2417,76 @@ export default function MathPage() {
                   />
                 )}
 
+                {activityType === 'g6-integers-divisibility-2-5-10-theory' && (
+                  <Grade6DivisibilityBy2510Theory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g6-integers-divisibility-2-5-10-quiz')}
+                  />
+                )}
+
+                {activityType === 'g6-integers-divisibility-2-5-10-quiz' && (
+                  <Grade6DivisibilityBy2510Quiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g6-integers-divisibility-2-5-10-theory')}
+                  />
+                )}
+
+                {activityType === 'g6-integers-divisibility-3-9-theory' && (
+                  <Grade6DivisibilityBy39Theory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g6-integers-divisibility-3-9-quiz')}
+                  />
+                )}
+
+                {activityType === 'g6-integers-divisibility-3-9-quiz' && (
+                  <Grade6DivisibilityBy39Quiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g6-integers-divisibility-3-9-theory')}
+                  />
+                )}
+
+                {activityType === 'g6-integers-divisibility-4-100-theory' && (
+                  <Grade6DivisibilityBy4100Theory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g6-integers-divisibility-4-100-quiz')}
+                  />
+                )}
+
+                {activityType === 'g6-integers-divisibility-4-100-quiz' && (
+                  <Grade6DivisibilityBy4100Quiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g6-integers-divisibility-4-100-theory')}
+                  />
+                )}
+
+                {activityType === 'g6-integers-composite-divisibility-theory' && (
+                  <Grade6DivisibilityCompositeTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g6-integers-composite-divisibility-quiz')}
+                  />
+                )}
+
+                {(activityType === 'g6-integers-composite-divisibility-quiz' || activityType === 'divisibility-quiz') && (
+                  <Grade6DivisibilityCompositeQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g6-integers-composite-divisibility-theory')}
+                  />
+                )}
+
+                {activityType === 'g6-integers-lcm-theory' && (
+                  <Grade6LCMTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g6-integers-lcm-quiz')}
+                  />
+                )}
+
+                {(activityType === 'g6-integers-lcm-quiz' || activityType === 'divisibility-lkktquiz') && (
+                  <Grade6LCMQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g6-integers-lcm-theory')}
+                  />
+                )}
+
                 {activityType === 'divisibility-powers' && (
                   <DivisibilityPowersModule onBack={handleBack} />
                 )}
@@ -2411,20 +2499,36 @@ export default function MathPage() {
                   <Grade6PrimeFactorization onBack={handleBack} />
                 )}
 
-                {activityType === 'divisibility-quiz' && (
-                  <Grade6DivisibilityQuiz onBack={handleBack} />
-                )}
-
                 {activityType === 'divisibility-matcher' && (
                   <Grade6PrimeFactorizationMatcher onBack={handleBack} />
                 )}
 
-                {activityType === 'divisibility-gcdquiz' && (
-                  <Grade6GCDQuiz onBack={handleBack} />
+                {activityType === 'g6-integers-gcd-theory' && (
+                  <Grade6GCDTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g6-integers-gcd-quiz')}
+                  />
                 )}
 
-                {activityType === 'divisibility-lkktquiz' && (
-                  <Grade6LCMQuiz onBack={handleBack} />
+                {(activityType === 'g6-integers-gcd-quiz' || activityType === 'divisibility-gcdquiz') && (
+                  <Grade6GCDQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g6-integers-gcd-theory')}
+                  />
+                )}
+
+                {activityType === 'g6-integers-summary-theory' && (
+                  <Grade6Chapter1SummaryTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g6-integers-summary-quiz')}
+                  />
+                )}
+
+                {activityType === 'g6-integers-summary-quiz' && (
+                  <Grade6Chapter1SummaryQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g6-integers-summary-theory')}
+                  />
                 )}
 
                 {activityType === 'g6-fraction-visual-matcher' && (

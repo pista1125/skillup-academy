@@ -27,11 +27,22 @@ import { cn } from '@/lib/utils';
 export type DifficultyLevel = 1 | 2 | 3;
 export type GameMode = 'quiz' | string;
 
+export interface CheatSheetCard {
+  id: string;
+  title: string;
+  icon?: React.ReactNode;
+  color?: string;
+  formula?: string;
+  note?: string;
+  content?: React.ReactNode;
+}
+
 export interface QuizQuestion {
   id: string;
-  prompt: string;
+  prompt?: string;
+  question?: string;
   highlightValue?: string;
-  questionTypeBadge: string;
+  questionTypeBadge?: string;
   options: string[];
   correctAnswer: string;
   explanation: string;
@@ -62,10 +73,12 @@ export interface CheatSheetItem {
 export interface CustomGameMode {
   id: string;
   title: string;
-  subtitle: string;
+  subtitle?: string;
+  description?: string;
   icon?: React.ReactNode;
   badgeText?: string;
-  render: (props: {
+  onClick?: () => void;
+  render?: (props: {
     level: DifficultyLevel;
     onNextLevel?: () => void;
     onOpenRules: () => void;
@@ -73,17 +86,23 @@ export interface CustomGameMode {
 }
 
 export interface QuizTemplateProps {
-  onBack: () => void;
+  onBack?: () => void;
   emoji?: string;
   topicBadge?: string;
+  badgeText?: string;
   title: string;
   subtitle?: string;
+  description?: string;
   cheatSheetTitle?: string;
   cheatSheet?: CheatSheetItem[];
-  levels: Record<DifficultyLevel, LevelConfig>;
+  cheatSheetCards?: CheatSheetCard[];
+  levels?: Record<DifficultyLevel, LevelConfig>;
+  easyQuestions?: QuizQuestion[];
+  mediumQuestions?: QuizQuestion[];
+  hardQuestions?: QuizQuestion[];
   customGameModes?: CustomGameMode[];
   hintText?: string;
-  themeColor?: 'orange' | 'blue' | 'emerald' | 'purple' | 'amber' | 'cyan';
+  themeColor?: 'orange' | 'blue' | 'emerald' | 'purple' | 'amber' | 'cyan' | 'indigo';
 }
 
 function shuffleArray<T>(array: T[]): T[] {
@@ -96,18 +115,50 @@ function shuffleArray<T>(array: T[]): T[] {
 }
 
 export function QuizTemplate({
-  onBack,
+  onBack = () => {},
   emoji = '🔢',
   topicBadge,
+  badgeText,
   title,
   subtitle,
+  description,
   cheatSheetTitle,
   cheatSheet,
+  cheatSheetCards,
   levels,
+  easyQuestions,
+  mediumQuestions,
+  hardQuestions,
   customGameModes,
   hintText,
   themeColor = 'orange'
 }: QuizTemplateProps) {
+  const effectiveLevels: Record<DifficultyLevel, LevelConfig> = levels || {
+    1: {
+      level: 1,
+      title: '1. Szint: Alapok',
+      subtitle: 'Alapfogalmak és egyszerűbb számítások',
+      range: '1 - 10. feladat',
+      focus: 'Alapfogalmak',
+      questions: easyQuestions || [],
+    },
+    2: {
+      level: 2,
+      title: '2. Szint: Közepes',
+      subtitle: 'Összefüggések és gyakorlati feladatok',
+      range: '11 - 20. feladat',
+      focus: 'Gyakorlat & Alkalmazás',
+      questions: mediumQuestions || [],
+    },
+    3: {
+      level: 3,
+      title: '3. Szint: Haladó',
+      subtitle: 'Összetett feladatok és logikai kihívások',
+      range: '21 - 30. feladat',
+      focus: 'Mesterfok & Logika',
+      questions: hardQuestions || [],
+    },
+  };
   const containerRef = useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [selectedLevel, setSelectedLevel] = useState<DifficultyLevel | null>(null);
@@ -180,7 +231,7 @@ export function QuizTemplate({
     setBestStreak(0);
     setIsCompleted(false);
 
-    const levelQuestions = levels[level]?.questions || [];
+    const levelQuestions = effectiveLevels[level]?.questions || [];
     const prepared = levelQuestions.map((q) => ({
       ...q,
       options: shuffleArray(q.options)
@@ -193,7 +244,7 @@ export function QuizTemplate({
     setSelectedOption(option);
     setIsAnswerChecked(true);
 
-    const currentQ = questions[currentIndex] || (selectedLevel ? levels[selectedLevel]?.questions[currentIndex] : null);
+    const currentQ = questions[currentIndex] || (selectedLevel ? effectiveLevels[selectedLevel]?.questions[currentIndex] : null);
     if (!currentQ) return;
 
     const isCorrect = option === currentQ.correctAnswer;
@@ -212,7 +263,7 @@ export function QuizTemplate({
   };
 
   const handleNextQuestion = () => {
-    const total = questions.length || (selectedLevel ? levels[selectedLevel]?.questions.length : 0);
+    const total = questions.length || (selectedLevel ? effectiveLevels[selectedLevel]?.questions.length : 0);
 
     if (currentIndex < total - 1) {
       setCurrentIndex((prev) => prev + 1);
@@ -237,7 +288,7 @@ export function QuizTemplate({
         };
         if (e.key in keyMap) {
           const optionIdx = keyMap[e.key];
-          const currentQ = questions[currentIndex] || (selectedLevel ? levels[selectedLevel]?.questions[currentIndex] : null);
+          const currentQ = questions[currentIndex] || (selectedLevel ? effectiveLevels[selectedLevel]?.questions[currentIndex] : null);
           if (currentQ && currentQ.options[optionIdx]) {
             handleOptionClick(currentQ.options[optionIdx]);
           }
@@ -252,6 +303,8 @@ export function QuizTemplate({
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [gameMode, isAnswerChecked, isCompleted, selectedLevel, currentIndex, questions]);
+
+  const hasCheatSheet = (cheatSheet && cheatSheet.length > 0) || (cheatSheetCards && cheatSheetCards.length > 0);
 
   // 1. Initial Level Selection Screen
   if (selectedLevel === null) {
@@ -296,7 +349,7 @@ export function QuizTemplate({
               )}
             </Button>
 
-            {cheatSheet && cheatSheet.length > 0 && (
+            {hasCheatSheet && (
               <Button
                 variant="outline"
                 size="sm"
@@ -312,13 +365,16 @@ export function QuizTemplate({
 
         {/* Hero Header */}
         <div className="text-center max-w-2xl mx-auto mb-4 sm:mb-5">
+          <div className="text-[11px] font-black uppercase tracking-wider text-orange-600 dark:text-orange-400 mb-1">
+            {topicBadge || badgeText || '6. Osztály • Matematika'}
+          </div>
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight flex items-center justify-center gap-2 mb-1">
             <span className="text-2xl">{emoji}</span>
             <span>{title}</span>
           </h1>
-          {subtitle && (
+          {(subtitle || description) && (
             <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-              {subtitle}
+              {subtitle || description}
             </p>
           )}
 
@@ -340,7 +396,13 @@ export function QuizTemplate({
               {customGameModes.map((mode) => (
                 <button
                   key={mode.id}
-                  onClick={() => setGameMode(mode.id)}
+                  onClick={() => {
+                    if (mode.onClick) {
+                      mode.onClick();
+                    } else {
+                      setGameMode(mode.id);
+                    }
+                  }}
                   className={cn(
                     "flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all",
                     gameMode === mode.id
@@ -357,7 +419,7 @@ export function QuizTemplate({
         </div>
 
         {/* Cheat sheet popover/card */}
-        {showCheatSheet && cheatSheet && cheatSheet.length > 0 && (
+        {showCheatSheet && hasCheatSheet && (
           <div className="mb-4 p-4 sm:p-5 bg-gradient-to-br from-orange-50 to-amber-50 dark:from-slate-900 dark:to-slate-850 rounded-2xl border-2 border-orange-200 dark:border-orange-900/60 shadow-md animate-in fade-in duration-200">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm sm:text-base font-black text-orange-900 dark:text-orange-200 flex items-center gap-1.5">
@@ -373,22 +435,44 @@ export function QuizTemplate({
                 Bezárás
               </Button>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2">
-              {cheatSheet.map((item, idx) => (
-                <div key={idx} className="bg-white/95 dark:bg-slate-800/95 p-2.5 rounded-xl border border-orange-100 dark:border-slate-700 shadow-xs text-left">
-                  <div className="text-xs font-black text-orange-600 dark:text-orange-400">{item.topic}</div>
-                  <div className="text-xs font-mono font-bold text-slate-800 dark:text-slate-100 mt-0.5">{item.formula}</div>
-                  <div className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5">{item.note}</div>
-                </div>
-              ))}
-            </div>
+            {cheatSheet && cheatSheet.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2">
+                {cheatSheet.map((item, idx) => (
+                  <div key={idx} className="bg-white/95 dark:bg-slate-800/95 p-2.5 rounded-xl border border-orange-100 dark:border-slate-700 shadow-xs text-left">
+                    <div className="text-xs font-black text-orange-600 dark:text-orange-400">{item.topic}</div>
+                    <div className="text-xs font-mono font-bold text-slate-800 dark:text-slate-100 mt-0.5">{item.formula}</div>
+                    <div className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5">{item.note}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+            {cheatSheetCards && cheatSheetCards.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                {cheatSheetCards.map((card, idx) => (
+                  <div key={card.id || idx} className="bg-white/95 dark:bg-slate-800/95 p-3 rounded-xl border border-slate-200 dark:border-slate-700 shadow-xs text-left">
+                    <div className="flex items-center gap-2 mb-1.5 font-bold text-xs text-slate-900 dark:text-slate-100">
+                      {card.icon}
+                      <span>{card.title}</span>
+                    </div>
+                    {card.content ? (
+                      <div>{card.content}</div>
+                    ) : (
+                      <>
+                        {card.formula && <div className="text-xs font-mono font-bold text-slate-800 dark:text-slate-100 mt-0.5">{card.formula}</div>}
+                        {card.note && <div className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5">{card.note}</div>}
+                      </>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 
         {/* Difficulty Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {([1, 2, 3] as DifficultyLevel[]).map((level) => {
-            const cfg = levels[level];
+            const cfg = effectiveLevels[level];
             if (!cfg) return null;
 
             const badgeBg = cfg.badgeBg || (level === 1 ? 'bg-emerald-50 dark:bg-emerald-950/40' : level === 2 ? 'bg-amber-50 dark:bg-amber-950/40' : 'bg-purple-50 dark:bg-purple-950/40');
@@ -457,7 +541,7 @@ export function QuizTemplate({
   }
 
   // 2. Completion Screen
-  const levelConfig = levels[selectedLevel] || levels[1];
+  const levelConfig = (selectedLevel ? effectiveLevels[selectedLevel] : null) || effectiveLevels[1];
   const totalQuestions = questions.length || levelConfig?.questions?.length || 10;
 
   if (isCompleted) {
@@ -653,7 +737,7 @@ export function QuizTemplate({
                   <Card className="border-2 border-slate-200/90 dark:border-slate-800 rounded-2xl shadow-xs overflow-hidden">
                     <div className="px-3.5 py-2 bg-slate-50 dark:bg-slate-850 border-b border-slate-200/80 dark:border-slate-800 flex items-center justify-between">
                       <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">
-                        {currentIndex + 1}. Kérdés • {currentQuestion.questionTypeBadge}
+                        {currentIndex + 1}. Kérdés • {currentQuestion.questionTypeBadge || 'Kvízkérdés'}
                       </span>
                       <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-orange-50 dark:bg-orange-950/60 text-orange-700 dark:text-orange-300 border border-orange-200 dark:border-orange-800">
                         {levelConfig.title}
@@ -662,7 +746,7 @@ export function QuizTemplate({
 
                     <CardContent className="p-4 sm:p-5 text-center">
                       <p className="text-xs sm:text-sm font-bold text-slate-600 dark:text-slate-300 mb-2.5">
-                        {currentQuestion.prompt}
+                        {currentQuestion.prompt || currentQuestion.question}
                       </p>
 
                       {currentQuestion.highlightValue && (
@@ -932,7 +1016,7 @@ export function QuizTemplate({
               )}
             </Button>
 
-            {cheatSheet && cheatSheet.length > 0 && (
+            {hasCheatSheet && (
               <Button
                 variant="outline"
                 size="sm"
@@ -958,7 +1042,7 @@ export function QuizTemplate({
       </div>
 
       {/* Rules Modal Overlay */}
-      {showCheatSheet && cheatSheet && (
+      {showCheatSheet && hasCheatSheet && (
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-200">
           <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border-2 border-orange-300 dark:border-orange-900 shadow-2xl max-w-2xl w-full text-left max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
@@ -976,15 +1060,38 @@ export function QuizTemplate({
               </Button>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-4">
-              {cheatSheet.map((item, idx) => (
-                <div key={idx} className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 space-y-1">
-                  <div className="text-xs font-bold text-orange-600 dark:text-orange-400">{item.topic}</div>
-                  <div className="text-xs font-mono font-bold text-slate-900 dark:text-white">{item.formula}</div>
-                  <div className="text-[11px] text-slate-600 dark:text-slate-300">{item.note}</div>
-                </div>
-              ))}
-            </div>
+            {cheatSheet && cheatSheet.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-4">
+                {cheatSheet.map((item, idx) => (
+                  <div key={idx} className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 space-y-1">
+                    <div className="text-xs font-bold text-orange-600 dark:text-orange-400">{item.topic}</div>
+                    <div className="text-xs font-mono font-bold text-slate-900 dark:text-white">{item.formula}</div>
+                    <div className="text-[11px] text-slate-600 dark:text-slate-300">{item.note}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {cheatSheetCards && cheatSheetCards.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-4">
+                {cheatSheetCards.map((card, idx) => (
+                  <div key={card.id || idx} className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 space-y-1">
+                    <div className="flex items-center gap-2 font-bold text-xs text-orange-600 dark:text-orange-400">
+                      {card.icon}
+                      <span>{card.title}</span>
+                    </div>
+                    {card.content ? (
+                      <div>{card.content}</div>
+                    ) : (
+                      <>
+                        {card.formula && <div className="text-xs font-mono font-bold text-slate-900 dark:text-white">{card.formula}</div>}
+                        {card.note && <div className="text-[11px] text-slate-600 dark:text-slate-300">{card.note}</div>}
+                      </>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
 
             <Button
               onClick={() => setShowCheatSheet(false)}
