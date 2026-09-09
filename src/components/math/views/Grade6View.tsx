@@ -72,11 +72,20 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-sec-muveletek" number={1} title="Műveletek az egész számok körében (Mit tanultunk ötödik osztályban?)" color="blue" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Műveletek az egész számok körében"
-                  subtitle="Egész számok összeadása, kivonása és számegyenes"
-                  type="Hamarosan"
+                  title="Műveletek tananyag"
+                  subtitle="Egész számok halmaza, előjeles műveletek és zárójelek PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-integers-operations-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="blue"
+                />
+                <ActivityPlaceholder
+                  title="Műveletek kvíz"
+                  subtitle="Előjeles összeadás, kivonás és zárójelfelbontás 3 szinten"
+                  type="Kvíz"
                   emoji="🔢"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g6-integers-operations-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="blue"
                 />
@@ -90,11 +99,20 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-sec-szorzas" number={2} title="Az egész számok szorzása" color="indigo" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Az egész számok szorzása"
-                  subtitle="Pozitív és negatív számok szorzása, előjelszabályok"
-                  type="Hamarosan"
+                  title="Szorzás tananyag"
+                  subtitle="Előjelszabályok, szorzás nullával, disztributivitás és PDF"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-integers-mult-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="indigo"
+                />
+                <ActivityPlaceholder
+                  title="Szorzás kvíz"
+                  subtitle="Egész számok szorzása, negatív hatványok és műveleti sorrend"
+                  type="Kvíz"
                   emoji="✖️"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g6-integers-mult-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="indigo"
                 />
@@ -108,11 +126,20 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-sec-osztas" number={3} title="Az egész számok osztása" color="violet" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Az egész számok osztása"
-                  subtitle="Egész számok osztása, előjelszabályok és tulajdonságok"
-                  type="Hamarosan"
+                  title="Osztás tananyag"
+                  subtitle="Előjelszabályok, osztás nullával, inverz kapcsolat és PDF"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-integers-div-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="violet"
+                />
+                <ActivityPlaceholder
+                  title="Osztás kvíz"
+                  subtitle="Egész számok osztása, műveleti sorrend és törtek 3 szinten"
+                  type="Kvíz"
                   emoji="➗"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g6-integers-div-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="violet"
                 />
@@ -126,11 +153,20 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-sec-hany-eset" number={4} title="Hány eset van? Számoljuk össze!" color="amber" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Hány eset van?"
-                  subtitle="Esetek rendszerezett összeszámolása és fastruktúra"
-                  type="Hamarosan"
+                  title="Összeszámolás tananyag"
+                  subtitle="Fastruktúra, fa-diagram, szorzási szabály és kombinációk PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-integers-cases-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="amber"
+                />
+                <ActivityPlaceholder
+                  title="Összeszámolás kvíz"
+                  subtitle="Fastruktúra, permutációk, PIN kódok és esetek 3 szinten"
+                  type="Kvíz"
                   emoji="🎲"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g6-integers-cases-quiz', topicId)}
                   icon={<Dices className="w-6 h-6" />}
                   color="amber"
                 />
@@ -144,11 +180,20 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-sec-oszto-tobbszoros" number={5} title="Osztó, többszörös" color="emerald" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Osztó és többszörös"
-                  subtitle="Az osztó és a többszörös fogalma, tulajdonságai"
-                  type="Hamarosan"
+                  title="Osztó, többszörös tananyag"
+                  subtitle="Osztópárok, véges osztók, többszörösök és prímek PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-integers-divisors-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="emerald"
+                />
+                <ActivityPlaceholder
+                  title="Osztó, többszörös kvíz"
+                  subtitle="Osztók, többszörösök, négyzetszámok és LNKO/LKKT 3 szinten"
+                  type="Kvíz"
                   emoji="🔄"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g6-integers-divisors-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="emerald"
                 />
@@ -162,11 +207,20 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-sec-maradekok" number={6} title="Számolás maradékokkal" color="teal" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Számolás maradékokkal"
-                  subtitle="Maradékos osztás alaptétele és maradékok vizsgálata"
-                  type="Hamarosan"
+                  title="Maradékos tananyag"
+                  subtitle="Maradékos osztás alaptétele, maradékosztályok és naptárszámítás PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-integers-remainders-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="teal"
+                />
+                <ActivityPlaceholder
+                  title="Maradékos kvíz"
+                  subtitle="Maradékos osztás, naptári napok és periodikus szabályok 3 szinten"
+                  type="Kvíz"
                   emoji="⏳"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g6-integers-remainders-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="teal"
                 />
@@ -177,24 +231,33 @@ export const Grade6View: React.FC<GradeViewProps> = ({
           {/* Section 7: Hány osztója van? */}
           {(showAll || activeSubSectionId === 'g6-sec-hany-osztoja-van') && (
             <section>
-              <SectionHeader id="g6-sec-hany-osztoja-van" number={7} title="Hány osztója van?" color="indigo" />
+              <SectionHeader id="g6-sec-hany-osztoja-van" number={7} title="Hány osztója van? (Prímtényezők)" color="indigo" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Prímtényezők"
-                  subtitle="Számok felbontása prímszámok szorzatára"
-                  type="Eszköz"
-                  emoji="🧱"
-                  onClick={() => onActivitySelect('divisibility-factorization', topicId)}
-                  icon={<Binary className="w-6 h-6" />}
+                  title="Prímtényezők tananyag"
+                  subtitle="Prímek, kanonikus alak, d(n) képlet és négyzetszámok PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-integers-factorization-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="indigo"
                 />
                 <ActivityPlaceholder
-                  title="Párosító Játék"
-                  subtitle="Párosítsd a számokat a prímfelbontásukkal!"
-                  type="Játék"
-                  emoji="🎯"
-                  onClick={() => onActivitySelect('divisibility-matcher', topicId)}
-                  icon={<Target className="w-6 h-6" />}
+                  title="Prímtényezők kvíz"
+                  subtitle="Prímfelbontás, törzstényezők és osztók száma 3 szinten"
+                  type="Kvíz"
+                  emoji="🧱"
+                  onClick={() => onActivitySelect('g6-integers-factorization-quiz', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="indigo"
+                />
+                <ActivityPlaceholder
+                  title="Prímtényezős eszköz"
+                  subtitle="Interaktív törzstényezős osztóoszlop kalkulátor"
+                  type="Eszköz"
+                  emoji="⚡"
+                  onClick={() => onActivitySelect('divisibility-factorization', topicId)}
+                  icon={<Binary className="w-6 h-6" />}
                   color="violet"
                 />
               </div>

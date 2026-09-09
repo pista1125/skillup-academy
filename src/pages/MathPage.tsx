@@ -4,8 +4,7 @@ import { SectionHeader } from "@/components/math/shared/SectionHeader";
 import { ActivityPlaceholder } from "@/components/math/shared/ActivityPlaceholder";
 import { mathTopics } from '@/data/mathTopics';
 import { MathTopicCard } from "@/components/math/shared/MathTopicCard";
-import { ScrollSpySidebar, NavItem } from "@/components/math/shared/ScrollSpySidebar";
-import { HorizontalTopicNav } from "@/components/math/shared/HorizontalTopicNav";
+import { ScrollSpySidebar } from "@/components/math/shared/ScrollSpySidebar";
 import { GradeSelector } from '@/components/GradeSelector';
 import { VENN_READING_OBJECTS, VENN_READING_NUMBERS } from '@/data/vennReadingLevels';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -66,6 +65,20 @@ const AngleMatcher = lazy(() => import("@/components/math/grade-7/geometria/Angl
 const ShapeClassifier = lazy(() => import("@/components/math/grade-4/sikidomok-testek/ShapeClassifier").then(m => ({ default: m.ShapeClassifier }))) as any;
 const LineRelationships = lazy(() => import("@/components/math/grade-4/sikidomok-testek/LineRelationships").then(m => ({ default: m.LineRelationships }))) as any;
 const DivisibilityPowersModule = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/DivisibilityPowersModule").then(m => ({ default: m.DivisibilityPowersModule }))) as any;
+const Grade6OperationsTheory = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/muveletek-az-egesz-szamok-koreben/OperationsWithIntegersTheory").then(m => ({ default: m.OperationsWithIntegersTheory }))) as any;
+const Grade6OperationsQuiz = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/muveletek-az-egesz-szamok-koreben/OperationsWithIntegersQuiz").then(m => ({ default: m.OperationsWithIntegersQuiz }))) as any;
+const Grade6MultiplicationTheory = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/az-egesz-szamok-szorzasa/IntegerMultiplicationTheory").then(m => ({ default: m.IntegerMultiplicationTheory }))) as any;
+const Grade6MultiplicationQuiz = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/az-egesz-szamok-szorzasa/IntegerMultiplicationQuiz").then(m => ({ default: m.IntegerMultiplicationQuiz }))) as any;
+const Grade6DivisionTheory = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/az-egesz-szamok-osztasa/IntegerDivisionTheory").then(m => ({ default: m.IntegerDivisionTheory }))) as any;
+const Grade6DivisionQuiz = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/az-egesz-szamok-osztasa/IntegerDivisionQuiz").then(m => ({ default: m.IntegerDivisionQuiz }))) as any;
+const Grade6CountingPossibilitiesTheory = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/hany-eset-van/CountingPossibilitiesTheory").then(m => ({ default: m.CountingPossibilitiesTheory }))) as any;
+const Grade6CountingPossibilitiesQuiz = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/hany-eset-van/CountingPossibilitiesQuiz").then(m => ({ default: m.CountingPossibilitiesQuiz }))) as any;
+const Grade6DivisorsMultiplesTheory = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/oszto-tobbszoros/DivisorsMultiplesTheory").then(m => ({ default: m.DivisorsMultiplesTheory }))) as any;
+const Grade6DivisorsMultiplesQuiz = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/oszto-tobbszoros/DivisorsMultiplesQuiz").then(m => ({ default: m.DivisorsMultiplesQuiz }))) as any;
+const Grade6RemaindersTheory = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/szamolas-maradekokkal/RemainderCalculationTheory").then(m => ({ default: m.RemainderCalculationTheory }))) as any;
+const Grade6RemaindersQuiz = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/szamolas-maradekokkal/RemainderCalculationQuiz").then(m => ({ default: m.RemainderCalculationQuiz }))) as any;
+const Grade6PrimeFactorizationTheory = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/hany-osztoja-van/PrimeFactorizationTheory").then(m => ({ default: m.PrimeFactorizationTheory }))) as any;
+const Grade6PrimeFactorizationQuiz = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/hany-osztoja-van/PrimeFactorizationQuiz").then(m => ({ default: m.PrimeFactorizationQuiz }))) as any;
 const Grade6PrimeFactorization = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/hany-osztoja-van/PrimeFactorization").then(m => ({ default: m.PrimeFactorization }))) as any;
 const Grade6PrimeFactorizationMatcher = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/hany-osztoja-van/PrimeFactorizationMatcher").then(m => ({ default: m.PrimeFactorizationMatcher }))) as any;
 const Grade6DivisibilityQuiz = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/osszetett-oszthatosagi-szabalyok/DivisibilityQuiz").then(m => ({ default: m.DivisibilityQuiz }))) as any;
@@ -360,6 +373,13 @@ type ActivityType =
   | 'decimal-division-matcher' | 'decimal-division-quiz' | 'decimal-multiplication-matcher' | 'decimal-multiplication-quiz'
   | 'decimal-fractions' | 'decimal-fractions-quiz' | 'decimal-shifter'
   | 'g5-fraction-to-decimal-matcher' | 'g5-fraction-visual-matcher' | 'g5-fractions-quiz' | 'g5-fractions-module' | 'g5-roman-numerals-theory' | 'g5-roman-numerals-quiz' | 'g5-place-value-theory' | 'g5-place-value-quiz' | 'g5-number-reading-theory' | 'g5-number-reading-quiz' | 'g5-number-spelling-theory' | 'g5-number-spelling-quiz' | 'g5-number-systems-theory' | 'g5-number-systems-quiz' | 'g5-number-line-theory' | 'g5-number-line-quiz' | 'g5-rounding-theory' | 'g5-rounding-quiz' | 'g5-addition-theory' | 'g5-addition-quiz' | 'g5-subtraction-theory' | 'g5-subtraction-quiz' | 'g5-multiplication-theory' | 'g5-multiplication-quiz' | 'g5-division-theory' | 'g5-division-quiz' | 'g5-order-of-operations-theory' | 'g5-order-of-operations-quiz' | 'g5-negative-numbers-theory' | 'g5-negative-numbers-quiz' | 'g5-opposite-absolute-theory' | 'g5-opposite-absolute-quiz' | 'g5-integer-addition-subtraction-theory' | 'g5-integer-addition-subtraction-quiz' | 'g5-chapter1-summary-theory' | 'g5-chapter1-summary-quiz'
+  | 'g6-integers-operations-theory' | 'g6-integers-operations-quiz'
+  | 'g6-integers-mult-theory' | 'g6-integers-mult-quiz'
+  | 'g6-integers-div-theory' | 'g6-integers-div-quiz'
+  | 'g6-integers-cases-theory' | 'g6-integers-cases-quiz'
+  | 'g6-integers-divisors-theory' | 'g6-integers-divisors-quiz'
+  | 'g6-integers-remainders-theory' | 'g6-integers-remainders-quiz'
+  | 'g6-integers-factorization-theory' | 'g6-integers-factorization-quiz'
   | 'g6-fraction-visual-matcher' | 'g6-fractions-quiz' | 'g6-fraction-multiplier' | 'g6-fraction-divider'
   | 'g6-decimal-quiz' | 'g6-to-decimal-matcher' | 'g6-decimal-multiplier-quiz' | 'g6-decimal-multiplier'
   | 'g6-decimal-divider-quiz' | 'g6-decimal-divider' | 'g6-fractions-closing-test'
@@ -497,18 +517,6 @@ export default function MathPage() {
     return `${grade}. osztály`;
   };
 
-  const gradeNavItems: NavItem[] = useMemo(() => {
-    if (view !== 'topic-select') return [];
-    if (isUpperGradeLayout) return [];
-    return [];
-  }, [selectedGrade, view, isUpperGradeLayout]);
-
-  const handleSidebarItemClick = (id: string) => {
-    const parentTopicId = sectionToTopicMap[id];
-    if (parentTopicId && expandedTopicId !== parentTopicId) {
-      setExpandedTopicId(parentTopicId);
-    }
-  };
 
   const [percentMode, setPercentMode] = useState<'calculate-value' | 'calculate-rate' | 'calculate-base' | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -1098,54 +1106,7 @@ export default function MathPage() {
         </div>
       ) : null}
 
-      {/* Professional Sub-header for Navigation (no gap) */}
-      {activityType !== 'chess-game' && activityType !== 'symmetry-construction' && activityType !== 'snake-game' && activityType !== 'tower-builder' && selectedGrade !== 'admission' && selectedGrade !== 'graduation' && (
-        <div className={cn(
-          "w-full transition-all duration-300",
-          view !== 'main-select' ? "h-10 opacity-100" : "h-0 opacity-0 overflow-hidden"
-        )}>
-          <div className="bg-white/95 backdrop-blur-xl border-b border-slate-200/60 py-1 shadow-sm">
-            <div className="w-full px-4 lg:px-12 flex items-center justify-between">
-              <Button
-                variant="ghost"
-                onClick={handleBack}
-                className="text-slate-600 hover:text-primary hover:bg-primary/5 transition-all flex items-center gap-2.5 group rounded-xl px-4 h-8"
-              >
-                <div className="p-1 rounded-lg bg-slate-100 group-hover:bg-primary/10 group-hover:text-primary transition-all">
-                  <ArrowLeft className="w-3.5 h-3.5" />
-                </div>
-                <span className="font-bold text-sm tracking-tight text-slate-700">Vissza</span>
-              </Button>
 
-              {/* Horizontal Topic Navigation */}
-              {gradeNavItems.length > 0 && (
-                <div className="flex-1 flex justify-center px-4">
-                  <HorizontalTopicNav items={gradeNavItems} onItemClick={handleSidebarItemClick} />
-                </div>
-              )}
-
-              <div className={cn(
-                "hidden md:flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-slate-400",
-                gradeNavItems.length > 0 && "lg:hidden" // Hide breadcrumbs when nav is visible on large screens
-              )}>
-                <span>MATEMATIKA</span>
-                {selectedGrade && (
-                  <>
-                    <ChevronRight className="w-3 h-3" />
-                    <span className="text-primary/70">{getGradeLabel(selectedGrade).toUpperCase()}</span>
-                  </>
-                )}
-                {selectedTopic && (
-                  <>
-                    <ChevronRight className="w-3 h-3" />
-                    <span className="text-slate-500">{currentTopic?.title || 'TÉMAKÖR'}</span>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Content */}
       <div className={cn(
@@ -2344,6 +2305,98 @@ export default function MathPage() {
 
                 {activityType === 'quadrilateral-classification' && (
                   <QuadrilateralClassifier onBack={handleBack} />
+                )}
+
+                {activityType === 'g6-integers-operations-theory' && (
+                  <Grade6OperationsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g6-integers-operations-quiz')}
+                  />
+                )}
+
+                {activityType === 'g6-integers-operations-quiz' && (
+                  <Grade6OperationsQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g6-integers-mult-theory' && (
+                  <Grade6MultiplicationTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g6-integers-mult-quiz')}
+                  />
+                )}
+
+                {activityType === 'g6-integers-mult-quiz' && (
+                  <Grade6MultiplicationQuiz onBack={handleBack} />
+                )}
+
+                {activityType === 'g6-integers-div-theory' && (
+                  <Grade6DivisionTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g6-integers-div-quiz')}
+                  />
+                )}
+
+                {activityType === 'g6-integers-div-quiz' && (
+                  <Grade6DivisionQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g6-integers-div-theory')}
+                  />
+                )}
+
+                {activityType === 'g6-integers-cases-theory' && (
+                  <Grade6CountingPossibilitiesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g6-integers-cases-quiz')}
+                  />
+                )}
+
+                {activityType === 'g6-integers-cases-quiz' && (
+                  <Grade6CountingPossibilitiesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g6-integers-cases-theory')}
+                  />
+                )}
+
+                {activityType === 'g6-integers-divisors-theory' && (
+                  <Grade6DivisorsMultiplesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g6-integers-divisors-quiz')}
+                  />
+                )}
+
+                {activityType === 'g6-integers-divisors-quiz' && (
+                  <Grade6DivisorsMultiplesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g6-integers-divisors-theory')}
+                  />
+                )}
+
+                {activityType === 'g6-integers-remainders-theory' && (
+                  <Grade6RemaindersTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g6-integers-remainders-quiz')}
+                  />
+                )}
+
+                {activityType === 'g6-integers-remainders-quiz' && (
+                  <Grade6RemaindersQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g6-integers-remainders-theory')}
+                  />
+                )}
+
+                {activityType === 'g6-integers-factorization-theory' && (
+                  <Grade6PrimeFactorizationTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g6-integers-factorization-quiz')}
+                  />
+                )}
+
+                {activityType === 'g6-integers-factorization-quiz' && (
+                  <Grade6PrimeFactorizationQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g6-integers-factorization-theory')}
+                  />
                 )}
 
                 {activityType === 'divisibility-powers' && (
