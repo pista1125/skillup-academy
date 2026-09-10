@@ -737,16 +737,25 @@ export const Grade7View: React.FC<GradeViewProps> = ({
           {/* Section 1: Az egész számok tulajdonságainak áttekintése */}
           {(showAll || activeSubSectionId === 'g7-sec-rat-egesz-attekintes') && (
             <section>
-              <SectionHeader id="g7-sec-rat-egesz-attekintes" number={1} title="Az egész számok tulajdonságainak áttekintése" color="blue" />
+              <SectionHeader id="g7-sec-rat-egesz-attekintes" number={1} title="Az egész számok tulajdonságainak áttekintése" color="purple" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Egész számok áttekintése"
-                  subtitle="Előjelek, abszolútérték, ellentett"
-                  type="Hamarosan"
-                  emoji="➕"
-                  disabled={true}
-                  icon={<Calculator className="w-6 h-6" />}
-                  color="blue"
+                  title="Egész számok elmélet"
+                  subtitle="Előjelek, abszolútérték, azonosságok és labor"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-rat-integer-properties-theory', 'g7-rational-algebra')}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="purple"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-rat-integer-properties-quiz', 'g7-rational-algebra')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="indigo"
                 />
               </div>
             </section>
@@ -758,13 +767,22 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-rat-tortek-tizedes" number={2} title="Törtek, tizedes törtek – minden, amit erről tudni kell" color="violet" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Törtek és tizedes törtek"
-                  subtitle="Bővítés, egyszerűsítés, átváltások"
-                  type="Hamarosan"
-                  emoji="🍕"
-                  disabled={true}
-                  icon={<Layers className="w-6 h-6" />}
-                  color="violet"
+                  title="Törtek és tizedestörtek"
+                  subtitle="Bővítés, egyszerűsítés, szakaszos tizedesek és labor"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-rat-fractions-decimals-theory', 'g7-rational-algebra')}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="purple"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-rat-fractions-decimals-quiz', 'g7-rational-algebra')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="indigo"
                 />
               </div>
             </section>
@@ -776,12 +794,21 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-rat-muveletek" number={3} title="Műveletek a racionális számok halmazán" color="indigo" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Műveletek racionális számokkal"
-                  subtitle="Alapműveletek, reciprokok, előjelek"
-                  type="Hamarosan"
-                  emoji="🔢"
-                  disabled={true}
-                  icon={<Binary className="w-6 h-6" />}
+                  title="Műveletek elmélet"
+                  subtitle="Alapműveletek, reciprokok, előjelek és kalkulátor"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-rat-operations-theory', 'g7-rational-algebra')}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="purple"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-rat-operations-quiz', 'g7-rational-algebra')}
+                  icon={<Target className="w-6 h-6" />}
                   color="indigo"
                 />
               </div>
@@ -795,12 +822,21 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
                   title="Szöveges feladatok"
-                  subtitle="Törtrész- és arányszámítás"
-                  type="Hamarosan"
-                  emoji="📝"
-                  disabled={true}
+                  subtitle="Törtrész, az egész visszakeresése és arányszámítás"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-rat-word-problems-theory', 'g7-rational-algebra')}
                   icon={<BookOpen className="w-6 h-6" />}
-                  color="emerald"
+                  color="purple"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-rat-word-problems-quiz', 'g7-rational-algebra')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="indigo"
                 />
               </div>
             </section>
@@ -813,12 +849,21 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
                   title="Összetett műveletek"
-                  subtitle="Műveleti sorrend, zárójelszabályok"
-                  type="Hamarosan"
-                  emoji="🧮"
-                  disabled={true}
-                  icon={<Calculator className="w-6 h-6" />}
+                  subtitle="Műveleti sorrend, zárójelfelbontás és többszörös zárójelek"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-rat-complex-operations-theory', 'g7-rational-algebra')}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="cyan"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-rat-complex-operations-quiz', 'g7-rational-algebra')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="indigo"
                 />
               </div>
             </section>
@@ -831,12 +876,21 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
                   title="Számok és betűk használata"
-                  subtitle="Változók, algebrai kifejezések"
-                  type="Hamarosan"
-                  emoji="🔤"
-                  disabled={true}
-                  icon={<Variable className="w-6 h-6" />}
+                  subtitle="Változók, betűs kifejezések, együtthatók és algebranyelv"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-rat-numbers-letters-theory', 'g7-rational-algebra')}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="purple"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-rat-numbers-letters-quiz', 'g7-rational-algebra')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="indigo"
                 />
               </div>
             </section>
@@ -849,12 +903,21 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
                   title="Összevonás és behelyettesítés"
-                  subtitle="Egynemű tagok, számérték"
-                  type="Hamarosan"
-                  emoji="🎯"
-                  disabled={true}
-                  icon={<Target className="w-6 h-6" />}
+                  subtitle="Egynemű tagok összevonása, helyettesítési érték"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-rat-combining-substitution-theory', 'g7-rational-algebra')}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="amber"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-rat-combining-substitution-quiz', 'g7-rational-algebra')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="indigo"
                 />
               </div>
             </section>
@@ -868,11 +931,20 @@ export const Grade7View: React.FC<GradeViewProps> = ({
                 <ActivityPlaceholder
                   title="Zárójelfelbontás, kiemelés"
                   subtitle="Beszorzás és közös tényező kiemelése"
-                  type="Hamarosan"
-                  emoji="⚡"
-                  disabled={true}
-                  icon={<Zap className="w-6 h-6" />}
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-rat-expansion-factoring-theory', 'g7-rational-algebra')}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="orange"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-rat-expansion-factoring-quiz', 'g7-rational-algebra')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="indigo"
                 />
               </div>
             </section>
@@ -885,12 +957,21 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
                   title="Összefoglalás"
-                  subtitle="II. Racionális számok és kifejezések ismétlése"
-                  type="Hamarosan"
-                  emoji="🏆"
-                  disabled={true}
-                  icon={<Trophy className="w-6 h-6" />}
+                  subtitle="II. Racionális számok és kifejezések teljes ismétlése"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-rat-summary-theory', 'g7-rational-algebra')}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="rose"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="90 feladat, 3 nehézségi szint (30-30-30)"
+                  type="Kvíz"
+                  emoji="🏆"
+                  onClick={() => onActivitySelect('g7-rat-summary-quiz', 'g7-rational-algebra')}
+                  icon={<Trophy className="w-6 h-6" />}
+                  color="indigo"
                 />
               </div>
             </section>

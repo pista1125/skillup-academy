@@ -260,6 +260,42 @@ const Grade8PyramidSurfaceVolumeQuiz = lazy(() => import("@/components/math/grad
 const Grade8SphereQuiz = lazy(() => import("@/components/math/grade-8/testek/a-gomb/SphereQuiz").then(m => ({ default: m.SphereQuiz }))) as any;
 const Grade8EarthGeometryQuiz = lazy(() => import("@/components/math/grade-8/testek/a-fold/EarthGeometryQuiz").then(m => ({ default: m.EarthGeometryQuiz }))) as any;
 const Grade8Chapter7SolidsSummaryQuiz = lazy(() => import("@/components/math/grade-8/testek/osszefoglalas/Chapter7SolidsSummaryQuiz").then(m => ({ default: m.Chapter7SolidsSummaryQuiz }))) as any;
+const Grade7IntegerPropertiesTheory = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/egesz-szamok-tulajdonsagai/IntegerPropertiesTheory").then(m => ({ default: m.IntegerPropertiesTheory }))) as any;
+const Grade7IntegerPropertiesQuiz = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/egesz-szamok-tulajdonsagai/IntegerPropertiesQuiz").then(m => ({ default: m.IntegerPropertiesQuiz }))) as any;
+const Grade7IntegerPropertiesMatcher = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/egesz-szamok-tulajdonsagai/IntegerPropertiesMatcher").then(m => ({ default: m.IntegerPropertiesMatcher }))) as any;
+const Grade7IntegerPropertiesSorter = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/egesz-szamok-tulajdonsagai/IntegerPropertiesSorter").then(m => ({ default: m.IntegerPropertiesSorter }))) as any;
+const Grade7FractionsDecimalsTheory = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/tortek-tizedestortek/FractionsDecimalsTheory").then(m => ({ default: m.FractionsDecimalsTheory }))) as any;
+const Grade7FractionsDecimalsQuiz = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/tortek-tizedestortek/FractionsDecimalsQuiz").then(m => ({ default: m.FractionsDecimalsQuiz }))) as any;
+const Grade7FractionsDecimalsMatcher = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/tortek-tizedestortek/FractionsDecimalsMatcher").then(m => ({ default: m.FractionsDecimalsMatcher }))) as any;
+const Grade7FractionsDecimalsSorter = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/tortek-tizedestortek/FractionsDecimalsSorter").then(m => ({ default: m.FractionsDecimalsSorter }))) as any;
+const Grade7RationalOperationsTheory = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/muveletek-racionalis-szamok/RationalOperationsTheory").then(m => ({ default: m.RationalOperationsTheory }))) as any;
+const Grade7RationalOperationsQuiz = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/muveletek-racionalis-szamok/RationalOperationsQuiz").then(m => ({ default: m.RationalOperationsQuiz }))) as any;
+const Grade7RationalOperationsMatcher = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/muveletek-racionalis-szamok/RationalOperationsMatcher").then(m => ({ default: m.RationalOperationsMatcher }))) as any;
+const Grade7RationalOperationsSorter = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/muveletek-racionalis-szamok/RationalOperationsSorter").then(m => ({ default: m.RationalOperationsSorter }))) as any;
+const Grade7WordProblemsTheory = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/szoveges-feladatok/WordProblemsTheory").then(m => ({ default: m.WordProblemsTheory }))) as any;
+const Grade7WordProblemsQuiz = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/szoveges-feladatok/WordProblemsQuiz").then(m => ({ default: m.WordProblemsQuiz }))) as any;
+const Grade7WordProblemsMatcher = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/szoveges-feladatok/WordProblemsMatcher").then(m => ({ default: m.WordProblemsMatcher }))) as any;
+const Grade7WordProblemsSorter = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/szoveges-feladatok/WordProblemsSorter").then(m => ({ default: m.WordProblemsSorter }))) as any;
+const Grade7ComplexOperationsTheory = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/osszetett-muveletek-zarojelfelbontas/ComplexOperationsTheory").then(m => ({ default: m.ComplexOperationsTheory }))) as any;
+const Grade7ComplexOperationsQuiz = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/osszetett-muveletek-zarojelfelbontas/ComplexOperationsQuiz").then(m => ({ default: m.ComplexOperationsQuiz }))) as any;
+const Grade7ComplexOperationsMatcher = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/osszetett-muveletek-zarojelfelbontas/ComplexOperationsMatcher").then(m => ({ default: m.ComplexOperationsMatcher }))) as any;
+const Grade7ComplexOperationsSorter = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/osszetett-muveletek-zarojelfelbontas/ComplexOperationsSorter").then(m => ({ default: m.ComplexOperationsSorter }))) as any;
+const Grade7NumbersLettersTheory = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/szamok-es-betuk-hasznalata/NumbersLettersTheory").then(m => ({ default: m.NumbersLettersTheory }))) as any;
+const Grade7NumbersLettersQuiz = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/szamok-es-betuk-hasznalata/NumbersLettersQuiz").then(m => ({ default: m.NumbersLettersQuiz }))) as any;
+const Grade7NumbersLettersMatcher = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/szamok-es-betuk-hasznalata/NumbersLettersMatcher").then(m => ({ default: m.NumbersLettersMatcher }))) as any;
+const Grade7NumbersLettersSorter = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/szamok-es-betuk-hasznalata/NumbersLettersSorter").then(m => ({ default: m.NumbersLettersSorter }))) as any;
+const Grade7CombiningSubstitutionTheory = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/osszevonas-helyettesitesi-ertek/CombiningSubstitutionTheory").then(m => ({ default: m.CombiningSubstitutionTheory }))) as any;
+const Grade7CombiningSubstitutionQuiz = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/osszevonas-helyettesitesi-ertek/CombiningSubstitutionQuiz").then(m => ({ default: m.CombiningSubstitutionQuiz }))) as any;
+const Grade7CombiningSubstitutionMatcher = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/osszevonas-helyettesitesi-ertek/CombiningSubstitutionMatcher").then(m => ({ default: m.CombiningSubstitutionMatcher }))) as any;
+const Grade7CombiningSubstitutionSorter = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/osszevonas-helyettesitesi-ertek/CombiningSubstitutionSorter").then(m => ({ default: m.CombiningSubstitutionSorter }))) as any;
+const Grade7ExpansionFactoringTheory = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/zarojelfelbontas-kiemeles/ExpansionFactoringTheory").then(m => ({ default: m.ExpansionFactoringTheory }))) as any;
+const Grade7ExpansionFactoringQuiz = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/zarojelfelbontas-kiemeles/ExpansionFactoringQuiz").then(m => ({ default: m.ExpansionFactoringQuiz }))) as any;
+const Grade7ExpansionFactoringMatcher = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/zarojelfelbontas-kiemeles/ExpansionFactoringMatcher").then(m => ({ default: m.ExpansionFactoringMatcher }))) as any;
+const Grade7ExpansionFactoringSorter = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/zarojelfelbontas-kiemeles/ExpansionFactoringSorter").then(m => ({ default: m.ExpansionFactoringSorter }))) as any;
+const Grade7RationalSummaryTheory = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/osszefoglalas/RationalSummaryTheory").then(m => ({ default: m.RationalSummaryTheory }))) as any;
+const Grade7RationalSummaryQuiz = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/osszefoglalas/RationalSummaryQuiz").then(m => ({ default: m.RationalSummaryQuiz }))) as any;
+const Grade7RationalSummaryMatcher = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/osszefoglalas/RationalSummaryMatcher").then(m => ({ default: m.RationalSummaryMatcher }))) as any;
+const Grade7RationalSummarySorter = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/osszefoglalas/RationalSummarySorter").then(m => ({ default: m.RationalSummarySorter }))) as any;
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -398,6 +434,15 @@ type ActivityType =
   | 'g6-integers-lcm-theory' | 'g6-integers-lcm-quiz'
   | 'g6-integers-gcd-theory' | 'g6-integers-gcd-quiz'
   | 'g6-integers-summary-theory' | 'g6-integers-summary-quiz'
+  | 'g7-rat-integer-properties-theory' | 'g7-rat-integer-properties-quiz' | 'g7-rat-integer-properties-matcher' | 'g7-rat-integer-properties-sorter'
+  | 'g7-rat-fractions-decimals-theory' | 'g7-rat-fractions-decimals-quiz' | 'g7-rat-fractions-decimals-matcher' | 'g7-rat-fractions-decimals-sorter'
+  | 'g7-rat-operations-theory' | 'g7-rat-operations-quiz' | 'g7-rat-operations-matcher' | 'g7-rat-operations-sorter'
+  | 'g7-rat-word-problems-theory' | 'g7-rat-word-problems-quiz' | 'g7-rat-word-problems-matcher' | 'g7-rat-word-problems-sorter'
+  | 'g7-rat-complex-operations-theory' | 'g7-rat-complex-operations-quiz' | 'g7-rat-complex-operations-matcher' | 'g7-rat-complex-operations-sorter'
+  | 'g7-rat-numbers-letters-theory' | 'g7-rat-numbers-letters-quiz' | 'g7-rat-numbers-letters-matcher' | 'g7-rat-numbers-letters-sorter'
+  | 'g7-rat-combining-substitution-theory' | 'g7-rat-combining-substitution-quiz' | 'g7-rat-combining-substitution-matcher' | 'g7-rat-combining-substitution-sorter'
+  | 'g7-rat-expansion-factoring-theory' | 'g7-rat-expansion-factoring-quiz' | 'g7-rat-expansion-factoring-matcher' | 'g7-rat-expansion-factoring-sorter'
+  | 'g7-rat-summary-theory' | 'g7-rat-summary-quiz' | 'g7-rat-summary-matcher' | 'g7-rat-summary-sorter'
   | 'g6-fraction-visual-matcher' | 'g6-fractions-quiz' | 'g6-fraction-multiplier' | 'g6-fraction-divider'
   | 'g6-decimal-quiz' | 'g6-to-decimal-matcher' | 'g6-decimal-multiplier-quiz' | 'g6-decimal-multiplier'
   | 'g6-decimal-divider-quiz' | 'g6-decimal-divider' | 'g6-fractions-closing-test'
@@ -2529,6 +2574,402 @@ export default function MathPage() {
                     onBack={handleBack}
                     onSwitchToTheory={() => setActivityType('g6-integers-summary-theory')}
                   />
+                )}
+
+                {activityType === 'g7-rat-integer-properties-theory' && (
+                  <Grade7IntegerPropertiesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-rat-integer-properties-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-rat-integer-properties-quiz' && (
+                  <Grade7IntegerPropertiesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-rat-integer-properties-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-rat-integer-properties-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7IntegerPropertiesMatcher onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g7-rat-integer-properties-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7IntegerPropertiesSorter onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g7-rat-fractions-decimals-theory' && (
+                  <Grade7FractionsDecimalsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-rat-fractions-decimals-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-rat-fractions-decimals-quiz' && (
+                  <Grade7FractionsDecimalsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-rat-fractions-decimals-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-rat-fractions-decimals-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7FractionsDecimalsMatcher onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g7-rat-fractions-decimals-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7FractionsDecimalsSorter onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g7-rat-operations-theory' && (
+                  <Grade7RationalOperationsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-rat-operations-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-rat-operations-quiz' && (
+                  <Grade7RationalOperationsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-rat-operations-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-rat-operations-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7RationalOperationsMatcher onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g7-rat-operations-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7RationalOperationsSorter onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g7-rat-word-problems-theory' && (
+                  <Grade7WordProblemsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-rat-word-problems-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-rat-word-problems-quiz' && (
+                  <Grade7WordProblemsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-rat-word-problems-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-rat-word-problems-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7WordProblemsMatcher onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g7-rat-word-problems-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7WordProblemsSorter onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g7-rat-complex-operations-theory' && (
+                  <Grade7ComplexOperationsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-rat-complex-operations-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-rat-complex-operations-quiz' && (
+                  <Grade7ComplexOperationsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-rat-complex-operations-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-rat-complex-operations-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7ComplexOperationsMatcher onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g7-rat-complex-operations-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7ComplexOperationsSorter onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g7-rat-numbers-letters-theory' && (
+                  <Grade7NumbersLettersTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-rat-numbers-letters-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-rat-numbers-letters-quiz' && (
+                  <Grade7NumbersLettersQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-rat-numbers-letters-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-rat-numbers-letters-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7NumbersLettersMatcher onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g7-rat-numbers-letters-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7NumbersLettersSorter onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g7-rat-combining-substitution-theory' && (
+                  <Grade7CombiningSubstitutionTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-rat-combining-substitution-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-rat-combining-substitution-quiz' && (
+                  <Grade7CombiningSubstitutionQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-rat-combining-substitution-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-rat-combining-substitution-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7CombiningSubstitutionMatcher onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g7-rat-combining-substitution-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7CombiningSubstitutionSorter onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g7-rat-expansion-factoring-theory' && (
+                  <Grade7ExpansionFactoringTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-rat-expansion-factoring-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-rat-expansion-factoring-quiz' && (
+                  <Grade7ExpansionFactoringQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-rat-expansion-factoring-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-rat-expansion-factoring-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7ExpansionFactoringMatcher onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g7-rat-expansion-factoring-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7ExpansionFactoringSorter onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g7-rat-summary-theory' && (
+                  <Grade7RationalSummaryTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-rat-summary-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-rat-summary-quiz' && (
+                  <Grade7RationalSummaryQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-rat-summary-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-rat-summary-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7RationalSummaryMatcher onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g7-rat-summary-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7RationalSummarySorter onNextLevel={handleBack} />
+                  </div>
                 )}
 
                 {activityType === 'g6-fraction-visual-matcher' && (

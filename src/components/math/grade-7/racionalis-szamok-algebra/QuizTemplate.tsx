@@ -135,7 +135,7 @@ export function QuizTemplate({
   hardQuestions,
   customGameModes,
   hintText,
-  themeColor = 'orange'
+  themeColor = 'purple'
 }: QuizTemplateProps) {
   const normalizedLevels: Record<DifficultyLevel, LevelConfig> | null = useMemo(() => {
     if (!levels) return null;
@@ -376,9 +376,9 @@ export function QuizTemplate({
                 variant="outline"
                 size="sm"
                 onClick={() => setShowCheatSheet(!showCheatSheet)}
-                className="rounded-xl h-8 px-3 text-xs font-bold border-orange-300 bg-orange-50/50 text-orange-800 dark:bg-orange-950/40 dark:text-orange-300 dark:border-orange-800 hover:bg-orange-100"
+                className="rounded-xl h-8 px-3 text-xs font-bold border-purple-300 bg-purple-50/50 text-purple-800 dark:bg-purple-950/40 dark:text-purple-300 dark:border-purple-800 hover:bg-purple-100"
               >
-                <BookOpen className="w-3.5 h-3.5 mr-1.5 text-orange-600" />
+                <BookOpen className="w-3.5 h-3.5 mr-1.5 text-purple-600" />
                 {cheatSheetTitle || "Segédlet / Tudástár"}
               </Button>
             )}
@@ -387,8 +387,8 @@ export function QuizTemplate({
 
         {/* Hero Header */}
         <div className="text-center max-w-2xl mx-auto mb-3 sm:mb-4">
-          <div className="text-[11px] font-black uppercase tracking-wider text-orange-600 dark:text-orange-400 mb-0.5">
-            {topicBadge || badgeText || '6. Osztály • Matematika'}
+          <div className="text-[11px] font-black uppercase tracking-wider text-purple-600 dark:text-purple-400 mb-0.5">
+            {topicBadge || badgeText || '7. Osztály • Matematika'}
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight flex items-center justify-center gap-2 mb-2">
             <span className="text-2xl">{emoji}</span>
@@ -407,7 +407,7 @@ export function QuizTemplate({
                     : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
                 )}
               >
-                <FileQuestion className="w-3.5 h-3.5 text-orange-500" />
+                <FileQuestion className="w-3.5 h-3.5 text-purple-500" />
                 Klasszikus Kvíz
               </button>
               {customGameModes.map((mode) => (
@@ -437,17 +437,17 @@ export function QuizTemplate({
 
         {/* Cheat sheet popover/card */}
         {showCheatSheet && hasCheatSheet && (
-          <div className="mb-4 p-4 sm:p-5 bg-gradient-to-br from-orange-50 to-amber-50 dark:from-slate-900 dark:to-slate-850 rounded-2xl border-2 border-orange-200 dark:border-orange-900/60 shadow-md animate-in fade-in duration-200">
+          <div className="mb-4 p-4 sm:p-5 bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-slate-900 dark:to-slate-850 rounded-2xl border-2 border-purple-200 dark:border-purple-900/60 shadow-md animate-in fade-in duration-200">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm sm:text-base font-black text-orange-900 dark:text-orange-200 flex items-center gap-1.5">
-                <Sparkles className="w-4 h-4 text-orange-600" />
+              <h3 className="text-sm sm:text-base font-black text-purple-900 dark:text-purple-200 flex items-center gap-1.5">
+                <Sparkles className="w-4 h-4 text-purple-600" />
                 {cheatSheetTitle || "Kvíz Segédlet & Tudástár"}
               </h3>
               <Button
                 size="sm"
                 variant="ghost"
                 onClick={() => setShowCheatSheet(false)}
-                className="text-orange-800 dark:text-orange-300 hover:bg-orange-200/50 rounded-lg h-7 px-2 text-xs"
+                className="text-purple-800 dark:text-purple-300 hover:bg-purple-200/50 rounded-lg h-7 px-2 text-xs"
               >
                 Bezárás
               </Button>
@@ -455,8 +455,8 @@ export function QuizTemplate({
             {cheatSheet && cheatSheet.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2">
                 {cheatSheet.map((item, idx) => (
-                  <div key={idx} className="bg-white/95 dark:bg-slate-800/95 p-2.5 rounded-xl border border-orange-100 dark:border-slate-700 shadow-xs text-left">
-                    <div className="text-xs font-black text-orange-600 dark:text-orange-400">{item.topic}</div>
+                  <div key={idx} className="bg-white/95 dark:bg-slate-800/95 p-2.5 rounded-xl border border-purple-100 dark:border-slate-700 shadow-xs text-left">
+                    <div className="text-xs font-black text-purple-600 dark:text-purple-400">{item.topic}</div>
                     <div className="text-xs font-mono font-bold text-slate-800 dark:text-slate-100 mt-0.5">{item.formula}</div>
                     <div className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5">{item.note}</div>
                   </div>
@@ -501,9 +501,9 @@ export function QuizTemplate({
               <div
                 key={level}
                 onClick={() => handleStartLevel(level, gameMode)}
-                className="group relative bg-white dark:bg-slate-900 rounded-2xl p-5 border-2 border-slate-200/80 dark:border-slate-800 hover:border-orange-500 dark:hover:border-orange-500 shadow-sm hover:shadow-lg transition-all duration-200 cursor-pointer flex flex-col justify-between overflow-hidden"
+                className="group relative bg-white dark:bg-slate-900 rounded-2xl p-5 border-2 border-slate-200/80 dark:border-slate-800 hover:border-purple-500 dark:hover:border-purple-500 shadow-sm hover:shadow-lg transition-all duration-200 cursor-pointer flex flex-col justify-between overflow-hidden"
               >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-orange-500/10 to-transparent rounded-bl-full pointer-events-none group-hover:scale-110 transition-transform" />
+                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-purple-500/10 to-transparent rounded-bl-full pointer-events-none group-hover:scale-110 transition-transform" />
 
                 <div>
                   <div className="flex items-center justify-between mb-3">
@@ -516,7 +516,7 @@ export function QuizTemplate({
                     </span>
                   </div>
 
-                  <h3 className="text-lg font-black text-slate-900 dark:text-white mb-0.5 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
+                  <h3 className="text-lg font-black text-slate-900 dark:text-white mb-0.5 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
                     {cfg.title}
                   </h3>
 
@@ -531,7 +531,7 @@ export function QuizTemplate({
                     </div>
                     <div className="flex items-center justify-between text-xs">
                       <span className="text-slate-500 dark:text-slate-400">Fókusz:</span>
-                      <span className="font-bold text-orange-600 dark:text-orange-400 text-right truncate max-w-[140px]" title={cfg.focus}>{cfg.focus}</span>
+                      <span className="font-bold text-purple-600 dark:text-purple-400 text-right truncate max-w-[140px]" title={cfg.focus}>{cfg.focus}</span>
                     </div>
                   </div>
                 </div>
@@ -575,7 +575,7 @@ export function QuizTemplate({
         )}
       >
         <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border-2 border-slate-200/80 dark:border-slate-800 shadow-xl max-w-xl w-full">
-          <div className="w-20 h-20 mx-auto mb-4 rounded-3xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white shadow-lg shadow-orange-500/30">
+          <div className="w-20 h-20 mx-auto mb-4 rounded-3xl bg-gradient-to-br from-amber-400 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-purple-500/30">
             <Trophy className="w-10 h-10" />
           </div>
 
@@ -589,7 +589,7 @@ export function QuizTemplate({
           <div className="grid grid-cols-3 gap-3 bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-700/80 mb-6">
             <div>
               <div className="text-[11px] uppercase font-bold text-slate-400 mb-0.5">Pontszám</div>
-              <div className="text-2xl font-black text-orange-600 dark:text-orange-400">{score} / {totalQuestions}</div>
+              <div className="text-2xl font-black text-purple-600 dark:text-purple-400">{score} / {totalQuestions}</div>
             </div>
             <div className="border-x border-slate-200 dark:border-slate-700">
               <div className="text-[11px] uppercase font-bold text-slate-400 mb-0.5">Eredmény</div>
@@ -607,7 +607,7 @@ export function QuizTemplate({
             {selectedLevel < 3 && (
               <Button
                 onClick={() => handleStartLevel((selectedLevel + 1) as DifficultyLevel, 'quiz')}
-                className="flex-1 h-11 rounded-xl text-sm font-bold bg-orange-600 hover:bg-orange-700 text-white shadow-md flex items-center justify-center gap-1.5"
+                className="flex-1 h-11 rounded-xl text-sm font-bold bg-purple-600 hover:bg-purple-700 text-white shadow-md flex items-center justify-center gap-1.5"
               >
                 Következő szint: {selectedLevel + 1}. szint
                 <ArrowRight className="w-4 h-4 ml-1" />
@@ -670,7 +670,7 @@ export function QuizTemplate({
           >
             {isFullscreen ? (
               <>
-                <Minimize2 className="w-3.5 h-3.5 mr-1 text-orange-600 dark:text-orange-400" />
+                <Minimize2 className="w-3.5 h-3.5 mr-1 text-purple-600 dark:text-purple-400" />
                 <span className="hidden sm:inline">Kilépés</span>
               </>
             ) : (
@@ -704,7 +704,7 @@ export function QuizTemplate({
         <div className="flex items-center gap-2">
           {gameMode === 'quiz' ? (
             <div className="flex items-center gap-2 bg-white dark:bg-slate-900 px-3 py-1 rounded-xl border border-slate-200/80 dark:border-slate-800 shadow-xs text-xs">
-              <div className="flex items-center gap-1 font-black text-orange-600 dark:text-orange-400">
+              <div className="flex items-center gap-1 font-black text-purple-600 dark:text-purple-400">
                 <Trophy className="w-3.5 h-3.5" />
                 <span>{score} pont</span>
               </div>
@@ -756,7 +756,7 @@ export function QuizTemplate({
                       <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">
                         {currentIndex + 1}. Kérdés • {currentQuestion.questionTypeBadge || 'Kvízkérdés'}
                       </span>
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-orange-50 dark:bg-orange-950/60 text-orange-700 dark:text-orange-300 border border-orange-200 dark:border-orange-800">
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800">
                         {levelConfig.title}
                       </span>
                     </div>
@@ -767,8 +767,8 @@ export function QuizTemplate({
                       </p>
 
                       {currentQuestion.highlightValue && (
-                        <div className="inline-block px-6 py-2.5 bg-gradient-to-br from-orange-50 to-amber-50/60 dark:from-slate-850 dark:to-slate-800 rounded-2xl border-2 border-orange-200/80 dark:border-slate-700 shadow-inner">
-                          <span className="text-2xl sm:text-3xl font-mono font-black tracking-wider text-slate-900 dark:text-orange-300">
+                        <div className="inline-block px-6 py-2.5 bg-gradient-to-br from-purple-50 to-indigo-50/60 dark:from-slate-850 dark:to-slate-800 rounded-2xl border-2 border-purple-200/80 dark:border-slate-700 shadow-inner">
+                          <span className="text-2xl sm:text-3xl font-mono font-black tracking-wider text-slate-900 dark:text-purple-300">
                             {currentQuestion.highlightValue}
                           </span>
                         </div>
@@ -820,7 +820,7 @@ export function QuizTemplate({
                                     key={bIdx}
                                     className="px-1.5 py-0.5 rounded-md bg-white/90 dark:bg-slate-800/90 text-[10px] font-bold font-mono text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700"
                                   >
-                                    {item.label}: <span className="text-orange-600 dark:text-orange-400">{item.value}</span>
+                                    {item.label}: <span className="text-purple-600 dark:text-purple-400">{item.value}</span>
                                   </span>
                                 ))}
                               </div>
@@ -831,7 +831,7 @@ export function QuizTemplate({
 
                       <Button
                         onClick={handleNextQuestion}
-                        className="w-full h-10 rounded-xl text-sm font-bold bg-slate-900 hover:bg-slate-800 text-white dark:bg-orange-600 dark:hover:bg-orange-700 shadow-sm transition-all flex items-center justify-center gap-1.5"
+                        className="w-full h-10 rounded-xl text-sm font-bold bg-slate-900 hover:bg-slate-800 text-white dark:bg-purple-600 dark:hover:bg-purple-700 shadow-sm transition-all flex items-center justify-center gap-1.5"
                       >
                         {currentIndex < levelConfig.questions.length - 1 ? (
                           <>
@@ -865,7 +865,7 @@ export function QuizTemplate({
                       const isSelected = selectedOption === option;
                       const isCorrect = option === currentQuestion.correctAnswer;
 
-                      let buttonStyle = "bg-white dark:bg-slate-900 border-2 border-slate-200/90 dark:border-slate-800 text-slate-800 dark:text-slate-100 hover:border-orange-500 hover:shadow-xs dark:hover:border-orange-500";
+                      let buttonStyle = "bg-white dark:bg-slate-900 border-2 border-slate-200/90 dark:border-slate-800 text-slate-800 dark:text-slate-100 hover:border-purple-500 hover:shadow-xs dark:hover:border-purple-500";
 
                       if (isAnswerChecked) {
                         if (isCorrect) {
@@ -906,15 +906,15 @@ export function QuizTemplate({
                   </div>
 
                   {!isAnswerChecked && (
-                    <div className="p-2.5 bg-orange-50/60 dark:bg-slate-855/80 rounded-xl border border-orange-200/50 dark:border-slate-800 text-[11px] text-orange-900 dark:text-orange-300 flex items-center gap-1.5 mt-0.5">
-                      <Sparkles className="w-3.5 h-3.5 text-orange-600 shrink-0" />
+                    <div className="p-2.5 bg-purple-50/60 dark:bg-slate-855/80 rounded-xl border border-purple-200/50 dark:border-slate-800 text-[11px] text-purple-900 dark:text-purple-300 flex items-center gap-1.5 mt-0.5">
+                      <Sparkles className="w-3.5 h-3.5 text-purple-600 shrink-0" />
                       <span>{currentQuestion.hint || hintText || "💡 Figyelj a helyes műveleti sorrendre és az előjelekre!"}</span>
                     </div>
                   )}
                 </div>
               </div>
             </div>
-          ) : activeCustomMode ? (
+          ) : activeCustomMode && activeCustomMode.render ? (
             /* CUSTOM MODE WORKSPACE */
             activeCustomMode.render({
               level: selectedLevel,
@@ -932,7 +932,7 @@ export function QuizTemplate({
           {/* Wordwall Mode Card */}
           <div className="bg-white dark:bg-slate-900 rounded-2xl p-3.5 border-2 border-slate-200/80 dark:border-slate-800 shadow-xs">
             <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2.5 px-1">
-              <Layers className="w-3.5 h-3.5 text-orange-500" />
+              <Layers className="w-3.5 h-3.5 text-purple-500" />
               <span>Sablon / Játékmód</span>
             </div>
 
@@ -943,13 +943,13 @@ export function QuizTemplate({
                 className={cn(
                   "w-full p-2.5 rounded-xl text-left font-bold text-xs transition-all flex items-center gap-2.5 border-2",
                   gameMode === 'quiz'
-                    ? "bg-orange-50 dark:bg-orange-950/50 border-orange-400 text-orange-900 dark:text-orange-200 shadow-xs"
+                    ? "bg-purple-50 dark:bg-purple-950/50 border-purple-400 text-purple-900 dark:text-purple-200 shadow-xs"
                     : "bg-slate-50/80 dark:bg-slate-800/60 border-transparent hover:border-slate-200 text-slate-600 dark:text-slate-400"
                 )}
               >
                 <div className={cn(
                   "w-8 h-8 rounded-lg flex items-center justify-center shrink-0",
-                  gameMode === 'quiz' ? "bg-orange-500 text-white" : "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300"
+                  gameMode === 'quiz' ? "bg-purple-500 text-white" : "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300"
                 )}>
                   <FileQuestion className="w-4 h-4" />
                 </div>
@@ -989,7 +989,7 @@ export function QuizTemplate({
           {/* Quick Level Switcher in Sidebar */}
           <div className="bg-white dark:bg-slate-900 rounded-2xl p-3.5 border-2 border-slate-200/80 dark:border-slate-800 shadow-xs">
             <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2 px-1">
-              <Flame className="w-3.5 h-3.5 text-orange-500" />
+              <Flame className="w-3.5 h-3.5 text-purple-500" />
               <span>Nehézségi szint</span>
             </div>
 
@@ -1001,7 +1001,7 @@ export function QuizTemplate({
                   className={cn(
                     "w-full px-3 py-1.5 rounded-xl text-xs font-bold transition-all text-left flex items-center justify-between",
                     selectedLevel === lvl
-                      ? "bg-slate-900 text-white dark:bg-orange-600 dark:text-white"
+                      ? "bg-slate-900 text-white dark:bg-purple-600 dark:text-white"
                       : "hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400"
                   )}
                 >
@@ -1022,12 +1022,12 @@ export function QuizTemplate({
             >
               {isFullscreen ? (
                 <>
-                  <Minimize2 className="w-3.5 h-3.5 mr-2 text-orange-600" />
+                  <Minimize2 className="w-3.5 h-3.5 mr-2 text-purple-600" />
                   Kilépés a teljes képernyőből
                 </>
               ) : (
                 <>
-                  <Maximize2 className="w-3.5 h-3.5 mr-2 text-orange-600" />
+                  <Maximize2 className="w-3.5 h-3.5 mr-2 text-purple-600" />
                   Teljes képernyős mód
                 </>
               )}
@@ -1038,9 +1038,9 @@ export function QuizTemplate({
                 variant="outline"
                 size="sm"
                 onClick={() => setShowCheatSheet(!showCheatSheet)}
-                className="w-full h-9 rounded-xl border-orange-300 bg-orange-50/50 text-orange-800 dark:bg-orange-950/40 dark:text-orange-300 dark:border-orange-800 hover:bg-orange-100 text-xs font-bold justify-start"
+                className="w-full h-9 rounded-xl border-purple-300 bg-purple-50/50 text-purple-800 dark:bg-purple-950/40 dark:text-purple-300 dark:border-purple-800 hover:bg-purple-100 text-xs font-bold justify-start"
               >
-                <BookOpen className="w-3.5 h-3.5 mr-2 text-orange-600" />
+                <BookOpen className="w-3.5 h-3.5 mr-2 text-purple-600" />
                 {cheatSheetTitle || "Segédlet & Szabályok"}
               </Button>
             )}
@@ -1061,10 +1061,10 @@ export function QuizTemplate({
       {/* Rules Modal Overlay */}
       {showCheatSheet && hasCheatSheet && (
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border-2 border-orange-300 dark:border-orange-900 shadow-2xl max-w-2xl w-full text-left max-h-[90vh] overflow-y-auto">
+          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border-2 border-purple-300 dark:border-purple-900 shadow-2xl max-w-2xl w-full text-left max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-orange-600" />
+                <Sparkles className="w-5 h-5 text-purple-600" />
                 {cheatSheetTitle || "Szabályok és összefoglaló"}
               </h3>
               <Button
@@ -1081,7 +1081,7 @@ export function QuizTemplate({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-4">
                 {cheatSheet.map((item, idx) => (
                   <div key={idx} className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 space-y-1">
-                    <div className="text-xs font-bold text-orange-600 dark:text-orange-400">{item.topic}</div>
+                    <div className="text-xs font-bold text-purple-600 dark:text-purple-400">{item.topic}</div>
                     <div className="text-xs font-mono font-bold text-slate-900 dark:text-white">{item.formula}</div>
                     <div className="text-[11px] text-slate-600 dark:text-slate-300">{item.note}</div>
                   </div>
@@ -1093,7 +1093,7 @@ export function QuizTemplate({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-4">
                 {cheatSheetCards.map((card, idx) => (
                   <div key={card.id || idx} className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 space-y-1">
-                    <div className="flex items-center gap-2 font-bold text-xs text-orange-600 dark:text-orange-400">
+                    <div className="flex items-center gap-2 font-bold text-xs text-purple-600 dark:text-purple-400">
                       {card.icon}
                       <span>{card.title}</span>
                     </div>
@@ -1112,7 +1112,7 @@ export function QuizTemplate({
 
             <Button
               onClick={() => setShowCheatSheet(false)}
-              className="w-full h-10 rounded-xl font-bold bg-orange-600 hover:bg-orange-700 text-white"
+              className="w-full h-10 rounded-xl font-bold bg-purple-600 hover:bg-purple-700 text-white"
             >
               Értem, bezárás
             </Button>
