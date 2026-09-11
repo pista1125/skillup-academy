@@ -1778,7 +1778,7 @@ export default function MathPage() {
 
           return (
             <div className="animate-slide-up pb-20 relative text-left">
-              <ScrollSpySidebar items={toolNavItems} onCollapseChange={setIsSidebarCollapsed} onItemClick={handleSidebarItemClick} />
+              <ScrollSpySidebar items={toolNavItems} onCollapseChange={setIsSidebarCollapsed} />
 
               <div className={cn("flex-1 space-y-12 transition-all duration-500 text-left", isSidebarCollapsed ? "lg:pl-16" : "lg:pl-36")}>
                 <div className="text-center lg:text-left mb-12">
