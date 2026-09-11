@@ -21,7 +21,9 @@ import {
   Clock,
   Timer,
   Eye,
-  ArrowLeft
+  ArrowLeft,
+  Minimize2,
+  Maximize2
 } from 'lucide-react';
 import { ChessService, ChessMatch, hasSufficientMatingMaterial } from '@/lib/chess/ChessService';
 import { ChessTournamentService } from '@/lib/chess/ChessTournamentService';
@@ -29,6 +31,46 @@ import { auth } from '@/lib/firebase';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import MathChallengeModal from './MathChallengeModal';
+
+const CapturedPiecesRow = ({
+  captured,
+  scoreDiff,
+  color
+}: {
+  captured: Array<{ type: string; symbol: string; count: number }>;
+  scoreDiff?: string | null;
+  color: 'white' | 'black';
+}) => {
+  if (captured.length === 0 && !scoreDiff) return null;
+
+  return (
+    <div className="flex items-center gap-1.5 overflow-x-auto py-0.5 select-none no-scrollbar">
+      <div className="flex items-center text-sm sm:text-base font-bold tracking-tight">
+        {captured.map((item, idx) => (
+          <span
+            key={idx}
+            className={cn(
+              "inline-flex items-center",
+              color === 'white' 
+                ? "text-slate-100 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]" 
+                : "text-slate-900 dark:text-slate-300 drop-shadow-sm"
+            )}
+            title={`${item.count}x ${item.type}`}
+          >
+            {Array.from({ length: item.count }).map((_, cIdx) => (
+              <span key={cIdx} className="-mr-1">{item.symbol}</span>
+            ))}
+          </span>
+        ))}
+      </div>
+      {scoreDiff && (
+        <span className="text-[10px] sm:text-[11px] font-black font-mono px-1.5 py-0.5 rounded-md bg-amber-400/20 text-amber-500 dark:text-amber-300 border border-amber-400/40 shrink-0">
+          {scoreDiff}
+        </span>
+      )}
+    </div>
+  );
+};
 
 interface ChessBoardUIProps {
   mode: 'ai' | 'friend';
@@ -46,6 +88,9 @@ interface ChessBoardUIProps {
   };
   isSpectator?: boolean;
   onBackToTournament?: () => void;
+  isFullscreen?: boolean;
+  onToggleFullscreen?: () => void;
+  onBackToLobby?: () => void;
 }
 
 export default function ChessBoardUI({
@@ -59,7 +104,10 @@ export default function ChessBoardUI({
   onGameEnd,
   tournamentContext,
   isSpectator = false,
-  onBackToTournament
+  onBackToTournament,
+  isFullscreen = false,
+  onToggleFullscreen,
+  onBackToLobby
 }: ChessBoardUIProps) {
   const [game, setGame] = useState(new Chess());
   const [moveHistory, setMoveHistory] = useState<string[]>([]);
@@ -80,6 +128,7 @@ export default function ChessBoardUI({
   const [customWinner, setCustomWinner] = useState<'white' | 'black' | 'draw' | null>(null);
   const [gameEndedReason, setGameEndedReason] = useState<string | null>(null);
   const [showResignConfirm, setShowResignConfirm] = useState(false);
+  const [isGameOverDismissed, setIsGameOverDismissed] = useState(false);
 
   // Timer states
   const effectiveTimeLimit = matchData?.time_limit !== undefined ? matchData.time_limit : (timeLimit ?? 300);
@@ -833,27 +882,88 @@ export default function ChessBoardUI({
     return null;
   };
 
+  const capturedInfo = useMemo(() => {
+    const currentPieces: { w: Record<'p'|'n'|'b'|'r'|'q', number>; b: Record<'p'|'n'|'b'|'r'|'q', number> } = {
+      w: { p: 0, n: 0, b: 0, r: 0, q: 0 },
+      b: { p: 0, n: 0, b: 0, r: 0, q: 0 }
+    };
+
+    const pieceValues: Record<string, number> = { p: 1, n: 3, b: 3, r: 5, q: 9 };
+    const pieceSymbolsWhite: Record<string, string> = { p: '♙', n: '♘', b: '♗', r: '♖', q: '♕' };
+    const pieceSymbolsBlack: Record<string, string> = { p: '♟', n: '♞', b: '♝', r: '♜', q: '♛' };
+
+    const board = game.board();
+    for (const row of board) {
+      for (const piece of row) {
+        if (piece && piece.type !== 'k') {
+          const t = piece.type as 'p'|'n'|'b'|'r'|'q';
+          if (currentPieces[piece.color]?.[t] !== undefined) {
+            currentPieces[piece.color][t]++;
+          }
+        }
+      }
+    }
+
+    const initial: Record<'p'|'n'|'b'|'r'|'q', number> = { p: 8, n: 2, b: 2, r: 2, q: 1 };
+    const order: Array<'q' | 'r' | 'b' | 'n' | 'p'> = ['q', 'r', 'b', 'n', 'p'];
+
+    let whiteMaterialScore = 0;
+    let blackMaterialScore = 0;
+
+    // Pieces of Black captured by White
+    const whiteCaptured: Array<{ type: string; symbol: string; count: number }> = [];
+    for (const type of order) {
+      const lostBlack = Math.max(0, initial[type] - currentPieces.b[type]);
+      if (lostBlack > 0) {
+        whiteCaptured.push({ type, symbol: pieceSymbolsBlack[type], count: lostBlack });
+      }
+      whiteMaterialScore += currentPieces.w[type] * pieceValues[type];
+      blackMaterialScore += currentPieces.b[type] * pieceValues[type];
+    }
+
+    // Pieces of White captured by Black
+    const blackCaptured: Array<{ type: string; symbol: string; count: number }> = [];
+    for (const type of order) {
+      const lostWhite = Math.max(0, initial[type] - currentPieces.w[type]);
+      if (lostWhite > 0) {
+        blackCaptured.push({ type, symbol: pieceSymbolsWhite[type], count: lostWhite });
+      }
+    }
+
+    const scoreDiff = whiteMaterialScore - blackMaterialScore;
+
+    return {
+      whiteCaptured,
+      blackCaptured,
+      whiteScoreDiff: scoreDiff > 0 ? `+${scoreDiff}` : null,
+      blackScoreDiff: scoreDiff < 0 ? `+${Math.abs(scoreDiff)}` : null,
+    };
+  }, [game]);
+
   const customSquareStyles = useMemo(() => {
     const styles: any = {};
 
     // 1. Highlight last move (from and to squares)
     if (lastMove) {
       styles[lastMove.from] = {
-        background: "rgba(251, 191, 36, 0.35)",
+        background: "rgba(251, 191, 36, 0.45)",
       };
       styles[lastMove.to] = {
-        background: "rgba(251, 191, 36, 0.35)",
+        background: "rgba(251, 191, 36, 0.7)",
+        boxShadow: "inset 0 0 10px rgba(245, 158, 11, 0.8)",
       };
     }
 
-    // 2. Highlight checked king in red
-    if (game.isCheck()) {
+    // 2. Highlight checked / checkmated king in vivid red
+    if (game.isCheck() || game.isCheckmate()) {
       const turn = game.turn();
       const kingPiece = game.board().flat().find(p => p && p.type === 'k' && p.color === turn);
       if (kingPiece) {
         styles[kingPiece.square] = {
-          background: "rgba(239, 68, 68, 0.4)",
+          background: "radial-gradient(circle, rgba(239, 68, 68, 0.85) 0%, rgba(220, 38, 38, 0.4) 65%, transparent 100%)",
+          boxShadow: "inset 0 0 14px 4px rgba(239, 68, 68, 0.9)",
           border: "2px solid #ef4444",
+          borderRadius: "6px",
         };
       }
     }
@@ -867,14 +977,14 @@ export default function ChessBoardUI({
     if (!isMyTurn) {
       if (premove) {
         styles[premove.from] = {
-          background: "radial-gradient(circle, rgba(168, 85, 247, 0.65) 80%, transparent 80%)",
-          border: "3px solid #9333ea",
-          borderRadius: "6px",
+          background: "radial-gradient(circle, rgba(168, 85, 247, 0.7) 70%, transparent 70%)",
+          border: "3px solid #a855f7",
+          borderRadius: "8px",
         };
         styles[premove.to] = {
-          background: "radial-gradient(circle, rgba(168, 85, 247, 0.45) 80%, transparent 80%)",
-          border: "3px dashed #9333ea",
-          borderRadius: "6px",
+          background: "radial-gradient(circle, rgba(168, 85, 247, 0.5) 70%, transparent 70%)",
+          border: "3px dashed #a855f7",
+          borderRadius: "8px",
         };
       } else if (premoveFrom) {
         Object.assign(styles, premoveOptionSquares);
@@ -898,6 +1008,7 @@ export default function ChessBoardUI({
     setCustomWinner(null);
     setGameEndedReason(null);
     setIsMyDrawOfferPending(false);
+    setIsGameOverDismissed(false);
     setWhiteTime(effectiveTimeLimit);
     setBlackTime(effectiveTimeLimit);
   };
@@ -917,6 +1028,431 @@ export default function ChessBoardUI({
   const currentUid = auth.currentUser?.uid;
   const hasIncomingDrawOffer = mode === 'friend' && !!matchData?.draw_offered_by && matchData.draw_offered_by !== currentUid && !isGameOver;
 
+  const oppDisplayName = mode === 'ai' ? (opponentName && opponentName !== 'Ellenfél' ? opponentName : `Stockfish AI (${difficulty}. szint)`) : opponentName;
+  const oppCaptured = isWhite ? capturedInfo.blackCaptured : capturedInfo.whiteCaptured;
+  const oppScoreDiff = isWhite ? capturedInfo.blackScoreDiff : capturedInfo.whiteScoreDiff;
+  const oppPieceColor = isWhite ? 'white' : 'black';
+
+  const userCaptured = isWhite ? capturedInfo.whiteCaptured : capturedInfo.blackCaptured;
+  const userScoreDiff = isWhite ? capturedInfo.whiteScoreDiff : capturedInfo.blackScoreDiff;
+  const userPieceColor = isWhite ? 'black' : 'white';
+
+  const isOppTurn = !isWhite ? game.turn() === 'w' : game.turn() === 'b';
+  const isUserTurn = isWhite ? game.turn() === 'w' : game.turn() === 'b';
+
+  const gameOverInfo = useMemo(() => {
+    if (!isGameOver) return null;
+
+    const isCheckmate = game.isCheckmate();
+    const isDraw = customWinner === 'draw' || game.isDraw() || game.isStalemate();
+    const turn = game.turn();
+    const playerWon = isCheckmate 
+      ? ((isWhite && turn === 'b') || (!isWhite && turn === 'w'))
+      : customWinner 
+        ? ((isWhite && customWinner === 'white') || (!isWhite && customWinner === 'black'))
+        : false;
+
+    let title = 'Játék vége';
+    let subtitle = gameEndedReason || 'A mérkőzés befejeződött.';
+    let badgeColor = 'bg-indigo-500/20 text-indigo-400 border-indigo-500/40';
+    let icon = <Flag className="w-4 h-4 text-indigo-400" />;
+
+    if (isCheckmate) {
+      title = playerWon ? 'Sakk-matt! Győztél! 🏆' : 'Sakk-matt!';
+      subtitle = playerWon ? '🎉 Gratulálok, nyertél!' : (mode === 'ai' ? 'A robot nyert.' : 'Sakk-matt! Vége a játszmának.');
+      badgeColor = playerWon ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' : 'bg-rose-500/20 text-rose-300 border-rose-500/40';
+      icon = playerWon ? <Trophy className="w-4 h-4 text-amber-400" /> : <Flag className="w-4 h-4 text-rose-400" />;
+    } else if (isDraw) {
+      title = 'Döntetlen!';
+      subtitle = gameEndedReason || (game.isStalemate() ? 'Patt (Döntetlen)!' : 'Döntetlen állás.');
+      badgeColor = 'bg-amber-500/20 text-amber-300 border-amber-500/40';
+      icon = <Handshake className="w-4 h-4 text-amber-400" />;
+    } else if (customWinner) {
+      title = playerWon ? 'Győzelem! 🏆' : 'Játszma vége';
+      subtitle = gameEndedReason || (playerWon ? 'Az ellenfél feladta a játszmát.' : 'Feladtad a játszmát.');
+      badgeColor = playerWon ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' : 'bg-rose-500/20 text-rose-300 border-rose-500/40';
+      icon = <Trophy className="w-4 h-4 text-amber-400" />;
+    }
+
+    return { title, subtitle, badgeColor, icon, playerWon, isCheckmate, isDraw };
+  }, [isGameOver, game, customWinner, isWhite, gameEndedReason, mode]);
+
+  const renderBoardGameOverPopup = () => {
+    if (!isGameOver || !gameOverInfo || isGameOverDismissed) return null;
+
+    const { subtitle, badgeColor, icon, playerWon, isDraw } = gameOverInfo;
+
+    return (
+      <div className="absolute inset-0 z-30 flex items-center justify-center p-3 pointer-events-none animate-in fade-in zoom-in-95 duration-200">
+        <div className="pointer-events-auto bg-slate-950/92 dark:bg-slate-950/95 backdrop-blur-md border-2 border-slate-700/80 rounded-2xl p-3.5 sm:p-4 shadow-2xl max-w-[270px] w-full text-center text-white relative">
+          {/* Close button [X] */}
+          <button
+            onClick={() => setIsGameOverDismissed(true)}
+            className="absolute top-2.5 right-2.5 p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+            title="Bezárás (tábla megtekintése)"
+          >
+            <X className="w-4 h-4" />
+          </button>
+
+          {/* Badge & Icon */}
+          <div className="flex justify-center mb-1.5">
+            <div className={cn("p-2 rounded-xl border flex items-center justify-center shadow-inner", badgeColor)}>
+              {icon}
+            </div>
+          </div>
+
+          {/* Main Title: Győztél / Vesztettél / Döntetlen */}
+          <h3 className={cn(
+            "text-lg font-black tracking-tight mb-1",
+            playerWon ? "text-emerald-400" : isDraw ? "text-amber-400" : "text-rose-400"
+          )}>
+            {playerWon ? 'GYŐZTÉL! 🏆' : isDraw ? 'DÖNTETLEN! 🤝' : 'VESZTETTÉL'}
+          </h3>
+
+          {/* Subtitle */}
+          <p className="text-xs text-slate-300 font-medium mb-3 px-1 leading-snug">
+            {subtitle}
+          </p>
+
+          {/* Actions */}
+          <div className="flex flex-col gap-1.5">
+            {onBackToTournament ? (
+              <Button
+                onClick={onBackToTournament}
+                size="sm"
+                className="w-full h-8 rounded-xl font-bold text-xs bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md flex items-center justify-center gap-1.5"
+              >
+                <Trophy className="w-3.5 h-3.5" /> Vissza az Ágrajzhoz
+              </Button>
+            ) : (
+              <Button
+                onClick={resetGame}
+                size="sm"
+                className="w-full h-8 rounded-xl font-bold text-xs bg-indigo-600 hover:bg-indigo-500 text-white shadow-md flex items-center justify-center gap-1.5"
+              >
+                <RotateCcw className="w-3.5 h-3.5" /> Új játék indítása
+              </Button>
+            )}
+
+            <button
+              onClick={() => setIsGameOverDismissed(true)}
+              className="w-full py-1 text-[11px] text-slate-400 hover:text-slate-200 hover:underline flex items-center justify-center gap-1 transition-colors"
+            >
+              <Eye className="w-3.5 h-3.5" /> Tábla megtekintése (X)
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // ----------------------------------------------------
+  // FULLSCREEN MODE VIEW
+  // ----------------------------------------------------
+  if (isFullscreen) {
+    return (
+      <div className="fixed inset-0 z-50 w-screen h-screen bg-[#07131f] text-slate-100 flex flex-col justify-between items-center p-2 sm:p-4 select-none overflow-hidden font-sans">
+        {/* Top Minimal Action & Status Bar */}
+        <div className="w-full max-w-2xl flex items-center justify-between px-2 py-1 z-20">
+          <div className="flex items-center gap-2">
+            {onBackToTournament ? (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={onBackToTournament}
+                className="h-8 px-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700/60 font-bold text-xs shadow-xs flex items-center gap-1.5"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" /> Ágrajz
+              </Button>
+            ) : onBackToLobby ? (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={onBackToLobby}
+                className="h-8 px-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700/60 font-bold text-xs shadow-xs flex items-center gap-1.5"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" /> Kilépés
+              </Button>
+            ) : null}
+
+            {tournamentContext?.roundName && (
+              <span className="hidden sm:inline-block px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-black">
+                🏆 {tournamentContext.roundName}
+              </span>
+            )}
+          </div>
+
+          <div className="flex items-center gap-1.5">
+            {!isSpectator && (
+              <>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleHintRequest}
+                  disabled={isGameOver || isLoadingHint}
+                  className={cn(
+                    "h-8 px-2 rounded-xl text-xs font-bold border transition-all",
+                    Object.keys(hintSquares).length > 0
+                      ? "border-emerald-500 bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30"
+                      : "border-slate-700/60 bg-slate-800/80 text-slate-300 hover:bg-slate-700"
+                  )}
+                  title="Legjobb lépés kérése (Matek kvíz)"
+                >
+                  {isLoadingHint ? (
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  ) : (
+                    <Lightbulb className={cn("w-3.5 h-3.5", Object.keys(hintSquares).length > 0 && "fill-emerald-400 text-emerald-300")} />
+                  )}
+                </Button>
+
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleOfferDraw}
+                  disabled={isGameOver || isMyDrawOfferPending}
+                  className="h-8 px-2 rounded-xl border border-slate-700/60 bg-slate-800/80 text-amber-400 hover:bg-slate-700 text-xs font-bold"
+                  title="Döntetlen felajánlása"
+                >
+                  <Handshake className="w-3.5 h-3.5" />
+                </Button>
+
+                {showResignConfirm ? (
+                  <div className="flex items-center gap-1">
+                    <Button
+                      size="sm"
+                      onClick={handleResign}
+                      className="h-8 px-2 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl"
+                    >
+                      Feladom
+                    </Button>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      onClick={() => setShowResignConfirm(false)}
+                      className="h-8 w-8 rounded-xl text-slate-400"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </Button>
+                  </div>
+                ) : (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowResignConfirm(true)}
+                    disabled={isGameOver}
+                    className="h-8 px-2 rounded-xl border border-slate-700/60 bg-slate-800/80 text-rose-400 hover:bg-slate-700 text-xs font-bold"
+                    title="Feladás"
+                  >
+                    <Flag className="w-3.5 h-3.5" />
+                  </Button>
+                )}
+              </>
+            )}
+
+            {onToggleFullscreen && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={onToggleFullscreen}
+                className="h-8 px-2.5 rounded-xl border border-slate-700/60 bg-slate-800/80 text-slate-300 hover:bg-slate-700 font-bold text-xs"
+                title="Kilépés a teljes képernyőből"
+              >
+                <Minimize2 className="w-4 h-4" />
+              </Button>
+            )}
+          </div>
+        </div>
+
+        {/* Center Chess Arena (scaled down by ~20% for comfortable view) */}
+        <div className="w-[min(88vw,calc(68vh-40px))] max-w-[490px] flex flex-col justify-center items-center gap-1.5 my-auto">
+          {/* Opponent Bar */}
+          <div className="w-full flex items-center justify-between px-2.5 py-1.5 bg-[#0d1e2e]/90 rounded-xl border border-slate-700/60 shadow-md">
+            <div className="flex items-center gap-2.5 truncate">
+              <div className="w-7 h-7 rounded-lg bg-slate-800 flex items-center justify-center text-sm font-bold shrink-0 border border-slate-700 text-slate-200">
+                {isWhite ? '♚' : '♔'}
+              </div>
+              <div className="truncate">
+                <div className="font-bold text-xs text-slate-100 truncate flex items-center gap-1.5">
+                  <span>{oppDisplayName}</span>
+                  {isGameOver && gameOverInfo && !gameOverInfo.playerWon && !gameOverInfo.isDraw && (
+                    <span className="px-1.5 py-0.2 rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-black">
+                      🏆 Győztes
+                    </span>
+                  )}
+                </div>
+                <CapturedPiecesRow
+                  captured={oppCaptured}
+                  scoreDiff={oppScoreDiff}
+                  color={oppPieceColor}
+                />
+              </div>
+            </div>
+
+            {/* Clock */}
+            {isTimedGame ? (
+              <div className={cn(
+                "px-3 py-1 rounded-lg font-mono font-black text-sm tracking-wider flex items-center gap-1.5 border-2 shadow-inner transition-all",
+                isOppTurn && !isGameOver
+                  ? (isWhite ? blackTime : whiteTime) < 30
+                    ? "bg-rose-950/80 text-rose-300 border-rose-500 animate-pulse ring-2 ring-rose-500/40"
+                    : "bg-[#0b2b3f] text-cyan-300 border-cyan-400 ring-2 ring-cyan-400/30"
+                  : "bg-[#081522] text-slate-400 border-slate-700"
+              )}>
+                <Clock className="w-3.5 h-3.5 opacity-80" />
+                <span>{formatTime(isWhite ? blackTime : whiteTime)}</span>
+              </div>
+            ) : (
+              <span className="text-[10px] text-slate-400 font-mono">♾️ Korlátlan</span>
+            )}
+          </div>
+
+          {/* Board Container (100% visible, compact popup with [X] close) */}
+          <div className="w-full aspect-square relative rounded-xl overflow-hidden shadow-2xl border-2 border-slate-800/80 bg-slate-900">
+            <Chessboard
+              position={game.fen()}
+              onPieceDrop={onDrop}
+              onSquareClick={onSquareClick}
+              onSquareRightClick={() => {
+                setMoveFrom(null);
+                setOptionSquares({});
+                clearPremove();
+              }}
+              boardOrientation={orientation}
+              customSquareStyles={customSquareStyles}
+              customBoardStyle={{
+                borderRadius: '0.75rem',
+              }}
+              customDarkSquareStyle={{ backgroundColor: '#b58863' }}
+              customLightSquareStyle={{ backgroundColor: '#f0d9b5' }}
+            />
+
+            {/* Compact Non-intrusive Game Over Popup with [X] Close */}
+            {renderBoardGameOverPopup()}
+          </div>
+
+          {/* User Bar */}
+          <div className="w-full flex items-center justify-between px-2.5 py-1.5 bg-[#0d1e2e]/90 rounded-xl border border-slate-700/60 shadow-md">
+            <div className="flex items-center gap-2.5 truncate">
+              <div className="w-7 h-7 rounded-lg bg-indigo-950 flex items-center justify-center text-sm font-bold shrink-0 border border-indigo-700 text-indigo-300">
+                {isWhite ? '♔' : '♚'}
+              </div>
+              <div className="truncate">
+                <div className="font-bold text-xs text-slate-100 truncate flex items-center gap-1.5">
+                  <span>Te ({isWhite ? 'Világos' : 'Sötét'})</span>
+                  {isGameOver && gameOverInfo && gameOverInfo.playerWon && (
+                    <span className="px-1.5 py-0.2 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-black">
+                      🏆 Győztes
+                    </span>
+                  )}
+                </div>
+                <CapturedPiecesRow
+                  captured={userCaptured}
+                  scoreDiff={userScoreDiff}
+                  color={userPieceColor}
+                />
+              </div>
+            </div>
+
+            {/* Clock */}
+            {isTimedGame ? (
+              <div className={cn(
+                "px-3 py-1 rounded-lg font-mono font-black text-sm tracking-wider flex items-center gap-1.5 border-2 shadow-inner transition-all",
+                isUserTurn && !isGameOver
+                  ? (isWhite ? whiteTime : blackTime) < 30
+                    ? "bg-rose-950/80 text-rose-300 border-rose-500 animate-pulse ring-2 ring-rose-500/40"
+                    : "bg-[#0b2b3f] text-cyan-300 border-cyan-400 ring-2 ring-cyan-400/30"
+                  : "bg-[#081522] text-slate-400 border-slate-700"
+              )}>
+                <Clock className="w-3.5 h-3.5 opacity-80" />
+                <span>{formatTime(isWhite ? whiteTime : blackTime)}</span>
+              </div>
+            ) : (
+              <span className="text-[10px] text-slate-400 font-mono">♾️ Korlátlan</span>
+            )}
+          </div>
+        </div>
+
+        {/* Bottom Turn / Status / Game Over Control Strip */}
+        <div className="w-full max-w-2xl min-h-[42px] flex items-center justify-center px-2 pb-1 z-20">
+          {isGameOver && gameOverInfo ? (
+            <div className="w-full max-w-xl bg-slate-900/95 border-2 border-slate-700/80 rounded-2xl py-1.5 px-3 shadow-2xl flex items-center justify-between gap-2 text-white animate-in slide-in-from-bottom-2 duration-200">
+              <div className="flex items-center gap-2 min-w-0">
+                <div className={cn("p-1.5 rounded-xl border flex items-center justify-center shrink-0", gameOverInfo.badgeColor)}>
+                  {gameOverInfo.icon}
+                </div>
+                <div className="min-w-0">
+                  <div className="font-black text-xs sm:text-sm tracking-wide text-white truncate flex items-center gap-2">
+                    <span>{gameOverInfo.title}</span>
+                    <span className="text-[11px] font-semibold text-slate-300 opacity-90 truncate hidden sm:inline">
+                      • {gameOverInfo.subtitle}
+                    </span>
+                  </div>
+                  <div className="text-[10px] font-medium text-slate-300 truncate sm:hidden">
+                    {gameOverInfo.subtitle}
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-1.5 shrink-0">
+                {isGameOverDismissed && (
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={() => setIsGameOverDismissed(false)}
+                    className="h-8 px-2 text-[11px] font-bold text-slate-300 hover:text-white rounded-xl"
+                    title="Eredmény ablak megjelenítése"
+                  >
+                    <Eye className="w-3.5 h-3.5 mr-1" /> Eredmény
+                  </Button>
+                )}
+                {onBackToTournament ? (
+                  <Button
+                    size="sm"
+                    onClick={onBackToTournament}
+                    className="h-8 px-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-xs rounded-xl shadow-md flex items-center gap-1"
+                  >
+                    <Trophy className="w-3.5 h-3.5" /> Ágrajz
+                  </Button>
+                ) : (
+                  <Button
+                    size="sm"
+                    onClick={resetGame}
+                    className="h-8 px-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl shadow-md flex items-center gap-1"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" /> Új játék
+                  </Button>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-center justify-center gap-2 text-xs font-bold text-slate-300 select-none">
+              <div className={cn(
+                "w-2.5 h-2.5 rounded-full animate-pulse",
+                game.turn() === 'w' ? "bg-amber-100 shadow-[0_0_8px_rgba(255,255,255,0.8)]" : "bg-slate-700 shadow-[0_0_8px_rgba(0,0,0,0.8)]"
+              )} />
+              <span>{currentTurn} következik {isMyTurn ? '(Te lépsz)' : '(Ellenfél köre)'}</span>
+              {getStatusMessage() && (
+                <span className="ml-2 px-2 py-0.5 rounded-full bg-rose-500/30 text-rose-300 border border-rose-500/50 animate-bounce">
+                  {getStatusMessage()}
+                </span>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Math Modal */}
+        <MathChallengeModal
+          isOpen={showMathModal}
+          onClose={() => setShowMathModal(false)}
+          onSuccess={handleMathSuccess}
+        />
+      </div>
+    );
+  }
+
+  // ----------------------------------------------------
+  // WINDOWED MODE VIEW
+  // ----------------------------------------------------
   return (
     <div className="flex flex-col lg:flex-row gap-5 w-full max-w-6xl mx-auto items-start justify-center">
       {/* Board Column */}
@@ -962,7 +1498,7 @@ export default function ChessBoardUI({
                   Döntetlen ajánlat érkezett!
                 </div>
                 <div className="text-[11px] text-amber-700 dark:text-amber-300/80">
-                  <strong>{opponentName}</strong> döntetlent ajánlott fel.
+                  <strong>{oppDisplayName}</strong> döntetlent ajánlott fel.
                 </div>
               </div>
             </div>
@@ -987,25 +1523,6 @@ export default function ChessBoardUI({
           </div>
         )}
 
-        {/* Premove Active Floating Pill */}
-        {premove && !isGameOver && !isMyTurn && (
-          <div className="w-full max-w-[min(100%,75vh)] px-3.5 py-2 rounded-xl bg-purple-500/10 dark:bg-purple-950/40 border border-purple-500/30 text-purple-700 dark:text-purple-300 text-xs font-bold flex items-center justify-between shadow-xs animate-in fade-in duration-200">
-            <div className="flex items-center gap-2">
-              <Zap className="w-3.5 h-3.5 fill-purple-500 text-purple-600 dark:text-purple-400 animate-pulse" />
-              <span>
-                Premove aktív: <span className="font-mono bg-purple-200/60 dark:bg-purple-900/60 px-1.5 py-0.5 rounded text-purple-900 dark:text-purple-100">{premove.from.toUpperCase()} ➔ {premove.to.toUpperCase()}</span> (Azonnal lefut ellenfél lépésekor)
-              </span>
-            </div>
-            <button 
-              onClick={clearPremove}
-              className="p-1 rounded-lg hover:bg-purple-200 dark:hover:bg-purple-800/60 text-purple-600 dark:text-purple-300 transition-colors"
-              title="Premove törlése"
-            >
-              <X className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        )}
-
         <Card className="w-full max-w-[min(100%,75vh)] p-3 md:p-4 rounded-[2rem] border-slate-200 dark:border-slate-800 shadow-2xl bg-white dark:bg-slate-900 overflow-hidden relative transition-all duration-300">
           {/* Opponent Top Mini Bar */}
           <div className="w-full flex items-center justify-between pb-2.5 px-1 border-b border-slate-100 dark:border-slate-800 mb-2">
@@ -1014,12 +1531,19 @@ export default function ChessBoardUI({
                 {isWhite ? '♚' : '♔'}
               </div>
               <div className="truncate">
-                <span className="font-bold text-xs text-slate-800 dark:text-slate-100 block truncate max-w-[140px] sm:max-w-[200px]">
-                  {mode === 'ai' ? (opponentName && opponentName !== 'Ellenfél' ? opponentName : `Stockfish AI (${difficulty}. szint)`) : opponentName}
-                </span>
-                <span className="text-[10px] text-slate-400">
-                  {isWhite ? 'Sötét' : 'Világos'}
-                </span>
+                <div className="font-bold text-xs text-slate-800 dark:text-slate-100 flex items-center gap-1.5">
+                  <span className="truncate">{oppDisplayName}</span>
+                  {isGameOver && gameOverInfo && !gameOverInfo.playerWon && !gameOverInfo.isDraw && (
+                    <span className="px-1.5 py-0.2 rounded-md bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-500/40 text-[10px] font-black shrink-0">
+                      🏆 Győztes
+                    </span>
+                  )}
+                </div>
+                <CapturedPiecesRow
+                  captured={oppCaptured}
+                  scoreDiff={oppScoreDiff}
+                  color={oppPieceColor}
+                />
               </div>
             </div>
 
@@ -1027,7 +1551,7 @@ export default function ChessBoardUI({
             {isTimedGame ? (
               <div className={cn(
                 "px-2.5 py-1 rounded-xl font-mono font-black text-xs md:text-sm flex items-center gap-1.5 transition-all border shadow-xs",
-                (!isWhite ? game.turn() === 'w' : game.turn() === 'b') && !isGameOver
+                isOppTurn && !isGameOver
                   ? (isWhite ? blackTime : whiteTime) < 30
                     ? "bg-rose-500/20 text-rose-600 dark:text-rose-400 border-rose-500 animate-pulse ring-2 ring-rose-500/30"
                     : "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500 ring-2 ring-emerald-500/20"
@@ -1057,96 +1581,12 @@ export default function ChessBoardUI({
                 borderRadius: '1rem',
                 boxShadow: '0 5px 15px rgba(0, 0, 0, 0.5)'
               }}
-              customDarkSquareStyle={{ backgroundColor: '#475569' }}
-              customLightSquareStyle={{ backgroundColor: '#94a3b8' }}
+              customDarkSquareStyle={{ backgroundColor: '#b58863' }}
+              customLightSquareStyle={{ backgroundColor: '#f0d9b5' }}
             />
 
-            {/* Game Over Centered Overlay */}
-            {isGameOver && (
-              <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-slate-950/85 backdrop-blur-md rounded-2xl p-6 text-center animate-in fade-in zoom-in-95 duration-300">
-                <div className={cn(
-                  "bg-white dark:bg-slate-900 border-2 rounded-3xl p-6 md:p-8 max-w-sm w-full shadow-2xl",
-                  game.isCheckmate() ? "border-rose-500" : customWinner === 'draw' || game.isDraw() ? "border-amber-500" : "border-indigo-500"
-                )}>
-                  {game.isCheckmate() ? (
-                    <>
-                      <div className="w-14 h-14 bg-rose-100 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 rounded-full flex items-center justify-center mx-auto mb-3 animate-bounce border-2 border-rose-500">
-                        <Trophy className="w-7 h-7" />
-                      </div>
-                      
-                      <h2 className="text-2xl font-black text-rose-600 dark:text-rose-500 mb-1 uppercase tracking-wide">
-                        Sakk-matt!
-                      </h2>
-                      <p className="text-slate-500 dark:text-slate-400 text-xs font-bold mb-3">
-                        Sakk-matt és vége a játéknak.
-                      </p>
-                      
-                      <p className="text-lg font-extrabold text-slate-800 dark:text-white mb-5">
-                        {(() => {
-                          const turn = game.turn();
-                          const playerWon = (isWhite && turn === 'b') || (!isWhite && turn === 'w');
-                          return playerWon ? '🎉 Gratulálok, győztél!' : 'Sakk-matt! Vége a játszmának.';
-                        })()}
-                      </p>
-                    </>
-                  ) : customWinner === 'draw' || game.isDraw() || game.isStalemate() ? (
-                    <>
-                      <div className="w-14 h-14 bg-amber-100 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 rounded-full flex items-center justify-center mx-auto mb-3 border-2 border-amber-500">
-                        <Handshake className="w-7 h-7" />
-                      </div>
-                      
-                      <h2 className="text-2xl font-black text-amber-600 dark:text-amber-400 mb-1 uppercase tracking-wide">
-                        Döntetlen!
-                      </h2>
-                      <p className="text-slate-600 dark:text-slate-300 text-sm font-bold mb-5">
-                        {gameEndedReason || (game.isStalemate() ? 'Patt (Döntetlen)!' : 'Megegyezéses döntetlen.')}
-                      </p>
-                    </>
-                  ) : (
-                    <>
-                      <div className="w-14 h-14 bg-indigo-100 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 rounded-full flex items-center justify-center mx-auto mb-3 border-2 border-indigo-500">
-                        <Flag className="w-7 h-7" />
-                      </div>
-                      
-                      <h2 className="text-2xl font-black text-slate-800 dark:text-white mb-1 uppercase tracking-wide">
-                        {customWinner ? (
-                          ((isWhite && customWinner === 'white') || (!isWhite && customWinner === 'black')) 
-                            ? 'Győzelem! 🏆' 
-                            : 'Vége a játéknak'
-                        ) : 'Játék vége'}
-                      </h2>
-                      <p className="text-slate-600 dark:text-slate-300 text-sm font-bold mb-5">
-                        {gameEndedReason || 'A mérkőzés befejeződött.'}
-                      </p>
-                    </>
-                  )}
-                  
-                  <div className="flex flex-col gap-2">
-                    {onBackToTournament ? (
-                      <Button
-                        onClick={onBackToTournament}
-                        className="w-full text-white font-black rounded-xl py-2.5 shadow-md bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-sm flex items-center justify-center gap-1.5"
-                      >
-                        <Trophy className="w-4 h-4" />
-                        Vissza a Bajnokság Ágrajzhoz
-                      </Button>
-                    ) : (
-                      <Button 
-                        onClick={resetGame}
-                        className={cn(
-                          "w-full text-white font-bold rounded-xl py-2.5 shadow-md transition-all text-sm",
-                          game.isCheckmate() 
-                            ? "bg-rose-600 hover:bg-rose-700 shadow-rose-200 dark:shadow-none" 
-                            : "bg-indigo-600 hover:bg-indigo-700 shadow-indigo-200 dark:shadow-none"
-                        )}
-                      >
-                        Új játék indítása
-                      </Button>
-                    )}
-                  </div>
-                </div>
-              </div>
-            )}
+            {/* Compact Non-intrusive Game Over Popup with [X] Close */}
+            {renderBoardGameOverPopup()}
           </div>
 
           {/* User Bottom Mini Bar */}
@@ -1156,12 +1596,19 @@ export default function ChessBoardUI({
                 {isWhite ? '♔' : '♚'}
               </div>
               <div>
-                <span className="font-bold text-xs text-slate-800 dark:text-slate-100 block">
-                  Te
-                </span>
-                <span className="text-[10px] text-slate-400">
-                  {isWhite ? 'Világos' : 'Sötét'}
-                </span>
+                <div className="font-bold text-xs text-slate-800 dark:text-slate-100 flex items-center gap-1.5">
+                  <span className="truncate">Te ({isWhite ? 'Világos' : 'Sötét'})</span>
+                  {isGameOver && gameOverInfo && gameOverInfo.playerWon && (
+                    <span className="px-1.5 py-0.2 rounded-md bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/40 text-[10px] font-black shrink-0">
+                      🏆 Győztes
+                    </span>
+                  )}
+                </div>
+                <CapturedPiecesRow
+                  captured={userCaptured}
+                  scoreDiff={userScoreDiff}
+                  color={userPieceColor}
+                />
               </div>
             </div>
 
@@ -1169,7 +1616,7 @@ export default function ChessBoardUI({
             {isTimedGame ? (
               <div className={cn(
                 "px-2.5 py-1 rounded-xl font-mono font-black text-xs md:text-sm flex items-center gap-1.5 transition-all border shadow-xs",
-                (isWhite ? game.turn() === 'w' : game.turn() === 'b') && !isGameOver
+                isUserTurn && !isGameOver
                   ? (isWhite ? whiteTime : blackTime) < 30
                     ? "bg-rose-500/20 text-rose-600 dark:text-rose-400 border-rose-500 animate-pulse ring-2 ring-rose-500/30"
                     : "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500 ring-2 ring-emerald-500/20"
@@ -1183,22 +1630,72 @@ export default function ChessBoardUI({
             )}
           </div>
           
-          <div className="mt-2.5 flex justify-between items-center px-2 min-h-[32px]">
-            <div className="flex items-center gap-2.5">
-              <div className={cn(
-                "w-3 h-3 rounded-full animate-pulse",
-                game.turn() === 'w' ? "bg-white border border-slate-300" : "bg-slate-900"
-              )} />
-              <span className="font-bold text-slate-600 dark:text-slate-400 text-xs md:text-sm">
-                {currentTurn} következik {isMyTurn ? '(Te lépsz)' : '(Ellenfél köre)'}
-              </span>
-            </div>
-            {getStatusMessage() && (
-              <div className="px-3 py-0.5 bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 rounded-full font-bold text-xs animate-bounce">
-                {getStatusMessage()}
+          {/* Bottom Turn / Status / Game Over Control Strip */}
+          {isGameOver && gameOverInfo ? (
+            <div className="mt-3 w-full p-2.5 px-3.5 rounded-2xl bg-slate-900 dark:bg-slate-950 text-white border-2 border-slate-700/80 shadow-lg flex items-center justify-between gap-2 animate-in fade-in duration-200">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className={cn("p-1.5 rounded-xl border flex items-center justify-center shrink-0", gameOverInfo.badgeColor)}>
+                  {gameOverInfo.icon}
+                </div>
+                <div className="min-w-0">
+                  <div className="font-black text-xs sm:text-sm tracking-wide truncate">
+                    {gameOverInfo.title}
+                  </div>
+                  <div className="text-[11px] text-slate-300 truncate">
+                    {gameOverInfo.subtitle}
+                  </div>
+                </div>
               </div>
-            )}
-          </div>
+
+              <div className="flex items-center gap-2 shrink-0">
+                {isGameOverDismissed && (
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={() => setIsGameOverDismissed(false)}
+                    className="h-8 px-2 text-[11px] font-bold text-slate-300 hover:text-white rounded-xl"
+                    title="Eredmény ablak megjelenítése"
+                  >
+                    <Eye className="w-3.5 h-3.5 mr-1" /> Eredmény
+                  </Button>
+                )}
+                {onBackToTournament ? (
+                  <Button
+                    size="sm"
+                    onClick={onBackToTournament}
+                    className="h-8 px-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-xs rounded-xl shadow-md flex items-center gap-1.5"
+                  >
+                    <Trophy className="w-3.5 h-3.5" /> Ágrajz
+                  </Button>
+                ) : (
+                  <Button
+                    size="sm"
+                    onClick={resetGame}
+                    className="h-8 px-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl shadow-md flex items-center gap-1.5"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" /> Új játék indítása
+                  </Button>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="mt-2.5 flex justify-between items-center px-2 min-h-[32px]">
+              <div className="flex items-center gap-2.5">
+                <div className={cn(
+                  "w-3 h-3 rounded-full animate-pulse",
+                  game.turn() === 'w' ? "bg-white border border-slate-300" : "bg-slate-900"
+                )} />
+                <span className="font-bold text-slate-600 dark:text-slate-400 text-xs md:text-sm">
+                  {currentTurn} következik {isMyTurn ? '(Te lépsz)' : '(Ellenfél köre)'}
+                </span>
+              </div>
+              {getStatusMessage() && (
+                <div className="px-3 py-0.5 bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 rounded-full font-bold text-xs animate-bounce">
+                  {getStatusMessage()}
+                </div>
+              )}
+            </div>
+          )}
         </Card>
       </div>
 
@@ -1238,7 +1735,7 @@ export default function ChessBoardUI({
                 </div>
                 <div className="truncate">
                   <span className="font-bold text-xs block text-slate-800 dark:text-slate-100 truncate">
-                    {mode === 'ai' ? (opponentName && opponentName !== 'Ellenfél' ? opponentName : `Robot (${difficulty}. szint)`) : opponentName} ({isWhite ? 'Sötét ♚' : 'Világos ♔'})
+                    {oppDisplayName} ({isWhite ? 'Sötét ♚' : 'Világos ♔'})
                   </span>
                   <span className="text-[10px] text-slate-400">{!isMyTurn ? 'Gondolkodik...' : 'Várakozik'}</span>
                 </div>

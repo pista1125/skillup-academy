@@ -256,58 +256,65 @@ export default function ChessGame({ onBack }: ChessGameProps) {
     }
   };
 
+  const isPlayFullscreen = isFullscreen && gameState === 'playing';
+
   return (
     <div 
       ref={containerRef}
       className={cn(
-        "w-full min-h-screen bg-slate-50 dark:bg-slate-950 px-3 sm:px-6 lg:px-12 py-3 md:py-4 flex flex-col transition-all",
-        isFullscreen && "px-3 sm:px-6 lg:px-12 py-3 md:py-4 overflow-y-auto"
+        "w-full transition-all",
+        isPlayFullscreen
+          ? "fixed inset-0 z-50 h-screen w-screen bg-[#07131f] p-0 m-0 overflow-hidden flex flex-col justify-center items-center select-none"
+          : "min-h-screen bg-slate-50 dark:bg-slate-950 px-3 sm:px-6 lg:px-12 py-3 md:py-4 flex flex-col",
+        isFullscreen && !isPlayFullscreen && "overflow-y-auto"
       )}
     >
-      {/* Header */}
-      <div className="w-full mb-3 md:mb-4 flex items-center justify-between">
-        <Button 
-          variant="ghost" 
-          onClick={handleHeaderBack}
-          className="rounded-xl hover:bg-white dark:hover:bg-slate-900 border border-transparent hover:border-slate-200 dark:hover:border-slate-800 transition-all font-bold text-xs md:text-sm h-9 px-3"
-        >
-          <ArrowLeft className="w-4 h-4 mr-1.5" />
-          {getBackButtonLabel()}
-        </Button>
-
-        <div className="flex items-center gap-3">
-          <div className="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-xl text-amber-600 dark:text-amber-400">
-            <Crown size={24} />
-          </div>
-          <h1 className="text-2xl font-black text-slate-800 dark:text-white tracking-tight italic">
-            SAKK <span className="text-indigo-600 dark:text-indigo-400">MESTER</span>
-          </h1>
-        </div>
-
-        <div className="flex items-center gap-2">
-          {activeTournament ? (
-            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-amber-500/10 dark:bg-amber-500/20 border border-amber-500/30 rounded-xl text-amber-600 dark:text-amber-400 text-xs font-black">
-              <Trophy size={15} />
-              <span>{activeTournament.title}</span>
-            </div>
-          ) : (
-            <div className="hidden md:flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-              <Trophy size={16} className="text-amber-500" />
-              <span className="text-sm font-bold text-slate-600 dark:text-slate-400">Aréna</span>
-            </div>
-          )}
-
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleFullscreen}
-            className="rounded-xl hover:bg-white dark:hover:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm text-slate-600 dark:text-slate-300 h-10 w-10"
-            title={isFullscreen ? "Kilépés a teljes képernyőből" : "Teljes képernyő"}
+      {/* Header (hidden in playing fullscreen) */}
+      {!isPlayFullscreen && (
+        <div className="w-full mb-3 md:mb-4 flex items-center justify-between">
+          <Button 
+            variant="ghost" 
+            onClick={handleHeaderBack}
+            className="rounded-xl hover:bg-white dark:hover:bg-slate-900 border border-transparent hover:border-slate-200 dark:hover:border-slate-800 transition-all font-bold text-xs md:text-sm h-9 px-3"
           >
-            {isFullscreen ? <Minimize2 className="w-5 h-5" /> : <Maximize2 className="w-5 h-5" />}
+            <ArrowLeft className="w-4 h-4 mr-1.5" />
+            {getBackButtonLabel()}
           </Button>
+
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-xl text-amber-600 dark:text-amber-400">
+              <Crown size={24} />
+            </div>
+            <h1 className="text-2xl font-black text-slate-800 dark:text-white tracking-tight italic">
+              SAKK <span className="text-indigo-600 dark:text-indigo-400">MESTER</span>
+            </h1>
+          </div>
+
+          <div className="flex items-center gap-2">
+            {activeTournament ? (
+              <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-amber-500/10 dark:bg-amber-500/20 border border-amber-500/30 rounded-xl text-amber-600 dark:text-amber-400 text-xs font-black">
+                <Trophy size={15} />
+                <span>{activeTournament.title}</span>
+              </div>
+            ) : (
+              <div className="hidden md:flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                <Trophy size={16} className="text-amber-500" />
+                <span className="text-sm font-bold text-slate-600 dark:text-slate-400">Aréna</span>
+              </div>
+            )}
+
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleFullscreen}
+              className="rounded-xl hover:bg-white dark:hover:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm text-slate-600 dark:text-slate-300 h-10 w-10"
+              title={isFullscreen ? "Kilépés a teljes képernyőből" : "Teljes képernyő"}
+            >
+              {isFullscreen ? <Minimize2 className="w-5 h-5" /> : <Maximize2 className="w-5 h-5" />}
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Main View Router */}
       {gameState === 'lobby' && (
@@ -344,7 +351,10 @@ export default function ChessGame({ onBack }: ChessGameProps) {
       )}
 
       {gameState === 'playing' && (
-        <div className="animate-in fade-in zoom-in-95 duration-500 flex-1 flex flex-col justify-start">
+        <div className={cn(
+          "animate-in fade-in duration-300 w-full flex-1 flex flex-col justify-center items-center",
+          isPlayFullscreen ? "h-full w-full" : "justify-start"
+        )}>
           <ChessBoardUI 
             mode={matchOptions.mode}
             difficulty={matchOptions.difficulty}
@@ -367,6 +377,9 @@ export default function ChessGame({ onBack }: ChessGameProps) {
             onBackToTournament={
               activeTournament ? () => setGameState('tournament_bracket') : undefined
             }
+            isFullscreen={isFullscreen}
+            onToggleFullscreen={toggleFullscreen}
+            onBackToLobby={() => setGameState('lobby')}
           />
         </div>
       )}
