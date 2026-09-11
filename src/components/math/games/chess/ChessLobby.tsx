@@ -22,9 +22,12 @@ import {
   Trash2,
   X,
   Zap,
-  Timer
+  Timer,
+  Trophy
 } from 'lucide-react';
 import { ChessService, ChessProfile, ChessMatch } from '@/lib/chess/ChessService';
+import { ChessTournament } from '@/lib/chess/ChessTournamentService';
+import ChessTournamentLobby from './tournament/ChessTournamentLobby';
 import { useAuth } from '@/contexts/AuthContext';
 import { auth, db } from '@/lib/firebase';
 import { collection, onSnapshot } from 'firebase/firestore';
@@ -59,11 +62,13 @@ interface ChessLobbyProps {
       timeLimit?: number;
     }
   ) => void;
+  onOpenTournament?: (tournament: ChessTournament) => void;
+  initialTab?: 'friends' | 'ai' | 'tournament';
 }
 
-export default function ChessLobby({ onStartGame }: ChessLobbyProps) {
+export default function ChessLobby({ onStartGame, onOpenTournament, initialTab = 'friends' }: ChessLobbyProps) {
   const { profile: authProfile } = useAuth();
-  const [activeTab, setActiveTab] = useState<'friends' | 'ai'>('friends');
+  const [activeTab, setActiveTab] = useState<'friends' | 'ai' | 'tournament'>(initialTab);
   const [difficulty, setDifficulty] = useState(3);
   const [playerColor, setPlayerColor] = useState<'white' | 'black'>('white');
   const [aiTimeLimit, setAiTimeLimit] = useState<number>(300);
@@ -381,14 +386,14 @@ export default function ChessLobby({ onStartGame }: ChessLobbyProps) {
           <button
             onClick={() => setActiveTab('friends')}
             className={cn(
-              "flex-1 md:flex-none py-1.5 px-3.5 rounded-lg font-black text-xs flex items-center justify-center gap-1.5 transition-all duration-200",
+              "flex-1 md:flex-none py-1.5 px-3 rounded-lg font-black text-xs flex items-center justify-center gap-1.5 transition-all duration-200",
               activeTab === 'friends'
                 ? "bg-indigo-600 text-white shadow-md"
                 : "text-slate-400 hover:text-white"
             )}
           >
             <Users className="w-3.5 h-3.5" />
-            Többjátékos & Barátok
+            Többjátékos
             {activeMatches.length > 0 && (
               <span className="ml-1 px-1.5 py-0.2 rounded-full text-[9px] bg-white/20 text-white font-bold">
                 {activeMatches.length}
@@ -399,7 +404,7 @@ export default function ChessLobby({ onStartGame }: ChessLobbyProps) {
           <button
             onClick={() => setActiveTab('ai')}
             className={cn(
-              "flex-1 md:flex-none py-1.5 px-3.5 rounded-lg font-black text-xs flex items-center justify-center gap-1.5 transition-all duration-200",
+              "flex-1 md:flex-none py-1.5 px-3 rounded-lg font-black text-xs flex items-center justify-center gap-1.5 transition-all duration-200",
               activeTab === 'ai'
                 ? "bg-amber-500 text-slate-950 font-black shadow-md"
                 : "text-slate-400 hover:text-white"
@@ -407,6 +412,22 @@ export default function ChessLobby({ onStartGame }: ChessLobbyProps) {
           >
             <Cpu className="w-3.5 h-3.5" />
             Stockfish AI
+          </button>
+
+          <button
+            onClick={() => setActiveTab('tournament')}
+            className={cn(
+              "flex-1 md:flex-none py-1.5 px-3 rounded-lg font-black text-xs flex items-center justify-center gap-1.5 transition-all duration-200",
+              activeTab === 'tournament'
+                ? "bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-black shadow-md"
+                : "text-slate-400 hover:text-white"
+            )}
+          >
+            <Trophy className="w-3.5 h-3.5 text-amber-300" />
+            Bajnokság
+            <span className="px-1.5 py-0.2 rounded-md bg-amber-400 text-slate-950 text-[9px] font-black uppercase shadow-xs">
+              Új
+            </span>
           </button>
         </div>
 
@@ -897,6 +918,17 @@ export default function ChessLobby({ onStartGame }: ChessLobbyProps) {
             </div>
           </div>
         </Card>
+      )}
+
+      {/* TAB 3: TOURNAMENT MODE */}
+      {activeTab === 'tournament' && (
+        <ChessTournamentLobby
+          onTournamentStarted={(t) => {
+            if (onOpenTournament) {
+              onOpenTournament(t);
+            }
+          }}
+        />
       )}
 
       {/* Challenge Modal Dialog */}

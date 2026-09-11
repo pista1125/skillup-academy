@@ -447,6 +447,27 @@ export const ChessService = {
     }
   },
 
+  async getMatch(matchId: string): Promise<ChessMatch | null> {
+    try {
+      const snap = await getDoc(doc(db, 'chess_matches', matchId));
+      if (snap.exists()) {
+        const data = snap.data();
+        const match = { id: snap.id, ...data } as ChessMatch;
+        if (match.white_id) {
+          match.white_profile = await this.getProfileDetails(match.white_id);
+        }
+        if (match.black_id) {
+          match.black_profile = await this.getProfileDetails(match.black_id);
+        }
+        return match;
+      }
+      return null;
+    } catch (e) {
+      console.warn('getMatch failed:', e);
+      return null;
+    }
+  },
+
   async acceptMatch(matchId: string) {
     await updateDoc(doc(db, 'chess_matches', matchId), {
       status: 'active',

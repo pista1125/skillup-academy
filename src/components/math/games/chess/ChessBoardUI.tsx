@@ -19,9 +19,12 @@ import {
   X,
   Check,
   Clock,
-  Timer
+  Timer,
+  Eye,
+  ArrowLeft
 } from 'lucide-react';
 import { ChessService, ChessMatch, hasSufficientMatingMaterial } from '@/lib/chess/ChessService';
+import { ChessTournamentService } from '@/lib/chess/ChessTournamentService';
 import { auth } from '@/lib/firebase';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -36,6 +39,13 @@ interface ChessBoardUIProps {
   timeLimit?: number; // in seconds, 0 = unlimited, default 300
   onMove?: (fen: string, move: string, whiteTime?: number, blackTime?: number) => void;
   onGameEnd?: (winner: 'white' | 'black' | 'draw') => void;
+  tournamentContext?: {
+    tournamentId: string;
+    matchNodeId: string;
+    roundName?: string;
+  };
+  isSpectator?: boolean;
+  onBackToTournament?: () => void;
 }
 
 export default function ChessBoardUI({
@@ -46,7 +56,10 @@ export default function ChessBoardUI({
   isWhite = true,
   timeLimit = 300,
   onMove,
-  onGameEnd
+  onGameEnd,
+  tournamentContext,
+  isSpectator = false,
+  onBackToTournament
 }: ChessBoardUIProps) {
   const [game, setGame] = useState(new Chess());
   const [moveHistory, setMoveHistory] = useState<string[]>([]);
@@ -293,8 +306,33 @@ export default function ChessBoardUI({
     }
   };
 
-  // Subscribe to real-time updates for multiplayer
+  // Load initial match state and subscribe to real-time updates for multiplayer
   useEffect(() => {
+    if (matchId) {
+      ChessService.getMatch(matchId).then((data) => {
+        if (data) {
+          setMatchData(data);
+          if (typeof data.white_time_remaining === 'number') {
+            setWhiteTime(data.white_time_remaining);
+          }
+          if (typeof data.black_time_remaining === 'number') {
+            setBlackTime(data.black_time_remaining);
+          }
+          if (data.fen && data.fen !== 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1') {
+            const newGame = new Chess(data.fen);
+            setGame(newGame);
+            setMoveHistory(newGame.history());
+            if (data.last_move && data.last_move.length >= 4) {
+              setLastMove({
+                from: data.last_move.substring(0, 2),
+                to: data.last_move.substring(2, 4)
+              });
+            }
+          }
+        }
+      }).catch((e) => console.warn('Failed to load initial match state', e));
+    }
+
     if (mode === 'friend' && matchId) {
       const subscription = ChessService.subscribeToMatch(matchId, (payload) => {
         const data = payload.new as ChessMatch;
@@ -375,13 +413,41 @@ export default function ChessBoardUI({
         }
 
         try {
-          const res = update.move(bestMove);
+          let res = null;
+          try {
+            res = update.move(bestMove);
+          } catch (moveErr) {
+            if (bestMove && bestMove.length >= 4) {
+              const from = bestMove.substring(0, 2);
+              const to = bestMove.substring(2, 4);
+              const promotion = bestMove.length === 5 ? bestMove[4] : 'q';
+              res = update.move({ from, to, promotion });
+            }
+          }
+
           if (res) {
             setGame(update);
             setMoveHistory(update.history());
             setLastMove({ from: res.from, to: res.to });
             setMoveFrom(null);
             setOptionSquares({});
+
+            if (onMove) {
+              onMove(update.fen(), res.lan || res.san, whiteTime, blackTime);
+            }
+
+            if (update.isGameOver()) {
+              if (update.isCheckmate()) {
+                const aiColor = myColor === 'w' ? 'black' : 'white';
+                setCustomWinner(aiColor);
+                setGameEndedReason('Sakk-matt! A robot győzött.');
+                if (onGameEnd) onGameEnd(aiColor);
+              } else if (update.isDraw() || update.isStalemate()) {
+                setCustomWinner('draw');
+                setGameEndedReason(update.isStalemate() ? 'Patt (Döntetlen)!' : 'Döntetlen!');
+                if (onGameEnd) onGameEnd('draw');
+              }
+            }
           }
         } catch (err) {
           console.error('AI move error', err);
@@ -394,7 +460,7 @@ export default function ChessBoardUI({
         clearTimeout(timeout);
       };
     }
-  }, [game, mode, engine, myColor, difficulty, customWinner]);
+  }, [game, mode, engine, myColor, difficulty, customWinner, onMove, onGameEnd, whiteTime, blackTime]);
 
   function safeGameMutate(modify: (g: Chess) => void) {
     setGame((g) => {
@@ -557,7 +623,7 @@ export default function ChessBoardUI({
   }
 
   function onSquareClick(square: string) {
-    if (game.isGameOver() || customWinner) return;
+    if (isSpectator || game.isGameOver() || customWinner) return;
 
     if (!isMyTurn) {
       // --- PREMOVE INTERACTION ---
@@ -639,7 +705,7 @@ export default function ChessBoardUI({
   }
 
   function onDrop(sourceSquare: string, targetSquare: string) {
-    if (game.isGameOver() || customWinner) return false;
+    if (isSpectator || game.isGameOver() || customWinner) return false;
 
     if (!isMyTurn) {
       // Premove via drag and drop!
@@ -855,6 +921,35 @@ export default function ChessBoardUI({
     <div className="flex flex-col lg:flex-row gap-5 w-full max-w-6xl mx-auto items-start justify-center">
       {/* Board Column */}
       <div className="flex-1 w-full flex flex-col items-center justify-start self-start space-y-3">
+        {/* Spectator Alert Banner */}
+        {isSpectator && (
+          <div className="w-full max-w-[min(100%,75vh)] p-3 px-4 rounded-2xl bg-gradient-to-r from-purple-500/20 via-indigo-500/15 to-purple-500/20 border-2 border-purple-500/40 shadow-md flex items-center justify-between gap-3 animate-in fade-in duration-200 backdrop-blur-md">
+            <div className="flex items-center gap-2.5">
+              <div className="p-2 bg-purple-600 text-white rounded-xl shadow-xs">
+                <Eye className="w-4 h-4 animate-pulse" />
+              </div>
+              <div>
+                <div className="text-xs font-black text-purple-900 dark:text-purple-200">
+                  Élő Nézői Mód (Közvetítés)
+                </div>
+                <div className="text-[11px] text-purple-700 dark:text-purple-300/80">
+                  {tournamentContext?.roundName ? `${tournamentContext.roundName} • ` : ''}Csak megtekintés (lépések élőben követhetők)
+                </div>
+              </div>
+            </div>
+
+            {onBackToTournament && (
+              <Button
+                size="sm"
+                onClick={onBackToTournament}
+                className="h-8 px-3 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs shadow-xs flex items-center gap-1"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" /> Ágrajz
+              </Button>
+            )}
+          </div>
+        )}
+
         {/* Incoming Draw Offer Alert Banner */}
         {hasIncomingDrawOffer && (
           <div className="w-full max-w-[min(100%,75vh)] p-3 rounded-2xl bg-gradient-to-r from-amber-500/20 via-amber-500/10 to-amber-500/20 border-2 border-amber-500/50 shadow-lg flex flex-col sm:flex-row items-center justify-between gap-3 animate-in slide-in-from-top-4 duration-300 backdrop-blur-md">
@@ -920,7 +1015,7 @@ export default function ChessBoardUI({
               </div>
               <div className="truncate">
                 <span className="font-bold text-xs text-slate-800 dark:text-slate-100 block truncate max-w-[140px] sm:max-w-[200px]">
-                  {mode === 'ai' ? `Stockfish AI (${difficulty}. szint)` : opponentName}
+                  {mode === 'ai' ? (opponentName && opponentName !== 'Ellenfél' ? opponentName : `Stockfish AI (${difficulty}. szint)`) : opponentName}
                 </span>
                 <span className="text-[10px] text-slate-400">
                   {isWhite ? 'Sötét' : 'Világos'}
@@ -1027,17 +1122,27 @@ export default function ChessBoardUI({
                   )}
                   
                   <div className="flex flex-col gap-2">
-                    <Button 
-                      onClick={resetGame}
-                      className={cn(
-                        "w-full text-white font-bold rounded-xl py-2.5 shadow-md transition-all text-sm",
-                        game.isCheckmate() 
-                          ? "bg-rose-600 hover:bg-rose-700 shadow-rose-200 dark:shadow-none" 
-                          : "bg-indigo-600 hover:bg-indigo-700 shadow-indigo-200 dark:shadow-none"
-                      )}
-                    >
-                      Új játék indítása
-                    </Button>
+                    {onBackToTournament ? (
+                      <Button
+                        onClick={onBackToTournament}
+                        className="w-full text-white font-black rounded-xl py-2.5 shadow-md bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-sm flex items-center justify-center gap-1.5"
+                      >
+                        <Trophy className="w-4 h-4" />
+                        Vissza a Bajnokság Ágrajzhoz
+                      </Button>
+                    ) : (
+                      <Button 
+                        onClick={resetGame}
+                        className={cn(
+                          "w-full text-white font-bold rounded-xl py-2.5 shadow-md transition-all text-sm",
+                          game.isCheckmate() 
+                            ? "bg-rose-600 hover:bg-rose-700 shadow-rose-200 dark:shadow-none" 
+                            : "bg-indigo-600 hover:bg-indigo-700 shadow-indigo-200 dark:shadow-none"
+                        )}
+                      >
+                        Új játék indítása
+                      </Button>
+                    )}
                   </div>
                 </div>
               </div>
@@ -1133,7 +1238,7 @@ export default function ChessBoardUI({
                 </div>
                 <div className="truncate">
                   <span className="font-bold text-xs block text-slate-800 dark:text-slate-100 truncate">
-                    {mode === 'ai' ? `Robot (${difficulty}. szint)` : opponentName} ({isWhite ? 'Sötét ♚' : 'Világos ♔'})
+                    {mode === 'ai' ? (opponentName && opponentName !== 'Ellenfél' ? opponentName : `Robot (${difficulty}. szint)`) : opponentName} ({isWhite ? 'Sötét ♚' : 'Világos ♔'})
                   </span>
                   <span className="text-[10px] text-slate-400">{!isMyTurn ? 'Gondolkodik...' : 'Várakozik'}</span>
                 </div>
@@ -1192,92 +1297,111 @@ export default function ChessBoardUI({
           </div>
           
           {/* Action Toolbar: Draw, Resign, Undo, Hint */}
-          <div className="space-y-2">
-            <div className="grid grid-cols-2 gap-2">
-              <Button 
-                variant="outline" 
-                onClick={handleOfferDraw} 
-                disabled={isGameOver || isMyDrawOfferPending}
-                className="rounded-xl border-slate-200 dark:border-slate-700 text-xs h-8 text-amber-700 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-950/30 font-bold"
-                title="Döntetlen felajánlása az ellenfélnek"
-              >
-                <Handshake size={13} className="mr-1.5 text-amber-500" />
-                {isMyDrawOfferPending ? 'Ajánlat elküldve...' : 'Döntetlen kérés'}
-              </Button>
-
-              {showResignConfirm ? (
-                <div className="flex items-center gap-1">
-                  <Button 
-                    size="sm"
-                    onClick={handleResign}
-                    className="flex-1 bg-rose-600 hover:bg-rose-700 text-white font-bold text-[11px] h-8 rounded-xl px-1"
-                  >
-                    Biztos feladod?
-                  </Button>
-                  <Button 
-                    size="icon"
-                    variant="ghost"
-                    onClick={() => setShowResignConfirm(false)}
-                    className="h-8 w-8 rounded-xl text-slate-400"
-                  >
-                    <X size={14} />
-                  </Button>
-                </div>
-              ) : (
-                <Button 
-                  variant="outline" 
-                  onClick={() => setShowResignConfirm(true)} 
-                  disabled={isGameOver}
-                  className="rounded-xl border-slate-200 dark:border-slate-700 text-xs h-8 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 font-bold"
-                  title="Játszma feladása"
+          {isSpectator ? (
+            <div className="p-3 bg-purple-50 dark:bg-purple-950/30 rounded-xl border border-purple-200 dark:border-purple-800 text-center space-y-2">
+              <div className="text-xs font-bold text-purple-800 dark:text-purple-300 flex items-center justify-center gap-1.5">
+                <Eye className="w-4 h-4" /> Nézőként vagy jelen
+              </div>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                A játszma lépéseit és óráját élőben követheted.
+              </p>
+              {onBackToTournament && (
+                <Button
+                  onClick={onBackToTournament}
+                  className="w-full h-8 rounded-xl font-bold text-xs bg-purple-600 hover:bg-purple-700 text-white shadow-xs"
                 >
-                  <Flag size={13} className="mr-1.5 text-rose-500" />
-                  Feladás
+                  <ArrowLeft className="w-3.5 h-3.5 mr-1" /> Vissza az Ágrajzhoz
                 </Button>
               )}
             </div>
+          ) : (
+            <div className="space-y-2">
+              <div className="grid grid-cols-2 gap-2">
+                <Button 
+                  variant="outline" 
+                  onClick={handleOfferDraw} 
+                  disabled={isGameOver || isMyDrawOfferPending}
+                  className="rounded-xl border-slate-200 dark:border-slate-700 text-xs h-8 text-amber-700 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-950/30 font-bold"
+                  title="Döntetlen felajánlása az ellenfélnek"
+                >
+                  <Handshake size={13} className="mr-1.5 text-amber-500" />
+                  {isMyDrawOfferPending ? 'Ajánlat elküldve...' : 'Döntetlen kérés'}
+                </Button>
 
-            <div className="grid grid-cols-2 gap-2">
-              <Button 
-                variant="outline" 
-                onClick={undoMove} 
-                disabled={moveHistory.length === 0 || isGameOver || mode === 'friend'}
-                className="rounded-xl border-slate-200 dark:border-slate-700 text-xs h-8"
-              >
-                <RotateCcw size={13} className="mr-1.5" />
-                Visszavonás
-              </Button>
+                {showResignConfirm ? (
+                  <div className="flex items-center gap-1">
+                    <Button 
+                      size="sm"
+                      onClick={handleResign}
+                      className="flex-1 bg-rose-600 hover:bg-rose-700 text-white font-bold text-[11px] h-8 rounded-xl px-1"
+                    >
+                      Biztos feladod?
+                    </Button>
+                    <Button 
+                      size="icon"
+                      variant="ghost"
+                      onClick={() => setShowResignConfirm(false)}
+                      className="h-8 w-8 rounded-xl text-slate-400"
+                    >
+                      <X size={14} />
+                    </Button>
+                  </div>
+                ) : (
+                  <Button 
+                    variant="outline" 
+                    onClick={() => setShowResignConfirm(true)} 
+                    disabled={isGameOver}
+                    className="rounded-xl border-slate-200 dark:border-slate-700 text-xs h-8 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 font-bold"
+                    title="Játszma feladása"
+                  >
+                    <Flag size={13} className="mr-1.5 text-rose-500" />
+                    Feladás
+                  </Button>
+                )}
+              </div>
 
-              <Button 
-                variant="outline" 
-                onClick={resetGame}
-                className="rounded-xl border-slate-200 dark:border-slate-700 text-xs h-8 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+              <div className="grid grid-cols-2 gap-2">
+                <Button 
+                  variant="outline" 
+                  onClick={undoMove} 
+                  disabled={moveHistory.length === 0 || isGameOver || mode === 'friend'}
+                  className="rounded-xl border-slate-200 dark:border-slate-700 text-xs h-8"
+                >
+                  <RotateCcw size={13} className="mr-1.5" />
+                  Visszavonás
+                </Button>
+
+                <Button 
+                  variant="outline" 
+                  onClick={resetGame}
+                  className="rounded-xl border-slate-200 dark:border-slate-700 text-xs h-8 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+                >
+                  Új játék
+                </Button>
+              </div>
+
+              {/* Hint Button */}
+              <Button
+                variant="outline"
+                onClick={handleHintRequest}
+                disabled={isGameOver || isLoadingHint}
+                className={cn(
+                  "w-full rounded-xl border-2 h-9 font-bold text-xs transition-all",
+                  Object.keys(hintSquares).length > 0
+                    ? "border-emerald-500 text-emerald-600 bg-emerald-50 dark:bg-emerald-950/20 hover:bg-emerald-100"
+                    : "border-indigo-300 dark:border-indigo-700 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/20"
+                )}
               >
-                Új játék
+                {isLoadingHint ? (
+                  <><Loader2 size={13} className="mr-1.5 animate-spin" />Számolom...</>
+                ) : Object.keys(hintSquares).length > 0 ? (
+                  <><Lightbulb size={13} className="mr-1.5 fill-emerald-500 text-emerald-600" />Tipp aktív a táblán!</>
+                ) : (
+                  <><Lightbulb size={13} className="mr-1.5" />Legjobb lépés kérése (Matek kvíz)</>
+                )}
               </Button>
             </div>
-
-            {/* Hint Button */}
-            <Button
-              variant="outline"
-              onClick={handleHintRequest}
-              disabled={isGameOver || isLoadingHint}
-              className={cn(
-                "w-full rounded-xl border-2 h-9 font-bold text-xs transition-all",
-                Object.keys(hintSquares).length > 0
-                  ? "border-emerald-500 text-emerald-600 bg-emerald-50 dark:bg-emerald-950/20 hover:bg-emerald-100"
-                  : "border-indigo-300 dark:border-indigo-700 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/20"
-              )}
-            >
-              {isLoadingHint ? (
-                <><Loader2 size={13} className="mr-1.5 animate-spin" />Számolom...</>
-              ) : Object.keys(hintSquares).length > 0 ? (
-                <><Lightbulb size={13} className="mr-1.5 fill-emerald-500 text-emerald-600" />Tipp aktív a táblán!</>
-              ) : (
-                <><Lightbulb size={13} className="mr-1.5" />Legjobb lépés kérése (Matek kvíz)</>
-              )}
-            </Button>
-          </div>
+          )}
         </Card>
 
         {/* Premove & Chess Tip Card */}
