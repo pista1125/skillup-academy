@@ -70,12 +70,32 @@ export const generateToto = onRequest({ cors: true }, async (req, res) => {
       return;
     }
 
+    const systemPrompt = `Te egy profi magyar oktatási totó (13+1 kvíz) generáló tanár vagy.
+Generálj pontosan ${questionCount} db minőségi kérdést és válaszlehetőséget JSON formátumban.
+JSON formátum:
+{
+  "title": "Kreatív Cím a témához",
+  "questions": [
+    {
+      "question": "Mennyi a(z) $5^2 \\cdot 5^3$ művelet eredménye?",
+      "options": ["$5^5$", "$5^6$", "$5^7$"],
+      "correctAnswerIndex": 0
+    }
+  ]
+}
+
+FONTOS MATEMATIKAI ÉS FORMÁZÁSI SZABÁLYOK:
+1. Ha a témakör matematikai (pl. hatványozás, algebra, műveletek, törtek, egyenletek, mértékegységek), a matematikai kifejezéseket, hatványokat, törteket, egyenleteket MINDIG KaTeX/LaTeX szintaxissal zárd $ ... $ jelek közé! (Pl. $5^2 \\cdot 5^3$, $(3^4)^2$, $5^7$, $\\frac{3}{4}$, $x^2 - 4x + 4 = 0$, $2^3 = 8$).
+2. Szorzásjelhez használj \\cdot jelet a csillag (*) helyett!
+3. Minden kérdésnél pontosan 3 db opció ("options") legyen! Az egyik a helyes válasz, a másik kettő tipikus tévesztésen alapuló jó disztraktor. A "correctAnswerIndex" mindig 0, 1 vagy 2 (a helyes opció indexe).
+4. Csak érvényes nyers JSON-t adj vissza, markdown kódblokkok nélkül!`;
+
     const completion = await getOpenAI().chat.completions.create({
       model: "gpt-4o",
       messages: [
         {
           role: "system",
-          content: `Te egy oktatási totó generáló vagy. Generálj ${questionCount} db kérdést. JSON formátum: {"title": "Cím", "questions": [{"question": "...", "options": ["Helyes válasz", "Rossz válasz 1", "Rossz válasz 2"], "correctAnswerIndex": 0}]}. CSAK nyers JSON!`
+          content: systemPrompt
         },
         { role: "user", content: `Témakör: ${topic}` }
       ],

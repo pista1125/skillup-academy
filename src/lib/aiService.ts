@@ -96,6 +96,26 @@ export async function invokeAiFunction(name: string, payload: any): Promise<{ da
 
       if (name === 'generate-toto') {
         const { topic, questionCount = 13 } = payload;
+        const systemPrompt = `Te egy profi magyar oktatási totó (13+1 kvíz) generáló tanár vagy.
+Generálj pontosan ${questionCount} db minőségi kérdést és válaszlehetőséget JSON formátumban.
+JSON formátum:
+{
+  "title": "Kreatív Cím a témához",
+  "questions": [
+    {
+      "question": "Mennyi a(z) $5^2 \\cdot 5^3$ művelet eredménye?",
+      "options": ["$5^5$", "$5^6$", "$5^7$"],
+      "correctAnswerIndex": 0
+    }
+  ]
+}
+
+FONTOS MATEMATIKAI ÉS FORMÁZÁSI SZABÁLYOK:
+1. Ha a témakör matematikai (pl. hatványozás, algebra, műveletek, törtek, egyenletek, mértékegységek), a matematikai kifejezéseket, hatványokat, törteket, egyenleteket MINDIG KaTeX/LaTeX szintaxissal zárd $ ... $ jelek közé! (Pl. $5^2 \\cdot 5^3$, $(3^4)^2$, $5^7$, $\\frac{3}{4}$, $x^2 - 4x + 4 = 0$, $2^3 = 8$).
+2. Szorzásjelhez használj \\cdot jelet a csillag (*) helyett!
+3. Minden kérdésnél pontosan 3 db opció ("options") legyen! Az egyik a helyes válasz, a másik kettő tipikus tévesztésen alapuló jó disztraktor. A "correctAnswerIndex" mindig 0, 1 vagy 2 (a helyes opció indexe).
+4. Csak érvényes nyers JSON-t adj vissza, markdown kódblokkok nélkül!`;
+
         const resp = await fetch('https://api.openai.com/v1/chat/completions', {
           method: 'POST',
           headers: {
@@ -107,7 +127,7 @@ export async function invokeAiFunction(name: string, payload: any): Promise<{ da
             messages: [
               {
                 role: "system",
-                content: `Te egy oktatási totó generáló vagy. Generálj ${questionCount} db kérdést. JSON formátum: {"title": "Cím", "questions": [{"question": "...", "options": ["Helyes válasz", "Rossz válasz 1", "Rossz válasz 2"], "correctAnswerIndex": 0}]}. CSAK nyers JSON!`
+                content: systemPrompt
               },
               { role: "user", content: `Témakör: ${topic}` }
             ],
@@ -188,19 +208,34 @@ export async function invokeAiFunction(name: string, payload: any): Promise<{ da
 
   if (name === 'generate-toto') {
     const questionCount = payload.questionCount || 13;
-    const sampleQuestions = [
-      { question: `Mi a(z) ${topic} alapegyenlete vagy fő szabálya?`, options: [`$a^2 + b^2 = c^2$`, `$E = mc^2$`, `$v = s / t$`] },
-      { question: `Melyik állítás igaz a(z) ${topic} témakörben?`, options: [`Minden belső szögek összege $180^\\circ$`, `A kör kerülete $2r$`, `A nulla páratlan szám`] },
-      { question: `Hogyan számítjuk ki a(z) ${topic} alapterületét?`, options: [`$T = a \\cdot b$`, `$T = a + b$`, `$T = a / b$`] },
-      { question: `Mi a(z) ${topic} mértékegysége az SI rendszerben?`, options: [`Méret / Összeg`, `Kilogramm`, `Fok`] }
+    const isPowerTopic = /hatv[aá]ny|szorz|algebra|m[uű]velet/i.test(topic);
+
+    const mathPowerQuestions = [
+      { question: `Mennyi a(z) $5^2 \\cdot 5^3$ szorzat értéke hatványalakban?`, options: [`$5^5$`, `$5^6$`, `$5^7$`] },
+      { question: `Mennyi a(z) $(3^4)^2$ kifejezés hatványalakban?`, options: [`$3^8$`, `$3^6$`, `$3^{16}$`] },
+      { question: `Mennyi a(z) $\\frac{2^7}{2^4}$ hányados értéke?`, options: [`$2^3$`, `$2^{11}$`, `$2^2$`] },
+      { question: `Mivel egyenlő a(z) $(a \\cdot b)^3$?`, options: [`$a^3 \\cdot b^3$`, `$a^3 + b^3$`, `$3ab$`] },
+      { question: `Mivel egyenlő a(z) $10^0$ értéke?`, options: [`$1$`, `$0$`, `$10$`] },
+      { question: `Mennyi a(z) $2^3 \\cdot 2^2$ eredménye?`, options: [`$2^5 = 32$`, `$2^6 = 64$`, `$4^5$`] },
+      { question: `Hogyan írható fel egyszerűbben: $(x^3)^3$?`, options: [`$x^9$`, `$x^6$`, `$x^{27}$`] },
+      { question: `Mennyi a(z) $\\frac{10^5}{10^2}$ értéke?`, options: [`$10^3 = 1000$`, `$10^7$`, `$10^{2.5}$`] }
     ];
+
+    const generalQuestions = [
+      { question: `Mi a(z) ${topic} alapegyenlete vagy fő szabálya?`, options: [`$a^2 + b^2 = c^2$`, `$E = mc^2$`, `$v = \\frac{s}{t}$`] },
+      { question: `Melyik állítás igaz a(z) ${topic} témakörben?`, options: [`Minden belső szög összege $180^\\circ$`, `A kör kerülete $2 \\cdot r \\cdot \\pi$`, `A nulla páratlan szám`] },
+      { question: `Hogyan számítjuk ki a(z) ${topic} alapterületét?`, options: [`$T = a \\cdot b$`, `$T = a + b$`, `$T = \\frac{a}{b}$`] },
+      { question: `Mi a(z) ${topic} mértékegysége az SI rendszerben?`, options: [`$m / s$`, `$kg$`, `$m^2$`] }
+    ];
+
+    const sourceQuestions = isPowerTopic ? mathPowerQuestions : generalQuestions;
 
     return {
       data: {
         title: `${topic} Totó Kvíz`,
         questions: Array.from({ length: questionCount }, (_, i) => ({
-          question: `${i + 1}. ${sampleQuestions[i % sampleQuestions.length].question}`,
-          options: sampleQuestions[i % sampleQuestions.length].options,
+          question: sourceQuestions[i % sourceQuestions.length].question,
+          options: sourceQuestions[i % sourceQuestions.length].options,
           correctAnswerIndex: 0
         }))
       },
