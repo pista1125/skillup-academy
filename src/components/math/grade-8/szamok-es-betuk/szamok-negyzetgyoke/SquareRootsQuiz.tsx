@@ -1,294 +1,630 @@
-import React, { useState } from 'react';
-import { QuizResult } from '@/types/education';
-import { ProgressBar } from '@/components/ProgressBar';
-import { XPBadge } from '@/components/XPBadge';
-import { Button } from '@/components/ui/button';
-import { CheckCircle2, XCircle, ArrowRight, Trophy, RotateCcw, ArrowLeft, Target, Sparkles, HelpCircle } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import React from 'react';
+import { QuizTemplate, Question, CheatSheetCard } from '../QuizTemplate';
+import { SquareRootsMatcher } from './SquareRootsMatcher';
+import { SquareRootsSorter } from './SquareRootsSorter';
+import { Target, Layers, Scale, Compass } from 'lucide-react';
 
 interface SquareRootsQuizProps {
-  onComplete?: (result: QuizResult) => void;
   onBack: () => void;
+  onSwitchToTheory?: () => void;
 }
 
-interface Question {
-  id: string;
-  category: string;
-  question: string;
-  options: string[];
-  correctIndex: number;
-  explanation: string;
-}
-
-const QUESTIONS: Question[] = [
+const cheatSheetCards: CheatSheetCard[] = [
   {
-    id: 'sr1',
-    category: 'Négyzetszámok gyöke',
-    question: 'Mennyi a √225 pontos értéke?',
-    options: ['13', '15', '25', '35'],
-    correctIndex: 1,
-    explanation: '15² = 225, ezért √225 = 15.'
+    id: 'c1',
+    title: 'Szorzat és Hányados Gyöke',
+    icon: <Layers className="w-4 h-4 text-pink-600" />,
+    formula: '√(a · b) = √a · √b  |  √(a / b) = √a / √b',
+    note: 'Pl. √2 · √18 = √36 = 6;  √75 / √3 = √25 = 5.'
   },
   {
-    id: 'sr2',
-    category: 'Szorzat négyzetgyöke',
-    question: 'Számítsd ki a √8 · √2 szorzat értékét!',
-    options: ['√16 = 4', '√10', '16', '2√2'],
-    correctIndex: 0,
-    explanation: '√a · √b = √(a · b). Tehát √8 · √2 = √(8 · 2) = √16 = 4.'
+    id: 'c2',
+    title: 'Kiemelés a Gyökjel Elé',
+    icon: <Scale className="w-4 h-4 text-emerald-600" />,
+    formula: '√(k² · a) = k√a',
+    note: 'Pl. √50 = √(25 · 2) = 5√2;  √72 = 6√2;  √48 = 4√3.'
   },
   {
-    id: 'sr3',
-    category: 'Tört négyzetgyöke',
-    question: 'Mennyi a √(36/121) kifejezés értéke?',
-    options: ['6/11', '18/60', '6/12', '36/121'],
-    correctIndex: 0,
-    explanation: '√(a/b) = √a / √b. Ezért √(36/121) = √36 / √121 = 6/11.'
+    id: 'c3',
+    title: 'Bevitel a Gyökjel Alá',
+    icon: <Target className="w-4 h-4 text-amber-600" />,
+    formula: 'k√a = √(k² · a)',
+    note: 'Pl. 3√5 = √(9 · 5) = √45;  4√3 = √(16 · 3) = √48.'
   },
   {
-    id: 'sr4',
-    category: 'Kiemelés a gyökjel elé',
-    question: 'Melyik egyenlő a √50 kifejezéssel legegyszerűbb gyökös alakban?',
-    options: ['25√2', '5√2', '2√5', '10√5'],
-    correctIndex: 1,
-    explanation: '√50 = √(25 · 2) = √25 · √2 = 5√2.'
-  },
-  {
-    id: 'sr5',
-    category: 'Tizedestört négyzetgyöke',
-    question: 'Mennyi a √0,04 értéke?',
-    options: ['0,2', '0,02', '0,002', '2'],
-    correctIndex: 0,
-    explanation: '√0,04 = √(4/100) = √4 / √100 = 2/10 = 0,2. (Mert 0,2 · 0,2 = 0,04).'
-  },
-  {
-    id: 'sr6',
-    category: 'Gyökök becslése',
-    question: 'Melyik két szomszédos egész szám közé esik a √30?',
-    options: ['4 és 5', '5 és 6', '6 és 7', '3 és 4'],
-    correctIndex: 1,
-    explanation: 'Mivel 5² = 25 és 6² = 36, valamint 25 < 30 < 36, ezért 5 < √30 < 6.'
-  },
-  {
-    id: 'sr7',
-    category: 'Gyakori hiba elkerülése',
-    question: 'Mennyi a √(9 + 16) értéke?',
-    options: ['7 (mert √9 + √16 = 3 + 4)', '5 (mert √(25) = 5)', '12', '√7'],
-    correctIndex: 1,
-    explanation: 'Összegre NEM érvényes a tagonkénti gyökvonás! Először a gyök alatt kell összeadni: 9 + 16 = 25, és √25 = 5.'
-  },
-  {
-    id: 'sr8',
-    category: 'Bevitel a gyökjel alá',
-    question: 'Írd fel egyetlen gyök alatt: 3√7 = ?',
-    options: ['√21', '√42', '√63', '√147'],
-    correctIndex: 2,
-    explanation: '3√7 = √(3² · 7) = √(9 · 7) = √63.'
+    id: 'c4',
+    title: 'Irracionális Számok (ℚ*)',
+    icon: <Compass className="w-4 h-4 text-blue-600" />,
+    formula: 'Nem írhatók fel a/b alakban',
+    note: '√2, √3, √5, √7, π. Végtelen nem szakaszos tizedestörtek.'
   }
 ];
 
-export function SquareRootsQuiz({ onComplete, onBack }: SquareRootsQuizProps) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedOption, setSelectedOption] = useState<number | null>(null);
-  const [showResult, setShowResult] = useState(false);
-  const [correctCount, setCorrectCount] = useState(0);
-  const [quizComplete, setQuizComplete] = useState(false);
-  const [xpEarned, setXpEarned] = useState(0);
+const questions: Question[] = [
+  // =========================================================================
+  // --- 1. SZINT: ALAPVETŐ NÉGYZETSZÁMOK, SZORZAT ÉS HÁNYADOS GYÖKE (1-10) ---
+  // =========================================================================
+  {
+    id: 'q1-1',
+    level: 1,
+    question: 'Mennyi a √225 négyzetgyök pontos értéke?',
+    options: [
+      '15',
+      '25',
+      '12.5',
+      '14'
+    ],
+    correctAnswer: '15',
+    explanation: '15 · 15 = 225, ezért √225 = 15.',
+    hint: 'Melyik szám négyzete a 225? 15² = 225.',
+    breakdown: [
+      { label: 'Négyzetre emelés', value: '15² = 225' },
+      { label: 'Gyökvonás', value: '√225 = 15' }
+    ]
+  },
+  {
+    id: 'q1-2',
+    level: 1,
+    question: 'Mennyi a √0.0049 tizedestört négyzetgyöke?',
+    options: [
+      '0.07',
+      '0.7',
+      '0.007',
+      '0.049'
+    ],
+    correctAnswer: '0.07',
+    explanation: '0.07 · 0.07 = 0.0049. A 4 tizedesjegy feleződik 2 tizedesjegyre: √0.0049 = 0.07.',
+    hint: '√(49 / 10000) = 7 / 100 = 0.07.',
+    breakdown: [
+      { label: 'Tört alak', value: '√(49 / 10000) = 7 / 100' },
+      { label: 'Tizedestört', value: '0.07' }
+    ]
+  },
+  {
+    id: 'q1-3',
+    level: 1,
+    question: 'Mennyi a √2 · √8 szorzat pontos értéke az azonosságok segítségével?',
+    options: [
+      '4',
+      '√10',
+      '16',
+      '2'
+    ],
+    correctAnswer: '4',
+    explanation: 'Szorzat négyzetgyöke: √2 · √8 = √(2 · 8) = √16 = 4.',
+    hint: '√a · √b = √(a · b) ⟹ √(2 · 8) = √16 = 4.',
+    breakdown: [
+      { label: 'Azonosság', value: '√2 · √8 = √(2 · 8)' },
+      { label: 'Kiszámolás', value: '√16 = 4' }
+    ]
+  },
+  {
+    id: 'q1-4',
+    level: 1,
+    question: 'Mennyi a √75 / √3 hányados pontos értéke?',
+    options: [
+      '5',
+      '25',
+      '√25 = ±5',
+      '15'
+    ],
+    correctAnswer: '5',
+    explanation: 'Hányados négyzetgyöke: √75 / √3 = √(75 / 3) = √25 = 5.',
+    hint: '√a / √b = √(a / b) ⟹ √(75 / 3) = √25 = 5.',
+    breakdown: [
+      { label: 'Azonosság', value: '√75 / √3 = √(75 / 3)' },
+      { label: 'Eredmény', value: '√25 = 5' }
+    ]
+  },
+  {
+    id: 'q1-5',
+    level: 1,
+    question: 'Mennyi a √400 - √169 kifejezés értéke?',
+    options: [
+      '7',
+      '231',
+      '√231',
+      '17'
+    ],
+    correctAnswer: '7',
+    explanation: '√400 = 20 és √169 = 13. Különbségük: 20 - 13 = 7.',
+    hint: '20 - 13 = 7.',
+    breakdown: [
+      { label: '√400', value: '20' },
+      { label: '√169', value: '13' },
+      { label: 'Különbség', value: '20 - 13 = 7' }
+    ]
+  },
+  {
+    id: 'q1-6',
+    level: 1,
+    question: 'Mennyi a √3 · √27 szorzat pontos értéke?',
+    options: [
+      '9',
+      '3',
+      '27',
+      '√30'
+    ],
+    correctAnswer: '9',
+    explanation: '√3 · √27 = √(3 · 27) = √81 = 9.',
+    hint: '3 · 27 = 81 ⟹ √81 = 9.',
+    breakdown: [
+      { label: 'Szorzat gyök alatt', value: '√(3 · 27) = √81' },
+      { label: 'Gyökvonás', value: '9' }
+    ]
+  },
+  {
+    id: 'q1-7',
+    level: 1,
+    question: 'Mennyi a √98 / √2 hányados pontos értéke?',
+    options: [
+      '7',
+      '49',
+      '√49 = ±7',
+      '14'
+    ],
+    correctAnswer: '7',
+    explanation: '√98 / √2 = √(98 / 2) = √49 = 7.',
+    hint: '98 / 2 = 49 ⟹ √49 = 7.',
+    breakdown: [
+      { label: 'Osztás gyök alatt', value: '√(98 / 2) = √49' },
+      { label: 'Gyökvonás', value: '7' }
+    ]
+  },
+  {
+    id: 'q1-8',
+    level: 1,
+    question: 'Mennyi a √(0.04 · 0.25) szorzat gyöke?',
+    options: [
+      '0.1',
+      '0.01',
+      '0.2',
+      '0.05'
+    ],
+    correctAnswer: '0.1',
+    explanation: 'Tényezőnként gyököt vonva: √0.04 · √0.25 = 0.2 · 0.5 = 0.1.',
+    hint: '√0.04 = 0.2 és √0.25 = 0.5. 0.2 · 0.5 = 0.1.',
+    breakdown: [
+      { label: 'Tényezők gyöke', value: '0.2 · 0.5' },
+      { label: 'Szorzat', value: '0.1' }
+    ]
+  },
+  {
+    id: 'q1-9',
+    level: 1,
+    question: 'Mennyi a √289 négyzetgyök pontos értéke?',
+    options: [
+      '17',
+      '19',
+      '13',
+      '27'
+    ],
+    correctAnswer: '17',
+    explanation: '17 · 17 = 289, ezért √289 = 17.',
+    hint: '17² = 289.',
+    breakdown: [
+      { label: 'Négyzet', value: '17² = 289' },
+      { label: 'Gyök', value: '17' }
+    ]
+  },
+  {
+    id: 'q1-10',
+    level: 1,
+    question: 'Mennyi a √(64/121) tört négyzetgyöke?',
+    options: [
+      '8/11',
+      '64/121',
+      '8/121',
+      '16/11'
+    ],
+    correctAnswer: '8/11',
+    explanation: '√64 / √121 = 8/11.',
+    hint: '√64 = 8 és √121 = 11.',
+    breakdown: [
+      { label: 'Számláló', value: '√64 = 8' },
+      { label: 'Nevező', value: '√121 = 11' },
+      { label: 'Tört', value: '8/11' }
+    ]
+  },
 
-  const TOTAL_QUESTIONS = QUESTIONS.length;
-  const XP_PER_CORRECT = 15;
-  const currentQ = QUESTIONS[currentIndex];
+  // =========================================================================
+  // --- 2. SZINT: GYÖKTÉNYEZŐ KIEMELÉSE ÉS BEVITELE (11-20) ---
+  // =========================================================================
+  {
+    id: 'q2-1',
+    level: 2,
+    question: 'Melyik a √50 kifejezés legegyszerűbb alakja a gyökjel elé való kiemeléssel?',
+    options: [
+      '5√2',
+      '2√5',
+      '25√2',
+      '5√10'
+    ],
+    correctAnswer: '5√2',
+    explanation: '50 felbontása a legnagyobb négyzetszámmal: 50 = 25 · 2. Ekkor √50 = √25 · √2 = 5√2.',
+    hint: '50 = 25 · 2. √25 = 5 ⟹ 5√2.',
+    breakdown: [
+      { label: 'Felbontás', value: '50 = 25 · 2' },
+      { label: 'Kiemelés', value: '√25 · √2 = 5√2' }
+    ]
+  },
+  {
+    id: 'q2-2',
+    level: 2,
+    question: 'Melyik gyökkel egyenlő a 3√5 kifejezés a gyökjel alá vitel után?',
+    options: [
+      '√45',
+      '√15',
+      '√75',
+      '√30'
+    ],
+    correctAnswer: '√45',
+    explanation: 'A 3-at négyzetre emelve visszük be: 3√5 = √(3² · 5) = √(9 · 5) = √45.',
+    hint: '3² = 9 ⟹ √(9 · 5) = √45.',
+    breakdown: [
+      { label: 'Négyzetre emelés', value: '3² = 9' },
+      { label: 'Szorzás a gyök alatt', value: '9 · 5 = 45 ⟹ √45' }
+    ]
+  },
+  {
+    id: 'q2-3',
+    level: 2,
+    question: 'Melyik a √72 kifejezés legegyszerűbb alakja kiemeléssel?',
+    options: [
+      '6√2',
+      '3√8',
+      '2√18',
+      '36√2'
+    ],
+    correctAnswer: '6√2',
+    explanation: 'A 72 legnagyobb négyzetszám osztója a 36: 72 = 36 · 2. Így √72 = √36 · √2 = 6√2.',
+    hint: '72 = 36 · 2. √36 = 6 ⟹ 6√2.',
+    breakdown: [
+      { label: 'Felbontás', value: '72 = 36 · 2' },
+      { label: 'Kiemelés', value: '√36 · √2 = 6√2' }
+    ]
+  },
+  {
+    id: 'q2-4',
+    level: 2,
+    question: 'Mennyi a 2√3 + 5√3 - √3 kifejezés összevont értéke?',
+    options: [
+      '6√3',
+      '7√3',
+      '6√9 = 18',
+      '6'
+    ],
+    correctAnswer: '6√3',
+    explanation: 'Azonos gyöktényezők összevonása: (2 + 5 - 1)√3 = 6√3.',
+    hint: '(2 + 5 - 1) · √3 = 6√3.',
+    breakdown: [
+      { label: 'Együtthatók művelete', value: '2 + 5 - 1 = 6' },
+      { label: 'Eredmény', value: '6√3' }
+    ]
+  },
+  {
+    id: 'q2-5',
+    level: 2,
+    question: 'Mennyi a √20 + √45 kifejezés értéke a gyökjel elé kiemelés után?',
+    options: [
+      '5√5',
+      '√65',
+      '6√5',
+      '13'
+    ],
+    correctAnswer: '5√5',
+    explanation: '√20 = √(4 · 5) = 2√5, és √45 = √(9 · 5) = 3√5. Összegük: 2√5 + 3√5 = 5√5.',
+    hint: '√20 = 2√5 és √45 = 3√5. 2√5 + 3√5 = 5√5.',
+    breakdown: [
+      { label: '√20 kiemelése', value: '2√5' },
+      { label: '√45 kiemelése', value: '3√5' },
+      { label: 'Összevonás', value: '2√5 + 3√5 = 5√5' }
+    ]
+  },
+  {
+    id: 'q2-6',
+    level: 2,
+    question: 'Melyik a √48 kifejezés helyes, legegyszerűbb alakja?',
+    options: [
+      '4√3',
+      '2√12',
+      '16√3',
+      '3√4'
+    ],
+    correctAnswer: '4√3',
+    explanation: '48 legnagyobb négyzetszám osztója a 16: 48 = 16 · 3. Ekkor √48 = √16 · √3 = 4√3.',
+    hint: '48 = 16 · 3 ⟹ √16 · √3 = 4√3.',
+    breakdown: [
+      { label: 'Felbontás', value: '48 = 16 · 3' },
+      { label: 'Kiemelés', value: '4√3' }
+    ]
+  },
+  {
+    id: 'q2-7',
+    level: 2,
+    question: 'Melyik a nagyobb szám: A = 4√2 vagy B = 3√3?',
+    options: [
+      'Az A szám a nagyobb (4√2 > 3√3).',
+      'A B szám a nagyobb (3√3 > 4√2).',
+      'A két szám pontosan egyenlő.',
+      'Nem lehet összehasonlítani őket.'
+    ],
+    correctAnswer: 'Az A szám a nagyobb (4√2 > 3√3).',
+    explanation: 'Vigyük be mindkét szorzót a gyökjel alá: A = 4√2 = √(16 · 2) = √32. B = 3√3 = √(9 · 3) = √27. Mivel 32 > 27, ezért 4√2 > 3√3.',
+    hint: '4√2 = √32 és 3√3 = √27. √32 > √27.',
+    breakdown: [
+      { label: 'A gyök alatt', value: '√(16 · 2) = √32' },
+      { label: 'B gyök alatt', value: '√(9 · 3) = √27' },
+      { label: 'Összehasonlítás', value: '√32 > √27 ⟹ A > B' }
+    ]
+  },
+  {
+    id: 'q2-8',
+    level: 2,
+    question: 'Mennyi a √12 · √3 szorzat pontos értéke?',
+    options: [
+      '6',
+      '36',
+      '√15',
+      '4'
+    ],
+    correctAnswer: '6',
+    explanation: '√12 · √3 = √(12 · 3) = √36 = 6.',
+    hint: '12 · 3 = 36 ⟹ √36 = 6.',
+    breakdown: [
+      { label: 'Szorzás', value: '√(12 · 3) = √36' },
+      { label: 'Gyökvonás', value: '6' }
+    ]
+  },
+  {
+    id: 'q2-9',
+    level: 2,
+    question: 'Mennyi a (2√5)² kifejezés pontos értéke?',
+    options: [
+      '20',
+      '10',
+      '100',
+      '40'
+    ],
+    correctAnswer: '20',
+    explanation: '(2√5)² = 2² · (√5)² = 4 · 5 = 20.',
+    hint: '2² = 4 és (√5)² = 5. 4 · 5 = 20.',
+    breakdown: [
+      { label: 'Tényezők négyzete', value: '2² · (√5)²' },
+      { label: 'Szorzat', value: '4 · 5 = 20' }
+    ]
+  },
+  {
+    id: 'q2-10',
+    level: 2,
+    question: 'Melyik a √108 kifejezés legegyszerűbb kiemelt alakja?',
+    options: [
+      '6√3',
+      '3√12',
+      '2√27',
+      '18√3'
+    ],
+    correctAnswer: '6√3',
+    explanation: '108 = 36 · 3. Így √108 = √36 · √3 = 6√3.',
+    hint: '108 = 36 · 3 ⟹ √36 · √3 = 6√3.',
+    breakdown: [
+      { label: 'Felbontás', value: '108 = 36 · 3' },
+      { label: 'Kiemelés', value: '6√3' }
+    ]
+  },
 
-  const handleSelect = (idx: number) => {
-    if (showResult) return;
-    setSelectedOption(idx);
-  };
-
-  const checkAnswer = () => {
-    if (selectedOption === null) return;
-    const isCorrect = selectedOption === currentQ.correctIndex;
-    setShowResult(true);
-    if (isCorrect) {
-      setCorrectCount(prev => prev + 1);
-      setXpEarned(prev => prev + XP_PER_CORRECT);
-    }
-  };
-
-  const nextQuestion = () => {
-    if (currentIndex < TOTAL_QUESTIONS - 1) {
-      setCurrentIndex(prev => prev + 1);
-      setSelectedOption(null);
-      setShowResult(false);
-    } else {
-      setQuizComplete(true);
-      if (onComplete) {
-        onComplete({
-          totalQuestions: TOTAL_QUESTIONS,
-          correctAnswers: correctCount + (selectedOption === currentQ.correctIndex ? 1 : 0),
-          percentage: Math.round(((correctCount + (selectedOption === currentQ.correctIndex ? 1 : 0)) / TOTAL_QUESTIONS) * 100),
-          xpEarned: xpEarned + (selectedOption === currentQ.correctIndex ? XP_PER_CORRECT : 0),
-        });
-      }
-    }
-  };
-
-  if (quizComplete) {
-    const finalCorrect = correctCount;
-    const percentage = Math.round((finalCorrect / TOTAL_QUESTIONS) * 100);
-    const finalXP = finalCorrect * XP_PER_CORRECT;
-
-    return (
-      <div className="max-w-xl mx-auto text-center py-6 animate-in fade-in zoom-in-95 duration-300">
-        <Button variant="ghost" onClick={onBack} className="mb-6 rounded-xl hover:bg-slate-100">
-          <ArrowLeft className="w-4 h-4 mr-2" /> Vissza a témakörökhöz
-        </Button>
-
-        <div className="bg-white rounded-3xl p-8 shadow-xl border border-slate-100">
-          <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center text-white shadow-lg shadow-pink-200">
-            <Trophy className="w-10 h-10" />
-          </div>
-
-          <h2 className="text-3xl font-black text-slate-800 mb-2">
-            {percentage >= 80 ? 'Gyökvonás Profi!' : percentage >= 60 ? 'Szép eredmény!' : 'Gyakorolj még!'}
-          </h2>
-          <p className="text-sm text-slate-500 mb-6 font-medium">8. Számok négyzetgyöke kvíz befejezve</p>
-
-          <div className="bg-slate-50 border border-slate-100 rounded-2xl p-6 mb-6">
-            <div className="text-5xl font-black text-pink-600 mb-2">{percentage}%</div>
-            <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-              {finalCorrect} / {TOTAL_QUESTIONS} helyes válasz
-            </p>
-          </div>
-
-          <div className="flex justify-center mb-6">
-            <XPBadge xp={finalXP} />
-          </div>
-
-          <div className="flex gap-3">
-            <Button variant="outline" onClick={onBack} className="flex-1 rounded-xl h-11 font-bold">
-              Vissza
-            </Button>
-            <Button
-              onClick={() => {
-                setCurrentIndex(0);
-                setSelectedOption(null);
-                setShowResult(false);
-                setCorrectCount(0);
-                setQuizComplete(false);
-                setXpEarned(0);
-              }}
-              className="flex-1 bg-pink-600 hover:bg-pink-700 text-white rounded-xl h-11 font-bold shadow-md shadow-pink-200"
-            >
-              <RotateCcw className="w-4 h-4 mr-2" /> Újra
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
+  // =========================================================================
+  // --- 3. SZINT: ÖSSZETETT GYÖKÖS KIFEJEZÉSEK ÉS BECSLÉSEK (21-30) ---
+  // =========================================================================
+  {
+    id: 'q3-1',
+    level: 3,
+    question: 'Mennyi a √50 + √18 - √8 kifejezés pontos értéke legegyszerűbb alakban?',
+    options: [
+      '6√2',
+      '10√2',
+      '√60',
+      '8√2'
+    ],
+    correctAnswer: '6√2',
+    explanation: '√50 = 5√2, √18 = 3√2, √8 = 2√2. Ekkor: 5√2 + 3√2 - 2√2 = (5 + 3 - 2)√2 = 6√2.',
+    hint: 'Emelj ki mindegyikből √2-t: 5√2 + 3√2 - 2√2 = 6√2.',
+    breakdown: [
+      { label: 'Kiemelések', value: '5√2 + 3√2 - 2√2' },
+      { label: 'Összevonás', value: '6√2' }
+    ]
+  },
+  {
+    id: 'q3-2',
+    level: 3,
+    question: 'Melyik szám IRRACIONÁLIS az alábbiak közül: √16, √(25/9), √8, √0.04?',
+    options: [
+      '√8 (= 2√2)',
+      '√16 (= 4)',
+      '√(25/9) (= 5/3)',
+      '√0.04 (= 0.2)'
+    ],
+    correctAnswer: '√8 (= 2√2)',
+    explanation: '√16 = 4, √(25/9) = 5/3 és √0.04 = 0.2 mind racionális számok. A 8 nem négyzetszám, így √8 = 2√2 irracionális (végtelen nem szakaszos tizedestört).',
+    hint: 'A nem négyzetszámok gyöke mindig irracionális.',
+    breakdown: [
+      { label: 'Racionális gyökök', value: '4, 5/3, 0.2 (felírhatók törtként)' },
+      { label: 'Irracionális szám', value: '√8 = 2√2 (ℚ*)' }
+    ]
+  },
+  {
+    id: 'q3-3',
+    level: 3,
+    question: 'Mennyi a (√7 + √2) · (√7 - √2) szorzat pontos értéke a nevezetes azonosság segítségével?',
+    options: [
+      '5',
+      '9',
+      '√45',
+      '3'
+    ],
+    correctAnswer: '5',
+    explanation: '(a + b)(a - b) = a² - b² azonosság szerint: (√7)² - (√2)² = 7 - 2 = 5.',
+    hint: '(a + b)(a - b) = a² - b² ⟹ (√7)² - (√2)² = 7 - 2 = 5.',
+    breakdown: [
+      { label: 'Azonosság', value: '(√7)² - (√2)²' },
+      { label: 'Számítás', value: '7 - 2 = 5' }
+    ]
+  },
+  {
+    id: 'q3-4',
+    level: 3,
+    question: 'Mennyi a (√80 / √5) + (√27 / √3) kifejezés értéke?',
+    options: [
+      '7',
+      '12',
+      '5',
+      '√107'
+    ],
+    correctAnswer: '7',
+    explanation: '√80 / √5 = √(80 / 5) = √16 = 4. √27 / √3 = √(27 / 3) = √9 = 3. Összegük: 4 + 3 = 7.',
+    hint: '√(80/5) = √16 = 4 és √(27/3) = √9 = 3. 4 + 3 = 7.',
+    breakdown: [
+      { label: '1. hányados', value: '√(80 / 5) = √16 = 4' },
+      { label: '2. hányados', value: '√(27 / 3) = √9 = 3' },
+      { label: 'Összeg', value: '4 + 3 = 7' }
+    ]
+  },
+  {
+    id: 'q3-5',
+    level: 3,
+    question: 'Mennyi a (3√2)² - (2√3)² különbség pontos értéke?',
+    options: [
+      '6',
+      '12',
+      '0',
+      '18'
+    ],
+    correctAnswer: '6',
+    explanation: '(3√2)² = 9 · 2 = 18. (2√3)² = 4 · 3 = 12. Különbségük: 18 - 12 = 6.',
+    hint: '18 - 12 = 6.',
+    breakdown: [
+      { label: '(3√2)²', value: '9 · 2 = 18' },
+      { label: '(2√3)²', value: '4 · 3 = 12' },
+      { label: 'Különbség', value: '18 - 12 = 6' }
+    ]
+  },
+  {
+    id: 'q3-6',
+    level: 3,
+    question: 'Melyik két szomszédos egész szám közé esik a 2√10 értéke a számegyenesen?',
+    options: [
+      '6 és 7 közé (6 < 2√10 < 7)',
+      '5 és 6 közé',
+      '7 és 8 közé',
+      '4 és 5 közé'
+    ],
+    correctAnswer: '6 és 7 közé (6 < 2√10 < 7)',
+    explanation: 'Vigyük be a 2-t a gyökjel alá: 2√10 = √(4 · 10) = √40. Mivel 36 < 40 < 49, ezért 6 < √40 < 7.',
+    hint: '2√10 = √40. Mivel 6² = 36 < 40 < 49 = 7², ezért 6 és 7 közé esik.',
+    breakdown: [
+      { label: 'Bevitel gyök alá', value: '2√10 = √(4 · 10) = √40' },
+      { label: 'Négyzetszámok', value: '36 < 40 < 49' },
+      { label: 'Intervallum', value: '6 < √40 < 7' }
+    ]
+  },
+  {
+    id: 'q3-7',
+    level: 3,
+    question: 'Mennyi a √200 - √32 kifejezés legegyszerűbb alakja?',
+    options: [
+      '6√2',
+      '14√2',
+      '√168',
+      '4√2'
+    ],
+    correctAnswer: '6√2',
+    explanation: '√200 = √(100 · 2) = 10√2, és √32 = √(16 · 2) = 4√2. Különbségük: 10√2 - 4√2 = 6√2.',
+    hint: '10√2 - 4√2 = 6√2.',
+    breakdown: [
+      { label: '√200', value: '10√2' },
+      { label: '√32', value: '4√2' },
+      { label: 'Különbség', value: '10√2 - 4√2 = 6√2' }
+    ]
+  },
+  {
+    id: 'q3-8',
+    level: 3,
+    question: 'Mennyi a √2.5 · √10 szorzat pontos értéke?',
+    options: [
+      '5',
+      '25',
+      '√25 = ±5',
+      '2.5'
+    ],
+    correctAnswer: '5',
+    explanation: '√2.5 · √10 = √(2.5 · 10) = √25 = 5.',
+    hint: '2.5 · 10 = 25 ⟹ √25 = 5.',
+    breakdown: [
+      { label: 'Szorzat gyök alatt', value: '√(2.5 · 10) = √25' },
+      { label: 'Gyökvonás', value: '5' }
+    ]
+  },
+  {
+    id: 'q3-9',
+    level: 3,
+    question: 'Mennyi a √2 · (√8 + √18) kifejezés pontos egész értéke?',
+    options: [
+      '10',
+      '8',
+      '12',
+      '√52'
+    ],
+    correctAnswer: '10',
+    explanation: 'Zárójel felbontása: √2 · √8 + √2 · √18 = √16 + √36 = 4 + 6 = 10.',
+    hint: '√2 · √8 = √16 = 4 és √2 · √18 = √36 = 6. 4 + 6 = 10.',
+    breakdown: [
+      { label: '1. szorzat', value: '√2 · √8 = √16 = 4' },
+      { label: '2. szorzat', value: '√2 · √18 = √36 = 6' },
+      { label: 'Összeg', value: '4 + 6 = 10' }
+    ]
+  },
+  {
+    id: 'q3-10',
+    level: 3,
+    question: 'Melyik szám a LEGNAGYOBB az alábbiak közül: A = 5√3, B = 6√2, C = 3√7, D = 2√15?',
+    options: [
+      'A = 5√3 (= √75)',
+      'B = 6√2 (= √72)',
+      'C = 3√7 (= √63)',
+      'D = 2√15 (= √60)'
+    ],
+    correctAnswer: 'A = 5√3 (= √75)',
+    explanation: 'Vigyük be mindegyiket a gyökjel alá: A = √(25 · 3) = √75; B = √(36 · 2) = √72; C = √(9 · 7) = √63; D = √(4 · 15) = √60. A legnagyobb a √75 = 5√3.',
+    hint: 'Hasonlítsd össze a gyök alatti értékeket: √75 > √72 > √63 > √60.',
+    breakdown: [
+      { label: 'A', value: '√(25 · 3) = √75' },
+      { label: 'B', value: '√(36 · 2) = √72' },
+      { label: 'C', value: '√(9 · 7) = √63' },
+      { label: 'D', value: '√(4 · 15) = √60' },
+      { label: 'Legnagyobb', value: '√75 (5√3)' }
+    ]
   }
+];
 
+export const SquareRootsQuiz: React.FC<SquareRootsQuizProps> = ({
+  onBack,
+  onSwitchToTheory
+}) => {
   return (
-    <div className="max-w-2xl mx-auto py-4">
-      <div className="flex items-center justify-between mb-6">
-        <Button variant="ghost" onClick={onBack} className="rounded-xl hover:bg-slate-100 text-slate-600 font-bold">
-          <ArrowLeft className="w-4 h-4 mr-2" /> Vissza
-        </Button>
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-bold px-3 py-1 bg-pink-50 text-pink-700 rounded-full border border-pink-100">
-            {currentQ.category}
-          </span>
-          <XPBadge xp={xpEarned} />
-        </div>
-      </div>
-
-      <div className="mb-6">
-        <div className="flex justify-between items-center text-xs font-bold text-slate-400 mb-2">
-          <span>Kérdés {currentIndex + 1} / {TOTAL_QUESTIONS}</span>
-          <span>{Math.round(((currentIndex + 1) / TOTAL_QUESTIONS) * 100)}%</span>
-        </div>
-        <ProgressBar current={currentIndex + 1} total={TOTAL_QUESTIONS} variant="default" size="lg" />
-      </div>
-
-      <div className="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-slate-100 space-y-6">
-        <div className="flex items-start gap-3">
-          <div className="p-2.5 bg-pink-50 text-pink-600 rounded-xl">
-            <Target className="w-6 h-6" />
-          </div>
-          <div>
-            <span className="text-xs font-bold text-pink-600 uppercase tracking-wider">8. Fejezet • Számok Négyzetgyöke</span>
-            <h3 className="text-lg md:text-xl font-bold text-slate-800 mt-1 leading-snug">
-              {currentQ.question}
-            </h3>
-          </div>
-        </div>
-
-        <div className="space-y-3">
-          {currentQ.options.map((opt, idx) => {
-            const isSelected = selectedOption === idx;
-            const isCorrect = idx === currentQ.correctIndex;
-            let btnStyle = "border-slate-200 hover:border-pink-300 hover:bg-pink-50/50 text-slate-700";
-
-            if (showResult) {
-              if (isCorrect) {
-                btnStyle = "border-emerald-500 bg-emerald-50 text-emerald-900 font-bold";
-              } else if (isSelected && !isCorrect) {
-                btnStyle = "border-rose-500 bg-rose-50 text-rose-900";
-              } else {
-                btnStyle = "border-slate-100 text-slate-400 opacity-60";
-              }
-            } else if (isSelected) {
-              btnStyle = "border-pink-600 bg-pink-50 text-pink-900 font-bold ring-2 ring-pink-500/20";
-            }
-
-            return (
-              <button
-                key={idx}
-                disabled={showResult}
-                onClick={() => handleSelect(idx)}
-                className={cn(
-                  "w-full text-left p-4 rounded-2xl border-2 transition-all flex items-center justify-between text-sm md:text-base font-medium",
-                  btnStyle
-                )}
-              >
-                <span>{opt}</span>
-                {showResult && isCorrect && <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 ml-2" />}
-                {showResult && isSelected && !isCorrect && <XCircle className="w-5 h-5 text-rose-600 shrink-0 ml-2" />}
-              </button>
-            );
-          })}
-        </div>
-
-        {showResult && (
-          <div className="p-4 bg-slate-50 border border-slate-200/80 rounded-2xl text-xs md:text-sm text-slate-600 space-y-1 animate-in fade-in-50">
-            <div className="font-bold flex items-center gap-1.5 text-slate-800">
-              <HelpCircle className="w-4 h-4 text-pink-600" /> Magyarázat:
-            </div>
-            <p>{currentQ.explanation}</p>
-          </div>
-        )}
-
-        <div className="pt-2">
-          {!showResult ? (
-            <Button
-              disabled={selectedOption === null}
-              onClick={checkAnswer}
-              className="w-full bg-pink-600 hover:bg-pink-700 text-white h-12 rounded-xl font-bold shadow-md shadow-pink-200"
-            >
-              Válasz ellenőrzése
-            </Button>
-          ) : (
-            <Button
-              onClick={nextQuestion}
-              className="w-full bg-slate-900 hover:bg-slate-800 text-white h-12 rounded-xl font-bold flex items-center justify-center gap-2"
-            >
-              <span>{currentIndex < TOTAL_QUESTIONS - 1 ? 'Következő feladat' : 'Eredmények megtekintése'}</span>
-              <ArrowRight className="w-4 h-4" />
-            </Button>
-          )}
-        </div>
-      </div>
-    </div>
+    <QuizTemplate
+      title="8. Számok négyzetgyöke – Kvíz"
+      subtitle="30 feladat 3 nehézségi szinten: Négyzetszámok, szorzat és hányados gyöke, kiemelés és bevitel, összetett kifejezések"
+      questions={questions}
+      onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      documentId="grade-8-szamok-betuk-szamok-negyzetgyoke-quiz"
+      pdfFilename="8_osztaly_szamok_negyzetgyoke_kviz.pdf"
+      badgeColor="pink"
+      matcherComponent={<SquareRootsMatcher onBack={onBack} onSwitchToTheory={onSwitchToTheory} />}
+      sorterComponent={<SquareRootsSorter onBack={onBack} onSwitchToTheory={onSwitchToTheory} />}
+      cheatSheetCards={cheatSheetCards}
+    />
   );
-}
+};
 
 export default SquareRootsQuiz;

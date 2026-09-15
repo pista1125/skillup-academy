@@ -1,278 +1,621 @@
-import React, { useState } from 'react';
-import { QuizResult } from '@/types/education';
-import { ProgressBar } from '@/components/ProgressBar';
-import { XPBadge } from '@/components/XPBadge';
-import { Button } from '@/components/ui/button';
-import { CheckCircle2, XCircle, ArrowRight, Trophy, RotateCcw, ArrowLeft, Binary, Sparkles, HelpCircle } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import React from 'react';
+import { QuizTemplate, Question, CheatSheetCard } from '../QuizTemplate';
+import { RationalSetMatcher } from './RationalSetMatcher';
+import { RationalSetSorter } from './RationalSetSorter';
+import { Binary, Calculator, Sparkles, HelpCircle, CheckCircle2 } from 'lucide-react';
 
 interface RationalSetQuizProps {
-  onComplete?: (result: QuizResult) => void;
   onBack: () => void;
+  onSwitchToTheory?: () => void;
 }
 
-interface Question {
-  id: string;
-  category: string;
-  question: string;
-  options: string[];
-  correctIndex: number;
-  explanation: string;
-}
-
-const QUESTIONS: Question[] = [
+const cheatSheetCards: CheatSheetCard[] = [
   {
-    id: 'r1',
-    category: 'Számhalmazok',
-    question: 'Melyik szám NEM eleme a racionális számok halmazának (ℚ)?',
-    options: ['-5/8', '0', '0,333...', '√2'],
-    correctIndex: 3,
-    explanation: 'A √2 végtelen, nem szakaszos tizedestört, ami nem írható fel két egész szám hányadosaként (irracionális szám). A -5/8, 0 (0/1) és a 0,333... (1/3) mind racionális számok.'
+    id: 'c1',
+    title: 'Racionális Számok (ℚ)',
+    icon: <Binary className="w-4 h-4 text-emerald-600" />,
+    formula: 'ℚ = { a/b | a, b ∈ ℤ, b ≠ 0 }',
+    note: 'Minden szám, amely felírható két egész szám hányadosaként. Lánc: ℕ ⊂ ℤ ⊂ ℚ.'
   },
   {
-    id: 'r2',
-    category: 'Tört alak',
-    question: 'Melyik tört alak felel meg a 0,75 tizedestörtnek a legegyszerűbb alakban?',
-    options: ['75/100', '3/4', '7/5', '15/20'],
-    correctIndex: 1,
-    explanation: '0,75 = 75/100 = 3/4 (25-tel egyszerűsítve a legegyszerűbb alak a 3/4).'
+    id: 'c2',
+    title: 'Véges Tizedestört Feltétele',
+    icon: <Calculator className="w-4 h-4 text-blue-600" />,
+    formula: 'Egyszerűsített nevezőben csak 2 és 5 prím szerepelhet',
+    note: 'Pl. 3/8 = 0.375 (8 = 2³), míg 1/6 = 0.16̇ (6 = 2 · 3, a 3 miatt végtelen szakaszos).'
   },
   {
-    id: 'r3',
-    category: 'Végtelen szakaszos tört',
-    question: 'Milyen tört alaknak felel meg a 0,666... (0,̇6) tizedestört?',
-    options: ['6/10', '2/3', '3/5', '6/99'],
-    correctIndex: 1,
-    explanation: 'x = 0,666... => 10x = 6,666... => 9x = 6 => x = 6/9 = 2/3.'
+    id: 'c3',
+    title: 'Szakaszos Tört Átírása',
+    icon: <Sparkles className="w-4 h-4 text-purple-600" />,
+    formula: '0.ȧ = a/9  |  0.aḃ = ab/99  |  0.aḃc = ...',
+    note: 'Pl. 0.7̇ = 7/9,  0.45̇ = 45/99 = 5/11,  0.16̇ = (16-1)/90 = 15/90 = 1/6.'
   },
   {
-    id: 'r4',
-    category: 'Véges tizedestört feltétele',
-    question: 'Az alábbi törtek közül melyikből lesz VÉGTELEN szakaszos tizedestört?',
-    options: ['7/20', '9/25', '5/12', '11/16'],
-    correctIndex: 2,
-    explanation: 'Egy legegyszerűbb tört akkor véges, ha a nevező csak a 2 és 5 prímeket tartalmazza. A 12 = 2² · 3 (szerepel benne a 3), így az 5/12 = 0,41666... végtelen szakaszos tizedestört lesz.'
-  },
-  {
-    id: 'r5',
-    category: 'Ellentett és reciprok',
-    question: 'Mi a -3/5 szám ellentettjének a reciproka?',
-    options: ['-5/3', '5/3', '-3/5', '3/5'],
-    correctIndex: 1,
-    explanation: 'A -3/5 ellentettje a +3/5. A 3/5 reciproka pedig 5/3.'
-  },
-  {
-    id: 'r6',
-    category: 'Abszolútérték',
-    question: 'Mennyi a |-7,2| - |3,8| + |-1| kifejezés értéke?',
-    options: ['2,4', '4,4', '-2,4', '12'],
-    correctIndex: 1,
-    explanation: '|-7,2| = 7,2; |3,8| = 3,8; |-1| = 1. A művelet: 7,2 - 3,8 + 1 = 3,4 + 1 = 4,4.'
+    id: 'c4',
+    title: 'Ellentett, Abszolútérték, Reciprok',
+    icon: <HelpCircle className="w-4 h-4 text-teal-600" />,
+    formula: 'Ellentett: -a (összeg = 0) | Reciprok: 1/a (szorzat = 1) | |a| ≥ 0',
+    note: '|-a| = |a| (távolság a nullától).'
   }
 ];
 
-export function RationalSetQuiz({ onComplete, onBack }: RationalSetQuizProps) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedOption, setSelectedOption] = useState<number | null>(null);
-  const [showResult, setShowResult] = useState(false);
-  const [correctCount, setCorrectCount] = useState(0);
-  const [quizComplete, setQuizComplete] = useState(false);
-  const [xpEarned, setXpEarned] = useState(0);
+const questions: Question[] = [
+  // ==========================================
+  // --- 1. SZINT: SZÁMHALMAZOK ÉS ALAPFOGALMAK (1-10) ---
+  // ==========================================
+  {
+    id: 'q1-1',
+    level: 1,
+    question: 'Mi a racionális számok (ℚ) pontos matematikai definíciója?',
+    options: [
+      'Azon számok, amelyek felírhatók két egész szám hányadosaként (a/b, ahol a, b ∈ ℤ és b ≠ 0).',
+      'Minden pozitív és negatív tizedestört, még ha nem is szakaszos.',
+      'Csak a természetes számok és azok ellentettjei.',
+      'Kizárólag a pozitív törtek halmaza.'
+    ],
+    correctAnswer: 'Azon számok, amelyek felírhatók két egész szám hányadosaként (a/b, ahol a, b ∈ ℤ és b ≠ 0).',
+    explanation: 'A racionális szám definíciója: két egész szám hányadosa (tört alakja), ahol a nevező nem nulla.',
+    hint: 'A racionális szó a latin „ratio” (arány, hányados) szóból ered.',
+    breakdown: [
+      { label: 'Definíció', value: 'ℚ = { a/b | a, b ∈ ℤ, b ≠ 0 }' },
+      { label: 'Példák', value: '3/4, -5 = -5/1, 0 = 0/1, 0.7 = 7/10' }
+    ]
+  },
+  {
+    id: 'q1-2',
+    level: 1,
+    question: 'Melyik összefüggés írja le helyesen a számhalmazok egymásba ágyazottságát?',
+    options: [
+      'ℕ ⊂ ℤ ⊂ ℚ (Természetes ⊂ Egész ⊂ Racionális)',
+      'ℚ ⊂ ℤ ⊂ ℕ',
+      'ℤ ⊂ ℕ ⊂ ℚ',
+      'ℕ ⊂ ℚ ⊂ ℤ'
+    ],
+    correctAnswer: 'ℕ ⊂ ℤ ⊂ ℚ (Természetes ⊂ Egész ⊂ Racionális)',
+    explanation: 'Minden természetes szám egész szám is, és minden egész szám racionális szám is (pl. 4 = 4/1).',
+    hint: 'A természetes számok a legszűkebb, a racionális számok a legtágabb halmaz a három közül.',
+    breakdown: [
+      { label: 'ℕ (Természetes)', value: '{0, 1, 2, ...}' },
+      { label: 'ℤ (Egész)', value: '{..., -2, -1, 0, 1, 2, ...}' },
+      { label: 'ℚ (Racionális)', value: 'Egész számok és törtek' }
+    ]
+  },
+  {
+    id: 'q1-3',
+    level: 1,
+    question: 'Mennyi a -3/5 szám ellentettje?',
+    options: [
+      '+3/5',
+      '-5/3',
+      '+5/3',
+      '1'
+    ],
+    correctAnswer: '+3/5',
+    explanation: 'Egy szám ellentettje az azonos abszolútértékű, de ellentétes előjelű szám. (-3/5 ellentettje +3/5).',
+    hint: 'Egy szám és ellentettjének összege mindig 0!',
+    breakdown: [
+      { label: 'Szám', value: '-3/5' },
+      { label: 'Ellentett', value: '-(-3/5) = +3/5' },
+      { label: 'Ellenőrzés', value: '(-3/5) + (+3/5) = 0' }
+    ]
+  },
+  {
+    id: 'q1-4',
+    level: 1,
+    question: 'Mennyi a -3/5 szám reciproka?',
+    options: [
+      '-5/3',
+      '+5/3',
+      '+3/5',
+      '-1'
+    ],
+    correctAnswer: '-5/3',
+    explanation: 'A reciprok képzésnél a számláló és a nevező helyet cserél, de az előjel megmarad! (-3/5 reciproka -5/3).',
+    hint: 'Egy szám és reciprokának szorzata mindig +1! (-3/5 · (-5/3) = +1).',
+    breakdown: [
+      { label: 'Szám', value: '-3/5' },
+      { label: 'Reciprok', value: '1 / (-3/5) = -5/3' },
+      { label: 'Ellenőrzés', value: '(-3/5) · (-5/3) = +1' }
+    ]
+  },
+  {
+    id: 'q1-5',
+    level: 1,
+    question: 'Mit fejez ki egy szám abszolútértéke (|x|)?',
+    options: [
+      'A szám távolságát a 0-tól a számegyenesen (soha nem negatív).',
+      'A számnak a -1-gyel vett szorzatát.',
+      'A szám reciprokát.',
+      'A szám négyzetét.'
+    ],
+    correctAnswer: 'A szám távolságát a 0-tól a számegyenesen (soha nem negatív).',
+    explanation: 'A távolság mindig nemnegatív érték: |5| = 5 és |-5| = 5, |0| = 0.',
+    hint: 'A távolság nem lehet negatív.',
+    breakdown: [
+      { label: 'Definíció', value: '|x| = x ha x ≥ 0, és |x| = -x ha x < 0' },
+      { label: 'Példa', value: '|-8.4| = 8.4' }
+    ]
+  },
+  {
+    id: 'q1-6',
+    level: 1,
+    question: 'Melyik szám NEM eleme a természetes számok halmazának (ℕ), de eleme az egész számok halmazának (ℤ)?',
+    options: [
+      '-12',
+      '0',
+      '7',
+      '3/4'
+    ],
+    correctAnswer: '-12',
+    explanation: 'A -12 negatív egész szám (ℤ eleme), de nem természetes szám (0 és pozitív egészek).',
+    hint: 'Keresd a negatív egész számot!',
+    breakdown: [
+      { label: '-12 ∈ ℤ', value: 'Igaz (egész szám)' },
+      { label: '-12 ∈ ℕ', value: 'Hamis (nem természetes szám)' }
+    ]
+  },
+  {
+    id: 'q1-7',
+    level: 1,
+    question: 'Lehet-e egy tört nevezője 0 a racionális számok körében?',
+    options: [
+      'Nem, 0-val való osztás a matematikában nem értelmezhető.',
+      'Igen, ekkor a tört értéke 0.',
+      'Igen, ekkor a tört értéke végtelen.',
+      'Csak akkor, ha a számláló is 0.'
+    ],
+    correctAnswer: 'Nem, 0-val való osztás a matematikában nem értelmezhető.',
+    explanation: 'A nullával való osztás tiltott és értelmetlen művelet, ezért a racionális számoknál a nevező szigorúan b ≠ 0.',
+    hint: 'Próbáld meg elosztani a tortát 0 ember között: nincs értelme a kérdésnek!',
+    breakdown: [
+      { label: 'Szabály', value: 'Nevező ≠ 0' }
+    ]
+  },
+  {
+    id: 'q1-8',
+    level: 1,
+    question: 'Mennyi az alábbi kifejezés értéke: -|-9|?',
+    options: [
+      '-9',
+      '+9',
+      '0',
+      '1/9'
+    ],
+    correctAnswer: '-9',
+    explanation: 'Először a belső abszolútértéket végezzük el: |-9| = 9. Majd rátesszük az előtte álló mínusz jelet: -9.',
+    hint: 'Vigyázz a zárójelezési sorrendre: a külső mínusz az abszolútérték elvégzése UTÁN hat!',
+    breakdown: [
+      { label: '1. Belső rész', value: '|-9| = 9' },
+      { label: '2. Mínusz előjel', value: '-(9) = -9' }
+    ]
+  },
+  {
+    id: 'q1-9',
+    level: 1,
+    question: 'Melyik számnak NINCS reciproka?',
+    options: [
+      '0',
+      '1',
+      '-1',
+      '0.5'
+    ],
+    correctAnswer: '0',
+    explanation: 'A 0-nak nincs reciproka, mert 1/0 nem értelmezhető, és nincs olyan szám, amivel 0-t szorozva 1-et kapnánk.',
+    hint: 'Melyik számmal nem szabad osztani?',
+    breakdown: [
+      { label: 'Feltétel', value: '0 · x = 1 ⟹ nincs megoldás' }
+    ]
+  },
+  {
+    id: 'q1-10',
+    level: 1,
+    question: 'Mennyi a 0.25 racionális szám legegyszerűbb közönséges tört alakja?',
+    options: [
+      '1/4',
+      '25/10',
+      '2/5',
+      '1/5'
+    ],
+    correctAnswer: '1/4',
+    explanation: '0.25 = 25/100, amit 25-tel egyszerűsítve 1/4-et kapunk.',
+    hint: 'Gondolj a 25 fillérre vagy negyedórára: a negyed az 1/4.',
+    breakdown: [
+      { label: 'Átírás', value: '0.25 = 25/100' },
+      { label: 'Egyszerűsítés', value: '25/100 = 1/4' }
+    ]
+  },
 
-  const TOTAL_QUESTIONS = QUESTIONS.length;
-  const XP_PER_CORRECT = 15;
-  const currentQ = QUESTIONS[currentIndex];
+  // ==========================================
+  // --- 2. SZINT: TÖRT-TIZEDESTÖRT ÁTVÁLTÁSOK (11-20) ---
+  // ==========================================
+  {
+    id: 'q2-1',
+    level: 2,
+    question: 'Milyen tizedestört alakja van a 3/8 közönséges törtnek?',
+    options: [
+      '0.375 (Véges tizedestört)',
+      '0.333... (Végtelen szakaszos)',
+      '0.38',
+      '0.83'
+    ],
+    correctAnswer: '0.375 (Véges tizedestört)',
+    explanation: 'A nevező 8 = 2³, így csak 2-es prímtényezőt tartalmaz, ezért véges tizedestört: 3 : 8 = 0.375.',
+    hint: 'Végezd el az írásbeli osztást: 3 : 8 = 0.375.',
+    breakdown: [
+      { label: 'Osztás', value: '3 : 8 = 0.375' },
+      { label: 'Nevező prímjei', value: '8 = 2³ (csak 2-es ⟹ véges)' }
+    ]
+  },
+  {
+    id: 'q2-2',
+    level: 2,
+    question: 'Melyik törtből LESZ végtelen szakaszos tizedestört?',
+    options: [
+      '5/6',
+      '3/4',
+      '7/20',
+      '9/25'
+    ],
+    correctAnswer: '5/6',
+    explanation: 'A 6 nevező prímtényezői: 6 = 2 · 3. A 3-as prímtényező miatt az osztás sosem ér véget: 5/6 = 0.8333... = 0.83̇.',
+    hint: 'Bontsd fel a nevezőket prímtényezőkre: amelyikben nem csak 2 vagy 5 van, az végtelen szakaszos lesz!',
+    breakdown: [
+      { label: '6 = 2 · 3', value: 'A 3 miatt végtelen szakaszos (0.83̇)' },
+      { label: '4 = 2²', value: 'Véges (0.75)' },
+      { label: '20 = 2² · 5', value: 'Véges (0.35)' },
+      { label: '25 = 5²', value: 'Véges (0.36)' }
+    ]
+  },
+  {
+    id: 'q2-3',
+    level: 2,
+    question: 'Mennyi a 7/20 tört tizedestört alakja?',
+    options: [
+      '0.35',
+      '0.7',
+      '0.035',
+      '0.37'
+    ],
+    correctAnswer: '0.35',
+    explanation: 'Bővítsük a törtet 5-tel, hogy a nevező 100 legyen: 7/20 = 35/100 = 0.35.',
+    hint: 'Bővítsd a nevezőt 100-ra (szorozz 5-tel)!',
+    breakdown: [
+      { label: 'Bővítés', value: '7/20 = (7 · 5) / (20 · 5) = 35/100' },
+      { label: 'Tizedestört', value: '0.35' }
+    ]
+  },
+  {
+    id: 'q2-4',
+    level: 2,
+    question: 'Mennyi az 1/3 tört tizedestört alakja?',
+    options: [
+      '0.333... = 0.3̇ (végtelen tiszta szakaszos)',
+      '0.3',
+      '0.13',
+      '0.33'
+    ],
+    correctAnswer: '0.333... = 0.3̇ (végtelen tiszta szakaszos)',
+    explanation: '1 : 3 = 0.3333..., ahol a 3-as számjegy végtelen sokszor ismétlődik közvetlenül a tizedesvessző után.',
+    hint: '1 osztva 3-mal sosem fogy el: a maradék mindig 1.',
+    breakdown: [
+      { label: 'Osztás', value: '1 : 3 = 0.333...' },
+      { label: 'Jelölés', value: '0.3̇ (pont a 3-as felett)' }
+    ]
+  },
+  {
+    id: 'q2-5',
+    level: 2,
+    question: 'Melyik szám a legkisebb az alábbiak közül?',
+    options: [
+      '-3.5',
+      '-3.05',
+      '-2.9',
+      '-3.55'
+    ],
+    correctAnswer: '-3.55',
+    explanation: 'Negatív számoknál az a kisebb, amelyiknek nagyobb az abszolútértéke (messzebb van nullától balra): -3.55 < -3.5 < -3.05 < -2.9.',
+    hint: 'Képzeld el a számegyenesen: melyik van a leginkább balra?',
+    breakdown: [
+      { label: 'Számegyenes sorrend', value: '-3.55 < -3.50 < -3.05 < -2.90' }
+    ]
+  },
+  {
+    id: 'q2-6',
+    level: 2,
+    question: 'Hány egész szám esik a -3.8 és +2.4 racionális számok közé a számegyenesen?',
+    options: [
+      '6 darab (-3, -2, -1, 0, 1, 2)',
+      '5 darab',
+      '7 darab',
+      '4 darab'
+    ],
+    correctAnswer: '6 darab (-3, -2, -1, 0, 1, 2)',
+    explanation: 'A köztes egész számok: -3, -2, -1, 0, 1, 2. Ez összesen 6 darab egész szám.',
+    hint: 'Sorold fel az egészeket -3-tól +2-ig!',
+    breakdown: [
+      { label: 'Alsó határ', value: '-3.8 < -3' },
+      { label: 'Felső határ', value: '2 < 2.4' },
+      { label: 'Egészek', value: '{-3, -2, -1, 0, 1, 2} ⟹ 6 db' }
+    ]
+  },
+  {
+    id: 'q2-7',
+    level: 2,
+    question: 'Melyik egyenlő a 2/3 tizedestört alakjával?',
+    options: [
+      '0.666... = 0.6̇',
+      '0.6',
+      '0.67',
+      '0.23'
+    ],
+    correctAnswer: '0.666... = 0.6̇',
+    explanation: '2 : 3 = 0.6666... (0.6̇ végtelen tiszta szakaszos tizedestört).',
+    hint: '2 : 3 = 0.666...',
+    breakdown: [
+      { label: 'Osztás', value: '2 : 3 = 0.666...' }
+    ]
+  },
+  {
+    id: 'q2-8',
+    level: 2,
+    question: 'Mennyi a |-4.5| + |+3.2| - |-1.7| kifejezés pontos értéke?',
+    options: [
+      '6.0',
+      '9.4',
+      '-3.0',
+      '2.6'
+    ],
+    correctAnswer: '6.0',
+    explanation: 'Az abszolútértékek kiszámolva: 4.5 + 3.2 - 1.7 = 7.7 - 1.7 = 6.0.',
+    hint: 'Először végezd el az abszolútértékeket: |-4.5|=4.5, |+3.2|=3.2, |-1.7|=1.7.',
+    breakdown: [
+      { label: 'Abszolútértékek', value: '4.5 + 3.2 - 1.7' },
+      { label: 'Eredmény', value: '7.7 - 1.7 = 6.0' }
+    ]
+  },
+  {
+    id: 'q2-9',
+    level: 2,
+    question: 'Milyen típusú tizedestört a 0.8333... (0.83̇)?',
+    options: [
+      'Végtelen vegyes szakaszos tizedestört',
+      'Végtelen tiszta szakaszos tizedestört',
+      'Véges tizedestört',
+      'Irracionális szám'
+    ],
+    correctAnswer: 'Végtelen vegyes szakaszos tizedestört',
+    explanation: 'A szakasz előtt áll a 8-as jegy, amely nem ismétlődik, és utána ismétlődik a 3-as, ezért vegyes szakaszos.',
+    hint: 'A tizedesvessző után van egy nem ismétlődő rész (8) és egy ismétlődő rész (3).',
+    breakdown: [
+      { label: 'Nem ismétlődő előtag', value: '8' },
+      { label: 'Ismétlődő szakasz', value: '3̇' },
+      { label: 'Típus', value: 'Vegyes szakaszos' }
+    ]
+  },
+  {
+    id: 'q2-10',
+    level: 2,
+    question: 'Mennyi az 1/9 tört tizedestört alakja?',
+    options: [
+      '0.111... = 0.1̇',
+      '0.19',
+      '0.9',
+      '0.09'
+    ],
+    correctAnswer: '0.111... = 0.1̇',
+    explanation: '1 : 9 = 0.1111... = 0.1̇. Minden k/9 alakú tört 0.k̇ tiszta szakaszos tizedestörtet ad (pl. 2/9 = 0.2̇, 7/9 = 0.7̇).',
+    hint: '1 : 9 = 0.111...',
+    breakdown: [
+      { label: 'Képlet', value: 'k/9 = 0.k̇' }
+    ]
+  },
 
-  const handleSelect = (idx: number) => {
-    if (showResult) return;
-    setSelectedOption(idx);
-  };
-
-  const checkAnswer = () => {
-    if (selectedOption === null) return;
-    const isCorrect = selectedOption === currentQ.correctIndex;
-    setShowResult(true);
-    if (isCorrect) {
-      setCorrectCount(prev => prev + 1);
-      setXpEarned(prev => prev + XP_PER_CORRECT);
-    }
-  };
-
-  const nextQuestion = () => {
-    if (currentIndex < TOTAL_QUESTIONS - 1) {
-      setCurrentIndex(prev => prev + 1);
-      setSelectedOption(null);
-      setShowResult(false);
-    } else {
-      setQuizComplete(true);
-      if (onComplete) {
-        onComplete({
-          totalQuestions: TOTAL_QUESTIONS,
-          correctAnswers: correctCount + (selectedOption === currentQ.correctIndex ? 1 : 0),
-          percentage: Math.round(((correctCount + (selectedOption === currentQ.correctIndex ? 1 : 0)) / TOTAL_QUESTIONS) * 100),
-          xpEarned: xpEarned + (selectedOption === currentQ.correctIndex ? XP_PER_CORRECT : 0),
-        });
-      }
-    }
-  };
-
-  if (quizComplete) {
-    const finalCorrect = correctCount;
-    const percentage = Math.round((finalCorrect / TOTAL_QUESTIONS) * 100);
-    const finalXP = finalCorrect * XP_PER_CORRECT;
-
-    return (
-      <div className="max-w-xl mx-auto text-center py-6 animate-in fade-in zoom-in-95 duration-300">
-        <Button variant="ghost" onClick={onBack} className="mb-6 rounded-xl hover:bg-slate-100">
-          <ArrowLeft className="w-4 h-4 mr-2" /> Vissza a témakörökhöz
-        </Button>
-
-        <div className="bg-white rounded-3xl p-8 shadow-xl border border-slate-100">
-          <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white shadow-lg shadow-emerald-200">
-            <Trophy className="w-10 h-10" />
-          </div>
-
-          <h2 className="text-3xl font-black text-slate-800 mb-2">
-            {percentage >= 80 ? 'Racionális Számok Bajnoka!' : percentage >= 60 ? 'Szép eredmény!' : 'Gyakorolj még!'}
-          </h2>
-          <p className="text-sm text-slate-500 mb-6 font-medium">4. A racionális számok halmaza kvíz befejezve</p>
-
-          <div className="bg-slate-50 border border-slate-100 rounded-2xl p-6 mb-6">
-            <div className="text-5xl font-black text-emerald-600 mb-2">{percentage}%</div>
-            <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-              {finalCorrect} / {TOTAL_QUESTIONS} helyes válasz
-            </p>
-          </div>
-
-          <div className="flex justify-center mb-6">
-            <XPBadge xp={finalXP} />
-          </div>
-
-          <div className="flex gap-3">
-            <Button variant="outline" onClick={onBack} className="flex-1 rounded-xl h-11 font-bold">
-              Vissza
-            </Button>
-            <Button
-              onClick={() => {
-                setCurrentIndex(0);
-                setSelectedOption(null);
-                setShowResult(false);
-                setCorrectCount(0);
-                setQuizComplete(false);
-                setXpEarned(0);
-              }}
-              className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl h-11 font-bold shadow-md shadow-emerald-200"
-            >
-              <RotateCcw className="w-4 h-4 mr-2" /> Újra
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
+  // ==========================================
+  // --- 3. SZINT: SZAKASZOS TÖRTEK ÉS ÖSSZETETT FELADATOK (21-30) ---
+  // ==========================================
+  {
+    id: 'q3-1',
+    level: 3,
+    question: 'Írd fel a 0.7̇ (0.777...) tiszta szakaszos tizedestörtet közönséges tört alakban!',
+    options: [
+      '7/9',
+      '7/10',
+      '7/99',
+      '77/100'
+    ],
+    correctAnswer: '7/9',
+    explanation: 'x = 0.777... ⟹ 10x = 7.777... ⟹ 10x - x = 7 ⟹ 9x = 7 ⟹ x = 7/9.',
+    hint: 'Az 1 jegyű tiszta szakaszos tört nevezője mindig 9!',
+    breakdown: [
+      { label: 'Egyenlet', value: '10x - x = 7.777... - 0.777... = 7' },
+      { label: '9x = 7', value: 'x = 7/9' }
+    ]
+  },
+  {
+    id: 'q3-2',
+    level: 3,
+    question: 'Írd fel a 0.45̇ (0.454545...) tiszta szakaszos tizedestörtet egyszerűsített tört alakban!',
+    options: [
+      '5/11',
+      '45/100',
+      '45/9',
+      '9/20'
+    ],
+    correctAnswer: '5/11',
+    explanation: '0.45̇ = 45/99. Mindkét tagot 9-cel egyszerűsítve: 45:9 / 99:9 = 5/11.',
+    hint: 'Kétjegyű szakasz esetén a nevező 99, majd egyszerűsíts 9-cel!',
+    breakdown: [
+      { label: 'Átírás', value: '0.4545... = 45/99' },
+      { label: 'Egyszerűsítés 9-cel', value: '45/99 = 5/11' }
+    ]
+  },
+  {
+    id: 'q3-3',
+    level: 3,
+    question: 'Írd fel a 0.16̇ (0.1666...) vegyes szakaszos tizedestörtet egyszerűsített tört alakban!',
+    options: [
+      '1/6',
+      '16/99',
+      '16/90',
+      '1/5'
+    ],
+    correctAnswer: '1/6',
+    explanation: '100y = 16.666..., 10y = 1.666... ⟹ 90y = 15 ⟹ y = 15/90 = 1/6.',
+    hint: '100x - 10x = 16.666... - 1.666... = 15 ⟹ 90x = 15.',
+    breakdown: [
+      { label: 'Egyenlet', value: '90y = 16 - 1 = 15' },
+      { label: 'Tört', value: '15/90 = 1/6' }
+    ]
+  },
+  {
+    id: 'q3-4',
+    level: 3,
+    question: 'Írd fel a 0.25̇ (0.2555...) vegyes szakaszos tizedestörtet közönséges törtként!',
+    options: [
+      '23/90',
+      '25/99',
+      '25/90',
+      '1/4'
+    ],
+    correctAnswer: '23/90',
+    explanation: '100y = 25.555..., 10y = 2.555... ⟹ 90y = 25 - 2 = 23 ⟹ y = 23/90.',
+    hint: 'A számláló (25 - 2 = 23), a nevező 90 (1 szakaszos jegy = 9, 1 előtag = 0).',
+    breakdown: [
+      { label: 'Számláló', value: '25 - 2 = 23' },
+      { label: 'Nevező', value: '90' },
+      { label: 'Eredmény', value: '23/90' }
+    ]
+  },
+  {
+    id: 'q3-5',
+    level: 3,
+    question: 'Melyik állítás IGAZ az irracionális számokra (ℝ \\ ℚ)?',
+    options: [
+      'Olyan számok, amelyek tizedestört alakja végtelen és NEM szakaszos (pl. √2, π).',
+      'Minden negatív tört irracionális szám.',
+      'A racionális számok és az irracionális számok halmazának van közös eleme.',
+      'Minden végtelen szakaszos tizedestört irracionális.'
+    ],
+    correctAnswer: 'Olyan számok, amelyek tizedestört alakja végtelen és NEM szakaszos (pl. √2, π).',
+    explanation: 'Az irracionális számok NEM írhatók fel két egész szám hányadosaként (pl. √2 = 1.41421356..., π = 3.14159265...).',
+    hint: 'A racionális számok végesek vagy szakaszosak. Ami végtelen ÉS nem szakaszos, az az irracionális.',
+    breakdown: [
+      { label: 'Racionális (ℚ)', value: 'Véges vagy végtelen szakaszos' },
+      { label: 'Irracionális (ℚ*)', value: 'Végtelen és NEM szakaszos (pl. √2, π)' }
+    ]
+  },
+  {
+    id: 'q3-6',
+    level: 3,
+    question: 'Hány olyan egész szám x létezik, amelyre teljesül, hogy |x| ≤ 4?',
+    options: [
+      '9 darab (-4, -3, -2, -1, 0, 1, 2, 3, 4)',
+      '8 darab',
+      '4 darab',
+      '5 darab'
+    ],
+    correctAnswer: '9 darab (-4, -3, -2, -1, 0, 1, 2, 3, 4)',
+    explanation: '|x| ≤ 4 azt jelenti, hogy -4 ≤ x ≤ 4. Az egész számok: -4, -3, -2, -1, 0, 1, 2, 3, 4 (összesen 9 db).',
+    hint: 'Ne felejtsd el a 0-t és a negatív egészeket sem!',
+    breakdown: [
+      { label: 'Egyenlőtlenség', value: '-4 ≤ x ≤ 4' },
+      { label: 'Elemek száma', value: '4 pozitív + 1 nulla + 4 negatív = 9 db' }
+    ]
+  },
+  {
+    id: 'q3-7',
+    level: 3,
+    question: 'Mennyi a következő művelet pontos eredménye: (0.3̇) + (0.6̇)?',
+    options: [
+      '1',
+      '0.9',
+      '0.99',
+      '0.9̇'
+    ],
+    correctAnswer: '1',
+    explanation: '0.3̇ = 1/3 és 0.6̇ = 2/3. Összegük: 1/3 + 2/3 = 3/3 = 1. (Megjegyzés: 0.9̇ matematikailag pontosan 1-gyel egyenlő!).',
+    hint: 'Váltsd át mindkettőt törtté: 1/3 + 2/3 = ?',
+    breakdown: [
+      { label: 'Törtek', value: '1/3 + 2/3 = 3/3' },
+      { label: 'Eredmény', value: '1' }
+    ]
+  },
+  {
+    id: 'q3-8',
+    level: 3,
+    question: 'Ha a = -2/3 és b = 3/4, mennyi az |a · b| értéke?',
+    options: [
+      '1/2',
+      '-1/2',
+      '6/12',
+      '5/7'
+    ],
+    correctAnswer: '1/2',
+    explanation: 'a · b = (-2/3) · (3/4) = -6/12 = -1/2. Ennek abszolútértéke: |-1/2| = 1/2.',
+    hint: 'Szorozd össze a törteket (egyszerűsíts 3-mal és 2-vel), majd vedd az abszolútértéket!',
+    breakdown: [
+      { label: 'Szorzat', value: '(-2/3) · (3/4) = -2/4 = -1/2' },
+      { label: 'Abszolútérték', value: '|-1/2| = 1/2' }
+    ]
+  },
+  {
+    id: 'q3-9',
+    level: 3,
+    question: 'Melyik az a racionális szám, amelynek reciproka megegyezik az ellentettjével?',
+    options: [
+      'Nincs ilyen valós racionális szám.',
+      '1',
+      '-1',
+      '0'
+    ],
+    correctAnswer: 'Nincs ilyen valós racionális szám.',
+    explanation: 'Feltétel: 1/x = -x ⟹ x² = -1. Valós/racionális számok körében a négyzet sosem lehet negatív, így nincs ilyen szám.',
+    hint: 'Ha 1/x = -x, akkor x² = -1 lenne. Létezik olyan racionális szám, aminek a négyzete negatív?',
+    breakdown: [
+      { label: 'Egyenlet', value: '1/x = -x ⟹ x² = -1' },
+      { label: 'Következtetés', value: 'Nincs racionális megoldás' }
+    ]
+  },
+  {
+    id: 'q3-10',
+    level: 3,
+    question: 'Mennyi a 0.1̇2̇ (0.121212...) szakaszos tizedestört legegyszerűbb tört alakja?',
+    options: [
+      '4/33',
+      '12/100',
+      '12/90',
+      '3/25'
+    ],
+    correctAnswer: '4/33',
+    explanation: '0.1212... = 12/99. Mindkét tagot 3-mal egyszerűsítve: 12:3 / 99:3 = 4/33.',
+    hint: 'Kétjegyű tiszta szakasz: 12/99, egyszerűsíts 3-mal!',
+    breakdown: [
+      { label: 'Tört alak', value: '12/99' },
+      { label: 'Egyszerűsítés 3-mal', value: '4/33' }
+    ]
   }
+];
 
+export const RationalSetQuiz: React.FC<RationalSetQuizProps> = ({
+  onBack,
+  onSwitchToTheory
+}) => {
   return (
-    <div className="max-w-2xl mx-auto py-4">
-      <div className="flex items-center justify-between mb-6">
-        <Button variant="ghost" onClick={onBack} className="rounded-xl hover:bg-slate-100 text-slate-600 font-bold">
-          <ArrowLeft className="w-4 h-4 mr-2" /> Vissza
-        </Button>
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-bold px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full border border-emerald-100">
-            {currentQ.category}
-          </span>
-          <XPBadge xp={xpEarned} />
-        </div>
-      </div>
-
-      <div className="mb-6">
-        <div className="flex justify-between items-center text-xs font-bold text-slate-400 mb-2">
-          <span>Kérdés {currentIndex + 1} / {TOTAL_QUESTIONS}</span>
-          <span>{Math.round(((currentIndex + 1) / TOTAL_QUESTIONS) * 100)}%</span>
-        </div>
-        <ProgressBar current={currentIndex + 1} total={TOTAL_QUESTIONS} variant="default" size="lg" />
-      </div>
-
-      <div className="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-slate-100 space-y-6">
-        <div className="flex items-start gap-3">
-          <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl">
-            <Binary className="w-6 h-6" />
-          </div>
-          <div>
-            <span className="text-xs font-bold text-emerald-600 uppercase tracking-wider">4. Fejezet • Racionális Számok</span>
-            <h3 className="text-lg md:text-xl font-bold text-slate-800 mt-1 leading-snug">
-              {currentQ.question}
-            </h3>
-          </div>
-        </div>
-
-        <div className="space-y-3">
-          {currentQ.options.map((opt, idx) => {
-            const isSelected = selectedOption === idx;
-            const isCorrect = idx === currentQ.correctIndex;
-            let btnStyle = "border-slate-200 hover:border-emerald-300 hover:bg-emerald-50/50 text-slate-700";
-
-            if (showResult) {
-              if (isCorrect) {
-                btnStyle = "border-emerald-500 bg-emerald-50 text-emerald-900 font-bold";
-              } else if (isSelected && !isCorrect) {
-                btnStyle = "border-rose-500 bg-rose-50 text-rose-900";
-              } else {
-                btnStyle = "border-slate-100 text-slate-400 opacity-60";
-              }
-            } else if (isSelected) {
-              btnStyle = "border-emerald-600 bg-emerald-50 text-emerald-900 font-bold ring-2 ring-emerald-500/20";
-            }
-
-            return (
-              <button
-                key={idx}
-                disabled={showResult}
-                onClick={() => handleSelect(idx)}
-                className={cn(
-                  "w-full text-left p-4 rounded-2xl border-2 transition-all flex items-center justify-between text-sm md:text-base",
-                  btnStyle
-                )}
-              >
-                <span>{opt}</span>
-                {showResult && isCorrect && <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 ml-2" />}
-                {showResult && isSelected && !isCorrect && <XCircle className="w-5 h-5 text-rose-600 shrink-0 ml-2" />}
-              </button>
-            );
-          })}
-        </div>
-
-        {showResult && (
-          <div className="p-4 bg-slate-50 border border-slate-200/80 rounded-2xl text-xs md:text-sm text-slate-600 space-y-1 animate-in fade-in-50">
-            <div className="font-bold flex items-center gap-1.5 text-slate-800">
-              <HelpCircle className="w-4 h-4 text-emerald-600" /> Magyarázat:
-            </div>
-            <p>{currentQ.explanation}</p>
-          </div>
-        )}
-
-        <div className="pt-2">
-          {!showResult ? (
-            <Button
-              disabled={selectedOption === null}
-              onClick={checkAnswer}
-              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white h-12 rounded-xl font-bold shadow-md shadow-emerald-200"
-            >
-              Válasz ellenőrzése
-            </Button>
-          ) : (
-            <Button
-              onClick={nextQuestion}
-              className="w-full bg-slate-900 hover:bg-slate-800 text-white h-12 rounded-xl font-bold flex items-center justify-center gap-2"
-            >
-              <span>{currentIndex < TOTAL_QUESTIONS - 1 ? 'Következő feladat' : 'Eredmények megtekintése'}</span>
-              <ArrowRight className="w-4 h-4" />
-            </Button>
-          )}
-        </div>
-      </div>
-    </div>
+    <QuizTemplate
+      title="4. A racionális számok halmaza – Kvíz"
+      subtitle="30 feladat 3 nehézségi szinten: ℕ ⊂ ℤ ⊂ ℚ hierarchia, tört-tizedestört átváltások, szakaszos tizedestörtek és abszolútérték"
+      questions={questions}
+      onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      documentId="grade-8-szamok-betuk-racionalis-halmaz-quiz"
+      pdfFilename="8_osztaly_a_racionalis_szamok_halmaza_kviz.pdf"
+      badgeColor="emerald"
+      matcherComponent={<RationalSetMatcher onBack={onBack} onSwitchToTheory={onSwitchToTheory} />}
+      sorterComponent={<RationalSetSorter onBack={onBack} onSwitchToTheory={onSwitchToTheory} />}
+      cheatSheetCards={cheatSheetCards}
+    />
   );
-}
+};
 
 export default RationalSetQuiz;

@@ -204,21 +204,8 @@ const HanoiGame = lazy(() => import("@/components/math/games/hanoi/HanoiGame")) 
 const TorpedoGame = lazy(() => import("@/components/math/games/torpedo/TorpedoGame")) as any;
 const TowerBuilderGame = lazy(() => import("@/components/math/games/toronyepites/TowerBuilderGame").then(m => ({ default: m.TowerBuilderGame }))) as any;
 const ParallelogramAreaQuiz = lazy(() => import("@/components/math/grade-7/geometria/ParallelogramAreaQuiz").then(m => ({ default: m.ParallelogramAreaQuiz }))) as any;
-const Grade8AlgebraQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/betus-kifejezesek-ismetles/AlgebraQuiz").then(m => ({ default: m.AlgebraQuiz }))) as any;
 const Grade8WordProblemsModule = lazy(() => import("@/components/math/grade-8/keszuljunk-a-felvetelire/WordProblemsModule").then(m => ({ default: m.WordProblemsModule }))) as any;
 const Grade8WordProblemsQuiz = lazy(() => import("@/components/math/grade-8/keszuljunk-a-felvetelire/WordProblemsQuiz").then(m => ({ default: m.WordProblemsQuiz }))) as any;
-const Grade8LogicQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/logika-feladatok/LogicQuiz").then(m => ({ default: m.LogicQuiz }))) as any;
-const Grade8SetBasicsQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/mit-tudunk-a-halmazokrol/SetBasicsQuiz").then(m => ({ default: m.SetBasicsQuiz }))) as any;
-const Grade8SetOperationsQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/muveletek-halmazokkal/SetOperationsQuiz").then(m => ({ default: m.SetOperationsQuiz }))) as any;
-const Grade8RationalSetQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/a-racionalis-szamok-halmaza/RationalSetQuiz").then(m => ({ default: m.RationalSetQuiz }))) as any;
-const Grade8RationalOperationsQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/mit-tudunk-a-racionalis-szamokrol/RationalOperationsQuiz").then(m => ({ default: m.RationalOperationsQuiz }))) as any;
-const Grade8PowersQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/hatvanyozas/PowersQuiz").then(m => ({ default: m.PowersQuiz }))) as any;
-const Grade8SquareRootConceptQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/a-negyzetgyok-fogalma/SquareRootConceptQuiz").then(m => ({ default: m.SquareRootConceptQuiz }))) as any;
-const Grade8SquareRootsQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/szamok-negyzetgyoke/SquareRootsQuiz").then(m => ({ default: m.SquareRootsQuiz }))) as any;
-const Grade8AlgebraIntroQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/betus-kifejezesek-ismetles/AlgebraIntroQuiz").then(m => ({ default: m.AlgebraIntroQuiz }))) as any;
-const Grade8FactoringQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/betus-kifejezesek-szorzasa-es-kiemeles/FactoringQuiz").then(m => ({ default: m.FactoringQuiz }))) as any;
-const Grade8PolynomialMultQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/tobbtagu-kifejezesek-szorzata/PolynomialMultQuiz").then(m => ({ default: m.PolynomialMultQuiz }))) as any;
-const Grade8Chapter1SummaryQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/osszefoglalas/Chapter1SummaryQuiz").then(m => ({ default: m.Chapter1SummaryQuiz }))) as any;
 const Grade8CongruenceTransformQuiz = lazy(() => import("@/components/math/grade-8/geometria/egybevagosagi-transzformaciok-ismetles/CongruenceTransformQuiz").then(m => ({ default: m.CongruenceTransformQuiz }))) as any;
 const Grade8TransformationsQuiz = lazy(() => import("@/components/math/grade-8/geometria/transzformaciok/TransformationsQuiz").then(m => ({ default: m.TransformationsQuiz }))) as any;
 const Grade8GeometrySoftwareQuiz = lazy(() => import("@/components/math/grade-8/geometria/hasznaljunk-szerkesztoprogramot/GeometrySoftwareQuiz").then(m => ({ default: m.GeometrySoftwareQuiz }))) as any;
@@ -296,6 +283,53 @@ const Grade7RationalSummaryTheory = lazy(() => import("@/components/math/grade-7
 const Grade7RationalSummaryQuiz = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/osszefoglalas/RationalSummaryQuiz").then(m => ({ default: m.RationalSummaryQuiz }))) as any;
 const Grade7RationalSummaryMatcher = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/osszefoglalas/RationalSummaryMatcher").then(m => ({ default: m.RationalSummaryMatcher }))) as any;
 const Grade7RationalSummarySorter = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/osszefoglalas/RationalSummarySorter").then(m => ({ default: m.RationalSummarySorter }))) as any;
+const Grade8LogicTheory = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/logika-feladatok/LogicTheory").then(m => ({ default: m.LogicTheory }))) as any;
+const Grade8LogicQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/logika-feladatok/LogicQuiz").then(m => ({ default: m.LogicQuiz }))) as any;
+const Grade8SetBasicsTheory = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/mit-tudunk-a-halmazokrol/SetBasicsTheory").then(m => ({ default: m.SetBasicsTheory }))) as any;
+const Grade8SetBasicsQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/mit-tudunk-a-halmazokrol/SetBasicsQuiz").then(m => ({ default: m.SetBasicsQuiz }))) as any;
+const Grade8SetBasicsMatcher = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/mit-tudunk-a-halmazokrol/SetBasicsMatcher").then(m => ({ default: m.SetBasicsMatcher }))) as any;
+const Grade8SetBasicsSorter = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/mit-tudunk-a-halmazokrol/SetBasicsSorter").then(m => ({ default: m.SetBasicsSorter }))) as any;
+const Grade8SetOperationsTheory = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/muveletek-halmazokkal/SetOperationsTheory").then(m => ({ default: m.SetOperationsTheory }))) as any;
+const Grade8SetOperationsQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/muveletek-halmazokkal/SetOperationsQuiz").then(m => ({ default: m.SetOperationsQuiz }))) as any;
+const Grade8SetOperationsMatcher = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/muveletek-halmazokkal/SetOperationsMatcher").then(m => ({ default: m.SetOperationsMatcher }))) as any;
+const Grade8SetOperationsSorter = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/muveletek-halmazokkal/SetOperationsSorter").then(m => ({ default: m.SetOperationsSorter }))) as any;
+const Grade8RationalSetTheory = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/a-racionalis-szamok-halmaza/RationalSetTheory").then(m => ({ default: m.RationalSetTheory }))) as any;
+const Grade8RationalSetQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/a-racionalis-szamok-halmaza/RationalSetQuiz").then(m => ({ default: m.RationalSetQuiz }))) as any;
+const Grade8RationalSetMatcher = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/a-racionalis-szamok-halmaza/RationalSetMatcher").then(m => ({ default: m.RationalSetMatcher }))) as any;
+const Grade8RationalSetSorter = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/a-racionalis-szamok-halmaza/RationalSetSorter").then(m => ({ default: m.RationalSetSorter }))) as any;
+const Grade8RationalOperationsTheory = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/mit-tudunk-a-racionalis-szamokrol/RationalOperationsTheory").then(m => ({ default: m.RationalOperationsTheory }))) as any;
+const Grade8RationalOperationsQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/mit-tudunk-a-racionalis-szamokrol/RationalOperationsQuiz").then(m => ({ default: m.RationalOperationsQuiz }))) as any;
+const Grade8RationalOperationsMatcher = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/mit-tudunk-a-racionalis-szamokrol/RationalOperationsMatcher").then(m => ({ default: m.RationalOperationsMatcher }))) as any;
+const Grade8RationalOperationsSorter = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/mit-tudunk-a-racionalis-szamokrol/RationalOperationsSorter").then(m => ({ default: m.RationalOperationsSorter }))) as any;
+const Grade8PowersTheory = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/hatvanyozas/PowersTheory").then(m => ({ default: m.PowersTheory }))) as any;
+const Grade8PowersQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/hatvanyozas/PowersQuiz").then(m => ({ default: m.PowersQuiz }))) as any;
+const Grade8PowersMatcher = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/hatvanyozas/PowersMatcher").then(m => ({ default: m.PowersMatcher }))) as any;
+const Grade8PowersSorter = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/hatvanyozas/PowersSorter").then(m => ({ default: m.PowersSorter }))) as any;
+const Grade8SqrtConceptTheory = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/a-negyzetgyok-fogalma/SqrtConceptTheory").then(m => ({ default: m.SqrtConceptTheory }))) as any;
+const Grade8SqrtConceptQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/a-negyzetgyok-fogalma/SqrtConceptQuiz").then(m => ({ default: m.SqrtConceptQuiz }))) as any;
+const Grade8SqrtConceptMatcher = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/a-negyzetgyok-fogalma/SqrtConceptMatcher").then(m => ({ default: m.SqrtConceptMatcher }))) as any;
+const Grade8SqrtConceptSorter = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/a-negyzetgyok-fogalma/SqrtConceptSorter").then(m => ({ default: m.SqrtConceptSorter }))) as any;
+const Grade8SquareRootsTheory = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/szamok-negyzetgyoke/SquareRootsTheory").then(m => ({ default: m.SquareRootsTheory }))) as any;
+const Grade8SquareRootsQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/szamok-negyzetgyoke/SquareRootsQuiz").then(m => ({ default: m.SquareRootsQuiz }))) as any;
+const Grade8SquareRootsMatcher = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/szamok-negyzetgyoke/SquareRootsMatcher").then(m => ({ default: m.SquareRootsMatcher }))) as any;
+const Grade8SquareRootsSorter = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/szamok-negyzetgyoke/SquareRootsSorter").then(m => ({ default: m.SquareRootsSorter }))) as any;
+const Grade8AlgebraIntroTheory = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/betus-kifejezesek-ismetles/AlgebraIntroTheory").then(m => ({ default: m.AlgebraIntroTheory }))) as any;
+const Grade8AlgebraIntroQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/betus-kifejezesek-ismetles/AlgebraIntroQuiz").then(m => ({ default: m.AlgebraIntroQuiz }))) as any;
+const Grade8AlgebraIntroMatcher = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/betus-kifejezesek-ismetles/AlgebraIntroMatcher").then(m => ({ default: m.AlgebraIntroMatcher }))) as any;
+const Grade8AlgebraIntroSorter = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/betus-kifejezesek-ismetles/AlgebraIntroSorter").then(m => ({ default: m.AlgebraIntroSorter }))) as any;
+const Grade8FactoringTheory = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/betus-kifejezesek-szorzasa-es-kiemeles/FactoringTheory").then(m => ({ default: m.FactoringTheory }))) as any;
+const Grade8FactoringQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/betus-kifejezesek-szorzasa-es-kiemeles/FactoringQuiz").then(m => ({ default: m.FactoringQuiz }))) as any;
+const Grade8FactoringMatcher = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/betus-kifejezesek-szorzasa-es-kiemeles/FactoringMatcher").then(m => ({ default: m.FactoringMatcher }))) as any;
+const Grade8FactoringSorter = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/betus-kifejezesek-szorzasa-es-kiemeles/FactoringSorter").then(m => ({ default: m.FactoringSorter }))) as any;
+const Grade8PolynomialMultTheory = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/tobbtagu-kifejezesek-szorzata/PolynomialMultTheory").then(m => ({ default: m.PolynomialMultTheory }))) as any;
+const Grade8PolynomialMultQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/tobbtagu-kifejezesek-szorzata/PolynomialMultQuiz").then(m => ({ default: m.PolynomialMultQuiz }))) as any;
+const Grade8PolynomialMultMatcher = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/tobbtagu-kifejezesek-szorzata/PolynomialMultMatcher").then(m => ({ default: m.PolynomialMultMatcher }))) as any;
+const Grade8PolynomialMultSorter = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/tobbtagu-kifejezesek-szorzata/PolynomialMultSorter").then(m => ({ default: m.PolynomialMultSorter }))) as any;
+const Grade8ChapterSummaryTheory = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/osszefoglalas/ChapterSummaryTheory").then(m => ({ default: m.ChapterSummaryTheory }))) as any;
+const Grade8ChapterSummaryQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/osszefoglalas/ChapterSummaryQuiz").then(m => ({ default: m.ChapterSummaryQuiz }))) as any;
+const Grade8ChapterSummaryMatcher = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/osszefoglalas/ChapterSummaryMatcher").then(m => ({ default: m.ChapterSummaryMatcher }))) as any;
+const Grade8ChapterSummarySorter = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/osszefoglalas/ChapterSummarySorter").then(m => ({ default: m.ChapterSummarySorter }))) as any;
+
 import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
@@ -443,6 +477,18 @@ type ActivityType =
   | 'g7-rat-combining-substitution-theory' | 'g7-rat-combining-substitution-quiz' | 'g7-rat-combining-substitution-matcher' | 'g7-rat-combining-substitution-sorter'
   | 'g7-rat-expansion-factoring-theory' | 'g7-rat-expansion-factoring-quiz' | 'g7-rat-expansion-factoring-matcher' | 'g7-rat-expansion-factoring-sorter'
   | 'g7-rat-summary-theory' | 'g7-rat-summary-quiz' | 'g7-rat-summary-matcher' | 'g7-rat-summary-sorter'
+  | 'g8-logic-theory' | 'g8-logic-quiz'
+  | 'g8-set-basics-theory' | 'g8-set-basics-quiz' | 'g8-set-basics-matcher' | 'g8-set-basics-sorter'
+  | 'g8-set-operations-theory' | 'g8-set-operations-quiz' | 'g8-set-operations-matcher' | 'g8-set-operations-sorter'
+  | 'g8-rational-set-theory' | 'g8-rational-set-quiz' | 'g8-rational-set-matcher' | 'g8-rational-set-sorter'
+  | 'g8-rational-operations-theory' | 'g8-rational-operations-quiz' | 'g8-rational-operations-matcher' | 'g8-rational-operations-sorter'
+  | 'g8-powers-theory' | 'g8-powers-quiz' | 'g8-powers-matcher' | 'g8-powers-sorter'
+  | 'g8-sqrt-concept-theory' | 'g8-sqrt-concept-quiz' | 'g8-sqrt-concept-matcher' | 'g8-sqrt-concept-sorter'
+  | 'g8-square-roots-theory' | 'g8-square-roots-quiz' | 'g8-square-roots-matcher' | 'g8-square-roots-sorter'
+  | 'g8-algebra-intro-theory' | 'g8-algebra-intro-quiz' | 'g8-algebra-intro-matcher' | 'g8-algebra-intro-sorter'
+  | 'g8-factoring-theory' | 'g8-factoring-quiz' | 'g8-factoring-matcher' | 'g8-factoring-sorter'
+  | 'g8-polynomial-mult-theory' | 'g8-polynomial-mult-quiz' | 'g8-polynomial-mult-matcher' | 'g8-polynomial-mult-sorter'
+  | 'g8-chapter1-summary-theory' | 'g8-chapter1-summary-quiz' | 'g8-chapter1-summary-matcher' | 'g8-chapter1-summary-sorter'
   | 'g6-fraction-visual-matcher' | 'g6-fractions-quiz' | 'g6-fraction-multiplier' | 'g6-fraction-divider'
   | 'g6-decimal-quiz' | 'g6-to-decimal-matcher' | 'g6-decimal-multiplier-quiz' | 'g6-decimal-multiplier'
   | 'g6-decimal-divider-quiz' | 'g6-decimal-divider' | 'g6-fractions-closing-test'
@@ -2974,6 +3020,20 @@ export default function MathPage() {
                   </div>
                 )}
 
+                {activityType === 'g8-logic-theory' && (
+                  <Grade8LogicTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g8-logic-quiz')}
+                  />
+                )}
+
+                {(activityType === 'g8-logic-quiz' || activityType === 'g8-logic') && (
+                  <Grade8LogicQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g8-logic-theory')}
+                  />
+                )}
+
                 {activityType === 'g6-fraction-visual-matcher' && (
                   <Grade6FractionVisualMatcher onBack={handleBack} />
                 )}
@@ -3134,52 +3194,326 @@ export default function MathPage() {
                   <FunctionTableQuiz onBack={handleBack} />
                 )}
 
-                {activityType === 'g8-logic' && (
-                  <Grade8LogicQuiz onBack={handleBack} />
+                {(activityType === 'g8-logic' || activityType === 'g8-logic-quiz') && (
+                  <Grade8LogicQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-logic-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
                 )}
 
-                {activityType === 'g8-set-basics' && (
-                  <Grade8SetBasicsQuiz onBack={handleBack} />
+                {activityType === 'g8-logic-theory' && (
+                  <Grade8LogicTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-logic-quiz', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
                 )}
 
-                {activityType === 'g8-set-operations' && (
-                  <Grade8SetOperationsQuiz onBack={handleBack} />
+                {activityType === 'g8-set-basics-theory' && (
+                  <Grade8SetBasicsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-set-basics-quiz', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
                 )}
 
-                {activityType === 'g8-rational-set' && (
-                  <Grade8RationalSetQuiz onBack={handleBack} />
+                {(activityType === 'g8-set-basics' || activityType === 'g8-set-basics-quiz') && (
+                  <Grade8SetBasicsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-set-basics-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
                 )}
 
-                {activityType === 'g8-rational-operations' && (
-                  <Grade8RationalOperationsQuiz onBack={handleBack} />
+                {activityType === 'g8-set-basics-matcher' && (
+                  <Grade8SetBasicsMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-set-basics-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
                 )}
 
-                {activityType === 'g8-powers' && (
-                  <Grade8PowersQuiz onBack={handleBack} />
+                {activityType === 'g8-set-basics-sorter' && (
+                  <Grade8SetBasicsSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-set-basics-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
                 )}
 
-                {activityType === 'g8-sqrt-concept' && (
-                  <Grade8SquareRootConceptQuiz onBack={handleBack} />
+                {activityType === 'g8-set-operations-theory' && (
+                  <Grade8SetOperationsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-set-operations-quiz', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
                 )}
 
-                {activityType === 'g8-square-roots' && (
-                  <Grade8SquareRootsQuiz onBack={handleBack} />
+                {(activityType === 'g8-set-operations' || activityType === 'g8-set-operations-quiz') && (
+                  <Grade8SetOperationsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-set-operations-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
                 )}
 
-                {activityType === 'g8-algebra-intro' && (
-                  <Grade8AlgebraIntroQuiz onBack={handleBack} />
+                {activityType === 'g8-set-operations-matcher' && (
+                  <Grade8SetOperationsMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-set-operations-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
                 )}
 
-                {activityType === 'g8-factoring' && (
-                  <Grade8FactoringQuiz onBack={handleBack} />
+                {activityType === 'g8-set-operations-sorter' && (
+                  <Grade8SetOperationsSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-set-operations-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
                 )}
 
-                {activityType === 'g8-polynomial-mult' && (
-                  <Grade8PolynomialMultQuiz onBack={handleBack} />
+                {activityType === 'g8-rational-set-theory' && (
+                  <Grade8RationalSetTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-rational-set-quiz', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
                 )}
 
-                {activityType === 'g8-chapter1-summary' && (
-                  <Grade8Chapter1SummaryQuiz onBack={handleBack} />
+                {(activityType === 'g8-rational-set' || activityType === 'g8-rational-set-quiz') && (
+                  <Grade8RationalSetQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-rational-set-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {activityType === 'g8-rational-set-matcher' && (
+                  <Grade8RationalSetMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-rational-set-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {activityType === 'g8-rational-set-sorter' && (
+                  <Grade8RationalSetSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-rational-set-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {activityType === 'g8-rational-operations-theory' && (
+                  <Grade8RationalOperationsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-rational-operations-quiz', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {(activityType === 'g8-rational-operations' || activityType === 'g8-rational-operations-quiz') && (
+                  <Grade8RationalOperationsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-rational-operations-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {activityType === 'g8-rational-operations-matcher' && (
+                  <Grade8RationalOperationsMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-rational-operations-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {activityType === 'g8-rational-operations-sorter' && (
+                  <Grade8RationalOperationsSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-rational-operations-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {activityType === 'g8-powers-theory' && (
+                  <Grade8PowersTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-powers-quiz', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {(activityType === 'g8-powers' || activityType === 'g8-powers-quiz') && (
+                  <Grade8PowersQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-powers-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {activityType === 'g8-powers-matcher' && (
+                  <Grade8PowersMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-powers-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {activityType === 'g8-powers-sorter' && (
+                  <Grade8PowersSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-powers-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {activityType === 'g8-sqrt-concept-theory' && (
+                  <Grade8SqrtConceptTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-sqrt-concept-quiz', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {(activityType === 'g8-sqrt-concept' || activityType === 'g8-sqrt-concept-quiz') && (
+                  <Grade8SqrtConceptQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-sqrt-concept-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {activityType === 'g8-sqrt-concept-matcher' && (
+                  <Grade8SqrtConceptMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-sqrt-concept-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {activityType === 'g8-sqrt-concept-sorter' && (
+                  <Grade8SqrtConceptSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-sqrt-concept-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {activityType === 'g8-square-roots-theory' && (
+                  <Grade8SquareRootsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-square-roots-quiz', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {(activityType === 'g8-square-roots' || activityType === 'g8-square-roots-quiz') && (
+                  <Grade8SquareRootsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-square-roots-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {activityType === 'g8-square-roots-matcher' && (
+                  <Grade8SquareRootsMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-square-roots-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {activityType === 'g8-square-roots-sorter' && (
+                  <Grade8SquareRootsSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-square-roots-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {activityType === 'g8-algebra-intro-theory' && (
+                  <Grade8AlgebraIntroTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-algebra-intro-quiz', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {(activityType === 'g8-algebra-intro' || activityType === 'g8-algebra-intro-quiz') && (
+                  <Grade8AlgebraIntroQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-algebra-intro-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {activityType === 'g8-algebra-intro-matcher' && (
+                  <Grade8AlgebraIntroMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-algebra-intro-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {activityType === 'g8-algebra-intro-sorter' && (
+                  <Grade8AlgebraIntroSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-algebra-intro-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {activityType === 'g8-factoring-theory' && (
+                  <Grade8FactoringTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-factoring-quiz', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {(activityType === 'g8-factoring' || activityType === 'g8-factoring-quiz') && (
+                  <Grade8FactoringQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-factoring-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {activityType === 'g8-factoring-matcher' && (
+                  <Grade8FactoringMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-factoring-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {activityType === 'g8-factoring-sorter' && (
+                  <Grade8FactoringSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-factoring-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {activityType === 'g8-polynomial-mult-theory' && (
+                  <Grade8PolynomialMultTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-polynomial-mult-quiz', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {(activityType === 'g8-polynomial-mult' || activityType === 'g8-polynomial-mult-quiz') && (
+                  <Grade8PolynomialMultQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-polynomial-mult-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {activityType === 'g8-polynomial-mult-matcher' && (
+                  <Grade8PolynomialMultMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-polynomial-mult-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {activityType === 'g8-polynomial-mult-sorter' && (
+                  <Grade8PolynomialMultSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-polynomial-mult-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {activityType === 'g8-chapter1-summary-theory' && (
+                  <Grade8ChapterSummaryTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-chapter1-summary-quiz', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {(activityType === 'g8-chapter1-summary' || activityType === 'g8-chapter1-summary-quiz') && (
+                  <Grade8ChapterSummaryQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-chapter1-summary-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {activityType === 'g8-chapter1-summary-matcher' && (
+                  <Grade8ChapterSummaryMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-chapter1-summary-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
+                )}
+
+                {activityType === 'g8-chapter1-summary-sorter' && (
+                  <Grade8ChapterSummarySorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-chapter1-summary-theory', selectedTopic?.id || 'g8-numbers-letters')}
+                  />
                 )}
 
                 {activityType === 'g8-geom-congruence' && (
