@@ -2147,7 +2147,10 @@ export default function MathPage() {
                 )}
 
                 {activityType === 'g5-roman-numerals-quiz' && (
-                  <Grade5RomanNumeralsQuiz onBack={handleBack} />
+                  <Grade5RomanNumeralsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-roman-numerals-theory')}
+                  />
                 )}
 
                 {activityType === 'g5-place-value-theory' && (
@@ -2158,7 +2161,10 @@ export default function MathPage() {
                 )}
 
                 {activityType === 'g5-place-value-quiz' && (
-                  <Grade5PlaceValueQuiz onBack={handleBack} />
+                  <Grade5PlaceValueQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-place-value-theory')}
+                  />
                 )}
 
                 {activityType === 'g5-number-reading-theory' && (
@@ -2169,7 +2175,10 @@ export default function MathPage() {
                 )}
 
                 {activityType === 'g5-number-reading-quiz' && (
-                  <Grade5NumberReadingQuiz onBack={handleBack} />
+                  <Grade5NumberReadingQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-number-reading-theory')}
+                  />
                 )}
 
                 {activityType === 'g5-number-spelling-theory' && (
@@ -2180,7 +2189,10 @@ export default function MathPage() {
                 )}
 
                 {activityType === 'g5-number-spelling-quiz' && (
-                  <Grade5NumberSpellingQuiz onBack={handleBack} />
+                  <Grade5NumberSpellingQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-number-spelling-theory')}
+                  />
                 )}
 
                 {activityType === 'g5-number-systems-theory' && (
@@ -2191,7 +2203,10 @@ export default function MathPage() {
                 )}
 
                 {activityType === 'g5-number-systems-quiz' && (
-                  <Grade5NumberSystemsQuiz onBack={handleBack} />
+                  <Grade5NumberSystemsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-number-systems-theory')}
+                  />
                 )}
 
                 {activityType === 'g5-number-line-theory' && (
@@ -2202,7 +2217,10 @@ export default function MathPage() {
                 )}
 
                 {activityType === 'g5-number-line-quiz' && (
-                  <Grade5NumberLineQuiz onBack={handleBack} />
+                  <Grade5NumberLineQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-number-line-theory')}
+                  />
                 )}
 
                 {activityType === 'g5-rounding-theory' && (
@@ -2213,7 +2231,10 @@ export default function MathPage() {
                 )}
 
                 {activityType === 'g5-rounding-quiz' && (
-                  <Grade5RoundingQuiz onBack={handleBack} />
+                  <Grade5RoundingQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-rounding-theory')}
+                  />
                 )}
 
                 {activityType === 'g5-addition-theory' && (
@@ -2224,7 +2245,10 @@ export default function MathPage() {
                 )}
 
                 {activityType === 'g5-addition-quiz' && (
-                  <Grade5AdditionQuiz onBack={handleBack} />
+                  <Grade5AdditionQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-addition-theory')}
+                  />
                 )}
 
                 {activityType === 'g5-subtraction-theory' && (
@@ -2235,7 +2259,10 @@ export default function MathPage() {
                 )}
 
                 {activityType === 'g5-subtraction-quiz' && (
-                  <Grade5SubtractionQuiz onBack={handleBack} />
+                  <Grade5SubtractionQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-subtraction-theory')}
+                  />
                 )}
 
                 {activityType === 'g5-multiplication-theory' && (
@@ -2246,7 +2273,10 @@ export default function MathPage() {
                 )}
 
                 {activityType === 'g5-multiplication-quiz' && (
-                  <Grade5MultiplicationQuiz onBack={handleBack} />
+                  <Grade5MultiplicationQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-multiplication-theory')}
+                  />
                 )}
 
                 {activityType === 'g5-division-theory' && (
@@ -2257,7 +2287,10 @@ export default function MathPage() {
                 )}
 
                 {activityType === 'g5-division-quiz' && (
-                  <Grade5DivisionQuiz onBack={handleBack} />
+                  <Grade5DivisionQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-division-theory')}
+                  />
                 )}
 
                 {activityType === 'g5-order-of-operations-theory' && (
@@ -2268,7 +2301,10 @@ export default function MathPage() {
                 )}
 
                 {activityType === 'g5-order-of-operations-quiz' && (
-                  <Grade5OrderOfOperationsQuiz onBack={handleBack} />
+                  <Grade5OrderOfOperationsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-order-of-operations-theory')}
+                  />
                 )}
 
                 {activityType === 'g5-negative-numbers-theory' && (
@@ -2279,7 +2315,10 @@ export default function MathPage() {
                 )}
 
                 {activityType === 'g5-negative-numbers-quiz' && (
-                  <Grade5NegativeNumbersQuiz onBack={handleBack} />
+                  <Grade5NegativeNumbersQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-negative-numbers-theory')}
+                  />
                 )}
 
                 {activityType === 'g5-opposite-absolute-theory' && (
@@ -2290,7 +2329,10 @@ export default function MathPage() {
                 )}
 
                 {activityType === 'g5-opposite-absolute-quiz' && (
-                  <Grade5OppositeAbsoluteQuiz onBack={handleBack} />
+                  <Grade5OppositeAbsoluteQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-opposite-absolute-theory')}
+                  />
                 )}
 
                 {activityType === 'g5-integer-addition-subtraction-theory' && (
@@ -2301,7 +2343,10 @@ export default function MathPage() {
                 )}
 
                 {activityType === 'g5-integer-addition-subtraction-quiz' && (
-                  <Grade5IntegerAdditionSubtractionQuiz onBack={handleBack} />
+                  <Grade5IntegerAdditionSubtractionQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-integer-addition-subtraction-theory')}
+                  />
                 )}
 
                 {activityType === 'g5-chapter1-summary-theory' && (
@@ -2312,7 +2357,10 @@ export default function MathPage() {
                 )}
 
                 {activityType === 'g5-chapter1-summary-quiz' && (
-                  <Grade5Chapter1SummaryQuiz onBack={handleBack} />
+                  <Grade5Chapter1SummaryQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-chapter1-summary-theory')}
+                  />
                 )}
 
                 {activityType === 'logic-blocks' && (

@@ -1,49 +1,39 @@
 import React, { useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import {
-  ArrowLeft,
-  Download,
-  BookOpen,
+  TheoryTemplate,
+  TheorySection,
+  TheoryCard,
+  TheoryCallout,
+  TheoryTrapBox,
+  TheoryTable
+} from '../TheoryTemplate';
+import {
   Sparkles,
   CheckCircle2,
-  HelpCircle,
   Lightbulb,
   FileText,
-  Calculator,
-  Info,
-  ArrowRightLeft,
-  AlertCircle,
+  RotateCcw,
   Layers,
   Pencil,
   Check,
-  RotateCcw,
   Calendar,
-  X as CloseIcon
+  AlertCircle
 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { exportElementToPDF } from '@/utils/pdfExport';
 
-interface NumberSpellingTheoryProps {
+export interface NumberSpellingTheoryProps {
   onBack: () => void;
   onStartQuiz?: () => void;
 }
 
 export function NumberSpellingTheory({ onBack, onStartQuiz }: NumberSpellingTheoryProps) {
-  const [isDownloading, setIsDownloading] = useState(false);
-  
   // Interactive Tool State
   const [toolMode, setToolMode] = useState<'converter' | 'rulesChecker'>('converter');
   const [inputNum, setInputNum] = useState<string>('45320');
 
   // Rules checker test string
   const [testText, setTestText] = useState<string>('háromezer ötszáz');
-
-  const handleDownloadPDF = async () => {
-    setIsDownloading(true);
-    await exportElementToPDF('number-spelling-theory-content', 'Szamok_Helyesirasa_Tananyag');
-    setIsDownloading(false);
-  };
 
   // Convert chunk 1-999 to Hungarian words
   const chunkToWords = (n: number): string => {
@@ -80,7 +70,7 @@ export function NumberSpellingTheory({ onBack, onStartQuiz }: NumberSpellingTheo
         spelledText: 'nulla',
         ruleApplied: 'Alapszám',
         hasHyphen: false,
-        parts: [{ label: 'Egyesek', text: 'nulla', isHyphen: false }]
+        parts: ['nulla']
       };
     }
 
@@ -105,7 +95,6 @@ export function NumberSpellingTheory({ onBack, onStartQuiz }: NumberSpellingTheo
       ruleApplied = 'Kétezres szabály (≤ 2 000): Egybeírjuk!';
       hasHyphen = false;
     } else {
-      // Check if it is a round thousand/million with no lower parts
       if (parts.length === 1) {
         spelledText = parts[0];
         ruleApplied = 'Kerek ezres / milliós: Egybeírjuk!';
@@ -157,386 +146,340 @@ export function NumberSpellingTheory({ onBack, onStartQuiz }: NumberSpellingTheo
   };
 
   return (
-    <div className="w-full px-2 sm:px-4 py-2 animate-in fade-in duration-300 text-left">
-      {/* Top Header Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 mb-4 no-pdf">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onBack}
-          className="rounded-xl h-9 px-3 border border-slate-200/80 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300"
-        >
-          <ArrowLeft className="w-3.5 h-3.5 mr-1.5" /> Vissza a témakörökhöz
-        </Button>
-
-        <div className="flex items-center gap-2">
-          {onStartQuiz && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onStartQuiz}
-              className="rounded-xl h-9 px-3 border-violet-300 bg-violet-50/60 text-violet-800 dark:bg-violet-950/40 dark:text-violet-300 dark:border-violet-800 hover:bg-violet-100 text-xs sm:text-sm font-bold"
-            >
-              <Sparkles className="w-3.5 h-3.5 mr-1.5 text-violet-600" />
-              Gyakorló Kvíz indítása
-            </Button>
-          )}
-
-          <Button
-            size="sm"
-            onClick={handleDownloadPDF}
-            disabled={isDownloading}
-            className="rounded-xl h-9 px-3.5 bg-slate-900 hover:bg-slate-800 dark:bg-violet-600 dark:hover:bg-violet-700 text-white font-bold text-xs sm:text-sm shadow-sm flex items-center gap-1.5"
-          >
-            <Download className="w-3.5 h-3.5" />
-            {isDownloading ? 'Letöltés...' : 'Tananyag letöltése (PDF)'}
-          </Button>
-        </div>
-      </div>
-
-      {/* Main Printable Theory Container */}
-      <div
-        id="number-spelling-theory-content"
-        className="bg-white dark:bg-slate-900 rounded-3xl border-2 border-slate-200/80 dark:border-slate-800 p-5 sm:p-8 shadow-sm space-y-8"
+    <TheoryTemplate
+      title="A természetes számok helyesírása"
+      subtitle="A kétezres szabály, kötőjelezés, sorszámnevek, dátumok és tipikus helyesírási csapdák"
+      topicBadge="5. Osztály • I. Az egész számok"
+      topicNumber="4."
+      documentId="number-spelling-theory-content"
+      pdfFileName="Szamok_Helyesirasa_Tananyag"
+      onBack={onBack}
+      onStartQuiz={onStartQuiz}
+      quickRule={{
+        label: 'Főszabály',
+        title: '2 000-es határ',
+        detail: '≤ 2 000 egybeírás • > 2 000 kötőjel az osztályhatárokon'
+      }}
+    >
+      {/* 1. Szakasz: Számnevek fajtái */}
+      <TheorySection
+        number={1}
+        title="A számnevek fajtái és leírásuk"
+        badge="Szófajok"
       >
-        {/* Document Header */}
-        <div className="border-b border-slate-200 dark:border-slate-800 pb-6 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-violet-100 dark:bg-violet-950/60 text-violet-800 dark:text-violet-300 mb-2 border border-violet-200 dark:border-violet-800">
-              <span>✍️ 5. Osztály • I. Az egész számok</span>
-            </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-              A természetes számok helyesírása
-            </h1>
-            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
-              A kétezres szabály, kötőjelezés, sorszámnevek, dátumok és tipikus helyesírási csapdák
-            </p>
-          </div>
+        <div className="space-y-4">
+          <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm">
+            A magyar nyelvben a számokat nemcsak számjegyekkel, hanem <strong>betűvel leírt számnevekként</strong> is kifejezhetjük.
+          </p>
 
-          <div className="p-3 bg-violet-50 dark:bg-slate-800/80 rounded-2xl border border-violet-200/60 dark:border-slate-700 text-center shrink-0">
-            <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Főszabály</div>
-            <div className="text-xl font-black text-violet-700 dark:text-violet-300 font-mono">2 000-es határ</div>
-            <div className="text-[10px] text-slate-400">egybeírás / kötőjelezés</div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <TheoryCard
+              title="Tőszámnevek"
+              badge="Mennyiség"
+              color="emerald"
+            >
+              <p className="text-xs text-slate-600 dark:text-slate-400 mb-2">
+                Mennyiséget fejeznek ki. Kérdése: <em>Hány? Mennyi?</em>
+              </p>
+              <div className="p-2.5 bg-emerald-50/60 dark:bg-emerald-950/30 rounded-xl border border-emerald-200 dark:border-emerald-800 text-xs font-mono font-bold text-emerald-800 dark:text-emerald-300">
+                Példák: egy, tíz, negyvenöt, háromszáz, kétezer
+              </div>
+            </TheoryCard>
+
+            <TheoryCard
+              title="Sorszámnevek"
+              badge="Sorrend"
+              color="blue"
+            >
+              <p className="text-xs text-slate-600 dark:text-slate-400 mb-2">
+                Sorrendi helyet jelölnek. Kérdése: <em>Hányadik?</em> Számjegy után <strong>ponttal</strong> jelöljük.
+              </p>
+              <div className="p-2.5 bg-blue-50/60 dark:bg-blue-950/30 rounded-xl border border-blue-200 dark:border-blue-800 text-xs font-mono font-bold text-blue-800 dark:text-blue-300">
+                Példák: 1. (első), 5. (ötödik), 20. (huszadik)
+              </div>
+            </TheoryCard>
           </div>
         </div>
+      </TheorySection>
 
-        {/* Section 1: Introduction to Number Spelling */}
-        <section className="space-y-3">
-          <div className="flex items-center gap-2 text-slate-900 dark:text-white font-black text-base sm:text-lg">
-            <div className="w-8 h-8 rounded-xl bg-violet-100 text-violet-700 dark:bg-violet-950 dark:text-violet-300 flex items-center justify-center font-serif text-sm font-black">
-              1.
-            </div>
-            <h2>A számnevek fajtái és leírásuk</h2>
-          </div>
-
-          <div className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed space-y-2 bg-slate-50/70 dark:bg-slate-850/50 p-4 rounded-2xl border border-slate-200/70 dark:border-slate-800">
-            <p>
-              A magyar nyelvben a számokat nemcsak számjegyekkel, hanem <strong>betűvel leírt számnevekként</strong> is kifejezhetjük:
+      {/* 2. Szakasz: A híres 2000-es szabály */}
+      <TheorySection
+        number={2}
+        title="A híres 2 000-es szabály"
+        badge="Kulcsszabály"
+      >
+        <div className="space-y-4">
+          <TheoryCallout
+            title="A kétezres szabály pontos definíciója"
+            type="tip"
+          >
+            <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300">
+              A <strong>2 000-nél nem nagyobb</strong> összetett számokat mindig <strong>egybeírjuk</strong>.<br />
+              A <strong>2 000-nél nagyobb</strong> összetett számokat a <strong>hármas számcsoportok (számosztályok) határán kötőjellel</strong> tagoljuk!
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
-              <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 space-y-1">
-                <span className="font-bold text-violet-700 dark:text-violet-300">Tőszámnevek:</span>
-                <p className="text-xs text-slate-600 dark:text-slate-400">
-                  Mennyiséget fejeznek ki (pl. <em>egy, tíz, negyvenöt, háromszáz</em>). Kérdése: <em>Hány? Mennyi?</em>
-                </p>
-              </div>
-              <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 space-y-1">
-                <span className="font-bold text-indigo-700 dark:text-indigo-300">Sorszámnevek:</span>
-                <p className="text-xs text-slate-600 dark:text-slate-400">
-                  Sorrendi helyet jelölnek (pl. <em>első, ötödik, huszadik</em>). Kérdése: <em>Hányadik?</em> Számjegy után <strong>ponttal</strong> jelöljük (pl. <em>5.</em>).
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
+          </TheoryCallout>
 
-        {/* Section 2: The 2000-Rule (Detailed) */}
-        <section className="space-y-4">
-          <div className="flex items-center gap-2 text-slate-900 dark:text-white font-black text-base sm:text-lg">
-            <div className="w-8 h-8 rounded-xl bg-violet-100 text-violet-700 dark:bg-violet-950 dark:text-violet-300 flex items-center justify-center font-serif text-sm font-black">
-              2.
-            </div>
-            <h2>A „Kétezres szabály” (A magyar helyesírás alapszabálya)</h2>
-          </div>
+          <TheoryTable
+            headers={['Számkör / Kategória', 'Szabály', 'Példa', 'Helyes alak']}
+            rows={[
+              ['≤ 2 000 (egészen 2000-ig)', 'Minden összetett számot egybeírunk', '15, 482, 1 500, 1 999', 'tizenöt, négyszáznyolcvankettő, ezerötszáz, ezerkilencszázkilencvenkilenc'],
+              ['Kerek ezresek, milliók (> 2000 is)', 'Egybeírjuk őket', '3 000, 20 000, 5 000 000', 'háromezer, húszezer, ötmillió'],
+              ['> 2 000 összetett számok', 'Kötőjel az osztályhatárokon', '2 001, 4 520, 12 300, 45 800', 'kétezer-egy, négyezer-ötszázhúsz, tizenkétezer-háromszáz, negyvenötezer-nyolcszáz']
+            ]}
+          />
+        </div>
+      </TheorySection>
+
+      {/* 3. Szakasz: Milliók és több kötőjeles számok */}
+      <TheorySection
+        number={3}
+        title="Nagy számok: Milliók és milliárdok helyesírása"
+        badge="Nagy számok"
+      >
+        <div className="space-y-4">
+          <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm">
+            Ha egy szám több számosztályból áll (milliók, ezresek, egyesek), akkor <strong>minden osztályhatárra kötőjel kerül</strong>:
+          </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Rule A: <= 2000 */}
-            <div className="p-5 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50/50 dark:from-slate-850 dark:to-slate-800 border-2 border-emerald-200 dark:border-emerald-800/80 space-y-3">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-xs font-black uppercase">
-                A) 2 000-ig (Kétezerig): Mindig egybeírjuk!
+            <div className="p-4 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-2">
+              <div className="text-xs font-bold text-indigo-600 dark:text-indigo-400">1 250 000</div>
+              <div className="font-mono text-sm font-bold text-slate-800 dark:text-slate-200">
+                egymillió<span className="text-rose-500 font-black">-</span>kétszázötvenezer
               </div>
-              <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
-                Kétezerig <strong>minden összetett tőszámnevet egyetlen szóba írunk</strong>, kötőjel nélkül:
+              <p className="text-xs text-slate-500 dark:text-slate-400">
+                1 kötőjel: a milliók és ezresek osztálya között (egyesek osztálya csupa 0).
               </p>
-              <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-emerald-200 dark:border-emerald-800 font-mono text-xs space-y-1">
-                <div>• 15 = <strong>tizenöt</strong></div>
-                <div>• 482 = <strong>négyszáznyolcvankettő</strong></div>
-                <div>• 1 500 = <strong>ezerötszáz</strong></div>
-                <div>• 1 999 = <strong>ezerkilencszázkilencvenkilenc</strong></div>
-                <div>• 2 000 = <strong>kétezer</strong></div>
-              </div>
             </div>
 
-            {/* Rule B: > 2000 */}
-            <div className="p-5 rounded-2xl bg-gradient-to-br from-violet-50 to-purple-50/50 dark:from-slate-850 dark:to-slate-800 border-2 border-violet-200 dark:border-violet-800/80 space-y-3">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-violet-100 dark:bg-violet-950 text-violet-800 dark:text-violet-300 text-xs font-black uppercase">
-                B) 2 000 felett: Kötőjel az osztályhatáron!
+            <div className="p-4 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-2">
+              <div className="text-xs font-bold text-indigo-600 dark:text-indigo-400">4 520 030</div>
+              <div className="font-mono text-sm font-bold text-slate-800 dark:text-slate-200">
+                négymillió<span className="text-rose-500 font-black">-</span>ötszázhúszezer<span className="text-rose-500 font-black">-</span>harminc
               </div>
-              <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
-                A 2000-nél nagyobb összetett számokat a <strong>hármas csoportok (számosztályok) határán kötőjellel tagoljuk</strong>:
+              <p className="text-xs text-slate-500 dark:text-slate-400">
+                2 kötőjel: milliók ➔ ezresek ➔ egyesek között.
               </p>
-              <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-violet-200 dark:border-violet-800 font-mono text-xs space-y-1">
-                <div>• 2 001 = <strong>kétezer-egy</strong></div>
-                <div>• 45 320 = <strong>negyvenötezer-háromszázhúsz</strong></div>
-                <div>• 1 250 000 = <strong>egymillió-kétszázötvenezer</strong></div>
-                <div>• 4 520 030 = <strong>négymillió-ötszázhúszezer-harminc</strong></div>
-              </div>
             </div>
           </div>
 
-          {/* Special Exception: Round thousands and millions */}
-          <div className="p-4 bg-amber-50/70 dark:bg-amber-950/30 rounded-2xl border border-amber-200 dark:border-amber-800/60 space-y-1.5">
-            <div className="flex items-center gap-2 font-bold text-xs text-amber-900 dark:text-amber-200">
-              <Lightbulb className="w-4 h-4 text-amber-600 shrink-0" />
-              <span>Kivétel: Kerek ezresek, milliók, milliárdok</span>
-            </div>
-            <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
-              Ha a 2000-nél nagyobb szám <strong>kerek ezres vagy kerek milliós</strong> (azaz a kisebb osztályok csupa nullák), akkor <strong>egybeírjuk</strong> kötőjel nélkül:
-              <br />
-              <code className="font-bold text-amber-900 dark:text-amber-200 font-mono">
-                3 000 = háromezer • 40 000 = negyvenezer • 5 000 000 = ötmillió
-              </code>
+          <TheoryCallout
+            title="Kihagyott osztályok esete"
+            type="info"
+          >
+            <p className="text-xs text-slate-700 dark:text-slate-300">
+              Ha egy közbülső osztály csupa nulla (pl. <strong>5 000 020</strong> = 5 millió + 0 ezer + 20), akkor az ezres osztály kimarad, és a milliók közvetlenül az egyesekhez kötődnek: <strong>ötmillió-húsz</strong>.
             </p>
-          </div>
-        </section>
+          </TheoryCallout>
+        </div>
+      </TheorySection>
 
-        {/* Section 3: Ordinal Numbers and Dates */}
-        <section className="space-y-4">
-          <div className="flex items-center gap-2 text-slate-900 dark:text-white font-black text-base sm:text-lg">
-            <div className="w-8 h-8 rounded-xl bg-violet-100 text-violet-700 dark:bg-violet-950 dark:text-violet-300 flex items-center justify-center font-serif text-sm font-black">
-              3.
-            </div>
-            <h2>Sorszámnevek, dátumok és toldalékolás</h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Ordinals */}
-            <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2">
-              <div className="flex items-center gap-2 font-bold text-xs text-slate-900 dark:text-white">
-                <span className="w-2.5 h-2.5 rounded-full bg-violet-500" />
-                <span>Sorszámnevek írása ponttal:</span>
-              </div>
-              <p className="text-xs text-slate-600 dark:text-slate-400">
-                A sorszámnevek után <strong>mindig pontot teszünk</strong>. A pont maga fejezi ki az <em>-ik</em> toldalékot:
+      {/* 4. Szakasz: Sorszámnevek, dátumok és vegyes írásmód */}
+      <TheorySection
+        number={4}
+        title="Sorszámnevek, toldalékolás és dátumírás"
+        badge="Gyakorlati alkalmazás"
+      >
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <TheoryCard
+              title="Sorszámnév ponttal"
+              badge="Pont szabály"
+              color="amber"
+            >
+              <p className="text-xs text-slate-600 dark:text-slate-400 mb-2">
+                A számjegy utáni pont már tartalmazza az „-ik” képzőt.
               </p>
-              <div className="p-2.5 bg-slate-50 dark:bg-slate-800 rounded-xl text-xs font-mono space-y-1">
-                <div>✓ <strong>5.</strong> = ötödik (Helyes!)</div>
-                <div>✗ <strong>5.-ik</strong> (HIBÁS, a pont már jelöli az -ik-et!)</div>
-                <div>✓ <strong>5.-nek</strong> vagy <strong>5-nek</strong> = ötödiknek</div>
+              <div className="space-y-1 text-xs font-mono">
+                <div className="text-emerald-600 dark:text-emerald-400 font-bold">✓ 5. osztály (ötödik)</div>
+                <div className="text-rose-600 dark:text-rose-400 line-through">✗ 5.-ik osztály</div>
               </div>
-            </div>
+            </TheoryCard>
 
-            {/* Dates */}
-            <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2">
-              <div className="flex items-center gap-2 font-bold text-xs text-slate-900 dark:text-white">
-                <span className="w-2.5 h-2.5 rounded-full bg-indigo-500" />
-                <span>Évszámok és dátumok:</span>
-              </div>
-              <p className="text-xs text-slate-600 dark:text-slate-400">
-                Az évszámokat <strong>nem tagoljuk szóközzel</strong> (pl. <em>2026</em>). Dátumokban az év és a nap után pontot teszünk:
+            <TheoryCard
+              title="Toldalékolás"
+              badge="Kötőjel számjegyhez"
+              color="violet"
+            >
+              <p className="text-xs text-slate-600 dark:text-slate-400 mb-2">
+                Számjegyhez közvetlenül kötőjellel kapcsoljuk a toldalékot.
               </p>
-              <div className="p-2.5 bg-slate-50 dark:bg-slate-800 rounded-xl text-xs font-mono space-y-1">
-                <div>✓ <strong>2026. szeptember 7.</strong></div>
-                <div>✓ <strong>2026. 09. 07.</strong> vagy <strong>2026. IX. 7.</strong></div>
-                <div>✗ <strong>2 026</strong> (Az évszámot nem tagoljuk!)</div>
+              <div className="space-y-1 text-xs font-mono">
+                <div className="text-emerald-600 dark:text-emerald-400 font-bold">✓ 5-tel, 20-szor</div>
+                <div className="text-emerald-600 dark:text-emerald-400 font-bold">✓ 5.-nek / 5-nek</div>
               </div>
-            </div>
-          </div>
-        </section>
+            </TheoryCard>
 
-        {/* Section 4: Critical Pitfalls */}
-        <section className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-rose-500/10 via-orange-500/10 to-rose-500/10 border-2 border-rose-300 dark:border-rose-700/80 space-y-2">
-          <div className="flex items-center gap-2 font-black text-sm text-rose-900 dark:text-rose-200">
-            <AlertCircle className="w-5 h-5 text-rose-600 shrink-0" />
-            <h3>Leggyakoribb helyesírási hibák (Kerüld el őket!)</h3>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1 text-xs">
-            <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-rose-200 dark:border-rose-800 space-y-1">
-              <div className="font-bold text-rose-600 dark:text-rose-400">1. Szóköz a kötőjel helyett:</div>
-              <div className="text-slate-600 dark:text-slate-300 font-mono">
-                ✗ háromezer ötszáz<br />
-                ✓ <strong>háromezer-ötszáz</strong>
-              </div>
-            </div>
-
-            <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-rose-200 dark:border-rose-800 space-y-1">
-              <div className="font-bold text-rose-600 dark:text-rose-400">2. Felesleges kötőjel 2000 alatt:</div>
-              <div className="text-slate-600 dark:text-slate-300 font-mono">
-                ✗ ezer-ötszáz<br />
-                ✓ <strong>ezerötszáz</strong>
-              </div>
-            </div>
-
-            <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-rose-200 dark:border-rose-800 space-y-1">
-              <div className="font-bold text-rose-600 dark:text-rose-400">3. Kötőjel rossz helyen:</div>
-              <div className="text-slate-600 dark:text-slate-300 font-mono">
-                ✗ huszon-ötezer<br />
-                ✓ <strong>huszonötezer</strong>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Section 5: Interactive Two-Way Spelling Tool (no-pdf) */}
-        <section className="p-4 sm:p-6 rounded-3xl bg-slate-50 dark:bg-slate-800/60 border-2 border-slate-200 dark:border-slate-700 space-y-4 no-pdf">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200/80 dark:border-slate-700/80 pb-3">
-            <div className="flex items-center gap-2 font-black text-sm sm:text-base text-slate-900 dark:text-white">
-              <div className="w-7 h-7 rounded-lg bg-violet-600 text-white flex items-center justify-center">
-                <Pencil className="w-4 h-4" />
-              </div>
-              <h3>Interaktív Helyesírási Segéd és Elemző</h3>
-            </div>
-
-            {/* Mode Switcher */}
-            <div className="flex items-center gap-1.5 p-1 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
-              <button
-                type="button"
-                onClick={() => setToolMode('converter')}
-                className={cn(
-                  'px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5',
-                  toolMode === 'converter'
-                    ? 'bg-violet-600 text-white shadow-xs'
-                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-                )}
-              >
-                <span>🔢 Számból Betűs Alak</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setToolMode('rulesChecker')}
-                className={cn(
-                  'px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5',
-                  toolMode === 'rulesChecker'
-                    ? 'bg-violet-600 text-white shadow-xs'
-                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-                )}
-              >
-                <span>🔍 Hibajavító Minta-tesztelő</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Mode 1: Number to Word Spelling */}
-          {toolMode === 'converter' && currentSpelling && (
-            <div className="space-y-4 animate-in fade-in duration-200">
-              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
-                Írj be egy számot (1 – 999 999 999), és nézd meg a helyes betűs leírását és a szabálymagyarázatot:
+            <TheoryCard
+              title="Dátumírás"
+              badge="Év, hó, nap"
+              color="blue"
+            >
+              <p className="text-xs text-slate-600 dark:text-slate-400 mb-2">
+                Az évszámot nem tagoljuk szóközzel, pont áll utána és a nap után is.
               </p>
+              <div className="space-y-1 text-xs font-mono">
+                <div className="text-emerald-600 dark:text-emerald-400 font-bold">✓ 2026. szeptember 7.</div>
+                <div className="text-rose-600 dark:text-rose-400 line-through">✗ 2 026. szeptember 7</div>
+              </div>
+            </TheoryCard>
+          </div>
+        </div>
+      </TheorySection>
 
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                <div className="relative w-full sm:w-56">
-                  <label className="text-[11px] font-bold text-slate-400 block mb-1">Szám beírása:</label>
-                  <input
-                    type="number"
-                    min="0"
-                    max="999999999"
-                    value={inputNum}
-                    onChange={(e) => setInputNum(e.target.value)}
-                    className="w-full h-12 px-4 rounded-xl border-2 border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 font-bold text-lg text-slate-900 dark:text-white text-center focus:border-violet-500 focus:outline-hidden"
-                    placeholder="Pl. 45320"
-                  />
+      {/* 5. Szakasz: Tipikus Tévhitek és Helyesírási Csapdák */}
+      <TheorySection
+        number={5}
+        title="Tipikus Tévhitek és Csapdák"
+        badgeColor="violet"
+      >
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <TheoryTrapBox
+            title="Kötőjel használata 2000 alatt"
+            wrong="1500 = ezer-ötszáz"
+            correct="1500 = ezerötszáz (teljesen egybeírva)"
+            explanation="2000-ig MINDEN összetett számot egyetlen szóba írunk, kötőjel nélkül!"
+          />
+          <TheoryTrapBox
+            title="Szóköz kötőjel helyett 2000 felett"
+            wrong="3500 = háromezer ötszáz"
+            correct="3500 = háromezer-ötszáz (kötőjellel)"
+            explanation="2000 felett a hármas számcsoportok (számosztályok) határára kötőjel kerül, nem szóköz."
+          />
+          <TheoryTrapBox
+            title="Számjegy és betű kötőjelezése vegyes alakban"
+            wrong="45-ezer Ft"
+            correct="45 ezer Ft vagy 45 000 Ft vagy negyvenötezer Ft"
+            explanation="Vegyes írásban szóközt használunk (pl. 45 ezer), vagy teljesen betűvel írjuk ki."
+          />
+          <TheoryTrapBox
+            title="Pont és -ik képző együttes használata"
+            wrong="5.-ik helyen végzett"
+            correct="5. helyen vagy 5-ödik helyen végzett"
+            explanation="A pont már magában jelöli az „-ik” sorszámnévképzőt, így a kettő együtt duplázás."
+          />
+        </div>
+      </TheorySection>
+
+      {/* 6. Szakasz: Interaktív Helyesírás Ellenőrző és Átváltó (no-pdf) */}
+      <TheorySection
+        number={6}
+        title="Interaktív Helyesírás Labor"
+        badge="Gyakorló modul"
+      >
+        <div className="space-y-4 no-pdf">
+          <div className="flex items-center gap-2">
+            <Button
+              size="sm"
+              variant={toolMode === 'converter' ? 'default' : 'outline'}
+              onClick={() => setToolMode('converter')}
+              className="rounded-xl h-8 text-xs font-bold"
+            >
+              <Pencil className="w-3.5 h-3.5 mr-1.5" /> Szám ➔ Betűs alakító
+            </Button>
+            <Button
+              size="sm"
+              variant={toolMode === 'rulesChecker' ? 'default' : 'outline'}
+              onClick={() => setToolMode('rulesChecker')}
+              className="rounded-xl h-8 text-xs font-bold"
+            >
+              <Check className="w-3.5 h-3.5 mr-1.5" /> Tipikus hibák tesztelője
+            </Button>
+          </div>
+
+          {toolMode === 'converter' ? (
+            <div className="p-5 bg-gradient-to-br from-violet-50/50 to-indigo-50/50 dark:from-slate-800/80 dark:to-slate-900/80 rounded-2xl border border-violet-200/80 dark:border-slate-700 space-y-4">
+              <div className="flex flex-col sm:flex-row items-center gap-3">
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 shrink-0">
+                  Írj be egy számot (0 – 999 999 999):
+                </label>
+                <input
+                  type="number"
+                  min="0"
+                  max="999999999"
+                  value={inputNum}
+                  onChange={(e) => setInputNum(e.target.value)}
+                  className="w-full sm:w-48 px-3 py-2 text-base font-mono font-bold bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500"
+                />
+                <div className="flex gap-1.5 shrink-0">
+                  {['1500', '2001', '45800', '1250000', '4520030'].map((preset) => (
+                    <button
+                      key={preset}
+                      onClick={() => setInputNum(preset)}
+                      className="px-2 py-1 text-[11px] font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-violet-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300"
+                    >
+                      {parseInt(preset, 10).toLocaleString('hu-HU')}
+                    </button>
+                  ))}
                 </div>
+              </div>
 
-                <div className="flex-1 p-3 bg-white dark:bg-slate-900 rounded-2xl border-2 border-violet-300 dark:border-violet-800/80 flex items-center justify-between shadow-xs">
-                  <div>
-                    <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Szabály:</span>
-                    <span className="text-xs sm:text-sm font-bold text-violet-700 dark:text-violet-300">
-                      {currentSpelling.ruleApplied}
+              {currentSpelling && (
+                <div className="p-4 bg-white dark:bg-slate-900 rounded-xl border border-violet-200 dark:border-slate-700 space-y-3">
+                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
+                    <span className="text-xs font-bold text-slate-400">Számjeggyel:</span>
+                    <span className="font-mono text-base font-black text-violet-700 dark:text-violet-300">
+                      {currentSpelling.formattedNum}
                     </span>
                   </div>
-                </div>
-              </div>
 
-              {/* Quick Presets */}
-              <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                <span className="text-[11px] font-bold text-slate-400 mr-1">Minták:</span>
-                {['15', '482', '1500', '2000', '2001', '3000', '45320', '1250000', '4520030'].map((preset) => (
-                  <button
-                    key={preset}
-                    type="button"
-                    onClick={() => setInputNum(preset)}
-                    className={cn(
-                      'px-2.5 py-1 rounded-lg text-xs font-mono font-bold border transition-colors',
-                      inputNum === preset
-                        ? 'bg-violet-100 border-violet-400 text-violet-900 dark:bg-violet-950 dark:text-violet-300'
-                        : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-violet-300'
-                    )}
-                  >
-                    {parseInt(preset, 10).toLocaleString('hu-HU')}
-                  </button>
-                ))}
-              </div>
-
-              {/* Spelled Word Output Box */}
-              <div className="p-4 bg-violet-50/80 dark:bg-violet-950/40 rounded-2xl border-2 border-violet-200 dark:border-violet-800 space-y-1.5">
-                <div className="text-[11px] font-bold text-violet-900 dark:text-violet-200 uppercase tracking-wider">
-                  Helyes betűs leírás:
-                </div>
-                <div className="text-xl sm:text-2xl font-serif font-black text-violet-950 dark:text-white">
-                  „{currentSpelling.spelledText}”
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Mode 2: Rules & Error Checker */}
-          {toolMode === 'rulesChecker' && (
-            <div className="space-y-4 animate-in fade-in duration-200">
-              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
-                Válassz ki egy tipikus felírást, és nézd meg, miért helytelen vagy hogyan kell helyesen leírni:
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
-                {Object.keys(knownErrors).map((sample) => (
-                  <button
-                    key={sample}
-                    type="button"
-                    onClick={() => setTestText(sample)}
-                    className={cn(
-                      'p-3 rounded-xl border text-left space-y-1 transition-all shadow-2xs',
-                      testText === sample
-                        ? 'bg-violet-50 dark:bg-violet-950/40 border-violet-400 text-violet-950 dark:text-white'
-                        : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-violet-300'
-                    )}
-                  >
-                    <div className="text-xs font-mono font-bold">{sample}</div>
-                  </button>
-                ))}
-              </div>
-
-              {knownErrors[testText] && (
-                <div className="p-4 bg-white dark:bg-slate-900 rounded-2xl border-2 border-violet-300 dark:border-violet-800/80 space-y-2 shadow-xs">
-                  <div className="flex items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
-                    <span className="text-xs font-bold text-slate-400 uppercase">Helyes alak:</span>
-                    <span className="text-lg font-serif font-black text-emerald-600 dark:text-emerald-400">
-                      „{knownErrors[testText].correct}”
-                    </span>
+                  <div className="space-y-1">
+                    <div className="text-xs font-bold text-slate-500 dark:text-slate-400">Helyes betűs leírás:</div>
+                    <div className="text-base sm:text-lg font-black text-slate-900 dark:text-white font-mono bg-violet-50/50 dark:bg-violet-950/30 p-3 rounded-xl border border-violet-100 dark:border-violet-900/50 break-words">
+                      {currentSpelling.spelledText}
+                    </div>
                   </div>
-                  <div className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
-                    {knownErrors[testText].explanation}
+
+                  <div className="flex items-center gap-2 text-xs font-medium text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 px-3 py-1.5 rounded-lg border border-emerald-200 dark:border-emerald-800">
+                    <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600" />
+                    <span><strong>Alkalmazott szabály:</strong> {currentSpelling.ruleApplied}</span>
                   </div>
                 </div>
               )}
             </div>
-          )}
-        </section>
+          ) : (
+            <div className="p-5 bg-gradient-to-br from-indigo-50/50 to-violet-50/50 dark:from-slate-800/80 dark:to-slate-900/80 rounded-2xl border border-indigo-200/80 dark:border-slate-700 space-y-4">
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
+                  Válassz egy gyakori téves alakot a vizsgálathoz:
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {Object.keys(knownErrors).map((phrase) => (
+                    <button
+                      key={phrase}
+                      onClick={() => setTestText(phrase)}
+                      className={cn(
+                        "px-3 py-1.5 text-xs font-bold rounded-xl border transition-all",
+                        testText === phrase
+                          ? "bg-rose-500 text-white border-rose-600 shadow-sm"
+                          : "bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-100"
+                      )}
+                    >
+                      {phrase}
+                    </button>
+                  ))}
+                </div>
+              </div>
 
-        {/* Footer info */}
-        <div className="border-t border-slate-200 dark:border-slate-800 pt-4 text-center text-[11px] text-slate-400">
-          SkillUp Academy • 5. Osztály Matematika • Oktatási Tananyag
+              {knownErrors[testText] && (
+                <div className="p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 space-y-2">
+                  <div className="flex items-center gap-2 text-xs font-bold text-rose-600 dark:text-rose-400">
+                    <AlertCircle className="w-4 h-4" />
+                    <span>Hibás forma: „{testText}”</span>
+                  </div>
+                  <div className="text-sm font-bold text-emerald-600 dark:text-emerald-400 font-mono">
+                    Helyesen: {knownErrors[testText].correct}
+                  </div>
+                  <p className="text-xs text-slate-600 dark:text-slate-400">
+                    {knownErrors[testText].explanation}
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
-      </div>
-    </div>
+      </TheorySection>
+    </TheoryTemplate>
   );
 }
 

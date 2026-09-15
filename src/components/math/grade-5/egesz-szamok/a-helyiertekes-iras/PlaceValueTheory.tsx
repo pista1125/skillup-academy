@@ -1,35 +1,29 @@
 import React, { useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import {
-  ArrowLeft,
-  Download,
-  BookOpen,
+  TheoryTemplate,
+  TheorySection,
+  TheoryCard,
+  TheoryCallout,
+  TheoryTrapBox,
+  TheoryTable
+} from '../TheoryTemplate';
+import {
   Sparkles,
   CheckCircle2,
-  HelpCircle,
   Lightbulb,
-  FileText,
   Calculator,
-  Info,
-  ArrowRightLeft,
-  AlertCircle,
-  Layers,
-  Table,
-  Check,
-  RotateCcw
+  RotateCcw,
+  Binary,
+  Layers
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { exportElementToPDF } from '@/utils/pdfExport';
 
-interface PlaceValueTheoryProps {
+export interface PlaceValueTheoryProps {
   onBack: () => void;
   onStartQuiz?: () => void;
 }
 
 export function PlaceValueTheory({ onBack, onStartQuiz }: PlaceValueTheoryProps) {
-  const [isDownloading, setIsDownloading] = useState(false);
-  
   // Interactive Tool State
   const [toolMode, setToolMode] = useState<'decompose' | 'builder'>('decompose');
   const [inputNum, setInputNum] = useState<string>('458203');
@@ -45,12 +39,6 @@ export function PlaceValueTheory({ onBack, onStartQuiz }: PlaceValueTheoryProps)
     e: 3
   });
 
-  const handleDownloadPDF = async () => {
-    setIsDownloading(true);
-    await exportElementToPDF('place-value-theory-content', 'Helyiertekes_Iras_Tananyag');
-    setIsDownloading(false);
-  };
-
   // Helper for decomposing a number
   const decomposeNumber = (valStr: string) => {
     const clean = valStr.replace(/\s+/g, '');
@@ -61,7 +49,7 @@ export function PlaceValueTheory({ onBack, onStartQuiz }: PlaceValueTheoryProps)
 
     const digits = num.toString().split('').map(Number);
     const len = digits.length;
-    
+
     // Place value names and weights from right to left
     const placeDefs = [
       { name: 'egyes', short: 'e', weight: 1, color: 'text-amber-600 bg-amber-50 dark:bg-amber-950/40 border-amber-200' },
@@ -131,79 +119,26 @@ export function PlaceValueTheory({ onBack, onStartQuiz }: PlaceValueTheoryProps)
   });
 
   return (
-    <div className="w-full px-2 sm:px-4 py-2 animate-in fade-in duration-300 text-left">
-      {/* Top Header Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 mb-4 no-pdf">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onBack}
-          className="rounded-xl h-9 px-3 border border-slate-200/80 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300"
-        >
-          <ArrowLeft className="w-3.5 h-3.5 mr-1.5" /> Vissza a témakörökhöz
-        </Button>
-
-        <div className="flex items-center gap-2">
-          {onStartQuiz && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onStartQuiz}
-              className="rounded-xl h-9 px-3 border-blue-300 bg-blue-50/60 text-blue-800 dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-800 hover:bg-blue-100 text-xs sm:text-sm font-bold"
-            >
-              <Sparkles className="w-3.5 h-3.5 mr-1.5 text-blue-600" />
-              Gyakorló Kvíz indítása
-            </Button>
-          )}
-
-          <Button
-            size="sm"
-            onClick={handleDownloadPDF}
-            disabled={isDownloading}
-            className="rounded-xl h-9 px-3.5 bg-slate-900 hover:bg-slate-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-bold text-xs sm:text-sm shadow-sm flex items-center gap-1.5"
-          >
-            <Download className="w-3.5 h-3.5" />
-            {isDownloading ? 'Letöltés...' : 'Tananyag letöltése (PDF)'}
-          </Button>
-        </div>
-      </div>
-
-      {/* Main Printable Theory Container */}
-      <div
-        id="place-value-theory-content"
-        className="bg-white dark:bg-slate-900 rounded-3xl border-2 border-slate-200/80 dark:border-slate-800 p-5 sm:p-8 shadow-sm space-y-8"
-      >
-        {/* Document Header */}
-        <div className="border-b border-slate-200 dark:border-slate-800 pb-6 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 mb-2 border border-blue-200 dark:border-blue-800">
-              <span>🔢 5. Osztály • I. Az egész számok</span>
-            </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-              A helyiértékes írás
-            </h1>
-            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
-              Alaki érték, helyiérték, valódi érték, helyiérték-táblázat és szorzatos felbontás
-            </p>
-          </div>
-
-          <div className="p-3 bg-blue-50 dark:bg-slate-800/80 rounded-2xl border border-blue-200/60 dark:border-slate-700 text-center shrink-0">
-            <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Számrendszer</div>
-            <div className="text-xl font-black text-blue-700 dark:text-blue-300 font-mono">10-es alapú</div>
-            <div className="text-[10px] text-slate-400">decimális rendszer</div>
-          </div>
-        </div>
-
-        {/* Section 1: Decimal System Basics */}
-        <section className="space-y-3">
-          <div className="flex items-center gap-2 text-slate-900 dark:text-white font-black text-base sm:text-lg">
-            <div className="w-8 h-8 rounded-xl bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300 flex items-center justify-center font-serif text-sm font-black">
-              1.
-            </div>
-            <h2>A tízes számrendszer alapelve</h2>
-          </div>
-
-          <div className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed space-y-2 bg-slate-50/70 dark:bg-slate-850/50 p-4 rounded-2xl border border-slate-200/70 dark:border-slate-800">
+    <TheoryTemplate
+      onBack={onBack}
+      onStartQuiz={onStartQuiz}
+      documentId="place-value-theory-content"
+      pdfFilename="5_osztaly_helyiertekes_iras_tananyag.pdf"
+      badgeText="🔢 5. Osztály • I. Az egész számok"
+      title="A helyiértékes írás"
+      subtitle="Alaki érték, helyiérték, valódi érték, helyiérték-táblázat és szorzatos felbontás"
+      themeColor="blue"
+      quickRule={{
+        label: "Helyiértékes Alapszabály",
+        formula: "Valódi érték = Alaki érték · Helyiérték"
+      }}
+      practiceTitle="Készen állsz a helyiértékes írás gyakorlására?"
+      practiceSubtitle="Tedd próbára tudásod a 3 szintű kvízben, a kártyás párosítóban vagy a csoportosító játékban!"
+    >
+      {/* 1. Szakasz: A tízes számrendszer alapelve */}
+      <TheorySection number={1} title="A tízes számrendszer alapelve" badgeColor="blue">
+        <TheoryCard variant="default">
+          <div className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed space-y-2">
             <p>
               A mindennapi életben és a matematikában használt számrendszerünk <strong>helyiértékes tízes számrendszer</strong> (decimális rendszer).
             </p>
@@ -219,182 +154,146 @@ export function PlaceValueTheory({ onBack, onStartQuiz }: PlaceValueTheoryProps)
               </li>
             </ul>
           </div>
-        </section>
+        </TheoryCard>
+      </TheorySection>
 
-        {/* Section 2: The 3 Values (Alaki, Helyi-, Valódi érték) */}
-        <section className="space-y-3">
-          <div className="flex items-center gap-2 text-slate-900 dark:text-white font-black text-base sm:text-lg">
-            <div className="w-8 h-8 rounded-xl bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300 flex items-center justify-center font-serif text-sm font-black">
-              2.
+      {/* 2. Szakasz: A 3 féle érték fogalma */}
+      <TheorySection number={2} title="A 3 féle érték fogalma" badgeColor="blue">
+        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mb-3">
+          Minden többjegyű számban minden egyes számjegy három különböző tulajdonsággal (értékkel) bír:
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+          {/* Alaki érték */}
+          <TheoryCard
+            variant="emerald"
+            badge="1. Alaki érték"
+            title="Maga a leírt számjegy"
+          >
+            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              A számjegy formája, kinézete, függetlenül attól, hogy hol áll a számban (0, 1, 2, ..., 9).
+            </p>
+            <div className="p-2.5 bg-white/80 dark:bg-slate-900/80 rounded-xl text-xs font-mono font-bold text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+              Példa a <strong>745</strong>-ben:<br />
+              A 7 alaki értéke: <strong>7</strong><br />
+              A 4 alaki értéke: <strong>4</strong><br />
+              Az 5 alaki értéke: <strong>5</strong>
             </div>
-            <h2>A 3 féle érték fogalma</h2>
-          </div>
+          </TheoryCard>
 
-          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
-            Minden többjegyű számban minden egyes számjegy három különböző tulajdonsággal (értékkel) bír:
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* Alaki érték */}
-            <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border-2 border-emerald-200 dark:border-emerald-800/80 shadow-xs space-y-2">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-[11px] font-black uppercase">
-                1. Alaki érték
-              </div>
-              <h3 className="text-sm font-black text-slate-900 dark:text-white">Maga a leírt számjegy</h3>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                A számjegy formája, kinézete, függetlenül attól, hogy hol áll a számban (0, 1, 2, ..., 9).
-              </p>
-              <div className="p-2.5 bg-emerald-50 dark:bg-emerald-950/40 rounded-xl text-xs font-mono font-bold text-emerald-800 dark:text-emerald-300">
-                Példa a <strong>745</strong>-ben:<br />
-                A 7 alaki értéke: <strong>7</strong><br />
-                A 4 alaki értéke: <strong>4</strong><br />
-                Az 5 alaki értéke: <strong>5</strong>
-              </div>
+          {/* Helyiérték */}
+          <TheoryCard
+            variant="blue"
+            badge="2. Helyiérték"
+            title="A pozíció súlya"
+          >
+            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              Azt adja meg, hogy az adott pozícióban lévő számjegy <strong>hányszorost</strong> ér (egyes, tízes, százas, ezres...).
+            </p>
+            <div className="p-2.5 bg-white/80 dark:bg-slate-900/80 rounded-xl text-xs font-mono font-bold text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+              Példa a <strong>745</strong>-ben:<br />
+              A 7 helyiértéke: <strong>100 (százas)</strong><br />
+              A 4 helyiértéke: <strong>10 (tízes)</strong><br />
+              Az 5 helyiértéke: <strong>1 (egyes)</strong>
             </div>
+          </TheoryCard>
 
-            {/* Helyiérték */}
-            <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border-2 border-blue-200 dark:border-blue-800/80 shadow-xs space-y-2">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300 text-[11px] font-black uppercase">
-                2. Helyiérték
-              </div>
-              <h3 className="text-sm font-black text-slate-900 dark:text-white">A pozíció súlya</h3>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Azt adja meg, hogy az adott pozícióban lévő számjegy <strong>hányszorost</strong> ér (egyes, tízes, százas, ezres...).
-              </p>
-              <div className="p-2.5 bg-blue-50 dark:bg-blue-950/40 rounded-xl text-xs font-mono font-bold text-blue-800 dark:text-blue-300">
-                Példa a <strong>745</strong>-ben:<br />
-                A 7 helyiértéke: <strong>100 (százas)</strong><br />
-                A 4 helyiértéke: <strong>10 (tízes)</strong><br />
-                Az 5 helyiértéke: <strong>1 (egyes)</strong>
-              </div>
+          {/* Valódi érték */}
+          <TheoryCard
+            variant="purple"
+            badge="3. Valódi érték"
+            title="Alaki érték · Helyiérték"
+          >
+            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              A tényleges mennyiség, amit az adott számjegy kifejez az adott pozícióban.
+            </p>
+            <div className="p-2.5 bg-white/80 dark:bg-slate-900/80 rounded-xl text-xs font-mono font-bold text-purple-800 dark:text-purple-300 border border-purple-200 dark:border-purple-800">
+              Példa a <strong>745</strong>-ben:<br />
+              A 7 valódi értéke: <strong>7 · 100 = 700</strong><br />
+              A 4 valódi értéke: <strong>4 · 10 = 40</strong><br />
+              Az 5 valódi értéke: <strong>5 · 1 = 5</strong>
             </div>
+          </TheoryCard>
+        </div>
+      </TheorySection>
 
-            {/* Valódi érték */}
-            <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border-2 border-purple-200 dark:border-purple-800/80 shadow-xs space-y-2">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-purple-100 dark:bg-purple-950 text-purple-800 dark:text-purple-300 text-[11px] font-black uppercase">
-                3. Valódi érték
-              </div>
-              <h3 className="text-sm font-black text-slate-900 dark:text-white">Alaki érték · Helyiérték</h3>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                A tényleges mennyiség, amit az adott számjegy kifejez az adott pozícióban.
-              </p>
-              <div className="p-2.5 bg-purple-50 dark:bg-purple-950/40 rounded-xl text-xs font-mono font-bold text-purple-800 dark:text-purple-300">
-                Példa a <strong>745</strong>-ben:<br />
-                A 7 valódi értéke: <strong>7 · 100 = 700</strong><br />
-                A 4 valódi értéke: <strong>4 · 10 = 40</strong><br />
-                Az 5 valódi értéke: <strong>5 · 1 = 5</strong>
-              </div>
+      {/* 3. Szakasz: A helyiérték-táblázat és a számok felbontása */}
+      <TheorySection number={3} title="A helyiérték-táblázat és a számok felbontása" badgeColor="blue">
+        <TheoryTable
+          title="Helyiérték-táblázat minta (458 203 felírása):"
+          headers={["Milliós (M)", "Százezres (Sze)", "Tízezres (Té)", "Ezres (E)", "Százas (Sz)", "Tízes (T)", "Egyes (e)"]}
+          rows={[
+            ["1 000 000", "100 000", "10 000", "1 000", "100", "10", "1"],
+            ["—", "4", "5", "8", "2", "0", "3"]
+          ]}
+        />
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+          <TheoryCard variant="blue" title="A) Helyiértékes összeg-alak">
+            <div className="font-mono text-xs text-slate-800 dark:text-slate-200 font-bold bg-white/80 dark:bg-slate-900/80 p-2.5 rounded-xl border">
+              458 203 = 400 000 + 50 000 + 8 000 + 200 + 3
             </div>
-          </div>
-        </section>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400">
+              A számjegyek valódi értékeinek összegeként írjuk fel. A 0 értékű helyiértéket kihagyjuk.
+            </p>
+          </TheoryCard>
 
-        {/* Section 3: Place Value Table & Decompositions */}
-        <section className="space-y-4">
-          <div className="flex items-center gap-2 text-slate-900 dark:text-white font-black text-base sm:text-lg">
-            <div className="w-8 h-8 rounded-xl bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300 flex items-center justify-center font-serif text-sm font-black">
-              3.
+          <TheoryCard variant="indigo" title="B) Helyiértékes szorzatos alak">
+            <div className="font-mono text-xs text-slate-800 dark:text-slate-200 font-bold bg-white/80 dark:bg-slate-900/80 p-2.5 rounded-xl border">
+              458 203 = 4·100 000 + 5·10 000 + 8·1 000 + 2·100 + 3·1
             </div>
-            <h2>A helyiérték-táblázat és a számok felbontása</h2>
-          </div>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400">
+              Minden számjegyet megszorzunk a saját helyiértékével (alaki érték · helyiérték).
+            </p>
+          </TheoryCard>
+        </div>
+      </TheorySection>
 
-          {/* Place Value Table Reference */}
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse text-center text-xs">
-              <thead>
-                <tr className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-black">
-                  <th className="p-2 border border-slate-300 dark:border-slate-700">Milliós</th>
-                  <th className="p-2 border border-slate-300 dark:border-slate-700">Százezres</th>
-                  <th className="p-2 border border-slate-300 dark:border-slate-700">Tízezres</th>
-                  <th className="p-2 border border-slate-300 dark:border-slate-700">Ezres</th>
-                  <th className="p-2 border border-slate-300 dark:border-slate-700">Százas</th>
-                  <th className="p-2 border border-slate-300 dark:border-slate-700">Tízes</th>
-                  <th className="p-2 border border-slate-300 dark:border-slate-700">Egyes</th>
-                </tr>
-                <tr className="bg-slate-50 dark:bg-slate-850 text-[11px] font-mono font-bold text-slate-500 dark:text-slate-400">
-                  <th className="p-1 border border-slate-300 dark:border-slate-700">M (1 000 000)</th>
-                  <th className="p-1 border border-slate-300 dark:border-slate-700">Sze (100 000)</th>
-                  <th className="p-1 border border-slate-300 dark:border-slate-700">Té (10 000)</th>
-                  <th className="p-1 border border-slate-300 dark:border-slate-700">E (1 000)</th>
-                  <th className="p-1 border border-slate-300 dark:border-slate-700">Sz (100)</th>
-                  <th className="p-1 border border-slate-300 dark:border-slate-700">T (10)</th>
-                  <th className="p-1 border border-slate-300 dark:border-slate-700">e (1)</th>
-                </tr>
-              </thead>
-              <tbody className="font-mono font-bold text-sm">
-                <tr className="bg-white dark:bg-slate-900 text-blue-700 dark:text-blue-300">
-                  <td className="p-2.5 border border-slate-300 dark:border-slate-700">—</td>
-                  <td className="p-2.5 border border-slate-300 dark:border-slate-700">4</td>
-                  <td className="p-2.5 border border-slate-300 dark:border-slate-700">5</td>
-                  <td className="p-2.5 border border-slate-300 dark:border-slate-700">8</td>
-                  <td className="p-2.5 border border-slate-300 dark:border-slate-700">2</td>
-                  <td className="p-2.5 border border-slate-300 dark:border-slate-700">0</td>
-                  <td className="p-2.5 border border-slate-300 dark:border-slate-700">3</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          {/* Decompositions explanations */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-            <div className="p-3.5 bg-slate-50 dark:bg-slate-800/80 rounded-xl border border-slate-200 dark:border-slate-700 space-y-1.5">
-              <span className="text-[11px] font-black uppercase text-blue-700 dark:text-blue-300 block">
-                A) Helyiértékes összeg-alak:
-              </span>
-              <div className="font-mono text-xs text-slate-800 dark:text-slate-200 font-bold">
-                458 203 = 400 000 + 50 000 + 8 000 + 200 + 3
-              </div>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                A számjegyek valódi értékeinek összegeként írjuk fel. A 0 értékű helyiértéket kihagyjuk.
-              </p>
+      {/* 4. Szakasz: A nulla szerepe és a helyiérték eltolódása */}
+      <TheorySection number={4} title="A nulla (0) szerepe és a helyiérték eltolódása" badgeColor="blue">
+        <TheoryCallout variant="tip" title="A nulla mint helykitöltő számjegy">
+          A <strong>0 (nulla)</strong> alaki értéke 0, valódi értéke is 0, de elengedhetetlen <strong>helykitöltő szerepe</strong> van!
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2">
+            <div className="p-2.5 bg-white/90 dark:bg-slate-900/90 rounded-xl border border-amber-200 dark:border-amber-800 text-xs">
+              <strong>Nulla nélkül megváltozik az érték:</strong><br />
+              503 (ötszázhárom) ≠ 53 (ötvenhárom). A nulla biztosítja, hogy az 5 a százas helyen maradjon!
             </div>
-
-            <div className="p-3.5 bg-slate-50 dark:bg-slate-800/80 rounded-xl border border-slate-200 dark:border-slate-700 space-y-1.5">
-              <span className="text-[11px] font-black uppercase text-indigo-700 dark:text-indigo-300 block">
-                B) Helyiértékes szorzatos alak:
-              </span>
-              <div className="font-mono text-xs text-slate-800 dark:text-slate-200 font-bold">
-                458 203 = 4·100 000 + 5·10 000 + 8·1 000 + 2·100 + 3·1
-              </div>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                Minden számjegyet megszorzunk a saját helyiértékével (alaki érték · helyiérték).
-              </p>
+            <div className="p-2.5 bg-white/90 dark:bg-slate-900/90 rounded-xl border border-amber-200 dark:border-amber-800 text-xs">
+              <strong>Szorzás 10-zel (eltolódás balra):</strong><br />
+              Ha a szám végére egy 0-t írunk, minden számjegy egy hellyel balra lép, és értéke 10-szeresére nő (45 → 450).
             </div>
           </div>
-        </section>
+        </TheoryCallout>
+      </TheorySection>
 
-        {/* Section 4: The Role of 0 and Place Value Shifts */}
-        <section className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-blue-500/10 via-indigo-500/10 to-blue-500/10 border-2 border-blue-300 dark:border-blue-700/80 space-y-2">
-          <div className="flex items-center gap-2 font-black text-sm text-blue-900 dark:text-blue-200">
-            <Lightbulb className="w-5 h-5 text-blue-600 shrink-0" />
-            <h3>A nulla (0) szerepe és a helyiérték eltolódása</h3>
-          </div>
-          <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
-            A <strong>0 (nulla)</strong> alaki értéke 0, valódi értéke is 0, de elengedhetetlen <strong>helykitöltő szerepe</strong> van!
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-            <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 text-xs space-y-1">
-              <div className="font-bold text-slate-900 dark:text-white">Nulla nélkül megváltozik az érték:</div>
-              <div className="text-slate-600 dark:text-slate-300">
-                <strong>503</strong> (ötszázhárom) ≠ <strong>53</strong> (ötvenhárom). A nulla biztosítja, hogy az 5 a százas helyen maradjon!
-              </div>
-            </div>
-            <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 text-xs space-y-1">
-              <div className="font-bold text-slate-900 dark:text-white">Szorzás 10-zel (eltolódás balra):</div>
-              <div className="text-slate-600 dark:text-slate-300">
-                Ha egy egész szám végére egy 0-t írunk, minden számjegy <strong>egy hellyel balra lép</strong>, így a valódi értéke a <strong>10-szeresére nő</strong>! (pl. 45 $\rightarrow$ 450).
-              </div>
-            </div>
-          </div>
-        </section>
+      {/* 5. Szakasz: Tipikus hibák és csapdák */}
+      <TheorySection number={5} title="Tipikus hibák és csapdák" badgeColor="blue">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <TheoryTrapBox
+            title="Alaki érték és valódi érték keverése"
+            wrong="A 4 523 számban a 4-es értéke 4"
+            correct="A 4-es alaki értéke 4, de valódi értéke 4 · 1000 = 4 000"
+            explanation="Mindig figyelj a feladat kérdésére: az alaki értéket (számjegy formája) vagy a valódi értéket (mennyiség) kéri!"
+          />
 
-        {/* Section 5: Interactive Two-Way Place Value Tool (no-pdf) */}
-        <section className="p-4 sm:p-6 rounded-3xl bg-slate-50 dark:bg-slate-800/60 border-2 border-slate-200 dark:border-slate-700 space-y-4 no-pdf">
+          <TheoryTrapBox
+            title="Nulla elhagyása a szám leírásakor"
+            wrong="Ötezer-ötven = 550 vagy 505"
+            correct="Ötezer-ötven = 5 050 (5E + 0Sz + 5T + 0e)"
+            explanation="A hiányzó helyiértékek (százasok és egyesek) helyére kötelező kitenni a nullát!"
+          />
+        </div>
+      </TheorySection>
+
+      {/* 6. Szakasz: Interaktív Helyiérték Elemző és Építő Eszköz (no-pdf) */}
+      <TheorySection number={6} title="Interaktív Helyiérték Elemző és Építő" badgeColor="blue" className="no-pdf">
+        <div className="p-4 sm:p-6 rounded-3xl bg-slate-50 dark:bg-slate-800/60 border-2 border-slate-200 dark:border-slate-700 space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200/80 dark:border-slate-700/80 pb-3">
             <div className="flex items-center gap-2 font-black text-sm sm:text-base text-slate-900 dark:text-white">
               <div className="w-7 h-7 rounded-lg bg-blue-600 text-white flex items-center justify-center">
                 <Calculator className="w-4 h-4" />
               </div>
-              <h3>Interaktív Helyiérték Elemző és Építő</h3>
+              <span>Válassz működési módot:</span>
             </div>
 
             {/* Mode Switcher */}
@@ -612,14 +511,9 @@ export function PlaceValueTheory({ onBack, onStartQuiz }: PlaceValueTheoryProps)
               </div>
             </div>
           )}
-        </section>
-
-        {/* Footer info */}
-        <div className="border-t border-slate-200 dark:border-slate-800 pt-4 text-center text-[11px] text-slate-400">
-          SkillUp Academy • 5. Osztály Matematika • Oktatási Tananyag
         </div>
-      </div>
-    </div>
+      </TheorySection>
+    </TheoryTemplate>
   );
 }
 

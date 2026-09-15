@@ -1,37 +1,33 @@
 import React, { useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import {
-  ArrowLeft,
-  Download,
+  TheoryTemplate,
+  TheorySection,
+  TheoryCard,
+  TheoryCallout,
+  TheoryTrapBox,
+  TheoryTable
+} from '../TheoryTemplate';
+import {
   BookOpen,
   Sparkles,
   CheckCircle2,
-  HelpCircle,
-  Lightbulb,
-  History,
-  FileText,
-  Printer,
-  ChevronRight,
-  Calculator,
-  Info,
-  ArrowRightLeft,
   AlertCircle,
-  Delete,
+  Lightbulb,
+  Calculator,
   Check,
-  X as CloseIcon
+  Delete,
+  Clock,
+  History,
+  Info
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { exportElementToPDF } from '@/utils/pdfExport';
 
-interface RomanNumeralsTheoryProps {
+export interface RomanNumeralsTheoryProps {
   onBack: () => void;
   onStartQuiz?: () => void;
 }
 
 export function RomanNumeralsTheory({ onBack, onStartQuiz }: RomanNumeralsTheoryProps) {
-  const [isDownloading, setIsDownloading] = useState(false);
-  
   // Converter state
   const [converterMode, setConverterMode] = useState<'arabic-to-roman' | 'roman-to-arabic'>('arabic-to-roman');
   const [inputNum, setInputNum] = useState<string>('44');
@@ -176,309 +172,179 @@ export function RomanNumeralsTheory({ onBack, onStartQuiz }: RomanNumeralsTheory
     };
   };
 
-  const handleDownloadPDF = async () => {
-    setIsDownloading(true);
-    await exportElementToPDF('roman-numerals-theory-content', 'Romai_Szamok_Tananyag');
-    setIsDownloading(false);
-  };
-
   const arabicResult = toRoman(parseInt(inputNum, 10));
   const romanResult = fromRoman(inputRoman);
 
   return (
-    <div className="w-full px-2 sm:px-4 py-2 animate-in fade-in duration-300 text-left">
-      {/* Top Header Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 mb-4 no-pdf">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onBack}
-          className="rounded-xl h-9 px-3 border border-slate-200/80 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300"
-        >
-          <ArrowLeft className="w-3.5 h-3.5 mr-1.5" /> Vissza a témakörökhöz
-        </Button>
+    <TheoryTemplate
+      onBack={onBack}
+      onStartQuiz={onStartQuiz}
+      documentId="roman-numerals-theory-content"
+      pdfFilename="5_osztaly_romai_szamok_tananyag.pdf"
+      badgeText="🏛️ 5. Osztály • I. Az egész számok"
+      title="A számok kialakulása, a római számok"
+      subtitle="Részletes elméleti összefoglaló, alapjelek, alapszabályok, interaktív átváltó és példatár"
+      themeColor="amber"
+      quickRule={{
+        label: "Számkör",
+        formula: "1 – 100 (I – C)"
+      }}
+      practiceTitle="Készen állsz a római számok gyakorlására?"
+      practiceSubtitle="Tedd próbára tudásod a 3 szintű kvízben, a kártyás párosítóban vagy a csoportosító játékban!"
+    >
+      {/* 1. Szakasz: Történet */}
+      <TheorySection number={1} title="A számok kialakulásának története" badgeColor="amber">
+        <TheoryCard variant="default">
+          <div className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed space-y-2">
+            <p>
+              Az emberiség hajnalán eleinte nem használtak elvont számfogalmakat. A megszámlálandó dolgokat (pl. vadászzsákmányt, állatokat) <strong>egy-egyértelmű megfeleltetéssel</strong> párosították kavicsokkal, ujjakkal vagy fadarabra, csontra vésett rovásokkal (<em>rovásírás</em>).
+            </p>
+            <p>
+              A kereskedelem fejlődésével szükségessé vált a nagyobb mennyiségek egyszerű, egységes rögzítése. Az ókori Rómában alakult ki a latin ábécé nagybetűit felhasználó <strong>római számírás</strong>, amelyet évszázadokon át használtak Európában, és ma is gyakran találkozhatunk vele (órák számlapján, könyvek fejezetszámozásánál, uralkodók sorszámánál, emlékműveken).
+            </p>
+          </div>
+        </TheoryCard>
+      </TheorySection>
 
-        <div className="flex items-center gap-2">
-          {onStartQuiz && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onStartQuiz}
-              className="rounded-xl h-9 px-3 border-amber-300 bg-amber-50/60 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800 hover:bg-amber-100 text-xs sm:text-sm font-bold"
-            >
-              <Sparkles className="w-3.5 h-3.5 mr-1.5 text-amber-600" />
-              Gyakorló Kvíz indítása
-            </Button>
-          )}
+      {/* 2. Szakasz: Alapjelek és Segédjelek */}
+      <TheorySection number={2} title="A római számírás jelei (1–100-ig)" badgeColor="amber">
+        <div className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mb-2">
+          A rómaiak nem használtak helyiértékes rendszert, és <strong>nem volt 0 (nulla) számjegyük sem</strong>. Kétféle jelet különböztetünk meg:
+        </div>
 
-          <Button
-            size="sm"
-            onClick={handleDownloadPDF}
-            disabled={isDownloading}
-            className="rounded-xl h-9 px-3.5 bg-slate-900 hover:bg-slate-800 dark:bg-amber-600 dark:hover:bg-amber-700 text-white font-bold text-xs sm:text-sm shadow-sm flex items-center gap-1.5"
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Alapjelek */}
+          <TheoryCard
+            title="Alapjelek (10 hatványai)"
+            badge="Legfeljebb 3× ismételhető"
+            variant="amber"
           >
-            <Download className="w-3.5 h-3.5" />
-            {isDownloading ? 'Letöltés...' : 'Tananyag letöltése (PDF)'}
-          </Button>
+            <p className="text-xs text-slate-600 dark:text-slate-400">
+              Ezek a jelek <strong>legfeljebb háromszor</strong> ismétlődhetnek egymás mellett:
+            </p>
+            <div className="grid grid-cols-3 gap-2 text-center pt-1">
+              <div className="bg-white dark:bg-slate-900 p-2.5 rounded-xl border border-amber-200 dark:border-slate-700">
+                <div className="font-serif font-black text-2xl text-amber-700 dark:text-amber-400">I</div>
+                <div className="text-sm font-black text-slate-800 dark:text-slate-100">= 1</div>
+                <div className="text-[10px] text-slate-400">unus</div>
+              </div>
+              <div className="bg-white dark:bg-slate-900 p-2.5 rounded-xl border border-amber-200 dark:border-slate-700">
+                <div className="font-serif font-black text-2xl text-amber-700 dark:text-amber-400">X</div>
+                <div className="text-sm font-black text-slate-800 dark:text-slate-100">= 10</div>
+                <div className="text-[10px] text-slate-400">decem</div>
+              </div>
+              <div className="bg-white dark:bg-slate-900 p-2.5 rounded-xl border border-amber-200 dark:border-slate-700">
+                <div className="font-serif font-black text-2xl text-amber-700 dark:text-amber-400">C</div>
+                <div className="text-sm font-black text-slate-800 dark:text-slate-100">= 100</div>
+                <div className="text-[10px] text-slate-400">centum</div>
+              </div>
+            </div>
+          </TheoryCard>
+
+          {/* Segédjelek */}
+          <TheoryCard
+            title="Segédjelek (5-szörös értékek)"
+            badge="Soha nem ismétlődhet"
+            variant="blue"
+          >
+            <p className="text-xs text-slate-600 dark:text-slate-400">
+              Ezek a jelek <strong>soha nem ismétlődhetnek</strong> és nem állhatnak egymás mellett:
+            </p>
+            <div className="grid grid-cols-2 gap-2 text-center pt-1">
+              <div className="bg-white dark:bg-slate-900 p-2.5 rounded-xl border border-blue-200 dark:border-slate-700">
+                <div className="font-serif font-black text-2xl text-blue-700 dark:text-blue-400">V</div>
+                <div className="text-sm font-black text-slate-800 dark:text-slate-100">= 5</div>
+                <div className="text-[10px] text-slate-400">quinque</div>
+              </div>
+              <div className="bg-white dark:bg-slate-900 p-2.5 rounded-xl border border-blue-200 dark:border-slate-700">
+                <div className="font-serif font-black text-2xl text-blue-700 dark:text-blue-400">L</div>
+                <div className="text-sm font-black text-slate-800 dark:text-slate-100">= 50</div>
+                <div className="text-[10px] text-slate-400">quinquaginta</div>
+              </div>
+            </div>
+          </TheoryCard>
         </div>
-      </div>
+      </TheorySection>
 
-      {/* Main Printable Theory Container */}
-      <div
-        id="roman-numerals-theory-content"
-        className="bg-white dark:bg-slate-900 rounded-3xl border-2 border-slate-200/80 dark:border-slate-800 p-5 sm:p-8 shadow-sm space-y-8"
-      >
-        {/* Document Header */}
-        <div className="border-b border-slate-200 dark:border-slate-800 pb-6 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 mb-2 border border-amber-200 dark:border-amber-800">
-              <span>🏛️ 5. Osztály • I. Az egész számok</span>
-            </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-              A számok kialakulása, a római számok
-            </h1>
-            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
-              Részletes elméleti összefoglaló, alapjelek, számolási szabályok és példatár
+      {/* 3. Szakasz: Alapszabályok */}
+      <TheorySection number={3} title="A római számírás alapszabályai" badgeColor="amber">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+          <TheoryCard title="1. Összeadás elve" variant="emerald">
+            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              Ha egy kisebb vagy egyenlő értékű jel egy nagyobb jel <strong>után (jobbra)</strong> áll, akkor az értéküket <strong>összeadjuk</strong>.
             </p>
-          </div>
+            <div className="p-2.5 bg-emerald-50 dark:bg-emerald-950/40 rounded-xl text-xs font-mono font-bold text-emerald-800 dark:text-emerald-300 space-y-1 mt-2">
+              <div>VI = 5 + 1 = 6</div>
+              <div>XV = 10 + 5 = 15</div>
+              <div>LXX = 50 + 10 + 10 = 70</div>
+            </div>
+          </TheoryCard>
 
-          <div className="p-3 bg-amber-50 dark:bg-slate-800/80 rounded-2xl border border-amber-200/60 dark:border-slate-700 text-center shrink-0">
-            <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Számkör</div>
-            <div className="text-lg font-black text-amber-700 dark:text-amber-300">1 – 100</div>
-          </div>
+          <TheoryCard title="2. Kivonás elve" variant="rose">
+            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              Ha egy kisebb értékű alapjel egy nagyobb jel <strong>előtt (balra)</strong> áll, akkor értékét <strong>kivonjuk</strong> a nagyobból.
+            </p>
+            <div className="p-2.5 bg-rose-50 dark:bg-rose-950/40 rounded-xl text-xs font-mono font-bold text-rose-800 dark:text-rose-300 space-y-1 mt-2">
+              <div>IV = 5 - 1 = 4</div>
+              <div>IX = 10 - 1 = 9</div>
+              <div>XL = 50 - 10 = 40</div>
+              <div>XC = 100 - 10 = 90</div>
+            </div>
+          </TheoryCard>
+
+          <TheoryCard title="3. Ismétlési korlát" variant="amber">
+            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              Az alapjelek (<strong>I, X, C</strong>) <strong>legfeljebb 3-szor</strong> állhatnak egymás mellett. A segédjelek (<strong>V, L</strong>) sosem ismétlődnek!
+            </p>
+            <div className="p-2.5 bg-amber-50 dark:bg-amber-950/40 rounded-xl text-xs font-mono font-bold text-amber-800 dark:text-amber-300 space-y-1 mt-2">
+              <div>III = 3 (szabályos)</div>
+              <div>IIII = HIBÁS (helyette: IV)</div>
+              <div>VV = HIBÁS (helyette: X)</div>
+            </div>
+          </TheoryCard>
         </div>
+      </TheorySection>
 
-        {/* Section 1: History of numbers */}
-        <section className="space-y-3">
-          <div className="flex items-center gap-2 text-slate-900 dark:text-white font-black text-base sm:text-lg">
-            <div className="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300 flex items-center justify-center font-serif text-sm font-black">
-              1.
-            </div>
-            <h2>A számok kialakulásának története</h2>
-          </div>
+      {/* 4. Szakasz: Lépésről lépésre: Helyiértékes bontás */}
+      <TheorySection number={4} title="Lépésről lépésre: Hogyan írunk fel összetett számokat?" badgeColor="amber">
+        <TheoryCallout variant="tip" title="A legfontosabb módszer: Mindig helyiértékekre bontunk!">
+          A többjegyű arab számokat először <strong>kerek tízesekre és egyesekre</strong> bontjuk, majd külön-külön átírjuk őket római számra, és egymás mellé illesztjük!
+        </TheoryCallout>
 
-          <div className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed space-y-2 bg-slate-50/70 dark:bg-slate-850/50 p-4 rounded-2xl border border-slate-200/70 dark:border-slate-800">
-            <p>
-              Az ősember eleinte nem használt elvont számfogalmakat. A megszámlálandó dolgokat (pl. állatokat, zsákmányt) <strong>egy-egyértelmű megfeleltetéssel</strong> párosította kavicsokkal, ujjakkal vagy fadarabra vésett rovásokkal (<em>rovásírás</em>).
-            </p>
-            <p>
-              Ahogy fejlődött a kereskedelem és a társadalom, szükségessé vált a nagyobb mennyiségek egyszerűbb, írásos rögzítése. Az ókori Rómában alakult ki a latin ábécé betűit felhasználó <strong>római számírás</strong>, amelyet évszázadokon át használtak Európában, és mind a mai napig találkozhatunk vele (órák számlapján, könyvek fejezetszámozásánál, uralkodók nevénél, emlékműveken).
-            </p>
-          </div>
-        </section>
-
-        {/* Section 2: Symbols (Alapjelek és Segédjelek) */}
-        <section className="space-y-3">
-          <div className="flex items-center gap-2 text-slate-900 dark:text-white font-black text-base sm:text-lg">
-            <div className="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300 flex items-center justify-center font-serif text-sm font-black">
-              2.
-            </div>
-            <h2>A római számírás jelei (1–100-ig)</h2>
-          </div>
-
-          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
-            A rómaiak nem használtak helyiértékes rendszert, és <strong>nem volt 0 (nulla) számjegyük sem</strong>. Kétféle jelet különböztetünk meg:
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Alapjelek */}
-            <div className="p-4 rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50/60 dark:from-slate-850 dark:to-slate-800 border-2 border-amber-200/80 dark:border-slate-700 space-y-3">
-              <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
-                <h3 className="text-sm font-black text-amber-900 dark:text-amber-200 uppercase tracking-wider">
-                  Alapjelek (10 hatványai)
-                </h3>
-              </div>
-              <p className="text-xs text-slate-600 dark:text-slate-400">
-                Ezek a jelek <strong>legfeljebb háromszor</strong> ismétlődhetnek egymás mellett!
-              </p>
-
-              <div className="grid grid-cols-3 gap-2 text-center">
-                <div className="bg-white dark:bg-slate-900 p-2.5 rounded-xl border border-amber-200 dark:border-slate-700 shadow-xs">
-                  <div className="font-serif font-black text-2xl text-amber-700 dark:text-amber-400">I</div>
-                  <div className="text-sm font-black text-slate-800 dark:text-slate-100">= 1</div>
-                  <div className="text-[10px] text-slate-400">egy (unus)</div>
-                </div>
-                <div className="bg-white dark:bg-slate-900 p-2.5 rounded-xl border border-amber-200 dark:border-slate-700 shadow-xs">
-                  <div className="font-serif font-black text-2xl text-amber-700 dark:text-amber-400">X</div>
-                  <div className="text-sm font-black text-slate-800 dark:text-slate-100">= 10</div>
-                  <div className="text-[10px] text-slate-400">tíz (decem)</div>
-                </div>
-                <div className="bg-white dark:bg-slate-900 p-2.5 rounded-xl border border-amber-200 dark:border-slate-700 shadow-xs">
-                  <div className="font-serif font-black text-2xl text-amber-700 dark:text-amber-400">C</div>
-                  <div className="text-sm font-black text-slate-800 dark:text-slate-100">= 100</div>
-                  <div className="text-[10px] text-slate-400">száz (centum)</div>
-                </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
+          <TheoryCard title="Példa: 44 felírása" variant="amber">
+            <div className="font-mono text-xs space-y-1 text-slate-700 dark:text-slate-300">
+              <div>1. lépés: 44 felbontása: <strong>40 + 4</strong></div>
+              <div>2. lépés: 40 római alakja: <strong>XL</strong> (50 - 10)</div>
+              <div>3. lépés: 4 római alakja: <strong>IV</strong> (5 - 1)</div>
+              <div className="pt-1 text-amber-700 dark:text-amber-300 font-bold border-t border-slate-200 dark:border-slate-700">
+                Eredmény: 44 = XLIV
               </div>
             </div>
+          </TheoryCard>
 
-            {/* Segédjelek */}
-            <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50/60 dark:from-slate-850 dark:to-slate-800 border-2 border-blue-200/80 dark:border-slate-700 space-y-3">
-              <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
-                <h3 className="text-sm font-black text-blue-900 dark:text-blue-200 uppercase tracking-wider">
-                  Segédjelek (5-szörös értékek)
-                </h3>
-              </div>
-              <p className="text-xs text-slate-600 dark:text-slate-400">
-                Ezek a jelek <strong>soha nem ismétlődhetnek</strong> és nem állhatnak egymás mellett!
-              </p>
-
-              <div className="grid grid-cols-2 gap-2 text-center">
-                <div className="bg-white dark:bg-slate-900 p-2.5 rounded-xl border border-blue-200 dark:border-slate-700 shadow-xs">
-                  <div className="font-serif font-black text-2xl text-blue-700 dark:text-blue-400">V</div>
-                  <div className="text-sm font-black text-slate-800 dark:text-slate-100">= 5</div>
-                  <div className="text-[10px] text-slate-400">öt (quinque)</div>
-                </div>
-                <div className="bg-white dark:bg-slate-900 p-2.5 rounded-xl border border-blue-200 dark:border-slate-700 shadow-xs">
-                  <div className="font-serif font-black text-2xl text-blue-700 dark:text-blue-400">L</div>
-                  <div className="text-sm font-black text-slate-800 dark:text-slate-100">= 50</div>
-                  <div className="text-[10px] text-slate-400">ötven (quinquaginta)</div>
-                </div>
+          <TheoryCard title="Példa: 78 felírása" variant="amber">
+            <div className="font-mono text-xs space-y-1 text-slate-700 dark:text-slate-300">
+              <div>1. lépés: 78 felbontása: <strong>70 + 8</strong></div>
+              <div>2. lépés: 70 római alakja: <strong>LXX</strong> (50 + 20)</div>
+              <div>3. lépés: 8 római alakja: <strong>VIII</strong> (5 + 3)</div>
+              <div className="pt-1 text-amber-700 dark:text-amber-300 font-bold border-t border-slate-200 dark:border-slate-700">
+                Eredmény: 78 = LXXVIII
               </div>
             </div>
-          </div>
-        </section>
+          </TheoryCard>
+        </div>
+      </TheorySection>
 
-        {/* Section 3: Rules */}
-        <section className="space-y-4">
-          <div className="flex items-center gap-2 text-slate-900 dark:text-white font-black text-base sm:text-lg">
-            <div className="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300 flex items-center justify-center font-serif text-sm font-black">
-              3.
-            </div>
-            <h2>A római számírás 3 alapszabálya</h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
-            {/* Rule 1 */}
-            <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border-2 border-emerald-200 dark:border-emerald-800/80 shadow-xs space-y-2">
-              <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-[11px] font-black uppercase">
-                1. Összeadás elve
-              </div>
-              <h4 className="text-xs font-black text-slate-900 dark:text-white">Kisebb jel a nagyobb UTÁN</h4>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Ha egy kisebb vagy egyenlő értékű jel egy nagyobb jel <strong>után (jobbra)</strong> áll, akkor az értéküket <strong>összeadjuk</strong>.
-              </p>
-              <div className="p-2 bg-emerald-50 dark:bg-emerald-950/40 rounded-xl text-xs font-mono font-bold text-emerald-800 dark:text-emerald-300 space-y-1">
-                <div>VI = 5 + 1 = 6</div>
-                <div>XV = 10 + 5 = 15</div>
-                <div>LXX = 50 + 10 + 10 = 70</div>
-              </div>
-            </div>
-
-            {/* Rule 2 */}
-            <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border-2 border-rose-200 dark:border-rose-800/80 shadow-xs space-y-2">
-              <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-rose-100 dark:bg-rose-950 text-rose-800 dark:text-rose-300 text-[11px] font-black uppercase">
-                2. Kivonás elve
-              </div>
-              <h4 className="text-xs font-black text-slate-900 dark:text-white">Kisebb jel a nagyobb ELŐTT</h4>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Ha egy kisebb értékű jel egy nagyobb jel <strong>előtt (balra)</strong> áll, akkor értékét <strong>kivonjuk</strong> a nagyobból.
-              </p>
-              <div className="p-2 bg-rose-50 dark:bg-rose-950/40 rounded-xl text-xs font-mono font-bold text-rose-800 dark:text-rose-300 space-y-1">
-                <div>IV = 5 - 1 = 4</div>
-                <div>IX = 10 - 1 = 9</div>
-                <div>XL = 50 - 10 = 40</div>
-                <div>XC = 100 - 10 = 90</div>
-              </div>
-            </div>
-
-            {/* Rule 3 */}
-            <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border-2 border-amber-200 dark:border-amber-800/80 shadow-xs space-y-2">
-              <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 text-[11px] font-black uppercase">
-                3. Ismétlési szabály
-              </div>
-              <h4 className="text-xs font-black text-slate-900 dark:text-white">Legfeljebb 3 azonos jel</h4>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Az alapjelek (<strong>I, X, C</strong>) egymás mellett <strong>legfeljebb 3-szor</strong> állhatnak. A segédjelek (<strong>V, L</strong>) sosem ismétlődnek!
-              </p>
-              <div className="p-2 bg-amber-50 dark:bg-amber-950/40 rounded-xl text-xs font-mono font-bold text-amber-800 dark:text-amber-300 space-y-1">
-                <div>III = 3 (megengedett)</div>
-                <div>IIII = HIBÁS! (helyette: IV)</div>
-                <div>VV = HIBÁS! (helyette: X)</div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Section 4: Critical Pitfall (Helyiértékes bontás szabálya) */}
-        <section className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-amber-500/10 border-2 border-amber-300 dark:border-amber-700/80 space-y-2">
-          <div className="flex items-center gap-2 font-black text-sm text-amber-900 dark:text-amber-200">
-            <Lightbulb className="w-5 h-5 text-amber-600 shrink-0" />
-            <h3>Fontos csapda: Hogyan írjuk le a 49-et vagy 99-et?</h3>
-          </div>
-          <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
-            A római számok leírásakor a számokat <strong>helyiértékek szerint bontjuk fel</strong> (tízesekre és egyesekre):
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-            <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 font-mono text-xs space-y-1">
-              <div className="font-bold text-slate-900 dark:text-white">49 = 40 + 9</div>
-              <div className="text-emerald-600 dark:text-emerald-400 font-bold">✓ XL + IX = XLIX (Helyes!)</div>
-              <div className="text-rose-500 dark:text-rose-400">✗ IL (Szabálytalan, mert 50-ből nem vonunk ki 1-et közvetlenül!)</div>
-            </div>
-            <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 font-mono text-xs space-y-1">
-              <div className="font-bold text-slate-900 dark:text-white">99 = 90 + 9</div>
-              <div className="text-emerald-600 dark:text-emerald-400 font-bold">✓ XC + IX = XCIX (Helyes!)</div>
-              <div className="text-rose-500 dark:text-rose-400">✗ IC (Szabálytalan!)</div>
-            </div>
-          </div>
-        </section>
-
-        {/* Section 5: Reference Table (Példatár 1-100) */}
-        <section className="space-y-3">
-          <div className="flex items-center gap-2 text-slate-900 dark:text-white font-black text-base sm:text-lg">
-            <div className="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300 flex items-center justify-center font-serif text-sm font-black">
-              4.
-            </div>
-            <h2>Gyakori számok áttekintő táblázata (1–100)</h2>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2">
-            {[
-              { a: '1', r: 'I' },
-              { a: '2', r: 'II' },
-              { a: '3', r: 'III' },
-              { a: '4', r: 'IV' },
-              { a: '5', r: 'V' },
-              { a: '6', r: 'VI' },
-              { a: '7', r: 'VII' },
-              { a: '8', r: 'VIII' },
-              { a: '9', r: 'IX' },
-              { a: '10', r: 'X' },
-              { a: '14', r: 'XIV' },
-              { a: '19', r: 'XIX' },
-              { a: '20', r: 'XX' },
-              { a: '30', r: 'XXX' },
-              { a: '40', r: 'XL' },
-              { a: '44', r: 'XLIV' },
-              { a: '49', r: 'XLIX' },
-              { a: '50', r: 'L' },
-              { a: '60', r: 'LX' },
-              { a: '70', r: 'LXX' },
-              { a: '80', r: 'LXXX' },
-              { a: '90', r: 'XC' },
-              { a: '94', r: 'XCIV' },
-              { a: '100', r: 'C' }
-            ].map((item, idx) => (
-              <div key={idx} className="p-2 bg-slate-50 dark:bg-slate-800/80 rounded-xl border border-slate-200/80 dark:border-slate-700 text-center">
-                <div className="text-xs font-bold text-slate-500 dark:text-slate-400">{item.a}</div>
-                <div className="text-base font-serif font-black text-amber-700 dark:text-amber-300">{item.r}</div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Section 6: Interactive Bidirectional Live Converter (no-pdf) */}
-        <section className="p-4 sm:p-6 rounded-3xl bg-slate-50 dark:bg-slate-800/60 border-2 border-slate-200 dark:border-slate-700 space-y-4 no-pdf">
+      {/* 5. Szakasz: Interaktív Átváltó és Ellenőrző Eszköz */}
+      <TheorySection number={5} title="Interaktív Kétirányú Átváltó és Ellenőrző" badgeColor="amber">
+        <div className="p-4 sm:p-6 rounded-3xl bg-slate-50 dark:bg-slate-850 border-2 border-slate-200 dark:border-slate-800 space-y-4 no-pdf">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200/80 dark:border-slate-700/80 pb-3">
             <div className="flex items-center gap-2 font-black text-sm sm:text-base text-slate-900 dark:text-white">
-              <div className="w-7 h-7 rounded-lg bg-amber-500 text-white flex items-center justify-center">
-                <Calculator className="w-4 h-4" />
-              </div>
-              <h3>Interaktív Kétirányú Számváltó (1–100)</h3>
+              <Calculator className="w-5 h-5 text-amber-500" />
+              <span>Próbáld ki élőben az átváltást:</span>
             </div>
 
-            {/* Mode Switcher Buttons */}
             <div className="flex items-center gap-1.5 p-1 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700">
               <button
                 type="button"
@@ -511,7 +377,7 @@ export function RomanNumeralsTheory({ onBack, onStartQuiz }: RomanNumeralsTheory
           {converterMode === 'arabic-to-roman' && (
             <div className="space-y-4 animate-in fade-in duration-200">
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
-                Adj meg egy tetszőleges egész számot <strong>1 és 100</strong> között, és nézd meg a helyiértékes felbontását:
+                Adj meg egy tetszőleges egész számot <strong>1 és 100</strong> között, és nézd meg a helyiértékes levezetést:
               </p>
 
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
@@ -586,7 +452,7 @@ export function RomanNumeralsTheory({ onBack, onStartQuiz }: RomanNumeralsTheory
           {converterMode === 'roman-to-arabic' && (
             <div className="space-y-4 animate-in fade-in duration-200">
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
-                Írj be egy római számot, vagy kattints a betűgombokra az arab érték és szabályosság ellenőrzéséhez:
+                Írj be egy római számot, vagy kattints a betűgombokra az érték és szabályosság ellenőrzéséhez:
               </p>
 
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
@@ -724,14 +590,63 @@ export function RomanNumeralsTheory({ onBack, onStartQuiz }: RomanNumeralsTheory
               )}
             </div>
           )}
-        </section>
-
-        {/* Footer info */}
-        <div className="border-t border-slate-200 dark:border-slate-800 pt-4 text-center text-[11px] text-slate-400">
-          SkillUp Academy • 5. Osztály Matematika • Oktatási Tananyag
         </div>
-      </div>
-    </div>
+      </TheorySection>
+
+      {/* 6. Szakasz: Gyakori hibák és csapdák */}
+      <TheorySection number={6} title="Gyakori hibák és tévhitek" badgeColor="amber">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <TheoryTrapBox
+            title="A 4 és 40 leírása (Nem ismétlünk 4-szer!)"
+            wrong="IIII (4), XXXX (40)"
+            correct="IV (4 = 5 - 1), XL (40 = 50 - 10)"
+            explanation="Az alapjelekből (I, X, C) legfeljebb 3 darab állhat egymás mellett. A 4-eseket kivonással képezzük."
+          />
+
+          <TheoryTrapBox
+            title="A 49 és 99 leírása (Csak a közvetlen helyiértékből vonunk ki!)"
+            wrong="IL (49), IC (99)"
+            correct="XLIX (40 + 9), XCIX (90 + 9)"
+            explanation="50-ből nem vonhatunk ki 1-et közvetlenül! Először a tízeseket bontjuk (40 = XL, 90 = XC), majd hozzáadjuk a 9-et (IX)."
+          />
+
+          <TheoryTrapBox
+            title="A segédjelek (V, L) ismétlése"
+            wrong="VV (10), LL (100)"
+            correct="X (10), C (100)"
+            explanation="A segédjelek (V = 5, L = 50) soha nem ismétlődhetnek és nem állhatnak egymás mellett, mert 2 × 5 = 10 (X) és 2 × 50 = 100 (C)."
+          />
+
+          <TheoryTrapBox
+            title="Segédjelből való kivonás"
+            wrong="VX (10 - 5), LC (100 - 50)"
+            correct="V és L elé sosem teszünk kisebb jelet, és ők sem állhatnak nagyobb előtt kivonásként."
+            explanation="Kivonni csak alapjelet (I, X) szabad a nála közvetlenül nagyobb alap- vagy segédjelből (IV, IX, XL, XC)."
+          />
+        </div>
+      </TheorySection>
+
+      {/* 7. Szakasz: Gyors referencia táblázat */}
+      <TheorySection number={7} title="Gyors referencia táblázat (1–100)" badgeColor="amber">
+        <TheoryTable
+          headers={["Arab szám", "Római szám", "Szabály / Felbontás", "Arab szám", "Római szám", "Szabály / Felbontás"]}
+          rows={[
+            ["1", "I", "Alapjel (1)", "20", "XX", "10 + 10"],
+            ["2", "II", "1 + 1", "30", "XXX", "10 + 10 + 10"],
+            ["3", "III", "1 + 1 + 1", "40", "XL", "50 - 10 (Kivonás)"],
+            ["4", "IV", "5 - 1 (Kivonás)", "44", "XLIV", "40 + 4"],
+            ["5", "V", "Segédjel (5)", "49", "XLIX", "40 + 9 (Csapda!)"],
+            ["6", "VI", "5 + 1", "50", "L", "Segédjel (50)"],
+            ["7", "VII", "5 + 2", "60", "LX", "50 + 10"],
+            ["8", "VIII", "5 + 3", "70", "LXX", "50 + 20"],
+            ["9", "IX", "10 - 1 (Kivonás)", "80", "LXXX", "50 + 30"],
+            ["10", "X", "Alapjel (10)", "90", "XC", "100 - 10 (Kivonás)"],
+            ["14", "XIV", "10 + 4", "99", "XCIX", "90 + 9 (Csapda!)"],
+            ["19", "XIX", "10 + 9", "100", "C", "Alapjel (100)"]
+          ]}
+        />
+      </TheorySection>
+    </TheoryTemplate>
   );
 }
 

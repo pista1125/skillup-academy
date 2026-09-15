@@ -239,7 +239,7 @@ export interface TheoryCardProps {
   title?: string;
   icon?: React.ReactNode;
   badge?: string;
-  variant?: 'default' | 'emerald' | 'amber' | 'blue' | 'indigo' | 'rose' | 'purple' | 'cyan';
+  variant?: 'default' | 'emerald' | 'amber' | 'blue' | 'indigo' | 'rose' | 'purple' | 'cyan' | 'violet' | string;
   children: React.ReactNode;
   className?: string;
 }
@@ -260,11 +260,12 @@ export const TheoryCard: React.FC<TheoryCardProps> = ({
     indigo: 'border-indigo-200 dark:border-indigo-900/60 bg-indigo-50/40 dark:bg-indigo-950/20',
     rose: 'border-rose-200 dark:border-rose-900/60 bg-rose-50/40 dark:bg-rose-950/20',
     purple: 'border-purple-200 dark:border-purple-900/60 bg-purple-50/40 dark:bg-purple-950/20',
+    violet: 'border-violet-200 dark:border-violet-900/60 bg-violet-50/40 dark:bg-violet-950/20',
     cyan: 'border-cyan-200 dark:border-cyan-900/60 bg-cyan-50/40 dark:bg-cyan-950/20',
   };
 
   return (
-    <Card className={cn("rounded-2xl shadow-none", variantStyles[variant], className)}>
+    <Card className={cn("rounded-2xl shadow-none", variantStyles[variant] || variantStyles.default, className)}>
       <CardContent className="p-4 space-y-2.5">
         {(title || icon || badge) && (
           <div className="flex items-center justify-between gap-2">
@@ -289,7 +290,7 @@ export const TheoryCard: React.FC<TheoryCardProps> = ({
 export interface TheoryCalloutProps {
   icon?: React.ReactNode;
   title?: string;
-  variant?: 'info' | 'tip' | 'warning' | 'success';
+  variant?: 'info' | 'tip' | 'warning' | 'success' | 'blue' | 'amber' | 'rose' | 'emerald' | 'indigo' | 'purple' | 'cyan' | 'violet' | string;
   children: React.ReactNode;
   className?: string;
 }
@@ -301,8 +302,14 @@ export const TheoryCallout: React.FC<TheoryCalloutProps> = ({
   children,
   className
 }) => {
-  const calloutConfig = {
+  const calloutConfig: Record<string, { bg: string; iconBox: string; titleColor: string; defaultIcon: React.ReactNode }> = {
     info: {
+      bg: 'bg-blue-50/70 dark:bg-blue-950/30 border-blue-200 dark:border-blue-900/60',
+      iconBox: 'bg-blue-600 text-white',
+      titleColor: 'text-blue-900 dark:text-blue-200',
+      defaultIcon: <Info className="w-4 h-4" />
+    },
+    blue: {
       bg: 'bg-blue-50/70 dark:bg-blue-950/30 border-blue-200 dark:border-blue-900/60',
       iconBox: 'bg-blue-600 text-white',
       titleColor: 'text-blue-900 dark:text-blue-200',
@@ -314,7 +321,19 @@ export const TheoryCallout: React.FC<TheoryCalloutProps> = ({
       titleColor: 'text-amber-900 dark:text-amber-200',
       defaultIcon: <Lightbulb className="w-4 h-4" />
     },
+    amber: {
+      bg: 'bg-amber-50/70 dark:bg-amber-950/30 border-amber-200 dark:border-amber-900/60',
+      iconBox: 'bg-amber-600 text-white',
+      titleColor: 'text-amber-900 dark:text-amber-200',
+      defaultIcon: <Lightbulb className="w-4 h-4" />
+    },
     warning: {
+      bg: 'bg-rose-50/70 dark:bg-rose-950/30 border-rose-200 dark:border-rose-900/60',
+      iconBox: 'bg-rose-600 text-white',
+      titleColor: 'text-rose-900 dark:text-rose-200',
+      defaultIcon: <AlertTriangle className="w-4 h-4" />
+    },
+    rose: {
       bg: 'bg-rose-50/70 dark:bg-rose-950/30 border-rose-200 dark:border-rose-900/60',
       iconBox: 'bg-rose-600 text-white',
       titleColor: 'text-rose-900 dark:text-rose-200',
@@ -325,10 +344,40 @@ export const TheoryCallout: React.FC<TheoryCalloutProps> = ({
       iconBox: 'bg-emerald-600 text-white',
       titleColor: 'text-emerald-900 dark:text-emerald-200',
       defaultIcon: <CheckCircle2 className="w-4 h-4" />
+    },
+    emerald: {
+      bg: 'bg-emerald-50/70 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-900/60',
+      iconBox: 'bg-emerald-600 text-white',
+      titleColor: 'text-emerald-900 dark:text-emerald-200',
+      defaultIcon: <CheckCircle2 className="w-4 h-4" />
+    },
+    indigo: {
+      bg: 'bg-indigo-50/70 dark:bg-indigo-950/30 border-indigo-200 dark:border-indigo-900/60',
+      iconBox: 'bg-indigo-600 text-white',
+      titleColor: 'text-indigo-900 dark:text-indigo-200',
+      defaultIcon: <Info className="w-4 h-4" />
+    },
+    purple: {
+      bg: 'bg-purple-50/70 dark:bg-purple-950/30 border-purple-200 dark:border-purple-900/60',
+      iconBox: 'bg-purple-600 text-white',
+      titleColor: 'text-purple-900 dark:text-purple-200',
+      defaultIcon: <Lightbulb className="w-4 h-4" />
+    },
+    violet: {
+      bg: 'bg-violet-50/70 dark:bg-violet-950/30 border-violet-200 dark:border-violet-900/60',
+      iconBox: 'bg-violet-600 text-white',
+      titleColor: 'text-violet-900 dark:text-violet-200',
+      defaultIcon: <Lightbulb className="w-4 h-4" />
+    },
+    cyan: {
+      bg: 'bg-cyan-50/70 dark:bg-cyan-950/30 border-cyan-200 dark:border-cyan-900/60',
+      iconBox: 'bg-cyan-600 text-white',
+      titleColor: 'text-cyan-900 dark:text-cyan-200',
+      defaultIcon: <Info className="w-4 h-4" />
     }
   };
 
-  const current = calloutConfig[variant];
+  const current = calloutConfig[variant] || calloutConfig.tip;
 
   return (
     <div className={cn("p-4 rounded-2xl border text-xs sm:text-sm flex items-start gap-3", current.bg, className)}>
@@ -345,39 +394,63 @@ export const TheoryCallout: React.FC<TheoryCalloutProps> = ({
 
 // --- TheoryTrapBox Component ---
 export interface TheoryTrapBoxProps {
-  title: string;
-  wrong: string | React.ReactNode;
-  correct: string | React.ReactNode;
+  title?: string;
+  trap?: string | React.ReactNode;
+  wrong?: string | React.ReactNode;
+  solution?: string | React.ReactNode;
+  correct?: string | React.ReactNode;
+  correction?: string | React.ReactNode;
   explanation?: string | React.ReactNode;
+  children?: React.ReactNode;
+  className?: string;
 }
 
 export const TheoryTrapBox: React.FC<TheoryTrapBoxProps> = ({
   title,
+  trap,
   wrong,
+  solution,
   correct,
-  explanation
+  correction,
+  explanation,
+  children,
+  className
 }) => {
+  const displayWrong = wrong || trap;
+  const displayCorrect = correct || solution || correction;
+  const displayTitle = title || (typeof trap === 'string' && !wrong ? trap : 'Tipikus Csapdahelyzet');
+
   return (
-    <div className="p-4 rounded-2xl bg-rose-50/50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/60 space-y-2">
+    <div className={cn("p-4 rounded-2xl bg-rose-50/50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/60 space-y-2", className)}>
       <div className="flex items-center gap-2 text-rose-700 dark:text-rose-400 font-bold text-xs sm:text-sm">
         <AlertTriangle className="w-4 h-4 shrink-0" />
-        <span>{title}</span>
+        <span>{displayTitle}</span>
       </div>
-      <div className="text-xs text-slate-600 dark:text-slate-300 space-y-1">
-        <div className="flex items-center gap-1.5">
-          <XCircle className="w-3.5 h-3.5 text-rose-600 shrink-0" />
-          <span><strong className="text-rose-600">Hibás:</strong> {wrong}</span>
+      {children ? (
+        <div className="text-xs text-slate-600 dark:text-slate-300 space-y-1">
+          {children}
         </div>
-        <div className="flex items-center gap-1.5">
-          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-          <span><strong className="text-emerald-600">Helyes:</strong> {correct}</span>
+      ) : (
+        <div className="text-xs text-slate-600 dark:text-slate-300 space-y-1">
+          {displayWrong && (
+            <div className="flex items-start gap-1.5">
+              <XCircle className="w-3.5 h-3.5 text-rose-600 shrink-0 mt-0.5" />
+              <span><strong className="text-rose-600">Hibás:</strong> {displayWrong}</span>
+            </div>
+          )}
+          {displayCorrect && (
+            <div className="flex items-start gap-1.5">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
+              <span><strong className="text-emerald-600">Helyes:</strong> {displayCorrect}</span>
+            </div>
+          )}
+          {explanation && (
+            <div className="pt-1 text-[11px] text-slate-500 dark:text-slate-400 pl-5">
+              {explanation}
+            </div>
+          )}
         </div>
-        {explanation && (
-          <div className="pt-1 text-[11px] text-slate-500 dark:text-slate-400 pl-5">
-            {explanation}
-          </div>
-        )}
-      </div>
+      )}
     </div>
   );
 };

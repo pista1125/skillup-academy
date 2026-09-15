@@ -68,6 +68,8 @@ export interface LevelConfig {
   questions: QuizQuestion[];
 }
 
+export type QuizLevelConfig = LevelConfig;
+
 export interface CheatSheetItem {
   topic: string;
   formula: string;

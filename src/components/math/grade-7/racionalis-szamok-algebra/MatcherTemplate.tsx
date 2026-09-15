@@ -9,34 +9,52 @@ import {
   BookOpen,
   ArrowRight,
   ArrowRightLeft,
+  ArrowLeft,
   Sparkles
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { DifficultyLevel } from './QuizTemplate';
 
 export interface MatcherPair {
-  id: string;
-  prompt: string;
-  value: string;
+  id: string | number;
+  prompt?: string;
+  value?: string;
+  left?: string;
+  right?: string;
+  question?: string;
+  answer?: string;
+  term?: string;
+  definition?: string;
+  front?: string;
+  back?: string;
 }
 
 export interface MatcherLevelConfig {
+  level?: number;
+  title?: string;
+  description?: string;
   pairs: MatcherPair[];
 }
 
 export interface MatcherTemplateProps {
-  level: DifficultyLevel;
+  level?: DifficultyLevel;
   title?: string;
   subtitle?: string;
-  levels: Record<DifficultyLevel, MatcherLevelConfig>;
+  badge?: string;
+  levels?: Record<DifficultyLevel, MatcherLevelConfig>;
+  config?: MatcherLevelConfig;
   onNextLevel?: () => void;
   onOpenRules?: () => void;
+  onBack?: () => void;
+  onSwitchToQuiz?: () => void;
+  onSwitchToSorter?: () => void;
+  onSwitchToTheory?: () => void;
   themeColor?: string;
 }
 
 interface CardItem {
   id: string;
-  pairId: string;
+  pairId: string | number;
   content: string;
   type: 'prompt' | 'value';
   isFlipped: boolean;
@@ -53,12 +71,18 @@ function shuffleArray<T>(array: T[]): T[] {
 }
 
 export function MatcherTemplate({
-  level,
+  level = 1,
   title = 'Kártyás Párosító',
   subtitle = 'Kattints a kártyákra, és találd meg a feladvány-eredmény párokat!',
+  badge,
   levels,
+  config,
   onNextLevel,
-  onOpenRules
+  onOpenRules,
+  onBack,
+  onSwitchToQuiz,
+  onSwitchToSorter,
+  onSwitchToTheory
 }: MatcherTemplateProps) {
   const [cards, setCards] = useState<CardItem[]>([]);
   const [selectedCards, setSelectedCards] = useState<CardItem[]>([]);
@@ -69,16 +93,21 @@ export function MatcherTemplate({
   const [timerActive, setTimerActive] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
 
+  const activeLevel: DifficultyLevel = level || (config?.level as DifficultyLevel) || 1;
+
   // Initialize level cards
   const initGame = () => {
-    const levelPairs = levels[level]?.pairs || [];
+    const currentPairs: MatcherPair[] = config?.pairs || levels?.[activeLevel]?.pairs || [];
     const cardDeck: CardItem[] = [];
 
-    levelPairs.forEach((pair) => {
+    currentPairs.forEach((pair) => {
+      const promptText = pair.prompt ?? pair.left ?? pair.question ?? pair.term ?? pair.front ?? '';
+      const valueText = pair.value ?? pair.right ?? pair.answer ?? pair.definition ?? pair.back ?? '';
+
       cardDeck.push({
         id: `${pair.id}-p`,
         pairId: pair.id,
-        content: pair.prompt,
+        content: String(promptText),
         type: 'prompt',
         isFlipped: false,
         isMatched: false
@@ -86,7 +115,7 @@ export function MatcherTemplate({
       cardDeck.push({
         id: `${pair.id}-v`,
         pairId: pair.id,
-        content: pair.value,
+        content: String(valueText),
         type: 'value',
         isFlipped: false,
         isMatched: false
@@ -105,7 +134,7 @@ export function MatcherTemplate({
 
   useEffect(() => {
     initGame();
-  }, [level]);
+  }, [level, config, levels]);
 
   // Timer tick
   useEffect(() => {
@@ -154,8 +183,8 @@ export function MatcherTemplate({
           setIsChecking(false);
           setMatchesCount((prev) => {
             const updated = prev + 1;
-            const currentLevelPairs = levels[level]?.pairs || [];
-            if (updated === currentLevelPairs.length) {
+            const currentPairs = config?.pairs || levels?.[activeLevel]?.pairs || [];
+            if (updated === currentPairs.length) {
               handleWin();
             }
             return updated;
@@ -195,22 +224,41 @@ export function MatcherTemplate({
     return `${m}:${s < 10 ? '0' : ''}${s}`;
   };
 
-  const totalPairs = levels[level]?.pairs?.length || 0;
+  const totalPairs = config?.pairs?.length || levels?.[activeLevel]?.pairs?.length || 0;
+  const displayTitle = config?.title || title;
+  const displaySubtitle = config?.description || subtitle;
 
   return (
     <div className="space-y-4 animate-in fade-in duration-300">
       {/* Top Controls & Stats */}
       <div className="bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-3 sm:p-4 border border-slate-200 dark:border-slate-700/80 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold">
-            <ArrowRightLeft className="w-5 h-5" />
-          </div>
+          {onBack ? (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onBack}
+              className="rounded-xl h-9 px-2.5 text-xs font-bold gap-1 border-slate-200 dark:border-slate-700"
+            >
+              <ArrowLeft className="w-4 h-4 mr-0.5" />
+              Vissza
+            </Button>
+          ) : (
+            <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold">
+              <ArrowRightLeft className="w-5 h-5" />
+            </div>
+          )}
           <div>
+            {badge && (
+              <div className="text-[11px] font-bold text-purple-600 dark:text-purple-400">
+                {badge}
+              </div>
+            )}
             <div className="text-sm font-black text-slate-800 dark:text-slate-200">
-              {title} ({level}. szint)
+              {displayTitle} {levels ? `(${activeLevel}. szint)` : ''}
             </div>
             <div className="text-xs text-slate-500 dark:text-slate-400">
-              {subtitle}
+              {displaySubtitle}
             </div>
           </div>
         </div>
@@ -255,6 +303,18 @@ export function MatcherTemplate({
               Szabályzat
             </Button>
           )}
+
+          {onSwitchToTheory && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onSwitchToTheory}
+              className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-950/40"
+            >
+              <BookOpen className="w-3.5 h-3.5" />
+              Tananyag
+            </Button>
+          )}
         </div>
       </div>
 
@@ -271,7 +331,7 @@ export function MatcherTemplate({
                 onClick={() => handleCardClick(card)}
                 disabled={card.isMatched || isChecking}
                 className={cn(
-                  'h-24 sm:h-28 p-3 rounded-2xl font-bold text-xs sm:text-sm transition-all duration-300 flex flex-col items-center justify-center text-center select-none shadow-xs relative border-2',
+                  'h-24 sm:h-28 p-3 rounded-2xl font-bold text-xs sm:text-sm transition-all duration-300 flex flex-col items-center justify-center text-center select-none shadow-xs relative border-2 cursor-pointer',
                   card.isMatched
                     ? 'bg-purple-50 dark:bg-purple-950/40 border-purple-400/80 text-purple-700 dark:text-purple-300 opacity-80 cursor-default scale-95'
                     : isFlipped
@@ -282,8 +342,10 @@ export function MatcherTemplate({
                 )}
               >
                 {isFlipped ? (
-                  <div className="animate-in zoom-in-75 duration-200 flex flex-col items-center justify-center h-full w-full">
-                    <span className="leading-snug font-mono font-bold text-xs sm:text-sm px-1">{card.content}</span>
+                  <div className="animate-in zoom-in-75 duration-200 flex flex-col items-center justify-center h-full w-full p-1">
+                    <span className="leading-snug font-mono font-bold text-xs sm:text-sm break-words line-clamp-3">
+                      {card.content}
+                    </span>
                     {card.isMatched && (
                       <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 absolute top-2 right-2" />
                     )}
@@ -312,7 +374,7 @@ export function MatcherTemplate({
               Fantasztikus! Mind a {totalPairs} párt megtaláltad!
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
-              Sikeresen teljesítetted a {level}. szint párosító feladatait!
+              Sikeresen teljesítetted a {activeLevel}. szint párosító feladatait!
             </p>
           </div>
 
@@ -342,12 +404,12 @@ export function MatcherTemplate({
               Párosítás Újra
             </Button>
 
-            {level < 3 && onNextLevel && (
+            {activeLevel < 3 && onNextLevel && (
               <Button
                 onClick={onNextLevel}
                 className="rounded-xl h-10 px-5 font-bold bg-purple-600 hover:bg-purple-700 text-white shadow-md text-xs sm:text-sm"
               >
-                Következő Szint ({level + 1}. szint)
+                Következő Szint ({activeLevel + 1}. szint)
                 <ArrowRight className="w-4 h-4 ml-1.5" />
               </Button>
             )}
@@ -357,3 +419,5 @@ export function MatcherTemplate({
     </div>
   );
 }
+
+export default MatcherTemplate;

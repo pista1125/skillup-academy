@@ -1,88 +1,68 @@
 import React, { useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
+import {
+  TheoryTemplate,
+  TheorySection,
+  TheoryCard,
+  TheoryCallout,
+  TheoryTrapBox,
+  TheoryTable
+} from '../TheoryTemplate';
 import { Button } from '@/components/ui/button';
 import {
-  ArrowLeft,
-  Download,
+  Calculator,
   Sparkles,
   CheckCircle2,
-  HelpCircle,
-  Lightbulb,
-  FileText,
-  Calculator,
-  Info,
-  Layers,
-  ChevronRight,
-  ChevronLeft,
+  AlertTriangle,
   RotateCcw,
-  Zap,
-  Check,
   ArrowRight,
-  X
+  ShieldCheck,
+  Layers,
+  BookOpen,
+  Zap,
+  Target
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { exportElementToPDF } from '@/utils/pdfExport';
 
-interface MultiplicationTheoryProps {
+export interface MultiplicationTheoryProps {
   onBack: () => void;
   onStartQuiz?: () => void;
 }
 
-interface StepInfo {
-  stepNumber: number;
-  description: string;
-  focusDigits: string;
-  subTotalText?: string;
-}
-
 export function MultiplicationTheory({ onBack, onStartQuiz }: MultiplicationTheoryProps) {
-  const [isDownloading, setIsDownloading] = useState(false);
-
   // Interactive Simulator State
   const [factorA, setFactorA] = useState<string>('36');
   const [factorB, setFactorB] = useState<string>('23');
   const [stepIndex, setStepIndex] = useState<number>(0);
   const [direction, setDirection] = useState<'leftToRight' | 'rightToLeft'>('leftToRight');
 
-  const handleDownloadPDF = async () => {
-    setIsDownloading(true);
-    await exportElementToPDF('multiplication-theory-content', 'Szorzas_Irasbeli_Szorzas_Tananyag');
-    setIsDownloading(false);
-  };
-
-  // Color mapping per multiplier digit (matches Hungarian textbook & notebook color standards)
+  // Color mapping per multiplier digit
   const DIGIT_COLORS = [
     {
       text: 'text-blue-600 dark:text-blue-400',
       badge: 'bg-blue-600 text-white',
       cellBg: 'bg-blue-50/80 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 font-black',
-      border: 'border-blue-400 dark:border-blue-600',
-      name: 'kék'
+      border: 'border-blue-400 dark:border-blue-600'
     },
     {
       text: 'text-rose-600 dark:text-rose-400',
       badge: 'bg-rose-600 text-white',
       cellBg: 'bg-rose-50/80 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 font-black',
-      border: 'border-rose-400 dark:border-rose-600',
-      name: 'piros'
+      border: 'border-rose-400 dark:border-rose-600'
     },
     {
       text: 'text-emerald-600 dark:text-emerald-400',
       badge: 'bg-emerald-600 text-white',
       cellBg: 'bg-emerald-50/80 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 font-black',
-      border: 'border-emerald-400 dark:border-emerald-600',
-      name: 'zöld'
+      border: 'border-emerald-400 dark:border-emerald-600'
     },
     {
       text: 'text-purple-600 dark:text-purple-400',
       badge: 'bg-purple-600 text-white',
       cellBg: 'bg-purple-50/80 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 font-black',
-      border: 'border-purple-400 dark:border-purple-600',
-      name: 'lila'
+      border: 'border-purple-400 dark:border-purple-600'
     }
   ];
 
-  // Helper to compute exact Hungarian school written multiplication grid and steps
   const getMultiplicationSteps = (aStr: string, bStr: string, dir: 'leftToRight' | 'rightToLeft') => {
     const a = parseInt(aStr.replace(/\s+/g, ''), 10);
     const b = parseInt(bStr.replace(/\s+/g, ''), 10);
@@ -91,882 +71,332 @@ export function MultiplicationTheory({ onBack, onStartQuiz }: MultiplicationTheo
       return {
         error: 'Kérlek adj meg érvényes természetes számokat (első legfeljebb 6 jegyű, második legfeljebb 4 jegyű)!',
         steps: [],
-        product: 0,
-        totalCols: 0,
-        headerCells: [],
-        partialRows: [],
-        resultCells: [],
-        isSingleDigit: false
+        product: 0
       };
     }
 
-    const aDigits = a.toString().split('').map(Number);
-    const bDigits = b.toString().split('').map(Number);
-    const product = a * b;
-    const pDigits = product.toString().split('').map(Number);
-
-    const L_A = aDigits.length;
-    const L_B = bDigits.length;
-    const L_P = pDigits.length;
-
-    // Multiplier order:
-    // 'leftToRight' (balról jobbra: tízesekkel/legnagyobb helyiértékkel kezdünk, jobbra tolunk)
-    // 'rightToLeft' (jobbról balra: egyesekkel kezdünk, balra tolunk)
-    const multOrderIndices: number[] = [];
-    if (dir === 'leftToRight') {
-      for (let i = 0; i < L_B; i++) multOrderIndices.push(i);
-    } else {
-      for (let i = L_B - 1; i >= 0; i--) multOrderIndices.push(i);
-    }
-
-    // Coordinate calculation:
-    // factorA starts at 0, ends at L_A - 1 (col_A_end = L_A - 1).
-    // Dot '·' is at L_A.
-    // factorB starts at L_A + 1, digit k is at L_A + 1 + k.
-    // In 'leftToRight': row orderIdx rightmost digit is at (L_A - 1 + orderIdx).
-    // In 'rightToLeft': row orderIdx rightmost digit is at (L_A - 1 - orderIdx).
-
-    let minCol = 0;
-    multOrderIndices.forEach((bIdx, orderIdx) => {
-      const subVal = a * bDigits[bIdx];
-      const subLen = subVal.toString().length;
-      const targetColRel = dir === 'leftToRight' ? (L_A - 1 + orderIdx) : (L_A - 1 - orderIdx);
-      const leftCol = orderIdx >= 1 ? (targetColRel - subLen - 1) : (targetColRel - subLen + 1);
-      if (leftCol < minCol) minCol = leftCol;
-    });
-
-    const resultRightRel = dir === 'leftToRight' ? (L_A + L_B - 2) : (L_A - 1);
-    const totalLeft = resultRightRel - L_P + 1;
-    if (totalLeft < minCol) minCol = totalLeft;
-
-    const offset = -minCol;
-    const maxRightColRel = Math.max(L_A + L_B, resultRightRel);
-    const totalCols = maxRightColRel + offset + 1;
-
-    // Header cells
-    const headerCells: ({ char: string; isDot?: boolean; isMultiplier?: boolean; bIndex?: number; colIndex: number; colorClass?: string } | null)[] = Array(totalCols).fill(null);
-
-    // Factor A digits (black)
-    aDigits.forEach((digit, k) => {
-      const col = k + offset;
-      headerCells[col] = {
-        char: digit.toString(),
-        colIndex: col,
-        colorClass: 'text-slate-900 dark:text-white'
-      };
-    });
-
-    // Dot '·'
-    const dotCol = L_A + offset;
-    headerCells[dotCol] = {
-      char: '·',
-      isDot: true,
-      colIndex: dotCol,
-      colorClass: 'text-slate-900 dark:text-white'
-    };
-
-    // Factor B digits (color-coded per digit!)
-    bDigits.forEach((digit, k) => {
-      const col = L_A + 1 + k + offset;
-      const colorObj = DIGIT_COLORS[k % DIGIT_COLORS.length];
-      headerCells[col] = {
-        char: digit.toString(),
-        isMultiplier: true,
-        bIndex: k,
-        colIndex: col,
-        colorClass: colorObj.text
-      };
-    });
-
-    // Steps list
-    const steps: StepInfo[] = [];
-    const estA = Math.round(a / Math.pow(10, L_A - 1)) * Math.pow(10, L_A - 1);
-    const estB = Math.round(b / Math.pow(10, L_B - 1)) * Math.pow(10, L_B - 1);
-    const estProd = estA * estB;
+    const bDigits = b.toString().split('').map((d) => parseInt(d, 10));
+    const isSingleDigit = bDigits.length === 1;
+    const steps: { title: string; desc: string; partialVal?: number }[] = [];
 
     steps.push({
-      stepNumber: 1,
-      description: `Felírjuk az írásbeli szorzást a négyzetrácsba: ${a.toLocaleString('hu-HU')} · ${b.toLocaleString('hu-HU')}. Kerekítési becslés: ${estA.toLocaleString('hu-HU')} · ${estB.toLocaleString('hu-HU')} ≈ ${estProd.toLocaleString('hu-HU')}.`,
-      focusDigits: 'Művelet felírása',
-      subTotalText: 'Kezdés'
+      title: '1. Előkészítés és becslés',
+      desc: `Felírjuk a műveletet: ${a} · ${b}. Előzetes becslés: ${Math.round(a / 10) * 10} · ${Math.round(b / 10) * 10 || b} ≈ ${a * b}.`
     });
 
-    // Partial rows
-    interface PartialRowData {
-      digit: number;
-      multiplierIndex: number;
-      placeName: string;
-      value: number;
-      cells: ({ char: string; isOperator?: boolean; colIndex: number; colorClass?: string } | null)[];
-      stepIndexRequired: number;
-      colorObj: typeof DIGIT_COLORS[0];
-    }
-
-    const partialRows: PartialRowData[] = [];
-
-    multOrderIndices.forEach((bIdx, orderIdx) => {
-      const digit = bDigits[bIdx];
-      const subVal = a * digit;
-      const subDigits = subVal.toString().split('').map(Number);
-      const colorObj = DIGIT_COLORS[bIdx % DIGIT_COLORS.length];
-
-      const placeName =
-        L_B === 1
-          ? 'egyesekkel'
-          : bIdx === 0 && L_B === 2
-          ? 'tízesekkel'
-          : bIdx === 1 && L_B === 2
-          ? 'egyesekkel'
-          : bIdx === 0 && L_B === 3
-          ? 'százasokkal'
-          : bIdx === 1 && L_B === 3
-          ? 'tízesekkel'
-          : bIdx === 2 && L_B === 3
-          ? 'egyesekkel'
-          : `${Math.pow(10, L_B - 1 - bIdx)}-es helyiértékkel`;
-
-      const rowCells: ({ char: string; isOperator?: boolean; colIndex: number; colorClass?: string } | null)[] = Array(totalCols).fill(null);
-      const targetCol = (dir === 'leftToRight' ? (L_A - 1 + orderIdx) : (L_A - 1 - orderIdx)) + offset;
-
-      // Add '+' sign in front of the row for 2nd and subsequent rows
-      if (orderIdx >= 1) {
-        const plusCol = targetCol - subDigits.length;
-        if (plusCol >= 0 && plusCol < totalCols) {
-          rowCells[plusCol] = {
-            char: '+',
-            isOperator: true,
-            colIndex: plusCol,
-            colorClass: 'text-slate-900 dark:text-white font-black'
-          };
-        }
-      }
-
-      subDigits.forEach((d, dIdx) => {
-        const col = targetCol - (subDigits.length - 1 - dIdx);
-        rowCells[col] = {
-          char: d.toString(),
-          colIndex: col,
-          colorClass: colorObj.text
-        };
+    if (isSingleDigit) {
+      steps.push({
+        title: '2. Szorzás egyjegyű számmal',
+        desc: `A(z) ${b}-vel jobbról balra végigszorozzuk a(z) ${a} számjegyeit, az átviteleket hozzáadjuk a következő helyiértékhez.`
       });
-
-      const stepNum = steps.length + 1;
-
-      // Detailed digit-by-digit explanation
-      const digitStepsExplanation: string[] = [];
-      let carry = 0;
-      for (let k = aDigits.length - 1; k >= 0; k--) {
-        const aDigit = aDigits[k];
-        const mult = digit * aDigit + carry;
-        const writeDigit = mult % 10;
-        const newCarry = Math.floor(mult / 10);
-        if (k === 0) {
-          digitStepsExplanation.push(`${digit} · ${aDigit}${carry > 0 ? ` + ${carry}` : ''} = ${mult} (leírjuk a ${mult}-et)`);
-        } else {
-          digitStepsExplanation.push(`${digit} · ${aDigit}${carry > 0 ? ` + ${carry}` : ''} = ${mult} (leírjuk a ${writeDigit}-ot, ${newCarry} a maradék)`);
-        }
-        carry = newCarry;
-      }
-
-      const alignmentRuleText =
-        orderIdx === 0
-          ? `Az 1. részletszorzatot (${subVal}) a szorzandó (${a}) alá írjuk le.`
-          : dir === 'leftToRight'
-          ? `A(z) ${orderIdx + 1}. részletszorzatot (${subVal}) ${orderIdx} hellyel jobbra eltolva írjuk le, elé + jelet téve.`
-          : `A(z) ${orderIdx + 1}. részletszorzatot (${subVal}) ${orderIdx} hellyel balra eltolva írjuk le, elé + jelet téve.`;
+    } else {
+      const iterDigits = dir === 'leftToRight' ? bDigits : [...bDigits].reverse();
+      iterDigits.forEach((digit, idx) => {
+        const placeVal = dir === 'leftToRight' ? Math.pow(10, bDigits.length - 1 - idx) : Math.pow(10, idx);
+        steps.push({
+          title: `${idx + 2}. Részszorzat: Szorzás ${digit}-val (${digit * placeVal} érték)`,
+          desc: `A felső ${a}-t megszorozzuk ${digit}-val. Részeredmény: ${a * digit} (helyiértéke: ${a * digit * placeVal}).`,
+          partialVal: a * digit
+        });
+      });
 
       steps.push({
-        stepNumber: stepNum,
-        description: `Szorzunk a(z) ${digit}-essel (${placeName}): ${a} · ${digit} = ${subVal.toLocaleString('hu-HU')}. ${alignmentRuleText} Lépések: ${digitStepsExplanation.join('; ')}.`,
-        focusDigits: `Szorzás: ${digit}-gyel`,
-        subTotalText: `Részletszorzat: ${subVal.toLocaleString('hu-HU')}`
-      });
-
-      partialRows.push({
-        digit,
-        multiplierIndex: bIdx,
-        placeName,
-        value: subVal,
-        cells: rowCells,
-        stepIndexRequired: stepNum - 1,
-        colorObj
-      });
-    });
-
-    // Result row cells
-    const resultCells: ({ char: string; colIndex: number } | null)[] = Array(totalCols).fill(null);
-    pDigits.forEach((d, idx) => {
-      const col = (resultRightRel + offset) - (pDigits.length - 1 - idx);
-      resultCells[col] = {
-        char: d.toString(),
-        colIndex: col
-      };
-    });
-
-    if (L_B > 1) {
-      steps.push({
-        stepNumber: steps.length + 1,
-        description: `Összeadjuk a részletszorzatokat egymás alatt helyiérték szerint: a végső pontos szorzat ${product.toLocaleString('hu-HU')}.`,
-        focusDigits: 'Részletszorzatok összeadása',
-        subTotalText: `Végeredmény: ${product.toLocaleString('hu-HU')}`
+        title: `${steps.length + 1}. Részszorzatok összeadása`,
+        desc: `A helyiérték szerint eltolt részszorzatokat összeadjuk. Végeredmény: ${a * b}.`
       });
     }
 
     return {
       error: null,
+      a,
+      b,
+      product: a * b,
       steps,
-      product,
-      totalCols,
-      headerCells,
-      partialRows,
-      resultCells,
-      isSingleDigit: L_B === 1
+      isSingleDigit
     };
   };
 
-  const currentCalc = getMultiplicationSteps(factorA, factorB, direction);
-  const totalSteps = currentCalc && !currentCalc.error ? currentCalc.steps.length : 0;
-  const safeStep = Math.min(stepIndex, Math.max(0, totalSteps - 1));
-
-  // Active step info
-  const activePartial = currentCalc?.partialRows?.find((p) => p.stepIndexRequired === safeStep);
-  const activeMultiplierIndex = activePartial ? activePartial.multiplierIndex : null;
+  const simData = getMultiplicationSteps(factorA, factorB, direction);
 
   return (
-    <div className="w-full px-2 sm:px-4 py-2 animate-in fade-in duration-300 text-left">
-      {/* Top Header Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 mb-4 no-pdf">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onBack}
-          className="rounded-xl h-9 px-3 border border-slate-200/80 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300"
-        >
-          <ArrowLeft className="w-3.5 h-3.5 mr-1.5" />
-          Vissza a témakörökhöz
-        </Button>
-
-        <div className="flex items-center gap-2">
-          {onStartQuiz && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onStartQuiz}
-              className="rounded-xl h-9 px-3 border-amber-300 bg-amber-50/60 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800 hover:bg-amber-100 text-xs sm:text-sm font-bold"
-            >
-              <Sparkles className="w-3.5 h-3.5 mr-1.5 text-amber-600" />
-              Gyakorló Kvíz indítása
-            </Button>
-          )}
-
-          <Button
-            size="sm"
-            onClick={handleDownloadPDF}
-            disabled={isDownloading}
-            className="rounded-xl h-9 px-3.5 bg-slate-900 hover:bg-slate-800 dark:bg-amber-600 dark:hover:bg-amber-700 text-white font-bold text-xs sm:text-sm shadow-sm flex items-center gap-1.5"
-          >
-            <Download className="w-3.5 h-3.5" />
-            {isDownloading ? 'Letöltés...' : 'Tananyag letöltése (PDF)'}
-          </Button>
-        </div>
-      </div>
-
-      {/* Main Printable Theory Container */}
-      <div
-        id="multiplication-theory-content"
-        className="bg-white dark:bg-slate-900 rounded-3xl border-2 border-slate-200/80 dark:border-slate-800 p-5 sm:p-8 shadow-sm space-y-8"
+    <TheoryTemplate
+      title="Szorzás, írásbeli szorzás"
+      subtitle="A szorzás fogalma, tényezők és szorzat, a szorzás tulajdonságai, szorzás 10-zel, 100-zal, egy- és többjegyű írásbeli szorzás"
+      documentId="multiplication-theory-content"
+      pdfFileName="Szorzas_Irasbeli_Szorzas_Tananyag"
+      onBack={onBack}
+      onStartQuiz={onStartQuiz}
+      badgeColor="emerald"
+      quickRule={{
+        title: "Szorzási Alapszabály",
+        formula: "1. Tényező · 2. Tényező = Szorzat  ⟹  a · b = b · a (felcserélhető) és a · (b + c) = a·b + a·c (széttagolható)"
+      }}
+    >
+      {/* 1. RÉSZ: A SZORZÁS FOGALMA ÉS TAGJAI */}
+      <TheorySection
+        number={1}
+        title="A szorzás fogalma, tagjai és a 0, 1 szerepe"
+        icon={<Zap className="w-5 h-5 text-emerald-600" />}
+        badgeColor="emerald"
       >
-        {/* Document Header */}
-        <div className="border-b border-slate-200 dark:border-slate-800 pb-6 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 mb-2 border border-amber-200 dark:border-amber-800">
-              <span>✖️ 5. Osztály • I. Az egész számok</span>
-            </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-              Szorzás, írásbeli szorzás
-            </h1>
-            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
-              Műveleti tulajdonságok, fejszámolási stratégiák, disztributivitás és többjegyű írásbeli szorzás
-            </p>
-          </div>
+        <TheoryCallout variant="info" title="Mit jelent a szorzás?">
+          A szorzás <strong>egyenlő tagok ismételt összeadásának</strong> rövidítése: <span className="font-mono font-bold">4 · 5 = 5 + 5 + 5 + 5 = 20</span>.
+        </TheoryCallout>
 
-          <div className="p-3 bg-amber-50 dark:bg-slate-800/80 rounded-2xl border border-amber-200/60 dark:border-slate-700 text-center shrink-0">
-            <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Képlet</div>
-            <div className="text-base sm:text-lg font-mono font-black text-amber-700 dark:text-amber-300">
-              tényező · tényező = szorzat
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+          <TheoryCard title="1. Tényező (Szorzandó)" icon={<BookOpen className="w-4 h-4 text-blue-600" />} badge="Első tag">
+            <p className="text-xs text-slate-600 dark:text-slate-300">
+              A szám, amelyet megszorzunk, vagy amely megmutatja az egyenlő csoportok számát.
+            </p>
+            <div className="mt-2 text-center py-1 bg-blue-50 dark:bg-blue-950/40 rounded-lg text-blue-700 dark:text-blue-300 font-mono font-bold text-xs">
+              Példa: 24 · 5 ⟹ 24
             </div>
-          </div>
+          </TheoryCard>
+
+          <TheoryCard title="2. Tényező (Szorzó)" icon={<Zap className="w-4 h-4 text-emerald-600" />} badge="Második tag">
+            <p className="text-xs text-slate-600 dark:text-slate-300">
+              A szám, amellyel szorzunk.
+            </p>
+            <div className="mt-2 text-center py-1 bg-emerald-50 dark:bg-emerald-950/40 rounded-lg text-emerald-700 dark:text-emerald-300 font-mono font-bold text-xs">
+              Példa: 24 · 5 ⟹ 5
+            </div>
+          </TheoryCard>
+
+          <TheoryCard title="Szorzat (Eredmény)" icon={<CheckCircle2 className="w-4 h-4 text-purple-600" />} badge="Eredmény">
+            <p className="text-xs text-slate-600 dark:text-slate-300">
+              A szorzás végeredménye.
+            </p>
+            <div className="mt-2 text-center py-1 bg-purple-50 dark:bg-purple-950/40 rounded-lg text-purple-700 dark:text-purple-300 font-mono font-bold text-xs">
+              24 · 5 = 120 ⟹ 120
+            </div>
+          </TheoryCard>
         </div>
 
-        {/* Section 1: Alapok & Fogalmak */}
-        <section className="space-y-4">
-          <div className="flex items-center gap-2.5">
-            <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 font-bold text-sm">
-              1.
-            </span>
-            <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
-              A szorzás alapjai és fogalmai
-            </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          <TheoryCard title="A 0 és az 1 a szorzásban" icon={<ShieldCheck className="w-4 h-4 text-amber-600" />}>
+            <ul className="text-xs text-slate-600 dark:text-slate-300 space-y-1.5">
+              <li>• <strong>Szorzás 1-gyel:</strong> bármely számot 1-gyel szorozva önmagát kapjuk (<span className="font-mono font-bold">a · 1 = a</span>). Az 1 a szorzás semleges eleme.</li>
+              <li>• <strong>Szorzás 0-val:</strong> bármely számot 0-val szorozva az eredmény mindig 0 (<span className="font-mono font-bold">a · 0 = 0</span>).</li>
+            </ul>
+          </TheoryCard>
+
+          <TheoryCard title="A szorzás mint ismételt összeadás" icon={<Sparkles className="w-4 h-4 text-emerald-600" />}>
+            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              A szorzás valójában azonos tagok gyors összeadását jelenti:
+            </p>
+            <div className="p-2 bg-emerald-50 dark:bg-emerald-950/40 rounded-lg text-emerald-800 dark:text-emerald-300 font-mono font-bold text-xs mt-1 text-center">
+              4 · 6 = 6 + 6 + 6 + 6 = 24
+            </div>
+          </TheoryCard>
+        </div>
+      </TheorySection>
+
+      {/* 2. RÉSZ: A SZORZÁS TULAJDONSÁGAI */}
+      <TheorySection
+        number={2}
+        title="A szorzás alapvető tulajdonságai és a széttagolás"
+        icon={<Sparkles className="w-5 h-5 text-blue-600" />}
+        badgeColor="blue"
+      >
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <TheoryCard title="1. Felcserélhetőség" badge="Kommutativitás">
+            <p className="text-xs text-slate-600 dark:text-slate-300 mb-2">
+              A tényezők sorrendje felcserélhető, a szorzat nem változik:
+            </p>
+            <div className="p-2 bg-blue-50 dark:bg-blue-950/40 rounded-lg text-center font-mono font-bold text-xs text-blue-800 dark:text-blue-300">
+              a · b = b · a <br />(4 · 7 = 7 · 4 = 28)
+            </div>
+          </TheoryCard>
+
+          <TheoryCard title="2. Csoportosíthatóság" badge="Asszociativitás">
+            <p className="text-xs text-slate-600 dark:text-slate-300 mb-2">
+              Több tényező szorzatakor a tagok tetszőlegesen párosíthatók:
+            </p>
+            <div className="p-2 bg-emerald-50 dark:bg-emerald-950/40 rounded-lg text-center font-mono font-bold text-xs text-emerald-800 dark:text-emerald-300">
+              (a · b) · c = a · (b · c) <br />(2 · 5) · 9 = 10 · 9 = 90
+            </div>
+          </TheoryCard>
+
+          <TheoryCard title="3. Széttagolhatóság (Disztributivitás)" badge="Kulcsszabály!">
+            <p className="text-xs text-slate-600 dark:text-slate-300 mb-2">
+              Összeget vagy különbséget tagonként szorozhatunk:
+            </p>
+            <div className="p-2 bg-purple-50 dark:bg-purple-950/40 rounded-lg text-center font-mono font-bold text-xs text-purple-800 dark:text-purple-300">
+              a · (b + c) = a·b + a·c <br />6 · 23 = 6·20 + 6·3 = 138
+            </div>
+          </TheoryCard>
+        </div>
+      </TheorySection>
+
+      {/* 3. RÉSZ: SZORZÁS 10-ZEL, 100-ZAL, 1000-REL */}
+      <TheorySection
+        number={3}
+        title="Gyors szorzás 10-zel, 100-zal, 1000-rel és kerek tízesekkel"
+        icon={<Zap className="w-5 h-5 text-amber-600" />}
+        badgeColor="amber"
+      >
+        <TheoryTable
+          title="Helyiérték-eltolás szabálya 10 hatványaival történő szorzáskor"
+          headers={['Szorzó', 'Szabály', 'Példa', 'Eredmény']}
+          rows={[
+            ['· 10', 'A szám végére 1 nullát írunk (minden helyiérték 10x lesz)', '45 · 10', '450'],
+            ['· 100', 'A szám végére 2 nullát írunk', '72 · 100', '7 200'],
+            ['· 1 000', 'A szám végére 3 nullát írunk', '38 · 1 000', '38 000'],
+            ['· Kerek tízes (pl. 30)', 'Szorozzuk a számmal (3), majd 1 nullát a végére', '14 · 30 = (14 · 3) · 10', '420']
+          ]}
+        />
+      </TheorySection>
+
+      {/* 4. RÉSZ: AZ ÍRÁSBELI SZORZÁS LÉPÉSEI */}
+      <TheorySection
+        number={4}
+        title="Az írásbeli szorzás menete (Egy- és többjegyű szorzóval)"
+        icon={<Layers className="w-5 h-5 text-purple-600" />}
+        badgeColor="purple"
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <TheoryCard title="1. Egyjegyű szorzóval (pl. 348 · 6)" icon={<CheckCircle2 className="w-4 h-4 text-emerald-600" />}>
+            <div className="space-y-1.5 text-xs text-slate-700 dark:text-slate-300">
+              <p>• <strong>Jobbról balra haladunk:</strong> egyesek, tízesek, százasok.</p>
+              <p>• 6 · 8 = 48 ⟹ leírjuk a <strong>8</strong>-at, maradt a <strong>4</strong>.</p>
+              <p>• 6 · 4 = 24 + 4 = 28 ⟹ leírjuk a <strong>8</strong>-at, maradt a <strong>2</strong>.</p>
+              <p>• 6 · 3 = 18 + 2 = 20 ⟹ leírjuk a <strong>20</strong>-at.</p>
+              <div className="p-2 bg-emerald-50 dark:bg-emerald-950/40 rounded-lg text-emerald-800 dark:text-emerald-300 font-mono font-bold text-center">
+                348 · 6 = 2 088
+              </div>
+            </div>
+          </TheoryCard>
+
+          <TheoryCard title="2. Kétjegyű szorzóval (pl. 36 · 23)" icon={<Layers className="w-4 h-4 text-purple-600" />}>
+            <div className="space-y-1.5 text-xs text-slate-700 dark:text-slate-300">
+              <p>• <strong>1. részszorzat (20-szal):</strong> 2 · 36 = 72 (tízes helyiértéken: 720).</p>
+              <p>• <strong>2. részszorzat (3-mal):</strong> 3 · 36 = 108 (egyesek alá igazítva).</p>
+              <p>• <strong>Összeadás:</strong> 720 + 108 = 828.</p>
+              <div className="p-2 bg-purple-50 dark:bg-purple-950/40 rounded-lg text-purple-800 dark:text-purple-300 font-mono font-bold text-center">
+                36 · 23 = 828
+              </div>
+            </div>
+          </TheoryCard>
+        </div>
+      </TheorySection>
+
+      {/* 5. RÉSZ: TIPIKUS HIBÁK ÉS CSAPDÁK */}
+      <TheorySection
+        number={5}
+        title="Tipikus Tévhitek és Gyakori Csapdák"
+        icon={<AlertTriangle className="w-5 h-5 text-amber-600" />}
+        badgeColor="amber"
+      >
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <TheoryTrapBox
+            title="A 0 és az 1 szorzásának keverése az összeadással"
+            wrong="7 · 0 = 7  vagy  7 · 1 = 1"
+            correct="7 · 0 = 0 (bármi · 0 = 0)  és  7 · 1 = 7 (az 1 semleges elem)!"
+            explanation="Nullával szorozva semmi sem marad (0), 1-gyel szorozva pedig az eredeti szám marad meg."
+          />
+          <TheoryTrapBox
+            title="A 2. részszorzat eltolásának elfelejtése kétjegyű szorzónál"
+            wrong="34 · 23 esetén a 2-vel (20-szal) vett szorzatot közvetlenül az egyesek alá írni"
+            correct="A tízesekkel szorzott sort (2 · 34 = 68) 1 hellyel balra tolva, a tízesek alá kell írni (680)!"
+            explanation="Mivel a szorzó tízes helyiértékével szorzunk, a részszorzat értéke tízesekben értendő."
+          />
+          <TheoryTrapBox
+            title="Maradék (átvitel) hozzáadása a szorzás ELŐTT"
+            wrong="36 · 4 esetén 4 · 6 = 24 (maradt 2), majd a tízesnél (3 + 2) · 4 = 20-at számolni"
+            correct="Előbb szorzunk, utána adjuk hozzá az átvitelt: 4 · 3 = 12, és 12 + 2 = 14 (eredmény: 144)!"
+            explanation="Az írásbeli algoritmusban a műveleti sorrend kötött: először szorzás, utána a maradék hozzáadása."
+          />
+          <TheoryTrapBox
+            title="Szorzás 10-zel / 100-zal: felesleges írásbeli algoritmus"
+            wrong="58 · 100-at hosszas írásbeli szorzással kiszámolni"
+            correct="Csak írj 2 nullát a szám végére: 58 · 100 = 5 800!"
+            explanation="10 hatványaival való szorzáskor a számjegyek balra lépnek, így annyi nullát teszünk mögé, ahány 0 a szorzóban van."
+          />
+        </div>
+      </TheorySection>
+
+      {/* 6. RÉSZ: INTERAKTÍV ÍRÁSBELI SZORZÁS SZIMULÁTOR */}
+      <TheorySection
+        number={6}
+        title="Interaktív Lépésről Lépésre Írásbeli Szorzás Szimulátor"
+        icon={<Calculator className="w-5 h-5 text-emerald-600" />}
+        badgeColor="emerald"
+        className="no-pdf"
+      >
+        <div className="bg-slate-50 dark:bg-slate-900/60 p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4 my-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label className="text-xs font-bold text-slate-700 dark:text-slate-300">1. Tényező (Szorzandó):</label>
+              <input
+                type="number"
+                value={factorA}
+                onChange={(e) => {
+                  setFactorA(e.target.value);
+                  setStepIndex(0);
+                }}
+                className="w-full mt-1 p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-mono font-bold text-sm"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-bold text-slate-700 dark:text-slate-300">2. Tényező (Szorzó):</label>
+              <input
+                type="number"
+                value={factorB}
+                onChange={(e) => {
+                  setFactorB(e.target.value);
+                  setStepIndex(0);
+                }}
+                className="w-full mt-1 p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-mono font-bold text-sm"
+              />
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Card className="rounded-2xl border-slate-200/80 dark:border-slate-800 shadow-none bg-slate-50/50 dark:bg-slate-850/50">
-              <CardContent className="p-4 space-y-2.5">
-                <div className="flex items-center gap-2 text-amber-700 dark:text-amber-400 font-bold text-sm">
-                  <Calculator className="w-4 h-4" />
-                  <span>A szorzás tagjai és az ismételt összeadás</span>
-                </div>
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                  A szorzás olyan egyenlő tagok összeadását rövidíti, amelyek mind megegyeznek:
-                </p>
-                <div className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 font-mono text-xs sm:text-sm text-center">
-                  <span className="text-amber-700 dark:text-amber-300 font-bold">5 · 4</span> = 4 + 4 + 4 + 4 + 4 = <span className="font-black text-emerald-600 dark:text-emerald-400">20</span>
-                </div>
-                <ul className="text-xs text-slate-600 dark:text-slate-400 space-y-1 pl-4 list-disc">
-                  <li><strong>Első tényező (szorzandó):</strong> mutatja, hány darab egyenlő tagot adunk össze.</li>
-                  <li><strong>Második tényező (szorzó):</strong> mutatja, mekkora az összeadandó tag értéke.</li>
-                  <li><strong>Szorzat:</strong> a szorzási művelet eredménye.</li>
-                </ul>
-              </CardContent>
-            </Card>
-
-            <Card className="rounded-2xl border-slate-200/80 dark:border-slate-800 shadow-none bg-slate-50/50 dark:bg-slate-850/50">
-              <CardContent className="p-4 space-y-2.5">
-                <div className="flex items-center gap-2 text-amber-700 dark:text-amber-400 font-bold text-sm">
-                  <Lightbulb className="w-4 h-4" />
-                  <span>Különleges szorzások: 0 és 1</span>
-                </div>
-                <div className="space-y-2 text-xs sm:text-sm">
-                  <div className="p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/50 flex items-center justify-between">
-                    <div>
-                      <strong className="text-amber-900 dark:text-amber-200">Szorzás 1-gyel:</strong>
-                      <div className="text-xs text-slate-600 dark:text-slate-400">Bármely számot 1-gyel szorozva önmagát kapjuk.</div>
-                    </div>
-                    <span className="font-mono font-bold text-amber-700 dark:text-amber-300">a · 1 = a</span>
+          {simData && !simData.error && (
+            <div className="space-y-4 pt-2">
+              <div className="flex justify-center">
+                <div className="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm text-center font-mono font-bold text-lg">
+                  <div className="text-slate-800 dark:text-slate-200">
+                    {simData.a} · {simData.b} = <span className="text-emerald-600 dark:text-emerald-400">{simData.product.toLocaleString('hu-HU')}</span>
                   </div>
-                  <div className="p-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 flex items-center justify-between">
-                    <div>
-                      <strong className="text-rose-900 dark:text-rose-200">Szorzás 0-val:</strong>
-                      <div className="text-xs text-slate-600 dark:text-slate-400">Ha bármelyik tényező 0, a szorzat mindig 0.</div>
-                    </div>
-                    <span className="font-mono font-bold text-rose-700 dark:text-rose-300">a · 0 = 0</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </section>
-
-        {/* Section 2: Műveleti Tulajdonságok */}
-        <section className="space-y-4">
-          <div className="flex items-center gap-2.5">
-            <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 font-bold text-sm">
-              2.
-            </span>
-            <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
-              A szorzás alaptulajdonságai
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
-            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 space-y-2">
-              <div className="inline-block px-2 py-0.5 rounded-md bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 text-[11px] font-black uppercase">
-                1. Felcserélhetőség (Kommutativitás)
-              </div>
-              <div className="font-mono font-bold text-xs text-amber-700 dark:text-amber-300">
-                a · b = b · a
-              </div>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                A tényezők sorrendje felcserélhető, a szorzat értéke változatlan marad.
-              </p>
-              <div className="p-2 rounded-lg bg-white dark:bg-slate-900 text-[11px] font-mono border border-slate-200 dark:border-slate-800">
-                4 · 25 = 25 · 4 = 100
-              </div>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 space-y-2">
-              <div className="inline-block px-2 py-0.5 rounded-md bg-orange-100 dark:bg-orange-950 text-orange-800 dark:text-orange-300 text-[11px] font-black uppercase">
-                2. Csoportosíthatóság (Asszociativitás)
-              </div>
-              <div className="font-mono font-bold text-xs text-orange-700 dark:text-orange-300">
-                (a · b) · c = a · (b · c)
-              </div>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Több tényező szorzatakor a műveletek tetszőlegesen zárójelezhetők és csoportosíthatók.
-              </p>
-              <div className="p-2 rounded-lg bg-white dark:bg-slate-900 text-[11px] font-mono border border-slate-200 dark:border-slate-800">
-                (8 · 5) · 20 = 8 · (5 · 20) = 800
-              </div>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 space-y-2">
-              <div className="inline-block px-2 py-0.5 rounded-md bg-rose-100 dark:bg-rose-950 text-rose-800 dark:text-rose-300 text-[11px] font-black uppercase">
-                3. Szétszedési szabály (Disztributivitás)
-              </div>
-              <div className="font-mono font-bold text-xs text-rose-700 dark:text-rose-300">
-                (a + b) · c = a · c + b · c
-              </div>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Összeget vagy különbséget úgy szorzunk egy számmal, hogy minden tagot megszorzunk vele.
-              </p>
-              <div className="p-2 rounded-lg bg-white dark:bg-slate-900 text-[11px] font-mono border border-slate-200 dark:border-slate-800">
-                18 · 6 = (10 + 8) · 6 = 60 + 48 = 108
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Section 3: Szorzás 10-zel, 100-zal, 1000-rel & Fejszámolás */}
-        <section className="space-y-4">
-          <div className="flex items-center gap-2.5">
-            <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 font-bold text-sm">
-              3.
-            </span>
-            <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
-              Szorzás 10-zel, 100-zal, 1000-rel és nullákra végződő számokkal
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 rounded-2xl bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/60 space-y-2.5">
-              <div className="font-bold text-xs sm:text-sm text-amber-900 dark:text-amber-200">
-                🚀 A helyiértékes eltolás és a nullák elhelyezése
-              </div>
-              <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
-                Amikor egy egész számot 10-zel, 100-zal, vagy 1000-rel szorzunk, minden számjegy 1, 2, illetve 3 helyiértékkel balra tolódik, és a végére annyi nullát írunk:
-              </p>
-              <div className="grid grid-cols-3 gap-2 font-mono text-center text-xs">
-                <div className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-amber-200 dark:border-amber-900/50">
-                  <div className="text-slate-400 text-[10px]">· 10 (1 nulla)</div>
-                  <div className="font-bold text-amber-700 dark:text-amber-300">48 · 10 = 480</div>
-                </div>
-                <div className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-amber-200 dark:border-amber-900/50">
-                  <div className="text-slate-400 text-[10px]">· 100 (2 nulla)</div>
-                  <div className="font-bold text-amber-700 dark:text-amber-300">48 · 100 = 4 800</div>
-                </div>
-                <div className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-amber-200 dark:border-amber-900/50">
-                  <div className="text-slate-400 text-[10px]">· 1000 (3 nulla)</div>
-                  <div className="font-bold text-amber-700 dark:text-amber-300">48 · 1k = 48 000</div>
-                </div>
-              </div>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 space-y-2.5">
-              <div className="font-bold text-xs sm:text-sm text-slate-900 dark:text-white">
-                💡 Trükk: Kerek számok szorzása (Nullák elpakolása)
-              </div>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Kerek számok szorzásakor szorozzuk össze az értékes jegyeket, majd írjuk a szorzat végére a tényezők összes záró nulláját:
-              </p>
-              <div className="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 font-mono text-xs text-center space-y-1">
-                <div>
-                  <span className="text-amber-700 dark:text-amber-300 font-bold">40 · 300</span> = (4 · 3) és (1 + 2 = 3 nulla) = <span className="font-black text-emerald-600 dark:text-emerald-400">12 000</span>
-                </div>
-                <div className="text-[11px] text-slate-500">
-                  600 · 80 = (6 · 8) és 3 nulla = 48 000
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Section 4: Írásbeli szorzás egy- és többjegyűvel */}
-        <section className="space-y-4">
-          <div className="flex items-center gap-2.5">
-            <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 font-bold text-sm">
-              4.
-            </span>
-            <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
-              Az írásbeli szorzás lépései és szabályai
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2.5">
-              <div className="flex items-center gap-2 text-amber-700 dark:text-amber-400 font-bold text-xs sm:text-sm">
-                <CheckCircle2 className="w-4 h-4" />
-                <span>Egyjegyű szorzóval</span>
-              </div>
-              <ol className="text-xs text-slate-600 dark:text-slate-300 space-y-1.5 pl-4 list-decimal leading-relaxed">
-                <li><strong>Jobbról balra</strong> haladva szorozzuk a szorzandó számjegyeit (egyesek, tízesek, százasok...).</li>
-                <li>Ha a szorzat kétjegyű, az egyeseket leírjuk az oszlopba, a tízeseket pedig <strong>továbbvisszük maradékként</strong> a következő helyiértékhez.</li>
-                <li>A következő helyiérték szorzatához hozzáadjuk a maradékot.</li>
-              </ol>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2.5">
-              <div className="flex items-center gap-2 text-orange-700 dark:text-orange-400 font-bold text-xs sm:text-sm">
-                <Layers className="w-4 h-4" />
-                <span>Két- és többjegyű szorzóval</span>
-              </div>
-              <ol className="text-xs text-slate-600 dark:text-slate-300 space-y-1.5 pl-4 list-decimal leading-relaxed">
-                <li>A szorzást a szorzó jegyeivel balról jobbra végezzük el (részletszorzatok).</li>
-                <li><strong>1. részletszorzat:</strong> pontosan a szorzandó alá kerül!</li>
-                <li><strong>Következő részletszorzatok:</strong> mindig 1 helyiértékkel jobbra eltolva kerülnek leírásra.</li>
-                <li>A részletszorzatokat a végén egymás alatt <strong>összeadjuk</strong>.</li>
-              </ol>
-            </div>
-          </div>
-        </section>
-
-        {/* Section 5: Interaktív Szimulátor (Magyar Négyzetrácsos Füzet Elrendezés) */}
-        <section className="space-y-4 no-pdf">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="flex items-center gap-2.5">
-              <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-amber-500 text-white font-bold text-sm shadow-xs">
-                5.
-              </span>
-              <div>
-                <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
-                  Interaktív Írásbeli Szorzás Szimulátor
-                </h2>
-                <div className="text-xs text-slate-500 dark:text-slate-400">
-                  Klasszikus magyar négyzetrácsos füzetlap elrendezés (első részlet a szám alá, a második 1-gyel jobbra tolva)
-                </div>
-              </div>
-            </div>
-
-            {/* Presets */}
-            <div className="flex items-center gap-1.5 flex-wrap">
-              <span className="text-[11px] font-bold text-slate-400 mr-1">Példák:</span>
-              {[
-                { label: '36 · 23', a: '36', b: '23' },
-                { label: '348 · 26', a: '348', b: '26' },
-                { label: '362 · 26', a: '362', b: '26' },
-                { label: '425 · 34', a: '425', b: '34' },
-                { label: '1 245 · 123', a: '1245', b: '123' },
-                { label: '605 · 42', a: '605', b: '42' },
-                { label: '524 · 7', a: '524', b: '7' }
-              ].map((preset, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => {
-                    setFactorA(preset.a);
-                    setFactorB(preset.b);
-                    setStepIndex(0);
-                  }}
-                  className={cn(
-                    "px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all border",
-                    factorA === preset.a && factorB === preset.b
-                      ? "bg-amber-600 text-white border-amber-600 shadow-xs"
-                      : "bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700"
-                  )}
-                >
-                  {preset.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="bg-gradient-to-br from-amber-50/70 via-orange-50/40 to-slate-50 dark:from-slate-850 dark:to-slate-900 p-4 sm:p-6 rounded-3xl border-2 border-amber-200/80 dark:border-slate-800 shadow-sm space-y-5">
-            {/* Custom Input Controls & Direction Selector */}
-            <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-amber-200/60 dark:border-slate-700">
-              <div className="flex items-center gap-3 flex-wrap">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-xs font-bold text-slate-500">1. Szám:</span>
-                  <input
-                    type="number"
-                    value={factorA}
-                    onChange={(e) => {
-                      setFactorA(e.target.value);
-                      setStepIndex(0);
-                    }}
-                    className="w-20 sm:w-24 h-9 px-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-mono font-bold text-center"
-                    placeholder="pl. 36"
-                  />
-                </div>
-
-                <span className="text-lg font-black text-slate-600 dark:text-slate-400">·</span>
-
-                <div className="flex items-center gap-1.5">
-                  <span className="text-xs font-bold text-slate-500">2. Szám:</span>
-                  <input
-                    type="number"
-                    value={factorB}
-                    onChange={(e) => {
-                      setFactorB(e.target.value);
-                      setStepIndex(0);
-                    }}
-                    className="w-20 sm:w-24 h-9 px-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-mono font-bold text-center"
-                    placeholder="pl. 23"
-                  />
-                </div>
-
-                {/* Irányválasztó gombok */}
-                <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-amber-100/80 dark:bg-slate-800 border-2 border-amber-300 dark:border-slate-700 shadow-xs">
-                  <span className="text-xs font-black text-amber-900 dark:text-amber-200 px-2 flex items-center gap-1 select-none">
-                    <Sparkles className="w-3.5 h-3.5 text-amber-600" /> Irány:
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setDirection('leftToRight');
-                      setStepIndex(0);
-                    }}
-                    className={cn(
-                      "px-3 py-1.5 rounded-xl text-xs font-extrabold transition-all flex items-center gap-1.5 cursor-pointer",
-                      direction === 'leftToRight'
-                        ? "bg-amber-600 text-white shadow-sm ring-1 ring-amber-700"
-                        : "bg-white/90 dark:bg-slate-700/80 text-slate-700 dark:text-slate-300 hover:bg-white hover:text-slate-900 dark:hover:text-white"
-                    )}
-                    title="Balról jobbra: a szorzó legnagyobb helyiértékével (tízesekkel) kezdünk, jobbra tolunk"
-                  >
-                    <span>Balról jobbra</span>
-                    <ArrowRight className="w-3 h-3 opacity-90" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setDirection('rightToLeft');
-                      setStepIndex(0);
-                    }}
-                    className={cn(
-                      "px-3 py-1.5 rounded-xl text-xs font-extrabold transition-all flex items-center gap-1.5 cursor-pointer",
-                      direction === 'rightToLeft'
-                        ? "bg-amber-600 text-white shadow-sm ring-1 ring-amber-700"
-                        : "bg-white/90 dark:bg-slate-700/80 text-slate-700 dark:text-slate-300 hover:bg-white hover:text-slate-900 dark:hover:text-white"
-                    )}
-                    title="Jobbról balra: a szorzó legkisebb helyiértékével (egyesekkel) kezdünk, balra tolunk"
-                  >
-                    <ArrowLeft className="w-3 h-3 opacity-90" />
-                    <span>Jobbról balra</span>
-                  </button>
                 </div>
               </div>
 
-              {/* Step Controls */}
-              <div className="flex items-center gap-1.5">
+              <div className="p-3 bg-emerald-50 dark:bg-emerald-950/30 rounded-xl border border-emerald-200 dark:border-emerald-900/60 text-xs sm:text-sm">
+                <div className="font-bold text-emerald-800 dark:text-emerald-300 mb-1">
+                  {simData.steps[stepIndex]?.title}
+                </div>
+                <div className="text-slate-700 dark:text-slate-300">
+                  {simData.steps[stepIndex]?.desc}
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between gap-2">
                 <Button
                   size="sm"
                   variant="outline"
                   onClick={() => setStepIndex((prev) => Math.max(0, prev - 1))}
-                  disabled={safeStep === 0}
-                  className="rounded-xl h-8 px-2.5 text-xs font-bold"
+                  disabled={stepIndex === 0}
+                  className="rounded-xl text-xs"
                 >
-                  <ChevronLeft className="w-3.5 h-3.5 mr-1" /> Előző
+                  Előző lépés
                 </Button>
-
-                <span className="text-xs font-bold text-slate-600 dark:text-slate-300 px-2 font-mono">
-                  {safeStep + 1} / {totalSteps || 1}
-                </span>
-
+                <div className="text-xs font-bold text-slate-500">
+                  {stepIndex + 1} / {simData.steps.length} lépés
+                </div>
                 <Button
                   size="sm"
-                  onClick={() => setStepIndex((prev) => Math.min(totalSteps - 1, prev + 1))}
-                  disabled={safeStep >= totalSteps - 1}
-                  className="rounded-xl h-8 px-3 text-xs font-bold bg-amber-600 hover:bg-amber-700 text-white"
+                  onClick={() => setStepIndex((prev) => Math.min(simData.steps.length - 1, prev + 1))}
+                  disabled={stepIndex >= simData.steps.length - 1}
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs"
                 >
-                  Következő <ChevronRight className="w-3.5 h-3.5 ml-1" />
-                </Button>
-
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  onClick={() => setStepIndex(totalSteps - 1)}
-                  className="rounded-xl h-8 px-2 text-xs text-amber-700 dark:text-amber-300 font-bold"
-                >
-                  Vége
-                </Button>
-
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  onClick={() => setStepIndex(0)}
-                  className="rounded-xl h-8 px-2 text-xs text-slate-500"
-                  title="Újrakezdés"
-                >
-                  <RotateCcw className="w-3.5 h-3.5" />
+                  Következő lépés <ArrowRight className="w-3.5 h-3.5 ml-1" />
                 </Button>
               </div>
             </div>
-
-            {/* Direction Method Info Banner */}
-            <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/90 dark:bg-slate-800/90 border border-amber-200/80 dark:border-slate-700 text-xs shadow-xs">
-              <span className="font-black text-amber-900 dark:text-amber-300 flex items-center gap-1.5 shrink-0">
-                <Info className="w-4 h-4 text-amber-600" />
-                {direction === 'leftToRight' ? 'Balról jobbra számolás:' : 'Jobbról balra számolás:'}
-              </span>
-              <span className="text-slate-700 dark:text-slate-300">
-                {direction === 'leftToRight'
-                  ? 'A legnagyobb helyiértékkel kezdünk (tízesek/százasok). Az 1. részletszorzat közvetlenül a szám alá kerül, a 2. részletszorzat 1 hellyel jobbra tolódik elé kitett + jellel.'
-                  : 'Az egyesekkel kezdünk. Az 1. részletszorzat közvetlenül a szám alá kerül, a 2. részletszorzat 1 hellyel balra tolódik a tízesekhez elé kitett + jellel.'}
-              </span>
-            </div>
-
-            {/* Error state */}
-            {currentCalc.error ? (
-              <div className="p-4 rounded-xl bg-rose-50 text-rose-800 border border-rose-200 text-xs font-bold">
-                {currentCalc.error}
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-                {/* Left: Hungarian Math Notebook Grid Display */}
-                <div className="lg:col-span-6 flex flex-col items-center justify-center p-4 sm:p-6 bg-sky-50/40 dark:bg-slate-900/90 rounded-2xl border-2 border-sky-300/70 dark:border-sky-900/60 shadow-inner overflow-x-auto">
-                  <div className="inline-block min-w-max space-y-1">
-                    {/* Header Row (factorA · factorB) */}
-                    <div
-                      className="grid items-center pb-1.5 border-b-2 border-slate-900 dark:border-slate-100"
-                      style={{
-                        gridTemplateColumns: `repeat(${currentCalc.totalCols}, minmax(2.25rem, 2.75rem))`
-                      }}
-                    >
-                      {currentCalc.headerCells.map((cell, cIdx) => {
-                        if (!cell) {
-                          return (
-                            <div
-                              key={cIdx}
-                              className="w-9 h-10 sm:w-11 sm:h-12 border border-sky-200/60 dark:border-slate-800/80 bg-white/60 dark:bg-slate-850/40"
-                            />
-                          );
-                        }
-
-                        const isFocusedMultiplier = cell.isMultiplier && activeMultiplierIndex === cell.bIndex;
-
-                        return (
-                          <div
-                            key={cIdx}
-                            className={cn(
-                              "w-9 h-10 sm:w-11 sm:h-12 flex items-center justify-center font-mono font-black text-2xl sm:text-3xl border border-sky-200/80 dark:border-slate-800 bg-white dark:bg-slate-850 transition-all",
-                              cell.colorClass,
-                              isFocusedMultiplier && "ring-2 ring-amber-400 bg-amber-50 dark:bg-amber-950/60 scale-105 z-10"
-                            )}
-                          >
-                            <span>{cell.char}</span>
-                          </div>
-                        );
-                      })}
-                    </div>
-
-                    {/* Partial Product Rows */}
-                    {currentCalc.partialRows.map((row, rIdx) => {
-                      const isRevealed = safeStep >= row.stepIndexRequired;
-                      if (!isRevealed) return null;
-
-                      const isCurrentStep = safeStep === row.stepIndexRequired;
-
-                      return (
-                        <div
-                          key={rIdx}
-                          className={cn(
-                            "grid items-center animate-in fade-in slide-in-from-top-1 duration-200",
-                            isCurrentStep ? "bg-amber-100/30 dark:bg-amber-950/20" : ""
-                          )}
-                          style={{
-                            gridTemplateColumns: `repeat(${currentCalc.totalCols}, minmax(2.25rem, 2.75rem))`
-                          }}
-                        >
-                          {row.cells.map((cell, cIdx) => {
-                            if (!cell) {
-                              return (
-                                <div
-                                  key={cIdx}
-                                  className="w-9 h-10 sm:w-11 sm:h-12 border border-sky-200/60 dark:border-slate-800/80 bg-white/40 dark:bg-slate-850/30"
-                                />
-                              );
-                            }
-
-                            return (
-                              <div
-                                key={cIdx}
-                                className={cn(
-                                  "w-9 h-10 sm:w-11 sm:h-12 flex items-center justify-center font-mono font-black text-2xl sm:text-3xl border border-sky-200/80 dark:border-slate-800 bg-white dark:bg-slate-850 transition-all",
-                                  cell.colorClass,
-                                  cell.isOperator && "text-slate-800 dark:text-slate-200 font-black text-xl sm:text-2xl",
-                                  isCurrentStep && !cell.isOperator && "ring-1 ring-amber-300"
-                                )}
-                              >
-                                <span>{cell.char}</span>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      );
-                    })}
-
-                    {/* Final Result Row (shown on the last step or single digit) */}
-                    {safeStep === totalSteps - 1 && (
-                      <div className="pt-1 border-t-2 border-slate-900 dark:border-slate-100 animate-in zoom-in-95 duration-200">
-                        <div
-                          className="grid items-center"
-                          style={{
-                            gridTemplateColumns: `repeat(${currentCalc.totalCols}, minmax(2.25rem, 2.75rem))`
-                          }}
-                        >
-                          {currentCalc.resultCells.map((cell, cIdx) => {
-                            if (!cell) {
-                              return (
-                                <div
-                                  key={cIdx}
-                                  className="w-9 h-10 sm:w-11 sm:h-12 border border-sky-200/60 dark:border-slate-800/80 bg-white/40 dark:bg-slate-850/30"
-                                />
-                              );
-                            }
-
-                            return (
-                              <div
-                                key={cIdx}
-                                className="w-9 h-10 sm:w-11 sm:h-12 flex items-center justify-center font-mono font-black text-2xl sm:text-3xl text-slate-900 dark:text-white border-2 border-slate-900 dark:border-slate-200 bg-white dark:bg-slate-850 shadow-xs"
-                              >
-                                {cell.char}
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Legend matching textbook colours */}
-                  <div className="mt-4 flex items-center gap-4 text-[11px] font-sans font-bold text-slate-500 uppercase tracking-wider flex-wrap justify-center">
-                    <span className="flex items-center gap-1.5">
-                      <span className="w-3 h-3 rounded-sm bg-blue-600 inline-block" />
-                      1. Részletszorzat (a szám alá)
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <span className="w-3 h-3 rounded-sm bg-rose-600 inline-block" />
-                      2. Részletszorzat (1-gyel jobbra tolva)
-                    </span>
-                  </div>
-                </div>
-
-                {/* Right: Step-by-Step Explanation */}
-                <div className="lg:col-span-6 space-y-3">
-                  <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border-2 border-amber-300/80 dark:border-amber-900/60 shadow-xs">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-[10px] font-black uppercase tracking-wider text-amber-600 dark:text-amber-400">
-                        Lépés {safeStep + 1} / {totalSteps}
-                      </span>
-                      <span className="text-xs font-mono font-bold px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
-                        {currentCalc.steps[safeStep]?.focusDigits}
-                      </span>
-                    </div>
-
-                    <p className="text-xs sm:text-sm text-slate-800 dark:text-slate-100 font-medium leading-relaxed">
-                      {currentCalc.steps[safeStep]?.description}
-                    </p>
-
-                    {currentCalc.steps[safeStep]?.subTotalText && (
-                      <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800 text-xs font-mono font-bold text-amber-700 dark:text-amber-300 flex items-center justify-between">
-                        <span>Aktuális érték:</span>
-                        <span className="text-sm font-black text-amber-800 dark:text-amber-200">{currentCalc.steps[safeStep]?.subTotalText}</span>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Summary tip card */}
-                  <div className="p-3.5 rounded-2xl bg-amber-50/80 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/60 text-xs text-amber-900 dark:text-amber-200 leading-relaxed flex items-start gap-2">
-                    <Lightbulb className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
-                    <div>
-                      <strong>A magyar írásbeli szorzás elve:</strong> Az 1. részletszorzat pontosan a szorzandó száma alá kerül, míg a következő szorzók eredményeit mindig 1-1 helyiértékkel <em>jobbra tolva</em> írjuk le, a sor elé <strong>+</strong> jelet téve!
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </section>
-      </div>
-    </div>
+          )}
+        </div>
+      </TheorySection>
+    </TheoryTemplate>
   );
 }
 

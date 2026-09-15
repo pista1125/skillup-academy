@@ -1,16 +1,16 @@
+// Common shared templates for Grade 5 Chapter 1 (Egész számok)
+export * from './TheoryTemplate';
+export * from './QuizTemplate';
+export * from './MatcherTemplate';
+export * from './SorterTemplate';
+
 // Re-exports from subtopics of I. Az egész számok (Grade 5)
-export { RomanNumeralsQuiz } from './a-szamok-kialakulasa-a-romai-szamok/RomanNumeralsQuiz';
-export { RomanNumeralsTheory } from './a-szamok-kialakulasa-a-romai-szamok/RomanNumeralsTheory';
-export { PlaceValueQuiz } from './a-helyiertekes-iras/PlaceValueQuiz';
-export { PlaceValueTheory } from './a-helyiertekes-iras/PlaceValueTheory';
-export { NumberReadingQuiz } from './a-szamjegyek-harmas-csoportositasa-es-a-szamok-kiolvasasa/NumberReadingQuiz';
-export { NumberReadingTheory } from './a-szamjegyek-harmas-csoportositasa-es-a-szamok-kiolvasasa/NumberReadingTheory';
-export { NumberSpellingQuiz } from './a-termeszetes-szamok-helyesirasa/NumberSpellingQuiz';
-export { NumberSpellingTheory } from './a-termeszetes-szamok-helyesirasa/NumberSpellingTheory';
-export { NumberSystemsQuiz } from './szamrendszerek/NumberSystemsQuiz';
-export { NumberSystemsTheory } from './szamrendszerek/NumberSystemsTheory';
-export { NumberLineQuiz } from './a-szamok-abrazolasa-a-szamegyenesen/NumberLineQuiz';
-export { NumberLineTheory } from './a-szamok-abrazolasa-a-szamegyenesen/NumberLineTheory';
+export { RomanNumeralsQuiz, RomanNumeralsTheory, RomanNumeralsMatcher, RomanNumeralsSorter } from './a-szamok-kialakulasa-a-romai-szamok';
+export { PlaceValueQuiz, PlaceValueTheory, PlaceValueMatcher, PlaceValueSorter } from './a-helyiertekes-iras';
+export { NumberReadingQuiz, NumberReadingTheory, NumberReadingMatcher, NumberReadingSorter } from './a-szamjegyek-harmas-csoportositasa-es-a-szamok-kiolvasasa';
+export { NumberSpellingQuiz, NumberSpellingTheory, NumberSpellingMatcher, NumberSpellingSorter } from './a-termeszetes-szamok-helyesirasa';
+export { NumberSystemsQuiz, NumberSystemsTheory, NumberSystemsMatcher, NumberSystemsSorter } from './szamrendszerek';
+export { NumberLineQuiz, NumberLineTheory, NumberLineMatcher, NumberLineSorter } from './a-szamok-abrazolasa-a-szamegyenesen';
 export { RoundingQuiz, RoundingTheory, RoundingMatcher, RoundingSorter } from './becsles-kerekites';
 export { AdditionQuiz, AdditionTheory, AdditionMatcher, AdditionSorter } from './osszeadas-irasbeli-osszeadas';
 export { SubtractionQuiz, SubtractionTheory, SubtractionMatcher, SubtractionSorter } from './kivonas-irasbeli-kivonas';
