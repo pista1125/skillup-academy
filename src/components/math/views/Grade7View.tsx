@@ -57,6 +57,7 @@ import {
   Variable,
   Wrench,
   Zap
+} from 'lucide-react';
 import { useQuizProgress } from '@/hooks/useQuizProgress';
 
 export const Grade7View: React.FC<GradeViewProps> = ({
