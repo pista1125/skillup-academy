@@ -3,6 +3,7 @@ import { GradeViewProps } from './types';
 import { SectionHeader } from '@/components/math/shared/SectionHeader';
 import { ActivityPlaceholder } from '@/components/math/shared/ActivityPlaceholder';
 import { MaterialGallery } from '@/components/math/shared/MaterialGallery';
+import { useQuizProgress } from '@/hooks/useQuizProgress';
 import {
   ArrowRightLeft,
   BarChart,
@@ -69,6 +70,8 @@ export const Grade5View: React.FC<GradeViewProps> = ({
   onActivitySelect,
   onMaterialSelect,
 }) => {
+    const { getTopicProgress } = useQuizProgress();
+
     if (topicId === 'g5-integers') {
       const showAll = !activeSubSectionId;
       return (
@@ -86,6 +89,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-roman-numerals-theory', topicId)}
                   icon={<BookOpen className="w-6 h-6" />}
                   color="amber"
+                  {...getTopicProgress('g5-roman-numerals-theory')}
                 />
                 <ActivityPlaceholder
                   title="Római számok kvíz"
@@ -95,6 +99,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-roman-numerals-quiz', topicId)}
                   icon={<Binary className="w-6 h-6" />}
                   color="amber"
+                  {...getTopicProgress('g5-roman-numerals-quiz')}
                 />
               </div>
             </section>
@@ -113,6 +118,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-place-value-theory', topicId)}
                   icon={<BookOpen className="w-6 h-6" />}
                   color="blue"
+                  {...getTopicProgress('g5-place-value-theory')}
                 />
                 <ActivityPlaceholder
                   title="Helyiértékes írás kvíz"
@@ -122,6 +128,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-place-value-quiz', topicId)}
                   icon={<Binary className="w-6 h-6" />}
                   color="blue"
+                  {...getTopicProgress('g5-place-value-quiz')}
                 />
               </div>
             </section>
@@ -140,6 +147,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-number-reading-theory', topicId)}
                   icon={<BookOpen className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g5-number-reading-theory')}
                 />
                 <ActivityPlaceholder
                   title="Számok kiolvasása kvíz"
@@ -149,6 +157,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-number-reading-quiz', topicId)}
                   icon={<Binary className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g5-number-reading-quiz')}
                 />
               </div>
             </section>
@@ -167,6 +176,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-number-spelling-theory', topicId)}
                   icon={<BookOpen className="w-6 h-6" />}
                   color="violet"
+                  {...getTopicProgress('g5-number-spelling-theory')}
                 />
                 <ActivityPlaceholder
                   title="Számok helyesírása kvíz"
@@ -176,6 +186,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-number-spelling-quiz', topicId)}
                   icon={<Binary className="w-6 h-6" />}
                   color="violet"
+                  {...getTopicProgress('g5-number-spelling-quiz')}
                 />
               </div>
             </section>
@@ -194,6 +205,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-number-systems-theory', topicId)}
                   icon={<BookOpen className="w-6 h-6" />}
                   color="cyan"
+                  {...getTopicProgress('g5-number-systems-theory')}
                 />
                 <ActivityPlaceholder
                   title="Számrendszerek kvíz"
@@ -203,6 +215,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-number-systems-quiz', topicId)}
                   icon={<Binary className="w-6 h-6" />}
                   color="cyan"
+                  {...getTopicProgress('g5-number-systems-quiz')}
                 />
               </div>
             </section>
@@ -221,6 +234,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-number-line-theory', topicId)}
                   icon={<BookOpen className="w-6 h-6" />}
                   color="emerald"
+                  {...getTopicProgress('g5-number-line-theory')}
                 />
                 <ActivityPlaceholder
                   title="Számegyenes kvíz"
@@ -230,6 +244,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-number-line-quiz', topicId)}
                   icon={<MoveHorizontal className="w-6 h-6" />}
                   color="emerald"
+                  {...getTopicProgress('g5-number-line-quiz')}
                 />
               </div>
             </section>
@@ -248,6 +263,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-rounding-theory', topicId)}
                   icon={<BookOpen className="w-6 h-6" />}
                   color="teal"
+                  {...getTopicProgress('g5-rounding-theory')}
                 />
                 <ActivityPlaceholder
                   title="Becslés, kerekítés kvíz"
@@ -257,6 +273,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-rounding-quiz', topicId)}
                   icon={<Target className="w-6 h-6" />}
                   color="teal"
+                  {...getTopicProgress('g5-rounding-quiz')}
                 />
               </div>
             </section>
@@ -275,6 +292,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-addition-theory', topicId)}
                   icon={<BookOpen className="w-6 h-6" />}
                   color="blue"
+                  {...getTopicProgress('g5-addition-theory')}
                 />
                 <ActivityPlaceholder
                   title="Összeadás kvíz"
@@ -284,6 +302,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-addition-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="blue"
+                  {...getTopicProgress('g5-addition-quiz')}
                 />
               </div>
             </section>
@@ -302,6 +321,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-subtraction-theory', topicId)}
                   icon={<BookOpen className="w-6 h-6" />}
                   color="rose"
+                  {...getTopicProgress('g5-subtraction-theory')}
                 />
                 <ActivityPlaceholder
                   title="Kivonás kvíz"
@@ -311,6 +331,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-subtraction-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="rose"
+                  {...getTopicProgress('g5-subtraction-quiz')}
                 />
               </div>
             </section>
@@ -329,6 +350,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-multiplication-theory', topicId)}
                   icon={<BookOpen className="w-6 h-6" />}
                   color="amber"
+                  {...getTopicProgress('g5-multiplication-theory')}
                 />
                 <ActivityPlaceholder
                   title="Szorzás kvíz"
@@ -338,6 +360,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-multiplication-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="amber"
+                  {...getTopicProgress('g5-multiplication-quiz')}
                 />
               </div>
             </section>
@@ -356,6 +379,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-division-theory', topicId)}
                   icon={<BookOpen className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g5-division-theory')}
                 />
                 <ActivityPlaceholder
                   title="Osztás kvíz"
@@ -365,6 +389,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-division-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g5-division-quiz')}
                 />
               </div>
             </section>
@@ -383,6 +408,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-order-of-operations-theory', topicId)}
                   icon={<BookOpen className="w-6 h-6" />}
                   color="purple"
+                  {...getTopicProgress('g5-order-of-operations-theory')}
                 />
                 <ActivityPlaceholder
                   title="Műveleti sorrend kvíz"
@@ -392,6 +418,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-order-of-operations-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="purple"
+                  {...getTopicProgress('g5-order-of-operations-quiz')}
                 />
               </div>
             </section>
@@ -410,6 +437,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-negative-numbers-theory', topicId)}
                   icon={<BookOpen className="w-6 h-6" />}
                   color="cyan"
+                  {...getTopicProgress('g5-negative-numbers-theory')}
                 />
                 <ActivityPlaceholder
                   title="Negatív számok kvíz"
@@ -419,6 +447,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-negative-numbers-quiz', topicId)}
                   icon={<Thermometer className="w-6 h-6" />}
                   color="cyan"
+                  {...getTopicProgress('g5-negative-numbers-quiz')}
                 />
               </div>
             </section>
@@ -437,6 +466,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-opposite-absolute-theory', topicId)}
                   icon={<BookOpen className="w-6 h-6" />}
                   color="orange"
+                  {...getTopicProgress('g5-opposite-absolute-theory')}
                 />
                 <ActivityPlaceholder
                   title="Ellentett és abszolút érték kvíz"
@@ -446,6 +476,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-opposite-absolute-quiz', topicId)}
                   icon={<ArrowRightLeft className="w-6 h-6" />}
                   color="orange"
+                  {...getTopicProgress('g5-opposite-absolute-quiz')}
                 />
               </div>
             </section>
@@ -464,6 +495,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-integer-addition-subtraction-theory', topicId)}
                   icon={<BookOpen className="w-6 h-6" />}
                   color="blue"
+                  {...getTopicProgress('g5-integer-addition-subtraction-theory')}
                 />
                 <ActivityPlaceholder
                   title="Egész számok összeadása és kivonása kvíz"
@@ -473,6 +505,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-integer-addition-subtraction-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="blue"
+                  {...getTopicProgress('g5-integer-addition-subtraction-quiz')}
                 />
                 <ActivityPlaceholder
                   title="Számegyenes összeadás/kivonás"
@@ -500,6 +533,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-chapter1-summary-theory', topicId)}
                   icon={<BookOpen className="w-6 h-6" />}
                   color="slate"
+                  {...getTopicProgress('g5-chapter1-summary-theory')}
                 />
                 <ActivityPlaceholder
                   title="Témazáró felkészítő kvíz"
@@ -509,6 +543,7 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g5-chapter1-summary-quiz', topicId)}
                   icon={<Trophy className="w-6 h-6" />}
                   color="amber"
+                  {...getTopicProgress('g5-chapter1-summary-quiz')}
                 />
               </div>
             </section>

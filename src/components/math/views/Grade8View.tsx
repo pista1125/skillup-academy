@@ -61,12 +61,16 @@ import {
   Zap
 } from 'lucide-react';
 
+import { useQuizProgress } from '@/hooks/useQuizProgress';
+
 export const Grade8View: React.FC<GradeViewProps> = ({
   topicId,
   activeSubSectionId,
   onActivitySelect,
   onMaterialSelect,
 }) => {
+  const { getTopicProgress } = useQuizProgress();
+
     if (topicId === 'g8-numbers-letters') {
       const showAll = !activeSubSectionId;
       return (
@@ -93,6 +97,7 @@ export const Grade8View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g8-logic-quiz', topicId)}
                   icon={<Brain className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g8-logic')}
                 />
               </div>
             </section>
@@ -120,6 +125,7 @@ export const Grade8View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g8-set-basics-quiz', topicId)}
                   icon={<Target className="w-6 h-6" />}
                   color="purple"
+                  {...getTopicProgress('g8-set-basics')}
                 />
               </div>
             </section>
@@ -147,6 +153,7 @@ export const Grade8View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g8-set-operations-quiz', topicId)}
                   icon={<Layers className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g8-set-operations')}
                 />
               </div>
             </section>
@@ -174,6 +181,7 @@ export const Grade8View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g8-rational-set-quiz', topicId)}
                   icon={<Binary className="w-6 h-6" />}
                   color="emerald"
+                  {...getTopicProgress('g8-rational-set')}
                 />
               </div>
             </section>
@@ -201,6 +209,7 @@ export const Grade8View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g8-rational-operations-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="cyan"
+                  {...getTopicProgress('g8-rational-operations')}
                 />
               </div>
             </section>
@@ -228,6 +237,7 @@ export const Grade8View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g8-powers-quiz', topicId)}
                   icon={<Zap className="w-6 h-6" />}
                   color="amber"
+                  {...getTopicProgress('g8-powers')}
                 />
               </div>
             </section>
@@ -255,6 +265,7 @@ export const Grade8View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g8-sqrt-concept-quiz', topicId)}
                   icon={<Square className="w-6 h-6" />}
                   color="rose"
+                  {...getTopicProgress('g8-sqrt-concept')}
                 />
               </div>
             </section>
@@ -282,6 +293,7 @@ export const Grade8View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g8-square-roots-quiz', topicId)}
                   icon={<Target className="w-6 h-6" />}
                   color="pink"
+                  {...getTopicProgress('g8-square-roots')}
                 />
               </div>
             </section>
@@ -309,6 +321,7 @@ export const Grade8View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g8-algebra-intro-quiz', topicId)}
                   icon={<Variable className="w-6 h-6" />}
                   color="blue"
+                  {...getTopicProgress('g8-algebra-intro')}
                 />
               </div>
             </section>
@@ -336,6 +349,7 @@ export const Grade8View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g8-factoring-quiz', topicId)}
                   icon={<Scissors className="w-6 h-6" />}
                   color="purple"
+                  {...getTopicProgress('g8-factoring')}
                 />
               </div>
             </section>
@@ -363,6 +377,7 @@ export const Grade8View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g8-polynomial-mult-quiz', topicId)}
                   icon={<Boxes className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g8-polynomial-mult')}
                 />
               </div>
             </section>
@@ -390,6 +405,7 @@ export const Grade8View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g8-chapter1-summary-quiz', topicId)}
                   icon={<Award className="w-6 h-6" />}
                   color="amber"
+                  {...getTopicProgress('g8-chapter1-summary')}
                 />
               </div>
             </section>

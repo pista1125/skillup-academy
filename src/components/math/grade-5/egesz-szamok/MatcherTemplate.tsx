@@ -14,6 +14,8 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { DifficultyLevel } from './QuizTemplate';
+import { useAuth } from '@/contexts/AuthContext';
+import { saveQuizProgress } from '@/services/quizProgressService';
 
 export interface MatcherPair {
   id: string | number;
@@ -38,6 +40,9 @@ export interface MatcherLevelConfig {
 
 export interface MatcherTemplateProps {
   level?: DifficultyLevel;
+  grade?: number;
+  chapterId?: string;
+  topicId?: string;
   title?: string;
   subtitle?: string;
   badge?: string;
@@ -72,6 +77,9 @@ function shuffleArray<T>(array: T[]): T[] {
 
 export function MatcherTemplate({
   level = 1,
+  grade,
+  chapterId,
+  topicId,
   title = 'Kártyás Párosító',
   subtitle = 'Kattints a kártyákra, és találd meg a feladvány-eredmény párokat!',
   badge,
@@ -85,6 +93,7 @@ export function MatcherTemplate({
   onSwitchToTheory,
   themeColor = 'amber'
 }: MatcherTemplateProps) {
+  const { user, profile } = useAuth();
   const [cards, setCards] = useState<CardItem[]>([]);
   const [selectedCards, setSelectedCards] = useState<CardItem[]>([]);
   const [isChecking, setIsChecking] = useState(false);
@@ -217,6 +226,27 @@ export function MatcherTemplate({
       spread: 70,
       origin: { y: 0.6 }
     });
+
+    if (user) {
+      const calcPercentage = Math.max(50, 100 - (mistakes * 5));
+      const currentPairsCount = config?.pairs?.length || levels?.[activeLevel]?.pairs?.length || 8;
+
+      saveQuizProgress({
+        userId: user.uid,
+        studentName: profile?.full_name || user.displayName || 'Diák',
+        studentEmail: profile?.email || user.email || '',
+        userCode: profile?.user_code || '',
+        grade: grade || 5,
+        chapterId: chapterId || 'egesz-szamok',
+        topicId: topicId || title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+        topicTitle: title,
+        gameType: 'matcher',
+        level: activeLevel || 1,
+        percentage: calcPercentage,
+        scorePoints: currentPairsCount,
+        totalQuestions: currentPairsCount
+      });
+    }
   };
 
   const formatTime = (secs: number) => {
@@ -412,6 +442,28 @@ export function MatcherTemplate({
               >
                 Következő Szint ({activeLevel + 1}. szint)
                 <ArrowRight className="w-4 h-4 ml-1.5" />
+              </Button>
+            )}
+
+            {onSwitchToTheory && (
+              <Button
+                variant="ghost"
+                onClick={onSwitchToTheory}
+                className="rounded-xl h-10 px-4 font-bold text-xs sm:text-sm text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-950/40"
+              >
+                <BookOpen className="w-4 h-4 mr-1.5" />
+                Vissza a tananyaghoz
+              </Button>
+            )}
+
+            {onBack && (
+              <Button
+                variant="ghost"
+                onClick={onBack}
+                className="rounded-xl h-10 px-4 font-bold text-xs sm:text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+              >
+                <ArrowLeft className="w-4 h-4 mr-1.5" />
+                Vissza a témakörökhöz
               </Button>
             )}
           </div>

@@ -14,6 +14,8 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { DifficultyLevel } from './QuizTemplate';
+import { useAuth } from '@/contexts/AuthContext';
+import { saveQuizProgress } from '@/services/quizProgressService';
 
 export interface SorterItem {
   id: string;
@@ -36,9 +38,16 @@ export interface SorterTemplateProps {
   level: DifficultyLevel;
   title?: string;
   subtitle?: string;
+  badge?: string;
   levels: Record<DifficultyLevel, SorterLevelConfig>;
   onNextLevel?: () => void;
   onOpenRules?: () => void;
+  onBack?: () => void;
+  onSwitchToQuiz?: () => void;
+  onSwitchToMatcher?: () => void;
+  grade?: number;
+  chapterId?: string;
+  topicId?: string;
 }
 
 function shuffleArray<T>(array: T[]): T[] {
@@ -54,10 +63,18 @@ export function SorterTemplate({
   level,
   title = 'Csoportosító (Húzd / Kattints a helyére)',
   subtitle = 'Válaszd ki a kártyát, majd kattints a megfelelő kategóriára!',
+  badge,
   levels,
   onNextLevel,
-  onOpenRules
+  onOpenRules,
+  onBack,
+  onSwitchToQuiz,
+  onSwitchToMatcher,
+  grade = 8,
+  chapterId = 'szamok-es-betuk',
+  topicId
 }: SorterTemplateProps) {
+  const { user, profile } = useAuth();
   const [unassignedItems, setUnassignedItems] = useState<SorterItem[]>([]);
   const [categorizedItems, setCategorizedItems] = useState<Record<string, SorterItem[]>>({});
   const [selectedItem, setSelectedItem] = useState<SorterItem | null>(null);
@@ -188,6 +205,31 @@ export function SorterTemplate({
         spread: 70,
         origin: { y: 0.6 }
       });
+
+      if (user) {
+        const totalItems = currentConfig?.items?.length || 10;
+        const computedTopicId = (topicId || badge || title || 'sorter').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+        const g = grade || 8;
+        const ch = chapterId || 'szamok-es-betuk';
+
+        saveQuizProgress({
+          userId: user.uid,
+          studentName: profile?.full_name || user.displayName || 'Diák',
+          studentEmail: profile?.email || user.email || '',
+          userCode: profile?.user_code || '',
+          grade: g,
+          chapterId: ch,
+          topicId: computedTopicId,
+          quizId: `g${g}__${ch}__${computedTopicId}__sorter__lvl${level}`,
+          gameType: 'sorter',
+          level: level,
+          title: title,
+          score: 100,
+          totalQuestions: totalItems,
+          bestStreak: totalItems,
+          completed: true
+        }).catch((err) => console.error('Failed to auto-save sorter progress:', err));
+      }
     }
   };
 
@@ -394,17 +436,37 @@ export function SorterTemplate({
               Csoportosítás Ellenőrzése
             </Button>
           ) : (
-            <div className="flex items-center gap-2 w-full sm:w-auto">
-              <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">
+            <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+              <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 mr-1">
                 🎉 Hibátlan csoportosítás!
               </span>
               {level < 3 && onNextLevel && (
                 <Button
                   onClick={onNextLevel}
-                  className="h-10 px-6 rounded-xl font-bold text-xs sm:text-sm bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm"
+                  className="h-10 px-5 rounded-xl font-bold text-xs sm:text-sm bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm"
                 >
                   Következő szint ({level + 1}. szint)
                   <ArrowRight className="w-4 h-4 ml-1.5" />
+                </Button>
+              )}
+              {onSwitchToTheory && (
+                <Button
+                  variant="ghost"
+                  onClick={onSwitchToTheory}
+                  className="h-10 px-4 rounded-xl font-bold text-xs sm:text-sm text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/40"
+                >
+                  <BookOpen className="w-4 h-4 mr-1.5" />
+                  Vissza a tananyaghoz
+                </Button>
+              )}
+              {onBack && (
+                <Button
+                  variant="ghost"
+                  onClick={onBack}
+                  className="h-10 px-4 rounded-xl font-bold text-xs sm:text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                >
+                  <ArrowLeft className="w-4 h-4 mr-1.5" />
+                  Vissza a témakörökhöz
                 </Button>
               )}
             </div>

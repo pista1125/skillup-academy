@@ -57,7 +57,7 @@ import {
   Variable,
   Wrench,
   Zap
-} from 'lucide-react';
+import { useQuizProgress } from '@/hooks/useQuizProgress';
 
 export const Grade7View: React.FC<GradeViewProps> = ({
   topicId,
@@ -65,7 +65,9 @@ export const Grade7View: React.FC<GradeViewProps> = ({
   onActivitySelect,
   onMaterialSelect,
 }) => {
-    if (topicId === 'geometry' || topicId === 'g7-other') {
+  const { getTopicProgress } = useQuizProgress();
+
+  if (topicId === 'geometry' || topicId === 'g7-other') {
       return (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <button
@@ -756,6 +758,7 @@ export const Grade7View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g7-rat-integer-properties-quiz', 'g7-rational-algebra')}
                   icon={<Target className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g7-rat-integer-properties')}
                 />
               </div>
             </section>
@@ -783,6 +786,7 @@ export const Grade7View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g7-rat-fractions-decimals-quiz', 'g7-rational-algebra')}
                   icon={<Target className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g7-rat-fractions-decimals')}
                 />
               </div>
             </section>
@@ -810,6 +814,7 @@ export const Grade7View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g7-rat-operations-quiz', 'g7-rational-algebra')}
                   icon={<Target className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g7-rat-operations')}
                 />
               </div>
             </section>
@@ -837,6 +842,7 @@ export const Grade7View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g7-rat-word-problems-quiz', 'g7-rational-algebra')}
                   icon={<Target className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g7-rat-word-problems')}
                 />
               </div>
             </section>
@@ -864,6 +870,7 @@ export const Grade7View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g7-rat-complex-operations-quiz', 'g7-rational-algebra')}
                   icon={<Target className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g7-rat-complex-operations')}
                 />
               </div>
             </section>
@@ -891,6 +898,7 @@ export const Grade7View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g7-rat-numbers-letters-quiz', 'g7-rational-algebra')}
                   icon={<Target className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g7-rat-numbers-letters')}
                 />
               </div>
             </section>
@@ -918,6 +926,7 @@ export const Grade7View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g7-rat-combining-substitution-quiz', 'g7-rational-algebra')}
                   icon={<Target className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g7-rat-combining-substitution')}
                 />
               </div>
             </section>
@@ -945,6 +954,7 @@ export const Grade7View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g7-rat-expansion-factoring-quiz', 'g7-rational-algebra')}
                   icon={<Target className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g7-rat-expansion-factoring')}
                 />
               </div>
             </section>
@@ -972,6 +982,7 @@ export const Grade7View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g7-rat-summary-quiz', 'g7-rational-algebra')}
                   icon={<Trophy className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g7-rat-summary')}
                 />
               </div>
             </section>

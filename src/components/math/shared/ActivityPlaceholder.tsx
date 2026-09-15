@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils';
 import React from 'react';
+import { CheckCircle2, Trophy, RotateCcw } from 'lucide-react';
 
 interface ActivityPlaceholderProps {
     title: string;
@@ -10,9 +11,24 @@ interface ActivityPlaceholderProps {
     onClick?: () => void;
     disabled?: boolean;
     emoji?: string;
+    isCompleted?: boolean;
+    bestScore?: number;
+    attemptsCount?: number;
 }
 
-export function ActivityPlaceholder({ title, subtitle, type, icon, color, onClick, disabled, emoji }: ActivityPlaceholderProps) {
+export function ActivityPlaceholder({
+    title,
+    subtitle,
+    type,
+    icon,
+    color,
+    onClick,
+    disabled,
+    emoji,
+    isCompleted,
+    bestScore,
+    attemptsCount
+}: ActivityPlaceholderProps) {
     const gradientClasses: Record<string, string> = {
         blue: "from-blue-400 to-blue-600",
         purple: "from-purple-400 to-purple-600",
@@ -40,6 +56,7 @@ export function ActivityPlaceholder({ title, subtitle, type, icon, color, onClic
         "Kezdés": "bg-emerald-500 text-white",
         "Feladat": "bg-violet-500 text-white",
         "Kvíz": "bg-amber-500 text-white",
+        "Tananyag": "bg-blue-600 text-white",
     };
 
     const typeLabel: Record<string, string> = {
@@ -50,10 +67,11 @@ export function ActivityPlaceholder({ title, subtitle, type, icon, color, onClic
         "Kezdés": "INDÍTÁS »",
         "Feladat": "MEGOLDÁS »",
         "Kvíz": "KVÍZ »",
+        "Tananyag": "MEGNYITÁS »",
     };
 
     const badgeClass = type && typeBadgeClasses[type] ? typeBadgeClasses[type] : "bg-slate-400 text-white";
-    const labelText = type && typeLabel[type] ? typeLabel[type] : "INDÍTÁS »";
+    const labelText = isCompleted ? "ÚJRAPRÓBÁLÁS »" : (type && typeLabel[type] ? typeLabel[type] : "INDÍTÁS »");
     const gradientClass = gradientClasses[color] || gradientClasses.slate;
 
     return (
@@ -61,7 +79,10 @@ export function ActivityPlaceholder({ title, subtitle, type, icon, color, onClic
             onClick={disabled ? undefined : onClick}
             disabled={disabled}
             className={cn(
-                "flex flex-col bg-white rounded-2xl border border-slate-200 transition-all text-left overflow-hidden group h-full shadow-sm",
+                "flex flex-col bg-white dark:bg-slate-900 rounded-2xl border transition-all text-left overflow-hidden group h-full shadow-sm relative",
+                isCompleted 
+                    ? "border-emerald-300/80 dark:border-emerald-800/80 ring-1 ring-emerald-400/20" 
+                    : "border-slate-200 dark:border-slate-800",
                 !disabled ? "hover:border-transparent hover:-translate-y-1 hover:shadow-xl active:translate-y-0 cursor-pointer" : "cursor-not-allowed opacity-60"
             )}
         >
@@ -74,6 +95,14 @@ export function ActivityPlaceholder({ title, subtitle, type, icon, color, onClic
                 <div className="absolute -top-4 -right-4 w-16 h-16 bg-white/10 rounded-full" />
                 <div className="absolute -bottom-3 -left-3 w-12 h-12 bg-white/10 rounded-full" />
 
+                {/* Completed Badge in Top Left */}
+                {isCompleted && (
+                    <div className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-white/95 dark:bg-slate-900/95 text-emerald-600 dark:text-emerald-400 text-[9px] font-black shadow-md backdrop-blur-sm flex items-center gap-1 z-20 animate-in zoom-in-75">
+                        <CheckCircle2 className="w-3 h-3 text-emerald-500 shrink-0" />
+                        <span>{bestScore !== undefined ? `${bestScore}%` : 'KÉSZ'}</span>
+                    </div>
+                )}
+
                 {emoji ? (
                     <span className="text-4xl drop-shadow-sm group-hover:scale-110 transition-transform duration-300 z-10">{emoji}</span>
                 ) : (
@@ -84,7 +113,7 @@ export function ActivityPlaceholder({ title, subtitle, type, icon, color, onClic
 
                 {type && (
                     <div className={cn(
-                        "absolute top-2 right-2 px-2 py-0.5 rounded-full text-[8px] font-black shadow-sm tracking-wide",
+                        "absolute top-2 right-2 px-2 py-0.5 rounded-full text-[8px] font-black shadow-sm tracking-wide z-10",
                         badgeClass
                     )}>
                         {type.toUpperCase()}
@@ -95,15 +124,25 @@ export function ActivityPlaceholder({ title, subtitle, type, icon, color, onClic
             {/* Text content */}
             <div className="p-3 flex-1 flex flex-col justify-between">
                 <div>
-                    <h4 className="font-bold text-[10px] text-slate-800 group-hover:text-primary transition-colors leading-tight line-clamp-2">{title}</h4>
-                    <p className="text-[8px] text-slate-400 mt-0.5 line-clamp-1">{subtitle}</p>
+                    <h4 className="font-bold text-[11px] text-slate-800 dark:text-slate-200 group-hover:text-primary transition-colors leading-tight line-clamp-2">{title}</h4>
+                    <p className="text-[9px] text-slate-400 dark:text-slate-500 mt-0.5 line-clamp-1">{subtitle}</p>
                 </div>
-                <div className="mt-1.5 pt-1.5 border-t border-slate-100 flex items-center justify-between">
-                    <span className="text-[7px] font-black tracking-wider text-emerald-600 group-hover:text-primary transition-colors">
+                <div className="mt-2 pt-1.5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between">
+                    <span className={cn(
+                        "text-[8px] font-black tracking-wider transition-colors",
+                        isCompleted ? "text-amber-600 dark:text-amber-400 flex items-center gap-1" : "text-emerald-600 group-hover:text-primary"
+                    )}>
+                        {isCompleted && <RotateCcw className="w-2.5 h-2.5" />}
                         {labelText}
                     </span>
+                    {attemptsCount && attemptsCount > 1 ? (
+                        <span className="text-[8px] text-slate-400 font-bold">
+                            {attemptsCount}x
+                        </span>
+                    ) : null}
                 </div>
             </div>
         </button>
     );
 }
+

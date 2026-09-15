@@ -56,13 +56,17 @@ import {
   Zap
 } from 'lucide-react';
 
+import { useQuizProgress } from '@/hooks/useQuizProgress';
+
 export const Grade6View: React.FC<GradeViewProps> = ({
   topicId,
   activeSubSectionId,
   onActivitySelect,
   onMaterialSelect,
 }) => {
-    if (topicId === 'g6-integers-divisibility') {
+  const { getTopicProgress } = useQuizProgress();
+
+  if (topicId === 'g6-integers-divisibility') {
       const showAll = !activeSubSectionId;
       return (
         <div className="flex flex-col gap-10 py-6">
@@ -88,6 +92,7 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g6-integers-operations-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="blue"
+                  {...getTopicProgress('g6-integers-operations')}
                 />
               </div>
             </section>
@@ -115,6 +120,7 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g6-integers-mult-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g6-integers-mult')}
                 />
               </div>
             </section>
@@ -142,6 +148,7 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g6-integers-div-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="violet"
+                  {...getTopicProgress('g6-integers-div')}
                 />
               </div>
             </section>
@@ -169,6 +176,7 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g6-integers-cases-quiz', topicId)}
                   icon={<Dices className="w-6 h-6" />}
                   color="amber"
+                  {...getTopicProgress('g6-integers-cases')}
                 />
               </div>
             </section>
@@ -196,6 +204,7 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g6-integers-divisors-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="emerald"
+                  {...getTopicProgress('g6-integers-divisors')}
                 />
               </div>
             </section>
@@ -223,6 +232,7 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g6-integers-remainders-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="teal"
+                  {...getTopicProgress('g6-integers-remainders')}
                 />
               </div>
             </section>
@@ -250,6 +260,7 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g6-integers-factorization-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g6-integers-factorization')}
                 />
                 <ActivityPlaceholder
                   title="Prímtényezős eszköz"
@@ -286,6 +297,7 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g6-integers-divisibility-2-5-10-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="sky"
+                  {...getTopicProgress('g6-integers-divisibility-2-5-10')}
                 />
               </div>
             </section>
@@ -313,6 +325,7 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g6-integers-divisibility-3-9-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="orange"
+                  {...getTopicProgress('g6-integers-divisibility-3-9')}
                 />
               </div>
             </section>
@@ -340,6 +353,7 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g6-integers-divisibility-4-100-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="pink"
+                  {...getTopicProgress('g6-integers-divisibility-4-100')}
                 />
               </div>
             </section>
@@ -367,6 +381,7 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g6-integers-composite-divisibility-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g6-integers-composite-divisibility')}
                 />
               </div>
             </section>
@@ -394,6 +409,7 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g6-integers-lcm-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="amber"
+                  {...getTopicProgress('g6-integers-lcm')}
                 />
               </div>
             </section>
@@ -421,6 +437,7 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g6-integers-gcd-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g6-integers-gcd')}
                 />
               </div>
             </section>
@@ -448,6 +465,7 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   onClick={() => onActivitySelect('g6-integers-summary-quiz', topicId)}
                   icon={<Trophy className="w-6 h-6" />}
                   color="slate"
+                  {...getTopicProgress('g6-integers-summary')}
                 />
               </div>
             </section>

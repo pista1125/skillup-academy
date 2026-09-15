@@ -14,6 +14,8 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { DifficultyLevel } from './QuizTemplate';
+import { useAuth } from '@/contexts/AuthContext';
+import { saveQuizProgress } from '@/services/quizProgressService';
 
 export interface MatcherPair {
   id: string | number;
@@ -50,6 +52,9 @@ export interface MatcherTemplateProps {
   onSwitchToSorter?: () => void;
   onSwitchToTheory?: () => void;
   themeColor?: string;
+  grade?: number;
+  chapterId?: string;
+  topicId?: string;
 }
 
 interface CardItem {
@@ -82,8 +87,12 @@ export function MatcherTemplate({
   onBack,
   onSwitchToQuiz,
   onSwitchToSorter,
-  onSwitchToTheory
+  onSwitchToTheory,
+  grade = 6,
+  chapterId = 'egesz-szamok-oszthatosag',
+  topicId
 }: MatcherTemplateProps) {
+  const { user, profile } = useAuth();
   const [cards, setCards] = useState<CardItem[]>([]);
   const [selectedCards, setSelectedCards] = useState<CardItem[]>([]);
   const [isChecking, setIsChecking] = useState(false);
@@ -216,6 +225,32 @@ export function MatcherTemplate({
       spread: 70,
       origin: { y: 0.6 }
     });
+
+    if (user) {
+      const calcPercentage = Math.max(50, 100 - (mistakes * 5));
+      const currentPairsCount = config?.pairs?.length || levels?.[activeLevel]?.pairs?.length || 8;
+      const computedTopicId = (topicId || badge || title || 'matcher').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      const g = grade || 6;
+      const ch = chapterId || 'egesz-szamok-oszthatosag';
+
+      saveQuizProgress({
+        userId: user.uid,
+        studentName: profile?.full_name || user.displayName || 'Diák',
+        studentEmail: profile?.email || user.email || '',
+        userCode: profile?.user_code || '',
+        grade: g,
+        chapterId: ch,
+        topicId: computedTopicId,
+        quizId: `g${g}__${ch}__${computedTopicId}__matcher__lvl${activeLevel}`,
+        gameType: 'matcher',
+        level: activeLevel,
+        title: title,
+        score: calcPercentage,
+        totalQuestions: currentPairsCount,
+        bestStreak: currentPairsCount,
+        completed: true
+      }).catch((err) => console.error('Failed to auto-save matcher progress:', err));
+    }
   };
 
   const formatTime = (secs: number) => {
@@ -411,6 +446,28 @@ export function MatcherTemplate({
               >
                 Következő Szint ({activeLevel + 1}. szint)
                 <ArrowRight className="w-4 h-4 ml-1.5" />
+              </Button>
+            )}
+
+            {onSwitchToTheory && (
+              <Button
+                variant="ghost"
+                onClick={onSwitchToTheory}
+                className="rounded-xl h-10 px-4 font-bold text-xs sm:text-sm text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/40"
+              >
+                <BookOpen className="w-4 h-4 mr-1.5" />
+                Vissza a tananyaghoz
+              </Button>
+            )}
+
+            {onBack && (
+              <Button
+                variant="ghost"
+                onClick={onBack}
+                className="rounded-xl h-10 px-4 font-bold text-xs sm:text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+              >
+                <ArrowLeft className="w-4 h-4 mr-1.5" />
+                Vissza a témakörökhöz
               </Button>
             )}
           </div>

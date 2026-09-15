@@ -34,7 +34,8 @@ import {
   Shield,
   Mail,
   Settings as SettingsIcon,
-  GraduationCap
+  GraduationCap,
+  BarChart3
 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
@@ -47,6 +48,7 @@ import {
   addStudentToClassByCode, 
   removeStudentFromClass 
 } from '@/services/teacherClassService';
+import { ClassQuizProgressMatrix } from '@/components/feedback/ClassQuizProgressMatrix';
 
 const AVATARS = [
   '🎒', '🎓', '👨‍🏫', '👩‍🏫', '🖍️', '🧪', '🧬', '🚀', '🎨', '🧩', '🎸', '⚽'
@@ -89,6 +91,7 @@ export default function ProfilePage() {
   const [studentCodeInput, setStudentCodeInput] = useState('');
   const [isAddingStudent, setIsAddingStudent] = useState(false);
   const [isCreatingClass, setIsCreatingClass] = useState(false);
+  const [classViewMode, setClassViewMode] = useState<'roster' | 'quiz_matrix'>('roster');
 
   const googlePhoto = user?.photoURL;
 
@@ -637,7 +640,7 @@ export default function ProfilePage() {
                       </div>
                     </div>
 
-                    {/* Right: Enrolled students in selected class */}
+                    {/* Right: Enrolled students / Quiz Matrix in selected class */}
                     <div className="md:col-span-8 bg-slate-50 dark:bg-slate-950/60 p-6 rounded-3xl border border-slate-200/60 dark:border-slate-800 flex flex-col min-h-[460px]">
                       {!selectedClass ? (
                         <div className="flex-1 flex flex-col items-center justify-center text-slate-400 py-12">
@@ -648,100 +651,136 @@ export default function ProfilePage() {
                         </div>
                       ) : (
                         <>
-                          <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-200/60 dark:border-slate-800">
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 pb-4 border-b border-slate-200/60 dark:border-slate-800">
                             <div>
                               <h4 className="text-xl font-black text-slate-800 dark:text-slate-100">
-                                🏫 {selectedClass.name} diákjai
+                                🏫 {selectedClass.name}
                               </h4>
                               <p className="text-xs text-slate-400 mt-0.5">
-                                Összesen {selectedClass.students?.length || 0} diák van rögzítve ebben az osztályban.
+                                {selectedClass.students?.length || 0} felvett diák
                               </p>
                             </div>
-                          </div>
 
-                          {/* Add student by 6-digit code input */}
-                          <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 mb-5 shadow-sm">
-                            <Label className="text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5 block">
-                              Diák felvétele 6 számjegyű kód alapján:
-                            </Label>
-                            <div className="flex gap-2">
-                              <div className="relative flex-1">
-                                <KeyRound className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                                <Input
-                                  placeholder="Írd be a diák 6 jegyű kódját (pl. 582914)..."
-                                  value={studentCodeInput}
-                                  onChange={(e) => setStudentCodeInput(e.target.value)}
-                                  onKeyDown={(e) => e.key === 'Enter' && handleAddStudent()}
-                                  maxLength={10}
-                                  className="pl-9 h-11 rounded-xl text-sm font-mono tracking-wider bg-slate-50/50 dark:bg-slate-950/50"
-                                />
-                              </div>
-                              <Button
-                                onClick={handleAddStudent}
-                                disabled={isAddingStudent || !studentCodeInput.trim()}
-                                className="h-11 px-5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold flex items-center gap-1.5 shadow-md shadow-emerald-600/10"
-                              >
-                                {isAddingStudent ? (
-                                  <Loader2 className="w-4 h-4 animate-spin" />
-                                ) : (
-                                  <>
-                                    <UserPlus className="w-4 h-4" />
-                                    <span>Hozzáadás</span>
-                                  </>
+                            {/* Sub-tab view mode toggle */}
+                            <div className="flex items-center gap-1 bg-white dark:bg-slate-900 p-1 rounded-2xl border border-slate-200/70 dark:border-slate-800 shadow-2xs">
+                              <button
+                                type="button"
+                                onClick={() => setClassViewMode('roster')}
+                                className={cn(
+                                  "flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer",
+                                  classViewMode === 'roster'
+                                    ? "bg-indigo-50 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 shadow-2xs"
+                                    : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
                                 )}
-                              </Button>
+                              >
+                                <Users className="w-3.5 h-3.5" />
+                                <span>Diákok névsora</span>
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => setClassViewMode('quiz_matrix')}
+                                className={cn(
+                                  "flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer",
+                                  classViewMode === 'quiz_matrix'
+                                    ? "bg-rose-600 text-white shadow-xs font-black"
+                                    : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+                                )}
+                              >
+                                <BarChart3 className="w-3.5 h-3.5" />
+                                <span>Kvíz & Játék Mátrix</span>
+                              </button>
                             </div>
-                            <p className="text-[11px] text-slate-400 mt-2">
-                              💡 <em>Tipp: A diák a saját profiljában látja a személyes 6 jegyű kódját, amit bármikor megadhat neked.</em>
-                            </p>
                           </div>
 
-                          {/* Student roster */}
-                          <div className="flex-1 overflow-y-auto space-y-2.5 pr-1">
-                            {(!selectedClass.students || selectedClass.students.length === 0) ? (
-                              <div className="text-center py-12 text-slate-400 text-sm italic bg-white/40 dark:bg-slate-900/40 rounded-2xl border border-dashed border-slate-200 dark:border-slate-800 p-6">
-                                Ebben az osztályban még nincsenek diákok. Kérd el a diákjaidtól a 6 jegyű kódjukat, és add hozzá őket a fenti mezőben!
-                              </div>
-                            ) : (
-                              selectedClass.students.map((student) => (
-                                <div
-                                  key={student.userId || student.userCode}
-                                  className="flex items-center justify-between p-3.5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:border-slate-300 transition-all"
-                                >
-                                  <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-300 border border-indigo-100 dark:border-indigo-900 flex items-center justify-center text-lg font-black shrink-0">
-                                      {student.avatarUrl && student.avatarUrl.length <= 4 
-                                        ? student.avatarUrl 
-                                        : student.name.charAt(0).toUpperCase()}
-                                    </div>
-                                    <div>
-                                      <div className="flex items-center gap-2">
-                                        <span className="font-bold text-sm text-slate-800 dark:text-slate-100">
-                                          {student.name}
-                                        </span>
-                                        <span className="font-mono text-[11px] font-extrabold bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 px-2 py-0.5 rounded-md border border-indigo-200/60 dark:border-indigo-800">
-                                          🔑 {student.userCode}
-                                        </span>
-                                      </div>
-                                      <div className="text-xs text-slate-400">
-                                        {student.email || 'Nincs megadva email'}
-                                      </div>
-                                    </div>
+                          {classViewMode === 'quiz_matrix' ? (
+                            <ClassQuizProgressMatrix currentClass={selectedClass} />
+                          ) : (
+                            <>
+                              {/* Add student by 6-digit code input */}
+                              <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 mb-5 shadow-sm">
+                                <Label className="text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5 block">
+                                  Diák felvétele 6 számjegyű kód alapján:
+                                </Label>
+                                <div className="flex gap-2">
+                                  <div className="relative flex-1">
+                                    <KeyRound className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                                    <Input
+                                      placeholder="Írd be a diák 6 jegyű kódját (pl. 582914)..."
+                                      value={studentCodeInput}
+                                      onChange={(e) => setStudentCodeInput(e.target.value)}
+                                      onKeyDown={(e) => e.key === 'Enter' && handleAddStudent()}
+                                      maxLength={10}
+                                      className="pl-9 h-11 rounded-xl text-sm font-mono tracking-wider bg-slate-50/50 dark:bg-slate-950/50"
+                                    />
                                   </div>
-
                                   <Button
-                                    size="icon"
-                                    variant="ghost"
-                                    onClick={() => handleRemoveStudent(selectedClass.id, student.userId, student.name)}
-                                    className="h-8 w-8 text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/20 rounded-xl"
-                                    title="Diák eltávolítása az osztályból"
+                                    onClick={handleAddStudent}
+                                    disabled={isAddingStudent || !studentCodeInput.trim()}
+                                    className="h-11 px-5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold flex items-center gap-1.5 shadow-md shadow-emerald-600/10"
                                   >
-                                    <Trash2 className="w-4 h-4" />
+                                    {isAddingStudent ? (
+                                      <Loader2 className="w-4 h-4 animate-spin" />
+                                    ) : (
+                                      <>
+                                        <UserPlus className="w-4 h-4" />
+                                        <span>Hozzáadás</span>
+                                      </>
+                                    )}
                                   </Button>
                                 </div>
-                              ))
-                            )}
-                          </div>
+                                <p className="text-[11px] text-slate-400 mt-2">
+                                  💡 <em>Tipp: A diák a saját profiljában látja a személyes 6 jegyű kódját, amit bármikor megadhat neked.</em>
+                                </p>
+                              </div>
+
+                              {/* Student roster */}
+                              <div className="flex-1 overflow-y-auto space-y-2.5 pr-1">
+                                {(!selectedClass.students || selectedClass.students.length === 0) ? (
+                                  <div className="text-center py-12 text-slate-400 text-sm italic bg-white/40 dark:bg-slate-900/40 rounded-2xl border border-dashed border-slate-200 dark:border-slate-800 p-6">
+                                    Ebben az osztályban még nincsenek diákok. Kérd el a diákjaidtól a 6 jegyű kódjukat, és add hozzá őket a fenti mezőben!
+                                  </div>
+                                ) : (
+                                  selectedClass.students.map((student) => (
+                                    <div
+                                      key={student.userId || student.userCode}
+                                      className="flex items-center justify-between p-3.5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm hover:border-slate-300 transition-all"
+                                    >
+                                      <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-300 border border-indigo-100 dark:border-indigo-900 flex items-center justify-center text-lg font-black shrink-0">
+                                          {student.avatarUrl && student.avatarUrl.length <= 4 
+                                            ? student.avatarUrl 
+                                            : student.name.charAt(0).toUpperCase()}
+                                        </div>
+                                        <div>
+                                          <div className="flex items-center gap-2">
+                                            <span className="font-bold text-sm text-slate-800 dark:text-slate-100">
+                                              {student.name}
+                                            </span>
+                                            <span className="font-mono text-[11px] font-extrabold bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 px-2 py-0.5 rounded-md border border-indigo-200/60 dark:border-indigo-800">
+                                              🔑 {student.userCode}
+                                            </span>
+                                          </div>
+                                          <div className="text-xs text-slate-400">
+                                            {student.email || 'Nincs megadva email'}
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <Button
+                                        size="icon"
+                                        variant="ghost"
+                                        onClick={() => handleRemoveStudent(selectedClass.id, student.userId, student.name)}
+                                        className="h-8 w-8 text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/20 rounded-xl"
+                                        title="Diák eltávolítása az osztályból"
+                                      >
+                                        <Trash2 className="w-4 h-4" />
+                                      </Button>
+                                    </div>
+                                  ))
+                                )}
+                              </div>
+                            </>
+                          )}
                         </>
                       )}
                     </div>

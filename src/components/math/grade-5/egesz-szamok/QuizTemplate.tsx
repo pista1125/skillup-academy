@@ -23,6 +23,8 @@ import {
   ArrowRightLeft
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/contexts/AuthContext';
+import { saveQuizProgress } from '@/services/quizProgressService';
 
 export type DifficultyLevel = 1 | 2 | 3;
 export type GameMode = 'quiz' | string;
@@ -111,6 +113,9 @@ export interface LevelHubProps {
 export interface QuizTemplateProps {
   onBack?: () => void;
   onSwitchToTheory?: () => void;
+  grade?: number;
+  chapterId?: string;
+  topicId?: string;
   documentId?: string;
   pdfFilename?: string;
   emoji?: string;
@@ -150,6 +155,9 @@ function shuffleArray<T>(array: T[]): T[] {
 export function QuizTemplate({
   onBack = () => {},
   onSwitchToTheory,
+  grade,
+  chapterId,
+  topicId,
   documentId,
   pdfFilename,
   emoji = '🎯',
@@ -176,6 +184,7 @@ export function QuizTemplate({
   hintText,
   themeColor = 'amber'
 }: QuizTemplateProps) {
+  const { user, profile } = useAuth();
   // 1. Normalize Levels & Questions
   const normalizedLevels: Record<DifficultyLevel, LevelConfig> | null = useMemo(() => {
     if (levels) {
@@ -337,6 +346,32 @@ export function QuizTemplate({
   const [bestStreak, setBestStreak] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
   const [showCheatSheet, setShowCheatSheet] = useState(false);
+
+  // Auto-save quiz progress when completed
+  useEffect(() => {
+    if (isCompleted && user) {
+      const activeLvlConfig = (selectedLevel ? normalizedLevels?.[selectedLevel] : null) || normalizedLevels?.[1];
+      const totalQ = questions.length || activeLvlConfig?.questions?.length || 10;
+      const percentage = Math.round((score / totalQ) * 100);
+
+      saveQuizProgress({
+        userId: user.uid,
+        studentName: profile?.full_name || user.displayName || 'Diák',
+        studentEmail: profile?.email || user.email || '',
+        userCode: profile?.user_code || '',
+        grade: grade || 5,
+        chapterId: chapterId || 'egesz-szamok',
+        topicId: topicId || documentId || title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+        topicTitle: title,
+        gameType: 'quiz',
+        level: selectedLevel || 1,
+        percentage,
+        scorePoints: score,
+        totalQuestions: totalQ,
+        bestStreak
+      });
+    }
+  }, [isCompleted, user, profile, score, bestStreak, selectedLevel, questions, normalizedLevels, grade, chapterId, topicId, documentId, title]);
 
   // 3. Combine Game Modes
   const allGameModes: CustomGameMode[] = useMemo(() => {
@@ -813,7 +848,7 @@ export function QuizTemplate({
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-2.5">
+          <div className="flex flex-col sm:flex-row gap-2.5 mb-3">
             {selectedLevel < 3 && (
               <Button
                 onClick={() => handleStartLevel((selectedLevel + 1) as DifficultyLevel, 'quiz')}
@@ -832,13 +867,37 @@ export function QuizTemplate({
               <RotateCcw className="w-4 h-4 mr-1 text-slate-500" />
               Újrapróbálom
             </Button>
+          </div>
 
+          {/* Secondary Navigation Row: Szintek, Tananyag, Vissza a menübe */}
+          <div className="flex flex-wrap items-center justify-center gap-2 pt-3 border-t border-slate-100 dark:border-slate-800">
             <Button
               variant="ghost"
               onClick={() => setSelectedLevel(null)}
-              className="h-11 rounded-xl text-sm font-bold hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="h-10 px-3.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-1.5"
             >
-              Szintek
+              <Layers className="w-4 h-4 text-slate-400" />
+              <span>Szintek</span>
+            </Button>
+
+            {onSwitchToTheory && (
+              <Button
+                variant="ghost"
+                onClick={onSwitchToTheory}
+                className="h-10 px-3.5 rounded-xl text-xs font-bold text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-950/40 flex items-center gap-1.5"
+              >
+                <BookOpen className="w-4 h-4" />
+                <span>Vissza a tananyaghoz</span>
+              </Button>
+            )}
+
+            <Button
+              variant="ghost"
+              onClick={onBack}
+              className="h-10 px-3.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-1.5"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Vissza a témakörökhöz</span>
             </Button>
           </div>
         </div>
