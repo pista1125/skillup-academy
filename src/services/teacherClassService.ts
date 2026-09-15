@@ -132,6 +132,20 @@ export async function deleteTeacherClass(classId: string): Promise<void> {
 }
 
 /**
+ * Updates the name of a teacher class.
+ */
+export async function updateTeacherClassName(classId: string, newName: string): Promise<void> {
+  if (!newName.trim()) throw new Error('Az osztály neve nem lehet üres.');
+  try {
+    const classDocRef = doc(db, COLLECTION_NAME, classId);
+    await updateDoc(classDocRef, { name: newName.trim() });
+  } catch (error) {
+    console.error('Error updating teacher class name:', error);
+    throw error;
+  }
+}
+
+/**
  * Finds a student profile by 6-digit user code and adds them to the teacher's class.
  */
 export async function addStudentToClassByCode(
