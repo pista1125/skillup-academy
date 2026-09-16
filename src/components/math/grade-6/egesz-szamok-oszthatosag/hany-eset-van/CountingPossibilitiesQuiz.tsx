@@ -525,10 +525,15 @@ const GAME_MODES: CustomGameMode[] = [
   }
 ];
 
-export function CountingPossibilitiesQuiz({ onBack }: CountingPossibilitiesQuizProps) {
+export function CountingPossibilitiesQuiz({ onBack, onSwitchToTheory }: CountingPossibilitiesQuizProps) {
   return (
     <QuizTemplate
       onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      topicId="g6-integers-cases"
+      grade={6}
+      chapterId="egesz-szamok-oszthatosag"
+      topicTitle="Hány eset van? Számoljuk össze!"
       emoji="🎲"
       topicBadge="🎲 6. Osztály • I. Egész számok"
       title="Hány eset van? Kvíz"

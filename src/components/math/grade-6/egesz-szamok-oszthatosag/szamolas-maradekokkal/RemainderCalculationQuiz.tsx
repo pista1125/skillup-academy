@@ -533,6 +533,11 @@ export function RemainderCalculationQuiz({ onBack, onSwitchToTheory }: Remainder
   return (
     <QuizTemplate
       onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      topicId="g6-integers-remainders"
+      grade={6}
+      chapterId="egesz-szamok-oszthatosag"
+      topicTitle="Számolás maradékokkal"
       emoji="⏳"
       topicBadge="⏳ 6. Osztály • I. Egész számok"
       title="Számolás maradékokkal kvíz"

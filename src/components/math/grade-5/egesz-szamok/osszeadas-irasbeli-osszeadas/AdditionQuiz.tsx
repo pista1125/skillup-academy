@@ -502,6 +502,10 @@ export const AdditionQuiz: React.FC<AdditionQuizProps> = ({
 }) => {
   return (
     <QuizTemplate
+      topicId="g5-addition"
+      topicTitle="Összeadás, írásbeli összeadás"
+      grade={5}
+      chapterId="egesz-szamok"
       title="Összeadás és Írásbeli Összeadás Kvíz"
       subtitle="Gyakorold a fejben és írásban összeadást, a maradék átvitelét és az ügyes csoportosítást!"
       topicBadge="5. Osztály • I. Az egész számok"

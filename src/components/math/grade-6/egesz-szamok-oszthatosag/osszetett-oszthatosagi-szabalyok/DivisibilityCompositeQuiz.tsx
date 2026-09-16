@@ -11,6 +11,7 @@ import { Layers, ShieldCheck, Zap, Sparkles, AlertTriangle, Lightbulb } from 'lu
 
 interface DivisibilityCompositeQuizProps {
   onBack?: () => void;
+  onSwitchToTheory?: () => void;
 }
 
 const CHEAT_SHEET_CARDS: CheatSheetCard[] = [
@@ -497,7 +498,7 @@ const HARD_QUESTIONS: QuizQuestion[] = [
   },
 ];
 
-export function DivisibilityCompositeQuiz({ onBack }: DivisibilityCompositeQuizProps) {
+export function DivisibilityCompositeQuiz({ onBack, onSwitchToTheory }: DivisibilityCompositeQuizProps) {
   const [activeCustomGame, setActiveCustomGame] = useState<'matcher' | 'sorter' | null>(null);
 
   if (activeCustomGame === 'matcher') {
@@ -532,6 +533,10 @@ export function DivisibilityCompositeQuiz({ onBack }: DivisibilityCompositeQuizP
       title="Összetett Oszthatósági Kvíz"
       description="Gyakorold a 6, 12, 15, 18, 20, 24, 36 és 45 oszthatósági szabályait és a hiányzó számjegyeket 3 nehézségi szinten!"
       badgeText="6. Osztály • Oszthatóság"
+      topicId="g6-integers-composite-divisibility"
+      grade={6}
+      chapterId="egesz-szamok-oszthatosag"
+      topicTitle="Összetett oszthatósági szabályok"
       themeColor="indigo"
       easyQuestions={EASY_QUESTIONS}
       mediumQuestions={MEDIUM_QUESTIONS}
@@ -539,6 +544,7 @@ export function DivisibilityCompositeQuiz({ onBack }: DivisibilityCompositeQuizP
       cheatSheetCards={CHEAT_SHEET_CARDS}
       customGameModes={customGameModes}
       onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
     />
   );
 }

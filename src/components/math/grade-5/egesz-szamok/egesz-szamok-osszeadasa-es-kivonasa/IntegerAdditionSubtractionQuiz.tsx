@@ -523,6 +523,10 @@ export function IntegerAdditionSubtractionQuiz({
 }: IntegerAdditionSubtractionQuizProps) {
   return (
     <QuizTemplate
+      topicId="g5-integer-addition-subtraction"
+      topicTitle="Egész számok összeadása és kivonása"
+      grade={5}
+      chapterId="egesz-szamok"
       title="Egész számok összeadása és kivonása - Gyakorló Kvíz"
       topicBadge="➕➖ 5. Osztály • I. Az egész számok"
       badgeText="➕➖ 5. Osztály • I. Az egész számok"

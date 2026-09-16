@@ -503,6 +503,10 @@ export function NegativeNumbersQuiz({
 }: NegativeNumbersQuizProps) {
   return (
     <QuizTemplate
+      topicId="g5-negative-numbers"
+      topicTitle="Negatív számok"
+      grade={5}
+      chapterId="egesz-szamok"
       title="Negatív számok - Gyakorló Kvíz"
       topicBadge="❄️ 5. Osztály • I. Az egész számok"
       badgeText="❄️ 5. Osztály • I. Az egész számok"

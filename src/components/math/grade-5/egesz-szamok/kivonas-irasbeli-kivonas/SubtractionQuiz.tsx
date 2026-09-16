@@ -485,6 +485,10 @@ const subtractionCheatSheet: CheatSheetSection[] = [
 export function SubtractionQuiz({ onBack, onSwitchToTheory }: SubtractionQuizProps) {
   return (
     <QuizTemplate
+      topicId="g5-subtraction"
+      topicTitle="Kivonás, írásbeli kivonás"
+      grade={5}
+      chapterId="egesz-szamok"
       title="Kivonás, írásbeli kivonás Kvíz"
       subtitle="Gyakorold a fejben és írásban történő kivonást, a pótlási technikát és a szöveges feladatokat!"
       questions={subtractionQuestions}

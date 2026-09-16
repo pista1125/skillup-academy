@@ -6,6 +6,7 @@ import { OperationsWithIntegersSorter } from './OperationsWithIntegersSorter';
 
 export interface OperationsWithIntegersQuizProps {
   onBack: () => void;
+  onSwitchToTheory?: () => void;
 }
 
 const CHEAT_SHEET: CheatSheetItem[] = [
@@ -526,10 +527,15 @@ const GAME_MODES: CustomGameMode[] = [
   }
 ];
 
-export function OperationsWithIntegersQuiz({ onBack }: OperationsWithIntegersQuizProps) {
+export function OperationsWithIntegersQuiz({ onBack, onSwitchToTheory }: OperationsWithIntegersQuizProps) {
   return (
     <QuizTemplate
       onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      topicId="g6-integers-operations"
+      grade={6}
+      chapterId="egesz-szamok-oszthatosag"
+      topicTitle="Műveletek az egész számok körében"
       emoji="🔢"
       topicBadge="🔢 6. Osztály • I. Egész számok"
       title="Műveletek az egész számok körében kvíz"

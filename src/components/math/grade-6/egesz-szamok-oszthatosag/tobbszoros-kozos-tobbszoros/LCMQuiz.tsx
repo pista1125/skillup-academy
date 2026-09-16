@@ -11,6 +11,7 @@ import { Sparkles, Layers, Zap, Clock, ShieldCheck, HelpCircle } from 'lucide-re
 
 interface LCMQuizProps {
   onBack?: () => void;
+  onSwitchToTheory?: () => void;
 }
 
 const CHEAT_SHEET_CARDS: CheatSheetCard[] = [
@@ -473,7 +474,7 @@ const HARD_QUESTIONS: QuizQuestion[] = [
   },
 ];
 
-export function LCMQuiz({ onBack }: LCMQuizProps) {
+export function LCMQuiz({ onBack, onSwitchToTheory }: LCMQuizProps) {
   const [activeCustomGame, setActiveCustomGame] = useState<'matcher' | 'sorter' | null>(null);
 
   if (activeCustomGame === 'matcher') {
@@ -508,6 +509,10 @@ export function LCMQuiz({ onBack }: LCMQuizProps) {
       title="Többszörös, LKKT Kvíz"
       description="Gyakorold a többszörösöket, a közös többszörösöket és a Legkisebb Közös Többszörös kiszámítását 3 nehézségi szinten!"
       badgeText="6. Osztály • Oszthatóság"
+      topicId="g6-integers-lcm"
+      grade={6}
+      chapterId="egesz-szamok-oszthatosag"
+      topicTitle="Többszörös, közös többszörös (LKKT)"
       themeColor="amber"
       easyQuestions={EASY_QUESTIONS}
       mediumQuestions={MEDIUM_QUESTIONS}
@@ -515,6 +520,7 @@ export function LCMQuiz({ onBack }: LCMQuizProps) {
       cheatSheetCards={CHEAT_SHEET_CARDS}
       customGameModes={customGameModes}
       onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
     />
   );
 }

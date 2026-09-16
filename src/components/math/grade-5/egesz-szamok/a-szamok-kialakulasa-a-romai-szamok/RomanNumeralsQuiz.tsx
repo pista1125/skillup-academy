@@ -444,6 +444,10 @@ export const RomanNumeralsQuiz: React.FC<RomanNumeralsQuizProps> = ({
 }) => {
   return (
     <QuizTemplate
+      topicId="g5-roman-numerals"
+      topicTitle="A számok kialakulása, a római számok"
+      grade={5}
+      chapterId="egesz-szamok"
       title="A számok kialakulása, a római számok – Kvíz"
       subtitle="30 feladat 3 nehézségi szinten: alapjelek, segédjelek, összeadás-kivonás elve és 1–100 közötti felírások"
       questions={questions}

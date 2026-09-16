@@ -11,6 +11,7 @@ import { Target, Layers, Zap, Scissors, ShieldCheck, HelpCircle } from 'lucide-r
 
 interface GCDQuizProps {
   onBack?: () => void;
+  onSwitchToTheory?: () => void;
 }
 
 const CHEAT_SHEET_CARDS: CheatSheetCard[] = [
@@ -467,7 +468,7 @@ const HARD_QUESTIONS: QuizQuestion[] = [
   },
 ];
 
-export function GCDQuiz({ onBack }: GCDQuizProps) {
+export function GCDQuiz({ onBack, onSwitchToTheory }: GCDQuizProps) {
   const [activeCustomGame, setActiveCustomGame] = useState<'matcher' | 'sorter' | null>(null);
 
   if (activeCustomGame === 'matcher') {
@@ -502,6 +503,10 @@ export function GCDQuiz({ onBack }: GCDQuizProps) {
       title="Osztó, LNKO Kvíz"
       description="Gyakorold a közös osztókat, a Legnagyobb Közös Osztó meghatározását, a relatív prímeket és a szöveges feladatokat 3 nehézségi szinten!"
       badgeText="6. Osztály • Oszthatóság"
+      topicId="g6-integers-gcd"
+      grade={6}
+      chapterId="egesz-szamok-oszthatosag"
+      topicTitle="Osztó, közös osztó (LNKO)"
       themeColor="indigo"
       easyQuestions={EASY_QUESTIONS}
       mediumQuestions={MEDIUM_QUESTIONS}
@@ -509,6 +514,7 @@ export function GCDQuiz({ onBack }: GCDQuizProps) {
       cheatSheetCards={CHEAT_SHEET_CARDS}
       customGameModes={customGameModes}
       onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
     />
   );
 }

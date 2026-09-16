@@ -572,6 +572,10 @@ export const NumberSpellingQuiz: React.FC<NumberSpellingQuizProps> = ({
 }) => {
   return (
     <QuizTemplate
+      topicId="g5-number-spelling"
+      topicTitle="A természetes számok helyesírása"
+      grade={5}
+      chapterId="egesz-szamok"
       title="A természetes számok helyesírása Kvíz"
       subtitle="Gyakorold a kétezres szabályt, a kötőjelezést, sorszámneveket és dátumokat!"
       topicBadge="5. Osztály • I. Az egész számok"

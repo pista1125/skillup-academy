@@ -13,6 +13,7 @@ import { Trophy, Layers, Zap, Sparkles, ShieldCheck, HelpCircle, Compass } from 
 
 interface Chapter1SummaryQuizProps {
   onBack?: () => void;
+  onSwitchToTheory?: () => void;
 }
 
 const CHEAT_SHEET_CARDS: CheatSheetCard[] = [
@@ -1327,7 +1328,7 @@ const QUIZ_LEVELS: Record<DifficultyLevel, LevelConfig> = {
   },
 };
 
-export function Chapter1SummaryQuiz({ onBack }: Chapter1SummaryQuizProps) {
+export function Chapter1SummaryQuiz({ onBack, onSwitchToTheory }: Chapter1SummaryQuizProps) {
   const [activeCustomGame, setActiveCustomGame] = useState<'matcher' | 'sorter' | null>(null);
 
   if (activeCustomGame === 'matcher') {
@@ -1362,6 +1363,11 @@ export function Chapter1SummaryQuiz({ onBack }: Chapter1SummaryQuizProps) {
   return (
     <QuizTemplate
       onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      topicId="g6-integers-summary"
+      grade={6}
+      chapterId="egesz-szamok-oszthatosag"
+      topicTitle="I. Fejezeti Összefoglalás"
       emoji="🏆"
       topicBadge="🏆 6. Osztály • I. Fejezeti Nagy Záróteszt"
       title="I. Fejezet Összefoglaló Nagyteszt (90 Feladat)"

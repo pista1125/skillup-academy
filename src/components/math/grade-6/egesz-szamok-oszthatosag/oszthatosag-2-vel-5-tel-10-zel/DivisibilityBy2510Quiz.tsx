@@ -538,10 +538,15 @@ const GAME_MODES: CustomGameMode[] = [
   }
 ];
 
-export function DivisibilityBy2510Quiz({ onBack }: DivisibilityBy2510QuizProps) {
+export function DivisibilityBy2510Quiz({ onBack, onSwitchToTheory }: DivisibilityBy2510QuizProps) {
   return (
     <QuizTemplate
       onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      topicId="g6-integers-divisibility-2-5-10"
+      grade={6}
+      chapterId="egesz-szamok-oszthatosag"
+      topicTitle="Oszthatóság 2-vel, 5-tel, 10-zel"
       emoji="🔟"
       topicBadge="🔟 6. Osztály • I. Egész számok, oszthatóság"
       title="Oszthatóság 2-vel, 5-tel, 10-zel kvíz"

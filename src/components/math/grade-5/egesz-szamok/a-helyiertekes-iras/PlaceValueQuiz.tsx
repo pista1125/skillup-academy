@@ -466,6 +466,10 @@ export const PlaceValueQuiz: React.FC<PlaceValueQuizProps> = ({
 }) => {
   return (
     <QuizTemplate
+      topicId="g5-place-value"
+      topicTitle="A helyiértékes írás"
+      grade={5}
+      chapterId="egesz-szamok"
       title="A helyiértékes írás – Kvíz"
       subtitle="30 feladat 3 nehézségi szinten: alaki, helyi- és valódi érték, helyiérték-táblázat, szorzatos felbontás"
       questions={questions}

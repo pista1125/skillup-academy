@@ -508,10 +508,15 @@ const GAME_MODES: CustomGameMode[] = [
   }
 ];
 
-export function DivisorsMultiplesQuiz({ onBack }: DivisorsMultiplesQuizProps) {
+export function DivisorsMultiplesQuiz({ onBack, onSwitchToTheory }: DivisorsMultiplesQuizProps) {
   return (
     <QuizTemplate
       onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      topicId="g6-integers-divisors"
+      grade={6}
+      chapterId="egesz-szamok-oszthatosag"
+      topicTitle="Osztó, többszörös"
       emoji="🔄"
       topicBadge="🔄 6. Osztály • I. Egész számok"
       title="Osztó, többszörös kvíz"

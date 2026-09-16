@@ -517,10 +517,15 @@ const GAME_MODES: CustomGameMode[] = [
   }
 ];
 
-export function IntegerDivisionQuiz({ onBack }: IntegerDivisionQuizProps) {
+export function IntegerDivisionQuiz({ onBack, onSwitchToTheory }: IntegerDivisionQuizProps) {
   return (
     <QuizTemplate
       onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      topicId="g6-integers-div"
+      grade={6}
+      chapterId="egesz-szamok-oszthatosag"
+      topicTitle="Az egész számok osztása"
       emoji="➗"
       topicBadge="➗ 6. Osztály • I. Egész számok"
       title="Az egész számok osztása kvíz"

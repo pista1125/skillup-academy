@@ -173,8 +173,9 @@ export function getTopicLevelData(
 
   const cleanTarget = topicId
     .toLowerCase()
-    .replace(/^g[0-9]+-/, '')
+    .replace(/^(g[0-9]+|grade-[0-9]+)-/, '')
     .replace(/^rat-/, '')
+    .replace(/^int-sec-[0-9]+-?/, '')
     .replace(/^sec-/, '')
     .replace(/-(quiz|matcher|sorter|theory)$/, '');
 
@@ -182,8 +183,9 @@ export function getTopicLevelData(
   recordsForStudent.forEach((rec) => {
     const recTopicClean = (rec.topicId || '')
       .toLowerCase()
-      .replace(/^g[0-9]+-/, '')
+      .replace(/^(g[0-9]+|grade-[0-9]+)-/, '')
       .replace(/^rat-/, '')
+      .replace(/^int-sec-[0-9]+-?/, '')
       .replace(/^sec-/, '')
       .replace(/-(quiz|matcher|sorter|theory)$/, '');
 
@@ -191,6 +193,7 @@ export function getTopicLevelData(
     const recTitle = (rec.title || rec.topicTitle || '').toLowerCase();
 
     const titleMatches = (
+      // Grade 8
       (cleanTarget === 'logic' && (recTitle.includes('logik') || recTopicClean.includes('logik'))) ||
       (cleanTarget === 'set-basics' && (recTitle.includes('halmazokr') || recTitle.includes('halmazok alap') || recTopicClean.includes('halmaz-alap') || recTopicClean.includes('halmazok-alap') || recTopicClean.includes('halmazokról'))) ||
       (cleanTarget === 'set-operations' && (recTitle.includes('halmazművelet') || recTitle.includes('műveletek halmaz') || recTopicClean.includes('halmaz-muvelet') || recTopicClean.includes('set-op'))) ||
@@ -202,7 +205,39 @@ export function getTopicLevelData(
       (cleanTarget === 'algebra-intro' && (recTitle.includes('betűs kifejezések') || recTopicClean.includes('betus-ismetles') || recTopicClean.includes('betus-kif'))) ||
       (cleanTarget === 'factoring' && (recTitle.includes('kiemelés') || recTitle.includes('szorzása és a kiemelés') || recTopicClean.includes('betus-szorzas') || recTopicClean.includes('factoring'))) ||
       (cleanTarget === 'polynomial-mult' && (recTitle.includes('többtagú') || recTopicClean.includes('tobbtagu') || recTopicClean.includes('polynomial'))) ||
-      (cleanTarget === 'chapter1-summary' && (recTitle.includes('összefoglaló') || recTitle.includes('nagyteszt') || recTopicClean.includes('chapter-summary') || recTopicClean.includes('summary') || recTopicClean.includes('fejezet-osszefoglalo')))
+      (cleanTarget === 'chapter1-summary' && (recTitle.includes('összefoglaló') || recTitle.includes('nagyteszt') || recTopicClean.includes('chapter-summary') || recTopicClean.includes('summary') || recTopicClean.includes('fejezet-osszefoglalo'))) ||
+      // Grade 6
+      (cleanTarget === 'integers-operations' && (recTitle.includes('műveletek az egész') || recTitle.includes('műveletek kvíz') || recTopicClean.includes('operations'))) ||
+      (cleanTarget === 'integers-mult' && (recTitle.includes('szorzása') || recTitle.includes('szorzás kvíz') || recTopicClean.includes('mult'))) ||
+      (cleanTarget === 'integers-div' && (recTitle.includes('osztása') || recTitle.includes('osztás kvíz') || recTopicClean.includes('div'))) ||
+      (cleanTarget === 'integers-cases' && (recTitle.includes('hány eset') || recTitle.includes('összeszámolás') || recTopicClean.includes('cases'))) ||
+      (cleanTarget === 'integers-divisors' && (recTitle.includes('osztó, többszörös') || recTitle.includes('osztópárok') || recTopicClean.includes('divisors'))) ||
+      (cleanTarget === 'integers-remainders' && (recTitle.includes('maradék') || recTopicClean.includes('remainder'))) ||
+      (cleanTarget === 'integers-factorization' && (recTitle.includes('prímtényez') || recTitle.includes('hány osztója van') || recTopicClean.includes('factorization'))) ||
+      (cleanTarget === 'integers-divisibility-2-5-10' && (recTitle.includes('2-vel, 5-tel') || recTitle.includes('2, 5, 10') || recTopicClean.includes('2-5-10'))) ||
+      (cleanTarget === 'integers-divisibility-3-9' && (recTitle.includes('3-mal és 9') || recTitle.includes('3, 9') || recTopicClean.includes('3-9'))) ||
+      (cleanTarget === 'integers-divisibility-4-100' && (recTitle.includes('4-gyel és 100') || recTitle.includes('4, 100') || recTopicClean.includes('4-100'))) ||
+      (cleanTarget === 'integers-composite-divisibility' && (recTitle.includes('összetett oszthatóság') || recTopicClean.includes('composite'))) ||
+      (cleanTarget === 'integers-lcm' && (recTitle.includes('lkkt') || recTitle.includes('többszörös, közös') || recTopicClean.includes('lcm'))) ||
+      (cleanTarget === 'integers-gcd' && (recTitle.includes('lnko') || recTitle.includes('osztó, közös osztó') || recTopicClean.includes('gcd'))) ||
+      (cleanTarget === 'integers-summary' && (recTitle.includes('fejezeti összefoglalás') || (recTitle.includes('összefoglal') && recTopicClean.includes('6')) || recTopicClean.includes('summary'))) ||
+      // Grade 5
+      (cleanTarget === 'roman-numerals' && (recTitle.includes('római') || recTitle.includes('romai') || recTopicClean.includes('roman'))) ||
+      (cleanTarget === 'place-value' && (recTitle.includes('helyiérték') || recTitle.includes('helyiertek') || recTopicClean.includes('place-value'))) ||
+      (cleanTarget === 'number-reading' && (recTitle.includes('kiolvasás') || recTitle.includes('kiolvasas') || recTitle.includes('csoportosítás') || recTopicClean.includes('reading'))) ||
+      (cleanTarget === 'number-spelling' && (recTitle.includes('helyesírás') || recTitle.includes('helyesiras') || recTopicClean.includes('spelling'))) ||
+      (cleanTarget === 'number-systems' && (recTitle.includes('számrendszer') || recTitle.includes('szamrendszer') || recTopicClean.includes('systems'))) ||
+      (cleanTarget === 'number-line' && (recTitle.includes('számegyenes') || recTitle.includes('szamegyenes') || recTopicClean.includes('line'))) ||
+      (cleanTarget === 'rounding' && (recTitle.includes('kerekítés') || recTitle.includes('becslés') || recTopicClean.includes('rounding'))) ||
+      (cleanTarget === 'addition' && ((recTitle.includes('összeadás') || recTitle.includes('osszeadas')) && !recTitle.includes('egész számok') && !recTitle.includes('kivonás') || recTopicClean.includes('addition') && !recTopicClean.includes('integer'))) ||
+      (cleanTarget === 'subtraction' && ((recTitle.includes('kivonás') || recTitle.includes('kivonas')) && !recTitle.includes('összeadás') && !recTitle.includes('egész számok') || recTopicClean.includes('subtraction') && !recTopicClean.includes('integer'))) ||
+      (cleanTarget === 'multiplication' && ((recTitle.includes('szorzás') || recTitle.includes('szorzas')) && !recTitle.includes('egész számok') && !recTitle.includes('tizedes') || recTopicClean.includes('multiplication') && !recTopicClean.includes('decimal'))) ||
+      (cleanTarget === 'division' && ((recTitle.includes('osztás') || recTitle.includes('osztas')) && !recTitle.includes('egész számok') && !recTitle.includes('tizedes') || recTopicClean.includes('division') && !recTopicClean.includes('decimal'))) ||
+      (cleanTarget === 'order-of-operations' && (recTitle.includes('műveleti sorrend') || recTitle.includes('sorrend') || recTitle.includes('zárójelek') || recTopicClean.includes('order'))) ||
+      (cleanTarget === 'negative-numbers' && (recTitle.includes('negatív szám') || recTitle.includes('negativ') || recTopicClean.includes('negative'))) ||
+      (cleanTarget === 'opposite-absolute' && (recTitle.includes('ellentett') || recTitle.includes('abszolút') || recTitle.includes('abszolut') || recTopicClean.includes('opposite') || recTopicClean.includes('absolute'))) ||
+      (cleanTarget === 'integer-addition-subtraction' && (recTitle.includes('egész számok összeadása') || recTitle.includes('egész számok műveletei') || recTopicClean.includes('integer-addition-subtraction'))) ||
+      (cleanTarget === 'chapter1-summary' && ((recTitle.includes('összefoglal') || recTitle.includes('témazáró')) && (recTopicClean.includes('g5') || recTopicClean.includes('grade-5') || recTitle.includes('5'))))
     );
 
     const isMatch =

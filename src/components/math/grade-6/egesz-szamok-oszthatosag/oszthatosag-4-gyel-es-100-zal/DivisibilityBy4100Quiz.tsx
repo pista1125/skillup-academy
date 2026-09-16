@@ -537,10 +537,15 @@ const GAME_MODES: CustomGameMode[] = [
   }
 ];
 
-export function DivisibilityBy4100Quiz({ onBack }: DivisibilityBy4100QuizProps) {
+export function DivisibilityBy4100Quiz({ onBack, onSwitchToTheory }: DivisibilityBy4100QuizProps) {
   return (
     <QuizTemplate
       onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      topicId="g6-integers-divisibility-4-100"
+      grade={6}
+      chapterId="egesz-szamok-oszthatosag"
+      topicTitle="Oszthatóság 4-gyel és 100-zal"
       emoji="💯"
       topicBadge="💯 6. Osztály • I. Egész számok, oszthatóság"
       title="Oszthatóság 4-gyel és 100-zal kvíz"

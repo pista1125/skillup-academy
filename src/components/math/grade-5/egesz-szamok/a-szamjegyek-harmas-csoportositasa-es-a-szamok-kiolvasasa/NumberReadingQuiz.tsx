@@ -474,6 +474,10 @@ export const NumberReadingQuiz: React.FC<NumberReadingQuizProps> = ({
 }) => {
   return (
     <QuizTemplate
+      topicId="g5-number-reading"
+      topicTitle="A számjegyek hármas csoportosítása és a számok kiolvasása"
+      grade={5}
+      chapterId="egesz-szamok"
       title="A számjegyek hármas csoportosítása és kiolvasása – Kvíz"
       subtitle="30 feladat 3 nehézségi szinten: hármas tagolás, számosztályok (egyesek, ezresek, milliók), helyes kiolvasási szabályok"
       questions={questions}

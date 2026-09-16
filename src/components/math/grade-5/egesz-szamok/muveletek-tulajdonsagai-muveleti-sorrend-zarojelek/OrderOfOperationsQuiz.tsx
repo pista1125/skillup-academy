@@ -486,6 +486,10 @@ const orderOfOperationsCheatSheet: CheatSheetSection[] = [
 export function OrderOfOperationsQuiz({ onBack, onSwitchToTheory }: OrderOfOperationsQuizProps) {
   return (
     <QuizTemplate
+      topicId="g5-order-of-operations"
+      topicTitle="Műveletek tulajdonságai, műveleti sorrend, zárójelek"
+      grade={5}
+      chapterId="egesz-szamok"
       title="Műveleti sorrend, zárójelek Kvíz"
       subtitle="Gyakorold a műveleti hierarchiát, a zárójelek kezelését, a balról jobbra szabályt és az okos azonosságokat!"
       questions={orderOfOperationsQuestions}

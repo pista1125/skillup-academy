@@ -2474,7 +2474,10 @@ export default function MathPage() {
                 )}
 
                 {activityType === 'g6-integers-operations-quiz' && (
-                  <Grade6OperationsQuiz onBack={handleBack} />
+                  <Grade6OperationsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g6-integers-operations-theory')}
+                  />
                 )}
 
                 {activityType === 'g6-integers-mult-theory' && (
@@ -2485,7 +2488,10 @@ export default function MathPage() {
                 )}
 
                 {activityType === 'g6-integers-mult-quiz' && (
-                  <Grade6MultiplicationQuiz onBack={handleBack} />
+                  <Grade6MultiplicationQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g6-integers-mult-theory')}
+                  />
                 )}
 
                 {activityType === 'g6-integers-div-theory' && (

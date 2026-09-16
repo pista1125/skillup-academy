@@ -551,6 +551,11 @@ export function PrimeFactorizationQuiz({ onBack, onSwitchToTheory }: PrimeFactor
   return (
     <QuizTemplate
       onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      topicId="g6-integers-factorization"
+      grade={6}
+      chapterId="egesz-szamok-oszthatosag"
+      topicTitle="Hány osztója van? (Prímtényezők)"
       emoji="🧱"
       topicBadge="🧱 6. Osztály • I. Egész számok"
       title="Hány osztója van? Kvíz"

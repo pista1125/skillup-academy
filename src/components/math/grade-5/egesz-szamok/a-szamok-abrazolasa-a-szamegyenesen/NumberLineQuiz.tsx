@@ -499,6 +499,10 @@ export const NumberLineQuiz: React.FC<NumberLineQuizProps> = ({
 }) => {
   return (
     <QuizTemplate
+      topicId="g5-number-line"
+      topicTitle="A számok ábrázolása a számegyenesen"
+      grade={5}
+      chapterId="egesz-szamok"
       title="A számok ábrázolása a számegyenesen Kvíz"
       subtitle="Gyakorold a pontok leolvasását, a lépésközök meghatározását, a felezőpontokat és szomszédokat!"
       topicBadge="5. Osztály • I. Az egész számok"

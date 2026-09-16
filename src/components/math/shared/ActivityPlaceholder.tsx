@@ -80,14 +80,14 @@ export function ActivityPlaceholder({
         "Tananyag": "MEGNYITÁS »",
     };
 
+    const isQuizOrTest = type === 'Kvíz' || type === 'Teszt';
     const badgeClass = type && typeBadgeClasses[type] ? typeBadgeClasses[type] : "bg-slate-400 text-white";
-    const labelText = isCompleted 
+    const labelText = (isQuizOrTest && isCompleted)
         ? "ÚJRAPRÓBÁLÁS »" 
-        : hasStarted 
+        : (isQuizOrTest && hasStarted)
         ? "FOLYTATÁS »" 
         : (type && typeLabel[type] ? typeLabel[type] : "INDÍTÁS »");
     const gradientClass = gradientClasses[color] || gradientClasses.slate;
-    const isQuizOrTest = type === 'Kvíz' || type === 'Teszt';
 
     return (
         <button
@@ -95,9 +95,9 @@ export function ActivityPlaceholder({
             disabled={disabled}
             className={cn(
                 "flex flex-col bg-white dark:bg-slate-900 rounded-2xl border transition-all text-left overflow-hidden group h-full shadow-sm relative",
-                isCompleted 
+                (isQuizOrTest && isCompleted)
                     ? "border-emerald-300/80 dark:border-emerald-800/80 ring-1 ring-emerald-400/20" 
-                    : hasStarted
+                    : (isQuizOrTest && hasStarted)
                     ? "border-amber-300/80 dark:border-amber-800/80 ring-1 ring-amber-400/20"
                     : "border-slate-200 dark:border-slate-800",
                 !disabled ? "hover:border-transparent hover:-translate-y-1 hover:shadow-xl active:translate-y-0 cursor-pointer" : "cursor-not-allowed opacity-60"
@@ -113,7 +113,7 @@ export function ActivityPlaceholder({
                 <div className="absolute -bottom-3 -left-3 w-12 h-12 bg-white/10 rounded-full" />
 
                 {/* Status Badge in Top Left */}
-                {isCompleted ? (
+                {isQuizOrTest && (isCompleted ? (
                     <div className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-white/95 dark:bg-slate-900/95 text-emerald-600 dark:text-emerald-400 text-[9px] font-black shadow-md backdrop-blur-sm flex items-center gap-1 z-20 animate-in zoom-in-75">
                         <CheckCircle2 className="w-3 h-3 text-emerald-500 shrink-0" />
                         <span>3/3 szint • {bestScore !== undefined ? `${bestScore}%` : '100%'}</span>
@@ -123,7 +123,7 @@ export function ActivityPlaceholder({
                         <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse shrink-0" />
                         <span>{completedLevelsCount}/3 szint • {bestScore !== undefined ? `${bestScore}%` : ''}</span>
                     </div>
-                ) : null}
+                ) : null)}
 
                 {emoji ? (
                     <span className="text-4xl drop-shadow-sm group-hover:scale-110 transition-transform duration-300 z-10">{emoji}</span>
@@ -150,7 +150,7 @@ export function ActivityPlaceholder({
                     <p className="text-[9px] text-slate-400 dark:text-slate-500 mt-0.5 line-clamp-1">{subtitle}</p>
 
                     {/* 3 Difficulty Level Status Pills for Quizzes */}
-                    {(isQuizOrTest || levelScores) && (
+                    {isQuizOrTest && (
                         <div className="mt-2.5 pt-2 border-t border-slate-100 dark:border-slate-800/80">
                             <div className="grid grid-cols-3 gap-1">
                                 {([1, 2, 3] as const).map((lvl) => {
@@ -193,13 +193,13 @@ export function ActivityPlaceholder({
                 <div className="mt-2.5 pt-1.5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between">
                     <span className={cn(
                         "text-[8px] font-black tracking-wider transition-colors",
-                        isCompleted 
+                        (isQuizOrTest && isCompleted)
                             ? "text-emerald-600 dark:text-emerald-400 flex items-center gap-1" 
-                            : hasStarted
+                            : (isQuizOrTest && hasStarted)
                             ? "text-amber-600 dark:text-amber-400 flex items-center gap-1"
                             : "text-indigo-600 group-hover:text-primary"
                     )}>
-                        {(isCompleted || hasStarted) && <RotateCcw className="w-2.5 h-2.5" />}
+                        {isQuizOrTest && (isCompleted || hasStarted) && <RotateCcw className="w-2.5 h-2.5" />}
                         {labelText}
                     </span>
                     {attemptsCount && attemptsCount > 1 ? (

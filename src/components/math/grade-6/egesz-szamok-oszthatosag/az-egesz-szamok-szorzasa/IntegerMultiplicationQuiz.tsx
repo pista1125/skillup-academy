@@ -6,6 +6,7 @@ import { IntegerMultiplicationSorter } from './IntegerMultiplicationSorter';
 
 export interface IntegerMultiplicationQuizProps {
   onBack: () => void;
+  onSwitchToTheory?: () => void;
 }
 
 const CHEAT_SHEET: CheatSheetItem[] = [
@@ -516,10 +517,15 @@ const GAME_MODES: CustomGameMode[] = [
   }
 ];
 
-export function IntegerMultiplicationQuiz({ onBack }: IntegerMultiplicationQuizProps) {
+export function IntegerMultiplicationQuiz({ onBack, onSwitchToTheory }: IntegerMultiplicationQuizProps) {
   return (
     <QuizTemplate
       onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      topicId="g6-integers-mult"
+      grade={6}
+      chapterId="egesz-szamok-oszthatosag"
+      topicTitle="Az egész számok szorzása"
       emoji="✖️"
       topicBadge="✖️ 6. Osztály • I. Egész számok"
       title="Az egész számok szorzása kvíz"

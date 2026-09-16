@@ -551,6 +551,10 @@ export function OppositeAbsoluteQuiz({
 }: OppositeAbsoluteQuizProps) {
   return (
     <QuizTemplate
+      topicId="g5-opposite-absolute"
+      topicTitle="A számok ellentettje és abszolút értéke"
+      grade={5}
+      chapterId="egesz-szamok"
       title="Ellentett és Abszolút Érték - Gyakorló Kvíz"
       topicBadge="🔄 5. Osztály • I. Az egész számok"
       badgeText="🔄 5. Osztály • I. Az egész számok"

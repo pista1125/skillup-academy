@@ -465,6 +465,10 @@ const divisionCheatSheet: CheatSheetSection[] = [
 export function DivisionQuiz({ onBack, onSwitchToTheory }: DivisionQuizProps) {
   return (
     <QuizTemplate
+      topicId="g5-division"
+      topicTitle="Osztás, írásbeli osztás kétjegyű osztóval"
+      grade={5}
+      chapterId="egesz-szamok"
       title="Osztás, írásbeli osztás Kvíz"
       subtitle="Gyakorold a fejben és írásban történő osztást, a maradékos osztást és a kétjegyű osztóval való számolást!"
       questions={divisionQuestions}

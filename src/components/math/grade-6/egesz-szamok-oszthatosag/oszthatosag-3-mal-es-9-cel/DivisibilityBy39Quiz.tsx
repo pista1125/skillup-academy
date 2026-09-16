@@ -548,10 +548,15 @@ const GAME_MODES: CustomGameMode[] = [
   }
 ];
 
-export function DivisibilityBy39Quiz({ onBack }: DivisibilityBy39QuizProps) {
+export function DivisibilityBy39Quiz({ onBack, onSwitchToTheory }: DivisibilityBy39QuizProps) {
   return (
     <QuizTemplate
       onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      topicId="g6-integers-divisibility-3-9"
+      grade={6}
+      chapterId="egesz-szamok-oszthatosag"
+      topicTitle="Oszthatóság 3-mal és 9-cel"
       emoji="🧮"
       topicBadge="🧮 6. Osztály • I. Egész számok, oszthatóság"
       title="Oszthatóság 3-mal és 9-cel kvíz"

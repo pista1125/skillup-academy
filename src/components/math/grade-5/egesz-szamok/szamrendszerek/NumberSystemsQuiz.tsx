@@ -478,6 +478,10 @@ export const NumberSystemsQuiz: React.FC<NumberSystemsQuizProps> = ({
 }) => {
   return (
     <QuizTemplate
+      topicId="g5-number-systems"
+      topicTitle="Számrendszerek"
+      grade={5}
+      chapterId="egesz-szamok"
       title="Számrendszerek Kvíz"
       subtitle="Gyakorold a kettes számrendszert, a 2-hatványokat, a decimális átváltást és a biteket!"
       topicBadge="5. Osztály • I. Az egész számok"

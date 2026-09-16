@@ -429,6 +429,14 @@ export function MatcherTemplate({
             </div>
           </div>
 
+          {/* Profile Save Confirmation */}
+          <div className="flex items-center justify-center gap-2 max-w-sm mx-auto py-2 px-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/80 text-emerald-700 dark:text-emerald-300 text-xs font-bold">
+            <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+            <span>
+              {user ? 'Párosító eredményed elmentve a profilodba! 🎉' : 'Jelentkezz be a haladás mentéséhez!'}
+            </span>
+          </div>
+
           <div className="flex flex-wrap items-center justify-center gap-2.5 pt-2">
             <Button
               onClick={initGame}

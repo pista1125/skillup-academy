@@ -465,6 +465,10 @@ const multiplicationCheatSheet: CheatSheetSection[] = [
 export function MultiplicationQuiz({ onBack, onSwitchToTheory }: MultiplicationQuizProps) {
   return (
     <QuizTemplate
+      topicId="g5-multiplication"
+      topicTitle="Szorzás, írásbeli szorzás"
+      grade={5}
+      chapterId="egesz-szamok"
       title="Szorzás, írásbeli szorzás Kvíz"
       subtitle="Gyakorold a fejben és írásban történő szorzást, a szorzás azonosságait és a szöveges feladatokat!"
       questions={multiplicationQuestions}

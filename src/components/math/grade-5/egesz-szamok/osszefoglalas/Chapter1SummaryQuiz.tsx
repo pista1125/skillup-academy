@@ -1031,6 +1031,10 @@ export function Chapter1SummaryQuiz({
 }: Chapter1SummaryQuizProps) {
   return (
     <QuizTemplate
+      topicId="g5-chapter1-summary"
+      topicTitle="I. Az egész számok témazáró összefoglalás"
+      grade={5}
+      chapterId="egesz-szamok"
       title="I. Fejezet Összefoglalás - Nagy Témazáró Kvíz"
       topicBadge="🏆 5. Osztály • I. Az egész számok"
       badgeText="🏆 5. Osztály • I. Az egész számok"

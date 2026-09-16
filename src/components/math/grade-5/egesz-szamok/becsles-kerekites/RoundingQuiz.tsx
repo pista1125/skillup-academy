@@ -504,6 +504,10 @@ export const RoundingQuiz: React.FC<RoundingQuizProps> = ({
 }) => {
   return (
     <QuizTemplate
+      topicId="g5-rounding"
+      topicTitle="Becslés, kerekítés"
+      grade={5}
+      chapterId="egesz-szamok"
       title="Becslés és Kerekítés Kvíz"
       subtitle="Gyakorold a kerekítést tízesre, százasra, ezresre és a műveletek becslését!"
       topicBadge="5. Osztály • I. Az egész számok"
