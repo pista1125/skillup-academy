@@ -3,9 +3,23 @@ import { SorterTemplate, SorterItem, SorterCategory } from '../SorterTemplate';
 
 interface ExpansionFactoringSorterProps {
   onNextLevel?: () => void;
+  onBack?: () => void;
+  onSwitchToTheory?: () => void;
+  topicId?: string;
+  topicTitle?: string;
+  grade?: number;
+  chapterId?: string;
 }
 
-export const ExpansionFactoringSorter: React.FC<ExpansionFactoringSorterProps> = ({ onNextLevel }) => {
+export const ExpansionFactoringSorter: React.FC<ExpansionFactoringSorterProps> = ({
+  onNextLevel,
+  onBack,
+  onSwitchToTheory,
+  topicId = 'g7-rat-expansion-factoring',
+  topicTitle = '8. Zárójelfelbontás, kiemelés',
+  grade = 7,
+  chapterId = 'racionalis-szamok-algebra'
+}) => {
   // Level 1: Kifejezés alakja
   const level1Categories: SorterCategory[] = [
     { id: 'product', name: 'Szorzat alak (Zárójeles)' },
@@ -70,6 +84,10 @@ export const ExpansionFactoringSorter: React.FC<ExpansionFactoringSorterProps> =
     <SorterTemplate
       title="Zárójelfelbontás & Kiemelés Csoportosító"
       subtitle="Csoportosítsd az algebrai kifejezéseket alakjuk, kiemelhető tényezőjük és előjeleik szerint!"
+      topicId={topicId}
+      topicTitle={topicTitle}
+      grade={grade}
+      chapterId={chapterId}
       level1Categories={level1Categories}
       level1Items={level1Items}
       level2Categories={level2Categories}
@@ -77,6 +95,8 @@ export const ExpansionFactoringSorter: React.FC<ExpansionFactoringSorterProps> =
       level3Categories={level3Categories}
       level3Items={level3Items}
       onNextLevel={onNextLevel}
+      onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
     />
   );
 };

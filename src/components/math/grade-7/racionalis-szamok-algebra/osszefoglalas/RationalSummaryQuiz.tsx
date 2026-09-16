@@ -926,6 +926,11 @@ export const RationalSummaryQuiz: React.FC<RationalSummaryQuizProps> = ({
     <QuizTemplate
       title="9. Nagy Fejezeti Összefoglaló Kvíz (90 Kérdés)"
       subtitle="A II. Racionális számok és betűs kifejezések fejezet teljes tudáspróbája 3 nehézségi szinten (30-30-30 feladat)!"
+      grade={7}
+      chapterId="racionalis-szamok-algebra"
+      topicId="g7-rat-summary"
+      topicTitle="9. Nagy Fejezeti Összefoglaló (90 Kérdés)"
+      subtopicId="osszefoglalas"
       documentId="grade-7-racionalis-szamok-algebra-osszefoglalas-quiz"
       badgeText="7. Osztály • Záró Nagykvíz (90 Kérdés)"
       themeColor="rose"
@@ -933,8 +938,8 @@ export const RationalSummaryQuiz: React.FC<RationalSummaryQuizProps> = ({
       levels={quizLevels}
       onBack={onBack}
       onSwitchToTheory={onSwitchToTheory}
-      matcherComponent={<RationalSummaryMatcher />}
-      sorterComponent={<RationalSummarySorter />}
+      matcherComponent={<RationalSummaryMatcher onSwitchToTheory={onSwitchToTheory} />}
+      sorterComponent={<RationalSummarySorter onSwitchToTheory={onSwitchToTheory} />}
     />
   );
 };

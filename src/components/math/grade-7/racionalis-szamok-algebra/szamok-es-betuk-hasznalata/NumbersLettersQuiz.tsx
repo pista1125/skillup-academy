@@ -494,6 +494,11 @@ export const NumbersLettersQuiz: React.FC<NumbersLettersQuizProps> = ({
     <QuizTemplate
       title="6. Számok és betűk használata Kvíz"
       subtitle="Teszteld a tudásodat a betűs kifejezések, együtthatók, algebranyelv és formulák témakörében!"
+      grade={7}
+      chapterId="racionalis-szamok-algebra"
+      topicId="g7-rat-numbers-letters"
+      topicTitle="6. Számok és betűk használata"
+      subtopicId="szamok-es-betuk-hasznalata"
       documentId="grade-7-racionalis-szamok-algebra-szamok-es-betuk-quiz"
       badgeText="7. Osztály • Algebra Alapjai"
       themeColor="purple"
@@ -501,8 +506,8 @@ export const NumbersLettersQuiz: React.FC<NumbersLettersQuizProps> = ({
       levels={quizLevels}
       onBack={onBack}
       onSwitchToTheory={onSwitchToTheory}
-      matcherComponent={<NumbersLettersMatcher />}
-      sorterComponent={<NumbersLettersSorter />}
+      matcherComponent={<NumbersLettersMatcher onSwitchToTheory={onSwitchToTheory} />}
+      sorterComponent={<NumbersLettersSorter onSwitchToTheory={onSwitchToTheory} />}
     />
   );
 };

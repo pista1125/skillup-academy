@@ -180,9 +180,14 @@ export function subscribeUserProgress(
         if (data.quizId) {
           map[data.quizId] = data;
         }
+        if (data.id) {
+          map[data.id] = data;
+        }
         // Könnyebb kulcsolhatóság: topicId + gameType + level szerint is
         const shortKey = `${data.topicId}__${data.gameType}__${data.level}`;
         map[shortKey] = data;
+        map[`${data.topicId}__lvl${data.level}`] = data;
+        map[`${data.topicId}__${data.level}`] = data;
 
         // Csak topic szerint is a legjobb pontszám
         if (!map[data.topicId] || (map[data.topicId].bestScore < data.bestScore)) {

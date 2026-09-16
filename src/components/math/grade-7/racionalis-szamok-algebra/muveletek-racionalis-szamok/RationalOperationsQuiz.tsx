@@ -487,6 +487,13 @@ export const RationalOperationsQuiz: React.FC<RationalOperationsQuizProps> = ({
   return (
     <QuizTemplate
       onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      grade={7}
+      chapterId="racionalis-szamok-algebra"
+      topicId="g7-rat-operations"
+      topicTitle="3. Műveletek a racionális számok halmazán"
+      subtopicId="muveletek-racionalis-szamok"
+      documentId="grade-7-racionalis-szamok-algebra-muveletek-racionalis-szamok-quiz"
       emoji="🔢"
       topicBadge="7. Osztály • Matematika II. Témakör"
       badgeText="7. Osztály • Matematika II. Témakör"
@@ -508,6 +515,7 @@ export const RationalOperationsQuiz: React.FC<RationalOperationsQuizProps> = ({
               level={level}
               onNextLevel={onNextLevel}
               onOpenRules={onOpenRules}
+              onSwitchToTheory={onSwitchToTheory}
             />
           )
         },
@@ -522,6 +530,7 @@ export const RationalOperationsQuiz: React.FC<RationalOperationsQuizProps> = ({
               level={level}
               onNextLevel={onNextLevel}
               onOpenRules={onOpenRules}
+              onSwitchToTheory={onSwitchToTheory}
             />
           )
         }

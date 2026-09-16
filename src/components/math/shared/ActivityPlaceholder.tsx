@@ -12,8 +12,15 @@ interface ActivityPlaceholderProps {
     disabled?: boolean;
     emoji?: string;
     isCompleted?: boolean;
+    hasStarted?: boolean;
     bestScore?: number;
     attemptsCount?: number;
+    completedLevelsCount?: number;
+    levelScores?: {
+        1?: number;
+        2?: number;
+        3?: number;
+    };
 }
 
 export function ActivityPlaceholder({
@@ -26,8 +33,11 @@ export function ActivityPlaceholder({
     disabled,
     emoji,
     isCompleted,
+    hasStarted,
     bestScore,
-    attemptsCount
+    attemptsCount,
+    completedLevelsCount = 0,
+    levelScores
 }: ActivityPlaceholderProps) {
     const gradientClasses: Record<string, string> = {
         blue: "from-blue-400 to-blue-600",
@@ -71,8 +81,13 @@ export function ActivityPlaceholder({
     };
 
     const badgeClass = type && typeBadgeClasses[type] ? typeBadgeClasses[type] : "bg-slate-400 text-white";
-    const labelText = isCompleted ? "ÚJRAPRÓBÁLÁS »" : (type && typeLabel[type] ? typeLabel[type] : "INDÍTÁS »");
+    const labelText = isCompleted 
+        ? "ÚJRAPRÓBÁLÁS »" 
+        : hasStarted 
+        ? "FOLYTATÁS »" 
+        : (type && typeLabel[type] ? typeLabel[type] : "INDÍTÁS »");
     const gradientClass = gradientClasses[color] || gradientClasses.slate;
+    const isQuizOrTest = type === 'Kvíz' || type === 'Teszt';
 
     return (
         <button
@@ -82,6 +97,8 @@ export function ActivityPlaceholder({
                 "flex flex-col bg-white dark:bg-slate-900 rounded-2xl border transition-all text-left overflow-hidden group h-full shadow-sm relative",
                 isCompleted 
                     ? "border-emerald-300/80 dark:border-emerald-800/80 ring-1 ring-emerald-400/20" 
+                    : hasStarted
+                    ? "border-amber-300/80 dark:border-amber-800/80 ring-1 ring-amber-400/20"
                     : "border-slate-200 dark:border-slate-800",
                 !disabled ? "hover:border-transparent hover:-translate-y-1 hover:shadow-xl active:translate-y-0 cursor-pointer" : "cursor-not-allowed opacity-60"
             )}
@@ -95,13 +112,18 @@ export function ActivityPlaceholder({
                 <div className="absolute -top-4 -right-4 w-16 h-16 bg-white/10 rounded-full" />
                 <div className="absolute -bottom-3 -left-3 w-12 h-12 bg-white/10 rounded-full" />
 
-                {/* Completed Badge in Top Left */}
-                {isCompleted && (
+                {/* Status Badge in Top Left */}
+                {isCompleted ? (
                     <div className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-white/95 dark:bg-slate-900/95 text-emerald-600 dark:text-emerald-400 text-[9px] font-black shadow-md backdrop-blur-sm flex items-center gap-1 z-20 animate-in zoom-in-75">
                         <CheckCircle2 className="w-3 h-3 text-emerald-500 shrink-0" />
-                        <span>{bestScore !== undefined ? `${bestScore}%` : 'KÉSZ'}</span>
+                        <span>3/3 szint • {bestScore !== undefined ? `${bestScore}%` : '100%'}</span>
                     </div>
-                )}
+                ) : hasStarted ? (
+                    <div className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-white/95 dark:bg-slate-900/95 text-amber-600 dark:text-amber-400 text-[9px] font-black shadow-md backdrop-blur-sm flex items-center gap-1.5 z-20 animate-in zoom-in-75">
+                        <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse shrink-0" />
+                        <span>{completedLevelsCount}/3 szint • {bestScore !== undefined ? `${bestScore}%` : ''}</span>
+                    </div>
+                ) : null}
 
                 {emoji ? (
                     <span className="text-4xl drop-shadow-sm group-hover:scale-110 transition-transform duration-300 z-10">{emoji}</span>
@@ -126,13 +148,58 @@ export function ActivityPlaceholder({
                 <div>
                     <h4 className="font-bold text-[11px] text-slate-800 dark:text-slate-200 group-hover:text-primary transition-colors leading-tight line-clamp-2">{title}</h4>
                     <p className="text-[9px] text-slate-400 dark:text-slate-500 mt-0.5 line-clamp-1">{subtitle}</p>
+
+                    {/* 3 Difficulty Level Status Pills for Quizzes */}
+                    {(isQuizOrTest || levelScores) && (
+                        <div className="mt-2.5 pt-2 border-t border-slate-100 dark:border-slate-800/80">
+                            <div className="grid grid-cols-3 gap-1">
+                                {([1, 2, 3] as const).map((lvl) => {
+                                    const scoreVal = levelScores?.[lvl];
+                                    const isDone = scoreVal !== undefined;
+                                    return (
+                                        <div
+                                            key={lvl}
+                                            className={cn(
+                                                "flex flex-col items-center justify-center py-1 px-1 rounded-lg text-center font-mono transition-all",
+                                                isDone
+                                                    ? scoreVal === 100
+                                                        ? "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 shadow-2xs"
+                                                        : scoreVal >= 70
+                                                        ? "bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-300 dark:border-amber-800 shadow-2xs"
+                                                        : "bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border border-rose-300 dark:border-rose-800 shadow-2xs"
+                                                    : hasStarted
+                                                    ? "bg-rose-50/50 dark:bg-rose-950/20 text-rose-600 dark:text-rose-400 border border-dashed border-rose-200 dark:border-rose-900/50"
+                                                    : "bg-slate-50 dark:bg-slate-800/40 text-slate-400 dark:text-slate-500 border border-slate-200/60 dark:border-slate-800"
+                                            )}
+                                            title={isDone ? `${lvl}. szint: ${scoreVal}%` : (hasStarted ? `${lvl}. szint: Még hiányzik` : `${lvl}. szint: Még nincs kitöltve`)}
+                                        >
+                                            <span className="text-[7.5px] font-black uppercase tracking-tight text-slate-400 dark:text-slate-500">
+                                                {lvl}. szint
+                                            </span>
+                                            <span className={cn(
+                                                "font-black text-[10px] leading-tight",
+                                                !isDone && hasStarted && "text-[8px] font-bold"
+                                            )}>
+                                                {isDone ? `${scoreVal}%` : (hasStarted ? 'Hiányzik' : '—')}
+                                            </span>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )}
                 </div>
-                <div className="mt-2 pt-1.5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between">
+
+                <div className="mt-2.5 pt-1.5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between">
                     <span className={cn(
                         "text-[8px] font-black tracking-wider transition-colors",
-                        isCompleted ? "text-amber-600 dark:text-amber-400 flex items-center gap-1" : "text-emerald-600 group-hover:text-primary"
+                        isCompleted 
+                            ? "text-emerald-600 dark:text-emerald-400 flex items-center gap-1" 
+                            : hasStarted
+                            ? "text-amber-600 dark:text-amber-400 flex items-center gap-1"
+                            : "text-indigo-600 group-hover:text-primary"
                     )}>
-                        {isCompleted && <RotateCcw className="w-2.5 h-2.5" />}
+                        {(isCompleted || hasStarted) && <RotateCcw className="w-2.5 h-2.5" />}
                         {labelText}
                     </span>
                     {attemptsCount && attemptsCount > 1 ? (

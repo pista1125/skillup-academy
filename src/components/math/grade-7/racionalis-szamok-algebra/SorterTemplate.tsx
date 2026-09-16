@@ -29,22 +29,42 @@ export interface SorterCategory {
   badgeColor?: string;
 }
 
+export interface SorterItem {
+  id: string;
+  label?: string;
+  content?: string;
+  text?: string;
+  category?: string;
+  categoryId?: string;
+}
+
 export interface SorterLevelConfig {
   categories: SorterCategory[];
   items: SorterItem[];
 }
 
 export interface SorterTemplateProps {
-  level: DifficultyLevel;
+  level?: DifficultyLevel;
   title?: string;
   subtitle?: string;
   badge?: string;
-  levels: Record<DifficultyLevel, SorterLevelConfig>;
+  topicTitle?: string;
+  levels?: Record<DifficultyLevel, SorterLevelConfig>;
+  config?: SorterLevelConfig;
+  categories?: SorterCategory[];
+  items?: SorterItem[];
+  level1Categories?: SorterCategory[];
+  level1Items?: SorterItem[];
+  level2Categories?: SorterCategory[];
+  level2Items?: SorterItem[];
+  level3Categories?: SorterCategory[];
+  level3Items?: SorterItem[];
   onNextLevel?: () => void;
   onOpenRules?: () => void;
   onBack?: () => void;
   onSwitchToQuiz?: () => void;
   onSwitchToMatcher?: () => void;
+  onSwitchToTheory?: () => void;
   grade?: number;
   chapterId?: string;
   topicId?: string;
@@ -60,16 +80,27 @@ function shuffleArray<T>(array: T[]): T[] {
 }
 
 export function SorterTemplate({
-  level,
+  level = 1,
   title = 'Csoportosító (Húzd / Kattints a helyére)',
   subtitle = 'Válaszd ki a kártyát, majd kattints a megfelelő kategóriára!',
   badge,
+  topicTitle,
   levels,
+  config,
+  categories,
+  items,
+  level1Categories,
+  level1Items,
+  level2Categories,
+  level2Items,
+  level3Categories,
+  level3Items,
   onNextLevel,
   onOpenRules,
   onBack,
   onSwitchToQuiz,
   onSwitchToMatcher,
+  onSwitchToTheory,
   grade = 7,
   chapterId = 'racionalis-szamok-algebra',
   topicId
@@ -90,13 +121,46 @@ export function SorterTemplate({
     wrongItemIds: []
   });
 
-  const initGame = () => {
-    const config = levels[level];
-    if (!config) return;
+  const activeLevel: DifficultyLevel = level || 1;
 
-    setUnassignedItems(shuffleArray(config.items));
+  // Normalize level configuration from any prop format
+  const getLevelConfig = (): SorterLevelConfig => {
+    if (config?.categories && config?.items) return config;
+    if (levels && levels[activeLevel]) return levels[activeLevel];
+    if (activeLevel === 1 && level1Categories && level1Items) {
+      return { categories: level1Categories, items: level1Items };
+    }
+    if (activeLevel === 2 && level2Categories && level2Items) {
+      return { categories: level2Categories, items: level2Items };
+    }
+    if (activeLevel === 3 && level3Categories && level3Items) {
+      return { categories: level3Categories, items: level3Items };
+    }
+    if (categories && items) {
+      return { categories, items };
+    }
+    if (level1Categories && level1Items) {
+      return { categories: level1Categories, items: level1Items };
+    }
+    return { categories: [], items: [] };
+  };
+
+  const currentConfig = getLevelConfig();
+
+  const initGame = () => {
+    const activeCfg = getLevelConfig();
+    if (!activeCfg || !activeCfg.categories) return;
+
+    // Normalize item labels and categories
+    const normalizedItems: SorterItem[] = (activeCfg.items || []).map((it) => ({
+      id: it.id,
+      label: it.label || it.content || it.text || '',
+      category: it.category || it.categoryId || ''
+    }));
+
+    setUnassignedItems(shuffleArray(normalizedItems));
     const initialBuckets: Record<string, SorterItem[]> = {};
-    config.categories.forEach((cat) => {
+    activeCfg.categories.forEach((cat) => {
       initialBuckets[cat.id] = [];
     });
     setCategorizedItems(initialBuckets);
@@ -111,7 +175,7 @@ export function SorterTemplate({
 
   useEffect(() => {
     initGame();
-  }, [level]);
+  }, [level, config, levels]);
 
   const handleSelectItem = (item: SorterItem) => {
     if (validationResult.isChecked && validationResult.isAllCorrect) return;
@@ -208,9 +272,10 @@ export function SorterTemplate({
 
       if (user) {
         const totalItems = currentConfig?.items?.length || 10;
-        const computedTopicId = (topicId || badge || title || 'sorter').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+        const computedTopicId = topicId || (badge || title || 'sorter').toLowerCase().replace(/[^a-z0-9]+/g, '-');
         const g = grade || 7;
         const ch = chapterId || 'racionalis-szamok-algebra';
+        const displayTitle = topicTitle ? `${topicTitle} (Csoportosító)` : title;
 
         saveQuizProgress({
           userId: user.uid,
@@ -220,11 +285,14 @@ export function SorterTemplate({
           grade: g,
           chapterId: ch,
           topicId: computedTopicId,
-          quizId: `g${g}__${ch}__${computedTopicId}__sorter__lvl${level}`,
+          topicTitle: topicTitle || title,
+          quizId: `g${g}__${ch}__${computedTopicId}__sorter__lvl${activeLevel}`,
           gameType: 'sorter',
-          level: level,
-          title: title,
+          level: activeLevel,
+          title: displayTitle,
+          percentage: 100,
           score: 100,
+          scorePoints: totalItems,
           totalQuestions: totalItems,
           bestStreak: totalItems,
           completed: true
@@ -233,10 +301,9 @@ export function SorterTemplate({
     }
   };
 
-  const currentConfig = levels[level];
   const allPlaced = unassignedItems.length === 0;
 
-  if (!currentConfig) return null;
+  if (!currentConfig || !currentConfig.categories || currentConfig.categories.length === 0) return null;
 
   return (
     <div className="space-y-4 animate-in fade-in duration-300">
@@ -437,8 +504,9 @@ export function SorterTemplate({
             </Button>
           ) : (
             <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-              <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 mr-1">
-                🎉 Hibátlan csoportosítás!
+              <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 mr-1 bg-emerald-50 dark:bg-emerald-950/60 px-3 py-1.5 rounded-xl border border-emerald-200 dark:border-emerald-800 flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                {user ? 'Hibátlan csoportosítás! Eredményed elmentve! 🎉' : '🎉 Hibátlan csoportosítás!'}
               </span>
               {level < 3 && onNextLevel && (
                 <Button

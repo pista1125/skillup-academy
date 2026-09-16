@@ -553,6 +553,13 @@ export const IntegerPropertiesQuiz: React.FC<IntegerPropertiesQuizProps> = ({
   return (
     <QuizTemplate
       onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      grade={7}
+      chapterId="racionalis-szamok-algebra"
+      topicId="g7-rat-integer-properties"
+      topicTitle="1. Az egész számok tulajdonságai"
+      subtopicId="egesz-szamok-tulajdonsagai"
+      documentId="grade-7-racionalis-szamok-algebra-egesz-szamok-tulajdonsagai-quiz"
       emoji="🔢"
       topicBadge="7. Osztály • Matematika II. Témakör"
       badgeText="7. Osztály • Matematika II. Témakör"
@@ -575,6 +582,7 @@ export const IntegerPropertiesQuiz: React.FC<IntegerPropertiesQuizProps> = ({
               level={level}
               onNextLevel={onNextLevel}
               onOpenRules={onOpenRules}
+              onSwitchToTheory={onSwitchToTheory}
             />
           )
         },
@@ -589,6 +597,7 @@ export const IntegerPropertiesQuiz: React.FC<IntegerPropertiesQuizProps> = ({
               level={level}
               onNextLevel={onNextLevel}
               onOpenRules={onOpenRules}
+              onSwitchToTheory={onSwitchToTheory}
             />
           )
         }

@@ -3,9 +3,23 @@ import { MatcherTemplate, MatchPair } from '../MatcherTemplate';
 
 interface CombiningSubstitutionMatcherProps {
   onNextLevel?: () => void;
+  onBack?: () => void;
+  onSwitchToTheory?: () => void;
+  topicId?: string;
+  topicTitle?: string;
+  grade?: number;
+  chapterId?: string;
 }
 
-export const CombiningSubstitutionMatcher: React.FC<CombiningSubstitutionMatcherProps> = ({ onNextLevel }) => {
+export const CombiningSubstitutionMatcher: React.FC<CombiningSubstitutionMatcherProps> = ({
+  onNextLevel,
+  onBack,
+  onSwitchToTheory,
+  topicId = 'g7-rat-combining-substitution',
+  topicTitle = '7. Összevonás, helyettesítési érték',
+  grade = 7,
+  chapterId = 'racionalis-szamok-algebra'
+}) => {
   const level1Pairs: MatchPair[] = [
     { id: 'm1-1', left: '3x + 5x', right: '8x' },
     { id: 'm1-2', left: '7a - 2a', right: '5a' },
@@ -43,10 +57,16 @@ export const CombiningSubstitutionMatcher: React.FC<CombiningSubstitutionMatcher
     <MatcherTemplate
       title="Összevonás & Helyettesítési Érték Párosító"
       subtitle="Párosítsd össze a kifejezéseket az összevont alakjukkal vagy a kiszámított helyettesítési értékükkel!"
+      topicId={topicId}
+      topicTitle={topicTitle}
+      grade={grade}
+      chapterId={chapterId}
       level1Pairs={level1Pairs}
       level2Pairs={level2Pairs}
       level3Pairs={level3Pairs}
       onNextLevel={onNextLevel}
+      onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
     />
   );
 };

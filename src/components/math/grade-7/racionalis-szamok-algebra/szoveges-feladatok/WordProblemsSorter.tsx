@@ -68,19 +68,36 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
   }
 };
 
+interface WordProblemsSorterProps {
+  level?: DifficultyLevel;
+  onNextLevel?: () => void;
+  onOpenRules?: () => void;
+  onSwitchToTheory?: () => void;
+  topicId?: string;
+  topicTitle?: string;
+}
+
 export const WordProblemsSorter: React.FC<WordProblemsSorterProps> = ({
   level = 1,
   onNextLevel,
-  onOpenRules
+  onOpenRules,
+  onSwitchToTheory,
+  topicId = 'g7-rat-word-problems',
+  topicTitle = '4. Szöveges feladatok'
 }) => {
   return (
     <SorterTemplate
       level={level}
+      grade={7}
+      chapterId="racionalis-szamok-algebra"
+      topicId={topicId}
+      topicTitle={topicTitle}
       title="Szöveges Feladatok Csoportosító"
-      subtitle="Húzd vagy kattintással helyezd a feladatokat és arányokat a megfelelő kategóriába!"
+      subtitle="Válaszd ki a kártyát, majd kattints a megfelelő kategóriára a besoroláshoz!"
       levels={sorterLevels}
       onNextLevel={onNextLevel}
       onOpenRules={onOpenRules}
+      onSwitchToTheory={onSwitchToTheory}
     />
   );
 };

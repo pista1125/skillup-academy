@@ -68,19 +68,36 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
   }
 };
 
+interface ComplexOperationsSorterProps {
+  level?: DifficultyLevel;
+  onNextLevel?: () => void;
+  onOpenRules?: () => void;
+  onSwitchToTheory?: () => void;
+  topicId?: string;
+  topicTitle?: string;
+}
+
 export const ComplexOperationsSorter: React.FC<ComplexOperationsSorterProps> = ({
   level = 1,
   onNextLevel,
-  onOpenRules
+  onOpenRules,
+  onSwitchToTheory,
+  topicId = 'g7-rat-complex-operations',
+  topicTitle = '5. Összetett műveletek, zárójelfelbontás'
 }) => {
   return (
     <SorterTemplate
       level={level}
+      grade={7}
+      chapterId="racionalis-szamok-algebra"
+      topicId={topicId}
+      topicTitle={topicTitle}
       title="Összetett Műveletek Csoportosító"
-      subtitle="Húzd vagy kattintással helyezd a kifejezéseket a megfelelő prioritási vagy előjeles kategóriába!"
+      subtitle="Válaszd ki a kártyát, majd kattints a megfelelő kategóriára a besoroláshoz!"
       levels={sorterLevels}
       onNextLevel={onNextLevel}
       onOpenRules={onOpenRules}
+      onSwitchToTheory={onSwitchToTheory}
     />
   );
 };

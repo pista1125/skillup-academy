@@ -613,88 +613,94 @@ export function QuizTemplate({
       <div
         ref={containerRef}
         className={cn(
-          "w-full max-w-2xl mx-auto px-4 py-8 animate-in zoom-in-95 duration-300 text-center",
+          "w-full max-w-xl mx-auto px-2 sm:px-4 py-1 sm:py-2 animate-in zoom-in-95 duration-300 text-center flex items-center justify-center min-h-[calc(100vh-180px)] sm:min-h-0",
           isFullscreen && "fixed inset-0 z-50 max-w-none w-screen h-screen bg-slate-100 dark:bg-slate-950 p-4 sm:p-6 overflow-y-auto flex items-center justify-center"
         )}
       >
-        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border-2 border-slate-200/80 dark:border-slate-800 shadow-xl max-w-xl w-full">
-          <div className="w-20 h-20 mx-auto mb-4 rounded-3xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white shadow-lg shadow-orange-500/30">
-            <Trophy className="w-10 h-10" />
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-4 sm:p-6 border-2 border-slate-200/80 dark:border-slate-800 shadow-xl max-w-lg w-full mx-auto">
+          {/* Trophy Badge */}
+          <div className="w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-2 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white shadow-md shadow-orange-500/20">
+            <Trophy className="w-7 h-7 sm:w-8 sm:h-8" />
           </div>
 
-          <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mb-1">
+          <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mb-0.5">
             {isPerfect ? 'Tökéletes Eredmény! 🏆' : isGood ? 'Szép Munka! 🌟' : 'Gyakorolj még egy kicsit! 💪'}
           </h2>
-          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mb-5">
+          <p className="text-xs text-slate-600 dark:text-slate-400 mb-2.5">
             Sikeresen befejezted a <span className="font-bold text-slate-800 dark:text-slate-200">{levelConfig.title}</span> feladatait!
           </p>
 
-          <div className="grid grid-cols-3 gap-3 bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-700/80 mb-6">
+          {/* Stats Bar */}
+          <div className="grid grid-cols-3 gap-2 bg-slate-50 dark:bg-slate-800/60 p-2.5 rounded-2xl border border-slate-200/80 dark:border-slate-700/80 mb-2.5">
             <div>
-              <div className="text-[11px] uppercase font-bold text-slate-400 mb-0.5">Pontszám</div>
-              <div className="text-2xl font-black text-orange-600 dark:text-orange-400">{score} / {totalQuestions}</div>
+              <div className="text-[10px] uppercase font-bold text-slate-400 mb-0.5">Pontszám</div>
+              <div className="text-lg sm:text-xl font-black text-orange-600 dark:text-orange-400 font-mono">{score} / {totalQuestions}</div>
             </div>
             <div className="border-x border-slate-200 dark:border-slate-700">
-              <div className="text-[11px] uppercase font-bold text-slate-400 mb-0.5">Eredmény</div>
-              <div className="text-2xl font-black text-slate-800 dark:text-slate-100">{percentage}%</div>
+              <div className="text-[10px] uppercase font-bold text-slate-400 mb-0.5">Eredmény</div>
+              <div className="text-lg sm:text-xl font-black text-slate-800 dark:text-slate-100 font-mono">{percentage}%</div>
             </div>
             <div>
-              <div className="text-[11px] uppercase font-bold text-slate-400 mb-0.5">Legjobb széria</div>
-              <div className="text-2xl font-black text-amber-500 flex items-center justify-center gap-1">
-                <Zap className="w-4 h-4 fill-current" /> {bestStreak}
+              <div className="text-[10px] uppercase font-bold text-slate-400 mb-0.5">Legjobb széria</div>
+              <div className="text-lg sm:text-xl font-black text-amber-500 flex items-center justify-center gap-1 font-mono">
+                <Zap className="w-3.5 h-3.5 fill-current" /> {bestStreak}
               </div>
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-2.5 mb-3">
+          {/* Primary Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-2 mb-2">
             {selectedLevel < 3 && (
               <Button
                 onClick={() => handleStartLevel((selectedLevel + 1) as DifficultyLevel, 'quiz')}
-                className="flex-1 h-11 rounded-xl text-sm font-bold bg-orange-600 hover:bg-orange-700 text-white shadow-md flex items-center justify-center gap-1.5"
+                className="flex-1 h-9 sm:h-10 rounded-xl text-xs sm:text-sm font-bold bg-orange-600 hover:bg-orange-700 text-white shadow-sm flex items-center justify-center gap-1.5"
               >
                 Következő szint: {selectedLevel + 1}. szint
-                <ArrowRight className="w-4 h-4 ml-1" />
+                <ArrowRight className="w-3.5 h-3.5 ml-0.5" />
               </Button>
             )}
 
             <Button
               variant="outline"
               onClick={() => handleStartLevel(selectedLevel, 'quiz')}
-              className="flex-1 h-11 rounded-xl text-sm font-bold border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="flex-1 h-9 sm:h-10 rounded-xl text-xs sm:text-sm font-bold border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"
             >
-              <RotateCcw className="w-4 h-4 mr-1 text-slate-500" />
+              <RotateCcw className="w-3.5 h-3.5 mr-1 text-slate-500" />
               Újrapróbálom
             </Button>
           </div>
 
-          {/* Secondary Navigation Row: Szintek, Tananyag, Vissza a menübe */}
-          <div className="flex flex-wrap items-center justify-center gap-2 pt-3 border-t border-slate-100 dark:border-slate-800">
+          {/* Secondary Navigation Row: Szintek, Tananyag, Vissza a témakörökhöz */}
+          <div className="flex flex-wrap items-center justify-center gap-1.5 pt-2 border-t border-slate-100 dark:border-slate-800">
             <Button
               variant="ghost"
+              size="sm"
               onClick={() => setSelectedLevel(null)}
-              className="h-10 px-3.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-1.5"
+              className="h-7 sm:h-8 px-2.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-1"
             >
-              <Layers className="w-4 h-4 text-slate-400" />
+              <Layers className="w-3.5 h-3.5 text-slate-400" />
               <span>Szintek</span>
             </Button>
 
             {onSwitchToTheory && (
               <Button
                 variant="ghost"
+                size="sm"
                 onClick={onSwitchToTheory}
-                className="h-10 px-3.5 rounded-xl text-xs font-bold text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-950/40 flex items-center gap-1.5"
+                className="h-7 sm:h-8 px-2.5 rounded-lg text-xs font-bold text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-950/40 flex items-center gap-1"
               >
-                <BookOpen className="w-4 h-4" />
+                <BookOpen className="w-3.5 h-3.5" />
                 <span>Vissza a tananyaghoz</span>
               </Button>
             )}
 
             <Button
               variant="ghost"
+              size="sm"
               onClick={onBack}
-              className="h-10 px-3.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-1.5"
+              className="h-7 sm:h-8 px-2.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-1"
             >
-              <ArrowLeft className="w-4 h-4" />
+              <ArrowLeft className="w-3.5 h-3.5" />
               <span>Vissza a témakörökhöz</span>
             </Button>
           </div>

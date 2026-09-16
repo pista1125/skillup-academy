@@ -6,6 +6,9 @@ interface IntegerPropertiesSorterProps {
   level?: DifficultyLevel;
   onNextLevel?: () => void;
   onOpenRules?: () => void;
+  onSwitchToTheory?: () => void;
+  topicId?: string;
+  topicTitle?: string;
 }
 
 const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
@@ -71,16 +74,24 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
 export const IntegerPropertiesSorter: React.FC<IntegerPropertiesSorterProps> = ({
   level = 1,
   onNextLevel,
-  onOpenRules
+  onOpenRules,
+  onSwitchToTheory,
+  topicId = 'g7-rat-integer-properties',
+  topicTitle = '1. Az egész számok tulajdonságai'
 }) => {
   return (
     <SorterTemplate
       level={level}
+      grade={7}
+      chapterId="racionalis-szamok-algebra"
+      topicId={topicId}
+      topicTitle={topicTitle}
       title="Egész Számok Csoportosító"
       subtitle="Válaszd ki a kártyát, majd kattints a megfelelő kategóriára a besoroláshoz!"
       levels={sorterLevels}
       onNextLevel={onNextLevel}
       onOpenRules={onOpenRules}
+      onSwitchToTheory={onSwitchToTheory}
     />
   );
 };

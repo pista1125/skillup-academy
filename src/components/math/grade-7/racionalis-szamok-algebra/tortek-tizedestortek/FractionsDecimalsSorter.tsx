@@ -71,16 +71,24 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
 export const FractionsDecimalsSorter: React.FC<FractionsDecimalsSorterProps> = ({
   level = 1,
   onNextLevel,
-  onOpenRules
+  onOpenRules,
+  onSwitchToTheory,
+  topicId = 'g7-rat-fractions-decimals',
+  topicTitle = '2. Törtek, tizedes törtek'
 }) => {
   return (
     <SorterTemplate
       level={level}
+      grade={7}
+      chapterId="racionalis-szamok-algebra"
+      topicId={topicId}
+      topicTitle={topicTitle}
       title="Törtek és Tizedestörtek Csoportosító"
-      subtitle="Húzd vagy kattintással helyezd a törteket és tizedestörteket a megfelelő kategóriába!"
+      subtitle="Válaszd ki a kártyát, majd kattints a megfelelő kategóriára a besoroláshoz!"
       levels={sorterLevels}
       onNextLevel={onNextLevel}
       onOpenRules={onOpenRules}
+      onSwitchToTheory={onSwitchToTheory}
     />
   );
 };

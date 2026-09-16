@@ -141,24 +141,110 @@ const GRADE_CONFIGS: Record<GradeLevel, GradeChapterConfig> = {
   }
 };
 
-/**
- * Fuzzy record lookup for a given topic ID across student records
- */
-function getRecordForTopic(
-  sMap: Record<string, QuizProgressRecord> | undefined,
-  topId: string
-): QuizProgressRecord | undefined {
-  if (!sMap) return undefined;
-  if (sMap[topId]) return sMap[topId];
+export interface TopicLevelProgressData {
+  hasStarted: boolean;
+  isAllCompleted: boolean;
+  completedLevelsCount: number;
+  avgScore: number;
+  totalAttempts: number;
+  levelScores: {
+    1?: number;
+    2?: number;
+    3?: number;
+  };
+  records: QuizProgressRecord[];
+}
 
-  const clean = topId.replace(/^g[0-9]+-/, '').replace(/-(quiz|matcher|sorter|theory)$/, '');
-  if (sMap[clean]) return sMap[clean];
+export function getTopicLevelData(
+  recordsForStudent: QuizProgressRecord[] | undefined,
+  topicId: string
+): TopicLevelProgressData {
+  if (!recordsForStudent || recordsForStudent.length === 0) {
+    return {
+      hasStarted: false,
+      isAllCompleted: false,
+      completedLevelsCount: 0,
+      avgScore: 0,
+      totalAttempts: 0,
+      levelScores: {},
+      records: []
+    };
+  }
 
-  const matchKey = Object.keys(sMap).find((k) => {
-    return k.includes(clean) || (clean.length > 3 && k.toLowerCase().includes(clean));
+  const cleanTarget = topicId
+    .toLowerCase()
+    .replace(/^g[0-9]+-/, '')
+    .replace(/^rat-/, '')
+    .replace(/^sec-/, '')
+    .replace(/-(quiz|matcher|sorter|theory)$/, '');
+
+  const matching: QuizProgressRecord[] = [];
+  recordsForStudent.forEach((rec) => {
+    const recTopicClean = (rec.topicId || '')
+      .toLowerCase()
+      .replace(/^g[0-9]+-/, '')
+      .replace(/^rat-/, '')
+      .replace(/^sec-/, '')
+      .replace(/-(quiz|matcher|sorter|theory)$/, '');
+
+    const recQuizId = (rec.quizId || '').toLowerCase();
+
+    const isMatch =
+      rec.topicId === topicId ||
+      recTopicClean === cleanTarget ||
+      (cleanTarget.length > 3 && recTopicClean.includes(cleanTarget)) ||
+      (cleanTarget.length > 3 && recQuizId.includes(cleanTarget));
+
+    if (isMatch) {
+      matching.push(rec);
+    }
   });
 
-  return matchKey ? sMap[matchKey] : undefined;
+  const levelScores: { 1?: number; 2?: number; 3?: number } = {};
+  let totalAttempts = 0;
+  let scoreSum = 0;
+  let count = 0;
+
+  matching.forEach((rec) => {
+    let lvl: 1 | 2 | 3 = 1;
+    if (rec.level === 1 || rec.level === 2 || rec.level === 3) {
+      lvl = rec.level;
+    } else if (rec.quizId?.includes('lvl1') || rec.quizId?.includes('level1')) {
+      lvl = 1;
+    } else if (rec.quizId?.includes('lvl2') || rec.quizId?.includes('level2')) {
+      lvl = 2;
+    } else if (rec.quizId?.includes('lvl3') || rec.quizId?.includes('level3')) {
+      lvl = 3;
+    }
+
+    const s = rec.bestScore !== undefined ? rec.bestScore : (rec.lastScore ?? 100);
+    if (levelScores[lvl] === undefined || s > (levelScores[lvl] || 0)) {
+      levelScores[lvl] = s;
+    }
+    totalAttempts += rec.attemptsCount || 1;
+  });
+
+  const completedLevels = Object.keys(levelScores).map(Number) as (1 | 2 | 3)[];
+  const completedLevelsCount = completedLevels.length;
+  const hasStarted = completedLevelsCount > 0;
+  const isAllCompleted = completedLevelsCount >= 3;
+
+  completedLevels.forEach((l) => {
+    scoreSum += levelScores[l] || 0;
+    count++;
+  });
+
+  const avgScore = count > 0 ? Math.round(scoreSum / count) : 0;
+
+  return {
+    hasStarted,
+    isAllCompleted,
+    completedLevelsCount,
+    avgScore,
+    totalAttempts,
+    levelScores,
+    records: matching
+  };
 }
 
 export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProgressMatrixProps) {
@@ -210,33 +296,15 @@ export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProg
     return () => unsub();
   }, [studentIds]);
 
-  // Index records by studentId -> topicKey
-  const studentTopicMap = useMemo(() => {
-    const map: Record<string, Record<string, QuizProgressRecord>> = {};
-
+  // Group records by studentId -> QuizProgressRecord[]
+  const studentRecordsMap = useMemo(() => {
+    const map: Record<string, QuizProgressRecord[]> = {};
     records.forEach((rec) => {
       if (!map[rec.userId]) {
-        map[rec.userId] = {};
+        map[rec.userId] = [];
       }
-
-      // Key by topicId or quizId
-      if (rec.topicId) {
-        const clean = rec.topicId.replace(/^g[0-9]+-/, '').replace(/-(quiz|matcher|sorter|theory)$/, '');
-        map[rec.userId][clean] = rec;
-        map[rec.userId][rec.topicId] = rec;
-      }
-      if (rec.quizId) {
-        map[rec.userId][rec.quizId] = rec;
-        const parts = rec.quizId.split('__');
-        if (parts.length >= 3) {
-          const tId = parts[2];
-          const cleanT = tId.replace(/^g[0-9]+-/, '').replace(/-(quiz|matcher|sorter|theory)$/, '');
-          map[rec.userId][cleanT] = rec;
-          map[rec.userId][tId] = rec;
-        }
-      }
+      map[rec.userId].push(rec);
     });
-
     return map;
   }, [records]);
 
@@ -255,18 +323,18 @@ export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProg
 
   // Overall class completion rate for the active grade
   const classStats = useMemo(() => {
-    if (!currentClass.students?.length) return { avgScore: 0, completedTasks: 0, completionPercent: 0 };
+    if (!currentClass.students?.length) return { avgScore: 0, completedCount: 0, completionPercent: 0 };
     const totalPossible = currentClass.students.length * activeTopics.length;
     let completedCount = 0;
     let scoreSum = 0;
 
     currentClass.students.forEach((s) => {
-      const sMap = studentTopicMap[s.userId] || {};
+      const sRecs = studentRecordsMap[s.userId] || [];
       activeTopics.forEach((top) => {
-        const item = getRecordForTopic(sMap, top.id);
-        if (item && item.completed) {
+        const item = getTopicLevelData(sRecs, top.id);
+        if (item.hasStarted) {
           completedCount++;
-          scoreSum += item.bestScore || 100;
+          scoreSum += item.avgScore || 100;
         }
       });
     });
@@ -275,7 +343,7 @@ export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProg
     const completionPercent = totalPossible > 0 ? Math.round((completedCount / totalPossible) * 100) : 0;
 
     return { avgScore, completedCount, completionPercent };
-  }, [currentClass.students, studentTopicMap, activeTopics]);
+  }, [currentClass.students, studentRecordsMap, activeTopics]);
 
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
@@ -285,7 +353,7 @@ export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProg
           <div className="space-y-1.5">
             <div className="flex items-center gap-2 text-rose-600 dark:text-rose-400 font-bold text-xs uppercase tracking-wider">
               <GraduationCap className="w-4 h-4" />
-              <span>{currentClass.name} • Osztály Haladási Mátrix</span>
+              <span>{currentClass.name} • Osztály Haladási Mátrix (3 Nehézségi Szint)</span>
             </div>
             <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">
               {activeConfig.gradeLabel} – {activeConfig.chapterTitle}
@@ -332,9 +400,9 @@ export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProg
           </div>
         </div>
 
-        {/* Search bar */}
-        <div className="mt-5 flex items-center gap-3">
-          <div className="relative flex-1 max-w-sm">
+        {/* Search bar & 3-Level Matrix Legend */}
+        <div className="mt-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4 border-t border-slate-200/60 dark:border-slate-800">
+          <div className="relative w-full max-w-sm">
             <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <Input
               placeholder="Keresés diák neve vagy kódja alapján..."
@@ -342,6 +410,16 @@ export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProg
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-9 h-10 rounded-xl text-xs bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-xs"
             />
+          </div>
+
+          {/* Matrix Legend */}
+          <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-600 dark:text-slate-400 font-medium">
+            <span className="font-bold text-slate-700 dark:text-slate-300">Jelmagyarázat cellánként:</span>
+            <div className="flex items-center gap-1.5 font-mono font-bold text-[10px]">
+              <span className="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300">1. sz. %</span>
+              <span className="px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-300">2. sz. %</span>
+              <span className="px-1.5 py-0.5 rounded bg-rose-50 text-rose-500 border border-dashed border-rose-300">3. sz. (— = hiányzik)</span>
+            </div>
           </div>
         </div>
       </div>
@@ -363,8 +441,13 @@ export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProg
                     Tanuló Neve & Kódja
                   </th>
                   {activeTopics.map((top) => (
-                    <th key={top.id} className="p-3 text-center min-w-[100px] border-l border-slate-200/60 dark:border-slate-800" title={top.title}>
-                      <span className="truncate block max-w-[100px]">{top.short}</span>
+                    <th key={top.id} className="p-2.5 text-center min-w-[130px] border-l border-slate-200/60 dark:border-slate-800" title={top.title}>
+                      <span className="truncate block font-bold text-slate-800 dark:text-slate-200 text-xs">{top.short}</span>
+                      <div className="grid grid-cols-3 gap-0.5 text-[8px] font-black text-slate-400 dark:text-slate-500 mt-1 uppercase tracking-tighter">
+                        <span>1. sz.</span>
+                        <span>2. sz.</span>
+                        <span>3. sz.</span>
+                      </div>
                     </th>
                   ))}
                   <th className="p-3 text-center min-w-[90px] border-l border-slate-200/60 dark:border-slate-800 text-rose-600 dark:text-rose-400">
@@ -374,15 +457,15 @@ export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProg
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800/80 text-xs">
                 {filteredStudents.map((student) => {
-                  const sMap = studentTopicMap[student.userId] || {};
+                  const studentRecs = studentRecordsMap[student.userId] || [];
                   let studentCompletedCount = 0;
                   let studentScoreSum = 0;
 
                   activeTopics.forEach((top) => {
-                    const rec = getRecordForTopic(sMap, top.id);
-                    if (rec && rec.completed) {
+                    const levelData = getTopicLevelData(studentRecs, top.id);
+                    if (levelData.hasStarted) {
                       studentCompletedCount++;
-                      studentScoreSum += rec.bestScore || 100;
+                      studentScoreSum += levelData.avgScore;
                     }
                   });
 
@@ -411,37 +494,74 @@ export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProg
                         </div>
                       </td>
 
-                      {/* Topic Cells */}
+                      {/* Topic Cells with 3-Level Breakdown */}
                       {activeTopics.map((top) => {
-                        const rec = getRecordForTopic(sMap, top.id);
-                        const isDone = Boolean(rec && rec.completed);
-                        const score = rec?.bestScore ?? 0;
-                        const attempts = rec?.attemptsCount ?? 0;
+                        const levelData = getTopicLevelData(studentRecs, top.id);
+                        const l1 = levelData.levelScores[1];
+                        const l2 = levelData.levelScores[2];
+                        const l3 = levelData.levelScores[3];
 
                         return (
                           <td
                             key={top.id}
-                            className="p-2 text-center border-l border-slate-100 dark:border-slate-800/60"
+                            className="p-2 text-center border-l border-slate-100 dark:border-slate-800/60 cursor-pointer hover:bg-slate-100/60 dark:hover:bg-slate-800/60 transition-colors"
                             onClick={() => setSelectedStudent(student)}
                           >
-                            {isDone ? (
-                              <button
-                                type="button"
-                                className={cn(
-                                  "inline-flex items-center gap-1 px-2 py-1 rounded-lg font-mono font-bold text-[11px] shadow-2xs transition-transform hover:scale-105 cursor-pointer",
-                                  score === 100
-                                    ? "bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800"
-                                    : score >= 70
-                                    ? "bg-amber-100 dark:bg-amber-950/70 text-amber-700 dark:text-amber-300 border border-amber-300 dark:border-amber-800"
-                                    : "bg-rose-100 dark:bg-rose-950/70 text-rose-700 dark:text-rose-300 border border-rose-300 dark:border-rose-800"
-                                )}
-                                title={`Legjobb eredmény: ${score}% (${attempts}x próbálkozás)`}
-                              >
-                                <CheckCircle2 className="w-3 h-3 text-emerald-500 shrink-0" />
-                                <span>{score}%</span>
-                              </button>
+                            {levelData.hasStarted ? (
+                              <div className="flex items-center justify-center gap-1">
+                                {/* Level 1 */}
+                                <span
+                                  className={cn(
+                                    "min-w-[34px] px-1 py-0.5 rounded-md text-[10px] font-mono font-black border transition-all text-center",
+                                    l1 !== undefined
+                                      ? l1 === 100
+                                        ? "bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800 shadow-2xs"
+                                        : l1 >= 70
+                                        ? "bg-amber-100 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 border-amber-300 dark:border-amber-800 shadow-2xs"
+                                        : "bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 border-rose-300 dark:border-rose-800 shadow-2xs"
+                                      : "bg-rose-50/70 dark:bg-rose-950/30 text-rose-500 dark:text-rose-400 border-dashed border-rose-200 dark:border-rose-900/60 text-[8.5px] font-bold"
+                                  )}
+                                  title={l1 !== undefined ? `1. szint: ${l1}%` : "1. szint: Még hiányzik"}
+                                >
+                                  {l1 !== undefined ? `${l1}%` : "—"}
+                                </span>
+
+                                {/* Level 2 */}
+                                <span
+                                  className={cn(
+                                    "min-w-[34px] px-1 py-0.5 rounded-md text-[10px] font-mono font-black border transition-all text-center",
+                                    l2 !== undefined
+                                      ? l2 === 100
+                                        ? "bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800 shadow-2xs"
+                                        : l2 >= 70
+                                        ? "bg-amber-100 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 border-amber-300 dark:border-amber-800 shadow-2xs"
+                                        : "bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 border-rose-300 dark:border-rose-800 shadow-2xs"
+                                      : "bg-rose-50/70 dark:bg-rose-950/30 text-rose-500 dark:text-rose-400 border-dashed border-rose-200 dark:border-rose-900/60 text-[8.5px] font-bold"
+                                  )}
+                                  title={l2 !== undefined ? `2. szint: ${l2}%` : "2. szint: Még hiányzik"}
+                                >
+                                  {l2 !== undefined ? `${l2}%` : "—"}
+                                </span>
+
+                                {/* Level 3 */}
+                                <span
+                                  className={cn(
+                                    "min-w-[34px] px-1 py-0.5 rounded-md text-[10px] font-mono font-black border transition-all text-center",
+                                    l3 !== undefined
+                                      ? l3 === 100
+                                        ? "bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800 shadow-2xs"
+                                        : l3 >= 70
+                                        ? "bg-amber-100 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 border-amber-300 dark:border-amber-800 shadow-2xs"
+                                        : "bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 border-rose-300 dark:border-rose-800 shadow-2xs"
+                                      : "bg-rose-50/70 dark:bg-rose-950/30 text-rose-500 dark:text-rose-400 border-dashed border-rose-200 dark:border-rose-900/60 text-[8.5px] font-bold"
+                                  )}
+                                  title={l3 !== undefined ? `3. szint: ${l3}%` : "3. szint: Még hiányzik"}
+                                >
+                                  {l3 !== undefined ? `${l3}%` : "—"}
+                                </span>
+                              </div>
                             ) : (
-                              <span className="text-slate-300 dark:text-slate-600 text-sm font-bold select-none">
+                              <span className="text-slate-300 dark:text-slate-600 text-xs font-bold select-none">
                                 —
                               </span>
                             )}
@@ -525,26 +645,28 @@ export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProg
               </div>
             </div>
 
-            {/* Student topic list */}
+            {/* Student topic list with 3-Level Details */}
             <div className="space-y-3">
               <div className="flex items-center justify-between text-xs font-black text-slate-400 uppercase tracking-wider">
-                <span>Témakörök és eredmények</span>
-                <span>Állapot</span>
+                <span>Témakörök és nehézségi szintek</span>
+                <span>Szintek eredményei</span>
               </div>
 
               <div className="space-y-2">
                 {activeTopics.map((top) => {
-                  const sMap = studentTopicMap[selectedStudent.userId] || {};
-                  const rec = getRecordForTopic(sMap, top.id);
-                  const isDone = Boolean(rec && rec.completed);
+                  const studentRecs = studentRecordsMap[selectedStudent.userId] || [];
+                  const levelData = getTopicLevelData(studentRecs, top.id);
+                  const isDone = levelData.hasStarted;
 
                   return (
                     <div
                       key={top.id}
                       className={cn(
-                        "p-3 rounded-2xl border flex items-center justify-between gap-3 text-xs transition-colors",
-                        isDone
+                        "p-3.5 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs transition-colors",
+                        levelData.isAllCompleted
                           ? "bg-emerald-50/50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-800/60"
+                          : isDone
+                          ? "bg-amber-50/30 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/60"
                           : "bg-slate-50 dark:bg-slate-850 border-slate-200/60 dark:border-slate-800 text-slate-400"
                       )}
                     >
@@ -552,20 +674,32 @@ export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProg
                         {top.title}
                       </div>
 
-                      {isDone ? (
-                        <div className="flex items-center gap-3 shrink-0">
-                          <span className="text-[11px] text-slate-400">
-                            {rec.attemptsCount}x kitöltve
-                          </span>
-                          <span className="px-2.5 py-1 rounded-xl font-mono font-black text-xs bg-emerald-600 text-white shadow-2xs">
-                            {rec.bestScore}%
-                          </span>
-                        </div>
-                      ) : (
-                        <span className="text-slate-400 text-[11px] italic">
-                          Még nem kezdte el
-                        </span>
-                      )}
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        {([1, 2, 3] as const).map((lvl) => {
+                          const s = levelData.levelScores[lvl];
+                          const hasScore = s !== undefined;
+                          return (
+                            <div
+                              key={lvl}
+                              className={cn(
+                                "flex items-center gap-1 px-2.5 py-1 rounded-xl font-mono text-xs font-bold border shadow-2xs",
+                                hasScore
+                                  ? s === 100
+                                    ? "bg-emerald-100 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800"
+                                    : s >= 70
+                                    ? "bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-300 border-amber-300 dark:border-amber-800"
+                                    : "bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-300 border-rose-300 dark:border-rose-800"
+                                  : isDone
+                                  ? "bg-rose-50/60 dark:bg-rose-950/30 text-rose-600 dark:text-rose-400 border border-dashed border-rose-200 dark:border-rose-900"
+                                  : "bg-slate-100 dark:bg-slate-800 text-slate-400 border-slate-200 dark:border-slate-700"
+                              )}
+                            >
+                              <span className="text-[10px] text-slate-500 dark:text-slate-400 font-sans">{lvl}. sz:</span>
+                              <span className="font-black">{hasScore ? `${s}%` : (isDone ? 'Hiányzik' : '—')}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
                   );
                 })}

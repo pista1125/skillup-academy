@@ -480,6 +480,11 @@ export const ExpansionFactoringQuiz: React.FC<ExpansionFactoringQuizProps> = ({
     <QuizTemplate
       title="8. Zárójelfelbontás és Kiemelés Kvíz"
       subtitle="Teszteld a tudásodat a beszorzás, előjelszabályok, szorzattá alakítás és kiemelés területén!"
+      grade={7}
+      chapterId="racionalis-szamok-algebra"
+      topicId="g7-rat-expansion-factoring"
+      topicTitle="8. Zárójelfelbontás, kiemelés"
+      subtopicId="zarojelfelbontas-kiemeles"
       documentId="grade-7-racionalis-szamok-algebra-zarojelfelbontas-kiemeles-quiz"
       badgeText="7. Osztály • Zárójelek és Kiemelés"
       themeColor="orange"
@@ -487,8 +492,8 @@ export const ExpansionFactoringQuiz: React.FC<ExpansionFactoringQuizProps> = ({
       levels={quizLevels}
       onBack={onBack}
       onSwitchToTheory={onSwitchToTheory}
-      matcherComponent={<ExpansionFactoringMatcher />}
-      sorterComponent={<ExpansionFactoringSorter />}
+      matcherComponent={<ExpansionFactoringMatcher onSwitchToTheory={onSwitchToTheory} />}
+      sorterComponent={<ExpansionFactoringSorter onSwitchToTheory={onSwitchToTheory} />}
     />
   );
 };

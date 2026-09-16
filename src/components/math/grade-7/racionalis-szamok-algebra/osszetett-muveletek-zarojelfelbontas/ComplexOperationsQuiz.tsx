@@ -499,9 +499,12 @@ export const ComplexOperationsQuiz: React.FC<ComplexOperationsQuizProps> = ({
       onBack={onBack}
       onSwitchToTheory={onSwitchToTheory}
       subject="math"
-      grade="grade-7"
-      topicId="racionalis-szamok-algebra"
+      grade={7}
+      chapterId="racionalis-szamok-algebra"
+      topicId="g7-rat-complex-operations"
+      topicTitle="5. Összetett műveletek, zárójelfelbontás"
       subtopicId="osszetett-muveletek-zarojelfelbontas"
+      documentId="grade-7-racionalis-szamok-algebra-osszetett-muveletek-zarojelfelbontas-quiz"
       emoji="🧮"
       topicBadge="7. Osztály • Matematika II. Témakör"
       badgeText="7. Osztály • Matematika II. Témakör"
@@ -523,6 +526,7 @@ export const ComplexOperationsQuiz: React.FC<ComplexOperationsQuizProps> = ({
               level={level}
               onNextLevel={onNextLevel}
               onOpenRules={onOpenRules}
+              onSwitchToTheory={onSwitchToTheory}
             />
           )
         },
@@ -537,6 +541,7 @@ export const ComplexOperationsQuiz: React.FC<ComplexOperationsQuizProps> = ({
               level={level}
               onNextLevel={onNextLevel}
               onOpenRules={onOpenRules}
+              onSwitchToTheory={onSwitchToTheory}
             />
           )
         }

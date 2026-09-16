@@ -3,9 +3,23 @@ import { MatcherTemplate, MatchPair } from '../MatcherTemplate';
 
 interface ExpansionFactoringMatcherProps {
   onNextLevel?: () => void;
+  onBack?: () => void;
+  onSwitchToTheory?: () => void;
+  topicId?: string;
+  topicTitle?: string;
+  grade?: number;
+  chapterId?: string;
 }
 
-export const ExpansionFactoringMatcher: React.FC<ExpansionFactoringMatcherProps> = ({ onNextLevel }) => {
+export const ExpansionFactoringMatcher: React.FC<ExpansionFactoringMatcherProps> = ({
+  onNextLevel,
+  onBack,
+  onSwitchToTheory,
+  topicId = 'g7-rat-expansion-factoring',
+  topicTitle = '8. Zárójelfelbontás, kiemelés',
+  grade = 7,
+  chapterId = 'racionalis-szamok-algebra'
+}) => {
   const level1Pairs: MatchPair[] = [
     { id: 'm1-1', left: '3 · (x + 4)', right: '3x + 12' },
     { id: 'm1-2', left: '5 · (2a - 3)', right: '10a - 15' },
@@ -43,10 +57,16 @@ export const ExpansionFactoringMatcher: React.FC<ExpansionFactoringMatcherProps>
     <MatcherTemplate
       title="Zárójelfelbontás & Kiemelés Párosító"
       subtitle="Párosítsd össze a szorzat alakú kifejezéseket a kifejtett összeg alakjukkal, vagy a kiemeléssel nyert szorzattal!"
+      topicId={topicId}
+      topicTitle={topicTitle}
+      grade={grade}
+      chapterId={chapterId}
       level1Pairs={level1Pairs}
       level2Pairs={level2Pairs}
       level3Pairs={level3Pairs}
       onNextLevel={onNextLevel}
+      onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
     />
   );
 };

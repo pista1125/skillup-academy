@@ -511,6 +511,13 @@ export const FractionsDecimalsQuiz: React.FC<FractionsDecimalsQuizProps> = ({
   return (
     <QuizTemplate
       onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      grade={7}
+      chapterId="racionalis-szamok-algebra"
+      topicId="g7-rat-fractions-decimals"
+      topicTitle="2. Törtek, tizedes törtek"
+      subtopicId="tortek-tizedestortek"
+      documentId="grade-7-racionalis-szamok-algebra-tortek-tizedestortek-quiz"
       emoji="🍰"
       topicBadge="7. Osztály • Matematika II. Témakör"
       badgeText="7. Osztály • Matematika II. Témakör"
@@ -532,6 +539,7 @@ export const FractionsDecimalsQuiz: React.FC<FractionsDecimalsQuizProps> = ({
               level={level}
               onNextLevel={onNextLevel}
               onOpenRules={onOpenRules}
+              onSwitchToTheory={onSwitchToTheory}
             />
           )
         },
@@ -546,6 +554,7 @@ export const FractionsDecimalsQuiz: React.FC<FractionsDecimalsQuizProps> = ({
               level={level}
               onNextLevel={onNextLevel}
               onOpenRules={onOpenRules}
+              onSwitchToTheory={onSwitchToTheory}
             />
           )
         }

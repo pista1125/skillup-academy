@@ -3,9 +3,23 @@ import { SorterTemplate, SorterItem, SorterCategory } from '../SorterTemplate';
 
 interface CombiningSubstitutionSorterProps {
   onNextLevel?: () => void;
+  onBack?: () => void;
+  onSwitchToTheory?: () => void;
+  topicId?: string;
+  topicTitle?: string;
+  grade?: number;
+  chapterId?: string;
 }
 
-export const CombiningSubstitutionSorter: React.FC<CombiningSubstitutionSorterProps> = ({ onNextLevel }) => {
+export const CombiningSubstitutionSorter: React.FC<CombiningSubstitutionSorterProps> = ({
+  onNextLevel,
+  onBack,
+  onSwitchToTheory,
+  topicId = 'g7-rat-combining-substitution',
+  topicTitle = '7. Összevonás, helyettesítési érték',
+  grade = 7,
+  chapterId = 'racionalis-szamok-algebra'
+}) => {
   // Level 1: Melyik kategóriába tartozik az egynemű tag?
   const level1Categories: SorterCategory[] = [
     { id: 'linear-x', name: 'x változós tagok' },
@@ -70,6 +84,10 @@ export const CombiningSubstitutionSorter: React.FC<CombiningSubstitutionSorterPr
     <SorterTemplate
       title="Összevonás & Behelyettesítés Csoportosító"
       subtitle="Csoportosítsd a kifejezéseket egyneműség, összevont tagszám és helyettesítési érték szerint!"
+      topicId={topicId}
+      topicTitle={topicTitle}
+      grade={grade}
+      chapterId={chapterId}
       level1Categories={level1Categories}
       level1Items={level1Items}
       level2Categories={level2Categories}
@@ -77,6 +95,8 @@ export const CombiningSubstitutionSorter: React.FC<CombiningSubstitutionSorterPr
       level3Categories={level3Categories}
       level3Items={level3Items}
       onNextLevel={onNextLevel}
+      onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
     />
   );
 };

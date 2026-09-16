@@ -43,8 +43,13 @@ export interface MatcherTemplateProps {
   title?: string;
   subtitle?: string;
   badge?: string;
+  topicTitle?: string;
   levels?: Record<DifficultyLevel, MatcherLevelConfig>;
   config?: MatcherLevelConfig;
+  pairs?: MatcherPair[];
+  level1Pairs?: MatcherPair[];
+  level2Pairs?: MatcherPair[];
+  level3Pairs?: MatcherPair[];
   onNextLevel?: () => void;
   onOpenRules?: () => void;
   onBack?: () => void;
@@ -80,8 +85,13 @@ export function MatcherTemplate({
   title = 'Kártyás Párosító',
   subtitle = 'Kattints a kártyákra, és találd meg a feladvány-eredmény párokat!',
   badge,
+  topicTitle,
   levels,
   config,
+  pairs,
+  level1Pairs,
+  level2Pairs,
+  level3Pairs,
   onNextLevel,
   onOpenRules,
   onBack,
@@ -104,9 +114,21 @@ export function MatcherTemplate({
 
   const activeLevel: DifficultyLevel = level || (config?.level as DifficultyLevel) || 1;
 
+  // Normalize pairs from various prop formats
+  const getLevelPairs = (): MatcherPair[] => {
+    if (config?.pairs && config.pairs.length > 0) return config.pairs;
+    if (levels && levels[activeLevel]?.pairs) return levels[activeLevel].pairs;
+    if (activeLevel === 1 && level1Pairs && level1Pairs.length > 0) return level1Pairs;
+    if (activeLevel === 2 && level2Pairs && level2Pairs.length > 0) return level2Pairs;
+    if (activeLevel === 3 && level3Pairs && level3Pairs.length > 0) return level3Pairs;
+    if (pairs && pairs.length > 0) return pairs;
+    if (level1Pairs && level1Pairs.length > 0) return level1Pairs;
+    return [];
+  };
+
   // Initialize level cards
   const initGame = () => {
-    const currentPairs: MatcherPair[] = config?.pairs || levels?.[activeLevel]?.pairs || [];
+    const currentPairs: MatcherPair[] = getLevelPairs();
     const cardDeck: CardItem[] = [];
 
     currentPairs.forEach((pair) => {
@@ -228,10 +250,11 @@ export function MatcherTemplate({
 
     if (user) {
       const calcPercentage = Math.max(50, 100 - (mistakes * 5));
-      const currentPairsCount = config?.pairs?.length || levels?.[activeLevel]?.pairs?.length || 8;
-      const computedTopicId = (topicId || badge || title || 'matcher').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      const currentPairsCount = currentPairs.length || 8;
+      const computedTopicId = topicId || (badge || title || 'matcher').toLowerCase().replace(/[^a-z0-9]+/g, '-');
       const g = grade || 7;
       const ch = chapterId || 'racionalis-szamok-algebra';
+      const displayTitle = topicTitle ? `${topicTitle} (Párosító)` : title;
 
       saveQuizProgress({
         userId: user.uid,
@@ -241,11 +264,14 @@ export function MatcherTemplate({
         grade: g,
         chapterId: ch,
         topicId: computedTopicId,
+        topicTitle: topicTitle || title,
         quizId: `g${g}__${ch}__${computedTopicId}__matcher__lvl${activeLevel}`,
         gameType: 'matcher',
         level: activeLevel,
-        title: title,
+        title: displayTitle,
+        percentage: calcPercentage,
         score: calcPercentage,
+        scorePoints: currentPairsCount,
         totalQuestions: currentPairsCount,
         bestStreak: currentPairsCount,
         completed: true
@@ -427,6 +453,14 @@ export function MatcherTemplate({
                 {mistakes} db
               </div>
             </div>
+          </div>
+
+          {/* Profile Save Confirmation */}
+          <div className="flex items-center justify-center gap-2 max-w-sm mx-auto py-2 px-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/80 text-emerald-700 dark:text-emerald-300 text-xs font-bold">
+            <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+            <span>
+              {user ? 'Párosító eredményed elmentve a profilodba! 🎉' : 'Jelentkezz be a haladás mentéséhez!'}
+            </span>
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-2.5 pt-2">

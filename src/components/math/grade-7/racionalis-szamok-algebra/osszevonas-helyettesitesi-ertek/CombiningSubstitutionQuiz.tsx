@@ -485,6 +485,11 @@ export const CombiningSubstitutionQuiz: React.FC<CombiningSubstitutionQuizProps>
     <QuizTemplate
       title="7. Összevonás és Helyettesítési Érték Kvíz"
       subtitle="Teszteld a tudásodat az egynemű tagok összevonásában és a kifejezések helyettesítési értékének kiszámításában!"
+      grade={7}
+      chapterId="racionalis-szamok-algebra"
+      topicId="g7-rat-combining-substitution"
+      topicTitle="7. Összevonás, helyettesítési érték"
+      subtopicId="osszevonas-helyettesitesi-ertek"
       documentId="grade-7-racionalis-szamok-algebra-osszevonas-ertek-quiz"
       badgeText="7. Osztály • Algebra Műveletek"
       themeColor="amber"
@@ -492,8 +497,8 @@ export const CombiningSubstitutionQuiz: React.FC<CombiningSubstitutionQuizProps>
       levels={quizLevels}
       onBack={onBack}
       onSwitchToTheory={onSwitchToTheory}
-      matcherComponent={<CombiningSubstitutionMatcher />}
-      sorterComponent={<CombiningSubstitutionSorter />}
+      matcherComponent={<CombiningSubstitutionMatcher onSwitchToTheory={onSwitchToTheory} />}
+      sorterComponent={<CombiningSubstitutionSorter onSwitchToTheory={onSwitchToTheory} />}
     />
   );
 };

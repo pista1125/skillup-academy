@@ -484,9 +484,12 @@ export const WordProblemsQuiz: React.FC<WordProblemsQuizProps> = ({
       onBack={onBack}
       onSwitchToTheory={onSwitchToTheory}
       subject="math"
-      grade="grade-7"
-      topicId="racionalis-szamok-algebra"
+      grade={7}
+      chapterId="racionalis-szamok-algebra"
+      topicId="g7-rat-word-problems"
+      topicTitle="4. Szöveges feladatok"
       subtopicId="szoveges-feladatok"
+      documentId="grade-7-racionalis-szamok-algebra-szoveges-feladatok-quiz"
       emoji="📖"
       topicBadge="7. Osztály • Matematika II. Témakör"
       badgeText="7. Osztály • Matematika II. Témakör"
@@ -508,6 +511,7 @@ export const WordProblemsQuiz: React.FC<WordProblemsQuizProps> = ({
               level={level}
               onNextLevel={onNextLevel}
               onOpenRules={onOpenRules}
+              onSwitchToTheory={onSwitchToTheory}
             />
           )
         },
@@ -522,6 +526,7 @@ export const WordProblemsQuiz: React.FC<WordProblemsQuizProps> = ({
               level={level}
               onNextLevel={onNextLevel}
               onOpenRules={onOpenRules}
+              onSwitchToTheory={onSwitchToTheory}
             />
           )
         }

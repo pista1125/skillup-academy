@@ -3,9 +3,23 @@ import { MatcherTemplate, MatchPair } from '../MatcherTemplate';
 
 interface RationalSummaryMatcherProps {
   onNextLevel?: () => void;
+  onBack?: () => void;
+  onSwitchToTheory?: () => void;
+  topicId?: string;
+  topicTitle?: string;
+  grade?: number;
+  chapterId?: string;
 }
 
-export const RationalSummaryMatcher: React.FC<RationalSummaryMatcherProps> = ({ onNextLevel }) => {
+export const RationalSummaryMatcher: React.FC<RationalSummaryMatcherProps> = ({
+  onNextLevel,
+  onBack,
+  onSwitchToTheory,
+  topicId = 'g7-rat-summary',
+  topicTitle = '9. Nagy Fejezeti Összefoglaló (90 Kérdés)',
+  grade = 7,
+  chapterId = 'racionalis-szamok-algebra'
+}) => {
   // Level 1: Racionális számok & Számelmélet
   const level1Pairs: MatchPair[] = [
     { id: 'm1-1', left: '-3/4 ellentettje', right: '+3/4' },
@@ -46,10 +60,16 @@ export const RationalSummaryMatcher: React.FC<RationalSummaryMatcherProps> = ({ 
     <MatcherTemplate
       title="II. Fejezeti Nagy Párosító Bajnokság"
       subtitle="Párosítsd össze a racionális műveleteket, algebrai kifejezéseket, kiemeléseket és behelyettesítéseket!"
+      topicId={topicId}
+      topicTitle={topicTitle}
+      grade={grade}
+      chapterId={chapterId}
       level1Pairs={level1Pairs}
       level2Pairs={level2Pairs}
       level3Pairs={level3Pairs}
       onNextLevel={onNextLevel}
+      onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
     />
   );
 };

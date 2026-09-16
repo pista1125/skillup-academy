@@ -6,6 +6,9 @@ interface IntegerPropertiesMatcherProps {
   level?: DifficultyLevel;
   onNextLevel?: () => void;
   onOpenRules?: () => void;
+  onSwitchToTheory?: () => void;
+  topicId?: string;
+  topicTitle?: string;
 }
 
 const matcherLevels: Record<DifficultyLevel, MatcherLevelConfig> = {
@@ -50,16 +53,24 @@ const matcherLevels: Record<DifficultyLevel, MatcherLevelConfig> = {
 export const IntegerPropertiesMatcher: React.FC<IntegerPropertiesMatcherProps> = ({
   level = 1,
   onNextLevel,
-  onOpenRules
+  onOpenRules,
+  onSwitchToTheory,
+  topicId = 'g7-rat-integer-properties',
+  topicTitle = '1. Az egész számok tulajdonságai'
 }) => {
   return (
     <MatcherTemplate
       level={level}
+      grade={7}
+      chapterId="racionalis-szamok-algebra"
+      topicId={topicId}
+      topicTitle={topicTitle}
       title="Egész Számok Kártyás Párosító"
       subtitle="Kattints a kártyákra, és párosítsd a kifejezéseket, fogalmakat és eredményeket!"
       levels={matcherLevels}
       onNextLevel={onNextLevel}
       onOpenRules={onOpenRules}
+      onSwitchToTheory={onSwitchToTheory}
     />
   );
 };

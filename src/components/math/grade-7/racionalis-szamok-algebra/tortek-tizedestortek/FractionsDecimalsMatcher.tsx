@@ -6,6 +6,9 @@ interface FractionsDecimalsMatcherProps {
   level?: DifficultyLevel;
   onNextLevel?: () => void;
   onOpenRules?: () => void;
+  onSwitchToTheory?: () => void;
+  topicId?: string;
+  topicTitle?: string;
 }
 
 const matcherLevels: Record<DifficultyLevel, MatcherLevelConfig> = {
@@ -50,16 +53,24 @@ const matcherLevels: Record<DifficultyLevel, MatcherLevelConfig> = {
 export const FractionsDecimalsMatcher: React.FC<FractionsDecimalsMatcherProps> = ({
   level = 1,
   onNextLevel,
-  onOpenRules
+  onOpenRules,
+  onSwitchToTheory,
+  topicId = 'g7-rat-fractions-decimals',
+  topicTitle = '2. Törtek, tizedes törtek'
 }) => {
   return (
     <MatcherTemplate
       level={level}
+      grade={7}
+      chapterId="racionalis-szamok-algebra"
+      topicId={topicId}
+      topicTitle={topicTitle}
       title="Törtek és Tizedestörtek Kártyás Párosító"
       subtitle="Kattints a kártyákra, és párosítsd a törteket, tizedestört alakokat és fogalmakat!"
       levels={matcherLevels}
       onNextLevel={onNextLevel}
       onOpenRules={onOpenRules}
+      onSwitchToTheory={onSwitchToTheory}
     />
   );
 };

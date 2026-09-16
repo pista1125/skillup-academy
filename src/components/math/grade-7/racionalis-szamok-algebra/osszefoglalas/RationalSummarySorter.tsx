@@ -3,9 +3,23 @@ import { SorterTemplate, SorterItem, SorterCategory } from '../SorterTemplate';
 
 interface RationalSummarySorterProps {
   onNextLevel?: () => void;
+  onBack?: () => void;
+  onSwitchToTheory?: () => void;
+  topicId?: string;
+  topicTitle?: string;
+  grade?: number;
+  chapterId?: string;
 }
 
-export const RationalSummarySorter: React.FC<RationalSummarySorterProps> = ({ onNextLevel }) => {
+export const RationalSummarySorter: React.FC<RationalSummarySorterProps> = ({
+  onNextLevel,
+  onBack,
+  onSwitchToTheory,
+  topicId = 'g7-rat-summary',
+  topicTitle = '9. Nagy Fejezeti Összefoglaló (90 Kérdés)',
+  grade = 7,
+  chapterId = 'racionalis-szamok-algebra'
+}) => {
   // Level 1: Számtani kifejezések előjele
   const level1Categories: SorterCategory[] = [
     { id: 'pos', name: 'Pozitív érték (> 0)' },
@@ -70,6 +84,10 @@ export const RationalSummarySorter: React.FC<RationalSummarySorterProps> = ({ on
     <SorterTemplate
       title="II. Fejezeti Nagy Csoportosító"
       subtitle="Csoportosítsd a kifejezéseket előjelük, algebrai szerkezetük és számértékük szerint!"
+      topicId={topicId}
+      topicTitle={topicTitle}
+      grade={grade}
+      chapterId={chapterId}
       level1Categories={level1Categories}
       level1Items={level1Items}
       level2Categories={level2Categories}
@@ -77,6 +95,8 @@ export const RationalSummarySorter: React.FC<RationalSummarySorterProps> = ({ on
       level3Categories={level3Categories}
       level3Items={level3Items}
       onNextLevel={onNextLevel}
+      onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
     />
   );
 };

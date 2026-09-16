@@ -68,19 +68,36 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
   }
 };
 
+interface RationalOperationsSorterProps {
+  level?: DifficultyLevel;
+  onNextLevel?: () => void;
+  onOpenRules?: () => void;
+  onSwitchToTheory?: () => void;
+  topicId?: string;
+  topicTitle?: string;
+}
+
 export const RationalOperationsSorter: React.FC<RationalOperationsSorterProps> = ({
   level = 1,
   onNextLevel,
-  onOpenRules
+  onOpenRules,
+  onSwitchToTheory,
+  topicId = 'g7-rat-operations',
+  topicTitle = '3. Műveletek a racionális számok halmazán'
 }) => {
   return (
     <SorterTemplate
       level={level}
+      grade={7}
+      chapterId="racionalis-szamok-algebra"
+      topicId={topicId}
+      topicTitle={topicTitle}
       title="Racionális Műveletek Csoportosító"
-      subtitle="Húzd vagy kattintással helyezd a kifejezéseket a megfelelő értékcsoportba!"
+      subtitle="Válaszd ki a kártyát, majd kattints a megfelelő kategóriára a besoroláshoz!"
       levels={sorterLevels}
       onNextLevel={onNextLevel}
       onOpenRules={onOpenRules}
+      onSwitchToTheory={onSwitchToTheory}
     />
   );
 };
