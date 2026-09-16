@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     Sheet,
@@ -9,19 +9,37 @@ import {
     SheetTrigger,
     SheetClose,
 } from "@/components/ui/sheet";
-import { Menu, Info, Mail, ShieldCheck, FileText, ChevronRight, LogOut, UserCircle, LogIn, Video } from "lucide-react";
+import { Menu, Info, Mail, ShieldCheck, FileText, ChevronRight, LogOut, UserCircle, LogIn, Video, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from '@/contexts/AuthContext';
 import { AuthModal } from './auth/AuthModal';
 import { Avatar, AvatarFallback } from './ui/avatar';
 import { OnlineTutoringModal } from './tutoring/OnlineTutoringModal';
 import { SidebarThemeSelector, ThemeToggle } from './ThemeToggle';
+import { subscribePendingTeacherRequests } from '@/services/teacherRequestService';
 
 export function SidebarMenu() {
-    const { user, profile, signOut } = useAuth();
+    const { user, profile, signOut, isAdmin } = useAuth();
     const navigate = useNavigate();
     const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
     const [isTutoringModalOpen, setIsTutoringModalOpen] = useState(false);
+    const [pendingTeacherCount, setPendingTeacherCount] = useState(0);
+
+    // Admin pending teacher requests notification
+    useEffect(() => {
+        if (!user || !isAdmin) {
+            setPendingTeacherCount(0);
+            return;
+        }
+
+        const unsubscribe = subscribePendingTeacherRequests((requests) => {
+            setPendingTeacherCount(requests.length);
+        }, (error) => {
+            console.error('Error fetching pending teacher requests count in sidebar:', error);
+        });
+
+        return () => unsubscribe();
+    }, [user, isAdmin]);
 
     const menuItems = [
         { label: 'Online Korrepetálás', icon: <Video className="w-5 h-5 text-purple-500" />, href: '/korrepetalas' },
@@ -54,9 +72,12 @@ export function SidebarMenu() {
                     <Button
                         variant="ghost"
                         size="icon"
-                        className="bg-white/10 text-white hover:bg-white/20 border border-white/20 shadow-md backdrop-blur-md transition-all hover:scale-105 active:scale-95 rounded-xl h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0"
+                        className="bg-white/10 text-white hover:bg-white/20 border border-white/20 shadow-md backdrop-blur-md transition-all hover:scale-105 active:scale-95 rounded-xl h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0 relative"
                     >
                         <Menu className="w-4 h-4 sm:w-6 sm:h-6" />
+                        {pendingTeacherCount > 0 && (
+                            <span className="absolute -top-1 -right-1 w-3 h-3 bg-rose-500 rounded-full border-2 border-white animate-pulse" />
+                        )}
                     </Button>
                 </SheetTrigger>
                 <SheetContent side="left" className="w-[300px] sm:w-[380px] bg-white dark:bg-black border-r border-slate-200 dark:border-zinc-800 p-0 flex flex-col shadow-2xl">
@@ -79,7 +100,7 @@ export function SidebarMenu() {
                         {/* User Profile Section in Sidebar */}
                         <div>
                             {user ? (
-                                <div className="p-3.5 bg-slate-50 dark:bg-zinc-900/80 rounded-2xl border border-slate-100 dark:border-zinc-800 shadow-sm">
+                                <div className="p-3.5 bg-slate-50 dark:bg-zinc-900/80 rounded-2xl border border-slate-100 dark:border-zinc-800 shadow-sm space-y-2">
                                     <div className="flex items-center gap-3 mb-2.5">
                                         <Avatar className="h-9 w-9 border border-white shadow-sm">
                                             <AvatarFallback className="bg-primary text-white text-xs font-black">
@@ -95,6 +116,26 @@ export function SidebarMenu() {
                                             </p>
                                         </div>
                                     </div>
+                                    
+                                    {isAdmin && pendingTeacherCount > 0 && (
+                                        <SheetClose asChild>
+                                            <Button 
+                                                variant="outline" 
+                                                size="sm" 
+                                                onClick={() => navigate('/profil?tab=admin-requests')}
+                                                className="w-full justify-between text-xs font-black rounded-xl h-8 border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-200 hover:bg-amber-100 dark:hover:bg-amber-900/50"
+                                            >
+                                                <div className="flex items-center gap-1.5">
+                                                    <Shield className="w-3.5 h-3.5 text-amber-600 animate-pulse" />
+                                                    <span>Tanári Kérelmek</span>
+                                                </div>
+                                                <span className="bg-rose-500 text-white text-[9.5px] px-1.5 py-0.5 rounded-full">
+                                                    {pendingTeacherCount} új
+                                                </span>
+                                            </Button>
+                                        </SheetClose>
+                                    )}
+
                                     <SheetClose asChild>
                                         <Button 
                                             variant="outline" 
