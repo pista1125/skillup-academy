@@ -362,6 +362,68 @@ export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProg
     return { avgScore, completedCount, completionPercent };
   }, [currentClass.students, studentRecordsMap, activeTopics, levelFilter]);
 
+  // Topic column statistics (for footer summary)
+  const topicColumnStats = useMemo(() => {
+    const stats: Record<
+      string,
+      {
+        level1Avg: number | null;
+        level1Count: number;
+        level2Avg: number | null;
+        level2Count: number;
+        level3Avg: number | null;
+        level3Count: number;
+        topicAllAvg: number | null;
+        topicAllCompletedStudentsCount: number;
+      }
+    > = {};
+
+    activeTopics.forEach((top) => {
+      const l1Scores: number[] = [];
+      const l2Scores: number[] = [];
+      const l3Scores: number[] = [];
+      let startedCount = 0;
+
+      filteredStudents.forEach((student) => {
+        const sRecs = studentRecordsMap[student.userId] || [];
+        const levelData = getTopicLevelData(sRecs, top.id);
+
+        if (levelData.hasStarted) {
+          startedCount++;
+        }
+        if (levelData.levelScores[1] !== undefined) {
+          l1Scores.push(levelData.levelScores[1]!);
+        }
+        if (levelData.levelScores[2] !== undefined) {
+          l2Scores.push(levelData.levelScores[2]!);
+        }
+        if (levelData.levelScores[3] !== undefined) {
+          l3Scores.push(levelData.levelScores[3]!);
+        }
+      });
+
+      const l1Avg = l1Scores.length > 0 ? Math.round(l1Scores.reduce((a, b) => a + b, 0) / l1Scores.length) : null;
+      const l2Avg = l2Scores.length > 0 ? Math.round(l2Scores.reduce((a, b) => a + b, 0) / l2Scores.length) : null;
+      const l3Avg = l3Scores.length > 0 ? Math.round(l3Scores.reduce((a, b) => a + b, 0) / l3Scores.length) : null;
+
+      const allScores = [...l1Scores, ...l2Scores, ...l3Scores];
+      const topicAllAvg = allScores.length > 0 ? Math.round(allScores.reduce((a, b) => a + b, 0) / allScores.length) : null;
+
+      stats[top.id] = {
+        level1Avg: l1Avg,
+        level1Count: l1Scores.length,
+        level2Avg: l2Avg,
+        level2Count: l2Scores.length,
+        level3Avg: l3Avg,
+        level3Count: l3Scores.length,
+        topicAllAvg,
+        topicAllCompletedStudentsCount: startedCount,
+      };
+    });
+
+    return stats;
+  }, [activeTopics, filteredStudents, studentRecordsMap]);
+
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
       {/* Header & Class Stats Banner */}
@@ -741,6 +803,165 @@ export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProg
                   );
                 })}
               </tbody>
+
+              {/* Summary / Class Average Footer */}
+              <tfoot>
+                <tr className="border-t-2 border-slate-300 dark:border-slate-700 bg-slate-50/95 dark:bg-slate-800/95 font-bold">
+                  {/* Sticky Column: Title & Overall Average */}
+                  <td className="p-3.5 sticky left-0 z-20 bg-slate-100 dark:bg-slate-800/95 border-r border-slate-200 dark:border-slate-700 shadow-xs">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-black text-sm shrink-0 shadow-xs">
+                        📊
+                      </div>
+                      <div className="truncate">
+                        <div className="font-black text-xs text-slate-900 dark:text-white uppercase tracking-wider">
+                          Osztályátlag
+                        </div>
+                        <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium truncate">
+                          {classStats.completedCount > 0
+                            ? `Összesített átlag: ${classStats.avgScore}%`
+                            : 'Még nincs kitöltés'}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+
+                  {/* Topic Columns */}
+                  {activeTopics.map((top) => {
+                    const topStat = topicColumnStats[top.id] || {
+                      level1Avg: null,
+                      level1Count: 0,
+                      level2Avg: null,
+                      level2Count: 0,
+                      level3Avg: null,
+                      level3Count: 0,
+                      topicAllAvg: null,
+                      topicAllCompletedStudentsCount: 0,
+                    };
+
+                    if (levelFilter === 'all') {
+                      return (
+                        <td
+                          key={top.id}
+                          className="p-2.5 text-center border-l border-slate-200/80 dark:border-slate-700/80 align-middle"
+                        >
+                          <div className="space-y-1">
+                            {/* 3 mini level badges */}
+                            <div className="grid grid-cols-3 gap-1">
+                              {/* Level 1 */}
+                              <div
+                                className={cn(
+                                  "px-1 py-0.5 rounded text-[10px] font-mono font-black border text-center transition-all shadow-2xs",
+                                  topStat.level1Avg !== null
+                                    ? topStat.level1Avg >= 80
+                                      ? "bg-emerald-100 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800"
+                                      : topStat.level1Avg >= 60
+                                      ? "bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-300 border-amber-300 dark:border-amber-800"
+                                      : "bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-300 border-rose-300 dark:border-rose-800"
+                                    : "bg-slate-100 dark:bg-slate-800/60 text-slate-400 dark:text-slate-500 border-dashed border-slate-200 dark:border-slate-700"
+                                )}
+                                title={`1. szint átlag: ${topStat.level1Avg !== null ? topStat.level1Avg + '%' : 'Nincs adat'} (${topStat.level1Count} diák)`}
+                              >
+                                {topStat.level1Avg !== null ? `${topStat.level1Avg}%` : '—'}
+                              </div>
+
+                              {/* Level 2 */}
+                              <div
+                                className={cn(
+                                  "px-1 py-0.5 rounded text-[10px] font-mono font-black border text-center transition-all shadow-2xs",
+                                  topStat.level2Avg !== null
+                                    ? topStat.level2Avg >= 80
+                                      ? "bg-emerald-100 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800"
+                                      : topStat.level2Avg >= 60
+                                      ? "bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-300 border-amber-300 dark:border-amber-800"
+                                      : "bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-300 border-rose-300 dark:border-rose-800"
+                                    : "bg-slate-100 dark:bg-slate-800/60 text-slate-400 dark:text-slate-500 border-dashed border-slate-200 dark:border-slate-700"
+                                )}
+                                title={`2. szint átlag: ${topStat.level2Avg !== null ? topStat.level2Avg + '%' : 'Nincs adat'} (${topStat.level2Count} diák)`}
+                              >
+                                {topStat.level2Avg !== null ? `${topStat.level2Avg}%` : '—'}
+                              </div>
+
+                              {/* Level 3 */}
+                              <div
+                                className={cn(
+                                  "px-1 py-0.5 rounded text-[10px] font-mono font-black border text-center transition-all shadow-2xs",
+                                  topStat.level3Avg !== null
+                                    ? topStat.level3Avg >= 80
+                                      ? "bg-emerald-100 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800"
+                                      : topStat.level3Avg >= 60
+                                      ? "bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-300 border-amber-300 dark:border-amber-800"
+                                      : "bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-300 border-rose-300 dark:border-rose-800"
+                                    : "bg-slate-100 dark:bg-slate-800/60 text-slate-400 dark:text-slate-500 border-dashed border-slate-200 dark:border-slate-700"
+                                )}
+                                title={`3. szint átlag: ${topStat.level3Avg !== null ? topStat.level3Avg + '%' : 'Nincs adat'} (${topStat.level3Count} diák)`}
+                              >
+                                {topStat.level3Avg !== null ? `${topStat.level3Avg}%` : '—'}
+                              </div>
+                            </div>
+
+                            {/* Count info */}
+                            <div className="text-[10px] font-bold text-slate-500 dark:text-slate-400">
+                              {topStat.topicAllCompletedStudentsCount > 0 ? (
+                                <span>{topStat.topicAllCompletedStudentsCount} / {filteredStudents.length} diák</span>
+                              ) : (
+                                <span className="text-slate-400 dark:text-slate-500 italic">0 kitöltés</span>
+                              )}
+                            </div>
+                          </div>
+                        </td>
+                      );
+                    }
+
+                    // Single level filtered mode
+                    const currentLvlAvg = levelFilter === 1 ? topStat.level1Avg : levelFilter === 2 ? topStat.level2Avg : topStat.level3Avg;
+                    const currentLvlCount = levelFilter === 1 ? topStat.level1Count : levelFilter === 2 ? topStat.level2Count : topStat.level3Count;
+
+                    return (
+                      <td
+                        key={top.id}
+                        className="p-2.5 text-center border-l border-slate-200/80 dark:border-slate-700/80 align-middle"
+                      >
+                        <div className="space-y-1">
+                          {currentLvlAvg !== null ? (
+                            <span
+                              className={cn(
+                                "inline-block min-w-[54px] px-2.5 py-1 rounded-lg text-xs font-mono font-black border transition-all shadow-2xs",
+                                currentLvlAvg >= 80
+                                  ? "bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800"
+                                  : currentLvlAvg >= 60
+                                  ? "bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 border-amber-300 dark:border-amber-800"
+                                  : "bg-rose-100 dark:bg-rose-950/80 text-rose-800 dark:text-rose-300 border-rose-300 dark:border-rose-800"
+                              )}
+                            >
+                              {currentLvlAvg}%
+                            </span>
+                          ) : (
+                            <span className="text-slate-400 dark:text-slate-500 text-xs font-bold select-none">
+                              —
+                            </span>
+                          )}
+                          <div className="text-[10px] font-bold text-slate-500 dark:text-slate-400">
+                            {currentLvlCount} / {filteredStudents.length} diák
+                          </div>
+                        </div>
+                      </td>
+                    );
+                  })}
+
+                  {/* Summary / Total Column */}
+                  <td className="p-3 text-center border-l border-slate-200 dark:border-slate-700 font-mono font-bold">
+                    <div className="space-y-0.5">
+                      <span className="px-2.5 py-1 rounded-xl text-xs font-black bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 inline-block">
+                        {classStats.avgScore > 0 ? `${classStats.avgScore}%` : '—'}
+                      </span>
+                      <div className="text-[9.5px] font-bold text-slate-400">
+                        {classStats.completionPercent}% kész
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tfoot>
             </table>
           </div>
         )}
