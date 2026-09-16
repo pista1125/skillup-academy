@@ -91,11 +91,29 @@ export function useQuizProgress(explicitUserId?: string) {
 
       const recQuizId = (rec.quizId || '').toLowerCase();
 
+      const recTitle = (rec.title || rec.topicTitle || '').toLowerCase();
+
+      const titleMatches = (
+        (cleanKey === 'logic' && (recTitle.includes('logik') || recTopicClean.includes('logik'))) ||
+        (cleanKey === 'set-basics' && (recTitle.includes('halmazokr') || recTitle.includes('halmazok alap') || recTopicClean.includes('halmaz-alap') || recTopicClean.includes('halmazok-alap'))) ||
+        (cleanKey === 'set-operations' && (recTitle.includes('halmazművelet') || recTitle.includes('műveletek halmaz') || recTopicClean.includes('halmaz-muvelet') || recTopicClean.includes('set-op'))) ||
+        (cleanKey === 'rational-set' && (recTitle.includes('racionális számok halmaza') || recTopicClean.includes('racionalis-halmaz'))) ||
+        (cleanKey === 'rational-operations' && (recTitle.includes('mit tudunk a racionális') || recTopicClean.includes('racionalis-muvelet'))) ||
+        (cleanKey === 'powers' && (recTitle.includes('hatvány') || recTopicClean.includes('hatvany'))) ||
+        (cleanKey === 'sqrt-concept' && (recTitle.includes('négyzetgyök fogalm') || recTopicClean.includes('negyzetgyok-fogalom') || recTopicClean.includes('gyokfogalom'))) ||
+        (cleanKey === 'square-roots' && (recTitle.includes('számok négyzetgyöke') || recTopicClean.includes('szamok-negyzetgyoke') || recTopicClean.includes('negyzetgyok'))) ||
+        (cleanKey === 'algebra-intro' && (recTitle.includes('betűs kifejezések') || recTopicClean.includes('betus-ismetles') || recTopicClean.includes('betus-kif'))) ||
+        (cleanKey === 'factoring' && (recTitle.includes('kiemelés') || recTitle.includes('szorzása és a kiemelés') || recTopicClean.includes('betus-szorzas'))) ||
+        (cleanKey === 'polynomial-mult' && (recTitle.includes('többtagú') || recTopicClean.includes('tobbtagu'))) ||
+        (cleanKey === 'chapter1-summary' && (recTitle.includes('összefoglaló') || recTitle.includes('nagyteszt') || recTopicClean.includes('chapter-summary') || recTopicClean.includes('summary')))
+      );
+
       const isMatch =
         rec.topicId === topicKey ||
         recTopicClean === cleanKey ||
         (cleanKey.length > 3 && recTopicClean.includes(cleanKey)) ||
-        (cleanKey.length > 3 && recQuizId.includes(cleanKey));
+        (cleanKey.length > 3 && recQuizId.includes(cleanKey)) ||
+        titleMatches;
 
       if (isMatch) {
         matchingRecords.push(rec);

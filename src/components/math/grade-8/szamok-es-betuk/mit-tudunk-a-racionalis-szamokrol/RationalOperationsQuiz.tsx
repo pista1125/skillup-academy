@@ -609,6 +609,11 @@ export const RationalOperationsQuiz: React.FC<RationalOperationsQuizProps> = ({
 }) => {
   return (
     <QuizTemplate
+      topicId="g8-rational-operations"
+      grade={8}
+      chapterId="szamok-es-betuk"
+      topicTitle="Mit tudunk a racionális számokról?"
+      emoji="🎯"
       title="5. Mit tudunk a racionális számokról? – Kvíz"
       subtitle="30 feladat 3 nehézségi szinten: Műveleti azonosságok, előjelszabályok, műveleti sorrend, törtműveletek és ésszerű számolás"
       questions={questions}

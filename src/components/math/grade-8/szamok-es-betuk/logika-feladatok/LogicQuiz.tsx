@@ -562,6 +562,10 @@ export const LogicQuiz: React.FC<LogicQuizProps> = ({
     <QuizTemplate
       onBack={onBack}
       emoji="🧠"
+      topicId="g8-logic"
+      grade={8}
+      chapterId="szamok-es-betuk"
+      topicTitle="Logikai feladatok"
       topicBadge="8. Osztály • I. Témakör: Számok és Betűk"
       badgeText="8. Osztály • Matematika"
       title="Logikai feladatok kvíz"

@@ -612,6 +612,11 @@ export const SquareRootsQuiz: React.FC<SquareRootsQuizProps> = ({
 }) => {
   return (
     <QuizTemplate
+      topicId="g8-square-roots"
+      grade={8}
+      chapterId="szamok-es-betuk"
+      topicTitle="Számok négyzetgyöke"
+      emoji="🎯"
       title="8. Számok négyzetgyöke – Kvíz"
       subtitle="30 feladat 3 nehézségi szinten: Négyzetszámok, szorzat és hányados gyöke, kiemelés és bevitel, összetett kifejezések"
       questions={questions}

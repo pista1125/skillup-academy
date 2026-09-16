@@ -622,6 +622,11 @@ export const AlgebraIntroQuiz: React.FC<AlgebraIntroQuizProps> = ({
 }) => {
   return (
     <QuizTemplate
+      topicId="g8-algebra-intro"
+      grade={8}
+      chapterId="szamok-es-betuk"
+      topicTitle="Betűs kifejezések (ismétlés)"
+      emoji="🎯"
       title="9. Betűs kifejezések (ismétlés) – Kvíz"
       subtitle="30 feladat 3 nehézségi szinten: Együtthatók, egynemű tagok összevonása, helyettesítési érték negatív számokkal és zárójelfelbontás"
       questions={questions}

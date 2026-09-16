@@ -188,12 +188,29 @@ export function getTopicLevelData(
       .replace(/-(quiz|matcher|sorter|theory)$/, '');
 
     const recQuizId = (rec.quizId || '').toLowerCase();
+    const recTitle = (rec.title || rec.topicTitle || '').toLowerCase();
+
+    const titleMatches = (
+      (cleanTarget === 'logic' && (recTitle.includes('logik') || recTopicClean.includes('logik'))) ||
+      (cleanTarget === 'set-basics' && (recTitle.includes('halmazokr') || recTitle.includes('halmazok alap') || recTopicClean.includes('halmaz-alap') || recTopicClean.includes('halmazok-alap') || recTopicClean.includes('halmazokról'))) ||
+      (cleanTarget === 'set-operations' && (recTitle.includes('halmazművelet') || recTitle.includes('műveletek halmaz') || recTopicClean.includes('halmaz-muvelet') || recTopicClean.includes('set-op'))) ||
+      (cleanTarget === 'rational-set' && (recTitle.includes('racionális számok halmaza') || recTopicClean.includes('racionalis-halmaz'))) ||
+      (cleanTarget === 'rational-operations' && (recTitle.includes('mit tudunk a racionális') || recTopicClean.includes('racionalis-muvelet'))) ||
+      (cleanTarget === 'powers' && (recTitle.includes('hatvány') || recTopicClean.includes('hatvany'))) ||
+      (cleanTarget === 'sqrt-concept' && (recTitle.includes('négyzetgyök fogalm') || recTopicClean.includes('negyzetgyok-fogalom') || recTopicClean.includes('gyokfogalom') || recTitle.includes('négyzetgyök fogalma'))) ||
+      (cleanTarget === 'square-roots' && (recTitle.includes('számok négyzetgyöke') || recTopicClean.includes('szamok-negyzetgyoke') || (recTitle.includes('négyzetgyök') && !recTitle.includes('fogalm')))) ||
+      (cleanTarget === 'algebra-intro' && (recTitle.includes('betűs kifejezések') || recTopicClean.includes('betus-ismetles') || recTopicClean.includes('betus-kif'))) ||
+      (cleanTarget === 'factoring' && (recTitle.includes('kiemelés') || recTitle.includes('szorzása és a kiemelés') || recTopicClean.includes('betus-szorzas') || recTopicClean.includes('factoring'))) ||
+      (cleanTarget === 'polynomial-mult' && (recTitle.includes('többtagú') || recTopicClean.includes('tobbtagu') || recTopicClean.includes('polynomial'))) ||
+      (cleanTarget === 'chapter1-summary' && (recTitle.includes('összefoglaló') || recTitle.includes('nagyteszt') || recTopicClean.includes('chapter-summary') || recTopicClean.includes('summary') || recTopicClean.includes('fejezet-osszefoglalo')))
+    );
 
     const isMatch =
       rec.topicId === topicId ||
       recTopicClean === cleanTarget ||
       (cleanTarget.length > 3 && recTopicClean.includes(cleanTarget)) ||
-      (cleanTarget.length > 3 && recQuizId.includes(cleanTarget));
+      (cleanTarget.length > 3 && recQuizId.includes(cleanTarget)) ||
+      titleMatches;
 
     if (isMatch) {
       matching.push(rec);

@@ -603,6 +603,11 @@ export const RationalSetQuiz: React.FC<RationalSetQuizProps> = ({
 }) => {
   return (
     <QuizTemplate
+      topicId="g8-rational-set"
+      grade={8}
+      chapterId="szamok-es-betuk"
+      topicTitle="A racionális számok halmaza"
+      emoji="🎯"
       title="4. A racionális számok halmaza – Kvíz"
       subtitle="30 feladat 3 nehézségi szinten: ℕ ⊂ ℤ ⊂ ℚ hierarchia, tört-tizedestört átváltások, szakaszos tizedestörtek és abszolútérték"
       questions={questions}

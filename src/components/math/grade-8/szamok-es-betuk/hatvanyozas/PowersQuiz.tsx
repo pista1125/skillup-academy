@@ -610,6 +610,11 @@ export const PowersQuiz: React.FC<PowersQuizProps> = ({
 }) => {
   return (
     <QuizTemplate
+      topicId="g8-powers"
+      grade={8}
+      chapterId="szamok-es-betuk"
+      topicTitle="Hatványozás"
+      emoji="🎯"
       title="6. Hatványozás – Kvíz"
       subtitle="30 feladat 3 nehézségi szinten: Hatvány fogalma, 0 kitevő, hatványozás azonosságai (kiemelten az osztás) és nagy számok normálalakja"
       questions={questions}

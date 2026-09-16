@@ -126,6 +126,7 @@ export interface QuizTemplateProps {
   grade?: number;
   chapterId?: string;
   topicId?: string;
+  topicTitle?: string;
 }
 
 function shuffleArray<T>(array: T[]): T[] {
@@ -165,7 +166,8 @@ export function QuizTemplate({
   themeColor = 'violet',
   grade = 8,
   chapterId = 'szamok-es-betuk',
-  topicId
+  topicId,
+  topicTitle
 }: QuizTemplateProps) {
   const { user, profile } = useAuth();
   // 1. Normalize Levels & Questions
@@ -321,7 +323,7 @@ export function QuizTemplate({
   const [selectedLevel, setSelectedLevel] = useState<DifficultyLevel | null>(null);
 
   const computedTopicId = useMemo(() => {
-    return (topicId || topicBadge || title || 'quiz').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    return topicId || (title || topicBadge || 'quiz').toLowerCase().replace(/[^a-z0-9]+/g, '-');
   }, [topicId, topicBadge, title]);
 
   const { getTopicProgress } = useQuizProgress();
@@ -354,7 +356,10 @@ export function QuizTemplate({
             return React.cloneElement(matcherComponent, {
               level: props?.level ?? selectedLevel ?? 1,
               onNextLevel: props?.onNextLevel,
-              onOpenRules: props?.onOpenRules
+              onOpenRules: props?.onOpenRules,
+              topicId: (matcherComponent.props as any)?.topicId || computedTopicId,
+              grade: (matcherComponent.props as any)?.grade || grade,
+              chapterId: (matcherComponent.props as any)?.chapterId || chapterId
             } as any);
           }
           return matcherComponent;
@@ -373,7 +378,10 @@ export function QuizTemplate({
             return React.cloneElement(sorterComponent, {
               level: props?.level ?? selectedLevel ?? 1,
               onNextLevel: props?.onNextLevel,
-              onOpenRules: props?.onOpenRules
+              onOpenRules: props?.onOpenRules,
+              topicId: (sorterComponent.props as any)?.topicId || computedTopicId,
+              grade: (sorterComponent.props as any)?.grade || grade,
+              chapterId: (sorterComponent.props as any)?.chapterId || chapterId
             } as any);
           }
           return sorterComponent;
@@ -381,7 +389,7 @@ export function QuizTemplate({
       });
     }
     return modes;
-  }, [customGameModes, matcherComponent, sorterComponent, selectedLevel]);
+  }, [customGameModes, matcherComponent, sorterComponent, selectedLevel, computedTopicId, grade, chapterId]);
 
   // Fullscreen toggler
   const toggleFullscreen = async () => {
@@ -437,7 +445,7 @@ export function QuizTemplate({
       const totalQ = questions.length || activeLvlConfig?.questions?.length || 10;
       const percentage = Math.round((score / totalQ) * 100);
 
-      const computedTopicId = (topicId || topicBadge || title || 'quiz').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      const computedTopicId = topicId || (title || topicBadge || 'quiz').toLowerCase().replace(/[^a-z0-9]+/g, '-');
       const g = grade || 8;
       const ch = chapterId || 'szamok-es-betuk';
       const lvl = selectedLevel || 1;
@@ -450,6 +458,7 @@ export function QuizTemplate({
         grade: g,
         chapterId: ch,
         topicId: computedTopicId,
+        topicTitle: topicTitle || title,
         quizId: `g${g}__${ch}__${computedTopicId}__quiz__lvl${lvl}`,
         gameType: 'quiz',
         level: lvl,
@@ -460,7 +469,7 @@ export function QuizTemplate({
         completed: true
       }).catch((err) => console.error('Failed to auto-save quiz progress:', err));
     }
-  }, [isCompleted, user, profile, score, questions.length, selectedLevel, title, topicBadge, topicId, grade, chapterId, bestStreak, normalizedLevels]);
+  }, [isCompleted, user, profile, score, questions.length, selectedLevel, title, topicTitle, topicBadge, topicId, grade, chapterId, bestStreak, normalizedLevels]);
 
   const handleStartLevel = (level: DifficultyLevel, mode: GameMode = gameMode) => {
     setSelectedLevel(level);

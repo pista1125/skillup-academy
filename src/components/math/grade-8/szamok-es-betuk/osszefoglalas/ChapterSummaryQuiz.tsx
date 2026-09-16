@@ -1414,6 +1414,11 @@ export const ChapterSummaryQuiz: React.FC<ChapterSummaryQuizProps> = ({
 }) => {
   return (
     <QuizTemplate
+      topicId="g8-chapter1-summary"
+      grade={8}
+      chapterId="szamok-es-betuk"
+      topicTitle="I. Fejezet Összefoglaló Nagyteszt"
+      emoji="🏆"
       title="12. I. Fejezet Összefoglaló Nagyteszt – Kvíz"
       subtitle="90 feladat 3 nehézségi szinten (30-30-30): Logika, Halmazok, Racionális számok, Hatványozás, Gyökvonás és Algebrai Azonosságok"
       questions={questions}

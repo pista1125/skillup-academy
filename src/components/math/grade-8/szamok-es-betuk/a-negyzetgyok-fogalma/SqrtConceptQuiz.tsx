@@ -612,6 +612,11 @@ export const SqrtConceptQuiz: React.FC<SqrtConceptQuizProps> = ({
 }) => {
   return (
     <QuizTemplate
+      topicId="g8-sqrt-concept"
+      grade={8}
+      chapterId="szamok-es-betuk"
+      topicTitle="A négyzetgyök fogalma"
+      emoji="🎯"
       title="7. A négyzetgyök fogalma – Kvíz"
       subtitle="30 feladat 3 nehézségi szinten: A négyzetgyök definíciója, nemnegativitás, értelmezési tartomány, √(a²) = |a| és becslések"
       questions={questions}

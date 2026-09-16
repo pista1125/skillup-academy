@@ -616,6 +616,11 @@ export const PolynomialMultQuiz: React.FC<PolynomialMultQuizProps> = ({
 }) => {
   return (
     <QuizTemplate
+      topicId="g8-polynomial-mult"
+      grade={8}
+      chapterId="szamok-es-betuk"
+      topicTitle="Többtagú kifejezések szorzata"
+      emoji="🎯"
       title="11. Többtagú kifejezések szorzata – Kvíz"
       subtitle="30 feladat 3 nehézségi szinten: Kéttagú szorzatok, a 3 nevezetes azonosság, szorzattá alakítás és fejszámolási trükkök"
       questions={questions}

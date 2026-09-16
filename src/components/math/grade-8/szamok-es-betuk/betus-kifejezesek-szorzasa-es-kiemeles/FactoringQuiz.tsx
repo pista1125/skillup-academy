@@ -630,6 +630,11 @@ export const FactoringQuiz: React.FC<FactoringQuizProps> = ({
 }) => {
   return (
     <QuizTemplate
+      topicId="g8-factoring"
+      grade={8}
+      chapterId="szamok-es-betuk"
+      topicTitle="Betűs kifejezések szorzása és a kiemelés"
+      emoji="🎯"
       title="10. Betűs kifejezések szorzása és a kiemelés – Kvíz"
       subtitle="30 feladat 3 nehézségi szinten: Egytagúak szorzata, zárójelfelbontás (disztributivitás), közös tényező kiemelése és algebrai törtek"
       questions={questions}

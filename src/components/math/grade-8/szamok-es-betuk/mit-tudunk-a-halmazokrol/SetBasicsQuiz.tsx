@@ -602,6 +602,11 @@ export const SetBasicsQuiz: React.FC<SetBasicsQuizProps> = ({
 }) => {
   return (
     <QuizTemplate
+      topicId="g8-set-basics"
+      grade={8}
+      chapterId="szamok-es-betuk"
+      topicTitle="Mit tudunk a halmazokról?"
+      emoji="🎯"
       title="2. Mit tudunk a halmazokról? – Kvíz"
       subtitle="30 feladat 3 nehézségi szinten: halmazfogalom, eleme/nem eleme jelölések, üres halmaz, részhalmazok száma (2ⁿ), számhalmazok"
       questions={questions}

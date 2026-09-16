@@ -615,6 +615,11 @@ export const SetOperationsQuiz: React.FC<SetOperationsQuizProps> = ({
 }) => {
   return (
     <QuizTemplate
+      topicId="g8-set-operations"
+      grade={8}
+      chapterId="szamok-es-betuk"
+      topicTitle="Műveletek halmazokkal"
+      emoji="🎯"
       title="3. Műveletek halmazokkal – Kvíz"
       subtitle="30 feladat 3 nehézségi szinten: metszet (∩), unió (∪), különbség (\\), komplementer (A'), Szita-formula és szöveges felvételi feladatok"
       questions={questions}
