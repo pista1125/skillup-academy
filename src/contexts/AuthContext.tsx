@@ -10,6 +10,12 @@ export interface Profile {
     full_name: string | null;
     username: string | null;
     role: 'teacher' | 'student';
+    teacher_status?: 'none' | 'pending' | 'approved' | 'rejected';
+    teacher_requested_at?: string;
+    school_name?: string;
+    subject?: string;
+    teacher_note?: string;
+    teacher_reject_reason?: string | null;
     avatar_url: string | null;
     updated_at: string;
     email?: string | null;
@@ -18,11 +24,14 @@ export interface Profile {
 
 const generate6DigitCode = () => Math.floor(100000 + Math.random() * 900000).toString();
 
+export const ADMIN_EMAILS = ['pista1125@gmail.com'];
+
 interface AuthContextType {
     session: { user: User } | null;
     user: User | null;
     profile: Profile | null;
     loading: boolean;
+    isAdmin: boolean;
     signOut: () => Promise<void>;
     refreshProfile: () => Promise<void>;
 }
@@ -32,6 +41,7 @@ const AuthContext = createContext<AuthContextType>({
     user: null,
     profile: null,
     loading: true,
+    isAdmin: false,
     signOut: async () => { },
     refreshProfile: async () => { },
 });
@@ -41,12 +51,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [profile, setProfile] = useState<Profile | null>(null);
     const [loading, setLoading] = useState(true);
 
+    const isAdmin = Boolean(
+        user?.email && ADMIN_EMAILS.includes(user.email.toLowerCase())
+    );
+
     const fetchProfile = useCallback(async (firebaseUser: User) => {
         try {
             const userRef = doc(db, 'profiles', firebaseUser.uid);
             let docSnap = await getDoc(userRef);
 
-            // Special check for pista1125@gmail.com (or teacher accounts migrated from Supabase)
+            // Special check for pista1125@gmail.com (admin account)
             const isPista = firebaseUser.email?.toLowerCase() === 'pista1125@gmail.com';
             if (isPista) {
                 syncPistaData(firebaseUser.uid);
@@ -56,8 +70,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 const data = docSnap.data() as Profile;
                 if (isPista) {
                     data.role = 'teacher';
+                    data.teacher_status = 'approved';
                     data.full_name = data.full_name || 'Orsós István';
+                } else if (data.role === 'teacher' && data.teacher_status !== 'approved') {
+                    // Security guard: If not approved by admin, keep as student
+                    data.role = 'student';
                 }
+
                 if (!data.user_code) {
                     const code = generate6DigitCode();
                     data.user_code = code;
@@ -71,6 +90,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                     full_name: isPista ? 'Orsós István' : (firebaseUser.displayName || null),
                     username: firebaseUser.email?.split('@')[0] || null,
                     role: isPista ? 'teacher' : 'student',
+                    teacher_status: isPista ? 'approved' : 'none',
                     avatar_url: firebaseUser.photoURL || null,
                     updated_at: new Date().toISOString(),
                     email: firebaseUser.email || null,
@@ -87,6 +107,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 full_name: isPista ? 'Orsós István' : (firebaseUser.displayName || null),
                 username: firebaseUser.email?.split('@')[0] || null,
                 role: isPista ? 'teacher' : 'student',
+                teacher_status: isPista ? 'approved' : 'none',
                 avatar_url: firebaseUser.photoURL || null,
                 updated_at: new Date().toISOString(),
                 email: firebaseUser.email || null,
@@ -132,6 +153,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         user,
         profile,
         loading,
+        isAdmin,
         signOut,
         refreshProfile,
     };

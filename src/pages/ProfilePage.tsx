@@ -43,7 +43,14 @@ import {
   Layers,
   Pencil,
   X,
-  AlertTriangle
+  AlertTriangle,
+  Shield,
+  CheckCircle,
+  XCircle,
+  Send,
+  Building2,
+  UserCheck,
+  UserX
 } from 'lucide-react';
 import {
   Dialog,
@@ -70,13 +77,23 @@ import {
   QuizProgressRecord 
 } from '@/services/quizProgressService';
 import { ClassQuizProgressMatrix } from '@/components/feedback/ClassQuizProgressMatrix';
+import { 
+  requestTeacherAccess, 
+  cancelTeacherRequest, 
+  subscribePendingTeacherRequests, 
+  subscribeApprovedTeachers, 
+  approveTeacherRequest, 
+  rejectTeacherRequest, 
+  revokeTeacherAccess 
+} from '@/services/teacherRequestService';
+import { Profile } from '@/contexts/AuthContext';
 
 const AVATARS = [
   '🎒', '🎓', '👨‍🏫', '👩‍🏫', '🖍️', '🧪', '🧬', '🚀', '🎨', '🧩', '🎸', '⚽'
 ];
 
 export default function ProfilePage() {
-  const { user, profile, refreshProfile } = useAuth();
+  const { user, profile, refreshProfile, isAdmin } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const { theme, setTheme } = useThemeSync();
@@ -85,14 +102,30 @@ export default function ProfilePage() {
   const [fullName, setFullName] = useState(profile?.full_name || '');
   const [avatarUrl, setAvatarUrl] = useState(profile?.avatar_url || '');
   const [role, setRole] = useState<'teacher' | 'student'>(profile?.role || 'student');
-  const [activeTab, setActiveTab] = useState<'personal' | 'classes' | 'activity' | 'settings'>('personal');
+  const [activeTab, setActiveTab] = useState<'personal' | 'classes' | 'activity' | 'settings' | 'admin-requests'>('personal');
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Teacher request states
+  const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
+  const [reqSchoolName, setReqSchoolName] = useState(profile?.school_name || '');
+  const [reqSubject, setReqSubject] = useState(profile?.subject || '');
+  const [reqTeacherNote, setReqTeacherNote] = useState('');
+  const [isSubmittingRequest, setIsSubmittingRequest] = useState(false);
+  const [isCancellingRequest, setIsCancellingRequest] = useState(false);
+
+  // Admin teacher management states
+  const [pendingTeacherRequests, setPendingTeacherRequests] = useState<Profile[]>([]);
+  const [approvedTeachers, setApprovedTeachers] = useState<Profile[]>([]);
+  const [adminSubTab, setAdminSubTab] = useState<'pending' | 'approved'>('pending');
+  const [processingRequestId, setProcessingRequestId] = useState<string | null>(null);
+  const [teacherToRevoke, setTeacherToRevoke] = useState<Profile | null>(null);
+  const [isRevoking, setIsRevoking] = useState(false);
 
   // Sync activeTab with URL query parameter (?tab=settings etc.)
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const tab = params.get('tab');
-    if (tab && ['personal', 'classes', 'activity', 'settings'].includes(tab)) {
+    if (tab && ['personal', 'classes', 'activity', 'settings', 'admin-requests'].includes(tab)) {
       setActiveTab(tab as any);
     }
   }, [location.search]);
@@ -178,6 +211,24 @@ export default function ProfilePage() {
     });
     return () => unsubscribe();
   }, [user, role]);
+
+  // Subscribe to pending teacher requests for admin
+  useEffect(() => {
+    if (!user || !isAdmin) return;
+    const unsub = subscribePendingTeacherRequests((reqs) => {
+      setPendingTeacherRequests(reqs);
+    });
+    return () => unsub();
+  }, [user, isAdmin]);
+
+  // Subscribe to approved teachers for admin
+  useEffect(() => {
+    if (!user || !isAdmin) return;
+    const unsub = subscribeApprovedTeachers((teachers) => {
+      setApprovedTeachers(teachers);
+    });
+    return () => unsub();
+  }, [user, isAdmin]);
 
   // Subscribe to student's quiz & game activities
   useEffect(() => {
@@ -326,15 +377,94 @@ export default function ProfilePage() {
     }
   };
 
+  const handleSubmitTeacherRequest = async () => {
+    if (!user) return;
+    setIsSubmittingRequest(true);
+    try {
+      await requestTeacherAccess(user.uid, {
+        schoolName: reqSchoolName,
+        subject: reqSubject,
+        note: reqTeacherNote
+      });
+      await refreshProfile();
+      toast.success('A tanári kérelmedet sikeresen elküldtük! Az adminisztrátori jóváhagyás után aktiválódnak a funkciók.');
+      setIsRequestModalOpen(false);
+    } catch (err: any) {
+      console.error('Error submitting teacher request:', err);
+      toast.error('Hiba a kérelem elküldésekor: ' + (err.message || 'Ismeretlen hiba'));
+    } finally {
+      setIsSubmittingRequest(false);
+    }
+  };
+
+  const handleCancelTeacherRequest = async () => {
+    if (!user) return;
+    setIsCancellingRequest(true);
+    try {
+      await cancelTeacherRequest(user.uid);
+      await refreshProfile();
+      toast.info('Tanári kérelem visszavonva.');
+    } catch (err: any) {
+      console.error('Error cancelling teacher request:', err);
+      toast.error('Hiba a visszavonáskor: ' + (err.message || 'Ismeretlen hiba'));
+    } finally {
+      setIsCancellingRequest(false);
+    }
+  };
+
+  const handleApproveTeacher = async (targetUserId: string, targetName: string) => {
+    setProcessingRequestId(targetUserId);
+    try {
+      await approveTeacherRequest(targetUserId);
+      toast.success(`🎉 ${targetName || 'A felhasználó'} sikeresen jóváhagyva tanárként!`);
+    } catch (err: any) {
+      console.error('Error approving teacher:', err);
+      toast.error('Hiba a jóváhagyáskor: ' + (err.message || 'Ismeretlen hiba'));
+    } finally {
+      setProcessingRequestId(null);
+    }
+  };
+
+  const handleRejectTeacher = async (targetUserId: string, targetName: string) => {
+    setProcessingRequestId(targetUserId);
+    try {
+      await rejectTeacherRequest(targetUserId);
+      toast.info(`${targetName || 'A felhasználó'} kérelme elutasítva.`);
+    } catch (err: any) {
+      console.error('Error rejecting teacher:', err);
+      toast.error('Hiba az elutasításkor: ' + (err.message || 'Ismeretlen hiba'));
+    } finally {
+      setProcessingRequestId(null);
+    }
+  };
+
+  const handleConfirmRevokeTeacher = async () => {
+    if (!teacherToRevoke) return;
+    setIsRevoking(true);
+    try {
+      await revokeTeacherAccess(teacherToRevoke.id);
+      toast.info(`${teacherToRevoke.full_name || teacherToRevoke.email} tanári jogosultsága visszavonva.`);
+      setTeacherToRevoke(null);
+    } catch (err: any) {
+      console.error('Error revoking teacher access:', err);
+      toast.error('Hiba a visszavonáskor: ' + (err.message || 'Ismeretlen hiba'));
+    } finally {
+      setIsRevoking(false);
+    }
+  };
+
   const handleUpdateProfile = async () => {
     if (!user) return;
     setLoading(true);
     try {
+      const isApprovedTeacher = isAdmin || profile?.teacher_status === 'approved';
+      const safeRole = isApprovedTeacher ? role : 'student';
+
       await setDoc(doc(db, 'profiles', user.uid), {
         id: user.uid,
         full_name: fullName,
         avatar_url: avatarUrl,
-        role: role,
+        role: safeRole,
         updated_at: new Date().toISOString(),
       }, { merge: true });
 
@@ -562,6 +692,27 @@ export default function ProfilePage() {
                   </Button>
                 )}
 
+                {isAdmin && (
+                  <Button 
+                    variant="ghost" 
+                    onClick={() => setActiveTab('admin-requests')}
+                    className={cn(
+                      "w-full justify-start rounded-2xl py-3 px-4 font-bold text-sm transition-all",
+                      activeTab === 'admin-requests' 
+                        ? "bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-300 shadow-2xs border border-amber-200 dark:border-amber-900" 
+                        : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    )}
+                  >
+                    <Shield className="w-4 h-4 mr-3 text-amber-500" />
+                    <span>Tanári Kérelmek</span>
+                    {pendingTeacherRequests.length > 0 && (
+                      <span className="ml-auto bg-rose-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full animate-pulse shadow-sm">
+                        {pendingTeacherRequests.length}
+                      </span>
+                    )}
+                  </Button>
+                )}
+
                 <Button 
                   variant="ghost" 
                   onClick={() => setActiveTab('activity')}
@@ -722,6 +873,66 @@ export default function ProfilePage() {
                        </div>
                     </div>
 
+                    {/* Teacher Status Banners for Non-Approved Users */}
+                    {profile?.role !== 'teacher' && !isAdmin && (
+                      <div className="space-y-3">
+                        {profile?.teacher_status === 'pending' && (
+                          <div className="p-4.5 rounded-2xl bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/40 dark:to-orange-950/30 border border-amber-200 dark:border-amber-800/80 shadow-sm space-y-3">
+                            <div className="flex items-start justify-between gap-3">
+                              <div className="flex items-center gap-2.5 text-amber-900 dark:text-amber-200 font-black text-sm">
+                                <Clock className="w-5 h-5 text-amber-600 dark:text-amber-400 animate-pulse shrink-0" />
+                                <span>Tanári kérelmed elbírálás alatt áll</span>
+                              </div>
+                              <span className="text-[10px] font-black bg-amber-200/80 dark:bg-amber-900/80 text-amber-800 dark:text-amber-200 px-2 py-0.5 rounded-full uppercase tracking-wider">
+                                Függőben
+                              </span>
+                            </div>
+                            <p className="text-xs text-amber-800/90 dark:text-amber-300/90 leading-relaxed font-medium">
+                              A hozzáférési kérelmedet rögzítettük {profile.teacher_requested_at ? `(${new Date(profile.teacher_requested_at).toLocaleDateString('hu-HU')})` : ''}. Amint az adminisztrátor jóváhagyja, automatikusan elérhetővé válik a tanári osztálykezelő és az értékelési mátrix.
+                            </p>
+                            <div className="flex items-center justify-between pt-1">
+                              <div className="text-[11px] text-amber-700 dark:text-amber-400 font-mono">
+                                {profile.school_name && <span>🏫 {profile.school_name} </span>}
+                                {profile.subject && <span>• 📚 {profile.subject}</span>}
+                              </div>
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={handleCancelTeacherRequest}
+                                disabled={isCancellingRequest}
+                                className="rounded-xl text-xs h-8 font-bold border-amber-300 text-amber-900 hover:bg-amber-100 dark:border-amber-700 dark:text-amber-200 cursor-pointer"
+                              >
+                                {isCancellingRequest ? <Loader2 className="w-3 h-3 animate-spin mr-1" /> : <X className="w-3 h-3 mr-1" />}
+                                Kérelem visszavonása
+                              </Button>
+                            </div>
+                          </div>
+                        )}
+
+                        {profile?.teacher_status === 'rejected' && (
+                          <div className="p-4.5 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 shadow-sm space-y-3">
+                            <div className="flex items-center gap-2.5 text-rose-900 dark:text-rose-200 font-black text-sm">
+                              <AlertTriangle className="w-5 h-5 text-rose-600 shrink-0" />
+                              <span>A korábbi tanári kérelmed nem került jóváhagyásra</span>
+                            </div>
+                            <p className="text-xs text-rose-700 dark:text-rose-300 font-medium">
+                              {profile.teacher_reject_reason 
+                                ? `Indoklás: ${profile.teacher_reject_reason}` 
+                                : 'Szükség esetén pontosítsd az adataidat és nyújtsd be újra a kérelmet.'}
+                            </p>
+                            <Button
+                              size="sm"
+                              onClick={() => setIsRequestModalOpen(true)}
+                              className="rounded-xl text-xs h-8 font-bold bg-rose-600 hover:bg-rose-700 text-white cursor-pointer"
+                            >
+                              <Send className="w-3 h-3 mr-1" />
+                              Új kérelem benyújtása
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
                     <div className="space-y-2 pt-2">
                        <Label className="text-sm font-bold text-slate-700 dark:text-slate-300 ml-1">
                          Státuszod az oldalon
@@ -753,9 +964,16 @@ export default function ProfilePage() {
 
                           <button
                             type="button"
-                            onClick={() => setRole('teacher')}
+                            onClick={() => {
+                              const isApprovedTeacher = isAdmin || profile?.teacher_status === 'approved';
+                              if (isApprovedTeacher) {
+                                setRole('teacher');
+                              } else {
+                                setIsRequestModalOpen(true);
+                              }
+                            }}
                             className={cn(
-                              "flex items-center gap-4 p-4.5 rounded-2xl border-2 transition-all cursor-pointer group text-left",
+                              "flex items-center gap-4 p-4.5 rounded-2xl border-2 transition-all cursor-pointer group text-left relative overflow-hidden",
                               role === 'teacher' 
                                 ? "bg-rose-50/80 border-rose-600 shadow-md ring-2 ring-rose-500/20 dark:bg-rose-950/40" 
                                 : "bg-white dark:bg-slate-900 border-slate-200/80 dark:border-slate-800 hover:border-slate-300"
@@ -766,11 +984,18 @@ export default function ProfilePage() {
                               role === 'teacher' ? "bg-rose-600 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-400"
                             )}>👨‍🏫</div>
                             <div>
-                              <p className={cn("font-black text-base leading-tight", role === 'teacher' ? "text-rose-950 dark:text-rose-100" : "text-slate-700 dark:text-slate-300")}>
-                                Tanár vagyok
-                              </p>
+                              <div className="flex items-center gap-2">
+                                <p className={cn("font-black text-base leading-tight", role === 'teacher' ? "text-rose-950 dark:text-rose-100" : "text-slate-700 dark:text-slate-300")}>
+                                  Tanár vagyok
+                                </p>
+                                {!isAdmin && profile?.teacher_status !== 'approved' && (
+                                  <span className="text-[9px] font-black bg-amber-100 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800 px-1.5 py-0.5 rounded">
+                                    Jóváhagyást igényel
+                                  </span>
+                                )}
+                              </div>
                               <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">
-                                Adminisztratív fiók
+                                {isAdmin || profile?.teacher_status === 'approved' ? 'Adminisztratív fiók' : 'Tanári kérelem benyújtása'}
                               </p>
                             </div>
                           </button>
@@ -1560,6 +1785,230 @@ export default function ProfilePage() {
                 </div>
               )}
 
+              {/* TAB 5: ADMIN TEACHER REQUESTS */}
+              {activeTab === 'admin-requests' && isAdmin && (
+                <div className="space-y-8 animate-in fade-in duration-300">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800 pb-5">
+                    <div>
+                      <h3 className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white tracking-tight mb-1 flex items-center gap-2.5">
+                        <Shield className="w-7 h-7 text-amber-500" />
+                        Tanári Jogosultságok Kezelése
+                      </h3>
+                      <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium">
+                        Itt bírálhatod el a tanári jogosultságot igénylő felhasználók kérelmeit, illetve kezelheted a meglévő tanárokat.
+                      </p>
+                    </div>
+
+                    {/* Sub-tab Switcher */}
+                    <div className="flex items-center bg-slate-100 dark:bg-slate-800/80 p-1 rounded-2xl border border-slate-200/80 dark:border-slate-700/80 self-start sm:self-auto">
+                      <button
+                        type="button"
+                        onClick={() => setAdminSubTab('pending')}
+                        className={cn(
+                          "px-4 py-2 rounded-xl font-black text-xs transition-all flex items-center gap-2 cursor-pointer",
+                          adminSubTab === 'pending'
+                            ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs"
+                            : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+                        )}
+                      >
+                        <span>Függőben lévő kérelmek</span>
+                        {pendingTeacherRequests.length > 0 && (
+                          <span className="bg-rose-500 text-white text-[10px] px-2 py-0.5 rounded-full font-black">
+                            {pendingTeacherRequests.length}
+                          </span>
+                        )}
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setAdminSubTab('approved')}
+                        className={cn(
+                          "px-4 py-2 rounded-xl font-black text-xs transition-all flex items-center gap-2 cursor-pointer",
+                          adminSubTab === 'approved'
+                            ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs"
+                            : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+                        )}
+                      >
+                        <span>Jóváhagyott tanárok</span>
+                        <span className="bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-[10px] px-2 py-0.5 rounded-full font-black">
+                          {approvedTeachers.length}
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* SUBTAB 1: PENDING REQUESTS */}
+                  {adminSubTab === 'pending' && (
+                    <div className="space-y-4">
+                      {pendingTeacherRequests.length === 0 ? (
+                        <div className="py-16 text-center bg-slate-50/60 dark:bg-slate-950/40 rounded-3xl border border-dashed border-slate-200 dark:border-slate-800">
+                          <div className="w-12 h-12 rounded-2xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 flex items-center justify-center mx-auto mb-3 text-2xl shadow-xs">
+                            ✨
+                          </div>
+                          <h4 className="font-black text-base text-slate-800 dark:text-slate-200">
+                            Nincs függőben lévő tanári kérelem
+                          </h4>
+                          <p className="text-xs text-slate-400 mt-1 max-w-sm mx-auto">
+                            Amikor egy regisztrált felhasználó tanári hozzáférést igényel a profiljában, itt fog megjelenni jóváhagyásra.
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {pendingTeacherRequests.map((req) => (
+                            <div
+                              key={req.id}
+                              className="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-4 hover:border-amber-300 dark:hover:border-amber-700 transition-all flex flex-col justify-between"
+                            >
+                              <div className="space-y-3">
+                                <div className="flex items-start justify-between gap-3">
+                                  <div className="flex items-center gap-3 min-w-0">
+                                    <div className="w-11 h-11 rounded-2xl bg-amber-100 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 border border-amber-200 flex items-center justify-center text-lg font-black shrink-0 overflow-hidden">
+                                      {req.avatar_url && (req.avatar_url.startsWith('http') || req.avatar_url.startsWith('data:') || req.avatar_url.startsWith('/')) ? (
+                                        <img src={req.avatar_url} alt="" className="w-full h-full object-cover" />
+                                      ) : req.avatar_url && req.avatar_url.length <= 4 ? (
+                                        req.avatar_url
+                                      ) : (
+                                        (req.full_name || req.username || 'T').charAt(0).toUpperCase()
+                                      )}
+                                    </div>
+                                    <div className="min-w-0 truncate">
+                                      <h4 className="font-black text-sm text-slate-800 dark:text-slate-100 truncate">
+                                        {req.full_name || req.username || 'Névtelen Felhasználó'}
+                                      </h4>
+                                      <p className="text-xs text-slate-400 font-mono truncate">
+                                        {req.email || 'Nincs megadva e-mail'}
+                                      </p>
+                                    </div>
+                                  </div>
+
+                                  <span className="font-mono text-[10px] font-black bg-indigo-50 dark:bg-indigo-950/80 text-indigo-700 dark:text-indigo-300 px-2 py-0.5 rounded-md border border-indigo-200/70 dark:border-indigo-800 shrink-0">
+                                    🔑 {req.user_code || '—'}
+                                  </span>
+                                </div>
+
+                                {/* Application info */}
+                                <div className="p-3 bg-slate-50 dark:bg-slate-950/60 rounded-2xl border border-slate-100 dark:border-slate-800 text-xs space-y-1.5">
+                                  <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300">
+                                    <Building2 className="w-3.5 h-3.5 text-slate-400" />
+                                    <span className="font-bold">Iskola:</span>
+                                    <span className="text-slate-800 dark:text-slate-200">{req.school_name || '— Nem adott meg'}</span>
+                                  </div>
+                                  <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300">
+                                    <BookOpen className="w-3.5 h-3.5 text-slate-400" />
+                                    <span className="font-bold">Tantárgy:</span>
+                                    <span className="text-slate-800 dark:text-slate-200">{req.subject || '— Nem adott meg'}</span>
+                                  </div>
+                                  {req.teacher_note && (
+                                    <div className="pt-1 border-t border-slate-200/60 dark:border-slate-800 text-slate-500 italic text-[11px]">
+                                      "{req.teacher_note}"
+                                    </div>
+                                  )}
+                                  <div className="text-[10px] text-slate-400 font-mono pt-1">
+                                    Kérve: {req.teacher_requested_at ? new Date(req.teacher_requested_at).toLocaleString('hu-HU') : '—'}
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Actions */}
+                              <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={() => handleRejectTeacher(req.id, req.full_name || req.email || '')}
+                                  disabled={processingRequestId === req.id}
+                                  className="rounded-xl h-9 text-xs font-bold text-rose-600 hover:bg-rose-50 border-rose-200 dark:border-rose-900 cursor-pointer"
+                                >
+                                  <XCircle className="w-3.5 h-3.5 mr-1" />
+                                  Elutasítás
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  onClick={() => handleApproveTeacher(req.id, req.full_name || req.email || '')}
+                                  disabled={processingRequestId === req.id}
+                                  className="rounded-xl h-9 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm shadow-emerald-600/20 cursor-pointer"
+                                >
+                                  {processingRequestId === req.id ? (
+                                    <Loader2 className="w-3.5 h-3.5 animate-spin mr-1" />
+                                  ) : (
+                                    <CheckCircle className="w-3.5 h-3.5 mr-1" />
+                                  )}
+                                  Jóváhagyás
+                                </Button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* SUBTAB 2: APPROVED TEACHERS */}
+                  {adminSubTab === 'approved' && (
+                    <div className="space-y-4">
+                      {approvedTeachers.length === 0 ? (
+                        <div className="py-12 text-center text-slate-400 text-sm">
+                          Még nincs jóváhagyott tanári fiók.
+                        </div>
+                      ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {approvedTeachers.map((teacher) => (
+                            <div
+                              key={teacher.id}
+                              className="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200/90 dark:border-slate-800 shadow-sm flex items-center justify-between gap-4"
+                            >
+                              <div className="flex items-center gap-3 min-w-0">
+                                <div className="w-11 h-11 rounded-2xl bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 border border-rose-200 flex items-center justify-center text-lg font-black shrink-0 overflow-hidden">
+                                  {teacher.avatar_url && (teacher.avatar_url.startsWith('http') || teacher.avatar_url.startsWith('data:') || teacher.avatar_url.startsWith('/')) ? (
+                                    <img src={teacher.avatar_url} alt="" className="w-full h-full object-cover" />
+                                  ) : teacher.avatar_url && teacher.avatar_url.length <= 4 ? (
+                                    teacher.avatar_url
+                                  ) : (
+                                    (teacher.full_name || teacher.username || 'T').charAt(0).toUpperCase()
+                                  )}
+                                </div>
+                                <div className="min-w-0 truncate">
+                                  <div className="flex items-center gap-2">
+                                    <h4 className="font-black text-sm text-slate-800 dark:text-slate-100 truncate">
+                                      {teacher.full_name || teacher.username || 'Névtelen Tanár'}
+                                    </h4>
+                                    {teacher.email?.toLowerCase() === 'pista1125@gmail.com' && (
+                                      <span className="text-[9px] font-black bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 px-1.5 py-0.5 rounded border border-amber-300 dark:border-amber-800">
+                                        Főadmin
+                                      </span>
+                                    )}
+                                  </div>
+                                  <p className="text-xs text-slate-400 font-mono truncate">
+                                    {teacher.email}
+                                  </p>
+                                  {teacher.school_name && (
+                                    <p className="text-[11px] text-slate-500 truncate mt-0.5">
+                                      🏫 {teacher.school_name}
+                                    </p>
+                                  )}
+                                </div>
+                              </div>
+
+                              {teacher.email?.toLowerCase() !== 'pista1125@gmail.com' && (
+                                <Button
+                                  size="sm"
+                                  variant="ghost"
+                                  onClick={() => setTeacherToRevoke(teacher)}
+                                  className="rounded-xl h-9 text-xs font-bold text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 shrink-0 cursor-pointer"
+                                  title="Tanári jog visszavonása"
+                                >
+                                  <UserX className="w-4 h-4 mr-1 text-rose-500" />
+                                  Jog visszavonása
+                                </Button>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+
             </div>
           </div>
 
@@ -1653,6 +2102,131 @@ export default function ProfilePage() {
                 <Trash2 className="w-4 h-4" />
               )}
               <span>Diák eltávolítása</span>
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* TEACHER ACCESS REQUEST MODAL */}
+      <Dialog open={isRequestModalOpen} onOpenChange={setIsRequestModalOpen}>
+        <DialogContent className="sm:max-w-md rounded-3xl p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl">
+          <DialogHeader className="space-y-2">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-rose-500 to-amber-500 text-white flex items-center justify-center text-2xl shadow-md mx-auto sm:mx-0">
+              👨‍🏫
+            </div>
+            <DialogTitle className="text-xl font-black text-slate-900 dark:text-white">
+              Tanári Jogosultság Igénylése
+            </DialogTitle>
+            <DialogDescription className="text-xs text-slate-500 dark:text-slate-400">
+              A tanári felületen saját osztályokat hozhatsz létre, kezelheted a diákjaidat, és valós időben nyomon követheted a kvízek értékelési mátrixát.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4 py-2">
+            <div className="space-y-1.5">
+              <Label className="text-xs font-bold text-slate-700 dark:text-slate-300">
+                Iskola / Intézmény neve <span className="text-slate-400 font-normal">(opcionális)</span>
+              </Label>
+              <Input
+                placeholder="pl. Petőfi Sándor Általános Iskola"
+                value={reqSchoolName}
+                onChange={(e) => setReqSchoolName(e.target.value)}
+                className="rounded-xl h-11"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <Label className="text-xs font-bold text-slate-700 dark:text-slate-300">
+                Tanított tantárgy / Évfolyam <span className="text-slate-400 font-normal">(opcionális)</span>
+              </Label>
+              <Input
+                placeholder="pl. Matematika 5-8. osztály"
+                value={reqSubject}
+                onChange={(e) => setReqSubject(e.target.value)}
+                className="rounded-xl h-11"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <Label className="text-xs font-bold text-slate-700 dark:text-slate-300">
+                Megjegyzés az adminisztrátornak <span className="text-slate-400 font-normal">(opcionális)</span>
+              </Label>
+              <Input
+                placeholder="pl. 7.A osztályfőnök vagyok..."
+                value={reqTeacherNote}
+                onChange={(e) => setReqTeacherNote(e.target.value)}
+                className="rounded-xl h-11"
+              />
+            </div>
+          </div>
+
+          <DialogFooter className="flex flex-col-reverse sm:flex-row gap-2 mt-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setIsRequestModalOpen(false)}
+              className="rounded-xl font-bold"
+            >
+              Mégse
+            </Button>
+            <Button
+              type="button"
+              onClick={handleSubmitTeacherRequest}
+              disabled={isSubmittingRequest}
+              className="rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-black shadow-md shadow-rose-500/20"
+            >
+              {isSubmittingRequest ? (
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              ) : (
+                <Send className="w-4 h-4 mr-2" />
+              )}
+              Kérelem Elküldése
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* REVOKE TEACHER CONFIRMATION DIALOG */}
+      <Dialog open={!!teacherToRevoke} onOpenChange={(open) => !open && setTeacherToRevoke(null)}>
+        <DialogContent className="max-w-md p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl">
+          <DialogHeader className="space-y-3">
+            <div className="w-12 h-12 rounded-2xl bg-rose-100 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 flex items-center justify-center mx-auto sm:mx-0 shadow-2xs">
+              <UserX className="w-6 h-6" />
+            </div>
+            <DialogTitle className="text-xl font-black text-slate-900 dark:text-white">
+              Tanári jogosultság visszavonása
+            </DialogTitle>
+            <DialogDescription className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+              Biztosan visszavonod <strong className="text-slate-800 dark:text-slate-200">„{teacherToRevoke?.full_name || teacherToRevoke?.email}”</strong> tanári jogosultságát?
+              <br /><br />
+              <span className="text-xs text-slate-400">
+                A felhasználó fiókja normál diák státuszba kerül, így a továbbiakban nem fogja elérni a tanári osztályokat és statisztikákat.
+              </span>
+            </DialogDescription>
+          </DialogHeader>
+
+          <DialogFooter className="flex flex-col-reverse sm:flex-row gap-2 mt-4 pt-3 border-t border-slate-100 dark:border-slate-800">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setTeacherToRevoke(null)}
+              disabled={isRevoking}
+              className="rounded-xl h-11 px-5 font-bold border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300"
+            >
+              Mégse
+            </Button>
+            <Button
+              type="button"
+              onClick={handleConfirmRevokeTeacher}
+              disabled={isRevoking}
+              className="rounded-xl h-11 px-5 font-bold bg-rose-600 hover:bg-rose-700 text-white shadow-md shadow-rose-600/20 flex items-center gap-2"
+            >
+              {isRevoking ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <UserX className="w-4 h-4" />
+              )}
+              <span>Jogosultság visszavonása</span>
             </Button>
           </DialogFooter>
         </DialogContent>
