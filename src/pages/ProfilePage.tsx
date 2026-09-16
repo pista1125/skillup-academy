@@ -1100,10 +1100,14 @@ export default function ProfilePage() {
                                     className="flex items-center justify-between p-4 bg-slate-50/80 dark:bg-slate-950/60 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-2xs hover:border-indigo-300 dark:hover:border-indigo-800 transition-all group"
                                   >
                                     <div className="flex items-center gap-3 min-w-0">
-                                      <div className="w-10 h-10 rounded-xl bg-indigo-100 dark:bg-indigo-950/80 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-900 flex items-center justify-center text-lg font-black shrink-0">
-                                        {student.avatarUrl && student.avatarUrl.length <= 4 
-                                          ? student.avatarUrl 
-                                          : student.name.charAt(0).toUpperCase()}
+                                      <div className="w-10 h-10 rounded-xl bg-indigo-100 dark:bg-indigo-950/80 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-900 flex items-center justify-center text-lg font-black shrink-0 overflow-hidden">
+                                        {student.avatarUrl && (student.avatarUrl.startsWith('http') || student.avatarUrl.startsWith('data:') || student.avatarUrl.startsWith('/')) ? (
+                                          <img src={student.avatarUrl} alt={student.name} className="w-full h-full object-cover" />
+                                        ) : student.avatarUrl && student.avatarUrl.length <= 4 ? (
+                                          student.avatarUrl
+                                        ) : (
+                                          student.name.charAt(0).toUpperCase()
+                                        )}
                                       </div>
                                       <div className="min-w-0 truncate">
                                         <div className="font-black text-sm text-slate-800 dark:text-slate-100 truncate">

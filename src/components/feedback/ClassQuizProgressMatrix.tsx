@@ -16,130 +16,26 @@ import {
   GraduationCap,
   Layers,
   BookOpen,
-  Award
+  Award,
+  SlidersHorizontal,
+  ChevronDown
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
+import { 
+  GradeLevel, 
+  MatrixChapterDef, 
+  MatrixTopicDef, 
+  MATRIX_CURRICULUM 
+} from './matrixCurriculumConfig';
 
 export interface ClassQuizProgressMatrixProps {
   currentClass: TeacherClass;
   onClose?: () => void;
 }
 
-export type GradeLevel = 5 | 6 | 7 | 8;
-
-export interface TopicDef {
-  id: string;
-  title: string;
-  short: string;
-}
-
-export interface GradeChapterConfig {
-  grade: GradeLevel;
-  gradeLabel: string;
-  chapterTitle: string;
-  subtitle: string;
-  topics: TopicDef[];
-}
-
-// 5. Osztály - I. Fejezet témakörei
-const GRADE_5_TOPICS: TopicDef[] = [
-  { id: 'roman-numerals', title: '1. Római számok', short: 'Római' },
-  { id: 'place-value', title: '2. Helyiértékes írás', short: 'Helyiérték' },
-  { id: 'number-reading', title: '3. Számok kiolvasása', short: 'Kiolvasás' },
-  { id: 'number-spelling', title: '4. Számok helyesírása', short: 'Helyesírás' },
-  { id: 'number-systems', title: '5. Számrendszerek', short: 'Számrendsz.' },
-  { id: 'number-line', title: '6. Számegyenes', short: 'Számegyenes' },
-  { id: 'rounding', title: '7. Becslés, kerekítés', short: 'Kerekítés' },
-  { id: 'addition', title: '8. Összeadás', short: 'Összeadás' },
-  { id: 'subtraction', title: '9. Kivonás', short: 'Kivonás' },
-  { id: 'multiplication', title: '10. Szorzás', short: 'Szorzás' },
-  { id: 'division', title: '11. Osztás', short: 'Osztás' },
-  { id: 'order-of-operations', title: '12. Műveleti sorrend', short: 'Műv. sorrend' },
-  { id: 'negative-numbers', title: '13. Negatív számok', short: 'Negatív' },
-  { id: 'opposite-absolute', title: '14. Ellentett & Abszolút', short: 'Ellentett' },
-  { id: 'integer-addition-subtraction', title: '15. Egész számok műveletei', short: 'Egész műv.' },
-  { id: 'chapter1-summary', title: '16. Témazáró Összefoglalás', short: 'Témazáró' }
-];
-
-// 6. Osztály - I. Fejezet témakörei
-const GRADE_6_TOPICS: TopicDef[] = [
-  { id: 'integers-operations', title: '1. Műveletek egész számokkal', short: 'Műveletek' },
-  { id: 'integers-mult', title: '2. Egész számok szorzása', short: 'Szorzás' },
-  { id: 'integers-div', title: '3. Egész számok osztása', short: 'Osztás' },
-  { id: 'integers-cases', title: '4. Előjelszabályok & Esetek', short: 'Előjelek' },
-  { id: 'integers-divisors', title: '5. Osztók & Többszörösök', short: 'Osztók' },
-  { id: 'integers-remainders', title: '6. Osztási maradékok', short: 'Maradék' },
-  { id: 'integers-factorization', title: '7. Prímtényezős felbontás', short: 'Prímtényező' },
-  { id: 'integers-divisibility-2-5-10', title: '8. Oszthatóság: 2, 5, 10', short: '2, 5, 10' },
-  { id: 'integers-divisibility-3-9', title: '9. Oszthatóság: 3, 9', short: '3, 9' },
-  { id: 'integers-divisibility-4-100', title: '10. Oszthatóság: 4, 100', short: '4, 100' },
-  { id: 'integers-composite-divisibility', title: '11. Összetett oszthatóság', short: 'Összetett' },
-  { id: 'integers-lcm', title: '12. Legkisebb közös többszörös (LKKT)', short: 'LKKT' },
-  { id: 'integers-gcd', title: '13. Legnagyobb közös osztó (LNKO)', short: 'LNKO' },
-  { id: 'integers-summary', title: '14. Témazáró Összefoglalás', short: 'Témazáró' }
-];
-
-// 7. Osztály - I. Fejezet témakörei
-const GRADE_7_TOPICS: TopicDef[] = [
-  { id: 'rat-integer-properties', title: '1. Egész számok tulajdonságai', short: 'Tulajdonságok' },
-  { id: 'rat-fractions-decimals', title: '2. Törtek és tizedestörtek', short: 'Törtek' },
-  { id: 'rat-operations', title: '3. Műveletek racionális számokkal', short: 'Műveletek' },
-  { id: 'rat-word-problems', title: '4. Szöveges feladatok', short: 'Szöveges' },
-  { id: 'rat-complex-operations', title: '5. Összetett műveletsorok', short: 'Műveletsor' },
-  { id: 'rat-numbers-letters', title: '6. Számok és betűk, kifejezések', short: 'Kifejezések' },
-  { id: 'rat-combining-substitution', title: '7. Egynemű tagok & Helyettesítés', short: 'Helyettesítés' },
-  { id: 'rat-expansion-factoring', title: '8. Zárójelfelbontás & Kiemelés', short: 'Zárójelbontás' },
-  { id: 'rat-summary', title: '9. Fejezeti összefoglaló', short: 'Témazáró' }
-];
-
-// 8. Osztály - I. Fejezet témakörei
-const GRADE_8_TOPICS: TopicDef[] = [
-  { id: 'logic', title: '1. Logika feladatok', short: 'Logika' },
-  { id: 'set-basics', title: '2. Mit tudunk a halmazokról?', short: 'Halmaz alap' },
-  { id: 'set-operations', title: '3. Műveletek halmazokkal', short: 'Halmazműv.' },
-  { id: 'rational-set', title: '4. A racionális számok halmaza', short: 'Racionális' },
-  { id: 'rational-operations', title: '5. Mit tudunk a racionális számokról?', short: 'Rac. művelet' },
-  { id: 'powers', title: '6. Hatványozás', short: 'Hatvány' },
-  { id: 'sqrt-concept', title: '7. A négyzetgyök fogalma', short: 'Gyökfogalom' },
-  { id: 'square-roots', title: '8. Számok négyzetgyöke', short: 'Négyzetgyök' },
-  { id: 'algebra-intro', title: '9. Betűs kifejezések', short: 'Betűs kif.' },
-  { id: 'factoring', title: '10. Szorzás és kiemelés', short: 'Kiemelés' },
-  { id: 'polynomial-mult', title: '11. Többtagú kifejezések szorzata', short: 'Többtagú' },
-  { id: 'chapter1-summary', title: '12. Témazáró Összefoglalás', short: 'Témazáró' }
-];
-
-const GRADE_CONFIGS: Record<GradeLevel, GradeChapterConfig> = {
-  5: {
-    grade: 5,
-    gradeLabel: '5. Osztály',
-    chapterTitle: 'I. Az egész számok',
-    subtitle: 'Valós idejű áttekintés az 5. osztályos kvízek, csoportosítók és párosítók teljesítéséről.',
-    topics: GRADE_5_TOPICS
-  },
-  6: {
-    grade: 6,
-    gradeLabel: '6. Osztály',
-    chapterTitle: 'I. Egész számok és oszthatóság',
-    subtitle: 'Valós idejű áttekintés a 6. osztályos műveletek, oszthatóság, LKKT és LNKO témákról.',
-    topics: GRADE_6_TOPICS
-  },
-  7: {
-    grade: 7,
-    gradeLabel: '7. Osztály',
-    chapterTitle: 'I. Racionális számok, algebra',
-    subtitle: 'Valós idejű áttekintés a 7. osztályos racionális számok, algebrai kifejezések és kiemelés témákról.',
-    topics: GRADE_7_TOPICS
-  },
-  8: {
-    grade: 8,
-    gradeLabel: '8. Osztály',
-    chapterTitle: 'I. Számok és betűk',
-    subtitle: 'Valós idejű áttekintés a 8. osztályos logika, halmazok, hatványozás, gyökvonás és kifejezések témákról.',
-    topics: GRADE_8_TOPICS
-  }
-};
+export type LevelFilterMode = 'all' | 1 | 2 | 3;
 
 export interface TopicLevelProgressData {
   hasStarted: boolean;
@@ -153,6 +49,23 @@ export interface TopicLevelProgressData {
     3?: number;
   };
   records: QuizProgressRecord[];
+}
+
+export function renderStudentAvatar(avatarUrl?: string, name?: string, size: 'sm' | 'md' = 'sm') {
+  if (avatarUrl && (avatarUrl.startsWith('http') || avatarUrl.startsWith('data:') || avatarUrl.startsWith('/'))) {
+    return (
+      <img
+        src={avatarUrl}
+        alt={name || 'Avatar'}
+        className="w-full h-full object-cover"
+      />
+    );
+  }
+  if (avatarUrl && avatarUrl.length <= 4) {
+    return <span className={size === 'md' ? 'text-2xl select-none' : 'text-sm select-none'}>{avatarUrl}</span>;
+  }
+  const initial = (name || 'D').trim().charAt(0).toUpperCase() || '👤';
+  return <span className="select-none font-black">{initial}</span>;
 }
 
 export function getTopicLevelData(
@@ -206,6 +119,16 @@ export function getTopicLevelData(
       (cleanTarget === 'factoring' && (recTitle.includes('kiemelés') || recTitle.includes('szorzása és a kiemelés') || recTopicClean.includes('betus-szorzas') || recTopicClean.includes('factoring'))) ||
       (cleanTarget === 'polynomial-mult' && (recTitle.includes('többtagú') || recTopicClean.includes('tobbtagu') || recTopicClean.includes('polynomial'))) ||
       (cleanTarget === 'chapter1-summary' && (recTitle.includes('összefoglaló') || recTitle.includes('nagyteszt') || recTopicClean.includes('chapter-summary') || recTopicClean.includes('summary') || recTopicClean.includes('fejezet-osszefoglalo'))) ||
+      // Grade 7
+      (cleanTarget === 'integer-properties' && (recTitle.includes('egész számok tulajdonság') || recTopicClean.includes('integer-properties'))) ||
+      (cleanTarget === 'fractions-decimals' && (recTitle.includes('törtek és tizedestörtek') || recTopicClean.includes('fractions-decimals'))) ||
+      (cleanTarget === 'operations' && (recTitle.includes('műveletek racionális') || recTopicClean.includes('operations'))) ||
+      (cleanTarget === 'word-problems' && (recTitle.includes('szöveges feladatok') || recTopicClean.includes('word-problems'))) ||
+      (cleanTarget === 'complex-operations' && (recTitle.includes('összetett műveletsor') || recTopicClean.includes('complex-operations'))) ||
+      (cleanTarget === 'numbers-letters' && (recTitle.includes('számok és betűk') || recTopicClean.includes('numbers-letters'))) ||
+      (cleanTarget === 'combining-substitution' && (recTitle.includes('egynemű tagok') || recTitle.includes('helyettesítés') || recTopicClean.includes('combining-substitution'))) ||
+      (cleanTarget === 'expansion-factoring' && (recTitle.includes('zárójelfelbontás') || recTitle.includes('kiemelés') || recTopicClean.includes('expansion-factoring'))) ||
+      (cleanTarget === 'summary' && (recTitle.includes('fejezeti összefoglaló') || recTopicClean.includes('summary'))) ||
       // Grade 6
       (cleanTarget === 'integers-operations' && (recTitle.includes('műveletek az egész') || recTitle.includes('műveletek kvíz') || recTopicClean.includes('operations'))) ||
       (cleanTarget === 'integers-mult' && (recTitle.includes('szorzása') || recTitle.includes('szorzás kvíz') || recTopicClean.includes('mult'))) ||
@@ -305,20 +228,52 @@ export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProg
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedStudent, setSelectedStudent] = useState<ClassStudent | null>(null);
 
-  // Derive initial grade from class name (e.g. "6.A" -> 6)
+  // Derive initial grade from class name (e.g. "5. osztály", "7.A", "1.B")
   const initialGrade: GradeLevel = useMemo(() => {
-    const match = currentClass.name?.match(/([5-8])/);
+    const match = currentClass.name?.match(/([1-8])/);
     if (match) {
       const num = parseInt(match[1], 10);
-      if (num >= 5 && num <= 8) return num as GradeLevel;
+      if (num >= 1 && num <= 8) return num as GradeLevel;
     }
     return 5;
   }, [currentClass.name]);
 
   const [selectedGrade, setSelectedGrade] = useState<GradeLevel>(initialGrade);
 
-  const activeConfig = GRADE_CONFIGS[selectedGrade];
-  const activeTopics = activeConfig.topics;
+  // When class changes, synchronize grade with class
+  useEffect(() => {
+    setSelectedGrade(initialGrade);
+  }, [initialGrade, currentClass.id]);
+
+  const activeGradeDef = MATRIX_CURRICULUM[selectedGrade] || MATRIX_CURRICULUM[5];
+  const availableChapters = activeGradeDef.chapters;
+
+  // Initial chapter: For Grade 7 default to Chapter 2 (Racionális számok), for other grades Chapter 0
+  const [selectedChapterId, setSelectedChapterId] = useState<string>(() => {
+    if (initialGrade === 7) {
+      const ch2 = availableChapters.find((c) => c.id === 'g7-rational-algebra');
+      if (ch2) return ch2.id;
+    }
+    return availableChapters[0]?.id || '';
+  });
+
+  // When grade changes, ensure valid selected chapter
+  useEffect(() => {
+    if (!availableChapters.some((c) => c.id === selectedChapterId)) {
+      if (selectedGrade === 7) {
+        const ch2 = availableChapters.find((c) => c.id === 'g7-rational-algebra');
+        setSelectedChapterId(ch2?.id || availableChapters[0]?.id || '');
+      } else {
+        setSelectedChapterId(availableChapters[0]?.id || '');
+      }
+    }
+  }, [selectedGrade, availableChapters, selectedChapterId]);
+
+  const activeChapter = availableChapters.find((c) => c.id === selectedChapterId) || availableChapters[0];
+  const activeTopics = activeChapter?.topics || [];
+
+  // Level filter mode
+  const [levelFilter, setLevelFilter] = useState<LevelFilterMode>('all');
 
   const studentIds = useMemo(() => {
     return (currentClass.students || []).map((s) => s.userId).filter(Boolean);
@@ -360,7 +315,7 @@ export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProg
     return map;
   }, [records]);
 
-  // Filtered students
+  // Filtered students by search query
   const filteredStudents = useMemo(() => {
     return (currentClass.students || []).filter((s) => {
       const q = searchQuery.toLowerCase().trim();
@@ -373,9 +328,11 @@ export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProg
     });
   }, [currentClass.students, searchQuery]);
 
-  // Overall class completion rate for the active grade
+  // Overall class completion rate for active chapter, adaptive to level filter
   const classStats = useMemo(() => {
-    if (!currentClass.students?.length) return { avgScore: 0, completedCount: 0, completionPercent: 0 };
+    if (!currentClass.students?.length || !activeTopics.length) {
+      return { avgScore: 0, completedCount: 0, completionPercent: 0, levelAvg: 0 };
+    }
     const totalPossible = currentClass.students.length * activeTopics.length;
     let completedCount = 0;
     let scoreSum = 0;
@@ -384,9 +341,17 @@ export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProg
       const sRecs = studentRecordsMap[s.userId] || [];
       activeTopics.forEach((top) => {
         const item = getTopicLevelData(sRecs, top.id);
-        if (item.hasStarted) {
-          completedCount++;
-          scoreSum += item.avgScore || 100;
+        if (levelFilter === 'all') {
+          if (item.hasStarted) {
+            completedCount++;
+            scoreSum += item.avgScore || 100;
+          }
+        } else {
+          const sLevelScore = item.levelScores[levelFilter];
+          if (sLevelScore !== undefined) {
+            completedCount++;
+            scoreSum += sLevelScore;
+          }
         }
       });
     });
@@ -395,56 +360,45 @@ export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProg
     const completionPercent = totalPossible > 0 ? Math.round((completedCount / totalPossible) * 100) : 0;
 
     return { avgScore, completedCount, completionPercent };
-  }, [currentClass.students, studentRecordsMap, activeTopics]);
+  }, [currentClass.students, studentRecordsMap, activeTopics, levelFilter]);
 
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
       {/* Header & Class Stats Banner */}
       <div className="bg-gradient-to-r from-rose-500/10 via-amber-500/10 to-indigo-500/10 dark:from-rose-950/30 dark:to-indigo-950/30 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-800">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-          <div className="space-y-1.5">
+          <div className="space-y-2">
             <div className="flex items-center gap-2 text-rose-600 dark:text-rose-400 font-bold text-xs uppercase tracking-wider">
               <GraduationCap className="w-4 h-4" />
-              <span>{currentClass.name} • Osztály Haladási Mátrix (3 Nehézségi Szint)</span>
+              <span>{currentClass.name} • Osztály Haladási Mátrix</span>
             </div>
-            <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">
-              {activeConfig.gradeLabel} – {activeConfig.chapterTitle}
-            </h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
-              {activeConfig.subtitle}
+
+            <div className="flex flex-wrap items-baseline gap-2">
+              <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">
+                {activeGradeDef.gradeLabel} – {activeChapter?.title}
+              </h3>
+            </div>
+
+            <p className="text-xs text-slate-500 dark:text-slate-400 max-w-2xl">
+              {activeChapter?.subtitle}
             </p>
           </div>
 
-          {/* Grade Selector Tabs */}
-          <div className="flex flex-wrap items-center gap-2">
-            {([5, 6, 7, 8] as GradeLevel[]).map((g) => (
-              <button
-                key={g}
-                type="button"
-                onClick={() => setSelectedGrade(g)}
-                className={cn(
-                  "px-3.5 py-2 rounded-2xl text-xs font-black transition-all cursor-pointer shadow-xs flex items-center gap-1.5",
-                  selectedGrade === g
-                    ? "bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-md scale-105"
-                    : "bg-white/80 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-700"
-                )}
-              >
-                <BookOpen className="w-3.5 h-3.5" />
-                <span>{g}. Osztály</span>
-              </button>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-3">
-            <div className="bg-white dark:bg-slate-900 px-4 py-2.5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs text-center min-w-[90px]">
-              <div className="text-[10px] uppercase font-bold text-slate-400">Osztályátlag</div>
+          {/* Top Quick Stats */}
+          <div className="flex items-center gap-3 shrink-0">
+            <div className="bg-white dark:bg-slate-900 px-4 py-2.5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs text-center min-w-[95px]">
+              <div className="text-[10px] uppercase font-bold text-slate-400">
+                {levelFilter === 'all' ? 'Osztályátlag' : `${levelFilter}. szint átlag`}
+              </div>
               <div className="text-lg font-black text-emerald-600 dark:text-emerald-400 font-mono">
                 {classStats.avgScore}%
               </div>
             </div>
 
-            <div className="bg-white dark:bg-slate-900 px-4 py-2.5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs text-center min-w-[90px]">
-              <div className="text-[10px] uppercase font-bold text-slate-400">Haladás</div>
+            <div className="bg-white dark:bg-slate-900 px-4 py-2.5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs text-center min-w-[95px]">
+              <div className="text-[10px] uppercase font-bold text-slate-400">
+                {levelFilter === 'all' ? 'Össz. Haladás' : `${levelFilter}. sz. Haladás`}
+              </div>
               <div className="text-lg font-black text-amber-600 dark:text-amber-400 font-mono">
                 {classStats.completionPercent}%
               </div>
@@ -452,25 +406,133 @@ export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProg
           </div>
         </div>
 
-        {/* Search bar & 3-Level Matrix Legend */}
-        <div className="mt-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4 border-t border-slate-200/60 dark:border-slate-800">
-          <div className="relative w-full max-w-sm">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-            <Input
-              placeholder="Keresés diák neve vagy kódja alapján..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-9 h-10 rounded-xl text-xs bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-xs"
-            />
+        {/* Grade & Chapter Filter Toolbar */}
+        <div className="mt-5 pt-4 border-t border-slate-200/70 dark:border-slate-800 flex flex-col gap-4">
+          {/* Row 1: Grade Level Selector (1-8. Osztály) */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-700 dark:text-slate-300">
+              <BookOpen className="w-4 h-4 text-indigo-500" />
+              <span>Évfolyam:</span>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-1.5">
+              {([1, 2, 3, 4, 5, 6, 7, 8] as GradeLevel[]).map((g) => (
+                <button
+                  key={g}
+                  type="button"
+                  onClick={() => setSelectedGrade(g)}
+                  className={cn(
+                    "px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-2xs flex items-center gap-1",
+                    selectedGrade === g
+                      ? "bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-sm font-black scale-105 ring-2 ring-primary/20"
+                      : "bg-white/90 dark:bg-slate-800/90 text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-700"
+                  )}
+                >
+                  <span>{g}. o.</span>
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Matrix Legend */}
-          <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-600 dark:text-slate-400 font-medium">
-            <span className="font-bold text-slate-700 dark:text-slate-300">Jelmagyarázat cellánként:</span>
-            <div className="flex items-center gap-1.5 font-mono font-bold text-[10px]">
-              <span className="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300">1. sz. %</span>
-              <span className="px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-300">2. sz. %</span>
-              <span className="px-1.5 py-0.5 rounded bg-rose-50 text-rose-500 border border-dashed border-rose-300">3. sz. (— = hiányzik)</span>
+          {/* Row 2: Chapter / Témakör Selector */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-700 dark:text-slate-300 shrink-0">
+              <Layers className="w-4 h-4 text-amber-500" />
+              <span>Fő témakör:</span>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-1.5 flex-1 justify-start sm:justify-end">
+              {availableChapters.map((ch) => (
+                <button
+                  key={ch.id}
+                  type="button"
+                  onClick={() => setSelectedChapterId(ch.id)}
+                  className={cn(
+                    "px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-2xs text-left",
+                    selectedChapterId === ch.id
+                      ? "bg-rose-600 text-white font-black shadow-sm"
+                      : "bg-white/80 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-700"
+                  )}
+                  title={ch.title}
+                >
+                  <span>{ch.chapterNumber} {ch.title.replace(/^[IVXLCDM]+\.\s*/, '')}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Row 3: Search bar & Difficulty Level Filters */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-3 border-t border-slate-200/60 dark:border-slate-800">
+            <div className="relative w-full max-w-sm">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <Input
+                placeholder="Keresés diák neve vagy kódja alapján..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-9 h-9 rounded-xl text-xs bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-2xs"
+              />
+            </div>
+
+            {/* Level Filter Selector */}
+            <div className="flex flex-wrap items-center gap-2 text-xs">
+              <span className="font-bold text-slate-600 dark:text-slate-400 flex items-center gap-1">
+                <SlidersHorizontal className="w-3.5 h-3.5 text-indigo-500" />
+                Szint szűrő:
+              </span>
+
+              <div className="flex items-center gap-1 bg-white dark:bg-slate-900 p-1 rounded-xl border border-slate-200 dark:border-slate-800 shadow-2xs">
+                <button
+                  type="button"
+                  onClick={() => setLevelFilter('all')}
+                  className={cn(
+                    "px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer",
+                    levelFilter === 'all'
+                      ? "bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-black shadow-2xs"
+                      : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                  )}
+                >
+                  Mindhárom szint
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setLevelFilter(1)}
+                  className={cn(
+                    "px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1",
+                    levelFilter === 1
+                      ? "bg-emerald-600 text-white font-black shadow-2xs"
+                      : "text-emerald-700 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/40"
+                  )}
+                >
+                  <span>1. szint</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setLevelFilter(2)}
+                  className={cn(
+                    "px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1",
+                    levelFilter === 2
+                      ? "bg-amber-500 text-white font-black shadow-2xs"
+                      : "text-amber-700 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-950/40"
+                  )}
+                >
+                  <span>2. szint</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setLevelFilter(3)}
+                  className={cn(
+                    "px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1",
+                    levelFilter === 3
+                      ? "bg-rose-600 text-white font-black shadow-2xs"
+                      : "text-rose-700 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40"
+                  )}
+                >
+                  <span>3. szint</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -493,13 +555,19 @@ export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProg
                     Tanuló Neve & Kódja
                   </th>
                   {activeTopics.map((top) => (
-                    <th key={top.id} className="p-2.5 text-center min-w-[130px] border-l border-slate-200/60 dark:border-slate-800" title={top.title}>
+                    <th key={top.id} className="p-2.5 text-center min-w-[125px] border-l border-slate-200/60 dark:border-slate-800" title={top.title}>
                       <span className="truncate block font-bold text-slate-800 dark:text-slate-200 text-xs">{top.short}</span>
-                      <div className="grid grid-cols-3 gap-0.5 text-[8px] font-black text-slate-400 dark:text-slate-500 mt-1 uppercase tracking-tighter">
-                        <span>1. sz.</span>
-                        <span>2. sz.</span>
-                        <span>3. sz.</span>
-                      </div>
+                      {levelFilter === 'all' ? (
+                        <div className="grid grid-cols-3 gap-0.5 text-[8px] font-black text-slate-400 dark:text-slate-500 mt-1 uppercase tracking-tighter">
+                          <span>1. sz.</span>
+                          <span>2. sz.</span>
+                          <span>3. sz.</span>
+                        </div>
+                      ) : (
+                        <div className="text-[8.5px] font-black text-primary mt-1 uppercase tracking-wider">
+                          {levelFilter}. szint
+                        </div>
+                      )}
                     </th>
                   ))}
                   <th className="p-3 text-center min-w-[90px] border-l border-slate-200/60 dark:border-slate-800 text-rose-600 dark:text-rose-400">
@@ -511,13 +579,17 @@ export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProg
                 {filteredStudents.map((student) => {
                   const studentRecs = studentRecordsMap[student.userId] || [];
                   let studentCompletedCount = 0;
-                  let studentScoreSum = 0;
 
                   activeTopics.forEach((top) => {
                     const levelData = getTopicLevelData(studentRecs, top.id);
-                    if (levelData.hasStarted) {
-                      studentCompletedCount++;
-                      studentScoreSum += levelData.avgScore;
+                    if (levelFilter === 'all') {
+                      if (levelData.hasStarted) {
+                        studentCompletedCount++;
+                      }
+                    } else {
+                      if (levelData.levelScores[levelFilter] !== undefined) {
+                        studentCompletedCount++;
+                      }
                     }
                   });
 
@@ -532,8 +604,8 @@ export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProg
                         onClick={() => setSelectedStudent(student)}
                       >
                         <div className="flex items-center gap-2.5">
-                          <div className="w-8 h-8 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold text-xs shrink-0">
-                            {student.avatarUrl || student.name.charAt(0)}
+                          <div className="w-8 h-8 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold text-xs shrink-0 overflow-hidden">
+                            {renderStudentAvatar(student.avatarUrl, student.name, 'sm')}
                           </div>
                           <div className="truncate">
                             <div className="font-bold text-slate-800 dark:text-slate-200 group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors">
@@ -546,7 +618,7 @@ export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProg
                         </div>
                       </td>
 
-                      {/* Topic Cells with 3-Level Breakdown */}
+                      {/* Topic Cells */}
                       {activeTopics.map((top) => {
                         const levelData = getTopicLevelData(studentRecs, top.id);
                         const l1 = levelData.levelScores[1];
@@ -559,63 +631,94 @@ export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProg
                             className="p-2 text-center border-l border-slate-100 dark:border-slate-800/60 cursor-pointer hover:bg-slate-100/60 dark:hover:bg-slate-800/60 transition-colors"
                             onClick={() => setSelectedStudent(student)}
                           >
-                            {levelData.hasStarted ? (
-                              <div className="flex items-center justify-center gap-1">
-                                {/* Level 1 */}
-                                <span
-                                  className={cn(
-                                    "min-w-[34px] px-1 py-0.5 rounded-md text-[10px] font-mono font-black border transition-all text-center",
-                                    l1 !== undefined
-                                      ? l1 === 100
-                                        ? "bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800 shadow-2xs"
-                                        : l1 >= 70
-                                        ? "bg-amber-100 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 border-amber-300 dark:border-amber-800 shadow-2xs"
-                                        : "bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 border-rose-300 dark:border-rose-800 shadow-2xs"
-                                      : "bg-rose-50/70 dark:bg-rose-950/30 text-rose-500 dark:text-rose-400 border-dashed border-rose-200 dark:border-rose-900/60 text-[8.5px] font-bold"
-                                  )}
-                                  title={l1 !== undefined ? `1. szint: ${l1}%` : "1. szint: Még hiányzik"}
-                                >
-                                  {l1 !== undefined ? `${l1}%` : "—"}
-                                </span>
+                            {levelFilter === 'all' ? (
+                              /* 3-Level Detailed Breakdown */
+                              levelData.hasStarted ? (
+                                <div className="flex items-center justify-center gap-1">
+                                  {/* Level 1 */}
+                                  <span
+                                    className={cn(
+                                      "min-w-[34px] px-1 py-0.5 rounded-md text-[10px] font-mono font-black border transition-all text-center",
+                                      l1 !== undefined
+                                        ? l1 === 100
+                                          ? "bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800 shadow-2xs"
+                                          : l1 >= 70
+                                          ? "bg-amber-100 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 border-amber-300 dark:border-amber-800 shadow-2xs"
+                                          : "bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 border-rose-300 dark:border-rose-800 shadow-2xs"
+                                        : "bg-rose-50/70 dark:bg-rose-950/30 text-rose-500 dark:text-rose-400 border-dashed border-rose-200 dark:border-rose-900/60 text-[8.5px] font-bold"
+                                    )}
+                                    title={l1 !== undefined ? `1. szint: ${l1}%` : "1. szint: Még hiányzik"}
+                                  >
+                                    {l1 !== undefined ? `${l1}%` : "—"}
+                                  </span>
 
-                                {/* Level 2 */}
-                                <span
-                                  className={cn(
-                                    "min-w-[34px] px-1 py-0.5 rounded-md text-[10px] font-mono font-black border transition-all text-center",
-                                    l2 !== undefined
-                                      ? l2 === 100
-                                        ? "bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800 shadow-2xs"
-                                        : l2 >= 70
-                                        ? "bg-amber-100 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 border-amber-300 dark:border-amber-800 shadow-2xs"
-                                        : "bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 border-rose-300 dark:border-rose-800 shadow-2xs"
-                                      : "bg-rose-50/70 dark:bg-rose-950/30 text-rose-500 dark:text-rose-400 border-dashed border-rose-200 dark:border-rose-900/60 text-[8.5px] font-bold"
-                                  )}
-                                  title={l2 !== undefined ? `2. szint: ${l2}%` : "2. szint: Még hiányzik"}
-                                >
-                                  {l2 !== undefined ? `${l2}%` : "—"}
-                                </span>
+                                  {/* Level 2 */}
+                                  <span
+                                    className={cn(
+                                      "min-w-[34px] px-1 py-0.5 rounded-md text-[10px] font-mono font-black border transition-all text-center",
+                                      l2 !== undefined
+                                        ? l2 === 100
+                                          ? "bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800 shadow-2xs"
+                                          : l2 >= 70
+                                          ? "bg-amber-100 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 border-amber-300 dark:border-amber-800 shadow-2xs"
+                                          : "bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 border-rose-300 dark:border-rose-800 shadow-2xs"
+                                        : "bg-rose-50/70 dark:bg-rose-950/30 text-rose-500 dark:text-rose-400 border-dashed border-rose-200 dark:border-rose-900/60 text-[8.5px] font-bold"
+                                    )}
+                                    title={l2 !== undefined ? `2. szint: ${l2}%` : "2. szint: Még hiányzik"}
+                                  >
+                                    {l2 !== undefined ? `${l2}%` : "—"}
+                                  </span>
 
-                                {/* Level 3 */}
-                                <span
-                                  className={cn(
-                                    "min-w-[34px] px-1 py-0.5 rounded-md text-[10px] font-mono font-black border transition-all text-center",
-                                    l3 !== undefined
-                                      ? l3 === 100
-                                        ? "bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800 shadow-2xs"
-                                        : l3 >= 70
-                                        ? "bg-amber-100 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 border-amber-300 dark:border-amber-800 shadow-2xs"
-                                        : "bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 border-rose-300 dark:border-rose-800 shadow-2xs"
-                                      : "bg-rose-50/70 dark:bg-rose-950/30 text-rose-500 dark:text-rose-400 border-dashed border-rose-200 dark:border-rose-900/60 text-[8.5px] font-bold"
-                                  )}
-                                  title={l3 !== undefined ? `3. szint: ${l3}%` : "3. szint: Még hiányzik"}
-                                >
-                                  {l3 !== undefined ? `${l3}%` : "—"}
+                                  {/* Level 3 */}
+                                  <span
+                                    className={cn(
+                                      "min-w-[34px] px-1 py-0.5 rounded-md text-[10px] font-mono font-black border transition-all text-center",
+                                      l3 !== undefined
+                                        ? l3 === 100
+                                          ? "bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800 shadow-2xs"
+                                          : l3 >= 70
+                                          ? "bg-amber-100 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 border-amber-300 dark:border-amber-800 shadow-2xs"
+                                          : "bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 border-rose-300 dark:border-rose-800 shadow-2xs"
+                                        : "bg-rose-50/70 dark:bg-rose-950/30 text-rose-500 dark:text-rose-400 border-dashed border-rose-200 dark:border-rose-900/60 text-[8.5px] font-bold"
+                                    )}
+                                    title={l3 !== undefined ? `3. szint: ${l3}%` : "3. szint: Még hiányzik"}
+                                  >
+                                    {l3 !== undefined ? `${l3}%` : "—"}
+                                  </span>
+                                </div>
+                              ) : (
+                                <span className="text-slate-300 dark:text-slate-600 text-xs font-bold select-none">
+                                  —
                                 </span>
-                              </div>
+                              )
                             ) : (
-                              <span className="text-slate-300 dark:text-slate-600 text-xs font-bold select-none">
-                                —
-                              </span>
+                              /* Single Filtered Level Display */
+                              (() => {
+                                const sVal = levelData.levelScores[levelFilter];
+                                const hasVal = sVal !== undefined;
+                                return hasVal ? (
+                                  <span
+                                    className={cn(
+                                      "inline-block min-w-[50px] px-2 py-1 rounded-lg text-xs font-mono font-black border transition-all shadow-2xs",
+                                      sVal === 100
+                                        ? "bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800"
+                                        : sVal >= 70
+                                        ? "bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 border-amber-300 dark:border-amber-800"
+                                        : "bg-rose-100 dark:bg-rose-950/80 text-rose-800 dark:text-rose-300 border-rose-300 dark:border-rose-800"
+                                    )}
+                                  >
+                                    {sVal}%
+                                  </span>
+                                ) : levelData.hasStarted ? (
+                                  <span className="inline-block px-2 py-0.5 rounded-md text-[9px] font-bold bg-rose-50/70 dark:bg-rose-950/30 text-rose-500 border border-dashed border-rose-200 dark:border-rose-900/60">
+                                    Hiányzik
+                                  </span>
+                                ) : (
+                                  <span className="text-slate-300 dark:text-slate-600 text-xs font-bold select-none">
+                                    —
+                                  </span>
+                                );
+                              })()
                             )}
                           </td>
                         );
@@ -650,8 +753,8 @@ export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProg
             {/* Modal Header */}
             <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 text-white flex items-center justify-center font-black text-lg shadow-md shadow-amber-500/20">
-                  {selectedStudent.avatarUrl || selectedStudent.name.charAt(0)}
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 text-white flex items-center justify-center font-black text-lg shadow-md shadow-amber-500/20 overflow-hidden shrink-0">
+                  {renderStudentAvatar(selectedStudent.avatarUrl, selectedStudent.name, 'md')}
                 </div>
                 <div>
                   <h4 className="font-black text-lg text-slate-900 dark:text-white">
@@ -667,7 +770,7 @@ export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProg
                 size="icon"
                 variant="ghost"
                 onClick={() => setSelectedStudent(null)}
-                className="rounded-xl text-slate-400 hover:text-slate-700"
+                className="rounded-xl text-slate-400 hover:text-slate-700 cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </Button>
@@ -676,18 +779,18 @@ export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProg
             {/* Modal Grade Switcher */}
             <div className="flex items-center justify-between gap-2">
               <div className="text-xs font-black text-slate-400 uppercase tracking-wider">
-                {activeConfig.gradeLabel} • {activeConfig.chapterTitle}
+                {activeGradeDef.gradeLabel} • {activeChapter?.title}
               </div>
               <div className="flex items-center gap-1">
-                {([5, 6, 7, 8] as GradeLevel[]).map((g) => (
+                {([1, 2, 3, 4, 5, 6, 7, 8] as GradeLevel[]).map((g) => (
                   <button
                     key={g}
                     type="button"
                     onClick={() => setSelectedGrade(g)}
                     className={cn(
-                      "px-2.5 py-1 rounded-xl text-[11px] font-bold transition-all cursor-pointer",
+                      "px-2 py-1 rounded-xl text-[11px] font-bold transition-all cursor-pointer",
                       selectedGrade === g
-                        ? "bg-slate-900 text-white dark:bg-white dark:text-slate-900"
+                        ? "bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-black"
                         : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200"
                     )}
                   >
@@ -700,7 +803,7 @@ export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProg
             {/* Student topic list with 3-Level Details */}
             <div className="space-y-3">
               <div className="flex items-center justify-between text-xs font-black text-slate-400 uppercase tracking-wider">
-                <span>Témakörök és nehézségi szintek</span>
+                <span>Témakörök ({activeTopics.length})</span>
                 <span>Szintek eredményei</span>
               </div>
 
@@ -761,7 +864,7 @@ export function ClassQuizProgressMatrix({ currentClass, onClose }: ClassQuizProg
             <div className="pt-2 flex justify-end">
               <Button
                 onClick={() => setSelectedStudent(null)}
-                className="rounded-xl font-bold bg-slate-800 dark:bg-slate-700 hover:bg-slate-900 text-white text-xs h-9 px-5"
+                className="rounded-xl font-bold bg-slate-800 dark:bg-slate-700 hover:bg-slate-900 text-white text-xs h-9 px-5 cursor-pointer"
               >
                 Bezárás
               </Button>
