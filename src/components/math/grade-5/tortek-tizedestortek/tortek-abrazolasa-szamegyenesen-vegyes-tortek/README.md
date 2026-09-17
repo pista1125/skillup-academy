@@ -1,22 +1,9 @@
 # 3. Törtek ábrázolása számegyenesen, vegyes törtek
 
-## Tananyag Áttekintés
-Törtek pontos bejelölése és leolvasása a számegyenesen az egység megfelelő részekre osztásával, vegyes törtszám fogalma, áltörtek átváltása vegyes törtté és vissza.
+Törtek pontos felvétele és leolvasása a számegyenesen, az egységszakasz felosztása, valódi törtek (0 és 1 között), áltörtek és vegyes törtek fogalma, valamint a kétirányú oda-vissza átváltások szabályai.
 
----
-
-## Főbb Ismeretek és Átváltások
-
-### 1. Ábrázolás a Számegyenesen
-- Ha a nevező $b$, akkor a számegyenesen minden $1$ hosszúságú egységszakaszt $b$ egyenlő részre osztunk.
-- A nullától jobbra lépkedve $a$ darab $\frac{1}{b}$ hosszúságú szakaszt mérünk fel.
-
-### 2. Vegyes Tört Fogalma
-- Egy egész számból és egy valódi törtből álló összeg:
-  $$2\frac{3}{4} = 2 + \frac{3}{4}$$
-
-### 3. Átváltási Szabályok
-- **Áltörtből vegyes tört:** A számlálót elosztjuk a nevezővel: az egész hányados adja az egész részt, a maradék pedig az új számláló:
-  $$\frac{11}{4} = 11 : 4 = 2, \text{ maradék } 3 \implies 2\frac{3}{4}$$
-- **Vegyes törtből áltört:** Az egész részt megszorozzuk a nevezővel, hozzáadjuk a számlálót:
-  $$2\frac{3}{4} = \frac{2 \cdot 4 + 3}{4} = \frac{11}{4}$$
+## 📂 Tartalom
+- `FractionsNumberLineTheory.tsx`: Interaktív számegyenes-szimulátor és átváltó laboratórium, szabályok, levezetett példák, csapdahelyzetek és PDF letöltés.
+- `FractionsNumberLineQuiz.tsx`: 3 szintű, 30 feladatos interaktív kvíz lépésenkénti megoldásokkal és beépített játékmód-váltóval.
+- `FractionsNumberLineMatcher.tsx`: 3 szintű (24 pár) kártyapárosító játék (Áltört ↔ Vegyes tört, Számegyenes pontok ↔ Értékek, Nagyobb vegyes törtek).
+- `FractionsNumberLineSorter.tsx`: 3 szintű (36 elem) csoportosító játék (Intervallumok, Egész részek, Törtfajták).

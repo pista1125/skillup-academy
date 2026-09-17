@@ -7,13 +7,13 @@ import { FractionVisualMatcher } from "./FractionVisualMatcher";
 import { FractionDivisionMatcher } from "@/components/math/grade-6/tortek/osztas-torttel/FractionDivisionMatcher";
 import { DecimalFractionsTool } from "@/components/math/tools/DecimalFractionsTool";
 import { 
-    DecimalFractionsQuiz, 
+    DecimalFractionsQuiz,
     DecimalMultiplicationQuiz, 
     DecimalDivisionQuiz, 
     DecimalMultiplicationMatcher, 
     DecimalDivisionMatcher, 
     FractionToDecimalMatcher 
-} from "@/components/math/grade-5/tortek-tizedestortek";
+} from "@/components/math/grade-6/tortek";
 import DecimalShifterTool from "@/components/math/tools/DecimalShifterTool";
 import { NumberLineTool } from "@/components/math/tools/NumberLineTool";
 import { FractionsClosingTest } from "@/components/math/grade-6/tortek/osszefoglalas/FractionsClosingTest";

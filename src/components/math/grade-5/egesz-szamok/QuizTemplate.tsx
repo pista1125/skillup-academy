@@ -164,6 +164,7 @@ export function QuizTemplate({
   documentId,
   pdfFilename,
   emoji = '🎯',
+  badge,
   topicBadge,
   badgeText,
   badgeColor,
@@ -184,6 +185,8 @@ export function QuizTemplate({
   customGameModes,
   matcherComponent,
   sorterComponent,
+  renderMatcher,
+  renderSorter,
   hintText,
   themeColor = 'amber'
 }: QuizTemplateProps) {
@@ -405,7 +408,7 @@ export function QuizTemplate({
   // 3. Combine Game Modes
   const allGameModes: CustomGameMode[] = useMemo(() => {
     const modes = [...(customGameModes || [])];
-    if (matcherComponent && !modes.some(m => m.id === 'matcher')) {
+    if ((matcherComponent || renderMatcher) && !modes.some(m => m.id === 'matcher')) {
       modes.push({
         id: 'matcher',
         title: 'Párosító játék',
@@ -413,18 +416,33 @@ export function QuizTemplate({
         icon: <ArrowRightLeft className="w-4 h-4 text-indigo-500" />,
         badgeText: 'Párosítás',
         render: (props) => {
+          if (renderMatcher) {
+            return renderMatcher({
+              level: props?.level ?? selectedLevel ?? 1,
+              onNextLevel: props?.onNextLevel,
+              onOpenRules: props?.onOpenRules,
+              onBack: onBack,
+              onSwitchToQuiz: () => setGameMode('quiz'),
+              onSwitchToSorter: () => setGameMode('sorter'),
+              onSwitchToTheory: onSwitchToTheory
+            });
+          }
           if (React.isValidElement(matcherComponent)) {
             return React.cloneElement(matcherComponent, {
               level: props?.level ?? selectedLevel ?? 1,
               onNextLevel: props?.onNextLevel,
-              onOpenRules: props?.onOpenRules
+              onOpenRules: props?.onOpenRules,
+              onBack: onBack,
+              onSwitchToQuiz: () => setGameMode('quiz'),
+              onSwitchToSorter: () => setGameMode('sorter'),
+              onSwitchToTheory: onSwitchToTheory
             } as any);
           }
           return matcherComponent;
         }
       });
     }
-    if (sorterComponent && !modes.some(m => m.id === 'sorter')) {
+    if ((sorterComponent || renderSorter) && !modes.some(m => m.id === 'sorter')) {
       modes.push({
         id: 'sorter',
         title: 'Csoportosító játék',
@@ -432,11 +450,26 @@ export function QuizTemplate({
         icon: <Layers className="w-4 h-4 text-emerald-500" />,
         badgeText: 'Kategorizálás',
         render: (props) => {
+          if (renderSorter) {
+            return renderSorter({
+              level: props?.level ?? selectedLevel ?? 1,
+              onNextLevel: props?.onNextLevel,
+              onOpenRules: props?.onOpenRules,
+              onBack: onBack,
+              onSwitchToQuiz: () => setGameMode('quiz'),
+              onSwitchToMatcher: () => setGameMode('matcher'),
+              onSwitchToTheory: onSwitchToTheory
+            });
+          }
           if (React.isValidElement(sorterComponent)) {
             return React.cloneElement(sorterComponent, {
               level: props?.level ?? selectedLevel ?? 1,
               onNextLevel: props?.onNextLevel,
-              onOpenRules: props?.onOpenRules
+              onOpenRules: props?.onOpenRules,
+              onBack: onBack,
+              onSwitchToQuiz: () => setGameMode('quiz'),
+              onSwitchToMatcher: () => setGameMode('matcher'),
+              onSwitchToTheory: onSwitchToTheory
             } as any);
           }
           return sorterComponent;
@@ -444,7 +477,7 @@ export function QuizTemplate({
       });
     }
     return modes;
-  }, [customGameModes, matcherComponent, sorterComponent, selectedLevel]);
+  }, [customGameModes, matcherComponent, sorterComponent, renderMatcher, renderSorter, selectedLevel, onBack, onSwitchToTheory]);
 
   // Fullscreen toggler
   const toggleFullscreen = async () => {
@@ -666,18 +699,18 @@ export function QuizTemplate({
 
           {/* Quick Mode Switcher in selection */}
           {allGameModes && allGameModes.length > 0 && (
-            <div className="inline-flex flex-wrap items-center justify-center gap-1.5 bg-slate-100 dark:bg-slate-800 p-1 rounded-2xl mt-1.5 border border-slate-200 dark:border-slate-700">
+            <div className="inline-flex flex-wrap items-center justify-center gap-1.5 bg-slate-100 dark:bg-slate-800 p-1.5 rounded-2xl mt-2 border border-slate-200 dark:border-slate-700 shadow-xs">
               <button
                 onClick={() => setGameMode('quiz')}
                 className={cn(
-                  "flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all",
+                  "flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer",
                   gameMode === 'quiz'
                     ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs"
                     : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
                 )}
               >
-                <FileQuestion className="w-3.5 h-3.5 text-amber-500" />
-                Klasszikus Kvíz
+                <FileQuestion className="w-4 h-4 text-amber-500" />
+                Kvíz
               </button>
               {allGameModes.map((mode) => (
                 <button
@@ -687,17 +720,18 @@ export function QuizTemplate({
                       mode.onClick();
                     } else {
                       setGameMode(mode.id);
+                      setSelectedLevel(1);
                     }
                   }}
                   className={cn(
-                    "flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all",
+                    "flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer",
                     gameMode === mode.id
                       ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs"
                       : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
                   )}
                 >
-                  {mode.icon || <LayoutGrid className="w-3.5 h-3.5 text-emerald-500" />}
-                  {mode.title}
+                  {mode.icon || (mode.id === 'matcher' ? <ArrowRightLeft className="w-4 h-4 text-indigo-500" /> : mode.id === 'sorter' ? <Layers className="w-4 h-4 text-emerald-500" /> : <LayoutGrid className="w-4 h-4 text-emerald-500" />)}
+                  {mode.id === 'matcher' ? 'Párosító játék' : mode.id === 'sorter' ? 'Csoportosító játék' : mode.title}
                 </button>
               ))}
             </div>
@@ -1059,6 +1093,45 @@ export function QuizTemplate({
           ))}
         </div>
 
+        {/* Quick Mode Switcher in Header */}
+        {allGameModes && allGameModes.length > 0 && (
+          <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-xl border border-slate-200/60 dark:border-slate-700/60">
+            <button
+              onClick={() => setGameMode('quiz')}
+              className={cn(
+                "flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-black transition-all cursor-pointer",
+                gameMode === 'quiz'
+                  ? "bg-white dark:bg-slate-900 text-amber-600 dark:text-amber-400 shadow-xs"
+                  : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
+              )}
+            >
+              <FileQuestion className="w-3.5 h-3.5" />
+              <span>Kvíz</span>
+            </button>
+            {allGameModes.map((mode) => (
+              <button
+                key={mode.id}
+                onClick={() => {
+                  if (mode.onClick) {
+                    mode.onClick();
+                  } else {
+                    setGameMode(mode.id);
+                  }
+                }}
+                className={cn(
+                  "flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-black transition-all cursor-pointer",
+                  gameMode === mode.id
+                    ? "bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-xs"
+                    : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
+                )}
+              >
+                {mode.icon || (mode.id === 'matcher' ? <ArrowRightLeft className="w-3.5 h-3.5" /> : <Layers className="w-3.5 h-3.5" />)}
+                <span>{mode.id === 'matcher' ? 'Párosító' : mode.id === 'sorter' ? 'Csoportosító' : mode.title}</span>
+              </button>
+            ))}
+          </div>
+        )}
+
         {/* Mode / Score indicator */}
         <div className="flex items-center gap-2">
           {gameMode === 'quiz' ? (
@@ -1297,6 +1370,7 @@ export function QuizTemplate({
 
             <div className="flex flex-col gap-1.5">
               {/* Quiz Mode Button */}
+              {/* Quiz Mode Button */}
               <button
                 onClick={() => setGameMode('quiz')}
                 className={cn(
@@ -1313,7 +1387,7 @@ export function QuizTemplate({
                   <FileQuestion className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="font-black text-xs">Klasszikus Kvíz</div>
+                  <div className="font-black text-xs">Kvíz</div>
                   <div className="text-[10px] text-slate-500 dark:text-slate-400 font-normal">{levelConfig.questions.length} feladat, 4 opció</div>
                 </div>
               </button>
@@ -1334,10 +1408,12 @@ export function QuizTemplate({
                     "w-8 h-8 rounded-lg flex items-center justify-center shrink-0",
                     gameMode === mode.id ? "bg-emerald-500 text-white" : "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300"
                   )}>
-                    {mode.icon || <LayoutGrid className="w-4 h-4" />}
+                    {mode.icon || (mode.id === 'matcher' ? <ArrowRightLeft className="w-4 h-4 text-indigo-500" /> : mode.id === 'sorter' ? <Layers className="w-4 h-4 text-emerald-500" /> : <LayoutGrid className="w-4 h-4" />)}
                   </div>
                   <div>
-                    <div className="font-black text-xs">{mode.title}</div>
+                    <div className="font-black text-xs">
+                      {mode.id === 'matcher' ? 'Párosító játék' : mode.id === 'sorter' ? 'Csoportosító játék' : mode.title}
+                    </div>
                     <div className="text-[10px] text-slate-500 dark:text-slate-400 font-normal">{mode.subtitle || 'Interaktív feladat'}</div>
                   </div>
                 </button>

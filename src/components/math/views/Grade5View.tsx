@@ -543,25 +543,26 @@ export const Grade5View: React.FC<GradeViewProps> = ({
           {/* Section 1: Ismerkedés a törtekkel */}
           {(showAll || activeSubSectionId === 'g5-frac-sec-1') && (
             <section>
-              <SectionHeader id="g5-frac-sec-1" number={1} title="Ismerkedés a törtekkel" color="orange" />
+              <SectionHeader id="g5-frac-sec-1" number={1} title="Ismerkedés a törtekkel" color="amber" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Törtek alapjai"
-                  subtitle="Tört fogalma, számláló, nevező"
-                  type="Teszt"
-                  emoji="🍕"
-                  onClick={() => onActivitySelect('g5-fractions-quiz', topicId)}
-                  icon={<Pizza className="w-6 h-6" />}
-                  color="orange"
+                  title="Ismerkedés a törtekkel elmélet"
+                  subtitle="Tört fogalma, számláló, nevező, törtrész PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-fractions-intro-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="amber"
                 />
                 <ActivityPlaceholder
-                  title="Tört Képpárosító"
-                  subtitle="Vizuális törtek és törtszámok"
-                  type="Játék"
-                  emoji="🧩"
-                  onClick={() => onActivitySelect('g5-fraction-visual-matcher', topicId)}
-                  icon={<Target className="w-6 h-6" />}
+                  title="Ismerkedés a törtekkel kvíz"
+                  subtitle="Tört fogalma, fajtái és törtrész 3 nehézségi szinten"
+                  type="Kvíz"
+                  emoji="🍕"
+                  onClick={() => onActivitySelect('g5-fractions-intro-quiz', topicId)}
+                  icon={<PieChart className="w-6 h-6" />}
                   color="amber"
+                  {...getTopicProgress('g5-fractions-intro-quiz')}
                 />
               </div>
             </section>
@@ -573,13 +574,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-frac-sec-2" number={2} title="Törtek bővítése, egyszerűsítése, összehasonlítása" color="amber" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Törtek Vizualizáló"
-                  subtitle="Törtek bővítése és egyszerűsítése"
-                  type="Eszköz"
-                  emoji="🔍"
-                  onClick={() => onActivitySelect('fraction-visualizer', topicId)}
-                  icon={<Search className="w-6 h-6" />}
+                  title="Törtek bővítése, egyszerűsítése elmélet"
+                  subtitle="Egyenértékű törtek, legegyszerűbb alak, összehasonlítás PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-fractions-expand-simplify-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="amber"
+                />
+                <ActivityPlaceholder
+                  title="Törtek bővítése, egyszerűsítése kvíz"
+                  subtitle="Bővítés, egyszerűsítés és összehasonlítás 3 nehézségi szinten"
+                  type="Kvíz"
+                  emoji="⚖️"
+                  onClick={() => onActivitySelect('g5-fractions-expand-simplify-quiz', topicId)}
+                  icon={<Scale className="w-6 h-6" />}
+                  color="amber"
+                  {...getTopicProgress('g5-fractions-expand-simplify-quiz')}
                 />
               </div>
             </section>
@@ -591,13 +602,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-frac-sec-3" number={3} title="Törtek ábrázolása számegyenesen, vegyes törtek" color="blue" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Számegyenes törtbeosztással"
-                  subtitle="Vegyes törtek és áltörtek ábrázolása"
-                  type="Eszköz"
+                  title="Törtek a számegyenesen elmélet"
+                  subtitle="Számegyenes beosztása, áltörtek és vegyes törtek átváltása PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-fractions-number-line-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="blue"
+                />
+                <ActivityPlaceholder
+                  title="Törtek a számegyenesen kvíz"
+                  subtitle="Ábrázolás, leolvasás és vegyes tört átváltás 3 nehézségi szinten"
+                  type="Kvíz"
                   emoji="📏"
-                  onClick={() => onActivitySelect('number-line', topicId)}
+                  onClick={() => onActivitySelect('g5-fractions-number-line-quiz', topicId)}
                   icon={<MoveHorizontal className="w-6 h-6" />}
                   color="blue"
+                  {...getTopicProgress('g5-fractions-number-line-quiz')}
                 />
               </div>
             </section>
@@ -609,13 +630,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-frac-sec-4" number={4} title="Egyenlő nevezőjű törtek összeadása és kivonása" color="emerald" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Azonos nevezőjű törtek műveletei"
-                  subtitle="Összeadás és kivonás azonos nevezővel"
-                  type="Hamarosan"
+                  title="Egyenlő nevezőjű törtek elmélet"
+                  subtitle="Összeadás, kivonás, egyszerűsítés és vegyes törtek PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-fractions-same-denom-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="emerald"
+                />
+                <ActivityPlaceholder
+                  title="Egyenlő nevezőjű törtek kvíz"
+                  subtitle="30 feladat 3 nehézségi szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
                   emoji="➕"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g5-fractions-same-denom-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="emerald"
+                  {...getTopicProgress('g5-fractions-same-denom-quiz')}
                 />
               </div>
             </section>
@@ -627,13 +658,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-frac-sec-5" number={5} title="Különböző nevezőjű törtek összeadása és kivonása" color="teal" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Közös nevező és műveletek"
-                  subtitle="Különböző nevezőjű törtek összeadása/kivonása"
-                  type="Hamarosan"
-                  emoji="➗"
-                  disabled={true}
+                  title="Különböző nevezőjű törtek elmélet"
+                  subtitle="LKKT, közös nevezőre bővítés, műveletek és egyszerűsítés PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-fractions-diff-denom-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="teal"
+                />
+                <ActivityPlaceholder
+                  title="Különböző nevezőjű törtek kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="➕"
+                  onClick={() => onActivitySelect('g5-fractions-diff-denom-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="teal"
+                  {...getTopicProgress('g5-fractions-diff-denom-quiz')}
                 />
               </div>
             </section>
@@ -645,13 +686,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-frac-sec-6" number={6} title="Tört szorzása természetes számmal" color="purple" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Tört szorzása egész számmal"
-                  subtitle="Számláló szorzása és egyszerűsítés"
-                  type="Hamarosan"
+                  title="Tört szorzása elmélet"
+                  subtitle="Számláló szorzása, nevező osztása, egyszerűsítés PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-fraction-multiply-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="purple"
+                />
+                <ActivityPlaceholder
+                  title="Tört szorzása kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
                   emoji="✖️"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g5-fraction-multiply-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="purple"
+                  {...getTopicProgress('g5-fraction-multiply-quiz')}
                 />
               </div>
             </section>
@@ -663,13 +714,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-frac-sec-7" number={7} title="Tört osztása pozitív egész számmal" color="indigo" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Tört osztása egész számmal"
-                  subtitle="Számláló osztása és nevező szorzása"
-                  type="Hamarosan"
+                  title="Tört osztása elmélet"
+                  subtitle="Számláló osztása, nevező szorzása, vegyes törtek PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-fraction-divide-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="indigo"
+                />
+                <ActivityPlaceholder
+                  title="Tört osztása kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
                   emoji="➗"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g5-fraction-divide-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g5-fraction-divide-quiz')}
                 />
               </div>
             </section>
@@ -681,13 +742,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-frac-sec-8" number={8} title="Műveletek sorrendje, zárójelfelbontás" color="violet" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Műveleti sorrend törtekkel"
-                  subtitle="Zárójeles törtszámítások"
-                  type="Hamarosan"
-                  emoji="🔢"
-                  disabled={true}
-                  icon={<Binary className="w-6 h-6" />}
+                  title="Műveletek sorrendje elmélet"
+                  subtitle="Hierarchia, zárójelek, disztributivitás PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-fractions-order-of-operations-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="violet"
+                />
+                <ActivityPlaceholder
+                  title="Műveletek sorrendje kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🔢"
+                  onClick={() => onActivitySelect('g5-fractions-order-of-operations-quiz', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="violet"
+                  {...getTopicProgress('g5-fractions-order-of-operations-quiz')}
                 />
               </div>
             </section>
@@ -699,13 +770,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-frac-sec-9" number={9} title="Mit tanultunk eddig? Gyakoroljunk!" color="rose" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Törtek Modul"
-                  subtitle="Közönséges törtek átfogó interaktív gyakorlása"
-                  type="Gyakorlás"
-                  emoji="📚"
-                  onClick={() => onActivitySelect('g5-fractions-module', topicId)}
+                  title="Törtek összefoglaló elmélet"
+                  subtitle="Törtfogalom, bővítés, műveletek áttekintése és kalkulátor PDF-fel"
+                  type="Tananyag"
+                  emoji="🍕"
+                  onClick={() => onActivitySelect('g5-fractions-review-theory', topicId)}
                   icon={<BookOpen className="w-6 h-6" />}
                   color="rose"
+                />
+                <ActivityPlaceholder
+                  title="Törtek átfogó kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🏆"
+                  onClick={() => onActivitySelect('g5-fractions-review-quiz', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="rose"
+                  {...getTopicProgress('g5-fractions-review-quiz')}
                 />
               </div>
             </section>
@@ -717,22 +798,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-frac-sec-10" number={10} title="Tizedes törtek" color="amber" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Tizedestörtek Kvíz"
-                  subtitle="Helyiértékek és fogalmak"
-                  type="Teszt"
+                  title="Tizedes törtek elmélet"
+                  subtitle="Helyiérték-táblázat, kiolvasás, átváltások és laboratórium PDF-fel"
+                  type="Tananyag"
                   emoji="🪙"
-                  onClick={() => onActivitySelect('decimal-fractions-quiz', topicId)}
-                  icon={<Calculator className="w-6 h-6" />}
+                  onClick={() => onActivitySelect('g5-decimal-fractions-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="amber"
                 />
                 <ActivityPlaceholder
-                  title="Tizedestört Korongok"
-                  subtitle="Helyiértékek átváltása korongokkal"
-                  type="Eszköz"
-                  emoji="🪙"
-                  onClick={() => onActivitySelect('decimal-fractions', topicId)}
-                  icon={<Coins className="w-6 h-6" />}
-                  color="yellow"
+                  title="Tizedes törtek kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🔢"
+                  onClick={() => onActivitySelect('g5-decimal-fractions-quiz', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="amber"
+                  {...getTopicProgress('g5-decimal-fractions-quiz')}
                 />
               </div>
             </section>
@@ -744,13 +826,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-frac-sec-11" number={11} title="Tizedes törtek ábrázolása, kerekítése és összehasonlítása" color="blue" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Tizedesvessző-eltoló"
-                  subtitle="Szorzás és osztás 10, 100, 1000-rel"
-                  type="Eszköz"
-                  emoji="↔️"
-                  onClick={() => onActivitySelect('decimal-shifter', topicId)}
-                  icon={<MoveHorizontal className="w-6 h-6" />}
+                  title="Ábrázolás, kerekítés elmélet"
+                  subtitle="Számegyenes, összehasonlítás és kerekítés laboratórium PDF-fel"
+                  type="Tananyag"
+                  emoji="📏"
+                  onClick={() => onActivitySelect('g5-decimal-compare-rounding-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="blue"
+                />
+                <ActivityPlaceholder
+                  title="Ábrázolás, kerekítés kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g5-decimal-compare-rounding-quiz', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="blue"
+                  {...getTopicProgress('g5-decimal-compare-rounding-quiz')}
                 />
               </div>
             </section>
@@ -762,13 +854,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-frac-sec-12" number={12} title="Tizedes törtek összeadása és kivonása" color="cyan" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Írásbeli összeadás/kivonás"
-                  subtitle="Tizedesvessző a vessző alá"
-                  type="Hamarosan"
+                  title="Összeadás, kivonás elmélet"
+                  subtitle="Írásbeli összeadás és kivonás lépésről lépésre, laboratórium és PDF"
+                  type="Tananyag"
                   emoji="➕"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g5-decimal-add-sub-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="cyan"
+                />
+                <ActivityPlaceholder
+                  title="Összeadás, kivonás kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🔢"
+                  onClick={() => onActivitySelect('g5-decimal-add-sub-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="cyan"
+                  {...getTopicProgress('g5-decimal-add-sub-quiz')}
                 />
               </div>
             </section>
@@ -780,22 +882,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-frac-sec-13" number={13} title="Tizedes törtek szorzása természetes számmal" color="emerald" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Szorzás Kvíz"
-                  subtitle="Tizedestört szorzása egész számmal"
-                  type="Teszt"
+                  title="Szorzás természetes számmal elmélet"
+                  subtitle="Szorzás 10-zel, 100-zal, 1000-rel és természetes számmal, interaktív labor és PDF"
+                  type="Tananyag"
                   emoji="✖️"
-                  onClick={() => onActivitySelect('decimal-multiplication-quiz', topicId)}
-                  icon={<Calculator className="w-6 h-6" />}
+                  onClick={() => onActivitySelect('g5-decimal-multiply-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="emerald"
                 />
                 <ActivityPlaceholder
-                  title="Szorzás Párosító"
-                  subtitle="Interaktív szorzópárosító játék"
-                  type="Játék"
-                  emoji="🧩"
-                  onClick={() => onActivitySelect('decimal-multiplication-matcher', topicId)}
-                  icon={<Target className="w-6 h-6" />}
-                  color="green"
+                  title="Szorzás kvíz és játékok"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🔢"
+                  onClick={() => onActivitySelect('g5-decimal-multiply-quiz', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="emerald"
+                  {...getTopicProgress('g5-decimal-multiply-quiz')}
                 />
               </div>
             </section>
@@ -807,22 +910,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-frac-sec-14" number={14} title="Tizedes törtek osztása pozitív egész számmal" color="indigo" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Osztás Kvíz"
-                  subtitle="Tizedestört osztása egész számmal"
-                  type="Teszt"
+                  title="Osztás természetes számmal elmélet"
+                  subtitle="Osztás 10-zel, 100-zal, 1000-rel és természetes számmal, interaktív labor és PDF"
+                  type="Tananyag"
                   emoji="➗"
-                  onClick={() => onActivitySelect('decimal-division-quiz', topicId)}
-                  icon={<Calculator className="w-6 h-6" />}
+                  onClick={() => onActivitySelect('g5-decimal-divide-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="indigo"
                 />
                 <ActivityPlaceholder
-                  title="Osztás Párosító"
-                  subtitle="Interaktív osztópárosító játék"
-                  type="Játék"
-                  emoji="🧩"
-                  onClick={() => onActivitySelect('decimal-division-matcher', topicId)}
-                  icon={<Target className="w-6 h-6" />}
-                  color="blue"
+                  title="Osztás kvíz és játékok"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🔢"
+                  onClick={() => onActivitySelect('g5-decimal-divide-quiz', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="indigo"
+                  {...getTopicProgress('g5-decimal-divide-quiz')}
                 />
               </div>
             </section>
@@ -834,13 +938,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-frac-sec-15" number={15} title="Közönséges törtek tizedes tört alakja" color="purple" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Tört - Tizedes Átváltó"
-                  subtitle="Közönséges tört és tizedestört párosító"
-                  type="Játék"
-                  emoji="🔄"
-                  onClick={() => onActivitySelect('g5-fraction-to-decimal-matcher', topicId)}
-                  icon={<Target className="w-6 h-6" />}
+                  title="Tört - tizedes átváltás elmélet"
+                  subtitle="Nevezetes törtek, bővítés 10-re/100-ra/1000-re, írásbeli osztás és PDF"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-fraction-to-decimal-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="purple"
+                />
+                <ActivityPlaceholder
+                  title="Tört - tizedes kvíz és játékok"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🔄"
+                  onClick={() => onActivitySelect('g5-fraction-to-decimal-quiz', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="purple"
+                  {...getTopicProgress('g5-fraction-to-decimal-quiz')}
                 />
               </div>
             </section>
@@ -852,13 +966,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-frac-sec-16" number={16} title="Összefoglalás" color="slate" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Összefoglaló felkészítő"
-                  subtitle="II. Törtek, tizedes törtek témazáró összefoglalás"
-                  type="Hamarosan"
-                  emoji="🏆"
-                  disabled={true}
-                  icon={<Trophy className="w-6 h-6" />}
+                  title="Összefoglaló tananyag"
+                  subtitle="II. Törtek, tizedes törtek témazáró összefoglalás, szimulátor és PDF"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-chapter2-summary-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="slate"
+                />
+                <ActivityPlaceholder
+                  title="Témazáró felkészítő kvíz"
+                  subtitle="Átfogó témazáró teszt 3×30 feladattal, párosítóval és csoportosítóval"
+                  type="Kvíz"
+                  emoji="🏆"
+                  onClick={() => onActivitySelect('g5-chapter2-summary-quiz', topicId)}
+                  icon={<Trophy className="w-6 h-6" />}
+                  color="amber"
+                  {...getTopicProgress('g5-chapter2-summary-quiz')}
                 />
               </div>
             </section>

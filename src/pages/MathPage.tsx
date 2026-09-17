@@ -38,12 +38,8 @@ import { grade5Topics } from '@/data/grade5Topics';
 const CompetencyMatrixHub = lazy(() => import("@/components/math/competency-matrix/CompetencyMatrixHub")) as any;
 const GraduationPrep = lazy(() => import("@/components/math/graduation/GraduationPrep")) as any;
 const AdmissionPrep = lazy(() => import("@/components/math/admission/AdmissionPrep")) as any;
-const DecimalFractionsQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek").then(m => ({ default: m.DecimalFractionsQuiz }))) as any;
 const DecimalMultiplicationQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek").then(m => ({ default: m.DecimalMultiplicationQuiz }))) as any;
 const DecimalDivisionQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek").then(m => ({ default: m.DecimalDivisionQuiz }))) as any;
-const Grade5FractionVisualMatcher = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek").then(m => ({ default: m.FractionVisualMatcher }))) as any;
-const Grade5FractionsQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek").then(m => ({ default: m.FractionsQuiz }))) as any;
-const Grade5FractionsModule = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek").then(m => ({ default: m.FractionsModule }))) as any;
 const Grade5DecimalMultiplicationMatcher = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek").then(m => ({ default: m.DecimalMultiplicationMatcher }))) as any;
 const Grade5DecimalDivisionMatcher = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek").then(m => ({ default: m.DecimalDivisionMatcher }))) as any;
 const Grade5FractionToDecimalMatcher = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek").then(m => ({ default: m.FractionToDecimalMatcher }))) as any;
@@ -193,6 +189,38 @@ const Grade5IntegerAdditionSubtractionTheory = lazy(() => import("@/components/m
 const Grade5IntegerAdditionSubtractionQuiz = lazy(() => import("@/components/math/grade-5/egesz-szamok/egesz-szamok-osszeadasa-es-kivonasa/IntegerAdditionSubtractionQuiz").then(m => ({ default: m.IntegerAdditionSubtractionQuiz }))) as any;
 const Grade5Chapter1SummaryTheory = lazy(() => import("@/components/math/grade-5/egesz-szamok/osszefoglalas/Chapter1SummaryTheory").then(m => ({ default: m.Chapter1SummaryTheory }))) as any;
 const Grade5Chapter1SummaryQuiz = lazy(() => import("@/components/math/grade-5/egesz-szamok/osszefoglalas/Chapter1SummaryQuiz").then(m => ({ default: m.Chapter1SummaryQuiz }))) as any;
+const Grade5FractionsIntroTheory = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/ismerkedes-a-tortekkel/FractionsIntroTheory").then(m => ({ default: m.FractionsIntroTheory }))) as any;
+const Grade5FractionsIntroQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/ismerkedes-a-tortekkel/FractionsIntroQuiz").then(m => ({ default: m.FractionsIntroQuiz }))) as any;
+const Grade5FractionsExpandSimplifyTheory = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/tortek-bovitese-egyszerusitese-osszehasonlitasa/FractionsExpandSimplifyTheory").then(m => ({ default: m.FractionsExpandSimplifyTheory }))) as any;
+const Grade5FractionsExpandSimplifyQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/tortek-bovitese-egyszerusitese-osszehasonlitasa/FractionsExpandSimplifyQuiz").then(m => ({ default: m.FractionsExpandSimplifyQuiz }))) as any;
+const Grade5FractionsNumberLineTheory = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/tortek-abrazolasa-szamegyenesen-vegyes-tortek/FractionsNumberLineTheory").then(m => ({ default: m.FractionsNumberLineTheory }))) as any;
+const Grade5FractionsNumberLineQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/tortek-abrazolasa-szamegyenesen-vegyes-tortek/FractionsNumberLineQuiz").then(m => ({ default: m.FractionsNumberLineQuiz }))) as any;
+const Grade5FractionsSameDenomTheory = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/egyenlo-nevezeju-tortek-osszeadasa-es-kivonasa/FractionsSameDenomTheory").then(m => ({ default: m.FractionsSameDenomTheory }))) as any;
+const Grade5FractionsSameDenomQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/egyenlo-nevezeju-tortek-osszeadasa-es-kivonasa/FractionsSameDenomQuiz").then(m => ({ default: m.FractionsSameDenomQuiz }))) as any;
+const Grade5FractionsDiffDenomTheory = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/kulonbozo-nevezeju-tortek-osszeadasa-es-kivonasa/FractionsDiffDenomTheory").then(m => ({ default: m.FractionsDiffDenomTheory }))) as any;
+const Grade5FractionsDiffDenomQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/kulonbozo-nevezeju-tortek-osszeadasa-es-kivonasa/FractionsDiffDenomQuiz").then(m => ({ default: m.FractionsDiffDenomQuiz }))) as any;
+const Grade5FractionMultiplyTheory = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/tort-szorzasa-termeszetes-szammal/FractionMultiplyTheory").then(m => ({ default: m.FractionMultiplyTheory }))) as any;
+const Grade5FractionMultiplyQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/tort-szorzasa-termeszetes-szammal/FractionMultiplyQuiz").then(m => ({ default: m.FractionMultiplyQuiz }))) as any;
+const Grade5FractionDivideTheory = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/tort-osztasa-pozitiv-egesz-szammal/FractionDivideTheory").then(m => ({ default: m.FractionDivideTheory }))) as any;
+const Grade5FractionDivideQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/tort-osztasa-pozitiv-egesz-szammal/FractionDivideQuiz").then(m => ({ default: m.FractionDivideQuiz }))) as any;
+const Grade5OrderOfOperationsFractionsTheory = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/muveletek-sorrendje-zarojelfelbontas/OrderOfOperationsFractionsTheory").then(m => ({ default: m.OrderOfOperationsFractionsTheory }))) as any;
+const Grade5OrderOfOperationsFractionsQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/muveletek-sorrendje-zarojelfelbontas/OrderOfOperationsFractionsQuiz").then(m => ({ default: m.OrderOfOperationsFractionsQuiz }))) as any;
+const Grade5FractionsReviewTheory = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/mit-tanultunk-eddig-gyakoroljunk/FractionsReviewTheory").then(m => ({ default: m.FractionsReviewTheory }))) as any;
+const Grade5FractionsReviewQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/mit-tanultunk-eddig-gyakoroljunk/FractionsReviewQuiz").then(m => ({ default: m.FractionsReviewQuiz }))) as any;
+const Grade5DecimalFractionsTheory = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/tizedes-tortek/DecimalFractionsTheory").then(m => ({ default: m.DecimalFractionsTheory }))) as any;
+const Grade5DecimalFractionsQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/tizedes-tortek/DecimalFractionsQuiz").then(m => ({ default: m.DecimalFractionsQuiz }))) as any;
+const Grade5DecimalCompareRoundingTheory = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/tizedes-tortek-abrazolasa-kerekitese-es-osszehasonlitasa/DecimalCompareRoundingTheory").then(m => ({ default: m.DecimalCompareRoundingTheory }))) as any;
+const Grade5DecimalCompareRoundingQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/tizedes-tortek-abrazolasa-kerekitese-es-osszehasonlitasa/DecimalCompareRoundingQuiz").then(m => ({ default: m.DecimalCompareRoundingQuiz }))) as any;
+const Grade5DecimalAdditionSubtractionTheory = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/tizedes-tortek-osszeadasa-es-kivonasa/DecimalAdditionSubtractionTheory").then(m => ({ default: m.DecimalAdditionSubtractionTheory }))) as any;
+const Grade5DecimalAdditionSubtractionQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/tizedes-tortek-osszeadasa-es-kivonasa/DecimalAdditionSubtractionQuiz").then(m => ({ default: m.DecimalAdditionSubtractionQuiz }))) as any;
+const Grade5DecimalMultiplicationTheory = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/tizedes-tortek-szorzasa-termeszetes-szammal/DecimalMultiplicationTheory").then(m => ({ default: m.DecimalMultiplicationTheory }))) as any;
+const Grade5DecimalMultiplicationQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/tizedes-tortek-szorzasa-termeszetes-szammal/DecimalMultiplicationQuiz").then(m => ({ default: m.DecimalMultiplicationQuiz }))) as any;
+const Grade5DecimalDivisionTheory = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/tizedes-tortek-osztasa-pozitiv-egesz-szammal/DecimalDivisionTheory").then(m => ({ default: m.DecimalDivisionTheory }))) as any;
+const Grade5DecimalDivisionQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/tizedes-tortek-osztasa-pozitiv-egesz-szammal/DecimalDivisionQuiz").then(m => ({ default: m.DecimalDivisionQuiz }))) as any;
+const Grade5FractionToDecimalTheory = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/kozonseges-tortek-tizedes-tort-alakja/FractionToDecimalTheory").then(m => ({ default: m.FractionToDecimalTheory }))) as any;
+const Grade5FractionToDecimalQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/kozonseges-tortek-tizedes-tort-alakja/FractionToDecimalQuiz").then(m => ({ default: m.FractionToDecimalQuiz }))) as any;
+const Grade5Chapter2SummaryTheory = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/osszefoglalas/Chapter2SummaryTheory").then(m => ({ default: m.Chapter2SummaryTheory }))) as any;
+const Grade5Chapter2SummaryQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/osszefoglalas/Chapter2SummaryQuiz").then(m => ({ default: m.Chapter2SummaryQuiz }))) as any;
 const RatioIntroQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/az-arany-fogalma/RatioIntroQuiz").then(m => ({ default: m.RatioIntroQuiz }))) as any;
 const RatioCreatorQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/az-arany-fogalma/RatioCreatorQuiz").then(m => ({ default: m.RatioCreatorQuiz }))) as any;
 const DirectProportionQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/egyenes-aranyossag/DirectProportionQuiz").then(m => ({ default: m.DirectProportionQuiz }))) as any;
@@ -453,7 +481,7 @@ type ActivityType =
   | 'g7-mapping-quiz' | 'g7-function-table-quiz'
   | 'decimal-division-matcher' | 'decimal-division-quiz' | 'decimal-multiplication-matcher' | 'decimal-multiplication-quiz'
   | 'decimal-fractions' | 'decimal-fractions-quiz' | 'decimal-shifter'
-  | 'g5-fraction-to-decimal-matcher' | 'g5-fraction-visual-matcher' | 'g5-fractions-quiz' | 'g5-fractions-module' | 'g5-roman-numerals-theory' | 'g5-roman-numerals-quiz' | 'g5-place-value-theory' | 'g5-place-value-quiz' | 'g5-number-reading-theory' | 'g5-number-reading-quiz' | 'g5-number-spelling-theory' | 'g5-number-spelling-quiz' | 'g5-number-systems-theory' | 'g5-number-systems-quiz' | 'g5-number-line-theory' | 'g5-number-line-quiz' | 'g5-rounding-theory' | 'g5-rounding-quiz' | 'g5-addition-theory' | 'g5-addition-quiz' | 'g5-subtraction-theory' | 'g5-subtraction-quiz' | 'g5-multiplication-theory' | 'g5-multiplication-quiz' | 'g5-division-theory' | 'g5-division-quiz' | 'g5-order-of-operations-theory' | 'g5-order-of-operations-quiz' | 'g5-negative-numbers-theory' | 'g5-negative-numbers-quiz' | 'g5-opposite-absolute-theory' | 'g5-opposite-absolute-quiz' | 'g5-integer-addition-subtraction-theory' | 'g5-integer-addition-subtraction-quiz' | 'g5-chapter1-summary-theory' | 'g5-chapter1-summary-quiz'
+  | 'g5-chapter2-summary-theory' | 'g5-chapter2-summary-quiz' | 'g5-chapter2-summary-matcher' | 'g5-chapter2-summary-sorter' | 'g5-fraction-to-decimal-theory' | 'g5-fraction-to-decimal-quiz' | 'g5-fraction-to-decimal-matcher' | 'g5-fraction-to-decimal-sorter' | 'g5-fraction-visual-matcher' | 'g5-fractions-quiz' | 'g5-fractions-module' | 'g5-fractions-intro-theory' | 'g5-fractions-intro-quiz' | 'g5-fractions-expand-simplify-theory' | 'g5-fractions-expand-simplify-quiz' | 'g5-fractions-number-line-theory' | 'g5-fractions-number-line-quiz' | 'g5-fractions-same-denom-theory' | 'g5-fractions-same-denom-quiz' | 'g5-fractions-diff-denom-theory' | 'g5-fractions-diff-denom-quiz' | 'g5-fraction-multiply-theory' | 'g5-fraction-multiply-quiz' | 'g5-fraction-divide-theory' | 'g5-fraction-divide-quiz' | 'g5-fractions-order-of-operations-theory' | 'g5-fractions-order-of-operations-quiz' | 'g5-fractions-review-theory' | 'g5-fractions-review-quiz' | 'g5-decimal-fractions-theory' | 'g5-decimal-fractions-quiz' | 'g5-decimal-compare-rounding-theory' | 'g5-decimal-compare-rounding-quiz' | 'g5-decimal-add-sub-theory' | 'g5-decimal-add-sub-quiz' | 'g5-decimal-multiply-theory' | 'g5-decimal-multiply-quiz' | 'g5-decimal-divide-theory' | 'g5-decimal-divide-quiz' | 'g5-roman-numerals-theory' | 'g5-roman-numerals-quiz' | 'g5-place-value-theory' | 'g5-place-value-quiz' | 'g5-number-reading-theory' | 'g5-number-reading-quiz' | 'g5-number-spelling-theory' | 'g5-number-spelling-quiz' | 'g5-number-systems-theory' | 'g5-number-systems-quiz' | 'g5-number-line-theory' | 'g5-number-line-quiz' | 'g5-rounding-theory' | 'g5-rounding-quiz' | 'g5-addition-theory' | 'g5-addition-quiz' | 'g5-subtraction-theory' | 'g5-subtraction-quiz' | 'g5-multiplication-theory' | 'g5-multiplication-quiz' | 'g5-division-theory' | 'g5-division-quiz' | 'g5-order-of-operations-theory' | 'g5-order-of-operations-quiz' | 'g5-negative-numbers-theory' | 'g5-negative-numbers-quiz' | 'g5-opposite-absolute-theory' | 'g5-opposite-absolute-quiz' | 'g5-integer-addition-subtraction-theory' | 'g5-integer-addition-subtraction-quiz' | 'g5-chapter1-summary-theory' | 'g5-chapter1-summary-quiz'
   | 'g6-integers-operations-theory' | 'g6-integers-operations-quiz'
   | 'g6-integers-mult-theory' | 'g6-integers-mult-quiz'
   | 'g6-integers-div-theory' | 'g6-integers-div-quiz'
@@ -2363,6 +2391,230 @@ export default function MathPage() {
                   />
                 )}
 
+                {activityType === 'g5-fractions-intro-theory' && (
+                  <Grade5FractionsIntroTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-fractions-intro-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-fractions-intro-quiz' && (
+                  <Grade5FractionsIntroQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-fractions-intro-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-fractions-expand-simplify-theory' && (
+                  <Grade5FractionsExpandSimplifyTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-fractions-expand-simplify-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-fractions-expand-simplify-quiz' && (
+                  <Grade5FractionsExpandSimplifyQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-fractions-expand-simplify-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-fractions-number-line-theory' && (
+                  <Grade5FractionsNumberLineTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-fractions-number-line-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-fractions-number-line-quiz' && (
+                  <Grade5FractionsNumberLineQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-fractions-number-line-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-fractions-same-denom-theory' && (
+                  <Grade5FractionsSameDenomTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-fractions-same-denom-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-fractions-same-denom-quiz' && (
+                  <Grade5FractionsSameDenomQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-fractions-same-denom-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-fractions-diff-denom-theory' && (
+                  <Grade5FractionsDiffDenomTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-fractions-diff-denom-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-fractions-diff-denom-quiz' && (
+                  <Grade5FractionsDiffDenomQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-fractions-diff-denom-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-fraction-multiply-theory' && (
+                  <Grade5FractionMultiplyTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-fraction-multiply-quiz')}
+                  />
+                )}
+
+                 {activityType === 'g5-fraction-multiply-quiz' && (
+                  <Grade5FractionMultiplyQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-fraction-multiply-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-fraction-divide-theory' && (
+                  <Grade5FractionDivideTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-fraction-divide-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-fraction-divide-quiz' && (
+                  <Grade5FractionDivideQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-fraction-divide-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-fractions-order-of-operations-theory' && (
+                  <Grade5OrderOfOperationsFractionsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-fractions-order-of-operations-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-fractions-order-of-operations-quiz' && (
+                  <Grade5OrderOfOperationsFractionsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-fractions-order-of-operations-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-fractions-review-theory' && (
+                  <Grade5FractionsReviewTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-fractions-review-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-fractions-review-quiz' && (
+                  <Grade5FractionsReviewQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-fractions-review-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-decimal-fractions-theory' && (
+                  <Grade5DecimalFractionsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-decimal-fractions-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-decimal-fractions-quiz' && (
+                  <Grade5DecimalFractionsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-decimal-fractions-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-decimal-compare-rounding-theory' && (
+                  <Grade5DecimalCompareRoundingTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-decimal-compare-rounding-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-decimal-compare-rounding-quiz' && (
+                  <Grade5DecimalCompareRoundingQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-decimal-compare-rounding-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-decimal-add-sub-theory' && (
+                  <Grade5DecimalAdditionSubtractionTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-decimal-add-sub-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-decimal-add-sub-quiz' && (
+                  <Grade5DecimalAdditionSubtractionQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-decimal-add-sub-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-decimal-multiply-theory' && (
+                  <Grade5DecimalMultiplicationTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-decimal-multiply-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-decimal-multiply-quiz' && (
+                  <Grade5DecimalMultiplicationQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-decimal-multiply-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-decimal-divide-theory' && (
+                  <Grade5DecimalDivisionTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-decimal-divide-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-decimal-divide-quiz' && (
+                  <Grade5DecimalDivisionQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-decimal-divide-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-fraction-to-decimal-theory' && (
+                  <Grade5FractionToDecimalTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-fraction-to-decimal-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-fraction-to-decimal-quiz' && (
+                  <Grade5FractionToDecimalQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-fraction-to-decimal-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-chapter2-summary-theory' && (
+                  <Grade5Chapter2SummaryTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-chapter2-summary-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-chapter2-summary-quiz' && (
+                  <Grade5Chapter2SummaryQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-chapter2-summary-theory')}
+                  />
+                )}
+
                 {activityType === 'logic-blocks' && (
                   <LogicBlocksGame onBack={handleBack} />
                 )}
@@ -3132,24 +3384,8 @@ export default function MathPage() {
                   <Grade6FractionsClosingTest onBack={handleBack} />
                 )}
 
-                {activityType === 'g5-fraction-visual-matcher' && (
-                  <Grade5FractionVisualMatcher onBack={handleBack} />
-                )}
-
-                {activityType === 'g5-fractions-quiz' && (
-                  <Grade5FractionsQuiz onBack={handleBack} />
-                )}
-
-                {activityType === 'g5-fractions-module' && (
-                  <Grade5FractionsModule onBack={handleBack} />
-                )}
-
                 {activityType === 'fraction-visualizer' && (
                   <FractionVisualizer onBack={handleBack} />
-                )}
-
-                {activityType === 'decimal-fractions-quiz' && (
-                  <DecimalFractionsQuiz onBack={handleBack} />
                 )}
 
                 {activityType === 'decimal-fractions' && (
