@@ -812,6 +812,16 @@ export default function MathPage() {
     }
   };
 
+  // Auto scroll to top on activity or view change and sync URL
+  useEffect(() => {
+    if (view === 'activity') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (selectedGrade && selectedTopic && activityType) {
+        updateURL('activity', selectedGrade, selectedTopic, activityType);
+      }
+    }
+  }, [activityType, view, selectedGrade, selectedTopic]);
+
   const handleHome = () => {
     setView('main-select');
     setSelectedGrade(null);

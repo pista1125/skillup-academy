@@ -543,6 +543,12 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = ({
   const [isDownloading, setIsDownloading] = useState(false);
   const styles = colorStyles[themeColor] || colorStyles.amber;
 
+  React.useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const rawTitle = typeof title === 'string' ? title : 'Tananyag';
+    document.title = `${rawTitle} (Tananyag) | DiákZóna`;
+  }, [title]);
+
   const handleDownloadPDF = async () => {
     setIsDownloading(true);
     await exportElementToPDF(documentId, pdfFilename);
@@ -612,6 +618,8 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = ({
               styles.badgeText
             )}>
               <span>{badgeText}</span>
+              <span className="opacity-40">•</span>
+              <span className="font-extrabold flex items-center gap-1"><BookOpen className="w-3.5 h-3.5" /> Tananyag</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
               {title}

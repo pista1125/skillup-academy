@@ -193,6 +193,12 @@ export function QuizTemplate({
   const { user, profile } = useAuth();
   const { getTopicProgress } = useQuizProgress();
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const rawTitle = typeof title === 'string' ? title : 'Kvíz';
+    document.title = `${rawTitle} | DiákZóna`;
+  }, [title]);
+
   const computedTopicId = useMemo(() => {
     if (topicId) return topicId;
     if (documentId) return documentId;
@@ -689,8 +695,10 @@ export function QuizTemplate({
 
         {/* Hero Header */}
         <div className="text-center max-w-2xl mx-auto mb-3 sm:mb-4">
-          <div className="text-[11px] font-black uppercase tracking-wider text-amber-600 dark:text-amber-400 mb-0.5">
-            {topicBadge || badgeText || '5. Osztály • Matematika'}
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider mb-2 border border-amber-200 dark:border-amber-800 bg-amber-100/80 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300">
+            <span>{topicBadge || badgeText || '5. Osztály • Matematika'}</span>
+            <span className="opacity-40">•</span>
+            <span className="font-extrabold flex items-center gap-1 text-amber-700 dark:text-amber-300"><Sparkles className="w-3.5 h-3.5 text-amber-500" /> Gyakorló Kvíz</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight flex items-center justify-center gap-2 mb-2">
             <span className="text-2xl">{emoji}</span>
