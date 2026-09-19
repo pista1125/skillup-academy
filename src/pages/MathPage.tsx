@@ -90,18 +90,37 @@ const Grade6LCMQuiz = lazy(() => import("@/components/math/grade-6/egesz-szamok-
 const Grade6GCDTheory = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/oszto-kozos-oszto/GCDTheory").then(m => ({ default: m.GCDTheory }))) as any;
 const Grade6GCDQuiz = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/oszto-kozos-oszto/GCDQuiz").then(m => ({ default: m.GCDQuiz }))) as any;
 const Grade6Chapter1SummaryTheory = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/osszefoglalas/Chapter1SummaryTheory").then(m => ({ default: m.Chapter1SummaryTheory }))) as any;
-const Grade6Chapter1SummaryQuiz = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/osszefoglalas/Chapter1SummaryQuiz").then(m => ({ default: m.Chapter1SummaryQuiz }))) as any;
-const Grade6FractionVisualMatcher = lazy(() => import("@/components/math/grade-6/tortek/mit-tanultunk-a-tortekrol-ismetles/FractionVisualMatcher").then(m => ({ default: m.FractionVisualMatcher }))) as any;
-const Grade6FractionsQuiz = lazy(() => import("@/components/math/grade-6/tortek/mit-tanultunk-a-tortekrol-ismetles/FractionsQuiz").then(m => ({ default: m.FractionsQuiz }))) as any;
+const Grade6FractionsReviewTheory = lazy(() => import("@/components/math/grade-6/tortek/mit-tanultunk-a-tortekrol-ismetles/FractionsReviewTheory").then(m => ({ default: m.FractionsReviewTheory }))) as any;
+const Grade6FractionsReviewQuiz = lazy(() => import("@/components/math/grade-6/tortek/mit-tanultunk-a-tortekrol-ismetles/FractionsReviewQuiz").then(m => ({ default: m.FractionsReviewQuiz }))) as any;
+const Grade6FractionsReviewMatcher = lazy(() => import("@/components/math/grade-6/tortek/mit-tanultunk-a-tortekrol-ismetles/FractionsReviewMatcher").then(m => ({ default: m.FractionsReviewMatcher }))) as any;
+const Grade6FractionsReviewSorter = lazy(() => import("@/components/math/grade-6/tortek/mit-tanultunk-a-tortekrol-ismetles/FractionsReviewSorter").then(m => ({ default: m.FractionsReviewSorter }))) as any;
+const Grade6FractionMultiplicationTheory = lazy(() => import("@/components/math/grade-6/tortek/szorzas-torttel-a-reciprok/FractionMultiplicationTheory").then(m => ({ default: m.FractionMultiplicationTheory }))) as any;
+const Grade6FractionMultiplicationQuiz = lazy(() => import("@/components/math/grade-6/tortek/szorzas-torttel-a-reciprok/FractionMultiplicationQuiz").then(m => ({ default: m.FractionMultiplicationQuiz }))) as any;
 const Grade6FractionMultiplicationMatcher = lazy(() => import("@/components/math/grade-6/tortek/szorzas-torttel-a-reciprok/FractionMultiplicationMatcher").then(m => ({ default: m.FractionMultiplicationMatcher }))) as any;
+const Grade6FractionMultiplicationSorter = lazy(() => import("@/components/math/grade-6/tortek/szorzas-torttel-a-reciprok/FractionMultiplicationSorter").then(m => ({ default: m.FractionMultiplicationSorter }))) as any;
+const Grade6FractionDivisionTheory = lazy(() => import("@/components/math/grade-6/tortek/osztas-torttel/FractionDivisionTheory").then(m => ({ default: m.FractionDivisionTheory }))) as any;
+const Grade6FractionDivisionQuiz = lazy(() => import("@/components/math/grade-6/tortek/osztas-torttel/FractionDivisionQuiz").then(m => ({ default: m.FractionDivisionQuiz }))) as any;
 const Grade6FractionDivisionMatcher = lazy(() => import("@/components/math/grade-6/tortek/osztas-torttel/FractionDivisionMatcher").then(m => ({ default: m.FractionDivisionMatcher }))) as any;
-const Grade6DecimalFractionsQuiz = lazy(() => import("@/components/math/grade-6/tortek/mit-tanultunk-a-tizedes-tortekrol-ismetles/DecimalFractionsQuiz")) as any;
+const Grade6DecimalFractionsTheory = lazy(() => import("@/components/math/grade-6/tortek/mit-tanultunk-a-tizedes-tortekrol-ismetles/DecimalFractionsTheory").then(m => ({ default: m.DecimalFractionsTheory }))) as any;
+const Grade6DecimalFractionsQuiz = lazy(() => import("@/components/math/grade-6/tortek/mit-tanultunk-a-tizedes-tortekrol-ismetles/DecimalFractionsQuiz").then(m => ({ default: m.DecimalFractionsQuiz }))) as any;
 const Grade6FractionToDecimalMatcher = lazy(() => import("@/components/math/grade-6/tortek/mit-tanultunk-a-tizedes-tortekrol-ismetles/FractionToDecimalMatcher").then(m => ({ default: m.FractionToDecimalMatcher }))) as any;
-const Grade6DecimalMultiplicationQuiz = lazy(() => import("@/components/math/grade-6/tortek/szorzas-tizedes-torttel/DecimalMultiplicationQuiz")) as any;
+const Grade6DecimalMultiplicationTheory = lazy(() => import("@/components/math/grade-6/tortek/szorzas-tizedes-torttel/DecimalMultiplicationTheory").then(m => ({ default: m.DecimalMultiplicationTheory }))) as any;
+const Grade6DecimalMultiplicationQuiz = lazy(() => import("@/components/math/grade-6/tortek/szorzas-tizedes-torttel/DecimalMultiplicationQuiz").then(m => ({ default: m.DecimalMultiplicationQuiz }))) as any;
 const Grade6DecimalMultiplicationMatcher = lazy(() => import("@/components/math/grade-6/tortek/szorzas-tizedes-torttel/DecimalMultiplicationMatcher").then(m => ({ default: m.DecimalMultiplicationMatcher }))) as any;
-const Grade6DecimalDivisionQuiz = lazy(() => import("@/components/math/grade-6/tortek/osztas-tizedes-torttel/DecimalDivisionQuiz")) as any;
+const Grade6DecimalMultiplicationSorter = lazy(() => import("@/components/math/grade-6/tortek/szorzas-tizedes-torttel/DecimalMultiplicationSorter").then(m => ({ default: m.DecimalMultiplicationSorter }))) as any;
+const Grade6DecimalDivisionTheory = lazy(() => import("@/components/math/grade-6/tortek/osztas-tizedes-torttel/DecimalDivisionTheory").then(m => ({ default: m.DecimalDivisionTheory }))) as any;
+const Grade6DecimalDivisionQuiz = lazy(() => import("@/components/math/grade-6/tortek/osztas-tizedes-torttel/DecimalDivisionQuiz").then(m => ({ default: m.DecimalDivisionQuiz }))) as any;
 const Grade6DecimalDivisionMatcher = lazy(() => import("@/components/math/grade-6/tortek/osztas-tizedes-torttel/DecimalDivisionMatcher").then(m => ({ default: m.DecimalDivisionMatcher }))) as any;
-const Grade6FractionsClosingTest = lazy(() => import("@/components/math/grade-6/tortek/osszefoglalas/FractionsClosingTest").then(m => ({ default: m.FractionsClosingTest }))) as any;
+const Grade6DecimalDivisionSorter = lazy(() => import("@/components/math/grade-6/tortek/osztas-tizedes-torttel/DecimalDivisionSorter").then(m => ({ default: m.DecimalDivisionSorter }))) as any;
+const Grade6ComplexOperationsTheory = lazy(() => import("@/components/math/grade-6/tortek/osszetett-muveletek-zarojelfelbontas/ComplexOperationsTheory").then(m => ({ default: m.ComplexOperationsTheory }))) as any;
+const Grade6ComplexOperationsQuiz = lazy(() => import("@/components/math/grade-6/tortek/osszetett-muveletek-zarojelfelbontas/ComplexOperationsQuiz").then(m => ({ default: m.ComplexOperationsQuiz }))) as any;
+const Grade6ComplexOperationsMatcher = lazy(() => import("@/components/math/grade-6/tortek/osszetett-muveletek-zarojelfelbontas/ComplexOperationsMatcher").then(m => ({ default: m.ComplexOperationsMatcher }))) as any;
+const Grade6ComplexOperationsSorter = lazy(() => import("@/components/math/grade-6/tortek/osszetett-muveletek-zarojelfelbontas/ComplexOperationsSorter").then(m => ({ default: m.ComplexOperationsSorter }))) as any;
+const Grade6FractionsSummaryTheory = lazy(() => import("@/components/math/grade-6/tortek/osszefoglalas/FractionsSummaryTheory").then(m => ({ default: m.FractionsSummaryTheory }))) as any;
+const Grade6FractionsSummaryQuiz = lazy(() => import("@/components/math/grade-6/tortek/osszefoglalas/FractionsSummaryQuiz").then(m => ({ default: m.FractionsSummaryQuiz }))) as any;
+const Grade6FractionsSummaryMatcher = lazy(() => import("@/components/math/grade-6/tortek/osszefoglalas/FractionsSummaryMatcher").then(m => ({ default: m.FractionsSummaryMatcher }))) as any;
+const Grade6FractionsSummarySorter = lazy(() => import("@/components/math/grade-6/tortek/osszefoglalas/FractionsSummarySorter").then(m => ({ default: m.FractionsSummarySorter }))) as any;
+
 const WordProblemsModule = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/WordProblemsModule").then(m => ({ default: m.WordProblemsModule }))) as any;
 const TriangleClassifier = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyesen-szimmetrikus-haromszogek-negyszogek-sokszogek/TriangleClassifier").then(m => ({ default: m.TriangleClassifier }))) as any;
 const QuadrilateralClassifier = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyesen-szimmetrikus-haromszogek-negyszogek-sokszogek/QuadrilateralClassifier").then(m => ({ default: m.QuadrilateralClassifier }))) as any;
@@ -3350,48 +3369,356 @@ export default function MathPage() {
                   />
                 )}
 
-                {activityType === 'g6-fraction-visual-matcher' && (
-                  <Grade6FractionVisualMatcher onBack={handleBack} />
+                {activityType === 'g6-fractions-review-theory' && (
+                  <Grade6FractionsReviewTheory
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g6-fractions-review-quiz', selectedTopic?.id || 'g6-fractions')}
+                  />
                 )}
 
-                {activityType === 'g6-fractions-quiz' && (
-                  <Grade6FractionsQuiz onBack={handleBack} />
+                {(activityType === 'g6-fractions-review-quiz' || activityType === 'g6-fractions-review' || activityType === 'g6-fractions-quiz') && (
+                  <Grade6FractionsReviewQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g6-fractions-review-theory', selectedTopic?.id || 'g6-fractions')}
+                  />
                 )}
 
-                {activityType === 'g6-fraction-multiplier' && (
-                  <Grade6FractionMultiplicationMatcher onBack={handleBack} />
+                {(activityType === 'g6-fractions-review-matcher' || activityType === 'g6-fraction-visual-matcher') && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6FractionsReviewMatcher onNextLevel={handleBack} />
+                  </div>
                 )}
 
-                {activityType === 'g6-fraction-divider' && (
-                  <Grade6FractionDivisionMatcher onBack={handleBack} />
+                {activityType === 'g6-fractions-review-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6FractionsReviewSorter onNextLevel={handleBack} />
+                  </div>
                 )}
 
-                {activityType === 'g6-decimal-quiz' && (
-                  <Grade6DecimalFractionsQuiz onBack={handleBack} />
+                {activityType === 'g6-fraction-multiplication-theory' && (
+                  <Grade6FractionMultiplicationTheory
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g6-fraction-multiplication-quiz', selectedTopic?.id || 'g6-fractions')}
+                  />
                 )}
 
-                {activityType === 'g6-to-decimal-matcher' && (
-                  <Grade6FractionToDecimalMatcher onBack={handleBack} />
+                {(activityType === 'g6-fraction-multiplication-quiz' || activityType === 'g6-fraction-mult-quiz') && (
+                  <Grade6FractionMultiplicationQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g6-fraction-multiplication-theory', selectedTopic?.id || 'g6-fractions')}
+                  />
                 )}
 
-                {activityType === 'g6-decimal-multiplier-quiz' && (
-                  <Grade6DecimalMultiplicationQuiz onBack={handleBack} />
+                {(activityType === 'g6-fraction-multiplication-matcher' || activityType === 'g6-fraction-multiplier') && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6FractionMultiplicationMatcher onNextLevel={handleBack} />
+                  </div>
                 )}
 
-                {activityType === 'g6-decimal-multiplier' && (
-                  <Grade6DecimalMultiplicationMatcher onBack={handleBack} />
+                {activityType === 'g6-fraction-multiplication-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6FractionMultiplicationSorter onNextLevel={handleBack} />
+                  </div>
                 )}
 
-                {activityType === 'g6-decimal-divider-quiz' && (
-                  <Grade6DecimalDivisionQuiz onBack={handleBack} />
+                {activityType === 'g6-fraction-division-theory' && (
+                  <Grade6FractionDivisionTheory
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g6-fraction-division-quiz', selectedTopic?.id || 'g6-fractions')}
+                  />
                 )}
 
-                {activityType === 'g6-decimal-divider' && (
-                  <Grade6DecimalDivisionMatcher onBack={handleBack} />
+                {(activityType === 'g6-fraction-division-quiz' || activityType === 'g6-fraction-div-quiz') && (
+                  <Grade6FractionDivisionQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g6-fraction-division-theory', selectedTopic?.id || 'g6-fractions')}
+                  />
                 )}
 
-                {activityType === 'g6-fractions-closing-test' && (
-                  <Grade6FractionsClosingTest onBack={handleBack} />
+                {(activityType === 'g6-fraction-division-matcher' || activityType === 'g6-fraction-divider') && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6FractionDivisionMatcher onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g6-fraction-division-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6FractionDivisionSorter onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g6-decimal-fractions-theory' && (
+                  <Grade6DecimalFractionsTheory
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g6-decimal-fractions-quiz', selectedTopic?.id || 'g6-fractions')}
+                  />
+                )}
+
+                {(activityType === 'g6-decimal-fractions-quiz' || activityType === 'g6-decimal-quiz') && (
+                  <Grade6DecimalFractionsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g6-decimal-fractions-theory', selectedTopic?.id || 'g6-fractions')}
+                  />
+                )}
+
+                {(activityType === 'g6-decimal-fractions-matcher' || activityType === 'g6-to-decimal-matcher') && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6FractionToDecimalMatcher onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g6-decimal-fractions-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6DecimalFractionsSorter onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g6-decimal-multiplication-theory' && (
+                  <Grade6DecimalMultiplicationTheory
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g6-decimal-multiplication-quiz', selectedTopic?.id || 'g6-fractions')}
+                  />
+                )}
+
+                {(activityType === 'g6-decimal-multiplication-quiz' || activityType === 'g6-decimal-multiplier-quiz') && (
+                  <Grade6DecimalMultiplicationQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g6-decimal-multiplication-theory', selectedTopic?.id || 'g6-fractions')}
+                  />
+                )}
+
+                {(activityType === 'g6-decimal-multiplication-matcher' || activityType === 'g6-decimal-multiplier') && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6DecimalMultiplicationMatcher onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g6-decimal-multiplication-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6DecimalMultiplicationSorter onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g6-decimal-division-theory' && (
+                  <Grade6DecimalDivisionTheory
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g6-decimal-division-quiz', selectedTopic?.id || 'g6-fractions')}
+                  />
+                )}
+
+                {(activityType === 'g6-decimal-division-quiz' || activityType === 'g6-decimal-divider-quiz') && (
+                  <Grade6DecimalDivisionQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g6-decimal-division-theory', selectedTopic?.id || 'g6-fractions')}
+                  />
+                )}
+
+                {(activityType === 'g6-decimal-division-matcher' || activityType === 'g6-decimal-divider') && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6DecimalDivisionMatcher onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g6-decimal-division-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6DecimalDivisionSorter onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g6-complex-operations-theory' && (
+                  <Grade6ComplexOperationsTheory
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g6-complex-operations-quiz', selectedTopic?.id || 'g6-fractions')}
+                  />
+                )}
+
+                {activityType === 'g6-complex-operations-quiz' && (
+                  <Grade6ComplexOperationsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g6-complex-operations-theory', selectedTopic?.id || 'g6-fractions')}
+                  />
+                )}
+
+                {activityType === 'g6-complex-operations-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6ComplexOperationsMatcher onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g6-complex-operations-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6ComplexOperationsSorter onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g6-fractions-summary-theory' && (
+                  <Grade6FractionsSummaryTheory
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g6-fractions-summary-quiz', selectedTopic?.id || 'g6-fractions')}
+                  />
+                )}
+
+                {(activityType === 'g6-fractions-summary-quiz' || activityType === 'g6-fractions-closing-test') && (
+                  <Grade6FractionsSummaryQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g6-fractions-summary-theory', selectedTopic?.id || 'g6-fractions')}
+                  />
+                )}
+
+                {activityType === 'g6-fractions-summary-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6FractionsSummaryMatcher onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g6-fractions-summary-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6FractionsSummarySorter onNextLevel={handleBack} />
+                  </div>
                 )}
 
                 {activityType === 'fraction-visualizer' && (

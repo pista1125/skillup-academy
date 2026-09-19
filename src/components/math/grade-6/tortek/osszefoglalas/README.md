@@ -1,25 +1,18 @@
-# 8. Összefoglalás
+# 6. Osztály — II. Témakör: Törtek és Tizedes Törtek — Összefoglalás
 
-## Tananyag Áttekintés
-A II. Törtek fejezet teljes összefoglalása, a közönséges törtek és tizedes törtek műveleteinek rendszerezése, felkészülés az átfogó témazáró dolgozatra és a záróteszt megoldása.
+Ez a modul a **6. osztályos II. Fejezet (Törtek és Tizedes Törtek)** teljes anyagának átfogó összefoglalását és szintfelmérő zárását tartalmazza.
 
----
+## Modul Komponensek
+- **FractionsSummaryTheory**: Átfogó összefoglaló elméleti tabló jobb oldali kiemelt képlettel (`quickRule`), 6 elméleti fejezettel és interaktív két-törtes / tizedes mesterkalkulátorral.
+- **FractionsSummaryQuiz**: Átfogó záró kvíz pontosan **90 kérdéssel** (30 kérdés 1. szinten, 30 kérdés 2. szinten, 30 kérdés 3. szinten), részletes lépésekkel (`steps`), képletekkel (`formula`), tippekkel (`hint`) és magyarázatokkal (`explanation`).
+- **FractionsSummaryMatcher**: 3 szintes párosító játék (3 × 8 = 24 feladatpár).
+- **FractionsSummarySorter**: 3 szintes csoportosító játék (3 × 12 = 36 elem besorolása).
 
-## A Fejezet Rendszerező Áttekintése
-
-1. **Közönséges törtek:**
-   - Fogalma, bővítés, egyszerűsítés, összehasonlítás.
-   - Összeadás, kivonás (közös nevező keresése).
-   - Szorzás (számláló a számlálóval, nevező a nevezővel) és a reciprok fogalma.
-   - Osztás (szorzás a reciprok értékkel).
-
-2. **Tizedes törtek:**
-   - Helyiértékek, átváltás törtekből és törtekbe.
-   - Összeadás, kivonás (helyiértékek és tizedesvesszők igazítása).
-   - Szorzás ($10, 100, 1000$-rel, valamint tizedes tört szorzása tizedes törttel a tizedesjegyek összegzésével).
-   - Osztás ($10, 100, 1000$-rel, valamint osztás tizedes törttel az osztó egészre bővítésével).
-
-3. **Műveleti sorrend és szöveges feladatok:**
-   - Zárójelek felbontása és kiértékelése.
-   - Hányadrész számítása (egész része, rész egésze).
-   - Gyakorlati, életszerű szöveges feladatok modellezése és megoldása.
+## Témakörök
+1. Törtek ismétlése, bővítés, egyszerűsítés, közös nevező
+2. Szorzás törttel, keresztbe egyszerűsítés, reciprok
+3. Osztás törttel, reciprokkal való szorzás
+4. Tizedes törtek ismétlése, átváltások, kerekítés
+5. Szorzás tizedes törttel, 10-es léptetés
+6. Osztás tizedes törttel, bővítés egész számmá
+7. Összetett műveleti sorrend, zárójelfelbontási szabályok

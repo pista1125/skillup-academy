@@ -67,6 +67,9 @@ export function useQuizProgress(explicitUserId?: string) {
       return { isCompleted: false, hasStarted: false, completedLevelsCount: 0, levelScores: {} };
     }
 
+    const targetGradeMatch = topicKey.match(/^(?:g|grade-)([0-9]+)/i);
+    const targetGrade = targetGradeMatch ? parseInt(targetGradeMatch[1], 10) : undefined;
+
     const cleanKey = topicKey
       .toLowerCase()
       .replace(/^(g[0-9]+|grade-[0-9]+)-/, '')
@@ -75,12 +78,46 @@ export function useQuizProgress(explicitUserId?: string) {
       .replace(/^sec-/, '')
       .replace(/-(quiz|matcher|sorter|theory)$/, '');
 
+    const getRecordGrade = (rec: QuizProgressRecord): number | undefined => {
+      if (typeof rec.grade === 'number' && !isNaN(rec.grade)) return rec.grade;
+      if (typeof rec.grade === 'string') {
+        const parsed = parseInt(rec.grade, 10);
+        if (!isNaN(parsed)) return parsed;
+      }
+      if (rec.quizId) {
+        const m = rec.quizId.match(/^([0-9]+)__/);
+        if (m) return parseInt(m[1], 10);
+        const m2 = rec.quizId.match(/^(?:g|grade-)([0-9]+)/i);
+        if (m2) return parseInt(m2[1], 10);
+      }
+      if (rec.topicId) {
+        const m = rec.topicId.match(/^(?:g|grade-)([0-9]+)/i);
+        if (m) return parseInt(m[1], 10);
+      }
+      if (rec.id) {
+        const m = rec.id.match(/__([0-9]+)__/);
+        if (m) return parseInt(m[1], 10);
+        const m2 = rec.id.match(/__(?:g|grade-)([0-9]+)/i);
+        if (m2) return parseInt(m2[1], 10);
+      }
+      return undefined;
+    };
+
     const matchingRecords: QuizProgressRecord[] = [];
     const seenIds = new Set<string>();
 
     const allRecords = Object.values(progressMap);
     for (const rec of allRecords) {
       if (!rec || !rec.id || seenIds.has(rec.id)) continue;
+
+      // Grade isolation: if topicKey specifies a grade, don't match records from other grades
+      if (targetGrade !== undefined) {
+        const recGrade = getRecordGrade(rec);
+        if (recGrade !== undefined && recGrade !== targetGrade) {
+          continue;
+        }
+      }
+
       seenIds.add(rec.id);
 
       const recTopic = (rec.topicId || '').toLowerCase();
@@ -124,6 +161,13 @@ export function useQuizProgress(explicitUserId?: string) {
         (cleanKey === 'integers-lcm' && (recTitle.includes('lkkt') || recTitle.includes('többszörös, közös') || recTopicClean.includes('lcm'))) ||
         (cleanKey === 'integers-gcd' && (recTitle.includes('lnko') || recTitle.includes('osztó, közös osztó') || recTopicClean.includes('gcd'))) ||
         (cleanKey === 'integers-summary' && (recTitle.includes('fejezeti összefoglalás') || (recTitle.includes('összefoglal') && recTopicClean.includes('6')) || recTopicClean.includes('summary'))) ||
+        (cleanKey === 'fractions-review' && (recTitle.includes('törtek ismétlése') || recTitle.includes('mit tanultunk a törtekről') || recTopicClean.includes('fractions-review'))) ||
+        ((cleanKey === 'fraction-multiplication' || cleanKey === 'fraction-mult-reciprocal' || cleanKey === 'fractions-mult-reciprocal') && (recTitle.includes('szorzás törttel') || recTitle.includes('reciprok') || recTopicClean.includes('fraction-multiplication') || recTopicClean.includes('fraction-multiplier'))) ||
+        ((cleanKey === 'fraction-division' || cleanKey === 'fractions-division') && (recTitle.includes('osztás törttel') || recTopicClean.includes('fraction-division') || recTopicClean.includes('fraction-divider'))) ||
+        ((cleanKey === 'decimal-fractions' || cleanKey === 'decimal-fractions-review' || cleanKey === 'decimal-quiz') && (recTitle.includes('tizedes') || recTopicClean.includes('decimal-fractions') || recTopicClean.includes('tizedes'))) ||
+        ((cleanKey === 'decimal-multiplication' || cleanKey === 'decimal-multiplier' || cleanKey === 'decimal-multiplier-quiz') && (recTitle.includes('szorzás tizedes') || recTitle.includes('tizedestört szorzás') || recTopicClean.includes('decimal-multiplication') || recTopicClean.includes('decimal-multiplier'))) ||
+        ((cleanKey === 'complex-operations' || cleanKey === 'complex-operations-quiz') && (recTitle.includes('összetett művelet') || recTitle.includes('zárójelfelbontás') || recTopicClean.includes('complex-operations'))) ||
+        ((cleanKey === 'fractions-summary' || cleanKey === 'fractions-closing-test') && (recTitle.includes('törtek témazáró') || recTitle.includes('törtek összefoglal') || recTopicClean.includes('fractions-summary') || recTopicClean.includes('fractions-closing'))) ||
         // Grade 5
         (cleanKey === 'roman-numerals' && (recTitle.includes('római') || recTitle.includes('romai') || recTopicClean.includes('roman'))) ||
         (cleanKey === 'place-value' && (recTitle.includes('helyiérték') || recTitle.includes('helyiertek') || recTopicClean.includes('place-value'))) ||

@@ -1,19 +1,71 @@
-// Re-exports from subtopics of II. Törtek
-export { FractionVisualMatcher } from './mit-tanultunk-a-tortekrol-ismetles/FractionVisualMatcher';
-export { FractionsQuiz } from './mit-tanultunk-a-tortekrol-ismetles/FractionsQuiz';
+// Core templates for Grade 6 Törtek
+export { TheoryTemplate } from './TheoryTemplate';
+export { QuizTemplate } from './QuizTemplate';
+export { MatcherTemplate } from './MatcherTemplate';
+export { SorterTemplate } from './SorterTemplate';
 
-export { FractionMultiplicationMatcher } from './szorzas-torttel-a-reciprok/FractionMultiplicationMatcher';
+// Subtopic 1: Mit tanultunk a törtekről? Ismétlés
+export {
+  FractionsReviewTheory,
+  FractionsReviewQuiz,
+  FractionsReviewMatcher,
+  FractionsReviewSorter
+} from './mit-tanultunk-a-tortekrol-ismetles';
 
-export { FractionDivisionMatcher } from './osztas-torttel/FractionDivisionMatcher';
+// Subtopic 2: Szorzás törttel, a reciprok fogalma
+export {
+  FractionMultiplicationTheory,
+  FractionMultiplicationQuiz,
+  FractionMultiplicationMatcher,
+  FractionMultiplicationSorter
+} from './szorzas-torttel-a-reciprok';
 
-export { default as DecimalFractionsQuiz } from './mit-tanultunk-a-tizedes-tortekrol-ismetles/DecimalFractionsQuiz';
-export { FractionToDecimalMatcher } from './mit-tanultunk-a-tizedes-tortekrol-ismetles/FractionToDecimalMatcher';
+// Subtopic 3: Osztás törttel
+export {
+  FractionDivisionTheory,
+  FractionDivisionQuiz,
+  FractionDivisionMatcher,
+  FractionDivisionSorter
+} from './osztas-torttel';
 
-export { default as DecimalMultiplicationQuiz } from './szorzas-tizedes-torttel/DecimalMultiplicationQuiz';
-export { DecimalMultiplicationMatcher } from './szorzas-tizedes-torttel/DecimalMultiplicationMatcher';
+// Subtopic 4: Mit tanultunk a tizedes törtekről? Ismétlés
+export {
+  DecimalFractionsTheory,
+  DecimalFractionsQuiz,
+  FractionToDecimalMatcher,
+  DecimalFractionsSorter
+} from './mit-tanultunk-a-tizedes-tortekrol-ismetles';
 
-export { default as DecimalDivisionQuiz } from './osztas-tizedes-torttel/DecimalDivisionQuiz';
-export { DecimalDivisionMatcher } from './osztas-tizedes-torttel/DecimalDivisionMatcher';
+// Subtopic 5: Szorzás tizedes törttel
+export {
+  DecimalMultiplicationTheory,
+  DecimalMultiplicationQuiz,
+  DecimalMultiplicationMatcher,
+  DecimalMultiplicationSorter
+} from './szorzas-tizedes-torttel';
 
-export { FractionsClosingTest } from './osszefoglalas/FractionsClosingTest';
-export { CLOSING_TEST_DATA } from './osszefoglalas/FractionsClosingTestData';
+// Subtopic 6: Osztás tizedes törttel
+export {
+  DecimalDivisionTheory,
+  DecimalDivisionQuiz,
+  DecimalDivisionMatcher,
+  DecimalDivisionSorter
+} from './osztas-tizedes-torttel';
+
+// Subtopic 7: Összetett műveletek, zárójelfelbontás
+export {
+  ComplexOperationsTheory,
+  ComplexOperationsQuiz,
+  ComplexOperationsMatcher,
+  ComplexOperationsSorter
+} from './osszetett-muveletek-zarojelfelbontas';
+
+// Subtopic 8: Összefoglalás
+export {
+  FractionsSummaryTheory,
+  FractionsSummaryQuiz,
+  FractionsSummaryMatcher,
+  FractionsSummarySorter
+} from './osszefoglalas';
+
+

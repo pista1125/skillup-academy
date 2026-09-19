@@ -16,8 +16,9 @@ import {
 } from "@/components/math/grade-6/tortek";
 import DecimalShifterTool from "@/components/math/tools/DecimalShifterTool";
 import { NumberLineTool } from "@/components/math/tools/NumberLineTool";
-import { FractionsClosingTest } from "@/components/math/grade-6/tortek/osszefoglalas/FractionsClosingTest";
+import { FractionsSummaryQuiz } from "@/components/math/grade-6/tortek";
 import { SectionHeader } from "@/components/math/shared/SectionHeader";
+
 import { ActivityPlaceholder } from "@/components/math/shared/ActivityPlaceholder";
 import {
     Binary,
@@ -466,8 +467,9 @@ export function FractionsModule({ onBack, onStartActivity, isInline = false, ini
             )}
 
             {view === 'closing-test' && (
-                <FractionsClosingTest onBack={handleBackToMenu} />
+                <FractionsSummaryQuiz onBack={handleBackToMenu} />
             )}
+
         </div>
     );
 }
