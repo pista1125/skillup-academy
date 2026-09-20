@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { exportElementToPDF } from '@/utils/pdfExport';
+import { MathText } from '@/components/math/shared/MathText';
 
 // --- Theme Color Mappings ---
 export type ThemeColor = 'blue' | 'indigo' | 'violet' | 'purple' | 'amber' | 'emerald' | 'teal' | 'rose' | 'cyan' | 'slate';
@@ -226,10 +227,10 @@ export const TheorySection: React.FC<TheorySectionProps> = ({
         </span>
         <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
           {icon}
-          <span>{title}</span>
+          <span>{typeof title === 'string' ? <MathText>{title}</MathText> : title}</span>
         </h2>
       </div>
-      {children}
+      <MathText>{children}</MathText>
     </section>
   );
 };
@@ -271,7 +272,7 @@ export const TheoryCard: React.FC<TheoryCardProps> = ({
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2 font-bold text-sm text-slate-900 dark:text-white">
               {icon}
-              {title && <span>{title}</span>}
+              {title && <span>{typeof title === 'string' ? <MathText>{title}</MathText> : title}</span>}
             </div>
             {badge && (
               <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300">
@@ -280,7 +281,7 @@ export const TheoryCard: React.FC<TheoryCardProps> = ({
             )}
           </div>
         )}
-        {children}
+        <MathText>{children}</MathText>
       </CardContent>
     </Card>
   );
@@ -290,14 +291,16 @@ export const TheoryCard: React.FC<TheoryCardProps> = ({
 export interface TheoryCalloutProps {
   icon?: React.ReactNode;
   title?: string;
+  text?: string | React.ReactNode;
   variant?: 'info' | 'tip' | 'warning' | 'success' | 'blue' | 'amber' | 'rose' | 'emerald' | 'indigo' | 'purple' | 'cyan' | 'violet' | string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
 }
 
 export const TheoryCallout: React.FC<TheoryCalloutProps> = ({
   icon,
   title,
+  text,
   variant = 'tip',
   children,
   className
@@ -385,8 +388,10 @@ export const TheoryCallout: React.FC<TheoryCalloutProps> = ({
         {icon || current.defaultIcon}
       </div>
       <div className="space-y-1">
-        {title && <div className={cn("font-bold", current.titleColor)}>{title}</div>}
-        <div className="text-slate-700 dark:text-slate-300 leading-relaxed">{children}</div>
+        {title && <div className={cn("font-bold", current.titleColor)}>{typeof title === 'string' ? <MathText>{title}</MathText> : title}</div>}
+        <div className="text-slate-700 dark:text-slate-300 leading-relaxed">
+          {text ? (typeof text === 'string' ? <MathText>{text}</MathText> : text) : (typeof children === 'string' ? <MathText>{children}</MathText> : children)}
+        </div>
       </div>
     </div>
   );
@@ -424,29 +429,29 @@ export const TheoryTrapBox: React.FC<TheoryTrapBoxProps> = ({
     <div className={cn("p-4 rounded-2xl bg-rose-50/50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/60 space-y-2", className)}>
       <div className="flex items-center gap-2 text-rose-700 dark:text-rose-400 font-bold text-xs sm:text-sm">
         <AlertTriangle className="w-4 h-4 shrink-0" />
-        <span>{displayTitle}</span>
+        <span>{typeof displayTitle === 'string' ? <MathText>{displayTitle}</MathText> : displayTitle}</span>
       </div>
       {children ? (
         <div className="text-xs text-slate-600 dark:text-slate-300 space-y-1">
-          {children}
+          <MathText>{children}</MathText>
         </div>
       ) : (
         <div className="text-xs text-slate-600 dark:text-slate-300 space-y-1">
           {displayWrong && (
             <div className="flex items-start gap-1.5">
               <XCircle className="w-3.5 h-3.5 text-rose-600 shrink-0 mt-0.5" />
-              <span><strong className="text-rose-600">Hibás:</strong> {displayWrong}</span>
+              <span><strong className="text-rose-600">Hibás:</strong> {typeof displayWrong === 'string' ? <MathText>{displayWrong}</MathText> : displayWrong}</span>
             </div>
           )}
           {displayCorrect && (
             <div className="flex items-start gap-1.5">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
-              <span><strong className="text-emerald-600">Helyes:</strong> {displayCorrect}</span>
+              <span><strong className="text-emerald-600">Helyes:</strong> {typeof displayCorrect === 'string' ? <MathText>{displayCorrect}</MathText> : displayCorrect}</span>
             </div>
           )}
           {explanation && (
             <div className="pt-1 text-[11px] text-slate-500 dark:text-slate-400 pl-5">
-              {explanation}
+              {typeof explanation === 'string' ? <MathText>{explanation}</MathText> : explanation}
             </div>
           )}
         </div>
@@ -476,7 +481,7 @@ export const TheoryTable: React.FC<TheoryTableProps> = ({
     <div className={cn("overflow-x-auto space-y-2", className)}>
       {title && (
         <div className="text-xs font-bold text-slate-700 dark:text-slate-300 px-1">
-          {title}
+          {typeof title === 'string' ? <MathText>{title}</MathText> : title}
         </div>
       )}
       <table className="w-full text-xs text-left border-collapse rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800">
@@ -485,7 +490,7 @@ export const TheoryTable: React.FC<TheoryTableProps> = ({
             <tr>
               {tableHeaders.map((h, i) => (
                 <th key={i} className="p-3 border-b border-slate-200 dark:border-slate-700 whitespace-nowrap">
-                  {h}
+                  {typeof h === 'string' ? <MathText>{h}</MathText> : h}
                 </th>
               ))}
             </tr>
@@ -496,7 +501,7 @@ export const TheoryTable: React.FC<TheoryTableProps> = ({
             <tr key={rIdx} className="hover:bg-slate-50/50 dark:hover:bg-slate-850/50 transition-colors">
               {(row || []).map((cell, cIdx) => (
                 <td key={cIdx} className="p-3">
-                  {cell}
+                  {typeof cell === 'string' ? <MathText>{cell}</MathText> : cell}
                 </td>
               ))}
             </tr>
@@ -523,6 +528,8 @@ export interface TheoryTemplateProps {
   themeColor?: ThemeColor;
   practiceTitle?: string;
   practiceSubtitle?: string;
+  estimatedTime?: string;
+  difficulty?: string;
   children: React.ReactNode;
 }
 
@@ -614,10 +621,10 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = ({
               <span>{badgeText}</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-              {title}
+              {typeof title === 'string' ? <MathText>{title}</MathText> : title}
             </h1>
             <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
-              {subtitle}
+              {typeof subtitle === 'string' ? <MathText>{subtitle}</MathText> : subtitle}
             </p>
           </div>
 
@@ -634,7 +641,7 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = ({
                 "text-base sm:text-lg font-mono font-black",
                 styles.ruleText
               )}>
-                {quickRule.formula}
+                <MathText>{quickRule.formula}</MathText>
               </div>
             </div>
           )}

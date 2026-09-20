@@ -9,6 +9,7 @@ import {
 } from '../TheoryTemplate';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { MathText, Fraction } from '@/components/math/shared/MathText';
 import {
   Sparkles,
   Calculator,
@@ -345,7 +346,7 @@ export const ComplexOperationsTheory: React.FC<ComplexOperationsTheoryProps> = (
                 Kezdő Kifejezés
               </div>
               <div className="text-xl sm:text-2xl font-mono font-black text-cyan-700 dark:text-cyan-300">
-                {ex.expr}
+                <MathText>{ex.expr}</MathText>
               </div>
 
               {/* Step progression */}
@@ -356,11 +357,11 @@ export const ComplexOperationsTheory: React.FC<ComplexOperationsTheoryProps> = (
                 </div>
 
                 <div className="p-3 bg-cyan-50/70 dark:bg-cyan-950/40 rounded-xl border border-cyan-200/80 dark:border-cyan-800/60 font-mono text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100">
-                  {ex.steps[currentStep].math}
+                  <MathText>{ex.steps[currentStep].math}</MathText>
                 </div>
 
                 <div className="text-xs text-slate-600 dark:text-slate-400">
-                  Aktuális állapot: <span className="font-mono font-bold text-indigo-600 dark:text-indigo-400">{ex.steps[currentStep].currentExpr}</span>
+                  Aktuális állapot: <span className="font-mono font-bold text-indigo-600 dark:text-indigo-400"><MathText>{ex.steps[currentStep].currentExpr}</MathText></span>
                 </div>
               </div>
 

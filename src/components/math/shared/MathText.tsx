@@ -2,9 +2,9 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 
 export interface FractionProps {
-  num: string | number;
-  den: string | number;
-  whole?: string | number;
+  num: string | number | React.ReactNode;
+  den: string | number | React.ReactNode;
+  whole?: string | number | React.ReactNode;
   className?: string;
   size?: 'sm' | 'md' | 'lg' | 'xl';
 }
@@ -78,12 +78,13 @@ export function parseFractionsInText(
 
   // Regex pattern matching:
   // 1. Both parenthesized: (expr1)/(expr2) -> e.g. "(a · k)/(b · k)", "(18 : 6)/(24 : 6)", "(Számláló)/(Nevező)"
-  // 2. Numerator parenthesized: (expr1)/den -> e.g. "(a + b)/c", "(a - b)/c", "(2 + 3)/6", "(e · b + a)/b"
-  // 3. Denominator parenthesized: num/(expr2) -> e.g. "a/(b + c)", "1/(2 + 3)"
-  // 4. Mixed number: (whole) (num)/(den) -> e.g. "1 1/2", "2 3/4"
-  // 5. Simple numeric fraction with optional suffix: (num)/(den)(-suffix)? -> e.g. "3/4", "3/4-e", "6 / 2", "18/24"
-  // 6. Algebraic single variable fraction: (a)/(b) -> e.g. "a/b", "a/c", "b/c", "x/y"
-  const regex = /\(([^()]+)\)\s*\/\s*\(([^()]+)\)|\(([^()]+)\)\s*\/\s*(\b[a-zA-Z0-9]+)\b|\b([a-zA-Z0-9]+)\s*\/\s*\(([^()]+)\)|(\b\d+)\s+(\d+)\s*\/\s*(\d+)|(\b\d+)\s*\/\s*(\d+\b)(-[a-záéíóöőúüűA-ZÁÉÍÓÖŐÚÜŰ]+)?|(\b[a-zA-Z]\b)\s*\/\s*(\b[a-zA-Z]\b)/g;
+  // 2. Numerator parenthesized: (expr1)/den -> e.g. "(a + b)/c", "(a - b)/c", "(k - 6)/4", "(a · mₐ) / 2"
+  // 3. Denominator parenthesized: num/(expr2) -> e.g. "a/(b + c)", "1/(2 + 3)", "3/(-4)"
+  // 4. Mixed number with optional 'és': (whole) [és] (num)/(den) -> e.g. "1 1/2", "2 3/4", "1 és 4/15", "-1 7/8"
+  // 5. Parenthesized single fraction with optional sign: [+-]?(num/den) -> e.g. "(a/b)", "-(a/b)", "+(a/b)", "-(3/4)", "(2/3)"
+  // 6. Simple numeric fraction with optional suffix: (num)/(den)(-suffix)? -> e.g. "3/4", "-3/4", "3/4-e", "18/24", "45/120"
+  // 7. Algebraic single variable fraction: a/b, -a/b, x/y, y/2, x/3, 1/x, 1/a
+  const regex = /\(([^()]+)\)\s*\/\s*\(([^()]+)\)|\(([^()]+)\)\s*\/\s*(\b[a-zA-Z0-9]+|[a-zA-Z0-9]+(?:\s*[a-zA-Z0-9]+)*)\b|\b([a-zA-Z0-9]+)\s*\/\s*\(([^()]+)\)|(-?\b\d+)\s+(?:és\s+)?(\d+)\s*\/\s*(\d+)|([+-])?\s*\(([+-]?\b(?:[a-zA-Z]|\d{1,3}))\s*\/\s*([+-]?\b(?:[a-zA-Z]|\d{1,3}))\)|(-?\b\d{1,3})\s*\/\s*(\d{1,3}\b)(-[a-záéíóöőúüűA-ZÁÉÍÓÖŐÚÜŰ]+)?|(-?\b[a-zA-Z]\b)\s*\/\s*(\b[a-zA-Z0-9]\b)|\b([a-zA-Z0-9])\s*\/\s*(\b[a-zA-Z]\b)/g;
 
   const parts: React.ReactNode[] = [];
   let lastIndex = 0;
@@ -99,8 +100,8 @@ export function parseFractionsInText(
       parts.push(
         <Fraction
           key={`frac-paren2-${match.index}-${match[1]}-${match[2]}`}
-          num={match[1].trim()}
-          den={match[2].trim()}
+          num={parseFractionsInText(match[1].trim(), size)}
+          den={parseFractionsInText(match[2].trim(), size)}
           size={size}
         />
       );
@@ -109,23 +110,23 @@ export function parseFractionsInText(
       parts.push(
         <Fraction
           key={`frac-num-paren-${match.index}-${match[3]}-${match[4]}`}
-          num={match[3].trim()}
+          num={parseFractionsInText(match[3].trim(), size)}
           den={match[4].trim()}
           size={size}
         />
       );
     } else if (match[5] && match[6]) {
-      // Denominator parenthesized: num / (expr2) e.g. a/(b + c)
+      // Denominator parenthesized: num / (expr2) e.g. a/(b + c) or 3/(-4)
       parts.push(
         <Fraction
           key={`frac-den-paren-${match.index}-${match[5]}-${match[6]}`}
           num={match[5].trim()}
-          den={match[6].trim()}
+          den={parseFractionsInText(match[6].trim(), size)}
           size={size}
         />
       );
     } else if (match[7] && match[8] && match[9]) {
-      // Mixed number: whole num/den e.g. 1 1/2
+      // Mixed number: whole num/den e.g. 1 1/2 or 1 és 4/15
       parts.push(
         <Fraction
           key={`frac-mixed-${match.index}-${match[7]}-${match[8]}-${match[9]}`}
@@ -135,25 +136,48 @@ export function parseFractionsInText(
           size={size}
         />
       );
-    } else if (match[10] && match[11]) {
-      // Simple numeric fraction with optional suffix e.g. 3/4 or 3/4-e
+    } else if (match[11] && match[12]) {
+      // Parenthesized single fraction with optional sign: e.g. -(a/b), +(a/b), (3/4), -(3/4)
+      const sign = match[10];
       parts.push(
-        <React.Fragment key={`frac-simple-${match.index}-${match[10]}-${match[11]}`}>
+        <React.Fragment key={`frac-paren-single-${match.index}-${match[11]}-${match[12]}`}>
+          {sign && <span className="mr-0.5">{sign}</span>}
           <Fraction
-            num={match[10]}
-            den={match[11]}
+            num={match[11]}
+            den={match[12]}
             size={size}
           />
-          {match[12] && <span>{match[12]}</span>}
         </React.Fragment>
       );
     } else if (match[13] && match[14]) {
-      // Algebraic variable fraction e.g. a/b or a/c
+      // Simple numeric fraction with optional suffix e.g. 3/4, -3/4, or 3/4-e
+      parts.push(
+        <React.Fragment key={`frac-simple-${match.index}-${match[13]}-${match[14]}`}>
+          <Fraction
+            num={match[13]}
+            den={match[14]}
+            size={size}
+          />
+          {match[15] && <span>{match[15]}</span>}
+        </React.Fragment>
+      );
+    } else if (match[16] && match[17]) {
+      // Algebraic variable fraction e.g. a/b, -a/b, y/2
       parts.push(
         <Fraction
-          key={`frac-var-${match.index}-${match[13]}-${match[14]}`}
-          num={match[13]}
-          den={match[14]}
+          key={`frac-var1-${match.index}-${match[16]}-${match[17]}`}
+          num={match[16]}
+          den={match[17]}
+          size={size}
+        />
+      );
+    } else if (match[18] && match[19]) {
+      // Algebraic variable fraction e.g. 1/x, 1/a
+      parts.push(
+        <Fraction
+          key={`frac-var2-${match.index}-${match[18]}-${match[19]}`}
+          num={match[18]}
+          den={match[19]}
           size={size}
         />
       );
@@ -169,25 +193,98 @@ export function parseFractionsInText(
   return parts.length === 0 ? text : <>{parts}</>;
 }
 
+function processChildrenArray(
+  children: React.ReactNode[],
+  size: 'sm' | 'md' | 'lg' | 'xl'
+): React.ReactNode[] {
+  const result: React.ReactNode[] = [];
+  let primitiveBuffer = '';
+
+  const flushBuffer = (keyIdx: number) => {
+    if (primitiveBuffer.length > 0) {
+      result.push(
+        <React.Fragment key={`text-chunk-${keyIdx}`}>
+          {parseFractionsInText(primitiveBuffer, size)}
+        </React.Fragment>
+      );
+      primitiveBuffer = '';
+    }
+  };
+
+  children.forEach((child, idx) => {
+    if (typeof child === 'string' || typeof child === 'number') {
+      primitiveBuffer += String(child);
+    } else {
+      flushBuffer(idx);
+      if (child !== null && child !== undefined && typeof child !== 'boolean') {
+        result.push(
+          <React.Fragment key={`node-chunk-${idx}`}>
+            {parseFractionsInNode(child, size)}
+          </React.Fragment>
+        );
+      }
+    }
+  });
+
+  flushBuffer(children.length);
+  return result;
+}
+
+export function parseFractionsInNode(
+  node: React.ReactNode,
+  size: 'sm' | 'md' | 'lg' | 'xl' = 'md'
+): React.ReactNode {
+  if (node === null || node === undefined || typeof node === 'boolean') {
+    return node;
+  }
+  if (typeof node === 'string') {
+    return parseFractionsInText(node, size);
+  }
+  if (typeof node === 'number') {
+    return parseFractionsInText(String(node), size);
+  }
+  if (Array.isArray(node)) {
+    return processChildrenArray(node, size);
+  }
+  if (React.isValidElement(node)) {
+    const type = node.type;
+    // Skip inputs, selects, svgs, fractions to avoid interference
+    if (
+      type === 'input' ||
+      type === 'select' ||
+      type === 'textarea' ||
+      type === 'option' ||
+      type === 'svg' ||
+      type === 'path' ||
+      type === 'canvas' ||
+      (typeof type === 'function' && (type.name === 'Fraction' || type.name === 'MathText'))
+    ) {
+      return node;
+    }
+
+    const props = node.props as { children?: React.ReactNode };
+    if (props && props.children !== undefined) {
+      return React.cloneElement(node, {
+        ...props,
+        children: parseFractionsInNode(props.children, size)
+      } as any);
+    }
+    return node;
+  }
+  return node;
+}
+
 export const MathText: React.FC<{
   text?: string | React.ReactNode;
   children?: React.ReactNode;
   size?: 'sm' | 'md' | 'lg' | 'xl';
   className?: string;
 }> = ({ text, children, size = 'md', className }) => {
-  let content = text ?? children;
+  const content = text ?? children;
   
-  if (Array.isArray(content)) {
-    if (content.every(item => typeof item === 'string' || typeof item === 'number')) {
-      content = content.join('');
-    }
-  }
-
-  if (typeof content !== 'string') {
-    return <span className={className}>{content}</span>;
-  }
-  return <span className={className}>{parseFractionsInText(content, size)}</span>;
+  return <span className={className}>{parseFractionsInNode(content, size)}</span>;
 };
 
 export default MathText;
+
 

@@ -8,6 +8,7 @@ import {
   XCircle,
   BookOpen,
   ArrowRight,
+  ArrowLeft,
   ArrowRightLeft,
   Sparkles,
   Layers
@@ -16,6 +17,7 @@ import { cn } from '@/lib/utils';
 import { DifficultyLevel } from './QuizTemplate';
 import { useAuth } from '@/contexts/AuthContext';
 import { saveQuizProgress } from '@/services/quizProgressService';
+import { MathText } from '@/components/math/shared/MathText';
 
 export interface SorterItem {
   id: string;
@@ -315,10 +317,10 @@ export function SorterTemplate({
           </div>
           <div>
             <div className="text-sm font-black text-slate-800 dark:text-slate-200">
-              {title} ({level}. szint)
+              <MathText>{title}</MathText> ({level}. szint)
             </div>
             <div className="text-xs text-slate-500 dark:text-slate-400">
-              {subtitle}
+              <MathText>{subtitle}</MathText>
             </div>
           </div>
         </div>
@@ -362,7 +364,7 @@ export function SorterTemplate({
             <span>Kattints egy elemre a kiválasztáshoz:</span>
             {selectedItem && (
               <span className="text-purple-600 dark:text-purple-400 animate-pulse">
-                Kiválasztva: <strong>{selectedItem.label}</strong> (most kattints a kívánt csoportra!)
+                Kiválasztva: <strong><MathText size="md">{selectedItem.label || selectedItem.content || selectedItem.text}</MathText></strong> (most kattints a kívánt csoportra!)
               </span>
             )}
           </div>
@@ -370,6 +372,7 @@ export function SorterTemplate({
           <div className="flex flex-wrap gap-2">
             {unassignedItems.map((item) => {
               const isSelected = selectedItem?.id === item.id;
+              const labelText = item.label || item.content || item.text;
               return (
                 <button
                   key={item.id}
@@ -381,7 +384,7 @@ export function SorterTemplate({
                       : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 hover:border-purple-400 hover:bg-purple-50/50'
                   )}
                 >
-                  {item.label}
+                  <MathText size="md">{labelText}</MathText>
                 </button>
               );
             })}
@@ -415,7 +418,7 @@ export function SorterTemplate({
                     'px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wider border',
                     cat.badgeColor || 'bg-slate-100 text-slate-800 border-slate-200 dark:bg-slate-800 dark:text-slate-300'
                   )}>
-                    {cat.name}
+                    <MathText size="sm">{cat.name}</MathText>
                   </span>
                   <span className="text-xs font-bold text-slate-400">
                     {itemsInCat.length} elem
@@ -435,6 +438,7 @@ export function SorterTemplate({
                         validationResult.wrongItemIds.includes(item.id);
                       const isCorrect =
                         validationResult.isChecked && !isWrong;
+                      const itemText = item.label || item.content || item.text;
 
                       return (
                         <button
@@ -453,7 +457,7 @@ export function SorterTemplate({
                           )}
                           title="Kattints ide a visszavonáshoz"
                         >
-                          <span>{item.label}</span>
+                          <span><MathText size="sm">{itemText}</MathText></span>
                           {isCorrect && (
                             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                           )}
@@ -476,7 +480,7 @@ export function SorterTemplate({
                   }}
                   className="w-full mt-3 h-8 rounded-xl font-bold text-xs bg-purple-600 hover:bg-purple-700 text-white"
                 >
-                  Ide helyezem: {selectedItem.label}
+                  <span className="mr-1">Ide helyezem:</span> <MathText size="sm">{selectedItem.label || selectedItem.content || selectedItem.text}</MathText>
                 </Button>
               )}
             </div>

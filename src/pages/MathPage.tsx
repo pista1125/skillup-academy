@@ -167,6 +167,7 @@ const UnitConverterTool = lazy(() => import("@/components/math/tools/UnitConvert
 const CapacityConverterTool = lazy(() => import("@/components/math/tools/CapacityConverterTool").then(m => ({ default: m.CapacityConverterTool }))) as any;
 const AnalogClockTool = lazy(() => import("@/components/math/tools/AnalogClockTool").then(m => ({ default: m.AnalogClockTool }))) as any;
 const ScientificCalculator = lazy(() => import("@/components/math/tools/ScientificCalculator").then(m => ({ default: m.ScientificCalculator }))) as any;
+const AlgebraCloudTool = lazy(() => import("@/components/math/tools/AlgebraCloudTool").then(m => ({ default: m.AlgebraCloudTool }))) as any;
 const PerimeterQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat").then(m => ({ default: m.PerimeterQuiz }))) as any;
 const AreaConversionQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat").then(m => ({ default: m.AreaConversionQuiz }))) as any;
 const AreaCalculationQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat").then(m => ({ default: m.AreaCalculationQuiz }))) as any;
@@ -592,6 +593,7 @@ const TOOLS: ActivityConfig[] = [
   { id: 'percentages', title: 'Százalékszámítás', desc: 'Arányok és százalékok vizualizációja', icon: <Percent className="w-8 h-8" />, color: 'bg-pink-100 text-pink-600', category: 'sec-fractions' },
   { id: 'money-calculation', title: 'Pénztár', desc: 'Kifizetések és visszajáró gyakorlása', icon: <Coins className="w-8 h-8" />, color: 'bg-amber-50 text-amber-600', category: 'sec-fractions' },
   // algebra
+  { id: 'algebra-cloud', title: 'Algebrai Felhők (Összevonás, Zárójel, Kiemelés)', desc: 'Interaktív algebrai modellezés: konkrét gyümölcsöktől az absztrakt algebráig, tömbökkel, nullapárokkal és szorzókkal', icon: <span className="text-3xl">☁️</span>, color: 'bg-indigo-100 text-indigo-700 border-indigo-200', category: 'sec-algebra' },
   { id: 'algebra', title: 'Algebra', desc: 'Egyenletek és kifejezések szimbolikus megoldása', icon: <Variable className="w-8 h-8" />, color: 'bg-purple-100 text-purple-600', category: 'sec-algebra' },
   { id: 'equation-solver', title: 'Egyenletmegoldó (Téglalapos)', desc: 'Lépésről lépésre, téglalapos vizuális modell', icon: <Calculator className="w-8 h-8" />, color: 'bg-purple-100 text-purple-600', category: 'sec-algebra' },
   { id: 'equation-balance', title: 'Mérlegelv', desc: 'Egyenletmegoldás kétkarú mérleg modellel', icon: <Scale className="w-8 h-8" />, color: 'bg-indigo-100 text-indigo-600', category: 'sec-algebra' },
@@ -936,6 +938,8 @@ export default function MathPage() {
       finalActivityType = 'manipulative-division';
     } else if (topicId === 'decimal-shifter') {
       finalActivityType = 'decimal-shifter';
+    } else if (topicId === 'algebra-cloud' || topicId === 'algebrai-felhok') {
+      finalActivityType = 'algebra-cloud';
     } else if (topicId === 'equation-solver') {
       finalActivityType = 'equation-solver';
     } else if (topicId === 'equation-balance') {
@@ -1134,10 +1138,10 @@ export default function MathPage() {
   return (
     <div className={cn(
       "min-h-screen bg-transparent text-foreground flex flex-col", 
-      ((activityType === 'symmetry-construction' || activityType === 'perimeter-area') || (isUpperGradeLayout && view === 'topic-select')) && "p-0 overflow-hidden h-screen"
+      ((activityType === 'symmetry-construction' || activityType === 'perimeter-area' || activityType === 'algebra-cloud') || (isUpperGradeLayout && view === 'topic-select')) && "p-0 overflow-hidden h-screen"
     )}>
       {/* Header */}
-      {(activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'student-feedback') || view !== 'activity' ? (
+      {(activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'student-feedback' && activityType !== 'algebra-cloud') || view !== 'activity' ? (
         <div className="sticky top-0 z-50 w-full">
           {/* Main Header */}
             <div className="bg-gradient-math text-white py-2 md:py-3 px-3 md:px-4 shadow-xl relative transition-all duration-300">
@@ -1280,7 +1284,7 @@ export default function MathPage() {
         "transition-all duration-500",
         (isUpperGradeLayout && view === 'topic-select')
           ? "w-full p-0 max-w-none flex-1 overflow-hidden"
-          : (activityType === 'chess-game' || activityType === 'perimeter-area' || activityType === 'snake-game' || activityType === 'tower-builder' || activityType === 'grade2-blocks' || activityType === 'grade3-blocks' || activityType === 'grade3-tower-builder'
+          : (activityType === 'chess-game' || activityType === 'perimeter-area' || activityType === 'algebra-cloud' || activityType === 'snake-game' || activityType === 'tower-builder' || activityType === 'grade2-blocks' || activityType === 'grade3-blocks' || activityType === 'grade3-tower-builder'
             ? "max-w-none p-0 w-full h-full"
             : activityType === 'toto-maker'
             ? "w-full max-w-none px-2 sm:px-4 py-2"
@@ -4371,6 +4375,10 @@ export default function MathPage() {
                   <MatchingCreator onBack={handleBack} />
                 )}
 
+                {(activityType === 'algebra-cloud' || activityType === 'algebrai-felhok') && (
+                  <AlgebraCloudTool onBack={handleBack} />
+                )}
+
                 {(activityType === 'scientific-calculator' || activityType === 'tudomanyos-szamologep') && (
                   <ScientificCalculator onBack={handleBack} />
                 )}
@@ -4557,7 +4565,7 @@ export default function MathPage() {
           </Suspense>
         </div>
       )}
-        {activityType !== 'chess-game' && activityType !== 'snake-game' && activityType !== 'tower-builder' && activityType !== 'toto-maker' && !isUpperGradeLayout && view !== 'competency-select' && ((activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'volume-surface' && activityType !== 'student-feedback' && activityType !== 'volume-quiz' && activityType !== 'surface-area-quiz' && activityType !== 'unit-converter' && activityType !== 'capacity-converter' && activityType !== 'analog-clock' && activityType !== 'g7-mapping-quiz' && activityType !== 'g7-function-table-quiz') || view !== 'activity') && <SiteFooter />}
+        {activityType !== 'chess-game' && activityType !== 'snake-game' && activityType !== 'algebra-cloud' && activityType !== 'tower-builder' && activityType !== 'toto-maker' && !isUpperGradeLayout && view !== 'competency-select' && ((activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'volume-surface' && activityType !== 'student-feedback' && activityType !== 'volume-quiz' && activityType !== 'surface-area-quiz' && activityType !== 'unit-converter' && activityType !== 'capacity-converter' && activityType !== 'analog-clock' && activityType !== 'g7-mapping-quiz' && activityType !== 'g7-function-table-quiz') || view !== 'activity') && <SiteFooter />}
         {activeMaterial && (
           <LessonViewer material={activeMaterial} onClose={() => handleMaterialSelect(null)} />
         )}

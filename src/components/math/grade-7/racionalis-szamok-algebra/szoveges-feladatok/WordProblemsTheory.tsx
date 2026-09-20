@@ -9,6 +9,7 @@ import {
 } from '../TheoryTemplate';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { MathText, Fraction } from '@/components/math/shared/MathText';
 import {
   Sparkles,
   Calculator,
@@ -340,7 +341,7 @@ export const WordProblemsTheory: React.FC<WordProblemsTheoryProps> = ({
                   }}
                   className="px-2 py-1 rounded-lg text-xs font-bold bg-purple-50 hover:bg-purple-100 dark:bg-purple-950/40 dark:hover:bg-purple-900/60 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800 transition-colors"
                 >
-                  {preset.label}
+                  <MathText>{preset.label}</MathText>
                 </button>
               ))}
             </div>
@@ -348,11 +349,11 @@ export const WordProblemsTheory: React.FC<WordProblemsTheoryProps> = ({
             {/* Visual Fraction Segment Bar */}
             <div className="space-y-2 max-w-xl mx-auto">
               <div className="flex items-center justify-between text-xs font-bold">
-                <span className="text-purple-700 dark:text-purple-300">
-                  Kiválasztott rész ({num}/{safeDen} = {percentValue}%): {partValue.toFixed(1).replace('.0', '')} {unit}
+                <span className="text-purple-700 dark:text-purple-300 flex items-center gap-1">
+                  Kiválasztott rész (<Fraction num={num} den={safeDen} size="sm" /> = {percentValue}%): {partValue.toFixed(1).replace('.0', '')} {unit}
                 </span>
-                <span className="text-slate-500 dark:text-slate-400">
-                  Maradék ({safeDen - num}/{safeDen}): {remainingValue.toFixed(1).replace('.0', '')} {unit}
+                <span className="text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                  Maradék (<Fraction num={safeDen - num} den={safeDen} size="sm" />): {remainingValue.toFixed(1).replace('.0', '')} {unit}
                 </span>
               </div>
 
@@ -360,13 +361,13 @@ export const WordProblemsTheory: React.FC<WordProblemsTheoryProps> = ({
               <div className="h-7 w-full bg-slate-200 dark:bg-slate-700 rounded-xl overflow-hidden flex border-2 border-slate-300 dark:border-slate-600 shadow-inner">
                 <div
                   style={{ width: `${Math.min(Math.max((num / safeDen) * 100, 0), 100)}%` }}
-                  className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-bold text-xs flex items-center justify-center transition-all duration-300"
+                  className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-bold text-xs flex items-center justify-center gap-1 transition-all duration-300"
                 >
-                  {num}/{safeDen} ({partValue.toFixed(0)} {unit})
+                  <Fraction num={num} den={safeDen} size="sm" /> ({partValue.toFixed(0)} {unit})
                 </div>
                 <div
                   style={{ width: `${Math.min(Math.max(((safeDen - num) / safeDen) * 100, 0), 100)}%` }}
-                  className="bg-slate-300 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold text-xs flex items-center justify-center transition-all duration-300"
+                  className="bg-slate-300 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold text-xs flex items-center justify-center gap-1 transition-all duration-300"
                 >
                   Maradék ({remainingValue.toFixed(0)} {unit})
                 </div>
@@ -376,7 +377,9 @@ export const WordProblemsTheory: React.FC<WordProblemsTheoryProps> = ({
             {/* Live Calculation Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-xl mx-auto">
               <div className="bg-white dark:bg-slate-800 p-3 rounded-xl border border-purple-200 dark:border-purple-800 text-center">
-                <div className="text-[10px] font-black uppercase tracking-wider text-purple-600 dark:text-purple-400">1 Egységérték (1/{safeDen})</div>
+                <div className="text-[10px] font-black uppercase tracking-wider text-purple-600 dark:text-purple-400 flex items-center justify-center gap-1">
+                  1 Egységérték (<Fraction num={1} den={safeDen} size="sm" />)
+                </div>
                 <div className="text-lg font-black text-purple-800 dark:text-purple-200 font-mono mt-1">
                   {(totalAmount / safeDen).toFixed(2).replace('.00', '')} {unit}
                 </div>
@@ -386,12 +389,15 @@ export const WordProblemsTheory: React.FC<WordProblemsTheoryProps> = ({
               </div>
 
               <div className="bg-white dark:bg-slate-800 p-3 rounded-xl border border-indigo-200 dark:border-indigo-800 text-center">
-                <div className="text-[10px] font-black uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Kiszámított Törtrész ({num}/{safeDen})</div>
+                <div className="text-[10px] font-black uppercase tracking-wider text-indigo-600 dark:text-indigo-400 flex items-center justify-center gap-1">
+                  Kiszámított Törtrész (<Fraction num={num} den={safeDen} size="sm" />)
+                </div>
                 <div className="text-lg font-black text-indigo-800 dark:text-indigo-200 font-mono mt-1">
                   {partValue.toFixed(2).replace('.00', '')} {unit}
                 </div>
-                <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
-                  {totalAmount} · ({num}/{safeDen})
+                <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 flex items-center justify-center gap-1">
+                  <span>{totalAmount} · </span>
+                  <Fraction num={num} den={safeDen} size="sm" />
                 </div>
               </div>
 
@@ -413,9 +419,9 @@ export const WordProblemsTheory: React.FC<WordProblemsTheoryProps> = ({
                 Matematikai levezetés:
               </div>
               <p>
-                A(z) <strong>{totalAmount} {unit}</strong> egész mennyiség <strong>{num}/{safeDen}</strong> része:{' '}
-                <strong>{totalAmount} · ({num}/{safeDen}) = ({totalAmount} : {safeDen}) · {num} = {partValue.toFixed(1).replace('.0', '')} {unit}</strong>.
-                A fennmaradó rész a teljes egészből kivonva: <strong>{remainingValue.toFixed(1).replace('.0', '')} {unit}</strong>.
+                <MathText>
+                  {`A(z) ${totalAmount} ${unit} egész mennyiség ${num}/${safeDen} része: ${totalAmount} · (${num}/${safeDen}) = (${totalAmount} : ${safeDen}) · ${num} = ${partValue.toFixed(1).replace('.0', '')} ${unit}. A fennmaradó rész a teljes egészből kivonva: ${remainingValue.toFixed(1).replace('.0', '')} ${unit}.`}
+                </MathText>
               </p>
             </div>
           </CardContent>

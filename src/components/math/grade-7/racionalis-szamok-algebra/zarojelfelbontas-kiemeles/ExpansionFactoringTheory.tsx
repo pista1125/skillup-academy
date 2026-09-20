@@ -9,6 +9,7 @@ import {
 } from '../TheoryTemplate';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { MathText, Fraction } from '@/components/math/shared/MathText';
 import {
   Sparkles,
   Zap,
@@ -408,7 +409,7 @@ export const ExpansionFactoringTheory: React.FC<ExpansionFactoringTheoryProps> =
                 Kiinduló Kifejezés
               </div>
               <div className="text-xl sm:text-2xl font-mono font-black text-orange-700 dark:text-orange-300">
-                {currentEx.startExpr}
+                <MathText>{currentEx.startExpr}</MathText>
               </div>
 
               {/* Step info */}
@@ -419,11 +420,11 @@ export const ExpansionFactoringTheory: React.FC<ExpansionFactoringTheoryProps> =
                 </div>
 
                 <div className="p-3 bg-orange-50/70 dark:bg-orange-950/40 rounded-xl border border-orange-200/80 dark:border-orange-800/60 font-mono text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 text-center">
-                  {currentEx.steps[currentStep].math}
+                  <MathText>{currentEx.steps[currentStep].math}</MathText>
                 </div>
 
                 <p className="text-xs text-slate-600 dark:text-slate-400">
-                  💡 {currentEx.steps[currentStep].note}
+                  💡 <MathText>{currentEx.steps[currentStep].note}</MathText>
                 </p>
               </div>
 
@@ -463,7 +464,7 @@ export const ExpansionFactoringTheory: React.FC<ExpansionFactoringTheoryProps> =
 
               {/* Result Summary */}
               <div className="p-2.5 bg-emerald-50 dark:bg-emerald-950/40 rounded-xl border border-emerald-200 dark:border-emerald-800 text-xs font-bold text-emerald-800 dark:text-emerald-300 text-center">
-                {currentEx.result}
+                <MathText>{currentEx.result}</MathText>
               </div>
 
               {/* Tip callout */}

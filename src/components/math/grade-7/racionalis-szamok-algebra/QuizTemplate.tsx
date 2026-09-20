@@ -26,6 +26,7 @@ import { cn } from '@/lib/utils';
 import { useAuth } from '@/contexts/AuthContext';
 import { saveQuizProgress } from '@/services/quizProgressService';
 import { useQuizProgress } from '@/hooks/useQuizProgress';
+import { MathText } from '@/components/math/shared/MathText';
 
 export type DifficultyLevel = 1 | 2 | 3;
 export type GameMode = 'quiz' | string;
@@ -41,7 +42,8 @@ export interface CheatSheetCard {
 }
 
 export interface QuizQuestion {
-  id: string;
+  id: string | number;
+  level?: DifficultyLevel;
   prompt?: string;
   question?: string;
   title?: string;
@@ -49,12 +51,16 @@ export interface QuizQuestion {
   highlightValue?: string;
   questionTypeBadge?: string;
   options: string[];
-  correctAnswer: string;
+  correctAnswer: string | number;
   explanation: string;
-  breakdown?: { label: string; value: string }[];
-  steps?: { label: string; value: string }[];
+  breakdown?: { label?: string; value?: string }[] | string[];
+  steps?: { label?: string; value?: string }[] | string[];
   hint?: string;
+  formula?: string;
+  [key: string]: any;
 }
+
+export type Question = QuizQuestion;
 
 export interface LevelConfig {
   level: DifficultyLevel;
@@ -602,8 +608,8 @@ export function QuizTemplate({
                 {cheatSheet.map((item, idx) => (
                   <div key={idx} className="bg-white/95 dark:bg-slate-800/95 p-2.5 rounded-xl border border-purple-100 dark:border-slate-700 shadow-xs text-left">
                     <div className="text-xs font-black text-purple-600 dark:text-purple-400">{item.topic}</div>
-                    <div className="text-xs font-mono font-bold text-slate-800 dark:text-slate-100 mt-0.5">{item.formula}</div>
-                    <div className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5">{item.note}</div>
+                    <div className="text-xs font-mono font-bold text-slate-800 dark:text-slate-100 mt-0.5"><MathText>{item.formula}</MathText></div>
+                    <div className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5"><MathText>{item.note}</MathText></div>
                   </div>
                 ))}
               </div>
@@ -620,8 +626,8 @@ export function QuizTemplate({
                       <div>{card.content}</div>
                     ) : (
                       <>
-                        {card.formula && <div className="text-xs font-mono font-bold text-slate-800 dark:text-slate-100 mt-0.5">{card.formula}</div>}
-                        {card.note && <div className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5">{card.note}</div>}
+                        {card.formula && <div className="text-xs font-mono font-bold text-slate-800 dark:text-slate-100 mt-0.5"><MathText>{card.formula}</MathText></div>}
+                        {card.note && <div className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5"><MathText>{card.note}</MathText></div>}
                       </>
                     )}
                   </div>
@@ -676,7 +682,7 @@ export function QuizTemplate({
                     </div>
                     <div className="flex items-center justify-between text-xs">
                       <span className="text-slate-500 dark:text-slate-400">Fókusz:</span>
-                      <span className="font-bold text-purple-600 dark:text-purple-400 text-right truncate max-w-[140px]" title={cfg.focus}>{cfg.focus}</span>
+                      <span className="font-bold text-purple-600 dark:text-purple-400 text-right truncate max-w-[140px]" title={cfg.focus}><MathText size="sm">{cfg.focus}</MathText></span>
                     </div>
                   </div>
 
@@ -993,13 +999,13 @@ export function QuizTemplate({
 
                     <CardContent className="p-4 sm:p-5 text-center">
                       <p className="text-sm sm:text-base font-bold text-slate-800 dark:text-slate-100 mb-2.5 leading-relaxed">
-                        {currentQuestion.prompt || currentQuestion.question || currentQuestion.title || currentQuestion.text}
+                        <MathText size="lg">{currentQuestion.prompt || currentQuestion.question || currentQuestion.title || currentQuestion.text}</MathText>
                       </p>
 
                       {currentQuestion.highlightValue && (
                         <div className="inline-block px-6 py-2.5 bg-gradient-to-br from-purple-50 to-indigo-50/60 dark:from-slate-850 dark:to-slate-800 rounded-2xl border-2 border-purple-200/80 dark:border-slate-700 shadow-inner">
                           <span className="text-2xl sm:text-3xl font-mono font-black tracking-wider text-slate-900 dark:text-purple-300">
-                            {currentQuestion.highlightValue}
+                            <MathText size="xl">{currentQuestion.highlightValue}</MathText>
                           </span>
                         </div>
                       )}
@@ -1039,18 +1045,18 @@ export function QuizTemplate({
                               {selectedOption === currentQuestion.correctAnswer ? 'Helyes Válasz! 🎉' : 'Nem jó válasz! 🤔'}
                             </h4>
                             <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-medium mb-1.5">
-                              {currentQuestion.explanation}
+                              <MathText>{currentQuestion.explanation}</MathText>
                             </p>
 
                             {((currentQuestion.breakdown && currentQuestion.breakdown.length > 0) || (currentQuestion.steps && currentQuestion.steps.length > 0)) && (
                               <div className="flex flex-wrap items-center gap-1.5 pt-1.5 border-t border-slate-200/60 dark:border-slate-700/60">
                                 <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400">Levezetés:</span>
-                                {(currentQuestion.breakdown || currentQuestion.steps || []).map((item, bIdx) => (
+                                {(currentQuestion.breakdown || currentQuestion.steps || []).map((item: any, bIdx: number) => (
                                   <span
                                     key={bIdx}
                                     className="px-1.5 py-0.5 rounded-md bg-white/90 dark:bg-slate-800/90 text-[10px] font-bold font-mono text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700"
                                   >
-                                    {item.label}: <span className="text-purple-600 dark:text-purple-400">{item.value}</span>
+                                    {(item as { label?: string; value?: string }).label || `${bIdx + 1}. lépés`}: <span className="text-purple-600 dark:text-purple-400"><MathText size="sm">{(item as { label?: string; value?: string }).value || String(item)}</MathText></span>
                                   </span>
                                 ))}
                               </div>
@@ -1121,7 +1127,7 @@ export function QuizTemplate({
                             <span className="w-6 h-6 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-xs font-sans font-bold flex items-center justify-center border border-slate-200 dark:border-slate-700 shrink-0">
                               {idx + 1}
                             </span>
-                            <span className="font-bold leading-snug">{option}</span>
+                            <span className="font-bold leading-snug"><MathText size="md">{option}</MathText></span>
                           </span>
 
                           {isAnswerChecked && isCorrect && (
@@ -1138,7 +1144,7 @@ export function QuizTemplate({
                   {!isAnswerChecked && (
                     <div className="p-2.5 bg-purple-50/60 dark:bg-slate-855/80 rounded-xl border border-purple-200/50 dark:border-slate-800 text-[11px] text-purple-900 dark:text-purple-300 flex items-center gap-1.5 mt-0.5">
                       <Sparkles className="w-3.5 h-3.5 text-purple-600 shrink-0" />
-                      <span>{currentQuestion.hint || hintText || "💡 Figyelj a helyes műveleti sorrendre és az előjelekre!"}</span>
+                      <span><MathText size="sm">{currentQuestion.hint || hintText || "💡 Figyelj a helyes műveleti sorrendre és az előjelekre!"}</MathText></span>
                     </div>
                   )}
                 </div>
@@ -1312,8 +1318,8 @@ export function QuizTemplate({
                 {cheatSheet.map((item, idx) => (
                   <div key={idx} className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 space-y-1">
                     <div className="text-xs font-bold text-purple-600 dark:text-purple-400">{item.topic}</div>
-                    <div className="text-xs font-mono font-bold text-slate-900 dark:text-white">{item.formula}</div>
-                    <div className="text-[11px] text-slate-600 dark:text-slate-300">{item.note}</div>
+                    <div className="text-xs font-mono font-bold text-slate-900 dark:text-white"><MathText>{item.formula}</MathText></div>
+                    <div className="text-[11px] text-slate-600 dark:text-slate-300"><MathText>{item.note}</MathText></div>
                   </div>
                 ))}
               </div>
@@ -1331,8 +1337,8 @@ export function QuizTemplate({
                       <div>{card.content}</div>
                     ) : (
                       <>
-                        {card.formula && <div className="text-xs font-mono font-bold text-slate-900 dark:text-white">{card.formula}</div>}
-                        {card.note && <div className="text-[11px] text-slate-600 dark:text-slate-300">{card.note}</div>}
+                        {card.formula && <div className="text-xs font-mono font-bold text-slate-900 dark:text-white"><MathText>{card.formula}</MathText></div>}
+                        {card.note && <div className="text-[11px] text-slate-600 dark:text-slate-300"><MathText>{card.note}</MathText></div>}
                       </>
                     )}
                   </div>

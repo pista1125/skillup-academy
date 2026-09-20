@@ -9,6 +9,7 @@ import {
 } from '../TheoryTemplate';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { MathText, Fraction } from '@/components/math/shared/MathText';
 import {
   Sparkles,
   Calculator,
@@ -455,7 +456,7 @@ export const RationalOperationsTheory: React.FC<RationalOperationsTheoryProps> =
                   }}
                   className="px-2 py-1 rounded-lg text-xs font-bold bg-purple-50 hover:bg-purple-100 dark:bg-purple-950/40 dark:hover:bg-purple-900/60 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800 transition-colors"
                 >
-                  {preset.label}
+                  <MathText>{preset.label}</MathText>
                 </button>
               ))}
             </div>
@@ -467,10 +468,10 @@ export const RationalOperationsTheory: React.FC<RationalOperationsTheoryProps> =
                   <CheckCircle2 className="w-4 h-4" />
                   Lépésről lépésre levezetés:
                 </div>
-                <p className="leading-relaxed">{res.stepsText}</p>
+                <p className="leading-relaxed"><MathText>{res.stepsText}</MathText></p>
                 {!res.isSimp && (
                   <p className="text-emerald-600 dark:text-emerald-400 font-medium">
-                    Egyszerűsítés LNKO={res.g}-val: {res.rawNum}/{res.rawDen} = {res.finalNum}/{res.finalDen}.
+                    <MathText>{`Egyszerűsítés LNKO=${res.g}-val: ${res.rawNum}/${res.rawDen} = ${res.finalNum}/${res.finalDen}.`}</MathText>
                   </p>
                 )}
               </div>

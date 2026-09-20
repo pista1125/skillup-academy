@@ -9,6 +9,7 @@ import {
 } from '../TheoryTemplate';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { MathText, Fraction } from '@/components/math/shared/MathText';
 import {
   Sparkles,
   Trophy,
@@ -317,10 +318,10 @@ export const RationalSummaryTheory: React.FC<RationalSummaryTheoryProps> = ({
             <div className="bg-white dark:bg-slate-900 p-4 sm:p-6 rounded-2xl border-2 border-rose-200 dark:border-slate-750 shadow-inner max-w-xl mx-auto space-y-4">
               <div className="flex items-center justify-between border-b pb-3 border-slate-100 dark:border-slate-800">
                 <h4 className="font-bold text-slate-900 dark:text-white text-sm sm:text-base">
-                  {currentTopic.title}
+                  <MathText>{currentTopic.title}</MathText>
                 </h4>
                 <span className="text-xs font-mono font-bold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/50 px-2 py-1 rounded-lg">
-                  {currentTopic.keyFormula}
+                  <MathText>{currentTopic.keyFormula}</MathText>
                 </span>
               </div>
 
@@ -329,7 +330,7 @@ export const RationalSummaryTheory: React.FC<RationalSummaryTheoryProps> = ({
                 {currentTopic.rules.map((rule, rIdx) => (
                   <div key={rIdx} className="flex items-start gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                    <span>{rule}</span>
+                    <span><MathText>{rule}</MathText></span>
                   </div>
                 ))}
               </div>
@@ -340,7 +341,7 @@ export const RationalSummaryTheory: React.FC<RationalSummaryTheoryProps> = ({
                   Mintapélda levezetése:
                 </div>
                 <div className="font-mono text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100">
-                  {currentTopic.example}
+                  <MathText>{currentTopic.example}</MathText>
                 </div>
               </div>
 

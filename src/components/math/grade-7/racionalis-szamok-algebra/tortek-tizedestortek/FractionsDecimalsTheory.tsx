@@ -9,6 +9,7 @@ import {
 } from '../TheoryTemplate';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { MathText, Fraction } from '@/components/math/shared/MathText';
 import {
   Sparkles,
   Calculator,
@@ -115,7 +116,7 @@ export const FractionsDecimalsTheory: React.FC<FractionsDecimalsTheoryProps> = (
           >
             <div className="p-3 bg-purple-50 dark:bg-purple-950/40 rounded-xl border border-purple-200 dark:border-purple-800 text-center mb-3">
               <div className="text-xl font-black text-purple-800 dark:text-purple-300 font-mono">
-                {"a"} / {"b"} &nbsp;= &nbsp;{"a"} : {"b"}
+                <MathText size="xl">a/b = a : b</MathText>
               </div>
               <div className="text-xs text-slate-600 dark:text-slate-400 mt-1">
                 <strong>a (számláló):</strong> hány részt veszünk &nbsp;|&nbsp; <strong>b (nevező):</strong> hány egyenlő részre osztottuk az egészet
@@ -128,7 +129,7 @@ export const FractionsDecimalsTheory: React.FC<FractionsDecimalsTheoryProps> = (
               </li>
               <li className="flex items-start gap-2">
                 <span className="font-bold text-red-600 min-w-[18px]">•</span>
-                <span><strong>Értelmezési tartomány:</strong> A nevező soha nem lehet 0 ($b \neq 0$), mert nullával való osztás nincs értelmezve!</span>
+                <span><strong>Értelmezési tartomány:</strong> A nevező soha nem lehet 0 (b ≠ 0), mert nullával való osztás nincs értelmezve!</span>
               </li>
             </ul>
           </TheoryCard>
@@ -185,7 +186,7 @@ export const FractionsDecimalsTheory: React.FC<FractionsDecimalsTheoryProps> = (
               A tört értéke nem változik, ha a számlálót és a nevezőt <strong>ugyanazzal a nullától különböző számmal szorozzuk</strong>:
             </p>
             <div className="p-3 bg-indigo-50 dark:bg-indigo-950/40 rounded-xl border border-indigo-200 dark:border-indigo-800 text-center font-mono text-sm font-bold text-indigo-900 dark:text-indigo-200 mb-2">
-              {"(a · k) / (b · k) = a / b"} &nbsp; (k ≠ 0)
+              <MathText size="lg">(a · k) / (b · k) = a / b</MathText> &nbsp; (k ≠ 0)
             </div>
             <div className="text-xs text-slate-600 dark:text-slate-400 space-y-1">
               <div><strong>Példa:</strong> Bővítsük a 3/4 törtet 5-tel: (3 · 5) / (4 · 5) = 15/20.</div>
@@ -202,7 +203,7 @@ export const FractionsDecimalsTheory: React.FC<FractionsDecimalsTheoryProps> = (
               A tört értéke nem változik, ha a számlálót és a nevezőt <strong>ugyanazzal a közös osztóval osztjuk</strong>:
             </p>
             <div className="p-3 bg-emerald-50 dark:bg-emerald-950/40 rounded-xl border border-emerald-200 dark:border-emerald-800 text-center font-mono text-sm font-bold text-emerald-900 dark:text-emerald-200 mb-2">
-              {"(a : m) / (b : m) = a / b"} &nbsp; (m közös osztó)
+              <MathText size="lg">(a : m) / (b : m) = a / b</MathText> &nbsp; (m közös osztó)
             </div>
             <div className="text-xs text-slate-600 dark:text-slate-400 space-y-1">
               <div><strong>Tovább nem egyszerűsíthető (legegyszerűbb) alak:</strong> amikor a számláló és nevező legnagyobb közös osztója 1 (lnko(a, b) = 1, relatív prímek).</div>
@@ -446,7 +447,7 @@ export const FractionsDecimalsTheory: React.FC<FractionsDecimalsTheoryProps> = (
               <div className="bg-white dark:bg-slate-800 p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-center">
                 <div className="text-[11px] font-black uppercase tracking-wider text-slate-400">Eredeti Tört</div>
                 <div className="text-xl font-black text-slate-800 dark:text-white font-mono mt-1">
-                  {numerator} / {denominator}
+                  <Fraction num={numerator} den={denominator} size="lg" />
                 </div>
                 <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                   {Math.abs(numerator) < denominator ? 'Valódi tört' : Math.abs(numerator) === denominator ? 'Egész (1 egység)' : 'Áltört (>1)'}
@@ -457,7 +458,7 @@ export const FractionsDecimalsTheory: React.FC<FractionsDecimalsTheoryProps> = (
               <div className="bg-white dark:bg-slate-800 p-3 rounded-xl border border-purple-200 dark:border-purple-800 text-center">
                 <div className="text-[11px] font-black uppercase tracking-wider text-purple-600 dark:text-purple-400">Legegyszerűbb Alak</div>
                 <div className="text-xl font-black text-purple-700 dark:text-purple-300 font-mono mt-1">
-                  {simpNum} / {simpDen}
+                  <Fraction num={simpNum} den={simpDen} size="lg" />
                 </div>
                 <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                   {isSimplified ? 'Már a legegyszerűbb alak' : `LNKO = ${currentGcd} (osztva ${currentGcd}-vel)`}
@@ -483,7 +484,7 @@ export const FractionsDecimalsTheory: React.FC<FractionsDecimalsTheoryProps> = (
                 </div>
                 <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                   {Math.abs(numerator) >= denominator && denominator !== 0 ? (
-                    <span>Vegyes: {Math.trunc(numerator / denominator)} egész {Math.abs(numerator % denominator)}/{denominator}</span>
+                    <span>Vegyes: {Math.trunc(numerator / denominator)} egész <Fraction num={Math.abs(numerator % denominator)} den={denominator} size="sm" /></span>
                   ) : (
                     <span>Valódi tört</span>
                   )}
@@ -498,7 +499,7 @@ export const FractionsDecimalsTheory: React.FC<FractionsDecimalsTheoryProps> = (
                 Matematikai elemzés:
               </div>
               <div>
-                A(z) <strong>{numerator}/{denominator}</strong> tört legegyszerűbb alakja <strong>{simpNum}/{simpDen}</strong>.
+                A(z) <strong><Fraction num={numerator} den={denominator} size="sm" /></strong> tört legegyszerűbb alakja <strong><Fraction num={simpNum} den={simpDen} size="sm" /></strong>.
                 Az egyszerűsített nevező ({simpDen}) prímtényezős felbontása miatt a tizedestört alakja{' '}
                 <strong>{isFinite ? 'VÉGES TIZEDESTÖRT (csak 2 és/vagy 5 szerepel)' : 'VÉGTELEN SZAKASZOS TIZEDESTÖRT (2-n és 5-ön kívül más prímszám is osztja)'}</strong>.
               </div>

@@ -322,33 +322,42 @@ export function QuizTemplate({
         const l2 = rawQuestions.filter(q => q.level === 2).map(normalizeQ);
         const l3 = rawQuestions.filter(q => q.level === 3).map(normalizeQ);
 
+        const q1List = l1.length > 0 ? l1 : rawQuestions.slice(0, 10).map(normalizeQ);
+        const q2List = l2.length > 0 ? l2 : rawQuestions.slice(10, 20).map(normalizeQ);
+        const q3List = l3.length > 0 ? l3 : rawQuestions.slice(20, 30).map(normalizeQ);
+
+        const r1 = q1List.length === 10 ? '1 - 10. feladat' : `1 - ${q1List.length}. feladat`;
+        const r2 = (q1List.length === 10 && q2List.length === 10) ? '11 - 20. feladat' : `${q1List.length + 1} - ${q1List.length + q2List.length}. feladat`;
+        const r3 = (q1List.length === 10 && q2List.length === 10 && q3List.length === 10) ? '21 - 30. feladat' : `${q1List.length + q2List.length + 1} - ${q1List.length + q2List.length + q3List.length}. feladat`;
+
         return {
           1: {
             level: 1,
             title: levelHubProps?.level1?.title || '1. Szint: Alapok',
             subtitle: levelHubProps?.level1?.subtitle || 'Alapfogalmak és egyszerűbb feladatok',
-            range: levelHubProps?.level1?.range || '1 - 10. feladat',
+            range: levelHubProps?.level1?.range || r1,
             focus: levelHubProps?.level1?.focus || 'Alapfogalmak',
-            questions: l1.length > 0 ? l1 : rawQuestions.slice(0, 10).map(normalizeQ)
+            questions: q1List
           },
           2: {
             level: 2,
             title: levelHubProps?.level2?.title || '2. Szint: Közepes',
             subtitle: levelHubProps?.level2?.subtitle || 'Összefüggések és gyakorlati feladványok',
-            range: levelHubProps?.level2?.range || '11 - 20. feladat',
+            range: levelHubProps?.level2?.range || r2,
             focus: levelHubProps?.level2?.focus || 'Gyakorlat & Alkalmazás',
-            questions: l2.length > 0 ? l2 : rawQuestions.slice(10, 20).map(normalizeQ)
+            questions: q2List
           },
           3: {
             level: 3,
             title: levelHubProps?.level3?.title || '3. Szint: Haladó',
             subtitle: levelHubProps?.level3?.subtitle || 'Összetett feladatok és logikai kihívások',
-            range: levelHubProps?.level3?.range || '21 - 30. feladat',
+            range: levelHubProps?.level3?.range || r3,
             focus: levelHubProps?.level3?.focus || 'Mesterfok & Logika',
-            questions: l3.length > 0 ? l3 : rawQuestions.slice(20, 30).map(normalizeQ)
+            questions: q3List
           }
         };
       }
+
     }
 
     return null;

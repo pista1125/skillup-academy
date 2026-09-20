@@ -9,6 +9,7 @@ import {
 } from '../TheoryTemplate';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { MathText, Fraction } from '@/components/math/shared/MathText';
 import {
   Sparkles,
   Target,
@@ -380,10 +381,10 @@ export const CombiningSubstitutionTheory: React.FC<CombiningSubstitutionTheoryPr
             <div className="bg-white dark:bg-slate-900 p-4 sm:p-5 rounded-2xl border-2 border-amber-200 dark:border-slate-750 shadow-inner max-w-xl mx-auto text-center space-y-3">
               <div className="flex items-center justify-between text-[11px] uppercase tracking-wider font-bold text-slate-400">
                 <span>Kifejezés:</span>
-                <span className="text-amber-600 dark:text-amber-400 font-mono font-bold text-xs">{ex.varVal}</span>
+                <span className="text-amber-600 dark:text-amber-400 font-mono font-bold text-xs"><MathText>{ex.varVal}</MathText></span>
               </div>
               <div className="text-xl sm:text-2xl font-mono font-black text-amber-700 dark:text-amber-300">
-                {ex.expr}
+                <MathText>{ex.expr}</MathText>
               </div>
 
               {/* Step content */}
@@ -394,11 +395,11 @@ export const CombiningSubstitutionTheory: React.FC<CombiningSubstitutionTheoryPr
                 </div>
 
                 <div className="p-3 bg-amber-50/70 dark:bg-amber-950/40 rounded-xl border border-amber-200/80 dark:border-amber-800/60 font-mono text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 text-center">
-                  {ex.steps[currentStep].math}
+                  <MathText>{ex.steps[currentStep].math}</MathText>
                 </div>
 
                 <p className="text-xs text-slate-600 dark:text-slate-400">
-                  💡 {ex.steps[currentStep].note}
+                  💡 <MathText>{ex.steps[currentStep].note}</MathText>
                 </p>
               </div>
 
@@ -435,7 +436,7 @@ export const CombiningSubstitutionTheory: React.FC<CombiningSubstitutionTheoryPr
 
               {/* Result Summary */}
               <div className="p-2.5 bg-emerald-50 dark:bg-emerald-950/40 rounded-xl border border-emerald-200 dark:border-emerald-800 text-xs font-bold text-emerald-800 dark:text-emerald-300 text-center">
-                {ex.result}
+                <MathText>{ex.result}</MathText>
               </div>
 
               {/* Tip box */}

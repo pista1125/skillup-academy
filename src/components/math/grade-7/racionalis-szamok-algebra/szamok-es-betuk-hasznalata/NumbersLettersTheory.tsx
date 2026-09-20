@@ -9,6 +9,7 @@ import {
 } from '../TheoryTemplate';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { MathText, Fraction } from '@/components/math/shared/MathText';
 import {
   Sparkles,
   Variable,
@@ -351,15 +352,15 @@ export const NumbersLettersTheory: React.FC<NumbersLettersTheoryProps> = ({
               <div className="space-y-2.5 text-xs border-t border-b border-slate-100 dark:border-slate-800 py-3">
                 <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
                   <span className="font-bold text-purple-600">Változó kiválasztása:</span>
-                  <span className="font-mono font-medium">{currentItem.variable}</span>
+                  <span className="font-mono font-medium"><MathText>{currentItem.variable}</MathText></span>
                 </div>
                 <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
                   <span className="font-bold text-indigo-600">1. Részművelet:</span>
-                  <span className="font-mono font-medium">{currentItem.step1}</span>
+                  <span className="font-mono font-medium"><MathText>{currentItem.step1}</MathText></span>
                 </div>
                 <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
                   <span className="font-bold text-emerald-600">2. Részművelet:</span>
-                  <span className="font-mono font-medium">{currentItem.step2}</span>
+                  <span className="font-mono font-medium"><MathText>{currentItem.step2}</MathText></span>
                 </div>
               </div>
 
@@ -369,7 +370,7 @@ export const NumbersLettersTheory: React.FC<NumbersLettersTheoryProps> = ({
                   Kész Algebrai Kifejezés
                 </div>
                 <div className="text-2xl font-mono font-black text-purple-700 dark:text-purple-300">
-                  {currentItem.result}
+                  <MathText>{currentItem.result}</MathText>
                 </div>
               </div>
 

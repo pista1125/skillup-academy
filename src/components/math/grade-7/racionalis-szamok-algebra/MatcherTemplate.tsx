@@ -16,6 +16,7 @@ import { cn } from '@/lib/utils';
 import { DifficultyLevel } from './QuizTemplate';
 import { useAuth } from '@/contexts/AuthContext';
 import { saveQuizProgress } from '@/services/quizProgressService';
+import { MathText } from '@/components/math/shared/MathText';
 
 export interface MatcherPair {
   id: string | number;
@@ -316,10 +317,10 @@ export function MatcherTemplate({
               </div>
             )}
             <div className="text-sm font-black text-slate-800 dark:text-slate-200">
-              {displayTitle} {levels ? `(${activeLevel}. szint)` : ''}
+              <MathText>{displayTitle}</MathText> {levels ? `(${activeLevel}. szint)` : ''}
             </div>
             <div className="text-xs text-slate-500 dark:text-slate-400">
-              {displaySubtitle}
+              <MathText>{displaySubtitle}</MathText>
             </div>
           </div>
         </div>
@@ -405,7 +406,7 @@ export function MatcherTemplate({
                 {isFlipped ? (
                   <div className="animate-in zoom-in-75 duration-200 flex flex-col items-center justify-center h-full w-full p-1">
                     <span className="leading-snug font-mono font-bold text-xs sm:text-sm break-words line-clamp-3">
-                      {card.content}
+                      <MathText size="lg">{card.content}</MathText>
                     </span>
                     {card.isMatched && (
                       <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 absolute top-2 right-2" />
