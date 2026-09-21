@@ -1232,13 +1232,6 @@ export function QuizTemplate({
                       );
                     })}
                   </div>
-
-                  {!isAnswerChecked && (
-                    <div className="p-2.5 bg-violet-50/60 dark:bg-slate-850/80 rounded-xl border border-violet-200/50 dark:border-slate-800 text-[11px] text-violet-900 dark:text-violet-300 flex items-center gap-1.5 mt-0.5">
-                      <Sparkles className="w-3.5 h-3.5 text-violet-600 shrink-0" />
-                      <span>{currentQuestion.hint || hintText || "💡 Figyelj a helyes definíciókra és összefüggésekre!"}</span>
-                    </div>
-                  )}
                 </div>
               </div>
             </div>

@@ -186,8 +186,9 @@ export function RomanNumeralsTheory({ onBack, onStartQuiz }: RomanNumeralsTheory
       subtitle="Részletes elméleti összefoglaló, alapjelek, alapszabályok, interaktív átváltó és példatár"
       themeColor="amber"
       quickRule={{
-        label: "Számkör",
-        formula: "1 – 100 (I – C)"
+        label: "Alapjelek & Szabály",
+        formula: "I=1, V=5, X=10, L=50, C=100, D=500, M=1000",
+        detail: "Max 3 ismétlés (I, X, C, M) • Balra kivonás, jobbra összeadás"
       }}
       practiceTitle="Készen állsz a római számok gyakorlására?"
       practiceSubtitle="Tedd próbára tudásod a 3 szintű kvízben, a kártyás párosítóban vagy a csoportosító játékban!"

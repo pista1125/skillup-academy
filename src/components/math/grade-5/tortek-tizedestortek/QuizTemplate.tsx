@@ -1370,13 +1370,6 @@ export function QuizTemplate({
                       );
                     })}
                   </div>
-
-                  {!isAnswerChecked && (
-                    <div className="p-2.5 bg-amber-50/60 dark:bg-slate-855/80 rounded-xl border border-amber-200/50 dark:border-slate-800 text-[11px] text-amber-900 dark:text-amber-300 flex items-center gap-1.5 mt-0.5">
-                      <Sparkles className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                      <span><MathText size="sm">{currentQuestion.hint || hintText || "💡 Figyelj a helyes szabályokra és összefüggésekre!"}</MathText></span>
-                    </div>
-                  )}
                 </div>
               </div>
             </div>

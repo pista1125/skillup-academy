@@ -128,8 +128,9 @@ export function MultiplicationTheory({ onBack, onStartQuiz }: MultiplicationTheo
       onStartQuiz={onStartQuiz}
       badgeColor="emerald"
       quickRule={{
-        title: "Szorzási Alapszabály",
-        formula: "1. Tényező · 2. Tényező = Szorzat  ⟹  a · b = b · a (felcserélhető) és a · (b + c) = a·b + a·c (széttagolható)"
+        label: "Szorzási Alapszabály",
+        formula: "1. Tényező · 2. Tényező = Szorzat  (a · b = b · a)",
+        detail: "a · (b + c) = a·b + a·c (tagolási azonosság) • 0-val szorozva 0"
       }}
     >
       {/* 1. RÉSZ: A SZORZÁS FOGALMA ÉS TAGJAI */}

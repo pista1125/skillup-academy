@@ -127,9 +127,9 @@ export function AdditionTheory({ onBack, onStartQuiz }: AdditionTheoryProps) {
       onBack={onBack}
       onStartQuiz={onStartQuiz}
       quickRule={{
-        label: 'Alapösszefüggés',
-        title: 'a + b = c (Tag + Tag = Összeg)',
-        detail: 'a + b = b + a (Felcserélhető) • (a + b) + c = a + (b + c) (Csoportosítható)'
+        label: 'Összeadási Szabály',
+        formula: 'Tag + Tag = Összeg  (a + b = b + a)',
+        detail: 'Tetszőlegesen felcserélhető és csoportosítható!'
       }}
     >
       {/* 1. Szakasz: Az összeadás fogalma és tagjai */}

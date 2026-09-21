@@ -85,8 +85,9 @@ export function OrderOfOperationsTheory({ onBack, onStartQuiz }: OrderOfOperatio
       onStartQuiz={onStartQuiz}
       badgeColor="indigo"
       quickRule={{
-        title: "A Műveleti Sorrend Aranyszabálya",
-        formula: "1. Zárójelek (belülről kifelé) ⟹ 2. Szorzás / Osztás (balról jobbra) ⟹ 3. Összeadás / Kivonás (balról jobbra)"
+        label: "Műveleti Sorrend",
+        formula: "1. ( ) Zárójelek ⟹ 2. · , : Szorzás/Osztás ⟹ 3. + , - Összeadás/Kivonás",
+        detail: "Azonos rangú műveleteknél mindig balról jobbra haladunk!"
       }}
     >
       {/* 1. RÉSZ: A 3 SZINTŰ MŰVELETI HIERARCHIA */}

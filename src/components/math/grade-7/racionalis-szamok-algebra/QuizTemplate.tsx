@@ -1140,13 +1140,6 @@ export function QuizTemplate({
                       );
                     })}
                   </div>
-
-                  {!isAnswerChecked && (
-                    <div className="p-2.5 bg-purple-50/60 dark:bg-slate-855/80 rounded-xl border border-purple-200/50 dark:border-slate-800 text-[11px] text-purple-900 dark:text-purple-300 flex items-center gap-1.5 mt-0.5">
-                      <Sparkles className="w-3.5 h-3.5 text-purple-600 shrink-0" />
-                      <span><MathText size="sm">{currentQuestion.hint || hintText || "💡 Figyelj a helyes műveleti sorrendre és az előjelekre!"}</MathText></span>
-                    </div>
-                  )}
                 </div>
               </div>
             </div>

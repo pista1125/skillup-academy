@@ -126,8 +126,9 @@ export function SubtractionTheory({ onBack, onStartQuiz }: SubtractionTheoryProp
       onStartQuiz={onStartQuiz}
       badgeColor="rose"
       quickRule={{
-        title: "Kivonási Alapszabály",
-        formula: "Kisebbítendő – Kivonandó = Különbség  ⟹  Ellenőrzés: Különbség + Kivonandó = Kisebbítendő"
+        label: "Kivonási Alapszabály",
+        formula: "Kisebbítendő – Kivonandó = Különbség",
+        detail: "Ellenőrzés: Különbség + Kivonandó = Kisebbítendő"
       }}
     >
       {/* 1. RÉSZ: A KIVONÁS FOGALMA ÉS TAGJAI */}

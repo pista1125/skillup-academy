@@ -88,8 +88,9 @@ export function DivisionTheory({ onBack, onStartQuiz }: DivisionTheoryProps) {
       onStartQuiz={onStartQuiz}
       badgeColor="purple"
       quickRule={{
-        title: "Maradékos Osztás Alaptétele",
-        formula: "Osztandó = Hányados · Osztó + Maradék  (ahol: 0 ≤ Maradék < Osztó)  |  0-val osztani TILOS!"
+        label: "Maradékos Osztás Alaptétele",
+        formula: "Osztandó = Hányados · Osztó + Maradék",
+        detail: "0 ≤ Maradék < Osztó  •  0-val osztani szigorúan TILOS!"
       }}
     >
       {/* 1. RÉSZ: AZ OSZTÁS FOGALMA ÉS TAGJAI */}

@@ -110,9 +110,9 @@ export function NumberSystemsTheory({ onBack, onStartQuiz }: NumberSystemsTheory
       onBack={onBack}
       onStartQuiz={onStartQuiz}
       quickRule={{
-        label: 'Kulcsfogalom',
-        title: 'Kettes (Bináris) Alap',
-        detail: 'Jegyek: 0, 1 • Helyiértékek: 1, 2, 4, 8, 16, 32, 64, 128 (duplázódnak)'
+        label: 'Kettes Számrendszer',
+        formula: 'Jegyek: 0, 1 | Helyiértékek: 1, 2, 4, 8, 16, 32, 64...',
+        detail: 'A helyiértékek jobbról balra haladva duplázódnak (2 hatványai)'
       }}
     >
       {/* 1. Szakasz: Mi a számrendszer? */}

@@ -157,8 +157,8 @@ export function NumberSpellingTheory({ onBack, onStartQuiz }: NumberSpellingTheo
       onStartQuiz={onStartQuiz}
       quickRule={{
         label: 'Főszabály',
-        title: '2 000-es határ',
-        detail: '≤ 2 000 egybeírás • > 2 000 kötőjel az osztályhatárokon'
+        formula: '≤ 2 000 egybeírás • > 2 000 kötőjel az osztályhatárokon',
+        detail: 'A kerek ezreseket és milliókat mindig egybeírjuk (pl. háromezer)'
       }}
     >
       {/* 1. Szakasz: Számnevek fajtái */}

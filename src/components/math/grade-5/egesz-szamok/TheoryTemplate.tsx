@@ -508,19 +508,27 @@ export const TheoryTable: React.FC<TheoryTableProps> = ({
 };
 
 // --- Main TheoryTemplate Component ---
+export interface QuickRule {
+  label?: string;
+  title?: string;
+  formula?: string;
+  detail?: string;
+}
+
 export interface TheoryTemplateProps {
   onBack: () => void;
   onStartQuiz?: () => void;
   documentId: string;
-  pdfFilename: string;
+  pdfFilename?: string;
+  pdfFileName?: string;
   badgeText?: string;
+  topicBadge?: string;
+  topicNumber?: string;
   title: string;
   subtitle: string;
-  quickRule?: {
-    label: string;
-    formula: string;
-  };
+  quickRule?: QuickRule;
   themeColor?: ThemeColor;
+  badgeColor?: ThemeColor;
   practiceTitle?: string;
   practiceSubtitle?: string;
   children: React.ReactNode;
@@ -531,17 +539,24 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = ({
   onStartQuiz,
   documentId,
   pdfFilename,
-  badgeText = '🏛️ 5. Osztály • I. Az egész számok',
+  pdfFileName,
+  badgeText,
+  topicBadge,
+  topicNumber,
   title,
   subtitle,
   quickRule,
   themeColor = 'amber',
+  badgeColor,
   practiceTitle = 'Készen állsz a gyakorlásra?',
   practiceSubtitle = 'Tedd próbára tudásod a 3 szintű kvízben változatos feladatokkal és azonnali magyarázatokkal!',
   children
 }) => {
   const [isDownloading, setIsDownloading] = useState(false);
-  const styles = colorStyles[themeColor] || colorStyles.amber;
+  const activeTheme = themeColor || badgeColor || 'amber';
+  const styles = colorStyles[activeTheme] || colorStyles.amber;
+  const effectiveBadgeText = badgeText || (topicBadge ? `${topicBadge}${topicNumber ? ` • ${topicNumber}` : ''}` : '🏛️ 5. Osztály • I. Az egész számok');
+  const effectivePdfFilename = pdfFilename || pdfFileName || 'Tananyag.pdf';
 
   React.useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -551,7 +566,7 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = ({
 
   const handleDownloadPDF = async () => {
     setIsDownloading(true);
-    await exportElementToPDF(documentId, pdfFilename);
+    await exportElementToPDF(documentId, effectivePdfFilename);
     setIsDownloading(false);
   };
 
@@ -617,7 +632,7 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = ({
               styles.badgeBorder,
               styles.badgeText
             )}>
-              <span>{badgeText}</span>
+              <span>{effectiveBadgeText}</span>
               <span className="opacity-40">•</span>
               <span className="font-extrabold flex items-center gap-1"><BookOpen className="w-3.5 h-3.5" /> Tananyag</span>
             </div>
@@ -631,19 +646,24 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = ({
 
           {quickRule && (
             <div className={cn(
-              "p-3 sm:p-3.5 rounded-2xl border text-center md:text-right max-w-full md:max-w-md shrink-0",
+              "p-3 sm:p-3.5 rounded-2xl border text-center md:text-right max-w-full md:max-w-md shrink-0 shadow-xs",
               styles.ruleBg,
               styles.ruleBorder
             )}>
-              <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-                {quickRule.label}
+              <div className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                {quickRule.label || (quickRule.title && (quickRule.formula || quickRule.detail) ? quickRule.title : 'Főszabály')}
               </div>
               <div className={cn(
-                "text-sm sm:text-base font-mono font-black break-words leading-snug whitespace-normal mt-0.5",
+                "text-xs sm:text-sm font-mono font-black break-words leading-snug whitespace-normal mt-0.5",
                 styles.ruleText
               )}>
-                {quickRule.formula}
+                {quickRule.formula || quickRule.title || quickRule.detail}
               </div>
+              {quickRule.detail && (quickRule.formula || quickRule.title) && (
+                <div className="text-[11px] text-slate-600 dark:text-slate-400 font-sans mt-1 font-medium leading-tight">
+                  {quickRule.detail}
+                </div>
+              )}
             </div>
           )}
         </div>

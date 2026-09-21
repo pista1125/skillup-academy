@@ -122,8 +122,8 @@ export function RoundingTheory({ onBack, onStartQuiz }: RoundingTheoryProps) {
       onBack={onBack}
       onStartQuiz={onStartQuiz}
       quickRule={{
-        label: 'Aranyszabály',
-        title: '0, 1, 2, 3, 4 ➔ Lefelé | 5, 6, 7, 8, 9 ➔ Felfelé',
+        label: 'Kerekítési Szabály',
+        formula: '0, 1, 2, 3, 4 ➔ Lefelé  |  5, 6, 7, 8, 9 ➔ Felfelé',
         detail: 'Mindig a kerekítendő helyiérték utáni közvetlen jobb oldali jegy dönt!'
       }}
     >

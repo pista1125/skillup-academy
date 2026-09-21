@@ -116,8 +116,8 @@ export function NumberLineTheory({ onBack, onStartQuiz }: NumberLineTheoryProps)
       onStartQuiz={onStartQuiz}
       quickRule={{
         label: 'Alapszabály',
-        title: 'Számegyenes 3 kelléke',
-        detail: '0 kezdőpont • Nyíl (növekvő irány jobbra) • Beosztási egység'
+        formula: '0 kezdőpont • Nyíl (jobbra növekvő) • Beosztási egység',
+        detail: 'A nagyobb szám mindig jobbra helyezkedik el a számegyenesen'
       }}
     >
       {/* 1. Szakasz: A számegyenes felépítése */}
