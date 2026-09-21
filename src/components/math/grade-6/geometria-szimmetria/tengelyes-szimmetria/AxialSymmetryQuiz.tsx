@@ -1,680 +1,472 @@
-import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import {
-    ChevronRight,
-    Trophy,
-    RefreshCcw,
-    ArrowLeft,
-    X,
-    Undo2,
-    CheckCircle2,
-    Trash2,
-    Zap,
-    Target,
-    Skull,
-    Info,
-    MousePointer2
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
-import confetti from 'canvas-confetti';
+import React from 'react';
+import { QuizTemplate, QuizLevelConfig } from '../QuizTemplate';
+import { AxialSymmetryMiniFigure } from './AxialSymmetryDiagrams';
+import { AxialSymmetryMatcher } from './AxialSymmetryMatcher';
+import { AxialSymmetrySorter } from './AxialSymmetrySorter';
 
-type Difficulty = 'easy' | 'medium' | 'hard';
-
-interface Axis {
-    x1: number;
-    y1: number;
-    x2: number;
-    y2: number;
+export interface AxialSymmetryQuizProps {
+  onBack?: () => void;
+  onSwitchToTheory?: () => void;
 }
 
-interface Problem {
-    id: number;
-    title: string;
-    type: 'path' | 'emoji';
-    content: string;
-    targetAxes: Axis[];
-}
-
-const PROBLEMS: Record<Difficulty, Problem[]> = {
-    easy: [
+export function AxialSymmetryQuiz({ onBack, onSwitchToTheory }: AxialSymmetryQuizProps) {
+  const levelsConfig: Record<1 | 2 | 3, QuizLevelConfig> = {
+    // =========================================================================
+    // 1. SZINT: ALAPFOGALMAK ÉS TENGELYEK SZÁMA (10 FELADAT)
+    // =========================================================================
+    1: {
+      level: 1,
+      title: '1. Szint: Alapfogalmak és szimmetriatengelyek száma',
+      subtitle: 'Definíció, háromszögek, négyszögek, kör és betűk szimmetriája',
+      range: '1–10. feladat',
+      focus: 'Szimmetriatengely fogalma, alap síkidomok és betűk',
+      questions: [
         {
-            id: 1,
-            title: "Négyzet",
-            type: 'path',
-            content: "M 25,25 H 75 V 75 H 25 Z",
-            targetAxes: [
-                { x1: 50, y1: 10, x2: 50, y2: 90 }, // Vertical
-                { x1: 10, y1: 50, x2: 90, y2: 50 }, // Horizontal
-                { x1: 10, y1: 10, x2: 90, y2: 90 }, // Diagonal 1
-                { x1: 90, y1: 10, x2: 10, y2: 90 }  // Diagonal 2
-            ]
+          id: 'q1-1',
+          question: 'Mikor mondjuk egy síkbeli alakzatról, hogy tengelyesen szimmetrikus?',
+          options: [
+            'Ha létezik olyan egyenes, amelyre tükrözve az alakzat önmagába megy át',
+            'Ha az alakzatnak minden oldala egyenlő hosszú',
+            'Ha az alakzatot elforgatva kétszer akkora területet kapunk',
+            'Ha az alakzatnak legalább 4 csúcsa van'
+          ],
+          correctAnswer: 'Ha létezik olyan egyenes, amelyre tükrözve az alakzat önmagába megy át',
+          explanation: 'Egy alakzat akkor tengelyesen szimmetrikus, ha van a síkban olyan t egyenes, amelyre vett tükörképe pontosan megegyezik az eredeti alakzattal: R_t(F) = F.',
+          figure: <AxialSymmetryMiniFigure type="one_axis" />
         },
         {
-            id: 2,
-            title: "Téglalap",
-            type: 'path',
-            content: "M 20,35 H 80 V 65 H 20 Z",
-            targetAxes: [
-                { x1: 50, y1: 10, x2: 50, y2: 90 }, // Vertical
-                { x1: 10, y1: 50, x2: 90, y2: 50 }  // Horizontal
-            ]
+          id: 'q1-2',
+          question: 'Hány szimmetriatengelye van egy egyenlő szárú (nem szabályos) háromszögnek?',
+          options: [
+            '1 szimmetriatengelye (az alaphoz tartozó oldalfelező merőleges / magasság)',
+            '2 szimmetriatengelye',
+            '3 szimmetriatengelye',
+            '0 szimmetriatengelye'
+          ],
+          correctAnswer: '1 szimmetriatengelye (az alaphoz tartozó oldalfelező merőleges / magasság)',
+          explanation: 'Az egyenlő szárú háromszögnek pontosan 1 szimmetriatengelye van: az alaphoz tartozó magasságvonal (oldalfelező merőleges), amely a szárszöget is felezi.',
+          figure: <AxialSymmetryMiniFigure type="one_axis" />
         },
         {
-            id: 3,
-            title: "Egyenlő szárú háromszög",
-            type: 'path',
-            content: "M 20,70 L 50,20 L 80,70 Z",
-            targetAxes: [
-                { x1: 50, y1: 10, x2: 50, y2: 80 }
-            ]
+          id: 'q1-3',
+          question: 'Hány szimmetriatengelye van egy általános téglalapnak (amely nem négyzet)?',
+          options: [
+            '2 szimmetriatengelye (a szemközti oldalak felezőmerőlegesei)',
+            '4 szimmetriatengelye (az átlók is azok)',
+            '1 szimmetriatengelye',
+            '0 szimmetriatengelye'
+          ],
+          correctAnswer: '2 szimmetriatengelye (a szemközti oldalak felezőmerőlegesei)',
+          explanation: 'A téglalapnak 2 szimmetriatengelye van: a szemközti oldalak felezőmerőlegesei. Az átlói NEM szimmetriatengelyek!',
+          figure: <AxialSymmetryMiniFigure type="two_axes" />
         },
         {
-            id: 4,
-            title: "Egyenlő oldalú háromszög",
-            type: 'path',
-            content: "M 50,15 L 85,75 L 15,75 Z",
-            targetAxes: [
-                { x1: 50, y1: 10, x2: 50, y2: 90 },
-                { x1: 10, y1: 75, x2: 90, y2: 30 }, // Roughly
-                { x1: 10, y1: 30, x2: 90, y2: 75 }  // Roughly
-            ]
+          id: 'q1-4',
+          question: 'Hány szimmetriatengelye van a szabályos (egyenlő oldalú) háromszögnek?',
+          options: [
+            '3 szimmetriatengelye (a 3 oldalfelező merőleges)',
+            '1 szimmetriatengelye',
+            '6 szimmetriatengelye',
+            'Végtelen sok'
+          ],
+          correctAnswer: '3 szimmetriatengelye (a 3 oldalfelező merőleges)',
+          explanation: 'A szabályos háromszög 3 oldala és 3 szöge egyenlő, így 3 szimmetriatengellyel rendelkezik (a 3 oldalfelező merőleges, amelyek egyben szögfelezők és magasságvonalak is).',
+          figure: <AxialSymmetryMiniFigure type="three_axes" />
         },
         {
-            id: 5,
-            title: "Rombusz",
-            type: 'path',
-            content: "M 50,20 L 80,50 L 50,80 L 20,50 Z",
-            targetAxes: [
-                { x1: 50, y1: 10, x2: 50, y2: 90 },
-                { x1: 10, y1: 50, x2: 90, y2: 50 }
-            ]
+          id: 'q1-5',
+          question: 'Hány szimmetriatengelye van a négyzetnek?',
+          options: [
+            '4 szimmetriatengelye (2 oldalfelező merőleges + 2 átló)',
+            '2 szimmetriatengelye',
+            '8 szimmetriatengelye',
+            '1 szimmetriatengelye'
+          ],
+          correctAnswer: '4 szimmetriatengelye (2 oldalfelező merőleges + 2 átló)',
+          explanation: 'A négyzetnek 4 szimmetriatengelye van: a 2 szemközti oldalakat felező merőleges egyenes és a 2 átló egyenese.',
+          figure: <AxialSymmetryMiniFigure type="four_axes" />
         },
         {
-            id: 6,
-            title: "Nyíl",
-            type: 'path',
-            content: "M 20,50 L 50,20 V 40 H 80 V 60 H 50 V 80 Z",
-            targetAxes: [
-                { x1: 10, y1: 50, x2: 90, y2: 50 }
-            ]
+          id: 'q1-6',
+          question: 'Hány szimmetriatengelye van egy körnek (körvonalnak vagy körlapnak)?',
+          options: [
+            'Végtelen sok (bármely átmérőjének egyenese szimmetriatengely)',
+            '360 szimmetriatengelye',
+            '4 szimmetriatengelye',
+            '1 szimmetriatengelye'
+          ],
+          correctAnswer: 'Végtelen sok (bármely átmérőjének egyenese szimmetriatengely)',
+          explanation: 'A kör középpontján átmenő bármely egyenes (azaz bármely átmérő egyenese) szimmetriatengely, így a körnek végtelen sok szimmetriatengelye van.',
+          figure: <AxialSymmetryMiniFigure type="infinite_axes" />
         },
         {
-            id: 7,
-            title: "Házikó",
-            type: 'path',
-            content: "M 30,80 V 50 L 50,30 L 70,50 V 80 Z",
-            targetAxes: [
-                { x1: 50, y1: 20, x2: 50, y2: 90 }
-            ]
+          id: 'q1-7',
+          question: 'Melyek a rombusz szimmetriatengelyei?',
+          options: [
+            'A két átlójának az egyenese (2 db tengely)',
+            'Az oldalfelező merőlegesei',
+            'Csak a hosszabbik átlója',
+            'A rombusznak nincs szimmetriatengelye'
+          ],
+          correctAnswer: 'A két átlójának az egyenese (2 db tengely)',
+          explanation: 'A rombusz 4 oldala egyenlő, átlói merőlegesen felezik egymást és felezik a belső szögeket, ezért a két átló egyenese a rombusz 2 szimmetriatengelye.',
+          figure: <AxialSymmetryMiniFigure type="rhombus_axes" />
         },
         {
-            id: 8,
-            title: "Szív",
-            type: 'path',
-            content: "M 50,80 C 50,80 20,60 20,40 C 20,20 40,20 50,40 C 60,20 80,20 80,40 C 80,60 50,80 50,80 Z",
-            targetAxes: [
-                { x1: 50, y1: 20, x2: 50, y2: 90 }
-            ]
+          id: 'q1-8',
+          question: 'Hány szimmetriatengelye van egy általános (három különböző oldalú) háromszögnek?',
+          options: [
+            '0 szimmetriatengelye (aszimmetrikus)',
+            '1 szimmetriatengelye',
+            '3 szimmetriatengelye',
+            '2 szimmetriatengelye'
+          ],
+          correctAnswer: '0 szimmetriatengelye (aszimmetrikus)',
+          explanation: 'Ha egy háromszög minden oldala és minden szöge különböző nagyságú, akkor nincs olyan egyenes, amelyre tükrözve önmagába menne át, tehát 0 szimmetriatengelye van.',
+          figure: <AxialSymmetryMiniFigure type="zero_axes" />
         },
         {
-            id: 9,
-            title: "Pillangó (egyszerű)",
-            type: 'path',
-            content: "M 50,50 L 80,20 V 80 L 50,50 L 20,80 V 20 Z",
-            targetAxes: [
-                { x1: 50, y1: 10, x2: 50, y2: 90 }
-            ]
+          id: 'q1-9',
+          question: 'Melyik nyomtatott nagybetű rendelkezik függőleges szimmetriatengellyel?',
+          options: [
+            '„A” betű',
+            '„E” betű',
+            '„F” betű',
+            '„P” betű'
+          ],
+          correctAnswer: '„A” betű',
+          explanation: 'Az „A” betű bal és jobb oldala tökéletes tükörképe egymásnak egy függőleges középvonalra nézve.',
+          figure: <AxialSymmetryMiniFigure type="letter_a" />
         },
         {
-            id: 10,
-            title: "Kereszt",
-            type: 'path',
-            content: "M 40,20 H 60 V 40 H 80 V 60 H 60 V 80 H 40 V 60 H 20 V 40 H 40 Z",
-            targetAxes: [
-                { x1: 50, y1: 10, x2: 50, y2: 90 },
-                { x1: 10, y1: 50, x2: 90, y2: 50 },
-                { x1: 10, y1: 10, x2: 90, y2: 90 },
-                { x1: 90, y1: 10, x2: 10, y2: 90 }
-            ]
+          id: 'q1-10',
+          question: 'Melyik nyomtatott nagybetű rendelkezik vízszintes szimmetriatengellyel?',
+          options: [
+            '„B” és „E” betűk',
+            '„A” és „M” betűk',
+            '„F” és „G” betűk',
+            '„J” és „L” betűk'
+          ],
+          correctAnswer: '„B” és „E” betűk',
+          explanation: 'A „B” és „E” betűk felső és alsó része a vízszintes középvonalra tükrös.',
+          figure: <AxialSymmetryMiniFigure type="letter_b" />
         }
-    ],
-    medium: [
+      ]
+    },
+
+    // =========================================================================
+    // 2. SZINT: SOKSZÖGEK, BETŰK ÉS TULAJDONSÁGOK (10 FELADAT)
+    // =========================================================================
+    2: {
+      level: 2,
+      title: '2. Szint: Sokszögek, betűk és összetett szimmetriák',
+      subtitle: 'Deltoid, húrtrapéz, szabályos sokszögek, kettős tengelyű betűk és buktatók',
+      range: '11–20. feladat',
+      focus: 'Szabályos sokszögek n tengelye, deltoid, húrtrapéz, S és Z betűk',
+      questions: [
         {
-            id: 11,
-            title: "Szabályos ötszög",
-            type: 'path',
-            content: "M 50,15 L 85,41 L 71,83 L 29,83 L 15,41 Z",
-            targetAxes: [
-                { x1: 50, y1: 10, x2: 50, y2: 90 },
-                { x1: 10, y1: 45, x2: 90, y2: 60 },
-                { x1: 90, y1: 45, x2: 10, y2: 60 },
-                { x1: 25, y1: 85, x2: 65, y2: 25 },
-                { x1: 75, y1: 85, x2: 35, y2: 25 }
-            ]
+          id: 'q2-1',
+          question: 'Hány szimmetriatengelye van a deltoidnak (ha nem rombusz)?',
+          options: [
+            '1 szimmetriatengelye (a szimmetriaátlója)',
+            '2 szimmetriatengelye',
+            '0 szimmetriatengelye',
+            '4 szimmetriatengelye'
+          ],
+          correctAnswer: '1 szimmetriatengelye (a szimmetriaátlója)',
+          explanation: 'A deltoidnak 1 szimmetriatengelye van: a szimmetriaátlója, amely a különböző hosszúságú oldalak találkozási csúcsait köti össze.',
+          figure: <AxialSymmetryMiniFigure type="deltoid" />
         },
         {
-            id: 12,
-            title: "Szabályos hatszög",
-            type: 'path',
-            content: "M 35,20 H 65 L 80,50 L 65,80 H 35 L 20,50 Z",
-            targetAxes: [
-                { x1: 50, y1: 10, x2: 50, y2: 90 },
-                { x1: 10, y1: 50, x2: 90, y2: 50 },
-                { x1: 20, y1: 20, x2: 80, y2: 80 },
-                { x1: 80, y1: 20, x2: 20, y2: 80 },
-                { x1: 30, y1: 10, x2: 70, y2: 90 },
-                { x1: 70, y1: 10, x2: 30, y2: 90 }
-            ]
+          id: 'q2-2',
+          question: 'Hány szimmetriatengelye van az egyenlő szárú trapéznak (húrtrapéznak)?',
+          options: [
+            '1 szimmetriatengelye (a két párhuzamos alap közös felezőmerőlegese)',
+            '2 szimmetriatengelye',
+            '0 szimmetriatengelye',
+            '4 szimmetriatengelye'
+          ],
+          correctAnswer: '1 szimmetriatengelye (a két párhuzamos alap közös felezőmerőlegese)',
+          explanation: 'Az egyenlő szárú trapéz szimmetriatengelye a párhuzamos alapok közös felezőmerőlegese. Az átlói nem szimmetriatengelyek!',
+          figure: <AxialSymmetryMiniFigure type="isosceles_trapezoid" />
         },
         {
-            id: 13,
-            title: "Ötágú csillag",
-            type: 'path',
-            content: "M 50,15 L 61,40 H 88 L 66,57 L 75,85 L 50,68 L 25,85 L 34,57 L 12,40 H 39 Z",
-            targetAxes: [
-                { x1: 50, y1: 10, x2: 50, y2: 90 },
-                { x1: 15, y1: 35, x2: 75, y2: 80 },
-                { x1: 85, y1: 35, x2: 25, y2: 80 },
-                { x1: 30, y1: 85, x2: 65, y2: 35 },
-                { x1: 70, y1: 85, x2: 35, y2: 35 }
-            ]
+          id: 'q2-3',
+          question: 'Hány szimmetriatengelye van egy szabályos hatszögnek?',
+          options: [
+            '6 szimmetriatengelye (3 szemközti csúcsokat összekötő főátló + 3 oldalfelező merőleges)',
+            '3 szimmetriatengelye',
+            '12 szimmetriatengelye',
+            '4 szimmetriatengelye'
+          ],
+          correctAnswer: '6 szimmetriatengelye (3 szemközti csúcsokat összekötő főátló + 3 oldalfelező merőleges)',
+          explanation: 'Minden szabályos n-szögnek pontosan n darab szimmetriatengelye van. Szabályos hatszögnél n = 6: 3 főátló és 3 szemközti oldalfelező.',
+          figure: <AxialSymmetryMiniFigure type="six_axes" />
         },
         {
-            id: 14,
-            title: "Levél",
-            type: 'path',
-            content: "M 50,85 C 50,85 20,60 20,40 C 20,20 40,15 50,15 C 60,15 80,20 80,40 C 80,60 50,85 50,85 Z L 50,95",
-            targetAxes: [
-                { x1: 50, y1: 10, x2: 50, y2: 95 }
-            ]
+          id: 'q2-4',
+          question: 'Hány szimmetriatengelye van egy általános paralelogrammának (amely nem téglalap és nem rombusz)?',
+          options: [
+            '0 szimmetriatengelye (nem tengelyesen szimmetrikus!)',
+            '2 szimmetriatengelye',
+            '1 szimmetriatengelye',
+            '4 szimmetriatengelye'
+          ],
+          correctAnswer: '0 szimmetriatengelye (nem tengelyesen szimmetrikus!)',
+          explanation: 'Az általános paralelogrammának 0 szimmetriatengelye van! Bár középpontosan szimmetrikus, nincs olyan egyenes, amelyre tükrözve önmagába menne át.',
+          figure: <AxialSymmetryMiniFigure type="parallelogram" />
         },
         {
-            id: 15,
-            title: "Hópehely-szerű",
-            type: 'path',
-            content: "M 50,20 V 80 M 20,50 H 80 M 30,30 L 70,70 M 70,30 L 30,70",
-            targetAxes: [
-                { x1: 50, y1: 10, x2: 50, y2: 90 },
-                { x1: 10, y1: 50, x2: 90, y2: 50 },
-                { x1: 10, y1: 10, x2: 90, y2: 90 },
-                { x1: 90, y1: 10, x2: 10, y2: 90 }
-            ]
+          id: 'q2-5',
+          question: 'Melyik nagybetű rendelkezik mind függőleges, mind vízszintes szimmetriatengellyel (összesen 2 tengellyel)?',
+          options: [
+            '„H” és „X” betűk',
+            '„A” és „B” betűk',
+            '„C” és „D” betűk',
+            '„M” és „W” betűk'
+          ],
+          correctAnswer: '„H” és „X” betűk',
+          explanation: 'A „H”, „I”, „O”, „X” betűk függőlegesen és vízszintesen is félbehajthatók úgy, hogy a két fél fedje egymást, így 2 szimmetriatengelyük van.',
+          figure: <AxialSymmetryMiniFigure type="letter_h" />
         },
         {
-            id: 16,
-            title: "D-betű",
-            type: 'path',
-            content: "M 40,20 V 80 H 50 C 70,80 70,20 50,20 Z",
-            targetAxes: [
-                { x1: 30, y1: 50, x2: 80, y2: 50 }
-            ]
+          id: 'q2-6',
+          question: 'Igaz-e az az állítás, hogy a téglalap átlói szimmetriatengelyek?',
+          options: [
+            'Hamis, csak a négyzetnél szimmetriatengelyek az átlók',
+            'Igaz, minden négyszög átlója szimmetriatengely',
+            'Igaz, mert az átló két egybevágó háromszögre osztja a téglalapot',
+            'Csak derékszögű trapéznál igaz'
+          ],
+          correctAnswer: 'Hamis, csak a négyzetnél szimmetriatengelyek az átlók',
+          explanation: 'Bár a téglalap átlója két egybevágó derékszögű háromszögre osztja a síkidomot, ha az átló mentén félbehajtjuk a papírt, a csúcsok NEM esnek egybe. Ezért a téglalap átlói nem szimmetriatengelyek.',
+          figure: <AxialSymmetryMiniFigure type="two_axes" />
         },
         {
-            id: 17,
-            title: "E-betű",
-            type: 'path',
-            content: "M 60,20 H 35 V 80 H 60 M 35,50 H 55",
-            targetAxes: [
-                { x1: 30, y1: 50, x2: 70, y2: 50 }
-            ]
+          id: 'q2-7',
+          question: 'Hány szimmetriatengelye van egy szabályos 10-szögnek (tízszög)?',
+          options: [
+            '10 szimmetriatengelye',
+            '5 szimmetriatengelye',
+            '20 szimmetriatengelye',
+            'Végtelen sok'
+          ],
+          correctAnswer: '10 szimmetriatengelye',
+          explanation: 'Az általános szabály: a szabályos n-szögeknek mindig pontosan n darab szimmetriatengelyük van. Szabályos 10-szög esetén ez pontosan 10 tengely.',
+          figure: <AxialSymmetryMiniFigure type="six_axes" />
         },
         {
-            id: 18,
-            title: "M-betű",
-            type: 'path',
-            content: "M 20,80 V 20 L 50,50 L 80,20 V 80",
-            targetAxes: [
-                { x1: 50, y1: 10, x2: 50, y2: 90 }
-            ]
+          id: 'q2-8',
+          question: 'Hány szimmetriatengelye van egy félkörlapnak?',
+          options: [
+            '1 szimmetriatengelye (az egyenes határoló átmérő szakasz felezőmerőlegese)',
+            '2 szimmetriatengelye',
+            'Végtelen sok szimmetriatengelye',
+            '0 szimmetriatengelye'
+          ],
+          correctAnswer: '1 szimmetriatengelye (az egyenes határoló átmérő szakasz felezőmerőlegese)',
+          explanation: 'A teljes körnek végtelen sok tengelye van, de a félkörnek csak egyetlen: az átmérő szakasz felezőmerőlegese.',
+          figure: <AxialSymmetryMiniFigure type="semicircle" />
         },
         {
-            id: 19,
-            title: "X-betű",
-            type: 'path',
-            content: "M 25,20 L 75,80 M 75,20 L 25,80",
-            targetAxes: [
-                { x1: 50, y1: 10, x2: 50, y2: 90 },
-                { x1: 10, y1: 50, x2: 90, y2: 50 },
-                { x1: 10, y1: 10, x2: 90, y2: 90 },
-                { x1: 90, y1: 10, x2: 10, y2: 90 }
-            ]
+          id: 'q2-9',
+          question: 'Hány szimmetriatengelye van a nyomtatott „S” és „Z” betűknek?',
+          options: [
+            '0 szimmetriatengelyük van (nincs tengelyes szimmetriájuk)',
+            '1-1 vízszintes tengelyük van',
+            '1-1 átlós tengelyük van',
+            '2-2 tengelyük van'
+          ],
+          correctAnswer: '0 szimmetriatengelyük van (nincs tengelyes szimmetriájuk)',
+          explanation: 'Az „S” és „Z” betűk középpontosan (180°-os elforgatással) szimmetrikusak, de nincs szimmetriatengelyük: ha félbehajtod őket, a szárak ellentétes irányba mutatnak.',
+          figure: <AxialSymmetryMiniFigure type="letter_s" />
         },
         {
-            id: 20,
-            title: "Trapéz",
-            type: 'path',
-            content: "M 30,30 H 70 L 85,70 H 15 Z",
-            targetAxes: [
-                { x1: 50, y1: 20, x2: 50, y2: 90 }
-            ]
+          id: 'q2-10',
+          question: 'Milyen szimmetriát mutat a kiterjesztett szárnyú pillangó az élővilágban?',
+          options: [
+            '1 függőleges szimmetriatengelyű kétoldali (bilaterális) szimmetriát',
+            '4 tengelyes szimmetriát',
+            'Középpontos forgásszimmetriát',
+            'Végtelen sok szimmetriatengelyt'
+          ],
+          correctAnswer: '1 függőleges szimmetriatengelyű kétoldali (bilaterális) szimmetriát',
+          explanation: 'A pillangó teste mentén húzódó függőleges egyenesre nézve a bal és a jobb szárny mintázata és formája tökéletes tükörképi párt alkot (1 szimmetriatengely).',
+          figure: <AxialSymmetryMiniFigure type="natural_butterfly" />
         }
-    ],
-    hard: [
-        { id: 21, title: "🦋 Pillangó", type: 'emoji', content: "🦋", targetAxes: [{ x1: 50, y1: 10, x2: 50, y2: 90 }] },
-        { id: 22, title: "🚀 Rakéta", type: 'emoji', content: "🚀", targetAxes: [{ x1: 15, y1: 85, x2: 85, y2: 15 }] },
-        { id: 23, title: "🦀 Rák", type: 'emoji', content: "🦀", targetAxes: [{ x1: 50, y1: 10, x2: 50, y2: 90 }] },
-        { id: 24, title: "🚗 Autó", type: 'emoji', content: "🚗", targetAxes: [{ x1: 50, y1: 10, x2: 50, y2: 90 }] },
-        { id: 25, title: "🧩 Kirakós", type: 'emoji', content: "🧩", targetAxes: [] },
-        { id: 26, title: "👑 Korona", type: 'emoji', content: "👑", targetAxes: [{ x1: 50, y1: 10, x2: 50, y2: 90 }] },
-        { id: 27, title: "🪁 Papírsárkány", type: 'emoji', content: "🪁", targetAxes: [{ x1: 15, y1: 15, x2: 85, y2: 85 }] },
-        { id: 28, title: "🛸 UFO", type: 'emoji', content: "🛸", targetAxes: [{ x1: 50, y1: 10, x2: 50, y2: 90 }] },
-        { id: 29, title: "🪟 Ablak", type: 'emoji', content: "🪟", targetAxes: [{ x1: 50, y1: 10, x2: 50, y2: 90 }, { x1: 10, y1: 50, x2: 90, y2: 50 }] },
-        { id: 30, title: "🦉 Bagoly", type: 'emoji', content: "🦉", targetAxes: [{ x1: 50, y1: 10, x2: 50, y2: 90 }] }
-    ]
-};
+      ]
+    },
 
-export function AxialSymmetryQuiz({ onBack }: { onBack: () => void }) {
-    const [difficulty, setDifficulty] = useState<Difficulty | null>(null);
-    const [currentStep, setCurrentStep] = useState(0);
-    const [lines, setLines] = useState<Axis[]>([]);
-    const [drawingStart, setDrawingStart] = useState<{ x: number, y: number } | null>(null);
-    const [mousePos, setMousePos] = useState<{ x: number, y: number } | null>(null);
-    const [foundAxesIndices, setFoundAxesIndices] = useState<number[]>([]);
-    const [score, setScore] = useState(0);
-    const [showResults, setShowResults] = useState(false);
-    const [feedback, setFeedback] = useState<{ text: string, type: 'success' | 'info' | 'error' } | null>(null);
-
-    const svgRef = useRef<SVGSVGElement>(null);
-
-    const problems = difficulty ? PROBLEMS[difficulty] : [];
-    const problem = problems[currentStep];
-
-    const getSVGPoint = (clientX: number, clientY: number) => {
-        if (!svgRef.current) return { x: 0, y: 0 };
-        const svg = svgRef.current;
-        const pt = svg.createSVGPoint();
-        pt.x = clientX;
-        pt.y = clientY;
-        const transformed = pt.matrixTransform(svg.getScreenCTM()?.inverse());
-        return {
-            x: Math.round(transformed.x / 5) * 5,
-            y: Math.round(transformed.y / 5) * 5
-        };
-    };
-
-    const checkSymmetry = (drawn: Axis) => {
-        if (!problem) return;
-
-        const targetAxes = problem.targetAxes;
-        let foundIndex = -1;
-
-        targetAxes.forEach((target, idx) => {
-            if (foundAxesIndices.includes(idx)) return;
-
-            const drawnAngle = Math.atan2(drawn.y2 - drawn.y1, drawn.x2 - drawn.x1) * (180 / Math.PI);
-            const targetAngle = Math.atan2(target.y2 - target.y1, target.x2 - target.x1) * (180 / Math.PI);
-
-            const normDrawn = (drawnAngle + 360) % 180;
-            const normTarget = (targetAngle + 360) % 180;
-
-            const angleDiff = Math.min(Math.abs(normDrawn - normTarget), 180 - Math.abs(normDrawn - normTarget));
-
-            const distToDrawnCenter = (drawn.x1 + drawn.x2) / 2;
-            const distToTargetCenter = (target.x1 + target.x2) / 2;
-            const yDistToDrawnCenter = (drawn.y1 + drawn.y2) / 2;
-            const yDistToTargetCenter = (target.y1 + target.y2) / 2;
-
-            const centerDist = Math.sqrt(Math.pow(distToDrawnCenter - distToTargetCenter, 2) + Math.pow(yDistToDrawnCenter - yDistToTargetCenter, 2));
-
-            if (angleDiff < 15 && centerDist < 15) {
-                foundIndex = idx;
-            }
-        });
-
-        if (foundIndex !== -1) {
-            setFoundAxesIndices(prev => [...prev, foundIndex]);
-            setFeedback({ text: "Szuper! Megtaláltál egy szimmetriatengelyt!", type: 'success' });
-            setLines(prev => prev.slice(0, -1));
-
-            if (foundAxesIndices.length + 1 >= targetAxes.length) {
-                setFeedback({ text: "Ügyes vagy! Összes tengely megvan.", type: 'success' });
-            }
-        } else {
-            setFeedback({ text: "Ez nem tűnik szimmetriatengelynek. Próbáld újra!", type: 'error' });
+    // =========================================================================
+    // 3. SZINT: ÖSSZETETT SOKSZÖGEK ÉS LOGIKAI FELADATOK (10 FELADAT)
+    // =========================================================================
+    3: {
+      level: 3,
+      title: '3. Szint: Szabályos sokszögek, transzformációk és logikai feladványok',
+      subtitle: 'Páros/páratlan n-szögek, kettős tükrözés, derékszögű háromszögek és távolságok',
+      range: '21–30. feladat',
+      focus: 'Szabályos n-szögek szerkezete, fix pontok, távolságszámítás',
+      questions: [
+        {
+          id: 'q3-1',
+          question: 'Hogyan helyezkednek el a szimmetriatengelyek egy páratlan csúcsszámú szabályos sokszögnél (pl. szabályos 5-szög, 7-szög)?',
+          options: [
+            'Minden tengely egy csúcsot köt össze a szemközti oldal felezőpontjával',
+            'Minden tengely két szemközti csúcsot köt össze',
+            'Minden tengely két oldalfelező pontot köt össze',
+            'Nincsenek szimmetriatengelyei'
+          ],
+          correctAnswer: 'Minden tengely egy csúcsot köt össze a szemközti oldal felezőpontjával',
+          explanation: 'Páratlan csúcsszámú szabályos n-szögeknél n darab tengely van, és mindegyik egy csúcson és a szemközti oldal felezőpontján halad át.',
+          figure: <AxialSymmetryMiniFigure type="five_axes" />
+        },
+        {
+          id: 'q3-2',
+          question: 'Egy síkidomot egymás után két egymásra merőleges tengelyre tükrözünk. Milyen egyetlen transzformációval egyenértékű ez az összetett művelet?',
+          options: [
+            'Középpontos tükrözéssel (180°-os forgatással) a két tengely metszéspontja körül',
+            'Egyetlen tengelyes tükrözéssel',
+            'Párhuzamos eltolással',
+            'Semmivel, az alakzat eltűnik'
+          ],
+          correctAnswer: 'Középpontos tükrözéssel (180°-os forgatással) a két tengely metszéspontja körül',
+          explanation: 'Két egymásra merőleges egyenesre való egymást követő tengelyes tükrözés mindig egyenértékű a metszéspont körüli középpontos tükrözéssel (180°-os elforgatással).',
+          figure: <AxialSymmetryMiniFigure type="letter_h" />
+        },
+        {
+          id: 'q3-3',
+          question: 'Egy konvex sokszögnek pontosan 5 szimmetriatengelye van. Milyen sokszög lehet ez?',
+          options: [
+            'Szabályos ötszög',
+            'Egyenlő szárú ötszög',
+            'Szabályos tízszög',
+            'Deltoid'
+          ],
+          correctAnswer: 'Szabályos ötszög',
+          explanation: 'Egy ötszögnek akkor és csak akkor van 5 szimmetriatengelye, ha minden oldala és minden szöge egyenlő, vagyis ha szabályos ötszög.',
+          figure: <AxialSymmetryMiniFigure type="five_axes" />
+        },
+        {
+          id: 'q3-4',
+          question: 'Egy rombusz átlóinak hossza e = 6 cm és f = 8 cm. Mely egyenesek a rombusz szimmetriatengelyei és hány darab van?',
+          options: [
+            '2 darab szimmetriatengelye van: a 6 cm-es és a 8 cm-es átlók egyenesei',
+            '4 darab szimmetriatengelye van: a 2 átló és a 2 oldalfelező',
+            '1 darab szimmetriatengelye van: a hosszabbik átló',
+            '0 szimmetriatengelye van'
+          ],
+          correctAnswer: '2 darab szimmetriatengelye van: a 6 cm-es és a 8 cm-es átlók egyenesei',
+          explanation: 'A rombusz szimmetriatengelyei kizárólag a két átlójának az egyenesei, amelyek merőlegesek egymásra és felezik a szögeket.',
+          figure: <AxialSymmetryMiniFigure type="rhombus_axes" />
+        },
+        {
+          id: 'q3-5',
+          question: 'Ha egy szakasz pontosan a szimmetriatengelyre esik, hány fixpontja van a tengelyes tükrözés során?',
+          options: [
+            'A szakasz minden egyes pontja fixpont (végtelen sok fixpont)',
+            'Csak a két végpontja',
+            'Csak a felezőpontja',
+            'Egyetlen fixpontja sincs'
+          ],
+          correctAnswer: 'A szakasz minden egyes pontja fixpont (végtelen sok fixpont)',
+          explanation: 'A szimmetriatengely minden egyes pontja helyben maradó pont (fixpont), ezért ha a szakasz a tengelyen fekszik, annak összes pontja önmagába képződik le.',
+          figure: <AxialSymmetryMiniFigure type="one_axis" />
+        },
+        {
+          id: 'q3-6',
+          question: 'Hány szimmetriatengelye van egy derékszögű, egyenlő szárú háromszögnek?',
+          options: [
+            '1 szimmetriatengelye (az átfogóhoz tartozó magasság / szögfelező)',
+            '3 szimmetriatengelye',
+            '2 szimmetriatengelye',
+            '0 szimmetriatengelye'
+          ],
+          correctAnswer: '1 szimmetriatengelye (az átfogóhoz tartozó magasság / szögfelező)',
+          explanation: 'Mivel a háromszög egyenlő szárú, rendelkezik 1 szimmetriatengellyel, amely a 90°-os csúcsból indul és merőlegesen felezi az átfogót.',
+          figure: <AxialSymmetryMiniFigure type="right_triangle" />
+        },
+        {
+          id: 'q3-7',
+          question: 'Hány szimmetriatengelye van egy koncentrikus körgyűrűnek (két közös középpontú kör közötti sáv)?',
+          options: [
+            'Végtelen sok (a közös középponton átmenő bármely egyenes szimmetriatengely)',
+            '2 szimmetriatengelye',
+            '4 szimmetriatengelye',
+            '0 szimmetriatengelye'
+          ],
+          correctAnswer: 'Végtelen sok (a közös középponton átmenő bármely egyenes szimmetriatengely)',
+          explanation: 'Mivel mindkét kör középpontja megegyezik, a közös középponton átmenő bármely egyenes mindkét kört és így a köztük lévő gyűrűt is önmagába tükrözi.',
+          figure: <AxialSymmetryMiniFigure type="concentric_rings" />
+        },
+        {
+          id: 'q3-8',
+          question: 'Melyik állítás HAMIS a négyzet szimmetriájáról?',
+          options: [
+            'A négyzetnek csak a 2 átlója a szimmetriatengelye',
+            'A négyzetnek 4 szimmetriatengelye van',
+            'A négyzet oldalfelező merőlegesei szimmetriatengelyek',
+            'A négyzet szimmetriatengelyei egyetlen közös pontban metszik egymást'
+          ],
+          correctAnswer: 'A négyzetnek csak a 2 átlója a szimmetriatengelye',
+          explanation: 'Ez az állítás hamis, mert a négyzetnek nemcsak a 2 átlója, hanem a szemközti oldalak 2 oldalfelező merőlegese is szimmetriatengelye (összesen 4 db).',
+          figure: <AxialSymmetryMiniFigure type="four_axes" />
+        },
+        {
+          id: 'q3-9',
+          question: 'A hópehely kristályok a természetben leggyakrabban hány szimmetriatengellyel rendelkeznek?',
+          options: [
+            '6 szimmetriatengellyel (hexagonális kristályszerkezet)',
+            '4 szimmetriatengellyel',
+            '8 szimmetriatengellyel',
+            '1 szimmetriatengellyel'
+          ],
+          correctAnswer: '6 szimmetriatengellyel (hexagonális kristályszerkezet)',
+          explanation: 'A vízmolekulák fagyásakor kialakuló kristályrács hatszöges (hexagonális) geometriát követ, így a hópelyheknek 6 szimmetriatengelyük van.',
+          figure: <AxialSymmetryMiniFigure type="snowflake" />
+        },
+        {
+          id: 'q3-10',
+          question: 'Egy alakzat tengelyesen szimmetrikus a t tengelyre nézve. Az A pont és a tükörképe A\' közötti távolság |AA\'| = 14 cm. Milyen távol van az A pont a t szimmetriatengelytől?',
+          options: [
+            '7 cm (a távolság fele, mert a tengely felezi az AA\' szakaszt)',
+            '14 cm',
+            '28 cm',
+            '3,5 cm'
+          ],
+          correctAnswer: '7 cm (a távolság fele, mert a tengely felezi az AA\' szakaszt)',
+          explanation: 'A szimmetriatengely a tükörképi pontpárokat összekötő szakasz felezőmerőlegese, így az A pont távolsága a tengelytől pontosan 14 cm / 2 = 7 cm.',
+          figure: <AxialSymmetryMiniFigure type="one_axis" />
         }
-    };
-
-    const handleMouseDown = (e: React.MouseEvent) => {
-        if (!problem || foundAxesIndices.length === problem.targetAxes.length) return;
-        const pt = getSVGPoint(e.clientX, e.clientY);
-        setDrawingStart(pt);
-        setMousePos(pt);
-    };
-
-    const handleMouseMove = (e: React.MouseEvent) => {
-        if (drawingStart) {
-            setMousePos(getSVGPoint(e.clientX, e.clientY));
-        }
-    };
-
-    const handleMouseUp = () => {
-        if (drawingStart && mousePos) {
-            if (drawingStart.x === mousePos.x && drawingStart.y === mousePos.y) {
-                setDrawingStart(null);
-                return;
-            }
-            const newLine = { x1: drawingStart.x, y1: drawingStart.y, x2: mousePos.x, y2: mousePos.y };
-            setLines(prev => [...prev, newLine]);
-            checkSymmetry(newLine);
-        }
-        setDrawingStart(null);
-        setMousePos(null);
-    };
-
-    const nextStep = () => {
-        if (currentStep < problems.length - 1) {
-            setCurrentStep(s => s + 1);
-            setFoundAxesIndices([]);
-            setLines([]);
-            setFeedback(null);
-        } else {
-            setShowResults(true);
-            confetti({
-                particleCount: 150,
-                spread: 70,
-                origin: { y: 0.6 }
-            });
-        }
-    };
-
-    const restart = () => {
-        setDifficulty(null);
-        setCurrentStep(0);
-        setScore(0);
-        setShowResults(false);
-        setLines([]);
-        setFoundAxesIndices([]);
-        setFeedback(null);
-    };
-
-    if (!difficulty) {
-        return (
-            <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in duration-700 pb-20">
-                <div className="text-center space-y-4">
-                    <h2 className="text-4xl font-black text-slate-800 tracking-tight">Tengelyes Szimmetria Kereső 📏</h2>
-                    <p className="text-slate-500 font-medium text-lg">Rajzold be az alakzatok összes szimmetriatengelyét!</p>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <LevelCard
-                        level="easy"
-                        title="Kezdő"
-                        desc="Egyszerű mértani alakzatok."
-                        icon={<Zap className="w-8 h-8" />}
-                        color="green"
-                        onClick={() => setDifficulty('easy')}
-                    />
-                    <LevelCard
-                        level="medium"
-                        title="Közepes"
-                        desc="Összetettebb formák és betűk."
-                        icon={<Target className="w-8 h-8" />}
-                        color="amber"
-                        onClick={() => setDifficulty('medium')}
-                    />
-                    <LevelCard
-                        level="hard"
-                        title="Mester"
-                        desc="Keresd a szimmetriát az emojikon!"
-                        icon={<Skull className="w-8 h-8" />}
-                        color="rose"
-                        onClick={() => setDifficulty('hard')}
-                    />
-                </div>
-
-                <div className="flex justify-center">
-                    <Button variant="ghost" onClick={onBack} className="rounded-2xl px-8 py-6 font-bold text-slate-500 hover:text-indigo-600 hover:bg-slate-100">
-                        <ArrowLeft className="w-5 h-5 mr-3" />
-                        Vissza a témákhoz
-                    </Button>
-                </div>
-            </div>
-        );
+      ]
     }
+  };
 
-    if (showResults) {
-        return (
-            <Card className="p-10 text-center space-y-8 max-w-2xl mx-auto bg-white/80 backdrop-blur-xl border-green-100 shadow-2xl rounded-[3rem] animate-in zoom-in duration-500">
-                <div className="w-24 h-24 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mx-auto shadow-lg shadow-orange-200">
-                    <Trophy className="w-12 h-12 text-white" />
-                </div>
-                <div>
-                    <h2 className="text-4xl font-black text-slate-800">Szép munka!</h2>
-                    <p className="text-slate-500 font-medium text-lg mt-2">Mestere vagy a szimmetriának!</p>
-                </div>
-
-                <div className="flex gap-4">
-                    <Button onClick={restart} className="flex-1 bg-green-500 hover:bg-green-600 text-white rounded-2xl py-8 text-lg font-bold shadow-lg shadow-green-100 transition-all hover:scale-105">
-                        <RefreshCcw className="w-6 h-6 mr-3" />
-                        Újrakezdés
-                    </Button>
-                    <Button variant="outline" onClick={onBack} className="flex-1 border-2 border-slate-200 rounded-2xl py-8 text-lg font-bold text-slate-600 hover:bg-slate-50 transition-all">
-                        <ArrowLeft className="w-6 h-6 mr-3" />
-                        Vissza
-                    </Button>
-                </div>
-            </Card>
-        );
-    }
-
-    const allFound = foundAxesIndices.length === problem.targetAxes.length;
-
-    return (
-        <div className="max-w-5xl mx-auto space-y-6 pb-20 animate-in slide-in-from-bottom-8 duration-700">
-            <div className="flex items-center justify-between bg-white/60 backdrop-blur-md p-4 rounded-3xl border border-slate-100 shadow-sm px-6">
-                <div className="flex items-center gap-4">
-                    <div className={cn(
-                        "w-12 h-12 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg",
-                        difficulty === 'easy' ? "bg-green-500" : difficulty === 'medium' ? "bg-amber-500" : "bg-rose-500"
-                    )}>
-                        {currentStep + 1}
-                    </div>
-                    <div>
-                        <h3 className="font-display font-bold text-xl text-slate-800">{problem.title}</h3>
-                        <div className="flex gap-1.5 mt-1.5">
-                            {problems.map((_, i) => (
-                                <div key={i} className={cn(
-                                    "h-2 rounded-full transition-all duration-300",
-                                    i === currentStep ? "w-8 bg-indigo-500" : i < currentStep ? "w-3 bg-green-400" : "w-3 bg-slate-200"
-                                )} />
-                            ))}
-                        </div>
-                    </div>
-                </div>
-                <div className="flex flex-col items-end">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Cél</span>
-                    <div className="flex gap-1">
-                        {problem.targetAxes.map((_, i) => (
-                            <div key={i} className={cn(
-                                "w-6 h-6 rounded-md flex items-center justify-center border-2 transition-all",
-                                foundAxesIndices.includes(i) ? "bg-green-500 border-green-500 text-white" : "border-slate-200 text-slate-300"
-                            )}>
-                                <CheckCircle2 className="w-4 h-4" />
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                <Card className="lg:col-span-8 p-6 bg-white/90 backdrop-blur-xl border-slate-100 shadow-xl rounded-[2.5rem] relative select-none">
-                    <div className="absolute top-6 left-6 z-10">
-                        <div className="flex items-center gap-2 bg-slate-100/80 backdrop-blur px-3 py-1.5 rounded-full text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-                            <MousePointer2 className="w-3 h-3 text-indigo-500" /> Kattints és húzd a vonalat!
-                        </div>
-                    </div>
-
-                    <div className="aspect-square w-full max-w-[500px] mx-auto relative bg-slate-50 rounded-[2rem] border-2 border-slate-100 overflow-hidden">
-                        <svg
-                            ref={svgRef}
-                            viewBox="0 0 100 100"
-                            className="w-full h-full cursor-crosshair touch-none"
-                            onMouseDown={handleMouseDown}
-                            onMouseMove={handleMouseMove}
-                            onMouseUp={handleMouseUp}
-                            onMouseLeave={() => { setDrawingStart(null); setMousePos(null); }}
-                        >
-                            {Array.from({ length: 11 }).map((_, i) =>
-                                Array.from({ length: 11 }).map((_, j) => (
-                                    <circle key={`${i}-${j}`} cx={i * 10} cy={j * 10} r="0.3" fill="#cbd5e1" />
-                                ))
-                            )}
-
-                            {problem.type === 'path' ? (
-                                <path
-                                    d={problem.content}
-                                    fill="none"
-                                    stroke="#1e293b"
-                                    strokeWidth="2.5"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    className="drop-shadow-sm"
-                                />
-                            ) : (
-                                <text
-                                    x="50" y="60"
-                                    textAnchor="middle"
-                                    fontSize="55"
-                                    className="select-none pointer-events-none drop-shadow-md"
-                                >
-                                    {problem.content}
-                                </text>
-                            )}
-
-                            {foundAxesIndices.map(idx => {
-                                const axis = problem.targetAxes[idx];
-                                return (
-                                    <line
-                                        key={`target-${idx}`}
-                                        x1={axis.x1} y1={axis.y1} x2={axis.x2} y2={axis.y2}
-                                        stroke="#22c55e"
-                                        strokeWidth="2"
-                                        strokeDasharray="4 2"
-                                        className="animate-in fade-in duration-500"
-                                    />
-                                );
-                            })}
-
-                            {lines.map((line, i) => (
-                                <line
-                                    key={i}
-                                    x1={line.x1} y1={line.y1} x2={line.x2} y2={line.y2}
-                                    stroke="#ef4444"
-                                    strokeWidth="1.5"
-                                    strokeDasharray="5 5"
-                                />
-                            ))}
-
-                            {drawingStart && mousePos && (
-                                <line
-                                    x1={drawingStart.x} y1={drawingStart.y}
-                                    x2={mousePos.x} y2={mousePos.y}
-                                    stroke="#6366f1"
-                                    strokeWidth="2"
-                                    strokeDasharray="3 3"
-                                />
-                            )}
-                        </svg>
-                    </div>
-                </Card>
-
-                <div className="lg:col-span-4 space-y-6">
-                    <Card className="p-8 bg-slate-900 text-white rounded-[2.5rem] shadow-xl space-y-4">
-                        <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center">
-                            <Info className="w-6 h-6 text-indigo-400" />
-                        </div>
-                        <h4 className="text-xl font-bold">Útmutató</h4>
-                        <ul className="space-y-3 text-slate-300 text-sm">
-                            <li className="flex gap-3">
-                                <span className="w-5 h-5 bg-indigo-500 text-white rounded-full flex items-center justify-center text-[10px] font-black shrink-0 mt-0.5">1</span>
-                                Figyeld meg az alakzatot alaposan!
-                            </li>
-                            <li className="flex gap-3">
-                                <span className="w-5 h-5 bg-indigo-500 text-white rounded-full flex items-center justify-center text-[10px] font-black shrink-0 mt-0.5">2</span>
-                                Húzz egy egyenest a szimmetriatengely mentén!
-                            </li>
-                            <li className="flex gap-3">
-                                <span className="w-5 h-5 bg-indigo-500 text-white rounded-full flex items-center justify-center text-[10px] font-black shrink-0 mt-0.5">3</span>
-                                Találd meg az összes ({problem.targetAxes.length}) tengelyt!
-                            </li>
-                        </ul>
-                    </Card>
-
-                    {feedback && (
-                        <div className={cn(
-                            "p-6 rounded-3xl border-2 animate-in slide-in-from-right-4 duration-300",
-                            feedback.type === 'success' ? "bg-green-50 border-green-100 text-green-700" :
-                                feedback.type === 'error' ? "bg-red-50 border-red-100 text-red-700" : "bg-blue-50 border-blue-100 text-blue-700"
-                        )}>
-                            <div className="flex gap-3 items-center">
-                                {feedback.type === 'success' ? <CheckCircle2 className="w-6 h-6" /> : <Info className="w-6 h-6" />}
-                                <p className="font-bold">{feedback.text}</p>
-                            </div>
-                        </div>
-                    )}
-
-                    <div className="flex gap-4">
-                        <Button
-                            variant="outline"
-                            disabled={lines.length === 0}
-                            onClick={() => { setLines([]); setFeedback(null); }}
-                            className="flex-1 rounded-2xl py-6 border-slate-200 hover:bg-slate-50 text-slate-500 font-bold"
-                        >
-                            <Trash2 className="w-4 h-4 mr-2" /> Törlés
-                        </Button>
-                        <Button
-                            disabled={!allFound}
-                            onClick={nextStep}
-                            className={cn(
-                                "flex-2 rounded-2xl py-6 font-bold px-8 transition-all hover:scale-105",
-                                allFound ? "bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-100" : "bg-slate-100 text-slate-400"
-                            )}
-                        >
-                            {currentStep === problems.length - 1 ? 'Befejezés' : 'Következő'}
-                            <ChevronRight className="w-4 h-4 ml-2" />
-                        </Button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-}
-
-function LevelCard({ title, desc, icon, color, onClick, level }: { level: string, title: string, desc: string, icon: React.ReactNode, color: string, onClick: () => void }) {
-    const colorMap = {
-        green: "border-green-100 hover:border-green-400 bg-green-50/30 text-green-600",
-        amber: "border-amber-100 hover:border-amber-400 bg-amber-50/30 text-amber-600",
-        rose: "border-rose-100 hover:border-rose-400 bg-rose-50/30 text-rose-600"
-    };
-
-    const ringMap = {
-        green: "bg-green-100 group-hover:bg-green-500",
-        amber: "bg-amber-100 group-hover:bg-amber-500",
-        rose: "bg-rose-100 group-hover:bg-rose-500"
-    };
-
-    return (
-        <Card
-            onClick={onClick}
-            className={cn(
-                "p-8 cursor-pointer hover:scale-[1.03] transition-all border-2 backdrop-blur-md rounded-[2.5rem] text-center space-y-4 group shadow-sm hover:shadow-xl",
-                colorMap[color as keyof typeof colorMap]
-            )}
-        >
-            <div className={cn(
-                "w-16 h-16 rounded-2xl flex items-center justify-center mx-auto group-hover:text-white transition-colors duration-300",
-                ringMap[color as keyof typeof ringMap]
-            )}>
-                {icon}
-            </div>
-            <h3 className="text-2xl font-black text-slate-800">{title}</h3>
-            <p className="text-slate-500 text-sm leading-relaxed">{desc}</p>
-            <div className="pt-2">
-                <span className="px-5 py-1.5 bg-white/80 border border-current/20 rounded-full text-[10px] font-black uppercase tracking-widest">
-                    10 feladat
-                </span>
-            </div>
-        </Card>
-    );
+  return (
+    <QuizTemplate
+      grade={6}
+      chapterId="g6-geometry"
+      title="Tengelyes szimmetria Kvíz"
+      subtitle="Definíció, szimmetriatengelyek száma, betűk, sokszögek és természetes szimmetriák 3 szinten"
+      badge="📐 6. Osztály • III. Geometria • 8. Fejezet"
+      topicId="g6-axial-symmetry-quiz"
+      themeColor="violet"
+      levels={levelsConfig}
+      onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      renderMatcher={(props) => <AxialSymmetryMatcher {...props} />}
+      renderSorter={(props) => <AxialSymmetrySorter {...props} />}
+      matcherComponent={
+        <AxialSymmetryMatcher
+          onBack={onBack}
+          onSwitchToTheory={onSwitchToTheory}
+        />
+      }
+      sorterComponent={
+        <AxialSymmetrySorter
+          onBack={onBack}
+          onSwitchToTheory={onSwitchToTheory}
+        />
+      }
+    />
+  );
 }

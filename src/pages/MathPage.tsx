@@ -154,6 +154,50 @@ const SymmetryErrorGame = lazy(() => import("@/components/math/grade-6/geometria
 const AxialSymmetryQuiz = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyes-szimmetria/AxialSymmetryQuiz").then(m => ({ default: m.AxialSymmetryQuiz }))) as any;
 const SymmetryConstructionTool = lazy(() => import("@/components/math/tools/SymmetryConstructionTool").then(m => ({ default: m.SymmetryConstructionTool }))) as any;
 const AxialSymmetryPresentation = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyes-szimmetria/AxialSymmetryPresentation").then(m => ({ default: m.AxialSymmetryPresentation }))) as any;
+const Grade6PlanarShapesTheory = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/sikbeli-alakzatok/PlanarShapesTheory").then(m => ({ default: m.PlanarShapesTheory }))) as any;
+const Grade6PlanarShapesQuiz = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/sikbeli-alakzatok/PlanarShapesQuiz").then(m => ({ default: m.PlanarShapesQuiz }))) as any;
+const Grade6PlanarShapesMatcher = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/sikbeli-alakzatok/PlanarShapesMatcher").then(m => ({ default: m.PlanarShapesMatcher }))) as any;
+const Grade6PlanarShapesSorter = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/sikbeli-alakzatok/PlanarShapesSorter").then(m => ({ default: m.PlanarShapesSorter }))) as any;
+const Grade6CongruenceTheory = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/egybevagosag/CongruenceTheory").then(m => ({ default: m.CongruenceTheory }))) as any;
+const Grade6CongruenceQuiz = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/egybevagosag/CongruenceQuiz").then(m => ({ default: m.CongruenceQuiz }))) as any;
+const Grade6CongruenceMatcher = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/egybevagosag/CongruenceMatcher").then(m => ({ default: m.CongruenceMatcher }))) as any;
+const Grade6CongruenceSorter = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/egybevagosag/CongruenceSorter").then(m => ({ default: m.CongruenceSorter }))) as any;
+const Grade6CircleTheory = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/a-kor/CircleTheory").then(m => ({ default: m.CircleTheory }))) as any;
+const Grade6CircleQuiz = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/a-kor/CircleQuiz").then(m => ({ default: m.CircleQuiz }))) as any;
+const Grade6CircleMatcher = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/a-kor/CircleMatcher").then(m => ({ default: m.CircleMatcher }))) as any;
+const Grade6CircleSorter = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/a-kor/CircleSorter").then(m => ({ default: m.CircleSorter }))) as any;
+const Grade6BisectorTheory = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/a-szakasz-felezomerolegese/BisectorTheory").then(m => ({ default: m.BisectorTheory }))) as any;
+const Grade6BisectorQuiz = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/a-szakasz-felezomerolegese/BisectorQuiz").then(m => ({ default: m.BisectorQuiz }))) as any;
+const Grade6BisectorMatcher = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/a-szakasz-felezomerolegese/BisectorMatcher").then(m => ({ default: m.BisectorMatcher }))) as any;
+const Grade6BisectorSorter = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/a-szakasz-felezomerolegese/BisectorSorter").then(m => ({ default: m.BisectorSorter }))) as any;
+const Grade6ConstructionsTheory = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/szerkesztesek/ConstructionsTheory").then(m => ({ default: m.ConstructionsTheory }))) as any;
+const Grade6ConstructionsQuiz = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/szerkesztesek/ConstructionsQuiz").then(m => ({ default: m.ConstructionsQuiz }))) as any;
+const Grade6ConstructionsMatcher = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/szerkesztesek/ConstructionsMatcher").then(m => ({ default: m.ConstructionsMatcher }))) as any;
+const Grade6ConstructionsSorter = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/szerkesztesek/ConstructionsSorter").then(m => ({ default: m.ConstructionsSorter }))) as any;
+const Grade6AxialReflectionTheory = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyes-tukrozes/AxialReflectionTheory").then(m => ({ default: m.AxialReflectionTheory }))) as any;
+const Grade6AxialReflectionQuiz = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyes-tukrozes/AxialReflectionQuiz").then(m => ({ default: m.AxialReflectionQuiz }))) as any;
+const Grade6AxialReflectionMatcher = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyes-tukrozes/AxialReflectionMatcher").then(m => ({ default: m.AxialReflectionMatcher }))) as any;
+const Grade6AxialReflectionSorter = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyes-tukrozes/AxialReflectionSorter").then(m => ({ default: m.AxialReflectionSorter }))) as any;
+const Grade6ReflectionPropertiesTheory = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/a-tengelyes-tukrozes-tulajdonsagai/ReflectionPropertiesTheory").then(m => ({ default: m.ReflectionPropertiesTheory }))) as any;
+const Grade6ReflectionPropertiesQuiz = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/a-tengelyes-tukrozes-tulajdonsagai/ReflectionPropertiesQuiz").then(m => ({ default: m.ReflectionPropertiesQuiz }))) as any;
+const Grade6ReflectionPropertiesMatcher = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/a-tengelyes-tukrozes-tulajdonsagai/ReflectionPropertiesMatcher").then(m => ({ default: m.ReflectionPropertiesMatcher }))) as any;
+const Grade6ReflectionPropertiesSorter = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/a-tengelyes-tukrozes-tulajdonsagai/ReflectionPropertiesSorter").then(m => ({ default: m.ReflectionPropertiesSorter }))) as any;
+const Grade6AxialSymmetryTheory = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyes-szimmetria/AxialSymmetryTheory").then(m => ({ default: m.AxialSymmetryTheory }))) as any;
+const Grade6AxialSymmetryQuiz = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyes-szimmetria/AxialSymmetryQuiz").then(m => ({ default: m.AxialSymmetryQuiz }))) as any;
+const Grade6AxialSymmetryMatcher = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyes-szimmetria/AxialSymmetryMatcher").then(m => ({ default: m.AxialSymmetryMatcher }))) as any;
+const Grade6AxialSymmetrySorter = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyes-szimmetria/AxialSymmetrySorter").then(m => ({ default: m.AxialSymmetrySorter }))) as any;
+const Grade6SymmetricShapesTheory = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyesen-szimmetrikus-haromszogek-negyszogek-sokszogek/SymmetricShapesTheory").then(m => ({ default: m.SymmetricShapesTheory }))) as any;
+const Grade6SymmetricShapesQuiz = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyesen-szimmetrikus-haromszogek-negyszogek-sokszogek/SymmetricShapesQuiz").then(m => ({ default: m.SymmetricShapesQuiz }))) as any;
+const Grade6SymmetricShapesMatcher = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyesen-szimmetrikus-haromszogek-negyszogek-sokszogek/SymmetricShapesMatcher").then(m => ({ default: m.SymmetricShapesMatcher }))) as any;
+const Grade6SymmetricShapesSorter = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyesen-szimmetrikus-haromszogek-negyszogek-sokszogek/SymmetricShapesSorter").then(m => ({ default: m.SymmetricShapesSorter }))) as any;
+const Grade6ConstructionTasksTheory = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/szerkesztesi-feladatok/ConstructionTasksTheory").then(m => ({ default: m.ConstructionTasksTheory }))) as any;
+const Grade6ConstructionTasksQuiz = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/szerkesztesi-feladatok/ConstructionTasksQuiz").then(m => ({ default: m.ConstructionTasksQuiz }))) as any;
+const Grade6ConstructionTasksMatcher = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/szerkesztesi-feladatok/ConstructionTasksMatcher").then(m => ({ default: m.ConstructionTasksMatcher }))) as any;
+const Grade6ConstructionTasksSorter = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/szerkesztesi-feladatok/ConstructionTasksSorter").then(m => ({ default: m.ConstructionTasksSorter }))) as any;
+const Grade6GeometrySummaryTheory = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/osszefoglalas/GeometrySummaryTheory").then(m => ({ default: m.GeometrySummaryTheory }))) as any;
+const Grade6GeometrySummaryQuiz = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/osszefoglalas/GeometrySummaryQuiz").then(m => ({ default: m.GeometrySummaryQuiz }))) as any;
+const Grade6GeometrySummaryMatcher = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/osszefoglalas/GeometrySummaryMatcher").then(m => ({ default: m.GeometrySummaryMatcher }))) as any;
+const Grade6GeometrySummarySorter = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/osszefoglalas/GeometrySummarySorter").then(m => ({ default: m.GeometrySummarySorter }))) as any;
 const PerimeterAreaTool = lazy(() => import("@/components/math/tools/PerimeterAreaTool").then(m => ({ default: m.PerimeterAreaTool }))) as any;
 const StudentFeedbackHub = lazy(() => import("@/components/feedback/StudentFeedbackHub").then(m => ({ default: m.StudentFeedbackHub }))) as any;
 const WordSearchTool = lazy(() => import("@/components/math/tools/WordSearchTool").then(m => ({ default: m.WordSearchTool }))) as any;
@@ -502,6 +546,8 @@ type ActivityType =
   | 'decimal-division-matcher' | 'decimal-division-quiz' | 'decimal-multiplication-matcher' | 'decimal-multiplication-quiz'
   | 'decimal-fractions' | 'decimal-fractions-quiz' | 'decimal-shifter'
   | 'g5-chapter2-summary-theory' | 'g5-chapter2-summary-quiz' | 'g5-chapter2-summary-matcher' | 'g5-chapter2-summary-sorter' | 'g5-fraction-to-decimal-theory' | 'g5-fraction-to-decimal-quiz' | 'g5-fraction-to-decimal-matcher' | 'g5-fraction-to-decimal-sorter' | 'g5-fraction-visual-matcher' | 'g5-fractions-quiz' | 'g5-fractions-module' | 'g5-fractions-intro-theory' | 'g5-fractions-intro-quiz' | 'g5-fractions-expand-simplify-theory' | 'g5-fractions-expand-simplify-quiz' | 'g5-fractions-number-line-theory' | 'g5-fractions-number-line-quiz' | 'g5-fractions-same-denom-theory' | 'g5-fractions-same-denom-quiz' | 'g5-fractions-diff-denom-theory' | 'g5-fractions-diff-denom-quiz' | 'g5-fraction-multiply-theory' | 'g5-fraction-multiply-quiz' | 'g5-fraction-divide-theory' | 'g5-fraction-divide-quiz' | 'g5-fractions-order-of-operations-theory' | 'g5-fractions-order-of-operations-quiz' | 'g5-fractions-review-theory' | 'g5-fractions-review-quiz' | 'g5-decimal-fractions-theory' | 'g5-decimal-fractions-quiz' | 'g5-decimal-compare-rounding-theory' | 'g5-decimal-compare-rounding-quiz' | 'g5-decimal-add-sub-theory' | 'g5-decimal-add-sub-quiz' | 'g5-decimal-multiply-theory' | 'g5-decimal-multiply-quiz' | 'g5-decimal-divide-theory' | 'g5-decimal-divide-quiz' | 'g5-roman-numerals-theory' | 'g5-roman-numerals-quiz' | 'g5-place-value-theory' | 'g5-place-value-quiz' | 'g5-number-reading-theory' | 'g5-number-reading-quiz' | 'g5-number-spelling-theory' | 'g5-number-spelling-quiz' | 'g5-number-systems-theory' | 'g5-number-systems-quiz' | 'g5-number-line-theory' | 'g5-number-line-quiz' | 'g5-rounding-theory' | 'g5-rounding-quiz' | 'g5-addition-theory' | 'g5-addition-quiz' | 'g5-subtraction-theory' | 'g5-subtraction-quiz' | 'g5-multiplication-theory' | 'g5-multiplication-quiz' | 'g5-division-theory' | 'g5-division-quiz' | 'g5-order-of-operations-theory' | 'g5-order-of-operations-quiz' | 'g5-negative-numbers-theory' | 'g5-negative-numbers-quiz' | 'g5-opposite-absolute-theory' | 'g5-opposite-absolute-quiz' | 'g5-integer-addition-subtraction-theory' | 'g5-integer-addition-subtraction-quiz' | 'g5-chapter1-summary-theory' | 'g5-chapter1-summary-quiz'
+  | 'g6-planar-shapes-theory' | 'g6-planar-shapes-quiz' | 'g6-planar-shapes-matcher' | 'g6-planar-shapes-sorter'
+  | 'g6-congruence-theory' | 'g6-congruence-quiz' | 'g6-congruence-matcher' | 'g6-congruence-sorter'
   | 'g6-integers-operations-theory' | 'g6-integers-operations-quiz'
   | 'g6-integers-mult-theory' | 'g6-integers-mult-quiz'
   | 'g6-integers-div-theory' | 'g6-integers-div-quiz'
@@ -2749,6 +2795,600 @@ export default function MathPage() {
 
                 {activityType === 'quadrilateral-classification' && (
                   <QuadrilateralClassifier onBack={handleBack} />
+                )}
+
+                {activityType === 'g6-planar-shapes-theory' && (
+                  <Grade6PlanarShapesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g6-planar-shapes-quiz')}
+                  />
+                )}
+
+                {activityType === 'g6-planar-shapes-quiz' && (
+                  <Grade6PlanarShapesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g6-planar-shapes-theory')}
+                  />
+                )}
+
+                {activityType === 'g6-planar-shapes-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6PlanarShapesMatcher
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => setActivityType('g6-planar-shapes-quiz')}
+                      onSwitchToSorter={() => setActivityType('g6-planar-shapes-sorter')}
+                      onSwitchToTheory={() => setActivityType('g6-planar-shapes-theory')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g6-planar-shapes-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6PlanarShapesSorter
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => setActivityType('g6-planar-shapes-quiz')}
+                      onSwitchToMatcher={() => setActivityType('g6-planar-shapes-matcher')}
+                      onSwitchToTheory={() => setActivityType('g6-planar-shapes-theory')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g6-congruence-theory' && (
+                  <Grade6CongruenceTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g6-congruence-quiz')}
+                  />
+                )}
+
+                {activityType === 'g6-congruence-quiz' && (
+                  <Grade6CongruenceQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g6-congruence-theory')}
+                  />
+                )}
+
+                {activityType === 'g6-congruence-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6CongruenceMatcher
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => setActivityType('g6-congruence-quiz')}
+                      onSwitchToSorter={() => setActivityType('g6-congruence-sorter')}
+                      onSwitchToTheory={() => setActivityType('g6-congruence-theory')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g6-congruence-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6CongruenceSorter
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => setActivityType('g6-congruence-quiz')}
+                      onSwitchToMatcher={() => setActivityType('g6-congruence-matcher')}
+                      onSwitchToTheory={() => setActivityType('g6-congruence-theory')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g6-circle-theory' && (
+                  <Grade6CircleTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g6-circle-quiz')}
+                  />
+                )}
+
+                {activityType === 'g6-circle-quiz' && (
+                  <Grade6CircleQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g6-circle-theory')}
+                  />
+                )}
+
+                {activityType === 'g6-circle-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6CircleMatcher
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => setActivityType('g6-circle-quiz')}
+                      onSwitchToSorter={() => setActivityType('g6-circle-sorter')}
+                      onSwitchToTheory={() => setActivityType('g6-circle-theory')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g6-circle-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6CircleSorter
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => setActivityType('g6-circle-quiz')}
+                      onSwitchToMatcher={() => setActivityType('g6-circle-matcher')}
+                      onSwitchToTheory={() => setActivityType('g6-circle-theory')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g6-bisector-theory' && (
+                  <Grade6BisectorTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g6-bisector-quiz')}
+                  />
+                )}
+
+                {activityType === 'g6-bisector-quiz' && (
+                  <Grade6BisectorQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g6-bisector-theory')}
+                  />
+                )}
+
+                {activityType === 'g6-bisector-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6BisectorMatcher
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => setActivityType('g6-bisector-quiz')}
+                      onSwitchToSorter={() => setActivityType('g6-bisector-sorter')}
+                      onSwitchToTheory={() => setActivityType('g6-bisector-theory')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g6-bisector-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6BisectorSorter
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => setActivityType('g6-bisector-quiz')}
+                      onSwitchToMatcher={() => setActivityType('g6-bisector-matcher')}
+                      onSwitchToTheory={() => setActivityType('g6-bisector-theory')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g6-constructions-theory' && (
+                  <Grade6ConstructionsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g6-constructions-quiz')}
+                  />
+                )}
+
+                {activityType === 'g6-constructions-quiz' && (
+                  <Grade6ConstructionsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g6-constructions-theory')}
+                  />
+                )}
+
+                {activityType === 'g6-constructions-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6ConstructionsMatcher
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => setActivityType('g6-constructions-quiz')}
+                      onSwitchToSorter={() => setActivityType('g6-constructions-sorter')}
+                      onSwitchToTheory={() => setActivityType('g6-constructions-theory')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g6-constructions-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6ConstructionsSorter
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => setActivityType('g6-constructions-quiz')}
+                      onSwitchToMatcher={() => setActivityType('g6-constructions-matcher')}
+                      onSwitchToTheory={() => setActivityType('g6-constructions-theory')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g6-axial-reflection-theory' && (
+                  <Grade6AxialReflectionTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g6-axial-reflection-quiz')}
+                  />
+                )}
+
+                {activityType === 'g6-axial-reflection-quiz' && (
+                  <Grade6AxialReflectionQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g6-axial-reflection-theory')}
+                  />
+                )}
+
+                {activityType === 'g6-axial-reflection-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6AxialReflectionMatcher
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => setActivityType('g6-axial-reflection-quiz')}
+                      onSwitchToSorter={() => setActivityType('g6-axial-reflection-sorter')}
+                      onSwitchToTheory={() => setActivityType('g6-axial-reflection-theory')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g6-axial-reflection-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6AxialReflectionSorter
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => setActivityType('g6-axial-reflection-quiz')}
+                      onSwitchToMatcher={() => setActivityType('g6-axial-reflection-matcher')}
+                      onSwitchToTheory={() => setActivityType('g6-axial-reflection-theory')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g6-reflection-properties-theory' && (
+                  <Grade6ReflectionPropertiesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g6-reflection-properties-quiz')}
+                  />
+                )}
+
+                {activityType === 'g6-reflection-properties-quiz' && (
+                  <Grade6ReflectionPropertiesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g6-reflection-properties-theory')}
+                  />
+                )}
+
+                {activityType === 'g6-reflection-properties-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6ReflectionPropertiesMatcher
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => setActivityType('g6-reflection-properties-quiz')}
+                      onSwitchToSorter={() => setActivityType('g6-reflection-properties-sorter')}
+                      onSwitchToTheory={() => setActivityType('g6-reflection-properties-theory')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g6-reflection-properties-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6ReflectionPropertiesSorter
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => setActivityType('g6-reflection-properties-quiz')}
+                      onSwitchToMatcher={() => setActivityType('g6-reflection-properties-matcher')}
+                      onSwitchToTheory={() => setActivityType('g6-reflection-properties-theory')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g6-axial-symmetry-theory' && (
+                  <Grade6AxialSymmetryTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g6-axial-symmetry-quiz')}
+                  />
+                )}
+
+                {activityType === 'g6-axial-symmetry-quiz' && (
+                  <Grade6AxialSymmetryQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g6-axial-symmetry-theory')}
+                  />
+                )}
+
+                {activityType === 'g6-axial-symmetry-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6AxialSymmetryMatcher
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => setActivityType('g6-axial-symmetry-quiz')}
+                      onSwitchToSorter={() => setActivityType('g6-axial-symmetry-sorter')}
+                      onSwitchToTheory={() => setActivityType('g6-axial-symmetry-theory')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g6-axial-symmetry-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6AxialSymmetrySorter
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => setActivityType('g6-axial-symmetry-quiz')}
+                      onSwitchToMatcher={() => setActivityType('g6-axial-symmetry-matcher')}
+                      onSwitchToTheory={() => setActivityType('g6-axial-symmetry-theory')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g6-symmetric-shapes-theory' && (
+                  <Grade6SymmetricShapesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g6-symmetric-shapes-quiz')}
+                  />
+                )}
+
+                {activityType === 'g6-symmetric-shapes-quiz' && (
+                  <Grade6SymmetricShapesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g6-symmetric-shapes-theory')}
+                  />
+                )}
+
+                {activityType === 'g6-symmetric-shapes-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6SymmetricShapesMatcher
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => setActivityType('g6-symmetric-shapes-quiz')}
+                      onSwitchToSorter={() => setActivityType('g6-symmetric-shapes-sorter')}
+                      onSwitchToTheory={() => setActivityType('g6-symmetric-shapes-theory')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g6-symmetric-shapes-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6SymmetricShapesSorter
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => setActivityType('g6-symmetric-shapes-quiz')}
+                      onSwitchToMatcher={() => setActivityType('g6-symmetric-shapes-matcher')}
+                      onSwitchToTheory={() => setActivityType('g6-symmetric-shapes-theory')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g6-construction-tasks-theory' && (
+                  <Grade6ConstructionTasksTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g6-construction-tasks-quiz')}
+                  />
+                )}
+
+                {activityType === 'g6-construction-tasks-quiz' && (
+                  <Grade6ConstructionTasksQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g6-construction-tasks-theory')}
+                  />
+                )}
+
+                {activityType === 'g6-construction-tasks-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6ConstructionTasksMatcher
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => setActivityType('g6-construction-tasks-quiz')}
+                      onSwitchToSorter={() => setActivityType('g6-construction-tasks-sorter')}
+                      onSwitchToTheory={() => setActivityType('g6-construction-tasks-theory')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g6-construction-tasks-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6ConstructionTasksSorter
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => setActivityType('g6-construction-tasks-quiz')}
+                      onSwitchToMatcher={() => setActivityType('g6-construction-tasks-matcher')}
+                      onSwitchToTheory={() => setActivityType('g6-construction-tasks-theory')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g6-geometry-summary-theory' && (
+                  <Grade6GeometrySummaryTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g6-geometry-summary-quiz')}
+                  />
+                )}
+
+                {activityType === 'g6-geometry-summary-quiz' && (
+                  <Grade6GeometrySummaryQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g6-geometry-summary-theory')}
+                  />
+                )}
+
+                {activityType === 'g6-geometry-summary-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6GeometrySummaryMatcher
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => setActivityType('g6-geometry-summary-quiz')}
+                      onSwitchToSorter={() => setActivityType('g6-geometry-summary-sorter')}
+                      onSwitchToTheory={() => setActivityType('g6-geometry-summary-theory')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g6-geometry-summary-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade6GeometrySummarySorter
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => setActivityType('g6-geometry-summary-quiz')}
+                      onSwitchToMatcher={() => setActivityType('g6-geometry-summary-matcher')}
+                      onSwitchToTheory={() => setActivityType('g6-geometry-summary-theory')}
+                    />
+                  </div>
                 )}
 
                 {activityType === 'g6-integers-operations-theory' && (

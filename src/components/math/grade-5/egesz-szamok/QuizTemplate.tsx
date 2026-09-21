@@ -1268,29 +1268,12 @@ export function QuizTemplate({
                           </div>
                         </div>
                       </div>
-
-                      <Button
-                        onClick={handleNextQuestion}
-                        className="w-full h-10 rounded-xl text-sm font-bold bg-slate-900 hover:bg-slate-800 text-white dark:bg-amber-600 dark:hover:bg-amber-700 shadow-sm transition-all flex items-center justify-center gap-1.5"
-                      >
-                        {currentIndex < levelConfig.questions.length - 1 ? (
-                          <>
-                            Következő Feladat
-                            <ArrowRight className="w-4 h-4 ml-1" />
-                          </>
-                        ) : (
-                          <>
-                            Eredmények Megtekintése
-                            <Trophy className="w-4 h-4 ml-1 text-yellow-400" />
-                          </>
-                        )}
-                      </Button>
                     </div>
                   )}
                 </div>
 
-                {/* Right: 4 Answer Options */}
-                <div className="flex flex-col gap-2">
+                {/* Right: 4 Answer Options + Next Button */}
+                <div className="flex flex-col gap-2.5">
                   <div className="flex items-center justify-between px-1">
                     <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                       Válaszd ki a helyes eredményt:
@@ -1323,7 +1306,7 @@ export function QuizTemplate({
                           onClick={() => handleOptionClick(option)}
                           disabled={isAnswerChecked}
                           className={cn(
-                            "relative min-h-13 sm:min-h-14 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all duration-150 flex items-center justify-between px-4 text-left",
+                            "relative min-h-13 sm:min-h-14 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all duration-150 flex items-center justify-between px-4 text-left cursor-pointer",
                             buttonStyle
                           )}
                         >
@@ -1344,6 +1327,30 @@ export function QuizTemplate({
                       );
                     })}
                   </div>
+
+                  {/* Next Question / Finish Button on the Right */}
+                  {isAnswerChecked && (
+                    <div className="pt-1 animate-in fade-in slide-in-from-bottom-2 duration-200">
+                      <Button
+                        onClick={handleNextQuestion}
+                        className="w-full h-11 sm:h-12 rounded-xl text-sm font-black bg-slate-900 hover:bg-slate-800 text-white dark:bg-amber-600 dark:hover:bg-amber-700 shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+                      >
+                        {currentIndex < levelConfig.questions.length - 1 ? (
+                          <>
+                            Következő Feladat
+                            <ArrowRight className="w-4 h-4 ml-1" />
+                            <span className="text-[10px] font-normal text-slate-300 dark:text-amber-100 ml-1.5 opacity-80">(Enter ↵)</span>
+                          </>
+                        ) : (
+                          <>
+                            Eredmények Megtekintése
+                            <Trophy className="w-4 h-4 ml-1 text-yellow-400" />
+                            <span className="text-[10px] font-normal text-slate-300 dark:text-amber-100 ml-1.5 opacity-80">(Enter ↵)</span>
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

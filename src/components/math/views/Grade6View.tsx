@@ -716,6 +716,25 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-geom-sec-1" number={1} title="Síkbeli alakzatok" color="blue" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
+                  title="Síkbeli alakzatok tananyag"
+                  subtitle="Pont, egyenes, szakasz, félegyenes, szögtípusok és sokszögek"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-planar-shapes-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="blue"
+                />
+                <ActivityPlaceholder
+                  title="Síkbeli alakzatok kvíz"
+                  subtitle="30 feladatos interaktív szintfelmérő 3 nehézségi szinten"
+                  type="Kvíz"
+                  emoji="📐"
+                  onClick={() => onActivitySelect('g6-planar-shapes-quiz', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="blue"
+                  {...getTopicProgress('g6-planar-shapes-quiz')}
+                />
+                <ActivityPlaceholder
                   title="Sokszögek"
                   subtitle="Alakzatok csoportosítása és tulajdonságai"
                   type="Gyakorlás"
@@ -733,15 +752,6 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   icon={<MoveHorizontal className="w-6 h-6" />}
                   color="indigo"
                 />
-                <ActivityPlaceholder
-                  title="Szögek párosítása"
-                  subtitle="Szögtípusok és fokok gyakorlása"
-                  type="Játék"
-                  emoji="🎯"
-                  onClick={() => onActivitySelect('angle-matching', topicId)}
-                  icon={<Target className="w-6 h-6" />}
-                  color="emerald"
-                />
               </div>
             </section>
           )}
@@ -752,13 +762,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-geom-sec-2" number={2} title="Egybevágóság" color="orange" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Egybevágóság"
-                  subtitle="Egybevágó alakzatok és transzformációk"
-                  type="Hamarosan"
-                  emoji="✨"
-                  disabled={true}
-                  icon={<Zap className="w-6 h-6" />}
+                  title="Egybevágóság tananyag"
+                  subtitle="Egybevágó alakzatok, transzformációk és háromszögek egybevágósága"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-congruence-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="orange"
+                />
+                <ActivityPlaceholder
+                  title="Egybevágóság kvíz"
+                  subtitle="30 feladatos interaktív szintfelmérő 3 nehézségi szinten"
+                  type="Kvíz"
+                  emoji="✨"
+                  onClick={() => onActivitySelect('g6-congruence-quiz', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="orange"
+                  {...getTopicProgress('g6-congruence-quiz')}
                 />
               </div>
             </section>
@@ -769,6 +789,25 @@ export const Grade6View: React.FC<GradeViewProps> = ({
             <section>
               <SectionHeader id="g6-geom-sec-3" number={3} title="A kör" color="purple" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="A kör tananyag"
+                  subtitle="Kör, körvonal, sugár, átmérő, húr, ív, körcikk és körszelet"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-circle-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="purple"
+                />
+                <ActivityPlaceholder
+                  title="A kör kvíz"
+                  subtitle="30 feladatos interaktív szintfelmérő 3 nehézségi szinten"
+                  type="Kvíz"
+                  emoji="⭕"
+                  onClick={() => onActivitySelect('g6-circle-quiz', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="purple"
+                  {...getTopicProgress('g6-circle-quiz')}
+                />
                 <ActivityPlaceholder
                   title="Kör részei"
                   subtitle="Sugár, átmérő, húr, ív és körcikk felismerése"
@@ -788,13 +827,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-geom-sec-4" number={4} title="A szakasz felezőmerőlegese" color="cyan" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Felezőmerőleges"
-                  subtitle="Szakaszfelező merőleges és pontjainak tulajdonságai"
-                  type="Hamarosan"
-                  emoji="✂️"
-                  disabled={true}
-                  icon={<Pencil className="w-6 h-6" />}
+                  title="Felezőmerőleges tananyag"
+                  subtitle="Szakaszfelező merőleges definíciója, távolságtartás, pontok mértani helye"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-bisector-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="cyan"
+                />
+                <ActivityPlaceholder
+                  title="Felezőmerőleges kvíz"
+                  subtitle="30 feladatos interaktív szintfelmérő 3 nehézségi szinten"
+                  type="Kvíz"
+                  emoji="✂️"
+                  onClick={() => onActivitySelect('g6-bisector-quiz', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="cyan"
+                  {...getTopicProgress('g6-bisector-quiz')}
                 />
               </div>
             </section>
@@ -805,6 +854,25 @@ export const Grade6View: React.FC<GradeViewProps> = ({
             <section>
               <SectionHeader id="g6-geom-sec-5" number={5} title="Szerkesztések" color="indigo" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Szerkesztések tananyag"
+                  subtitle="Körző és vonalzó használata, szakaszmásolás, szögmásolás, merőlegesek és párhuzamosak"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-constructions-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="indigo"
+                />
+                <ActivityPlaceholder
+                  title="Szerkesztések kvíz"
+                  subtitle="30 feladatos interaktív szintfelmérő 3 nehézségi szinten"
+                  type="Kvíz"
+                  emoji="📐"
+                  onClick={() => onActivitySelect('g6-constructions-quiz', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="indigo"
+                  {...getTopicProgress('g6-constructions-quiz')}
+                />
                 <ActivityPlaceholder
                   title="Alapszerkesztések"
                   subtitle="Körzővel és vonalzóval végzett szerkesztések"
@@ -824,13 +892,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-geom-sec-6" number={6} title="Tengelyes tükrözés" color="emerald" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Tükörkép keresése"
-                  subtitle="Interaktív tengelyes tükrözés kvíz"
+                  title="Tengelyes tükrözés tananyag"
+                  subtitle="Definíció, távolságtartás, körüljárási irány és koordinátatükrözés"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-axial-reflection-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="emerald"
+                />
+                <ActivityPlaceholder
+                  title="Tengelyes tükrözés kvíz"
+                  subtitle="30 feladatos interaktív szintfelmérő 3 nehézségi szinten"
                   type="Kvíz"
                   emoji="🪞"
-                  onClick={() => onActivitySelect('reflection-quiz', topicId)}
-                  icon={<Target className="w-6 h-6" />}
+                  onClick={() => onActivitySelect('g6-axial-reflection-quiz', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
                   color="emerald"
+                  {...getTopicProgress('g6-axial-reflection-quiz')}
                 />
                 <ActivityPlaceholder
                   title="Húzd a helyére!"
@@ -860,13 +938,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-geom-sec-7" number={7} title="A tengelyes tükrözés tulajdonságai" color="amber" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Tükrözés tulajdonságai"
-                  subtitle="Távolságtartás, szögtartás és körüljárási irány"
-                  type="Hamarosan"
-                  emoji="📖"
-                  disabled={true}
+                  title="Tükrözés tulajdonságai tananyag"
+                  subtitle="Távolságtartás, szögtartás, körüljárási irány, fix elemek és kettős tükrözések"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-reflection-properties-theory', topicId)}
                   icon={<BookOpen className="w-6 h-6" />}
                   color="amber"
+                />
+                <ActivityPlaceholder
+                  title="Tükrözés tulajdonságai kvíz"
+                  subtitle="30 feladatos interaktív szintfelmérő 3 nehézségi szinten"
+                  type="Kvíz"
+                  emoji="⚡"
+                  onClick={() => onActivitySelect('g6-reflection-properties-quiz', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="amber"
+                  {...getTopicProgress('g6-reflection-properties-quiz')}
                 />
               </div>
             </section>
@@ -878,19 +966,29 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-geom-sec-8" number={8} title="Tengelyes szimmetria" color="violet" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Szimmetriatengely Kvíz"
-                  subtitle="Szimmetriatengelyek száma alakzatokban"
-                  type="Kvíz"
-                  emoji="🎯"
-                  onClick={() => onActivitySelect('axial-symmetry-quiz', topicId)}
-                  icon={<MoveHorizontal className="w-6 h-6" />}
+                  title="Tengelyes szimmetria tananyag"
+                  subtitle="Definíció, szimmetriatengelyek száma, betűk, szimbólumok és természet"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-axial-symmetry-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="violet"
+                />
+                <ActivityPlaceholder
+                  title="Tengelyes szimmetria kvíz"
+                  subtitle="30 feladatos interaktív szintfelmérő 3 nehézségi szinten"
+                  type="Kvíz"
+                  emoji="🦋"
+                  onClick={() => onActivitySelect('g6-axial-symmetry-quiz', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="violet"
+                  {...getTopicProgress('g6-axial-symmetry-quiz')}
                 />
                 <ActivityPlaceholder
                   title="A szimmetria körbevesz"
                   subtitle="Interaktív vizuális bemutató"
                   type="Bemutató"
-                  emoji="🦋"
+                  emoji="✨"
                   onClick={() => onActivitySelect('axial-symmetry-presentation', topicId)}
                   icon={<BookOpen className="w-6 h-6" />}
                   color="purple"
@@ -905,13 +1003,32 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-geom-sec-9" number={9} title="Tengelyesen szimmetrikus háromszögek, négyszögek, sokszögek" color="rose" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
+                  title="Szimmetrikus alakzatok tananyag"
+                  subtitle="Háromszögek, deltoid, húrtrapéz, téglalap, rombusz, négyzet és sokszögek"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-symmetric-shapes-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="rose"
+                />
+                <ActivityPlaceholder
+                  title="Szimmetrikus alakzatok kvíz"
+                  subtitle="30 feladatos interaktív szintfelmérő 3 nehézségi szinten"
+                  type="Kvíz"
+                  emoji="✨"
+                  onClick={() => onActivitySelect('g6-symmetric-shapes-quiz', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="rose"
+                  {...getTopicProgress('g6-symmetric-shapes-quiz')}
+                />
+                <ActivityPlaceholder
                   title="Háromszögek"
                   subtitle="Háromszögek típusai és tengelyes szimmetriája"
                   type="Gyakorlás"
                   emoji="🔺"
                   onClick={() => onActivitySelect('triangle-classification', topicId)}
                   icon={<Triangle className="w-6 h-6" />}
-                  color="rose"
+                  color="pink"
                 />
                 <ActivityPlaceholder
                   title="Négyszögek"
@@ -920,7 +1037,7 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   emoji="🔲"
                   onClick={() => onActivitySelect('quadrilateral-classification', topicId)}
                   icon={<Square className="w-6 h-6" />}
-                  color="pink"
+                  color="purple"
                 />
               </div>
             </section>
@@ -932,13 +1049,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-geom-sec-10" number={10} title="Szerkesztési feladatok" color="teal" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Összetett szerkesztés"
-                  subtitle="Háromszögek és négyszögek szerkesztése adatokból"
-                  type="Hamarosan"
-                  emoji="📐"
-                  disabled={true}
-                  icon={<Pencil className="w-6 h-6" />}
+                  title="Szerkesztési feladatok tananyag"
+                  subtitle="A szerkesztés 4 lépése, alapesetek, háromszög-egyenlőtlenség és diszkusszió"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-construction-tasks-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="teal"
+                />
+                <ActivityPlaceholder
+                  title="Szerkesztési feladatok kvíz"
+                  subtitle="30 feladatos interaktív szintfelmérő 3 nehézségi szinten"
+                  type="Kvíz"
+                  emoji="📐"
+                  onClick={() => onActivitySelect('g6-construction-tasks-quiz', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="teal"
+                  {...getTopicProgress('g6-construction-tasks-quiz')}
                 />
               </div>
             </section>
@@ -947,16 +1074,26 @@ export const Grade6View: React.FC<GradeViewProps> = ({
           {/* Section 11: Összefoglalás */}
           {(showAll || activeSubSectionId === 'g6-geom-sec-11') && (
             <section>
-              <SectionHeader id="g6-geom-sec-11" number={11} title="Összefoglalás" color="slate" />
+              <SectionHeader id="g6-geom-sec-11" number={11} title="Összefoglalás" color="amber" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Szögek Kvíz"
-                  subtitle="III. Geometria fejezet átfogó ismétlése"
+                  title="Geometria összefoglalás tananyag"
+                  subtitle="A teljes III. fejezet átfogó elmélete, szemléltető labor és témazáró kisokos"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-geometry-summary-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="amber"
+                />
+                <ActivityPlaceholder
+                  title="Geometria összefoglaló kvíz"
+                  subtitle="90 feladatos átfogó szintfelmérő (30-30-30 kérdés 3 szinten)"
                   type="Kvíz"
                   emoji="🏆"
-                  onClick={() => onActivitySelect('triangle-angles-quiz', topicId)}
-                  icon={<Trophy className="w-6 h-6" />}
-                  color="slate"
+                  onClick={() => onActivitySelect('g6-geometry-summary-quiz', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="amber"
+                  {...getTopicProgress('g6-geometry-summary-quiz')}
                 />
               </div>
             </section>

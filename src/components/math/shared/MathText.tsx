@@ -77,14 +77,16 @@ export function parseFractionsInText(
   if (typeof text !== 'string') return text;
 
   // Regex pattern matching:
-  // 1. Both parenthesized: (expr1)/(expr2) -> e.g. "(a · k)/(b · k)", "(18 : 6)/(24 : 6)", "(Számláló)/(Nevező)"
-  // 2. Numerator parenthesized: (expr1)/den -> e.g. "(a + b)/c", "(a - b)/c", "(k - 6)/4", "(a · mₐ) / 2"
-  // 3. Denominator parenthesized: num/(expr2) -> e.g. "a/(b + c)", "1/(2 + 3)", "3/(-4)"
-  // 4. Mixed number with optional 'és': (whole) [és] (num)/(den) -> e.g. "1 1/2", "2 3/4", "1 és 4/15", "-1 7/8"
-  // 5. Parenthesized single fraction with optional sign: [+-]?(num/den) -> e.g. "(a/b)", "-(a/b)", "+(a/b)", "-(3/4)", "(2/3)"
-  // 6. Simple numeric fraction with optional suffix: (num)/(den)(-suffix)? -> e.g. "3/4", "-3/4", "3/4-e", "18/24", "45/120"
-  // 7. Algebraic single variable fraction: a/b, -a/b, x/y, y/2, x/3, 1/x, 1/a
-  const regex = /\(([^()]+)\)\s*\/\s*\(([^()]+)\)|\(([^()]+)\)\s*\/\s*(\b[a-zA-Z0-9]+|[a-zA-Z0-9]+(?:\s*[a-zA-Z0-9]+)*)\b|\b([a-zA-Z0-9]+)\s*\/\s*\(([^()]+)\)|(-?\b\d+)\s+(?:és\s+)?(\d+)\s*\/\s*(\d+)|([+-])?\s*\(([+-]?\b(?:[a-zA-Z]|\d{1,3}))\s*\/\s*([+-]?\b(?:[a-zA-Z]|\d{1,3}))\)|(-?\b\d{1,3})\s*\/\s*(\d{1,3}\b)(-[a-záéíóöőúüűA-ZÁÉÍÓÖŐÚÜŰ]+)?|(-?\b[a-zA-Z]\b)\s*\/\s*(\b[a-zA-Z0-9]\b)|\b([a-zA-Z0-9])\s*\/\s*(\b[a-zA-Z]\b)/g;
+  // 1. LaTeX \frac{num}{den} -> e.g. "\frac{n · (n - 3)}{2}", "\frac{a + b}{c}"
+  // 2. Both parenthesized: (expr1)/(expr2) -> e.g. "(a · k)/(b · k)", "(18 : 6)/(24 : 6)", "(Számláló)/(Nevező)"
+  // 3. Numerator parenthesized (with possible nested parens): (expr1)/den -> e.g. "(n · (n - 3))/2", "(a + b)/c", "(a · mₐ) / 2"
+  // 4. Denominator parenthesized (with possible nested parens): num/(expr2) -> e.g. "a/(b + c)", "1/(2 + 3)", "3/(-4)"
+  // 5. Mixed number with optional 'és': (whole) [és] (num)/(den) -> e.g. "1 1/2", "2 3/4", "1 és 4/15", "-1 7/8"
+  // 6. Parenthesized single fraction with optional sign: [+-]?(num/den) -> e.g. "(a/b)", "-(a/b)", "+(a/b)", "-(3/4)", "(2/3)"
+  // 7. Simple numeric fraction with optional suffix: (num)/(den)(-suffix)? -> e.g. "3/4", "-3/4", "3/4-e", "18/24", "45/120"
+  // 8. Algebraic single variable fraction: a/b, -a/b, x/y, y/2, x/3
+  // 9. Number / single variable fraction: 1/x, 1/a
+  const regex = /\\frac\{([^{}]*(?:\{[^{}]*\}[^{}]*)*)\}\{([^{}]*(?:\{[^{}]*\}[^{}]*)*)\}|\(([^()]*(?:\([^()]*\)[^()]*)*)\)\s*\/\s*\(([^()]*(?:\([^()]*\)[^()]*)*)\)|\(([^()]*(?:\([^()]*\)[^()]*)*)\)\s*\/\s*(\b\d+\b|\b[a-zA-Z0-9_]+\b)|(\b[a-zA-Z0-9_]+\b)\s*\/\s*\(([^()]*(?:\([^()]*\)[^()]*)*)\)|(-?\b\d+)\s+(?:és\s+)?(\d+)\s*\/\s*(\d+)|([+-])?\s*\(([+-]?\b(?:[a-zA-Z]|\d{1,3}))\s*\/\s*([+-]?\b(?:[a-zA-Z]|\d{1,3}))\)|(-?\b\d{1,3})\s*\/\s*(\d{1,3}\b)(-[a-záéíóöőúüűA-ZÁÉÍÓÖŐÚÜŰ]+)?|(-?\b[a-zA-Z]\b)\s*\/\s*(\b[a-zA-Z0-9]\b)|\b([a-zA-Z0-9])\s*\/\s*(\b[a-zA-Z]\b)/g;
 
   const parts: React.ReactNode[] = [];
   let lastIndex = 0;
@@ -96,88 +98,98 @@ export function parseFractionsInText(
     }
 
     if (match[1] && match[2]) {
-      // Both parenthesized: (expr1) / (expr2)
+      // LaTeX \frac{num}{den}
       parts.push(
         <Fraction
-          key={`frac-paren2-${match.index}-${match[1]}-${match[2]}`}
+          key={`frac-latex-${match.index}-${match[1]}-${match[2]}`}
           num={parseFractionsInText(match[1].trim(), size)}
           den={parseFractionsInText(match[2].trim(), size)}
           size={size}
         />
       );
     } else if (match[3] && match[4]) {
-      // Numerator parenthesized: (expr1) / den e.g. (a + b)/c
+      // Both parenthesized: (expr1) / (expr2)
       parts.push(
         <Fraction
-          key={`frac-num-paren-${match.index}-${match[3]}-${match[4]}`}
+          key={`frac-paren2-${match.index}-${match[3]}-${match[4]}`}
           num={parseFractionsInText(match[3].trim(), size)}
-          den={match[4].trim()}
+          den={parseFractionsInText(match[4].trim(), size)}
           size={size}
         />
       );
     } else if (match[5] && match[6]) {
+      // Numerator parenthesized: (expr1) / den e.g. (n · (n - 3)) / 2 or (a + b)/c
+      parts.push(
+        <Fraction
+          key={`frac-num-paren-${match.index}-${match[5]}-${match[6]}`}
+          num={parseFractionsInText(match[5].trim(), size)}
+          den={match[6].trim()}
+          size={size}
+        />
+      );
+    } else if (match[7] && match[8]) {
       // Denominator parenthesized: num / (expr2) e.g. a/(b + c) or 3/(-4)
       parts.push(
         <Fraction
-          key={`frac-den-paren-${match.index}-${match[5]}-${match[6]}`}
-          num={match[5].trim()}
-          den={parseFractionsInText(match[6].trim(), size)}
+          key={`frac-den-paren-${match.index}-${match[7]}-${match[8]}`}
+          num={match[7].trim()}
+          den={parseFractionsInText(match[8].trim(), size)}
           size={size}
         />
       );
-    } else if (match[7] && match[8] && match[9]) {
+    } else if (match[9] && match[10] && match[11]) {
       // Mixed number: whole num/den e.g. 1 1/2 or 1 és 4/15
       parts.push(
         <Fraction
-          key={`frac-mixed-${match.index}-${match[7]}-${match[8]}-${match[9]}`}
-          whole={match[7]}
-          num={match[8]}
-          den={match[9]}
+          key={`frac-mixed-${match.index}-${match[9]}-${match[10]}-${match[11]}`}
+          whole={match[9]}
+          num={match[10]}
+          den={match[11]}
           size={size}
         />
       );
-    } else if (match[11] && match[12]) {
-      // Parenthesized single fraction with optional sign: e.g. -(a/b), +(a/b), (3/4), -(3/4)
-      const sign = match[10];
-      parts.push(
-        <React.Fragment key={`frac-paren-single-${match.index}-${match[11]}-${match[12]}`}>
-          {sign && <span className="mr-0.5">{sign}</span>}
-          <Fraction
-            num={match[11]}
-            den={match[12]}
-            size={size}
-          />
-        </React.Fragment>
-      );
     } else if (match[13] && match[14]) {
-      // Simple numeric fraction with optional suffix e.g. 3/4, -3/4, or 3/4-e
+      // Parenthesized single fraction with optional sign: e.g. -(a/b), +(a/b), (3/4), -(3/4)
+      const sign = match[12];
       parts.push(
-        <React.Fragment key={`frac-simple-${match.index}-${match[13]}-${match[14]}`}>
+        <React.Fragment key={`frac-paren-single-${match.index}-${match[13]}-${match[14]}`}>
+          {sign && <span className="mr-0.5">{sign}</span>}
           <Fraction
             num={match[13]}
             den={match[14]}
             size={size}
           />
-          {match[15] && <span>{match[15]}</span>}
         </React.Fragment>
       );
-    } else if (match[16] && match[17]) {
+    } else if (match[15] && match[16]) {
+      // Simple numeric fraction with optional suffix e.g. 3/4, -3/4, or 3/4-e
+      parts.push(
+        <React.Fragment key={`frac-simple-${match.index}-${match[15]}-${match[16]}`}>
+          <Fraction
+            num={match[15]}
+            den={match[16]}
+            size={size}
+          />
+          {match[17] && <span>{match[17]}</span>}
+        </React.Fragment>
+      );
+    } else if (match[18] && match[19]) {
       // Algebraic variable fraction e.g. a/b, -a/b, y/2
       parts.push(
         <Fraction
-          key={`frac-var1-${match.index}-${match[16]}-${match[17]}`}
-          num={match[16]}
-          den={match[17]}
+          key={`frac-var1-${match.index}-${match[18]}-${match[19]}`}
+          num={match[18]}
+          den={match[19]}
           size={size}
         />
       );
-    } else if (match[18] && match[19]) {
+    } else if (match[20] && match[21]) {
       // Algebraic variable fraction e.g. 1/x, 1/a
       parts.push(
         <Fraction
-          key={`frac-var2-${match.index}-${match[18]}-${match[19]}`}
-          num={match[18]}
-          den={match[19]}
+          key={`frac-var2-${match.index}-${match[20]}-${match[21]}`}
+          num={match[20]}
+          den={match[21]}
           size={size}
         />
       );
