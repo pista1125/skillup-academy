@@ -1719,13 +1719,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-szamold-ossze" number={1} title="Számold össze!" color="blue" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Számold össze!"
-                  subtitle="Leszámlálás és elemi kombinatorika"
-                  type="Hamarosan"
-                  emoji="🔢"
-                  disabled={true}
-                  icon={<Calculator className="w-6 h-6" />}
+                  title="Számold össze! elmélet"
+                  subtitle="Leszámlálás, fa-diagram, skatulya-elv és labor"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-logic-count-it-theory', 'g7-logic')}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="blue"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-logic-count-it-quiz', 'g7-logic')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="indigo"
+                  {...getTopicProgress('g7-logic-count-it')}
                 />
               </div>
             </section>
@@ -1737,13 +1747,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-rendezd-sorba" number={2} title="Rendezd sorba!" color="violet" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Rendezd sorba!"
-                  subtitle="Sorrendek, permutációk alapjai"
-                  type="Hamarosan"
-                  emoji="🔀"
-                  disabled={true}
-                  icon={<Layers className="w-6 h-6" />}
+                  title="Rendezd sorba! elmélet"
+                  subtitle="Sorrendek, permutációk, faktoriális és labor"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-logic-order-it-theory', 'g7-logic')}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="violet"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-logic-order-it-quiz', 'g7-logic')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="purple"
+                  {...getTopicProgress('g7-logic-order-it')}
                 />
               </div>
             </section>
@@ -1752,16 +1772,26 @@ export const Grade7View: React.FC<GradeViewProps> = ({
           {/* Section 3: Hány eset van? */}
           {(showAll || activeSubSectionId === 'g7-sec-hany-eset-van') && (
             <section>
-              <SectionHeader id="g7-sec-hany-eset-van" number={3} title="Hány eset van?" color="indigo" />
+              <SectionHeader id="g7-sec-hany-eset-van" number={3} title="Hány eset van?" color="blue" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Hány eset van?"
-                  subtitle="Esetszétválasztás, szorzási szabály"
-                  type="Hamarosan"
-                  emoji="🎲"
-                  disabled={true}
-                  icon={<Dices className="w-6 h-6" />}
+                  title="Hány eset van? elmélet"
+                  subtitle="Összeadás, szorzás, fa-diagram, visszatevés és labor"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-logic-how-many-cases-theory', 'g7-logic')}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="blue"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-logic-how-many-cases-quiz', 'g7-logic')}
+                  icon={<Target className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g7-logic-how-many-cases')}
                 />
               </div>
             </section>
@@ -1773,13 +1803,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-grafok" number={4} title="Gráfok" color="emerald" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Gráfok"
-                  subtitle="Csúcsok, élek, fokszámok összefüggései"
-                  type="Hamarosan"
-                  emoji="🕸️"
-                  disabled={true}
-                  icon={<Network className="w-6 h-6" />}
+                  title="Gráfok elmélet"
+                  subtitle="Csúcsok, élek, fokszámtétel, egyszerű és teljes gráfok, fák"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-logic-graphs-theory', 'g7-logic')}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="emerald"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-logic-graphs-quiz', 'g7-logic')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="teal"
+                  {...getTopicProgress('g7-logic-graphs')}
                 />
               </div>
             </section>
@@ -1791,13 +1831,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-igazold-cafold" number={5} title="Igazold! Cáfold!" color="cyan" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Igazold! Cáfold!"
-                  subtitle="Kijelentések, bizonyítások és ellenpéldák"
-                  type="Hamarosan"
-                  emoji="💡"
-                  disabled={true}
-                  icon={<Lightbulb className="w-6 h-6" />}
+                  title="Igazold! Cáfold! elmélet"
+                  subtitle="Kijelentések, tagadás, bizonyítások, ellenpéldák és skatulya-elv"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-logic-proofs-theory', 'g7-logic')}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="cyan"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-logic-proofs-quiz', 'g7-logic')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="teal"
+                  {...getTopicProgress('g7-logic-proofs')}
                 />
               </div>
             </section>
@@ -1809,13 +1859,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-matematikai-jatekok" number={6} title="Matematikai játékok" color="amber" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Matematikai játékok"
-                  subtitle="Nyerő stratégiák, szimmetria, logikai fejtörők"
-                  type="Hamarosan"
-                  emoji="🎮"
-                  disabled={true}
-                  icon={<Gamepad2 className="w-6 h-6" />}
+                  title="Matematikai játékok elmélet"
+                  subtitle="Nyerő stratégiák, 21-es játék, szimmetria-elv és Nim"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-logic-games-theory', 'g7-logic')}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="amber"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-logic-games-quiz', 'g7-logic')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="indigo"
+                  {...getTopicProgress('g7-logic-games')}
                 />
               </div>
             </section>
@@ -1827,13 +1887,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-osszefoglalas" number={7} title="Összefoglalás" color="rose" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Összefoglalás"
-                  subtitle="I. Gondolkodjunk! fejezet rendszerezése és tesztje"
-                  type="Hamarosan"
+                  title="Fejezeti Összefoglaló elmélet"
+                  subtitle="I. Gondolkodjunk! fejezet 6 témakörének átfogó szintézise"
+                  type="Tananyag"
                   emoji="🏆"
-                  disabled={true}
-                  icon={<Trophy className="w-6 h-6" />}
+                  onClick={() => onActivitySelect('g7-logic-summary-theory', 'g7-logic')}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="rose"
+                />
+                <ActivityPlaceholder
+                  title="Fejezeti Záróteszt Kvíz"
+                  subtitle="90 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-logic-summary-quiz', 'g7-logic')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="indigo"
+                  {...getTopicProgress('g7-logic-summary')}
                 />
               </div>
             </section>

@@ -339,6 +339,34 @@ const Grade8PyramidSurfaceVolumeQuiz = lazy(() => import("@/components/math/grad
 const Grade8SphereQuiz = lazy(() => import("@/components/math/grade-8/testek/a-gomb/SphereQuiz").then(m => ({ default: m.SphereQuiz }))) as any;
 const Grade8EarthGeometryQuiz = lazy(() => import("@/components/math/grade-8/testek/a-fold/EarthGeometryQuiz").then(m => ({ default: m.EarthGeometryQuiz }))) as any;
 const Grade8Chapter7SolidsSummaryQuiz = lazy(() => import("@/components/math/grade-8/testek/osszefoglalas/Chapter7SolidsSummaryQuiz").then(m => ({ default: m.Chapter7SolidsSummaryQuiz }))) as any;
+const Grade7CountItTheory = lazy(() => import("@/components/math/grade-7/gondolkodjunk/szamold-ossze/CountingTheory").then(m => ({ default: m.CountingTheory }))) as any;
+const Grade7CountItQuiz = lazy(() => import("@/components/math/grade-7/gondolkodjunk/szamold-ossze/CountingQuiz").then(m => ({ default: m.CountingQuiz }))) as any;
+const Grade7CountItMatcher = lazy(() => import("@/components/math/grade-7/gondolkodjunk/szamold-ossze/CountingMatcher").then(m => ({ default: m.CountingMatcher }))) as any;
+const Grade7CountItSorter = lazy(() => import("@/components/math/grade-7/gondolkodjunk/szamold-ossze/CountingSorter").then(m => ({ default: m.CountingSorter }))) as any;
+const Grade7OrderItTheory = lazy(() => import("@/components/math/grade-7/gondolkodjunk/rendezd-sorba/OrderingTheory").then(m => ({ default: m.OrderingTheory }))) as any;
+const Grade7OrderItQuiz = lazy(() => import("@/components/math/grade-7/gondolkodjunk/rendezd-sorba/OrderingQuiz").then(m => ({ default: m.OrderingQuiz }))) as any;
+const Grade7OrderItMatcher = lazy(() => import("@/components/math/grade-7/gondolkodjunk/rendezd-sorba/OrderingMatcher").then(m => ({ default: m.OrderingMatcher }))) as any;
+const Grade7OrderItSorter = lazy(() => import("@/components/math/grade-7/gondolkodjunk/rendezd-sorba/OrderingSorter").then(m => ({ default: m.OrderingSorter }))) as any;
+const Grade7HowManyCasesTheory = lazy(() => import("@/components/math/grade-7/gondolkodjunk/hany-eset-van/PossibilitiesTheory").then(m => ({ default: m.PossibilitiesTheory }))) as any;
+const Grade7HowManyCasesQuiz = lazy(() => import("@/components/math/grade-7/gondolkodjunk/hany-eset-van/PossibilitiesQuiz").then(m => ({ default: m.PossibilitiesQuiz }))) as any;
+const Grade7HowManyCasesMatcher = lazy(() => import("@/components/math/grade-7/gondolkodjunk/hany-eset-van/PossibilitiesMatcher").then(m => ({ default: m.PossibilitiesMatcher }))) as any;
+const Grade7HowManyCasesSorter = lazy(() => import("@/components/math/grade-7/gondolkodjunk/hany-eset-van/PossibilitiesSorter").then(m => ({ default: m.PossibilitiesSorter }))) as any;
+const Grade7GraphsTheory = lazy(() => import("@/components/math/grade-7/gondolkodjunk/grafok/GraphTheory").then(m => ({ default: m.GraphTheory }))) as any;
+const Grade7GraphsQuiz = lazy(() => import("@/components/math/grade-7/gondolkodjunk/grafok/GraphQuiz").then(m => ({ default: m.GraphQuiz }))) as any;
+const Grade7GraphsMatcher = lazy(() => import("@/components/math/grade-7/gondolkodjunk/grafok/GraphMatcher").then(m => ({ default: m.GraphMatcher }))) as any;
+const Grade7GraphsSorter = lazy(() => import("@/components/math/grade-7/gondolkodjunk/grafok/GraphSorter").then(m => ({ default: m.GraphSorter }))) as any;
+const Grade7ProofsTheory = lazy(() => import("@/components/math/grade-7/gondolkodjunk/igazold-cafold/ProofTheory").then(m => ({ default: m.ProofTheory }))) as any;
+const Grade7ProofsQuiz = lazy(() => import("@/components/math/grade-7/gondolkodjunk/igazold-cafold/ProofQuiz").then(m => ({ default: m.ProofQuiz }))) as any;
+const Grade7ProofsMatcher = lazy(() => import("@/components/math/grade-7/gondolkodjunk/igazold-cafold/ProofMatcher").then(m => ({ default: m.ProofMatcher }))) as any;
+const Grade7ProofsSorter = lazy(() => import("@/components/math/grade-7/gondolkodjunk/igazold-cafold/ProofSorter").then(m => ({ default: m.ProofSorter }))) as any;
+const Grade7GamesTheory = lazy(() => import("@/components/math/grade-7/gondolkodjunk/matematikai-jatekok/GameTheory").then(m => ({ default: m.GameTheory }))) as any;
+const Grade7GamesQuiz = lazy(() => import("@/components/math/grade-7/gondolkodjunk/matematikai-jatekok/GameQuiz").then(m => ({ default: m.GameQuiz }))) as any;
+const Grade7GamesMatcher = lazy(() => import("@/components/math/grade-7/gondolkodjunk/matematikai-jatekok/GameMatcher").then(m => ({ default: m.GameMatcher }))) as any;
+const Grade7GamesSorter = lazy(() => import("@/components/math/grade-7/gondolkodjunk/matematikai-jatekok/GameSorter").then(m => ({ default: m.GameSorter }))) as any;
+const Grade7SummaryTheory = lazy(() => import("@/components/math/grade-7/gondolkodjunk/osszefoglalas/SummaryTheory").then(m => ({ default: m.SummaryTheory }))) as any;
+const Grade7SummaryQuiz = lazy(() => import("@/components/math/grade-7/gondolkodjunk/osszefoglalas/SummaryQuiz").then(m => ({ default: m.SummaryQuiz }))) as any;
+const Grade7SummaryMatcher = lazy(() => import("@/components/math/grade-7/gondolkodjunk/osszefoglalas/SummaryMatcher").then(m => ({ default: m.SummaryMatcher }))) as any;
+const Grade7SummarySorter = lazy(() => import("@/components/math/grade-7/gondolkodjunk/osszefoglalas/SummarySorter").then(m => ({ default: m.SummarySorter }))) as any;
 const Grade7IntegerPropertiesTheory = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/egesz-szamok-tulajdonsagai/IntegerPropertiesTheory").then(m => ({ default: m.IntegerPropertiesTheory }))) as any;
 const Grade7IntegerPropertiesQuiz = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/egesz-szamok-tulajdonsagai/IntegerPropertiesQuiz").then(m => ({ default: m.IntegerPropertiesQuiz }))) as any;
 const Grade7IntegerPropertiesMatcher = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/egesz-szamok-tulajdonsagai/IntegerPropertiesMatcher").then(m => ({ default: m.IntegerPropertiesMatcher }))) as any;
@@ -3601,6 +3629,319 @@ export default function MathPage() {
                     onBack={handleBack}
                     onSwitchToTheory={() => setActivityType('g6-integers-summary-theory')}
                   />
+                )}
+
+                {/* 7. Osztály - I. Gondolkodjunk! */}
+                {activityType === 'g7-logic-count-it-theory' && (
+                  <Grade7CountItTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-logic-count-it-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-logic-count-it-quiz' && (
+                  <Grade7CountItQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-logic-count-it-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-logic-count-it-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7CountItMatcher onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g7-logic-count-it-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7CountItSorter onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {/* Section 2: Rendezd sorba! */}
+                {activityType === 'g7-logic-order-it-theory' && (
+                  <Grade7OrderItTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-logic-order-it-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-logic-order-it-quiz' && (
+                  <Grade7OrderItQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-logic-order-it-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-logic-order-it-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7OrderItMatcher onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g7-logic-order-it-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7OrderItSorter onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g7-logic-how-many-cases-theory' && (
+                  <Grade7HowManyCasesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-logic-how-many-cases-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-logic-how-many-cases-quiz' && (
+                  <Grade7HowManyCasesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-logic-how-many-cases-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-logic-how-many-cases-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7HowManyCasesMatcher onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g7-logic-how-many-cases-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7HowManyCasesSorter onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g7-logic-graphs-theory' && (
+                  <Grade7GraphsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-logic-graphs-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-logic-graphs-quiz' && (
+                  <Grade7GraphsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-logic-graphs-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-logic-graphs-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7GraphsMatcher onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g7-logic-graphs-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7GraphsSorter onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {/* Section 5: Igazold! Cáfold! */}
+                {activityType === 'g7-logic-proofs-theory' && (
+                  <Grade7ProofsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-logic-proofs-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-logic-proofs-quiz' && (
+                  <Grade7ProofsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-logic-proofs-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-logic-proofs-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7ProofsMatcher onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g7-logic-proofs-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7ProofsSorter onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {/* Section 6: Matematikai játékok */}
+                {activityType === 'g7-logic-games-theory' && (
+                  <Grade7GamesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-logic-games-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-logic-games-quiz' && (
+                  <Grade7GamesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-logic-games-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-logic-games-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7GamesMatcher onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g7-logic-games-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7GamesSorter onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {/* Section 7: Összefoglalás */}
+                {activityType === 'g7-logic-summary-theory' && (
+                  <Grade7SummaryTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-logic-summary-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-logic-summary-quiz' && (
+                  <Grade7SummaryQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-logic-summary-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-logic-summary-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7SummaryMatcher onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {activityType === 'g7-logic-summary-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7SummarySorter onNextLevel={handleBack} />
+                  </div>
                 )}
 
                 {activityType === 'g7-rat-integer-properties-theory' && (

@@ -479,44 +479,58 @@ export function QuizTemplate({
 
   const hasCheatSheet = (cheatSheet && cheatSheet.length > 0) || (cheatSheetCards && cheatSheetCards.length > 0);
 
-  // 1. Initial Level Selection Screen
+  // 1. Initial Level Selection Screen (Compact Single-Screen Layout)
   if (selectedLevel === null) {
     return (
       <div
         ref={containerRef}
         className={cn(
-          "w-full max-w-5xl mx-auto px-2 sm:px-4 py-2 animate-in fade-in duration-300 text-left",
-          isFullscreen && "fixed inset-0 z-50 max-w-none w-screen h-screen bg-slate-100 dark:bg-slate-950 p-4 sm:p-6 overflow-y-auto"
+          "w-full max-w-5xl mx-auto px-2 sm:px-4 py-1 sm:py-2 animate-in fade-in duration-300 text-left",
+          isFullscreen && "fixed inset-0 z-50 max-w-none w-screen h-screen bg-slate-100 dark:bg-slate-950 p-3 sm:p-4 overflow-y-auto"
         )}
       >
-        {/* Top bar with back button, fullscreen toggle and cheat sheet */}
-        <div className="flex items-center justify-between gap-2 mb-1">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={onBack}
-            className="rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-          >
-            <ArrowLeft className="w-4 h-4 mr-1" />
-            Vissza a témakörökhöz
-          </Button>
+        {/* Top bar with back button, theory button, fullscreen and cheat sheet */}
+        <div className="flex flex-wrap items-center justify-between gap-1.5 mb-1.5">
+          <div className="flex items-center gap-1.5">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onBack}
+              className="rounded-xl h-7 px-2 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white cursor-pointer"
+            >
+              <ArrowLeft className="w-3.5 h-3.5 mr-1" />
+              Vissza a témakörökhöz
+            </Button>
 
-          <div className="flex items-center gap-2">
+            {onSwitchToTheory && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={onSwitchToTheory}
+                className="rounded-xl h-7 px-2 text-xs font-bold text-purple-700 bg-purple-50/50 border-purple-200 dark:bg-purple-950/40 dark:text-purple-300 dark:border-purple-800 hover:bg-purple-100 cursor-pointer"
+              >
+                <BookOpen className="w-3 h-3 mr-1" />
+                Tananyag
+              </Button>
+            )}
+          </div>
+
+          <div className="flex items-center gap-1.5">
             <Button
               variant="outline"
               size="sm"
               onClick={toggleFullscreen}
-              className="rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+              className="rounded-xl h-7 px-2 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white cursor-pointer"
               title={isFullscreen ? "Kilépés a teljes képernyőből" : "Teljes képernyő"}
             >
               {isFullscreen ? (
                 <>
-                  <Minimize2 className="w-3.5 h-3.5 mr-1" />
+                  <Minimize2 className="w-3 h-3 mr-1" />
                   Ablak
                 </>
               ) : (
                 <>
-                  <Maximize2 className="w-3.5 h-3.5 mr-1" />
+                  <Maximize2 className="w-3 h-3 mr-1" />
                   Teljes képernyő
                 </>
               )}
@@ -527,39 +541,43 @@ export function QuizTemplate({
                 variant="outline"
                 size="sm"
                 onClick={() => setShowCheatSheet(!showCheatSheet)}
-                className="rounded-xl h-8 px-3 text-xs font-bold border-purple-300 bg-purple-50/50 text-purple-800 dark:bg-purple-950/40 dark:text-purple-300 dark:border-purple-800 hover:bg-purple-100"
+                className="rounded-xl h-7 px-2.5 text-xs font-bold border-purple-300 bg-purple-50/50 text-purple-800 dark:bg-purple-950/40 dark:text-purple-300 dark:border-purple-800 hover:bg-purple-100 cursor-pointer"
               >
-                <BookOpen className="w-3.5 h-3.5 mr-1.5 text-purple-600" />
-                {cheatSheetTitle || "Segédlet / Tudástár"}
+                <Sparkles className="w-3 h-3 mr-1 text-purple-600" />
+                {cheatSheetTitle || "Szabályok & Képletek"}
               </Button>
             )}
           </div>
         </div>
 
         {/* Hero Header */}
-        <div className="text-center max-w-2xl mx-auto mb-3 sm:mb-4">
-          <div className="text-[11px] font-black uppercase tracking-wider text-purple-600 dark:text-purple-400 mb-0.5">
-            {topicBadge || badgeText || '7. Osztály • Matematika'}
+        <div className="text-center max-w-2xl mx-auto mb-2 sm:mb-2.5">
+          <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider mb-1 border border-purple-200 dark:border-purple-800 bg-purple-100/80 dark:bg-purple-950/60 text-purple-800 dark:text-purple-300">
+            <span>{topicBadge || badgeText || '7. Osztály • Matematika'}</span>
+            <span className="opacity-40">•</span>
+            <span className="font-extrabold flex items-center gap-1 text-purple-700 dark:text-purple-300">
+              <Sparkles className="w-3 h-3 text-purple-500" /> Gyakorló Kvíz
+            </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight flex items-center justify-center gap-2 mb-2">
-            <span className="text-2xl">{emoji}</span>
+          <h1 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white tracking-tight flex items-center justify-center gap-1.5 mb-1">
+            <span className="text-xl sm:text-2xl">{emoji}</span>
             <span>{title}</span>
           </h1>
 
           {/* Quick Mode Switcher in selection */}
           {allGameModes && allGameModes.length > 0 && (
-            <div className="inline-flex flex-wrap items-center justify-center gap-1.5 bg-slate-100 dark:bg-slate-800 p-1 rounded-2xl mt-1.5 border border-slate-200 dark:border-slate-700">
+            <div className="inline-flex flex-wrap items-center justify-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl mt-1 border border-slate-200 dark:border-slate-700 shadow-xs">
               <button
                 onClick={() => setGameMode('quiz')}
                 className={cn(
-                  "flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all",
+                  "flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer",
                   gameMode === 'quiz'
                     ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs"
                     : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
                 )}
               >
                 <FileQuestion className="w-3.5 h-3.5 text-purple-500" />
-                Klasszikus Kvíz
+                Kvíz
               </button>
               {allGameModes.map((mode) => (
                 <button
@@ -572,14 +590,14 @@ export function QuizTemplate({
                     }
                   }}
                   className={cn(
-                    "flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all",
+                    "flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer",
                     gameMode === mode.id
                       ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs"
                       : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
                   )}
                 >
-                  {mode.icon || <LayoutGrid className="w-3.5 h-3.5 text-emerald-500" />}
-                  {mode.title}
+                  {mode.icon || (mode.id === 'matcher' ? <ArrowRightLeft className="w-3.5 h-3.5 text-indigo-500" /> : mode.id === 'sorter' ? <Layers className="w-3.5 h-3.5 text-emerald-500" /> : <LayoutGrid className="w-3.5 h-3.5 text-emerald-500" />)}
+                  {mode.id === 'matcher' ? 'Párosító játék' : mode.id === 'sorter' ? 'Csoportosító játék' : mode.title}
                 </button>
               ))}
             </div>
@@ -588,37 +606,37 @@ export function QuizTemplate({
 
         {/* Cheat sheet popover/card */}
         {showCheatSheet && hasCheatSheet && (
-          <div className="mb-4 p-4 sm:p-5 bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-slate-900 dark:to-slate-850 rounded-2xl border-2 border-purple-200 dark:border-purple-900/60 shadow-md animate-in fade-in duration-200">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm sm:text-base font-black text-purple-900 dark:text-purple-200 flex items-center gap-1.5">
-                <Sparkles className="w-4 h-4 text-purple-600" />
+          <div className="mb-2.5 p-3 sm:p-4 bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-slate-900 dark:to-slate-850 rounded-xl border-2 border-purple-200 dark:border-purple-900/60 shadow-md animate-in fade-in duration-200">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-xs sm:text-sm font-black text-purple-900 dark:text-purple-200 flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-purple-600" />
                 {cheatSheetTitle || "Kvíz Segédlet & Tudástár"}
               </h3>
               <Button
                 size="sm"
                 variant="ghost"
                 onClick={() => setShowCheatSheet(false)}
-                className="text-purple-800 dark:text-purple-300 hover:bg-purple-200/50 rounded-lg h-7 px-2 text-xs"
+                className="text-purple-800 dark:text-purple-300 hover:bg-purple-200/50 rounded-lg h-6 px-2 text-xs cursor-pointer"
               >
                 Bezárás
               </Button>
             </div>
             {cheatSheet && cheatSheet.length > 0 && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 mb-2">
                 {cheatSheet.map((item, idx) => (
-                  <div key={idx} className="bg-white/95 dark:bg-slate-800/95 p-2.5 rounded-xl border border-purple-100 dark:border-slate-700 shadow-xs text-left">
-                    <div className="text-xs font-black text-purple-600 dark:text-purple-400">{item.topic}</div>
-                    <div className="text-xs font-mono font-bold text-slate-800 dark:text-slate-100 mt-0.5"><MathText>{item.formula}</MathText></div>
+                  <div key={idx} className="bg-white/95 dark:bg-slate-800/95 p-2 rounded-lg border border-purple-100 dark:border-slate-700 shadow-xs text-left">
+                    <div className="text-[11px] font-black text-purple-600 dark:text-purple-400">{item.topic}</div>
+                    <div className="text-[11px] font-mono font-bold text-slate-800 dark:text-slate-100 mt-0.5"><MathText>{item.formula}</MathText></div>
                     <div className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5"><MathText>{item.note}</MathText></div>
                   </div>
                 ))}
               </div>
             )}
             {cheatSheetCards && cheatSheetCards.length > 0 && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                 {cheatSheetCards.map((card, idx) => (
-                  <div key={card.id || idx} className="bg-white/95 dark:bg-slate-800/95 p-3 rounded-xl border border-slate-200 dark:border-slate-700 shadow-xs text-left">
-                    <div className="flex items-center gap-2 mb-1.5 font-bold text-xs text-slate-900 dark:text-slate-100">
+                  <div key={card.id || idx} className="bg-white/95 dark:bg-slate-800/95 p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 shadow-xs text-left space-y-1">
+                    <div className="flex items-center gap-1.5 font-bold text-xs text-slate-900 dark:text-slate-100">
                       {card.icon}
                       <span>{card.title}</span>
                     </div>
@@ -626,7 +644,7 @@ export function QuizTemplate({
                       <div>{card.content}</div>
                     ) : (
                       <>
-                        {card.formula && <div className="text-xs font-mono font-bold text-slate-800 dark:text-slate-100 mt-0.5"><MathText>{card.formula}</MathText></div>}
+                        {card.formula && <div className="text-[11px] font-mono font-bold text-slate-800 dark:text-slate-100 mt-0.5"><MathText>{card.formula}</MathText></div>}
                         {card.note && <div className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5"><MathText>{card.note}</MathText></div>}
                       </>
                     )}
@@ -638,7 +656,7 @@ export function QuizTemplate({
         )}
 
         {/* Difficulty Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 max-w-4xl mx-auto">
           {([1, 2, 3] as DifficultyLevel[]).map((level) => {
             const cfg = effectiveLevels[level];
             if (!cfg) return null;
@@ -652,42 +670,42 @@ export function QuizTemplate({
               <div
                 key={level}
                 onClick={() => handleStartLevel(level, gameMode)}
-                className="group relative bg-white dark:bg-slate-900 rounded-2xl p-5 border-2 border-slate-200/80 dark:border-slate-800 hover:border-purple-500 dark:hover:border-purple-500 shadow-sm hover:shadow-lg transition-all duration-200 cursor-pointer flex flex-col justify-between overflow-hidden"
+                className="group relative bg-white dark:bg-slate-900 rounded-xl p-3 sm:p-3.5 border-2 border-slate-200/80 dark:border-slate-800 hover:border-purple-500 dark:hover:border-purple-500 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer flex flex-col justify-between overflow-hidden"
               >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-purple-500/10 to-transparent rounded-bl-full pointer-events-none group-hover:scale-110 transition-transform" />
+                <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-purple-500/10 to-transparent rounded-bl-full pointer-events-none group-hover:scale-110 transition-transform" />
 
                 <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform shadow-inner font-black text-lg", iconBg)}>
+                  <div className="flex items-center justify-between mb-2">
+                    <div className={cn("w-7 h-7 rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform shadow-inner font-black text-sm", iconBg)}>
                       {level}
                     </div>
 
-                    <span className={cn("px-2.5 py-1 rounded-full text-[11px] font-black uppercase tracking-wider border", badgeBg, badgeBorder, badgeText)}>
+                    <span className={cn("px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider border", badgeBg, badgeBorder, badgeText)}>
                       {gameMode === 'quiz' ? `${cfg.questions.length || 10} Kérdés` : (allGameModes.find(m => m.id === gameMode)?.badgeText || `${cfg.questions.length || 10} Feladat`)}
                     </span>
                   </div>
 
-                  <h3 className="text-lg font-black text-slate-900 dark:text-white mb-0.5 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                  <h3 className="text-sm sm:text-base font-black text-slate-900 dark:text-white mb-0.5 leading-snug group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
                     {cfg.title}
                   </h3>
 
-                  <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-3">
+                  <p className="text-[11px] leading-tight font-medium text-slate-500 dark:text-slate-400 mb-2 line-clamp-2 min-h-[26px]">
                     {cfg.subtitle}
                   </p>
 
-                  <div className="space-y-1.5 pt-2.5 border-t border-slate-100 dark:border-slate-800 mb-3">
-                    <div className="flex items-center justify-between text-xs">
+                  <div className="space-y-1 pt-1.5 border-t border-slate-100 dark:border-slate-800 mb-2">
+                    <div className="flex items-center justify-between text-[11px]">
                       <span className="text-slate-500 dark:text-slate-400">Tartomány:</span>
                       <span className="font-bold text-slate-800 dark:text-slate-200">{cfg.range}</span>
                     </div>
-                    <div className="flex items-center justify-between text-xs">
+                    <div className="flex items-center justify-between text-[11px]">
                       <span className="text-slate-500 dark:text-slate-400">Fókusz:</span>
-                      <span className="font-bold text-purple-600 dark:text-purple-400 text-right truncate max-w-[140px]" title={cfg.focus}><MathText size="sm">{cfg.focus}</MathText></span>
+                      <span className="font-bold text-purple-600 dark:text-purple-400 text-right truncate max-w-[130px]" title={cfg.focus}><MathText size="sm">{cfg.focus}</MathText></span>
                     </div>
                   </div>
 
                   {/* Level Personal Best Score */}
-                  <div className="mb-4">
+                  <div className="mb-2.5">
                     {(() => {
                       const lvlScore = currentTopicProgress?.levelScores?.[level];
                       const hasLvlScore = lvlScore !== undefined;
@@ -696,14 +714,14 @@ export function QuizTemplate({
                       if (hasLvlScore) {
                         return (
                           <div className={cn(
-                            "flex items-center justify-between px-3 py-1.5 rounded-xl border text-xs font-mono font-black",
+                            "flex items-center justify-between px-2.5 py-1 rounded-lg border text-[11px] font-mono font-black",
                             lvlScore === 100
                               ? "bg-emerald-50 dark:bg-emerald-950/60 border-emerald-300 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300"
                               : lvlScore >= 70
                               ? "bg-amber-50 dark:bg-amber-950/60 border-amber-300 dark:border-amber-800 text-amber-700 dark:text-amber-300"
                               : "bg-rose-50 dark:bg-rose-950/60 border-rose-300 dark:border-rose-800 text-rose-700 dark:text-rose-300"
                           )}>
-                            <span className="font-sans text-[11px] font-bold text-slate-500 dark:text-slate-400">Eredményed:</span>
+                            <span className="font-sans text-[10px] font-bold text-slate-500 dark:text-slate-400">Eredményed:</span>
                             <span className="flex items-center gap-1">
                               {lvlScore === 100 && <span>⭐</span>}
                               <span>{lvlScore}%</span>
@@ -714,8 +732,8 @@ export function QuizTemplate({
 
                       if (hasStartedTopic) {
                         return (
-                          <div className="flex items-center justify-between px-3 py-1.5 rounded-xl bg-rose-50/60 dark:bg-rose-950/30 border border-dashed border-rose-200 dark:border-rose-900/60 text-xs text-rose-600 dark:text-rose-400 font-bold">
-                            <span className="text-[11px]">Státusz:</span>
+                          <div className="flex items-center justify-between px-2.5 py-1 rounded-lg bg-rose-50/60 dark:bg-rose-950/30 border border-dashed border-rose-200 dark:border-rose-900/60 text-[11px] text-rose-600 dark:text-rose-400 font-bold">
+                            <span className="text-[10px]">Státusz:</span>
                             <span className="flex items-center gap-1">
                               <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
                               Még hiányzik
@@ -725,8 +743,8 @@ export function QuizTemplate({
                       }
 
                       return (
-                        <div className="flex items-center justify-between px-3 py-1.5 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-800 text-xs text-slate-400 dark:text-slate-500 font-medium">
-                          <span className="text-[11px]">Státusz:</span>
+                        <div className="flex items-center justify-between px-2.5 py-1 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-800 text-[11px] text-slate-400 dark:text-slate-500 font-medium">
+                          <span className="text-[10px]">Státusz:</span>
                           <span>Még nincs kitöltve</span>
                         </div>
                       );
@@ -736,7 +754,7 @@ export function QuizTemplate({
 
                 <Button
                   className={cn(
-                    "w-full h-10 rounded-xl font-bold text-sm shadow-xs transition-all flex items-center justify-center gap-1.5",
+                    "w-full h-8 sm:h-8.5 rounded-lg font-bold text-xs shadow-xs transition-all flex items-center justify-center gap-1 cursor-pointer",
                     level === 1
                       ? "bg-emerald-600 hover:bg-emerald-700 text-white"
                       : level === 2
@@ -745,7 +763,7 @@ export function QuizTemplate({
                   )}
                 >
                   {gameMode === 'quiz' ? 'Kvíz Indítása' : `${allGameModes.find(m => m.id === gameMode)?.title || 'Játék'} Indítása`}
-                  <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                 </Button>
               </div>
             );
