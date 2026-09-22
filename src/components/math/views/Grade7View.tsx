@@ -72,7 +72,7 @@ export const Grade7View: React.FC<GradeViewProps> = ({
       return (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <button
-            onClick={() => onActivitySelect('shape-classification')}
+            onClick={() => onActivitySelect('shape-classification', topicId)}
             className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
           >
             <div className="p-3 bg-emerald-50 rounded-xl text-emerald-600 group-hover:scale-110 transition-transform">
@@ -85,7 +85,7 @@ export const Grade7View: React.FC<GradeViewProps> = ({
           </button>
 
           <button
-            onClick={() => onActivitySelect('angle-matching')}
+            onClick={() => onActivitySelect('angle-matching', topicId)}
             className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
           >
             <div className="p-3 bg-blue-50 rounded-xl text-blue-600 group-hover:scale-110 transition-transform">
@@ -98,7 +98,7 @@ export const Grade7View: React.FC<GradeViewProps> = ({
           </button>
 
           <button
-            onClick={() => onActivitySelect('triangle-classification')}
+            onClick={() => onActivitySelect('triangle-classification', topicId)}
             className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
           >
             <div className="p-3 bg-amber-50 rounded-xl text-amber-600 group-hover:scale-110 transition-transform">
@@ -111,7 +111,7 @@ export const Grade7View: React.FC<GradeViewProps> = ({
           </button>
 
           <button
-            onClick={() => onActivitySelect('quadrilateral-classification')}
+            onClick={() => onActivitySelect('quadrilateral-classification', topicId)}
             className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
           >
             <div className="p-3 bg-violet-50 rounded-xl text-violet-600 group-hover:scale-110 transition-transform">
@@ -124,7 +124,7 @@ export const Grade7View: React.FC<GradeViewProps> = ({
           </button>
 
           <button
-            onClick={() => onActivitySelect('line-relationships')}
+            onClick={() => onActivitySelect('line-relationships', topicId)}
             className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
           >
             <div className="p-3 bg-indigo-50 rounded-xl text-indigo-600 group-hover:scale-110 transition-transform">
@@ -137,7 +137,7 @@ export const Grade7View: React.FC<GradeViewProps> = ({
           </button>
 
           <button
-            onClick={() => onActivitySelect('circle-parts')}
+            onClick={() => onActivitySelect('circle-parts', topicId)}
             className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
           >
             <div className="p-3 bg-red-50 rounded-xl text-red-600 group-hover:scale-110 transition-transform">
@@ -150,7 +150,7 @@ export const Grade7View: React.FC<GradeViewProps> = ({
           </button>
 
           <button
-            onClick={() => onActivitySelect('triangle-angles-quiz')}
+            onClick={() => onActivitySelect('triangle-angles-quiz', topicId)}
             className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
           >
             <div className="p-3 bg-teal-50 rounded-xl text-teal-600 group-hover:scale-110 transition-transform">
@@ -723,7 +723,7 @@ export const Grade7View: React.FC<GradeViewProps> = ({
       return (
         <div className="flex justify-center py-4">
           <Button
-            onClick={() => onActivitySelect('word-problems')}
+            onClick={() => onActivitySelect('word-problems', topicId)}
             className="gap-2 bg-teal-500 hover:bg-teal-600 text-white rounded-xl px-8"
           >
             <Sparkles className="w-4 h-4" />
