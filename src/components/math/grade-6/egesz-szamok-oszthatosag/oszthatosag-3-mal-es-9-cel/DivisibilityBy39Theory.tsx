@@ -57,13 +57,15 @@ export function DivisibilityBy39Theory({ onBack, onStartQuiz }: DivisibilityBy39
     <TheoryTemplate
       onBack={onBack}
       onStartQuiz={onStartQuiz}
-      topicBadge="🧮 6. Osztály • I. Egész számok, oszthatóság"
+      badgeText="🧮 6. Osztály • I. Egész számok, oszthatóság"
       title="Oszthatóság 3-mal és 9-cel"
       subtitle="A számjegyek összegén alapuló oszthatósági szabályok, algebrai bizonyítás a 9-es maradékokkal és villámgyors maradékszámítás"
-      ruleTitle="A számjegyösszeg szabálya"
-      ruleFormula="3-mal: Számjegyösszeg ∈ 3k | 9-cel: Számjegyösszeg ∈ 9k"
+      quickRule={{
+        label: 'Számjegyösszeg szabálya',
+        formula: '3-mal: 3 | S(n)  |  9-cel: 9 | S(n)'
+      }}
       themeColor="amber"
-      pdfElementId="divisibility-3-9-theory-content"
+      documentId="divisibility-3-9-theory-content"
       pdfFilename="Oszthatosag_3_9_Tananyag"
     >
       {/* 1. SZEKCIÓ: Oszthatóság 3-mal */}

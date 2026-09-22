@@ -511,41 +511,64 @@ export const TheoryTable: React.FC<TheoryTableProps> = ({
 export interface TheoryTemplateProps {
   onBack: () => void;
   onStartQuiz?: () => void;
-  documentId: string;
-  pdfFilename: string;
-  badgeText: string;
+  onSwitchToQuiz?: () => void;
+  documentId?: string;
+  pdfElementId?: string;
+  topicId?: string;
+  pdfFilename?: string;
+  badgeText?: string;
+  badge?: string;
+  topicBadge?: string;
   title: string;
-  subtitle: string;
+  subtitle?: string;
+  description?: string;
   quickRule?: {
     label: string;
     formula: string;
   };
+  ruleTitle?: string;
+  ruleFormula?: string;
   themeColor?: ThemeColor;
   practiceTitle?: string;
   practiceSubtitle?: string;
   children: React.ReactNode;
 }
 
-export const TheoryTemplate: React.FC<TheoryTemplateProps> = ({
-  onBack,
-  onStartQuiz,
-  documentId,
-  pdfFilename,
-  badgeText,
-  title,
-  subtitle,
-  quickRule,
-  themeColor = 'blue',
-  practiceTitle = 'Készen állsz a gyakorlásra?',
-  practiceSubtitle = 'Tedd próbára tudásod a 3 szintű kvízben 30 változatos feladattal és azonnali magyarázatokkal!',
-  children
-}) => {
+export const TheoryTemplate: React.FC<TheoryTemplateProps> = (props) => {
+  const {
+    onBack,
+    onStartQuiz,
+    onSwitchToQuiz,
+    documentId,
+    pdfElementId,
+    topicId,
+    pdfFilename = 'tananyag.pdf',
+    badgeText,
+    badge,
+    topicBadge,
+    title,
+    subtitle,
+    description,
+    quickRule,
+    ruleTitle,
+    ruleFormula,
+    themeColor = 'blue',
+    practiceTitle = 'Készen állsz a gyakorlásra?',
+    practiceSubtitle = 'Tedd próbára tudásod a 3 szintű kvízben 30 változatos feladattal és azonnali magyarázatokkal!',
+    children
+  } = props;
+
   const [isDownloading, setIsDownloading] = useState(false);
   const styles = colorStyles[themeColor] || colorStyles.blue;
+  const handleQuizStart = onStartQuiz || onSwitchToQuiz;
+  const docId = documentId || pdfElementId || topicId || 'theory-content';
+  const displayBadge = badgeText || topicBadge || badge || '🔢 6. Osztály • I. Egész számok, oszthatóság';
+  const displaySubtitle = subtitle || description || '';
+  const displayRule = quickRule || (ruleFormula ? { label: ruleTitle || 'Fontos szabály', formula: ruleFormula } : undefined);
 
   const handleDownloadPDF = async () => {
     setIsDownloading(true);
-    await exportElementToPDF(documentId, pdfFilename);
+    await exportElementToPDF(docId, pdfFilename);
     setIsDownloading(false);
   };
 
@@ -564,11 +587,11 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = ({
         </Button>
 
         <div className="flex items-center gap-2">
-          {onStartQuiz && (
+          {handleQuizStart && (
             <Button
               variant="outline"
               size="sm"
-              onClick={onStartQuiz}
+              onClick={handleQuizStart}
               className={cn(
                 "rounded-xl h-9 px-3 text-xs sm:text-sm font-bold transition-all",
                 styles.buttonQuizBorder,
@@ -599,7 +622,7 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = ({
 
       {/* Main Printable Document Container */}
       <div
-        id={documentId}
+        id={docId}
         className="bg-white dark:bg-slate-900 rounded-3xl border-2 border-slate-200/80 dark:border-slate-800 p-5 sm:p-8 shadow-sm space-y-8"
       >
         {/* Document Header */}
@@ -611,30 +634,32 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = ({
               styles.badgeBorder,
               styles.badgeText
             )}>
-              <span>{badgeText}</span>
+              <span>{displayBadge}</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
               {title}
             </h1>
-            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
-              {subtitle}
-            </p>
+            {displaySubtitle && (
+              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+                {displaySubtitle}
+              </p>
+            )}
           </div>
 
-          {quickRule && (
+          {displayRule && (
             <div className={cn(
               "p-3 rounded-2xl border text-center shrink-0",
               styles.ruleBg,
               styles.ruleBorder
             )}>
               <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-                {quickRule.label}
+                {displayRule.label}
               </div>
               <div className={cn(
                 "text-base sm:text-lg font-mono font-black",
                 styles.ruleText
               )}>
-                {quickRule.formula}
+                {displayRule.formula}
               </div>
             </div>
           )}
@@ -655,9 +680,9 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = ({
               {practiceSubtitle}
             </p>
           </div>
-          {onStartQuiz && (
+          {handleQuizStart && (
             <Button
-              onClick={onStartQuiz}
+              onClick={handleQuizStart}
               className="bg-white text-slate-900 hover:bg-slate-100 font-black rounded-xl h-10 px-5 shadow-sm text-sm shrink-0"
             >
               <Sparkles className="w-4 h-4 mr-1.5 text-amber-500" />

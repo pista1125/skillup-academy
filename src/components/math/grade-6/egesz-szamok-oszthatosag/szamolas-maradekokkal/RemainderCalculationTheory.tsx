@@ -53,13 +53,15 @@ export function RemainderCalculationTheory({ onBack, onStartQuiz }: RemainderCal
     <TheoryTemplate
       onBack={onBack}
       onStartQuiz={onStartQuiz}
-      topicBadge="⏳ 6. Osztály • I. Egész számok"
+      badgeText="⏳ 6. Osztály • I. Egész számok, oszthatóság"
       title="Számolás maradékokkal"
       subtitle="A maradékos osztás alaptétele, a lehetséges maradékok és periodikus alkalmazások"
-      ruleTitle="A maradékos osztás alaptétele"
-      ruleFormula="a = b · q + r (ahol 0 ≤ r < b)"
+      quickRule={{
+        label: 'Maradékos osztás alaptétele',
+        formula: 'a = b · q + r  (0 ≤ r < b)'
+      }}
       themeColor="teal"
-      pdfElementId="remainder-calculation-theory-content"
+      documentId="remainder-calculation-theory-content"
       pdfFilename="Szamolas_Maradekokkal_Tananyag"
     >
       {/* 1. Szekció: A maradékos osztás alaptétele */}

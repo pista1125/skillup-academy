@@ -108,13 +108,17 @@ export function Chapter1SummaryTheory({ onBack, onStartQuiz }: Chapter1SummaryTh
 
   return (
     <TheoryTemplate
-      title="I. Egész számok, oszthatóság – Összefoglalás"
-      description="A teljes fejezet átfogó szintézise: műveletek, kombinatorika, oszthatósági szabályok, prímfelbontás, LNKO és LKKT egyetlen helyen!"
-      badgeText="6. Osztály • I. Fejezet Zárás"
-      themeColor="indigo"
       onBack={onBack}
       onStartQuiz={onStartQuiz}
-      pdfElementId="chapter1-summary-theory-content"
+      badgeText="🏆 6. Osztály • I. Egész számok, oszthatóság"
+      title="I. Egész számok, oszthatóság – Összefoglalás"
+      subtitle="A teljes fejezet átfogó szintézise: műveletek, kombinatorika, oszthatósági szabályok, prímfelbontás, LNKO és LKKT egyetlen helyen!"
+      quickRule={{
+        label: 'Aranyösszefüggés',
+        formula: '(a, b) · [a, b] = a · b  |  d(n) = ∏(αᵢ + 1)'
+      }}
+      themeColor="indigo"
+      documentId="chapter1-summary-theory-content"
       pdfFilename="Egesz_Szamok_Oszthatosag_Osszefoglalas"
     >
       {/* 1. Szekció: Műveletek az egész számok körében */}

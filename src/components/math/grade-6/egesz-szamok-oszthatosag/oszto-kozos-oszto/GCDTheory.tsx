@@ -170,13 +170,17 @@ export function GCDTheory({ onBack, onStartQuiz }: GCDTheoryProps) {
 
   return (
     <TheoryTemplate
-      title="Osztó, közös osztó (LNKO)"
-      description="Ismerd meg az osztókat, a közös osztókat, a Legnagyobb Közös Osztó (a, b) meghatározását prímtényezőkkel, a relatív prímeket és az Euklideszi algoritmust!"
-      badgeText="6. Osztály • Oszthatóság"
-      themeColor="indigo"
       onBack={onBack}
       onStartQuiz={onStartQuiz}
-      pdfElementId="gcd-theory-content"
+      badgeText="🎯 6. Osztály • I. Egész számok, oszthatóság"
+      title="Osztó, közös osztó (LNKO)"
+      subtitle="Ismerd meg az osztókat, a közös osztókat, a Legnagyobb Közös Osztó (a, b) meghatározását prímtényezőkkel, a relatív prímeket és az Euklideszi algoritmust!"
+      quickRule={{
+        label: 'LNKO alapszabály',
+        formula: '(a, b) = közös prímek min hatványon  |  (a,b)·[a,b]=a·b'
+      }}
+      themeColor="indigo"
+      documentId="gcd-theory-content"
       pdfFilename="Osztó_LNKO_Tananyag"
     >
       {/* 1. Szekció: Az osztó és a közös osztó fogalma */}

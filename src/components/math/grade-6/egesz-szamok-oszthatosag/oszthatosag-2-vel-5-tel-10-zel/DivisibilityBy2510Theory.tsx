@@ -59,13 +59,15 @@ export function DivisibilityBy2510Theory({ onBack, onStartQuiz }: DivisibilityBy
     <TheoryTemplate
       onBack={onBack}
       onStartQuiz={onStartQuiz}
-      topicBadge="🔟 6. Osztály • I. Egész számok, oszthatóság"
+      badgeText="🔟 6. Osztály • I. Egész számok, oszthatóság"
       title="Oszthatóság 2-vel, 5-tel, 10-zel"
       subtitle="Az utolsó számjegy alapú oszthatósági szabályok, helyiértékes magyarázat a tízes számrendszerben és villámgyors maradékszámítás"
-      ruleTitle="Az utolsó számjegy szabályai"
-      ruleFormula="2-vel: 0, 2, 4, 6, 8 | 5-tel: 0, 5 | 10-zel: 0"
+      quickRule={{
+        label: 'Utolsó számjegy szabályai',
+        formula: '2-vel: páros  |  5-tel: 0, 5  |  10-zel: 0'
+      }}
       themeColor="cyan"
-      pdfElementId="divisibility-2-5-10-theory-content"
+      documentId="divisibility-2-5-10-theory-content"
       pdfFilename="Oszthatosag_2_5_10_Tananyag"
     >
       {/* 1. SZEKCIÓ: Oszthatóság 2-vel */}

@@ -77,13 +77,15 @@ export function IntegerDivisionTheory({ onBack, onStartQuiz }: IntegerDivisionTh
     <TheoryTemplate
       onBack={onBack}
       onStartQuiz={onStartQuiz}
-      topicBadge="➗ 6. Osztály • I. Egész számok"
+      badgeText="➗ 6. Osztály • I. Egész számok, oszthatóság"
       title="Az egész számok osztása"
       subtitle="Előjelszabályok, osztás nullával és eggyel, inverz kapcsolat a szorzással"
-      ruleTitle="Alapszabály"
-      ruleFormula="(+):(+)=+ | (-):(-)=+ | (+):(-)=- | a:0 TILOS!"
+      quickRule={{
+        label: 'Előjelszabály & 0',
+        formula: '(+) : (+) = +  |  (-) : (-) = +  |  a : 0 TILOS!'
+      }}
       themeColor="violet"
-      pdfElementId="integer-div-theory-content"
+      documentId="integer-div-theory-content"
       pdfFilename="Egesz_Szamok_Osztasa_Tananyag"
     >
       {/* 1. Szekció: Az osztás fogalma és kapcsolata a szorzással */}

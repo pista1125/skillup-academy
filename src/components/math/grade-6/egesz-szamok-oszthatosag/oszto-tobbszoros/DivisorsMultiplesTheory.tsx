@@ -66,13 +66,15 @@ export function DivisorsMultiplesTheory({ onBack, onStartQuiz }: DivisorsMultipl
     <TheoryTemplate
       onBack={onBack}
       onStartQuiz={onStartQuiz}
-      topicBadge="🔄 6. Osztály • I. Egész számok"
+      badgeText="🔄 6. Osztály • I. Egész számok, oszthatóság"
       title="Osztó, többszörös"
       subtitle="Az osztó és a többszörös fogalma, osztópárok, véges osztók és végtelen többszörösök"
-      ruleTitle="Alapszabály"
-      ruleFormula="a | b ⇔ b = k · a (ahol a ≠ 0, k ∈ Z)"
+      quickRule={{
+        label: 'Oszthatóság fogalma',
+        formula: 'a | b ⇔ b = k · a  (a ≠ 0, k ∈ ℤ)'
+      }}
       themeColor="emerald"
-      pdfElementId="divisors-multiples-theory-content"
+      documentId="divisors-multiples-theory-content"
       pdfFilename="Oszto_Tobbszoros_Tananyag"
     >
       {/* 1. Szekció: Az osztó és többszörös definíciója */}

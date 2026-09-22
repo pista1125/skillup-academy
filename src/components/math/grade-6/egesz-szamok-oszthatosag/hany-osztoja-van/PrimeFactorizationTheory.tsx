@@ -81,13 +81,15 @@ export function PrimeFactorizationTheory({ onBack, onStartQuiz }: PrimeFactoriza
     <TheoryTemplate
       onBack={onBack}
       onStartQuiz={onStartQuiz}
-      topicBadge="🧱 6. Osztály • I. Egész számok"
+      badgeText="🧱 6. Osztály • I. Egész számok, oszthatóság"
       title="Hány osztója van? (Prímtényezők)"
       subtitle="Prímszámok, összetett számok, prímtényezős felbontás és az osztók számának kiszámítása"
-      ruleTitle="Az osztók számának képlete"
-      ruleFormula="d(n) = (α₁ + 1) · (α₂ + 1) · ... · (αₖ + 1)"
+      quickRule={{
+        label: 'Osztók száma',
+        formula: 'd(n) = (α₁ + 1) · (α₂ + 1) · ... · (αₖ + 1)'
+      }}
       themeColor="indigo"
-      pdfElementId="prime-factorization-theory-content"
+      documentId="prime-factorization-theory-content"
       pdfFilename="Prímtenyezok_Hany_Osztoja_Van_Tananyag"
     >
       {/* 1. Szekció: Prímszámok és összetett számok */}

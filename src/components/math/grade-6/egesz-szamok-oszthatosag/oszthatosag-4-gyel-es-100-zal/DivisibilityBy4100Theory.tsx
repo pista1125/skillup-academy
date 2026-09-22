@@ -56,13 +56,15 @@ export function DivisibilityBy4100Theory({ onBack, onStartQuiz }: DivisibilityBy
     <TheoryTemplate
       onBack={onBack}
       onStartQuiz={onStartQuiz}
-      topicBadge="💯 6. Osztály • I. Egész számok, oszthatóság"
+      badgeText="💯 6. Osztály • I. Egész számok, oszthatóság"
       title="Oszthatóság 4-gyel és 100-zal"
       subtitle="Az utolsó két számjegy alapú oszthatósági szabályok, a 100 = 4 · 25 összefüggés és villámgyors maradékszámítás"
-      ruleTitle="Az utolsó két számjegy szabályai"
-      ruleFormula="4-gyel: Utolsó 2 számjegy ∈ 4k (vagy 00) | 100-zal: Utolsó 2 számjegy = 00"
+      quickRule={{
+        label: 'Utolsó 2 számjegy',
+        formula: '4-gyel: 4 | u₂  |  100-zal: u₂ = 00'
+      }}
       themeColor="rose"
-      pdfElementId="divisibility-4-100-theory-content"
+      documentId="divisibility-4-100-theory-content"
       pdfFilename="Oszthatosag_4_100_Tananyag"
     >
       {/* 1. SZEKCIÓ: Oszthatóság 4-gyel */}

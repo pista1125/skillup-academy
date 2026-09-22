@@ -56,13 +56,15 @@ export function CountingPossibilitiesTheory({ onBack, onStartQuiz }: CountingPos
     <TheoryTemplate
       onBack={onBack}
       onStartQuiz={onStartQuiz}
-      topicBadge="🎲 6. Osztály • I. Egész számok"
+      badgeText="🎲 6. Osztály • I. Egész számok, oszthatóság"
       title="Hány eset van? Számoljuk össze!"
       subtitle="Rendszerezett összeszámolás, fastruktúra (fa-diagram) és a szorzási szabály"
-      ruleTitle="Alapszabály"
-      ruleFormula="Összes eset = n₁ · n₂ · n₃ · ... · nₖ"
+      quickRule={{
+        label: 'Szorzási szabály',
+        formula: 'Összes eset = n₁ · n₂ · n₃ · ... · nₖ'
+      }}
       themeColor="amber"
-      pdfElementId="counting-possibilities-theory-content"
+      documentId="counting-possibilities-theory-content"
       pdfFilename="Hany_Eset_Van_Tananyag"
     >
       {/* 1. Szekció: Miért fontos a rendszerezés? */}

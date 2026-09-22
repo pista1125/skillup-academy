@@ -128,13 +128,17 @@ export function LCMTheory({ onBack, onStartQuiz }: LCMTheoryProps) {
 
   return (
     <TheoryTemplate
-      title="Többszörös, közös többszörös (LKKT)"
-      description="Ismerd meg a többszörösöket, a közös többszörösöket és a Legkisebb Közös Többszörös [a, b] meghatározását prímfelbontással!"
-      badgeText="6. Osztály • Oszthatóság"
-      themeColor="amber"
       onBack={onBack}
       onStartQuiz={onStartQuiz}
-      pdfElementId="lcm-theory-content"
+      badgeText="📐 6. Osztály • I. Egész számok, oszthatóság"
+      title="Többszörös, közös többszörös (LKKT)"
+      subtitle="Ismerd meg a többszörösöket, a közös többszörösöket és a Legkisebb Közös Többszörös [a, b] meghatározását prímfelbontással!"
+      quickRule={{
+        label: 'LKKT alapszabály',
+        formula: '[a, b] = közös és nem közös prímek max hatványon'
+      }}
+      themeColor="amber"
+      documentId="lcm-theory-content"
       pdfFilename="Többszörös_LKKT_Tananyag"
     >
       {/* 1. Szekció: Mi a többszörös és közös többszörös? */}

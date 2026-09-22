@@ -70,13 +70,15 @@ export function IntegerMultiplicationTheory({ onBack, onStartQuiz }: IntegerMult
     <TheoryTemplate
       onBack={onBack}
       onStartQuiz={onStartQuiz}
-      topicBadge="✖️ 6. Osztály • I. Egész számok"
+      badgeText="✖️ 6. Osztály • I. Egész számok, oszthatóság"
       title="Az egész számok szorzása"
       subtitle="Előjelszabályok, szorzás nullával, disztributivitás és többtagú szorzatok"
-      ruleTitle="Alapszabály"
-      ruleFormula="(+)·(+)=+ | (-)·(-)=+ | (+)·(-)=-"
+      quickRule={{
+        label: 'Előjelszabály',
+        formula: '(+) · (+) = +  |  (-) · (-) = +  |  (+) · (-) = -'
+      }}
       themeColor="indigo"
-      pdfElementId="integer-mult-theory-content"
+      documentId="integer-mult-theory-content"
       pdfFilename="Egesz_Szamok_Szorzasa_Tananyag"
     >
       {/* 1. Szekció: Mi az egész számok szorzása? */}

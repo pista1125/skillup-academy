@@ -175,13 +175,17 @@ export function DivisibilityCompositeTheory({ onBack, onStartQuiz }: Divisibilit
 
   return (
     <TheoryTemplate
-      title="Összetett oszthatósági szabályok"
-      description="Hogyan vizsgáljuk a 6, 12, 15, 18, 20, 24, 36 és 45 oszthatóságát relatív prím tényezőkkel?"
-      badgeText="6. Osztály • Oszthatóság"
-      themeColor="indigo"
       onBack={onBack}
       onStartQuiz={onStartQuiz}
-      pdfElementId="composite-divisibility-theory-content"
+      badgeText="🧩 6. Osztály • I. Egész számok, oszthatóság"
+      title="Összetett oszthatósági szabályok"
+      subtitle="Hogyan vizsgáljuk a 6, 12, 15, 18, 20, 24, 36 és 45 oszthatóságát relatív prím tényezőkkel?"
+      quickRule={{
+        label: 'Relatív prím szabály',
+        formula: 'a·b | n ⇔ a | n  ÉS  b | n  (ha (a,b)=1)'
+      }}
+      themeColor="indigo"
+      documentId="composite-divisibility-theory-content"
       pdfFilename="Osszetett_Oszthatosag_Tananyag"
     >
       {/* 1. Szekció: Az összetett oszthatóság alapszabálya */}
