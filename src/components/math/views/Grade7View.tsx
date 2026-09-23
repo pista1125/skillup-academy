@@ -68,7 +68,7 @@ export const Grade7View: React.FC<GradeViewProps> = ({
 }) => {
   const { getTopicProgress } = useQuizProgress();
 
-  if (topicId === 'geometry' || topicId === 'g7-other') {
+  if (topicId === 'geometry') {
       return (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <button
@@ -1688,8 +1688,8 @@ export const Grade7View: React.FC<GradeViewProps> = ({
         <div className="py-2">
           <MaterialGallery
             grade={7}
-            onView={handleMaterialSelect}
-            initialMaterialId={new URLSearchParams(location.search).get('material')}
+            onView={onMaterialSelect || (() => {})}
+            initialMaterialId={typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('material') : null}
           />
         </div>
       );
