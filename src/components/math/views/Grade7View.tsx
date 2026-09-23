@@ -175,31 +175,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-trans-fogalmak" number={1} title="Geometriai fogalmak" color="blue" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Szögek párosítása"
-                  subtitle="Hegyesszög, derékszög, tompaszög stb."
-                  type="Gyakorlás"
-                  emoji="🎯"
-                  onClick={() => onActivitySelect('angle-matching', 'g7-geom-trans')}
-                  icon={<Target className="w-6 h-6" />}
+                  title="Geometriai fogalmak elmélet"
+                  subtitle="Pont, egyenes, sík, távolságok, szögtípusok és labor"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-geom-concepts-theory', 'g7-geom-trans')}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="blue"
                 />
                 <ActivityPlaceholder
-                  title="Síkidom vagy Test?"
-                  subtitle="2D és 3D geometriai alakzatok"
-                  type="Gyakorlás"
-                  emoji="📦"
-                  onClick={() => onActivitySelect('shape-classification', 'g7-geom-trans')}
-                  icon={<Box className="w-6 h-6" />}
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-geom-concepts-quiz', 'g7-geom-trans')}
+                  icon={<Target className="w-6 h-6" />}
                   color="indigo"
-                />
-                <ActivityPlaceholder
-                  title="Egyenesek helyzete"
-                  subtitle="Párhuzamos, merőleges, metsző"
-                  type="Gyakorlás"
-                  emoji="📏"
-                  onClick={() => onActivitySelect('line-relationships', 'g7-geom-trans')}
-                  icon={<MoveHorizontal className="w-6 h-6" />}
-                  color="cyan"
+                  {...getTopicProgress('g7-geom-concepts')}
                 />
               </div>
             </section>
@@ -208,25 +200,26 @@ export const Grade7View: React.FC<GradeViewProps> = ({
           {/* Section 2: Háromszögek nevezetes vonalai */}
           {(showAll || activeSubSectionId === 'g7-sec-trans-haromszog-vonalak') && (
             <section>
-              <SectionHeader id="g7-sec-trans-haromszog-vonalak" number={2} title="Háromszögek nevezetes vonalai" color="indigo" />
+              <SectionHeader id="g7-sec-trans-haromszog-vonalak" number={2} title="Háromszögek nevezetes vonalai" color="violet" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Alapszerkesztések"
-                  subtitle="Körző és vonalzó szerkesztő eszköz"
-                  type="Gyakorlás"
-                  emoji="📐"
-                  onClick={() => onActivitySelect('construction', 'g7-geom-trans')}
-                  icon={<Pencil className="w-6 h-6" />}
-                  color="indigo"
+                  title="Háromszögek nevezetes vonalai elmélet"
+                  subtitle="Oldalfelezők, szögfelezők, magasságok, súlyvonalak és labor"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-geom-triangle-lines-theory', 'g7-geom-trans')}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="violet"
                 />
                 <ActivityPlaceholder
-                  title="Nevezetes vonalak"
-                  subtitle="Oldalfelezők, szögfelezők, magasságok és súlyvonalak"
-                  type="Hamarosan"
-                  emoji="📏"
-                  disabled={true}
-                  icon={<Triangle className="w-6 h-6" />}
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-geom-triangle-lines-quiz', 'g7-geom-trans')}
+                  icon={<Target className="w-6 h-6" />}
                   color="purple"
+                  {...getTopicProgress('g7-geom-triangle-lines')}
                 />
               </div>
             </section>
@@ -238,31 +231,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-trans-haromszog-negyszog" number={3} title="Háromszögek és négyszögek" color="emerald" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Háromszögek fajtái"
-                  subtitle="Oldalak és szögek szerinti csoportosítás"
-                  type="Gyakorlás"
-                  emoji="🔺"
-                  onClick={() => onActivitySelect('triangle-classification', 'g7-geom-trans')}
-                  icon={<Triangle className="w-6 h-6" />}
+                  title="Háromszögek és négyszögek elmélet"
+                  subtitle="Csoportosítás, belső és külső szögek, egyenlőtlenség, családfa és labor"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-geom-triangles-quads-theory', 'g7-geom-trans')}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="emerald"
                 />
                 <ActivityPlaceholder
-                  title="Háromszögek szögei kvíz"
-                  subtitle="Belső és külső szögek kiszámítása"
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
                   type="Kvíz"
                   emoji="🎯"
-                  onClick={() => onActivitySelect('triangle-angles-quiz', 'g7-geom-trans')}
+                  onClick={() => onActivitySelect('g7-geom-triangles-quads-quiz', 'g7-geom-trans')}
                   icon={<Target className="w-6 h-6" />}
                   color="teal"
-                />
-                <ActivityPlaceholder
-                  title="Négyszögek fajtái"
-                  subtitle="Négyszögek tulajdonságai és típusai"
-                  type="Gyakorlás"
-                  emoji="🟩"
-                  onClick={() => onActivitySelect('quadrilateral-classification', 'g7-geom-trans')}
-                  icon={<Square className="w-6 h-6" />}
-                  color="green"
+                  {...getTopicProgress('g7-geom-triangles-quads')}
                 />
               </div>
             </section>
@@ -271,25 +256,26 @@ export const Grade7View: React.FC<GradeViewProps> = ({
           {/* Section 4: Geometriai transzformációk */}
           {(showAll || activeSubSectionId === 'g7-sec-trans-transzformaciok') && (
             <section>
-              <SectionHeader id="g7-sec-trans-transzformaciok" number={4} title="Geometriai transzformációk" color="teal" />
+              <SectionHeader id="g7-sec-trans-transzformaciok" number={4} title="Geometriai transzformációk" color="blue" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Egyenesek helyzete"
-                  subtitle="Transzformációs tengelyek és egyenesek"
-                  type="Gyakorlás"
-                  emoji="↔️"
-                  onClick={() => onActivitySelect('line-relationships', 'g7-geom-trans')}
-                  icon={<MoveHorizontal className="w-6 h-6" />}
-                  color="teal"
+                  title="Geometriai transzformációk elmélet"
+                  subtitle="Egybevágóság, 4 alaptípus, invariánsok, fixpontok és labor"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-geom-transformations-theory', 'g7-geom-trans')}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="blue"
                 />
                 <ActivityPlaceholder
-                  title="Transzformációk"
-                  subtitle="Egybevágóságok és invariáns tulajdonságok"
-                  type="Hamarosan"
-                  emoji="🔄"
-                  disabled={true}
-                  icon={<RefreshCw className="w-6 h-6" />}
-                  color="emerald"
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-geom-transformations-quiz', 'g7-geom-trans')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="indigo"
+                  {...getTopicProgress('g7-geom-transformations')}
                 />
               </div>
             </section>

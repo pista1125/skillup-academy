@@ -16,6 +16,8 @@ import { cn } from '@/lib/utils';
 import { DifficultyLevel } from './QuizTemplate';
 import { useAuth } from '@/contexts/AuthContext';
 import { saveQuizProgress } from '@/services/quizProgressService';
+import { saveMatcherScore } from '@/services/matcherLeaderboardService';
+import { MatcherLeaderboardModal } from '@/components/math/shared/MatcherLeaderboardModal';
 import { MathText } from '@/components/math/shared/MathText';
 
 export interface MatcherPair {
@@ -114,6 +116,8 @@ export function MatcherTemplate({
   const [seconds, setSeconds] = useState(0);
   const [timerActive, setTimerActive] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
+  const [lastSavedScoreId, setLastSavedScoreId] = useState<string | undefined>(undefined);
 
   const safeLevel: DifficultyLevel = (typeof level === 'number' ? level : ((level as any)?.level ?? 1)) as DifficultyLevel;
   const [activeLevel, setActiveLevel] = useState<DifficultyLevel>(safeLevel || (config?.level as DifficultyLevel) || 1);
@@ -254,18 +258,40 @@ export function MatcherTemplate({
       origin: { y: 0.6 }
     });
 
+    const currentPairsCount = config?.pairs?.length || allLevels?.[activeLevel]?.pairs?.length || 8;
+    const computedTopicId = (topicId || badge || title || 'matcher').toLowerCase().replace(/[^a-z0-9-]+/g, '');
+    const g = grade || 6;
+    const ch = chapterId || 'g6-geometry';
+
+    // 1. Mentés az időalapú rangsorba
+    saveMatcherScore({
+      userId: user?.uid || null,
+      studentName: profile?.full_name || user?.displayName || 'Diák',
+      userCode: profile?.user_code || undefined,
+      grade: g,
+      chapterId: ch,
+      topicId: computedTopicId,
+      topicTitle: title,
+      level: activeLevel,
+      timeSeconds: seconds,
+      mistakes: mistakes,
+      pairsCount: currentPairsCount
+    }).then((res) => {
+      if (res?.id) setLastSavedScoreId(res.id);
+    }).catch((err) => console.error('Failed to save matcher score to leaderboard:', err));
+
+    // 2. Mentés a diák profil haladásába
     if (user) {
       const calcPercentage = Math.max(50, 100 - mistakes * 5);
-      const currentPairsCount = config?.pairs?.length || allLevels?.[activeLevel]?.pairs?.length || 8;
 
       saveQuizProgress({
         userId: user.uid,
         studentName: profile?.full_name || user.displayName || 'Diák',
         studentEmail: profile?.email || user.email || '',
         userCode: profile?.user_code || '',
-        grade: grade || 6,
-        chapterId: chapterId || 'g6-geometry',
-        topicId: topicId || title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+        grade: g,
+        chapterId: ch,
+        topicId: computedTopicId,
         topicTitle: title,
         gameType: 'matcher',
         level: activeLevel || 1,
@@ -365,6 +391,16 @@ export function MatcherTemplate({
           <Button
             variant="outline"
             size="sm"
+            onClick={() => setShowLeaderboard(true)}
+            className="rounded-xl h-8 px-2.5 text-xs font-bold border-cyan-300 text-cyan-700 dark:text-cyan-300 bg-cyan-50/50 dark:bg-cyan-950/30 gap-1"
+          >
+            <Trophy className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
+            Rangsor
+          </Button>
+
+          <Button
+            variant="outline"
+            size="sm"
             onClick={initGame}
             className="rounded-xl h-8 px-2.5 text-xs font-bold border-slate-200 dark:border-slate-700"
             title="Újrakeverés"
@@ -455,6 +491,14 @@ export function MatcherTemplate({
 
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <Button
+              onClick={() => setShowLeaderboard(true)}
+              className="rounded-xl h-10 px-5 font-bold bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white shadow-md text-xs sm:text-sm gap-1.5"
+            >
+              <Trophy className="w-4 h-4 text-amber-100" />
+              Rangsor Megtekintése
+            </Button>
+
+            <Button
               variant="outline"
               onClick={initGame}
               className="rounded-xl h-10 px-4 font-bold"
@@ -484,6 +528,17 @@ export function MatcherTemplate({
           </div>
         </div>
       )}
+
+      {/* Leaderboard Modal */}
+      <MatcherLeaderboardModal
+        isOpen={showLeaderboard}
+        onClose={() => setShowLeaderboard(false)}
+        topicId={(topicId || badge || title || 'matcher').toLowerCase().replace(/[^a-z0-9-]+/g, '')}
+        topicTitle={title}
+        currentLevel={activeLevel}
+        grade={grade || 6}
+        highlightScoreId={lastSavedScoreId}
+      />
     </div>
   );
 }

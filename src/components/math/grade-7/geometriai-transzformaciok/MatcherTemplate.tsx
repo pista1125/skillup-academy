@@ -22,23 +22,29 @@ import { MathText } from '@/components/math/shared/MathText';
 
 export interface MatcherPair {
   id: string | number;
-  prompt?: string;
-  value?: string;
-  left?: string;
-  right?: string;
-  question?: string;
-  answer?: string;
-  term?: string;
-  definition?: string;
-  front?: string;
-  back?: string;
+  prompt?: React.ReactNode;
+  value?: React.ReactNode;
+  left?: React.ReactNode;
+  right?: React.ReactNode;
+  question?: React.ReactNode;
+  answer?: React.ReactNode;
+  term?: React.ReactNode;
+  definition?: React.ReactNode;
+  front?: React.ReactNode;
+  back?: React.ReactNode;
+  figure?: React.ReactNode;
+  promptFigure?: React.ReactNode;
+  valueFigure?: React.ReactNode;
+  [key: string]: any;
 }
 
 export interface MatcherLevelConfig {
   level?: number;
   title?: string;
+  subtitle?: string;
   description?: string;
   pairs: MatcherPair[];
+  [key: string]: any;
 }
 
 export interface MatcherTemplateProps {
@@ -48,6 +54,7 @@ export interface MatcherTemplateProps {
   badge?: string;
   topicTitle?: string;
   levels?: Record<DifficultyLevel, MatcherLevelConfig>;
+  levelsConfig?: Record<DifficultyLevel, MatcherLevelConfig>;
   config?: MatcherLevelConfig;
   pairs?: MatcherPair[];
   level1Pairs?: MatcherPair[];
@@ -63,12 +70,14 @@ export interface MatcherTemplateProps {
   grade?: number;
   chapterId?: string;
   topicId?: string;
+  [key: string]: any;
 }
 
 interface CardItem {
   id: string;
   pairId: string | number;
-  content: string;
+  content?: React.ReactNode;
+  figure?: React.ReactNode;
   type: 'prompt' | 'value';
   isFlipped: boolean;
   isMatched: boolean;
@@ -90,6 +99,7 @@ export function MatcherTemplate({
   badge,
   topicTitle,
   levels,
+  levelsConfig,
   config,
   pairs,
   level1Pairs,
@@ -101,8 +111,9 @@ export function MatcherTemplate({
   onSwitchToQuiz,
   onSwitchToSorter,
   onSwitchToTheory,
+  themeColor = 'teal',
   grade = 7,
-  chapterId = 'racionalis-szamok-algebra',
+  chapterId = 'g7-geom-trans',
   topicId
 }: MatcherTemplateProps) {
   const { user, profile } = useAuth();
@@ -117,12 +128,13 @@ export function MatcherTemplate({
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [lastSavedScoreId, setLastSavedScoreId] = useState<string | undefined>(undefined);
 
-  const activeLevel: DifficultyLevel = level || (config?.level as DifficultyLevel) || 1;
+  const allLevels = levels || levelsConfig;
+  const activeLevel: DifficultyLevel = (typeof level === 'number' ? level : ((level as any)?.level ?? 1)) as DifficultyLevel;
 
   // Normalize pairs from various prop formats
   const getLevelPairs = (): MatcherPair[] => {
     if (config?.pairs && config.pairs.length > 0) return config.pairs;
-    if (levels && levels[activeLevel]?.pairs) return levels[activeLevel].pairs;
+    if (allLevels && allLevels[activeLevel]?.pairs) return allLevels[activeLevel].pairs;
     if (activeLevel === 1 && level1Pairs && level1Pairs.length > 0) return level1Pairs;
     if (activeLevel === 2 && level2Pairs && level2Pairs.length > 0) return level2Pairs;
     if (activeLevel === 3 && level3Pairs && level3Pairs.length > 0) return level3Pairs;
@@ -137,13 +149,16 @@ export function MatcherTemplate({
     const cardDeck: CardItem[] = [];
 
     currentPairs.forEach((pair) => {
-      const promptText = pair.prompt ?? pair.left ?? pair.question ?? pair.term ?? pair.front ?? '';
-      const valueText = pair.value ?? pair.right ?? pair.answer ?? pair.definition ?? pair.back ?? '';
+      const promptContent = pair.prompt ?? pair.left ?? pair.question ?? pair.term ?? pair.front ?? '';
+      const promptFig = pair.promptFigure ?? pair.figure;
+      const valueContent = pair.value ?? pair.right ?? pair.answer ?? pair.definition ?? pair.back ?? '';
+      const valFig = pair.valueFigure;
 
       cardDeck.push({
         id: `${pair.id}-p`,
         pairId: pair.id,
-        content: String(promptText),
+        content: promptContent,
+        figure: promptFig,
         type: 'prompt',
         isFlipped: false,
         isMatched: false
@@ -151,7 +166,8 @@ export function MatcherTemplate({
       cardDeck.push({
         id: `${pair.id}-v`,
         pairId: pair.id,
-        content: String(valueText),
+        content: valueContent,
+        figure: valFig,
         type: 'value',
         isFlipped: false,
         isMatched: false
@@ -170,7 +186,7 @@ export function MatcherTemplate({
 
   useEffect(() => {
     initGame();
-  }, [level, config, levels]);
+  }, [level, config, levels, levelsConfig]);
 
   // Timer tick
   useEffect(() => {
@@ -219,7 +235,7 @@ export function MatcherTemplate({
           setIsChecking(false);
           setMatchesCount((prev) => {
             const updated = prev + 1;
-            const currentPairs = config?.pairs || levels?.[activeLevel]?.pairs || [];
+            const currentPairs = getLevelPairs();
             if (updated === currentPairs.length) {
               handleWin();
             }
@@ -253,10 +269,11 @@ export function MatcherTemplate({
       origin: { y: 0.6 }
     });
 
+    const currentPairs = getLevelPairs();
     const currentPairsCount = currentPairs.length || 8;
     const computedTopicId = (topicId || badge || title || 'matcher').toLowerCase().replace(/[^a-z0-9-]+/g, '');
     const g = grade || 7;
-    const ch = chapterId || 'racionalis-szamok-algebra';
+    const ch = chapterId || 'g7-geom-trans';
     const displayTitle = topicTitle ? `${topicTitle} (Párosító)` : title;
 
     // 1. Mentés az időalapú rangsorba
@@ -309,14 +326,16 @@ export function MatcherTemplate({
     return `${m}:${s < 10 ? '0' : ''}${s}`;
   };
 
-  const totalPairs = config?.pairs?.length || levels?.[activeLevel]?.pairs?.length || 0;
-  const displayTitle = config?.title || title;
-  const displaySubtitle = config?.description || subtitle;
+  const currentPairs = getLevelPairs();
+  const totalPairs = currentPairs.length || 8;
+  const currentConfig = allLevels?.[activeLevel] || config;
+  const displayTitle = currentConfig?.title || title;
+  const displaySubtitle = currentConfig?.description || currentConfig?.subtitle || subtitle;
 
   return (
-    <div className="space-y-4 animate-in fade-in duration-300">
+    <div className="space-y-4 animate-in fade-in duration-300 text-left">
       {/* Top Controls & Stats */}
-      <div className="bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-3 sm:p-4 border border-slate-200 dark:border-slate-700/80 flex flex-wrap items-center justify-between gap-3">
+      <div className="bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-3 sm:p-4 border border-slate-200 dark:border-slate-700/80 flex flex-wrap items-center justify-between gap-3 shadow-xs">
         <div className="flex items-center gap-3">
           {onBack ? (
             <Button
@@ -329,21 +348,21 @@ export function MatcherTemplate({
               Vissza
             </Button>
           ) : (
-            <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold">
+            <div className="w-10 h-10 rounded-xl bg-teal-100 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 flex items-center justify-center font-bold">
               <ArrowRightLeft className="w-5 h-5" />
             </div>
           )}
           <div>
             {badge && (
-              <div className="text-[11px] font-bold text-purple-600 dark:text-purple-400">
+              <div className="text-[11px] font-bold text-teal-600 dark:text-teal-400">
                 {badge}
               </div>
             )}
             <div className="text-sm font-black text-slate-800 dark:text-slate-200">
-              <MathText>{displayTitle}</MathText> {levels ? `(${activeLevel}. szint)` : ''}
+              {typeof displayTitle === 'string' ? <MathText>{displayTitle}</MathText> : displayTitle} {allLevels ? `(${activeLevel}. szint)` : ''}
             </div>
             <div className="text-xs text-slate-500 dark:text-slate-400">
-              <MathText>{displaySubtitle}</MathText>
+              {typeof displaySubtitle === 'string' ? <MathText>{displaySubtitle}</MathText> : displaySubtitle}
             </div>
           </div>
         </div>
@@ -371,7 +390,7 @@ export function MatcherTemplate({
             variant="outline"
             size="sm"
             onClick={initGame}
-            className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 border-slate-200 dark:border-slate-700"
+            className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 border-slate-200 dark:border-slate-700 cursor-pointer hover:bg-slate-100"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             Újrakezdés
@@ -381,7 +400,7 @@ export function MatcherTemplate({
             variant="outline"
             size="sm"
             onClick={() => setShowLeaderboard(true)}
-            className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 border-purple-300 dark:border-purple-700/60 bg-purple-50/50 dark:bg-purple-950/30 text-purple-700 dark:text-purple-300 hover:bg-purple-100 hover:border-purple-400 shadow-2xs"
+            className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 border-purple-300 dark:border-purple-700/60 bg-purple-50/50 dark:bg-purple-950/30 text-purple-700 dark:text-purple-300 hover:bg-purple-100 hover:border-purple-400 shadow-2xs cursor-pointer"
           >
             <Trophy className="w-3.5 h-3.5 text-purple-500" />
             Rangsor
@@ -392,7 +411,7 @@ export function MatcherTemplate({
               variant="ghost"
               size="sm"
               onClick={onOpenRules}
-              className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 text-slate-700 dark:text-slate-300"
+              className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 text-slate-700 dark:text-slate-300 cursor-pointer hover:bg-slate-100"
             >
               <BookOpen className="w-3.5 h-3.5" />
               Szabályzat
@@ -404,7 +423,7 @@ export function MatcherTemplate({
               variant="ghost"
               size="sm"
               onClick={onSwitchToTheory}
-              className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-950/40"
+              className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 text-teal-600 dark:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-950/40 cursor-pointer"
             >
               <BookOpen className="w-3.5 h-3.5" />
               Tananyag
@@ -418,14 +437,14 @@ export function MatcherTemplate({
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
           {cards.map((card) => {
             let cardClass =
-              'border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 hover:border-purple-500 dark:hover:border-purple-500 hover:shadow-xs hover:-translate-y-0.5 active:translate-y-0';
+              'border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 hover:border-teal-500 dark:hover:border-teal-500 hover:shadow-xs hover:-translate-y-0.5 active:translate-y-0';
 
             if (card.isMatched) {
               cardClass =
-                'border-2 border-purple-500/80 bg-purple-50/60 dark:bg-purple-950/40 text-purple-800 dark:text-purple-300 opacity-60 pointer-events-none scale-95';
+                'border-2 border-teal-500/80 bg-teal-50/60 dark:bg-teal-950/40 text-teal-800 dark:text-teal-300 opacity-60 pointer-events-none scale-95';
             } else if (card.isFlipped) {
               cardClass =
-                'border-2 border-purple-500 bg-purple-50 dark:bg-purple-950/40 text-purple-950 dark:text-purple-100 ring-2 ring-purple-500/30 shadow-md scale-[1.02]';
+                'border-2 border-teal-500 bg-teal-50 dark:bg-teal-950/40 text-teal-950 dark:text-teal-100 ring-2 ring-teal-500/30 shadow-md scale-[1.02]';
             }
 
             return (
@@ -435,14 +454,25 @@ export function MatcherTemplate({
                 onClick={() => handleCardClick(card)}
                 disabled={card.isMatched || isChecking}
                 className={cn(
-                  'min-h-[105px] sm:min-h-[115px] p-3 rounded-2xl font-bold text-xs sm:text-sm transition-all duration-200 flex flex-col items-center justify-center text-center select-none shadow-xs relative border-2 cursor-pointer',
+                  'min-h-[105px] sm:min-h-[120px] p-3 rounded-2xl font-bold text-xs sm:text-sm transition-all duration-200 flex flex-col items-center justify-center text-center select-none shadow-xs relative border-2 cursor-pointer overflow-hidden',
                   cardClass
                 )}
               >
                 <div className="w-full h-full flex flex-col items-center justify-center relative p-1">
-                  <span className="leading-snug font-bold text-xs sm:text-sm break-words line-clamp-3">
-                    <MathText size="lg">{card.content}</MathText>
-                  </span>
+                  {card.figure ? (
+                    <div className="flex flex-col items-center justify-center gap-1.5 w-full">
+                      <div className="max-h-16 max-w-full flex items-center justify-center overflow-hidden">{card.figure}</div>
+                      {card.content && (
+                        <span className="leading-snug font-bold text-xs sm:text-sm break-words line-clamp-2">
+                          {typeof card.content === 'string' ? <MathText size="md">{card.content}</MathText> : card.content}
+                        </span>
+                      )}
+                    </div>
+                  ) : (
+                    <span className="leading-snug font-bold text-xs sm:text-sm break-words line-clamp-3">
+                      {typeof card.content === 'string' ? <MathText size="lg">{card.content}</MathText> : card.content}
+                    </span>
+                  )}
                   {card.isMatched && (
                     <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 absolute top-1 right-1" />
                   )}
@@ -453,8 +483,8 @@ export function MatcherTemplate({
         </div>
       ) : (
         /* Completion Screen */
-        <div className="bg-gradient-to-b from-purple-50/80 to-white dark:from-slate-850 dark:to-slate-900 border-2 border-purple-300 dark:border-purple-800/80 rounded-3xl p-6 sm:p-8 text-center space-y-6 shadow-xl animate-in zoom-in-95 duration-300">
-          <div className="w-16 h-16 rounded-3xl bg-gradient-to-br from-amber-400 to-purple-600 text-white flex items-center justify-center mx-auto shadow-lg shadow-purple-500/30">
+        <div className="bg-gradient-to-b from-teal-50/80 to-white dark:from-slate-850 dark:to-slate-900 border-2 border-teal-300 dark:border-teal-800/80 rounded-3xl p-6 sm:p-8 text-center space-y-6 shadow-xl animate-in zoom-in-95 duration-300">
+          <div className="w-16 h-16 rounded-3xl bg-gradient-to-br from-amber-400 to-teal-600 text-white flex items-center justify-center mx-auto shadow-lg shadow-teal-500/30">
             <Trophy className="w-8 h-8" />
           </div>
 
@@ -470,7 +500,7 @@ export function MatcherTemplate({
           <div className="flex items-center justify-center gap-4 max-w-xs mx-auto">
             <div className="p-3 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 flex-1">
               <div className="text-[11px] text-slate-500 dark:text-slate-400 font-bold uppercase">Időeredmény</div>
-              <div className="text-lg font-black text-purple-600 dark:text-purple-400 font-mono">
+              <div className="text-lg font-black text-teal-600 dark:text-teal-400 font-mono">
                 {formatTime(seconds)}
               </div>
             </div>
@@ -494,7 +524,7 @@ export function MatcherTemplate({
           <div className="flex flex-wrap items-center justify-center gap-2.5 pt-2">
             <Button
               onClick={() => setShowLeaderboard(true)}
-              className="rounded-xl h-10 px-5 font-bold bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white shadow-md text-xs sm:text-sm gap-1.5"
+              className="rounded-xl h-10 px-5 font-bold bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white shadow-md text-xs sm:text-sm gap-1.5 cursor-pointer"
             >
               <Trophy className="w-4 h-4 text-amber-100" />
               Rangsor Megtekintése
@@ -503,7 +533,7 @@ export function MatcherTemplate({
             <Button
               onClick={initGame}
               variant="outline"
-              className="rounded-xl h-10 px-5 font-bold border-2 border-slate-300 dark:border-slate-700 text-xs sm:text-sm"
+              className="rounded-xl h-10 px-5 font-bold border-2 border-slate-300 dark:border-slate-700 text-xs sm:text-sm cursor-pointer"
             >
               <RotateCcw className="w-4 h-4 mr-1.5" />
               Párosítás Újra
@@ -512,7 +542,7 @@ export function MatcherTemplate({
             {activeLevel < 3 && onNextLevel && (
               <Button
                 onClick={onNextLevel}
-                className="rounded-xl h-10 px-5 font-bold bg-purple-600 hover:bg-purple-700 text-white shadow-md text-xs sm:text-sm"
+                className="rounded-xl h-10 px-5 font-bold bg-teal-600 hover:bg-teal-700 text-white shadow-md text-xs sm:text-sm cursor-pointer"
               >
                 Következő Szint ({activeLevel + 1}. szint)
                 <ArrowRight className="w-4 h-4 ml-1.5" />
@@ -523,7 +553,7 @@ export function MatcherTemplate({
               <Button
                 variant="ghost"
                 onClick={onSwitchToTheory}
-                className="rounded-xl h-10 px-4 font-bold text-xs sm:text-sm text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-950/40"
+                className="rounded-xl h-10 px-4 font-bold text-xs sm:text-sm text-teal-600 dark:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-950/40 cursor-pointer"
               >
                 <BookOpen className="w-4 h-4 mr-1.5" />
                 Vissza a tananyaghoz
@@ -534,7 +564,7 @@ export function MatcherTemplate({
               <Button
                 variant="ghost"
                 onClick={onBack}
-                className="rounded-xl h-10 px-4 font-bold text-xs sm:text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                className="rounded-xl h-10 px-4 font-bold text-xs sm:text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
               >
                 <ArrowLeft className="w-4 h-4 mr-1.5" />
                 Vissza a témakörökhöz

@@ -16,6 +16,8 @@ import { cn } from '@/lib/utils';
 import { DifficultyLevel } from './QuizTemplate';
 import { useAuth } from '@/contexts/AuthContext';
 import { saveQuizProgress } from '@/services/quizProgressService';
+import { saveMatcherScore } from '@/services/matcherLeaderboardService';
+import { MatcherLeaderboardModal } from '@/components/math/shared/MatcherLeaderboardModal';
 import { MathText } from '@/components/math/shared/MathText';
 
 export interface MatcherPair {
@@ -126,6 +128,8 @@ export function MatcherTemplate({
   const [isActive, setIsActive] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const [isChecking, setIsChecking] = useState(false);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
+  const [lastSavedScoreId, setLastSavedScoreId] = useState<string | null>(null);
 
   useEffect(() => {
     setActiveLevel(level);
@@ -263,15 +267,36 @@ export function MatcherTemplate({
     if (user) {
       const calcPercentage = Math.max(50, 100 - mistakes * 5);
       const currentPairsCount = config?.pairs?.length || allLevels?.[activeLevel]?.pairs?.length || 8;
+      const g = grade || 7;
+      const ch = chapterId || 'gondolkodjunk';
+      const computedTopicId = topicId || (title || 'matcher').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+      // Save to leaderboard
+      saveMatcherScore({
+        userId: user.uid,
+        userName: profile?.full_name || user.displayName || 'Diák',
+        userEmail: profile?.email || user.email || '',
+        userCode: profile?.user_code || '',
+        grade: g,
+        chapterId: ch,
+        topicId: computedTopicId,
+        topicTitle: topicTitle || title,
+        level: activeLevel,
+        seconds: seconds,
+        mistakes: mistakes,
+        totalPairs: currentPairsCount
+      }).then((id) => {
+        if (id) setLastSavedScoreId(id);
+      }).catch(err => console.error('Failed to save leaderboard score:', err));
 
       saveQuizProgress({
         userId: user.uid,
         studentName: profile?.full_name || user.displayName || 'Diák',
         studentEmail: profile?.email || user.email || '',
         userCode: profile?.user_code || '',
-        grade: grade || 7,
-        chapterId: chapterId || 'gondolkodjunk',
-        topicId: topicId || (title || 'matcher').toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+        grade: g,
+        chapterId: ch,
+        topicId: computedTopicId,
         topicTitle: topicTitle || title,
         gameType: 'matcher',
         level: activeLevel || 1,
@@ -356,6 +381,16 @@ export function MatcherTemplate({
               {mistakes} hiba
             </div>
           )}
+
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowLeaderboard(true)}
+            className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 border-amber-300 dark:border-amber-700 bg-amber-50/50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/50"
+          >
+            <Trophy className="w-3.5 h-3.5 text-amber-500" />
+            🏆 Rangsor
+          </Button>
 
           <Button
             variant="outline"
@@ -473,6 +508,14 @@ export function MatcherTemplate({
           </div>
 
           <div className="flex flex-col sm:flex-row justify-center gap-3 pt-2">
+            <Button
+              onClick={() => setShowLeaderboard(true)}
+              className="h-10 px-5 rounded-xl font-bold text-sm bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white flex items-center justify-center gap-1.5 shadow-md"
+            >
+              <Trophy className="w-4 h-4" />
+              🏆 Rangsor Megtekintése
+            </Button>
+
             {allLevels && activeLevel < 3 && (
               <Button
                 onClick={handleNextLevel}
@@ -504,6 +547,18 @@ export function MatcherTemplate({
           </div>
         </div>
       )}
+
+      {/* Leaderboard Modal */}
+      <MatcherLeaderboardModal
+        isOpen={showLeaderboard}
+        onClose={() => setShowLeaderboard(false)}
+        grade={grade || 7}
+        chapterId={chapterId || 'gondolkodjunk'}
+        topicId={topicId || (title || 'matcher').toLowerCase().replace(/[^a-z0-9]+/g, '-')}
+        topicTitle={topicTitle || title}
+        currentLevel={activeLevel}
+        highlightScoreId={lastSavedScoreId || undefined}
+      />
     </div>
   );
 }

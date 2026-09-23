@@ -9,13 +9,14 @@ import {
   BookOpen,
   ArrowRight,
   ArrowRightLeft,
-  ArrowLeft,
-  Sparkles
+  ArrowLeft
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { DifficultyLevel } from './QuizTemplate';
 import { useAuth } from '@/contexts/AuthContext';
 import { saveQuizProgress } from '@/services/quizProgressService';
+import { saveMatcherScore } from '@/services/matcherLeaderboardService';
+import { MatcherLeaderboardModal } from '@/components/math/shared/MatcherLeaderboardModal';
 
 export interface MatcherPair {
   id: string | number;
@@ -101,6 +102,8 @@ export function MatcherTemplate({
   const [seconds, setSeconds] = useState(0);
   const [timerActive, setTimerActive] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
+  const [lastSavedScoreId, setLastSavedScoreId] = useState<string | undefined>(undefined);
 
   const activeLevel: DifficultyLevel = level || (config?.level as DifficultyLevel) || 1;
 
@@ -226,12 +229,31 @@ export function MatcherTemplate({
       origin: { y: 0.6 }
     });
 
+    const currentPairsCount = config?.pairs?.length || levels?.[activeLevel]?.pairs?.length || 8;
+    const computedTopicId = (topicId || badge || title || 'matcher').toLowerCase().replace(/[^a-z0-9-]+/g, '');
+    const g = grade || 6;
+    const ch = chapterId || 'egesz-szamok-oszthatosag';
+
+    // 1. Mentés az időalapú rangsorba (verseny az idővel)
+    saveMatcherScore({
+      userId: user?.uid || null,
+      studentName: profile?.full_name || user?.displayName || 'Diák',
+      userCode: profile?.user_code || undefined,
+      grade: g,
+      chapterId: ch,
+      topicId: computedTopicId,
+      topicTitle: title,
+      level: activeLevel,
+      timeSeconds: seconds,
+      mistakes: mistakes,
+      pairsCount: currentPairsCount
+    }).then((res) => {
+      if (res?.id) setLastSavedScoreId(res.id);
+    }).catch((err) => console.error('Failed to save matcher score to leaderboard:', err));
+
+    // 2. Mentés a diák profil haladásába
     if (user) {
       const calcPercentage = Math.max(50, 100 - (mistakes * 5));
-      const currentPairsCount = config?.pairs?.length || levels?.[activeLevel]?.pairs?.length || 8;
-      const computedTopicId = (topicId || badge || title || 'matcher').toLowerCase().replace(/[^a-z0-9]+/g, '-');
-      const g = grade || 6;
-      const ch = chapterId || 'egesz-szamok-oszthatosag';
 
       saveQuizProgress({
         userId: user.uid,
@@ -327,6 +349,16 @@ export function MatcherTemplate({
             Újrakezdés
           </Button>
 
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowLeaderboard(true)}
+            className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 border-amber-300 dark:border-amber-700/60 bg-amber-50/50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-300 hover:bg-amber-100 hover:border-amber-400 shadow-2xs"
+          >
+            <Trophy className="w-3.5 h-3.5 text-amber-500" />
+            Rangsor
+          </Button>
+
           {onOpenRules && (
             <Button
               variant="ghost"
@@ -357,7 +389,16 @@ export function MatcherTemplate({
       {!isCompleted ? (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
           {cards.map((card) => {
-            const isFlipped = card.isFlipped || card.isMatched;
+            let cardClass =
+              'border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-xs hover:-translate-y-0.5 active:translate-y-0';
+
+            if (card.isMatched) {
+              cardClass =
+                'border-2 border-emerald-500/80 bg-emerald-50/60 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 opacity-60 pointer-events-none scale-95';
+            } else if (card.isFlipped) {
+              cardClass =
+                'border-2 border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-950 dark:text-emerald-100 ring-2 ring-emerald-500/30 shadow-md scale-[1.02]';
+            }
 
             return (
               <button
@@ -366,33 +407,18 @@ export function MatcherTemplate({
                 onClick={() => handleCardClick(card)}
                 disabled={card.isMatched || isChecking}
                 className={cn(
-                  'h-24 sm:h-28 p-3 rounded-2xl font-bold text-xs sm:text-sm transition-all duration-300 flex flex-col items-center justify-center text-center select-none shadow-xs relative border-2 cursor-pointer',
-                  card.isMatched
-                    ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-400/80 text-emerald-700 dark:text-emerald-300 opacity-80 cursor-default scale-95'
-                    : isFlipped
-                    ? card.type === 'prompt'
-                      ? 'bg-emerald-600 text-white border-emerald-700 shadow-md scale-[1.02]'
-                      : 'bg-teal-600 text-white border-teal-700 shadow-md scale-[1.02]'
-                    : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-emerald-400 dark:hover:border-emerald-500 hover:shadow-xs hover:-translate-y-0.5 active:translate-y-0'
+                  'min-h-[105px] sm:min-h-[115px] p-3 rounded-2xl font-bold text-xs sm:text-sm transition-all duration-200 flex flex-col items-center justify-center text-center select-none shadow-xs relative border-2 cursor-pointer',
+                  cardClass
                 )}
               >
-                {isFlipped ? (
-                  <div className="animate-in zoom-in-75 duration-200 flex flex-col items-center justify-center h-full w-full p-1">
-                    <span className="leading-snug font-mono font-bold text-xs sm:text-sm break-words line-clamp-3">
-                      {card.content}
-                    </span>
-                    {card.isMatched && (
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 absolute top-2 right-2" />
-                    )}
-                  </div>
-                ) : (
-                  <div className="flex flex-col items-center gap-1.5 text-slate-400 dark:text-slate-500">
-                    <Sparkles className="w-4 h-4 opacity-40 text-emerald-500" />
-                    <span className="text-[10px] font-bold tracking-wider uppercase opacity-60">
-                      Kattints ide!
-                    </span>
-                  </div>
-                )}
+                <div className="w-full h-full flex flex-col items-center justify-center relative p-1">
+                  <span className="leading-snug font-bold text-xs sm:text-sm break-words line-clamp-3">
+                    {card.content}
+                  </span>
+                  {card.isMatched && (
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 absolute top-1 right-1" />
+                  )}
+                </div>
               </button>
             );
           })}
@@ -439,6 +465,14 @@ export function MatcherTemplate({
 
           <div className="flex flex-wrap items-center justify-center gap-2.5 pt-2">
             <Button
+              onClick={() => setShowLeaderboard(true)}
+              className="rounded-xl h-10 px-5 font-bold bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white shadow-md text-xs sm:text-sm gap-1.5"
+            >
+              <Trophy className="w-4 h-4 text-amber-100" />
+              Rangsor Megtekintése
+            </Button>
+
+            <Button
               onClick={initGame}
               variant="outline"
               className="rounded-xl h-10 px-5 font-bold border-2 border-slate-300 dark:border-slate-700 text-xs sm:text-sm"
@@ -481,6 +515,17 @@ export function MatcherTemplate({
           </div>
         </div>
       )}
+
+      {/* Leaderboard Modal */}
+      <MatcherLeaderboardModal
+        isOpen={showLeaderboard}
+        onClose={() => setShowLeaderboard(false)}
+        topicId={(topicId || badge || title || 'matcher').toLowerCase().replace(/[^a-z0-9-]+/g, '')}
+        topicTitle={title}
+        currentLevel={activeLevel}
+        grade={grade || 6}
+        highlightScoreId={lastSavedScoreId}
+      />
     </div>
   );
 }

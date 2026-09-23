@@ -409,10 +409,18 @@ export function QuizTemplate({
     setIsCompleted(false);
 
     const levelQuestions = effectiveLevels[level]?.questions || [];
-    const prepared = levelQuestions.map((q) => ({
-      ...q,
-      options: shuffleArray(q.options)
-    }));
+    const prepared = levelQuestions.map((q) => {
+      const originalOptions = Array.isArray(q.options) ? q.options : [];
+      let resolvedCorrectAnswer = q.correctAnswer;
+      if (typeof q.correctAnswer === 'number' && originalOptions[q.correctAnswer] !== undefined) {
+        resolvedCorrectAnswer = originalOptions[q.correctAnswer];
+      }
+      return {
+        ...q,
+        correctAnswer: resolvedCorrectAnswer,
+        options: shuffleArray(originalOptions)
+      };
+    });
     setQuestions(prepared);
   };
 
@@ -1038,14 +1046,6 @@ export function QuizTemplate({
                       {currentQuestion.figure && (
                         <div className="w-full flex items-center justify-center p-2 sm:p-3 rounded-2xl bg-slate-50/80 dark:bg-slate-850/80 border border-slate-200/80 dark:border-slate-800/80 shadow-inner max-h-60 overflow-auto">
                           {currentQuestion.figure}
-                        </div>
-                      )}
-
-                      {currentQuestion.highlightValue && (
-                        <div className="inline-block px-6 py-2.5 bg-gradient-to-br from-purple-50 to-indigo-50/60 dark:from-slate-850 dark:to-slate-800 rounded-2xl border-2 border-purple-200/80 dark:border-slate-700 shadow-inner">
-                          <span className="text-2xl sm:text-3xl font-mono font-black tracking-wider text-slate-900 dark:text-purple-300">
-                            <MathText size="xl">{currentQuestion.highlightValue}</MathText>
-                          </span>
                         </div>
                       )}
                     </CardContent>

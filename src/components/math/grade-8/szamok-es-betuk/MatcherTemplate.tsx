@@ -16,6 +16,9 @@ import { cn } from '@/lib/utils';
 import { DifficultyLevel } from './QuizTemplate';
 import { useAuth } from '@/contexts/AuthContext';
 import { saveQuizProgress } from '@/services/quizProgressService';
+import { saveMatcherScore } from '@/services/matcherLeaderboardService';
+import { MatcherLeaderboardModal } from '@/components/math/shared/MatcherLeaderboardModal';
+import { MathText } from '@/components/math/shared/MathText';
 
 export interface MatcherPair {
   id: string | number;
@@ -102,6 +105,8 @@ export function MatcherTemplate({
   const [seconds, setSeconds] = useState(0);
   const [timerActive, setTimerActive] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
+  const [lastSavedScoreId, setLastSavedScoreId] = useState<string | null>(null);
 
   const activeLevel: DifficultyLevel = level || (config?.level as DifficultyLevel) || 1;
 
@@ -234,6 +239,24 @@ export function MatcherTemplate({
       const g = grade || 8;
       const ch = chapterId || 'szamok-es-betuk';
 
+      // Save to matcher leaderboard
+      saveMatcherScore({
+        userId: user.uid,
+        userName: profile?.full_name || user.displayName || 'Diák',
+        userEmail: profile?.email || user.email || '',
+        userCode: profile?.user_code || '',
+        grade: g,
+        chapterId: ch,
+        topicId: computedTopicId,
+        topicTitle: title,
+        level: activeLevel,
+        seconds: seconds,
+        mistakes: mistakes,
+        totalPairs: currentPairsCount
+      }).then((id) => {
+        if (id) setLastSavedScoreId(id);
+      }).catch((err) => console.error('Failed to save matcher leaderboard score:', err));
+
       saveQuizProgress({
         userId: user.uid,
         studentName: profile?.full_name || user.displayName || 'Diák',
@@ -321,6 +344,16 @@ export function MatcherTemplate({
           <Button
             variant="outline"
             size="sm"
+            onClick={() => setShowLeaderboard(true)}
+            className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 border-amber-300 dark:border-amber-700 bg-amber-50/50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/50"
+          >
+            <Trophy className="w-3.5 h-3.5 text-amber-500" />
+            🏆 Rangsor
+          </Button>
+
+          <Button
+            variant="outline"
+            size="sm"
             onClick={initGame}
             className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 border-slate-200 dark:border-slate-700"
           >
@@ -356,44 +389,43 @@ export function MatcherTemplate({
 
       {/* Cards Grid */}
       {!isCompleted ? (
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
           {cards.map((card) => {
-            const isFlipped = card.isFlipped || card.isMatched;
+            const isFlipped = card.isFlipped;
+            const isMatched = card.isMatched;
+
+            let cardClass =
+              'border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 hover:border-violet-400 shadow-2xs hover:shadow-xs';
+
+            if (isMatched) {
+              cardClass =
+                'border-2 border-emerald-500/80 bg-emerald-50/60 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 opacity-60 pointer-events-none scale-95';
+            } else if (isFlipped) {
+              cardClass =
+                'border-2 border-violet-500 bg-violet-50/50 dark:bg-violet-950/30 text-violet-950 dark:text-violet-100 ring-2 ring-violet-500/20';
+            }
 
             return (
               <button
                 key={card.id}
                 type="button"
                 onClick={() => handleCardClick(card)}
-                disabled={card.isMatched || isChecking}
+                disabled={isMatched || isChecking}
                 className={cn(
-                  'h-24 sm:h-28 p-3 rounded-2xl font-bold text-xs sm:text-sm transition-all duration-300 flex flex-col items-center justify-center text-center select-none shadow-xs relative border-2 cursor-pointer',
-                  card.isMatched
-                    ? 'bg-violet-50 dark:bg-violet-950/40 border-violet-400/80 text-violet-700 dark:text-violet-300 opacity-80 cursor-default scale-95'
-                    : isFlipped
-                    ? card.type === 'prompt'
-                      ? 'bg-violet-600 text-white border-violet-700 shadow-md scale-[1.02]'
-                      : 'bg-indigo-600 text-white border-indigo-700 shadow-md scale-[1.02]'
-                    : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-violet-400 dark:hover:border-violet-500 hover:shadow-xs hover:-translate-y-0.5 active:translate-y-0'
+                  'min-h-[105px] sm:min-h-[120px] rounded-2xl p-2 sm:p-2.5 flex flex-col items-center justify-center text-center text-xs sm:text-sm font-bold transition-all duration-200 select-none cursor-pointer',
+                  cardClass
                 )}
               >
-                {isFlipped ? (
-                  <div className="animate-in zoom-in-75 duration-200 flex flex-col items-center justify-center h-full w-full p-1">
-                    <span className="leading-snug font-mono font-bold text-xs sm:text-sm break-words line-clamp-3">
-                      {card.content}
-                    </span>
-                    {card.isMatched && (
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 absolute top-2 right-2" />
-                    )}
-                  </div>
-                ) : (
-                  <div className="flex flex-col items-center gap-1.5 text-slate-400 dark:text-slate-500">
-                    <Sparkles className="w-4 h-4 opacity-40 text-violet-500" />
-                    <span className="text-[10px] font-bold tracking-wider uppercase opacity-60">
-                      Kattints ide!
-                    </span>
-                  </div>
-                )}
+                <div className="w-full h-full flex flex-col items-center justify-center gap-1.5 leading-snug">
+                  {card.content ? (
+                    <div className="max-h-full overflow-hidden flex items-center justify-center text-center">
+                      <MathText>{card.content}</MathText>
+                    </div>
+                  ) : null}
+                  {isMatched && (
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 mt-1" />
+                  )}
+                </div>
               </button>
             );
           })}
@@ -431,6 +463,14 @@ export function MatcherTemplate({
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-2.5 pt-2">
+            <Button
+              onClick={() => setShowLeaderboard(true)}
+              className="rounded-xl h-10 px-5 font-bold bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md text-xs sm:text-sm flex items-center justify-center gap-1.5"
+            >
+              <Trophy className="w-4 h-4" />
+              🏆 Rangsor Megtekintése
+            </Button>
+
             <Button
               onClick={initGame}
               variant="outline"
@@ -474,6 +514,18 @@ export function MatcherTemplate({
           </div>
         </div>
       )}
+
+      {/* Leaderboard Modal */}
+      <MatcherLeaderboardModal
+        isOpen={showLeaderboard}
+        onClose={() => setShowLeaderboard(false)}
+        grade={grade || 8}
+        chapterId={chapterId || 'szamok-es-betuk'}
+        topicId={(topicId || badge || title || 'matcher').toLowerCase().replace(/[^a-z0-9]+/g, '-')}
+        topicTitle={title}
+        currentLevel={activeLevel}
+        highlightScoreId={lastSavedScoreId || undefined}
+      />
     </div>
   );
 }

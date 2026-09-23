@@ -403,6 +403,22 @@ const Grade7RationalSummaryTheory = lazy(() => import("@/components/math/grade-7
 const Grade7RationalSummaryQuiz = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/osszefoglalas/RationalSummaryQuiz").then(m => ({ default: m.RationalSummaryQuiz }))) as any;
 const Grade7RationalSummaryMatcher = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/osszefoglalas/RationalSummaryMatcher").then(m => ({ default: m.RationalSummaryMatcher }))) as any;
 const Grade7RationalSummarySorter = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/osszefoglalas/RationalSummarySorter").then(m => ({ default: m.RationalSummarySorter }))) as any;
+const Grade7GeometricConceptsTheory = lazy(() => import("@/components/math/grade-7/geometriai-transzformaciok/geometriai-fogalmak/GeometricConceptsTheory").then(m => ({ default: m.GeometricConceptsTheory }))) as any;
+const Grade7GeometricConceptsQuiz = lazy(() => import("@/components/math/grade-7/geometriai-transzformaciok/geometriai-fogalmak/GeometricConceptsQuiz").then(m => ({ default: m.GeometricConceptsQuiz }))) as any;
+const Grade7GeometricConceptsMatcher = lazy(() => import("@/components/math/grade-7/geometriai-transzformaciok/geometriai-fogalmak/GeometricConceptsMatcher").then(m => ({ default: m.GeometricConceptsMatcher }))) as any;
+const Grade7GeometricConceptsSorter = lazy(() => import("@/components/math/grade-7/geometriai-transzformaciok/geometriai-fogalmak/GeometricConceptsSorter").then(m => ({ default: m.GeometricConceptsSorter }))) as any;
+const Grade7TriangleLinesTheory = lazy(() => import("@/components/math/grade-7/geometriai-transzformaciok/haromszogek-nevezetes-vonalai/TriangleLinesTheory").then(m => ({ default: m.TriangleLinesTheory }))) as any;
+const Grade7TriangleLinesQuiz = lazy(() => import("@/components/math/grade-7/geometriai-transzformaciok/haromszogek-nevezetes-vonalai/TriangleLinesQuiz").then(m => ({ default: m.TriangleLinesQuiz }))) as any;
+const Grade7TriangleLinesMatcher = lazy(() => import("@/components/math/grade-7/geometriai-transzformaciok/haromszogek-nevezetes-vonalai/TriangleLinesMatcher").then(m => ({ default: m.TriangleLinesMatcher }))) as any;
+const Grade7TriangleLinesSorter = lazy(() => import("@/components/math/grade-7/geometriai-transzformaciok/haromszogek-nevezetes-vonalai/TriangleLinesSorter").then(m => ({ default: m.TriangleLinesSorter }))) as any;
+const Grade7TrianglesAndQuadrilateralsTheory = lazy(() => import("@/components/math/grade-7/geometriai-transzformaciok/haromszogek-es-negyszogek/TrianglesAndQuadrilateralsTheory").then(m => ({ default: m.TrianglesAndQuadrilateralsTheory }))) as any;
+const Grade7TrianglesAndQuadrilateralsQuiz = lazy(() => import("@/components/math/grade-7/geometriai-transzformaciok/haromszogek-es-negyszogek/TrianglesAndQuadrilateralsQuiz").then(m => ({ default: m.TrianglesAndQuadrilateralsQuiz }))) as any;
+const Grade7TrianglesAndQuadrilateralsMatcher = lazy(() => import("@/components/math/grade-7/geometriai-transzformaciok/haromszogek-es-negyszogek/TrianglesAndQuadrilateralsMatcher").then(m => ({ default: m.TrianglesAndQuadrilateralsMatcher }))) as any;
+const Grade7TrianglesAndQuadrilateralsSorter = lazy(() => import("@/components/math/grade-7/geometriai-transzformaciok/haromszogek-es-negyszogek/TrianglesAndQuadrilateralsSorter").then(m => ({ default: m.TrianglesAndQuadrilateralsSorter }))) as any;
+const Grade7GeometricTransformationsTheory = lazy(() => import("@/components/math/grade-7/geometriai-transzformaciok/geometriai-transzformaciok/GeometricTransformationsTheory").then(m => ({ default: m.GeometricTransformationsTheory }))) as any;
+const Grade7GeometricTransformationsQuiz = lazy(() => import("@/components/math/grade-7/geometriai-transzformaciok/geometriai-transzformaciok/GeometricTransformationsQuiz").then(m => ({ default: m.GeometricTransformationsQuiz }))) as any;
+const Grade7GeometricTransformationsMatcher = lazy(() => import("@/components/math/grade-7/geometriai-transzformaciok/geometriai-transzformaciok/GeometricTransformationsMatcher").then(m => ({ default: m.GeometricTransformationsMatcher }))) as any;
+const Grade7GeometricTransformationsSorter = lazy(() => import("@/components/math/grade-7/geometriai-transzformaciok/geometriai-transzformaciok/GeometricTransformationsSorter").then(m => ({ default: m.GeometricTransformationsSorter }))) as any;
 const Grade8LogicTheory = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/logika-feladatok/LogicTheory").then(m => ({ default: m.LogicTheory }))) as any;
 const Grade8LogicQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/logika-feladatok/LogicQuiz").then(m => ({ default: m.LogicQuiz }))) as any;
 const Grade8SetBasicsTheory = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/mit-tudunk-a-halmazokrol/SetBasicsTheory").then(m => ({ default: m.SetBasicsTheory }))) as any;
@@ -599,6 +615,10 @@ type ActivityType =
   | 'g7-rat-combining-substitution-theory' | 'g7-rat-combining-substitution-quiz' | 'g7-rat-combining-substitution-matcher' | 'g7-rat-combining-substitution-sorter'
   | 'g7-rat-expansion-factoring-theory' | 'g7-rat-expansion-factoring-quiz' | 'g7-rat-expansion-factoring-matcher' | 'g7-rat-expansion-factoring-sorter'
   | 'g7-rat-summary-theory' | 'g7-rat-summary-quiz' | 'g7-rat-summary-matcher' | 'g7-rat-summary-sorter'
+  | 'g7-geom-concepts-theory' | 'g7-geom-concepts-quiz' | 'g7-geom-concepts-matcher' | 'g7-geom-concepts-sorter'
+  | 'g7-geom-triangle-lines-theory' | 'g7-geom-triangle-lines-quiz' | 'g7-geom-triangle-lines-matcher' | 'g7-geom-triangle-lines-sorter'
+  | 'g7-geom-triangles-quads-theory' | 'g7-geom-triangles-quads-quiz' | 'g7-geom-triangles-quads-matcher' | 'g7-geom-triangles-quads-sorter'
+  | 'g7-geom-transformations-theory' | 'g7-geom-transformations-quiz' | 'g7-geom-transformations-matcher' | 'g7-geom-transformations-sorter'
   | 'g8-logic-theory' | 'g8-logic-quiz'
   | 'g8-set-basics-theory' | 'g8-set-basics-quiz' | 'g8-set-basics-matcher' | 'g8-set-basics-sorter'
   | 'g8-set-operations-theory' | 'g8-set-operations-quiz' | 'g8-set-operations-matcher' | 'g8-set-operations-sorter'
@@ -4337,6 +4357,183 @@ export default function MathPage() {
                       Vissza a témakörökhöz
                     </Button>
                     <Grade7RationalSummarySorter onNextLevel={handleBack} />
+                  </div>
+                )}
+
+                {/* 7. Osztály - III. Geometriai transzformációk */}
+                {activityType === 'g7-geom-concepts-theory' && (
+                  <Grade7GeometricConceptsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-geom-concepts-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-geom-concepts-quiz' && (
+                  <Grade7GeometricConceptsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-geom-concepts-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-geom-concepts-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7GeometricConceptsMatcher onNextLevel={handleBack} onSwitchToQuiz={() => setActivityType('g7-geom-concepts-quiz')} />
+                  </div>
+                )}
+
+                {activityType === 'g7-geom-concepts-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7GeometricConceptsSorter onNextLevel={handleBack} onSwitchToQuiz={() => setActivityType('g7-geom-concepts-quiz')} />
+                  </div>
+                )}
+
+                {activityType === 'g7-geom-triangle-lines-theory' && (
+                  <Grade7TriangleLinesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-geom-triangle-lines-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-geom-triangle-lines-quiz' && (
+                  <Grade7TriangleLinesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-geom-triangle-lines-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-geom-triangle-lines-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7TriangleLinesMatcher onNextLevel={handleBack} onSwitchToQuiz={() => setActivityType('g7-geom-triangle-lines-quiz')} />
+                  </div>
+                )}
+
+                {activityType === 'g7-geom-triangle-lines-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7TriangleLinesSorter onNextLevel={handleBack} onSwitchToQuiz={() => setActivityType('g7-geom-triangle-lines-quiz')} />
+                  </div>
+                )}
+
+                {activityType === 'g7-geom-triangles-quads-theory' && (
+                  <Grade7TrianglesAndQuadrilateralsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-geom-triangles-quads-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-geom-triangles-quads-quiz' && (
+                  <Grade7TrianglesAndQuadrilateralsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-geom-triangles-quads-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-geom-triangles-quads-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7TrianglesAndQuadrilateralsMatcher onNextLevel={handleBack} onSwitchToQuiz={() => setActivityType('g7-geom-triangles-quads-quiz')} />
+                  </div>
+                )}
+
+                {activityType === 'g7-geom-triangles-quads-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7TrianglesAndQuadrilateralsSorter onNextLevel={handleBack} onSwitchToQuiz={() => setActivityType('g7-geom-triangles-quads-quiz')} />
+                  </div>
+                )}
+
+                {activityType === 'g7-geom-transformations-theory' && (
+                  <Grade7GeometricTransformationsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-geom-transformations-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-geom-transformations-quiz' && (
+                  <Grade7GeometricTransformationsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-geom-transformations-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-geom-transformations-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7GeometricTransformationsMatcher onNextLevel={handleBack} onSwitchToQuiz={() => setActivityType('g7-geom-transformations-quiz')} />
+                  </div>
+                )}
+
+                {activityType === 'g7-geom-transformations-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7GeometricTransformationsSorter onNextLevel={handleBack} onSwitchToQuiz={() => setActivityType('g7-geom-transformations-quiz')} />
                   </div>
                 )}
 
