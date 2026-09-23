@@ -1178,6 +1178,7 @@ export default function MathPage() {
       selectedGrade: selectedGrade || 1,
       onActivitySelect: (type, tId) => handleActivitySelect(type as ActivityType, tId),
       onMaterialSelect: handleMaterialSelect,
+      setPercentMode,
     };
 
     if (selectedGrade === 1) return <Grade1View {...viewProps} />;

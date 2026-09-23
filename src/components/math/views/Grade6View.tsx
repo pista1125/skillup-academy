@@ -63,6 +63,7 @@ export const Grade6View: React.FC<GradeViewProps> = ({
   activeSubSectionId,
   onActivitySelect,
   onMaterialSelect,
+  setPercentMode,
 }) => {
   const { getTopicProgress } = useQuizProgress();
 
@@ -1234,7 +1235,7 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   type="Teszt"
                   emoji="💯"
                   onClick={() => {
-                    setPercentMode('calculate-value');
+                    setPercentMode?.('calculate-value');
                     onActivitySelect('percentages', topicId);
                   }}
                   icon={<Percent className="w-6 h-6" />}
@@ -1246,7 +1247,7 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   type="Teszt"
                   emoji="📊"
                   onClick={() => {
-                    setPercentMode('calculate-rate');
+                    setPercentMode?.('calculate-rate');
                     onActivitySelect('percentages', topicId);
                   }}
                   icon={<Percent className="w-6 h-6" />}
@@ -1258,7 +1259,7 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   type="Teszt"
                   emoji="🎯"
                   onClick={() => {
-                    setPercentMode('calculate-base');
+                    setPercentMode?.('calculate-base');
                     onActivitySelect('percentages', topicId);
                   }}
                   icon={<Percent className="w-6 h-6" />}
