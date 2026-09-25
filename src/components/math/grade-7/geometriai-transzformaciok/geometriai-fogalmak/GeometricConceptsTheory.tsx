@@ -28,7 +28,7 @@ import {
   Ruler
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { MathText } from '@/components/math/shared/MathText';
+import { MathText, Fraction } from '@/components/math/shared/MathText';
 
 interface GeometricConceptsTheoryProps {
   onBack: () => void;
@@ -258,7 +258,15 @@ export const GeometricConceptsTheory: React.FC<GeometricConceptsTheoryProps> = (
             }
             properties={[
               { label: 'Definíció', value: 'A szakasz azon belső pontja, amely a két végponttól egyenlő távolságra van.' },
-              { label: 'Képlet', value: '|AF| = |FB| = |AB| / 2' }
+              {
+                label: 'Képlet',
+                value: (
+                  <span className="inline-flex items-center gap-1 font-mono">
+                    <span>|AF| = |FB| = </span>
+                    <Fraction num="|AB|" den="2" size="sm" />
+                  </span>
+                )
+              }
             ]}
           />
         </div>

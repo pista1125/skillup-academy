@@ -217,9 +217,7 @@ export function QuizTemplate({
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    const rawTitle = typeof title === 'string' ? title : 'Kvíz';
-    document.title = `${rawTitle} | DiákZóna`;
-  }, [title]);
+  }, []);
 
   const computedTopicId = useMemo(() => {
     if (topicId) return topicId;

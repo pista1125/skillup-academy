@@ -9,6 +9,26 @@ export interface FractionProps {
   size?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
+export function cleanMathSymbols(text: string): string {
+  return text
+    .replace(/\\cdot/g, '·')
+    .replace(/\\times/g, '×')
+    .replace(/\\text\{([^}]*)\}/g, '$1')
+    .replace(/\\alpha'/g, "α'")
+    .replace(/\\alpha/g, 'α')
+    .replace(/\\beta/g, 'β')
+    .replace(/\\gamma/g, 'γ')
+    .replace(/\\delta/g, 'δ')
+    .replace(/\\omega/g, 'ω')
+    .replace(/\\pi/g, 'π')
+    .replace(/\\implies/g, ' ⟹ ')
+    .replace(/\\iff/g, ' ⟺ ')
+    .replace(/\^\\circ/g, '°')
+    .replace(/\\circ/g, '°')
+    .replace(/\^\{\\circ\}/g, '°')
+    .replace(/\\dots/g, '…');
+}
+
 export const Fraction: React.FC<FractionProps> = ({
   num,
   den,
@@ -16,54 +36,62 @@ export const Fraction: React.FC<FractionProps> = ({
   className,
   size = 'md'
 }) => {
+  const renderedNum = typeof num === 'string' ? cleanMathSymbols(num) : num;
+  const renderedDen = typeof den === 'string' ? cleanMathSymbols(den) : den;
+  const renderedWhole = typeof whole === 'string' ? cleanMathSymbols(whole) : whole;
+
   const sizeStyles = {
     sm: {
-      container: 'text-[11px]',
+      container: 'text-xs',
       whole: 'text-xs mr-0.5 font-bold',
-      fraction: 'text-[9px]',
-      border: 'border-b-[1px]',
-      padding: 'px-0.5 pb-[0.5px]'
+      fraction: 'text-[11px]',
+      border: 'border-b-[1.5px]',
+      padding: 'px-1 pb-[1px]',
+      pt: 'pt-[1px]'
     },
     md: {
-      container: 'text-xs sm:text-sm',
+      container: 'text-sm sm:text-base',
       whole: 'text-sm sm:text-base mr-1 font-bold',
-      fraction: 'text-[10px] sm:text-xs',
+      fraction: 'text-xs sm:text-[13px]',
       border: 'border-b-[1.5px]',
-      padding: 'px-1 pb-[1px]'
+      padding: 'px-1.5 pb-[1.5px]',
+      pt: 'pt-[1.5px]'
     },
     lg: {
       container: 'text-base sm:text-lg',
       whole: 'text-lg sm:text-xl mr-1.5 font-black',
-      fraction: 'text-xs sm:text-sm',
+      fraction: 'text-sm sm:text-base',
       border: 'border-b-2',
-      padding: 'px-1.5 pb-0.5'
+      padding: 'px-2 pb-[1.5px]',
+      pt: 'pt-[1.5px]'
     },
     xl: {
       container: 'text-xl sm:text-2xl',
       whole: 'text-2xl sm:text-3xl mr-2 font-black',
       fraction: 'text-base sm:text-lg',
       border: 'border-b-2',
-      padding: 'px-2 pb-0.5'
+      padding: 'px-2.5 pb-[2px]',
+      pt: 'pt-[2px]'
     }
   }[size];
 
   return (
     <span
       className={cn(
-        "inline-flex items-center align-middle mx-0.5 font-mono font-bold leading-none select-none",
+        "inline-flex items-center align-middle mx-1 font-semibold leading-none select-none tracking-tight",
         sizeStyles.container,
         className
       )}
     >
-      {whole !== undefined && whole !== null && whole !== '' && (
-        <span className={sizeStyles.whole}>{whole}</span>
+      {renderedWhole !== undefined && renderedWhole !== null && renderedWhole !== '' && (
+        <span className={sizeStyles.whole}>{renderedWhole}</span>
       )}
-      <span className={cn("inline-flex flex-col items-center justify-center", sizeStyles.fraction)}>
-        <span className={cn("border-current text-center w-full leading-none", sizeStyles.border, sizeStyles.padding)}>
-          {num}
+      <span className={cn("inline-flex flex-col items-center justify-center min-w-[13px]", sizeStyles.fraction)}>
+        <span className={cn("border-current text-center w-full leading-tight", sizeStyles.border, sizeStyles.padding)}>
+          {renderedNum}
         </span>
-        <span className="pt-[1px] text-center w-full leading-none">
-          {den}
+        <span className={cn("text-center w-full leading-tight", sizeStyles.pt)}>
+          {renderedDen}
         </span>
       </span>
     </span>
@@ -75,6 +103,9 @@ export function parseFractionsInText(
   size: 'sm' | 'md' | 'lg' | 'xl' = 'md'
 ): React.ReactNode {
   if (typeof text !== 'string') return text;
+
+  // Clean common LaTeX macros so they don't display raw backslashes
+  const cleanText = cleanMathSymbols(text);
 
   // Regex pattern matching:
   // 1. LaTeX \frac{num}{den} -> e.g. "\frac{n · (n - 3)}{2}", "\frac{a + b}{c}"
@@ -92,9 +123,9 @@ export function parseFractionsInText(
   let lastIndex = 0;
   let match: RegExpExecArray | null;
 
-  while ((match = regex.exec(text)) !== null) {
+  while ((match = regex.exec(cleanText)) !== null) {
     if (match.index > lastIndex) {
-      parts.push(text.substring(lastIndex, match.index));
+      parts.push(cleanText.substring(lastIndex, match.index));
     }
 
     if (match[1] && match[2]) {
@@ -198,11 +229,11 @@ export function parseFractionsInText(
     lastIndex = regex.lastIndex;
   }
 
-  if (lastIndex < text.length) {
-    parts.push(text.substring(lastIndex));
+  if (lastIndex < cleanText.length) {
+    parts.push(cleanText.substring(lastIndex));
   }
 
-  return parts.length === 0 ? text : <>{parts}</>;
+  return parts.length === 0 ? cleanText : <>{parts}</>;
 }
 
 function processChildrenArray(

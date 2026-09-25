@@ -52,6 +52,7 @@ export interface SorterLevelConfig {
 
 export interface SorterTemplateProps {
   level?: DifficultyLevel;
+  currentLevel?: DifficultyLevel;
   grade?: number;
   chapterId?: string;
   topicId?: string;
@@ -89,7 +90,8 @@ function shuffleArray<T>(array: T[]): T[] {
 }
 
 export function SorterTemplate({
-  level = 1,
+  level,
+  currentLevel,
   title = 'Csoportosító Játék',
   subtitle = 'Válaszd ki a kártyát, majd kattints a megfelelő kategóriára!',
   badge,
@@ -132,7 +134,8 @@ export function SorterTemplate({
   });
 
   const allLevels = levels || levelsConfig;
-  const activeLevel: DifficultyLevel = (typeof level === 'number' ? level : ((level as any)?.level ?? 1)) as DifficultyLevel;
+  const rawLvl = currentLevel ?? (typeof level === 'number' ? level : ((level as any)?.level ?? 1));
+  const activeLevel: DifficultyLevel = (typeof rawLvl === 'number' ? rawLvl : 1) as DifficultyLevel;
 
   // Normalize level configuration from any prop format
   const getLevelConfig = (): SorterLevelConfig => {
@@ -187,7 +190,7 @@ export function SorterTemplate({
 
   useEffect(() => {
     initGame();
-  }, [level, config, levels, levelsConfig]);
+  }, [activeLevel, level, currentLevel, config, levels, levelsConfig]);
 
   const handleSelectItem = (item: SorterItem) => {
     if (validationResult.isChecked && validationResult.isAllCorrect) return;

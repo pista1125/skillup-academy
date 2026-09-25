@@ -6,6 +6,9 @@ export const ScrollToTop = () => {
 
     useEffect(() => {
         window.scrollTo(0, 0);
+        if (document.title !== "DiákZóna | Interaktív Oktatási és Tanulási Platform") {
+            document.title = "DiákZóna | Interaktív Oktatási és Tanulási Platform";
+        }
     }, [pathname]);
 
     return null;

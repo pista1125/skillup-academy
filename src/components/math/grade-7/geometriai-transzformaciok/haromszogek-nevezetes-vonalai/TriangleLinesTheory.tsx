@@ -23,12 +23,10 @@ import {
   AlertTriangle,
   RotateCcw,
   Ruler,
-  Triangle,
-  CircleDot,
-  Scale
+  CircleDot
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { MathText } from '@/components/math/shared/MathText';
+import { MathText, Fraction } from '@/components/math/shared/MathText';
 
 interface TriangleLinesTheoryProps {
   onBack: () => void;
@@ -256,7 +254,17 @@ export const TriangleLinesTheory: React.FC<TriangleLinesTheoryProps> = ({
             properties={[
               { label: "Jelölése", value: "m_a, m_b, m_c" },
               { label: "Metszéspont", value: "M (Magasságpont)" },
-              { label: "Területképlet", value: "T = (a · m_a) / 2 = (b · m_b) / 2" }
+              {
+                label: "Területképlet",
+                value: (
+                  <span className="inline-flex items-center gap-1 flex-wrap font-mono">
+                    <span>T = </span>
+                    <Fraction num="a · m_a" den="2" size="sm" />
+                    <span> = </span>
+                    <Fraction num="b · m_b" den="2" size="sm" />
+                  </span>
+                )
+              }
             ]}
           />
         </div>
@@ -277,7 +285,7 @@ export const TriangleLinesTheory: React.FC<TriangleLinesTheoryProps> = ({
         badgeColor="purple"
       >
         <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
-          A háromszög egy csúcsát a szemközti oldal <strong>felezőpontjával</strong> összekötő szakaszt <strong>súlyvonalnak</strong> nevezzük ($s_a, s_b, s_c$).
+          A háromszög egy csúcsát a szemközti oldal <strong>felezőpontjával</strong> összekötő szakaszt <strong>súlyvonalnak</strong> nevezzük (<MathText>{'s_a, s_b, s_c'}</MathText>).
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
@@ -288,12 +296,20 @@ export const TriangleLinesTheory: React.FC<TriangleLinesTheoryProps> = ({
           >
             <div className="text-xs text-slate-700 dark:text-slate-300 space-y-2">
               <p>
-                A három súlyvonal <strong>egyetlen pontban, a súlypontban ($S$)</strong> metszi egymást.
+                A három súlyvonal <strong>egyetlen pontban, a súlypontban (<MathText>{'S'}</MathText>)</strong> metszi egymást.
               </p>
-              <div className="p-3 rounded-xl bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 text-purple-900 dark:text-purple-200 space-y-1 font-mono">
+              <div className="p-3 rounded-xl bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 text-purple-900 dark:text-purple-200 space-y-1.5 font-mono">
                 <div className="font-bold text-sm">AS : SF_a = 2 : 1</div>
-                <div className="text-xs">AS = (2/3) · s_a  (csúcstól számított hosszabb rész)</div>
-                <div className="text-xs">SF_a = (1/3) · s_a  (felezőpont felőli rövidebb rész)</div>
+                <div className="text-xs flex items-center gap-1">
+                  <span>AS = </span>
+                  <Fraction num="2" den="3" size="sm" />
+                  <span>· s_a  (csúcstól számított hosszabb rész)</span>
+                </div>
+                <div className="text-xs flex items-center gap-1">
+                  <span>SF_a = </span>
+                  <Fraction num="1" den="3" size="sm" />
+                  <span>· s_a  (felezőpont felőli rövidebb rész)</span>
+                </div>
               </div>
               <p className="text-slate-600 dark:text-slate-400">
                 <strong>Fizikai jelentés:</strong> A súlypont a homogén lemezből kivágott háromszög tömegközéppontja. Egy tű hegyére állítva ott egyensúlyozható ki!
@@ -347,12 +363,20 @@ export const TriangleLinesTheory: React.FC<TriangleLinesTheoryProps> = ({
           >
             <div className="text-xs text-slate-700 dark:text-slate-300 space-y-2">
               <p>
-                A háromszög két oldalának felezőpontját összekötő szakasz a <strong>középvonal</strong> ({"k_a, k_b, k_c"}).
+                A háromszög két oldalának felezőpontját összekötő szakasz a <strong>középvonal</strong> (<MathText>{'k_a, k_b, k_c'}</MathText>).
               </p>
-              <ul className="space-y-1 list-disc pl-4">
-                <li><strong>Párhuzamos</strong> a harmadik oldallal ({"k_c ∥ c"}).</li>
-                <li><strong>Hossza fele</strong> a harmadik oldal hosszának ({"k_c = c / 2"}).</li>
-                <li>A három középvonal <strong>4 egybevágó kis háromszögre</strong> bontja az eredetit, melyek területe az eredeti terület negyede ($T / 4$).</li>
+              <ul className="space-y-1.5 list-disc pl-4">
+                <li><strong>Párhuzamos</strong> a harmadik oldallal (<MathText>{'k_c ∥ c'}</MathText>).</li>
+                <li className="flex items-center gap-1 flex-wrap">
+                  <strong>Hossza fele</strong> a harmadik oldal hosszának:
+                  <span>k_c = </span>
+                  <Fraction num="c" den="2" size="sm" />
+                </li>
+                <li className="flex items-center gap-1 flex-wrap">
+                  A három középvonal <strong>4 egybevágó kis háromszögre</strong> bontja az eredetit, melyek területe az eredeti terület negyede:
+                  <span>T_kis = </span>
+                  <Fraction num="T" den="4" size="sm" />
+                </li>
               </ul>
             </div>
           </TheoryCard>

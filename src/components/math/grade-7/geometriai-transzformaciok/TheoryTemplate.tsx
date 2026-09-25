@@ -392,9 +392,11 @@ export interface GeometryFigureCardProps {
   title: string;
   subtitle?: string;
   badge?: string;
-  figure: React.ReactNode;
+  figure?: React.ReactNode;
+  children?: React.ReactNode;
   properties?: { label: string; value: string | React.ReactNode }[];
   note?: string | React.ReactNode;
+  caption?: string | React.ReactNode;
   variant?: 'cyan' | 'blue' | 'sky' | 'indigo' | 'purple' | 'emerald' | 'teal' | 'rose' | 'amber';
   className?: string;
 }
@@ -404,11 +406,16 @@ export const GeometryFigureCard: React.FC<GeometryFigureCardProps> = ({
   subtitle,
   badge,
   figure,
+  children,
   properties,
   note,
+  caption,
   variant = 'teal',
   className
 }) => {
+  const displayFigure = figure ?? children;
+  const displayNote = note ?? caption;
+
   const borderColors: Record<string, string> = {
     cyan: 'border-cyan-200 dark:border-cyan-900/70 hover:border-cyan-400',
     blue: 'border-blue-200 dark:border-blue-900/70 hover:border-blue-400',
@@ -448,7 +455,7 @@ export const GeometryFigureCard: React.FC<GeometryFigureCardProps> = ({
 
         {/* Clean Center Figure Box */}
         <div className="flex items-center justify-center p-3 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200/60 dark:border-slate-800 min-h-[120px]">
-          {figure}
+          {displayFigure}
         </div>
       </div>
 
@@ -467,9 +474,9 @@ export const GeometryFigureCard: React.FC<GeometryFigureCardProps> = ({
         </div>
       )}
 
-      {note && (
+      {displayNote && (
         <div className="text-[11px] text-slate-500 dark:text-slate-400 italic bg-slate-50/70 dark:bg-slate-900/50 p-2 rounded-lg">
-          {typeof note === 'string' ? <MathText>{note}</MathText> : note}
+          {typeof displayNote === 'string' ? <MathText>{displayNote}</MathText> : displayNote}
         </div>
       )}
     </div>
@@ -626,6 +633,14 @@ export const TheoryCallout: React.FC<TheoryCalloutProps> = ({
   );
 };
 
+export interface TheoryTrapItem {
+  mistake?: string | React.ReactNode;
+  wrong?: string | React.ReactNode;
+  correction?: string | React.ReactNode;
+  correct?: string | React.ReactNode;
+  explanation?: string | React.ReactNode;
+}
+
 // --- TheoryTrapBox Component ---
 export interface TheoryTrapBoxProps {
   title?: string;
@@ -638,6 +653,7 @@ export interface TheoryTrapBoxProps {
   explanation?: string | React.ReactNode;
   correctExplanation?: string | React.ReactNode;
   items?: (string | React.ReactNode)[];
+  traps?: TheoryTrapItem[];
   children?: React.ReactNode;
   className?: string;
 }
@@ -653,6 +669,7 @@ export const TheoryTrapBox: React.FC<TheoryTrapBoxProps> = ({
   explanation,
   correctExplanation,
   items,
+  traps,
   children,
   className
 }) => {
@@ -664,7 +681,7 @@ export const TheoryTrapBox: React.FC<TheoryTrapBoxProps> = ({
   return (
     <div
       className={cn(
-        'p-4 rounded-2xl bg-rose-50/50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/60 space-y-2',
+        'p-4 rounded-2xl bg-rose-50/50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/60 space-y-3',
         className
       )}
     >
@@ -674,7 +691,41 @@ export const TheoryTrapBox: React.FC<TheoryTrapBoxProps> = ({
           {typeof displayTitle === 'string' ? <MathText>{displayTitle}</MathText> : displayTitle}
         </span>
       </div>
-      {items && items.length > 0 ? (
+      {traps && traps.length > 0 ? (
+        <div className="space-y-2.5 text-xs">
+          {traps.map((item, idx) => {
+            const itemWrong = item.wrong || item.mistake;
+            const itemCorrect = item.correct || item.correction;
+            return (
+              <div key={idx} className="p-2 rounded-xl bg-white/70 dark:bg-slate-900/60 border border-rose-100 dark:border-rose-950/50 space-y-1">
+                {itemWrong && (
+                  <div className="flex items-start gap-1.5 text-rose-600 dark:text-rose-400">
+                    <XCircle className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+                    <span>
+                      <strong>Tévhit:</strong>{' '}
+                      {typeof itemWrong === 'string' ? <MathText>{itemWrong}</MathText> : itemWrong}
+                    </span>
+                  </div>
+                )}
+                {itemCorrect && (
+                  <div className="flex items-start gap-1.5 text-emerald-700 dark:text-emerald-400 font-medium">
+                    <CheckCircle2 className="w-3.5 h-3.5 shrink-0 mt-0.5 text-emerald-600" />
+                    <span>
+                      <strong>Helyesen:</strong>{' '}
+                      {typeof itemCorrect === 'string' ? <MathText>{itemCorrect}</MathText> : itemCorrect}
+                    </span>
+                  </div>
+                )}
+                {item.explanation && (
+                  <div className="pl-5 text-[11px] text-slate-500 dark:text-slate-400">
+                    {typeof item.explanation === 'string' ? <MathText>{item.explanation}</MathText> : item.explanation}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      ) : items && items.length > 0 ? (
         <ul className="list-disc pl-5 space-y-1.5 text-xs text-slate-600 dark:text-slate-300">
           {items.map((item, idx) => (
             <li key={idx}>
@@ -864,9 +915,7 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = (props) => {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    const rawTitle = typeof title === 'string' ? title : 'Tananyag';
-    document.title = `${rawTitle} (Tananyag) | DiákZóna`;
-  }, [title]);
+  }, []);
 
   const handleDownloadPDF = async () => {
     setIsDownloading(true);

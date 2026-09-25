@@ -218,9 +218,7 @@ export function QuizTemplate({
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    const rawTitle = typeof title === 'string' ? title : 'Kvíz';
-    document.title = `${rawTitle} | DiákZóna`;
-  }, [title]);
+  }, []);
 
   const computedTopicId = useMemo(() => {
     if (topicId) return topicId;
@@ -278,6 +276,8 @@ export function QuizTemplate({
           map[lvl] = {
             ...cfg,
             level: lvl,
+            title: cfg.title || (cfg as any).name || (lvl === 1 ? '1. Szint: Alapok' : lvl === 2 ? '2. Szint: Közepes' : '3. Szint: Haladó'),
+            subtitle: cfg.subtitle || (cfg as any).description || (lvl === 1 ? 'Alapfogalmak és egyszerűbb feladatok' : lvl === 2 ? 'Összefüggések és gyakorlati feladványok' : 'Összetett feladatok és kihívások'),
             range: cfg.range || (lvl === 1 ? '1 - 10. feladat' : lvl === 2 ? '11 - 20. feladat' : '21 - 30. feladat'),
             focus: cfg.focus || (lvl === 1 ? 'Alapfogalmak' : lvl === 2 ? 'Gyakorlat & Alkalmazás' : 'Mesterfok & Logika'),
             questions: (cfg.questions || []).map(normalizeQ)
@@ -293,6 +293,10 @@ export function QuizTemplate({
           recordMap[lvl] = {
             ...cfg,
             level: lvl,
+            title: cfg.title || (cfg as any).name || (lvl === 1 ? '1. Szint: Alapok' : lvl === 2 ? '2. Szint: Közepes' : '3. Szint: Haladó'),
+            subtitle: cfg.subtitle || (cfg as any).description || (lvl === 1 ? 'Alapfogalmak és egyszerűbb feladatok' : lvl === 2 ? 'Összefüggések és gyakorlati feladványok' : 'Összetett feladatok és kihívások'),
+            range: cfg.range || (lvl === 1 ? '1–10. kérdés' : lvl === 2 ? '11–20. kérdés' : '21–30. kérdés'),
+            focus: cfg.focus || (lvl === 1 ? 'Alapfogalmak' : lvl === 2 ? 'Gyakorlat & Alkalmazás' : 'Mesterfok & Logika'),
             questions: (cfg.questions || []).map(normalizeQ)
           };
         }
@@ -532,7 +536,9 @@ export function QuizTemplate({
           }
           if (React.isValidElement(matcherComponent)) {
             return React.cloneElement(matcherComponent, {
+              key: `matcher-lvl-${lvl}`,
               level: lvl,
+              currentLevel: lvl,
               onNextLevel: props?.onNextLevel,
               onOpenRules: props?.onOpenRules,
               onBack: onBack,
@@ -558,6 +564,7 @@ export function QuizTemplate({
           if (renderSorter) {
             const params = {
               level: lvl,
+              currentLevel: lvl,
               onNextLevel: props?.onNextLevel,
               onOpenRules: props?.onOpenRules,
               onBack: onBack,
@@ -569,7 +576,9 @@ export function QuizTemplate({
           }
           if (React.isValidElement(sorterComponent)) {
             return React.cloneElement(sorterComponent, {
+              key: `sorter-lvl-${lvl}`,
               level: lvl,
+              currentLevel: lvl,
               onNextLevel: props?.onNextLevel,
               onOpenRules: props?.onOpenRules,
               onBack: onBack,
@@ -948,21 +957,25 @@ export function QuizTemplate({
                   </div>
 
                   <h3 className="text-sm sm:text-base font-black text-slate-900 dark:text-white mb-0.5 leading-snug group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
-                    {cfg.title}
+                    {cfg.title || (cfg as any).name || (level === 1 ? '1. Szint: Alapok' : level === 2 ? '2. Szint: Közepes' : '3. Szint: Haladó')}
                   </h3>
 
                   <p className="text-[11px] leading-tight font-medium text-slate-500 dark:text-slate-400 mb-2 line-clamp-2 min-h-[26px]">
-                    {cfg.subtitle}
+                    {cfg.subtitle || (cfg as any).description || (level === 1 ? 'Alapfogalmak és egyszerűbb számítások' : level === 2 ? 'Összefüggések és gyakorlati feladványok' : 'Összetett feladatok és geometriai kihívások')}
                   </p>
 
                   <div className="space-y-1 pt-1.5 border-t border-slate-100 dark:border-slate-800 mb-2">
                     <div className="flex items-center justify-between text-[11px]">
                       <span className="text-slate-500 dark:text-slate-400">Tartomány:</span>
-                      <span className="font-bold text-slate-800 dark:text-slate-200">{cfg.range}</span>
+                      <span className="font-bold text-slate-800 dark:text-slate-200">
+                        {cfg.range || (level === 1 ? '1–10. feladat' : level === 2 ? '11–20. feladat' : '21–30. feladat')}
+                      </span>
                     </div>
                     <div className="flex items-center justify-between text-[11px]">
                       <span className="text-slate-500 dark:text-slate-400">Fókusz:</span>
-                      <span className="font-bold text-teal-600 dark:text-teal-400 text-right truncate max-w-[130px]" title={cfg.focus}><MathText size="sm">{cfg.focus}</MathText></span>
+                      <span className="font-bold text-teal-600 dark:text-teal-400 text-right truncate max-w-[130px]" title={cfg.focus || 'Gyakorlás'}>
+                        <MathText size="sm">{cfg.focus || (level === 1 ? 'Alapfogalmak' : level === 2 ? 'Alkalmazás' : 'Mesterfok')}</MathText>
+                      </span>
                     </div>
                   </div>
 

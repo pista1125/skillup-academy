@@ -828,9 +828,7 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = (props) => {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    const rawTitle = typeof title === 'string' ? title : 'Tananyag';
-    document.title = `${rawTitle} (Tananyag) | DiákZóna`;
-  }, [title]);
+  }, []);
 
   const handleDownloadPDF = async () => {
     setIsDownloading(true);

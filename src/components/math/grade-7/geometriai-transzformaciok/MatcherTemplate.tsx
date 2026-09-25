@@ -49,6 +49,7 @@ export interface MatcherLevelConfig {
 
 export interface MatcherTemplateProps {
   level?: DifficultyLevel;
+  currentLevel?: DifficultyLevel;
   title?: string;
   subtitle?: string;
   badge?: string;
@@ -93,7 +94,8 @@ function shuffleArray<T>(array: T[]): T[] {
 }
 
 export function MatcherTemplate({
-  level = 1,
+  level,
+  currentLevel,
   title = 'Kártyás Párosító',
   subtitle = 'Kattints a kártyákra, és találd meg a feladvány-eredmény párokat!',
   badge,
@@ -129,7 +131,8 @@ export function MatcherTemplate({
   const [lastSavedScoreId, setLastSavedScoreId] = useState<string | undefined>(undefined);
 
   const allLevels = levels || levelsConfig;
-  const activeLevel: DifficultyLevel = (typeof level === 'number' ? level : ((level as any)?.level ?? 1)) as DifficultyLevel;
+  const rawLvl = currentLevel ?? (typeof level === 'number' ? level : ((level as any)?.level ?? 1));
+  const activeLevel: DifficultyLevel = (typeof rawLvl === 'number' ? rawLvl : 1) as DifficultyLevel;
 
   // Normalize pairs from various prop formats
   const getLevelPairs = (): MatcherPair[] => {
@@ -186,7 +189,7 @@ export function MatcherTemplate({
 
   useEffect(() => {
     initGame();
-  }, [level, config, levels, levelsConfig]);
+  }, [activeLevel, level, currentLevel, config, levels, levelsConfig]);
 
   // Timer tick
   useEffect(() => {

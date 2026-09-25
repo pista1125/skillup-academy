@@ -287,22 +287,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-trans-kozeppontos-tukrozes" number={5} title="Középpontos tükrözés" color="cyan" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Tükrözés kvíz"
-                  subtitle="Alakzatok tükörképeinek felismerése"
-                  type="Kvíz"
-                  emoji="🔄"
-                  onClick={() => onActivitySelect('reflection-quiz', 'g7-geom-trans')}
-                  icon={<Target className="w-6 h-6" />}
+                  title="Középpontos tükrözés elmélet"
+                  subtitle="Definíció, fixpont, fixegyenesek, forgatás és labor"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-geom-point-reflection-theory', 'g7-geom-trans')}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="cyan"
                 />
                 <ActivityPlaceholder
-                  title="Középpontos tükrözés"
-                  subtitle="Pont és alakzat tükrözése, szerkesztés"
-                  type="Hamarosan"
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
                   emoji="🎯"
-                  disabled={true}
-                  icon={<Sparkles className="w-6 h-6" />}
-                  color="blue"
+                  onClick={() => onActivitySelect('g7-geom-point-reflection-quiz', 'g7-geom-trans')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="teal"
+                  {...getTopicProgress('g7-geom-point-reflection')}
                 />
               </div>
             </section>
@@ -314,13 +315,32 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-trans-kozeppontos-alkalmazas" number={6} title="A középpontos tükrözés alkalmazása" color="sky" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
+                  title="Középpontos tükrözés alkalmazásai elmélet"
+                  subtitle="Középvonal-tétel, paralelogramma alaptételek, felezőpontok és labor"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-geom-reflection-app-theory', 'g7-geom-trans')}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="sky"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-geom-reflection-app-quiz', 'g7-geom-trans')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="blue"
+                  {...getTopicProgress('g7-geom-reflection-app')}
+                />
+                <ActivityPlaceholder
                   title="Tükrözési alkalmazások"
                   subtitle="Pont és szakasz tükrözése, szimmetria"
                   type="Gyakorlás"
                   emoji="✨"
                   onClick={() => onActivitySelect('symmetry-construction', 'g7-geom-trans')}
                   icon={<Shapes className="w-6 h-6" />}
-                  color="sky"
+                  color="indigo"
                 />
               </div>
             </section>
@@ -332,13 +352,32 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-trans-szogparok" number={7} title="Szögpárok" color="amber" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Szögek és Szögpárok"
-                  subtitle="Mellékszögek, csúcsszögek, pótszögek felismerése"
-                  type="Gyakorlás"
-                  emoji="📐"
-                  onClick={() => onActivitySelect('angle-matching', 'g7-geom-trans')}
-                  icon={<Compass className="w-6 h-6" />}
+                  title="Szögpárok elmélet"
+                  subtitle="Mellékszögek, csúcsszögek, pótszögek, kiegészítő, váltó- és társszögek"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-geom-angle-pairs-theory', 'g7-geom-trans')}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="amber"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-geom-angle-pairs-quiz', 'g7-geom-trans')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="amber"
+                  {...getTopicProgress('g7-geom-angle-pairs')}
+                />
+                <ActivityPlaceholder
+                  title="Szögtípusok felismerése"
+                  subtitle="Hegyesszög, tompaszög, derékszög mérés"
+                  type="Gyakorlás"
+                  emoji="📏"
+                  onClick={() => onActivitySelect('angle-matching', 'g7-geom-trans')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="yellow"
                 />
               </div>
             </section>
@@ -350,13 +389,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-trans-szimmetria" number={8} title="Középpontos és tengelyes szimmetria" color="violet" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Tengelyes szimmetria kvíz"
-                  subtitle="Szimmetriatengelyek keresése és berajzolása"
+                  title="Szimmetria elmélet"
+                  subtitle="Tengelyes és középpontos szimmetria, síkidomok osztályozása"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-geom-symmetry-theory', 'g7-geom-trans')}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="violet"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
                   type="Kvíz"
-                  emoji="🦋"
-                  onClick={() => onActivitySelect('axial-symmetry-quiz', 'g7-geom-trans')}
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-geom-symmetry-quiz', 'g7-geom-trans')}
                   icon={<Target className="w-6 h-6" />}
                   color="violet"
+                  {...getTopicProgress('g7-geom-symmetry')}
                 />
                 <ActivityPlaceholder
                   title="Szimmetria a világban"
@@ -365,25 +414,7 @@ export const Grade7View: React.FC<GradeViewProps> = ({
                   emoji="🌟"
                   onClick={() => onActivitySelect('axial-symmetry-presentation', 'g7-geom-trans')}
                   icon={<Sparkles className="w-6 h-6" />}
-                  color="purple"
-                />
-                <ActivityPlaceholder
-                  title="Tengelyes tükrözés rajzoló"
-                  subtitle="Rajzold meg az alakzat pontos tükörképét!"
-                  type="Játék"
-                  emoji="🪞"
-                  onClick={() => onActivitySelect('axial-symmetry', 'g7-geom-trans')}
-                  icon={<Shapes className="w-6 h-6" />}
-                  color="indigo"
-                />
-                <ActivityPlaceholder
-                  title="Szimmetria hibakereső"
-                  subtitle="Keresd meg a hibás tükrözést!"
-                  type="Játék"
-                  emoji="🔍"
-                  onClick={() => onActivitySelect('symmetry-error', 'g7-geom-trans')}
-                  icon={<Zap className="w-6 h-6" />}
-                  color="pink"
+                  color="fuchsia"
                 />
               </div>
             </section>
@@ -395,13 +426,32 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-trans-paralelogramma-deltoid" number={9} title="Paralelogramma és deltoid" color="purple" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Paralelogramma és deltoid"
-                  subtitle="Négyszögek szimmetriái és tulajdonságai"
+                  title="Paralelogramma és deltoid elmélet"
+                  subtitle="Családfa, átlótulajdonságok, szimmetriák és képletek"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-geom-parallelogram-theory', 'g7-geom-trans')}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="purple"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-geom-parallelogram-quiz', 'g7-geom-trans')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="purple"
+                  {...getTopicProgress('g7-geom-parallelogram')}
+                />
+                <ActivityPlaceholder
+                  title="Négyszög Osztályozó"
+                  subtitle="Klasszikus négyszög tulajdonság gyakorló"
                   type="Gyakorlás"
                   emoji="🪁"
                   onClick={() => onActivitySelect('quadrilateral-classification', 'g7-geom-trans')}
                   icon={<LayoutGrid className="w-6 h-6" />}
-                  color="purple"
+                  color="pink"
                 />
               </div>
             </section>
@@ -413,13 +463,32 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-trans-kozeppontosan-szimmetrikus" number={10} title="Középpontosan szimmetrikus alakzatok" color="rose" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Középpontos szimmetria"
-                  subtitle="Forgásszimmetria és szimmetriaközéppont teszt"
+                  title="Középpontos szimmetria elmélet"
+                  subtitle="Forgásszimmetria, centrumok, sokszögek és betűk szimmetriája"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-geom-point-symmetric-shapes-theory', 'g7-geom-trans')}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="rose"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
                   type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-geom-point-symmetric-shapes-quiz', 'g7-geom-trans')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="rose"
+                  {...getTopicProgress('g7-geom-point-symmetric-shapes')}
+                />
+                <ActivityPlaceholder
+                  title="Szimmetria teszt"
+                  subtitle="Forgásszimmetria és szimmetriaközéppont gyakorló"
+                  type="Gyakorlás"
                   emoji="💠"
                   onClick={() => onActivitySelect('reflection-quiz', 'g7-geom-trans')}
                   icon={<Boxes className="w-6 h-6" />}
-                  color="rose"
+                  color="pink"
                 />
               </div>
             </section>
@@ -431,13 +500,32 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-trans-szabalyos-sokszogek" number={11} title="Szabályos sokszögek" color="orange" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
+                  title="Szabályos sokszögek elmélet"
+                  subtitle="Belső és külső szögek, átlók, szimmetriák és síkparkettázás"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-geom-regular-polygons-theory', 'g7-geom-trans')}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="orange"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-geom-regular-polygons-quiz', 'g7-geom-trans')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="orange"
+                  {...getTopicProgress('g7-geom-regular-polygons')}
+                />
+                <ActivityPlaceholder
                   title="Sokszögek csoportosítása"
                   subtitle="Szabályos n-szögek szögei és szimmetriái"
                   type="Gyakorlás"
                   emoji="🛑"
                   onClick={() => onActivitySelect('shape-classification', 'g7-geom-trans')}
                   icon={<Shapes className="w-6 h-6" />}
-                  color="orange"
+                  color="amber"
                 />
               </div>
             </section>
@@ -446,12 +534,31 @@ export const Grade7View: React.FC<GradeViewProps> = ({
           {/* Section 12: A kör */}
           {(showAll || activeSubSectionId === 'g7-sec-trans-kor') && (
             <section>
-              <SectionHeader id="g7-sec-trans-kor" number={12} title="A kör" color="red" />
+              <SectionHeader id="g7-sec-trans-kor" number={12} title="A kör" color="rose" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="A kör elmélet"
+                  subtitle="Kör és körlap, részek, egyenes és két kör kölcsönös helyzete"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-geom-circle-theory', 'g7-geom-trans')}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="rose"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-geom-circle-quiz', 'g7-geom-trans')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="rose"
+                  {...getTopicProgress('g7-geom-circle')}
+                />
                 <ActivityPlaceholder
                   title="A kör és részei"
                   subtitle="Sugár, átmérő, húr, ív, körcikk és körszelet"
-                  type="Játék"
+                  type="Gyakorlás"
                   emoji="⭕"
                   onClick={() => onActivitySelect('circle-parts', 'g7-geom-trans')}
                   icon={<Circle className="w-6 h-6" />}
@@ -466,6 +573,25 @@ export const Grade7View: React.FC<GradeViewProps> = ({
             <section>
               <SectionHeader id="g7-sec-trans-szerkesztesek" number={13} title="Szerkesztések" color="teal" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Szerkesztések elmélet"
+                  subtitle="Euklideszi alapszerkesztések, nevezetes szögek és háromszögalapesetek"
+                  type="Tananyag"
+                  emoji="📐"
+                  onClick={() => onActivitySelect('g7-geom-constructions-theory', 'g7-geom-trans')}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="teal"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-geom-constructions-quiz', 'g7-geom-trans')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="teal"
+                  {...getTopicProgress('g7-geom-constructions')}
+                />
                 <ActivityPlaceholder
                   title="Geometriai szerkesztő"
                   subtitle="Körzővel és vonalzóval végzett alapszerkesztések"
@@ -482,16 +608,26 @@ export const Grade7View: React.FC<GradeViewProps> = ({
           {/* Section 14: Összefoglalás */}
           {(showAll || activeSubSectionId === 'g7-sec-trans-osszefoglalas') && (
             <section>
-              <SectionHeader id="g7-sec-trans-osszefoglalas" number={14} title="Összefoglalás" color="slate" />
+              <SectionHeader id="g7-sec-trans-osszefoglalas" number={14} title="Összefoglalás" color="teal" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Transzformációk Záróteszt"
-                  subtitle="III. Geometriai transzformációk összefoglaló kvíz"
-                  type="Teszt"
+                  title="Geometria összefoglalás"
+                  subtitle="A teljes fejezet elméleti szintézise, tételei és interaktív témaböngésző"
+                  type="Tananyag"
+                  emoji="📐"
+                  onClick={() => onActivitySelect('g7-geom-summary-theory', 'g7-geom-trans')}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="teal"
+                />
+                <ActivityPlaceholder
+                  title="Fejezetzáró Nagykvíz"
+                  subtitle="90 feladat (30-30-30), 3 nehézségi szint"
+                  type="Kvíz"
                   emoji="🏆"
-                  onClick={() => onActivitySelect('quiz', 'g7-geom-trans')}
-                  icon={<Trophy className="w-6 h-6" />}
-                  color="slate"
+                  onClick={() => onActivitySelect('g7-geom-summary-quiz', 'g7-geom-trans')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="teal"
+                  {...getTopicProgress('g7-geom-summary')}
                 />
               </div>
             </section>
