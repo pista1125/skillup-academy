@@ -1286,7 +1286,7 @@ export default function MathPage() {
       ((activityType === 'symmetry-construction' || activityType === 'perimeter-area' || activityType === 'algebra-cloud') || (isUpperGradeLayout && view === 'topic-select')) && "p-0 overflow-hidden h-screen"
     )}>
       {/* Header */}
-      {(activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'student-feedback' && activityType !== 'algebra-cloud') || view !== 'activity' ? (
+      {(activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'algebra-cloud') || view !== 'activity' ? (
         <div className="sticky top-0 z-50 w-full">
           {/* Main Header */}
             <div className="bg-gradient-math text-white py-2 md:py-3 px-3 md:px-4 shadow-xl relative transition-all duration-300">
@@ -1425,14 +1425,14 @@ export default function MathPage() {
 
       {/* Content */}
       <div className={cn(
-        (activityType !== 'chess-game' && activityType !== 'perimeter-area' && activityType !== 'snake-game' && activityType !== 'tower-builder' && activityType !== 'grade2-blocks' && activityType !== 'grade3-blocks' && activityType !== 'grade3-tower-builder' && activityType !== 'toto-maker' && !(isUpperGradeLayout && view === 'topic-select')) && "container mx-auto px-4 py-8",
+        (activityType !== 'chess-game' && activityType !== 'perimeter-area' && activityType !== 'snake-game' && activityType !== 'tower-builder' && activityType !== 'grade2-blocks' && activityType !== 'grade3-blocks' && activityType !== 'grade3-tower-builder' && activityType !== 'toto-maker' && activityType !== 'student-feedback' && !(isUpperGradeLayout && view === 'topic-select')) && "container mx-auto px-4 py-8",
         "transition-all duration-500",
         (isUpperGradeLayout && view === 'topic-select')
           ? "w-full p-0 max-w-none flex-1 overflow-hidden"
           : (activityType === 'chess-game' || activityType === 'perimeter-area' || activityType === 'algebra-cloud' || activityType === 'snake-game' || activityType === 'tower-builder' || activityType === 'grade2-blocks' || activityType === 'grade3-blocks' || activityType === 'grade3-tower-builder'
             ? "max-w-none p-0 w-full h-full"
-            : activityType === 'toto-maker'
-            ? "w-full max-w-none px-2 sm:px-4 py-2"
+            : (activityType === 'toto-maker' || activityType === 'student-feedback')
+            ? "w-full max-w-none px-2 sm:px-4 py-1.5"
             : ((view === 'activity' || view === 'topic-select' || view === 'tools-select' || view === 'games-select' || view === 'main-select' || view === 'competency-select')
               ? "max-w-none lg:px-12"
               : "max-w-4xl"
