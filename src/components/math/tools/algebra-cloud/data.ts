@@ -74,7 +74,7 @@ export const ABSTRACT_VARIABLES = [
   { symbol: 'a', label: 'a változó', color: 'bg-emerald-500', bgGradient: 'from-emerald-50 to-emerald-100', borderColor: 'border-emerald-300', textColor: 'text-emerald-700' },
   { symbol: 'b', label: 'b változó', color: 'bg-amber-500', bgGradient: 'from-amber-50 to-amber-100', borderColor: 'border-amber-300', textColor: 'text-amber-700' },
   { symbol: 'c', label: 'c változó', color: 'bg-rose-500', bgGradient: 'from-rose-50 to-rose-100', borderColor: 'border-rose-300', textColor: 'text-rose-700' },
-  { symbol: '1', label: '1 Konstans', color: 'bg-slate-600', bgGradient: 'from-slate-50 to-slate-200', borderColor: 'border-slate-300', textColor: 'text-slate-800' },
+  { symbol: '1', emoji: '🪙', label: '1 Konstans (Érme)', color: 'bg-yellow-500', bgGradient: 'from-yellow-50 to-amber-100', borderColor: 'border-yellow-300', textColor: 'text-amber-800' },
 ];
 
 export function createInitialCloud(id: string, title: string = '1. Felhő', colorTheme: string = 'blue'): CloudContainer {

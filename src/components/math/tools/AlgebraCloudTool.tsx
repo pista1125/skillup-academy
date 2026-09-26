@@ -17,6 +17,7 @@ import {
   PRACTICE_CHALLENGES
 } from './algebra-cloud/data';
 import { CloudBox } from './algebra-cloud/CloudBox';
+import { FactoringCloudStage } from './algebra-cloud/FactoringCloudStage';
 import {
   ArrowLeft,
   Sparkles,
@@ -81,6 +82,25 @@ export function AlgebraCloudTool({ onBack }: AlgebraCloudToolProps) {
     }
   ]);
   const [selectedCloudId, setSelectedCloudId] = useState<string>('cloud-1');
+
+  // Factoring Mode State (Kiemelés Mód)
+  const [topCloud, setTopCloud] = useState<CloudContainer>({
+    id: 'top-cloud-factoring',
+    title: 'Nagy Felhő (Kiinduló Kifejezés)',
+    multiplier: 1,
+    colorTheme: 'blue',
+    items: [
+      { id: 'fact-init-1', symbol: 'x', type: 'variable', label: 'x változó', coefficient: 4, isFusedBlock: true, fusedSize: 4 },
+      { id: 'fact-init-2', symbol: 'y', type: 'variable', label: 'y változó', coefficient: 8, isFusedBlock: true, fusedSize: 8 },
+    ]
+  });
+
+  const [smallClouds, setSmallClouds] = useState<CloudContainer[]>([
+    { id: 'small-1', title: '1. Kis felhő', multiplier: 1, colorTheme: 'blue', items: [] },
+    { id: 'small-2', title: '2. Kis felhő', multiplier: 1, colorTheme: 'indigo', items: [] },
+    { id: 'small-3', title: '3. Kis felhő', multiplier: 1, colorTheme: 'purple', items: [] },
+    { id: 'small-4', title: '4. Kis felhő', multiplier: 1, colorTheme: 'emerald', items: [] },
+  ]);
 
   // Spawner controls
   const [spawnQuantity, setSpawnQuantity] = useState<number>(1);
@@ -199,6 +219,15 @@ export function AlgebraCloudTool({ onBack }: AlgebraCloudToolProps) {
       isFusedBlock: isFused,
       fusedSize: Math.abs(coeff)
     };
+
+    if (activeTab === 'factoring') {
+      setTopCloud(prev => ({
+        ...prev,
+        items: [...prev.items, newItem]
+      }));
+      playSound('pop');
+      return;
+    }
 
     setClouds(clouds.map(c => {
       if (c.id === targetCloud.id) {
@@ -457,6 +486,18 @@ export function AlgebraCloudTool({ onBack }: AlgebraCloudToolProps) {
             <Trophy className="w-3.5 h-3.5" />
             Gyakorló Kvíz
           </button>
+          <button
+            onClick={() => setActiveTab('factoring')}
+            className={cn(
+              "flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer",
+              activeTab === 'factoring'
+                ? "bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 shadow-xs"
+                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+            )}
+          >
+            <Layers className="w-3.5 h-3.5" />
+            Kiemelés
+          </button>
         </div>
 
         {/* Right: Sound toggle */}
@@ -479,9 +520,9 @@ export function AlgebraCloudTool({ onBack }: AlgebraCloudToolProps) {
       {/* 2. Main Studio Body (Zero Outer Scroll, Split Left Sidebar + Right Stage) */}
       <div className="flex-1 min-h-0 flex flex-col md:flex-row overflow-hidden">
         {/* ========================================================= */}
-        {/* TAB 1: SZABAD LABORATÓRIUM                                */}
+        {/* TAB 1 & 4: SZABAD LABORATÓRIUM & KIEMELÉS                 */}
         {/* ========================================================= */}
-        {activeTab === 'sandbox' && (
+        {(activeTab === 'sandbox' || activeTab === 'factoring') && (
           <>
             {/* Left Control Sidebar (Toolbox & Controls) */}
             <aside className="w-full md:w-[340px] lg:w-[360px] min-w-[320px] bg-white/90 dark:bg-slate-900/90 border-r border-sky-100 dark:border-slate-800 flex flex-col h-full overflow-y-auto p-3.5 gap-3 shadow-xs">
@@ -690,18 +731,27 @@ export function AlgebraCloudTool({ onBack }: AlgebraCloudToolProps) {
                     <button
                       key={v.symbol}
                       draggable
-                      onDragStart={(e) => handlePaletteDragStart(e, { symbol: v.symbol, label: v.label, type: v.symbol === '1' ? 'constant' : 'variable' })}
+                      onDragStart={(e) => handlePaletteDragStart(e, {
+                        symbol: v.symbol,
+                        emoji: (v as any).emoji || (v.symbol === '1' ? '🪙' : undefined),
+                        label: v.label,
+                        type: v.symbol === '1' ? 'constant' : 'variable'
+                      })}
                       onClick={() => handleAddItemToCloud(
                         v.symbol,
-                        undefined,
+                        (v as any).emoji || (v.symbol === '1' ? '🪙' : undefined),
                         v.label,
                         v.symbol === '1' ? 'constant' : 'variable'
                       )}
                       className="flex items-center justify-between p-1.5 px-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-indigo-400 hover:shadow-xs transition-all text-left group cursor-grab active:cursor-grabbing"
                     >
-                      <span className="font-mono font-black text-xs text-indigo-600 dark:text-indigo-400 pointer-events-none">
+                      <span className="font-mono font-black text-xs text-indigo-600 dark:text-indigo-400 pointer-events-none flex items-center gap-0.5">
                         {spawnSign === -1 ? `-${spawnQuantity}` : spawnQuantity}
-                        {v.symbol !== '1' && <span className="font-serif italic">{v.symbol}</span>}
+                        {v.symbol !== '1' ? (
+                          <span className="font-serif italic">{v.symbol}</span>
+                        ) : (
+                          <span className="text-xs">🪙</span>
+                        )}
                       </span>
                       <span className="text-[10px] font-bold text-slate-400 group-hover:text-indigo-600 pointer-events-none">+</span>
                     </button>
@@ -710,91 +760,118 @@ export function AlgebraCloudTool({ onBack }: AlgebraCloudToolProps) {
               </div>
 
               {/* Section 5: Felhő Kezelők (Alul) */}
-              <div className="mt-auto pt-2 border-t border-slate-100 dark:border-slate-800 space-y-1.5">
-                <div className="flex items-center gap-1.5">
-                  <Button
-                    size="sm"
-                    onClick={handleAddCloud}
-                    disabled={clouds.length >= 4}
-                    className="flex-1 h-8 text-xs font-bold gap-1 bg-sky-500 hover:bg-sky-600 text-white rounded-xl cursor-pointer"
-                  >
-                    <Plus className="w-3.5 h-3.5" />
-                    + Felhő ({clouds.length}/4)
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={handleClearAllClouds}
-                    className="h-8 px-2 text-xs font-bold rounded-xl text-rose-600 hover:bg-rose-50 border-rose-200 dark:border-rose-900 cursor-pointer"
-                    title="Összes felhő kiürítése"
-                  >
-                    <RefreshCw className="w-3.5 h-3.5" />
-                  </Button>
+              {activeTab === 'sandbox' ? (
+                <div className="mt-auto pt-2 border-t border-slate-100 dark:border-slate-800 space-y-1.5">
+                  <div className="flex items-center gap-1.5">
+                    <Button
+                      size="sm"
+                      onClick={handleAddCloud}
+                      disabled={clouds.length >= 4}
+                      className="flex-1 h-8 text-xs font-bold gap-1 bg-sky-500 hover:bg-sky-600 text-white rounded-xl cursor-pointer"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      + Felhő ({clouds.length}/4)
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={handleClearAllClouds}
+                      className="h-8 px-2 text-xs font-bold rounded-xl text-rose-600 hover:bg-rose-50 border-rose-200 dark:border-rose-900 cursor-pointer"
+                      title="Összes felhő kiürítése"
+                    >
+                      <RefreshCw className="w-3.5 h-3.5" />
+                    </Button>
+                  </div>
+                  {clouds.length > 1 && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={handleCombineAllClouds}
+                      className="w-full h-8 text-xs font-bold gap-1 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-300 dark:border-indigo-800 cursor-pointer"
+                    >
+                      <Sparkles className="w-3.5 h-3.5" />
+                      Összes Felhő Egybeolvasztása
+                    </Button>
+                  )}
                 </div>
-                {clouds.length > 1 && (
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={handleCombineAllClouds}
-                    className="w-full h-8 text-xs font-bold gap-1 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-300 dark:border-indigo-800 cursor-pointer"
-                  >
-                    <Sparkles className="w-3.5 h-3.5" />
-                    Összes Felhő Egybeolvasztása
-                  </Button>
-                )}
-              </div>
+              ) : (
+                <div className="mt-auto pt-2 border-t border-slate-100 dark:border-slate-800">
+                  <div className="p-2.5 rounded-xl bg-indigo-50/80 dark:bg-indigo-950/40 border border-indigo-200/80 dark:border-indigo-800 text-[11px] text-indigo-900 dark:text-indigo-200 space-y-1">
+                    <div className="font-bold flex items-center gap-1">
+                      <Lightbulb className="w-3.5 h-3.5 text-amber-500" />
+                      Kiemelés Mód:
+                    </div>
+                    <p className="text-[10px] text-slate-600 dark:text-slate-300 leading-tight">
+                      A kiválasztott elemek a felső <strong>Nagy Felhőbe</strong> kerülnek. Onnan oszthatod szét őket a kis felhőkbe!
+                    </p>
+                  </div>
+                </div>
+              )}
             </aside>
 
-            {/* Right Main Stage (Clouds & Math Display) */}
-            <main className="flex-1 min-w-0 flex flex-col h-full overflow-hidden p-3.5 md:p-4 gap-3">
-              {/* Formula HUD Bar */}
-              <div className="h-12 min-h-[48px] bg-gradient-to-r from-sky-600 via-indigo-600 to-purple-600 rounded-2xl px-4 text-white shadow-sm flex items-center justify-between gap-4">
-                <div className="flex items-center gap-2 overflow-hidden">
-                  <span className="text-xl flex-shrink-0">✨</span>
-                  <div className="flex items-baseline gap-2 truncate">
-                    <span className="text-[10px] uppercase font-black tracking-wider text-sky-200 hidden sm:inline">
-                      Kifejezés:
-                    </span>
-                    <span className="font-mono font-black text-sm md:text-base tracking-wide text-white truncate">
-                      {totalFormula}
-                    </span>
+            {/* Right Main Stage: Sandbox or Factoring */}
+            {activeTab === 'sandbox' ? (
+              <main className="flex-1 min-w-0 flex flex-col h-full overflow-hidden p-3.5 md:p-4 gap-3">
+                {/* Formula HUD Bar */}
+                <div className="h-12 min-h-[48px] bg-gradient-to-r from-sky-600 via-indigo-600 to-purple-600 rounded-2xl px-4 text-white shadow-sm flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-2 overflow-hidden">
+                    <span className="text-xl flex-shrink-0">✨</span>
+                    <div className="flex items-baseline gap-2 truncate">
+                      <span className="text-[10px] uppercase font-black tracking-wider text-sky-200 hidden sm:inline">
+                        Kifejezés:
+                      </span>
+                      <span className="font-mono font-black text-sm md:text-base tracking-wide text-white truncate">
+                        {totalFormula}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="text-[11px] text-sky-100 font-medium bg-white/10 px-2.5 py-1 rounded-xl whitespace-nowrap hidden lg:block">
+                    💡 <strong>Tipp:</strong> Húzd az elemeket egymásra az összevonáshoz vagy kiejtéshez (Nullapár)!
                   </div>
                 </div>
 
-                <div className="text-[11px] text-sky-100 font-medium bg-white/10 px-2.5 py-1 rounded-xl whitespace-nowrap hidden lg:block">
-                  💡 <strong>Tipp:</strong> Húzd az elemeket egymásra az összevonáshoz vagy kiejtéshez (Nullapár)!
+                {/* Clouds Canvas Area */}
+                <div className="flex-1 min-h-0 overflow-y-auto">
+                  <div className={cn(
+                    "grid gap-4 h-full",
+                    clouds.length === 1 && "grid-cols-1 max-w-2xl mx-auto items-center",
+                    clouds.length === 2 && "grid-cols-1 md:grid-cols-2",
+                    clouds.length === 3 && "grid-cols-1 md:grid-cols-3",
+                    clouds.length >= 4 && "grid-cols-1 md:grid-cols-2 lg:grid-cols-2"
+                  )}>
+                    {clouds.map((cloud, idx) => (
+                      <CloudBox
+                        key={cloud.id}
+                        cloud={cloud}
+                        index={idx}
+                        totalClouds={clouds.length}
+                        mode={repMode}
+                        isSelected={cloud.id === selectedCloudId}
+                        onSelect={() => setSelectedCloudId(cloud.id)}
+                        onUpdateCloud={handleUpdateCloud}
+                        onRemoveCloud={handleRemoveCloud}
+                        onDuplicateCloud={handleDuplicateCloud}
+                        onAnimateAction={(action) => playSound(action === 'combine' ? 'sparkle' : 'magic')}
+                        onTransferItemBetweenClouds={handleTransferItemBetweenClouds}
+                        onDropPaletteItemIntoCloud={(cId, sym, emo, lbl, tp, coeff) => handleAddItemToCloud(sym, emo, lbl, tp, cId, coeff)}
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
-
-              {/* Clouds Canvas Area */}
-              <div className="flex-1 min-h-0 overflow-y-auto">
-                <div className={cn(
-                  "grid gap-4 h-full",
-                  clouds.length === 1 && "grid-cols-1 max-w-2xl mx-auto items-center",
-                  clouds.length === 2 && "grid-cols-1 md:grid-cols-2",
-                  clouds.length === 3 && "grid-cols-1 md:grid-cols-3",
-                  clouds.length >= 4 && "grid-cols-1 md:grid-cols-2 lg:grid-cols-2"
-                )}>
-                  {clouds.map((cloud, idx) => (
-                    <CloudBox
-                      key={cloud.id}
-                      cloud={cloud}
-                      index={idx}
-                      totalClouds={clouds.length}
-                      mode={repMode}
-                      isSelected={cloud.id === selectedCloudId}
-                      onSelect={() => setSelectedCloudId(cloud.id)}
-                      onUpdateCloud={handleUpdateCloud}
-                      onRemoveCloud={handleRemoveCloud}
-                      onDuplicateCloud={handleDuplicateCloud}
-                      onAnimateAction={(action) => playSound(action === 'combine' ? 'sparkle' : 'magic')}
-                      onTransferItemBetweenClouds={handleTransferItemBetweenClouds}
-                      onDropPaletteItemIntoCloud={(cId, sym, emo, lbl, tp, coeff) => handleAddItemToCloud(sym, emo, lbl, tp, cId, coeff)}
-                    />
-                  ))}
-                </div>
-              </div>
-            </main>
+              </main>
+            ) : (
+              <FactoringCloudStage
+                repMode={repMode}
+                selectedTheme={selectedTheme}
+                topCloud={topCloud}
+                smallClouds={smallClouds}
+                setTopCloud={setTopCloud}
+                setSmallClouds={setSmallClouds}
+                onAddItemToTopCloud={(sym, emo, lbl, tp, coeff) => handleAddItemToCloud(sym, emo, lbl, tp, undefined, coeff)}
+                playSound={playSound}
+              />
+            )}
           </>
         )}
 

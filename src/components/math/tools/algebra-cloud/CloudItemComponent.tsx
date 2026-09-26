@@ -40,6 +40,9 @@ export const CloudItemComponent: React.FC<CloudItemComponentProps> = ({
 
   const isNegative = item.coefficient < 0;
   const absCoeff = Math.abs(item.coefficient);
+  const isConstant = item.symbol === '1' || item.type === 'constant';
+  const defaultEmoji = isConstant ? '🪙' : '📦';
+  const currentEmoji = item.emoji || defaultEmoji;
 
   // Drag Start
   const handleDragStart = (e: React.DragEvent) => {
@@ -162,22 +165,37 @@ export const CloudItemComponent: React.FC<CloudItemComponentProps> = ({
             </span>
           )}
           <span className="text-3xl filter drop-shadow-sm select-none">
-            {item.emoji || '📦'}
+            {currentEmoji}
           </span>
         </div>
 
-        {onRemove && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onRemove(item.id);
-            }}
-            className="absolute -top-2 -right-2 w-5 h-5 bg-rose-500 hover:bg-rose-600 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-sm z-20 cursor-pointer"
-            title="Törlés"
-          >
-            <X className="w-3 h-3" />
-          </button>
-        )}
+        {/* Action buttons on hover */}
+        <div className="absolute -top-2 -right-2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-20">
+          {onSplit && absCoeff > 1 && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onSplit(item.id);
+              }}
+              className="w-5 h-5 bg-amber-500 hover:bg-amber-600 text-white rounded-full flex items-center justify-center shadow-sm text-[10px] font-bold cursor-pointer"
+              title="Szétbontás 1-es egységekre"
+            >
+              ✂️
+            </button>
+          )}
+          {onRemove && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onRemove(item.id);
+              }}
+              className="w-5 h-5 bg-rose-500 hover:bg-rose-600 text-white rounded-full flex items-center justify-center shadow-sm cursor-pointer"
+              title="Törlés"
+            >
+              <X className="w-3 h-3" />
+            </button>
+          )}
+        </div>
       </div>
     );
   }
@@ -220,7 +238,7 @@ export const CloudItemComponent: React.FC<CloudItemComponentProps> = ({
         {/* Fused badge title */}
         <div className="flex items-center gap-1 mb-1 px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-700/80 text-[11px] font-extrabold text-slate-700 dark:text-slate-200 pointer-events-none">
           <span>{isNegative ? `-${absCoeff}` : `${absCoeff} db`}</span>
-          <span className="text-xs">{item.emoji || item.symbol}</span>
+          <span className="text-xs">{currentEmoji}</span>
           {absCoeff > 1 && (
             <span className="text-[9px] px-1 rounded bg-amber-200 dark:bg-amber-800 text-amber-900 dark:text-amber-100 font-semibold ml-0.5">
               tömb
@@ -235,7 +253,7 @@ export const CloudItemComponent: React.FC<CloudItemComponentProps> = ({
               key={idx}
               className="text-2xl filter drop-shadow-sm -mx-0.5"
             >
-              {item.emoji || '📦'}
+              {currentEmoji}
             </span>
           ))}
           {absCoeff > 6 && (
@@ -318,29 +336,42 @@ export const CloudItemComponent: React.FC<CloudItemComponentProps> = ({
         </div>
 
         <div className="flex items-center gap-1 px-2 py-0.5 bg-slate-100 dark:bg-slate-700/60 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 pointer-events-none">
-          <span className="text-lg">{item.emoji || '📦'}</span>
-          <span>{item.label || item.symbol}</span>
+          <span className="text-lg">{currentEmoji}</span>
+          <span>{item.label || (isConstant ? 'Konstans' : item.symbol)}</span>
         </div>
 
-        {onRemove && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onRemove(item.id);
-            }}
-            className="absolute -top-2 -right-2 w-5 h-5 bg-rose-500 hover:bg-rose-600 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-sm z-20 cursor-pointer"
-            title="Törlés"
-          >
-            <X className="w-3 h-3" />
-          </button>
-        )}
+        {/* Action buttons on hover */}
+        <div className="absolute -top-2 -right-2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-20">
+          {onSplit && absCoeff > 1 && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onSplit(item.id);
+              }}
+              className="w-5 h-5 bg-amber-500 hover:bg-amber-600 text-white rounded-full flex items-center justify-center shadow-sm text-[10px] font-bold cursor-pointer"
+              title="Szétbontás 1-es egységekre"
+            >
+              ✂️
+            </button>
+          )}
+          {onRemove && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onRemove(item.id);
+              }}
+              className="w-5 h-5 bg-rose-500 hover:bg-rose-600 text-white rounded-full flex items-center justify-center shadow-sm cursor-pointer"
+              title="Törlés"
+            >
+              <X className="w-3 h-3" />
+            </button>
+          )}
+        </div>
       </div>
     );
   }
 
   // 4. Level 5 & 6: Abstract & Signed Mode (Algebra Tiles Card)
-  const isConstant = item.symbol === '1' || item.type === 'constant';
-
   return (
     <div
       draggable
@@ -355,7 +386,7 @@ export const CloudItemComponent: React.FC<CloudItemComponentProps> = ({
         isNegative
           ? "bg-gradient-to-br from-rose-50/90 to-blue-50/60 dark:from-rose-950/40 dark:to-slate-900 border-rose-300 dark:border-rose-800 text-rose-700 dark:text-rose-300 ring-1 ring-rose-200 dark:ring-rose-900"
           : isConstant
-          ? "bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-850 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200"
+          ? "bg-gradient-to-br from-amber-50 to-yellow-100/70 dark:from-slate-800 dark:to-amber-950/30 border-amber-300 dark:border-amber-700 text-amber-900 dark:text-amber-200"
           : "bg-gradient-to-br from-blue-50/90 to-indigo-50/80 dark:from-blue-950/40 dark:to-indigo-950/40 border-blue-300 dark:border-blue-800 text-blue-700 dark:text-blue-300",
         isSelectedForPairing && "ring-4 ring-indigo-500 scale-110 shadow-xl",
         isDragOver && dragActionType === 'zero_pair' && "ring-4 ring-amber-400 bg-amber-50 scale-110 shadow-xl border-amber-400",
@@ -392,7 +423,10 @@ export const CloudItemComponent: React.FC<CloudItemComponentProps> = ({
         {/* Expression value */}
         <span className="text-lg font-black font-mono tracking-tight">
           {isConstant ? (
-            absCoeff
+            <span className="flex items-center gap-1">
+              <span>{absCoeff}</span>
+              <span className="text-base select-none">🪙</span>
+            </span>
           ) : (
             <>
               {absCoeff === 1 ? '' : absCoeff}
@@ -430,18 +464,33 @@ export const CloudItemComponent: React.FC<CloudItemComponentProps> = ({
         )}
       </div>
 
-      {onRemove && (
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onRemove(item.id);
-          }}
-          className="absolute -top-2 -right-2 w-5 h-5 bg-rose-500 hover:bg-rose-600 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-sm z-20 cursor-pointer"
-          title="Törlés"
-        >
-          <X className="w-3 h-3" />
-        </button>
-      )}
+      {/* Action buttons on hover */}
+      <div className="absolute -top-2 -right-2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-20">
+        {onSplit && absCoeff > 1 && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onSplit(item.id);
+            }}
+            className="w-5 h-5 bg-amber-500 hover:bg-amber-600 text-white rounded-full flex items-center justify-center shadow-sm text-[10px] font-bold cursor-pointer"
+            title="Szétbontás 1-es egységekre"
+          >
+            ✂️
+          </button>
+        )}
+        {onRemove && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onRemove(item.id);
+            }}
+            className="w-5 h-5 bg-rose-500 hover:bg-rose-600 text-white rounded-full flex items-center justify-center shadow-sm cursor-pointer"
+            title="Törlés"
+          >
+            <X className="w-3 h-3" />
+          </button>
+        )}
+      </div>
     </div>
   );
 };

@@ -46,7 +46,7 @@ export interface CloudContainer {
   colorTheme: string;
 }
 
-export type ToolTab = 'sandbox' | 'missions' | 'challenges';
+export type ToolTab = 'sandbox' | 'missions' | 'challenges' | 'factoring';
 
 export interface MissionStep {
   id: number;
