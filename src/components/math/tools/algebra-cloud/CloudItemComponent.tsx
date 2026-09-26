@@ -22,6 +22,9 @@ interface CloudItemComponentProps {
   onItemDropOnItem?: (dragged: DraggedCloudItemPayload, target: CloudItem, targetCloudId: string) => void;
 }
 
+// Global reference to active dragged item payload to bypass HTML5 dragenter getData security restrictions
+let activeDragPayload: DraggedCloudItemPayload | null = null;
+
 export const CloudItemComponent: React.FC<CloudItemComponentProps> = ({
   item,
   cloudId,
@@ -51,8 +54,17 @@ export const CloudItemComponent: React.FC<CloudItemComponentProps> = ({
       sourceCloudId: cloudId,
       item
     };
+    activeDragPayload = payload;
     e.dataTransfer.setData('application/json', JSON.stringify(payload));
+    e.dataTransfer.setData('text/plain', JSON.stringify(payload));
     e.dataTransfer.effectAllowed = 'move';
+  };
+
+  // Drag End
+  const handleDragEnd = () => {
+    activeDragPayload = null;
+    setIsDragOver(false);
+    setDragActionType(null);
   };
 
   // Drag Over & Enter
@@ -67,23 +79,16 @@ export const CloudItemComponent: React.FC<CloudItemComponentProps> = ({
     e.stopPropagation();
     setIsDragOver(true);
 
-    try {
-      const dataStr = e.dataTransfer.getData('application/json');
-      if (dataStr) {
-        const payload: DraggedCloudItemPayload = JSON.parse(dataStr);
-        if (payload.item && payload.item.id !== item.id) {
-          if (payload.item.symbol === item.symbol) {
-            if ((payload.item.coefficient > 0 && item.coefficient < 0) || (payload.item.coefficient < 0 && item.coefficient > 0)) {
-              setDragActionType('zero_pair');
-            } else {
-              setDragActionType('merge');
-            }
-            return;
-          }
+    const payload = activeDragPayload;
+    if (payload && payload.item && payload.item.id !== item.id) {
+      if (payload.item.symbol === item.symbol) {
+        if ((payload.item.coefficient > 0 && item.coefficient < 0) || (payload.item.coefficient < 0 && item.coefficient > 0)) {
+          setDragActionType('zero_pair');
+        } else {
+          setDragActionType('merge');
         }
+        return;
       }
-    } catch (err) {
-      // ignore
     }
     setDragActionType('other');
   };
@@ -102,17 +107,22 @@ export const CloudItemComponent: React.FC<CloudItemComponentProps> = ({
     setIsDragOver(false);
     setDragActionType(null);
 
-    try {
-      const dataStr = e.dataTransfer.getData('application/json');
-      if (dataStr) {
-        const payload: DraggedCloudItemPayload = JSON.parse(dataStr);
-        if (payload.item && onItemDropOnItem) {
-          onItemDropOnItem(payload, item, cloudId);
+    let payload: DraggedCloudItemPayload | null = activeDragPayload;
+    if (!payload) {
+      try {
+        const dataStr = e.dataTransfer.getData('application/json') || e.dataTransfer.getData('text/plain');
+        if (dataStr) {
+          payload = JSON.parse(dataStr);
         }
+      } catch (err) {
+        console.error('Failed to parse dropped item', err);
       }
-    } catch (err) {
-      console.error('Failed to parse dropped item', err);
     }
+
+    if (payload && payload.item && onItemDropOnItem) {
+      onItemDropOnItem(payload, item, cloudId);
+    }
+    activeDragPayload = null;
   };
 
   // Click handler (for click-to-pair and selection)
@@ -129,6 +139,7 @@ export const CloudItemComponent: React.FC<CloudItemComponentProps> = ({
       <div
         draggable
         onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
         onDragOver={handleDragOver}
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
@@ -207,6 +218,7 @@ export const CloudItemComponent: React.FC<CloudItemComponentProps> = ({
       <div
         draggable
         onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
         onDragOver={handleDragOver}
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
@@ -300,6 +312,7 @@ export const CloudItemComponent: React.FC<CloudItemComponentProps> = ({
       <div
         draggable
         onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
         onDragOver={handleDragOver}
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
@@ -376,6 +389,7 @@ export const CloudItemComponent: React.FC<CloudItemComponentProps> = ({
     <div
       draggable
       onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
       onDragOver={handleDragOver}
       onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}

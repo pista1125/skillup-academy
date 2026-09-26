@@ -5,45 +5,28 @@ import {
   ToolTab,
   CloudContainer,
   CloudItem,
-  MissionStep,
-  PracticeChallenge,
 } from './algebra-cloud/types';
 import {
   THEME_CATEGORIES,
   ABSTRACT_VARIABLES,
-  createInitialCloud,
   formatCloudExpression,
-  GUIDED_MISSIONS,
-  PRACTICE_CHALLENGES
 } from './algebra-cloud/data';
 import { CloudBox } from './algebra-cloud/CloudBox';
 import { FactoringCloudStage } from './algebra-cloud/FactoringCloudStage';
+import { CombiningCloudStage } from './algebra-cloud/CombiningCloudStage';
 import {
   ArrowLeft,
   Sparkles,
   Layers,
-  Zap,
+  GitMerge,
   Plus,
-  Minus,
-  Maximize2,
   RefreshCw,
-  Trophy,
-  Compass,
-  CheckCircle2,
-  HelpCircle,
   Volume2,
   VolumeX,
-  ChevronRight,
-  ChevronLeft,
-  BookOpen,
-  Info,
-  Flame,
   LayoutGrid,
-  Scissors,
   Lightbulb
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
 interface AlgebraCloudToolProps {
@@ -102,6 +85,18 @@ export function AlgebraCloudTool({ onBack }: AlgebraCloudToolProps) {
     { id: 'small-4', title: '4. Kis felhő', multiplier: 1, colorTheme: 'emerald', items: [] },
   ]);
 
+  // Combining Mode State (Összevonás Mód)
+  const [combiningBaseCloud, setCombiningBaseCloud] = useState<CloudContainer>({
+    id: 'comb-base-cloud',
+    title: 'Alap Kis Felhő',
+    multiplier: 1,
+    colorTheme: 'purple',
+    items: [
+      { id: 'comb-base-1', symbol: 'a', type: 'variable', emoji: '🍎', label: 'Alma', coefficient: 2, isFusedBlock: true, fusedSize: 2 },
+      { id: 'comb-base-2', symbol: 'k', type: 'variable', emoji: '🍐', label: 'Körte', coefficient: 3, isFusedBlock: true, fusedSize: 3 },
+    ]
+  });
+
   // Spawner controls
   const [spawnQuantity, setSpawnQuantity] = useState<number>(1);
   const [spawnSign, setSpawnSign] = useState<1 | -1>(1);
@@ -120,28 +115,6 @@ export function AlgebraCloudTool({ onBack }: AlgebraCloudToolProps) {
       }
     }
   };
-
-  // Guided Missions State
-  const [currentMissionIdx, setCurrentMissionIdx] = useState<number>(0);
-  const currentMission = GUIDED_MISSIONS[currentMissionIdx];
-  const [missionClouds, setMissionClouds] = useState<CloudContainer[]>(
-    JSON.parse(JSON.stringify(GUIDED_MISSIONS[0].clouds))
-  );
-  const [missionCompleted, setMissionCompleted] = useState<boolean>(false);
-  const [showMissionHint, setShowMissionHint] = useState<boolean>(false);
-
-  // Practice Challenges State
-  const [selectedChallengeLevel, setSelectedChallengeLevel] = useState<'easy' | 'medium' | 'hard'>('easy');
-  const [currentChallengeIdx, setCurrentChallengeIdx] = useState<number>(0);
-  const filteredChallenges = useMemo(() => {
-    return PRACTICE_CHALLENGES.filter(c => c.level === selectedChallengeLevel);
-  }, [selectedChallengeLevel]);
-  const currentChallenge = filteredChallenges[currentChallengeIdx] || PRACTICE_CHALLENGES[0];
-  const [challengeClouds, setChallengeClouds] = useState<CloudContainer[]>(
-    JSON.parse(JSON.stringify(currentChallenge.initialClouds))
-  );
-  const [challengeStatus, setChallengeStatus] = useState<'idle' | 'correct' | 'incorrect'>('idle');
-  const [showChallengeHint, setShowChallengeHint] = useState<boolean>(false);
 
   // Simple Sound generator via Web Audio API
   const playSound = (type: 'pop' | 'sparkle' | 'success' | 'magic') => {
@@ -222,6 +195,15 @@ export function AlgebraCloudTool({ onBack }: AlgebraCloudToolProps) {
 
     if (activeTab === 'factoring') {
       setTopCloud(prev => ({
+        ...prev,
+        items: [...prev.items, newItem]
+      }));
+      playSound('pop');
+      return;
+    }
+
+    if (activeTab === 'combining') {
+      setCombiningBaseCloud(prev => ({
         ...prev,
         items: [...prev.items, newItem]
       }));
@@ -358,55 +340,6 @@ export function AlgebraCloudTool({ onBack }: AlgebraCloudToolProps) {
     playSound('pop');
   };
 
-  // Mission Step Change
-  const handleSelectMission = (idx: number) => {
-    setCurrentMissionIdx(idx);
-    const mission = GUIDED_MISSIONS[idx];
-    setMissionClouds(JSON.parse(JSON.stringify(mission.clouds)));
-    setRepMode(mission.repMode);
-    setSelectedTheme(mission.category);
-    setMissionCompleted(false);
-    setShowMissionHint(false);
-  };
-
-  // Update Mission Cloud & Check validation
-  const handleUpdateMissionCloud = (updated: CloudContainer) => {
-    const updatedClouds = missionClouds.map(c => c.id === updated.id ? updated : c);
-    setMissionClouds(updatedClouds);
-
-    if (currentMission.targetCheck(updatedClouds)) {
-      setMissionCompleted(true);
-      playSound('success');
-    }
-  };
-
-  // Challenge Update & Check
-  const handleUpdateChallengeCloud = (updated: CloudContainer) => {
-    const updatedClouds = challengeClouds.map(c => c.id === updated.id ? updated : c);
-    setChallengeClouds(updatedClouds);
-  };
-
-  const handleCheckChallenge = () => {
-    const isOk = currentChallenge.checkAnswer(challengeClouds);
-    if (isOk) {
-      setChallengeStatus('correct');
-      playSound('success');
-    } else {
-      setChallengeStatus('incorrect');
-    }
-  };
-
-  const handleNextChallenge = () => {
-    const nextIdx = (currentChallengeIdx + 1) % filteredChallenges.length;
-    setCurrentChallengeIdx(nextIdx);
-    const nextChallenge = filteredChallenges[nextIdx];
-    setChallengeClouds(JSON.parse(JSON.stringify(nextChallenge.initialClouds)));
-    setRepMode(nextChallenge.repMode);
-    setSelectedTheme(nextChallenge.category);
-    setChallengeStatus('idle');
-    setShowChallengeHint(false);
-  };
-
   // Active theme items
   const activeCategory = THEME_CATEGORIES.find(c => c.id === selectedTheme) || THEME_CATEGORIES[0];
 
@@ -454,37 +387,19 @@ export function AlgebraCloudTool({ onBack }: AlgebraCloudToolProps) {
             )}
           >
             <LayoutGrid className="w-3.5 h-3.5" />
-            Szabad Labor
+            Összevonás
           </button>
           <button
-            onClick={() => {
-              setActiveTab('missions');
-              handleSelectMission(currentMissionIdx);
-            }}
+            onClick={() => setActiveTab('combining')}
             className={cn(
               "flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer",
-              activeTab === 'missions'
-                ? "bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 shadow-xs"
+              activeTab === 'combining'
+                ? "bg-white dark:bg-slate-700 text-purple-600 dark:text-purple-300 shadow-xs"
                 : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
             )}
           >
-            <Compass className="w-3.5 h-3.5" />
-            8 Küldetés
-          </button>
-          <button
-            onClick={() => {
-              setActiveTab('challenges');
-              handleNextChallenge();
-            }}
-            className={cn(
-              "flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer",
-              activeTab === 'challenges'
-                ? "bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 shadow-xs"
-                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-            )}
-          >
-            <Trophy className="w-3.5 h-3.5" />
-            Gyakorló Kvíz
+            <GitMerge className="w-3.5 h-3.5" />
+            Zárójelfelbontás
           </button>
           <button
             onClick={() => setActiveTab('factoring')}
@@ -519,13 +434,8 @@ export function AlgebraCloudTool({ onBack }: AlgebraCloudToolProps) {
 
       {/* 2. Main Studio Body (Zero Outer Scroll, Split Left Sidebar + Right Stage) */}
       <div className="flex-1 min-h-0 flex flex-col md:flex-row overflow-hidden">
-        {/* ========================================================= */}
-        {/* TAB 1 & 4: SZABAD LABORATÓRIUM & KIEMELÉS                 */}
-        {/* ========================================================= */}
-        {(activeTab === 'sandbox' || activeTab === 'factoring') && (
-          <>
-            {/* Left Control Sidebar (Toolbox & Controls) */}
-            <aside className="w-full md:w-[340px] lg:w-[360px] min-w-[320px] bg-white/90 dark:bg-slate-900/90 border-r border-sky-100 dark:border-slate-800 flex flex-col h-full overflow-y-auto p-3.5 gap-3 shadow-xs">
+        {/* Left Control Sidebar (Toolbox & Controls) */}
+        <aside className="w-full md:w-[340px] lg:w-[360px] min-w-[320px] bg-white/90 dark:bg-slate-900/90 border-r border-sky-100 dark:border-slate-800 flex flex-col h-full overflow-y-auto p-3.5 gap-3 shadow-xs">
               {/* Section 1: Didaktikai Szint */}
               <div className="space-y-1.5">
                 <div className="text-[10px] font-black uppercase tracking-wider text-slate-400">
@@ -793,6 +703,27 @@ export function AlgebraCloudTool({ onBack }: AlgebraCloudToolProps) {
                       Összes Felhő Egybeolvasztása
                     </Button>
                   )}
+                  <div className="p-2 rounded-xl bg-sky-50/80 dark:bg-sky-950/40 border border-sky-200/80 dark:border-sky-800 text-[11px] text-sky-900 dark:text-sky-200 space-y-0.5">
+                    <div className="font-bold flex items-center gap-1">
+                      <Lightbulb className="w-3 h-3 text-amber-500" />
+                      Összevonás Mód:
+                    </div>
+                    <p className="text-[10px] text-slate-600 dark:text-slate-300 leading-tight">
+                      Húzd az azonos elemeket egymásra az összevonáshoz vagy kiejtéshez (Nullapár)!
+                    </p>
+                  </div>
+                </div>
+              ) : activeTab === 'combining' ? (
+                <div className="mt-auto pt-2 border-t border-slate-100 dark:border-slate-800">
+                  <div className="p-2.5 rounded-xl bg-purple-50/80 dark:bg-purple-950/40 border border-purple-200/80 dark:border-purple-800 text-[11px] text-purple-900 dark:text-purple-200 space-y-1">
+                    <div className="font-bold flex items-center gap-1">
+                      <Lightbulb className="w-3.5 h-3.5 text-amber-500" />
+                      Zárójelfelbontás Mód:
+                    </div>
+                    <p className="text-[10px] text-slate-600 dark:text-slate-300 leading-tight">
+                      A palettáról hozzáadott elemek az <strong>Alap kis felhőbe</strong> kerülnek, ami automatikusan sokszorozódik a beállított szorzóval!
+                    </p>
+                  </div>
                 </div>
               ) : (
                 <div className="mt-auto pt-2 border-t border-slate-100 dark:border-slate-800">
@@ -860,6 +791,14 @@ export function AlgebraCloudTool({ onBack }: AlgebraCloudToolProps) {
                   </div>
                 </div>
               </main>
+            ) : activeTab === 'combining' ? (
+              <CombiningCloudStage
+                repMode={repMode}
+                selectedTheme={selectedTheme}
+                baseCloud={combiningBaseCloud}
+                setBaseCloud={setCombiningBaseCloud}
+                playSound={playSound}
+              />
             ) : (
               <FactoringCloudStage
                 repMode={repMode}
@@ -872,280 +811,6 @@ export function AlgebraCloudTool({ onBack }: AlgebraCloudToolProps) {
                 playSound={playSound}
               />
             )}
-          </>
-        )}
-
-        {/* ========================================================= */}
-        {/* TAB 2: VEZETETT KÜLDETÉSEK                                */}
-        {/* ========================================================= */}
-        {activeTab === 'missions' && (
-          <>
-            {/* Left Sidebar: Mission Navigation & Story */}
-            <aside className="w-full md:w-[360px] lg:w-[380px] min-w-[340px] bg-white/90 dark:bg-slate-900/90 border-r border-sky-100 dark:border-slate-800 flex flex-col h-full overflow-y-auto p-4 gap-3 shadow-xs">
-              {/* Stepper Header */}
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">
-                    Küldetés Választó (1 - 8):
-                  </span>
-                  <span className="text-[11px] font-black px-2 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300">
-                    {currentMission.badge}
-                  </span>
-                </div>
-                <div className="grid grid-cols-4 gap-1.5">
-                  {GUIDED_MISSIONS.map((m, idx) => (
-                    <button
-                      key={m.id}
-                      onClick={() => handleSelectMission(idx)}
-                      className={cn(
-                        "py-1.5 px-1 rounded-xl text-center border font-bold transition-all text-xs flex flex-col items-center gap-0.5 cursor-pointer",
-                        idx === currentMissionIdx
-                          ? "bg-indigo-600 text-white border-indigo-600 shadow-xs"
-                          : "bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-100"
-                      )}
-                    >
-                      <span className="text-sm">{idx + 1 === 1 ? '🍎' : idx + 1 === 2 ? '📦' : idx + 1 === 3 ? '🐾' : idx + 1 === 4 ? '🔀' : idx + 1 === 5 ? '🔤' : idx + 1 === 6 ? '❄️' : idx + 1 === 7 ? '🔓' : '🏆'}</span>
-                      <span className="text-[10px]">{idx + 1}. szint</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Mission Content Card */}
-              <div className="p-3.5 rounded-2xl bg-indigo-50/70 dark:bg-slate-800/70 border border-indigo-200 dark:border-indigo-900 space-y-2.5">
-                <div>
-                  <h3 className="font-black text-sm md:text-base text-slate-900 dark:text-white leading-tight">
-                    {currentMission.title}
-                  </h3>
-                  <p className="text-[11px] text-indigo-700 dark:text-indigo-300 font-semibold mt-0.5">
-                    {currentMission.subtitle}
-                  </p>
-                </div>
-
-                <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
-                  📖 {currentMission.story}
-                </p>
-
-                {/* Instruction */}
-                <div className="p-2.5 rounded-xl bg-white dark:bg-slate-800 border border-indigo-200 dark:border-indigo-800 flex items-start gap-2 shadow-xs">
-                  <span className="text-lg">🎯</span>
-                  <div className="text-xs font-bold text-indigo-950 dark:text-indigo-200 leading-tight">
-                    {currentMission.instruction}
-                  </div>
-                </div>
-
-                {showMissionHint && (
-                  <div className="p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 text-xs font-semibold text-amber-900 dark:text-amber-200">
-                    💡 <strong>Tipp:</strong> {currentMission.hint}
-                  </div>
-                )}
-              </div>
-
-              {/* Action Buttons */}
-              <div className="mt-auto pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center gap-2">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => setShowMissionHint(!showMissionHint)}
-                  className="flex-1 h-8 text-xs font-bold border-amber-300 text-amber-700 bg-amber-50 cursor-pointer"
-                >
-                  <Lightbulb className="w-3.5 h-3.5 mr-1" />
-                  {showMissionHint ? 'Tipp elrejtése' : 'Tipp'}
-                </Button>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  onClick={() => handleSelectMission(currentMissionIdx)}
-                  className="h-8 text-xs font-bold cursor-pointer"
-                >
-                  <RefreshCw className="w-3.5 h-3.5 mr-1" />
-                  Újra
-                </Button>
-              </div>
-            </aside>
-
-            {/* Right Stage: Mission Interactive Clouds */}
-            <main className="flex-1 min-w-0 flex flex-col h-full overflow-hidden p-4 gap-4 items-center justify-center">
-              <div className="w-full max-w-2xl">
-                {missionClouds.map((cloud, idx) => (
-                  <CloudBox
-                    key={cloud.id}
-                    cloud={cloud}
-                    index={idx}
-                    totalClouds={missionClouds.length}
-                    mode={currentMission.repMode}
-                    isSelected={true}
-                    onUpdateCloud={handleUpdateMissionCloud}
-                    onAnimateAction={() => playSound('sparkle')}
-                  />
-                ))}
-              </div>
-
-              {/* Success Notification Banner */}
-              {missionCompleted && (
-                <div className="w-full max-w-xl p-4 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl text-white shadow-xl text-center space-y-2 animate-slide-up">
-                  <div className="text-2xl">🎉 Szuper, küldetés teljesítve!</div>
-                  <p className="text-xs font-semibold text-emerald-100">
-                    {currentMission.successMessage}
-                  </p>
-                  {currentMissionIdx < GUIDED_MISSIONS.length - 1 && (
-                    <Button
-                      onClick={() => handleSelectMission(currentMissionIdx + 1)}
-                      className="bg-white text-emerald-800 hover:bg-emerald-50 font-black rounded-xl px-5 h-8 text-xs shadow-md mt-1 cursor-pointer"
-                    >
-                      Következő Küldetés ({currentMissionIdx + 2}. szint)
-                      <ChevronRight className="w-4 h-4 ml-1" />
-                    </Button>
-                  )}
-                </div>
-              )}
-            </main>
-          </>
-        )}
-
-        {/* ========================================================= */}
-        {/* TAB 3: GYAKORLÓ KVÍZ                                      */}
-        {/* ========================================================= */}
-        {activeTab === 'challenges' && (
-          <>
-            {/* Left Sidebar: Question & Level */}
-            <aside className="w-full md:w-[340px] lg:w-[360px] min-w-[320px] bg-white/90 dark:bg-slate-900/90 border-r border-sky-100 dark:border-slate-800 flex flex-col h-full overflow-y-auto p-4 gap-3 shadow-xs">
-              <div>
-                <div className="text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1.5">
-                  Nehézségi Szint:
-                </div>
-                <div className="grid grid-cols-3 gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
-                  <button
-                    onClick={() => {
-                      setSelectedChallengeLevel('easy');
-                      setCurrentChallengeIdx(0);
-                      setChallengeStatus('idle');
-                    }}
-                    className={cn(
-                      "py-1 rounded-lg text-xs font-bold transition-all cursor-pointer",
-                      selectedChallengeLevel === 'easy' ? "bg-emerald-500 text-white shadow-xs" : "text-slate-500"
-                    )}
-                  >
-                    Kezdő
-                  </button>
-                  <button
-                    onClick={() => {
-                      setSelectedChallengeLevel('medium');
-                      setCurrentChallengeIdx(0);
-                      setChallengeStatus('idle');
-                    }}
-                    className={cn(
-                      "py-1 rounded-lg text-xs font-bold transition-all cursor-pointer",
-                      selectedChallengeLevel === 'medium' ? "bg-amber-500 text-white shadow-xs" : "text-slate-500"
-                    )}
-                  >
-                    Haladó
-                  </button>
-                  <button
-                    onClick={() => {
-                      setSelectedChallengeLevel('hard');
-                      setCurrentChallengeIdx(0);
-                      setChallengeStatus('idle');
-                    }}
-                    className={cn(
-                      "py-1 rounded-lg text-xs font-bold transition-all cursor-pointer",
-                      selectedChallengeLevel === 'hard' ? "bg-purple-600 text-white shadow-xs" : "text-slate-500"
-                    )}
-                  >
-                    Mester
-                  </button>
-                </div>
-              </div>
-
-              {/* Question Card */}
-              <div className="p-3.5 rounded-2xl bg-sky-50 dark:bg-slate-800/80 border border-sky-200 dark:border-slate-700 space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-black text-slate-900 dark:text-white">
-                    {currentChallenge.title}
-                  </span>
-                  <span className="text-[10px] font-bold text-slate-400">
-                    {currentChallengeIdx + 1} / {filteredChallenges.length}
-                  </span>
-                </div>
-                <p className="text-xs font-bold text-slate-800 dark:text-slate-200 leading-relaxed">
-                  ❓ {currentChallenge.question}
-                </p>
-
-                {showChallengeHint && (
-                  <div className="p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-200 text-xs font-medium border border-amber-200">
-                    💡 {currentChallenge.hint}
-                  </div>
-                )}
-              </div>
-
-              {/* Actions */}
-              <div className="mt-auto pt-2 border-t border-slate-100 dark:border-slate-800 space-y-2">
-                <Button
-                  onClick={handleCheckChallenge}
-                  className="w-full h-9 bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs rounded-xl shadow-md cursor-pointer"
-                >
-                  Válasz Ellenőrzése
-                </Button>
-                <div className="flex items-center gap-2">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => setShowChallengeHint(!showChallengeHint)}
-                    className="flex-1 h-8 text-xs font-bold border-amber-300 text-amber-700 bg-amber-50 cursor-pointer"
-                  >
-                    <HelpCircle className="w-3.5 h-3.5 mr-1" />
-                    Tipp
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={handleNextChallenge}
-                    className="flex-1 h-8 text-xs font-bold cursor-pointer"
-                  >
-                    Következő
-                    <ChevronRight className="w-3.5 h-3.5 ml-1" />
-                  </Button>
-                </div>
-              </div>
-            </aside>
-
-            {/* Right Stage: Challenge Interactive Cloud & Results */}
-            <main className="flex-1 min-w-0 flex flex-col h-full overflow-hidden p-4 gap-4 items-center justify-center">
-              <div className="w-full max-w-xl">
-                {challengeClouds.map((cloud, idx) => (
-                  <CloudBox
-                    key={cloud.id}
-                    cloud={cloud}
-                    index={idx}
-                    totalClouds={challengeClouds.length}
-                    mode={currentChallenge.repMode}
-                    isSelected={true}
-                    onUpdateCloud={handleUpdateChallengeCloud}
-                    onAnimateAction={() => playSound('sparkle')}
-                  />
-                ))}
-              </div>
-
-              {challengeStatus === 'correct' && (
-                <div className="w-full max-w-xl p-3.5 rounded-2xl bg-emerald-500 text-white text-center space-y-1 shadow-lg animate-slide-up">
-                  <div className="text-base font-black">🌟 Helyes Megoldás!</div>
-                  <p className="text-xs text-emerald-100">
-                    {currentChallenge.explanation}
-                  </p>
-                </div>
-              )}
-
-              {challengeStatus === 'incorrect' && (
-                <div className="w-full max-w-xl p-3.5 rounded-2xl bg-rose-500 text-white text-center space-y-1 shadow-lg animate-slide-up">
-                  <div className="text-base font-black">❌ Még nem pontos!</div>
-                  <p className="text-xs text-rose-100">
-                    Próbáld meg elvégezni az összevonást vagy zárójelfelbontást a felhő alján lévő gombokkal!
-                  </p>
-                </div>
-              )}
-            </main>
-          </>
-        )}
       </div>
     </div>
   );

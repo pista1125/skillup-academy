@@ -3,11 +3,12 @@ import { toPng } from 'html-to-image';
 import { toast } from 'sonner';
 
 /**
- * Exports a given HTML element to a PDF file.
+ * Exports a given HTML element (or element ID) to a PDF file.
+ * Handles multi-page worksheets with '.print-page' elements page-by-page for crisp A4 output.
  * Fallback to browser print if image generation fails.
  */
-export async function exportElementToPDF(elementId: string, title: string) {
-  const element = document.getElementById(elementId);
+export async function exportElementToPDF(elementOrId: string | HTMLElement, title: string) {
+  const element = typeof elementOrId === 'string' ? document.getElementById(elementOrId) : elementOrId;
   if (!element) {
     toast.error('A letöltendő tananyag elem nem található.');
     return;
@@ -16,37 +17,60 @@ export async function exportElementToPDF(elementId: string, title: string) {
   const toastId = toast.loading('PDF dokumentum előkészítése és letöltése...');
 
   try {
-    const canvas = await toPng(element, {
-      quality: 0.98,
-      pixelRatio: 2,
-      cacheBust: true,
-      backgroundColor: '#ffffff',
-      filter: (node: HTMLElement) => {
-        // Exclude elements marked with 'no-pdf'
-        if (node.classList && node.classList.contains('no-pdf')) {
-          return false;
-        }
-        return true;
-      }
-    });
-
+    const pageElements = element.querySelectorAll<HTMLElement>('.print-page');
     const pdf = new jsPDF('p', 'mm', 'a4');
-    const imgProps = pdf.getImageProperties(canvas);
     const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+    const pdfHeight = pdf.internal.pageSize.getHeight();
 
-    const pageHeight = pdf.internal.pageSize.getHeight();
-    let heightLeft = pdfHeight;
-    let position = 0;
+    if (pageElements.length > 0) {
+      for (let i = 0; i < pageElements.length; i++) {
+        const pageEl = pageElements[i];
+        if (i > 0) {
+          pdf.addPage();
+        }
+        const canvas = await toPng(pageEl, {
+          quality: 0.98,
+          pixelRatio: 2,
+          cacheBust: true,
+          backgroundColor: '#ffffff',
+          filter: (node: HTMLElement) => {
+            if (node.classList && node.classList.contains('no-pdf')) {
+              return false;
+            }
+            return true;
+          }
+        });
+        pdf.addImage(canvas, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      }
+    } else {
+      const canvas = await toPng(element, {
+        quality: 0.98,
+        pixelRatio: 2,
+        cacheBust: true,
+        backgroundColor: '#ffffff',
+        filter: (node: HTMLElement) => {
+          if (node.classList && node.classList.contains('no-pdf')) {
+            return false;
+          }
+          return true;
+        }
+      });
 
-    pdf.addImage(canvas, 'PNG', 0, position, pdfWidth, pdfHeight);
-    heightLeft -= pageHeight;
+      const imgProps = pdf.getImageProperties(canvas);
+      const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
-    while (heightLeft > 0) {
-      position = heightLeft - pdfHeight;
-      pdf.addPage();
-      pdf.addImage(canvas, 'PNG', 0, position, pdfWidth, pdfHeight);
-      heightLeft -= pageHeight;
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      pdf.addImage(canvas, 'PNG', 0, position, pdfWidth, imgHeight);
+      heightLeft -= pdfHeight;
+
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(canvas, 'PNG', 0, position, pdfWidth, imgHeight);
+        heightLeft -= pdfHeight;
+      }
     }
 
     const safeFilename = title

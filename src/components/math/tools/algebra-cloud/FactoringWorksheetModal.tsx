@@ -655,14 +655,14 @@ export const FactoringWorksheetModal: React.FC<FactoringWorksheetModalProps> = (
                 key={`page-${pageIdx}`}
                 className={cn(
                   "print-page relative w-full bg-white text-slate-900 shadow-2xl rounded-sm flex flex-col justify-between border border-slate-300",
-                  layout === '4-per-page' ? "p-4 sm:p-5" : "p-8 md:p-10",
+                  layout === '4-per-page' ? "p-4 sm:p-5" : "p-5 sm:p-6 md:p-7",
                   "min-h-[297mm] transition-all"
                 )}
                 style={{ aspectRatio: '210 / 297' }}
               >
                 {/* 1. Page Header (Only on Page 1 or if configured) */}
                 {pageIdx === 0 && (
-                  <header className={cn("border-b-2 border-slate-800 flex-shrink-0", layout === '4-per-page' ? "pb-2 mb-3" : "pb-4 mb-4")}>
+                  <header className={cn("border-b-2 border-slate-800 flex-shrink-0", layout === '4-per-page' ? "pb-2 mb-2.5" : "pb-2.5 mb-2.5")}>
                     <div className="flex items-start justify-between gap-4">
                       <div>
                         <h1 className={cn("font-black tracking-tight text-slate-900", layout === '4-per-page' ? "text-lg md:text-xl" : "text-xl md:text-2xl")}>
@@ -682,7 +682,7 @@ export const FactoringWorksheetModal: React.FC<FactoringWorksheetModalProps> = (
                     {showHeader && (
                       <div className={cn(
                         "grid grid-cols-4 gap-3 border-t border-dashed border-slate-300 font-bold text-slate-700",
-                        layout === '4-per-page' ? "mt-2 pt-1.5 text-[11px]" : "mt-4 pt-3 text-xs"
+                        layout === '4-per-page' ? "mt-2 pt-1.5 text-[11px]" : "mt-2 pt-1.5 text-xs"
                       )}>
                         <div className="border-b border-dotted border-slate-400 pb-0.5">
                           <span>Név:</span>
@@ -702,7 +702,7 @@ export const FactoringWorksheetModal: React.FC<FactoringWorksheetModalProps> = (
                 )}
 
                 {pageIdx > 0 && (
-                  <div className="flex items-center justify-between pb-2 mb-3 border-b border-slate-300 text-xs font-bold text-slate-500 flex-shrink-0">
+                  <div className="flex items-center justify-between pb-2 mb-2.5 border-b border-slate-300 text-xs font-bold text-slate-500 flex-shrink-0">
                     <span>{worksheetTitle}</span>
                     <span>{pageIdx + 1}. Oldal</span>
                   </div>
@@ -712,7 +712,7 @@ export const FactoringWorksheetModal: React.FC<FactoringWorksheetModalProps> = (
                 <div
                   className={cn(
                     "flex-1 grid my-auto",
-                    layout === '2-per-page' ? "grid-cols-1 gap-6" : "grid-cols-2 gap-3 sm:gap-4"
+                    layout === '2-per-page' ? "grid-cols-1 gap-3.5" : "grid-cols-2 gap-3 sm:gap-4"
                   )}
                 >
                   {pageTasks.map(task => {
@@ -725,15 +725,15 @@ export const FactoringWorksheetModal: React.FC<FactoringWorksheetModalProps> = (
                         key={task.id}
                         className={cn(
                           "rounded-2xl border-2 flex flex-col justify-between transition-all h-full",
-                          isCompact ? "p-3 sm:p-3.5" : "p-5",
+                          isCompact ? "p-3 sm:p-3.5" : "p-3.5 sm:p-4",
                           colorMode === 'color'
                             ? "border-sky-300 bg-gradient-to-b from-sky-50/50 via-white to-indigo-50/30"
                             : "border-slate-800 bg-white"
                         )}
-                        style={{ minHeight: layout === '2-per-page' ? '110mm' : undefined }}
+                        style={{ minHeight: layout === '2-per-page' ? '92mm' : undefined }}
                       >
                         {/* Task Title Header */}
-                        <div className="flex items-center justify-between pb-1.5 border-b border-slate-200 flex-shrink-0">
+                        <div className="flex items-center justify-between pb-1 border-b border-slate-200 flex-shrink-0">
                           <span className={cn("font-black text-slate-900", isCompact ? "text-sm" : "text-base")}>
                             {task.title}: <strong className="font-mono text-indigo-700 whitespace-nowrap">{displayExpr}</strong>
                           </span>
@@ -744,8 +744,8 @@ export const FactoringWorksheetModal: React.FC<FactoringWorksheetModalProps> = (
 
                         {/* Visual Starting Cloud - Taller, spacious, no clipping of items */}
                         <div className={cn(
-                          "rounded-xl border flex flex-col justify-between mt-2 flex-shrink-0",
-                          isCompact ? "p-2.5 min-h-[114px] h-[118px]" : "p-3.5 min-h-[130px] h-[135px]",
+                          "rounded-xl border flex flex-col justify-between mt-1.5 flex-shrink-0",
+                          isCompact ? "p-2.5 min-h-[105px] h-[110px]" : "p-3 min-h-[110px] h-[115px]",
                           colorMode === 'color'
                             ? "bg-sky-50/40 border-sky-200"
                             : "bg-slate-50 border-slate-300"
@@ -881,8 +881,8 @@ export const FactoringWorksheetModal: React.FC<FactoringWorksheetModalProps> = (
                         </div>
 
                         {/* Drawing Area: The Small Clouds */}
-                        <div className={cn("flex-1 flex flex-col justify-start mt-2.5 mb-2", isCompact ? "" : "mt-3.5 mb-3")}>
-                          <p className={cn("font-bold text-slate-500 mb-1.5 flex-shrink-0", isCompact ? "text-[11px]" : "text-xs")}>
+                        <div className={cn("flex-1 flex flex-col justify-start mt-2 mb-1.5", isCompact ? "" : "mt-2 mb-1.5")}>
+                          <p className={cn("font-bold text-slate-500 mb-1 flex-shrink-0", isCompact ? "text-[11px]" : "text-xs")}>
                             ✍️ Rajzold vagy írd be az elemeket a felhőkbe:
                           </p>
                           <div
@@ -898,7 +898,7 @@ export const FactoringWorksheetModal: React.FC<FactoringWorksheetModalProps> = (
                               <div
                                 key={cIdx}
                                 className={cn(
-                                  "relative rounded-xl border-2 border-dashed bg-white w-full h-full min-h-[95px]",
+                                  "relative rounded-xl border-2 border-dashed bg-white w-full h-full min-h-[80px]",
                                   colorMode === 'color' ? "border-sky-300" : "border-slate-500"
                                 )}
                               />
@@ -908,8 +908,8 @@ export const FactoringWorksheetModal: React.FC<FactoringWorksheetModalProps> = (
 
                         {/* Mathematical Conclusion Line (Fill in the blanks) */}
                         <div className={cn(
-                          "rounded-xl border flex flex-col",
-                          isCompact ? "py-1.5 px-3 gap-1" : "pt-2.5 px-4 pb-2.5 gap-1.5",
+                          "rounded-xl border flex flex-col flex-shrink-0",
+                          isCompact ? "py-1.5 px-3 gap-0.5" : "py-2 px-3.5 gap-1",
                           colorMode === 'color'
                             ? "bg-emerald-50/70 border-emerald-200 text-emerald-950"
                             : "bg-slate-50 border-slate-300 text-slate-900"
@@ -957,8 +957,8 @@ export const FactoringWorksheetModal: React.FC<FactoringWorksheetModalProps> = (
                 </div>
 
                 {/* 3. Page Footer */}
-                <footer className={cn("border-t border-slate-200 flex items-center justify-between text-[10px] text-slate-400 font-bold flex-shrink-0", layout === '4-per-page' ? "pt-2 mt-2.5" : "pt-3 mt-4")}>
-                  <span>SkillUp Academy • Matematikai Diákzóna – Kiemelés Modell</span>
+                <footer className={cn("border-t border-slate-200 flex items-center justify-between text-[10px] text-slate-400 font-bold flex-shrink-0", layout === '4-per-page' ? "pt-2 mt-2" : "pt-2 mt-2")}>
+                  <span>Készült a diákzóna.hu eszközével</span>
                   <span>{pageIdx + 1} / {pages.length + (includeSolutions ? 1 : 0)} oldal</span>
                 </footer>
               </div>
@@ -1020,7 +1020,7 @@ export const FactoringWorksheetModal: React.FC<FactoringWorksheetModalProps> = (
                 </div>
 
                 <footer className="pt-3 mt-4 border-t border-slate-200 flex items-center justify-between text-[10px] text-slate-400 font-bold">
-                  <span>SkillUp Academy – Tanári Megoldókulcs</span>
+                  <span>Készült a diákzóna.hu eszközével</span>
                   <span>{pages.length + 1} / {pages.length + 1} oldal</span>
                 </footer>
               </div>
