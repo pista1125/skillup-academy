@@ -268,11 +268,23 @@ export const CombiningCloudStage: React.FC<CombiningCloudStageProps> = ({
     return smallClouds.reduce((sum, c) => sum + (c.items ? c.items.length : 0), 0);
   }, [smallClouds]);
 
-  // Combining complete check: all small clouds empty AND bottom cloud has items
+  // Check if bottom cloud has multiple items of the same symbol (can be merged)
+  const canMergeBottomCloud = useMemo(() => {
+    const seen = new Set<string>();
+    for (const item of bottomCloud.items) {
+      const key = `${item.symbol}:${item.type}`;
+      if (seen.has(key)) return true;
+      seen.add(key);
+    }
+    return false;
+  }, [bottomCloud.items]);
+
+  // Combining complete check: all small clouds empty AND bottom cloud has items AND all like terms combined AND not currently animating
   const isComplete = useMemo(() => {
     if (baseCloud.items.length === 0) return false;
-    return remainingTopItemsCount === 0 && bottomCloud.items.length > 0;
-  }, [remainingTopItemsCount, bottomCloud.items, baseCloud.items]);
+    if (isAutoCombining) return false;
+    return remainingTopItemsCount === 0 && bottomCloud.items.length > 0 && !canMergeBottomCloud;
+  }, [baseCloud.items.length, isAutoCombining, remainingTopItemsCount, bottomCloud.items.length, canMergeBottomCloud]);
 
   // Trigger celebration on completion
   useEffect(() => {
@@ -369,49 +381,8 @@ export const CombiningCloudStage: React.FC<CombiningCloudStageProps> = ({
     playSound('pop');
   };
 
-  // AUTOMATED COMBINING: "⚡ Automatikus Zárójelfelbontás"
-  const handleAutoCombine = async () => {
-    if (isAutoCombining || remainingTopItemsCount === 0) return;
-
-    setIsAutoCombining(true);
-
-    // Stagger through each small cloud with items
-    for (let i = 0; i < smallClouds.length; i++) {
-      const cloud = smallClouds[i];
-      if (cloud && cloud.items && cloud.items.length > 0) {
-        setAnimatingCloudIndex(i);
-        playSound('pop');
-
-        // Copy items down
-        const itemsToMove = cloud.items.map(it => ({
-          ...it,
-          id: `bot-auto-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`,
-        }));
-
-        setSmallClouds(prev =>
-          prev.map((c, idx) => (idx === i ? { ...c, items: [] } : c))
-        );
-        setBottomCloud(prev => ({
-          ...prev,
-          items: [...prev.items, ...itemsToMove],
-        }));
-
-        // Delay between clouds for smooth visual feedback
-        await new Promise(r => setTimeout(r, 200));
-      }
-    }
-
-    setAnimatingCloudIndex(null);
-
-    // Now automatically combine like terms in the bottom cloud!
-    await new Promise(r => setTimeout(r, 150));
-    handleCombineBottomCloud();
-
-    setIsAutoCombining(false);
-  };
-
-  // Merge like terms inside bottom cloud
-  const handleCombineBottomCloud = () => {
+  // Helper to combine like terms (add coefficients for identical symbol and type)
+  const mergeLikeTerms = (items: CloudItem[]): CloudItem[] => {
     const symbolMap = new Map<string, {
       symbol: string;
       emoji?: string;
@@ -421,7 +392,7 @@ export const CombiningCloudStage: React.FC<CombiningCloudStageProps> = ({
       category?: ThemeCategoryId;
     }>();
 
-    bottomCloud.items.forEach(item => {
+    items.forEach(item => {
       const key = `${item.symbol}:${item.type}`;
       const existing = symbolMap.get(key);
       if (existing) {
@@ -438,7 +409,7 @@ export const CombiningCloudStage: React.FC<CombiningCloudStageProps> = ({
       }
     });
 
-    const mergedItems: CloudItem[] = Array.from(symbolMap.values())
+    return Array.from(symbolMap.values())
       .filter(entry => entry.coefficient !== 0)
       .map((entry, idx) => ({
         id: `bot-merged-${Date.now()}-${idx}`,
@@ -451,10 +422,73 @@ export const CombiningCloudStage: React.FC<CombiningCloudStageProps> = ({
         isFusedBlock: Math.abs(entry.coefficient) > 1,
         fusedSize: Math.abs(entry.coefficient),
       }));
+  };
 
+  // AUTOMATED COMBINING: "⚡ Automatikus Zárójelfelbontás"
+  const handleAutoCombine = async () => {
+    if (isAutoCombining || remainingTopItemsCount === 0) return;
+
+    setIsAutoCombining(true);
+
+    // Track accumulated items locally so we never rely on React's async state closures
+    let accumulatedItems: CloudItem[] = [...bottomCloud.items];
+
+    // Stagger through each small cloud with items at a calm, pedagogical pace
+    for (let i = 0; i < smallClouds.length; i++) {
+      const cloud = smallClouds[i];
+      if (cloud && cloud.items && cloud.items.length > 0) {
+        setAnimatingCloudIndex(i);
+        playSound('pop');
+
+        // Copy items down
+        const itemsToMove = cloud.items.map(it => ({
+          ...it,
+          id: `bot-auto-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`,
+        }));
+
+        accumulatedItems = [...accumulatedItems, ...itemsToMove];
+
+        // Empty this small cloud
+        setSmallClouds(prev =>
+          prev.map((c, idx) => (idx === i ? { ...c, items: [] } : c))
+        );
+
+        // Put current batch of items into bottom cloud so user sees them arrive clearly
+        const currentBatch = [...accumulatedItems];
+        setBottomCloud(prev => ({
+          ...prev,
+          items: currentBatch,
+        }));
+
+        // Delay between clouds (750ms) for clear visual feedback that students can follow
+        await new Promise(r => setTimeout(r, 750));
+      }
+    }
+
+    setAnimatingCloudIndex(null);
+
+    // Pause (900ms) so the student clearly sees ALL items gathered in the bottom cloud before merging!
+    await new Promise(r => setTimeout(r, 900));
+
+    // Now automatically combine like terms in the bottom cloud using the accumulated items!
+    const finalMerged = mergeLikeTerms(accumulatedItems);
     setBottomCloud(prev => ({
       ...prev,
-      items: mergedItems,
+      items: finalMerged,
+    }));
+
+    playSound('sparkle');
+
+    // Small pause to let the visual transition settle before ending auto-combining mode
+    await new Promise(r => setTimeout(r, 400));
+    setIsAutoCombining(false);
+  };
+
+  // Merge like terms inside bottom cloud
+  const handleCombineBottomCloud = () => {
+    setBottomCloud(prev => ({
+      ...prev,
+      items: mergeLikeTerms(prev.items),
     }));
 
     playSound('sparkle');
@@ -981,16 +1015,7 @@ export const CombiningCloudStage: React.FC<CombiningCloudStageProps> = ({
     return false;
   }, [baseCloud.items, smallClouds]);
 
-  // Check if bottom cloud has multiple items of the same symbol (can be merged)
-  const canMergeBottomCloud = useMemo(() => {
-    const seen = new Set<string>();
-    for (const item of bottomCloud.items) {
-      const key = `${item.symbol}:${item.type}`;
-      if (seen.has(key)) return true;
-      seen.add(key);
-    }
-    return false;
-  }, [bottomCloud.items]);
+
 
   return (
     <div className="flex-1 min-w-0 flex flex-col h-full overflow-y-auto p-3 md:p-3.5 pb-6 md:pb-8 gap-3 bg-gradient-to-br from-purple-50/30 via-indigo-50/20 to-sky-50/30 dark:from-slate-900/60 dark:to-indigo-950/30 select-none custom-scrollbar">

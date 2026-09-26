@@ -752,58 +752,57 @@ export const ExpansionWorksheetModal: React.FC<ExpansionWorksheetModalProps> = (
                                   {cIdx + 1}. csomag
                                 </span>
 
-                                {/* Items drawn in this small cloud based on didactic mode */}
+                                {/* Items drawn in this small cloud based on didactic mode - No + signs between set items */}
                                 {taskMode === 'concrete' ? (
                                   <div className="flex items-center justify-center gap-1 flex-wrap content-center py-0.5">
-                                    {task.baseItems.map((it, gIdx) => {
+                                    {task.baseItems.flatMap((it) => {
                                       const absCount = Math.abs(it.coeff);
                                       const isNeg = it.coeff < 0;
+                                      return Array.from({ length: absCount }).map((_, iIdx) => ({
+                                        it,
+                                        isNeg,
+                                        iIdx,
+                                      }));
+                                    }).map(({ it, isNeg }, globalIdx) => {
                                       const iconSize = getSmallCloudIconSize(totalBaseCount, isCompact);
                                       return (
-                                        <React.Fragment key={gIdx}>
-                                          {gIdx > 0 && <span className="text-[10px] font-bold text-slate-300">+</span>}
-                                          <div className="flex items-center gap-0.5 flex-wrap justify-center">
-                                            {Array.from({ length: absCount }).map((_, iIdx) => (
-                                              <div
-                                                key={iIdx}
-                                                className={cn(
-                                                  "rounded border flex items-center justify-center font-bold leading-none select-none relative",
-                                                  iconSize,
-                                                  colorMode === 'color'
-                                                    ? isNeg ? "bg-rose-50 border-rose-300 text-rose-900" : "bg-white border-purple-200 text-slate-800"
-                                                    : "bg-white border-slate-400 text-slate-800"
-                                                )}
-                                              >
-                                                <span>{it.emoji || (it.symbol === '1' ? '🪙' : it.symbol)}</span>
-                                              </div>
-                                            ))}
-                                          </div>
-                                        </React.Fragment>
+                                        <div
+                                          key={globalIdx}
+                                          className={cn(
+                                            "rounded border flex items-center justify-center font-bold leading-none select-none relative",
+                                            iconSize,
+                                            colorMode === 'color'
+                                              ? isNeg ? "bg-rose-50 border-rose-300 text-rose-900" : "bg-white border-purple-200 text-slate-800"
+                                              : "bg-white border-slate-400 text-slate-800"
+                                          )}
+                                        >
+                                          <span>{it.emoji || (it.symbol === '1' ? '🪙' : it.symbol)}</span>
+                                        </div>
                                       );
                                     })}
                                   </div>
                                 ) : taskMode === 'concrete-fused' ? (
-                                  <div className="flex items-center justify-center gap-1 flex-wrap content-center py-0.5">
+                                  <div className="flex items-center justify-center gap-1.5 flex-wrap content-center py-0.5">
                                     {task.baseItems.map((it, i) => (
-                                      <React.Fragment key={i}>
-                                        {i > 0 && <span className="text-[10px] text-slate-400 font-bold">+</span>}
-                                        <div className="px-1.5 py-0.5 rounded border text-[10px] font-black bg-purple-50 text-purple-900 border-purple-200 flex items-center gap-0.5">
-                                          <span>{it.emoji || it.symbol}</span>
-                                          <span>{it.coeff}db</span>
-                                        </div>
-                                      </React.Fragment>
+                                      <div
+                                        key={i}
+                                        className="px-1.5 py-0.5 rounded border text-[10px] font-black bg-purple-50 text-purple-900 border-purple-200 flex items-center gap-0.5"
+                                      >
+                                        <span>{it.emoji || it.symbol}</span>
+                                        <span>{it.coeff}db</span>
+                                      </div>
                                     ))}
                                   </div>
                                 ) : taskMode === 'bridge' ? (
-                                  <div className="flex items-center justify-center gap-1 flex-wrap content-center py-0.5">
+                                  <div className="flex items-center justify-center gap-1.5 flex-wrap content-center py-0.5">
                                     {task.baseItems.map((it, i) => (
-                                      <React.Fragment key={i}>
-                                        {i > 0 && <span className="text-[10px] text-slate-400 font-bold">+</span>}
-                                        <div className="px-1.5 py-0.5 rounded border text-[10px] font-mono font-black bg-purple-50 text-purple-900 border-purple-200 flex items-center gap-0.5">
-                                          <span>{it.coeff}{it.symbol === '1' ? '' : it.symbol}</span>
-                                          {it.emoji && <span>{it.emoji}</span>}
-                                        </div>
-                                      </React.Fragment>
+                                      <div
+                                        key={i}
+                                        className="px-1.5 py-0.5 rounded border text-[10px] font-mono font-black bg-purple-50 text-purple-900 border-purple-200 flex items-center gap-0.5"
+                                      >
+                                        <span>{it.coeff}{it.symbol === '1' ? '' : it.symbol}</span>
+                                        {it.emoji && <span>{it.emoji}</span>}
+                                      </div>
                                     ))}
                                   </div>
                                 ) : (
@@ -859,12 +858,10 @@ export const ExpansionWorksheetModal: React.FC<ExpansionWorksheetModalProps> = (
                             {/* Answer Box */}
                             <div
                               className={cn(
-                                "rounded-md border-2 border-dashed border-purple-400 bg-white flex items-center justify-center text-slate-400 font-mono flex-shrink-0 shadow-2xs whitespace-nowrap px-3 font-normal",
-                                isCompact ? "h-6 min-w-[120px] text-[10px]" : "h-7 min-w-[160px] text-xs"
+                                "rounded-md border-2 border-dashed border-purple-400 bg-white flex items-center justify-center flex-shrink-0 shadow-2xs whitespace-nowrap",
+                                isCompact ? "h-6 min-w-[120px]" : "h-7 min-w-[160px]"
                               )}
-                            >
-                              összesített eredmény
-                            </div>
+                            />
                           </div>
                         </div>
                       </div>

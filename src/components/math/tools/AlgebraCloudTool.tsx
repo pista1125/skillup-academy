@@ -14,6 +14,7 @@ import {
 import { CloudBox } from './algebra-cloud/CloudBox';
 import { FactoringCloudStage } from './algebra-cloud/FactoringCloudStage';
 import { CombiningCloudStage } from './algebra-cloud/CombiningCloudStage';
+import { SimplifyingWorksheetModal } from './algebra-cloud/SimplifyingWorksheetModal';
 import {
   ArrowLeft,
   Sparkles,
@@ -24,7 +25,8 @@ import {
   Volume2,
   VolumeX,
   LayoutGrid,
-  Lightbulb
+  Lightbulb,
+  FileText
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -39,6 +41,7 @@ export function AlgebraCloudTool({ onBack }: AlgebraCloudToolProps) {
   const [repMode, setRepMode] = useState<RepresentationMode>('concrete-fused');
   const [selectedTheme, setSelectedTheme] = useState<ThemeCategoryId>('fruits');
   const [soundEnabled, setSoundEnabled] = useState(true);
+  const [isSimplifyingWorksheetOpen, setIsSimplifyingWorksheetOpen] = useState(false);
 
   // Sandbox State
   const [clouds, setClouds] = useState<CloudContainer[]>([
@@ -744,8 +747,8 @@ export function AlgebraCloudTool({ onBack }: AlgebraCloudToolProps) {
             {activeTab === 'sandbox' ? (
               <main className="flex-1 min-w-0 flex flex-col h-full overflow-hidden p-3.5 md:p-4 gap-3">
                 {/* Formula HUD Bar */}
-                <div className="h-12 min-h-[48px] bg-gradient-to-r from-sky-600 via-indigo-600 to-purple-600 rounded-2xl px-4 text-white shadow-sm flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-2 overflow-hidden">
+                <div className="h-12 min-h-[48px] bg-gradient-to-r from-sky-600 via-indigo-600 to-purple-600 rounded-2xl px-4 text-white shadow-sm flex items-center justify-between gap-4 flex-shrink-0">
+                  <div className="flex items-center gap-2 overflow-hidden min-w-0">
                     <span className="text-xl flex-shrink-0">✨</span>
                     <div className="flex items-baseline gap-2 truncate">
                       <span className="text-[10px] uppercase font-black tracking-wider text-sky-200 hidden sm:inline">
@@ -757,8 +760,20 @@ export function AlgebraCloudTool({ onBack }: AlgebraCloudToolProps) {
                     </div>
                   </div>
 
-                  <div className="text-[11px] text-sky-100 font-medium bg-white/10 px-2.5 py-1 rounded-xl whitespace-nowrap hidden lg:block">
-                    💡 <strong>Tipp:</strong> Húzd az elemeket egymásra az összevonáshoz vagy kiejtéshez (Nullapár)!
+                  <div className="flex items-center gap-3 flex-shrink-0">
+                    <div className="text-[11px] text-sky-100 font-medium bg-white/10 px-2.5 py-1 rounded-xl whitespace-nowrap hidden lg:block">
+                      💡 <strong>Tipp:</strong> Húzd az elemeket egymásra az összevonáshoz vagy kiejtéshez (Nullapár)!
+                    </div>
+
+                    <Button
+                      size="sm"
+                      onClick={() => setIsSimplifyingWorksheetOpen(true)}
+                      className="h-8 px-3 text-xs font-black rounded-xl gap-1.5 bg-white text-indigo-700 hover:bg-sky-50 shadow-sm cursor-pointer hover:scale-102 transition-all whitespace-nowrap flex-shrink-0"
+                      title="Nyomtatható összevonás feladatlap és dolgozat generálása (PDF)"
+                    >
+                      <FileText className="w-3.5 h-3.5 text-indigo-600" />
+                      <span>📄 Dolgozat / PDF</span>
+                    </Button>
                   </div>
                 </div>
 
@@ -812,6 +827,15 @@ export function AlgebraCloudTool({ onBack }: AlgebraCloudToolProps) {
               />
             )}
       </div>
+
+      {/* 3. Simplifying Worksheet Modal (Összevonás Mód Dolgozat & PDF) */}
+      <SimplifyingWorksheetModal
+        isOpen={isSimplifyingWorksheetOpen}
+        onClose={() => setIsSimplifyingWorksheetOpen(false)}
+        currentClouds={clouds}
+        selectedCloudId={selectedCloudId}
+        repMode={repMode}
+      />
     </div>
   );
 }

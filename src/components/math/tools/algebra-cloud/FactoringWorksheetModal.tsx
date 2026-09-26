@@ -120,17 +120,18 @@ export const FactoringWorksheetModal: React.FC<FactoringWorksheetModalProps> = (
     return formatCloudExpression(innerVirtualCloud, mode);
   };
 
-  // Helper to dynamically size concrete icons so starting clouds fit fixed height
+  // Helper to dynamically size concrete icons so starting clouds fit fixed height (enlarged by additional 20%)
   const getConcreteIconSize = (count: number, isCompact: boolean) => {
     if (isCompact) {
-      if (count <= 6) return "w-8 h-8 text-base";
-      if (count <= 10) return "w-7 h-7 text-sm";
-      if (count <= 16) return "w-6 h-6 text-xs";
-      return "w-5 h-5 text-[11px]";
+      if (count <= 6) return "w-[46px] h-[46px] text-2xl";
+      if (count <= 10) return "w-[40px] h-[40px] text-xl";
+      if (count <= 16) return "w-[34px] h-[34px] text-base";
+      return "w-[28px] h-[28px] text-sm";
     } else {
-      if (count <= 8) return "w-9 h-9 text-lg";
-      if (count <= 14) return "w-8 h-8 text-base";
-      return "w-7 h-7 text-sm";
+      if (count <= 6) return "w-[56px] h-[56px] text-3xl";
+      if (count <= 10) return "w-[48px] h-[48px] text-2xl";
+      if (count <= 16) return "w-[42px] h-[42px] text-xl";
+      return "w-[34px] h-[34px] text-base";
     }
   };
 
@@ -745,7 +746,7 @@ export const FactoringWorksheetModal: React.FC<FactoringWorksheetModalProps> = (
                         {/* Visual Starting Cloud - Taller, spacious, no clipping of items */}
                         <div className={cn(
                           "rounded-xl border flex flex-col justify-between mt-1.5 flex-shrink-0",
-                          isCompact ? "p-2.5 min-h-[105px] h-[110px]" : "p-3 min-h-[110px] h-[115px]",
+                          isCompact ? "p-2.5 min-h-[125px]" : "p-3 min-h-[135px]",
                           colorMode === 'color'
                             ? "bg-sky-50/40 border-sky-200"
                             : "bg-slate-50 border-slate-300"
@@ -765,76 +766,62 @@ export const FactoringWorksheetModal: React.FC<FactoringWorksheetModalProps> = (
                             </span>
                           </div>
 
-                          {/* Content based on taskMode - All in ONE shared space */}
+                          {/* Content based on taskMode - All in ONE shared space without + signs */}
                           {taskMode === 'concrete' ? (
-                            <div className="flex-1 flex items-center justify-center gap-1.5 sm:gap-2 flex-wrap content-center py-1">
-                              {task.items.map((it, groupIdx) => {
+                            <div className="flex-1 flex items-center justify-center gap-2 sm:gap-2.5 flex-wrap content-center py-1">
+                              {task.items.flatMap((it) => {
                                 const absCount = Math.abs(it.coeff);
                                 const isNeg = it.coeff < 0;
                                 const displayCount = Math.min(absCount, 24);
+                                return Array.from({ length: displayCount }).map((_, iconIdx) => ({
+                                  it,
+                                  isNeg,
+                                  iconIdx,
+                                  absCount,
+                                }));
+                              }).map(({ it, isNeg, iconIdx, absCount }, globalIdx) => {
                                 const iconSize = getConcreteIconSize(totalCount, isCompact);
                                 return (
-                                  <React.Fragment key={groupIdx}>
-                                    {groupIdx > 0 && (
-                                      <span className={cn(
-                                        "font-black select-none text-slate-400",
-                                        isCompact ? "text-xs px-0.5" : "text-sm px-1"
-                                      )}>
-                                        +
+                                  <div
+                                    key={globalIdx}
+                                    className={cn(
+                                      "rounded-full border-2 flex items-center justify-center select-none relative shadow-2xs font-bold leading-none overflow-visible",
+                                      iconSize,
+                                      colorMode === 'color'
+                                        ? isNeg ? "bg-rose-50 border-rose-300 text-rose-900" : "bg-white border-sky-300 text-slate-800"
+                                        : "bg-white border-slate-400 text-slate-800"
+                                    )}
+                                    title={`${it.label || it.symbol} (${iconIdx + 1}/${absCount})`}
+                                  >
+                                    <span className="leading-none select-none flex items-center justify-center">
+                                      {it.emoji || (it.symbol === '1' ? '🪙' : it.symbol)}
+                                    </span>
+                                    {isNeg && (
+                                      <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-rose-500 text-white text-[8px] font-black flex items-center justify-center">
+                                        -
                                       </span>
                                     )}
-                                    <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap justify-center">
-                                      {Array.from({ length: displayCount }).map((_, iconIdx) => (
-                                        <div
-                                          key={iconIdx}
-                                          className={cn(
-                                            "rounded-lg border flex items-center justify-center select-none relative shadow-2xs font-bold leading-none overflow-visible",
-                                            iconSize,
-                                            colorMode === 'color'
-                                              ? isNeg ? "bg-rose-50 border-rose-300 text-rose-900" : "bg-white border-sky-200 text-slate-800"
-                                              : "bg-white border-slate-400 text-slate-800"
-                                          )}
-                                          title={`${it.label || it.symbol} (${iconIdx + 1}/${absCount})`}
-                                        >
-                                          <span className="leading-none select-none flex items-center justify-center">
-                                            {it.emoji || (it.symbol === '1' ? '🪙' : it.symbol)}
-                                          </span>
-                                          {isNeg && (
-                                            <span className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-rose-500 text-white text-[8px] font-black flex items-center justify-center">
-                                              -
-                                            </span>
-                                          )}
-                                        </div>
-                                      ))}
-                                      {absCount > 24 && (
-                                        <span className="text-[10px] font-bold text-slate-400">
-                                          +{absCount - 24}
-                                        </span>
-                                      )}
-                                    </div>
-                                  </React.Fragment>
+                                  </div>
                                 );
                               })}
                             </div>
                           ) : taskMode === 'concrete-fused' ? (
-                            <div className="flex-1 flex items-center justify-center gap-2 flex-wrap content-center py-1">
+                            <div className="flex-1 flex items-center justify-center gap-2.5 flex-wrap content-center py-1">
                               {task.items.map((it, i) => (
-                                <React.Fragment key={i}>
-                                  {i > 0 && <span className="font-bold text-slate-400 text-xs">+</span>}
-                                  <div
-                                    className={cn(
-                                      "rounded-lg border font-black flex items-center gap-1.5 whitespace-nowrap",
-                                      isCompact ? "px-2.5 py-1 text-xs" : "px-3 py-1.5 text-sm",
-                                      colorMode === 'color'
-                                        ? "bg-indigo-50 border-indigo-200 text-indigo-900"
-                                        : "bg-white border-slate-400 text-slate-900"
-                                    )}
-                                  >
-                                    <span className={isCompact ? "text-base" : "text-lg"}>{it.emoji || it.symbol}</span>
-                                    <span>{it.coeff} db</span>
-                                    {it.label && <span className="text-[10px] text-slate-500 font-medium">({it.label})</span>}
-                                  </div>
-                                </React.Fragment>
+                                <div
+                                  key={i}
+                                  className={cn(
+                                    "rounded-xl border-2 font-black flex items-center gap-2 whitespace-nowrap",
+                                    isCompact ? "px-3.5 py-1.5 text-sm" : "px-4 py-2 text-base",
+                                    colorMode === 'color'
+                                      ? "bg-indigo-50 border-indigo-200 text-indigo-900"
+                                      : "bg-white border-slate-400 text-slate-900"
+                                  )}
+                                >
+                                  <span className={isCompact ? "text-xl" : "text-2xl"}>{it.emoji || it.symbol}</span>
+                                  <span>{it.coeff} db</span>
+                                  {it.label && <span className="text-xs text-slate-500 font-medium">({it.label})</span>}
+                                </div>
                               ))}
                             </div>
                           ) : taskMode === 'bridge' ? (
@@ -845,7 +832,7 @@ export const FactoringWorksheetModal: React.FC<FactoringWorksheetModalProps> = (
                                   <div
                                     className={cn(
                                       "rounded-lg border font-black flex items-center gap-1.5 font-mono whitespace-nowrap",
-                                      isCompact ? "px-2.5 py-1 text-xs" : "px-3 py-1.5 text-sm",
+                                      isCompact ? "px-3 py-1.5 text-sm" : "px-3.5 py-2 text-base",
                                       colorMode === 'color'
                                         ? "bg-indigo-50 border-indigo-200 text-indigo-900"
                                         : "bg-white border-slate-400 text-slate-900"
@@ -854,7 +841,7 @@ export const FactoringWorksheetModal: React.FC<FactoringWorksheetModalProps> = (
                                     <span className="font-black text-indigo-700">
                                       {it.coeff}{it.symbol === '1' ? '' : it.symbol}
                                     </span>
-                                    {it.emoji && <span className="not-italic">{it.emoji}</span>}
+                                    {it.emoji && <span className={cn("not-italic", isCompact ? "text-base" : "text-lg")}>{it.emoji}</span>}
                                     {it.label && <span className="text-[10px] text-slate-500 font-sans font-medium">({it.label})</span>}
                                   </div>
                                 </React.Fragment>
@@ -867,7 +854,7 @@ export const FactoringWorksheetModal: React.FC<FactoringWorksheetModalProps> = (
                                   key={i}
                                   className={cn(
                                     "rounded-lg border font-mono font-black flex items-center gap-1 whitespace-nowrap",
-                                    isCompact ? "px-3 py-1 text-xs" : "px-3.5 py-1.5 text-sm",
+                                    isCompact ? "px-3.5 py-1.5 text-sm" : "px-4 py-2 text-base",
                                     colorMode === 'color'
                                       ? "bg-slate-100 border-slate-300 text-slate-800"
                                       : "bg-white border-slate-400 text-slate-900"
@@ -931,23 +918,19 @@ export const FactoringWorksheetModal: React.FC<FactoringWorksheetModalProps> = (
                             {/* Factor box */}
                             <div
                               className={cn(
-                                "rounded-md border-2 border-dashed border-indigo-400 bg-white flex items-center justify-center text-indigo-500 font-mono font-black flex-shrink-0 shadow-2xs",
-                                layout === '4-per-page' ? "w-6 h-6 text-xs" : "w-7 h-7 text-xs"
+                                "rounded-md border-2 border-dashed border-indigo-400 bg-white flex items-center justify-center flex-shrink-0 shadow-2xs",
+                                layout === '4-per-page' ? "w-7 h-6" : "w-8 h-7"
                               )}
                               title="Hány felhő van összesen?"
-                            >
-                              ?
-                            </div>
+                            />
                             <span className="text-slate-600 font-black whitespace-nowrap">· (</span>
                             {/* Inner content box */}
                             <div
                               className={cn(
-                                "rounded-md border-2 border-dashed border-indigo-400 bg-white flex items-center justify-center text-slate-400 font-mono flex-shrink-0 shadow-2xs whitespace-nowrap px-2 font-normal",
-                                layout === '4-per-page' ? "h-6 min-w-[70px] text-[10px]" : "h-7 min-w-[120px] text-xs"
+                                "rounded-md border-2 border-dashed border-indigo-400 bg-white flex items-center justify-center flex-shrink-0 shadow-2xs whitespace-nowrap px-2",
+                                layout === '4-per-page' ? "h-6 min-w-[95px]" : "h-7 min-w-[150px]"
                               )}
-                            >
-                              {layout === '4-per-page' ? '1 felhő tartalma' : 'egyes felhő tartalma'}
-                            </div>
+                            />
                             <span className="text-slate-600 font-black whitespace-nowrap">)</span>
                           </div>
                         </div>
