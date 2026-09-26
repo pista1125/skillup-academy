@@ -317,3 +317,42 @@
     scrollbar-width: none;
   }
 }
+
+/* Printable Worksheet Styles */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #printable-worksheet,
+  #printable-worksheet * {
+    visibility: visible;
+  }
+
+  #printable-worksheet {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: #ffffff !important;
+    color: #0f172a !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .print-page {
+    page-break-after: always;
+    break-after: page;
+    min-height: 297mm;
+    box-sizing: border-box;
+    padding: 10mm 12mm;
+    background: #ffffff !important;
+  }
+
+  .print-page:last-child {
+    page-break-after: auto;
+    break-after: auto;
+  }
+}

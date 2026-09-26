@@ -15,10 +15,13 @@ import {
   AlertCircle,
   ArrowUp,
   Zap,
-  RotateCcw
+  RotateCcw,
+  FileText,
+  Printer
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { FactoringWorksheetModal } from './FactoringWorksheetModal';
 
 export const MAX_CLOUDS = 12;
 
@@ -224,6 +227,7 @@ export const FactoringCloudStage: React.FC<FactoringCloudStageProps> = ({
   const [animatingCloudIndex, setAnimatingCloudIndex] = useState<number | null>(null);
   const [distributionError, setDistributionError] = useState<string | null>(null);
   const [activePresetId, setActivePresetId] = useState<string | null>(null);
+  const [isWorksheetModalOpen, setIsWorksheetModalOpen] = useState(false);
 
   // Grouped summary of top cloud items by symbol
   const topCloudGroups = useMemo(() => {
@@ -808,53 +812,68 @@ export const FactoringCloudStage: React.FC<FactoringCloudStageProps> = ({
 
   return (
     <div className="flex-1 min-w-0 flex flex-col h-full overflow-y-auto p-3 md:p-3.5 pb-6 md:pb-8 gap-3 bg-gradient-to-br from-indigo-50/30 via-sky-50/20 to-purple-50/30 dark:from-slate-900/60 dark:to-indigo-950/30 select-none custom-scrollbar">
-      {/* 1. Header Bar: Mintapéldák szalag (Kompakt, gazdag választék) */}
-      <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-sky-100 dark:border-slate-800 rounded-xl px-3 py-1.5 flex items-center gap-2 shadow-2xs flex-shrink-0 overflow-x-auto no-scrollbar">
-        <div className="flex items-center gap-1.5 flex-shrink-0 text-slate-700 dark:text-slate-200 pr-1.5 border-r border-slate-200 dark:border-slate-750">
-          <span className="text-base">✨</span>
-          <span className="text-xs font-black uppercase tracking-wider text-slate-800 dark:text-slate-100">
-            Mintapéldák:
-          </span>
+      {/* 1. Header Bar: Mintapéldák szalag (Kompakt, gazdag választék) + Dolgozat / PDF gomb */}
+      <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-sky-100 dark:border-slate-800 rounded-xl px-3 py-1.5 flex items-center justify-between gap-2 shadow-2xs flex-shrink-0 overflow-x-auto no-scrollbar">
+        <div className="flex items-center gap-2 flex-nowrap overflow-x-auto no-scrollbar flex-1 min-w-0">
+          <div className="flex items-center gap-1.5 flex-shrink-0 text-slate-700 dark:text-slate-200 pr-1.5 border-r border-slate-200 dark:border-slate-750">
+            <span className="text-base">✨</span>
+            <span className="text-xs font-black uppercase tracking-wider text-slate-800 dark:text-slate-100">
+              Mintapéldák:
+            </span>
+          </div>
+
+          {/* Quick Presets Carousel */}
+          <div className="flex items-center gap-1.5 flex-nowrap">
+            {FACTORING_PRESETS.map(preset => {
+              const isActive = activePresetId === preset.id;
+              return (
+                <button
+                  key={preset.id}
+                  onClick={() => handleLoadPreset(preset)}
+                  className={cn(
+                    "px-2.5 py-1 rounded-lg text-xs font-bold transition-all border whitespace-nowrap cursor-pointer flex-shrink-0 flex items-center gap-1",
+                    isActive
+                      ? "bg-indigo-600 text-white border-indigo-600 shadow-xs scale-102 font-black"
+                      : "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-750 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-750"
+                  )}
+                  title={`${preset.name} (${preset.numClouds} felhőbe osztható)`}
+                >
+                  <span>{preset.name}</span>
+                  {preset.badge && (
+                    <span
+                      className={cn(
+                        "text-[9px] px-1 py-0.2 rounded font-black",
+                        isActive
+                          ? "bg-white/20 text-white"
+                          : preset.badge === '10 felhő'
+                          ? "bg-purple-100 text-purple-700 dark:bg-purple-950/60 dark:text-purple-300"
+                          : preset.badge === 'Negatív'
+                          ? "bg-rose-100 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300"
+                          : preset.badge === 'Szám'
+                          ? "bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300"
+                          : "bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300"
+                      )}
+                    >
+                      {preset.badge}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        {/* Quick Presets Carousel */}
-        <div className="flex items-center gap-1.5 flex-nowrap">
-          {FACTORING_PRESETS.map(preset => {
-            const isActive = activePresetId === preset.id;
-            return (
-              <button
-                key={preset.id}
-                onClick={() => handleLoadPreset(preset)}
-                className={cn(
-                  "px-2.5 py-1 rounded-lg text-xs font-bold transition-all border whitespace-nowrap cursor-pointer flex-shrink-0 flex items-center gap-1",
-                  isActive
-                    ? "bg-indigo-600 text-white border-indigo-600 shadow-xs scale-102 font-black"
-                    : "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-750"
-                )}
-                title={`${preset.name} (${preset.numClouds} felhőbe osztható)`}
-              >
-                <span>{preset.name}</span>
-                {preset.badge && (
-                  <span
-                    className={cn(
-                      "text-[9px] px-1 py-0.2 rounded font-black",
-                      isActive
-                        ? "bg-white/20 text-white"
-                        : preset.badge === '10 felhő'
-                        ? "bg-purple-100 text-purple-700 dark:bg-purple-950/60 dark:text-purple-300"
-                        : preset.badge === 'Negatív'
-                        ? "bg-rose-100 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300"
-                        : preset.badge === 'Szám'
-                        ? "bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300"
-                        : "bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300"
-                    )}
-                  >
-                    {preset.badge}
-                  </span>
-                )}
-              </button>
-            );
-          })}
+        {/* Dolgozat / Feladatlap (PDF) gomb */}
+        <div className="flex items-center gap-1.5 flex-shrink-0 ml-auto pl-2 border-l border-slate-200 dark:border-slate-750">
+          <Button
+            size="sm"
+            onClick={() => setIsWorksheetModalOpen(true)}
+            className="h-7.5 px-3 text-xs font-black rounded-lg gap-1.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white shadow-xs cursor-pointer hover:scale-102 transition-all whitespace-nowrap"
+            title="Nyomtatható feladatlap és dolgozat generálása SNI és általános iskolás diákoknak"
+          >
+            <FileText className="w-3.5 h-3.5 text-emerald-100" />
+            <span>📄 Dolgozat / PDF</span>
+          </Button>
         </div>
       </div>
 
@@ -1202,6 +1221,14 @@ export const FactoringCloudStage: React.FC<FactoringCloudStageProps> = ({
           </div>
         </div>
       )}
+      {/* 6. Printable Worksheet Modal (SNI & Iskolai Dolgozat) */}
+      <FactoringWorksheetModal
+        isOpen={isWorksheetModalOpen}
+        onClose={() => setIsWorksheetModalOpen(false)}
+        currentTopCloud={topCloud}
+        currentSmallClouds={smallClouds}
+        repMode={repMode}
+      />
     </div>
   );
 };
