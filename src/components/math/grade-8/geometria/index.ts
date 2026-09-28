@@ -6,3 +6,6 @@ export * from './egybevagosagi-transzformaciok-ismetles';
 export * from './transzformaciok';
 export * from './hasznaljunk-szerkesztoprogramot';
 export * from './hasonlosag';
+export * from './a-kozeppontos-hasonlosag';
+export * from './szerkesztesek';
+export * from './osszefoglalas';

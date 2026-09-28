@@ -537,12 +537,22 @@ export const Grade8View: React.FC<GradeViewProps> = ({
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
                   title="Középpontos Hasonlóság"
-                  subtitle="Centrum, λ arányszám, párhuzamos szelők"
-                  type="Kvíz"
+                  subtitle="Centrum, λ arányszám, szimulátor"
+                  type="Tananyag"
                   emoji="🎯"
-                  onClick={() => onActivitySelect('g8-geom-central-similarity', topicId)}
+                  onClick={() => onActivitySelect('g8-geom-central-similarity-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="indigo"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="📊"
+                  onClick={() => onActivitySelect('g8-geom-central-similarity-quiz', topicId)}
                   icon={<Target className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g8-geom-central-similarity')}
                 />
               </div>
             </section>
@@ -555,12 +565,22 @@ export const Grade8View: React.FC<GradeViewProps> = ({
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
                   title="Geometriai Szerkesztések"
-                  subtitle="Szakaszosztás, negyedik arányos"
-                  type="Kvíz"
+                  subtitle="Szakaszosztás, arányok, szimulátor"
+                  type="Tananyag"
                   emoji="🧭"
-                  onClick={() => onActivitySelect('g8-geom-constructions', topicId)}
+                  onClick={() => onActivitySelect('g8-geom-constructions-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="amber"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="📊"
+                  onClick={() => onActivitySelect('g8-geom-constructions-quiz', topicId)}
                   icon={<Compass className="w-6 h-6" />}
                   color="amber"
+                  {...getTopicProgress('g8-geom-constructions')}
                 />
               </div>
             </section>
@@ -572,13 +592,23 @@ export const Grade8View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g8-sec-geom-osszefoglalas" number={7} title="Összefoglalás" color="yellow" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
+                  title="Geometria Összefoglalás"
+                  subtitle="II. Fejezet teljes áttekintése, összefüggések"
+                  type="Tananyag"
+                  emoji="📐"
+                  onClick={() => onActivitySelect('g8-geom-summary-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="amber"
+                />
+                <ActivityPlaceholder
                   title="II. Fejezet Témazáró Kvíz"
-                  subtitle="Geometria átfogó teszt"
+                  subtitle="90 feladat (30 szintenként), ábrákkal"
                   type="Témazáró"
                   emoji="🏆"
-                  onClick={() => onActivitySelect('g8-geom-summary', topicId)}
+                  onClick={() => onActivitySelect('g8-geom-summary-quiz', topicId)}
                   icon={<Award className="w-6 h-6" />}
                   color="amber"
+                  {...getTopicProgress('g8-geom-summary')}
                 />
               </div>
             </section>

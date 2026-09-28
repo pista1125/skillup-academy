@@ -314,9 +314,18 @@ const Grade8SimilarityTheory = lazy(() => import("@/components/math/grade-8/geom
 const Grade8SimilarityQuiz = lazy(() => import("@/components/math/grade-8/geometria/hasonlosag/SimilarityQuiz").then(m => ({ default: m.SimilarityQuiz }))) as any;
 const Grade8SimilarityMatcher = lazy(() => import("@/components/math/grade-8/geometria/hasonlosag/SimilarityMatcher").then(m => ({ default: m.SimilarityMatcher }))) as any;
 const Grade8SimilaritySorter = lazy(() => import("@/components/math/grade-8/geometria/hasonlosag/SimilaritySorter").then(m => ({ default: m.SimilaritySorter }))) as any;
+const Grade8CentralSimilarityTheory = lazy(() => import("@/components/math/grade-8/geometria/a-kozeppontos-hasonlosag/CentralSimilarityTheory").then(m => ({ default: m.CentralSimilarityTheory }))) as any;
 const Grade8CentralSimilarityQuiz = lazy(() => import("@/components/math/grade-8/geometria/a-kozeppontos-hasonlosag/CentralSimilarityQuiz").then(m => ({ default: m.CentralSimilarityQuiz }))) as any;
+const Grade8CentralSimilarityMatcher = lazy(() => import("@/components/math/grade-8/geometria/a-kozeppontos-hasonlosag/CentralSimilarityMatcher").then(m => ({ default: m.CentralSimilarityMatcher }))) as any;
+const Grade8CentralSimilaritySorter = lazy(() => import("@/components/math/grade-8/geometria/a-kozeppontos-hasonlosag/CentralSimilaritySorter").then(m => ({ default: m.CentralSimilaritySorter }))) as any;
+const Grade8GeometricConstructionsTheory = lazy(() => import("@/components/math/grade-8/geometria/szerkesztesek/GeometricConstructionsTheory").then(m => ({ default: m.GeometricConstructionsTheory }))) as any;
 const Grade8GeometricConstructionsQuiz = lazy(() => import("@/components/math/grade-8/geometria/szerkesztesek/GeometricConstructionsQuiz").then(m => ({ default: m.GeometricConstructionsQuiz }))) as any;
+const Grade8GeometricConstructionsMatcher = lazy(() => import("@/components/math/grade-8/geometria/szerkesztesek/GeometricConstructionsMatcher").then(m => ({ default: m.GeometricConstructionsMatcher }))) as any;
+const Grade8GeometricConstructionsSorter = lazy(() => import("@/components/math/grade-8/geometria/szerkesztesek/GeometricConstructionsSorter").then(m => ({ default: m.GeometricConstructionsSorter }))) as any;
+const Grade8Chapter2GeometrySummaryTheory = lazy(() => import("@/components/math/grade-8/geometria/osszefoglalas/Chapter2GeometrySummaryTheory").then(m => ({ default: m.Chapter2GeometrySummaryTheory }))) as any;
 const Grade8Chapter2GeometrySummaryQuiz = lazy(() => import("@/components/math/grade-8/geometria/osszefoglalas/Chapter2GeometrySummaryQuiz").then(m => ({ default: m.Chapter2GeometrySummaryQuiz }))) as any;
+const Grade8Chapter2GeometrySummaryMatcher = lazy(() => import("@/components/math/grade-8/geometria/osszefoglalas/Chapter2GeometrySummaryMatcher").then(m => ({ default: m.Chapter2GeometrySummaryMatcher }))) as any;
+const Grade8Chapter2GeometrySummarySorter = lazy(() => import("@/components/math/grade-8/geometria/osszefoglalas/Chapter2GeometrySummarySorter").then(m => ({ default: m.Chapter2GeometrySummarySorter }))) as any;
 const Grade8EquationBalanceQuiz = lazy(() => import("@/components/math/grade-8/egyenletek/egyenletek/EquationBalanceQuiz").then(m => ({ default: m.EquationBalanceQuiz }))) as any;
 const Grade8EquationsQuiz = lazy(() => import("@/components/math/grade-8/egyenletek/egyenletek/EquationsQuiz").then(m => ({ default: m.EquationsQuiz }))) as any;
 const Grade8NumbersAgesQuiz = lazy(() => import("@/components/math/grade-8/egyenletek/szoveges-feladatok-szamokrol-eletkorokrol/NumbersAgesQuiz").then(m => ({ default: m.NumbersAgesQuiz }))) as any;
@@ -627,7 +636,7 @@ type ActivityType =
   | 'toto-maker' | 'chess-game' | 'torpedo-game' | 'matching-creator' | 'unit-converter' | 'capacity-converter' | 'analog-clock'
   | 'g8-algebra' | 'g8-equation-balance' | 'g8-word-problems-module' | 'g8-word-problems-quiz'
   | 'g8-logic' | 'g8-set-basics' | 'g8-set-operations' | 'g8-rational-set' | 'g8-rational-operations' | 'g8-powers' | 'g8-sqrt-concept' | 'g8-square-roots' | 'g8-algebra-intro' | 'g8-factoring' | 'g8-polynomial-mult' | 'g8-chapter1-summary'
-  | 'g8-geom-congruence' | 'g8-geom-transforms' | 'g8-geom-software' | 'g8-geom-similarity' | 'g8-geom-central-similarity' | 'g8-geom-constructions' | 'g8-geom-summary'
+  | 'g8-geom-congruence' | 'g8-geom-transforms' | 'g8-geom-software' | 'g8-geom-similarity' | 'g8-geom-central-similarity' | 'g8-geom-central-similarity-theory' | 'g8-geom-central-similarity-quiz' | 'g8-geom-central-similarity-matcher' | 'g8-geom-central-similarity-sorter' | 'g8-geom-constructions' | 'g8-geom-constructions-theory' | 'g8-geom-constructions-quiz' | 'g8-geom-constructions-matcher' | 'g8-geom-constructions-sorter' | 'g8-geom-summary' | 'g8-geom-summary-theory' | 'g8-geom-summary-quiz' | 'g8-geom-summary-matcher' | 'g8-geom-summary-sorter'
   | 'g8-eq-basic' | 'g8-eq-numbers-ages' | 'g8-eq-mixing' | 'g8-eq-motion-work' | 'g8-eq-geometry' | 'g8-eq-mixed' | 'g8-eq-financial' | 'g8-eq-summary'
   | 'g8-pyth-constructions' | 'g8-pyth-theorem' | 'g8-pyth-converse' | 'g8-pyth-applications' | 'g8-pyth-calculator' | 'g8-pyth-special-triangles' | 'g8-pyth-summary'
   | 'g8-func-direct' | 'g8-func-graphs' | 'g8-func-inverse' | 'g8-func-reading' | 'g8-func-plotting' | 'g8-func-frequency' | 'g8-func-game' | 'g8-func-prob-basics' | 'g8-func-prob-problems' | 'g8-func-patterns' | 'g8-func-sequences' | 'g8-func-summary'
@@ -5972,16 +5981,96 @@ export default function MathPage() {
                   />
                 )}
 
-                {activityType === 'g8-geom-central-similarity' && (
-                  <Grade8CentralSimilarityQuiz onBack={handleBack} />
+                {activityType === 'g8-geom-central-similarity-theory' && (
+                  <Grade8CentralSimilarityTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-geom-central-similarity-quiz', selectedTopic || 'g8-geometry')}
+                  />
                 )}
 
-                {activityType === 'g8-geom-constructions' && (
-                  <Grade8GeometricConstructionsQuiz onBack={handleBack} />
+                {(activityType === 'g8-geom-central-similarity' || activityType === 'g8-geom-central-similarity-quiz') && (
+                  <Grade8CentralSimilarityQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-geom-central-similarity-theory', selectedTopic || 'g8-geometry')}
+                  />
                 )}
 
-                {activityType === 'g8-geom-summary' && (
-                  <Grade8Chapter2GeometrySummaryQuiz onBack={handleBack} />
+                {activityType === 'g8-geom-central-similarity-matcher' && (
+                  <Grade8CentralSimilarityMatcher
+                    onNextLevel={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-geom-central-similarity-quiz', selectedTopic || 'g8-geometry')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-geom-central-similarity-theory', selectedTopic || 'g8-geometry')}
+                  />
+                )}
+
+                {activityType === 'g8-geom-central-similarity-sorter' && (
+                  <Grade8CentralSimilaritySorter
+                    onNextLevel={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-geom-central-similarity-quiz', selectedTopic || 'g8-geometry')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-geom-central-similarity-theory', selectedTopic || 'g8-geometry')}
+                  />
+                )}
+
+                {activityType === 'g8-geom-constructions-theory' && (
+                  <Grade8GeometricConstructionsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-geom-constructions-quiz', selectedTopic || 'g8-geometry')}
+                  />
+                )}
+
+                {(activityType === 'g8-geom-constructions' || activityType === 'g8-geom-constructions-quiz') && (
+                  <Grade8GeometricConstructionsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-geom-constructions-theory', selectedTopic || 'g8-geometry')}
+                  />
+                )}
+
+                {activityType === 'g8-geom-constructions-matcher' && (
+                  <Grade8GeometricConstructionsMatcher
+                    onNextLevel={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-geom-constructions-quiz', selectedTopic || 'g8-geometry')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-geom-constructions-theory', selectedTopic || 'g8-geometry')}
+                  />
+                )}
+
+                {activityType === 'g8-geom-constructions-sorter' && (
+                  <Grade8GeometricConstructionsSorter
+                    onNextLevel={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-geom-constructions-quiz', selectedTopic || 'g8-geometry')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-geom-constructions-theory', selectedTopic || 'g8-geometry')}
+                  />
+                )}
+
+                {activityType === 'g8-geom-summary-theory' && (
+                  <Grade8Chapter2GeometrySummaryTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-geom-summary-quiz', selectedTopic || 'g8-geometry')}
+                  />
+                )}
+
+                {(activityType === 'g8-geom-summary' || activityType === 'g8-geom-summary-quiz') && (
+                  <Grade8Chapter2GeometrySummaryQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-geom-summary-theory', selectedTopic || 'g8-geometry')}
+                  />
+                )}
+
+                {activityType === 'g8-geom-summary-matcher' && (
+                  <Grade8Chapter2GeometrySummaryMatcher
+                    onNextLevel={handleBack}
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-geom-summary-quiz', selectedTopic || 'g8-geometry')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-geom-summary-theory', selectedTopic || 'g8-geometry')}
+                  />
+                )}
+
+                {activityType === 'g8-geom-summary-sorter' && (
+                  <Grade8Chapter2GeometrySummarySorter
+                    onNextLevel={handleBack}
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-geom-summary-quiz', selectedTopic || 'g8-geometry')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-geom-summary-theory', selectedTopic || 'g8-geometry')}
+                  />
                 )}
 
                 {activityType === 'g8-algebra' && (

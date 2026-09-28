@@ -251,6 +251,7 @@ export interface TheorySectionProps {
   number: number | string;
   title: string;
   icon?: React.ReactNode;
+  badge?: string;
   badgeColor?: ThemeColor;
   children: React.ReactNode;
   className?: string;
@@ -260,6 +261,7 @@ export const TheorySection: React.FC<TheorySectionProps> = ({
   number,
   title,
   icon,
+  badge,
   badgeColor = 'teal',
   children,
   className
@@ -267,19 +269,33 @@ export const TheorySection: React.FC<TheorySectionProps> = ({
   const styles = colorStyles[badgeColor] || colorStyles.teal;
   return (
     <section className={cn('space-y-4', className)}>
-      <div className="flex items-center gap-2.5">
-        <span
-          className={cn(
-            'flex items-center justify-center w-7 h-7 rounded-lg font-bold text-sm shrink-0',
-            styles.sectionBadge
-          )}
-        >
-          {number}.
-        </span>
-        <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-          {icon}
-          <span>{typeof title === 'string' ? <MathText>{title}</MathText> : title}</span>
-        </h2>
+      <div className="flex flex-wrap items-center justify-between gap-2.5">
+        <div className="flex items-center gap-2.5">
+          <span
+            className={cn(
+              'flex items-center justify-center w-7 h-7 rounded-lg font-bold text-sm shrink-0',
+              styles.sectionBadge
+            )}
+          >
+            {number}.
+          </span>
+          <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            {icon}
+            <span>{typeof title === 'string' ? <MathText>{title}</MathText> : title}</span>
+          </h2>
+        </div>
+        {badge && (
+          <span
+            className={cn(
+              'text-xs font-semibold px-2.5 py-1 rounded-full border',
+              styles.badgeBg,
+              styles.badgeBorder,
+              styles.badgeText
+            )}
+          >
+            {badge}
+          </span>
+        )}
       </div>
       {children}
     </section>
@@ -885,6 +901,7 @@ export interface TheorySectionData {
   id?: string;
   title: string;
   icon?: React.ReactNode;
+  badge?: string;
   badgeColor?: ThemeColor;
   content?: React.ReactNode;
   children?: React.ReactNode;
@@ -1075,6 +1092,7 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = (props) => {
               number={idx + 1}
               title={sec.title}
               icon={sec.icon}
+              badge={sec.badge}
               badgeColor={sec.badgeColor || themeColor}
             >
               {sec.content || sec.children}
