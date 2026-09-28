@@ -15,6 +15,7 @@ import {
   AlertTriangle,
   RotateCcw,
   ArrowRight,
+  ArrowLeft,
   ShieldCheck,
   Layers,
   BookOpen,
@@ -36,47 +37,208 @@ export function DivisionTheory({ onBack, onStartQuiz }: DivisionTheoryProps) {
   const [stepIndex, setStepIndex] = useState<number>(0);
 
   const computeDivisionData = (divStr: string, dvrStr: string) => {
-    const dividend = parseInt(divStr.replace(/\s+/g, ''), 10);
-    const divisor = parseInt(dvrStr.replace(/\s+/g, ''), 10);
+    const trimmedDiv = divStr.trim();
+    const trimmedDvr = dvrStr.trim();
+    if (!trimmedDiv || !trimmedDvr) {
+      return { error: 'Kérlek adj meg mindkét mezőbe egy számot!', steps: [] };
+    }
+    const dividend = parseInt(trimmedDiv, 10);
+    const divisor = parseInt(trimmedDvr, 10);
 
     if (isNaN(dividend) || isNaN(divisor) || dividend < 0 || divisor <= 0 || dividend > 999999 || divisor > 999) {
       return {
-        error: 'Kérlek adj meg érvényes számokat (osztandó legfeljebb 6 jegyű, osztó pozitív legfeljebb 3 jegyű)!',
-        steps: [],
-        finalQuotient: 0,
-        finalRemainder: 0
+        error: 'Kérlek adj meg érvényes számokat (osztandó nemnegatív legfeljebb 6 jegyű, osztó pozitív legfeljebb 3 jegyű)!',
+        steps: []
       };
     }
 
-    const quotient = Math.floor(dividend / divisor);
-    const remainder = dividend % divisor;
+    const sDiv = dividend.toString();
+    const sDvr = divisor.toString();
+    const finalQuotient = Math.floor(dividend / divisor);
+    const finalRemainder = dividend % divisor;
+    const sQ = finalQuotient.toString();
 
-    const steps = [
-      {
-        title: '1. Előzetes becslés és kijelölés',
-        desc: `Osztandó: ${dividend}, Osztó: ${divisor}. Becslés: ${dividend} : ${divisor} ≈ ${quotient}.`
-      },
-      {
-        title: '2. Írásbeli osztás elvégzése',
-        desc: `Hányados: ${quotient}, Maradék: ${remainder}.`
-      },
-      {
-        title: '3. Ellenőrzés (Hányados · Osztó + Maradék)',
-        desc: `${quotient} · ${divisor} + ${remainder} = ${quotient * divisor} + ${remainder} = ${dividend} ✓.`
+    // Estimation
+    const estDiv = dividend >= 100 ? Math.round(dividend / 100) * 100 : (dividend >= 10 ? Math.round(dividend / 10) * 10 : dividend);
+    const estDvr = divisor >= 10 ? Math.round(divisor / 10) * 10 : divisor;
+    const estQuot = Math.floor(estDiv / estDvr);
+
+    // Initial prefix selection (kijelölés)
+    let initialPrefixLen = 1;
+    let initialPart = parseInt(sDiv.substring(0, initialPrefixLen), 10);
+    while (initialPart < divisor && initialPrefixLen < sDiv.length) {
+      initialPrefixLen++;
+      initialPart = parseInt(sDiv.substring(0, initialPrefixLen), 10);
+    }
+
+    type Step = {
+      title: string;
+      desc: string;
+      activeQuotientLen: number;
+      activeDividendRange?: [number, number];
+      revealedSubRows: {
+        cells: { col: number; char: string; isDropped?: boolean }[];
+        isRemainder?: boolean;
+      }[];
+      currentRemainderVal?: number;
+      isFinal?: boolean;
+    };
+
+    const steps: Step[] = [];
+
+    // Step 0: Előkészítés, kijelölés és becslés
+    const initialPrefixStr = sDiv.substring(0, initialPrefixLen);
+    steps.push({
+      title: '1. Előkészítés, kijelölés és becslés',
+      desc: `Felírjuk az osztást a négyzetrácsos füzetbe: ${dividend} : ${divisor}. Balról kijelöljük az első olyan részt, amiben az osztó már megvan legalább egyszer: ${initialPrefixStr} (kijelölő ív a ${initialPrefixStr} fölé). Előzetes becslés: ${estDiv} : ${estDvr} ≈ ${estQuot}.`,
+      activeQuotientLen: 0,
+      activeDividendRange: [0, initialPrefixLen - 1],
+      revealedSubRows: []
+    });
+
+    const subRowsAccum: {
+      cells: { col: number; char: string; isDropped?: boolean }[];
+      isRemainder?: boolean;
+    }[] = [];
+
+    let currentPart = initialPart;
+    let nextDropIdx = initialPrefixLen;
+    let quotientDigitsRevealed = 0;
+    let currentPartEndCol = initialPrefixLen - 1;
+
+    // Loop through division steps
+    while (true) {
+      const qDigit = Math.floor(currentPart / divisor);
+      const subProduct = qDigit * divisor;
+      const rem = currentPart - subProduct;
+      quotientDigitsRevealed++;
+
+      const hasNextDrop = nextDropIdx < sDiv.length;
+
+      let desc = '';
+      if (qDigit === 0 && subRowsAccum.length > 0) {
+        desc = `${currentPart}-ben a(z) ${divisor} megvan 0-szor. Nagyon fontos: a hányadosba leírjuk a 0-t! Maradék: ${rem}.`;
+      } else {
+        desc = `${currentPart}-ben a(z) ${divisor} megvan ${qDigit}-szer (${qDigit} · ${divisor} = ${subProduct}). A hányadosba leírjuk a(z) ${qDigit}-t. Maradék: ${currentPart} – ${subProduct} = ${rem}.`;
       }
-    ];
+
+      if (hasNextDrop) {
+        const dropChar = sDiv[nextDropIdx];
+        const nextPartVal = rem * 10 + parseInt(dropChar, 10);
+        desc += ` Lehozzuk a következő számjegyet (${dropChar}) a maradék mellé ⟹ ${nextPartVal}.`;
+
+        const remStr = rem.toString();
+        const dropCol = nextDropIdx;
+        const rowCells: { col: number; char: string; isDropped?: boolean }[] = [];
+        rowCells.push({ col: dropCol, char: dropChar, isDropped: true });
+
+        for (let r = 0; r < remStr.length; r++) {
+          rowCells.unshift({
+            col: dropCol - 1 - (remStr.length - 1 - r),
+            char: remStr[r]
+          });
+        }
+
+        subRowsAccum.push({ cells: rowCells });
+
+        steps.push({
+          title: `${steps.length + 1}. Lépés: ${currentPart} : ${divisor} = ${qDigit}`,
+          desc,
+          activeQuotientLen: quotientDigitsRevealed,
+          activeDividendRange: [nextDropIdx, nextDropIdx],
+          revealedSubRows: JSON.parse(JSON.stringify(subRowsAccum)),
+          currentRemainderVal: rem
+        });
+
+        currentPart = nextPartVal;
+        currentPartEndCol = nextDropIdx;
+        nextDropIdx++;
+      } else {
+        const remStr = rem.toString();
+        const rowCells: { col: number; char: string; isDropped?: boolean }[] = [];
+        for (let r = 0; r < remStr.length; r++) {
+          rowCells.push({
+            col: currentPartEndCol - (remStr.length - 1 - r),
+            char: remStr[r]
+          });
+        }
+
+        subRowsAccum.push({ cells: rowCells, isRemainder: true });
+
+        desc += ` Elfogyott a lehozható számjegy, az osztás véget ért. A maradék: ${rem}.`;
+
+        steps.push({
+          title: `${steps.length + 1}. Lépés: ${currentPart} : ${divisor} = ${qDigit}`,
+          desc,
+          activeQuotientLen: quotientDigitsRevealed,
+          revealedSubRows: JSON.parse(JSON.stringify(subRowsAccum)),
+          currentRemainderVal: rem
+        });
+
+        break;
+      }
+    }
+
+    // Final Step: Ellenőrzés és összegzés
+    let checkDesc = `Az írásbeli osztás befejeződött: ${dividend} : ${divisor} = ${finalQuotient}`;
+    if (finalRemainder > 0) {
+      checkDesc += `, maradék ${finalRemainder}.`;
+      checkDesc += ` A maradék (${finalRemainder}) kisebb az osztónál (${divisor}), így a maradékképzés szabályos (0 ≤ ${finalRemainder} < ${divisor}).`;
+      checkDesc += ` Ellenőrzés: ${finalQuotient} · ${divisor} + ${finalRemainder} = ${finalQuotient * divisor} + ${finalRemainder} = ${dividend} ✓.`;
+    } else {
+      checkDesc += ` (maradék nélkül).`;
+      checkDesc += ` Ellenőrzés visszaszorzással: ${finalQuotient} · ${divisor} = ${dividend} ✓.`;
+    }
+
+    steps.push({
+      title: `${steps.length + 1}. Befejezés és ellenőrzés`,
+      desc: checkDesc,
+      activeQuotientLen: sQ.length,
+      revealedSubRows: JSON.parse(JSON.stringify(subRowsAccum)),
+      currentRemainderVal: finalRemainder,
+      isFinal: true
+    });
+
+    // Grid columns calculation:
+    // dividend: sDiv.length
+    // colon: 1
+    // divisor: sDvr.length
+    // equals: 1
+    // quotient: sQ.length
+    const colonCol = sDiv.length;
+    const dvrStartCol = colonCol + 1;
+    const equalsCol = dvrStartCol + sDvr.length;
+    const qStartCol = equalsCol + 1;
+    const totalCols = qStartCol + sQ.length;
 
     return {
-      error: null,
       dividend,
       divisor,
-      finalQuotient: quotient,
-      finalRemainder: remainder,
+      sDiv,
+      sDvr,
+      finalQuotient,
+      finalRemainder,
+      sQ,
+      estDiv,
+      estDvr,
+      estQuot,
+      initialPrefixLen,
+      colonCol,
+      dvrStartCol,
+      equalsCol,
+      qStartCol,
+      totalCols,
       steps
     };
   };
 
   const simData = computeDivisionData(dividendStr, divisorStr);
+  const safeStepIndex = simData && simData.steps && simData.steps.length > 0
+    ? Math.min(stepIndex, simData.steps.length - 1)
+    : 0;
+  const currentStep = simData && !simData.error && simData.steps && simData.steps.length > 0
+    ? simData.steps[safeStepIndex]
+    : null;
 
   return (
     <TheoryTemplate
@@ -267,76 +429,259 @@ export function DivisionTheory({ onBack, onStartQuiz }: DivisionTheoryProps) {
         badgeColor="purple"
         className="no-pdf"
       >
+        <TheoryCallout variant="tip" title="Próbáld ki tetszőleges számokkal!">
+          Írj be két számot, és léptesd végig a valódi magyar füzetbeli írásbeli osztást lépésről lépésre, figyelve a kijelölésre, a részszorzatokra, a lehozott jegyekre és a maradékra!
+        </TheoryCallout>
+
         <div className="bg-slate-50 dark:bg-slate-900/60 p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4 my-4">
+          {/* Gyors minták (Presets) */}
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs font-bold text-slate-500 dark:text-slate-400 mr-1">Gyors minták:</span>
+            {[
+              { label: '842 : 26 (kétjegyű osztó maradékkal)', div: '842', dvr: '26' },
+              { label: '952 : 7 (egyjegyű osztó, m: 0)', div: '952', dvr: '7' },
+              { label: '618 : 6 (0 a hányadosban! csapda)', div: '618', dvr: '6' },
+              { label: '1584 : 12 (4 jegyű osztandó)', div: '1584', dvr: '12' },
+              { label: '458 : 10 (osztás 10-zel)', div: '458', dvr: '10' }
+            ].map((preset, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => {
+                  setDividendStr(preset.div);
+                  setDivisorStr(preset.dvr);
+                  setStepIndex(0);
+                }}
+                className={cn(
+                  "px-2.5 py-1 text-xs font-semibold rounded-lg border transition-all",
+                  dividendStr === preset.div && divisorStr === preset.dvr
+                    ? "bg-purple-600 text-white border-purple-600 shadow-sm"
+                    : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-purple-50 dark:hover:bg-purple-950/40"
+                )}
+              >
+                {preset.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Számbeviteli mezők */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-xs font-bold text-slate-700 dark:text-slate-300">Osztandó:</label>
               <input
                 type="number"
+                min="0"
+                max="999999"
                 value={dividendStr}
                 onChange={(e) => {
                   setDividendStr(e.target.value);
                   setStepIndex(0);
                 }}
-                className="w-full mt-1 p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-mono font-bold text-sm"
+                className="w-full mt-1 p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-mono font-bold text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
               />
             </div>
             <div>
               <label className="text-xs font-bold text-slate-700 dark:text-slate-300">Osztó:</label>
               <input
                 type="number"
+                min="1"
+                max="999"
                 value={divisorStr}
                 onChange={(e) => {
                   setDivisorStr(e.target.value);
                   setStepIndex(0);
                 }}
-                className="w-full mt-1 p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-mono font-bold text-sm"
+                className="w-full mt-1 p-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 font-mono font-bold text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
               />
             </div>
           </div>
 
-          {simData && !simData.error && (
+          {simData && !simData.error && simData.steps && simData.steps.length > 0 && (
             <div className="space-y-4 pt-2">
+              {/* Vizuális Négyzetrácsos Füzetlap Kártya */}
               <div className="flex justify-center">
-                <div className="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm text-center font-mono font-bold text-lg">
-                  <div className="text-slate-800 dark:text-slate-200">
-                    {simData.dividend} : {simData.divisor} = <span className="text-purple-600 dark:text-purple-400">{simData.finalQuotient}</span>
-                    {simData.finalRemainder > 0 && <span className="text-amber-600 dark:text-amber-400"> (m: {simData.finalRemainder})</span>}
+                <div className="bg-[#fafbfd] dark:bg-slate-900/90 p-4 sm:p-6 rounded-2xl border-2 border-purple-200/80 dark:border-slate-700 shadow-sm inline-block select-none overflow-x-auto max-w-full">
+                  <div className="flex items-center justify-between mb-3 pb-2 border-b border-purple-100 dark:border-slate-800 text-xs font-bold text-purple-800 dark:text-purple-300">
+                    <span className="flex items-center gap-1.5">
+                      <span>📓</span> Négyzetrácsos füzetlap • Írásbeli osztás
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400">
+                      {simData.divisor < 10 ? 'Egyjegyű osztó' : 'Kétjegyű osztó'}
+                    </span>
+                  </div>
+
+                  {/* Kockás rács mátrix */}
+                  <div className="flex flex-col gap-0 border border-purple-200/70 dark:border-slate-700/80 rounded-lg overflow-hidden bg-white dark:bg-slate-950 font-mono text-lg sm:text-xl font-bold">
+                    {/* 1. Sor: Osztandó : Osztó = Hányados */}
+                    <div className="flex flex-row">
+                      {Array.from({ length: simData.totalCols }).map((_, c) => {
+                        let char = '';
+                        let isSelectedPrefix = false;
+                        let isQuotient = false;
+                        let isJustRevealedQ = false;
+                        let isHighlightedDrop = false;
+
+                        if (c < simData.sDiv.length) {
+                          char = simData.sDiv[c];
+                          // Kijelölő ív az első lépésben
+                          if (safeStepIndex === 0 && c < simData.initialPrefixLen) {
+                            isSelectedPrefix = true;
+                          }
+                          // Aktuálisan lehozott jegy kiemelése
+                          if (currentStep?.activeDividendRange && c >= currentStep.activeDividendRange[0] && c <= currentStep.activeDividendRange[1]) {
+                            isHighlightedDrop = true;
+                          }
+                        } else if (c === simData.colonCol) {
+                          char = ':';
+                        } else if (c >= simData.dvrStartCol && c < simData.dvrStartCol + simData.sDvr.length) {
+                          char = simData.sDvr[c - simData.dvrStartCol];
+                        } else if (c === simData.equalsCol) {
+                          char = '=';
+                        } else if (c >= simData.qStartCol && c < simData.qStartCol + simData.sQ.length) {
+                          const qDigitIdx = c - simData.qStartCol;
+                          if (currentStep && qDigitIdx < currentStep.activeQuotientLen) {
+                            char = simData.sQ[qDigitIdx];
+                            isQuotient = true;
+                            if (qDigitIdx === currentStep.activeQuotientLen - 1) {
+                              isJustRevealedQ = true;
+                            }
+                          }
+                        }
+
+                        return (
+                          <div
+                            key={c}
+                            className={cn(
+                              "w-8 h-9 sm:w-10 sm:h-11 flex items-center justify-center border border-purple-100 dark:border-slate-800/80 transition-all",
+                              isSelectedPrefix
+                                ? "bg-purple-100 dark:bg-purple-950/70 text-purple-950 dark:text-purple-100 border-t-2 border-t-purple-600 ring-1 ring-purple-400"
+                                : isHighlightedDrop
+                                ? "bg-amber-100 dark:bg-amber-950/70 text-amber-950 dark:text-amber-100 font-black ring-1 ring-amber-400"
+                                : isQuotient
+                                ? "text-purple-700 dark:text-purple-400 font-black"
+                                : "text-slate-900 dark:text-slate-100",
+                              isJustRevealedQ ? "bg-purple-100 dark:bg-purple-900/60 scale-105" : "",
+                              char === ':' || char === '=' ? "text-slate-700 dark:text-slate-300 font-black" : ""
+                            )}
+                          >
+                            {char}
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* 2. Részletszámolási sorok (maradékok és lehozott jegyek) */}
+                    {currentStep?.revealedSubRows?.map((subRow, rIdx) => {
+                      const isRemainderRow = subRow.isRemainder;
+
+                      return (
+                        <div key={rIdx} className="flex flex-row">
+                          {Array.from({ length: simData.totalCols }).map((_, c) => {
+                            const cell = subRow.cells.find((cell) => cell.col === c);
+
+                            return (
+                              <div
+                                key={c}
+                                className={cn(
+                                  "w-8 h-9 sm:w-10 sm:h-11 flex items-center justify-center border border-purple-100 dark:border-slate-800/80 transition-all font-bold",
+                                  cell?.isDropped
+                                    ? "text-blue-700 dark:text-blue-400 bg-blue-50/60 dark:bg-blue-950/30 font-black ring-1 ring-blue-300"
+                                    : isRemainderRow && cell
+                                    ? "text-amber-600 dark:text-amber-400 font-black"
+                                    : cell
+                                    ? "text-slate-800 dark:text-slate-200"
+                                    : ""
+                                )}
+                              >
+                                {cell ? cell.char : ''}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Kijelölési segédlet az 1. lépésnél */}
+                  {safeStepIndex === 0 && (
+                    <div className="mt-3 flex items-center justify-center gap-2 p-2 bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 rounded-xl text-xs font-bold text-purple-800 dark:text-purple-300">
+                      <span>🏷️ Kijelölt kezdő rész:</span>
+                      <span className="font-mono text-sm font-black text-purple-600 dark:text-purple-400">
+                        {simData.sDiv.substring(0, simData.initialPrefixLen)}
+                      </span>
+                      <span>(itt már megvan a(z) {simData.divisor})</span>
+                    </div>
+                  )}
+
+                  {/* Maradék jelző a végén vagy közben */}
+                  {currentStep && currentStep.currentRemainderVal !== undefined && (
+                    <div className="mt-3 flex items-center justify-center gap-2 p-2 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 rounded-xl text-xs font-bold text-amber-800 dark:text-amber-300">
+                      <span>📌 Aktuális maradék:</span>
+                      <span className="font-mono text-sm font-black text-amber-600 dark:text-amber-400">
+                        {currentStep.currentRemainderVal}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Lépés magyarázó kártya */}
+              {currentStep && (
+                <div className="p-3 sm:p-4 bg-purple-50 dark:bg-purple-950/30 rounded-xl border border-purple-200 dark:border-purple-900/60 text-xs sm:text-sm">
+                  <div className="font-bold text-purple-800 dark:text-purple-300 mb-1 flex items-center justify-between flex-wrap gap-1">
+                    <span>{currentStep.title}</span>
+                  </div>
+                  <div className="text-slate-700 dark:text-slate-300 leading-relaxed">
+                    {currentStep.desc}
                   </div>
                 </div>
-              </div>
+              )}
 
-              <div className="p-3 bg-purple-50 dark:bg-purple-950/30 rounded-xl border border-purple-200 dark:border-purple-900/60 text-xs sm:text-sm">
-                <div className="font-bold text-purple-800 dark:text-purple-300 mb-1">
-                  {simData.steps[stepIndex]?.title}
-                </div>
-                <div className="text-slate-700 dark:text-slate-300">
-                  {simData.steps[stepIndex]?.desc}
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between gap-2">
+              {/* Vezérlő gombok */}
+              <div className="flex items-center justify-between gap-2 pt-1">
                 <Button
                   size="sm"
                   variant="outline"
                   onClick={() => setStepIndex((prev) => Math.max(0, prev - 1))}
-                  disabled={stepIndex === 0}
+                  disabled={safeStepIndex === 0}
                   className="rounded-xl text-xs"
                 >
-                  Előző lépés
+                  <ArrowLeft className="w-3.5 h-3.5 mr-1" /> Előző lépés
                 </Button>
                 <div className="text-xs font-bold text-slate-500">
-                  {stepIndex + 1} / {simData.steps.length} lépés
+                  {safeStepIndex + 1} / {simData.steps.length} lépés
                 </div>
-                <Button
-                  size="sm"
-                  onClick={() => setStepIndex((prev) => Math.min(simData.steps.length - 1, prev + 1))}
-                  disabled={stepIndex >= simData.steps.length - 1}
-                  className="bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs"
-                >
-                  Következő lépés <ArrowRight className="w-3.5 h-3.5 ml-1" />
-                </Button>
+                {safeStepIndex < simData.steps.length - 1 ? (
+                  <Button
+                    size="sm"
+                    onClick={() => setStepIndex((prev) => Math.min(simData.steps.length - 1, prev + 1))}
+                    className="bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs shadow-sm"
+                  >
+                    Következő lépés <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                  </Button>
+                ) : (
+                  <Button
+                    size="sm"
+                    onClick={() => setStepIndex(0)}
+                    className="bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs shadow-sm"
+                  >
+                    Újraindítás <RotateCcw className="w-3.5 h-3.5 ml-1" />
+                  </Button>
+                )}
               </div>
+
+              {/* Összegző siker kártya az utolsó lépésnél */}
+              {safeStepIndex === simData.steps.length - 1 && (
+                <div className="p-3 bg-purple-100/70 dark:bg-purple-950/40 rounded-xl border border-purple-300 dark:border-purple-800 text-center text-xs font-bold text-purple-800 dark:text-purple-200">
+                  🎉 Az írásbeli osztás sikeresen elkészült: <span className="font-mono text-sm">{simData.dividend} : {simData.divisor} = {simData.finalQuotient}{simData.finalRemainder > 0 ? ` (maradék: ${simData.finalRemainder})` : ''}</span>
+                </div>
+              )}
+            </div>
+          )}
+
+          {simData?.error && (
+            <div className="p-3 bg-rose-100 dark:bg-rose-900/40 rounded-xl text-rose-800 dark:text-rose-200 text-xs font-bold">
+              ⚠️ {simData.error}
             </div>
           )}
         </div>

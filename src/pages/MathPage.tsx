@@ -298,10 +298,22 @@ const TowerBuilderGame = lazy(() => import("@/components/math/games/toronyepites
 const ParallelogramAreaQuiz = lazy(() => import("@/components/math/grade-7/geometria/ParallelogramAreaQuiz").then(m => ({ default: m.ParallelogramAreaQuiz }))) as any;
 const Grade8WordProblemsModule = lazy(() => import("@/components/math/grade-8/keszuljunk-a-felvetelire/WordProblemsModule").then(m => ({ default: m.WordProblemsModule }))) as any;
 const Grade8WordProblemsQuiz = lazy(() => import("@/components/math/grade-8/keszuljunk-a-felvetelire/WordProblemsQuiz").then(m => ({ default: m.WordProblemsQuiz }))) as any;
+const Grade8CongruenceTransformTheory = lazy(() => import("@/components/math/grade-8/geometria/egybevagosagi-transzformaciok-ismetles/CongruenceTransformTheory").then(m => ({ default: m.CongruenceTransformTheory }))) as any;
 const Grade8CongruenceTransformQuiz = lazy(() => import("@/components/math/grade-8/geometria/egybevagosagi-transzformaciok-ismetles/CongruenceTransformQuiz").then(m => ({ default: m.CongruenceTransformQuiz }))) as any;
+const Grade8CongruenceTransformMatcher = lazy(() => import("@/components/math/grade-8/geometria/egybevagosagi-transzformaciok-ismetles/CongruenceTransformMatcher").then(m => ({ default: m.CongruenceTransformMatcher }))) as any;
+const Grade8CongruenceTransformSorter = lazy(() => import("@/components/math/grade-8/geometria/egybevagosagi-transzformaciok-ismetles/CongruenceTransformSorter").then(m => ({ default: m.CongruenceTransformSorter }))) as any;
+const Grade8TransformationsTheory = lazy(() => import("@/components/math/grade-8/geometria/transzformaciok/TransformationsTheory").then(m => ({ default: m.TransformationsTheory }))) as any;
 const Grade8TransformationsQuiz = lazy(() => import("@/components/math/grade-8/geometria/transzformaciok/TransformationsQuiz").then(m => ({ default: m.TransformationsQuiz }))) as any;
+const Grade8TransformationsMatcher = lazy(() => import("@/components/math/grade-8/geometria/transzformaciok/TransformationsMatcher").then(m => ({ default: m.TransformationsMatcher }))) as any;
+const Grade8TransformationsSorter = lazy(() => import("@/components/math/grade-8/geometria/transzformaciok/TransformationsSorter").then(m => ({ default: m.TransformationsSorter }))) as any;
+const Grade8GeometrySoftwareTheory = lazy(() => import("@/components/math/grade-8/geometria/hasznaljunk-szerkesztoprogramot/GeometrySoftwareTheory").then(m => ({ default: m.GeometrySoftwareTheory }))) as any;
 const Grade8GeometrySoftwareQuiz = lazy(() => import("@/components/math/grade-8/geometria/hasznaljunk-szerkesztoprogramot/GeometrySoftwareQuiz").then(m => ({ default: m.GeometrySoftwareQuiz }))) as any;
+const Grade8GeometrySoftwareMatcher = lazy(() => import("@/components/math/grade-8/geometria/hasznaljunk-szerkesztoprogramot/GeometrySoftwareMatcher").then(m => ({ default: m.GeometrySoftwareMatcher }))) as any;
+const Grade8GeometrySoftwareSorter = lazy(() => import("@/components/math/grade-8/geometria/hasznaljunk-szerkesztoprogramot/GeometrySoftwareSorter").then(m => ({ default: m.GeometrySoftwareSorter }))) as any;
+const Grade8SimilarityTheory = lazy(() => import("@/components/math/grade-8/geometria/hasonlosag/SimilarityTheory").then(m => ({ default: m.SimilarityTheory }))) as any;
 const Grade8SimilarityQuiz = lazy(() => import("@/components/math/grade-8/geometria/hasonlosag/SimilarityQuiz").then(m => ({ default: m.SimilarityQuiz }))) as any;
+const Grade8SimilarityMatcher = lazy(() => import("@/components/math/grade-8/geometria/hasonlosag/SimilarityMatcher").then(m => ({ default: m.SimilarityMatcher }))) as any;
+const Grade8SimilaritySorter = lazy(() => import("@/components/math/grade-8/geometria/hasonlosag/SimilaritySorter").then(m => ({ default: m.SimilaritySorter }))) as any;
 const Grade8CentralSimilarityQuiz = lazy(() => import("@/components/math/grade-8/geometria/a-kozeppontos-hasonlosag/CentralSimilarityQuiz").then(m => ({ default: m.CentralSimilarityQuiz }))) as any;
 const Grade8GeometricConstructionsQuiz = lazy(() => import("@/components/math/grade-8/geometria/szerkesztesek/GeometricConstructionsQuiz").then(m => ({ default: m.GeometricConstructionsQuiz }))) as any;
 const Grade8Chapter2GeometrySummaryQuiz = lazy(() => import("@/components/math/grade-8/geometria/osszefoglalas/Chapter2GeometrySummaryQuiz").then(m => ({ default: m.Chapter2GeometrySummaryQuiz }))) as any;
@@ -681,6 +693,10 @@ type ActivityType =
   | 'g8-factoring-theory' | 'g8-factoring-quiz' | 'g8-factoring-matcher' | 'g8-factoring-sorter'
   | 'g8-polynomial-mult-theory' | 'g8-polynomial-mult-quiz' | 'g8-polynomial-mult-matcher' | 'g8-polynomial-mult-sorter'
   | 'g8-chapter1-summary-theory' | 'g8-chapter1-summary-quiz' | 'g8-chapter1-summary-matcher' | 'g8-chapter1-summary-sorter'
+  | 'g8-geom-congruence-theory' | 'g8-geom-congruence-quiz' | 'g8-geom-congruence-matcher' | 'g8-geom-congruence-sorter'
+  | 'g8-geom-transforms-theory' | 'g8-geom-transforms-quiz' | 'g8-geom-transforms-matcher' | 'g8-geom-transforms-sorter'
+  | 'g8-geom-software-theory' | 'g8-geom-software-quiz' | 'g8-geom-software-matcher' | 'g8-geom-software-sorter'
+  | 'g8-geom-similarity-theory' | 'g8-geom-similarity-quiz' | 'g8-geom-similarity-matcher' | 'g8-geom-similarity-sorter'
   | 'g6-fraction-visual-matcher' | 'g6-fractions-quiz' | 'g6-fraction-multiplier' | 'g6-fraction-divider'
   | 'g6-decimal-quiz' | 'g6-to-decimal-matcher' | 'g6-decimal-multiplier-quiz' | 'g6-decimal-multiplier'
   | 'g6-decimal-divider-quiz' | 'g6-decimal-divider' | 'g6-fractions-closing-test'
@@ -1113,12 +1129,23 @@ export default function MathPage() {
 
   const handleActivitySelect = (type: ActivityType, topicId?: string, level?: number, gradeOverride?: GradeLevel) => {
     setActivityType(type);
-    if (topicId) setSelectedTopic(topicId);
-    
-    // If a grade is provided explicitly (e.g., from the competency hub), set it immediately
     const finalGrade = gradeOverride !== undefined ? gradeOverride : selectedGrade;
     if (gradeOverride !== undefined) {
       setSelectedGrade(gradeOverride);
+    }
+
+    let resolvedTopic = topicId || selectedTopic;
+    if (!resolvedTopic && (finalGrade === 8 || selectedGrade === 8)) {
+      if (type.startsWith('g8-geom-')) resolvedTopic = 'g8-geometry';
+      else if (type.startsWith('g8-eq-')) resolvedTopic = 'g8-equations';
+      else if (type.startsWith('g8-func-')) resolvedTopic = 'g8-functions';
+      else if (type.startsWith('g8-stat-')) resolvedTopic = 'g8-statistics';
+      else resolvedTopic = 'g8-numbers-letters';
+    }
+    if (resolvedTopic) {
+      setSelectedTopic(resolvedTopic);
+      setActiveGrade5TopicId(resolvedTopic);
+      setExpandedTopicId(resolvedTopic);
     }
 
     if (level !== undefined) {
@@ -1128,7 +1155,7 @@ export default function MathPage() {
     }
     setView('activity');
     window.scrollTo(0, 0);
-    updateURL('activity', finalGrade, topicId || selectedTopic, type);
+    updateURL('activity', finalGrade, resolvedTopic || selectedTopic, type);
   };
 
   const handleToolSelect = (toolId: string) => {
@@ -1178,8 +1205,26 @@ export default function MathPage() {
 
       } else if (selectedGrade) {
         nextView = 'topic-select';
-        const isExpandable = (selectedGrade === 5 && selectedTopic?.startsWith('g5-')) || selectedGrade === 4 || selectedGrade === 6 || selectedGrade === 7;
-        nextTopic = isExpandable ? selectedTopic : null;
+        let resolvedTopic = selectedTopic || activeGrade5TopicId;
+        if (!resolvedTopic && selectedGrade === 8) {
+          if (activityType.startsWith('g8-geom-')) resolvedTopic = 'g8-geometry';
+          else if (activityType.startsWith('g8-eq-')) resolvedTopic = 'g8-equations';
+          else if (activityType.startsWith('g8-func-')) resolvedTopic = 'g8-functions';
+          else if (activityType.startsWith('g8-stat-')) resolvedTopic = 'g8-statistics';
+          else resolvedTopic = 'g8-numbers-letters';
+        }
+        const isExpandable =
+          (selectedGrade === 5 && resolvedTopic?.startsWith('g5-')) ||
+          selectedGrade === 4 ||
+          selectedGrade === 6 ||
+          selectedGrade === 7 ||
+          selectedGrade === 8 ||
+          (typeof selectedGrade === 'string' && selectedGrade.startsWith('high-'));
+        nextTopic = isExpandable ? resolvedTopic : null;
+        if (nextTopic) {
+          setActiveGrade5TopicId(nextTopic);
+          setExpandedTopicId(nextTopic);
+        }
       } else if (location.pathname.startsWith('/jatekok') || GAMES.some(g => g.id === activityType)) {
         nextView = 'games-select';
         nextTopic = null;
@@ -5033,20 +5078,6 @@ export default function MathPage() {
                   </div>
                 )}
 
-                {activityType === 'g8-logic-theory' && (
-                  <Grade8LogicTheory
-                    onBack={handleBack}
-                    onStartQuiz={() => setActivityType('g8-logic-quiz')}
-                  />
-                )}
-
-                {(activityType === 'g8-logic-quiz' || activityType === 'g8-logic') && (
-                  <Grade8LogicQuiz
-                    onBack={handleBack}
-                    onSwitchToTheory={() => setActivityType('g8-logic-theory')}
-                  />
-                )}
-
                 {activityType === 'g6-fractions-review-theory' && (
                   <Grade6FractionsReviewTheory
                     onBack={handleBack}
@@ -5821,20 +5852,124 @@ export default function MathPage() {
                   />
                 )}
 
-                {activityType === 'g8-geom-congruence' && (
-                  <Grade8CongruenceTransformQuiz onBack={handleBack} />
+                {activityType === 'g8-geom-congruence-theory' && (
+                  <Grade8CongruenceTransformTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-geom-congruence-quiz', selectedTopic || 'g8-geometry')}
+                  />
                 )}
 
-                {activityType === 'g8-geom-transforms' && (
-                  <Grade8TransformationsQuiz onBack={handleBack} />
+                {(activityType === 'g8-geom-congruence' || activityType === 'g8-geom-congruence-quiz') && (
+                  <Grade8CongruenceTransformQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-geom-congruence-theory', selectedTopic || 'g8-geometry')}
+                  />
                 )}
 
-                {activityType === 'g8-geom-software' && (
-                  <Grade8GeometrySoftwareQuiz onBack={handleBack} />
+                {activityType === 'g8-geom-congruence-matcher' && (
+                  <Grade8CongruenceTransformMatcher
+                    onNextLevel={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-geom-congruence-quiz', selectedTopic || 'g8-geometry')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-geom-congruence-theory', selectedTopic || 'g8-geometry')}
+                  />
                 )}
 
-                {activityType === 'g8-geom-similarity' && (
-                  <Grade8SimilarityQuiz onBack={handleBack} />
+                {activityType === 'g8-geom-congruence-sorter' && (
+                  <Grade8CongruenceTransformSorter
+                    onNextLevel={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-geom-congruence-quiz', selectedTopic || 'g8-geometry')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-geom-congruence-theory', selectedTopic || 'g8-geometry')}
+                  />
+                )}
+
+                {activityType === 'g8-geom-transforms-theory' && (
+                  <Grade8TransformationsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-geom-transforms-quiz', selectedTopic || 'g8-geometry')}
+                  />
+                )}
+
+                {(activityType === 'g8-geom-transforms' || activityType === 'g8-geom-transforms-quiz') && (
+                  <Grade8TransformationsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-geom-transforms-theory', selectedTopic || 'g8-geometry')}
+                  />
+                )}
+
+                {activityType === 'g8-geom-transforms-matcher' && (
+                  <Grade8TransformationsMatcher
+                    onNextLevel={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-geom-transforms-quiz', selectedTopic || 'g8-geometry')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-geom-transforms-theory', selectedTopic || 'g8-geometry')}
+                  />
+                )}
+
+                {activityType === 'g8-geom-transforms-sorter' && (
+                  <Grade8TransformationsSorter
+                    onNextLevel={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-geom-transforms-quiz', selectedTopic || 'g8-geometry')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-geom-transforms-theory', selectedTopic || 'g8-geometry')}
+                  />
+                )}
+
+                {activityType === 'g8-geom-software-theory' && (
+                  <Grade8GeometrySoftwareTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-geom-software-quiz', selectedTopic || 'g8-geometry')}
+                  />
+                )}
+
+                {(activityType === 'g8-geom-software' || activityType === 'g8-geom-software-quiz') && (
+                  <Grade8GeometrySoftwareQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-geom-software-theory', selectedTopic || 'g8-geometry')}
+                  />
+                )}
+
+                {activityType === 'g8-geom-software-matcher' && (
+                  <Grade8GeometrySoftwareMatcher
+                    onNextLevel={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-geom-software-quiz', selectedTopic || 'g8-geometry')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-geom-software-theory', selectedTopic || 'g8-geometry')}
+                  />
+                )}
+
+                {activityType === 'g8-geom-software-sorter' && (
+                  <Grade8GeometrySoftwareSorter
+                    onNextLevel={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-geom-software-quiz', selectedTopic || 'g8-geometry')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-geom-software-theory', selectedTopic || 'g8-geometry')}
+                  />
+                )}
+
+                {activityType === 'g8-geom-similarity-theory' && (
+                  <Grade8SimilarityTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-geom-similarity-quiz', selectedTopic || 'g8-geometry')}
+                  />
+                )}
+
+                {(activityType === 'g8-geom-similarity' || activityType === 'g8-geom-similarity-quiz') && (
+                  <Grade8SimilarityQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-geom-similarity-theory', selectedTopic || 'g8-geometry')}
+                  />
+                )}
+
+                {activityType === 'g8-geom-similarity-matcher' && (
+                  <Grade8SimilarityMatcher
+                    onNextLevel={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-geom-similarity-quiz', selectedTopic || 'g8-geometry')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-geom-similarity-theory', selectedTopic || 'g8-geometry')}
+                  />
+                )}
+
+                {activityType === 'g8-geom-similarity-sorter' && (
+                  <Grade8SimilaritySorter
+                    onNextLevel={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-geom-similarity-quiz', selectedTopic || 'g8-geometry')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-geom-similarity-theory', selectedTopic || 'g8-geometry')}
+                  />
                 )}
 
                 {activityType === 'g8-geom-central-similarity' && (

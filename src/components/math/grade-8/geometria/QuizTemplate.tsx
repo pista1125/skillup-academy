@@ -20,7 +20,10 @@ import {
   Flame,
   Maximize2,
   Minimize2,
-  ArrowRightLeft
+  ArrowRightLeft,
+  Compass,
+  Shapes,
+  Target
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/contexts/AuthContext';
@@ -34,14 +37,17 @@ export type GameMode = 'quiz' | string;
 export interface CheatSheetCard {
   id: string;
   title: string;
-  icon?: React.ReactNode;
-  color?: string;
+  description?: string;
   formula?: string;
   note?: string;
+  color?: string;
+  badge?: string;
+  figure?: React.ReactNode;
+  icon?: React.ReactNode;
   content?: React.ReactNode;
 }
 
-export interface QuizQuestion {
+export interface Question {
   id: string | number;
   level?: DifficultyLevel;
   prompt?: string;
@@ -51,17 +57,17 @@ export interface QuizQuestion {
   figure?: React.ReactNode;
   highlightValue?: string;
   questionTypeBadge?: string;
-  options: string[];
+  options: (string | React.ReactNode)[];
   correctAnswer: string | number;
   explanation: string;
-  breakdown?: { label?: string; value?: string }[] | string[];
-  steps?: { label?: string; value?: string }[] | string[];
+  breakdown?: { label?: string; value?: string | React.ReactNode }[] | string[];
+  steps?: { label?: string; value?: string | React.ReactNode }[] | string[];
   hint?: string;
   formula?: string;
   [key: string]: any;
 }
 
-export type Question = QuizQuestion;
+export type QuizQuestion = Question;
 
 export interface LevelConfig {
   level: DifficultyLevel;
@@ -116,34 +122,58 @@ export interface CustomGameMode {
   }) => React.ReactNode;
 }
 
+export interface LevelHubItemConfig {
+  title?: string;
+  subtitle?: string;
+  focus?: string;
+  range?: string;
+}
+
+export interface LevelHubProps {
+  level1?: LevelHubItemConfig;
+  level2?: LevelHubItemConfig;
+  level3?: LevelHubItemConfig;
+  [key: string]: LevelHubItemConfig | undefined;
+}
+
 export interface QuizTemplateProps {
   onBack?: () => void;
   onSwitchToTheory?: () => void;
-  subject?: string;
+  grade?: number;
+  chapterId?: string;
+  topicId?: string;
+  topicTitle?: string;
   documentId?: string;
-  subtopicId?: string;
+  pdfFilename?: string;
   emoji?: string;
+  badge?: string;
   topicBadge?: string;
   badgeText?: string;
+  badgeColor?: string;
   title: string;
   subtitle?: string;
   description?: string;
   cheatSheetTitle?: string;
   cheatSheet?: CheatSheetItem[];
   cheatSheetCards?: CheatSheetCard[];
+  cheatSheets?: { title: string; items: string[] }[];
+  cheatSheetContent?: React.ReactNode;
+  levelHubProps?: LevelHubProps;
+  questions?: QuizQuestion[] | Record<DifficultyLevel, Question[]>;
   levels?: LevelConfig[] | Record<DifficultyLevel, LevelConfig>;
+  levelsConfig?: LevelConfig[] | Record<DifficultyLevel, LevelConfig>;
   easyQuestions?: QuizQuestion[];
   mediumQuestions?: QuizQuestion[];
   hardQuestions?: QuizQuestion[];
   customGameModes?: CustomGameMode[];
   matcherComponent?: React.ReactNode;
   sorterComponent?: React.ReactNode;
+  renderMatcher?: (props: any) => React.ReactNode;
+  renderSorter?: (props: any) => React.ReactNode;
   hintText?: string;
-  themeColor?: 'orange' | 'blue' | 'emerald' | 'purple' | 'amber' | 'cyan' | 'indigo' | 'rose';
-  grade?: number | string;
-  chapterId?: string;
-  topicId?: string;
-  topicTitle?: string;
+  themeColor?: 'cyan' | 'blue' | 'indigo' | 'purple' | 'emerald' | 'amber' | 'rose' | 'teal';
+  category?: string;
+  [key: string]: any;
 }
 
 function shuffleArray<T>(array: T[]): T[] {
@@ -158,81 +188,296 @@ function shuffleArray<T>(array: T[]): T[] {
 export function QuizTemplate({
   onBack = () => {},
   onSwitchToTheory,
-  subject,
+  grade = 7,
+  chapterId = 'g7-geom-trans',
+  topicId,
+  topicTitle,
   documentId,
-  subtopicId,
-  emoji = '🔢',
+  pdfFilename,
+  emoji = '📐',
+  badge,
   topicBadge,
   badgeText,
+  badgeColor,
   title,
   subtitle,
   description,
-  cheatSheetTitle,
+  cheatSheetTitle = 'Geometriai Képtár és Képlettár',
   cheatSheet,
   cheatSheetCards,
-  levels,
+  cheatSheets,
+  cheatSheetContent,
+  levelHubProps,
+  questions: rawQuestions,
+  levels: propLevels,
+  levelsConfig,
   easyQuestions,
   mediumQuestions,
   hardQuestions,
   customGameModes,
   matcherComponent,
   sorterComponent,
+  renderMatcher,
+  renderSorter,
   hintText,
-  themeColor = 'purple',
-  grade = 7,
-  chapterId = 'racionalis-szamok-algebra',
-  topicId,
-  topicTitle
+  themeColor = 'teal'
 }: QuizTemplateProps) {
+  const levels = propLevels || levelsConfig;
   const { user, profile } = useAuth();
-  const [isSavedToProfile, setIsSavedToProfile] = useState(false);
-  const normalizedLevels: Record<DifficultyLevel, LevelConfig> | null = useMemo(() => {
-    if (!levels) return null;
-    if (Array.isArray(levels)) {
-      const map: Partial<Record<DifficultyLevel, LevelConfig>> = {};
-      levels.forEach((cfg, idx) => {
-        const lvl = (cfg.level || (idx + 1)) as DifficultyLevel;
-        map[lvl] = {
-          ...cfg,
-          level: lvl,
-          range: cfg.range || (lvl === 1 ? '1 - 10. feladat' : lvl === 2 ? '11 - 20. feladat' : '21 - 30. feladat'),
-          focus: cfg.focus || (lvl === 1 ? 'Alapfogalmak' : lvl === 2 ? 'Gyakorlat & Alkalmazás' : 'Mesterfok & Logika')
-        };
-      });
-      return map as Record<DifficultyLevel, LevelConfig>;
-    }
-    return levels;
-  }, [levels]);
+  const { getTopicProgress } = useQuizProgress();
 
-  const effectiveLevels: Record<DifficultyLevel, LevelConfig> = useMemo(() => {
-    if (normalizedLevels) return normalizedLevels;
-    return {
-      1: {
-        level: 1,
-        title: '1. Könnyű szint',
-        subtitle: 'Alapfogalmak, közvetlen szabályok',
-        range: '1 - 10. feladat',
-        focus: 'Alapfogalmak',
-        questions: easyQuestions || []
-      },
-      2: {
-        level: 2,
-        title: '2. Közepes szint',
-        subtitle: 'Összetettebb műveletek és szöveges átírás',
-        range: '11 - 20. feladat',
-        focus: 'Gyakorlat & Alkalmazás',
-        questions: mediumQuestions || []
-      },
-      3: {
-        level: 3,
-        title: '3. Nehéz szint',
-        subtitle: 'Többlépéses feladatok, magasabb szintű logika',
-        range: '21 - 30. feladat',
-        focus: 'Mesterfok & Logika',
-        questions: hardQuestions || []
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  const computedTopicId = useMemo(() => {
+    if (topicId) return topicId;
+    if (documentId) return documentId;
+    const t = (title || '').toLowerCase();
+    if (t.includes('fogalmak')) return 'g7-geom-concepts-quiz';
+    if (t.includes('nevezetes')) return 'g7-triangle-lines-quiz';
+    if (t.includes('háromszög') || t.includes('haromszog')) return 'g7-triangles-quads-quiz';
+    if (t.includes('transzformáció') || t.includes('transzformacio')) return 'g7-geom-transformations-quiz';
+    if (t.includes('középpontos') || t.includes('kozeppontos')) return 'g7-point-reflection-quiz';
+    return t.replace(/[^a-z0-9]+/g, '-');
+  }, [topicId, documentId, title]);
+
+  const currentTopicProgress = getTopicProgress(computedTopicId);
+
+  // 1. Normalize Levels & Questions
+  const normalizedLevels: Record<DifficultyLevel, LevelConfig> | null = useMemo(() => {
+    const normalizeQ = (q: any): QuizQuestion => {
+      const rawOpts = q.options || q.answers || [];
+      let answerStr = '';
+      if (typeof q.correctAnswer === 'number') {
+        answerStr = rawOpts[q.correctAnswer] !== undefined ? String(rawOpts[q.correctAnswer]) : String(q.correctAnswer);
+      } else {
+        answerStr = String(q.correctAnswer ?? '');
       }
+
+      let normalizedBreakdown: { label?: string; value?: string | React.ReactNode }[] | undefined = undefined;
+      if (q.breakdown) {
+        if (Array.isArray(q.breakdown) && typeof q.breakdown[0] === 'string') {
+          normalizedBreakdown = (q.breakdown as string[]).map((str: string, idx: number) => ({
+            label: `${idx + 1}. lépés`,
+            value: str
+          }));
+        } else {
+          normalizedBreakdown = q.breakdown as { label?: string; value?: string | React.ReactNode }[];
+        }
+      }
+
+      return {
+        ...q,
+        id: String(q.id),
+        prompt: q.prompt || q.question || q.title || q.text || '',
+        question: q.question || q.prompt || q.title || q.text || '',
+        options: rawOpts,
+        correctAnswer: answerStr,
+        breakdown: normalizedBreakdown
+      };
     };
-  }, [normalizedLevels, easyQuestions, mediumQuestions, hardQuestions]);
+
+    if (levels) {
+      if (Array.isArray(levels)) {
+        const map: Partial<Record<DifficultyLevel, LevelConfig>> = {};
+        levels.forEach((cfg, idx) => {
+          const lvl = (cfg.level || (idx + 1)) as DifficultyLevel;
+          map[lvl] = {
+            ...cfg,
+            level: lvl,
+            title: cfg.title || (cfg as any).name || (lvl === 1 ? '1. Szint: Alapok' : lvl === 2 ? '2. Szint: Közepes' : '3. Szint: Haladó'),
+            subtitle: cfg.subtitle || (cfg as any).description || (lvl === 1 ? 'Alapfogalmak és egyszerűbb feladatok' : lvl === 2 ? 'Összefüggések és gyakorlati feladványok' : 'Összetett feladatok és kihívások'),
+            range: cfg.range || (lvl === 1 ? '1 - 10. feladat' : lvl === 2 ? '11 - 20. feladat' : '21 - 30. feladat'),
+            focus: cfg.focus || (lvl === 1 ? 'Alapfogalmak' : lvl === 2 ? 'Gyakorlat & Alkalmazás' : 'Mesterfok & Logika'),
+            questions: (cfg.questions || []).map(normalizeQ)
+          };
+        });
+        return map as Record<DifficultyLevel, LevelConfig>;
+      }
+      const recordMap: Partial<Record<DifficultyLevel, LevelConfig>> = {};
+      Object.keys(levels).forEach((k) => {
+        const lvl = Number(k) as DifficultyLevel;
+        const cfg = levels[lvl];
+        if (cfg) {
+          recordMap[lvl] = {
+            ...cfg,
+            level: lvl,
+            title: cfg.title || (cfg as any).name || (lvl === 1 ? '1. Szint: Alapok' : lvl === 2 ? '2. Szint: Közepes' : '3. Szint: Haladó'),
+            subtitle: cfg.subtitle || (cfg as any).description || (lvl === 1 ? 'Alapfogalmak és egyszerűbb feladatok' : lvl === 2 ? 'Összefüggések és gyakorlati feladványok' : 'Összetett feladatok és kihívások'),
+            range: cfg.range || (lvl === 1 ? '1–10. kérdés' : lvl === 2 ? '11–20. kérdés' : '21–30. kérdés'),
+            focus: cfg.focus || (lvl === 1 ? 'Alapfogalmak' : lvl === 2 ? 'Gyakorlat & Alkalmazás' : 'Mesterfok & Logika'),
+            questions: (cfg.questions || []).map(normalizeQ)
+          };
+        }
+      });
+      return recordMap as Record<DifficultyLevel, LevelConfig>;
+    }
+
+    if (rawQuestions) {
+      if (!Array.isArray(rawQuestions) && typeof rawQuestions === 'object') {
+        const recordQ = rawQuestions as unknown as Record<DifficultyLevel, Question[]>;
+        return {
+          1: {
+            level: 1,
+            title: levelHubProps?.level1?.title || '1. Szint: Alapok',
+            subtitle: levelHubProps?.level1?.subtitle || 'Alapfogalmak és egyszerűbb feladatok',
+            range: levelHubProps?.level1?.range || '1 - 10. feladat',
+            focus: levelHubProps?.level1?.focus || 'Alapfogalmak',
+            questions: (recordQ[1] || []).map(normalizeQ)
+          },
+          2: {
+            level: 2,
+            title: levelHubProps?.level2?.title || '2. Szint: Közepes',
+            subtitle: levelHubProps?.level2?.subtitle || 'Összefüggések és gyakorlati feladványok',
+            range: levelHubProps?.level2?.range || '11 - 20. feladat',
+            focus: levelHubProps?.level2?.focus || 'Gyakorlat & Alkalmazás',
+            questions: (recordQ[2] || []).map(normalizeQ)
+          },
+          3: {
+            level: 3,
+            title: levelHubProps?.level3?.title || '3. Szint: Haladó',
+            subtitle: levelHubProps?.level3?.subtitle || 'Összetett feladatok és logikai kihívások',
+            range: levelHubProps?.level3?.range || '21 - 30. feladat',
+            focus: levelHubProps?.level3?.focus || 'Mesterfok & Logika',
+            questions: (recordQ[3] || []).map(normalizeQ)
+          }
+        };
+      }
+
+      if (Array.isArray(rawQuestions) && rawQuestions.length > 0) {
+        const l1 = rawQuestions.filter(q => q.level === 1).map(normalizeQ);
+        const l2 = rawQuestions.filter(q => q.level === 2).map(normalizeQ);
+        const l3 = rawQuestions.filter(q => q.level === 3).map(normalizeQ);
+
+        const q1List = l1.length > 0 ? l1 : rawQuestions.slice(0, 10).map(normalizeQ);
+        const q2List = l2.length > 0 ? l2 : rawQuestions.slice(10, 20).map(normalizeQ);
+        const q3List = l3.length > 0 ? l3 : rawQuestions.slice(20, 30).map(normalizeQ);
+
+        const r1 = q1List.length === 10 ? '1 - 10. feladat' : `1 - ${q1List.length}. feladat`;
+        const r2 = (q1List.length === 10 && q2List.length === 10) ? '11 - 20. feladat' : `${q1List.length + 1} - ${q1List.length + q2List.length}. feladat`;
+        const r3 = (q1List.length === 10 && q2List.length === 10 && q3List.length === 10) ? '21 - 30. feladat' : `${q1List.length + q2List.length + 1} - ${q1List.length + q2List.length + q3List.length}. feladat`;
+
+        return {
+          1: {
+            level: 1,
+            title: levelHubProps?.level1?.title || '1. Szint: Alapok',
+            subtitle: levelHubProps?.level1?.subtitle || 'Alapfogalmak és egyszerűbb feladatok',
+            range: levelHubProps?.level1?.range || r1,
+            focus: levelHubProps?.level1?.focus || 'Alapfogalmak',
+            questions: q1List
+          },
+          2: {
+            level: 2,
+            title: levelHubProps?.level2?.title || '2. Szint: Közepes',
+            subtitle: levelHubProps?.level2?.subtitle || 'Összefüggések és gyakorlati feladványok',
+            range: levelHubProps?.level2?.range || r2,
+            focus: levelHubProps?.level2?.focus || 'Gyakorlat & Alkalmazás',
+            questions: q2List
+          },
+          3: {
+            level: 3,
+            title: levelHubProps?.level3?.title || '3. Szint: Haladó',
+            subtitle: levelHubProps?.level3?.subtitle || 'Összetett feladatok és logikai kihívások',
+            range: levelHubProps?.level3?.range || r3,
+            focus: levelHubProps?.level3?.focus || 'Mesterfok & Logika',
+            questions: q3List
+          }
+        };
+      }
+    }
+
+    return null;
+  }, [levels, rawQuestions, levelHubProps]);
+
+  const effectiveLevels: Record<DifficultyLevel, LevelConfig> = normalizedLevels || {
+    1: {
+      level: 1,
+      title: levelHubProps?.level1?.title || '1. Szint: Alapok',
+      subtitle: levelHubProps?.level1?.subtitle || 'Alapfogalmak és egyszerűbb számítások',
+      range: levelHubProps?.level1?.range || '1 - 10. feladat',
+      focus: levelHubProps?.level1?.focus || 'Alapfogalmak',
+      questions: (easyQuestions || []).map((q) => ({
+        ...q,
+        id: String(q.id),
+        correctAnswer: typeof q.correctAnswer === 'number' ? String(q.options[q.correctAnswer]) : String(q.correctAnswer)
+      }))
+    },
+    2: {
+      level: 2,
+      title: levelHubProps?.level2?.title || '2. Szint: Közepes',
+      subtitle: levelHubProps?.level2?.subtitle || 'Összefüggések és gyakorlati feladatok',
+      range: levelHubProps?.level2?.range || '11 - 20. feladat',
+      focus: levelHubProps?.level2?.focus || 'Gyakorlat & Alkalmazás',
+      questions: (mediumQuestions || []).map((q) => ({
+        ...q,
+        id: String(q.id),
+        correctAnswer: typeof q.correctAnswer === 'number' ? String(q.options[q.correctAnswer]) : String(q.correctAnswer)
+      }))
+    },
+    3: {
+      level: 3,
+      title: levelHubProps?.level3?.title || '3. Szint: Haladó',
+      subtitle: levelHubProps?.level3?.subtitle || 'Összetett feladatok és logikai kihívások',
+      range: levelHubProps?.level3?.range || '21 - 30. feladat',
+      focus: levelHubProps?.level3?.focus || 'Mesterfok & Logika',
+      questions: (hardQuestions || []).map((q) => ({
+        ...q,
+        id: String(q.id),
+        correctAnswer: typeof q.correctAnswer === 'number' ? String(q.options[q.correctAnswer]) : String(q.correctAnswer)
+      }))
+    }
+  };
+
+  // Normalize Cheat Sheet Cards
+  const normalizedCheatCards: CheatSheetCard[] = useMemo(() => {
+    const cards = [...(cheatSheetCards || [])];
+    if (cheatSheets && cheatSheets.length > 0) {
+      cheatSheets.forEach((cs: any, idx) => {
+        if (cs.content) {
+          cards.push({
+            id: cs.id || `cs-${idx}`,
+            title: cs.title,
+            description: cs.description,
+            formula: cs.formula,
+            color: cs.color,
+            badge: cs.badge,
+            content: cs.content
+          });
+        } else if (cs.items && Array.isArray(cs.items)) {
+          cards.push({
+            id: cs.id || `cs-${idx}`,
+            title: cs.title,
+            description: cs.description,
+            formula: cs.formula,
+            color: cs.color,
+            badge: cs.badge,
+            content: (
+              <ul className="text-xs space-y-1 text-slate-700 dark:text-slate-300">
+                {cs.items.map((it: string, itIdx: number) => (
+                  <li key={itIdx} className="flex items-start gap-1.5">
+                    <span className="text-teal-500 font-bold">•</span>
+                    <span><MathText>{it}</MathText></span>
+                  </li>
+                ))}
+              </ul>
+            )
+          });
+        } else {
+          cards.push({
+            id: cs.id || `cs-${idx}`,
+            title: cs.title,
+            description: cs.description,
+            formula: cs.formula,
+            color: cs.color,
+            badge: cs.badge,
+            content: cs.content || null
+          });
+        }
+      });
+    }
+    return cards;
+  }, [cheatSheetCards, cheatSheets]);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -248,81 +493,108 @@ export function QuizTemplate({
   const [isCompleted, setIsCompleted] = useState(false);
   const [showCheatSheet, setShowCheatSheet] = useState(false);
 
-  // Compute canonical topicId
-  const computedTopicId = useMemo(() => {
-    if (topicId) return topicId;
-    if (subtopicId) {
-      const cleanSub = subtopicId.replace(/^g7-rat-/, '');
-      return `g7-rat-${cleanSub}`;
+  // Auto-save quiz progress when completed
+  useEffect(() => {
+    if (isCompleted && user) {
+      const activeLvlConfig = (selectedLevel ? effectiveLevels?.[selectedLevel] : null) || effectiveLevels?.[1];
+      const totalQ = questions.length || activeLvlConfig?.questions?.length || 10;
+      const percentage = Math.round((score / totalQ) * 100);
+
+      saveQuizProgress({
+        userId: user.uid,
+        studentName: profile?.full_name || user.displayName || 'Diák',
+        studentEmail: profile?.email || user.email || '',
+        userCode: profile?.user_code || '',
+        grade: grade || 7,
+        chapterId: chapterId || 'g7-geom-trans',
+        topicId: computedTopicId,
+        topicTitle: topicTitle || title,
+        gameType: 'quiz',
+        level: selectedLevel || 1,
+        percentage,
+        scorePoints: score,
+        totalQuestions: totalQ,
+        bestStreak
+      });
     }
-    if (documentId) {
-      return documentId
-        .replace(/^grade-7-racionalis-szamok-algebra-/, 'g7-rat-')
-        .replace(/-quiz$/, '');
-    }
-    return (topicBadge || title || 'quiz').toLowerCase().replace(/[^a-z0-9]+/g, '-');
-  }, [topicId, subtopicId, documentId, topicBadge, title]);
+  }, [isCompleted, user, profile, score, bestStreak, selectedLevel, questions, effectiveLevels, grade, chapterId, computedTopicId, topicTitle, title]);
 
-  const computedTopicTitle = useMemo(() => {
-    return topicTitle || title;
-  }, [topicTitle, title]);
-
-  const { getTopicProgress } = useQuizProgress();
-  const currentTopicProgress = useMemo(() => {
-    return getTopicProgress(computedTopicId);
-  }, [getTopicProgress, computedTopicId]);
-
-  // Combine Game Modes with proper props
+  // Combine Game Modes
   const allGameModes: CustomGameMode[] = useMemo(() => {
     const modes = [...(customGameModes || [])];
-    if (matcherComponent && !modes.some(m => m.id === 'matcher')) {
+    if ((matcherComponent || renderMatcher) && !modes.some(m => m.id === 'matcher')) {
       modes.push({
         id: 'matcher',
-        title: 'Kártyás Párosító',
+        title: 'Párosító játék',
         subtitle: 'Keresd meg az összetartozó párokat!',
         icon: <ArrowRightLeft className="w-4 h-4 text-indigo-500" />,
         badgeText: 'Párosítás',
         render: (props) => {
-          if (React.isValidElement(matcherComponent)) {
-            return React.cloneElement(matcherComponent, {
-              level: props?.level ?? selectedLevel ?? 1,
+          const rawLvl = props?.level ?? selectedLevel ?? 1;
+          const lvl: DifficultyLevel = (typeof rawLvl === 'number' ? rawLvl : 1) as DifficultyLevel;
+          if (renderMatcher) {
+            const params = {
+              level: lvl,
               onNextLevel: props?.onNextLevel,
               onOpenRules: props?.onOpenRules,
               onBack: onBack,
               onSwitchToQuiz: () => setGameMode('quiz'),
               onSwitchToSorter: () => setGameMode('sorter'),
-              onSwitchToTheory: onSwitchToTheory,
-              grade: 7,
-              chapterId: 'racionalis-szamok-algebra',
-              topicId: computedTopicId,
-              topicTitle: computedTopicTitle
+              onSwitchToTheory: onSwitchToTheory
+            };
+            return (renderMatcher as any)(params);
+          }
+          if (React.isValidElement(matcherComponent)) {
+            return React.cloneElement(matcherComponent, {
+              key: `matcher-lvl-${lvl}`,
+              level: lvl,
+              currentLevel: lvl,
+              onNextLevel: props?.onNextLevel,
+              onOpenRules: props?.onOpenRules,
+              onBack: onBack,
+              onSwitchToQuiz: () => setGameMode('quiz'),
+              onSwitchToSorter: () => setGameMode('sorter'),
+              onSwitchToTheory: onSwitchToTheory
             } as any);
           }
           return matcherComponent;
         }
       });
     }
-    if (sorterComponent && !modes.some(m => m.id === 'sorter')) {
+    if ((sorterComponent || renderSorter) && !modes.some(m => m.id === 'sorter')) {
       modes.push({
         id: 'sorter',
         title: 'Csoportosító játék',
-        subtitle: 'Válogasd szét a kifejezéseket a kategóriákba!',
+        subtitle: 'Válogasd szét a kategóriákba!',
         icon: <Layers className="w-4 h-4 text-emerald-500" />,
         badgeText: 'Kategorizálás',
         render: (props) => {
-          if (React.isValidElement(sorterComponent)) {
-            return React.cloneElement(sorterComponent, {
-              level: props?.level ?? selectedLevel ?? 1,
+          const rawLvl = props?.level ?? selectedLevel ?? 1;
+          const lvl: DifficultyLevel = (typeof rawLvl === 'number' ? rawLvl : 1) as DifficultyLevel;
+          if (renderSorter) {
+            const params = {
+              level: lvl,
+              currentLevel: lvl,
               onNextLevel: props?.onNextLevel,
               onOpenRules: props?.onOpenRules,
               onBack: onBack,
               onSwitchToQuiz: () => setGameMode('quiz'),
               onSwitchToMatcher: () => setGameMode('matcher'),
-              onSwitchToTheory: onSwitchToTheory,
-              grade: 7,
-              chapterId: 'racionalis-szamok-algebra',
-              topicId: computedTopicId,
-              topicTitle: computedTopicTitle
+              onSwitchToTheory: onSwitchToTheory
+            };
+            return (renderSorter as any)(params);
+          }
+          if (React.isValidElement(sorterComponent)) {
+            return React.cloneElement(sorterComponent, {
+              key: `sorter-lvl-${lvl}`,
+              level: lvl,
+              currentLevel: lvl,
+              onNextLevel: props?.onNextLevel,
+              onOpenRules: props?.onOpenRules,
+              onBack: onBack,
+              onSwitchToQuiz: () => setGameMode('quiz'),
+              onSwitchToMatcher: () => setGameMode('matcher'),
+              onSwitchToTheory: onSwitchToTheory
             } as any);
           }
           return sorterComponent;
@@ -330,7 +602,7 @@ export function QuizTemplate({
       });
     }
     return modes;
-  }, [customGameModes, matcherComponent, sorterComponent, selectedLevel, computedTopicId, computedTopicTitle, onBack, onSwitchToTheory]);
+  }, [customGameModes, matcherComponent, sorterComponent, renderMatcher, renderSorter, selectedLevel, onBack, onSwitchToTheory]);
 
   // Fullscreen toggler
   const toggleFullscreen = async () => {
@@ -379,44 +651,6 @@ export function QuizTemplate({
     }
   }, [isCompleted]);
 
-  // Auto-save quiz progress when completed
-  useEffect(() => {
-    if (isCompleted && user) {
-      const activeLvlConfig = (selectedLevel ? effectiveLevels[selectedLevel] : null) || effectiveLevels[1];
-      const totalQ = questions.length || activeLvlConfig?.questions?.length || 10;
-      const percentage = Math.round((score / totalQ) * 100);
-
-      const g = typeof grade === 'number' ? grade : (grade ? parseInt(String(grade).replace(/\D/g, '')) || 7 : 7);
-      const ch = chapterId || 'racionalis-szamok-algebra';
-      const lvl = selectedLevel || 1;
-
-      saveQuizProgress({
-        userId: user.uid,
-        studentName: profile?.full_name || user.displayName || 'Diák',
-        studentEmail: profile?.email || user.email || '',
-        userCode: profile?.user_code || '',
-        grade: g,
-        chapterId: ch,
-        topicId: computedTopicId,
-        topicTitle: computedTopicTitle,
-        quizId: `g${g}__${ch}__${computedTopicId}__quiz__lvl${lvl}`,
-        gameType: 'quiz',
-        level: lvl,
-        title: title,
-        percentage: percentage,
-        score: percentage,
-        scorePoints: score,
-        totalQuestions: totalQ,
-        bestStreak: bestStreak,
-        completed: true
-      })
-        .then(() => {
-          setIsSavedToProfile(true);
-        })
-        .catch((err) => console.error('Failed to auto-save quiz progress:', err));
-    }
-  }, [isCompleted, user, profile, score, questions.length, selectedLevel, title, computedTopicTitle, computedTopicId, grade, chapterId, bestStreak, effectiveLevels]);
-
   const handleStartLevel = (level: DifficultyLevel, mode: GameMode = gameMode) => {
     setSelectedLevel(level);
     setGameMode(mode);
@@ -430,29 +664,28 @@ export function QuizTemplate({
 
     const levelQuestions = effectiveLevels[level]?.questions || [];
     const prepared = levelQuestions.map((q) => {
-      const originalOptions = Array.isArray(q.options) ? q.options : [];
-      let resolvedCorrectAnswer = q.correctAnswer;
-      if (typeof q.correctAnswer === 'number' && originalOptions[q.correctAnswer] !== undefined) {
-        resolvedCorrectAnswer = originalOptions[q.correctAnswer];
-      }
+      const rawOpts = q.options || (q as any).answers || [];
+      const correctVal = typeof q.correctAnswer === 'number'
+        ? rawOpts[q.correctAnswer]
+        : (q.correctAnswer ?? (q as any).correct_answer);
       return {
         ...q,
-        correctAnswer: resolvedCorrectAnswer,
-        options: shuffleArray(originalOptions)
+        correctAnswer: correctVal,
+        options: shuffleArray(rawOpts)
       };
     });
     setQuestions(prepared);
   };
 
-  const handleOptionClick = (option: string) => {
+  const handleOptionClick = (option: string | React.ReactNode) => {
     if (isAnswerChecked) return;
-    setSelectedOption(option);
+    setSelectedOption(String(option));
     setIsAnswerChecked(true);
 
     const currentQ = questions[currentIndex] || (selectedLevel ? effectiveLevels[selectedLevel]?.questions[currentIndex] : null);
     if (!currentQ) return;
 
-    const isCorrect = option === currentQ.correctAnswer;
+    const isCorrect = String(option).trim() === String(currentQ.correctAnswer).trim();
 
     if (isCorrect) {
       const nextScore = score + 1;
@@ -509,9 +742,15 @@ export function QuizTemplate({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [gameMode, isAnswerChecked, isCompleted, selectedLevel, currentIndex, questions]);
 
-  const hasCheatSheet = (cheatSheet && cheatSheet.length > 0) || (cheatSheetCards && cheatSheetCards.length > 0);
+  const hasCheatSheet = Boolean(
+    (cheatSheet && cheatSheet.length > 0) ||
+    (normalizedCheatCards && normalizedCheatCards.length > 0) ||
+    cheatSheetContent
+  );
 
-  // 1. Initial Level Selection Screen (Compact Single-Screen Layout)
+  // =========================================================================
+  // 1. Initial Level Selection Screen (Established Hero & 3 Difficulty Cards)
+  // =========================================================================
   if (selectedLevel === null) {
     return (
       <div
@@ -523,14 +762,14 @@ export function QuizTemplate({
       >
         {/* Top bar with back button, theory button, fullscreen and cheat sheet */}
         <div className="flex flex-wrap items-center justify-between gap-1.5 mb-1.5">
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
               onClick={onBack}
-              className="rounded-xl h-7 px-2 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white cursor-pointer"
+              className="rounded-xl h-8 px-2.5 text-xs font-bold border-2 border-indigo-200/90 dark:border-indigo-800/80 bg-gradient-to-r from-blue-50/80 to-indigo-50/80 dark:bg-slate-850 text-indigo-900 dark:text-indigo-200 hover:bg-indigo-100 hover:border-indigo-400 shadow-2xs"
             >
-              <ArrowLeft className="w-3.5 h-3.5 mr-1" />
+              <ArrowLeft className="w-3.5 h-3.5 mr-1 text-indigo-600 dark:text-indigo-400" />
               Vissza a témakörökhöz
             </Button>
 
@@ -539,30 +778,35 @@ export function QuizTemplate({
                 variant="outline"
                 size="sm"
                 onClick={onSwitchToTheory}
-                className="rounded-xl h-7 px-2 text-xs font-bold text-purple-700 bg-purple-50/50 border-purple-200 dark:bg-purple-950/40 dark:text-purple-300 dark:border-purple-800 hover:bg-purple-100 cursor-pointer"
+                className="rounded-xl h-8 px-2.5 text-xs font-bold text-violet-900 bg-gradient-to-r from-violet-50/80 to-purple-50/80 border-2 border-violet-200 dark:bg-slate-850 dark:text-violet-300 dark:border-violet-800 hover:bg-violet-100 shadow-2xs"
               >
-                <BookOpen className="w-3 h-3 mr-1" />
+                <BookOpen className="w-3.5 h-3.5 mr-1 text-violet-600" />
                 Tananyag
               </Button>
             )}
           </div>
 
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
             <Button
               variant="outline"
               size="sm"
               onClick={toggleFullscreen}
-              className="rounded-xl h-7 px-2 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white cursor-pointer"
+              className={cn(
+                "rounded-xl h-8 px-2.5 text-xs font-bold border-2 transition-all shadow-2xs",
+                isFullscreen
+                  ? "border-teal-500 bg-gradient-to-r from-teal-500 to-emerald-600 text-white shadow-xs"
+                  : "border-teal-200/90 dark:border-teal-800/80 bg-gradient-to-r from-teal-50/80 to-cyan-50/80 dark:bg-slate-850 text-teal-900 dark:text-teal-200 hover:bg-teal-100"
+              )}
               title={isFullscreen ? "Kilépés a teljes képernyőből" : "Teljes képernyő"}
             >
               {isFullscreen ? (
                 <>
-                  <Minimize2 className="w-3 h-3 mr-1" />
+                  <Minimize2 className="w-3.5 h-3.5 mr-1 text-white" />
                   Ablak
                 </>
               ) : (
                 <>
-                  <Maximize2 className="w-3 h-3 mr-1" />
+                  <Maximize2 className="w-3.5 h-3.5 mr-1 text-teal-600 dark:text-teal-400" />
                   Teljes képernyő
                 </>
               )}
@@ -573,10 +817,10 @@ export function QuizTemplate({
                 variant="outline"
                 size="sm"
                 onClick={() => setShowCheatSheet(!showCheatSheet)}
-                className="rounded-xl h-7 px-2.5 text-xs font-bold border-purple-300 bg-purple-50/50 text-purple-800 dark:bg-purple-950/40 dark:text-purple-300 dark:border-purple-800 hover:bg-purple-100 cursor-pointer"
+                className="rounded-xl h-7 px-2.5 text-xs font-bold border-teal-300 bg-teal-50/50 text-teal-800 dark:bg-teal-950/40 dark:text-teal-300 dark:border-teal-800 hover:bg-teal-100"
               >
-                <Sparkles className="w-3 h-3 mr-1 text-purple-600" />
-                {cheatSheetTitle || "Szabályok & Képletek"}
+                <Compass className="w-3 h-3 mr-1 text-teal-600" />
+                {cheatSheetTitle || "Képtár & Segédlet"}
               </Button>
             )}
           </div>
@@ -584,11 +828,11 @@ export function QuizTemplate({
 
         {/* Hero Header */}
         <div className="text-center max-w-2xl mx-auto mb-2 sm:mb-2.5">
-          <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider mb-1 border border-purple-200 dark:border-purple-800 bg-purple-100/80 dark:bg-purple-950/60 text-purple-800 dark:text-purple-300">
-            <span>{topicBadge || badgeText || '7. Osztály • Matematika'}</span>
+          <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider mb-1 border border-teal-200 dark:border-teal-800 bg-teal-100/80 dark:bg-teal-950/60 text-teal-800 dark:text-teal-300">
+            <span>{topicBadge || badgeText || '📐 7. Osztály • III. Geometriai transzformációk'}</span>
             <span className="opacity-40">•</span>
-            <span className="font-extrabold flex items-center gap-1 text-purple-700 dark:text-purple-300">
-              <Sparkles className="w-3 h-3 text-purple-500" /> Gyakorló Kvíz
+            <span className="font-extrabold flex items-center gap-1 text-teal-700 dark:text-teal-300">
+              <Sparkles className="w-3 h-3 text-teal-500" /> Gyakorló Kvíz
             </span>
           </div>
           <h1 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white tracking-tight flex items-center justify-center gap-1.5 mb-1">
@@ -596,82 +840,119 @@ export function QuizTemplate({
             <span>{title}</span>
           </h1>
 
-          {/* Quick Mode Switcher in selection */}
-          {allGameModes && allGameModes.length > 0 && (
-            <div className="inline-flex flex-wrap items-center justify-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl mt-1 border border-slate-200 dark:border-slate-700 shadow-xs">
+            <div className="inline-flex flex-wrap items-center justify-center gap-1.5 bg-slate-100 dark:bg-slate-800 p-1.5 rounded-2xl mt-1 border-2 border-slate-200/80 dark:border-slate-700 shadow-xs">
               <button
                 onClick={() => setGameMode('quiz')}
                 className={cn(
-                  "flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer",
+                  "flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer border-2",
                   gameMode === 'quiz'
-                    ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs"
-                    : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
+                    ? "bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-500 text-blue-950 dark:from-blue-950 dark:to-indigo-950 dark:text-blue-100 shadow-xs"
+                    : "border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-200/60 dark:hover:bg-slate-700"
                 )}
               >
-                <FileQuestion className="w-3.5 h-3.5 text-purple-500" />
-                Kvíz
+                <div className={cn(
+                  "w-5 h-5 rounded-md flex items-center justify-center text-white shrink-0",
+                  gameMode === 'quiz' ? "bg-gradient-to-br from-blue-500 to-indigo-600" : "bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400"
+                )}>
+                  <FileQuestion className="w-3.5 h-3.5" />
+                </div>
+                <span>Kvíz</span>
               </button>
-              {allGameModes.map((mode) => (
-                <button
-                  key={mode.id}
-                  onClick={() => {
-                    if (mode.onClick) {
-                      mode.onClick();
-                    } else {
-                      setGameMode(mode.id);
-                    }
-                  }}
-                  className={cn(
-                    "flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer",
-                    gameMode === mode.id
-                      ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs"
-                      : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
-                  )}
-                >
-                  {mode.icon || (mode.id === 'matcher' ? <ArrowRightLeft className="w-3.5 h-3.5 text-indigo-500" /> : mode.id === 'sorter' ? <Layers className="w-3.5 h-3.5 text-emerald-500" /> : <LayoutGrid className="w-3.5 h-3.5 text-emerald-500" />)}
-                  {mode.id === 'matcher' ? 'Párosító játék' : mode.id === 'sorter' ? 'Csoportosító játék' : mode.title}
-                </button>
-              ))}
+              {allGameModes.map((mode) => {
+                const isMatcher = mode.id === 'matcher';
+                const isSorter = mode.id === 'sorter';
+                const isActive = gameMode === mode.id;
+
+                return (
+                  <button
+                    key={mode.id}
+                    onClick={() => {
+                      if (mode.onClick) {
+                        mode.onClick();
+                      } else {
+                        setGameMode(mode.id);
+                      }
+                    }}
+                    className={cn(
+                      "flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer border-2",
+                      isActive
+                        ? isSorter
+                          ? "bg-gradient-to-r from-purple-50 to-fuchsia-50 border-purple-500 text-purple-950 dark:from-purple-950 dark:to-fuchsia-950 dark:text-purple-100 shadow-xs"
+                          : "bg-gradient-to-r from-teal-50 to-emerald-50 border-teal-500 text-teal-950 dark:from-teal-950 dark:to-emerald-950 dark:text-teal-100 shadow-xs"
+                        : "border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-200/60 dark:hover:bg-slate-700"
+                    )}
+                  >
+                    <div className={cn(
+                      "w-5 h-5 rounded-md flex items-center justify-center shrink-0",
+                      isActive
+                        ? isSorter
+                          ? "bg-gradient-to-br from-purple-500 to-fuchsia-600 text-white"
+                          : "bg-gradient-to-br from-teal-500 to-emerald-600 text-white"
+                        : isSorter
+                          ? "bg-purple-100 dark:bg-purple-950 text-purple-600 dark:text-purple-400"
+                          : "bg-teal-100 dark:bg-teal-950 text-teal-600 dark:text-teal-400"
+                    )}>
+                      {isMatcher ? (
+                        <ArrowRightLeft className="w-3.5 h-3.5" />
+                      ) : isSorter ? (
+                        <LayoutGrid className="w-3.5 h-3.5" />
+                      ) : (
+                        mode.icon || <LayoutGrid className="w-3.5 h-3.5" />
+                      )}
+                    </div>
+                    <span>{mode.id === 'matcher' ? 'Párosító játék' : mode.id === 'sorter' ? 'Csoportosító játék' : mode.title}</span>
+                  </button>
+                );
+              })}
             </div>
-          )}
         </div>
 
         {/* Cheat sheet popover/card */}
         {showCheatSheet && hasCheatSheet && (
-          <div className="mb-2.5 p-3 sm:p-4 bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-slate-900 dark:to-slate-850 rounded-xl border-2 border-purple-200 dark:border-purple-900/60 shadow-md animate-in fade-in duration-200">
+          <div className="mb-3 p-3 sm:p-4 bg-gradient-to-br from-teal-50 to-blue-50 dark:from-slate-900 dark:to-slate-850 rounded-xl border-2 border-teal-200 dark:border-teal-900/60 shadow-md animate-in fade-in duration-200">
             <div className="flex items-center justify-between mb-2">
-              <h3 className="text-xs sm:text-sm font-black text-purple-900 dark:text-purple-200 flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-purple-600" />
-                {cheatSheetTitle || "Kvíz Segédlet & Tudástár"}
+              <h3 className="text-xs sm:text-sm font-black text-teal-900 dark:text-teal-200 flex items-center gap-1.5">
+                <Compass className="w-3.5 h-3.5 text-teal-600" />
+                {cheatSheetTitle || "Geometriai Képtár & Képlettár"}
               </h3>
               <Button
                 size="sm"
                 variant="ghost"
                 onClick={() => setShowCheatSheet(false)}
-                className="text-purple-800 dark:text-purple-300 hover:bg-purple-200/50 rounded-lg h-6 px-2 text-xs cursor-pointer"
+                className="text-teal-800 dark:text-teal-300 hover:bg-teal-200/50 rounded-lg h-6 px-2 text-xs"
               >
                 Bezárás
               </Button>
             </div>
+            {cheatSheetContent && (
+              <div className="mb-2">
+                {cheatSheetContent}
+              </div>
+            )}
             {cheatSheet && cheatSheet.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 mb-2">
                 {cheatSheet.map((item, idx) => (
-                  <div key={idx} className="bg-white/95 dark:bg-slate-800/95 p-2 rounded-lg border border-purple-100 dark:border-slate-700 shadow-xs text-left">
-                    <div className="text-[11px] font-black text-purple-600 dark:text-purple-400">{item.topic}</div>
+                  <div key={idx} className="bg-white/95 dark:bg-slate-800/95 p-2 rounded-lg border border-teal-100 dark:border-slate-700 shadow-xs text-left">
+                    <div className="text-[11px] font-black text-teal-600 dark:text-teal-400">{item.topic}</div>
                     <div className="text-[11px] font-mono font-bold text-slate-800 dark:text-slate-100 mt-0.5"><MathText>{item.formula}</MathText></div>
                     <div className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5"><MathText>{item.note}</MathText></div>
                   </div>
                 ))}
               </div>
             )}
-            {cheatSheetCards && cheatSheetCards.length > 0 && (
+            {normalizedCheatCards && normalizedCheatCards.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-                {cheatSheetCards.map((card, idx) => (
-                  <div key={card.id || idx} className="bg-white/95 dark:bg-slate-800/95 p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 shadow-xs text-left space-y-1">
+                {normalizedCheatCards.map((card, idx) => (
+                  <div key={card.id || idx} className="bg-white/95 dark:bg-slate-800/95 p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 shadow-xs text-left space-y-1.5">
                     <div className="flex items-center gap-1.5 font-bold text-xs text-slate-900 dark:text-slate-100">
-                      {card.icon}
+                      {card.icon || <Compass className="w-3.5 h-3.5 text-teal-600" />}
                       <span>{card.title}</span>
                     </div>
+                    {card.figure && (
+                      <div className="flex items-center justify-center p-1.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800">
+                        {card.figure}
+                      </div>
+                    )}
                     {card.content ? (
                       <div>{card.content}</div>
                     ) : (
@@ -696,22 +977,22 @@ export function QuizTemplate({
             const activeCustomMode = allGameModes?.find(m => m.id === gameMode);
             const customLvl = activeCustomMode?.levels?.[level];
 
-            const badgeBg = cfg.badgeBg || (level === 1 ? 'bg-emerald-50 dark:bg-emerald-950/40' : level === 2 ? 'bg-amber-50 dark:bg-amber-950/40' : 'bg-purple-50 dark:bg-purple-950/40');
-            const badgeBorder = cfg.badgeBorder || (level === 1 ? 'border-emerald-200 dark:border-emerald-800' : level === 2 ? 'border-amber-200 dark:border-amber-800' : 'border-purple-200 dark:border-purple-800');
-            const badgeText = cfg.badgeText || (level === 1 ? 'text-emerald-700 dark:text-emerald-300' : level === 2 ? 'text-amber-700 dark:text-amber-300' : 'text-purple-700 dark:text-purple-300');
-            const iconBg = cfg.iconBg || (level === 1 ? 'bg-emerald-600 text-white' : level === 2 ? 'bg-amber-600 text-white' : 'bg-purple-600 text-white');
+            const badgeBg = cfg.badgeBg || (level === 1 ? 'bg-emerald-50 dark:bg-emerald-950/40' : level === 2 ? 'bg-teal-50 dark:bg-teal-950/40' : 'bg-purple-50 dark:bg-purple-950/40');
+            const badgeBorder = cfg.badgeBorder || (level === 1 ? 'border-emerald-200 dark:border-emerald-800' : level === 2 ? 'border-teal-200 dark:border-teal-800' : 'border-purple-200 dark:border-purple-800');
+            const badgeText = cfg.badgeText || (level === 1 ? 'text-emerald-700 dark:text-emerald-300' : level === 2 ? 'text-teal-700 dark:text-teal-300' : 'text-purple-700 dark:text-purple-300');
+            const iconBg = cfg.iconBg || (level === 1 ? 'bg-emerald-600 text-white' : level === 2 ? 'bg-teal-600 text-white' : 'bg-purple-600 text-white');
 
             const cardTitle = customLvl?.title || (gameMode === 'matcher'
-              ? (level === 1 ? '1. Szint: Alapfogalmak és Párok' : level === 2 ? '2. Szint: Műveletek és Szabályok' : '3. Szint: Összetett és Felvételi Feladatok')
+              ? (level === 1 ? '1. Szint: Alapfogalmak és Invariánsok' : level === 2 ? '2. Szint: Koordinátageometria és Szabályok' : '3. Szint: Összetett és Felvételi Feladatok')
               : gameMode === 'sorter'
-              ? (level === 1 ? '1. Szint: Alapvető Csoportosítás' : level === 2 ? '2. Szint: Műveleti Tulajdonságok' : '3. Szint: Összetett Kategóriák')
-              : (cfg.title || (level === 1 ? '1. Szint: Alapok' : level === 2 ? '2. Szint: Közepes' : '3. Szint: Haladó')));
+              ? (level === 1 ? '1. Szint: A 4 Alapvető Egybevágóság' : level === 2 ? '2. Szint: Koordinátageometria és Tükrözések' : '3. Szint: Háromszögek Egybevágósági Esetei')
+              : (cfg.title || (cfg as any).name || (level === 1 ? '1. Szint: Alapok' : level === 2 ? '2. Szint: Közepes' : '3. Szint: Haladó')));
 
             const cardSubtitle = customLvl?.subtitle || (gameMode === 'matcher'
-              ? (level === 1 ? 'Párosítsd az alapvető fogalmakat és egyszerű kifejezéseket!' : level === 2 ? 'Párosítsd a műveleteket és algebrai kifejezéseket!' : 'Párosítsd az összetett összefüggéseket és feladványokat!')
+              ? (level === 1 ? 'Párosítsd a transzformációk fogalmait és alapvető tulajdonságait!' : level === 2 ? 'Párosítsd a pontok koordinátáit és az algebrai szabályokat!' : 'Párosítsd az összetett összefüggéseket és geometriai tételeket!')
               : gameMode === 'sorter'
-              ? (level === 1 ? 'Sorold be a kifejezéseket a megfelelő csoportokba!' : level === 2 ? 'Kategorizáld a műveleteket és algebrai alakokat!' : 'Sorold be a feltételeket és összetett kifejezéseket!')
-              : (cfg.subtitle || (level === 1 ? 'Alapfogalmak és egyszerűbb számítások' : level === 2 ? 'Összefüggések és gyakorlati feladványok' : 'Összetett feladatok és algebrai kihívások')));
+              ? (level === 1 ? 'Sorold be a tulajdonságokat és ábrákat a 4 transzformációhoz!' : level === 2 ? 'Kategorizáld a koordináta-változásokat és a tengelyes tükrözéseket!' : 'Sorold be a feltételeket a megfelelő egybevágósági alapesethez!')
+              : (cfg.subtitle || (cfg as any).description || (level === 1 ? 'Alapfogalmak és egyszerűbb számítások' : level === 2 ? 'Összefüggések és gyakorlati feladványok' : 'Összetett feladatok és geometriai kihívások')));
 
             let rangeLabel = 'Tartomány:';
             let rangeValue = cfg.range || (level === 1 ? '1–10. feladat' : level === 2 ? '11–20. feladat' : '21–30. feladat');
@@ -725,8 +1006,8 @@ export function QuizTemplate({
                 || (matcherComponent as any)?.type?.levels
                 || (matcherComponent as any)?.type?.MATCHER_LEVELS;
               const realPairCount = matcherLevelsData?.[level]?.pairs?.length;
-              rangeValue = realPairCount ? `${realPairCount} pár (${realPairCount * 2} kártya)` : '8 pár (16 kártya)';
-              focusValue = level === 1 ? 'Alaptulajdonságok' : level === 2 ? 'Műveleti szabályok' : 'Összetett kifejezések';
+              rangeValue = realPairCount ? `${realPairCount} pár (${realPairCount * 2} kártya)` : '10 pár (20 kártya)';
+              focusValue = level === 1 ? 'Alaptulajdonságok' : level === 2 ? 'Koordináta-szabályok' : 'Összetett alakzatok';
             } else if (gameMode === 'sorter') {
               rangeLabel = 'Besorolás:';
               const sorterLevelsData = (sorterComponent as any)?.props?.levels
@@ -736,8 +1017,8 @@ export function QuizTemplate({
                 || (sorterComponent as any)?.type?.SORTER_LEVELS;
               const realCats = sorterLevelsData?.[level]?.categories?.length;
               const realItems = sorterLevelsData?.[level]?.items?.length;
-              rangeValue = realCats ? `${realItems ? `${realItems} elem • ` : ''}${realCats} csoport` : '10 elem • 3 csoport';
-              focusValue = level === 1 ? 'Alapcsoportok' : level === 2 ? 'Műveletek' : 'Összetett kategóriák';
+              rangeValue = realCats ? `${realItems ? `${realItems} elem • ` : ''}${realCats} csoport` : (level === 1 ? '12 elem • 4 csoport' : '12 elem • 3 csoport');
+              focusValue = level === 1 ? '4 Transzformáció' : level === 2 ? 'Tükrözések koordinátái' : 'Egybevágósági esetek';
             } else if (gameMode !== 'quiz') {
               rangeLabel = 'Feladat:';
               rangeValue = activeCustomMode?.badgeText || 'Interaktív feladat';
@@ -753,9 +1034,9 @@ export function QuizTemplate({
               <div
                 key={level}
                 onClick={() => handleStartLevel(level, gameMode)}
-                className="group relative bg-white dark:bg-slate-900 rounded-xl p-3.5 sm:p-4 border-2 border-slate-200/80 dark:border-slate-800 hover:border-purple-500 dark:hover:border-purple-500 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer flex flex-col justify-between overflow-hidden"
+                className="group relative bg-white dark:bg-slate-900 rounded-xl p-3.5 sm:p-4 border-2 border-slate-200/80 dark:border-slate-800 hover:border-teal-500 dark:hover:border-teal-500 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer flex flex-col justify-between overflow-hidden"
               >
-                <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-purple-500/10 to-transparent rounded-bl-full pointer-events-none group-hover:scale-110 transition-transform" />
+                <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-teal-500/10 to-transparent rounded-bl-full pointer-events-none group-hover:scale-110 transition-transform" />
 
                 <div>
                   <div className="flex items-center justify-between mb-2">
@@ -768,7 +1049,7 @@ export function QuizTemplate({
                     </span>
                   </div>
 
-                  <h3 className="text-sm sm:text-base font-black text-slate-900 dark:text-white mb-0.5 leading-snug group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                  <h3 className="text-sm sm:text-base font-black text-slate-900 dark:text-white mb-0.5 leading-snug group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
                     {cardTitle}
                   </h3>
 
@@ -779,11 +1060,13 @@ export function QuizTemplate({
                   <div className="space-y-1 pt-1.5 border-t border-slate-100 dark:border-slate-800 mb-2">
                     <div className="flex items-center justify-between text-[11px]">
                       <span className="text-slate-500 dark:text-slate-400">{rangeLabel}</span>
-                      <span className="font-bold text-slate-800 dark:text-slate-200">{rangeValue}</span>
+                      <span className="font-bold text-slate-800 dark:text-slate-200">
+                        {rangeValue}
+                      </span>
                     </div>
                     <div className="flex items-center justify-between text-[11px]">
                       <span className="text-slate-500 dark:text-slate-400">Fókusz:</span>
-                      <span className="font-bold text-purple-600 dark:text-purple-400 text-right truncate max-w-[130px]" title={focusValue}>
+                      <span className="font-bold text-teal-600 dark:text-teal-400 text-right truncate max-w-[140px]" title={focusValue}>
                         <MathText size="sm">{focusValue}</MathText>
                       </span>
                     </div>
@@ -803,7 +1086,7 @@ export function QuizTemplate({
                             lvlScore === 100
                               ? "bg-emerald-50 dark:bg-emerald-950/60 border-emerald-300 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300"
                               : lvlScore >= 70
-                              ? "bg-amber-50 dark:bg-amber-950/60 border-amber-300 dark:border-amber-800 text-amber-700 dark:text-amber-300"
+                              ? "bg-teal-50 dark:bg-teal-950/60 border-teal-300 dark:border-teal-800 text-teal-700 dark:text-teal-300"
                               : "bg-rose-50 dark:bg-rose-950/60 border-rose-300 dark:border-rose-800 text-rose-700 dark:text-rose-300"
                           )}>
                             <span className="font-sans text-[10px] font-bold text-slate-500 dark:text-slate-400">Eredményed:</span>
@@ -843,7 +1126,7 @@ export function QuizTemplate({
                     level === 1
                       ? "bg-emerald-600 hover:bg-emerald-700 text-white"
                       : level === 2
-                      ? "bg-amber-600 hover:bg-amber-700 text-white"
+                      ? "bg-teal-600 hover:bg-teal-700 text-white"
                       : "bg-purple-600 hover:bg-purple-700 text-white"
                   )}
                 >
@@ -858,7 +1141,9 @@ export function QuizTemplate({
     );
   }
 
-  // 2. Completion Screen
+  // =========================================================================
+  // 2. Completion Screen (Result & Stats)
+  // =========================================================================
   const levelConfig = (selectedLevel ? effectiveLevels[selectedLevel] : null) || effectiveLevels[1];
   const totalQuestions = questions.length || levelConfig?.questions?.length || 10;
 
@@ -877,7 +1162,7 @@ export function QuizTemplate({
       >
         <div className="bg-white dark:bg-slate-900 rounded-3xl p-4 sm:p-6 border-2 border-slate-200/80 dark:border-slate-800 shadow-xl max-w-lg w-full mx-auto">
           {/* Trophy Badge */}
-          <div className="w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-2 rounded-2xl bg-gradient-to-br from-amber-400 to-purple-600 flex items-center justify-center text-white shadow-md shadow-purple-500/20">
+          <div className="w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-2 rounded-2xl bg-gradient-to-br from-teal-400 to-blue-600 flex items-center justify-center text-white shadow-md shadow-teal-500/20">
             <Trophy className="w-7 h-7 sm:w-8 sm:h-8" />
           </div>
 
@@ -892,7 +1177,7 @@ export function QuizTemplate({
           <div className="grid grid-cols-3 gap-2 bg-slate-50 dark:bg-slate-800/60 p-2.5 rounded-2xl border border-slate-200/80 dark:border-slate-700/80 mb-2.5">
             <div>
               <div className="text-[10px] uppercase font-bold text-slate-400 mb-0.5">Pontszám</div>
-              <div className="text-lg sm:text-xl font-black text-purple-600 dark:text-purple-400 font-mono">{score} / {totalQuestions}</div>
+              <div className="text-lg sm:text-xl font-black text-teal-600 dark:text-teal-400 font-mono">{score} / {totalQuestions}</div>
             </div>
             <div className="border-x border-slate-200 dark:border-slate-700">
               <div className="text-[10px] uppercase font-bold text-slate-400 mb-0.5">Eredmény</div>
@@ -919,7 +1204,7 @@ export function QuizTemplate({
             {selectedLevel < 3 && (
               <Button
                 onClick={() => handleStartLevel((selectedLevel + 1) as DifficultyLevel, 'quiz')}
-                className="flex-1 h-9 sm:h-10 rounded-xl text-xs sm:text-sm font-bold bg-purple-600 hover:bg-purple-700 text-white shadow-sm flex items-center justify-center gap-1.5"
+                className="flex-1 h-9 sm:h-10 rounded-xl text-xs sm:text-sm font-bold bg-teal-600 hover:bg-teal-700 text-white shadow-sm flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 Következő szint: {selectedLevel + 1}. szint
                 <ArrowRight className="w-3.5 h-3.5 ml-0.5" />
@@ -929,7 +1214,7 @@ export function QuizTemplate({
             <Button
               variant="outline"
               onClick={() => handleStartLevel(selectedLevel, 'quiz')}
-              className="flex-1 h-9 sm:h-10 rounded-xl text-xs sm:text-sm font-bold border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="flex-1 h-9 sm:h-10 rounded-xl text-xs sm:text-sm font-bold border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
             >
               <RotateCcw className="w-3.5 h-3.5 mr-1 text-slate-500" />
               Újrapróbálom
@@ -942,7 +1227,7 @@ export function QuizTemplate({
               variant="ghost"
               size="sm"
               onClick={() => setSelectedLevel(null)}
-              className="h-7 sm:h-8 px-2.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-1"
+              className="h-7 sm:h-8 px-2.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-1 cursor-pointer"
             >
               <Layers className="w-3.5 h-3.5 text-slate-400" />
               <span>Szintek</span>
@@ -953,7 +1238,7 @@ export function QuizTemplate({
                 variant="ghost"
                 size="sm"
                 onClick={onSwitchToTheory}
-                className="h-7 sm:h-8 px-2.5 rounded-lg text-xs font-bold text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-950/40 flex items-center gap-1"
+                className="h-7 sm:h-8 px-2.5 rounded-lg text-xs font-bold text-teal-600 dark:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-950/40 flex items-center gap-1 cursor-pointer"
               >
                 <BookOpen className="w-3.5 h-3.5" />
                 <span>Vissza a tananyaghoz</span>
@@ -964,7 +1249,7 @@ export function QuizTemplate({
               variant="ghost"
               size="sm"
               onClick={onBack}
-              className="h-7 sm:h-8 px-2.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-1"
+              className="h-7 sm:h-8 px-2.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-1 cursor-pointer"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>Vissza a témakörökhöz</span>
@@ -975,7 +1260,9 @@ export function QuizTemplate({
     );
   }
 
+  // =========================================================================
   // 3. Active View with Right-side Wordwall Sidebar
+  // =========================================================================
   const currentQuestion = questions[currentIndex] || levelConfig?.questions[currentIndex];
   const activeCustomMode = allGameModes.find(m => m.id === gameMode);
 
@@ -1062,11 +1349,11 @@ export function QuizTemplate({
               className={cn(
                 "flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-black transition-all cursor-pointer",
                 gameMode === 'quiz'
-                  ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-xs"
+                  ? "bg-white dark:bg-slate-900 text-teal-600 dark:text-teal-400 shadow-xs"
                   : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
               )}
             >
-              <FileQuestion className="w-3.5 h-3.5 text-purple-500" />
+              <FileQuestion className="w-3.5 h-3.5 text-teal-500" />
               <span>Kvíz</span>
             </button>
             {allGameModes.map((mode) => (
@@ -1079,7 +1366,7 @@ export function QuizTemplate({
                 className={cn(
                   "flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-black transition-all cursor-pointer",
                   gameMode === mode.id
-                    ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-xs"
+                    ? "bg-white dark:bg-slate-900 text-teal-600 dark:text-teal-400 shadow-xs"
                     : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
                 )}
               >
@@ -1133,23 +1420,23 @@ export function QuizTemplate({
               <div className="space-y-1">
                 <div className="flex items-center justify-between text-[11px] font-bold text-slate-500 dark:text-slate-400 px-1">
                   <span>{levelConfig.title} feladványai</span>
-                  <span>{currentIndex + 1} / {levelConfig.questions.length}</span>
+                  <span className="font-mono text-teal-700 dark:text-teal-300 font-black">{currentIndex + 1} / {levelConfig.questions.length}</span>
                 </div>
                 <ProgressBar
                   current={currentIndex + 1}
                   total={levelConfig.questions.length}
-                  color={selectedLevel === 1 ? 'emerald' : selectedLevel === 2 ? 'amber' : 'purple'}
+                  color={selectedLevel === 1 ? 'emerald' : selectedLevel === 2 ? 'teal' : 'purple'}
                 />
               </div>
 
               {/* 2-Column Responsive Workspace Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 items-start">
-                {/* Left: Question Card + Explanation */}
+                {/* Left: Question Card + Visual Figure + Explanation */}
                 <div className="flex flex-col gap-2.5">
                   <Card className="border-2 border-indigo-200 dark:border-indigo-900/70 rounded-2xl shadow-sm overflow-hidden bg-gradient-to-b from-white via-indigo-50/15 to-white dark:from-slate-900 dark:via-slate-900 dark:to-slate-900">
                     <div className="px-3.5 py-2.5 bg-gradient-to-r from-indigo-50 via-blue-50 to-white dark:from-slate-800 dark:to-slate-850 border-b border-indigo-100 dark:border-indigo-900/60 flex items-center justify-between">
                       <span className="px-2.5 py-0.5 rounded-full bg-indigo-600 text-white text-[10px] font-black uppercase tracking-wider shadow-2xs">
-                        {currentIndex + 1}. Kérdés • {currentQuestion.questionTypeBadge || 'Algebra'}
+                        {currentIndex + 1}. Kérdés • {currentQuestion.questionTypeBadge || 'Geometria'}
                       </span>
                       <span className={cn(
                         "text-[10px] font-bold px-2 py-0.5 rounded-md border",
@@ -1168,7 +1455,7 @@ export function QuizTemplate({
                         </p>
                       </div>
 
-                      {/* Visual Figure Support */}
+                      {/* Visual Figure for Geometry */}
                       {currentQuestion.figure && (
                         <div className="flex items-center justify-center p-3 rounded-2xl bg-gradient-to-b from-white to-indigo-50/40 dark:from-slate-900 dark:to-slate-850 border-2 border-indigo-100 dark:border-indigo-900/40 max-h-[220px] overflow-hidden shadow-inner">
                           {currentQuestion.figure}
@@ -1177,23 +1464,23 @@ export function QuizTemplate({
                     </CardContent>
                   </Card>
 
-                  {/* Explanation Feedback Card */}
+                  {/* Explanation Feedback Card (stays on the left) */}
                   {isAnswerChecked && (
                     <div className="animate-in fade-in slide-in-from-bottom-2 duration-200">
                       <div className={cn(
                         "p-3.5 rounded-2xl border-2 shadow-xs text-left",
-                        selectedOption === currentQuestion.correctAnswer
+                        String(selectedOption).trim() === String(currentQuestion.correctAnswer).trim()
                           ? "bg-emerald-50/90 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-800/80"
                           : "bg-rose-50/90 dark:bg-rose-950/40 border-rose-300 dark:border-rose-800/80"
                       )}>
                         <div className="flex items-start gap-2.5">
                           <div className={cn(
-                            "w-7 h-7 rounded-xl flex items-center justify-center shrink-0 mt-0.5",
-                            selectedOption === currentQuestion.correctAnswer
+                            "w-7 h-7 rounded-xl flex items-center justify-center shrink-0 mt-0.5 shadow-xs",
+                            String(selectedOption).trim() === String(currentQuestion.correctAnswer).trim()
                               ? "bg-emerald-500 text-white"
                               : "bg-rose-500 text-white"
                           )}>
-                            {selectedOption === currentQuestion.correctAnswer ? (
+                            {String(selectedOption).trim() === String(currentQuestion.correctAnswer).trim() ? (
                               <CheckCircle2 className="w-4 h-4" />
                             ) : (
                               <XCircle className="w-4 h-4" />
@@ -1203,11 +1490,11 @@ export function QuizTemplate({
                           <div className="flex-1">
                             <h4 className={cn(
                               "text-xs sm:text-sm font-black mb-0.5",
-                              selectedOption === currentQuestion.correctAnswer
+                              String(selectedOption).trim() === String(currentQuestion.correctAnswer).trim()
                                 ? "text-emerald-900 dark:text-emerald-200"
                                 : "text-rose-900 dark:text-rose-200"
                             )}>
-                              {selectedOption === currentQuestion.correctAnswer ? 'Helyes Válasz! 🎉' : 'Nem jó válasz! 🤔'}
+                              {String(selectedOption).trim() === String(currentQuestion.correctAnswer).trim() ? 'Helyes Válasz! 🎉' : 'Nem jó válasz! 🤔'}
                             </h4>
                             <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-medium mb-1.5">
                               <MathText>{currentQuestion.explanation}</MathText>
@@ -1216,12 +1503,12 @@ export function QuizTemplate({
                             {((currentQuestion.breakdown && currentQuestion.breakdown.length > 0) || (currentQuestion.steps && currentQuestion.steps.length > 0)) && (
                               <div className="flex flex-wrap items-center gap-1.5 pt-1.5 border-t border-slate-200/60 dark:border-slate-700/60">
                                 <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400">Levezetés:</span>
-                                {(currentQuestion.breakdown || currentQuestion.steps || []).map((item: any, bIdx: number) => (
+                                {(currentQuestion.breakdown || currentQuestion.steps || []).map((item, bIdx) => (
                                   <span
                                     key={bIdx}
                                     className="px-1.5 py-0.5 rounded-md bg-white/90 dark:bg-slate-800/90 text-[10px] font-bold font-mono text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700"
                                   >
-                                    {(item as { label?: string; value?: string }).label || `${bIdx + 1}. lépés`}: <span className="text-purple-600 dark:text-purple-400"><MathText size="sm">{(item as { label?: string; value?: string }).value || String(item)}</MathText></span>
+                                    {(item as { label?: string; value?: string }).label || `${bIdx + 1}. lépés`}: <span className="text-teal-600 dark:text-teal-400"><MathText size="sm">{(item as { label?: string; value?: string }).value || String(item)}</MathText></span>
                                   </span>
                                 ))}
                               </div>
@@ -1233,23 +1520,24 @@ export function QuizTemplate({
                   )}
                 </div>
 
-                {/* Right: 4 Answer Options + Next Button */}
+                {/* Right: 4 Answer Options + Next Button directly below */}
                 <div className="flex flex-col gap-2.5">
                   <div className="flex items-center justify-between px-1">
-                    <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                    <span className="text-[11px] font-black text-indigo-700 dark:text-indigo-300 uppercase tracking-wider">
                       Válaszd ki a helyes eredményt:
                     </span>
-                    <span className="text-[10px] text-slate-400 dark:text-slate-500">
-                      Gombok: [1, 2, 3, 4]
+                    <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md">
+                      Billentyűk: [1, 2, 3, 4]
                     </span>
                   </div>
 
                   <div className="flex flex-col gap-2">
-                    {currentQuestion.options.map((option, idx) => {
+                    {(currentQuestion?.options || (currentQuestion as any)?.answers || []).map((option: any, idx: number) => {
                       const optStr = String(option);
-                      const isSelected = selectedOption === option;
-                      const isCorrect = option === currentQuestion.correctAnswer;
+                      const isSelected = selectedOption === optStr;
+                      const isCorrect = optStr.trim() === String(currentQuestion.correctAnswer).trim();
 
+                      // Distinct vibrant badge colors for cards 1, 2, 3, 4
                       const badgeColors = [
                         "bg-gradient-to-br from-blue-500 to-indigo-600 text-white",
                         "bg-gradient-to-br from-purple-500 to-violet-600 text-white",
@@ -1370,7 +1658,7 @@ export function QuizTemplate({
                   "w-full p-2.5 rounded-xl text-left font-bold text-xs transition-all flex items-center gap-2.5 border-2 cursor-pointer",
                   gameMode === 'quiz'
                     ? "bg-gradient-to-r from-blue-50 via-indigo-50/60 to-blue-50/40 dark:from-blue-950/60 dark:to-indigo-950/40 border-blue-500 dark:border-blue-400 text-blue-950 dark:text-blue-100 shadow-sm ring-2 ring-blue-400/20"
-                    : "bg-blue-50/30 dark:bg-slate-800/60 border-blue-100/80 dark:border-slate-755 hover:border-blue-300 hover:bg-blue-50/60 text-slate-700 dark:text-slate-300"
+                    : "bg-blue-50/30 dark:bg-slate-800/60 border-blue-100/80 dark:border-slate-750 hover:border-blue-300 hover:bg-blue-50/60 text-slate-700 dark:text-slate-300"
                 )}
               >
                 <div className={cn(
@@ -1397,13 +1685,13 @@ export function QuizTemplate({
                 const isActive = gameMode === mode.id;
 
                 let activeClass = "bg-gradient-to-r from-emerald-50 to-teal-50 border-emerald-500 text-emerald-950 dark:from-emerald-950/60 dark:to-teal-950/40 dark:border-emerald-400 dark:text-emerald-100 shadow-sm ring-2 ring-emerald-400/20";
-                let inactiveClass = "bg-teal-50/30 dark:bg-slate-800/60 border-teal-100/80 dark:border-slate-755 hover:border-teal-300 hover:bg-teal-50/60 text-slate-700 dark:text-slate-300";
+                let inactiveClass = "bg-teal-50/30 dark:bg-slate-800/60 border-teal-100/80 dark:border-slate-750 hover:border-teal-300 hover:bg-teal-50/60 text-slate-700 dark:text-slate-300";
                 let iconActive = "bg-gradient-to-br from-teal-500 to-emerald-600 text-white";
                 let iconInactive = "bg-teal-100 dark:bg-teal-950 text-teal-600 dark:text-teal-300";
 
                 if (isSorter) {
                   activeClass = "bg-gradient-to-r from-purple-50 to-fuchsia-50 border-purple-500 text-purple-950 dark:from-purple-950/60 dark:to-fuchsia-950/40 dark:border-purple-400 dark:text-purple-100 shadow-sm ring-2 ring-purple-400/20";
-                  inactiveClass = "bg-purple-50/30 dark:bg-slate-800/60 border-purple-100/80 dark:border-slate-755 hover:border-purple-300 hover:bg-purple-50/60 text-slate-700 dark:text-slate-300";
+                  inactiveClass = "bg-purple-50/30 dark:bg-slate-800/60 border-purple-100/80 dark:border-slate-750 hover:border-purple-300 hover:bg-purple-50/60 text-slate-700 dark:text-slate-300";
                   iconActive = "bg-gradient-to-br from-purple-500 to-fuchsia-600 text-white";
                   iconInactive = "bg-purple-100 dark:bg-purple-950 text-purple-600 dark:text-purple-300";
                 }
@@ -1516,21 +1804,21 @@ export function QuizTemplate({
           </div>
 
           {/* Tools & Rules Actions */}
-          <div className="bg-white dark:bg-slate-900 rounded-2xl p-3.5 border-2 border-slate-200/80 dark:border-slate-800 shadow-xs flex flex-col gap-1.5">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl p-3.5 border-2 border-indigo-100 dark:border-slate-800 shadow-xs flex flex-col gap-1.5">
             <Button
               variant="outline"
               size="sm"
               onClick={toggleFullscreen}
-              className="w-full h-9 rounded-xl border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold justify-start"
+              className="w-full h-9.5 rounded-xl border-indigo-200 dark:border-indigo-900/60 bg-indigo-50/40 dark:bg-indigo-950/20 hover:bg-indigo-100/70 text-indigo-900 dark:text-indigo-200 text-xs font-bold justify-start"
             >
               {isFullscreen ? (
                 <>
-                  <Minimize2 className="w-3.5 h-3.5 mr-2 text-purple-600" />
+                  <Minimize2 className="w-3.5 h-3.5 mr-2 text-indigo-600" />
                   Kilépés a teljes képernyőből
                 </>
               ) : (
                 <>
-                  <Maximize2 className="w-3.5 h-3.5 mr-2 text-purple-600" />
+                  <Maximize2 className="w-3.5 h-3.5 mr-2 text-indigo-600" />
                   Teljes képernyős mód
                 </>
               )}
@@ -1541,20 +1829,32 @@ export function QuizTemplate({
                 variant="outline"
                 size="sm"
                 onClick={() => setShowCheatSheet(!showCheatSheet)}
-                className="w-full h-9 rounded-xl border-purple-300 bg-purple-50/50 text-purple-800 dark:bg-purple-950/40 dark:text-purple-300 dark:border-purple-800 hover:bg-purple-100 text-xs font-bold justify-start"
+                className="w-full h-9.5 rounded-xl border-teal-300 bg-teal-50/70 text-teal-900 dark:bg-teal-950/40 dark:text-teal-200 dark:border-teal-800 hover:bg-teal-100 text-xs font-bold justify-start"
               >
-                <BookOpen className="w-3.5 h-3.5 mr-2 text-purple-600" />
+                <Compass className="w-3.5 h-3.5 mr-2 text-teal-600" />
                 {cheatSheetTitle || "Segédlet & Szabályok"}
               </Button>
             )}
 
+            {onSwitchToTheory && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={onSwitchToTheory}
+                className="w-full h-9.5 rounded-xl border-violet-200 dark:border-violet-900/60 bg-violet-50/40 dark:bg-violet-950/20 text-violet-900 dark:text-violet-200 hover:bg-violet-100/70 text-xs font-bold justify-start"
+              >
+                <BookOpen className="w-3.5 h-3.5 mr-2 text-violet-600" />
+                Tananyag áttekintése
+              </Button>
+            )}
+
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
-              onClick={() => handleStartLevel(selectedLevel, gameMode)}
-              className="w-full h-9 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-medium justify-start"
+              onClick={() => handleStartLevel(selectedLevel || 1, gameMode)}
+              className="w-full h-9.5 rounded-xl border-rose-200 dark:border-rose-900/60 bg-rose-50/30 dark:bg-rose-950/20 text-rose-800 dark:text-rose-300 hover:bg-rose-100/70 text-xs font-bold justify-start"
             >
-              <RotateCcw className="w-3.5 h-3.5 mr-2" />
+              <RotateCcw className="w-3.5 h-3.5 mr-2 text-rose-600" />
               Játék újraindítása
             </Button>
           </div>
@@ -1564,10 +1864,10 @@ export function QuizTemplate({
       {/* Rules Modal Overlay */}
       {showCheatSheet && hasCheatSheet && (
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border-2 border-purple-300 dark:border-purple-900 shadow-2xl max-w-2xl w-full text-left max-h-[90vh] overflow-y-auto">
+          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border-2 border-teal-300 dark:border-teal-900 shadow-2xl max-w-2xl w-full text-left max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-purple-600" />
+                <Compass className="w-5 h-5 text-teal-600" />
                 {cheatSheetTitle || "Szabályok és összefoglaló"}
               </h3>
               <Button
@@ -1580,11 +1880,17 @@ export function QuizTemplate({
               </Button>
             </div>
 
+            {cheatSheetContent && (
+              <div className="mb-4">
+                {cheatSheetContent}
+              </div>
+            )}
+
             {cheatSheet && cheatSheet.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-4">
                 {cheatSheet.map((item, idx) => (
                   <div key={idx} className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 space-y-1">
-                    <div className="text-xs font-bold text-purple-600 dark:text-purple-400">{item.topic}</div>
+                    <div className="text-xs font-bold text-teal-600 dark:text-teal-400">{item.topic}</div>
                     <div className="text-xs font-mono font-bold text-slate-900 dark:text-white"><MathText>{item.formula}</MathText></div>
                     <div className="text-[11px] text-slate-600 dark:text-slate-300"><MathText>{item.note}</MathText></div>
                   </div>
@@ -1592,14 +1898,19 @@ export function QuizTemplate({
               </div>
             )}
 
-            {cheatSheetCards && cheatSheetCards.length > 0 && (
+            {normalizedCheatCards && normalizedCheatCards.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-4">
-                {cheatSheetCards.map((card, idx) => (
-                  <div key={card.id || idx} className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 space-y-1">
-                    <div className="flex items-center gap-2 font-bold text-xs text-purple-600 dark:text-purple-400">
-                      {card.icon}
+                {normalizedCheatCards.map((card, idx) => (
+                  <div key={card.id || idx} className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 space-y-2">
+                    <div className="flex items-center gap-2 font-bold text-xs text-teal-600 dark:text-teal-400">
+                      {card.icon || <Compass className="w-4 h-4" />}
                       <span>{card.title}</span>
                     </div>
+                    {card.figure && (
+                      <div className="flex items-center justify-center p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800">
+                        {card.figure}
+                      </div>
+                    )}
                     {card.content ? (
                       <div>{card.content}</div>
                     ) : (
@@ -1615,7 +1926,7 @@ export function QuizTemplate({
 
             <Button
               onClick={() => setShowCheatSheet(false)}
-              className="w-full h-10 rounded-xl font-bold bg-purple-600 hover:bg-purple-700 text-white"
+              className="w-full h-10 rounded-xl font-bold bg-teal-600 hover:bg-teal-700 text-white cursor-pointer"
             >
               Értem, bezárás
             </Button>
@@ -1625,3 +1936,5 @@ export function QuizTemplate({
     </div>
   );
 }
+
+export default QuizTemplate;

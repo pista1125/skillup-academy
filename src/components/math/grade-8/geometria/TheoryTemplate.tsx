@@ -679,6 +679,7 @@ export interface TheoryTrapBoxProps {
   title?: string;
   trap?: string | React.ReactNode;
   trapDescription?: string | React.ReactNode;
+  description?: string | React.ReactNode;
   wrong?: string | React.ReactNode;
   solution?: string | React.ReactNode;
   correct?: string | React.ReactNode;
@@ -695,6 +696,7 @@ export const TheoryTrapBox: React.FC<TheoryTrapBoxProps> = ({
   title,
   trap,
   trapDescription,
+  description,
   wrong,
   solution,
   correct,
@@ -708,6 +710,7 @@ export const TheoryTrapBox: React.FC<TheoryTrapBoxProps> = ({
 }) => {
   const displayWrong = wrong || trap || trapDescription;
   const displayCorrect = correct || solution || correction || correctExplanation;
+  const displayExplanation = explanation || description;
   const displayTitle =
     title || (typeof trap === 'string' && !wrong ? trap : 'Tipikus Geometriai Csapdahelyzet');
 
@@ -796,12 +799,21 @@ export const TheoryTrapBox: React.FC<TheoryTrapBoxProps> = ({
               </span>
             </div>
           )}
-          {explanation && (
-            <div className="pt-1 text-[11px] text-slate-500 dark:text-slate-400 pl-5">
-              {typeof explanation === 'string' ? (
-                <MathText>{explanation}</MathText>
+          {displayExplanation && !displayWrong && !displayCorrect && (
+            <div className="text-slate-700 dark:text-slate-300 leading-relaxed text-xs">
+              {typeof displayExplanation === 'string' ? (
+                <MathText>{displayExplanation}</MathText>
               ) : (
-                explanation
+                displayExplanation
+              )}
+            </div>
+          )}
+          {displayExplanation && (displayWrong || displayCorrect) && (
+            <div className="pt-1 text-[11px] text-slate-500 dark:text-slate-400 pl-5">
+              {typeof displayExplanation === 'string' ? (
+                <MathText>{displayExplanation}</MathText>
+              ) : (
+                displayExplanation
               )}
             </div>
           )}

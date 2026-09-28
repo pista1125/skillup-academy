@@ -1,39 +1,47 @@
 # 1. Egybevágósági transzformációk (ismétlés) (8. osztály)
 
-## Tananyag Áttekintés
-A sík egybevágósági transzformációi (távolságtartó leképezések): tengelyes tükrözés, középpontos tükrözés, eltolás és elforgatás; alakzatok egybevágósága és a háromszögek egybevágóságának alapesetei.
+Ebben a mappában található a 8. osztályos geometria tananyag első leckéje, amely a síkbeli egybevágósági transzformációk tulajdonságait és a koordináta-rendszerben történő tükrözéseket tárgyalja a tankönyv (**OH-MAT08TA**, 50–52. o.) és munkafüzet (**OH-MAT08MA**, 31–33. o.) alapján.
 
 ---
 
-## Főbb Ismeretek és Fogalmak
+## Elérhető Modulok
 
-### 1. Az Egybevágósági Transzformációk
-Olyan geometriai leképezések, amelyeknél bármely két pont távolsága megegyezik a képpontjaik távolságával (**távolságtartó** leképezések: $A'B' = AB$).
-- **Következmények:**
-  - **Szögtartó:** a képszög nagysága megegyezik az eredeti szög nagyságával ($\alpha' = \alpha$).
-  - **Egyenestartó:** egyenes képe egyenes.
-  - **Párhuzamosságtartó:** párhuzamos egyenesek képei is párhuzamosak.
-  - **Területtartó:** alakzat és képének területe megegyezik ($T' = T$).
+1. [**CongruenceTransformTheory.tsx**](./CongruenceTransformTheory.tsx)
+   - Interaktív koordináta-tükröző laboratórium ($x$ tengely, $y$ tengely, origó és $y = x$ szögfelező).
+   - Invariáns tulajdonságok részletes rendszerezése.
+   - 4 alapvető egybevágósági transzformáció összehasonlító táblázata.
+   - Konstrukciók: háromszögből deltoid (tengelyes tükrözés) és paralelogramma (középpontos tükrözés) előállítása.
+   - Lépésről lépésre kidolgozott tankönyvi és munkafüzeti mintapéldák.
+   - Letölthető PDF tananyag.
 
-### 2. A Négy Alapvető Egybevágósági Transzformáció
-
-| Transzformáció | Megadása | Fixpontok | Irányítás (Orientáció) |
-|---|---|---|---|
-| **Tengelyes tükrözés** | Tükörtengely ($t$) | A tengely pontjai ($P \in t$) | **Megfordul** (ellenkező körüljárás) |
-| **Középpontos tükrözés** | Tükörközéppont ($O$) | Egyetlen fixpont: $O$ | **Megmarad** (azonos körüljárás) |
-| **Párhuzamos eltolás** | Eltolásvektor ($\vec{v}$) | Nincs (ha $\vec{v} \neq \vec{0}$) | **Megmarad** |
-| **Forgatás (elforgatás)** | Forgásközéppont ($O$), szög ($\alpha$) | Egyetlen fixpont: $O$ ($\alpha \neq k \cdot 360^\circ$) | **Megmarad** |
-
-> [!NOTE]
-> A tengelyes tükrözés az egyetlen olyan alapvető egybevágósági transzformáció, amely **megfordítja az alakzat körüljárási irányát** (orientációváltó).
+2. [**CongruenceTransformQuiz.tsx**](./CongruenceTransformQuiz.tsx)
+   - A közös [QuizTemplate](../QuizTemplate.tsx) alapján felépített 3 szintes gyakorló kvíz (30 feladat).
+   - **1. Szint:** Alapfogalmak, távolságtartás, körüljárási irány, fixpontok.
+   - **2. Szint:** Tükrözések koordináta-rendszerben és alakzatok vizsgálata.
+   - **3. Szint:** Adott pontra tükrözés koordinátaszámítása, háromszögek egybevágósági esetei, összetett feladatok.
+   - Puskakártyák (CheatSheet) és Firebase pontszámmentés.
 
 ---
 
-### 3. Háromszögek Egybevágósága és Alapesetei
-Két háromszög egybevágó ($\triangle ABC \cong \triangle A'B'C'$), ha megfelelő oldalaik és megfelelő szögeik páronként egyenlők.
+## Főbb Ismeretek és Szabályok
 
-**A 4 Egybevágósági Alapeset:**
-1. **o-o-o (oldal-oldal-oldal):** Három-három oldaluk páronként egyenlő ($a = a', b = b', c = c'$).
-2. **o-sz-o (oldal-szög-oldal):** Két-két oldaluk és a **közbezárt szögük** egyenlő ($a = a', b = b', \gamma = \gamma'$).
-3. **sz-o-sz (szög-oldal-szög):** Egy-egy oldaluk és a rajtuk fekvő **két szögük** egyenlő ($c = c', \alpha = \alpha', \beta = \beta'$).
-4. **d-o-o (derékszög/nagyobbik oldal melletti):** Két-két oldaluk és a **nagyobbik oldallal szemközti szögük** megegyezik.
+### 1. Invariáns Tulajdonságok
+- **Távolságtartó:** $|A'B'| = |AB|$
+- **Szögtartó:** $\alpha' = \alpha$
+- **Egyenestartó:** egyenes képe egyenes
+- **Párhuzamosságtartó:** $e \parallel f \implies e' \parallel f'$
+- **Területtartó:** $T' = T$
+
+### 2. Tükrözési Szabályok a Koordináta-rendszerben
+- **$x$ tengelyre:** $(x; y) \mapsto (x; -y)$
+- **$y$ tengelyre:** $(x; y) \mapsto (-x; y)$
+- **Origóra:** $(x; y) \mapsto (-x; -y)$
+- **$y = x$ szögfelezőre:** $(x; y) \mapsto (y; x)$
+- **$K(x_0; y_0)$ középpontra:** $x' = 2x_0 - x, \quad y' = 2y_0 - y$
+
+### 3. Háromszögek Egybevágósági Alapesetei
+1. **o - o - o:** Három oldal páronként egyenlő.
+2. **o - sz - o:** Két oldal és a közbezárt szög egyenlő.
+3. **sz - o - sz:** Egy oldal és a rajta fekvő két szög egyenlő.
+4. **d - o - o:** Két oldal és a nagyobbik oldallal szemközti szög egyenlő.
+*(Figyelem: sz-sz-sz nem egybevágóság, csak hasonlóság!)*

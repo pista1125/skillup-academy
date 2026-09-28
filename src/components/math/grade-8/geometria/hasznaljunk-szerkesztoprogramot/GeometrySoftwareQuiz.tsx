@@ -1,308 +1,710 @@
-import React, { useState } from 'react';
-import { QuizResult } from '@/types/education';
-import { ProgressBar } from '@/components/ProgressBar';
-import { XPBadge } from '@/components/XPBadge';
-import { Button } from '@/components/ui/button';
-import { CheckCircle2, XCircle, ArrowRight, Trophy, RotateCcw, ArrowLeft, MonitorPlay, Sparkles, HelpCircle } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import React from 'react';
+import { QuizTemplate, LevelConfig, CheatSheetCard, DifficultyLevel } from '../QuizTemplate';
+import {
+  MonitorPlay,
+  Compass,
+  Shapes,
+  Maximize2,
+  RefreshCw,
+  Target,
+  Sparkles,
+  Move,
+  MousePointer,
+  Circle,
+  HelpCircle,
+  Layers,
+  ArrowRightLeft
+} from 'lucide-react';
+import { MathText } from '@/components/math/shared/MathText';
+import { GeometrySoftwareMatcher } from './GeometrySoftwareMatcher';
+import { GeometrySoftwareSorter } from './GeometrySoftwareSorter';
 
 interface GeometrySoftwareQuizProps {
-  onComplete?: (result: QuizResult) => void;
   onBack: () => void;
+  onSwitchToTheory?: () => void;
 }
 
-interface Question {
-  id: string;
-  category: string;
-  question: string;
-  options: string[];
-  correctIndex: number;
-  explanation: string;
-}
-
-const QUESTIONS: Question[] = [
+const cheatSheetCards: CheatSheetCard[] = [
   {
-    id: 'gs1',
-    category: 'Dinamikus geometria elve',
-    question: 'Mi a legfőbb előnye egy dinamikus geometriai programnak a papíron történő hagyományos szerkesztéssel szemben?',
-    options: [
-      'A szabad csúcsok elmozdításával azonnal ellenőrizhető, hogy az állítás vagy szerkesztés tetszőleges helyzetben is igaz marad-e.',
-      'Csak ebben lehet egyeneseket húzni.',
-      'A programban nem érvényesek a matematikai axiómák.',
-      'Mindig automatikusan megoldja a feladatot gondolkodás nélkül.'
-    ],
-    correctIndex: 0,
-    explanation: 'A dinamikus geometria lényege, hogy a csúcsok vonszolásával (drag-and-drop) az alakzat összefüggései megmaradnak, így a tétel általánossága kísérletileg azonnal tesztelhető.'
+    id: 'c1',
+    title: 'Szabad vs. Kötött pontok',
+    icon: <MousePointer className="w-4 h-4 text-cyan-600" />,
+    formula: 'Kék = Szabadon mozgatható | Fekete/Szürke = Kötött metszet',
+    note: 'A szabad pontok a szerkesztés bemeneti adatai (bárhová húzhatók). A kötött pontok matematikai relációk (metszéspont, felezőpont) eredményei.',
+    figure: (
+      <svg viewBox="0 0 160 45" className="w-36 h-9">
+        <circle cx="35" cy="22" r="5" className="fill-blue-500 stroke-blue-700 stroke-[1.5]" />
+        <path d="M 22 22 L 16 22 M 19 19 L 16 22 L 19 25" className="stroke-slate-500 stroke-[1.2]" />
+        <text x="22" y="12" className="text-[7px] font-bold fill-blue-700">Szabad pont</text>
+        <line x1="95" y1="32" x2="135" y2="12" className="stroke-slate-400 stroke-[1.5]" />
+        <line x1="95" y1="12" x2="135" y2="32" className="stroke-slate-400 stroke-[1.5]" />
+        <circle cx="115" cy="22" r="4" className="fill-slate-800" />
+        <text x="100" y="10" className="text-[7px] font-bold fill-slate-800">Kötött metszet</text>
+      </svg>
+    )
   },
   {
-    id: 'gs2',
-    category: 'Mértani helyek szoftverben',
-    question: 'Melyik eszközzel találhatjuk meg pontosan két egyenestől egyenlő távolságra lévő pontokat egy geometriai szoftverben?',
-    options: [
-      'Szögfelező eszköz',
-      'Párhuzamos egyenes eszköz',
-      'Szakaszfelező merőleges',
-      'Kör középponttal és sugárral'
-    ],
-    correctIndex: 0,
-    explanation: 'Két metsző egyenes által bezárt szögek szögfelezői alkotják a két egyenestől egyenlő távol lévő pontok mértani helyét.'
+    id: 'c2',
+    title: 'Mértani helyek szoftverben',
+    icon: <Target className="w-4 h-4 text-teal-600" />,
+    formula: 'Felezőmerőleges: |PA| = |PB| | Szögfelező: d(P, e) = d(P, f)',
+    note: 'A szoftver eszköztárában a mértani helyek azonnal, egyetlen kattintással előállíthatók és a csúcsok mozgatásakor dinamikusan követik a változást.',
+    figure: (
+      <svg viewBox="0 0 160 45" className="w-36 h-9">
+        <line x1="20" y1="22" x2="60" y2="22" className="stroke-teal-700 stroke-[2]" />
+        <line x1="40" y1="5" x2="40" y2="40" className="stroke-teal-500 stroke-[1.5] stroke-dasharray-[2,2]" />
+        <circle cx="20" cy="22" r="2.5" className="fill-teal-800" />
+        <circle cx="60" cy="22" r="2.5" className="fill-teal-800" />
+        <text x="25" y="14" className="text-[7px] font-bold fill-teal-800">felezőmerőleges</text>
+        <line x1="95" y1="35" x2="145" y2="35" className="stroke-slate-500 stroke-[1.5]" />
+        <line x1="95" y1="35" x2="140" y2="10" className="stroke-slate-500 stroke-[1.5]" />
+        <line x1="95" y1="35" x2="145" y2="22" className="stroke-amber-500 stroke-[1.5]" />
+        <text x="105" y="18" className="text-[7px] font-bold fill-amber-800">szögfelező</text>
+      </svg>
+    )
   },
   {
-    id: 'gs3',
-    category: 'Robusztus szerkesztés',
-    question: 'Egy diák úgy készített négyzetet a programban, hogy szemre beállította a derékszögeket. Mi történik, ha elhúzza a csúcsot?',
-    options: [
-      'A négyzet alak szétesik (nem marad négyzet), mert nem geometriai kötöttségekkel (merőleges, kör) lett szerkesztve.',
-      'A program automatikusan kijavítja és négyzet marad.',
-      'A csúcs le van fagyasztva, nem mozdítható.',
-      'Semmi, a szemre illesztés egyenértékű a szerkesztéssel.'
-    ],
-    correctIndex: 0,
-    explanation: 'A szemre illesztett rajz nem rendelkezik matematikai relációkkal (merőlegesség, oldalhossz-egyenlőség), ezért a pontok mozgatásakor az alakzat szétesik.'
+    id: 'c3',
+    title: 'A vonszolási teszt (Drag test)',
+    icon: <Move className="w-4 h-4 text-cyan-600" />,
+    formula: 'Robusztus szerkesztés = Vonszoláskor megőrzi a tulajdonságot',
+    note: 'Ha egy alakzat csúcsait elvonszoljuk, a helyesen szerkesztett geometriai tulajdonságok (pl. derékszög, párhuzamosság) érvényben maradnak. A szemre illesztett rajz azonnal szétesik.',
+    figure: (
+      <svg viewBox="0 0 160 45" className="w-36 h-9">
+        <polygon points="20,35 60,35 35,10" fill="#06b6d4" fillOpacity="0.2" className="stroke-cyan-600 stroke-[1.5]" />
+        <path d="M 33 8 L 29 5 M 37 8 L 41 5" className="stroke-cyan-700 stroke-[1.2]" />
+        <text x="18" y="42" className="text-[7px] font-bold fill-cyan-800">✓ Robusztus</text>
+        <polygon points="100,35 145,30 118,12" fill="#f43f5e" fillOpacity="0.1" className="stroke-rose-500 stroke-[1.5] stroke-dasharray-[2,2]" />
+        <text x="102" y="42" className="text-[7px] font-bold fill-rose-700">✗ Széteső szemre</text>
+      </svg>
+    )
   },
   {
-    id: 'gs4',
-    category: 'Szakaszfelező merőleges',
-    question: 'Milyen mértani helyet határoz meg a szakaszfelező merőleges eszköz?',
-    options: [
-      'A szakasz két végpontjától egyenlő távolságra lévő pontok halmazát',
-      'A kör érintőjét',
-      'A háromszög súlyvonalát',
-      'A szakasz hosszának négyzetét'
-    ],
-    correctIndex: 0,
-    explanation: 'Egy AB szakasz felezőmerőlegese azon pontok összessége a síkban, amelyek az A és B végpontoktól egyenlő távolságra vannak (|PA| = |PB|).'
-  },
-  {
-    id: 'gs5',
-    category: 'Körök metszése',
-    question: 'Hogyan szerkeszthető meg egy szabályos háromszög harmadik csúcsa egy AB szakaszból szoftverben?',
-    options: [
-      'Megrajzolunk egy A középpontú AB sugarú és egy B középpontú BA sugarú kört, metszéspontjuk adja a C csúcsot.',
-      'Szemre kiválasztunk egy pontot felül.',
-      'Húzunk egy vízszintes egyenest 60 cm magasan.',
-      'Csak szögmérővel lehet megrajzolni.'
-    ],
-    correctIndex: 0,
-    explanation: 'Az A és B középpontú, AB sugarú körök metszéspontja C mindkét csúcstól pontosan |AB| távolságra lesz, így |AB| = |AC| = |BC|, azaz a háromszög szabályos.'
-  },
-  {
-    id: 'gs6',
-    category: 'Transzformáció eszközök',
-    question: 'Mire használható a szoftverben a "Tengelyes tükrözés" eszköz?',
-    options: [
-      'Egy kijelölt alakzat és egy egyenes kiválasztásával automatikusan előállítja a tükörképet.',
-      'Megméri a háromszög magasságát.',
-      'Kiszámítja az egyenlet gyökeit.',
-      'Átnevezi az alakzat csúcsait.'
-    ],
-    correctIndex: 0,
-    explanation: 'A tengelyes tükrözés eszköz kiválasztása után az alakzatra és a tükörtengelyre kattintva a program pontosan megszerkeszti az egybevágó, tükrözött képet.'
+    id: 'c4',
+    title: 'Háromszög nevezetes pontjai',
+    icon: <Shapes className="w-4 h-4 text-indigo-600" />,
+    formula: 'O: Felezőmerőlegesek | K: Szögfelezők | M: Magasságok | S: Súlyvonalak',
+    note: 'O a csúcsoktól, K az oldalaktól egyenlő távol van. S a súlyvonalakat 2:1 arányban osztja. O, S és M egy egyenesen van (Euler-egyenes).',
+    figure: (
+      <svg viewBox="0 0 160 45" className="w-36 h-9">
+        <polygon points="25,36 75,36 50,8" fill="none" className="stroke-indigo-600 stroke-[1.5]" />
+        <circle cx="50" cy="22" r="14" fill="none" className="stroke-cyan-400 stroke-[1] stroke-dasharray-[2,2]" />
+        <circle cx="50" cy="22" r="2.5" className="fill-cyan-700" />
+        <text x="53" y="21" className="text-[7px] font-bold fill-cyan-900">O</text>
+        <circle cx="50" cy="26" r="2.5" className="fill-emerald-700" />
+        <text x="53" y="28" className="text-[7px] font-bold fill-emerald-900">S</text>
+        <circle cx="50" cy="34" r="2" className="fill-purple-700" />
+        <text x="53" y="37" className="text-[7px] font-bold fill-purple-900">M</text>
+        <text x="95" y="18" className="text-[8px] font-bold fill-indigo-800">O = Körülírt kör Kp.</text>
+        <text x="95" y="30" className="text-[8px] font-bold fill-emerald-800">S = Súlypont (2:1)</text>
+      </svg>
+    )
   }
 ];
 
-export function GeometrySoftwareQuiz({ onComplete, onBack }: GeometrySoftwareQuizProps) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedOption, setSelectedOption] = useState<number | null>(null);
-  const [showResult, setShowResult] = useState(false);
-  const [correctCount, setCorrectCount] = useState(0);
-  const [quizComplete, setQuizComplete] = useState(false);
-  const [xpEarned, setXpEarned] = useState(0);
-
-  const TOTAL_QUESTIONS = QUESTIONS.length;
-  const XP_PER_CORRECT = 15;
-  const currentQ = QUESTIONS[currentIndex];
-
-  const handleSelect = (idx: number) => {
-    if (showResult) return;
-    setSelectedOption(idx);
-  };
-
-  const checkAnswer = () => {
-    if (selectedOption === null) return;
-    const isCorrect = selectedOption === currentQ.correctIndex;
-    setShowResult(true);
-    if (isCorrect) {
-      setCorrectCount(prev => prev + 1);
-      setXpEarned(prev => prev + XP_PER_CORRECT);
-    }
-  };
-
-  const nextQuestion = () => {
-    if (currentIndex < TOTAL_QUESTIONS - 1) {
-      setCurrentIndex(prev => prev + 1);
-      setSelectedOption(null);
-      setShowResult(false);
-    } else {
-      setQuizComplete(true);
-      if (onComplete) {
-        onComplete({
-          totalQuestions: TOTAL_QUESTIONS,
-          correctAnswers: correctCount + (selectedOption === currentQ.correctIndex ? 1 : 0),
-          percentage: Math.round(((correctCount + (selectedOption === currentQ.correctIndex ? 1 : 0)) / TOTAL_QUESTIONS) * 100),
-          xpEarned: xpEarned + (selectedOption === currentQ.correctIndex ? XP_PER_CORRECT : 0),
-        });
+const quizLevels: Record<DifficultyLevel, LevelConfig> = {
+  1: {
+    level: 1,
+    title: '1. Szint: Alapfogalmak és Eszközök',
+    subtitle: 'Szabad pontok, metszéspontok, alapvető vonalak és dinamikus mérések',
+    range: '1-10. kérdés',
+    focus: 'Eszköztár, szabad és kötött objektumok, szög- és távolságmérés',
+    questions: [
+      {
+        id: 'gs-q1',
+        level: 1,
+        question: 'Mi a legfőbb előnye egy dinamikus geometriai programnak (pl. GeoGebra) a hagyományos papír alapú rajzolással szemben?',
+        options: [
+          'A szabad csúcsok elmozdításával (vonszolás) azonnal ellenőrizhető, hogy az állítás tetszőleges helyzetben is érvényes marad-e.',
+          'Csak szoftverben lehet egyeneseket és köröket rajzolni.',
+          'A programban nincsenek érvényben a matematikai axiómák.',
+          'Minden feladatot automatikusan megold anélkül, hogy a felhasználónak szerkesztenie kellene.'
+        ],
+        correctAnswer: 0,
+        hint: 'Gondolj arra, mit csinál a vonszolás (drag-and-drop) az ábrával!',
+        explanation: 'A dinamikus geometria alapelve, hogy az alakzat csúcsait elmozdítva a szerkesztési relációk mindvégig megmaradnak, így pillanatok alatt több száz különböző alakzatot vizsgálhatunk meg.',
+        breakdown: [
+          { label: 'Dinamikus elv', value: 'Vonszolás (drag-and-drop)' },
+          { label: 'Előny', value: 'Általánosítás és kísérletezés gyors ellenőrzése' }
+        ]
+      },
+      {
+        id: 'gs-q2',
+        level: 1,
+        question: 'Mit jelent a dinamikus geometriai szoftverekben a "szabad pont" (általában kék színű) fogalma?',
+        options: [
+          'Olyan pont, amely az egérrel a sík bármely részére tetszőlegesen elvonszolható, nem függ más alakzattól.',
+          'Olyan pont, amelyet semmiképpen sem lehet megmozdítani.',
+          'Két vonal automatikus metszéspontja, ami sosem változtatja a helyét.',
+          'Olyan pont, amelyet csak törölni lehet, átnevezni nem.'
+        ],
+        correctAnswer: 0,
+        hint: 'A szabad pontok jelentik a szerkesztés kezdő paramétereit.',
+        explanation: 'A szabad pontok a konstrukció bemeneti elemei. Bárhová mozgathatók a rajzlapon, és helyzetük módosításával a belőlük felépülő teljes ábra alakja dinamikusan változik.',
+        breakdown: [
+          { label: 'Szabad pont', value: 'Független objektum' },
+          { label: 'Jellemző szín', value: 'Kék (vagy egyedileg beállított)' }
+        ]
+      },
+      {
+        id: 'gs-q3',
+        level: 1,
+        question: 'Egy diák két egyenes metszéspontjaként hozta létre az M pontot (szürke/fekete pont). Mi történik, ha az egérrel megpróbálja elhúzni közvetlenül ezt az M pontot?',
+        options: [
+          'Az M pont önmagában nem mozdítható el, mert helyzetét a két metsző egyenes egyértelműen meghatározza (kötött pont).',
+          'Az M pont azonnal elmozdul, és a két egyenes is magától utánafordul.',
+          'A program hibaüzenettel azonnal leáll és bezárul.',
+          'Az M pont elmozdul, de a két egyenes a helyén marad.'
+        ],
+        correctAnswer: 0,
+        hint: 'A metszéspont függő (kötött) objektum, nem önálló bemenet.',
+        explanation: 'A metszéspont függő objektum: a koordinátái a két szülőegyenes egyenletéből számítódnak. Csak úgy mozdul el, ha a két kiinduló egyenest (vagy azok szabad pontjait) mozgatjuk.',
+        breakdown: [
+          { label: 'Objektumtípus', value: 'Függő / Kötött objektum' },
+          { label: 'Mozgathatóság', value: 'Csak szülőobjektumokon keresztül' }
+        ]
+      },
+      {
+        id: 'gs-q4',
+        level: 1,
+        question: 'Milyen mértani helyet határoz meg a "Szakaszfelező merőleges" eszköz egy AB szakaszra kattintva?',
+        options: [
+          'A sík azon pontjainak halmazát, amelyek az A és B pontoktól egyenlő távolságra vannak (|PA| = |PB|).',
+          'A szakasz hosszának négyzetét.',
+          'A szakaszra illeszkedő összes lehetséges kör középpontját kizárólag a szakasz belsejében.',
+          'Egy olyan egyenest, amely 45°-os szöget zár be a szakasszal.'
+        ],
+        correctAnswer: 0,
+        hint: 'Két ponttól egyenlő távol lévő pontok a síkban.',
+        explanation: 'Egy AB szakasz felezőmerőlegese az összes olyan P pont halmaza a síkban, amelyre |PA| = |PB|. Minden pontja egyenlő távolságra van mindkét végponttól.',
+        breakdown: [
+          { label: 'Definíció', value: '|PA| = |PB|' },
+          { label: 'Eszköz', value: 'Szakaszfelező merőleges' }
+        ]
+      },
+      {
+        id: 'gs-q5',
+        level: 1,
+        question: 'Mit hoz létre a "Szögfelező" eszköz egy megadott szög három csúcspontjára kattintva?',
+        options: [
+          'A szög száraitól egyenlő távolságra lévő pontok egyenesét, amely a szöget két egyenlő részre osztja.',
+          'Egy 90°-os merőleges egyenest a szög egyik szárára.',
+          'A szög nagyságának numerikus értékét radiánban kifejezve.',
+          'Egy párhuzamos egyenest a szögfelező ponttal.'
+        ],
+        correctAnswer: 0,
+        hint: 'A szög száraitól (egyeneseitől) egyenlő távolságra lévő pontok mértani helye.',
+        explanation: 'A szögfelező azon pontok halmaza, amelyek a szög két szárától (határoló egyenesétől) egyenlő merőleges távolságra vannak. A szöget két pontosan egyenlő nagyságú részszögre vágja.',
+        breakdown: [
+          { label: 'Feltétel', value: 'd(P, szár1) = d(P, szár2)' },
+          { label: 'Geometriai szerep', value: 'Szög felezése két egyenlő részre' }
+        ]
+      },
+      {
+        id: 'gs-q6',
+        level: 1,
+        question: 'Egy geometriai programban kört szeretnénk rajzolni a "Kör középponttal és ponttal" eszközzel. Hogyan kell használni ezt az eszközt?',
+        options: [
+          'Először rákattintunk a leendő O középpontra, majd a kerület egy tetszőleges P pontjára (ekkor r = OP).',
+          'Kijelölünk három párhuzamos egyenest a képernyőn.',
+          'Beírjuk a billentyűzeten a kör színét és területét.',
+          'Rákattintunk egy szakasz felezőpontjára kétszer egymás után.'
+        ],
+        correctAnswer: 0,
+        hint: 'A kör meghatározásához kell egy középpont és a sugár hossza.',
+        explanation: 'A "Kör középponttal és kerületi ponttal" eszköz első kattintásra rögzíti a kör O középpontját, a második kattintással pedig kijelöli a kör kerületének egy P pontját, így a sugár r = |OP| lesz.',
+        breakdown: [
+          { label: '1. lépés', value: 'Középpont (O) kijelölése' },
+          { label: '2. lépés', value: 'Kerületi pont (P) kijelölése, sugár r = |OP|' }
+        ]
+      },
+      {
+        id: 'gs-q7',
+        level: 1,
+        question: 'Mit igényel bemenetként a "Merőleges egyenes" eszköz a legtöbb szerkesztőprogramban?',
+        options: [
+          'Egy pontot (amelyen átmenjen a merőleges) és egy egyenest (amelyre merőlegesnek kell lennie).',
+          'Két tetszőleges kör sugarát és színét.',
+          'Három pontot, amelyek szükségképpen egy egyenesre esnek.',
+          'Csak a koordinátarendszer origóját.'
+        ],
+        correctAnswer: 0,
+        hint: 'Adott ponton keresztül adott egyenesre merőleges.',
+        explanation: 'A merőleges egyenes egyértelmű megszerkesztéséhez pontosan egy pontra (amin áthalad) és egy referenciaegyenesre (amelyre 90°-ot kell zárnia) van szükség.',
+        breakdown: [
+          { label: 'Referencia', value: 'Egyenes (adott irány)' },
+          { label: 'Átmenő pont', value: 'Pont (hely rögzítése)' }
+        ]
+      },
+      {
+        id: 'gs-q8',
+        level: 1,
+        question: 'Milyen összefüggés áll fenn egy egyenes és a "Párhuzamos egyenes" eszközzel szerkesztett új egyenes között?',
+        options: [
+          'A két egyenes iránya megegyezik, nincsen közös metszéspontjuk (ha a pont nem az egyenesen volt), és távolságuk mindenütt állandó.',
+          'A két egyenes pontosan 90°-os szöget zár be egymással.',
+          'A két egyenes egyetlen pontban metszi egymást a rajzlapon kívül.',
+          'A két egyenes hossza megegyezik.'
+        ],
+        correctAnswer: 0,
+        hint: 'Párhuzamosság alapvető definíciója az euklideszi síkban.',
+        explanation: 'A párhuzamos egyeneseknek a síkban nincs közös pontjuk, vagy egybeesnek. Irányuk azonos, és a két egyenes közötti távolság minden pontban azonos.',
+        breakdown: [
+          { label: 'Reláció', value: '{"e \\parallel e\'"}' },
+          { label: 'Közös pont', value: '0 db (ha nem esnek egybe)' }
+        ]
+      },
+      {
+        id: 'gs-q9',
+        level: 1,
+        question: 'Egy háromszög B csúcsánál lévő belső szögét szeretnénk lemérni a szoftver "Szög" eszközével. Milyen sorrendben kell rákattintani a pontokra?',
+        options: [
+          'A, B, C vagy C, B, A pontokra (a szög csúcsának, B-nek mindig a középső kattintásnak kell lennie).',
+          'Mindig a B csúcsra kell kattintani először, majd A-ra és C-re.',
+          'Mindig az origóra, majd a B pontra kell kattintani.',
+          'Tetszőleges sorrendben, a program automatikusan kitalálja a legkisebb szöget.'
+        ],
+        correctAnswer: 0,
+        hint: 'A szög csúcsa mindig a két szár találkozása: a középső pont.',
+        explanation: 'A szög eszköz 3 pont kijelölését várja: az első a kezdőszár pontja, a második maga a szög CSÚCSA (itt B), a harmadik a zárószár pontja. Így az ABC vagy CBA kijelölés adja a B csúcsbeli szöget.',
+        breakdown: [
+          { label: 'Középső pont', value: 'A szög csúcsa (Vertex)' },
+          { label: 'Szélső pontok', value: 'A szögszárak pontjai' }
+        ]
+      },
+      {
+        id: 'gs-q10',
+        level: 1,
+        question: 'Mire szolgál a "Távolság vagy hossz" eszköz a dinamikus geometria programban?',
+        options: [
+          'Két pont távolságának, egy szakasz hosszának vagy egy sokszög kerületének numerikus lemérésére és kiírására.',
+          'A pontok tömegének és sűrűségének kiszámítására.',
+          'A rajzlap nagyítására és kicsinyítésére.',
+          'Egyenesek egymáshoz viszonyított dőlésszögének megváltoztatására.'
+        ],
+        correctAnswer: 0,
+        hint: 'Távolság, hosszúság, kerület kimérése.',
+        explanation: 'A távolságmérő eszköz rákattintáskor megméri két pont távolságát vagy egy szakasz hosszát, és ezt a rajzlapon dinamikus szövegként felcímkézi, ami vonszoláskor valós időben frissül.',
+        breakdown: [
+          { label: 'Eszköz célja', value: 'Hosszméret leolvasása' },
+          { label: 'Dinamikus frissülés', value: 'Vonszoláskor azonnal újraszámolja' }
+        ]
       }
-    }
-  };
-
-  if (quizComplete) {
-    const finalCorrect = correctCount;
-    const percentage = Math.round((finalCorrect / TOTAL_QUESTIONS) * 100);
-    const finalXP = finalCorrect * XP_PER_CORRECT;
-
-    return (
-      <div className="max-w-xl mx-auto text-center py-6 animate-in fade-in zoom-in-95 duration-300">
-        <Button variant="ghost" onClick={onBack} className="mb-6 rounded-xl hover:bg-slate-100">
-          <ArrowLeft className="w-4 h-4 mr-2" /> Vissza a témakörökhöz
-        </Button>
-
-        <div className="bg-white rounded-3xl p-8 shadow-xl border border-slate-100">
-          <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white shadow-lg shadow-cyan-200">
-            <Trophy className="w-10 h-10" />
-          </div>
-
-          <h2 className="text-3xl font-black text-slate-800 mb-2">
-            {percentage >= 80 ? 'Digitális Geometria Bajnok!' : percentage >= 60 ? 'Szép eredmény!' : 'Gyakorolj még!'}
-          </h2>
-          <p className="text-sm text-slate-500 mb-6 font-medium">3. Használjunk szerkesztőprogramot! kvíz befejezve</p>
-
-          <div className="bg-slate-50 border border-slate-100 rounded-2xl p-6 mb-6">
-            <div className="text-5xl font-black text-cyan-600 mb-2">{percentage}%</div>
-            <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-              {finalCorrect} / {TOTAL_QUESTIONS} helyes válasz
-            </p>
-          </div>
-
-          <div className="flex justify-center mb-6">
-            <XPBadge xp={finalXP} />
-          </div>
-
-          <div className="flex gap-3">
-            <Button variant="outline" onClick={onBack} className="flex-1 rounded-xl h-11 font-bold">
-              Vissza
-            </Button>
-            <Button
-              onClick={() => {
-                setCurrentIndex(0);
-                setSelectedOption(null);
-                setShowResult(false);
-                setCorrectCount(0);
-                setQuizComplete(false);
-                setXpEarned(0);
-              }}
-              className="flex-1 bg-cyan-600 hover:bg-cyan-700 text-white rounded-xl h-11 font-bold shadow-md shadow-cyan-200"
-            >
-              <RotateCcw className="w-4 h-4 mr-2" /> Újra
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
+    ]
+  },
+  2: {
+    level: 2,
+    title: '2. Szint: Mértani Helyek és Nevezetes Vonalak',
+    subtitle: 'Körülírt kör, beírt kör, magasság- és súlypont, transzformációk',
+    range: '11-20. kérdés',
+    focus: 'Háromszög nevezetes vonalai, érintőszerkesztés, szabályos sokszögek',
+    questions: [
+      {
+        id: 'gs-q11',
+        level: 2,
+        question: 'Hogyan szerkeszthető meg egy háromszög köré írható körének O középpontja szoftverben minimális lépésszámmal?',
+        options: [
+          'Megszerkesztjük a háromszög két oldalának oldalfelező merőlegesét, és képezzük ezek metszéspontját (Metszéspont eszköz).',
+          'Szemre kijelölünk egy pontot a háromszög közepén.',
+          'Megszerkesztjük a belső szögfelezőket, és a legnagyobb oldalra állítunk merőlegest.',
+          'Összekötjük a csúcsokat a szemközti oldalak harmadolópontjaival.'
+        ],
+        correctAnswer: 0,
+        hint: 'A körülírt kör középpontja a 3 oldalfelező merőleges metszéspontja.',
+        explanation: 'Mivel a háromszög köré írt kör középpontja mindhárom csúcstól egyenlő távol van, az oldalfelező merőlegesek közös metszéspontjában található. Elég 2 oldalfelező merőlegest behúzni, metszéspontjuk adja O-t.',
+        breakdown: [
+          { label: 'Szükséges vonalak', value: '2 db oldalfelező merőleges' },
+          { label: 'Középpont', value: 'Metszéspont (O)' },
+          { label: 'Sugár', value: 'r = |OA| = |OB| = |OC|' }
+        ]
+      },
+      {
+        id: 'gs-q12',
+        level: 2,
+        question: 'Hogyan kapjuk meg a háromszög beírt körének K középpontját a program eszközeivel?',
+        options: [
+          'Legalább két belső szögfelező egyenes megszerkesztésével és azok metszéspontjának kijelölésével.',
+          'A három oldalfelező pontot összekötő szakaszok metszéspontjával.',
+          'A háromszög leghosszabb magasságának felezőpontjával.',
+          'A háromszög súlypontjának 180°-os elforgatásával.'
+        ],
+        correctAnswer: 0,
+        hint: 'A beírt kör mindhárom oldalt érinti, tehát az oldalaktól egyenlő távol van.',
+        explanation: 'A beírt kör középpontja mindhárom oldaltól egyenlő távolságra van, ezért a belső szögfelezők közös metszéspontjában (K) található. Bármely két belső szögfelező metszéspontja meghatározza K-t.',
+        breakdown: [
+          { label: 'Mértani hely', value: 'Szögfelezők metszéspontja' },
+          { label: 'Tulajdonság', value: 'Mindhárom oldaltól azonos sugárnyi távolság (ρ)' }
+        ]
+      },
+      {
+        id: 'gs-q13',
+        level: 2,
+        question: 'Hogyan szerkesztjük meg a háromszög magasságpontját (M) a szerkesztőprogramban?',
+        options: [
+          'A csúcsokból a szemközti oldalegyenesekre bocsátunk merőlegeseket a "Merőleges egyenes" eszközzel, majd metszéspontot képezünk.',
+          'Megmérjük az oldalak hosszát és elosztjuk kettővel.',
+          'Párhuzamosokat húzunk a háromszög oldalaira a súlyponton át.',
+          'Köröket rajzolunk a csúcsok köré az oldalak hosszával.'
+        ],
+        correctAnswer: 0,
+        hint: 'A magasságvonal a csúcsból a szemközti oldal egyenesére bocsátott merőleges.',
+        explanation: 'A háromszög magasságvonala a csúcson átmenő és a szemközti oldalegyenesre merőleges egyenes. Ezek metszéspontja az M magasságpont (orthocentrum).',
+        breakdown: [
+          { label: 'Eszköz', value: 'Merőleges egyenes (csúcs + szemközti oldal)' },
+          { label: 'Magasságpont', value: 'A 3 magasságvonal közös metszéspontja (M)' }
+        ]
+      },
+      {
+        id: 'gs-q14',
+        level: 2,
+        question: 'Melyik állítás írja le helyesen a háromszög súlypontjának (S) szoftveres előállítását?',
+        options: [
+          'A "Felezőpont" eszközzel megkeressük az oldalak felezőpontjait, szakasszal összekötjük a szemközti csúcsokkal, majd vesszük a metszéspontjukat.',
+          'A csúcsokból merőlegeseket húzunk az oldalakra.',
+          'A szögfelezők metszéspontját tükrözzük a leghosszabb oldalra.',
+          'Kiszámoljuk a háromszög területét és a harmadához igazítunk egy pontot.'
+        ],
+        correctAnswer: 0,
+        hint: 'Súlyvonal = csúcsot a szemközti oldalfelező ponttal összekötő szakasz.',
+        explanation: 'A súlyvonal a háromszög csúcsát a szemközti oldal felezőpontjával összekötő szakasz. A 3 súlyvonal egy pontban metszi egymást, ez az S súlypont, amely a súlyvonalakat 2:1 arányban osztja.',
+        breakdown: [
+          { label: 'Lépés 1', value: 'Oldalfelező pontok kijelölése' },
+          { label: 'Lépés 2', value: 'Szakasz a csúcshoz (súlyvonal)' },
+          { label: 'Lépés 3', value: 'Metszéspont = Súlypont (S)' }
+        ]
+      },
+      {
+        id: 'gs-q15',
+        level: 2,
+        question: 'Hogyan szerkeszthető meg egy kör adott P kerületi pontjában a kör érintője szoftverben?',
+        options: [
+          'Az OP sugár egyenesére állítunk merőleges egyenest a P ponton keresztül.',
+          'Párhuzamost húzunk az OP sugárral a kör középpontján át.',
+          'Két pontot veszünk fel a körön és összekötjük őket.',
+          'A kör területét elosztjuk a kerülettel.'
+        ],
+        correctAnswer: 0,
+        hint: 'A kör érintője merőleges az érintési pontba húzott sugárra.',
+        explanation: 'Egy kör érintője a sík azon egyenese, amelynek pontosan egy közös pontja van a körrel. Az érintő egyenes mindig merőleges az érintési pontba (P) mutató sugárra (OP).',
+        breakdown: [
+          { label: 'Geometriai tétel', value: '{"e_{érintő} \\perp OP"}' },
+          { label: 'Szoftveres lépés', value: 'Merőleges egyenes eszköz (P pont + OP sugár)' }
+        ]
+      },
+      {
+        id: 'gs-q16',
+        level: 2,
+        question: 'Egy AB szakaszból kiindulva hogyan kapjuk meg egy szabályos háromszög harmadik C csúcsát körökkel a programban?',
+        options: [
+          'Megrajzolunk egy A középpontú AB sugarú és egy B középpontú BA sugarú kört, metszéspontjuk adja a C csúcsot.',
+          'Szemre kiválasztunk egy pontot felül és odakattintunk.',
+          'Húzunk egy 45°-os félegyenest és lemérünk 5 cm-t.',
+          'A szakasz felezőpontjában felveszünk egy tetszőleges pontot.'
+        ],
+        correctAnswer: 0,
+        hint: 'A szabályos háromszög mindhárom oldala egyenlő hosszúságú (|AB| = |AC| = |BC|).',
+        explanation: 'Az A középpontú |AB| sugarú kör pontjai |AB| távol vannak A-tól. A B középpontú |AB| sugarú kör pontjai |AB| távol vannak B-től. Közös metszéspontjuk C mindkettőtől |AB| távolságra lesz, így |AB| = |AC| = |BC|.',
+        breakdown: [
+          { label: 'Euklidesz I. tétele', value: 'Szabályos háromszög szerkesztése 2 körrel' },
+          { label: 'Oldalhosszak', value: '|AB| = |BC| = |CA|' }
+        ]
+      },
+      {
+        id: 'gs-q17',
+        level: 2,
+        question: 'Mire szolgál a szoftverben a "Centrális (középpontos) tükrözés" eszköz?',
+        options: [
+          'Egy kijelölt alakzat minden pontját egy adott C tükrözési centrumon át azonos távolságra képezi le (180°-os forgatás).',
+          'A pontokat az origó felé kicsinyíti a felére.',
+          'Egy tükörtengelyre merőlegesen tükrözi az alakzatot.',
+          'Megméri a háromszög súlypontjának koordinátáit.'
+        ],
+        correctAnswer: 0,
+        hint: 'A pontra való tükrözés egybevágósági transzformáció.',
+        explanation: 'A középpontos tükrözés során a program az alakzat minden P pontjához hozzárendeli a P\' pontot úgy, hogy a C centrum a PP\' szakasz felezőpontja legyen. Ez egyben 180°-os elforgatás is C körül.',
+        breakdown: [
+          { label: 'Transzformáció', value: 'Középpontos tükrözés' },
+          { label: 'Centrum', value: 'A PP\' szakasz felezőpontja' }
+        ]
+      },
+      {
+        id: 'gs-q18',
+        level: 2,
+        question: 'Hogyan készíthetünk tengelyesen tükrözött képet egy sokszögről a szoftverben?',
+        options: [
+          'Kiválasztjuk a "Tengelyes tükrözés" eszközt, rákattintunk a sokszögre, majd a tükörtengely egyenesére.',
+          'Megrajzolunk egy kört a sokszög köré és elforgatjuk 90°-kal.',
+          'A sokszög minden csúcsát eltoljuk 5 egységgel jobbra.',
+          'Kijelöljük a sokszöget és megnyomjuk a Delete billentyűt.'
+        ],
+        correctAnswer: 0,
+        hint: 'Objektum kijelölése + tükörtengely kijelölése.',
+        explanation: 'A szoftver tengelyes tükrözés eszköze két bemenetet kér: a leképezendő alakzatot (tárgy) és a tükörtengelyt képviselő egyenest. Az eredmény egy egybevágó, fordított körüljárású tükörkép.',
+        breakdown: [
+          { label: 'Bemenet 1', value: 'Alakzat (kijelölés)' },
+          { label: 'Bemenet 2', value: 'Tükörtengely (egyenes)' }
+        ]
+      },
+      {
+        id: 'gs-q19',
+        level: 2,
+        question: 'Hogyan vizsgálható a párhuzamos szelők tétele dinamikus szerkesztőprogramban?',
+        options: [
+          'Egy szög szárait több párhuzamos egyenessel metsszük, és a levágott szakaszok hosszának arányát vonszolás közben is ellenőrizzük.',
+          'Két pontot összekötünk és megmérjük a szögüket.',
+          'Háromszöget rajzolunk és töröljük a magasságvonalait.',
+          'A képernyő felbontását növeljük 4K-ra.'
+        ],
+        correctAnswer: 0,
+        hint: 'A párhuzamos szelők az egyik száron levágott szakaszok arányát viszik át a másik szárra.',
+        explanation: 'A dinamikus programban a szög szárait elmetsző párhuzamosok által létrehozott szakaszok aránya (a/b és a\'/b\') vonszolás közben folyamatosan megegyezik, ami szemléletesen bizonyítja a tételt.',
+        breakdown: [
+          { label: 'Tétel', value: 'Párhuzamos szelők tétele' },
+          { label: 'Invariáns arány', value: '{"a / b = a\' / b\'"}' }
+        ]
+      },
+      {
+        id: 'gs-q20',
+        level: 2,
+        question: 'Mire használható a dinamikus szoftverekben a "Csúszka" (Slider) eszköz?',
+        options: [
+          'Egy numerikus érték (hosszúság, szög, nagyítási arány) intervallumon belüli folyamatos, interaktív változtatására.',
+          'A rajzlap színének beállítására.',
+          'Kizárólag az egér görgőjének sebességének mérésére.',
+          'A felhőbe történő automatikus mentés időközének beállítására.'
+        ],
+        correctAnswer: 0,
+        hint: 'Egy változó paraméter finomhangolására, animációkra.',
+        explanation: 'A csúszka egy változó paramétert (pl. a = 1-től 10-ig) jelenít meg, amelyet az egérrel húzhatunk vagy animálhatunk. Ezzel dinamikusan növelhetjük egy kör sugarát, egy forgatás szögét vagy a hasonlósági arányt.',
+        breakdown: [
+          { label: 'Szerepe', value: 'Paramétervezérlés' },
+          { label: 'Példák', value: 'Sugár (r), szög (α), arány (λ)' }
+        ]
+      }
+    ]
+  },
+  3: {
+    level: 3,
+    title: '3. Szint: Vonszolási Teszt és Invariánsok',
+    subtitle: 'Robusztus szerkesztések, Thalész-kör, Pitagorasz-modell és hibakeresés',
+    range: '21-30. kérdés',
+    focus: 'Vonszolási elv, szemre rajz vs. kötött szerkesztés, Euler-egyenes, stabilitás',
+    questions: [
+      {
+        id: 'gs-q21',
+        level: 3,
+        question: 'Egy tanuló négyzetet akart rajzolni a programban úgy, hogy letett 4 pontot, és szemre úgy igazította, hogy a szögek 90°-nak tűnjenek. Mi történik a "vonszolási teszt" során?',
+        options: [
+          'Bármelyik csúcs elhúzásakor az alakzat azonnal elveszíti négyzet mivoltát, mert nincsenek matematikai relációk (merőlegesség, egyenlő oldalak) rögzítve.',
+          'A program felismeri a szándékot és automatikusan négyzetként tartja.',
+          'A csúcsok lefagynak és nem lehet őket elmozdítani.',
+          'Az alakzat területe állandó marad.'
+        ],
+        correctAnswer: 0,
+        hint: 'A szemre illesztett rajz nem tartalmaz geometriai kötöttségeket.',
+        explanation: 'A vonszolási teszt lényege a szerkesztés robusztusságának ellenőrzése. Ha nem használtunk merőlegeseket, köröket az oldalak egyenlőségéhez, az alakzat szabad pontjai külön mozognak, és az ábra szétesik.',
+        breakdown: [
+          { label: 'Hiba oka', value: 'Hiányzó geometriai relációk' },
+          { label: 'Teszt eredménye', value: 'A négyzet azonnal torzul és szétesik' }
+        ]
+      },
+      {
+        id: 'gs-q22',
+        level: 3,
+        question: 'Hogyan szerkeszthetünk olyan derékszögű háromszöget, amelynek C csúcsát vonszolva a γ szög mindig, minden helyzetben garantáltan 90° marad?',
+        options: [
+          'Megrajzolunk egy AB szakaszt, annak F felezőpontja köré |FA| sugarú kört (Thalész-kör), és a C csúcsot e körvonalra illesztjük rá.',
+          'Megrajzolunk egy vízszintes és egy függőleges szakaszt a négyzethálón.',
+          'Szemre 90°-ra állítjuk a szögmérő eszközt, majd elmentjük a fájlt.',
+          'Egy tetszőleges háromszögben addig húzzuk a csúcsot, amíg a szögmérő 90,0°-ot nem ír ki.'
+        ],
+        correctAnswer: 0,
+        hint: 'Thalész tétele: az átmérő fölé emelt kerületi szög derékszög.',
+        explanation: 'Thalész tétele kimondja, hogy ha egy kör átmérőjének két végpontját összekötjük a körvonal bármely más pontjával, derékszöget kapunk. Ha C-t a körvonalhoz kötjük mint pályát, vonszoláskor mindig pontosan 90° marad.',
+        breakdown: [
+          { label: 'Matematikai alap', value: 'Thalész tétele' },
+          { label: 'Szerkesztési lépés', value: 'Kör átmérővel + kerületre kötött C pont' },
+          { label: 'Stabilitás', value: 'Vonszoláskor folyamatosan γ = 90°' }
+        ]
+      },
+      {
+        id: 'gs-q23',
+        level: 3,
+        question: 'Mi történik a háromszög köré írt körének O középpontjával, ha egy hegyesszögű háromszög egyik csúcsát addig vonszoljuk, amíg a szemközti szög tompaszöggé (> 90°) nem válik?',
+        options: [
+          'Az O középpont átlépi a leghosszabb oldalt, és a háromszögön kívülre kerül.',
+          'Az O középpont megsemmisül, mert tompaszögű háromszögnek nincs körülírt köre.',
+          'Az O pont mindig a háromszög súlypontjába ugrik.',
+          'Semmi sem változik, az O pont mindig a háromszög belsejében marad.'
+        ],
+        correctAnswer: 0,
+        hint: 'Hegyesszögűnél belül, derékszögűnél az átfogón, tompaszögűnél kívül van O.',
+        explanation: 'Hegyesszögű háromszög esetén a körülírt kör középpontja a belső tartományban van; derékszögű háromszögnél pontosan az átfogó felezőpontjára esik; tompaszögű háromszögnél pedig a tompaszöggel szemközti oldalán KÍVÜLRE kerül.',
+        breakdown: [
+          { label: 'Hegyesszögű', value: 'O a háromszög belsejében' },
+          { label: 'Derékszögű', value: 'O az átfogó felezőpontján' },
+          { label: 'Tompaszögű', value: 'O a háromszögön KÍVÜL' }
+        ]
+      },
+      {
+        id: 'gs-q24',
+        level: 3,
+        question: 'Hol helyezkedik el a körülírt kör O középpontja, ha a háromszög pontosan derékszögű?',
+        options: [
+          'Pontosan az átfogó (leghosszabb oldal) felezőpontjában.',
+          'A derékszögű csúcsban.',
+          'A háromszög súlypontjában.',
+          'A háromszög legrövidebb befogójának harmadpontjánál.'
+        ],
+        correctAnswer: 0,
+        hint: 'Thalész tétele alapján az átfogó éppen a kör átmérője.',
+        explanation: 'Derékszögű háromszögben az átfogó a körülírt kör átmérője (Thalész-tétel megfordítása), ezért a körülírt kör középpontja az átfogó felezőpontja, sugara pedig az átfogó fele: r = c / 2.',
+        breakdown: [
+          { label: 'Helyzet', value: 'Átfogó felezőpontja (F_c)' },
+          { label: 'Kör sugara', value: 'r = c / 2' }
+        ]
+      },
+      {
+        id: 'gs-q25',
+        level: 3,
+        question: 'Hogyan modellezhető a Pitagorasz-tétel egy dinamikus szoftverben szemléletesen?',
+        options: [
+          'Egy robusztusan derékszögű háromszög mindhárom oldalára négyzetet szerkesztünk, és a területmérővel kimutatjuk, hogy a befogónégyzetek területeinek összege egyenlő az átfogónégyzet területével.',
+          'Megmérjük a háromszög kerületét és kivonjuk a belső szögek összegét.',
+          'Megrajzolunk egy kört és felosztjuk 3 részre.',
+          'A csúcsok koordinátáit megszorozzuk π-vel.'
+        ],
+        correctAnswer: 0,
+        hint: 'a² + b² = c² területi interpretációja.',
+        explanation: 'A Pitagorasz-tétel mértani jelentése, hogy a befogókra emelt négyzetek területösszege megegyezik az átfogóra emelt négyzet területével (T_a + T_b = T_c). A szoftverben ez a csúcsok mozgatása közben is állandóan teljesül.',
+        breakdown: [
+          { label: 'Területi összefüggés', value: '{"T_a + T_b = T_c"}' },
+          { label: 'Dinamikus ellenőrzés', value: 'Vonszoláskor a területek összege azonnal egyezik' }
+        ]
+      },
+      {
+        id: 'gs-q26',
+        level: 3,
+        question: 'Egy rögzített AB átfogójú derékszögű háromszög C derékszögű csúcsára bekapcsoljuk a "Nyomvonal" (Trace) funkciót, majd C-t mozgatjuk. Milyen görbét rajzol ki a pont a síkban?',
+        options: [
+          'Egy kört (az AB átmérőjű Thalész-kört a végpontok kivételével).',
+          'Egy parabolát.',
+          'Egy szabályos hatszöget.',
+          'Egyenes vonalat az AB szakasszal párhuzamosan.'
+        ],
+        correctAnswer: 0,
+        hint: 'A pontok, amelyekből egy szakasz 90°-os szögben látszik.',
+        explanation: 'A Thalész-tétel miatt azok a pontok a síkban, amelyekből az AB szakasz derékszögben látszik, pontosan az AB átmérőjű körön helyezkednek el. Ezért a pont nyomvonala ezt a kört fedi le.',
+        breakdown: [
+          { label: 'Mértani hely', value: 'Thalész-kör' },
+          { label: 'Kirajzolt pálya', value: 'Körvonal AB átmérővel' }
+        ]
+      },
+      {
+        id: 'gs-q27',
+        level: 3,
+        question: 'Egy tetszőleges háromszögben megszerkesztjük az O (körülírt kör Kp.), S (súlypont) és M (magasságpont) pontokat. Milyen nevezetes tételt figyelhetünk meg vonszoláskor?',
+        options: [
+          'Az O, S és M pontok mindig egyetlen egyenesre esnek (Euler-egyenes), és az S pont az OM szakaszt 2:1 arányban osztja (MS : SO = 2 : 1).',
+          'Az O, S és M pontok mindig egy egyenlő oldalú háromszöget alkotnak.',
+          'A három pont mindig a háromszög leghosszabb oldalára esik.',
+          'A pontok távolsága egymástól mindig pontosan 10 cm.'
+        ],
+        correctAnswer: 0,
+        hint: 'Euler-egyenes (Leonhard Euler tétele).',
+        explanation: 'Leonhard Euler fedezte fel, hogy minden háromszögben a magasságpont (M), a súlypont (S) és a körülírt kör középpontja (O) egy egyenesen van (Euler-egyenes), és az S pont az MO szakaszt MS = 2·SO arányban osztja.',
+        breakdown: [
+          { label: 'Tétel', value: 'Euler-egyenes' },
+          { label: 'Kollinearitás', value: 'O, S, M egy egyenesen vannak' },
+          { label: 'Arány', value: 'MS : SO = 2 : 1' }
+        ]
+      },
+      {
+        id: 'gs-q28',
+        level: 3,
+        question: 'Egy diák megszerkesztette a háromszög beírt körének K középpontját (szögfelezők metszéspontja). Hogyan kell pontosan megrajzolni magát a beírt kört?',
+        options: [
+          'K-ból merőlegest bocsátunk az egyik oldalegyenesre (ez adja a T érintési pontot), majd megrajzoljuk a K középpontú KT sugarú kört.',
+          'Szemre addig húzzuk a kört a K pontból, amíg nem látszik úgy, hogy éppen érinti az oldalt.',
+          'Összekötjük K-t a legközelebbi csúccsal, és az lesz a sugár.',
+          'A körülírt kör sugarát elosztjuk kettővel.'
+        ],
+        correctAnswer: 0,
+        hint: 'A kör érintője merőleges az érintési pontba mutató sugárra.',
+        explanation: 'A beírt kör érinti az oldalakat, tehát a sugara a K pont távolsága az oldaltól. Ezt pontosan úgy kapjuk meg, hogy K-ból merőlegest állítunk az oldalra, annak metszéspontja adja az érintési pontot, a távolság pedig a sugarat.',
+        breakdown: [
+          { label: 'Lépés 1', value: 'Merőleges K-ból az oldalra' },
+          { label: 'Lépés 2', value: 'Metszéspont T (érintési pont)' },
+          { label: 'Lépés 3', value: 'Kör K középponttal és T ponttal' }
+        ]
+      },
+      {
+        id: 'gs-q29',
+        level: 3,
+        question: 'Miért veszélyes és hibás geometriai eljárás egy szoftverben a "szemre illesztés" a valódi szerkesztési eszközök helyett?',
+        options: [
+          'Mert az ábra nem tartalmazza az elvárt matematikai axiómákat és relációkat; dinamikus mozgatáskor az összefüggések felborulnak és hamis következtetéshez vezetnek.',
+          'Mert a számítógép processzora túlmelegszik tőle.',
+          'Mert a szemre rajzolt vonalak vastagabbak a képernyőn.',
+          'Mert a program automatikusan levon 10 pontot a dolgozatból.'
+        ],
+        correctAnswer: 0,
+        hint: 'A dinamikus geometria lényege a matematikai kapcsolatok programozása.',
+        explanation: 'A dinamikus geometriai környezet ereje a matematikai dependenciákban (függőségekben) rejlik. A szemre illesztett objektum független marad, így elmozdításkor nem követi a tételeket, és hamis intuíciókat eredményez.',
+        breakdown: [
+          { label: 'Matematikai hiba', value: 'Hiányzó összefüggésrendszer' },
+          { label: 'Következmény', value: 'Általánosíthatóság elvesztése' }
+        ]
+      },
+      {
+        id: 'gs-q30',
+        level: 3,
+        question: 'Egy tetszőleges háromszög csúcsait elvonszolva a szögmérő eszköz értékeit összeadva mindig pontosan 180°-ot kapunk. Miért nevezzük ezt "geometriai invariánsnak"?',
+        options: [
+          'Mert az alakzat formájának, méretének vagy helyzetének változása (vonszolás) ellenére ez az érték matematikai tétel alapján szigorúan állandó marad.',
+          'Mert a szoftver fejlesztői ezt egy fix számként beégették a forráskódba.',
+          'Mert a képernyő pixeljei csak 180 fokot képesek megjeleníteni.',
+          'Mert a csúszka értéke nem haladhatja meg a 180-at.'
+        ],
+        correctAnswer: 0,
+        hint: 'Invariáns = a transzformáció vagy deformáció során változatlanul maradó tulajdonság.',
+        explanation: 'Geometriai invariánsnak nevezzük azokat a tulajdonságokat vagy mennyiségeket, amelyek egy megengedett műveletcsoport (itt a síkbeli szabad csúcsvonszolás) során változatlanok maradnak. A síkháromszög belső szögeinek összege az euklideszi geometria egyik legfőbb invariánsa.',
+        breakdown: [
+          { label: 'Fogalom', value: 'Geometriai Invariáns' },
+          { label: 'Matematikai tétel', value: '{"\\alpha + \\beta + \\gamma = 180^\\circ"}' },
+          { label: 'Jelentősége', value: 'Bármely háromszögre érvényes alapigazság' }
+        ]
+      }
+    ]
   }
+};
 
+export const GeometrySoftwareQuiz: React.FC<GeometrySoftwareQuizProps> = ({
+  onBack,
+  onSwitchToTheory
+}) => {
   return (
-    <div className="max-w-2xl mx-auto py-4">
-      <div className="flex items-center justify-between mb-6">
-        <Button variant="ghost" onClick={onBack} className="rounded-xl hover:bg-slate-100 text-slate-600 font-bold">
-          <ArrowLeft className="w-4 h-4 mr-2" /> Vissza
-        </Button>
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-bold px-3 py-1 bg-cyan-50 text-cyan-700 rounded-full border border-cyan-100">
-            {currentQ.category}
-          </span>
-          <XPBadge xp={xpEarned} />
-        </div>
-      </div>
-
-      <div className="mb-6">
-        <div className="flex justify-between items-center text-xs font-bold text-slate-400 mb-2">
-          <span>Kérdés {currentIndex + 1} / {TOTAL_QUESTIONS}</span>
-          <span>{Math.round(((currentIndex + 1) / TOTAL_QUESTIONS) * 100)}%</span>
-        </div>
-        <ProgressBar current={currentIndex + 1} total={TOTAL_QUESTIONS} variant="default" size="lg" />
-      </div>
-
-      <div className="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-slate-100 space-y-6">
-        <div className="flex items-start gap-3">
-          <div className="p-2.5 bg-cyan-50 text-cyan-600 rounded-xl">
-            <MonitorPlay className="w-6 h-6" />
-          </div>
-          <div>
-            <span className="text-xs font-bold text-cyan-600 uppercase tracking-wider">3. Fejezet • Geometriai Szoftverek</span>
-            <h3 className="text-lg md:text-xl font-bold text-slate-800 mt-1 leading-snug">
-              {currentQ.question}
-            </h3>
-          </div>
-        </div>
-
-        <div className="space-y-3">
-          {currentQ.options.map((opt, idx) => {
-            const isSelected = selectedOption === idx;
-            const isCorrect = idx === currentQ.correctIndex;
-            let btnStyle = "border-slate-200 hover:border-cyan-300 hover:bg-cyan-50/50 text-slate-700";
-
-            if (showResult) {
-              if (isCorrect) {
-                btnStyle = "border-emerald-500 bg-emerald-50 text-emerald-900 font-bold";
-              } else if (isSelected && !isCorrect) {
-                btnStyle = "border-rose-500 bg-rose-50 text-rose-900";
-              } else {
-                btnStyle = "border-slate-100 text-slate-400 opacity-60";
-              }
-            } else if (isSelected) {
-              btnStyle = "border-cyan-600 bg-cyan-50 text-cyan-900 font-bold ring-2 ring-cyan-500/20";
-            }
-
-            return (
-              <button
-                key={idx}
-                disabled={showResult}
-                onClick={() => handleSelect(idx)}
-                className={cn(
-                  "w-full text-left p-4 rounded-2xl border-2 transition-all flex items-center justify-between text-sm md:text-base font-medium",
-                  btnStyle
-                )}
-              >
-                <span>{opt}</span>
-                {showResult && isCorrect && <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 ml-2" />}
-                {showResult && isSelected && !isCorrect && <XCircle className="w-5 h-5 text-rose-600 shrink-0 ml-2" />}
-              </button>
-            );
-          })}
-        </div>
-
-        {showResult && (
-          <div className="p-4 bg-slate-50 border border-slate-200/80 rounded-2xl text-xs md:text-sm text-slate-600 space-y-1 animate-in fade-in-50">
-            <div className="font-bold flex items-center gap-1.5 text-slate-800">
-              <HelpCircle className="w-4 h-4 text-cyan-600" /> Magyarázat:
-            </div>
-            <p>{currentQ.explanation}</p>
-          </div>
-        )}
-
-        <div className="pt-2">
-          {!showResult ? (
-            <Button
-              disabled={selectedOption === null}
-              onClick={checkAnswer}
-              className="w-full bg-cyan-600 hover:bg-cyan-700 text-white h-12 rounded-xl font-bold shadow-md shadow-cyan-200"
-            >
-              Válasz ellenőrzése
-            </Button>
-          ) : (
-            <Button
-              onClick={nextQuestion}
-              className="w-full bg-slate-900 hover:bg-slate-800 text-white h-12 rounded-xl font-bold flex items-center justify-center gap-2"
-            >
-              <span>{currentIndex < TOTAL_QUESTIONS - 1 ? 'Következő feladat' : 'Eredmények megtekintése'}</span>
-              <ArrowRight className="w-4 h-4" />
-            </Button>
-          )}
-        </div>
-      </div>
-    </div>
+    <QuizTemplate
+      onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      topicId="g8-geom-software"
+      grade={8}
+      chapterId="geometria"
+      topicTitle="Használjunk szerkesztőprogramot!"
+      emoji="💻"
+      topicBadge="8. Osztály • II. Geometria • 3. Témakör"
+      badgeText="8. Osztály • Matematika"
+      title="Szerkesztőprogram kvíz"
+      subtitle="Dinamikus geometria, mértani helyek, kötöttségek és vonszolás 3 szinten"
+      cheatSheetTitle="Dinamikus Geometria Segédlet"
+      cheatSheetCards={cheatSheetCards}
+      hintText="💡 Figyeld a különbséget a szabadon mozgatható kék pontok és a szerkesztett kötött szürke pontok között!"
+      levels={quizLevels}
+      matcherComponent={<GeometrySoftwareMatcher onBack={onBack} onSwitchToTheory={onSwitchToTheory} />}
+      sorterComponent={<GeometrySoftwareSorter onBack={onBack} onSwitchToTheory={onSwitchToTheory} />}
+      themeColor="cyan"
+    />
   );
-}
+};
 
 export default GeometrySoftwareQuiz;

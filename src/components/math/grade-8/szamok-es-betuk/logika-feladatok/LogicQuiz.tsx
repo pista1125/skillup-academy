@@ -1,5 +1,7 @@
 import React from 'react';
 import { QuizTemplate, LevelConfig, CheatSheetCard } from '../QuizTemplate';
+import { LogicMatcher } from './LogicMatcher';
+import { LogicSorter } from './LogicSorter';
 import {
   Brain,
   CheckCircle2,
@@ -573,6 +575,8 @@ export const LogicQuiz: React.FC<LogicQuizProps> = ({
       cheatSheetTitle="Logikai szabályok & Skatulya-elv"
       cheatSheetCards={cheatSheetCards}
       levels={quizLevels}
+      matcherComponent={<LogicMatcher onBack={onBack} onSwitchToTheory={onSwitchToTheory} />}
+      sorterComponent={<LogicSorter onBack={onBack} onSwitchToTheory={onSwitchToTheory} />}
       themeColor="blue"
       onSwitchToTheory={onSwitchToTheory}
     />
