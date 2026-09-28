@@ -93,6 +93,150 @@ function shuffleArray<T>(array: T[]): T[] {
   return arr;
 }
 
+interface ThemeConfig {
+  topBarGradient: string;
+  topBarBorder: string;
+  iconBg: string;
+  badgeText: string;
+  cardBase: string;
+  cardFlipped: string;
+  figureBorder: string;
+  accentBtn: string;
+  ruleBtn: string;
+  theoryBtn: string;
+  winBg: string;
+  winIcon: string;
+}
+
+const THEME_MAP: Record<string, ThemeConfig> = {
+  teal: {
+    topBarGradient: 'from-teal-50/80 via-white to-emerald-50/80 dark:bg-slate-850',
+    topBarBorder: 'border-teal-200/90 dark:border-teal-800/80',
+    iconBg: 'bg-gradient-to-br from-teal-500 to-emerald-600',
+    badgeText: 'text-teal-700 dark:text-teal-300',
+    cardBase: 'border-2 border-teal-200/90 dark:border-teal-800/80 bg-gradient-to-br from-white via-teal-50/30 to-emerald-50/40 text-slate-900 dark:text-slate-100 hover:border-teal-500 dark:hover:border-teal-400 hover:shadow-md hover:from-teal-50/60 hover:to-emerald-50/70 hover:-translate-y-0.5 active:translate-y-0',
+    cardFlipped: 'border-2 border-teal-500 bg-gradient-to-br from-teal-100 via-cyan-50 to-emerald-100 text-teal-950 dark:text-teal-50 ring-3 ring-teal-400/40 shadow-lg scale-[1.02]',
+    figureBorder: 'border-teal-100/80 dark:border-teal-900/60',
+    accentBtn: 'bg-teal-600 hover:bg-teal-700 text-white',
+    ruleBtn: 'border-teal-200 text-teal-800 bg-teal-50/50 hover:bg-teal-100',
+    theoryBtn: 'border-emerald-200 text-emerald-800 bg-emerald-50/50 hover:bg-emerald-100',
+    winBg: 'from-teal-50/80 to-white dark:from-slate-850 dark:to-slate-900 border-teal-300 dark:border-teal-800/80',
+    winIcon: 'from-amber-400 to-teal-600 shadow-teal-500/30',
+  },
+  emerald: {
+    topBarGradient: 'from-emerald-50/80 via-white to-teal-50/80 dark:bg-slate-850',
+    topBarBorder: 'border-emerald-200/90 dark:border-emerald-800/80',
+    iconBg: 'bg-gradient-to-br from-emerald-500 to-teal-600',
+    badgeText: 'text-emerald-700 dark:text-emerald-300',
+    cardBase: 'border-2 border-emerald-200/90 dark:border-emerald-800/80 bg-gradient-to-br from-white via-emerald-50/30 to-teal-50/40 text-slate-900 dark:text-slate-100 hover:border-emerald-500 dark:hover:border-emerald-400 hover:shadow-md hover:from-emerald-50/60 hover:to-teal-50/70 hover:-translate-y-0.5 active:translate-y-0',
+    cardFlipped: 'border-2 border-emerald-500 bg-gradient-to-br from-emerald-100 via-green-50 to-teal-100 text-emerald-950 dark:text-emerald-50 ring-3 ring-emerald-400/40 shadow-lg scale-[1.02]',
+    figureBorder: 'border-emerald-100/80 dark:border-emerald-900/60',
+    accentBtn: 'bg-emerald-600 hover:bg-emerald-700 text-white',
+    ruleBtn: 'border-emerald-200 text-emerald-800 bg-emerald-50/50 hover:bg-emerald-100',
+    theoryBtn: 'border-teal-200 text-teal-800 bg-teal-50/50 hover:bg-teal-100',
+    winBg: 'from-emerald-50/80 to-white dark:from-slate-850 dark:to-slate-900 border-emerald-300 dark:border-emerald-800/80',
+    winIcon: 'from-amber-400 to-emerald-600 shadow-emerald-500/30',
+  },
+  blue: {
+    topBarGradient: 'from-blue-50/80 via-white to-cyan-50/80 dark:bg-slate-850',
+    topBarBorder: 'border-blue-200/90 dark:border-blue-800/80',
+    iconBg: 'bg-gradient-to-br from-blue-500 to-cyan-600',
+    badgeText: 'text-blue-700 dark:text-blue-300',
+    cardBase: 'border-2 border-blue-200/90 dark:border-blue-800/80 bg-gradient-to-br from-white via-blue-50/30 to-cyan-50/40 text-slate-900 dark:text-slate-100 hover:border-blue-500 dark:hover:border-blue-400 hover:shadow-md hover:from-blue-50/60 hover:to-cyan-50/70 hover:-translate-y-0.5 active:translate-y-0',
+    cardFlipped: 'border-2 border-blue-500 bg-gradient-to-br from-blue-100 via-sky-50 to-cyan-100 text-blue-950 dark:text-blue-50 ring-3 ring-blue-400/40 shadow-lg scale-[1.02]',
+    figureBorder: 'border-blue-100/80 dark:border-blue-900/60',
+    accentBtn: 'bg-blue-600 hover:bg-blue-700 text-white',
+    ruleBtn: 'border-blue-200 text-blue-800 bg-blue-50/50 hover:bg-blue-100',
+    theoryBtn: 'border-cyan-200 text-cyan-800 bg-cyan-50/50 hover:bg-cyan-100',
+    winBg: 'from-blue-50/80 to-white dark:from-slate-850 dark:to-slate-900 border-blue-300 dark:border-blue-800/80',
+    winIcon: 'from-amber-400 to-blue-600 shadow-blue-500/30',
+  },
+  cyan: {
+    topBarGradient: 'from-cyan-50/80 via-white to-teal-50/80 dark:bg-slate-850',
+    topBarBorder: 'border-cyan-200/90 dark:border-cyan-800/80',
+    iconBg: 'bg-gradient-to-br from-cyan-500 to-teal-600',
+    badgeText: 'text-cyan-700 dark:text-cyan-300',
+    cardBase: 'border-2 border-cyan-200/90 dark:border-cyan-800/80 bg-gradient-to-br from-white via-cyan-50/30 to-teal-50/40 text-slate-900 dark:text-slate-100 hover:border-cyan-500 dark:hover:border-cyan-400 hover:shadow-md hover:from-cyan-50/60 hover:to-teal-50/70 hover:-translate-y-0.5 active:translate-y-0',
+    cardFlipped: 'border-2 border-cyan-500 bg-gradient-to-br from-cyan-100 via-sky-50 to-teal-100 text-cyan-950 dark:text-cyan-50 ring-3 ring-cyan-400/40 shadow-lg scale-[1.02]',
+    figureBorder: 'border-cyan-100/80 dark:border-cyan-900/60',
+    accentBtn: 'bg-cyan-600 hover:bg-cyan-700 text-white',
+    ruleBtn: 'border-cyan-200 text-cyan-800 bg-cyan-50/50 hover:bg-cyan-100',
+    theoryBtn: 'border-teal-200 text-teal-800 bg-teal-50/50 hover:bg-teal-100',
+    winBg: 'from-cyan-50/80 to-white dark:from-slate-850 dark:to-slate-900 border-cyan-300 dark:border-cyan-800/80',
+    winIcon: 'from-amber-400 to-cyan-600 shadow-cyan-500/30',
+  },
+  violet: {
+    topBarGradient: 'from-violet-50/80 via-white to-purple-50/80 dark:bg-slate-850',
+    topBarBorder: 'border-violet-200/90 dark:border-violet-800/80',
+    iconBg: 'bg-gradient-to-br from-violet-500 to-purple-600',
+    badgeText: 'text-violet-700 dark:text-violet-300',
+    cardBase: 'border-2 border-violet-200/90 dark:border-violet-800/80 bg-gradient-to-br from-white via-violet-50/30 to-purple-50/40 text-slate-900 dark:text-slate-100 hover:border-violet-500 dark:hover:border-violet-400 hover:shadow-md hover:from-violet-50/60 hover:to-purple-50/70 hover:-translate-y-0.5 active:translate-y-0',
+    cardFlipped: 'border-2 border-violet-500 bg-gradient-to-br from-violet-100 via-fuchsia-50 to-purple-100 text-violet-950 dark:text-violet-50 ring-3 ring-violet-400/40 shadow-lg scale-[1.02]',
+    figureBorder: 'border-violet-100/80 dark:border-violet-900/60',
+    accentBtn: 'bg-violet-600 hover:bg-violet-700 text-white',
+    ruleBtn: 'border-violet-200 text-violet-800 bg-violet-50/50 hover:bg-violet-100',
+    theoryBtn: 'border-purple-200 text-purple-800 bg-purple-50/50 hover:bg-purple-100',
+    winBg: 'from-violet-50/80 to-white dark:from-slate-850 dark:to-slate-900 border-violet-300 dark:border-violet-800/80',
+    winIcon: 'from-amber-400 to-violet-600 shadow-violet-500/30',
+  },
+  purple: {
+    topBarGradient: 'from-purple-50/80 via-white to-fuchsia-50/80 dark:bg-slate-850',
+    topBarBorder: 'border-purple-200/90 dark:border-purple-800/80',
+    iconBg: 'bg-gradient-to-br from-purple-500 to-fuchsia-600',
+    badgeText: 'text-purple-700 dark:text-purple-300',
+    cardBase: 'border-2 border-purple-200/90 dark:border-purple-800/80 bg-gradient-to-br from-white via-purple-50/30 to-fuchsia-50/40 text-slate-900 dark:text-slate-100 hover:border-purple-500 dark:hover:border-purple-400 hover:shadow-md hover:from-purple-50/60 hover:to-fuchsia-50/70 hover:-translate-y-0.5 active:translate-y-0',
+    cardFlipped: 'border-2 border-purple-500 bg-gradient-to-br from-purple-100 via-pink-50 to-fuchsia-100 text-purple-950 dark:text-purple-50 ring-3 ring-purple-400/40 shadow-lg scale-[1.02]',
+    figureBorder: 'border-purple-100/80 dark:border-purple-900/60',
+    accentBtn: 'bg-purple-600 hover:bg-purple-700 text-white',
+    ruleBtn: 'border-purple-200 text-purple-800 bg-purple-50/50 hover:bg-purple-100',
+    theoryBtn: 'border-fuchsia-200 text-fuchsia-800 bg-fuchsia-50/50 hover:bg-fuchsia-100',
+    winBg: 'from-purple-50/80 to-white dark:from-slate-850 dark:to-slate-900 border-purple-300 dark:border-purple-800/80',
+    winIcon: 'from-amber-400 to-purple-600 shadow-purple-500/30',
+  },
+  amber: {
+    topBarGradient: 'from-amber-50/80 via-white to-orange-50/80 dark:bg-slate-850',
+    topBarBorder: 'border-amber-200/90 dark:border-amber-800/80',
+    iconBg: 'bg-gradient-to-br from-amber-500 to-orange-600',
+    badgeText: 'text-amber-700 dark:text-amber-300',
+    cardBase: 'border-2 border-amber-200/90 dark:border-amber-800/80 bg-gradient-to-br from-white via-amber-50/30 to-orange-50/40 text-slate-900 dark:text-slate-100 hover:border-amber-500 dark:hover:border-amber-400 hover:shadow-md hover:from-amber-50/60 hover:to-orange-50/70 hover:-translate-y-0.5 active:translate-y-0',
+    cardFlipped: 'border-2 border-amber-500 bg-gradient-to-br from-amber-100 via-yellow-50 to-orange-100 text-amber-950 dark:text-amber-50 ring-3 ring-amber-400/40 shadow-lg scale-[1.02]',
+    figureBorder: 'border-amber-100/80 dark:border-amber-900/60',
+    accentBtn: 'bg-amber-600 hover:bg-amber-700 text-white',
+    ruleBtn: 'border-amber-200 text-amber-800 bg-amber-50/50 hover:bg-amber-100',
+    theoryBtn: 'border-orange-200 text-orange-800 bg-orange-50/50 hover:bg-orange-100',
+    winBg: 'from-amber-50/80 to-white dark:from-slate-850 dark:to-slate-900 border-amber-300 dark:border-amber-800/80',
+    winIcon: 'from-amber-400 to-orange-600 shadow-amber-500/30',
+  },
+  pink: {
+    topBarGradient: 'from-pink-50/80 via-white to-rose-50/80 dark:bg-slate-850',
+    topBarBorder: 'border-pink-200/90 dark:border-pink-800/80',
+    iconBg: 'bg-gradient-to-br from-pink-500 to-rose-600',
+    badgeText: 'text-pink-700 dark:text-pink-300',
+    cardBase: 'border-2 border-pink-200/90 dark:border-pink-800/80 bg-gradient-to-br from-white via-pink-50/30 to-rose-50/40 text-slate-900 dark:text-slate-100 hover:border-pink-500 dark:hover:border-pink-400 hover:shadow-md hover:from-pink-50/60 hover:to-rose-50/70 hover:-translate-y-0.5 active:translate-y-0',
+    cardFlipped: 'border-2 border-pink-500 bg-gradient-to-br from-pink-100 via-fuchsia-50 to-rose-100 text-pink-950 dark:text-pink-50 ring-3 ring-pink-400/40 shadow-lg scale-[1.02]',
+    figureBorder: 'border-pink-100/80 dark:border-pink-900/60',
+    accentBtn: 'bg-pink-600 hover:bg-pink-700 text-white',
+    ruleBtn: 'border-pink-200 text-pink-800 bg-pink-50/50 hover:bg-pink-100',
+    theoryBtn: 'border-rose-200 text-rose-800 bg-rose-50/50 hover:bg-rose-100',
+    winBg: 'from-pink-50/80 to-white dark:from-slate-850 dark:to-slate-900 border-pink-300 dark:border-pink-800/80',
+    winIcon: 'from-amber-400 to-pink-600 shadow-pink-500/30',
+  },
+  rose: {
+    topBarGradient: 'from-rose-50/80 via-white to-pink-50/80 dark:bg-slate-850',
+    topBarBorder: 'border-rose-200/90 dark:border-rose-800/80',
+    iconBg: 'bg-gradient-to-br from-rose-500 to-pink-600',
+    badgeText: 'text-rose-700 dark:text-rose-300',
+    cardBase: 'border-2 border-rose-200/90 dark:border-rose-800/80 bg-gradient-to-br from-white via-rose-50/30 to-pink-50/40 text-slate-900 dark:text-slate-100 hover:border-rose-500 dark:hover:border-rose-400 hover:shadow-md hover:from-rose-50/60 hover:to-pink-50/70 hover:-translate-y-0.5 active:translate-y-0',
+    cardFlipped: 'border-2 border-rose-500 bg-gradient-to-br from-rose-100 via-red-50 to-pink-100 text-rose-950 dark:text-rose-50 ring-3 ring-rose-400/40 shadow-lg scale-[1.02]',
+    figureBorder: 'border-rose-100/80 dark:border-rose-900/60',
+    accentBtn: 'bg-rose-600 hover:bg-rose-700 text-white',
+    ruleBtn: 'border-rose-200 text-rose-800 bg-rose-50/50 hover:bg-rose-100',
+    theoryBtn: 'border-pink-200 text-pink-800 bg-pink-50/50 hover:bg-pink-100',
+    winBg: 'from-rose-50/80 to-white dark:from-slate-850 dark:to-slate-900 border-rose-300 dark:border-rose-800/80',
+    winIcon: 'from-amber-400 to-rose-600 shadow-rose-500/30',
+  }
+};
+
 export function MatcherTemplate({
   level,
   currentLevel,
@@ -133,6 +277,8 @@ export function MatcherTemplate({
   const allLevels = levels || levelsConfig;
   const rawLvl = currentLevel ?? (typeof level === 'number' ? level : ((level as any)?.level ?? 1));
   const activeLevel: DifficultyLevel = (typeof rawLvl === 'number' ? rawLvl : 1) as DifficultyLevel;
+
+  const theme = THEME_MAP[themeColor] || THEME_MAP.teal;
 
   // Normalize pairs from various prop formats
   const getLevelPairs = (): MatcherPair[] => {
@@ -189,7 +335,7 @@ export function MatcherTemplate({
 
   useEffect(() => {
     initGame();
-  }, [activeLevel, level, currentLevel, config, levels, levelsConfig]);
+  }, [activeLevel, currentLevel, level, title, topicId]);
 
   // Timer tick
   useEffect(() => {
@@ -336,47 +482,51 @@ export function MatcherTemplate({
   const displaySubtitle = currentConfig?.description || currentConfig?.subtitle || subtitle;
 
   return (
-    <div className="space-y-4 animate-in fade-in duration-300 text-left">
+    <div className="space-y-2.5 sm:space-y-3 animate-in fade-in duration-300 text-left">
       {/* Top Controls & Stats */}
-      <div className="bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-3 sm:p-4 border border-slate-200 dark:border-slate-700/80 flex flex-wrap items-center justify-between gap-3 shadow-xs">
-        <div className="flex items-center gap-3">
+      <div className={cn(
+        "rounded-2xl p-2.5 sm:p-3 border-2 flex flex-wrap items-center justify-between gap-2.5 shadow-xs bg-gradient-to-r",
+        theme.topBarGradient,
+        theme.topBarBorder
+      )}>
+        <div className="flex items-center gap-2.5">
           {onBack ? (
             <Button
               variant="outline"
               size="sm"
               onClick={onBack}
-              className="rounded-xl h-9 px-2.5 text-xs font-bold gap-1 border-slate-200 dark:border-slate-700"
+              className={cn("rounded-xl h-8 px-2.5 text-xs font-bold gap-1", theme.ruleBtn)}
             >
               <ArrowLeft className="w-4 h-4 mr-0.5" />
               Vissza
             </Button>
           ) : (
-            <div className="w-10 h-10 rounded-xl bg-teal-100 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 flex items-center justify-center font-bold">
-              <ArrowRightLeft className="w-5 h-5" />
+            <div className={cn("w-8 h-8 rounded-xl text-white flex items-center justify-center font-bold shadow-xs", theme.iconBg)}>
+              <ArrowRightLeft className="w-4 h-4" />
             </div>
           )}
           <div>
             {badge && (
-              <div className="text-[11px] font-bold text-teal-600 dark:text-teal-400">
+              <div className={cn("text-[10px] font-black uppercase tracking-wider", theme.badgeText)}>
                 {badge}
               </div>
             )}
             <div className="text-sm font-black text-slate-800 dark:text-slate-200">
               {typeof displayTitle === 'string' ? <MathText>{displayTitle}</MathText> : displayTitle} {allLevels ? `(${activeLevel}. szint)` : ''}
             </div>
-            <div className="text-xs text-slate-500 dark:text-slate-400">
+            <div className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1">
               {typeof displaySubtitle === 'string' ? <MathText>{displaySubtitle}</MathText> : displaySubtitle}
             </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-300 shadow-xs">
+        <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap">
+          <div className="flex items-center gap-1.5 px-3 py-1 bg-white dark:bg-slate-900 rounded-xl border border-blue-200 dark:border-blue-800 text-xs font-bold text-blue-900 dark:text-blue-300 shadow-2xs">
             <Clock className="w-3.5 h-3.5 text-blue-500" />
             <span>{formatTime(seconds)}</span>
           </div>
 
-          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-300 shadow-xs">
+          <div className="flex items-center gap-1.5 px-3 py-1 bg-white dark:bg-slate-900 rounded-xl border border-emerald-200 dark:border-emerald-800 text-xs font-bold text-emerald-900 dark:text-emerald-300 shadow-2xs">
             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
             <span>
               {matchesCount} / {totalPairs} pár
@@ -384,7 +534,7 @@ export function MatcherTemplate({
           </div>
 
           {mistakes > 0 && (
-            <div className="px-2.5 py-1.5 bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-rose-600 dark:text-rose-400 rounded-xl text-xs font-bold">
+            <div className="px-2.5 py-1 bg-rose-50 dark:bg-rose-950/40 border border-rose-300 dark:border-rose-800 text-rose-700 dark:text-rose-300 rounded-xl text-xs font-bold shadow-2xs">
               {mistakes} hiba
             </div>
           )}
@@ -395,15 +545,15 @@ export function MatcherTemplate({
             onClick={initGame}
             className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 border-slate-200 dark:border-slate-700 cursor-pointer hover:bg-slate-100"
           >
-            <RotateCcw className="w-3.5 h-3.5" />
-            Újrakezdés
+            <RotateCcw className="w-3.5 h-3.5 text-slate-600" />
+            Újra
           </Button>
 
           <Button
             variant="outline"
             size="sm"
             onClick={() => setShowLeaderboard(true)}
-            className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 border-purple-300 dark:border-purple-700/60 bg-purple-50/50 dark:bg-purple-950/30 text-purple-700 dark:text-purple-300 hover:bg-purple-100 hover:border-purple-400 shadow-2xs cursor-pointer"
+            className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 border-purple-300 dark:border-purple-700/60 bg-purple-50/60 dark:bg-purple-950/30 text-purple-700 dark:text-purple-300 hover:bg-purple-100 hover:border-purple-400 shadow-2xs cursor-pointer"
           >
             <Trophy className="w-3.5 h-3.5 text-purple-500" />
             Rangsor
@@ -411,10 +561,10 @@ export function MatcherTemplate({
 
           {onOpenRules && (
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
               onClick={onOpenRules}
-              className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 text-slate-700 dark:text-slate-300 cursor-pointer hover:bg-slate-100"
+              className={cn("rounded-xl h-8 px-2.5 text-xs font-bold gap-1 cursor-pointer", theme.ruleBtn)}
             >
               <BookOpen className="w-3.5 h-3.5" />
               Szabályzat
@@ -423,10 +573,10 @@ export function MatcherTemplate({
 
           {onSwitchToTheory && (
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
               onClick={onSwitchToTheory}
-              className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 text-teal-600 dark:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-950/40 cursor-pointer"
+              className={cn("rounded-xl h-8 px-2.5 text-xs font-bold gap-1 cursor-pointer", theme.theoryBtn)}
             >
               <BookOpen className="w-3.5 h-3.5" />
               Tananyag
@@ -437,17 +587,22 @@ export function MatcherTemplate({
 
       {/* Cards Grid */}
       {!isCompleted ? (
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
+        <div className={cn(
+          "grid gap-2 sm:gap-2.5",
+          cards.length <= 12
+            ? "grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
+            : cards.length <= 16
+            ? "grid-cols-2 sm:grid-cols-4 lg:grid-cols-4"
+            : "grid-cols-2 sm:grid-cols-4 lg:grid-cols-5"
+        )}>
           {cards.map((card) => {
-            let cardClass =
-              'border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 hover:border-teal-500 dark:hover:border-teal-500 hover:shadow-xs hover:-translate-y-0.5 active:translate-y-0';
+            let cardClass = theme.cardBase;
 
             if (card.isMatched) {
               cardClass =
-                'border-2 border-teal-500/80 bg-teal-50/60 dark:bg-teal-950/40 text-teal-800 dark:text-teal-300 opacity-60 pointer-events-none scale-95';
+                'border-2 border-emerald-400/80 bg-gradient-to-br from-emerald-100/90 to-teal-100/90 dark:bg-emerald-950/60 text-emerald-950 dark:text-emerald-200 opacity-60 pointer-events-none scale-95 shadow-inner';
             } else if (card.isFlipped) {
-              cardClass =
-                'border-2 border-teal-500 bg-teal-50 dark:bg-teal-950/40 text-teal-950 dark:text-teal-100 ring-2 ring-teal-500/30 shadow-md scale-[1.02]';
+              cardClass = theme.cardFlipped;
             }
 
             return (
@@ -456,28 +611,34 @@ export function MatcherTemplate({
                 type="button"
                 onClick={() => handleCardClick(card)}
                 disabled={card.isMatched || isChecking}
+                title={typeof card.content === 'string' ? card.content : undefined}
                 className={cn(
-                  'min-h-[105px] sm:min-h-[120px] p-3 rounded-2xl font-bold text-xs sm:text-sm transition-all duration-200 flex flex-col items-center justify-center text-center select-none shadow-xs relative border-2 cursor-pointer overflow-hidden',
+                  'min-h-[64px] sm:min-h-[72px] lg:min-h-[76px] p-2 sm:p-2.5 rounded-xl font-medium text-xs sm:text-sm transition-all duration-200 flex flex-col items-center justify-center text-center select-none shadow-xs relative border-2 cursor-pointer overflow-hidden',
                   cardClass
                 )}
               >
-                <div className="w-full h-full flex flex-col items-center justify-center relative p-1">
+                <div className="w-full h-full flex flex-col items-center justify-center relative p-0.5">
                   {card.figure ? (
-                    <div className="flex flex-col items-center justify-center gap-1.5 w-full">
-                      <div className="max-h-16 max-w-full flex items-center justify-center overflow-hidden">{card.figure}</div>
+                    <div className="flex flex-col items-center justify-center gap-1 w-full">
+                      <div className={cn(
+                        "max-h-7 sm:max-h-8 max-w-full flex items-center justify-center overflow-hidden [&>svg]:w-full [&>svg]:h-full p-0.5 rounded-md bg-white/90 dark:bg-slate-800/90 border shadow-2xs",
+                        theme.figureBorder
+                      )}>
+                        {card.figure}
+                      </div>
                       {card.content && (
-                        <span className="leading-snug font-bold text-xs sm:text-sm break-words line-clamp-2">
-                          {typeof card.content === 'string' ? <MathText size="md">{card.content}</MathText> : card.content}
+                        <span className="leading-tight font-bold text-[11px] sm:text-xs break-words line-clamp-2 text-slate-800 dark:text-slate-100">
+                          {typeof card.content === 'string' ? <MathText size="sm">{card.content}</MathText> : card.content}
                         </span>
                       )}
                     </div>
                   ) : (
-                    <span className="leading-snug font-bold text-xs sm:text-sm break-words line-clamp-3">
-                      {typeof card.content === 'string' ? <MathText size="lg">{card.content}</MathText> : card.content}
+                    <span className="leading-tight font-bold text-xs sm:text-[13px] break-words line-clamp-3 text-slate-800 dark:text-slate-100">
+                      {typeof card.content === 'string' ? <MathText size="md">{card.content}</MathText> : card.content}
                     </span>
                   )}
                   {card.isMatched && (
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 absolute top-1 right-1" />
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 absolute top-0.5 right-0.5" />
                   )}
                 </div>
               </button>
@@ -486,8 +647,14 @@ export function MatcherTemplate({
         </div>
       ) : (
         /* Completion Screen */
-        <div className="bg-gradient-to-b from-teal-50/80 to-white dark:from-slate-850 dark:to-slate-900 border-2 border-teal-300 dark:border-teal-800/80 rounded-3xl p-6 sm:p-8 text-center space-y-6 shadow-xl animate-in zoom-in-95 duration-300">
-          <div className="w-16 h-16 rounded-3xl bg-gradient-to-br from-amber-400 to-teal-600 text-white flex items-center justify-center mx-auto shadow-lg shadow-teal-500/30">
+        <div className={cn(
+          "bg-gradient-to-b border-2 rounded-3xl p-6 sm:p-8 text-center space-y-6 shadow-xl animate-in zoom-in-95 duration-300",
+          theme.winBg
+        )}>
+          <div className={cn(
+            "w-16 h-16 rounded-3xl text-white flex items-center justify-center mx-auto shadow-lg bg-gradient-to-br",
+            theme.winIcon
+          )}>
             <Trophy className="w-8 h-8" />
           </div>
 
@@ -502,50 +669,45 @@ export function MatcherTemplate({
 
           <div className="flex items-center justify-center gap-4 max-w-xs mx-auto">
             <div className="p-3 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 flex-1">
-              <div className="text-[11px] text-slate-500 dark:text-slate-400 font-bold uppercase">Időeredmény</div>
-              <div className="text-lg font-black text-teal-600 dark:text-teal-400 font-mono">
+              <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">Idő</div>
+              <div className="text-lg font-black text-blue-600 dark:text-blue-400">
                 {formatTime(seconds)}
               </div>
             </div>
-
             <div className="p-3 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 flex-1">
-              <div className="text-[11px] text-slate-500 dark:text-slate-400 font-bold uppercase">Hibák</div>
-              <div className="text-lg font-black text-slate-800 dark:text-slate-200 font-mono">
-                {mistakes} db
+              <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">Hibák</div>
+              <div className={cn(
+                "text-lg font-black",
+                mistakes === 0 ? "text-emerald-600 dark:text-emerald-400" : "text-amber-600 dark:text-amber-400"
+              )}>
+                {mistakes}
               </div>
             </div>
           </div>
 
-          {/* Profile Save Confirmation */}
-          <div className="flex items-center justify-center gap-2 max-w-sm mx-auto py-2 px-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/80 text-emerald-700 dark:text-emerald-300 text-xs font-bold">
-            <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-            <span>
-              {user ? 'Párosító eredményed elmentve a profilodba! 🎉' : 'Jelentkezz be a haladás mentéséhez!'}
-            </span>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-2.5 pt-2">
-            <Button
-              onClick={() => setShowLeaderboard(true)}
-              className="rounded-xl h-10 px-5 font-bold bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white shadow-md text-xs sm:text-sm gap-1.5 cursor-pointer"
-            >
-              <Trophy className="w-4 h-4 text-amber-100" />
-              Rangsor Megtekintése
-            </Button>
-
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <Button
               onClick={initGame}
               variant="outline"
-              className="rounded-xl h-10 px-5 font-bold border-2 border-slate-300 dark:border-slate-700 text-xs sm:text-sm cursor-pointer"
+              className="rounded-xl h-10 px-4 font-bold border-slate-300 dark:border-slate-700 text-xs sm:text-sm cursor-pointer hover:bg-slate-100"
             >
               <RotateCcw className="w-4 h-4 mr-1.5" />
-              Párosítás Újra
+              Újra ezen a szinten
+            </Button>
+
+            <Button
+              onClick={() => setShowLeaderboard(true)}
+              variant="outline"
+              className="rounded-xl h-10 px-4 font-bold border-purple-300 text-purple-700 bg-purple-50 hover:bg-purple-100 text-xs sm:text-sm cursor-pointer"
+            >
+              <Trophy className="w-4 h-4 mr-1.5 text-purple-500" />
+              Ranglista Megtekintése
             </Button>
 
             {activeLevel < 3 && onNextLevel && (
               <Button
                 onClick={onNextLevel}
-                className="rounded-xl h-10 px-5 font-bold bg-teal-600 hover:bg-teal-700 text-white shadow-md text-xs sm:text-sm cursor-pointer"
+                className={cn("rounded-xl h-10 px-5 font-bold shadow-md text-xs sm:text-sm cursor-pointer", theme.accentBtn)}
               >
                 Következő Szint ({activeLevel + 1}. szint)
                 <ArrowRight className="w-4 h-4 ml-1.5" />
@@ -556,7 +718,7 @@ export function MatcherTemplate({
               <Button
                 variant="ghost"
                 onClick={onSwitchToTheory}
-                className="rounded-xl h-10 px-4 font-bold text-xs sm:text-sm text-teal-600 dark:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-950/40 cursor-pointer"
+                className={cn("rounded-xl h-10 px-4 font-bold text-xs sm:text-sm cursor-pointer", theme.badgeText)}
               >
                 <BookOpen className="w-4 h-4 mr-1.5" />
                 Vissza a tananyaghoz

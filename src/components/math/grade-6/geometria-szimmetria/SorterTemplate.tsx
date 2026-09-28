@@ -8,11 +8,10 @@ import {
   XCircle,
   BookOpen,
   ArrowRight,
-  ArrowRightLeft,
   ArrowLeft,
+  ArrowRightLeft,
   Sparkles,
-  Layers,
-  HelpCircle
+  Layers
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { DifficultyLevel } from './QuizTemplate';
@@ -53,22 +52,31 @@ export interface SorterLevelConfig {
 
 export interface SorterTemplateProps {
   level?: DifficultyLevel;
+  currentLevel?: DifficultyLevel;
   grade?: number;
   chapterId?: string;
   topicId?: string;
+  topicTitle?: string;
   title?: string;
   subtitle?: string;
   badge?: string;
   levels?: Record<DifficultyLevel, SorterLevelConfig>;
   levelsConfig?: Record<DifficultyLevel, SorterLevelConfig>;
   config?: SorterLevelConfig;
+  categories?: SorterCategory[];
+  items?: SorterItem[];
+  level1Categories?: SorterCategory[];
+  level1Items?: SorterItem[];
+  level2Categories?: SorterCategory[];
+  level2Items?: SorterItem[];
+  level3Categories?: SorterCategory[];
+  level3Items?: SorterItem[];
   onNextLevel?: () => void;
   onOpenRules?: () => void;
   onBack?: () => void;
   onSwitchToQuiz?: () => void;
   onSwitchToMatcher?: () => void;
   onSwitchToTheory?: () => void;
-  category?: string;
   [key: string]: any;
 }
 
@@ -82,23 +90,32 @@ function shuffleArray<T>(array: T[]): T[] {
 }
 
 export function SorterTemplate({
-  level = 1,
-  grade = 6,
-  chapterId = 'g6-geometry',
-  topicId,
-  title = 'Csoportosító Játék',
+  level,
+  currentLevel,
+  title = 'Geometria és szimmetria – Csoportosító',
   subtitle = 'Válaszd ki a kártyát, majd kattints a megfelelő kategóriára!',
   badge,
+  topicTitle,
   levels,
   levelsConfig,
   config,
+  categories,
+  items,
+  level1Categories,
+  level1Items,
+  level2Categories,
+  level2Items,
+  level3Categories,
+  level3Items,
   onNextLevel,
   onOpenRules,
   onBack,
   onSwitchToQuiz,
   onSwitchToMatcher,
   onSwitchToTheory,
-  ...rest
+  grade = 6,
+  chapterId = 'geometria-szimmetria',
+  topicId
 }: SorterTemplateProps) {
   const { user, profile } = useAuth();
   const [unassignedItems, setUnassignedItems] = useState<SorterItem[]>([]);
@@ -116,35 +133,49 @@ export function SorterTemplate({
     wrongItemIds: []
   });
 
-  const safeLevel: DifficultyLevel = (typeof level === 'number' ? level : ((level as any)?.level ?? 1)) as DifficultyLevel;
-  const [activeLevel, setActiveLevel] = useState<DifficultyLevel>(safeLevel || (config?.level as DifficultyLevel) || 1);
-
-  useEffect(() => {
-    if (level) {
-      const sLevel = (typeof level === 'number' ? level : ((level as any)?.level ?? 1)) as DifficultyLevel;
-      setActiveLevel(sLevel);
-    }
-  }, [level]);
-
   const allLevels = levels || levelsConfig;
-  const currentConfig = config || allLevels?.[activeLevel];
+  const rawLvl = currentLevel ?? (typeof level === 'number' ? level : ((level as any)?.level ?? 1));
+  const activeLevel: DifficultyLevel = (typeof rawLvl === 'number' ? rawLvl : 1) as DifficultyLevel;
 
-  const getItemLabel = (item?: SorterItem | null) => {
-    if (!item) return '';
-    return item.label ?? item.text ?? item.content ?? '';
+  // Normalize level configuration from any prop format
+  const getLevelConfig = (): SorterLevelConfig => {
+    if (config?.categories && config?.items) return config;
+    if (allLevels && allLevels[activeLevel]) return allLevels[activeLevel];
+    if (activeLevel === 1 && level1Categories && level1Items) {
+      return { categories: level1Categories, items: level1Items };
+    }
+    if (activeLevel === 2 && level2Categories && level2Items) {
+      return { categories: level2Categories, items: level2Items };
+    }
+    if (activeLevel === 3 && level3Categories && level3Items) {
+      return { categories: level3Categories, items: level3Items };
+    }
+    if (categories && items) {
+      return { categories, items };
+    }
+    if (level1Categories && level1Items) {
+      return { categories: level1Categories, items: level1Items };
+    }
+    return { categories: [], items: [] };
   };
 
-  const getCategoryName = (cat: SorterCategory) => {
-    return cat.name ?? cat.title ?? '';
-  };
+  const currentConfig = getLevelConfig();
 
   const initGame = () => {
-    const activeConf = config || allLevels?.[activeLevel];
-    if (!activeConf) return;
+    const activeCfg = getLevelConfig();
+    if (!activeCfg || !activeCfg.categories) return;
 
-    setUnassignedItems(shuffleArray(activeConf.items || []));
+    // Normalize item labels and categories
+    const normalizedItems: SorterItem[] = (activeCfg.items || []).map((it) => ({
+      ...it,
+      id: it.id,
+      label: it.label || it.content || it.text || '',
+      category: it.category || it.categoryId || ''
+    }));
+
+    setUnassignedItems(shuffleArray(normalizedItems));
     const initialBuckets: Record<string, SorterItem[]> = {};
-    (activeConf.categories || []).forEach((cat) => {
+    activeCfg.categories.forEach((cat) => {
       initialBuckets[cat.id] = [];
     });
     setCategorizedItems(initialBuckets);
@@ -159,7 +190,7 @@ export function SorterTemplate({
 
   useEffect(() => {
     initGame();
-  }, [activeLevel, levels, levelsConfig, config]);
+  }, [activeLevel, currentLevel, topicId, title]);
 
   const handleSelectItem = (item: SorterItem) => {
     if (validationResult.isChecked && validationResult.isAllCorrect) return;
@@ -184,13 +215,14 @@ export function SorterTemplate({
       );
     });
 
-    // Add to target category
-    updatedBuckets[categoryId] = [...(updatedBuckets[categoryId] || []), selectedItem];
+    // Add to new category bucket
+    if (!updatedBuckets[categoryId]) updatedBuckets[categoryId] = [];
+    updatedBuckets[categoryId].push(selectedItem);
 
     setCategorizedItems(updatedBuckets);
     setSelectedItem(null);
 
-    // Reset check state on edit
+    // Reset validation state on change
     if (validationResult.isChecked) {
       setValidationResult({
         isChecked: false,
@@ -204,14 +236,16 @@ export function SorterTemplate({
   const handleReturnToUnassigned = (item: SorterItem) => {
     if (validationResult.isChecked && validationResult.isAllCorrect) return;
 
+    // Remove from buckets
     const updatedBuckets: Record<string, SorterItem[]> = {};
     Object.keys(categorizedItems).forEach((catKey) => {
       updatedBuckets[catKey] = categorizedItems[catKey].filter(
         (it) => it.id !== item.id
       );
     });
-
     setCategorizedItems(updatedBuckets);
+
+    // Add back to unassigned
     setUnassignedItems((prev) => [...prev, item]);
     setSelectedItem(null);
 
@@ -225,26 +259,27 @@ export function SorterTemplate({
     }
   };
 
-  const handleCheck = () => {
+  const handleValidate = () => {
+    let mistakes = 0;
     const wrongIds: (string | number)[] = [];
 
     Object.keys(categorizedItems).forEach((catKey) => {
       const itemsInCat = categorizedItems[catKey] || [];
-      itemsInCat.forEach((item) => {
-        const itemCat = item.category ?? item.categoryId;
-        if (itemCat !== catKey) {
-          wrongIds.push(item.id);
+      itemsInCat.forEach((it) => {
+        const expectedCat = it.category || it.categoryId;
+        if (expectedCat !== catKey) {
+          mistakes++;
+          wrongIds.push(it.id);
         }
       });
     });
 
-    const isAllPlaced = unassignedItems.length === 0;
-    const isAllCorrect = isAllPlaced && wrongIds.length === 0;
+    const isAllCorrect = mistakes === 0 && unassignedItems.length === 0;
 
     setValidationResult({
       isChecked: true,
       isAllCorrect,
-      mistakesCount: wrongIds.length,
+      mistakesCount: mistakes,
       wrongItemIds: wrongIds
     });
 
@@ -255,260 +290,319 @@ export function SorterTemplate({
         origin: { y: 0.6 }
       });
 
-      if (user) {
-        const totalItemsCount = currentConfig?.items?.length || 10;
+      const computedTopicId = (topicId || badge || title || 'sorter').toLowerCase().replace(/[^a-z0-9-]+/g, '');
+      const g = grade || 6;
+      const ch = chapterId || 'geometria-szimmetria';
+      const displayTitle = topicTitle ? `${topicTitle} (Csoportosító)` : title;
 
+      if (user) {
+        const totalItemsCount = currentConfig.items?.length || 10;
         saveQuizProgress({
           userId: user.uid,
           studentName: profile?.full_name || user.displayName || 'Diák',
           studentEmail: profile?.email || user.email || '',
           userCode: profile?.user_code || '',
-          grade: grade || 6,
-          chapterId: chapterId || 'g6-geometry',
-          topicId: topicId || title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-          topicTitle: title,
+          grade: g,
+          chapterId: ch,
+          topicId: computedTopicId,
+          topicTitle: topicTitle || title,
+          quizId: `g${g}__${ch}__${computedTopicId}__sorter__lvl${activeLevel}`,
           gameType: 'sorter',
-          level: activeLevel || 1,
+          level: activeLevel,
+          title: displayTitle,
           percentage: 100,
+          score: 100,
           scorePoints: totalItemsCount,
-          totalQuestions: totalItemsCount
-        });
+          totalQuestions: totalItemsCount,
+          bestStreak: totalItemsCount,
+          completed: true
+        }).catch((err) => console.error('Failed to auto-save sorter progress:', err));
       }
     }
   };
 
-  const handleNextLevel = () => {
-    if (allLevels && activeLevel < 3 && allLevels[(activeLevel + 1) as DifficultyLevel]) {
-      setActiveLevel((prev) => (prev + 1) as DifficultyLevel);
-    } else if (onNextLevel) {
-      onNextLevel();
-    }
-  };
-
-  const displayTitle = config?.title || allLevels?.[activeLevel]?.title || title;
-  const displaySubtitle = config?.description || allLevels?.[activeLevel]?.description || subtitle;
   const allPlaced = unassignedItems.length === 0;
+  const currentTitle = currentConfig?.title || title;
+  const currentSubtitle = currentConfig?.description || currentConfig?.subtitle || subtitle;
 
-  if (!currentConfig) return null;
+  if (!currentConfig || !currentConfig.categories || currentConfig.categories.length === 0) return null;
+
+  // Vibrant color themes for the category buckets
+  const categoryThemes = [
+    {
+      border: 'border-emerald-300 dark:border-emerald-800',
+      bg: 'bg-gradient-to-b from-emerald-50/60 via-white to-emerald-50/20 dark:from-emerald-950/30 dark:via-slate-900 dark:to-slate-900',
+      badge: 'bg-emerald-600 text-white shadow-2xs',
+      dropZone: 'bg-emerald-50/70 dark:bg-emerald-950/40 border-emerald-200/80 dark:border-emerald-900/60',
+    },
+    {
+      border: 'border-teal-300 dark:border-teal-800',
+      bg: 'bg-gradient-to-b from-teal-50/60 via-white to-teal-50/20 dark:from-teal-950/30 dark:via-slate-900 dark:to-slate-900',
+      badge: 'bg-teal-600 text-white shadow-2xs',
+      dropZone: 'bg-teal-50/70 dark:bg-teal-950/40 border-teal-200/80 dark:border-teal-900/60',
+    },
+    {
+      border: 'border-blue-300 dark:border-blue-800',
+      bg: 'bg-gradient-to-b from-blue-50/60 via-white to-blue-50/20 dark:from-blue-950/30 dark:via-slate-900 dark:to-slate-900',
+      badge: 'bg-blue-600 text-white shadow-2xs',
+      dropZone: 'bg-blue-50/70 dark:bg-blue-950/40 border-blue-200/80 dark:border-blue-900/60',
+    },
+    {
+      border: 'border-purple-300 dark:border-purple-800',
+      bg: 'bg-gradient-to-b from-purple-50/60 via-white to-purple-50/20 dark:from-purple-950/30 dark:via-slate-900 dark:to-slate-900',
+      badge: 'bg-purple-600 text-white shadow-2xs',
+      dropZone: 'bg-purple-50/70 dark:bg-purple-950/40 border-purple-200/80 dark:border-purple-900/60',
+    },
+    {
+      border: 'border-amber-300 dark:border-amber-800',
+      bg: 'bg-gradient-to-b from-amber-50/60 via-white to-amber-50/20 dark:from-amber-950/30 dark:via-slate-900 dark:to-slate-900',
+      badge: 'bg-amber-600 text-white shadow-2xs',
+      dropZone: 'bg-amber-50/70 dark:bg-amber-950/40 border-amber-200/80 dark:border-amber-900/60',
+    },
+    {
+      border: 'border-rose-300 dark:border-rose-800',
+      bg: 'bg-gradient-to-b from-rose-50/60 via-white to-rose-50/20 dark:from-rose-950/30 dark:via-slate-900 dark:to-slate-900',
+      badge: 'bg-rose-600 text-white shadow-2xs',
+      dropZone: 'bg-rose-50/70 dark:bg-rose-950/40 border-rose-200/80 dark:border-rose-900/60',
+    }
+  ];
 
   return (
-    <div className="space-y-4 animate-in fade-in duration-300">
+    <div className="space-y-2.5 sm:space-y-3 animate-in fade-in duration-300 text-left">
       {/* Top Bar */}
-      <div className="bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-3 sm:p-4 border border-slate-200 dark:border-slate-700/80 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
+      <div className="bg-gradient-to-r from-purple-50/80 via-white to-fuchsia-50/80 dark:bg-slate-850 rounded-2xl p-2.5 sm:p-3 border-2 border-purple-200/90 dark:border-purple-800/80 flex flex-wrap items-center justify-between gap-2.5 shadow-xs">
+        <div className="flex items-center gap-2.5">
           {onBack ? (
             <Button
               variant="outline"
               size="sm"
               onClick={onBack}
-              className="rounded-xl h-9 px-2.5 text-xs font-bold gap-1 border-slate-200 dark:border-slate-700"
+              className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 border-purple-200 dark:border-purple-800 hover:bg-purple-50"
             >
-              <ArrowLeft className="w-4 h-4 mr-0.5" />
+              <ArrowLeft className="w-4 h-4 mr-0.5 text-purple-600" />
               Vissza
             </Button>
           ) : (
-            <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold">
-              <Layers className="w-5 h-5" />
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-purple-500 to-fuchsia-600 text-white flex items-center justify-center font-bold shadow-xs">
+              <ArrowRightLeft className="w-4 h-4" />
             </div>
           )}
           <div>
-            {badge && (
-              <div className="text-[11px] font-bold text-slate-500 dark:text-slate-400">
-                {badge}
-              </div>
-            )}
             <div className="text-sm font-black text-slate-800 dark:text-slate-200">
-              <MathText>{displayTitle}</MathText> {allLevels ? `(${activeLevel}. szint)` : ''}
+              {typeof currentTitle === 'string' ? <MathText>{currentTitle}</MathText> : currentTitle} ({activeLevel}. szint)
+            </div>
+            <div className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1">
+              {typeof currentSubtitle === 'string' ? <MathText>{currentSubtitle}</MathText> : currentSubtitle}
             </div>
           </div>
         </div>
 
-        {/* Action Tabs & Nav buttons */}
-        <div className="flex items-center gap-2">
-          {onSwitchToTheory && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onSwitchToTheory}
-              className="rounded-xl h-8 px-2.5 text-xs font-bold border-purple-200 dark:border-purple-800 bg-purple-50/50 dark:bg-purple-950/30 text-purple-700 dark:text-purple-300"
-            >
-              <BookOpen className="w-3.5 h-3.5 mr-1" />
-              Tananyag
-            </Button>
-          )}
-
-          {onSwitchToQuiz && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onSwitchToQuiz}
-              className="rounded-xl h-8 px-2.5 text-xs font-bold border-slate-200 dark:border-slate-700"
-            >
-              Kvíz mód
-            </Button>
-          )}
-
-          {onSwitchToMatcher && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onSwitchToMatcher}
-              className="rounded-xl h-8 px-2.5 text-xs font-bold border-slate-200 dark:border-slate-700"
-            >
-              Párosító
-            </Button>
-          )}
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+          <div className="flex items-center gap-1.5 px-3 py-1 bg-white dark:bg-slate-900 rounded-xl border border-purple-200 dark:border-purple-800 text-xs font-bold text-purple-900 dark:text-purple-300 shadow-2xs">
+            <Layers className="w-3.5 h-3.5 text-purple-500" />
+            <span>
+              Még besorolandó: <strong className="text-purple-600 dark:text-purple-400">{unassignedItems.length} db</strong>
+            </span>
+          </div>
 
           <Button
             variant="outline"
             size="sm"
             onClick={initGame}
-            className="rounded-xl h-8 px-2.5 text-xs font-bold border-slate-200 dark:border-slate-700"
-            title="Újrakezdés"
+            className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 border-slate-200 dark:border-slate-700 cursor-pointer hover:bg-slate-100"
           >
-            <RotateCcw className="w-3.5 h-3.5" />
+            <RotateCcw className="w-3.5 h-3.5 text-slate-600" />
+            Újrakezdés
           </Button>
-        </div>
-      </div>
 
-      {/* Instructions */}
-      <div className="text-xs font-medium text-slate-600 dark:text-slate-400 px-1">
-        {displaySubtitle}
-      </div>
+          {onOpenRules && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onOpenRules}
+              className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 border-purple-200 text-purple-800 bg-purple-50/50 hover:bg-purple-100 cursor-pointer"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-purple-600" />
+              Szabályzat
+            </Button>
+          )}
 
-      {/* Unassigned Items Pool - Optimized Grid Layout */}
-      <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border-2 border-slate-200/80 dark:border-slate-800 space-y-3 shadow-sm">
-        <div className="flex items-center justify-between text-xs font-bold text-slate-500 dark:text-slate-400">
-          <span className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-slate-400"></span>
-            Besorolásra váró kártyák ({unassignedItems.length} db)
-          </span>
-          {selectedItem && (
-            <span className="animate-pulse font-extrabold text-xs flex items-center gap-1 text-purple-600 dark:text-purple-400">
-              👉 Kattints a kívánt kategória dobozára!
-            </span>
+          {onSwitchToTheory && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onSwitchToTheory}
+              className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 border-violet-200 text-violet-800 bg-violet-50/50 hover:bg-violet-100 cursor-pointer"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-violet-600" />
+              Tananyag
+            </Button>
           )}
         </div>
+      </div>
 
-        {unassignedItems.length > 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2.5 sm:gap-3 p-3 bg-slate-50/70 dark:bg-slate-850/60 rounded-xl border border-dashed border-slate-200 dark:border-slate-700/80">
+      {/* Unassigned Items Pool */}
+      {unassignedItems.length > 0 && (
+        <div className="bg-gradient-to-b from-purple-50/40 via-white to-indigo-50/20 dark:bg-slate-900 rounded-2xl p-2.5 sm:p-3 border-2 border-dashed border-purple-300 dark:border-purple-800 shadow-xs space-y-1.5 sm:space-y-2">
+          <div className="flex items-center justify-between text-xs font-bold text-slate-500 dark:text-slate-400 px-1">
+            <span className="flex items-center gap-2">
+              <span className="text-purple-900 dark:text-purple-200 font-extrabold text-[11px] sm:text-xs">Kattints egy kártyára a kiválasztáshoz:</span>
+              <span className="text-[10px] font-black text-purple-700 dark:text-purple-300 bg-purple-100 dark:bg-purple-950/70 px-2 py-0.5 rounded-full border border-purple-300 dark:border-purple-800">
+                {unassignedItems.length} db maradt
+              </span>
+            </span>
+            {selectedItem && (
+              <span className="text-purple-600 dark:text-purple-400 font-bold animate-pulse text-[11px] sm:text-xs">
+                👉 Kiválasztva: most kattints egy lenti csoportra!
+              </span>
+            )}
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-2.5">
             {unassignedItems.map((item) => {
               const isSelected = selectedItem?.id === item.id;
+              const labelText = item.label || item.content || item.text;
               return (
                 <button
                   key={item.id}
-                  type="button"
                   onClick={() => handleSelectItem(item)}
+                  title={typeof labelText === 'string' ? labelText : undefined}
                   className={cn(
-                    'min-h-[76px] sm:min-h-[86px] p-2 sm:p-2.5 rounded-2xl border-2 transition-all flex flex-col items-center justify-center text-center cursor-pointer select-none',
+                    'p-1.5 sm:p-2 rounded-xl text-left transition-all border-2 shadow-xs cursor-pointer flex items-center gap-2 min-h-[44px]',
                     isSelected
-                      ? 'border-purple-500 bg-purple-50 dark:bg-purple-950/50 text-purple-950 dark:text-purple-100 ring-2 ring-purple-500/40 shadow-sm scale-[1.02]'
-                      : 'border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-800 hover:border-purple-300 dark:hover:border-purple-600 text-slate-800 dark:text-slate-200 shadow-2xs hover:shadow-xs'
+                      ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white border-purple-700 shadow-md scale-[1.01] ring-3 ring-purple-300 dark:ring-purple-800'
+                      : 'bg-gradient-to-r from-white via-purple-50/25 to-white dark:bg-slate-800 border-purple-200/90 dark:border-purple-800 text-slate-900 dark:text-slate-100 hover:border-purple-500 hover:bg-gradient-to-r hover:from-purple-50/60 hover:to-indigo-50/60 hover:shadow-md hover:-translate-y-0.5'
                   )}
                 >
                   {item.figure && (
-                    <div className="w-full flex items-center justify-center pointer-events-none mb-1 shrink-0 max-h-12 overflow-hidden">
+                    <div className={cn(
+                      'w-12 h-7 sm:w-14 sm:h-8 shrink-0 overflow-hidden flex items-center justify-center rounded-lg border transition-colors [&>svg]:w-full [&>svg]:h-full p-0.5 shadow-2xs',
+                      isSelected
+                        ? 'bg-white text-slate-900 border-purple-300 shadow-xs'
+                        : 'bg-white dark:bg-slate-900/90 border-purple-100 dark:border-slate-750'
+                    )}>
                       {item.figure}
                     </div>
                   )}
-                  <div className="text-xs sm:text-[13px] font-bold leading-tight line-clamp-2">
-                    <MathText>{getItemLabel(item)}</MathText>
-                  </div>
+                  {labelText && (
+                    <span className="font-bold text-[11px] sm:text-xs leading-snug line-clamp-2 flex-1">
+                      {typeof labelText === 'string' ? <MathText size="sm">{labelText}</MathText> : labelText}
+                    </span>
+                  )}
                 </button>
               );
             })}
           </div>
-        ) : (
-          <div className="w-full text-center text-xs sm:text-sm font-bold text-emerald-600 dark:text-emerald-400 py-4 bg-emerald-50/40 dark:bg-emerald-950/20 rounded-xl border border-emerald-200 dark:border-emerald-800/60">
-            ✨ Minden kártyát elhelyeztél! Kattints az ellenőrzésre!
-          </div>
-        )}
-      </div>
+        </div>
+      )}
 
-      {/* Categories Drop Target Buckets */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
-        {(currentConfig.categories || []).map((cat) => {
-          const itemsInThisCat = categorizedItems[cat.id] || [];
+      {/* Category Drop Buckets */}
+      <div className={cn(
+        'grid gap-2.5 sm:gap-3',
+        currentConfig.categories.length === 4
+          ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'
+          : currentConfig.categories.length === 2
+          ? 'grid-cols-1 sm:grid-cols-2'
+          : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3'
+      )}>
+        {currentConfig.categories.map((cat, catIdx) => {
+          const itemsInCat = categorizedItems[cat.id] || [];
+          const catName = cat.name || cat.title || '';
+          const theme = categoryThemes[catIdx % categoryThemes.length];
 
           return (
             <div
               key={cat.id}
-              onClick={() => selectedItem && handleAssignToCategory(cat.id)}
+              onClick={() => {
+                if (selectedItem) {
+                  handleAssignToCategory(cat.id);
+                }
+              }}
               className={cn(
-                'p-4 rounded-2xl border-2 transition-all flex flex-col justify-between min-h-[170px] shadow-sm',
+                'rounded-2xl p-2.5 sm:p-3 border-2 transition-all flex flex-col justify-between min-h-[140px]',
+                theme.border,
+                theme.bg,
                 selectedItem
-                  ? 'border-purple-400 dark:border-purple-600 bg-purple-50/20 dark:bg-purple-950/20 hover:bg-purple-50/50 cursor-pointer'
-                  : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900'
+                  ? 'cursor-pointer shadow-md ring-3 ring-purple-400/80 dark:ring-purple-700/80 scale-[1.01]'
+                  : 'shadow-xs'
               )}
             >
-              <div className="space-y-1 pb-2.5 border-b border-slate-100 dark:border-slate-800">
-                <div className="flex items-center justify-between">
-                  <h4 className="font-black text-xs sm:text-sm text-slate-900 dark:text-white flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-purple-500"></span>
-                    <MathText>{getCategoryName(cat)}</MathText>
-                  </h4>
-                  <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
-                    {itemsInThisCat.length} db
+              <div className="space-y-1.5 sm:space-y-2">
+                <div className="flex items-center justify-between gap-1.5">
+                  <span className={cn(
+                    'px-2 py-0.5 rounded-lg text-[10px] sm:text-[11px] font-black uppercase tracking-wider border leading-tight',
+                    cat.badgeColor || theme.badge
+                  )}>
+                    {typeof catName === 'string' ? <MathText size="sm">{catName}</MathText> : catName}
+                  </span>
+                  <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 shrink-0">
+                    {itemsInCat.length} elem
                   </span>
                 </div>
+
                 {cat.description && (
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-snug">
-                    <MathText>{cat.description}</MathText>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
+                    {typeof cat.description === 'string' ? <MathText>{cat.description}</MathText> : cat.description}
                   </p>
                 )}
-              </div>
 
-              {/* Placed items list */}
-              <div className="flex flex-wrap gap-2 py-3 flex-1 items-start content-start">
-                {itemsInThisCat.map((item) => {
-                  const isWrong =
-                    validationResult.isChecked &&
-                    validationResult.wrongItemIds.includes(item.id);
-                  const isCorrect =
-                    validationResult.isChecked &&
-                    !validationResult.wrongItemIds.includes(item.id);
+                {/* Items in Category */}
+                <div className={cn(
+                  "flex flex-wrap gap-1 min-h-[50px] p-1.5 rounded-xl border",
+                  theme.dropZone
+                )}>
+                  {itemsInCat.length === 0 ? (
+                    <div className="w-full flex items-center justify-center text-[10px] sm:text-[11px] text-slate-400 font-medium py-2.5">
+                      {selectedItem ? '👉 Kattints ide a lehelyezéshez' : 'Üres kategória'}
+                    </div>
+                  ) : (
+                    itemsInCat.map((item) => {
+                      const isWrong =
+                        validationResult.isChecked &&
+                        validationResult.wrongItemIds.includes(item.id);
+                      const isCorrect =
+                        validationResult.isChecked && !isWrong;
+                      const itemText = item.label || item.content || item.text;
 
-                  let itemBadgeStyle =
-                    'border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-850 text-slate-800 dark:text-slate-200 hover:border-red-300';
-
-                  if (isCorrect) {
-                    itemBadgeStyle =
-                      'border-emerald-500 bg-emerald-50 dark:bg-emerald-950 text-emerald-900 dark:text-emerald-200 font-bold';
-                  } else if (isWrong) {
-                    itemBadgeStyle =
-                      'border-rose-500 bg-rose-50 dark:bg-rose-950 text-rose-900 dark:text-rose-200 font-bold animate-pulse';
-                  }
-
-                  return (
-                    <button
-                      key={item.id}
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleReturnToUnassigned(item);
-                      }}
-                      title="Kattints a visszatevéshez"
-                      className={cn(
-                        'px-2.5 py-1.5 rounded-xl text-xs font-semibold border-2 transition-all flex items-center gap-1.5 cursor-pointer hover:opacity-85 shadow-2xs',
-                        itemBadgeStyle
-                      )}
-                    >
-                      {item.figure && (
-                        <div className="w-5 h-4 flex items-center justify-center shrink-0 pointer-events-none scale-90">
-                          {item.figure}
-                        </div>
-                      )}
-                      <span><MathText>{getItemLabel(item)}</MathText></span>
-                      {isCorrect && <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />}
-                      {isWrong && <XCircle className="w-3.5 h-3.5 text-rose-600 shrink-0" />}
-                    </button>
-                  );
-                })}
+                      return (
+                        <button
+                          key={item.id}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleReturnToUnassigned(item);
+                          }}
+                          className={cn(
+                            'px-2 py-1 rounded-lg text-[10px] sm:text-[11px] font-bold transition-all border-2 flex items-center gap-1.5 shadow-2xs cursor-pointer',
+                            isCorrect && 'bg-emerald-100 dark:bg-emerald-950/60 border-emerald-500 text-emerald-950 dark:text-emerald-200',
+                            isWrong && 'bg-rose-100 dark:bg-rose-950/60 border-rose-500 text-rose-950 dark:text-rose-200 animate-shake',
+                            !validationResult.isChecked && 'bg-white dark:bg-slate-800 border-slate-200/90 dark:border-slate-700 text-slate-800 dark:text-slate-200 hover:border-rose-400 hover:bg-rose-50/40'
+                          )}
+                          title="Kattints az elem visszavonásához"
+                        >
+                          {item.figure && (
+                            <div className="w-6 h-4 shrink-0 overflow-hidden flex items-center justify-center bg-white dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-750 [&>svg]:w-full [&>svg]:h-full p-0.5">
+                              {item.figure}
+                            </div>
+                          )}
+                          {itemText && (
+                            <span className="line-clamp-1 max-w-[130px] sm:max-w-[160px]">
+                              {typeof itemText === 'string' ? <MathText size="sm">{itemText}</MathText> : itemText}
+                            </span>
+                          )}
+                          {isCorrect && <CheckCircle2 className="w-3 h-3 text-emerald-600 shrink-0 ml-auto" />}
+                          {isWrong && <XCircle className="w-3 h-3 text-rose-600 shrink-0 ml-auto" />}
+                        </button>
+                      );
+                    })
+                  )}
+                </div>
               </div>
 
               {selectedItem && (
-                <div className="text-xs text-center font-bold py-1.5 rounded-xl border border-dashed border-purple-300 dark:border-purple-700 text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/60">
-                  + Ide helyezés
+                <div className="pt-1 text-center border-t border-purple-200/60 dark:border-purple-900/40">
+                  <span className="text-[10px] font-black text-purple-600 dark:text-purple-400">
+                    + Kattints ide a lehelyezéshez
+                  </span>
                 </div>
               )}
             </div>
@@ -516,56 +610,55 @@ export function SorterTemplate({
         })}
       </div>
 
-      {/* Validation Result Box & Actions */}
-      <div className="pt-2 flex flex-wrap items-center justify-between gap-3">
-        <div>
+      {/* Validation / Action Footer */}
+      <div className="flex flex-wrap items-center justify-between gap-2.5 pt-1">
+        <div className="text-xs text-slate-500">
           {validationResult.isChecked && (
-            <div className="text-xs sm:text-sm font-bold">
-              {validationResult.isAllCorrect ? (
-                <span className="text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
-                  <CheckCircle2 className="w-5 h-5" /> Gratulálunk! Hibátlan csoportosítás!
-                </span>
-              ) : (
-                <span className="text-rose-600 dark:text-rose-400 flex items-center gap-1.5">
-                  <XCircle className="w-5 h-5" /> {validationResult.mistakesCount} kártya rossz helyre került! Kattints rájuk a visszatevéshez!
-                </span>
-              )}
-            </div>
+            <span className={validationResult.isAllCorrect ? 'text-emerald-600 font-bold' : 'text-rose-600 font-bold'}>
+              {validationResult.isAllCorrect
+                ? 'Tökéletes! Minden elem a megfelelő helyen van! 🎉'
+                : `${validationResult.mistakesCount} elem rossz helyen van! Kattints rájuk a javításhoz.`}
+            </span>
           )}
         </div>
 
         <div className="flex items-center gap-2">
-          {!validationResult.isAllCorrect ? (
+          {allPlaced && !validationResult.isAllCorrect && (
             <Button
-              onClick={handleCheck}
-              disabled={!allPlaced}
-              className="rounded-xl h-10 px-5 font-bold shadow-sm bg-purple-600 hover:bg-purple-700 text-white"
+              onClick={handleValidate}
+              className="rounded-xl h-9 px-4 font-black bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white shadow-md shadow-purple-500/25 text-xs sm:text-sm cursor-pointer hover:scale-[1.01] active:scale-[0.99]"
             >
-              Csoportosítás ellenőrzése
+              <CheckCircle2 className="w-4 h-4 mr-1.5" />
+              Besorolás Ellenőrzése
             </Button>
-          ) : (
-            <>
-              {((allLevels && activeLevel < 3 && allLevels[(activeLevel + 1) as DifficultyLevel]) || onNextLevel) && (
+          )}
+
+          {validationResult.isAllCorrect && (
+            <div className="flex items-center gap-2">
+              {activeLevel < 3 && onNextLevel && (
                 <Button
-                  onClick={handleNextLevel}
-                  className="rounded-xl h-10 px-5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold shadow-sm"
+                  onClick={onNextLevel}
+                  className="rounded-xl h-9 px-4 font-black bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white shadow-md shadow-teal-500/25 text-xs sm:text-sm cursor-pointer hover:scale-[1.01] active:scale-[0.99]"
                 >
-                  Következő szint <ArrowRight className="w-4 h-4 ml-1.5" />
+                  Következő Szint ({activeLevel + 1}. szint)
+                  <ArrowRight className="w-4 h-4 ml-1.5" />
                 </Button>
               )}
-              {onSwitchToQuiz && (
-                <Button
-                  variant="outline"
-                  onClick={onSwitchToQuiz}
-                  className="rounded-xl h-10 px-4 font-bold"
-                >
-                  Vissza a kvízhez
-                </Button>
-              )}
-            </>
+
+              <Button
+                onClick={initGame}
+                variant="outline"
+                className="rounded-xl h-9 px-3.5 font-bold text-xs sm:text-sm border-slate-300 dark:border-slate-700 cursor-pointer hover:bg-slate-100"
+              >
+                <RotateCcw className="w-4 h-4 mr-1.5 text-slate-600" />
+                Újra
+              </Button>
+            </div>
           )}
         </div>
       </div>
     </div>
   );
 }
+
+export default SorterTemplate;

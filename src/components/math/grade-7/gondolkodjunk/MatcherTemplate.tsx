@@ -35,8 +35,6 @@ export interface MatcherPair {
   figure?: React.ReactNode;
   promptFigure?: React.ReactNode;
   valueFigure?: React.ReactNode;
-  leftFigure?: React.ReactNode;
-  rightFigure?: React.ReactNode;
   [key: string]: any;
 }
 
@@ -51,9 +49,7 @@ export interface MatcherLevelConfig {
 
 export interface MatcherTemplateProps {
   level?: DifficultyLevel;
-  grade?: number;
-  chapterId?: string;
-  topicId?: string;
+  currentLevel?: DifficultyLevel;
   title?: string;
   subtitle?: string;
   badge?: string;
@@ -72,6 +68,9 @@ export interface MatcherTemplateProps {
   onSwitchToSorter?: () => void;
   onSwitchToTheory?: () => void;
   themeColor?: string;
+  grade?: number;
+  chapterId?: string;
+  topicId?: string;
   [key: string]: any;
 }
 
@@ -94,11 +93,167 @@ function shuffleArray<T>(array: T[]): T[] {
   return arr;
 }
 
+interface ThemeConfig {
+  topBarGradient: string;
+  topBarBorder: string;
+  iconBg: string;
+  badgeText: string;
+  cardBase: string;
+  cardFlipped: string;
+  figureBorder: string;
+  accentBtn: string;
+  ruleBtn: string;
+  theoryBtn: string;
+  winBg: string;
+  winIcon: string;
+}
+
+const THEME_MAP: Record<string, ThemeConfig> = {
+  amber: {
+    topBarGradient: 'from-amber-50/80 via-white to-orange-50/80 dark:bg-slate-850',
+    topBarBorder: 'border-amber-200/90 dark:border-amber-800/80',
+    iconBg: 'bg-gradient-to-br from-amber-500 to-orange-600',
+    badgeText: 'text-amber-700 dark:text-amber-300',
+    cardBase: 'border-2 border-amber-200/90 dark:border-amber-800/80 bg-gradient-to-br from-white via-amber-50/30 to-orange-50/40 text-slate-900 dark:text-slate-100 hover:border-amber-500 dark:hover:border-amber-400 hover:shadow-md hover:from-amber-50/60 hover:to-orange-50/70 hover:-translate-y-0.5 active:translate-y-0',
+    cardFlipped: 'border-2 border-amber-500 bg-gradient-to-br from-amber-100 via-yellow-50 to-orange-100 text-amber-950 dark:text-amber-50 ring-3 ring-amber-400/40 shadow-lg scale-[1.02]',
+    figureBorder: 'border-amber-100/80 dark:border-amber-900/60',
+    accentBtn: 'bg-amber-600 hover:bg-amber-700 text-white',
+    ruleBtn: 'border-amber-200 text-amber-800 bg-amber-50/50 hover:bg-amber-100',
+    theoryBtn: 'border-orange-200 text-orange-800 bg-orange-50/50 hover:bg-orange-100',
+    winBg: 'from-amber-50/80 to-white dark:from-slate-850 dark:to-slate-900 border-amber-300 dark:border-amber-800/80',
+    winIcon: 'from-amber-400 to-orange-600 shadow-amber-500/30',
+  },
+  purple: {
+    topBarGradient: 'from-purple-50/80 via-white to-fuchsia-50/80 dark:bg-slate-850',
+    topBarBorder: 'border-purple-200/90 dark:border-purple-800/80',
+    iconBg: 'bg-gradient-to-br from-purple-500 to-fuchsia-600',
+    badgeText: 'text-purple-700 dark:text-purple-300',
+    cardBase: 'border-2 border-purple-200/90 dark:border-purple-800/80 bg-gradient-to-br from-white via-purple-50/30 to-fuchsia-50/40 text-slate-900 dark:text-slate-100 hover:border-purple-500 dark:hover:border-purple-400 hover:shadow-md hover:from-purple-50/60 hover:to-fuchsia-50/70 hover:-translate-y-0.5 active:translate-y-0',
+    cardFlipped: 'border-2 border-purple-500 bg-gradient-to-br from-purple-100 via-pink-50 to-fuchsia-100 text-purple-950 dark:text-purple-50 ring-3 ring-purple-400/40 shadow-lg scale-[1.02]',
+    figureBorder: 'border-purple-100/80 dark:border-purple-900/60',
+    accentBtn: 'bg-purple-600 hover:bg-purple-700 text-white',
+    ruleBtn: 'border-purple-200 text-purple-800 bg-purple-50/50 hover:bg-purple-100',
+    theoryBtn: 'border-fuchsia-200 text-fuchsia-800 bg-fuchsia-50/50 hover:bg-fuchsia-100',
+    winBg: 'from-purple-50/80 to-white dark:from-slate-850 dark:to-slate-900 border-purple-300 dark:border-purple-800/80',
+    winIcon: 'from-amber-400 to-purple-600 shadow-purple-500/30',
+  },
+  violet: {
+    topBarGradient: 'from-violet-50/80 via-white to-purple-50/80 dark:bg-slate-850',
+    topBarBorder: 'border-violet-200/90 dark:border-violet-800/80',
+    iconBg: 'bg-gradient-to-br from-violet-500 to-purple-600',
+    badgeText: 'text-violet-700 dark:text-violet-300',
+    cardBase: 'border-2 border-violet-200/90 dark:border-violet-800/80 bg-gradient-to-br from-white via-violet-50/30 to-purple-50/40 text-slate-900 dark:text-slate-100 hover:border-violet-500 dark:hover:border-violet-400 hover:shadow-md hover:from-violet-50/60 hover:to-purple-50/70 hover:-translate-y-0.5 active:translate-y-0',
+    cardFlipped: 'border-2 border-violet-500 bg-gradient-to-br from-violet-100 via-fuchsia-50 to-purple-100 text-violet-950 dark:text-violet-50 ring-3 ring-violet-400/40 shadow-lg scale-[1.02]',
+    figureBorder: 'border-violet-100/80 dark:border-violet-900/60',
+    accentBtn: 'bg-violet-600 hover:bg-violet-700 text-white',
+    ruleBtn: 'border-violet-200 text-violet-800 bg-violet-50/50 hover:bg-violet-100',
+    theoryBtn: 'border-purple-200 text-purple-800 bg-purple-50/50 hover:bg-purple-100',
+    winBg: 'from-violet-50/80 to-white dark:from-slate-850 dark:to-slate-900 border-violet-300 dark:border-violet-800/80',
+    winIcon: 'from-amber-400 to-violet-600 shadow-violet-500/30',
+  },
+  indigo: {
+    topBarGradient: 'from-indigo-50/80 via-white to-blue-50/80 dark:bg-slate-850',
+    topBarBorder: 'border-indigo-200/90 dark:border-indigo-800/80',
+    iconBg: 'bg-gradient-to-br from-indigo-500 to-blue-600',
+    badgeText: 'text-indigo-700 dark:text-indigo-300',
+    cardBase: 'border-2 border-indigo-200/90 dark:border-indigo-800/80 bg-gradient-to-br from-white via-indigo-50/30 to-blue-50/40 text-slate-900 dark:text-slate-100 hover:border-indigo-500 dark:hover:border-indigo-400 hover:shadow-md hover:from-indigo-50/60 hover:to-blue-50/70 hover:-translate-y-0.5 active:translate-y-0',
+    cardFlipped: 'border-2 border-indigo-500 bg-gradient-to-br from-indigo-100 via-sky-50 to-blue-100 text-indigo-950 dark:text-indigo-50 ring-3 ring-indigo-400/40 shadow-lg scale-[1.02]',
+    figureBorder: 'border-indigo-100/80 dark:border-indigo-900/60',
+    accentBtn: 'bg-indigo-600 hover:bg-indigo-700 text-white',
+    ruleBtn: 'border-indigo-200 text-indigo-800 bg-indigo-50/50 hover:bg-indigo-100',
+    theoryBtn: 'border-blue-200 text-blue-800 bg-blue-50/50 hover:bg-blue-100',
+    winBg: 'from-indigo-50/80 to-white dark:from-slate-850 dark:to-slate-900 border-indigo-300 dark:border-indigo-800/80',
+    winIcon: 'from-amber-400 to-indigo-600 shadow-indigo-500/30',
+  },
+  blue: {
+    topBarGradient: 'from-blue-50/80 via-white to-cyan-50/80 dark:bg-slate-850',
+    topBarBorder: 'border-blue-200/90 dark:border-blue-800/80',
+    iconBg: 'bg-gradient-to-br from-blue-500 to-cyan-600',
+    badgeText: 'text-blue-700 dark:text-blue-300',
+    cardBase: 'border-2 border-blue-200/90 dark:border-blue-800/80 bg-gradient-to-br from-white via-blue-50/30 to-cyan-50/40 text-slate-900 dark:text-slate-100 hover:border-blue-500 dark:hover:border-blue-400 hover:shadow-md hover:from-blue-50/60 hover:to-cyan-50/70 hover:-translate-y-0.5 active:translate-y-0',
+    cardFlipped: 'border-2 border-blue-500 bg-gradient-to-br from-blue-100 via-sky-50 to-cyan-100 text-blue-950 dark:text-blue-50 ring-3 ring-blue-400/40 shadow-lg scale-[1.02]',
+    figureBorder: 'border-blue-100/80 dark:border-blue-900/60',
+    accentBtn: 'bg-blue-600 hover:bg-blue-700 text-white',
+    ruleBtn: 'border-blue-200 text-blue-800 bg-blue-50/50 hover:bg-blue-100',
+    theoryBtn: 'border-cyan-200 text-cyan-800 bg-cyan-50/50 hover:bg-cyan-100',
+    winBg: 'from-blue-50/80 to-white dark:from-slate-850 dark:to-slate-900 border-blue-300 dark:border-blue-800/80',
+    winIcon: 'from-amber-400 to-blue-600 shadow-blue-500/30',
+  },
+  cyan: {
+    topBarGradient: 'from-cyan-50/80 via-white to-teal-50/80 dark:bg-slate-850',
+    topBarBorder: 'border-cyan-200/90 dark:border-cyan-800/80',
+    iconBg: 'bg-gradient-to-br from-cyan-500 to-teal-600',
+    badgeText: 'text-cyan-700 dark:text-cyan-300',
+    cardBase: 'border-2 border-cyan-200/90 dark:border-cyan-800/80 bg-gradient-to-br from-white via-cyan-50/30 to-teal-50/40 text-slate-900 dark:text-slate-100 hover:border-cyan-500 dark:hover:border-cyan-400 hover:shadow-md hover:from-cyan-50/60 hover:to-teal-50/70 hover:-translate-y-0.5 active:translate-y-0',
+    cardFlipped: 'border-2 border-cyan-500 bg-gradient-to-br from-cyan-100 via-sky-50 to-teal-100 text-cyan-950 dark:text-cyan-50 ring-3 ring-cyan-400/40 shadow-lg scale-[1.02]',
+    figureBorder: 'border-cyan-100/80 dark:border-cyan-900/60',
+    accentBtn: 'bg-cyan-600 hover:bg-cyan-700 text-white',
+    ruleBtn: 'border-cyan-200 text-cyan-800 bg-cyan-50/50 hover:bg-cyan-100',
+    theoryBtn: 'border-teal-200 text-teal-800 bg-teal-50/50 hover:bg-teal-100',
+    winBg: 'from-cyan-50/80 to-white dark:from-slate-850 dark:to-slate-900 border-cyan-300 dark:border-cyan-800/80',
+    winIcon: 'from-amber-400 to-cyan-600 shadow-cyan-500/30',
+  },
+  teal: {
+    topBarGradient: 'from-teal-50/80 via-white to-emerald-50/80 dark:bg-slate-850',
+    topBarBorder: 'border-teal-200/90 dark:border-teal-800/80',
+    iconBg: 'bg-gradient-to-br from-teal-500 to-emerald-600',
+    badgeText: 'text-teal-700 dark:text-teal-300',
+    cardBase: 'border-2 border-teal-200/90 dark:border-teal-800/80 bg-gradient-to-br from-white via-teal-50/30 to-emerald-50/40 text-slate-900 dark:text-slate-100 hover:border-teal-500 dark:hover:border-teal-400 hover:shadow-md hover:from-teal-50/60 hover:to-emerald-50/70 hover:-translate-y-0.5 active:translate-y-0',
+    cardFlipped: 'border-2 border-teal-500 bg-gradient-to-br from-teal-100 via-cyan-50 to-emerald-100 text-teal-950 dark:text-teal-50 ring-3 ring-teal-400/40 shadow-lg scale-[1.02]',
+    figureBorder: 'border-teal-100/80 dark:border-teal-900/60',
+    accentBtn: 'bg-teal-600 hover:bg-teal-700 text-white',
+    ruleBtn: 'border-teal-200 text-teal-800 bg-teal-50/50 hover:bg-teal-100',
+    theoryBtn: 'border-emerald-200 text-emerald-800 bg-emerald-50/50 hover:bg-emerald-100',
+    winBg: 'from-teal-50/80 to-white dark:from-slate-850 dark:to-slate-900 border-teal-300 dark:border-teal-800/80',
+    winIcon: 'from-amber-400 to-teal-600 shadow-teal-500/30',
+  },
+  emerald: {
+    topBarGradient: 'from-emerald-50/80 via-white to-teal-50/80 dark:bg-slate-850',
+    topBarBorder: 'border-emerald-200/90 dark:border-emerald-800/80',
+    iconBg: 'bg-gradient-to-br from-emerald-500 to-teal-600',
+    badgeText: 'text-emerald-700 dark:text-emerald-300',
+    cardBase: 'border-2 border-emerald-200/90 dark:border-emerald-800/80 bg-gradient-to-br from-white via-emerald-50/30 to-teal-50/40 text-slate-900 dark:text-slate-100 hover:border-emerald-500 dark:hover:border-emerald-400 hover:shadow-md hover:from-emerald-50/60 hover:to-teal-50/70 hover:-translate-y-0.5 active:translate-y-0',
+    cardFlipped: 'border-2 border-emerald-500 bg-gradient-to-br from-emerald-100 via-green-50 to-teal-100 text-emerald-950 dark:text-emerald-50 ring-3 ring-emerald-400/40 shadow-lg scale-[1.02]',
+    figureBorder: 'border-emerald-100/80 dark:border-emerald-900/60',
+    accentBtn: 'bg-emerald-600 hover:bg-emerald-700 text-white',
+    ruleBtn: 'border-emerald-200 text-emerald-800 bg-emerald-50/50 hover:bg-emerald-100',
+    theoryBtn: 'border-teal-200 text-teal-800 bg-teal-50/50 hover:bg-teal-100',
+    winBg: 'from-emerald-50/80 to-white dark:from-slate-850 dark:to-slate-900 border-emerald-300 dark:border-emerald-800/80',
+    winIcon: 'from-amber-400 to-emerald-600 shadow-emerald-500/30',
+  },
+  pink: {
+    topBarGradient: 'from-pink-50/80 via-white to-rose-50/80 dark:bg-slate-850',
+    topBarBorder: 'border-pink-200/90 dark:border-pink-800/80',
+    iconBg: 'bg-gradient-to-br from-pink-500 to-rose-600',
+    badgeText: 'text-pink-700 dark:text-pink-300',
+    cardBase: 'border-2 border-pink-200/90 dark:border-pink-800/80 bg-gradient-to-br from-white via-pink-50/30 to-rose-50/40 text-slate-900 dark:text-slate-100 hover:border-pink-500 dark:hover:border-pink-400 hover:shadow-md hover:from-pink-50/60 hover:to-rose-50/70 hover:-translate-y-0.5 active:translate-y-0',
+    cardFlipped: 'border-2 border-pink-500 bg-gradient-to-br from-pink-100 via-fuchsia-50 to-rose-100 text-pink-950 dark:text-pink-50 ring-3 ring-pink-400/40 shadow-lg scale-[1.02]',
+    figureBorder: 'border-pink-100/80 dark:border-pink-900/60',
+    accentBtn: 'bg-pink-600 hover:bg-pink-700 text-white',
+    ruleBtn: 'border-pink-200 text-pink-800 bg-pink-50/50 hover:bg-pink-100',
+    theoryBtn: 'border-rose-200 text-rose-800 bg-rose-50/50 hover:bg-rose-100',
+    winBg: 'from-pink-50/80 to-white dark:from-slate-850 dark:to-slate-900 border-pink-300 dark:border-pink-800/80',
+    winIcon: 'from-amber-400 to-pink-600 shadow-pink-500/30',
+  },
+  rose: {
+    topBarGradient: 'from-rose-50/80 via-white to-pink-50/80 dark:bg-slate-850',
+    topBarBorder: 'border-rose-200/90 dark:border-rose-800/80',
+    iconBg: 'bg-gradient-to-br from-rose-500 to-pink-600',
+    badgeText: 'text-rose-700 dark:text-rose-300',
+    cardBase: 'border-2 border-rose-200/90 dark:border-rose-800/80 bg-gradient-to-br from-white via-rose-50/30 to-pink-50/40 text-slate-900 dark:text-slate-100 hover:border-rose-500 dark:hover:border-rose-400 hover:shadow-md hover:from-rose-50/60 hover:to-pink-50/70 hover:-translate-y-0.5 active:translate-y-0',
+    cardFlipped: 'border-2 border-rose-500 bg-gradient-to-br from-rose-100 via-red-50 to-pink-100 text-rose-950 dark:text-rose-50 ring-3 ring-rose-400/40 shadow-lg scale-[1.02]',
+    figureBorder: 'border-rose-100/80 dark:border-rose-900/60',
+    accentBtn: 'bg-rose-600 hover:bg-rose-700 text-white',
+    ruleBtn: 'border-rose-200 text-rose-800 bg-rose-50/50 hover:bg-rose-100',
+    theoryBtn: 'border-pink-200 text-pink-800 bg-pink-50/50 hover:bg-pink-100',
+    winBg: 'from-rose-50/80 to-white dark:from-slate-850 dark:to-slate-900 border-rose-300 dark:border-rose-800/80',
+    winIcon: 'from-amber-400 to-rose-600 shadow-rose-500/30',
+  }
+};
+
 export function MatcherTemplate({
-  level = 1,
-  grade = 7,
-  chapterId = 'gondolkodjunk',
-  topicId,
+  level,
+  currentLevel,
   title = 'Kártyás Párosító',
   subtitle = 'Kattints a kártyákra, és találd meg a feladvány-eredmény párokat!',
   badge,
@@ -116,129 +271,143 @@ export function MatcherTemplate({
   onSwitchToQuiz,
   onSwitchToSorter,
   onSwitchToTheory,
-  themeColor = 'purple'
+  themeColor = 'amber',
+  grade = 7,
+  chapterId = 'gondolkodjunk',
+  topicId
 }: MatcherTemplateProps) {
   const { user, profile } = useAuth();
-  const [activeLevel, setActiveLevel] = useState<DifficultyLevel>(level);
   const [cards, setCards] = useState<CardItem[]>([]);
-  const [flippedCards, setFlippedCards] = useState<CardItem[]>([]);
+  const [selectedCards, setSelectedCards] = useState<CardItem[]>([]);
+  const [isChecking, setIsChecking] = useState(false);
   const [matchesCount, setMatchesCount] = useState(0);
   const [mistakes, setMistakes] = useState(0);
   const [seconds, setSeconds] = useState(0);
-  const [isActive, setIsActive] = useState(false);
+  const [timerActive, setTimerActive] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
-  const [isChecking, setIsChecking] = useState(false);
   const [showLeaderboard, setShowLeaderboard] = useState(false);
-  const [lastSavedScoreId, setLastSavedScoreId] = useState<string | null>(null);
-
-  useEffect(() => {
-    setActiveLevel(level);
-  }, [level]);
+  const [lastSavedScoreId, setLastSavedScoreId] = useState<string | undefined>(undefined);
 
   const allLevels = levels || levelsConfig;
+  const rawLvl = currentLevel ?? (typeof level === 'number' ? level : ((level as any)?.level ?? 1));
+  const activeLevel: DifficultyLevel = (typeof rawLvl === 'number' ? rawLvl : 1) as DifficultyLevel;
 
-  // Initialize Cards based on active configuration
+  const theme = THEME_MAP[themeColor] || THEME_MAP.amber;
+
+  // Normalize pairs from various prop formats
+  const getLevelPairs = (): MatcherPair[] => {
+    if (config?.pairs && config.pairs.length > 0) return config.pairs;
+    if (allLevels && allLevels[activeLevel]?.pairs) return allLevels[activeLevel].pairs;
+    if (activeLevel === 1 && level1Pairs && level1Pairs.length > 0) return level1Pairs;
+    if (activeLevel === 2 && level2Pairs && level2Pairs.length > 0) return level2Pairs;
+    if (activeLevel === 3 && level3Pairs && level3Pairs.length > 0) return level3Pairs;
+    if (pairs && pairs.length > 0) return pairs;
+    if (level1Pairs && level1Pairs.length > 0) return level1Pairs;
+    return [];
+  };
+
+  // Initialize level cards
   const initGame = () => {
-    let sourcePairs: MatcherPair[] = [];
+    const currentPairs: MatcherPair[] = getLevelPairs();
+    const cardDeck: CardItem[] = [];
 
-    if (config?.pairs) {
-      sourcePairs = config.pairs;
-    } else if (allLevels && allLevels[activeLevel]?.pairs) {
-      sourcePairs = allLevels[activeLevel].pairs;
-    } else if (allLevels && Array.isArray(allLevels[activeLevel])) {
-      sourcePairs = allLevels[activeLevel] as any;
-    } else if (activeLevel === 1 && level1Pairs) {
-      sourcePairs = level1Pairs;
-    } else if (activeLevel === 2 && level2Pairs) {
-      sourcePairs = level2Pairs;
-    } else if (activeLevel === 3 && level3Pairs) {
-      sourcePairs = level3Pairs;
-    } else if (pairs) {
-      sourcePairs = pairs;
-    }
+    currentPairs.forEach((pair) => {
+      const promptContent = pair.prompt ?? pair.left ?? pair.question ?? pair.term ?? pair.front ?? '';
+      const promptFig = pair.promptFigure ?? pair.figure;
+      const valueContent = pair.value ?? pair.right ?? pair.answer ?? pair.definition ?? pair.back ?? '';
+      const valFig = pair.valueFigure;
 
-    const cardList: CardItem[] = [];
-    sourcePairs.forEach((pair, idx) => {
-      const pId = pair.id || `pair-${idx}`;
-      cardList.push({
-        id: `${pId}-prompt`,
-        pairId: pId,
-        content: pair.prompt ?? pair.left ?? pair.question ?? pair.term ?? pair.front,
-        figure: pair.promptFigure ?? pair.leftFigure ?? pair.figure,
+      cardDeck.push({
+        id: `${pair.id}-p`,
+        pairId: pair.id,
+        content: promptContent,
+        figure: promptFig,
         type: 'prompt',
         isFlipped: false,
         isMatched: false
       });
-      cardList.push({
-        id: `${pId}-value`,
-        pairId: pId,
-        content: pair.value ?? pair.right ?? pair.answer ?? pair.definition ?? pair.back,
-        figure: pair.valueFigure ?? pair.rightFigure,
+      cardDeck.push({
+        id: `${pair.id}-v`,
+        pairId: pair.id,
+        content: valueContent,
+        figure: valFig,
         type: 'value',
         isFlipped: false,
         isMatched: false
       });
     });
 
-    setCards(shuffleArray(cardList));
-    setFlippedCards([]);
+    setCards(shuffleArray(cardDeck));
+    setSelectedCards([]);
+    setIsChecking(false);
     setMatchesCount(0);
     setMistakes(0);
     setSeconds(0);
-    setIsActive(true);
+    setTimerActive(true);
     setIsCompleted(false);
-    setIsChecking(false);
   };
 
   useEffect(() => {
     initGame();
-  }, [activeLevel, config, levels, levelsConfig, pairs, level1Pairs, level2Pairs, level3Pairs]);
+  }, [activeLevel, currentLevel, level, title, topicId]);
 
-  // Timer
+  // Timer tick
   useEffect(() => {
-    let interval: any = null;
-    if (isActive && !isCompleted) {
+    let interval: NodeJS.Timeout | null = null;
+    if (timerActive && !isCompleted) {
       interval = setInterval(() => {
-        setSeconds((s) => s + 1);
+        setSeconds((prev) => prev + 1);
       }, 1000);
     }
-    return () => clearInterval(interval);
-  }, [isActive, isCompleted]);
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [timerActive, isCompleted]);
 
-  const handleCardClick = (card: CardItem) => {
-    if (isChecking || card.isMatched || card.isFlipped) return;
+  const handleCardClick = (clickedCard: CardItem) => {
+    if (
+      isChecking ||
+      clickedCard.isFlipped ||
+      clickedCard.isMatched ||
+      selectedCards.length >= 2
+    ) {
+      return;
+    }
 
-    const newFlipped = [...flippedCards, card];
-    const updatedCards = cards.map((c) => (c.id === card.id ? { ...c, isFlipped: true } : c));
+    const updatedCards = cards.map((c) =>
+      c.id === clickedCard.id ? { ...c, isFlipped: true } : c
+    );
     setCards(updatedCards);
-    setFlippedCards(newFlipped);
 
-    if (newFlipped.length === 2) {
+    const newSelected = [...selectedCards, clickedCard];
+    setSelectedCards(newSelected);
+
+    if (newSelected.length === 2) {
       setIsChecking(true);
-      const [first, second] = newFlipped;
+      const [first, second] = newSelected;
 
-      if (first.pairId === second.pairId && first.type !== second.type) {
-        // Matched!
+      if (first.pairId === second.pairId && first.id !== second.id) {
+        // MATCH!
         setTimeout(() => {
           setCards((prev) =>
             prev.map((c) =>
-              c.id === first.id || c.id === second.id
-                ? { ...c, isMatched: true, isFlipped: true }
-                : c
+              c.pairId === first.pairId ? { ...c, isMatched: true } : c
             )
           );
-          setFlippedCards([]);
+          setSelectedCards([]);
           setIsChecking(false);
-          const newMatches = matchesCount + 1;
-          setMatchesCount(newMatches);
-
-          const totalPairsCount = config?.pairs?.length || allLevels?.[activeLevel]?.pairs?.length || (cards.length / 2);
-          if (newMatches === totalPairsCount) {
-            handleGameWin();
-          }
-        }, 500);
+          setMatchesCount((prev) => {
+            const updated = prev + 1;
+            const currentPairs = getLevelPairs();
+            if (updated === currentPairs.length) {
+              handleWin();
+            }
+            return updated;
+          });
+        }, 400);
       } else {
-        // Mismatched!
+        // MISMATCH
+        setMistakes((prev) => prev + 1);
         setTimeout(() => {
           setCards((prev) =>
             prev.map((c) =>
@@ -247,16 +416,15 @@ export function MatcherTemplate({
                 : c
             )
           );
-          setFlippedCards([]);
-          setMistakes((m) => m + 1);
+          setSelectedCards([]);
           setIsChecking(false);
-        }, 1000);
+        }, 900);
       }
     }
   };
 
-  const handleGameWin = () => {
-    setIsActive(false);
+  const handleWin = () => {
+    setTimerActive(false);
     setIsCompleted(true);
     confetti({
       particleCount: 80,
@@ -264,30 +432,33 @@ export function MatcherTemplate({
       origin: { y: 0.6 }
     });
 
-    if (user) {
-      const calcPercentage = Math.max(50, 100 - mistakes * 5);
-      const currentPairsCount = config?.pairs?.length || allLevels?.[activeLevel]?.pairs?.length || 8;
-      const g = grade || 7;
-      const ch = chapterId || 'gondolkodjunk';
-      const computedTopicId = topicId || (title || 'matcher').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const currentPairs = getLevelPairs();
+    const currentPairsCount = currentPairs.length || 8;
+    const computedTopicId = (topicId || badge || title || 'matcher').toLowerCase().replace(/[^a-z0-9-]+/g, '');
+    const g = grade || 7;
+    const ch = chapterId || 'gondolkodjunk';
+    const displayTitle = topicTitle ? `${topicTitle} (Párosító)` : title;
 
-      // Save to leaderboard
-      saveMatcherScore({
-        userId: user.uid,
-        userName: profile?.full_name || user.displayName || 'Diák',
-        userEmail: profile?.email || user.email || '',
-        userCode: profile?.user_code || '',
-        grade: g,
-        chapterId: ch,
-        topicId: computedTopicId,
-        topicTitle: topicTitle || title,
-        level: activeLevel,
-        seconds: seconds,
-        mistakes: mistakes,
-        totalPairs: currentPairsCount
-      }).then((id) => {
-        if (id) setLastSavedScoreId(id);
-      }).catch(err => console.error('Failed to save leaderboard score:', err));
+    // 1. Mentés az időalapú rangsorba
+    saveMatcherScore({
+      userId: user?.uid || null,
+      studentName: profile?.full_name || user?.displayName || 'Diák',
+      userCode: profile?.user_code || undefined,
+      grade: g,
+      chapterId: ch,
+      topicId: computedTopicId,
+      topicTitle: topicTitle || title,
+      level: activeLevel,
+      timeSeconds: seconds,
+      mistakes: mistakes,
+      pairsCount: currentPairsCount
+    }).then((res) => {
+      if (res?.id) setLastSavedScoreId(res.id);
+    }).catch((err) => console.error('Failed to save matcher score to leaderboard:', err));
+
+    // 2. Mentés a diák profil haladásába
+    if (user) {
+      const calcPercentage = Math.max(50, 100 - (mistakes * 5));
 
       saveQuizProgress({
         userId: user.uid,
@@ -298,20 +469,17 @@ export function MatcherTemplate({
         chapterId: ch,
         topicId: computedTopicId,
         topicTitle: topicTitle || title,
+        quizId: `g${g}__${ch}__${computedTopicId}__matcher__lvl${activeLevel}`,
         gameType: 'matcher',
-        level: activeLevel || 1,
+        level: activeLevel,
+        title: displayTitle,
         percentage: calcPercentage,
+        score: calcPercentage,
         scorePoints: currentPairsCount,
-        totalQuestions: currentPairsCount
-      }).catch(err => console.error(err));
-    }
-  };
-
-  const handleNextLevel = () => {
-    if (allLevels && activeLevel < 3 && allLevels[(activeLevel + 1) as DifficultyLevel]) {
-      setActiveLevel((prev) => (prev + 1) as DifficultyLevel);
-    } else if (onNextLevel) {
-      onNextLevel();
+        totalQuestions: currentPairsCount,
+        bestStreak: currentPairsCount,
+        completed: true
+      }).catch((err) => console.error('Failed to auto-save matcher progress:', err));
     }
   };
 
@@ -321,55 +489,58 @@ export function MatcherTemplate({
     return `${m}:${s < 10 ? '0' : ''}${s}`;
   };
 
-  const totalPairs = config?.pairs?.length || allLevels?.[activeLevel]?.pairs?.length || (cards.length / 2);
-  const displayTitle = config?.title || allLevels?.[activeLevel]?.title || title;
-  const displaySubtitle = config?.description || allLevels?.[activeLevel]?.description || subtitle;
+  const currentPairs = getLevelPairs();
+  const totalPairs = currentPairs.length || 8;
+  const currentConfig = allLevels?.[activeLevel] || config;
+  const displayTitle = currentConfig?.title || title;
+  const displaySubtitle = currentConfig?.description || currentConfig?.subtitle || subtitle;
 
   return (
-    <div className="space-y-4 animate-in fade-in duration-300">
+    <div className="space-y-2.5 sm:space-y-3 animate-in fade-in duration-300 text-left">
       {/* Top Controls & Stats */}
-      <div className="bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-3 sm:p-4 border border-slate-200 dark:border-slate-700/80 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
+      <div className={cn(
+        "rounded-2xl p-2.5 sm:p-3 border-2 flex flex-wrap items-center justify-between gap-2.5 shadow-xs bg-gradient-to-r",
+        theme.topBarGradient,
+        theme.topBarBorder
+      )}>
+        <div className="flex items-center gap-2.5">
           {onBack ? (
             <Button
               variant="outline"
               size="sm"
               onClick={onBack}
-              className="rounded-xl h-9 px-2.5 text-xs font-bold gap-1 border-slate-200 dark:border-slate-700"
+              className={cn("rounded-xl h-8 px-2.5 text-xs font-bold gap-1", theme.ruleBtn)}
             >
               <ArrowLeft className="w-4 h-4 mr-0.5" />
               Vissza
             </Button>
           ) : (
-            <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold">
-              <ArrowRightLeft className="w-5 h-5" />
+            <div className={cn("w-8 h-8 rounded-xl text-white flex items-center justify-center font-bold shadow-xs", theme.iconBg)}>
+              <ArrowRightLeft className="w-4 h-4" />
             </div>
           )}
           <div>
             {badge && (
-              <div className="text-[11px] font-bold text-purple-600 dark:text-purple-400">
+              <div className={cn("text-[10px] font-black uppercase tracking-wider", theme.badgeText)}>
                 {badge}
               </div>
             )}
             <div className="text-sm font-black text-slate-800 dark:text-slate-200">
-              <MathText>{displayTitle}</MathText> {allLevels ? `(${activeLevel}. szint)` : ''}
+              {typeof displayTitle === 'string' ? <MathText>{displayTitle}</MathText> : displayTitle} {allLevels ? `(${activeLevel}. szint)` : ''}
             </div>
-            {displaySubtitle && (
-              <div className="text-xs text-slate-500 dark:text-slate-400">
-                <MathText>{displaySubtitle}</MathText>
-              </div>
-            )}
+            <div className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1">
+              {typeof displaySubtitle === 'string' ? <MathText>{displaySubtitle}</MathText> : displaySubtitle}
+            </div>
           </div>
         </div>
 
-        {/* Stats & Actions */}
-        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-300 shadow-xs">
+        <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap">
+          <div className="flex items-center gap-1.5 px-3 py-1 bg-white dark:bg-slate-900 rounded-xl border border-blue-200 dark:border-blue-800 text-xs font-bold text-blue-900 dark:text-blue-300 shadow-2xs">
             <Clock className="w-3.5 h-3.5 text-blue-500" />
             <span>{formatTime(seconds)}</span>
           </div>
 
-          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-300 shadow-xs">
+          <div className="flex items-center gap-1.5 px-3 py-1 bg-white dark:bg-slate-900 rounded-xl border border-emerald-200 dark:border-emerald-800 text-xs font-bold text-emerald-900 dark:text-emerald-300 shadow-2xs">
             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
             <span>
               {matchesCount} / {totalPairs} pár
@@ -377,7 +548,7 @@ export function MatcherTemplate({
           </div>
 
           {mistakes > 0 && (
-            <div className="px-2.5 py-1.5 bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-rose-600 dark:text-rose-400 rounded-xl text-xs font-bold">
+            <div className="px-2.5 py-1 bg-rose-50 dark:bg-rose-950/40 border border-rose-300 dark:border-rose-800 text-rose-700 dark:text-rose-300 rounded-xl text-xs font-bold shadow-2xs">
               {mistakes} hiba
             </div>
           )}
@@ -385,29 +556,29 @@ export function MatcherTemplate({
           <Button
             variant="outline"
             size="sm"
-            onClick={() => setShowLeaderboard(true)}
-            className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 border-amber-300 dark:border-amber-700 bg-amber-50/50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/50"
+            onClick={initGame}
+            className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 border-slate-200 dark:border-slate-700 cursor-pointer hover:bg-slate-100"
           >
-            <Trophy className="w-3.5 h-3.5 text-amber-500" />
-            🏆 Rangsor
+            <RotateCcw className="w-3.5 h-3.5 text-slate-600" />
+            Újra
           </Button>
 
           <Button
             variant="outline"
             size="sm"
-            onClick={initGame}
-            className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 border-slate-200 dark:border-slate-700"
+            onClick={() => setShowLeaderboard(true)}
+            className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 border-purple-300 dark:border-purple-700/60 bg-purple-50/60 dark:bg-purple-950/30 text-purple-700 dark:text-purple-300 hover:bg-purple-100 hover:border-purple-400 shadow-2xs cursor-pointer"
           >
-            <RotateCcw className="w-3.5 h-3.5" />
-            Újrakezdés
+            <Trophy className="w-3.5 h-3.5 text-purple-500" />
+            Rangsor
           </Button>
 
           {onOpenRules && (
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
               onClick={onOpenRules}
-              className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 text-slate-700 dark:text-slate-300"
+              className={cn("rounded-xl h-8 px-2.5 text-xs font-bold gap-1 cursor-pointer", theme.ruleBtn)}
             >
               <BookOpen className="w-3.5 h-3.5" />
               Szabályzat
@@ -416,10 +587,10 @@ export function MatcherTemplate({
 
           {onSwitchToTheory && (
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
               onClick={onSwitchToTheory}
-              className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-950/40"
+              className={cn("rounded-xl h-8 px-2.5 text-xs font-bold gap-1 cursor-pointer", theme.theoryBtn)}
             >
               <BookOpen className="w-3.5 h-3.5" />
               Tananyag
@@ -428,36 +599,24 @@ export function MatcherTemplate({
         </div>
       </div>
 
-      {/* Live Status Bar */}
-      <div className="flex items-center justify-between px-2 text-xs font-bold text-slate-500 dark:text-slate-400">
-        <div className="flex items-center gap-4">
-          <span className="flex items-center gap-1">
-            <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-            Párok: {matchesCount} / {totalPairs}
-          </span>
-          <span className="flex items-center gap-1 text-slate-400">
-            Hibák: {mistakes}
-          </span>
-        </div>
-        <div className="flex items-center gap-1 font-mono">
-          <Clock className="w-3.5 h-3.5" />
-          {formatTime(seconds)}
-        </div>
-      </div>
-
-      {/* Main Card Grid */}
+      {/* Cards Grid */}
       {!isCompleted ? (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+        <div className={cn(
+          "grid gap-2 sm:gap-2.5",
+          cards.length <= 12
+            ? "grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
+            : cards.length <= 16
+            ? "grid-cols-2 sm:grid-cols-4 lg:grid-cols-4"
+            : "grid-cols-2 sm:grid-cols-4 lg:grid-cols-5"
+        )}>
           {cards.map((card) => {
-            let cardClass =
-              'border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 hover:border-purple-400 shadow-2xs hover:shadow-xs';
+            let cardClass = theme.cardBase;
 
             if (card.isMatched) {
               cardClass =
-                'border-2 border-emerald-500/80 bg-emerald-50/60 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 opacity-60 pointer-events-none scale-95';
+                'border-2 border-emerald-400/80 bg-gradient-to-br from-emerald-100/90 to-teal-100/90 dark:bg-emerald-950/60 text-emerald-950 dark:text-emerald-200 opacity-60 pointer-events-none scale-95 shadow-inner';
             } else if (card.isFlipped) {
-              cardClass =
-                'border-2 border-purple-500 bg-purple-50/50 dark:bg-purple-950/30 text-purple-950 dark:text-purple-100 ring-2 ring-purple-500/20';
+              cardClass = theme.cardFlipped;
             }
 
             return (
@@ -466,82 +625,128 @@ export function MatcherTemplate({
                 type="button"
                 onClick={() => handleCardClick(card)}
                 disabled={card.isMatched || isChecking}
+                title={typeof card.content === 'string' ? card.content : undefined}
                 className={cn(
-                  'min-h-[105px] sm:min-h-[120px] rounded-2xl p-2 sm:p-2.5 flex flex-col items-center justify-center text-center text-xs sm:text-sm font-bold transition-all duration-200 select-none cursor-pointer',
+                  'min-h-[64px] sm:min-h-[72px] lg:min-h-[76px] p-2 sm:p-2.5 rounded-xl font-medium text-xs sm:text-sm transition-all duration-200 flex flex-col items-center justify-center text-center select-none shadow-xs relative border-2 cursor-pointer overflow-hidden',
                   cardClass
                 )}
               >
-                <div className="w-full h-full flex flex-col items-center justify-center gap-1.5 leading-snug">
-                  {card.figure && (
-                    <div className="w-full flex items-center justify-center shrink-0 pointer-events-none max-h-16">
-                      {card.figure}
-                    </div>
-                  )}
-                  {card.content ? (
-                    <div className="max-h-full overflow-hidden flex items-center justify-center text-center">
-                      {typeof card.content === 'string' ? (
-                        <MathText>{card.content}</MathText>
-                      ) : (
-                        card.content
+                <div className="w-full h-full flex flex-col items-center justify-center relative p-0.5">
+                  {card.figure ? (
+                    <div className="flex flex-col items-center justify-center gap-1 w-full">
+                      <div className={cn(
+                        "max-h-7 sm:max-h-8 max-w-full flex items-center justify-center overflow-hidden [&>svg]:w-full [&>svg]:h-full p-0.5 rounded-md bg-white/90 dark:bg-slate-800/90 border shadow-2xs",
+                        theme.figureBorder
+                      )}>
+                        {card.figure}
+                      </div>
+                      {card.content && (
+                        <span className="leading-tight font-bold text-[11px] sm:text-xs break-words line-clamp-2 text-slate-800 dark:text-slate-100">
+                          {typeof card.content === 'string' ? <MathText size="sm">{card.content}</MathText> : card.content}
+                        </span>
                       )}
                     </div>
-                  ) : null}
+                  ) : (
+                    <span className="leading-tight font-bold text-xs sm:text-[13px] break-words line-clamp-3 text-slate-800 dark:text-slate-100">
+                      {typeof card.content === 'string' ? <MathText size="md">{card.content}</MathText> : card.content}
+                    </span>
+                  )}
+                  {card.isMatched && (
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 absolute top-0.5 right-0.5" />
+                  )}
                 </div>
               </button>
             );
           })}
         </div>
       ) : (
-        /* Victory Modal Box */
-        <div className="p-8 rounded-3xl bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 text-center space-y-6 shadow-xl animate-in zoom-in-95">
-          <div className="w-16 h-16 rounded-full bg-purple-100 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center mx-auto text-2xl shadow-inner">
+        /* Completion Screen */
+        <div className={cn(
+          "bg-gradient-to-b border-2 rounded-3xl p-6 sm:p-8 text-center space-y-6 shadow-xl animate-in zoom-in-95 duration-300",
+          theme.winBg
+        )}>
+          <div className={cn(
+            "w-16 h-16 rounded-3xl text-white flex items-center justify-center mx-auto shadow-lg bg-gradient-to-br",
+            theme.winIcon
+          )}>
             <Trophy className="w-8 h-8" />
           </div>
 
-          <div className="space-y-1">
+          <div className="space-y-1.5">
             <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">
-              Gratulálunk! Sikeres párosítás! 🎉
+              Fantasztikus! Mind a {totalPairs} párt megtaláltad!
             </h3>
-            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-              Minden párt megtaláltál <strong className="text-slate-700 dark:text-slate-200">{formatTime(seconds)}</strong> alatt, mindössze <strong className="text-slate-700 dark:text-slate-200">{mistakes}</strong> hibával.
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
+              Sikeresen teljesítetted a {activeLevel}. szint párosító feladatait!
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row justify-center gap-3 pt-2">
+          <div className="flex items-center justify-center gap-4 max-w-xs mx-auto">
+            <div className="p-3 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 flex-1">
+              <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">Idő</div>
+              <div className="text-lg font-black text-blue-600 dark:text-blue-400">
+                {formatTime(seconds)}
+              </div>
+            </div>
+            <div className="p-3 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 flex-1">
+              <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">Hibák</div>
+              <div className={cn(
+                "text-lg font-black",
+                mistakes === 0 ? "text-emerald-600 dark:text-emerald-400" : "text-amber-600 dark:text-amber-400"
+              )}>
+                {mistakes}
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <Button
-              onClick={() => setShowLeaderboard(true)}
-              className="h-10 px-5 rounded-xl font-bold text-sm bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white flex items-center justify-center gap-1.5 shadow-md"
+              onClick={initGame}
+              variant="outline"
+              className="rounded-xl h-10 px-4 font-bold border-slate-300 dark:border-slate-700 text-xs sm:text-sm cursor-pointer hover:bg-slate-100"
             >
-              <Trophy className="w-4 h-4" />
-              🏆 Rangsor Megtekintése
+              <RotateCcw className="w-4 h-4 mr-1.5" />
+              Újra ezen a szinten
             </Button>
 
-            {allLevels && activeLevel < 3 && (
+            <Button
+              onClick={() => setShowLeaderboard(true)}
+              variant="outline"
+              className="rounded-xl h-10 px-4 font-bold border-purple-300 text-purple-700 bg-purple-50 hover:bg-purple-100 text-xs sm:text-sm cursor-pointer"
+            >
+              <Trophy className="w-4 h-4 mr-1.5 text-purple-500" />
+              Ranglista Megtekintése
+            </Button>
+
+            {activeLevel < 3 && onNextLevel && (
               <Button
-                onClick={handleNextLevel}
-                className="h-10 px-5 rounded-xl font-bold text-sm bg-purple-600 hover:bg-purple-700 text-white flex items-center justify-center gap-1.5"
+                onClick={onNextLevel}
+                className={cn("rounded-xl h-10 px-5 font-bold shadow-md text-xs sm:text-sm cursor-pointer", theme.accentBtn)}
               >
-                Következő szint ({activeLevel + 1}. szint)
-                <ArrowRight className="w-4 h-4" />
+                Következő Szint ({activeLevel + 1}. szint)
+                <ArrowRight className="w-4 h-4 ml-1.5" />
               </Button>
             )}
 
-            <Button
-              variant="outline"
-              onClick={initGame}
-              className="h-10 px-5 rounded-xl font-bold text-sm border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center gap-1.5"
-            >
-              <RotateCcw className="w-4 h-4 mr-1 text-slate-500" />
-              Újrapróbálom
-            </Button>
-
-            {onSwitchToQuiz && (
+            {onSwitchToTheory && (
               <Button
-                variant="outline"
-                onClick={onSwitchToQuiz}
-                className="h-10 px-5 rounded-xl font-bold text-sm border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"
+                variant="ghost"
+                onClick={onSwitchToTheory}
+                className={cn("rounded-xl h-10 px-4 font-bold text-xs sm:text-sm cursor-pointer", theme.badgeText)}
               >
-                Vissza a Kvízhez
+                <BookOpen className="w-4 h-4 mr-1.5" />
+                Vissza a tananyaghoz
+              </Button>
+            )}
+
+            {onBack && (
+              <Button
+                variant="ghost"
+                onClick={onBack}
+                className="rounded-xl h-10 px-4 font-bold text-xs sm:text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
+              >
+                <ArrowLeft className="w-4 h-4 mr-1.5" />
+                Vissza a témakörökhöz
               </Button>
             )}
           </div>
@@ -552,13 +757,14 @@ export function MatcherTemplate({
       <MatcherLeaderboardModal
         isOpen={showLeaderboard}
         onClose={() => setShowLeaderboard(false)}
-        grade={grade || 7}
-        chapterId={chapterId || 'gondolkodjunk'}
-        topicId={topicId || (title || 'matcher').toLowerCase().replace(/[^a-z0-9]+/g, '-')}
+        topicId={(topicId || badge || title || 'matcher').toLowerCase().replace(/[^a-z0-9-]+/g, '')}
         topicTitle={topicTitle || title}
         currentLevel={activeLevel}
-        highlightScoreId={lastSavedScoreId || undefined}
+        grade={grade || 7}
+        highlightScoreId={lastSavedScoreId}
       />
     </div>
   );
 }
+
+export default MatcherTemplate;
