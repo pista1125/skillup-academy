@@ -73,7 +73,7 @@ export const isValidPlacementForBot = (
  * Generates a full valid flotta of ships for the bot.
  */
 export const generateBotShips = (): BotShip[] => {
-  let newShips: BotShip[] = [];
+  const newShips: BotShip[] = [];
   const allShipSizes = SHIP_TYPES.flatMap(t => Array(t.count).fill(t.size)).sort((a, b) => b - a);
 
   for (const size of allShipSizes) {

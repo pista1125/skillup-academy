@@ -269,7 +269,7 @@ export function Histogram({ bins = [], bars, xLabel = '', yLabel = '' }) {
 // ============ Dot plot ============
 export function DotPlot({ values, dots, xMin, xMax, min, max, label = '', xLabel }) {
   // Normalize: if `dots:[{x,count}]` is given, convert; else use `values`
-  let freq = {};
+  const freq = {};
   if (dots && dots.length) {
     dots.forEach((d) => { freq[d.x] = (freq[d.x] || 0) + d.count; });
   } else if (values && values.length) {

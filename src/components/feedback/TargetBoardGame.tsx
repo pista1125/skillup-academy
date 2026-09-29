@@ -268,7 +268,7 @@ export function TargetBoardGame({ session, onComplete, isStudentView = false, st
     const angle = getAngle(CENTER, CENTER, svgP.x, svgP.y);
     const sectorAngle = 360 / numAspects;
     
-    let normalizedAngle = (angle + 90) % 360;
+    const normalizedAngle = (angle + 90) % 360;
     const aspectIndex = Math.floor(normalizedAngle / sectorAngle);
     
     setStudentShots(prev => {

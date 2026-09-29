@@ -10,6 +10,16 @@ import {
   Unsubscribe
 } from 'firebase/firestore';
 
+export interface QuizAttemptRecord {
+  attemptNumber: number;
+  date: string;
+  score: number; // Százalék (0 - 100)
+  scorePoints?: number; // pl. 3
+  totalQuestions?: number; // pl. 12
+  completed: boolean; // true ha sikerült, false ha game over
+  scoreTotal?: number;
+}
+
 export interface QuizProgressRecord {
   id: string; // "${userId}__${quizId}"
   quizId: string; // "${grade}__${chapterId}__${topicId}__${gameType}__lvl${level}"
@@ -28,12 +38,18 @@ export interface QuizProgressRecord {
 
   // Eredmények
   completed: boolean;
+  lastCompleted?: boolean; // A legutóbbi kísérlet sikeres volt-e vagy Game Over
   bestScore: number; // Százalék (0 - 100)
   lastScore: number; // Legutóbbi százalék (0 - 100)
   scorePoints?: number; // Elért pontok (pl. 10)
+  lastScorePoints?: number; // Legutóbbi próbálkozás pontjai
   totalQuestions?: number; // Összes kérdés (pl. 10)
+  lastTotalQuestions?: number; // Legutóbbi összes kérdés
   bestStreak?: number;
   attemptsCount: number; // Hányszor végezte el
+
+  // Kísérletek előzményei
+  history?: QuizAttemptRecord[];
 
   // Időbélyegek
   firstCompletedAt: string;
@@ -53,12 +69,12 @@ export function generateQuizId(
   level: number | string = 1
 ): string {
   const cleanGrade = String(grade).replace('grade-', '').replace('g', '');
-  return `${cleanGrade}__${chapterId}__${topicId}__${gameType}__lvl${level}`;
+  return `g${cleanGrade}__${chapterId}__${topicId}__${gameType}__lvl${level}`;
 }
 
 export interface SaveQuizProgressParams {
   userId: string;
-  studentName: string;
+  studentName?: string;
   studentEmail?: string;
   userCode?: string;
   grade?: number;
@@ -83,11 +99,11 @@ export interface SaveQuizProgressParams {
 export async function saveQuizProgress(params: SaveQuizProgressParams): Promise<void> {
   if (!params.userId) return;
 
-  const grade = params.grade || 5;
+  const grade = Number(params.grade) || 5;
   const chapterId = params.chapterId || 'egesz-szamok';
   const topicId = params.topicId || 'altalanos';
   const gameType = params.gameType || 'quiz';
-  const level = params.level || 1;
+  const level = Number(params.level) || 1;
 
   const quizId = params.quizId || generateQuizId(grade, chapterId, topicId, gameType, level);
   const docId = `${params.userId}__${quizId}`;
@@ -100,11 +116,42 @@ export async function saveQuizProgress(params: SaveQuizProgressParams): Promise<
     const currentPercentage = Math.round(rawPct);
     const displayTitle = params.topicTitle || params.title || topicId;
 
+    const safeScorePoints = typeof params.scorePoints === 'number' ? params.scorePoints : 0;
+    const safeTotalQuestions = typeof params.totalQuestions === 'number' ? params.totalQuestions : 10;
+    const safeScoreTotal = typeof params.score === 'number' ? params.score : currentPercentage;
+    const safeStreak = typeof params.bestStreak === 'number' ? params.bestStreak : 0;
+
     if (existingSnap.exists()) {
       const prevData = existingSnap.data() as QuizProgressRecord;
       const updatedAttempts = (prevData.attemptsCount || 1) + 1;
       const updatedBest = Math.max(prevData.bestScore || 0, currentPercentage);
-      const updatedStreak = Math.max(prevData.bestStreak || 0, params.bestStreak || 0);
+      const updatedStreak = Math.max(prevData.bestStreak || 0, safeStreak);
+
+      const isCompleted = prevData.completed || (params.completed !== undefined ? params.completed : true);
+      const attemptCompleted = params.completed !== undefined ? params.completed : true;
+
+      const prevHistory: QuizAttemptRecord[] = prevData.history && Array.isArray(prevData.history) ? [...prevData.history] : [
+        {
+          attemptNumber: 1,
+          date: prevData.firstCompletedAt || prevData.lastCompletedAt || now,
+          score: prevData.bestScore !== undefined ? prevData.bestScore : (prevData.lastScore ?? 100),
+          scorePoints: typeof prevData.scorePoints === 'number' ? prevData.scorePoints : 0,
+          totalQuestions: typeof prevData.totalQuestions === 'number' ? prevData.totalQuestions : 10,
+          completed: prevData.completed ?? true
+        }
+      ];
+
+      const newAttempt: QuizAttemptRecord = {
+        attemptNumber: updatedAttempts,
+        date: now,
+        score: currentPercentage,
+        scorePoints: safeScorePoints,
+        totalQuestions: safeTotalQuestions,
+        completed: attemptCompleted,
+        scoreTotal: safeScoreTotal
+      };
+
+      const updatedHistory = [...prevHistory, newAttempt].slice(-20);
 
       await setDoc(
         docRef,
@@ -112,18 +159,23 @@ export async function saveQuizProgress(params: SaveQuizProgressParams): Promise<
           studentName: params.studentName || prevData.studentName || 'Diák',
           studentEmail: params.studentEmail || prevData.studentEmail || '',
           userCode: params.userCode || prevData.userCode || '',
-          completed: true,
+          completed: isCompleted,
+          lastCompleted: attemptCompleted,
           bestScore: updatedBest,
           lastScore: currentPercentage,
-          scorePoints: params.scorePoints ?? prevData.scorePoints,
-          totalQuestions: params.totalQuestions ?? prevData.totalQuestions,
+          scorePoints: typeof params.scorePoints === 'number' ? params.scorePoints : (prevData.scorePoints ?? 0),
+          lastScorePoints: safeScorePoints,
+          totalQuestions: typeof params.totalQuestions === 'number' ? params.totalQuestions : (prevData.totalQuestions ?? 10),
+          lastTotalQuestions: safeTotalQuestions,
           bestStreak: updatedStreak,
           attemptsCount: updatedAttempts,
+          history: updatedHistory,
           lastCompletedAt: now
         },
         { merge: true }
       );
     } else {
+      const isCompleted = params.completed !== undefined ? params.completed : true;
       const newRecord: QuizProgressRecord = {
         id: docId,
         quizId,
@@ -137,13 +189,27 @@ export async function saveQuizProgress(params: SaveQuizProgressParams): Promise<
         topicTitle: displayTitle,
         gameType,
         level,
-        completed: true,
+        completed: isCompleted,
+        lastCompleted: isCompleted,
         bestScore: currentPercentage,
         lastScore: currentPercentage,
-        scorePoints: params.scorePoints ?? 10,
-        totalQuestions: params.totalQuestions ?? 10,
-        bestStreak: params.bestStreak || 0,
+        scorePoints: safeScorePoints,
+        lastScorePoints: safeScorePoints,
+        totalQuestions: safeTotalQuestions,
+        lastTotalQuestions: safeTotalQuestions,
+        bestStreak: safeStreak,
         attemptsCount: 1,
+        history: [
+          {
+            attemptNumber: 1,
+            date: now,
+            score: currentPercentage,
+            scorePoints: safeScorePoints,
+            totalQuestions: safeTotalQuestions,
+            completed: isCompleted,
+            scoreTotal: safeScoreTotal
+          }
+        ],
         firstCompletedAt: now,
         lastCompletedAt: now
       };
@@ -179,6 +245,11 @@ export function subscribeUserProgress(
         const data = docSnap.data() as QuizProgressRecord;
         if (data.quizId) {
           map[data.quizId] = data;
+          if (data.quizId.startsWith('g')) {
+            map[data.quizId.replace(/^g/, '')] = data;
+          } else {
+            map[`g${data.quizId}`] = data;
+          }
         }
         if (data.id) {
           map[data.id] = data;

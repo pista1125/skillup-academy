@@ -159,7 +159,7 @@ export function WordSearchTool() {
 
             // Variety logic: try to use all active groups
             const activeGroups = Array.from(enabledDirections);
-            let preferredGroup = activeGroups[i % activeGroups.length];
+            const preferredGroup = activeGroups[i % activeGroups.length];
             let preferredPool: Direction[] = [];
             if (preferredGroup === 'DIAGONAL') preferredPool = DIAGONAL_DIRECTIONS;
             else preferredPool = [preferredGroup as Direction];
@@ -169,7 +169,7 @@ export function WordSearchTool() {
                 const col = Math.floor(Math.random() * gridWidth);
                 
                 // Use preferred pool for first attempts to force variety
-                let dir = (attempts < 100 && preferredPool.length > 0)
+                const dir = (attempts < 100 && preferredPool.length > 0)
                     ? preferredPool[Math.floor(Math.random() * preferredPool.length)]
                     : activePool[Math.floor(Math.random() * activePool.length)];
 

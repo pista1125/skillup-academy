@@ -209,7 +209,7 @@ export function PerimeterAreaTool({ onBack }: PerimeterAreaToolProps) {
 
         const side = (p: Point) => (p.x - lineStart.x) * (lineEnd.y - lineStart.y) - (p.y - lineStart.y) * (lineEnd.x - lineStart.x);
         
-        let polyA: Point[] = [], polyB: Point[] = [];
+        const polyA: Point[] = [], polyB: Point[] = [];
 
         for (let i = 0; i < polyPoints.length; i++) {
             const p1 = polyPoints[i];
@@ -408,7 +408,7 @@ export function PerimeterAreaTool({ onBack }: PerimeterAreaToolProps) {
             const deltaAngle = currentAngle - rotationStartAngle;
             
             // Snap rotation to 15 degrees if shift held (emulated for now)
-            let newRotation = initialShapeRotation + deltaAngle;
+            const newRotation = initialShapeRotation + deltaAngle;
             
             setShapes(prev => prev.map(s => s.id === draggedShapeId ? { ...s, rotation: newRotation } : s));
             return;

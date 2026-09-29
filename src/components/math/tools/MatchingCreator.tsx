@@ -565,8 +565,8 @@ export function MatchingCreator({ onBack }: MatchingCreatorProps) {
 
                         if (isSolution) {
                             let mapY = keyY + Math.ceil(otherItems.length / itemsPerRow) * (keyCellH + 5) + 8;
-                            let mapX = isTwoColumn ? marginX : keyX;
-                            let mapW = isTwoColumn ? contentW : customTableW;
+                            const mapX = isTwoColumn ? marginX : keyX;
+                            const mapW = isTwoColumn ? contentW : customTableW;
 
                             if (mapY > 260) {
                                 doc.addPage();

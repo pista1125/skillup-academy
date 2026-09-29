@@ -63,7 +63,7 @@ export async function invokeAiFunction(name: string, payload: any): Promise<{ da
     try {
       if (name === 'generate-puzzle') {
         const { topic, questionCount = 10, hiddenWord = '' } = payload;
-        let hiddenWordInstructions = hiddenWord 
+        const hiddenWordInstructions = hiddenWord 
           ? `\nA keresztrejtvény VÁRT fő megfejtése: "${hiddenWord.trim().toUpperCase()}". Generálj pontosan ${hiddenWord.length} db kérdést!`
           : `A JSON válasz tartalmazza a "question" és "answer" mezőket. "offset" 0, "highlightIndex" -1.`;
 

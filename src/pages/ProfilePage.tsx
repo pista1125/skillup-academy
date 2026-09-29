@@ -13,6 +13,7 @@ import {
   User, 
   Camera, 
   ChevronLeft, 
+  ChevronDown,
   Loader2, 
   Sun,
   Moon,
@@ -50,8 +51,14 @@ import {
   Send,
   Building2,
   UserCheck,
-  UserX
+  UserX,
+  Video,
+  Search,
+  ChevronRight
 } from 'lucide-react';
+import { SidebarMenu } from '@/components/SidebarMenu';
+import { UserMenu } from '@/components/auth/UserMenu';
+import { mathTopics, MathTopic } from '@/data/mathTopics';
 import {
   Dialog,
   DialogContent,
@@ -104,6 +111,55 @@ export default function ProfilePage() {
   const [role, setRole] = useState<'teacher' | 'student'>(profile?.role || 'student');
   const [activeTab, setActiveTab] = useState<'personal' | 'classes' | 'activity' | 'settings' | 'admin-requests'>('personal');
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Search bar state for header
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showResults, setShowResults] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
+
+  const searchResults = useMemo(() => {
+    if (!searchQuery.trim()) return [];
+    const q = searchQuery.toLowerCase();
+    return mathTopics.filter(t =>
+      t.title.toLowerCase().includes(q) ||
+      t.description.toLowerCase().includes(q)
+    );
+  }, [searchQuery]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setShowResults(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleTopicSelect = (topic: MathTopic) => {
+    setShowResults(false);
+    setSearchQuery('');
+    if (topic.id === 'materials') {
+      navigate('/?topic=materials');
+      return;
+    }
+    const g = topic.grades && topic.grades.length > 0 ? topic.grades[0] : null;
+    if (g) {
+      let gradeSlug = `${g}-osztaly`;
+      if (g === 'graduation') gradeSlug = 'erettsegi';
+      else if (g === 'admission') gradeSlug = 'felveteli';
+      else if (typeof g === 'string' && g.startsWith('high-')) gradeSlug = `${g.replace('high-', '')}-osztaly`;
+      navigate(`/${gradeSlug}/${topic.id}`);
+    } else {
+      navigate(`/?topic=${topic.id}`);
+    }
+  };
+
+  const handleSearchSubmit = () => {
+    if (!searchQuery.trim()) return;
+    setShowResults(false);
+    navigate(`/?search=${encodeURIComponent(searchQuery)}`);
+  };
 
   // Teacher request states
   const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
@@ -158,6 +214,8 @@ export default function ProfilePage() {
   // Student user progress & activity states
   const [userProgressMap, setUserProgressMap] = useState<Record<string, QuizProgressRecord>>({});
   const [activityFilter, setActivityFilter] = useState<'all' | 'quiz' | 'matcher' | 'sorter'>('all');
+  const [activityViewMode, setActivityViewMode] = useState<'modules' | 'attempts'>('modules');
+  const [expandedActivityIds, setExpandedActivityIds] = useState<Record<string, boolean>>({});
 
   const googlePhoto = user?.photoURL;
 
@@ -245,7 +303,7 @@ export default function ProfilePage() {
 
   // Unique activity records sorted by most recent
   const activityList = useMemo(() => {
-    const rawList = Object.values(userProgressMap).filter((item) => item.completed && item.quizId);
+    const rawList = Object.values(userProgressMap).filter((item) => (item.completed || (item.attemptsCount && item.attemptsCount > 0) || (item.lastScore !== undefined && item.lastScore > 0)) && item.quizId);
     // Deduplicate by quizId
     const uniqueMap = new Map<string, QuizProgressRecord>();
     rawList.forEach((r) => {
@@ -264,20 +322,81 @@ export default function ProfilePage() {
     return list;
   }, [userProgressMap]);
 
+  // All individual attempts list
+  const allAttemptsList = useMemo(() => {
+    const attempts: Array<QuizProgressRecord & { attemptNumber: number; attemptDate: string; attemptScore: number; attemptScorePoints?: number; attemptTotalQuestions?: number; attemptCompleted: boolean }> = [];
+
+    activityList.forEach((mod) => {
+      if (mod.history && mod.history.length > 0) {
+        mod.history.forEach((att) => {
+          attempts.push({
+            ...mod,
+            id: `${mod.id}__att_${att.attemptNumber || 1}_${att.date}`,
+            attemptNumber: att.attemptNumber,
+            attemptDate: att.date,
+            attemptScore: att.score,
+            attemptScorePoints: att.scorePoints,
+            attemptTotalQuestions: att.totalQuestions,
+            attemptCompleted: att.completed
+          });
+        });
+      } else {
+        // Fallback reconstruction for existing records
+        if (mod.attemptsCount > 1 && (mod.lastScore !== undefined && (mod.lastScore < (mod.bestScore || 100) || mod.lastCompleted === false))) {
+          attempts.push({
+            ...mod,
+            id: `${mod.id}__att_${mod.attemptsCount}`,
+            attemptNumber: mod.attemptsCount,
+            attemptDate: mod.lastCompletedAt,
+            attemptScore: mod.lastScore,
+            attemptScorePoints: mod.lastScorePoints ?? mod.scorePoints,
+            attemptTotalQuestions: mod.lastTotalQuestions ?? mod.totalQuestions,
+            attemptCompleted: mod.lastCompleted ?? false
+          });
+          attempts.push({
+            ...mod,
+            id: `${mod.id}__att_1`,
+            attemptNumber: 1,
+            attemptDate: mod.firstCompletedAt || mod.lastCompletedAt,
+            attemptScore: mod.bestScore || 100,
+            attemptScorePoints: mod.totalQuestions,
+            attemptTotalQuestions: mod.totalQuestions,
+            attemptCompleted: mod.completed ?? true
+          });
+        } else {
+          attempts.push({
+            ...mod,
+            id: `${mod.id}__att_1`,
+            attemptNumber: mod.attemptsCount || 1,
+            attemptDate: mod.lastCompletedAt,
+            attemptScore: mod.bestScore || 100,
+            attemptScorePoints: mod.scorePoints,
+            attemptTotalQuestions: mod.totalQuestions,
+            attemptCompleted: mod.completed ?? true
+          });
+        }
+      }
+    });
+
+    attempts.sort((a, b) => new Date(b.attemptDate).getTime() - new Date(a.attemptDate).getTime());
+    return attempts;
+  }, [activityList]);
+
   // Filtered activity list
   const filteredActivities = useMemo(() => {
-    if (activityFilter === 'all') return activityList;
-    return activityList.filter((a) => a.gameType === activityFilter);
-  }, [activityList, activityFilter]);
+    const baseList = activityViewMode === 'modules' ? activityList : allAttemptsList;
+    if (activityFilter === 'all') return baseList;
+    return baseList.filter((a) => a.gameType === activityFilter);
+  }, [activityList, allAttemptsList, activityViewMode, activityFilter]);
 
   // Student calculated stats
   const studentStats = useMemo(() => {
-    const totalCompleted = activityList.length;
-    if (totalCompleted === 0) return { count: 0, avgScore: 0, perfectCount: 0 };
+    const totalCompleted = activityList.filter((a) => a.completed).length;
+    if (activityList.length === 0) return { count: 0, avgScore: 0, perfectCount: 0 };
     const scoreSum = activityList.reduce((acc, r) => acc + (r.bestScore || 0), 0);
-    const avgScore = Math.round(scoreSum / totalCompleted);
+    const avgScore = Math.round(scoreSum / activityList.length);
     const perfectCount = activityList.filter((r) => r.bestScore === 100).length;
-    return { count: totalCompleted, avgScore, perfectCount };
+    return { count: totalCompleted || activityList.length, avgScore, perfectCount };
   }, [activityList]);
 
   // Teacher calculated stats
@@ -551,10 +670,140 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-16 flex flex-col">
+      {/* Platform Sticky Main Header */}
+      <div className="sticky top-0 z-50 w-full">
+        <div className="bg-gradient-math text-white py-2 md:py-3 px-3 md:px-4 shadow-xl relative transition-all duration-300">
+          <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-50">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 blur-3xl"></div>
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-400/10 rounded-full -ml-24 -mb-24 blur-2xl"></div>
+          </div>
+
+          <div className="w-full px-2 lg:px-12 relative z-10">
+            <div className="flex justify-between items-center gap-1.5">
+              <div className="flex items-center gap-1 sm:gap-2.5">
+                <SidebarMenu />
+                <Button
+                  variant="ghost"
+                  onClick={() => navigate('/')}
+                  className="bg-white/10 text-white hover:bg-white/20 font-black px-1.5 sm:px-3 border border-white/20 shadow-md backdrop-blur-md transition-all hover:scale-105 active:scale-95 flex items-center gap-1 sm:gap-2 h-8 sm:h-10 rounded-xl overflow-hidden"
+                >
+                  <img src="/logo_header.png" alt="DiákZóna" className="h-6 sm:h-8 object-contain" />
+                  <span className="text-sm sm:text-lg md:text-xl font-black tracking-tighter">Diákzóna</span>
+                </Button>
+              </div>
+
+              <div className="flex items-center gap-1 sm:gap-2">
+                {/* Search Bar */}
+                <div ref={searchRef} className="relative hidden lg:flex items-center group">
+                  <input
+                    type="text"
+                    placeholder="Keresés..."
+                    value={searchQuery}
+                    onFocus={() => setShowResults(true)}
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value);
+                      setShowResults(true);
+                    }}
+                    onKeyDown={(e) => e.key === 'Enter' && handleSearchSubmit()}
+                    className="bg-white/10 hover:bg-white/20 focus:bg-white/20 border border-white/10 focus:border-white/30 rounded-xl py-2 pl-4 pr-10 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all w-40 md:w-56 backdrop-blur-md"
+                  />
+                  <div className="absolute right-1 flex items-center gap-1">
+                    {searchQuery && (
+                      <button
+                        onClick={() => {
+                          setSearchQuery('');
+                          setShowResults(false);
+                        }}
+                        className="p-1.5 rounded-lg hover:bg-white/10 text-white/50 hover:text-white transition-all"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                    <button
+                      onClick={() => handleSearchSubmit()}
+                      className="p-1.5 bg-white/20 hover:bg-white/30 rounded-lg text-white transition-all shadow-sm"
+                    >
+                      <Search className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  {/* Dropdown Results */}
+                  {showResults && searchQuery.trim() !== '' && (
+                    <div className="absolute top-full left-0 right-0 mt-2 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-white/20 dark:border-slate-800 rounded-2xl shadow-2xl overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                      <div className="max-h-[320px] overflow-y-auto p-2">
+                        {searchResults.length > 0 ? (
+                          searchResults.slice(0, 6).map(topic => (
+                            <button
+                              key={topic.id}
+                              onClick={() => handleTopicSelect(topic)}
+                              className="w-full flex items-center gap-3 p-3 hover:bg-black/5 dark:hover:bg-white/5 rounded-xl transition-all text-left group/item"
+                            >
+                              <div className="w-10 h-10 flex items-center justify-center bg-slate-100 dark:bg-slate-800 rounded-lg text-2xl group-hover/item:scale-110 transition-transform">
+                                {typeof topic.icon === 'string' ? (
+                                  topic.icon
+                                ) : (
+                                  <topic.icon className="w-6 h-6" />
+                                )}
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <div className="font-bold text-sm text-slate-800 dark:text-slate-100 truncate">{topic.title}</div>
+                                <div className="text-[10px] text-slate-500 dark:text-slate-400 line-clamp-1">{topic.description}</div>
+                              </div>
+                              <ChevronRight className="w-3 h-3 text-slate-300 group-hover/item:text-primary transition-colors" />
+                            </button>
+                          ))
+                        ) : (
+                          <div className="p-4 text-center">
+                            <div className="text-2xl mb-1">🔍</div>
+                            <p className="text-xs text-slate-400">Nincs találat a keresésre.</p>
+                          </div>
+                        )}
+
+                        {searchResults.length > 6 && (
+                          <button
+                            onClick={() => handleSearchSubmit()}
+                            className="w-full p-2 text-center text-xs font-bold text-primary hover:bg-primary/5 rounded-lg transition-all"
+                          >
+                            Összes találat megtekintése ({searchResults.length})
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <UserMenu />
+                <Button
+                  variant="default"
+                  onClick={() => navigate('/korrepetalas')}
+                  className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 font-extrabold px-2.5 sm:px-3.5 shadow-md shadow-purple-500/30 border border-white/20 transition-all hover:scale-105 active:scale-95 h-8 sm:h-9 flex items-center gap-1.5 rounded-xl"
+                  title="Online Korrepetálás"
+                >
+                  <Video className="w-4 h-4 flex-shrink-0" />
+                  <span className="hidden md:inline text-xs sm:text-sm">Online Korrepetálás</span>
+                </Button>
+                <Button
+                  variant="secondary"
+                  onClick={() => { window.location.assign('https://kviz.diakzona.hu/'); }}
+                  className="bg-emerald-500 text-white hover:bg-emerald-600 font-extrabold px-2.5 sm:px-3.5 shadow-md shadow-emerald-500/30 border-none transition-all hover:scale-105 active:scale-95 h-8 sm:h-9 flex items-center gap-1.5 rounded-xl"
+                  title="Online Kvíz"
+                >
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 flex-shrink-0">
+                    <circle cx="12" cy="3" r="1.8" />
+                    <path d="M13 6.5L8 14H12.5L10.5 21.5L17 12H12.5L13.5 6.5H13Z" />
+                  </svg>
+                  <span className="hidden md:inline text-xs sm:text-sm">Online Kvíz</span>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
         
-        {/* Top Header Bar */}
+        {/* Top Sub Header Bar */}
         <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-200/70 dark:border-slate-800/80">
           <Button 
             variant="ghost" 
@@ -1432,56 +1681,96 @@ export default function ProfilePage() {
                     </div>
                   </div>
 
-                  {/* Filter Pills */}
-                  <div className="flex flex-wrap items-center gap-2 pt-1">
-                    <button
-                      type="button"
-                      onClick={() => setActivityFilter('all')}
-                      className={cn(
-                        "px-3.5 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer",
-                        activityFilter === 'all'
-                          ? "bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-sm"
-                          : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200"
-                      )}
-                    >
-                      Összes ({activityList.length})
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setActivityFilter('quiz')}
-                      className={cn(
-                        "px-3.5 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer",
-                        activityFilter === 'quiz'
-                          ? "bg-indigo-600 text-white shadow-sm"
-                          : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200"
-                      )}
-                    >
-                      🎯 Kvízek ({activityList.filter(a => a.gameType === 'quiz').length})
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setActivityFilter('matcher')}
-                      className={cn(
-                        "px-3.5 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer",
-                        activityFilter === 'matcher'
-                          ? "bg-purple-600 text-white shadow-sm"
-                          : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200"
-                      )}
-                    >
-                      🧩 Párosítók ({activityList.filter(a => a.gameType === 'matcher').length})
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setActivityFilter('sorter')}
-                      className={cn(
-                        "px-3.5 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer",
-                        activityFilter === 'sorter'
-                          ? "bg-amber-600 text-white shadow-sm"
-                          : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200"
-                      )}
-                    >
-                      ⚖️ Csoportosítók ({activityList.filter(a => a.gameType === 'sorter').length})
-                    </button>
+                  {/* Activity View Mode Switcher & Filter Pills */}
+                  <div className="space-y-2.5 pt-1">
+                    <div className="flex items-center justify-between flex-wrap gap-2">
+                      <div className="flex items-center gap-1 p-1 bg-slate-100 dark:bg-slate-800 rounded-xl text-xs font-bold shadow-2xs">
+                        <button
+                          type="button"
+                          onClick={() => setActivityViewMode('modules')}
+                          className={cn(
+                            "px-3 py-1.5 rounded-lg transition-all cursor-pointer",
+                            activityViewMode === 'modules'
+                              ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs font-black"
+                              : "text-slate-500 hover:text-slate-900 dark:hover:text-slate-200"
+                          )}
+                        >
+                          Modulok szerint ({activityList.length})
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setActivityViewMode('attempts')}
+                          className={cn(
+                            "px-3 py-1.5 rounded-lg transition-all cursor-pointer flex items-center gap-1.5",
+                            activityViewMode === 'attempts'
+                              ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs font-black"
+                              : "text-slate-500 hover:text-slate-900 dark:hover:text-slate-200"
+                          )}
+                        >
+                          <span>Minden kísérlet naplója ({allAttemptsList.length})</span>
+                          <span className="text-[10px] bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 px-1.5 py-0.5 rounded-full font-black">
+                            Részletes
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Filter Pills */}
+                    {(() => {
+                      const currentBaseList = activityViewMode === 'modules' ? activityList : allAttemptsList;
+                      return (
+                        <div className="flex flex-wrap items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => setActivityFilter('all')}
+                            className={cn(
+                              "px-3.5 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer",
+                              activityFilter === 'all'
+                                ? "bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-sm"
+                                : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200"
+                            )}
+                          >
+                            Összes ({currentBaseList.length})
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setActivityFilter('quiz')}
+                            className={cn(
+                              "px-3.5 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer",
+                              activityFilter === 'quiz'
+                                ? "bg-indigo-600 text-white shadow-sm"
+                                : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200"
+                            )}
+                          >
+                            🎯 Kvízek ({currentBaseList.filter(a => a.gameType === 'quiz').length})
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setActivityFilter('matcher')}
+                            className={cn(
+                              "px-3.5 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer",
+                              activityFilter === 'matcher'
+                                ? "bg-purple-600 text-white shadow-sm"
+                                : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200"
+                            )}
+                          >
+                            🧩 Párosítók ({currentBaseList.filter(a => a.gameType === 'matcher').length})
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setActivityFilter('sorter')}
+                            className={cn(
+                              "px-3.5 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer",
+                              activityFilter === 'sorter'
+                                ? "bg-amber-600 text-white shadow-sm"
+                                : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200"
+                            )}
+                          >
+                            ⚖️ Csoportosítók ({currentBaseList.filter(a => a.gameType === 'sorter').length})
+                          </button>
+                        </div>
+                      );
+                    })()}
                   </div>
 
                   {/* Activities List */}
@@ -1505,66 +1794,219 @@ export default function ProfilePage() {
                     </div>
                   ) : (
                     <div className="space-y-3">
-                      {filteredActivities.map((act) => {
-                        const score = act.bestScore || 0;
+                      {filteredActivities.map((item) => {
+                        const act = item as any;
+                        const isAttemptMode = activityViewMode === 'attempts';
+                        const score = isAttemptMode ? (act.attemptScore ?? act.lastScore ?? 0) : (act.bestScore || 0);
                         const isPerfect = score === 100;
                         const isGood = score >= 70;
                         const icon = act.gameType === 'quiz' ? '🎯' : act.gameType === 'matcher' ? '🧩' : '⚖️';
                         const typeLabel = act.gameType === 'quiz' ? 'Kvíz' : act.gameType === 'matcher' ? 'Párosító' : 'Csoportosító';
 
+                        // Check if latest attempt was game over / partial
+                        const hasRecentGameOver = !isAttemptMode && (
+                          act.lastCompleted === false || 
+                          (act.lastScore !== undefined && act.lastScore < (act.bestScore || 100)) ||
+                          (!act.completed && act.bestScore < 100)
+                        );
+
+                        const isExpanded = !!expandedActivityIds[act.id];
+
+                        // Attempt history list (from act.history or fallback reconstruction)
+                        const attemptHistory: QuizAttemptRecord[] = act.history && act.history.length > 0 ? act.history : [
+                          {
+                            attemptNumber: 1,
+                            date: act.firstCompletedAt || act.lastCompletedAt,
+                            score: act.bestScore || 100,
+                            scorePoints: act.scorePoints,
+                            totalQuestions: act.totalQuestions,
+                            completed: act.completed ?? true
+                          },
+                          ...(act.attemptsCount > 1 ? [{
+                            attemptNumber: act.attemptsCount,
+                            date: act.lastCompletedAt,
+                            score: act.lastScore !== undefined ? act.lastScore : (act.bestScore || 0),
+                            scorePoints: act.lastScorePoints ?? act.scorePoints,
+                            totalQuestions: act.lastTotalQuestions ?? act.totalQuestions,
+                            completed: act.lastCompleted ?? false
+                          }] : [])
+                        ];
+
                         return (
                           <div 
                             key={act.id} 
-                            className="flex flex-col sm:flex-row sm:items-center justify-between p-4.5 bg-slate-50/80 dark:bg-slate-950/50 rounded-2xl border border-slate-200/70 dark:border-slate-800 transition-all hover:bg-white dark:hover:bg-slate-900 hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-800/60 gap-3"
+                            className="flex flex-col p-4 sm:p-4.5 bg-slate-50/80 dark:bg-slate-950/50 rounded-2xl border border-slate-200/70 dark:border-slate-800 transition-all hover:bg-white dark:hover:bg-slate-900 hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-800/60 gap-3"
                           >
-                            <div className="flex items-center gap-3.5">
-                              <div className="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 flex items-center justify-center text-xl shrink-0 shadow-2xs">
-                                {icon}
-                              </div>
-                              <div>
-                                <h5 className="font-black text-sm sm:text-base text-slate-800 dark:text-slate-100">
-                                  {act.topicTitle || act.topicId}
-                                </h5>
-                                <div className="flex flex-wrap items-center gap-2 mt-1 text-[11px] text-slate-500 dark:text-slate-400">
-                                  <span className="font-bold px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-950/80 text-indigo-700 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-800/80">
-                                    {act.grade}. Osztály • {typeLabel}
-                                  </span>
-                                  {act.level && (
-                                    <span className={cn(
-                                      "font-black text-[10px] px-2 py-0.5 rounded-md border font-mono",
-                                      act.level === 1 ? "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800" :
-                                      act.level === 2 ? "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/60 dark:text-amber-300 dark:border-amber-800" :
-                                      "bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-950/60 dark:text-purple-300 dark:border-purple-800"
-                                    )}>
-                                      {act.level}. szint
-                                    </span>
-                                  )}
-                                  {act.attemptsCount > 1 && (
-                                    <span className="font-medium text-slate-400">
-                                      • {act.attemptsCount}x próbálkozás
-                                    </span>
-                                  )}
-                                  <span className="text-slate-400 flex items-center gap-1">
-                                    <Clock className="w-3 h-3" />
-                                    {formatDate(act.lastCompletedAt)}
-                                  </span>
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                              <div className="flex items-center gap-3.5">
+                                <div className="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 flex items-center justify-center text-xl shrink-0 shadow-2xs">
+                                  {icon}
                                 </div>
+                                <div>
+                                  <h5 className="font-black text-sm sm:text-base text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                                    <span>{act.topicTitle || act.topicId}</span>
+                                    {isAttemptMode && (
+                                      <span className={cn(
+                                        "text-[10px] font-black px-2 py-0.5 rounded-full border",
+                                        act.attemptCompleted
+                                          ? "bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border-emerald-300"
+                                          : "bg-rose-100 dark:bg-rose-950 text-rose-800 dark:text-rose-300 border-rose-300"
+                                      )}>
+                                        {act.attemptCompleted ? "⭐ Sikeres" : "💔 Game Over"}
+                                      </span>
+                                    )}
+                                  </h5>
+                                  <div className="flex flex-wrap items-center gap-2 mt-1 text-[11px] text-slate-500 dark:text-slate-400">
+                                    <span className="font-bold px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-950/80 text-indigo-700 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-800/80">
+                                      {act.grade}. Osztály • {typeLabel}
+                                    </span>
+                                    {act.level && (
+                                      <span className={cn(
+                                        "font-black text-[10px] px-2 py-0.5 rounded-md border font-mono",
+                                        act.level === 1 ? "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800" :
+                                        act.level === 2 ? "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/60 dark:text-amber-300 dark:border-amber-800" :
+                                        "bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-950/60 dark:text-purple-300 dark:border-purple-800"
+                                      )}>
+                                        {act.level}. szint
+                                      </span>
+                                    )}
+                                    {isAttemptMode ? (
+                                      <span className="font-bold text-slate-700 dark:text-slate-300">
+                                        • #{act.attemptNumber}. próba
+                                      </span>
+                                    ) : (
+                                      act.attemptsCount > 1 && (
+                                        <span className="font-medium text-slate-400">
+                                          • {act.attemptsCount}x próbálkozás
+                                        </span>
+                                      )
+                                    )}
+                                    <span className="text-slate-400 flex items-center gap-1">
+                                      <Clock className="w-3 h-3" />
+                                      {formatDate(isAttemptMode ? act.attemptDate : act.lastCompletedAt)}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Badges on right side */}
+                              <div className="flex items-center gap-2 flex-wrap self-end sm:self-auto">
+                                {isAttemptMode ? (
+                                  <div className={cn(
+                                    "flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-mono font-black text-xs sm:text-sm border shadow-2xs",
+                                    act.attemptCompleted
+                                      ? "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800"
+                                      : "bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border-rose-300 dark:border-rose-800"
+                                  )}>
+                                    {act.attemptCompleted ? <span>⭐</span> : <span>💔</span>}
+                                    <span>{score}%</span>
+                                    {act.attemptScorePoints !== undefined && act.attemptTotalQuestions && (
+                                      <span className="text-[10px] font-normal opacity-80">
+                                        ({act.attemptScorePoints}/{act.attemptTotalQuestions})
+                                      </span>
+                                    )}
+                                  </div>
+                                ) : (
+                                  <>
+                                    {/* If latest attempt was Game Over */}
+                                    {hasRecentGameOver && (
+                                      <div className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border border-rose-300 dark:border-rose-800 font-mono text-[11px] font-black shadow-2xs">
+                                        <span>💔 Legutóbbi:</span>
+                                        <span>
+                                          {act.lastScorePoints ?? act.scorePoints ?? 0}/{act.lastTotalQuestions ?? act.totalQuestions ?? 12}
+                                        </span>
+                                        <span>({act.lastScore ?? 0}%)</span>
+                                      </div>
+                                    )}
+
+                                    {/* Best result badge */}
+                                    <div className={cn(
+                                      "flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-mono font-black text-xs sm:text-sm border shadow-2xs",
+                                      act.completed && isPerfect 
+                                        ? "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800"
+                                        : act.completed && isGood
+                                        ? "bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border-amber-300 dark:border-amber-800"
+                                        : !act.completed
+                                        ? "bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border-rose-300 dark:border-rose-800"
+                                        : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-300"
+                                    )}>
+                                      {act.completed ? (
+                                        <>
+                                          {isPerfect && <span>⭐</span>}
+                                          <span>{hasRecentGameOver ? `Legjobb: ${act.bestScore}%` : `${act.bestScore}%`}</span>
+                                        </>
+                                      ) : (
+                                        <span className="text-[11px] font-bold">
+                                          Gyakorlás: {act.scorePoints !== undefined && act.totalQuestions ? `${act.scorePoints}/${act.totalQuestions}` : `${score}%`}
+                                        </span>
+                                      )}
+                                    </div>
+                                  </>
+                                )}
                               </div>
                             </div>
 
-                            <div className="flex items-center gap-3 self-end sm:self-auto">
-                              <div className={cn(
-                                "flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-mono font-black text-xs sm:text-sm border shadow-2xs",
-                                isPerfect 
-                                  ? "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800"
-                                  : isGood
-                                  ? "bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border-amber-300 dark:border-amber-800"
-                                  : "bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border-rose-300 dark:border-rose-800"
-                              )}>
-                                {isPerfect && <span>⭐</span>}
-                                <span>{score}%</span>
+                            {/* Alert banner if latest was Game Over in module view */}
+                            {!isAttemptMode && hasRecentGameOver && (
+                              <div className="py-2 px-3 rounded-xl bg-gradient-to-r from-rose-50 to-amber-50 dark:from-rose-950/40 dark:to-amber-950/40 border border-rose-200 dark:border-rose-900/60 flex items-center justify-between text-xs text-rose-950 dark:text-rose-200 font-medium">
+                                <span className="flex items-center gap-1.5 font-bold">
+                                  <span className="text-sm">💔</span>
+                                  <span>
+                                    A legutóbbi kísérlet Game Overrel zárult ({act.lastScorePoints ?? act.scorePoints ?? 0} / {act.lastTotalQuestions ?? act.totalQuestions ?? 12} elem, {act.lastScore ?? 0}% elmentve).
+                                  </span>
+                                </span>
+                                <span className="text-[11px] text-slate-500 font-bold hidden sm:inline">
+                                  A pontjaid jóváírva!
+                                </span>
                               </div>
-                            </div>
+                            )}
+
+                            {/* Dropdown button for attempts history */}
+                            {!isAttemptMode && (act.attemptsCount > 1 || (act.history && act.history.length > 1)) && (
+                              <div className="pt-1 border-t border-slate-200/60 dark:border-slate-850">
+                                <button
+                                  type="button"
+                                  onClick={() => setExpandedActivityIds((prev) => ({ ...prev, [act.id]: !prev[act.id] }))}
+                                  className="text-[11.5px] font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 flex items-center gap-1 cursor-pointer"
+                                >
+                                  <span>Próbálkozások előzményei ({act.attemptsCount || attemptHistory.length} db)</span>
+                                  <ChevronDown className={cn("w-3.5 h-3.5 transition-transform duration-200", isExpanded && "rotate-180")} />
+                                </button>
+
+                                {isExpanded && (
+                                  <div className="mt-2 space-y-1.5 animate-in fade-in duration-200">
+                                    {attemptHistory.slice().reverse().map((att, attIdx) => (
+                                      <div
+                                        key={attIdx}
+                                        className="flex items-center justify-between p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 text-xs"
+                                      >
+                                        <div className="flex items-center gap-2">
+                                          <span className="font-mono font-bold text-slate-400">
+                                            #{att.attemptNumber || (act.attemptsCount - attIdx)}.
+                                          </span>
+                                          <span className={cn("font-black", att.completed ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400")}>
+                                            {att.completed ? "⭐ Sikeres teljesítés" : "💔 Game Over"}
+                                          </span>
+                                          {att.scorePoints !== undefined && att.totalQuestions && (
+                                            <span className="text-slate-500 font-bold">
+                                              ({att.scorePoints} / {att.totalQuestions} elem)
+                                            </span>
+                                          )}
+                                        </div>
+                                        <div className="flex items-center gap-2.5">
+                                          <span className="font-mono font-black text-slate-800 dark:text-slate-100">
+                                            {att.score}%
+                                          </span>
+                                          <span className="text-[10px] text-slate-400">
+                                            {formatDate(att.date)}
+                                          </span>
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            )}
                           </div>
                         );
                       })}

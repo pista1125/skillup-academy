@@ -209,8 +209,8 @@ export function polToRec(r: number, theta: number, angleMode: AngleMode): { x: n
 // Rectangular to Polar
 export function recToPol(x: number, y: number, angleMode: AngleMode): { r: number; theta: number } {
   const r = Math.hypot(x, y);
-  let thetaRad = Math.atan2(y, x);
-  let theta = radToAngle(thetaRad, angleMode);
+  const thetaRad = Math.atan2(y, x);
+  const theta = radToAngle(thetaRad, angleMode);
   return { r, theta };
 }
 
@@ -356,7 +356,7 @@ export class CasioEvaluator {
   }
 
   private parsePower(): number {
-    let left = this.parseUnary();
+    const left = this.parseUnary();
     this.skipWhitespace();
     if (this.match('^')) {
       const right = this.parsePower(); // Right-associative

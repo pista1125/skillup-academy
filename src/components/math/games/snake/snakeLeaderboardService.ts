@@ -106,7 +106,7 @@ export async function getTopSnakeScores(
     limitCount: number = 10
 ): Promise<SnakeScoreRecord[]> {
     try {
-        let scores: SnakeScoreRecord[] = [];
+        const scores: SnakeScoreRecord[] = [];
 
         // Try querying Firestore
         try {

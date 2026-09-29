@@ -179,7 +179,7 @@ export function EquationSolverTool({ onBack }: EquationSolverToolProps) {
         if (!parsed) return;
 
         const newSteps: DerivationStep[] = [{ equation }];
-        let { left, right } = parsed;
+        const { left, right } = parsed;
         let currentEq = equation;
 
         // Step 1: Move all x to left
@@ -248,8 +248,8 @@ export function EquationSolverTool({ onBack }: EquationSolverToolProps) {
         const sides = normalized.split('=');
         if (sides.length !== 2) return;
 
-        let left = parseSide(sides[0]);
-        let right = parseSide(sides[1]);
+        const left = parseSide(sides[0]);
+        const right = parseSide(sides[1]);
 
         const opType = manualOp[0];
         const valStr = manualOp.substring(1).trim();

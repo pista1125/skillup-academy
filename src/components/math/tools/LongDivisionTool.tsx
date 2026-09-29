@@ -37,7 +37,7 @@ export function LongDivisionTool({ onBack }: LongDivisionToolProps) {
 
         while (i < digits.length) {
             tempDividendStr += digits[i];
-            let val = parseInt(tempDividendStr);
+            const val = parseInt(tempDividendStr);
 
             if (val < divisor && i < digits.length - 1 && steps.length === 0) {
                 // Initial skip (e.g. 1 / 4) - we wait for next digit

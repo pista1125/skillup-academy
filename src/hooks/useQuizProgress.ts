@@ -59,13 +59,26 @@ export function useQuizProgress(explicitUserId?: string) {
     level: number | string = 1
   ): QuizProgressRecord | undefined => {
     const id = generateQuizId(grade, chapterId, topicId, gameType, level);
-    return progressMap[id] || progressMap[`${topicId}__${gameType}__${level}`] || progressMap[`${topicId}__${level}`];
+    const altId = id.startsWith('g') ? id.replace(/^g/, '') : `g${id}`;
+    return progressMap[id] || progressMap[altId] || progressMap[`${topicId}__${gameType}__${level}`] || progressMap[`${topicId}__${level}`];
   };
 
-  const getTopicProgress = (topicKey: string): TopicProgressResult => {
+  const getTopicProgress = (
+    topicKey: string,
+    filterGameType?: 'quiz' | 'matcher' | 'sorter'
+  ): TopicProgressResult => {
     if (!topicKey) {
       return { isCompleted: false, hasStarted: false, completedLevelsCount: 0, levelScores: {} };
     }
+
+    const lowerKey = topicKey.toLowerCase();
+    const expectedGameType: 'quiz' | 'matcher' | 'sorter' =
+      filterGameType ||
+      (lowerKey.includes('-matcher') || lowerKey.includes('parosito')
+        ? 'matcher'
+        : lowerKey.includes('-sorter') || lowerKey.includes('csoportosito')
+        ? 'sorter'
+        : 'quiz');
 
     const targetGradeMatch = topicKey.match(/^(?:g|grade-)([0-9]+)/i);
     const targetGrade = targetGradeMatch ? parseInt(targetGradeMatch[1], 10) : undefined;
@@ -103,6 +116,20 @@ export function useQuizProgress(explicitUserId?: string) {
       return undefined;
     };
 
+    const getRecordGameType = (rec: QuizProgressRecord): 'quiz' | 'matcher' | 'sorter' => {
+      if (rec.gameType === 'matcher' || rec.gameType === 'sorter' || rec.gameType === 'quiz') {
+        return rec.gameType;
+      }
+      const idStr = `${rec.id || ''} ${rec.quizId || ''} ${rec.topicId || ''} ${rec.title || ''} ${rec.topicTitle || ''}`.toLowerCase();
+      if (idStr.includes('__matcher__') || idStr.includes('-matcher') || idStr.includes('párosító') || idStr.includes('parosito')) {
+        return 'matcher';
+      }
+      if (idStr.includes('__sorter__') || idStr.includes('-sorter') || idStr.includes('csoportosító') || idStr.includes('csoportosito')) {
+        return 'sorter';
+      }
+      return 'quiz';
+    };
+
     const matchingRecords: QuizProgressRecord[] = [];
     const seenIds = new Set<string>();
 
@@ -116,6 +143,12 @@ export function useQuizProgress(explicitUserId?: string) {
         if (recGrade !== undefined && recGrade !== targetGrade) {
           continue;
         }
+      }
+
+      // Game type isolation: Quiz cards ONLY match quizzes; matcher/sorter records must not pollute quiz cards!
+      const recGameType = getRecordGameType(rec);
+      if (recGameType !== expectedGameType) {
+        continue;
       }
 
       seenIds.add(rec.id);
@@ -217,11 +250,23 @@ export function useQuizProgress(explicitUserId?: string) {
         lvl = 3;
       }
 
-      const scoreValue = rec.bestScore !== undefined ? rec.bestScore : (rec.lastScore ?? 100);
+      // Best score evaluation across bestScore, lastScore, and any attempt history
+      const historyScores = rec.history && Array.isArray(rec.history)
+        ? rec.history.map(h => (typeof h.score === 'number' ? h.score : 0))
+        : [];
+      const historyBest = historyScores.length > 0 ? Math.max(...historyScores) : 0;
+
+      const candidates: number[] = [];
+      if (rec.bestScore !== undefined && typeof rec.bestScore === 'number') candidates.push(rec.bestScore);
+      if (rec.lastScore !== undefined && typeof rec.lastScore === 'number') candidates.push(rec.lastScore);
+      if (historyScores.length > 0) candidates.push(historyBest);
+
+      const scoreValue = candidates.length > 0 ? Math.max(...candidates) : 0;
+
       if (levelScores[lvl] === undefined || scoreValue > (levelScores[lvl] || 0)) {
         levelScores[lvl] = scoreValue;
       }
-      totalAttempts += rec.attemptsCount || 1;
+      totalAttempts += rec.attemptsCount || (rec.history?.length || 1);
     }
 
     const completedLevels = Object.keys(levelScores).map(Number) as (1 | 2 | 3)[];

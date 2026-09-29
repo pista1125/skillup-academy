@@ -58,7 +58,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const fetchProfile = useCallback(async (firebaseUser: User) => {
         try {
             const userRef = doc(db, 'profiles', firebaseUser.uid);
-            let docSnap = await getDoc(userRef);
+            const docSnap = await getDoc(userRef);
 
             // Special check for pista1125@gmail.com (admin account)
             const isPista = firebaseUser.email?.toLowerCase() === 'pista1125@gmail.com';

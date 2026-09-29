@@ -38,7 +38,7 @@ export default function DecimalShifterTool({ onBack }: DecimalShifterToolProps) 
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let val = e.target.value.replace(',', '.');
+        const val = e.target.value.replace(',', '.');
         if (isNaN(Number(val)) && val !== '' && val !== '.') return;
         setInputValue(e.target.value);
     };
@@ -111,12 +111,12 @@ export default function DecimalShifterTool({ onBack }: DecimalShifterToolProps) 
     };
 
     const getCurrentValue = () => {
-        let leftArr = digits.slice(0, ONES_IDX + 1);
+        const leftArr = digits.slice(0, ONES_IDX + 1);
         let left = leftArr.join('').replace(/^0+/, '');
         if (!left) left = '0';
 
-        let rightArr = digits.slice(ONES_IDX + 1);
-        let right = rightArr.join('').replace(/0+$/, '');
+        const rightArr = digits.slice(ONES_IDX + 1);
+        const right = rightArr.join('').replace(/0+$/, '');
 
         return right ? `${left},${right}` : left;
     };

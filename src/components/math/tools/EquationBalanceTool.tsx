@@ -227,7 +227,7 @@ export function EquationBalanceTool({ onBack }: { onBack: () => void }) {
 
         if (commonX === 0 && commonConst === 0) return;
 
-        let ops = [];
+        const ops = [];
         if (commonX > 0) ops.push(`-${commonX}x`);
         if (commonConst > 0) ops.push(`-${commonConst}`);
         const opStr = ops.join(', ');

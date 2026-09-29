@@ -327,7 +327,10 @@ const Grade8Chapter2GeometrySummaryQuiz = lazy(() => import("@/components/math/g
 const Grade8Chapter2GeometrySummaryMatcher = lazy(() => import("@/components/math/grade-8/geometria/osszefoglalas/Chapter2GeometrySummaryMatcher").then(m => ({ default: m.Chapter2GeometrySummaryMatcher }))) as any;
 const Grade8Chapter2GeometrySummarySorter = lazy(() => import("@/components/math/grade-8/geometria/osszefoglalas/Chapter2GeometrySummarySorter").then(m => ({ default: m.Chapter2GeometrySummarySorter }))) as any;
 const Grade8EquationBalanceQuiz = lazy(() => import("@/components/math/grade-8/egyenletek/egyenletek/EquationBalanceQuiz").then(m => ({ default: m.EquationBalanceQuiz }))) as any;
+const Grade8EquationsTheory = lazy(() => import("@/components/math/grade-8/egyenletek/egyenletek/EquationsTheory").then(m => ({ default: m.EquationsTheory }))) as any;
 const Grade8EquationsQuiz = lazy(() => import("@/components/math/grade-8/egyenletek/egyenletek/EquationsQuiz").then(m => ({ default: m.EquationsQuiz }))) as any;
+const Grade8EquationsMatcher = lazy(() => import("@/components/math/grade-8/egyenletek/egyenletek/EquationsMatcher").then(m => ({ default: m.EquationsMatcher }))) as any;
+const Grade8EquationsSorter = lazy(() => import("@/components/math/grade-8/egyenletek/egyenletek/EquationsSorter").then(m => ({ default: m.EquationsSorter }))) as any;
 const Grade8NumbersAgesQuiz = lazy(() => import("@/components/math/grade-8/egyenletek/szoveges-feladatok-szamokrol-eletkorokrol/NumbersAgesQuiz").then(m => ({ default: m.NumbersAgesQuiz }))) as any;
 const Grade8MixingWordProblemsQuiz = lazy(() => import("@/components/math/grade-8/egyenletek/szoveges-feladatok-osszekeveresrol/MixingWordProblemsQuiz").then(m => ({ default: m.MixingWordProblemsQuiz }))) as any;
 const Grade8MotionWorkProblemsQuiz = lazy(() => import("@/components/math/grade-8/egyenletek/szoveges-feladatok-mozgasrol-munkarol/MotionWorkProblemsQuiz").then(m => ({ default: m.MotionWorkProblemsQuiz }))) as any;
@@ -637,7 +640,7 @@ type ActivityType =
   | 'g8-algebra' | 'g8-equation-balance' | 'g8-word-problems-module' | 'g8-word-problems-quiz'
   | 'g8-logic' | 'g8-set-basics' | 'g8-set-operations' | 'g8-rational-set' | 'g8-rational-operations' | 'g8-powers' | 'g8-sqrt-concept' | 'g8-square-roots' | 'g8-algebra-intro' | 'g8-factoring' | 'g8-polynomial-mult' | 'g8-chapter1-summary'
   | 'g8-geom-congruence' | 'g8-geom-transforms' | 'g8-geom-software' | 'g8-geom-similarity' | 'g8-geom-central-similarity' | 'g8-geom-central-similarity-theory' | 'g8-geom-central-similarity-quiz' | 'g8-geom-central-similarity-matcher' | 'g8-geom-central-similarity-sorter' | 'g8-geom-constructions' | 'g8-geom-constructions-theory' | 'g8-geom-constructions-quiz' | 'g8-geom-constructions-matcher' | 'g8-geom-constructions-sorter' | 'g8-geom-summary' | 'g8-geom-summary-theory' | 'g8-geom-summary-quiz' | 'g8-geom-summary-matcher' | 'g8-geom-summary-sorter'
-  | 'g8-eq-basic' | 'g8-eq-numbers-ages' | 'g8-eq-mixing' | 'g8-eq-motion-work' | 'g8-eq-geometry' | 'g8-eq-mixed' | 'g8-eq-financial' | 'g8-eq-summary'
+  | 'g8-eq-basic' | 'g8-eq-basic-theory' | 'g8-eq-basic-quiz' | 'g8-eq-basic-matcher' | 'g8-eq-basic-sorter' | 'g8-eq-numbers-ages' | 'g8-eq-mixing' | 'g8-eq-motion-work' | 'g8-eq-geometry' | 'g8-eq-mixed' | 'g8-eq-financial' | 'g8-eq-summary'
   | 'g8-pyth-constructions' | 'g8-pyth-theorem' | 'g8-pyth-converse' | 'g8-pyth-applications' | 'g8-pyth-calculator' | 'g8-pyth-special-triangles' | 'g8-pyth-summary'
   | 'g8-func-direct' | 'g8-func-graphs' | 'g8-func-inverse' | 'g8-func-reading' | 'g8-func-plotting' | 'g8-func-frequency' | 'g8-func-game' | 'g8-func-prob-basics' | 'g8-func-prob-problems' | 'g8-func-patterns' | 'g8-func-sequences' | 'g8-func-summary'
   | 'g8-solids-review' | 'g8-solids-pyramids-intro' | 'g8-solids-pyramids-calc' | 'g8-solids-sphere' | 'g8-solids-earth' | 'g8-solids-summary'
@@ -1185,7 +1188,7 @@ export default function MathPage() {
     let nextView: ViewState = 'main-select';
     let nextGrade: GradeLevel | null = selectedGrade;
     let nextTopic: string | null = selectedTopic;
-    let nextActivity: ActivityType | null = activityType;
+    const nextActivity: ActivityType | null = activityType;
 
     if (view === 'activity') {
       if (activityType === 'materials' && activeMaterial) {
@@ -6077,8 +6080,34 @@ export default function MathPage() {
                   <Grade8AlgebraQuiz onBack={handleBack} />
                 )}
 
-                {activityType === 'g8-eq-basic' && (
-                  <Grade8EquationsQuiz onBack={handleBack} />
+                {activityType === 'g8-eq-basic-theory' && (
+                  <Grade8EquationsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-eq-basic', selectedTopic || 'g8-equations')}
+                  />
+                )}
+
+                {(activityType === 'g8-eq-basic' || activityType === 'g8-eq-basic-quiz') && (
+                  <Grade8EquationsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-eq-basic-theory', selectedTopic || 'g8-equations')}
+                  />
+                )}
+
+                {activityType === 'g8-eq-basic-matcher' && (
+                  <Grade8EquationsMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-eq-basic', selectedTopic || 'g8-equations')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-eq-basic-theory', selectedTopic || 'g8-equations')}
+                  />
+                )}
+
+                {activityType === 'g8-eq-basic-sorter' && (
+                  <Grade8EquationsSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-eq-basic', selectedTopic || 'g8-equations')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-eq-basic-theory', selectedTopic || 'g8-equations')}
+                  />
                 )}
 
                 {activityType === 'g8-equation-balance' && (

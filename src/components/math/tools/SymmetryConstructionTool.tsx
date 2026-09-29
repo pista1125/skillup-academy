@@ -339,7 +339,7 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
     };
 
     const allPoints = useMemo(() => {
-        let result: Record<string, Point> = { ...points };
+        const result: Record<string, Point> = { ...points };
 
         // Handle dependencies (reflections of reflections, etc.)
         // We use a simple iterative approach to resolve dependencies up to 3 levels deep
@@ -545,8 +545,8 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
 
             const newPoints: Record<string, Point> = {};
             const pointIds: string[] = [];
-            let tempPoints = { ...points };
-            let tempObjects = { ...objects };
+            const tempPoints = { ...points };
+            const tempObjects = { ...objects };
 
             shapePoints.forEach((sp, idx) => {
                 const id = `pt-${Date.now()}-${idx}`;

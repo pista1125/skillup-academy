@@ -144,7 +144,7 @@ export function EquationBalanceQuiz({ onBack }: { onBack?: () => void }) {
 
     const formatEquation = (t: EquationTask) => {
         const formatSide = (x: number, c: number) => {
-            let parts = [];
+            const parts = [];
             if (x !== 0) parts.push(x === 1 ? 'x' : `${x}x`);
             if (c !== 0) {
                 if (parts.length > 0) parts.push(c > 0 ? `+ ${c}` : `- ${Math.abs(c)}`);

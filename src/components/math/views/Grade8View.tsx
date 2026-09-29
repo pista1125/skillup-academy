@@ -30,6 +30,7 @@ import {
   Globe,
   HelpCircle,
   Layers,
+  LayoutGrid,
   LineChart,
   Maximize2,
   Minimize2,
@@ -627,13 +628,23 @@ export const Grade8View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g8-sec-eq-alap" number={1} title="Egyenletek" color="purple" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Egyenletek Kvíz"
-                  subtitle="Zárójelbontás, törtes egyenletek, kikötések"
+                  title="Egyenletek Tananyag"
+                  subtitle="Mérlegelv, lépések, szabályok és levezetések"
+                  type="Tananyag"
+                  emoji="💡"
+                  onClick={() => onActivitySelect('g8-eq-basic-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="purple"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
                   type="Kvíz"
                   emoji="⚖️"
                   onClick={() => onActivitySelect('g8-eq-basic', topicId)}
                   icon={<Scale className="w-6 h-6" />}
                   color="purple"
+                  {...getTopicProgress('g8-eq-basic')}
                 />
                 <ActivityPlaceholder
                   title="Mérlegelv Gyakorló"

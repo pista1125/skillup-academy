@@ -9,11 +9,14 @@ import {
   BookOpen,
   ArrowRight,
   ArrowLeft,
+  ArrowRightLeft,
   Sparkles,
   Layers,
   Heart,
   Clock,
-  Flame
+  Star,
+  Flame,
+  AlertTriangle
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { DifficultyLevel } from './QuizTemplate';
@@ -100,8 +103,6 @@ export interface SorterTemplateProps {
   onSwitchToQuiz?: () => void;
   onSwitchToMatcher?: () => void;
   onSwitchToTheory?: () => void;
-  gameId?: string;
-  themeColor?: string;
   [key: string]: any;
 }
 
@@ -146,83 +147,32 @@ function playSound(type: 'correct' | 'wrong' | 'win') {
       osc.start();
       osc.stop(ctx.currentTime + 0.25);
     } else if (type === 'win') {
-      const notes = [440, 554.37, 659.25, 880];
+      const notes = [523.25, 659.25, 783.99, 1046.5]; // C5, E5, G5, C6
       notes.forEach((freq, idx) => {
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
-        osc.type = 'triangle';
-        osc.frequency.value = freq;
-        gain.gain.setValueAtTime(0.12, ctx.currentTime + idx * 0.08);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.08 + 0.3);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.1);
+        gain.gain.setValueAtTime(0.15, ctx.currentTime + idx * 0.1);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + idx * 0.1 + 0.25);
         osc.connect(gain);
         gain.connect(ctx.destination);
-        osc.start(ctx.currentTime + idx * 0.08);
-        osc.stop(ctx.currentTime + idx * 0.08 + 0.35);
+        osc.start(ctx.currentTime + idx * 0.1);
+        osc.stop(ctx.currentTime + idx * 0.1 + 0.25);
       });
     }
-  } catch (e) {
-    // AudioContext not supported
+  } catch {
+    // Ignore audio playback issues gracefully
   }
 }
-
-const THEME_STYLES: Record<string, {
-  headerBg: string;
-  headerBorder: string;
-  iconBg: string;
-  badgeBg: string;
-  badgeText: string;
-}> = {
-  amber: {
-    headerBg: 'from-amber-50/90 via-white to-orange-50/90 dark:bg-slate-850',
-    headerBorder: 'border-amber-200/90 dark:border-amber-800/80',
-    iconBg: 'bg-gradient-to-br from-amber-500 to-orange-600',
-    badgeBg: 'bg-amber-100 dark:bg-amber-950/80 border-amber-300',
-    badgeText: 'text-amber-700 dark:text-amber-300'
-  },
-  blue: {
-    headerBg: 'from-blue-50/90 via-white to-indigo-50/90 dark:bg-slate-850',
-    headerBorder: 'border-blue-200/90 dark:border-blue-800/80',
-    iconBg: 'bg-gradient-to-br from-blue-500 to-indigo-600',
-    badgeBg: 'bg-blue-100 dark:bg-blue-950/80 border-blue-300',
-    badgeText: 'text-blue-700 dark:text-blue-300'
-  },
-  emerald: {
-    headerBg: 'from-emerald-50/90 via-white to-teal-50/90 dark:bg-slate-850',
-    headerBorder: 'border-emerald-200/90 dark:border-emerald-800/80',
-    iconBg: 'bg-gradient-to-br from-emerald-500 to-teal-600',
-    badgeBg: 'bg-emerald-100 dark:bg-emerald-950/80 border-emerald-300',
-    badgeText: 'text-emerald-700 dark:text-emerald-300'
-  },
-  teal: {
-    headerBg: 'from-teal-50/90 via-white to-cyan-50/90 dark:bg-slate-850',
-    headerBorder: 'border-teal-200/90 dark:border-teal-800/80',
-    iconBg: 'bg-gradient-to-br from-teal-500 to-emerald-600',
-    badgeBg: 'bg-teal-100 dark:bg-teal-950/80 border-teal-300',
-    badgeText: 'text-teal-700 dark:text-teal-300'
-  },
-  indigo: {
-    headerBg: 'from-indigo-50/90 via-white to-purple-50/90 dark:bg-slate-850',
-    headerBorder: 'border-indigo-200/90 dark:border-indigo-800/80',
-    iconBg: 'bg-gradient-to-br from-indigo-500 to-purple-600',
-    badgeBg: 'bg-indigo-100 dark:bg-indigo-950/80 border-indigo-300',
-    badgeText: 'text-indigo-700 dark:text-indigo-300'
-  },
-  purple: {
-    headerBg: 'from-purple-50/90 via-white to-indigo-50/90 dark:bg-slate-850',
-    headerBorder: 'border-purple-200/90 dark:border-purple-800/80',
-    iconBg: 'bg-gradient-to-br from-purple-500 to-indigo-600',
-    badgeBg: 'bg-purple-100 dark:bg-purple-950/80 border-purple-300',
-    badgeText: 'text-purple-700 dark:text-purple-300'
-  }
-};
 
 export function SorterTemplate({
   level,
   currentLevel,
-  title = 'Gondolkodjunk – Csoportosító',
-  subtitle = 'Válaszd ki a kártyát, majd kattints a megfelelő kategóriára!',
-  badge,
-  topicTitle,
+  title = 'Csoportosító Játék',
+  subtitle = 'Válaszd ki a kártyát, és kattints a megfelelő kategóriára!',
+  badge = '8. Osztály • III. Egyenletek',
+  topicTitle = '1. Egyenletek Csoportosító',
   levels,
   levelsConfig,
   config,
@@ -240,10 +190,9 @@ export function SorterTemplate({
   onSwitchToQuiz,
   onSwitchToMatcher,
   onSwitchToTheory,
-  grade = 7,
-  chapterId = 'gondolkodjunk',
-  topicId = 'g7-thinking-sorter',
-  themeColor = 'amber'
+  grade = 8,
+  chapterId = 'egyenletek',
+  topicId = 'g8-eq-basic-sorter'
 }: SorterTemplateProps) {
   const { user, profile } = useAuth();
 
@@ -412,12 +361,13 @@ export function SorterTemplate({
       setTimeout(() => setFeedbackToast(null), 1200);
 
       if (newHearts <= 0) {
+        // GAME OVER - Részeredmény azonnali mentése a profilba (1. és 3. ötlet)
         handleGameOver(score, seconds);
       }
     }
   };
 
-  // Game Over Logic
+  // Game Over Logic: saves partial progress to user's profile AND leaderboard
   const handleGameOver = (accumulatedScore: number, timeSecs: number) => {
     setTimerActive(false);
     setIsGameOver(true);
@@ -427,11 +377,11 @@ export function SorterTemplate({
     const partialPct = Math.round((currentSortedCount / totalCount) * 100);
 
     const computedTopicId = (topicId || 'sorter').toLowerCase().replace(/[^a-z0-9-]+/g, '');
-    const g = grade || 7;
-    const ch = chapterId || 'gondolkodjunk';
+    const g = grade || 8;
+    const ch = chapterId || 'egyenletek';
     const displayTitle = topicTitle ? `${topicTitle} (Csoportosító)` : title;
 
-    // 1. Mentés a Ranglistába (sorter_leaderboard)
+    // 1. Mentés a Ranglistába (sorter_leaderboard) - Game Over esetén is felkerül a top 10-be!
     saveSorterScore({
       userId: user?.uid || null,
       studentName: profile?.full_name || user?.displayName || 'Diák',
@@ -453,7 +403,7 @@ export function SorterTemplate({
       if (res?.id) setLastSavedScoreId(res.id);
     }).catch((err) => console.error('Failed to save game-over score to leaderboard:', err));
 
-    // 2. Mentés a diák profiljába részeredményként
+    // 2. Mentés a diák profiljába részeredményként (completed: false, megszerzett pontok megmaradnak!)
     if (user) {
       saveQuizProgress({
         userId: user.uid,
@@ -499,12 +449,12 @@ export function SorterTemplate({
     setFinalScore(totalLevelScore);
 
     const computedTopicId = (topicId || 'sorter').toLowerCase().replace(/[^a-z0-9-]+/g, '');
-    const g = grade || 7;
-    const ch = chapterId || 'gondolkodjunk';
+    const g = grade || 8;
+    const ch = chapterId || 'egyenletek';
     const displayTitle = topicTitle ? `${topicTitle} (Csoportosító)` : title;
     const totalItemsCount = currentConfig.items?.length || 12;
 
-    // 1. Mentés a Ranglistába
+    // 1. Mentés a Ranglistába (sorter_leaderboard)
     saveSorterScore({
       userId: user?.uid || null,
       studentName: profile?.full_name || user?.displayName || 'Diák',
@@ -526,7 +476,7 @@ export function SorterTemplate({
       if (res?.id) setLastSavedScoreId(res.id);
     }).catch((err) => console.error('Failed to save sorter score:', err));
 
-    // 2. Mentés a diák profiljába
+    // 2. Mentés a diák profiljába (quizProgress)
     if (user) {
       saveQuizProgress({
         userId: user.uid,
@@ -558,23 +508,7 @@ export function SorterTemplate({
   const totalItemsCount = (currentConfig.items || []).length || 12;
   const sortedCount = totalItemsCount - unassignedItems.length;
 
-  const currentTheme = THEME_STYLES[themeColor] || THEME_STYLES.amber;
-
   const categoryThemes = [
-    {
-      border: 'border-amber-300 dark:border-amber-800',
-      bg: 'bg-gradient-to-b from-amber-50/70 via-white to-amber-50/20 dark:from-amber-950/30 dark:via-slate-900 dark:to-slate-900',
-      badge: 'bg-amber-600 text-white shadow-2xs',
-      dropZone: 'bg-amber-50/70 dark:bg-amber-950/40 border-amber-200/80 dark:border-amber-900/60',
-      btnActive: 'bg-amber-600 hover:bg-amber-700 text-white'
-    },
-    {
-      border: 'border-blue-300 dark:border-blue-800',
-      bg: 'bg-gradient-to-b from-blue-50/70 via-white to-blue-50/20 dark:from-blue-950/30 dark:via-slate-900 dark:to-slate-900',
-      badge: 'bg-blue-600 text-white shadow-2xs',
-      dropZone: 'bg-blue-50/70 dark:bg-blue-950/40 border-blue-200/80 dark:border-blue-900/60',
-      btnActive: 'bg-blue-600 hover:bg-blue-700 text-white'
-    },
     {
       border: 'border-emerald-300 dark:border-emerald-800',
       bg: 'bg-gradient-to-b from-emerald-50/70 via-white to-emerald-50/20 dark:from-emerald-950/30 dark:via-slate-900 dark:to-slate-900',
@@ -590,35 +524,38 @@ export function SorterTemplate({
       btnActive: 'bg-purple-600 hover:bg-purple-700 text-white'
     },
     {
-      border: 'border-teal-300 dark:border-teal-800',
-      bg: 'bg-gradient-to-b from-teal-50/70 via-white to-teal-50/20 dark:from-teal-950/30 dark:via-slate-900 dark:to-slate-900',
-      badge: 'bg-teal-600 text-white shadow-2xs',
-      dropZone: 'bg-teal-50/70 dark:bg-teal-950/40 border-teal-200/80 dark:border-teal-900/60',
-      btnActive: 'bg-teal-600 hover:bg-teal-700 text-white'
+      border: 'border-blue-300 dark:border-blue-800',
+      bg: 'bg-gradient-to-b from-blue-50/70 via-white to-blue-50/20 dark:from-blue-950/30 dark:via-slate-900 dark:to-slate-900',
+      badge: 'bg-blue-600 text-white shadow-2xs',
+      dropZone: 'bg-blue-50/70 dark:bg-blue-950/40 border-blue-200/80 dark:border-blue-900/60',
+      btnActive: 'bg-blue-600 hover:bg-blue-700 text-white'
+    },
+    {
+      border: 'border-amber-300 dark:border-amber-800',
+      bg: 'bg-gradient-to-b from-amber-50/70 via-white to-amber-50/20 dark:from-amber-950/30 dark:via-slate-900 dark:to-slate-900',
+      badge: 'bg-amber-600 text-white shadow-2xs',
+      dropZone: 'bg-amber-50/70 dark:bg-amber-950/40 border-amber-200/80 dark:border-amber-900/60',
+      btnActive: 'bg-amber-600 hover:bg-amber-700 text-white'
     }
   ];
 
   return (
     <div className="space-y-3 animate-in fade-in duration-300 text-left relative">
       {/* Top Header Bar */}
-      <div className={cn(
-        "rounded-2xl p-2.5 sm:p-3 border-2 flex flex-wrap items-center justify-between gap-2.5 shadow-xs bg-gradient-to-r",
-        currentTheme.headerBg,
-        currentTheme.headerBorder
-      )}>
+      <div className="bg-gradient-to-r from-purple-50/90 via-white to-indigo-50/90 dark:bg-slate-850 rounded-2xl p-2.5 sm:p-3 border-2 border-purple-200/90 dark:border-purple-800/80 flex flex-wrap items-center justify-between gap-2.5 shadow-xs">
         <div className="flex items-center gap-2.5">
           {onBack ? (
             <Button
               variant="outline"
               size="sm"
               onClick={onBack}
-              className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 border-slate-300 dark:border-slate-700 hover:bg-slate-100 cursor-pointer"
+              className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 border-purple-200 dark:border-purple-800 hover:bg-purple-50 cursor-pointer"
             >
-              <ArrowLeft className="w-4 h-4 mr-0.5 text-slate-700" />
+              <ArrowLeft className="w-4 h-4 mr-0.5 text-purple-600" />
               Vissza
             </Button>
           ) : (
-            <div className={cn("w-8 h-8 rounded-xl text-white flex items-center justify-center font-bold shadow-xs", currentTheme.iconBg)}>
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-600 text-white flex items-center justify-center font-bold shadow-xs">
               <Layers className="w-4 h-4" />
             </div>
           )}
@@ -626,7 +563,7 @@ export function SorterTemplate({
           <div>
             <div className="text-sm font-black text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
               <span>{typeof currentTitle === 'string' ? <MathText>{currentTitle}</MathText> : currentTitle}</span>
-              <span className={cn("text-[11px] font-bold px-2 py-0.5 rounded-full border", currentTheme.badgeBg, currentTheme.badgeText)}>
+              <span className="text-[11px] font-bold text-purple-600 dark:text-purple-400 bg-purple-100 dark:bg-purple-950/80 px-2 py-0.5 rounded-full">
                 {activeLevel}. szint
               </span>
             </div>
@@ -656,12 +593,12 @@ export function SorterTemplate({
 
           {/* Stopwatch */}
           <div className="flex items-center gap-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-2.5 py-1 rounded-xl text-xs font-mono font-bold text-slate-700 dark:text-slate-300 shadow-2xs">
-            <Clock className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+            <Clock className="w-3.5 h-3.5 text-indigo-500" />
             <span>{formatSorterTime(seconds)}</span>
           </div>
 
           {/* Realtime Score & Combo */}
-          <div className="flex items-center gap-1.5 bg-gradient-to-r from-amber-100/70 to-orange-100/70 dark:from-amber-950/50 dark:to-orange-950/50 border border-amber-300/80 dark:border-amber-800 px-2.5 py-1 rounded-xl text-xs font-black text-amber-950 dark:text-amber-200 shadow-2xs">
+          <div className="flex items-center gap-1.5 bg-gradient-to-r from-purple-100/70 to-indigo-100/70 dark:from-purple-950/50 dark:to-indigo-950/50 border border-purple-300/80 dark:border-purple-800 px-2.5 py-1 rounded-xl text-xs font-black text-purple-950 dark:text-purple-200 shadow-2xs">
             <span>{score} pt</span>
             {combo > 1 && (
               <span className="flex items-center gap-0.5 text-[10px] text-amber-600 dark:text-amber-400 animate-pulse">
@@ -698,9 +635,9 @@ export function SorterTemplate({
               variant="outline"
               size="sm"
               onClick={onSwitchToTheory}
-              className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 border-amber-200 text-amber-800 bg-amber-50/50 hover:bg-amber-100 cursor-pointer"
+              className="rounded-xl h-8 px-2.5 text-xs font-bold gap-1 border-purple-200 text-purple-800 bg-purple-50/50 hover:bg-purple-100 cursor-pointer"
             >
-              <BookOpen className="w-3.5 h-3.5 text-amber-600" />
+              <BookOpen className="w-3.5 h-3.5 text-purple-600" />
               Tananyag
             </Button>
           )}
@@ -729,7 +666,7 @@ export function SorterTemplate({
       {/* Progress Bar */}
       <div className="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-200 dark:border-slate-700">
         <div
-          className="bg-gradient-to-r from-amber-500 to-orange-600 h-full transition-all duration-300 rounded-full"
+          className="bg-gradient-to-r from-purple-500 to-indigo-600 h-full transition-all duration-300 rounded-full"
           style={{ width: `${Math.round((sortedCount / totalItemsCount) * 100)}%` }}
         />
       </div>
@@ -739,18 +676,18 @@ export function SorterTemplate({
         <>
           {/* Unassigned Items Pool */}
           {unassignedItems.length > 0 && (
-            <div className="bg-gradient-to-b from-amber-50/40 via-white to-orange-50/30 dark:bg-slate-900 rounded-2xl p-3 border-2 border-dashed border-amber-300 dark:border-amber-800 shadow-xs space-y-2">
+            <div className="bg-gradient-to-b from-purple-50/50 via-white to-indigo-50/30 dark:bg-slate-900 rounded-2xl p-3 border-2 border-dashed border-purple-300 dark:border-purple-800 shadow-xs space-y-2">
               <div className="flex items-center justify-between text-xs font-bold text-slate-500 dark:text-slate-400 px-1">
                 <span className="flex items-center gap-2">
-                  <span className="text-amber-950 dark:text-amber-200 font-extrabold text-xs">
+                  <span className="text-purple-900 dark:text-purple-200 font-extrabold text-xs">
                     1. Kattints egy kártyára a kiválasztáshoz:
                   </span>
-                  <span className="text-[10px] font-black text-amber-700 dark:text-amber-300 bg-amber-100 dark:bg-amber-950/80 px-2 py-0.5 rounded-full border border-amber-300">
+                  <span className="text-[10px] font-black text-purple-700 dark:text-purple-300 bg-purple-100 dark:bg-purple-950/80 px-2 py-0.5 rounded-full border border-purple-300">
                     {unassignedItems.length} db maradt
                   </span>
                 </span>
                 {selectedItem ? (
-                  <span className="text-amber-600 dark:text-amber-400 font-bold animate-pulse text-xs">
+                  <span className="text-purple-600 dark:text-purple-400 font-bold animate-pulse text-xs">
                     👉 2. Most kattints arra a csoportra, ahová tartozik!
                   </span>
                 ) : (
@@ -774,16 +711,16 @@ export function SorterTemplate({
                         'p-2 rounded-xl text-left transition-all border-2 shadow-xs cursor-pointer flex items-center gap-2.5 min-h-[48px] select-none',
                         isShaking && 'animate-shake bg-rose-100 border-rose-500 text-rose-950',
                         isSelected
-                          ? 'bg-gradient-to-r from-amber-600 to-orange-600 text-white border-amber-700 shadow-md scale-[1.02] ring-4 ring-amber-300 dark:ring-amber-800'
-                          : 'bg-white dark:bg-slate-800 border-amber-200 dark:border-amber-800/80 text-slate-900 dark:text-slate-100 hover:border-amber-500 hover:bg-amber-50/50 hover:shadow-sm'
+                          ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white border-purple-700 shadow-md scale-[1.02] ring-4 ring-purple-300 dark:ring-purple-800'
+                          : 'bg-white dark:bg-slate-800 border-purple-200 dark:border-purple-800 text-slate-900 dark:text-slate-100 hover:border-purple-500 hover:bg-purple-50/50 hover:shadow-sm'
                       )}
                     >
                       {item.figure && (
                         <div className={cn(
-                          'w-14 h-8 sm:w-16 sm:h-9 shrink-0 overflow-hidden flex items-center justify-center rounded-lg border transition-colors [&>svg]:w-full [&>svg]:h-full p-0.5 shadow-2xs',
+                          'w-12 h-7 sm:w-14 sm:h-8 shrink-0 overflow-hidden flex items-center justify-center rounded-lg border transition-colors [&>svg]:w-full [&>svg]:h-full p-0.5 shadow-2xs',
                           isSelected
-                            ? 'bg-white text-slate-900 border-amber-300 shadow-xs'
-                            : 'bg-white dark:bg-slate-900/90 border-slate-200 dark:border-slate-750'
+                            ? 'bg-white text-slate-900 border-purple-300 shadow-xs'
+                            : 'bg-white dark:bg-slate-900/90 border-purple-100 dark:border-slate-750'
                         )}>
                           {item.figure}
                         </div>
@@ -827,7 +764,7 @@ export function SorterTemplate({
                     theme.border,
                     theme.bg,
                     selectedItem
-                      ? 'cursor-pointer shadow-md ring-4 ring-amber-400/80 dark:ring-amber-750/80 scale-[1.01] hover:border-amber-600'
+                      ? 'cursor-pointer shadow-md ring-4 ring-purple-400/80 dark:ring-purple-700/80 scale-[1.01] hover:border-purple-600'
                       : 'shadow-xs'
                   )}
                 >
@@ -868,7 +805,7 @@ export function SorterTemplate({
                               className="px-2.5 py-1 rounded-lg text-xs font-bold border-2 bg-emerald-50 dark:bg-emerald-950/60 border-emerald-400 text-emerald-950 dark:text-emerald-200 flex items-center gap-1.5 shadow-2xs animate-in zoom-in-95 duration-150"
                             >
                               {item.figure && (
-                                <div className="w-8 h-5 shrink-0 overflow-hidden flex items-center justify-center bg-white dark:bg-slate-900 rounded border border-emerald-200 [&>svg]:w-full [&>svg]:h-full p-0.5">
+                                <div className="w-6 h-4 shrink-0 overflow-hidden flex items-center justify-center bg-white dark:bg-slate-900 rounded border border-emerald-200 [&>svg]:w-full [&>svg]:h-full p-0.5">
                                   {item.figure}
                                 </div>
                               )}
@@ -884,7 +821,7 @@ export function SorterTemplate({
                   </div>
 
                   {selectedItem && (
-                    <div className="pt-2 text-center border-t border-amber-200/60 dark:border-amber-900/40">
+                    <div className="pt-2 text-center border-t border-purple-200/60 dark:border-purple-900/40">
                       <Button
                         size="sm"
                         onClick={(e) => {
@@ -923,7 +860,7 @@ export function SorterTemplate({
             </p>
           </div>
 
-          {/* Részeredmény és Jóváírt pontok kártya */}
+          {/* Részeredmény és Jóváírt pontok kártya (1. és 3. megoldás) */}
           <div className="max-w-md mx-auto p-4 rounded-2xl bg-gradient-to-r from-amber-50 to-emerald-50 dark:from-amber-950/40 dark:to-emerald-950/40 border-2 border-emerald-300 dark:border-emerald-800 shadow-sm space-y-2 text-left">
             <div className="flex items-center justify-between">
               <span className="flex items-center gap-1.5 text-xs font-black text-emerald-800 dark:text-emerald-300">
@@ -949,7 +886,7 @@ export function SorterTemplate({
 
             <div className="p-3 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700">
               <div className="text-[10px] font-bold text-slate-400 uppercase">Megszerzett pont</div>
-              <div className="text-base sm:text-lg font-black text-amber-600 dark:text-amber-400 font-mono mt-0.5">
+              <div className="text-base sm:text-lg font-black text-indigo-600 dark:text-indigo-400 font-mono mt-0.5">
                 {score} pt
               </div>
             </div>
@@ -997,88 +934,84 @@ export function SorterTemplate({
         </div>
       )}
 
-      {/* LEVEL COMPLETE SCREEN */}
+      {/* VICTORY COMPLETION SCREEN */}
       {isCompleted && (
-        <div className="bg-gradient-to-b from-amber-50 via-white to-orange-50 dark:from-slate-900 dark:to-slate-850 border-2 border-amber-300 dark:border-amber-800 rounded-3xl p-6 sm:p-8 text-center space-y-5 shadow-xl animate-in zoom-in-95 duration-200">
-          <div className="w-16 h-16 rounded-3xl bg-amber-100 text-amber-600 flex items-center justify-center mx-auto shadow-inner">
-            <Trophy className="w-8 h-8 text-amber-500 animate-bounce" />
+        <div className="bg-gradient-to-b from-purple-50 via-white to-indigo-50 dark:from-slate-900 dark:to-slate-850 border-2 border-purple-300 dark:border-purple-800 rounded-3xl p-6 sm:p-8 text-center space-y-6 shadow-2xl animate-in zoom-in-95 duration-300">
+          {/* Animated Stars */}
+          <div className="flex items-center justify-center gap-2">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div
+                key={i}
+                className={cn(
+                  "w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg transition-all duration-500",
+                  i < earnedStars
+                    ? "bg-gradient-to-br from-amber-300 to-amber-500 text-amber-950 scale-110 shadow-amber-500/30"
+                    : "bg-slate-100 dark:bg-slate-800 text-slate-300 dark:text-slate-600 scale-90"
+                )}
+              >
+                <Star className={cn("w-7 h-7", i < earnedStars && "fill-amber-400 text-amber-950")} />
+              </div>
+            ))}
           </div>
 
           <div className="space-y-1">
-            <div className="flex items-center justify-center gap-1.5 mb-2">
-              {Array.from({ length: 3 }).map((_, i) => (
-                <span
-                  key={i}
-                  className={cn(
-                    "text-2xl transition-all duration-300",
-                    i < earnedStars ? "scale-110 drop-shadow-sm" : "opacity-30 grayscale"
-                  )}
-                >
-                  ⭐
-                </span>
-              ))}
-            </div>
-            <h3 className="text-xl sm:text-2xl font-black text-amber-950 dark:text-amber-200">
-              Szint Sikeresen Teljesítve!
+            <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
+              {earnedStars === 3 ? 'Bravó! Tökéletes besorolás! 🏆' : 'Szép munka! Sikeres szintteljesítés! 🎉'}
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-md mx-auto">
-              Kiváló munka! Minden elemet pontosan a megfelelő kategóriába rendeztél.
+              Mind a {totalItemsCount} elemet sikeresen a megfelelő csoportba helyezted!
             </p>
           </div>
 
+          {/* Stats Badges */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 max-w-lg mx-auto">
             <div className="p-3 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700">
-              <div className="text-[10px] font-bold text-slate-400 uppercase">Besorolt kártyák</div>
-              <div className="text-base sm:text-lg font-black text-amber-600 dark:text-amber-400 font-mono mt-0.5">
-                {totalItemsCount} / {totalItemsCount}
+              <div className="text-[10px] font-bold text-slate-400 uppercase">Összpontszám</div>
+              <div className="text-base sm:text-lg font-black text-indigo-600 dark:text-indigo-400 font-mono mt-0.5">
+                {finalScore} pt
               </div>
             </div>
 
             <div className="p-3 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700">
-              <div className="text-[10px] font-bold text-slate-400 uppercase">Idő</div>
-              <div className="text-base sm:text-lg font-black text-slate-800 dark:text-slate-200 font-mono mt-0.5">
+              <div className="text-[10px] font-bold text-slate-400 uppercase">Időeredmény</div>
+              <div className="text-base sm:text-lg font-black text-slate-800 dark:text-slate-100 font-mono mt-0.5">
                 {formatSorterTime(seconds)}
               </div>
             </div>
 
             <div className="p-3 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700">
               <div className="text-[10px] font-bold text-slate-400 uppercase">Megmaradt élet</div>
-              <div className="flex items-center justify-center gap-0.5 mt-1">
-                {Array.from({ length: 3 }).map((_, i) => (
-                  <Heart
-                    key={i}
-                    className={cn(
-                      "w-4 h-4",
-                      i < hearts ? "fill-rose-500 text-rose-500" : "fill-slate-200 text-slate-300 dark:fill-slate-700"
-                    )}
-                  />
+              <div className="text-base sm:text-lg font-black text-rose-600 font-mono mt-0.5 flex items-center justify-center gap-0.5">
+                {Array.from({ length: hearts }).map((_, i) => (
+                  <Heart key={i} className="w-3.5 h-3.5 fill-rose-500 text-rose-500" />
                 ))}
               </div>
             </div>
 
             <div className="p-3 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700">
-              <div className="text-[10px] font-bold text-slate-400 uppercase">Összpontszám</div>
-              <div className="text-base sm:text-lg font-black text-amber-600 dark:text-amber-400 font-mono mt-0.5">
-                {finalScore} pt
+              <div className="text-[10px] font-bold text-slate-400 uppercase">Hibák száma</div>
+              <div className="text-base sm:text-lg font-black text-slate-800 dark:text-slate-100 font-mono mt-0.5">
+                {mistakes} db
               </div>
             </div>
           </div>
 
+          {/* Action Buttons */}
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <Button
               onClick={() => setIsLeaderboardOpen(true)}
-              className="rounded-xl px-5 h-10 font-bold bg-amber-500 hover:bg-amber-600 text-white shadow-md shadow-amber-500/20 text-xs sm:text-sm cursor-pointer"
+              className="rounded-xl px-4 h-10 font-bold bg-amber-500 hover:bg-amber-600 text-amber-950 shadow-md shadow-amber-500/20 text-xs sm:text-sm cursor-pointer"
             >
               <Trophy className="w-4 h-4 mr-1.5" />
-              Ranglista Megtekintése
+              Ranglista megtekintése
             </Button>
 
-            {onNextLevel && (
+            {activeLevel < 3 && onNextLevel && (
               <Button
                 onClick={onNextLevel}
-                className="rounded-xl px-5 h-10 font-black bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white shadow-md shadow-amber-500/25 text-xs sm:text-sm cursor-pointer"
+                className="rounded-xl px-5 h-10 font-black bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white shadow-md shadow-teal-500/25 text-xs sm:text-sm cursor-pointer"
               >
-                Következő Szint
+                Következő Szint ({activeLevel + 1}. szint)
                 <ArrowRight className="w-4 h-4 ml-1.5" />
               </Button>
             )}
@@ -1102,7 +1035,7 @@ export function SorterTemplate({
         topicId={(topicId || 'sorter').toLowerCase().replace(/[^a-z0-9-]+/g, '')}
         topicTitle={topicTitle || title}
         currentLevel={activeLevel}
-        grade={Number(grade) || 7}
+        grade={Number(grade) || 8}
         highlightScoreId={lastSavedScoreId}
       />
     </div>

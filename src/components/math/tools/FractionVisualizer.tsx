@@ -150,8 +150,8 @@ export function FractionVisualizer({ onBack }: FractionVisualizerProps) {
       setIsDragging(true);
     }
 
-    let newX = dx;
-    let newY = dy;
+    const newX = dx;
+    const newY = dy;
 
     const currentTile = tiles.find(t => t.id === draggedTileId);
     if (!currentTile) return;
@@ -159,7 +159,7 @@ export function FractionVisualizer({ onBack }: FractionVisualizerProps) {
     // Snapping Logic
     let snappedX = newX;
     let snappedY = newY;
-    let snapLines: { x?: number, y?: number } = {};
+    const snapLines: { x?: number, y?: number } = {};
 
     if (isSnapping) {
       tiles.forEach(other => {

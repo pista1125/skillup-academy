@@ -132,7 +132,7 @@ export default function TorpedoPlacement({ onComplete, axisType }: TorpedoPlacem
   };
 
   const handleRandomize = () => {
-    let newShips: any[] = [];
+    const newShips: any[] = [];
     const allShipSizes = SHIP_TYPES.flatMap(t => Array(t.count).fill(t.size)).sort((a,b) => b-a);
     
     for (const size of allShipSizes) {

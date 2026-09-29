@@ -183,8 +183,8 @@ export function AnalogClockTool({ onBack }: AnalogClockToolProps) {
       setQuizOptions(options.sort(() => Math.random() - 0.5));
     } else if (mode === 'set') {
       // Set analog clock to a default random time different from target
-      let startH = (h + 6) % 12 || 12;
-      let startM = (m + 30) % 60;
+      const startH = (h + 6) % 12 || 12;
+      const startM = (m + 30) % 60;
       setHours(startH);
       setMinutes(startM);
     }
@@ -252,7 +252,7 @@ export function AnalogClockTool({ onBack }: AnalogClockToolProps) {
     
     if (draggingHand === 'minute') {
       // Each minute is 6 degrees
-      let newMin = Math.round(angle / 6) % 60;
+      const newMin = Math.round(angle / 6) % 60;
       if (newMin !== minutes) {
         // Detect crossing 12 o'clock line (0 mins)
         if (minutes >= 45 && newMin <= 15) {

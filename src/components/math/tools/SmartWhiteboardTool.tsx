@@ -337,16 +337,16 @@ export const SmartWhiteboardTool: React.FC<SmartWhiteboardToolProps> = ({ onBack
     ];
 
     const project2D = (v: number[]) => {
-      let [vx, vy, vz] = v;
+      const [vx, vy, vz] = v;
 
-      let x1 = vx * Math.cos(rotY) + vz * Math.sin(rotY);
-      let z1 = -vx * Math.sin(rotY) + vz * Math.cos(rotY);
+      const x1 = vx * Math.cos(rotY) + vz * Math.sin(rotY);
+      const z1 = -vx * Math.sin(rotY) + vz * Math.cos(rotY);
 
-      let y2 = vy * Math.cos(rotX) - z1 * Math.sin(rotX);
-      let z2 = vy * Math.sin(rotX) + z1 * Math.cos(rotX);
+      const y2 = vy * Math.cos(rotX) - z1 * Math.sin(rotX);
+      const z2 = vy * Math.sin(rotX) + z1 * Math.cos(rotX);
 
-      let x3 = x1 * Math.cos(rotZ) - y2 * Math.sin(rotZ);
-      let y3 = x1 * Math.sin(rotZ) + y2 * Math.cos(rotZ);
+      const x3 = x1 * Math.cos(rotZ) - y2 * Math.sin(rotZ);
+      const y3 = x1 * Math.sin(rotZ) + y2 * Math.cos(rotZ);
 
       return {
         px: cx + x3 * side,

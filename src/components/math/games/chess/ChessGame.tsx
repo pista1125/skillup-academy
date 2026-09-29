@@ -213,7 +213,7 @@ export default function ChessGame({ onBack }: ChessGameProps) {
         const currentRound = activeTournament.rounds[activeTournament.current_round - 1];
         const matchNode = currentRound?.matches.find(m => m.id === tournamentMatchNodeId);
         if (matchNode) {
-          let winnerId = winnerColor === 'draw' 
+          const winnerId = winnerColor === 'draw' 
             ? (matchNode.player1?.id || 'draw') 
             : (winnerColor === 'white' ? matchNode.white_id : matchNode.black_id) || matchNode.player1?.id;
           

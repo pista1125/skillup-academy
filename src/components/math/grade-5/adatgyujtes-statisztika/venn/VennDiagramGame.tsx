@@ -203,7 +203,7 @@ export function VennDiagramGame({ onBack, initialLevelIndex, allowedLevelIndices
         const isB = index === 1;
         const isC = index === 2;
 
-        let baseClass = cn(
+        const baseClass = cn(
             "absolute border-4 transition-all z-10",
             set.color
         );

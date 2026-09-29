@@ -27,7 +27,7 @@ export function BuildingBlocksComparison({ onBack }: BuildingBlocksComparisonPro
         // Generate two different numbers between 1 and 20 to make it interesting
         // Allowing 0 is also fine but building 0 blocks is trivial, let's stick to 1-20 for now or 0-20 is fine.
         const left = Math.floor(Math.random() * 21);
-        let right = Math.floor(Math.random() * 21);
+        const right = Math.floor(Math.random() * 21);
 
         // Ensure they aren't always equal, but sometimes they can be
         setTargetLeft(left);
