@@ -138,6 +138,8 @@ export const SquareRootsMatcher: React.FC<SquareRootsMatcherProps> = ({
           }
         }}
         onOpenRules={onOpenRules}
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
         themeColor="pink"
       />
     </div>

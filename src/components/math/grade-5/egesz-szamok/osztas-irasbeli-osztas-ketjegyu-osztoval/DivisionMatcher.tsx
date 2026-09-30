@@ -141,6 +141,8 @@ export const DivisionMatcher: React.FC<DivisionMatcherProps> = ({
           }
         }}
         onOpenRules={onOpenRules}
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
         themeColor="purple"
       />
     </div>

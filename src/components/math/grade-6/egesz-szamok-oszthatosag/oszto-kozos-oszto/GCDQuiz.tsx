@@ -472,7 +472,7 @@ export function GCDQuiz({ onBack, onSwitchToTheory }: GCDQuizProps) {
   const [activeCustomGame, setActiveCustomGame] = useState<'matcher' | 'sorter' | null>(null);
 
   if (activeCustomGame === 'matcher') {
-    return <GCDMatcher onBack={() => setActiveCustomGame(null)} />;
+    return <GCDMatcher onBack={() => setActiveCustomGame(null)} onSwitchToTheory={onSwitchToTheory} />;
   }
 
   if (activeCustomGame === 'sorter') {

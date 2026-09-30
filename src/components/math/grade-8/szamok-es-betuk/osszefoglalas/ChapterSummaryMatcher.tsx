@@ -126,6 +126,8 @@ export const ChapterSummaryMatcher: React.FC<ChapterSummaryMatcherProps> = ({
         onOpenRules={onOpenRules}
         title="I. Számok és betűk Összefoglalás – Párosító"
         subtitle="Párosítsd a fejezet kulcsfogalmait, azonosságait és mintafeladatait!"
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
       />
     </div>
   );

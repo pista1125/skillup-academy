@@ -6,6 +6,10 @@ export interface DivisibilityBy39MatcherProps {
   level: DifficultyLevel;
   onNextLevel?: () => void;
   onOpenRules?: () => void;
+  onBack?: () => void;
+  onSwitchToTheory?: () => void;
+  onSwitchToQuiz?: () => void;
+  onSwitchToSorter?: () => void;
 }
 
 const MATCHER_LEVELS: Record<DifficultyLevel, MatcherLevelConfig> = {
@@ -50,7 +54,11 @@ const MATCHER_LEVELS: Record<DifficultyLevel, MatcherLevelConfig> = {
 export function DivisibilityBy39Matcher({
   level,
   onNextLevel,
-  onOpenRules
+  onOpenRules,
+  onBack,
+  onSwitchToTheory,
+  onSwitchToQuiz,
+  onSwitchToSorter
 }: DivisibilityBy39MatcherProps) {
   return (
     <MatcherTemplate
@@ -60,6 +68,15 @@ export function DivisibilityBy39Matcher({
       levels={MATCHER_LEVELS}
       onNextLevel={onNextLevel}
       onOpenRules={onOpenRules}
+      onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      onSwitchToQuiz={onSwitchToQuiz}
+      onSwitchToSorter={onSwitchToSorter}
+      themeColor="indigo"
+      topicId="g6-divisibility-3-9"
+      topicTitle="Oszthatóság 3-mal és 9-cel"
+      grade={6}
+      chapterId="egesz-szamok-oszthatosag"
     />
   );
 }

@@ -162,6 +162,8 @@ export const PowersSorter: React.FC<PowersSorterProps> = ({
           }
         }}
         onOpenRules={onOpenRules}
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
         themeColor="amber"
       />
     </div>

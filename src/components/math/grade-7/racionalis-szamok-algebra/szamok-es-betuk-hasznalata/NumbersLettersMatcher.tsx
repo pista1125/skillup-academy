@@ -3,9 +3,23 @@ import { MatcherTemplate, MatchPair } from '../MatcherTemplate';
 
 interface NumbersLettersMatcherProps {
   onNextLevel?: () => void;
+  onBack?: () => void;
+  onSwitchToTheory?: () => void;
+  topicId?: string;
+  topicTitle?: string;
+  grade?: number;
+  chapterId?: string;
 }
 
-export const NumbersLettersMatcher: React.FC<NumbersLettersMatcherProps> = ({ onNextLevel }) => {
+export const NumbersLettersMatcher: React.FC<NumbersLettersMatcherProps> = ({
+  onNextLevel,
+  onBack,
+  onSwitchToTheory,
+  topicId = 'g7-rat-numbers-letters',
+  topicTitle = '6. Számok és betűk használata',
+  grade = 7,
+  chapterId = 'racionalis-szamok-algebra'
+}) => {
   const level1Pairs: MatchPair[] = [
     { id: 'm1-1', left: 'Egy szám 5-tel nagyobb', right: 'x + 5' },
     { id: 'm1-2', left: 'Egy szám 3-szorosa', right: '3x' },
@@ -43,10 +57,16 @@ export const NumbersLettersMatcher: React.FC<NumbersLettersMatcherProps> = ({ on
     <MatcherTemplate
       title="Algebranyelv & Kifejezés Párosító"
       subtitle="Párosítsd össze a szöveges állításokat és fogalmakat a megfelelő algebrai betűs kifejezésekkel!"
+      topicId={topicId}
+      topicTitle={topicTitle}
+      grade={grade}
+      chapterId={chapterId}
       level1Pairs={level1Pairs}
       level2Pairs={level2Pairs}
       level3Pairs={level3Pairs}
       onNextLevel={onNextLevel}
+      onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
     />
   );
 };

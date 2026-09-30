@@ -6,6 +6,10 @@ export interface DivisibilityBy2510MatcherProps {
   level: DifficultyLevel;
   onNextLevel?: () => void;
   onOpenRules?: () => void;
+  onBack?: () => void;
+  onSwitchToTheory?: () => void;
+  onSwitchToQuiz?: () => void;
+  onSwitchToSorter?: () => void;
 }
 
 const MATCHER_LEVELS: Record<DifficultyLevel, MatcherLevelConfig> = {
@@ -50,7 +54,11 @@ const MATCHER_LEVELS: Record<DifficultyLevel, MatcherLevelConfig> = {
 export function DivisibilityBy2510Matcher({
   level,
   onNextLevel,
-  onOpenRules
+  onOpenRules,
+  onBack,
+  onSwitchToTheory,
+  onSwitchToQuiz,
+  onSwitchToSorter
 }: DivisibilityBy2510MatcherProps) {
   return (
     <MatcherTemplate
@@ -60,6 +68,15 @@ export function DivisibilityBy2510Matcher({
       levels={MATCHER_LEVELS}
       onNextLevel={onNextLevel}
       onOpenRules={onOpenRules}
+      onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      onSwitchToQuiz={onSwitchToQuiz}
+      onSwitchToSorter={onSwitchToSorter}
+      themeColor="teal"
+      topicId="g6-divisibility-2-5-10"
+      topicTitle="Oszthatóság 2-vel, 5-tel, 10-zel"
+      grade={6}
+      chapterId="egesz-szamok-oszthatosag"
     />
   );
 }

@@ -150,6 +150,8 @@ export const ChapterSummarySorter: React.FC<ChapterSummarySorterProps> = ({
         onOpenRules={onOpenRules}
         title="I. Számok és betűk Összefoglalás – Csoportosító"
         subtitle="Rendszerezd a fogalmakat és kifejezéseket témakör, számhalmaz és előjel szerint!"
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
       />
     </div>
   );

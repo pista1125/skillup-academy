@@ -162,6 +162,8 @@ export const RationalOperationsSorter: React.FC<RationalOperationsSorterProps> =
           }
         }}
         onOpenRules={onOpenRules}
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
       />
     </div>
   );

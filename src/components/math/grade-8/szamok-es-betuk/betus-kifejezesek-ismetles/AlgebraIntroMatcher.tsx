@@ -138,6 +138,8 @@ export const AlgebraIntroMatcher: React.FC<AlgebraIntroMatcherProps> = ({
           }
         }}
         onOpenRules={onOpenRules}
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
         themeColor="blue"
       />
     </div>

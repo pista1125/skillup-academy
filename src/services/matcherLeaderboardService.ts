@@ -23,6 +23,11 @@ export interface MatcherScoreRecord {
   timeSeconds: number;
   mistakes: number;
   pairsCount: number;
+  score?: number;
+  matchedPairsCount?: number;
+  heartsRemaining?: number;
+  stars?: number;
+  isGameOver?: boolean;
   createdAt: string;
 }
 
@@ -71,6 +76,11 @@ export async function saveMatcherScore(data: {
   timeSeconds: number;
   mistakes: number;
   pairsCount: number;
+  score?: number;
+  matchedPairsCount?: number;
+  heartsRemaining?: number;
+  stars?: number;
+  isGameOver?: boolean;
 }): Promise<{ success: boolean; id?: string; error?: any }> {
   const nowIso = new Date().toISOString();
   const cleanTopicId = (data.topicId || 'matcher').toLowerCase().replace(/[^a-z0-9-]+/g, '');
@@ -86,6 +96,11 @@ export async function saveMatcherScore(data: {
     timeSeconds: Math.max(1, Number(data.timeSeconds) || 1),
     mistakes: Math.max(0, Number(data.mistakes) || 0),
     pairsCount: Number(data.pairsCount) || 8,
+    score: data.score !== undefined ? Number(data.score) : undefined,
+    matchedPairsCount: data.matchedPairsCount !== undefined ? Number(data.matchedPairsCount) : undefined,
+    heartsRemaining: data.heartsRemaining !== undefined ? Number(data.heartsRemaining) : undefined,
+    stars: data.stars !== undefined ? Number(data.stars) : undefined,
+    isGameOver: Boolean(data.isGameOver),
     createdAt: nowIso
   };
 
@@ -152,6 +167,9 @@ export async function getTopMatcherScores(
   );
 
   filtered.sort((a, b) => {
+    if (a.score !== undefined && b.score !== undefined && a.score !== b.score) {
+      return b.score - a.score;
+    }
     if (a.timeSeconds !== b.timeSeconds) {
       return a.timeSeconds - b.timeSeconds;
     }

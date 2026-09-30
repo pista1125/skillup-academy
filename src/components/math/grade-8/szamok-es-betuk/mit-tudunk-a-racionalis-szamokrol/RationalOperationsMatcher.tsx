@@ -137,6 +137,8 @@ export const RationalOperationsMatcher: React.FC<RationalOperationsMatcherProps>
           }
         }}
         onOpenRules={onOpenRules}
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
         themeColor="cyan"
       />
     </div>

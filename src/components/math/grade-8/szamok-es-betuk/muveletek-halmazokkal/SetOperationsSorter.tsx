@@ -160,6 +160,8 @@ export const SetOperationsSorter: React.FC<SetOperationsSorterProps> = ({
           }
         }}
         onOpenRules={onOpenRules}
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
       />
     </div>
   );

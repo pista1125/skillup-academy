@@ -141,6 +141,8 @@ export const AdditionMatcher: React.FC<AdditionMatcherProps> = ({
           }
         }}
         onOpenRules={onOpenRules}
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
         themeColor="emerald"
       />
     </div>

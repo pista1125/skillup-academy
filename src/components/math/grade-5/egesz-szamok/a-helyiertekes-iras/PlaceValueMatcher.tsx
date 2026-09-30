@@ -143,6 +143,8 @@ export const PlaceValueMatcher: React.FC<PlaceValueMatcherProps> = ({
           }
         }}
         onOpenRules={onOpenRules}
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
         themeColor="blue"
       />
     </div>

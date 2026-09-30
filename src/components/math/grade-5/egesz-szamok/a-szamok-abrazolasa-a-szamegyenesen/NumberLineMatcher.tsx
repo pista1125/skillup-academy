@@ -141,6 +141,8 @@ export const NumberLineMatcher: React.FC<NumberLineMatcherProps> = ({
           }
         }}
         onOpenRules={onOpenRules}
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
         themeColor="emerald"
       />
     </div>

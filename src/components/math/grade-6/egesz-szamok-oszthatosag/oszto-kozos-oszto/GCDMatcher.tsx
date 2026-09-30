@@ -3,6 +3,7 @@ import { MatcherTemplate, MatcherLevelConfig } from '../MatcherTemplate';
 
 interface GCDMatcherProps {
   onBack: () => void;
+  onSwitchToTheory?: () => void;
 }
 
 const MATCHER_LEVELS: MatcherLevelConfig[] = [
@@ -50,7 +51,7 @@ const MATCHER_LEVELS: MatcherLevelConfig[] = [
   },
 ];
 
-export function GCDMatcher({ onBack }: GCDMatcherProps) {
+export function GCDMatcher({ onBack, onSwitchToTheory }: GCDMatcherProps) {
   return (
     <MatcherTemplate
       title="LNKO Kártyapárosító"
@@ -58,6 +59,11 @@ export function GCDMatcher({ onBack }: GCDMatcherProps) {
       levels={MATCHER_LEVELS}
       themeColor="indigo"
       onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      grade={6}
+      chapterId="egesz-szamok-oszthatosag"
+      topicId="g6-gcd"
+      topicTitle="Legnagyobb közös osztó"
     />
   );
 }

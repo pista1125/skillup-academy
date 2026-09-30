@@ -502,7 +502,7 @@ export function DivisibilityCompositeQuiz({ onBack, onSwitchToTheory }: Divisibi
   const [activeCustomGame, setActiveCustomGame] = useState<'matcher' | 'sorter' | null>(null);
 
   if (activeCustomGame === 'matcher') {
-    return <DivisibilityCompositeMatcher onBack={() => setActiveCustomGame(null)} />;
+    return <DivisibilityCompositeMatcher onBack={() => setActiveCustomGame(null)} onSwitchToTheory={onSwitchToTheory} />;
   }
 
   if (activeCustomGame === 'sorter') {

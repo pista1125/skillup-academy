@@ -110,6 +110,7 @@ export const NumberSpellingMatcher: React.FC<NumberSpellingMatcherProps> = ({
       <MatcherTemplate
         config={levelConfigs[currentLevel]}
         onNextLevel={handleNext}
+        onBack={onBack}
         onSwitchToTheory={onSwitchToTheory}
         onOpenRules={onOpenRules}
       />

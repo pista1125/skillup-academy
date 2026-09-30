@@ -3,6 +3,7 @@ import { MatcherTemplate, MatcherLevelConfig } from '../MatcherTemplate';
 
 interface LCMMatcherProps {
   onBack: () => void;
+  onSwitchToTheory?: () => void;
 }
 
 const MATCHER_LEVELS: MatcherLevelConfig[] = [
@@ -50,7 +51,7 @@ const MATCHER_LEVELS: MatcherLevelConfig[] = [
   },
 ];
 
-export function LCMMatcher({ onBack }: LCMMatcherProps) {
+export function LCMMatcher({ onBack, onSwitchToTheory }: LCMMatcherProps) {
   return (
     <MatcherTemplate
       title="LKKT Kártyapárosító"
@@ -58,6 +59,11 @@ export function LCMMatcher({ onBack }: LCMMatcherProps) {
       levels={MATCHER_LEVELS}
       themeColor="amber"
       onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      grade={6}
+      chapterId="egesz-szamok-oszthatosag"
+      topicId="g6-lcm"
+      topicTitle="Többszörös, legkisebb közös többszörös"
     />
   );
 }

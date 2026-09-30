@@ -137,6 +137,8 @@ export const SetBasicsMatcher: React.FC<SetBasicsMatcherProps> = ({
           }
         }}
         onOpenRules={onOpenRules}
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
         themeColor="violet"
       />
     </div>

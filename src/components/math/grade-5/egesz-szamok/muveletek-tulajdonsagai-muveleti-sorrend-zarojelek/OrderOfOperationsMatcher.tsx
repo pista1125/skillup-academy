@@ -141,6 +141,8 @@ export const OrderOfOperationsMatcher: React.FC<OrderOfOperationsMatcherProps> =
           }
         }}
         onOpenRules={onOpenRules}
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
         themeColor="indigo"
       />
     </div>

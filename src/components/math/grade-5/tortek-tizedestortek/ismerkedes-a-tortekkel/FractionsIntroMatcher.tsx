@@ -143,6 +143,8 @@ export const FractionsIntroMatcher: React.FC<FractionsIntroMatcherProps> = ({
           }
         }}
         onOpenRules={onOpenRules}
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
         themeColor="amber"
       />
     </div>

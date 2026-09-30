@@ -45,6 +45,7 @@ export interface IntegerAdditionSubtractionMatcherProps {
   onBack: () => void;
   onSwitchToQuiz?: () => void;
   onSwitchToSorter?: () => void;
+  onSwitchToTheory?: () => void;
   level?: DifficultyLevel;
 }
 
@@ -52,6 +53,7 @@ export function IntegerAdditionSubtractionMatcher({
   onBack,
   onSwitchToQuiz,
   onSwitchToSorter,
+  onSwitchToTheory,
   level = 1
 }: IntegerAdditionSubtractionMatcherProps) {
   return (
@@ -63,6 +65,7 @@ export function IntegerAdditionSubtractionMatcher({
       onBack={onBack}
       onSwitchToQuiz={onSwitchToQuiz}
       onSwitchToSorter={onSwitchToSorter}
+      onSwitchToTheory={onSwitchToTheory}
     />
   );
 }

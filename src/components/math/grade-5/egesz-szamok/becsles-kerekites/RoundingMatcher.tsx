@@ -141,6 +141,8 @@ export const RoundingMatcher: React.FC<RoundingMatcherProps> = ({
           }
         }}
         onOpenRules={onOpenRules}
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
         themeColor="amber"
       />
     </div>

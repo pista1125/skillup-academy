@@ -141,6 +141,8 @@ export const MultiplicationMatcher: React.FC<MultiplicationMatcherProps> = ({
           }
         }}
         onOpenRules={onOpenRules}
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
         themeColor="emerald"
       />
     </div>

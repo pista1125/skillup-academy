@@ -137,6 +137,8 @@ export const RationalSetMatcher: React.FC<RationalSetMatcherProps> = ({
           }
         }}
         onOpenRules={onOpenRules}
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
         themeColor="emerald"
       />
     </div>

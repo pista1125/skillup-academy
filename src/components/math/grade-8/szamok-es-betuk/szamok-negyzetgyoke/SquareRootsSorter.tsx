@@ -162,6 +162,8 @@ export const SquareRootsSorter: React.FC<SquareRootsSorterProps> = ({
           }
         }}
         onOpenRules={onOpenRules}
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
         themeColor="pink"
       />
     </div>

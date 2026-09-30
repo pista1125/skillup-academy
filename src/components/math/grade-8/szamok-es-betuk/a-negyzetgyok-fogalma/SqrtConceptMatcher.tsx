@@ -138,6 +138,8 @@ export const SqrtConceptMatcher: React.FC<SqrtConceptMatcherProps> = ({
           }
         }}
         onOpenRules={onOpenRules}
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
         themeColor="rose"
       />
     </div>

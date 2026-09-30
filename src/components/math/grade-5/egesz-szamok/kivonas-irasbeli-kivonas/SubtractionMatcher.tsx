@@ -141,6 +141,8 @@ export const SubtractionMatcher: React.FC<SubtractionMatcherProps> = ({
           }
         }}
         onOpenRules={onOpenRules}
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
         themeColor="rose"
       />
     </div>

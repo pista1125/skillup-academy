@@ -6,6 +6,10 @@ export interface IntegerDivisionMatcherProps {
   level: DifficultyLevel;
   onNextLevel?: () => void;
   onOpenRules?: () => void;
+  onBack?: () => void;
+  onSwitchToTheory?: () => void;
+  onSwitchToQuiz?: () => void;
+  onSwitchToSorter?: () => void;
 }
 
 const MATCHER_LEVELS: Record<DifficultyLevel, MatcherLevelConfig> = {
@@ -50,7 +54,11 @@ const MATCHER_LEVELS: Record<DifficultyLevel, MatcherLevelConfig> = {
 export function IntegerDivisionMatcher({
   level,
   onNextLevel,
-  onOpenRules
+  onOpenRules,
+  onBack,
+  onSwitchToTheory,
+  onSwitchToQuiz,
+  onSwitchToSorter
 }: IntegerDivisionMatcherProps) {
   return (
     <MatcherTemplate
@@ -60,6 +68,15 @@ export function IntegerDivisionMatcher({
       levels={MATCHER_LEVELS}
       onNextLevel={onNextLevel}
       onOpenRules={onOpenRules}
+      onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      onSwitchToQuiz={onSwitchToQuiz}
+      onSwitchToSorter={onSwitchToSorter}
+      themeColor="violet"
+      topicId="g6-integers-div"
+      topicTitle="Az egész számok osztása"
+      grade={6}
+      chapterId="egesz-szamok-oszthatosag"
     />
   );
 }

@@ -162,6 +162,8 @@ export const SqrtConceptSorter: React.FC<SqrtConceptSorterProps> = ({
           }
         }}
         onOpenRules={onOpenRules}
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
         themeColor="rose"
       />
     </div>

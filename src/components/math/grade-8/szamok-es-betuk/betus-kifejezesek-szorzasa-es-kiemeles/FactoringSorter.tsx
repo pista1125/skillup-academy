@@ -150,6 +150,8 @@ export const FactoringSorter: React.FC<FactoringSorterProps> = ({
         onOpenRules={onOpenRules}
         title="Betűs kifejezések szorzása és kiemelés – Csoportosító"
         subtitle="Húzd a kifejezéseket a megfelelő dobozba a szorzás és kiemelés szabályai szerint!"
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
       />
     </div>
   );

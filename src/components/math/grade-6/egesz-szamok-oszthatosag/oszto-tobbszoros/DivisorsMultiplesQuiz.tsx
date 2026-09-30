@@ -484,12 +484,8 @@ const GAME_MODES: CustomGameMode[] = [
     subtitle: '8 pár megkeresése',
     badgeText: '8 Pár',
     icon: <LayoutGrid className="w-3.5 h-3.5 text-emerald-500" />,
-    render: ({ level, onNextLevel, onOpenRules }) => (
-      <DivisorsMultiplesMatcher
-        level={level}
-        onNextLevel={onNextLevel}
-        onOpenRules={onOpenRules}
-      />
+    render: (props) => (
+      <DivisorsMultiplesMatcher {...props} />
     )
   },
   {

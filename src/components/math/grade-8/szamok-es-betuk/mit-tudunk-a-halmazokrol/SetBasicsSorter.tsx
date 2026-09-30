@@ -168,6 +168,8 @@ export const SetBasicsSorter: React.FC<SetBasicsSorterProps> = ({
           }
         }}
         onOpenRules={onOpenRules}
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
       />
     </div>
   );

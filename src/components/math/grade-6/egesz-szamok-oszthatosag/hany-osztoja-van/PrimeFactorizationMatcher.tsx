@@ -7,6 +7,9 @@ export interface PrimeFactorizationMatcherProps {
   onNextLevel?: () => void;
   onOpenRules?: () => void;
   onBack?: () => void;
+  onSwitchToTheory?: () => void;
+  onSwitchToQuiz?: () => void;
+  onSwitchToSorter?: () => void;
 }
 
 const MATCHER_LEVELS: Record<DifficultyLevel, MatcherLevelConfig> = {
@@ -73,18 +76,29 @@ export function PrimeFactorizationMatcher({
   level = 1,
   onNextLevel,
   onOpenRules,
-  onBack
+  onBack,
+  onSwitchToTheory,
+  onSwitchToQuiz,
+  onSwitchToSorter
 }: PrimeFactorizationMatcherProps) {
   return (
     <MatcherTemplate
       levels={MATCHER_LEVELS}
       initialLevel={level}
+      level={level}
       onNextLevel={onNextLevel}
       onOpenRules={onOpenRules}
       onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      onSwitchToQuiz={onSwitchToQuiz}
+      onSwitchToSorter={onSwitchToSorter}
       title="Prímtényezős Párosító"
       subtitle="Párosítsd a számokat a helyes prímtényezős felbontásukkal vagy az osztóik számával!"
       themeColor="indigo"
+      grade={6}
+      chapterId="egesz-szamok-oszthatosag"
+      topicId="g6-prime-factorization"
+      topicTitle="Hány osztója van? Prímtényezős felbontás"
     />
   );
 }

@@ -162,6 +162,8 @@ export const RationalSetSorter: React.FC<RationalSetSorterProps> = ({
           }
         }}
         onOpenRules={onOpenRules}
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
       />
     </div>
   );

@@ -150,6 +150,8 @@ export const PolynomialMultSorter: React.FC<PolynomialMultSorterProps> = ({
         onOpenRules={onOpenRules}
         title="Többtagú kifejezések szorzata – Csoportosító"
         subtitle="Húzd a kifejezéseket a megfelelő dobozba a nevezetes azonosságok és kifejtési formák szerint!"
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
       />
     </div>
   );

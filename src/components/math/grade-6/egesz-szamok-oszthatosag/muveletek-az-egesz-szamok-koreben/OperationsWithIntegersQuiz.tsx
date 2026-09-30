@@ -503,12 +503,8 @@ const GAME_MODES: CustomGameMode[] = [
     subtitle: '8 pár megkeresése',
     badgeText: '8 Pár',
     icon: <LayoutGrid className="w-3.5 h-3.5 text-emerald-500" />,
-    render: ({ level, onNextLevel, onOpenRules }) => (
-      <OperationsWithIntegersMatcher
-        level={level}
-        onNextLevel={onNextLevel}
-        onOpenRules={onOpenRules}
-      />
+    render: (props) => (
+      <OperationsWithIntegersMatcher {...props} />
     )
   },
   {
@@ -517,11 +513,11 @@ const GAME_MODES: CustomGameMode[] = [
     subtitle: 'Húzd a helyére (3 csoport)',
     badgeText: '10 Elem (3 csoport)',
     icon: <ArrowRightLeft className="w-3.5 h-3.5 text-cyan-500" />,
-    render: ({ level, onNextLevel, onOpenRules }) => (
+    render: (props) => (
       <OperationsWithIntegersSorter
-        level={level}
-        onNextLevel={onNextLevel}
-        onOpenRules={onOpenRules}
+        level={props.level}
+        onNextLevel={props.onNextLevel}
+        onOpenRules={props.onOpenRules}
       />
     )
   }

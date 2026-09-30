@@ -143,6 +143,8 @@ export const NumberReadingMatcher: React.FC<NumberReadingMatcherProps> = ({
           }
         }}
         onOpenRules={onOpenRules}
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
         themeColor="indigo"
       />
     </div>

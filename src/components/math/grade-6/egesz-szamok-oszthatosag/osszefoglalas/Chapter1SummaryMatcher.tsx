@@ -3,6 +3,7 @@ import { MatcherTemplate, MatcherLevelConfig } from '../MatcherTemplate';
 
 interface Chapter1SummaryMatcherProps {
   onBack: () => void;
+  onSwitchToTheory?: () => void;
 }
 
 const MATCHER_LEVELS: MatcherLevelConfig[] = [
@@ -50,7 +51,7 @@ const MATCHER_LEVELS: MatcherLevelConfig[] = [
   },
 ];
 
-export function Chapter1SummaryMatcher({ onBack }: Chapter1SummaryMatcherProps) {
+export function Chapter1SummaryMatcher({ onBack, onSwitchToTheory }: Chapter1SummaryMatcherProps) {
   return (
     <MatcherTemplate
       title="I. Fejezet Záró Párosító"
@@ -58,6 +59,11 @@ export function Chapter1SummaryMatcher({ onBack }: Chapter1SummaryMatcherProps) 
       levels={MATCHER_LEVELS}
       themeColor="indigo"
       onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      grade={6}
+      chapterId="egesz-szamok-oszthatosag"
+      topicId="g6-integers-summary"
+      topicTitle="I. Fejezeti Összefoglalás"
     />
   );
 }

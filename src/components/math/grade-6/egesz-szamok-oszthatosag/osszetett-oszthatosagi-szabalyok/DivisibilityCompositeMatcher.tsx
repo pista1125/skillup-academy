@@ -3,6 +3,7 @@ import { MatcherTemplate, MatcherLevelConfig } from '../MatcherTemplate';
 
 interface DivisibilityCompositeMatcherProps {
   onBack: () => void;
+  onSwitchToTheory?: () => void;
 }
 
 const MATCHER_LEVELS: MatcherLevelConfig[] = [
@@ -50,7 +51,7 @@ const MATCHER_LEVELS: MatcherLevelConfig[] = [
   },
 ];
 
-export function DivisibilityCompositeMatcher({ onBack }: DivisibilityCompositeMatcherProps) {
+export function DivisibilityCompositeMatcher({ onBack, onSwitchToTheory }: DivisibilityCompositeMatcherProps) {
   return (
     <MatcherTemplate
       title="Összetett Oszthatóság Párosító"
@@ -58,6 +59,11 @@ export function DivisibilityCompositeMatcher({ onBack }: DivisibilityCompositeMa
       levels={MATCHER_LEVELS}
       themeColor="indigo"
       onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      grade={6}
+      chapterId="egesz-szamok-oszthatosag"
+      topicId="g6-divisibility-composite"
+      topicTitle="Összetett oszthatósági szabályok"
     />
   );
 }

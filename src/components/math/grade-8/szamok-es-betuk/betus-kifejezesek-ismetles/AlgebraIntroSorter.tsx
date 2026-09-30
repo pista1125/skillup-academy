@@ -162,6 +162,8 @@ export const AlgebraIntroSorter: React.FC<AlgebraIntroSorterProps> = ({
           }
         }}
         onOpenRules={onOpenRules}
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
         themeColor="blue"
       />
     </div>

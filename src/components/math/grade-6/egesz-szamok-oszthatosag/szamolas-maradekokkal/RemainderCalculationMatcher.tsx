@@ -6,6 +6,10 @@ export interface RemainderCalculationMatcherProps {
   level?: DifficultyLevel;
   onNextLevel?: () => void;
   onOpenRules?: () => void;
+  onBack?: () => void;
+  onSwitchToTheory?: () => void;
+  onSwitchToQuiz?: () => void;
+  onSwitchToSorter?: () => void;
 }
 
 const MATCHER_LEVELS: Record<DifficultyLevel, MatcherLevelConfig> = {
@@ -71,17 +75,30 @@ const MATCHER_LEVELS: Record<DifficultyLevel, MatcherLevelConfig> = {
 export function RemainderCalculationMatcher({
   level = 1,
   onNextLevel,
-  onOpenRules
+  onOpenRules,
+  onBack,
+  onSwitchToTheory,
+  onSwitchToQuiz,
+  onSwitchToSorter
 }: RemainderCalculationMatcherProps) {
   return (
     <MatcherTemplate
       levels={MATCHER_LEVELS}
       initialLevel={level}
+      level={level}
       onNextLevel={onNextLevel}
       onOpenRules={onOpenRules}
+      onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      onSwitchToQuiz={onSwitchToQuiz}
+      onSwitchToSorter={onSwitchToSorter}
       title="Maradékos Párosító Játék"
       subtitle="Kattints a feladatra, majd a megfelelő maradékra vagy eredményre!"
       themeColor="teal"
+      grade={6}
+      chapterId="egesz-szamok-oszthatosag"
+      topicId="g6-remainder-calculation"
+      topicTitle="Számolás maradékokkal"
     />
   );
 }

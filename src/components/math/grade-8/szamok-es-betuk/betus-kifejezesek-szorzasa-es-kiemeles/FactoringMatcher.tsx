@@ -126,6 +126,8 @@ export const FactoringMatcher: React.FC<FactoringMatcherProps> = ({
         onOpenRules={onOpenRules}
         title="Betűs kifejezések szorzása és kiemelés – Párosító"
         subtitle="Találd meg a kifejezések szorzatát, kibontott alakját vagy kiemelt formáját!"
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
       />
     </div>
   );

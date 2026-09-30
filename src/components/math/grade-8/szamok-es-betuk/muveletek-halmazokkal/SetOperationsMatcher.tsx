@@ -137,6 +137,8 @@ export const SetOperationsMatcher: React.FC<SetOperationsMatcherProps> = ({
           }
         }}
         onOpenRules={onOpenRules}
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
         themeColor="indigo"
       />
     </div>

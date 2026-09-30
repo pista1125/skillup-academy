@@ -368,11 +368,18 @@ export function QuizTemplate({
         icon: <ArrowRightLeft className="w-4 h-4 text-indigo-500" />,
         badgeText: 'Párosítás',
         render: (props) => {
+          const lvl = props?.level ?? selectedLevel ?? 1;
           if (React.isValidElement(matcherComponent)) {
             return React.cloneElement(matcherComponent, {
-              level: props?.level ?? selectedLevel ?? 1,
+              key: `matcher-lvl-${lvl}`,
+              level: lvl,
+              currentLevel: lvl,
               onNextLevel: props?.onNextLevel,
               onOpenRules: props?.onOpenRules,
+              onBack: onBack,
+              onSwitchToQuiz: () => setGameMode('quiz'),
+              onSwitchToSorter: () => setGameMode('sorter'),
+              onSwitchToTheory: onSwitchToTheory,
               topicId: (matcherComponent.props as any)?.topicId || computedTopicId,
               grade: (matcherComponent.props as any)?.grade || grade,
               chapterId: (matcherComponent.props as any)?.chapterId || chapterId
@@ -390,11 +397,18 @@ export function QuizTemplate({
         icon: <Layers className="w-4 h-4 text-emerald-500" />,
         badgeText: 'Kategorizálás',
         render: (props) => {
+          const lvl = props?.level ?? selectedLevel ?? 1;
           if (React.isValidElement(sorterComponent)) {
             return React.cloneElement(sorterComponent, {
-              level: props?.level ?? selectedLevel ?? 1,
+              key: `sorter-lvl-${lvl}`,
+              level: lvl,
+              currentLevel: lvl,
               onNextLevel: props?.onNextLevel,
               onOpenRules: props?.onOpenRules,
+              onBack: onBack,
+              onSwitchToQuiz: () => setGameMode('quiz'),
+              onSwitchToMatcher: () => setGameMode('matcher'),
+              onSwitchToTheory: onSwitchToTheory,
               topicId: (sorterComponent.props as any)?.topicId || computedTopicId,
               grade: (sorterComponent.props as any)?.grade || grade,
               chapterId: (sorterComponent.props as any)?.chapterId || chapterId
@@ -405,7 +419,7 @@ export function QuizTemplate({
       });
     }
     return modes;
-  }, [customGameModes, matcherComponent, sorterComponent, selectedLevel, computedTopicId, grade, chapterId]);
+  }, [customGameModes, matcherComponent, sorterComponent, selectedLevel, computedTopicId, grade, chapterId, onBack, onSwitchToTheory]);
 
   // Fullscreen toggler
   const toggleFullscreen = async () => {

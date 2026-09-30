@@ -126,6 +126,8 @@ export const PolynomialMultMatcher: React.FC<PolynomialMultMatcherProps> = ({
         onOpenRules={onOpenRules}
         title="Többtagú kifejezések szorzata – Párosító"
         subtitle="Találd meg a kéttagú szorzatok, nevezetes azonosságok párjait és fejszámolási eredményeit!"
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
       />
     </div>
   );

@@ -478,7 +478,7 @@ export function LCMQuiz({ onBack, onSwitchToTheory }: LCMQuizProps) {
   const [activeCustomGame, setActiveCustomGame] = useState<'matcher' | 'sorter' | null>(null);
 
   if (activeCustomGame === 'matcher') {
-    return <LCMMatcher onBack={() => setActiveCustomGame(null)} />;
+    return <LCMMatcher onBack={() => setActiveCustomGame(null)} onSwitchToTheory={onSwitchToTheory} />;
   }
 
   if (activeCustomGame === 'sorter') {

@@ -1332,7 +1332,7 @@ export function Chapter1SummaryQuiz({ onBack, onSwitchToTheory }: Chapter1Summar
   const [activeCustomGame, setActiveCustomGame] = useState<'matcher' | 'sorter' | null>(null);
 
   if (activeCustomGame === 'matcher') {
-    return <Chapter1SummaryMatcher onBack={() => setActiveCustomGame(null)} />;
+    return <Chapter1SummaryMatcher onBack={() => setActiveCustomGame(null)} onSwitchToTheory={onSwitchToTheory} />;
   }
 
   if (activeCustomGame === 'sorter') {

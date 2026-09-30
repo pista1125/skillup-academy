@@ -45,6 +45,7 @@ export interface OppositeAbsoluteMatcherProps {
   onBack: () => void;
   onSwitchToQuiz?: () => void;
   onSwitchToSorter?: () => void;
+  onSwitchToTheory?: () => void;
   level?: DifficultyLevel;
 }
 
@@ -52,6 +53,7 @@ export function OppositeAbsoluteMatcher({
   onBack,
   onSwitchToQuiz,
   onSwitchToSorter,
+  onSwitchToTheory,
   level = 1
 }: OppositeAbsoluteMatcherProps) {
   return (
@@ -63,6 +65,7 @@ export function OppositeAbsoluteMatcher({
       onBack={onBack}
       onSwitchToQuiz={onSwitchToQuiz}
       onSwitchToSorter={onSwitchToSorter}
+      onSwitchToTheory={onSwitchToTheory}
     />
   );
 }

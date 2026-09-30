@@ -143,6 +143,8 @@ export const FractionsExpandSimplifyMatcher: React.FC<FractionsExpandSimplifyMat
           }
         }}
         onOpenRules={onOpenRules}
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
         themeColor="amber"
       />
     </div>

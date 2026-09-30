@@ -16,7 +16,8 @@ import {
   Clock,
   Loader2,
   Zap,
-  Target
+  Target,
+  Heart
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -243,17 +244,44 @@ export function MatcherLeaderboardModal({
                               Te eredményed ✨
                             </Badge>
                           )}
+                          {score.isGameOver && (
+                            <Badge variant="outline" className="text-[10px] text-rose-600 dark:text-rose-400 border-rose-300 dark:border-rose-800 bg-rose-50/60 dark:bg-rose-950/40 font-bold px-1.5 py-0 h-4">
+                              💔 {score.matchedPairsCount ?? '?'}/{score.pairsCount || 8} pár
+                            </Badge>
+                          )}
                         </div>
-                        <div className="text-[11px] text-slate-400 dark:text-slate-500">
-                          {formatDateHungarian(score.createdAt)}
+                        <div className="flex items-center gap-2 mt-0.5">
+                          <span className="text-[11px] text-slate-400 dark:text-slate-500">
+                            {formatDateHungarian(score.createdAt)}
+                          </span>
+                          {score.heartsRemaining !== undefined && !score.isGameOver && (
+                            <div className="flex items-center gap-0.5">
+                              {[0, 1, 2].map((i) => (
+                                <Heart
+                                  key={i}
+                                  className={cn(
+                                    "w-2.5 h-2.5",
+                                    i < (score.heartsRemaining ?? 0)
+                                      ? "fill-rose-500 text-rose-500"
+                                      : "text-slate-300 dark:text-slate-700"
+                                  )}
+                                />
+                              ))}
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
 
-                    {/* Right: Time & Mistakes */}
+                    {/* Right: Score, Time & Mistakes */}
                     <div className="flex items-center gap-2 sm:gap-3 shrink-0">
                       <div className="text-right">
-                        <div className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-mono font-black text-sm sm:text-base">
+                        {score.score !== undefined && (
+                          <div className="text-xs font-black text-amber-600 dark:text-amber-400">
+                            {score.score} pont
+                          </div>
+                        )}
+                        <div className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-mono font-black text-xs sm:text-sm justify-end">
                           <Clock className="w-3.5 h-3.5" />
                           <span>{formatMatcherTime(score.timeSeconds)}</span>
                         </div>

@@ -138,6 +138,8 @@ export const PowersMatcher: React.FC<PowersMatcherProps> = ({
           }
         }}
         onOpenRules={onOpenRules}
+        onBack={onBack}
+        onSwitchToTheory={onSwitchToTheory}
         themeColor="amber"
       />
     </div>

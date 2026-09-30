@@ -6,6 +6,10 @@ export interface DivisorsMultiplesMatcherProps {
   level: DifficultyLevel;
   onNextLevel?: () => void;
   onOpenRules?: () => void;
+  onBack?: () => void;
+  onSwitchToTheory?: () => void;
+  onSwitchToQuiz?: () => void;
+  onSwitchToSorter?: () => void;
 }
 
 const MATCHER_LEVELS: Record<DifficultyLevel, MatcherLevelConfig> = {
@@ -50,7 +54,11 @@ const MATCHER_LEVELS: Record<DifficultyLevel, MatcherLevelConfig> = {
 export function DivisorsMultiplesMatcher({
   level,
   onNextLevel,
-  onOpenRules
+  onOpenRules,
+  onBack,
+  onSwitchToTheory,
+  onSwitchToQuiz,
+  onSwitchToSorter
 }: DivisorsMultiplesMatcherProps) {
   return (
     <MatcherTemplate
@@ -60,6 +68,15 @@ export function DivisorsMultiplesMatcher({
       levels={MATCHER_LEVELS}
       onNextLevel={onNextLevel}
       onOpenRules={onOpenRules}
+      onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      onSwitchToQuiz={onSwitchToQuiz}
+      onSwitchToSorter={onSwitchToSorter}
+      themeColor="blue"
+      topicId="g6-divisors-multiples"
+      topicTitle="Osztó, többszörös"
+      grade={6}
+      chapterId="egesz-szamok-oszthatosag"
     />
   );
 }

@@ -6,6 +6,10 @@ export interface CountingPossibilitiesMatcherProps {
   level: DifficultyLevel;
   onNextLevel?: () => void;
   onOpenRules?: () => void;
+  onBack?: () => void;
+  onSwitchToTheory?: () => void;
+  onSwitchToQuiz?: () => void;
+  onSwitchToSorter?: () => void;
 }
 
 const MATCHER_LEVELS: Record<DifficultyLevel, MatcherLevelConfig> = {
@@ -50,7 +54,11 @@ const MATCHER_LEVELS: Record<DifficultyLevel, MatcherLevelConfig> = {
 export function CountingPossibilitiesMatcher({
   level,
   onNextLevel,
-  onOpenRules
+  onOpenRules,
+  onBack,
+  onSwitchToTheory,
+  onSwitchToQuiz,
+  onSwitchToSorter
 }: CountingPossibilitiesMatcherProps) {
   return (
     <MatcherTemplate
@@ -60,6 +68,15 @@ export function CountingPossibilitiesMatcher({
       levels={MATCHER_LEVELS}
       onNextLevel={onNextLevel}
       onOpenRules={onOpenRules}
+      onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      onSwitchToQuiz={onSwitchToQuiz}
+      onSwitchToSorter={onSwitchToSorter}
+      themeColor="amber"
+      topicId="g6-counting-possibilities"
+      topicTitle="Hány eset van? Számoljuk össze!"
+      grade={6}
+      chapterId="egesz-szamok-oszthatosag"
     />
   );
 }
