@@ -2,6 +2,7 @@ import { jsPDF } from 'jspdf';
 import { toPng } from 'html-to-image';
 import { toast } from 'sonner';
 import { CompetencyTestSubmission } from '@/services/competencySubmissionService';
+import { renderMathHtml } from '@/components/math/competency-matrix/MathView';
 
 export function formatAnswer(val: any): string {
   if (val === null || val === undefined) return 'Nem adott meg választ';
@@ -187,24 +188,24 @@ export async function exportCompetencySubmissionToPDF(submission: CompetencyTest
               </div>
 
               <div style="font-size: 12px; color: #1e293b; margin-bottom: 8px; line-height: 1.4;">
-                ${ans.question ? ans.question.replace(/\n/g, '<br/>') : ''}
+                ${ans.question ? renderMathHtml(ans.question.replace(/\n/g, '<br/>')) : ''}
               </div>
 
               <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 8px 10px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 11.5px; margin-bottom: 8px;">
                 <div>
                   <span style="color: #64748b; font-weight: 600;">Diák válasza:</span> 
-                  <strong style="color: ${isCorrect ? '#16a34a' : '#dc2626'}; margin-left: 4px;">${formattedStudentAns}</strong>
+                  <strong style="color: ${isCorrect ? '#16a34a' : '#dc2626'}; margin-left: 4px;">${renderMathHtml(formattedStudentAns)}</strong>
                 </div>
                 <div>
                   <span style="color: #64748b; font-weight: 600;">Helyes válasz:</span> 
-                  <strong style="color: #16a34a; margin-left: 4px;">${formattedCorrectAns}</strong>
+                  <strong style="color: #16a34a; margin-left: 4px;">${renderMathHtml(formattedCorrectAns)}</strong>
                 </div>
               </div>
 
               ${ans.solution ? `
                 <div style="font-size: 11px; color: #475569; background: #f8fafc; padding: 8px 10px; border-radius: 6px; border-left: 3px solid #3b82f6;">
                   <strong style="color: #1e293b; display: block; margin-bottom: 2px;">Megoldás levezetése:</strong>
-                  <div style="line-height: 1.4;">${ans.solution.replace(/\*\*/g, '').replace(/\n/g, '<br/>')}</div>
+                  <div style="line-height: 1.4;">${renderMathHtml(ans.solution.replace(/\*\*/g, '').replace(/\n/g, '<br/>'))}</div>
                 </div>
               ` : ''}
             </div>

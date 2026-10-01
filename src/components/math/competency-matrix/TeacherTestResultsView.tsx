@@ -37,6 +37,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import MathView from './MathView';
 
 const MD_PLUGINS = { remarkPlugins: [remarkGfm, remarkMath], rehypePlugins: [rehypeKatex] };
 
@@ -889,7 +890,7 @@ export default function TeacherTestResultsView({ onBackToBrowse }: TeacherTestRe
                             Diák válasza:
                           </span>
                           <strong style={{ color: isCorrect ? '#15803d' : '#b91c1c', fontSize: 14 }}>
-                            {formatAnswer(ans.selectedAnswer)}
+                            <MathView text={formatAnswer(ans.selectedAnswer)} inline />
                           </strong>
                         </div>
                         <div>
@@ -897,7 +898,7 @@ export default function TeacherTestResultsView({ onBackToBrowse }: TeacherTestRe
                             Helyes válasz:
                           </span>
                           <strong style={{ color: '#15803d', fontSize: 14 }}>
-                            {formatAnswer(ans.correctAnswer)}
+                            <MathView text={formatAnswer(ans.correctAnswer)} inline />
                           </strong>
                         </div>
                       </div>

@@ -5,6 +5,7 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import Visual from './visuals/Visual';
 import ErrorBoundary from './ErrorBoundary';
+import MathView from './MathView';
 
 const MD_PLUGINS = { remarkPlugins: [remarkGfm, remarkMath], rehypePlugins: [rehypeKatex] };
 
@@ -123,7 +124,7 @@ export default function TaskCard({ task, contentAreas, thinkingLevels }: TaskCar
                 else if (selected === opt) cls += ' selected';
                 return (
                   <button key={`${idx}-${opt}`} className={cls} disabled={checked && isCorrect} onClick={() => !checked && setSelected(opt)}>
-                    {opt}
+                    <MathView text={opt} />
                   </button>
                 );
               })}

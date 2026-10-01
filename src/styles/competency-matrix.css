@@ -357,19 +357,39 @@
   gap: 10px;
 }
 .competency-matrix-shell .option-btn {
-  padding: 12px 14px;
+  padding: 12px 16px;
   border: 1.5px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--bg-elev);
   text-align: left;
-  font-size: 14px;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 50px;
+  cursor: pointer;
   transition: all 0.15s;
+  line-height: 1.35;
+  word-break: break-word;
 }
 .competency-matrix-shell .option-btn:hover { border-color: var(--primary); background: #eff6ff; }
 .competency-matrix-shell .option-btn.selected { border-color: var(--primary); background: #dbeafe; }
 .competency-matrix-shell .option-btn.correct { border-color: var(--success); background: #dcfce7; }
 .competency-matrix-shell .option-btn.incorrect { border-color: var(--danger); background: #fee2e2; }
 .competency-matrix-shell .option-btn.reveal { border-color: var(--success); background: #dcfce7; }
+
+.competency-matrix-shell .option-btn .katex {
+  font-size: 1.25em;
+}
+.competency-matrix-shell .option-btn .math-rendered-view {
+  display: inline-flex;
+  align-items: center;
+}
+.competency-matrix-shell .math-rendered-view {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+}
 
 .competency-matrix-shell .answer-input {
   padding: 10px 14px;

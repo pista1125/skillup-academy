@@ -863,6 +863,7 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import Visual from './visuals/Visual';
 import ErrorBoundary from './ErrorBoundary';
+import MathView from './MathView';
 
 const MD_PLUGINS = { remarkPlugins: [remarkGfm, remarkMath], rehypePlugins: [rehypeKatex] };
 
@@ -934,7 +935,7 @@ function TaskCardControlled({ task, contentAreas, thinkingLevels, selectedAnswer
                 }
                 return (
                   <button key={`${idx}-${opt}`} className={cls} disabled={submitted} onClick={() => onAnswer(opt)}>
-                    {opt}
+                    <MathView text={opt} />
                   </button>
                 );
               })}
@@ -951,7 +952,14 @@ function TaskCardControlled({ task, contentAreas, thinkingLevels, selectedAnswer
 
           {submitted && (
             <div className={`feedback ${isCorrect ? 'ok' : 'bad'}`}>
-              {isCorrect ? '✓ Helyes válasz' : `✗ Helyes válasz: ${formatAnswer(task.answer)}`}
+              {isCorrect ? (
+                '✓ Helyes válasz'
+              ) : (
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                  <span>✗ Helyes válasz:</span>
+                  <MathView text={formatAnswer(task.answer)} inline />
+                </span>
+              )}
             </div>
           )}
 
