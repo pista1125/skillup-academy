@@ -625,10 +625,10 @@ export interface TheoryTemplateProps {
   description?: string;
   quickRule?: {
     label: string;
-    formula: string;
+    formula: string | React.ReactNode;
   };
   ruleTitle?: string;
-  ruleFormula?: string;
+  ruleFormula?: string | React.ReactNode;
   themeColor?: ThemeColor;
   practiceTitle?: string;
   practiceSubtitle?: string;

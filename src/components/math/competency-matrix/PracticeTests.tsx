@@ -48,9 +48,10 @@ interface PracticeTestsProps {
   thinkingLevels: ThinkingLevel[];
   isFullscreen?: boolean;
   toggleFullscreen?: () => void;
+  initialTestId?: string | null;
 }
 
-export default function PracticeTests({ contentAreas, thinkingLevels, isFullscreen = false, toggleFullscreen }: PracticeTestsProps) {
+export default function PracticeTests({ contentAreas, thinkingLevels, isFullscreen = false, toggleFullscreen, initialTestId = null }: PracticeTestsProps) {
   const { user, profile } = useAuth();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
@@ -64,7 +65,7 @@ export default function PracticeTests({ contentAreas, thinkingLevels, isFullscre
       return acc;
     }, {})
   })));
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(initialTestId || null);
   const [test, setTest] = useState<any>(null);
   const [cursor, setCursor] = useState(0);
   const [answers, setAnswers] = useState<{ [key: string]: any }>({});

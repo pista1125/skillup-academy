@@ -57,8 +57,10 @@ export function cleanMathSymbols(text: string): string {
     .replace(/\\parallel/g, '∥')
     .replace(/\\angle/g, '∡')
     .replace(/\\triangle/g, '△')
-    .replace(/\\infty/g, '∞')
+    .replace(/\\overline\{([^}]+)\}/g, '$1')
+    .replace(/\\bar\{([^}]+)\}/g, '$1')
     // Greek letters
+    .replace(/\\Delta/g, 'Δ')
     .replace(/\\alpha'/g, "α'")
     .replace(/\\alpha/g, 'α')
     .replace(/\\beta/g, 'β')

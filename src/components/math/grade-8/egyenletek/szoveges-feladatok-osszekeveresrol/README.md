@@ -1,48 +1,45 @@
 # 3. Szöveges feladatok összekeverésről (8. osztály)
 
-## Tananyag Áttekintés
-Keverési és elegyítési feladatok matematikai modellje: oldatok töménysége (tömegszázalék), ötvözetek finomsága (karát, ezrelék), folyadékok hőmérséklet-keveredése és a keverési egyenlet felírása.
+## Modul Áttekintés
+Ez a modul a 8. osztályos III. Egyenletek témakör **3. altémáját** valósítja meg: keverési és elegyítési feladatok matematikai modellje, oldatok töménysége (tömegszázalék), hígítás tiszta vízzel (0%), töményítés sóval (100%), víz elpárologtatása, ötvözetek finomsága (karát, ezrelék) és folyadékok hőmérséklet-keveredése (kalorimetria).
 
 ---
 
-## 1. A Keverési Egyenlet Alapelve
+## Modul Komponensei
 
-A keverési feladatok alapja az **oldott anyag (vagy tiszta fém, hőmennyiség) megmaradásának törvénye**:
+1. **`MixingWordProblemsTheory.tsx`**: Interaktív tananyag `TheoryTemplate` sablonnal.
+   - **Témák**:
+     1. A Keverési Feladatok Alapelve és a Megmaradási Törvény ($m_1 p_1 + m_2 p_2 = m_ö p_ö$).
+     2. Speciális Esetek: Hígítás ($0\%$), Töményítés ($100\%$) és Elpárologtatás ($m_ö = m_1 - m_{\text{elp}}$).
+     3. Ötvözetek, Arany és Karát Számítás ($24 \text{ karát} = 100\%$, $1 \text{ karát} = 1/24 \approx 4,167\%$).
+     4. Különböző Hőmérsékletű Folyadékok Keverése (Kalorimetria: $m_1 T_1 + m_2 T_2 = m_ö T_k$).
+     5. **Interaktív Keverési Labor Szimulátor** (az elméleti szekciók után elhelyezve):
+        - Két oldat lombikos keverése valós idejű folyadékszinttel és töménységgel.
+        - Hígítás / töményítés / elpárologtatás csúszkákkal.
+     6. Részletesen Kidolgozott Mintapéldák (két oldat keverése, hígítás vízzel, 14K/18K aranyötvözet).
+     7. Gyakori Csapdahelyzetek és Típustévesztések (`TheoryTrapBox`: százalékok átlagolásának tilalma, víz 0%-os töménysége, só össztömeg-növelő hatása).
+     8. Szöveges Ellenőrzés és Mértékegység Egyeztetés (liter vs kg, logikai józansági határ).
 
-$$\text{1. komponensben lévő tiszta anyag} + \text{2. komponensben lévő tiszta anyag} = \text{Keverékben lévő tiszta anyag}$$
+2. **`MixingWordProblemsQuiz.tsx`**: 30 kérdéses adaptív kvíz `QuizTemplate` sablonnal.
+   - **6 CheatSheet kártya** SVG illusztrációkkal (megmaradási alapegyenlet, hígítás 0%, töményítés 100%, víz elpárolgása, karát rendszer, hőmérséklet keveredés).
+   - **3 Nehézségi szint** (10-10 kérdés szintenként):
+     - **1. Szint**: Alapfogalmak és töménység (tömegszázalék definíció, tiszta só számítás, tiszta víz 0%, 14/18/24 karát).
+     - **2. Szint**: Két oldat keverése és hígítás (egyenletmegoldások, ismeretlen tömegek, aranyötvözet karát, vízelpárologtatás).
+     - **3. Szint**: Összetett és versenyfeladatok (kétismeretlenes feladatok, több lépéses műveletek, kalorimetria, edények közötti átöntés).
+   - **Beágyazott Játékmódok**:
+     - Matcher (Párosító kártyajáték)
+     - Sorter (Csoportosító játék)
 
-$$m_1 \cdot \frac{p_1}{100} + m_2 \cdot \frac{p_2}{100} = (m_1 + m_2) \cdot \frac{p_{\text{keverék}}}{100}$$
+3. **`MixingWordProblemsMatcher.tsx`**: Interaktív kártyapárosító játék `MatcherTemplate` alapon.
+   - 3 szint $\times$ 10 pár (Alapfogalmak, Keverési egyenletek, Számításos eredmények).
 
-Egyszerűsítve $100$-zal való beszorzás után:
-$$m_1 \cdot p_1 + m_2 \cdot p_2 = (m_1 + m_2) \cdot p_{\text{keverék}}$$
-
-Ahol:
-- $m_1, m_2$: az egyes oldatok/anyagok tömege (g vagy kg).
-- $p_1, p_2$: az egyes oldatok tömegszázaléka (%).
-- $m_{\text{keverék}} = m_1 + m_2$: az össztömeg.
-- $p_{\text{keverék}}$: a keletkező elegy tömegszázaléka.
+4. **`MixingWordProblemsSorter.tsx`**: Csoportosító gyakorló játék `SorterTemplate` alapon.
+   - 3 szint $\times$ 12 elem (Keverési folyamatok, Anyagok töménysége, Modell egyenletek).
 
 ---
 
-## 2. Speciális Esetek
-
-| Hozzáadott anyag | Tömegszázalék ($p$) | Megjegyzés |
-|---|---|---|
-| **Tiszta víz / oldószer hozzáadása (hígítás)** | $p = 0\%$ | Nem tartalmaz oldott anyagot ($m_{\text{víz}} \cdot 0 = 0$) |
-| **Tiszta só / cukor hozzáadása (töményítés)** | $p = 100\%$ | Csak tiszta oldott anyag ($m_{\text{só}} \cdot 100$) |
-| **Víz elpárologtatása** | $m_{\text{új}} = m_1 - m_{\text{elpárolgott}}$, $p_{\text{víz}} = 0\%$ | A tömeg csökken, a töménység nő |
-
----
-
-## 3. Mintapélda
-
-> *Hány kg 15%-os és hány kg 40%-os sóoldatot kell összekevernünk, hogy 50 kg 30%-os oldatot kapjunk?*
-
-- Legyen az 15%-os oldat tömege $x$ kg.
-- Ekkor a 40%-os oldat tömege $50 - x$ kg.
-- Felírjuk a tiszta só mennyiségét:
-  $$x \cdot 15 + (50 - x) \cdot 40 = 50 \cdot 30$$
-  $$15x + 2000 - 40x = 1500$$
-  $$-25x + 2000 = 1500 \implies 25x = 500 \implies x = 20$$
-- **Válasz:** 20 kg 15%-os és $50 - 20 = 30$ kg 40%-os oldat szükséges.
-- **Ellenőrzés:** $20 \cdot 0{,}15 + 30 \cdot 0{,}40 = 3 + 12 = 15$ kg só. $50 \cdot 0{,}30 = 15$ kg só. Stimmel!
+## Integráció
+- `Grade8View.tsx`: A 3. szekcióban kizárólag **2 kártya** szerepel:
+  1. `Keverési Feladatok Tananyag` (`g8-eq-mixing-theory`)
+  2. `Gyakorló Kvíz` (`g8-eq-mixing`)
+- `MathPage.tsx`: Lazy betöltés, teljes körű oda-vissza navigáció Tananyag és Kvíz között.

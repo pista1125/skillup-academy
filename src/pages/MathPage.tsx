@@ -331,13 +331,34 @@ const Grade8EquationsTheory = lazy(() => import("@/components/math/grade-8/egyen
 const Grade8EquationsQuiz = lazy(() => import("@/components/math/grade-8/egyenletek/egyenletek/EquationsQuiz").then(m => ({ default: m.EquationsQuiz }))) as any;
 const Grade8EquationsMatcher = lazy(() => import("@/components/math/grade-8/egyenletek/egyenletek/EquationsMatcher").then(m => ({ default: m.EquationsMatcher }))) as any;
 const Grade8EquationsSorter = lazy(() => import("@/components/math/grade-8/egyenletek/egyenletek/EquationsSorter").then(m => ({ default: m.EquationsSorter }))) as any;
+const Grade8NumbersAgesTheory = lazy(() => import("@/components/math/grade-8/egyenletek/szoveges-feladatok-szamokrol-eletkorokrol/NumbersAgesTheory").then(m => ({ default: m.NumbersAgesTheory }))) as any;
 const Grade8NumbersAgesQuiz = lazy(() => import("@/components/math/grade-8/egyenletek/szoveges-feladatok-szamokrol-eletkorokrol/NumbersAgesQuiz").then(m => ({ default: m.NumbersAgesQuiz }))) as any;
+const Grade8NumbersAgesMatcher = lazy(() => import("@/components/math/grade-8/egyenletek/szoveges-feladatok-szamokrol-eletkorokrol/NumbersAgesMatcher").then(m => ({ default: m.NumbersAgesMatcher }))) as any;
+const Grade8NumbersAgesSorter = lazy(() => import("@/components/math/grade-8/egyenletek/szoveges-feladatok-szamokrol-eletkorokrol/NumbersAgesSorter").then(m => ({ default: m.NumbersAgesSorter }))) as any;
+const Grade8MixingWordProblemsTheory = lazy(() => import("@/components/math/grade-8/egyenletek/szoveges-feladatok-osszekeveresrol/MixingWordProblemsTheory").then(m => ({ default: m.MixingWordProblemsTheory }))) as any;
 const Grade8MixingWordProblemsQuiz = lazy(() => import("@/components/math/grade-8/egyenletek/szoveges-feladatok-osszekeveresrol/MixingWordProblemsQuiz").then(m => ({ default: m.MixingWordProblemsQuiz }))) as any;
+const Grade8MixingWordProblemsMatcher = lazy(() => import("@/components/math/grade-8/egyenletek/szoveges-feladatok-osszekeveresrol/MixingWordProblemsMatcher").then(m => ({ default: m.MixingWordProblemsMatcher }))) as any;
+const Grade8MixingWordProblemsSorter = lazy(() => import("@/components/math/grade-8/egyenletek/szoveges-feladatok-osszekeveresrol/MixingWordProblemsSorter").then(m => ({ default: m.MixingWordProblemsSorter }))) as any;
+const Grade8MotionWorkProblemsTheory = lazy(() => import("@/components/math/grade-8/egyenletek/szoveges-feladatok-mozgasrol-munkarol/MotionWorkProblemsTheory").then(m => ({ default: m.MotionWorkProblemsTheory }))) as any;
 const Grade8MotionWorkProblemsQuiz = lazy(() => import("@/components/math/grade-8/egyenletek/szoveges-feladatok-mozgasrol-munkarol/MotionWorkProblemsQuiz").then(m => ({ default: m.MotionWorkProblemsQuiz }))) as any;
+const Grade8MotionWorkProblemsMatcher = lazy(() => import("@/components/math/grade-8/egyenletek/szoveges-feladatok-mozgasrol-munkarol/MotionWorkProblemsMatcher").then(m => ({ default: m.MotionWorkProblemsMatcher }))) as any;
+const Grade8MotionWorkProblemsSorter = lazy(() => import("@/components/math/grade-8/egyenletek/szoveges-feladatok-mozgasrol-munkarol/MotionWorkProblemsSorter").then(m => ({ default: m.MotionWorkProblemsSorter }))) as any;
+const Grade8GeometricEquationsTheory = lazy(() => import("@/components/math/grade-8/egyenletek/szoveges-geometriai-feladatok/GeometricEquationsTheory").then(m => ({ default: m.GeometricEquationsTheory }))) as any;
 const Grade8GeometricEquationsQuiz = lazy(() => import("@/components/math/grade-8/egyenletek/szoveges-geometriai-feladatok/GeometricEquationsQuiz").then(m => ({ default: m.GeometricEquationsQuiz }))) as any;
+const Grade8GeometricEquationsMatcher = lazy(() => import("@/components/math/grade-8/egyenletek/szoveges-geometriai-feladatok/GeometricEquationsMatcher").then(m => ({ default: m.GeometricEquationsMatcher }))) as any;
+const Grade8GeometricEquationsSorter = lazy(() => import("@/components/math/grade-8/egyenletek/szoveges-geometriai-feladatok/GeometricEquationsSorter").then(m => ({ default: m.GeometricEquationsSorter }))) as any;
+const Grade8MixedWordProblemsTheory = lazy(() => import("@/components/math/grade-8/egyenletek/vegyes-feladatok/MixedWordProblemsTheory").then(m => ({ default: m.MixedWordProblemsTheory }))) as any;
 const Grade8MixedWordProblemsQuiz = lazy(() => import("@/components/math/grade-8/egyenletek/vegyes-feladatok/MixedWordProblemsQuiz").then(m => ({ default: m.MixedWordProblemsQuiz }))) as any;
+const Grade8MixedWordProblemsMatcher = lazy(() => import("@/components/math/grade-8/egyenletek/vegyes-feladatok/MixedWordProblemsMatcher").then(m => ({ default: m.MixedWordProblemsMatcher }))) as any;
+const Grade8MixedWordProblemsSorter = lazy(() => import("@/components/math/grade-8/egyenletek/vegyes-feladatok/MixedWordProblemsSorter").then(m => ({ default: m.MixedWordProblemsSorter }))) as any;
+const Grade8FinancialProblemsTheory = lazy(() => import("@/components/math/grade-8/egyenletek/penzugyi-feladatok/FinancialProblemsTheory").then(m => ({ default: m.FinancialProblemsTheory }))) as any;
 const Grade8FinancialProblemsQuiz = lazy(() => import("@/components/math/grade-8/egyenletek/penzugyi-feladatok/FinancialProblemsQuiz").then(m => ({ default: m.FinancialProblemsQuiz }))) as any;
+const Grade8FinancialProblemsMatcher = lazy(() => import("@/components/math/grade-8/egyenletek/penzugyi-feladatok/FinancialProblemsMatcher").then(m => ({ default: m.FinancialProblemsMatcher }))) as any;
+const Grade8FinancialProblemsSorter = lazy(() => import("@/components/math/grade-8/egyenletek/penzugyi-feladatok/FinancialProblemsSorter").then(m => ({ default: m.FinancialProblemsSorter }))) as any;
+const Grade8Chapter3EquationsSummaryTheory = lazy(() => import("@/components/math/grade-8/egyenletek/osszefoglalas/Chapter3EquationsSummaryTheory").then(m => ({ default: m.Chapter3EquationsSummaryTheory }))) as any;
 const Grade8Chapter3EquationsSummaryQuiz = lazy(() => import("@/components/math/grade-8/egyenletek/osszefoglalas/Chapter3EquationsSummaryQuiz").then(m => ({ default: m.Chapter3EquationsSummaryQuiz }))) as any;
+const Grade8Chapter3EquationsSummaryMatcher = lazy(() => import("@/components/math/grade-8/egyenletek/osszefoglalas/Chapter3EquationsSummaryMatcher").then(m => ({ default: m.Chapter3EquationsSummaryMatcher }))) as any;
+const Grade8Chapter3EquationsSummarySorter = lazy(() => import("@/components/math/grade-8/egyenletek/osszefoglalas/Chapter3EquationsSummarySorter").then(m => ({ default: m.Chapter3EquationsSummarySorter }))) as any;
 const Grade8ConstructionsMeasurementsQuiz = lazy(() => import("@/components/math/grade-8/pitagorasz-tetel/szerkesztesek-meresek/ConstructionsMeasurementsQuiz").then(m => ({ default: m.ConstructionsMeasurementsQuiz }))) as any;
 const Grade8PythagorasTheoremQuiz = lazy(() => import("@/components/math/grade-8/pitagorasz-tetel/a-pitagorasz-tetel/PythagorasTheoremQuiz").then(m => ({ default: m.PythagorasTheoremQuiz }))) as any;
 const Grade8ConversePythagorasQuiz = lazy(() => import("@/components/math/grade-8/pitagorasz-tetel/a-pitagorasz-tetel-megforditasa/ConversePythagorasQuiz").then(m => ({ default: m.ConversePythagorasQuiz }))) as any;
@@ -640,7 +661,7 @@ type ActivityType =
   | 'g8-algebra' | 'g8-equation-balance' | 'g8-word-problems-module' | 'g8-word-problems-quiz'
   | 'g8-logic' | 'g8-set-basics' | 'g8-set-operations' | 'g8-rational-set' | 'g8-rational-operations' | 'g8-powers' | 'g8-sqrt-concept' | 'g8-square-roots' | 'g8-algebra-intro' | 'g8-factoring' | 'g8-polynomial-mult' | 'g8-chapter1-summary'
   | 'g8-geom-congruence' | 'g8-geom-transforms' | 'g8-geom-software' | 'g8-geom-similarity' | 'g8-geom-central-similarity' | 'g8-geom-central-similarity-theory' | 'g8-geom-central-similarity-quiz' | 'g8-geom-central-similarity-matcher' | 'g8-geom-central-similarity-sorter' | 'g8-geom-constructions' | 'g8-geom-constructions-theory' | 'g8-geom-constructions-quiz' | 'g8-geom-constructions-matcher' | 'g8-geom-constructions-sorter' | 'g8-geom-summary' | 'g8-geom-summary-theory' | 'g8-geom-summary-quiz' | 'g8-geom-summary-matcher' | 'g8-geom-summary-sorter'
-  | 'g8-eq-basic' | 'g8-eq-basic-theory' | 'g8-eq-basic-quiz' | 'g8-eq-basic-matcher' | 'g8-eq-basic-sorter' | 'g8-eq-numbers-ages' | 'g8-eq-mixing' | 'g8-eq-motion-work' | 'g8-eq-geometry' | 'g8-eq-mixed' | 'g8-eq-financial' | 'g8-eq-summary'
+  | 'g8-eq-basic' | 'g8-eq-basic-theory' | 'g8-eq-basic-quiz' | 'g8-eq-basic-matcher' | 'g8-eq-basic-sorter' | 'g8-eq-numbers-ages' | 'g8-eq-numbers-ages-theory' | 'g8-eq-numbers-ages-quiz' | 'g8-eq-numbers-ages-matcher' | 'g8-eq-numbers-ages-sorter' | 'g8-eq-mixing' | 'g8-eq-mixing-theory' | 'g8-eq-mixing-quiz' | 'g8-eq-mixing-matcher' | 'g8-eq-mixing-sorter' | 'g8-eq-motion-work' | 'g8-eq-motion-work-theory' | 'g8-eq-motion-work-quiz' | 'g8-eq-motion-work-matcher' | 'g8-eq-motion-work-sorter' | 'g8-eq-geometry' | 'g8-eq-geometry-theory' | 'g8-eq-geometry-quiz' | 'g8-eq-geometry-matcher' | 'g8-eq-geometry-sorter' | 'g8-eq-mixed' | 'g8-eq-mixed-theory' | 'g8-eq-mixed-quiz' | 'g8-eq-mixed-matcher' | 'g8-eq-mixed-sorter' | 'g8-eq-financial' | 'g8-eq-financial-theory' | 'g8-eq-financial-quiz' | 'g8-eq-financial-matcher' | 'g8-eq-financial-sorter' | 'g8-eq-summary' | 'g8-eq-summary-theory' | 'g8-eq-summary-quiz' | 'g8-eq-summary-matcher' | 'g8-eq-summary-sorter'
   | 'g8-pyth-constructions' | 'g8-pyth-theorem' | 'g8-pyth-converse' | 'g8-pyth-applications' | 'g8-pyth-calculator' | 'g8-pyth-special-triangles' | 'g8-pyth-summary'
   | 'g8-func-direct' | 'g8-func-graphs' | 'g8-func-inverse' | 'g8-func-reading' | 'g8-func-plotting' | 'g8-func-frequency' | 'g8-func-game' | 'g8-func-prob-basics' | 'g8-func-prob-problems' | 'g8-func-patterns' | 'g8-func-sequences' | 'g8-func-summary'
   | 'g8-solids-review' | 'g8-solids-pyramids-intro' | 'g8-solids-pyramids-calc' | 'g8-solids-sphere' | 'g8-solids-earth' | 'g8-solids-summary'
@@ -6114,32 +6135,214 @@ export default function MathPage() {
                   <Grade8EquationBalanceQuiz onBack={handleBack} />
                 )}
 
-                {activityType === 'g8-eq-numbers-ages' && (
-                  <Grade8NumbersAgesQuiz onBack={handleBack} />
+                {activityType === 'g8-eq-numbers-ages-theory' && (
+                  <Grade8NumbersAgesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-eq-numbers-ages', selectedTopic || 'g8-equations')}
+                  />
                 )}
 
-                {activityType === 'g8-eq-mixing' && (
-                  <Grade8MixingWordProblemsQuiz onBack={handleBack} />
+                {(activityType === 'g8-eq-numbers-ages' || activityType === 'g8-eq-numbers-ages-quiz') && (
+                  <Grade8NumbersAgesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-eq-numbers-ages-theory', selectedTopic || 'g8-equations')}
+                  />
                 )}
 
-                {activityType === 'g8-eq-motion-work' && (
-                  <Grade8MotionWorkProblemsQuiz onBack={handleBack} />
+                {activityType === 'g8-eq-numbers-ages-matcher' && (
+                  <Grade8NumbersAgesMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-eq-numbers-ages', selectedTopic || 'g8-equations')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-eq-numbers-ages-theory', selectedTopic || 'g8-equations')}
+                  />
                 )}
 
-                {activityType === 'g8-eq-geometry' && (
-                  <Grade8GeometricEquationsQuiz onBack={handleBack} />
+                {activityType === 'g8-eq-numbers-ages-sorter' && (
+                  <Grade8NumbersAgesSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-eq-numbers-ages', selectedTopic || 'g8-equations')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-eq-numbers-ages-theory', selectedTopic || 'g8-equations')}
+                  />
                 )}
 
-                {activityType === 'g8-eq-mixed' && (
-                  <Grade8MixedWordProblemsQuiz onBack={handleBack} />
+                {activityType === 'g8-eq-mixing-theory' && (
+                  <Grade8MixingWordProblemsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-eq-mixing', selectedTopic || 'g8-equations')}
+                  />
                 )}
 
-                {activityType === 'g8-eq-financial' && (
-                  <Grade8FinancialProblemsQuiz onBack={handleBack} />
+                {(activityType === 'g8-eq-mixing' || activityType === 'g8-eq-mixing-quiz') && (
+                  <Grade8MixingWordProblemsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-eq-mixing-theory', selectedTopic || 'g8-equations')}
+                  />
                 )}
 
-                {activityType === 'g8-eq-summary' && (
-                  <Grade8Chapter3EquationsSummaryQuiz onBack={handleBack} />
+                {activityType === 'g8-eq-mixing-matcher' && (
+                  <Grade8MixingWordProblemsMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-eq-mixing', selectedTopic || 'g8-equations')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-eq-mixing-theory', selectedTopic || 'g8-equations')}
+                  />
+                )}
+
+                {activityType === 'g8-eq-mixing-sorter' && (
+                  <Grade8MixingWordProblemsSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-eq-mixing', selectedTopic || 'g8-equations')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-eq-mixing-theory', selectedTopic || 'g8-equations')}
+                  />
+                )}
+
+                {activityType === 'g8-eq-motion-work-theory' && (
+                  <Grade8MotionWorkProblemsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-eq-motion-work', selectedTopic || 'g8-equations')}
+                  />
+                )}
+
+                {(activityType === 'g8-eq-motion-work' || activityType === 'g8-eq-motion-work-quiz') && (
+                  <Grade8MotionWorkProblemsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-eq-motion-work-theory', selectedTopic || 'g8-equations')}
+                  />
+                )}
+
+                {activityType === 'g8-eq-motion-work-matcher' && (
+                  <Grade8MotionWorkProblemsMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-eq-motion-work', selectedTopic || 'g8-equations')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-eq-motion-work-theory', selectedTopic || 'g8-equations')}
+                  />
+                )}
+
+                {activityType === 'g8-eq-motion-work-sorter' && (
+                  <Grade8MotionWorkProblemsSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-eq-motion-work', selectedTopic || 'g8-equations')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-eq-motion-work-theory', selectedTopic || 'g8-equations')}
+                  />
+                )}
+
+                {activityType === 'g8-eq-geometry-theory' && (
+                  <Grade8GeometricEquationsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-eq-geometry', selectedTopic || 'g8-equations')}
+                  />
+                )}
+
+                {(activityType === 'g8-eq-geometry' || activityType === 'g8-eq-geometry-quiz') && (
+                  <Grade8GeometricEquationsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-eq-geometry-theory', selectedTopic || 'g8-equations')}
+                  />
+                )}
+
+                {activityType === 'g8-eq-geometry-matcher' && (
+                  <Grade8GeometricEquationsMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-eq-geometry', selectedTopic || 'g8-equations')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-eq-geometry-theory', selectedTopic || 'g8-equations')}
+                  />
+                )}
+
+                {activityType === 'g8-eq-geometry-sorter' && (
+                  <Grade8GeometricEquationsSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-eq-geometry', selectedTopic || 'g8-equations')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-eq-geometry-theory', selectedTopic || 'g8-equations')}
+                  />
+                )}
+
+                {activityType === 'g8-eq-mixed-theory' && (
+                  <Grade8MixedWordProblemsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-eq-mixed', selectedTopic || 'g8-equations')}
+                  />
+                )}
+
+                {(activityType === 'g8-eq-mixed' || activityType === 'g8-eq-mixed-quiz') && (
+                  <Grade8MixedWordProblemsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-eq-mixed-theory', selectedTopic || 'g8-equations')}
+                  />
+                )}
+
+                {activityType === 'g8-eq-mixed-matcher' && (
+                  <Grade8MixedWordProblemsMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-eq-mixed', selectedTopic || 'g8-equations')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-eq-mixed-theory', selectedTopic || 'g8-equations')}
+                  />
+                )}
+
+                {activityType === 'g8-eq-mixed-sorter' && (
+                  <Grade8MixedWordProblemsSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-eq-mixed', selectedTopic || 'g8-equations')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-eq-mixed-theory', selectedTopic || 'g8-equations')}
+                  />
+                )}
+
+                {activityType === 'g8-eq-financial-theory' && (
+                  <Grade8FinancialProblemsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-eq-financial', selectedTopic || 'g8-equations')}
+                  />
+                )}
+
+                {(activityType === 'g8-eq-financial' || activityType === 'g8-eq-financial-quiz') && (
+                  <Grade8FinancialProblemsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-eq-financial-theory', selectedTopic || 'g8-equations')}
+                  />
+                )}
+
+                {activityType === 'g8-eq-financial-matcher' && (
+                  <Grade8FinancialProblemsMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-eq-financial', selectedTopic || 'g8-equations')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-eq-financial-theory', selectedTopic || 'g8-equations')}
+                  />
+                )}
+
+                {activityType === 'g8-eq-financial-sorter' && (
+                  <Grade8FinancialProblemsSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-eq-financial', selectedTopic || 'g8-equations')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-eq-financial-theory', selectedTopic || 'g8-equations')}
+                  />
+                )}
+
+                {activityType === 'g8-eq-summary-theory' && (
+                  <Grade8Chapter3EquationsSummaryTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-eq-summary', selectedTopic || 'g8-equations')}
+                  />
+                )}
+
+                {(activityType === 'g8-eq-summary' || activityType === 'g8-eq-summary-quiz') && (
+                  <Grade8Chapter3EquationsSummaryQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-eq-summary-theory', selectedTopic || 'g8-equations')}
+                  />
+                )}
+
+                {activityType === 'g8-eq-summary-matcher' && (
+                  <Grade8Chapter3EquationsSummaryMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-eq-summary', selectedTopic || 'g8-equations')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-eq-summary-theory', selectedTopic || 'g8-equations')}
+                  />
+                )}
+
+                {activityType === 'g8-eq-summary-sorter' && (
+                  <Grade8Chapter3EquationsSummarySorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-eq-summary', selectedTopic || 'g8-equations')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-eq-summary-theory', selectedTopic || 'g8-equations')}
+                  />
                 )}
 
                 {activityType === 'g8-word-problems-module' && (

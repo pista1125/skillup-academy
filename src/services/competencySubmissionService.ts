@@ -8,10 +8,11 @@ import {
   updateDoc, 
   deleteDoc, 
   query, 
+  where,
   orderBy, 
-  Timestamp,
-  onSnapshot,
-  Unsubscribe
+  Timestamp, 
+  onSnapshot, 
+  Unsubscribe 
 } from 'firebase/firestore';
 
 export interface CompetencyAnswerItem {
@@ -338,3 +339,138 @@ export async function getCompetencySubmissionById(
     throw error;
   }
 }
+
+/**
+ * Real-time subscription to a student's own competency practice test submissions.
+ */
+export function subscribeStudentCompetencySubmissions(
+  userId: string,
+  onData: (submissions: CompetencyTestSubmission[]) => void,
+  onError?: (error: Error) => void
+): Unsubscribe {
+  const colRef = collection(db, COLLECTION_NAME);
+  const q = query(colRef, where('userId', '==', userId));
+
+  return onSnapshot(
+    q,
+    (snapshot) => {
+      const submissions: CompetencyTestSubmission[] = [];
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        const answers = data.answers || {};
+        const answeredCount = data.answeredCount !== undefined 
+          ? data.answeredCount 
+          : Object.keys(answers).length;
+
+        submissions.push({
+          id: docSnap.id,
+          userId: data.userId || '',
+          studentName: data.studentName || 'Névtelen Diák',
+          studentEmail: data.studentEmail || '',
+          testId: data.testId || '',
+          testTitle: data.testTitle || '',
+          startedAt: data.startedAt || '',
+          completedAt: data.completedAt || '',
+          lastActiveAt: data.lastActiveAt || data.completedAt || data.startedAt || '',
+          status: data.status === 'in_progress' ? 'in_progress' : 'completed',
+          durationSeconds: data.durationSeconds || 0,
+          timeLimitMinutes: data.timeLimitMinutes || 45,
+          score: data.score || 0,
+          answeredCount,
+          totalTasks: data.totalTasks || 31,
+          percentage: data.percentage || 0,
+          breakdownByArea: data.breakdownByArea || {
+            M: { total: 0, correct: 0 },
+            H: { total: 0, correct: 0 },
+            A: { total: 0, correct: 0 },
+            S: { total: 0, correct: 0 }
+          },
+          breakdownByLevel: data.breakdownByLevel || {
+            T: { total: 0, correct: 0 },
+            A: { total: 0, correct: 0 },
+            K: { total: 0, correct: 0 }
+          },
+          answers,
+          createdAt: data.createdAt
+        });
+      });
+
+      // Sort client-side: newest first
+      submissions.sort((a, b) => {
+        const timeA = a.createdAt?.toDate?.()?.getTime() || (a.startedAt ? new Date(a.startedAt).getTime() : 0);
+        const timeB = b.createdAt?.toDate?.()?.getTime() || (b.startedAt ? new Date(b.startedAt).getTime() : 0);
+        return timeB - timeA;
+      });
+
+      onData(submissions);
+    },
+    (error) => {
+      console.error('Error in student competency submissions subscription:', error);
+      if (onError) onError(error);
+    }
+  );
+}
+
+/**
+ * Fetches all competency practice test submissions for a specific student.
+ */
+export async function getStudentCompetencySubmissions(userId: string): Promise<CompetencyTestSubmission[]> {
+  try {
+    const colRef = collection(db, COLLECTION_NAME);
+    const q = query(colRef, where('userId', '==', userId));
+    const snapshot = await getDocs(q);
+
+    const submissions: CompetencyTestSubmission[] = [];
+    snapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      const answers = data.answers || {};
+      const answeredCount = data.answeredCount !== undefined 
+        ? data.answeredCount 
+        : Object.keys(answers).length;
+
+      submissions.push({
+        id: docSnap.id,
+        userId: data.userId || '',
+        studentName: data.studentName || 'Névtelen Diák',
+        studentEmail: data.studentEmail || '',
+        testId: data.testId || '',
+        testTitle: data.testTitle || '',
+        startedAt: data.startedAt || '',
+        completedAt: data.completedAt || '',
+        lastActiveAt: data.lastActiveAt || data.completedAt || data.startedAt || '',
+        status: data.status === 'in_progress' ? 'in_progress' : 'completed',
+        durationSeconds: data.durationSeconds || 0,
+        timeLimitMinutes: data.timeLimitMinutes || 45,
+        score: data.score || 0,
+        answeredCount,
+        totalTasks: data.totalTasks || 31,
+        percentage: data.percentage || 0,
+        breakdownByArea: data.breakdownByArea || {
+          M: { total: 0, correct: 0 },
+          H: { total: 0, correct: 0 },
+          A: { total: 0, correct: 0 },
+          S: { total: 0, correct: 0 }
+        },
+        breakdownByLevel: data.breakdownByLevel || {
+          T: { total: 0, correct: 0 },
+          A: { total: 0, correct: 0 },
+          K: { total: 0, correct: 0 }
+        },
+        answers,
+        createdAt: data.createdAt
+      });
+    });
+
+    submissions.sort((a, b) => {
+      const timeA = a.createdAt?.toDate?.()?.getTime() || (a.startedAt ? new Date(a.startedAt).getTime() : 0);
+      const timeB = b.createdAt?.toDate?.()?.getTime() || (b.startedAt ? new Date(b.startedAt).getTime() : 0);
+      return timeB - timeA;
+    });
+
+    return submissions;
+  } catch (error) {
+    console.error('Error fetching student competency submissions:', error);
+    throw error;
+  }
+}
+

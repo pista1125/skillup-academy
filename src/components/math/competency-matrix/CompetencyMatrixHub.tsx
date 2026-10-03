@@ -2,7 +2,9 @@ import React, { useMemo, useState, useEffect, useRef } from 'react';
 import TaskCard from './TaskCard';
 import PracticeTests from './PracticeTests';
 import TeacherTestResultsView from './TeacherTestResultsView';
+import StudentTestResultsView from './StudentTestResultsView';
 import { useAuth } from '@/contexts/AuthContext';
+import { subscribeStudentCompetencySubmissions } from '@/services/competencySubmissionService';
 import { CONTENT_AREAS, THINKING_LEVELS } from './taxonomy';
 import { ALL_TASKS } from './loader';
 import '@/styles/competency-matrix.css';
@@ -14,10 +16,24 @@ export default function CompetencyMatrixHub({ onBack }: { onBack: () => void }) 
 
   const [tasks] = useState(ALL_TASKS);
   const taxonomy = { contentAreas: CONTENT_AREAS, thinkingLevels: THINKING_LEVELS };
-  const [view, setView] = useState('browse'); // 'browse' | 'practice' | 'results'
+  const [view, setView] = useState('browse'); // 'browse' | 'practice' | 'results' | 'my-results'
+  const [selectedPracticeTestId, setSelectedPracticeTestId] = useState<string | null>(null);
+  const [mySubmissionsCount, setMySubmissionsCount] = useState<number>(0);
   const [contentFilter, setContentFilter] = useState<string | null>(null);
   const [thinkingFilter, setThinkingFilter] = useState<string | null>(null);
   const [search, setSearch] = useState('');
+
+  // Subscribe to student's own submissions count in real time
+  useEffect(() => {
+    if (!user) {
+      setMySubmissionsCount(0);
+      return;
+    }
+    const unsubscribe = subscribeStudentCompetencySubmissions(user.uid, (data) => {
+      setMySubmissionsCount(data.length);
+    });
+    return () => unsubscribe();
+  }, [user]);
   
   // Sidebar state
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -126,7 +142,10 @@ export default function CompetencyMatrixHub({ onBack }: { onBack: () => void }) 
           </button>
           <button
             className={`filter-chip ${view === 'practice' ? 'active' : ''}`}
-            onClick={() => setView('practice')}
+            onClick={() => {
+              setSelectedPracticeTestId(null);
+              setView('practice');
+            }}
           >
             <span>📝 Próbamérések</span>
             <span className="count">10</span>
@@ -140,6 +159,15 @@ export default function CompetencyMatrixHub({ onBack }: { onBack: () => void }) 
               <span className="count" style={{ background: '#2563eb', color: '#fff', fontSize: 10, padding: '1px 6px', borderRadius: 4 }}>Tanár</span>
             </button>
           )}
+          <button
+            className={`filter-chip ${view === 'my-results' ? 'active' : ''}`}
+            onClick={() => setView('my-results')}
+          >
+            <span>{isTeacher ? '📈 Saját Eredményeim' : '📊 Eredményeim'}</span>
+            {mySubmissionsCount > 0 && (
+              <span className="count">{mySubmissionsCount}</span>
+            )}
+          </button>
         </div>
 
         {view === 'browse' && (
@@ -252,12 +280,21 @@ export default function CompetencyMatrixHub({ onBack }: { onBack: () => void }) 
 
         {view === 'results' ? (
           <TeacherTestResultsView onBackToBrowse={() => setView('browse')} />
+        ) : view === 'my-results' ? (
+          <StudentTestResultsView 
+            onBackToBrowse={() => setView('browse')}
+            onSelectPractice={(testId) => {
+              setSelectedPracticeTestId(testId || 'PM-01');
+              setView('practice');
+            }}
+          />
         ) : view === 'practice' ? (
           <PracticeTests 
             contentAreas={contentAreas} 
             thinkingLevels={thinkingLevels} 
             isFullscreen={isFullscreen}
             toggleFullscreen={toggleFullscreen}
+            initialTestId={selectedPracticeTestId}
           />
         ) : (<>
         <header className="main-header" style={{ paddingLeft: !isSidebarOpen ? 80 : 0 }}>
