@@ -9,12 +9,11 @@ Ebben a mappában találhatók a 8. osztályos matematika interaktív moduljai, 
   1. Egybevágósági transzformációk (ismétlés), 2. Transzformációk, 3. Használjunk szerkesztőprogramot!, 4. Hasonlóság, 5. A középpontos hasonlóság, 6. Szerkesztések, 7. Összefoglalás
 - [**`egyenletek/`**](./egyenletek/README.md): **III. Egyenletek** (8 altéma lecke)
   1. Egyenletek, 2. Szöveges feladatok számokról, életkorokról, 3. Szöveges feladatok összekeverésről, 4. Szöveges feladatok mozgásról, munkáról, 5. Szöveges geometriai feladatok, 6. Vegyes feladatok, 7. Pénzügyi feladatok, 8. Összefoglalás
-- `keszuljunk-a-felvetelire`: IV. Készüljünk a felvételire! (központi felvételi típusfeladatok)
-- [**`pitagorasz-tetel/`**](./pitagorasz-tetel/README.md): **V. A Pitagorasz-tétel és alkalmazásai** (7 altéma lecke)
+- [**`pitagorasz-tetel/`**](./pitagorasz-tetel/README.md): **IV. A Pitagorasz-tétel és alkalmazásai** (7 altéma lecke)
   1. Szerkesztések, mérések, 2. A Pitagorasz-tétel, 3. A Pitagorasz-tétel megfordítása, 4. A Pitagorasz-tétel alkalmazása, 5. Számológép & Projektmunka, 6. Nevezetes derékszögű háromszögek, 7. Összefoglalás
-- [**`hozzarendelesek-valoszinuseg-sorozatok/`**](./hozzarendelesek-valoszinuseg-sorozatok/README.md): **VI. Hozzárendelések, valószínűségek, sorozatok** (12 altéma lecke)
+- [**`hozzarendelesek-valoszinuseg-sorozatok/`**](./hozzarendelesek-valoszinuseg-sorozatok/README.md): **V. Hozzárendelések, valószínűségek, sorozatok** (12 altéma lecke)
   1. Egyenes arányosság, 2. Hozzárendelések és grafikonjaik, 3. Fordított arányosság, 4. Olvassunk a grafikonról!, 5. Készítsünk grafikont!, 6. Gyakoriság, relatív gyakoriság, átlag, 7. Játék, 8. Valószínűség, 9. Valószínűségszámítási feladatok, 10. Keressünk összefüggéseket!, 11. Sorozatok, 12. Összefoglalás
-- [**`testek/`**](./testek/README.md): **VII. Testek** (6 altéma lecke)
+- [**`testek/`**](./testek/README.md): **VI. Testek** (6 altéma lecke)
   1. Mit tanultunk eddig? (ismétlés), 2. Gúlák, 3. A gúla felszíne és térfogata, 4. A gömb, 5. A Föld, 6. Összefoglalás
-- `ev-vegi-ismetles`: VIII. Év végi ismétlés és rendszerezés
+- `ev-vegi-ismetles`: VII. Év végi ismétlés és rendszerezés
 - `tananyagok`: Tankönyvek és munkafüzetek forrásai (OH-MAT08TA, OH-MAT08MA)

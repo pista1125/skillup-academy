@@ -1093,10 +1093,6 @@ export function getGradeSubsections(
         { id: 'g8-sec-eq-penzugy', label: '7. Pénzügyi feladatok' },
         { id: 'g8-sec-eq-osszefoglalas', label: '8. Összefoglalás' }
       ];
-    } else if (t.id === 'g8-admissions-prep') {
-      subsections = [
-        { id: 'g8-prep-word', label: '1. Szöveges & felvételi feladatok' }
-      ];
     } else if (t.id === 'g8-pythagoras') {
       subsections = [
         { id: 'g8-sec-pyth-szerkesztes', label: '1. Szerkesztések, mérések' },

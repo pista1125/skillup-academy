@@ -867,34 +867,6 @@ export const Grade8View: React.FC<GradeViewProps> = ({
       );
     }
 
-    if (topicId === 'g8-admissions-prep') {
-      return (
-        <div className="flex flex-col gap-10 py-6">
-          <section>
-            <SectionHeader id="g8-prep-word" number={1} title="Felvételi felkészítő & Szöveges feladatok" color="rose" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Szöveges Feladatok Modul"
-                subtitle="Komplex felvételi típusfeladatok"
-                type="Modul"
-                onClick={() => onActivitySelect('g8-word-problems-module', topicId)}
-                icon={<BookOpen className="w-6 h-6" />}
-                color="rose"
-              />
-              <ActivityPlaceholder
-                title="Gyakorló Kvíz"
-                subtitle="Szöveges és logikai feladványok"
-                type="Kvíz"
-                onClick={() => onActivitySelect('g8-word-problems-quiz', topicId)}
-                icon={<CheckCircle2 className="w-6 h-6" />}
-                color="emerald"
-              />
-            </div>
-          </section>
-        </div>
-      );
-    }
-
     if (topicId === 'g8-pythagoras') {
       const showAll = !activeSubSectionId;
       return (

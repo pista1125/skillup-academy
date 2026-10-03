@@ -595,16 +595,8 @@ export const mathTopics: MathTopic[] = [
     grades: [8],
   },
   {
-    id: 'g8-admissions-prep',
-    title: 'IV. KÉSZÜLJÜNK A FELVÉTELIRE!',
-    description: 'Középiskolai felvételi feladatsorok, típusfeladatok, stratégia és kompetenciafejlesztés',
-    icon: '🎯',
-    color: 'from-rose-500 to-red-600',
-    grades: [8],
-  },
-  {
     id: 'g8-pythagoras',
-    title: 'V. A PITAGORASZ-TÉTEL',
+    title: 'IV. A PITAGORASZ-TÉTEL',
     description: 'Szerkesztések, a Pitagorasz-tétel és megfordítása, síkbeli alkalmazások, számológép és nevezetes háromszögek',
     icon: '📐',
     color: 'from-amber-500 to-orange-600',
@@ -612,7 +604,7 @@ export const mathTopics: MathTopic[] = [
   },
   {
     id: 'g8-functions-probability-sequences',
-    title: 'VI. HOZZÁRENDELÉSEK, VALÓSZÍNŰSÉGEK, SOROZATOK',
+    title: 'V. HOZZÁRENDELÉSEK, VALÓSZÍNŰSÉGEK, SOROZATOK',
     description: 'Egyenes és fordított arányosság, függvénygrafikonok, statisztika, valószínűségszámítás és számsorozatok',
     icon: '📈',
     color: 'from-cyan-500 to-blue-500',
@@ -620,7 +612,7 @@ export const mathTopics: MathTopic[] = [
   },
   {
     id: 'g8-solids',
-    title: 'VII. TESTEK',
+    title: 'VI. TESTEK',
     description: 'Hasábok, hengerek, gúlák felszíne és térfogata, a gömb geometriája és a Föld modellje',
     icon: '📦',
     color: 'from-indigo-500 to-violet-600',
@@ -628,7 +620,7 @@ export const mathTopics: MathTopic[] = [
   },
   {
     id: 'g8-year-end-review',
-    title: 'VIII. ÉV VÉGI ISMÉTLÉS',
+    title: 'VII. ÉV VÉGI ISMÉTLÉS',
     description: 'A 8. osztályos és az általános iskolai tananyag átfogó összefoglalása',
     icon: '🏆',
     color: 'from-yellow-500 to-amber-600',

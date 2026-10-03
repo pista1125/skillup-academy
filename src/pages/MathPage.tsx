@@ -296,8 +296,6 @@ const HanoiGame = lazy(() => import("@/components/math/games/hanoi/HanoiGame")) 
 const TorpedoGame = lazy(() => import("@/components/math/games/torpedo/TorpedoGame")) as any;
 const TowerBuilderGame = lazy(() => import("@/components/math/games/toronyepites/TowerBuilderGame").then(m => ({ default: m.TowerBuilderGame }))) as any;
 const ParallelogramAreaQuiz = lazy(() => import("@/components/math/grade-7/geometria/ParallelogramAreaQuiz").then(m => ({ default: m.ParallelogramAreaQuiz }))) as any;
-const Grade8WordProblemsModule = lazy(() => import("@/components/math/grade-8/keszuljunk-a-felvetelire/WordProblemsModule").then(m => ({ default: m.WordProblemsModule }))) as any;
-const Grade8WordProblemsQuiz = lazy(() => import("@/components/math/grade-8/keszuljunk-a-felvetelire/WordProblemsQuiz").then(m => ({ default: m.WordProblemsQuiz }))) as any;
 const Grade8CongruenceTransformTheory = lazy(() => import("@/components/math/grade-8/geometria/egybevagosagi-transzformaciok-ismetles/CongruenceTransformTheory").then(m => ({ default: m.CongruenceTransformTheory }))) as any;
 const Grade8CongruenceTransformQuiz = lazy(() => import("@/components/math/grade-8/geometria/egybevagosagi-transzformaciok-ismetles/CongruenceTransformQuiz").then(m => ({ default: m.CongruenceTransformQuiz }))) as any;
 const Grade8CongruenceTransformMatcher = lazy(() => import("@/components/math/grade-8/geometria/egybevagosagi-transzformaciok-ismetles/CongruenceTransformMatcher").then(m => ({ default: m.CongruenceTransformMatcher }))) as any;
@@ -658,7 +656,7 @@ type ActivityType =
   | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search' | 'memory-game' | 'equation-balance-quiz'
   | 'ratio-intro' | 'ratio-creator' | 'g7-word-problems' | 'direct-proportion-quiz' | 'matrix-sorting-game'
   | 'toto-maker' | 'chess-game' | 'torpedo-game' | 'matching-creator' | 'unit-converter' | 'capacity-converter' | 'analog-clock'
-  | 'g8-algebra' | 'g8-equation-balance' | 'g8-word-problems-module' | 'g8-word-problems-quiz'
+  | 'g8-algebra' | 'g8-equation-balance'
   | 'g8-logic' | 'g8-set-basics' | 'g8-set-operations' | 'g8-rational-set' | 'g8-rational-operations' | 'g8-powers' | 'g8-sqrt-concept' | 'g8-square-roots' | 'g8-algebra-intro' | 'g8-factoring' | 'g8-polynomial-mult' | 'g8-chapter1-summary'
   | 'g8-geom-congruence' | 'g8-geom-transforms' | 'g8-geom-software' | 'g8-geom-similarity' | 'g8-geom-central-similarity' | 'g8-geom-central-similarity-theory' | 'g8-geom-central-similarity-quiz' | 'g8-geom-central-similarity-matcher' | 'g8-geom-central-similarity-sorter' | 'g8-geom-constructions' | 'g8-geom-constructions-theory' | 'g8-geom-constructions-quiz' | 'g8-geom-constructions-matcher' | 'g8-geom-constructions-sorter' | 'g8-geom-summary' | 'g8-geom-summary-theory' | 'g8-geom-summary-quiz' | 'g8-geom-summary-matcher' | 'g8-geom-summary-sorter'
   | 'g8-eq-basic' | 'g8-eq-basic-theory' | 'g8-eq-basic-quiz' | 'g8-eq-basic-matcher' | 'g8-eq-basic-sorter' | 'g8-eq-numbers-ages' | 'g8-eq-numbers-ages-theory' | 'g8-eq-numbers-ages-quiz' | 'g8-eq-numbers-ages-matcher' | 'g8-eq-numbers-ages-sorter' | 'g8-eq-mixing' | 'g8-eq-mixing-theory' | 'g8-eq-mixing-quiz' | 'g8-eq-mixing-matcher' | 'g8-eq-mixing-sorter' | 'g8-eq-motion-work' | 'g8-eq-motion-work-theory' | 'g8-eq-motion-work-quiz' | 'g8-eq-motion-work-matcher' | 'g8-eq-motion-work-sorter' | 'g8-eq-geometry' | 'g8-eq-geometry-theory' | 'g8-eq-geometry-quiz' | 'g8-eq-geometry-matcher' | 'g8-eq-geometry-sorter' | 'g8-eq-mixed' | 'g8-eq-mixed-theory' | 'g8-eq-mixed-quiz' | 'g8-eq-mixed-matcher' | 'g8-eq-mixed-sorter' | 'g8-eq-financial' | 'g8-eq-financial-theory' | 'g8-eq-financial-quiz' | 'g8-eq-financial-matcher' | 'g8-eq-financial-sorter' | 'g8-eq-summary' | 'g8-eq-summary-theory' | 'g8-eq-summary-quiz' | 'g8-eq-summary-matcher' | 'g8-eq-summary-sorter'
@@ -6343,14 +6341,6 @@ export default function MathPage() {
                     onSwitchToQuiz={() => handleActivitySelect('g8-eq-summary', selectedTopic || 'g8-equations')}
                     onSwitchToTheory={() => handleActivitySelect('g8-eq-summary-theory', selectedTopic || 'g8-equations')}
                   />
-                )}
-
-                {activityType === 'g8-word-problems-module' && (
-                  <Grade8WordProblemsModule onBack={handleBack} />
-                )}
-
-                {activityType === 'g8-word-problems-quiz' && (
-                  <Grade8WordProblemsQuiz onBack={handleBack} />
                 )}
 
                 {activityType === 'g8-pyth-constructions' && (
