@@ -19,89 +19,240 @@ export interface SqrtProps {
   size?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
+export const UNICODE_SUB_MAP: Record<string, string> = {
+  '₀': '0', '₁': '1', '₂': '2', '₃': '3', '₄': '4',
+  '₅': '5', '₆': '6', '₇': '7', '₈': '8', '₉': '9',
+  'ₐ': 'a', 'ᵦ': 'b', 'ₖ': 'k', 'ₙ': 'n',
+};
+
+export const UNICODE_SUP_MAP: Record<string, string> = {
+  '⁰': '0', '¹': '1', '²': '2', '³': '3', '⁴': '4',
+  '⁵': '5', '⁶': '6', '⁷': '7', '⁸': '8', '⁹': '9',
+  'ⁿ': 'n', '⁺': '+', '⁻': '-',
+};
+
+function cleanScriptContent(content: string): string {
+  return content
+    .replace(/\\+text\{([^}]*)\}/g, '$1')
+    .replace(/\\+(max|min)/g, '$1')
+    .replace(/\\+mathrm\{([^}]*)\}/g, '$1')
+    .replace(/\\+mathbf\{([^}]*)\}/g, '$1')
+    .replace(/\\+cdot/g, '·')
+    .replace(/\\+/g, '')
+    .trim();
+}
+
+export const SCRIPT_REGEX = /(\^|_)(?:\{([^{}]+)\}|\(([^()]+)\)|([+-]?[a-zA-Z0-9áéíóöőúüűÁÉÍÓÖŐÚÜŰ]+))|([₀₁₂₃₄₅₆₇₈₉ₐᵦₖₙ]+)|([⁰¹²³⁴⁵⁶⁷⁸⁹ⁿ⁺⁻]+)/g;
+
+export function parseScriptsInText(
+  text: string | React.ReactNode,
+  size: 'sm' | 'md' | 'lg' | 'xl' = 'md'
+): React.ReactNode {
+  if (typeof text !== 'string') return text;
+  if (!text) return text;
+
+  // Quick check: if text contains no ^, _, or unicode sub/sup, return text directly
+  const hasScripts = /[\^_₀₁₂₃₄₅₆₇₈₉ₐᵦₖₙ⁰¹²³⁴⁵⁶⁷⁸⁹ⁿ⁺⁻]/.test(text);
+  if (!hasScripts) {
+    return text;
+  }
+
+  const regex = new RegExp(SCRIPT_REGEX.source, 'g');
+  const parts: React.ReactNode[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(text.substring(lastIndex, match.index));
+    }
+
+    if (match[1]) {
+      const isSub = match[1] === '_';
+      const rawContent = match[2] ?? match[3] ?? match[4] ?? '';
+      const cleanContent = cleanScriptContent(rawContent);
+
+      if (cleanContent) {
+        if (isSub) {
+          parts.push(
+            <sub
+              key={`sub-${match.index}`}
+              className="text-[0.72em] font-medium leading-none align-baseline relative -bottom-[0.24em] ml-[0.5px] mr-[0.5px] text-current"
+            >
+              {cleanContent.includes('^') || cleanContent.includes('_')
+                ? parseScriptsInText(cleanContent, size)
+                : cleanContent}
+            </sub>
+          );
+        } else {
+          parts.push(
+            <sup
+              key={`sup-${match.index}`}
+              className="text-[0.72em] font-medium leading-none align-baseline relative -top-[0.42em] ml-[0.5px] mr-[0.5px] text-current"
+            >
+              {cleanContent.includes('^') || cleanContent.includes('_')
+                ? parseScriptsInText(cleanContent, size)
+                : cleanContent}
+            </sup>
+          );
+        }
+      }
+    } else if (match[5]) {
+      // Unicode subscript sequence
+      const mapped = match[5].split('').map(ch => UNICODE_SUB_MAP[ch] || ch).join('');
+      parts.push(
+        <sub
+          key={`unisub-${match.index}`}
+          className="text-[0.72em] font-medium leading-none align-baseline relative -bottom-[0.24em] ml-[0.5px] mr-[0.5px] text-current"
+        >
+          {mapped}
+        </sub>
+      );
+    } else if (match[6]) {
+      // Unicode superscript sequence
+      const mapped = match[6].split('').map(ch => UNICODE_SUP_MAP[ch] || ch).join('');
+      parts.push(
+        <sup
+          key={`unisup-${match.index}`}
+          className="text-[0.72em] font-medium leading-none align-baseline relative -top-[0.42em] ml-[0.5px] mr-[0.5px] text-current"
+        >
+          {mapped}
+        </sup>
+      );
+    }
+
+    lastIndex = regex.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex));
+  }
+
+  return parts.length === 0 ? text : <>{parts}</>;
+}
+
+export function parseScriptsInNode(
+  node: React.ReactNode,
+  size: 'sm' | 'md' | 'lg' | 'xl' = 'md'
+): React.ReactNode {
+  if (node === null || node === undefined || typeof node === 'boolean') {
+    return node;
+  }
+  if (typeof node === 'string') {
+    return parseScriptsInText(node, size);
+  }
+  if (typeof node === 'number') {
+    return parseScriptsInText(String(node), size);
+  }
+  if (Array.isArray(node)) {
+    return node.map((child, i) => (
+      <React.Fragment key={i}>{parseScriptsInNode(child, size)}</React.Fragment>
+    ));
+  }
+  if (React.isValidElement(node)) {
+    const type = node.type;
+    if (
+      type === 'input' ||
+      type === 'select' ||
+      type === 'textarea' ||
+      type === 'option' ||
+      type === 'svg' ||
+      type === 'path' ||
+      type === 'canvas' ||
+      type === 'sub' ||
+      type === 'sup' ||
+      type === Fraction ||
+      type === Sqrt ||
+      (typeof type === 'function' && (type.name === 'Fraction' || type.name === 'MathText' || type.name === 'Sqrt'))
+    ) {
+      return node;
+    }
+
+    const props = node.props as { children?: React.ReactNode };
+    if (props && props.children !== undefined) {
+      return React.cloneElement(node, {
+        ...props,
+        children: parseScriptsInNode(props.children, size),
+      } as any);
+    }
+  }
+  return node;
+}
+
 export function cleanMathSymbols(text: string): string {
   return text
     // LaTeX text macros & spacing
-    .replace(/\\text\{([^}]*)\}/g, '$1')
-    .replace(/\\textbf\{([^}]*)\}/g, '$1')
-    .replace(/\\mathrm\{([^}]*)\}/g, '$1')
-    .replace(/\\mathbf\{([^}]*)\}/g, '$1')
-    .replace(/\\qquad/g, '     ')
-    .replace(/\\quad/g, '   ')
-    .replace(/\\enspace/g, ' ')
-    .replace(/\\,/g, ' ')
-    .replace(/\\;/g, ' ')
-    .replace(/\\\s+/g, ' ')
+    .replace(/\\+text\{([^}]*)\}/g, '$1')
+    .replace(/\\+textbf\{([^}]*)\}/g, '$1')
+    .replace(/\\+mathrm\{([^}]*)\}/g, '$1')
+    .replace(/\\+mathbf\{([^}]*)\}/g, '$1')
+    .replace(/\\+qquad/g, '     ')
+    .replace(/\\+quad/g, '   ')
+    .replace(/\\+enspace/g, ' ')
+    .replace(/\\+bullet/g, ' ')
+    .replace(/\\+,/g, ' ')
+    .replace(/\\+;/g, ' ')
+    .replace(/\\+\s+/g, ' ')
     .replace(/\{,\}/g, ',')
     // Sets and number domains
-    .replace(/\\mathbb\{N\}|\\mathbb\s*N/g, 'ℕ')
-    .replace(/\\mathbb\{Z\}|\\mathbb\s*Z/g, 'ℤ')
-    .replace(/\\mathbb\{Q\}|\\mathbb\s*Q/g, 'ℚ')
-    .replace(/\\mathbb\{R\}|\\mathbb\s*R/g, 'ℝ')
-    .replace(/\\emptyset|\\varnothing/g, '∅')
-    .replace(/\\notin/g, '∉')
-    .replace(/\\in(?![a-zA-Z])/g, '∈')
-    .replace(/\\subseteq/g, '⊆')
-    .replace(/\\subset(?![a-zA-Z])/g, '⊂')
-    .replace(/\\cup/g, '∪')
-    .replace(/\\cap/g, '∩')
-    .replace(/\\setminus/g, ' \\ ')
+    .replace(/\\+mathbb\{N\}|\\+mathbb\s*N/g, 'ℕ')
+    .replace(/\\+mathbb\{Z\}|\\+mathbb\s*Z/g, 'ℤ')
+    .replace(/\\+mathbb\{Q\}|\\+mathbb\s*Q/g, 'ℚ')
+    .replace(/\\+mathbb\{R\}|\\+mathbb\s*R/g, 'ℝ')
+    .replace(/\\+emptyset|\\+varnothing/g, '∅')
+    .replace(/\\+notin/g, '∉')
+    .replace(/\\+in(?![a-zA-Z])/g, '∈')
+    .replace(/\\+subseteq/g, '⊆')
+    .replace(/\\+subset(?![a-zA-Z])/g, '⊂')
+    .replace(/\\+cup/g, '∪')
+    .replace(/\\+cap/g, '∩')
+    .replace(/\\+setminus/g, ' \\ ')
     // Operators and relations
-    .replace(/\\pm/g, '±')
-    .replace(/\\mp/g, '∓')
-    .replace(/\\neq|\\ne(?![a-zA-Z])/g, '≠')
-    .replace(/\\leq|\\le(?![a-zA-Z])/g, '≤')
-    .replace(/\\geq|\\ge(?![a-zA-Z])/g, '≥')
-    .replace(/\\approx/g, '≈')
-    .replace(/\\cdot/g, '·')
-    .replace(/\\times/g, '×')
-    .replace(/\\div/g, ':')
-    .replace(/\\implies/g, ' ⟹ ')
-    .replace(/\\iff/g, ' ⟺ ')
-    .replace(/\\dots/g, '…')
-    .replace(/\\sim/g, '~')
-    .replace(/\\cong/g, '≅')
-    .replace(/\\perp/g, '⊥')
-    .replace(/\\parallel/g, '∥')
-    .replace(/\\angle/g, '∡')
-    .replace(/\\triangle/g, '△')
-    .replace(/\\overline\{([^}]+)\}/g, '$1')
-    .replace(/\\bar\{([^}]+)\}/g, '$1')
+    .replace(/\\+pm/g, '±')
+    .replace(/\\+mp/g, '∓')
+    .replace(/\\+neq|\\+ne(?![a-zA-Z])/g, '≠')
+    .replace(/\\+leq|\\+le(?![a-zA-Z])/g, '≤')
+    .replace(/\\+geq|\\+ge(?![a-zA-Z])/g, '≥')
+    .replace(/\\+approx/g, '≈')
+    .replace(/\\+cdot/g, '·')
+    .replace(/\\+times/g, '×')
+    .replace(/\\+div/g, ':')
+    .replace(/\\+implies/g, ' ⟹ ')
+    .replace(/\\+iff/g, ' ⟺ ')
+    .replace(/\\+dots/g, '…')
+    .replace(/\\+sim/g, '~')
+    .replace(/\\+cong/g, '≅')
+    .replace(/\\+perp/g, '⊥')
+    .replace(/\\+parallel/g, '∥')
+    .replace(/\\+angle/g, '∡')
+    .replace(/\\+triangle/g, '△')
+    .replace(/\\+overline\{([^}]+)\}/g, '$1')
+    .replace(/\\+bar\{([^}]+)\}/g, '$1')
     // Greek letters
-    .replace(/\\Delta/g, 'Δ')
-    .replace(/\\alpha'/g, "α'")
-    .replace(/\\alpha/g, 'α')
-    .replace(/\\beta/g, 'β')
-    .replace(/\\gamma/g, 'γ')
-    .replace(/\\delta/g, 'δ')
-    .replace(/\\omega/g, 'ω')
-    .replace(/\\pi/g, 'π')
+    .replace(/\\+Delta/g, 'Δ')
+    .replace(/\\+alpha'/g, "α'")
+    .replace(/\\+alpha/g, 'α')
+    .replace(/\\+beta/g, 'β')
+    .replace(/\\+gamma/g, 'γ')
+    .replace(/\\+delta/g, 'δ')
+    .replace(/\\+omega/g, 'ω')
+    .replace(/\\+pi/g, 'π')
     // Brackets
-    .replace(/\\left\(/g, '(')
-    .replace(/\\right\)/g, ')')
-    .replace(/\\left\[/g, '[')
-    .replace(/\\right\]/g, ']')
-    .replace(/\\left\\\{/g, '{')
-    .replace(/\\right\\\}/g, '}')
-    .replace(/\\\{/g, '{')
-    .replace(/\\\}/g, '}')
-    // Degrees and exponents
-    .replace(/\^\\circ|\^\{\\circ\}|\\circ/g, '°')
-    .replace(/\^2/g, '²')
-    .replace(/\^3/g, '³')
-    .replace(/\^0/g, '⁰')
-    .replace(/\^1/g, '¹')
-    .replace(/\^n/g, 'ⁿ')
-    // Subscripts
-    .replace(/_1/g, '₁')
-    .replace(/_2/g, '₂')
-    .replace(/_3/g, '₃')
-    .replace(/_0/g, '₀')
-    .replace(/_a/g, 'ₐ')
-    .replace(/_b/g, 'ᵦ')
-    .replace(/_k/g, 'ₖ')
+    .replace(/\\+left\(/g, '(')
+    .replace(/\\+right\)/g, ')')
+    .replace(/\\+left\[/g, '[')
+    .replace(/\\+right\]/g, ']')
+    .replace(/\\+left\\\{/g, '{')
+    .replace(/\\+right\\\}/g, '}')
+    .replace(/\\+\{/g, '{')
+    .replace(/\\+\}/g, '}')
+    // Degrees and functions
+    .replace(/\^\\+circ|\^\{\\+circ\}|\\+circ/g, '°')
+    .replace(/\\+(max|min)/g, '$1')
     // Remove standalone math dollar signs if any
-    .replace(/\$([^$]+)\$/g, '$1');
+    .replace(/\$([^$]+)\$/g, '$1')
+    // Clean up any stray backslashes before math symbols or operators
+    .replace(/\\+(\s*[·=+\-×÷<>≤≥≠≈~⟹⟺])/g, '$1');
 }
 
 export function toLatex(s: string): string {
@@ -117,6 +268,8 @@ export function toLatex(s: string): string {
     .replace(/₀/g, '_0')
     .replace(/ₐ/g, '_a')
     .replace(/ᵦ/g, '_b')
+    .replace(/ₖ/g, '_k')
+    .replace(/ₙ/g, '_n')
     .replace(/·/g, ' \\cdot ')
     .replace(/×/g, ' \\times ')
     .replace(/≈/g, ' \\approx ')
@@ -126,12 +279,15 @@ export function toLatex(s: string): string {
     .replace(/°/g, '^{\\circ}')
     .replace(/\b(m|s|T)([abc])\b/g, '$1_$2');
 
+  res = res.replace(/_\(([^()]+)\)/g, '_{$1}');
+  res = res.replace(/\^\(([^()]+)\)/g, '^{$1}');
+
   res = res.replace(/√\{([^}]+)\}/g, (_, m) => `\\sqrt{${m}}`);
   res = res.replace(/√\(([^)]+)\)/g, (_, m) => `\\sqrt{${m}}`);
   res = res.replace(/√([0-9a-zA-Z]+)/g, (_, m) => `\\sqrt{${m}}`);
 
   res = res.replace(/\(([^()]+)\s*\/\s*([^()]+)\)/g, (_, a, b) => `\\left(\\frac{${a}}{${b}}\\right)`);
-  res = res.replace(/([a-zA-Z0-9]+)\s*\/\s*([a-zA-Z0-9]+)/g, (_, a, b) => `\\frac{${a}}{${b}}`);
+  res = res.replace(/([a-zA-Z0-9_{}()+-]+)\s*\/\s*([a-zA-Z0-9_{}()+-]+)/g, (_, a, b) => `\\frac{${a}}{${b}}`);
 
   return res;
 }
@@ -243,7 +399,7 @@ export const Sqrt: React.FC<SqrtProps> = ({
           sizeStyles.padding
         )}
       >
-        {content}
+        {parseScriptsInNode(content, size)}
       </span>
     </span>
   );
@@ -299,9 +455,9 @@ export const Fraction: React.FC<FractionProps> = ({
     }
   }
 
-  const renderedNum = typeof num === 'string' ? parseSquareRootsInText(cleanMathSymbols(num), size) : num;
-  const renderedDen = typeof den === 'string' ? parseSquareRootsInText(cleanMathSymbols(den), size) : den;
-  const renderedWhole = typeof whole === 'string' ? cleanMathSymbols(whole) : whole;
+  const renderedNum = typeof num === 'string' ? parseScriptsInText(parseSquareRootsInText(cleanMathSymbols(num), size), size) : parseScriptsInNode(num, size);
+  const renderedDen = typeof den === 'string' ? parseScriptsInText(parseSquareRootsInText(cleanMathSymbols(den), size), size) : parseScriptsInNode(den, size);
+  const renderedWhole = typeof whole === 'string' ? parseScriptsInText(cleanMathSymbols(whole), size) : parseScriptsInNode(whole, size);
 
   const sizeStyles = {
     sm: {
@@ -370,6 +526,7 @@ export function parseSquareRootsInText(
   const parts: React.ReactNode[] = [];
   let lastIndex = 0;
   let i = 0;
+  let matchCount = 0;
 
   while (i < text.length) {
     let matchFound = false;
@@ -466,8 +623,13 @@ export function parseSquareRootsInText(
     }
 
     if (matchFound) {
+      matchCount++;
       if (matchStart > lastIndex) {
-        parts.push(text.substring(lastIndex, matchStart));
+        parts.push(
+          <React.Fragment key={`sqrt-pre-${lastIndex}-${matchStart}`}>
+            {parseScriptsInText(text.substring(lastIndex, matchStart), size)}
+          </React.Fragment>
+        );
       }
       parts.push(
         <Sqrt key={`sqrt-${matchStart}-${radicand}`} radicand={radicand} size={size}>
@@ -481,15 +643,24 @@ export function parseSquareRootsInText(
     }
   }
 
-  if (lastIndex < text.length) {
-    parts.push(text.substring(lastIndex));
+  if (matchCount === 0) {
+    return parseScriptsInText(text, size);
   }
 
-  return parts.length === 0 ? text : <>{parts}</>;
+  if (lastIndex < text.length) {
+    parts.push(
+      <React.Fragment key={`sqrt-tail-${lastIndex}`}>
+        {parseScriptsInText(text.substring(lastIndex), size)}
+      </React.Fragment>
+    );
+  }
+
+  return parts.length === 0 ? parseScriptsInText(text, size) : <>{parts}</>;
 }
 
-const NUM_OR_VAR = '[a-zA-Z](?:[²³⁰¹ⁿ]|_[0-9a-zA-Z]|[a-zA-Z])*';
-const SQRT_EXPR = '(?:√|\\\\sqrt)(?:\\{[^{}]+\\}|\\([^()]+\\)|\\[[^\\]]+\\]|\\d+(?:[.,]\\d+)?|[a-zA-Z](?:[²³⁰¹ⁿ]|_[0-9a-zA-Z])*)';
+const SCRIPT_EXPR = '(?:[²³⁰¹ⁿ]|_(?:\\{[^{}]+\\}|\\([^()]+\\)|[0-9a-zA-Z]+)|\\^(?:\\{[^{}]+\\}|\\([^()]+\\)|[+-]?[0-9a-zA-Z]+))';
+const NUM_OR_VAR = '[a-zA-Z](?:' + SCRIPT_EXPR + '|[a-zA-Z0-9])*';
+const SQRT_EXPR = '(?:√|\\\\sqrt)(?:\\{[^{}]+\\}|\\([^()]+\\)|\\[[^\\]]+\\]|\\d+(?:[.,]\\d+)?|' + NUM_OR_VAR + ')';
 const DEN_EXPR = '(?:' + SQRT_EXPR + '|' + NUM_OR_VAR + '|\\d+(?:[.,]\\d+)?)';
 
 const FRACTION_PATTERNS = [
@@ -535,46 +706,62 @@ export function parseFractionsInText(
 
   while ((match = regex.exec(cleanText)) !== null) {
     if (match.index > lastIndex) {
-      parts.push(parseSquareRootsInText(cleanText.substring(lastIndex, match.index), size));
+      parts.push(
+        <React.Fragment key={`frac-pre-${lastIndex}-${match.index}`}>
+          {parseSquareRootsInText(cleanText.substring(lastIndex, match.index), size)}
+        </React.Fragment>
+      );
     }
 
     if (match[1] && match[2]) {
       // 1. LaTeX \frac{num}{den}
+      const rawNum = match[1].trim();
+      const rawDen = match[2].trim();
+      const hasNestedFracNum = rawNum.includes('\\frac') || /\b\d+\s*\/\s*\d+\b/.test(rawNum);
+      const hasNestedFracDen = rawDen.includes('\\frac') || /\b\d+\s*\/\s*\d+\b/.test(rawDen);
       parts.push(
         <Fraction
           key={`frac-latex-${match.index}-${match[1]}-${match[2]}`}
-          num={parseFractionsInText(match[1].trim(), size)}
-          den={parseFractionsInText(match[2].trim(), size)}
+          num={hasNestedFracNum ? parseFractionsInText(rawNum, size) : rawNum}
+          den={hasNestedFracDen ? parseFractionsInText(rawDen, size) : rawDen}
           size={size}
         />
       );
     } else if (match[3] && match[4]) {
       // 2. Both parenthesized: (expr1) / (expr2)
+      const rawNum = match[3].trim();
+      const rawDen = match[4].trim();
+      const hasNestedFracNum = rawNum.includes('\\frac') || /\b\d+\s*\/\s*\d+\b/.test(rawNum);
+      const hasNestedFracDen = rawDen.includes('\\frac') || /\b\d+\s*\/\s*\d+\b/.test(rawDen);
       parts.push(
         <Fraction
           key={`frac-paren2-${match.index}-${match[3]}-${match[4]}`}
-          num={parseFractionsInText(match[3].trim(), size)}
-          den={parseFractionsInText(match[4].trim(), size)}
+          num={hasNestedFracNum ? parseFractionsInText(rawNum, size) : rawNum}
+          den={hasNestedFracDen ? parseFractionsInText(rawDen, size) : rawDen}
           size={size}
         />
       );
     } else if (match[5] && match[6]) {
       // 3. Numerator parenthesized: (expr1) / den
+      const rawNum = match[5].trim();
+      const hasNestedFracNum = rawNum.includes('\\frac') || /\b\d+\s*\/\s*\d+\b/.test(rawNum);
       parts.push(
         <Fraction
           key={`frac-num-paren-${match.index}-${match[5]}-${match[6]}`}
-          num={parseFractionsInText(match[5].trim(), size)}
+          num={hasNestedFracNum ? parseFractionsInText(rawNum, size) : rawNum}
           den={match[6].trim()}
           size={size}
         />
       );
     } else if (match[7] && match[8]) {
       // 4. Denominator parenthesized: num / (expr2)
+      const rawDen = match[8].trim();
+      const hasNestedFracDen = rawDen.includes('\\frac') || /\b\d+\s*\/\s*\d+\b/.test(rawDen);
       parts.push(
         <Fraction
           key={`frac-den-paren-${match.index}-${match[7]}-${match[8]}`}
           num={match[7].trim()}
-          den={parseFractionsInText(match[8].trim(), size)}
+          den={hasNestedFracDen ? parseFractionsInText(rawDen, size) : rawDen}
           size={size}
         />
       );
@@ -660,7 +847,11 @@ export function parseFractionsInText(
   }
 
   if (lastIndex < cleanText.length) {
-    parts.push(parseSquareRootsInText(cleanText.substring(lastIndex), size));
+    parts.push(
+      <React.Fragment key={`frac-tail-${lastIndex}`}>
+        {parseSquareRootsInText(cleanText.substring(lastIndex), size)}
+      </React.Fragment>
+    );
   }
 
   return parts.length === 0 ? parseSquareRootsInText(cleanText, size) : <>{parts}</>;

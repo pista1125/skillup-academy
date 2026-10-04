@@ -30,7 +30,6 @@ import {
   Globe,
   HelpCircle,
   Layers,
-  LayoutGrid,
   LineChart,
   Maximize2,
   Minimize2,
@@ -1080,13 +1079,23 @@ export const Grade8View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g8-sec-func-egyenes" number={1} title="Egyenes arányosság" color="cyan" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Egyenes Arányosság Kvíz"
-                  subtitle="y = k · x, arányossági tényező"
-                  type="Kvíz"
+                  title="Egyenes Arányosság Tananyag"
+                  subtitle="y = k · x, arányossági tényező, labor és grafikon"
+                  type="Tananyag"
                   emoji="📈"
+                  onClick={() => onActivitySelect('g8-func-direct-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="cyan"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🎯"
                   onClick={() => onActivitySelect('g8-func-direct', topicId)}
                   icon={<TrendingUp className="w-6 h-6" />}
                   color="cyan"
+                  {...getTopicProgress('g8-func-direct')}
                 />
               </div>
             </section>
@@ -1098,13 +1107,23 @@ export const Grade8View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g8-sec-func-grafikonok" number={2} title="Hozzárendelések és grafikonjaik" color="blue" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Függvények & Grafikonok"
-                  subtitle="y = ax + b, meredekség, zérushely"
-                  type="Kvíz"
+                  title="Hozzárendelések és Grafikonjaik Tananyag"
+                  subtitle="f(x) = ax + b, meredekség, zérushely, labor és nevezetes görbék"
+                  type="Tananyag"
                   emoji="📊"
+                  onClick={() => onActivitySelect('g8-func-graphs-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="blue"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🎯"
                   onClick={() => onActivitySelect('g8-func-graphs', topicId)}
                   icon={<LineChart className="w-6 h-6" />}
                   color="blue"
+                  {...getTopicProgress('g8-func-graphs')}
                 />
               </div>
             </section>
@@ -1116,13 +1135,23 @@ export const Grade8View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g8-sec-func-forditott" number={3} title="Fordított arányosság" color="indigo" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Fordított Arányosság Kvíz"
-                  subtitle="y = k / x, hiperbola, szorzat állandó"
-                  type="Kvíz"
+                  title="Fordított Arányosság Tananyag"
+                  subtitle="x · y = k, hiperbola görbe, aszimptoták és interaktív labor"
+                  type="Tananyag"
                   emoji="🔄"
-                  onClick={() => onActivitySelect('g8-func-inverse', topicId)}
-                  icon={<ArrowRightLeft className="w-6 h-6" />}
+                  onClick={() => onActivitySelect('g8-func-inverse-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="indigo"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g8-func-inverse', topicId)}
+                  icon={<LineChart className="w-6 h-6" />}
+                  color="indigo"
+                  {...getTopicProgress('g8-func-inverse')}
                 />
               </div>
             </section>
@@ -1134,13 +1163,23 @@ export const Grade8View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g8-sec-func-olvasas" number={4} title="Olvassunk a grafikonról!" color="teal" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Grafikon Leolvasása"
-                  subtitle="Menetdiagramok, szélsőértékek, szakaszok"
-                  type="Kvíz"
-                  emoji="👁️"
-                  onClick={() => onActivitySelect('g8-func-reading', topicId)}
-                  icon={<Eye className="w-6 h-6" />}
+                  title="Olvassunk a Grafikonról Tananyag"
+                  subtitle="Menetdiagramok, tengelyek, leolvasási stratégiák, sebesség és interaktív túralabor"
+                  type="Tananyag"
+                  emoji="📈"
+                  onClick={() => onActivitySelect('g8-func-reading-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="teal"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g8-func-reading', topicId)}
+                  icon={<LineChart className="w-6 h-6" />}
+                  color="teal"
+                  {...getTopicProgress('g8-func-reading')}
                 />
               </div>
             </section>
@@ -1152,13 +1191,23 @@ export const Grade8View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g8-sec-func-rajzolas" number={5} title="Készítsünk grafikont!" color="blue" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Grafikon Készítés Kvíz"
-                  subtitle="Értéktáblázat, skálázás, pontok ábrázolása"
-                  type="Gyakorló"
-                  emoji="✏️"
+                  title="Készítsünk Grafikont Tananyag"
+                  subtitle="Értéktáblázat, lépésháromszög technika, tengelyek skálázása és interaktív labor"
+                  type="Tananyag"
+                  emoji="📈"
+                  onClick={() => onActivitySelect('g8-func-plotting-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="blue"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🎯"
                   onClick={() => onActivitySelect('g8-func-plotting', topicId)}
                   icon={<Pencil className="w-6 h-6" />}
                   color="blue"
+                  {...getTopicProgress('g8-func-plotting')}
                 />
               </div>
             </section>
@@ -1170,13 +1219,23 @@ export const Grade8View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g8-sec-func-gyakorisag" number={6} title="Gyakoriság, relatív gyakoriság, átlag" color="emerald" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Statisztika & Átlag Kvíz"
-                  subtitle="Átlag, medián, módusz, diagramok"
-                  type="Kvíz"
+                  title="Gyakoriság & Átlag Tananyag"
+                  subtitle="Mintanagyság, gyakoriságok, középértékek (átlag, módusz, medián), terjedelem és labor"
+                  type="Tananyag"
                   emoji="📊"
+                  onClick={() => onActivitySelect('g8-func-frequency-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="emerald"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🎯"
                   onClick={() => onActivitySelect('g8-func-frequency', topicId)}
                   icon={<BarChart3 className="w-6 h-6" />}
                   color="emerald"
+                  {...getTopicProgress('g8-func-frequency')}
                 />
               </div>
             </section>
@@ -1185,16 +1244,26 @@ export const Grade8View: React.FC<GradeViewProps> = ({
           {/* Section 7: Játék */}
           {(showAll || activeSubSectionId === 'g8-sec-func-jatek') && (
             <section>
-              <SectionHeader id="g8-sec-func-jatek" number={7} title="Játék" color="purple" />
+              <SectionHeader id="g8-sec-func-jatek" number={7} title="Játék" color="indigo" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Matematikai Játékok"
-                  subtitle="Nyerő stratégiák, Nim, esélyek"
-                  type="Játék"
-                  emoji="🎲"
+                  title="Játék Tananyag"
+                  subtitle="Logikai játékok, nyerő stratégiák, Nim-játék, kocka- és érme-esélyek, Fair Play"
+                  type="Tananyag"
+                  emoji="♟️"
+                  onClick={() => onActivitySelect('g8-func-game-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="indigo"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🎯"
                   onClick={() => onActivitySelect('g8-func-game', topicId)}
                   icon={<Gamepad2 className="w-6 h-6" />}
-                  color="purple"
+                  color="indigo"
+                  {...getTopicProgress('g8-func-game')}
                 />
               </div>
             </section>
@@ -1207,12 +1276,22 @@ export const Grade8View: React.FC<GradeViewProps> = ({
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
                   title="Klasszikus Valószínűség"
-                  subtitle="P = kedvező / összes, események"
+                  subtitle="Véletlen kísérlet, eseménytér, P = k/n, biztos és lehetetlen esemény, nagy számok törvénye"
+                  type="Tananyag"
+                  emoji="🎲"
+                  onClick={() => onActivitySelect('g8-func-prob-basics-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="amber"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
                   type="Kvíz"
                   emoji="🎯"
                   onClick={() => onActivitySelect('g8-func-prob-basics', topicId)}
                   icon={<Percent className="w-6 h-6" />}
                   color="amber"
+                  {...getTopicProgress('g8-func-prob-basics')}
                 />
               </div>
             </section>
@@ -1224,13 +1303,23 @@ export const Grade8View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g8-sec-func-feladatok" number={9} title="Valószínűségszámítási feladatok" color="rose" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Összetett Valószínűségi Feladatok"
-                  subtitle="Két kocka, kártyák, golyóhúzások"
-                  type="Gyakorló"
-                  emoji="🧠"
+                  title="Összetett Feladatok"
+                  subtitle="Két kocka 36 esete, fa-diagramok, visszatevéses és visszatevés nélküli mintavétel"
+                  type="Tananyag"
+                  emoji="📖"
+                  onClick={() => onActivitySelect('g8-func-prob-problems-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="rose"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🎯"
                   onClick={() => onActivitySelect('g8-func-prob-problems', topicId)}
                   icon={<Brain className="w-6 h-6" />}
                   color="rose"
+                  {...getTopicProgress('g8-func-prob-problems')}
                 />
               </div>
             </section>
@@ -1242,13 +1331,23 @@ export const Grade8View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g8-sec-func-mintazat" number={10} title="Keressünk összefüggéseket!" color="amber" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Összefüggések Keresése"
-                  subtitle="Mintázatok, képletek felírása, n ↦ f(n)"
+                  title="Összefüggések és Mintázatok"
+                  subtitle="Gyufaszálak, háromszögszámok, kézfogások, sokszögek átlói és szabálykeresés"
+                  type="Tananyag"
+                  emoji="📖"
+                  onClick={() => onActivitySelect('g8-func-patterns-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="amber"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
                   type="Kvíz"
-                  emoji="🔍"
+                  emoji="🎯"
                   onClick={() => onActivitySelect('g8-func-patterns', topicId)}
                   icon={<Search className="w-6 h-6" />}
                   color="amber"
+                  {...getTopicProgress('g8-func-patterns')}
                 />
               </div>
             </section>
@@ -1260,13 +1359,23 @@ export const Grade8View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g8-sec-func-sorozatok" number={11} title="Sorozatok" color="cyan" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Számsorozatok Kvíz"
-                  subtitle="Számtani, mértani, Fibonacci sorozat"
-                  type="Kvíz"
-                  emoji="🔢"
-                  onClick={() => onActivitySelect('g8-func-sequences', topicId)}
-                  icon={<Layers className="w-6 h-6" />}
+                  title="Számsorozatok Alapjai"
+                  subtitle="Függvényként értelmezett sorozatok, számtani és mértani sorozat, rekurzív és explicit képletek, Fibonacci"
+                  type="Tananyag"
+                  emoji="📖"
+                  onClick={() => onActivitySelect('g8-func-sequences-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="cyan"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g8-func-sequences', topicId)}
+                  icon={<Binary className="w-6 h-6" />}
+                  color="cyan"
+                  {...getTopicProgress('g8-func-sequences')}
                 />
               </div>
             </section>
@@ -1278,13 +1387,23 @@ export const Grade8View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g8-sec-func-osszefoglalas" number={12} title="Összefoglalás" color="emerald" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
+                  title="VI. Fejezet Összefoglaló Tananyag"
+                  subtitle="Átfogó fejezeti tudástár, képletek és interaktív labor"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g8-func-summary-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="emerald"
+                />
+                <ActivityPlaceholder
                   title="VI. Fejezet Témazáró Kvíz"
-                  subtitle="Hozzárendelések, statisztika, sorozatok teszt"
+                  subtitle="90 feladat 3 szinten, párosító és csoportosító játékkal"
                   type="Témazáró"
                   emoji="🏆"
                   onClick={() => onActivitySelect('g8-func-summary', topicId)}
                   icon={<Award className="w-6 h-6" />}
                   color="emerald"
+                  {...getTopicProgress('g8-func-summary')}
                 />
               </div>
             </section>

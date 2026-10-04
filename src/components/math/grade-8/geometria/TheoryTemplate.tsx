@@ -947,7 +947,7 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = (props) => {
     onStartPractice,
     onSwitchToQuiz,
     documentId = 'theory-content',
-    pdfFilename = '7_osztaly_geometria_tananyag.pdf',
+    pdfFilename = '8_osztaly_geometria_tananyag.pdf',
     badgeText,
     badge,
     topicBadge,
@@ -966,7 +966,7 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = (props) => {
   } = props;
 
   const displayBadge =
-    badgeText || badge || topicBadge || '7. OSZTÁLY • GEOMETRIA • 📖 TANANYAG';
+    badgeText || badge || topicBadge || '8. OSZTÁLY • GEOMETRIA • 📖 TANANYAG';
   const displaySubtitle = subtitle || description;
   const displayRule =
     quickRule || (ruleFormula ? { label: ruleTitle || 'Alaptétel', formula: ruleFormula } : undefined);

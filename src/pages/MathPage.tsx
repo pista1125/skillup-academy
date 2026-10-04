@@ -371,18 +371,55 @@ const Grade8SpecialRightTrianglesTheory = lazy(() => import("@/components/math/g
 const Grade8SpecialRightTrianglesQuiz = lazy(() => import("@/components/math/grade-8/pitagorasz-tetel/nevezetes-derekszogu-haromszogek/SpecialRightTrianglesQuiz").then(m => ({ default: m.SpecialRightTrianglesQuiz }))) as any;
 const Grade8Chapter5PythagorasSummaryTheory = lazy(() => import("@/components/math/grade-8/pitagorasz-tetel/osszefoglalas/Chapter5PythagorasSummaryTheory").then(m => ({ default: m.Chapter5PythagorasSummaryTheory }))) as any;
 const Grade8Chapter5PythagorasSummaryQuiz = lazy(() => import("@/components/math/grade-8/pitagorasz-tetel/osszefoglalas/Chapter5PythagorasSummaryQuiz").then(m => ({ default: m.Chapter5PythagorasSummaryQuiz }))) as any;
-const Grade8DirectProportionG8Quiz = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/egyenes-aranyossag/DirectProportionG8Quiz").then(m => ({ default: m.DirectProportionG8Quiz }))) as any;
+const Grade8DirectProportionTheory = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/egyenes-aranyossag/DirectProportionTheory").then(m => ({ default: m.DirectProportionTheory }))) as any;
+const Grade8DirectProportionQuiz = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/egyenes-aranyossag/DirectProportionQuiz").then(m => ({ default: m.DirectProportionQuiz }))) as any;
+const Grade8DirectProportionMatcher = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/egyenes-aranyossag/DirectProportionMatcher").then(m => ({ default: m.DirectProportionMatcher }))) as any;
+const Grade8DirectProportionSorter = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/egyenes-aranyossag/DirectProportionSorter").then(m => ({ default: m.DirectProportionSorter }))) as any;
+const Grade8DirectProportionG8Quiz = Grade8DirectProportionQuiz;
+const Grade8FunctionsGraphsTheory = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/hozzarendelesek-es-grafikonjaik/FunctionsGraphsTheory").then(m => ({ default: m.FunctionsGraphsTheory }))) as any;
 const Grade8FunctionsGraphsQuiz = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/hozzarendelesek-es-grafikonjaik/FunctionsGraphsQuiz").then(m => ({ default: m.FunctionsGraphsQuiz }))) as any;
+const Grade8FunctionsGraphsMatcher = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/hozzarendelesek-es-grafikonjaik/FunctionsGraphsMatcher").then(m => ({ default: m.FunctionsGraphsMatcher }))) as any;
+const Grade8FunctionsGraphsSorter = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/hozzarendelesek-es-grafikonjaik/FunctionsGraphsSorter").then(m => ({ default: m.FunctionsGraphsSorter }))) as any;
+const Grade8InverseProportionTheory = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/forditott-aranyossag/InverseProportionTheory").then(m => ({ default: m.InverseProportionTheory }))) as any;
 const Grade8InverseProportionQuiz = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/forditott-aranyossag/InverseProportionQuiz").then(m => ({ default: m.InverseProportionQuiz }))) as any;
+const Grade8InverseProportionMatcher = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/forditott-aranyossag/InverseProportionMatcher").then(m => ({ default: m.InverseProportionMatcher }))) as any;
+const Grade8InverseProportionSorter = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/forditott-aranyossag/InverseProportionSorter").then(m => ({ default: m.InverseProportionSorter }))) as any;
+const Grade8ReadingGraphsTheory = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/olvassunk-a-grafikonrol/ReadingGraphsTheory").then(m => ({ default: m.ReadingGraphsTheory }))) as any;
 const Grade8ReadingGraphsQuiz = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/olvassunk-a-grafikonrol/ReadingGraphsQuiz").then(m => ({ default: m.ReadingGraphsQuiz }))) as any;
+const Grade8ReadingGraphsMatcher = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/olvassunk-a-grafikonrol/ReadingGraphsMatcher").then(m => ({ default: m.ReadingGraphsMatcher }))) as any;
+const Grade8ReadingGraphsSorter = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/olvassunk-a-grafikonrol/ReadingGraphsSorter").then(m => ({ default: m.ReadingGraphsSorter }))) as any;
+const Grade8PlottingGraphsTheory = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/keszitsunk-grafikont/PlottingGraphsTheory").then(m => ({ default: m.PlottingGraphsTheory }))) as any;
 const Grade8PlottingGraphsQuiz = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/keszitsunk-grafikont/PlottingGraphsQuiz").then(m => ({ default: m.PlottingGraphsQuiz }))) as any;
+const Grade8PlottingGraphsMatcher = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/keszitsunk-grafikont/PlottingGraphsMatcher").then(m => ({ default: m.PlottingGraphsMatcher }))) as any;
+const Grade8PlottingGraphsSorter = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/keszitsunk-grafikont/PlottingGraphsSorter").then(m => ({ default: m.PlottingGraphsSorter }))) as any;
+const Grade8FrequencyStatisticsTheory = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/gyakorisag-relativ-gyakorisag-atlag/FrequencyStatisticsTheory").then(m => ({ default: m.FrequencyStatisticsTheory }))) as any;
 const Grade8FrequencyStatisticsQuiz = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/gyakorisag-relativ-gyakorisag-atlag/FrequencyStatisticsQuiz").then(m => ({ default: m.FrequencyStatisticsQuiz }))) as any;
+const Grade8FrequencyStatisticsMatcher = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/gyakorisag-relativ-gyakorisag-atlag/FrequencyStatisticsMatcher").then(m => ({ default: m.FrequencyStatisticsMatcher }))) as any;
+const Grade8FrequencyStatisticsSorter = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/gyakorisag-relativ-gyakorisag-atlag/FrequencyStatisticsSorter").then(m => ({ default: m.FrequencyStatisticsSorter }))) as any;
+const Grade8ProbabilityGameTheory = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/jatek/ProbabilityGameTheory").then(m => ({ default: m.ProbabilityGameTheory }))) as any;
 const Grade8ProbabilityGameQuiz = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/jatek/ProbabilityGameQuiz").then(m => ({ default: m.ProbabilityGameQuiz }))) as any;
+const Grade8ProbabilityGameMatcher = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/jatek/ProbabilityGameMatcher").then(m => ({ default: m.ProbabilityGameMatcher }))) as any;
+const Grade8ProbabilityGameSorter = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/jatek/ProbabilityGameSorter").then(m => ({ default: m.ProbabilityGameSorter }))) as any;
+const Grade8ProbabilityBasicsTheory = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/valoszinuseg/ProbabilityBasicsTheory").then(m => ({ default: m.ProbabilityBasicsTheory }))) as any;
 const Grade8ProbabilityBasicsQuiz = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/valoszinuseg/ProbabilityBasicsQuiz").then(m => ({ default: m.ProbabilityBasicsQuiz }))) as any;
+const Grade8ProbabilityBasicsMatcher = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/valoszinuseg/ProbabilityBasicsMatcher").then(m => ({ default: m.ProbabilityBasicsMatcher }))) as any;
+const Grade8ProbabilityBasicsSorter = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/valoszinuseg/ProbabilityBasicsSorter").then(m => ({ default: m.ProbabilityBasicsSorter }))) as any;
+const Grade8ProbabilityProblemsTheory = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/valoszinusegszamitasi-feladatok/ProbabilityProblemsTheory").then(m => ({ default: m.ProbabilityProblemsTheory }))) as any;
 const Grade8ProbabilityProblemsQuiz = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/valoszinusegszamitasi-feladatok/ProbabilityProblemsQuiz").then(m => ({ default: m.ProbabilityProblemsQuiz }))) as any;
+const Grade8ProbabilityProblemsMatcher = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/valoszinusegszamitasi-feladatok/ProbabilityProblemsMatcher").then(m => ({ default: m.ProbabilityProblemsMatcher }))) as any;
+const Grade8ProbabilityProblemsSorter = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/valoszinusegszamitasi-feladatok/ProbabilityProblemsSorter").then(m => ({ default: m.ProbabilityProblemsSorter }))) as any;
+const Grade8FindingPatternsTheory = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/keressunk-osszefuggeseket/FindingPatternsTheory").then(m => ({ default: m.FindingPatternsTheory }))) as any;
 const Grade8FindingPatternsQuiz = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/keressunk-osszefuggeseket/FindingPatternsQuiz").then(m => ({ default: m.FindingPatternsQuiz }))) as any;
+const Grade8FindingPatternsMatcher = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/keressunk-osszefuggeseket/FindingPatternsMatcher").then(m => ({ default: m.FindingPatternsMatcher }))) as any;
+const Grade8FindingPatternsSorter = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/keressunk-osszefuggeseket/FindingPatternsSorter").then(m => ({ default: m.FindingPatternsSorter }))) as any;
+const Grade8SequencesTheory = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/sorozatok/SequencesTheory").then(m => ({ default: m.SequencesTheory }))) as any;
 const Grade8SequencesQuiz = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/sorozatok/SequencesQuiz").then(m => ({ default: m.SequencesQuiz }))) as any;
+const Grade8SequencesMatcher = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/sorozatok/SequencesMatcher").then(m => ({ default: m.SequencesMatcher }))) as any;
+const Grade8SequencesSorter = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/sorozatok/SequencesSorter").then(m => ({ default: m.SequencesSorter }))) as any;
+const Grade8Chapter6SummaryTheory = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/osszefoglalas/Chapter6SummaryTheory").then(m => ({ default: m.Chapter6SummaryTheory }))) as any;
 const Grade8Chapter6SummaryQuiz = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/osszefoglalas/Chapter6SummaryQuiz").then(m => ({ default: m.Chapter6SummaryQuiz }))) as any;
+const Grade8Chapter6SummaryMatcher = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/osszefoglalas/Chapter6SummaryMatcher").then(m => ({ default: m.Chapter6SummaryMatcher }))) as any;
+const Grade8Chapter6SummarySorter = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/osszefoglalas/Chapter6SummarySorter").then(m => ({ default: m.Chapter6SummarySorter }))) as any;
 const Grade8SolidsReviewQuiz = lazy(() => import("@/components/math/grade-8/testek/mit-tanultunk-eddig-ismetles/SolidsReviewQuiz").then(m => ({ default: m.SolidsReviewQuiz }))) as any;
 const Grade8PyramidsIntroQuiz = lazy(() => import("@/components/math/grade-8/testek/gulak/PyramidsIntroQuiz").then(m => ({ default: m.PyramidsIntroQuiz }))) as any;
 const Grade8PyramidSurfaceVolumeQuiz = lazy(() => import("@/components/math/grade-8/testek/a-gula-felszine-es-terfogata/PyramidSurfaceVolumeQuiz").then(m => ({ default: m.PyramidSurfaceVolumeQuiz }))) as any;
@@ -668,7 +705,7 @@ type ActivityType =
   | 'g8-geom-congruence' | 'g8-geom-transforms' | 'g8-geom-software' | 'g8-geom-similarity' | 'g8-geom-central-similarity' | 'g8-geom-central-similarity-theory' | 'g8-geom-central-similarity-quiz' | 'g8-geom-central-similarity-matcher' | 'g8-geom-central-similarity-sorter' | 'g8-geom-constructions' | 'g8-geom-constructions-theory' | 'g8-geom-constructions-quiz' | 'g8-geom-constructions-matcher' | 'g8-geom-constructions-sorter' | 'g8-geom-summary' | 'g8-geom-summary-theory' | 'g8-geom-summary-quiz' | 'g8-geom-summary-matcher' | 'g8-geom-summary-sorter'
   | 'g8-eq-basic' | 'g8-eq-basic-theory' | 'g8-eq-basic-quiz' | 'g8-eq-basic-matcher' | 'g8-eq-basic-sorter' | 'g8-eq-numbers-ages' | 'g8-eq-numbers-ages-theory' | 'g8-eq-numbers-ages-quiz' | 'g8-eq-numbers-ages-matcher' | 'g8-eq-numbers-ages-sorter' | 'g8-eq-mixing' | 'g8-eq-mixing-theory' | 'g8-eq-mixing-quiz' | 'g8-eq-mixing-matcher' | 'g8-eq-mixing-sorter' | 'g8-eq-motion-work' | 'g8-eq-motion-work-theory' | 'g8-eq-motion-work-quiz' | 'g8-eq-motion-work-matcher' | 'g8-eq-motion-work-sorter' | 'g8-eq-geometry' | 'g8-eq-geometry-theory' | 'g8-eq-geometry-quiz' | 'g8-eq-geometry-matcher' | 'g8-eq-geometry-sorter' | 'g8-eq-mixed' | 'g8-eq-mixed-theory' | 'g8-eq-mixed-quiz' | 'g8-eq-mixed-matcher' | 'g8-eq-mixed-sorter' | 'g8-eq-financial' | 'g8-eq-financial-theory' | 'g8-eq-financial-quiz' | 'g8-eq-financial-matcher' | 'g8-eq-financial-sorter' | 'g8-eq-summary' | 'g8-eq-summary-theory' | 'g8-eq-summary-quiz' | 'g8-eq-summary-matcher' | 'g8-eq-summary-sorter'
   | 'g8-pyth-constructions' | 'g8-pyth-constructions-theory' | 'g8-pyth-theorem' | 'g8-pyth-theorem-theory' | 'g8-pyth-converse' | 'g8-pyth-converse-theory' | 'g8-pyth-applications' | 'g8-pyth-applications-theory' | 'g8-pyth-calculator' | 'g8-pyth-calculator-theory' | 'g8-pyth-special-triangles' | 'g8-pyth-special-triangles-theory' | 'g8-pyth-summary' | 'g8-pyth-summary-theory'
-  | 'g8-func-direct' | 'g8-func-graphs' | 'g8-func-inverse' | 'g8-func-reading' | 'g8-func-plotting' | 'g8-func-frequency' | 'g8-func-game' | 'g8-func-prob-basics' | 'g8-func-prob-problems' | 'g8-func-patterns' | 'g8-func-sequences' | 'g8-func-summary'
+  | 'g8-func-direct' | 'g8-func-direct-theory' | 'g8-func-direct-matcher' | 'g8-func-direct-sorter' | 'g8-func-graphs' | 'g8-func-graphs-theory' | 'g8-func-graphs-matcher' | 'g8-func-graphs-sorter' | 'g8-func-inverse' | 'g8-func-inverse-theory' | 'g8-func-inverse-matcher' | 'g8-func-inverse-sorter' | 'g8-func-reading' | 'g8-func-reading-theory' | 'g8-func-reading-matcher' | 'g8-func-reading-sorter' | 'g8-func-plotting' | 'g8-func-plotting-theory' | 'g8-func-plotting-matcher' | 'g8-func-plotting-sorter' | 'g8-func-frequency' | 'g8-func-frequency-theory' | 'g8-func-frequency-matcher' | 'g8-func-frequency-sorter' | 'g8-func-game' | 'g8-func-game-theory' | 'g8-func-game-matcher' | 'g8-func-game-sorter' | 'g8-func-prob-basics' | 'g8-func-prob-basics-theory' | 'g8-func-prob-basics-matcher' | 'g8-func-prob-basics-sorter' | 'g8-func-prob-problems' | 'g8-func-prob-problems-theory' | 'g8-func-prob-problems-matcher' | 'g8-func-prob-problems-sorter' | 'g8-func-patterns' | 'g8-func-patterns-theory' | 'g8-func-patterns-matcher' | 'g8-func-patterns-sorter' | 'g8-func-sequences' | 'g8-func-sequences-theory' | 'g8-func-sequences-matcher' | 'g8-func-sequences-sorter' | 'g8-func-summary' | 'g8-func-summary-theory' | 'g8-func-summary-matcher' | 'g8-func-summary-sorter'
   | 'g8-solids-review' | 'g8-solids-pyramids-intro' | 'g8-solids-pyramids-calc' | 'g8-solids-sphere' | 'g8-solids-earth' | 'g8-solids-summary'
   | 'angle-matching' | 'triangle-classification' | 'quadrilateral-classification'
   | 'shape-classification' | 'line-relationships' | 'reflection-quiz' | 'circle-parts'
@@ -1176,7 +1213,8 @@ export default function MathPage() {
     if (!resolvedTopic && (finalGrade === 8 || selectedGrade === 8)) {
       if (type.startsWith('g8-geom-')) resolvedTopic = 'g8-geometry';
       else if (type.startsWith('g8-eq-')) resolvedTopic = 'g8-equations';
-      else if (type.startsWith('g8-func-')) resolvedTopic = 'g8-functions';
+      else if (type.startsWith('g8-pyth-')) resolvedTopic = 'g8-pythagoras';
+      else if (type.startsWith('g8-func-')) resolvedTopic = 'g8-functions-probability-sequences';
       else if (type.startsWith('g8-stat-')) resolvedTopic = 'g8-statistics';
       else resolvedTopic = 'g8-numbers-letters';
     }
@@ -1247,7 +1285,8 @@ export default function MathPage() {
         if (!resolvedTopic && selectedGrade === 8) {
           if (activityType.startsWith('g8-geom-')) resolvedTopic = 'g8-geometry';
           else if (activityType.startsWith('g8-eq-')) resolvedTopic = 'g8-equations';
-          else if (activityType.startsWith('g8-func-')) resolvedTopic = 'g8-functions';
+          else if (activityType.startsWith('g8-pyth-')) resolvedTopic = 'g8-pythagoras';
+          else if (activityType.startsWith('g8-func-')) resolvedTopic = 'g8-functions-probability-sequences';
           else if (activityType.startsWith('g8-stat-')) resolvedTopic = 'g8-statistics';
           else resolvedTopic = 'g8-numbers-letters';
         }
@@ -6448,52 +6487,388 @@ export default function MathPage() {
                   />
                 )}
 
+                {activityType === 'g8-func-direct-theory' && (
+                  <Grade8DirectProportionTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-func-direct', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
                 {activityType === 'g8-func-direct' && (
-                  <Grade8DirectProportionG8Quiz onBack={handleBack} />
+                  <Grade8DirectProportionQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-direct-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-direct-matcher' && (
+                  <Grade8DirectProportionMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-func-direct', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-direct-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToSorter={() => handleActivitySelect('g8-func-direct-sorter', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-direct-sorter' && (
+                  <Grade8DirectProportionSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-func-direct', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-direct-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToMatcher={() => handleActivitySelect('g8-func-direct-matcher', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-graphs-theory' && (
+                  <Grade8FunctionsGraphsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-func-graphs', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
                 )}
 
                 {activityType === 'g8-func-graphs' && (
-                  <Grade8FunctionsGraphsQuiz onBack={handleBack} />
+                  <Grade8FunctionsGraphsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-graphs-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-graphs-matcher' && (
+                  <Grade8FunctionsGraphsMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-func-graphs', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-graphs-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToSorter={() => handleActivitySelect('g8-func-graphs-sorter', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-graphs-sorter' && (
+                  <Grade8FunctionsGraphsSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-func-graphs', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-graphs-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToMatcher={() => handleActivitySelect('g8-func-graphs-matcher', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-inverse-theory' && (
+                  <Grade8InverseProportionTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-func-inverse', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
                 )}
 
                 {activityType === 'g8-func-inverse' && (
-                  <Grade8InverseProportionQuiz onBack={handleBack} />
+                  <Grade8InverseProportionQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-inverse-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-inverse-matcher' && (
+                  <Grade8InverseProportionMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-func-inverse', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-inverse-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToSorter={() => handleActivitySelect('g8-func-inverse-sorter', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-inverse-sorter' && (
+                  <Grade8InverseProportionSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-func-inverse', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-inverse-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToMatcher={() => handleActivitySelect('g8-func-inverse-matcher', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-reading-theory' && (
+                  <Grade8ReadingGraphsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-func-reading', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
                 )}
 
                 {activityType === 'g8-func-reading' && (
-                  <Grade8ReadingGraphsQuiz onBack={handleBack} />
+                  <Grade8ReadingGraphsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-reading-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-reading-matcher' && (
+                  <Grade8ReadingGraphsMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-func-reading', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-reading-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToSorter={() => handleActivitySelect('g8-func-reading-sorter', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-reading-sorter' && (
+                  <Grade8ReadingGraphsSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-func-reading', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-reading-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToMatcher={() => handleActivitySelect('g8-func-reading-matcher', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-plotting-theory' && (
+                  <Grade8PlottingGraphsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-func-plotting', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
                 )}
 
                 {activityType === 'g8-func-plotting' && (
-                  <Grade8PlottingGraphsQuiz onBack={handleBack} />
+                  <Grade8PlottingGraphsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-plotting-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-plotting-matcher' && (
+                  <Grade8PlottingGraphsMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-func-plotting', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-plotting-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToSorter={() => handleActivitySelect('g8-func-plotting-sorter', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-plotting-sorter' && (
+                  <Grade8PlottingGraphsSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-func-plotting', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-plotting-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToMatcher={() => handleActivitySelect('g8-func-plotting-matcher', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-frequency-theory' && (
+                  <Grade8FrequencyStatisticsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-func-frequency', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
                 )}
 
                 {activityType === 'g8-func-frequency' && (
-                  <Grade8FrequencyStatisticsQuiz onBack={handleBack} />
+                  <Grade8FrequencyStatisticsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-frequency-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-frequency-matcher' && (
+                  <Grade8FrequencyStatisticsMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-func-frequency', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-frequency-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToSorter={() => handleActivitySelect('g8-func-frequency-sorter', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-frequency-sorter' && (
+                  <Grade8FrequencyStatisticsSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-func-frequency', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-frequency-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToMatcher={() => handleActivitySelect('g8-func-frequency-matcher', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-game-theory' && (
+                  <Grade8ProbabilityGameTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-func-game', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
                 )}
 
                 {activityType === 'g8-func-game' && (
-                  <Grade8ProbabilityGameQuiz onBack={handleBack} />
+                  <Grade8ProbabilityGameQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-game-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-game-matcher' && (
+                  <Grade8ProbabilityGameMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-func-game', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-game-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToSorter={() => handleActivitySelect('g8-func-game-sorter', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-game-sorter' && (
+                  <Grade8ProbabilityGameSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-func-game', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-game-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToMatcher={() => handleActivitySelect('g8-func-game-matcher', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-prob-basics-theory' && (
+                  <Grade8ProbabilityBasicsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-func-prob-basics', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
                 )}
 
                 {activityType === 'g8-func-prob-basics' && (
-                  <Grade8ProbabilityBasicsQuiz onBack={handleBack} />
+                  <Grade8ProbabilityBasicsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-prob-basics-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-prob-basics-matcher' && (
+                  <Grade8ProbabilityBasicsMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-func-prob-basics', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-prob-basics-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToSorter={() => handleActivitySelect('g8-func-prob-basics-sorter', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-prob-basics-sorter' && (
+                  <Grade8ProbabilityBasicsSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-func-prob-basics', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-prob-basics-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToMatcher={() => handleActivitySelect('g8-func-prob-basics-matcher', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-prob-problems-theory' && (
+                  <Grade8ProbabilityProblemsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-func-prob-problems', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
                 )}
 
                 {activityType === 'g8-func-prob-problems' && (
-                  <Grade8ProbabilityProblemsQuiz onBack={handleBack} />
+                  <Grade8ProbabilityProblemsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-prob-problems-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-prob-problems-matcher' && (
+                  <Grade8ProbabilityProblemsMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-func-prob-problems', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-prob-problems-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToSorter={() => handleActivitySelect('g8-func-prob-problems-sorter', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-prob-problems-sorter' && (
+                  <Grade8ProbabilityProblemsSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-func-prob-problems', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-prob-problems-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToMatcher={() => handleActivitySelect('g8-func-prob-problems-matcher', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-patterns-theory' && (
+                  <Grade8FindingPatternsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-func-patterns', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
                 )}
 
                 {activityType === 'g8-func-patterns' && (
-                  <Grade8FindingPatternsQuiz onBack={handleBack} />
+                  <Grade8FindingPatternsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-patterns-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-patterns-matcher' && (
+                  <Grade8FindingPatternsMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-func-patterns', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-patterns-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToSorter={() => handleActivitySelect('g8-func-patterns-sorter', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-patterns-sorter' && (
+                  <Grade8FindingPatternsSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-func-patterns', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-patterns-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToMatcher={() => handleActivitySelect('g8-func-patterns-matcher', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-sequences-theory' && (
+                  <Grade8SequencesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-func-sequences', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
                 )}
 
                 {activityType === 'g8-func-sequences' && (
-                  <Grade8SequencesQuiz onBack={handleBack} />
+                  <Grade8SequencesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-sequences-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-sequences-matcher' && (
+                  <Grade8SequencesMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-func-sequences', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-sequences-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToSorter={() => handleActivitySelect('g8-func-sequences-sorter', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-sequences-sorter' && (
+                  <Grade8SequencesSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-func-sequences', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-sequences-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToMatcher={() => handleActivitySelect('g8-func-sequences-matcher', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-summary-theory' && (
+                  <Grade8Chapter6SummaryTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-func-summary', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
                 )}
 
                 {activityType === 'g8-func-summary' && (
-                  <Grade8Chapter6SummaryQuiz onBack={handleBack} />
+                  <Grade8Chapter6SummaryQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-summary-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-summary-matcher' && (
+                  <Grade8Chapter6SummaryMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-func-summary', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-summary-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToSorter={() => handleActivitySelect('g8-func-summary-sorter', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
+                )}
+
+                {activityType === 'g8-func-summary-sorter' && (
+                  <Grade8Chapter6SummarySorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-func-summary', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-func-summary-theory', selectedTopic || 'g8-functions-probability-sequences')}
+                    onSwitchToMatcher={() => handleActivitySelect('g8-func-summary-matcher', selectedTopic || 'g8-functions-probability-sequences')}
+                  />
                 )}
 
                 {activityType === 'g8-solids-review' && (

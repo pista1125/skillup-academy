@@ -3,6 +3,15 @@
 ## Tananyag Áttekintés
 Adatok, szöveges feladatok és hozzárendelési szabályok grafikus ábrázolásának lépései: értéktáblázat készítése, tengelyek skálázása, mértékegységek felvétele, pontok pontos berajzolása és összekötése (folytonos vs. diszkrét grafikonok).
 
+### 📦 Elérhető Modulok
+
+| Modul | Fájl | Leírás |
+| :--- | :--- | :--- |
+| **Tananyag** | [`PlottingGraphsTheory.tsx`](./PlottingGraphsTheory.tsx) | Interaktív grafikonrajzoló labor (csúszkás meredekség $a$, tengelymetszet $b$, lépésháromszög, folytonos/diszkrét mód, értéktáblázat). |
+| **Gyakorló Kvíz** | [`PlottingGraphsQuiz.tsx`](./PlottingGraphsQuiz.tsx) | 30 feladat 3 differenciált szinten, 4 puskakártya SVG diagramokkal, beépített párosító és csoportosító módváltó. |
+| **Párosító Játék** | [`PlottingGraphsMatcher.tsx`](./PlottingGraphsMatcher.tsx) | 24 kártyapár 3 szinten: képletek & tengelymetszetek, lépésháromszög & tört lépések, életszerű modellek. |
+| **Csoportosító Játék** | [`PlottingGraphsSorter.tsx`](./PlottingGraphsSorter.tsx) | 36 elem 3 szinten: folytonos vs diszkrét, meredekségi irányok, a grafikonkészítés 3 fázisa. |
+
 ---
 
 ## 1. A Grafikonkészítés 5 Lépése

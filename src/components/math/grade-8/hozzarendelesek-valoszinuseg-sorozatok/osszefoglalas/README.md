@@ -1,21 +1,27 @@
-# 12. Összefoglalás (8. osztály)
+# VI. Fejezet Összefoglalás: Hozzárendelések, Valószínűség, Sorozatok (8. osztály)
 
-## Tananyag Áttekintés
-A VI. Hozzárendelések, valószínűségek, sorozatok fejezet teljes anyagának szintézise: egyenes és fordított arányosság, függvénytípusok és grafikonjaik, grafikonok elemzése, statisztikai mutatók (átlag, medián, módusz), klasszikus valószínűségszámítás, összefüggések és számsorozatok.
+Ez a modul a **VI. Hozzárendelések, valószínűségek, sorozatok** fejezet teljes, átfogó összefoglaló és témazáró egysége, amely mind a 11 altémát szintetizálja.
 
 ---
 
-## 1. A Fejezet Kulcsfogalmai és Összefüggései
+## 📦 A Modul Tartalma
 
-| Témakör | Fő szabály / Képlet | Grafikon / Szemléltetés |
-|---|---|---|
-| **Egyenes arányosság** | $\frac{y}{x} = k \implies y = k \cdot x$ | Origón $(0;0)$ átmenő egyenes |
-| **Fordított arányosság** | $x \cdot y = k \implies y = \frac{k}{x}$ | Hiperbola görbe ($D = \mathbb{R} \setminus \{0\}$) |
-| **Lineáris függvény** | $f(x) = ax + b$ | $a$: meredekség, $b$: $(0; b)$ $y$-metszet |
-| **Zérushely** | $f(x) = 0$ megoldása | Metszéspont az $x$-tengellyel |
-| **Statisztika** | Átlag: $\bar{x} = \frac{\sum x}{N}$, Relatív gyakoriság: $\frac{k}{N}$ | Oszlop- és kördiagram ($\alpha = \frac{k}{N} \cdot 360^\circ$) |
-| **Medián és Módusz** | $Me$: rendezett adatok közepe, $Mo$: leggyakoribb érték | Robusztus mutatók |
-| **Valószínűség** | $P(A) = \frac{\text{kedvező}}{\text{összes}} = \frac{k}{n}$, $0 \le P \le 1$ | $P(\bar{A}) = 1 - P(A)$ |
-| **Számtani sorozat** | $a_n = a_1 + (n - 1)d$ | Különbség állandó ($d$) |
-| **Mértani sorozat** | $a_n = a_1 \cdot q^{n - 1}$ | Hányados állandó ($q$) |
-| **Fibonacci-sorozat** | $F_n = F_{n-1} + F_{n-2}$ | $1, 1, 2, 3, 5, 8, 13, 21, 34, \dots$ |
+| Típus | Fájlnév | Leírás |
+| :--- | :--- | :--- |
+| **Összefoglaló Tananyag** | [`Chapter6SummaryTheory.tsx`](./Chapter6SummaryTheory.tsx) | Átfogó fejezeti tudástár, interaktív többcélú labor (függvény-, statisztika- és sorozatvizsgáló), definíciók és tipikus diákcsapdák. |
+| **Témazáró Kvíz** | [`Chapter6SummaryQuiz.tsx`](./Chapter6SummaryQuiz.tsx) | **90 kérdéses** (szintenként 30 kérdés) átfogó teszt 3 nehézségi szinten, részletes levezetésekkel, beépített képtárral és összefoglaló kártyákkal. |
+| **Párosító Játék** | [`Chapter6SummaryMatcher.tsx`](./Chapter6SummaryMatcher.tsx) | 3 szinten (szintenként 8 pár = 24 pár) interaktív fogalom-, képlet- és számpárosító játék. |
+| **Csoportosító Játék** | [`Chapter6SummarySorter.tsx`](./Chapter6SummarySorter.tsx) | 3 szinten (szintenként 12 kártya) témabesoroló, képletcsoportosító és igaz/hamis szétválogató játék. |
+
+---
+
+## 🎯 Érintett Főbb Témakörök
+
+1. **Egyenes és fordított arányosság** ($y = kx$, $xy = k$, arányossági tényezők, hiperbola)
+2. **Lineáris függvények és grafikonjaik** ($f(x) = ax + b$, meredekség, tengelymetszet, zérushely)
+3. **Grafikonkészítés és -leolvasás** (menetdiagramok, sebesség, pihenő, találkozások)
+4. **Leíró statisztika** (gyakoriságok, átlag, medián, módusz, terjedelem)
+5. **Klasszikus valószínűségszámítás** ($P = k/n$, 36 kockaeset, fa-diagram, visszatevés)
+6. **Játékelmélet és stratégiák** (tisztességes játék, 21 gyufás Nim-játék $4k+1$ célállásokkal)
+7. **Mintázatok és algebrai szabályok** (gyufaláncok, háromszögszámok, kézfogások, sokszögek átlói)
+8. **Számtani és mértani sorozatok** ($a_n$ képletek, $d$, $q$, Fibonacci-számok, aranymetszés)

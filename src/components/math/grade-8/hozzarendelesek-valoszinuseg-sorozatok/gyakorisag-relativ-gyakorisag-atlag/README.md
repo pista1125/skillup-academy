@@ -3,6 +3,15 @@
 ## Tananyag Áttekintés
 Leíró statisztikai alapfogalmak: adathalmaz, mintanagyság ($N$), abszolút gyakoriság ($k$), relatív gyakoriság ($\frac{k}{N}$ és százalék), számtani átlag ($\bar{x}$), módusz, medián, terjedelem és adatábrázolás oszlop- és kördiagramokon.
 
+### 📦 Elérhető Modulok
+
+| Modul | Fájl | Leírás |
+| :--- | :--- | :--- |
+| **Tananyag** | [`FrequencyStatisticsTheory.tsx`](./FrequencyStatisticsTheory.tsx) | Interaktív statisztikai labor (dinamikus oszlopdiagram, érdemjegy-számláló, élő átlag, módusz, medián és terjedelem kalkulátor). |
+| **Gyakorló Kvíz** | [`FrequencyStatisticsQuiz.tsx`](./FrequencyStatisticsQuiz.tsx) | 30 feladat 3 szinten, 4 puskakártya SVG illusztrációkkal, beépített párosító és csoportosító módváltó. |
+| **Párosító Játék** | [`FrequencyStatisticsMatcher.tsx`](./FrequencyStatisticsMatcher.tsx) | 24 kártyapár 3 szinten: statisztikai alapfogalmak, konkrét számítási feladatok, életszerű döntések. |
+| **Csoportosító Játék** | [`FrequencyStatisticsSorter.tsx`](./FrequencyStatisticsSorter.tsx) | 36 elem 3 szinten: középértékek (átlag, módusz, medián), diagramtípusok, statisztikai fázisok. |
+
 ---
 
 ## 1. Alapfogalmak és Kiszámításuk

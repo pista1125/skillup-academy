@@ -1,7 +1,18 @@
 # 8. Valószínűség (8. osztály)
 
 ## Tananyag Áttekintés
-A valószínűségszámítás alapfogalmai: véletlen kísérlet, eseménytér, elemi események, biztos esemény ($P=1$), lehetetlen esemény ($P=0$), a klasszikus valószínűségi mező képlete és a relatív gyakoriság kapcsolata a valószínűséggel (a nagy számok törvénye).
+A valószínűségszámítás alapfogalmai: véletlen kísérlet, eseménytér, elemi események, biztos esemény ($P=1$), lehetetlen esemény ($P=0$), a klasszikus valószínűségi mező képlete ($P = k/n$) és a relatív gyakoriság kapcsolata a valószínűséggel (a nagy számok törvénye).
+
+---
+
+## Elkészült Komponensek
+
+| Típus | Fájl | Leírás |
+|---|---|---|
+| **Tananyag** | [`ProbabilityBasicsTheory.tsx`](./ProbabilityBasicsTheory.tsx) | Interaktív golyóhúzó urna szimulátor, érmedobás és nagy számok törvénye laborteszt, 4 elméleti fejezet, kiemelt képletkártya |
+| **Kvíz** | [`ProbabilityBasicsQuiz.tsx`](./ProbabilityBasicsQuiz.tsx) | 30 feladat 3 szinten, 4 beágyazott képletkártya, integrált Matcher és Sorter játékmódok |
+| **Párosító** | [`ProbabilityBasicsMatcher.tsx`](./ProbabilityBasicsMatcher.tsx) | 24 fogalompár 3 szinten (Alapfogalmak, Kockák és Kártyák, Haladó Számítások) |
+| **Csoportosító** | [`ProbabilityBasicsSorter.tsx`](./ProbabilityBasicsSorter.tsx) | 36 kártya 3 szinten (Eseménytípusok P szerint, Valószínűségi szintek, Igaz/Hamis paradoxonok) |
 
 ---
 
