@@ -357,12 +357,19 @@ const Grade8Chapter3EquationsSummaryTheory = lazy(() => import("@/components/mat
 const Grade8Chapter3EquationsSummaryQuiz = lazy(() => import("@/components/math/grade-8/egyenletek/osszefoglalas/Chapter3EquationsSummaryQuiz").then(m => ({ default: m.Chapter3EquationsSummaryQuiz }))) as any;
 const Grade8Chapter3EquationsSummaryMatcher = lazy(() => import("@/components/math/grade-8/egyenletek/osszefoglalas/Chapter3EquationsSummaryMatcher").then(m => ({ default: m.Chapter3EquationsSummaryMatcher }))) as any;
 const Grade8Chapter3EquationsSummarySorter = lazy(() => import("@/components/math/grade-8/egyenletek/osszefoglalas/Chapter3EquationsSummarySorter").then(m => ({ default: m.Chapter3EquationsSummarySorter }))) as any;
+const Grade8ConstructionsMeasurementsTheory = lazy(() => import("@/components/math/grade-8/pitagorasz-tetel/szerkesztesek-meresek/ConstructionsMeasurementsTheory").then(m => ({ default: m.ConstructionsMeasurementsTheory }))) as any;
 const Grade8ConstructionsMeasurementsQuiz = lazy(() => import("@/components/math/grade-8/pitagorasz-tetel/szerkesztesek-meresek/ConstructionsMeasurementsQuiz").then(m => ({ default: m.ConstructionsMeasurementsQuiz }))) as any;
+const Grade8PythagorasTheoremTheory = lazy(() => import("@/components/math/grade-8/pitagorasz-tetel/a-pitagorasz-tetel/PythagorasTheoremTheory").then(m => ({ default: m.PythagorasTheoremTheory }))) as any;
 const Grade8PythagorasTheoremQuiz = lazy(() => import("@/components/math/grade-8/pitagorasz-tetel/a-pitagorasz-tetel/PythagorasTheoremQuiz").then(m => ({ default: m.PythagorasTheoremQuiz }))) as any;
+const Grade8ConversePythagorasTheory = lazy(() => import("@/components/math/grade-8/pitagorasz-tetel/a-pitagorasz-tetel-megforditasa/ConversePythagorasTheory").then(m => ({ default: m.ConversePythagorasTheory }))) as any;
 const Grade8ConversePythagorasQuiz = lazy(() => import("@/components/math/grade-8/pitagorasz-tetel/a-pitagorasz-tetel-megforditasa/ConversePythagorasQuiz").then(m => ({ default: m.ConversePythagorasQuiz }))) as any;
+const Grade8PythagorasApplicationsTheory = lazy(() => import("@/components/math/grade-8/pitagorasz-tetel/a-pitagorasz-tetel-alkalmazasa/PythagorasApplicationsTheory").then(m => ({ default: m.PythagorasApplicationsTheory }))) as any;
 const Grade8PythagorasApplicationsQuiz = lazy(() => import("@/components/math/grade-8/pitagorasz-tetel/a-pitagorasz-tetel-alkalmazasa/PythagorasApplicationsQuiz").then(m => ({ default: m.PythagorasApplicationsQuiz }))) as any;
+const Grade8CalculatorProjectTheory = lazy(() => import("@/components/math/grade-8/pitagorasz-tetel/alkalmazas-szamologep-projektmunka/CalculatorProjectTheory").then(m => ({ default: m.CalculatorProjectTheory }))) as any;
 const Grade8CalculatorProjectQuiz = lazy(() => import("@/components/math/grade-8/pitagorasz-tetel/alkalmazas-szamologep-projektmunka/CalculatorProjectQuiz").then(m => ({ default: m.CalculatorProjectQuiz }))) as any;
+const Grade8SpecialRightTrianglesTheory = lazy(() => import("@/components/math/grade-8/pitagorasz-tetel/nevezetes-derekszogu-haromszogek/SpecialRightTrianglesTheory").then(m => ({ default: m.SpecialRightTrianglesTheory }))) as any;
 const Grade8SpecialRightTrianglesQuiz = lazy(() => import("@/components/math/grade-8/pitagorasz-tetel/nevezetes-derekszogu-haromszogek/SpecialRightTrianglesQuiz").then(m => ({ default: m.SpecialRightTrianglesQuiz }))) as any;
+const Grade8Chapter5PythagorasSummaryTheory = lazy(() => import("@/components/math/grade-8/pitagorasz-tetel/osszefoglalas/Chapter5PythagorasSummaryTheory").then(m => ({ default: m.Chapter5PythagorasSummaryTheory }))) as any;
 const Grade8Chapter5PythagorasSummaryQuiz = lazy(() => import("@/components/math/grade-8/pitagorasz-tetel/osszefoglalas/Chapter5PythagorasSummaryQuiz").then(m => ({ default: m.Chapter5PythagorasSummaryQuiz }))) as any;
 const Grade8DirectProportionG8Quiz = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/egyenes-aranyossag/DirectProportionG8Quiz").then(m => ({ default: m.DirectProportionG8Quiz }))) as any;
 const Grade8FunctionsGraphsQuiz = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/hozzarendelesek-es-grafikonjaik/FunctionsGraphsQuiz").then(m => ({ default: m.FunctionsGraphsQuiz }))) as any;
@@ -660,7 +667,7 @@ type ActivityType =
   | 'g8-logic' | 'g8-set-basics' | 'g8-set-operations' | 'g8-rational-set' | 'g8-rational-operations' | 'g8-powers' | 'g8-sqrt-concept' | 'g8-square-roots' | 'g8-algebra-intro' | 'g8-factoring' | 'g8-polynomial-mult' | 'g8-chapter1-summary'
   | 'g8-geom-congruence' | 'g8-geom-transforms' | 'g8-geom-software' | 'g8-geom-similarity' | 'g8-geom-central-similarity' | 'g8-geom-central-similarity-theory' | 'g8-geom-central-similarity-quiz' | 'g8-geom-central-similarity-matcher' | 'g8-geom-central-similarity-sorter' | 'g8-geom-constructions' | 'g8-geom-constructions-theory' | 'g8-geom-constructions-quiz' | 'g8-geom-constructions-matcher' | 'g8-geom-constructions-sorter' | 'g8-geom-summary' | 'g8-geom-summary-theory' | 'g8-geom-summary-quiz' | 'g8-geom-summary-matcher' | 'g8-geom-summary-sorter'
   | 'g8-eq-basic' | 'g8-eq-basic-theory' | 'g8-eq-basic-quiz' | 'g8-eq-basic-matcher' | 'g8-eq-basic-sorter' | 'g8-eq-numbers-ages' | 'g8-eq-numbers-ages-theory' | 'g8-eq-numbers-ages-quiz' | 'g8-eq-numbers-ages-matcher' | 'g8-eq-numbers-ages-sorter' | 'g8-eq-mixing' | 'g8-eq-mixing-theory' | 'g8-eq-mixing-quiz' | 'g8-eq-mixing-matcher' | 'g8-eq-mixing-sorter' | 'g8-eq-motion-work' | 'g8-eq-motion-work-theory' | 'g8-eq-motion-work-quiz' | 'g8-eq-motion-work-matcher' | 'g8-eq-motion-work-sorter' | 'g8-eq-geometry' | 'g8-eq-geometry-theory' | 'g8-eq-geometry-quiz' | 'g8-eq-geometry-matcher' | 'g8-eq-geometry-sorter' | 'g8-eq-mixed' | 'g8-eq-mixed-theory' | 'g8-eq-mixed-quiz' | 'g8-eq-mixed-matcher' | 'g8-eq-mixed-sorter' | 'g8-eq-financial' | 'g8-eq-financial-theory' | 'g8-eq-financial-quiz' | 'g8-eq-financial-matcher' | 'g8-eq-financial-sorter' | 'g8-eq-summary' | 'g8-eq-summary-theory' | 'g8-eq-summary-quiz' | 'g8-eq-summary-matcher' | 'g8-eq-summary-sorter'
-  | 'g8-pyth-constructions' | 'g8-pyth-theorem' | 'g8-pyth-converse' | 'g8-pyth-applications' | 'g8-pyth-calculator' | 'g8-pyth-special-triangles' | 'g8-pyth-summary'
+  | 'g8-pyth-constructions' | 'g8-pyth-constructions-theory' | 'g8-pyth-theorem' | 'g8-pyth-theorem-theory' | 'g8-pyth-converse' | 'g8-pyth-converse-theory' | 'g8-pyth-applications' | 'g8-pyth-applications-theory' | 'g8-pyth-calculator' | 'g8-pyth-calculator-theory' | 'g8-pyth-special-triangles' | 'g8-pyth-special-triangles-theory' | 'g8-pyth-summary' | 'g8-pyth-summary-theory'
   | 'g8-func-direct' | 'g8-func-graphs' | 'g8-func-inverse' | 'g8-func-reading' | 'g8-func-plotting' | 'g8-func-frequency' | 'g8-func-game' | 'g8-func-prob-basics' | 'g8-func-prob-problems' | 'g8-func-patterns' | 'g8-func-sequences' | 'g8-func-summary'
   | 'g8-solids-review' | 'g8-solids-pyramids-intro' | 'g8-solids-pyramids-calc' | 'g8-solids-sphere' | 'g8-solids-earth' | 'g8-solids-summary'
   | 'angle-matching' | 'triangle-classification' | 'quadrilateral-classification'
@@ -6343,32 +6350,102 @@ export default function MathPage() {
                   />
                 )}
 
+                {activityType === 'g8-pyth-constructions-theory' && (
+                  <Grade8ConstructionsMeasurementsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-pyth-constructions', selectedTopic || 'g8-pythagoras')}
+                  />
+                )}
+
                 {activityType === 'g8-pyth-constructions' && (
-                  <Grade8ConstructionsMeasurementsQuiz onBack={handleBack} />
+                  <Grade8ConstructionsMeasurementsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-pyth-constructions-theory', selectedTopic || 'g8-pythagoras')}
+                  />
+                )}
+
+                {activityType === 'g8-pyth-theorem-theory' && (
+                  <Grade8PythagorasTheoremTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-pyth-theorem', selectedTopic || 'g8-pythagoras')}
+                  />
                 )}
 
                 {activityType === 'g8-pyth-theorem' && (
-                  <Grade8PythagorasTheoremQuiz onBack={handleBack} />
+                  <Grade8PythagorasTheoremQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-pyth-theorem-theory', selectedTopic || 'g8-pythagoras')}
+                  />
+                )}
+
+                {activityType === 'g8-pyth-converse-theory' && (
+                  <Grade8ConversePythagorasTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-pyth-converse', selectedTopic || 'g8-pythagoras')}
+                  />
                 )}
 
                 {activityType === 'g8-pyth-converse' && (
-                  <Grade8ConversePythagorasQuiz onBack={handleBack} />
+                  <Grade8ConversePythagorasQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-pyth-converse-theory', selectedTopic || 'g8-pythagoras')}
+                  />
+                )}
+
+                {activityType === 'g8-pyth-applications-theory' && (
+                  <Grade8PythagorasApplicationsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-pyth-applications', selectedTopic || 'g8-pythagoras')}
+                  />
                 )}
 
                 {activityType === 'g8-pyth-applications' && (
-                  <Grade8PythagorasApplicationsQuiz onBack={handleBack} />
+                  <Grade8PythagorasApplicationsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-pyth-applications-theory', selectedTopic || 'g8-pythagoras')}
+                  />
+                )}
+
+                {activityType === 'g8-pyth-calculator-theory' && (
+                  <Grade8CalculatorProjectTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-pyth-calculator', selectedTopic || 'g8-pythagoras')}
+                  />
                 )}
 
                 {activityType === 'g8-pyth-calculator' && (
-                  <Grade8CalculatorProjectQuiz onBack={handleBack} />
+                  <Grade8CalculatorProjectQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-pyth-calculator-theory', selectedTopic || 'g8-pythagoras')}
+                  />
+                )}
+
+                {activityType === 'g8-pyth-special-triangles-theory' && (
+                  <Grade8SpecialRightTrianglesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-pyth-special-triangles', selectedTopic || 'g8-pythagoras')}
+                  />
                 )}
 
                 {activityType === 'g8-pyth-special-triangles' && (
-                  <Grade8SpecialRightTrianglesQuiz onBack={handleBack} />
+                  <Grade8SpecialRightTrianglesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-pyth-special-triangles-theory', selectedTopic || 'g8-pythagoras')}
+                  />
+                )}
+
+                {activityType === 'g8-pyth-summary-theory' && (
+                  <Grade8Chapter5PythagorasSummaryTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-pyth-summary', selectedTopic || 'g8-pythagoras')}
+                  />
                 )}
 
                 {activityType === 'g8-pyth-summary' && (
-                  <Grade8Chapter5PythagorasSummaryQuiz onBack={handleBack} />
+                  <Grade8Chapter5PythagorasSummaryQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-pyth-summary-theory', selectedTopic || 'g8-pythagoras')}
+                  />
                 )}
 
                 {activityType === 'g8-func-direct' && (

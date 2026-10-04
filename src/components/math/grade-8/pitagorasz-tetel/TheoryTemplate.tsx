@@ -365,8 +365,10 @@ export const TheoryCard: React.FC<TheoryCardProps> = ({
 // --- GeometryFigureCard / VisualCard Component ---
 export interface GeometryFigureCardProps {
   title: string;
-  figure: React.ReactNode;
+  figure?: React.ReactNode;
+  children?: React.ReactNode;
   description?: string;
+  caption?: string;
   properties?: string[];
   formula?: string;
   badge?: string;
@@ -377,7 +379,9 @@ export interface GeometryFigureCardProps {
 export const GeometryFigureCard: React.FC<GeometryFigureCardProps> = ({
   title,
   figure,
+  children,
   description,
+  caption,
   properties,
   formula,
   badge,
@@ -385,6 +389,8 @@ export const GeometryFigureCard: React.FC<GeometryFigureCardProps> = ({
   className
 }) => {
   const styles = colorStyles[color] || colorStyles.purple;
+  const displayFigure = figure || children;
+  const displayDescription = description || caption;
 
   return (
     <Card className={cn('rounded-2xl border-2 border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs overflow-hidden', className)}>
@@ -401,9 +407,11 @@ export const GeometryFigureCard: React.FC<GeometryFigureCardProps> = ({
         </div>
 
         {/* Figure Container */}
-        <div className="flex items-center justify-center p-3 sm:p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 min-h-[120px]">
-          {figure}
-        </div>
+        {displayFigure && (
+          <div className="flex items-center justify-center p-3 sm:p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 min-h-[120px]">
+            {displayFigure}
+          </div>
+        )}
 
         {formula && (
           <div className={cn('p-2.5 rounded-xl border text-center font-mono font-bold text-xs sm:text-sm', styles.ruleBg, styles.ruleBorder, styles.ruleText)}>
@@ -411,9 +419,9 @@ export const GeometryFigureCard: React.FC<GeometryFigureCardProps> = ({
           </div>
         )}
 
-        {description && (
+        {displayDescription && (
           <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-            {typeof description === 'string' ? <MathText>{description}</MathText> : description}
+            {typeof displayDescription === 'string' ? <MathText>{displayDescription}</MathText> : displayDescription}
           </p>
         )}
 
@@ -647,7 +655,7 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = (props) => {
     onStartPractice,
     onSwitchToQuiz,
     documentId = 'theory-content',
-    pdfFilename = '8_osztaly_egyenletek_tananyag.pdf',
+    pdfFilename = '8_osztaly_pitagorasz_tetel_tananyag.pdf',
     badgeText,
     badge,
     topicBadge,
@@ -657,22 +665,22 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = (props) => {
     quickRule,
     ruleTitle,
     ruleFormula,
-    themeColor = 'purple',
-    practiceTitle = 'Készen állsz az egyenlet feladványokra?',
-    practiceSubtitle = 'Tedd próbára tudásod a 3 szintű kvízben változatos mérlegelv, zárójeles és törtes feladatokkal!',
+    themeColor = 'amber',
+    practiceTitle = 'Készen állsz a Pitagorasz-tétel feladványokra?',
+    practiceSubtitle = 'Tedd próbára tudásod a 3 szintű kvízben derékszögű háromszögekkel, számításokkal és ábrákkal!',
     practiceButtonText = 'Kvíz indítása',
     sections,
     children
   } = props;
 
   const displayBadge =
-    badgeText || badge || topicBadge || '8. OSZTÁLY • III. EGYENLETEK • 💡 TANANYAG';
+    badgeText || badge || topicBadge || '8. OSZTÁLY • IV. A PITAGORASZ-TÉTEL • 📐 TANANYAG';
   const displaySubtitle = subtitle || description;
   const displayRule =
-    quickRule || (ruleFormula ? { label: ruleTitle || 'Alapszabály', formula: ruleFormula } : undefined);
+    quickRule || (ruleFormula ? { label: ruleTitle || 'Alaptétel', formula: ruleFormula } : undefined);
 
   const [isDownloading, setIsDownloading] = useState(false);
-  const styles = colorStyles[themeColor] || colorStyles.purple;
+  const styles = colorStyles[themeColor] || colorStyles.amber;
   const handleQuizStart = onStartQuiz || onStartPractice || onSwitchToQuiz;
 
   useEffect(() => {
@@ -774,7 +782,7 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = (props) => {
               </div>
               <div
                 className={cn(
-                  'text-sm sm:text-base font-mono font-black break-words leading-snug whitespace-normal mt-0.5',
+                  'text-sm sm:text-base font-bold break-words leading-snug whitespace-normal mt-0.5 tracking-tight',
                   styles.ruleText
                 )}
               >

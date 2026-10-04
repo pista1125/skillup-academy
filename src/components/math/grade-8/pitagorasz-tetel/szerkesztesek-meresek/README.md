@@ -31,3 +31,13 @@ Ha egy $a, b$ befogójú és $c$ átfogójú derékszögű háromszög mindegyik
 - **Kísérleti eredmény (négyzethálós és darabolásos mérésekkel):**
   $$T_a + T_b = T_c \iff a^2 + b^2 = c^2$$
   *A két befogóra emelt négyzet területének összege pontosan megegyezik az átfogóra emelt négyzet területével.*
+
+---
+
+## 💻 Elérhető Interaktív Modulok
+
+1. [**`ConstructionsMeasurementsTheory.tsx`**](./ConstructionsMeasurementsTheory.tsx): Részletes tananyag, interaktív területszimulátor labor, lépésről lépésre szerkesztési útmutató, tévhitek és PDF letöltés.
+2. [**`ConstructionsMeasurementsQuiz.tsx`**](./ConstructionsMeasurementsQuiz.tsx): 3 szintű kvíz (30 feladat), vizuális segédletkártyákkal, beágyazott párosító és csoportosító játékmódokkal.
+3. [**`ConstructionsMeasurementsMatcher.tsx`**](./ConstructionsMeasurementsMatcher.tsx): 3 szintű párosító memóriajáték (fogalmak, szerkesztési lépések, területszámítások).
+4. [**`ConstructionsMeasurementsSorter.tsx`**](./ConstructionsMeasurementsSorter.tsx): 3 szintű kategóriába soroló és rendező játék (háromszög elemei, szerkesztési esetek, geometriai állítások érvényessége).
+

@@ -877,13 +877,23 @@ export const Grade8View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g8-sec-pyth-szerkesztes" number={1} title="Szerkesztések, mérések" color="amber" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Szerkesztések & Mérések"
-                  subtitle="Thálész-tétel, területek mérése"
+                  title="Szerkesztések & Mérések Tananyag"
+                  subtitle="Derékszögű háromszög, Thálész-tétel, területek mérése"
+                  type="Tananyag"
+                  emoji="📐"
+                  onClick={() => onActivitySelect('g8-pyth-constructions-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="amber"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
                   type="Kvíz"
                   emoji="📏"
                   onClick={() => onActivitySelect('g8-pyth-constructions', topicId)}
                   icon={<Ruler className="w-6 h-6" />}
                   color="amber"
+                  {...getTopicProgress('g8-pyth-constructions')}
                 />
               </div>
             </section>
@@ -895,13 +905,23 @@ export const Grade8View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g8-sec-pyth-tetel" number={2} title="A Pitagorasz-tétel" color="orange" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Pitagorasz-tétel Kvíz"
-                  subtitle="a² + b² = c², befogók és átfogó"
+                  title="A Pitagorasz-tétel Tananyag"
+                  subtitle="Geometriai bizonyítás, területi modellek, számítások"
+                  type="Tananyag"
+                  emoji="📐"
+                  onClick={() => onActivitySelect('g8-pyth-theorem-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="orange"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
                   type="Kvíz"
                   emoji="📐"
                   onClick={() => onActivitySelect('g8-pyth-theorem', topicId)}
                   icon={<Triangle className="w-6 h-6" />}
                   color="orange"
+                  {...getTopicProgress('g8-pyth-theorem')}
                 />
               </div>
             </section>
@@ -913,13 +933,23 @@ export const Grade8View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g8-sec-pyth-megforditas" number={3} title="A Pitagorasz-tétel megfordítása" color="yellow" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Megfordítás & Számhármasok"
-                  subtitle="Derékszögűség, 3-4-5, 5-12-13"
+                  title="A Megfordítás Tananyag"
+                  subtitle="Derékszögűség vizsgálata, egyiptomi zsinór, számhármasok"
+                  type="Tananyag"
+                  emoji="🔄"
+                  onClick={() => onActivitySelect('g8-pyth-converse-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="yellow"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
                   type="Kvíz"
                   emoji="🔄"
                   onClick={() => onActivitySelect('g8-pyth-converse', topicId)}
                   icon={<GitCompare className="w-6 h-6" />}
                   color="yellow"
+                  {...getTopicProgress('g8-pyth-converse')}
                 />
               </div>
             </section>
@@ -931,13 +961,23 @@ export const Grade8View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g8-sec-pyth-alkalmazas" number={4} title="A Pitagorasz-tétel alkalmazása" color="emerald" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Síkbeli Alkalmazások"
-                  subtitle="Négyzet, téglalap, rombusz, trapéz"
+                  title="Alkalmazások Tananyag"
+                  subtitle="Négyzet, téglalap, háromszögek, rombusz, trapéz, kör"
+                  type="Tananyag"
+                  emoji="🔷"
+                  onClick={() => onActivitySelect('g8-pyth-applications-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="emerald"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
                   type="Kvíz"
                   emoji="🔷"
                   onClick={() => onActivitySelect('g8-pyth-applications', topicId)}
                   icon={<Shapes className="w-6 h-6" />}
                   color="emerald"
+                  {...getTopicProgress('g8-pyth-applications')}
                 />
               </div>
             </section>
@@ -949,13 +989,23 @@ export const Grade8View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g8-sec-pyth-szamologep" number={5} title="Számológép és Projektmunka" color="cyan" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Számológép & Projekt"
-                  subtitle="Gyökcsiga (Theodórosz), hajtogatás"
+                  title="Számológép & Projekt Tananyag"
+                  subtitle="Számológép használat, Theodórosz-spirál, becslés és modellezés"
+                  type="Tananyag"
+                  emoji="💡"
+                  onClick={() => onActivitySelect('g8-pyth-calculator-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="cyan"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
                   type="Kvíz"
                   emoji="🧮"
                   onClick={() => onActivitySelect('g8-pyth-calculator', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="cyan"
+                  {...getTopicProgress('g8-pyth-calculator')}
                 />
               </div>
             </section>
@@ -967,13 +1017,23 @@ export const Grade8View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g8-sec-pyth-nevezetes" number={6} title="Nevezetes derékszögű háromszögek" color="indigo" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Nevezetes Háromszögek"
-                  subtitle="30°-60°-90° és 45°-45°-90°"
+                  title="Nevezetes Háromszögek Tananyag"
+                  subtitle="45°-45°-90° (négyzet) és 30°-60°-90° (félszabályos) laborral"
+                  type="Tananyag"
+                  emoji="💡"
+                  onClick={() => onActivitySelect('g8-pyth-special-triangles-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="indigo"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
                   type="Kvíz"
-                  emoji="🎯"
+                  emoji="📐"
                   onClick={() => onActivitySelect('g8-pyth-special-triangles', topicId)}
                   icon={<Target className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g8-pyth-special-triangles')}
                 />
               </div>
             </section>
@@ -985,13 +1045,23 @@ export const Grade8View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g8-sec-pyth-osszefoglalas" number={7} title="Összefoglalás" color="rose" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
+                  title="V. Fejezet Összefoglaló Tananyag"
+                  subtitle="Átfogó elmélet, 2D/3D interaktív laborok, képletkatalógus és típushibák"
+                  type="Tananyag"
+                  emoji="📖"
+                  onClick={() => onActivitySelect('g8-pyth-summary-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="amber"
+                />
+                <ActivityPlaceholder
                   title="V. Fejezet Témazáró Kvíz"
-                  subtitle="Pitagorasz-tétel átfogó teszt"
+                  subtitle="90 feladat 3 szinten (szintenként 30 kérdés!), párosító és csoportosító játékkal"
                   type="Témazáró"
                   emoji="🏆"
                   onClick={() => onActivitySelect('g8-pyth-summary', topicId)}
                   icon={<Award className="w-6 h-6" />}
                   color="amber"
+                  {...getTopicProgress('g8-pyth-summary')}
                 />
               </div>
             </section>

@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { exportElementToPDF } from '@/utils/pdfExport';
-import { MathText } from '@/components/math/shared/MathText';
+import { MathText, parseFractionsInNode } from '@/components/math/shared/MathText';
 
 // --- Theme Color Mappings ---
 export type ThemeColor =
@@ -297,7 +297,7 @@ export const TheorySection: React.FC<TheorySectionProps> = ({
           </span>
         )}
       </div>
-      {children}
+      {parseFractionsInNode(children)}
     </section>
   );
 };
@@ -397,7 +397,7 @@ export const TheoryCard: React.FC<TheoryCardProps> = ({
             ))}
           </ul>
         )}
-        {children}
+        {parseFractionsInNode(children)}
       </CardContent>
     </Card>
   );
