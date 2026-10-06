@@ -1422,13 +1422,23 @@ export const Grade8View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g8-sec-solids-ismetles" number={1} title="Mit tanultunk eddig? (ismétlés)" color="indigo" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Testek Ismétlő Kvíz"
-                  subtitle="Kocka, téglatest, hasáb, henger, mértékegységek"
+                  title="Térgeometriai Ismétlés Tananyag"
+                  subtitle="Mértékegységek, kocka, téglatest, hasábok és forgáshenger laborral"
+                  type="Tananyag"
+                  emoji="📐"
+                  onClick={() => onActivitySelect('g8-solids-review-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="indigo"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
                   type="Kvíz"
-                  emoji="📦"
+                  emoji="🎯"
                   onClick={() => onActivitySelect('g8-solids-review', topicId)}
                   icon={<Box className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g8-solids-review')}
                 />
               </div>
             </section>
@@ -1440,13 +1450,23 @@ export const Grade8View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g8-sec-solids-gulak" number={2} title="Gúlák" color="amber" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Gúlák Tulajdonságai"
-                  subtitle="Alaplap, palást, oldalélek, háló, Euler-tétel"
-                  type="Kvíz"
+                  title="Gúlák Geometriája Tananyag"
+                  subtitle="Fogalmak, szabályos gúlák, Pitagorasz-kapcsolatok, hálók és Euler-tétel"
+                  type="Tananyag"
                   emoji="🔺"
-                  onClick={() => onActivitySelect('g8-solids-pyramids-intro', topicId)}
+                  onClick={() => onActivitySelect('g8-solids-pyramids-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="amber"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g8-solids-pyramids', topicId)}
                   icon={<Triangle className="w-6 h-6" />}
                   color="amber"
+                  {...getTopicProgress('g8-solids-pyramids')}
                 />
               </div>
             </section>
@@ -1458,13 +1478,23 @@ export const Grade8View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g8-sec-solids-gula-szamitas" number={3} title="A gúla felszíne és térfogata (Kiegészítő tananyag)" color="rose" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Gúla Felszín és Térfogat"
-                  subtitle="A = Ta + Tp, V = (Ta · m) / 3, Pitagorasz-tétel"
-                  type="Gyakorló"
+                  title="Gúla Felszín és Térfogat Tananyag"
+                  subtitle="Képletek, interaktív számolólabor, Pitagorasz-tétel alkalmazása és levezetések"
+                  type="Tananyag"
                   emoji="📐"
+                  onClick={() => onActivitySelect('g8-solids-pyramids-calc-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="rose"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🎯"
                   onClick={() => onActivitySelect('g8-solids-pyramids-calc', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="rose"
+                  {...getTopicProgress('g8-solids-pyramids-calc')}
                 />
               </div>
             </section>
@@ -1476,13 +1506,23 @@ export const Grade8View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g8-sec-solids-gomb" number={4} title="A gömb" color="blue" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="A Gömb Geometriája"
-                  subtitle="A = 4πr², V = (4/3)πr³, főkör, félgömb"
-                  type="Kvíz"
+                  title="A Gömb Geometriája Tananyag"
+                  subtitle="Gömbfelület, főkör, síkmetszetek, A = 4πr², V = (4/3)πr³ és félgömb laborral"
+                  type="Tananyag"
                   emoji="⚪"
+                  onClick={() => onActivitySelect('g8-solids-sphere-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="blue"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🎯"
                   onClick={() => onActivitySelect('g8-solids-sphere', topicId)}
                   icon={<Circle className="w-6 h-6" />}
                   color="blue"
+                  {...getTopicProgress('g8-solids-sphere')}
                 />
               </div>
             </section>
@@ -1494,13 +1534,23 @@ export const Grade8View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g8-sec-solids-fold" number={5} title="A Föld" color="teal" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="A Föld Mint Gömb"
-                  subtitle="R ≈ 6370 km, Egyenlítő, fokhálózat, felszín"
-                  type="Kvíz"
+                  title="A Föld Geometriája Tananyag"
+                  subtitle="A Föld mint gömb, R ≈ 6370 km, Egyenlítő, fokhálózat, távolságok és Eratoszthenész"
+                  type="Tananyag"
                   emoji="🌍"
+                  onClick={() => onActivitySelect('g8-solids-earth-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="teal"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat 3 szinten, fokhálózat, felszín, térfogat, párosító és csoportosító"
+                  type="Kvíz"
+                  emoji="🌐"
                   onClick={() => onActivitySelect('g8-solids-earth', topicId)}
                   icon={<Globe className="w-6 h-6" />}
                   color="teal"
+                  {...getTopicProgress('g8-solids-earth')}
                 />
               </div>
             </section>
@@ -1512,13 +1562,23 @@ export const Grade8View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g8-sec-solids-osszefoglalas" number={6} title="Összefoglalás" color="indigo" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
+                  title="Testek Fejezeti Összefoglalás"
+                  subtitle="Teljes elmélet, hasábok, gúlák, forgástestek, Föld modell, interaktív méretezési labor"
+                  type="Tananyag"
+                  emoji="📐"
+                  onClick={() => onActivitySelect('g8-solids-summary-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="indigo"
+                />
+                <ActivityPlaceholder
                   title="VII. Fejezet Témazáró Kvíz"
-                  subtitle="Hasábok, gúlák, gömbök átfogó teszt"
+                  subtitle="90 feladat 3 szinten (30 szintenként), hasáb, gúla, henger, kúp, gömb, párosító és csoportosító"
                   type="Témazáró"
                   emoji="🏆"
                   onClick={() => onActivitySelect('g8-solids-summary', topicId)}
                   icon={<Award className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g8-solids-summary')}
                 />
               </div>
             </section>

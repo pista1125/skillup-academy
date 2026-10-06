@@ -1,7 +1,7 @@
 # 5. A Föld (8. osztály)
 
 ## Tananyag Áttekintés
-A Föld mint gömb matematikai modellje, a Föld sugara ($R \approx 6370\text{ km}$), az Egyenlítő kerülete ($K \approx 40\,000\text{ km}$), a földrajzi fokhálózat (szélességi és hosszúsági körök), távolságszámítás a felszínen, a Föld felszíne ($A \approx 510\text{ millió km}^2$) és térfogata ($V \approx 1,08 \times 10^{12}\text{ km}^3$).
+A Föld mint gömb matematikai modellje, a Föld sugara ($R \approx 6370\text{ km}$), az átmérő ($d \approx 12\,740\text{ km}$), az Egyenlítő kerülete ($K \approx 40\,000\text{ km}$), a földrajzi fokhálózat (szélességi és hosszúsági körök), távolságszámítás a felszínen ($1^\circ \approx 111,1\text{ km}$ a délkör mentén), gömbi távolságok és légi folyosók (ortodróma), a Föld felszíne ($A \approx 510\text{ millió km}^2$) és térfogata ($V \approx 1,08 \times 10^{12}\text{ km}^3$), szárazföld-óceán arány ($29\% : 71\%$), valamint Eratoszthenész történelmi mérése és az időzónák ($15^\circ = 1\text{ óra}$).
 
 ---
 
@@ -9,8 +9,10 @@ A Föld mint gömb matematikai modellje, a Föld sugara ($R \approx 6370\text{ k
 
 | Mennyiség | Közelítő érték | Képlet / Megjegyzés |
 |---|---|---|
-| **Átlagos sugár ($R$)** | $\approx 6370\text{ km}$ | Forgási ellipszoid helyett gömbbel közelítve |
+| **Átlagos sugár ($R$)** | $\approx 6370\text{ km}$ | Gömbi közelítés (lapultság kb. $1/298$) |
+| **Földátmérő ($d$)** | $\approx 12\,740\text{ km}$ | $d = 2R$ |
 | **Egyenlítő hossza ($K_{\text{Egyenlítő}}$)** | $\approx 40\,075\text{ km} \approx 40\,000\text{ km}$ | $K = 2\pi R = 2 \cdot 3,1416 \cdot 6370$ |
+| **Délkör félhossza** | $\approx 20\,000\text{ km}$ | Pólusokat összekötő fél-főkör ($\pi R$) |
 | **Föld felszíne ($A$)** | $\approx 510\text{ millió km}^2$ | $A = 4\pi R^2 = 4 \cdot \pi \cdot 6370^2$ |
 | **Föld térfogata ($V$)** | $\approx 1083\text{ milliárd km}^3$ | $V = \frac{4}{3}\pi R^3$ |
 | **Szárazföld / Víz arány** | $\approx 29\% \text{ szárazföld} : 71\% \text{ víz}$ | $149\text{ M km}^2 : 361\text{ M km}^2$ |
@@ -26,3 +28,14 @@ A Föld mint gömb matematikai modellje, a Föld sugara ($R \approx 6370\text{ k
 2. **Hosszúsági körök (Meridiánok / Délkörök):**
    - Mindegyik fél-főkör, a két pólust köti össze, hosszuk egyenlő ($\approx 20\,000\text{ km}$).
    - Kezdő meridián: Greenwich ($0^\circ$).
+3. **Időzónák:**
+   - $360^\circ / 24\text{ h} = 15^\circ/\text{óra} \implies 1^\circ = 4\text{ perc}$.
+
+---
+
+## 3. Komponens Architektúra
+- `EarthTheory.tsx`: Interaktív tananyag földgömb laborral és csúszkával
+- `EarthQuiz.tsx`: 30 kérdéses 3 szintű kvíz Wordwall integrációval
+- `EarthMatcher.tsx`: 3 szintű párosító játék (24 kártyapár)
+- `EarthSorter.tsx`: 3 szintű csoportosító játék (36 elem, 3 kategória)
+- `index.ts`: Központi exportok

@@ -420,12 +420,32 @@ const Grade8Chapter6SummaryTheory = lazy(() => import("@/components/math/grade-8
 const Grade8Chapter6SummaryQuiz = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/osszefoglalas/Chapter6SummaryQuiz").then(m => ({ default: m.Chapter6SummaryQuiz }))) as any;
 const Grade8Chapter6SummaryMatcher = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/osszefoglalas/Chapter6SummaryMatcher").then(m => ({ default: m.Chapter6SummaryMatcher }))) as any;
 const Grade8Chapter6SummarySorter = lazy(() => import("@/components/math/grade-8/hozzarendelesek-valoszinuseg-sorozatok/osszefoglalas/Chapter6SummarySorter").then(m => ({ default: m.Chapter6SummarySorter }))) as any;
+const Grade8SolidsReviewTheory = lazy(() => import("@/components/math/grade-8/testek/mit-tanultunk-eddig-ismetles/SolidsReviewTheory").then(m => ({ default: m.SolidsReviewTheory }))) as any;
 const Grade8SolidsReviewQuiz = lazy(() => import("@/components/math/grade-8/testek/mit-tanultunk-eddig-ismetles/SolidsReviewQuiz").then(m => ({ default: m.SolidsReviewQuiz }))) as any;
-const Grade8PyramidsIntroQuiz = lazy(() => import("@/components/math/grade-8/testek/gulak/PyramidsIntroQuiz").then(m => ({ default: m.PyramidsIntroQuiz }))) as any;
+const Grade8SolidsReviewMatcher = lazy(() => import("@/components/math/grade-8/testek/mit-tanultunk-eddig-ismetles/SolidsReviewMatcher").then(m => ({ default: m.SolidsReviewMatcher }))) as any;
+const Grade8SolidsReviewSorter = lazy(() => import("@/components/math/grade-8/testek/mit-tanultunk-eddig-ismetles/SolidsReviewSorter").then(m => ({ default: m.SolidsReviewSorter }))) as any;
+const Grade8PyramidsTheory = lazy(() => import("@/components/math/grade-8/testek/gulak/PyramidsTheory").then(m => ({ default: m.PyramidsTheory }))) as any;
+const Grade8PyramidsQuiz = lazy(() => import("@/components/math/grade-8/testek/gulak/PyramidsQuiz").then(m => ({ default: m.PyramidsQuiz }))) as any;
+const Grade8PyramidsMatcher = lazy(() => import("@/components/math/grade-8/testek/gulak/PyramidsMatcher").then(m => ({ default: m.PyramidsMatcher }))) as any;
+const Grade8PyramidsSorter = lazy(() => import("@/components/math/grade-8/testek/gulak/PyramidsSorter").then(m => ({ default: m.PyramidsSorter }))) as any;
+const Grade8PyramidSurfaceVolumeTheory = lazy(() => import("@/components/math/grade-8/testek/a-gula-felszine-es-terfogata/PyramidSurfaceVolumeTheory").then(m => ({ default: m.PyramidSurfaceVolumeTheory }))) as any;
 const Grade8PyramidSurfaceVolumeQuiz = lazy(() => import("@/components/math/grade-8/testek/a-gula-felszine-es-terfogata/PyramidSurfaceVolumeQuiz").then(m => ({ default: m.PyramidSurfaceVolumeQuiz }))) as any;
+const Grade8PyramidSurfaceVolumeMatcher = lazy(() => import("@/components/math/grade-8/testek/a-gula-felszine-es-terfogata/PyramidSurfaceVolumeMatcher").then(m => ({ default: m.PyramidSurfaceVolumeMatcher }))) as any;
+const Grade8PyramidSurfaceVolumeSorter = lazy(() => import("@/components/math/grade-8/testek/a-gula-felszine-es-terfogata/PyramidSurfaceVolumeSorter").then(m => ({ default: m.PyramidSurfaceVolumeSorter }))) as any;
+const Grade8SphereTheory = lazy(() => import("@/components/math/grade-8/testek/a-gomb/SphereTheory").then(m => ({ default: m.SphereTheory }))) as any;
 const Grade8SphereQuiz = lazy(() => import("@/components/math/grade-8/testek/a-gomb/SphereQuiz").then(m => ({ default: m.SphereQuiz }))) as any;
-const Grade8EarthGeometryQuiz = lazy(() => import("@/components/math/grade-8/testek/a-fold/EarthGeometryQuiz").then(m => ({ default: m.EarthGeometryQuiz }))) as any;
+const Grade8SphereMatcher = lazy(() => import("@/components/math/grade-8/testek/a-gomb/SphereMatcher").then(m => ({ default: m.SphereMatcher }))) as any;
+const Grade8SphereSorter = lazy(() => import("@/components/math/grade-8/testek/a-gomb/SphereSorter").then(m => ({ default: m.SphereSorter }))) as any;
+const Grade8EarthGeometryQuiz = lazy(() => import("@/components/math/grade-8/testek/a-fold/EarthQuiz").then(m => ({ default: m.EarthQuiz }))) as any;
+const Grade8EarthTheory = lazy(() => import("@/components/math/grade-8/testek/a-fold/EarthTheory").then(m => ({ default: m.EarthTheory }))) as any;
+const Grade8EarthQuiz = lazy(() => import("@/components/math/grade-8/testek/a-fold/EarthQuiz").then(m => ({ default: m.EarthQuiz }))) as any;
+const Grade8EarthMatcher = lazy(() => import("@/components/math/grade-8/testek/a-fold/EarthMatcher").then(m => ({ default: m.EarthMatcher }))) as any;
+const Grade8EarthSorter = lazy(() => import("@/components/math/grade-8/testek/a-fold/EarthSorter").then(m => ({ default: m.EarthSorter }))) as any;
 const Grade8Chapter7SolidsSummaryQuiz = lazy(() => import("@/components/math/grade-8/testek/osszefoglalas/Chapter7SolidsSummaryQuiz").then(m => ({ default: m.Chapter7SolidsSummaryQuiz }))) as any;
+const Grade8SolidsSummaryTheory = lazy(() => import("@/components/math/grade-8/testek/osszefoglalas/SolidsSummaryTheory").then(m => ({ default: m.SolidsSummaryTheory }))) as any;
+const Grade8SolidsSummaryQuiz = lazy(() => import("@/components/math/grade-8/testek/osszefoglalas/SolidsSummaryQuiz").then(m => ({ default: m.SolidsSummaryQuiz }))) as any;
+const Grade8SolidsSummaryMatcher = lazy(() => import("@/components/math/grade-8/testek/osszefoglalas/SolidsSummaryMatcher").then(m => ({ default: m.SolidsSummaryMatcher }))) as any;
+const Grade8SolidsSummarySorter = lazy(() => import("@/components/math/grade-8/testek/osszefoglalas/SolidsSummarySorter").then(m => ({ default: m.SolidsSummarySorter }))) as any;
 const Grade7CountItTheory = lazy(() => import("@/components/math/grade-7/gondolkodjunk/szamold-ossze/CountingTheory").then(m => ({ default: m.CountingTheory }))) as any;
 const Grade7CountItQuiz = lazy(() => import("@/components/math/grade-7/gondolkodjunk/szamold-ossze/CountingQuiz").then(m => ({ default: m.CountingQuiz }))) as any;
 const Grade7CountItMatcher = lazy(() => import("@/components/math/grade-7/gondolkodjunk/szamold-ossze/CountingMatcher").then(m => ({ default: m.CountingMatcher }))) as any;
@@ -706,7 +726,7 @@ type ActivityType =
   | 'g8-eq-basic' | 'g8-eq-basic-theory' | 'g8-eq-basic-quiz' | 'g8-eq-basic-matcher' | 'g8-eq-basic-sorter' | 'g8-eq-numbers-ages' | 'g8-eq-numbers-ages-theory' | 'g8-eq-numbers-ages-quiz' | 'g8-eq-numbers-ages-matcher' | 'g8-eq-numbers-ages-sorter' | 'g8-eq-mixing' | 'g8-eq-mixing-theory' | 'g8-eq-mixing-quiz' | 'g8-eq-mixing-matcher' | 'g8-eq-mixing-sorter' | 'g8-eq-motion-work' | 'g8-eq-motion-work-theory' | 'g8-eq-motion-work-quiz' | 'g8-eq-motion-work-matcher' | 'g8-eq-motion-work-sorter' | 'g8-eq-geometry' | 'g8-eq-geometry-theory' | 'g8-eq-geometry-quiz' | 'g8-eq-geometry-matcher' | 'g8-eq-geometry-sorter' | 'g8-eq-mixed' | 'g8-eq-mixed-theory' | 'g8-eq-mixed-quiz' | 'g8-eq-mixed-matcher' | 'g8-eq-mixed-sorter' | 'g8-eq-financial' | 'g8-eq-financial-theory' | 'g8-eq-financial-quiz' | 'g8-eq-financial-matcher' | 'g8-eq-financial-sorter' | 'g8-eq-summary' | 'g8-eq-summary-theory' | 'g8-eq-summary-quiz' | 'g8-eq-summary-matcher' | 'g8-eq-summary-sorter'
   | 'g8-pyth-constructions' | 'g8-pyth-constructions-theory' | 'g8-pyth-theorem' | 'g8-pyth-theorem-theory' | 'g8-pyth-converse' | 'g8-pyth-converse-theory' | 'g8-pyth-applications' | 'g8-pyth-applications-theory' | 'g8-pyth-calculator' | 'g8-pyth-calculator-theory' | 'g8-pyth-special-triangles' | 'g8-pyth-special-triangles-theory' | 'g8-pyth-summary' | 'g8-pyth-summary-theory'
   | 'g8-func-direct' | 'g8-func-direct-theory' | 'g8-func-direct-matcher' | 'g8-func-direct-sorter' | 'g8-func-graphs' | 'g8-func-graphs-theory' | 'g8-func-graphs-matcher' | 'g8-func-graphs-sorter' | 'g8-func-inverse' | 'g8-func-inverse-theory' | 'g8-func-inverse-matcher' | 'g8-func-inverse-sorter' | 'g8-func-reading' | 'g8-func-reading-theory' | 'g8-func-reading-matcher' | 'g8-func-reading-sorter' | 'g8-func-plotting' | 'g8-func-plotting-theory' | 'g8-func-plotting-matcher' | 'g8-func-plotting-sorter' | 'g8-func-frequency' | 'g8-func-frequency-theory' | 'g8-func-frequency-matcher' | 'g8-func-frequency-sorter' | 'g8-func-game' | 'g8-func-game-theory' | 'g8-func-game-matcher' | 'g8-func-game-sorter' | 'g8-func-prob-basics' | 'g8-func-prob-basics-theory' | 'g8-func-prob-basics-matcher' | 'g8-func-prob-basics-sorter' | 'g8-func-prob-problems' | 'g8-func-prob-problems-theory' | 'g8-func-prob-problems-matcher' | 'g8-func-prob-problems-sorter' | 'g8-func-patterns' | 'g8-func-patterns-theory' | 'g8-func-patterns-matcher' | 'g8-func-patterns-sorter' | 'g8-func-sequences' | 'g8-func-sequences-theory' | 'g8-func-sequences-matcher' | 'g8-func-sequences-sorter' | 'g8-func-summary' | 'g8-func-summary-theory' | 'g8-func-summary-matcher' | 'g8-func-summary-sorter'
-  | 'g8-solids-review' | 'g8-solids-pyramids-intro' | 'g8-solids-pyramids-calc' | 'g8-solids-sphere' | 'g8-solids-earth' | 'g8-solids-summary'
+  | 'g8-solids-review' | 'g8-solids-review-theory' | 'g8-solids-review-matcher' | 'g8-solids-review-sorter' | 'g8-solids-pyramids' | 'g8-solids-pyramids-theory' | 'g8-solids-pyramids-matcher' | 'g8-solids-pyramids-sorter' | 'g8-solids-pyramids-intro' | 'g8-solids-pyramids-calc' | 'g8-solids-pyramids-calc-theory' | 'g8-solids-pyramids-calc-matcher' | 'g8-solids-pyramids-calc-sorter' | 'g8-solids-sphere' | 'g8-solids-sphere-theory' | 'g8-solids-sphere-matcher' | 'g8-solids-sphere-sorter' | 'g8-solids-earth' | 'g8-solids-earth-theory' | 'g8-solids-earth-matcher' | 'g8-solids-earth-sorter' | 'g8-solids-summary' | 'g8-solids-summary-theory' | 'g8-solids-summary-matcher' | 'g8-solids-summary-sorter'
   | 'angle-matching' | 'triangle-classification' | 'quadrilateral-classification'
   | 'shape-classification' | 'line-relationships' | 'reflection-quiz' | 'circle-parts'
   | 'area-conversion-quiz' | 'volume-quiz' | 'surface-area-quiz' | 'area-calculation-quiz' | 'area-calc-quiz'
@@ -1215,6 +1235,7 @@ export default function MathPage() {
       else if (type.startsWith('g8-eq-')) resolvedTopic = 'g8-equations';
       else if (type.startsWith('g8-pyth-')) resolvedTopic = 'g8-pythagoras';
       else if (type.startsWith('g8-func-')) resolvedTopic = 'g8-functions-probability-sequences';
+      else if (type.startsWith('g8-solids-')) resolvedTopic = 'g8-solids';
       else if (type.startsWith('g8-stat-')) resolvedTopic = 'g8-statistics';
       else resolvedTopic = 'g8-numbers-letters';
     }
@@ -1287,6 +1308,7 @@ export default function MathPage() {
           else if (activityType.startsWith('g8-eq-')) resolvedTopic = 'g8-equations';
           else if (activityType.startsWith('g8-pyth-')) resolvedTopic = 'g8-pythagoras';
           else if (activityType.startsWith('g8-func-')) resolvedTopic = 'g8-functions-probability-sequences';
+          else if (activityType.startsWith('g8-solids-')) resolvedTopic = 'g8-solids';
           else if (activityType.startsWith('g8-stat-')) resolvedTopic = 'g8-statistics';
           else resolvedTopic = 'g8-numbers-letters';
         }
@@ -6871,28 +6893,202 @@ export default function MathPage() {
                   />
                 )}
 
-                {activityType === 'g8-solids-review' && (
-                  <Grade8SolidsReviewQuiz onBack={handleBack} />
+                {activityType === 'g8-solids-review-theory' && (
+                  <Grade8SolidsReviewTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-solids-review', selectedTopic || 'g8-solids')}
+                  />
                 )}
 
-                {activityType === 'g8-solids-pyramids-intro' && (
-                  <Grade8PyramidsIntroQuiz onBack={handleBack} />
+                {activityType === 'g8-solids-review' && (
+                  <Grade8SolidsReviewQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-solids-review-theory', selectedTopic || 'g8-solids')}
+                  />
+                )}
+
+                {activityType === 'g8-solids-review-matcher' && (
+                  <Grade8SolidsReviewMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-solids-review', selectedTopic || 'g8-solids')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-solids-review-theory', selectedTopic || 'g8-solids')}
+                    onSwitchToSorter={() => handleActivitySelect('g8-solids-review-sorter', selectedTopic || 'g8-solids')}
+                  />
+                )}
+
+                {activityType === 'g8-solids-review-sorter' && (
+                  <Grade8SolidsReviewSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-solids-review', selectedTopic || 'g8-solids')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-solids-review-theory', selectedTopic || 'g8-solids')}
+                    onSwitchToMatcher={() => handleActivitySelect('g8-solids-review-matcher', selectedTopic || 'g8-solids')}
+                  />
+                )}
+
+                {activityType === 'g8-solids-pyramids-theory' && (
+                  <Grade8PyramidsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-solids-pyramids', selectedTopic || 'g8-solids')}
+                  />
+                )}
+
+                {(activityType === 'g8-solids-pyramids' || activityType === 'g8-solids-pyramids-intro') && (
+                  <Grade8PyramidsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-solids-pyramids-theory', selectedTopic || 'g8-solids')}
+                  />
+                )}
+
+                {activityType === 'g8-solids-pyramids-matcher' && (
+                  <Grade8PyramidsMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-solids-pyramids', selectedTopic || 'g8-solids')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-solids-pyramids-theory', selectedTopic || 'g8-solids')}
+                    onSwitchToSorter={() => handleActivitySelect('g8-solids-pyramids-sorter', selectedTopic || 'g8-solids')}
+                  />
+                )}
+
+                {activityType === 'g8-solids-pyramids-sorter' && (
+                  <Grade8PyramidsSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-solids-pyramids', selectedTopic || 'g8-solids')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-solids-pyramids-theory', selectedTopic || 'g8-solids')}
+                    onSwitchToMatcher={() => handleActivitySelect('g8-solids-pyramids-matcher', selectedTopic || 'g8-solids')}
+                  />
+                )}
+
+                {activityType === 'g8-solids-pyramids-calc-theory' && (
+                  <Grade8PyramidSurfaceVolumeTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-solids-pyramids-calc', selectedTopic || 'g8-solids')}
+                  />
                 )}
 
                 {activityType === 'g8-solids-pyramids-calc' && (
-                  <Grade8PyramidSurfaceVolumeQuiz onBack={handleBack} />
+                  <Grade8PyramidSurfaceVolumeQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-solids-pyramids-calc-theory', selectedTopic || 'g8-solids')}
+                  />
+                )}
+
+                {activityType === 'g8-solids-pyramids-calc-matcher' && (
+                  <Grade8PyramidSurfaceVolumeMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-solids-pyramids-calc', selectedTopic || 'g8-solids')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-solids-pyramids-calc-theory', selectedTopic || 'g8-solids')}
+                    onSwitchToSorter={() => handleActivitySelect('g8-solids-pyramids-calc-sorter', selectedTopic || 'g8-solids')}
+                  />
+                )}
+
+                {activityType === 'g8-solids-pyramids-calc-sorter' && (
+                  <Grade8PyramidSurfaceVolumeSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-solids-pyramids-calc', selectedTopic || 'g8-solids')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-solids-pyramids-calc-theory', selectedTopic || 'g8-solids')}
+                    onSwitchToMatcher={() => handleActivitySelect('g8-solids-pyramids-calc-matcher', selectedTopic || 'g8-solids')}
+                  />
+                )}
+
+                {activityType === 'g8-solids-sphere-theory' && (
+                  <Grade8SphereTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-solids-sphere', selectedTopic || 'g8-solids')}
+                  />
                 )}
 
                 {activityType === 'g8-solids-sphere' && (
-                  <Grade8SphereQuiz onBack={handleBack} />
+                  <Grade8SphereQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-solids-sphere-theory', selectedTopic || 'g8-solids')}
+                    onSwitchToMatcher={() => handleActivitySelect('g8-solids-sphere-matcher', selectedTopic || 'g8-solids')}
+                    onSwitchToSorter={() => handleActivitySelect('g8-solids-sphere-sorter', selectedTopic || 'g8-solids')}
+                  />
+                )}
+
+                {activityType === 'g8-solids-sphere-matcher' && (
+                  <Grade8SphereMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-solids-sphere', selectedTopic || 'g8-solids')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-solids-sphere-theory', selectedTopic || 'g8-solids')}
+                    onSwitchToSorter={() => handleActivitySelect('g8-solids-sphere-sorter', selectedTopic || 'g8-solids')}
+                  />
+                )}
+
+                {activityType === 'g8-solids-sphere-sorter' && (
+                  <Grade8SphereSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-solids-sphere', selectedTopic || 'g8-solids')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-solids-sphere-theory', selectedTopic || 'g8-solids')}
+                    onSwitchToMatcher={() => handleActivitySelect('g8-solids-sphere-matcher', selectedTopic || 'g8-solids')}
+                  />
+                )}
+
+                {activityType === 'g8-solids-earth-theory' && (
+                  <Grade8EarthTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-solids-earth', selectedTopic || 'g8-solids')}
+                  />
                 )}
 
                 {activityType === 'g8-solids-earth' && (
-                  <Grade8EarthGeometryQuiz onBack={handleBack} />
+                  <Grade8EarthQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-solids-earth-theory', selectedTopic || 'g8-solids')}
+                    onSwitchToMatcher={() => handleActivitySelect('g8-solids-earth-matcher', selectedTopic || 'g8-solids')}
+                    onSwitchToSorter={() => handleActivitySelect('g8-solids-earth-sorter', selectedTopic || 'g8-solids')}
+                  />
+                )}
+
+                {activityType === 'g8-solids-earth-matcher' && (
+                  <Grade8EarthMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-solids-earth', selectedTopic || 'g8-solids')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-solids-earth-theory', selectedTopic || 'g8-solids')}
+                    onSwitchToSorter={() => handleActivitySelect('g8-solids-earth-sorter', selectedTopic || 'g8-solids')}
+                  />
+                )}
+
+                {activityType === 'g8-solids-earth-sorter' && (
+                  <Grade8EarthSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-solids-earth', selectedTopic || 'g8-solids')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-solids-earth-theory', selectedTopic || 'g8-solids')}
+                    onSwitchToMatcher={() => handleActivitySelect('g8-solids-earth-matcher', selectedTopic || 'g8-solids')}
+                  />
+                )}
+
+                {activityType === 'g8-solids-summary-theory' && (
+                  <Grade8SolidsSummaryTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g8-solids-summary', selectedTopic || 'g8-solids')}
+                  />
                 )}
 
                 {activityType === 'g8-solids-summary' && (
-                  <Grade8Chapter7SolidsSummaryQuiz onBack={handleBack} />
+                  <Grade8SolidsSummaryQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g8-solids-summary-theory', selectedTopic || 'g8-solids')}
+                    onSwitchToMatcher={() => handleActivitySelect('g8-solids-summary-matcher', selectedTopic || 'g8-solids')}
+                    onSwitchToSorter={() => handleActivitySelect('g8-solids-summary-sorter', selectedTopic || 'g8-solids')}
+                  />
+                )}
+
+                {activityType === 'g8-solids-summary-matcher' && (
+                  <Grade8SolidsSummaryMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-solids-summary', selectedTopic || 'g8-solids')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-solids-summary-theory', selectedTopic || 'g8-solids')}
+                    onSwitchToSorter={() => handleActivitySelect('g8-solids-summary-sorter', selectedTopic || 'g8-solids')}
+                  />
+                )}
+
+                {activityType === 'g8-solids-summary-sorter' && (
+                  <Grade8SolidsSummarySorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g8-solids-summary', selectedTopic || 'g8-solids')}
+                    onSwitchToTheory={() => handleActivitySelect('g8-solids-summary-theory', selectedTopic || 'g8-solids')}
+                    onSwitchToMatcher={() => handleActivitySelect('g8-solids-summary-matcher', selectedTopic || 'g8-solids')}
+                  />
                 )}
 
                 {activityType === 'number-line' && (

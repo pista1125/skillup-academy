@@ -32,7 +32,7 @@ export const UNICODE_SUP_MAP: Record<string, string> = {
 };
 
 function cleanScriptContent(content: string): string {
-  return content
+  return cleanMathSymbols(content)
     .replace(/\\+text\{([^}]*)\}/g, '$1')
     .replace(/\\+(max|min)/g, '$1')
     .replace(/\\+mathrm\{([^}]*)\}/g, '$1')
@@ -42,7 +42,7 @@ function cleanScriptContent(content: string): string {
     .trim();
 }
 
-export const SCRIPT_REGEX = /(\^|_)(?:\{([^{}]+)\}|\(([^()]+)\)|([+-]?[a-zA-Z0-9áéíóöőúüűÁÉÍÓÖŐÚÜŰ]+))|([₀₁₂₃₄₅₆₇₈₉ₐᵦₖₙ]+)|([⁰¹²³⁴⁵⁶⁷⁸⁹ⁿ⁺⁻]+)/g;
+export const SCRIPT_REGEX = /(\^|_)(?:\{([^{}]+)\}|\(([^()]+)\)|([+-]?[a-zA-Z0-9áéíóöőúüűÁÉÍÓÖŐÚÜŰα-ωΑ-Ω]+))|([₀₁₂₃₄₅₆₇₈₉ₐᵦₖₙ]+)|([⁰¹²³⁴⁵⁶⁷⁸⁹ⁿ⁺⁻]+)/g;
 
 export function parseScriptsInText(
   text: string | React.ReactNode,
@@ -229,14 +229,29 @@ export function cleanMathSymbols(text: string): string {
     .replace(/\\+overline\{([^}]+)\}/g, '$1')
     .replace(/\\+bar\{([^}]+)\}/g, '$1')
     // Greek letters
-    .replace(/\\+Delta/g, 'Δ')
+    .replace(/\\+Delta(?![a-zA-Z])/g, 'Δ')
     .replace(/\\+alpha'/g, "α'")
-    .replace(/\\+alpha/g, 'α')
-    .replace(/\\+beta/g, 'β')
-    .replace(/\\+gamma/g, 'γ')
-    .replace(/\\+delta/g, 'δ')
-    .replace(/\\+omega/g, 'ω')
-    .replace(/\\+pi/g, 'π')
+    .replace(/\\+alpha(?![a-zA-Z])/g, 'α')
+    .replace(/\\+beta(?![a-zA-Z])/g, 'β')
+    .replace(/\\+gamma(?![a-zA-Z])/g, 'γ')
+    .replace(/\\+delta(?![a-zA-Z])/g, 'δ')
+    .replace(/\\+omega(?![a-zA-Z])/g, 'ω')
+    .replace(/\\+pi(?![a-zA-Z])/g, 'π')
+    .replace(/\\+(?:rho|varrho)(?![a-zA-Z])/g, 'ρ')
+    .replace(/\\+lambda(?![a-zA-Z])/g, 'λ')
+    .replace(/\\+Lambda(?![a-zA-Z])/g, 'Λ')
+    .replace(/\\+mu(?![a-zA-Z])/g, 'μ')
+    .replace(/\\+(?:phi|varphi)(?![a-zA-Z])/g, 'φ')
+    .replace(/\\+Phi(?![a-zA-Z])/g, 'Φ')
+    .replace(/\\+(?:theta|vartheta)(?![a-zA-Z])/g, 'θ')
+    .replace(/\\+Theta(?![a-zA-Z])/g, 'Θ')
+    .replace(/\\+sigma(?![a-zA-Z])/g, 'σ')
+    .replace(/\\+Sigma(?![a-zA-Z])/g, 'Σ')
+    .replace(/\\+tau(?![a-zA-Z])/g, 'τ')
+    .replace(/\\+(?:epsilon|varepsilon)(?![a-zA-Z])/g, 'ε')
+    .replace(/\\+eta(?![a-zA-Z])/g, 'η')
+    .replace(/\\+Omega(?![a-zA-Z])/g, 'Ω')
+    .replace(/\\+Gamma(?![a-zA-Z])/g, 'Γ')
     // Brackets
     .replace(/\\+left\(/g, '(')
     .replace(/\\+right\)/g, ')')
@@ -658,8 +673,8 @@ export function parseSquareRootsInText(
   return parts.length === 0 ? parseScriptsInText(text, size) : <>{parts}</>;
 }
 
-const SCRIPT_EXPR = '(?:[²³⁰¹ⁿ]|_(?:\\{[^{}]+\\}|\\([^()]+\\)|[0-9a-zA-Z]+)|\\^(?:\\{[^{}]+\\}|\\([^()]+\\)|[+-]?[0-9a-zA-Z]+))';
-const NUM_OR_VAR = '[a-zA-Z](?:' + SCRIPT_EXPR + '|[a-zA-Z0-9])*';
+const SCRIPT_EXPR = '(?:[²³⁰¹ⁿ]|_(?:\\{[^{}]+\\}|\\([^()]+\\)|[0-9a-zA-Zα-ωΑ-Ω]+)|\\^(?:\\{[^{}]+\\}|\\([^()]+\\)|[+-]?[0-9a-zA-Zα-ωΑ-Ω]+))';
+const NUM_OR_VAR = '[a-zA-Zα-ωΑ-Ω](?:' + SCRIPT_EXPR + '|[a-zA-Z0-9α-ωΑ-Ω])*';
 const SQRT_EXPR = '(?:√|\\\\sqrt)(?:\\{[^{}]+\\}|\\([^()]+\\)|\\[[^\\]]+\\]|\\d+(?:[.,]\\d+)?|' + NUM_OR_VAR + ')';
 const DEN_EXPR = '(?:' + SQRT_EXPR + '|' + NUM_OR_VAR + '|\\d+(?:[.,]\\d+)?)';
 
