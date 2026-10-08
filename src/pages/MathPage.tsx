@@ -566,6 +566,50 @@ const Grade7GeometrySummaryTheory = lazy(() => import("@/components/math/grade-7
 const Grade7GeometrySummaryQuiz = lazy(() => import("@/components/math/grade-7/geometriai-transzformaciok/osszefoglalas/GeometrySummaryQuiz").then(m => ({ default: m.GeometrySummaryQuiz }))) as any;
 const Grade7GeometrySummaryMatcher = lazy(() => import("@/components/math/grade-7/geometriai-transzformaciok/osszefoglalas/GeometrySummaryMatcher").then(m => ({ default: m.GeometrySummaryMatcher }))) as any;
 const Grade7GeometrySummarySorter = lazy(() => import("@/components/math/grade-7/geometriai-transzformaciok/osszefoglalas/GeometrySummarySorter").then(m => ({ default: m.GeometrySummarySorter }))) as any;
+const Grade7LargeNumbersPowersTheory = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/nagy-szamok-es-a-hatvanyalak/LargeNumbersPowersTheory").then(m => ({ default: m.LargeNumbersPowersTheory }))) as any;
+const Grade7LargeNumbersPowersQuiz = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/nagy-szamok-es-a-hatvanyalak/LargeNumbersPowersQuiz").then(m => ({ default: m.LargeNumbersPowersQuiz }))) as any;
+const Grade7LargeNumbersPowersMatcher = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/nagy-szamok-es-a-hatvanyalak/LargeNumbersPowersMatcher").then(m => ({ default: m.LargeNumbersPowersMatcher }))) as any;
+const Grade7LargeNumbersPowersSorter = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/nagy-szamok-es-a-hatvanyalak/LargeNumbersPowersSorter").then(m => ({ default: m.LargeNumbersPowersSorter }))) as any;
+const Grade7PowersApplicationTheory = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/hatvanyok-alkalmazasa/PowersApplicationTheory").then(m => ({ default: m.PowersApplicationTheory }))) as any;
+const Grade7PowersApplicationQuiz = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/hatvanyok-alkalmazasa/PowersApplicationQuiz").then(m => ({ default: m.PowersApplicationQuiz }))) as any;
+const Grade7PowersApplicationMatcher = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/hatvanyok-alkalmazasa/PowersApplicationMatcher").then(m => ({ default: m.PowersApplicationMatcher }))) as any;
+const Grade7PowersApplicationSorter = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/hatvanyok-alkalmazasa/PowersApplicationSorter").then(m => ({ default: m.PowersApplicationSorter }))) as any;
+const Grade7DivisibilityReviewTheory = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/mit-tanultunk-az-oszthatosagrol-ismetles/DivisibilityReviewTheory").then(m => ({ default: m.DivisibilityReviewTheory }))) as any;
+const Grade7DivisibilityReviewQuiz = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/mit-tanultunk-az-oszthatosagrol-ismetles/DivisibilityReviewQuiz").then(m => ({ default: m.DivisibilityReviewQuiz }))) as any;
+const Grade7DivisibilityReviewMatcher = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/mit-tanultunk-az-oszthatosagrol-ismetles/DivisibilityReviewMatcher").then(m => ({ default: m.DivisibilityReviewMatcher }))) as any;
+const Grade7DivisibilityReviewSorter = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/mit-tanultunk-az-oszthatosagrol-ismetles/DivisibilityReviewSorter").then(m => ({ default: m.DivisibilityReviewSorter }))) as any;
+const Grade7LogicTheory = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/egy-kis-logika/LogicTheory").then(m => ({ default: m.LogicTheory }))) as any;
+const Grade7LogicQuiz = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/egy-kis-logika/LogicQuiz").then(m => ({ default: m.LogicQuiz }))) as any;
+const Grade7LogicMatcher = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/egy-kis-logika/LogicMatcher").then(m => ({ default: m.LogicMatcher }))) as any;
+const Grade7LogicSorter = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/egy-kis-logika/LogicSorter").then(m => ({ default: m.LogicSorter }))) as any;
+const Grade7PrimeFactorizationTheory = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/a-primszamok-a-szamok-primtenyezos-felbontasa/PrimeFactorizationTheory").then(m => ({ default: m.PrimeFactorizationTheory }))) as any;
+const Grade7PrimeFactorizationQuiz = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/a-primszamok-a-szamok-primtenyezos-felbontasa/PrimeFactorizationQuiz").then(m => ({ default: m.PrimeFactorizationQuiz }))) as any;
+const Grade7PrimeFactorizationMatcher = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/a-primszamok-a-szamok-primtenyezos-felbontasa/PrimeFactorizationMatcher").then(m => ({ default: m.PrimeFactorizationMatcher }))) as any;
+const Grade7PrimeFactorizationSorter = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/a-primszamok-a-szamok-primtenyezos-felbontasa/PrimeFactorizationSorter").then(m => ({ default: m.PrimeFactorizationSorter }))) as any;
+const Grade7DivisibilityRulesTheory = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/keszitsunk-magunknak-oszthatosagi-szabalyokat/DivisibilityRulesTheory").then(m => ({ default: m.DivisibilityRulesTheory }))) as any;
+const Grade7DivisibilityRulesQuiz = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/keszitsunk-magunknak-oszthatosagi-szabalyokat/DivisibilityRulesQuiz").then(m => ({ default: m.DivisibilityRulesQuiz }))) as any;
+const Grade7DivisibilityRulesMatcher = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/keszitsunk-magunknak-oszthatosagi-szabalyokat/DivisibilityRulesMatcher").then(m => ({ default: m.DivisibilityRulesMatcher }))) as any;
+const Grade7DivisibilityRulesSorter = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/keszitsunk-magunknak-oszthatosagi-szabalyokat/DivisibilityRulesSorter").then(m => ({ default: m.DivisibilityRulesSorter }))) as any;
+const Grade7DivisorsMultiplesTheory = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/osztokrol-tobbszorosokrol-meg-egyszer/DivisorsMultiplesTheory").then(m => ({ default: m.DivisorsMultiplesTheory }))) as any;
+const Grade7DivisorsMultiplesQuiz = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/osztokrol-tobbszorosokrol-meg-egyszer/DivisorsMultiplesQuiz").then(m => ({ default: m.DivisorsMultiplesQuiz }))) as any;
+const Grade7DivisorsMultiplesMatcher = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/osztokrol-tobbszorosokrol-meg-egyszer/DivisorsMultiplesMatcher").then(m => ({ default: m.DivisorsMultiplesMatcher }))) as any;
+const Grade7DivisorsMultiplesSorter = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/osztokrol-tobbszorosokrol-meg-egyszer/DivisorsMultiplesSorter").then(m => ({ default: m.DivisorsMultiplesSorter }))) as any;
+const Grade7GreatestCommonDivisorTheory = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/legnagyobb-kozos-oszto/GreatestCommonDivisorTheory").then(m => ({ default: m.GreatestCommonDivisorTheory }))) as any;
+const Grade7GreatestCommonDivisorQuiz = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/legnagyobb-kozos-oszto/GreatestCommonDivisorQuiz").then(m => ({ default: m.GreatestCommonDivisorQuiz }))) as any;
+const Grade7GreatestCommonDivisorMatcher = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/legnagyobb-kozos-oszto/GreatestCommonDivisorMatcher").then(m => ({ default: m.GreatestCommonDivisorMatcher }))) as any;
+const Grade7GreatestCommonDivisorSorter = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/legnagyobb-kozos-oszto/GreatestCommonDivisorSorter").then(m => ({ default: m.GreatestCommonDivisorSorter }))) as any;
+const Grade7LeastCommonMultipleTheory = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/legkisebb-kozos-tobbszoros/LeastCommonMultipleTheory").then(m => ({ default: m.LeastCommonMultipleTheory }))) as any;
+const Grade7LeastCommonMultipleQuiz = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/legkisebb-kozos-tobbszoros/LeastCommonMultipleQuiz").then(m => ({ default: m.LeastCommonMultipleQuiz }))) as any;
+const Grade7LeastCommonMultipleMatcher = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/legkisebb-kozos-tobbszoros/LeastCommonMultipleMatcher").then(m => ({ default: m.LeastCommonMultipleMatcher }))) as any;
+const Grade7LeastCommonMultipleSorter = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/legkisebb-kozos-tobbszoros/LeastCommonMultipleSorter").then(m => ({ default: m.LeastCommonMultipleSorter }))) as any;
+const Grade7MathGamesTheory = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/matematikai-jatekok/MathGamesTheory").then(m => ({ default: m.MathGamesTheory }))) as any;
+const Grade7MathGamesQuiz = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/matematikai-jatekok/MathGamesQuiz").then(m => ({ default: m.MathGamesQuiz }))) as any;
+const Grade7MathGamesMatcher = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/matematikai-jatekok/MathGamesMatcher").then(m => ({ default: m.MathGamesMatcher }))) as any;
+const Grade7MathGamesSorter = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/matematikai-jatekok/MathGamesSorter").then(m => ({ default: m.MathGamesSorter }))) as any;
+const Grade7PowersSummaryTheory = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/osszefoglalas/PowersSummaryTheory").then(m => ({ default: m.PowersSummaryTheory }))) as any;
+const Grade7PowersSummaryQuiz = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/osszefoglalas/PowersSummaryQuiz").then(m => ({ default: m.PowersSummaryQuiz }))) as any;
+const Grade7PowersSummaryMatcher = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/osszefoglalas/PowersSummaryMatcher").then(m => ({ default: m.PowersSummaryMatcher }))) as any;
+const Grade7PowersSummarySorter = lazy(() => import("@/components/math/grade-7/hatvanyozas-oszthatosag/osszefoglalas/PowersSummarySorter").then(m => ({ default: m.PowersSummarySorter }))) as any;
 const Grade8LogicTheory = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/logika-feladatok/LogicTheory").then(m => ({ default: m.LogicTheory }))) as any;
 const Grade8LogicQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/logika-feladatok/LogicQuiz").then(m => ({ default: m.LogicQuiz }))) as any;
 const Grade8SetBasicsTheory = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/mit-tudunk-a-halmazokrol/SetBasicsTheory").then(m => ({ default: m.SetBasicsTheory }))) as any;
@@ -776,6 +820,17 @@ type ActivityType =
   | 'g7-geom-circle-theory' | 'g7-geom-circle-quiz' | 'g7-geom-circle-matcher' | 'g7-geom-circle-sorter'
   | 'g7-geom-constructions-theory' | 'g7-geom-constructions-quiz' | 'g7-geom-constructions-matcher' | 'g7-geom-constructions-sorter'
   | 'g7-geom-summary-theory' | 'g7-geom-summary-quiz' | 'g7-geom-summary-matcher' | 'g7-geom-summary-sorter'
+  | 'g7-pow-large-numbers-theory' | 'g7-pow-large-numbers-quiz' | 'g7-pow-large-numbers-matcher' | 'g7-pow-large-numbers-sorter'
+  | 'g7-pow-application-theory' | 'g7-pow-application-quiz' | 'g7-pow-application-matcher' | 'g7-pow-application-sorter'
+  | 'g7-pow-divisibility-review-theory' | 'g7-pow-divisibility-review-quiz' | 'g7-pow-divisibility-review-matcher' | 'g7-pow-divisibility-review-sorter'
+  | 'g7-pow-logic-theory' | 'g7-pow-logic-quiz' | 'g7-pow-logic-matcher' | 'g7-pow-logic-sorter'
+  | 'g7-pow-prime-factors-theory' | 'g7-pow-prime-factors-quiz' | 'g7-pow-prime-factors-matcher' | 'g7-pow-prime-factors-sorter'
+  | 'g7-pow-custom-rules-theory' | 'g7-pow-custom-rules-quiz' | 'g7-pow-custom-rules-matcher' | 'g7-pow-custom-rules-sorter'
+  | 'g7-pow-divisors-multiples-theory' | 'g7-pow-divisors-multiples-quiz' | 'g7-pow-divisors-multiples-matcher' | 'g7-pow-divisors-multiples-sorter'
+  | 'g7-pow-gcd-theory' | 'g7-pow-gcd-quiz' | 'g7-pow-gcd-matcher' | 'g7-pow-gcd-sorter'
+  | 'g7-pow-lcm-theory' | 'g7-pow-lcm-quiz' | 'g7-pow-lcm-matcher' | 'g7-pow-lcm-sorter'
+  | 'g7-pow-games-theory' | 'g7-pow-games-quiz' | 'g7-pow-games-matcher' | 'g7-pow-games-sorter'
+  | 'g7-pow-summary-theory' | 'g7-pow-summary-quiz' | 'g7-pow-summary-matcher' | 'g7-pow-summary-sorter'
   | 'g8-logic-theory' | 'g8-logic-quiz'
   | 'g8-set-basics-theory' | 'g8-set-basics-quiz' | 'g8-set-basics-matcher' | 'g8-set-basics-sorter'
   | 'g8-set-operations-theory' | 'g8-set-operations-quiz' | 'g8-set-operations-matcher' | 'g8-set-operations-sorter'
@@ -5175,6 +5230,380 @@ export default function MathPage() {
                     </Button>
                     <Grade7GeometrySummarySorter onNextLevel={handleBack} onSwitchToQuiz={() => setActivityType('g7-geom-summary-quiz')} />
                   </div>
+                )}
+
+                {activityType === 'g7-pow-large-numbers-theory' && (
+                  <Grade7LargeNumbersPowersTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-pow-large-numbers-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-large-numbers-quiz' && (
+                  <Grade7LargeNumbersPowersQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-large-numbers-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-large-numbers-matcher' && (
+                  <Grade7LargeNumbersPowersMatcher
+                    onBack={handleBack}
+                    onNextLevel={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-large-numbers-theory')}
+                    onSwitchToQuiz={() => setActivityType('g7-pow-large-numbers-quiz')}
+                    onSwitchToSorter={() => setActivityType('g7-pow-large-numbers-sorter')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-large-numbers-sorter' && (
+                  <Grade7LargeNumbersPowersSorter
+                    onBack={handleBack}
+                    onNextLevel={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-large-numbers-theory')}
+                    onSwitchToQuiz={() => setActivityType('g7-pow-large-numbers-quiz')}
+                    onSwitchToMatcher={() => setActivityType('g7-pow-large-numbers-matcher')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-application-theory' && (
+                  <Grade7PowersApplicationTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-pow-application-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-application-quiz' && (
+                  <Grade7PowersApplicationQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-application-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-application-matcher' && (
+                  <Grade7PowersApplicationMatcher
+                    onBack={handleBack}
+                    onNextLevel={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-application-theory')}
+                    onSwitchToQuiz={() => setActivityType('g7-pow-application-quiz')}
+                    onSwitchToSorter={() => setActivityType('g7-pow-application-sorter')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-application-sorter' && (
+                  <Grade7PowersApplicationSorter
+                    onBack={handleBack}
+                    onNextLevel={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-application-theory')}
+                    onSwitchToQuiz={() => setActivityType('g7-pow-application-quiz')}
+                    onSwitchToMatcher={() => setActivityType('g7-pow-application-matcher')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-divisibility-review-theory' && (
+                  <Grade7DivisibilityReviewTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-pow-divisibility-review-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-divisibility-review-quiz' && (
+                  <Grade7DivisibilityReviewQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-divisibility-review-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-divisibility-review-matcher' && (
+                  <Grade7DivisibilityReviewMatcher
+                    onBack={handleBack}
+                    onNextLevel={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-divisibility-review-theory')}
+                    onSwitchToQuiz={() => setActivityType('g7-pow-divisibility-review-quiz')}
+                    onSwitchToSorter={() => setActivityType('g7-pow-divisibility-review-sorter')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-divisibility-review-sorter' && (
+                  <Grade7DivisibilityReviewSorter
+                    onBack={handleBack}
+                    onNextLevel={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-divisibility-review-theory')}
+                    onSwitchToQuiz={() => setActivityType('g7-pow-divisibility-review-quiz')}
+                    onSwitchToMatcher={() => setActivityType('g7-pow-divisibility-review-matcher')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-logic-theory' && (
+                  <Grade7LogicTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-pow-logic-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-logic-quiz' && (
+                  <Grade7LogicQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-logic-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-logic-matcher' && (
+                  <Grade7LogicMatcher
+                    onBack={handleBack}
+                    onNextLevel={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-logic-theory')}
+                    onSwitchToQuiz={() => setActivityType('g7-pow-logic-quiz')}
+                    onSwitchToSorter={() => setActivityType('g7-pow-logic-sorter')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-logic-sorter' && (
+                  <Grade7LogicSorter
+                    onBack={handleBack}
+                    onNextLevel={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-logic-theory')}
+                    onSwitchToQuiz={() => setActivityType('g7-pow-logic-quiz')}
+                    onSwitchToMatcher={() => setActivityType('g7-pow-logic-matcher')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-prime-factors-theory' && (
+                  <Grade7PrimeFactorizationTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-pow-prime-factors-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-prime-factors-quiz' && (
+                  <Grade7PrimeFactorizationQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-prime-factors-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-prime-factors-matcher' && (
+                  <Grade7PrimeFactorizationMatcher
+                    onBack={handleBack}
+                    onNextLevel={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-prime-factors-theory')}
+                    onSwitchToQuiz={() => setActivityType('g7-pow-prime-factors-quiz')}
+                    onSwitchToSorter={() => setActivityType('g7-pow-prime-factors-sorter')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-prime-factors-sorter' && (
+                  <Grade7PrimeFactorizationSorter
+                    onBack={handleBack}
+                    onNextLevel={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-prime-factors-theory')}
+                    onSwitchToQuiz={() => setActivityType('g7-pow-prime-factors-quiz')}
+                    onSwitchToMatcher={() => setActivityType('g7-pow-prime-factors-matcher')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-custom-rules-theory' && (
+                  <Grade7DivisibilityRulesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-pow-custom-rules-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-custom-rules-quiz' && (
+                  <Grade7DivisibilityRulesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-custom-rules-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-custom-rules-matcher' && (
+                  <Grade7DivisibilityRulesMatcher
+                    onBack={handleBack}
+                    onNextLevel={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-custom-rules-theory')}
+                    onSwitchToQuiz={() => setActivityType('g7-pow-custom-rules-quiz')}
+                    onSwitchToSorter={() => setActivityType('g7-pow-custom-rules-sorter')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-custom-rules-sorter' && (
+                  <Grade7DivisibilityRulesSorter
+                    onBack={handleBack}
+                    onNextLevel={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-custom-rules-theory')}
+                    onSwitchToQuiz={() => setActivityType('g7-pow-custom-rules-quiz')}
+                    onSwitchToMatcher={() => setActivityType('g7-pow-custom-rules-matcher')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-divisors-multiples-theory' && (
+                  <Grade7DivisorsMultiplesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-pow-divisors-multiples-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-divisors-multiples-quiz' && (
+                  <Grade7DivisorsMultiplesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-divisors-multiples-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-divisors-multiples-matcher' && (
+                  <Grade7DivisorsMultiplesMatcher
+                    onBack={handleBack}
+                    onNextLevel={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-divisors-multiples-theory')}
+                    onSwitchToQuiz={() => setActivityType('g7-pow-divisors-multiples-quiz')}
+                    onSwitchToSorter={() => setActivityType('g7-pow-divisors-multiples-sorter')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-divisors-multiples-sorter' && (
+                  <Grade7DivisorsMultiplesSorter
+                    onBack={handleBack}
+                    onNextLevel={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-divisors-multiples-theory')}
+                    onSwitchToQuiz={() => setActivityType('g7-pow-divisors-multiples-quiz')}
+                    onSwitchToMatcher={() => setActivityType('g7-pow-divisors-multiples-matcher')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-gcd-theory' && (
+                  <Grade7GreatestCommonDivisorTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-pow-gcd-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-gcd-quiz' && (
+                  <Grade7GreatestCommonDivisorQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-gcd-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-gcd-matcher' && (
+                  <Grade7GreatestCommonDivisorMatcher
+                    onBack={handleBack}
+                    onNextLevel={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-gcd-theory')}
+                    onSwitchToQuiz={() => setActivityType('g7-pow-gcd-quiz')}
+                    onSwitchToSorter={() => setActivityType('g7-pow-gcd-sorter')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-gcd-sorter' && (
+                  <Grade7GreatestCommonDivisorSorter
+                    onBack={handleBack}
+                    onNextLevel={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-gcd-theory')}
+                    onSwitchToQuiz={() => setActivityType('g7-pow-gcd-quiz')}
+                    onSwitchToMatcher={() => setActivityType('g7-pow-gcd-matcher')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-lcm-theory' && (
+                  <Grade7LeastCommonMultipleTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-pow-lcm-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-lcm-quiz' && (
+                  <Grade7LeastCommonMultipleQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-lcm-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-lcm-matcher' && (
+                  <Grade7LeastCommonMultipleMatcher
+                    onBack={handleBack}
+                    onNextLevel={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-lcm-theory')}
+                    onSwitchToQuiz={() => setActivityType('g7-pow-lcm-quiz')}
+                    onSwitchToSorter={() => setActivityType('g7-pow-lcm-sorter')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-lcm-sorter' && (
+                  <Grade7LeastCommonMultipleSorter
+                    onBack={handleBack}
+                    onNextLevel={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-lcm-theory')}
+                    onSwitchToQuiz={() => setActivityType('g7-pow-lcm-quiz')}
+                    onSwitchToMatcher={() => setActivityType('g7-pow-lcm-matcher')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-games-theory' && (
+                  <Grade7MathGamesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-pow-games-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-games-quiz' && (
+                  <Grade7MathGamesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-games-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-games-matcher' && (
+                  <Grade7MathGamesMatcher
+                    onBack={handleBack}
+                    onNextLevel={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-games-theory')}
+                    onSwitchToQuiz={() => setActivityType('g7-pow-games-quiz')}
+                    onSwitchToSorter={() => setActivityType('g7-pow-games-sorter')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-games-sorter' && (
+                  <Grade7MathGamesSorter
+                    onBack={handleBack}
+                    onNextLevel={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-games-theory')}
+                    onSwitchToQuiz={() => setActivityType('g7-pow-games-quiz')}
+                    onSwitchToMatcher={() => setActivityType('g7-pow-games-matcher')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-summary-theory' && (
+                  <Grade7PowersSummaryTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-pow-summary-quiz')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-summary-quiz' && (
+                  <Grade7PowersSummaryQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-summary-theory')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-summary-matcher' && (
+                  <Grade7PowersSummaryMatcher
+                    onBack={handleBack}
+                    onNextLevel={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-summary-theory')}
+                    onSwitchToQuiz={() => setActivityType('g7-pow-summary-quiz')}
+                    onSwitchToSorter={() => setActivityType('g7-pow-summary-sorter')}
+                  />
+                )}
+
+                {activityType === 'g7-pow-summary-sorter' && (
+                  <Grade7PowersSummarySorter
+                    onBack={handleBack}
+                    onNextLevel={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-pow-summary-theory')}
+                    onSwitchToQuiz={() => setActivityType('g7-pow-summary-quiz')}
+                    onSwitchToMatcher={() => setActivityType('g7-pow-summary-matcher')}
+                  />
                 )}
 
                 {activityType === 'g6-fractions-review-theory' && (

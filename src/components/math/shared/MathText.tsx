@@ -7,9 +7,13 @@ export interface FractionProps {
   num: string | number | React.ReactNode;
   den: string | number | React.ReactNode;
   whole?: string | number | React.ReactNode;
+  power?: string | number | React.ReactNode;
+  paren?: boolean;
+  sign?: string;
   className?: string;
   size?: 'sm' | 'md' | 'lg' | 'xl';
 }
+
 
 export interface SqrtProps {
   radicand?: string | number | React.ReactNode;
@@ -217,8 +221,13 @@ export function cleanMathSymbols(text: string): string {
     .replace(/\\+cdot/g, '·')
     .replace(/\\+times/g, '×')
     .replace(/\\+div/g, ':')
-    .replace(/\\+implies/g, ' ⟹ ')
-    .replace(/\\+iff/g, ' ⟺ ')
+    .replace(/\\+nmid(?![a-zA-Z])/g, ' ∤ ')
+    .replace(/\\+mid(?![a-zA-Z])/g, ' | ')
+    .replace(/\\+implies|\\+Rightarrow/g, ' ⟹ ')
+    .replace(/\\+iff|\\+Leftrightarrow/g, ' ⟺ ')
+    .replace(/\\+Leftarrow/g, ' ⟸ ')
+    .replace(/\\+to|\\+rightarrow/g, ' → ')
+    .replace(/\\+gets|\\+leftarrow/g, ' ← ')
     .replace(/\\+dots/g, '…')
     .replace(/\\+sim/g, '~')
     .replace(/\\+cong/g, '≅')
@@ -271,20 +280,21 @@ export function cleanMathSymbols(text: string): string {
 }
 
 export function toLatex(s: string): string {
-  let res = String(s)
-    .replace(/²/g, '^2')
-    .replace(/³/g, '^3')
-    .replace(/⁰/g, '^0')
-    .replace(/¹/g, '^1')
-    .replace(/ⁿ/g, '^n')
-    .replace(/₁/g, '_1')
-    .replace(/₂/g, '_2')
-    .replace(/₃/g, '_3')
-    .replace(/₀/g, '_0')
-    .replace(/ₐ/g, '_a')
-    .replace(/ᵦ/g, '_b')
-    .replace(/ₖ/g, '_k')
-    .replace(/ₙ/g, '_n')
+  let res = String(s).trim();
+
+  // Multi-character superscript block to KaTeX ^{...}
+  res = res.replace(/([⁰¹²³⁴⁵⁶⁷⁸⁹ⁿ⁺⁻]+)/g, (match) => {
+    const inner = match.split('').map((ch) => UNICODE_SUP_MAP[ch] || ch).join('');
+    return '^{' + inner + '}';
+  });
+
+  // Multi-character subscript block to KaTeX _{...}
+  res = res.replace(/([₀₁₂₃₄₅₆₇₈₉ₐᵦₖₙ]+)/g, (match) => {
+    const inner = match.split('').map((ch) => UNICODE_SUB_MAP[ch] || ch).join('');
+    return '_{' + inner + '}';
+  });
+
+  res = res
     .replace(/·/g, ' \\cdot ')
     .replace(/×/g, ' \\times ')
     .replace(/≈/g, ' \\approx ')
@@ -293,6 +303,9 @@ export function toLatex(s: string): string {
     .replace(/≠/g, ' \\ne ')
     .replace(/°/g, '^{\\circ}')
     .replace(/\b(m|s|T)([abc])\b/g, '$1_$2');
+
+  // Hungarian decimal separator: 0,36 -> 0{,}36
+  res = res.replace(/(\d+),(\d+)/g, '$1{,}$2');
 
   res = res.replace(/_\(([^()]+)\)/g, '_{$1}');
   res = res.replace(/\^\(([^()]+)\)/g, '^{$1}');
@@ -424,6 +437,9 @@ export const Fraction: React.FC<FractionProps> = ({
   num,
   den,
   whole,
+  power,
+  paren,
+  sign,
   className,
   size = 'md',
 }) => {
@@ -431,8 +447,10 @@ export const Fraction: React.FC<FractionProps> = ({
   const isDenSimple = typeof den === 'string' || typeof den === 'number';
   const isWholeSimple =
     whole === undefined || whole === null || whole === '' || typeof whole === 'string' || typeof whole === 'number';
+  const isPowerSimple =
+    power === undefined || power === null || power === '' || typeof power === 'string' || typeof power === 'number';
 
-  if (isNumSimple && isDenSimple && isWholeSimple) {
+  if (isNumSimple && isDenSimple && isWholeSimple && isPowerSimple) {
     try {
       const latexNum = toLatex(String(num).trim());
       const latexDen = toLatex(String(den).trim());
@@ -440,6 +458,19 @@ export const Fraction: React.FC<FractionProps> = ({
       if (whole !== undefined && whole !== null && whole !== '') {
         const latexWhole = toLatex(String(whole).trim());
         latexExpr = `${latexWhole}\\;${latexExpr}`;
+      }
+      if (power !== undefined && power !== null && power !== '') {
+        let latexPower = toLatex(String(power).trim());
+        if (latexPower.startsWith('^{') && latexPower.endsWith('}')) {
+          latexPower = latexPower.slice(2, -1);
+        } else if (latexPower.startsWith('^')) {
+          latexPower = latexPower.slice(1);
+        }
+        latexExpr = `\\left(${sign ? sign : ''}${latexExpr}\\right)^{${latexPower}}`;
+      } else if (paren) {
+        latexExpr = `\\left(${sign ? sign : ''}${latexExpr}\\right)`;
+      } else if (sign) {
+        latexExpr = `${sign}${latexExpr}`;
       }
 
       const html = katex.renderToString(latexExpr, {
@@ -473,6 +504,7 @@ export const Fraction: React.FC<FractionProps> = ({
   const renderedNum = typeof num === 'string' ? parseScriptsInText(parseSquareRootsInText(cleanMathSymbols(num), size), size) : parseScriptsInNode(num, size);
   const renderedDen = typeof den === 'string' ? parseScriptsInText(parseSquareRootsInText(cleanMathSymbols(den), size), size) : parseScriptsInNode(den, size);
   const renderedWhole = typeof whole === 'string' ? parseScriptsInText(cleanMathSymbols(whole), size) : parseScriptsInNode(whole, size);
+  const renderedPower = typeof power === 'string' ? parseScriptsInText(cleanMathSymbols(power), size) : parseScriptsInNode(power, size);
 
   const sizeStyles = {
     sm: {
@@ -509,6 +541,8 @@ export const Fraction: React.FC<FractionProps> = ({
     },
   }[size];
 
+  const hasParenOrPower = Boolean(paren || (power !== undefined && power !== null && power !== ''));
+
   return (
     <span
       className={cn(
@@ -517,8 +551,12 @@ export const Fraction: React.FC<FractionProps> = ({
         className
       )}
     >
+      {sign && <span className="mr-0.5">{sign}</span>}
       {renderedWhole !== undefined && renderedWhole !== null && renderedWhole !== '' && (
         <span className={sizeStyles.whole}>{renderedWhole}</span>
+      )}
+      {hasParenOrPower && (
+        <span className="text-current font-normal text-[1.25em] leading-none select-none -mr-[1px]">(</span>
       )}
       <span className={cn('inline-flex flex-col items-center justify-center min-w-[13px]', sizeStyles.fraction)}>
         <span className={cn('border-current text-center w-full leading-tight', sizeStyles.border, sizeStyles.padding)}>
@@ -528,6 +566,14 @@ export const Fraction: React.FC<FractionProps> = ({
           {renderedDen}
         </span>
       </span>
+      {hasParenOrPower && (
+        <span className="text-current font-normal text-[1.25em] leading-none select-none -ml-[1px]">)</span>
+      )}
+      {renderedPower !== undefined && renderedPower !== null && renderedPower !== '' && (
+        <sup className="text-[0.72em] font-medium leading-none align-baseline relative -top-[0.45em] ml-[0.5px]">
+          {renderedPower}
+        </sup>
+      )}
     </span>
   );
 };
@@ -673,9 +719,12 @@ export function parseSquareRootsInText(
   return parts.length === 0 ? parseScriptsInText(text, size) : <>{parts}</>;
 }
 
-const SCRIPT_EXPR = '(?:[²³⁰¹ⁿ]|_(?:\\{[^{}]+\\}|\\([^()]+\\)|[0-9a-zA-Zα-ωΑ-Ω]+)|\\^(?:\\{[^{}]+\\}|\\([^()]+\\)|[+-]?[0-9a-zA-Zα-ωΑ-Ω]+))';
+const SUP_CHARS = '[⁰¹²³⁴⁵⁶⁷⁸⁹ⁿ⁺⁻]';
+const POWER_SUFFIX = '(?:' + SUP_CHARS + '+|\\^(?:\\{[^{}]+\\}|\\([^()]+\\)|[+-]?[0-9a-zA-Zⁿ]+))';
+const SCRIPT_EXPR = '(?:' + POWER_SUFFIX + '|_(?:\\{[^{}]+\\}|\\([^()]+\\)|[0-9a-zA-Zα-ωΑ-Ω]+))';
 const NUM_OR_VAR = '[a-zA-Zα-ωΑ-Ω](?:' + SCRIPT_EXPR + '|[a-zA-Z0-9α-ωΑ-Ω])*';
 const SQRT_EXPR = '(?:√|\\\\sqrt)(?:\\{[^{}]+\\}|\\([^()]+\\)|\\[[^\\]]+\\]|\\d+(?:[.,]\\d+)?|' + NUM_OR_VAR + ')';
+const ATOM_EXPR = '(?:\\(-?\\d+\\)' + POWER_SUFFIX + '|' + SQRT_EXPR + '|' + NUM_OR_VAR + '|\\d+' + POWER_SUFFIX + '|\\d+(?:[.,]\\d+)?)';
 const DEN_EXPR = '(?:' + SQRT_EXPR + '|' + NUM_OR_VAR + '|\\d+(?:[.,]\\d+)?)';
 
 const FRACTION_PATTERNS = [
@@ -683,24 +732,22 @@ const FRACTION_PATTERNS = [
   '\\\\frac\\{([^{}]*(?:\\{[^{}]*\\}[^{}]*)*)\\}\\{([^{}]*(?:\\{[^{}]*\\}[^{}]*)*)\\}',
   // 2. Both parenthesized: (expr1) / (expr2)
   '\\(([^()]*(?:\\([^()]*\\)[^()]*)*)\\)\\s*\\/\\s*\\(([^()]*(?:\\([^()]*\\)[^()]*)*)\\)',
-  // 3. Numerator parenthesized: (expr1) / den
-  '\\(([^()]*(?:\\([^()]*\\)[^()]*)*)\\)\\s*\\/\\s*(' + DEN_EXPR + ')',
-  // 4. Denominator parenthesized: num / (expr2)
-  '(' + DEN_EXPR + '|\\b\\d+(?:[.,]\\d+)?°?)\\s*\\/\\s*\\(([^()]*(?:\\([^()]*\\)[^()]*)*)\\)',
-  // 5. Mixed number: whole num/den
+  // 3. Parenthesized fraction with optional sign and power: (a / b)ⁿ, (2/3)⁴, -(1/2)⁴, (18 / 6)³
+  '(?:([+-])\\s*)?\\(([+-]?(?:' + ATOM_EXPR + '|[^()\\/]+))\\s*\\/\\s*([+-]?(?:' + ATOM_EXPR + '|[^()\\/]+))\\)(?:(' + SUP_CHARS + '+)|\\^([0-9a-zA-Zⁿ+-]+|\\{[^{}]+\\}))?',
+  // 4. Numerator parenthesized: (expr1) / den
+  '\\(([^()]*(?:\\([^()]*\\)[^()]*)*)\\)\\s*\\/\\s*(' + ATOM_EXPR + '|' + DEN_EXPR + ')',
+  // 5. Denominator parenthesized: num / (expr2)
+  '(' + ATOM_EXPR + '|\\b\\d+(?:[.,]\\d+)?°?)\\s*\\/\\s*\\(([^()]*(?:\\([^()]*\\)[^()]*)*)\\)',
+  // 6. Mixed number: whole num/den
   '(-?\\b\\d+)\\s+(?:és\\s+)?(\\d+)\\s*\\/\\s*(\\d+)',
-  // 6. Parenthesized single fraction with optional sign: (+1/2), (-a/b)
-  '([+-])?\\s*\\(([+-]?(?:' + SQRT_EXPR + '|' + NUM_OR_VAR + '|\\d{1,4}))\\s*\\/\\s*([+-]?(?:' + SQRT_EXPR + '|' + NUM_OR_VAR + '|\\d{1,4}))\\)',
   // 7. Sqrt in numerator: √3 / 2, √2 / 2, √a / 2
-  '(' + SQRT_EXPR + ')\\s*\\/\\s*(' + DEN_EXPR + ')',
+  '(' + SQRT_EXPR + ')\\s*\\/\\s*(' + ATOM_EXPR + '|' + DEN_EXPR + ')',
   // 8. Sqrt in denominator: d / √2, 1 / √2, c / √2
-  '(' + NUM_OR_VAR + '|\\b\\d+(?:[.,]\\d+)?)\\s*\\/\\s*(' + SQRT_EXPR + ')',
+  '(' + ATOM_EXPR + ')\\s*\\/\\s*(' + SQRT_EXPR + ')',
   // 9. Degree numerator: 90° / 2
-  '(\\b\\d+(?:[.,]\\d+)?°)\\s*\\/\\s*(' + DEN_EXPR + ')',
-  // 10. Variable / Power / Subscript over number or variable: a² / 2, c² / 4, mc / 2, c / 2, a / b
-  '(' + NUM_OR_VAR + ')\\s*\\/\\s*(' + DEN_EXPR + ')',
-  // 11. Simple numeric fraction: 3/4, 24 / 5, -1/2
-  '(-?\\b\\d{1,4})\\s*\\/\\s*(\\d{1,4}\\b)(-[a-záéíóöőúüűA-ZÁÉÍÓÖŐÚÜŰ]+)?'
+  '(\\b\\d+(?:[.,]\\d+)?°)\\s*\\/\\s*(' + ATOM_EXPR + '|' + DEN_EXPR + ')',
+  // 10. General math atom / atom with optional suffix (e.g. 2⁴ / 3⁴, 18³ / 6³, aⁿ / bⁿ, (-1)⁴ / 2⁴, 16 / 81, a / b, 3/4-e)
+  '(' + ATOM_EXPR + ')\\s*\\/\\s*(' + ATOM_EXPR + ')(-[a-záéíóöőúüűA-ZÁÉÍÓÖŐÚÜŰ]+)?'
 ];
 
 export function parseFractionsInText(
@@ -756,101 +803,99 @@ export function parseFractionsInText(
           size={size}
         />
       );
-    } else if (match[5] && match[6]) {
-      // 3. Numerator parenthesized: (expr1) / den
-      const rawNum = match[5].trim();
+    } else if (match[6] && match[7]) {
+      // 3. Parenthesized fraction with optional sign and power: (a / b)ⁿ, (2/3)⁴, -(1/2)⁴, (18 / 6)³
+      const sign = match[5];
+      const rawNum = match[6].trim();
+      const rawDen = match[7].trim();
+      const power = match[8] || match[9] || undefined;
       const hasNestedFracNum = rawNum.includes('\\frac') || /\b\d+\s*\/\s*\d+\b/.test(rawNum);
-      parts.push(
-        <Fraction
-          key={`frac-num-paren-${match.index}-${match[5]}-${match[6]}`}
-          num={hasNestedFracNum ? parseFractionsInText(rawNum, size) : rawNum}
-          den={match[6].trim()}
-          size={size}
-        />
-      );
-    } else if (match[7] && match[8]) {
-      // 4. Denominator parenthesized: num / (expr2)
-      const rawDen = match[8].trim();
       const hasNestedFracDen = rawDen.includes('\\frac') || /\b\d+\s*\/\s*\d+\b/.test(rawDen);
       parts.push(
         <Fraction
-          key={`frac-den-paren-${match.index}-${match[7]}-${match[8]}`}
-          num={match[7].trim()}
+          key={`frac-paren-pow-${match.index}-${rawNum}-${rawDen}`}
+          num={hasNestedFracNum ? parseFractionsInText(rawNum, size) : rawNum}
+          den={hasNestedFracDen ? parseFractionsInText(rawDen, size) : rawDen}
+          power={power}
+          paren={true}
+          sign={sign}
+          size={size}
+        />
+      );
+    } else if (match[10] && match[11]) {
+      // 4. Numerator parenthesized: (expr1) / den
+      const rawNum = match[10].trim();
+      const rawDen = match[11].trim();
+      const hasNestedFracNum = rawNum.includes('\\frac') || /\b\d+\s*\/\s*\d+\b/.test(rawNum);
+      parts.push(
+        <Fraction
+          key={`frac-num-paren-${match.index}-${rawNum}-${rawDen}`}
+          num={hasNestedFracNum ? parseFractionsInText(rawNum, size) : rawNum}
+          den={rawDen}
+          size={size}
+        />
+      );
+    } else if (match[12] && match[13]) {
+      // 5. Denominator parenthesized: num / (expr2)
+      const rawNum = match[12].trim();
+      const rawDen = match[13].trim();
+      const hasNestedFracDen = rawDen.includes('\\frac') || /\b\d+\s*\/\s*\d+\b/.test(rawDen);
+      parts.push(
+        <Fraction
+          key={`frac-den-paren-${match.index}-${rawNum}-${rawDen}`}
+          num={rawNum}
           den={hasNestedFracDen ? parseFractionsInText(rawDen, size) : rawDen}
           size={size}
         />
       );
-    } else if (match[9] && match[10] && match[11]) {
-      // 5. Mixed number: whole num/den
+    } else if (match[14] && match[15] && match[16]) {
+      // 6. Mixed number: whole num/den
       parts.push(
         <Fraction
-          key={`frac-mixed-${match.index}-${match[9]}-${match[10]}-${match[11]}`}
-          whole={match[9]}
-          num={match[10]}
-          den={match[11]}
-          size={size}
-        />
-      );
-    } else if (match[13] && match[14]) {
-      // 6. Parenthesized single fraction with optional sign
-      const sign = match[12];
-      parts.push(
-        <React.Fragment key={`frac-paren-single-${match.index}-${match[13]}-${match[14]}`}>
-          {sign && <span className="mr-0.5">{sign}</span>}
-          <Fraction
-            num={match[13]}
-            den={match[14]}
-            size={size}
-          />
-        </React.Fragment>
-      );
-    } else if (match[15] && match[16]) {
-      // 7. Sqrt in numerator: √3 / 2, √2 / 2, √a / 2
-      parts.push(
-        <Fraction
-          key={`frac-sqrt-num-${match.index}-${match[15]}-${match[16]}`}
-          num={match[15].trim()}
-          den={match[16].trim()}
+          key={`frac-mixed-${match.index}-${match[14]}-${match[15]}-${match[16]}`}
+          whole={match[14]}
+          num={match[15]}
+          den={match[16]}
           size={size}
         />
       );
     } else if (match[17] && match[18]) {
-      // 8. Sqrt in denominator: d / √2, 1 / √2, c / √2
+      // 7. Sqrt in numerator: √3 / 2, √2 / 2, √a / 2
       parts.push(
         <Fraction
-          key={`frac-sqrt-den-${match.index}-${match[17]}-${match[18]}`}
+          key={`frac-sqrt-num-${match.index}-${match[17]}-${match[18]}`}
           num={match[17].trim()}
           den={match[18].trim()}
           size={size}
         />
       );
     } else if (match[19] && match[20]) {
-      // 9. Degree numerator: 90° / 2
+      // 8. Sqrt in denominator: d / √2, 1 / √2, c / √2
       parts.push(
         <Fraction
-          key={`frac-degree-${match.index}-${match[19]}-${match[20]}`}
+          key={`frac-sqrt-den-${match.index}-${match[19]}-${match[20]}`}
           num={match[19].trim()}
           den={match[20].trim()}
           size={size}
         />
       );
     } else if (match[21] && match[22]) {
-      // 10. Variable / Power / Subscript over number or variable: a² / 2, c² / 4, mc / 2, c / 2, a / b
+      // 9. Degree numerator: 90° / 2
       parts.push(
         <Fraction
-          key={`frac-var-${match.index}-${match[21]}-${match[22]}`}
+          key={`frac-degree-${match.index}-${match[21]}-${match[22]}`}
           num={match[21].trim()}
           den={match[22].trim()}
           size={size}
         />
       );
     } else if (match[23] && match[24]) {
-      // 11. Simple numeric fraction with optional suffix
+      // 10. General atom / atom fraction with optional suffix
       parts.push(
-        <React.Fragment key={`frac-simple-${match.index}-${match[23]}-${match[24]}`}>
+        <React.Fragment key={`frac-atom-${match.index}-${match[23]}-${match[24]}`}>
           <Fraction
-            num={match[23]}
-            den={match[24]}
+            num={match[23].trim()}
+            den={match[24].trim()}
             size={size}
           />
           {match[25] && <span>{match[25]}</span>}

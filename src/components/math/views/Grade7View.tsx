@@ -646,13 +646,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-pow-nagy-szamok" number={1} title="Nagy számok és a hatványalak" color="amber" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Nagy számok és a hatványalak"
-                  subtitle="Hatványozás fogalma, 10 hatványai és normálalak"
-                  type="Hamarosan"
-                  emoji="🔢"
-                  disabled={true}
-                  icon={<Binary className="w-6 h-6" />}
+                  title="Nagy számok és hatványalak elmélet"
+                  subtitle="A hatványozás fogalma, műveleti szabályok és a normálalak"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-pow-large-numbers-theory', 'g7-powers-divisibility')}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="amber"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-pow-large-numbers-quiz', 'g7-powers-divisibility')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="amber"
+                  {...getTopicProgress('g7-powers-large-numbers')}
                 />
               </div>
             </section>
@@ -664,13 +674,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-pow-alkalmazas" number={2} title="Hatványok alkalmazása" color="orange" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Hatványok alkalmazása"
-                  subtitle="Hatványozás azonosságai, előjeles számok és törtek hatványai"
-                  type="Hamarosan"
-                  emoji="⚡"
-                  disabled={true}
-                  icon={<Zap className="w-6 h-6" />}
+                  title="Hatványok alkalmazása elmélet"
+                  subtitle="A hatványozás azonosságai, szorzás, osztás és algebrai hatványok"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-pow-application-theory', 'g7-powers-divisibility')}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="orange"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-pow-application-quiz', 'g7-powers-divisibility')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="orange"
+                  {...getTopicProgress('g7-powers-application')}
                 />
               </div>
             </section>
@@ -682,13 +702,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-pow-mit-tanultunk-ismetles" number={3} title="Mit tanultunk az oszthatóságról? (Ismétlés)" color="blue" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Mit tanultunk az oszthatóságról?"
-                  subtitle="Alapvető szabályok (2, 3, 4, 5, 8, 9, 10, 25, 100), összeg és szorzat"
-                  type="Hamarosan"
-                  emoji="🔄"
-                  disabled={true}
-                  icon={<Calculator className="w-6 h-6" />}
+                  title="Mit tanultunk az oszthatóságról? elmélet"
+                  subtitle="Alapvető szabályok (2, 3, 4, 5, 8, 9, 10, 25, 100), összeg és szorzat oszthatósága"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-pow-divisibility-review-theory', 'g7-powers-divisibility')}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="blue"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-pow-divisibility-review-quiz', 'g7-powers-divisibility')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="blue"
+                  {...getTopicProgress('g7-powers-divisibility-review')}
                 />
               </div>
             </section>
@@ -700,13 +730,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-pow-logika" number={4} title="Egy kis logika" color="indigo" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Egy kis logika"
-                  subtitle="Logikai következtetések, szükséges és elégséges feltételek"
-                  type="Hamarosan"
+                  title="Egy kis logika elmélet"
+                  subtitle="Állítások, tagadás, megfordítás, szükséges és elégséges feltétel"
+                  type="Tananyag"
                   emoji="💡"
-                  disabled={true}
-                  icon={<Lightbulb className="w-6 h-6" />}
+                  onClick={() => onActivitySelect('g7-pow-logic-theory', 'g7-powers-divisibility')}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="indigo"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-pow-logic-quiz', 'g7-powers-divisibility')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="indigo"
+                  {...getTopicProgress('g7-powers-logic')}
                 />
               </div>
             </section>
@@ -718,13 +758,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-pow-prim-felbontas" number={5} title="A prímszámok. A számok prímtényezős felbontása" color="emerald" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Prímszámok és felbontás"
-                  subtitle="Számelmélet alaptétele, prímfelbontás és kanonikus alak"
-                  type="Hamarosan"
+                  title="Prímszámok és felbontás elmélet"
+                  subtitle="Prímszámok, Eratoszthenész szitája, a számelmélet alaptétele és kanonikus alak"
+                  type="Tananyag"
                   emoji="🧱"
-                  disabled={true}
-                  icon={<Boxes className="w-6 h-6" />}
+                  onClick={() => onActivitySelect('g7-pow-prime-factors-theory', 'g7-powers-divisibility')}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="emerald"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-pow-prime-factors-quiz', 'g7-powers-divisibility')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="emerald"
+                  {...getTopicProgress('g7-powers-prime-factors')}
                 />
               </div>
             </section>
@@ -736,13 +786,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-pow-szabaly-keszites" number={6} title="Készítsünk magunknak oszthatósági szabályokat!" color="teal" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Oszthatósági szabályok alkotása"
-                  subtitle="Összetett szabályok (6, 12, 15, 18, 36, 45) relatív prímekkel"
-                  type="Hamarosan"
+                  title="Oszthatósági szabályok alkotása elmélet"
+                  subtitle="Összetett szabályok (6, 12, 15, 18, 36, 45), relatív prímek és hiányzó számjegyek"
+                  type="Tananyag"
                   emoji="🛠️"
-                  disabled={true}
-                  icon={<Wrench className="w-6 h-6" />}
+                  onClick={() => onActivitySelect('g7-pow-custom-rules-theory', 'g7-powers-divisibility')}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="teal"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-pow-custom-rules-quiz', 'g7-powers-divisibility')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="teal"
+                  {...getTopicProgress('g7-powers-custom-rules')}
                 />
               </div>
             </section>
@@ -754,13 +814,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-pow-osztok-tobbszorosok" number={7} title="Osztókról, többszörösökről még egyszer" color="cyan" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Osztók és többszörösök"
-                  subtitle="Osztópárok, osztók száma és négyzetszámok tulajdonsága"
-                  type="Hamarosan"
-                  emoji="📊"
-                  disabled={true}
-                  icon={<Table className="w-6 h-6" />}
+                  title="Osztókról, többszörösökről még egyszer elmélet"
+                  subtitle="Osztópárok, keresési korlát (√n), az osztók száma d(n) és négyzetszámok"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-pow-divisors-multiples-theory', 'g7-powers-divisibility')}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="cyan"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-pow-divisors-multiples-quiz', 'g7-powers-divisibility')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="cyan"
+                  {...getTopicProgress('g7-powers-divisors-multiples')}
                 />
               </div>
             </section>
@@ -772,13 +842,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-pow-lnko" number={8} title="Legnagyobb közös osztó" color="violet" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Legnagyobb közös osztó (LNKO)"
-                  subtitle="Közös osztók, prímfelbontásos kiszámítás és relatív prímek"
-                  type="Hamarosan"
+                  title="Legnagyobb közös osztó elmélet"
+                  subtitle="Közös osztók, prímfelbontásos kiszámítás (kisebb kitevők), relatív prímek és labor"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-pow-gcd-theory', 'g7-powers-divisibility')}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="violet"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
                   emoji="🎯"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g7-pow-gcd-quiz', 'g7-powers-divisibility')}
                   icon={<Target className="w-6 h-6" />}
                   color="violet"
+                  {...getTopicProgress('g7-powers-gcd')}
                 />
               </div>
             </section>
@@ -790,13 +870,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-pow-lkkt" number={9} title="Legkisebb közös többszörös" color="purple" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Legkisebb közös többszörös (LKKT)"
-                  subtitle="Közös többszörösök, közös nevező és LNKO·LKKT tétel"
-                  type="Hamarosan"
-                  emoji="📈"
-                  disabled={true}
-                  icon={<TrendingUp className="w-6 h-6" />}
+                  title="Legkisebb közös többszörös elmélet"
+                  subtitle="Közös többszörösök, prímfelbontás (nagyobb kitevők), alaptétel és labor"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-pow-lcm-theory', 'g7-powers-divisibility')}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="purple"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-pow-lcm-quiz', 'g7-powers-divisibility')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="purple"
+                  {...getTopicProgress('g7-powers-lcm')}
                 />
               </div>
             </section>
@@ -808,13 +898,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-pow-jatekok" number={10} title="Matematikai játékok" color="rose" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Matematikai játékok"
-                  subtitle="Számelméleti játékok, nyerő stratégiák és paritás"
-                  type="Hamarosan"
+                  title="Matematikai játékok elmélet"
+                  subtitle="Számversenyek, kulcspozíciók, kiegészítő lépések, szimmetria és interaktív labor"
+                  type="Tananyag"
                   emoji="🎮"
-                  disabled={true}
-                  icon={<Gamepad2 className="w-6 h-6" />}
+                  onClick={() => onActivitySelect('g7-pow-games-theory', 'g7-powers-divisibility')}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="rose"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-pow-games-quiz', 'g7-powers-divisibility')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="rose"
+                  {...getTopicProgress('g7-powers-games')}
                 />
               </div>
             </section>
@@ -826,13 +926,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-pow-osszefoglalas" number={11} title="Összefoglalás" color="slate" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Összefoglalás"
-                  subtitle="IV. Hatványozás, oszthatóság fejezet átfogó rendszerezése"
-                  type="Hamarosan"
+                  title="Összefoglalás elmélet"
+                  subtitle="Hatványozás, normálalak, oszthatóság, prímek, LNKO és LKKT átfogó szintézise"
+                  type="Tananyag"
                   emoji="🏆"
-                  disabled={true}
-                  icon={<Trophy className="w-6 h-6" />}
+                  onClick={() => onActivitySelect('g7-pow-summary-theory', 'g7-powers-divisibility')}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="slate"
+                />
+                <ActivityPlaceholder
+                  title="Fejezeti Összefoglaló Kvíz"
+                  subtitle="90 feladat, 3 nehézségi szint (szintenként 30 kérdés)"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-pow-summary-quiz', 'g7-powers-divisibility')}
+                  icon={<Target className="w-6 h-6" />}
+                  color="slate"
+                  {...getTopicProgress('g7-powers-summary')}
                 />
               </div>
             </section>
