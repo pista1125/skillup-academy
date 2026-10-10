@@ -1577,13 +1577,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-eq-osszefoglalas" number={5} title="Összefoglalás" color="slate" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Összefoglalás"
+                  title="Összefoglalás elmélet"
                   subtitle="VI. Egyenletek átfogó rendszerezése és módszertana"
-                  type="Hamarosan"
+                  type="Tananyag"
                   emoji="🏆"
-                  disabled={true}
-                  icon={<Trophy className="w-6 h-6" />}
+                  onClick={() => onActivitySelect('g7-eq-summary-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="slate"
+                />
+                <ActivityPlaceholder
+                  title="Összefoglaló Kvíz"
+                  subtitle="90 feladat, 30 feladat szintenként"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-eq-summary-quiz', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="slate"
+                  {...getTopicProgress('g7-eq-summary')}
                 />
               </div>
             </section>

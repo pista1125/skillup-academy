@@ -290,6 +290,11 @@ export function QuizTemplate({
         const map: Partial<Record<DifficultyLevel, LevelConfig>> = {};
         levels.forEach((cfg, idx) => {
           const lvl = (cfg.level || (idx + 1)) as DifficultyLevel;
+          const questionsForLevel = (cfg.questions && cfg.questions.length > 0)
+            ? cfg.questions
+            : (Array.isArray(rawQuestions) && rawQuestions.length > 0
+                ? rawQuestions.filter(q => q.level === lvl)
+                : []);
           map[lvl] = {
             ...cfg,
             level: lvl,
@@ -297,7 +302,7 @@ export function QuizTemplate({
             subtitle: cfg.subtitle || (cfg as any).description || (lvl === 1 ? 'Alapfogalmak és egyszerűbb feladatok' : lvl === 2 ? 'Összefüggések és gyakorlati feladványok' : 'Összetett feladatok és kihívások'),
             range: cfg.range || (lvl === 1 ? '1 - 10. feladat' : lvl === 2 ? '11 - 20. feladat' : '21 - 30. feladat'),
             focus: cfg.focus || (lvl === 1 ? 'Alapfogalmak' : lvl === 2 ? 'Gyakorlat & Alkalmazás' : 'Mesterfok & Logika'),
-            questions: (cfg.questions || []).map(normalizeQ)
+            questions: questionsForLevel.map(normalizeQ)
           };
         });
         return map as Record<DifficultyLevel, LevelConfig>;
@@ -307,6 +312,11 @@ export function QuizTemplate({
         const lvl = Number(k) as DifficultyLevel;
         const cfg = levels[lvl];
         if (cfg) {
+          const questionsForLevel = (cfg.questions && cfg.questions.length > 0)
+            ? cfg.questions
+            : (Array.isArray(rawQuestions) && rawQuestions.length > 0
+                ? rawQuestions.filter(q => q.level === lvl)
+                : []);
           recordMap[lvl] = {
             ...cfg,
             level: lvl,
@@ -314,7 +324,7 @@ export function QuizTemplate({
             subtitle: cfg.subtitle || (cfg as any).description || (lvl === 1 ? 'Alapfogalmak és egyszerűbb feladatok' : lvl === 2 ? 'Összefüggések és gyakorlati feladványok' : 'Összetett feladatok és kihívások'),
             range: cfg.range || (lvl === 1 ? '1–10. kérdés' : lvl === 2 ? '11–20. kérdés' : '21–30. kérdés'),
             focus: cfg.focus || (lvl === 1 ? 'Alapfogalmak' : lvl === 2 ? 'Gyakorlat & Alkalmazás' : 'Mesterfok & Logika'),
-            questions: (cfg.questions || []).map(normalizeQ)
+            questions: questionsForLevel.map(normalizeQ)
           };
         }
       });
