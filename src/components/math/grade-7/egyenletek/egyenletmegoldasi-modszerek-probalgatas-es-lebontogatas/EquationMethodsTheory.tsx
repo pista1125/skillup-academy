@@ -355,11 +355,15 @@ export const EquationMethodsTheory: React.FC<EquationMethodsTheoryProps> = ({
               Egy gondolt szám háromszorosánál 20-szal nagyobb szám.
             </div>
             <div className="p-3 bg-white rounded-lg border border-slate-200">
-              <span className="font-mono font-bold text-indigo-700 text-sm block mb-1">\frac{1}{2}x + 14</span>
+              <span className="font-mono font-bold text-indigo-700 text-sm block mb-1">
+                <MathText text="\frac{1}{2}x + 14" />
+              </span>
               Egy gondolt szám felénél 14-gyel nagyobb szám.
             </div>
             <div className="p-3 bg-white rounded-lg border border-slate-200">
-              <span className="font-mono font-bold text-indigo-700 text-sm block mb-1">(60 - x) \cdot 5</span>
+              <span className="font-mono font-bold text-indigo-700 text-sm block mb-1">
+                <MathText text="(60 - x) \cdot 5" />
+              </span>
               A 60 és a szám különbségének az ötszöröse.
             </div>
           </div>

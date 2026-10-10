@@ -649,6 +649,14 @@ const Grade7BalanceScaleTheory = lazy(() => import("@/components/math/grade-7/eg
 const Grade7BalanceScaleQuiz = lazy(() => import("@/components/math/grade-7/egyenletek/a-merlegelv/BalanceScaleQuiz").then(m => ({ default: m.BalanceScaleQuiz }))) as any;
 const Grade7BalanceScaleMatcher = lazy(() => import("@/components/math/grade-7/egyenletek/a-merlegelv/BalanceScaleMatcher").then(m => ({ default: m.BalanceScaleMatcher }))) as any;
 const Grade7BalanceScaleSorter = lazy(() => import("@/components/math/grade-7/egyenletek/a-merlegelv/BalanceScaleSorter").then(m => ({ default: m.BalanceScaleSorter }))) as any;
+const Grade7EquationSolveTheory = lazy(() => import("@/components/math/grade-7/egyenletek/egyenletek-megoldasa-merlegelvvel/EquationSolveTheory").then(m => ({ default: m.EquationSolveTheory }))) as any;
+const Grade7EquationSolveQuiz = lazy(() => import("@/components/math/grade-7/egyenletek/egyenletek-megoldasa-merlegelvvel/EquationSolveQuiz").then(m => ({ default: m.EquationSolveQuiz }))) as any;
+const Grade7EquationSolveMatcher = lazy(() => import("@/components/math/grade-7/egyenletek/egyenletek-megoldasa-merlegelvvel/EquationSolveMatcher").then(m => ({ default: m.EquationSolveMatcher }))) as any;
+const Grade7EquationSolveSorter = lazy(() => import("@/components/math/grade-7/egyenletek/egyenletek-megoldasa-merlegelvvel/EquationSolveSorter").then(m => ({ default: m.EquationSolveSorter }))) as any;
+const Grade7EquationWordProblemsTheory = lazy(() => import("@/components/math/grade-7/egyenletek/szoveges-feladatok-megoldasa-egyenlettel/EquationWordProblemsTheory").then(m => ({ default: m.EquationWordProblemsTheory }))) as any;
+const Grade7EquationWordProblemsQuiz = lazy(() => import("@/components/math/grade-7/egyenletek/szoveges-feladatok-megoldasa-egyenlettel/EquationWordProblemsQuiz").then(m => ({ default: m.EquationWordProblemsQuiz }))) as any;
+const Grade7EquationWordProblemsMatcher = lazy(() => import("@/components/math/grade-7/egyenletek/szoveges-feladatok-megoldasa-egyenlettel/EquationWordProblemsMatcher").then(m => ({ default: m.EquationWordProblemsMatcher }))) as any;
+const Grade7EquationWordProblemsSorter = lazy(() => import("@/components/math/grade-7/egyenletek/szoveges-feladatok-megoldasa-egyenlettel/EquationWordProblemsSorter").then(m => ({ default: m.EquationWordProblemsSorter }))) as any;
 const Grade8LogicTheory = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/logika-feladatok/LogicTheory").then(m => ({ default: m.LogicTheory }))) as any;
 const Grade8LogicQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/logika-feladatok/LogicQuiz").then(m => ({ default: m.LogicQuiz }))) as any;
 const Grade8SetBasicsTheory = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/mit-tudunk-a-halmazokrol/SetBasicsTheory").then(m => ({ default: m.SetBasicsTheory }))) as any;
@@ -880,6 +888,8 @@ type ActivityType =
   | 'g7-pct-summary-theory' | 'g7-pct-summary-quiz' | 'g7-pct-summary-matcher' | 'g7-pct-summary-sorter'
   | 'g7-pct-eq-methods-theory' | 'g7-pct-eq-methods-quiz' | 'g7-pct-eq-methods-matcher' | 'g7-pct-eq-methods-sorter'
   | 'g7-pct-balance-theory' | 'g7-pct-balance-quiz' | 'g7-pct-balance-matcher' | 'g7-pct-balance-sorter'
+  | 'g7-eq-solve-theory' | 'g7-eq-solve-quiz' | 'g7-eq-solve-matcher' | 'g7-eq-solve-sorter' | 'g7-pct-eq-solve-theory' | 'g7-pct-eq-solve-quiz' | 'g7-pct-eq-solve-matcher' | 'g7-pct-eq-solve-sorter'
+  | 'g7-eq-word-theory' | 'g7-eq-word-quiz' | 'g7-eq-word-matcher' | 'g7-eq-word-sorter' | 'g7-pct-eq-word-theory' | 'g7-pct-eq-word-quiz' | 'g7-pct-eq-word-matcher' | 'g7-pct-eq-word-sorter'
   | 'g8-logic-theory' | 'g8-logic-quiz'
   | 'g8-set-basics-theory' | 'g8-set-basics-quiz' | 'g8-set-basics-matcher' | 'g8-set-basics-sorter'
   | 'g8-set-operations-theory' | 'g8-set-operations-quiz' | 'g8-set-operations-matcher' | 'g8-set-operations-sorter'
@@ -5982,6 +5992,74 @@ export default function MathPage() {
                     onSwitchToTheory={() => setActivityType('g7-pct-balance-theory')}
                     onSwitchToQuiz={() => setActivityType('g7-pct-balance-quiz')}
                     onSwitchToMatcher={() => setActivityType('g7-pct-balance-matcher')}
+                  />
+                )}
+
+                {(activityType === 'g7-eq-solve-theory' || activityType === 'g7-pct-eq-solve-theory') && (
+                  <Grade7EquationSolveTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-eq-solve-quiz')}
+                  />
+                )}
+
+                {(activityType === 'g7-eq-solve-quiz' || activityType === 'g7-pct-eq-solve-quiz') && (
+                  <Grade7EquationSolveQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-eq-solve-theory')}
+                  />
+                )}
+
+                {(activityType === 'g7-eq-solve-matcher' || activityType === 'g7-pct-eq-solve-matcher') && (
+                  <Grade7EquationSolveMatcher
+                    onBack={handleBack}
+                    onNextLevel={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-eq-solve-theory')}
+                    onSwitchToQuiz={() => setActivityType('g7-eq-solve-quiz')}
+                    onSwitchToSorter={() => setActivityType('g7-eq-solve-sorter')}
+                  />
+                )}
+
+                {(activityType === 'g7-eq-solve-sorter' || activityType === 'g7-pct-eq-solve-sorter') && (
+                  <Grade7EquationSolveSorter
+                    onBack={handleBack}
+                    onNextLevel={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-eq-solve-theory')}
+                    onSwitchToQuiz={() => setActivityType('g7-eq-solve-quiz')}
+                    onSwitchToMatcher={() => setActivityType('g7-eq-solve-matcher')}
+                  />
+                )}
+
+                {(activityType === 'g7-eq-word-theory' || activityType === 'g7-pct-eq-word-theory') && (
+                  <Grade7EquationWordProblemsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g7-eq-word-quiz')}
+                  />
+                )}
+
+                {(activityType === 'g7-eq-word-quiz' || activityType === 'g7-pct-eq-word-quiz') && (
+                  <Grade7EquationWordProblemsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-eq-word-theory')}
+                  />
+                )}
+
+                {(activityType === 'g7-eq-word-matcher' || activityType === 'g7-pct-eq-word-matcher') && (
+                  <Grade7EquationWordProblemsMatcher
+                    onBack={handleBack}
+                    onNextLevel={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-eq-word-theory')}
+                    onSwitchToQuiz={() => setActivityType('g7-eq-word-quiz')}
+                    onSwitchToSorter={() => setActivityType('g7-eq-word-sorter')}
+                  />
+                )}
+
+                {(activityType === 'g7-eq-word-sorter' || activityType === 'g7-pct-eq-word-sorter') && (
+                  <Grade7EquationWordProblemsSorter
+                    onBack={handleBack}
+                    onNextLevel={handleBack}
+                    onSwitchToTheory={() => setActivityType('g7-eq-word-theory')}
+                    onSwitchToQuiz={() => setActivityType('g7-eq-word-quiz')}
+                    onSwitchToMatcher={() => setActivityType('g7-eq-word-matcher')}
                   />
                 )}
 

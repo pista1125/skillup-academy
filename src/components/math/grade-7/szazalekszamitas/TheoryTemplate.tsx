@@ -1116,3 +1116,203 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = (props) => {
     </div>
   );
 };
+
+// --- Supplementary Components for Summary & Review ---
+
+export interface FormulaCardProps {
+  title: string;
+  formula: string;
+  description: string;
+  badge?: string;
+  color?: string;
+  className?: string;
+}
+
+export const FormulaCard: React.FC<FormulaCardProps> = ({
+  title,
+  formula,
+  description,
+  badge,
+  className
+}) => {
+  return (
+    <Card className={cn("rounded-2xl border bg-slate-50/50 dark:bg-slate-900/40 p-4 space-y-2", className)}>
+      <div className="flex items-center justify-between gap-2">
+        <h4 className="font-bold text-sm text-slate-900 dark:text-white">{title}</h4>
+        {badge && (
+          <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300">
+            {badge}
+          </span>
+        )}
+      </div>
+      <div className="p-2.5 rounded-xl bg-white dark:bg-slate-850 border border-slate-200/80 dark:border-slate-700/80 text-center font-mono font-bold text-sm text-slate-900 dark:text-white">
+        <MathText text={formula} />
+      </div>
+      <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+        {description}
+      </p>
+    </Card>
+  );
+};
+
+export interface RuleBoxProps {
+  title: string;
+  color?: string;
+  children: React.ReactNode;
+  className?: string;
+}
+
+export const RuleBox: React.FC<RuleBoxProps> = ({
+  title,
+  children,
+  className
+}) => {
+  return (
+    <div className={cn("p-4 rounded-2xl bg-rose-50/60 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/60 space-y-2 my-4", className)}>
+      <div className="flex items-center gap-2 font-bold text-sm text-rose-900 dark:text-rose-200">
+        <Sparkles className="w-4 h-4 text-rose-500" />
+        <span>{title}</span>
+      </div>
+      <div className="text-xs sm:text-sm text-slate-700 dark:text-slate-300">
+        {children}
+      </div>
+    </div>
+  );
+};
+
+export interface ExampleCardStep {
+  label: string;
+  value: string;
+}
+
+export interface ExampleCardProps {
+  title: string;
+  subtitle?: string;
+  steps: ExampleCardStep[];
+  color?: string;
+  className?: string;
+}
+
+export const ExampleCard: React.FC<ExampleCardProps> = ({
+  title,
+  subtitle,
+  steps,
+  className
+}) => {
+  return (
+    <Card className={cn("rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40 p-4 space-y-3", className)}>
+      <div>
+        <h4 className="font-bold text-sm text-slate-900 dark:text-white">{title}</h4>
+        {subtitle && <p className="text-xs text-slate-500 dark:text-slate-400">{subtitle}</p>}
+      </div>
+      <div className="space-y-1.5 text-xs">
+        {steps.map((step, idx) => (
+          <div key={idx} className="flex flex-col sm:flex-row sm:items-baseline justify-between p-1.5 rounded-lg bg-white dark:bg-slate-850 border border-slate-100 dark:border-slate-800 gap-1">
+            <span className="font-semibold text-slate-600 dark:text-slate-400">{step.label}:</span>
+            <span className="font-mono text-slate-800 dark:text-slate-200 text-right">{step.value}</span>
+          </div>
+        ))}
+      </div>
+    </Card>
+  );
+};
+
+export interface AlertBoxProps {
+  title: string;
+  type?: 'info' | 'warning' | 'error' | 'success';
+  children: React.ReactNode;
+  className?: string;
+}
+
+export const AlertBox: React.FC<AlertBoxProps> = ({
+  title,
+  type = 'info',
+  children,
+  className
+}) => {
+  const isWarning = type === 'warning' || type === 'error';
+  return (
+    <div
+      className={cn(
+        "p-4 rounded-2xl border text-xs sm:text-sm space-y-1.5 my-3",
+        isWarning
+          ? "bg-amber-50/80 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800/60 text-amber-900 dark:text-amber-200"
+          : "bg-sky-50/80 dark:bg-sky-950/30 border-sky-200 dark:border-sky-800/60 text-sky-900 dark:text-sky-200",
+        className
+      )}
+    >
+      <div className="flex items-center gap-2 font-bold">
+        {isWarning ? <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" /> : <Info className="w-4 h-4 text-sky-600 shrink-0" />}
+        <span>{title}</span>
+      </div>
+      <div className="text-slate-700 dark:text-slate-300 leading-relaxed">
+        {children}
+      </div>
+    </div>
+  );
+};
+
+export interface QuickQuizProps {
+  question: string;
+  options: string[];
+  correctIndex: number;
+  explanation: string;
+  className?: string;
+}
+
+export const QuickQuiz: React.FC<QuickQuizProps> = ({
+  question,
+  options,
+  correctIndex,
+  explanation,
+  className
+}) => {
+  const [selected, setSelected] = useState<number | null>(null);
+  const [submitted, setSubmitted] = useState<boolean>(false);
+
+  return (
+    <Card className={cn("rounded-2xl border-2 border-indigo-200 dark:border-indigo-900/60 bg-indigo-50/30 dark:bg-indigo-950/20 p-4 sm:p-5 space-y-3", className)}>
+      <div className="flex items-center gap-2 font-bold text-sm text-indigo-900 dark:text-indigo-200">
+        <Sparkles className="w-4 h-4 text-indigo-500" />
+        <span>Gyors Ellenőrző Kérdés</span>
+      </div>
+      <p className="font-semibold text-xs sm:text-sm text-slate-800 dark:text-slate-200">
+        {question}
+      </p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+        {options.map((opt, idx) => {
+          let btnStyle = "bg-white dark:bg-slate-850 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200";
+          if (submitted) {
+            if (idx === correctIndex) {
+              btnStyle = "bg-emerald-100 dark:bg-emerald-950/60 border-emerald-300 dark:border-emerald-700 text-emerald-900 dark:text-emerald-100";
+            } else if (selected === idx) {
+              btnStyle = "bg-rose-100 dark:bg-rose-950/60 border-rose-300 dark:border-rose-700 text-rose-900 dark:text-rose-100";
+            }
+          } else if (selected === idx) {
+            btnStyle = "bg-indigo-100 dark:bg-indigo-950/60 border-indigo-400 dark:border-indigo-600 text-indigo-900 dark:text-indigo-100";
+          }
+          return (
+            <button
+              key={idx}
+              type="button"
+              disabled={submitted}
+              onClick={() => { setSelected(idx); setSubmitted(true); }}
+              className={cn("p-2.5 rounded-xl border text-left text-xs font-medium transition-all", btnStyle)}
+            >
+              {opt}
+            </button>
+          );
+        })}
+      </div>
+      {submitted && (
+        <div className={cn("p-3 rounded-xl text-xs", selected === correctIndex ? "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-200" : "bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-200")}>
+          <div className="font-bold mb-0.5">
+            {selected === correctIndex ? "✓ Helyes válasz!" : "Nem egészen..."}
+          </div>
+          <div>{explanation}</div>
+        </div>
+      )}
+    </Card>
+  );
+};
+

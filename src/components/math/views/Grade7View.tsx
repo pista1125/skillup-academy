@@ -1521,13 +1521,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-eq-megoldas" number={3} title="Egyenletek megoldása mérlegelvvel" color="violet" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Egyenletek mérlegelvvel"
-                  subtitle="Zárójelek, törtek eltüntetése, rendezési algoritmus"
-                  type="Hamarosan"
+                  title="Egyenletek mérlegelvvel elmélet"
+                  subtitle="A 7 lépéses algoritmus, zárójelek és törtek kiküszöbölése, ellenőrzés"
+                  type="Tananyag"
                   emoji="🧮"
-                  disabled={true}
-                  icon={<Calculator className="w-6 h-6" />}
+                  onClick={() => onActivitySelect('g7-eq-solve-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="violet"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="90 feladat, 30 feladat szintenként"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-eq-solve-quiz', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="violet"
+                  {...getTopicProgress('g7-eq-solve')}
                 />
               </div>
             </section>
@@ -1539,13 +1549,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-eq-szoveges" number={4} title="Szöveges feladatok megoldása egyenlettel" color="orange" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Szöveges feladatok egyenlettel"
+                  title="Szöveges feladatok elmélet"
                   subtitle="Az 5 lépéses modell, életkoros és számelméleti feladatok"
-                  type="Hamarosan"
+                  type="Tananyag"
                   emoji="💡"
-                  disabled={true}
-                  icon={<Pencil className="w-6 h-6" />}
+                  onClick={() => onActivitySelect('g7-eq-word-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="orange"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="90 feladat, 30 feladat szintenként"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-eq-word-quiz', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="orange"
+                  {...getTopicProgress('g7-eq-word')}
                 />
               </div>
             </section>
