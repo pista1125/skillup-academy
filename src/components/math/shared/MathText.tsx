@@ -275,6 +275,11 @@ export function cleanMathSymbols(text: string): string {
     .replace(/\\+(max|min)/g, '$1')
     // Remove standalone math dollar signs if any
     .replace(/\$([^$]+)\$/g, '$1')
+    // Escaped LaTeX characters
+    .replace(/\\+%/g, '%')
+    .replace(/\\+\$/g, '$')
+    .replace(/\\+&/g, '&')
+    .replace(/\\+#/g, '#')
     // Clean up any stray backslashes before math symbols or operators
     .replace(/\\+(\s*[·=+\-×÷<>≤≥≠≈~⟹⟺])/g, '$1');
 }
@@ -312,10 +317,25 @@ export function toLatex(s: string): string {
 
   res = res.replace(/√\{([^}]+)\}/g, (_, m) => `\\sqrt{${m}}`);
   res = res.replace(/√\(([^)]+)\)/g, (_, m) => `\\sqrt{${m}}`);
-  res = res.replace(/√([0-9a-zA-Z]+)/g, (_, m) => `\\sqrt{${m}}`);
+  res = res.replace(/√([0-9a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ]+)/g, (_, m) => `\\sqrt{${m}}`);
 
-  res = res.replace(/\(([^()]+)\s*\/\s*([^()]+)\)/g, (_, a, b) => `\\left(\\frac{${a}}{${b}}\\right)`);
-  res = res.replace(/([a-zA-Z0-9_{}()+-]+)\s*\/\s*([a-zA-Z0-9_{}()+-]+)/g, (_, a, b) => `\\frac{${a}}{${b}}`);
+  // Simple parenthesized fraction (e.g. (2/3), (1/4), (a/b), (-1/2))
+  res = res.replace(/\(([+-]?[0-9a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ_^{}]+)\s*\/\s*([+-]?[0-9a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ_^{}]+)\)/g, (_, a, b) => `\\left(\\frac{${a}}{${b}}\\right)`);
+  res = res.replace(/([a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ0-9_{}+-]+)\s*\/\s*([a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ0-9_{}+-]+)/g, (_, a, b) => `\\frac{${a}}{${b}}`);
+
+  // Escape unescaped % so KaTeX doesn't treat it as comment
+  res = res.replace(/(?<!\\)%/g, '\\%');
+
+  // Text wrapper for multi-letter words / Hungarian words in KaTeX: e.g. "Érték" -> "\text{Érték}", "Alap" -> "\text{Alap}"
+  if (
+    /^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ\s]+$/.test(res) &&
+    res.length >= 2 &&
+    (res.length >= 3 || /[áéíóöőúüűÁÉÍÓÖŐÚÜŰ]/.test(res)) &&
+    !res.startsWith('\\text') &&
+    !res.startsWith('\\mathrm')
+  ) {
+    res = `\\text{${res}}`;
+  }
 
   return res;
 }
@@ -342,6 +362,10 @@ export const Sqrt: React.FC<SqrtProps> = ({
         displayMode: false,
         strict: false,
       });
+
+      if (!html || html.includes('katex-error')) {
+        throw new Error('KaTeX rendering error');
+      }
 
       const sizeClasses = {
         sm: 'text-xs',
@@ -478,6 +502,10 @@ export const Fraction: React.FC<FractionProps> = ({
         displayMode: false,
         strict: false,
       });
+
+      if (!html || html.includes('katex-error')) {
+        throw new Error('KaTeX rendering error');
+      }
 
       const sizeClasses = {
         sm: 'text-xs',
@@ -720,9 +748,10 @@ export function parseSquareRootsInText(
 }
 
 const SUP_CHARS = '[⁰¹²³⁴⁵⁶⁷⁸⁹ⁿ⁺⁻]';
-const POWER_SUFFIX = '(?:' + SUP_CHARS + '+|\\^(?:\\{[^{}]+\\}|\\([^()]+\\)|[+-]?[0-9a-zA-Zⁿ]+))';
-const SCRIPT_EXPR = '(?:' + POWER_SUFFIX + '|_(?:\\{[^{}]+\\}|\\([^()]+\\)|[0-9a-zA-Zα-ωΑ-Ω]+))';
-const NUM_OR_VAR = '[a-zA-Zα-ωΑ-Ω](?:' + SCRIPT_EXPR + '|[a-zA-Z0-9α-ωΑ-Ω])*';
+const HUN_CHARS = 'a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰα-ωΑ-Ω';
+const POWER_SUFFIX = '(?:' + SUP_CHARS + '+|\\^(?:\\{[^{}]+\\}|\\([^()]+\\)|[+-]?[0-9' + HUN_CHARS + 'ⁿ]+))';
+const SCRIPT_EXPR = '(?:' + POWER_SUFFIX + '|_(?:\\{[^{}]+\\}|\\([^()]+\\)|[0-9' + HUN_CHARS + ']+))';
+const NUM_OR_VAR = '(?<![' + HUN_CHARS + '0-9])[' + HUN_CHARS + '](?:' + SCRIPT_EXPR + '|[' + HUN_CHARS + '0-9])*';
 const SQRT_EXPR = '(?:√|\\\\sqrt)(?:\\{[^{}]+\\}|\\([^()]+\\)|\\[[^\\]]+\\]|\\d+(?:[.,]\\d+)?|' + NUM_OR_VAR + ')';
 const ATOM_EXPR = '(?:\\(-?\\d+\\)' + POWER_SUFFIX + '|' + SQRT_EXPR + '|' + NUM_OR_VAR + '|\\d+' + POWER_SUFFIX + '|\\d+(?:[.,]\\d+)?)';
 const DEN_EXPR = '(?:' + SQRT_EXPR + '|' + NUM_OR_VAR + '|\\d+(?:[.,]\\d+)?)';
@@ -733,7 +762,7 @@ const FRACTION_PATTERNS = [
   // 2. Both parenthesized: (expr1) / (expr2)
   '\\(([^()]*(?:\\([^()]*\\)[^()]*)*)\\)\\s*\\/\\s*\\(([^()]*(?:\\([^()]*\\)[^()]*)*)\\)',
   // 3. Parenthesized fraction with optional sign and power: (a / b)ⁿ, (2/3)⁴, -(1/2)⁴, (18 / 6)³
-  '(?:([+-])\\s*)?\\(([+-]?(?:' + ATOM_EXPR + '|[^()\\/]+))\\s*\\/\\s*([+-]?(?:' + ATOM_EXPR + '|[^()\\/]+))\\)(?:(' + SUP_CHARS + '+)|\\^([0-9a-zA-Zⁿ+-]+|\\{[^{}]+\\}))?',
+  '(?:([+-])\\s*)?\\(([+-]?' + ATOM_EXPR + ')\\s*\\/\\s*([+-]?' + ATOM_EXPR + ')\\)(?:(' + SUP_CHARS + '+)|\\^([0-9a-zA-Zⁿ+-]+|\\{[^{}]+\\}))?',
   // 4. Numerator parenthesized: (expr1) / den
   '\\(([^()]*(?:\\([^()]*\\)[^()]*)*)\\)\\s*\\/\\s*(' + ATOM_EXPR + '|' + DEN_EXPR + ')',
   // 5. Denominator parenthesized: num / (expr2)

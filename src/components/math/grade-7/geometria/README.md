@@ -1,6 +1,6 @@
-# VI. Geometria (7. osztály)
+# VII. Geometria (7. osztály)
 
-Ebben a témakörben találhatók a 7. osztályos matematika tankönyv (**OH-MAT07TA**) hatodik fejezetének anyagai, leckéi és feladatai.
+Ebben a témakörben találhatók a 7. osztályos matematika tankönyv (**OH-MAT07TA**) hetedik fejezetének anyagai, leckéi és feladatai.
 
 ## A fejezet altémái (leckéi):
 

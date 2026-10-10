@@ -1,6 +1,6 @@
-# VII. Hozzárendelések, statisztika (7. osztály)
+# VIII. Hozzárendelések, statisztika (7. osztály)
 
-Ebben a témakörben találhatók a 7. osztályos matematika tankönyv (**OH-MAT07TA**) hetedik fejezetének anyagai, leckéi, segédletei és feladatai.
+Ebben a témakörben találhatók a 7. osztályos matematika tankönyv (**OH-MAT07TA**) nyolcadik fejezetének anyagai, leckéi, segédletei és feladatai.
 
 ## A fejezet altémái (leckéi):
 

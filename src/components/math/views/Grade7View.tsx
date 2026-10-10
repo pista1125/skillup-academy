@@ -1224,7 +1224,7 @@ export const Grade7View: React.FC<GradeViewProps> = ({
       );
     }
 
-    if (topicId === 'g7-percent-equations' || topicId === 'percentages') {
+    if (topicId === 'g7-percent-equations' || topicId === 'g7-percentages' || topicId === 'percentages') {
       const showAll = !activeSubSectionId;
       return (
         <div className="flex flex-col gap-10 py-6">
@@ -1234,13 +1234,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-pct-aranyossag" number={1} title="Az arányosságról még egyszer" color="blue" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Az arányosságról még egyszer"
-                  subtitle="Egyenes és fordított arányosság, arányos osztás"
-                  type="Hamarosan"
-                  emoji="⚖️"
-                  disabled={true}
-                  icon={<TrendingUp className="w-6 h-6" />}
+                  title="Az arányosságról elmélet"
+                  subtitle="Arány fogalma, egyszerűsítése, aránypárok és arányos osztás"
+                  type="Tananyag"
+                  emoji="📘"
+                  onClick={() => onActivitySelect('g7-pct-ratio-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="blue"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-pct-ratio-quiz', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="blue"
+                  {...getTopicProgress('g7-pct-ratio')}
                 />
               </div>
             </section>
@@ -1252,13 +1262,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-pct-mit-tanultunk" number={2} title="Mit tanultunk a százalékszámításról?" color="rose" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Százalékszámítás alapjai"
-                  subtitle="Százalék fogalma, alap, százalékláb, százalékérték"
-                  type="Hamarosan"
+                  title="A százalékszámításról elmélet"
+                  subtitle="Százalék és ezrelék, alap, láb, érték, 3 számítási mód"
+                  type="Tananyag"
                   emoji="📊"
-                  disabled={true}
-                  icon={<Percent className="w-6 h-6" />}
+                  onClick={() => onActivitySelect('g7-pct-review-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="rose"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-pct-review-quiz', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="rose"
+                  {...getTopicProgress('g7-pct-review')}
                 />
               </div>
             </section>
@@ -1270,13 +1290,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-pct-100-szazalek" number={3} title="A 100% kiszámítása" color="emerald" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="A 100% kiszámítása"
-                  subtitle="Százalékalap meghatározása értékből és lábból"
-                  type="Hamarosan"
+                  title="A 100% kiszámítása elmélet"
+                  subtitle="Százalékalap meghatározása, következtetés és tizedes osztás"
+                  type="Tananyag"
                   emoji="💯"
-                  disabled={true}
-                  icon={<Calculator className="w-6 h-6" />}
+                  onClick={() => onActivitySelect('g7-pct-100-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="emerald"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-pct-100-quiz', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="emerald"
+                  {...getTopicProgress('g7-pct-100')}
                 />
               </div>
             </section>
@@ -1288,13 +1318,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-pct-hany-szazalek" number={4} title="Hány százalék?" color="cyan" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Hány százalék?"
-                  subtitle="Százalékláb kiszámítása tört és tizedes alakból"
-                  type="Hamarosan"
+                  title="Hány százalék? elmélet"
+                  subtitle="Százalékláb kiszámítása, tört- és tizedes átváltás, árváltozások"
+                  type="Tananyag"
                   emoji="❓"
-                  disabled={true}
-                  icon={<Percent className="w-6 h-6" />}
+                  onClick={() => onActivitySelect('g7-pct-what-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="cyan"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-pct-what-quiz', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="cyan"
+                  {...getTopicProgress('g7-pct-what')}
                 />
               </div>
             </section>
@@ -1306,13 +1346,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-pct-gyakorlas" number={5} title="A százalékszámítás gyakorlása" color="amber" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Százalékszámítás gyakorlása"
-                  subtitle="Százalékos növekedés és csökkenés egylépésben"
-                  type="Hamarosan"
-                  emoji="📈"
-                  disabled={true}
-                  icon={<Sparkles className="w-6 h-6" />}
+                  title="Százalékszámítás elmélet"
+                  subtitle="Alaptípusok, ÁFA, alapváltás, egymást követő változások"
+                  type="Tananyag"
+                  emoji="💡"
+                  onClick={() => onActivitySelect('g7-pct-practice-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="amber"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-pct-practice-quiz', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="amber"
+                  {...getTopicProgress('g7-pct-practice')}
                 />
               </div>
             </section>
@@ -1324,13 +1374,23 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-pct-osszetett" number={6} title="Összetett százalékszámítási feladatok" color="purple" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Összetett feladatok"
-                  subtitle="Egymást követő árváltozások, kamat, keverékek"
-                  type="Hamarosan"
+                  title="Összetett elmélet"
+                  subtitle="Többlépéses árváltozások, amortizáció, láncolt szorzók"
+                  type="Tananyag"
                   emoji="🧩"
-                  disabled={true}
-                  icon={<Layers className="w-6 h-6" />}
+                  onClick={() => onActivitySelect('g7-pct-complex-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="purple"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-pct-complex-quiz', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="purple"
+                  {...getTopicProgress('g7-pct-complex')}
                 />
               </div>
             </section>
@@ -1342,58 +1402,123 @@ export const Grade7View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g7-sec-pct-szoveges" number={7} title="Szöveges feladatok" color="teal" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Szöveges feladatok"
-                  subtitle="Gyakorlati problémák modellezése és megoldása"
-                  type="Hamarosan"
+                  title="Szöveges elmélet"
+                  subtitle="Gyakorlati problémák, pénzügy, arányok, hatékonyság"
+                  type="Tananyag"
                   emoji="📝"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g7-pct-word-theory', topicId)}
                   icon={<BookOpen className="w-6 h-6" />}
                   color="teal"
                 />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-pct-word-quiz', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="teal"
+                  {...getTopicProgress('g7-pct-word')}
+                />
               </div>
             </section>
           )}
 
-          {/* Section 8: Egyenletmegoldási módszerek: próbálgatás és lebontogatás */}
-          {(showAll || activeSubSectionId === 'g7-sec-pct-egyenlet-modszerek') && (
+          {/* Section 8: Összefoglalás */}
+          {(showAll || activeSubSectionId === 'g7-sec-pct-osszefoglalas') && (
             <section>
-              <SectionHeader id="g7-sec-pct-egyenlet-modszerek" number={8} title="Egyenletmegoldási módszerek: próbálgatás és lebontogatás" color="indigo" />
+              <SectionHeader id="g7-sec-pct-osszefoglalas" number={8} title="Összefoglalás" color="slate" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Próbálgatás és lebontogatás"
-                  subtitle="Alaphalmaz, gyökök, szisztematikus próbálgatás, lebontogatás"
-                  type="Hamarosan"
+                  title="Összefoglaló elmélet"
+                  subtitle="Hármas alapképlet, egylépéses szorzók, keverések"
+                  type="Tananyag"
+                  emoji="📖"
+                  onClick={() => onActivitySelect('g7-pct-summary-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="slate"
+                />
+                <ActivityPlaceholder
+                  title="Fejezeti Kvíz"
+                  subtitle="90 feladat, 30 feladat szintenként"
+                  type="Kvíz"
+                  emoji="🏆"
+                  onClick={() => onActivitySelect('g7-pct-summary-quiz', topicId)}
+                  icon={<Trophy className="w-6 h-6" />}
+                  color="slate"
+                  {...getTopicProgress('g7-pct-summary')}
+                />
+              </div>
+            </section>
+          )}
+        </div>
+      );
+    }
+
+    if (topicId === 'g7-equations' || topicId === 'equations') {
+      const showAll = !activeSubSectionId;
+      return (
+        <div className="flex flex-col gap-10 py-6">
+          {/* Section 1: Egyenletmegoldási módszerek: próbálgatás és lebontogatás */}
+          {(showAll || activeSubSectionId === 'g7-sec-eq-modszerek' || activeSubSectionId === 'g7-sec-pct-egyenlet-modszerek') && (
+            <section>
+              <SectionHeader id="g7-sec-eq-modszerek" number={1} title="Egyenletmegoldási módszerek: próbálgatás és lebontogatás" color="indigo" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Módszerek elmélet"
+                  subtitle="Betűs kifejezések, lebontogatás, szisztematikus próbálgatás"
+                  type="Tananyag"
                   emoji="🔍"
-                  disabled={true}
-                  icon={<Search className="w-6 h-6" />}
+                  onClick={() => onActivitySelect('g7-pct-eq-methods-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="indigo"
                 />
-              </div>
-            </section>
-          )}
-
-          {/* Section 9: A mérlegelv */}
-          {(showAll || activeSubSectionId === 'g7-sec-pct-merlegelv') && (
-            <section>
-              <SectionHeader id="g7-sec-pct-merlegelv" number={9} title="A mérlegelv" color="sky" />
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="A mérlegelv"
-                  subtitle="Mérleg modell, ekvivalens átalakítások és ellenőrzés"
-                  type="Hamarosan"
-                  emoji="⚖️"
-                  disabled={true}
-                  icon={<Scale className="w-6 h-6" />}
-                  color="sky"
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-pct-eq-methods-quiz', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="indigo"
+                  {...getTopicProgress('g7-pct-eq-methods')}
                 />
               </div>
             </section>
           )}
 
-          {/* Section 10: Egyenletek megoldása mérlegelvvel */}
-          {(showAll || activeSubSectionId === 'g7-sec-pct-egyenletek-merlegelvvel') && (
+          {/* Section 2: A mérlegelv */}
+          {(showAll || activeSubSectionId === 'g7-sec-eq-merlegelv' || activeSubSectionId === 'g7-sec-pct-merlegelv') && (
             <section>
-              <SectionHeader id="g7-sec-pct-egyenletek-merlegelvvel" number={10} title="Egyenletek megoldása mérlegelvvel" color="violet" />
+              <SectionHeader id="g7-sec-eq-merlegelv" number={2} title="A mérlegelv" color="sky" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="A mérlegelv elmélet"
+                  subtitle="Mérleg modell, ekvivalens átalakítások és ellenőrzés"
+                  type="Tananyag"
+                  emoji="⚖️"
+                  onClick={() => onActivitySelect('g7-pct-balance-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="sky"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 feladat, 3 nehézségi szint"
+                  type="Kvíz"
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g7-pct-balance-quiz', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="sky"
+                  {...getTopicProgress('g7-pct-balance')}
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 3: Egyenletek megoldása mérlegelvvel */}
+          {(showAll || activeSubSectionId === 'g7-sec-eq-megoldas' || activeSubSectionId === 'g7-sec-pct-egyenletek-merlegelvvel') && (
+            <section>
+              <SectionHeader id="g7-sec-eq-megoldas" number={3} title="Egyenletek megoldása mérlegelvvel" color="violet" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
                   title="Egyenletek mérlegelvvel"
@@ -1408,10 +1533,10 @@ export const Grade7View: React.FC<GradeViewProps> = ({
             </section>
           )}
 
-          {/* Section 11: Szöveges feladatok megoldása egyenlettel */}
-          {(showAll || activeSubSectionId === 'g7-sec-pct-szoveges-egyenlettel') && (
+          {/* Section 4: Szöveges feladatok megoldása egyenlettel */}
+          {(showAll || activeSubSectionId === 'g7-sec-eq-szoveges' || activeSubSectionId === 'g7-sec-pct-szoveges-egyenlettel') && (
             <section>
-              <SectionHeader id="g7-sec-pct-szoveges-egyenlettel" number={11} title="Szöveges feladatok megoldása egyenlettel" color="orange" />
+              <SectionHeader id="g7-sec-eq-szoveges" number={4} title="Szöveges feladatok megoldása egyenlettel" color="orange" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
                   title="Szöveges feladatok egyenlettel"
@@ -1426,14 +1551,14 @@ export const Grade7View: React.FC<GradeViewProps> = ({
             </section>
           )}
 
-          {/* Section 12: Összefoglalás */}
-          {(showAll || activeSubSectionId === 'g7-sec-pct-osszefoglalas') && (
+          {/* Section 5: Összefoglalás */}
+          {(showAll || activeSubSectionId === 'g7-sec-eq-osszefoglalas') && (
             <section>
-              <SectionHeader id="g7-sec-pct-osszefoglalas" number={12} title="Összefoglalás" color="slate" />
+              <SectionHeader id="g7-sec-eq-osszefoglalas" number={5} title="Összefoglalás" color="slate" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
                   title="Összefoglalás"
-                  subtitle="V. Százalékszámítás, egyenletek átfogó rendszerezése"
+                  subtitle="VI. Egyenletek átfogó rendszerezése és módszertana"
                   type="Hamarosan"
                   emoji="🏆"
                   disabled={true}

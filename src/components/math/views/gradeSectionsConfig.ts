@@ -982,7 +982,7 @@ export function getGradeSubsections(
         { id: 'g7-sec-rat-zarojel-kiemeles', label: '8. Zárójelfelbontás, kiemelés' },
         { id: 'g7-sec-rat-osszefoglalas', label: '9. Összefoglalás' }
       ];
-    } else if (t.id === 'g7-percent-equations') {
+    } else if (t.id === 'g7-percent-equations' || t.id === 'g7-percentages') {
       subsections = [
         { id: 'g7-sec-pct-aranyossag', label: '1. Arányosság' },
         { id: 'g7-sec-pct-mit-tanultunk', label: '2. Százalékszámítás alapjai' },
@@ -991,11 +991,15 @@ export function getGradeSubsections(
         { id: 'g7-sec-pct-gyakorlas', label: '5. Százalékszámítás gyakorlása' },
         { id: 'g7-sec-pct-osszetett', label: '6. Összetett feladatok' },
         { id: 'g7-sec-pct-szoveges', label: '7. Szöveges feladatok' },
-        { id: 'g7-sec-pct-egyenlet-modszerek', label: '8. Próbálgatás, lebontogatás' },
-        { id: 'g7-sec-pct-merlegelv', label: '9. A mérlegelv' },
-        { id: 'g7-sec-pct-egyenletek-merlegelvvel', label: '10. Egyenletek mérlegelvvel' },
-        { id: 'g7-sec-pct-szoveges-egyenlettel', label: '11. Szöveges feladatok egyenlettel' },
-        { id: 'g7-sec-pct-osszefoglalas', label: '12. Összefoglalás' }
+        { id: 'g7-sec-pct-osszefoglalas', label: '8. Összefoglalás' }
+      ];
+    } else if (t.id === 'g7-equations') {
+      subsections = [
+        { id: 'g7-sec-eq-modszerek', label: '1. Próbálgatás, lebontogatás' },
+        { id: 'g7-sec-eq-merlegelv', label: '2. A mérlegelv' },
+        { id: 'g7-sec-eq-megoldas', label: '3. Egyenletek mérlegelvvel' },
+        { id: 'g7-sec-eq-szoveges', label: '4. Szöveges feladatok egyenlettel' },
+        { id: 'g7-sec-eq-osszefoglalas', label: '5. Összefoglalás' }
       ];
     } else if (t.id === 'g7-geom-trans') {
       subsections = [
