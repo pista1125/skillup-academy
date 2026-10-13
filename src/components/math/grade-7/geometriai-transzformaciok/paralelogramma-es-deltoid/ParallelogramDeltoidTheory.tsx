@@ -316,8 +316,9 @@ export const ParallelogramDeltoidTheory: React.FC<ParallelogramDeltoidTheoryProp
                     <line x1="140" y1="15" x2="140" y2="155" stroke="#e11d48" strokeWidth="2" />
                     <line x1="60" y1="65" x2="220" y2="65" stroke="#0284c7" strokeWidth="1.8" />
                     
-                    {/* Right angle sign */}
-                    <rect x="140" y="65" width="8" height="8" fill="none" stroke="#64748b" strokeWidth="1" />
+                    {/* Right angle sign (Hungarian standard: circular arc + dot) */}
+                    <path d="M 152 65 A 12 12 0 0 1 140 77" fill="none" stroke="#64748b" strokeWidth="1.2" />
+                    <circle cx="145" cy="70" r="1.3" fill="#64748b" />
                     
                     {/* Incircle */}
                     {showIncircle && (

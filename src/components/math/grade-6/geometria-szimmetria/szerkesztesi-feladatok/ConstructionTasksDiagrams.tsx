@@ -141,8 +141,9 @@ export const ConstructionTasksMiniFigure: React.FC<MiniFigureProps> = ({
           {/* Triangle legs */}
           <line x1="20" y1="80" x2="50" y2="28" stroke="#0f766e" strokeWidth="2.5" strokeLinecap="round" />
           <line x1="80" y1="80" x2="50" y2="28" stroke="#0f766e" strokeWidth="2.5" strokeLinecap="round" />
-          {/* Right angle marker at midpoint */}
-          <path d="M 50,72 L 58,72 L 58,80" fill="none" stroke="#f43f5e" strokeWidth="1.5" />
+          {/* Right angle marker at midpoint (Hungarian standard: circular arc + dot) */}
+          <path d="M 58 80 A 8 8 0 0 0 50 72" fill="none" stroke="#f43f5e" strokeWidth="1.5" />
+          <circle cx="54" cy="76" r="1" fill="#f43f5e" />
           <circle cx="50" cy="28" r="3.5" fill="#f43f5e" />
           <text x="53" y="55" fontSize="8" fill="#f43f5e" fontWeight="bold">m_a</text>
           <text x="46" y="93" fontSize="8" fill="#0d9488">a</text>
@@ -175,8 +176,9 @@ export const ConstructionTasksMiniFigure: React.FC<MiniFigureProps> = ({
           <line x1="50" y1="18" x2="50" y2="82" stroke="#6366f1" strokeWidth="1.8" strokeDasharray="3 2" />
           {/* Rhombus sides */}
           <polygon points="50,18 85,50 50,82 15,50" fill="rgba(13, 148, 136, 0.12)" stroke="#0d9488" strokeWidth="2.5" />
-          {/* Right angle symbol */}
-          <path d="M 50,44 L 56,44 L 56,50" fill="none" stroke="#f43f5e" strokeWidth="1.3" />
+          {/* Right angle symbol (Hungarian standard: circular arc + dot) */}
+          <path d="M 56 50 A 6 6 0 0 0 50 44" fill="none" stroke="#f43f5e" strokeWidth="1.3" />
+          <circle cx="53" cy="47" r="0.8" fill="#f43f5e" />
           <text x="82" y="46" fontSize="7" fill="#f43f5e">e</text>
           <text x="53" y="24" fontSize="7" fill="#6366f1">f</text>
         </svg>
@@ -221,9 +223,11 @@ export const ConstructionTasksMiniFigure: React.FC<MiniFigureProps> = ({
       return (
         <svg width={s} height={s} viewBox="0 0 100 100" className={cn("overflow-visible", className)}>
           <polygon points="18,30 82,30 82,75 18,75" fill="rgba(13, 148, 136, 0.12)" stroke="#0d9488" strokeWidth="2.5" />
-          {/* Right angle symbols */}
-          <path d="M 18,67 L 26,67 L 26,75" fill="none" stroke="#f43f5e" strokeWidth="1.3" />
-          <path d="M 74,75 L 74,67 L 82,67" fill="none" stroke="#f43f5e" strokeWidth="1.3" />
+          {/* Right angle symbols (Hungarian standard: circular arc + dot) */}
+          <path d="M 26 75 A 8 8 0 0 0 18 67" fill="none" stroke="#f43f5e" strokeWidth="1.3" />
+          <circle cx="22" cy="71" r="1" fill="#f43f5e" />
+          <path d="M 82 67 A 8 8 0 0 0 74 75" fill="none" stroke="#f43f5e" strokeWidth="1.3" />
+          <circle cx="78" cy="71" r="1" fill="#f43f5e" />
           <text x="47" y="85" fontSize="8" fill="#0f766e">a</text>
           <text x="86" y="55" fontSize="8" fill="#0f766e">b</text>
         </svg>
@@ -234,8 +238,9 @@ export const ConstructionTasksMiniFigure: React.FC<MiniFigureProps> = ({
       return (
         <svg width={s} height={s} viewBox="0 0 100 100" className={cn("overflow-visible", className)}>
           <polygon points="22,22 78,22 78,78 22,78" fill="rgba(13, 148, 136, 0.12)" stroke="#0d9488" strokeWidth="2.5" />
-          {/* Right angle mark */}
-          <path d="M 22,70 L 30,70 L 30,78" fill="none" stroke="#f43f5e" strokeWidth="1.3" />
+          {/* Right angle mark (Hungarian standard: circular arc + dot) */}
+          <path d="M 30 78 A 8 8 0 0 0 22 70" fill="none" stroke="#f43f5e" strokeWidth="1.3" />
+          <circle cx="26" cy="74" r="1" fill="#f43f5e" />
           <text x="47" y="88" fontSize="8" fill="#0f766e">a</text>
           <text x="82" y="52" fontSize="8" fill="#0f766e">a</text>
         </svg>
@@ -549,8 +554,9 @@ export const InteractiveConstructionWorkbench: React.FC = () => {
               <path d="M 180,40 A 130 130 0 0 1 220,40" fill="none" stroke="#6366f1" strokeWidth="2" strokeDasharray="3 3" />
               <path d="M 180,190 A 130 130 0 0 1 220,190" fill="none" stroke="#6366f1" strokeWidth="2" strokeDasharray="3 3" />
               <line x1="200" y1="20" x2="200" y2="205" stroke="#f43f5e" strokeWidth="2" strokeDasharray="4 2" />
-              {/* Right angle */}
-              <path d="M 200,148 L 212,148 L 212,160" fill="none" stroke="#f43f5e" strokeWidth="1.5" />
+              {/* Right angle (Hungarian standard: circular arc + dot) */}
+              <path d="M 212 160 A 12 12 0 0 0 200 148" fill="none" stroke="#f43f5e" strokeWidth="1.5" />
+              <circle cx="206" cy="154" r="1.5" fill="#f43f5e" />
               <circle cx="90" cy="160" r="5" fill="#0d9488" />
               <circle cx="310" cy="160" r="5" fill="#0d9488" />
               <circle cx="200" cy="160" r="4" fill="#0f766e" />

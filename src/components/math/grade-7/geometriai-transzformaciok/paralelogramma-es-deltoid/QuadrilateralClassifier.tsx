@@ -32,11 +32,15 @@ const SHAPES: QuadrilateralItem[] = [
         icon: (
             <svg width="120" height="120" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="25" y="25" width="50" height="50" className="text-emerald-600 fill-emerald-50/50" />
-                {/* Right angle markers */}
-                <path d="M25 65 L35 65 L35 75" strokeWidth="1" />
-                <path d="M65 75 L65 65 L75 65" strokeWidth="1" />
-                <path d="M65 25 L65 35 L75 35" strokeWidth="1" />
-                <path d="M35 25 L35 35 L25 35" strokeWidth="1" />
+                {/* Right angle markers (Hungarian standard: circular arc + dot) */}
+                <path d="M 35 75 A 10 10 0 0 0 25 65" strokeWidth="1" />
+                <circle cx="29" cy="71" r="1.5" fill="currentColor" />
+                <path d="M 75 65 A 10 10 0 0 0 65 75" strokeWidth="1" />
+                <circle cx="71" cy="71" r="1.5" fill="currentColor" />
+                <path d="M 65 25 A 10 10 0 0 0 75 35" strokeWidth="1" />
+                <circle cx="71" cy="29" r="1.5" fill="currentColor" />
+                <path d="M 25 35 A 10 10 0 0 0 35 25" strokeWidth="1" />
+                <circle cx="29" cy="29" r="1.5" fill="currentColor" />
                 {/* Side markers */}
                 <path d="M22 50 L28 50" strokeWidth="2" />
                 <path d="M72 50 L78 50" strokeWidth="2" />
@@ -52,9 +56,11 @@ const SHAPES: QuadrilateralItem[] = [
         icon: (
             <svg width="120" height="120" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="15" y="35" width="70" height="30" className="text-blue-600 fill-blue-50/50" />
-                {/* Right angle markers */}
-                <path d="M15 55 L25 55 L25 65" strokeWidth="1" />
-                <path d="M75 65 L75 55 L85 55" strokeWidth="1" />
+                {/* Right angle markers (Hungarian standard: circular arc + dot) */}
+                <path d="M 25 65 A 10 10 0 0 0 15 55" strokeWidth="1" />
+                <circle cx="19" cy="61" r="1.5" fill="currentColor" />
+                <path d="M 85 55 A 10 10 0 0 0 75 65" strokeWidth="1" />
+                <circle cx="81" cy="61" r="1.5" fill="currentColor" />
             </svg>
         )
     },

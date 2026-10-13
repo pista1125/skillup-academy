@@ -28,8 +28,8 @@ export function TrianglePythagorasDiagram() {
           {/* Right Angle Triangle A(50, 180), B(320, 180), C(50, 40) */}
           <polygon points="50,180 320,180 50,40" fill="url(#gradTriangle)" stroke="#059669" strokeWidth="3" />
 
-          {/* Right angle indicator at (50, 180) */}
-          <path d="M 50 160 L 70 160 L 70 180" fill="none" stroke="#047857" strokeWidth="2" />
+          {/* Right angle indicator at (50, 180) (Hungarian standard: circular arc + dot) */}
+          <path d="M 70 180 A 20 20 0 0 0 50 160" fill="none" stroke="#047857" strokeWidth="2" />
           <circle cx="60" cy="170" r="2.5" fill="#047857" />
 
           {/* Angle alpha arc at B(320, 180) */}
@@ -153,8 +153,9 @@ export function CircleTangentThalesDiagram() {
           <line x1="275" y1="40" x2="275" y2="210" stroke="#dc2626" strokeWidth="2.5" />
           <text x="282" y="55" fill="#dc2626" fontSize="11" fontWeight="extrabold">e (Érintő)</text>
 
-          {/* Right angle at B for tangent & radius */}
-          <path d="M 275 140 L 260 140 L 260 125" fill="none" stroke="#dc2626" strokeWidth="1.5" />
+          {/* Right angle at B for tangent & radius (Hungarian standard: circular arc + dot) */}
+          <path d="M 275 140 A 15 15 0 0 1 260 125" fill="none" stroke="#dc2626" strokeWidth="1.5" />
+          <circle cx="268" cy="132" r="1.5" fill="#dc2626" />
         </svg>
       </div>
 

@@ -621,8 +621,8 @@ export const SymmetryComparisonTheory: React.FC<SymmetryComparisonTheoryProps> =
                   <line x1="160" y1="20" x2="160" y2="140" stroke="#0284c7" strokeWidth="2" strokeDasharray="4 3" />
                   <text x="165" y="30" className="text-[10px] font-bold fill-sky-600">t₂</text>
 
-                  {/* Right angle marker at intersection */}
-                  <rect x="160" y="70" width="10" height="10" fill="none" stroke="#64748b" strokeWidth="1" />
+                  {/* Right angle marker at intersection (Hungarian standard: circular arc + dot) */}
+                  <path d="M 172 80 A 12 12 0 0 0 160 68" fill="none" stroke="#64748b" strokeWidth="1.2" />
                   <circle cx="165" cy="75" r="1.5" fill="#64748b" />
 
                   {/* Center O */}

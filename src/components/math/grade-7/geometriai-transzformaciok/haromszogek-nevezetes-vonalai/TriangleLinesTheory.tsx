@@ -243,8 +243,9 @@ export const TriangleLinesTheory: React.FC<TriangleLinesTheoryProps> = ({
                 <line x1="90" y1="20" x2="90" y2="105" className="stroke-rose-600 stroke-[1.8]" />
                 <line x1="35" y1="105" x2="122" y2="56" className="stroke-rose-600 stroke-[1.8]" />
                 <line x1="165" y1="105" x2="66" y2="57" className="stroke-rose-600 stroke-[1.8]" />
-                {/* Right angle markers */}
-                <rect x="90" y="97" width="8" height="8" fill="none" className="stroke-rose-400 stroke-[1]" />
+                {/* Right angle markers (Hungarian standard: circular arc + dot) */}
+                <path d="M 100 105 A 10 10 0 0 0 90 95" fill="none" className="stroke-rose-400 stroke-[1.2]" />
+                <circle cx="94.5" cy="100.5" r="1.2" className="fill-rose-400" />
                 {/* Orthocenter M */}
                 <circle cx="90" cy="70" r="4" className="fill-rose-600" />
                 <text x="96" y="73" className="text-[10px] font-black fill-rose-700 dark:fill-rose-300">M</text>

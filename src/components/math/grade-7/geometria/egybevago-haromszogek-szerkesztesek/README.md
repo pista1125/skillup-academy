@@ -1,39 +1,59 @@
 # 1. Egybevágó háromszögek, szerkesztések (7. osztály)
 
-## Tananyag Áttekintés
-Az alakzatok egybevágóságának fogalma, a háromszögek egybevágóságának 4 alapesete és a háromszögek egyértelmű megszerkesztése körzővel és vonalzóval.
+Ebben a modulban találhatók a 7. osztályos matematika tankönyv (**OH-MAT07TA**) VII. Geometria fejezetének első leckéjéhez tartozó digitális tananyagok és interaktív feladatok.
 
 ---
 
-## Főbb Ismeretek és Alapesetek
+## 📁 Elkészült Komponensek
 
-### 1. Az Egybevágóság Fogalma
-Két síkidom **egybevágó** ($F_1 \cong F_2$), ha egybevágósági transzformációval (tükrözés, forgatás, eltolás vagy ezek egymásutánja) egymásba vihetők.
-- Egybevágó alakzatok megfelelő oldalai egyenlő hosszúak.
-- Megfelelő belső szögeik páronként egyenlők.
-- Területük és kerületük egyenlő.
+1. **[TriangleCongruenceTheory.tsx](./TriangleCongruenceTheory.tsx)**
+   - 📖 Részletes interaktív elméleti tananyag
+   - Az egybevágóság fogalma és geometriai tulajdonságai
+   - A 4 alapeset ($o-o-o, o-sz-o, sz-o-sz, o-o-sz$) részletes SVG ábrái és magyarázata
+   - Interaktív alapeset-bemutató stúdió
+   - Miért NEM egybevágósági eset a $sz-sz-sz$ ($AAA$) és a kisebb oldallal szemközti szög?
+   - A szerkesztés 4 kötelező lépése (Vázlat, Terv, Kivitelezés, Diszkusszió)
+   - Lépésről lépésre körzős és vonalzós szerkesztési ábra segédkörívekkel
+   - Összefoglaló táblázat és tipikus csapdahelyzetek
+   - PDF exportálási lehetőség
+
+2. **[TriangleCongruenceQuiz.tsx](./TriangleCongruenceQuiz.tsx)**
+   - 🎯 3 szintű, szintenként 10 kérdésből álló kvíz (összesen 30 feladat)
+   - Kérdéskártyákba ágyazott SVG geometriai ábrákkal
+   - Wordwall játékmód-választó menü (Kvíz, Párosító, Csoportosító)
+   - Képlettár és puskakártyák ábrákkal
+   - Pontszámítás, kombó-szorzó és Web Audio hangeffektek
+   - Teljesítmény és csillagok automatikus mentése
+
+3. **[TriangleCongruenceMatcher.tsx](./TriangleCongruenceMatcher.tsx)**
+   - 🔄 3 szintű párosító kártyajáték (szintenként 8 pár = 24 pár)
+   - Alapesetek megnevezése, ábrája, adatai és szerkesztési lépései
+   - Beépített SVG ábrák a kártyákon
+   - 3 életes / szíves rendszer, stopperóra és ranglista
+
+4. **[TriangleCongruenceSorter.tsx](./TriangleCongruenceSorter.tsx)**
+   - 📊 3 szintű csoportosító feladat
+   - 1. szint: Valódi alapeset vs. NEM egybevágósági eset (csapda)
+   - 2. szint: Melyik eset alapján egybevágóak? ($o-o-o, o-sz-o, sz-o-sz, o-o-sz$)
+   - 3. szint: A szerkesztés fázisai (Vázlat & Terv, Kivitelezés, Diszkusszió)
+   - SVG ikonok az elemkártyákon és a besorolt kategóriákban
+   - 3 élet, kombó-rendszer és ranglista
 
 ---
 
-### 2. A Háromszögek Egybevágóságának 4 Alapesete
-Két háromszög egybevágó, ha az alábbi feltételek egyike teljesül:
+## 📐 Főbb Tananyagtartalom
 
-1. **$o-o-o$ (oldal-oldal-oldal / $SSS$):**
-   A három oldaluk páronként egyenlő ($a = a', b = b', c = c'$).
-2. **$o-sz-o$ (oldal-szög-oldal / $SAS$):**
-   Két oldaluk és a **közbezárt szögük** páronként egyenlő ($a = a', b = b', \gamma = \gamma'$).
-3. **$sz-o-sz$ (szög-oldal-szög / $ASA$):**
-   Egy oldaluk és a **rajta fekvő két szögük** páronként egyenlő ($c = c', \alpha = \alpha', \beta = \beta'$).
-4. **$o-o-sz$ (oldal-oldal-szög / $SsA$):**
-   Két oldaluk és a **nagyobbik oldallal szemközti szögük** páronként egyenlő ($a = a', b = b', \alpha = \alpha'$, ahol $a \ge b$).
+### 1. A Háromszögek Egybevágóságának 4 Alapesete:
+- **$o-o-o$ ($SSS$):** Három oldal páronként egyenlő ($a = a', b = b', c = c'$).
+- **$o-sz-o$ ($SAS$):** Két oldal és a **közbezárt szög** páronként egyenlő ($a = a', b = b', \gamma = \gamma'$).
+- **$sz-o-sz$ ($ASA$):** Egy oldal és a **rajta fekvő két szög** páronként egyenlő ($c = c', \alpha = \alpha', \beta = \beta'$).
+- **$o-o-sz$ ($SsA$):** Két oldal és a **nagyobbik oldallal szemközti szög** páronként egyenlő ($a = a', b = b', \alpha = \alpha'$, ahol $a \ge b$).
 
-> [!IMPORTANT]
-> A háromszögek egyértelműen megszerkeszthetők, ha a fenti 4 alapeset valamelyikének adatai adottak!
+### 2. Miért NEM alapeset a $sz-sz-sz$ ($AAA$)?
+- Három szög egyenlősége csak a háromszög alakját (arányait) határozza meg, a méretét nem $\rightarrow$ ez a **hasonlóság** esete, nem az egybevágóságé!
 
----
-
-### 3. Szerkesztési Lépések Körzővel és Vonalzóval
-1. **Vázlatkészítés:** Szabadkézi rajz készítése, a megadott adatok színessel való megjelölése.
-2. **Terv készítése:** A szerkesztési lépések logikai sorrendjének meghatározása.
-3. **Pontos szerkesztés:** Körző és vonalzó használata segédvonalak megtartásával.
-4. **Diszkusszió (elemzés):** Hány megoldás van a síkban a háromszög-egyenlőtlenség és szögek alapján.
+### 3. A Szerkesztés 4 Lépése:
+1. **Vázlat:** Szabadkézi rajz, adott adatok színessel való kihúzása.
+2. **Terv:** A szerkesztési lépések logikai sorrendjének leírása.
+3. **Kivitelezés:** Pontos szerkesztés körzővel és vonalzóval, a segédkörívek megtartásával.
+4. **Diszkusszió:** Megoldások számának és a feltételeknek (háromszög-egyenlőtlenség, szögösszeg) a vizsgálata.

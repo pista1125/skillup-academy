@@ -57,7 +57,6 @@ const MaterialGallery = lazy(() => import("@/components/math/shared/MaterialGall
 const LessonViewer = lazy(() => import("@/components/math/shared/LessonViewer").then(m => ({ default: m.LessonViewer }))) as any;
 const LongDivisionTool = lazy(() => import("@/components/math/tools/LongDivisionTool").then(m => ({ default: m.LongDivisionTool }))) as any;
 const MathSnakeGame = lazy(() => import("@/components/math/games/snake/MathSnakeGame").then(m => ({ default: m.MathSnakeGame }))) as any;
-const AngleMatcher = lazy(() => import("@/components/math/grade-7/geometria/AngleMatcher").then(m => ({ default: m.AngleMatcher }))) as any;
 const ShapeClassifier = lazy(() => import("@/components/math/grade-4/sikidomok-testek/ShapeClassifier").then(m => ({ default: m.ShapeClassifier }))) as any;
 const LineRelationships = lazy(() => import("@/components/math/grade-4/sikidomok-testek/LineRelationships").then(m => ({ default: m.LineRelationships }))) as any;
 const Grade6OperationsTheory = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/muveletek-az-egesz-szamok-koreben/OperationsWithIntegersTheory").then(m => ({ default: m.OperationsWithIntegersTheory }))) as any;
@@ -124,7 +123,6 @@ const WordProblemsModule = lazy(() => import("@/components/math/grade-5/aranyoss
 const TriangleClassifier = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyesen-szimmetrikus-haromszogek-negyszogek-sokszogek/TriangleClassifier").then(m => ({ default: m.TriangleClassifier }))) as any;
 const QuadrilateralClassifier = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyesen-szimmetrikus-haromszogek-negyszogek-sokszogek/QuadrilateralClassifier").then(m => ({ default: m.QuadrilateralClassifier }))) as any;
 const CirclePartsGame = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/a-kor/CirclePartsGame").then(m => ({ default: m.CirclePartsGame }))) as any;
-const TriangleAnglesQuiz = lazy(() => import("@/components/math/grade-7/geometria/TriangleAnglesQuiz").then(m => ({ default: m.TriangleAnglesQuiz }))) as any;
 const DecimalFractionsTool = lazy(() => import("@/components/math/tools/DecimalFractionsTool").then(m => ({ default: m.DecimalFractionsTool }))) as any;
 const NumberLineTool = lazy(() => import("@/components/math/tools/NumberLineTool").then(m => ({ default: m.NumberLineTool }))) as any;
 const ManipulativeDivision = lazy(() => import("@/components/math/tools/ManipulativeDivision").then(m => ({ default: m.ManipulativeDivision }))) as any;
@@ -216,7 +214,6 @@ const AreaConversionQuiz = lazy(() => import("@/components/math/grade-5/hosszusa
 const AreaCalculationQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat").then(m => ({ default: m.AreaCalculationQuiz }))) as any;
 const VolumeQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat").then(m => ({ default: m.VolumeQuiz }))) as any;
 const SurfaceAreaQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat").then(m => ({ default: m.SurfaceAreaQuiz }))) as any;
-const Grade7GeometryModule = lazy(() => import("@/components/math/grade-7/geometria/Grade7GeometryModule").then(m => ({ default: m.Grade7GeometryModule }))) as any;
 const MappingQuiz = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/MappingQuiz").then(m => ({ default: m.MappingQuiz }))) as any;
 const FunctionTableQuiz = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/FunctionTableQuiz").then(m => ({ default: m.FunctionTableQuiz }))) as any;
 const Grade7StatsModule = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/Grade7StatsModule").then(m => ({ default: m.Grade7StatsModule }))) as any;
@@ -294,7 +291,6 @@ const MemoryGameComponent = lazy(() => import("@/components/math/games/memory/Me
 const HanoiGame = lazy(() => import("@/components/math/games/hanoi/HanoiGame")) as any;
 const TorpedoGame = lazy(() => import("@/components/math/games/torpedo/TorpedoGame")) as any;
 const TowerBuilderGame = lazy(() => import("@/components/math/games/toronyepites/TowerBuilderGame").then(m => ({ default: m.TowerBuilderGame }))) as any;
-const ParallelogramAreaQuiz = lazy(() => import("@/components/math/grade-7/geometria/ParallelogramAreaQuiz").then(m => ({ default: m.ParallelogramAreaQuiz }))) as any;
 const Grade8CongruenceTransformTheory = lazy(() => import("@/components/math/grade-8/geometria/egybevagosagi-transzformaciok-ismetles/CongruenceTransformTheory").then(m => ({ default: m.CongruenceTransformTheory }))) as any;
 const Grade8CongruenceTransformQuiz = lazy(() => import("@/components/math/grade-8/geometria/egybevagosagi-transzformaciok-ismetles/CongruenceTransformQuiz").then(m => ({ default: m.CongruenceTransformQuiz }))) as any;
 const Grade8CongruenceTransformMatcher = lazy(() => import("@/components/math/grade-8/geometria/egybevagosagi-transzformaciok-ismetles/CongruenceTransformMatcher").then(m => ({ default: m.CongruenceTransformMatcher }))) as any;
@@ -661,6 +657,54 @@ const Grade7EquationSummaryTheory = lazy(() => import("@/components/math/grade-7
 const Grade7EquationSummaryQuiz = lazy(() => import("@/components/math/grade-7/egyenletek/osszefoglalas/EquationSummaryQuiz").then(m => ({ default: m.EquationSummaryQuiz }))) as any;
 const Grade7EquationSummaryMatcher = lazy(() => import("@/components/math/grade-7/egyenletek/osszefoglalas/EquationSummaryMatcher").then(m => ({ default: m.EquationSummaryMatcher }))) as any;
 const Grade7EquationSummarySorter = lazy(() => import("@/components/math/grade-7/egyenletek/osszefoglalas/EquationSummarySorter").then(m => ({ default: m.EquationSummarySorter }))) as any;
+const Grade7TriangleCongruenceTheory = lazy(() => import("@/components/math/grade-7/geometria/egybevago-haromszogek-szerkesztesek/TriangleCongruenceTheory").then(m => ({ default: m.TriangleCongruenceTheory }))) as any;
+const Grade7TriangleCongruenceQuiz = lazy(() => import("@/components/math/grade-7/geometria/egybevago-haromszogek-szerkesztesek/TriangleCongruenceQuiz").then(m => ({ default: m.TriangleCongruenceQuiz }))) as any;
+const Grade7TriangleCongruenceMatcher = lazy(() => import("@/components/math/grade-7/geometria/egybevago-haromszogek-szerkesztesek/TriangleCongruenceMatcher").then(m => ({ default: m.TriangleCongruenceMatcher }))) as any;
+const Grade7TriangleCongruenceSorter = lazy(() => import("@/components/math/grade-7/geometria/egybevago-haromszogek-szerkesztesek/TriangleCongruenceSorter").then(m => ({ default: m.TriangleCongruenceSorter }))) as any;
+const Grade7TriangleSidesAnglesTheory = lazy(() => import("@/components/math/grade-7/geometria/osszefuggesek-a-haromszog-oldalai-es-szogei-kozott/TriangleSidesAnglesTheory").then(m => ({ default: m.TriangleSidesAnglesTheory }))) as any;
+const Grade7TriangleSidesAnglesQuiz = lazy(() => import("@/components/math/grade-7/geometria/osszefuggesek-a-haromszog-oldalai-es-szogei-kozott/TriangleSidesAnglesQuiz").then(m => ({ default: m.TriangleSidesAnglesQuiz }))) as any;
+const Grade7TriangleSidesAnglesMatcher = lazy(() => import("@/components/math/grade-7/geometria/osszefuggesek-a-haromszog-oldalai-es-szogei-kozott/TriangleSidesAnglesMatcher").then(m => ({ default: m.TriangleSidesAnglesMatcher }))) as any;
+const Grade7TriangleSidesAnglesSorter = lazy(() => import("@/components/math/grade-7/geometria/osszefuggesek-a-haromszog-oldalai-es-szogei-kozott/TriangleSidesAnglesSorter").then(m => ({ default: m.TriangleSidesAnglesSorter }))) as any;
+const Grade7PolygonAnglesDiagonalsTheory = lazy(() => import("@/components/math/grade-7/geometria/sokszogek-szogei-es-atloi/PolygonAnglesDiagonalsTheory").then(m => ({ default: m.PolygonAnglesDiagonalsTheory }))) as any;
+const Grade7PolygonAnglesDiagonalsQuiz = lazy(() => import("@/components/math/grade-7/geometria/sokszogek-szogei-es-atloi/PolygonAnglesDiagonalsQuiz").then(m => ({ default: m.PolygonAnglesDiagonalsQuiz }))) as any;
+const Grade7PolygonAnglesDiagonalsMatcher = lazy(() => import("@/components/math/grade-7/geometria/sokszogek-szogei-es-atloi/PolygonAnglesDiagonalsMatcher").then(m => ({ default: m.PolygonAnglesDiagonalsMatcher }))) as any;
+const Grade7PolygonAnglesDiagonalsSorter = lazy(() => import("@/components/math/grade-7/geometria/sokszogek-szogei-es-atloi/PolygonAnglesDiagonalsSorter").then(m => ({ default: m.PolygonAnglesDiagonalsSorter }))) as any;
+const Grade7AreaVolumeUnitsTheory = lazy(() => import("@/components/math/grade-7/geometria/a-terulet-es-a-terfogat-mertekegysegei/AreaVolumeUnitsTheory").then(m => ({ default: m.AreaVolumeUnitsTheory }))) as any;
+const Grade7AreaVolumeUnitsQuiz = lazy(() => import("@/components/math/grade-7/geometria/a-terulet-es-a-terfogat-mertekegysegei/AreaVolumeUnitsQuiz").then(m => ({ default: m.AreaVolumeUnitsQuiz }))) as any;
+const Grade7AreaVolumeUnitsMatcher = lazy(() => import("@/components/math/grade-7/geometria/a-terulet-es-a-terfogat-mertekegysegei/AreaVolumeUnitsMatcher").then(m => ({ default: m.AreaVolumeUnitsMatcher }))) as any;
+const Grade7AreaVolumeUnitsSorter = lazy(() => import("@/components/math/grade-7/geometria/a-terulet-es-a-terfogat-mertekegysegei/AreaVolumeUnitsSorter").then(m => ({ default: m.AreaVolumeUnitsSorter }))) as any;
+const Grade7ParallelogramAreaTheory = lazy(() => import("@/components/math/grade-7/geometria/a-paralelogramma-terulete/ParallelogramAreaTheory").then(m => ({ default: m.ParallelogramAreaTheory }))) as any;
+const Grade7ParallelogramAreaQuiz = lazy(() => import("@/components/math/grade-7/geometria/a-paralelogramma-terulete/ParallelogramAreaQuiz").then(m => ({ default: m.ParallelogramAreaQuiz }))) as any;
+const Grade7ParallelogramAreaMatcher = lazy(() => import("@/components/math/grade-7/geometria/a-paralelogramma-terulete/ParallelogramAreaMatcher").then(m => ({ default: m.ParallelogramAreaMatcher }))) as any;
+const Grade7ParallelogramAreaSorter = lazy(() => import("@/components/math/grade-7/geometria/a-paralelogramma-terulete/ParallelogramAreaSorter").then(m => ({ default: m.ParallelogramAreaSorter }))) as any;
+const Grade7TriangleAreaTheory = lazy(() => import("@/components/math/grade-7/geometria/a-haromszog-terulete/TriangleAreaTheory").then(m => ({ default: m.TriangleAreaTheory }))) as any;
+const Grade7TriangleAreaQuiz = lazy(() => import("@/components/math/grade-7/geometria/a-haromszog-terulete/TriangleAreaQuiz").then(m => ({ default: m.TriangleAreaQuiz }))) as any;
+const Grade7TriangleAreaMatcher = lazy(() => import("@/components/math/grade-7/geometria/a-haromszog-terulete/TriangleAreaMatcher").then(m => ({ default: m.TriangleAreaMatcher }))) as any;
+const Grade7TriangleAreaSorter = lazy(() => import("@/components/math/grade-7/geometria/a-haromszog-terulete/TriangleAreaSorter").then(m => ({ default: m.TriangleAreaSorter }))) as any;
+const Grade7TrapezoidAreaTheory = lazy(() => import("@/components/math/grade-7/geometria/a-trapez-terulete/TrapezoidAreaTheory").then(m => ({ default: m.TrapezoidAreaTheory }))) as any;
+const Grade7TrapezoidAreaQuiz = lazy(() => import("@/components/math/grade-7/geometria/a-trapez-terulete/TrapezoidAreaQuiz").then(m => ({ default: m.TrapezoidAreaQuiz }))) as any;
+const Grade7TrapezoidAreaMatcher = lazy(() => import("@/components/math/grade-7/geometria/a-trapez-terulete/TrapezoidAreaMatcher").then(m => ({ default: m.TrapezoidAreaMatcher }))) as any;
+const Grade7TrapezoidAreaSorter = lazy(() => import("@/components/math/grade-7/geometria/a-trapez-terulete/TrapezoidAreaSorter").then(m => ({ default: m.TrapezoidAreaSorter }))) as any;
+const Grade7DeltoidAreaTheory = lazy(() => import("@/components/math/grade-7/geometria/a-deltoid-terulete/DeltoidAreaTheory").then(m => ({ default: m.DeltoidAreaTheory }))) as any;
+const Grade7DeltoidAreaQuiz = lazy(() => import("@/components/math/grade-7/geometria/a-deltoid-terulete/DeltoidAreaQuiz").then(m => ({ default: m.DeltoidAreaQuiz }))) as any;
+const Grade7DeltoidAreaMatcher = lazy(() => import("@/components/math/grade-7/geometria/a-deltoid-terulete/DeltoidAreaMatcher").then(m => ({ default: m.DeltoidAreaMatcher }))) as any;
+const Grade7DeltoidAreaSorter = lazy(() => import("@/components/math/grade-7/geometria/a-deltoid-terulete/DeltoidAreaSorter").then(m => ({ default: m.DeltoidAreaSorter }))) as any;
+const Grade7PrismSurfaceVolumeTheory = lazy(() => import("@/components/math/grade-7/geometria/a-hasab-felszine-es-terfogata/PrismSurfaceVolumeTheory").then(m => ({ default: m.PrismSurfaceVolumeTheory }))) as any;
+const Grade7PrismSurfaceVolumeQuiz = lazy(() => import("@/components/math/grade-7/geometria/a-hasab-felszine-es-terfogata/PrismSurfaceVolumeQuiz").then(m => ({ default: m.PrismSurfaceVolumeQuiz }))) as any;
+const Grade7PrismSurfaceVolumeMatcher = lazy(() => import("@/components/math/grade-7/geometria/a-hasab-felszine-es-terfogata/PrismSurfaceVolumeMatcher").then(m => ({ default: m.PrismSurfaceVolumeMatcher }))) as any;
+const Grade7PrismSurfaceVolumeSorter = lazy(() => import("@/components/math/grade-7/geometria/a-hasab-felszine-es-terfogata/PrismSurfaceVolumeSorter").then(m => ({ default: m.PrismSurfaceVolumeSorter }))) as any;
+const Grade7SolidsInSpaceAndPlaneTheory = lazy(() => import("@/components/math/grade-7/geometria/testek-terben-es-sikban/SolidsInSpaceAndPlaneTheory").then(m => ({ default: m.SolidsInSpaceAndPlaneTheory }))) as any;
+const Grade7SolidsInSpaceAndPlaneQuiz = lazy(() => import("@/components/math/grade-7/geometria/testek-terben-es-sikban/SolidsInSpaceAndPlaneQuiz").then(m => ({ default: m.SolidsInSpaceAndPlaneQuiz }))) as any;
+const Grade7SolidsInSpaceAndPlaneMatcher = lazy(() => import("@/components/math/grade-7/geometria/testek-terben-es-sikban/SolidsInSpaceAndPlaneMatcher").then(m => ({ default: m.SolidsInSpaceAndPlaneMatcher }))) as any;
+const Grade7SolidsInSpaceAndPlaneSorter = lazy(() => import("@/components/math/grade-7/geometria/testek-terben-es-sikban/SolidsInSpaceAndPlaneSorter").then(m => ({ default: m.SolidsInSpaceAndPlaneSorter }))) as any;
+const Grade7GeomEscapeRoomTheory = lazy(() => import("@/components/math/grade-7/geometria/szabaduloszoba/GeometryEscapeRoomTheory").then(m => ({ default: m.GeometryEscapeRoomTheory }))) as any;
+const Grade7GeomEscapeRoomQuiz = lazy(() => import("@/components/math/grade-7/geometria/szabaduloszoba/GeometryEscapeRoomQuiz").then(m => ({ default: m.GeometryEscapeRoomQuiz }))) as any;
+const Grade7GeomEscapeRoomMatcher = lazy(() => import("@/components/math/grade-7/geometria/szabaduloszoba/GeometryEscapeRoomMatcher").then(m => ({ default: m.GeometryEscapeRoomMatcher }))) as any;
+const Grade7GeomEscapeRoomSorter = lazy(() => import("@/components/math/grade-7/geometria/szabaduloszoba/GeometryEscapeRoomSorter").then(m => ({ default: m.GeometryEscapeRoomSorter }))) as any;
+const Grade7GeomSummaryTheory = lazy(() => import("@/components/math/grade-7/geometria/osszefoglalas/GeometrySummaryTheory").then(m => ({ default: m.GeometrySummaryTheory }))) as any;
+const Grade7GeomSummaryQuiz = lazy(() => import("@/components/math/grade-7/geometria/osszefoglalas/GeometrySummaryQuiz").then(m => ({ default: m.GeometrySummaryQuiz }))) as any;
+const Grade7GeomSummaryMatcher = lazy(() => import("@/components/math/grade-7/geometria/osszefoglalas/GeometrySummaryMatcher").then(m => ({ default: m.GeometrySummaryMatcher }))) as any;
+const Grade7GeomSummarySorter = lazy(() => import("@/components/math/grade-7/geometria/osszefoglalas/GeometrySummarySorter").then(m => ({ default: m.GeometrySummarySorter }))) as any;
 const Grade8LogicTheory = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/logika-feladatok/LogicTheory").then(m => ({ default: m.LogicTheory }))) as any;
 const Grade8LogicQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/logika-feladatok/LogicQuiz").then(m => ({ default: m.LogicQuiz }))) as any;
 const Grade8SetBasicsTheory = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/mit-tudunk-a-halmazokrol/SetBasicsTheory").then(m => ({ default: m.SetBasicsTheory }))) as any;
@@ -895,6 +939,18 @@ type ActivityType =
   | 'g7-eq-solve-theory' | 'g7-eq-solve-quiz' | 'g7-eq-solve-matcher' | 'g7-eq-solve-sorter' | 'g7-pct-eq-solve-theory' | 'g7-pct-eq-solve-quiz' | 'g7-pct-eq-solve-matcher' | 'g7-pct-eq-solve-sorter'
   | 'g7-eq-word-theory' | 'g7-eq-word-quiz' | 'g7-eq-word-matcher' | 'g7-eq-word-sorter' | 'g7-pct-eq-word-theory' | 'g7-pct-eq-word-quiz' | 'g7-pct-eq-word-matcher' | 'g7-pct-eq-word-sorter'
   | 'g7-eq-summary-theory' | 'g7-eq-summary-quiz' | 'g7-eq-summary-matcher' | 'g7-eq-summary-sorter' | 'g7-pct-eq-summary-theory' | 'g7-pct-eq-summary-quiz' | 'g7-pct-eq-summary-matcher' | 'g7-pct-eq-summary-sorter'
+  | 'g7-geom-congruence-theory' | 'g7-geom-congruence-quiz' | 'g7-geom-congruence-matcher' | 'g7-geom-congruence-sorter'
+  | 'g7-geom-sides-angles-theory' | 'g7-geom-sides-angles-quiz' | 'g7-geom-sides-angles-matcher' | 'g7-geom-sides-angles-sorter'
+  | 'g7-geom-polygons-theory' | 'g7-geom-polygons-quiz' | 'g7-geom-polygons-matcher' | 'g7-geom-polygons-sorter'
+  | 'g7-geom-units-theory' | 'g7-geom-units-quiz' | 'g7-geom-units-matcher' | 'g7-geom-units-sorter'
+  | 'g7-geom-parallelogram-area-theory' | 'g7-geom-parallelogram-area-quiz' | 'g7-geom-parallelogram-area-matcher' | 'g7-geom-parallelogram-area-sorter'
+  | 'g7-geom-triangle-area-theory' | 'g7-geom-triangle-area-quiz' | 'g7-geom-triangle-area-matcher' | 'g7-geom-triangle-area-sorter'
+  | 'g7-geom-trapezoid-area-theory' | 'g7-geom-trapezoid-area-quiz' | 'g7-geom-trapezoid-area-matcher' | 'g7-geom-trapezoid-area-sorter'
+  | 'g7-geom-deltoid-area-theory' | 'g7-geom-deltoid-area-quiz' | 'g7-geom-deltoid-area-matcher' | 'g7-geom-deltoid-area-sorter'
+  | 'g7-geom-prism-surface-volume-theory' | 'g7-geom-prism-surface-volume-quiz' | 'g7-geom-prism-surface-volume-matcher' | 'g7-geom-prism-surface-volume-sorter'
+  | 'g7-geom-solids-space-plane-theory' | 'g7-geom-solids-space-plane-quiz' | 'g7-geom-solids-space-plane-matcher' | 'g7-geom-solids-space-plane-sorter'
+  | 'g7-geom-escape-room-theory' | 'g7-geom-escape-room-quiz' | 'g7-geom-escape-room-matcher' | 'g7-geom-escape-room-sorter'
+  | 'g7-geom-summary-theory' | 'g7-geom-summary-quiz' | 'g7-geom-summary-matcher' | 'g7-geom-summary-sorter' | 'g7-geometry-summary'
   | 'g8-logic-theory' | 'g8-logic-quiz'
   | 'g8-set-basics-theory' | 'g8-set-basics-quiz' | 'g8-set-basics-matcher' | 'g8-set-basics-sorter'
   | 'g8-set-operations-theory' | 'g8-set-operations-quiz' | 'g8-set-operations-matcher' | 'g8-set-operations-sorter'
@@ -3107,10 +3163,6 @@ export default function MathPage() {
 
                 {activityType === 'long-division' && (
                   <LongDivisionTool onBack={handleBack} />
-                )}
-
-                {activityType === 'angle-matching' && (
-                  <AngleMatcher onBack={handleBack} />
                 )}
 
                 {activityType === 'shape-classification' && (
@@ -6102,6 +6154,679 @@ export default function MathPage() {
                   />
                 )}
 
+                {activityType === 'g7-geom-congruence-theory' && (
+                  <Grade7TriangleCongruenceTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g7-geom-congruence-quiz', selectedTopic?.id || 'g7-geometry')}
+                  />
+                )}
+
+                {activityType === 'g7-geom-congruence-quiz' && (
+                  <Grade7TriangleCongruenceQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g7-geom-congruence-theory', selectedTopic?.id || 'g7-geometry')}
+                  />
+                )}
+
+                {activityType === 'g7-geom-congruence-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7TriangleCongruenceMatcher
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-geom-congruence-theory', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-geom-congruence-quiz', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToSorter={() => handleActivitySelect('g7-geom-congruence-sorter', selectedTopic?.id || 'g7-geometry')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-geom-congruence-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7TriangleCongruenceSorter
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-geom-congruence-theory', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-geom-congruence-quiz', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToMatcher={() => handleActivitySelect('g7-geom-congruence-matcher', selectedTopic?.id || 'g7-geometry')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-geom-sides-angles-theory' && (
+                  <Grade7TriangleSidesAnglesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g7-geom-sides-angles-quiz', selectedTopic?.id || 'g7-geometry')}
+                  />
+                )}
+
+                {(activityType === 'g7-geom-sides-angles-quiz' || activityType === 'triangle-angles-quiz') && (
+                  <Grade7TriangleSidesAnglesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g7-geom-sides-angles-theory', selectedTopic?.id || 'g7-geometry')}
+                  />
+                )}
+
+                {(activityType === 'g7-geom-sides-angles-matcher' || activityType === 'angle-matching') && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7TriangleSidesAnglesMatcher
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-geom-sides-angles-theory', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-geom-sides-angles-quiz', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToSorter={() => handleActivitySelect('g7-geom-sides-angles-sorter', selectedTopic?.id || 'g7-geometry')}
+                    />
+                  </div>
+                )}
+
+                {(activityType === 'g7-geom-sides-angles-sorter' || activityType === 'triangle-classification') && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7TriangleSidesAnglesSorter
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-geom-sides-angles-theory', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-geom-sides-angles-quiz', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToMatcher={() => handleActivitySelect('g7-geom-sides-angles-matcher', selectedTopic?.id || 'g7-geometry')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-geom-polygons-theory' && (
+                  <Grade7PolygonAnglesDiagonalsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g7-geom-polygons-quiz', selectedTopic?.id || 'g7-geometry')}
+                  />
+                )}
+
+                {activityType === 'g7-geom-polygons-quiz' && (
+                  <Grade7PolygonAnglesDiagonalsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g7-geom-polygons-theory', selectedTopic?.id || 'g7-geometry')}
+                  />
+                )}
+
+                {activityType === 'g7-geom-polygons-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7PolygonAnglesDiagonalsMatcher
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-geom-polygons-theory', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-geom-polygons-quiz', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToSorter={() => handleActivitySelect('g7-geom-polygons-sorter', selectedTopic?.id || 'g7-geometry')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-geom-polygons-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7PolygonAnglesDiagonalsSorter
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-geom-polygons-theory', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-geom-polygons-quiz', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToMatcher={() => handleActivitySelect('g7-geom-polygons-matcher', selectedTopic?.id || 'g7-geometry')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-geom-units-theory' && (
+                  <Grade7AreaVolumeUnitsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g7-geom-units-quiz', selectedTopic?.id || 'g7-geometry')}
+                  />
+                )}
+
+                {(activityType === 'g7-geom-units-quiz' || activityType === 'area-conversion-quiz' || activityType === 'volume-quiz') && (
+                  <Grade7AreaVolumeUnitsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g7-geom-units-theory', selectedTopic?.id || 'g7-geometry')}
+                  />
+                )}
+
+                {activityType === 'g7-geom-units-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7AreaVolumeUnitsMatcher
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-geom-units-theory', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-geom-units-quiz', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToSorter={() => handleActivitySelect('g7-geom-units-sorter', selectedTopic?.id || 'g7-geometry')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-geom-units-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7AreaVolumeUnitsSorter
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-geom-units-theory', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-geom-units-quiz', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToMatcher={() => handleActivitySelect('g7-geom-units-matcher', selectedTopic?.id || 'g7-geometry')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-geom-parallelogram-area-theory' && (
+                  <Grade7ParallelogramAreaTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g7-geom-parallelogram-area-quiz', selectedTopic?.id || 'g7-geometry')}
+                  />
+                )}
+
+                {(activityType === 'g7-geom-parallelogram-area-quiz' || activityType === 'parallelogram-area-quiz' || activityType === 'parallelogram-area') && (
+                  <Grade7ParallelogramAreaQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g7-geom-parallelogram-area-theory', selectedTopic?.id || 'g7-geometry')}
+                  />
+                )}
+
+                {activityType === 'g7-geom-parallelogram-area-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7ParallelogramAreaMatcher
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-geom-parallelogram-area-theory', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-geom-parallelogram-area-quiz', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToSorter={() => handleActivitySelect('g7-geom-parallelogram-area-sorter', selectedTopic?.id || 'g7-geometry')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-geom-parallelogram-area-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7ParallelogramAreaSorter
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-geom-parallelogram-area-theory', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-geom-parallelogram-area-quiz', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToMatcher={() => handleActivitySelect('g7-geom-parallelogram-area-matcher', selectedTopic?.id || 'g7-geometry')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-geom-triangle-area-theory' && (
+                  <Grade7TriangleAreaTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g7-geom-triangle-area-quiz', selectedTopic?.id || 'g7-geometry')}
+                  />
+                )}
+
+                {(activityType === 'g7-geom-triangle-area-quiz' || activityType === 'area-calculation-quiz' || activityType === 'triangle-area') && (
+                  <Grade7TriangleAreaQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g7-geom-triangle-area-theory', selectedTopic?.id || 'g7-geometry')}
+                  />
+                )}
+
+                {activityType === 'g7-geom-triangle-area-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7TriangleAreaMatcher
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-geom-triangle-area-theory', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-geom-triangle-area-quiz', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToSorter={() => handleActivitySelect('g7-geom-triangle-area-sorter', selectedTopic?.id || 'g7-geometry')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-geom-triangle-area-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7TriangleAreaSorter
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-geom-triangle-area-theory', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-geom-triangle-area-quiz', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToMatcher={() => handleActivitySelect('g7-geom-triangle-area-matcher', selectedTopic?.id || 'g7-geometry')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-geom-trapezoid-area-theory' && (
+                  <Grade7TrapezoidAreaTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g7-geom-trapezoid-area-quiz', selectedTopic?.id || 'g7-geometry')}
+                  />
+                )}
+
+                {activityType === 'g7-geom-trapezoid-area-quiz' && (
+                  <Grade7TrapezoidAreaQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g7-geom-trapezoid-area-theory', selectedTopic?.id || 'g7-geometry')}
+                  />
+                )}
+
+                {activityType === 'g7-geom-trapezoid-area-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7TrapezoidAreaMatcher
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-geom-trapezoid-area-theory', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-geom-trapezoid-area-quiz', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToSorter={() => handleActivitySelect('g7-geom-trapezoid-area-sorter', selectedTopic?.id || 'g7-geometry')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-geom-trapezoid-area-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7TrapezoidAreaSorter
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-geom-trapezoid-area-theory', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-geom-trapezoid-area-quiz', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToMatcher={() => handleActivitySelect('g7-geom-trapezoid-area-matcher', selectedTopic?.id || 'g7-geometry')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-geom-deltoid-area-theory' && (
+                  <Grade7DeltoidAreaTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g7-geom-deltoid-area-quiz', selectedTopic?.id || 'g7-geometry')}
+                  />
+                )}
+
+                {activityType === 'g7-geom-deltoid-area-quiz' && (
+                  <Grade7DeltoidAreaQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g7-geom-deltoid-area-theory', selectedTopic?.id || 'g7-geometry')}
+                  />
+                )}
+
+                {activityType === 'g7-geom-deltoid-area-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7DeltoidAreaMatcher
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-geom-deltoid-area-theory', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-geom-deltoid-area-quiz', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToSorter={() => handleActivitySelect('g7-geom-deltoid-area-sorter', selectedTopic?.id || 'g7-geometry')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-geom-deltoid-area-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7DeltoidAreaSorter
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-geom-deltoid-area-theory', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-geom-deltoid-area-quiz', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToMatcher={() => handleActivitySelect('g7-geom-deltoid-area-matcher', selectedTopic?.id || 'g7-geometry')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-geom-prism-surface-volume-theory' && (
+                  <Grade7PrismSurfaceVolumeTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g7-geom-prism-surface-volume-quiz', selectedTopic?.id || 'g7-geometry')}
+                  />
+                )}
+
+                {activityType === 'g7-geom-prism-surface-volume-quiz' && (
+                  <Grade7PrismSurfaceVolumeQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g7-geom-prism-surface-volume-theory', selectedTopic?.id || 'g7-geometry')}
+                  />
+                )}
+
+                {activityType === 'g7-geom-prism-surface-volume-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7PrismSurfaceVolumeMatcher
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-geom-prism-surface-volume-theory', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-geom-prism-surface-volume-quiz', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToSorter={() => handleActivitySelect('g7-geom-prism-surface-volume-sorter', selectedTopic?.id || 'g7-geometry')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-geom-prism-surface-volume-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7PrismSurfaceVolumeSorter
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-geom-prism-surface-volume-theory', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-geom-prism-surface-volume-quiz', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToMatcher={() => handleActivitySelect('g7-geom-prism-surface-volume-matcher', selectedTopic?.id || 'g7-geometry')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-geom-solids-space-plane-theory' && (
+                  <Grade7SolidsInSpaceAndPlaneTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g7-geom-solids-space-plane-quiz', selectedTopic?.id || 'g7-geometry')}
+                  />
+                )}
+
+                {activityType === 'g7-geom-solids-space-plane-quiz' && (
+                  <Grade7SolidsInSpaceAndPlaneQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g7-geom-solids-space-plane-theory', selectedTopic?.id || 'g7-geometry')}
+                  />
+                )}
+
+                {activityType === 'g7-geom-solids-space-plane-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7SolidsInSpaceAndPlaneMatcher
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-geom-solids-space-plane-theory', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-geom-solids-space-plane-quiz', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToSorter={() => handleActivitySelect('g7-geom-solids-space-plane-sorter', selectedTopic?.id || 'g7-geometry')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-geom-solids-space-plane-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7SolidsInSpaceAndPlaneSorter
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-geom-solids-space-plane-theory', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-geom-solids-space-plane-quiz', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToMatcher={() => handleActivitySelect('g7-geom-solids-space-plane-matcher', selectedTopic?.id || 'g7-geometry')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-geom-escape-room-theory' && (
+                  <Grade7GeomEscapeRoomTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g7-geom-escape-room-quiz', selectedTopic?.id || 'g7-geometry')}
+                  />
+                )}
+
+                {activityType === 'g7-geom-escape-room-quiz' && (
+                  <Grade7GeomEscapeRoomQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g7-geom-escape-room-theory', selectedTopic?.id || 'g7-geometry')}
+                  />
+                )}
+
+                {activityType === 'g7-geom-escape-room-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7GeomEscapeRoomMatcher
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-geom-escape-room-theory', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-geom-escape-room-quiz', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToSorter={() => handleActivitySelect('g7-geom-escape-room-sorter', selectedTopic?.id || 'g7-geometry')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-geom-escape-room-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7GeomEscapeRoomSorter
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-geom-escape-room-theory', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-geom-escape-room-quiz', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToMatcher={() => handleActivitySelect('g7-geom-escape-room-matcher', selectedTopic?.id || 'g7-geometry')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-geom-summary-theory' && (
+                  <Grade7GeomSummaryTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g7-geom-summary-quiz', selectedTopic?.id || 'g7-geometry')}
+                  />
+                )}
+
+                {(activityType === 'g7-geom-summary-quiz' || activityType === 'g7-geometry-summary') && (
+                  <Grade7GeomSummaryQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g7-geom-summary-theory', selectedTopic?.id || 'g7-geometry')}
+                  />
+                )}
+
+                {activityType === 'g7-geom-summary-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7GeomSummaryMatcher
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-geom-summary-theory', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-geom-summary-quiz', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToSorter={() => handleActivitySelect('g7-geom-summary-sorter', selectedTopic?.id || 'g7-geometry')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-geom-summary-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7GeomSummarySorter
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-geom-summary-theory', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-geom-summary-quiz', selectedTopic?.id || 'g7-geometry')}
+                      onSwitchToMatcher={() => handleActivitySelect('g7-geom-summary-matcher', selectedTopic?.id || 'g7-geometry')}
+                    />
+                  </div>
+                )}
+                {/* Grade 7 Geometria ágak vége */}
+
                 {activityType === 'g6-fractions-review-theory' && (
                   <Grade6FractionsReviewTheory
                     onBack={handleBack}
@@ -6484,10 +7209,6 @@ export default function MathPage() {
 
                 {activityType === 'g5-fraction-to-decimal-matcher' && (
                   <Grade5FractionToDecimalMatcher onBack={handleBack} />
-                )}
-
-                {activityType === 'triangle-angles-quiz' && (
-                  <TriangleAnglesQuiz onBack={handleBack} />
                 )}
 
                 {activityType === 'perimeter-quiz' && (
@@ -8190,14 +8911,6 @@ export default function MathPage() {
 
                 {activityType === 'area-conversion-quiz' && (
                   <AreaConversionQuiz onBack={handleBack} />
-                )}
-
-                {activityType === 'area-calculation-quiz' && (
-                  <AreaCalculationQuiz onBack={handleBack} />
-                )}
-
-                {(activityType === 'parallelogram-area-quiz' || activityType === 'parallelogram-area' as ActivityType) && (
-                  <ParallelogramAreaQuiz onBack={handleBack} />
                 )}
 
                 {activityType === 'volume-quiz' && (

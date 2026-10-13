@@ -1,4 +1,4 @@
-# Szabadulószoba (7. osztály)
+# 11. Szabadulószoba (7. osztály)
 
 ## Tananyag Áttekintés
 Gondolkodtató geometriai szabadulószoba és kódfejtő kihívás: a fejezetben tanult szerkesztések, szögtételek, területszámítások és térgeometriai összefüggések játékos, interaktív feladványokban való alkalmazása.

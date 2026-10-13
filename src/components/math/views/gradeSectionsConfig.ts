@@ -1044,8 +1044,8 @@ export function getGradeSubsections(
         { id: 'g7-sec-geom-deltoid-terulet', label: '8. Deltoid területe' },
         { id: 'g7-sec-geom-hasab-felszin-terfogat', label: '9. Hasáb felszíne, térfogata' },
         { id: 'g7-sec-geom-testek-terben-sikban', label: '10. Testek térben és síkban' },
-        { id: 'g7-sec-geom-szabaduloszoba', label: 'Szabadulószoba' },
-        { id: 'g7-sec-geom-osszefoglalas', label: '11. Összefoglalás' }
+        { id: 'g7-sec-geom-szabaduloszoba', label: '11. Szabadulószoba' },
+        { id: 'g7-sec-geom-osszefoglalas', label: '12. Összefoglalás' }
       ];
     } else if (t.id === 'g7-stats') {
       subsections = [

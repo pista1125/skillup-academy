@@ -65,8 +65,9 @@ const TRIANGLES: TriangleItem[] = [
         icon: (
             <svg width="120" height="120" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M20 20 L20 80 L80 80 Z" className="text-indigo-600 fill-indigo-50/50" />
-                {/* Right angle marker */}
-                <path d="M20 70 L30 70 L30 80" strokeWidth="2" className="text-indigo-600" />
+                {/* Right angle marker (Hungarian standard: circular arc + dot) */}
+                <path d="M 36 80 A 16 16 0 0 0 20 64" strokeWidth="2" className="text-indigo-600" />
+                <circle cx="27" cy="73" r="2.5" className="fill-indigo-600" />
             </svg>
         )
     },

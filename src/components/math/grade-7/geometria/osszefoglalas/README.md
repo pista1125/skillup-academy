@@ -1,4 +1,4 @@
-# 11. Összefoglalás (7. osztály)
+# 12. Összefoglalás (7. osztály)
 
 ## Tananyag Áttekintés
 A 7. osztályos **VI. Geometria** fejezet átfogó, rendszerező áttekintése: az egybevágósági alapesetek, háromszög-egyenlőtlenség, sokszögek átlói és szögei, síkidomok területe, hasábok felszíne és térfogata.
