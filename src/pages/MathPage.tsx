@@ -281,10 +281,55 @@ const Grade5FractionToDecimalTheory = lazy(() => import("@/components/math/grade
 const Grade5FractionToDecimalQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/kozonseges-tortek-tizedes-tort-alakja/FractionToDecimalQuiz").then(m => ({ default: m.FractionToDecimalQuiz }))) as any;
 const Grade5Chapter2SummaryTheory = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/osszefoglalas/Chapter2SummaryTheory").then(m => ({ default: m.Chapter2SummaryTheory }))) as any;
 const Grade5Chapter2SummaryQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/osszefoglalas/Chapter2SummaryQuiz").then(m => ({ default: m.Chapter2SummaryQuiz }))) as any;
+const RatioIntroTheory = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/az-arany-fogalma/RatioIntroTheory").then(m => ({ default: m.RatioIntroTheory }))) as any;
 const RatioIntroQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/az-arany-fogalma/RatioIntroQuiz").then(m => ({ default: m.RatioIntroQuiz }))) as any;
+const RatioIntroMatcher = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/az-arany-fogalma/RatioIntroMatcher").then(m => ({ default: m.RatioIntroMatcher }))) as any;
+const RatioIntroSorter = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/az-arany-fogalma/RatioIntroSorter").then(m => ({ default: m.RatioIntroSorter }))) as any;
 const RatioCreatorQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/az-arany-fogalma/RatioCreatorQuiz").then(m => ({ default: m.RatioCreatorQuiz }))) as any;
+const ProportionalDivisionTheory = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/aranyos-osztas/ProportionalDivisionTheory").then(m => ({ default: m.ProportionalDivisionTheory }))) as any;
+const ProportionalDivisionQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/aranyos-osztas/ProportionalDivisionQuiz").then(m => ({ default: m.ProportionalDivisionQuiz }))) as any;
+const ProportionalDivisionMatcher = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/aranyos-osztas/ProportionalDivisionMatcher").then(m => ({ default: m.ProportionalDivisionMatcher }))) as any;
+const ProportionalDivisionSorter = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/aranyos-osztas/ProportionalDivisionSorter").then(m => ({ default: m.ProportionalDivisionSorter }))) as any;
+const DirectProportionTheory = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/egyenes-aranyossag/DirectProportionTheory").then(m => ({ default: m.DirectProportionTheory }))) as any;
 const DirectProportionQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/egyenes-aranyossag/DirectProportionQuiz").then(m => ({ default: m.DirectProportionQuiz }))) as any;
+const DirectProportionMatcher = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/egyenes-aranyossag/DirectProportionMatcher").then(m => ({ default: m.DirectProportionMatcher }))) as any;
+const DirectProportionSorter = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/egyenes-aranyossag/DirectProportionSorter").then(m => ({ default: m.DirectProportionSorter }))) as any;
+const DirectProportionGraphTheory = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/egyenes-aranyossag-grafikonja/DirectProportionGraphTheory").then(m => ({ default: m.DirectProportionGraphTheory }))) as any;
+const DirectProportionGraphQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/egyenes-aranyossag-grafikonja/DirectProportionGraphQuiz").then(m => ({ default: m.DirectProportionGraphQuiz }))) as any;
+const DirectProportionGraphMatcher = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/egyenes-aranyossag-grafikonja/DirectProportionGraphMatcher").then(m => ({ default: m.DirectProportionGraphMatcher }))) as any;
+const DirectProportionGraphSorter = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/egyenes-aranyossag-grafikonja/DirectProportionGraphSorter").then(m => ({ default: m.DirectProportionGraphSorter }))) as any;
+const RulesAndRelationsTheory = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/szabalyok-megfeleltetesek/RulesAndRelationsTheory").then(m => ({ default: m.RulesAndRelationsTheory }))) as any;
+const RulesAndRelationsQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/szabalyok-megfeleltetesek/RulesAndRelationsQuiz").then(m => ({ default: m.RulesAndRelationsQuiz }))) as any;
+const RulesAndRelationsMatcher = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/szabalyok-megfeleltetesek/RulesAndRelationsMatcher").then(m => ({ default: m.RulesAndRelationsMatcher }))) as any;
+const RulesAndRelationsSorter = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/szabalyok-megfeleltetesek/RulesAndRelationsSorter").then(m => ({ default: m.RulesAndRelationsSorter }))) as any;
+const FractionPartTheory = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/tortresz/FractionPartTheory").then(m => ({ default: m.FractionPartTheory }))) as any;
+const FractionPartQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/tortresz/FractionPartQuiz").then(m => ({ default: m.FractionPartQuiz }))) as any;
+const FractionPartMatcher = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/tortresz/FractionPartMatcher").then(m => ({ default: m.FractionPartMatcher }))) as any;
+const FractionPartSorter = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/tortresz/FractionPartSorter").then(m => ({ default: m.FractionPartSorter }))) as any;
+const PercentageTheory = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/szazalekszamitas/PercentageTheory").then(m => ({ default: m.PercentageTheory }))) as any;
+const PercentageQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/szazalekszamitas/PercentageQuiz").then(m => ({ default: m.PercentageQuiz }))) as any;
+const PercentageMatcher = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/szazalekszamitas/PercentageMatcher").then(m => ({ default: m.PercentageMatcher }))) as any;
+const PercentageSorter = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/szazalekszamitas/PercentageSorter").then(m => ({ default: m.PercentageSorter }))) as any;
+const PercentPracticeTheory = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/a-szazalekszamitas-gyakorlasa/PercentPracticeTheory").then(m => ({ default: m.PercentPracticeTheory }))) as any;
+const PercentPracticeQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/a-szazalekszamitas-gyakorlasa/PercentPracticeQuiz").then(m => ({ default: m.PercentPracticeQuiz }))) as any;
+const PercentPracticeMatcher = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/a-szazalekszamitas-gyakorlasa/PercentPracticeMatcher").then(m => ({ default: m.PercentPracticeMatcher }))) as any;
+const PercentPracticeSorter = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/a-szazalekszamitas-gyakorlasa/PercentPracticeSorter").then(m => ({ default: m.PercentPracticeSorter }))) as any;
+const OpenSentencesTheory = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/nyitott-mondatok/OpenSentencesTheory").then(m => ({ default: m.OpenSentencesTheory }))) as any;
+const OpenSentencesQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/nyitott-mondatok/OpenSentencesQuiz").then(m => ({ default: m.OpenSentencesQuiz }))) as any;
+const OpenSentencesMatcher = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/nyitott-mondatok/OpenSentencesMatcher").then(m => ({ default: m.OpenSentencesMatcher }))) as any;
+const OpenSentencesSorter = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/nyitott-mondatok/OpenSentencesSorter").then(m => ({ default: m.OpenSentencesSorter }))) as any;
+const Grade6WordProblemsTheory = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/szoveges-feladatok/WordProblemsTheory").then(m => ({ default: m.WordProblemsTheory }))) as any;
 const Grade6WordProblemsQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/szoveges-feladatok/WordProblemsQuiz").then(m => ({ default: m.WordProblemsQuiz }))) as any;
+const Grade6WordProblemsMatcher = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/szoveges-feladatok/WordProblemsMatcher").then(m => ({ default: m.WordProblemsMatcher }))) as any;
+const Grade6WordProblemsSorter = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/szoveges-feladatok/WordProblemsSorter").then(m => ({ default: m.WordProblemsSorter }))) as any;
+const MultipleSolutionsTheory = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/tobb-megoldas-is-lehet/MultipleSolutionsTheory").then(m => ({ default: m.MultipleSolutionsTheory }))) as any;
+const MultipleSolutionsQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/tobb-megoldas-is-lehet/MultipleSolutionsQuiz").then(m => ({ default: m.MultipleSolutionsQuiz }))) as any;
+const MultipleSolutionsMatcher = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/tobb-megoldas-is-lehet/MultipleSolutionsMatcher").then(m => ({ default: m.MultipleSolutionsMatcher }))) as any;
+const MultipleSolutionsSorter = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/tobb-megoldas-is-lehet/MultipleSolutionsSorter").then(m => ({ default: m.MultipleSolutionsSorter }))) as any;
+const RatioSummaryTheory = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/osszefoglalas/RatioSummaryTheory").then(m => ({ default: m.RatioSummaryTheory }))) as any;
+const RatioSummaryQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/osszefoglalas/RatioSummaryQuiz").then(m => ({ default: m.RatioSummaryQuiz }))) as any;
+const RatioSummaryMatcher = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/osszefoglalas/RatioSummaryMatcher").then(m => ({ default: m.RatioSummaryMatcher }))) as any;
+const RatioSummarySorter = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/osszefoglalas/RatioSummarySorter").then(m => ({ default: m.RatioSummarySorter }))) as any;
 const Grade6WordProblemsModule = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/szoveges-feladatok/WordProblemsModule").then(m => ({ default: m.WordProblemsModule }))) as any;
 const MatrixSortingGame = lazy(() => import("@/components/math/grade-1/grouping/MatrixSortingGame").then(m => ({ default: m.MatrixSortingGame }))) as any;
 const MemoryGameComponent = lazy(() => import("@/components/math/games/memory/MemoryGame")) as any;
@@ -890,6 +935,18 @@ type ActivityType =
   | 'venn-reading-objects' | 'venn-reading-numbers' | 'axial-symmetry' | 'symmetry-error' | 'symmetry-construction' | 'axial-symmetry-quiz' | 'axial-symmetry-presentation'
   | 'percent-value-word-problems' | 'percent-rate-word-problems' | 'percent-base-word-problems' | 'student-feedback' | 'word-search' | 'memory-game' | 'equation-balance-quiz'
   | 'ratio-intro' | 'ratio-creator' | 'g7-word-problems' | 'direct-proportion-quiz' | 'matrix-sorting-game'
+  | 'g6-ratio-intro-theory' | 'g6-ratio-intro-quiz' | 'g6-ratio-intro-matcher' | 'g6-ratio-intro-sorter'
+  | 'g6-ratio-division-theory' | 'g6-ratio-division-quiz' | 'g6-ratio-division-matcher' | 'g6-ratio-division-sorter'
+  | 'g6-direct-prop-theory' | 'g6-direct-prop-quiz' | 'g6-direct-prop-matcher' | 'g6-direct-prop-sorter'
+  | 'g6-direct-prop-graph-theory' | 'g6-direct-prop-graph-quiz' | 'g6-direct-prop-graph-matcher' | 'g6-direct-prop-graph-sorter'
+  | 'g6-rules-relations-theory' | 'g6-rules-relations-quiz' | 'g6-rules-relations-matcher' | 'g6-rules-relations-sorter'
+  | 'g6-fraction-part-theory' | 'g6-fraction-part-quiz' | 'g6-fraction-part-matcher' | 'g6-fraction-part-sorter'
+  | 'g6-percentage-theory' | 'g6-percentage-quiz' | 'g6-percentage-matcher' | 'g6-percentage-sorter'
+  | 'g6-percent-practice-theory' | 'g6-percent-practice-quiz' | 'g6-percent-practice-matcher' | 'g6-percent-practice-sorter'
+  | 'g6-open-sentences-theory' | 'g6-open-sentences-quiz' | 'g6-open-sentences-matcher' | 'g6-open-sentences-sorter'
+  | 'g6-word-problems-theory' | 'g6-word-problems-quiz' | 'g6-word-problems-matcher' | 'g6-word-problems-sorter' | 'g6-word-problems-module'
+  | 'g6-multiple-solutions-theory' | 'g6-multiple-solutions-quiz' | 'g6-multiple-solutions-matcher' | 'g6-multiple-solutions-sorter'
+  | 'g6-ratio-summary-theory' | 'g6-ratio-summary-quiz' | 'g6-ratio-summary-matcher' | 'g6-ratio-summary-sorter'
   | 'toto-maker' | 'chess-game' | 'torpedo-game' | 'matching-creator' | 'unit-converter' | 'capacity-converter' | 'analog-clock'
   | 'g8-algebra' | 'g8-equation-balance'
   | 'g8-logic' | 'g8-set-basics' | 'g8-set-operations' | 'g8-rational-set' | 'g8-rational-operations' | 'g8-powers' | 'g8-sqrt-concept' | 'g8-square-roots' | 'g8-algebra-intro' | 'g8-factoring' | 'g8-polynomial-mult' | 'g8-chapter1-summary'
@@ -9343,16 +9400,396 @@ export default function MathPage() {
                    <EquationBalanceQuiz onBack={handleBack} />
                 )}
 
-                {activityType === 'ratio-intro' && (
-                   <RatioIntroQuiz onBack={handleBack} />
+                {activityType === 'g6-ratio-intro-theory' && (
+                   <RatioIntroTheory
+                     onBack={handleBack}
+                     onStartQuiz={() => handleActivitySelect('g6-ratio-intro-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {(activityType === 'g6-ratio-intro-quiz' || activityType === 'ratio-intro') && (
+                   <RatioIntroQuiz
+                     onBack={handleBack}
+                     onSwitchToTheory={() => handleActivitySelect('g6-ratio-intro-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onOpenMatcher={() => handleActivitySelect('g6-ratio-intro-matcher', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onOpenSorter={() => handleActivitySelect('g6-ratio-intro-sorter', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-ratio-intro-matcher' && (
+                   <RatioIntroMatcher
+                     onBack={() => handleActivitySelect('g6-ratio-intro-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-ratio-intro-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-ratio-intro-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-ratio-intro-sorter' && (
+                   <RatioIntroSorter
+                     onBack={() => handleActivitySelect('g6-ratio-intro-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-ratio-intro-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-ratio-intro-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-ratio-division-theory' && (
+                   <ProportionalDivisionTheory
+                     onBack={handleBack}
+                     onStartQuiz={() => handleActivitySelect('g6-ratio-division-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-ratio-division-quiz' && (
+                   <ProportionalDivisionQuiz
+                     onBack={handleBack}
+                     onSwitchToTheory={() => handleActivitySelect('g6-ratio-division-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onOpenMatcher={() => handleActivitySelect('g6-ratio-division-matcher', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onOpenSorter={() => handleActivitySelect('g6-ratio-division-sorter', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-ratio-division-matcher' && (
+                   <ProportionalDivisionMatcher
+                     onBack={() => handleActivitySelect('g6-ratio-division-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-ratio-division-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-ratio-division-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-ratio-division-sorter' && (
+                   <ProportionalDivisionSorter
+                     onBack={() => handleActivitySelect('g6-ratio-division-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-ratio-division-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-ratio-division-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
                 )}
 
                 {activityType === 'ratio-creator' && (
                    <RatioCreatorQuiz onBack={handleBack} />
                 )}
 
-                {activityType === 'direct-proportion-quiz' && (
-                   <DirectProportionQuiz onBack={handleBack} />
+                {activityType === 'g6-direct-prop-theory' && (
+                   <DirectProportionTheory
+                     onBack={handleBack}
+                     onStartQuiz={() => handleActivitySelect('g6-direct-prop-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {(activityType === 'g6-direct-prop-quiz' || activityType === 'direct-proportion-quiz') && (
+                   <DirectProportionQuiz
+                     onBack={handleBack}
+                     onSwitchToTheory={() => handleActivitySelect('g6-direct-prop-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onOpenMatcher={() => handleActivitySelect('g6-direct-prop-matcher', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onOpenSorter={() => handleActivitySelect('g6-direct-prop-sorter', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-direct-prop-matcher' && (
+                   <DirectProportionMatcher
+                     onBack={() => handleActivitySelect('g6-direct-prop-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-direct-prop-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-direct-prop-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-direct-prop-sorter' && (
+                   <DirectProportionSorter
+                     onBack={() => handleActivitySelect('g6-direct-prop-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-direct-prop-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-direct-prop-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-direct-prop-graph-theory' && (
+                   <DirectProportionGraphTheory
+                     onBack={handleBack}
+                     onStartQuiz={() => handleActivitySelect('g6-direct-prop-graph-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-direct-prop-graph-quiz' && (
+                   <DirectProportionGraphQuiz
+                     onBack={handleBack}
+                     onSwitchToTheory={() => handleActivitySelect('g6-direct-prop-graph-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onOpenMatcher={() => handleActivitySelect('g6-direct-prop-graph-matcher', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onOpenSorter={() => handleActivitySelect('g6-direct-prop-graph-sorter', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-direct-prop-graph-matcher' && (
+                   <DirectProportionGraphMatcher
+                     onBack={() => handleActivitySelect('g6-direct-prop-graph-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-direct-prop-graph-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-direct-prop-graph-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-direct-prop-graph-sorter' && (
+                   <DirectProportionGraphSorter
+                     onBack={() => handleActivitySelect('g6-direct-prop-graph-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-direct-prop-graph-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-direct-prop-graph-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-rules-relations-theory' && (
+                   <RulesAndRelationsTheory
+                     onBack={handleBack}
+                     onStartQuiz={() => handleActivitySelect('g6-rules-relations-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-rules-relations-quiz' && (
+                   <RulesAndRelationsQuiz
+                     onBack={handleBack}
+                     onSwitchToTheory={() => handleActivitySelect('g6-rules-relations-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onOpenMatcher={() => handleActivitySelect('g6-rules-relations-matcher', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onOpenSorter={() => handleActivitySelect('g6-rules-relations-sorter', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-rules-relations-matcher' && (
+                   <RulesAndRelationsMatcher
+                     onBack={() => handleActivitySelect('g6-rules-relations-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-rules-relations-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-rules-relations-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-rules-relations-sorter' && (
+                   <RulesAndRelationsSorter
+                     onBack={() => handleActivitySelect('g6-rules-relations-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-rules-relations-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-rules-relations-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-fraction-part-theory' && (
+                   <FractionPartTheory
+                     onBack={handleBack}
+                     onStartQuiz={() => handleActivitySelect('g6-fraction-part-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-fraction-part-quiz' && (
+                   <FractionPartQuiz
+                     onBack={handleBack}
+                     onSwitchToTheory={() => handleActivitySelect('g6-fraction-part-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onOpenMatcher={() => handleActivitySelect('g6-fraction-part-matcher', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onOpenSorter={() => handleActivitySelect('g6-fraction-part-sorter', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-fraction-part-matcher' && (
+                   <FractionPartMatcher
+                     onBack={() => handleActivitySelect('g6-fraction-part-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-fraction-part-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-fraction-part-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-fraction-part-sorter' && (
+                   <FractionPartSorter
+                     onBack={() => handleActivitySelect('g6-fraction-part-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-fraction-part-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-fraction-part-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-percentage-theory' && (
+                   <PercentageTheory
+                     onBack={handleBack}
+                     onStartQuiz={() => handleActivitySelect('g6-percentage-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-percentage-quiz' && (
+                   <PercentageQuiz
+                     onBack={handleBack}
+                     onSwitchToTheory={() => handleActivitySelect('g6-percentage-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onOpenMatcher={() => handleActivitySelect('g6-percentage-matcher', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onOpenSorter={() => handleActivitySelect('g6-percentage-sorter', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-percentage-matcher' && (
+                   <PercentageMatcher
+                     onBack={() => handleActivitySelect('g6-percentage-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-percentage-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-percentage-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-percentage-sorter' && (
+                   <PercentageSorter
+                     onBack={() => handleActivitySelect('g6-percentage-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-percentage-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-percentage-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-percent-practice-theory' && (
+                   <PercentPracticeTheory
+                     onBack={handleBack}
+                     onStartQuiz={() => handleActivitySelect('g6-percent-practice-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-percent-practice-quiz' && (
+                   <PercentPracticeQuiz
+                     onBack={handleBack}
+                     onSwitchToTheory={() => handleActivitySelect('g6-percent-practice-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onOpenMatcher={() => handleActivitySelect('g6-percent-practice-matcher', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onOpenSorter={() => handleActivitySelect('g6-percent-practice-sorter', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-percent-practice-matcher' && (
+                   <PercentPracticeMatcher
+                     onBack={() => handleActivitySelect('g6-percent-practice-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-percent-practice-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-percent-practice-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-percent-practice-sorter' && (
+                   <PercentPracticeSorter
+                     onBack={() => handleActivitySelect('g6-percent-practice-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-percent-practice-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-percent-practice-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-open-sentences-theory' && (
+                   <OpenSentencesTheory
+                     onBack={handleBack}
+                     onStartQuiz={() => handleActivitySelect('g6-open-sentences-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-open-sentences-quiz' && (
+                   <OpenSentencesQuiz
+                     onBack={handleBack}
+                     onSwitchToTheory={() => handleActivitySelect('g6-open-sentences-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onOpenMatcher={() => handleActivitySelect('g6-open-sentences-matcher', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onOpenSorter={() => handleActivitySelect('g6-open-sentences-sorter', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-open-sentences-matcher' && (
+                   <OpenSentencesMatcher
+                     onBack={() => handleActivitySelect('g6-open-sentences-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-open-sentences-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-open-sentences-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-open-sentences-sorter' && (
+                   <OpenSentencesSorter
+                     onBack={() => handleActivitySelect('g6-open-sentences-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-open-sentences-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-open-sentences-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-word-problems-theory' && (
+                   <Grade6WordProblemsTheory
+                     onBack={handleBack}
+                     onStartQuiz={() => handleActivitySelect('g6-word-problems-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-word-problems-quiz' && (
+                   <Grade6WordProblemsQuiz
+                     onBack={handleBack}
+                     onSwitchToTheory={() => handleActivitySelect('g6-word-problems-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onOpenMatcher={() => handleActivitySelect('g6-word-problems-matcher', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onOpenSorter={() => handleActivitySelect('g6-word-problems-sorter', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-word-problems-matcher' && (
+                   <Grade6WordProblemsMatcher
+                     onBack={() => handleActivitySelect('g6-word-problems-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-word-problems-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-word-problems-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-word-problems-sorter' && (
+                   <Grade6WordProblemsSorter
+                     onBack={() => handleActivitySelect('g6-word-problems-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-word-problems-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-word-problems-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-word-problems-module' && (
+                   <Grade6WordProblemsModule onBack={handleBack} />
+                )}
+
+                {activityType === 'g6-multiple-solutions-theory' && (
+                   <MultipleSolutionsTheory
+                     onBack={handleBack}
+                     onStartQuiz={() => handleActivitySelect('g6-multiple-solutions-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-multiple-solutions-quiz' && (
+                   <MultipleSolutionsQuiz
+                     onBack={handleBack}
+                     onSwitchToTheory={() => handleActivitySelect('g6-multiple-solutions-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onOpenMatcher={() => handleActivitySelect('g6-multiple-solutions-matcher', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onOpenSorter={() => handleActivitySelect('g6-multiple-solutions-sorter', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-multiple-solutions-matcher' && (
+                   <MultipleSolutionsMatcher
+                     onBack={() => handleActivitySelect('g6-multiple-solutions-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-multiple-solutions-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-multiple-solutions-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-multiple-solutions-sorter' && (
+                   <MultipleSolutionsSorter
+                     onBack={() => handleActivitySelect('g6-multiple-solutions-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-multiple-solutions-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-multiple-solutions-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-ratio-summary-theory' && (
+                   <RatioSummaryTheory
+                     onBack={handleBack}
+                     onStartQuiz={() => handleActivitySelect('g6-ratio-summary-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-ratio-summary-quiz' && (
+                   <RatioSummaryQuiz
+                     onBack={handleBack}
+                     onSwitchToTheory={() => handleActivitySelect('g6-ratio-summary-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onOpenMatcher={() => handleActivitySelect('g6-ratio-summary-matcher', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onOpenSorter={() => handleActivitySelect('g6-ratio-summary-sorter', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-ratio-summary-matcher' && (
+                   <RatioSummaryMatcher
+                     onBack={() => handleActivitySelect('g6-ratio-summary-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-ratio-summary-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-ratio-summary-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-ratio-summary-sorter' && (
+                   <RatioSummarySorter
+                     onBack={() => handleActivitySelect('g6-ratio-summary-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-ratio-summary-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-ratio-summary-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
                 )}
 
                 {activityType === 'matrix-sorting-game' && (

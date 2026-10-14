@@ -1113,22 +1113,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-ratio-sec-1" number={1} title="Az arány fogalma" color="orange" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Arány felismerés"
-                  subtitle="Zászlók, poharak, kísérletek"
-                  type="Teszt"
-                  emoji="🚩"
-                  onClick={() => onActivitySelect('ratio-intro', topicId)}
-                  icon={<Flag className="w-6 h-6" />}
+                  title="Az arány fogalma tananyag"
+                  subtitle="Két mennyiség hányadosa, egyszerűsítés, bővítés és gyakorlat"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-ratio-intro-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="orange"
                 />
                 <ActivityPlaceholder
-                  title="Arány alkotó"
-                  subtitle="Színezés, keverés, elosztás"
-                  type="Interaktív"
-                  emoji="🎨"
-                  onClick={() => onActivitySelect('ratio-creator', topicId)}
-                  icon={<Sparkles className="w-6 h-6" />}
-                  color="amber"
+                  title="Az arány fogalma kvíz"
+                  subtitle="Arányok felírása, egyszerűsítése, aránypárok 3 szinten"
+                  type="Kvíz"
+                  emoji="⚖️"
+                  onClick={() => onActivitySelect('g6-ratio-intro-quiz', topicId)}
+                  icon={<Scale className="w-6 h-6" />}
+                  color="orange"
+                  {...getTopicProgress('g6-ratio-intro')}
                 />
               </div>
             </section>
@@ -1140,13 +1141,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-ratio-sec-2" number={2} title="Arányos osztás" color="amber" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Arányos osztás"
-                  subtitle="Mennyiségek szétosztása adott arányban"
-                  type="Hamarosan"
+                  title="Arányos osztás tananyag"
+                  subtitle="Mennyiségek szétosztása lépésről lépésre, interaktív szimulációval"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-ratio-division-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="amber"
+                />
+                <ActivityPlaceholder
+                  title="Arányos osztás kvíz"
+                  subtitle="Felosztási feladatok, szögek, keverékek és különbségek 3 szinten"
+                  type="Kvíz"
                   emoji="➗"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g6-ratio-division-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="amber"
+                  {...getTopicProgress('g6-ratio-division')}
                 />
               </div>
             </section>
@@ -1158,13 +1169,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-ratio-sec-3" number={3} title="Egyenes arányosság" color="yellow" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
+                  title="Egyenes arányosság tananyag"
+                  subtitle="Összetartozó mennyiségek, állandó hányados és következtetés 1 egységre"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-direct-prop-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="yellow"
+                />
+                <ActivityPlaceholder
                   title="Egyenes arányosság kvíz"
-                  subtitle="Összetartozó mennyiségek és állandó hányados"
-                  type="Teszt"
+                  subtitle="Összetartozó mennyiségek, egységár, következtetés és mindennapi feladatok 3 szinten"
+                  type="Kvíz"
                   emoji="⚖️"
-                  onClick={() => onActivitySelect('direct-proportion-quiz', topicId)}
+                  onClick={() => onActivitySelect('g6-direct-prop-quiz', topicId)}
                   icon={<Scale className="w-6 h-6" />}
                   color="yellow"
+                  {...getTopicProgress('g6-direct-prop')}
                 />
               </div>
             </section>
@@ -1176,13 +1197,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-ratio-sec-4" number={4} title="Egyenes arányosság grafikonja" color="lime" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Arányosság grafikonja"
-                  subtitle="Origón átmenő egyenes és pontsor ábrázolása"
-                  type="Hamarosan"
+                  title="Egyenes arányosság grafikonja tananyag"
+                  subtitle="Koordináta-rendszer, origóból induló egyenes, diszkrét pontsor és leolvasás"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-direct-prop-graph-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="lime"
+                />
+                <ActivityPlaceholder
+                  title="Egyenes arányosság grafikonja kvíz"
+                  subtitle="Értékpárok leolvasása, pontok illeszkedése, meredekség és szöveges diagramok 3 szinten"
+                  type="Kvíz"
                   emoji="📈"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g6-direct-prop-graph-quiz', topicId)}
                   icon={<LineChart className="w-6 h-6" />}
                   color="lime"
+                  {...getTopicProgress('g6-direct-prop-graph')}
                 />
               </div>
             </section>
@@ -1194,13 +1225,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-ratio-sec-5" number={5} title="Szabályok, megfeleltetések" color="emerald" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Szabályjáték"
-                  subtitle="Hozzárendelések és táblázatok kitöltése"
-                  type="Hamarosan"
+                  title="Szabályok, megfeleltetések tananyag"
+                  subtitle="Hozzárendelési szabályok, értéktáblázatok, szabálykeresés és visszafelé számolás"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-rules-relations-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="emerald"
+                />
+                <ActivityPlaceholder
+                  title="Szabályok, megfeleltetések kvíz"
+                  subtitle="Szabályok felismerése, értéktáblázatok kitöltése és nyitott mondatok 3 szinten"
+                  type="Kvíz"
                   emoji="🔄"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g6-rules-relations-quiz', topicId)}
                   icon={<Repeat className="w-6 h-6" />}
                   color="emerald"
+                  {...getTopicProgress('g6-rules-relations')}
                 />
               </div>
             </section>
@@ -1212,13 +1253,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-ratio-sec-6" number={6} title="Törtrész" color="teal" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Törtrész és egész"
-                  subtitle="Törtrész kiszámítása és visszaszámolás"
-                  type="Hamarosan"
+                  title="Törtrész és egész tananyag"
+                  subtitle="Törtrész kiszámítása, visszaszámolás az egészre és hányadrész meghatározása"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-fraction-part-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="teal"
+                />
+                <ActivityPlaceholder
+                  title="Törtrész és egész kvíz"
+                  subtitle="Törtrész keresése, visszaszámolás az egészre és mindennapi szöveges feladatok 3 szinten"
+                  type="Kvíz"
                   emoji="🍕"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g6-fraction-part-quiz', topicId)}
                   icon={<Percent className="w-6 h-6" />}
                   color="teal"
+                  {...getTopicProgress('g6-fraction-part')}
                 />
               </div>
             </section>
@@ -1230,40 +1281,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-ratio-sec-7" number={7} title="Százalékszámítás" color="rose" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Százalékérték"
-                  subtitle="Százalékérték kiszámítása"
-                  type="Teszt"
-                  emoji="💯"
-                  onClick={() => {
-                    setPercentMode?.('calculate-value');
-                    onActivitySelect('percentages', topicId);
-                  }}
-                  icon={<Percent className="w-6 h-6" />}
+                  title="Százalékszámítás tananyag"
+                  subtitle="A százalék fogalma, a százalékérték, százalékalap és százalékláb kiszámítása"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-percentage-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="rose"
                 />
                 <ActivityPlaceholder
-                  title="Százalékláb"
-                  subtitle="Arány megadása %-ban"
-                  type="Teszt"
-                  emoji="📊"
-                  onClick={() => {
-                    setPercentMode?.('calculate-rate');
-                    onActivitySelect('percentages', topicId);
-                  }}
+                  title="Százalékszámítás kvíz"
+                  subtitle="Százalékérték, százalékalap visszaszámolása és százalékláb feladványok 3 szinten"
+                  type="Kvíz"
+                  emoji="💯"
+                  onClick={() => onActivitySelect('g6-percentage-quiz', topicId)}
                   icon={<Percent className="w-6 h-6" />}
-                  color="emerald"
-                />
-                <ActivityPlaceholder
-                  title="Százalékalap"
-                  subtitle="Visszaszámolás a 100%-ra"
-                  type="Teszt"
-                  emoji="🎯"
-                  onClick={() => {
-                    setPercentMode?.('calculate-base');
-                    onActivitySelect('percentages', topicId);
-                  }}
-                  icon={<Percent className="w-6 h-6" />}
-                  color="blue"
+                  color="rose"
+                  {...getTopicProgress('g6-percentage')}
                 />
               </div>
             </section>
@@ -1275,13 +1309,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-ratio-sec-8" number={8} title="A százalékszámítás gyakorlása" color="pink" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Százalékos szöveges feladatok"
-                  subtitle="Árleszállítás, drágulás és kedvezmények"
-                  type="Gyakorlás"
+                  title="Százalékszámítás a gyakorlatban tananyag"
+                  subtitle="Árleszállítás, drágulás, kedvezmények és keverékek a való életben"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-percent-practice-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="pink"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorlati százalékszámítás kvíz"
+                  subtitle="Akciók, drágulás, egymást követő változások és szöveges feladatok 3 szinten"
+                  type="Kvíz"
                   emoji="🏷️"
-                  onClick={() => onActivitySelect('percent-value-word-problems', topicId)}
+                  onClick={() => onActivitySelect('g6-percent-practice-quiz', topicId)}
                   icon={<Percent className="w-6 h-6" />}
                   color="pink"
+                  {...getTopicProgress('g6-percent-practice')}
                 />
               </div>
             </section>
@@ -1293,13 +1337,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-ratio-sec-9" number={9} title="Nyitott mondatok" color="violet" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Egyenletmegoldó"
-                  subtitle="Vizuális mérlegmodell és lebontogatás"
-                  type="Eszköz"
+                  title="Nyitott mondatok és egyenletek tananyag"
+                  subtitle="A mérlegelv, ismeretlen fogalma és lebontogatás lépésről lépésre"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-open-sentences-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="violet"
+                />
+                <ActivityPlaceholder
+                  title="Nyitott mondatok és egyenletek kvíz"
+                  subtitle="Mérlegelv, egyenletmegoldás és szöveges átírások 3 szinten"
+                  type="Kvíz"
                   emoji="⚖️"
-                  onClick={() => onActivitySelect('equation-solver', topicId)}
+                  onClick={() => onActivitySelect('g6-open-sentences-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="violet"
+                  {...getTopicProgress('g6-open-sentences')}
                 />
               </div>
             </section>
@@ -1311,22 +1365,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-ratio-sec-10" number={10} title="Szöveges feladatok" color="teal" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Szöveges feladatok kvíz"
-                  subtitle="Gondolkodtató és gyakorlati szöveges feladatok"
-                  type="Teszt"
-                  emoji="📝"
-                  onClick={() => onActivitySelect('g6-word-problems-quiz', topicId)}
+                  title="Szöveges feladatok tananyag"
+                  subtitle="Az 5 aranyszabály, modellalkotás és szöveges ellenőrzés lépésről lépésre"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-word-problems-theory', topicId)}
                   icon={<BookOpen className="w-6 h-6" />}
                   color="teal"
                 />
                 <ActivityPlaceholder
-                  title="Feladatsorok"
-                  subtitle="Szöveges feladatgyűjtemény lépésről lépésre"
-                  type="Gyakorlás"
-                  emoji="📚"
-                  onClick={() => onActivitySelect('g6-word-problems-module', topicId)}
-                  icon={<Target className="w-6 h-6" />}
-                  color="indigo"
+                  title="Szöveges feladatok kvíz"
+                  subtitle="Számkeresős, életkoros, geometriai és törtrészes feladatok 3 szinten"
+                  type="Kvíz"
+                  emoji="📝"
+                  onClick={() => onActivitySelect('g6-word-problems-quiz', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="teal"
+                  {...getTopicProgress('g6-word-problems')}
                 />
               </div>
             </section>
@@ -1338,13 +1393,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-ratio-sec-11" number={11} title="Több megoldás is lehet" color="amber" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Esetvizsgálat"
-                  subtitle="Feladatok több lehetséges megoldással"
-                  type="Hamarosan"
-                  emoji="🧩"
-                  disabled={true}
-                  icon={<Brain className="w-6 h-6" />}
+                  title="Több megoldás is lehet tananyag"
+                  subtitle="Módszeres esetvizsgálat, táblázatkészítés és megoldások száma"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-multiple-solutions-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="amber"
+                />
+                <ActivityPlaceholder
+                  title="Több megoldás is lehet kvíz"
+                  subtitle="Megoldások száma, alaphalmaz és szisztematikus keresés 3 szinten"
+                  type="Kvíz"
+                  emoji="🏆"
+                  onClick={() => onActivitySelect('g6-multiple-solutions-quiz', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="amber"
+                  {...getTopicProgress('g6-multiple-solutions')}
                 />
               </div>
             </section>
@@ -1356,13 +1421,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-ratio-sec-12" number={12} title="Összefoglalás" color="slate" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Összefoglaló felkészítő"
-                  subtitle="IV. Arány, százalék, szöveges feladatok átfogó ismétlés"
-                  type="Hamarosan"
+                  title="Témaköri összefoglaló tananyag"
+                  subtitle="Arány, százalék, egyenes arányosság és egyenletek áttekintése"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-ratio-summary-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="slate"
+                />
+                <ActivityPlaceholder
+                  title="Témazáró összefoglaló kvíz"
+                  subtitle="Átfogó felkészülés a IV. fejezet témazárójára 3 szinten"
+                  type="Kvíz"
                   emoji="🏆"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g6-ratio-summary-quiz', topicId)}
                   icon={<Trophy className="w-6 h-6" />}
                   color="slate"
+                  {...getTopicProgress('g6-ratio-summary')}
                 />
               </div>
             </section>

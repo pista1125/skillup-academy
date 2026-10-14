@@ -1,332 +1,414 @@
-import { useState, useCallback } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { ProgressBar } from '@/components/ProgressBar';
-import { XPBadge } from '@/components/XPBadge';
-import {
-    CheckCircle2,
-    XCircle,
-    ArrowLeft,
-    Trophy,
-    ChevronRight,
-    Star,
-    Medal,
-    Crown,
-    Scale,
-    Activity,
-    AlertTriangle
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
-import confetti from 'canvas-confetti';
+import React from 'react';
+import { QuizTemplate, Question, CheatSheetContent } from '../QuizTemplate';
+import { DirectProportionMatcher } from './DirectProportionMatcher';
+import { DirectProportionSorter } from './DirectProportionSorter';
 
-type Difficulty = 'easy' | 'medium' | 'hard';
-
-interface ProportionTask {
-    id: string;
-    q1: string;
-    q2: string;
-    isDirectlyProportional: boolean;
-    explanation: string;
+interface DirectProportionQuizProps {
+  onBack: () => void;
+  onOpenMatcher?: () => void;
+  onOpenSorter?: () => void;
+  onSwitchToTheory?: () => void;
 }
 
-const TASKS: Record<Difficulty, ProportionTask[]> = {
-    easy: [
-        { id: 'e1', q1: 'A vásárolt azonos kiflik száma', q2: 'A fizetendő összeg', isDirectlyProportional: true, explanation: 'Kétszer annyi kifli kétszer annyiba kerül.' },
-        { id: 'e2', q1: 'Egy gyerek életkora', q2: 'A cipőmérete', isDirectlyProportional: false, explanation: 'Ahogy nő a gyerek, nő a cipőmérete, de nem egyenletesen: egy 10 éves gyerek lába nem 5-ször akkora, mint egy 2 évesé.' },
-        { id: 'e3', q1: 'A megtett út hossza', q2: 'A séta ideje (állandó sebesség mellett)', isDirectlyProportional: true, explanation: 'Ha kétszer addig sétálsz ugyanolyan gyorsan, kétszer akkora utat teszel meg.' },
-        { id: 'e4', q1: 'A négyzet oldalának hossza', q2: 'A nényzet kerülete', isDirectlyProportional: true, explanation: 'A kerület K=4·a. Ha az oldalt duplázod, a kerület is duplázódik.' },
-        { id: 'e5', q1: 'Egy ember hajszálainak száma', q2: 'Az intelligenciája', isDirectlyProportional: false, explanation: 'Nincs matematikai (vagy logikai) összefüggés a kettő között.' },
-        { id: 'e6', q1: 'A vásárolt azonos tábla csokik száma', q2: 'A csokik összes kalóriatartalma', isDirectlyProportional: true, explanation: 'Minden tábla csokiban ugyanannyi kalória van, így a kalóriák összege egyenesen arányos a számmal.' },
-        { id: 'e7', q1: 'A nyári meleg fokozata', q2: 'A fagyizók száma naponta', isDirectlyProportional: false, explanation: 'Bár nő a számuk melegben, az összefüggés nem szigorúan egyenesen arányos.' },
-        { id: 'e8', q1: 'A téglalap egyik oldalának hossza', q2: 'A területe (ha a másik oldal változatlan)', isDirectlyProportional: true, explanation: 'T = a·b. Ha a "b" állandó, és az "a"-t duplázod, a terület is duplázódik.' },
-        { id: 'e9', q1: 'Egy ember magassága', q2: 'A testtömege', isDirectlyProportional: false, explanation: 'Nem igaz, hogy aki kétszer olyan magas, az pontosan kétszer olyan nehéz.' },
-        { id: 'e10', q1: 'A kifestett falfelület', q2: 'A felhasznált festék mennyisége', isDirectlyProportional: true, explanation: 'Kétszer akkora falhoz kétszer annyi festék kell (ha ugyanolyan vastagon kenjük).' }
-    ],
-    medium: [
-        { id: 'm1', q1: 'Egy csapból egyenletesen folyó víz mennyisége', q2: 'A nyitva tartás ideje', isDirectlyProportional: true, explanation: 'Ha percenként ugyanannyi víz folyik ki, akkor az idővel egyenesen arányos az összes víz.' },
-        { id: 'm2', q1: 'Az egyforma tempóban dolgozó munkások száma', q2: 'A munka elvégzéséhez szükséges idő', isDirectlyProportional: false, explanation: 'Ez fordított arányosság: többen ugyanazt a munkát rövidebb idő alatt végzik el.' },
-        { id: 'm3', q1: 'Egy rugó megnyúlása', q2: 'A rugóra akasztott súly nagysága', isDirectlyProportional: true, explanation: 'A fizika szerint (Hooke-törvény) a megnyúlás egyenesen arányos a húzóerővel.' },
-        { id: 'm4', q1: 'A jármű kerekének átmérője', q2: 'A kerék fordulatszáma ugyanazon az úton', isDirectlyProportional: false, explanation: 'Ez fordított arányosság: nagyobb kerék kevesebbet fordul ugyanakkora úton.' },
-        { id: 'm5', q1: 'A térképen mért távolság', q2: 'A valóságos út hossza a terepen', isDirectlyProportional: true, explanation: 'A méretarány pontosan ezt az egyenes arányosságot fejezi ki.' },
-        { id: 'm6', q1: 'Peti életkora', q2: 'A húga életkora', isDirectlyProportional: false, explanation: 'Peti életkora (x) és a húgáé (x-k) közötti különbség állandó, de a hányadosuk az idő múlásával változik.' },
-        { id: 'm7', q1: 'Kocka élhossza', q2: 'A kocka térfogata', isDirectlyProportional: false, explanation: 'Ha a kocka élét kétszeresére növeljük, a térfogata nyolcszorosára (2^3) nő, tehát köbösen arányos.' },
-        { id: 'm8', q1: 'Kapcsolódó fogaskerekek fogszáma', q2: 'A fogaskerekek fordulatszáma', isDirectlyProportional: false, explanation: 'Minél több foga van egy keréknek (minél nagyobb), annál kevesebbet fordul. Ez fordított arányosság.' },
-        { id: 'm9', q1: 'Egy recepthez használt liszt', q2: 'A megsütött sütemények száma', isDirectlyProportional: true, explanation: 'Kétszer annyi sütihez az összes hozzávalóból (így lisztből is) kétszer annyi kell.' },
-        { id: 'm10', q1: 'A kör sugara', q2: 'A kör kerülete', isDirectlyProportional: true, explanation: 'Kerület = 2·r·π. Mivel a 2π állandó, a sugár növelésével a kerület vele egyenes arányban nő.' }
-    ],
-    hard: [
-        { id: 'h1', q1: 'A kör sugara', q2: 'A kör területe', isDirectlyProportional: false, explanation: 'Terület = r²·π. A terület a sugár négyzetével arányos, nem a sugárral!' },
-        { id: 'h2', q1: 'Egy autó sebessége', q2: 'A jármű fékútja (ugyanazon az úton)', isDirectlyProportional: false, explanation: 'A fékút hossza a sebesség négyzetével arányos. (Kétszeres sebesség -> négyszeres fékút).' },
-        { id: 'h3', q1: 'Pénzbetét után járó kamat', q2: 'A lekötési idő (sima, nem kamatos kamat esetén)', isDirectlyProportional: true, explanation: 'Minden hónapban ugyanannyi fix kamat adódik hozzá, tehát arányosan nő.' },
-        { id: 'h4', q1: 'A négyzet oldala', q2: 'A négyzet átlója', isDirectlyProportional: true, explanation: 'Az átló = a·√2. Mivel a √2 egy állandó szorzó, így egyenesen arányosak.' },
-        { id: 'h5', q1: 'Egy könyvből elolvasott oldalak száma', q2: 'A hátralévő oldalak száma', isDirectlyProportional: false, explanation: 'Összegük állandó (a könyv oldalszáma), egyik nő, másik csökken, de nem osztási az összefüggésük.' },
-        { id: 'h6', q1: 'Egy adott falazáshoz szükséges téglák hossza', q2: 'A sorban elférő téglák száma', isDirectlyProportional: false, explanation: 'Fordított arányosság: minél hosszabb a tégla, annál kevesebb fér el ugyanazon a falszakaszon.' },
-        { id: 'h7', q1: 'Feszültség (U)', q2: 'Áramerősség (I) egy állandó ellenállású vezetőn', isDirectlyProportional: true, explanation: 'Ohm törvénye (U=R·I) alapján az R állandó lévén egyenes az arányosság.' },
-        { id: 'h8', q1: 'Egy egészséges szív dobbanásainak száma (nyugalomban)', q2: 'Az eltelt idő', isDirectlyProportional: true, explanation: 'Percenként állandó számút dobban (pl. 70-et), így az idővel egyenesen arányos az összdobbanás.' },
-        { id: 'h9', q1: 'A letöltött internetes fájl mérete', q2: 'A letöltési idő (állandó sávszélesség esetén)', isDirectlyProportional: true, explanation: 'Ha a sebesség egyenletes, kétszer akkora fájl letöltése kétszer annyi időbe telik.' },
-        { id: 'h10', q1: 'A szabályos sokszög oldalainak száma', q2: 'A sokszög egy belső szöge', isDirectlyProportional: false, explanation: 'A belső szög sosem lehet 180 foknál nagyobb, de az oldalszám bármeddig nőhet. A képletük (n-2)*180/n, nem egyenes arányosság.' }
-    ]
+const directProportionCheatSheetContent: CheatSheetContent = {
+  title: 'Szabálytár: Egyenes Arányosság',
+  sections: [
+    {
+      title: '1. Az egyenes arányosság fogalma',
+      content:
+        'Két összetartozó mennyiség egyenesen arányos, ha az egyik valahányszorosára (2-szeresére, 3-szorosára, felére stb.) változik, akkor a másik is pontosan ugyanannyiszorosára változik.\nKéplet: y = k · x, ahol k az arányossági tényező.'
+    },
+    {
+      title: '2. Állandó hányados',
+      content:
+        'Egyenesen arányos mennyiségek összetartozó értékeinek hányadosa állandó szám:\ny / x = k (állandó).\nPéldául ha 3 kg alma 1200 Ft, akkor 1200 / 3 = 400 Ft/kg.'
+    },
+    {
+      title: '3. Következtetés 1 egységre (3 lépéses módszer)',
+      content:
+        '1. Kiinduló állapot: felírjuk a megadott adatokat (pl. 4 füzet = 1000 Ft).\n2. 1 egység kiszámítása osztással: 1 füzet = 1000 Ft : 4 = 250 Ft.\n3. Keresett mennyiség szorzással: 7 füzet = 7 · 250 Ft = 1750 Ft.'
+    },
+    {
+      title: '4. Veszélyzóna: Mikor NEM egyenes arányosság?',
+      content:
+        '• Négyzet területe: T = a² (az oldal duplázásakor a terület négyszereződik, négyzetes arányosság).\n• Jármű fékútja: sebesség négyzetével arányos.\n• Munkások száma és munkaidő: fordított arányosság (több munkás hamarabb kész).\n• Életkor és testméretek: a különbség állandó, nem a hányados!'
+    }
+  ]
 };
 
-export function DirectProportionQuiz({ onBack }: { onBack: () => void }) {
-    const [difficulty, setDifficulty] = useState<Difficulty | null>(null);
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [problems, setProblems] = useState<ProportionTask[]>([]);
-    const [userAnswer, setUserAnswer] = useState<boolean | null>(null);
-    const [showFeedback, setShowFeedback] = useState(false);
-    const [correctCount, setCorrectCount] = useState(0);
-    const [quizComplete, setQuizComplete] = useState(false);
-    const [xpEarned, setXpEarned] = useState(0);
+const directProportionQuestions: Question[] = [
+  // ==========================================
+  // --- 1. SZINT: KÖNNYŰ (1-10. feladatok) ---
+  // ==========================================
+  {
+    id: 'dp-q1',
+    level: 1,
+    question: 'Mit jelent az, hogy két összetartozó mennyiség egyenesen arányos?',
+    options: [
+      'Ha az egyik mennyiség valahányszorosára változik, a másik is ugyanannyiszorosára változik',
+      'Ha az egyik mennyiség nő, akkor a másik mennyiség mindig csökken',
+      'A két mennyiség összege minden esetben ugyanannyi marad',
+      'A két mennyiség szorzata mindig állandó számot ad'
+    ],
+    correctAnswer: 0,
+    hint: 'Gondolj a vásárlásra: ha kétszer annyi almát veszel, hányszor annyit fizetsz?',
+    explanation: 'Egyenes arányosságnál ha az egyik mennyiség n-szeresére nő vagy csökken, a hozzá tartozó másik mennyiség is pontosan n-szeresére nő vagy csökken.'
+  },
+  {
+    id: 'dp-q2',
+    level: 1,
+    question: 'Melyik összefüggés igaz az egyenesen arányos mennyiségek összetartozó értékeire?',
+    options: [
+      'A hányadosuk (y / x) mindig állandó szám',
+      'A szorzatuk (y · x) mindig állandó szám',
+      'A különbségük (y - x) soha nem változik',
+      'Az összegük (y + x) mindig egyenlő 100-zal'
+    ],
+    correctAnswer: 0,
+    hint: 'Az egységár (pl. Ft/kg vagy km/h) a két mennyiség hányadosa, és ez nem változik.',
+    explanation: 'Egyenes arányosság esetén az összetartozó értékek hányadosa állandó: y / x = k, ahol k az arányossági tényező.'
+  },
+  {
+    id: 'dp-q3',
+    level: 1,
+    question: 'Ha 1 kg alma ára 400 Ft, mennyibe kerül 3 kg ugyanolyan alma?',
+    options: ['1200 Ft', '800 Ft', '1600 Ft', '700 Ft'],
+    correctAnswer: 0,
+    hint: 'Háromszor akkora mennyiségért háromszor annyit kell fizetni: 3 · 400 Ft.',
+    explanation: 'A vásárolt mennyiség 3-szorosára nőtt (1 kg -> 3 kg), így az ár is a 3-szorosára nő: 3 · 400 Ft = 1200 Ft.'
+  },
+  {
+    id: 'dp-q4',
+    level: 1,
+    question: 'Egy füzet ára 250 Ft. Mennyibe kerül 4 darab ilyen füzet?',
+    options: ['1000 Ft', '750 Ft', '1250 Ft', '500 Ft'],
+    correctAnswer: 0,
+    hint: 'Szorozd meg az egy darab árát néggyel: 4 · 250 Ft.',
+    explanation: 'A füzetek száma 4-szeresére nőtt, így a fizetendő összeg is a négyszerese lesz: 4 · 250 Ft = 1000 Ft.'
+  },
+  {
+    id: 'dp-q5',
+    level: 1,
+    question: 'Egy autó állandó 60 km/h sebességgel halad. Mennyi utat tesz meg 2 óra alatt?',
+    options: ['120 km', '60 km', '180 km', '30 km'],
+    correctAnswer: 0,
+    hint: 'Egy óra alatt 60 km-t tesz meg, két óra alatt kétszer annyit!',
+    explanation: 'Egyenletes mozgásnál a megtett út egyenesen arányos az idővel: s = v · t = 60 km/h · 2 h = 120 km.'
+  },
+  {
+    id: 'dp-q6',
+    level: 1,
+    question: 'Melyik alábbi mennyiségpár között van EGYENES arányosság?',
+    options: [
+      'A megvásárolt kiflik száma és a fizetendő összeg',
+      'Egy gyerek életkora és a lábmérete',
+      'A munkások száma és a fal lefestéséhez szükséges idő',
+      'Egy autó sebessége és a menetidő ugyanazon az úton'
+    ],
+    correctAnswer: 0,
+    hint: 'Keresd azt a párt, ahol duplázáskor a másik mennyiség is pontosan duplázódik!',
+    explanation: 'Kétszer annyi kifli pontosan kétszer annyiba kerül. Az életkornál nincs arányosság, a munkások száma és az idő pedig fordítottan arányos.'
+  },
+  {
+    id: 'dp-q7',
+    level: 1,
+    question: 'Melyik alábbi esetben NINCS egyenes arányosság a két mennyiség között?',
+    options: [
+      'Egy ember életkora és a cipőmérete',
+      'A négyzet oldalhossza és a kerülete',
+      'A felhasznált benzin mennyisége és az ára',
+      'A kifestett falfelület nagysága és a szükséges festék mennyisége'
+    ],
+    correctAnswer: 0,
+    hint: 'Ha egy 10 éves gyerek lába 36-os, akkor 20 évesen nem lesz 72-es cipője!',
+    explanation: 'Az ember növekedése és lábmérete nem egyenes arányosság: a láb növekedése egy idő után megáll, és nem duplázódik a korral.'
+  },
+  {
+    id: 'dp-q8',
+    level: 1,
+    question: 'Egy négyzet oldala 5 cm, kerülete 20 cm. Ha az oldalát kétszeresére növeljük (10 cm), mekkora lesz a kerülete?',
+    options: ['40 cm', '25 cm', '50 cm', '80 cm'],
+    correctAnswer: 0,
+    hint: 'A négyzet kerülete K = 4 · a. Ha az oldal duplázódik, a kerület is pontosan duplázódik!',
+    explanation: 'A négyzet oldala és kerülete egyenesen arányos: K = 4 · 10 cm = 40 cm, ami pontosan a 20 cm kétszerese.'
+  },
+  {
+    id: 'dp-q9',
+    level: 1,
+    question: 'Ha 5 gombóc fagylaltért 2000 Ft-ot fizetünk, mennyibe kerül 1 gombóc fagylalt?',
+    options: ['400 Ft', '500 Ft', '350 Ft', '450 Ft'],
+    correctAnswer: 0,
+    hint: 'Oszd el a teljes árat a gombócok számával: 2000 Ft : 5.',
+    explanation: 'Egységre való visszavezetéssel: 1 gombóc ára = 2000 Ft : 5 = 400 Ft.'
+  },
+  {
+    id: 'dp-q10',
+    level: 1,
+    question: 'Egy recept szerint 2 adag kakaóitalhoz 4 dl tej kell. Hány dl tej szükséges 6 adaghoz?',
+    options: ['12 dl', '8 dl', '10 dl', '16 dl'],
+    correctAnswer: 0,
+    hint: 'A 6 adag a 2 adagnak a 3-szorosa, így a tejből is 3-szor annyi kell!',
+    explanation: 'Mivel 6 adag a 2 adag háromszorosa (6 : 2 = 3), a tej mennyiségét is hárommal szorozzuk: 3 · 4 dl = 12 dl.'
+  },
 
-    const TOTAL_QUESTIONS = 10;
+  // ==========================================
+  // --- 2. SZINT: KÖZEPES (11-20. feladatok) ---
+  // ==========================================
+  {
+    id: 'dp-q11',
+    level: 2,
+    question: 'Ha 3 kg narancs 1500 Ft-ba kerül, mennyibe kerül 7 kg narancs?',
+    options: ['3500 Ft', '3000 Ft', '4000 Ft', '2800 Ft'],
+    correctAnswer: 0,
+    hint: 'Először számold ki 1 kg narancs árát (1500 : 3), majd szorozd meg 7-tel!',
+    explanation: '1. lépés: 1 kg narancs = 1500 Ft : 3 = 500 Ft. 2. lépés: 7 kg narancs = 7 · 500 Ft = 3500 Ft.'
+  },
+  {
+    id: 'dp-q12',
+    level: 2,
+    question: 'Egy személygépkocsi 2 óra alatt 140 km utat tesz meg egyenletesen. Hány km-t tesz meg 5 óra alatt?',
+    options: ['350 km', '300 km', '280 km', '420 km'],
+    correctAnswer: 0,
+    hint: 'Mennyit tesz meg 1 óra alatt (140 : 2)? Szorozd meg 5-tel!',
+    explanation: '1 óra alatt megtett út (sebesség): 140 km : 2 = 70 km/h. 5 óra alatt: 5 · 70 km = 350 km.'
+  },
+  {
+    id: 'dp-q13',
+    level: 2,
+    question: '4 doboz gyümölcslé ára 1800 Ft. Mennyibe kerül 6 doboz ugyanilyen gyümölcslé?',
+    options: ['2700 Ft', '2400 Ft', '3000 Ft', '2250 Ft'],
+    correctAnswer: 0,
+    hint: '1 doboz ára = 1800 : 4 = 450 Ft. Szorozz 6-tal!',
+    explanation: '1 doboz ára: 1800 Ft : 4 = 450 Ft. 6 doboz ára: 6 · 450 Ft = 2700 Ft.'
+  },
+  {
+    id: 'dp-q14',
+    level: 2,
+    question: '5 méter pamutszövet ára 7500 Ft. Hány méter szövetet vásárolhatunk 12 000 Ft-ért?',
+    options: ['8 métert', '7 métert', '9 métert', '10 métert'],
+    correctAnswer: 0,
+    hint: '1 méter ára = 7500 : 5 = 1500 Ft. Hányszor van meg az 1500 a 12 000-ben?',
+    explanation: '1 méter szövet ára: 7500 Ft : 5 = 1500 Ft/m. 12 000 Ft-ért: 12 000 : 1500 = 8 méter szövetet vehetünk.'
+  },
+  {
+    id: 'dp-q15',
+    level: 2,
+    question: 'Egy kerékpáros 20 perc alatt 5 km utat tesz meg. Hány kilométert tesz meg 1 óra (60 perc) alatt?',
+    options: ['15 km', '12 km', '18 km', '20 km'],
+    correctAnswer: 0,
+    hint: 'Hányszorosa a 60 perc a 20 percnek? 60 : 20 = 3-szorosa!',
+    explanation: '1 óra = 60 perc, ami 3-szorosa a 20 percnek (60 : 20 = 3). Így a megtett út is 3-szorosa: 3 · 5 km = 15 km.'
+  },
+  {
+    id: 'dp-q16',
+    level: 2,
+    question: '3 kg falfesték pontosan 18 m² felületre elegendő. Hány m² fal festhető le 8 kg festékkel?',
+    options: ['48 m²', '42 m²', '54 m²', '36 m²'],
+    correctAnswer: 0,
+    hint: '1 kg festék hány négyzetméterre elég? 18 : 3 = 6 m². Ezt szorozd meg 8-cal!',
+    explanation: '1 kg festékkel lefesthető felület: 18 m² : 3 = 6 m²/kg. 8 kg festékkel: 8 · 6 m² = 48 m² festhető le.'
+  },
+  {
+    id: 'dp-q17',
+    level: 2,
+    question: 'Egy automata csomagológép 4 perc alatt 48 dobozt készít el. Hány dobozt készít el 9 perc alatt?',
+    options: ['108 dobozt', '96 dobozt', '112 dobozt', '84 dobozt'],
+    correctAnswer: 0,
+    hint: 'Percenként hány dobozt készít el (48 : 4)? Szorozd meg 9-cel!',
+    explanation: '1 perc alatt elkészülő dobozok: 48 : 4 = 12 doboz/perc. 9 perc alatt: 9 · 12 = 108 doboz készül el.'
+  },
+  {
+    id: 'dp-q18',
+    level: 2,
+    question: 'Egy turistatérkép méretaránya szerint 1 cm a térképen 500 méternek felel meg a valóságban. Hány méternek felel meg 4 cm a térképen?',
+    options: ['2000 méternek (2 km)', '1500 méternek', '2500 méternek', '1000 méternek'],
+    correctAnswer: 0,
+    hint: 'A távolság egyenesen arányos a térképi hosszal: szorozz 4-gyel!',
+    explanation: 'A méretarány egyenes arányosságot jelent: 4 cm a térképen = 4 · 500 m = 2000 m (azaz 2 km) a terepen.'
+  },
+  {
+    id: 'dp-q19',
+    level: 2,
+    question: 'Egy gyártósor 6 óra alatt 900 alkatrészt állít elő. Hány alkatrészt készít el 8 óra alatt azonos tempóban?',
+    options: ['1200 alkatrészt', '1100 alkatrészt', '1350 alkatrészt', '1050 alkatrészt'],
+    correctAnswer: 0,
+    hint: 'Óránkénti darabszám: 900 : 6 = 150 db/óra. Szorozz 8-cal!',
+    explanation: '1 óra alatt: 900 : 6 = 150 alkatrész készül el. 8 óra alatt: 8 · 150 = 1200 alkatrész készül el.'
+  },
+  {
+    id: 'dp-q20',
+    level: 2,
+    question: 'Egy táblázatban az összetartozó értékek: ha x = 2, akkor y = 500; ha x = 4, akkor y = 1000; ha x = 6, akkor y = 1500. Mennyi az arányossági tényező (k = y / x)?',
+    options: ['250', '500', '200', '125'],
+    correctAnswer: 0,
+    hint: 'Oszd el az y értékét a hozzá tartozó x-szel: 500 / 2 vagy 1000 / 4.',
+    explanation: 'Az arányossági tényező a hányados: k = 500 : 2 = 1000 : 4 = 1500 : 6 = 250.'
+  },
 
-    const startQuiz = useCallback((level: Difficulty) => {
-        setDifficulty(level);
-        const available = [...TASKS[level]];
-        const shuffled = available.sort(() => Math.random() - 0.5).slice(0, TOTAL_QUESTIONS);
-        setProblems(shuffled);
-        setCurrentIndex(0);
-        setUserAnswer(null);
-        setShowFeedback(false);
-        setCorrectCount(0);
-        setQuizComplete(false);
-        setXpEarned(0);
-    }, []);
+  // ==========================================
+  // --- 3. SZINT: NEHÉZ (21-30. feladatok) ---
+  // ==========================================
+  {
+    id: 'dp-q21',
+    level: 3,
+    question: '1,5 kg prémium sajtért 3600 Ft-ot fizettünk. Mennyibe kerül 2,5 kg ugyanebből a sajtból?',
+    options: ['6000 Ft', '5400 Ft', '6500 Ft', '5000 Ft'],
+    correctAnswer: 0,
+    hint: '1 kg sajt ára = 3600 : 1,5 = 2400 Ft. Szorozd meg 2,5-del!',
+    explanation: '1 kg sajt ára: 3600 Ft : 1,5 = 2400 Ft/kg. 2,5 kg sajt ára: 2,5 · 2400 Ft = 6000 Ft.'
+  },
+  {
+    id: 'dp-q22',
+    level: 3,
+    question: 'Egy gyalogos 15 perc alatt 1200 métert tesz meg egyenletesen. Mekkora a sebessége km/h-ban (mennyi utat tesz meg 1 óra alatt)?',
+    options: ['4,8 km/h', '4,2 km/h', '5,0 km/h', '3,6 km/h'],
+    correctAnswer: 0,
+    hint: '1 óra = 60 perc = 4 · 15 perc. 4 · 1200 m = hány kilométer?',
+    explanation: '1 óra alatt 4-szer annyi utat tesz meg, mint 15 perc alatt: 4 · 1200 m = 4800 m. Mivel 4800 m = 4,8 km, a sebessége 4,8 km/h.'
+  },
+  {
+    id: 'dp-q23',
+    level: 3,
+    question: 'Egy négyzet oldala 2 cm (területe 4 cm²). Ha az oldalt megduplázzuk 4 cm-re, mekkora lesz a területe? Egyenesen arányos-e a négyzet oldala és területe?',
+    options: [
+      '16 cm², és NEM egyenesen arányos (a terület négyszereződött)',
+      '8 cm², és egyenesen arányos (a terület is duplázódott)',
+      '12 cm², és nem arányos',
+      '16 cm², és egyenesen arányos'
+    ],
+    correctAnswer: 0,
+    hint: 'A terület képlete T = a · a. Ha a = 4, akkor T = 4 · 4 = 16 cm².',
+    explanation: 'A 4 cm oldalú négyzet területe 4 · 4 = 16 cm², ami négyszerese a 4 cm²-nek. Mivel az oldal 2-szeresére nőtt, de a terület 4-szeresére, ez NEM egyenes arányosság, hanem négyzetes!'
+  },
+  {
+    id: 'dp-q24',
+    level: 3,
+    question: 'Egy kerti csapból percenként egyenletesen 12 liter víz folyik ki. Hány perc alatt telik meg egy 180 literes esővízgyűjtő hordó?',
+    options: ['15 perc alatt', '12 perc alatt', '18 perc alatt', '20 perc alatt'],
+    correctAnswer: 0,
+    hint: 'Oszd el a teljes űrtartalmat az egy perc alatt befolyó vízmennyiséggel: 180 : 12.',
+    explanation: 'Az idő és a vízmennyiség egyenesen arányos: 180 liter : 12 liter/perc = 15 perc alatt telik meg a hordó.'
+  },
+  {
+    id: 'dp-q25',
+    level: 3,
+    question: '2,4 méter díszszalag 1440 Ft-ba kerül. Mennyibe kerül 3,5 méter ebből a szalagból?',
+    options: ['2100 Ft', '1950 Ft', '2250 Ft', '2400 Ft'],
+    correctAnswer: 0,
+    hint: '1 méter ára = 1440 : 2,4 = 600 Ft. Szorozd meg 3,5-del!',
+    explanation: '1 méter szalag ára: 1440 Ft : 2,4 = 600 Ft/m. 3,5 méter ára: 3,5 · 600 Ft = 2100 Ft.'
+  },
+  {
+    id: 'dp-q26',
+    level: 3,
+    question: 'Egy 250 grammos különleges csomagolású tea ára 1500 Ft. Mennyibe kerül 1 kilogramm (1000 gramm) ugyanebből a teából?',
+    options: ['6000 Ft', '5000 Ft', '4500 Ft', '7500 Ft'],
+    correctAnswer: 0,
+    hint: 'Hányszorosa az 1000 g a 250 g-nak? 1000 : 250 = 4-szerese!',
+    explanation: '1 kg = 1000 g. Mivel az 1000 g négyszerese a 250 g-nak (1000 : 250 = 4), az ár is négyszeres lesz: 4 · 1500 Ft = 6000 Ft.'
+  },
+  {
+    id: 'dp-q27',
+    level: 3,
+    question: 'Ha 4 munkás 6 óra alatt ássa fel a kertet, egyenes arányosság van-e a munkások száma és a munka elvégzéséhez szükséges idő között?',
+    options: [
+      'Nem, mert több munkás kevesebb idő alatt végez (ez fordított arányosság)',
+      'Igen, mert ha több munkás van, több munkát tudnak elvégezni',
+      'Igen, mert mindkét adat órában vagy főben mérhető',
+      'Nem, mert a munkások száma és az idő között nincs semmilyen kapcsolat'
+    ],
+    correctAnswer: 0,
+    hint: 'Ha kétszer annyi munkás dolgozik, kétszer annyi vagy feleannyi idő kell?',
+    explanation: 'Ha kétszer annyian dolgoznak (8 munkás), feleannyi idő (3 óra) alatt készülnek el. Ez FORDÍTOTT arányosság, nem egyenes!'
+  },
+  {
+    id: 'dp-q28',
+    level: 3,
+    question: 'Egy vonat egyenletes sebességgel haladva 45 perc alatt 60 km utat tesz meg. Hány kilométert tesz meg 2 óra (120 perc) alatt?',
+    options: ['160 km', '150 km', '180 km', '140 km'],
+    correctAnswer: 0,
+    hint: '45 perc alatt 60 km, tehát 15 perc alatt 20 km. A 120 perc = 8 · 15 perc!',
+    explanation: '15 perc (a 45 perc harmada) alatt: 60 km : 3 = 20 km. 120 perc alatt: (120 : 15) · 20 km = 8 · 20 km = 160 km.'
+  },
+  {
+    id: 'dp-q29',
+    level: 3,
+    question: 'Egy süteményrecept 4 adaghoz 30 dkg lisztet és 20 dkg vajat ír elő. Mennyi liszt és vaj kell 6 adaghoz?',
+    options: [
+      '45 dkg liszt és 30 dkg vaj',
+      '40 dkg liszt és 25 dkg vaj',
+      '50 dkg liszt és 35 dkg vaj',
+      '60 dkg liszt és 40 dkg vaj'
+    ],
+    correctAnswer: 0,
+    hint: 'A 6 adag a 4 adagnak a másfélszerese (6 : 4 = 1,5). Szorozz 1,5-del!',
+    explanation: 'Az adagszorzó: 6 / 4 = 1,5. Liszt: 30 dkg · 1,5 = 45 dkg. Vaj: 20 dkg · 1,5 = 30 dkg.'
+  },
+  {
+    id: 'dp-q30',
+    level: 3,
+    question: 'Egy személyautó sebességét 50 km/h-ról 100 km/h-ra (kétszeresére) növeljük száraz aszfalton. Egyenesen arányosan nő-e a féktávolság?',
+    options: [
+      'Nem, mert a féktávolság a sebesség négyzetével arányos, így kétszeres sebességnél kb. négyszeres a fékút',
+      'Igen, mert kétszer akkora sebességnél pontosan kétszer akkora utat tesz meg a megállásig',
+      'Igen, mert a sebesség és az út között mindig egyenes arányosság van',
+      'Nem, mert a sebesség növekedésével a fékút mindig lerövidül'
+    ],
+    correctAnswer: 0,
+    hint: 'A fizika törvényei szerint a mozgási energia a sebesség négyzetével arányos: E = 1/2 · m · v².',
+    explanation: 'A fékút a sebesség négyzetével (v²) arányos a fizika törvényei szerint. Ha a sebesség megduplázódik, a fékút nem a 2-szeresére, hanem 2² = 4-szeresére nő!'
+  }
+];
 
-    const checkAnswer = (answer: boolean) => {
-        if (showFeedback) return;
-        setUserAnswer(answer);
-        const current = problems[currentIndex];
-        
-        if (answer === current.isDirectlyProportional) {
-            setCorrectCount(prev => prev + 1);
-            setXpEarned(prev => prev + (difficulty === 'easy' ? 10 : difficulty === 'medium' ? 15 : 20));
+export const DirectProportionQuiz: React.FC<DirectProportionQuizProps> = ({
+  onBack,
+  onOpenMatcher,
+  onOpenSorter,
+  onSwitchToTheory
+}) => {
+  return (
+    <QuizTemplate
+      grade={6}
+      chapterId="arany-szazalek-szoveges-feladatok"
+      topicId="g6-direct-prop"
+      topicTitle="Egyenes arányosság"
+      title="Egyenes arányosság kvíz"
+      subtitle="Összetartozó mennyiségek, egységre való visszavezetés, állandó hányados 3 szinten"
+      emoji="⚖️"
+      themeColor="amber"
+      topicBadge="6. OSZTÁLY • IV. ARÁNY, SZÁZALÉK"
+      badgeText="6. OSZTÁLY • IV. ARÁNY, SZÁZALÉK"
+      cheatSheetTitle="Szabálytár és Képlettár"
+      cheatSheet={directProportionCheatSheetContent}
+      cheatSheetCards={[
+        {
+          title: 'Egyenes arányosság',
+          formula: 'y = k · x',
+          explanation: 'Ha az egyik mennyiség n-szeresére változik, a másik is n-szeresére változik.'
+        },
+        {
+          title: 'Állandó hányados',
+          formula: 'y / x = k',
+          explanation: 'Az összetartozó mennyiségek hányadosa állandó szám, ez az arányossági tényező (egységár).'
+        },
+        {
+          title: 'Következtetés egységre',
+          formula: '1 egység = Összeg / Darab',
+          explanation: 'Először osztással meghatározzuk 1 egység értékét, majd szorzással a keresett mennyiséget.'
+        },
+        {
+          title: 'Gyakori csapdák',
+          formula: 'T = a² (nem egyenes!)',
+          explanation: 'A négyzet területe az oldal négyzetével arányos. A munkások száma és az idő fordított arányosság.'
         }
-        setShowFeedback(true);
-    };
+      ]}
+      questions={directProportionQuestions}
+      matcherComponent={DirectProportionMatcher}
+      sorterComponent={DirectProportionSorter}
+      onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+    />
+  );
+};
 
-    const nextQuestion = () => {
-        if (currentIndex < problems.length - 1) {
-            setCurrentIndex(prev => prev + 1);
-            setUserAnswer(null);
-            setShowFeedback(false);
-        } else {
-            setQuizComplete(true);
-            triggerConfetti();
-        }
-    };
-
-    const triggerConfetti = () => {
-        const duration = 3 * 1000;
-        const animationEnd = Date.now() + duration;
-        const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
-
-        const randomInRange = (min: number, max: number) => Math.random() * (max - min) + min;
-
-        const interval: any = setInterval(function () {
-            const timeLeft = animationEnd - Date.now();
-
-            if (timeLeft <= 0) {
-                return clearInterval(interval);
-            }
-
-            const particleCount = 50 * (timeLeft / duration);
-            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
-        }, 250);
-    };
-
-    if (!difficulty) {
-        return (
-            <div className="flex flex-col gap-8 max-w-4xl mx-auto w-full animate-in fade-in slide-in-from-bottom-4 duration-500">
-                <div className="flex items-center justify-between px-2">
-                    <Button variant="ghost" onClick={onBack} size="sm" className="hover:bg-slate-100 text-xs text-slate-500 font-bold px-4 py-2 rounded-xl border border-slate-200">
-                        <ArrowLeft className="w-4 h-4 mr-1.5" />
-                        Vissza
-                    </Button>
-                    <div className="flex gap-3 items-center">
-                        <Scale className="w-8 h-8 text-orange-500" />
-                        <h2 className="text-3xl font-black text-slate-800 tracking-tighter">Egyenes arányosság kvíz</h2>
-                    </div>
-                    <div className="w-24"></div>
-                </div>
-                
-                <div className="text-center max-w-2xl mx-auto space-y-4">
-                    <p className="text-lg text-slate-600 font-medium">Egyenesen arányos a két mennyiség, vagy sem?</p>
-                    <div className="p-4 bg-orange-50 text-orange-800 rounded-2xl border border-orange-200 text-sm">
-                        <p>Két mennyiség akkor <span className="font-bold">egyenesen arányos</span>, ha ahányszorosára változik (nő vagy csökken) az egyik, ugyanannyiszorosára változik a másik is.</p>
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-                    <DifficultyCard
-                        level="easy"
-                        title="Alapozó szint"
-                        desc="Hétköznapi szituációk"
-                        icon={<Star className="w-10 h-10" />}
-                        color="emerald"
-                        onClick={() => startQuiz('easy')}
-                    />
-                    <DifficultyCard
-                        level="medium"
-                        title="Gyakorlati"
-                        desc="Matematikai éleslátás"
-                        icon={<Medal className="w-10 h-10" />}
-                        color="amber"
-                        onClick={() => startQuiz('medium')}
-                    />
-                    <DifficultyCard
-                        level="hard"
-                        title="Mester"
-                        desc="Bonyolult összefüggések, fizika, geometria"
-                        icon={<Crown className="w-10 h-10" />}
-                        color="rose"
-                        onClick={() => startQuiz('hard')}
-                    />
-                </div>
-            </div>
-        );
-    }
-
-    if (quizComplete) {
-        return (
-            <div className="max-w-md mx-auto animate-in fade-in zoom-in duration-500">
-                <Card className="border-2 border-orange-100 shadow-xl overflow-hidden rounded-[2rem]">
-                    <div className="bg-gradient-to-br from-orange-400 to-amber-500 p-8 text-center text-white relative">
-                        <Trophy className="w-16 h-16 mx-auto mb-4 text-white drop-shadow-md" />
-                        <h2 className="text-4xl font-black mb-2 tracking-tighter">Szuper munka!</h2>
-                        <p className="text-orange-50 font-medium">Befejezted a szintet!</p>
-                    </div>
-                    <CardContent className="p-8 space-y-8 bg-white/50 backdrop-blur-sm">
-                        <div className="grid grid-cols-2 gap-4 text-center">
-                            <div className="bg-emerald-50 border-2 border-emerald-100 p-4 rounded-[1.5rem]">
-                                <span className="block text-[10px] font-bold text-emerald-400 uppercase tracking-widest mb-1">Eredmény</span>
-                                <span className="text-4xl font-black text-emerald-600">{correctCount}/{problems.length}</span>
-                            </div>
-                            <div className="bg-blue-50 border-2 border-blue-100 p-4 rounded-[1.5rem] flex flex-col justify-center items-center">
-                                <span className="block text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-1">XP szerzett</span>
-                                <XPBadge xp={xpEarned} />
-                            </div>
-                        </div>
-                        <div className="flex gap-4">
-                            <Button variant="outline" onClick={() => setDifficulty(null)} className="flex-1 rounded-2xl h-14 font-black border-2 border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-800">Menü</Button>
-                            <Button onClick={() => startQuiz(difficulty)} className="flex-1 h-14 font-black bg-orange-500 hover:bg-orange-600 text-white rounded-2xl shadow-lg shadow-orange-500/30">Újra</Button>
-                        </div>
-                    </CardContent>
-                </Card>
-            </div>
-        );
-    }
-
-    if (problems.length === 0) return null;
-    const current = problems[currentIndex];
-
-    return (
-        <div className="max-w-3xl mx-auto space-y-6">
-            <div className="flex items-center justify-between bg-white/60 backdrop-blur-md p-4 bg-white border-2 border-slate-100 rounded-[2rem] shadow-sm">
-                <Button variant="ghost" size="icon" className="hover:bg-slate-100 text-slate-400" onClick={() => setDifficulty(null)}>
-                    <ArrowLeft className="w-6 h-6" />
-                </Button>
-                <div className="flex-1 px-8">
-                    <ProgressBar current={currentIndex + 1} total={problems.length} variant="math" size="lg" />
-                </div>
-                <div className="flex items-center gap-2 bg-orange-100 text-orange-600 px-4 py-1.5 rounded-full font-bold">
-                    <Activity className="w-4 h-4" />
-                    <span>{currentIndex + 1} / {problems.length}</span>
-                </div>
-            </div>
-
-            <Card className="border-4 border-slate-100 shadow-2xl rounded-[2.5rem] overflow-hidden bg-white">
-                <CardContent className="p-8 md:p-12 space-y-10 animate-in fade-in duration-500">
-                    <div className="text-center space-y-8">
-                        <div className="inline-block p-4 bg-orange-50 rounded-full border-4 border-orange-100 mb-2">
-                             <Scale className="w-12 h-12 text-orange-500" />
-                        </div>
-                        
-                        <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-6">
-                             <div className="bg-slate-50 border-2 border-slate-100 p-6 rounded-3xl min-h-[120px] flex items-center justify-center">
-                                 <h3 className="text-xl md:text-2xl font-black text-slate-700 leading-tight">{current.q1}</h3>
-                             </div>
-                             <div className="text-2xl font-black text-slate-300 md:rotate-0 rotate-90">ÉS</div>
-                             <div className="bg-slate-50 border-2 border-slate-100 p-6 rounded-3xl min-h-[120px] flex items-center justify-center">
-                                 <h3 className="text-xl md:text-2xl font-black text-slate-700 leading-tight">{current.q2}</h3>
-                             </div>
-                        </div>
-                    </div>
-
-                    {!showFeedback ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <Button
-                                onClick={() => checkAnswer(true)}
-                                className="h-20 bg-emerald-500 hover:bg-emerald-600 text-white font-black text-xl rounded-2xl shadow-lg shadow-emerald-500/20 active:scale-95 transition-transform"
-                            >
-                                Egyenesen arányos
-                            </Button>
-                            <Button
-                                onClick={() => checkAnswer(false)}
-                                className="h-20 bg-rose-500 hover:bg-rose-600 text-white font-black text-xl rounded-2xl shadow-lg shadow-rose-500/20 active:scale-95 transition-transform"
-                            >
-                                Nem egyenesen arányos
-                            </Button>
-                        </div>
-                    ) : (
-                        <div className="space-y-6 animate-in slide-in-from-bottom-4 duration-300 bg-slate-50 -mx-8 sm:-mx-12 -mb-8 sm:-mb-12 p-8 sm:p-12 border-t-2 border-slate-100">
-                            <div className={cn(
-                                "p-6 rounded-3xl border-4 flex flex-col items-center gap-3 shadow-sm",
-                                userAnswer === current.isDirectlyProportional
-                                    ? "bg-emerald-100/50 border-emerald-200 text-emerald-800"
-                                    : "bg-rose-100/50 border-rose-200 text-rose-800"
-                            )}>
-                                <div className="flex items-center gap-2 font-black text-2xl tracking-tighter">
-                                    {userAnswer === current.isDirectlyProportional
-                                        ? <CheckCircle2 className="w-8 h-8 text-emerald-500" />
-                                        : <AlertTriangle className="w-8 h-8 text-rose-500" />}
-                                    {userAnswer === current.isDirectlyProportional ? 'Helyes válasz!' : 'Sajnos most nem talált!'}
-                                </div>
-                                
-                                <div className="text-center mt-2 space-y-2">
-                                    <p className="text-sm font-bold opacity-60 uppercase mb-1">Magyararázat</p>
-                                    <p className="font-semibold text-lg max-w-lg mx-auto leading-relaxed">{current.explanation}</p>
-                                </div>
-                            </div>
-                            <Button
-                                onClick={nextQuestion}
-                                className="w-full h-16 bg-slate-800 text-white font-black text-xl rounded-2xl hover:bg-slate-900 shadow-xl"
-                            >
-                                Következő <ChevronRight className="ml-2 w-6 h-6" />
-                            </Button>
-                        </div>
-                    )}
-                </CardContent>
-            </Card>
-        </div>
-    );
-}
-
-function DifficultyCard({ level, title, desc, icon, color, onClick }: { level: string, title: string, desc: string, icon: React.ReactNode, color: string, onClick: () => void }) {
-    const colors = {
-        emerald: "border-emerald-200 hover:border-emerald-500 bg-emerald-50 text-emerald-600",
-        amber: "border-amber-200 hover:border-amber-500 bg-amber-50 text-amber-600",
-        rose: "border-rose-200 hover:border-rose-500 bg-rose-50 text-rose-600"
-    };
-
-    return (
-        <button
-            onClick={onClick}
-            className={cn(
-                "flex flex-col items-center justify-center p-8 bg-white border-4 rounded-[2.5rem] hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group",
-                colors[color as keyof typeof colors]
-            )}
-        >
-            <div className={cn("p-6 rounded-3xl mb-6 shadow-xl group-hover:scale-110 transition-transform duration-300 relative",
-                color === 'emerald' ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-white' : 
-                color === 'amber' ? 'bg-gradient-to-br from-amber-400 to-amber-600 text-white' : 
-                'bg-gradient-to-br from-rose-400 to-rose-600 text-white'
-            )}>
-                {icon}
-            </div>
-            <h3 className="text-2xl font-black mb-2 tracking-tighter text-slate-800">{title}</h3>
-            <p className="text-sm font-semibold text-slate-500 text-center leading-snug">{desc}</p>
-        </button>
-    );
-}
+export default DirectProportionQuiz;
