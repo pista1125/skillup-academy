@@ -705,6 +705,38 @@ const Grade7GeomSummaryTheory = lazy(() => import("@/components/math/grade-7/geo
 const Grade7GeomSummaryQuiz = lazy(() => import("@/components/math/grade-7/geometria/osszefoglalas/GeometrySummaryQuiz").then(m => ({ default: m.GeometrySummaryQuiz }))) as any;
 const Grade7GeomSummaryMatcher = lazy(() => import("@/components/math/grade-7/geometria/osszefoglalas/GeometrySummaryMatcher").then(m => ({ default: m.GeometrySummaryMatcher }))) as any;
 const Grade7GeomSummarySorter = lazy(() => import("@/components/math/grade-7/geometria/osszefoglalas/GeometrySummarySorter").then(m => ({ default: m.GeometrySummarySorter }))) as any;
+const Grade7StatsRelationsTheory = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/ket-halmaz-kozotti-hozzarendelesek/SetRelationsTheory").then(m => ({ default: m.SetRelationsTheory }))) as any;
+const Grade7StatsRelationsQuiz = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/ket-halmaz-kozotti-hozzarendelesek/SetRelationsQuiz").then(m => ({ default: m.SetRelationsQuiz }))) as any;
+const Grade7StatsRelationsMatcher = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/ket-halmaz-kozotti-hozzarendelesek/SetRelationsMatcher").then(m => ({ default: m.SetRelationsMatcher }))) as any;
+const Grade7StatsRelationsSorter = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/ket-halmaz-kozotti-hozzarendelesek/SetRelationsSorter").then(m => ({ default: m.SetRelationsSorter }))) as any;
+const Grade7StatsRepTheory = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/a-hozzarendelesek-megadasi-modjai/MappingRepresentationsTheory").then(m => ({ default: m.MappingRepresentationsTheory }))) as any;
+const Grade7StatsRepQuiz = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/a-hozzarendelesek-megadasi-modjai/MappingRepresentationsQuiz").then(m => ({ default: m.MappingRepresentationsQuiz }))) as any;
+const Grade7StatsRepMatcher = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/a-hozzarendelesek-megadasi-modjai/MappingRepresentationsMatcher").then(m => ({ default: m.MappingRepresentationsMatcher }))) as any;
+const Grade7StatsRepSorter = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/a-hozzarendelesek-megadasi-modjai/MappingRepresentationsSorter").then(m => ({ default: m.MappingRepresentationsSorter }))) as any;
+const Grade7StatsGraphTheory = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/olvassunk-a-grafikonrol/GraphReadingTheory").then(m => ({ default: m.GraphReadingTheory }))) as any;
+const Grade7StatsGraphQuiz = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/olvassunk-a-grafikonrol/GraphReadingQuiz").then(m => ({ default: m.GraphReadingQuiz }))) as any;
+const Grade7StatsGraphMatcher = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/olvassunk-a-grafikonrol/GraphReadingMatcher").then(m => ({ default: m.GraphReadingMatcher }))) as any;
+const Grade7StatsGraphSorter = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/olvassunk-a-grafikonrol/GraphReadingSorter").then(m => ({ default: m.GraphReadingSorter }))) as any;
+const Grade7StatsCentralTheory = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/atlag-modusz-median/CentralTendencyTheory").then(m => ({ default: m.CentralTendencyTheory }))) as any;
+const Grade7StatsCentralQuiz = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/atlag-modusz-median/CentralTendencyQuiz").then(m => ({ default: m.CentralTendencyQuiz }))) as any;
+const Grade7StatsCentralMatcher = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/atlag-modusz-median/CentralTendencyMatcher").then(m => ({ default: m.CentralTendencyMatcher }))) as any;
+const Grade7StatsCentralSorter = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/atlag-modusz-median/CentralTendencySorter").then(m => ({ default: m.CentralTendencySorter }))) as any;
+const Grade7StatsFreqTheory = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/gyakorisag-relativ-gyakorisag/FrequencyAnalysisTheory").then(m => ({ default: m.FrequencyAnalysisTheory }))) as any;
+const Grade7StatsFreqQuiz = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/gyakorisag-relativ-gyakorisag/FrequencyAnalysisQuiz").then(m => ({ default: m.FrequencyAnalysisQuiz }))) as any;
+const Grade7StatsFreqMatcher = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/gyakorisag-relativ-gyakorisag/FrequencyAnalysisMatcher").then(m => ({ default: m.FrequencyAnalysisMatcher }))) as any;
+const Grade7StatsFreqSorter = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/gyakorisag-relativ-gyakorisag/FrequencyAnalysisSorter").then(m => ({ default: m.FrequencyAnalysisSorter }))) as any;
+const Grade7StatsProbTheory = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/valoszinuseg/ProbabilityTheory").then(m => ({ default: m.ProbabilityTheory }))) as any;
+const Grade7StatsProbQuiz = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/valoszinuseg/ProbabilityQuiz").then(m => ({ default: m.ProbabilityQuiz }))) as any;
+const Grade7StatsProbMatcher = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/valoszinuseg/ProbabilityMatcher").then(m => ({ default: m.ProbabilityMatcher }))) as any;
+const Grade7StatsProbSorter = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/valoszinuseg/ProbabilitySorter").then(m => ({ default: m.ProbabilitySorter }))) as any;
+const Grade7StatsExpTheory = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/tippelj-kiserletezz-ellenorizz/ExperimentSimulationTheory").then(m => ({ default: m.ExperimentSimulationTheory }))) as any;
+const Grade7StatsExpQuiz = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/tippelj-kiserletezz-ellenorizz/ExperimentSimulationQuiz").then(m => ({ default: m.ExperimentSimulationQuiz }))) as any;
+const Grade7StatsExpMatcher = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/tippelj-kiserletezz-ellenorizz/ExperimentSimulationMatcher").then(m => ({ default: m.ExperimentSimulationMatcher }))) as any;
+const Grade7StatsExpSorter = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/tippelj-kiserletezz-ellenorizz/ExperimentSimulationSorter").then(m => ({ default: m.ExperimentSimulationSorter }))) as any;
+const Grade7StatsSummaryTheory = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/osszefoglalas/StatsSummaryTheory").then(m => ({ default: m.StatsSummaryTheory }))) as any;
+const Grade7StatsSummaryQuiz = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/osszefoglalas/StatsSummaryQuiz").then(m => ({ default: m.StatsSummaryQuiz }))) as any;
+const Grade7StatsSummaryMatcher = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/osszefoglalas/StatsSummaryMatcher").then(m => ({ default: m.StatsSummaryMatcher }))) as any;
+const Grade7StatsSummarySorter = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/osszefoglalas/StatsSummarySorter").then(m => ({ default: m.StatsSummarySorter }))) as any;
 const Grade8LogicTheory = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/logika-feladatok/LogicTheory").then(m => ({ default: m.LogicTheory }))) as any;
 const Grade8LogicQuiz = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/logika-feladatok/LogicQuiz").then(m => ({ default: m.LogicQuiz }))) as any;
 const Grade8SetBasicsTheory = lazy(() => import("@/components/math/grade-8/szamok-es-betuk/mit-tudunk-a-halmazokrol/SetBasicsTheory").then(m => ({ default: m.SetBasicsTheory }))) as any;
@@ -951,6 +983,14 @@ type ActivityType =
   | 'g7-geom-solids-space-plane-theory' | 'g7-geom-solids-space-plane-quiz' | 'g7-geom-solids-space-plane-matcher' | 'g7-geom-solids-space-plane-sorter'
   | 'g7-geom-escape-room-theory' | 'g7-geom-escape-room-quiz' | 'g7-geom-escape-room-matcher' | 'g7-geom-escape-room-sorter'
   | 'g7-geom-summary-theory' | 'g7-geom-summary-quiz' | 'g7-geom-summary-matcher' | 'g7-geom-summary-sorter' | 'g7-geometry-summary'
+  | 'g7-stats-relations-theory' | 'g7-stats-relations-quiz' | 'g7-stats-relations-matcher' | 'g7-stats-relations-sorter'
+  | 'g7-stats-rep-theory' | 'g7-stats-rep-quiz' | 'g7-stats-rep-matcher' | 'g7-stats-rep-sorter'
+  | 'g7-stats-graph-theory' | 'g7-stats-graph-quiz' | 'g7-stats-graph-matcher' | 'g7-stats-graph-sorter'
+  | 'g7-stats-central-theory' | 'g7-stats-central-quiz' | 'g7-stats-central-matcher' | 'g7-stats-central-sorter'
+  | 'g7-stats-freq-theory' | 'g7-stats-freq-quiz' | 'g7-stats-freq-matcher' | 'g7-stats-freq-sorter'
+  | 'g7-stats-prob-theory' | 'g7-stats-prob-quiz' | 'g7-stats-prob-matcher' | 'g7-stats-prob-sorter'
+  | 'g7-stats-exp-theory' | 'g7-stats-exp-quiz' | 'g7-stats-exp-matcher' | 'g7-stats-exp-sorter'
+  | 'g7-stats-summary-theory' | 'g7-stats-summary-quiz' | 'g7-stats-summary-matcher' | 'g7-stats-summary-sorter'
   | 'g8-logic-theory' | 'g8-logic-quiz'
   | 'g8-set-basics-theory' | 'g8-set-basics-quiz' | 'g8-set-basics-matcher' | 'g8-set-basics-sorter'
   | 'g8-set-operations-theory' | 'g8-set-operations-quiz' | 'g8-set-operations-matcher' | 'g8-set-operations-sorter'
@@ -6826,6 +6866,478 @@ export default function MathPage() {
                   </div>
                 )}
                 {/* Grade 7 Geometria ágak vége */}
+
+                {/* Grade 7 VIII. Hozzárendelések, statisztika - 1. Két halmaz közötti hozzárendelések */}
+                {activityType === 'g7-stats-relations-theory' && (
+                  <Grade7StatsRelationsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g7-stats-relations-quiz', selectedTopic?.id || 'g7-stats')}
+                  />
+                )}
+
+                {activityType === 'g7-stats-relations-quiz' && (
+                  <Grade7StatsRelationsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g7-stats-relations-theory', selectedTopic?.id || 'g7-stats')}
+                    onOpenMatcher={() => handleActivitySelect('g7-stats-relations-matcher', selectedTopic?.id || 'g7-stats')}
+                    onOpenSorter={() => handleActivitySelect('g7-stats-relations-sorter', selectedTopic?.id || 'g7-stats')}
+                  />
+                )}
+
+                {activityType === 'g7-stats-relations-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7StatsRelationsMatcher
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-stats-relations-theory', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-stats-relations-quiz', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToSorter={() => handleActivitySelect('g7-stats-relations-sorter', selectedTopic?.id || 'g7-stats')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-stats-relations-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7StatsRelationsSorter
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-stats-relations-theory', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-stats-relations-quiz', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToMatcher={() => handleActivitySelect('g7-stats-relations-matcher', selectedTopic?.id || 'g7-stats')}
+                    />
+                  </div>
+                )}
+
+                {/* Grade 7 VIII. Hozzárendelések, statisztika - 2. A hozzárendelések megadási módjai */}
+                {activityType === 'g7-stats-rep-theory' && (
+                  <Grade7StatsRepTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g7-stats-rep-quiz', selectedTopic?.id || 'g7-stats')}
+                  />
+                )}
+
+                {activityType === 'g7-stats-rep-quiz' && (
+                  <Grade7StatsRepQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g7-stats-rep-theory', selectedTopic?.id || 'g7-stats')}
+                    onOpenMatcher={() => handleActivitySelect('g7-stats-rep-matcher', selectedTopic?.id || 'g7-stats')}
+                    onOpenSorter={() => handleActivitySelect('g7-stats-rep-sorter', selectedTopic?.id || 'g7-stats')}
+                  />
+                )}
+
+                {activityType === 'g7-stats-rep-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7StatsRepMatcher
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-stats-rep-theory', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-stats-rep-quiz', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToSorter={() => handleActivitySelect('g7-stats-rep-sorter', selectedTopic?.id || 'g7-stats')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-stats-rep-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7StatsRepSorter
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-stats-rep-theory', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-stats-rep-quiz', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToMatcher={() => handleActivitySelect('g7-stats-rep-matcher', selectedTopic?.id || 'g7-stats')}
+                    />
+                  </div>
+                )}
+
+                {/* Grade 7 VIII. Hozzárendelések, statisztika - 3. Olvassunk a grafikonról! */}
+                {activityType === 'g7-stats-graph-theory' && (
+                  <Grade7StatsGraphTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g7-stats-graph-quiz', selectedTopic?.id || 'g7-stats')}
+                  />
+                )}
+
+                {activityType === 'g7-stats-graph-quiz' && (
+                  <Grade7StatsGraphQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g7-stats-graph-theory', selectedTopic?.id || 'g7-stats')}
+                    onOpenMatcher={() => handleActivitySelect('g7-stats-graph-matcher', selectedTopic?.id || 'g7-stats')}
+                    onOpenSorter={() => handleActivitySelect('g7-stats-graph-sorter', selectedTopic?.id || 'g7-stats')}
+                  />
+                )}
+
+                {activityType === 'g7-stats-graph-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7StatsGraphMatcher
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-stats-graph-theory', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-stats-graph-quiz', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToSorter={() => handleActivitySelect('g7-stats-graph-sorter', selectedTopic?.id || 'g7-stats')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-stats-graph-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7StatsGraphSorter
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-stats-graph-theory', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-stats-graph-quiz', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToMatcher={() => handleActivitySelect('g7-stats-graph-matcher', selectedTopic?.id || 'g7-stats')}
+                    />
+                  </div>
+                )}
+
+                {/* Grade 7 VIII. Hozzárendelések, statisztika - 4. Átlag, módusz, medián */}
+                {activityType === 'g7-stats-central-theory' && (
+                  <Grade7StatsCentralTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g7-stats-central-quiz', selectedTopic?.id || 'g7-stats')}
+                  />
+                )}
+
+                {activityType === 'g7-stats-central-quiz' && (
+                  <Grade7StatsCentralQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g7-stats-central-theory', selectedTopic?.id || 'g7-stats')}
+                    onOpenMatcher={() => handleActivitySelect('g7-stats-central-matcher', selectedTopic?.id || 'g7-stats')}
+                    onOpenSorter={() => handleActivitySelect('g7-stats-central-sorter', selectedTopic?.id || 'g7-stats')}
+                  />
+                )}
+
+                {activityType === 'g7-stats-central-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7StatsCentralMatcher
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-stats-central-theory', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-stats-central-quiz', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToSorter={() => handleActivitySelect('g7-stats-central-sorter', selectedTopic?.id || 'g7-stats')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-stats-central-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7StatsCentralSorter
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-stats-central-theory', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-stats-central-quiz', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToMatcher={() => handleActivitySelect('g7-stats-central-matcher', selectedTopic?.id || 'g7-stats')}
+                    />
+                  </div>
+                )}
+
+                {/* Grade 7 VIII. Hozzárendelések, statisztika - 5. Gyakoriság, relatív gyakoriság */}
+                {activityType === 'g7-stats-freq-theory' && (
+                  <Grade7StatsFreqTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g7-stats-freq-quiz', selectedTopic?.id || 'g7-stats')}
+                  />
+                )}
+
+                {activityType === 'g7-stats-freq-quiz' && (
+                  <Grade7StatsFreqQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g7-stats-freq-theory', selectedTopic?.id || 'g7-stats')}
+                    onOpenMatcher={() => handleActivitySelect('g7-stats-freq-matcher', selectedTopic?.id || 'g7-stats')}
+                    onOpenSorter={() => handleActivitySelect('g7-stats-freq-sorter', selectedTopic?.id || 'g7-stats')}
+                  />
+                )}
+
+                {activityType === 'g7-stats-freq-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7StatsFreqMatcher
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-stats-freq-theory', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-stats-freq-quiz', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToSorter={() => handleActivitySelect('g7-stats-freq-sorter', selectedTopic?.id || 'g7-stats')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-stats-freq-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7StatsFreqSorter
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-stats-freq-theory', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-stats-freq-quiz', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToMatcher={() => handleActivitySelect('g7-stats-freq-matcher', selectedTopic?.id || 'g7-stats')}
+                    />
+                  </div>
+                )}
+
+                {/* Grade 7 VIII. Hozzárendelések, statisztika - 6. Valószínűség */}
+                {activityType === 'g7-stats-prob-theory' && (
+                  <Grade7StatsProbTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g7-stats-prob-quiz', selectedTopic?.id || 'g7-stats')}
+                  />
+                )}
+
+                {activityType === 'g7-stats-prob-quiz' && (
+                  <Grade7StatsProbQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g7-stats-prob-theory', selectedTopic?.id || 'g7-stats')}
+                    onOpenMatcher={() => handleActivitySelect('g7-stats-prob-matcher', selectedTopic?.id || 'g7-stats')}
+                    onOpenSorter={() => handleActivitySelect('g7-stats-prob-sorter', selectedTopic?.id || 'g7-stats')}
+                  />
+                )}
+
+                {activityType === 'g7-stats-prob-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7StatsProbMatcher
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-stats-prob-theory', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-stats-prob-quiz', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToSorter={() => handleActivitySelect('g7-stats-prob-sorter', selectedTopic?.id || 'g7-stats')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-stats-prob-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7StatsProbSorter
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-stats-prob-theory', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-stats-prob-quiz', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToMatcher={() => handleActivitySelect('g7-stats-prob-matcher', selectedTopic?.id || 'g7-stats')}
+                    />
+                  </div>
+                )}
+
+                {/* Grade 7 VIII. Hozzárendelések, statisztika - 7. Tippelj, kísérletezz, ellenőrizz! */}
+                {activityType === 'g7-stats-exp-theory' && (
+                  <Grade7StatsExpTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g7-stats-exp-quiz', selectedTopic?.id || 'g7-stats')}
+                  />
+                )}
+
+                {activityType === 'g7-stats-exp-quiz' && (
+                  <Grade7StatsExpQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g7-stats-exp-theory', selectedTopic?.id || 'g7-stats')}
+                    onOpenMatcher={() => handleActivitySelect('g7-stats-exp-matcher', selectedTopic?.id || 'g7-stats')}
+                    onOpenSorter={() => handleActivitySelect('g7-stats-exp-sorter', selectedTopic?.id || 'g7-stats')}
+                  />
+                )}
+
+                {activityType === 'g7-stats-exp-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7StatsExpMatcher
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-stats-exp-theory', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-stats-exp-quiz', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToSorter={() => handleActivitySelect('g7-stats-exp-sorter', selectedTopic?.id || 'g7-stats')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-stats-exp-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7StatsExpSorter
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-stats-exp-theory', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-stats-exp-quiz', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToMatcher={() => handleActivitySelect('g7-stats-exp-matcher', selectedTopic?.id || 'g7-stats')}
+                    />
+                  </div>
+                )}
+
+                {/* Grade 7 VIII. Hozzárendelések, statisztika - 8. Összefoglalás */}
+                {activityType === 'g7-stats-summary-theory' && (
+                  <Grade7StatsSummaryTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g7-stats-summary-quiz', selectedTopic?.id || 'g7-stats')}
+                  />
+                )}
+
+                {activityType === 'g7-stats-summary-quiz' && (
+                  <Grade7StatsSummaryQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g7-stats-summary-theory', selectedTopic?.id || 'g7-stats')}
+                    onOpenMatcher={() => handleActivitySelect('g7-stats-summary-matcher', selectedTopic?.id || 'g7-stats')}
+                    onOpenSorter={() => handleActivitySelect('g7-stats-summary-sorter', selectedTopic?.id || 'g7-stats')}
+                  />
+                )}
+
+                {activityType === 'g7-stats-summary-matcher' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7StatsSummaryMatcher
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-stats-summary-theory', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-stats-summary-quiz', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToSorter={() => handleActivitySelect('g7-stats-summary-sorter', selectedTopic?.id || 'g7-stats')}
+                    />
+                  </div>
+                )}
+
+                {activityType === 'g7-stats-summary-sorter' && (
+                  <div className="w-full max-w-5xl mx-auto px-4 py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleBack}
+                      className="mb-4 rounded-xl h-8 px-2.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-1" />
+                      Vissza a témakörökhöz
+                    </Button>
+                    <Grade7StatsSummarySorter
+                      onNextLevel={handleBack}
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g7-stats-summary-theory', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToQuiz={() => handleActivitySelect('g7-stats-summary-quiz', selectedTopic?.id || 'g7-stats')}
+                      onSwitchToMatcher={() => handleActivitySelect('g7-stats-summary-matcher', selectedTopic?.id || 'g7-stats')}
+                    />
+                  </div>
+                )}
 
                 {activityType === 'g6-fractions-review-theory' && (
                   <Grade6FractionsReviewTheory
