@@ -126,6 +126,7 @@ const CirclePartsGame = lazy(() => import("@/components/math/grade-6/geometria-s
 const DecimalFractionsTool = lazy(() => import("@/components/math/tools/DecimalFractionsTool").then(m => ({ default: m.DecimalFractionsTool }))) as any;
 const NumberLineTool = lazy(() => import("@/components/math/tools/NumberLineTool").then(m => ({ default: m.NumberLineTool }))) as any;
 const ManipulativeDivision = lazy(() => import("@/components/math/tools/ManipulativeDivision").then(m => ({ default: m.ManipulativeDivision }))) as any;
+const ManipulativeAddition = lazy(() => import("@/components/math/tools/ManipulativeAddition").then(m => ({ default: m.ManipulativeAddition }))) as any;
 const ConstructionTool = lazy(() => import("@/components/math/tools/ConstructionTool").then(m => ({ default: m.ConstructionTool }))) as any;
 const PercentagesQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/szazalekszamitas/PercentagesQuiz").then(m => ({ default: m.PercentagesQuiz }))) as any;
 const PercentWordProblems = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/a-szazalekszamitas-gyakorlasa/PercentWordProblems").then(m => ({ default: m.PercentWordProblems }))) as any;
@@ -833,6 +834,7 @@ import { QuizResult, GradeLevel } from '@/types/education';
 import { Button } from '@/components/ui/button';
 import {
   ArrowLeft,
+  Plus,
   Calculator,
   Wrench,
   Shapes,
@@ -928,7 +930,7 @@ type ActivityType =
   | 'grade3-fractions-quiz' | 'grade3-geometry-quiz' | 'grade3-measurement-quiz' | 'grade3-word-problems-quiz'
   | 'grade3-blocks' | 'grade3-snake' | 'grade3-alapmuveletek' | 'grade3-tower-builder'
   | 'grade3-money-quiz' | 'triangle-angles-quiz' | 'decimal-fractions-tool' | 'number-line-tool'
-  | 'manipulative-division' | 'construction-tool' | 'money-calculation'
+  | 'manipulative-division' | 'manipulative-addition' | 'construction-tool' | 'money-calculation'
   | 'decimal-shifter-tool' | 'puzzle-maker' | 'geometry-module'
   | 'logic-blocks' | 'venn-diagram-game' | 'grouping-game' | 'number-grouping-game'
   | 'sudoku' | 'sudoku-generator' | 'venn-interpretation-quiz'
@@ -1110,6 +1112,7 @@ interface ActivityConfig {
 const TOOLS: ActivityConfig[] = [
   // basics
   { id: 'number-line', title: 'Számegyenes', desc: 'Egész számok összeadása és kivonása', icon: <span className="text-2xl">➖</span>, color: 'bg-blue-100 text-blue-600', category: 'sec-basics' },
+  { id: 'manipulative-addition', title: 'Összeadás vizuálisan', desc: 'Helyiértékes összeadás blokkokkal és átváltással', icon: <Plus className="w-8 h-8" />, color: 'bg-emerald-100 text-emerald-600', category: 'sec-basics' },
   { id: 'manipulative-division', title: 'Osztás vizuálisan', desc: 'Helyiérték-blokkokkal és szétbontással', icon: <Calculator className="w-8 h-8" />, color: 'bg-blue-100 text-blue-600', category: 'sec-basics' },
   { id: 'long-division', title: 'Írásbeli osztás', desc: 'Lépcsős osztás levezetése egyjegyű osztóval', icon: <Calculator className="w-8 h-8" />, color: 'bg-indigo-100 text-indigo-600', category: 'sec-basics' },
   { id: 'divisibility', title: 'Oszthatóság', desc: 'Számok oszthatóságának vizsgálata maradékkal', icon: <Calculator className="w-8 h-8" />, color: 'bg-emerald-100 text-emerald-600', category: 'sec-basics' },
@@ -1461,6 +1464,8 @@ export default function MathPage() {
       finalActivityType = 'construction';
     } else if (topicId === 'manipulative-division') {
       finalActivityType = 'manipulative-division';
+    } else if (topicId === 'manipulative-addition') {
+      finalActivityType = 'manipulative-addition';
     } else if (topicId === 'decimal-shifter') {
       finalActivityType = 'decimal-shifter';
     } else if (topicId === 'algebra-cloud' || topicId === 'algebrai-felhok') {
@@ -9322,6 +9327,10 @@ export default function MathPage() {
                   <ManipulativeDivision onBack={handleBack} />
                 )}
 
+                {activityType === 'manipulative-addition' && (
+                  <ManipulativeAddition onBack={handleBack} />
+                )}
+
                 {activityType === 'unit-converter' && (
                   <UnitConverterTool onBack={handleBack} />
                 )}
@@ -9920,7 +9929,7 @@ export default function MathPage() {
           </Suspense>
         </div>
       )}
-        {activityType !== 'chess-game' && activityType !== 'snake-game' && activityType !== 'algebra-cloud' && activityType !== 'tower-builder' && activityType !== 'toto-maker' && !isUpperGradeLayout && view !== 'competency-select' && ((activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'volume-surface' && activityType !== 'student-feedback' && activityType !== 'volume-quiz' && activityType !== 'surface-area-quiz' && activityType !== 'unit-converter' && activityType !== 'capacity-converter' && activityType !== 'analog-clock' && activityType !== 'g7-mapping-quiz' && activityType !== 'g7-function-table-quiz') || view !== 'activity') && <SiteFooter />}
+        {activityType !== 'chess-game' && activityType !== 'snake-game' && activityType !== 'algebra-cloud' && activityType !== 'tower-builder' && activityType !== 'toto-maker' && activityType !== 'manipulative-division' && activityType !== 'manipulative-addition' && !isUpperGradeLayout && view !== 'competency-select' && ((activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'volume-surface' && activityType !== 'student-feedback' && activityType !== 'volume-quiz' && activityType !== 'surface-area-quiz' && activityType !== 'unit-converter' && activityType !== 'capacity-converter' && activityType !== 'analog-clock' && activityType !== 'g7-mapping-quiz' && activityType !== 'g7-function-table-quiz') || view !== 'activity') && <SiteFooter />}
         {activeMaterial && (
           <LessonViewer material={activeMaterial} onClose={() => handleMaterialSelect(null)} />
         )}
