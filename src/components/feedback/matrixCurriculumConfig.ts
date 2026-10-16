@@ -745,6 +745,19 @@ export const MATRIX_CURRICULUM: Record<GradeLevel, MatrixGradeDef> = {
           { id: 'g6-stat-sec-4', title: '3. Adatok ábrázolása, átlag', short: 'Átlag' },
           { id: 'g6-stat-sec-5', title: '4. Témazáró', short: 'Témazáró' }
         ]
+      },
+      {
+        id: 'g6-year-end-summary',
+        chapterNumber: 'VII.',
+        title: 'VII. Év végi összefoglalás',
+        subtitle: 'A 6. osztályos tananyag átfogó ismétlése, rendszerezése és tudáspróba',
+        topics: [
+          { id: 'g6-summary-sec-1', title: '1. Számelmélet és egész számok', short: 'Számelmélet' },
+          { id: 'g6-summary-sec-2', title: '2. Törtek és tizedes törtek', short: 'Törtek' },
+          { id: 'g6-summary-sec-3', title: '3. Arány, százalék, szöveges feladatok', short: 'Arány, százalék' },
+          { id: 'g6-summary-sec-4', title: '4. Geometria, szimmetria és mérések', short: 'Geometria' },
+          { id: 'g6-summary-sec-5', title: '5. Átfogó év végi tudáspróba', short: 'Tudáspróba' }
+        ]
       }
     ]
   },

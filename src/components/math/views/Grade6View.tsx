@@ -1743,22 +1743,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-stat-sec-1" number={1} title="Játékok" color="pink" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Venn-diagram Kvíz"
-                  subtitle="Halmazok és logikai adatok értelmezése"
-                  type="Kvíz"
-                  emoji="🎲"
-                  onClick={() => onActivitySelect('venn-interpretation-quiz', topicId)}
-                  icon={<Gamepad2 className="w-6 h-6" />}
+                  title="Játékok tananyag"
+                  subtitle="Venn-diagramok, halmazműveletek, osztálytermi szita-formula és barkochba"
+                  type="Tananyag"
+                  emoji="📖"
+                  onClick={() => onActivitySelect('g6-stat-games-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="pink"
                 />
                 <ActivityPlaceholder
-                  title="Venn-diagram Játék"
-                  subtitle="Interaktív halmazrendező"
-                  type="Játék"
-                  emoji="⭕"
-                  onClick={() => onActivitySelect('venn-diagram-game', topicId)}
+                  title="Játékok kvíz"
+                  subtitle="Halmazok, szita-formula, barkochba és logikai rejtvények 3 szinten"
+                  type="Kvíz"
+                  emoji="🎲"
+                  onClick={() => onActivitySelect('g6-stat-games-quiz', topicId)}
                   icon={<Target className="w-6 h-6" />}
-                  color="purple"
+                  color="pink"
+                  {...getTopicProgress('g6-stat-games')}
                 />
               </div>
             </section>
@@ -1770,13 +1771,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-stat-sec-2" number={2} title="Grafikonok, diagramok, összefüggések" color="blue" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Diagramok és Grafikonok"
-                  subtitle="Oszlop-, sáv- és vonaldiagramok elemzése"
-                  type="Hamarosan"
-                  emoji="📊"
-                  disabled={true}
-                  icon={<BarChart3 className="w-6 h-6" />}
+                  title="Grafikonok és diagramok tananyag"
+                  subtitle="Oszlop-, sáv- és vonaldiagramok, skálázás, folyamatok és félrevezető ábrák"
+                  type="Tananyag"
+                  emoji="📖"
+                  onClick={() => onActivitySelect('g6-charts-diagrams-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="blue"
+                />
+                <ActivityPlaceholder
+                  title="Grafikonok és diagramok kvíz"
+                  subtitle="Diagramok olvasása, számítások, trendek és manipulatív ábrák 3 szinten"
+                  type="Kvíz"
+                  emoji="📊"
+                  onClick={() => onActivitySelect('g6-charts-diagrams-quiz', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="blue"
+                  {...getTopicProgress('g6-charts-diagrams')}
                 />
               </div>
             </section>
@@ -1788,13 +1799,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-stat-sec-3" number={3} title="Kördiagram" color="indigo" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Kördiagram Értelmező"
-                  subtitle="Középponti szögek és százalékos részesedés"
-                  type="Hamarosan"
-                  emoji="🥧"
-                  disabled={true}
-                  icon={<PieChart className="w-6 h-6" />}
+                  title="Kördiagram tananyag"
+                  subtitle="Az egész részekre bontása, középponti szögek (1% = 3,6°), szerkesztés és 3D csapdák"
+                  type="Tananyag"
+                  emoji="📖"
+                  onClick={() => onActivitySelect('g6-pie-chart-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="indigo"
+                />
+                <ActivityPlaceholder
+                  title="Kördiagram kvíz"
+                  subtitle="Szögek és százalékok számítása, nevezetes arányok és szerkesztési szabályok 3 szinten"
+                  type="Kvíz"
+                  emoji="🥧"
+                  onClick={() => onActivitySelect('g6-pie-chart-quiz', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="indigo"
+                  {...getTopicProgress('g6-pie-chart')}
                 />
               </div>
             </section>
@@ -1806,13 +1827,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-stat-sec-4" number={4} title="Adatok ábrázolása, átlag" color="teal" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Statisztikai Mutatók"
-                  subtitle="Átlag, módusz, medián és terjedelem"
-                  type="Hamarosan"
-                  emoji="📈"
-                  disabled={true}
-                  icon={<TrendingUp className="w-6 h-6" />}
+                  title="Adatok és átlag tananyag"
+                  subtitle="Gyakoriság, relatív gyakoriság, számtani közép mint egyensúly, módusz, medián és terjedelmi szóródás"
+                  type="Tananyag"
+                  emoji="📖"
+                  onClick={() => onActivitySelect('g6-data-mean-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="teal"
+                />
+                <ActivityPlaceholder
+                  title="Adatok és átlag kvíz"
+                  subtitle="Ábrák és diagramok leolvasása: átlag, medián, módusz, terjedelem és kiugró értékek 3 szinten"
+                  type="Kvíz"
+                  emoji="📈"
+                  onClick={() => onActivitySelect('g6-data-mean-quiz', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="teal"
+                  {...getTopicProgress('g6-data-mean')}
                 />
               </div>
             </section>
@@ -1824,13 +1855,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-stat-sec-5" number={5} title="Összefoglalás" color="slate" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Összefoglaló felkészítő"
-                  subtitle="VI. Statisztika témakör átfogó ellenőrzése"
-                  type="Hamarosan"
-                  emoji="🏆"
-                  disabled={true}
-                  icon={<Trophy className="w-6 h-6" />}
+                  title="Statisztika összefoglaló"
+                  subtitle="A teljes VI. témakör átfogó rendszerezése, diagramválasztó mátrix és vizsgaellenőrző lista"
+                  type="Tananyag"
+                  emoji="📖"
+                  onClick={() => onActivitySelect('g6-stat-summary-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="slate"
+                />
+                <ActivityPlaceholder
+                  title="Statisztika záróteszt"
+                  subtitle="Átfogó témazáró kvíz: diagramleolvasás, mutatók, kördiagram és manipulált ábrák felismerése"
+                  type="Kvíz"
+                  emoji="🏆"
+                  onClick={() => onActivitySelect('g6-stat-summary-quiz', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="slate"
+                  {...getTopicProgress('g6-stat-summary')}
                 />
               </div>
             </section>
@@ -1838,6 +1879,154 @@ export const Grade6View: React.FC<GradeViewProps> = ({
         </div>
       );
     }
+
+    if (topicId === 'g6-year-end-summary') {
+      const showAll = !activeSubSectionId;
+      return (
+        <div className="flex flex-col gap-10 py-6">
+          {/* Section 1: Számelmélet és egész számok */}
+          {(showAll || activeSubSectionId === 'g6-summary-sec-1') && (
+            <section>
+              <SectionHeader id="g6-summary-sec-1" number={1} title="Számelmélet és egész számok" color="blue" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Számelmélet tananyag"
+                  subtitle="Egész számok, műveletek, oszthatóság, prímtényezők, LKKT és LNKO összefoglalása"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-summary-numbers-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="blue"
+                />
+                <ActivityPlaceholder
+                  title="Számelmélet kvíz"
+                  subtitle="Átfogó gyakorló feladatok: műveletek, előjelek, oszthatósági szabályok és osztópárok"
+                  type="Kvíz"
+                  emoji="🔢"
+                  onClick={() => onActivitySelect('g6-summary-numbers-quiz', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="blue"
+                  {...getTopicProgress('g6-summary-numbers')}
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 2: Törtek és tizedes törtek */}
+          {(showAll || activeSubSectionId === 'g6-summary-sec-2') && (
+            <section>
+              <SectionHeader id="g6-summary-sec-2" number={2} title="Törtek és tizedes törtek" color="amber" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Törtek tananyag"
+                  subtitle="Közönséges és tizedes törtek átváltása, alapműveletek, reciprok és műveleti sorrend"
+                  type="Tananyag"
+                  emoji="📖"
+                  onClick={() => onActivitySelect('g6-summary-fractions-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="amber"
+                />
+                <ActivityPlaceholder
+                  title="Törtek kvíz"
+                  subtitle="Összeadás, kivonás, szorzás, osztás törtekkel és tizedestörtekkel 3 szinten"
+                  type="Kvíz"
+                  emoji="🍕"
+                  onClick={() => onActivitySelect('g6-summary-fractions-quiz', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="amber"
+                  {...getTopicProgress('g6-summary-fractions')}
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 3: Arány, százalék, szöveges feladatok */}
+          {(showAll || activeSubSectionId === 'g6-summary-sec-3') && (
+            <section>
+              <SectionHeader id="g6-summary-sec-3" number={3} title="Arány, százalék, szöveges feladatok" color="orange" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Arány és százalék tananyag"
+                  subtitle="Arányos osztás, egyenes arányosság, százalékláb, százalékérték és alapszámítás"
+                  type="Tananyag"
+                  emoji="📖"
+                  onClick={() => onActivitySelect('g6-summary-proportions-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="orange"
+                />
+                <ActivityPlaceholder
+                  title="Arány és százalék kvíz"
+                  subtitle="Gyakorlati életből vett szöveges feladatok és arányos következtetések"
+                  type="Kvíz"
+                  emoji="📊"
+                  onClick={() => onActivitySelect('g6-summary-proportions-quiz', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="orange"
+                  {...getTopicProgress('g6-summary-proportions')}
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 4: Geometria, szimmetria és mérések */}
+          {(showAll || activeSubSectionId === 'g6-summary-sec-4') && (
+            <section>
+              <SectionHeader id="g6-summary-sec-4" number={4} title="Geometria, szimmetria és mérések" color="emerald" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Geometria és mérések tananyag"
+                  subtitle="Tengelyes tükrözés, síkidomok, kerület, terület, testek hálója, felszíne és térfogata"
+                  type="Tananyag"
+                  emoji="📖"
+                  onClick={() => onActivitySelect('g6-summary-geometry-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="emerald"
+                />
+                <ActivityPlaceholder
+                  title="Geometria és mérések kvíz"
+                  subtitle="Alakzatok tulajdonságai, szerkesztések, átváltások és számítási feladatok"
+                  type="Kvíz"
+                  emoji="📐"
+                  onClick={() => onActivitySelect('g6-summary-geometry-quiz', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="emerald"
+                  {...getTopicProgress('g6-summary-geometry')}
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 5: Átfogó év végi tudáspróba */}
+          {(showAll || activeSubSectionId === 'g6-summary-sec-5') && (
+            <section>
+              <SectionHeader id="g6-summary-sec-5" number={5} title="Átfogó év végi tudáspróba" color="teal" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Év végi összefoglaló tananyag"
+                  subtitle="A teljes 6. osztályos tananyag képlet- és fogalomtára, vizsgatippek és ellenőrző lista"
+                  type="Tananyag"
+                  emoji="📖"
+                  onClick={() => onActivitySelect('g6-summary-final-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="teal"
+                />
+                <ActivityPlaceholder
+                  title="Év végi záróteszt"
+                  subtitle="Nagy év végi próbateszt: a teljes tanév legfontosabb feladattípusai vegyesen 3 szinten"
+                  type="Kvíz"
+                  emoji="🏆"
+                  onClick={() => onActivitySelect('g6-summary-final-quiz', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="teal"
+                  {...getTopicProgress('g6-summary-final')}
+                />
+              </div>
+            </section>
+          )}
+        </div>
+      );
+    }
+
 
 
   return (

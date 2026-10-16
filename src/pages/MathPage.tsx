@@ -368,6 +368,26 @@ const Chapter5SummaryTheory = lazy(() => import("@/components/math/grade-6/kerul
 const Chapter5SummaryQuiz = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/osszefoglalas/Chapter5SummaryQuiz").then(m => ({ default: m.Chapter5SummaryQuiz }))) as any;
 const Chapter5SummaryMatcher = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/osszefoglalas/Chapter5SummaryMatcher").then(m => ({ default: m.Chapter5SummaryMatcher }))) as any;
 const Chapter5SummarySorter = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/osszefoglalas/Chapter5SummarySorter").then(m => ({ default: m.Chapter5SummarySorter }))) as any;
+const StatisticsGamesTheory = lazy(() => import("@/components/math/grade-6/statisztika/jatekok/StatisticsGamesTheory").then(m => ({ default: m.StatisticsGamesTheory }))) as any;
+const StatisticsGamesQuiz = lazy(() => import("@/components/math/grade-6/statisztika/jatekok/StatisticsGamesQuiz").then(m => ({ default: m.StatisticsGamesQuiz }))) as any;
+const StatisticsGamesMatcher = lazy(() => import("@/components/math/grade-6/statisztika/jatekok/StatisticsGamesMatcher").then(m => ({ default: m.StatisticsGamesMatcher }))) as any;
+const StatisticsGamesSorter = lazy(() => import("@/components/math/grade-6/statisztika/jatekok/StatisticsGamesSorter").then(m => ({ default: m.StatisticsGamesSorter }))) as any;
+const ChartsDiagramsTheory = lazy(() => import("@/components/math/grade-6/statisztika/grafikonok-diagramok-osszefuggesek/ChartsDiagramsTheory").then(m => ({ default: m.ChartsDiagramsTheory }))) as any;
+const ChartsDiagramsQuiz = lazy(() => import("@/components/math/grade-6/statisztika/grafikonok-diagramok-osszefuggesek/ChartsDiagramsQuiz").then(m => ({ default: m.ChartsDiagramsQuiz }))) as any;
+const ChartsDiagramsMatcher = lazy(() => import("@/components/math/grade-6/statisztika/grafikonok-diagramok-osszefuggesek/ChartsDiagramsMatcher").then(m => ({ default: m.ChartsDiagramsMatcher }))) as any;
+const ChartsDiagramsSorter = lazy(() => import("@/components/math/grade-6/statisztika/grafikonok-diagramok-osszefuggesek/ChartsDiagramsSorter").then(m => ({ default: m.ChartsDiagramsSorter }))) as any;
+const PieChartTheory = lazy(() => import("@/components/math/grade-6/statisztika/kordiagram/PieChartTheory").then(m => ({ default: m.PieChartTheory }))) as any;
+const PieChartQuiz = lazy(() => import("@/components/math/grade-6/statisztika/kordiagram/PieChartQuiz").then(m => ({ default: m.PieChartQuiz }))) as any;
+const PieChartMatcher = lazy(() => import("@/components/math/grade-6/statisztika/kordiagram/PieChartMatcher").then(m => ({ default: m.PieChartMatcher }))) as any;
+const PieChartSorter = lazy(() => import("@/components/math/grade-6/statisztika/kordiagram/PieChartSorter").then(m => ({ default: m.PieChartSorter }))) as any;
+const DataMeanTheory = lazy(() => import("@/components/math/grade-6/statisztika/adatok-abrazolasa-atlag/DataMeanTheory").then(m => ({ default: m.DataMeanTheory }))) as any;
+const DataMeanQuiz = lazy(() => import("@/components/math/grade-6/statisztika/adatok-abrazolasa-atlag/DataMeanQuiz").then(m => ({ default: m.DataMeanQuiz }))) as any;
+const DataMeanMatcher = lazy(() => import("@/components/math/grade-6/statisztika/adatok-abrazolasa-atlag/DataMeanMatcher").then(m => ({ default: m.DataMeanMatcher }))) as any;
+const DataMeanSorter = lazy(() => import("@/components/math/grade-6/statisztika/adatok-abrazolasa-atlag/DataMeanSorter").then(m => ({ default: m.DataMeanSorter }))) as any;
+const StatisticsSummaryTheory = lazy(() => import("@/components/math/grade-6/statisztika/osszefoglalas/StatisticsSummaryTheory").then(m => ({ default: m.StatisticsSummaryTheory }))) as any;
+const StatisticsSummaryQuiz = lazy(() => import("@/components/math/grade-6/statisztika/osszefoglalas/StatisticsSummaryQuiz").then(m => ({ default: m.StatisticsSummaryQuiz }))) as any;
+const StatisticsSummaryMatcher = lazy(() => import("@/components/math/grade-6/statisztika/osszefoglalas/StatisticsSummaryMatcher").then(m => ({ default: m.StatisticsSummaryMatcher }))) as any;
+const StatisticsSummarySorter = lazy(() => import("@/components/math/grade-6/statisztika/osszefoglalas/StatisticsSummarySorter").then(m => ({ default: m.StatisticsSummarySorter }))) as any;
 const MatrixSortingGame = lazy(() => import("@/components/math/grade-1/grouping/MatrixSortingGame").then(m => ({ default: m.MatrixSortingGame }))) as any;
 const MemoryGameComponent = lazy(() => import("@/components/math/games/memory/MemoryGame")) as any;
 const HanoiGame = lazy(() => import("@/components/math/games/hanoi/HanoiGame")) as any;
@@ -1020,6 +1040,11 @@ type ActivityType =
   | 'g6-integers-lcm-theory' | 'g6-integers-lcm-quiz'
   | 'g6-integers-gcd-theory' | 'g6-integers-gcd-quiz'
   | 'g6-integers-summary-theory' | 'g6-integers-summary-quiz'
+  | 'g6-summary-numbers-theory' | 'g6-summary-numbers-quiz'
+  | 'g6-summary-fractions-theory' | 'g6-summary-fractions-quiz'
+  | 'g6-summary-proportions-theory' | 'g6-summary-proportions-quiz'
+  | 'g6-summary-geometry-theory' | 'g6-summary-geometry-quiz'
+  | 'g6-summary-final-theory' | 'g6-summary-final-quiz'
   | 'g7-rat-integer-properties-theory' | 'g7-rat-integer-properties-quiz' | 'g7-rat-integer-properties-matcher' | 'g7-rat-integer-properties-sorter'
   | 'g7-rat-fractions-decimals-theory' | 'g7-rat-fractions-decimals-quiz' | 'g7-rat-fractions-decimals-matcher' | 'g7-rat-fractions-decimals-sorter'
   | 'g7-rat-operations-theory' | 'g7-rat-operations-quiz' | 'g7-rat-operations-matcher' | 'g7-rat-operations-sorter'
@@ -10144,6 +10169,176 @@ export default function MathPage() {
                    />
                 )}
 
+                {activityType === 'g6-stat-games-theory' && (
+                   <StatisticsGamesTheory
+                     onBack={handleBack}
+                     onStartQuiz={() => handleActivitySelect('g6-stat-games-quiz', selectedTopic || 'g6-statistics')}
+                   />
+                )}
+
+                {activityType === 'g6-stat-games-quiz' && (
+                   <StatisticsGamesQuiz
+                     onBack={handleBack}
+                     onSwitchToTheory={() => handleActivitySelect('g6-stat-games-theory', selectedTopic || 'g6-statistics')}
+                     onOpenMatcher={() => handleActivitySelect('g6-stat-games-matcher', selectedTopic || 'g6-statistics')}
+                     onOpenSorter={() => handleActivitySelect('g6-stat-games-sorter', selectedTopic || 'g6-statistics')}
+                   />
+                )}
+
+                {activityType === 'g6-stat-games-matcher' && (
+                   <StatisticsGamesMatcher
+                     onBack={() => handleActivitySelect('g6-stat-games-quiz', selectedTopic || 'g6-statistics')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-stat-games-quiz', selectedTopic || 'g6-statistics')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-stat-games-theory', selectedTopic || 'g6-statistics')}
+                     onSwitchToSorter={() => handleActivitySelect('g6-stat-games-sorter', selectedTopic || 'g6-statistics')}
+                   />
+                )}
+
+                {activityType === 'g6-stat-games-sorter' && (
+                   <StatisticsGamesSorter
+                     onBack={() => handleActivitySelect('g6-stat-games-quiz', selectedTopic || 'g6-statistics')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-stat-games-quiz', selectedTopic || 'g6-statistics')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-stat-games-theory', selectedTopic || 'g6-statistics')}
+                     onSwitchToMatcher={() => handleActivitySelect('g6-stat-games-matcher', selectedTopic || 'g6-statistics')}
+                   />
+                )}
+
+                {activityType === 'g6-charts-diagrams-theory' && (
+                   <ChartsDiagramsTheory
+                     onBack={handleBack}
+                     onStartQuiz={() => handleActivitySelect('g6-charts-diagrams-quiz', selectedTopic || 'g6-statistics')}
+                   />
+                )}
+
+                {activityType === 'g6-charts-diagrams-quiz' && (
+                   <ChartsDiagramsQuiz
+                     onBack={handleBack}
+                     onSwitchToTheory={() => handleActivitySelect('g6-charts-diagrams-theory', selectedTopic || 'g6-statistics')}
+                     onOpenMatcher={() => handleActivitySelect('g6-charts-diagrams-matcher', selectedTopic || 'g6-statistics')}
+                     onOpenSorter={() => handleActivitySelect('g6-charts-diagrams-sorter', selectedTopic || 'g6-statistics')}
+                   />
+                )}
+
+                {activityType === 'g6-charts-diagrams-matcher' && (
+                   <ChartsDiagramsMatcher
+                     onBack={() => handleActivitySelect('g6-charts-diagrams-quiz', selectedTopic || 'g6-statistics')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-charts-diagrams-quiz', selectedTopic || 'g6-statistics')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-charts-diagrams-theory', selectedTopic || 'g6-statistics')}
+                     onSwitchToSorter={() => handleActivitySelect('g6-charts-diagrams-sorter', selectedTopic || 'g6-statistics')}
+                   />
+                )}
+
+                {activityType === 'g6-charts-diagrams-sorter' && (
+                   <ChartsDiagramsSorter
+                     onBack={() => handleActivitySelect('g6-charts-diagrams-quiz', selectedTopic || 'g6-statistics')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-charts-diagrams-quiz', selectedTopic || 'g6-statistics')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-charts-diagrams-theory', selectedTopic || 'g6-statistics')}
+                     onSwitchToMatcher={() => handleActivitySelect('g6-charts-diagrams-matcher', selectedTopic || 'g6-statistics')}
+                   />
+                )}
+
+                {activityType === 'g6-pie-chart-theory' && (
+                   <PieChartTheory
+                     onBack={handleBack}
+                     onStartQuiz={() => handleActivitySelect('g6-pie-chart-quiz', selectedTopic || 'g6-statistics')}
+                   />
+                )}
+
+                {activityType === 'g6-pie-chart-quiz' && (
+                   <PieChartQuiz
+                     onBack={handleBack}
+                     onSwitchToTheory={() => handleActivitySelect('g6-pie-chart-theory', selectedTopic || 'g6-statistics')}
+                     onOpenMatcher={() => handleActivitySelect('g6-pie-chart-matcher', selectedTopic || 'g6-statistics')}
+                     onOpenSorter={() => handleActivitySelect('g6-pie-chart-sorter', selectedTopic || 'g6-statistics')}
+                   />
+                )}
+
+                {activityType === 'g6-pie-chart-matcher' && (
+                   <PieChartMatcher
+                     onBack={() => handleActivitySelect('g6-pie-chart-quiz', selectedTopic || 'g6-statistics')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-pie-chart-quiz', selectedTopic || 'g6-statistics')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-pie-chart-theory', selectedTopic || 'g6-statistics')}
+                     onSwitchToSorter={() => handleActivitySelect('g6-pie-chart-sorter', selectedTopic || 'g6-statistics')}
+                   />
+                )}
+
+                {activityType === 'g6-pie-chart-sorter' && (
+                   <PieChartSorter
+                     onBack={() => handleActivitySelect('g6-pie-chart-quiz', selectedTopic || 'g6-statistics')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-pie-chart-quiz', selectedTopic || 'g6-statistics')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-pie-chart-theory', selectedTopic || 'g6-statistics')}
+                     onSwitchToMatcher={() => handleActivitySelect('g6-pie-chart-matcher', selectedTopic || 'g6-statistics')}
+                   />
+                )}
+
+                {activityType === 'g6-data-mean-theory' && (
+                   <DataMeanTheory
+                     onBack={handleBack}
+                     onStartQuiz={() => handleActivitySelect('g6-data-mean-quiz', selectedTopic || 'g6-statistics')}
+                   />
+                )}
+
+                {activityType === 'g6-data-mean-quiz' && (
+                   <DataMeanQuiz
+                     onBack={handleBack}
+                     onSwitchToTheory={() => handleActivitySelect('g6-data-mean-theory', selectedTopic || 'g6-statistics')}
+                     onOpenMatcher={() => handleActivitySelect('g6-data-mean-matcher', selectedTopic || 'g6-statistics')}
+                     onOpenSorter={() => handleActivitySelect('g6-data-mean-sorter', selectedTopic || 'g6-statistics')}
+                   />
+                )}
+
+                {activityType === 'g6-data-mean-matcher' && (
+                   <DataMeanMatcher
+                     onBack={() => handleActivitySelect('g6-data-mean-quiz', selectedTopic || 'g6-statistics')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-data-mean-quiz', selectedTopic || 'g6-statistics')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-data-mean-theory', selectedTopic || 'g6-statistics')}
+                     onSwitchToSorter={() => handleActivitySelect('g6-data-mean-sorter', selectedTopic || 'g6-statistics')}
+                   />
+                )}
+
+                {activityType === 'g6-data-mean-sorter' && (
+                   <DataMeanSorter
+                     onBack={() => handleActivitySelect('g6-data-mean-quiz', selectedTopic || 'g6-statistics')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-data-mean-quiz', selectedTopic || 'g6-statistics')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-data-mean-theory', selectedTopic || 'g6-statistics')}
+                     onSwitchToMatcher={() => handleActivitySelect('g6-data-mean-matcher', selectedTopic || 'g6-statistics')}
+                   />
+                )}
+
+                {activityType === 'g6-stat-summary-theory' && (
+                   <StatisticsSummaryTheory
+                     onBack={handleBack}
+                     onStartQuiz={() => handleActivitySelect('g6-stat-summary-quiz', selectedTopic || 'g6-statistics')}
+                   />
+                )}
+
+                {activityType === 'g6-stat-summary-quiz' && (
+                   <StatisticsSummaryQuiz
+                     onBack={handleBack}
+                     onSwitchToTheory={() => handleActivitySelect('g6-stat-summary-theory', selectedTopic || 'g6-statistics')}
+                     onOpenMatcher={() => handleActivitySelect('g6-stat-summary-matcher', selectedTopic || 'g6-statistics')}
+                     onOpenSorter={() => handleActivitySelect('g6-stat-summary-sorter', selectedTopic || 'g6-statistics')}
+                   />
+                )}
+
+                {activityType === 'g6-stat-summary-matcher' && (
+                   <StatisticsSummaryMatcher
+                     onBack={() => handleActivitySelect('g6-stat-summary-quiz', selectedTopic || 'g6-statistics')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-stat-summary-quiz', selectedTopic || 'g6-statistics')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-stat-summary-theory', selectedTopic || 'g6-statistics')}
+                     onSwitchToSorter={() => handleActivitySelect('g6-stat-summary-sorter', selectedTopic || 'g6-statistics')}
+                   />
+                )}
+
+                {activityType === 'g6-stat-summary-sorter' && (
+                   <StatisticsSummarySorter
+                     onBack={() => handleActivitySelect('g6-stat-summary-quiz', selectedTopic || 'g6-statistics')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-stat-summary-quiz', selectedTopic || 'g6-statistics')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-stat-summary-theory', selectedTopic || 'g6-statistics')}
+                     onSwitchToMatcher={() => handleActivitySelect('g6-stat-summary-matcher', selectedTopic || 'g6-statistics')}
+                   />
+                )}
+
                 {activityType === 'matrix-sorting-game' && (
                    <MatrixSortingGame onBack={handleBack} />
                 )}
@@ -10178,6 +10373,28 @@ export default function MathPage() {
                     </h3>
                     <p className="text-slate-500 max-w-md mx-auto mb-8 px-4">
                       Ez az interaktív modul hamarosan elkészül! Addig is nézd meg a többi tananyagot.
+                    </p>
+                    <Button
+                      onClick={handleBack}
+                      variant="outline"
+                      className="rounded-xl px-8"
+                    >
+                      <ArrowLeft className="w-4 h-4 mr-2" />
+                      Vissza a témakörökhöz
+                    </Button>
+                  </div>
+                )}
+
+                {activityType && typeof activityType === 'string' && activityType.startsWith('g6-summary-') && (
+                  <div className="text-center py-20 bg-white rounded-3xl shadow-sm border border-slate-100 animate-slide-up">
+                    <div className="inline-flex p-6 bg-emerald-50 rounded-full text-emerald-600 mb-6 group-hover:scale-110 transition-transform">
+                      <BookOpen className="w-12 h-12" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-slate-900 mb-4">
+                      VII. Év végi összefoglalás
+                    </h3>
+                    <p className="text-slate-500 max-w-md mx-auto mb-8 px-4">
+                      Ez az interaktív modul kidolgozás alatt áll, és hamarosan elérhető lesz!
                     </p>
                     <Button
                       onClick={handleBack}
