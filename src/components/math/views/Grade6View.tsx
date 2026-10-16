@@ -1457,22 +1457,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-meas-sec-1" number={1} title="Hosszúság, tömeg, idő" color="cyan" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Mértékegység átváltó"
-                  subtitle="Hosszúság, tömeg és idő átváltása"
-                  type="Eszköz"
-                  emoji="📏"
-                  onClick={() => onActivitySelect('unit-converter', topicId)}
-                  icon={<Ruler className="w-6 h-6" />}
+                  title="Hosszúság, tömeg, idő tananyag"
+                  subtitle="Mértékegységrendszer, váltószámok, prefixumok és tizedestörtes átváltások"
+                  type="Tananyag"
+                  emoji="📖"
+                  onClick={() => onActivitySelect('g6-length-mass-time-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="cyan"
                 />
                 <ActivityPlaceholder
-                  title="Analóg Óra"
-                  subtitle="Időmérés és időszámítás"
-                  type="Eszköz"
-                  emoji="⏱️"
-                  onClick={() => onActivitySelect('analog-clock', topicId)}
-                  icon={<Timer className="w-6 h-6" />}
-                  color="blue"
+                  title="Hosszúság, tömeg, idő kvíz"
+                  subtitle="Mértékegységek átváltása, tizedestörtek és szöveges feladatok 3 szinten"
+                  type="Kvíz"
+                  emoji="⚖️"
+                  onClick={() => onActivitySelect('g6-length-mass-time-quiz', topicId)}
+                  icon={<Scale className="w-6 h-6" />}
+                  color="cyan"
+                  {...getTopicProgress('g6-length-mass-time')}
                 />
               </div>
             </section>
@@ -1484,13 +1485,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-meas-sec-2" number={2} title="A sokszögek kerülete" color="blue" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Kerület Kvíz"
-                  subtitle="Háromszögek és négyszögek kerülete"
-                  type="Teszt"
+                  title="A sokszögek kerülete tananyag"
+                  subtitle="A határoló vonalak összhossza, háromszögek, négyszögek és szabályos sokszögek kerülete"
+                  type="Tananyag"
                   emoji="📐"
-                  onClick={() => onActivitySelect('perimeter-quiz', topicId)}
+                  onClick={() => onActivitySelect('g6-polygon-perimeter-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="blue"
+                />
+                <ActivityPlaceholder
+                  title="A sokszögek kerülete kvíz"
+                  subtitle="Háromszögek, négyszögek és szabályos sokszögek kerülete, hiányzó oldalak 3 szinten"
+                  type="Kvíz"
+                  emoji="📏"
+                  onClick={() => onActivitySelect('g6-polygon-perimeter-quiz', topicId)}
                   icon={<Shapes className="w-6 h-6" />}
                   color="blue"
+                  {...getTopicProgress('g6-polygon-perimeter')}
                 />
               </div>
             </section>
@@ -1502,22 +1513,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-meas-sec-3" number={3} title="A terület és a térfogat mérése" color="indigo" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Terület Átváltás Kvíz"
-                  subtitle="Mértékegységek 100-as váltószámmal"
-                  type="Teszt"
-                  emoji="🔄"
-                  onClick={() => onActivitySelect('area-conversion-quiz', topicId)}
-                  icon={<MoveHorizontal className="w-6 h-6" />}
+                  title="A terület és a térfogat mérése tananyag"
+                  subtitle="Mértékegységrendszer, 100-as és 1000-es váltószámok, űrtartalom és átváltások"
+                  type="Tananyag"
+                  emoji="📖"
+                  onClick={() => onActivitySelect('g6-area-volume-measurement-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="indigo"
                 />
                 <ActivityPlaceholder
-                  title="Űrmérték Átváltó"
-                  subtitle="Liter, deciliter és köbdeciméter"
-                  type="Eszköz"
-                  emoji="🧪"
-                  onClick={() => onActivitySelect('capacity-converter', topicId)}
-                  icon={<FlaskConical className="w-6 h-6" />}
-                  color="teal"
+                  title="A terület és a térfogat mérése kvíz"
+                  subtitle="Terület- és térfogatmértékek átváltása, űrtartalom és szöveges feladatok 3 szinten"
+                  type="Kvíz"
+                  emoji="⚖️"
+                  onClick={() => onActivitySelect('g6-area-volume-measurement-quiz', topicId)}
+                  icon={<Scale className="w-6 h-6" />}
+                  color="indigo"
+                  {...getTopicProgress('g6-area-volume-measurement')}
                 />
               </div>
             </section>
@@ -1529,10 +1541,29 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-meas-sec-4" number={4} title="A sokszögek területe" color="emerald" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Területszámítás Kvíz"
+                  title="A sokszögek területe tananyag"
+                  subtitle="Négyzet, téglalap, háromszög, paralelogramma, trapéz és deltoid területe"
+                  type="Tananyag"
+                  emoji="📖"
+                  onClick={() => onActivitySelect('g6-polygon-area-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="emerald"
+                />
+                <ActivityPlaceholder
+                  title="A sokszögek területe kvíz"
+                  subtitle="Alapképletek, háromszögek, négyszögek és összetett alakzatok területe 3 szinten"
+                  type="Kvíz"
+                  emoji="🟩"
+                  onClick={() => onActivitySelect('g6-polygon-area-quiz', topicId)}
+                  icon={<Shapes className="w-6 h-6" />}
+                  color="emerald"
+                  {...getTopicProgress('g6-polygon-area')}
+                />
+                <ActivityPlaceholder
+                  title="Területszámítás Teszt"
                   subtitle="Négyzet, téglalap, háromszögek területe"
                   type="Teszt"
-                  emoji="🟩"
+                  emoji="🎯"
                   onClick={() => onActivitySelect('area-calc-quiz', topicId)}
                   icon={<Target className="w-6 h-6" />}
                   color="emerald"
@@ -1556,13 +1587,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-meas-sec-5" number={5} title="Alakzatok a térben" color="purple" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Térbeli testek és hálók"
-                  subtitle="Csúcsok, élek, lapok és testhálók"
-                  type="Hamarosan"
+                  title="Alakzatok a térben tananyag"
+                  subtitle="Térbeli testek, csúcsok, élek, lapok, Euler-tétel, testhálók és nézetek"
+                  type="Tananyag"
+                  emoji="📖"
+                  onClick={() => onActivitySelect('g6-spatial-shapes-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="purple"
+                />
+                <ActivityPlaceholder
+                  title="Alakzatok a térben kvíz"
+                  subtitle="Poliéderek, forgástestek, csúcs-él-lap számítások, hálók és nézetek 3 szinten"
+                  type="Kvíz"
                   emoji="📦"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g6-spatial-shapes-quiz', topicId)}
                   icon={<Box className="w-6 h-6" />}
                   color="purple"
+                  {...getTopicProgress('g6-spatial-shapes')}
                 />
               </div>
             </section>
@@ -1574,13 +1615,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-meas-sec-6" number={6} title="Testek felszíne" color="amber" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Felszínszámítás Kvíz"
-                  subtitle="Kocka és téglatest felszíne"
-                  type="Teszt"
+                  title="Testek felszíne tananyag"
+                  subtitle="Kocka, téglatest és egyenes hasábok felszíne, hálók és interaktív labor"
+                  type="Tananyag"
+                  emoji="📖"
+                  onClick={() => onActivitySelect('g6-surface-area-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="amber"
+                />
+                <ActivityPlaceholder
+                  title="Testek felszíne kvíz"
+                  subtitle="Kocka, téglatest és hasábok felszínszámítása, él visszaszámolás 3 szinten"
+                  type="Kvíz"
                   emoji="📦"
-                  onClick={() => onActivitySelect('surface-area-quiz', topicId)}
+                  onClick={() => onActivitySelect('g6-surface-area-quiz', topicId)}
                   icon={<Box className="w-6 h-6" />}
                   color="amber"
+                  {...getTopicProgress('g6-surface-area')}
                 />
                 <ActivityPlaceholder
                   title="3D Test Stúdió"
@@ -1601,13 +1652,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-meas-sec-7" number={7} title="Felszínszámítással kapcsolatos gyakorlati feladatok" color="rose" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Gyakorlati felszínszámítás"
-                  subtitle="Szobafestés, csomagolás, burkolás"
-                  type="Hamarosan"
+                  title="Gyakorlati felszín tananyag"
+                  subtitle="Szobafestés, fedetlen testek, csempézés, kiadósság és interaktív festőkalkulátor"
+                  type="Tananyag"
+                  emoji="📖"
+                  onClick={() => onActivitySelect('g6-practical-surface-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="rose"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorlati felszín kvíz"
+                  subtitle="Szobafestés, nyílászárók levonása, medencék, csempézés és vödörszám 3 szinten"
+                  type="Kvíz"
                   emoji="🏠"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g6-practical-surface-quiz', topicId)}
                   icon={<Target className="w-6 h-6" />}
                   color="rose"
+                  {...getTopicProgress('g6-practical-surface')}
                 />
               </div>
             </section>
@@ -1619,13 +1680,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-meas-sec-8" number={8} title="Testek térfogata" color="teal" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Térfogatszámítás Kvíz"
-                  subtitle="Kocka, téglatest térfogata és űrtartalma"
-                  type="Teszt"
+                  title="Testek térfogata tananyag"
+                  subtitle="Kocka, téglatest térfogata, egységkockák, űrtartalom és 3D labor"
+                  type="Tananyag"
+                  emoji="📖"
+                  onClick={() => onActivitySelect('g6-volume-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="teal"
+                />
+                <ActivityPlaceholder
+                  title="Testek térfogata kvíz"
+                  subtitle="Kocka, téglatest térfogata, űrtartalom, literek és folyadékmennyiségek 3 szinten"
+                  type="Kvíz"
                   emoji="🛢️"
-                  onClick={() => onActivitySelect('volume-quiz', topicId)}
+                  onClick={() => onActivitySelect('g6-volume-quiz', topicId)}
                   icon={<Box className="w-6 h-6" />}
                   color="teal"
+                  {...getTopicProgress('g6-volume')}
                 />
               </div>
             </section>
@@ -1637,13 +1708,23 @@ export const Grade6View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g6-meas-sec-9" number={9} title="Összefoglalás" color="slate" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Összefoglaló felkészítő"
-                  subtitle="V. Kerület, terület, felszín, térfogat összefoglalás"
-                  type="Hamarosan"
+                  title="Fejezeti összefoglaló tananyag"
+                  subtitle="Kerület, terület, felszín, térfogat és mértékegységek teljes szintézise, mesterkalkulátor laborral"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g6-chapter5-summary-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="slate"
+                />
+                <ActivityPlaceholder
+                  title="Fejezeti összefoglaló kvíz"
+                  subtitle="Átfogó témazáró felkészítő és vizsgateszt 3 szinten (30 kérdés, párosító és csoportosító módokkal)"
+                  type="Kvíz"
                   emoji="🏆"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g6-chapter5-summary-quiz', topicId)}
                   icon={<Trophy className="w-6 h-6" />}
                   color="slate"
+                  {...getTopicProgress('g6-chapter5-summary')}
                 />
               </div>
             </section>

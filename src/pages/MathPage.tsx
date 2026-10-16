@@ -332,6 +332,42 @@ const RatioSummaryQuiz = lazy(() => import("@/components/math/grade-6/arany-szaz
 const RatioSummaryMatcher = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/osszefoglalas/RatioSummaryMatcher").then(m => ({ default: m.RatioSummaryMatcher }))) as any;
 const RatioSummarySorter = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/osszefoglalas/RatioSummarySorter").then(m => ({ default: m.RatioSummarySorter }))) as any;
 const Grade6WordProblemsModule = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/szoveges-feladatok/WordProblemsModule").then(m => ({ default: m.WordProblemsModule }))) as any;
+const LengthMassTimeTheory = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/hosszusag-tomeg-ido/LengthMassTimeTheory").then(m => ({ default: m.LengthMassTimeTheory }))) as any;
+const LengthMassTimeQuiz = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/hosszusag-tomeg-ido/LengthMassTimeQuiz").then(m => ({ default: m.LengthMassTimeQuiz }))) as any;
+const LengthMassTimeMatcher = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/hosszusag-tomeg-ido/LengthMassTimeMatcher").then(m => ({ default: m.LengthMassTimeMatcher }))) as any;
+const LengthMassTimeSorter = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/hosszusag-tomeg-ido/LengthMassTimeSorter").then(m => ({ default: m.LengthMassTimeSorter }))) as any;
+const PolygonPerimeterTheory = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/a-sokszogek-kerulete/PolygonPerimeterTheory").then(m => ({ default: m.PolygonPerimeterTheory }))) as any;
+const PolygonPerimeterQuiz = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/a-sokszogek-kerulete/PolygonPerimeterQuiz").then(m => ({ default: m.PolygonPerimeterQuiz }))) as any;
+const PolygonPerimeterMatcher = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/a-sokszogek-kerulete/PolygonPerimeterMatcher").then(m => ({ default: m.PolygonPerimeterMatcher }))) as any;
+const PolygonPerimeterSorter = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/a-sokszogek-kerulete/PolygonPerimeterSorter").then(m => ({ default: m.PolygonPerimeterSorter }))) as any;
+const AreaVolumeMeasurementTheory = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/a-terulet-es-a-terfogat-merese/AreaVolumeMeasurementTheory").then(m => ({ default: m.AreaVolumeMeasurementTheory }))) as any;
+const AreaVolumeMeasurementQuiz = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/a-terulet-es-a-terfogat-merese/AreaVolumeMeasurementQuiz").then(m => ({ default: m.AreaVolumeMeasurementQuiz }))) as any;
+const AreaVolumeMeasurementMatcher = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/a-terulet-es-a-terfogat-merese/AreaVolumeMeasurementMatcher").then(m => ({ default: m.AreaVolumeMeasurementMatcher }))) as any;
+const AreaVolumeMeasurementSorter = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/a-terulet-es-a-terfogat-merese/AreaVolumeMeasurementSorter").then(m => ({ default: m.AreaVolumeMeasurementSorter }))) as any;
+const PolygonAreaTheory = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/a-sokszogek-terulete/PolygonAreaTheory").then(m => ({ default: m.PolygonAreaTheory }))) as any;
+const PolygonAreaQuiz = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/a-sokszogek-terulete/PolygonAreaQuiz").then(m => ({ default: m.PolygonAreaQuiz }))) as any;
+const PolygonAreaMatcher = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/a-sokszogek-terulete/PolygonAreaMatcher").then(m => ({ default: m.PolygonAreaMatcher }))) as any;
+const PolygonAreaSorter = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/a-sokszogek-terulete/PolygonAreaSorter").then(m => ({ default: m.PolygonAreaSorter }))) as any;
+const SpatialShapesTheory = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/alakzatok-a-terben/SpatialShapesTheory").then(m => ({ default: m.SpatialShapesTheory }))) as any;
+const SpatialShapesQuiz = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/alakzatok-a-terben/SpatialShapesQuiz").then(m => ({ default: m.SpatialShapesQuiz }))) as any;
+const SpatialShapesMatcher = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/alakzatok-a-terben/SpatialShapesMatcher").then(m => ({ default: m.SpatialShapesMatcher }))) as any;
+const SpatialShapesSorter = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/alakzatok-a-terben/SpatialShapesSorter").then(m => ({ default: m.SpatialShapesSorter }))) as any;
+const SurfaceAreaTheory = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/testek-felszine/SurfaceAreaTheory").then(m => ({ default: m.SurfaceAreaTheory }))) as any;
+const Grade6SurfaceAreaQuiz = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/testek-felszine/SurfaceAreaQuiz").then(m => ({ default: m.SurfaceAreaQuiz }))) as any;
+const SurfaceAreaMatcher = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/testek-felszine/SurfaceAreaMatcher").then(m => ({ default: m.SurfaceAreaMatcher }))) as any;
+const SurfaceAreaSorter = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/testek-felszine/SurfaceAreaSorter").then(m => ({ default: m.SurfaceAreaSorter }))) as any;
+const PracticalSurfaceAreaTheory = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/felszinszamitassal-kapcsolatos-gyakorlati-feladatok/PracticalSurfaceAreaTheory").then(m => ({ default: m.PracticalSurfaceAreaTheory }))) as any;
+const PracticalSurfaceAreaQuiz = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/felszinszamitassal-kapcsolatos-gyakorlati-feladatok/PracticalSurfaceAreaQuiz").then(m => ({ default: m.PracticalSurfaceAreaQuiz }))) as any;
+const PracticalSurfaceAreaMatcher = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/felszinszamitassal-kapcsolatos-gyakorlati-feladatok/PracticalSurfaceAreaMatcher").then(m => ({ default: m.PracticalSurfaceAreaMatcher }))) as any;
+const PracticalSurfaceAreaSorter = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/felszinszamitassal-kapcsolatos-gyakorlati-feladatok/PracticalSurfaceAreaSorter").then(m => ({ default: m.PracticalSurfaceAreaSorter }))) as any;
+const VolumeTheory = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/testek-terfogata/VolumeTheory").then(m => ({ default: m.VolumeTheory }))) as any;
+const Grade6VolumeQuiz = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/testek-terfogata/VolumeQuiz").then(m => ({ default: m.VolumeQuiz }))) as any;
+const VolumeMatcher = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/testek-terfogata/VolumeMatcher").then(m => ({ default: m.VolumeMatcher }))) as any;
+const VolumeSorter = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/testek-terfogata/VolumeSorter").then(m => ({ default: m.VolumeSorter }))) as any;
+const Chapter5SummaryTheory = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/osszefoglalas/Chapter5SummaryTheory").then(m => ({ default: m.Chapter5SummaryTheory }))) as any;
+const Chapter5SummaryQuiz = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/osszefoglalas/Chapter5SummaryQuiz").then(m => ({ default: m.Chapter5SummaryQuiz }))) as any;
+const Chapter5SummaryMatcher = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/osszefoglalas/Chapter5SummaryMatcher").then(m => ({ default: m.Chapter5SummaryMatcher }))) as any;
+const Chapter5SummarySorter = lazy(() => import("@/components/math/grade-6/kerulet-terulet-felszin-terfogat/osszefoglalas/Chapter5SummarySorter").then(m => ({ default: m.Chapter5SummarySorter }))) as any;
 const MatrixSortingGame = lazy(() => import("@/components/math/grade-1/grouping/MatrixSortingGame").then(m => ({ default: m.MatrixSortingGame }))) as any;
 const MemoryGameComponent = lazy(() => import("@/components/math/games/memory/MemoryGame")) as any;
 const HanoiGame = lazy(() => import("@/components/math/games/hanoi/HanoiGame")) as any;
@@ -949,6 +985,7 @@ type ActivityType =
   | 'g6-word-problems-theory' | 'g6-word-problems-quiz' | 'g6-word-problems-matcher' | 'g6-word-problems-sorter' | 'g6-word-problems-module'
   | 'g6-multiple-solutions-theory' | 'g6-multiple-solutions-quiz' | 'g6-multiple-solutions-matcher' | 'g6-multiple-solutions-sorter'
   | 'g6-ratio-summary-theory' | 'g6-ratio-summary-quiz' | 'g6-ratio-summary-matcher' | 'g6-ratio-summary-sorter'
+  | 'g6-length-mass-time-theory' | 'g6-length-mass-time-quiz' | 'g6-length-mass-time-matcher' | 'g6-length-mass-time-sorter'
   | 'toto-maker' | 'chess-game' | 'torpedo-game' | 'matching-creator' | 'unit-converter' | 'capacity-converter' | 'analog-clock'
   | 'g8-algebra' | 'g8-equation-balance'
   | 'g8-logic' | 'g8-set-basics' | 'g8-set-operations' | 'g8-rational-set' | 'g8-rational-operations' | 'g8-powers' | 'g8-sqrt-concept' | 'g8-square-roots' | 'g8-algebra-intro' | 'g8-factoring' | 'g8-polynomial-mult' | 'g8-chapter1-summary'
@@ -1173,7 +1210,7 @@ export default function MathPage() {
   const location = useLocation();
 
   const [view, setView] = useState<ViewState>('main-select');
-  const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
+  const [selectedTopic, setSelectedTopic] = useState<any>(null);
   const [selectedGrade, setSelectedGrade] = useState<GradeLevel | null>(null);
   const [activityType, setActivityType] = useState<ActivityType>('quiz');
   const [activeMaterial, setActiveMaterial] = useState<{ title: string, path: string } | null>(null);
@@ -9498,6 +9535,7 @@ export default function MathPage() {
                      onBack={() => handleActivitySelect('g6-direct-prop-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
                      onSwitchToQuiz={() => handleActivitySelect('g6-direct-prop-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
                      onSwitchToTheory={() => handleActivitySelect('g6-direct-prop-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToSorter={() => handleActivitySelect('g6-direct-prop-sorter', selectedTopic?.id || 'g6-ratio-percent-word')}
                    />
                 )}
 
@@ -9506,6 +9544,7 @@ export default function MathPage() {
                      onBack={() => handleActivitySelect('g6-direct-prop-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
                      onSwitchToQuiz={() => handleActivitySelect('g6-direct-prop-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
                      onSwitchToTheory={() => handleActivitySelect('g6-direct-prop-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToMatcher={() => handleActivitySelect('g6-direct-prop-matcher', selectedTopic?.id || 'g6-ratio-percent-word')}
                    />
                 )}
 
@@ -9530,6 +9569,7 @@ export default function MathPage() {
                      onBack={() => handleActivitySelect('g6-direct-prop-graph-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
                      onSwitchToQuiz={() => handleActivitySelect('g6-direct-prop-graph-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
                      onSwitchToTheory={() => handleActivitySelect('g6-direct-prop-graph-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToSorter={() => handleActivitySelect('g6-direct-prop-graph-sorter', selectedTopic?.id || 'g6-ratio-percent-word')}
                    />
                 )}
 
@@ -9538,6 +9578,7 @@ export default function MathPage() {
                      onBack={() => handleActivitySelect('g6-direct-prop-graph-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
                      onSwitchToQuiz={() => handleActivitySelect('g6-direct-prop-graph-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
                      onSwitchToTheory={() => handleActivitySelect('g6-direct-prop-graph-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                     onSwitchToMatcher={() => handleActivitySelect('g6-direct-prop-graph-matcher', selectedTopic?.id || 'g6-ratio-percent-word')}
                    />
                 )}
 
@@ -9798,6 +9839,308 @@ export default function MathPage() {
                      onBack={() => handleActivitySelect('g6-ratio-summary-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
                      onSwitchToQuiz={() => handleActivitySelect('g6-ratio-summary-quiz', selectedTopic?.id || 'g6-ratio-percent-word')}
                      onSwitchToTheory={() => handleActivitySelect('g6-ratio-summary-theory', selectedTopic?.id || 'g6-ratio-percent-word')}
+                   />
+                )}
+
+                {activityType === 'g6-length-mass-time-theory' && (
+                   <LengthMassTimeTheory
+                     onBack={handleBack}
+                     onStartQuiz={() => handleActivitySelect('g6-length-mass-time-quiz', selectedTopic?.id || 'g6-measurement-perimeter-area')}
+                   />
+                )}
+
+                {activityType === 'g6-length-mass-time-quiz' && (
+                   <LengthMassTimeQuiz
+                     onBack={handleBack}
+                     onSwitchToTheory={() => handleActivitySelect('g6-length-mass-time-theory', selectedTopic?.id || 'g6-measurement-perimeter-area')}
+                     onOpenMatcher={() => handleActivitySelect('g6-length-mass-time-matcher', selectedTopic?.id || 'g6-measurement-perimeter-area')}
+                     onOpenSorter={() => handleActivitySelect('g6-length-mass-time-sorter', selectedTopic?.id || 'g6-measurement-perimeter-area')}
+                   />
+                )}
+
+                {activityType === 'g6-length-mass-time-matcher' && (
+                   <LengthMassTimeMatcher
+                     onBack={() => handleActivitySelect('g6-length-mass-time-quiz', selectedTopic?.id || 'g6-measurement-perimeter-area')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-length-mass-time-quiz', selectedTopic?.id || 'g6-measurement-perimeter-area')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-length-mass-time-theory', selectedTopic?.id || 'g6-measurement-perimeter-area')}
+                   />
+                )}
+
+                {activityType === 'g6-length-mass-time-sorter' && (
+                   <LengthMassTimeSorter
+                     onBack={() => handleActivitySelect('g6-length-mass-time-quiz', selectedTopic?.id || 'g6-measurements')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-length-mass-time-quiz', selectedTopic?.id || 'g6-measurements')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-length-mass-time-theory', selectedTopic?.id || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-polygon-perimeter-theory' && (
+                   <PolygonPerimeterTheory
+                     onBack={handleBack}
+                     onStartQuiz={() => handleActivitySelect('g6-polygon-perimeter-quiz', selectedTopic?.id || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-polygon-perimeter-quiz' && (
+                   <PolygonPerimeterQuiz
+                     onBack={handleBack}
+                     onSwitchToTheory={() => handleActivitySelect('g6-polygon-perimeter-theory', selectedTopic?.id || 'g6-measurements')}
+                     onOpenMatcher={() => handleActivitySelect('g6-polygon-perimeter-matcher', selectedTopic?.id || 'g6-measurements')}
+                     onOpenSorter={() => handleActivitySelect('g6-polygon-perimeter-sorter', selectedTopic?.id || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-polygon-perimeter-matcher' && (
+                   <PolygonPerimeterMatcher
+                     onBack={() => handleActivitySelect('g6-polygon-perimeter-quiz', selectedTopic?.id || 'g6-measurements')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-polygon-perimeter-quiz', selectedTopic?.id || 'g6-measurements')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-polygon-perimeter-theory', selectedTopic?.id || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-polygon-perimeter-sorter' && (
+                   <PolygonPerimeterSorter
+                     onBack={() => handleActivitySelect('g6-polygon-perimeter-quiz', selectedTopic?.id || 'g6-measurements')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-polygon-perimeter-quiz', selectedTopic?.id || 'g6-measurements')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-polygon-perimeter-theory', selectedTopic?.id || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-area-volume-measurement-theory' && (
+                   <AreaVolumeMeasurementTheory
+                     onBack={handleBack}
+                     onStartQuiz={() => handleActivitySelect('g6-area-volume-measurement-quiz', selectedTopic?.id || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-area-volume-measurement-quiz' && (
+                   <AreaVolumeMeasurementQuiz
+                     onBack={handleBack}
+                     onSwitchToTheory={() => handleActivitySelect('g6-area-volume-measurement-theory', selectedTopic?.id || 'g6-measurements')}
+                     onOpenMatcher={() => handleActivitySelect('g6-area-volume-measurement-matcher', selectedTopic?.id || 'g6-measurements')}
+                     onOpenSorter={() => handleActivitySelect('g6-area-volume-measurement-sorter', selectedTopic?.id || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-area-volume-measurement-matcher' && (
+                   <AreaVolumeMeasurementMatcher
+                     onBack={() => handleActivitySelect('g6-area-volume-measurement-quiz', selectedTopic?.id || 'g6-measurements')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-area-volume-measurement-quiz', selectedTopic?.id || 'g6-measurements')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-area-volume-measurement-theory', selectedTopic?.id || 'g6-measurements')}
+                     onSwitchToSorter={() => handleActivitySelect('g6-area-volume-measurement-sorter', selectedTopic?.id || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-area-volume-measurement-sorter' && (
+                   <AreaVolumeMeasurementSorter
+                     onBack={() => handleActivitySelect('g6-area-volume-measurement-quiz', selectedTopic?.id || 'g6-measurements')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-area-volume-measurement-quiz', selectedTopic?.id || 'g6-measurements')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-area-volume-measurement-theory', selectedTopic?.id || 'g6-measurements')}
+                     onSwitchToMatcher={() => handleActivitySelect('g6-area-volume-measurement-matcher', selectedTopic?.id || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-polygon-area-theory' && (
+                   <PolygonAreaTheory
+                     onBack={handleBack}
+                     onStartQuiz={() => handleActivitySelect('g6-polygon-area-quiz', selectedTopic?.id || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-polygon-area-quiz' && (
+                   <PolygonAreaQuiz
+                     onBack={handleBack}
+                     onSwitchToTheory={() => handleActivitySelect('g6-polygon-area-theory', selectedTopic?.id || 'g6-measurements')}
+                     onOpenMatcher={() => handleActivitySelect('g6-polygon-area-matcher', selectedTopic?.id || 'g6-measurements')}
+                     onOpenSorter={() => handleActivitySelect('g6-polygon-area-sorter', selectedTopic?.id || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-polygon-area-matcher' && (
+                   <PolygonAreaMatcher
+                     onBack={() => handleActivitySelect('g6-polygon-area-quiz', selectedTopic?.id || 'g6-measurements')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-polygon-area-quiz', selectedTopic?.id || 'g6-measurements')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-polygon-area-theory', selectedTopic?.id || 'g6-measurements')}
+                     onSwitchToSorter={() => handleActivitySelect('g6-polygon-area-sorter', selectedTopic?.id || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-polygon-area-sorter' && (
+                   <PolygonAreaSorter
+                     onBack={() => handleActivitySelect('g6-polygon-area-quiz', selectedTopic?.id || 'g6-measurements')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-polygon-area-quiz', selectedTopic?.id || 'g6-measurements')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-polygon-area-theory', selectedTopic?.id || 'g6-measurements')}
+                     onSwitchToMatcher={() => handleActivitySelect('g6-polygon-area-matcher', selectedTopic?.id || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-spatial-shapes-theory' && (
+                   <SpatialShapesTheory
+                     onBack={handleBack}
+                     onStartQuiz={() => handleActivitySelect('g6-spatial-shapes-quiz', selectedTopic?.id || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-spatial-shapes-quiz' && (
+                   <SpatialShapesQuiz
+                     onBack={handleBack}
+                     onSwitchToTheory={() => handleActivitySelect('g6-spatial-shapes-theory', selectedTopic?.id || 'g6-measurements')}
+                     onOpenMatcher={() => handleActivitySelect('g6-spatial-shapes-matcher', selectedTopic?.id || 'g6-measurements')}
+                     onOpenSorter={() => handleActivitySelect('g6-spatial-shapes-sorter', selectedTopic?.id || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-spatial-shapes-matcher' && (
+                   <SpatialShapesMatcher
+                     onBack={() => handleActivitySelect('g6-spatial-shapes-quiz', selectedTopic?.id || 'g6-measurements')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-spatial-shapes-quiz', selectedTopic?.id || 'g6-measurements')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-spatial-shapes-theory', selectedTopic?.id || 'g6-measurements')}
+                     onSwitchToSorter={() => handleActivitySelect('g6-spatial-shapes-sorter', selectedTopic?.id || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-spatial-shapes-sorter' && (
+                   <SpatialShapesSorter
+                     onBack={() => handleActivitySelect('g6-spatial-shapes-quiz', selectedTopic?.id || 'g6-measurements')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-spatial-shapes-quiz', selectedTopic?.id || 'g6-measurements')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-spatial-shapes-theory', selectedTopic?.id || 'g6-measurements')}
+                     onSwitchToMatcher={() => handleActivitySelect('g6-spatial-shapes-matcher', selectedTopic?.id || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-surface-area-theory' && (
+                   <SurfaceAreaTheory
+                     onBack={handleBack}
+                     onStartQuiz={() => handleActivitySelect('g6-surface-area-quiz', selectedTopic || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-surface-area-quiz' && (
+                   <Grade6SurfaceAreaQuiz
+                     onBack={handleBack}
+                     onSwitchToTheory={() => handleActivitySelect('g6-surface-area-theory', selectedTopic || 'g6-measurements')}
+                     onOpenMatcher={() => handleActivitySelect('g6-surface-area-matcher', selectedTopic || 'g6-measurements')}
+                     onOpenSorter={() => handleActivitySelect('g6-surface-area-sorter', selectedTopic || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-surface-area-matcher' && (
+                   <SurfaceAreaMatcher
+                     onBack={() => handleActivitySelect('g6-surface-area-quiz', selectedTopic || 'g6-measurements')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-surface-area-quiz', selectedTopic || 'g6-measurements')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-surface-area-theory', selectedTopic || 'g6-measurements')}
+                     onSwitchToSorter={() => handleActivitySelect('g6-surface-area-sorter', selectedTopic || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-surface-area-sorter' && (
+                   <SurfaceAreaSorter
+                     onBack={() => handleActivitySelect('g6-surface-area-quiz', selectedTopic || 'g6-measurements')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-surface-area-quiz', selectedTopic || 'g6-measurements')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-surface-area-theory', selectedTopic || 'g6-measurements')}
+                     onSwitchToMatcher={() => handleActivitySelect('g6-surface-area-matcher', selectedTopic || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-practical-surface-theory' && (
+                   <PracticalSurfaceAreaTheory
+                     onBack={handleBack}
+                     onStartQuiz={() => handleActivitySelect('g6-practical-surface-quiz', selectedTopic || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-practical-surface-quiz' && (
+                   <PracticalSurfaceAreaQuiz
+                     onBack={handleBack}
+                     onSwitchToTheory={() => handleActivitySelect('g6-practical-surface-theory', selectedTopic || 'g6-measurements')}
+                     onOpenMatcher={() => handleActivitySelect('g6-practical-surface-matcher', selectedTopic || 'g6-measurements')}
+                     onOpenSorter={() => handleActivitySelect('g6-practical-surface-sorter', selectedTopic || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-practical-surface-matcher' && (
+                   <PracticalSurfaceAreaMatcher
+                     onBack={() => handleActivitySelect('g6-practical-surface-quiz', selectedTopic || 'g6-measurements')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-practical-surface-quiz', selectedTopic || 'g6-measurements')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-practical-surface-theory', selectedTopic || 'g6-measurements')}
+                     onSwitchToSorter={() => handleActivitySelect('g6-practical-surface-sorter', selectedTopic || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-practical-surface-sorter' && (
+                   <PracticalSurfaceAreaSorter
+                     onBack={() => handleActivitySelect('g6-practical-surface-quiz', selectedTopic || 'g6-measurements')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-practical-surface-quiz', selectedTopic || 'g6-measurements')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-practical-surface-theory', selectedTopic || 'g6-measurements')}
+                     onSwitchToMatcher={() => handleActivitySelect('g6-practical-surface-matcher', selectedTopic || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-volume-theory' && (
+                   <VolumeTheory
+                     onBack={handleBack}
+                     onStartQuiz={() => handleActivitySelect('g6-volume-quiz', selectedTopic || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-volume-quiz' && (
+                   <Grade6VolumeQuiz
+                     onBack={handleBack}
+                     onSwitchToTheory={() => handleActivitySelect('g6-volume-theory', selectedTopic || 'g6-measurements')}
+                     onOpenMatcher={() => handleActivitySelect('g6-volume-matcher', selectedTopic || 'g6-measurements')}
+                     onOpenSorter={() => handleActivitySelect('g6-volume-sorter', selectedTopic || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-volume-matcher' && (
+                   <VolumeMatcher
+                     onBack={() => handleActivitySelect('g6-volume-quiz', selectedTopic || 'g6-measurements')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-volume-quiz', selectedTopic || 'g6-measurements')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-volume-theory', selectedTopic || 'g6-measurements')}
+                     onSwitchToSorter={() => handleActivitySelect('g6-volume-sorter', selectedTopic || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-volume-sorter' && (
+                   <VolumeSorter
+                     onBack={() => handleActivitySelect('g6-volume-quiz', selectedTopic || 'g6-measurements')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-volume-quiz', selectedTopic || 'g6-measurements')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-volume-theory', selectedTopic || 'g6-measurements')}
+                     onSwitchToMatcher={() => handleActivitySelect('g6-volume-matcher', selectedTopic || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-chapter5-summary-theory' && (
+                   <Chapter5SummaryTheory
+                     onBack={handleBack}
+                     onStartQuiz={() => handleActivitySelect('g6-chapter5-summary-quiz', selectedTopic || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-chapter5-summary-quiz' && (
+                   <Chapter5SummaryQuiz
+                     onBack={handleBack}
+                     onSwitchToTheory={() => handleActivitySelect('g6-chapter5-summary-theory', selectedTopic || 'g6-measurements')}
+                     onOpenMatcher={() => handleActivitySelect('g6-chapter5-summary-matcher', selectedTopic || 'g6-measurements')}
+                     onOpenSorter={() => handleActivitySelect('g6-chapter5-summary-sorter', selectedTopic || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-chapter5-summary-matcher' && (
+                   <Chapter5SummaryMatcher
+                     onBack={() => handleActivitySelect('g6-chapter5-summary-quiz', selectedTopic || 'g6-measurements')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-chapter5-summary-quiz', selectedTopic || 'g6-measurements')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-chapter5-summary-theory', selectedTopic || 'g6-measurements')}
+                     onSwitchToSorter={() => handleActivitySelect('g6-chapter5-summary-sorter', selectedTopic || 'g6-measurements')}
+                   />
+                )}
+
+                {activityType === 'g6-chapter5-summary-sorter' && (
+                   <Chapter5SummarySorter
+                     onBack={() => handleActivitySelect('g6-chapter5-summary-quiz', selectedTopic || 'g6-measurements')}
+                     onSwitchToQuiz={() => handleActivitySelect('g6-chapter5-summary-quiz', selectedTopic || 'g6-measurements')}
+                     onSwitchToTheory={() => handleActivitySelect('g6-chapter5-summary-theory', selectedTopic || 'g6-measurements')}
+                     onSwitchToMatcher={() => handleActivitySelect('g6-chapter5-summary-matcher', selectedTopic || 'g6-measurements')}
                    />
                 )}
 

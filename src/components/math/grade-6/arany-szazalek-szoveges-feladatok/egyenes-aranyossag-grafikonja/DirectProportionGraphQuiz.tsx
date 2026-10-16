@@ -1,5 +1,5 @@
 import React from 'react';
-import { QuizTemplate, Question } from '../QuizTemplate';
+import { QuizTemplate, Question, CheatSheetContent } from '../QuizTemplate';
 import { DirectProportionGraphMatcher } from './DirectProportionGraphMatcher';
 import { DirectProportionGraphSorter } from './DirectProportionGraphSorter';
 
@@ -9,6 +9,32 @@ interface DirectProportionGraphQuizProps {
   onOpenMatcher?: () => void;
   onOpenSorter?: () => void;
 }
+
+const directProportionGraphCheatSheetContent: CheatSheetContent = {
+  title: 'Szabálytár: Egyenes Arányosság Grafikonja',
+  sections: [
+    {
+      title: '1. A grafikon alakja és az origó',
+      content:
+        'Az egyenes arányosság grafikonja a derékszögű koordináta-rendszerben mindig az origóból O(0; 0) kiinduló egyenes vagy félegyenes (diszkrét esetben pontsor).\nKéplet: y = k · x.'
+    },
+    {
+      title: '2. Pontsor vagy folytonos félegyenes?',
+      content:
+        '• Folytonos félegyenes: ha a mennyiség tetszőleges törtrészekre osztható (pl. 2,4 kg alma, 1,5 óra menetidő, benzin literje).\n• Diszkrét pontsor: ha a mennyiség csak egész darabokban értelmezhető (pl. füzetek, mozijegyek száma, emberek száma).'
+    },
+    {
+      title: '3. A meredekség és az arányossági tényező (k)',
+      content:
+        'A grafikon egyenesének dőlésszöge megadja az arányossági tényezőt:\nk = y / x (az egységérték).\nNagyobb k érték meredekebb egyenest ad (gyorsabb drágulás vagy nagyobb sebesség).'
+    },
+    {
+      title: '4. Veszélyzóna: Mikor NEM egyenes arányosság a grafikon?',
+      content:
+        '• Ha a grafikon nem az origóból indul (pl. fix alapdíjas taxi: (0; 500)-ból indul).\n• Ha a grafikon görbe vonal (pl. négyzet területe T = a²).\n• Ha a grafikon lefelé lejt (csökkenő értékek, pl. fogyó benzin vagy égő gyertya).'
+    }
+  ]
+};
 
 export const DirectProportionGraphQuiz: React.FC<DirectProportionGraphQuizProps> = ({
   onBack,
@@ -454,15 +480,43 @@ export const DirectProportionGraphQuiz: React.FC<DirectProportionGraphQuizProps>
     <QuizTemplate
       title="Egyenes arányosság grafikonja kvíz"
       subtitle="Gyakorold a koordináta-rendszer leolvasását, pontok vizsgálatát és meredekséget 3 szinten!"
+      badgeText="6. OSZTÁLY • IV. ARÁNY, SZÁZALÉK"
       badge="6. OSZTÁLY • IV. ARÁNY, SZÁZALÉK • 🏆 KVÍZ"
       themeColor="lime"
       category="Grafikonok"
       topicTitle="Egyenes arányosság grafikonja"
+      topicId="g6-direct-prop-graph"
+      cheatSheetTitle="Szabálytár és Képlettár"
+      cheatSheet={directProportionGraphCheatSheetContent}
+      cheatSheetCards={[
+        {
+          title: 'A grafikon egyenlete',
+          formula: 'y = k · x',
+          explanation: 'Az origóból O(0; 0) kiinduló egyenes vagy félegyenes.'
+        },
+        {
+          title: 'Meredekség (k tényező)',
+          formula: 'k = y / x',
+          explanation: 'A dőlésszög az arányossági tényezőt, az egységértéket mutatja.'
+        },
+        {
+          title: 'Pontsor vagy folytonos',
+          formula: 'Diszkrét (db) vs. Folytonos (kg, h)',
+          explanation: 'Egész daraboknál pontsor, folytonosan mérhetőnél félegyenes.'
+        },
+        {
+          title: 'Origó szabály',
+          formula: 'O(0; 0) ponton átmegy',
+          explanation: 'Ha nem az origóból indul, NEM egyenes arányosság.'
+        }
+      ]}
       questions={questions}
       matcherComponent={DirectProportionGraphMatcher}
       sorterComponent={DirectProportionGraphSorter}
       onBack={onBack}
       onSwitchToTheory={onSwitchToTheory}
+      onOpenMatcher={onOpenMatcher}
+      onOpenSorter={onOpenSorter}
     />
   );
 };
