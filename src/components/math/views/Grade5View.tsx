@@ -995,200 +995,253 @@ export const Grade5View: React.FC<GradeViewProps> = ({
       const showAll = !activeSubSectionId;
       return (
         <div className="flex flex-col gap-10 py-6">
+          {/* Section 1: Csoportosítások */}
           {(showAll || activeSubSectionId === 'g5-geom-grouping') && (
             <section>
-              <SectionHeader number={1} title="Csoportosítások" color="blue" />
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <SectionHeader id="g5-geom-grouping" number={1} title="Csoportosítások" color="blue" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Tárgyak csoportosítása"
-                  subtitle="Állatok, járművek, anyagok"
-                  type="Játék"
-                  emoji="📦"
-                  onClick={() => onActivitySelect('grouping-game', topicId)}
-                  icon={<Box className="w-6 h-6" />}
+                  title="Csoportosítások elmélet"
+                  subtitle="Tárgyak és alakzatok tulajdonságai, szempontok szerinti csoportosítás PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-geom-grouping-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="blue"
                 />
                 <ActivityPlaceholder
-                  title="Számok csoportosítása"
-                  subtitle="Páros, prímek, oszthatóság"
-                  type="Játék"
-                  emoji="🔢"
-                  onClick={() => onActivitySelect('number-grouping-game', topicId)}
-                  icon={<Binary className="w-6 h-6" />}
-                  color="indigo"
+                  title="Csoportosítások kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🧩"
+                  onClick={() => onActivitySelect('g5-geom-grouping-quiz', topicId)}
+                  icon={<Shapes className="w-6 h-6" />}
+                  color="blue"
+                  {...getTopicProgress('g5-geom-grouping-quiz')}
                 />
               </div>
             </section>
           )}
 
+          {/* Section 2: Halmazok */}
           {(showAll || activeSubSectionId === 'g5-geom-sets') && (
             <section>
-              <SectionHeader number={2} title="Halmazok" color="violet" />
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <SectionHeader id="g5-geom-sets" number={2} title="Halmazok" color="violet" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Venn-diagram elhelyezés"
-                  subtitle="Tárgyak és tulajdonságok"
-                  type="Játék"
-                  emoji="🍎"
-                  onClick={() => onActivitySelect('venn-diagram-game', topicId)}
-                  icon={<Target className="w-6 h-6" />}
-                  color="rose"
+                  title="Halmazok elmélet"
+                  subtitle="Halmaz, alaphalmaz, részhalmaz, metszet, unió, Venn-diagram ábrázolás PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-geom-sets-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="violet"
                 />
                 <ActivityPlaceholder
-                  title="Venn-diagram (Számhalmazok)"
-                  subtitle="Oszthatóság, prímek, alaphalmaz"
-                  type="Játék"
-                  emoji="🔢"
-                  onClick={() => onActivitySelect('venn-diagram-game', topicId, -2)}
-                  icon={<Target className="w-6 h-6" />}
-                  color="indigo"
-                />
-                <ActivityPlaceholder
-                  title="Hogy mondanád?"
-                  subtitle="Venn-diagramok leírása"
+                  title="Halmazok kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
                   type="Kvíz"
-                  emoji="💬"
-                  onClick={() => onActivitySelect('venn-interpretation-quiz', topicId)}
+                  emoji="🎯"
+                  onClick={() => onActivitySelect('g5-geom-sets-quiz', topicId)}
                   icon={<Target className="w-6 h-6" />}
-                  color="purple"
-                />
-                <ActivityPlaceholder
-                  title="Venn-diagram leolvasás (Tárgyas)"
-                  subtitle="Melyik hova tartozik?"
-                  type="Játék"
-                  emoji="🔍"
-                  onClick={() => onActivitySelect('venn-reading-objects', topicId)}
-                  icon={<Target className="w-6 h-6" />}
-                  color="orange"
-                />
-                <ActivityPlaceholder
-                  title="Venn-diagram leolvasás (Számok)"
-                  subtitle="Számok tulajdonságai"
-                  type="Játék"
-                  emoji="🧐"
-                  onClick={() => onActivitySelect('venn-reading-numbers', topicId)}
-                  icon={<Target className="w-6 h-6" />}
-                  color="cyan"
+                  color="violet"
+                  {...getTopicProgress('g5-geom-sets-quiz')}
                 />
               </div>
             </section>
           )}
 
+          {/* Section 3: Test, felület, vonal, pont */}
           {(showAll || activeSubSectionId === 'g5-geom-bodies') && (
             <section>
-              <SectionHeader number={3} title="Test, felület, vonal, pont" color="emerald" />
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <SectionHeader id="g5-geom-bodies" number={3} title="Test, felület, vonal, pont" color="emerald" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Síkidom vagy Test?"
-                  subtitle="2D és 3D alakzatok"
-                  type="Kezdés"
-                  onClick={() => onActivitySelect('shape-classification', topicId)}
-                  icon={<Box className="w-6 h-6" />}
+                  title="Test, felület, vonal, pont elmélet"
+                  subtitle="Térbeli testek, síkidomok, határfelületek, élek és csúcsok PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-geom-bodies-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="emerald"
                 />
+                <ActivityPlaceholder
+                  title="Test, felület, vonal, pont kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🧊"
+                  onClick={() => onActivitySelect('g5-geom-bodies-quiz', topicId)}
+                  icon={<Box className="w-6 h-6" />}
+                  color="emerald"
+                  {...getTopicProgress('g5-geom-bodies-quiz')}
+                />
               </div>
             </section>
           )}
 
+          {/* Section 4: A szög */}
           {(showAll || activeSubSectionId === 'g5-geom-angles') && (
             <section>
-              <SectionHeader number={4} title="A szög" color="amber" />
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <SectionHeader id="g5-geom-angles" number={4} title="A szög" color="amber" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Szögek párosítása"
-                  subtitle="Szögtípusok felismerése"
-                  type="Gyakorlás"
-                  onClick={() => onActivitySelect('angle-matching', topicId)}
-                  icon={<Target className="w-6 h-6" />}
+                  title="A szög elmélet"
+                  subtitle="Szögszár, szögcsúcs, szögtartomány, szögfajták és szögmérés PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-geom-angles-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="amber"
                 />
+                <ActivityPlaceholder
+                  title="A szög kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="📐"
+                  onClick={() => onActivitySelect('g5-geom-angles-quiz', topicId)}
+                  icon={<Compass className="w-6 h-6" />}
+                  color="amber"
+                  {...getTopicProgress('g5-geom-angles-quiz')}
+                />
               </div>
             </section>
           )}
 
+          {/* Section 5: Síkidomok, sokszögek */}
           {(showAll || activeSubSectionId === 'g5-geom-triangles') && (
             <section>
-              <SectionHeader number={5} title="Síkidomok, sokszögek" color="teal" />
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <SectionHeader id="g5-geom-triangles" number={5} title="Síkidomok, sokszögek" color="teal" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Háromszögek"
-                  subtitle="Csoportosítás tulajdonságok szerint"
-                  type="Kezdés"
-                  onClick={() => onActivitySelect('triangle-classification', topicId)}
-                  icon={<Triangle className="w-6 h-6" />}
+                  title="Síkidomok, sokszögek elmélet"
+                  subtitle="Sokszögek fogalma, átlók száma, háromszögek, négyszögek és a kör PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-geom-triangles-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="teal"
                 />
+                <ActivityPlaceholder
+                  title="Síkidomok, sokszögek kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🔺"
+                  onClick={() => onActivitySelect('g5-geom-triangles-quiz', topicId)}
+                  icon={<Triangle className="w-6 h-6" />}
+                  color="teal"
+                  {...getTopicProgress('g5-geom-triangles-quiz')}
+                />
               </div>
             </section>
           )}
 
+          {/* Section 6: Testek építése, szemléltetése */}
           {(showAll || activeSubSectionId === 'g5-geom-building') && (
             <section>
-              <SectionHeader number={6} title="Testek építése, szemléltetése" color="pink" />
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <SectionHeader id="g5-geom-building" number={6} title="Testek építése, szemléltetése" color="pink" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Térfogat és felszín"
-                  subtitle="Testek kiterítése és feltöltése"
-                  type="Eszköz"
-                  onClick={() => onActivitySelect('volume-surface', topicId)}
-                  icon={<Box className="w-6 h-6" />}
+                  title="Testek építése, szemléltetése elmélet"
+                  subtitle="Kockaépítmények, alaprajz, nézetek és testek kiterítése PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-geom-building-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="pink"
                 />
+                <ActivityPlaceholder
+                  title="Testek építése, szemléltetése kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🧱"
+                  onClick={() => onActivitySelect('g5-geom-building-quiz', topicId)}
+                  icon={<Box className="w-6 h-6" />}
+                  color="pink"
+                  {...getTopicProgress('g5-geom-building-quiz')}
+                />
               </div>
             </section>
           )}
 
+          {/* Section 7: Egyenesek síkban, térben */}
           {(showAll || activeSubSectionId === 'g5-geom-lines') && (
             <section>
-              <SectionHeader number={7} title="Egyenesek síkban, térben" color="indigo" />
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <SectionHeader id="g5-geom-lines" number={7} title="Egyenesek síkban, térben" color="indigo" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Egyenesek helyzete"
-                  subtitle="Párhuzamos és merőleges"
-                  type="Gyakorlás"
-                  onClick={() => onActivitySelect('line-relationships', topicId)}
-                  icon={<MoveHorizontal className="w-6 h-6 rotate-45" />}
+                  title="Egyenesek síkban, térben elmélet"
+                  subtitle="Metsző, merőleges, párhuzamos és kitérő egyenesek PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-geom-lines-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="indigo"
                 />
                 <ActivityPlaceholder
-                  title="Alapszerkesztés"
-                  subtitle="Körző és vonalzó használata"
-                  type="Eszköz"
-                  onClick={() => onActivitySelect('construction', topicId)}
-                  icon={<Pencil className="w-6 h-6" />}
+                  title="Egyenesek síkban, térben kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="📏"
+                  onClick={() => onActivitySelect('g5-geom-lines-quiz', topicId)}
+                  icon={<MoveHorizontal className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g5-geom-lines-quiz')}
                 />
               </div>
             </section>
           )}
 
+          {/* Section 8: Téglalap, négyzet */}
           {(showAll || activeSubSectionId === 'g5-geom-quads') && (
             <section>
-              <SectionHeader number={8} title="Téglalap, négyzet" color="rose" />
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <SectionHeader id="g5-geom-quads" number={8} title="Téglalap, négyzet" color="rose" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Négyszögek fajtái"
-                  subtitle="Négyszögek felismerése"
-                  type="Kezdés"
-                  onClick={() => onActivitySelect('quadrilateral-classification', topicId)}
+                  title="Téglalap, négyzet elmélet"
+                  subtitle="Oldalak, szögek és átlók tulajdonságai, szimmetria PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-geom-quads-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="rose"
+                />
+                <ActivityPlaceholder
+                  title="Téglalap, négyzet kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🟦"
+                  onClick={() => onActivitySelect('g5-geom-quads-quiz', topicId)}
                   icon={<Square className="w-6 h-6" />}
                   color="rose"
+                  {...getTopicProgress('g5-geom-quads-quiz')}
                 />
               </div>
             </section>
           )}
 
+          {/* Section 9: Összefoglalás */}
           {(showAll || activeSubSectionId === 'g5-geom-summary') && (
             <section>
-              <SectionHeader number={9} title="Összefoglalás" color="purple" />
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <SectionHeader id="g5-geom-summary" number={9} title="Összefoglalás" color="slate" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Tengelyes tükrözés teszt"
-                  subtitle="Ellenőrizd a tudásod!"
-                  type="Teszt"
-                  onClick={() => onActivitySelect('reflection-quiz', topicId)}
-                  icon={<Sparkles className="w-6 h-6" />}
-                  color="purple"
+                  title="Geometria összefoglalás elmélet"
+                  subtitle="A teljes fejezet áttekintése és összefoglalása PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-geom-summary-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="slate"
+                />
+                <ActivityPlaceholder
+                  title="Témazáró felkészítő kvíz"
+                  subtitle="Átfogó témazáró teszt 3×30 feladattal, párosítóval és csoportosítóval"
+                  type="Kvíz"
+                  emoji="🏆"
+                  onClick={() => onActivitySelect('g5-geom-summary-quiz', topicId)}
+                  icon={<Trophy className="w-6 h-6" />}
+                  color="amber"
+                  {...getTopicProgress('g5-geom-summary-quiz')}
                 />
               </div>
             </section>

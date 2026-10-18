@@ -137,7 +137,6 @@ const DecimalShifterTool = lazy(() => import("@/components/math/tools/DecimalShi
 const PuzzleMakerTool = lazy(() => import("@/components/math/tools/PuzzleMakerTool").then(m => ({ default: m.PuzzleMakerTool }))) as any;
 const TotoTool = lazy(() => import("@/components/math/tools/TotoTool").then(m => ({ default: m.TotoTool }))) as any;
 const SmartWhiteboardTool = lazy(() => import("@/components/math/tools/SmartWhiteboardTool").then(m => ({ default: m.SmartWhiteboardTool }))) as any;
-const GeometryModule = lazy(() => import("@/components/math/grade-5/bevezetes-a-geometriaba/GeometryModule").then(m => ({ default: m.GeometryModule }))) as any;
 const SymmetryQuiz = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyes-tukrozes/SymmetryQuiz").then(m => ({ default: m.SymmetryQuiz }))) as any;
 const LogicBlocksGame = lazy(() => import("@/components/math/games/logic-blocks/LogicBlocksGame").then(m => ({ default: m.LogicBlocksGame }))) as any;
 const VennDiagramGame = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/venn/VennDiagramGame").then(m => ({ default: m.VennDiagramGame }))) as any;
@@ -282,6 +281,24 @@ const Grade5FractionToDecimalTheory = lazy(() => import("@/components/math/grade
 const Grade5FractionToDecimalQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/kozonseges-tortek-tizedes-tort-alakja/FractionToDecimalQuiz").then(m => ({ default: m.FractionToDecimalQuiz }))) as any;
 const Grade5Chapter2SummaryTheory = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/osszefoglalas/Chapter2SummaryTheory").then(m => ({ default: m.Chapter2SummaryTheory }))) as any;
 const Grade5Chapter2SummaryQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/osszefoglalas/Chapter2SummaryQuiz").then(m => ({ default: m.Chapter2SummaryQuiz }))) as any;
+const Grade5GroupingTheory = lazy(() => import("@/components/math/grade-5/bevezetes-a-geometriaba/csoportositasok/GroupingTheory").then(m => ({ default: m.GroupingTheory }))) as any;
+const Grade5GroupingQuiz = lazy(() => import("@/components/math/grade-5/bevezetes-a-geometriaba/csoportositasok/GroupingQuiz").then(m => ({ default: m.GroupingQuiz }))) as any;
+const Grade5SetsTheory = lazy(() => import("@/components/math/grade-5/bevezetes-a-geometriaba/halmazok/SetsTheory").then(m => ({ default: m.SetsTheory }))) as any;
+const Grade5SetsQuiz = lazy(() => import("@/components/math/grade-5/bevezetes-a-geometriaba/halmazok/SetsQuiz").then(m => ({ default: m.SetsQuiz }))) as any;
+const Grade5BodiesTheory = lazy(() => import("@/components/math/grade-5/bevezetes-a-geometriaba/test-felulet-vonal-pont/BodiesTheory").then(m => ({ default: m.BodiesTheory }))) as any;
+const Grade5BodiesQuiz = lazy(() => import("@/components/math/grade-5/bevezetes-a-geometriaba/test-felulet-vonal-pont/BodiesQuiz").then(m => ({ default: m.BodiesQuiz }))) as any;
+const Grade5AnglesTheory = lazy(() => import("@/components/math/grade-5/bevezetes-a-geometriaba/a-szog/AnglesTheory").then(m => ({ default: m.AnglesTheory }))) as any;
+const Grade5AnglesQuiz = lazy(() => import("@/components/math/grade-5/bevezetes-a-geometriaba/a-szog/AnglesQuiz").then(m => ({ default: m.AnglesQuiz }))) as any;
+const Grade5PolygonsTheory = lazy(() => import("@/components/math/grade-5/bevezetes-a-geometriaba/sikidomok-sokszogek/PolygonsTheory").then(m => ({ default: m.PolygonsTheory }))) as any;
+const Grade5PolygonsQuiz = lazy(() => import("@/components/math/grade-5/bevezetes-a-geometriaba/sikidomok-sokszogek/PolygonsQuiz").then(m => ({ default: m.PolygonsQuiz }))) as any;
+const Grade5BuildingTheory = lazy(() => import("@/components/math/grade-5/bevezetes-a-geometriaba/testek-epitese-szemleltetese/BuildingTheory").then(m => ({ default: m.BuildingTheory }))) as any;
+const Grade5BuildingQuiz = lazy(() => import("@/components/math/grade-5/bevezetes-a-geometriaba/testek-epitese-szemleltetese/BuildingQuiz").then(m => ({ default: m.BuildingQuiz }))) as any;
+const Grade5LinesTheory = lazy(() => import("@/components/math/grade-5/bevezetes-a-geometriaba/egyenesek-sikban-terben/LinesTheory").then(m => ({ default: m.LinesTheory }))) as any;
+const Grade5LinesQuiz = lazy(() => import("@/components/math/grade-5/bevezetes-a-geometriaba/egyenesek-sikban-terben/LinesQuiz").then(m => ({ default: m.LinesQuiz }))) as any;
+const Grade5QuadsTheory = lazy(() => import("@/components/math/grade-5/bevezetes-a-geometriaba/teglalap-negyzet/QuadsTheory").then(m => ({ default: m.QuadsTheory }))) as any;
+const Grade5QuadsQuiz = lazy(() => import("@/components/math/grade-5/bevezetes-a-geometriaba/teglalap-negyzet/QuadsQuiz").then(m => ({ default: m.QuadsQuiz }))) as any;
+const Grade5SummaryTheory = lazy(() => import("@/components/math/grade-5/bevezetes-a-geometriaba/osszefoglalas/SummaryTheory").then(m => ({ default: m.SummaryTheory }))) as any;
+const Grade5SummaryQuiz = lazy(() => import("@/components/math/grade-5/bevezetes-a-geometriaba/osszefoglalas/SummaryQuiz").then(m => ({ default: m.SummaryQuiz }))) as any;
 const RatioIntroTheory = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/az-arany-fogalma/RatioIntroTheory").then(m => ({ default: m.RatioIntroTheory }))) as any;
 const RatioIntroQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/az-arany-fogalma/RatioIntroQuiz").then(m => ({ default: m.RatioIntroQuiz }))) as any;
 const RatioIntroMatcher = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/az-arany-fogalma/RatioIntroMatcher").then(m => ({ default: m.RatioIntroMatcher }))) as any;
@@ -1023,7 +1040,10 @@ type ActivityType =
   | 'g7-mapping-quiz' | 'g7-function-table-quiz'
   | 'decimal-division-matcher' | 'decimal-division-quiz' | 'decimal-multiplication-matcher' | 'decimal-multiplication-quiz'
   | 'decimal-fractions' | 'decimal-fractions-quiz' | 'decimal-shifter'
-  | 'g5-chapter2-summary-theory' | 'g5-chapter2-summary-quiz' | 'g5-chapter2-summary-matcher' | 'g5-chapter2-summary-sorter' | 'g5-fraction-to-decimal-theory' | 'g5-fraction-to-decimal-quiz' | 'g5-fraction-to-decimal-matcher' | 'g5-fraction-to-decimal-sorter' | 'g5-fraction-visual-matcher' | 'g5-fractions-quiz' | 'g5-fractions-module' | 'g5-fractions-intro-theory' | 'g5-fractions-intro-quiz' | 'g5-fractions-expand-simplify-theory' | 'g5-fractions-expand-simplify-quiz' | 'g5-fractions-number-line-theory' | 'g5-fractions-number-line-quiz' | 'g5-fractions-same-denom-theory' | 'g5-fractions-same-denom-quiz' | 'g5-fractions-diff-denom-theory' | 'g5-fractions-diff-denom-quiz' | 'g5-fraction-multiply-theory' | 'g5-fraction-multiply-quiz' | 'g5-fraction-divide-theory' | 'g5-fraction-divide-quiz' | 'g5-fractions-order-of-operations-theory' | 'g5-fractions-order-of-operations-quiz' | 'g5-fractions-review-theory' | 'g5-fractions-review-quiz' | 'g5-decimal-fractions-theory' | 'g5-decimal-fractions-quiz' | 'g5-decimal-compare-rounding-theory' | 'g5-decimal-compare-rounding-quiz' | 'g5-decimal-add-sub-theory' | 'g5-decimal-add-sub-quiz' | 'g5-decimal-multiply-theory' | 'g5-decimal-multiply-quiz' | 'g5-decimal-divide-theory' | 'g5-decimal-divide-quiz' | 'g5-roman-numerals-theory' | 'g5-roman-numerals-quiz' | 'g5-place-value-theory' | 'g5-place-value-quiz' | 'g5-number-reading-theory' | 'g5-number-reading-quiz' | 'g5-number-spelling-theory' | 'g5-number-spelling-quiz' | 'g5-number-systems-theory' | 'g5-number-systems-quiz' | 'g5-number-line-theory' | 'g5-number-line-quiz' | 'g5-rounding-theory' | 'g5-rounding-quiz' | 'g5-addition-theory' | 'g5-addition-quiz' | 'g5-subtraction-theory' | 'g5-subtraction-quiz' | 'g5-multiplication-theory' | 'g5-multiplication-quiz' | 'g5-division-theory' | 'g5-division-quiz' | 'g5-order-of-operations-theory' | 'g5-order-of-operations-quiz' | 'g5-negative-numbers-theory' | 'g5-negative-numbers-quiz' | 'g5-opposite-absolute-theory' | 'g5-opposite-absolute-quiz' | 'g5-integer-addition-subtraction-theory' | 'g5-integer-addition-subtraction-quiz' | 'g5-chapter1-summary-theory' | 'g5-chapter1-summary-quiz'
+  | 'g5-chapter2-summary-theory' | 'g5-chapter2-summary-quiz' | 'g5-chapter2-summary-matcher' | 'g5-chapter2-summary-sorter' | 'g5-fraction-to-decimal-theory' | 'g5-fraction-to-decimal-quiz' | 'g5-fraction-to-decimal-matcher' | 'g5-fraction-to-decimal-sorter' | 'g5-fraction-visual-matcher' | 'g5-fractions-quiz' | 'g5-fractions-module' | 'g5-fractions-intro-theory' | 'g5-fractions-intro-quiz' | 'g5-fractions-expand-simplify-theory' | 'g5-fractions-expand-simplify-quiz' | 'g5-fractions-number-line-theory' | 'g5-fractions-number-line-quiz' | 'g5-fractions-same-denom-theory' | 'g5-fractions-same-denom-quiz' | 'g5-fractions-diff-denom-theory' | 'g5-fractions-diff-denom-quiz' | 'g5-fraction-multiply-theory' | 'g5-fraction-multiply-quiz' | 'g5-fraction-divide-theory' | 'g5-fraction-divide-quiz' | 'g5-fractions-order-of-operations-theory' | 'g5-fractions-order-of-operations-quiz' | 'g5-fractions-review-theory' | 'g5-fractions-review-quiz' | 'g5-decimal-fractions-theory' | 'g5-decimal-fractions-quiz' | 'g5-decimal-compare-rounding-theory' | 'g5-decimal-compare-rounding-quiz' | 'g5-decimal-add-sub-theory' | 'g5-decimal-add-sub-quiz' | 'g5-decimal-multiply-theory' | 'g5-decimal-multiply-quiz' | 'g5-decimal-divide-theory' | 'g5-decimal-divide-quiz' | 'g5-roman-numerals-theory' | 'g5-roman-numerals-quiz' | 'g5-place-value-theory' | 'g5-place-value-quiz' | 'g5-number-reading-theory' | 'g5-number-reading-quiz' | 'g5-number-spelling-theory' | 'g5-number-spelling-quiz' | 'g5-number-systems-theory' | 'g5-number-systems-quiz' | 'g5-number-line-theory' | 'g5-number-line-quiz' | 'g5-rounding-theory' | 'g5-rounding-quiz' | 'g5-addition-theory' | 'g5-addition-quiz' | 'g5-subtraction-theory' | 'g5-subtraction-quiz' | 'g5-multiplication-theory' | 'g5-multiplication-quiz' | 'g5-division-theory' | 'g5-division-quiz' | 'g5-order-of-operations-theory' | 'g5-order-of-operations-quiz' | 'g5-negative-numbers-theory' | 'g5-negative-numbers-quiz' | 'g5-opposite-absolute-theory' | 'g5-opposite-absolute-quiz' | 'g5-integer-addition-subtraction-theory' | 'g5-integer-addition-subtraction-quiz' | 'g5-chapter1-summary-theory' | 'g5-chapter1-summary-quiz' | 'g5-geom-grouping-theory' | 'g5-geom-grouping-quiz'
+  | 'g5-geom-sets-theory' | 'g5-geom-sets-quiz'
+  | 'g5-geom-bodies-theory' | 'g5-geom-bodies-quiz'
+  | 'g5-geom-angles-theory' | 'g5-geom-angles-quiz'
   | 'g6-planar-shapes-theory' | 'g6-planar-shapes-quiz' | 'g6-planar-shapes-matcher' | 'g6-planar-shapes-sorter'
   | 'g6-congruence-theory' | 'g6-congruence-quiz' | 'g6-congruence-matcher' | 'g6-congruence-sorter'
   | 'g6-integers-operations-theory' | 'g6-integers-operations-quiz'
@@ -3271,6 +3291,132 @@ export default function MathPage() {
                   <Grade5Chapter2SummaryQuiz
                     onBack={handleBack}
                     onSwitchToTheory={() => setActivityType('g5-chapter2-summary-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-geom-grouping-theory' && (
+                  <Grade5GroupingTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-geom-grouping-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-geom-grouping-quiz' && (
+                  <Grade5GroupingQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-geom-grouping-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-geom-sets-theory' && (
+                  <Grade5SetsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-geom-sets-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-geom-sets-quiz' && (
+                  <Grade5SetsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-geom-sets-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-geom-bodies-theory' && (
+                  <Grade5BodiesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-geom-bodies-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-geom-bodies-quiz' && (
+                  <Grade5BodiesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-geom-bodies-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-geom-angles-theory' && (
+                  <Grade5AnglesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-geom-angles-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-geom-angles-quiz' && (
+                  <Grade5AnglesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-geom-angles-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-geom-triangles-theory' && (
+                  <Grade5PolygonsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-geom-triangles-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-geom-triangles-quiz' && (
+                  <Grade5PolygonsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-geom-triangles-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-geom-building-theory' && (
+                  <Grade5BuildingTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-geom-building-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-geom-building-quiz' && (
+                  <Grade5BuildingQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-geom-building-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-geom-lines-theory' && (
+                  <Grade5LinesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-geom-lines-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-geom-lines-quiz' && (
+                  <Grade5LinesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-geom-lines-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-geom-quads-theory' && (
+                  <Grade5QuadsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-geom-quads-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-geom-quads-quiz' && (
+                  <Grade5QuadsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-geom-quads-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-geom-summary-theory' && (
+                  <Grade5SummaryTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-geom-summary-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-geom-summary-quiz' && (
+                  <Grade5SummaryQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-geom-summary-theory')}
                   />
                 )}
 
