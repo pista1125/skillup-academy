@@ -43,6 +43,7 @@ import {
   Pizza,
   Puzzle,
   RefreshCw,
+  Ruler,
   Scale,
   Scissors,
   Search,
@@ -1260,13 +1261,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-meas-sec-1" number={1} title="A hosszúság mérése" color="blue" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Mértékegység-váltó"
-                  subtitle="Hosszúságmértékek átváltása"
-                  type="Eszköz"
-                  emoji="📏"
-                  onClick={() => onActivitySelect('unit-converter', topicId)}
-                  icon={<MoveHorizontal className="w-6 h-6" />}
+                  title="A hosszúság mérése elmélet"
+                  subtitle="Mértékegységek, váltószámok, interaktív vonalzó és becslés PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-meas-length-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="blue"
+                />
+                <ActivityPlaceholder
+                  title="A hosszúság mérése kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="📏"
+                  onClick={() => onActivitySelect('g5-meas-length-quiz', topicId)}
+                  icon={<Ruler className="w-6 h-6" />}
+                  color="blue"
+                  {...getTopicProgress('g5-meas-length-quiz')}
                 />
               </div>
             </section>
@@ -1278,13 +1289,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-meas-sec-2" number={2} title="Téglalap, négyzet kerülete" color="emerald" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Kerület Kvíz"
-                  subtitle="Téglalap és négyzet kerületszámítása"
-                  type="Teszt"
+                  title="A téglalap és a négyzet kerülete elmélet"
+                  subtitle="Kerület fogalma, négyzet és téglalap képletei, interaktív szimuláció PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-meas-perimeter-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="emerald"
+                />
+                <ActivityPlaceholder
+                  title="Téglalap, négyzet kerülete kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
                   emoji="📐"
-                  onClick={() => onActivitySelect('perimeter-quiz', topicId)}
+                  onClick={() => onActivitySelect('g5-meas-perimeter-quiz', topicId)}
                   icon={<Square className="w-6 h-6" />}
                   color="emerald"
+                  {...getTopicProgress('g5-meas-perimeter-quiz')}
                 />
               </div>
             </section>
@@ -1296,13 +1317,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-meas-sec-3" number={3} title="A terület mérése" color="amber" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Terület Mértékegységek"
-                  subtitle="Területmértékek és átváltások kvíz"
-                  type="Teszt"
+                  title="A terület mérése elmélet"
+                  subtitle="Terület fogalma, egységnégyzetek, m² és mezőgazdasági mértékek (a, ha, km²) PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-meas-area-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="amber"
+                />
+                <ActivityPlaceholder
+                  title="A terület mérése kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
                   emoji="🔲"
-                  onClick={() => onActivitySelect('area-conversion-quiz', topicId)}
+                  onClick={() => onActivitySelect('g5-meas-area-quiz', topicId)}
                   icon={<Layout className="w-6 h-6" />}
                   color="amber"
+                  {...getTopicProgress('g5-meas-area-quiz')}
                 />
               </div>
             </section>
@@ -1314,13 +1345,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-meas-sec-4" number={4} title="Téglalap, négyzet területe" color="orange" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Területszámítás Kvíz"
-                  subtitle="Téglalap és négyzet területe és hiányzó oldala"
-                  type="Teszt"
+                  title="Téglalap, négyzet területe elmélet"
+                  subtitle="T = a · b és T = a · a képletek, rácsmodell, visszafelé számolás és szimulátor PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-meas-rectangle-area-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="orange"
+                />
+                <ActivityPlaceholder
+                  title="Téglalap, négyzet területe kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
                   emoji="🟩"
-                  onClick={() => onActivitySelect('area-calc-quiz', topicId)}
+                  onClick={() => onActivitySelect('g5-meas-rectangle-area-quiz', topicId)}
                   icon={<Square className="w-6 h-6" />}
                   color="orange"
+                  {...getTopicProgress('g5-meas-rectangle-area-quiz')}
                 />
               </div>
             </section>
@@ -1332,13 +1373,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-meas-sec-5" number={5} title="Téglatest, kocka" color="purple" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Térbeli alakzatok"
-                  subtitle="Téglatest és kocka csúcsai, élei, lapjai"
-                  type="Hamarosan"
+                  title="Téglatest, kocka elmélet"
+                  subtitle="Térbeli testek, csúcsok, élek, lapok, síkbeli hálók és 3D szimulátor PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-meas-cuboid-cube-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="purple"
+                />
+                <ActivityPlaceholder
+                  title="Téglatest, kocka kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
                   emoji="📦"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g5-meas-cuboid-cube-quiz', topicId)}
                   icon={<Box className="w-6 h-6" />}
                   color="purple"
+                  {...getTopicProgress('g5-meas-cuboid-cube-quiz')}
                 />
               </div>
             </section>
@@ -1350,22 +1401,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-meas-sec-6" number={6} title="Téglatest, kocka felszíne" color="pink" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Felszínszámítás Kvíz"
-                  subtitle="Téglatest és kocka határoló lapjai és felszíne"
-                  type="Teszt"
-                  emoji="🎁"
-                  onClick={() => onActivitySelect('surface-area-quiz', topicId)}
-                  icon={<Box className="w-6 h-6" />}
+                  title="Téglatest, kocka felszíne elmélet"
+                  subtitle="Képletek, lapok területe, nyitott dobozok, interaktív 3D szimulátor és PDF mentés"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-meas-surface-area-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="pink"
                 />
                 <ActivityPlaceholder
-                  title="Térfogat és felszín szemléltető"
-                  subtitle="Testek kiterítése és hálója"
-                  type="Eszköz"
-                  emoji="📦"
-                  onClick={() => onActivitySelect('volume-surface', topicId)}
+                  title="Téglatest, kocka felszíne kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🎁"
+                  onClick={() => onActivitySelect('g5-meas-surface-area-quiz', topicId)}
                   icon={<Box className="w-6 h-6" />}
-                  color="rose"
+                  color="pink"
+                  {...getTopicProgress('g5-meas-surface-area-quiz')}
                 />
               </div>
             </section>
@@ -1377,13 +1429,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-meas-sec-7" number={7} title="A térfogat mérése" color="cyan" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Űrmérték-váltó"
-                  subtitle="Térfogat- és űrmértékek átváltása"
-                  type="Eszköz"
-                  emoji="🧪"
-                  onClick={() => onActivitySelect('capacity-converter', topicId)}
-                  icon={<Calculator className="w-6 h-6" />}
+                  title="A térfogat mérése elmélet"
+                  subtitle="Egységkockák, köbmértékek, folyadékok űrmértéke és aranyszabályok PDF mentéssel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-meas-volume-measure-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="cyan"
+                />
+                <ActivityPlaceholder
+                  title="A térfogat mérése kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🧪"
+                  onClick={() => onActivitySelect('g5-meas-volume-measure-quiz', topicId)}
+                  icon={<Box className="w-6 h-6" />}
+                  color="cyan"
+                  {...getTopicProgress('g5-meas-volume-measure-quiz')}
                 />
               </div>
             </section>
@@ -1395,13 +1457,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-meas-sec-8" number={8} title="Téglatest, kocka térfogata" color="indigo" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Térfogatszámítás Kvíz"
-                  subtitle="Téglatest és kocka térfogata egységkockákkal"
-                  type="Teszt"
+                  title="Téglatest, kocka térfogata elmélet"
+                  subtitle="Képletek (V = a·b·c, V = a³), alapterület és magasság, 3D víztartály szimulátor és PDF mentés"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-meas-cuboid-cube-volume-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="indigo"
+                />
+                <ActivityPlaceholder
+                  title="Téglatest, kocka térfogata kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
                   emoji="🧊"
-                  onClick={() => onActivitySelect('volume-quiz', topicId)}
+                  onClick={() => onActivitySelect('g5-meas-cuboid-cube-volume-quiz', topicId)}
                   icon={<Box className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g5-meas-cuboid-cube-volume-quiz')}
                 />
               </div>
             </section>
@@ -1413,13 +1485,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-meas-sec-9" number={9} title="Gyakorlati feladatok" color="teal" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Gyakorlati számítások"
-                  subtitle="Valós életbeli mérési és területszámítási feladatok"
-                  type="Hamarosan"
-                  emoji="🏠"
-                  disabled={true}
-                  icon={<Sparkles className="w-6 h-6" />}
+                  title="Gyakorlati feladatok elmélet"
+                  subtitle="Kerítésépítés, parkettázás, dobozcsomagolás, medencék, szobafelújítási szimulátor és PDF mentés"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-meas-practical-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="teal"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorlati feladatok kvíz"
+                  subtitle="30 életszerű feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🏡"
+                  onClick={() => onActivitySelect('g5-meas-practical-quiz', topicId)}
+                  icon={<Box className="w-6 h-6" />}
+                  color="teal"
+                  {...getTopicProgress('g5-meas-practical-quiz')}
                 />
               </div>
             </section>
@@ -1431,13 +1513,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-meas-sec-10" number={10} title="Összefoglalás" color="slate" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Összefoglaló felkészítő"
-                  subtitle="IV. Hosszúság, terület, térfogat összefoglalás"
-                  type="Hamarosan"
+                  title="Összefoglalás elmélet"
+                  subtitle="Hosszúság, terület, felszín, térfogat és gyakorlat nagytablója szimulátorral és PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-meas-summary-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="slate"
+                />
+                <ActivityPlaceholder
+                  title="Témazáró felkészítő kvíz"
+                  subtitle="Átfogó témazáró teszt 3×30 feladattal, párosítóval és csoportosítóval"
+                  type="Kvíz"
                   emoji="🏆"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g5-meas-summary-quiz', topicId)}
                   icon={<Trophy className="w-6 h-6" />}
                   color="slate"
+                  {...getTopicProgress('g5-meas-summary-quiz')}
                 />
               </div>
             </section>

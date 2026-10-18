@@ -210,8 +210,6 @@ const AnalogClockTool = lazy(() => import("@/components/math/tools/AnalogClockTo
 const ScientificCalculator = lazy(() => import("@/components/math/tools/ScientificCalculator").then(m => ({ default: m.ScientificCalculator }))) as any;
 const AlgebraCloudTool = lazy(() => import("@/components/math/tools/AlgebraCloudTool").then(m => ({ default: m.AlgebraCloudTool }))) as any;
 const PerimeterQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat").then(m => ({ default: m.PerimeterQuiz }))) as any;
-const AreaConversionQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat").then(m => ({ default: m.AreaConversionQuiz }))) as any;
-const AreaCalculationQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat").then(m => ({ default: m.AreaCalculationQuiz }))) as any;
 const VolumeQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat").then(m => ({ default: m.VolumeQuiz }))) as any;
 const SurfaceAreaQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat").then(m => ({ default: m.SurfaceAreaQuiz }))) as any;
 const MappingQuiz = lazy(() => import("@/components/math/grade-7/hozzarendelesek-statisztika/MappingQuiz").then(m => ({ default: m.MappingQuiz }))) as any;
@@ -299,6 +297,46 @@ const Grade5QuadsTheory = lazy(() => import("@/components/math/grade-5/bevezetes
 const Grade5QuadsQuiz = lazy(() => import("@/components/math/grade-5/bevezetes-a-geometriaba/teglalap-negyzet/QuadsQuiz").then(m => ({ default: m.QuadsQuiz }))) as any;
 const Grade5SummaryTheory = lazy(() => import("@/components/math/grade-5/bevezetes-a-geometriaba/osszefoglalas/SummaryTheory").then(m => ({ default: m.SummaryTheory }))) as any;
 const Grade5SummaryQuiz = lazy(() => import("@/components/math/grade-5/bevezetes-a-geometriaba/osszefoglalas/SummaryQuiz").then(m => ({ default: m.SummaryQuiz }))) as any;
+const Grade5LengthTheory = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/a-hosszusag-merese/LengthTheory").then(m => ({ default: m.LengthTheory }))) as any;
+const Grade5LengthQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/a-hosszusag-merese/LengthQuiz").then(m => ({ default: m.LengthQuiz }))) as any;
+const Grade5LengthMatcher = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/a-hosszusag-merese/LengthMatcher").then(m => ({ default: m.LengthMatcher }))) as any;
+const Grade5LengthSorter = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/a-hosszusag-merese/LengthSorter").then(m => ({ default: m.LengthSorter }))) as any;
+const Grade5PerimeterTheory = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/teglalap-negyzet-kerulete/PerimeterTheory").then(m => ({ default: m.PerimeterTheory }))) as any;
+const Grade5PerimeterQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/teglalap-negyzet-kerulete/PerimeterQuiz").then(m => ({ default: m.PerimeterQuiz }))) as any;
+const Grade5PerimeterMatcher = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/teglalap-negyzet-kerulete/PerimeterMatcher").then(m => ({ default: m.PerimeterMatcher }))) as any;
+const Grade5PerimeterSorter = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/teglalap-negyzet-kerulete/PerimeterSorter").then(m => ({ default: m.PerimeterSorter }))) as any;
+const Grade5AreaTheory = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/a-terulet-merese/AreaTheory").then(m => ({ default: m.AreaTheory }))) as any;
+const Grade5AreaQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/a-terulet-merese/AreaQuiz").then(m => ({ default: m.AreaQuiz }))) as any;
+const Grade5AreaMatcher = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/a-terulet-merese/AreaMatcher").then(m => ({ default: m.AreaMatcher }))) as any;
+const Grade5AreaSorter = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/a-terulet-merese/AreaSorter").then(m => ({ default: m.AreaSorter }))) as any;
+const Grade5RectangleAreaTheory = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/teglalap-negyzet-terulete/RectangleAreaTheory").then(m => ({ default: m.RectangleAreaTheory }))) as any;
+const Grade5RectangleAreaQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/teglalap-negyzet-terulete/RectangleAreaQuiz").then(m => ({ default: m.RectangleAreaQuiz }))) as any;
+const Grade5RectangleAreaMatcher = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/teglalap-negyzet-terulete/RectangleAreaMatcher").then(m => ({ default: m.RectangleAreaMatcher }))) as any;
+const Grade5RectangleAreaSorter = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/teglalap-negyzet-terulete/RectangleAreaSorter").then(m => ({ default: m.RectangleAreaSorter }))) as any;
+const Grade5CuboidCubeTheory = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/teglatest-kocka/CuboidCubeTheory").then(m => ({ default: m.CuboidCubeTheory }))) as any;
+const Grade5CuboidCubeQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/teglatest-kocka/CuboidCubeQuiz").then(m => ({ default: m.CuboidCubeQuiz }))) as any;
+const Grade5CuboidCubeMatcher = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/teglatest-kocka/CuboidCubeMatcher").then(m => ({ default: m.CuboidCubeMatcher }))) as any;
+const Grade5CuboidCubeSorter = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/teglatest-kocka/CuboidCubeSorter").then(m => ({ default: m.CuboidCubeSorter }))) as any;
+const Grade5SurfaceAreaTheory = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/teglatest-kocka-felszine/SurfaceAreaTheory").then(m => ({ default: m.SurfaceAreaTheory }))) as any;
+const Grade5SurfaceAreaQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/teglatest-kocka-felszine/SurfaceAreaQuiz").then(m => ({ default: m.SurfaceAreaQuiz }))) as any;
+const Grade5SurfaceAreaMatcher = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/teglatest-kocka-felszine/SurfaceAreaMatcher").then(m => ({ default: m.SurfaceAreaMatcher }))) as any;
+const Grade5SurfaceAreaSorter = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/teglatest-kocka-felszine/SurfaceAreaSorter").then(m => ({ default: m.SurfaceAreaSorter }))) as any;
+const Grade5VolumeMeasureTheory = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/a-terfogat-merese/VolumeMeasureTheory").then(m => ({ default: m.VolumeMeasureTheory }))) as any;
+const Grade5VolumeMeasureQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/a-terfogat-merese/VolumeMeasureQuiz").then(m => ({ default: m.VolumeMeasureQuiz }))) as any;
+const Grade5VolumeMeasureMatcher = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/a-terfogat-merese/VolumeMeasureMatcher").then(m => ({ default: m.VolumeMeasureMatcher }))) as any;
+const Grade5VolumeMeasureSorter = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/a-terfogat-merese/VolumeMeasureSorter").then(m => ({ default: m.VolumeMeasureSorter }))) as any;
+const Grade5CuboidCubeVolumeTheory = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/teglatest-kocka-terfogata/CuboidCubeVolumeTheory").then(m => ({ default: m.CuboidCubeVolumeTheory }))) as any;
+const Grade5CuboidCubeVolumeQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/teglatest-kocka-terfogata/VolumeQuiz").then(m => ({ default: m.CuboidCubeVolumeQuiz }))) as any;
+const Grade5CuboidCubeVolumeMatcher = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/teglatest-kocka-terfogata/CuboidCubeVolumeMatcher").then(m => ({ default: m.CuboidCubeVolumeMatcher }))) as any;
+const Grade5CuboidCubeVolumeSorter = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/teglatest-kocka-terfogata/CuboidCubeVolumeSorter").then(m => ({ default: m.CuboidCubeVolumeSorter }))) as any;
+const Grade5PracticalTheory = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/gyakorlati-feladatok/PracticalProblemsTheory").then(m => ({ default: m.PracticalProblemsTheory }))) as any;
+const Grade5PracticalQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/gyakorlati-feladatok/PracticalProblemsQuiz").then(m => ({ default: m.PracticalProblemsQuiz }))) as any;
+const Grade5PracticalMatcher = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/gyakorlati-feladatok/PracticalProblemsMatcher").then(m => ({ default: m.PracticalProblemsMatcher }))) as any;
+const Grade5PracticalSorter = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/gyakorlati-feladatok/PracticalProblemsSorter").then(m => ({ default: m.PracticalProblemsSorter }))) as any;
+const Grade5MeasurementSummaryTheory = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/osszefoglalas/MeasurementSummaryTheory").then(m => ({ default: m.MeasurementSummaryTheory }))) as any;
+const Grade5MeasurementSummaryQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/osszefoglalas/MeasurementSummaryQuiz").then(m => ({ default: m.MeasurementSummaryQuiz }))) as any;
+const Grade5MeasurementSummaryMatcher = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/osszefoglalas/MeasurementSummaryMatcher").then(m => ({ default: m.MeasurementSummaryMatcher }))) as any;
+const Grade5MeasurementSummarySorter = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/osszefoglalas/MeasurementSummarySorter").then(m => ({ default: m.MeasurementSummarySorter }))) as any;
 const RatioIntroTheory = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/az-arany-fogalma/RatioIntroTheory").then(m => ({ default: m.RatioIntroTheory }))) as any;
 const RatioIntroQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/az-arany-fogalma/RatioIntroQuiz").then(m => ({ default: m.RatioIntroQuiz }))) as any;
 const RatioIntroMatcher = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/az-arany-fogalma/RatioIntroMatcher").then(m => ({ default: m.RatioIntroMatcher }))) as any;
@@ -1044,6 +1082,16 @@ type ActivityType =
   | 'g5-geom-sets-theory' | 'g5-geom-sets-quiz'
   | 'g5-geom-bodies-theory' | 'g5-geom-bodies-quiz'
   | 'g5-geom-angles-theory' | 'g5-geom-angles-quiz'
+  | 'g5-meas-length-theory' | 'g5-meas-length-quiz' | 'g5-meas-length-matcher' | 'g5-meas-length-sorter'
+  | 'g5-meas-perimeter-theory' | 'g5-meas-perimeter-quiz' | 'g5-meas-perimeter-matcher' | 'g5-meas-perimeter-sorter'
+  | 'g5-meas-area-theory' | 'g5-meas-area-quiz' | 'g5-meas-area-matcher' | 'g5-meas-area-sorter'
+  | 'g5-meas-rectangle-area-theory' | 'g5-meas-rectangle-area-quiz' | 'g5-meas-rectangle-area-matcher' | 'g5-meas-rectangle-area-sorter'
+  | 'g5-meas-cuboid-cube-theory' | 'g5-meas-cuboid-cube-quiz' | 'g5-meas-cuboid-cube-matcher' | 'g5-meas-cuboid-cube-sorter'
+  | 'g5-meas-surface-area-theory' | 'g5-meas-surface-area-quiz' | 'g5-meas-surface-area-matcher' | 'g5-meas-surface-area-sorter'
+  | 'g5-meas-volume-measure-theory' | 'g5-meas-volume-measure-quiz' | 'g5-meas-volume-measure-matcher' | 'g5-meas-volume-measure-sorter'
+  | 'g5-meas-cuboid-cube-volume-theory' | 'g5-meas-cuboid-cube-volume-quiz' | 'g5-meas-cuboid-cube-volume-matcher' | 'g5-meas-cuboid-cube-volume-sorter'
+  | 'g5-meas-practical-theory' | 'g5-meas-practical-quiz' | 'g5-meas-practical-matcher' | 'g5-meas-practical-sorter'
+  | 'g5-meas-summary-theory' | 'g5-meas-summary-quiz' | 'g5-meas-summary-matcher' | 'g5-meas-summary-sorter'
   | 'g6-planar-shapes-theory' | 'g6-planar-shapes-quiz' | 'g6-planar-shapes-matcher' | 'g6-planar-shapes-sorter'
   | 'g6-congruence-theory' | 'g6-congruence-quiz' | 'g6-congruence-matcher' | 'g6-congruence-sorter'
   | 'g6-integers-operations-theory' | 'g6-integers-operations-quiz'
@@ -3417,6 +3465,296 @@ export default function MathPage() {
                   <Grade5SummaryQuiz
                     onBack={handleBack}
                     onSwitchToTheory={() => setActivityType('g5-geom-summary-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-length-theory' && (
+                  <Grade5LengthTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-meas-length-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-meas-length-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-length-quiz' && (
+                  <Grade5LengthQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-length-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-length-matcher' && (
+                  <Grade5LengthMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-length-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-length-sorter' && (
+                  <Grade5LengthSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-length-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-perimeter-theory' && (
+                  <Grade5PerimeterTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-meas-perimeter-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-meas-perimeter-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-perimeter-quiz' && (
+                  <Grade5PerimeterQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-perimeter-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-perimeter-matcher' && (
+                  <Grade5PerimeterMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-perimeter-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-perimeter-sorter' && (
+                  <Grade5PerimeterSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-perimeter-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-area-theory' && (
+                  <Grade5AreaTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-meas-area-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-meas-area-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-area-quiz' && (
+                  <Grade5AreaQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-area-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-area-matcher' && (
+                  <Grade5AreaMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-area-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-area-sorter' && (
+                  <Grade5AreaSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-area-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-rectangle-area-theory' && (
+                  <Grade5RectangleAreaTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-meas-rectangle-area-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-meas-rectangle-area-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-rectangle-area-quiz' && (
+                  <Grade5RectangleAreaQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-rectangle-area-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-rectangle-area-matcher' && (
+                  <Grade5RectangleAreaMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-rectangle-area-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-rectangle-area-sorter' && (
+                  <Grade5RectangleAreaSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-rectangle-area-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-cuboid-cube-theory' && (
+                  <Grade5CuboidCubeTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-meas-cuboid-cube-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-meas-cuboid-cube-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-cuboid-cube-quiz' && (
+                  <Grade5CuboidCubeQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-cuboid-cube-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-cuboid-cube-matcher' && (
+                  <Grade5CuboidCubeMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-cuboid-cube-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-cuboid-cube-sorter' && (
+                  <Grade5CuboidCubeSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-cuboid-cube-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-surface-area-theory' && (
+                  <Grade5SurfaceAreaTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-meas-surface-area-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-meas-surface-area-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-surface-area-quiz' && (
+                  <Grade5SurfaceAreaQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-surface-area-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-surface-area-matcher' && (
+                  <Grade5SurfaceAreaMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-surface-area-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-surface-area-sorter' && (
+                  <Grade5SurfaceAreaSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-surface-area-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-volume-measure-theory' && (
+                  <Grade5VolumeMeasureTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-meas-volume-measure-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-meas-volume-measure-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-volume-measure-quiz' && (
+                  <Grade5VolumeMeasureQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-volume-measure-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-volume-measure-matcher' && (
+                  <Grade5VolumeMeasureMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-volume-measure-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-volume-measure-sorter' && (
+                  <Grade5VolumeMeasureSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-volume-measure-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-cuboid-cube-volume-theory' && (
+                  <Grade5CuboidCubeVolumeTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-meas-cuboid-cube-volume-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-meas-cuboid-cube-volume-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-cuboid-cube-volume-quiz' && (
+                  <Grade5CuboidCubeVolumeQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-cuboid-cube-volume-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-cuboid-cube-volume-matcher' && (
+                  <Grade5CuboidCubeVolumeMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-cuboid-cube-volume-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-cuboid-cube-volume-sorter' && (
+                  <Grade5CuboidCubeVolumeSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-cuboid-cube-volume-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-practical-theory' && (
+                  <Grade5PracticalTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-meas-practical-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-meas-practical-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-practical-quiz' && (
+                  <Grade5PracticalQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-practical-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-practical-matcher' && (
+                  <Grade5PracticalMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-practical-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-practical-sorter' && (
+                  <Grade5PracticalSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-practical-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-summary-theory' && (
+                  <Grade5MeasurementSummaryTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-meas-summary-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-meas-summary-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-summary-quiz' && (
+                  <Grade5MeasurementSummaryQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-summary-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-summary-matcher' && (
+                  <Grade5MeasurementSummaryMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-summary-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-meas-summary-sorter' && (
+                  <Grade5MeasurementSummarySorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-meas-summary-theory')}
                   />
                 )}
 
@@ -7997,14 +8335,6 @@ export default function MathPage() {
                   <PerimeterQuiz onBack={handleBack} />
                 )}
 
-                {activityType === 'area-conversion-quiz' && (
-                  <AreaConversionQuiz onBack={handleBack} />
-                )}
-
-                {activityType === 'area-calc-quiz' && (
-                  <AreaCalculationQuiz onBack={handleBack} />
-                )}
-
                 {activityType === 'surface-area-quiz' && (
                   <SurfaceAreaQuiz onBack={handleBack} />
                 )}
@@ -10571,10 +10901,6 @@ export default function MathPage() {
 
                 {activityType === 'perimeter-quiz' && (
                   <PerimeterQuiz onBack={handleBack} />
-                )}
-
-                {activityType === 'area-conversion-quiz' && (
-                  <AreaConversionQuiz onBack={handleBack} />
                 )}
 
                 {activityType === 'volume-quiz' && (

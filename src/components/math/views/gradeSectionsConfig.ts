@@ -296,6 +296,17 @@ export const sectionToTopicMap: Record<string, string> = {
   'g5-geom-lines': 'g5-geometry-intro',
   'g5-geom-quads': 'g5-geometry-intro',
   'g5-geom-summary': 'g5-geometry-intro',
+  'g5-measurements': 'g5-measurements',
+  'g5-meas-sec-1': 'g5-measurements',
+  'g5-meas-sec-2': 'g5-measurements',
+  'g5-meas-sec-3': 'g5-measurements',
+  'g5-meas-sec-4': 'g5-measurements',
+  'g5-meas-sec-5': 'g5-measurements',
+  'g5-meas-sec-6': 'g5-measurements',
+  'g5-meas-sec-7': 'g5-measurements',
+  'g5-meas-sec-8': 'g5-measurements',
+  'g5-meas-sec-9': 'g5-measurements',
+  'g5-meas-sec-10': 'g5-measurements',
   'g5-proportions': 'g5-proportion-problems',
 
   // Grade 6

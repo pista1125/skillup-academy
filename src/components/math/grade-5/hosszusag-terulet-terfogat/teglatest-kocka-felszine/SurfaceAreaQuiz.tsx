@@ -1,587 +1,767 @@
-import { useState, useCallback } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import {
-    ArrowLeft,
-    CheckCircle2,
-    XCircle,
-    Sparkles,
-    Trophy,
-    Target,
-    ChevronLeft,
-    ChevronRight,
-    Check,
-    Zap,
-    Crown,
-    Box,
-    LayoutGrid
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
-import confetti from 'canvas-confetti';
+import React from 'react';
+import { QuizTemplate, Question } from '../QuizTemplate';
+import { SurfaceAreaMatcher } from './SurfaceAreaMatcher';
+import { SurfaceAreaSorter } from './SurfaceAreaSorter';
 
-// --- Helper Components ---
-
-interface SurfaceAreaBoxProps {
-    a: number;
-    b: number;
-    c: number;
-    unitA?: string;
-    unitB?: string;
-    unitC?: string;
-    showLabels?: boolean;
-    missingSide?: 'a' | 'b' | 'c';
-    isCube?: boolean;
+export interface SurfaceAreaQuizProps {
+  onBack: () => void;
+  onSwitchToTheory?: () => void;
 }
 
-function SurfaceAreaBox({ a, b, c, unitA, unitB, unitC, showLabels = true, missingSide, isCube }: SurfaceAreaBoxProps) {
-    // Normalize for display (max size around 100px)
-    const maxVal = Math.max(a, b, c);
-    const baseScale = Math.min(60 / (maxVal || 1), 20); 
-    
-    // Isometric-ish projection parameters
-    const w = a * baseScale;
-    const h = c * baseScale;
-    const d = b * baseScale * 0.6; // Depth is skewed and shortened
-    const skewX = d * Math.cos(Math.PI / 4);
-    const skewY = d * Math.sin(Math.PI / 4);
+const SURFACE_AREA_QUESTIONS: Question[] = [
+  // =========================================================================
+  // 1. SZINT: ALAPFOGALMAK, KÉPLETEK ÉS KÖZVETLEN SZÁMÍTÁSOK (1-10)
+  // =========================================================================
+  {
+    id: 'saq1-1',
+    level: 1,
+    prompt: 'Mi az "a" élhosszúságú kocka felszínének kiszámítási képlete?',
+    options: [
+      'A = 6 · a · a (vagy 6 · a²)',
+      'A = 4 · a · a (vagy 4 · a²)',
+      'A = 12 · a',
+      'A = a · a · a (vagy a³)'
+    ],
+    correctAnswer: 0,
+    figure: (
+      <svg className="w-40 h-32 mx-auto" viewBox="0 0 130 100">
+        <rect x="25" y="35" width="50" height="50" fill="#fdf2f8" stroke="#db2777" strokeWidth="2" />
+        <polygon points="25,35 45,15 95,15 75,35" fill="#fce7f3" stroke="#db2777" strokeWidth="1.5" />
+        <polygon points="75,35 95,15 95,65 75,85" fill="#fbcfe8" stroke="#db2777" strokeWidth="1.5" />
+        <text x="50" y="65" textAnchor="middle" className="text-[12px] font-bold fill-pink-900">a²</text>
+        <text x="60" y="27" textAnchor="middle" className="text-[10px] fill-pink-800">a²</text>
+        <text x="85" y="52" textAnchor="middle" className="text-[10px] fill-pink-800">a²</text>
+        <text x="65" y="96" textAnchor="middle" className="text-[9px] font-bold fill-pink-950">6 db egybevágó lap: A = 6 · a²</text>
+      </svg>
+    ),
+    explanation: 'A kockát 6 darab egybevágó négyzet határolja. Egy lap területe a · a (a²), így a teljes felszín: A = 6 · a².',
+    hint: 'A kockának 6 lapja van, mindegyik egy "a" oldalú négyzet!',
+    breakdown: [
+      { label: 'Egy négyzetlap területe', value: 'T = a · a = a²' },
+      { label: 'Lapok száma', value: '6 darab' },
+      { label: 'Teljes felszín képlete', value: 'A = 6 · a²' }
+    ]
+  },
+  {
+    id: 'saq1-2',
+    level: 1,
+    prompt: 'Mennyi a felszíne annak a kockának, amelynek éle a = 3 cm?',
+    options: [
+      '54 cm²',
+      '36 cm²',
+      '27 cm²',
+      '18 cm²'
+    ],
+    correctAnswer: 0,
+    figure: (
+      <svg className="w-36 h-28 mx-auto" viewBox="0 0 120 90">
+        <rect x="20" y="30" width="45" height="45" fill="#fdf2f8" stroke="#db2777" strokeWidth="2" />
+        <polygon points="20,30 40,12 85,12 65,30" fill="#fce7f3" stroke="#db2777" strokeWidth="1.5" />
+        <polygon points="65,30 85,12 85,57 65,75" fill="#fbcfe8" stroke="#db2777" strokeWidth="1.5" />
+        <text x="42" y="56" textAnchor="middle" className="text-[11px] font-black fill-pink-900">9 cm²</text>
+        <text x="42" y="87" textAnchor="middle" className="text-[9px] font-medium fill-slate-600">a = 3 cm</text>
+      </svg>
+    ),
+    explanation: 'Egy lap területe: 3 · 3 = 9 cm². A kockának 6 lapja van, tehát: A = 6 · 9 = 54 cm².',
+    hint: 'Először számold ki egy lap területét (3 · 3), majd szorozd meg 6-tal!',
+    breakdown: [
+      { label: 'Egy négyzetlap területe', value: '3 cm · 3 cm = 9 cm²' },
+      { label: '6 lap összessége', value: '6 · 9 cm²' },
+      { label: 'Kocka felszíne', value: '54 cm²' }
+    ]
+  },
+  {
+    id: 'saq1-3',
+    level: 1,
+    prompt: 'Egy kocka egyetlen lapjának a területe 25 cm². Mennyi a kocka teljes felszíne?',
+    options: [
+      '150 cm²',
+      '100 cm²',
+      '125 cm²',
+      '300 cm²'
+    ],
+    correctAnswer: 0,
+    explanation: 'Mivel a kockának 6 egybevágó lapja van, és egy lap területe 25 cm², a teljes felszín: A = 6 · 25 cm² = 150 cm².',
+    hint: 'Itt még a négyzet oldalát sem kell megkeresned, hiszen közvetlenül tudod egy lap területét!',
+    breakdown: [
+      { label: 'Egy lap területe (T_lap)', value: '25 cm²' },
+      { label: 'Lapok száma', value: '6 db' },
+      { label: 'Felszín (A = 6 · T_lap)', value: '6 · 25 = 150 cm²' }
+    ]
+  },
+  {
+    id: 'saq1-4',
+    level: 1,
+    prompt: 'Mi a téglatest felszínének kiszámítási képlete, ha élei a, b és c?',
+    options: [
+      'A = 2 · (a·b + a·c + b·c)',
+      'A = 4 · (a + b + c)',
+      'A = a · b · c',
+      'A = a·b + a·c + b·c'
+    ],
+    correctAnswer: 0,
+    figure: (
+      <svg className="w-44 h-28 mx-auto" viewBox="0 0 150 90">
+        <rect x="20" y="30" width="70" height="40" fill="#fdf2f8" stroke="#db2777" strokeWidth="2" />
+        <polygon points="20,30 40,12 110,12 90,30" fill="#fce7f3" stroke="#db2777" strokeWidth="1.5" />
+        <polygon points="90,30 110,12 110,52 90,70" fill="#fbcfe8" stroke="#db2777" strokeWidth="1.5" />
+        <text x="55" y="55" textAnchor="middle" className="text-[11px] font-bold fill-pink-900">a · c</text>
+        <text x="65" y="23" textAnchor="middle" className="text-[10px] fill-pink-800">a · b</text>
+        <text x="100" y="44" textAnchor="middle" className="text-[10px] fill-pink-800">b · c</text>
+      </svg>
+    ),
+    explanation: 'A téglatest 6 lapja 3 pár egybevágó téglalapból áll (alap-fedél: 2 db a·b, első-hátsó: 2 db a·c, két oldalsó: 2 db b·c). Ezért A = 2·(ab + ac + bc).',
+    hint: '3 különböző típusú lap van, és mindegyikből pontosan kettő: egy pár!',
+    breakdown: [
+      { label: 'Alap és fedőlap', value: '2 · (a · b)' },
+      { label: 'Előlap és hátlap', value: '2 · (a · c)' },
+      { label: 'Két oldallap', value: '2 · (b · c)' },
+      { label: 'Összesen kiemeléssel', value: 'A = 2 · (ab + ac + bc)' }
+    ]
+  },
+  {
+    id: 'saq1-5',
+    level: 1,
+    prompt: 'Hány határoló téglalaplapja van egy általános téglatestnek, és hány pár egybevágó lapot alkotnak?',
+    options: [
+      '6 lapja van, és 3 pár egybevágó lapot alkotnak',
+      '6 lapja van, és mind a 6 egybevágó',
+      '8 lapja van, és 4 pár egybevágó lapot alkotnak',
+      '12 lapja van, és 6 pár egybevágó lapot alkotnak'
+    ],
+    correctAnswer: 0,
+    explanation: 'A téglatestnek 6 lapja van. A szemközti lapok páronként egybevágók, így pontosan 3 lap-párt alkotnak.',
+    hint: 'Gondolj a cipősdobozra: az alja és a teteje egyforma, az eleje és hátulja egyforma, a két vége egyforma.',
+    breakdown: [
+      { label: 'Összes lap száma', value: '6 darab' },
+      { label: 'Szemközti párok száma', value: '3 pár' },
+      { label: 'Párok tulajdonsága', value: 'Egybevágó téglalapok' }
+    ]
+  },
+  {
+    id: 'saq1-6',
+    level: 1,
+    prompt: 'Mennyi a téglatest felszíne, ha élei: a = 2 cm, b = 3 cm, c = 4 cm?',
+    options: [
+      '52 cm²',
+      '26 cm²',
+      '24 cm²',
+      '48 cm²'
+    ],
+    correctAnswer: 0,
+    explanation: 'Lapok területe: a·b = 6 cm², a·c = 8 cm², b·c = 12 cm². Összegük: 6 + 8 + 12 = 26 cm². Kétszeresük: A = 2 · 26 = 52 cm².',
+    hint: 'Számold ki a 3 különböző lap területét: 2·3, 2·4 és 3·4, add össze őket, majd szorozd meg 2-vel!',
+    breakdown: [
+      { label: '1. lap pár (2 · 3)', value: '6 cm²' },
+      { label: '2. lap pár (2 · 4)', value: '8 cm²' },
+      { label: '3. lap pár (3 · 4)', value: '12 cm²' },
+      { label: '3 lap összege', value: '6 + 8 + 12 = 26 cm²' },
+      { label: 'Teljes felszín (2-szerese)', value: '2 · 26 = 52 cm²' }
+    ]
+  },
+  {
+    id: 'saq1-7',
+    level: 1,
+    prompt: 'Mennyi a felszíne annak a kockának, amelynek éle a = 5 dm?',
+    options: [
+      '150 dm²',
+      '125 dm²',
+      '100 dm²',
+      '60 dm²'
+    ],
+    correctAnswer: 0,
+    explanation: 'Egy lap területe: 5 · 5 = 25 dm². A 6 lap együtt: A = 6 · 25 = 150 dm².',
+    hint: 'A képlet: A = 6 · a² = 6 · 5 · 5.',
+    breakdown: [
+      { label: 'Egy lap területe', value: '5 dm · 5 dm = 25 dm²' },
+      { label: '6 lap összessége', value: '6 · 25 dm²' },
+      { label: 'Felszín', value: '150 dm²' }
+    ]
+  },
+  {
+    id: 'saq1-8',
+    level: 1,
+    prompt: 'Egy kocka éle a = 10 cm. Mennyi a felszíne négyzetdeciméterben (dm²)?',
+    options: [
+      '6 dm² (= 600 cm²)',
+      '60 dm²',
+      '1 dm²',
+      '600 dm²'
+    ],
+    correctAnswer: 0,
+    explanation: 'a = 10 cm = 1 dm. A = 6 · a² = 6 · (1 dm)² = 6 dm². (Centiméterben: 6 · 100 cm² = 600 cm² = 6 dm²).',
+    hint: 'Váltsd át az élet rögtön deciméterre: 10 cm = 1 dm!',
+    breakdown: [
+      { label: 'Kocka éle dm-ben', value: '10 cm = 1 dm' },
+      { label: 'Egy lap területe', value: '1 dm · 1 dm = 1 dm²' },
+      { label: 'Felszín dm²-ben', value: '6 · 1 dm² = 6 dm²' }
+    ]
+  },
+  {
+    id: 'saq1-9',
+    level: 1,
+    prompt: 'Egy téglatest alaplapja 15 cm², előlapja 20 cm², oldallapja 12 cm². Mennyi a teljes felszíne?',
+    options: [
+      '94 cm²',
+      '47 cm²',
+      '188 cm²',
+      '74 cm²'
+    ],
+    correctAnswer: 0,
+    explanation: 'A téglatest mindegyik lapjából kettő van: A = 2 · (15 + 20 + 12) = 2 · 47 = 94 cm².',
+    hint: 'Add össze a 3 megadott lap területét, majd szorozd meg kettővel!',
+    breakdown: [
+      { label: 'A 3 lap területe együtt', value: '15 + 20 + 12 = 47 cm²' },
+      { label: 'Szemközti lapokkal együtt', value: '2 · 47 cm²' },
+      { label: 'Teljes felszín', value: '94 cm²' }
+    ]
+  },
+  {
+    id: 'saq1-10',
+    level: 1,
+    prompt: 'Milyen mértékegységben fejezzük ki a felszínt?',
+    options: [
+      'Terület-mértékegységben (pl. mm², cm², dm², m²)',
+      'Hosszúság-mértékegységben (pl. mm, cm, m)',
+      'Térfogat-mértékegységben (pl. cm³, dm³, liter)',
+      'Tömeg-mértékegységben (pl. gramm, kg)'
+    ],
+    correctAnswer: 0,
+    explanation: 'A felszín a határoló lapok területeinek összege, ezért mindig terület-mértékegységben (négyzetmértékben) mérjük.',
+    hint: 'Mivel lapok (síkidomok) felületét adjuk össze, négyzetes mértékegység kell.',
+    breakdown: [
+      { label: 'Felszín fogalma', value: 'A testet határoló lapok területe' },
+      { label: 'Mértékegység jellege', value: 'Terület-mértékegység (²)' },
+      { label: 'Gyakori egységek', value: 'cm², dm², m²' }
+    ]
+  },
 
-    const padding = 30; // Reduced padding
-    const originX = padding;
-    const originY = padding + skewY;
+  // =========================================================================
+  // 2. SZINT: VISSZASZÁMOLÁSOK, ÉLHOSSZAK, ÖSSZETETTEBB SZÁMÍTÁSOK (11-20)
+  // =========================================================================
+  {
+    id: 'saq2-1',
+    level: 2,
+    prompt: 'Egy kocka felszíne 96 cm². Mennyi egyetlen lapjának a területe?',
+    options: [
+      '16 cm²',
+      '24 cm²',
+      '12 cm²',
+      '8 cm²'
+    ],
+    correctAnswer: 0,
+    explanation: 'A kockának 6 egyenlő területe van. Egy lap területe: T_lap = A : 6 = 96 : 6 = 16 cm².',
+    hint: 'Oszd el a felszínt a lapok számával (6-tal)!',
+    breakdown: [
+      { label: 'Kocka felszíne (A)', value: '96 cm²' },
+      { label: 'Lapok száma', value: '6 db' },
+      { label: 'Egy lap területe (A : 6)', value: '96 : 6 = 16 cm²' }
+    ]
+  },
+  {
+    id: 'saq2-2',
+    level: 2,
+    prompt: 'Egy kocka felszíne 96 cm². Milyen hosszú a kocka egy éle?',
+    options: [
+      '4 cm',
+      '6 cm',
+      '8 cm',
+      '16 cm'
+    ],
+    correctAnswer: 0,
+    explanation: 'Egy lap területe: 96 : 6 = 16 cm². Mivel a lap egy négyzet (a · a = 16), így az él hossza a = 4 cm (mert 4 · 4 = 16).',
+    hint: 'Előbb keresd meg egy lap területét (96 : 6), majd azt, hogy melyik szám négyzete adja azt a számot!',
+    breakdown: [
+      { label: 'Egy lap területe', value: '96 : 6 = 16 cm²' },
+      { label: 'Négyzet oldala (a · a = 16)', value: 'a = 4 cm' },
+      { label: 'Kocka éle', value: '4 cm' }
+    ]
+  },
+  {
+    id: 'saq2-3',
+    level: 2,
+    prompt: 'Egy kocka felszíne 150 dm². Hány deciméter hosszú egy éle?',
+    options: [
+      '5 dm',
+      '6 dm',
+      '25 dm',
+      '10 dm'
+    ],
+    correctAnswer: 0,
+    explanation: 'Egy lap területe: 150 : 6 = 25 dm². Mivel 5 · 5 = 25, a kocka éle 5 dm.',
+    hint: '150 : 6 = 25. Melyik szám szorozva önmagával ad 25-öt?',
+    breakdown: [
+      { label: 'Egy lap területe', value: '150 : 6 = 25 dm²' },
+      { label: 'Melyik szám négyzete 25?', value: '5 · 5 = 25' },
+      { label: 'Él hossza', value: '5 dm' }
+    ]
+  },
+  {
+    id: 'saq2-4',
+    level: 2,
+    prompt: 'Egy kocka éle 1 m. Hány dm² a felszíne?',
+    options: [
+      '600 dm²',
+      '60 dm²',
+      '6 dm²',
+      '6000 dm²'
+    ],
+    correctAnswer: 0,
+    explanation: '1 m = 10 dm. Egy lap területe: 10 dm · 10 dm = 100 dm². A kocka felszíne: 6 · 100 dm² = 600 dm² (vagy 6 m² = 600 dm²).',
+    hint: '1 m² = 100 dm². A kocka felszíne 6 m², ezt kell átváltani dm²-be.',
+    breakdown: [
+      { label: 'Élhossz átváltása', value: '1 m = 10 dm' },
+      { label: 'Egy lap területe', value: '10 dm · 10 dm = 100 dm²' },
+      { label: 'Felszín', value: '6 · 100 dm² = 600 dm²' }
+    ]
+  },
+  {
+    id: 'saq2-5',
+    level: 2,
+    prompt: 'Egy téglatest élei: a = 5 cm, b = 20 mm, c = 3 cm. Mennyi a felszíne cm²-ben?',
+    options: [
+      '62 cm²',
+      '31 cm²',
+      '70 cm²',
+      '300 cm²'
+    ],
+    correctAnswer: 0,
+    explanation: 'Először egyeztetjük a mértékegységeket: b = 20 mm = 2 cm. Így a lapok: a·b = 10 cm², a·c = 15 cm², b·c = 6 cm². A = 2 · (10 + 15 + 6) = 2 · 31 = 62 cm².',
+    hint: 'Vigyázz a mértékegységekre! 20 mm hány centiméter?',
+    breakdown: [
+      { label: 'Élek cm-ben', value: 'a = 5 cm, b = 2 cm, c = 3 cm' },
+      { label: 'Lapok területei', value: '10 cm², 15 cm², 6 cm²' },
+      { label: 'Összegük', value: '10 + 15 + 6 = 31 cm²' },
+      { label: 'Felszín (A = 2 · 31)', value: '62 cm²' }
+    ]
+  },
+  {
+    id: 'saq2-6',
+    level: 2,
+    prompt: 'Egy négyzet alapú téglatest alapéle a = 3 cm, magassága m = 10 cm. Mennyi a felszíne?',
+    options: [
+      '138 cm²',
+      '120 cm²',
+      '156 cm²',
+      '90 cm²'
+    ],
+    correctAnswer: 0,
+    figure: (
+      <svg className="w-32 h-36 mx-auto" viewBox="0 0 100 120">
+        <rect x="25" y="25" width="40" height="70" fill="#fdf2f8" stroke="#db2777" strokeWidth="2" />
+        <polygon points="25,25 40,10 80,10 65,25" fill="#fce7f3" stroke="#db2777" strokeWidth="1.5" />
+        <polygon points="65,25 80,10 80,80 65,95" fill="#fbcfe8" stroke="#db2777" strokeWidth="1.5" />
+        <text x="45" y="60" textAnchor="middle" className="text-[10px] font-bold fill-pink-900">m = 10</text>
+        <text x="45" y="108" textAnchor="middle" className="text-[10px] font-bold fill-pink-900">a = 3</text>
+      </svg>
+    ),
+    explanation: '2 db négyzet alakú alaplap: 2 · (3 · 3) = 18 cm². 4 db téglalap alakú oldallap (palást): 4 · (3 · 10) = 120 cm². A = 18 + 120 = 138 cm².',
+    hint: 'Az alja és teteje négyzet (3×3), a négy oldallapja pedig mind 3×10 cm-es téglalap!',
+    breakdown: [
+      { label: 'Két négyzet alaplap', value: '2 · (3 · 3) = 18 cm²' },
+      { label: 'Négy oldallap (palást)', value: '4 · (3 · 10) = 120 cm²' },
+      { label: 'Teljes felszín', value: '18 + 120 = 138 cm²' }
+    ]
+  },
+  {
+    id: 'saq2-7',
+    level: 2,
+    prompt: 'Ha egy kocka minden élét a kétszeresére növeljük, hányszorosára nő a felszíne?',
+    options: [
+      '4-szeresére (mert 2² = 4)',
+      '2-szeresére',
+      '6-szorosára',
+      '8-szorosára'
+    ],
+    correctAnswer: 0,
+    explanation: 'Ha az él 2-szeresére nő, egy négyzetlap területe 2 · 2 = 4-szeresére nő. Mivel mind a 6 lap területe 4-szeres lesz, a felszín is négyszeresére nő: A_új = 6 · (2a)² = 6 · 4a² = 4 · A_régi.',
+    hint: 'A felszín terület jellegű mennyiség: ha a hosszúság 2-szeres, a terület 2² = 4-szeresére változik.',
+    breakdown: [
+      { label: 'Eredeti lap területe', value: 'a²' },
+      { label: 'Új lap területe', value: '(2a) · (2a) = 4a²' },
+      { label: 'Felszín növekedése', value: 'Pontosan 4-szeres' }
+    ]
+  },
+  {
+    id: 'saq2-8',
+    level: 2,
+    prompt: 'Egy kocka összes élének hossza 36 cm. Mennyi a kocka felszíne?',
+    options: [
+      '54 cm²',
+      '27 cm²',
+      '108 cm²',
+      '36 cm²'
+    ],
+    correctAnswer: 0,
+    explanation: 'A kockának 12 éle van. Egy él hossza: a = 36 : 12 = 3 cm. A felszín: A = 6 · a² = 6 · 3² = 6 · 9 = 54 cm².',
+    hint: 'A kockának 12 egyforma éle van. Először számold ki egy élét: 36 : 12.',
+    breakdown: [
+      { label: 'Élek száma', value: '12 db' },
+      { label: 'Egy él hossza', value: '36 cm : 12 = 3 cm' },
+      { label: 'Egy lap területe', value: '3 · 3 = 9 cm²' },
+      { label: 'Kocka felszíne', value: '6 · 9 = 54 cm²' }
+    ]
+  },
+  {
+    id: 'saq2-9',
+    level: 2,
+    prompt: 'Egy kocka 12 élének összege 24 cm. Mennyi a felszíne?',
+    options: [
+      '24 cm²',
+      '16 cm²',
+      '48 cm²',
+      '12 cm²'
+    ],
+    correctAnswer: 0,
+    explanation: 'Egy él hossza: 24 : 12 = 2 cm. Egy lap területe: 2 · 2 = 4 cm². A felszín: A = 6 · 4 = 24 cm².',
+    hint: 'Él = 24 : 12 = 2 cm. Ezután A = 6 · 2 · 2.',
+    breakdown: [
+      { label: 'Egy él hossza', value: '24 : 12 = 2 cm' },
+      { label: 'Egy lap területe', value: '2 · 2 = 4 cm²' },
+      { label: 'Felszíne', value: '6 · 4 = 24 cm²' }
+    ]
+  },
+  {
+    id: 'saq2-10',
+    level: 2,
+    prompt: 'Egy téglatest két éle: a = 4 cm, b = 6 cm. Felszíne 88 cm². Mennyi a harmadik él (c) hossza?',
+    options: [
+      '2 cm',
+      '3 cm',
+      '4 cm',
+      '1 cm'
+    ],
+    correctAnswer: 0,
+    explanation: 'A = 2 · (ab + ac + bc) = 88 cm² -> ab + ac + bc = 44 cm². Tudjuk: ab = 4 · 6 = 24 cm². Így ac + bc = 44 - 24 = 20 cm². Mivel ac + bc = c · (4 + 6) = 10 · c = 20 cm², ezért c = 2 cm.',
+    hint: 'A 3 lap összege a felszín fele: 88 : 2 = 44 cm². Ebből az alaplap 4·6 = 24 cm².',
+    breakdown: [
+      { label: 'Három különböző lap összege', value: '88 : 2 = 44 cm²' },
+      { label: 'Ismert alaplap területe (a · b)', value: '4 · 6 = 24 cm²' },
+      { label: 'A maradék két lap összege', value: '44 - 24 = 20 cm²' },
+      { label: 'Harmadik él (20 : (4 + 6))', value: '20 : 10 = 2 cm' }
+    ]
+  },
 
-    const svgWidth = w + skewX + padding * 2;
-    const svgHeight = h + skewY + padding * 2;
+  // =========================================================================
+  // 3. SZINT: NYITOTT DOBOZOK, ÖSSZETETT TESTEK, SZÖVEGES FELADATOK (21-30)
+  // =========================================================================
+  {
+    id: 'saq3-1',
+    level: 3,
+    prompt: 'Egy felül nyitott téglatest alakú akvárium méretei: a = 40 cm, b = 25 cm, magassága c = 20 cm. Hány cm² üvegre van szükség az elkészítéséhez?',
+    options: [
+      '3600 cm²',
+      '4600 cm²',
+      '2600 cm²',
+      '1800 cm²'
+    ],
+    correctAnswer: 0,
+    figure: (
+      <svg className="w-44 h-32 mx-auto" viewBox="0 0 150 100">
+        {/* Nyitott tetejű akvárium vizuálisan */}
+        <rect x="25" y="40" width="70" height="40" fill="#e0f2fe" stroke="#0284c7" strokeWidth="2" strokeDasharray="none" />
+        <polygon points="25,40 45,20 115,20 95,40" fill="#f0f9ff" stroke="#0284c7" strokeWidth="1.5" strokeDasharray="3,3" />
+        <polygon points="95,40 115,20 115,60 95,80" fill="#bae6fd" stroke="#0284c7" strokeWidth="1.5" />
+        <text x="60" y="32" textAnchor="middle" className="text-[10px] font-bold fill-sky-800">NYITOTT TETŐ</text>
+        <text x="60" y="65" textAnchor="middle" className="text-[11px] font-bold fill-sky-950">5 LAP!</text>
+      </svg>
+    ),
+    explanation: 'Az akvárium felül nyitott, így csak 1 fenéklapja és 4 oldallapja van (összesen 5 lap). Alaplap: 40 · 25 = 1000 cm². Két elülső-hátsó: 2 · (40 · 20) = 1600 cm². Két oldalsó: 2 · (25 · 20) = 1000 cm². Összesen: 1000 + 1600 + 1000 = 3600 cm².',
+    hint: 'Gondold át: a nyitott akváriumnak nincs fedele, így az alaplapot (a · b) csak egyszer számoljuk!',
+    breakdown: [
+      { label: '1 db alaplap (40 · 25)', value: '1000 cm²' },
+      { label: '2 db elülső-hátsó lap (2 · 40 · 20)', value: '1600 cm²' },
+      { label: '2 db oldallap (2 · 25 · 20)', value: '1000 cm²' },
+      { label: 'Összes üvegfelület (5 lap)', value: '3600 cm²' }
+    ]
+  },
+  {
+    id: 'saq3-2',
+    level: 3,
+    prompt: 'Kocka alakú, felül nyitott (fedél nélküli) papírdobozt készítünk. Éle a = 10 cm. Hány cm² kartonpapír kell hozzá?',
+    options: [
+      '500 cm²',
+      '600 cm²',
+      '400 cm²',
+      '1000 cm²'
+    ],
+    correctAnswer: 0,
+    explanation: 'Mivel a doboz felül nyitott, 6 helyett csak 5 darab négyzetlapja van. Egy lap területe: 10 · 10 = 100 cm². Felszín: 5 · 100 = 500 cm².',
+    hint: 'A zárt kocka felszíne 6 · a², de ha nincs teteje, csak 5 lap kell!',
+    breakdown: [
+      { label: 'Lapok száma tető nélkül', value: '5 db' },
+      { label: 'Egy négyzet területe', value: '10 · 10 = 100 cm²' },
+      { label: 'Szükséges papír (5 · 100)', value: '500 cm²' }
+    ]
+  },
+  {
+    id: 'saq3-3',
+    level: 3,
+    prompt: 'Két darab egybevágó, 2 cm élű kockát összeragasztunk egy lapjuk mentén egy téglatestté. Mennyi a keletkezett téglatest felszíne?',
+    options: [
+      '40 cm²',
+      '48 cm²',
+      '44 cm²',
+      '36 cm²'
+    ],
+    correctAnswer: 0,
+    figure: (
+      <svg className="w-48 h-28 mx-auto" viewBox="0 0 160 80">
+        <rect x="20" y="30" width="40" height="35" fill="#fdf2f8" stroke="#db2777" strokeWidth="1.5" />
+        <rect x="60" y="30" width="40" height="35" fill="#fce7f3" stroke="#db2777" strokeWidth="1.5" />
+        <polygon points="20,30 35,15 115,15 100,30" fill="#fbcfe8" stroke="#db2777" strokeWidth="1.5" />
+        <polygon points="100,30 115,15 115,50 100,65" fill="#f472b6" stroke="#db2777" strokeWidth="1.5" />
+        <line x1="60" y1="30" x2="75" y2="15" stroke="#db2777" strokeWidth="1.5" strokeDasharray="2,2" />
+        <line x1="60" y1="30" x2="60" y2="65" stroke="#db2777" strokeWidth="1.5" strokeDasharray="2,2" />
+        <text x="80" y="75" textAnchor="middle" className="text-[9px] font-bold fill-pink-950">2 ragasztott belső lap eltűnik!</text>
+      </svg>
+    ),
+    explanation: 'Két külön kocka: 2 · 6 = 12 lap. Az összeragasztáskor 2 lap érintkezik egymással és a test belsejébe kerül, így a felszínen 12 - 2 = 10 darab 2×2-es lap marad: 10 · 4 cm² = 40 cm². (Vagy méretek: 4×2×2 cm -> 2·(8 + 8 + 4) = 40 cm²).',
+    hint: 'Gondold át: hány négyzetlap marad kívül? Két külön kockánál 12, de összeragasztáskor 2 lap elvész!',
+    breakdown: [
+      { label: 'Két különálló kocka lapjai', value: '2 · 6 = 12 db lap' },
+      { label: 'Összeragasztásnál eltűnő lapok', value: '2 db belső lap' },
+      { label: 'Kívül maradó lapok száma', value: '10 db lap' },
+      { label: 'Egy lap területe (2 · 2)', value: '4 cm²' },
+      { label: 'Új test felszíne', value: '10 · 4 = 40 cm²' }
+    ]
+  },
+  {
+    id: 'saq3-4',
+    level: 3,
+    prompt: 'Három darab 3 cm élű kockát egymás mellé ragasztunk egy sorban egy téglatestté. Mennyi lesz az új téglatest felszíne?',
+    options: [
+      '126 cm²',
+      '162 cm²',
+      '144 cm²',
+      '108 cm²'
+    ],
+    correctAnswer: 0,
+    explanation: 'A 3 kockának összesen 3 · 6 = 18 lapja van. Két ragasztási felület van, mindkettőnél 2 lap válik belsővé (összesen 4 belső lap). Így kívül 18 - 4 = 14 darab négyzetlap marad. Egy lap területe 3 · 3 = 9 cm². A felszín: 14 · 9 = 126 cm².',
+    hint: 'A keletkező téglatest élei: 9 cm, 3 cm és 3 cm. Vagy számolj a kívül maradó 14 négyzetlappal!',
+    breakdown: [
+      { label: 'Keletkező téglatest élei', value: 'a = 9 cm, b = 3 cm, c = 3 cm' },
+      { label: 'Felszíne képlettel', value: '2 · (9·3 + 9·3 + 3·3)' },
+      { label: 'Részszámítás', value: '2 · (27 + 27 + 9) = 2 · 63' },
+      { label: 'Teljes felszín', value: '126 cm²' }
+    ]
+  },
+  {
+    id: 'saq3-5',
+    level: 3,
+    prompt: 'Egy szoba hossza 5 m, szélessége 4 m, magassága 3 m. Kifestjük a 4 falat és a mennyezetet (a padlót nem!). Hány m² a festendő felület?',
+    options: [
+      '74 m²',
+      '94 m²',
+      '54 m²',
+      '60 m²'
+    ],
+    correctAnswer: 0,
+    explanation: 'Mennyezet (alaplap): 5 · 4 = 20 m². A 4 fal (palást): 2 · (5 · 3 + 4 · 3) = 2 · (15 + 12) = 54 m². Összesen festendő: 20 + 54 = 74 m².',
+    hint: 'A mennyezet 1 db téglalap (5×4), a négy fal pedig 2 db (5×3) és 2 db (4×3). A padlót ne számold hozzá!',
+    breakdown: [
+      { label: 'Mennyezet területe (5 · 4)', value: '20 m²' },
+      { label: '2 hosszanti fal (2 · 5 · 3)', value: '30 m²' },
+      { label: '2 rövid fal (2 · 4 · 3)', value: '24 m²' },
+      { label: 'Összes festendő felület', value: '20 + 30 + 24 = 74 m²' }
+    ]
+  },
+  {
+    id: 'saq3-6',
+    level: 3,
+    prompt: 'Egy kocka éleit a 3-szorosára növeljük. Hányszorosára növekszik meg a kocka felszíne?',
+    options: [
+      '9-szeresére (mert 3² = 9)',
+      '3-szorosára',
+      '6-szorosára',
+      '27-szeresére'
+    ],
+    correctAnswer: 0,
+    explanation: 'Mivel a lapok négyzetek, ha az él 3-szorosára nő, a lapok területe 3² = 9-szeresére nő. Így a teljes felszín is 9-szeresére nő: A_új = 6 · (3a)² = 6 · 9a² = 9 · (6a²).',
+    hint: 'A felszín a hosszak négyzetével arányos!',
+    breakdown: [
+      { label: 'Eredeti felszín', value: 'A = 6 · a²' },
+      { label: 'Új élhossz', value: '3 · a' },
+      { label: 'Új felszín', value: '6 · (3a)² = 6 · 9a² = 54a²' },
+      { label: 'Arány (54a² : 6a²)', value: '9-szeres' }
+    ]
+  },
+  {
+    id: 'saq3-7',
+    level: 3,
+    prompt: 'Egy 20 cm × 15 cm × 10 cm-es díszdobozt csomagolópapírral vonunk be. Ráhajtásra 10% többletet számolunk. Hány cm² papír szükséges?',
+    options: [
+      '1430 cm²',
+      '1300 cm²',
+      '1500 cm²',
+      '1200 cm²'
+    ],
+    correctAnswer: 0,
+    explanation: 'A doboz felszíne: A = 2 · (20·15 + 20·10 + 15·10) = 2 · (300 + 200 + 150) = 2 · 650 = 1300 cm². A 10% ráhagyás: 1300 · 0,1 = 130 cm². Összes papír: 1300 + 130 = 1430 cm².',
+    hint: 'Először számold ki a doboz pontos felszínét, majd add hozzá a tizedét (10%-át)!',
+    breakdown: [
+      { label: 'Doboz felszíne', value: '2 · (300 + 200 + 150) = 1300 cm²' },
+      { label: '10% ráhagyás', value: '130 cm²' },
+      { label: 'Szükséges papírmennyiség', value: '1300 + 130 = 1430 cm²' }
+    ]
+  },
+  {
+    id: 'saq3-8',
+    level: 3,
+    prompt: 'Egy 3 cm élű nagy kocka minden lapját pirosra festjük, majd szétvágjuk 1 cm élű kis kockákra (27 db). Hány olyan kis kocka keletkezik, amelynek PONTOSAN 3 LAPJA piros?',
+    options: [
+      '8 darab (a nagy kocka 8 csúcsánál lévők)',
+      '12 darab',
+      '6 darab',
+      '4 darab'
+    ],
+    correctAnswer: 0,
+    figure: (
+      <svg className="w-36 h-36 mx-auto" viewBox="0 0 110 110">
+        {/* 3x3x3 grid visualization with colored corners */}
+        <rect x="25" y="35" width="45" height="45" fill="#fee2e2" stroke="#dc2626" strokeWidth="1.5" />
+        <polygon points="25,35 45,15 90,15 70,35" fill="#fecaca" stroke="#dc2626" strokeWidth="1.5" />
+        <polygon points="70,35 90,15 90,60 70,80" fill="#fca5a5" stroke="#dc2626" strokeWidth="1.5" />
+        {/* highlight corner vertices */}
+        {[
+          [25, 35], [70, 35], [70, 80], [25, 80],
+          [45, 15], [90, 15], [90, 60], [45, 60]
+        ].map(([cx, cy], i) => (
+          <circle key={i} cx={cx} cy={cy} r="4" fill="#991b1b" />
+        ))}
+        <text x="55" y="102" textAnchor="middle" className="text-[9px] font-bold fill-red-950">A 8 sarok-kockának 3 lapja piros</text>
+      </svg>
+    ),
+    explanation: 'Pontosan a nagy kocka 8 csúcsánál lévő kis kockák érintkeznek 3 határoló lappal. Ezért pontosan 8 db olyan kis kocka lesz, aminek 3 lapja piros.',
+    hint: 'Gondold át, a test melyik része érintkezik egyszerre három külső síkkal: a sarkok (csúcsok)!',
+    breakdown: [
+      { label: '3 festett lapú kiskockák helye', value: 'A csúcsoknál (sarkoknál)' },
+      { label: 'Csúcsok száma a kockánál', value: '8 darab' },
+      { label: '3 festett lapú kiskockák', value: '8 db' }
+    ]
+  },
+  {
+    id: 'saq3-9',
+    level: 3,
+    prompt: 'Ugyanebből a szétvágott festett kockából (3×3×3) hány olyan kis kocka lesz, amelynek EGYETLEN LAPJA SINCS befestve?',
+    options: [
+      '1 darab (a legbelső kocka)',
+      '0 darab',
+      '3 darab',
+      '6 darab'
+    ],
+    correctAnswer: 0,
+    explanation: 'A 3×3×3-as kocka belsejében pontosan (3 - 2) · (3 - 2) · (3 - 2) = 1 · 1 · 1 = 1 darab kiskocka rejtőzik, amelyet minden oldalról másik kiskockák vesznek körül, így nem érintkezett festékkel.',
+    hint: 'A külső réteget ha lehántod, mi marad legbelül?',
+    breakdown: [
+      { label: 'Összes kis kocka', value: '3 · 3 · 3 = 27 db' },
+      { label: 'Külső réteg vastagsága', value: '1-1 kocka minden oldalon' },
+      { label: 'Belső festetlen mag mérete', value: '(3-2) · (3-2) · (3-2) = 1 db' }
+    ]
+  },
+  {
+    id: 'saq3-10',
+    level: 3,
+    prompt: 'Egy 5 cm élű tömör fa kocka egyik sarkából kivágunk egy 1 cm élű kis kockát. Hogyan változik a fa test felszíne?',
+    options: [
+      'Nem változik (pontosan ugyanannyi marad)',
+      'Csökken 3 cm²-rel',
+      'Nő 3 cm²-rel',
+      'Csökken 6 cm²-rel'
+    ],
+    correctAnswer: 0,
+    figure: (
+      <svg className="w-36 h-36 mx-auto" viewBox="0 0 120 120">
+        <rect x="25" y="35" width="50" height="50" fill="#fdf2f8" stroke="#db2777" strokeWidth="2" />
+        <polygon points="25,35 45,15 95,15 75,35" fill="#fce7f3" stroke="#db2777" strokeWidth="1.5" />
+        <polygon points="75,35 95,15 95,65 75,85" fill="#fbcfe8" stroke="#db2777" strokeWidth="1.5" />
+        {/* sarok kivágás jobb felső elülső */}
+        <rect x="63" y="35" width="12" height="12" fill="#fff" stroke="#db2777" strokeWidth="1.5" />
+        <polygon points="63,35 69,29 81,29 75,35" fill="#fff" stroke="#db2777" strokeWidth="1" />
+        <polygon points="75,35 81,29 81,41 75,47" fill="#fff" stroke="#db2777" strokeWidth="1" />
+        <text x="60" y="105" textAnchor="middle" className="text-[9px] font-bold fill-pink-950">3 kieső lap = 3 új belső lap!</text>
+      </svg>
+    ),
+    explanation: 'A sarok kivágásával elveszítünk 3 db 1 cm²-es külső négyzetlapot, viszont a kivágás helyén pontosan 3 db ugyanolyan 1 cm²-es új belső lap keletkezik. Így a teljes felszín változatlan marad!',
+    hint: 'Számold meg: hány lap esett ki a sarokból, és hány új felület jött létre a bemetszés helyén?',
+    breakdown: [
+      { label: 'Elveszített felület', value: '3 db 1 cm²-es lap (-3 cm²)' },
+      { label: 'Újonnan létrejött felület', value: '3 db 1 cm²-es lap (+3 cm²)' },
+      { label: 'Eredmény', value: 'A felszín NEM változik (+0 cm²)' }
+    ]
+  }
+];
 
-    return (
-        <div className="relative flex flex-col items-center justify-center p-2 bg-white rounded-2xl border border-slate-100 shadow-inner min-h-[150px]">
-            <svg width={svgWidth} height={svgHeight} viewBox={`0 0 ${svgWidth} ${svgHeight}`} className="drop-shadow-lg overflow-visible">
-                {/* Back faces (dashed) */}
-                <path 
-                    d={`M ${originX + skewX} ${originY - skewY} L ${originX + skewX} ${originY - skewY + h} M ${originX + skewX} ${originY - skewY + h} L ${originX} ${originY + h} M ${originX + skewX} ${originY - skewY + h} L ${originX + w + skewX} ${originY - skewY + h}`}
-                    fill="none"
-                    stroke="#cbd5e1"
-                    strokeWidth="1"
-                    strokeDasharray="3 3"
-                />
-
-                {/* Main Faces with different shades of a color to emphasize faces for surface area */}
-                {/* Right Face */}
-                <path 
-                    d={`M ${originX + w} ${originY} L ${originX + w + skewX} ${originY - skewY} L ${originX + w + skewX} ${originY - skewY + h} L ${originX + w} ${originY + h} Z`}
-                    fill="#e0e7ff"
-                    stroke="#4f46e5"
-                    strokeWidth="1.5"
-                    strokeLinejoin="round"
-                />
-                {/* Top Face */}
-                <path 
-                    d={`M ${originX} ${originY} L ${originX + skewX} ${originY - skewY} L ${originX + w + skewX} ${originY - skewY} L ${originX + w} ${originY} Z`}
-                    fill="#c7d2fe"
-                    stroke="#4f46e5"
-                    strokeWidth="1.5"
-                    strokeLinejoin="round"
-                />
-                {/* Front Face */}
-                <rect 
-                    x={originX} y={originY} width={w} height={h}
-                    fill="#a5b4fc"
-                    stroke="#4f46e5"
-                    strokeWidth="1.5"
-                    strokeLinejoin="round"
-                />
-
-                {/* Labels */}
-                {showLabels && (
-                    <>
-                        <text x={originX + w/2} y={originY + h + 20} textAnchor="middle" className="font-black text-slate-700 text-[10px] italic">
-                            {missingSide === 'a' ? 'a = ?' : `a = ${a} ${unitA}`}
-                        </text>
-                        {(!isCube || missingSide) && (
-                            <>
-                                <text x={originX + w + 6} y={originY + h/2} textAnchor="start" className="font-black text-slate-700 text-[10px] italic">
-                                    {missingSide === 'c' ? 'c = ?' : `c = ${c} ${unitC}`}
-                                </text>
-                                <text x={originX + w + skewX/2 + 6} y={originY + h - skewY/2 + 4} textAnchor="start" className="font-black text-slate-700 text-[10px] italic">
-                                    {missingSide === 'b' ? 'b = ?' : `b = ${b} ${unitB}`}
-                                </text>
-                            </>
-                        )}
-                    </>
-                )}
-            </svg>
-            
-            <div className="mt-2 text-[8px] font-bold text-indigo-400 uppercase tracking-widest bg-indigo-50 px-2 py-0.5 rounded-full">
-                {isCube ? 'Kocka' : 'Téglatest'}
+export const SurfaceAreaQuiz: React.FC<SurfaceAreaQuizProps> = ({ onBack, onSwitchToTheory }) => {
+  return (
+    <QuizTemplate
+      title="Téglatest és kocka felszíne kvíz"
+      subtitle="Teszteld tudásodat a téglatest és a kocka felszínének kiszámításáról, nyitott dobozokról és hálókról 3 szinten!"
+      badge="5. OSZTÁLY • IV. HOSSZÚSÁG, TERÜLET, TÉRFOGAT • 6. KVÍZ"
+      storageKey="g5-meas-surface-area-quiz"
+      questions={SURFACE_AREA_QUESTIONS}
+      onBack={onBack}
+      onSwitchToTheory={onSwitchToTheory}
+      renderMatcher={(lvl, nextLvl, openRules) => (
+        <SurfaceAreaMatcher
+          level={lvl}
+          onNextLevel={nextLvl}
+          onOpenRules={openRules}
+          onBack={onBack}
+          onSwitchToTheory={onSwitchToTheory}
+        />
+      )}
+      renderSorter={(lvl, nextLvl, openRules) => (
+        <SurfaceAreaSorter
+          level={lvl}
+          onNextLevel={nextLvl}
+          onOpenRules={openRules}
+          onBack={onBack}
+          onSwitchToTheory={onSwitchToTheory}
+        />
+      )}
+      cheatSheets={{
+        1: (
+          <div className="space-y-2 text-xs">
+            <div className="font-bold text-pink-700 dark:text-pink-400">1. Szint Puskája: Képletek</div>
+            <div className="grid grid-cols-2 gap-2 text-center">
+              <div className="p-2 rounded bg-pink-50 dark:bg-pink-950/40 border border-pink-200 dark:border-pink-800">
+                <strong>Kocka felszíne:</strong><br />
+                <code className="text-pink-600 font-bold">A = 6 · a²</code>
+              </div>
+              <div className="p-2 rounded bg-pink-50 dark:bg-pink-950/40 border border-pink-200 dark:border-pink-800">
+                <strong>Téglatest felszíne:</strong><br />
+                <code className="text-pink-600 font-bold">A = 2·(ab + ac + bc)</code>
+              </div>
             </div>
-        </div>
-    );
-}
-
-// --- Types & Constants ---
-
-type Difficulty = 'easy' | 'medium' | 'hard';
-type QuestionType = 'multiple-choice' | 'true-false' | 'input';
-
-interface Question {
-    id: number;
-    shapeType: 'cube' | 'prism';
-    questionType: QuestionType;
-    a: number;
-    b: number;
-    c: number;
-    unitA: string;
-    unitB: string;
-    unitC: string;
-    targetUnit: string;
-    answer: number;
-    text: string;
-    options?: number[];
-    isTrue?: boolean;
-    missingSide?: 'a' | 'b' | 'c';
-    A?: number; // Surface Area if given
-}
-
-// --- Component ---
-
-export function SurfaceAreaQuiz({ onBack }: { onBack: () => void }) {
-    const [difficulty, setDifficulty] = useState<Difficulty | null>(null);
-    const [questions, setQuestions] = useState<Question[]>([]);
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [answers, setAnswers] = useState<any[]>(new Array(10).fill(null));
-    const [submitted, setSubmitted] = useState<boolean[]>(new Array(10).fill(false));
-    const [showResult, setShowResult] = useState(false);
-
-    const generateQuestions = useCallback((diff: Difficulty) => {
-        const newQuestions: Question[] = [];
-        
-        const easyTasks = [
-            { a: 2, b: 2, c: 2, unit: 'cm', ans: 24 }, // Cube: 6 * 2^2 = 24
-            { a: 3, b: 2, c: 4, unit: 'cm', ans: 52 }, // Prism: 2*(6 + 12 + 8) = 52
-            { a: 5, b: 5, c: 5, unit: 'dm', ans: 150 }, // Cube: 6 * 25 = 150
-            { a: 10, b: 2, c: 3, unit: 'm', ans: 112 }, // Prism: 2*(20 + 30 + 6) = 112
-            { a: 4, b: 4, c: 4, unit: 'cm', ans: 96 },
-            { a: 6, b: 3, c: 2, unit: 'dm', ans: 72 }, // Prism: 2*(18 + 12 + 6) = 72
-            { a: 1, b: 1, c: 1, unit: 'm', ans: 6 },
-            { a: 3, b: 3, c: 3, unit: 'dm', ans: 54 },
-            { a: 5, b: 2, c: 4, unit: 'cm', ans: 76 }, // 2*(10 + 20 + 8) = 76
-            { a: 2, b: 4, c: 2, unit: 'cm', ans: 40 }, // 2*(8 + 4 + 8) = 40
-        ];
-
-        const mediumTasks = [
-            { a: 20, b: 3, c: 4, unitA: 'mm', unitB: 'cm', unitC: 'cm', target: 'cm²', ans: 52 }, // a=2cm. SA=2*(6 + 8 + 12) = 52
-            { a: 1, b: 5, c: 8, unitA: 'm', unitB: 'dm', unitC: 'dm', target: 'dm²', ans: 320 }, // a=10dm. SA=2*(50 + 80 + 40) = 340 wait. 2*(50 + 80 + 40) = 2*(170) = 340. Ans=340
-            { a: 4, b: 2.5, c: 6, unitA: 'dm', unitB: 'dm', unitC: 'dm', target: 'dm²', ans: 98 }, // 2*(10 + 24 + 15) = 98
-            { a: 50, b: 50, c: 50, unitA: 'cm', unitB: 'cm', unitC: 'cm', target: 'dm²', ans: 150 }, // 5dm. SA=6*25=150
-            { a: 10, b: 2, c: 3, unitA: 'dm', unitB: 'm', unitC: 'm', target: 'm²', ans: 22 }, // a=1m. SA=2*(2 + 3 + 6) = 22
-            { a: 15, b: 1.5, c: 2, unitA: 'cm', unitB: 'dm', unitC: 'dm', target: 'cm²', ans: 1350 }, // b=15cm, c=20cm. SA=2*(225 + 300 + 300)=1650 wait. 2*(15*15 + 15*20 + 15*20) = 2*(225 + 300 + 300) = 1650. Let's do simple: a=10cm,b=2dm,c=20cm -> a=1,b=2,c=2 dm -> SA=2*(2+2+4)=16dm² -> 1600cm².
-            { a: 10, b: 20, c: 20, unitA: 'cm', unitB: 'cm', unitC: 'cm', target: 'dm²', ans: 16 }, // a=1,b=2,c=2 dm -> SA=16 dm²
-            { a: 5, b: 0.5, c: 1, unitA: 'cm', unitB: 'dm', unitC: 'dm', target: 'cm²', ans: 170 }, // a=5,b=5,c=10 cm -> 2*(25 + 50 + 50)=250 cm²
-            { a: 12, b: 5, c: 2, unitA: 'cm', unitB: 'cm', unitC: 'cm', target: 'cm²', ans: 188 }, // 2*(60 + 24 + 10) = 188
-            { a: 7, b: 2, c: 1, unitA: 'dm', unitB: 'dm', unitC: 'dm', target: 'dm²', ans: 46 }, // 2*(14 + 7 + 2) = 46
-        ];
-
-        // Let's fix medium task 2 and 6 and 8
-        mediumTasks[1].ans = 340; 
-        mediumTasks[5] = { a: 10, b: 2, c: 20, unitA: 'cm', unitB: 'dm', unitC: 'cm', target: 'cm²', ans: 1600 }; 
-        mediumTasks[7] = { a: 5, b: 0.5, c: 1, unitA: 'cm', unitB: 'dm', unitC: 'dm', target: 'cm²', ans: 250 }; 
-
-        const hardTasks = [
-            { A: 54, a: 3, b: 3, c: 3, missing: 'a', unitA: 'cm', unitB: 'cm', unitC: 'cm', target: 'cm', ans: 3 }, // Cube SA=54 -> a=3
-            { A: 150, a: 5, b: 5, c: 5, missing: 'a', unitA: 'dm', unitB: 'dm', unitC: 'dm', target: 'dm', ans: 5 }, // Cube SA=150 -> a=5
-            { A: 52, a: 3, b: 2, c: 4, missing: 'c', unitA: 'cm', unitB: 'cm', unitC: 'cm', target: 'cm', ans: 4 }, // Prism SA=52, a=3,b=2 -> 2*(6 + 3c + 2c)=52 -> 12 + 10c = 52 -> 10c = 40 -> c=4
-            { A: 24, a: 2, b: 2, c: 2, missing: 'a', unitA: 'm', unitB: 'm', unitC: 'm', target: 'm', ans: 2 }, // Cube SA=24 -> a=2
-            { A: 96, a: 4, b: 4, c: 4, missing: 'a', unitA: 'cm', unitB: 'cm', unitC: 'cm', target: 'cm', ans: 4 }, // Cube SA=96 -> a=4
-            { A: 112, a: 10, b: 2, c: 3, missing: 'c', unitA: 'm', unitB: 'm', unitC: 'm', target: 'm', ans: 3 }, // Prism SA=112, a=10, b=2 -> 2*(20 + 10c + 2c)=112 -> 40 + 24c = 112 -> 24c = 72 -> c=3
-            { A: 40, a: 2, b: 4, c: 2, missing: 'b', unitA: 'cm', unitB: 'cm', unitC: 'cm', target: 'cm', ans: 4 }, // Prism SA=40, a=2,c=2 -> 2*(2b + 4 + 2b)=40 -> 8b + 8 = 40 -> 8b = 32 -> b=4
-            { A: 72, a: 6, b: 3, c: 2, missing: 'a', unitA: 'dm', unitB: 'dm', unitC: 'dm', target: 'dm', ans: 6 }, // Prism SA=72, b=3,c=2 -> 2*(3a + 2a + 6)=72 -> 10a + 12 = 72 -> 10a = 60 -> a=6
-            { A: 600, a: 10, b: 10, c: 10, missing: 'a', unitA: 'mm', unitB: 'mm', unitC: 'mm', target: 'mm', ans: 10 }, // Cube SA=600 -> a=10
-            { A: 148, a: 4, b: 5, c: 6, missing: 'c', unitA: 'cm', unitB: 'cm', unitC: 'cm', target: 'cm', ans: 6 }, // Prism SA=148, a=4,b=5 -> 2*(20 + 4c + 5c)=148 -> 40 + 18c = 148 -> 18c = 108 -> c=6
-        ];
-
-        const shuffled = (diff === 'easy' ? [...easyTasks] : diff === 'medium' ? [...mediumTasks] : [...hardTasks]).sort(() => Math.random() - 0.5);
-
-        for (let i = 0; i < 10; i++) {
-            const task = shuffled[i];
-            const qType: QuestionType = i < 4 ? 'multiple-choice' : i < 7 ? 'true-false' : 'input';
-            
-            let options: number[] | undefined;
-            let isTrue: boolean | undefined;
-            
-            const isCube = task.a === task.b && task.b === task.c;
-            const shapeType = isCube ? 'cube' : 'prism';
-            const unitA = (task as any).unitA || (task as any).unit || 'cm';
-            const unitB = (task as any).unitB || (task as any).unit || 'cm';
-            const unitC = (task as any).unitC || (task as any).unit || 'cm';
-            const targetUnit = (task as any).target || `${unitA}²`;
-            const answer = task.ans;
-
-            let questionText = `Mekkora a felszín ${targetUnit} egységben?`;
-            if ((task as any).missing) {
-                if (isCube) {
-                    questionText = `Mekkora a kocka éle, ha a felszíne ${(task as any).A} ${targetUnit}?`;
-                } else {
-                    questionText = `Mekkora a hiányzó él (${(task as any).missing}) hossza, ha a felszín ${(task as any).A} ${targetUnit.replace('cm', 'cm²').replace('dm', 'dm²').replace('m', 'm²')}?`;
-                }
-            } else if (diff === 'medium') {
-                questionText = `Mekkora a felszín ${targetUnit} egységben? (Váltsd át a mértékegységeket!)`;
-            }
-
-            if (qType === 'multiple-choice') {
-                const optSet = new Set([answer]);
-                while (optSet.size < 4) {
-                    const factor = Math.random() > 0.5 ? 1.2 : 0.8;
-                    const offset = (Math.floor(Math.random() * 10) + 1) * (Math.random() > 0.5 ? 1 : -1);
-                    let alt = Math.max(1, Math.round((answer * factor + offset)));
-                    if (alt === answer) alt += 2;
-                    optSet.add(alt);
-                }
-                options = Array.from(optSet).sort(() => Math.random() - 0.5);
-            } else if (qType === 'true-false') {
-                isTrue = Math.random() > 0.5;
-                const offset = (Math.floor(Math.random() * 5) + 1) * 2; // Even offset
-                const displayVal = isTrue ? answer : Math.max(1, answer + (Math.random() > 0.5 ? offset : -offset));
-                if ((task as any).missing) {
-                     (task as any).displayText = `A hiányzó él hossza ${displayVal} ${targetUnit}?`;
-                } else {
-                     (task as any).displayText = `A felszín ${displayVal} ${targetUnit}?`;
-                }
-            }
-
-            newQuestions.push({
-                id: i,
-                shapeType,
-                questionType: qType,
-                a: task.a,
-                b: task.b,
-                c: task.c,
-                unitA,
-                unitB,
-                unitC,
-                targetUnit,
-                answer,
-                text: (task as any).displayText || questionText,
-                options,
-                isTrue,
-                missingSide: (task as any).missing,
-                A: (task as any).A,
-            });
-        }
-        setQuestions(newQuestions);
-    }, []);
-
-    const startQuiz = (diff: Difficulty) => {
-        setDifficulty(diff);
-        generateQuestions(diff);
-        setCurrentIndex(0);
-        setAnswers(new Array(10).fill(null));
-        setSubmitted(new Array(10).fill(false));
-        setShowResult(false);
-    };
-
-    const handleAnswerUpdate = (val: any) => {
-        if (submitted[currentIndex]) return;
-        
-        const newAnswers = [...answers];
-        newAnswers[currentIndex] = val;
-        setAnswers(newAnswers);
-        
-        const newSubmitted = [...submitted];
-        newSubmitted[currentIndex] = true;
-        setSubmitted(newSubmitted);
-    };
-
-    const finishQuiz = () => {
-        const score = questions.reduce((acc, q, idx) => {
-            const userVal = answers[idx];
-            if (userVal === null) return acc;
-            const normalizedUserVal = typeof userVal === 'string' ? parseFloat(userVal.replace(',','.')) : userVal;
-            
-            if (q.questionType === 'multiple-choice') return userVal === q.answer ? acc + 1 : acc;
-            if (q.questionType === 'input') return normalizedUserVal === q.answer ? acc + 1 : acc;
-            return userVal === q.isTrue ? acc + 1 : acc;
-        }, 0);
-
-        setShowResult(true);
-        if (score >= 8) confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-    };
-
-    if (!difficulty) {
-        return (
-            <div className="max-w-5xl mx-auto p-2 animate-in fade-in slide-in-from-bottom-4 duration-500 overflow-hidden">
-                
-                <div className="text-center mb-6">
-                    <div className="inline-flex p-4 bg-indigo-100 rounded-3xl text-indigo-600 mb-4">
-                        <Box className="w-10 h-10" />
-                    </div>
-                    <h1 className="text-4xl font-black text-slate-800 mb-2 tracking-tight">Felszínszámítás Kvíz</h1>
-                    <p className="text-slate-500 font-medium text-lg">Számítsd ki a kockák és téglatestek felszínét!</p>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {[
-                        { 
-                            id: 'easy' as Difficulty, 
-                            title: 'Könnyű', 
-                            desc: 'Egyszerű egész számok, azonos mértékegységek. Alapok gyakorlása.',
-                            icon: Sparkles,
-                            color: 'emerald'
-                        },
-                        { 
-                            id: 'medium' as Difficulty, 
-                            title: 'Haladó', 
-                            desc: 'Különböző mértékegységek! Válts át azonos mértékegységre a számolás előtt.',
-                            icon: Zap,
-                            color: 'sky'
-                        },
-                        { 
-                            id: 'hard' as Difficulty, 
-                            title: 'Mester', 
-                            desc: 'Visszafele gondolkodás. Keresd meg a hiányzó él hosszát a felszín ismeretében.',
-                            icon: Crown,
-                            color: 'violet'
-                        }
-                    ].map((level) => {
-                        const Icon = level.icon;
-                        const colors = {
-                            emerald: "hover:border-emerald-500 hover:shadow-emerald-200 bg-emerald-50/30",
-                            sky: "hover:border-sky-500 hover:shadow-sky-200 bg-sky-50/30",
-                            violet: "hover:border-violet-500 hover:shadow-violet-200 bg-violet-50/30",
-                        };
-                        const iconColors = {
-                             emerald: "bg-emerald-100 text-emerald-600",
-                             sky: "bg-sky-100 text-sky-600",
-                             violet: "bg-violet-100 text-violet-600",
-                        };
-
-                        return (
-                            <button 
-                                key={level.id} 
-                                onClick={() => startQuiz(level.id)} 
-                                className={cn(
-                                    "relative p-8 rounded-[42px] border-4 border-slate-100 transition-all text-left group overflow-hidden bg-white",
-                                    colors[level.color as keyof typeof colors]
-                                )}
-                            >
-                                <div className={cn("w-16 h-16 rounded-[24px] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-sm", iconColors[level.color as keyof typeof iconColors])}>
-                                    <Icon className="w-8 h-8" />
-                                </div>
-                                <h3 className="text-3xl font-black mb-3 text-slate-800">{level.title}</h3>
-                                <p className="text-slate-500 font-medium leading-relaxed">
-                                    {level.desc}
-                                </p>
-                                
-                                <div className="mt-8 flex items-center text-sm font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <span>Indítás</span>
-                                    <ChevronRight className="w-4 h-4 ml-1" />
-                                </div>
-                            </button>
-                        );
-                    })}
-                </div>
+            <p className="text-[11px] text-slate-500">
+              A felszín a határoló lapok területeinek összege. Mértékegysége négyzetes (pl. cm², dm², m²).
+            </p>
+          </div>
+        ),
+        2: (
+          <div className="space-y-2 text-xs">
+            <div className="font-bold text-pink-700 dark:text-pink-400">2. Szint Puskája: Visszaszámolás és négyzetes oszlop</div>
+            <div className="p-2 rounded bg-pink-50 dark:bg-pink-950/40 border border-pink-200 dark:border-pink-800 space-y-1">
+              <div>• <strong>Kocka lapja felszínből:</strong> T_lap = A : 6</div>
+              <div>• <strong>Kocka éle:</strong> a = √T_lap (melyik szám négyzete adja a lap területét)</div>
+              <div>• <strong>Négyzetes oszlop (a, a, m):</strong> A = 2 · a² + 4 · (a · m)</div>
+              <div>• <strong>Élek megduplázása:</strong> A felszín 4-szeresére (2² = 4) nő!</div>
             </div>
-        );
-    }
-
-    if (showResult) {
-        const score = questions.reduce((acc, q, idx) => {
-            const userVal = answers[idx];
-            if (userVal === null) return acc;
-             const normalizedUserVal = typeof userVal === 'string' ? parseFloat(userVal.replace(',','.')) : userVal;
-            
-            if (q.questionType === 'multiple-choice') return userVal === q.answer ? acc + 1 : acc;
-            if (q.questionType === 'input') return normalizedUserVal === q.answer ? acc + 1 : acc;
-            return userVal === q.isTrue ? acc + 1 : acc;
-        }, 0);
-
-        return (
-            <div className="max-w-2xl mx-auto p-4 text-center animate-in zoom-in h-[90vh] flex items-center justify-center">
-                <Card className="p-12 rounded-[50px] shadow-2xl border-none bg-white w-full">
-                    <div className="w-32 h-32 rounded-[40px] bg-yellow-100 flex items-center justify-center mx-auto mb-8 animate-bounce">
-                        <Trophy className="w-16 h-16 text-yellow-600" />
-                    </div>
-                    <h2 className="text-4xl font-black mb-2 text-slate-800">Szuper munka!</h2>
-                    <p className="text-6xl font-black text-primary mb-12">{score} / 10</p>
-                    <div className="flex gap-4">
-                        <Button onClick={() => setDifficulty(null)} className="flex-1 h-16 rounded-3xl font-black text-xl shadow-lg shadow-primary/20">Újra</Button>
-                        <Button variant="outline" onClick={() => setDifficulty(null)} className="flex-1 h-16 rounded-3xl font-black text-xl border-4">Vége</Button>
-                    </div>
-                </Card>
+          </div>
+        ),
+        3: (
+          <div className="space-y-2 text-xs">
+            <div className="font-bold text-pink-700 dark:text-pink-400">3. Szint Puskája: Nyitott dobozok és összetett testek</div>
+            <div className="p-2 rounded bg-pink-50 dark:bg-pink-950/40 border border-pink-200 dark:border-pink-800 space-y-1">
+              <div>• <strong>Nyitott akvárium (5 lap):</strong> A = a·b + 2·(a·c + b·c) (nincs tető!)</div>
+              <div>• <strong>Nyitott kockadoboz (5 lap):</strong> A = 5 · a²</div>
+              <div>• <strong>Kockák összeragasztásakor:</strong> minden ragasztásnál 2 lap a test belsejébe kerül!</div>
+              <div>• <strong>Sarok kivágása:</strong> A keletkező 3 belső lap pont pótolja a 3 kiesőt, így a felszín változatlan!</div>
             </div>
-        );
-    }
-
-    const currentQ = questions[currentIndex];
-    const userChoice = answers[currentIndex];
-    const isSub = submitted[currentIndex];
-
-    return (
-        <div className="max-w-5xl mx-auto p-2 flex flex-col">
-            <div className="flex items-center justify-between mb-2 px-2">
-                <Button variant="ghost" size="sm" onClick={() => setDifficulty(null)} className="rounded-xl h-8 text-xs">
-                    <ArrowLeft className="w-3 h-3 mr-1" /> Kilépés
-                </Button>
-                <div className="flex items-center gap-3">
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest leading-none">
-                        {difficulty === 'easy' ? 'Könnyű' : difficulty === 'medium' ? 'Haladó' : 'Mester'}
-                    </span>
-                    <div className="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-black leading-none">{currentIndex + 1} / 10</div>
-                </div>
-            </div>
-
-            <Card className="flex-1 overflow-hidden rounded-[32px] border-none shadow-xl bg-white flex flex-col relative">
-                <div className="grid grid-cols-1 md:grid-cols-5 gap-4 p-6 md:p-8">
-                    {/* Left Side: Illustration */}
-                    <div className="md:col-span-3 flex flex-col justify-start gap-4">
-                        <div className="p-4 bg-slate-50 rounded-3xl border border-slate-100">
-                             <div className="flex items-center gap-3 mb-1">
-                                <Target className="w-4 h-4 text-primary" />
-                                <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em]">Feladat</span>
-                             </div>
-                             <h2 className="text-lg md:text-xl font-black text-slate-800 tracking-tight leading-tight">
-                                {currentQ.text}
-                             </h2>
-                             {difficulty === 'medium' && (
-                                <p className="mt-1 text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-lg w-fit">
-                                    Figyelj a mértékegység-váltásra!
-                                </p>
-                             )}
-                        </div>
-
-                        <SurfaceAreaBox 
-                            a={currentQ.a} 
-                            b={currentQ.b} 
-                            c={currentQ.c} 
-                            unitA={currentQ.unitA}
-                            unitB={currentQ.unitB}
-                            unitC={currentQ.unitC}
-                            missingSide={currentQ.missingSide}
-                            isCube={currentQ.shapeType === 'cube'}
-                        />
-                    </div>
-
-                    {/* Right Side: Interaction */}
-                    <div className="md:col-span-2 flex flex-col justify-start items-center bg-slate-50/30 rounded-3xl p-6">
-                        {currentQ.questionType === 'multiple-choice' && (
-                            <div className="grid grid-cols-1 gap-3 w-full">
-                                {currentQ.options?.map((opt, idx) => (
-                                    <button
-                                        key={idx} 
-                                        onClick={() => handleAnswerUpdate(opt)}
-                                        disabled={isSub}
-                                        className={cn(
-                                            "h-10 rounded-2xl text-base font-black transition-all border-2 flex items-center justify-center gap-3",
-                                            userChoice === opt 
-                                                ? (isSub && opt === currentQ.answer ? "bg-emerald-500 border-emerald-500 text-white shadow-lg shadow-emerald-200" : "bg-primary border-primary text-white shadow-lg shadow-primary/20")
-                                                : "bg-white border-slate-100 hover:border-primary/30 text-slate-600 hover:shadow-md disabled:hover:border-slate-100 disabled:hover:shadow-none"
-                                        )}
-                                    >
-                                        {opt}
-                                        <span className="text-xs font-bold opacity-60">{currentQ.targetUnit}</span>
-                                    </button>
-                                ))}
-                            </div>
-                        )}
-
-                        {currentQ.questionType === 'true-false' && (
-                            <div className="flex flex-col gap-4 w-full">
-                                {[true, false].map((val) => (
-                                    <button
-                                        key={val ? 't' : 'f'} 
-                                        onClick={() => handleAnswerUpdate(val)}
-                                        disabled={isSub}
-                                        className={cn(
-                                            "flex-1 h-12 rounded-3xl border-2 flex flex-col items-center justify-center transition-all",
-                                            userChoice === val
-                                                ? (isSub && val === currentQ.isTrue ? "bg-emerald-500 border-emerald-500 text-white" : "bg-primary border-primary text-white")
-                                                : "bg-white border-slate-100 hover:border-primary/30 text-slate-400 disabled:hover:border-slate-100"
-                                        )}
-                                    >
-                                        {val ? <Check className="w-4 h-4 mb-0.5" /> : <XCircle className="w-4 h-4 mb-0.5" />}
-                                        <span className="font-black text-sm">{val ? 'Igaz' : 'Hamis'}</span>
-                                    </button>
-                                ))}
-                            </div>
-                        )}
-
-                        {currentQ.questionType === 'input' && (
-                            <div className="w-full flex flex-col gap-4">
-                                <div className="relative">
-                                    <Input
-                                        value={userChoice || ""} 
-                                        onChange={(e) => handleAnswerUpdate(e.target.value)}
-                                        disabled={isSub}
-                                        className="h-10 text-xl font-black text-center pr-20 rounded-2xl border-2 border-slate-100 focus:border-primary"
-                                        placeholder="..."
-                                    />
-                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 font-black text-slate-300 text-sm">{currentQ.targetUnit}</span>
-                                </div>
-                                <p className="text-center text-xs text-slate-400 font-bold uppercase tracking-widest">Írd be a pontos értéket!</p>
-                            </div>
-                        )}
-
-                        {isSub && (
-                            <div className={cn(
-                                "mt-6 py-3 px-8 rounded-2xl text-sm font-bold animate-in fade-in slide-in-from-top-2 flex items-center gap-2 shadow-sm w-full justify-center",
-                                (userChoice === currentQ.answer || 
-                                 (currentQ.questionType === 'input' && parseFloat(userChoice?.toString().replace(',','.')) === currentQ.answer) ||
-                                 userChoice === currentQ.isTrue)
-                                ? "bg-emerald-100 text-emerald-700 border border-emerald-200"
-                                : "bg-rose-100 text-rose-700 border border-rose-200"
-                            )}>
-                                {(userChoice === currentQ.answer || 
-                                 (currentQ.questionType === 'input' && parseFloat(userChoice?.toString().replace(',','.')) === currentQ.answer) ||
-                                 userChoice === currentQ.isTrue) 
-                                 ? "Szuper! ✨" 
-                                 : `Helyes válasz: ${currentQ.questionType === 'true-false' ? (currentQ.isTrue ? 'Igaz' : 'Hamis') : currentQ.answer + ' ' + currentQ.targetUnit}`}
-                            </div>
-                        )}
-                    </div>
-                </div>
-
-                {/* Footer Navigation */}
-                <div className="bg-slate-50 p-4 px-8 flex items-center justify-between border-t gap-4">
-                    <Button
-                        variant="ghost" onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
-                        disabled={currentIndex === 0}
-                        className="rounded-xl h-12 px-6 font-bold"
-                    >
-                        <ChevronLeft className="w-4 h-4 mr-2" /> Előző
-                    </Button>
-
-                    <div className="flex items-center gap-1.5 overflow-x-auto py-1">
-                        {questions.map((_, idx) => (
-                            <button 
-                                key={idx} 
-                                onClick={() => setCurrentIndex(idx)}
-                                className={cn(
-                                    "h-2.5 transition-all rounded-full min-w-[10px]",
-                                    idx === currentIndex ? "w-8 bg-primary" : "w-1.5 bg-slate-200 hover:bg-slate-300",
-                                    answers[idx] !== null && idx !== currentIndex && "bg-slate-400"
-                                )} 
-                            />
-                        ))}
-                    </div>
-
-                    {currentIndex < 9 ? (
-                        <Button
-                            onClick={() => setCurrentIndex(prev => prev + 1)}
-                            className="rounded-xl h-12 px-8 font-black shadow-lg shadow-primary/20"
-                        >
-                            Következő <ChevronRight className="w-4 h-4 ml-2" />
-                        </Button>
-                    ) : (
-                        <Button
-                            onClick={finishQuiz}
-                            className="rounded-xl h-12 px-8 font-black bg-emerald-600 hover:bg-emerald-700 shadow-lg shadow-emerald-200"
-                        >
-                            Befejezés <Sparkles className="w-4 h-4 ml-2" />
-                        </Button>
-                    )}
-                </div>
-            </Card>
-        </div>
-    );
-}
-
-export default SurfaceAreaQuiz;
+          </div>
+        )
+      }}
+    />
+  );
+};
