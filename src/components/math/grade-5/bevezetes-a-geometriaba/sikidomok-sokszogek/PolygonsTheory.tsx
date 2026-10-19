@@ -29,7 +29,9 @@ import {
   Eye,
   RotateCcw,
   Layers,
-  ArrowRight
+  ArrowRight,
+  XCircle,
+  Check
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -122,116 +124,368 @@ export const PolygonsTheory: React.FC<PolygonsTheoryProps> = ({ onBack, onStartQ
       <TheorySection
         id="geom-polygons-basics"
         number={1}
-        title="A síkidom és a sokszög fogalma, alkotóelemei"
-        badge="Alapfogalmak"
+        title="A síkidom és a sokszög fogalma, megkülönböztetésük és alkotóelemeik"
+        badge="Alapfogalmak & Összehasonlítás"
         badgeColor="teal"
       >
         <TheoryCard
-          title="Mi a síkidom és mi a sokszög a geometriában?"
-          subtitle="Zárt vonal által határolt síkrész — egyenes vagy görbe határvonalakkal"
+          title="Mi a különbség a síkidom és a sokszög között?"
+          subtitle="A sík zárt részeinek rendszere — görbe vs. egyenes határoló vonalak"
           themeColor="teal"
           icon={<Shapes className="w-5 h-5 text-teal-600" />}
         >
-          <p className="text-slate-700 dark:text-slate-300 leading-relaxed mb-4 text-xs sm:text-sm">
+          <p className="text-slate-700 dark:text-slate-300 leading-relaxed mb-3 text-xs sm:text-sm">
             A sík egy tetszőleges zárt vonallal határolt részét <strong>síkidomnak</strong> nevezzük. Ha a határoló vonal kizárólag egyenes szakaszokból áll (egyszerű zárt töröttvonal), akkor a síkidomot <strong>sokszögnek (poligonnak)</strong> hívjuk.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
-            <div className="p-3.5 bg-teal-50/70 dark:bg-teal-950/30 rounded-2xl border border-teal-200 dark:border-teal-800">
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="w-3 h-1 rounded-full bg-teal-600 inline-block" />
-                <h4 className="font-bold text-sm text-teal-900 dark:text-teal-200">Oldalak (a, b, c...)</h4>
+          {/* ARANYSZABÁLY CALLOUT */}
+          <TheoryCallout variant="tip" title="A geometria egyik legfontosabb alapszabálya">
+            <div className="space-y-1">
+              <div className="text-sm font-black text-amber-900 dark:text-amber-200">
+                🌟 Minden sokszög síkidom, de NEM minden síkidom sokszög!
               </div>
               <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                A sokszöget határoló <strong>szakaszok</strong>. A csúcsok betűivel (<MathText>{'AB, BC'}</MathText>) vagy kisbetűkkel jelöljük.
+                A sokszögek a síkidomok egy szűkebb, szabályosabb családját alkotják. Pontosan úgy, mint az állatvilágban: <em>minden veréb madár, de nem minden madár veréb</em>. A <strong>kör síkidom</strong>, de határozottan <strong>NEM sokszög</strong>!
               </p>
             </div>
+          </TheoryCallout>
 
-            <div className="p-3.5 bg-teal-50/70 dark:bg-teal-950/30 rounded-2xl border border-teal-200 dark:border-teal-800">
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="w-3 h-3 rounded-full bg-rose-500 inline-block" />
-                <h4 className="font-bold text-sm text-teal-900 dark:text-teal-200">Csúcsok (A, B, C...)</h4>
+          {/* 🌟 VIZUÁLIS ÖSSZEHASONLÍTÁS: SÍKIDOMOK VS SOKSZÖGEK (SZÉP SVG ÁBRÁKKAL) 🌟 */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 my-4">
+            {/* 1. KÁRTYA: SÍKIDOMOK (GÖRBE VAGY VEGYES HATÁRVONAL) */}
+            <div className="p-4 rounded-2xl bg-gradient-to-b from-sky-50/60 to-blue-50/30 dark:from-sky-950/30 dark:to-slate-900 border-2 border-sky-200 dark:border-sky-800/60 space-y-3">
+              <div className="flex items-center justify-between border-b border-sky-200/80 dark:border-sky-800 pb-2.5">
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-xl bg-sky-600 text-white flex items-center justify-center font-bold text-xs shadow-2xs">
+                    <Circle className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-sm text-sky-950 dark:text-sky-200">1. Síkidomok (Általános)</h4>
+                    <span className="text-[10px] text-sky-700 dark:text-sky-400 font-medium">Görbe vagy vegyes határvonalú síkrészek</span>
+                  </div>
+                </div>
+                <Badge variant="outline" className="bg-sky-100 dark:bg-sky-900/60 text-sky-800 dark:text-sky-300 border-sky-300 text-[10px] font-bold">
+                  NEM sokszögek!
+                </Badge>
               </div>
+
               <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                A szomszédos oldalak <strong>közös végpontjai</strong>. Mindig nyomtatott nagybetűvel jelöljük őket, általában az óramutatóval ellentétes irányban haladva.
+                Határoló vonalukban <strong>görbe vonal (ív)</strong> szerepel. Nincsenek egyenes oldalaik és törésponti csúcsaik:
               </p>
+
+              {/* 4 szép SVG síkidom mini rács */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
+                {/* Kör */}
+                <div className="p-2 rounded-xl bg-white dark:bg-slate-850 border border-sky-100 dark:border-slate-800 text-center space-y-1 shadow-2xs">
+                  <svg viewBox="0 0 60 60" className="w-12 h-12 mx-auto select-none">
+                    <circle cx="30" cy="30" r="23" className="fill-sky-100/70 dark:fill-sky-950/50 stroke-sky-500 stroke-[2]" />
+                    <circle cx="30" cy="30" r="2" className="fill-sky-700 dark:fill-sky-300" />
+                    <line x1="30" y1="30" x2="51" y2="20" className="stroke-sky-600 dark:stroke-sky-400 stroke-[1.5]" strokeDasharray="2 2" />
+                    <text x="40" y="23" className="text-[8px] font-mono font-bold fill-sky-700 dark:fill-sky-300">r</text>
+                  </svg>
+                  <div className="font-bold text-[11px] text-slate-800 dark:text-slate-100">Kör</div>
+                  <div className="text-[9px] text-slate-500 leading-tight">Csak zárt körvonal</div>
+                </div>
+
+                {/* Ellipszis */}
+                <div className="p-2 rounded-xl bg-white dark:bg-slate-850 border border-sky-100 dark:border-slate-800 text-center space-y-1 shadow-2xs">
+                  <svg viewBox="0 0 60 60" className="w-12 h-12 mx-auto select-none">
+                    <ellipse cx="30" cy="30" rx="25" ry="16" className="fill-sky-100/70 dark:fill-sky-950/50 stroke-sky-500 stroke-[2]" />
+                    <circle cx="30" cy="30" r="1.5" className="fill-sky-700 dark:fill-sky-300" />
+                  </svg>
+                  <div className="font-bold text-[11px] text-slate-800 dark:text-slate-100">Ellipszis</div>
+                  <div className="text-[9px] text-slate-500 leading-tight">Nyújtott görbe</div>
+                </div>
+
+                {/* Félkör */}
+                <div className="p-2 rounded-xl bg-white dark:bg-slate-850 border border-sky-100 dark:border-slate-800 text-center space-y-1 shadow-2xs">
+                  <svg viewBox="0 0 60 60" className="w-12 h-12 mx-auto select-none">
+                    <path d="M 8 38 A 22 22 0 0 1 52 38 Z" className="fill-sky-100/70 dark:fill-sky-950/50 stroke-sky-500 stroke-[2]" />
+                    <circle cx="30" cy="38" r="1.5" className="fill-sky-700 dark:fill-sky-300" />
+                  </svg>
+                  <div className="font-bold text-[11px] text-slate-800 dark:text-slate-100">Félkör</div>
+                  <div className="text-[9px] text-slate-500 leading-tight">Vegyes határvonal</div>
+                </div>
+
+                {/* Csepp alakzat */}
+                <div className="p-2 rounded-xl bg-white dark:bg-slate-850 border border-sky-100 dark:border-slate-800 text-center space-y-1 shadow-2xs">
+                  <svg viewBox="0 0 60 60" className="w-12 h-12 mx-auto select-none">
+                    <path d="M 30 10 C 15 24 11 36 11 43 A 19 19 0 0 0 49 43 C 49 36 45 24 30 10 Z" className="fill-sky-100/70 dark:fill-sky-950/50 stroke-sky-500 stroke-[2]" />
+                  </svg>
+                  <div className="font-bold text-[11px] text-slate-800 dark:text-slate-100">Csepp alak</div>
+                  <div className="text-[9px] text-slate-500 leading-tight">Íves határvonal</div>
+                </div>
+              </div>
+
+              <div className="p-2.5 rounded-xl bg-white/80 dark:bg-slate-850/80 border border-sky-200/60 dark:border-slate-800 text-xs text-sky-950 dark:text-sky-200 space-y-1">
+                <div className="flex items-center gap-1.5 font-bold text-rose-600 dark:text-rose-400">
+                  <XCircle className="w-3.5 h-3.5 shrink-0" />
+                  <span>Miért NEM sokszögek ezek?</span>
+                </div>
+                <p className="text-[11px] text-slate-600 dark:text-slate-300">
+                  Mert a határvonaluk nem egyenes szakaszokból áll, hanem görbe íveket tartalmaz! Egy sokszögnek kötelezően egyenes oldalai kellenek legyenek.
+                </p>
+              </div>
             </div>
 
-            <div className="p-3.5 bg-teal-50/70 dark:bg-teal-950/30 rounded-2xl border border-teal-200 dark:border-teal-800">
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="w-3 h-1 rounded-full bg-indigo-500 inline-block border-b-2 border-dashed border-indigo-500" />
-                <h4 className="font-bold text-sm text-teal-900 dark:text-teal-200">Átlók</h4>
+            {/* 2. KÁRTYA: SOKSZÖGEK (KIZÁRÓLAG EGYENES SZAKASZOK) */}
+            <div className="p-4 rounded-2xl bg-gradient-to-b from-teal-50/60 to-emerald-50/30 dark:from-teal-950/30 dark:to-slate-900 border-2 border-teal-200 dark:border-teal-800/60 space-y-3">
+              <div className="flex items-center justify-between border-b border-teal-200/80 dark:border-teal-800 pb-2.5">
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-xl bg-teal-600 text-white flex items-center justify-center font-bold text-xs shadow-2xs">
+                    <Shapes className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-sm text-teal-950 dark:text-teal-200">2. Sokszögek (Poligonok)</h4>
+                    <span className="text-[10px] text-teal-700 dark:text-teal-400 font-medium">Kizárólag egyenes szakaszokból álló zárt alakzatok</span>
+                  </div>
+                </div>
+                <Badge variant="outline" className="bg-teal-100 dark:bg-teal-900/60 text-teal-800 dark:text-teal-300 border-teal-300 text-[10px] font-bold">
+                  Valódi sokszögek!
+                </Badge>
               </div>
+
               <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                A sokszög <strong>két nem szomszédos csúcsát</strong> összekötő szakaszok. A háromszögnek nincs átlója, a négyszögnek 2 van.
+                Minden határoló vonaluk <strong>egyenes szakasz</strong> (zárt töröttvonal). Mindig vannak <strong>csúcsaik és oldalaik</strong>:
               </p>
+
+              {/* 4 szép SVG sokszög mini rács */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
+                {/* Háromszög */}
+                <div className="p-2 rounded-xl bg-white dark:bg-slate-850 border border-teal-100 dark:border-slate-800 text-center space-y-1 shadow-2xs">
+                  <svg viewBox="0 0 60 60" className="w-12 h-12 mx-auto select-none">
+                    <polygon points="30,10 9,50 51,50" className="fill-teal-100/70 dark:fill-teal-950/50 stroke-teal-600 stroke-[2]" />
+                    <circle cx="30" cy="10" r="2.5" className="fill-rose-500" />
+                    <circle cx="9" cy="50" r="2.5" className="fill-rose-500" />
+                    <circle cx="51" cy="50" r="2.5" className="fill-rose-500" />
+                  </svg>
+                  <div className="font-bold text-[11px] text-slate-800 dark:text-slate-100">Háromszög</div>
+                  <div className="text-[9px] text-teal-700 dark:text-teal-400 font-bold">3 oldal • 3 csúcs</div>
+                </div>
+
+                {/* Négyszög */}
+                <div className="p-2 rounded-xl bg-white dark:bg-slate-850 border border-teal-100 dark:border-slate-800 text-center space-y-1 shadow-2xs">
+                  <svg viewBox="0 0 60 60" className="w-12 h-12 mx-auto select-none">
+                    <polygon points="17,17 43,17 52,48 8,48" className="fill-teal-100/70 dark:fill-teal-950/50 stroke-teal-600 stroke-[2]" />
+                    <circle cx="17" cy="17" r="2.5" className="fill-rose-500" />
+                    <circle cx="43" cy="17" r="2.5" className="fill-rose-500" />
+                    <circle cx="52" cy="48" r="2.5" className="fill-rose-500" />
+                    <circle cx="8" cy="48" r="2.5" className="fill-rose-500" />
+                  </svg>
+                  <div className="font-bold text-[11px] text-slate-800 dark:text-slate-100">Négyszög (Trapéz)</div>
+                  <div className="text-[9px] text-teal-700 dark:text-teal-400 font-bold">4 oldal • 4 csúcs</div>
+                </div>
+
+                {/* Ötszög */}
+                <div className="p-2 rounded-xl bg-white dark:bg-slate-850 border border-teal-100 dark:border-slate-800 text-center space-y-1 shadow-2xs">
+                  <svg viewBox="0 0 60 60" className="w-12 h-12 mx-auto select-none">
+                    <polygon points="30,8 51,24 43,49 17,49 9,24" className="fill-teal-100/70 dark:fill-teal-950/50 stroke-teal-600 stroke-[2]" />
+                    <circle cx="30" cy="8" r="2" className="fill-rose-500" />
+                    <circle cx="51" cy="24" r="2" className="fill-rose-500" />
+                    <circle cx="43" cy="49" r="2" className="fill-rose-500" />
+                    <circle cx="17" cy="49" r="2" className="fill-rose-500" />
+                    <circle cx="9" cy="24" r="2" className="fill-rose-500" />
+                  </svg>
+                  <div className="font-bold text-[11px] text-slate-800 dark:text-slate-100">Ötszög</div>
+                  <div className="text-[9px] text-teal-700 dark:text-teal-400 font-bold">5 oldal • 5 csúcs</div>
+                </div>
+
+                {/* Hatszög */}
+                <div className="p-2 rounded-xl bg-white dark:bg-slate-850 border border-teal-100 dark:border-slate-800 text-center space-y-1 shadow-2xs">
+                  <svg viewBox="0 0 60 60" className="w-12 h-12 mx-auto select-none">
+                    <polygon points="30,8 49,19 49,41 30,52 11,41 11,19" className="fill-teal-100/70 dark:fill-teal-950/50 stroke-teal-600 stroke-[2]" />
+                    <circle cx="30" cy="8" r="2" className="fill-rose-500" />
+                    <circle cx="49" cy="19" r="2" className="fill-rose-500" />
+                    <circle cx="49" cy="41" r="2" className="fill-rose-500" />
+                    <circle cx="30" cy="52" r="2" className="fill-rose-500" />
+                    <circle cx="11" cy="41" r="2" className="fill-rose-500" />
+                    <circle cx="11" cy="19" r="2" className="fill-rose-500" />
+                  </svg>
+                  <div className="font-bold text-[11px] text-slate-800 dark:text-slate-100">Hatszög</div>
+                  <div className="text-[9px] text-teal-700 dark:text-teal-400 font-bold">6 oldal • 6 csúcs</div>
+                </div>
+              </div>
+
+              <div className="p-2.5 rounded-xl bg-white/80 dark:bg-slate-850/80 border border-teal-200/60 dark:border-slate-800 text-xs text-teal-950 dark:text-teal-200 space-y-1">
+                <div className="flex items-center gap-1.5 font-bold text-emerald-600 dark:text-emerald-400">
+                  <Check className="w-3.5 h-3.5 shrink-0" />
+                  <span>Mitől sokszögek ezek?</span>
+                </div>
+                <p className="text-[11px] text-slate-600 dark:text-slate-300">
+                  Mert a határoló vonaluk kizárólag egyenes szakaszokból áll, van csúcsuk, oldaluk és belső szögük (legalább 3 db)!
+                </p>
+              </div>
             </div>
           </div>
 
-          {/* Szemléltető ábra: Sokszög részei */}
-          <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-            <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3 text-center">
-              Egy ötszög (pentagon) csúcsai, oldalai, belső szögei és átlói
+          {/* VENN-DIAGRAM HALMAZÁBRA (A KAPCSOLAT BEMUTATÁSA) */}
+          <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-3 mb-5">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-2.5">
+              <div>
+                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Halmazszemlélet • Venn-diagram</div>
+                <h4 className="text-sm sm:text-base font-black text-slate-900 dark:text-white">
+                  Hogyan viszonyul egymáshoz a síkidomok és sokszögek halmaza?
+                </h4>
+              </div>
+              <div className="text-xs font-mono font-bold text-teal-700 dark:text-teal-300 bg-teal-50 dark:bg-teal-950/60 px-3 py-1 rounded-xl border border-teal-200 dark:border-teal-800">
+                Sokszögek ⊂ Síkidomok
+              </div>
+            </div>
+
+            <div className="overflow-x-auto">
+              <svg viewBox="0 0 680 185" className="w-full min-w-[560px] h-auto select-none">
+                {/* Külső Síkidomok Halmaza (Nagy kék keret) */}
+                <rect x="15" y="12" width="650" height="160" rx="26" className="fill-sky-50/50 dark:fill-sky-950/20 stroke-sky-400 dark:stroke-sky-700" strokeWidth="2" />
+                <text x="35" y="38" className="text-[13px] font-black fill-sky-800 dark:fill-sky-300">SÍKIDOMOK TÁGABB HALMAZA</text>
+                <text x="35" y="52" className="text-[10px] font-medium fill-slate-500">Minden zárt vonallal határolt síkbeli alakzat</text>
+
+                {/* Bal oldalon a görbe határvonalú síkidomok */}
+                <g transform="translate(45, 68)">
+                  <circle cx="32" cy="32" r="24" className="fill-white dark:fill-slate-850 stroke-sky-500 stroke-[2]" />
+                  <text x="32" y="68" textAnchor="middle" className="text-[10px] font-bold fill-slate-700 dark:fill-slate-300">Kör</text>
+                </g>
+
+                <g transform="translate(130, 68)">
+                  <ellipse cx="38" cy="32" rx="30" ry="17" className="fill-white dark:fill-slate-850 stroke-sky-500 stroke-[2]" />
+                  <text x="38" y="68" textAnchor="middle" className="text-[10px] font-bold fill-slate-700 dark:fill-slate-300">Ellipszis</text>
+                </g>
+
+                <g transform="translate(225, 68)">
+                  <path d="M 6 42 A 20 20 0 0 1 46 42 Z" className="fill-white dark:fill-slate-850 stroke-sky-500 stroke-[2]" />
+                  <text x="26" y="68" textAnchor="middle" className="text-[10px] font-bold fill-slate-700 dark:fill-slate-300">Félkör</text>
+                </g>
+
+                {/* Belső Sokszögek Halmaza (Kiemelt zöld keret) */}
+                <rect x="305" y="24" width="345" height="136" rx="20" className="fill-teal-100/70 dark:fill-teal-950/60 stroke-teal-600 dark:stroke-teal-400" strokeWidth="2.5" />
+                <text x="325" y="46" className="text-[12px] font-black fill-teal-900 dark:fill-teal-200">SOKSZÖGEK BELSŐ RÉSZHALMAZA</text>
+                <text x="325" y="60" className="text-[10px] font-bold fill-teal-700 dark:fill-teal-400">Kizárólag egyenes szakaszok határolják!</text>
+
+                {/* Sokszög minták bent */}
+                <g transform="translate(325, 75)">
+                  <polygon points="25,5 5,42 45,42" className="fill-white dark:fill-slate-900 stroke-teal-600 stroke-[2]" />
+                  <circle cx="25" cy="5" r="2" className="fill-rose-500" />
+                  <circle cx="5" cy="42" r="2" className="fill-rose-500" />
+                  <circle cx="45" cy="42" r="2" className="fill-rose-500" />
+                  <text x="25" y="56" textAnchor="middle" className="text-[9px] font-bold fill-teal-900 dark:fill-teal-200">Háromszög</text>
+                </g>
+
+                <g transform="translate(410, 75)">
+                  <rect x="5" y="6" width="36" height="36" className="fill-white dark:fill-slate-900 stroke-teal-600 stroke-[2]" />
+                  <circle cx="5" cy="6" r="2" className="fill-rose-500" />
+                  <circle cx="41" cy="6" r="2" className="fill-rose-500" />
+                  <circle cx="41" cy="42" r="2" className="fill-rose-500" />
+                  <circle cx="5" cy="42" r="2" className="fill-rose-500" />
+                  <text x="23" y="56" textAnchor="middle" className="text-[9px] font-bold fill-teal-900 dark:fill-teal-200">Négyszög</text>
+                </g>
+
+                <g transform="translate(490, 75)">
+                  <polygon points="23,5 42,19 35,40 11,40 4,19" className="fill-white dark:fill-slate-900 stroke-teal-600 stroke-[2]" />
+                  <text x="23" y="56" textAnchor="middle" className="text-[9px] font-bold fill-teal-900 dark:fill-teal-200">Ötszög</text>
+                </g>
+
+                <g transform="translate(565, 75)">
+                  <polygon points="23,5 39,14 39,32 23,41 7,32 7,14" className="fill-white dark:fill-slate-900 stroke-teal-600 stroke-[2]" />
+                  <text x="23" y="56" textAnchor="middle" className="text-[9px] font-bold fill-teal-900 dark:fill-teal-200">Hatszög</text>
+                </g>
+              </svg>
+            </div>
+          </div>
+
+          {/* SOKSZÖGEK ALKOTÓELEMEI (OLDALAK, CSÚCSOK, BELSŐ SZÖGEK) */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+              A sokszögek 3 legfontosabb alkotóeleme
             </h4>
 
-            <div className="flex flex-col sm:flex-row items-center justify-around gap-6">
-              <svg className="w-56 h-40 sm:w-64 sm:h-44 drop-shadow-sm select-none" viewBox="0 0 240 160" fill="none">
-                {/* Belső terület kitöltése */}
-                <polygon points="120,20 205,65 175,140 65,140 35,65" fill="#ccfbf1" stroke="#0f766e" strokeWidth="2.5" />
-
-                {/* Átlók (szaggatott kék vonalak) */}
-                <line x1="120" y1="20" x2="175" y2="140" stroke="#6366f1" strokeWidth="1.5" strokeDasharray="3 3" />
-                <line x1="120" y1="20" x2="65" y2="140" stroke="#6366f1" strokeWidth="1.5" strokeDasharray="3 3" />
-                <line x1="35" y1="65" x2="175" y2="140" stroke="#6366f1" strokeWidth="1.5" strokeDasharray="3 3" />
-                <line x1="35" y1="65" x2="205" y2="65" stroke="#6366f1" strokeWidth="1.5" strokeDasharray="3 3" />
-                <line x1="205" y1="65" x2="65" y2="140" stroke="#6366f1" strokeWidth="1.5" strokeDasharray="3 3" />
-
-                {/* Csúcspontok és feliratok */}
-                <circle cx="120" cy="20" r="4.5" fill="#ef4444" stroke="#ffffff" strokeWidth="1.5" />
-                <text x="120" y="10" textAnchor="middle" className="text-[12px] font-black fill-rose-600">A (csúcs)</text>
-
-                <circle cx="205" cy="65" r="4.5" fill="#ef4444" stroke="#ffffff" strokeWidth="1.5" />
-                <text x="215" y="68" className="text-[12px] font-black fill-rose-600">B</text>
-
-                <circle cx="175" cy="140" r="4.5" fill="#ef4444" stroke="#ffffff" strokeWidth="1.5" />
-                <text x="185" y="145" className="text-[12px] font-black fill-rose-600">C</text>
-
-                <circle cx="65" cy="140" r="4.5" fill="#ef4444" stroke="#ffffff" strokeWidth="1.5" />
-                <text x="50" y="145" className="text-[12px] font-black fill-rose-600">D</text>
-
-                <circle cx="35" cy="65" r="4.5" fill="#ef4444" stroke="#ffffff" strokeWidth="1.5" />
-                <text x="20" y="68" className="text-[12px] font-black fill-rose-600">E</text>
-
-                {/* Oldal felirat */}
-                <text x="170" y="38" className="text-[11px] font-bold fill-teal-800">a oldal</text>
-                <text x="120" y="154" textAnchor="middle" className="text-[11px] font-bold fill-teal-800">c oldal</text>
-
-                {/* Belső szög ív A-nál */}
-                <path d="M 112 30 A 15 15 0 0 0 128 30" stroke="#d97706" strokeWidth="2" fill="none" />
-                <text x="120" y="44" textAnchor="middle" className="text-[10px] font-black fill-amber-700">α</text>
-              </svg>
-
-              <div className="space-y-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300 max-w-xs w-full">
-                <div className="p-2.5 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
-                  <span className="font-bold text-teal-700 dark:text-teal-400 block mb-0.5">Alapszabály (n-szög):</span>
-                  <MathText>{'\\text{Oldalak száma} = \\text{Csúcsok száma} = n'}</MathText>
-                  <p className="text-[11px] text-slate-500 mt-1">
-                    Ötszögnél: 5 oldal, 5 csúcs, 5 belső szög.
-                  </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+              <div className="p-3.5 bg-teal-50/70 dark:bg-teal-950/30 rounded-2xl border border-teal-200 dark:border-teal-800">
+                <div className="flex items-center gap-2 mb-1.5">
+                  <span className="w-3 h-1 rounded-full bg-teal-600 inline-block" />
+                  <h4 className="font-bold text-sm text-teal-900 dark:text-teal-200">1. Oldalak (a, b, c...)</h4>
                 </div>
-                <div className="p-2.5 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
-                  <span className="font-bold text-indigo-700 dark:text-indigo-400 block mb-0.5">Egy csúcsból húzható átlók:</span>
-                  <MathText>{'n - 3'}</MathText>
-                  <p className="text-[11px] text-slate-500 mt-0.5">
-                    Mivel önmagába és a 2 szomszédos csúcsba nem húzható átló (azok oldalak!).
-                  </p>
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                  A sokszöget határoló <strong>egyenes szakaszok</strong>. A csúcsok betűivel (<MathText>{'AB, BC'}</MathText>) vagy kisbetűkkel (<MathText>{'a, b, c'}</MathText>) jelöljük.
+                </p>
+              </div>
+
+              <div className="p-3.5 bg-teal-50/70 dark:bg-teal-950/30 rounded-2xl border border-teal-200 dark:border-teal-800">
+                <div className="flex items-center gap-2 mb-1.5">
+                  <span className="w-3 h-3 rounded-full bg-rose-500 inline-block" />
+                  <h4 className="font-bold text-sm text-teal-900 dark:text-teal-200">2. Csúcsok (A, B, C...)</h4>
                 </div>
-                <div className="p-2.5 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
-                  <span className="font-bold text-amber-700 dark:text-amber-400 block mb-0.5">Belső szögek összege:</span>
-                  <MathText>{'(n - 2) \\cdot 180^\\circ'}</MathText>
-                  <p className="text-[11px] text-slate-500 mt-0.5">
-                    Minden sokszög <MathText>{'n - 2'}</MathText> darab háromszögre vágható szét!
-                  </p>
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                  A szomszédos oldalak <strong>közös végpontjai</strong>. Mindig nyomtatott nagybetűvel jelöljük őket, az óramutató járásával ellentétes irányban haladva.
+                </p>
+              </div>
+
+              <div className="p-3.5 bg-teal-50/70 dark:bg-teal-950/30 rounded-2xl border border-teal-200 dark:border-teal-800">
+                <div className="flex items-center gap-2 mb-1.5">
+                  <span className="w-3 h-3 rounded-full bg-amber-500 inline-block" />
+                  <h4 className="font-bold text-sm text-teal-900 dark:text-teal-200">3. Belső szögek (α, β...)</h4>
+                </div>
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                  A szomszédos oldalak által bezárt <strong>belső szögtartományok</strong>. Görög betűkkel (<MathText>{'\\alpha, \\beta, \\gamma'}</MathText>) jelöljük őket.
+                </p>
+              </div>
+            </div>
+
+            {/* Szemléltető ábra: Ötszög alkotóelemei */}
+            <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+              <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3 text-center">
+                Egy ötszög (pentagon) csúcsai, oldalai és belső szögei
+              </h4>
+
+              <div className="flex flex-col sm:flex-row items-center justify-around gap-6">
+                <svg className="w-56 h-40 sm:w-64 sm:h-44 drop-shadow-sm select-none" viewBox="0 0 240 160" fill="none">
+                  {/* Belső terület kitöltése */}
+                  <polygon points="120,20 205,65 175,140 65,140 35,65" fill="#ccfbf1" stroke="#0f766e" strokeWidth="2.5" />
+
+                  {/* Csúcspontok és feliratok */}
+                  <circle cx="120" cy="20" r="4.5" fill="#ef4444" stroke="#ffffff" strokeWidth="1.5" />
+                  <text x="120" y="10" textAnchor="middle" className="text-[12px] font-black fill-rose-600">A (csúcs)</text>
+
+                  <circle cx="205" cy="65" r="4.5" fill="#ef4444" stroke="#ffffff" strokeWidth="1.5" />
+                  <text x="215" y="68" className="text-[12px] font-black fill-rose-600">B</text>
+
+                  <circle cx="175" cy="140" r="4.5" fill="#ef4444" stroke="#ffffff" strokeWidth="1.5" />
+                  <text x="185" y="145" className="text-[12px] font-black fill-rose-600">C</text>
+
+                  <circle cx="65" cy="140" r="4.5" fill="#ef4444" stroke="#ffffff" strokeWidth="1.5" />
+                  <text x="50" y="145" className="text-[12px] font-black fill-rose-600">D</text>
+
+                  <circle cx="35" cy="65" r="4.5" fill="#ef4444" stroke="#ffffff" strokeWidth="1.5" />
+                  <text x="20" y="68" className="text-[12px] font-black fill-rose-600">E</text>
+
+                  {/* Oldal feliratok */}
+                  <text x="170" y="38" className="text-[11px] font-bold fill-teal-800 dark:fill-teal-300">a oldal</text>
+                  <text x="120" y="154" textAnchor="middle" className="text-[11px] font-bold fill-teal-800 dark:fill-teal-300">c oldal</text>
+
+                  {/* Belső szög ív A-nál */}
+                  <path d="M 112 30 A 15 15 0 0 0 128 30" stroke="#d97706" strokeWidth="2" fill="none" />
+                  <text x="120" y="44" textAnchor="middle" className="text-[10px] font-black fill-amber-700 dark:fill-amber-300">α</text>
+                </svg>
+
+                <div className="space-y-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300 max-w-xs w-full">
+                  <div className="p-2.5 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
+                    <span className="font-bold text-teal-700 dark:text-teal-400 block mb-0.5">Alapszabály (n-szög):</span>
+                    <MathText>{'\\text{Oldalak} = \\text{Csúcsok} = \\text{Belső szögek} = n'}</MathText>
+                    <p className="text-[11px] text-slate-500 mt-1">
+                      Ötszögnél: 5 oldal, 5 csúcs, 5 belső szög.
+                    </p>
+                  </div>
+                  <div className="p-2.5 bg-teal-50/60 dark:bg-teal-950/40 rounded-xl border border-teal-200 dark:border-teal-800">
+                    <span className="font-bold text-teal-800 dark:text-teal-300 block mb-0.5">A legkisebb sokszög:</span>
+                    <p className="text-[11px] text-slate-600 dark:text-slate-300">
+                      A <strong>háromszög (n = 3)</strong>. Két egyenes szakasszal ugyanis lehetetlen zárt síkrészt határolni!
+                    </p>
+                  </div>
+                  <div className="p-2.5 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
+                    <span className="font-bold text-amber-700 dark:text-amber-400 block mb-0.5">Belső szögek összege:</span>
+                    <MathText>{'(n - 2) \\cdot 180^\\circ'}</MathText>
+                    <p className="text-[11px] text-slate-500 mt-0.5">
+                      Háromszög: 180° • Négyszög: 360° • Ötszög: 540°.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>

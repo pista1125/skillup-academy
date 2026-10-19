@@ -21,6 +21,7 @@ import {
   Compass,
   Dice5,
   Dices,
+  Droplets,
   Eye,
   FileText,
   FlaskConical,
@@ -47,6 +48,7 @@ import {
   Scale,
   Scissors,
   Search,
+  ShoppingCart,
   Section,
   Shapes,
   Share2,
@@ -1554,16 +1556,26 @@ export const Grade5View: React.FC<GradeViewProps> = ({
           {/* Section 1: A tömeg mérése, mértékegységei */}
           {(showAll || activeSubSectionId === 'g5-prop-sec-1') && (
             <section>
-              <SectionHeader id="g5-prop-sec-1" number={1} title="A tömeg mérése, mértékegységei" color="blue" />
+              <SectionHeader id="g5-prop-sec-1" number={1} title="A tömeg mérése, mértékegységei" color="teal" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Tömegmértékek Kvíz"
-                  subtitle="Tömeg mértékegységei és átváltásai"
-                  type="Hamarosan"
+                  title="A tömeg mérése elmélet"
+                  subtitle="Mértékegységek, váltószámok (mg, g, dkg, kg, q, t), kétkarú mérleg és nettó-bruttó-tára PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-mass-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="teal"
+                />
+                <ActivityPlaceholder
+                  title="A tömeg mérése kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
                   emoji="⚖️"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g5-mass-quiz', topicId)}
                   icon={<Scale className="w-6 h-6" />}
-                  color="blue"
+                  color="teal"
+                  {...getTopicProgress('g5-mass-quiz')}
                 />
               </div>
             </section>
@@ -1575,21 +1587,31 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-prop-sec-2" number={2} title="Az űrtartalom mérése, mértékegységei" color="cyan" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Űrmérték-váltó"
-                  subtitle="Térfogat és űrmértékek átváltása"
-                  type="Eszköz"
-                  emoji="🧪"
-                  onClick={() => onActivitySelect('capacity-converter', topicId)}
-                  icon={<FlaskConical className="w-6 h-6" />}
+                  title="Az űrtartalom mérése elmélet"
+                  subtitle="Liter, deciliter, milliliter, hektoliter, a térfogat és tömeg kapcsolata PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-cap-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="cyan"
                 />
                 <ActivityPlaceholder
-                  title="Űrtartalom Kvíz"
-                  subtitle="Folyadékok mérése és mértékváltások"
-                  type="Hamarosan"
-                  emoji="🫗"
-                  disabled={true}
-                  icon={<Calculator className="w-6 h-6" />}
+                  title="Az űrtartalom mérése kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🧪"
+                  onClick={() => onActivitySelect('g5-cap-quiz', topicId)}
+                  icon={<FlaskConical className="w-6 h-6" />}
+                  color="cyan"
+                  {...getTopicProgress('g5-cap-quiz')}
+                />
+                <ActivityPlaceholder
+                  title="Űrmérték-váltó"
+                  subtitle="Térfogat és űrmértékek átváltása"
+                  type="Eszköz"
+                  emoji="💧"
+                  onClick={() => onActivitySelect('capacity-converter', topicId)}
+                  icon={<Droplets className="w-6 h-6" />}
                   color="cyan"
                 />
               </div>
@@ -1602,21 +1624,31 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-prop-sec-3" number={3} title="Az idő mérése, mértékegységei" color="amber" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Analóg Óra Szemléltető"
-                  subtitle="Óra, perc leolvasása és beállítása"
-                  type="Eszköz"
-                  emoji="⏰"
-                  onClick={() => onActivitySelect('analog-clock', topicId)}
-                  icon={<Timer className="w-6 h-6" />}
+                  title="Az idő mérése elmélet"
+                  subtitle="Időegységek (s, min, h, nap), analóg és digitális óra, menetidők és naptár PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-time-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="amber"
                 />
                 <ActivityPlaceholder
-                  title="Időmérés Kvíz"
-                  subtitle="Időtartamok számítása és átváltások"
-                  type="Hamarosan"
-                  emoji="⏳"
-                  disabled={true}
+                  title="Az idő mérése kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="⏱️"
+                  onClick={() => onActivitySelect('g5-time-quiz', topicId)}
                   icon={<Timer className="w-6 h-6" />}
+                  color="amber"
+                  {...getTopicProgress('g5-time-quiz')}
+                />
+                <ActivityPlaceholder
+                  title="Analóg Óra Szemléltető"
+                  subtitle="Óra, perc leolvasása és interaktív beállítása"
+                  type="Eszköz"
+                  emoji="⏰"
+                  onClick={() => onActivitySelect('analog-clock', topicId)}
+                  icon={<Clock className="w-6 h-6" />}
                   color="amber"
                 />
               </div>
@@ -1629,21 +1661,31 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-prop-sec-4" number={4} title="Mértékegység-átváltások" color="emerald" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Mértékegység-váltó"
-                  subtitle="Hossz, tömeg és űr mértékegységek"
-                  type="Eszköz"
-                  emoji="📏"
-                  onClick={() => onActivitySelect('unit-converter', topicId)}
-                  icon={<ArrowRightLeft className="w-6 h-6" />}
+                  title="Mértékegység-átváltások elmélet"
+                  subtitle="Az átváltások aranyszabálya, 4 mennyiségcsalád létrája, tizedestörtek és laboratórium PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-conv-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="emerald"
                 />
                 <ActivityPlaceholder
-                  title="Összetett Átváltások"
-                  subtitle="Vegyes mértékegységek átváltása és számolás"
-                  type="Hamarosan"
+                  title="Mértékegység-átváltások kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
                   emoji="🔄"
-                  disabled={true}
-                  icon={<RefreshCw className="w-6 h-6" />}
+                  onClick={() => onActivitySelect('g5-conv-quiz', topicId)}
+                  icon={<ArrowRightLeft className="w-6 h-6" />}
+                  color="emerald"
+                  {...getTopicProgress('g5-conv-quiz')}
+                />
+                <ActivityPlaceholder
+                  title="Mértékegység-váltó"
+                  subtitle="Interaktív átváltó eszköz (hossz, tömeg, űrtartalom)"
+                  type="Eszköz"
+                  emoji="📏"
+                  onClick={() => onActivitySelect('unit-converter', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
                   color="emerald"
                 />
               </div>
@@ -1656,13 +1698,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-prop-sec-5" number={5} title="Arányosságok, változó mennyiségek" color="indigo" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Változó mennyiségek"
-                  subtitle="Összefüggések táblázatokban és mindennapi helyzetekben"
-                  type="Hamarosan"
+                  title="Változó mennyiségek elmélet"
+                  subtitle="Együtt változó és ellentétes adatok, táblázatok, egységárak és szimulátor PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-var-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="indigo"
+                />
+                <ActivityPlaceholder
+                  title="Változó mennyiségek kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
                   emoji="📊"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g5-var-quiz', topicId)}
                   icon={<GitCompare className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g5-var-quiz')}
                 />
               </div>
             </section>
@@ -1674,13 +1726,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-prop-sec-6" number={6} title="Egyenes arányosság" color="violet" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Egyenes Arányosság Kvíz"
-                  subtitle="Hármasszabály és egységre következtetés"
-                  type="Hamarosan"
+                  title="Egyenes arányosság elmélet"
+                  subtitle="A hányados állandósága, hármasszabály 2 lépése, origó szabály és kalkulátor PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-direct-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="violet"
+                />
+                <ActivityPlaceholder
+                  title="Egyenes arányosság kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
                   emoji="📈"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g5-direct-quiz', topicId)}
                   icon={<TrendingUp className="w-6 h-6" />}
                   color="violet"
+                  {...getTopicProgress('g5-direct-quiz')}
                 />
               </div>
             </section>
@@ -1692,13 +1754,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-prop-sec-7" number={7} title="Nyitott mondatok" color="purple" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Nyitott Mondatok Kvíz"
+                  title="Nyitott mondatok elmélet"
                   subtitle="Egyenlőségek, egyenlőtlenségek és ismeretlenek"
-                  type="Hamarosan"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-open-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="purple"
+                />
+                <ActivityPlaceholder
+                  title="Nyitott Mondatok Kvíz"
+                  subtitle="Gyakorlás és igazsághalmaz keresése"
+                  type="Kvíz"
                   emoji="🔤"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g5-open-quiz', topicId)}
                   icon={<Variable className="w-6 h-6" />}
                   color="purple"
+                  {...getTopicProgress('g5-open-quiz')}
                 />
               </div>
             </section>
@@ -1710,13 +1782,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-prop-sec-8" number={8} title="Keressük a megoldásokat!" color="pink" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Lebontogatási Módszer"
-                  subtitle="Egyenletek megoldása fordított műveletekkel"
-                  type="Hamarosan"
+                  title="Megoldáskeresés elmélet"
+                  subtitle="Lebontogatás, fordított műveletek és próbálgatás"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-sol-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="pink"
+                />
+                <ActivityPlaceholder
+                  title="Keressük a megoldásokat! Kvíz"
+                  subtitle="Lebontás, ellenőrzés és gondoltam egy számra"
+                  type="Kvíz"
                   emoji="🔍"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g5-sol-quiz', topicId)}
                   icon={<Search className="w-6 h-6" />}
                   color="pink"
+                  {...getTopicProgress('g5-sol-quiz')}
                 />
               </div>
             </section>
@@ -1728,21 +1810,31 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-prop-sec-9" number={9} title="Egyszerű szöveges feladatok" color="teal" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Szöveges feladatok modul"
-                  subtitle="Gyakorlati problémák és feladatmegoldó lépések"
-                  type="Indítás"
-                  emoji="📝"
-                  onClick={() => onActivitySelect('word-problems', topicId)}
-                  icon={<Sparkles className="w-6 h-6" />}
+                  title="Egyszerű szöveges feladatok elmélet"
+                  subtitle="Az 5 lépéses stratégia és szakasos ábrák"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-simp-wp-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="teal"
                 />
                 <ActivityPlaceholder
-                  title="Szöveges Feladatok Kvíz"
-                  subtitle="Kvíz feladatok megoldása lépésről lépésre"
-                  type="Teszt"
-                  emoji="✍️"
-                  onClick={() => onActivitySelect('word-problems-quiz', topicId)}
-                  icon={<Pencil className="w-6 h-6" />}
+                  title="Egyszerű Szöveges Feladatok Kvíz"
+                  subtitle="Gyakorlati feladatok és ellenőrzés"
+                  type="Kvíz"
+                  emoji="📝"
+                  onClick={() => onActivitySelect('g5-simp-wp-quiz', topicId)}
+                  icon={<FileText className="w-6 h-6" />}
+                  color="teal"
+                  {...getTopicProgress('g5-simp-wp-quiz')}
+                />
+                <ActivityPlaceholder
+                  title="Szöveges feladatok modul"
+                  subtitle="Gyakorlati problémák és feladatmegoldó lépések"
+                  type="Gyakorlás"
+                  emoji="💡"
+                  onClick={() => onActivitySelect('word-problems', topicId)}
+                  icon={<Sparkles className="w-6 h-6" />}
                   color="teal"
                 />
               </div>
@@ -1755,21 +1847,31 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-prop-sec-10" number={10} title="Szöveges feladatok a hétköznapjainkban" color="orange" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
+                  title="Hétköznapi szöveges feladatok elmélet"
+                  subtitle="Vásárlás, forint kerekítés, receptek és utazás"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-daily-wp-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="orange"
+                />
+                <ActivityPlaceholder
+                  title="Hétköznapi Feladatok Kvíz"
+                  subtitle="Vásárlás, utazás és receptek számításai"
+                  type="Kvíz"
+                  emoji="🛒"
+                  onClick={() => onActivitySelect('g5-daily-wp-quiz', topicId)}
+                  icon={<ShoppingCart className="w-6 h-6" />}
+                  color="orange"
+                  {...getTopicProgress('g5-daily-wp-quiz')}
+                />
+                <ActivityPlaceholder
                   title="Pénzügyi és Vásárlási Számítások"
                   subtitle="Pénzkezelés, visszajáró és költségvetés"
                   type="Eszköz"
                   emoji="💰"
                   onClick={() => onActivitySelect('money-calculation', topicId)}
                   icon={<Coins className="w-6 h-6" />}
-                  color="orange"
-                />
-                <ActivityPlaceholder
-                  title="Hétköznapi Feladatok Kvíz"
-                  subtitle="Vásárlás, utazás és receptek számításai"
-                  type="Hamarosan"
-                  emoji="🛒"
-                  disabled={true}
-                  icon={<BookOpen className="w-6 h-6" />}
                   color="orange"
                 />
               </div>
@@ -1779,16 +1881,26 @@ export const Grade5View: React.FC<GradeViewProps> = ({
           {/* Section 11: Összefoglalás */}
           {(showAll || activeSubSectionId === 'g5-prop-sec-11') && (
             <section>
-              <SectionHeader id="g5-prop-sec-11" number={11} title="Összefoglalás" color="slate" />
+              <SectionHeader id="g5-prop-sec-11" number={11} title="Összefoglalás" color="amber" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Összefoglaló felkészítő"
-                  subtitle="VI. Mérés, arányosság, szöveges feladatok összefoglalás"
-                  type="Hamarosan"
+                  title="Összefoglaló elmélet"
+                  subtitle="VI. Mérés, arányosság és szöveges feladatok rendszerezése"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-summary-wp-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="amber"
+                />
+                <ActivityPlaceholder
+                  title="Fejezeti Összefoglaló Kvíz"
+                  subtitle="90 kérdéses átfogó tudáspróba 3 szinten"
+                  type="Kvíz"
                   emoji="🏆"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g5-summary-wp-quiz', topicId)}
                   icon={<Trophy className="w-6 h-6" />}
-                  color="slate"
+                  color="amber"
+                  {...getTopicProgress('g5-summary-wp-quiz')}
                 />
               </div>
             </section>

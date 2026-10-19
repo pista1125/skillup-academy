@@ -378,6 +378,50 @@ const Grade5LocationSummaryTheory = lazy(() => import("@/components/math/grade-5
 const Grade5LocationSummaryQuiz = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/osszefoglalas/LocationSummaryQuiz").then(m => ({ default: m.LocationSummaryQuiz }))) as any;
 const Grade5LocationSummaryMatcher = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/osszefoglalas/LocationSummaryMatcher").then(m => ({ default: m.LocationSummaryMatcher }))) as any;
 const Grade5LocationSummarySorter = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/osszefoglalas/LocationSummarySorter").then(m => ({ default: m.LocationSummarySorter }))) as any;
+const Grade5MassMeasurementTheory = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/a-tomeg-merese-mertekegysegei/MassMeasurementTheory").then(m => ({ default: m.MassMeasurementTheory }))) as any;
+const Grade5MassMeasurementQuiz = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/a-tomeg-merese-mertekegysegei/MassMeasurementQuiz").then(m => ({ default: m.MassMeasurementQuiz }))) as any;
+const Grade5MassMeasurementMatcher = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/a-tomeg-merese-mertekegysegei/MassMeasurementMatcher").then(m => ({ default: m.MassMeasurementMatcher }))) as any;
+const Grade5MassMeasurementSorter = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/a-tomeg-merese-mertekegysegei/MassMeasurementSorter").then(m => ({ default: m.MassMeasurementSorter }))) as any;
+const Grade5CapacityMeasurementTheory = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/az-urtartalom-merese-mertekegysegei/CapacityMeasurementTheory").then(m => ({ default: m.CapacityMeasurementTheory }))) as any;
+const Grade5CapacityMeasurementQuiz = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/az-urtartalom-merese-mertekegysegei/CapacityMeasurementQuiz").then(m => ({ default: m.CapacityMeasurementQuiz }))) as any;
+const Grade5CapacityMeasurementMatcher = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/az-urtartalom-merese-mertekegysegei/CapacityMeasurementMatcher").then(m => ({ default: m.CapacityMeasurementMatcher }))) as any;
+const Grade5CapacityMeasurementSorter = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/az-urtartalom-merese-mertekegysegei/CapacityMeasurementSorter").then(m => ({ default: m.CapacityMeasurementSorter }))) as any;
+const Grade5TimeMeasurementTheory = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/az-ido-merese-mertekegysegei/TimeMeasurementTheory").then(m => ({ default: m.TimeMeasurementTheory }))) as any;
+const Grade5TimeMeasurementQuiz = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/az-ido-merese-mertekegysegei/TimeMeasurementQuiz").then(m => ({ default: m.TimeMeasurementQuiz }))) as any;
+const Grade5TimeMeasurementMatcher = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/az-ido-merese-mertekegysegei/TimeMeasurementMatcher").then(m => ({ default: m.TimeMeasurementMatcher }))) as any;
+const Grade5TimeMeasurementSorter = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/az-ido-merese-mertekegysegei/TimeMeasurementSorter").then(m => ({ default: m.TimeMeasurementSorter }))) as any;
+const Grade5UnitConversionsTheory = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/mertekegyseg-atvaltasok/UnitConversionsTheory").then(m => ({ default: m.UnitConversionsTheory }))) as any;
+const Grade5UnitConversionsQuiz = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/mertekegyseg-atvaltasok/UnitConversionsQuiz").then(m => ({ default: m.UnitConversionsQuiz }))) as any;
+const Grade5UnitConversionsMatcher = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/mertekegyseg-atvaltasok/UnitConversionsMatcher").then(m => ({ default: m.UnitConversionsMatcher }))) as any;
+const Grade5UnitConversionsSorter = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/mertekegyseg-atvaltasok/UnitConversionsSorter").then(m => ({ default: m.UnitConversionsSorter }))) as any;
+const Grade5VariableQuantitiesTheory = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/aranyossagok-valtozo-mennyisegek/VariableQuantitiesTheory").then(m => ({ default: m.VariableQuantitiesTheory }))) as any;
+const Grade5VariableQuantitiesQuiz = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/aranyossagok-valtozo-mennyisegek/VariableQuantitiesQuiz").then(m => ({ default: m.VariableQuantitiesQuiz }))) as any;
+const Grade5VariableQuantitiesMatcher = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/aranyossagok-valtozo-mennyisegek/VariableQuantitiesMatcher").then(m => ({ default: m.VariableQuantitiesMatcher }))) as any;
+const Grade5VariableQuantitiesSorter = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/aranyossagok-valtozo-mennyisegek/VariableQuantitiesSorter").then(m => ({ default: m.VariableQuantitiesSorter }))) as any;
+const Grade5DirectProportionTheory = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/egyenes-aranyossag/DirectProportionTheory").then(m => ({ default: m.DirectProportionTheory }))) as any;
+const Grade5DirectProportionQuiz = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/egyenes-aranyossag/DirectProportionQuiz").then(m => ({ default: m.DirectProportionQuiz }))) as any;
+const Grade5DirectProportionMatcher = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/egyenes-aranyossag/DirectProportionMatcher").then(m => ({ default: m.DirectProportionMatcher }))) as any;
+const Grade5DirectProportionSorter = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/egyenes-aranyossag/DirectProportionSorter").then(m => ({ default: m.DirectProportionSorter }))) as any;
+const Grade5OpenSentencesTheory = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/nyitott-mondatok/OpenSentencesTheory").then(m => ({ default: m.OpenSentencesTheory }))) as any;
+const Grade5OpenSentencesQuiz = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/nyitott-mondatok/OpenSentencesQuiz").then(m => ({ default: m.OpenSentencesQuiz }))) as any;
+const Grade5OpenSentencesMatcher = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/nyitott-mondatok/OpenSentencesMatcher").then(m => ({ default: m.OpenSentencesMatcher }))) as any;
+const Grade5OpenSentencesSorter = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/nyitott-mondatok/OpenSentencesSorter").then(m => ({ default: m.OpenSentencesSorter }))) as any;
+const Grade5FindSolutionsTheory = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/keressuk-a-megoldasokat/FindSolutionsTheory").then(m => ({ default: m.FindSolutionsTheory }))) as any;
+const Grade5FindSolutionsQuiz = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/keressuk-a-megoldasokat/FindSolutionsQuiz").then(m => ({ default: m.FindSolutionsQuiz }))) as any;
+const Grade5FindSolutionsMatcher = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/keressuk-a-megoldasokat/FindSolutionsMatcher").then(m => ({ default: m.FindSolutionsMatcher }))) as any;
+const Grade5FindSolutionsSorter = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/keressuk-a-megoldasokat/FindSolutionsSorter").then(m => ({ default: m.FindSolutionsSorter }))) as any;
+const Grade5SimpleWordProblemsTheory = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/egyszeru-szoveges-feladatok/SimpleWordProblemsTheory").then(m => ({ default: m.SimpleWordProblemsTheory }))) as any;
+const Grade5SimpleWordProblemsQuiz = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/egyszeru-szoveges-feladatok/SimpleWordProblemsQuiz").then(m => ({ default: m.SimpleWordProblemsQuiz }))) as any;
+const Grade5SimpleWordProblemsMatcher = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/egyszeru-szoveges-feladatok/SimpleWordProblemsMatcher").then(m => ({ default: m.SimpleWordProblemsMatcher }))) as any;
+const Grade5SimpleWordProblemsSorter = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/egyszeru-szoveges-feladatok/SimpleWordProblemsSorter").then(m => ({ default: m.SimpleWordProblemsSorter }))) as any;
+const Grade5EverydayWordProblemsTheory = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/szoveges-feladatok-a-hetkoznapjainkban/EverydayWordProblemsTheory").then(m => ({ default: m.EverydayWordProblemsTheory }))) as any;
+const Grade5EverydayWordProblemsQuiz = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/szoveges-feladatok-a-hetkoznapjainkban/EverydayWordProblemsQuiz").then(m => ({ default: m.EverydayWordProblemsQuiz }))) as any;
+const Grade5EverydayWordProblemsMatcher = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/szoveges-feladatok-a-hetkoznapjainkban/EverydayWordProblemsMatcher").then(m => ({ default: m.EverydayWordProblemsMatcher }))) as any;
+const Grade5EverydayWordProblemsSorter = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/szoveges-feladatok-a-hetkoznapjainkban/EverydayWordProblemsSorter").then(m => ({ default: m.EverydayWordProblemsSorter }))) as any;
+const Grade5WordProblemsSummaryTheory = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/osszefoglalas/WordProblemsSummaryTheory").then(m => ({ default: m.WordProblemsSummaryTheory }))) as any;
+const Grade5WordProblemsSummaryQuiz = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/osszefoglalas/WordProblemsSummaryQuiz").then(m => ({ default: m.WordProblemsSummaryQuiz }))) as any;
+const Grade5WordProblemsSummaryMatcher = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/osszefoglalas/WordProblemsSummaryMatcher").then(m => ({ default: m.WordProblemsSummaryMatcher }))) as any;
+const Grade5WordProblemsSummarySorter = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/osszefoglalas/WordProblemsSummarySorter").then(m => ({ default: m.WordProblemsSummarySorter }))) as any;
 const RatioIntroTheory = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/az-arany-fogalma/RatioIntroTheory").then(m => ({ default: m.RatioIntroTheory }))) as any;
 const RatioIntroQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/az-arany-fogalma/RatioIntroQuiz").then(m => ({ default: m.RatioIntroQuiz }))) as any;
 const RatioIntroMatcher = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/az-arany-fogalma/RatioIntroMatcher").then(m => ({ default: m.RatioIntroMatcher }))) as any;
@@ -1143,6 +1187,17 @@ type ActivityType =
   | 'g5-loc-sequences-theory' | 'g5-loc-sequences-quiz' | 'g5-loc-sequences-matcher' | 'g5-loc-sequences-sorter'
   | 'g5-loc-famous-seq-theory' | 'g5-loc-famous-seq-quiz' | 'g5-loc-famous-seq-matcher' | 'g5-loc-famous-seq-sorter'
   | 'g5-loc-summary-theory' | 'g5-loc-summary-quiz' | 'g5-loc-summary-matcher' | 'g5-loc-summary-sorter'
+  | 'g5-mass-theory' | 'g5-mass-quiz' | 'g5-mass-matcher' | 'g5-mass-sorter'
+  | 'g5-cap-theory' | 'g5-cap-quiz' | 'g5-cap-matcher' | 'g5-cap-sorter'
+  | 'g5-time-theory' | 'g5-time-quiz' | 'g5-time-matcher' | 'g5-time-sorter'
+  | 'g5-conv-theory' | 'g5-conv-quiz' | 'g5-conv-matcher' | 'g5-conv-sorter'
+  | 'g5-var-theory' | 'g5-var-quiz' | 'g5-var-matcher' | 'g5-var-sorter'
+  | 'g5-direct-theory' | 'g5-direct-quiz' | 'g5-direct-matcher' | 'g5-direct-sorter'
+  | 'g5-open-theory' | 'g5-open-quiz' | 'g5-open-matcher' | 'g5-open-sorter'
+  | 'g5-sol-theory' | 'g5-sol-quiz' | 'g5-sol-matcher' | 'g5-sol-sorter'
+  | 'g5-simp-wp-theory' | 'g5-simp-wp-quiz' | 'g5-simp-wp-matcher' | 'g5-simp-wp-sorter'
+  | 'g5-daily-wp-theory' | 'g5-daily-wp-quiz' | 'g5-daily-wp-matcher' | 'g5-daily-wp-sorter'
+  | 'g5-summary-wp-theory' | 'g5-summary-wp-quiz' | 'g5-summary-wp-matcher' | 'g5-summary-wp-sorter'
   | 'g6-planar-shapes-theory' | 'g6-planar-shapes-quiz' | 'g6-planar-shapes-matcher' | 'g6-planar-shapes-sorter'
   | 'g6-congruence-theory' | 'g6-congruence-quiz' | 'g6-congruence-matcher' | 'g6-congruence-sorter'
   | 'g6-integers-operations-theory' | 'g6-integers-operations-quiz'
@@ -4099,6 +4154,325 @@ export default function MathPage() {
                   <Grade5LocationSummarySorter
                     onBack={handleBack}
                     onSwitchToTheory={() => setActivityType('g5-loc-summary-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-mass-theory' && (
+                  <Grade5MassMeasurementTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-mass-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-mass-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-mass-quiz' && (
+                  <Grade5MassMeasurementQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-mass-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-mass-matcher' && (
+                  <Grade5MassMeasurementMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-mass-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-mass-sorter' && (
+                  <Grade5MassMeasurementSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-mass-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-cap-theory' && (
+                  <Grade5CapacityMeasurementTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-cap-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-cap-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-cap-quiz' && (
+                  <Grade5CapacityMeasurementQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-cap-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-cap-matcher' && (
+                  <Grade5CapacityMeasurementMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-cap-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-cap-sorter' && (
+                  <Grade5CapacityMeasurementSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-cap-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-time-theory' && (
+                  <Grade5TimeMeasurementTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-time-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-time-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-time-quiz' && (
+                  <Grade5TimeMeasurementQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-time-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-time-matcher' && (
+                  <Grade5TimeMeasurementMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-time-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-time-sorter' && (
+                  <Grade5TimeMeasurementSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-time-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-conv-theory' && (
+                  <Grade5UnitConversionsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-conv-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-conv-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-conv-quiz' && (
+                  <Grade5UnitConversionsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-conv-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-conv-matcher' && (
+                  <Grade5UnitConversionsMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-conv-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-conv-sorter' && (
+                  <Grade5UnitConversionsSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-conv-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-var-theory' && (
+                  <Grade5VariableQuantitiesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-var-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-var-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-var-quiz' && (
+                  <Grade5VariableQuantitiesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-var-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-var-matcher' && (
+                  <Grade5VariableQuantitiesMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-var-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-var-sorter' && (
+                  <Grade5VariableQuantitiesSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-var-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-direct-theory' && (
+                  <Grade5DirectProportionTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-direct-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-direct-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-direct-quiz' && (
+                  <Grade5DirectProportionQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-direct-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-direct-matcher' && (
+                  <Grade5DirectProportionMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-direct-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-direct-sorter' && (
+                  <Grade5DirectProportionSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-direct-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-open-theory' && (
+                  <Grade5OpenSentencesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-open-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-open-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-open-quiz' && (
+                  <Grade5OpenSentencesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-open-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-open-matcher' && (
+                  <Grade5OpenSentencesMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-open-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-open-sorter' && (
+                  <Grade5OpenSentencesSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-open-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-sol-theory' && (
+                  <Grade5FindSolutionsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-sol-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-sol-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-sol-quiz' && (
+                  <Grade5FindSolutionsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-sol-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-sol-matcher' && (
+                  <Grade5FindSolutionsMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-sol-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-sol-sorter' && (
+                  <Grade5FindSolutionsSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-sol-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-simp-wp-theory' && (
+                  <Grade5SimpleWordProblemsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-simp-wp-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-simp-wp-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-simp-wp-quiz' && (
+                  <Grade5SimpleWordProblemsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-simp-wp-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-simp-wp-matcher' && (
+                  <Grade5SimpleWordProblemsMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-simp-wp-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-simp-wp-sorter' && (
+                  <Grade5SimpleWordProblemsSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-simp-wp-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-daily-wp-theory' && (
+                  <Grade5EverydayWordProblemsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-daily-wp-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-daily-wp-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-daily-wp-quiz' && (
+                  <Grade5EverydayWordProblemsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-daily-wp-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-daily-wp-matcher' && (
+                  <Grade5EverydayWordProblemsMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-daily-wp-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-daily-wp-sorter' && (
+                  <Grade5EverydayWordProblemsSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-daily-wp-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-summary-wp-theory' && (
+                  <Grade5WordProblemsSummaryTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-summary-wp-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-summary-wp-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-summary-wp-quiz' && (
+                  <Grade5WordProblemsSummaryQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-summary-wp-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-summary-wp-matcher' && (
+                  <Grade5WordProblemsSummaryMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-summary-wp-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-summary-wp-sorter' && (
+                  <Grade5WordProblemsSummarySorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-summary-wp-theory')}
                   />
                 )}
 
