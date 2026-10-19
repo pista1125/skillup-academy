@@ -337,6 +337,46 @@ const Grade5MeasurementSummaryTheory = lazy(() => import("@/components/math/grad
 const Grade5MeasurementSummaryQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/osszefoglalas/MeasurementSummaryQuiz").then(m => ({ default: m.MeasurementSummaryQuiz }))) as any;
 const Grade5MeasurementSummaryMatcher = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/osszefoglalas/MeasurementSummaryMatcher").then(m => ({ default: m.MeasurementSummaryMatcher }))) as any;
 const Grade5MeasurementSummarySorter = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/osszefoglalas/MeasurementSummarySorter").then(m => ({ default: m.MeasurementSummarySorter }))) as any;
+const Grade5LocationRoleTheory = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/a-helymeghatarozas-szerepe-kornyezetunkben/LocationRoleTheory").then(m => ({ default: m.LocationRoleTheory }))) as any;
+const Grade5LocationRoleQuiz = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/a-helymeghatarozas-szerepe-kornyezetunkben/LocationRoleQuiz").then(m => ({ default: m.LocationRoleQuiz }))) as any;
+const Grade5LocationRoleMatcher = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/a-helymeghatarozas-szerepe-kornyezetunkben/LocationRoleMatcher").then(m => ({ default: m.LocationRoleMatcher }))) as any;
+const Grade5LocationRoleSorter = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/a-helymeghatarozas-szerepe-kornyezetunkben/LocationRoleSorter").then(m => ({ default: m.LocationRoleSorter }))) as any;
+const Grade5GridLocationTheory = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/helymeghatarozas/GridLocationTheory").then(m => ({ default: m.GridLocationTheory }))) as any;
+const Grade5GridLocationQuiz = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/helymeghatarozas/GridLocationQuiz").then(m => ({ default: m.GridLocationQuiz }))) as any;
+const Grade5GridLocationMatcher = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/helymeghatarozas/GridLocationMatcher").then(m => ({ default: m.GridLocationMatcher }))) as any;
+const Grade5GridLocationSorter = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/helymeghatarozas/GridLocationSorter").then(m => ({ default: m.GridLocationSorter }))) as any;
+const Grade5CoordinateSystemTheory = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/a-derekszogu-koordinata-rendszer/CoordinateSystemTheory").then(m => ({ default: m.CoordinateSystemTheory }))) as any;
+const Grade5CoordinateSystemQuiz = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/a-derekszogu-koordinata-rendszer/CoordinateSystemQuiz").then(m => ({ default: m.CoordinateSystemQuiz }))) as any;
+const Grade5CoordinateSystemMatcher = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/a-derekszogu-koordinata-rendszer/CoordinateSystemMatcher").then(m => ({ default: m.CoordinateSystemMatcher }))) as any;
+const Grade5CoordinateSystemSorter = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/a-derekszogu-koordinata-rendszer/CoordinateSystemSorter").then(m => ({ default: m.CoordinateSystemSorter }))) as any;
+const Grade5PointPlottingTheory = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/pontok-abrazolasa/PointPlottingTheory").then(m => ({ default: m.PointPlottingTheory }))) as any;
+const Grade5PointPlottingQuiz = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/pontok-abrazolasa/PointPlottingQuiz").then(m => ({ default: m.PointPlottingQuiz }))) as any;
+const Grade5PointPlottingMatcher = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/pontok-abrazolasa/PointPlottingMatcher").then(m => ({ default: m.PointPlottingMatcher }))) as any;
+const Grade5PointPlottingSorter = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/pontok-abrazolasa/PointPlottingSorter").then(m => ({ default: m.PointPlottingSorter }))) as any;
+const Grade5SpatialOrientationTheory = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/tajekozodas-sikban-terben/SpatialOrientationTheory").then(m => ({ default: m.SpatialOrientationTheory }))) as any;
+const Grade5SpatialOrientationQuiz = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/tajekozodas-sikban-terben/SpatialOrientationQuiz").then(m => ({ default: m.SpatialOrientationQuiz }))) as any;
+const Grade5SpatialOrientationMatcher = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/tajekozodas-sikban-terben/SpatialOrientationMatcher").then(m => ({ default: m.SpatialOrientationMatcher }))) as any;
+const Grade5SpatialOrientationSorter = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/tajekozodas-sikban-terben/SpatialOrientationSorter").then(m => ({ default: m.SpatialOrientationSorter }))) as any;
+const Grade5RhythmPatternsTheory = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/ritmusok-diszitesek/RhythmPatternsTheory").then(m => ({ default: m.RhythmPatternsTheory }))) as any;
+const Grade5RhythmPatternsQuiz = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/ritmusok-diszitesek/RhythmPatternsQuiz").then(m => ({ default: m.RhythmPatternsQuiz }))) as any;
+const Grade5RhythmPatternsMatcher = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/ritmusok-diszitesek/RhythmPatternsMatcher").then(m => ({ default: m.RhythmPatternsMatcher }))) as any;
+const Grade5RhythmPatternsSorter = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/ritmusok-diszitesek/RhythmPatternsSorter").then(m => ({ default: m.RhythmPatternsSorter }))) as any;
+const Grade5RelationsTheory = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/keressunk-osszefuggeseket/RelationsTheory").then(m => ({ default: m.RelationsTheory }))) as any;
+const Grade5RelationsQuiz = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/keressunk-osszefuggeseket/RelationsQuiz").then(m => ({ default: m.RelationsQuiz }))) as any;
+const Grade5RelationsMatcher = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/keressunk-osszefuggeseket/RelationsMatcher").then(m => ({ default: m.RelationsMatcher }))) as any;
+const Grade5RelationsSorter = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/keressunk-osszefuggeseket/RelationsSorter").then(m => ({ default: m.RelationsSorter }))) as any;
+const Grade5SequencesTheory = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/sorozatok/SequencesTheory").then(m => ({ default: m.SequencesTheory }))) as any;
+const Grade5SequencesQuiz = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/sorozatok/SequencesQuiz").then(m => ({ default: m.SequencesQuiz }))) as any;
+const Grade5SequencesMatcher = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/sorozatok/SequencesMatcher").then(m => ({ default: m.SequencesMatcher }))) as any;
+const Grade5SequencesSorter = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/sorozatok/SequencesSorter").then(m => ({ default: m.SequencesSorter }))) as any;
+const Grade5FamousSequencesTheory = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/nevezetes-erdekes-sorozatok/FamousSequencesTheory").then(m => ({ default: m.FamousSequencesTheory }))) as any;
+const Grade5FamousSequencesQuiz = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/nevezetes-erdekes-sorozatok/FamousSequencesQuiz").then(m => ({ default: m.FamousSequencesQuiz }))) as any;
+const Grade5FamousSequencesMatcher = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/nevezetes-erdekes-sorozatok/FamousSequencesMatcher").then(m => ({ default: m.FamousSequencesMatcher }))) as any;
+const Grade5FamousSequencesSorter = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/nevezetes-erdekes-sorozatok/FamousSequencesSorter").then(m => ({ default: m.FamousSequencesSorter }))) as any;
+const Grade5LocationSummaryTheory = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/osszefoglalas/LocationSummaryTheory").then(m => ({ default: m.LocationSummaryTheory }))) as any;
+const Grade5LocationSummaryQuiz = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/osszefoglalas/LocationSummaryQuiz").then(m => ({ default: m.LocationSummaryQuiz }))) as any;
+const Grade5LocationSummaryMatcher = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/osszefoglalas/LocationSummaryMatcher").then(m => ({ default: m.LocationSummaryMatcher }))) as any;
+const Grade5LocationSummarySorter = lazy(() => import("@/components/math/grade-5/helymeghatarozas-sorozatok/osszefoglalas/LocationSummarySorter").then(m => ({ default: m.LocationSummarySorter }))) as any;
 const RatioIntroTheory = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/az-arany-fogalma/RatioIntroTheory").then(m => ({ default: m.RatioIntroTheory }))) as any;
 const RatioIntroQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/az-arany-fogalma/RatioIntroQuiz").then(m => ({ default: m.RatioIntroQuiz }))) as any;
 const RatioIntroMatcher = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/az-arany-fogalma/RatioIntroMatcher").then(m => ({ default: m.RatioIntroMatcher }))) as any;
@@ -1092,6 +1132,16 @@ type ActivityType =
   | 'g5-meas-cuboid-cube-volume-theory' | 'g5-meas-cuboid-cube-volume-quiz' | 'g5-meas-cuboid-cube-volume-matcher' | 'g5-meas-cuboid-cube-volume-sorter'
   | 'g5-meas-practical-theory' | 'g5-meas-practical-quiz' | 'g5-meas-practical-matcher' | 'g5-meas-practical-sorter'
   | 'g5-meas-summary-theory' | 'g5-meas-summary-quiz' | 'g5-meas-summary-matcher' | 'g5-meas-summary-sorter'
+  | 'g5-loc-role-theory' | 'g5-loc-role-quiz' | 'g5-loc-role-matcher' | 'g5-loc-role-sorter'
+  | 'g5-loc-grid-theory' | 'g5-loc-grid-quiz' | 'g5-loc-grid-matcher' | 'g5-loc-grid-sorter'
+  | 'g5-loc-coord-sys-theory' | 'g5-loc-coord-sys-quiz' | 'g5-loc-coord-sys-matcher' | 'g5-loc-coord-sys-sorter'
+  | 'g5-loc-points-theory' | 'g5-loc-points-quiz' | 'g5-loc-points-matcher' | 'g5-loc-points-sorter'
+  | 'g5-loc-spatial-theory' | 'g5-loc-spatial-quiz' | 'g5-loc-spatial-matcher' | 'g5-loc-spatial-sorter'
+  | 'g5-loc-patterns-theory' | 'g5-loc-patterns-quiz' | 'g5-loc-patterns-matcher' | 'g5-loc-patterns-sorter'
+  | 'g5-loc-relations-theory' | 'g5-loc-relations-quiz' | 'g5-loc-relations-matcher' | 'g5-loc-relations-sorter'
+  | 'g5-loc-sequences-theory' | 'g5-loc-sequences-quiz' | 'g5-loc-sequences-matcher' | 'g5-loc-sequences-sorter'
+  | 'g5-loc-famous-seq-theory' | 'g5-loc-famous-seq-quiz' | 'g5-loc-famous-seq-matcher' | 'g5-loc-famous-seq-sorter'
+  | 'g5-loc-summary-theory' | 'g5-loc-summary-quiz' | 'g5-loc-summary-matcher' | 'g5-loc-summary-sorter'
   | 'g6-planar-shapes-theory' | 'g6-planar-shapes-quiz' | 'g6-planar-shapes-matcher' | 'g6-planar-shapes-sorter'
   | 'g6-congruence-theory' | 'g6-congruence-quiz' | 'g6-congruence-matcher' | 'g6-congruence-sorter'
   | 'g6-integers-operations-theory' | 'g6-integers-operations-quiz'
@@ -3755,6 +3805,296 @@ export default function MathPage() {
                   <Grade5MeasurementSummarySorter
                     onBack={handleBack}
                     onSwitchToTheory={() => setActivityType('g5-meas-summary-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-role-theory' && (
+                  <Grade5LocationRoleTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-loc-role-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-loc-role-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-role-quiz' && (
+                  <Grade5LocationRoleQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-role-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-role-matcher' && (
+                  <Grade5LocationRoleMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-role-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-role-sorter' && (
+                  <Grade5LocationRoleSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-role-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-grid-theory' && (
+                  <Grade5GridLocationTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-loc-grid-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-loc-grid-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-grid-quiz' && (
+                  <Grade5GridLocationQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-grid-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-grid-matcher' && (
+                  <Grade5GridLocationMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-grid-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-grid-sorter' && (
+                  <Grade5GridLocationSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-grid-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-coord-sys-theory' && (
+                  <Grade5CoordinateSystemTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-loc-coord-sys-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-loc-coord-sys-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-coord-sys-quiz' && (
+                  <Grade5CoordinateSystemQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-coord-sys-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-coord-sys-matcher' && (
+                  <Grade5CoordinateSystemMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-coord-sys-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-coord-sys-sorter' && (
+                  <Grade5CoordinateSystemSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-coord-sys-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-points-theory' && (
+                  <Grade5PointPlottingTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-loc-points-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-loc-points-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-points-quiz' && (
+                  <Grade5PointPlottingQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-points-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-points-matcher' && (
+                  <Grade5PointPlottingMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-points-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-points-sorter' && (
+                  <Grade5PointPlottingSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-points-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-spatial-theory' && (
+                  <Grade5SpatialOrientationTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-loc-spatial-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-loc-spatial-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-spatial-quiz' && (
+                  <Grade5SpatialOrientationQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-spatial-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-spatial-matcher' && (
+                  <Grade5SpatialOrientationMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-spatial-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-spatial-sorter' && (
+                  <Grade5SpatialOrientationSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-spatial-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-patterns-theory' && (
+                  <Grade5RhythmPatternsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-loc-patterns-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-loc-patterns-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-patterns-quiz' && (
+                  <Grade5RhythmPatternsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-patterns-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-patterns-matcher' && (
+                  <Grade5RhythmPatternsMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-patterns-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-patterns-sorter' && (
+                  <Grade5RhythmPatternsSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-patterns-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-relations-theory' && (
+                  <Grade5RelationsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-loc-relations-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-loc-relations-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-relations-quiz' && (
+                  <Grade5RelationsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-relations-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-relations-matcher' && (
+                  <Grade5RelationsMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-relations-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-relations-sorter' && (
+                  <Grade5RelationsSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-relations-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-sequences-theory' && (
+                  <Grade5SequencesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-loc-sequences-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-loc-sequences-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-sequences-quiz' && (
+                  <Grade5SequencesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-sequences-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-sequences-matcher' && (
+                  <Grade5SequencesMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-sequences-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-sequences-sorter' && (
+                  <Grade5SequencesSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-sequences-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-famous-seq-theory' && (
+                  <Grade5FamousSequencesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-loc-famous-seq-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-loc-famous-seq-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-famous-seq-quiz' && (
+                  <Grade5FamousSequencesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-famous-seq-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-famous-seq-matcher' && (
+                  <Grade5FamousSequencesMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-famous-seq-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-famous-seq-sorter' && (
+                  <Grade5FamousSequencesSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-famous-seq-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-summary-theory' && (
+                  <Grade5LocationSummaryTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-loc-summary-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-loc-summary-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-summary-quiz' && (
+                  <Grade5LocationSummaryQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-summary-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-summary-matcher' && (
+                  <Grade5LocationSummaryMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-summary-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-loc-summary-sorter' && (
+                  <Grade5LocationSummarySorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-loc-summary-theory')}
                   />
                 )}
 

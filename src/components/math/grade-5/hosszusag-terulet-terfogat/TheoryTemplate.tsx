@@ -251,8 +251,10 @@ const colorStyles: Record<
 
 // --- TheorySection Component ---
 export interface TheorySectionProps {
-  number: number | string;
+  number?: number | string;
   title: string;
+  subtitle?: string;
+  id?: string;
   icon?: React.ReactNode;
   badge?: string;
   badgeColor?: ThemeColor;
@@ -263,6 +265,8 @@ export interface TheorySectionProps {
 export const TheorySection: React.FC<TheorySectionProps> = ({
   number,
   title,
+  subtitle,
+  id,
   icon,
   badge,
   badgeColor = 'teal',
@@ -271,24 +275,33 @@ export const TheorySection: React.FC<TheorySectionProps> = ({
 }) => {
   const styles = colorStyles[badgeColor] || colorStyles.teal;
   return (
-    <section className={cn('space-y-4', className)}>
+    <section id={id} className={cn('space-y-4', className)}>
       <div className="flex items-center gap-2.5">
-        <span
-          className={cn(
-            'flex items-center justify-center w-7 h-7 rounded-lg font-bold text-sm shrink-0 shadow-2xs',
-            styles.sectionBadge
+        {number !== undefined && (
+          <span
+            className={cn(
+              'flex items-center justify-center w-7 h-7 rounded-lg font-bold text-sm shrink-0 shadow-2xs',
+              styles.sectionBadge
+            )}
+          >
+            {number}.
+          </span>
+        )}
+        <div className="flex-1">
+          <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            {icon}
+            <span>{typeof title === 'string' ? <MathText>{title}</MathText> : title}</span>
+          </h2>
+          {subtitle && (
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
+              {typeof subtitle === 'string' ? <MathText>{subtitle}</MathText> : subtitle}
+            </p>
           )}
-        >
-          {number}.
-        </span>
-        <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2 flex-1">
-          {icon}
-          <span>{typeof title === 'string' ? <MathText>{title}</MathText> : title}</span>
-        </h2>
+        </div>
         {badge && (
           <span
             className={cn(
-              'px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wide uppercase',
+              'px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wide uppercase shrink-0',
               styles.sectionBadge
             )}
           >
@@ -321,6 +334,7 @@ export interface TheoryCardProps {
     | 'teal'
     | 'rose'
     | 'amber';
+  color?: string;
   children?: React.ReactNode;
   className?: string;
 }
@@ -333,6 +347,7 @@ export const TheoryCard: React.FC<TheoryCardProps> = ({
   figure,
   properties,
   variant = 'default',
+  color,
   children,
   className
 }) => {
@@ -350,11 +365,13 @@ export const TheoryCard: React.FC<TheoryCardProps> = ({
     amber: 'border-amber-200 dark:border-amber-900/60 bg-amber-50/40 dark:bg-amber-950/20'
   };
 
+  const actualVariant = (color || variant || 'default') as string;
+
   return (
     <Card
       className={cn(
         'rounded-2xl shadow-none',
-        variantStyles[variant] || variantStyles.default,
+        variantStyles[actualVariant] || variantStyles.default,
         className
       )}
     >
@@ -405,6 +422,124 @@ export const TheoryCard: React.FC<TheoryCardProps> = ({
         {children}
       </CardContent>
     </Card>
+  );
+};
+
+// --- FormulaBox Component ---
+export interface FormulaBoxProps {
+  title?: string;
+  formula?: string;
+  explanation?: string | React.ReactNode;
+  description?: string | React.ReactNode;
+  children?: React.ReactNode;
+  className?: string;
+  color?: ThemeColor;
+}
+
+export const FormulaBox: React.FC<FormulaBoxProps> = ({
+  title,
+  formula,
+  explanation,
+  description,
+  children,
+  className,
+  color = 'indigo'
+}) => {
+  const styles = colorStyles[color] || colorStyles.indigo || colorStyles.teal;
+  const displayExplanation = explanation || description;
+
+  return (
+    <div
+      className={cn(
+        'rounded-2xl border-2 p-4 sm:p-5 shadow-xs bg-white dark:bg-slate-900 space-y-3',
+        styles.ruleBorder,
+        className
+      )}
+    >
+      {title && (
+        <div className="flex items-center gap-2 font-bold text-sm sm:text-base text-slate-800 dark:text-slate-100">
+          <Sparkles className="w-4 h-4 text-amber-500 shrink-0" />
+          <span>{typeof title === 'string' ? <MathText>{title}</MathText> : title}</span>
+        </div>
+      )}
+
+      {formula && (
+        <div
+          className={cn(
+            'p-3 rounded-xl border text-center font-mono font-black text-sm sm:text-base shadow-2xs',
+            styles.ruleBg,
+            styles.ruleBorder,
+            styles.ruleText
+          )}
+        >
+          <MathText>{formula}</MathText>
+        </div>
+      )}
+
+      {displayExplanation && (
+        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+          {typeof displayExplanation === 'string' ? <MathText>{displayExplanation}</MathText> : displayExplanation}
+        </p>
+      )}
+
+      {children}
+    </div>
+  );
+};
+
+// --- ExampleBox Component ---
+export interface ExampleBoxProps {
+  title?: string;
+  problem?: string | React.ReactNode;
+  solution?: string | React.ReactNode;
+  children?: React.ReactNode;
+  className?: string;
+  color?: ThemeColor;
+}
+
+export const ExampleBox: React.FC<ExampleBoxProps> = ({
+  title = 'Mintapélda és Megoldás',
+  problem,
+  solution,
+  children,
+  className,
+  color = 'emerald'
+}) => {
+  const styles = colorStyles[color] || colorStyles.emerald || colorStyles.teal;
+
+  return (
+    <div
+      className={cn(
+        'rounded-2xl border-2 p-4 sm:p-5 shadow-xs bg-emerald-50/20 dark:bg-emerald-950/10 space-y-3',
+        styles.badgeBorder,
+        className
+      )}
+    >
+      <div className="flex items-center gap-2 font-bold text-sm sm:text-base text-emerald-800 dark:text-emerald-300">
+        <Lightbulb className="w-4 h-4 text-emerald-600 shrink-0" />
+        <span>{typeof title === 'string' ? <MathText>{title}</MathText> : title}</span>
+      </div>
+
+      {problem && (
+        <div className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-emerald-200/80 dark:border-emerald-900/60 text-xs sm:text-sm space-y-1">
+          <div className="font-bold text-slate-700 dark:text-slate-200">Feladat:</div>
+          <div className="text-slate-600 dark:text-slate-300">
+            {typeof problem === 'string' ? <MathText>{problem}</MathText> : problem}
+          </div>
+        </div>
+      )}
+
+      {solution && (
+        <div className="p-3 rounded-xl bg-emerald-100/40 dark:bg-emerald-950/40 border border-emerald-300/80 dark:border-emerald-800/80 text-xs sm:text-sm space-y-1">
+          <div className="font-bold text-emerald-900 dark:text-emerald-200">Megoldás lépésről lépésre:</div>
+          <div className="text-emerald-800 dark:text-emerald-300">
+            {typeof solution === 'string' ? <MathText>{solution}</MathText> : solution}
+          </div>
+        </div>
+      )}
+
+      {children}
+    </div>
   );
 };
 

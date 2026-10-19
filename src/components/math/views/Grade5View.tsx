@@ -1798,13 +1798,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-loc-sec-1" number={1} title="A helymeghatározás szerepe környezetünkben" color="blue" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Környezeti tájékozódás"
-                  subtitle="Címek, házszámok és térképi tájékozódás"
-                  type="Hamarosan"
-                  emoji="🗺️"
-                  disabled={true}
+                  title="A helymeghatározás szerepe elmélet"
+                  subtitle="Tájékozódás a mindennapokban, címek, mozijegyek, égtájak és GPS PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-loc-role-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="blue"
+                />
+                <ActivityPlaceholder
+                  title="A helymeghatározás szerepe kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="📍"
+                  onClick={() => onActivitySelect('g5-loc-role-quiz', topicId)}
                   icon={<Compass className="w-6 h-6" />}
                   color="blue"
+                  {...getTopicProgress('g5-loc-role-quiz')}
                 />
               </div>
             </section>
@@ -1816,22 +1826,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-loc-sec-2" number={2} title="Helymeghatározás" color="indigo" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Torpedó Játék"
-                  subtitle="Tájékozódás a rácshálón és mezők azonosítása"
-                  type="Játék"
-                  emoji="⚓"
-                  onClick={() => onActivitySelect('torpedo-game', topicId)}
-                  icon={<Gamepad2 className="w-6 h-6" />}
+                  title="Helymeghatározás négyzethálón elmélet"
+                  subtitle="Oszlopok és sorok, sakktábla, Excel cellák, torpedó és Manhattan-távolság"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-loc-grid-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="indigo"
                 />
                 <ActivityPlaceholder
-                  title="Helymeghatározás Kvíz"
-                  subtitle="Rácsháló, oszlopok és sorok azonosítása"
-                  type="Hamarosan"
-                  emoji="🎯"
-                  disabled={true}
+                  title="Helymeghatározás kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🗺️"
+                  onClick={() => onActivitySelect('g5-loc-grid-quiz', topicId)}
                   icon={<Grid3X3 className="w-6 h-6" />}
                   color="indigo"
+                  {...getTopicProgress('g5-loc-grid-quiz')}
                 />
               </div>
             </section>
@@ -1843,13 +1854,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-loc-sec-3" number={3} title="A derékszögű koordináta-rendszer" color="purple" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Koordináta-rendszer"
-                  subtitle="Tengelyek, origó és síknegyedek alapjai"
-                  type="Hamarosan"
+                  title="A derékszögű koordináta-rendszer elmélet"
+                  subtitle="Tengelyek (abszcissza, ordináta), origó, síknegyedek és pontok tükrözése"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-loc-coord-sys-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="purple"
+                />
+                <ActivityPlaceholder
+                  title="A derékszögű koordináta-rendszer kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
                   emoji="📈"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g5-loc-coord-sys-quiz', topicId)}
                   icon={<LayoutGrid className="w-6 h-6" />}
                   color="purple"
+                  {...getTopicProgress('g5-loc-coord-sys-quiz')}
                 />
               </div>
             </section>
@@ -1861,13 +1882,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-loc-sec-4" number={4} title="Pontok ábrázolása" color="violet" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Pontábrázolás Kvíz"
-                  subtitle="Rendezett számpárok leolvasása és megadása"
-                  type="Hamarosan"
+                  title="Pontok ábrázolása elmélet"
+                  subtitle="Pontok felvétele és leolvasása lépésről lépésre, alakzatok és egyenesek"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-loc-points-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="violet"
+                />
+                <ActivityPlaceholder
+                  title="Pontok ábrázolása kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
                   emoji="📍"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g5-loc-points-quiz', topicId)}
                   icon={<Target className="w-6 h-6" />}
                   color="violet"
+                  {...getTopicProgress('g5-loc-points-quiz')}
                 />
               </div>
             </section>
@@ -1879,13 +1910,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-loc-sec-5" number={5} title="Tájékozódás síkban, térben (kiegészítő tananyag)" color="teal" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Térbeli tájékozódás"
-                  subtitle="3D pozíciók és földrajzi fokhálózat"
-                  type="Hamarosan"
+                  title="Tájékozódás síkban és térben elmélet"
+                  subtitle="Dimenziók (1D, 2D, 3D), földgömb fokhálózata, magasságok és kockamodellek"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-loc-spatial-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="teal"
+                />
+                <ActivityPlaceholder
+                  title="Tájékozódás síkban és térben kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
                   emoji="🌐"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g5-loc-spatial-quiz', topicId)}
                   icon={<Globe className="w-6 h-6" />}
                   color="teal"
+                  {...getTopicProgress('g5-loc-spatial-quiz')}
                 />
               </div>
             </section>
@@ -1897,13 +1938,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-loc-sec-6" number={6} title="Ritmusok, díszítések" color="emerald" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Sorminták és Ritmusok"
-                  subtitle="Ismétlődő motívumok és geometriai minták"
-                  type="Hamarosan"
+                  title="Ritmusok, díszítések elmélet"
+                  subtitle="Alapszakasz, geometriai transzformációk, N-edik elem és díszítősorok"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-loc-patterns-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="emerald"
+                />
+                <ActivityPlaceholder
+                  title="Ritmusok, díszítések kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
                   emoji="🎨"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g5-loc-patterns-quiz', topicId)}
                   icon={<Sparkles className="w-6 h-6" />}
                   color="emerald"
+                  {...getTopicProgress('g5-loc-patterns-quiz')}
                 />
               </div>
             </section>
@@ -1915,13 +1966,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-loc-sec-7" number={7} title="Keressünk összefüggéseket!" color="amber" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Szabálykereső"
-                  subtitle="Bemenet-kimenet táblázatok és számgépek"
-                  type="Hamarosan"
+                  title="Keressünk összefüggéseket! elmélet"
+                  subtitle="Számgépek, bemenet-kimenet táblázatok, inverz műveletek és gyufaszálak"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-loc-relations-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="amber"
+                />
+                <ActivityPlaceholder
+                  title="Keressünk összefüggéseket! kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
                   emoji="🔍"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g5-loc-relations-quiz', topicId)}
                   icon={<Lightbulb className="w-6 h-6" />}
                   color="amber"
+                  {...getTopicProgress('g5-loc-relations-quiz')}
                 />
               </div>
             </section>
@@ -1933,13 +1994,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-loc-sec-8" number={8} title="Sorozatok" color="orange" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Számsorozatok Kvíz"
-                  subtitle="Képzési szabályok, folytatás és hiányzó tagok"
-                  type="Hamarosan"
+                  title="Sorozatok elmélet"
+                  subtitle="Tagok, kezdőérték, lépésközök, számtani és mértani sorozatok, hiányzó tagok"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-loc-sequences-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="orange"
+                />
+                <ActivityPlaceholder
+                  title="Sorozatok kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
                   emoji="🔢"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g5-loc-sequences-quiz', topicId)}
                   icon={<TrendingUp className="w-6 h-6" />}
                   color="orange"
+                  {...getTopicProgress('g5-loc-sequences-quiz')}
                 />
               </div>
             </section>
@@ -1951,13 +2022,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-loc-sec-9" number={9} title="Nevezetes, érdekes sorozatok" color="rose" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Híres sorozatok"
-                  subtitle="Négyzetszámok, háromszögszámok és Fibonacci"
-                  type="Hamarosan"
+                  title="Nevezetes sorozatok elmélet"
+                  subtitle="Páros-páratlan titkok, négyzetszámok, háromszögszámok és Fibonacci a természetben"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-loc-famous-seq-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="rose"
+                />
+                <ActivityPlaceholder
+                  title="Nevezetes sorozatok kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
                   emoji="🌀"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g5-loc-famous-seq-quiz', topicId)}
                   icon={<Brain className="w-6 h-6" />}
                   color="rose"
+                  {...getTopicProgress('g5-loc-famous-seq-quiz')}
                 />
               </div>
             </section>
@@ -1969,13 +2050,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-loc-sec-10" number={10} title="Összefoglalás" color="slate" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Összefoglaló felkészítő"
-                  subtitle="V. Helymeghatározás, sorozatok összefoglalás"
-                  type="Hamarosan"
+                  title="Összefoglaló elmélet"
+                  subtitle="A 4 alappillér: koordináták, díszítősorok, számgépek és számsorozatok"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-loc-summary-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="slate"
+                />
+                <ActivityPlaceholder
+                  title="Összefoglaló nagyteszt"
+                  subtitle="90 feladat 3 szinten (szintenként 30), fejezeti párosító és csoportosító nagyteszt"
+                  type="Kvíz"
                   emoji="🏆"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g5-loc-summary-quiz', topicId)}
                   icon={<Trophy className="w-6 h-6" />}
                   color="slate"
+                  {...getTopicProgress('g5-loc-summary-quiz')}
                 />
               </div>
             </section>

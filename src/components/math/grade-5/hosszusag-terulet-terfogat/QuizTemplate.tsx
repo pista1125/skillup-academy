@@ -155,8 +155,8 @@ export interface QuizTemplateProps {
   description?: string;
   cheatSheetTitle?: string;
   cheatSheet?: CheatSheetItem[];
-  cheatSheetCards?: CheatSheetCard[];
-  cheatSheets?: { title: string; items: string[] }[];
+  cheatSheetCards?: CheatSheetCard[] | Record<string | number, any>;
+  cheatSheets?: { title: string; items: string[] }[] | Record<string | number, any>;
   cheatSheetContent?: React.ReactNode;
   levelHubProps?: LevelHubProps;
   questions?: QuizQuestion[] | Record<DifficultyLevel, Question[]>;
@@ -452,8 +452,32 @@ export function QuizTemplate({
 
   // Normalize Cheat Sheet Cards
   const normalizedCheatCards: CheatSheetCard[] = useMemo(() => {
-    const cards = [...(cheatSheetCards || [])];
-    if (cheatSheets && cheatSheets.length > 0) {
+    const cards: CheatSheetCard[] = [];
+    if (Array.isArray(cheatSheetCards)) {
+      cards.push(...cheatSheetCards);
+    } else if (cheatSheetCards && typeof cheatSheetCards === 'object') {
+      Object.entries(cheatSheetCards).forEach(([key, val]: [string, any]) => {
+        if (React.isValidElement(val)) {
+          cards.push({
+            id: `cs-${key}`,
+            title: `${key}. Szint Puskája`,
+            content: val
+          });
+        } else if (val) {
+          cards.push({
+            id: val.id || `cs-${key}`,
+            title: val.title || `${key}. Szint Puskája`,
+            description: val.description,
+            formula: val.formula,
+            color: val.color,
+            badge: val.badge,
+            content: val.content || val
+          });
+        }
+      });
+    }
+
+    if (Array.isArray(cheatSheets) && cheatSheets.length > 0) {
       cheatSheets.forEach((cs: any, idx) => {
         if (cs.content) {
           cards.push({
@@ -495,6 +519,14 @@ export function QuizTemplate({
             content: cs.content || null
           });
         }
+      });
+    } else if (cheatSheets && typeof cheatSheets === 'object') {
+      Object.entries(cheatSheets).forEach(([key, val]: [string, any]) => {
+        cards.push({
+          id: `cs-obj-${key}`,
+          title: val?.title || `${key}. Szint Puskája`,
+          content: React.isValidElement(val) ? val : (val?.content || null)
+        });
       });
     }
     return cards;
