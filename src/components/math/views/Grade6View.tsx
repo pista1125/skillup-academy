@@ -95,6 +95,15 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   color="blue"
                   {...getTopicProgress('g6-integers-operations')}
                 />
+                <ActivityPlaceholder
+                  title="Adósság-vagyon modell"
+                  subtitle="Egész számok összeadása és kivonása (Piros: vagyon, Kék: adósság)"
+                  type="Eszköz"
+                  emoji="🔴🔵"
+                  onClick={() => onActivitySelect('debt-asset-model', topicId)}
+                  icon={<Coins className="w-6 h-6" />}
+                  color="rose"
+                />
               </div>
             </section>
           )}

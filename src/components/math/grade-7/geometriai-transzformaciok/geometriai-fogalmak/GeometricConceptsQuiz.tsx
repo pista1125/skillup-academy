@@ -13,7 +13,8 @@ import {
   Layers,
   ArrowRightLeft,
   LayoutGrid,
-  Ruler
+  Ruler,
+  Clock
 } from 'lucide-react';
 
 interface GeometricConceptsQuizProps {
@@ -107,6 +108,21 @@ const cheatSheetCards: CheatSheetCard[] = [
         <rect x="50" y="10" width="30" height="30" className="fill-none stroke-slate-400 stroke-[1]" />
         <line x1="50" y1="5" x2="50" y2="45" className="stroke-rose-600 stroke-[2.5]" />
         <line x1="60" y1="10" x2="110" y2="10" className="stroke-teal-600 stroke-[2.5]" />
+      </svg>
+    )
+  },
+  {
+    id: 'c7',
+    title: 'Szögperc és Szögmásodperc',
+    icon: <Clock className="w-4 h-4 text-cyan-600" />,
+    formula: "1° = 60' = 3600'',  1' = 60'',  90° = 89° 60'",
+    note: "1 fok 60 szögperc, 1 szögperc 60 szögmásodperc. Fél fok = 30', negyed fok = 15'. Kivonáskor: 90° - 32° 20' = 89° 60' - 32° 20' = 57° 40'.",
+    figure: (
+      <svg viewBox="0 0 160 50" className="w-36 h-10">
+        <circle cx="28" cy="25" r="18" fill="none" className="stroke-amber-500 stroke-[1.5]" />
+        <path d="M 28 25 L 46 25 A 18 18 0 0 0 45 16 Z" className="fill-amber-500/30 stroke-amber-600" />
+        <text x="56" y="22" className="text-[10px] font-bold font-mono fill-slate-800 dark:fill-slate-100">1° = 60'</text>
+        <text x="56" y="38" className="text-[9px] font-mono fill-teal-600 dark:fill-teal-400">1' = 60''</text>
       </svg>
     )
   }

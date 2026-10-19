@@ -502,6 +502,15 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   icon={<MoveHorizontal className="w-6 h-6" />}
                   color="blue"
                 />
+                <ActivityPlaceholder
+                  title="Adósság-vagyon modell"
+                  subtitle="Egész számok összeadása és kivonása (Piros: vagyon, Kék: adósság)"
+                  type="Eszköz"
+                  emoji="🔴🔵"
+                  onClick={() => onActivitySelect('debt-asset-model', topicId)}
+                  icon={<Coins className="w-6 h-6" />}
+                  color="rose"
+                />
               </div>
             </section>
           )}

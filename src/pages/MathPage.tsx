@@ -209,6 +209,7 @@ const CapacityConverterTool = lazy(() => import("@/components/math/tools/Capacit
 const AnalogClockTool = lazy(() => import("@/components/math/tools/AnalogClockTool").then(m => ({ default: m.AnalogClockTool }))) as any;
 const ScientificCalculator = lazy(() => import("@/components/math/tools/ScientificCalculator").then(m => ({ default: m.ScientificCalculator }))) as any;
 const AlgebraCloudTool = lazy(() => import("@/components/math/tools/AlgebraCloudTool").then(m => ({ default: m.AlgebraCloudTool }))) as any;
+const DebtAssetModelTool = lazy(() => import("@/components/math/tools/DebtAssetModelTool").then(m => ({ default: m.DebtAssetModelTool }))) as any;
 const PerimeterQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat").then(m => ({ default: m.PerimeterQuiz }))) as any;
 const VolumeQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat").then(m => ({ default: m.VolumeQuiz }))) as any;
 const SurfaceAreaQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat").then(m => ({ default: m.SurfaceAreaQuiz }))) as any;
@@ -1080,7 +1081,7 @@ type ActivityType =
   | 'grade3-addition-quiz' | 'grade3-subtraction-quiz' | 'grade3-multiplication-quiz' | 'grade3-division-quiz'
   | 'grade3-fractions-quiz' | 'grade3-geometry-quiz' | 'grade3-measurement-quiz' | 'grade3-word-problems-quiz'
   | 'grade3-blocks' | 'grade3-snake' | 'grade3-alapmuveletek' | 'grade3-tower-builder'
-  | 'grade3-money-quiz' | 'triangle-angles-quiz' | 'decimal-fractions-tool' | 'number-line-tool'
+  | 'grade3-money-quiz' | 'triangle-angles-quiz' | 'decimal-fractions-tool' | 'number-line-tool' | 'debt-asset-model' | 'adossag-vagyon'
   | 'manipulative-division' | 'manipulative-addition' | 'construction-tool' | 'money-calculation'
   | 'decimal-shifter-tool' | 'puzzle-maker' | 'geometry-module'
   | 'logic-blocks' | 'venn-diagram-game' | 'grouping-game' | 'number-grouping-game'
@@ -1292,6 +1293,7 @@ interface ActivityConfig {
 const TOOLS: ActivityConfig[] = [
   // basics
   { id: 'number-line', title: 'Számegyenes', desc: 'Egész számok összeadása és kivonása', icon: <span className="text-2xl">➖</span>, color: 'bg-blue-100 text-blue-600', category: 'sec-basics' },
+  { id: 'debt-asset-model', title: 'Adósság-vagyon modell (Piros-kék korongok)', desc: 'Egész számok összeadása és kivonása, nullapárok (Piros: vagyon, Kék: adósság)', icon: <span className="text-2xl">🔴🔵</span>, color: 'bg-rose-100 text-rose-700 border-rose-200', category: 'sec-basics' },
   { id: 'manipulative-addition', title: 'Összeadás vizuálisan', desc: 'Helyiértékes összeadás blokkokkal és átváltással', icon: <Plus className="w-8 h-8" />, color: 'bg-emerald-100 text-emerald-600', category: 'sec-basics' },
   { id: 'manipulative-division', title: 'Osztás vizuálisan', desc: 'Helyiérték-blokkokkal és szétbontással', icon: <Calculator className="w-8 h-8" />, color: 'bg-blue-100 text-blue-600', category: 'sec-basics' },
   { id: 'long-division', title: 'Írásbeli osztás', desc: 'Lépcsős osztás levezetése egyjegyű osztóval', icon: <Calculator className="w-8 h-8" />, color: 'bg-indigo-100 text-indigo-600', category: 'sec-basics' },
@@ -1640,6 +1642,8 @@ export default function MathPage() {
       finalActivityType = 'decimal-fractions';
     } else if (topicId === 'number-line') {
       finalActivityType = 'number-line';
+    } else if (topicId === 'debt-asset-model' || topicId === 'adossag-vagyon') {
+      finalActivityType = 'debt-asset-model';
     } else if (topicId === 'construction') {
       finalActivityType = 'construction';
     } else if (topicId === 'manipulative-division') {
@@ -10249,6 +10253,10 @@ export default function MathPage() {
                   <AlgebraCloudTool onBack={handleBack} />
                 )}
 
+                {(activityType === 'debt-asset-model' || activityType === 'adossag-vagyon') && (
+                  <DebtAssetModelTool onBack={handleBack} />
+                )}
+
                 {(activityType === 'scientific-calculator' || activityType === 'tudomanyos-szamologep') && (
                   <ScientificCalculator onBack={handleBack} />
                 )}
@@ -11301,7 +11309,7 @@ export default function MathPage() {
           </Suspense>
         </div>
       )}
-        {activityType !== 'chess-game' && activityType !== 'snake-game' && activityType !== 'algebra-cloud' && activityType !== 'tower-builder' && activityType !== 'toto-maker' && activityType !== 'manipulative-division' && activityType !== 'manipulative-addition' && !isUpperGradeLayout && view !== 'competency-select' && ((activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'volume-surface' && activityType !== 'student-feedback' && activityType !== 'volume-quiz' && activityType !== 'surface-area-quiz' && activityType !== 'unit-converter' && activityType !== 'capacity-converter' && activityType !== 'analog-clock' && activityType !== 'g7-mapping-quiz' && activityType !== 'g7-function-table-quiz') || view !== 'activity') && <SiteFooter />}
+        {activityType !== 'chess-game' && activityType !== 'snake-game' && activityType !== 'algebra-cloud' && activityType !== 'debt-asset-model' && activityType !== 'adossag-vagyon' && activityType !== 'tower-builder' && activityType !== 'toto-maker' && activityType !== 'manipulative-division' && activityType !== 'manipulative-addition' && !isUpperGradeLayout && view !== 'competency-select' && ((activityType !== 'symmetry-construction' && activityType !== 'perimeter-area' && activityType !== 'volume-surface' && activityType !== 'student-feedback' && activityType !== 'volume-quiz' && activityType !== 'surface-area-quiz' && activityType !== 'unit-converter' && activityType !== 'capacity-converter' && activityType !== 'analog-clock' && activityType !== 'g7-mapping-quiz' && activityType !== 'g7-function-table-quiz') || view !== 'activity') && <SiteFooter />}
         {activeMaterial && (
           <LessonViewer material={activeMaterial} onClose={() => handleMaterialSelect(null)} />
         )}
