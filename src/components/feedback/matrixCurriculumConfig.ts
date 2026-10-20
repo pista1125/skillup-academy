@@ -643,6 +643,20 @@ export const MATRIX_CURRICULUM: Record<GradeLevel, MatrixGradeDef> = {
           { id: 'g5-stat-sec-2', title: '2. Diagramok készítése', short: 'Diagramok' },
           { id: 'g5-stat-sec-3', title: '3. Átlag számítása', short: 'Átlag' }
         ]
+      },
+      {
+        id: 'g5-year-end-summary',
+        chapterNumber: 'VIII.',
+        title: 'VIII. Év végi összefoglalás',
+        subtitle: 'Az 5. osztályos tananyag átfogó ismétlése, rendszerezése és tudáspróba',
+        topics: [
+          { id: 'g5-summary-sec-1', title: '1. Egész számok és műveletek', short: 'Egész számok' },
+          { id: 'g5-summary-sec-2', title: '2. Törtek és tizedes törtek', short: 'Törtek' },
+          { id: 'g5-summary-sec-3', title: '3. Geometria és mérések', short: 'Geometria' },
+          { id: 'g5-summary-sec-4', title: '4. Helymeghatározás, sorozatok és arányosság', short: 'Sorozatok' },
+          { id: 'g5-summary-sec-5', title: '5. Adatgyűjtés és statisztika', short: 'Statisztika' },
+          { id: 'g5-summary-sec-6', title: '6. Átfogó év végi tudáspróba', short: 'Záróteszt' }
+        ]
       }
     ]
   },

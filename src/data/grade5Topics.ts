@@ -152,5 +152,19 @@ export const grade5Topics: Grade5Topic[] = [
       { id: 'g5-stats-sec-5', label: '5. Lehetetlen, lehetséges, biztos' },
       { id: 'g5-stats-sec-6', label: '6. Összefoglalás' }
     ]
+  },
+  {
+    id: 'g5-year-end-summary',
+    title: 'VIII. ÉV VÉGI ÖSSZEFOGLALÁS',
+    icon: '🎯',
+    color: 'from-emerald-500 to-teal-600',
+    subsections: [
+      { id: 'g5-summary-sec-1', label: '1. Természetes és egész számok, műveletek' },
+      { id: 'g5-summary-sec-2', label: '2. Törtek és tizedestörtek' },
+      { id: 'g5-summary-sec-3', label: '3. Geometria és mérések (kerület, terület, térfogat)' },
+      { id: 'g5-summary-sec-4', label: '4. Helymeghatározás, sorozatok és arányosság' },
+      { id: 'g5-summary-sec-5', label: '5. Adatgyűjtés, statisztika és valószínűség' },
+      { id: 'g5-summary-sec-6', label: '6. Átfogó év végi tudáspróba' }
+    ]
   }
 ];

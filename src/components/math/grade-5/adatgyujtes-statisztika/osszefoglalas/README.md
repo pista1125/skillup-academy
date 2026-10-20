@@ -1,26 +1,10 @@
-# 6. Összefoglalás
+# 6. Összefoglalás (`osszefoglalas`)
 
-## Tananyag Áttekintés
-A VII. fejezet átfogó rendszerezése és ismétlése, az adatgyűjtés, grafikonok, átlagszámítás és valószínűségi gondolkodás lezárása.
+Ez a mappa az 5. osztály VII. témakörének (*Adatgyűjtés, statisztika*) átfogó 6. altémáját tartalmazza a szabványos 4-komponensű architektúra szerint:
 
----
-
-## Összefoglaló Ellenőrző Lista
-
-### 1. Halmazok és Játékok
-- [ ] Felismerem a logikai elemek tulajdonságait (forma, szín, méret, lyukasság).
-- [ ] Magabiztosan használom a 2 és 3 halmazos Venn-diagramokat (metszet, unió, külső rész).
-
-### 2. Adatok, Táblázatok és Diagramok
-- [ ] Tudok strigulázással gyakorisági táblázatot készíteni.
-- [ ] Pontosan leolvasom és értelmezem az oszlop-, vonal- és kördiagramokat.
-- [ ] Tudok egyszerű oszlopdiagramot rajzolni tengelyfeliratokkal és helyes beosztással.
-
-### 3. Statisztikai Mutatók
-- [ ] Kiszámítom tetszőleges adatsor számtani közepét (átlagát): $\text{Átlag} = \frac{\text{Összeg}}{\text{Darabszám}}$.
-- [ ] Ismerem az átlag legfőbb tulajdonságait (minimum és maximum közé esik).
-- [ ] Meg tudom határozni a móduszt (leggyakoribb elem) és a terjedelmet.
-
-### 4. Véletlen és Valószínűség
-- [ ] Megkülönböztetem a biztos, lehetetlen és lehetséges eseményeket.
-- [ ] Helyesen hasonlítom össze az események bekövetkezésének esélyeit.
+## Komponensek
+- **`StatsSummaryTheory.tsx`**: Interaktív nagyszintézis Mester-Irányítópulttal (Élő mintaelemzés, átlag, módusz, terjedelem, eseményvalószínűség és diagram szimuláció), mind az 5 résztéma rendszerezésével, csapdákkal és letölthető A4 összefoglaló PDF-fel.
+- **`StatsSummaryQuiz.tsx`**: 30 kérdéses, 3 nehézségi szintre bontott komplex összefoglaló felkészítő kvíz (10-10-10 kérdés), szintenkénti vizsga-puskákkal, beágyazott párosító és csoportosító játékokkal.
+- **`StatsSummaryMatcher.tsx`**: 3 szintes párosító játék (Alapfogalmak, Képletek és mutatók, Szabályok és csapdák).
+- **`StatsSummarySorter.tsx`**: 3 szintes csoportosító játék (Diagramtípusok választása, Statisztikai mutatók, Események valószínűsége).
+- **`index.ts`**: Fő exportfájl.

@@ -1,27 +1,10 @@
-# 4. Átlag és tulajdonságai
+# 4. Átlag és tulajdonságai (`atlag-es-tulajdonsagai`)
 
-## Tananyag Áttekintés
-Az átlag (számtani közép) a statisztika egyik legfontosabb jellemző száma. Egyetlen értékkel igyekszik jellemezni egy adathalmazt.
+Ez a mappa az 5. osztály VII. témakörének (*Adatgyűjtés, statisztika*) 4. altémáját tartalmazza a szabványos 4-komponensű architektúra szerint:
 
----
-
-## Az Átlag Számítása és Tulajdonságai
-
-### 1. Kiszámítási Szabály
-$$\text{Átlag} = \frac{\text{Az adatok összege}}{\text{Az adatok darabszáma}}$$
-
-**Mintapélda:** Egy tanuló matematika jegyei: $5, 4, 4, 3, 5, 4$. Mennyi az átlaga?
-- Összeg: $5 + 4 + 4 + 3 + 5 + 4 = 25$
-- Darabszám: $6$
-- Átlag: $25 : 6 = 4{,}1\dot{6} \approx 4{,}17$
-
-### 2. Az Átlag Fontos Tulajdonságai
-1. **Középre esés:** Az átlag mindig a legkisebb és a legnagyobb adat **között** helyezkedik el:
-   $$\text{minimum} \le \text{átlag} \le \text{maximum}$$
-2. **Nem biztos, hogy létező adat:** Az átlag gyakran nem egyezik meg egyik eredeti mérési adattal sem (pl. lehet tört szám, mint a fenti jegyátlagnál).
-3. **Kiegyenlítés elve:** Ha minden érték azonos lenne és az összeg nem változna, mindenki pontosan az átlagot kapná.
-4. **Érzékenység:** Egyetlen nagyon nagy vagy nagyon kicsi érték (kiugró adat) jelentősen elhúzhatja az átlagot.
-
-### 3. További Statisztikai Jellemzők (Ízelítő)
-- **Terjedelem:** A legnagyobb és legkisebb adat különbsége ($\text{maximum} - \text{minimum}$).
-- **Módusz (leggyakoribb érték):** Az az adat, amelyik a legtöbbször fordul elő.
+## Komponensek
+- **`AverageTheory.tsx`**: Interaktív Tananyag Kockatorony Kiegyenlítő Szimulátorral, Új jegy hatása kalkulátorral, zéró összegű eltérések bemutatásával, a 4 aranytulajdonsággal, mintapéldákkal és letölthető A4 összefoglaló PDF-fel.
+- **`AverageQuiz.tsx`**: 30 kérdéses, 3 nehézségi szintre bontott kvíz (10-10-10 kérdés), szintenkénti vizsga-puskákkal, beágyazott párosító és csoportosító játékokkal.
+- **`AverageMatcher.tsx`**: 3 szintes párosító játék (Alapfogalmak, Fejben számolt átlagok, Tulajdonságok és visszafelé számolás).
+- **`AverageSorter.tsx`**: 3 szintes csoportosító játék (Új jegy hatása a 4,0-s átlagra, Lehetséges és lehetetlen átlagok 10 és 20 között, Statisztikai mutatók: Átlag vs. Módusz vs. Terjedelem).
+- **`index.ts`**: Fő exportfájl.

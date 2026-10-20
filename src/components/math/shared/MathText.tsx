@@ -223,12 +223,14 @@ export function cleanMathSymbols(text: string): string {
     .replace(/\\+div/g, ':')
     .replace(/\\+nmid(?![a-zA-Z])/g, ' ∤ ')
     .replace(/\\+mid(?![a-zA-Z])/g, ' | ')
-    .replace(/\\+implies|\\+Rightarrow/g, ' ⟹ ')
-    .replace(/\\+iff|\\+Leftrightarrow/g, ' ⟺ ')
-    .replace(/\\+Leftarrow/g, ' ⟸ ')
-    .replace(/\\+to|\\+rightarrow/g, ' → ')
-    .replace(/\\+gets|\\+leftarrow/g, ' ← ')
-    .replace(/\\+dots/g, '…')
+    .replace(/\\+Longrightarrow|\\+implies|\\+Rightarrow/g, ' ⟹ ')
+    .replace(/\\+Longleftrightarrow|\\+iff|\\+Leftrightarrow/g, ' ⟺ ')
+    .replace(/\\+Longleftarrow|\\+Leftarrow/g, ' ⟸ ')
+    .replace(/\\+longrightarrow|\\+to|\\+rightarrow/g, ' → ')
+    .replace(/\\+longleftarrow|\\+gets|\\+leftarrow/g, ' ← ')
+    .replace(/\\+circ/g, '°')
+    .replace(/\\+%/g, '%')
+    .replace(/\\+dots|\\+ldots|\\+cdots/g, '…')
     .replace(/\\+sim/g, '~')
     .replace(/\\+cong/g, '≅')
     .replace(/\\+perp/g, '⊥')
@@ -306,8 +308,13 @@ export function toLatex(s: string): string {
     .replace(/≤/g, ' \\le ')
     .replace(/≥/g, ' \\ge ')
     .replace(/≠/g, ' \\ne ')
-    .replace(/°/g, '^{\\circ}')
-    .replace(/\b(m|s|T)([abc])\b/g, '$1_$2');
+    .replace(/°/g, '^{\\circ}');
+
+  // Standalone geometry variable names (ma, mb, sa, Ta -> m_a, s_a, etc.)
+  // Never replace inside Hungarian words like "száma"
+  if (!res.includes(' ') || !/[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ]{3,}/.test(res)) {
+    res = res.replace(/(?<![a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ])(m|s|T)([abc])(?![a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ])/g, '$1_$2');
+  }
 
   // Hungarian decimal separator: 0,36 -> 0{,}36
   res = res.replace(/(\d+),(\d+)/g, '$1{,}$2');
@@ -326,9 +333,12 @@ export function toLatex(s: string): string {
   // Escape unescaped % so KaTeX doesn't treat it as comment
   res = res.replace(/(?<!\\)%/g, '\\%');
 
-  // Text wrapper for multi-letter words / Hungarian words in KaTeX: e.g. "Érték" -> "\text{Érték}", "Alap" -> "\text{Alap}"
+  // Text wrapper for multi-letter words / Hungarian words in KaTeX: e.g. "Érték" -> "\text{Érték}", "Kedvező esetek száma" -> "\text{Kedvező esetek száma}"
+  // Do NOT wrap pure math expressions like "a + b", "x - 2"
+  const isMathExpr = /[=+*/<>]|(?<![a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ])-(?![a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ])/.test(res);
   if (
-    /^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ\s]+$/.test(res) &&
+    !isMathExpr &&
+    /^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ\s.,()\-]+$/.test(res) &&
     res.length >= 2 &&
     (res.length >= 3 || /[áéíóöőúüűÁÉÍÓÖŐÚÜŰ]/.test(res)) &&
     !res.startsWith('\\text') &&
@@ -503,7 +513,7 @@ export const Fraction: React.FC<FractionProps> = ({
         strict: false,
       });
 
-      if (!html || html.includes('katex-error')) {
+      if (!html || html.includes('katex-error') || html.includes('\\H')) {
         throw new Error('KaTeX rendering error');
       }
 

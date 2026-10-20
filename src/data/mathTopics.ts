@@ -511,6 +511,14 @@ export const mathTopics: MathTopic[] = [
     color: 'from-pink-500 to-rose-500',
     grades: [5],
   },
+  {
+    id: 'g5-year-end-summary',
+    title: 'VIII. ÉV VÉGI ÖSSZEFOGLALÁS',
+    description: 'Az 5. osztályos tananyag átfogó ismétlése, rendszerezése és év végi tudáspróba',
+    icon: '🎯',
+    color: 'from-emerald-500 to-teal-600',
+    grades: [5],
+  },
 
   // 7. osztályos témakörök
   {

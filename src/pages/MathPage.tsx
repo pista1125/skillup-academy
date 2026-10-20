@@ -139,13 +139,13 @@ const TotoTool = lazy(() => import("@/components/math/tools/TotoTool").then(m =>
 const SmartWhiteboardTool = lazy(() => import("@/components/math/tools/SmartWhiteboardTool").then(m => ({ default: m.SmartWhiteboardTool }))) as any;
 const SymmetryQuiz = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyes-tukrozes/SymmetryQuiz").then(m => ({ default: m.SymmetryQuiz }))) as any;
 const LogicBlocksGame = lazy(() => import("@/components/math/games/logic-blocks/LogicBlocksGame").then(m => ({ default: m.LogicBlocksGame }))) as any;
-const VennDiagramGame = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/venn/VennDiagramGame").then(m => ({ default: m.VennDiagramGame }))) as any;
+const VennDiagramGame = lazy(() => import("@/components/math/games/venn/VennDiagramGame").then(m => ({ default: m.VennDiagramGame }))) as any;
 const GroupingGame = lazy(() => import("@/components/math/grade-1/grouping/GroupingGame").then(m => ({ default: m.GroupingGame }))) as any;
 const NumberGroupingGame = lazy(() => import("@/components/math/grade-1/grouping/NumberGroupingGame").then(m => ({ default: m.NumberGroupingGame }))) as any;
 const SudokuGame = lazy(() => import("@/components/math/games/sudoku/SudokuGame").then(m => ({ default: m.SudokuGame }))) as any;
 const SudokuGeneratorTool = lazy(() => import("@/components/math/tools/SudokuGeneratorTool").then(m => ({ default: m.SudokuGeneratorTool }))) as any;
-const VennInterpretationQuiz = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/VennInterpretationQuiz").then(m => ({ default: m.VennInterpretationQuiz }))) as any;
-const VennReadingGame = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/venn/VennReadingGame").then(m => ({ default: m.VennReadingGame }))) as any;
+const VennInterpretationQuiz = lazy(() => import("@/components/math/games/venn/VennInterpretationQuiz").then(m => ({ default: m.VennInterpretationQuiz }))) as any;
+const VennReadingGame = lazy(() => import("@/components/math/games/venn/VennReadingGame").then(m => ({ default: m.VennReadingGame }))) as any;
 const AxialSymmetryGame = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyes-tukrozes/AxialSymmetryGame").then(m => ({ default: m.AxialSymmetryGame }))) as any;
 const SymmetryErrorGame = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyes-tukrozes/SymmetryErrorGame").then(m => ({ default: m.SymmetryErrorGame }))) as any;
 const AxialSymmetryQuiz = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyes-szimmetria/AxialSymmetryQuiz").then(m => ({ default: m.AxialSymmetryQuiz }))) as any;
@@ -422,6 +422,34 @@ const Grade5WordProblemsSummaryTheory = lazy(() => import("@/components/math/gra
 const Grade5WordProblemsSummaryQuiz = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/osszefoglalas/WordProblemsSummaryQuiz").then(m => ({ default: m.WordProblemsSummaryQuiz }))) as any;
 const Grade5WordProblemsSummaryMatcher = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/osszefoglalas/WordProblemsSummaryMatcher").then(m => ({ default: m.WordProblemsSummaryMatcher }))) as any;
 const Grade5WordProblemsSummarySorter = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/osszefoglalas/WordProblemsSummarySorter").then(m => ({ default: m.WordProblemsSummarySorter }))) as any;
+const Grade5LogicGamesTheory = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/jatekok/LogicGamesTheory").then(m => ({ default: m.LogicGamesTheory }))) as any;
+const Grade5LogicGamesQuiz = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/jatekok/LogicGamesQuiz").then(m => ({ default: m.LogicGamesQuiz }))) as any;
+const Grade5LogicGamesMatcher = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/jatekok/LogicGamesMatcher").then(m => ({ default: m.LogicGamesMatcher }))) as any;
+const Grade5LogicGamesSorter = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/jatekok/LogicGamesSorter").then(m => ({ default: m.LogicGamesSorter }))) as any;
+const Grade5TablesGraphsTheory = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/tablazatok-grafikonok/TablesGraphsTheory").then(m => ({ default: m.TablesGraphsTheory }))) as any;
+const Grade5TablesGraphsQuiz = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/tablazatok-grafikonok/TablesGraphsQuiz").then(m => ({ default: m.TablesGraphsQuiz }))) as any;
+const Grade5TablesGraphsMatcher = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/tablazatok-grafikonok/TablesGraphsMatcher").then(m => ({ default: m.TablesGraphsMatcher }))) as any;
+const Grade5TablesGraphsSorter = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/tablazatok-grafikonok/TablesGraphsSorter").then(m => ({ default: m.TablesGraphsSorter }))) as any;
+const Grade5DataCollectionTheory = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/adatgyujtes-az-adatok-abrazolasa/DataCollectionTheory").then(m => ({ default: m.DataCollectionTheory }))) as any;
+const Grade5DataCollectionQuiz = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/adatgyujtes-az-adatok-abrazolasa/DataCollectionQuiz").then(m => ({ default: m.DataCollectionQuiz }))) as any;
+const Grade5DataCollectionMatcher = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/adatgyujtes-az-adatok-abrazolasa/DataCollectionMatcher").then(m => ({ default: m.DataCollectionMatcher }))) as any;
+const Grade5DataCollectionSorter = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/adatgyujtes-az-adatok-abrazolasa/DataCollectionSorter").then(m => ({ default: m.DataCollectionSorter }))) as any;
+const Grade5AverageTheory = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/atlag-es-tulajdonsagai/AverageTheory").then(m => ({ default: m.AverageTheory }))) as any;
+const Grade5AverageQuiz = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/atlag-es-tulajdonsagai/AverageQuiz").then(m => ({ default: m.AverageQuiz }))) as any;
+const Grade5AverageMatcher = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/atlag-es-tulajdonsagai/AverageMatcher").then(m => ({ default: m.AverageMatcher }))) as any;
+const Grade5AverageSorter = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/atlag-es-tulajdonsagai/AverageSorter").then(m => ({ default: m.AverageSorter }))) as any;
+const Grade5ProbabilityTheory = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/lehetetlen-lehetseges-biztos/ProbabilityTheory").then(m => ({ default: m.ProbabilityTheory }))) as any;
+const Grade5ProbabilityQuiz = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/lehetetlen-lehetseges-biztos/ProbabilityQuiz").then(m => ({ default: m.ProbabilityQuiz }))) as any;
+const Grade5ProbabilityMatcher = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/lehetetlen-lehetseges-biztos/ProbabilityMatcher").then(m => ({ default: m.ProbabilityMatcher }))) as any;
+const Grade5ProbabilitySorter = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/lehetetlen-lehetseges-biztos/ProbabilitySorter").then(m => ({ default: m.ProbabilitySorter }))) as any;
+const Grade5StatsSummaryTheory = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/osszefoglalas/StatsSummaryTheory").then(m => ({ default: m.StatsSummaryTheory }))) as any;
+const Grade5StatsSummaryQuiz = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/osszefoglalas/StatsSummaryQuiz").then(m => ({ default: m.StatsSummaryQuiz }))) as any;
+const Grade5StatsSummaryMatcher = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/osszefoglalas/StatsSummaryMatcher").then(m => ({ default: m.StatsSummaryMatcher }))) as any;
+const Grade5StatsSummarySorter = lazy(() => import("@/components/math/grade-5/adatgyujtes-statisztika/osszefoglalas/StatsSummarySorter").then(m => ({ default: m.StatsSummarySorter }))) as any;
+const Grade5NumbersSummaryTheory = lazy(() => import("@/components/math/grade-5/ev-vegi-osszefoglalas/szamok-es-muveletek/NumbersSummaryTheory").then(m => ({ default: m.NumbersSummaryTheory }))) as any;
+const Grade5NumbersSummaryQuiz = lazy(() => import("@/components/math/grade-5/ev-vegi-osszefoglalas/szamok-es-muveletek/NumbersSummaryQuiz").then(m => ({ default: m.NumbersSummaryQuiz }))) as any;
+const Grade5NumbersSummaryMatcher = lazy(() => import("@/components/math/grade-5/ev-vegi-osszefoglalas/szamok-es-muveletek/NumbersSummaryMatcher").then(m => ({ default: m.NumbersSummaryMatcher }))) as any;
+const Grade5NumbersSummarySorter = lazy(() => import("@/components/math/grade-5/ev-vegi-osszefoglalas/szamok-es-muveletek/NumbersSummarySorter").then(m => ({ default: m.NumbersSummarySorter }))) as any;
 const RatioIntroTheory = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/az-arany-fogalma/RatioIntroTheory").then(m => ({ default: m.RatioIntroTheory }))) as any;
 const RatioIntroQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/az-arany-fogalma/RatioIntroQuiz").then(m => ({ default: m.RatioIntroQuiz }))) as any;
 const RatioIntroMatcher = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/az-arany-fogalma/RatioIntroMatcher").then(m => ({ default: m.RatioIntroMatcher }))) as any;
@@ -1198,6 +1226,18 @@ type ActivityType =
   | 'g5-simp-wp-theory' | 'g5-simp-wp-quiz' | 'g5-simp-wp-matcher' | 'g5-simp-wp-sorter'
   | 'g5-daily-wp-theory' | 'g5-daily-wp-quiz' | 'g5-daily-wp-matcher' | 'g5-daily-wp-sorter'
   | 'g5-summary-wp-theory' | 'g5-summary-wp-quiz' | 'g5-summary-wp-matcher' | 'g5-summary-wp-sorter'
+  | 'g5-games-theory' | 'g5-games-quiz' | 'g5-games-matcher' | 'g5-games-sorter'
+  | 'g5-tables-theory' | 'g5-tables-quiz' | 'g5-tables-matcher' | 'g5-tables-sorter'
+  | 'g5-data-theory' | 'g5-data-quiz' | 'g5-data-matcher' | 'g5-data-sorter'
+  | 'g5-average-theory' | 'g5-average-quiz' | 'g5-average-matcher' | 'g5-average-sorter'
+  | 'g5-prob-theory' | 'g5-prob-quiz' | 'g5-prob-matcher' | 'g5-prob-sorter'
+  | 'g5-stats-summary-theory' | 'g5-stats-summary-quiz' | 'g5-stats-summary-matcher' | 'g5-stats-summary-sorter'
+  | 'g5-summary-numbers-theory' | 'g5-summary-numbers-quiz' | 'g5-summary-numbers-matcher' | 'g5-summary-numbers-sorter'
+  | 'g5-summary-fractions-theory' | 'g5-summary-fractions-quiz' | 'g5-summary-fractions-matcher' | 'g5-summary-fractions-sorter'
+  | 'g5-summary-geometry-theory' | 'g5-summary-geometry-quiz' | 'g5-summary-geometry-matcher' | 'g5-summary-geometry-sorter'
+  | 'g5-summary-sequences-theory' | 'g5-summary-sequences-quiz' | 'g5-summary-sequences-matcher' | 'g5-summary-sequences-sorter'
+  | 'g5-summary-stats-theory' | 'g5-summary-stats-quiz' | 'g5-summary-stats-matcher' | 'g5-summary-stats-sorter'
+  | 'g5-summary-final-theory' | 'g5-summary-final-quiz' | 'g5-summary-final-matcher' | 'g5-summary-final-sorter'
   | 'g6-planar-shapes-theory' | 'g6-planar-shapes-quiz' | 'g6-planar-shapes-matcher' | 'g6-planar-shapes-sorter'
   | 'g6-congruence-theory' | 'g6-congruence-quiz' | 'g6-congruence-matcher' | 'g6-congruence-sorter'
   | 'g6-integers-operations-theory' | 'g6-integers-operations-quiz'
@@ -4473,6 +4513,209 @@ export default function MathPage() {
                   <Grade5WordProblemsSummarySorter
                     onBack={handleBack}
                     onSwitchToTheory={() => setActivityType('g5-summary-wp-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-games-theory' && (
+                  <Grade5LogicGamesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-games-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-games-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-games-quiz' && (
+                  <Grade5LogicGamesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-games-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-games-matcher' && (
+                  <Grade5LogicGamesMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-games-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-games-sorter' && (
+                  <Grade5LogicGamesSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-games-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-tables-theory' && (
+                  <Grade5TablesGraphsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-tables-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-tables-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-tables-quiz' && (
+                  <Grade5TablesGraphsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-tables-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-tables-matcher' && (
+                  <Grade5TablesGraphsMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-tables-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-tables-sorter' && (
+                  <Grade5TablesGraphsSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-tables-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-data-theory' && (
+                  <Grade5DataCollectionTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-data-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-data-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-data-quiz' && (
+                  <Grade5DataCollectionQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-data-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-data-matcher' && (
+                  <Grade5DataCollectionMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-data-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-data-sorter' && (
+                  <Grade5DataCollectionSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-data-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-average-theory' && (
+                  <Grade5AverageTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-average-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-average-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-average-quiz' && (
+                  <Grade5AverageQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-average-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-average-matcher' && (
+                  <Grade5AverageMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-average-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-average-sorter' && (
+                  <Grade5AverageSorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-average-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-prob-theory' && (
+                  <Grade5ProbabilityTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-prob-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-prob-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-prob-quiz' && (
+                  <Grade5ProbabilityQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-prob-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-prob-matcher' && (
+                  <Grade5ProbabilityMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-prob-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-prob-sorter' && (
+                  <Grade5ProbabilitySorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-prob-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-stats-summary-theory' && (
+                  <Grade5StatsSummaryTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-stats-summary-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-stats-summary-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-stats-summary-quiz' && (
+                  <Grade5StatsSummaryQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-stats-summary-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-stats-summary-matcher' && (
+                  <Grade5StatsSummaryMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-stats-summary-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-stats-summary-sorter' && (
+                  <Grade5StatsSummarySorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-stats-summary-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-summary-numbers-theory' && (
+                  <Grade5NumbersSummaryTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => setActivityType('g5-summary-numbers-quiz')}
+                    onSwitchToQuiz={() => setActivityType('g5-summary-numbers-quiz')}
+                  />
+                )}
+
+                {activityType === 'g5-summary-numbers-quiz' && (
+                  <Grade5NumbersSummaryQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-summary-numbers-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-summary-numbers-matcher' && (
+                  <Grade5NumbersSummaryMatcher
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-summary-numbers-theory')}
+                  />
+                )}
+
+                {activityType === 'g5-summary-numbers-sorter' && (
+                  <Grade5NumbersSummarySorter
+                    onBack={handleBack}
+                    onSwitchToTheory={() => setActivityType('g5-summary-numbers-theory')}
                   />
                 )}
 

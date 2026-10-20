@@ -1,24 +1,10 @@
-# 5. Lehetetlen, lehetséges, biztos
+# 5. Lehetetlen, lehetséges, biztos (`lehetetlen-lehetseges-biztos`)
 
-## Tananyag Áttekintés
-A mindennapi események és kísérletek kimenetele nem mindig jósolható meg előre pontosan. A valószínűségszámítás a véletlen események törvényszerűségeit vizsgálja.
+Ez a mappa az 5. osztály VII. témakörének (*Adatgyűjtés, statisztika*) 5. altémáját tartalmazza a szabványos 4-komponensű architektúra szerint:
 
----
-
-## Események Minősítése
-
-### 1. A 3 Alapkategória
-
-| Esemény típusa | Jelentése | Példa (szabályos 6 oldalú dobókockával) |
-| :--- | :--- | :--- |
-| **Biztos esemény** | Minden körülmények között bekövetkezik ($100\%$ esély). | 7-nél kisebb számot dobunk. |
-| **Lehetetlen esemény** | Soha, semmilyen esetben sem következhet be ($0\%$ esély). | 8-at dobunk, vagy negatív számot dobunk. |
-| **Lehetséges (véletlen)** | Bekövetkezhet, de nem biztos (esélye $0\%$ és $100\%$ között van). | 6-ost dobunk, páros számot dobunk. |
-
-### 2. Esélyek Összehasonlítása
-- **Ugyanolyan esélyes:** Érmefeldobásnál fejet vagy írást kapni (mindkettő $\frac{1}{2} = 50\%$).
-- **Esélyesebb:** Dobókockával $1, 2, 3, 4, 5$ valamelyikét dobni esélyesebb, mint $6$-ost dobni.
-- **Kevésbé esélyes:** Zsákban lévő 8 piros és 2 kék golyó közül kéket húzni kevésbé esélyes, mint pirosat.
-
-### 3. Kísérletek és Gyakoriság
-- Minél többször végzünk el egy véletlen kísérletet (pl. 100 érmefeldobás), a mért relatív gyakoriság annál jobban közelít a várt elméleti esélyhez (fejek aránya $\approx 50\%$).
+## Komponensek
+- **`ProbabilityTheory.tsx`**: Interaktív Tananyag Véletlen Laboratóriummal (Érmedobás élő relatív gyakorisággal és Golyóhúzás urnából), a 3 alapvető eseménytípussal, kedvező és összes eset számlálásával, klasszikus kísérletekkel, csapdákkal (Gambler's fallacy) és letölthető A4 összefoglaló PDF-fel.
+- **`ProbabilityQuiz.tsx`**: 30 kérdéses, 3 nehézségi szintre bontott kvíz (10-10-10 kérdés), szintenkénti vizsga-puskákkal, beágyazott párosító és csoportosító játékokkal.
+- **`ProbabilityMatcher.tsx`**: 3 szintes párosító játék (Eseménytípusok, Kockadobások esélyei, Golyóhúzás és összetett esélyek).
+- **`ProbabilitySorter.tsx`**: 3 szintes csoportosító játék (Hétköznapi események, Kockadobási események, Esélyek összehasonlítása: Egyenlő vs. Valószínűbb vs. Kevésbé valószínű).
+- **`index.ts`**: Fő exportfájl.

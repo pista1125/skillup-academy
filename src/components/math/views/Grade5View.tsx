@@ -2206,40 +2206,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-stats-sec-1" number={1} title="Játékok" color="purple" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Venn-diagram (Tárgyak)"
-                  subtitle="Tárgyak és formák szétválogatása"
-                  type="Játék"
-                  emoji="⭕"
-                  onClick={() => onActivitySelect('venn-reading-objects', topicId)}
-                  icon={<Shapes className="w-6 h-6" />}
+                  title="Játékok és logika elmélet"
+                  subtitle="A logikai készlet 4 tulajdonsága, különbségi játékok, Venn- és Carroll-diagramok és skatulya-elv PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-games-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
                   color="purple"
                 />
                 <ActivityPlaceholder
-                  title="Venn-diagram (Számok)"
-                  subtitle="Számhalmazok és tulajdonságok"
-                  type="Játék"
-                  emoji="🔢"
-                  onClick={() => onActivitySelect('venn-reading-numbers', topicId)}
-                  icon={<Binary className="w-6 h-6" />}
-                  color="indigo"
-                />
-                <ActivityPlaceholder
-                  title="Logikai Készlet"
-                  subtitle="Formák, színek, méretek válogatása"
-                  type="Játék"
-                  emoji="🧩"
-                  onClick={() => onActivitySelect('logic-blocks', topicId)}
+                  title="Játékok és logika kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🎲"
+                  onClick={() => onActivitySelect('g5-games-quiz', topicId)}
                   icon={<Puzzle className="w-6 h-6" />}
-                  color="blue"
-                />
-                <ActivityPlaceholder
-                  title="Venn-diagram Kvíz"
-                  subtitle="Halmazok és metszetek leolvasása"
-                  type="Teszt"
-                  emoji="📋"
-                  onClick={() => onActivitySelect('venn-interpretation-quiz', topicId)}
-                  icon={<CheckCircle2 className="w-6 h-6" />}
-                  color="emerald"
+                  color="purple"
+                  {...getTopicProgress('g5-games-quiz')}
                 />
               </div>
             </section>
@@ -2251,13 +2234,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-stats-sec-2" number={2} title="Táblázatok, grafikonok" color="blue" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Grafikonok és Táblázatok"
-                  subtitle="Oszlop-, vonal- és kördiagramok leolvasása"
-                  type="Hamarosan"
+                  title="Táblázatok, grafikonok elmélet"
+                  subtitle="Oszlop-, vonal- és kördiagramok, skálák, arányok és a félrevezető grafikonok leleplezése PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-tables-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="blue"
+                />
+                <ActivityPlaceholder
+                  title="Táblázatok, grafikonok kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
                   emoji="📊"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g5-tables-quiz', topicId)}
                   icon={<BarChart3 className="w-6 h-6" />}
                   color="blue"
+                  {...getTopicProgress('g5-tables-quiz')}
                 />
               </div>
             </section>
@@ -2269,13 +2262,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-stats-sec-3" number={3} title="Adatgyűjtés, az adatok ábrázolása" color="cyan" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Adatgyűjtés és Strigulázás"
-                  subtitle="Gyakorisági táblázat és diagramkészítés"
-                  type="Hamarosan"
+                  title="Adatgyűjtés és ábrázolás elmélet"
+                  subtitle="Adatgyűjtés módszerei, strigulázás, gyakorisági táblázat és diagramkészítés lépései PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-data-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="cyan"
+                />
+                <ActivityPlaceholder
+                  title="Adatgyűjtés és ábrázolás kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
                   emoji="📝"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g5-data-quiz', topicId)}
                   icon={<Table className="w-6 h-6" />}
                   color="cyan"
+                  {...getTopicProgress('g5-data-quiz')}
                 />
               </div>
             </section>
@@ -2287,13 +2290,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-stats-sec-4" number={4} title="Átlag és tulajdonságai" color="amber" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Átlagszámítás Kvíz"
-                  subtitle="Számtani közép számítása és tulajdonságai"
-                  type="Hamarosan"
-                  emoji="➗"
-                  disabled={true}
+                  title="Átlag és tulajdonságai elmélet"
+                  subtitle="A számtani közép kiszámítása, tulajdonságai, kiegyenlítés és szélsőséges értékek hatása PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-average-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="amber"
+                />
+                <ActivityPlaceholder
+                  title="Átlag és tulajdonságai kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="⚖️"
+                  onClick={() => onActivitySelect('g5-average-quiz', topicId)}
                   icon={<Calculator className="w-6 h-6" />}
                   color="amber"
+                  {...getTopicProgress('g5-average-quiz')}
                 />
               </div>
             </section>
@@ -2305,13 +2318,23 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-stats-sec-5" number={5} title="Lehetetlen, lehetséges, biztos" color="rose" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Valószínűségi Játékok"
-                  subtitle="Események minősítése, kocka- és érmekísérletek"
-                  type="Hamarosan"
+                  title="Valószínűség elmélet"
+                  subtitle="Események minősítése, esélyek, kocka- és érmekísérletek, tévhitek elkerülése PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-prob-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="rose"
+                />
+                <ActivityPlaceholder
+                  title="Valószínűség kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
                   emoji="🎲"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g5-prob-quiz', topicId)}
                   icon={<Dices className="w-6 h-6" />}
                   color="rose"
+                  {...getTopicProgress('g5-prob-quiz')}
                 />
               </div>
             </section>
@@ -2323,13 +2346,198 @@ export const Grade5View: React.FC<GradeViewProps> = ({
               <SectionHeader id="g5-stats-sec-6" number={6} title="Összefoglalás" color="slate" />
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
                 <ActivityPlaceholder
-                  title="Összefoglaló felkészítő"
-                  subtitle="VII. Adatgyűjtés, statisztika összefoglalás"
-                  type="Hamarosan"
+                  title="Statisztika összefoglaló elmélet"
+                  subtitle="A teljes VII. témakör nagyszintézise interaktív statisztikai irányítópulttal és PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-stats-summary-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="slate"
+                />
+                <ActivityPlaceholder
+                  title="Statisztika összefoglaló nagyteszt"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
                   emoji="🏆"
-                  disabled={true}
+                  onClick={() => onActivitySelect('g5-stats-summary-quiz', topicId)}
                   icon={<Trophy className="w-6 h-6" />}
                   color="slate"
+                  {...getTopicProgress('g5-stats-summary-quiz')}
+                />
+              </div>
+            </section>
+          )}
+        </div>
+      );
+    }
+
+    if (topicId === 'g5-year-end-summary') {
+      const showAll = !activeSubSectionId;
+      return (
+        <div className="flex flex-col gap-10 py-6">
+          {/* Section 1: Természetes és egész számok, műveletek */}
+          {(showAll || activeSubSectionId === 'g5-summary-sec-1') && (
+            <section>
+              <SectionHeader id="g5-summary-sec-1" number={1} title="Természetes és egész számok, műveletek" color="blue" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Számok és műveletek elmélet"
+                  subtitle="Egész számok, római számok, negatív számok, műveleti sorrend, kerekítés és becslés PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-summary-numbers-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="blue"
+                />
+                <ActivityPlaceholder
+                  title="Számok és műveletek kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🔢"
+                  onClick={() => onActivitySelect('g5-summary-numbers-quiz', topicId)}
+                  icon={<Calculator className="w-6 h-6" />}
+                  color="blue"
+                  {...getTopicProgress('g5-summary-numbers-quiz')}
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 2: Törtek és tizedestörtek */}
+          {(showAll || activeSubSectionId === 'g5-summary-sec-2') && (
+            <section>
+              <SectionHeader id="g5-summary-sec-2" number={2} title="Törtek és tizedestörtek" color="amber" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Törtek és tizedestörtek elmélet"
+                  subtitle="Közönséges és tizedes törtek, átváltások, alapműveletek és műveleti tulajdonságok PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-summary-fractions-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="amber"
+                />
+                <ActivityPlaceholder
+                  title="Törtek és tizedestörtek kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🍕"
+                  onClick={() => onActivitySelect('g5-summary-fractions-quiz', topicId)}
+                  icon={<Target className="w-6 h-6" />}
+                  color="amber"
+                  {...getTopicProgress('g5-summary-fractions-quiz')}
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 3: Geometria és mérések */}
+          {(showAll || activeSubSectionId === 'g5-summary-sec-3') && (
+            <section>
+              <SectionHeader id="g5-summary-sec-3" number={3} title="Geometria és mérések" color="emerald" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Geometria és mérések elmélet"
+                  subtitle="Síkidomok, testek, szögek, kerület, terület, felszín és térfogat számítása PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-summary-geometry-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="emerald"
+                />
+                <ActivityPlaceholder
+                  title="Geometria és mérések kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="📐"
+                  onClick={() => onActivitySelect('g5-summary-geometry-quiz', topicId)}
+                  icon={<Ruler className="w-6 h-6" />}
+                  color="emerald"
+                  {...getTopicProgress('g5-summary-geometry-quiz')}
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 4: Helymeghatározás, sorozatok és arányosság */}
+          {(showAll || activeSubSectionId === 'g5-summary-sec-4') && (
+            <section>
+              <SectionHeader id="g5-summary-sec-4" number={4} title="Helymeghatározás, sorozatok és arányosság" color="teal" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Sorozatok és arányosság elmélet"
+                  subtitle="Koordináta-rendszer, számsorozatok szabályai, egyenes arányosság és szöveges feladatok PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-summary-sequences-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="teal"
+                />
+                <ActivityPlaceholder
+                  title="Sorozatok és arányosság kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="📊"
+                  onClick={() => onActivitySelect('g5-summary-sequences-quiz', topicId)}
+                  icon={<Compass className="w-6 h-6" />}
+                  color="teal"
+                  {...getTopicProgress('g5-summary-sequences-quiz')}
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 5: Adatgyűjtés, statisztika és valószínűség */}
+          {(showAll || activeSubSectionId === 'g5-summary-sec-5') && (
+            <section>
+              <SectionHeader id="g5-summary-sec-5" number={5} title="Adatgyűjtés, statisztika és valószínűség" color="purple" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Statisztika és valószínűség elmélet"
+                  subtitle="Diagramok elemzése, számtani közép (átlag), esélyek minősítése és kísérletek PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-summary-stats-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="purple"
+                />
+                <ActivityPlaceholder
+                  title="Statisztika és valószínűség kvíz"
+                  subtitle="30 feladat 3 szinten, párosító és csoportosító játékkal"
+                  type="Kvíz"
+                  emoji="🎲"
+                  onClick={() => onActivitySelect('g5-summary-stats-quiz', topicId)}
+                  icon={<BarChart3 className="w-6 h-6" />}
+                  color="purple"
+                  {...getTopicProgress('g5-summary-stats-quiz')}
+                />
+              </div>
+            </section>
+          )}
+
+          {/* Section 6: Átfogó év végi tudáspróba */}
+          {(showAll || activeSubSectionId === 'g5-summary-sec-6') && (
+            <section>
+              <SectionHeader id="g5-summary-sec-6" number={6} title="Átfogó év végi tudáspróba" color="rose" />
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Év végi átfogó szintézis"
+                  subtitle="A teljes 5. osztályos matematika tananyag nagyszintézise, aranyszabályai és képtára PDF-fel"
+                  type="Tananyag"
+                  emoji="📜"
+                  onClick={() => onActivitySelect('g5-summary-final-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="rose"
+                />
+                <ActivityPlaceholder
+                  title="Nagy év végi záróteszt"
+                  subtitle="Átfogó év végi nagyteszt 3 szinten, párosító és csoportosító vizsgafeladatokkal"
+                  type="Kvíz"
+                  emoji="🏆"
+                  onClick={() => onActivitySelect('g5-summary-final-quiz', topicId)}
+                  icon={<Trophy className="w-6 h-6" />}
+                  color="rose"
+                  {...getTopicProgress('g5-summary-final-quiz')}
                 />
               </div>
             </section>

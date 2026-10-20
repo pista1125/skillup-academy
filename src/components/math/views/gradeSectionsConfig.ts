@@ -308,6 +308,13 @@ export const sectionToTopicMap: Record<string, string> = {
   'g5-meas-sec-9': 'g5-measurements',
   'g5-meas-sec-10': 'g5-measurements',
   'g5-proportions': 'g5-proportion-problems',
+  'g5-year-end-summary': 'g5-year-end-summary',
+  'g5-summary-sec-1': 'g5-year-end-summary',
+  'g5-summary-sec-2': 'g5-year-end-summary',
+  'g5-summary-sec-3': 'g5-year-end-summary',
+  'g5-summary-sec-4': 'g5-year-end-summary',
+  'g5-summary-sec-5': 'g5-year-end-summary',
+  'g5-summary-sec-6': 'g5-year-end-summary',
 
   // Grade 6
   'g6-integers-divisibility': 'g6-integers-divisibility',
