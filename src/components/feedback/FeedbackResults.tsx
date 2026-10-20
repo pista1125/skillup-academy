@@ -13,17 +13,22 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { format } from 'date-fns';
 import { hu } from 'date-fns/locale';
-import { BarChart3, Clock, Trash2 } from 'lucide-react';
+import { BarChart3, Clock, Trash2, Target, FileText, Filter } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { SurveyResultsView } from './SurveyResultsView';
 
 interface Session {
   id: string;
   lesson_info: string;
+  title?: string;
+  tool_type?: 'target_board' | 'survey';
   aspects: string[];
   created_at: string;
   class_name?: string;
   feedback_classes?: {
     name: string;
   };
+  note?: string;
 }
 
 interface Result {
@@ -41,13 +46,16 @@ export function FeedbackResults() {
   const [selectedSession, setSelectedSession] = useState<Session | null>(null);
   const [results, setResults] = useState<Result[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [typeFilter, setTypeFilter] = useState<'all' | 'target_board' | 'survey'>('all');
 
   useEffect(() => {
     if (user) fetchSessions();
   }, [user]);
 
   useEffect(() => {
-    if (selectedSession) fetchResults(selectedSession.id);
+    if (selectedSession && selectedSession.tool_type !== 'survey') {
+      fetchResults(selectedSession.id);
+    }
   }, [selectedSession]);
 
   const fetchSessions = async () => {
@@ -75,11 +83,14 @@ export function FeedbackResults() {
         }
         list.push({
           id: docSnap.id,
-          lesson_info: sData.lesson_info,
+          lesson_info: sData.lesson_info || sData.title || 'Visszajelzés',
+          title: sData.title || sData.lesson_info || 'Visszajelzés',
+          tool_type: sData.tool_type || 'target_board',
           aspects: sData.aspects || [],
           created_at: sData.created_at,
           class_name: className,
-          feedback_classes: { name: className }
+          feedback_classes: { name: className },
+          ...sData
         });
       }
 
@@ -134,9 +145,10 @@ export function FeedbackResults() {
     if (!confirm('Biztosan törlöd ezt az értékelést?')) return;
     try {
       await deleteDoc(doc(db, 'feedback_sessions', id));
-      setSessions(sessions.filter(s => s.id !== id));
+      const updated = sessions.filter(s => s.id !== id);
+      setSessions(updated);
       if (selectedSession?.id === id) {
-        setSelectedSession(sessions.length > 1 ? sessions.find(s => s.id !== id) || null : null);
+        setSelectedSession(updated.length > 0 ? updated[0] : null);
       }
     } catch (e) {
       console.error(e);
@@ -152,13 +164,21 @@ export function FeedbackResults() {
       <div className="text-center py-12">
         <BarChart3 className="w-16 h-16 text-slate-300 mx-auto mb-4" />
         <h3 className="text-lg font-bold text-slate-700">Még nincs mentett értékelésed</h3>
-        <p className="text-slate-500 text-sm mt-1">Az elvégzett céltáblás visszajelzések itt fognak megjelenni.</p>
+        <p className="text-slate-500 text-sm mt-1">Az elvégzett céltáblás és kérdőíves visszajelzések itt fognak megjelenni.</p>
       </div>
     );
   }
 
-  // Calculate averages per aspect
-  const aspectAverages = selectedSession?.aspects.map((_, idx) => {
+  const filteredSessions = sessions.filter(s => {
+    if (typeFilter === 'all') return true;
+    return s.tool_type === typeFilter;
+  });
+
+  const targetCount = sessions.filter(s => s.tool_type !== 'survey').length;
+  const surveyCount = sessions.filter(s => s.tool_type === 'survey').length;
+
+  // Calculate averages per aspect for TargetBoard
+  const aspectAverages = selectedSession?.aspects?.map((_, idx) => {
     if (results.length === 0) return 0;
     const total = results.reduce((acc, r) => acc + (r.scores[idx] || 0), 0);
     return Math.round((total / results.length) * 10) / 10;
@@ -174,124 +194,190 @@ export function FeedbackResults() {
   return (
     <div className="grid md:grid-cols-12 gap-4 items-start">
       {/* Session History Sidebar */}
-      <div className="md:col-span-4 bg-slate-50/80 rounded-2xl p-3 border border-slate-200/80 space-y-2 max-h-[500px] overflow-y-auto">
-        <h3 className="font-bold text-xs text-slate-700 mb-2 flex items-center gap-1.5 uppercase tracking-wider">
-          <Clock className="w-3.5 h-3.5 text-amber-500" /> Korábbi Értékelések ({sessions.length})
-        </h3>
-        {sessions.map(s => {
-          const isSelected = selectedSession?.id === s.id;
-          return (
-            <div
-              key={s.id}
-              onClick={() => setSelectedSession(s)}
-              className={`p-2.5 rounded-xl cursor-pointer transition-all border flex items-center justify-between ${
-                isSelected
-                  ? 'bg-gradient-to-r from-amber-500 to-orange-600 text-white border-amber-600 shadow-xs'
-                  : 'bg-white text-slate-800 border-slate-200/80 hover:border-slate-300'
-              }`}
-            >
-              <div className="min-w-0 pr-1">
-                <p className="font-bold text-xs truncate max-w-[170px]">{s.lesson_info}</p>
-                <p className={`text-[10px] ${isSelected ? 'text-amber-100' : 'text-slate-400'}`}>
-                  {s.class_name} • {s.created_at ? format(new Date(s.created_at), 'MM. dd.', { locale: hu }) : ''}
-                </p>
-              </div>
-              <Button
-                size="icon"
-                variant="ghost"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  deleteSession(s.id);
-                }}
-                className={`h-7 w-7 rounded-lg shrink-0 ${isSelected ? 'text-amber-100 hover:text-white hover:bg-amber-600' : 'text-slate-400 hover:text-rose-500'}`}
+      <div className="md:col-span-4 bg-slate-50/80 rounded-2xl p-3 border border-slate-200/80 space-y-2.5 max-h-[620px] overflow-y-auto">
+        <div className="flex items-center justify-between">
+          <h3 className="font-bold text-xs text-slate-700 flex items-center gap-1.5 uppercase tracking-wider">
+            <Clock className="w-3.5 h-3.5 text-amber-500" /> Értékelések ({sessions.length})
+          </h3>
+        </div>
+
+        {/* Filter pills */}
+        <div className="flex items-center gap-1 p-0.5 bg-white rounded-xl border border-slate-200 text-[10px] font-bold">
+          <button
+            type="button"
+            onClick={() => setTypeFilter('all')}
+            className={cn(
+              "flex-1 py-1 rounded-lg transition-all text-center",
+              typeFilter === 'all' ? "bg-slate-800 text-white" : "text-slate-600 hover:text-slate-900"
+            )}
+          >
+            Mind ({sessions.length})
+          </button>
+          <button
+            type="button"
+            onClick={() => setTypeFilter('target_board')}
+            className={cn(
+              "flex-1 py-1 rounded-lg transition-all text-center",
+              typeFilter === 'target_board' ? "bg-amber-500 text-white" : "text-slate-600 hover:text-slate-900"
+            )}
+          >
+            🎯 Céltábla ({targetCount})
+          </button>
+          <button
+            type="button"
+            onClick={() => setTypeFilter('survey')}
+            className={cn(
+              "flex-1 py-1 rounded-lg transition-all text-center",
+              typeFilter === 'survey' ? "bg-purple-600 text-white" : "text-slate-600 hover:text-slate-900"
+            )}
+          >
+            📋 Kérdőív ({surveyCount})
+          </button>
+        </div>
+
+        {/* Sessions list */}
+        <div className="space-y-1.5">
+          {filteredSessions.map(s => {
+            const isSelected = selectedSession?.id === s.id;
+            const isSurvey = s.tool_type === 'survey';
+
+            return (
+              <div
+                key={s.id}
+                onClick={() => setSelectedSession(s)}
+                className={cn(
+                  "p-2.5 rounded-xl cursor-pointer transition-all border flex items-center justify-between",
+                  isSelected
+                    ? isSurvey
+                      ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white border-purple-700 shadow-sm"
+                      : "bg-gradient-to-r from-amber-500 to-orange-600 text-white border-amber-600 shadow-sm"
+                    : "bg-white text-slate-800 border-slate-200/80 hover:border-slate-300"
+                )}
               >
-                <Trash2 className="w-3.5 h-3.5" />
-              </Button>
-            </div>
-          );
-        })}
+                <div className="min-w-0 pr-1 space-y-0.5">
+                  <div className="flex items-center gap-1.5">
+                    <span className={cn(
+                      "text-[9px] font-black uppercase px-1.5 py-0.2 rounded shrink-0",
+                      isSelected
+                        ? "bg-white/20 text-white"
+                        : isSurvey
+                        ? "bg-purple-100 text-purple-700"
+                        : "bg-amber-100 text-amber-700"
+                    )}>
+                      {isSurvey ? 'Kérdőív' : 'Céltábla'}
+                    </span>
+                    <p className="font-bold text-xs truncate max-w-[150px]">{s.lesson_info || s.title}</p>
+                  </div>
+                  <p className={cn("text-[10px]", isSelected ? "text-white/80" : "text-slate-400")}>
+                    {s.class_name} • {s.created_at ? format(new Date(s.created_at), 'MM. dd.', { locale: hu }) : ''}
+                  </p>
+                </div>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteSession(s.id);
+                  }}
+                  className={cn(
+                    "h-7 w-7 rounded-lg shrink-0",
+                    isSelected ? "text-white/80 hover:text-white hover:bg-white/20" : "text-slate-400 hover:text-rose-500"
+                  )}
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                </Button>
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       {/* Selected Session Detail View */}
       {selectedSession && (
-        <div className="md:col-span-8 space-y-3.5">
-          <div className="bg-slate-50/70 rounded-2xl p-3 sm:p-4 border border-slate-200/80">
-            <div className="flex items-center justify-between flex-wrap gap-2 mb-3 pb-2.5 border-b border-slate-200/70">
-              <div>
-                <h2 className="text-base font-bold text-slate-800 leading-tight">{selectedSession.lesson_info}</h2>
-                <p className="text-[11px] text-slate-500 mt-0.5">
-                  {selectedSession.class_name} • {results.length} diák adott visszajelzést
-                </p>
-              </div>
-              <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100">
-                {selectedSession.aspects.length} Szempont
-              </span>
-            </div>
-
-            {/* Average Scores per Aspect */}
-            <h3 className="font-bold text-xs text-slate-700 mb-2.5 uppercase tracking-wider">
-              Átlagos Értékelés Szempontonként (10-ből)
-            </h3>
-            <div className="space-y-2.5 mb-4">
-              {selectedSession.aspects.map((aspect, idx) => {
-                const avg = aspectAverages[idx] || 0;
-                const percentage = (avg / 10) * 100;
-                const theme = ASPECT_BAR_COLORS[idx] || ASPECT_BAR_COLORS[0];
-                return (
-                  <div key={idx} className="space-y-1">
-                    <div className="flex justify-between items-center text-xs">
-                      <span className="font-semibold text-slate-700 flex items-center gap-1.5 truncate pr-2">
-                        <span className={`w-4 h-4 rounded text-[10px] font-black flex items-center justify-center shrink-0 ${theme.badge}`}>
-                          {idx + 1}
-                        </span>
-                        <span className="truncate">{aspect}</span>
-                      </span>
-                      <span className={`font-black shrink-0 ${theme.text}`}>{avg} / 10</span>
-                    </div>
-                    <div className="h-2.5 w-full bg-slate-200/70 rounded-full overflow-hidden">
-                      <div
-                        className={`h-full bg-gradient-to-r ${theme.gradient} rounded-full transition-all duration-500`}
-                        style={{ width: `${percentage}%` }}
-                      />
-                    </div>
+        <div className="md:col-span-8">
+          {selectedSession.tool_type === 'survey' ? (
+            <SurveyResultsView session={selectedSession} />
+          ) : (
+            <div className="space-y-3.5">
+              <div className="bg-slate-50/70 rounded-2xl p-3 sm:p-4 border border-slate-200/80">
+                <div className="flex items-center justify-between flex-wrap gap-2 mb-3 pb-2.5 border-b border-slate-200/70">
+                  <div>
+                    <h2 className="text-base font-bold text-slate-800 leading-tight">{selectedSession.lesson_info}</h2>
+                    <p className="text-[11px] text-slate-500 mt-0.5">
+                      {selectedSession.class_name} • {results.length} diák adott visszajelzést
+                    </p>
                   </div>
-                );
-              })}
-            </div>
+                  <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100">
+                    {selectedSession.aspects?.length || 0} Szempont
+                  </span>
+                </div>
 
-            {/* Detailed Student Responses */}
-            <h3 className="font-bold text-xs text-slate-700 mb-2 uppercase tracking-wider">
-              Diákok Egyéni Értékelései ({results.length})
-            </h3>
-            <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
-              {results.length === 0 ? (
-                <p className="text-xs text-slate-400 py-3 text-center">Még nem érkezett válasz erre a visszajelzésre.</p>
-              ) : (
-                results.map((r, i) => (
-                  <div key={i} className="flex items-center justify-between p-2 bg-white rounded-xl border border-slate-200/80 text-xs">
-                    <div className="flex items-center gap-2 min-w-0 pr-2">
-                      {r.feedback_students?.avatar_id && (r.feedback_students.avatar_id.startsWith('http') || r.feedback_students.avatar_id.startsWith('data:') || r.feedback_students.avatar_id.startsWith('/')) ? (
-                        <img src={r.feedback_students.avatar_id} alt={r.feedback_students.name} className="w-5 h-5 rounded-full object-cover shrink-0" />
-                      ) : (
-                        <span className="text-base shrink-0">{r.feedback_students?.avatar_id || '🎒'}</span>
-                      )}
-                      <span className="font-bold text-slate-800 truncate">{r.feedback_students?.name || 'Diák'}</span>
-                    </div>
-                    <div className="flex gap-1.5 flex-wrap">
-                      {r.scores.map((score, idx) => {
-                        const theme = ASPECT_BAR_COLORS[idx] || ASPECT_BAR_COLORS[0];
-                        return (
-                          <span key={idx} className={`px-2 py-0.5 rounded-lg text-[10px] font-bold border border-slate-200 ${theme.badge}`}>
-                            {idx + 1}.: {score}/10
+                {/* Average Scores per Aspect */}
+                <h3 className="font-bold text-xs text-slate-700 mb-2.5 uppercase tracking-wider">
+                  Átlagos Értékelés Szempontonként (10-ből)
+                </h3>
+                <div className="space-y-2.5 mb-4">
+                  {selectedSession.aspects?.map((aspect, idx) => {
+                    const avg = aspectAverages[idx] || 0;
+                    const percentage = (avg / 10) * 100;
+                    const theme = ASPECT_BAR_COLORS[idx] || ASPECT_BAR_COLORS[0];
+                    return (
+                      <div key={idx} className="space-y-1">
+                        <div className="flex justify-between items-center text-xs">
+                          <span className="font-semibold text-slate-700 flex items-center gap-1.5 truncate pr-2">
+                            <span className={cn("w-4 h-4 rounded text-[10px] font-black flex items-center justify-center shrink-0", theme.badge)}>
+                              {idx + 1}
+                            </span>
+                            <span className="truncate">{aspect}</span>
                           </span>
-                        );
-                      })}
-                    </div>
-                  </div>
-                ))
-              )}
+                          <span className={cn("font-black shrink-0", theme.text)}>{avg} / 10</span>
+                        </div>
+                        <div className="h-2.5 w-full bg-slate-200/70 rounded-full overflow-hidden">
+                          <div
+                            className={cn("h-full bg-gradient-to-r rounded-full transition-all duration-500", theme.gradient)}
+                            style={{ width: `${percentage}%` }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Detailed Student Responses */}
+                <h3 className="font-bold text-xs text-slate-700 mb-2 uppercase tracking-wider">
+                  Diákok Egyéni Értékelései ({results.length})
+                </h3>
+                <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
+                  {results.length === 0 ? (
+                    <p className="text-xs text-slate-400 py-3 text-center">Még nem érkezett válasz erre a visszajelzésre.</p>
+                  ) : (
+                    results.map((r, i) => (
+                      <div key={i} className="flex items-center justify-between p-2 bg-white rounded-xl border border-slate-200/80 text-xs">
+                        <div className="flex items-center gap-2 min-w-0 pr-2">
+                          {r.feedback_students?.avatar_id && (r.feedback_students.avatar_id.startsWith('http') || r.feedback_students.avatar_id.startsWith('data:') || r.feedback_students.avatar_id.startsWith('/')) ? (
+                            <img src={r.feedback_students.avatar_id} alt={r.feedback_students.name} className="w-5 h-5 rounded-full object-cover shrink-0" />
+                          ) : (
+                            <span className="text-base shrink-0">{r.feedback_students?.avatar_id || '🎒'}</span>
+                          )}
+                          <span className="font-bold text-slate-800 truncate">{r.feedback_students?.name || 'Diák'}</span>
+                        </div>
+                        <div className="flex gap-1.5 flex-wrap">
+                          {r.scores.map((score, idx) => {
+                            const theme = ASPECT_BAR_COLORS[idx] || ASPECT_BAR_COLORS[0];
+                            return (
+                              <span key={idx} className={cn("px-2 py-0.5 rounded-lg text-[10px] font-bold border border-slate-200", theme.badge)}>
+                                {idx + 1}.: {score}/10
+                              </span>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       )}
     </div>

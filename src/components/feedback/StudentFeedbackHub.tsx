@@ -2,16 +2,18 @@ import { useState, useEffect } from 'react';
 import { db } from '@/lib/firebase';
 import { collection, doc, getDoc, query, where, onSnapshot } from 'firebase/firestore';
 import { Button } from '@/components/ui/button';
-import { Target, Users, BarChart3, ChevronLeft, Bell, Sparkles } from 'lucide-react';
+import { Target, Users, BarChart3, ChevronLeft, Bell, Sparkles, FileText } from 'lucide-react';
 import ClassManager from './ClassManager';
 import { TargetBoardSetup } from './TargetBoardSetup';
 import { TargetBoardGame } from './TargetBoardGame';
 import { FeedbackResults } from './FeedbackResults';
+import { SurveySetup } from './SurveySetup';
+import { StudentSurveyForm } from './StudentSurveyForm';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 
-type ActiveTab = 'setup' | 'classes' | 'results';
-type AppState = 'hub' | 'playing' | 'viewing_results_detail' | 'student_playing';
+type ActiveTab = 'setup' | 'survey_setup' | 'classes' | 'results';
+type AppState = 'hub' | 'playing' | 'viewing_results_detail' | 'student_playing' | 'student_survey';
 
 interface StudentFeedbackHubProps {
   onBack?: () => void;
@@ -60,7 +62,7 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
   }, [user]);
 
   useEffect(() => {
-    if (profile?.role === 'student' && activeTab === 'setup') {
+    if (profile?.role === 'student' && (activeTab === 'setup' || activeTab === 'survey_setup')) {
       setActiveTab('results');
     }
   }, [profile, activeTab]);
@@ -68,7 +70,11 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
   const handleJoinSession = (notification: any) => {
     setActiveNotification(notification);
     setCurrentSession(notification.session);
-    setAppState('student_playing');
+    if (notification.tool_type === 'survey' || notification.session?.tool_type === 'survey') {
+      setAppState('student_survey');
+    } else {
+      setAppState('student_playing');
+    }
   };
 
   const handleStartGame = (sessionData: any) => {
@@ -120,6 +126,28 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
     );
   }
 
+  if (appState === 'student_survey' && activeNotification) {
+    return (
+      <StudentSurveyForm
+        session={currentSession}
+        studentId={activeNotification.student_id}
+        studentName={activeNotification.student_name}
+        notificationId={activeNotification.id}
+        onComplete={() => {
+          setAppState('hub');
+          setActiveNotification(null);
+          setCurrentSession(null);
+          setActiveTab('results');
+        }}
+        onCancel={() => {
+          setAppState('hub');
+          setActiveNotification(null);
+          setCurrentSession(null);
+        }}
+      />
+    );
+  }
+
   return (
     <div className="w-full max-w-6xl mx-auto px-2 sm:px-4 py-2 sm:py-3 space-y-2.5">
       {/* Top Header Bar */}
@@ -151,7 +179,7 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
                 </span>
               </div>
               <p className="text-[11px] text-slate-500 hidden sm:block mt-0.5">
-                Céltáblás tanári visszajelzések, osztályok és eredmények kezelése
+                Céltáblás tanári visszajelzések, kérdőívek és eredmények kezelése
               </p>
             </div>
           </div>
@@ -167,7 +195,7 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
           )}
           <div className="hidden md:flex items-center gap-1.5 text-xs font-semibold text-slate-600 bg-slate-100/90 px-2.5 py-1 rounded-xl border border-slate-200/60">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span>Aktív céltábla rendszer</span>
+            <span>Aktív visszajelző rendszer</span>
           </div>
         </div>
       </div>
@@ -176,98 +204,129 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
       {notifications.length > 0 && (
         <div className="bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 rounded-2xl p-3 text-white shadow-md flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-2">
-            <span className="text-xl">🎯</span>
+            <span className="text-xl">📬</span>
             <div>
               <h3 className="text-xs sm:text-sm font-bold leading-tight">Új visszajelzési felkérésed érkezett!</h3>
-              <p className="text-[11px] text-amber-100">A tanárod várja a céltáblás értékelésedet.</p>
+              <p className="text-[11px] text-amber-100">A tanárod várja a véleményedet.</p>
             </div>
           </div>
           <div className="flex flex-wrap gap-2">
-            {notifications.map((n) => (
-              <Button
-                key={n.id}
-                size="sm"
-                onClick={() => handleJoinSession(n)}
-                className="bg-white text-orange-600 hover:bg-amber-50 font-bold rounded-xl h-7 text-xs shadow-xs"
-              >
-                Visszajelzés megnyitása: {n.session?.lesson_info || n.session?.class_name || 'Feladat'}
-              </Button>
-            ))}
+            {notifications.map((n) => {
+              const isSurvey = n.tool_type === 'survey' || n.session?.tool_type === 'survey';
+              return (
+                <Button
+                  key={n.id}
+                  size="sm"
+                  onClick={() => handleJoinSession(n)}
+                  className="bg-white text-orange-600 hover:bg-amber-50 font-bold rounded-xl h-7 text-xs shadow-xs"
+                >
+                  {isSurvey ? '📋 Kérdőív: ' : '🎯 Céltábla: '}
+                  {n.session?.title || n.session?.lesson_info || n.session?.class_name || 'Feladat'}
+                </Button>
+              );
+            })}
           </div>
         </div>
       )}
 
-      {/* 3 Mode Tabs (Teacher / Educator) */}
+      {/* 4 Mode Tabs (Teacher / Educator) */}
       {isTeacher && (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
           {/* Tab 1: Osztályok Kezelése */}
           <div 
             onClick={() => setActiveTab('classes')}
             className={cn(
-              "flex items-center gap-2.5 p-2 sm:p-2.5 rounded-2xl cursor-pointer transition-all border",
+              "flex items-center gap-2 p-2 sm:p-2.5 rounded-2xl cursor-pointer transition-all border",
               activeTab === 'classes' 
                 ? "bg-gradient-to-r from-emerald-50/90 to-teal-50/50 border-emerald-400 ring-2 ring-emerald-500/20 shadow-xs" 
                 : "bg-white/90 hover:bg-emerald-50/20 border-slate-200/80 hover:border-emerald-200"
             )}
           >
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white shadow-xs shrink-0">
-              <Users className="w-4 h-4" />
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white shadow-xs shrink-0">
+              <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </div>
             <div className="min-w-0 flex-1">
-              <h3 className="font-bold text-xs sm:text-sm text-slate-800 truncate">Osztályok Kezelése</h3>
-              <p className="text-[10px] text-slate-500 truncate">Csoportok & diák fiókok</p>
+              <h3 className="font-bold text-xs sm:text-sm text-slate-800 truncate">Osztályok</h3>
+              <p className="text-[10px] text-slate-500 truncate">Csoportok & diákok</p>
             </div>
             {activeTab === 'classes' && (
-              <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0 mr-1" />
+              <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0 mr-1 hidden sm:inline-block" />
             )}
           </div>
 
-          {/* Tab 2: Új Visszajelzés (Fő fül) */}
+          {/* Tab 2: Céltábla Visszajelzés (Gyors óravégi) */}
           <div 
             onClick={() => setActiveTab('setup')}
             className={cn(
-              "flex items-center gap-2.5 p-2 sm:p-2.5 rounded-2xl cursor-pointer transition-all border",
+              "flex items-center gap-2 p-2 sm:p-2.5 rounded-2xl cursor-pointer transition-all border",
               activeTab === 'setup' 
                 ? "bg-gradient-to-r from-indigo-50/90 to-purple-50/50 border-indigo-400 ring-2 ring-indigo-500/20 shadow-xs" 
                 : "bg-white/90 hover:bg-indigo-50/20 border-slate-200/80 hover:border-indigo-200"
             )}
           >
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-xs shrink-0">
-              <Target className="w-4 h-4" />
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-xs shrink-0">
+              <Target className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </div>
             <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-1.5">
-                <h3 className="font-bold text-xs sm:text-sm text-slate-800 truncate">Új Visszajelzés</h3>
-                <span className="text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-indigo-100 text-indigo-700">
-                  Céltábla
+              <div className="flex items-center gap-1">
+                <h3 className="font-bold text-xs sm:text-sm text-slate-800 truncate">Céltábla</h3>
+                <span className="text-[9px] font-black uppercase px-1 py-0.2 rounded bg-indigo-100 text-indigo-700">
+                  Gyors
                 </span>
               </div>
-              <p className="text-[10px] text-slate-500 truncate">Élő órai értékelés indítása</p>
+              <p className="text-[10px] text-slate-500 truncate">Óra végi értékelés</p>
             </div>
             {activeTab === 'setup' && (
-              <span className="w-2 h-2 rounded-full bg-indigo-500 shrink-0 mr-1" />
+              <span className="w-2 h-2 rounded-full bg-indigo-500 shrink-0 mr-1 hidden sm:inline-block" />
             )}
           </div>
 
-          {/* Tab 3: Eredmények */}
+          {/* Tab 3: Részletes Kérdőív (ÚJ!) */}
+          <div 
+            onClick={() => setActiveTab('survey_setup')}
+            className={cn(
+              "flex items-center gap-2 p-2 sm:p-2.5 rounded-2xl cursor-pointer transition-all border",
+              activeTab === 'survey_setup' 
+                ? "bg-gradient-to-r from-purple-50/90 to-pink-50/50 border-purple-400 ring-2 ring-purple-500/20 shadow-xs" 
+                : "bg-white/90 hover:bg-purple-50/20 border-slate-200/80 hover:border-purple-200"
+            )}
+          >
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center text-white shadow-xs shrink-0">
+              <FileText className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-1">
+                <h3 className="font-bold text-xs sm:text-sm text-slate-800 truncate">Kérdőív</h3>
+                <span className="text-[9px] font-black uppercase px-1 py-0.2 rounded bg-purple-100 text-purple-700">
+                  Új
+                </span>
+              </div>
+              <p className="text-[10px] text-slate-500 truncate">Részletes felmérés</p>
+            </div>
+            {activeTab === 'survey_setup' && (
+              <span className="w-2 h-2 rounded-full bg-purple-500 shrink-0 mr-1 hidden sm:inline-block" />
+            )}
+          </div>
+
+          {/* Tab 4: Eredmények */}
           <div 
             onClick={() => setActiveTab('results')}
             className={cn(
-              "flex items-center gap-2.5 p-2 sm:p-2.5 rounded-2xl cursor-pointer transition-all border",
+              "flex items-center gap-2 p-2 sm:p-2.5 rounded-2xl cursor-pointer transition-all border",
               activeTab === 'results' 
                 ? "bg-gradient-to-r from-amber-50/90 to-orange-50/50 border-amber-400 ring-2 ring-amber-500/20 shadow-xs" 
                 : "bg-white/90 hover:bg-amber-50/20 border-slate-200/80 hover:border-amber-200"
             )}
           >
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-white shadow-xs shrink-0">
-              <BarChart3 className="w-4 h-4" />
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-white shadow-xs shrink-0">
+              <BarChart3 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </div>
             <div className="min-w-0 flex-1">
               <h3 className="font-bold text-xs sm:text-sm text-slate-800 truncate">Eredmények</h3>
-              <p className="text-[10px] text-slate-500 truncate">Korábbi céltáblák áttekintése</p>
+              <p className="text-[10px] text-slate-500 truncate">Elemzések & PDF</p>
             </div>
             {activeTab === 'results' && (
-              <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0 mr-1" />
+              <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0 mr-1 hidden sm:inline-block" />
             )}
           </div>
         </div>
@@ -280,6 +339,12 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
           <TargetBoardSetup 
             onStart={handleStartGame} 
             onStartGame={handleStartGame} 
+            onSwitchToClasses={() => setActiveTab('classes')}
+          />
+        )}
+        {activeTab === 'survey_setup' && (
+          <SurveySetup 
+            onSurveyCreated={() => setActiveTab('results')}
             onSwitchToClasses={() => setActiveTab('classes')}
           />
         )}
