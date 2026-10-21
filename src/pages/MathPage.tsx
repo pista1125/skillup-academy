@@ -1573,7 +1573,7 @@ export default function MathPage() {
     const grade = slugToGrade(gradeParam || '');
     if (grade) {
       setSelectedGrade(grade);
-      const defaultTopic = grade === 'high-2' ? 'g10-logika' : grade === 'high-1' ? 'g9-kombinatorika-halmazok' : grade === 8 ? 'g8-numbers-letters' : grade === 7 ? 'g7-logic' : grade === 6 ? 'g6-integers-divisibility' : grade === 5 ? 'g5-integers' : 'materials';
+      const defaultTopic = grade === 'high-4' ? 'g12-tergeometria' : grade === 'high-3' ? 'g11-trigonometria' : grade === 'high-2' ? 'g10-logika' : grade === 'high-1' ? 'g9-kombinatorika-halmazok' : grade === 8 ? 'g8-numbers-letters' : grade === 7 ? 'g7-logic' : grade === 6 ? 'g6-integers-divisibility' : grade === 5 ? 'g5-integers' : 'materials';
       if (topicParam) {
         setSelectedTopic(topicParam);
         setActiveGrade5TopicId(topicParam);
@@ -1680,7 +1680,7 @@ export default function MathPage() {
     setSelectedGrade(grade);
     setView('topic-select');
     if (typeof grade === 'number' || (typeof grade === 'string' && grade.startsWith('high-'))) {
-      const defaultTopic = grade === 'high-2' ? 'g10-logika' : grade === 'high-1' ? 'g9-kombinatorika-halmazok' : grade === 8 ? 'g8-numbers-letters' : grade === 7 ? 'g7-logic' : grade === 6 ? 'g6-integers-divisibility' : grade === 5 ? 'g5-integers' : 'materials';
+      const defaultTopic = grade === 'high-4' ? 'g12-tergeometria' : grade === 'high-3' ? 'g11-trigonometria' : grade === 'high-2' ? 'g10-logika' : grade === 'high-1' ? 'g9-kombinatorika-halmazok' : grade === 8 ? 'g8-numbers-letters' : grade === 7 ? 'g7-logic' : grade === 6 ? 'g6-integers-divisibility' : grade === 5 ? 'g5-integers' : 'materials';
       setActiveGrade5TopicId(defaultTopic);
       setExpandedTopicId(defaultTopic);
       setActiveGrade5SubSectionId(null);

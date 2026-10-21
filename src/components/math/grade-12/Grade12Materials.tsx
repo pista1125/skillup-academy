@@ -17,7 +17,7 @@ export const Grade12Materials: React.FC<Grade12MaterialsProps> = ({ onView }) =>
                     <h2 className="text-2xl font-black">12. Osztályos Matematika Tananyagok</h2>
                 </div>
                 <p className="text-amber-100 text-sm max-w-2xl">
-                    Hivatalos érettségi felkészítő feladatgyűjtemények, függvénytáblázatok és emelt szintű tananyagok 12. évfolyam számára.
+                    Hivatalos tankönyv, érettségi felkészítő feladatgyűjtemények, függvénytáblázatok és emelt szintű tananyagok 12. évfolyam számára.
                 </p>
             </div>
 

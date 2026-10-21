@@ -14,6 +14,13 @@ export const getStorageUrl = (folder: string, fileName: string) => {
 
 export const GRADE_12_MATERIALS: Material[] = [
     {
+        id: 'mat12ta',
+        title: 'Matematika 12. Tankönyv',
+        description: 'Középiskolai tankönyv 12. évfolyam számára (OH-MAT12TA)',
+        fileName: 'OH-MAT12TA__teljes.pdf',
+        path: getStorageUrl('12_osztaly', 'OH-MAT12TA__teljes.pdf')
+    },
+    {
         id: 'mat12gy',
         title: 'Matematika 9–12. Gyakorló és feladatgyűjtemény',
         description: 'Gyakorló és érettségire felkészítő feladatgyűjtemény (OH-MAT912GY)',
