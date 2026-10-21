@@ -1573,7 +1573,7 @@ export default function MathPage() {
     const grade = slugToGrade(gradeParam || '');
     if (grade) {
       setSelectedGrade(grade);
-      const defaultTopic = grade === 8 ? 'g8-numbers-letters' : grade === 7 ? 'g7-logic' : grade === 6 ? 'g6-integers-divisibility' : grade === 5 ? 'g5-integers' : 'materials';
+      const defaultTopic = grade === 'high-2' ? 'g10-logika' : grade === 'high-1' ? 'g9-kombinatorika-halmazok' : grade === 8 ? 'g8-numbers-letters' : grade === 7 ? 'g7-logic' : grade === 6 ? 'g6-integers-divisibility' : grade === 5 ? 'g5-integers' : 'materials';
       if (topicParam) {
         setSelectedTopic(topicParam);
         setActiveGrade5TopicId(topicParam);
@@ -1589,7 +1589,7 @@ export default function MathPage() {
         } else {
           setView('topic-select');
           // Some topics might show detail instead of full activity
-          if (topicParam === 'competency-assessment' || !((grade === 5 && topicParam.startsWith('g5-')) || grade === 4 || grade === 6 || grade === 7 || grade === 8)) {
+          if (topicParam === 'competency-assessment' || !((grade === 5 && topicParam.startsWith('g5-')) || grade === 4 || grade === 6 || grade === 7 || grade === 8 || (typeof grade === 'string' && grade.startsWith('high-')))) {
             setActivityType(topicParam as ActivityType);
             setView('activity');
           } else {
@@ -1680,7 +1680,7 @@ export default function MathPage() {
     setSelectedGrade(grade);
     setView('topic-select');
     if (typeof grade === 'number' || (typeof grade === 'string' && grade.startsWith('high-'))) {
-      const defaultTopic = grade === 8 ? 'g8-numbers-letters' : grade === 7 ? 'g7-logic' : grade === 6 ? 'g6-integers-divisibility' : grade === 5 ? 'g5-integers' : 'materials';
+      const defaultTopic = grade === 'high-2' ? 'g10-logika' : grade === 'high-1' ? 'g9-kombinatorika-halmazok' : grade === 8 ? 'g8-numbers-letters' : grade === 7 ? 'g7-logic' : grade === 6 ? 'g6-integers-divisibility' : grade === 5 ? 'g5-integers' : 'materials';
       setActiveGrade5TopicId(defaultTopic);
       setExpandedTopicId(defaultTopic);
       setActiveGrade5SubSectionId(null);
@@ -1691,7 +1691,7 @@ export default function MathPage() {
   };
 
   const handleTopicSelect = (topicId: string, forceActivity = false) => {
-    if (!forceActivity && ((selectedGrade === 5 && topicId.startsWith('g5-')) || selectedGrade === 4 || selectedGrade === 6 || selectedGrade === 7 || selectedGrade === 8)) {
+    if (!forceActivity && ((selectedGrade === 5 && topicId.startsWith('g5-')) || selectedGrade === 4 || selectedGrade === 6 || selectedGrade === 7 || selectedGrade === 8 || (typeof selectedGrade === 'string' && selectedGrade.startsWith('high-')))) {
       const nextExpanded = expandedTopicId === topicId ? null : topicId;
       setExpandedTopicId(nextExpanded);
       updateURL('topic-select', selectedGrade, nextExpanded, null);

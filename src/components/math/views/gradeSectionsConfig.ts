@@ -605,7 +605,112 @@ export const sectionToTopicMap: Record<string, string> = {
   'g9-sec-transzformaciok-gyakorlatban': 'g9-egybevagosag-negyszogek',
   'g9-sec-szimmetrikus-negyszogek': 'g9-egybevagosag-negyszogek',
   'g9-sec-negyszogek-terulete': 'g9-egybevagosag-negyszogek',
-  'g9-sec-tudasproba-negyszogek': 'g9-egybevagosag-negyszogek'
+  'g9-sec-tudasproba-negyszogek': 'g9-egybevagosag-negyszogek',
+
+  // Grade 10
+  'g10-logika': 'g10-logika',
+  'g10-sec-igaz-vagy-hamis': 'g10-logika',
+  'g10-sec-allitas-es-tagadasa': 'g10-logika',
+  'g10-sec-vagy-muvelet-es-muvelet': 'g10-logika',
+  'g10-sec-igaz-vagy-hamis-tablazatba': 'g10-logika',
+  'g10-sec-allitas-es-megforditasa': 'g10-logika',
+  'g10-sec-gyakorlas-tudasproba': 'g10-logika',
+
+  'g10-egyenletrendszerek': 'g10-egyenletrendszerek',
+  'g10-sec-egyenletrendszerek-grafikus': 'g10-egyenletrendszerek',
+  'g10-sec-egyenletrendszerek-algebrai': 'g10-egyenletrendszerek',
+  'g10-sec-egyenletrendszerek-osszetett': 'g10-egyenletrendszerek',
+  'g10-sec-egyenletrendszerek-gyakorlas': 'g10-egyenletrendszerek',
+  'g10-sec-egyenletrendszerek-tudasproba': 'g10-egyenletrendszerek',
+
+  'g10-hatvanyozas-negyzetgyok': 'g10-hatvanyozas-negyzetgyok',
+  'g10-sec-hatvanyozas-ismetles': 'g10-hatvanyozas-negyzetgyok',
+  'g10-sec-egesz-kitevoju-hatvanyok': 'g10-hatvanyozas-negyzetgyok',
+  'g10-sec-hatvany-gyakorlas': 'g10-hatvanyozas-negyzetgyok',
+  'g10-sec-szamok-normalalakja': 'g10-hatvanyozas-negyzetgyok',
+  'g10-sec-gyokvonas-azonossagai': 'g10-hatvanyozas-negyzetgyok',
+  'g10-sec-negyzetgyokos-feladatok': 'g10-hatvanyozas-negyzetgyok',
+  'g10-sec-gyok-gyakorlas': 'g10-hatvanyozas-negyzetgyok',
+  'g10-sec-hatvany-tudasproba': 'g10-hatvanyozas-negyzetgyok',
+
+  'g10-fuggvenytranszformaciok': 'g10-fuggvenytranszformaciok',
+  'g10-sec-transz-konkret-problema': 'g10-fuggvenytranszformaciok',
+  'g10-sec-transz-parabolak': 'g10-fuggvenytranszformaciok',
+  'g10-sec-transz-fel-le-jobbra-balra': 'g10-fuggvenytranszformaciok',
+  'g10-sec-transz-sovanyabb-koverebb': 'g10-fuggvenytranszformaciok',
+  'g10-sec-transz-osszetett': 'g10-fuggvenytranszformaciok',
+  'g10-sec-transz-masodfoku-fuggvenyek': 'g10-fuggvenytranszformaciok',
+  'g10-sec-transz-masodfoku-grafikonja': 'g10-fuggvenytranszformaciok',
+  'g10-sec-transz-gyakorlas-alkalmazas': 'g10-fuggvenytranszformaciok',
+  'g10-sec-transz-tudasproba': 'g10-fuggvenytranszformaciok',
+
+  'g10-masodfoku-egyenletek': 'g10-masodfoku-egyenletek',
+  'g10-sec-quad-teljes-negyzet': 'g10-masodfoku-egyenletek',
+  'g10-sec-quad-teljes-negyzet-alkalmazasa': 'g10-masodfoku-egyenletek',
+  'g10-sec-quad-megoldokeplet': 'g10-masodfoku-egyenletek',
+  'g10-sec-quad-megoldokeplet-alkalmazasa': 'g10-masodfoku-egyenletek',
+  'g10-sec-quad-szoveges-alap': 'g10-masodfoku-egyenletek',
+  'g10-sec-quad-diszkriminans': 'g10-masodfoku-egyenletek',
+  'g10-sec-quad-szoveges-geometria': 'g10-masodfoku-egyenletek',
+  'g10-sec-quad-visszavezetheto': 'g10-masodfoku-egyenletek',
+  'g10-sec-quad-szoveges-penzugy': 'g10-masodfoku-egyenletek',
+  'g10-sec-quad-szoveges-mozgas-munka': 'g10-masodfoku-egyenletek',
+  'g10-sec-quad-csoportverseny': 'g10-masodfoku-egyenletek',
+  'g10-sec-quad-tudasproba': 'g10-masodfoku-egyenletek',
+
+  'g10-egybevagosag-kor': 'g10-egybevagosag-kor',
+  'g10-sec-geo-haromszog-alapesetek': 'g10-egybevagosag-kor',
+  'g10-sec-geo-egybevago-haromszogek': 'g10-egybevagosag-kor',
+  'g10-sec-geo-kor-kerulet-terulet': 'g10-egybevagosag-kor',
+  'g10-sec-geo-kozepponti-szog-iv-cikk': 'g10-egybevagosag-kor',
+  'g10-sec-geo-gyakorlas-kor': 'g10-egybevagosag-kor',
+  'g10-sec-geo-korivek-mindennapokban': 'g10-egybevagosag-kor',
+  'g10-sec-geo-sokszogek-es-korok': 'g10-egybevagosag-kor',
+  'g10-sec-geo-gyakorlas-sokszogek': 'g10-egybevagosag-kor',
+  'g10-sec-geo-ismetles': 'g10-egybevagosag-kor',
+  'g10-sec-geo-tudasproba': 'g10-egybevagosag-kor',
+
+  'g10-statisztika-valoszinuseg': 'g10-statisztika-valoszinuseg',
+  'g10-sec-stat-atlag-szamtani-kozep': 'g10-statisztika-valoszinuseg',
+  'g10-sec-stat-szamtani-mertani-kozep': 'g10-statisztika-valoszinuseg',
+  'g10-sec-stat-valtozasok': 'g10-statisztika-valoszinuseg',
+  'g10-sec-stat-statisztikai-jellemzok': 'g10-statisztika-valoszinuseg',
+  'g10-sec-stat-osztalyba-sorolas-atlagok': 'g10-statisztika-valoszinuseg',
+  'g10-sec-stat-veletlen-relativ-gyakorisag': 'g10-statisztika-valoszinuseg',
+  'g10-sec-stat-megismerheto-veletlen': 'g10-statisztika-valoszinuseg',
+  'g10-sec-stat-biztos-lehetetlen-veletlen': 'g10-statisztika-valoszinuseg',
+  'g10-sec-stat-valoszinuseg-gyakorlatban': 'g10-statisztika-valoszinuseg',
+  'g10-sec-stat-gyakorlas-tudasproba': 'g10-statisztika-valoszinuseg',
+
+  'g10-egyenletek-egyenlotlensegek': 'g10-egyenletek-egyenlotlensegek',
+  'g10-sec-eq-ekvivalens-egyenletek': 'g10-egyenletek-egyenlotlensegek',
+  'g10-sec-eq-gyokos-egyenletek': 'g10-egyenletek-egyenlotlensegek',
+  'g10-sec-eq-laboratoriumi-fejlesztesek': 'g10-egyenletek-egyenlotlensegek',
+  'g10-sec-eq-masodfoku-egyenlotlensegek': 'g10-egyenletek-egyenlotlensegek',
+  'g10-sec-eq-gyakorlas-egyenlotlensegek': 'g10-egyenletek-egyenlotlensegek',
+  'g10-sec-eq-polinom-gyoktenyezos-alakja': 'g10-egyenletek-egyenlotlensegek',
+  'g10-sec-eq-viete-formulak': 'g10-egyenletek-egyenlotlensegek',
+  'g10-sec-eq-csoportverseny': 'g10-egyenletek-egyenlotlensegek',
+  'g10-sec-eq-masodfoku-egyenletrendszerek': 'g10-egyenletek-egyenlotlensegek',
+  'g10-sec-eq-gyakorlas-tudasproba': 'g10-egyenletek-egyenlotlensegek',
+
+  'g10-hasonlosag': 'g10-hasonlosag',
+  'g10-sec-has-nagyitas-kicsinyites': 'g10-hasonlosag',
+  'g10-sec-has-kozeppontos-hasonlosag': 'g10-hasonlosag',
+  'g10-sec-has-geometriai-hozzarendelesek': 'g10-hasonlosag',
+  'g10-sec-has-hasonlosag-alapjai': 'g10-hasonlosag',
+  'g10-sec-has-tervrajz': 'g10-hasonlosag',
+  'g10-sec-has-alkalmazzuk-hasonlosagot': 'g10-hasonlosag',
+  'g10-sec-has-parhuzamos-szelok': 'g10-hasonlosag',
+  'g10-sec-has-haromszogek-hasonlosaga': 'g10-hasonlosag',
+  'g10-sec-has-kozepvonalak-sulyvonalak': 'g10-hasonlosag',
+  'g10-sec-has-magassag-befogotetel': 'g10-hasonlosag',
+  'g10-sec-has-gyakorlas': 'g10-hasonlosag',
+  'g10-sec-has-szepseg-muveszet': 'g10-hasonlosag',
+  'g10-sec-has-ismetles-gyakorlas': 'g10-hasonlosag',
+  'g10-sec-has-tudasproba': 'g10-hasonlosag',
+  'g10-sec-has-temazaro-gyujtemeny': 'g10-hasonlosag',
+  'g10-sec-has-mindennapi-penzugyek': 'g10-hasonlosag'
 };
 
 export function getGradeSubsections(
@@ -1329,6 +1434,119 @@ export function getGradeSubsections(
         { id: 'g9-sec-szimmetrikus-negyszogek', label: '6. Szimmetrikus négyszögek' },
         { id: 'g9-sec-negyszogek-terulete', label: '7. Nevezetes négyszögek területe' },
         { id: 'g9-sec-tudasproba-negyszogek', label: '8. Gyakorlás, tudáspróba' }
+      ];
+    } else if (t.id === 'g10-logika') {
+      subsections = [
+        { id: 'g10-sec-igaz-vagy-hamis', label: '1. Igaz vagy hamis' },
+        { id: 'g10-sec-allitas-es-tagadasa', label: '2. Állítás és tagadása' },
+        { id: 'g10-sec-vagy-muvelet-es-muvelet', label: '3. VAGY művelet, ÉS művelet' },
+        { id: 'g10-sec-igaz-vagy-hamis-tablazatba', label: '4. Igaz vagy hamis? Foglaljuk táblázatba!' },
+        { id: 'g10-sec-allitas-es-megforditasa', label: '5. Állítás és megfordítása' },
+        { id: 'g10-sec-gyakorlas-tudasproba', label: '6. Gyakorlás, tudáspróba' }
+      ];
+    } else if (t.id === 'g10-egyenletrendszerek') {
+      subsections = [
+        { id: 'g10-sec-egyenletrendszerek-grafikus', label: '1. Egyenletrendszerek grafikus megoldása' },
+        { id: 'g10-sec-egyenletrendszerek-algebrai', label: '2. Egyenletrendszerek megoldása algebrai módszerekkel' },
+        { id: 'g10-sec-egyenletrendszerek-osszetett', label: '3. Egyenletrendszerek' },
+        { id: 'g10-sec-egyenletrendszerek-gyakorlas', label: '4. Gyakorlás' },
+        { id: 'g10-sec-egyenletrendszerek-tudasproba', label: '5. Gyakorlás, tudáspróba' }
+      ];
+    } else if (t.id === 'g10-hatvanyozas-negyzetgyok') {
+      subsections = [
+        { id: 'g10-sec-hatvanyozas-ismetles', label: '1. A hatványozás (ismétlés)' },
+        { id: 'g10-sec-egesz-kitevoju-hatvanyok', label: '2. Egész kitevőjű hatványok' },
+        { id: 'g10-sec-hatvany-gyakorlas', label: '3. Gyakorlás' },
+        { id: 'g10-sec-szamok-normalalakja', label: '4. Számok normálalakja' },
+        { id: 'g10-sec-gyokvonas-azonossagai', label: '5. A gyökvonás azonosságai' },
+        { id: 'g10-sec-negyzetgyokos-feladatok', label: '6. Négyzetgyökös feladatok' },
+        { id: 'g10-sec-gyok-gyakorlas', label: '7. Gyakorlás' },
+        { id: 'g10-sec-hatvany-tudasproba', label: '8. Gyakorlás, tudáspróba' }
+      ];
+    } else if (t.id === 'g10-fuggvenytranszformaciok') {
+      subsections = [
+        { id: 'g10-sec-transz-konkret-problema', label: '1. Függvények egy-egy konkrét problémához' },
+        { id: 'g10-sec-transz-parabolak', label: '2. Parabolák a koordináta-rendszerben' },
+        { id: 'g10-sec-transz-fel-le-jobbra-balra', label: '3. „Fel”-, „le”, „jobbra”-, „balra”' },
+        { id: 'g10-sec-transz-sovanyabb-koverebb', label: '4. „Soványabb”, „kövérebb”' },
+        { id: 'g10-sec-transz-osszetett', label: '5. Összetett függvénytranszformációk' },
+        { id: 'g10-sec-transz-masodfoku-fuggvenyek', label: '6. Másodfokú függvények' },
+        { id: 'g10-sec-transz-masodfoku-grafikonja', label: '7. Másodfokú függvények grafikonja' },
+        { id: 'g10-sec-transz-gyakorlas-alkalmazas', label: '8. Gyakorlás, alkalmazás' },
+        { id: 'g10-sec-transz-tudasproba', label: '9. Gyakorlás, tudáspróba' }
+      ];
+    } else if (t.id === 'g10-masodfoku-egyenletek') {
+      subsections = [
+        { id: 'g10-sec-quad-teljes-negyzet', label: '1. Teljes négyzetté kiegészítés' },
+        { id: 'g10-sec-quad-teljes-negyzet-alkalmazasa', label: '2. Teljes négyzetté kiegészítés alkalmazása' },
+        { id: 'g10-sec-quad-megoldokeplet', label: '3. A másodfokú egyenlet megoldóképlete' },
+        { id: 'g10-sec-quad-megoldokeplet-alkalmazasa', label: '4. Alkalmazzuk a megoldóképletet!' },
+        { id: 'g10-sec-quad-szoveges-alap', label: '5. Szöveges feladatok' },
+        { id: 'g10-sec-quad-diszkriminans', label: '6. Diszkrimináns' },
+        { id: 'g10-sec-quad-szoveges-geometria', label: '7. Szöveges feladatok geometriából' },
+        { id: 'g10-sec-quad-visszavezetheto', label: '8. Másodfokú egyenletre visszavezethető feladatok' },
+        { id: 'g10-sec-quad-szoveges-penzugy', label: '9. Pénzügyekkel kapcsolatos szöveges feladatok' },
+        { id: 'g10-sec-quad-szoveges-mozgas-munka', label: '10. Szöveges feladatok mozgásról és munkavégzésről' },
+        { id: 'g10-sec-quad-csoportverseny', label: '11. Csoportverseny' },
+        { id: 'g10-sec-quad-tudasproba', label: '12. Gyakorlás, tudáspróba' }
+      ];
+    } else if (t.id === 'g10-egybevagosag-kor') {
+      subsections = [
+        { id: 'g10-sec-geo-haromszog-alapesetek', label: '1. Háromszögek egybevágóságának alapesetei' },
+        { id: 'g10-sec-geo-egybevago-haromszogek', label: '2. Egybevágó háromszögek' },
+        { id: 'g10-sec-geo-kor-kerulet-terulet', label: '3. A kör kerülete és területe' },
+        { id: 'g10-sec-geo-kozepponti-szog-iv-cikk', label: '4. Középponti szög, körív, körcikk' },
+        { id: 'g10-sec-geo-gyakorlas-kor', label: '5. Gyakorlás' },
+        { id: 'g10-sec-geo-korivek-mindennapokban', label: '6. Körívek, körcikkek a mindennapokban' },
+        { id: 'g10-sec-geo-sokszogek-es-korok', label: '7. Sokszögek és körök' },
+        { id: 'g10-sec-geo-gyakorlas-sokszogek', label: '8. Gyakorlás' },
+        { id: 'g10-sec-geo-ismetles', label: '9. Ismétlés' },
+        { id: 'g10-sec-geo-tudasproba', label: '10. Tudáspróba' }
+      ];
+    } else if (t.id === 'g10-statisztika-valoszinuseg') {
+      subsections = [
+        { id: 'g10-sec-stat-atlag-szamtani-kozep', label: '1. Átlag, számtani közép' },
+        { id: 'g10-sec-stat-szamtani-mertani-kozep', label: '2. Ráadás – Számtani közép, mértani közép' },
+        { id: 'g10-sec-stat-valtozasok', label: '3. Változások' },
+        { id: 'g10-sec-stat-statisztikai-jellemzok', label: '4. Számsokaságok statisztikai jellemzői' },
+        { id: 'g10-sec-stat-osztalyba-sorolas-atlagok', label: '5. Osztályba sorolás, átlagok átlaga' },
+        { id: 'g10-sec-stat-veletlen-relativ-gyakorisag', label: '6. Véletlen? – Relatív gyakoriság' },
+        { id: 'g10-sec-stat-megismerheto-veletlen', label: '7. Megismerhető véletlen' },
+        { id: 'g10-sec-stat-biztos-lehetetlen-veletlen', label: '8. Biztos, lehetetlen, véletlen' },
+        { id: 'g10-sec-stat-valoszinuseg-gyakorlatban', label: '9. Valószínűség a gyakorlatban' },
+        { id: 'g10-sec-stat-gyakorlas-tudasproba', label: '10. Gyakorlás, tudáspróba' }
+      ];
+    } else if (t.id === 'g10-egyenletek-egyenlotlensegek') {
+      subsections = [
+        { id: 'g10-sec-eq-ekvivalens-egyenletek', label: '1. Ekvivalens egyenletek' },
+        { id: 'g10-sec-eq-gyokos-egyenletek', label: '2. Gyökös egyenletek' },
+        { id: 'g10-sec-eq-laboratoriumi-fejlesztesek', label: '3. Ráadás – Laboratóriumi fejlesztések' },
+        { id: 'g10-sec-eq-masodfoku-egyenlotlensegek', label: '4. Másodfokú egyenlőtlenségek' },
+        { id: 'g10-sec-eq-gyakorlas-egyenlotlensegek', label: '5. Gyakorlás' },
+        { id: 'g10-sec-eq-polinom-gyoktenyezos-alakja', label: '6. Polinom gyöktényezős alakja' },
+        { id: 'g10-sec-eq-viete-formulak', label: '7. Ráadás – Viète-formulák!' },
+        { id: 'g10-sec-eq-csoportverseny', label: '8. Csoportverseny' },
+        { id: 'g10-sec-eq-masodfoku-egyenletrendszerek', label: '9. Ráadás – Másodfokú egyenletrendszerek' },
+        { id: 'g10-sec-eq-gyakorlas-tudasproba', label: '10. Gyakorlás, tudáspróba' }
+      ];
+    } else if (t.id === 'g10-hasonlosag') {
+      subsections = [
+        { id: 'g10-sec-has-nagyitas-kicsinyites', label: '1. Középpontos nagyítás, kicsinyítés' },
+        { id: 'g10-sec-has-kozeppontos-hasonlosag', label: '2. Középpontos hasonlóság' },
+        { id: 'g10-sec-has-geometriai-hozzarendelesek', label: '3. Geometriai hozzárendelések' },
+        { id: 'g10-sec-has-hasonlosag-alapjai', label: '4. Hasonlóság' },
+        { id: 'g10-sec-has-tervrajz', label: '5. Ráadás – Mit mutat a tervrajz?' },
+        { id: 'g10-sec-has-alkalmazzuk-hasonlosagot', label: '6. Alkalmazzuk a hasonlóságot!' },
+        { id: 'g10-sec-has-parhuzamos-szelok', label: '7. Ráadás – Párhuzamos szelők tétele' },
+        { id: 'g10-sec-has-haromszogek-hasonlosaga', label: '8. Háromszögek hasonlósága' },
+        { id: 'g10-sec-has-kozepvonalak-sulyvonalak', label: '9. Háromszög középvonalai és súlyvonalai' },
+        { id: 'g10-sec-has-magassag-befogotetel', label: '10. Ráadás – Magasságtétel, befogótétel' },
+        { id: 'g10-sec-has-gyakorlas', label: '11. Gyakorlás' },
+        { id: 'g10-sec-has-szepseg-muveszet', label: '12. Ráadás – Szépség és művészet' },
+        { id: 'g10-sec-has-ismetles-gyakorlas', label: '13. Ismétlés, gyakorlás' },
+        { id: 'g10-sec-has-tudasproba', label: '14. Gyakorlás, tudáspróba' },
+        { id: 'g10-sec-has-temazaro-gyujtemeny', label: '15. Témazáró feladatgyűjtemény' },
+        { id: 'g10-sec-has-mindennapi-penzugyek', label: '16. Ráadás – Mindennapi pénzügyeink' }
       ];
     }
 
