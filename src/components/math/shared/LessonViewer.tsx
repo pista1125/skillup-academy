@@ -15,7 +15,7 @@ import {
     BookOpen
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { DivisibilityTool } from "@/components/math/tools/DivisibilityTool";
+import { DivisibilityTool } from "@/components/math/tools/divisibility";
 
 interface LessonViewerProps {
     material: {

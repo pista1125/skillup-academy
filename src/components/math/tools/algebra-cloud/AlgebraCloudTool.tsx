@@ -5,16 +5,16 @@ import {
   ToolTab,
   CloudContainer,
   CloudItem,
-} from './algebra-cloud/types';
+} from './types';
 import {
   THEME_CATEGORIES,
   ABSTRACT_VARIABLES,
   formatCloudExpression,
-} from './algebra-cloud/data';
-import { CloudBox } from './algebra-cloud/CloudBox';
-import { FactoringCloudStage } from './algebra-cloud/FactoringCloudStage';
-import { CombiningCloudStage } from './algebra-cloud/CombiningCloudStage';
-import { SimplifyingWorksheetModal } from './algebra-cloud/SimplifyingWorksheetModal';
+} from './data';
+import { CloudBox } from './CloudBox';
+import { FactoringCloudStage } from './FactoringCloudStage';
+import { CombiningCloudStage } from './CombiningCloudStage';
+import { SimplifyingWorksheetModal } from './SimplifyingWorksheetModal';
 import {
   ArrowLeft,
   Sparkles,

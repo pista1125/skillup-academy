@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { FractionVisualizer } from "@/components/math/tools/FractionVisualizer";
+import { FractionVisualizer } from "@/components/math/tools/fraction-visualizer";
 import { FractionsQuiz } from "./FractionsQuiz";
 import { FractionMultiplicationMatcher } from "@/components/math/grade-6/tortek/szorzas-torttel-a-reciprok/FractionMultiplicationMatcher";
 import { FractionVisualMatcher } from "./FractionVisualMatcher";
 import { FractionDivisionMatcher } from "@/components/math/grade-6/tortek/osztas-torttel/FractionDivisionMatcher";
-import { DecimalFractionsTool } from "@/components/math/tools/DecimalFractionsTool";
+import { DecimalFractionsTool } from "@/components/math/tools/decimal-fractions";
 import { 
     DecimalFractionsQuiz,
     DecimalMultiplicationQuiz, 
@@ -14,8 +14,8 @@ import {
     DecimalDivisionMatcher, 
     FractionToDecimalMatcher 
 } from "@/components/math/grade-6/tortek";
-import DecimalShifterTool from "@/components/math/tools/DecimalShifterTool";
-import { NumberLineTool } from "@/components/math/tools/NumberLineTool";
+import DecimalShifterTool from "@/components/math/tools/decimal-shifter";
+import { NumberLineTool } from "@/components/math/tools/number-line";
 import { FractionsSummaryQuiz } from "@/components/math/grade-6/tortek";
 import { SectionHeader } from "@/components/math/shared/SectionHeader";
 

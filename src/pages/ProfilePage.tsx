@@ -83,7 +83,7 @@ import {
   subscribeUserProgress, 
   QuizProgressRecord 
 } from '@/services/quizProgressService';
-import { ClassQuizProgressMatrix } from '@/components/feedback/ClassQuizProgressMatrix';
+import { ClassQuizProgressMatrix } from '@/components/math/tools/feedback/ClassQuizProgressMatrix';
 import { 
   requestTeacherAccess, 
   cancelTeacherRequest, 

@@ -39,7 +39,7 @@ import {
   generateTable,
   StatResult,
   TableRow
-} from './scientific/casioEvaluator';
+} from './casioEvaluator';
 
 interface ScientificCalculatorProps {
   onBack?: () => void;

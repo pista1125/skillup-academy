@@ -12,6 +12,7 @@ import { SidebarMenu } from '@/components/SidebarMenu';
 import { SiteFooter } from '@/components/SiteFooter';
 import { UserMenu } from '@/components/auth/UserMenu';
 import { OnlineTutoringModal } from '@/components/tutoring/OnlineTutoringModal';
+import { ToolsCatalog } from '@/components/math/tools';
 import {
   Grade1View,
   Grade2View,
@@ -44,7 +45,7 @@ const Grade5DecimalMultiplicationMatcher = lazy(() => import("@/components/math/
 const Grade5DecimalDivisionMatcher = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek").then(m => ({ default: m.DecimalDivisionMatcher }))) as any;
 const Grade5FractionToDecimalMatcher = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek").then(m => ({ default: m.FractionToDecimalMatcher }))) as any;
 const MathQuiz = lazy(() => import("@/components/math/shared/MathQuiz").then(m => ({ default: m.MathQuiz }))) as any;
-const FractionVisualizer = lazy(() => import("@/components/math/tools/FractionVisualizer").then(m => ({ default: m.FractionVisualizer }))) as any;
+const FractionVisualizer = lazy(() => import("@/components/math/tools/fraction-visualizer").then(m => ({ default: m.FractionVisualizer }))) as any;
 const FractionsModule = lazy(() => import("@/components/math/grade-4/tortszamok").then(m => ({ default: m.FractionsModule }))) as any;
 const Grade1MathModule = lazy(() => import("@/components/math/grade-1/Grade1MathModule").then(m => ({ default: m.Grade1MathModule }))) as any;
 const Grade2MathModule = lazy(() => import("@/components/math/grade-2/Grade2MathModule").then(m => ({ default: m.Grade2MathModule }))) as any;
@@ -52,10 +53,10 @@ const MoneyCountingQuiz = lazy(() => import("@/components/math/grade-4/meresek/M
 const BuildingBlocksComparison = lazy(() => import("@/components/math/grade-4/szamolas-10000-ig/BuildingBlocksComparison").then(m => ({ default: m.BuildingBlocksComparison }))) as any;
 const AlgebraQuiz = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/AlgebraQuiz").then(m => ({ default: m.AlgebraQuiz }))) as any;
 const MathColoringGame = lazy(() => import("@/components/math/games/coloring/MathColoringGame").then(m => ({ default: m.MathColoringGame }))) as any;
-const DivisibilityTool = lazy(() => import("@/components/math/tools/DivisibilityTool").then(m => ({ default: m.DivisibilityTool }))) as any;
+const DivisibilityTool = lazy(() => import("@/components/math/tools/divisibility").then(m => ({ default: m.DivisibilityTool }))) as any;
 const MaterialGallery = lazy(() => import("@/components/math/shared/MaterialGallery").then(m => ({ default: m.MaterialGallery }))) as any;
 const LessonViewer = lazy(() => import("@/components/math/shared/LessonViewer").then(m => ({ default: m.LessonViewer }))) as any;
-const LongDivisionTool = lazy(() => import("@/components/math/tools/LongDivisionTool").then(m => ({ default: m.LongDivisionTool }))) as any;
+const LongDivisionTool = lazy(() => import("@/components/math/tools/long-division").then(m => ({ default: m.LongDivisionTool }))) as any;
 const MathSnakeGame = lazy(() => import("@/components/math/games/snake/MathSnakeGame").then(m => ({ default: m.MathSnakeGame }))) as any;
 const ShapeClassifier = lazy(() => import("@/components/math/grade-4/sikidomok-testek/ShapeClassifier").then(m => ({ default: m.ShapeClassifier }))) as any;
 const LineRelationships = lazy(() => import("@/components/math/grade-4/sikidomok-testek/LineRelationships").then(m => ({ default: m.LineRelationships }))) as any;
@@ -123,33 +124,33 @@ const WordProblemsModule = lazy(() => import("@/components/math/grade-5/aranyoss
 const TriangleClassifier = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyesen-szimmetrikus-haromszogek-negyszogek-sokszogek/TriangleClassifier").then(m => ({ default: m.TriangleClassifier }))) as any;
 const QuadrilateralClassifier = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyesen-szimmetrikus-haromszogek-negyszogek-sokszogek/QuadrilateralClassifier").then(m => ({ default: m.QuadrilateralClassifier }))) as any;
 const CirclePartsGame = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/a-kor/CirclePartsGame").then(m => ({ default: m.CirclePartsGame }))) as any;
-const DecimalFractionsTool = lazy(() => import("@/components/math/tools/DecimalFractionsTool").then(m => ({ default: m.DecimalFractionsTool }))) as any;
-const NumberLineTool = lazy(() => import("@/components/math/tools/NumberLineTool").then(m => ({ default: m.NumberLineTool }))) as any;
-const ManipulativeDivision = lazy(() => import("@/components/math/tools/ManipulativeDivision").then(m => ({ default: m.ManipulativeDivision }))) as any;
-const ManipulativeAddition = lazy(() => import("@/components/math/tools/ManipulativeAddition").then(m => ({ default: m.ManipulativeAddition }))) as any;
-const ConstructionTool = lazy(() => import("@/components/math/tools/ConstructionTool").then(m => ({ default: m.ConstructionTool }))) as any;
+const DecimalFractionsTool = lazy(() => import("@/components/math/tools/decimal-fractions").then(m => ({ default: m.DecimalFractionsTool }))) as any;
+const NumberLineTool = lazy(() => import("@/components/math/tools/number-line").then(m => ({ default: m.NumberLineTool }))) as any;
+const ManipulativeDivision = lazy(() => import("@/components/math/tools/manipulative-division").then(m => ({ default: m.ManipulativeDivision }))) as any;
+const ManipulativeAddition = lazy(() => import("@/components/math/tools/manipulative-addition").then(m => ({ default: m.ManipulativeAddition }))) as any;
+const ConstructionTool = lazy(() => import("@/components/math/tools/construction").then(m => ({ default: m.ConstructionTool }))) as any;
 const PercentagesQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/szazalekszamitas/PercentagesQuiz").then(m => ({ default: m.PercentagesQuiz }))) as any;
 const PercentWordProblems = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/a-szazalekszamitas-gyakorlasa/PercentWordProblems").then(m => ({ default: m.PercentWordProblems }))) as any;
-const EquationSolverTool = lazy(() => import("@/components/math/tools/EquationSolverTool").then(m => ({ default: m.EquationSolverTool }))) as any;
-const EquationBalanceTool = lazy(() => import("@/components/math/tools/EquationBalanceTool").then(m => ({ default: m.EquationBalanceTool }))) as any;
-const MoneyCalculationTool = lazy(() => import("@/components/math/tools/MoneyCalculationTool").then(m => ({ default: m.MoneyCalculationTool }))) as any;
-const DecimalShifterTool = lazy(() => import("@/components/math/tools/DecimalShifterTool")) as any;
-const PuzzleMakerTool = lazy(() => import("@/components/math/tools/PuzzleMakerTool").then(m => ({ default: m.PuzzleMakerTool }))) as any;
-const TotoTool = lazy(() => import("@/components/math/tools/TotoTool").then(m => ({ default: m.TotoTool }))) as any;
-const SmartWhiteboardTool = lazy(() => import("@/components/math/tools/SmartWhiteboardTool").then(m => ({ default: m.SmartWhiteboardTool }))) as any;
+const EquationSolverTool = lazy(() => import("@/components/math/tools/equation-solver").then(m => ({ default: m.EquationSolverTool }))) as any;
+const EquationBalanceTool = lazy(() => import("@/components/math/tools/equation-balance").then(m => ({ default: m.EquationBalanceTool }))) as any;
+const MoneyCalculationTool = lazy(() => import("@/components/math/tools/money-calculation").then(m => ({ default: m.MoneyCalculationTool }))) as any;
+const DecimalShifterTool = lazy(() => import("@/components/math/tools/decimal-shifter")) as any;
+const PuzzleMakerTool = lazy(() => import("@/components/math/tools/puzzle-maker").then(m => ({ default: m.PuzzleMakerTool }))) as any;
+const TotoTool = lazy(() => import("@/components/math/tools/toto").then(m => ({ default: m.TotoTool }))) as any;
+const SmartWhiteboardTool = lazy(() => import("@/components/math/tools/smart-whiteboard").then(m => ({ default: m.SmartWhiteboardTool }))) as any;
 const SymmetryQuiz = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyes-tukrozes/SymmetryQuiz").then(m => ({ default: m.SymmetryQuiz }))) as any;
 const LogicBlocksGame = lazy(() => import("@/components/math/games/logic-blocks/LogicBlocksGame").then(m => ({ default: m.LogicBlocksGame }))) as any;
 const VennDiagramGame = lazy(() => import("@/components/math/games/venn/VennDiagramGame").then(m => ({ default: m.VennDiagramGame }))) as any;
 const GroupingGame = lazy(() => import("@/components/math/grade-1/grouping/GroupingGame").then(m => ({ default: m.GroupingGame }))) as any;
 const NumberGroupingGame = lazy(() => import("@/components/math/grade-1/grouping/NumberGroupingGame").then(m => ({ default: m.NumberGroupingGame }))) as any;
 const SudokuGame = lazy(() => import("@/components/math/games/sudoku/SudokuGame").then(m => ({ default: m.SudokuGame }))) as any;
-const SudokuGeneratorTool = lazy(() => import("@/components/math/tools/SudokuGeneratorTool").then(m => ({ default: m.SudokuGeneratorTool }))) as any;
+const SudokuGeneratorTool = lazy(() => import("@/components/math/tools/sudoku-generator").then(m => ({ default: m.SudokuGeneratorTool }))) as any;
 const VennInterpretationQuiz = lazy(() => import("@/components/math/games/venn/VennInterpretationQuiz").then(m => ({ default: m.VennInterpretationQuiz }))) as any;
 const VennReadingGame = lazy(() => import("@/components/math/games/venn/VennReadingGame").then(m => ({ default: m.VennReadingGame }))) as any;
 const AxialSymmetryGame = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyes-tukrozes/AxialSymmetryGame").then(m => ({ default: m.AxialSymmetryGame }))) as any;
 const SymmetryErrorGame = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyes-tukrozes/SymmetryErrorGame").then(m => ({ default: m.SymmetryErrorGame }))) as any;
 const AxialSymmetryQuiz = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyes-szimmetria/AxialSymmetryQuiz").then(m => ({ default: m.AxialSymmetryQuiz }))) as any;
-const SymmetryConstructionTool = lazy(() => import("@/components/math/tools/SymmetryConstructionTool").then(m => ({ default: m.SymmetryConstructionTool }))) as any;
+const SymmetryConstructionTool = lazy(() => import("@/components/math/tools/symmetry-construction").then(m => ({ default: m.SymmetryConstructionTool }))) as any;
 const AxialSymmetryPresentation = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyes-szimmetria/AxialSymmetryPresentation").then(m => ({ default: m.AxialSymmetryPresentation }))) as any;
 const Grade6PlanarShapesTheory = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/sikbeli-alakzatok/PlanarShapesTheory").then(m => ({ default: m.PlanarShapesTheory }))) as any;
 const Grade6PlanarShapesQuiz = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/sikbeli-alakzatok/PlanarShapesQuiz").then(m => ({ default: m.PlanarShapesQuiz }))) as any;
@@ -195,21 +196,21 @@ const Grade6GeometrySummaryTheory = lazy(() => import("@/components/math/grade-6
 const Grade6GeometrySummaryQuiz = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/osszefoglalas/GeometrySummaryQuiz").then(m => ({ default: m.GeometrySummaryQuiz }))) as any;
 const Grade6GeometrySummaryMatcher = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/osszefoglalas/GeometrySummaryMatcher").then(m => ({ default: m.GeometrySummaryMatcher }))) as any;
 const Grade6GeometrySummarySorter = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/osszefoglalas/GeometrySummarySorter").then(m => ({ default: m.GeometrySummarySorter }))) as any;
-const PerimeterAreaTool = lazy(() => import("@/components/math/tools/PerimeterAreaTool").then(m => ({ default: m.PerimeterAreaTool }))) as any;
-const StudentFeedbackHub = lazy(() => import("@/components/feedback/StudentFeedbackHub").then(m => ({ default: m.StudentFeedbackHub }))) as any;
-const WordSearchTool = lazy(() => import("@/components/math/tools/WordSearchTool").then(m => ({ default: m.WordSearchTool }))) as any;
+const PerimeterAreaTool = lazy(() => import("@/components/math/tools/perimeter-area").then(m => ({ default: m.PerimeterAreaTool }))) as any;
+const StudentFeedbackHub = lazy(() => import("@/components/math/tools/feedback").then(m => ({ default: m.StudentFeedbackHub }))) as any;
+const WordSearchTool = lazy(() => import("@/components/math/tools/word-search").then(m => ({ default: m.WordSearchTool }))) as any;
 const ChessGame = lazy(() => import("@/components/math/games/chess/ChessGame")) as any;
 const ColorSequenceGame = lazy(() => import("@/components/math/games/color-sequence/ColorSequenceGame")) as any;
-const MatchingCreator = lazy(() => import("@/components/math/tools/MatchingCreator").then(m => ({ default: m.MatchingCreator }))) as any;
-const VolumeSurfaceTool = lazy(() => import("@/components/math/tools/VolumeSurfaceTool").then(m => ({ default: m.VolumeSurfaceTool }))) as any;
+const MatchingCreator = lazy(() => import("@/components/math/tools/matching-creator").then(m => ({ default: m.MatchingCreator }))) as any;
+const VolumeSurfaceTool = lazy(() => import("@/components/math/tools/volume-surface").then(m => ({ default: m.VolumeSurfaceTool }))) as any;
 const EquationBalanceQuiz = lazy(() => import("@/components/math/grade-7/szazalekszamitas/EquationBalanceQuiz").then(m => ({ default: m.EquationBalanceQuiz }))) as any;
 const WordProblemsQuiz = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/WordProblemsQuiz").then(m => ({ default: m.WordProblemsQuiz }))) as any;
-const UnitConverterTool = lazy(() => import("@/components/math/tools/UnitConverterTool").then(m => ({ default: m.UnitConverterTool }))) as any;
-const CapacityConverterTool = lazy(() => import("@/components/math/tools/CapacityConverterTool").then(m => ({ default: m.CapacityConverterTool }))) as any;
-const AnalogClockTool = lazy(() => import("@/components/math/tools/AnalogClockTool").then(m => ({ default: m.AnalogClockTool }))) as any;
-const ScientificCalculator = lazy(() => import("@/components/math/tools/ScientificCalculator").then(m => ({ default: m.ScientificCalculator }))) as any;
-const AlgebraCloudTool = lazy(() => import("@/components/math/tools/AlgebraCloudTool").then(m => ({ default: m.AlgebraCloudTool }))) as any;
-const DebtAssetModelTool = lazy(() => import("@/components/math/tools/DebtAssetModelTool").then(m => ({ default: m.DebtAssetModelTool }))) as any;
+const UnitConverterTool = lazy(() => import("@/components/math/tools/unit-converter").then(m => ({ default: m.UnitConverterTool }))) as any;
+const CapacityConverterTool = lazy(() => import("@/components/math/tools/capacity-converter").then(m => ({ default: m.CapacityConverterTool }))) as any;
+const AnalogClockTool = lazy(() => import("@/components/math/tools/analog-clock").then(m => ({ default: m.AnalogClockTool }))) as any;
+const ScientificCalculator = lazy(() => import("@/components/math/tools/scientific").then(m => ({ default: m.ScientificCalculator }))) as any;
+const AlgebraCloudTool = lazy(() => import("@/components/math/tools/algebra-cloud").then(m => ({ default: m.AlgebraCloudTool }))) as any;
+const DebtAssetModelTool = lazy(() => import("@/components/math/tools/debt-asset-model").then(m => ({ default: m.DebtAssetModelTool }))) as any;
 const PerimeterQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat").then(m => ({ default: m.PerimeterQuiz }))) as any;
 const VolumeQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat").then(m => ({ default: m.VolumeQuiz }))) as any;
 const SurfaceAreaQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat").then(m => ({ default: m.SurfaceAreaQuiz }))) as any;
@@ -2716,220 +2717,9 @@ export default function MathPage() {
           );
         })()}
 
-        {view === 'tools-select' && (() => {
-          const toolNavItems: NavItem[] = [
-            { id: 'sec-basics', label: 'Alapműveletek', icon: <Calculator className="w-4 h-4" /> },
-            { id: 'sec-fractions', label: 'Törtek', icon: <Percent className="w-4 h-4" /> },
-            { id: 'sec-algebra', label: 'Algebra', icon: <Variable className="w-4 h-4" /> },
-            { id: 'sec-geometry', label: 'Geometria', icon: <Shapes className="w-4 h-4" /> },
-            { id: 'sec-measurements', label: 'Mértékegység', icon: <Scale className="w-4 h-4" /> },
-            { id: 'sec-measuring-instruments', label: 'Mérőeszközök', icon: <Wrench className="w-4 h-4" /> },
-            { id: 'sec-creative', label: 'Kreatív', icon: <Sparkles className="w-4 h-4" /> },
-            { id: 'sec-teacher', label: 'Tanári', icon: <GraduationCap className="w-4 h-4" /> },
-          ];
-
-          return (
-            <div className="animate-slide-up pb-20 relative text-left">
-              <ScrollSpySidebar items={toolNavItems} onCollapseChange={setIsSidebarCollapsed} />
-
-              <div className={cn("flex-1 space-y-12 transition-all duration-500 text-left", isSidebarCollapsed ? "lg:pl-16" : "lg:pl-36")}>
-                <div className="text-center lg:text-left mb-12">
-                  <h2 className="font-display text-3xl font-bold mb-4 flex items-center justify-center lg:justify-start gap-3 text-slate-800">
-                    <Settings2 className="w-8 h-8 text-primary" />
-                    Matematikai Eszköztár
-                  </h2>
-                  <p className="text-slate-500 max-w-2xl">
-                    Válogass interaktív eszközeink közül, amelyek segítenek a vizuális megértésben és a gyakorlásban.
-                  </p>
-                </div>
-
-                {/* 1. Számfogalom és alapműveletek */}
-                <section>
-                  <SectionHeader
-                    id="sec-basics"
-                    number={1}
-                    title="Számfogalom és alapműveletek"
-                    color="blue"
-                    subtitle="Cél: számérzék, műveleti biztonság"
-                  />
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
-                    {TOOLS.filter(t => t.category === 'sec-basics').map(tool => (
-                      <ToolCard
-                        key={tool.id}
-                        title={tool.title}
-                        desc={tool.desc}
-                        icon={tool.icon}
-                        color={tool.color}
-                        onClick={() => handleToolSelect(tool.id)}
-                      />
-                    ))}
-                  </div>
-                </section>
-
-                {/* 2. Törtek és arányosság világa */}
-                <section>
-                  <SectionHeader
-                    id="sec-fractions"
-                    number={2}
-                    title="Törtek és arányosság világa"
-                    color="orange"
-                    subtitle="Cél: törtek megértése és gyakorlati pálmazás"
-                  />
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
-                    {TOOLS.filter(t => t.category === 'sec-fractions').map(tool => (
-                      <ToolCard
-                        key={tool.id}
-                        title={tool.title}
-                        desc={tool.desc}
-                        icon={tool.icon}
-                        color={tool.color}
-                        onClick={() => handleToolSelect(tool.id)}
-                      />
-                    ))}
-                  </div>
-                </section>
-
-                {/* 3. Algebrai gondolkodás */}
-                <section>
-                  <SectionHeader
-                    id="sec-algebra"
-                    number={3}
-                    title="Algebrai gondolkodás"
-                    color="purple"
-                    subtitle="Cél: absztrakció, egyenletmegoldó vizuális modellekkel"
-                  />
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
-                    {TOOLS.filter(t => t.category === 'sec-algebra').map(tool => (
-                      <ToolCard
-                        key={tool.id}
-                        title={tool.title}
-                        desc={tool.desc}
-                        icon={tool.icon}
-                        color={tool.color}
-                        onClick={() => handleToolSelect(tool.id)}
-                      />
-                    ))}
-                  </div>
-                </section>
-
-                {/* 4. Geometria és szerkesztés */}
-                <section>
-                  <SectionHeader
-                    id="sec-geometry"
-                    number={4}
-                    title="Geometria és szerkesztés"
-                    color="green"
-                    subtitle="Cél: térszemlélet, konstrukció, terület-kerület"
-                  />
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
-                    {TOOLS.filter(t => t.category === 'sec-geometry').map(tool => (
-                      <ToolCard
-                        key={tool.id}
-                        title={tool.title}
-                        desc={tool.desc}
-                        icon={tool.icon}
-                        color={tool.color}
-                        onClick={() => handleToolSelect(tool.id)}
-                      />
-                    ))}
-                  </div>
-                </section>
-
-                {/* 5. Mértékegység átváltás */}
-                <section>
-                  <SectionHeader
-                    id="sec-measurements"
-                    number={5}
-                    title="Mértékegység átváltás"
-                    color="teal"
-                    subtitle="Cél: hosszúság mértékegységek vizuális megértése"
-                  />
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
-                    {TOOLS.filter(t => t.category === 'sec-measurements').map(tool => (
-                      <ToolCard
-                        key={tool.id}
-                        title={tool.title}
-                        desc={tool.desc}
-                        icon={tool.icon}
-                        color={tool.color}
-                        onClick={() => handleToolSelect(tool.id)}
-                      />
-                    ))}
-                  </div>
-                </section>
-
-                {/* 6. Mérőeszközök */}
-                <section>
-                  <SectionHeader
-                    id="sec-measuring-instruments"
-                    number={6}
-                    title="Mérőeszközök"
-                    color="amber"
-                    subtitle="Cél: óra leolvasása, időmérés vizuális gyakorlása"
-                  />
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
-                    {TOOLS.filter(t => t.category === 'sec-measuring-instruments').map(tool => (
-                      <ToolCard
-                        key={tool.id}
-                        title={tool.title}
-                        desc={tool.desc}
-                        icon={tool.icon}
-                        color={tool.color}
-                        onClick={() => handleToolSelect(tool.id)}
-                      />
-                    ))}
-                  </div>
-                </section>
-
-                {/* 7. Interaktív / Kreatív eszközök */}
-                <section>
-                  <SectionHeader
-                    id="sec-creative"
-                    number={7}
-                    title="Interaktív / Kreatív eszközök"
-                    color="violet"
-                    subtitle="Készíts saját tartalmakat!"
-                  />
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
-                    {TOOLS.filter(t => t.category === 'sec-creative').map(tool => (
-                      <ToolCard
-                        key={tool.id}
-                        title={tool.title}
-                        desc={tool.desc}
-                        icon={tool.icon}
-                        color={tool.color}
-                        onClick={() => handleToolSelect(tool.id)}
-                      />
-                    ))}
-                  </div>
-                </section>
-
-                {/* 8. Tanári eszközök */}
-                <section>
-                  <SectionHeader
-                    id="sec-teacher"
-                    number={8}
-                    title="Tanári eszközök"
-                    color="rose"
-                    subtitle="Segédanyagok és visszajelzések"
-                  />
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6">
-                    {TOOLS.filter(t => t.category === 'sec-teacher').map(tool => (
-                      <ToolCard
-                        key={tool.id}
-                        title={tool.title}
-                        desc={tool.desc}
-                        icon={tool.icon}
-                        color={tool.color}
-                        onClick={() => handleToolSelect(tool.id)}
-                      />
-                    ))}
-                  </div>
-                </section>
-              </div>
-            </div>
-          );
-        })()}
+        {view === 'tools-select' && (
+          <ToolsCatalog onSelectTool={handleToolSelect} />
+        )}
 
         {view === 'games-select' && (
           <div className="animate-slide-up w-full">
