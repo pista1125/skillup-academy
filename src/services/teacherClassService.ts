@@ -45,7 +45,47 @@ export function subscribeTeacherClasses(
   const colRef = collection(db, COLLECTION_NAME);
   const q = query(colRef, where('teacherId', '==', teacherId));
 
-  return onSnapshot(
+  let rawClasses: TeacherClass[] = [];
+  let profilesMap = new Map<string, { full_name?: string; username?: string; email?: string; avatar_url?: string }>();
+  let hasReceivedClasses = false;
+
+  const emitMerged = () => {
+    if (!hasReceivedClasses) return;
+    const enriched = rawClasses.map(c => ({
+      ...c,
+      students: (c.students || []).map(st => {
+        const prof = st.userId ? profilesMap.get(st.userId) : null;
+        return {
+          ...st,
+          name: prof?.full_name?.trim() || prof?.username?.trim() || st.name,
+          email: prof?.email?.trim() || st.email,
+          avatarUrl: prof?.avatar_url || st.avatarUrl
+        };
+      })
+    }));
+    onData(enriched);
+  };
+
+  const unsubProfiles = onSnapshot(
+    collection(db, 'profiles'),
+    (profSnap) => {
+      const nextMap = new Map<string, { full_name?: string; username?: string; email?: string; avatar_url?: string }>();
+      profSnap.forEach(d => {
+        const pData = d.data();
+        nextMap.set(d.id, {
+          full_name: pData.full_name,
+          username: pData.username,
+          email: pData.email,
+          avatar_url: pData.avatar_url
+        });
+      });
+      profilesMap = nextMap;
+      emitMerged();
+    },
+    (err) => console.warn('Error subscribing to profiles in teacher classes:', err)
+  );
+
+  const unsubClasses = onSnapshot(
     q,
     (snapshot) => {
       const classes: TeacherClass[] = [];
@@ -61,13 +101,20 @@ export function subscribeTeacherClasses(
       });
 
       classes.sort((a, b) => a.name.localeCompare(b.name));
-      onData(classes);
+      rawClasses = classes;
+      hasReceivedClasses = true;
+      emitMerged();
     },
     (error) => {
       console.error('Error subscribing to teacher classes:', error);
       if (onError) onError(error);
     }
   );
+
+  return () => {
+    unsubProfiles();
+    unsubClasses();
+  };
 }
 
 /**
@@ -248,4 +295,53 @@ export function getUniqueStudentUserIds(classes: TeacherClass[]): string[] {
     });
   });
   return Array.from(ids);
+}
+
+/**
+ * Updates a student's name and avatar in all teacher classes they belong to.
+ */
+export async function updateStudentNameAcrossTeacherClasses(
+  userId: string,
+  newName: string,
+  newAvatarUrl?: string
+): Promise<number> {
+  if (!userId || !newName) return 0;
+  try {
+    const colRef = collection(db, COLLECTION_NAME);
+    const snapshot = await getDocs(colRef);
+    const cleanName = newName.trim();
+    const promises: Promise<void>[] = [];
+
+    snapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      if (Array.isArray(data.students) && data.students.some((s: any) => s.userId === userId)) {
+        let changed = false;
+        const updatedStudents = data.students.map((s: any) => {
+          if (s.userId === userId) {
+            const nameDiffers = s.name !== cleanName;
+            const avatarDiffers = newAvatarUrl && s.avatarUrl !== newAvatarUrl;
+            if (nameDiffers || avatarDiffers) {
+              changed = true;
+              return {
+                ...s,
+                name: cleanName,
+                ...(newAvatarUrl ? { avatarUrl: newAvatarUrl } : {})
+              };
+            }
+          }
+          return s;
+        });
+
+        if (changed) {
+          promises.push(updateDoc(docSnap.ref, { students: updatedStudents }));
+        }
+      }
+    });
+
+    await Promise.all(promises);
+    return promises.length;
+  } catch (error) {
+    console.error('Error updating student name across teacher classes:', error);
+    return 0;
+  }
 }

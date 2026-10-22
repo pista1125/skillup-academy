@@ -1,2 +1,8 @@
-// Re-exports from subtopics of I. Kombinatorika, halmazok (Grade 9)
-export {};
+export * from './QuizTemplate';
+export * from './TheoryTemplate';
+export * from './MatcherTemplate';
+export * from './SorterTemplate';
+export * from './hanyfelekeppen-lehet';
+export * from './grafok';
+export * from './szamzarak';
+

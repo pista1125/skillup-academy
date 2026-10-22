@@ -712,6 +712,18 @@ const Grade8SolidsSummaryTheory = lazy(() => import("@/components/math/grade-8/t
 const Grade8SolidsSummaryQuiz = lazy(() => import("@/components/math/grade-8/testek/osszefoglalas/SolidsSummaryQuiz").then(m => ({ default: m.SolidsSummaryQuiz }))) as any;
 const Grade8SolidsSummaryMatcher = lazy(() => import("@/components/math/grade-8/testek/osszefoglalas/SolidsSummaryMatcher").then(m => ({ default: m.SolidsSummaryMatcher }))) as any;
 const Grade8SolidsSummarySorter = lazy(() => import("@/components/math/grade-8/testek/osszefoglalas/SolidsSummarySorter").then(m => ({ default: m.SolidsSummarySorter }))) as any;
+const Grade9HowManyWaysTheory = lazy(() => import("@/components/math/grade-9/kombinatorika-halmazok/hanyfelekeppen-lehet/HowManyWaysTheory").then(m => ({ default: m.HowManyWaysTheory }))) as any;
+const Grade9HowManyWaysQuiz = lazy(() => import("@/components/math/grade-9/kombinatorika-halmazok/hanyfelekeppen-lehet/HowManyWaysQuiz").then(m => ({ default: m.HowManyWaysQuiz }))) as any;
+const Grade9HowManyWaysMatcher = lazy(() => import("@/components/math/grade-9/kombinatorika-halmazok/hanyfelekeppen-lehet/HowManyWaysMatcher").then(m => ({ default: m.HowManyWaysMatcher }))) as any;
+const Grade9HowManyWaysSorter = lazy(() => import("@/components/math/grade-9/kombinatorika-halmazok/hanyfelekeppen-lehet/HowManyWaysSorter").then(m => ({ default: m.HowManyWaysSorter }))) as any;
+const Grade9GraphsTheory = lazy(() => import("@/components/math/grade-9/kombinatorika-halmazok/grafok/GraphsTheory").then(m => ({ default: m.GraphsTheory }))) as any;
+const Grade9GraphsQuiz = lazy(() => import("@/components/math/grade-9/kombinatorika-halmazok/grafok/GraphsQuiz").then(m => ({ default: m.GraphsQuiz }))) as any;
+const Grade9GraphsMatcher = lazy(() => import("@/components/math/grade-9/kombinatorika-halmazok/grafok/GraphsMatcher").then(m => ({ default: m.GraphsMatcher }))) as any;
+const Grade9GraphsSorter = lazy(() => import("@/components/math/grade-9/kombinatorika-halmazok/grafok/GraphsSorter").then(m => ({ default: m.GraphsSorter }))) as any;
+const Grade9LocksTheory = lazy(() => import("@/components/math/grade-9/kombinatorika-halmazok/szamzarak/LocksTheory").then(m => ({ default: m.LocksTheory }))) as any;
+const Grade9LocksQuiz = lazy(() => import("@/components/math/grade-9/kombinatorika-halmazok/szamzarak/LocksQuiz").then(m => ({ default: m.LocksQuiz }))) as any;
+const Grade9LocksMatcher = lazy(() => import("@/components/math/grade-9/kombinatorika-halmazok/szamzarak/LocksMatcher").then(m => ({ default: m.LocksMatcher }))) as any;
+const Grade9LocksSorter = lazy(() => import("@/components/math/grade-9/kombinatorika-halmazok/szamzarak/LocksSorter").then(m => ({ default: m.LocksSorter }))) as any;
 const Grade7CountItTheory = lazy(() => import("@/components/math/grade-7/gondolkodjunk/szamold-ossze/CountingTheory").then(m => ({ default: m.CountingTheory }))) as any;
 const Grade7CountItQuiz = lazy(() => import("@/components/math/grade-7/gondolkodjunk/szamold-ossze/CountingQuiz").then(m => ({ default: m.CountingQuiz }))) as any;
 const Grade7CountItMatcher = lazy(() => import("@/components/math/grade-7/gondolkodjunk/szamold-ossze/CountingMatcher").then(m => ({ default: m.CountingMatcher }))) as any;
@@ -1183,6 +1195,9 @@ type ActivityType =
   | 'g8-pyth-constructions' | 'g8-pyth-constructions-theory' | 'g8-pyth-theorem' | 'g8-pyth-theorem-theory' | 'g8-pyth-converse' | 'g8-pyth-converse-theory' | 'g8-pyth-applications' | 'g8-pyth-applications-theory' | 'g8-pyth-calculator' | 'g8-pyth-calculator-theory' | 'g8-pyth-special-triangles' | 'g8-pyth-special-triangles-theory' | 'g8-pyth-summary' | 'g8-pyth-summary-theory'
   | 'g8-func-direct' | 'g8-func-direct-theory' | 'g8-func-direct-matcher' | 'g8-func-direct-sorter' | 'g8-func-graphs' | 'g8-func-graphs-theory' | 'g8-func-graphs-matcher' | 'g8-func-graphs-sorter' | 'g8-func-inverse' | 'g8-func-inverse-theory' | 'g8-func-inverse-matcher' | 'g8-func-inverse-sorter' | 'g8-func-reading' | 'g8-func-reading-theory' | 'g8-func-reading-matcher' | 'g8-func-reading-sorter' | 'g8-func-plotting' | 'g8-func-plotting-theory' | 'g8-func-plotting-matcher' | 'g8-func-plotting-sorter' | 'g8-func-frequency' | 'g8-func-frequency-theory' | 'g8-func-frequency-matcher' | 'g8-func-frequency-sorter' | 'g8-func-game' | 'g8-func-game-theory' | 'g8-func-game-matcher' | 'g8-func-game-sorter' | 'g8-func-prob-basics' | 'g8-func-prob-basics-theory' | 'g8-func-prob-basics-matcher' | 'g8-func-prob-basics-sorter' | 'g8-func-prob-problems' | 'g8-func-prob-problems-theory' | 'g8-func-prob-problems-matcher' | 'g8-func-prob-problems-sorter' | 'g8-func-patterns' | 'g8-func-patterns-theory' | 'g8-func-patterns-matcher' | 'g8-func-patterns-sorter' | 'g8-func-sequences' | 'g8-func-sequences-theory' | 'g8-func-sequences-matcher' | 'g8-func-sequences-sorter' | 'g8-func-summary' | 'g8-func-summary-theory' | 'g8-func-summary-matcher' | 'g8-func-summary-sorter'
   | 'g8-solids-review' | 'g8-solids-review-theory' | 'g8-solids-review-matcher' | 'g8-solids-review-sorter' | 'g8-solids-pyramids' | 'g8-solids-pyramids-theory' | 'g8-solids-pyramids-matcher' | 'g8-solids-pyramids-sorter' | 'g8-solids-pyramids-intro' | 'g8-solids-pyramids-calc' | 'g8-solids-pyramids-calc-theory' | 'g8-solids-pyramids-calc-matcher' | 'g8-solids-pyramids-calc-sorter' | 'g8-solids-sphere' | 'g8-solids-sphere-theory' | 'g8-solids-sphere-matcher' | 'g8-solids-sphere-sorter' | 'g8-solids-earth' | 'g8-solids-earth-theory' | 'g8-solids-earth-matcher' | 'g8-solids-earth-sorter' | 'g8-solids-summary' | 'g8-solids-summary-theory' | 'g8-solids-summary-matcher' | 'g8-solids-summary-sorter'
+  | 'g9-komb-hanyfelekeppen-theory' | 'g9-komb-hanyfelekeppen-quiz' | 'g9-komb-hanyfelekeppen-matcher' | 'g9-komb-hanyfelekeppen-sorter'
+  | 'g9-komb-grafok-theory' | 'g9-komb-grafok-quiz' | 'g9-komb-grafok-matcher' | 'g9-komb-grafok-sorter'
+  | 'g9-komb-szamzarak-theory' | 'g9-komb-szamzarak-quiz' | 'g9-komb-szamzarak-matcher' | 'g9-komb-szamzarak-sorter'
   | 'angle-matching' | 'triangle-classification' | 'quadrilateral-classification'
   | 'shape-classification' | 'line-relationships' | 'reflection-quiz' | 'circle-parts'
   | 'area-conversion-quiz' | 'volume-quiz' | 'surface-area-quiz' | 'area-calculation-quiz' | 'area-calc-quiz'
@@ -1793,6 +1808,8 @@ export default function MathPage() {
       else if (type.startsWith('g8-solids-')) resolvedTopic = 'g8-solids';
       else if (type.startsWith('g8-stat-')) resolvedTopic = 'g8-statistics';
       else resolvedTopic = 'g8-numbers-letters';
+    } else if (!resolvedTopic && (finalGrade === 9 || selectedGrade === 9 || finalGrade === 'high-1' || selectedGrade === 'high-1')) {
+      if (type.startsWith('g9-komb-')) resolvedTopic = 'g9-kombinatorika-halmazok';
     }
     if (resolvedTopic) {
       setSelectedTopic(resolvedTopic);
@@ -1866,6 +1883,8 @@ export default function MathPage() {
           else if (activityType.startsWith('g8-solids-')) resolvedTopic = 'g8-solids';
           else if (activityType.startsWith('g8-stat-')) resolvedTopic = 'g8-statistics';
           else resolvedTopic = 'g8-numbers-letters';
+        } else if (!resolvedTopic && (selectedGrade === 9 || selectedGrade === 'high-1')) {
+          if (activityType.startsWith('g9-komb-')) resolvedTopic = 'g9-kombinatorika-halmazok';
         }
         const isExpandable =
           (selectedGrade === 5 && resolvedTopic?.startsWith('g5-')) ||
@@ -10597,6 +10616,111 @@ export default function MathPage() {
                     onSwitchToQuiz={() => handleActivitySelect('g8-solids-summary', selectedTopic || 'g8-solids')}
                     onSwitchToTheory={() => handleActivitySelect('g8-solids-summary-theory', selectedTopic || 'g8-solids')}
                     onSwitchToMatcher={() => handleActivitySelect('g8-solids-summary-matcher', selectedTopic || 'g8-solids')}
+                  />
+                )}
+
+                {/* 9. Osztály - I. Kombinatorika, halmazok - 1. Hányféleképpen lehet? */}
+                {activityType === 'g9-komb-hanyfelekeppen-theory' && (
+                  <Grade9HowManyWaysTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-komb-hanyfelekeppen-quiz', selectedTopic || 'g9-kombinatorika-halmazok')}
+                  />
+                )}
+
+                {activityType === 'g9-komb-hanyfelekeppen-quiz' && (
+                  <Grade9HowManyWaysQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-komb-hanyfelekeppen-theory', selectedTopic || 'g9-kombinatorika-halmazok')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-komb-hanyfelekeppen-matcher', selectedTopic || 'g9-kombinatorika-halmazok')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-komb-hanyfelekeppen-sorter', selectedTopic || 'g9-kombinatorika-halmazok')}
+                  />
+                )}
+
+                {activityType === 'g9-komb-hanyfelekeppen-matcher' && (
+                  <Grade9HowManyWaysMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-komb-hanyfelekeppen-quiz', selectedTopic || 'g9-kombinatorika-halmazok')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-komb-hanyfelekeppen-theory', selectedTopic || 'g9-kombinatorika-halmazok')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-komb-hanyfelekeppen-sorter', selectedTopic || 'g9-kombinatorika-halmazok')}
+                  />
+                )}
+
+                {activityType === 'g9-komb-hanyfelekeppen-sorter' && (
+                  <Grade9HowManyWaysSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-komb-hanyfelekeppen-quiz', selectedTopic || 'g9-kombinatorika-halmazok')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-komb-hanyfelekeppen-theory', selectedTopic || 'g9-kombinatorika-halmazok')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-komb-hanyfelekeppen-matcher', selectedTopic || 'g9-kombinatorika-halmazok')}
+                  />
+                )}
+
+                {/* 9. Osztály - I. Kombinatorika, halmazok - 2. Gráfok */}
+                {activityType === 'g9-komb-grafok-theory' && (
+                  <Grade9GraphsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-komb-grafok-quiz', selectedTopic || 'g9-kombinatorika-halmazok')}
+                  />
+                )}
+
+                {activityType === 'g9-komb-grafok-quiz' && (
+                  <Grade9GraphsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-komb-grafok-theory', selectedTopic || 'g9-kombinatorika-halmazok')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-komb-grafok-matcher', selectedTopic || 'g9-kombinatorika-halmazok')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-komb-grafok-sorter', selectedTopic || 'g9-kombinatorika-halmazok')}
+                  />
+                )}
+
+                {activityType === 'g9-komb-grafok-matcher' && (
+                  <Grade9GraphsMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-komb-grafok-quiz', selectedTopic || 'g9-kombinatorika-halmazok')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-komb-grafok-theory', selectedTopic || 'g9-kombinatorika-halmazok')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-komb-grafok-sorter', selectedTopic || 'g9-kombinatorika-halmazok')}
+                  />
+                )}
+
+                {activityType === 'g9-komb-grafok-sorter' && (
+                  <Grade9GraphsSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-komb-grafok-quiz', selectedTopic || 'g9-kombinatorika-halmazok')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-komb-grafok-theory', selectedTopic || 'g9-kombinatorika-halmazok')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-komb-grafok-matcher', selectedTopic || 'g9-kombinatorika-halmazok')}
+                  />
+                )}
+
+                {/* 9. Osztály - I. Kombinatorika, halmazok - 3. Számzárak */}
+                {activityType === 'g9-komb-szamzarak-theory' && (
+                  <Grade9LocksTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-komb-szamzarak-quiz', selectedTopic || 'g9-kombinatorika-halmazok')}
+                  />
+                )}
+
+                {activityType === 'g9-komb-szamzarak-quiz' && (
+                  <Grade9LocksQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-komb-szamzarak-theory', selectedTopic || 'g9-kombinatorika-halmazok')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-komb-szamzarak-matcher', selectedTopic || 'g9-kombinatorika-halmazok')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-komb-szamzarak-sorter', selectedTopic || 'g9-kombinatorika-halmazok')}
+                  />
+                )}
+
+                {activityType === 'g9-komb-szamzarak-matcher' && (
+                  <Grade9LocksMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-komb-szamzarak-quiz', selectedTopic || 'g9-kombinatorika-halmazok')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-komb-szamzarak-theory', selectedTopic || 'g9-kombinatorika-halmazok')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-komb-szamzarak-sorter', selectedTopic || 'g9-kombinatorika-halmazok')}
+                  />
+                )}
+
+                {activityType === 'g9-komb-szamzarak-sorter' && (
+                  <Grade9LocksSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-komb-szamzarak-quiz', selectedTopic || 'g9-kombinatorika-halmazok')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-komb-szamzarak-theory', selectedTopic || 'g9-kombinatorika-halmazok')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-komb-szamzarak-matcher', selectedTopic || 'g9-kombinatorika-halmazok')}
                   />
                 )}
 

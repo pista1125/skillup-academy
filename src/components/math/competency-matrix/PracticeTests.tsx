@@ -174,7 +174,7 @@ export default function PracticeTests({ contentAreas, thinkingLevels, isFullscre
     setSavedDraft(null);
 
     // Pre-create in-progress Firestore record
-    const studentName = profile?.full_name || user?.displayName || (user?.email ? user.email.split('@')[0] : 'Diák');
+    const studentName = profile?.full_name?.trim() || profile?.username?.trim() || user?.displayName || (user?.email ? user.email.split('@')[0] : 'Diák');
     const initialPayload: any = {
       userId: user.uid,
       studentName,
@@ -330,7 +330,7 @@ export default function PracticeTests({ contentAreas, thinkingLevels, isFullscre
     if (submissionDocIdRef.current) {
       updateCompetencySubmissionProgress(submissionDocIdRef.current, updatePayload);
     } else {
-      const studentName = profile?.full_name || user?.displayName || (user?.email ? user.email.split('@')[0] : 'Diák');
+      const studentName = profile?.full_name?.trim() || profile?.username?.trim() || user?.displayName || (user?.email ? user.email.split('@')[0] : 'Diák');
       createOrStartCompetencySubmission({
         userId: user?.uid || '',
         studentName,
@@ -405,7 +405,7 @@ export default function PracticeTests({ contentAreas, thinkingLevels, isFullscre
       };
     });
 
-    const studentName = profile?.full_name || user?.displayName || (user?.email ? user.email.split('@')[0] : 'Diák');
+    const studentName = profile?.full_name?.trim() || profile?.username?.trim() || user?.displayName || (user?.email ? user.email.split('@')[0] : 'Diák');
     const percentage = Math.round((correctCount / totalTasks) * 100);
 
     const submissionPayload: CompetencyTestSubmission = {

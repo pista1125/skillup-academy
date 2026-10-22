@@ -44,6 +44,7 @@ export interface CompetencyTestSubmission {
   userId: string;
   studentName: string;
   studentEmail: string;
+  avatarUrl?: string;
   testId: string; // 'PM-01' .. 'PM-10'
   testTitle: string; // '1. Országos Kompetenciamérés Próbateszt'
   startedAt: string; // ISO string
@@ -166,13 +167,24 @@ export async function saveCompetencySubmission(
 }
 
 /**
- * Fetches all competency practice test submissions for the teacher view.
+ * Fetches all competency practice test submissions for the teacher view with dynamically resolved student names.
  */
 export async function getTeacherCompetencySubmissions(): Promise<CompetencyTestSubmission[]> {
   try {
     const colRef = collection(db, COLLECTION_NAME);
     const q = query(colRef, orderBy('createdAt', 'desc'));
-    const snapshot = await getDocs(q);
+    const [snapshot, profilesSnap] = await Promise.all([
+      getDocs(q),
+      getDocs(collection(db, 'profiles')).catch((err) => {
+        console.warn('Error fetching profiles in getTeacherCompetencySubmissions:', err);
+        return null;
+      })
+    ]);
+
+    const profilesMap = new Map<string, any>();
+    if (profilesSnap) {
+      profilesSnap.forEach((d) => profilesMap.set(d.id, d.data()));
+    }
 
     const submissions: CompetencyTestSubmission[] = [];
     snapshot.forEach((docSnap) => {
@@ -182,11 +194,17 @@ export async function getTeacherCompetencySubmissions(): Promise<CompetencyTestS
         ? data.answeredCount 
         : Object.keys(answers).length;
 
+      const prof = data.userId ? profilesMap.get(data.userId) : null;
+      const studentName = prof?.full_name?.trim() || prof?.username?.trim() || data.studentName || 'Névtelen Diák';
+      const studentEmail = prof?.email?.trim() || data.studentEmail || '';
+      const avatarUrl = prof?.avatar_url || data.avatarUrl;
+
       submissions.push({
         id: docSnap.id,
         userId: data.userId || '',
-        studentName: data.studentName || 'Névtelen Diák',
-        studentEmail: data.studentEmail || '',
+        studentName,
+        studentEmail,
+        avatarUrl,
         testId: data.testId || '',
         testTitle: data.testTitle || '',
         startedAt: data.startedAt || '',
@@ -224,7 +242,8 @@ export async function getTeacherCompetencySubmissions(): Promise<CompetencyTestS
 
 /**
  * Real-time subscription to all competency practice test submissions for the teacher view.
- * Automatically notifies when any student starts, answers a question, or submits a test.
+ * Automatically and dynamically resolves the latest student profile name (full_name / username)
+ * whenever either the test progress or the student's profile changes.
  */
 export function subscribeTeacherCompetencySubmissions(
   onData: (submissions: CompetencyTestSubmission[]) => void,
@@ -233,7 +252,52 @@ export function subscribeTeacherCompetencySubmissions(
   const colRef = collection(db, COLLECTION_NAME);
   const q = query(colRef, orderBy('createdAt', 'desc'));
 
-  return onSnapshot(
+  let rawSubmissions: CompetencyTestSubmission[] = [];
+  let profilesMap = new Map<string, { full_name?: string; username?: string; email?: string; avatar_url?: string }>();
+  let hasReceivedSubmissions = false;
+
+  const emitMerged = () => {
+    if (!hasReceivedSubmissions) return;
+    const enriched = rawSubmissions.map((sub) => {
+      if (!sub.userId) return sub;
+      const prof = profilesMap.get(sub.userId);
+      if (!prof) return sub;
+      const latestName = prof.full_name?.trim() || prof.username?.trim();
+      const latestEmail = prof.email?.trim();
+      return {
+        ...sub,
+        studentName: latestName || sub.studentName,
+        studentEmail: latestEmail || sub.studentEmail,
+        avatarUrl: prof.avatar_url || sub.avatarUrl
+      };
+    });
+    onData(enriched);
+  };
+
+  // 1. Live listener for profiles collection to guarantee dynamic name updates
+  const unsubProfiles = onSnapshot(
+    collection(db, 'profiles'),
+    (profSnap) => {
+      const nextMap = new Map<string, { full_name?: string; username?: string; email?: string; avatar_url?: string }>();
+      profSnap.forEach((d) => {
+        const pData = d.data();
+        nextMap.set(d.id, {
+          full_name: pData.full_name,
+          username: pData.username,
+          email: pData.email,
+          avatar_url: pData.avatar_url
+        });
+      });
+      profilesMap = nextMap;
+      emitMerged();
+    },
+    (err) => {
+      console.warn('Error subscribing to profiles in competency submissions:', err);
+    }
+  );
+
+  // 2. Live listener for competency test submissions
+  const unsubSubmissions = onSnapshot(
     q,
     (snapshot) => {
       const submissions: CompetencyTestSubmission[] = [];
@@ -249,6 +313,7 @@ export function subscribeTeacherCompetencySubmissions(
           userId: data.userId || '',
           studentName: data.studentName || 'Névtelen Diák',
           studentEmail: data.studentEmail || '',
+          avatarUrl: data.avatarUrl,
           testId: data.testId || '',
           testTitle: data.testTitle || '',
           startedAt: data.startedAt || '',
@@ -277,13 +342,20 @@ export function subscribeTeacherCompetencySubmissions(
         });
       });
 
-      onData(submissions);
+      rawSubmissions = submissions;
+      hasReceivedSubmissions = true;
+      emitMerged();
     },
     (error) => {
       console.error('Error in competency submissions real-time subscription:', error);
       if (onError) onError(error);
     }
   );
+
+  return () => {
+    unsubProfiles();
+    unsubSubmissions();
+  };
 }
 
 /**
@@ -300,7 +372,7 @@ export async function deleteCompetencySubmission(submissionId: string): Promise<
 }
 
 /**
- * Fetches a single submission by its document ID.
+ * Fetches a single submission by its document ID, dynamically resolving latest student name from profiles.
  */
 export async function getCompetencySubmissionById(
   submissionId: string
@@ -311,12 +383,32 @@ export async function getCompetencySubmissionById(
     if (!docSnap.exists()) return null;
 
     const data = docSnap.data();
+    let studentName = data.studentName || 'Névtelen Diák';
+    let studentEmail = data.studentEmail || '';
+    let avatarUrl = data.avatarUrl;
+
+    if (data.userId) {
+      try {
+        const profSnap = await getDoc(doc(db, 'profiles', data.userId));
+        if (profSnap.exists()) {
+          const prof = profSnap.data();
+          if (prof.full_name?.trim()) studentName = prof.full_name.trim();
+          else if (prof.username?.trim()) studentName = prof.username.trim();
+          if (prof.email?.trim()) studentEmail = prof.email.trim();
+          if (prof.avatar_url) avatarUrl = prof.avatar_url;
+        }
+      } catch (e) {
+        console.warn('Error fetching profile for submission by id:', e);
+      }
+    }
+
     const answers = data.answers || {};
     return {
       id: docSnap.id,
       userId: data.userId || '',
-      studentName: data.studentName || 'Névtelen Diák',
-      studentEmail: data.studentEmail || '',
+      studentName,
+      studentEmail,
+      avatarUrl,
       testId: data.testId || '',
       testTitle: data.testTitle || '',
       startedAt: data.startedAt || '',
@@ -341,7 +433,8 @@ export async function getCompetencySubmissionById(
 }
 
 /**
- * Real-time subscription to a student's own competency practice test submissions.
+ * Real-time subscription to a student's own competency practice test submissions,
+ * automatically keeping their studentName updated to their latest profile name.
  */
 export function subscribeStudentCompetencySubmissions(
   userId: string,
@@ -351,7 +444,43 @@ export function subscribeStudentCompetencySubmissions(
   const colRef = collection(db, COLLECTION_NAME);
   const q = query(colRef, where('userId', '==', userId));
 
-  return onSnapshot(
+  let rawSubmissions: CompetencyTestSubmission[] = [];
+  let userProfile: { full_name?: string; username?: string; email?: string; avatar_url?: string } | null = null;
+  let hasReceivedSubmissions = false;
+
+  const emitMerged = () => {
+    if (!hasReceivedSubmissions) return;
+    const resolvedName = userProfile?.full_name?.trim() || userProfile?.username?.trim();
+    const resolvedEmail = userProfile?.email?.trim();
+    const resolvedAvatar = userProfile?.avatar_url;
+
+    const enriched = rawSubmissions.map((sub) => ({
+      ...sub,
+      studentName: resolvedName || sub.studentName,
+      studentEmail: resolvedEmail || sub.studentEmail,
+      avatarUrl: resolvedAvatar || sub.avatarUrl
+    }));
+    onData(enriched);
+  };
+
+  const unsubProfile = onSnapshot(
+    doc(db, 'profiles', userId),
+    (pSnap) => {
+      if (pSnap.exists()) {
+        const pData = pSnap.data();
+        userProfile = {
+          full_name: pData.full_name,
+          username: pData.username,
+          email: pData.email,
+          avatar_url: pData.avatar_url
+        };
+      }
+      emitMerged();
+    },
+    (err) => console.warn('Error subscribing to profile for student submissions:', err)
+  );
+
+  const unsubSubmissions = onSnapshot(
     q,
     (snapshot) => {
       const submissions: CompetencyTestSubmission[] = [];
@@ -367,6 +496,7 @@ export function subscribeStudentCompetencySubmissions(
           userId: data.userId || '',
           studentName: data.studentName || 'Névtelen Diák',
           studentEmail: data.studentEmail || '',
+          avatarUrl: data.avatarUrl,
           testId: data.testId || '',
           testTitle: data.testTitle || '',
           startedAt: data.startedAt || '',
@@ -402,23 +532,45 @@ export function subscribeStudentCompetencySubmissions(
         return timeB - timeA;
       });
 
-      onData(submissions);
+      rawSubmissions = submissions;
+      hasReceivedSubmissions = true;
+      emitMerged();
     },
     (error) => {
       console.error('Error in student competency submissions subscription:', error);
       if (onError) onError(error);
     }
   );
+
+  return () => {
+    unsubProfile();
+    unsubSubmissions();
+  };
 }
 
 /**
- * Fetches all competency practice test submissions for a specific student.
+ * Fetches all competency practice test submissions for a specific student,
+ * dynamically resolved with their latest profile name.
  */
 export async function getStudentCompetencySubmissions(userId: string): Promise<CompetencyTestSubmission[]> {
   try {
     const colRef = collection(db, COLLECTION_NAME);
     const q = query(colRef, where('userId', '==', userId));
-    const snapshot = await getDocs(q);
+    const [snapshot, profSnap] = await Promise.all([
+      getDocs(q),
+      getDoc(doc(db, 'profiles', userId)).catch(() => null)
+    ]);
+
+    let resolvedName: string | undefined;
+    let resolvedEmail: string | undefined;
+    let resolvedAvatar: string | undefined;
+
+    if (profSnap && profSnap.exists()) {
+      const pData = profSnap.data();
+      resolvedName = pData.full_name?.trim() || pData.username?.trim();
+      resolvedEmail = pData.email?.trim();
+      resolvedAvatar = pData.avatar_url;
+    }
 
     const submissions: CompetencyTestSubmission[] = [];
     snapshot.forEach((docSnap) => {
@@ -431,8 +583,9 @@ export async function getStudentCompetencySubmissions(userId: string): Promise<C
       submissions.push({
         id: docSnap.id,
         userId: data.userId || '',
-        studentName: data.studentName || 'Névtelen Diák',
-        studentEmail: data.studentEmail || '',
+        studentName: resolvedName || data.studentName || 'Névtelen Diák',
+        studentEmail: resolvedEmail || data.studentEmail || '',
+        avatarUrl: resolvedAvatar || data.avatarUrl,
         testId: data.testId || '',
         testTitle: data.testTitle || '',
         startedAt: data.startedAt || '',
@@ -471,6 +624,45 @@ export async function getStudentCompetencySubmissions(userId: string): Promise<C
   } catch (error) {
     console.error('Error fetching student competency submissions:', error);
     throw error;
+  }
+}
+
+/**
+ * Updates the studentName and studentEmail in all existing competency test submissions for a given userId.
+ * Called when a user updates their profile name in ProfilePage.
+ */
+export async function updateStudentCompetencySubmissionsName(
+  userId: string,
+  newName: string,
+  newEmail?: string
+): Promise<number> {
+  if (!userId || !newName) return 0;
+  try {
+    const cleanName = newName.trim();
+    const colRef = collection(db, COLLECTION_NAME);
+    const q = query(colRef, where('userId', '==', userId));
+    const snapshot = await getDocs(q);
+    if (snapshot.empty) return 0;
+
+    const promises: Promise<void>[] = [];
+    snapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      const needsNameUpdate = data.studentName !== cleanName;
+      const needsEmailUpdate = newEmail && data.studentEmail !== newEmail.trim();
+
+      if (needsNameUpdate || needsEmailUpdate) {
+        const updateData: any = {};
+        if (needsNameUpdate) updateData.studentName = cleanName;
+        if (needsEmailUpdate) updateData.studentEmail = newEmail!.trim();
+        promises.push(updateDoc(docSnap.ref, updateData));
+      }
+    });
+
+    await Promise.all(promises);
+    return promises.length;
+  } catch (error) {
+    console.error('Error updating student name across competency submissions:', error);
+    return 0;
   }
 }
 

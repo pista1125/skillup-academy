@@ -77,8 +77,10 @@ import {
   deleteTeacherClass, 
   updateTeacherClassName,
   addStudentToClassByCode, 
-  removeStudentFromClass 
+  removeStudentFromClass,
+  updateStudentNameAcrossTeacherClasses 
 } from '@/services/teacherClassService';
+import { updateStudentCompetencySubmissionsName } from '@/services/competencySubmissionService';
 import { 
   subscribeUserProgress, 
   QuizProgressRecord 
@@ -586,6 +588,16 @@ export default function ProfilePage() {
         role: safeRole,
         updated_at: new Date().toISOString(),
       }, { merge: true });
+
+      // Synchronize student name across past competency submissions and classes
+      try {
+        await Promise.allSettled([
+          updateStudentCompetencySubmissionsName(user.uid, fullName, user.email || undefined),
+          updateStudentNameAcrossTeacherClasses(user.uid, fullName, avatarUrl)
+        ]);
+      } catch (syncErr) {
+        console.warn('Background sync warning:', syncErr);
+      }
 
       await refreshProfile();
       toast.success('Profil sikeresen frissítve!');

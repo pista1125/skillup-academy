@@ -40,6 +40,7 @@ import {
   Variable,
   Zap
 } from 'lucide-react';
+import { useQuizProgress } from '@/hooks/useQuizProgress';
 
 export const Grade9View: React.FC<GradeViewProps> = ({
   topicId,
@@ -48,6 +49,8 @@ export const Grade9View: React.FC<GradeViewProps> = ({
   onActivitySelect,
   onMaterialSelect,
 }) => {
+  const { getTopicProgress } = useQuizProgress();
+
   // Topic I: Kombinatorika, halmazok
   if (topicId === 'g9-kombinatorika-halmazok') {
     const showAll = !activeSubSectionId;
@@ -60,31 +63,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-hanyfelekeppen" number={1} title="Hányféleképpen lehet?" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Szisztematikus Felsorolás"
-                subtitle="Esetek áttekinthető csoportosítása és fadiagramok"
-                type="Hamarosan"
+                title="Hányféleképpen lehet? Tananyag"
+                subtitle="Szisztematikus felsorolás, fadiagramok és szabályok"
+                type="Tananyag"
                 emoji="🌲"
-                disabled={true}
-                icon={<Network className="w-6 h-6" />}
+                onClick={() => onActivitySelect('g9-komb-hanyfelekeppen-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
               />
               <ActivityPlaceholder
-                title="Összeadási és Szorzási Szabály"
-                subtitle="Független döntések és egymást kizáró esetek"
-                type="Hamarosan"
-                emoji="✖️"
-                disabled={true}
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, magyarázatokkal"
+                type="Kvíz"
+                emoji="🎲"
+                onClick={() => onActivitySelect('g9-komb-hanyfelekeppen-quiz', topicId)}
                 icon={<Calculator className="w-6 h-6" />}
                 color="indigo"
-              />
-              <ActivityPlaceholder
-                title="Döntési Fák a Gyakorlatban"
-                subtitle="Menüválasztás, útvonalak és színezési feladatok"
-                type="Hamarosan"
-                emoji="🗺️"
-                disabled={true}
-                icon={<GitFork className="w-6 h-6" />}
-                color="sky"
+                {...getTopicProgress('g9-komb-hanyfelekeppen-quiz')}
               />
             </div>
           </section>
@@ -96,31 +91,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-grafok" number={2} title="Gráfok" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Gráfok Alapfogalmai"
-                subtitle="Csúcsok, élek, egyszerű és összefüggő gráfok"
-                type="Hamarosan"
+                title="Gráfok Tananyag"
+                subtitle="Csúcsok, élek, fokszámok, Euler-tétel és hálózatmodellek"
+                type="Tananyag"
                 emoji="🕸️"
-                disabled={true}
+                onClick={() => onActivitySelect('g9-komb-grafok-theory', topicId)}
                 icon={<Network className="w-6 h-6" />}
                 color="emerald"
               />
               <ActivityPlaceholder
-                title="Fokszámok és Kézfogási Lemma"
-                subtitle="A fokszámok összege az élek számának kétszerese"
-                type="Hamarosan"
-                emoji="🤝"
-                disabled={true}
-                icon={<Share2 className="w-6 h-6" />}
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, kézfogási lemmával"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-komb-grafok-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
                 color="teal"
-              />
-              <ActivityPlaceholder
-                title="Ismeretségi Hálózatok"
-                subtitle="Gráfmodellek körmérkőzésekre és térképekre"
-                type="Hamarosan"
-                emoji="👥"
-                disabled={true}
-                icon={<Users className="w-6 h-6" />}
-                color="green"
+                {...getTopicProgress('g9-komb-grafok-quiz')}
               />
             </div>
           </section>
@@ -132,31 +119,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-szamzarak" number={3} title="Számzárak" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Kódok és Számzárak"
-                subtitle="Ismétléses variációk: k tárcsás számzár lehetőségei"
-                type="Hamarosan"
+                title="Számzárak és Kódok Tananyag"
+                subtitle="Bőröndzárak, PIN kódok, rendszámok, n^k képlet és megkötések"
+                type="Tananyag"
                 emoji="🔒"
-                disabled={true}
+                onClick={() => onActivitySelect('g9-komb-szamzarak-theory', topicId)}
                 icon={<Lock className="w-6 h-6" />}
                 color="amber"
               />
               <ActivityPlaceholder
-                title="PIN Kódok és Jelszavak"
-                subtitle="Biztonsági kódok, rendszámok és telefonszámok"
-                type="Hamarosan"
-                emoji="🔑"
-                disabled={true}
-                icon={<Hash className="w-6 h-6" />}
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, komplementer szabály és jelszavak"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-komb-szamzarak-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
                 color="orange"
-              />
-              <ActivityPlaceholder
-                title="Megkötéses Számalkotás"
-                subtitle="Nem ismétlődő számjegyek és oszthatósági feltételek"
-                type="Hamarosan"
-                emoji="🔢"
-                disabled={true}
-                icon={<Binary className="w-6 h-6" />}
-                color="yellow"
+                {...getTopicProgress('g9-komb-szamzarak-quiz')}
               />
             </div>
           </section>
