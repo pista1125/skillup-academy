@@ -4,10 +4,15 @@ import OpenAI from "openai";
 import cors from "cors";
 import nodemailer from "nodemailer";
 import * as admin from "firebase-admin";
+import { getFirestore } from "firebase-admin/firestore";
 import Stripe from "stripe";
 
 if (!admin.apps.length) {
   admin.initializeApp();
+}
+
+function getDb() {
+  return getFirestore("databasediakzona");
 }
 
 const ALLOWED_ORIGINS = [
@@ -28,7 +33,10 @@ function getOpenAI(): OpenAI {
 }
 
 function getStripe(): Stripe {
-  const key = process.env.STRIPE_SECRET_KEY || "";
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key) {
+    throw new Error("A STRIPE_SECRET_KEY nincs beállítva a functions/.env fájlban vagy a környezetben!");
+  }
   return new Stripe(key);
 }
 
@@ -662,9 +670,9 @@ export const stripeWebhook = onRequest({ cors: true }, async (req, res) => {
         logger.error('Számlázz.hu invoice error:', szamlazzErr);
       }
 
-      // 2. Mentés Firestore adatbázisba
+      // 2. Mentés Firestore adatbázisba (databasediakzona)
       try {
-        const bookingsRef = admin.firestore().collection('tutoring_bookings');
+        const bookingsRef = getDb().collection('tutoring_bookings');
         await bookingsRef.add({
           studentId: studentId || null,
           studentName: nameToUse,
