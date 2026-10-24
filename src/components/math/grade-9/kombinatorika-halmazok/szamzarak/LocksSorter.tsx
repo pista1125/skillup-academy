@@ -39,18 +39,18 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
       }
     ],
     items: [
-      { id: 'ls1-1', label: '4-jegyű bankkártya PIN kód: 10⁴ = 10 000', category: 'cat-repeat' },
-      { id: 'ls1-2', label: '3-tárcsás bőrönd lakat: 10³ = 1 000', category: 'cat-repeat' },
-      { id: 'ls1-3', label: '8-bites bináris bájt: 2⁸ = 256', category: 'cat-repeat' },
-      { id: 'ls1-4', label: '6 karakteres jelszó kisbetűkből: 26⁶', category: 'cat-repeat' },
-      { id: 'ls1-5', label: 'Futóverseny 1-3. helyezettjeinek sorrendje (10·9·8)', category: 'cat-norepeat' },
-      { id: 'ls1-6', label: '4 barát leültetése egy 4 személyes padra (4!)', category: 'cat-norepeat' },
-      { id: 'ls1-7', label: '3-jegyű kód különböző számjegyekből (10·9·8)', category: 'cat-norepeat' },
-      { id: 'ls1-8', label: '5 könyv sorrendje egy polcon (5! = 120)', category: 'cat-norepeat' },
-      { id: 'ls1-9', label: '3-jegyű pozitív egész számok: 9 · 10 · 10 = 900', category: 'cat-numbers' },
-      { id: 'ls1-10', label: '4-jegyű pozitív egész számok: 9 · 10³ = 9 000', category: 'cat-numbers' },
-      { id: 'ls1-11', label: '3-jegyű számok {0,1,2,3}-ból: 3 · 4 · 4 = 48', category: 'cat-numbers' },
-      { id: 'ls1-12', label: '2-jegyű számok különböző jegyekkel: 9 · 9 = 81', category: 'cat-numbers' }
+      { id: 'ls1-1', label: '4-jegyű bankkártya PIN kód', category: 'cat-repeat' },
+      { id: 'ls1-2', label: '3-tárcsás bőrönd lakat', category: 'cat-repeat' },
+      { id: 'ls1-3', label: '8-bites bináris bájt lehetséges értékei', category: 'cat-repeat' },
+      { id: 'ls1-4', label: '6 karakteres jelszó csak angol kisbetűkből', category: 'cat-repeat' },
+      { id: 'ls1-5', label: 'Futóverseny 1–3. helyezettjeinek sorrendje', category: 'cat-norepeat' },
+      { id: 'ls1-6', label: '4 barát leültetése egy 4 személyes padra', category: 'cat-norepeat' },
+      { id: 'ls1-7', label: '3-jegyű kód különböző számjegyekből', category: 'cat-norepeat' },
+      { id: 'ls1-8', label: '5 különböző könyv sorrendje egy polcon', category: 'cat-norepeat' },
+      { id: 'ls1-9', label: '3-jegyű pozitív egész számok darabszáma', category: 'cat-numbers' },
+      { id: 'ls1-10', label: '4-jegyű pozitív egész számok darabszáma', category: 'cat-numbers' },
+      { id: 'ls1-11', label: '3-jegyű számok a {0, 1, 2, 3} számjegyekből', category: 'cat-numbers' },
+      { id: 'ls1-12', label: '2-jegyű számok különböző számjegyekkel', category: 'cat-numbers' }
     ]
   },
   2: {
@@ -77,23 +77,23 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
       }
     ],
     items: [
-      { id: 'ls2-1', label: 'Régi magyar rendszám (3 betű + 3 szám): 26³ · 10³', category: 'cat-license' },
-      { id: 'ls2-2', label: 'Új magyar rendszám (4 betű + 3 szám): 26⁴ · 10³', category: 'cat-license' },
-      { id: 'ls2-3', label: 'Felhasználónév: 2 betű + 4 szám (26² · 10⁴)', category: 'cat-license' },
+      { id: 'ls2-1', label: 'Régi magyar rendszám (3 betű + 3 szám)', category: 'cat-license' },
+      { id: 'ls2-2', label: 'Új magyar rendszám (4 betű + 3 szám)', category: 'cat-license' },
+      { id: 'ls2-3', label: 'Felhasználónév (2 betű + 4 szám)', category: 'cat-license' },
       { id: 'ls2-4', label: 'Két betűs országkód + 5 jegyű irányítószám', category: 'cat-license' },
-      { id: 'ls2-5', label: 'Háromjegyű páros számok száma (utolsó: 0,2,4,6,8)', category: 'cat-parity' },
-      { id: 'ls2-6', label: 'Háromjegyű 5-tel osztható számok (utolsó: 0 vagy 5)', category: 'cat-parity' },
-      { id: 'ls2-7', label: '3-jegyű különböző jegyű páros számok {1..5}-ből (4·3·2)', category: 'cat-parity' },
-      { id: 'ls2-8', label: 'Páratlan végződésű 4-jegyű számok (9·10·10·5)', category: 'cat-parity' },
-      { id: 'ls2-9', label: '4-jegyű PIN legalább egy ismétlődéssel: 10 000 − 5 040', category: 'cat-complement' },
-      { id: 'ls2-10', label: 'Legalább egy 6-ost dobunk 3 kockával: 6³ − 5³', category: 'cat-complement' },
-      { id: 'ls2-11', label: '3-jegyű szám, melyben van legalább egy 0: 900 − 9·9·9', category: 'cat-complement' },
-      { id: 'ls2-12', label: 'Nem csupa fej 5 érmedobásból: 2⁵ − 1', category: 'cat-complement' }
+      { id: 'ls2-5', label: 'Háromjegyű páros számok száma', category: 'cat-parity' },
+      { id: 'ls2-6', label: 'Háromjegyű 5-tel osztható számok száma', category: 'cat-parity' },
+      { id: 'ls2-7', label: '3-jegyű különböző jegyű páros számok az {1..5}-ből', category: 'cat-parity' },
+      { id: 'ls2-8', label: 'Páratlan végződésű 4-jegyű számok száma', category: 'cat-parity' },
+      { id: 'ls2-9', label: '4-jegyű PIN kód legalább egy számjegy-ismétlődéssel', category: 'cat-complement' },
+      { id: 'ls2-10', label: 'Legalább egy 6-ost dobunk 3 szabályos dobókockával', category: 'cat-complement' },
+      { id: 'ls2-11', label: '3-jegyű szám, melyben van legalább egy 0', category: 'cat-complement' },
+      { id: 'ls2-12', label: 'Nem csupa fej 5 egymást követő érmedobásból', category: 'cat-complement' }
     ]
   },
   3: {
     title: '3. Szint: Kódkapacitás Nagyságrendi Besorolása',
-    subtitle: 'Becsüld meg a kombinációk pontos nagyságrendjét a képletek alapján!',
+    subtitle: 'Becsüld meg a kombinációk pontos nagyságrendjét a szabályok alapján!',
     categories: [
       {
         id: 'cat-small',
@@ -115,18 +115,18 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
       }
     ],
     items: [
-      { id: 'ls3-1', label: '3-tárcsás számzár: 10³ = 1 000', category: 'cat-small' },
-      { id: 'ls3-2', label: '8 bites bináris bájt: 2⁸ = 256', category: 'cat-small' },
-      { id: 'ls3-3', label: '3 kocka összes kimenetele: 6³ = 216', category: 'cat-small' },
-      { id: 'ls3-4', label: 'Háromjegyű valódi számok: 9 · 10² = 900', category: 'cat-small' },
-      { id: 'ls3-5', label: '4-jegyű bankkártya PIN kód: 10⁴ = 10 000', category: 'cat-medium' },
-      { id: 'ls3-6', label: '5-jegyű irányítószámok (0 elöl is): 10⁵ = 100 000', category: 'cat-medium' },
-      { id: 'ls3-7', label: '4-jegyű kód különböző jegyekkel: 10·9·8·7 = 5 040', category: 'cat-medium' },
-      { id: 'ls3-8', label: '3 angol betűs monogram: 26³ = 17 576', category: 'cat-medium' },
-      { id: 'ls3-9', label: 'Régi magyar rendszám (3 betű, 3 szám): 17 576 000', category: 'cat-huge' },
-      { id: 'ls3-10', label: 'Új magyar rendszám (4 betű, 3 szám): 456 976 000', category: 'cat-huge' },
-      { id: 'ls3-11', label: '6 karakteres alfanumerikus jelszó: 62⁶ ≈ 56,8 milliárd', category: 'cat-huge' },
-      { id: 'ls3-12', label: '6 karakteres kisbetűs jelszó: 26⁶ ≈ 308,9 millió', category: 'cat-huge' }
+      { id: 'ls3-1', label: '3-tárcsás számzár lehetőségei', category: 'cat-small' },
+      { id: 'ls3-2', label: '8-bites bináris bájt lehetséges értékei', category: 'cat-small' },
+      { id: 'ls3-3', label: '3 szabályos dobókocka összes kimenetele', category: 'cat-small' },
+      { id: 'ls3-4', label: 'Háromjegyű valódi számok száma', category: 'cat-small' },
+      { id: 'ls3-5', label: '4-jegyű bankkártya PIN kód variációk', category: 'cat-medium' },
+      { id: 'ls3-6', label: '5-jegyű irányítószámok száma (a 0 is állhat elöl)', category: 'cat-medium' },
+      { id: 'ls3-7', label: '4-jegyű kód csupa különböző számjegyekkel', category: 'cat-medium' },
+      { id: 'ls3-8', label: '3 angol betűs monogram variációk', category: 'cat-medium' },
+      { id: 'ls3-9', label: 'Régi magyar rendszám (3 betű + 3 szám)', category: 'cat-huge' },
+      { id: 'ls3-10', label: 'Új magyar rendszám (4 betű + 3 szám)', category: 'cat-huge' },
+      { id: 'ls3-11', label: '6 karakteres alfanumerikus jelszó (betűk és számok)', category: 'cat-huge' },
+      { id: 'ls3-12', label: '6 karakteres jelszó csak angol kisbetűkből', category: 'cat-huge' }
     ]
   }
 };

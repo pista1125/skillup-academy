@@ -147,31 +147,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-osszeszamlalas" number={4} title="Folytatjuk az összeszámlálást" color="purple" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Permutációk és Faktoriális"
-                subtitle="n különböző elem sorbarendezése (n!)"
-                type="Hamarosan"
+                title="Permutációk és Sorbarendezések Tananyag"
+                subtitle="Faktoriális (n!), sorbarendezések, ültetési rendek, körasztal és kézfogások"
+                type="Tananyag"
                 emoji="🔀"
-                disabled={true}
+                onClick={() => onActivitySelect('g9-komb-osszeszamlalas-theory', topicId)}
                 icon={<Shuffle className="w-6 h-6" />}
                 color="purple"
               />
               <ActivityPlaceholder
-                title="Ültetési Rendek és Sorrendek"
-                subtitle="Padban, körasztal körül és dobogón"
-                type="Hamarosan"
-                emoji="🪑"
-                disabled={true}
-                icon={<ListOrdered className="w-6 h-6" />}
-                color="violet"
-              />
-              <ActivityPlaceholder
-                title="Kiválasztás Sorrenddel"
-                subtitle="n elemből k kiválasztása visszatevés nélkül"
-                type="Hamarosan"
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, körasztal, dobogók és blokk-trükk"
+                type="Kvíz"
                 emoji="🎯"
-                disabled={true}
-                icon={<Target className="w-6 h-6" />}
-                color="indigo"
+                onClick={() => onActivitySelect('g9-komb-osszeszamlalas-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
+                color="violet"
+                {...getTopicProgress('g9-komb-osszeszamlalas-quiz')}
               />
             </div>
           </section>
@@ -183,31 +175,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-gyakorlas-kombi" number={5} title="Gyakorlás (Kombinatorika)" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Kombinatorika Feladattár"
-                subtitle="Összetett típusfeladatok és versenyfeladványok"
-                type="Hamarosan"
+                title="Kombinatorika Feladattár és Gyakorlás"
+                subtitle="Összetett típusfeladatok, Dirichlet-skatulyaelv, kézfogási tétel és esetszétválasztás"
+                type="Tananyag"
                 emoji="📝"
-                disabled={true}
+                onClick={() => onActivitySelect('g9-komb-gyakorlas-theory', topicId)}
                 icon={<Brain className="w-6 h-6" />}
                 color="rose"
               />
               <ActivityPlaceholder
-                title="Skatulya-elv Kaland"
-                subtitle="Dirichlet-elv bizonyításos feladatokban"
-                type="Hamarosan"
-                emoji="📦"
-                disabled={true}
-                icon={<Layers className="w-6 h-6" />}
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, skatulya-elv és típusfeladatok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-komb-gyakorlas-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
                 color="pink"
-              />
-              <ActivityPlaceholder
-                title="Kombinatorikai Próba"
-                subtitle="Időre menő kihívás és pontszámítás"
-                type="Hamarosan"
-                emoji="⚡"
-                disabled={true}
-                icon={<Zap className="w-6 h-6" />}
-                color="red"
+                {...getTopicProgress('g9-komb-gyakorlas-quiz')}
               />
             </div>
           </section>
@@ -219,31 +203,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-halmazok" number={6} title="Halmazok" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A Halmaz Fogalma és Megadása"
-                subtitle="Eleme/nem eleme reláció, megadás tulajdonsággal"
-                type="Hamarosan"
+                title="A Halmaz Fogalma és Részhalmazai Tananyag"
+                subtitle="Eleme/nem eleme reláció, nevezetes számhalmazok (N, Z, Q, Q*, R), 2ⁿ részhalmaz"
+                type="Tananyag"
                 emoji="⭕"
-                disabled={true}
+                onClick={() => onActivitySelect('g9-komb-halmazok-theory', topicId)}
                 icon={<CircleDot className="w-6 h-6" />}
                 color="teal"
               />
               <ActivityPlaceholder
-                title="Nevezetes Számhalmazok"
-                subtitle="N, Z, Q, Q* és R hierarchiája"
-                type="Hamarosan"
-                emoji="🔢"
-                disabled={true}
-                icon={<Variable className="w-6 h-6" />}
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, számhalmazok, hatványhalmaz és párosító módok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-komb-halmazok-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
                 color="cyan"
-              />
-              <ActivityPlaceholder
-                title="Részhalmazok és Hatványhalmaz"
-                subtitle="Üres halmaz, valódi részhalmaz és 2^n részhalmaz"
-                type="Hamarosan"
-                emoji="📦"
-                disabled={true}
-                icon={<Boxes className="w-6 h-6" />}
-                color="blue"
+                {...getTopicProgress('g9-komb-halmazok-quiz')}
               />
             </div>
           </section>
@@ -255,31 +231,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-halmaz-muveletek" number={7} title="Halmazok uniója, metszete, különbsége" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Metszet és Unió"
-                subtitle="Közös elemek (és) vs. egyesítés (vagy)"
-                type="Hamarosan"
-                emoji="∩"
-                disabled={true}
+                title="Halmazműveletek Tananyag"
+                subtitle="Metszet (∩), unió (∪), különbség (\\), komplementer és De Morgan szabályok"
+                type="Tananyag"
+                emoji="⋂"
+                onClick={() => onActivitySelect('g9-komb-halmaz-muveletek-theory', topicId)}
                 icon={<Split className="w-6 h-6" />}
                 color="indigo"
               />
               <ActivityPlaceholder
-                title="Különbség és Komplementer"
-                subtitle="A \ B és az alaphalmazra vonatkozó kiegészítő"
-                type="Hamarosan"
-                emoji="∖"
-                disabled={true}
-                icon={<PieChart className="w-6 h-6" />}
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, Venn-diagramok és De Morgan azonosságok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-komb-halmaz-muveletek-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
                 color="violet"
-              />
-              <ActivityPlaceholder
-                title="De Morgan Azonosságok & Venn-diagram"
-                subtitle="Műveleti szabályok és területek satírozása"
-                type="Hamarosan"
-                emoji="🎨"
-                disabled={true}
-                icon={<Layers className="w-6 h-6" />}
-                color="purple"
+                {...getTopicProgress('g9-komb-halmaz-muveletek-quiz')}
               />
             </div>
           </section>
@@ -291,31 +259,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-szitaformula" number={8} title="A szitaformula" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Két Halmaz Szitaformulája"
-                subtitle="|A ∪ B| = |A| + |B| - |A ∩ B| alkalmazása"
-                type="Hamarosan"
-                emoji="⚖️"
-                disabled={true}
-                icon={<Scale className="w-6 h-6" />}
+                title="A Szitaformula Tananyag"
+                subtitle="Két és három halmaz szitaformulája, Poincaré-elv, oszthatóság és Venn kitöltés"
+                type="Tananyag"
+                emoji="📊"
+                onClick={() => onActivitySelect('g9-komb-szitaformula-theory', topicId)}
+                icon={<PieChart className="w-6 h-6" />}
                 color="amber"
               />
               <ActivityPlaceholder
-                title="Három Halmazos Venn-diagram"
-                subtitle="Összetett szöveges felmérések és adatelemzés"
-                type="Hamarosan"
-                emoji="📊"
-                disabled={true}
-                icon={<PieChart className="w-6 h-6" />}
-                color="orange"
-              />
-              <ActivityPlaceholder
-                title="Számelméleti Szita Feladatok"
-                subtitle="Oszthatósági kérdések a szitaformulával"
-                type="Hamarosan"
-                emoji="🧮"
-                disabled={true}
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, szöveges felmérések és oszthatósági szita"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-komb-szitaformula-quiz', topicId)}
                 icon={<Calculator className="w-6 h-6" />}
-                color="yellow"
+                color="orange"
+                {...getTopicProgress('g9-komb-szitaformula-quiz')}
               />
             </div>
           </section>
@@ -327,31 +287,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-intervallumok" number={9} title="Intervallumok" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Intervallumok Típusai"
-                subtitle="Nyílt, zárt és félig nyílt intervallumok a számegyenesen"
-                type="Hamarosan"
+                title="Intervallumok Tananyag"
+                subtitle="Nyílt, zárt, félig nyílt és végtelen intervallumok, metszet, unió, különbség és interaktív labor"
+                type="Tananyag"
                 emoji="📏"
-                disabled={true}
+                onClick={() => onActivitySelect('g9-komb-intervallumok-theory', topicId)}
                 icon={<MoveHorizontal className="w-6 h-6" />}
                 color="cyan"
               />
               <ActivityPlaceholder
-                title="Végtelen Intervallumok"
-                subtitle="Félegyenesek és valós számok részhalmazai"
-                type="Hamarosan"
-                emoji="♾️"
-                disabled={true}
-                icon={<Compass className="w-6 h-6" />}
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, számegyenesek, halmazműveletek és párosító módok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-komb-intervallumok-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
                 color="teal"
-              />
-              <ActivityPlaceholder
-                title="Műveletek Intervallumokkal"
-                subtitle="Metszet, unió és különbség a valós számegyenesen"
-                type="Hamarosan"
-                emoji="✂️"
-                disabled={true}
-                icon={<Layers className="w-6 h-6" />}
-                color="blue"
+                {...getTopicProgress('g9-komb-intervallumok-quiz')}
               />
             </div>
           </section>
@@ -363,31 +315,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-gyakorlas-halmaz" number={10} title="Gyakorlás (Halmazok)" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Halmazműveleti Feladatgyűjtemény"
-                subtitle="Véges és végtelen halmazok műveletei"
-                type="Hamarosan"
-                emoji="📚"
-                disabled={true}
-                icon={<BookOpen className="w-6 h-6" />}
+                title="Halmazok Gyakorlása Tananyag"
+                subtitle="Összetett halmazműveletek, szimmetrikus differencia, szitaformula és interaktív labor"
+                type="Tananyag"
+                emoji="🟣"
+                onClick={() => onActivitySelect('g9-komb-gyakorlas-halmaz-theory', topicId)}
+                icon={<Layers className="w-6 h-6" />}
                 color="violet"
               />
               <ActivityPlaceholder
-                title="Szöveges Halmazos Fejtörők"
-                subtitle="Venn-diagramos feladványok és levezetések"
-                type="Hamarosan"
-                emoji="🧩"
-                disabled={true}
-                icon={<Brain className="w-6 h-6" />}
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, szitaformula, számhalmazok és párosító játékok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-komb-gyakorlas-halmaz-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
                 color="purple"
-              />
-              <ActivityPlaceholder
-                title="Intervallumos Egyenlőtlenségek"
-                subtitle="Megoldáshalmazok felírása és ábrázolása"
-                type="Hamarosan"
-                emoji="📐"
-                disabled={true}
-                icon={<Target className="w-6 h-6" />}
-                color="indigo"
+                {...getTopicProgress('g9-komb-gyakorlas-halmaz-quiz')}
               />
             </div>
           </section>
@@ -399,31 +343,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-tudasproba" number={11} title="Gyakorlás, tudáspróba" color="red" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="I. Fejezeti Témazáró Próbadolgozat"
-                subtitle="Kombinatorika és halmazelmélet átfogó feladatsora"
-                type="Hamarosan"
+                title="Fejezeti Összefoglalás & Tudáspróba Tananyag"
+                subtitle="A fejezet 6 alappillére, 5-módos laboratórium és 100 pontos mintadolgozat részletes megoldással"
+                type="Tananyag"
                 emoji="🏆"
-                disabled={true}
+                onClick={() => onActivitySelect('g9-komb-tudasproba-theory', topicId)}
                 icon={<Trophy className="w-6 h-6" />}
                 color="red"
               />
               <ActivityPlaceholder
-                title="Érettségi Előkészítő Feladatok"
-                subtitle="9. osztályos középszintű érettségi típusfeladatok"
-                type="Hamarosan"
-                emoji="🎓"
-                disabled={true}
-                icon={<Award className="w-6 h-6" />}
-                color="amber"
-              />
-              <ActivityPlaceholder
-                title="Villám Kvíz és Eredményértékelés"
-                subtitle="Teszteld tudásodat a fejezetből!"
-                type="Hamarosan"
-                emoji="⭐"
-                disabled={true}
-                icon={<Sparkles className="w-6 h-6" />}
+                title="I. Fejezeti Témazáró Kvíz"
+                subtitle="90 átfogó feladat, 30 kérdés szintenként, érettségi típusok és játékmódok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-komb-tudasproba-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
                 color="rose"
+                {...getTopicProgress('g9-komb-tudasproba-quiz')}
               />
             </div>
           </section>

@@ -442,27 +442,39 @@ export const LocksQuiz: React.FC<LocksQuizProps> = ({
       customGameModes={[
         {
           id: 'matcher',
-          label: 'Párosító Játék',
-          icon: <ArrowRightLeft className="w-4 h-4" />,
-          component: (
+          title: 'Párosító Játék',
+          subtitle: 'Párosítsd a számzárakat és kódokat a variációk számával!',
+          badgeText: '8 Pár szintenként',
+          icon: <ArrowRightLeft className="w-4 h-4 text-amber-600 dark:text-amber-400" />,
+          render: ({ level, onNextLevel, onOpenRules, onSwitchToQuiz: switchToQuiz, onSwitchToSorter: switchToSorter }) => (
             <LocksMatcher
+              key={`locks-matcher-${level}`}
+              level={level}
+              onNextLevel={onNextLevel}
+              onOpenRules={onOpenRules}
               onBack={onBack}
               onSwitchToTheory={onSwitchToTheory}
-              onSwitchToQuiz={() => {}}
-              onSwitchToSorter={onSwitchToSorter}
+              onSwitchToQuiz={switchToQuiz}
+              onSwitchToSorter={switchToSorter}
             />
           )
         },
         {
           id: 'sorter',
-          label: 'Csoportosító Játék',
-          icon: <LayoutGrid className="w-4 h-4" />,
-          component: (
+          title: 'Csoportosító Játék',
+          subtitle: 'Kategorizáld a kódokat ismétléses és ismétlés nélküli típusokba!',
+          badgeText: '12 Elem szintenként',
+          icon: <LayoutGrid className="w-4 h-4 text-orange-600 dark:text-orange-400" />,
+          render: ({ level, onNextLevel, onOpenRules, onSwitchToQuiz: switchToQuiz, onSwitchToMatcher: switchToMatcher }) => (
             <LocksSorter
+              key={`locks-sorter-${level}`}
+              level={level}
+              onNextLevel={onNextLevel}
+              onOpenRules={onOpenRules}
               onBack={onBack}
               onSwitchToTheory={onSwitchToTheory}
-              onSwitchToQuiz={() => {}}
-              onSwitchToMatcher={onSwitchToMatcher}
+              onSwitchToQuiz={switchToQuiz}
+              onSwitchToMatcher={switchToMatcher}
             />
           )
         }

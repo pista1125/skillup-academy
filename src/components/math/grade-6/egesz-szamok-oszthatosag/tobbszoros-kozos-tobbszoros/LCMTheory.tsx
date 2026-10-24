@@ -154,7 +154,7 @@ export function LCMTheory({ onBack, onStartQuiz }: LCMTheoryProps) {
             icon={<Hash className="w-4 h-4 text-amber-500" />}
           >
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-3">
-              Egy $a$ egész szám <strong>többszörösein</strong> azokat a számokat értjük, amelyeket úgy kapunk, hogy az $a$-t megszorozzuk egy egész számmal ($k \cdot a$, ahol $k \in \mathbb{Z}$).
+              Egy $a$ egész szám <strong>többszörösein</strong> azokat a számokat értjük, amelyeket úgy kapunk, hogy az $a$-t megszorozzuk egy egész számmal ($k \cdot a$, ahol $k \in$ ℤ).
             </p>
             <div className="p-3 rounded-xl bg-amber-50/80 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 text-xs text-amber-950 dark:text-amber-200 font-mono space-y-1">
               <div>A 6 pozitív többszörösei: <strong>6, 12, 18, 24, 30, 36, 42, 48...</strong></div>

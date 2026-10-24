@@ -532,20 +532,35 @@ export function QuizTemplate({
     const rawModes = (customGameModes || []).map((m: any) => {
       let renderFn = m.render;
       if (!renderFn && m.component) {
-        const Comp = m.component;
-        renderFn = (props: any) => (
-          <Comp
-            key={`${m.id}-${props?.level ?? selectedLevel ?? 1}`}
-            level={props?.level ?? selectedLevel ?? 1}
-            onNextLevel={props?.onNextLevel}
-            onOpenRules={props?.onOpenRules}
-            onBack={onBack}
-            onSwitchToQuiz={() => setGameMode('quiz')}
-            onSwitchToMatcher={() => setGameMode('matcher')}
-            onSwitchToSorter={() => setGameMode('sorter')}
-            onSwitchToTheory={onSwitchToTheory}
-          />
-        );
+        if (React.isValidElement(m.component)) {
+          renderFn = (props: any) =>
+            React.cloneElement(m.component, {
+              key: `${m.id}-${props?.level ?? selectedLevel ?? 1}`,
+              level: props?.level ?? selectedLevel ?? 1,
+              onNextLevel: props?.onNextLevel,
+              onOpenRules: props?.onOpenRules,
+              onBack: onBack,
+              onSwitchToQuiz: () => setGameMode('quiz'),
+              onSwitchToMatcher: () => setGameMode('matcher'),
+              onSwitchToSorter: () => setGameMode('sorter'),
+              onSwitchToTheory: onSwitchToTheory
+            } as any);
+        } else if (typeof m.component === 'function') {
+          const Comp = m.component;
+          renderFn = (props: any) => (
+            <Comp
+              key={`${m.id}-${props?.level ?? selectedLevel ?? 1}`}
+              level={props?.level ?? selectedLevel ?? 1}
+              onNextLevel={props?.onNextLevel}
+              onOpenRules={props?.onOpenRules}
+              onBack={onBack}
+              onSwitchToQuiz={() => setGameMode('quiz')}
+              onSwitchToMatcher={() => setGameMode('matcher')}
+              onSwitchToSorter={() => setGameMode('sorter')}
+              onSwitchToTheory={onSwitchToTheory}
+            />
+          );
+        }
       }
       return {
         ...m,
@@ -940,10 +955,12 @@ export function QuizTemplate({
                   <button
                     key={mode.id}
                     onClick={() => {
-                      if (mode.onClick) {
+                      if (mode.render || mode.component) {
+                        setGameMode(mode.id as GameMode);
+                      } else if (mode.onClick) {
                         mode.onClick();
                       } else {
-                        setGameMode(mode.id);
+                        setGameMode(mode.id as GameMode);
                       }
                     }}
                     className={cn(
@@ -1433,8 +1450,13 @@ export function QuizTemplate({
               <button
                 key={mode.id}
                 onClick={() => {
-                  if (mode.onClick) mode.onClick();
-                  else setGameMode(mode.id as GameMode);
+                  if (mode.render || mode.component) {
+                    setGameMode(mode.id as GameMode);
+                  } else if (mode.onClick) {
+                    mode.onClick();
+                  } else {
+                    setGameMode(mode.id as GameMode);
+                  }
                 }}
                 className={cn(
                   "flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-black transition-all cursor-pointer",
@@ -1707,20 +1729,37 @@ export function QuizTemplate({
                 onSwitchToTheory: onSwitchToTheory
               })
             ) : (activeCustomMode as any).component ? (
-              React.createElement((activeCustomMode as any).component, {
-                key: `${activeCustomMode.id}-${selectedLevel || 1}`,
-                level: selectedLevel || 1,
-                onNextLevel:
-                  (selectedLevel || 1) < 3
-                    ? () => handleStartLevel(((selectedLevel || 1) + 1) as DifficultyLevel, gameMode)
-                    : undefined,
-                onOpenRules: () => setShowCheatSheet(true),
-                onBack: onBack,
-                onSwitchToQuiz: () => setGameMode('quiz'),
-                onSwitchToMatcher: () => setGameMode('matcher'),
-                onSwitchToSorter: () => setGameMode('sorter'),
-                onSwitchToTheory: onSwitchToTheory
-              })
+              React.isValidElement((activeCustomMode as any).component) ? (
+                React.cloneElement((activeCustomMode as any).component, {
+                  key: `${activeCustomMode.id}-${selectedLevel || 1}`,
+                  level: selectedLevel || 1,
+                  onNextLevel:
+                    (selectedLevel || 1) < 3
+                      ? () => handleStartLevel(((selectedLevel || 1) + 1) as DifficultyLevel, gameMode)
+                      : undefined,
+                  onOpenRules: () => setShowCheatSheet(true),
+                  onBack: onBack,
+                  onSwitchToQuiz: () => setGameMode('quiz'),
+                  onSwitchToMatcher: () => setGameMode('matcher'),
+                  onSwitchToSorter: () => setGameMode('sorter'),
+                  onSwitchToTheory: onSwitchToTheory
+                } as any)
+              ) : typeof (activeCustomMode as any).component === 'function' ? (
+                React.createElement((activeCustomMode as any).component, {
+                  key: `${activeCustomMode.id}-${selectedLevel || 1}`,
+                  level: selectedLevel || 1,
+                  onNextLevel:
+                    (selectedLevel || 1) < 3
+                      ? () => handleStartLevel(((selectedLevel || 1) + 1) as DifficultyLevel, gameMode)
+                      : undefined,
+                  onOpenRules: () => setShowCheatSheet(true),
+                  onBack: onBack,
+                  onSwitchToQuiz: () => setGameMode('quiz'),
+                  onSwitchToMatcher: () => setGameMode('matcher'),
+                  onSwitchToSorter: () => setGameMode('sorter'),
+                  onSwitchToTheory: onSwitchToTheory
+                })
+              ) : null
             ) : null
           ) : null}
         </div>
@@ -1788,7 +1827,15 @@ export function QuizTemplate({
                 return (
                   <button
                     key={mode.id}
-                    onClick={() => setGameMode(mode.id)}
+                    onClick={() => {
+                      if (mode.render || mode.component) {
+                        setGameMode(mode.id as GameMode);
+                      } else if (mode.onClick) {
+                        mode.onClick();
+                      } else {
+                        setGameMode(mode.id as GameMode);
+                      }
+                    }}
                     className={cn(
                       "w-full p-2.5 rounded-xl text-left font-bold text-xs transition-all flex items-center gap-2.5 border-2 cursor-pointer",
                       isActive ? activeClass : inactiveClass

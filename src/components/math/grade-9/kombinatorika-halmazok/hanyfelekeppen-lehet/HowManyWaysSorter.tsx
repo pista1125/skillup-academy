@@ -39,17 +39,17 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
       }
     ],
     items: [
-      { id: 'hs1-1', label: '2 nadrág és 3 ing együttes viselése (2 · 3)', category: 'cat-mult' },
-      { id: 'hs1-2', label: '4-jegyű bankkártya PIN kód generálása (10⁴)', category: 'cat-mult' },
+      { id: 'hs1-1', label: '2 nadrág és 3 ing együttes viselése', category: 'cat-mult' },
+      { id: 'hs1-2', label: '4-jegyű bankkártya PIN kód generálása', category: 'cat-mult' },
       { id: 'hs1-3', label: '3-fogásos ebéd: leves, főétel, desszert kiválasztása', category: 'cat-mult' },
-      { id: 'hs1-4', label: '3 pénzérme együttes feldobása (2³)', category: 'cat-mult' },
-      { id: 'hs1-5', label: 'Utazás Szegedre: 3 vonat VAGY 4 busz (3 + 4)', category: 'cat-add' },
+      { id: 'hs1-4', label: '3 pénzérme együttes feldobása', category: 'cat-mult' },
+      { id: 'hs1-5', label: 'Utazás Szegedre: 3 vonat VAGY 4 busz közül választunk', category: 'cat-add' },
       { id: 'hs1-6', label: 'Rendelés: VAGY kávé (4 féle), VAGY tea (3 féle) kérhető', category: 'cat-add' },
-      { id: 'hs1-7', label: 'Egy kockával 1-est VAGY 6-ost dobunk (1 + 1)', category: 'cat-add' },
-      { id: 'hs1-8', label: 'Könyvtárból 1 regény (50 db) VAGY 1 verseskötet (20 db)', category: 'cat-add' },
-      { id: 'hs1-9', label: 'Kétjegyű számok, amelyek 5-tel oszthatók (0-ra VAGY 5-re végződik)', category: 'cat-mixed' },
+      { id: 'hs1-7', label: 'Egy dobókockával 1-est VAGY 6-ost dobunk', category: 'cat-add' },
+      { id: 'hs1-8', label: 'Könyvtárból 1 regény (50 db) VAGY 1 verseskötet (20 db) kölcsönzése', category: 'cat-add' },
+      { id: 'hs1-9', label: 'Kétjegyű számok, amelyek 5-tel oszthatók (0-ra VAGY 5-re végződnek)', category: 'cat-mixed' },
       { id: 'hs1-10', label: '3-jegyű páros számok {1,2,3,4,5} különböző jegyekből', category: 'cat-mixed' },
-      { id: 'hs1-11', label: 'Utazás A-ból C-be B-n át (2·3 út) VAGY közvetlen járattal (2 út)', category: 'cat-mixed' },
+      { id: 'hs1-11', label: 'Utazás A-ból C-be B-n át (2 ill. 3 út) VAGY közvetlen járattal (2 út)', category: 'cat-mixed' },
       { id: 'hs1-12', label: '2 fiú ÉS 2 lány, VAGY 4 lány kiválasztása táncra', category: 'cat-mixed' }
     ]
   },
@@ -77,17 +77,17 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
       }
     ],
     items: [
-      { id: 'hs2-1', label: '4 tárcsás számzár kódjai 0-9 jegyekből (10⁴ = 10 000)', category: 'cat-rep' },
-      { id: 'hs2-2', label: '3 szabályos dobókockával egyszerre dobunk (6³ = 216)', category: 'cat-rep' },
-      { id: 'hs2-3', label: '5 kérdéses igaz/hamis tesztlap kitöltése (2⁵ = 32)', category: 'cat-rep' },
-      { id: 'hs2-4', label: '4 pénzérme egymás utáni feldobása (2⁴ = 16)', category: 'cat-rep' },
-      { id: 'hs2-5', label: '4 futó befutási sorrendje a célba (4·3·2·1 = 24)', category: 'cat-norep' },
-      { id: 'hs2-6', label: '3 különböző könyv sorrendje egy polcon (3·2·1 = 6)', category: 'cat-norep' },
-      { id: 'hs2-7', label: '8 indulóból arany, ezüst, bronz érmes (8·7·6 = 336)', category: 'cat-norep' },
-      { id: 'hs2-8', label: '3-jegyű szám {1,2,3,4,5} különböző jegyekből (5·4·3 = 60)', category: 'cat-norep' },
-      { id: 'hs2-9', label: '3-jegyű szám {0,1,2,3} különböző jegyekből (3·3·2 = 18)', category: 'cat-cond' },
+      { id: 'hs2-1', label: '4 tárcsás számzár lehetséges kódjai a 0–9 jegyekből', category: 'cat-rep' },
+      { id: 'hs2-2', label: '3 szabályos dobókockával egyszerre dobunk', category: 'cat-rep' },
+      { id: 'hs2-3', label: '5 kérdéses igaz/hamis tesztlap kitöltése', category: 'cat-rep' },
+      { id: 'hs2-4', label: '4 pénzérme egymás utáni feldobásának sorozatai', category: 'cat-rep' },
+      { id: 'hs2-5', label: '4 futó befutási sorrendje a célba', category: 'cat-norep' },
+      { id: 'hs2-6', label: '3 különböző könyv sorrendje egy könyvespolcon', category: 'cat-norep' },
+      { id: 'hs2-7', label: '8 indulóból arany, ezüst, bronz érmesek', category: 'cat-norep' },
+      { id: 'hs2-8', label: '3-jegyű szám {1,2,3,4,5} különböző jegyekből', category: 'cat-norep' },
+      { id: 'hs2-9', label: '3-jegyű szám {0,1,2,3} különböző jegyekből', category: 'cat-cond' },
       { id: 'hs2-10', label: '3-jegyű páros szám képzése {1,2,3,4,5} jegyekből', category: 'cat-cond' },
-      { id: 'hs2-11', label: 'Az összes 3-jegyű pozitív szám száma (9·10·10 = 900)', category: 'cat-cond' },
+      { id: 'hs2-11', label: 'Az összes 3-jegyű pozitív egész szám darabszáma', category: 'cat-cond' },
       { id: 'hs2-12', label: 'Oda-vissza út úgy, hogy visszafelé másik úton jövünk', category: 'cat-cond' }
     ]
   },
@@ -115,18 +115,18 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
       }
     ],
     items: [
-      { id: 'hs3-1', label: '2 nadrág és 3 ing kombinációi (2 · 3 = 6)', category: 'cat-few' },
-      { id: 'hs3-2', label: '3 pénzérme feldobásának sorozatai (2³ = 8)', category: 'cat-few' },
-      { id: 'hs3-3', label: '3 busz vagy 4 vonat Szegedre (3 + 4 = 7)', category: 'cat-few' },
-      { id: 'hs3-4', label: 'Két kocka dobásösszege 4 ((1;3), (2;2), (3;1) = 3)', category: 'cat-few' },
-      { id: 'hs3-5', label: 'Két szabályos dobókocka összes kimenetele (6 · 6 = 36)', category: 'cat-medium' },
-      { id: 'hs3-6', label: '3-jegyű szám {1,2,3,4,5} különböző jegyekből (5·4·3 = 60)', category: 'cat-medium' },
-      { id: 'hs3-7', label: '4 barát ülésrendje egy padon (4! = 24)', category: 'cat-medium' },
-      { id: 'hs3-8', label: 'Kétjegyű pozitív egész számok száma (90 db)', category: 'cat-medium' },
-      { id: 'hs3-9', label: '4-jegyű bankkártya PIN kódok száma (10⁴ = 10 000)', category: 'cat-many' },
-      { id: 'hs3-10', label: '3 dobókockával egyszerre dobunk (6³ = 216)', category: 'cat-many' },
-      { id: 'hs3-11', label: 'Háromjegyű pozitív egész számok száma (9 · 10 · 10 = 900)', category: 'cat-many' },
-      { id: 'hs3-12', label: '3-jegyű számok {1,2,3,4,5} jegyekből ismétléssel (5³ = 125)', category: 'cat-many' }
+      { id: 'hs3-1', label: '2 nadrág és 3 ing lehetséges kombinációi', category: 'cat-few' },
+      { id: 'hs3-2', label: '3 pénzérme feldobásának kimenetelei', category: 'cat-few' },
+      { id: 'hs3-3', label: '3 busz vagy 4 vonat Szegedre (egy járatot választunk)', category: 'cat-few' },
+      { id: 'hs3-4', label: 'Két kocka dobásösszege pontosan 4', category: 'cat-few' },
+      { id: 'hs3-5', label: 'Két szabályos dobókocka összes kimenetele', category: 'cat-medium' },
+      { id: 'hs3-6', label: '3-jegyű szám {1,2,3,4,5} különböző jegyekből', category: 'cat-medium' },
+      { id: 'hs3-7', label: '4 jóbarát ülésrendje egy padon', category: 'cat-medium' },
+      { id: 'hs3-8', label: 'Kétjegyű pozitív egész számok darabszáma', category: 'cat-medium' },
+      { id: 'hs3-9', label: '4-jegyű bankkártya PIN kódok darabszáma', category: 'cat-many' },
+      { id: 'hs3-10', label: '3 dobókockával egyszerre dobunk (összes kimenetel)', category: 'cat-many' },
+      { id: 'hs3-11', label: 'Háromjegyű pozitív egész számok darabszáma', category: 'cat-many' },
+      { id: 'hs3-12', label: '3-jegyű számok {1,2,3,4,5} jegyekből ismétléssel', category: 'cat-many' }
     ]
   }
 };

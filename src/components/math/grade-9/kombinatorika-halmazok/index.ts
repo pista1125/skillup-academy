@@ -5,4 +5,11 @@ export * from './SorterTemplate';
 export * from './hanyfelekeppen-lehet';
 export * from './grafok';
 export * from './szamzarak';
-
+export * from './folytatjuk-az-osszeszamlalast';
+export * from './gyakorlas-kombinatorika';
+export * from './halmazok';
+export * from './halmazok-unioja-metszete-kulonbsege';
+export * from './a-szitaformula';
+export * from './intervallumok';
+export * from './gyakorlas-halmazok';
+export * from './gyakorlas-tudasproba';

@@ -712,7 +712,7 @@ export function SorterTemplate({
                       onClick={() => setSelectedItem(isSelected ? null : item)}
                       title={typeof labelText === 'string' ? labelText : undefined}
                       className={cn(
-                        'p-2 rounded-xl text-left transition-all border-2 shadow-xs cursor-pointer flex items-center gap-2.5 min-h-[48px] select-none',
+                        'p-2 sm:p-2.5 rounded-xl text-left transition-all border-2 shadow-xs cursor-pointer flex items-center gap-2.5 sm:gap-3 min-h-[56px] sm:min-h-[62px] select-none',
                         isShaking && 'animate-shake bg-rose-100 border-rose-500 text-rose-950',
                         isSelected
                           ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white border-purple-700 shadow-md scale-[1.02] ring-4 ring-purple-300 dark:ring-purple-800'
@@ -721,16 +721,16 @@ export function SorterTemplate({
                     >
                       {item.figure && (
                         <div className={cn(
-                          'w-12 h-7 sm:w-14 sm:h-8 shrink-0 overflow-hidden flex items-center justify-center rounded-lg border transition-colors [&>svg]:w-full [&>svg]:h-full p-0.5 shadow-2xs',
+                          'w-12 h-12 sm:w-14 sm:h-14 shrink-0 overflow-hidden flex items-center justify-center rounded-xl border transition-colors p-1 shadow-2xs [&_*]:max-h-full [&_*]:max-w-full [&_svg]:!w-full [&_svg]:!h-full [&_svg]:!max-h-full [&_svg]:!max-w-full [&_svg]:object-contain [&_div]:!w-full [&_div]:!h-full [&_div]:flex [&_div]:items-center [&_div]:justify-center',
                           isSelected
                             ? 'bg-white text-slate-900 border-purple-300 shadow-xs'
-                            : 'bg-white dark:bg-slate-900/90 border-purple-100 dark:border-slate-750'
+                            : 'bg-white dark:bg-slate-900/90 border-purple-200 dark:border-slate-700'
                         )}>
                           {item.figure}
                         </div>
                       )}
                       {labelText && (
-                        <span className="font-bold text-xs sm:text-[13px] leading-snug line-clamp-2 flex-1">
+                        <span className="font-bold text-xs sm:text-[13px] leading-snug line-clamp-3 flex-1 break-words">
                           {typeof labelText === 'string' ? <MathText size="sm">{labelText}</MathText> : labelText}
                         </span>
                       )}
@@ -806,17 +806,17 @@ export function SorterTemplate({
                           return (
                             <div
                               key={item.id}
-                              className="px-2.5 py-1 rounded-lg text-xs font-bold border-2 bg-emerald-50 dark:bg-emerald-950/60 border-emerald-400 text-emerald-950 dark:text-emerald-200 flex items-center gap-1.5 shadow-2xs animate-in zoom-in-95 duration-150"
+                              className="px-2.5 py-1.5 rounded-lg text-xs font-bold border-2 bg-emerald-50 dark:bg-emerald-950/60 border-emerald-400 text-emerald-950 dark:text-emerald-200 flex items-center gap-2 shadow-2xs animate-in zoom-in-95 duration-150"
                             >
                               {item.figure && (
-                                <div className="w-6 h-4 shrink-0 overflow-hidden flex items-center justify-center bg-white dark:bg-slate-900 rounded border border-emerald-200 [&>svg]:w-full [&>svg]:h-full p-0.5">
+                                <div className="w-7 h-7 shrink-0 overflow-hidden flex items-center justify-center bg-white dark:bg-slate-900 rounded-md border border-emerald-300 dark:border-emerald-700 p-0.5 shadow-2xs [&_*]:max-h-full [&_*]:max-w-full [&_svg]:!w-full [&_svg]:!h-full [&_svg]:!max-h-full [&_svg]:!max-w-full [&_svg]:object-contain [&_div]:!w-full [&_div]:!h-full [&_div]:flex [&_div]:items-center [&_div]:justify-center">
                                   {item.figure}
                                 </div>
                               )}
-                              <span className="line-clamp-1 max-w-[140px] sm:max-w-[170px]">
+                              <span className="line-clamp-2 max-w-[140px] sm:max-w-[170px] leading-tight">
                                 {typeof itemText === 'string' ? <MathText size="sm">{itemText}</MathText> : itemText}
                               </span>
-                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0 ml-0.5" />
+                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0 ml-auto" />
                             </div>
                           );
                         })

@@ -362,7 +362,9 @@ export function MatcherTemplate({
   themeColor = 'indigo',
   grade = 9,
   chapterId = 'kombinatorika-halmazok',
-  topicId
+  topicId,
+  levelConfig,
+  ...rest
 }: MatcherTemplateProps) {
   const { user, profile } = useAuth();
   const [cards, setCards] = useState<CardItem[]>([]);
@@ -388,7 +390,7 @@ export function MatcherTemplate({
   const [comboText, setComboText] = useState<string | null>(null);
   const [showAnswersReview, setShowAnswersReview] = useState<boolean>(false);
 
-  const allLevels = levels || levelsConfig || levelConfigs || (props as any).levelConfig;
+  const allLevels = levels || levelsConfig || levelConfigs || levelConfig || (rest as any).levelConfig;
   const rawLvl = currentLevel ?? (typeof level === 'number' ? level : ((level as any)?.level ?? 1));
   const activeLevel: DifficultyLevel = (typeof rawLvl === 'number' ? rawLvl : 1) as DifficultyLevel;
 
@@ -941,7 +943,7 @@ export function MatcherTemplate({
                 disabled={card.isMatched || isChecking}
                 title={typeof card.content === 'string' ? card.content : undefined}
                 className={cn(
-                  'min-h-[64px] sm:min-h-[72px] lg:min-h-[76px] p-2 sm:p-2.5 rounded-xl font-medium text-xs sm:text-sm transition-all duration-200 flex flex-col items-center justify-center text-center select-none shadow-xs relative border-2 cursor-pointer overflow-hidden',
+                  'min-h-[84px] sm:min-h-[96px] lg:min-h-[104px] p-2 sm:p-2.5 rounded-xl font-medium text-xs sm:text-sm transition-all duration-200 flex flex-col items-center justify-center text-center select-none shadow-xs relative border-2 cursor-pointer overflow-hidden',
                   cardClass
                 )}
               >
@@ -953,21 +955,22 @@ export function MatcherTemplate({
                   )}
 
                   {card.figure ? (
-                    <div className="flex flex-col items-center justify-center gap-1 w-full">
+                    <div className="flex flex-col items-center justify-center gap-1.5 w-full h-full">
                       <div className={cn(
-                        "max-h-7 sm:max-h-8 max-w-full flex items-center justify-center overflow-hidden [&>svg]:w-full [&>svg]:h-full p-0.5 rounded-md bg-white/90 dark:bg-slate-800/90 border shadow-2xs",
+                        "h-12 sm:h-14 w-full max-w-[100px] flex items-center justify-center overflow-hidden p-1 rounded-xl bg-white/95 dark:bg-slate-900 border shadow-2xs shrink-0 transition-transform",
+                        "[&_*]:max-h-full [&_*]:max-w-full [&_svg]:!w-full [&_svg]:!h-full [&_svg]:!max-h-full [&_svg]:!max-w-full [&_svg]:object-contain [&_div]:!w-full [&_div]:!h-full [&_div]:flex [&_div]:items-center [&_div]:justify-center",
                         theme.figureBorder
                       )}>
                         {card.figure}
                       </div>
                       {card.content && (
-                        <span className="leading-tight font-bold text-[11px] sm:text-xs break-words line-clamp-2 text-slate-800 dark:text-slate-100">
+                        <span className="leading-snug font-bold text-[11px] sm:text-xs break-words line-clamp-3 text-slate-800 dark:text-slate-100">
                           {typeof card.content === 'string' ? <MathText size="sm">{card.content}</MathText> : card.content}
                         </span>
                       )}
                     </div>
                   ) : (
-                    <span className="leading-tight font-bold text-xs sm:text-[13px] break-words line-clamp-3 text-slate-800 dark:text-slate-100">
+                    <span className="leading-snug font-bold text-xs sm:text-[13px] break-words line-clamp-4 text-slate-800 dark:text-slate-100">
                       {typeof card.content === 'string' ? <MathText size="md">{card.content}</MathText> : card.content}
                     </span>
                   )}

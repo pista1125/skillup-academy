@@ -194,13 +194,48 @@ export const LocksTheory: React.FC<LocksTheoryProps> = ({
     <TheoryTemplate
       title="Számzárak, Kódok és Ismétléses Sorrendek"
       subtitle="9. Osztály • I. Kombinatorika és halmazok • 3. Altéma"
+      badgeText="9. OSZTÁLY • I. KOMBINATORIKA, HALMAZOK • 🔢 SZÁMZÁRAK"
       themeColor="amber"
       pdfFilename="9_osztaly_szamzarak_tananyag.pdf"
+      quickRule={{
+        label: 'A Számzár- és Kódszabály Alapképletei',
+        align: 'left',
+        formula: (
+          <div className="flex flex-col gap-1.5 text-left text-xs sm:text-sm font-semibold">
+            <div className="flex items-center flex-wrap gap-2">
+              <span className="px-1.5 py-0.5 rounded-md bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 font-bold text-[11px]">
+                Ismétléses variáció:
+              </span>
+              <span className="font-mono text-amber-950 dark:text-amber-200">
+                Vₙᵏ' = nᵏ
+              </span>
+              <span className="text-[11px] text-slate-500">(szabad ismétlődés, pl. 10⁴ kód)</span>
+            </div>
+            <div className="flex items-center flex-wrap gap-2">
+              <span className="px-1.5 py-0.5 rounded-md bg-indigo-100 dark:bg-indigo-950/60 text-indigo-800 dark:text-indigo-300 font-bold text-[11px]">
+                Ismétlés nélküli:
+              </span>
+              <span className="font-mono text-indigo-950 dark:text-indigo-200">
+                n · (n − 1) · … · (n − k + 1)
+              </span>
+              <span className="text-[11px] text-slate-500">(csupa különböző jegy)</span>
+            </div>
+            <div className="flex items-center flex-wrap gap-2">
+              <span className="px-1.5 py-0.5 rounded-md bg-rose-100 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300 font-bold text-[11px]">
+                Valódi számoknál:
+              </span>
+              <span className="text-rose-950 dark:text-rose-200 text-xs font-semibold">
+                A 0 nem állhat az első helyen (pl. 3 jegyű szám: 9 · 10 · 10 = 900 db)!
+              </span>
+            </div>
+          </div>
+        )
+      }}
       onBack={onBack}
       practiceTitle="Készen állsz a kódfejtésre?"
       practiceSubtitle="Teszteld a tudásodat a 30 kérdéses számzár és kódalkotási kvízben!"
       practiceButtonText="Gyakorló Kvíz Indítása"
-      handleQuizStart={onStartQuiz}
+      onStartQuiz={onStartQuiz}
     >
       {/* 1. SZEKCIÓ: BEVEZETÉS A KÓDOK VILÁGÁBA */}
       <TheorySection
