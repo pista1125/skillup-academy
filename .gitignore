@@ -11,9 +11,16 @@ node_modules
 dist
 dist-ssr
 *.local
+# Secrets & Environment Files
 .env
 .env.*
 !.env.example
+functions/.env
+functions/.env.*
+!functions/.env.example
+*.pem
+*.key
+*.secret
 
 # Functions build output
 functions/lib

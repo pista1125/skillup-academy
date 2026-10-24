@@ -3,12 +3,13 @@
  * Invokes Firebase Cloud Functions or falls back gracefully to OpenAI API / smart generators.
  */
 
+import { auth } from './firebase';
+
 const FIREBASE_FUNCTIONS_URL = "https://us-central1-diakzona.cloudfunctions.net";
 
 function getOpenAiKey(): string {
-  return localStorage.getItem('puzzle-maker-openai-key') || 
-         import.meta.env.VITE_OPENAI_API_KEY || 
-         '';
+  // Only allow user-provided key from their own browser storage (never bundle an app-level secret in frontend)
+  return localStorage.getItem('puzzle-maker-openai-key') || '';
 }
 
 export async function invokeAiFunction(name: string, payload: any): Promise<{ data: any; error: any }> {
@@ -23,11 +24,21 @@ export async function invokeAiFunction(name: string, payload: any): Promise<{ da
 
   const endpointName = functionEndpointMap[name] || name;
 
-  // 1. Try calling Firebase Cloud Function
+  // 1. Try calling Firebase Cloud Function (Secure Server-Side AI with OpenAI API Key)
   try {
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+    if (auth.currentUser) {
+      try {
+        const idToken = await auth.currentUser.getIdToken();
+        headers['Authorization'] = `Bearer ${idToken}`;
+      } catch (authErr) {
+        // proceed without auth token if token refresh fails
+      }
+    }
+
     const cloudResp = await fetch(`${FIREBASE_FUNCTIONS_URL}/${endpointName}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers,
       body: JSON.stringify(payload)
     });
 
@@ -36,7 +47,7 @@ export async function invokeAiFunction(name: string, payload: any): Promise<{ da
       return { data, error: null };
     }
   } catch (cloudErr) {
-    // Cloud function not yet deployed or offline, fall through to native client runner
+    // Cloud function not yet deployed or offline, fall through to native client runner / fallback
   }
 
   // 2. Direct OpenAI API Call

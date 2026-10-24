@@ -10,10 +10,20 @@ if (!admin.apps.length) {
   admin.initializeApp();
 }
 
-const corsHandler = cors({ origin: true });
+const ALLOWED_ORIGINS = [
+  "https://diakzona.hu",
+  "https://www.diakzona.hu",
+  "https://pista1125.github.io",
+  "http://localhost:5173",
+  "http://localhost:4173",
+  "http://localhost:3000",
+];
 
 function getOpenAI(): OpenAI {
-  const apiKey = process.env.OPENAI_API_KEY || "sk-placeholder";
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey || apiKey === "sk-placeholder") {
+    throw new Error("Az OPENAI_API_KEY nincs beállítva a Firebase Cloud Functions környezetben!");
+  }
   return new OpenAI({ apiKey });
 }
 
@@ -24,17 +34,20 @@ function getStripe(): Stripe {
 
 
 // 1. generatePuzzle Cloud Function
-export const generatePuzzle = onRequest({ cors: true }, async (req, res) => {
+export const generatePuzzle = onRequest({ cors: ALLOWED_ORIGINS }, async (req, res) => {
   try {
     const { topic, questionCount = 10, hiddenWord = '' } = req.body || {};
-    if (!topic) {
-      res.status(400).json({ error: 'Topic is required' });
+    if (!topic || typeof topic !== 'string') {
+      res.status(400).json({ error: 'Érvényes téma megadása kötelező!' });
       return;
     }
 
+    const cleanTopic = topic.trim().slice(0, 120);
+    const safeCount = Math.max(5, Math.min(15, Number(questionCount) || 10));
+
     let hiddenWordInstructions = '';
-    if (hiddenWord) {
-      const cleanWord = hiddenWord.trim().toUpperCase().replace(/\s+/g, '');
+    if (hiddenWord && typeof hiddenWord === 'string') {
+      const cleanWord = hiddenWord.trim().toUpperCase().replace(/\s+/g, '').slice(0, 20);
       hiddenWordInstructions = `\nA keresztrejtvény VÁRT fő megfejtése: "${cleanWord}". Generálj pontosan ${cleanWord.length} db kérdést!`;
     } else {
       hiddenWordInstructions = `A JSON válasz tartalmazza a "question" és "answer" mezőket. "offset" 0, "highlightIndex" -1.`;
@@ -45,9 +58,9 @@ export const generatePuzzle = onRequest({ cors: true }, async (req, res) => {
       messages: [
         {
           role: "system",
-          content: `Te egy oktatási rejtvénykészítő vagy. Generálj ${questionCount} db kérdést és választ JSON formátumban: {"title": "Cím", "questions": [{"question": "...", "answer": "...", "highlightIndex": -1, "offset": 0}]}. CSAK nyers JSON!` + hiddenWordInstructions
+          content: `Te egy oktatási rejtvénykészítő vagy. Generálj ${safeCount} db kérdést és választ JSON formátumban: {"title": "Cím", "questions": [{"question": "...", "answer": "...", "highlightIndex": -1, "offset": 0}]}. CSAK nyers JSON!` + hiddenWordInstructions
         },
-        { role: "user", content: `Témakör: ${topic}` }
+        { role: "user", content: `Témakör: ${cleanTopic}` }
       ],
       temperature: 0.7
     });
@@ -62,16 +75,19 @@ export const generatePuzzle = onRequest({ cors: true }, async (req, res) => {
 });
 
 // 2. generateToto Cloud Function
-export const generateToto = onRequest({ cors: true }, async (req, res) => {
+export const generateToto = onRequest({ cors: ALLOWED_ORIGINS }, async (req, res) => {
   try {
     const { topic, questionCount = 13 } = req.body || {};
-    if (!topic) {
-      res.status(400).json({ error: 'Topic is required' });
+    if (!topic || typeof topic !== 'string') {
+      res.status(400).json({ error: 'Érvényes téma megadása kötelező!' });
       return;
     }
 
+    const cleanTopic = topic.trim().slice(0, 120);
+    const safeCount = Math.max(5, Math.min(14, Number(questionCount) || 13));
+
     const systemPrompt = `Te egy profi magyar oktatási totó (13+1 kvíz) generáló tanár vagy.
-Generálj pontosan ${questionCount} db minőségi kérdést és válaszlehetőséget JSON formátumban.
+Generálj pontosan ${safeCount} db minőségi kérdést és válaszlehetőséget JSON formátumban.
 JSON formátum:
 {
   "title": "Kreatív Cím a témához",
@@ -97,7 +113,7 @@ FONTOS MATEMATIKAI ÉS FORMÁZÁSI SZABÁLYOK:
           role: "system",
           content: systemPrompt
         },
-        { role: "user", content: `Témakör: ${topic}` }
+        { role: "user", content: `Témakör: ${cleanTopic}` }
       ],
       temperature: 0.7
     });
@@ -112,22 +128,26 @@ FONTOS MATEMATIKAI ÉS FORMÁZÁSI SZABÁLYOK:
 });
 
 // 3. generateMatchingPairs Cloud Function
-export const generateMatchingPairs = onRequest({ cors: true }, async (req, res) => {
+export const generateMatchingPairs = onRequest({ cors: ALLOWED_ORIGINS }, async (req, res) => {
   try {
     const { topic, pairCount = 5, groupSize = 2 } = req.body || {};
-    if (!topic) {
-      res.status(400).json({ error: 'Topic is required' });
+    if (!topic || typeof topic !== 'string') {
+      res.status(400).json({ error: 'Érvényes téma megadása kötelező!' });
       return;
     }
+
+    const cleanTopic = topic.trim().slice(0, 120);
+    const safePairs = Math.max(3, Math.min(10, Number(pairCount) || 5));
+    const safeGroupSize = Math.max(2, Math.min(3, Number(groupSize) || 2));
 
     const completion = await getOpenAI().chat.completions.create({
       model: "gpt-4o",
       messages: [
         {
           role: "system",
-          content: `Te egy párosító feladat készítő vagy. Generálj ${pairCount} db ${groupSize} elemű csoportot JSON formátumban: {"title": "Cím", "groups": [{"elements": [{"content": "...", "type": "text"}]}]}. CSAK nyers JSON!`
+          content: `Te egy párosító feladat készítő vagy. Generálj ${safePairs} db ${safeGroupSize} elemű csoportot JSON formátumban: {"title": "Cím", "groups": [{"elements": [{"content": "...", "type": "text"}]}]}. CSAK nyers JSON!`
         },
-        { role: "user", content: `Témakör: ${topic}` }
+        { role: "user", content: `Témakör: ${cleanTopic}` }
       ],
       temperature: 0.7
     });
@@ -142,17 +162,28 @@ export const generateMatchingPairs = onRequest({ cors: true }, async (req, res) 
 });
 
 // 4. mathAiAssistant Cloud Function
-export const mathAiAssistant = onRequest({ cors: true }, async (req, res) => {
+export const mathAiAssistant = onRequest({ cors: ALLOWED_ORIGINS }, async (req, res) => {
   try {
     const { messages = [], context = {} } = req.body || {};
-    const { examType, topicTitle, subtopicTitle, levelOrGrade } = context;
+    const { examType, topicTitle, subtopicTitle } = context || {};
     const examName = examType === 'graduation' ? 'Magyar Érettségi Felkészítő' : 'Középiskolai Felvételi Felkészítő';
 
-    const systemPrompt = `Te a SkillUp Akadémia barátságos, türelmes AI Matematika Korrepetitora vagy. KONTEXTUS: ${examName}, ${topicTitle || 'Matematika'}. FORMÁZÁS: Használj $ jelet sorközi LaTeX képletekhez ($x^2 = 4$)!`;
+    const safeTopic = String(topicTitle || 'Matematika').slice(0, 80);
+    const safeSubtopic = String(subtopicTitle || '').slice(0, 80);
+
+    const systemPrompt = `Te a SkillUp Akadémia barátságos, türelmes AI Matematika Korrepetitora vagy. KONTEXTUS: ${examName}, ${safeTopic} ${safeSubtopic ? `(${safeSubtopic})` : ''}. FORMÁZÁS: Használj $ jelet sorközi LaTeX képletekhez ($x^2 = 4$)!`;
+
+    // Limit conversation history to latest 8 messages and clamp length to avoid token abuse
+    const safeMessages = (Array.isArray(messages) ? messages : []).slice(-8).map((m: any) => {
+      if (typeof m.content === 'string') {
+        return { role: m.role || 'user', content: m.content.slice(0, 1000) };
+      }
+      return m;
+    });
 
     const completion = await getOpenAI().chat.completions.create({
       model: "gpt-4o",
-      messages: [{ role: "system", content: systemPrompt }, ...messages],
+      messages: [{ role: "system", content: systemPrompt }, ...safeMessages],
       temperature: 0.7
     });
 
@@ -165,7 +196,7 @@ export const mathAiAssistant = onRequest({ cors: true }, async (req, res) => {
 });
 
 // 5. aiWhiteboardRecognizer Cloud Function
-export const aiWhiteboardRecognizer = onRequest({ cors: true }, async (req, res) => {
+export const aiWhiteboardRecognizer = onRequest({ cors: ALLOWED_ORIGINS }, async (req, res) => {
   try {
     const { action, expression } = req.body || {};
 
