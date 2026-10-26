@@ -757,6 +757,60 @@ const Grade9KnowledgeTestTheory = lazy(() => import("@/components/math/grade-9/k
 const Grade9KnowledgeTestQuiz = lazy(() => import("@/components/math/grade-9/kombinatorika-halmazok/gyakorlas-tudasproba/KnowledgeTestQuiz").then(m => ({ default: m.KnowledgeTestQuiz }))) as any;
 const Grade9KnowledgeTestMatcher = lazy(() => import("@/components/math/grade-9/kombinatorika-halmazok/gyakorlas-tudasproba/KnowledgeTestMatcher").then(m => ({ default: m.KnowledgeTestMatcher }))) as any;
 const Grade9KnowledgeTestSorter = lazy(() => import("@/components/math/grade-9/kombinatorika-halmazok/gyakorlas-tudasproba/KnowledgeTestSorter").then(m => ({ default: m.KnowledgeTestSorter }))) as any;
+const Grade9NumberSetsTheory = lazy(() => import("@/components/math/grade-9/szamok-vilaga/muveletek-szamhalmazokban/NumberSetsTheory").then(m => ({ default: m.NumberSetsTheory }))) as any;
+const Grade9NumberSetsQuiz = lazy(() => import("@/components/math/grade-9/szamok-vilaga/muveletek-szamhalmazokban/NumberSetsQuiz").then(m => ({ default: m.NumberSetsQuiz }))) as any;
+const Grade9NumberSetsMatcher = lazy(() => import("@/components/math/grade-9/szamok-vilaga/muveletek-szamhalmazokban/NumberSetsMatcher").then(m => ({ default: m.NumberSetsMatcher }))) as any;
+const Grade9NumberSetsSorter = lazy(() => import("@/components/math/grade-9/szamok-vilaga/muveletek-szamhalmazokban/NumberSetsSorter").then(m => ({ default: m.NumberSetsSorter }))) as any;
+const Grade9FractionsTheory = lazy(() => import("@/components/math/grade-9/szamok-vilaga/szamolas-tortekkel/FractionsTheory").then(m => ({ default: m.FractionsTheory }))) as any;
+const Grade9FractionsQuiz = lazy(() => import("@/components/math/grade-9/szamok-vilaga/szamolas-tortekkel/FractionsQuiz").then(m => ({ default: m.FractionsQuiz }))) as any;
+const Grade9FractionsMatcher = lazy(() => import("@/components/math/grade-9/szamok-vilaga/szamolas-tortekkel/FractionsMatcher").then(m => ({ default: m.FractionsMatcher }))) as any;
+const Grade9FractionsSorter = lazy(() => import("@/components/math/grade-9/szamok-vilaga/szamolas-tortekkel/FractionsSorter").then(m => ({ default: m.FractionsSorter }))) as any;
+const Grade9RationalIrrationalTheory = lazy(() => import("@/components/math/grade-9/szamok-vilaga/racionalis-es-irracionalis-szamok/RationalIrrationalTheory").then(m => ({ default: m.RationalIrrationalTheory }))) as any;
+const Grade9RationalIrrationalQuiz = lazy(() => import("@/components/math/grade-9/szamok-vilaga/racionalis-es-irracionalis-szamok/RationalIrrationalQuiz").then(m => ({ default: m.RationalIrrationalQuiz }))) as any;
+const Grade9RationalIrrationalMatcher = lazy(() => import("@/components/math/grade-9/szamok-vilaga/racionalis-es-irracionalis-szamok/RationalIrrationalMatcher").then(m => ({ default: m.RationalIrrationalMatcher }))) as any;
+const Grade9RationalIrrationalSorter = lazy(() => import("@/components/math/grade-9/szamok-vilaga/racionalis-es-irracionalis-szamok/RationalIrrationalSorter").then(m => ({ default: m.RationalIrrationalSorter }))) as any;
+const Grade9ProportionalityTheory = lazy(() => import("@/components/math/grade-9/szamok-vilaga/aranyossag/ProportionalityTheory").then(m => ({ default: m.ProportionalityTheory }))) as any;
+const Grade9ProportionalityQuiz = lazy(() => import("@/components/math/grade-9/szamok-vilaga/aranyossag/ProportionalityQuiz").then(m => ({ default: m.ProportionalityQuiz }))) as any;
+const Grade9ProportionalityMatcher = lazy(() => import("@/components/math/grade-9/szamok-vilaga/aranyossag/ProportionalityMatcher").then(m => ({ default: m.ProportionalityMatcher }))) as any;
+const Grade9ProportionalitySorter = lazy(() => import("@/components/math/grade-9/szamok-vilaga/aranyossag/ProportionalitySorter").then(m => ({ default: m.ProportionalitySorter }))) as any;
+const Grade9ProportionalDivisionTheory = lazy(() => import("@/components/math/grade-9/szamok-vilaga/aranyos-osztas/ProportionalDivisionTheory").then(m => ({ default: m.ProportionalDivisionTheory }))) as any;
+const Grade9ProportionalDivisionQuiz = lazy(() => import("@/components/math/grade-9/szamok-vilaga/aranyos-osztas/ProportionalDivisionQuiz").then(m => ({ default: m.ProportionalDivisionQuiz }))) as any;
+const Grade9ProportionalDivisionMatcher = lazy(() => import("@/components/math/grade-9/szamok-vilaga/aranyos-osztas/ProportionalDivisionMatcher").then(m => ({ default: m.ProportionalDivisionMatcher }))) as any;
+const Grade9ProportionalDivisionSorter = lazy(() => import("@/components/math/grade-9/szamok-vilaga/aranyos-osztas/ProportionalDivisionSorter").then(m => ({ default: m.ProportionalDivisionSorter }))) as any;
+const Grade9PercentageTheory = lazy(() => import("@/components/math/grade-9/szamok-vilaga/szazalekszamitas/PercentageTheory").then(m => ({ default: m.PercentageTheory }))) as any;
+const Grade9PercentageQuiz = lazy(() => import("@/components/math/grade-9/szamok-vilaga/szazalekszamitas/PercentageQuiz").then(m => ({ default: m.PercentageQuiz }))) as any;
+const Grade9PercentageMatcher = lazy(() => import("@/components/math/grade-9/szamok-vilaga/szazalekszamitas/PercentageMatcher").then(m => ({ default: m.PercentageMatcher }))) as any;
+const Grade9PercentageSorter = lazy(() => import("@/components/math/grade-9/szamok-vilaga/szazalekszamitas/PercentageSorter").then(m => ({ default: m.PercentageSorter }))) as any;
+const Grade9PowersTheory = lazy(() => import("@/components/math/grade-9/szamok-vilaga/hatvanyozas/PowersTheory").then(m => ({ default: m.PowersTheory }))) as any;
+const Grade9PowersQuiz = lazy(() => import("@/components/math/grade-9/szamok-vilaga/hatvanyozas/PowersQuiz").then(m => ({ default: m.PowersQuiz }))) as any;
+const Grade9PowersMatcher = lazy(() => import("@/components/math/grade-9/szamok-vilaga/hatvanyozas/PowersMatcher").then(m => ({ default: m.PowersMatcher }))) as any;
+const Grade9PowersSorter = lazy(() => import("@/components/math/grade-9/szamok-vilaga/hatvanyozas/PowersSorter").then(m => ({ default: m.PowersSorter }))) as any;
+const Grade9PowersPracticeTheory = lazy(() => import("@/components/math/grade-9/szamok-vilaga/gyakorlas-hatvanyozas/PowersPracticeTheory").then(m => ({ default: m.PowersPracticeTheory }))) as any;
+const Grade9PowersPracticeQuiz = lazy(() => import("@/components/math/grade-9/szamok-vilaga/gyakorlas-hatvanyozas/PowersPracticeQuiz").then(m => ({ default: m.PowersPracticeQuiz }))) as any;
+const Grade9PowersPracticeMatcher = lazy(() => import("@/components/math/grade-9/szamok-vilaga/gyakorlas-hatvanyozas/PowersPracticeMatcher").then(m => ({ default: m.PowersPracticeMatcher }))) as any;
+const Grade9PowersPracticeSorter = lazy(() => import("@/components/math/grade-9/szamok-vilaga/gyakorlas-hatvanyozas/PowersPracticeSorter").then(m => ({ default: m.PowersPracticeSorter }))) as any;
+const Grade9SquareRootTheory = lazy(() => import("@/components/math/grade-9/szamok-vilaga/a-negyzetgyok/SquareRootTheory").then(m => ({ default: m.SquareRootTheory }))) as any;
+const Grade9SquareRootQuiz = lazy(() => import("@/components/math/grade-9/szamok-vilaga/a-negyzetgyok/SquareRootQuiz").then(m => ({ default: m.SquareRootQuiz }))) as any;
+const Grade9SquareRootMatcher = lazy(() => import("@/components/math/grade-9/szamok-vilaga/a-negyzetgyok/SquareRootMatcher").then(m => ({ default: m.SquareRootMatcher }))) as any;
+const Grade9SquareRootSorter = lazy(() => import("@/components/math/grade-9/szamok-vilaga/a-negyzetgyok/SquareRootSorter").then(m => ({ default: m.SquareRootSorter }))) as any;
+const Grade9ScientificNotationTheory = lazy(() => import("@/components/math/grade-9/szamok-vilaga/szamok-normalalakja/ScientificNotationTheory").then(m => ({ default: m.ScientificNotationTheory }))) as any;
+const Grade9ScientificNotationQuiz = lazy(() => import("@/components/math/grade-9/szamok-vilaga/szamok-normalalakja/ScientificNotationQuiz").then(m => ({ default: m.ScientificNotationQuiz }))) as any;
+const Grade9ScientificNotationMatcher = lazy(() => import("@/components/math/grade-9/szamok-vilaga/szamok-normalalakja/ScientificNotationMatcher").then(m => ({ default: m.ScientificNotationMatcher }))) as any;
+const Grade9ScientificNotationSorter = lazy(() => import("@/components/math/grade-9/szamok-vilaga/szamok-normalalakja/ScientificNotationSorter").then(m => ({ default: m.ScientificNotationSorter }))) as any;
+const Grade9ScientificCalculationTheory = lazy(() => import("@/components/math/grade-9/szamok-vilaga/szamolas-normalalakkal/ScientificCalculationTheory").then(m => ({ default: m.ScientificCalculationTheory }))) as any;
+const Grade9ScientificCalculationQuiz = lazy(() => import("@/components/math/grade-9/szamok-vilaga/szamolas-normalalakkal/ScientificCalculationQuiz").then(m => ({ default: m.ScientificCalculationQuiz }))) as any;
+const Grade9ScientificCalculationMatcher = lazy(() => import("@/components/math/grade-9/szamok-vilaga/szamolas-normalalakkal/ScientificCalculationMatcher").then(m => ({ default: m.ScientificCalculationMatcher }))) as any;
+const Grade9ScientificCalculationSorter = lazy(() => import("@/components/math/grade-9/szamok-vilaga/szamolas-normalalakkal/ScientificCalculationSorter").then(m => ({ default: m.ScientificCalculationSorter }))) as any;
+const Grade9CompoundInterestTheory = lazy(() => import("@/components/math/grade-9/szamok-vilaga/kamatos-kamat/CompoundInterestTheory").then(m => ({ default: m.CompoundInterestTheory }))) as any;
+const Grade9CompoundInterestQuiz = lazy(() => import("@/components/math/grade-9/szamok-vilaga/kamatos-kamat/CompoundInterestQuiz").then(m => ({ default: m.CompoundInterestQuiz }))) as any;
+const Grade9CompoundInterestMatcher = lazy(() => import("@/components/math/grade-9/szamok-vilaga/kamatos-kamat/CompoundInterestMatcher").then(m => ({ default: m.CompoundInterestMatcher }))) as any;
+const Grade9CompoundInterestSorter = lazy(() => import("@/components/math/grade-9/szamok-vilaga/kamatos-kamat/CompoundInterestSorter").then(m => ({ default: m.CompoundInterestSorter }))) as any;
+const Grade9Chapter2KnowledgeTestTheory = lazy(() => import("@/components/math/grade-9/szamok-vilaga/gyakorlas-tudasproba/Chapter2KnowledgeTestTheory").then(m => ({ default: m.Chapter2KnowledgeTestTheory }))) as any;
+const Grade9Chapter2KnowledgeTestQuiz = lazy(() => import("@/components/math/grade-9/szamok-vilaga/gyakorlas-tudasproba/Chapter2KnowledgeTestQuiz").then(m => ({ default: m.Chapter2KnowledgeTestQuiz }))) as any;
+const Grade9Chapter2KnowledgeTestMatcher = lazy(() => import("@/components/math/grade-9/szamok-vilaga/gyakorlas-tudasproba/Chapter2KnowledgeTestMatcher").then(m => ({ default: m.Chapter2KnowledgeTestMatcher }))) as any;
+const Grade9Chapter2KnowledgeTestSorter = lazy(() => import("@/components/math/grade-9/szamok-vilaga/gyakorlas-tudasproba/Chapter2KnowledgeTestSorter").then(m => ({ default: m.Chapter2KnowledgeTestSorter }))) as any;
+
+
 const Grade7CountItTheory = lazy(() => import("@/components/math/grade-7/gondolkodjunk/szamold-ossze/CountingTheory").then(m => ({ default: m.CountingTheory }))) as any;
 const Grade7CountItQuiz = lazy(() => import("@/components/math/grade-7/gondolkodjunk/szamold-ossze/CountingQuiz").then(m => ({ default: m.CountingQuiz }))) as any;
 const Grade7CountItMatcher = lazy(() => import("@/components/math/grade-7/gondolkodjunk/szamold-ossze/CountingMatcher").then(m => ({ default: m.CountingMatcher }))) as any;
@@ -1239,6 +1293,20 @@ type ActivityType =
   | 'g9-komb-intervallumok-theory' | 'g9-komb-intervallumok-quiz' | 'g9-komb-intervallumok-matcher' | 'g9-komb-intervallumok-sorter'
   | 'g9-komb-gyakorlas-halmaz-theory' | 'g9-komb-gyakorlas-halmaz-quiz' | 'g9-komb-gyakorlas-halmaz-matcher' | 'g9-komb-gyakorlas-halmaz-sorter'
   | 'g9-komb-tudasproba-theory' | 'g9-komb-tudasproba-quiz' | 'g9-komb-tudasproba-matcher' | 'g9-komb-tudasproba-sorter'
+  | 'g9-szamok-muveletek-theory' | 'g9-szamok-muveletek-quiz' | 'g9-szamok-muveletek-matcher' | 'g9-szamok-muveletek-sorter'
+  | 'g9-szamok-tortek-theory' | 'g9-szamok-tortek-quiz' | 'g9-szamok-tortek-matcher' | 'g9-szamok-tortek-sorter'
+  | 'g9-szamok-racionalis-theory' | 'g9-szamok-racionalis-quiz' | 'g9-szamok-racionalis-matcher' | 'g9-szamok-racionalis-sorter'
+  | 'g9-szamok-aranyossag-theory' | 'g9-szamok-aranyossag-quiz' | 'g9-szamok-aranyossag-matcher' | 'g9-szamok-aranyossag-sorter'
+  | 'g9-szamok-aranyos-osztas-theory' | 'g9-szamok-aranyos-osztas-quiz' | 'g9-szamok-aranyos-osztas-matcher' | 'g9-szamok-aranyos-osztas-sorter'
+  | 'g9-szamok-szazalek-theory' | 'g9-szamok-szazalek-quiz' | 'g9-szamok-szazalek-matcher' | 'g9-szamok-szazalek-sorter'
+  | 'g9-szamok-hatvany-theory' | 'g9-szamok-hatvany-quiz' | 'g9-szamok-hatvany-matcher' | 'g9-szamok-hatvany-sorter'
+  | 'g9-szamok-gyakorlas-hatvany-theory' | 'g9-szamok-gyakorlas-hatvany-quiz' | 'g9-szamok-gyakorlas-hatvany-matcher' | 'g9-szamok-gyakorlas-hatvany-sorter'
+  | 'g9-szamok-negyzetgyok-theory' | 'g9-szamok-negyzetgyok-quiz' | 'g9-szamok-negyzetgyok-matcher' | 'g9-szamok-negyzetgyok-sorter'
+  | 'g9-szamok-normalalak-theory' | 'g9-szamok-normalalak-quiz' | 'g9-szamok-normalalak-matcher' | 'g9-szamok-normalalak-sorter'
+  | 'g9-szamok-szamolas-normalalak-theory' | 'g9-szamok-szamolas-normalalak-quiz' | 'g9-szamok-szamolas-normalalak-matcher' | 'g9-szamok-szamolas-normalalak-sorter'
+  | 'g9-szamok-kamatos-kamat-theory' | 'g9-szamok-kamatos-kamat-quiz' | 'g9-szamok-kamatos-kamat-matcher' | 'g9-szamok-kamatos-kamat-sorter'
+
+
   | 'angle-matching' | 'triangle-classification' | 'quadrilateral-classification'
   | 'shape-classification' | 'line-relationships' | 'reflection-quiz' | 'circle-parts'
   | 'area-conversion-quiz' | 'volume-quiz' | 'surface-area-quiz' | 'area-calculation-quiz' | 'area-calc-quiz'
@@ -1851,6 +1919,7 @@ export default function MathPage() {
       else resolvedTopic = 'g8-numbers-letters';
     } else if (!resolvedTopic && (finalGrade === 9 || selectedGrade === 9 || finalGrade === 'high-1' || selectedGrade === 'high-1')) {
       if (type.startsWith('g9-komb-')) resolvedTopic = 'g9-kombinatorika-halmazok';
+      else if (type.startsWith('g9-szamok-')) resolvedTopic = 'g9-szamok-vilaga';
     }
     if (resolvedTopic) {
       setSelectedTopic(resolvedTopic);
@@ -1926,6 +1995,7 @@ export default function MathPage() {
           else resolvedTopic = 'g8-numbers-letters';
         } else if (!resolvedTopic && (selectedGrade === 9 || selectedGrade === 'high-1')) {
           if (activityType.startsWith('g9-komb-')) resolvedTopic = 'g9-kombinatorika-halmazok';
+          else if (activityType.startsWith('g9-szamok-')) resolvedTopic = 'g9-szamok-vilaga';
         }
         const isExpandable =
           (selectedGrade === 5 && resolvedTopic?.startsWith('g5-')) ||
@@ -11045,6 +11115,464 @@ export default function MathPage() {
                     onSwitchToMatcher={() => handleActivitySelect('g9-komb-tudasproba-matcher', selectedTopic || 'g9-kombinatorika-halmazok')}
                   />
                 )}
+
+                {/* 9. Osztály - II. A számok világa - 1. Műveletek számhalmazokban */}
+                {activityType === 'g9-szamok-muveletek-theory' && (
+                  <Grade9NumberSetsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-szamok-muveletek-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-muveletek-quiz' && (
+                  <Grade9NumberSetsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-muveletek-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-szamok-muveletek-matcher', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-szamok-muveletek-sorter', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-muveletek-matcher' && (
+                  <Grade9NumberSetsMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-szamok-muveletek-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-muveletek-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-szamok-muveletek-sorter', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-muveletek-sorter' && (
+                  <Grade9NumberSetsSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-szamok-muveletek-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-muveletek-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-szamok-muveletek-matcher', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {/* 9. Osztály - II. A számok világa - 2. Számolás törtekkel */}
+                {activityType === 'g9-szamok-tortek-theory' && (
+                  <Grade9FractionsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-szamok-tortek-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-tortek-quiz' && (
+                  <Grade9FractionsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-tortek-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-szamok-tortek-matcher', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-szamok-tortek-sorter', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-tortek-matcher' && (
+                  <Grade9FractionsMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-szamok-tortek-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-tortek-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-szamok-tortek-sorter', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-tortek-sorter' && (
+                  <Grade9FractionsSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-szamok-tortek-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-tortek-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-szamok-tortek-matcher', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {/* 9. Osztály - II. A számok világa - 3. Racionális és irracionális számok */}
+                {activityType === 'g9-szamok-racionalis-theory' && (
+                  <Grade9RationalIrrationalTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-szamok-racionalis-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-racionalis-quiz' && (
+                  <Grade9RationalIrrationalQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-racionalis-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-szamok-racionalis-matcher', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-szamok-racionalis-sorter', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-racionalis-matcher' && (
+                  <Grade9RationalIrrationalMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-szamok-racionalis-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-racionalis-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-szamok-racionalis-sorter', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-racionalis-sorter' && (
+                  <Grade9RationalIrrationalSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-szamok-racionalis-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-racionalis-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-szamok-racionalis-matcher', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {/* 9. Osztály - II. A számok világa - 4. Arányosság */}
+                {activityType === 'g9-szamok-aranyossag-theory' && (
+                  <Grade9ProportionalityTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-szamok-aranyossag-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-aranyossag-quiz' && (
+                  <Grade9ProportionalityQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-aranyossag-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-szamok-aranyossag-matcher', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-szamok-aranyossag-sorter', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-aranyossag-matcher' && (
+                  <Grade9ProportionalityMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-szamok-aranyossag-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-aranyossag-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-szamok-aranyossag-sorter', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-aranyossag-sorter' && (
+                  <Grade9ProportionalitySorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-szamok-aranyossag-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-aranyossag-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-szamok-aranyossag-matcher', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {/* 9. Osztály - II. A számok világa - 5. Arányos osztás */}
+                {activityType === 'g9-szamok-aranyos-osztas-theory' && (
+                  <Grade9ProportionalDivisionTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-szamok-aranyos-osztas-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-aranyos-osztas-quiz' && (
+                  <Grade9ProportionalDivisionQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-aranyos-osztas-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-szamok-aranyos-osztas-matcher', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-szamok-aranyos-osztas-sorter', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-aranyos-osztas-matcher' && (
+                  <Grade9ProportionalDivisionMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-szamok-aranyos-osztas-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-aranyos-osztas-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-szamok-aranyos-osztas-sorter', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-aranyos-osztas-sorter' && (
+                  <Grade9ProportionalDivisionSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-szamok-aranyos-osztas-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-aranyos-osztas-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-szamok-aranyos-osztas-matcher', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {/* 9. Osztály - II. A számok világa - 6. Százalékszámítás */}
+                {activityType === 'g9-szamok-szazalek-theory' && (
+                  <Grade9PercentageTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-szamok-szazalek-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-szazalek-quiz' && (
+                  <Grade9PercentageQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-szazalek-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-szamok-szazalek-matcher', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-szamok-szazalek-sorter', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-szazalek-matcher' && (
+                  <Grade9PercentageMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-szamok-szazalek-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-szazalek-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-szamok-szazalek-sorter', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-szazalek-sorter' && (
+                  <Grade9PercentageSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-szamok-szazalek-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-szazalek-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-szamok-szazalek-matcher', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {/* 9. Osztály - II. A számok világa - 7. Hatványozás */}
+                {activityType === 'g9-szamok-hatvany-theory' && (
+                  <Grade9PowersTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-szamok-hatvany-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-hatvany-quiz' && (
+                  <Grade9PowersQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-hatvany-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-szamok-hatvany-matcher', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-szamok-hatvany-sorter', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-hatvany-matcher' && (
+                  <Grade9PowersMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-szamok-hatvany-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-hatvany-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-szamok-hatvany-sorter', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-hatvany-sorter' && (
+                  <Grade9PowersSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-szamok-hatvany-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-hatvany-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-szamok-hatvany-matcher', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {/* 9. Osztály - II. A számok világa - 8. Gyakorlás (Hatványozás) */}
+                {activityType === 'g9-szamok-gyakorlas-hatvany-theory' && (
+                  <Grade9PowersPracticeTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-szamok-gyakorlas-hatvany-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-gyakorlas-hatvany-quiz' && (
+                  <Grade9PowersPracticeQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-gyakorlas-hatvany-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-szamok-gyakorlas-hatvany-matcher', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-szamok-gyakorlas-hatvany-sorter', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-gyakorlas-hatvany-matcher' && (
+                  <Grade9PowersPracticeMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-szamok-gyakorlas-hatvany-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-gyakorlas-hatvany-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-szamok-gyakorlas-hatvany-sorter', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-gyakorlas-hatvany-sorter' && (
+                  <Grade9PowersPracticeSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-szamok-gyakorlas-hatvany-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-gyakorlas-hatvany-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-szamok-gyakorlas-hatvany-matcher', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {/* 9. Osztály - II. A számok világa - 9. A négyzetgyök */}
+                {activityType === 'g9-szamok-negyzetgyok-theory' && (
+                  <Grade9SquareRootTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-szamok-negyzetgyok-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-negyzetgyok-quiz' && (
+                  <Grade9SquareRootQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-negyzetgyok-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-szamok-negyzetgyok-matcher', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-szamok-negyzetgyok-sorter', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-negyzetgyok-matcher' && (
+                  <Grade9SquareRootMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-szamok-negyzetgyok-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-negyzetgyok-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-szamok-negyzetgyok-sorter', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-negyzetgyok-sorter' && (
+                  <Grade9SquareRootSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-szamok-negyzetgyok-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-negyzetgyok-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-szamok-negyzetgyok-matcher', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {/* 9. Osztály - II. A számok világa - 10. Számok normálalakja */}
+                {activityType === 'g9-szamok-normalalak-theory' && (
+                  <Grade9ScientificNotationTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-szamok-normalalak-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-normalalak-quiz' && (
+                  <Grade9ScientificNotationQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-normalalak-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-szamok-normalalak-matcher', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-szamok-normalalak-sorter', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-normalalak-matcher' && (
+                  <Grade9ScientificNotationMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-szamok-normalalak-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-normalalak-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-szamok-normalalak-sorter', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-normalalak-sorter' && (
+                  <Grade9ScientificNotationSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-szamok-normalalak-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-normalalak-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-szamok-normalalak-matcher', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {/* 9. Osztály - II. A számok világa - 11. Számolás normálalakkal */}
+                {activityType === 'g9-szamok-szamolas-normalalak-theory' && (
+                  <Grade9ScientificCalculationTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-szamok-szamolas-normalalak-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-szamolas-normalalak-quiz' && (
+                  <Grade9ScientificCalculationQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-szamolas-normalalak-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-szamok-szamolas-normalalak-matcher', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-szamok-szamolas-normalalak-sorter', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-szamolas-normalalak-matcher' && (
+                  <Grade9ScientificCalculationMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-szamok-szamolas-normalalak-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-szamolas-normalalak-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-szamok-szamolas-normalalak-sorter', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-szamolas-normalalak-sorter' && (
+                  <Grade9ScientificCalculationSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-szamok-szamolas-normalalak-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-szamolas-normalalak-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-szamok-szamolas-normalalak-matcher', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {/* 9. Osztály - II. A számok világa - 12. Kamatos kamat */}
+                {activityType === 'g9-szamok-kamatos-kamat-theory' && (
+                  <Grade9CompoundInterestTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-szamok-kamatos-kamat-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-kamatos-kamat-quiz' && (
+                  <Grade9CompoundInterestQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-kamatos-kamat-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-szamok-kamatos-kamat-matcher', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-szamok-kamatos-kamat-sorter', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-kamatos-kamat-matcher' && (
+                  <Grade9CompoundInterestMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-szamok-kamatos-kamat-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-kamatos-kamat-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-szamok-kamatos-kamat-sorter', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-kamatos-kamat-sorter' && (
+                  <Grade9CompoundInterestSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-szamok-kamatos-kamat-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-kamatos-kamat-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-szamok-kamatos-kamat-matcher', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {/* 9. Osztály - II. A számok világa - 13. Gyakorlás, tudáspróba */}
+                {activityType === 'g9-szamok-tudasproba-theory' && (
+                  <Grade9Chapter2KnowledgeTestTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-szamok-tudasproba-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-tudasproba-quiz' && (
+                  <Grade9Chapter2KnowledgeTestQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-tudasproba-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-szamok-tudasproba-matcher', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-szamok-tudasproba-sorter', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-tudasproba-matcher' && (
+                  <Grade9Chapter2KnowledgeTestMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-szamok-tudasproba-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-tudasproba-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-szamok-tudasproba-sorter', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+                {activityType === 'g9-szamok-tudasproba-sorter' && (
+                  <Grade9Chapter2KnowledgeTestSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-szamok-tudasproba-quiz', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-szamok-tudasproba-theory', selectedTopic || 'g9-szamok-vilaga')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-szamok-tudasproba-matcher', selectedTopic || 'g9-szamok-vilaga')}
+                  />
+                )}
+
+
+
 
                 {activityType === 'number-line' && (
                   <NumberLineTool onBack={handleBack} />

@@ -433,10 +433,14 @@ export const LocksQuiz: React.FC<LocksQuizProps> = ({
   return (
     <QuizTemplate
       title="Számzárak és Kódok Gyakorló Kvíz"
-      subtitle="9. Osztály • I. Kombinatorika és halmazok • 3. Altéma"
+      subtitle="Ismétléses és ismétlés nélküli sorrendek, számalkotás megkötésekkel 30 feladatban"
+      badgeText="9. OSZTÁLY • I. KOMBINATORIKA, HALMAZOK • 🔐 GYAKORLÓ KVÍZ"
+      emoji="🔐"
+      themeColor="amber"
       levels={quizLevels}
       topicId="g9-komb-szamzarak-quiz"
       cheatSheets={lockCheatSheets}
+      cheatSheetTitle="Számzárak és Kódok Segédlet"
       onBack={onBack}
       onSwitchToTheory={onSwitchToTheory}
       customGameModes={[

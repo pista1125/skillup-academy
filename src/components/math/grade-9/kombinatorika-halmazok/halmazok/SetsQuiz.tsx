@@ -437,12 +437,19 @@ export const SetsQuiz: React.FC<SetsQuizProps> = ({
 }) => {
   return (
     <QuizTemplate
+      title="Halmazok Alapjai és Számhalmazok Gyakorló Kvíz"
+      subtitle="Halmazmegadás, eleme/nem eleme, részhalmaz és számhalmazok 30 feladatban"
+      badgeText="9. OSZTÁLY • I. KOMBINATORIKA, HALMAZOK • ⭕ GYAKORLÓ KVÍZ"
+      emoji="⭕"
+      themeColor="teal"
       levelConfigs={quizLevels}
       cheatSheetCards={setsCheatSheets}
+      cheatSheetTitle="Halmazok és Részhalmazok Segédlet"
       defaultLevel={1}
+      grade={9}
+      chapterId="kombinatorika-halmazok"
       topicId="g9-komb-halmazok-quiz"
-      topicTitle="9. Osztály - Halmazok Alapjai, Számhalmazok és Részhalmazok"
-      themeColor="teal"
+      topicTitle="Halmazok alapjai, számhalmazok és részhalmazok"
       onBack={onBack}
       onSwitchToTheory={onSwitchToTheory}
       customGameModes={[

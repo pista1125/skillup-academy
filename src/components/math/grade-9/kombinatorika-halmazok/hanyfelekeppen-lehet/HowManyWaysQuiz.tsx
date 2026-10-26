@@ -446,7 +446,7 @@ export const HowManyWaysQuiz: React.FC<HowManyWaysQuizProps> = ({
       chapterId="kombinatorika-halmazok"
       topicId="g9-komb-hanyfelekeppen-quiz"
       topicTitle="Hányféleképpen lehet?"
-      emoji="🎲"
+      emoji="🎯"
       customGameModes={[
         {
           id: 'matcher',

@@ -198,7 +198,7 @@ export function QuizTemplate({
   topicTitle,
   documentId,
   pdfFilename,
-  emoji = '🎲',
+  emoji,
   badge,
   topicBadge,
   badgeText,
@@ -228,6 +228,8 @@ export function QuizTemplate({
   hintText,
   themeColor = 'indigo'
 }: QuizTemplateProps) {
+  const displayTitle = title || (topicTitle ? topicTitle.replace(/^9\.\s*Osztály\s*[-–•]\s*/i, '') : '');
+  const displaySubtitle = subtitle || description;
   const customGameModes = propCustomGameModes || customModes;
   const levels = propLevels || levelsConfig || levelConfigs;
   const { user, profile } = useAuth();
@@ -917,16 +919,27 @@ export function QuizTemplate({
         {/* Hero Header */}
         <div className="text-center max-w-2xl mx-auto mb-2 sm:mb-2.5">
           <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider mb-1 border border-teal-200 dark:border-teal-800 bg-teal-100/80 dark:bg-teal-950/60 text-teal-800 dark:text-teal-300">
-            <span>{topicBadge || badgeText || '🎲 9. Osztály • I. Kombinatorika, halmazok'}</span>
-            <span className="opacity-40">•</span>
-            <span className="font-extrabold flex items-center gap-1 text-teal-700 dark:text-teal-300">
-              <Sparkles className="w-3 h-3 text-teal-500" /> Gyakorló Kvíz
-            </span>
+            <span>{topicBadge || badgeText || '9. OSZTÁLY • I. KOMBINATORIKA, HALMAZOK'}</span>
+            {!(topicBadge || badgeText)?.toLowerCase().includes('kvíz') && (
+              <>
+                <span className="opacity-40">•</span>
+                <span className="font-extrabold flex items-center gap-1 text-teal-700 dark:text-teal-300">
+                  <Sparkles className="w-3 h-3 text-teal-500" /> Gyakorló Kvíz
+                </span>
+              </>
+            )}
           </div>
-          <h1 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white tracking-tight flex items-center justify-center gap-1.5 mb-1">
-            <span className="text-xl sm:text-2xl">{emoji}</span>
-            <span>{title}</span>
-          </h1>
+          {displayTitle && (
+            <h1 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white tracking-tight flex items-center justify-center gap-2 mb-1">
+              {emoji && <span className="text-xl sm:text-2xl">{emoji}</span>}
+              <span>{displayTitle}</span>
+            </h1>
+          )}
+          {displaySubtitle && (
+            <p className="text-xs text-slate-500 dark:text-slate-400 max-w-lg mx-auto mb-1">
+              {displaySubtitle}
+            </p>
+          )}
 
             <div className="inline-flex flex-wrap items-center justify-center gap-1.5 bg-slate-100 dark:bg-slate-800 p-1.5 rounded-2xl mt-1 border-2 border-slate-200/80 dark:border-slate-700 shadow-xs">
               <button

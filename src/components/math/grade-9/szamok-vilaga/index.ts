@@ -1,2 +1,17 @@
-// Re-exports from subtopics of II. A számok világa (Grade 9)
-export {};
+export * from './QuizTemplate';
+export * from './TheoryTemplate';
+export * from './MatcherTemplate';
+export * from './SorterTemplate';
+export * from './muveletek-szamhalmazokban';
+export * from './szamolas-tortekkel';
+export * from './racionalis-es-irracionalis-szamok';
+export * from './aranyossag';
+export * from './aranyos-osztas';
+export * from './szazalekszamitas';
+export * from './hatvanyozas';
+export * from './gyakorlas-hatvanyozas';
+export * from './a-negyzetgyok';
+export * from './szamok-normalalakja';
+export * from './szamolas-normalalakkal';
+export * from './kamatos-kamat';
+export * from './gyakorlas-tudasproba';

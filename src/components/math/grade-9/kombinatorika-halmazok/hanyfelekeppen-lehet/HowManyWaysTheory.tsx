@@ -80,7 +80,7 @@ export const HowManyWaysTheory: React.FC<HowManyWaysTheoryProps> = ({
     <TheoryTemplate
       title="Hányféleképpen lehet? – Szisztematikus Összeszámlálás"
       subtitle="Esetek áttekintése, fadiagramok (döntési fák), a szorzási és összeadási szabály precíz alkalmazása a középiskolai matematikában"
-      badgeText="9. OSZTÁLY • I. KOMBINATORIKA, HALMAZOK • 🎲 TANANYAG"
+      badgeText="9. OSZTÁLY • I. KOMBINATORIKA, HALMAZOK • 🎯 TANANYAG"
       themeColor="blue"
       documentId="how-many-ways-theory-document"
       pdfFilename="9_osztaly_hanyfelekeppen_lehet_tananyag.pdf"

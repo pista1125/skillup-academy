@@ -1,0 +1,583 @@
+
+
+=== TANKÖNYV PAGE 49 ===
+
+SZÁMOLÁS TÖRTEKKEL1313
+Törtek összeadása és kivonása
+Először közös nevezőre hozzuk a törteket,
+azután végezzük az összeadást vagy a kivonást a számlálókkal.
+Tört szorzása egész számmal
+A számlálót szorozzuk az egész számmal, a nevező változatlan marad.
+Tört osztása egész számmal
+A nevezőt szorozzuk az egész számmal, a számláló változatlan marad.
+V AGY (ha lehet)
+A számlálót elosztjuk az egész számmal, a nevező változatlan marad.
+Tört szorzása törttel
+A számlálót szorozzuk a számlálóval, a nevezőt szorozzuk a nevezővel.
+Osztás törttel
+Az osztó reciprokával szorozzuk az osztandót.
+BEVEZETŐ – ISMÉTLÉS
+7
+9 + 32 = 1418 + 2718 = 4118
+7
+9 − 32 = 1418 − 2718 = − 1318
+3
+4 ⋅ 5= 154
+3
+4 :5 = 320
+35
+4 :5 = 74
+2
+7 ⋅ 53 = 1021
+5: 34 =5 ⋅ 43 = 203
+2
+7 : 53 = 27 ⋅ 35 = 635
+Tört egyszerűsítése
+A tört számlálóját és nevezőjét egyszerre elosztjuk ugyan-
+azzal a 0-tól különböző számmal.
+Például
+915
+48 = 30516    (itt 3-mal egyszerűsítettünk)
+Tört bővítése
+Egy tört számlálóját és nevezőjét egyszerre megszoroz-
+zuk ugyanazzal a 0-tól különböző számmal.
+Például
+5
+6 = 1518   (itt 3-mal bővítettünk)
+Ezen eljárások során a tört értéke nem változik.
+Egyszerűsítsd a következő törteket!
+32
+44 ; 2856 ; 60210 ; 950013 500
+V égezd el a műveleteket! Ahol lehet, egyszerűsíts!
+a)
+ :43 65 67 76+ -cc mm  b) ::710 1712 542 934$
+1 .
+FELADAT
+2 .
+Számold ki az emeletes tört értékét!
+a)
+ 
+1 51
+1
++
+= b) 
+3 65
+1 32
+-
++
+=
+3 .
+48 A SZÁMOK VILÁGA
+OH_MAT09TA-I_Matematika9_1kot_TK_beliv_NAT_2024_OA.indb   48OH_MAT09TA-I_Matematika9_1kot_TK_beliv_NAT_2024_OA.indb   48 2026. 03. 03.   14:23:162026. 03. 03.   14:23:16
+
+=== TANKÖNYV PAGE 50 ===
+
+Számold ki a kifejezések értékét! Mely zárójelek 
+hagyhatók el a műveleti jelek megváltoztatása nélkül? 
+(Próbáld meg fejben kiszámolni!)
+a)
+ 63 65 3 21$-- -cc mm       b)  ::12 71 143 54$ cm
+c) 34 16 25 23$$ - +ce mo
+A cukrásziskola vizsgájára előkészítettek 2,5 kg 
+mazsolát. Ennek 112 részét Klári dolgozza fel, majd 
+Andi kapja a maradék 311 részét. Ami még ezután 
+maradt, annak az 14 részét Zsolt használja fel, amit 
+ő hagyott, annak a 23 része kell Emese tortáihoz. 
+Hányadrésze maradt meg a mazsolának?
+4 .
+FELADAT
+5 .
+A kétjegyű számokban az azonos jelek azonos 
+számjegyeket jelentenek. Melyik számjegyet he-
+lyettesítik a jelek?
+a)
+ 217 619 53 17$66 66 6+=cm
+b) :55 2 211 7162 2 22+=cm
+Összeöntöttünk három oldatot. Az egyik oldat 52  
+része volt ecetsav, a többi víz. A másik oldat 101  ré-
+sze volt ecetsav, a többi víz. A harmadiknak 32  része 
+volt ecetsav a többi víz. Az elsőből 1,5 liter, a má -
+sodikból 2,5  liter, a harmadikból 6 deciliter olda-
+tunk volt. A kapott oldatot még hígítottuk 1,4 liter 
+vízzel. Hányadrésze lett ecetsav a végső oldatnak?
+6 .
+7 .
+Számok reciproka
+Egy nullától különböző x valós szám reciproka  az a valós szám, mellyel az x-et megszorozva 1-et kapunk. Az x szám 
+reciproka x1 . Például: 3 reciproka 31 , a 0,4 reciproka 2,5, hiszen 1 :  0,4  =  2,5, va lamint 0,4  ∙  2,5  =  1.  
+K
+özönséges tört reciprokát úgy kapjuk, hogy a számlálót és a nevezőt felcseréljük. Például: 53  reciproka 
+5
+3
+1 1 35 35$== .
+A számológépeken a következő billentyűk adják meg egy szám reciprokát: x1  vagy x-1. A számológép azonban sokszor csak közelítő eredményt ad meg.
+Számok törtrésze
+Egy szám 72  részét úgy számoljuk ki, hogy a számot megszorozzuk 72 -del. 72  rész =  72 -szeres. 
+Például: 28-nak a 72  része 28 72 8$ = . A 45-nek a 94  része 45 94 20$ = .
+ELMÉLET
+13. lecke   SZÁMOLÁS  TÖRTEKKEL 49
+Végezd el a műveleteket!
+a)
+ 1511 3513-
+b) 65 92 524 207 87 730$$++ -cc mm
+c) :611 83 2116 20 2013 125$-- -cc mm
+Számold ki a kifejezések értékét! Mely zárójelek 
+hagyhatók el? 
+a)
+ ,88 47 55 211$-- -cc mm
+1 .
+HÁZI FELADAT
+2 .
+b) ,: :11 91 3511 187$ cm
+c) ,344 65 2 617 413$$ - +ce mo
+3,7 liter oldat 101  része vegyszer, a többi víz. 2,3 li-
+ter oldat 152  része ugyanaz a vegyszer, a többi víz. 
+Összeöntjük a két oldatot. Hányadrésze lesz vegyszer, 
+és hányadrésze víz? 
+3 .
+OH_MAT09TA-I_Matematika9_1kot_TK_beliv_NAT_2024_OA.indb   49OH_MAT09TA-I_Matematika9_1kot_TK_beliv_NAT_2024_OA.indb   49 2026. 03. 03.   14:23:282026. 03. 03.   14:23:28
+
+=== TANKÖNYV PAGE 51 ===
+
+RACIONÁLIS ÉS IRRACIONÁLIS 
+SZÁMOK  1414
+Definíció: Azokat a számokat, amelyek felírhatók két egész szám hányadosaként, racionális számoknak nevezzük.  
+(Az osztó természetesen nem lehet nulla.)
+A racionális számok halmazának jele: Q.
+Az egész számok is racionális számok, mert felírhatók két egész szám hányadosaként, pl. 5 315- = - .
+A racionális számok felírhatók közönséges tört alakban, pl. 32 ; 47- .
+A racionális számok felírhatók tizedes tört alakban is:
+–
+ h
+a a számláló többszöröse a nevezőnek, akkor egész számként; 
+–
+ h
+a nem többszöröse, akkor véges tizedes tört vagy végtelen szakaszos tizedes tört alakban.
+–
+ h
+a a lehetséges egyszerűsítések után a  tört nevezőjének prím osztói között szerepel más prím, mint a 2 és az 5, akkor 
+végtelen szakaszos tizedestört; ha nem szerepel más prím, akkor véges tizedes tört.
+Például: ,47 17 5= ;  ,,3723 06 21621621 06 21f== o o .
+Minden racionális számnak megvan a helye a számegyenesen, de ezek nem töltik ki a teljes számegyenest. 
+–1 0
+1
+1 2
+3
+4/c45 512/c45 11000 16 13 12 45 1011 65 54 85 1710
+Műveletek racionális számokkal
+–
+ R
+acionális számok összege, különbsége, szorzata mindig racionális. 
+–
+ 0-t
+ól különböző osztó esetén két racionális szám hányadosa is mindig racionális.
+ELMÉLET
+50 A SZÁMOK VILÁGA
+OH_MAT09TA-I_Matematika9_1kot_TK_beliv_NAT_2024_OA.indb   50OH_MAT09TA-I_Matematika9_1kot_TK_beliv_NAT_2024_OA.indb   50 2026. 03. 03.   14:23:312026. 03. 03.   14:23:31
+
+=== TANKÖNYV PAGE 52 ===
+
+Melyik szám tizedes tört alakja véges, melyiké vég-
+telen?
+a)
+ 61 ; 62 ; 63 ; 65- ; 69- ; 610
+b) 2523 ; 1539 ; 12543- ; 2035 ; 160100 ; 95-
+Kösd össze az egyenlőket! V an olyan szám, ame-
+lyiknek nincs párja. Ezt írd fel más alakban!
+3 52  100225  ,18 3o  2068  1034  611
+4
+9  3,4 2 41  1 65  2,25 617
+Írd fel közönséges tört alakban a tizedes törteket, 
+majd végezd el a műveleteket!
+a)
+ ,,35 32 02 5$-cm  b) ,: ,00 1 71 10 7+cm
+Egy utazó a 120 km-es út első hatodát biciklin tette 
+meg. Ott elromlott a biciklije, egy teherautó vissza-
+1 .
+FELADAT
+2 .
+3 .
+4 .
+vitte a 2 km-rel korábban látott szervizbe. Sajnos 
+ott kellett hagynia a biciklijét, ezért tömegközle-
+kedéssel folytatta útját. A hátralévő út 125  részén 
+autóbusszal utazott. Másfél kilométert gyalogolt 
+tovább előre a vasútállomásig, majd a hátralévő út 
+felét vonattal tette meg. Hány kilométerre volt ek-
+kor a céljától? 
+Igazak-e a következő állítások?
+a)
+ H
+a egy tört nevezője osztója az 1000-nek, akkor 
+annak a törtnek a tizedes tört alakja véges.
+b) H
+a egy tört tizedes tört alakja véges, akkor a ne-
+vezője osztója az 1000-nek.
+c)
+ H
+a egy tört nevezője osztója a 10 valamelyik 
+hatványának, akkor annak a törtnek a tizedes 
+tört alakja véges.
+d)
+ H
+a egy tört tizedes tört alakja véges, akkor an-
+nak a törtnek a nevezője osztója a 10 valame-
+lyik hatványának.
+5 .
+Elképzelhető-e olyan végtelen tizedes tört, amely nem szakaszos?
+Hogyne! Ilyen számot kapunk például, ha mindig eggyel több 0-t írunk az 1-esek után:
+0,101 001
+ 000
+ 
+100
+ 00
+1
+ 000
+ 00
+1
+ 00
+…,
+vagy ha a tizedesvessző után növekedő sorrendben felsoroljuk a természetes számokat:
+6,012
+ 
+345
+ 
+678
+ 
+910
+ 
+111
+ 
+213
+ 
+141
+ 
+516
+ 
+171
+ 
+819
+ 
+202
+ 
+122
+ 
+23….
+Az ilyen számok nem lehetnek racionális számok, hiszen a racionális számok egész szám, véges tizedes tört vagy végtelen 
+szakaszos tizedes tört alakban írhatók fel.
+A végtelen nem szakaszos tizedes törtek nem írhatók fel két egész szám hányadosaként.
+Definíció: Azokat a számokat, amelyek nem írhatók fel két egész szám hányadosaként, irracionális számoknak nevezzük.
+Az irracionális számok halmazának jele: Q*.
+Minden irracionális számnak megvan a helye a számegyenesen. A racionális és irracionális számok együtt töltik ki a szám-
+egyenest. 
+A valós számok halmazának jele: R. Tehát R = Q , Q* és Q + Q* = 4.
+ELMÉLET
+14. lecke   RA CIONÁLIS ÉS IRRACIONÁLIS SZÁMOK  51
+Írd fel két egész szám hányadosaként az 5,378 véges tizedes 
+törtet!
+KIDOLGOZOTT FELADAT
+Megoldás: ,53 78 5 1000378 10005378==
+OH_MAT09TA-I_Matematika9_1kot_TK_beliv_NAT_2024_OA.indb   51OH_MAT09TA-I_Matematika9_1kot_TK_beliv_NAT_2024_OA.indb   51 2026. 03. 03.   14:23:392026. 03. 03.   14:23:39
+
+=== TANKÖNYV PAGE 53 ===
+
+Írd fel két egész szám hányadosaként!
+4,71;
+ –0,12;
+ –0,00035    
+Í
+rd fel tört alakban a tizedes törteket, majd végezd 
+el a műveleteket!
+a)
+ ,: ,32 25 11-cm  b) ,: ,115 00 74 23-cm
+Gábor és Pali 56 km-re laknak egymástól. Elhatá-
+rozták, hogy találkoznak. Gábor felajánlotta, hogy 
+elindul biciklivel, és az út 52  részénél található pi-
+henőnél megvárja barátját. Pali inkább tömegköz-
+lekedéssel megy. A lakásától a pihenőig tartó út 
+20
+19 -át meg tudja tenni autóbusszal. Hány km-t kell 
+gyalogolnia? 
+1 .
+HÁZI FELADAT
+2 .
+3 .
+Helyezd el a színes hal-
+mazábrán a következő 
+szá m
+okat! A füzeted-
+ben dolgozz!
+a)
+ –6;
+ 32 ; 19 928;  
+0;
+ 
+–0,775
+b) 6 32$- ; 75 79+ ; 
+28
+ 
+:
+ 
+(–4); –21
+ 
+:
+ 
+(–7)
+4 .
+NZ
+Q
+R
+A számok írása
+A ma használatos helyiértékes számírásunk indiai eredetű. Indiából perzsa közvetítéssel jutott el az arabokhoz, akiktől 
+a X. század folyamán jutott el Spanyolországba, majd Európa más részeire. Innen erednek az „arab számírás” , „arab 
+számjegyek” elnevezések.
+Elterjedésének nagy lendületet adott a XV . században a könyvnyomtatás feltalálása, első magyarországi felbukkanása 
+is erre az időszakra tehető.
+A korábban elterjedt római számokkal szemben újdonság volt a 0 önálló számként való megjelenése és a helyi értékek 
+használata, ami lehetővé tette, hogy összesen tíz jel (0, 1, 2, …, 9) használatával gyakorlatilag bármelyik természetes 
+számot ábrázolni lehessen. A helyi értékes írásmód a műveletek elvégzését is jelentősen egyszerűsítette.
+Kompetenciamérések feladatai alapján
+a)
+ (2004) E
+gy autó fogyasztásán a 100 km hosszú út megtétele során elhasznált üzemanyag mennyiségét értjük. Ko-
+váts úr szeretné figyelemmel követni az autója benzinfogyasztását, ezért a benzinkútnál felírja a kilométeróra állá-
+sát és azt, hogy mennyi benzint tankolt az adott napon. Mindig teletankolja az autóját.
+Dátum A kilométeróra állása A tankolt benzin mennyisége (liter)
+márc. 31. 12 638 36
+ápr. 10. 13 191 36
+ápr. 19. 13 797 37
+ápr. 25. 14 297 36
+máj. 5. 14 525 17
+1 .
+RÁADÁS
+2 .
+52 A SZÁMOK VILÁGA
+OH_MAT09TA-I_Matematika9_1kot_TK_beliv_NAT_2024_OA.indb   52OH_MAT09TA-I_Matematika9_1kot_TK_beliv_NAT_2024_OA.indb   52 2026. 03. 03.   14:23:422026. 03. 03.   14:23:42
+
+=== TANKÖNYV PAGE 54 ===
+
+Figyeld meg a következő műveletet! 21 31 2332 231$$-= - = . 
+Hasonló módon írd fel két különböző nevezőjű tört különbségeként! 18 1318 13$-
+Határozd meg a kifejezés értékét számológép használata nélkül: 121 231 341 99 1001$$ $$ f++ ++ !
+Az ókori Egyiptomban a 0 és 1 közötti racionális számokat olyan különböző törtek összegeként adták meg, melyek 
+számlálója 1, nevezője egy pozitív egész szám. Például:  2940  =  12  +  18  +  110 .  Azokat a törteket, melyeknek a számlálója 
+1, nevezője egy pozitív egész szám, egyiptomi törteknek nevezik.
+Írd fel különböző egyiptomi törtek összegeként a következő számokat!  25 ,  1724
+1 .
+EMELT SZINT
+2 .
+3 .
+Számítsd ki az autó fogyasztását az egyes időszakokban! Töltsd ki a táblázatot!
+Időszak Fogyasztás (liter/km)
+márc. 31. – ápr. 10.
+ápr. 10.-  ápr. 19.
+ápr. 10. – máj 5.
+b) (2016) P
+éter bankkártyával szokott vásárolni. Minden vásárlás után SMS-t kap a vásárlás összegéről és arról, meny
+-
+nyit költött összesen az adott hónapban. Péter épp külföldön tartózkodik, és egy boltban vásárol. A következő 
+SMS-t kapja:
+01.20. 11:30
+Vásárlás összege: 8,5 euró. A hónapban
+felhasznált összeg: 53 450 Ft.  
+Péter megnézte az előző vásárláskor kapott SMS-ét, abban ez állt:
+01.16. 16:51
+Vásárlás összege: 12 560 Ft. A hónapban
+felhasznált összeg: 50 730 Ft.
+Hány forintot számolt a bank 1 euróért, ha a két vásárlás között nem változott a számlán lévő összeg?
+c)
+ (2006) P
+éter Londonból hazafelé jövet a repülőgépen a következőket olvasta a Times című újság sportrovatában: 
+„Jonathan Edwards angol atléta a Göteborgban zajló világbajnokságon kereken 60 lábra javította a hármasugrás 
+világcsúcsát. A korábbi világcsúcsot szintén Edwards tartotta 58 láb és 4 43  inch-es eredménnyel. ”
+Péter tudta, hogy 1 láb
+ =
+ 12 in
+ch, és ennek alapján sikerült kiszámítania, hogy Edwards mennyivel javította meg 
+saját korábbi rekordját. Melyik eredményt kapta a következők közül?
+1 láb 5 41  inch  1 l áb 7 41  inch  7 l áb 41  inch  1 l áb 4 43  inch
+14. lecke   RA CIONÁLIS ÉS IRRACIONÁLIS SZÁMOK  53
+OH_MAT09TA-I_Matematika9_1kot_TK_beliv_NAT_2024_OA.indb   53OH_MAT09TA-I_Matematika9_1kot_TK_beliv_NAT_2024_OA.indb   53 2026. 03. 03.   14:23:442026. 03. 03.   14:23:44
+
+=== TANKÖNYV PAGE 55 ===
+
+Legalább 29,5 kg ∙  15  =  442,5 kg , és legfeljebb
+30,5 kg
+ ∙
+ 15
+ =
+ 457,5 kg
+.
+1 zsák
+457,5 kg442,5 kg
+15 zsák
+29,5 kg 30,5 kg
+Ha a 15 zsák burgonya tömege 442,5 kg és 457,5 kg közöt-
+ti érték, akkor lehetséges, hogy mindegyik zsáknak 30 kg 
+a (kg-okra kerekített) tömege. 
+Nem a gazda tévedett, hanem az, aki azt hitte, hogy 
+a 15 zsák együtt pontosan 450 kg-ot nyom!
+Az iskolai konyhára egy megbízható gazdától vásároltunk 
+burgonyát. 15 zsákkal vettünk, zsákonként 30 kg-ot. Beve-
+zették a raktárkönyvbe: „450 kg burgonya” . A raktáros el-
+lenőrizni akarta a mennyiséget, megmérte együtt a 15 zsá-
+kot. A mérleg 456 kg-ot mutatott. Vajon a gazda tévedett a 
+zsákok mérésénél?
+Megoldás
+A mérési eredmények közelítő értékek. Ha nem köz-
+lik a mérés pontosságát, akkor a 30 kg-ot tekinthet-
+jük kerekített értéknek, ami azt jelenti, hogy a tömeg 
+29,5 kg és 30,5 kg közötti érték.
+Mennyi tehát a 15 zsák együttes tömege?
+BEVEZETŐ
+Használd a saját számológépedet!
+Megmértük a lakás egyik szobájának a hosszát: 
+435 cm, és a szélességét: 405 cm. Hány m 2 lehet 
+a szoba alapterülete, ha
+a)
+ a m
+éréshez mérőszalagot használtunk, így 
+a hosszmérésnél ±
+ 2 cm k
+örüli hibát követhet-
+tünk el?
+b) a m
+éréshez iskolai vonalzót használtunk 
+(30 cm-es hosszúságú), így a mérésnél ±
+ 5 cm 
+hi
+bát követhettünk el?
+Egy eladó lakás egyik szobájának méretei a hirde-
+tés szerint 5,2 m
+ ×
+ 4,5 m. A l
+akás négyzetméterét 
+250 ezer forintért kínálják. „Mennyit érhet” ez a 
+szoba, ha a vételárat csak tízezer forintra kerekítve 
+van értelme megadni?
+Zsuzsa kerékpározik. A kerékpárra szerelt digitális 
+óra szerint a megtett távolság 3,8 km, az átlagsebes-
+ség pedig 16,8 kmh  volt. (A digitális óra a távolságot 
+a biciklikerék kerületéből számolja. Ezt a kerületet 
+a kerékpárosnak kell megmérnie, majd beírnia az 
+FELADAT
+1 .
+2 .
+3 .
+óra setup [beállító] programjában. A sebességet az 
+óra a megtett útból és az eltelt időből számítja ki.)
+a)
+ H
+ány percig tartott Zsuzsa útja? 
+b) B
+ence számológéppel gyorsan kiszámította, 
+hogy Hajni 814,2857143 másodperc alatt tette 
+meg a 3,8 km-es távolságot. Mit gondolsz erről 
+a kijelentésről?
+Öten beültek egy autóba. Egyikük szerint az ő „sú-
+lya” (tömege) 67,8 kg, másikuk szerint az ő saját 
+„súlya” (tömege) 73,4 kg, a többi három szerint az 
+ő tömegük pontosan 79,3 kg. Mit mondhatunk az 
+öt ember együttes tömegéről, ha a tömegméréshez 
+használt mérlegek mérési pontossága ±
+ 1%?
+Fizi
+kaórán egy fémkocka sűrűségét kellett kiszámí-
+tani, és azt kgm3  egységben megadni. Bence a kocka 
+élét 15 mm-nek, a kocka tömegét pedig 9 gramm-
+nak mérte. A távolság mérésekor ±
+ 0,5 mm le
+hetett 
+a hiba, a tömegmérésnél ±
+ 0,1 g
+ramm. A számo-
+lást Bence számológéppel végezte. Mit írhat mérési 
+eredményként a jegyzőkönyvébe?
+4 .
+5 .
+KIT CSAPNAK BE A SZÁMOK?1515
+54 A SZÁMOK VILÁGA
+OH_MAT09TA-I_Matematika9_1kot_TK_beliv_NAT_2024_OA.indb   54OH_MAT09TA-I_Matematika9_1kot_TK_beliv_NAT_2024_OA.indb   54 2026. 03. 03.   14:23:462026. 03. 03.   14:23:46
+
+=== TANKÖNYV PAGE 56 ===
+
+Számok kerekítése
+Ha az első elhagyott számjegy 5 vagy 5-nél nagyobb, akkor felfelé kerekítünk, ha 5-nél kisebb, akkor lefelé. 
+A 3,1506 ezredekre kerekítve 3,151, századokra kerekítve 3,15, tizedekre kerekítve 3,2, egyesekre kerekítve 3, tízesekre 
+kerekítve 0.
+Kerekített számok összeadásakor először elvégezzük az összeadást, majd az összeget a legnagyobb helyi értékű kerekített 
+számjegynek megfelelően kerekítjük. 
+Például: 42,769
+ +
+ 108,2
+ +
+ 0,219
+ +
+ 0,8983
+ =
+ 152,0863
+ ≈
+ 152,1. A t
+agok között a 108,2-ben volt a legnagyobb helyi értékű 
+kerekített számjegy, ezért az összeget ehhez „igazítottuk” .
+ELMÉLET
+b) A k
+észülék azt jelzi, hogy a pillanatnyi teljesít-
+mény 1480 W (watt). Hány watt lehet a teljesít-
+mény valódi értéke a leírás szerinti pontosság-
+gal számolva?
+A kerékpár digitális órája azt jelzi, hogy Hajni 1 óra 
+27 percet kerékpározott és 18,7 hkm  volt az átlag -
+s
+ebessége. Mindkét érték utolsó számjegye kerekí -
+tett. Számold ki, hány km a legkevesebb, illetve leg-
+több, amelyet Hajni megtehetett a kerékpárjával!
+3 .
+Egy téglalap alakú telek egyik oldalát 13,2 m-nek, 
+másik oldalát 24,5 m-nek mértük. Mekkora lehet 
+a téglalap valódi területe? (Tegyük fel, hogy a telek 
+valóban téglalap alakú!)
+ Az alábbi részlet egy digitális fogyasztásmérő és 
+költségellenőrző készülék leírásából való.
+„Üzemi feszültség 230 V ±10%; hatásos teljesítmény-
+mérési tartomány: 10–3000 W között; pontosság 
+±
+ 
+5%. ” 
+a)
+ M
+ekkora az a legkisebb, illetve legnagyobb üzemi 
+feszültség, amelyen a készülék üzemeltethető?
+1 .
+HÁZI FELADAT
+2 .
+Végezd el a műveleteket számológéppel, majd az 
+eredményt kerekítsd 2 tizedesjegy pontosságra!
+a)
+ 
+(12,456
+ -
+ 
+3,012)
+ 
+∙
+ 
+2
+b) ,,, 32 248 52 32 71+
+c) 4,652
+d) ,00 34 43 94$$
+6.
+FELADAT
+(Kompetenciamérés, 2013) Rolandnak egy évben 
+26 nap fizetett szabadság jár a munkahelyén. Au-
+gusztus 1-jén új munkahelyen kezd dolgozni, aho-
+vá az éves szabadságának csak a hátralévő hónapok 
+számától függő időarányos részét viheti magával. 
+Ha az így kapott napok száma nem egész, akkor 
+azt az értéket a matematika szabályai szerint egész 
+számra kerekítik.
+Hány nap szabadsága lesz Rolandnak az új munka-
+helyén ebben az évben?
+7.
+55Ráadás   KI T CSAPNAK BE A SZÁMOK?
+OH_MAT09TA-I_Matematika9_1kot_TK_beliv_NAT_2024_OA.indb   55OH_MAT09TA-I_Matematika9_1kot_TK_beliv_NAT_2024_OA.indb   55 2026. 03. 03.   14:23:472026. 03. 03.   14:23:47

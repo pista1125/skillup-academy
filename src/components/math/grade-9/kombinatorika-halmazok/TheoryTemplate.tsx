@@ -718,7 +718,7 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = (props) => {
   } = props;
 
   const displayBadge =
-    badgeText || badge || topicBadge || '9. OSZTÁLY • I. KOMBINATORIKA, HALMAZOK • 🎲 TANANYAG';
+    badgeText || badge || topicBadge || '9. OSZTÁLY • I. KOMBINATORIKA, HALMAZOK • TANANYAG';
   const displaySubtitle = subtitle || description;
   const displayRule: {
     label: string;

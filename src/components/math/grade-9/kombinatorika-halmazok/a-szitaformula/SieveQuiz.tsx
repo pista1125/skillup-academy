@@ -399,12 +399,19 @@ export const SieveQuiz: React.FC<SieveQuizProps> = ({
 }) => {
   return (
     <QuizTemplate
+      title="A Szitaformula és Alkalmazásai Gyakorló Kvíz"
+      subtitle="Két- és háromhalmazos szitaformula, logikai szitálás és Venn-diagramos feladatok 30 feladatban"
+      badgeText="9. OSZTÁLY • I. KOMBINATORIKA, HALMAZOK • 📊 GYAKORLÓ KVÍZ"
+      emoji="📊"
+      themeColor="amber"
       levelConfigs={quizLevels}
       cheatSheetCards={sieveCheatSheets}
+      cheatSheetTitle="Szitaformula Segédlet"
       defaultLevel={1}
+      grade={9}
+      chapterId="kombinatorika-halmazok"
       topicId="g9-komb-szitaformula-quiz"
-      topicTitle="9. Osztály - A Szitaformula és Alkalmazásai"
-      themeColor="amber"
+      topicTitle="A szitaformula és alkalmazásai"
       onBack={onBack}
       onSwitchToTheory={onSwitchToTheory}
       customGameModes={[

@@ -538,11 +538,18 @@ export const IntervalsQuiz: React.FC<IntervalsQuizProps> = ({
 }) => {
   return (
     <QuizTemplate
-      topicId="g9-komb-intervallumok-quiz"
-      topicTitle="9. Osztály - Intervallumok Gyakorló Kvíz"
+      title="Intervallumok Gyakorló Kvíz"
+      subtitle="Nyílt, zárt és félig nyílt intervallumok, metszet és unió a számegyenesen 30 feladatban"
+      badgeText="9. OSZTÁLY • I. KOMBINATORIKA, HALMAZOK • 📏 GYAKORLÓ KVÍZ"
+      emoji="📏"
       themeColor="cyan"
       levels={quizLevels}
       cheatSheet={intervalsCheatSheet}
+      cheatSheetTitle="Intervallumok Segédlet"
+      grade={9}
+      chapterId="kombinatorika-halmazok"
+      topicId="g9-komb-intervallumok-quiz"
+      topicTitle="Intervallumok"
       onBack={onBack}
       onSwitchToTheory={onSwitchToTheory}
       customGameModes={[

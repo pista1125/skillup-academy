@@ -432,12 +432,19 @@ export const SetOperationsQuiz: React.FC<SetOperationsQuizProps> = ({
 }) => {
   return (
     <QuizTemplate
+      title="Halmazok Uniója, Metszete és Különbsége Gyakorló Kvíz"
+      subtitle="Unió, metszet, különbség és komplementer Venn-diagramokkal 30 feladatban"
+      badgeText="9. OSZTÁLY • I. KOMBINATORIKA, HALMAZOK • ⋂ GYAKORLÓ KVÍZ"
+      emoji="⋂"
+      themeColor="indigo"
       levelConfigs={quizLevels}
       cheatSheetCards={setOperationsCheatSheets}
+      cheatSheetTitle="Halmazműveletek Segédlet"
       defaultLevel={1}
+      grade={9}
+      chapterId="kombinatorika-halmazok"
       topicId="g9-komb-halmaz-muveletek-quiz"
-      topicTitle="9. Osztály - Halmazok Uniója, Metszete és Különbsége"
-      themeColor="indigo"
+      topicTitle="Halmazok uniója, metszete és különbsége"
       onBack={onBack}
       onSwitchToTheory={onSwitchToTheory}
       customGameModes={[
