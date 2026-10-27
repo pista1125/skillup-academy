@@ -716,7 +716,7 @@ export const Chapter2KnowledgeTestTheory: React.FC<Chapter2KnowledgeTestTheoryPr
             </h4>
             <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
               <strong className="text-rose-600">HIBA:</strong> 5^(-2) = -25 vagy -10.<br />
-              <strong className="text-emerald-600">HELYES:</strong> 5^(-2) = 1 / 5^2 = 1 / 25 = 0.04 > 0. A negatív kitevő a reciprokképzést jelenti!
+              <strong className="text-emerald-600">HELYES:</strong> 5^(-2) = 1 / 5^2 = 1 / 25 = 0.04 &gt; 0. A negatív kitevő a reciprokképzést jelenti!
             </p>
           </div>
 

@@ -209,8 +209,8 @@ export const PowersTheory: React.FC<PowersTheoryProps> = ({
                   a⁰ = 1 &nbsp; (a ≠ 0)
                 </div>
                 <p className="text-xs text-slate-500">
-                  <strong>Miért?</strong> Mert az azonosságok szerint $\frac{a^n}{a^n} = a^{n-n} = a^0$. Másfelől egy számot önmagával osztva mindig 1-et kapunk: $\frac{a^n}{a^n} = 1$.
-                  <em>(Megjegyzés: $0^0$ a matematikában nincs értelmezve!)</em>
+                  <strong>Miért?</strong> Mert az azonosságok szerint aⁿ / aⁿ = aⁿ⁻ⁿ = a⁰. Másfelől egy számot önmagával osztva mindig 1-et kapunk: aⁿ / aⁿ = 1.
+                  <em>(Megjegyzés: 0⁰ a matematikában nincs értelmezve!)</em>
                 </p>
               </div>
             </TheoryCard>
@@ -222,9 +222,9 @@ export const PowersTheory: React.FC<PowersTheoryProps> = ({
                   a⁻ⁿ = 1 / aⁿ &nbsp; és &nbsp; (a / b)⁻ⁿ = (b / a)ⁿ &nbsp; (a, b ≠ 0)
                 </div>
                 <ul className="list-disc pl-5 space-y-1 text-xs">
-                  <li>$2^{-1} = \frac{1}{2^1} = \frac{1}{2} = 0,5$</li>
-                  <li>$2^{-3} = \frac{1}{2^3} = \frac{1}{8} = 0,125$</li>
-                  <li>$\left(\frac{2}{3}\right)^{-2} = \left(\frac{3}{2}\right)^2 = \frac{9}{4} = 2,25$ (a tört megfordul!)</li>
+                  <li>2⁻¹ = 1 / 2¹ = 1/2 = 0,5</li>
+                  <li>2⁻³ = 1 / 2³ = 1/8 = 0,125</li>
+                  <li>(2/3)⁻² = (3/2)² = 9/4 = 2,25 (a tört megfordul!)</li>
                 </ul>
               </div>
             </TheoryCard>

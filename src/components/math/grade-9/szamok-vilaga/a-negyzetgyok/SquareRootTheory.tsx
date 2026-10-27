@@ -220,8 +220,8 @@ export const SquareRootTheory: React.FC<SquareRootTheoryProps> = ({
                 Szorzatból tényezőnként vonhatunk négyzetgyököt, és fordítva: két gyök szorzata egyenlő a számok szorzatának gyökével.
               </p>
               <div className="bg-slate-50 dark:bg-slate-800 p-2.5 rounded font-mono text-xs my-2 space-y-1">
-                <p>• $\sqrt{50} \cdot \sqrt{2} = \sqrt{50 \cdot 2} = \sqrt{100} = 10$</p>
-                <p>• $\sqrt{4 \cdot 9} = \sqrt{4} \cdot \sqrt{9} = 2 \cdot 3 = 6$</p>
+                <p>• √50 · √2 = √(50 · 2) = √100 = 10</p>
+                <p>• √(4 · 9) = √4 · √9 = 2 · 3 = 6</p>
               </div>
             </TheoryCard>
 
@@ -234,8 +234,8 @@ export const SquareRootTheory: React.FC<SquareRootTheoryProps> = ({
                 Törtből úgy vonunk gyököt, hogy a számlálóból és nevezőből is külön gyököt vonunk:
               </p>
               <div className="bg-slate-50 dark:bg-slate-800 p-2.5 rounded font-mono text-xs my-2 space-y-1">
-                <p>• $\sqrt{\frac{49}{64}} = \frac{\sqrt{49}}{\sqrt{64}} = \frac{7}{8}$</p>
-                <p>• $\frac{\sqrt{75}}{\sqrt{3}} = \sqrt{\frac{75}{3}} = \sqrt{25} = 5$</p>
+                <p>• √(49 / 64) = √49 / √64 = 7 / 8</p>
+                <p>• √75 / √3 = √(75 / 3) = √25 = 5</p>
               </div>
             </TheoryCard>
           </div>
@@ -270,7 +270,7 @@ export const SquareRootTheory: React.FC<SquareRootTheoryProps> = ({
                 Bontsd fel a számot egy négyzetszám ($4, 9, 16, 25, 36 \dots$) és egy maradék szorzatára:
               </p>
               <div className="font-mono text-xs text-purple-700 dark:text-purple-300 my-1 font-bold">
-                $\sqrt{72} = \sqrt{36 \cdot 2} = 6\sqrt{2}$
+                √72 = √(36 · 2) = 6√2
               </div>
             </TheoryCard>
 
@@ -283,7 +283,7 @@ export const SquareRootTheory: React.FC<SquareRootTheoryProps> = ({
                 A gyökjel előtti pozitív szorzót a négyzeten visszük be a gyökjel alá:
               </p>
               <div className="font-mono text-xs text-indigo-700 dark:text-indigo-300 my-1 font-bold">
-                $3\sqrt{5} = \sqrt{3^2 \cdot 5} = \sqrt{45}$
+                3√5 = √(3² · 5) = √45
               </div>
             </TheoryCard>
 
@@ -296,7 +296,7 @@ export const SquareRootTheory: React.FC<SquareRootTheoryProps> = ({
                 Tört nevezőjében ne hagyjunk gyökös számot! Bővítsük a törtet a nevező gyökével:
               </p>
               <div className="font-mono text-xs text-rose-700 dark:text-rose-300 my-1 font-bold">
-                $\frac{6}{\sqrt{3}} = \frac{6\sqrt{3}}{3} = 2\sqrt{3}$
+                6 / √3 = (6√3) / 3 = 2√3
               </div>
             </TheoryCard>
           </div>

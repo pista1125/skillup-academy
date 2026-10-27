@@ -201,7 +201,7 @@ export const PowersPracticeTheory: React.FC<PowersPracticeTheoryProps> = ({
                 A negatív kitevőjű tényezőket a törtvonalon átléptetve azonnal pozitívvá tehetjük:
               </p>
               <div className="bg-slate-50 dark:bg-slate-800 p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 font-mono text-center text-xs my-2 font-bold text-rose-600 dark:text-rose-400">
-                $\frac{a^{-n}}{b^{-m}} = \frac{b^m}{a^n}$
+                a⁻ⁿ / b⁻ᵐ = bᵐ / aⁿ
               </div>
               <p className="text-xs text-slate-500">
                 Így nem kell bajlódni a bonyolult negatív előjelek kivonásával!
@@ -248,10 +248,10 @@ export const PowersPracticeTheory: React.FC<PowersPracticeTheoryProps> = ({
               Gyakori Érettségi Típuspélda: Változós Kiemelés
             </h4>
             <div className="bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700 font-mono text-xs text-slate-800 dark:text-slate-200 space-y-1">
-              <p>Feladat: Egyszerűsítsd a $\frac{3^{n+2} - 3^n}{3^{n-1}}$ kifejezést!</p>
-              <p className="text-amber-600 dark:text-amber-400">1. Kiemeljük $3^n$-t a számlálóban: $\frac{3^n(3^2 - 1)}{3^{n-1}}$</p>
-              <p className="text-blue-600 dark:text-blue-400">2. A zárójel értéke: $3^2 - 1 = 9 - 1 = 8$</p>
-              <p className="text-emerald-600 dark:text-emerald-400">3. Osztás azonos alapú hatvánnyal: $\frac{3^n \cdot 8}{3^{n-1}} = 3^{n - (n-1)} \cdot 8 = 3^1 \cdot 8 = 24$</p>
+              <p>Feladat: Egyszerűsítsd a (3ⁿ⁺² - 3ⁿ) / 3ⁿ⁻¹ kifejezést!</p>
+              <p className="text-amber-600 dark:text-amber-400">1. Kiemeljük 3ⁿ-t a számlálóban: [3ⁿ(3² - 1)] / 3ⁿ⁻¹</p>
+              <p className="text-blue-600 dark:text-blue-400">2. A zárójel értéke: 3² - 1 = 9 - 1 = 8</p>
+              <p className="text-emerald-600 dark:text-emerald-400">3. Osztás azonos alapú hatvánnyal: (3ⁿ · 8) / 3ⁿ⁻¹ = 3ⁿ⁻⁽ⁿ⁻¹⁾ · 8 = 3¹ · 8 = 24</p>
             </div>
           </div>
         </div>
@@ -283,10 +283,10 @@ export const PowersPracticeTheory: React.FC<PowersPracticeTheoryProps> = ({
                 Ha az alapok azonos prím hatványai (pl. 4 és 8 mindkettő 2 hatványa, vagy 9 és 27 mindkettő 3 hatványa):
               </p>
               <div className="bg-slate-50 dark:bg-slate-800 p-2 rounded font-mono text-center text-xs my-2 font-bold text-blue-600">
-                $4^{15} = (2^2)^{15} = 2^{30} = (2^3)^{10} = 8^{10}$
+                4¹⁵ = (2²)¹⁵ = 2³⁰ = (2³)¹⁰ = 8¹⁰
               </div>
               <p className="text-xs text-slate-500">
-                Mivel mindkét oldal $2^{30}$, a két érték pontosan egyenlő!
+                Mivel mindkét oldal 2³⁰, a két érték pontosan egyenlő!
               </p>
             </TheoryCard>
 
@@ -296,14 +296,14 @@ export const PowersPracticeTheory: React.FC<PowersPracticeTheoryProps> = ({
               badgeColor="indigo"
             >
               <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                Ha a kitevőknek van közös osztója (pl. $\text{lnko}(300, 200) = 100$):
+                Ha a kitevőknek van közös osztója (pl. lnko(300, 200) = 100):
               </p>
               <div className="bg-slate-50 dark:bg-slate-800 p-2 rounded font-mono text-center text-xs my-2 font-bold text-indigo-600">
-                $2^{300} = (2^3)^{100} = 8^{100}$ <br />
-                $3^{200} = (3^2)^{100} = 9^{100}$
+                2³⁰⁰ = (2³)¹⁰⁰ = 8¹⁰⁰ <br />
+                3²⁰⁰ = (3²)¹⁰⁰ = 9¹⁰⁰
               </div>
               <p className="text-xs text-slate-500">
-                Mivel $8 < 9$, így $8^{100} < 9^{100}$, tehát $3^{200}$ a nagyobb!
+                Mivel 8 &lt; 9, így 8¹⁰⁰ &lt; 9¹⁰⁰, tehát 3²⁰⁰ a nagyobb!
               </p>
             </TheoryCard>
           </div>
@@ -313,9 +313,9 @@ export const PowersPracticeTheory: React.FC<PowersPracticeTheoryProps> = ({
             title="A Tört Alapok Veszélye: 0 < a < 1"
           >
             <p className="text-sm leading-relaxed">
-              Ha az alap 1-nél kisebb pozitív szám (pl. $\frac{1}{2}$ vagy $0,5$), akkor <strong>a nagyobb kitevőhöz KISEBB érték tartozik</strong>!
+              Ha az alap 1-nél kisebb pozitív szám (pl. 1/2 vagy 0,5), akkor <strong>a nagyobb kitevőhöz KISEBB érték tartozik</strong>!
               Például:
-              $$(0,5)^2 = 0,25 \quad > \quad (0,5)^4 = 0,0625$$
+              <div className="font-mono text-center my-2 font-bold">(0,5)² = 0,25 &gt; (0,5)⁴ = 0,0625</div>
               Érettségin erre mindig különösen figyeljünk!
             </p>
           </TheoryCallout>

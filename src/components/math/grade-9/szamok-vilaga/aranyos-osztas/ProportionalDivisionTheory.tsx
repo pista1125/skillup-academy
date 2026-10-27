@@ -115,18 +115,18 @@ export const ProportionalDivisionTheory: React.FC<ProportionalDivisionTheoryProp
             <TheoryCard title="Az Arányos Osztás Univerzális Algoritmusa" variant="highlight" themeColor="teal">
               <div className="space-y-3 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
                 <p>
-                  Adott egy $M$ összeg vagy mennyiség, amelyet $a : b$ (vagy $a : b : c$) arányban kell szétosztani:
+                  Adott egy <em>M</em> összeg vagy mennyiség, amelyet <em>a : b</em> (vagy <em>a : b : c</em>) arányban kell szétosztani:
                 </p>
 
                 <div className="space-y-2 p-3 rounded-xl bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-800 font-mono text-xs sm:text-sm text-teal-950 dark:text-teal-200">
-                  <p><strong>1. Lépés:</strong> Összes arányrész: $S = a + b (+ c)$</p>
-                  <p><strong>2. Lépés:</strong> Egy arányrész értéke: $e = \frac{M}{S}$</p>
-                  <p><strong>3. Lépés:</strong> Az egyes részek értékei: $R_1 = a \cdot e,\; R_2 = b \cdot e,\; R_3 = c \cdot e$</p>
-                  <p><strong>4. Lépés:</strong> Ellenőrzés: $R_1 + R_2 (+ R_3) = M$, és $\frac{R_1}{R_2} = \frac{a}{b}$</p>
+                  <p><strong>1. Lépés:</strong> Összes arányrész: S = a + b (+ c)</p>
+                  <p><strong>2. Lépés:</strong> Egy arányrész értéke: e = M / S</p>
+                  <p><strong>3. Lépés:</strong> Az egyes részek értékei: R₁ = a · e, R₂ = b · e, R₃ = c · e</p>
+                  <p><strong>4. Lépés:</strong> Ellenőrzés: R₁ + R₂ (+ R₃) = M, és R₁ / R₂ = a / b</p>
                 </div>
 
                 <div className="p-2.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-600 dark:text-slate-400">
-                  💡 <strong>Algebrai felírás:</strong> Az arányrészeket egy ismeretlennel jelölve: $a \cdot x + b \cdot x = M \implies (a+b)x = M \implies x = \frac{M}{a+b}$.
+                  💡 <strong>Algebrai felírás:</strong> Az arányrészeket egy ismeretlennel jelölve: a · x + b · x = M ⟹ (a+b)x = M ⟹ x = M / (a+b).
                 </div>
               </div>
             </TheoryCard>
@@ -138,9 +138,9 @@ export const ProportionalDivisionTheory: React.FC<ProportionalDivisionTheoryProp
         </div>
 
         <TheoryCallout title="Mit jelent a 2 : 3 arány a gyakorlatban?" variant="tip">
-          Ha két barát $2 : 3$ arányban osztozik egy összegen, az azt jelenti, hogy <strong>minden 2 Ft-ra, amit az első kap, a másodiknak 3 Ft jut</strong>.
-          Az összeg tehát $2 + 3 = 5$ egyenlő „csomagra” oszlik, amiből az első 2 csomagot, a második 3 csomagot kap.
-          Az első fél a teljes összeg $\frac{2}{5}$ részét ($40\%$-át), a második a $\frac{3}{5}$ részét ($60\%$-át$) kapja meg.
+          Ha két barát 2 : 3 arányban osztozik egy összegen, az azt jelenti, hogy <strong>minden 2 Ft-ra, amit az első kap, a másodiknak 3 Ft jut</strong>.
+          Az összeg tehát 2 + 3 = 5 egyenlő „csomagra” oszlik, amiből az első 2 csomagot, a második 3 csomagot kap.
+          Az első fél a teljes összeg 2/5 részét (40%-át), a második a 3/5 részét (60%-át) kapja meg.
         </TheoryCallout>
       </TheorySection>
 
@@ -165,14 +165,14 @@ export const ProportionalDivisionTheory: React.FC<ProportionalDivisionTheoryProp
           <div className="w-full lg:w-1/2 space-y-4">
             <TheoryCard title="1. Mintapélda: Háromszög Belső Szögei" variant="example" themeColor="indigo">
               <div className="space-y-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
-                <p><strong>Feladat:</strong> Egy háromszög belső szögeinek aránya $\alpha : \beta : \gamma = 2 : 3 : 4$. Mekkorák a szögek?</p>
+                <p><strong>Feladat:</strong> Egy háromszög belső szögeinek aránya α : β : γ = 2 : 3 : 4. Mekkorák a szögek?</p>
                 <div className="p-2.5 rounded-lg bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 font-mono text-xs">
-                  <p>• Ismert összeg: $\alpha + \beta + \gamma = 180^\circ$</p>
-                  <p>• Összes arányrész: $2 + 3 + 4 = 9$ rész</p>
-                  <p>• Egy rész értéke: $x = \frac{180^\circ}{9} = 20^\circ$</p>
-                  <p>• $\alpha = 2 \cdot 20^\circ = \mathbf{40^\circ}$</p>
-                  <p>• $\beta = 3 \cdot 20^\circ = \mathbf{60^\circ}$</p>
-                  <p>• $\gamma = 4 \cdot 20^\circ = \mathbf{80^\circ}$</p>
+                  <p>• Ismert összeg: α + β + γ = 180°</p>
+                  <p>• Összes arányrész: 2 + 3 + 4 = 9 rész</p>
+                  <p>• Egy rész értéke: x = 180° / 9 = 20°</p>
+                  <p>• α = 2 · 20° = <strong>40°</strong></p>
+                  <p>• β = 3 · 20° = <strong>60°</strong></p>
+                  <p>• γ = 4 · 20° = <strong>80°</strong></p>
                   <p className="text-emerald-700 dark:text-emerald-300 font-bold">✓ Ellenőrzés: 40° + 60° + 80° = 180°</p>
                 </div>
               </div>
@@ -180,12 +180,12 @@ export const ProportionalDivisionTheory: React.FC<ProportionalDivisionTheoryProp
 
             <TheoryCard title="2. Mintapélda: Háromszög Kerülete és Oldalai" variant="example" themeColor="indigo">
               <div className="space-y-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
-                <p><strong>Feladat:</strong> Egy háromszög oldalai $a : b : c = 3 : 5 : 7$ arányúak, a kerülete $K = 45\text{ cm}$. Mekkorák az oldalak?</p>
+                <p><strong>Feladat:</strong> Egy háromszög oldalai a : b : c = 3 : 5 : 7 arányúak, a kerülete K = 45 cm. Mekkorák az oldalak?</p>
                 <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-mono text-xs">
-                  <p>• Kerület: $a + b + c = 45\text{ cm}$</p>
-                  <p>• Összes rész: $3 + 5 + 7 = 15$ rész</p>
-                  <p>• 1 rész értéke: $45 / 15 = 3\text{ cm}$</p>
-                  <p>• Oldalak: $a = 3 \cdot 3 = \mathbf{9\text{ cm}}$, $b = 5 \cdot 3 = \mathbf{15\text{ cm}}$, $c = 7 \cdot 3 = \mathbf{21\text{ cm}}$</p>
+                  <p>• Kerület: a + b + c = 45 cm</p>
+                  <p>• Összes rész: 3 + 5 + 7 = 15 rész</p>
+                  <p>• 1 rész értéke: 45 / 15 = 3 cm</p>
+                  <p>• Oldalak: a = 3 · 3 = <strong>9 cm</strong>, b = 5 · 3 = <strong>15 cm</strong>, c = 7 · 3 = <strong>21 cm</strong></p>
                   <p className="text-emerald-700 dark:text-emerald-300 font-bold">✓ Háromszög-egyenlőtlenség: 9 + 15 = 24 &gt; 21 (megszerkeszthető!)</p>
                 </div>
               </div>
@@ -194,9 +194,9 @@ export const ProportionalDivisionTheory: React.FC<ProportionalDivisionTheoryProp
         </div>
 
         <TheoryCallout title="Vigyázat téglalap kerületénél és területénél!" variant="warning">
-          Ha egy téglalap oldalainak aránya $a : b = 3 : 4$, és a kerülete $K = 56\text{ cm}$, a képlet $K = 2(a + b)$!
-          Tehát a két oldal összege csak a <strong>félkerület</strong>: $a + b = 56 / 2 = 28\text{ cm}$!
-          $3x + 4x = 7x = 28 \implies x = 4\text{ cm}$, így $a = 12\text{ cm}, b = 16\text{ cm}$.
+          Ha egy téglalap oldalainak aránya a : b = 3 : 4, és a kerülete K = 56 cm, a képlet K = 2(a + b)!
+          Tehát a két oldal összege csak a <strong>félkerület</strong>: a + b = 56 / 2 = 28 cm!
+          3x + 4x = 7x = 28 ⟹ x = 4 cm, így a = 12 cm, b = 16 cm.
         </TheoryCallout>
       </TheorySection>
 
@@ -226,12 +226,12 @@ export const ProportionalDivisionTheory: React.FC<ProportionalDivisionTheoryProp
           <TheoryCard title="Ötvözetek és Vegyületek" variant="default" themeColor="amber">
             <div className="text-xs sm:text-sm space-y-2 text-slate-700 dark:text-slate-300">
               <p>
-                <strong>Bronz:</strong> Réz és ón ötvözete, tipikusan $9 : 1$ arányban. $50\text{ kg}$ bronz készítéséhez:
+                <strong>Bronz:</strong> Réz és ón ötvözete, tipikusan 9 : 1 arányban. 50 kg bronz készítéséhez:
               </p>
               <ul className="list-disc pl-5 space-y-1">
-                <li>Összes rész: $9 + 1 = 10$ rész</li>
-                <li>1 rész: $50\text{ kg} / 10 = 5\text{ kg}$</li>
-                <li>Réz: $9 \cdot 5 = 45\text{ kg}$, Ón: $1 \cdot 5 = 5\text{ kg}$</li>
+                <li>Összes rész: 9 + 1 = 10 rész</li>
+                <li>1 rész: 50 kg / 10 = 5 kg</li>
+                <li>Réz: 9 · 5 = 45 kg, Ón: 1 · 5 = 5 kg</li>
               </ul>
             </div>
           </TheoryCard>
@@ -239,14 +239,14 @@ export const ProportionalDivisionTheory: React.FC<ProportionalDivisionTheoryProp
           <TheoryCard title="Befektetési Nyereség Arányos Megosztása" variant="default" themeColor="teal">
             <div className="text-xs sm:text-sm space-y-2 text-slate-700 dark:text-slate-300">
               <p>
-                Két vállalkozó $6\text{ millió}$ és $10\text{ millió}$ forintot fektetett be (arány: $6 : 10 = 3 : 5$).
-                Az év végi $1\,600\,000\text{ Ft}$ nyereségből:
+                Két vállalkozó 6 millió és 10 millió forintot fektetett be (arány: 6 : 10 = 3 : 5).
+                Az év végi 1 600 000 Ft nyereségből:
               </p>
               <ul className="list-disc pl-5 space-y-1">
-                <li>Összes rész: $3 + 5 = 8$ rész</li>
-                <li>1 rész: $1\,600\,000 / 8 = 200\,000\text{ Ft}$</li>
-                <li>Első partner: $3 \cdot 200\,000 = 600\,000\text{ Ft}$</li>
-                <li>Második partner: $5 \cdot 200\,000 = 1\,000\,000\text{ Ft}$</li>
+                <li>Összes rész: 3 + 5 = 8 rész</li>
+                <li>1 rész: 1 600 000 / 8 = 200 000 Ft</li>
+                <li>Első partner: 3 · 200 000 = 600 000 Ft</li>
+                <li>Második partner: 5 · 200 000 = 1 000 000 Ft</li>
               </ul>
             </div>
           </TheoryCard>

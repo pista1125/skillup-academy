@@ -123,7 +123,7 @@ export const PercentageTheory: React.FC<PercentageTheoryProps> = ({
       >
         <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-sm sm:text-base">
           A százalék (jelölése: <strong>%</strong>) a latin <em>„per centum”</em> (százanként) kifejezésből származik,
-          és matematikailag egyszerűen <strong>századrészt</strong> jelent: $1\% = \frac{1}{100} = 0,01$.
+          és matematikailag egyszerűen <strong>századrészt</strong> jelent: 1% = 1/100 = 0,01.
           Minden százalékszámítási feladat három alapvető mennyiség kapcsolatára épül:
         </p>
 
@@ -133,24 +133,24 @@ export const PercentageTheory: React.FC<PercentageTheoryProps> = ({
               <div className="space-y-3 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
                 <div className="p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 space-y-1.5">
                   <p>
-                    <strong>1. Alap ($A$):</strong> Az egész mennyiség, aminek a százalékát vesszük (ez felel meg a <strong>100%</strong>-nak).
+                    <strong>1. Alap (A):</strong> Az egész mennyiség, aminek a százalékát vesszük (ez felel meg a <strong>100%</strong>-nak).
                   </p>
                   <p>
-                    <strong>2. Százalékláb ($p$ vagy $p\%$):</strong> Megadja, hogy az alap hány századrészét vizsgáljuk.
+                    <strong>2. Százalékláb (p vagy p%):</strong> Megadja, hogy az alap hány századrészét vizsgáljuk.
                   </p>
                   <p>
-                    <strong>3. Százalékérték ($E$):</strong> Az alap megadott $p\%$-ához tartozó tényleges mennyiség.
+                    <strong>3. Százalékérték (E):</strong> Az alap megadott p%-ához tartozó tényleges mennyiség.
                   </p>
                 </div>
 
                 <div className="p-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-mono text-xs sm:text-sm space-y-1">
-                  <p><strong>• Százalékérték kiszámítása:</strong> $E = A \cdot \frac{p}{100}$</p>
-                  <p><strong>• Alap kiszámítása:</strong> $A = \frac{E}{\frac{p}{100}} = \frac{E \cdot 100}{p}$</p>
-                  <p><strong>• Százalékláb kiszámítása:</strong> $p\% = \frac{E}{A} \cdot 100\%$</p>
+                  <p><strong>• Százalékérték kiszámítása:</strong> E = A · (p / 100)</p>
+                  <p><strong>• Alap kiszámítása:</strong> A = E / (p / 100) = (E · 100) / p</p>
+                  <p><strong>• Százalékláb kiszámítása:</strong> p% = (E / A) · 100%</p>
                 </div>
 
                 <p className="text-xs text-slate-500">
-                  💡 <em>Megjegyzés:</em> A képletekben a $\frac{p}{100}$ tört alakban vagy tizedestört alakban szerepel (pl. $25\% \implies 0,25$).
+                  💡 <em>Megjegyzés:</em> A képletekben a p / 100 tört alakban vagy tizedestört alakban szerepel (pl. 25% ⟹ 0,25).
                 </p>
               </div>
             </TheoryCard>
@@ -164,9 +164,9 @@ export const PercentageTheory: React.FC<PercentageTheoryProps> = ({
         <TheoryCallout title="Hogyan használd a képletháromszöget?" variant="tip">
           Takarj le ujjaddal a háromszögben azt a betűt, amit keresel!
           <ul className="list-disc pl-5 mt-1 space-y-0.5">
-            <li>Ha az <strong>E</strong>-t takarod le: alul marad $A \cdot p\%$.</li>
-            <li>Ha az <strong>A</strong>-t takarod le: felül $E$, alul $p\% \implies A = E / p\%$.</li>
-            <li>Ha a <strong>p%</strong>-ot takarod le: felül $E$, alul $A \implies p\% = E / A$.</li>
+            <li>Ha az <strong>E</strong>-t takarod le: alul marad A · p%.</li>
+            <li>Ha az <strong>A</strong>-t takarod le: felül E, alul p% ⟹ A = E / p%.</li>
+            <li>Ha a <strong>p%</strong>-ot takarod le: felül E, alul A ⟹ p% = E / A.</li>
           </ul>
         </TheoryCallout>
       </TheorySection>
@@ -192,28 +192,28 @@ export const PercentageTheory: React.FC<PercentageTheoryProps> = ({
           <div className="w-full lg:w-1/2 space-y-4">
             <TheoryCard title="Százalékos Növekedés (Áremelés, ÁFA, Infláció)" variant="example" themeColor="emerald">
               <div className="space-y-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
-                <p>Ha egy mennyiség $p\%$-kal nő, az új érték az eredeti $(100 + p)\%$-a lesz:</p>
+                <p>Ha egy mennyiség p%-kal nő, az új érték az eredeti (100 + p)%-a lesz:</p>
                 <div className="p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 font-mono text-center font-bold text-emerald-900 dark:text-emerald-200">
                   Új érték = Eredeti · (1 + p / 100)
                 </div>
                 <ul className="list-disc pl-5 space-y-0.5 text-xs">
-                  <li><strong>+20% emelés:</strong> $1 + 0,20 = \mathbf{1,20}$-zal szorzunk.</li>
-                  <li><strong>+27% ÁFA:</strong> $1 + 0,27 = \mathbf{1,27}$-tel szorzunk ($10\,000\text{ Ft} \cdot 1,27 = 12\,700\text{ Ft}$).</li>
-                  <li><strong>+5% kamat:</strong> $1 + 0,05 = \mathbf{1,05}$-tel szorzunk.</li>
+                  <li><strong>+20% emelés:</strong> 1 + 0,20 = <strong>1,20</strong>-szal szorzunk.</li>
+                  <li><strong>+27% ÁFA:</strong> 1 + 0,27 = <strong>1,27</strong>-tel szorzunk (10 000 Ft · 1,27 = 12 700 Ft).</li>
+                  <li><strong>+5% kamat:</strong> 1 + 0,05 = <strong>1,05</strong>-tel szorzunk.</li>
                 </ul>
               </div>
             </TheoryCard>
 
             <TheoryCard title="Százalékos Csökkenés (Akció, Leárazás, Veszteség)" variant="example" themeColor="rose">
               <div className="space-y-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
-                <p>Ha egy mennyiség $p\%$-kal csökken, az új érték az eredeti $(100 - p)\%$-a marad:</p>
+                <p>Ha egy mennyiség p%-kal csökken, az új érték az eredeti (100 - p)%-a marad:</p>
                 <div className="p-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 font-mono text-center font-bold text-rose-900 dark:text-rose-200">
                   Új érték = Eredeti · (1 - p / 100)
                 </div>
                 <ul className="list-disc pl-5 space-y-0.5 text-xs">
-                  <li><strong>-15% leárazás:</strong> $1 - 0,15 = \mathbf{0,85}$-tel szorzunk ($20\,000\text{ Ft} \cdot 0,85 = 17\,000\text{ Ft}$).</li>
-                  <li><strong>-30% kiárusítás:</strong> $1 - 0,30 = \mathbf{0,70}$-nel szorzunk.</li>
-                  <li><strong>-5% selejt:</strong> $1 - 0,05 = \mathbf{0,95}$-tel szorzunk.</li>
+                  <li><strong>-15% leárazás:</strong> 1 - 0,15 = <strong>0,85</strong>-tel szorzunk (20 000 Ft · 0,85 = 17 000 Ft).</li>
+                  <li><strong>-30% kiárusítás:</strong> 1 - 0,30 = <strong>0,70</strong>-nel szorzunk.</li>
+                  <li><strong>-5% selejt:</strong> 1 - 0,05 = <strong>0,95</strong>-tel szorzunk.</li>
                 </ul>
               </div>
             </TheoryCard>
@@ -221,10 +221,10 @@ export const PercentageTheory: React.FC<PercentageTheoryProps> = ({
         </div>
 
         <TheoryCallout title="Visszafelé számolás: Hogyan kapjuk vissza az eredeti árat?" variant="tip">
-          Ha egy termék 27% ÁFA-val együtt bruttó $63\,500\text{ Ft}$, mennyi volt a nettó ára?
-          Mivel $\text{Bruttó} = \text{Nettó} \cdot 1,27$, ezért <strong>osztani kell a szorzótényezővel</strong>:
-          $$\text{Nettó} = \frac{63\,500}{1,27} = \mathbf{50\,000\text{ Ft}}!$$
-          <em>(Vigyázat: Soha ne vond le a 27%-ot a bruttó árból, mert $63\,500 \cdot 0,27 = 17\,145\text{ Ft}$, és $63\,500 - 17\,145 = 46\,355\text{ Ft}$, ami hibás!)</em>
+          Ha egy termék 27% ÁFA-val együtt bruttó 63 500 Ft, mennyi volt a nettó ára?
+          Mivel Bruttó = Nettó · 1,27, ezért <strong>osztani kell a szorzótényezővel</strong>:
+          <div className="font-mono text-center my-2 font-bold">Nettó = 63 500 / 1,27 = 50 000 Ft!</div>
+          <em>(Vigyázat: Soha ne vond le a 27%-ot a bruttó árból, mert 63 500 · 0,27 = 17 145 Ft, és 63 500 - 17 145 = 46 355 Ft, ami hibás!)</em>
         </TheoryCallout>
       </TheorySection>
 
@@ -237,7 +237,7 @@ export const PercentageTheory: React.FC<PercentageTheoryProps> = ({
         badgeColor="indigo"
       >
         <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-sm sm:text-base">
-          Statisztikai adatok ábrázolásakor a teljes sokaságot ($100\%$) egy teljes kör ($360^\circ$) reprezentálja.
+          Statisztikai adatok ábrázolásakor a teljes sokaságot (100%) egy teljes kör (360°) reprezentálja.
           A százalékok és a középponti szögek között egyenes arányosság áll fenn:
         </p>
 
@@ -249,22 +249,22 @@ export const PercentageTheory: React.FC<PercentageTheoryProps> = ({
           <div className="w-full lg:w-1/2 space-y-4">
             <TheoryCard title="Szögátszámítási Szabály" variant="default" themeColor="indigo">
               <div className="space-y-3 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
-                <p>Mivel $100\% = 360^\circ$, ezért:</p>
+                <p>Mivel 100% = 360°, ezért:</p>
                 <div className="p-3 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 font-mono text-center text-sm font-bold text-indigo-950 dark:text-indigo-200">
                   1% = 3,6° &nbsp;⟺&nbsp; Középponti szög (α) = 360° · (p / 100)
                 </div>
                 <div className="grid grid-cols-2 gap-2 text-xs">
                   <div className="p-2 rounded-lg bg-slate-50 dark:bg-slate-800 border">
-                    <strong>50%</strong> = $360^\circ \cdot 0,50 = \mathbf{180^\circ}$ (félkör)
+                    <strong>50%</strong> = 360° · 0,50 = <strong>180°</strong> (félkör)
                   </div>
                   <div className="p-2 rounded-lg bg-slate-50 dark:bg-slate-800 border">
-                    <strong>25%</strong> = $360^\circ \cdot 0,25 = \mathbf{90^\circ}$ (derékszög)
+                    <strong>25%</strong> = 360° · 0,25 = <strong>90°</strong> (derékszög)
                   </div>
                   <div className="p-2 rounded-lg bg-slate-50 dark:bg-slate-800 border">
-                    <strong>10%</strong> = $360^\circ \cdot 0,10 = \mathbf{36^\circ}$
+                    <strong>10%</strong> = 360° · 0,10 = <strong>36°</strong>
                   </div>
                   <div className="p-2 rounded-lg bg-slate-50 dark:bg-slate-800 border">
-                    <strong>75%</strong> = $360^\circ \cdot 0,75 = \mathbf{270^\circ}$
+                    <strong>75%</strong> = 360° · 0,75 = <strong>270°</strong>
                   </div>
                 </div>
               </div>
@@ -277,10 +277,10 @@ export const PercentageTheory: React.FC<PercentageTheoryProps> = ({
                 </p>
                 <ul className="list-disc pl-5 space-y-1 text-xs">
                   <li>
-                    <strong>Százalékpont (különbség):</strong> Ha a kamatláb $10\%$-ról $12\%$-ra nő, a változás <strong>2 százalékpont</strong> ($12 - 10 = 2$).
+                    <strong>Százalékpont (különbség):</strong> Ha a kamatláb 10%-ról 12%-ra nő, a változás <strong>2 százalékpont</strong> (12 - 10 = 2).
                   </li>
                   <li>
-                    <strong>Százalékos növekedés:</strong> A $10\%$-hoz képest a $2$ növekmény $\frac{2}{10} = \mathbf{20\%}$-os növekedést jelent!
+                    <strong>Százalékos növekedés:</strong> A 10%-hoz képest a 2 növekmény 2 / 10 = <strong>20%</strong>-os növekedést jelent!
                   </li>
                 </ul>
               </div>

@@ -305,8 +305,8 @@ export const ScientificCalculationTheory: React.FC<ScientificCalculationTheoryPr
               (a · 10ᵏ) / (b · 10ᵐ) = (a / b) · 10ᵏ⁻ᵐ
             </div>
             <p className="text-xs text-slate-700 leading-relaxed">
-              <strong>Lépések:</strong> Mantisszák osztása ($a / b$), kitevők kivonása ($k - m$).<br />
-              <strong>Utólagos normálás:</strong> Ha $a / b < 1$, a mantissza vesszőjét 1-gyel jobbra toljuk, és a kitevőt 1-gyel csökkentjük!
+              <strong>Lépések:</strong> Mantisszák osztása (a / b), kitevők kivonása (k - m).<br />
+              <strong>Utólagos normálás:</strong> Ha a / b &lt; 1, a mantissza vesszőjét 1-gyel jobbra toljuk, és a kitevőt 1-gyel csökkentjük!
             </p>
             <div className="bg-white p-2.5 rounded-md text-xs font-mono text-blue-900 border border-blue-100">
               (2 · 10⁹) / (8 · 10⁴) = 0,25 · 10⁵ = <strong>2,5 · 10⁴</strong>

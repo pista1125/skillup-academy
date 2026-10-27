@@ -229,12 +229,12 @@ export const ScientificNotationTheory: React.FC<ScientificNotationTheoryProps> =
           >
             <p className="text-sm leading-relaxed">
               Bármely nemnulla valós szám <strong>egyértelműen</strong> felírható a következő alakban:
-              $$a \cdot 10^k$$
+              <span className="block my-2 font-mono text-center font-bold text-base">a · 10ᵏ</span>
               ahol:
               <br />
-              • <strong>$a$ a mantissza:</strong> olyan valós szám, amelyre $1 \le |a| < 10$ (tehát a tizedesvessző előtt pontosan 1 db nemnulla számjegy áll: 1, 2, 3, 4, 5, 6, 7, 8 vagy 9).
+              • <strong>a a mantissza:</strong> olyan valós szám, amelyre 1 ≤ |a| &lt; 10 (tehát a tizedesvessző előtt pontosan 1 db nemnulla számjegy áll: 1, 2, 3, 4, 5, 6, 7, 8 vagy 9).
               <br />
-              • <strong>$k$ a kitevő (karakterisztika):</strong> tetszőleges egész szám ($k \in \mathbb{Z}$).
+              • <strong>k a kitevő (karakterisztika):</strong> tetszőleges egész szám (k ∈ ℤ).
             </p>
           </TheoryCallout>
 

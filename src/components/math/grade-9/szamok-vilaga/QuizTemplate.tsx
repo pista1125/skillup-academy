@@ -35,17 +35,29 @@ export type DifficultyLevel = 1 | 2 | 3;
 export type GameMode = 'quiz' | string;
 
 export interface CheatSheetCard {
-  id: string;
+  id?: string;
   title: string;
   description?: string;
   formula?: string;
   note?: string;
   color?: string;
   badge?: string;
+  badgeColor?: string;
   figure?: React.ReactNode;
   icon?: React.ReactNode;
   content?: React.ReactNode;
+  children?: React.ReactNode;
 }
+
+export interface CheatSheetCardProps {
+  id?: string;
+  title: string;
+  badge?: string;
+  badgeColor?: string;
+  children?: React.ReactNode;
+}
+
+export const CheatSheetCard: React.FC<CheatSheetCardProps> = () => null;
 
 export interface Question {
   id: string | number;
@@ -441,7 +453,23 @@ export function QuizTemplate({
 
   // Normalize Cheat Sheet Cards
   const normalizedCheatCards: CheatSheetCard[] = useMemo(() => {
-    const cards = [...(cheatSheetCards || [])];
+    const cards: CheatSheetCard[] = [];
+    if (cheatSheetCards && cheatSheetCards.length > 0) {
+      cheatSheetCards.forEach((item: any, idx) => {
+        if (React.isValidElement(item)) {
+          const props = (item as any).props || {};
+          cards.push({
+            id: item.key ? String(item.key) : `cs-${idx}`,
+            title: props.title || '',
+            badge: props.badge,
+            badgeColor: props.badgeColor,
+            content: props.children
+          });
+        } else {
+          cards.push(item);
+        }
+      });
+    }
     if (cheatSheets && cheatSheets.length > 0) {
       cheatSheets.forEach((cs: any, idx) => {
         if (cs.content) {
