@@ -158,6 +158,22 @@ export const PowersPracticeTheory: React.FC<PowersPracticeTheoryProps> = ({
       onBack={onBack}
       onStartQuiz={onStartQuiz}
       quizButtonText="Gyakorló Kvíz Indítása"
+      quickRule={{
+        label: 'A Hatványozás Gyakorlati Aranyszabályai',
+        align: 'left',
+        formula: (
+          <div className="flex flex-col gap-1 text-left font-bold text-xs sm:text-sm">
+            <div>
+              <span className="text-rose-600 dark:text-rose-400 font-black">Prímalapra hozás: </span>
+              <span className="font-mono text-slate-800 dark:text-slate-200">4ⁿ = 2²ⁿ &nbsp;|&nbsp; 8ⁿ = 2³ⁿ &nbsp;|&nbsp; 9ⁿ = 3²ⁿ &nbsp;|&nbsp; 6ⁿ = 2ⁿ · 3ⁿ</span>
+            </div>
+            <div>
+              <span className="text-amber-600 dark:text-amber-400 font-black">Kiemelés: </span>
+              <span className="font-mono text-slate-800 dark:text-slate-200">2ⁿ⁺² + 2ⁿ = 2ⁿ · (2² + 1) = 5 · 2ⁿ</span>
+            </div>
+          </div>
+        )
+      }}
     >
       {/* 1. SZEKCIÓ: ÖSSZETETT TÖRTES HATVÁNYKIFEJEZÉSEK */}
       <TheorySection
@@ -234,12 +250,12 @@ export const PowersPracticeTheory: React.FC<PowersPracticeTheoryProps> = ({
             type="tip"
             title="A Kiemelés Aranyszabálya"
           >
-            <p className="text-sm leading-relaxed">
+            <div className="text-sm leading-relaxed space-y-1">
               Ha egy tört számlálójában hatványok összege vagy különbsége szerepel (pl. $2^{20} + 2^{22}$),
               mindig a <strong>kisebbik kitevőjű hatványt</strong> emeljük ki:
               $$2^{20} + 2^{22} = 2^{20}(1 + 2^2) = 2^{20} \cdot 5$$
               Ezután a szorzattá alakított számlálóban a $2^{20}$ azonnal egyszerűsíthető a nevezővel!
-            </p>
+            </div>
           </TheoryCallout>
 
           <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 space-y-3">
@@ -312,12 +328,12 @@ export const PowersPracticeTheory: React.FC<PowersPracticeTheoryProps> = ({
             type="warning"
             title="A Tört Alapok Veszélye: 0 < a < 1"
           >
-            <p className="text-sm leading-relaxed">
+            <div className="text-sm leading-relaxed">
               Ha az alap 1-nél kisebb pozitív szám (pl. 1/2 vagy 0,5), akkor <strong>a nagyobb kitevőhöz KISEBB érték tartozik</strong>!
               Például:
               <div className="font-mono text-center my-2 font-bold">(0,5)² = 0,25 &gt; (0,5)⁴ = 0,0625</div>
               Érettségin erre mindig különösen figyeljünk!
-            </p>
+            </div>
           </TheoryCallout>
         </div>
       </TheorySection>

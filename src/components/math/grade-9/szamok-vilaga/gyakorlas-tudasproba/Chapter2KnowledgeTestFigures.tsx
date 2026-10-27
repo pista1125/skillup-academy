@@ -219,7 +219,7 @@ export const FinancialGrowthFormulaMapSvg: React.FC<{ size?: number; className?:
 
         {/* Alsó összehasonlító sáv: Egyszerű kamat vs Kamatos kamat */}
         <rect x="10" y="95" width="250" height="62" rx="8" className="fill-slate-100 dark:fill-slate-800/60 stroke-slate-300 dark:stroke-slate-600" strokeWidth="1.2" />
-        <text x="135" y="110" textAnchor="middle" fill="#334155" dark:fill="#cbd5e1" fontSize="7.5" fontWeight="bold">KÉT MODELL KÜLÖNBSÉGE</text>
+        <text x="135" y="110" textAnchor="middle" className="fill-slate-700 dark:fill-slate-300" fontSize="7.5" fontWeight="bold">KÉT MODELL KÜLÖNBSÉGE</text>
 
         <text x="20" y="126" fill="#475569" fontSize="7" fontWeight="bold">Egyszerű kamat:</text>
         <text x="85" y="126" fill="#1e293b" fontSize="7">Tₙ = T₀ · (1 + n · p/100) ➔ Lineáris egyenes</text>

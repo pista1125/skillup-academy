@@ -1,5 +1,8 @@
 import React from 'react';
 import { QuizTemplate, QuizQuestion, CheatSheetCard } from '../QuizTemplate';
+import { CompoundInterestMatcher } from './CompoundInterestMatcher';
+import { CompoundInterestSorter } from './CompoundInterestSorter';
+import { ArrowRightLeft, LayoutGrid } from 'lucide-react';
 
 interface CompoundInterestQuizProps {
   onBack?: () => void;
@@ -342,6 +345,44 @@ export const CompoundInterestQuiz: React.FC<CompoundInterestQuizProps> = ({
       topicTitle="Kamatos kamat"
       questions={questions}
       cheatSheetCards={cheatSheetCards}
+      customGameModes={[
+        {
+          id: 'matcher',
+          title: 'Párosító Játék',
+          subtitle: 'Párosítsd a pénzügyi alapfogalmakat a matematikai leírásukkal!',
+          badgeText: '8 Pár szintenként',
+          icon: <ArrowRightLeft className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />,
+          render: ({ level, onNextLevel, onOpenRules, onSwitchToQuiz: switchToQuiz, onSwitchToSorter: switchToSorter }) => (
+            <CompoundInterestMatcher
+              key={`ci-matcher-${level}`}
+              level={level}
+              onNextLevel={onNextLevel}
+              onOpenRules={onOpenRules}
+              onSwitchToQuiz={switchToQuiz}
+              onSwitchToSorter={switchToSorter}
+              onSwitchToTheory={onSwitchToTheory}
+            />
+          )
+        },
+        {
+          id: 'sorter',
+          title: 'Csoportosító Játék',
+          subtitle: 'Kategorizáld a pénzügyi kifejezéseket és folyamatokat!',
+          badgeText: '12 Kártya szintenként',
+          icon: <LayoutGrid className="w-4 h-4 text-purple-600 dark:text-purple-400" />,
+          render: ({ level, onNextLevel, onOpenRules, onSwitchToQuiz: switchToQuiz, onSwitchToMatcher: switchToMatcher }) => (
+            <CompoundInterestSorter
+              key={`ci-sorter-${level}`}
+              level={level}
+              onNextLevel={onNextLevel}
+              onOpenRules={onOpenRules}
+              onSwitchToQuiz={switchToQuiz}
+              onSwitchToMatcher={switchToMatcher}
+              onSwitchToTheory={onSwitchToTheory}
+            />
+          )
+        }
+      ]}
       onBack={onBack}
       onSwitchToTheory={onSwitchToTheory}
       onSwitchToMatcher={onSwitchToMatcher}

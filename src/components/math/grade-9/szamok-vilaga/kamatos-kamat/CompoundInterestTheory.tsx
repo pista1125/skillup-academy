@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
-import { ArrowLeft, BookOpen, CheckCircle, AlertTriangle, Sparkles, TrendingUp, PiggyBank, ShieldCheck, DollarSign } from 'lucide-react';
+import {
+  TheoryTemplate,
+  TheorySection,
+  TheoryCard,
+  TheoryCallout,
+  TheoryTrapBox
+} from '../TheoryTemplate';
 import {
   CompoundInterestFormulaSvg,
   SimpleVsCompoundComparisonSvg,
   GrowthAndDepreciationSvg,
   FinancialTermsSvg
 } from './CompoundInterestFigures';
+import { Sparkles, TrendingUp, PiggyBank, ShieldCheck, DollarSign } from 'lucide-react';
 
 interface CompoundInterestTheoryProps {
   onBack?: () => void;
@@ -71,54 +78,26 @@ export const CompoundInterestTheory: React.FC<CompoundInterestTheoryProps> = ({
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8 space-y-10">
-      {/* Fejléc */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-indigo-200 pb-6">
-        <div>
-          <div className="flex items-center gap-2 mb-2">
-            <span className="px-3 py-1 rounded-full text-xs font-black tracking-wider uppercase bg-indigo-100 text-indigo-800 border border-indigo-300">
-              ⚡ TANANYAG
-            </span>
-            <span className="text-xs text-slate-500 font-medium">9. Osztály • II. A számok világa</span>
-          </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Kamatos kamat
-          </h1>
-          <p className="text-base text-slate-600 mt-1 max-w-2xl">
-            A pénzügyi matematika alapjai: kezdőtőke, kamatláb, kamattényező, egyszerű vs. kamatos kamat, valamint az amortizáció és infláció modellezése.
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          {onBack && (
-            <button
-              onClick={onBack}
-              className="px-4 py-2 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-100 transition-colors font-semibold text-sm flex items-center gap-2 shadow-xs"
-            >
-              <ArrowLeft className="w-4 h-4" /> Vissza
-            </button>
-          )}
-          {onStartQuiz && (
-            <button
-              onClick={onStartQuiz}
-              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 text-white font-bold text-sm hover:from-indigo-700 hover:to-indigo-800 transition-all shadow-md flex items-center gap-2"
-            >
-              <BookOpen className="w-4 h-4" /> Kvíz indítása
-            </button>
-          )}
-        </div>
-      </div>
-
+    <TheoryTemplate
+      title="Kamatos Kamat és Pénzügyi Matematika"
+      subtitle="A pénzügyi matematika alapjai: kezdőtőke, kamatláb, kamattényező, egyszerű vs. kamatos kamat, valamint az amortizáció és infláció modellezése."
+      badge="12. TÉMAKÖR"
+      badgeColor="indigo"
+      themeColor="indigo"
+      onBack={onBack}
+      onStartQuiz={onStartQuiz}
+      quizButtonText="Gyakorló Kvíz Indítása"
+      quickRule={{
+        label: 'A Kamatos Kamat Alapképlete',
+        formula: 'T_n = T_0 \\cdot (1 + \\frac{p}{100})^n = T_0 \\cdot q^n'
+      }}
+    >
       {/* 1. Alapfogalmak a pénzügyi matematikában */}
-      <section className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-xs space-y-5">
-        <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
-          <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold text-lg">
-            1
-          </div>
-          <h2 className="text-2xl font-bold text-slate-900">
-            A pénzügyi matematika alapfogalmai
-          </h2>
-        </div>
-
+      <TheorySection
+        number={1}
+        title="A Pénzügyi Matematika Alapfogalmai"
+        badge="ALAPOK"
+      >
         <p className="text-slate-700 leading-relaxed text-base">
           A mindennapi életben, amikor pénzt helyezünk el a bankban (megtakarítás, lekötött betét) vagy kölcsönt veszünk fel (hitel), a pénzünk az idő múlásával megváltoztatja az értékét. Ennek leírására precíz fogalomrendszert használunk:
         </p>
@@ -164,19 +143,14 @@ export const CompoundInterestTheory: React.FC<CompoundInterestTheoryProps> = ({
             </p>
           </div>
         </div>
-      </section>
+      </TheorySection>
 
       {/* 2. Egyszerű kamat vs. Kamatos kamat */}
-      <section className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-xs space-y-6">
-        <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
-          <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold text-lg">
-            2
-          </div>
-          <h2 className="text-2xl font-bold text-slate-900">
-            Egyszerű kamat vs. Kamatos kamat: A lényegi különbség
-          </h2>
-        </div>
-
+      <TheorySection
+        number={2}
+        title="Egyszerű Kamat vs. Kamatos Kamat: A Lényegi Különbség"
+        badge="ÖSSZEHASONLÍTÁS"
+      >
         <p className="text-slate-700 leading-relaxed text-base">
           A pénzügyekben a legnagyobb vízválasztó, hogy a korábban jóváírt kamatokat <strong>kifizetik-e a kézbe</strong> (egyszerű kamatozás), vagy <strong>hozzácsapják a tőkéhez</strong> (tőkésítés), és a következő évben már a kamat után is jár kamat (kamatos kamatozás)!
         </p>
@@ -211,92 +185,81 @@ export const CompoundInterestTheory: React.FC<CompoundInterestTheoryProps> = ({
             </p>
           </div>
         </div>
-      </section>
+      </TheorySection>
 
       {/* 3. A Kamatos Kamat Képlete és Értékcsökkenés */}
-      <section className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-xs space-y-6">
-        <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
-          <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold text-lg">
-            3
-          </div>
-          <h2 className="text-2xl font-bold text-slate-900">
-            A képlet levezetése és az amortizáció
-          </h2>
-        </div>
-
+      <TheorySection
+        number={3}
+        title="A Képlet Levezetése és az Amortizáció"
+        badge="KÉPLET & LEVEZETÉS"
+      >
         <p className="text-slate-700 leading-relaxed text-base">
           Tekintsük át a tőke alakulását évről évre:
         </p>
 
-        <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-xs text-slate-800 space-y-2">
-          <div>• 0. év végén (kezdetben): <strong className="text-indigo-800">T₀</strong></div>
-          <div>• 1. év végén: T₁ = T₀ · (1 + p/100) = <strong className="text-indigo-800">T₀ · q</strong></div>
-          <div>• 2. év végén: T₂ = T₁ · q = (T₀ · q) · q = <strong className="text-indigo-800">T₀ · q²</strong></div>
-          <div>• n. év végén: Tₙ = <strong className="text-indigo-900 text-sm font-black">T₀ · qⁿ</strong></div>
+        <div className="bg-slate-50 dark:bg-slate-800/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700 font-mono text-xs text-slate-800 dark:text-slate-200 space-y-2">
+          <div>• 0. év végén (kezdetben): <strong className="text-indigo-800 dark:text-indigo-400">T₀</strong></div>
+          <div>• 1. év végén: T₁ = T₀ · (1 + p/100) = <strong className="text-indigo-800 dark:text-indigo-400">T₀ · q</strong></div>
+          <div>• 2. év végén: T₂ = T₁ · q = (T₀ · q) · q = <strong className="text-indigo-800 dark:text-indigo-400">T₀ · q²</strong></div>
+          <div>• n. év végén: Tₙ = <strong className="text-indigo-900 dark:text-indigo-300 text-sm font-black">T₀ · qⁿ</strong></div>
         </div>
 
         {/* Képlet ábra */}
         <CompoundInterestFormulaSvg />
 
         <div className="pt-2">
-          <h3 className="text-lg font-bold text-slate-900 mb-2">
+          <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
             Értékcsökkenés (Amortizáció)
           </h3>
-          <p className="text-slate-700 leading-relaxed text-sm mb-4">
+          <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-sm mb-4">
             Ha nem betétről, hanem egy használati tárgyról (pl. új gépkocsi, számítógép, gépsor) vagy az infláció miatti vásárlóerő-vesztésről van szó, az érték évről évre csökken. Ekkor a kamattényezőben <strong>mínusz előjel szerepel</strong>:
           </p>
           
           <GrowthAndDepreciationSvg />
         </div>
-      </section>
+      </TheorySection>
 
       {/* 4. Pénzügyi Mutatók: EBKM és THM */}
-      <section className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-xs space-y-6">
-        <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
-          <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold text-lg">
-            4
-          </div>
-          <h2 className="text-2xl font-bold text-slate-900">
-            Gyakorlati pénzügyi mutatók: EBKM és THM
-          </h2>
-        </div>
-
+      <TheorySection
+        number={4}
+        title="Gyakorlati Pénzügyi Mutatók: EBKM és THM"
+        badge="PÉNZÜGYI GYAKORLAT"
+      >
         <p className="text-slate-700 leading-relaxed text-base">
           A banki hirdetésekben és szerződésekben szereplő névleges kamatláb gyakran félrevezető lehet a rejtett költségek és kamatozási periódusok miatt. Ezért a jogszabályok kötelezővé teszik az egységesített mutatók közzétételét:
         </p>
 
         <FinancialTermsSvg />
 
-        <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-900 space-y-1">
-          <h4 className="font-bold text-amber-950 text-sm flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-amber-700" />
-            Évente többszöri tőkésítés (Féléves, havi kamatjóváírás)
-          </h4>
+        <TheoryCallout variant="warning" title="Évente többszöri tőkésítés (Féléves, havi kamatjóváírás)">
           <p className="leading-relaxed">
-            Ha a bank évente $m$ alkalommal tőkésít (pl. havonta: $m = 12$, félévente: $m = 2$), akkor egy periódusra a kamatláb $p/m$, az eltelt periódusok száma pedig $m \cdot n$. A tőke értéke:
+            Ha a bank évente <span className="font-mono font-bold">m</span> alkalommal tőkésít (pl. havonta: <span className="font-mono font-bold">m = 12</span>, félévente: <span className="font-mono font-bold">m = 2</span>), akkor egy periódusra a kamatláb <span className="font-mono font-bold">p/m</span>, az eltelt periódusok száma pedig <span className="font-mono font-bold">m · n</span>. A tőke értéke:
           </p>
-          <div className="font-mono font-bold text-amber-950 bg-white p-2 rounded-md border border-amber-200 text-center text-xs">
+          <div className="font-mono font-bold text-amber-950 dark:text-amber-200 bg-white/80 dark:bg-slate-900/80 p-2.5 rounded-lg border border-amber-300 dark:border-amber-700 text-center text-sm my-2">
             Tₙ = T₀ · (1 + p / (100 · m))ᵐ·ⁿ
           </div>
-          <p className="text-amber-800">
+          <p className="text-xs text-amber-900 dark:text-amber-200">
             Mivel a kamat év közben is elkezd kamatozni, a gyakoribb tőkésítés mindig kissé <strong>magasabb tényleges hozamot</strong> biztosít!
           </p>
-        </div>
-      </section>
+        </TheoryCallout>
+      </TheorySection>
 
       {/* 5. INTERAKTÍV PÉNZÜGYI LABORATÓRIUM */}
-      <section className="bg-gradient-to-br from-indigo-500/10 via-indigo-500/5 to-transparent rounded-3xl p-6 sm:p-8 border-2 border-indigo-400/40 shadow-lg space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-indigo-200 pb-4">
+      <TheorySection
+        number={5}
+        title="Interaktív Pénzügyi Laboratórium"
+        badge="SZIMULÁTOR"
+      >
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-indigo-200 dark:border-indigo-800 pb-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-indigo-600 flex items-center justify-center text-white shadow-md">
-              <Sparkles className="w-6 h-6" />
+            <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-md">
+              <Sparkles className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-indigo-700">Pénzügyi szimulátor</span>
-              <h2 className="text-2xl font-black text-slate-900">Interaktív Kamatos Kamat Labor</h2>
+              <span className="text-xs font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-400">Pénzügyi szimulátor</span>
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">Kamatos Kamat & Infláció Labor</h3>
             </div>
           </div>
-
           {/* Fülváltó gombok */}
           <div className="flex p-1 bg-indigo-100 rounded-xl border border-indigo-300">
             <button
@@ -546,73 +509,35 @@ export const CompoundInterestTheory: React.FC<CompoundInterestTheoryProps> = ({
             </div>
           </div>
         )}
-      </section>
+      </TheorySection>
 
       {/* 6. Gyakori csapdák és hibák */}
-      <section className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-xs space-y-6">
-        <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
-          <div className="w-10 h-10 rounded-xl bg-rose-100 flex items-center justify-center text-rose-700 font-bold text-lg">
-            6
-          </div>
-          <h2 className="text-2xl font-bold text-slate-900">
-            Gyakori Pénzügyi Csapdák és Megoldásuk
-          </h2>
-        </div>
-
+      <TheorySection
+        number={6}
+        title="Gyakori Pénzügyi Csapdák és Megoldásuk"
+        badge="TIPPEK & CSAPDÁK"
+      >
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 space-y-2">
-            <h4 className="font-bold text-rose-900 text-sm flex items-center gap-1.5">
-              <AlertTriangle className="w-4 h-4 text-rose-600" />
-              1. Képletbeli csapda
-            </h4>
-            <p className="text-xs text-rose-800 leading-relaxed">
-              <strong>Hiba:</strong> Tₙ = T₀ · (1 + p · n / 100) számolása kamatos kamat helyett.<br />
-              <strong>Megoldás:</strong> Az $n$ év kamatos kamatnál a <strong>kitevőben</strong> áll: $q^n$, nem pedig a szorzóban!
-            </p>
-          </div>
+          <TheoryTrapBox
+            title="1. Képletbeli csapda"
+            mistake="Tₙ = T₀ · (1 + p · n / 100) számolása kamatos kamat helyett."
+            correction="Az n év kamatos kamatnál a kitevőben áll: qⁿ, nem pedig a szorzóban!"
+          />
 
-          <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 space-y-2">
-            <h4 className="font-bold text-rose-900 text-sm flex items-center gap-1.5">
-              <AlertTriangle className="w-4 h-4 text-rose-600" />
-              2. Kamattényező felírása
-            </h4>
-            <p className="text-xs text-rose-800 leading-relaxed">
-              <strong>Hiba:</strong> 6%-os kamatnál $q = 1,6$-tal szorozni (ez 60%-ot jelentene!).<br />
-              <strong>Megoldás:</strong> $6\% = 0,06$, így $q = 1 + 0,06 = 1,06$. Figyelj a helyiértékre!
-            </p>
-          </div>
+          <TheoryTrapBox
+            title="2. Kamattényező felírása"
+            mistake="6%-os kamatnál q = 1,6-tal szorozni (ez 60%-ot jelentene!)."
+            correction="6% = 0,06, így q = 1 + 0,06 = 1,06. Figyelj a helyiértékre!"
+          />
 
-          <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 space-y-2">
-            <h4 className="font-bold text-rose-900 text-sm flex items-center gap-1.5">
-              <AlertTriangle className="w-4 h-4 text-rose-600" />
-              3. Névleges kamat vs. THM
-            </h4>
-            <p className="text-xs text-rose-800 leading-relaxed">
-              <strong>Hiba:</strong> Csak a "hirdetett" alacsony kamatot nézni hitelfelvételkor.<br />
-              <strong>Megoldás:</strong> Mindig a <strong>THM</strong>-et (Teljes Hiteldíj Mutató) nézd, mert az a kötelező díjakat és rejtett költségeket is tartalmazza!
-            </p>
-          </div>
+          <TheoryTrapBox
+            title="3. Névleges kamat vs. THM"
+            mistake="Csak a hirdetett alacsony kamatot nézni hitelfelvételkor."
+            correction="Mindig a THM-et nézd, mert az a kötelező díjakat és rejtett költségeket is tartalmazza!"
+          />
         </div>
-      </section>
-
-      {/* Záró kártya */}
-      <div className="p-6 rounded-2xl bg-gradient-to-r from-indigo-600 to-indigo-700 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg">
-        <div className="space-y-1 text-center sm:text-left">
-          <h3 className="text-xl font-black">Próbáld ki a tudásod a pénzügyi kvízben!</h3>
-          <p className="text-indigo-100 text-sm">
-            30 válogatott feladat 3 szinten: egyszerű vs. kamatos kamat, tőkésítés, futamidő és érettségi típuspéldák.
-          </p>
-        </div>
-        {onStartQuiz && (
-          <button
-            onClick={onStartQuiz}
-            className="px-6 py-3 rounded-xl bg-white text-indigo-800 hover:bg-indigo-50 font-black text-sm transition-all shadow-md shrink-0 flex items-center gap-2"
-          >
-            <CheckCircle className="w-4 h-4" /> Kvíz indítása
-          </button>
-        )}
-      </div>
-    </div>
+      </TheorySection>
+    </TheoryTemplate>
   );
 };
 

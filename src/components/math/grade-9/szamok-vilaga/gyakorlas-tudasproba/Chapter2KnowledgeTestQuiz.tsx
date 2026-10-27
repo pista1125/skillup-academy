@@ -1,5 +1,8 @@
 import React from 'react';
 import { QuizTemplate, QuizQuestion, CheatSheetCard } from '../QuizTemplate';
+import { Chapter2KnowledgeTestMatcher } from './Chapter2KnowledgeTestMatcher';
+import { Chapter2KnowledgeTestSorter } from './Chapter2KnowledgeTestSorter';
+import { ArrowRightLeft, LayoutGrid } from 'lucide-react';
 
 interface Chapter2KnowledgeTestQuizProps {
   onBack?: () => void;
@@ -827,6 +830,44 @@ export const Chapter2KnowledgeTestQuiz: React.FC<Chapter2KnowledgeTestQuizProps>
       topicTitle="II. Fejezeti Összefoglalás & Tudáspróba"
       questions={questions}
       cheatSheetCards={cheatSheetCards}
+      customGameModes={[
+        {
+          id: 'matcher',
+          title: 'Párosító Játék',
+          subtitle: 'Párosítsd a fejezet 12 témakörének alapfogalmait a leírásukkal!',
+          badgeText: '8 Pár szintenként',
+          icon: <ArrowRightLeft className="w-4 h-4 text-rose-600 dark:text-rose-400" />,
+          render: ({ level, onNextLevel, onOpenRules, onSwitchToQuiz: switchToQuiz, onSwitchToSorter: switchToSorter }) => (
+            <Chapter2KnowledgeTestMatcher
+              key={`c2-matcher-${level}`}
+              level={level}
+              onNextLevel={onNextLevel}
+              onOpenRules={onOpenRules}
+              onSwitchToQuiz={switchToQuiz}
+              onSwitchToSorter={switchToSorter}
+              onSwitchToTheory={onSwitchToTheory}
+            />
+          )
+        },
+        {
+          id: 'sorter',
+          title: 'Csoportosító Játék',
+          subtitle: 'Kategorizáld a számokat, összefüggéseket és fogalmakat!',
+          badgeText: '12 Kártya szintenként',
+          icon: <LayoutGrid className="w-4 h-4 text-purple-600 dark:text-purple-400" />,
+          render: ({ level, onNextLevel, onOpenRules, onSwitchToQuiz: switchToQuiz, onSwitchToMatcher: switchToMatcher }) => (
+            <Chapter2KnowledgeTestSorter
+              key={`c2-sorter-${level}`}
+              level={level}
+              onNextLevel={onNextLevel}
+              onOpenRules={onOpenRules}
+              onSwitchToQuiz={switchToQuiz}
+              onSwitchToMatcher={switchToMatcher}
+              onSwitchToTheory={onSwitchToTheory}
+            />
+          )
+        }
+      ]}
       onBack={onBack}
       onSwitchToTheory={onSwitchToTheory}
       onSwitchToMatcher={onSwitchToMatcher}

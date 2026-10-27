@@ -134,6 +134,22 @@ export const SquareRootTheory: React.FC<SquareRootTheoryProps> = ({
       onBack={onBack}
       onStartQuiz={onStartQuiz}
       quizButtonText="Gyakorló Kvíz Indítása"
+      quickRule={{
+        label: 'A Négyzetgyök Alapszabályai',
+        align: 'left',
+        formula: (
+          <div className="flex flex-col gap-1 text-left font-bold text-xs sm:text-sm">
+            <div>
+              <span className="text-blue-600 dark:text-blue-400 font-black">Definíció: </span>
+              <span className="font-mono text-slate-800 dark:text-slate-200">√a ≥ 0 és (√a)² = a (a ≥ 0) &nbsp;|&nbsp; √(x²) = |x|</span>
+            </div>
+            <div>
+              <span className="text-indigo-600 dark:text-indigo-400 font-black">Azonosságok: </span>
+              <span className="font-mono text-slate-800 dark:text-slate-200">√(a · b) = √a · √b &nbsp;|&nbsp; √(a / b) = √a / √b (b &gt; 0)</span>
+            </div>
+          </div>
+        )
+      }}
     >
       {/* 1. SZEKCIÓ: A NÉGYZETGYÖK FOGALMA */}
       <TheorySection
@@ -146,7 +162,7 @@ export const SquareRootTheory: React.FC<SquareRootTheoryProps> = ({
         <div className="space-y-4">
           <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
             A mindennapi életben és a geometriában a négyzetgyök a négyzet területéből való oldalhossz-visszaszámolás:
-            ha egy négyzet területe $T$, akkor az oldala $a = \sqrt{T}$.
+            ha egy négyzet területe T, akkor az oldala a = √T.
             Mivel egy négyzet oldala nem lehet negatív, a négyzetgyöknek <strong>szigorú matematikai definíciója</strong> van.
           </p>
 
@@ -157,9 +173,9 @@ export const SquareRootTheory: React.FC<SquareRootTheoryProps> = ({
             title="A Négyzetgyök Pontos Matematikai Definíciója"
           >
             <p className="text-sm leading-relaxed">
-              Egy nemnegatív $a$ valós szám <strong>négyzetgyökén</strong> ($\sqrt{a}$) azt a <strong>nemnegatív számot</strong> értjük,
-              amelynek négyzete $a$.
-              $$\sqrt{a} \ge 0 \quad \text{és} \quad (\sqrt{a})^2 = a \quad (a \ge 0)$$
+              Egy nemnegatív a valós szám <strong>négyzetgyökén</strong> (√a) azt a <strong>nemnegatív számot</strong> értjük,
+              amelynek négyzete a.
+              <span className="block font-mono text-center my-2 font-bold">√a ≥ 0 és (√a)² = a (a ≥ 0)</span>
             </p>
           </TheoryCallout>
 
@@ -170,8 +186,8 @@ export const SquareRootTheory: React.FC<SquareRootTheoryProps> = ({
               badgeColor="amber"
             >
               <ul className="space-y-1.5 text-xs text-slate-600 dark:text-slate-300">
-                <li>• <strong>A gyökjel alatt csak nemnegatív szám állhat:</strong> $\sqrt{-16}$ nem létezik a valós számok körében!</li>
-                <li>• <strong>A gyökvonás eredménye MINDIG nemnegatív:</strong> $\sqrt{25} = +5$ (nem $\pm 5$, mert a definíció szerint $\sqrt{a} \ge 0$).</li>
+                <li>• <strong>A gyökjel alatt csak nemnegatív szám állhat:</strong> √(-16) nem létezik a valós számok körében!</li>
+                <li>• <strong>A gyökvonás eredménye MINDIG nemnegatív:</strong> √25 = +5 (nem ±5, mert a definíció szerint √a ≥ 0).</li>
               </ul>
             </TheoryCard>
 
@@ -184,10 +200,10 @@ export const SquareRootTheory: React.FC<SquareRootTheoryProps> = ({
                 Ha egy ismeretlen szám négyzetéből vonunk gyököt, nem egyszerűen $x$-et kapunk, hanem <strong>$|x|$-et</strong>:
               </p>
               <div className="bg-slate-50 dark:bg-slate-800 p-2 rounded text-center font-mono text-xs my-2 font-bold text-rose-600">
-                $\sqrt{x^2} = |x|$ minden $x \in \mathbb{R}$ esetén!
+                √(x²) = |x| minden x ∈ ℝ esetén!
               </div>
               <p className="text-xs text-slate-500">
-                Példa: $\sqrt{(-5)^2} = \sqrt{25} = +5 = |-5|$. Nem $-5$!
+                Példa: √((-5)²) = √25 = +5 = |-5|. Nem -5!
               </p>
             </TheoryCard>
           </div>
@@ -204,7 +220,7 @@ export const SquareRootTheory: React.FC<SquareRootTheoryProps> = ({
       >
         <div className="space-y-4">
           <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-            A négyzetgyökvonás tulajdonképpen a hatványozás fordított művelete (később látni fogjuk, hogy $\sqrt{a} = a^{1/2}$).
+            A négyzetgyökvonás tulajdonképpen a hatványozás fordított művelete (később látni fogjuk, hogy √a = a¹/²).
             Ezért a hatványozási azonosságok közvetlen megfelelői érvényesek rá, de <strong>kizárólag szorzásra és osztásra</strong>!
           </p>
 
@@ -267,7 +283,7 @@ export const SquareRootTheory: React.FC<SquareRootTheoryProps> = ({
               badgeColor="purple"
             >
               <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                Bontsd fel a számot egy négyzetszám ($4, 9, 16, 25, 36 \dots$) és egy maradék szorzatára:
+                Bontsd fel a számot egy négyzetszám (4, 9, 16, 25, 36...) és egy maradék szorzatára:
               </p>
               <div className="font-mono text-xs text-purple-700 dark:text-purple-300 my-1 font-bold">
                 √72 = √(36 · 2) = 6√2

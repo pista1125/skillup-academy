@@ -532,7 +532,7 @@ export const ScientificNotationQuiz: React.FC<ScientificNotationQuizProps> = ({
           </div>
         </CheatSheetCard>
       ]}
-      gameModes={[
+      customGameModes={[
         {
           id: 'matcher',
           title: 'Párosító Játék',

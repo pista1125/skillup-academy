@@ -534,7 +534,7 @@ export const SquareRootQuiz: React.FC<SquareRootQuizProps> = ({
           </div>
         </CheatSheetCard>
       ]}
-      gameModes={[
+      customGameModes={[
         {
           id: 'matcher',
           title: 'Párosító Játék',

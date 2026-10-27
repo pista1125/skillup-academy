@@ -152,7 +152,7 @@ export const PowersTheory: React.FC<PowersTheoryProps> = ({
             <TheoryCard title="A Pozitív Egész Kitevőjű Hatvány Meghatározása" variant="formula" themeColor="purple">
               <div className="space-y-3 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
                 <p>
-                  Legyen $a \in \mathbb{R}$ valós szám és $n \in \mathbb{Z}^+$ pozitív egész szám:
+                  Legyen a ∈ ℝ valós szám és n ∈ ℤ⁺ pozitív egész szám:
                 </p>
 
                 <div className="p-3 rounded-xl bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 text-center font-mono font-black text-purple-900 dark:text-purple-200 text-lg">
@@ -177,8 +177,8 @@ export const PowersTheory: React.FC<PowersTheoryProps> = ({
         <TheoryCallout title="A Zárójel Élet-Halál Kérdés! (-2)⁴ vs -2⁴" variant="warning">
           Gyakori érettségi hiba a negatív alapok zárójel nélküli felírása:
           <ul className="list-disc pl-5 mt-1 space-y-0.5">
-            <li><strong>$(-2)^4 = (-2) \cdot (-2) \cdot (-2) \cdot (-2) = \mathbf{+16}$</strong>: A 4-es kitevő a mínuszjelre is vonatkozik (páros kitevőnél pozitív!).</li>
-            <li><strong>$-2^4 = -(2 \cdot 2 \cdot 2 \cdot 2) = \mathbf{-16}$</strong>: A 4-es kitevő CSAK a 2-re vonatkozik, a mínuszjel előtte marad!</li>
+            <li><strong>(-2)⁴ = (-2) · (-2) · (-2) · (-2) = +16</strong>: A 4-es kitevő a mínuszjelre is vonatkozik (páros kitevőnél pozitív!).</li>
+            <li><strong>-2⁴ = -(2 · 2 · 2 · 2) = -16</strong>: A 4-es kitevő CSAK a 2-re vonatkozik, a mínuszjel előtte marad!</li>
           </ul>
         </TheoryCallout>
       </TheorySection>

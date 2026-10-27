@@ -180,8 +180,11 @@ export interface QuizTemplateProps {
   easyQuestions?: QuizQuestion[];
   mediumQuestions?: QuizQuestion[];
   hardQuestions?: QuizQuestion[];
+  gameModes?: CustomGameMode[];
   customGameModes?: CustomGameMode[];
   customModes?: CustomGameMode[];
+  onSwitchToMatcher?: () => void;
+  onSwitchToSorter?: () => void;
   matcherComponent?: React.ReactNode;
   sorterComponent?: React.ReactNode;
   renderMatcher?: (props: any) => React.ReactNode;
@@ -231,8 +234,11 @@ export function QuizTemplate({
   easyQuestions,
   mediumQuestions,
   hardQuestions,
+  gameModes: propGameModes,
   customGameModes: propCustomGameModes,
   customModes,
+  onSwitchToMatcher,
+  onSwitchToSorter,
   matcherComponent,
   sorterComponent,
   renderMatcher,
@@ -242,7 +248,7 @@ export function QuizTemplate({
 }: QuizTemplateProps) {
   const displayTitle = title || (topicTitle ? topicTitle.replace(/^9\.\s*Osztály\s*[-–•]\s*/i, '') : '');
   const displaySubtitle = subtitle || description;
-  const customGameModes = propCustomGameModes || customModes;
+  const customGameModes = propCustomGameModes || customModes || propGameModes;
   const levels = propLevels || levelsConfig || levelConfigs;
   const { user, profile } = useAuth();
   const { getTopicProgress } = useQuizProgress();
@@ -657,6 +663,15 @@ export function QuizTemplate({
           return null;
         }
       });
+    } else if (onSwitchToMatcher && !modes.some(m => m.id === 'matcher')) {
+      modes.push({
+        id: 'matcher',
+        title: 'Párosító játék',
+        subtitle: 'Keresd meg az összetartozó párokat!',
+        icon: <ArrowRightLeft className="w-4 h-4 text-indigo-500" />,
+        badgeText: 'Párosítás',
+        onClick: onSwitchToMatcher
+      });
     }
     if ((sorterComponent || renderSorter) && !modes.some(m => m.id === 'sorter')) {
       modes.push({
@@ -715,9 +730,18 @@ export function QuizTemplate({
           return null;
         }
       });
+    } else if (onSwitchToSorter && !modes.some(m => m.id === 'sorter')) {
+      modes.push({
+        id: 'sorter',
+        title: 'Csoportosító játék',
+        subtitle: 'Válogasd szét a kategóriákba!',
+        icon: <Layers className="w-4 h-4 text-emerald-500" />,
+        badgeText: 'Kategorizálás',
+        onClick: onSwitchToSorter
+      });
     }
     return modes;
-  }, [customGameModes, matcherComponent, sorterComponent, renderMatcher, renderSorter, selectedLevel, onBack, onSwitchToTheory]);
+  }, [customGameModes, matcherComponent, sorterComponent, renderMatcher, renderSorter, onSwitchToMatcher, onSwitchToSorter, selectedLevel, onBack, onSwitchToTheory]);
 
   // Fullscreen toggler
   const toggleFullscreen = async () => {

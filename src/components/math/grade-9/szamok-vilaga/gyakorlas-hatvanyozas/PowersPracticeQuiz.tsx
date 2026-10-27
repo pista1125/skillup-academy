@@ -495,6 +495,8 @@ export const PowersPracticeQuiz: React.FC<PowersPracticeQuizProps> = ({
       levels={quizLevels}
       onBack={onBack}
       onSwitchToTheory={onSwitchToTheory}
+      onSwitchToMatcher={onSwitchToMatcher}
+      onSwitchToSorter={onSwitchToSorter}
       themeColor="rose"
       cheatSheetCards={[
         <CheatSheetCard
@@ -538,7 +540,7 @@ export const PowersPracticeQuiz: React.FC<PowersPracticeQuizProps> = ({
           </div>
         </CheatSheetCard>
       ]}
-      gameModes={[
+      customGameModes={[
         {
           id: 'matcher',
           title: 'Párosító Játék',

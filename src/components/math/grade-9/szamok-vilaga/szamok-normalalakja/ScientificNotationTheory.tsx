@@ -158,6 +158,23 @@ export const ScientificNotationTheory: React.FC<ScientificNotationTheoryProps> =
       onBack={onBack}
       onStartQuiz={onStartQuiz}
       quizButtonText="Gyakorló Kvíz Indítása"
+      quickRule={{
+        label: 'A Normálalak Alapképlete és Feltétele',
+        align: 'left',
+        formula: (
+          <div className="flex flex-col gap-1 text-left font-bold text-xs sm:text-sm">
+            <div>
+              <span className="text-emerald-600 dark:text-emerald-400 font-black">Alapképlet: </span>
+              <span className="font-mono text-slate-800 dark:text-slate-200">a · 10ᵏ</span>
+              <span className="text-slate-500 text-xs ml-1.5">(1 ≤ |a| &lt; 10, k ∈ ℤ)</span>
+            </div>
+            <div>
+              <span className="text-blue-600 dark:text-blue-400 font-black">Léptetés: </span>
+              <span className="text-slate-700 dark:text-slate-300 text-xs font-semibold">Balra: +k (≥10) &nbsp;|&nbsp; Jobbra: −k (&lt;1)</span>
+            </div>
+          </div>
+        )
+      }}
     >
       {/* 1. SZEKCIÓ: MIÉRT VAN SZÜKSÉG NORMÁLALAKRA? */}
       <TheorySection
@@ -182,11 +199,11 @@ export const ScientificNotationTheory: React.FC<ScientificNotationTheoryProps> =
               badgeColor="blue"
             >
               <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                A Nap tömege: <strong>$1\,989\,000\,000\,000\,000\,000\,000\,000\,000\,000\text{ kg}$</strong>.
+                A Nap tömege: <strong>1 989 000 000 000 000 000 000 000 000 000 kg</strong>.
                 Könnyű eltéveszteni a 30 darab nullát!
               </p>
               <div className="bg-blue-50 dark:bg-blue-950/40 p-2 rounded text-center font-mono text-xs my-2 font-bold text-blue-700 dark:text-blue-300">
-                Normálalakban: $1,989 \cdot 10^{30}\text{ kg}$
+                Normálalakban: 1,989 · 10³⁰ kg
               </div>
             </TheoryCard>
 
@@ -196,11 +213,11 @@ export const ScientificNotationTheory: React.FC<ScientificNotationTheoryProps> =
               badgeColor="purple"
             >
               <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                Egy elektron tömege: <strong>$0,000000000000000000000000000000911\text{ kg}$</strong>.
+                Egy elektron tömege: <strong>0,000000000000000000000000000000911 kg</strong>.
                 Átláthatatlan tizedesjegyek sokasága!
               </p>
               <div className="bg-purple-50 dark:bg-purple-950/40 p-2 rounded text-center font-mono text-xs my-2 font-bold text-purple-700 dark:text-purple-300">
-                Normálalakban: $9,11 \cdot 10^{-31}\text{ kg}$
+                Normálalakban: 9,11 · 10⁻³¹ kg
               </div>
             </TheoryCard>
           </div>

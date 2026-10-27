@@ -720,12 +720,18 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = (props) => {
   const displayBadge =
     badgeText || badge || topicBadge || '9. OSZTÁLY • II. A SZÁMOK VILÁGA • TANANYAG';
   const displaySubtitle = subtitle || description;
+  const rawRule = quickRule || (props as any).rule || (ruleFormula ? { label: ruleTitle || 'Alaptétel', formula: ruleFormula } : undefined);
   const displayRule: {
     label: string;
     formula: string | React.ReactNode;
     align?: 'left' | 'right' | 'center';
-  } | undefined =
-    quickRule || (ruleFormula ? { label: ruleTitle || 'Alaptétel', formula: ruleFormula } : undefined);
+  } | undefined = rawRule
+    ? {
+        label: rawRule.label || rawRule.title || 'Alaptétel',
+        formula: rawRule.formula,
+        align: rawRule.align || 'right'
+      }
+    : undefined;
 
   const [isDownloading, setIsDownloading] = useState(false);
   const styles = colorStyles[themeColor] || colorStyles.amber;
