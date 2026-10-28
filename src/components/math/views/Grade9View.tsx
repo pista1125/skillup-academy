@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { GradeViewProps } from './types';
 import { SectionHeader } from '@/components/math/shared/SectionHeader';
 import { ActivityPlaceholder } from '@/components/math/shared/ActivityPlaceholder';
@@ -753,31 +753,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-betuk-szerepe" number={1} title="A betűk szerepe a számolásban" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Változók és Formulák"
-                subtitle="Betűk mint változó mennyiségek és képletek felírása"
-                type="Hamarosan"
-                emoji="🔤"
-                disabled={true}
-                icon={<Variable className="w-6 h-6" />}
+                title="A Betűk Szerepe a Számolásban Tananyag"
+                subtitle="Monomok, polinomok, együtthatók, kitevők és helyettesítési érték"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g9-egyenlet-betuk-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
               />
               <ActivityPlaceholder
-                title="Helyettesítési Érték"
-                subtitle="Számok behelyettesítése és pontos kiszámítása"
-                type="Hamarosan"
-                emoji="🔢"
-                disabled={true}
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, műveleti sorrenddel és előjeles számításokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-egyenlet-betuk-quiz', topicId)}
                 icon={<Calculator className="w-6 h-6" />}
                 color="indigo"
-              />
-              <ActivityPlaceholder
-                title="Egytagú és Többtagú Kifejezések"
-                subtitle="Monomok és polinomok alapszerkezete"
-                type="Hamarosan"
-                emoji="📦"
-                disabled={true}
-                icon={<Boxes className="w-6 h-6" />}
-                color="sky"
+                {...getTopicProgress('g9-egyenlet-betuk-quiz')}
               />
             </div>
           </section>
@@ -789,31 +781,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-algebrai-szamolas" number={2} title="Számolás az algebrában" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Egynemű Tagok Összevonása"
-                subtitle="Azonos betűrészű tagok előjeles összeadása"
-                type="Hamarosan"
-                emoji="➕"
-                disabled={true}
-                icon={<Split className="w-6 h-6" />}
+                title="Számolás az Algebrában Tananyag"
+                subtitle="Egynemű tagok összevonása, polinomok szorzása és zárójelfelbontás"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g9-egyenlet-algebrai-szamolas-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="cyan"
               />
               <ActivityPlaceholder
-                title="Polinomok Szorzása"
-                subtitle="Minden tagot minden taggal: (a+b)(c+d) szabály"
-                type="Hamarosan"
-                emoji="✖️"
-                disabled={true}
-                icon={<Shuffle className="w-6 h-6" />}
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, párosító és rendező játékmódokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-egyenlet-algebrai-szamolas-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
                 color="teal"
-              />
-              <ActivityPlaceholder
-                title="Zárójelfelbontás és Előjelek"
-                subtitle="A mínusz előjel veszélyei és zárójelek kezelése"
-                type="Hamarosan"
-                emoji="⚠️"
-                disabled={true}
-                icon={<Layers className="w-6 h-6" />}
-                color="blue"
+                {...getTopicProgress('g9-egyenlet-algebrai-szamolas-quiz')}
               />
             </div>
           </section>
@@ -825,31 +809,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-nevezetes-szorzatok" number={3} title="Nevezetes szorzatok" color="purple" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Kéttagú Összeg és Különbség Négyzete"
-                subtitle="(a ± b)² = a² ± 2ab + b² azonosságok"
-                type="Hamarosan"
-                emoji="📐"
-                disabled={true}
-                icon={<Sparkles className="w-6 h-6" />}
+                title="Nevezetes Szorzatok Tananyag"
+                subtitle="Összeg és különbség négyzete, négyzetek különbsége és fejszámolási trükkök"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g9-egyenlet-nevezetes-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="purple"
               />
               <ActivityPlaceholder
-                title="Négyzetek Különbsége"
-                subtitle="(a + b)(a - b) = a² - b² és szemléltetés"
-                type="Hamarosan"
-                emoji="✂️"
-                disabled={true}
-                icon={<Compass className="w-6 h-6" />}
-                color="violet"
-              />
-              <ActivityPlaceholder
-                title="Villám Algebrai Szorzások"
-                subtitle="Azonosságok alkalmazása a numerikus fejszámolásban"
-                type="Hamarosan"
-                emoji="⚡"
-                disabled={true}
-                icon={<Zap className="w-6 h-6" />}
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, párosító és rendező játékmódokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-egyenlet-nevezetes-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
                 color="indigo"
+                {...getTopicProgress('g9-egyenlet-nevezetes-quiz')}
               />
             </div>
           </section>
@@ -861,31 +837,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-szorzatta-alakitas" number={4} title="Szorzattá alakítás" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Közös Tényező Kiemelése"
-                subtitle="Legnagyobb közös osztó kiemelése a zárójel elé"
-                type="Hamarosan"
-                emoji="📤"
-                disabled={true}
-                icon={<Layers className="w-6 h-6" />}
+                title="Szorzattá Alakítás Tananyag"
+                subtitle="Közös tényező kiemelése, nevezetes azonosságok és csoportosítás"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g9-egyenlet-szorzatta-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
               />
               <ActivityPlaceholder
-                title="Azonosságok Visszafelé"
-                subtitle="a² - b² és teljes négyzetek felismerése"
-                type="Hamarosan"
-                emoji="🔍"
-                disabled={true}
-                icon={<Target className="w-6 h-6" />}
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, párosító és rendező játékmódokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-egyenlet-szorzatta-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
                 color="purple"
-              />
-              <ActivityPlaceholder
-                title="Csoportosításos Módszer"
-                subtitle="Tagok párosítása és többlépcsős kiemelés"
-                type="Hamarosan"
-                emoji="🧩"
-                disabled={true}
-                icon={<Brain className="w-6 h-6" />}
-                color="indigo"
+                {...getTopicProgress('g9-egyenlet-szorzatta-quiz')}
               />
             </div>
           </section>
@@ -897,31 +865,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-egyenletek-alap" number={5} title="Egyenletek" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Egyenlet, Azonosság, Ellentmondás"
-                subtitle="Kifejezések egyenlősége és a gyök fogalma"
-                type="Hamarosan"
+                title="Egyenletek Alapjai Tananyag"
+                subtitle="Egyenlet, azonosság, ellentmondás, gyök, ellenőrzés és grafikus ábrázolás"
+                type="Tananyag"
                 emoji="⚖️"
-                disabled={true}
-                icon={<Scale className="w-6 h-6" />}
+                onClick={() => onActivitySelect('g9-egyenlet-alap-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
               />
               <ActivityPlaceholder
-                title="A Gyök és az Ellenőrzés"
-                subtitle="Helyettesítés az eredeti egyenlet mindkét oldalába"
-                type="Hamarosan"
-                emoji="✅"
-                disabled={true}
-                icon={<CheckCircle2 className="w-6 h-6" />}
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, azonosság, gyök és ellenőrzés gyakorlása"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-egyenlet-alap-quiz', topicId)}
+                icon={<Scale className="w-6 h-6" />}
                 color="teal"
-              />
-              <ActivityPlaceholder
-                title="Grafikus Egyenletmegoldás Alapjai"
-                subtitle="A két oldal egy-egy függvényként való metszése"
-                type="Hamarosan"
-                emoji="📈"
-                disabled={true}
-                icon={<TrendingUp className="w-6 h-6" />}
-                color="green"
+                {...getTopicProgress('g9-egyenlet-alap-quiz')}
               />
             </div>
           </section>
@@ -933,31 +893,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-problemamegoldas-egyenletekkel" number={6} title="Problémamegoldás egyenletekkel" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Szövegből Egyenlet"
-                subtitle="Ismeretlen megválasztása és matematikai modell"
-                type="Hamarosan"
-                emoji="📝"
-                disabled={true}
+                title="Problémamegoldás Egyenletekkel Tananyag"
+                subtitle="Szövegértés, modellalkotás, életkoros, keverési és mozgásos feladatok"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g9-egyenlet-problemamegoldas-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
               />
               <ActivityPlaceholder
-                title="Életkoros és Számos Feladatok"
-                subtitle="Klasszikus szöveges egyenletek levezetése"
-                type="Hamarosan"
-                emoji="🎂"
-                disabled={true}
-                icon={<Users className="w-6 h-6" />}
-                color="orange"
-              />
-              <ActivityPlaceholder
-                title="Szöveges Ellenőrzés és Válasz"
-                subtitle="A valóságnak megfelelő gyökök elfogadása"
-                type="Hamarosan"
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, párosító és csoportosító játékmódokkal"
+                type="Kvíz"
                 emoji="🎯"
-                disabled={true}
+                onClick={() => onActivitySelect('g9-egyenlet-problemamegoldas-quiz', topicId)}
                 icon={<Target className="w-6 h-6" />}
-                color="yellow"
+                color="orange"
+                {...getTopicProgress('g9-egyenlet-problemamegoldas-quiz')}
               />
             </div>
           </section>
@@ -969,31 +921,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-alaphalmaz-megoldashalmaz" number={7} title="Alaphalmaz, értelmezési tartomány, megoldáshalmaz" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Alaphalmaz és Kikötések"
-                subtitle="A = R és a nullával való osztás szigorú kizárása"
-                type="Hamarosan"
-                emoji="🚫"
-                disabled={true}
-                icon={<CircleDot className="w-6 h-6" />}
+                title="Alaphalmaz és Megoldáshalmaz Tananyag"
+                subtitle="Kikötések, nullával való osztás és négyzetgyökök kizárásai, halmazok kapcsolata"
+                type="Tananyag"
+                emoji="🔒"
+                onClick={() => onActivitySelect('g9-egyenlet-alaphalmaz-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
               />
               <ActivityPlaceholder
-                title="Értelmezési Tartomány (É.T.)"
-                subtitle="Törtes kifejezések és feltételek felírása"
-                type="Hamarosan"
-                emoji="🛡️"
-                disabled={true}
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, párosító és csoportosító játékmódokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-egyenlet-alaphalmaz-quiz', topicId)}
                 icon={<Lock className="w-6 h-6" />}
                 color="pink"
-              />
-              <ActivityPlaceholder
-                title="Megoldáshalmaz és Hamis Gyökök"
-                subtitle="M halmaz felírása, üres halmaz és ekvivalencia"
-                type="Hamarosan"
-                emoji="📦"
-                disabled={true}
-                icon={<Boxes className="w-6 h-6" />}
-                color="red"
+                {...getTopicProgress('g9-egyenlet-alaphalmaz-quiz')}
               />
             </div>
           </section>
@@ -1005,31 +949,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-egyenletek-megoldasa" number={8} title="Egyenletek megoldása" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A Mérlegelv Mesterei"
-                subtitle="Ekvivalens átalakítások mindkét oldalon lépésről lépésre"
-                type="Hamarosan"
+                title="Egyenletek Megoldása Tananyag"
+                subtitle="Az 5 lépéses algoritmus, zárójelbontás, közös nevező és ekvivalens mérlegelv"
+                type="Tananyag"
                 emoji="⚖️"
-                disabled={true}
-                icon={<Scale className="w-6 h-6" />}
+                onClick={() => onActivitySelect('g9-egyenlet-megoldasa-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
               />
               <ActivityPlaceholder
-                title="Zárójeles és Törtes Egyenletek"
-                subtitle="Közös nevezővel beszorzás és szisztematikus rendezés"
-                type="Hamarosan"
-                emoji="➗"
-                disabled={true}
-                icon={<Divide className="w-6 h-6" />}
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, párosító és csoportosító játékmódokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-egyenlet-megoldasa-quiz', topicId)}
+                icon={<Scale className="w-6 h-6" />}
                 color="cyan"
-              />
-              <ActivityPlaceholder
-                title="Egyenletmegoldó Bajnokság"
-                subtitle="Középiskolai elsőfokú típusfeladatok megoldása"
-                type="Hamarosan"
-                emoji="⚡"
-                disabled={true}
-                icon={<Zap className="w-6 h-6" />}
-                color="emerald"
+                {...getTopicProgress('g9-egyenlet-megoldasa-quiz')}
               />
             </div>
           </section>
@@ -1041,31 +977,51 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-ketismeretlenes-egyenletrendszer" number={9} title="Elsőfokú kétismeretlenes egyenletrendszer" color="red" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Behelyettesítő Módszer"
-                subtitle="Az egyik ismeretlen kifejezése és behelyettesítése"
-                type="Hamarosan"
+                title="Egyenletrendszerek Tananyag"
+                subtitle="Behelyettesítő és egyenlő együtthatók módszere, grafikus metszéspontok"
+                type="Tananyag"
                 emoji="🔄"
-                disabled={true}
-                icon={<Repeat className="w-6 h-6" />}
+                onClick={() => onActivitySelect('g9-egyenlet-rendszerek-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="red"
               />
               <ActivityPlaceholder
-                title="Egyenlő Együtthatók Módszere"
-                subtitle="Együtthatók kiegyenlítése és egyenletek összeadása"
-                type="Hamarosan"
-                emoji="➕"
-                disabled={true}
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, párosító és csoportosító játékmódokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-egyenlet-rendszerek-quiz', topicId)}
                 icon={<Calculator className="w-6 h-6" />}
                 color="rose"
+                {...getTopicProgress('g9-egyenlet-rendszerek-quiz')}
+              />
+            </div>
+          </section>
+        )}
+
+        {/* Section 10: Gyakorlás, tudáspróba */}
+        {(showAll || activeSubSectionId === 'g9-sec-tudasproba-egyenletek' || activeSubSectionId === 'g9-sec-egyenletek-gyakorlas-tudasproba') && (
+          <section>
+            <SectionHeader id="g9-sec-tudasproba-egyenletek" number={10} title="Gyakorlás, tudáspróba" color="purple" />
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              <ActivityPlaceholder
+                title="Összefoglaló Tananyag & Tudáspróba"
+                subtitle="A teljes III. témakör átfogó összefoglalása és felkészítő laboratórium"
+                type="Tananyag"
+                emoji="📚"
+                onClick={() => onActivitySelect('g9-egyenlet-gyakorlas-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
+                color="purple"
               />
               <ActivityPlaceholder
-                title="Egyenletrendszeres Nagydíj & Szöveges Példák"
-                subtitle="Kétismeretlenes szöveges feladványok és záró próba"
-                type="Hamarosan"
+                title="Nagy Tudáspróba Kvíz"
+                subtitle="90 válogatott feladat 3 szinten (szintenként 30 kérdés) a teljes fejezetből"
+                type="Kvíz"
                 emoji="🏆"
-                disabled={true}
+                onClick={() => onActivitySelect('g9-egyenlet-gyakorlas-quiz', topicId)}
                 icon={<Trophy className="w-6 h-6" />}
-                color="amber"
+                color="violet"
+                {...getTopicProgress('g9-egyenlet-gyakorlas-quiz')}
               />
             </div>
           </section>

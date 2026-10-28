@@ -1,2 +1,14 @@
-// Re-exports from subtopics of III. Egyenletek és azonosságok (Grade 9)
-export {};
+export * from './QuizTemplate';
+export * from './TheoryTemplate';
+export * from './MatcherTemplate';
+export * from './SorterTemplate';
+export * from './a-betuk-szerepe-a-szamolasban';
+export * from './szamolas-az-algebraban';
+export * from './nevezetes-szorzatok';
+export * from './szorzatta-alakitas';
+export * from './egyenletek';
+export * from './problemamegoldas-egyenletekkel';
+export * from './alaphalmaz-ertelmezesi-tartomany-megoldashalmaz';
+export * from './egyenletek-megoldasa';
+export * from './elsofoku-ketismeretlenes-egyenletrendszer';
+export * from './gyakorlas-tudasproba';

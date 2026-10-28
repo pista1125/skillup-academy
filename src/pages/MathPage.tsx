@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useMemo, lazy, Suspense } from 'react';
+﻿import { useState, useRef, useEffect, useMemo, lazy, Suspense } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { SectionHeader } from "@/components/math/shared/SectionHeader";
 import { ActivityPlaceholder } from "@/components/math/shared/ActivityPlaceholder";
@@ -809,6 +809,28 @@ const Grade9Chapter2KnowledgeTestTheory = lazy(() => import("@/components/math/g
 const Grade9Chapter2KnowledgeTestQuiz = lazy(() => import("@/components/math/grade-9/szamok-vilaga/gyakorlas-tudasproba/Chapter2KnowledgeTestQuiz").then(m => ({ default: m.Chapter2KnowledgeTestQuiz }))) as any;
 const Grade9Chapter2KnowledgeTestMatcher = lazy(() => import("@/components/math/grade-9/szamok-vilaga/gyakorlas-tudasproba/Chapter2KnowledgeTestMatcher").then(m => ({ default: m.Chapter2KnowledgeTestMatcher }))) as any;
 const Grade9Chapter2KnowledgeTestSorter = lazy(() => import("@/components/math/grade-9/szamok-vilaga/gyakorlas-tudasproba/Chapter2KnowledgeTestSorter").then(m => ({ default: m.Chapter2KnowledgeTestSorter }))) as any;
+const Grade9VariablesTheory = lazy(() => import("@/components/math/grade-9/egyenletek-azonossagok/a-betuk-szerepe-a-szamolasban/VariablesTheory").then(m => ({ default: m.VariablesTheory }))) as any;
+const Grade9VariablesQuiz = lazy(() => import("@/components/math/grade-9/egyenletek-azonossagok/a-betuk-szerepe-a-szamolasban/VariablesQuiz").then(m => ({ default: m.VariablesQuiz }))) as any;
+const Grade9VariablesMatcher = lazy(() => import("@/components/math/grade-9/egyenletek-azonossagok/a-betuk-szerepe-a-szamolasban/VariablesMatcher").then(m => ({ default: m.VariablesMatcher }))) as any;
+const Grade9VariablesSorter = lazy(() => import("@/components/math/grade-9/egyenletek-azonossagok/a-betuk-szerepe-a-szamolasban/VariablesSorter").then(m => ({ default: m.VariablesSorter }))) as any;
+const Grade9AlgebraicOperationsTheory = lazy(() => import("@/components/math/grade-9/egyenletek-azonossagok/szamolas-az-algebraban/AlgebraicOperationsTheory").then(m => ({ default: m.AlgebraicOperationsTheory }))) as any;
+const Grade9AlgebraicOperationsQuiz = lazy(() => import("@/components/math/grade-9/egyenletek-azonossagok/szamolas-az-algebraban/AlgebraicOperationsQuiz").then(m => ({ default: m.AlgebraicOperationsQuiz }))) as any;
+const Grade9SpecialProductsTheory = lazy(() => import("@/components/math/grade-9/egyenletek-azonossagok/nevezetes-szorzatok/SpecialProductsTheory").then(m => ({ default: m.SpecialProductsTheory }))) as any;
+const Grade9SpecialProductsQuiz = lazy(() => import("@/components/math/grade-9/egyenletek-azonossagok/nevezetes-szorzatok/SpecialProductsQuiz").then(m => ({ default: m.SpecialProductsQuiz }))) as any;
+const Grade9FactorizationTheory = lazy(() => import("@/components/math/grade-9/egyenletek-azonossagok/szorzatta-alakitas/FactorizationTheory").then(m => ({ default: m.FactorizationTheory }))) as any;
+const Grade9FactorizationQuiz = lazy(() => import("@/components/math/grade-9/egyenletek-azonossagok/szorzatta-alakitas/FactorizationQuiz").then(m => ({ default: m.FactorizationQuiz }))) as any;
+const Grade9EquationsTheory = lazy(() => import("@/components/math/grade-9/egyenletek-azonossagok/egyenletek/EquationsTheory").then(m => ({ default: m.EquationsTheory }))) as any;
+const Grade9EquationsQuiz = lazy(() => import("@/components/math/grade-9/egyenletek-azonossagok/egyenletek/EquationsQuiz").then(m => ({ default: m.EquationsQuiz }))) as any;
+const Grade9ProblemSolvingTheory = lazy(() => import("@/components/math/grade-9/egyenletek-azonossagok/problemamegoldas-egyenletekkel/ProblemSolvingTheory").then(m => ({ default: m.ProblemSolvingTheory }))) as any;
+const Grade9ProblemSolvingQuiz = lazy(() => import("@/components/math/grade-9/egyenletek-azonossagok/problemamegoldas-egyenletekkel/ProblemSolvingQuiz").then(m => ({ default: m.ProblemSolvingQuiz }))) as any;
+const Grade9DomainTheory = lazy(() => import("@/components/math/grade-9/egyenletek-azonossagok/alaphalmaz-ertelmezesi-tartomany-megoldashalmaz/DomainTheory").then(m => ({ default: m.DomainTheory }))) as any;
+const Grade9DomainQuiz = lazy(() => import("@/components/math/grade-9/egyenletek-azonossagok/alaphalmaz-ertelmezesi-tartomany-megoldashalmaz/DomainQuiz").then(m => ({ default: m.DomainQuiz }))) as any;
+const Grade9SolvingTheory = lazy(() => import("@/components/math/grade-9/egyenletek-azonossagok/egyenletek-megoldasa/SolvingTheory").then(m => ({ default: m.SolvingTheory }))) as any;
+const Grade9SolvingQuiz = lazy(() => import("@/components/math/grade-9/egyenletek-azonossagok/egyenletek-megoldasa/SolvingQuiz").then(m => ({ default: m.SolvingQuiz }))) as any;
+const Grade9LinearSystemsTheory = lazy(() => import("@/components/math/grade-9/egyenletek-azonossagok/elsofoku-ketismeretlenes-egyenletrendszer/LinearSystemsTheory").then(m => ({ default: m.LinearSystemsTheory }))) as any;
+const Grade9LinearSystemsQuiz = lazy(() => import("@/components/math/grade-9/egyenletek-azonossagok/elsofoku-ketismeretlenes-egyenletrendszer/LinearSystemsQuiz").then(m => ({ default: m.LinearSystemsQuiz }))) as any;
+const Grade9PracticeTestTheory = lazy(() => import("@/components/math/grade-9/egyenletek-azonossagok/gyakorlas-tudasproba/PracticeTestTheory").then(m => ({ default: m.PracticeTestTheory }))) as any;
+const Grade9PracticeTestQuiz = lazy(() => import("@/components/math/grade-9/egyenletek-azonossagok/gyakorlas-tudasproba/PracticeTestQuiz").then(m => ({ default: m.PracticeTestQuiz }))) as any;
 
 
 const Grade7CountItTheory = lazy(() => import("@/components/math/grade-7/gondolkodjunk/szamold-ossze/CountingTheory").then(m => ({ default: m.CountingTheory }))) as any;
@@ -1305,6 +1327,16 @@ type ActivityType =
   | 'g9-szamok-normalalak-theory' | 'g9-szamok-normalalak-quiz' | 'g9-szamok-normalalak-matcher' | 'g9-szamok-normalalak-sorter'
   | 'g9-szamok-szamolas-normalalak-theory' | 'g9-szamok-szamolas-normalalak-quiz' | 'g9-szamok-szamolas-normalalak-matcher' | 'g9-szamok-szamolas-normalalak-sorter'
   | 'g9-szamok-kamatos-kamat-theory' | 'g9-szamok-kamatos-kamat-quiz' | 'g9-szamok-kamatos-kamat-matcher' | 'g9-szamok-kamatos-kamat-sorter'
+  | 'g9-egyenlet-betuk-theory' | 'g9-egyenlet-betuk-quiz' | 'g9-egyenlet-betuk-matcher' | 'g9-egyenlet-betuk-sorter'
+  | 'g9-egyenlet-algebrai-szamolas-theory' | 'g9-egyenlet-algebrai-szamolas-quiz'
+  | 'g9-egyenlet-nevezetes-theory' | 'g9-egyenlet-nevezetes-quiz'
+  | 'g9-egyenlet-szorzatta-theory' | 'g9-egyenlet-szorzatta-quiz'
+  | 'g9-egyenlet-alap-theory' | 'g9-egyenlet-alap-quiz'
+  | 'g9-egyenlet-problemamegoldas-theory' | 'g9-egyenlet-problemamegoldas-quiz'
+  | 'g9-egyenlet-alaphalmaz-theory' | 'g9-egyenlet-alaphalmaz-quiz'
+  | 'g9-egyenlet-megoldasa-theory' | 'g9-egyenlet-megoldasa-quiz'
+  | 'g9-egyenlet-rendszerek-theory' | 'g9-egyenlet-rendszerek-quiz'
+  | 'g9-egyenlet-gyakorlas-theory' | 'g9-egyenlet-gyakorlas-quiz'
 
 
   | 'angle-matching' | 'triangle-classification' | 'quadrilateral-classification'
@@ -1920,6 +1952,7 @@ export default function MathPage() {
     } else if (!resolvedTopic && (finalGrade === 9 || selectedGrade === 9 || finalGrade === 'high-1' || selectedGrade === 'high-1')) {
       if (type.startsWith('g9-komb-')) resolvedTopic = 'g9-kombinatorika-halmazok';
       else if (type.startsWith('g9-szamok-')) resolvedTopic = 'g9-szamok-vilaga';
+      else if (type.startsWith('g9-egyenlet-')) resolvedTopic = 'g9-egyenletek-azonossagok';
     }
     if (resolvedTopic) {
       setSelectedTopic(resolvedTopic);
@@ -1996,6 +2029,7 @@ export default function MathPage() {
         } else if (!resolvedTopic && (selectedGrade === 9 || selectedGrade === 'high-1')) {
           if (activityType.startsWith('g9-komb-')) resolvedTopic = 'g9-kombinatorika-halmazok';
           else if (activityType.startsWith('g9-szamok-')) resolvedTopic = 'g9-szamok-vilaga';
+          else if (activityType.startsWith('g9-egyenlet-')) resolvedTopic = 'g9-egyenletek-azonossagok';
         }
         const isExpandable =
           (selectedGrade === 5 && resolvedTopic?.startsWith('g5-')) ||
@@ -11571,8 +11605,175 @@ export default function MathPage() {
                   />
                 )}
 
+                {/* 9. Osztály - III. Egyenletek és azonosságok - 1. A betűk szerepe a számolásban */}
+                {activityType === 'g9-egyenlet-betuk-theory' && (
+                  <Grade9VariablesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-egyenlet-betuk-quiz', selectedTopic || 'g9-egyenletek-azonossagok')}
+                  />
+                )}
 
+                {activityType === 'g9-egyenlet-betuk-quiz' && (
+                  <Grade9VariablesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-egyenlet-betuk-theory', selectedTopic || 'g9-egyenletek-azonossagok')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-egyenlet-betuk-matcher', selectedTopic || 'g9-egyenletek-azonossagok')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-egyenlet-betuk-sorter', selectedTopic || 'g9-egyenletek-azonossagok')}
+                  />
+                )}
 
+                {activityType === 'g9-egyenlet-betuk-matcher' && (
+                  <Grade9VariablesMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-egyenlet-betuk-quiz', selectedTopic || 'g9-egyenletek-azonossagok')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-egyenlet-betuk-theory', selectedTopic || 'g9-egyenletek-azonossagok')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-egyenlet-betuk-sorter', selectedTopic || 'g9-egyenletek-azonossagok')}
+                  />
+                )}
+
+                {activityType === 'g9-egyenlet-betuk-sorter' && (
+                  <Grade9VariablesSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-egyenlet-betuk-quiz', selectedTopic || 'g9-egyenletek-azonossagok')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-egyenlet-betuk-theory', selectedTopic || 'g9-egyenletek-azonossagok')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-egyenlet-betuk-matcher', selectedTopic || 'g9-egyenletek-azonossagok')}
+                  />
+                )}
+
+                {/* 9. Osztály - III. Egyenletek és azonosságok - 2. Számolás az algebrában */}
+                {activityType === 'g9-egyenlet-algebrai-szamolas-theory' && (
+                  <Grade9AlgebraicOperationsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-egyenlet-algebrai-szamolas-quiz', selectedTopic || 'g9-egyenletek-azonossagok')}
+                  />
+                )}
+
+                {activityType === 'g9-egyenlet-algebrai-szamolas-quiz' && (
+                  <Grade9AlgebraicOperationsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-egyenlet-algebrai-szamolas-theory', selectedTopic || 'g9-egyenletek-azonossagok')}
+                  />
+                )}
+
+                {/* 9. Osztály - III. Egyenletek és azonosságok - 3. Nevezetes szorzatok */}
+                {activityType === 'g9-egyenlet-nevezetes-theory' && (
+                  <Grade9SpecialProductsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-egyenlet-nevezetes-quiz', selectedTopic || 'g9-egyenletek-azonossagok')}
+                  />
+                )}
+
+                {activityType === 'g9-egyenlet-nevezetes-quiz' && (
+                  <Grade9SpecialProductsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-egyenlet-nevezetes-theory', selectedTopic || 'g9-egyenletek-azonossagok')}
+                  />
+                )}
+
+                {/* 9. Osztály - III. Egyenletek és azonosságok - 4. Szorzattá alakítás */}
+                {activityType === 'g9-egyenlet-szorzatta-theory' && (
+                  <Grade9FactorizationTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-egyenlet-szorzatta-quiz', selectedTopic || 'g9-egyenletek-azonossagok')}
+                  />
+                )}
+
+                {activityType === 'g9-egyenlet-szorzatta-quiz' && (
+                  <Grade9FactorizationQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-egyenlet-szorzatta-theory', selectedTopic || 'g9-egyenletek-azonossagok')}
+                  />
+                )}
+
+                {/* 9. OsztĂˇly - III. Egyenletek Ă©s azonossĂˇgok - 5. Egyenletek */}
+                {activityType === 'g9-egyenlet-alap-theory' && (
+                  <Grade9EquationsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-egyenlet-alap-quiz', selectedTopic || 'g9-egyenletek-azonossagok')}
+                  />
+                )}
+
+                {activityType === 'g9-egyenlet-alap-quiz' && (
+                  <Grade9EquationsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-egyenlet-alap-theory', selectedTopic || 'g9-egyenletek-azonossagok')}
+                  />
+                )}
+
+                {/* 9. OsztĂˇly - III. Egyenletek Ă©s azonossĂˇgok - 6. ProblĂ©mamegoldĂˇs egyenletekkel */}
+                {activityType === 'g9-egyenlet-problemamegoldas-theory' && (
+                  <Grade9ProblemSolvingTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-egyenlet-problemamegoldas-quiz', selectedTopic || 'g9-egyenletek-azonossagok')}
+                  />
+                )}
+
+                {activityType === 'g9-egyenlet-problemamegoldas-quiz' && (
+                  <Grade9ProblemSolvingQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-egyenlet-problemamegoldas-theory', selectedTopic || 'g9-egyenletek-azonossagok')}
+                  />
+                )}
+
+                {/* 9. OsztĂˇly - III. Egyenletek Ă©s azonossĂˇgok - 7. Alaphalmaz, Ă©rtelmezĂ©si tartomĂˇny, megoldĂˇshalmaz */}
+                {activityType === 'g9-egyenlet-alaphalmaz-theory' && (
+                  <Grade9DomainTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-egyenlet-alaphalmaz-quiz', selectedTopic || 'g9-egyenletek-azonossagok')}
+                  />
+                )}
+
+                {activityType === 'g9-egyenlet-alaphalmaz-quiz' && (
+                  <Grade9DomainQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-egyenlet-alaphalmaz-theory', selectedTopic || 'g9-egyenletek-azonossagok')}
+                  />
+                )}
+
+                {/* 9. OsztĂˇly - III. Egyenletek Ă©s azonossĂˇgok - 8. Egyenletek megoldĂˇsa */}
+                {activityType === 'g9-egyenlet-megoldasa-theory' && (
+                  <Grade9SolvingTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-egyenlet-megoldasa-quiz', selectedTopic || 'g9-egyenletek-azonossagok')}
+                  />
+                )}
+
+                {activityType === 'g9-egyenlet-megoldasa-quiz' && (
+                  <Grade9SolvingQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-egyenlet-megoldasa-theory', selectedTopic || 'g9-egyenletek-azonossagok')}
+                  />
+                )}
+
+                {/* 9. OsztĂˇly - III. Egyenletek Ă©s azonossĂˇgok - 9. ElsĹ‘fokĂş kĂ©tismeretlenes egyenletrendszer */}
+                {activityType === 'g9-egyenlet-rendszerek-theory' && (
+                  <Grade9LinearSystemsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-egyenlet-rendszerek-quiz', selectedTopic || 'g9-egyenletek-azonossagok')}
+                  />
+                )}
+
+                {activityType === 'g9-egyenlet-rendszerek-quiz' && (
+                  <Grade9LinearSystemsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-egyenlet-rendszerek-theory', selectedTopic || 'g9-egyenletek-azonossagok')}
+                  />
+                )}
+
+                {/* 9. Osztály - III. Egyenletek és azonosságok - 10. Gyakorlás, tudáspróba */}
+                {activityType === 'g9-egyenlet-gyakorlas-theory' && (
+                  <Grade9PracticeTestTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-egyenlet-gyakorlas-quiz', selectedTopic || 'g9-egyenletek-azonossagok')}
+                  />
+                )}
+
+                {activityType === 'g9-egyenlet-gyakorlas-quiz' && (
+                  <Grade9PracticeTestQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-egyenlet-gyakorlas-theory', selectedTopic || 'g9-egyenletek-azonossagok')}
+                  />
+                )}
 
                 {activityType === 'number-line' && (
                   <NumberLineTool onBack={handleBack} />
