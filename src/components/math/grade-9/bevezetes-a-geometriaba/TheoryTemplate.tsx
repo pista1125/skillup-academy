@@ -748,35 +748,35 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = (props) => {
   };
 
   return (
-    <div className="w-full px-2 sm:px-4 py-2 animate-in fade-in duration-300 text-left">
+    <div className="w-full px-1.5 sm:px-4 py-1.5 sm:py-2 animate-in fade-in duration-300 text-left">
       {/* Top Header Action Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 mb-4 no-pdf">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 mb-3 sm:mb-4 no-pdf">
         <Button
           variant="ghost"
           size="sm"
           onClick={onBack}
-          className="rounded-xl h-9 px-3 border border-slate-200/80 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300"
+          className="rounded-xl h-8 sm:h-9 px-2.5 sm:px-3 border border-slate-200/80 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300 self-start"
         >
           <ArrowLeft className="w-3.5 h-3.5 mr-1.5" />
-          Vissza a témakörökhöz
+          <span>Vissza a témakörökhöz</span>
         </Button>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 w-full sm:w-auto">
           {handleQuizStart && (
             <Button
               variant="outline"
               size="sm"
               onClick={handleQuizStart}
               className={cn(
-                'rounded-xl h-9 px-3 text-xs sm:text-sm font-bold transition-all',
+                'flex-1 sm:flex-initial rounded-xl h-8 sm:h-9 px-2.5 sm:px-3 text-xs sm:text-sm font-bold transition-all justify-center',
                 styles.buttonQuizBorder,
                 styles.buttonQuizBg,
                 styles.buttonQuizText,
                 styles.buttonQuizHover
               )}
             >
-              <Sparkles className="w-3.5 h-3.5 mr-1.5" />
-              Gyakorló Kvíz indítása
+              <Sparkles className="w-3.5 h-3.5 mr-1 sm:mr-1.5 shrink-0" />
+              <span>Gyakorló Kvíz<span className="hidden sm:inline"> indítása</span></span>
             </Button>
           )}
 
@@ -785,12 +785,18 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = (props) => {
             onClick={handleDownloadPDF}
             disabled={isDownloading}
             className={cn(
-              'rounded-xl h-9 px-3.5 font-bold text-xs sm:text-sm shadow-sm flex items-center gap-1.5 transition-all',
+              'flex-1 sm:flex-initial rounded-xl h-8 sm:h-9 px-2.5 sm:px-3.5 font-bold text-xs sm:text-sm shadow-sm flex items-center justify-center gap-1 sm:gap-1.5 transition-all',
               styles.buttonPdf
             )}
           >
-            <Download className="w-3.5 h-3.5" />
-            {isDownloading ? 'Letöltés...' : 'Tananyag letöltése (PDF)'}
+            <Download className="w-3.5 h-3.5 shrink-0" />
+            <span>
+              {isDownloading ? 'Letöltés...' : (
+                <>
+                  <span className="hidden sm:inline">Tananyag letöltése </span>(PDF)
+                </>
+              )}
+            </span>
           </Button>
         </div>
       </div>
@@ -798,22 +804,22 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = (props) => {
       {/* Main Printable Document Container */}
       <div
         id={documentId}
-        className="bg-white dark:bg-slate-900 rounded-3xl border-2 border-slate-200/80 dark:border-slate-800 p-5 sm:p-8 shadow-sm space-y-8"
+        className="bg-white dark:bg-slate-900 rounded-2xl sm:rounded-3xl border-2 border-slate-200/80 dark:border-slate-800 p-3.5 sm:p-8 shadow-sm space-y-6 sm:space-y-8"
       >
         {/* Document Header */}
-        <div className="border-b border-slate-200 dark:border-slate-800 pb-6 text-center sm:text-left flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="border-b border-slate-200 dark:border-slate-800 pb-5 sm:pb-6 text-center sm:text-left flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex-1 min-w-0">
             <div
               className={cn(
-                'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider mb-2 border',
+                'inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider mb-2 border max-w-full text-center',
                 styles.badgeBg,
                 styles.badgeBorder,
                 styles.badgeText
               )}
             >
-              <span>{displayBadge}</span>
+              <span className="break-words">{displayBadge}</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
               {typeof title === 'string' ? <MathText>{title}</MathText> : title}
             </h1>
             {displaySubtitle && (
@@ -826,19 +832,19 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = (props) => {
           {displayRule && (
             <div
               className={cn(
-                'p-3 sm:p-3.5 rounded-2xl border max-w-full md:max-w-md shrink-0 shadow-sm',
+                'p-3 sm:p-3.5 rounded-xl sm:rounded-2xl border w-full md:w-auto max-w-full md:max-w-md shrink-0 shadow-sm',
                 displayRule.align === 'left'
                   ? 'text-left'
                   : displayRule.align === 'center'
                   ? 'text-center'
-                  : 'text-center md:text-right',
+                  : 'text-left md:text-right',
                 styles.ruleBg,
                 styles.ruleBorder
               )}
             >
               <div
                 className={cn(
-                  'text-[11px] font-bold text-slate-400 uppercase tracking-wider',
+                  'text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1',
                   displayRule.align === 'left' ? 'text-left' : ''
                 )}
               >
@@ -846,7 +852,7 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = (props) => {
               </div>
               <div
                 className={cn(
-                  'text-sm sm:text-base font-bold break-words leading-snug whitespace-normal mt-0.5 tracking-tight',
+                  'text-xs sm:text-sm md:text-base font-bold break-words leading-snug whitespace-normal mt-0.5 tracking-tight',
                   displayRule.align === 'left' ? 'text-left' : '',
                   styles.ruleText
                 )}
@@ -880,19 +886,19 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = (props) => {
         {/* Practice Callout Banner */}
         <div
           className={cn(
-            'p-6 rounded-2xl text-white text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg bg-gradient-to-r',
+            'p-4 sm:p-6 rounded-2xl text-white text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 shadow-lg bg-gradient-to-r',
             styles.calloutGradient,
             styles.calloutShadow
           )}
         >
           <div>
-            <h3 className="text-lg font-black">{practiceTitle}</h3>
+            <h3 className="text-base sm:text-lg font-black">{practiceTitle}</h3>
             <p className="text-xs sm:text-sm opacity-90 mt-0.5">{practiceSubtitle}</p>
           </div>
           {handleQuizStart && (
             <Button
               onClick={handleQuizStart}
-              className="bg-white text-slate-900 hover:bg-slate-100 font-black rounded-xl h-10 px-5 shadow-sm text-sm shrink-0"
+              className="w-full sm:w-auto bg-white text-slate-900 hover:bg-slate-100 font-black rounded-xl h-9 sm:h-10 px-4 sm:px-5 shadow-sm text-xs sm:text-sm shrink-0"
             >
               <Sparkles className="w-4 h-4 mr-1.5 text-amber-500" />
               {practiceButtonText}

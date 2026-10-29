@@ -125,24 +125,26 @@ export const PlaneGeometryTheory: React.FC<PlaneGeometryTheoryProps> = ({
         align: 'left',
         formula: (
           <div className="flex flex-col gap-1.5 text-left font-bold text-xs sm:text-sm">
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap sm:flex-nowrap items-baseline sm:items-center gap-x-2 gap-y-0.5">
               <span className="text-blue-600 dark:text-blue-400 font-black">Csúcsszögek:</span>
               <span className="font-mono text-slate-800 dark:text-slate-100">α = α'</span>
-              <span className="text-slate-500 font-normal text-xs">(mindig egyenlők)</span>
+              <span className="text-slate-500 font-normal text-[11px] sm:text-xs">(mindig egyenlők)</span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap sm:flex-nowrap items-baseline sm:items-center gap-x-2 gap-y-0.5">
               <span className="text-amber-600 dark:text-amber-400 font-black">Mellékszögek:</span>
               <span className="font-mono text-slate-800 dark:text-slate-100">α + β = 180°</span>
-              <span className="text-slate-500 font-normal text-xs">(összegük egyenesszög)</span>
+              <span className="text-slate-500 font-normal text-[11px] sm:text-xs">(összegük egyenesszög)</span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap sm:flex-nowrap items-baseline sm:items-center gap-x-2 gap-y-0.5">
               <span className="text-emerald-600 dark:text-emerald-400 font-black">Pótszögek:</span>
               <span className="font-mono text-slate-800 dark:text-slate-100">α + β = 90°</span>
-              <span className="text-slate-500 font-normal text-xs">(összegük derékszög)</span>
+              <span className="text-slate-500 font-normal text-[11px] sm:text-xs">(összegük derékszög)</span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap sm:flex-nowrap items-baseline sm:items-center gap-x-2 gap-y-0.5">
               <span className="text-purple-600 dark:text-purple-400 font-black">Párhuzamos szárú szögek (e ∥ f):</span>
-              <span className="font-mono text-slate-800 dark:text-slate-100">váltószögek (Z) & egyállásúak (F) egyenlők</span>
+              <span className="text-slate-700 dark:text-slate-300 font-semibold text-[11px] sm:text-xs">
+                váltószögek (Z) & egyállásúak (F) egyenlők
+              </span>
             </div>
           </div>
         )

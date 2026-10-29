@@ -912,12 +912,12 @@ export function MatcherTemplate({
       {/* Cards Grid */}
       {!isCompleted && !isGameOver && (
         <div className={cn(
-          "grid gap-2 sm:gap-2.5",
+          "grid gap-1.5 sm:gap-2.5",
           cards.length <= 12
-            ? "grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
+            ? "grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
             : cards.length <= 16
-            ? "grid-cols-2 sm:grid-cols-4 lg:grid-cols-4"
-            : "grid-cols-2 sm:grid-cols-4 lg:grid-cols-5"
+            ? "grid-cols-3 sm:grid-cols-4 lg:grid-cols-4"
+            : "grid-cols-3 min-[440px]:grid-cols-4 sm:grid-cols-4 lg:grid-cols-5"
         )}>
           {cards.map((card) => {
             let cardClass = theme.cardBase;
@@ -943,7 +943,7 @@ export function MatcherTemplate({
                 disabled={card.isMatched || isChecking}
                 title={typeof card.content === 'string' ? card.content : undefined}
                 className={cn(
-                  'min-h-[84px] sm:min-h-[96px] lg:min-h-[104px] p-2 sm:p-2.5 rounded-xl font-medium text-xs sm:text-sm transition-all duration-200 flex flex-col items-center justify-center text-center select-none shadow-xs relative border-2 cursor-pointer overflow-hidden',
+                  'min-h-[66px] sm:min-h-[96px] lg:min-h-[104px] p-1.5 sm:p-2.5 rounded-xl font-medium text-xs sm:text-sm transition-all duration-200 flex flex-col items-center justify-center text-center select-none shadow-xs relative border-2 cursor-pointer overflow-hidden',
                   cardClass
                 )}
               >
@@ -955,28 +955,28 @@ export function MatcherTemplate({
                   )}
 
                   {card.figure ? (
-                    <div className="flex flex-col items-center justify-center gap-1.5 w-full h-full">
+                    <div className="flex flex-col items-center justify-center gap-1 sm:gap-1.5 w-full h-full">
                       <div className={cn(
-                        "h-12 sm:h-14 w-full max-w-[100px] flex items-center justify-center overflow-hidden p-1 rounded-xl bg-white/95 dark:bg-slate-900 border shadow-2xs shrink-0 transition-transform",
+                        "h-8 sm:h-14 w-full max-w-[75px] sm:max-w-[100px] flex items-center justify-center overflow-hidden p-0.5 sm:p-1 rounded-lg sm:rounded-xl bg-white/95 dark:bg-slate-900 border shadow-2xs shrink-0 transition-transform",
                         "[&_*]:max-h-full [&_*]:max-w-full [&_svg]:!w-full [&_svg]:!h-full [&_svg]:!max-h-full [&_svg]:!max-w-full [&_svg]:object-contain [&_div]:!w-full [&_div]:!h-full [&_div]:flex [&_div]:items-center [&_div]:justify-center",
                         theme.figureBorder
                       )}>
                         {card.figure}
                       </div>
                       {card.content && (
-                        <span className="leading-snug font-bold text-[11px] sm:text-xs break-words line-clamp-3 text-slate-800 dark:text-slate-100">
+                        <span className="leading-tight font-bold text-[10px] sm:text-xs break-words line-clamp-2 sm:line-clamp-3 text-slate-800 dark:text-slate-100">
                           {typeof card.content === 'string' ? <MathText size="sm">{card.content}</MathText> : card.content}
                         </span>
                       )}
                     </div>
                   ) : (
-                    <span className="leading-snug font-bold text-xs sm:text-[13px] break-words line-clamp-4 text-slate-800 dark:text-slate-100">
-                      {typeof card.content === 'string' ? <MathText size="md">{card.content}</MathText> : card.content}
+                    <span className="leading-tight sm:leading-snug font-bold text-[11px] sm:text-[13px] break-words line-clamp-3 sm:line-clamp-4 text-slate-800 dark:text-slate-100 px-0.5">
+                      {typeof card.content === 'string' ? <MathText size="sm">{card.content}</MathText> : card.content}
                     </span>
                   )}
 
                   {card.isMatched && (
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 absolute top-0.5 right-0.5" />
+                    <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-600 dark:text-emerald-400 absolute top-0.5 right-0.5" />
                   )}
                 </div>
               </button>

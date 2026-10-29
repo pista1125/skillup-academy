@@ -699,7 +699,7 @@ export function SorterTemplate({
                 )}
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-2.5">
+              <div className="grid grid-cols-2 min-[440px]:grid-cols-3 sm:grid-cols-2 lg:grid-cols-3 gap-1.5 sm:gap-2.5">
                 {unassignedItems.map((item) => {
                   const isSelected = selectedItem?.id === item.id;
                   const isShaking = shakingItemId === item.id;
@@ -712,8 +712,8 @@ export function SorterTemplate({
                       onClick={() => setSelectedItem(isSelected ? null : item)}
                       title={typeof labelText === 'string' ? labelText : undefined}
                       className={cn(
-                        'p-2 sm:p-2.5 rounded-xl transition-all border-2 shadow-xs cursor-pointer flex items-center h-full min-h-[60px] sm:min-h-[66px] select-none',
-                        item.figure ? 'text-left gap-2.5 sm:gap-3' : 'justify-center text-center',
+                        'p-1.5 sm:p-2.5 rounded-xl transition-all border-2 shadow-xs cursor-pointer flex items-center h-full min-h-[46px] sm:min-h-[66px] select-none',
+                        item.figure ? 'text-left gap-1.5 sm:gap-3' : 'justify-center text-center',
                         isShaking && 'animate-shake bg-rose-100 border-rose-500 text-rose-950',
                         isSelected
                           ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white border-purple-700 shadow-md scale-[1.02] ring-4 ring-purple-300 dark:ring-purple-800'
@@ -722,7 +722,7 @@ export function SorterTemplate({
                     >
                       {item.figure && (
                         <div className={cn(
-                          'w-12 h-12 sm:w-14 sm:h-14 shrink-0 overflow-hidden flex items-center justify-center rounded-xl border transition-colors p-1 shadow-2xs [&_*]:max-h-full [&_*]:max-w-full [&_svg]:!w-full [&_svg]:!h-full [&_svg]:!max-h-full [&_svg]:!max-w-full [&_svg]:object-contain [&_div]:!w-full [&_div]:!h-full [&_div]:flex [&_div]:items-center [&_div]:justify-center',
+                          'w-9 h-9 sm:w-14 sm:h-14 shrink-0 overflow-hidden flex items-center justify-center rounded-xl border transition-colors p-0.5 sm:p-1 shadow-2xs [&_*]:max-h-full [&_*]:max-w-full [&_svg]:!w-full [&_svg]:!h-full [&_svg]:!max-h-full [&_svg]:!max-w-full [&_svg]:object-contain [&_div]:!w-full [&_div]:!h-full [&_div]:flex [&_div]:items-center [&_div]:justify-center',
                           isSelected
                             ? 'bg-white text-slate-900 border-purple-300 shadow-xs'
                             : 'bg-white dark:bg-slate-900/90 border-purple-200 dark:border-slate-700'
@@ -732,7 +732,7 @@ export function SorterTemplate({
                       )}
                       {labelText && (
                         <span className={cn(
-                          "font-bold text-sm sm:text-base leading-snug line-clamp-3 break-words flex items-center justify-center",
+                          "font-bold text-xs sm:text-base leading-snug line-clamp-3 break-words flex items-center justify-center",
                           item.figure ? "flex-1 text-left" : "w-full text-center"
                         )}>
                           {typeof labelText === 'string' ? <MathText size="md">{labelText}</MathText> : labelText}
@@ -745,14 +745,14 @@ export function SorterTemplate({
             </div>
           )}
 
-          {/* Category Drop Buckets */}
+          {/* Category Drop Buckets in 1 Single Row */}
           <div className={cn(
-            'grid gap-2.5 sm:gap-3',
+            'grid gap-1.5 sm:gap-3',
             currentConfig.categories.length === 4
-              ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'
+              ? 'grid-cols-4'
               : currentConfig.categories.length === 2
-              ? 'grid-cols-1 sm:grid-cols-2'
-              : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3'
+              ? 'grid-cols-2'
+              : 'grid-cols-3'
           )}>
             {currentConfig.categories.map((cat, catIdx) => {
               const itemsInCat = categorizedItems[cat.id] || [];
@@ -768,7 +768,7 @@ export function SorterTemplate({
                     }
                   }}
                   className={cn(
-                    'rounded-2xl p-3 border-2 transition-all flex flex-col justify-between min-h-[140px] select-none',
+                    'rounded-xl sm:rounded-2xl p-1.5 sm:p-3 border-2 transition-all flex flex-col justify-between min-h-[110px] sm:min-h-[140px] select-none',
                     theme.border,
                     theme.bg,
                     selectedItem
@@ -776,33 +776,33 @@ export function SorterTemplate({
                       : 'shadow-xs'
                   )}
                 >
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between gap-1.5">
+                  <div className="space-y-1.5 sm:space-y-2">
+                    <div className="flex items-center justify-between gap-1">
                       <span className={cn(
-                        'px-2.5 py-0.5 rounded-lg text-[10px] sm:text-[11px] font-black uppercase tracking-wider border leading-tight',
+                        'px-1.5 sm:px-2.5 py-0.5 rounded-lg text-[9px] sm:text-[11px] font-black uppercase tracking-wider border leading-tight truncate',
                         cat.badgeColor || theme.badge
                       )}>
                         {typeof catName === 'string' ? <MathText size="sm">{catName}</MathText> : catName}
                       </span>
-                      <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 shrink-0">
-                        {itemsInCat.length} elem
+                      <span className="text-[9px] sm:text-[11px] font-bold text-slate-500 dark:text-slate-400 shrink-0">
+                        {itemsInCat.length}<span className="hidden sm:inline"> elem</span>
                       </span>
                     </div>
 
                     {cat.description && (
-                      <p className="text-[10px] text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
+                      <p className="hidden sm:block text-[10px] text-slate-500 dark:text-slate-400 line-clamp-1 font-medium">
                         {typeof cat.description === 'string' ? <MathText>{cat.description}</MathText> : cat.description}
                       </p>
                     )}
 
                     {/* Placed Items in Category */}
                     <div className={cn(
-                      "flex flex-wrap gap-1.5 min-h-[55px] p-2 rounded-xl border transition-all",
+                      "flex flex-wrap gap-1 sm:gap-1.5 min-h-[44px] sm:min-h-[55px] p-1 sm:p-2 rounded-lg sm:rounded-xl border transition-all",
                       theme.dropZone
                     )}>
                       {itemsInCat.length === 0 ? (
-                        <div className="w-full flex items-center justify-center text-[11px] text-slate-400 font-medium py-3">
-                          {selectedItem ? '👉 Kattints ide a besoroláshoz' : 'Üres csoport'}
+                        <div className="w-full flex items-center justify-center text-[10px] sm:text-[11px] text-slate-400 font-medium py-2 sm:py-3 text-center">
+                          {selectedItem ? '👉 Ide' : 'Üres'}
                         </div>
                       ) : (
                         itemsInCat.map((item) => {
@@ -810,17 +810,17 @@ export function SorterTemplate({
                           return (
                             <div
                               key={item.id}
-                              className="px-2.5 py-1.5 rounded-lg text-xs font-bold border-2 bg-emerald-50 dark:bg-emerald-950/60 border-emerald-400 text-emerald-950 dark:text-emerald-200 flex items-center gap-2 shadow-2xs animate-in zoom-in-95 duration-150"
+                              className="px-1.5 py-0.5 sm:px-2.5 sm:py-1.5 rounded-md sm:rounded-lg text-[10px] sm:text-xs font-bold border-2 bg-emerald-50 dark:bg-emerald-950/60 border-emerald-400 text-emerald-950 dark:text-emerald-200 flex items-center gap-1 sm:gap-2 shadow-2xs animate-in zoom-in-95 duration-150 w-full"
                             >
                               {item.figure && (
-                                <div className="w-7 h-7 shrink-0 overflow-hidden flex items-center justify-center bg-white dark:bg-slate-900 rounded-md border border-emerald-300 dark:border-emerald-700 p-0.5 shadow-2xs [&_*]:max-h-full [&_*]:max-w-full [&_svg]:!w-full [&_svg]:!h-full [&_svg]:!max-h-full [&_svg]:!max-w-full [&_svg]:object-contain [&_div]:!w-full [&_div]:!h-full [&_div]:flex [&_div]:items-center [&_div]:justify-center">
+                                <div className="w-5 h-5 sm:w-7 sm:h-7 shrink-0 overflow-hidden flex items-center justify-center bg-white dark:bg-slate-900 rounded-md border border-emerald-300 dark:border-emerald-700 p-0.5 shadow-2xs [&_*]:max-h-full [&_*]:max-w-full [&_svg]:!w-full [&_svg]:!h-full [&_svg]:!max-h-full [&_svg]:!max-w-full [&_svg]:object-contain [&_div]:!w-full [&_div]:!h-full [&_div]:flex [&_div]:items-center [&_div]:justify-center">
                                   {item.figure}
                                 </div>
                               )}
-                              <span className="line-clamp-2 max-w-[140px] sm:max-w-[170px] leading-tight">
+                              <span className="line-clamp-2 leading-tight flex-1">
                                 {typeof itemText === 'string' ? <MathText size="sm">{itemText}</MathText> : itemText}
                               </span>
-                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0 ml-auto" />
+                              <CheckCircle2 className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0 ml-auto" />
                             </div>
                           );
                         })
@@ -829,7 +829,7 @@ export function SorterTemplate({
                   </div>
 
                   {selectedItem && (
-                    <div className="pt-2 text-center border-t border-purple-200/60 dark:border-purple-900/40">
+                    <div className="pt-1.5 text-center border-t border-purple-200/60 dark:border-purple-900/40">
                       <Button
                         size="sm"
                         onClick={(e) => {
@@ -837,11 +837,11 @@ export function SorterTemplate({
                           handleAssignToCategory(cat.id);
                         }}
                         className={cn(
-                          "w-full rounded-xl h-7 text-[11px] font-black shadow-xs cursor-pointer",
+                          "w-full rounded-lg sm:rounded-xl h-6 sm:h-7 text-[10px] sm:text-[11px] font-black shadow-xs cursor-pointer px-1",
                           theme.btnActive
                         )}
                       >
-                        + Ide sorolom be
+                        + Ide<span className="hidden sm:inline"> sorolom be</span>
                       </Button>
                     </div>
                   )}
