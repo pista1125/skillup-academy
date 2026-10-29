@@ -831,6 +831,58 @@ const Grade9LinearSystemsTheory = lazy(() => import("@/components/math/grade-9/e
 const Grade9LinearSystemsQuiz = lazy(() => import("@/components/math/grade-9/egyenletek-azonossagok/elsofoku-ketismeretlenes-egyenletrendszer/LinearSystemsQuiz").then(m => ({ default: m.LinearSystemsQuiz }))) as any;
 const Grade9PracticeTestTheory = lazy(() => import("@/components/math/grade-9/egyenletek-azonossagok/gyakorlas-tudasproba/PracticeTestTheory").then(m => ({ default: m.PracticeTestTheory }))) as any;
 const Grade9PracticeTestQuiz = lazy(() => import("@/components/math/grade-9/egyenletek-azonossagok/gyakorlas-tudasproba/PracticeTestQuiz").then(m => ({ default: m.PracticeTestQuiz }))) as any;
+const Grade9PlaneGeometryTheory = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/a-sik-geometriaja/PlaneGeometryTheory").then(m => ({ default: m.PlaneGeometryTheory }))) as any;
+const Grade9PlaneGeometryQuiz = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/a-sik-geometriaja/PlaneGeometryQuiz").then(m => ({ default: m.PlaneGeometryQuiz }))) as any;
+const Grade9PlaneGeometryMatcher = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/a-sik-geometriaja/PlaneGeometryMatcher").then(m => ({ default: m.PlaneGeometryMatcher }))) as any;
+const Grade9PlaneGeometrySorter = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/a-sik-geometriaja/PlaneGeometrySorter").then(m => ({ default: m.PlaneGeometrySorter }))) as any;
+const Grade9TrianglesTheory = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/altalanos-es-szimmetrikus-haromszogek/TrianglesTheory").then(m => ({ default: m.TrianglesTheory }))) as any;
+const Grade9TrianglesQuiz = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/altalanos-es-szimmetrikus-haromszogek/TrianglesQuiz").then(m => ({ default: m.TrianglesQuiz }))) as any;
+const Grade9TrianglesMatcher = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/altalanos-es-szimmetrikus-haromszogek/TrianglesMatcher").then(m => ({ default: m.TrianglesMatcher }))) as any;
+const Grade9TrianglesSorter = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/altalanos-es-szimmetrikus-haromszogek/TrianglesSorter").then(m => ({ default: m.TrianglesSorter }))) as any;
+const Grade9PythagorasTheory = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/pitagorasz-tetele/PythagorasTheory").then(m => ({ default: m.PythagorasTheory }))) as any;
+const Grade9PythagorasQuiz = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/pitagorasz-tetele/PythagorasQuiz").then(m => ({ default: m.PythagorasQuiz }))) as any;
+const Grade9PythagorasMatcher = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/pitagorasz-tetele/PythagorasMatcher").then(m => ({ default: m.PythagorasMatcher }))) as any;
+const Grade9PythagorasSorter = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/pitagorasz-tetele/PythagorasSorter").then(m => ({ default: m.PythagorasSorter }))) as any;
+const Grade9SpecialTrianglesTheory = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/kulonleges-derekszogu-haromszogek/SpecialTrianglesTheory").then(m => ({ default: m.SpecialTrianglesTheory }))) as any;
+const Grade9SpecialTrianglesQuiz = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/kulonleges-derekszogu-haromszogek/SpecialTrianglesQuiz").then(m => ({ default: m.SpecialTrianglesQuiz }))) as any;
+const Grade9SpecialTrianglesMatcher = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/kulonleges-derekszogu-haromszogek/SpecialTrianglesMatcher").then(m => ({ default: m.SpecialTrianglesMatcher }))) as any;
+const Grade9SpecialTrianglesSorter = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/kulonleges-derekszogu-haromszogek/SpecialTrianglesSorter").then(m => ({ default: m.SpecialTrianglesSorter }))) as any;
+const Grade9DistancesTheory = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/tavolsagok/DistancesTheory").then(m => ({ default: m.DistancesTheory }))) as any;
+const Grade9DistancesQuiz = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/tavolsagok/DistancesQuiz").then(m => ({ default: m.DistancesQuiz }))) as any;
+const Grade9DistancesMatcher = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/tavolsagok/DistancesMatcher").then(m => ({ default: m.DistancesMatcher }))) as any;
+const Grade9DistancesSorter = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/tavolsagok/DistancesSorter").then(m => ({ default: m.DistancesSorter }))) as any;
+const Grade9CircleTheory = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/a-kor/CircleTheory").then(m => ({ default: m.CircleTheory }))) as any;
+const Grade9CircleQuiz = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/a-kor/CircleQuiz").then(m => ({ default: m.CircleQuiz }))) as any;
+const Grade9CircleMatcher = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/a-kor/CircleMatcher").then(m => ({ default: m.CircleMatcher }))) as any;
+const Grade9CircleSorter = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/a-kor/CircleSorter").then(m => ({ default: m.CircleSorter }))) as any;
+const Grade9TriangleLines1Theory = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/a-haromszog-nevezetes-vonalai-es-pontjai-1/TriangleLines1Theory").then(m => ({ default: m.TriangleLines1Theory }))) as any;
+const Grade9TriangleLines1Quiz = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/a-haromszog-nevezetes-vonalai-es-pontjai-1/TriangleLines1Quiz").then(m => ({ default: m.TriangleLines1Quiz }))) as any;
+const Grade9TriangleLines1Matcher = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/a-haromszog-nevezetes-vonalai-es-pontjai-1/TriangleLines1Matcher").then(m => ({ default: m.TriangleLines1Matcher }))) as any;
+const Grade9TriangleLines1Sorter = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/a-haromszog-nevezetes-vonalai-es-pontjai-1/TriangleLines1Sorter").then(m => ({ default: m.TriangleLines1Sorter }))) as any;
+const Grade9TriangleLines2Theory = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/a-haromszog-nevezetes-vonalai-es-pontjai-2/TriangleLines2Theory").then(m => ({ default: m.TriangleLines2Theory }))) as any;
+const Grade9TriangleLines2Quiz = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/a-haromszog-nevezetes-vonalai-es-pontjai-2/TriangleLines2Quiz").then(m => ({ default: m.TriangleLines2Quiz }))) as any;
+const Grade9TriangleLines2Matcher = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/a-haromszog-nevezetes-vonalai-es-pontjai-2/TriangleLines2Matcher").then(m => ({ default: m.TriangleLines2Matcher }))) as any;
+const Grade9TriangleLines2Sorter = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/a-haromszog-nevezetes-vonalai-es-pontjai-2/TriangleLines2Sorter").then(m => ({ default: m.TriangleLines2Sorter }))) as any;
+const Grade9TrianglePracticeTheory = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/gyakorlas-haromszogek/TrianglePracticeTheory").then(m => ({ default: m.TrianglePracticeTheory }))) as any;
+const Grade9TrianglePracticeQuiz = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/gyakorlas-haromszogek/TrianglePracticeQuiz").then(m => ({ default: m.TrianglePracticeQuiz }))) as any;
+const Grade9TrianglePracticeMatcher = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/gyakorlas-haromszogek/TrianglePracticeMatcher").then(m => ({ default: m.TrianglePracticeMatcher }))) as any;
+const Grade9TrianglePracticeSorter = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/gyakorlas-haromszogek/TrianglePracticeSorter").then(m => ({ default: m.TrianglePracticeSorter }))) as any;
+const Grade9ThalesTheory = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/thalesz-tetele/ThalesTheory").then(m => ({ default: m.ThalesTheory }))) as any;
+const Grade9ThalesQuiz = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/thalesz-tetele/ThalesQuiz").then(m => ({ default: m.ThalesQuiz }))) as any;
+const Grade9ThalesMatcher = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/thalesz-tetele/ThalesMatcher").then(m => ({ default: m.ThalesMatcher }))) as any;
+const Grade9ThalesSorter = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/thalesz-tetele/ThalesSorter").then(m => ({ default: m.ThalesSorter }))) as any;
+const Grade9ThalesAppsTheory = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/a-thalesz-tetel-alkalmazasai/ThalesAppsTheory").then(m => ({ default: m.ThalesAppsTheory }))) as any;
+const Grade9ThalesAppsQuiz = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/a-thalesz-tetel-alkalmazasai/ThalesAppsQuiz").then(m => ({ default: m.ThalesAppsQuiz }))) as any;
+const Grade9ThalesAppsMatcher = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/a-thalesz-tetel-alkalmazasai/ThalesAppsMatcher").then(m => ({ default: m.ThalesAppsMatcher }))) as any;
+const Grade9ThalesAppsSorter = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/a-thalesz-tetel-alkalmazasai/ThalesAppsSorter").then(m => ({ default: m.ThalesAppsSorter }))) as any;
+const Grade9TriangleAreaTheory = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/haromszogek-kerulete-es-terulete/TriangleAreaTheory").then(m => ({ default: m.TriangleAreaTheory }))) as any;
+const Grade9TriangleAreaQuiz = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/haromszogek-kerulete-es-terulete/TriangleAreaQuiz").then(m => ({ default: m.TriangleAreaQuiz }))) as any;
+const Grade9TriangleAreaMatcher = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/haromszogek-kerulete-es-terulete/TriangleAreaMatcher").then(m => ({ default: m.TriangleAreaMatcher }))) as any;
+const Grade9TriangleAreaSorter = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/haromszogek-kerulete-es-terulete/TriangleAreaSorter").then(m => ({ default: m.TriangleAreaSorter }))) as any;
+const Grade9GeometryReviewTheory = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/gyakorlas-tudasproba/GeometryReviewTheory").then(m => ({ default: m.GeometryReviewTheory }))) as any;
+const Grade9GeometryReviewQuiz = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/gyakorlas-tudasproba/GeometryReviewQuiz").then(m => ({ default: m.GeometryReviewQuiz }))) as any;
+const Grade9GeometryReviewMatcher = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/gyakorlas-tudasproba/GeometryReviewMatcher").then(m => ({ default: m.GeometryReviewMatcher }))) as any;
+const Grade9GeometryReviewSorter = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/gyakorlas-tudasproba/GeometryReviewSorter").then(m => ({ default: m.GeometryReviewSorter }))) as any;
 
 
 const Grade7CountItTheory = lazy(() => import("@/components/math/grade-7/gondolkodjunk/szamold-ossze/CountingTheory").then(m => ({ default: m.CountingTheory }))) as any;
@@ -1336,7 +1388,20 @@ type ActivityType =
   | 'g9-egyenlet-alaphalmaz-theory' | 'g9-egyenlet-alaphalmaz-quiz'
   | 'g9-egyenlet-megoldasa-theory' | 'g9-egyenlet-megoldasa-quiz'
   | 'g9-egyenlet-rendszerek-theory' | 'g9-egyenlet-rendszerek-quiz'
-  | 'g9-egyenlet-gyakorlas-theory' | 'g9-egyenlet-gyakorlas-quiz'
+    | 'g9-egyenlet-gyakorlas-theory' | 'g9-egyenlet-gyakorlas-quiz'
+  | 'g9-geom-sik-theory' | 'g9-geom-sik-quiz' | 'g9-geom-sik-matcher' | 'g9-geom-sik-sorter'
+  | 'g9-geom-haromszogek-theory' | 'g9-geom-haromszogek-quiz' | 'g9-geom-haromszogek-matcher' | 'g9-geom-haromszogek-sorter'
+  | 'g9-geom-pitagorasz-theory' | 'g9-geom-pitagorasz-quiz' | 'g9-geom-pitagorasz-matcher' | 'g9-geom-pitagorasz-sorter'
+  | 'g9-geom-kulonleges-derekszogu-theory' | 'g9-geom-kulonleges-derekszogu-quiz' | 'g9-geom-kulonleges-derekszogu-matcher' | 'g9-geom-kulonleges-derekszogu-sorter'
+  | 'g9-geom-tavolsagok-theory' | 'g9-geom-tavolsagok-quiz' | 'g9-geom-tavolsagok-matcher' | 'g9-geom-tavolsagok-sorter'
+  | 'g9-geom-kor-theory' | 'g9-geom-kor-quiz' | 'g9-geom-kor-matcher' | 'g9-geom-kor-sorter'
+  | 'g9-geom-nevezetes-vonalak-1-theory' | 'g9-geom-nevezetes-vonalak-1-quiz' | 'g9-geom-nevezetes-vonalak-1-matcher' | 'g9-geom-nevezetes-vonalak-1-sorter'
+  | 'g9-geom-nevezetes-vonalak-2-theory' | 'g9-geom-nevezetes-vonalak-2-quiz' | 'g9-geom-nevezetes-vonalak-2-matcher' | 'g9-geom-nevezetes-vonalak-2-sorter'
+  | 'g9-geom-gyakorlas-theory' | 'g9-geom-gyakorlas-quiz' | 'g9-geom-gyakorlas-matcher' | 'g9-geom-gyakorlas-sorter'
+  | 'g9-geom-thalesz-theory' | 'g9-geom-thalesz-quiz' | 'g9-geom-thalesz-matcher' | 'g9-geom-thalesz-sorter'
+  | 'g9-geom-thalesz-alkalmazas-theory' | 'g9-geom-thalesz-alkalmazas-quiz' | 'g9-geom-thalesz-alkalmazas-matcher' | 'g9-geom-thalesz-alkalmazas-sorter'
+  | 'g9-geom-haromszog-kerulet-terulet-theory' | 'g9-geom-haromszog-kerulet-terulet-quiz' | 'g9-geom-haromszog-kerulet-terulet-matcher' | 'g9-geom-haromszog-kerulet-terulet-sorter'
+  | 'g9-geom-tudasproba-theory' | 'g9-geom-tudasproba-quiz' | 'g9-geom-tudasproba-matcher' | 'g9-geom-tudasproba-sorter'
 
 
   | 'angle-matching' | 'triangle-classification' | 'quadrilateral-classification'
@@ -1953,6 +2018,7 @@ export default function MathPage() {
       if (type.startsWith('g9-komb-')) resolvedTopic = 'g9-kombinatorika-halmazok';
       else if (type.startsWith('g9-szamok-')) resolvedTopic = 'g9-szamok-vilaga';
       else if (type.startsWith('g9-egyenlet-')) resolvedTopic = 'g9-egyenletek-azonossagok';
+      else if (type.startsWith('g9-geom-')) resolvedTopic = 'g9-bevezetes-geometriaba';
     }
     if (resolvedTopic) {
       setSelectedTopic(resolvedTopic);
@@ -2030,6 +2096,7 @@ export default function MathPage() {
           if (activityType.startsWith('g9-komb-')) resolvedTopic = 'g9-kombinatorika-halmazok';
           else if (activityType.startsWith('g9-szamok-')) resolvedTopic = 'g9-szamok-vilaga';
           else if (activityType.startsWith('g9-egyenlet-')) resolvedTopic = 'g9-egyenletek-azonossagok';
+          else if (activityType.startsWith('g9-geom-')) resolvedTopic = 'g9-bevezetes-geometriaba';
         }
         const isExpandable =
           (selectedGrade === 5 && resolvedTopic?.startsWith('g5-')) ||
@@ -11772,6 +11839,454 @@ export default function MathPage() {
                   <Grade9PracticeTestQuiz
                     onBack={handleBack}
                     onSwitchToTheory={() => handleActivitySelect('g9-egyenlet-gyakorlas-theory', selectedTopic || 'g9-egyenletek-azonossagok')}
+                  />
+                )}
+
+                {/* 9. Osztály - IV. Bevezetés a geometriába - 1. A sík geometriája */}
+                {activityType === 'g9-geom-sik-theory' && (
+                  <Grade9PlaneGeometryTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-geom-sik-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-sik-quiz' && (
+                  <Grade9PlaneGeometryQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-sik-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-geom-sik-matcher', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-geom-sik-sorter', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-sik-matcher' && (
+                  <Grade9PlaneGeometryMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-geom-sik-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-sik-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-geom-sik-sorter', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-sik-sorter' && (
+                  <Grade9PlaneGeometrySorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-geom-sik-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-sik-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-geom-sik-matcher', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {/* 9. Osztály - IV. Bevezetés a geometriába - 2. Általános és szimmetrikus háromszögek */}
+                {activityType === 'g9-geom-haromszogek-theory' && (
+                  <Grade9TrianglesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-geom-haromszogek-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-haromszogek-quiz' && (
+                  <Grade9TrianglesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-haromszogek-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-geom-haromszogek-matcher', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-geom-haromszogek-sorter', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-haromszogek-matcher' && (
+                  <Grade9TrianglesMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-geom-haromszogek-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-haromszogek-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-geom-haromszogek-sorter', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-haromszogek-sorter' && (
+                  <Grade9TrianglesSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-geom-haromszogek-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-haromszogek-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-geom-haromszogek-matcher', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {/* 9. Osztály - IV. Bevezetés a geometriába - 3. Pitagorasz tétele */}
+                {activityType === 'g9-geom-pitagorasz-theory' && (
+                  <Grade9PythagorasTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-geom-pitagorasz-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-pitagorasz-quiz' && (
+                  <Grade9PythagorasQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-pitagorasz-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-geom-pitagorasz-matcher', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-geom-pitagorasz-sorter', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-pitagorasz-matcher' && (
+                  <Grade9PythagorasMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-geom-pitagorasz-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-pitagorasz-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-geom-pitagorasz-sorter', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-pitagorasz-sorter' && (
+                  <Grade9PythagorasSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-geom-pitagorasz-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-pitagorasz-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-geom-pitagorasz-matcher', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {/* 9. Osztály - IV. Bevezetés a geometriába - 4. Különleges derékszögű háromszögek */}
+                {activityType === 'g9-geom-kulonleges-derekszogu-theory' && (
+                  <Grade9SpecialTrianglesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-geom-kulonleges-derekszogu-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-kulonleges-derekszogu-quiz' && (
+                  <Grade9SpecialTrianglesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-kulonleges-derekszogu-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-geom-kulonleges-derekszogu-matcher', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-geom-kulonleges-derekszogu-sorter', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-kulonleges-derekszogu-matcher' && (
+                  <Grade9SpecialTrianglesMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-geom-kulonleges-derekszogu-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-kulonleges-derekszogu-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-geom-kulonleges-derekszogu-sorter', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-kulonleges-derekszogu-sorter' && (
+                  <Grade9SpecialTrianglesSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-geom-kulonleges-derekszogu-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-kulonleges-derekszogu-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-geom-kulonleges-derekszogu-matcher', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {/* 9. Osztály - IV. Bevezetés a geometriába - 5. Távolságok */}
+                {activityType === 'g9-geom-tavolsagok-theory' && (
+                  <Grade9DistancesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-geom-tavolsagok-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-tavolsagok-quiz' && (
+                  <Grade9DistancesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-tavolsagok-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-geom-tavolsagok-matcher', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-geom-tavolsagok-sorter', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-tavolsagok-matcher' && (
+                  <Grade9DistancesMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-geom-tavolsagok-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-tavolsagok-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-geom-tavolsagok-sorter', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-tavolsagok-sorter' && (
+                  <Grade9DistancesSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-geom-tavolsagok-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-tavolsagok-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-geom-tavolsagok-matcher', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {/* 9. Osztály - IV. Bevezetés a geometriába - 6. A kör */}
+                {activityType === 'g9-geom-kor-theory' && (
+                  <Grade9CircleTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-geom-kor-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-kor-quiz' && (
+                  <Grade9CircleQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-kor-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-geom-kor-matcher', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-geom-kor-sorter', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-kor-matcher' && (
+                  <Grade9CircleMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-geom-kor-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-kor-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-geom-kor-sorter', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-kor-sorter' && (
+                  <Grade9CircleSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-geom-kor-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-kor-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-geom-kor-matcher', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-nevezetes-vonalak-1-theory' && (
+                  <Grade9TriangleLines1Theory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-geom-nevezetes-vonalak-1-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-nevezetes-vonalak-1-quiz' && (
+                  <Grade9TriangleLines1Quiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-nevezetes-vonalak-1-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-geom-nevezetes-vonalak-1-matcher', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-geom-nevezetes-vonalak-1-sorter', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-nevezetes-vonalak-1-matcher' && (
+                  <Grade9TriangleLines1Matcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-geom-nevezetes-vonalak-1-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-nevezetes-vonalak-1-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-geom-nevezetes-vonalak-1-sorter', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-nevezetes-vonalak-1-sorter' && (
+                  <Grade9TriangleLines1Sorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-geom-nevezetes-vonalak-1-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-nevezetes-vonalak-1-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-geom-nevezetes-vonalak-1-matcher', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-nevezetes-vonalak-2-theory' && (
+                  <Grade9TriangleLines2Theory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-geom-nevezetes-vonalak-2-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-nevezetes-vonalak-2-quiz' && (
+                  <Grade9TriangleLines2Quiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-nevezetes-vonalak-2-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-geom-nevezetes-vonalak-2-matcher', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-geom-nevezetes-vonalak-2-sorter', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-nevezetes-vonalak-2-matcher' && (
+                  <Grade9TriangleLines2Matcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-geom-nevezetes-vonalak-2-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-nevezetes-vonalak-2-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-geom-nevezetes-vonalak-2-sorter', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-nevezetes-vonalak-2-sorter' && (
+                  <Grade9TriangleLines2Sorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-geom-nevezetes-vonalak-2-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-nevezetes-vonalak-2-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-geom-nevezetes-vonalak-2-matcher', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-gyakorlas-theory' && (
+                  <Grade9TrianglePracticeTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-geom-gyakorlas-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-gyakorlas-quiz' && (
+                  <Grade9TrianglePracticeQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-gyakorlas-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-geom-gyakorlas-matcher', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-geom-gyakorlas-sorter', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-gyakorlas-matcher' && (
+                  <Grade9TrianglePracticeMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-geom-gyakorlas-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-gyakorlas-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-geom-gyakorlas-sorter', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-gyakorlas-sorter' && (
+                  <Grade9TrianglePracticeSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-geom-gyakorlas-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-gyakorlas-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-geom-gyakorlas-matcher', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-thalesz-theory' && (
+                  <Grade9ThalesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-geom-thalesz-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-thalesz-quiz' && (
+                  <Grade9ThalesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-thalesz-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-geom-thalesz-matcher', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-geom-thalesz-sorter', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-thalesz-matcher' && (
+                  <Grade9ThalesMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-geom-thalesz-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-thalesz-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-geom-thalesz-sorter', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-thalesz-sorter' && (
+                  <Grade9ThalesSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-geom-thalesz-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-thalesz-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-geom-thalesz-matcher', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-thalesz-alkalmazas-theory' && (
+                  <Grade9ThalesAppsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-geom-thalesz-alkalmazas-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-thalesz-alkalmazas-quiz' && (
+                  <Grade9ThalesAppsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-thalesz-alkalmazas-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-geom-thalesz-alkalmazas-matcher', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-geom-thalesz-alkalmazas-sorter', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-thalesz-alkalmazas-matcher' && (
+                  <Grade9ThalesAppsMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-geom-thalesz-alkalmazas-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-thalesz-alkalmazas-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-geom-thalesz-alkalmazas-sorter', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-thalesz-alkalmazas-sorter' && (
+                  <Grade9ThalesAppsSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-geom-thalesz-alkalmazas-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-thalesz-alkalmazas-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-geom-thalesz-alkalmazas-matcher', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-haromszog-kerulet-terulet-theory' && (
+                  <Grade9TriangleAreaTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-geom-haromszog-kerulet-terulet-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-haromszog-kerulet-terulet-quiz' && (
+                  <Grade9TriangleAreaQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-haromszog-kerulet-terulet-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-geom-haromszog-kerulet-terulet-matcher', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-geom-haromszog-kerulet-terulet-sorter', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-haromszog-kerulet-terulet-matcher' && (
+                  <Grade9TriangleAreaMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-geom-haromszog-kerulet-terulet-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-haromszog-kerulet-terulet-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-geom-haromszog-kerulet-terulet-sorter', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-haromszog-kerulet-terulet-sorter' && (
+                  <Grade9TriangleAreaSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-geom-haromszog-kerulet-terulet-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-haromszog-kerulet-terulet-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-geom-haromszog-kerulet-terulet-matcher', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-tudasproba-theory' && (
+                  <Grade9GeometryReviewTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-geom-tudasproba-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-tudasproba-quiz' && (
+                  <Grade9GeometryReviewQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-tudasproba-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-geom-tudasproba-matcher', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-geom-tudasproba-sorter', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-tudasproba-matcher' && (
+                  <Grade9GeometryReviewMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-geom-tudasproba-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-tudasproba-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-geom-tudasproba-sorter', selectedTopic || 'g9-bevezetes-geometriaba')}
+                  />
+                )}
+
+                {activityType === 'g9-geom-tudasproba-sorter' && (
+                  <Grade9GeometryReviewSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-geom-tudasproba-quiz', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-geom-tudasproba-theory', selectedTopic || 'g9-bevezetes-geometriaba')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-geom-tudasproba-matcher', selectedTopic || 'g9-bevezetes-geometriaba')}
                   />
                 )}
 

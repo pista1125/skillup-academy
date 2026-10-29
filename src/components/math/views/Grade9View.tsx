@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { GradeViewProps } from './types';
 import { SectionHeader } from '@/components/math/shared/SectionHeader';
 import { ActivityPlaceholder } from '@/components/math/shared/ActivityPlaceholder';
@@ -1042,31 +1042,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-sik-geometria" number={1} title="A sík geometriája" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Geometriai Alapfogalmak"
-                subtitle="Pont, egyenes, félegyenes, szakasz és sík"
-                type="Hamarosan"
+                title="A Sík Geometriája Tananyag"
+                subtitle="Geometriai alapelemek, axiómák, szögfajták és nevezetes szögpárok"
+                type="Tananyag"
                 emoji="📐"
-                disabled={true}
-                icon={<Compass className="w-6 h-6" />}
+                onClick={() => onActivitySelect('g9-geom-sik-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
               />
               <ActivityPlaceholder
-                title="Szögek és Szögfajták"
-                subtitle="Hegyesszög, derékszög, tompaszög, egyenesszög"
-                type="Hamarosan"
-                emoji="📏"
-                disabled={true}
-                icon={<MoveHorizontal className="w-6 h-6" />}
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, szögfajtákkal, szögpárokkal és egyenletekkel"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-geom-sik-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
                 color="indigo"
-              />
-              <ActivityPlaceholder
-                title="Nevezetes Szögpárok"
-                subtitle="Mellékszögek, csúcsszögek, pótszögek és váltószögek"
-                type="Hamarosan"
-                emoji="✂️"
-                disabled={true}
-                icon={<Split className="w-6 h-6" />}
-                color="sky"
+                {...getTopicProgress('g9-geom-sik-quiz')}
               />
             </div>
           </section>
@@ -1078,31 +1070,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-altalanos-szimmetrikus-haromszogek" number={2} title="Általános és szimmetrikus háromszögek" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Háromszög-egyenlőtlenség & Szögösszeg"
-                subtitle="a + b > c és a belső szögek összege 180°"
-                type="Hamarosan"
-                emoji="🔺"
-                disabled={true}
-                icon={<Target className="w-6 h-6" />}
+                title="Általános és Szimmetrikus Háromszögek Tananyag"
+                subtitle="Háromszög-egyenlőtlenség, belső és külső szögösszeg, egyenlő szárú és szabályos háromszögek"
+                type="Tananyag"
+                emoji="📐"
+                onClick={() => onActivitySelect('g9-geom-haromszogek-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
               />
               <ActivityPlaceholder
-                title="Külső Szögek Tétele"
-                subtitle="Bármely külső szög a nem mellette fekvők összege"
-                type="Hamarosan"
-                emoji="📐"
-                disabled={true}
-                icon={<Sparkles className="w-6 h-6" />}
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, párosító és csoportosító módokkal, interaktív szimulációkkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-geom-haromszogek-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
                 color="teal"
-              />
-              <ActivityPlaceholder
-                title="Egyenlő Szárú & Szabályos Háromszögek"
-                subtitle="Szimmetriatengelyek, alapon fekvő és 60°-os szögek"
-                type="Hamarosan"
-                emoji="⭐"
-                disabled={true}
-                icon={<Award className="w-6 h-6" />}
-                color="green"
+                {...getTopicProgress('g9-geom-haromszogek-quiz')}
               />
             </div>
           </section>
@@ -1114,31 +1098,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-pitagorasz" number={3} title="Pitagorasz tétele" color="purple" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A Pitagorasz-tétel: a² + b² = c²"
-                subtitle="Befogók és átfogó kiszámítása derékszögű háromszögben"
-                type="Hamarosan"
+                title="Pitagorasz Tétele Tananyag"
+                subtitle="a² + b² = c², befogók és átfogó kiszámítása, a tétel megfordítása és alkalmazásai"
+                type="Tananyag"
                 emoji="📐"
-                disabled={true}
-                icon={<Calculator className="w-6 h-6" />}
+                onClick={() => onActivitySelect('g9-geom-pitagorasz-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="purple"
               />
               <ActivityPlaceholder
-                title="Geometriai Bizonyítások"
-                subtitle="Négyzetek területe és átdarabolásos szemléltetés"
-                type="Hamarosan"
-                emoji="🧩"
-                disabled={true}
-                icon={<Brain className="w-6 h-6" />}
-                color="violet"
-              />
-              <ActivityPlaceholder
-                title="A Tétel Megfordítása & Számhármasok"
-                subtitle="Derékszögű-e a háromszög? Pitagoraszi számhármasok"
-                type="Hamarosan"
-                emoji="🔢"
-                disabled={true}
-                icon={<Binary className="w-6 h-6" />}
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, párosító és csoportosító módokkal, interaktív laborral"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-geom-pitagorasz-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
                 color="indigo"
+                {...getTopicProgress('g9-geom-pitagorasz-quiz')}
               />
             </div>
           </section>
@@ -1150,31 +1126,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-kulonleges-derekszogu" number={4} title="Különleges derékszögű háromszögek" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Félszabályos Háromszög (30°-60°-90°)"
-                subtitle="Oldalarányok: 1 : √3 : 2 és a szabályos háromszög felezése"
-                type="Hamarosan"
+                title="Különleges Derékszögű Háromszögek Tananyag"
+                subtitle="A 30°-60°-90° és 45°-45°-90° háromszögek oldalarányai és geometriai alkalmazásai"
+                type="Tananyag"
                 emoji="📐"
-                disabled={true}
-                icon={<Layers className="w-6 h-6" />}
+                onClick={() => onActivitySelect('g9-geom-kulonleges-derekszogu-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
               />
               <ActivityPlaceholder
-                title="Egyenlő Szárú Derékszögű (45°-45°-90°)"
-                subtitle="Oldalarányok: 1 : 1 : √2 és a négyzet átlója"
-                type="Hamarosan"
-                emoji="🔲"
-                disabled={true}
-                icon={<Boxes className="w-6 h-6" />}
-                color="orange"
-              />
-              <ActivityPlaceholder
-                title="Villám Számítások Gyökökkel"
-                subtitle="Magasságok és oldalak azonnali meghatározása"
-                type="Hamarosan"
-                emoji="⚡"
-                disabled={true}
-                icon={<Zap className="w-6 h-6" />}
+                title="Gyakorló Kvíz"
+                subtitle="30 interaktív feladat 3 szinten, párosító és csoportosító módokkal, dinamikus laborral"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-geom-kulonleges-derekszogu-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
                 color="yellow"
+                {...getTopicProgress('g9-geom-kulonleges-derekszogu-quiz')}
               />
             </div>
           </section>
@@ -1186,31 +1154,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-tavolsagok" number={5} title="Távolságok" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Pont és Egyenes Távolsága"
-                subtitle="A legrövidebb merőleges szakasz meghatározása"
-                type="Hamarosan"
+                title="Távolságok Tananyag"
+                subtitle="Pont és egyenes távolsága, párhuzamosok, merőleges szakasz és nevezetes mértani helyek"
+                type="Tananyag"
                 emoji="📏"
-                disabled={true}
-                icon={<MoveHorizontal className="w-6 h-6" />}
+                onClick={() => onActivitySelect('g9-geom-tavolsagok-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="cyan"
               />
               <ActivityPlaceholder
-                title="Párhuzamos Egyenesek & Síkok Távolsága"
-                subtitle="Állandó távolság és középpárhuzamos egyenes"
-                type="Hamarosan"
-                emoji="═"
-                disabled={true}
-                icon={<Scale className="w-6 h-6" />}
-                color="teal"
-              />
-              <ActivityPlaceholder
-                title="Mértani Helyek a Távolságokból"
-                subtitle="Kör, szakaszfelező merőleges és szögfelező"
-                type="Hamarosan"
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, párosító és csoportosító módokkal, interaktív merőleges laborral"
+                type="Kvíz"
                 emoji="🎯"
-                disabled={true}
-                icon={<CircleDot className="w-6 h-6" />}
-                color="blue"
+                onClick={() => onActivitySelect('g9-geom-tavolsagok-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
+                color="teal"
+                {...getTopicProgress('g9-geom-tavolsagok-quiz')}
               />
             </div>
           </section>
@@ -1222,31 +1182,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-a-kor" number={6} title="A kör" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Körvonal, Sugár és Húr"
-                subtitle="Kör geometriai elemei és kölcsönös helyzetek"
-                type="Hamarosan"
+                title="A Kör Tananyag"
+                subtitle="Kör részei, húr, ív, körcikk, körszelet, kör és egyenes kölcsönös helyzete, érintőszakaszok"
+                type="Tananyag"
                 emoji="⭕"
-                disabled={true}
-                icon={<CircleDot className="w-6 h-6" />}
+                onClick={() => onActivitySelect('g9-geom-kor-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
               />
               <ActivityPlaceholder
-                title="Érintő és Sugár Merőlegessége"
-                subtitle="Az érintési pontba húzott sugár merőleges az érintőre"
-                type="Hamarosan"
-                emoji="📐"
-                disabled={true}
-                icon={<Compass className="w-6 h-6" />}
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, párosító és csoportosító módokkal, interaktív kör és egyenes szimulációval"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-geom-kor-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
                 color="pink"
-              />
-              <ActivityPlaceholder
-                title="Érintőszakaszok Tétele"
-                subtitle="Külső pontból húzott érintők egyenlő hossza"
-                type="Hamarosan"
-                emoji="✂️"
-                disabled={true}
-                icon={<Split className="w-6 h-6" />}
-                color="red"
+                {...getTopicProgress('g9-geom-kor-quiz')}
               />
             </div>
           </section>
@@ -1258,31 +1210,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-nevezetes-vonalak-1" number={7} title="A háromszög nevezetes vonalai és pontjai I." color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Oldalfelező Merőlegesek"
-                subtitle="A háromszög köré írható kör középpontja (O)"
-                type="Hamarosan"
+                title="Nevezetes Vonalak I. Tananyag"
+                subtitle="Oldalfelező merőlegesek, belső szögfelezők, köré írható kör (O) és beírt kör (I)"
+                type="Tananyag"
                 emoji="⭕"
-                disabled={true}
-                icon={<CircleDot className="w-6 h-6" />}
+                onClick={() => onActivitySelect('g9-geom-nevezetes-vonalak-1-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
               />
               <ActivityPlaceholder
-                title="Belső Szögfelezők"
-                subtitle="A háromszög beírt körének középpontja (I)"
-                type="Hamarosan"
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, párosító és csoportosító módokkal, interaktív háromszög körök laborral"
+                type="Kvíz"
                 emoji="🎯"
-                disabled={true}
-                icon={<Target className="w-6 h-6" />}
+                onClick={() => onActivitySelect('g9-geom-nevezetes-vonalak-1-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
                 color="purple"
-              />
-              <ActivityPlaceholder
-                title="Szerkesztések és Helyzetek"
-                subtitle="Köré írt kör tompaszögű és derékszögű háromszögben"
-                type="Hamarosan"
-                emoji="✏️"
-                disabled={true}
-                icon={<Compass className="w-6 h-6" />}
-                color="indigo"
+                {...getTopicProgress('g9-geom-nevezetes-vonalak-1-quiz')}
               />
             </div>
           </section>
@@ -1294,31 +1238,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-nevezetes-vonalak-2" number={8} title="A háromszög nevezetes vonalai és pontjai II." color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Magasságvonalak és Magasságpont (M)"
-                subtitle="Merőlegesek a szemközti oldalakra és metszéspontjuk"
-                type="Hamarosan"
+                title="Nevezetes Vonalak II. Tananyag"
+                subtitle="Magasságvonalak (M), súlyvonalak (S), 2:1 osztásarány, középvonalak és Euler-egyenes"
+                type="Tananyag"
                 emoji="📐"
-                disabled={true}
-                icon={<Layers className="w-6 h-6" />}
+                onClick={() => onActivitySelect('g9-geom-nevezetes-vonalak-2-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
               />
               <ActivityPlaceholder
-                title="Súlyvonalak és Súlypont (S)"
-                subtitle="A súlypont 2:1 arányú harmadoló tulajdonsága"
-                type="Hamarosan"
-                emoji="⚖️"
-                disabled={true}
-                icon={<Scale className="w-6 h-6" />}
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, párosító és csoportosító módokkal, interaktív Euler-laborral"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-geom-nevezetes-vonalak-2-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
                 color="emerald"
-              />
-              <ActivityPlaceholder
-                title="Középvonalak és az Euler-egyenes"
-                subtitle="O, S, M pontok egy egyenesre esése és arányai"
-                type="Hamarosan"
-                emoji="📏"
-                disabled={true}
-                icon={<MoveHorizontal className="w-6 h-6" />}
-                color="cyan"
+                {...getTopicProgress('g9-geom-nevezetes-vonalak-2-quiz')}
               />
             </div>
           </section>
@@ -1330,31 +1266,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-gyakorlas-geom" number={9} title="Gyakorlás (Háromszögek)" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Háromszögek Feladattára"
-                subtitle="Nevezetes pontok, szögek és oldalszámítások"
-                type="Hamarosan"
+                title="Háromszögek Gyakorlása Tananyag"
+                subtitle="Szögek, külső szögek, egyenlőtlenség, Pitagorasz-tétel, súlypont és nevezetes sugarak"
+                type="Tananyag"
                 emoji="📚"
-                disabled={true}
+                onClick={() => onActivitySelect('g9-geom-gyakorlas-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
               />
               <ActivityPlaceholder
-                title="Összetett Pitagorasz-feladványok"
-                subtitle="Magasságok, átlók és szimmetrikus idomok"
-                type="Hamarosan"
-                emoji="🧠"
-                disabled={true}
-                icon={<Brain className="w-6 h-6" />}
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, párosító és csoportosító módokkal, interaktív háromszög kalkulátorral"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-geom-gyakorlas-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
                 color="orange"
-              />
-              <ActivityPlaceholder
-                title="Geometriai Fejtörők"
-                subtitle="Súlyponti arányok és szerkesztési kihívások"
-                type="Hamarosan"
-                emoji="🧩"
-                disabled={true}
-                icon={<Zap className="w-6 h-6" />}
-                color="yellow"
+                {...getTopicProgress('g9-geom-gyakorlas-quiz')}
               />
             </div>
           </section>
@@ -1366,31 +1294,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-thalesz" number={10} title="Thalész tétele" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A Thalész-tétel Kimondása"
-                subtitle="Az átmérőhöz tartozó kerületi szög 90°"
-                type="Hamarosan"
+                title="Thalész-tétel Tananyag"
+                subtitle="Az átmérőhöz tartozó szög, a tétel bizonyítása, megfordítása és a Thalész-kör mint mértani hely"
+                type="Tananyag"
                 emoji="📐"
-                disabled={true}
-                icon={<Compass className="w-6 h-6" />}
+                onClick={() => onActivitySelect('g9-geom-thalesz-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
               />
               <ActivityPlaceholder
-                title="A Tétel Bizonyítása"
-                subtitle="Levezetés egyenlő szárú háromszögek szögösszegével"
-                type="Hamarosan"
-                emoji="📝"
-                disabled={true}
-                icon={<CheckCircle2 className="w-6 h-6" />}
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, párosító és csoportosító módokkal, interaktív Thalész-szimulációval"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-geom-thalesz-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
                 color="violet"
-              />
-              <ActivityPlaceholder
-                title="A Thalész-tétel Megfordítása"
-                subtitle="Derékszögű háromszög átfogója mint átmérő és R = c/2"
-                type="Hamarosan"
-                emoji="🔄"
-                disabled={true}
-                icon={<Repeat className="w-6 h-6" />}
-                color="purple"
+                {...getTopicProgress('g9-geom-thalesz-quiz')}
               />
             </div>
           </section>
@@ -1402,31 +1322,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-thalesz-alkalmazas" number={11} title="A Thalész-tétel alkalmazásai" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Érintők Szerkesztése Külső Pontból"
-                subtitle="Thalész-kör alkalmazása az érintési pontokhoz"
-                type="Hamarosan"
+                title="Thalész Alkalmazásai Tananyag"
+                subtitle="Érintők szerkesztése Thalész-körrel, érintőszakaszok egyenlősége és derékszögű háromszögek szerkesztése"
+                type="Tananyag"
                 emoji="⭕"
-                disabled={true}
-                icon={<CircleDot className="w-6 h-6" />}
+                onClick={() => onActivitySelect('g9-geom-thalesz-alkalmazas-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
               />
               <ActivityPlaceholder
-                title="Derékszögű Háromszög Súlyvonala"
-                subtitle="Az átfogóhoz tartozó súlyvonal: sc = c/2 = R"
-                type="Hamarosan"
-                emoji="📐"
-                disabled={true}
-                icon={<Scale className="w-6 h-6" />}
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, párosító és csoportosító módokkal, interaktív érintőszakasz-kalkulátorral"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-geom-thalesz-alkalmazas-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
                 color="sky"
-              />
-              <ActivityPlaceholder
-                title="Látószögkörívek és Mértani Helyek"
-                subtitle="Derékszögű látószög meghatározása a síkban"
-                type="Hamarosan"
-                emoji="👁️"
-                disabled={true}
-                icon={<Target className="w-6 h-6" />}
-                color="indigo"
+                {...getTopicProgress('g9-geom-thalesz-alkalmazas-quiz')}
               />
             </div>
           </section>
@@ -1438,31 +1350,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-haromszog-kerulet-terulet" number={12} title="Háromszögek kerülete és területe" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Alap-Magasság & Derékszögű Terület"
-                subtitle="T = (a · ma)/2 és T = (a · b)/2 képletek"
-                type="Hamarosan"
+                title="Háromszögek Területe Tananyag"
+                subtitle="Alap és magasság, derékszögű és szabályos háromszög, Hérón-képlet és sugaras képletek"
+                type="Tananyag"
                 emoji="📐"
-                disabled={true}
-                icon={<Calculator className="w-6 h-6" />}
+                onClick={() => onActivitySelect('g9-geom-haromszog-kerulet-terulet-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
               />
               <ActivityPlaceholder
-                title="Hérón-képlet és Szabályos Háromszög"
-                subtitle="T = √(s(s-a)(s-b)(s-c)) és T = (a²√3)/4"
-                type="Hamarosan"
-                emoji="📜"
-                disabled={true}
-                icon={<Layers className="w-6 h-6" />}
-                color="teal"
-              />
-              <ActivityPlaceholder
-                title="Terület a Beírt & Köré Írt Körrel"
-                subtitle="T = r · s és T = abc / (4R) összefüggések"
-                type="Hamarosan"
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, párosító és csoportosító módokkal, interaktív Hérón-kalkulátorral"
+                type="Kvíz"
                 emoji="🎯"
-                disabled={true}
-                icon={<CircleDot className="w-6 h-6" />}
-                color="green"
+                onClick={() => onActivitySelect('g9-geom-haromszog-kerulet-terulet-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
+                color="teal"
+                {...getTopicProgress('g9-geom-haromszog-kerulet-terulet-quiz')}
               />
             </div>
           </section>
@@ -1474,31 +1378,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-tudasproba-geom" number={13} title="Gyakorlás, tudáspróba" color="red" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="IV. Fejezeti Témazáró Próbadolgozat"
-                subtitle="Átfogó geometriai feladatsor és számítások"
-                type="Hamarosan"
+                title="Geometria Tudáspróba Tananyag"
+                subtitle="A IV. fejezet teljes elméleti összefoglalója, képlettár, tévhit-kalauz és interaktív labor"
+                type="Tananyag"
                 emoji="🏆"
-                disabled={true}
-                icon={<Trophy className="w-6 h-6" />}
+                onClick={() => onActivitySelect('g9-geom-tudasproba-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="red"
               />
               <ActivityPlaceholder
-                title="Középszintű Érettségi Geometria"
-                subtitle="9. osztályos síkgeometriai érettségi típuspéldák"
-                type="Hamarosan"
-                emoji="🎓"
-                disabled={true}
-                icon={<Award className="w-6 h-6" />}
-                color="amber"
-              />
-              <ActivityPlaceholder
-                title="Geometriai Nagydíj & Kvíz"
-                subtitle="Teszteld geometriai tudásodat a teljes IV. fejezetből!"
-                type="Hamarosan"
-                emoji="⭐"
-                disabled={true}
-                icon={<Sparkles className="w-6 h-6" />}
+                title="Gyakorló Kvíz"
+                subtitle="90 feladat 3 szinten (szintenként 30 kérdés!), párosító és csoportosító módokkal, részletes magyarázatokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-geom-tudasproba-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
                 color="rose"
+                {...getTopicProgress('g9-geom-tudasproba-quiz')}
               />
             </div>
           </section>
