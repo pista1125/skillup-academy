@@ -426,9 +426,9 @@ export function TotoTool({ onBack }: TotoToolProps) {
                     <div style="
                         position: relative; 
                         border: 1px solid #cbd5e1; 
-                        padding: 3px 14px 3px 6px; 
-                        font-size: 9px; 
-                        min-height: 24px; 
+                        padding: 6px 14px 6px 6px; 
+                        font-size: 9.5px; 
+                        min-height: 35px; 
                         display: flex; 
                         align-items: center; 
                         justify-content: center; 
@@ -454,7 +454,8 @@ export function TotoTool({ onBack }: TotoToolProps) {
                         text-align: center; 
                         background: #f8fafc; 
                         border: 1px solid #cbd5e1; 
-                        padding: 3px;
+                        padding: 6px 3px;
+                        min-height: 35px;
                         display: flex;
                         align-items: center;
                         justify-content: center;
@@ -470,10 +471,10 @@ export function TotoTool({ onBack }: TotoToolProps) {
             const char = isSolution ? getSolutionChar(i) : '';
             return `
                 <div style="flex: 1; min-width: 14px;">
-                    <div style="background: #f1f5f9; border: 1px solid #cbd5e1; border-bottom: none; font-size: 7.5px; font-weight: 700; text-align: center; padding: 1px 0; color: #64748b;">
+                    <div style="background: #f1f5f9; border: 1px solid #cbd5e1; border-bottom: none; font-size: 8px; font-weight: 700; text-align: center; padding: 2px 0; color: #64748b;">
                         ${i + 1}
                     </div>
-                    <div style="background: #ffffff; border: 1px solid #cbd5e1; height: 19px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; color: ${solutionWord ? '#d97706' : '#334155'};">
+                    <div style="background: #ffffff; border: 1px solid #cbd5e1; height: 30px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; color: ${solutionWord ? '#d97706' : '#334155'};">
                         ${char}
                     </div>
                 </div>
@@ -525,7 +526,7 @@ export function TotoTool({ onBack }: TotoToolProps) {
                     
                     <!-- Table Header -->
                     <div style="display: grid; grid-template-columns: 60px 1fr 1fr 1fr; background: #f1f5f9; border: 1.5px solid #cbd5e1; font-weight: 800; font-size: 9px; text-align: center; color: #475569;">
-                        <div style="padding: 4px; border-right: 1px solid #cbd5e1;">Sorszám</div>
+                        <div style="padding: 6px 4px; border-right: 1px solid #cbd5e1;">Sorszám</div>
                         <div style="padding: 4px; border-right: 1px solid #cbd5e1;">1</div>
                         <div style="padding: 4px; border-right: 1px solid #cbd5e1;">2</div>
                         <div style="padding: 4px;">X (3)</div>
