@@ -484,7 +484,8 @@ export function TotoTool({ onBack }: TotoToolProps) {
         return `
             <div style="
                 width: 800px; 
-                min-height: 1130px; 
+                height: 1131px;
+                min-height: 1131px; 
                 background: #ffffff; 
                 padding: 28px 36px 20px 36px; 
                 box-sizing: border-box; 
@@ -546,6 +547,11 @@ export function TotoTool({ onBack }: TotoToolProps) {
                     <div style="display: flex; gap: 2px; width: 100%;">
                         ${solBoxesHtml}
                     </div>
+                </div>
+
+                <!-- Footer / Vízjel -->
+                <div style="margin-top: auto; padding-top: 8px; border-top: 1px dashed #cbd5e1; text-align: center; font-size: 8.5px; font-weight: 500; color: #64748b; letter-spacing: 0.3px;">
+                    Készült a DiákZóna Totó Készítővel – <span style="font-weight: 700; color: #334155;">diakzona.hu</span>
                 </div>
             </div>
         `;
@@ -727,7 +733,6 @@ export function TotoTool({ onBack }: TotoToolProps) {
                                     </button>
                                 ))}
                             </div>
-                        </div>
 
                         {/* Secret Word & Direction */}
                         <div className="flex flex-col sm:flex-row gap-2 items-center pt-2 border-t border-slate-100">
