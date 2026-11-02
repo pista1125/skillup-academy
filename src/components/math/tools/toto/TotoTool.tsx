@@ -1132,5 +1132,6 @@ export function TotoTool({ onBack }: TotoToolProps) {
                 </div>
             </div>
         </div>
+        </div>
     );
 }
