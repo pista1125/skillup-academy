@@ -364,7 +364,7 @@ export function TotoTool({ onBack }: TotoToolProps) {
                                 ${cellQs.map((q, idxInCell) => {
                                     const globalIdx = qStart + idxInCell;
                                     return `
-                                        <div style="font-size: 10px; line-height: 1.35; margin-bottom: 5px; color: #1e293b; display: flex; align-items: baseline;">
+                                        <div style="font-size: 10px; line-height: 1.35; margin-bottom: 5px; color: #000000; display: flex; align-items: baseline;">
                                             <span style="font-weight: 800; color: #d97706; margin-right: 5px; flex-shrink: 0;">${globalIdx + 1}.</span>
                                             <span style="font-weight: 500;">${renderMathHtml(q.question)}</span>
                                         </div>
@@ -395,7 +395,7 @@ export function TotoTool({ onBack }: TotoToolProps) {
                                 ${cellQs.map((q, idxInCell) => {
                                     const globalIdx = qStart + idxInCell;
                                     return `
-                                        <div style="font-size: 9.5px; line-height: 1.3; margin-bottom: 4px; color: #1e293b; display: flex; align-items: baseline;">
+                                        <div style="font-size: 9.5px; line-height: 1.3; margin-bottom: 4px; color: #000000; display: flex; align-items: baseline;">
                                             <span style="font-weight: 800; color: #d97706; margin-right: 4px; flex-shrink: 0;">${globalIdx + 1}.</span>
                                             <span style="font-weight: 500;">${renderMathHtml(q.question)}</span>
                                         </div>
@@ -433,11 +433,11 @@ export function TotoTool({ onBack }: TotoToolProps) {
                         align-items: center; 
                         justify-content: center; 
                         text-align: center;
-                        ${isHighlighted ? 'background: #f0fdf4; border: 2px solid #22c55e; font-weight: 700; color: #15803d;' : 'background: #ffffff; color: #334155;'}
+                        ${isHighlighted ? 'background: #f0fdf4; border: 2px solid #22c55e; font-weight: 700; color: #15803d;' : 'background: #ffffff; color: #000000; font-weight: 500;'}
                     ">
-                        <div style="width: 100%;">${renderMathHtml(opt)}</div>
+                        <div style="width: 100%; color: #000000;">${renderMathHtml(opt)}</div>
                         ${letter ? `
-                            <span style="position: absolute; right: 2px; bottom: 1px; font-size: 7px; font-weight: 800; color: ${isHighlighted ? '#16a34a' : '#94a3b8'};">
+                            <span style="position: absolute; right: 3px; bottom: 2px; font-size: 7.5px; font-weight: 800; color: ${isHighlighted ? '#16a34a' : '#475569'};">
                                 ${letter}
                             </span>
                         ` : ''}
@@ -450,7 +450,7 @@ export function TotoTool({ onBack }: TotoToolProps) {
                     <div style="
                         font-size: 9.5px; 
                         font-weight: 800; 
-                        color: #334155; 
+                        color: #000000; 
                         text-align: center; 
                         background: #f8fafc; 
                         border: 1px solid #cbd5e1; 
@@ -471,10 +471,10 @@ export function TotoTool({ onBack }: TotoToolProps) {
             const char = isSolution ? getSolutionChar(i) : '';
             return `
                 <div style="flex: 1; min-width: 14px;">
-                    <div style="background: #f1f5f9; border: 1px solid #cbd5e1; border-bottom: none; font-size: 8px; font-weight: 700; text-align: center; padding: 2px 0; color: #64748b;">
+                    <div style="background: #f1f5f9; border: 1px solid #cbd5e1; border-bottom: none; font-size: 8px; font-weight: 700; text-align: center; padding: 2px 0; color: #000000;">
                         ${i + 1}
                     </div>
-                    <div style="background: #ffffff; border: 1px solid #cbd5e1; height: 30px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; color: ${solutionWord ? '#d97706' : '#334155'};">
+                    <div style="background: #ffffff; border: 1px solid #cbd5e1; height: 30px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; color: #000000;">
                         ${char}
                     </div>
                 </div>
@@ -489,7 +489,7 @@ export function TotoTool({ onBack }: TotoToolProps) {
                 padding: 28px 36px 20px 36px; 
                 box-sizing: border-box; 
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-                color: #0f172a;
+                color: #000000;
                 display: flex;
                 flex-direction: column;
                 justify-content: flex-start;
@@ -500,7 +500,7 @@ export function TotoTool({ onBack }: TotoToolProps) {
                     <h1 style="color: #d97706; font-size: 20px; font-weight: 900; margin: 0 0 2px 0; text-transform: uppercase; letter-spacing: 0.5px;">
                         ${escapeHtml(title)}
                     </h1>
-                    <p style="color: #64748b; font-size: 9.5px; margin: 0 0 4px 0; font-weight: 500;">
+                    <p style="color: #000000; font-size: 9.5px; margin: 0 0 4px 0; font-weight: 500;">
                         Válaszd ki a helyes megoldást a három lehetőség közül!
                     </p>
                     ${isSolution ? `
@@ -512,7 +512,7 @@ export function TotoTool({ onBack }: TotoToolProps) {
 
                 <!-- Questions Section -->
                 <div>
-                    <div style="font-size: 10.5px; font-weight: 800; color: #334155; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1.5px solid #e2e8f0; padding-bottom: 2px;">
+                    <div style="font-size: 10.5px; font-weight: 800; color: #000000; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1.5px solid #e2e8f0; padding-bottom: 2px;">
                         Kérdések
                     </div>
                     ${questionGridHtml}
@@ -520,16 +520,16 @@ export function TotoTool({ onBack }: TotoToolProps) {
 
                 <!-- Totó Table -->
                 <div>
-                    <div style="font-size: 10.5px; font-weight: 800; color: #334155; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1.5px solid #e2e8f0; padding-bottom: 2px;">
+                    <div style="font-size: 10.5px; font-weight: 800; color: #000000; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1.5px solid #e2e8f0; padding-bottom: 2px;">
                         Válaszok (Totó táblázat)
                     </div>
                     
                     <!-- Table Header -->
-                    <div style="display: grid; grid-template-columns: 60px 1fr 1fr 1fr; background: #f1f5f9; border: 1.5px solid #cbd5e1; font-weight: 800; font-size: 9px; text-align: center; color: #475569;">
+                    <div style="display: grid; grid-template-columns: 60px 1fr 1fr 1fr; background: #f1f5f9; border: 1.5px solid #cbd5e1; font-weight: 800; font-size: 9.5px; text-align: center; color: #000000;">
                         <div style="padding: 6px 4px; border-right: 1px solid #cbd5e1;">Sorszám</div>
-                        <div style="padding: 4px; border-right: 1px solid #cbd5e1;">1</div>
-                        <div style="padding: 4px; border-right: 1px solid #cbd5e1;">2</div>
-                        <div style="padding: 4px;">X (3)</div>
+                        <div style="padding: 6px 4px; border-right: 1px solid #cbd5e1;">1</div>
+                        <div style="padding: 6px 4px; border-right: 1px solid #cbd5e1;">2</div>
+                        <div style="padding: 6px 4px;">X (3)</div>
                     </div>
 
                     <!-- Rows -->
@@ -539,7 +539,7 @@ export function TotoTool({ onBack }: TotoToolProps) {
                 <!-- Solution Strip -->
                 <div style="margin-top: 4px;">
                     <div style="margin-bottom: 4px;">
-                        <span style="font-size: 9.5px; font-weight: 800; color: #334155; text-transform: uppercase;">
+                        <span style="font-size: 9.5px; font-weight: 800; color: #000000; text-transform: uppercase;">
                             Megoldás sáv (Betűk a sarkokból)
                         </span>
                     </div>

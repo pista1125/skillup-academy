@@ -95,6 +95,16 @@ export default defineConfig(({ mode }) => ({
     hmr: {
       overlay: false,
     },
+    proxy: {
+      '/cloud-functions': {
+        target: 'https://us-central1-diakzona.cloudfunctions.net',
+        changeOrigin: true,
+        rewrite: (path: string) => path.replace(/^\/cloud-functions/, ''),
+        headers: {
+          Origin: 'https://diakzona.hu',
+        },
+      },
+    },
   },
   plugins: [react(), mode === "development" && componentTagger(), emailApiPlugin()].filter(Boolean),
   resolve: {

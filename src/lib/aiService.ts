@@ -5,7 +5,12 @@
 
 import { auth } from './firebase';
 
-const FIREBASE_FUNCTIONS_URL = "https://us-central1-diakzona.cloudfunctions.net";
+const isLocal = typeof window !== 'undefined' && 
+  (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+
+const FIREBASE_FUNCTIONS_URL = isLocal
+  ? "/cloud-functions"
+  : "https://us-central1-diakzona.cloudfunctions.net";
 
 function getOpenAiKey(): string {
   // Only allow user-provided key from their own browser storage (never bundle an app-level secret in frontend)
@@ -47,7 +52,7 @@ export async function invokeAiFunction(name: string, payload: any): Promise<{ da
       return { data, error: null };
     }
   } catch (cloudErr) {
-    // Cloud function not yet deployed or offline, fall through to native client runner / fallback
+    console.warn(`Cloud function ${endpointName} fetch failed:`, cloudErr);
   }
 
   // 2. Direct OpenAI API Call

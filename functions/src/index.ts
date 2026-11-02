@@ -19,9 +19,13 @@ const ALLOWED_ORIGINS = [
   "https://diakzona.hu",
   "https://www.diakzona.hu",
   "https://pista1125.github.io",
+  "http://localhost:8080",
+  "http://127.0.0.1:8080",
   "http://localhost:5173",
   "http://localhost:4173",
   "http://localhost:3000",
+  /^http:\/\/localhost(:\d+)?$/,
+  /^http:\/\/127\.0\.0\.1(:\d+)?$/,
 ];
 
 function getOpenAI(): OpenAI {
