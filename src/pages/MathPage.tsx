@@ -1,4 +1,4 @@
-﻿import { useState, useRef, useEffect, useMemo, lazy, Suspense } from 'react';
+import { useState, useRef, useEffect, useMemo, lazy, Suspense } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { SectionHeader } from "@/components/math/shared/SectionHeader";
 import { ActivityPlaceholder } from "@/components/math/shared/ActivityPlaceholder";
@@ -883,6 +883,80 @@ const Grade9GeometryReviewTheory = lazy(() => import("@/components/math/grade-9/
 const Grade9GeometryReviewQuiz = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/gyakorlas-tudasproba/GeometryReviewQuiz").then(m => ({ default: m.GeometryReviewQuiz }))) as any;
 const Grade9GeometryReviewMatcher = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/gyakorlas-tudasproba/GeometryReviewMatcher").then(m => ({ default: m.GeometryReviewMatcher }))) as any;
 const Grade9GeometryReviewSorter = lazy(() => import("@/components/math/grade-9/bevezetes-a-geometriaba/gyakorlas-tudasproba/GeometryReviewSorter").then(m => ({ default: m.GeometryReviewSorter }))) as any;
+
+// 9. Osztály - V. Függvények
+const Grade9TablesTheory = lazy(() => import("@/components/math/grade-9/fuggvenyek/tablazatok/TablesTheory").then(m => ({ default: m.TablesTheory }))) as any;
+const Grade9TablesQuiz = lazy(() => import("@/components/math/grade-9/fuggvenyek/tablazatok/TablesQuiz").then(m => ({ default: m.TablesQuiz }))) as any;
+const Grade9TablesMatcher = lazy(() => import("@/components/math/grade-9/fuggvenyek/tablazatok/TablesMatcher").then(m => ({ default: m.TablesMatcher }))) as any;
+const Grade9TablesSorter = lazy(() => import("@/components/math/grade-9/fuggvenyek/tablazatok/TablesSorter").then(m => ({ default: m.TablesSorter }))) as any;
+const Grade9DiagramsTheory = lazy(() => import("@/components/math/grade-9/fuggvenyek/diagramok/DiagramsTheory").then(m => ({ default: m.DiagramsTheory }))) as any;
+const Grade9DiagramsQuiz = lazy(() => import("@/components/math/grade-9/fuggvenyek/diagramok/DiagramsQuiz").then(m => ({ default: m.DiagramsQuiz }))) as any;
+const Grade9DiagramsMatcher = lazy(() => import("@/components/math/grade-9/fuggvenyek/diagramok/DiagramsMatcher").then(m => ({ default: m.DiagramsMatcher }))) as any;
+const Grade9DiagramsSorter = lazy(() => import("@/components/math/grade-9/fuggvenyek/diagramok/DiagramsSorter").then(m => ({ default: m.DiagramsSorter }))) as any;
+const Grade9ChangesTheory = lazy(() => import("@/components/math/grade-9/fuggvenyek/valtozasok-abrazolasa/ChangesTheory").then(m => ({ default: m.ChangesTheory }))) as any;
+const Grade9ChangesQuiz = lazy(() => import("@/components/math/grade-9/fuggvenyek/valtozasok-abrazolasa/ChangesQuiz").then(m => ({ default: m.ChangesQuiz }))) as any;
+const Grade9ChangesMatcher = lazy(() => import("@/components/math/grade-9/fuggvenyek/valtozasok-abrazolasa/ChangesMatcher").then(m => ({ default: m.ChangesMatcher }))) as any;
+const Grade9ChangesSorter = lazy(() => import("@/components/math/grade-9/fuggvenyek/valtozasok-abrazolasa/ChangesSorter").then(m => ({ default: m.ChangesSorter }))) as any;
+const Grade9EverydayGraphsTheory = lazy(() => import("@/components/math/grade-9/fuggvenyek/grafikonok-a-mindennapokban/EverydayGraphsTheory").then(m => ({ default: m.EverydayGraphsTheory }))) as any;
+const Grade9EverydayGraphsQuiz = lazy(() => import("@/components/math/grade-9/fuggvenyek/grafikonok-a-mindennapokban/EverydayGraphsQuiz").then(m => ({ default: m.EverydayGraphsQuiz }))) as any;
+const Grade9EverydayGraphsMatcher = lazy(() => import("@/components/math/grade-9/fuggvenyek/grafikonok-a-mindennapokban/EverydayGraphsMatcher").then(m => ({ default: m.EverydayGraphsMatcher }))) as any;
+const Grade9EverydayGraphsSorter = lazy(() => import("@/components/math/grade-9/fuggvenyek/grafikonok-a-mindennapokban/EverydayGraphsSorter").then(m => ({ default: m.EverydayGraphsSorter }))) as any;
+const Grade9FunctionConceptTheory = lazy(() => import("@/components/math/grade-9/fuggvenyek/a-fuggveny-fogalma/FunctionConceptTheory").then(m => ({ default: m.FunctionConceptTheory }))) as any;
+const Grade9FunctionConceptQuiz = lazy(() => import("@/components/math/grade-9/fuggvenyek/a-fuggveny-fogalma/FunctionConceptQuiz").then(m => ({ default: m.FunctionConceptQuiz }))) as any;
+const Grade9FunctionConceptMatcher = lazy(() => import("@/components/math/grade-9/fuggvenyek/a-fuggveny-fogalma/FunctionConceptMatcher").then(m => ({ default: m.FunctionConceptMatcher }))) as any;
+const Grade9FunctionConceptSorter = lazy(() => import("@/components/math/grade-9/fuggvenyek/a-fuggveny-fogalma/FunctionConceptSorter").then(m => ({ default: m.FunctionConceptSorter }))) as any;
+const Grade9PlottingTheory = lazy(() => import("@/components/math/grade-9/fuggvenyek/keszitsunk-grafikont/PlottingTheory").then(m => ({ default: m.PlottingTheory }))) as any;
+const Grade9PlottingQuiz = lazy(() => import("@/components/math/grade-9/fuggvenyek/keszitsunk-grafikont/PlottingQuiz").then(m => ({ default: m.PlottingQuiz }))) as any;
+const Grade9PlottingMatcher = lazy(() => import("@/components/math/grade-9/fuggvenyek/keszitsunk-grafikont/PlottingMatcher").then(m => ({ default: m.PlottingMatcher }))) as any;
+const Grade9PlottingSorter = lazy(() => import("@/components/math/grade-9/fuggvenyek/keszitsunk-grafikont/PlottingSorter").then(m => ({ default: m.PlottingSorter }))) as any;
+const Grade9FuncProportionalityTheory = lazy(() => import("@/components/math/grade-9/fuggvenyek/az-egyenes-es-forditott-aranyossag-fuggvenye/ProportionalityTheory").then(m => ({ default: m.ProportionalityTheory }))) as any;
+const Grade9FuncProportionalityQuiz = lazy(() => import("@/components/math/grade-9/fuggvenyek/az-egyenes-es-forditott-aranyossag-fuggvenye/ProportionalityQuiz").then(m => ({ default: m.ProportionalityQuiz }))) as any;
+const Grade9FuncProportionalityMatcher = lazy(() => import("@/components/math/grade-9/fuggvenyek/az-egyenes-es-forditott-aranyossag-fuggvenye/ProportionalityMatcher").then(m => ({ default: m.ProportionalityMatcher }))) as any;
+const Grade9FuncProportionalitySorter = lazy(() => import("@/components/math/grade-9/fuggvenyek/az-egyenes-es-forditott-aranyossag-fuggvenye/ProportionalitySorter").then(m => ({ default: m.ProportionalitySorter }))) as any;
+const Grade9SlopeTheory = lazy(() => import("@/components/math/grade-9/fuggvenyek/egyenesek-meredeksege/SlopeTheory").then(m => ({ default: m.SlopeTheory }))) as any;
+const Grade9SlopeQuiz = lazy(() => import("@/components/math/grade-9/fuggvenyek/egyenesek-meredeksege/SlopeQuiz").then(m => ({ default: m.SlopeQuiz }))) as any;
+const Grade9SlopeMatcher = lazy(() => import("@/components/math/grade-9/fuggvenyek/egyenesek-meredeksege/SlopeMatcher").then(m => ({ default: m.SlopeMatcher }))) as any;
+const Grade9SlopeSorter = lazy(() => import("@/components/math/grade-9/fuggvenyek/egyenesek-meredeksege/SlopeSorter").then(m => ({ default: m.SlopeSorter }))) as any;
+const Grade9LinearTheory = lazy(() => import("@/components/math/grade-9/fuggvenyek/linearis-fuggvenyek/LinearTheory").then(m => ({ default: m.LinearTheory }))) as any;
+const Grade9LinearQuiz = lazy(() => import("@/components/math/grade-9/fuggvenyek/linearis-fuggvenyek/LinearQuiz").then(m => ({ default: m.LinearQuiz }))) as any;
+const Grade9LinearMatcher = lazy(() => import("@/components/math/grade-9/fuggvenyek/linearis-fuggvenyek/LinearMatcher").then(m => ({ default: m.LinearMatcher }))) as any;
+const Grade9LinearSorter = lazy(() => import("@/components/math/grade-9/fuggvenyek/linearis-fuggvenyek/LinearSorter").then(m => ({ default: m.LinearSorter }))) as any;
+const Grade9AbsValueTheory = lazy(() => import("@/components/math/grade-9/fuggvenyek/abszoluterteek-fuggveny/AbsValueTheory").then(m => ({ default: m.AbsValueTheory }))) as any;
+const Grade9AbsValueQuiz = lazy(() => import("@/components/math/grade-9/fuggvenyek/abszoluterteek-fuggveny/AbsValueQuiz").then(m => ({ default: m.AbsValueQuiz }))) as any;
+const Grade9AbsValueMatcher = lazy(() => import("@/components/math/grade-9/fuggvenyek/abszoluterteek-fuggveny/AbsValueMatcher").then(m => ({ default: m.AbsValueMatcher }))) as any;
+const Grade9AbsValueSorter = lazy(() => import("@/components/math/grade-9/fuggvenyek/abszoluterteek-fuggveny/AbsValueSorter").then(m => ({ default: m.AbsValueSorter }))) as any;
+const Grade9CharacterizationTheory = lazy(() => import("@/components/math/grade-9/fuggvenyek/fuggvenyek-jellemzese/CharacterizationTheory").then(m => ({ default: m.CharacterizationTheory }))) as any;
+const Grade9CharacterizationQuiz = lazy(() => import("@/components/math/grade-9/fuggvenyek/fuggvenyek-jellemzese/CharacterizationQuiz").then(m => ({ default: m.CharacterizationQuiz }))) as any;
+const Grade9CharacterizationMatcher = lazy(() => import("@/components/math/grade-9/fuggvenyek/fuggvenyek-jellemzese/CharacterizationMatcher").then(m => ({ default: m.CharacterizationMatcher }))) as any;
+const Grade9CharacterizationSorter = lazy(() => import("@/components/math/grade-9/fuggvenyek/fuggvenyek-jellemzese/CharacterizationSorter").then(m => ({ default: m.CharacterizationSorter }))) as any;
+const Grade9ExtremaTheory = lazy(() => import("@/components/math/grade-9/fuggvenyek/szelsoertekek/ExtremaTheory").then(m => ({ default: m.ExtremaTheory }))) as any;
+const Grade9ExtremaQuiz = lazy(() => import("@/components/math/grade-9/fuggvenyek/szelsoertekek/ExtremaQuiz").then(m => ({ default: m.ExtremaQuiz }))) as any;
+const Grade9ExtremaMatcher = lazy(() => import("@/components/math/grade-9/fuggvenyek/szelsoertekek/ExtremaMatcher").then(m => ({ default: m.ExtremaMatcher }))) as any;
+const Grade9ExtremaSorter = lazy(() => import("@/components/math/grade-9/fuggvenyek/szelsoertekek/ExtremaSorter").then(m => ({ default: m.ExtremaSorter }))) as any;
+const Grade9QuadraticRootTheory = lazy(() => import("@/components/math/grade-9/fuggvenyek/masodfoku-es-negyzetgyok-fuggveny/QuadraticRootTheory").then(m => ({ default: m.QuadraticRootTheory }))) as any;
+const Grade9QuadraticRootQuiz = lazy(() => import("@/components/math/grade-9/fuggvenyek/masodfoku-es-negyzetgyok-fuggveny/QuadraticRootQuiz").then(m => ({ default: m.QuadraticRootQuiz }))) as any;
+const Grade9QuadraticRootMatcher = lazy(() => import("@/components/math/grade-9/fuggvenyek/masodfoku-es-negyzetgyok-fuggveny/QuadraticRootMatcher").then(m => ({ default: m.QuadraticRootMatcher }))) as any;
+const Grade9QuadraticRootSorter = lazy(() => import("@/components/math/grade-9/fuggvenyek/masodfoku-es-negyzetgyok-fuggveny/QuadraticRootSorter").then(m => ({ default: m.QuadraticRootSorter }))) as any;
+const Grade9PracticalTheory = lazy(() => import("@/components/math/grade-9/fuggvenyek/gyakorlati-feladatok/PracticalTheory").then(m => ({ default: m.PracticalTheory }))) as any;
+const Grade9PracticalQuiz = lazy(() => import("@/components/math/grade-9/fuggvenyek/gyakorlati-feladatok/PracticalQuiz").then(m => ({ default: m.PracticalQuiz }))) as any;
+const Grade9PracticalMatcher = lazy(() => import("@/components/math/grade-9/fuggvenyek/gyakorlati-feladatok/PracticalMatcher").then(m => ({ default: m.PracticalMatcher }))) as any;
+const Grade9PracticalSorter = lazy(() => import("@/components/math/grade-9/fuggvenyek/gyakorlati-feladatok/PracticalSorter").then(m => ({ default: m.PracticalSorter }))) as any;
+const Grade9GraphicEqTheory = lazy(() => import("@/components/math/grade-9/fuggvenyek/egyenletek-grafikus-megoldasa/GraphicEqTheory").then(m => ({ default: m.GraphicEqTheory }))) as any;
+const Grade9GraphicEqQuiz = lazy(() => import("@/components/math/grade-9/fuggvenyek/egyenletek-grafikus-megoldasa/GraphicEqQuiz").then(m => ({ default: m.GraphicEqQuiz }))) as any;
+const Grade9GraphicEqMatcher = lazy(() => import("@/components/math/grade-9/fuggvenyek/egyenletek-grafikus-megoldasa/GraphicEqMatcher").then(m => ({ default: m.GraphicEqMatcher }))) as any;
+const Grade9GraphicEqSorter = lazy(() => import("@/components/math/grade-9/fuggvenyek/egyenletek-grafikus-megoldasa/GraphicEqSorter").then(m => ({ default: m.GraphicEqSorter }))) as any;
+const Grade9InequalityTheory = lazy(() => import("@/components/math/grade-9/fuggvenyek/egyenlotlensegek/InequalityTheory").then(m => ({ default: m.InequalityTheory }))) as any;
+const Grade9InequalityQuiz = lazy(() => import("@/components/math/grade-9/fuggvenyek/egyenlotlensegek/InequalityQuiz").then(m => ({ default: m.InequalityQuiz }))) as any;
+const Grade9InequalityMatcher = lazy(() => import("@/components/math/grade-9/fuggvenyek/egyenlotlensegek/InequalityMatcher").then(m => ({ default: m.InequalityMatcher }))) as any;
+const Grade9InequalitySorter = lazy(() => import("@/components/math/grade-9/fuggvenyek/egyenlotlensegek/InequalitySorter").then(m => ({ default: m.InequalitySorter }))) as any;
+const Grade9AbsEquationTheory = lazy(() => import("@/components/math/grade-9/fuggvenyek/abszolut-ertekes-egyenletek/AbsEquationTheory").then(m => ({ default: m.AbsEquationTheory }))) as any;
+const Grade9AbsEquationQuiz = lazy(() => import("@/components/math/grade-9/fuggvenyek/abszolut-ertekes-egyenletek/AbsEquationQuiz").then(m => ({ default: m.AbsEquationQuiz }))) as any;
+const Grade9AbsEquationMatcher = lazy(() => import("@/components/math/grade-9/fuggvenyek/abszolut-ertekes-egyenletek/AbsEquationMatcher").then(m => ({ default: m.AbsEquationMatcher }))) as any;
+const Grade9AbsEquationSorter = lazy(() => import("@/components/math/grade-9/fuggvenyek/abszolut-ertekes-egyenletek/AbsEquationSorter").then(m => ({ default: m.AbsEquationSorter }))) as any;
+const Grade9FuncPracticeExamTheory = lazy(() => import("@/components/math/grade-9/fuggvenyek/gyakorlas-tudasproba/PracticeExamTheory").then(m => ({ default: m.PracticeExamTheory }))) as any;
+const Grade9FuncPracticeExamQuiz = lazy(() => import("@/components/math/grade-9/fuggvenyek/gyakorlas-tudasproba/PracticeExamQuiz").then(m => ({ default: m.PracticeExamQuiz }))) as any;
+const Grade9FuncPracticeExamMatcher = lazy(() => import("@/components/math/grade-9/fuggvenyek/gyakorlas-tudasproba/PracticeExamMatcher").then(m => ({ default: m.PracticeExamMatcher }))) as any;
+const Grade9FuncPracticeExamSorter = lazy(() => import("@/components/math/grade-9/fuggvenyek/gyakorlas-tudasproba/PracticeExamSorter").then(m => ({ default: m.PracticeExamSorter }))) as any;
 
 
 const Grade7CountItTheory = lazy(() => import("@/components/math/grade-7/gondolkodjunk/szamold-ossze/CountingTheory").then(m => ({ default: m.CountingTheory }))) as any;
@@ -2019,6 +2093,7 @@ export default function MathPage() {
       else if (type.startsWith('g9-szamok-')) resolvedTopic = 'g9-szamok-vilaga';
       else if (type.startsWith('g9-egyenlet-')) resolvedTopic = 'g9-egyenletek-azonossagok';
       else if (type.startsWith('g9-geom-')) resolvedTopic = 'g9-bevezetes-geometriaba';
+      else if (type.startsWith('g9-func-')) resolvedTopic = 'g9-fuggvenyek';
     }
     if (resolvedTopic) {
       setSelectedTopic(resolvedTopic);
@@ -2097,6 +2172,7 @@ export default function MathPage() {
           else if (activityType.startsWith('g9-szamok-')) resolvedTopic = 'g9-szamok-vilaga';
           else if (activityType.startsWith('g9-egyenlet-')) resolvedTopic = 'g9-egyenletek-azonossagok';
           else if (activityType.startsWith('g9-geom-')) resolvedTopic = 'g9-bevezetes-geometriaba';
+          else if (activityType.startsWith('g9-func-')) resolvedTopic = 'g9-fuggvenyek';
         }
         const isExpandable =
           (selectedGrade === 5 && resolvedTopic?.startsWith('g5-')) ||
@@ -12289,6 +12365,638 @@ export default function MathPage() {
                     onSwitchToMatcher={() => handleActivitySelect('g9-geom-tudasproba-matcher', selectedTopic || 'g9-bevezetes-geometriaba')}
                   />
                 )}
+
+                {/* 9. Osztály - V. Függvények - 1. Táblázatok */}
+                {activityType === 'g9-func-tablazatok-theory' && (
+                  <Grade9TablesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-func-tablazatok-quiz', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-tablazatok-quiz' && (
+                  <Grade9TablesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-tablazatok-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-tablazatok-matcher', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-tablazatok-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-tablazatok-matcher' && (
+                  <Grade9TablesMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-tablazatok-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-tablazatok-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-tablazatok-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-tablazatok-sorter' && (
+                  <Grade9TablesSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-tablazatok-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-tablazatok-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-tablazatok-matcher', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {/* 9. Osztály - V. Függvények - 2. Diagramok */}
+                {activityType === 'g9-func-diagramok-theory' && (
+                  <Grade9DiagramsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-func-diagramok-quiz', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-diagramok-quiz' && (
+                  <Grade9DiagramsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-diagramok-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-diagramok-matcher', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-diagramok-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-diagramok-matcher' && (
+                  <Grade9DiagramsMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-diagramok-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-diagramok-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-diagramok-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-diagramok-sorter' && (
+                  <Grade9DiagramsSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-diagramok-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-diagramok-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-diagramok-matcher', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {/* 9. Osztály - V. Függvények - 3. Változások ábrázolása */}
+                {activityType === 'g9-func-valtozasok-theory' && (
+                  <Grade9ChangesTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-func-valtozasok-quiz', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-valtozasok-quiz' && (
+                  <Grade9ChangesQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-valtozasok-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-valtozasok-matcher', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-valtozasok-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-valtozasok-matcher' && (
+                  <Grade9ChangesMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-valtozasok-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-valtozasok-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-valtozasok-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-valtozasok-sorter' && (
+                  <Grade9ChangesSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-valtozasok-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-valtozasok-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-valtozasok-matcher', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {/* 9. Osztály - V. Függvények - 4. Grafikonok a mindennapokban */}
+                {activityType === 'g9-func-mindennapok-theory' && (
+                  <Grade9EverydayGraphsTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-func-mindennapok-quiz', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-mindennapok-quiz' && (
+                  <Grade9EverydayGraphsQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-mindennapok-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-mindennapok-matcher', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-mindennapok-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-mindennapok-matcher' && (
+                  <Grade9EverydayGraphsMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-mindennapok-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-mindennapok-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-mindennapok-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-mindennapok-sorter' && (
+                  <Grade9EverydayGraphsSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-mindennapok-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-mindennapok-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-mindennapok-matcher', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {/* 9. Osztály - V. Függvények - 5. A függvény fogalma */}
+                {activityType === 'g9-func-fogalom-theory' && (
+                  <Grade9FunctionConceptTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-func-fogalom-quiz', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-fogalom-quiz' && (
+                  <Grade9FunctionConceptQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-fogalom-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-fogalom-matcher', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-fogalom-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-fogalom-matcher' && (
+                  <Grade9FunctionConceptMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-fogalom-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-fogalom-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-fogalom-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-fogalom-sorter' && (
+                  <Grade9FunctionConceptSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-fogalom-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-fogalom-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-fogalom-matcher', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {/* 9. Osztály - V. Függvények - 6. Készítsünk grafikont! */}
+                {activityType === 'g9-func-grafikon-theory' && (
+                  <Grade9PlottingTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-func-grafikon-quiz', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-grafikon-quiz' && (
+                  <Grade9PlottingQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-grafikon-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-grafikon-matcher', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-grafikon-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-grafikon-matcher' && (
+                  <Grade9PlottingMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-grafikon-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-grafikon-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-grafikon-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-grafikon-sorter' && (
+                  <Grade9PlottingSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-grafikon-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-grafikon-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-grafikon-matcher', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {/* 9. Osztály - V. Függvények - 7. Az egyenes és fordított arányosság függvénye */}
+                {activityType === 'g9-func-aranyossag-theory' && (
+                  <Grade9FuncProportionalityTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-func-aranyossag-quiz', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-aranyossag-quiz' && (
+                  <Grade9FuncProportionalityQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-aranyossag-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-aranyossag-matcher', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-aranyossag-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-aranyossag-matcher' && (
+                  <Grade9FuncProportionalityMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-aranyossag-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-aranyossag-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-aranyossag-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-aranyossag-sorter' && (
+                  <Grade9FuncProportionalitySorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-aranyossag-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-aranyossag-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-aranyossag-matcher', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {/* 9. Osztály - V. Függvények - 8. Egyenesek meredeksége */}
+                {activityType === 'g9-func-meredekseg-theory' && (
+                  <Grade9SlopeTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-func-meredekseg-quiz', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-meredekseg-quiz' && (
+                  <Grade9SlopeQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-meredekseg-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-meredekseg-matcher', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-meredekseg-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-meredekseg-matcher' && (
+                  <Grade9SlopeMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-meredekseg-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-meredekseg-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-meredekseg-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-meredekseg-sorter' && (
+                  <Grade9SlopeSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-meredekseg-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-meredekseg-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-meredekseg-matcher', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {/* 9. Osztály - V. Függvények - 9. Lineáris függvények */}
+                {activityType === 'g9-func-linearis-theory' && (
+                  <Grade9LinearTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-func-linearis-quiz', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-linearis-quiz' && (
+                  <Grade9LinearQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-linearis-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-linearis-matcher', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-linearis-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-linearis-matcher' && (
+                  <Grade9LinearMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-linearis-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-linearis-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-linearis-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-linearis-sorter' && (
+                  <Grade9LinearSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-linearis-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-linearis-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-linearis-matcher', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {/* 9. Osztály - V. Függvények - 10. Abszolútérték-függvény */}
+                {activityType === 'g9-func-abszolut-theory' && (
+                  <Grade9AbsValueTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-func-abszolut-quiz', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-abszolut-quiz' && (
+                  <Grade9AbsValueQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-abszolut-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-abszolut-matcher', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-abszolut-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-abszolut-matcher' && (
+                  <Grade9AbsValueMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-abszolut-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-abszolut-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-abszolut-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-abszolut-sorter' && (
+                  <Grade9AbsValueSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-abszolut-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-abszolut-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-abszolut-matcher', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {/* 9. Osztály - V. Függvények - 11. Függvények jellemzése */}
+                {activityType === 'g9-func-jellemzes-theory' && (
+                  <Grade9CharacterizationTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-func-jellemzes-quiz', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-jellemzes-quiz' && (
+                  <Grade9CharacterizationQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-jellemzes-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-jellemzes-matcher', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-jellemzes-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-jellemzes-matcher' && (
+                  <Grade9CharacterizationMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-jellemzes-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-jellemzes-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-jellemzes-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-jellemzes-sorter' && (
+                  <Grade9CharacterizationSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-jellemzes-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-jellemzes-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-jellemzes-matcher', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {/* 9. Osztály - V. Függvények - 12. Szélsőértékek */}
+                {activityType === 'g9-func-szelsoertek-theory' && (
+                  <Grade9ExtremaTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-func-szelsoertek-quiz', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-szelsoertek-quiz' && (
+                  <Grade9ExtremaQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-szelsoertek-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-szelsoertek-matcher', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-szelsoertek-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-szelsoertek-matcher' && (
+                  <Grade9ExtremaMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-szelsoertek-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-szelsoertek-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-szelsoertek-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-szelsoertek-sorter' && (
+                  <Grade9ExtremaSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-szelsoertek-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-szelsoertek-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-szelsoertek-matcher', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {/* 9. Osztály - V. Függvények - 13. Másodfokú és négyzetgyök-függvény */}
+                {activityType === 'g9-func-masodfoku-gyok-theory' && (
+                  <Grade9QuadraticRootTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-func-masodfoku-gyok-quiz', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-masodfoku-gyok-quiz' && (
+                  <Grade9QuadraticRootQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-masodfoku-gyok-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-masodfoku-gyok-matcher', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-masodfoku-gyok-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-masodfoku-gyok-matcher' && (
+                  <Grade9QuadraticRootMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-masodfoku-gyok-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-masodfoku-gyok-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-masodfoku-gyok-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-masodfoku-gyok-sorter' && (
+                  <Grade9QuadraticRootSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-masodfoku-gyok-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-masodfoku-gyok-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-masodfoku-gyok-matcher', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {/* 9. Osztály - V. Függvények - 14. Gyakorlati feladatok */}
+                {activityType === 'g9-func-gyakorlat-theory' && (
+                  <Grade9PracticalTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-func-gyakorlat-quiz', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-gyakorlat-quiz' && (
+                  <Grade9PracticalQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-gyakorlat-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-gyakorlat-matcher', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-gyakorlat-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-gyakorlat-matcher' && (
+                  <Grade9PracticalMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-gyakorlat-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-gyakorlat-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-gyakorlat-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-gyakorlat-sorter' && (
+                  <Grade9PracticalSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-gyakorlat-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-gyakorlat-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-gyakorlat-matcher', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {/* 9. Osztály - V. Függvények - 15. Egyenletek grafikus megoldása */}
+                {activityType === 'g9-func-grafikus-egyenlet-theory' && (
+                  <Grade9GraphicEqTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-func-grafikus-egyenlet-quiz', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-grafikus-egyenlet-quiz' && (
+                  <Grade9GraphicEqQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-grafikus-egyenlet-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-grafikus-egyenlet-matcher', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-grafikus-egyenlet-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-grafikus-egyenlet-matcher' && (
+                  <Grade9GraphicEqMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-grafikus-egyenlet-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-grafikus-egyenlet-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-grafikus-egyenlet-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-grafikus-egyenlet-sorter' && (
+                  <Grade9GraphicEqSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-grafikus-egyenlet-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-grafikus-egyenlet-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-grafikus-egyenlet-matcher', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {/* 9. Osztály - V. Függvények - 16. Egyenlőtlenségek */}
+                {activityType === 'g9-func-egyenlotlenseg-theory' && (
+                  <Grade9InequalityTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-func-egyenlotlenseg-quiz', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-egyenlotlenseg-quiz' && (
+                  <Grade9InequalityQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-egyenlotlenseg-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-egyenlotlenseg-matcher', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-egyenlotlenseg-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-egyenlotlenseg-matcher' && (
+                  <Grade9InequalityMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-egyenlotlenseg-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-egyenlotlenseg-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-egyenlotlenseg-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-egyenlotlenseg-sorter' && (
+                  <Grade9InequalitySorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-egyenlotlenseg-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-egyenlotlenseg-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-egyenlotlenseg-matcher', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {/* 9. Osztály - V. Függvények - 17. Abszolút értékes egyenletek */}
+                {activityType === 'g9-func-abszolut-egyenlet-theory' && (
+                  <Grade9AbsEquationTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-func-abszolut-egyenlet-quiz', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-abszolut-egyenlet-quiz' && (
+                  <Grade9AbsEquationQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-abszolut-egyenlet-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-abszolut-egyenlet-matcher', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-abszolut-egyenlet-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-abszolut-egyenlet-matcher' && (
+                  <Grade9AbsEquationMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-abszolut-egyenlet-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-abszolut-egyenlet-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-abszolut-egyenlet-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-abszolut-egyenlet-sorter' && (
+                  <Grade9AbsEquationSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-abszolut-egyenlet-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-abszolut-egyenlet-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-abszolut-egyenlet-matcher', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {/* 9. Osztály - V. Függvények - 18. Gyakorlás, tudáspróba */}
+                {activityType === 'g9-func-tudasproba-theory' && (
+                  <Grade9FuncPracticeExamTheory
+                    onBack={handleBack}
+                    onStartQuiz={() => handleActivitySelect('g9-func-tudasproba-quiz', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-tudasproba-quiz' && (
+                  <Grade9FuncPracticeExamQuiz
+                    onBack={handleBack}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-tudasproba-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-tudasproba-matcher', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-tudasproba-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-tudasproba-matcher' && (
+                  <Grade9FuncPracticeExamMatcher
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-tudasproba-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-tudasproba-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToSorter={() => handleActivitySelect('g9-func-tudasproba-sorter', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+                {activityType === 'g9-func-tudasproba-sorter' && (
+                  <Grade9FuncPracticeExamSorter
+                    onBack={handleBack}
+                    onSwitchToQuiz={() => handleActivitySelect('g9-func-tudasproba-quiz', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToTheory={() => handleActivitySelect('g9-func-tudasproba-theory', selectedTopic || 'g9-fuggvenyek')}
+                    onSwitchToMatcher={() => handleActivitySelect('g9-func-tudasproba-matcher', selectedTopic || 'g9-fuggvenyek')}
+                  />
+                )}
+
+
 
                 {activityType === 'number-line' && (
                   <NumberLineTool onBack={handleBack} />

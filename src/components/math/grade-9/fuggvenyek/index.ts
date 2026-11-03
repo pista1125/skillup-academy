@@ -1,2 +1,23 @@
 // Re-exports from subtopics of V. Függvények (Grade 9)
-export {};
+export * from './QuizTemplate';
+export * from './TheoryTemplate';
+export * from './MatcherTemplate';
+export * from './SorterTemplate';
+export * from './tablazatok';
+export * from './diagramok';
+export * from './valtozasok-abrazolasa';
+export * from './grafikonok-a-mindennapokban';
+export * from './a-fuggveny-fogalma';
+export * from './keszitsunk-grafikont';
+export * from './az-egyenes-es-forditott-aranyossag-fuggvenye';
+export * from './egyenesek-meredeksege';
+export * from './linearis-fuggvenyek';
+export * from './abszoluterteek-fuggveny';
+export * from './fuggvenyek-jellemzese';
+export * from './szelsoertekek';
+export * from './masodfoku-es-negyzetgyok-fuggveny';
+export * from './gyakorlati-feladatok';
+export * from './egyenletek-grafikus-megoldasa';
+export * from './egyenlotlensegek';
+export * from './abszolut-ertekes-egyenletek';
+export * from './gyakorlas-tudasproba';
