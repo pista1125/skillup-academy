@@ -1,2 +1,12 @@
-// Re-exports from subtopics of VI. Egybevágóság, négyszögek (Grade 9)
-export {};
+export * from './QuizTemplate';
+export * from './TheoryTemplate';
+export * from './MatcherTemplate';
+export * from './SorterTemplate';
+export * from './forgatas-es-kozeppontos-tukrozes';
+export * from './vektorok-es-az-eltolas';
+export * from './tengelyes-tukrozes';
+export * from './szerkesztesek';
+export * from './egybevagosagi-transzformaciok-a-gyakorlatban';
+export * from './szimmetrikus-negyszogek';
+export * from './nevezetes-negyszogek-terulete';
+export * from './gyakorlas-tudasproba';

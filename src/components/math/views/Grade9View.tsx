@@ -1929,31 +1929,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-forgatas-kozeppontos-tukrozes" number={1} title="Forgatás és középpontos tükrözés" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Középpontos Tükrözés: 180°-os Forgatás"
-                subtitle="Fixpont (O), párhuzamos képegyenesek és iránymegőrzés"
-                type="Hamarosan"
+                title="Forgatás és Tükrözés Tananyag"
+                subtitle="Középpontos tükrözés, forgatás szöge és iránya, koordináta-szabályok és forgásszimmetriák"
+                type="Tananyag"
                 emoji="🔄"
-                disabled={true}
-                icon={<Repeat className="w-6 h-6" />}
+                onClick={() => onActivitySelect('g9-trans-forgatas-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
               />
               <ActivityPlaceholder
-                title="Elforgatás Adott Pont Körül"
-                subtitle="Forgásszög (α), körüljárási irány és ívmásolás"
-                type="Hamarosan"
-                emoji="💫"
-                disabled={true}
-                icon={<Compass className="w-6 h-6" />}
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten: definíciók, koordináták, transzformációk kompozíciója"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-trans-forgatas-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
                 color="indigo"
-              />
-              <ActivityPlaceholder
-                title="Forgásszimmetrikus Alakzatok"
-                subtitle="360°/n szögű forgásszimmetriák sokszögekben"
-                type="Hamarosan"
-                emoji="⭐"
-                disabled={true}
-                icon={<Sparkles className="w-6 h-6" />}
-                color="sky"
+                {...getTopicProgress('g9-trans-forgatas-quiz')}
               />
             </div>
           </section>
@@ -1965,31 +1957,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-vektorok-eltolas" number={2} title="Vektorok és az eltolás" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A Vektor Fogalma & Jellemzői"
-                subtitle="Hosszúság, állás, irány és a nullvektor"
-                type="Hamarosan"
+                title="Vektorok és Eltolás Tananyag"
+                subtitle="Irányított szakaszok, vektorműveletek, koordinátás számítások és az eltolás transzformáció"
+                type="Tananyag"
                 emoji="➡️"
-                disabled={true}
-                icon={<MoveHorizontal className="w-6 h-6" />}
+                onClick={() => onActivitySelect('g9-trans-vektorok-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
               />
               <ActivityPlaceholder
-                title="Vektorok Összeadása & Kivonása"
-                subtitle="Háromszög- és paralelogramma-szabály szerkesztéssel"
-                type="Hamarosan"
-                emoji="➕"
-                disabled={true}
-                icon={<Split className="w-6 h-6" />}
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten: vektorok jellemzői, háromszög-szabály és eltolásfeladatok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-trans-vektorok-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
                 color="teal"
-              />
-              <ActivityPlaceholder
-                title="Eltolás mint Egybevágóság"
-                subtitle="Síkbeli pontok és alakzatok eltolása adott vektorral"
-                type="Hamarosan"
-                emoji="🚀"
-                disabled={true}
-                icon={<Zap className="w-6 h-6" />}
-                color="green"
+                {...getTopicProgress('g9-trans-vektorok-quiz')}
               />
             </div>
           </section>
@@ -2001,31 +1985,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-tengelyes-tukrozes" number={3} title="Tengelyes tükrözés" color="purple" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A Tengelyes Tükrözés Definíciója"
-                subtitle="Felezőmerőleges, távolságtartás és fixegyenesek"
-                type="Hamarosan"
+                title="Tengelyes Tükrözés Tananyag"
+                subtitle="Felezőmerőleges elve, körüljárási irány megfordulása, koordináta-szabályok és szimmetriatengelyek"
+                type="Tananyag"
                 emoji="🪞"
-                disabled={true}
-                icon={<Split className="w-6 h-6" />}
+                onClick={() => onActivitySelect('g9-trans-tengelyes-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="purple"
               />
               <ActivityPlaceholder
-                title="Körüljárási Irány Megfordulása"
-                subtitle="Tükörképi egybevágóság és közvetett azonosság"
-                type="Hamarosan"
-                emoji="🔄"
-                disabled={true}
-                icon={<Repeat className="w-6 h-6" />}
-                color="violet"
-              />
-              <ActivityPlaceholder
-                title="Szimmetriatengelyek Keresése"
-                subtitle="Háromszögek, négyszögek és sokszögek tengelyei"
-                type="Hamarosan"
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten: definíciók, koordináták, szimmetriatengelyek és kompozíciók"
+                type="Kvíz"
                 emoji="🎯"
-                disabled={true}
-                icon={<Target className="w-6 h-6" />}
-                color="indigo"
+                onClick={() => onActivitySelect('g9-trans-tengelyes-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
+                color="violet"
+                {...getTopicProgress('g9-trans-tengelyes-quiz')}
               />
             </div>
           </section>
@@ -2037,31 +2013,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-szerkesztesek" number={4} title="Szerkesztések" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Szakaszfelező & Szögfelező"
-                subtitle="Alapszerkesztések körzővel és egyélű vonalzóval"
-                type="Hamarosan"
-                emoji="✏️"
-                disabled={true}
-                icon={<Compass className="w-6 h-6" />}
+                title="Szerkesztések Tananyag"
+                subtitle="Euklideszi alapszerkesztések, felezőmerőleges, szögfelező, nevezetes szögek és háromszögek"
+                type="Tananyag"
+                emoji="📐"
+                onClick={() => onActivitySelect('g9-trans-szerkesztes-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
               />
               <ActivityPlaceholder
-                title="Merőleges és Párhuzamos Állítás"
-                subtitle="Egyenesre bocsátott merőleges és váltószögek másolása"
-                type="Hamarosan"
-                emoji="📐"
-                disabled={true}
-                icon={<Layers className="w-6 h-6" />}
-                color="orange"
-              />
-              <ActivityPlaceholder
-                title="Nevezetes Szögek Szerkesztése"
-                subtitle="60°, 30°, 45°, 90° és 75°-os szögek felépítése"
-                type="Hamarosan"
-                emoji="📐"
-                disabled={true}
-                icon={<MoveHorizontal className="w-6 h-6" />}
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten: alapszerkesztések, szögek előállítása és háromszög-megoldhatóság"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-trans-szerkesztes-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
                 color="yellow"
+                {...getTopicProgress('g9-trans-szerkesztes-quiz')}
               />
             </div>
           </section>
@@ -2073,31 +2041,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-transzformaciok-gyakorlatban" number={5} title="Egybevágósági transzformációk a gyakorlatban" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Szalagornamensek (Frizek)"
-                subtitle="A 7 frizcsoport eltolással, tükrözéssel és forgatással"
-                type="Hamarosan"
+                title="Gyakorlati Transzformációk Tananyag"
+                subtitle="A 7 szalagornamens, parkettázás, csúcsszögek szabálya és Escher-féle mozaikok"
+                type="Tananyag"
                 emoji="🎀"
-                disabled={true}
-                icon={<Layers className="w-6 h-6" />}
+                onClick={() => onActivitySelect('g9-trans-gyakorlat-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="cyan"
               />
               <ActivityPlaceholder
-                title="Parkettázások & Síklefedések"
-                subtitle="Háromszögek, négyzetek és hatszögek illeszkedése"
-                type="Hamarosan"
-                emoji="🧱"
-                disabled={true}
-                icon={<Boxes className="w-6 h-6" />}
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten: frizcsoportok, parkettázhatóság és csúsztatva tükrözés"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-trans-gyakorlat-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
                 color="teal"
-              />
-              <ActivityPlaceholder
-                title="Escher-féle Művészi Mozaikok"
-                subtitle="Transzformációkkal létrehozott alakzatok és minták"
-                type="Hamarosan"
-                emoji="🎨"
-                disabled={true}
-                icon={<Sparkles className="w-6 h-6" />}
-                color="blue"
+                {...getTopicProgress('g9-trans-gyakorlat-quiz')}
               />
             </div>
           </section>
@@ -2109,31 +2069,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-szimmetrikus-negyszogek" number={6} title="Szimmetrikus négyszögek" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Négyszögek Osztályozása"
-                subtitle="Hierarchia: trapéz, húrtrapéz, deltoid, paralelogramma"
-                type="Hamarosan"
+                title="Szimmetrikus Négyszögek Tananyag"
+                subtitle="Hierarchia, átlók tulajdonságai, szimmetriák, húr- és érintőnégyszögek"
+                type="Tananyag"
                 emoji="🔷"
-                disabled={true}
-                icon={<Boxes className="w-6 h-6" />}
+                onClick={() => onActivitySelect('g9-trans-negyszogek-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
               />
               <ActivityPlaceholder
-                title="Rombusz, Téglalap és Négyzet"
-                subtitle="Átlók merőlegessége, felezése és egyenlősége"
-                type="Hamarosan"
-                emoji="🔲"
-                disabled={true}
-                icon={<Target className="w-6 h-6" />}
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten: definíciók, átlóviszonyok, Pithot-tétel és bizonyítások"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-trans-negyszogek-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
                 color="purple"
-              />
-              <ActivityPlaceholder
-                title="Húrnégyszögek & Érintőnégyszögek"
-                subtitle="Szemközti szögek összege 180° és oldalak összege"
-                type="Hamarosan"
-                emoji="⭕"
-                disabled={true}
-                icon={<CircleDot className="w-6 h-6" />}
-                color="indigo"
+                {...getTopicProgress('g9-trans-negyszogek-quiz')}
               />
             </div>
           </section>
@@ -2145,31 +2097,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-negyszogek-terulete" number={7} title="Nevezetes négyszögek területe" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Paralelogramma & Trapéz Területe"
-                subtitle="T = a · ma és T = ((a + c)/2) · m képletek"
-                type="Hamarosan"
+                title="Négyszögek Területe Tananyag"
+                subtitle="Átdarabolás elve, paralelogramma, trapéz, rombusz és deltoid képletei"
+                type="Tananyag"
                 emoji="📐"
-                disabled={true}
-                icon={<Calculator className="w-6 h-6" />}
+                onClick={() => onActivitySelect('g9-trans-terulet-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
               />
               <ActivityPlaceholder
-                title="Rombusz & Deltoid Területe"
-                subtitle="T = (e · f) / 2 a merőleges átlók szorzatából"
-                type="Hamarosan"
-                emoji="🔷"
-                disabled={true}
-                icon={<Scale className="w-6 h-6" />}
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten: képletek, Pitagorasz-tételes magasság és összetett feladatok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-trans-terulet-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
                 color="teal"
-              />
-              <ActivityPlaceholder
-                title="Összetett Síkidomok Területe"
-                subtitle="Átdarabolás, Pitagorasz-tétel és húrtrapéz magassága"
-                type="Hamarosan"
-                emoji="🧩"
-                disabled={true}
-                icon={<Brain className="w-6 h-6" />}
-                color="green"
+                {...getTopicProgress('g9-trans-terulet-quiz')}
               />
             </div>
           </section>
@@ -2181,31 +2125,23 @@ export const Grade9View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g9-sec-tudasproba-negyszogek" number={8} title="Gyakorlás, tudáspróba" color="red" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="VI. Fejezeti Témazáró Próbadolgozat"
-                subtitle="Egybevágóságok, négyszögek és területszámítás"
-                type="Hamarosan"
+                title="Geometria Összefoglalás Tananyag"
+                subtitle="Transzformációk, sokszögek átlói és szögei, négyszögek és területek mestertára"
+                type="Tananyag"
                 emoji="🏆"
-                disabled={true}
-                icon={<Trophy className="w-6 h-6" />}
+                onClick={() => onActivitySelect('g9-trans-osszefoglalas-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="red"
               />
               <ActivityPlaceholder
-                title="9. Osztályos Év Végi Geometria Érettségi"
-                subtitle="Középszintű szerkesztési és sokszöges típusfeladatok"
-                type="Hamarosan"
-                emoji="🎓"
-                disabled={true}
-                icon={<Award className="w-6 h-6" />}
-                color="amber"
-              />
-              <ActivityPlaceholder
-                title="Geometriai és Négyszög Nagydíj"
-                subtitle="Teszteld tudásodat a teljes 9. osztályos geometriából!"
-                type="Hamarosan"
-                emoji="⭐"
-                disabled={true}
-                icon={<Sparkles className="w-6 h-6" />}
+                title="Témazáró Tudáspróba Kvíz"
+                subtitle="90 átfogó vizsgafeladat (szintenként 30) a teljes VI. témakörből részletes levezetésekkel"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g9-trans-osszefoglalas-quiz', topicId)}
+                icon={<Calculator className="w-6 h-6" />}
                 color="rose"
+                {...getTopicProgress('g9-trans-osszefoglalas-quiz')}
               />
             </div>
           </section>
@@ -2225,7 +2161,7 @@ export const Grade9View: React.FC<GradeViewProps> = ({
       </div>
       <MaterialGallery
         grade="high-1"
-        onView={onMaterialSelect || (() => {})}
+        onView={onMaterialSelect || (() => { })}
       />
     </div>
   );
