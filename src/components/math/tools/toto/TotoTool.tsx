@@ -733,6 +733,7 @@ export function TotoTool({ onBack }: TotoToolProps) {
                                     </button>
                                 ))}
                             </div>
+                        </div>
 
                         {/* Secret Word & Direction */}
                         <div className="flex flex-col sm:flex-row gap-2 items-center pt-2 border-t border-slate-100">
@@ -965,7 +966,7 @@ export function TotoTool({ onBack }: TotoToolProps) {
 
                 {/* Right: Live Preview (7 cols) */}
                 <div className="lg:col-span-7 xl:col-span-7 bg-slate-50/80 rounded-2xl border border-slate-200/80 p-3 sm:p-5 flex flex-col items-center justify-start space-y-4">
-                    <div className="w-full bg-white shadow-md border border-slate-200 rounded-2xl p-5 sm:p-7 space-y-5">
+                    <div className="w-full max-w-[820px] bg-white shadow-md border border-slate-200 rounded-2xl p-5 sm:p-7 space-y-5">
                         {/* Title & Subtitle */}
                         <div className="text-center space-y-1">
                             <h3 className="text-lg sm:text-2xl font-black text-amber-600 uppercase tracking-wide">
@@ -995,7 +996,7 @@ export function TotoTool({ onBack }: TotoToolProps) {
                             <div className={cn(
                                 "grid gap-3 relative",
                                 groupCount === 1 ? "grid-cols-1" :
-                                groupCount === 2 ? "grid-cols-1 sm:grid-cols-2" :
+                                groupCount === 2 ? "grid-cols-1 sm:grid-cols-2 sm:divide-x sm:divide-dashed sm:divide-slate-200" :
                                 groupCount === 3 ? "grid-cols-1 sm:grid-cols-3" :
                                 "grid-cols-1 sm:grid-cols-2"
                             )}>
@@ -1007,7 +1008,7 @@ export function TotoTool({ onBack }: TotoToolProps) {
                                     if (cellQs.length === 0) return null;
 
                                     return (
-                                        <div key={cellIdx} className="space-y-2 relative pr-2">
+                                        <div key={cellIdx} className={cn("space-y-2 relative pr-2", cellIdx > 0 && groupCount === 2 && "sm:pl-4")}>
                                             {cellQs.map((q, idxInCell) => {
                                                 const globalIdx = qStart + idxInCell;
                                                 return (
@@ -1131,7 +1132,6 @@ export function TotoTool({ onBack }: TotoToolProps) {
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     );
 }
