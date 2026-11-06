@@ -1006,6 +1006,42 @@ const Grade9SummaryQuiz = lazy(() => import("@/components/math/grade-9/egybevago
 const Grade9SummaryMatcher = lazy(() => import("@/components/math/grade-9/egybevagosag-negyszogek/gyakorlas-tudasproba/SummaryMatcher").then(m => ({ default: m.SummaryMatcher }))) as any;
 const Grade9SummarySorter = lazy(() => import("@/components/math/grade-9/egybevagosag-negyszogek/gyakorlas-tudasproba/SummarySorter").then(m => ({ default: m.SummarySorter }))) as any;
 
+// 10. Osztály - I. Logika - 1. Igaz vagy hamis
+const Grade10TrueOrFalseTheory = lazy(() => import("@/components/math/grade-10/logika/igaz-vagy-hamis/TrueOrFalseTheory").then(m => ({ default: m.TrueOrFalseTheory }))) as any;
+const Grade10TrueOrFalseQuiz = lazy(() => import("@/components/math/grade-10/logika/igaz-vagy-hamis/TrueOrFalseQuiz").then(m => ({ default: m.TrueOrFalseQuiz }))) as any;
+const Grade10TrueOrFalseMatcher = lazy(() => import("@/components/math/grade-10/logika/igaz-vagy-hamis/TrueOrFalseMatcher").then(m => ({ default: m.TrueOrFalseMatcher }))) as any;
+const Grade10TrueOrFalseSorter = lazy(() => import("@/components/math/grade-10/logika/igaz-vagy-hamis/TrueOrFalseSorter").then(m => ({ default: m.TrueOrFalseSorter }))) as any;
+
+// 10. Osztály - I. Logika - 2. Állítás és tagadása
+const Grade10NegationTheory = lazy(() => import("@/components/math/grade-10/logika/allitas-es-tagadasa/NegationTheory").then(m => ({ default: m.NegationTheory }))) as any;
+const Grade10NegationQuiz = lazy(() => import("@/components/math/grade-10/logika/allitas-es-tagadasa/NegationQuiz").then(m => ({ default: m.NegationQuiz }))) as any;
+const Grade10NegationMatcher = lazy(() => import("@/components/math/grade-10/logika/allitas-es-tagadasa/NegationMatcher").then(m => ({ default: m.NegationMatcher }))) as any;
+const Grade10NegationSorter = lazy(() => import("@/components/math/grade-10/logika/allitas-es-tagadasa/NegationSorter").then(m => ({ default: m.NegationSorter }))) as any;
+
+// 10. Osztály - I. Logika - 3. VAGY művelet, ÉS művelet
+const Grade10LogicOperationsTheory = lazy(() => import("@/components/math/grade-10/logika/vagy-es-muvelet/LogicOperationsTheory").then(m => ({ default: m.LogicOperationsTheory }))) as any;
+const Grade10LogicOperationsQuiz = lazy(() => import("@/components/math/grade-10/logika/vagy-es-muvelet/LogicOperationsQuiz").then(m => ({ default: m.LogicOperationsQuiz }))) as any;
+const Grade10LogicOperationsMatcher = lazy(() => import("@/components/math/grade-10/logika/vagy-es-muvelet/LogicOperationsMatcher").then(m => ({ default: m.LogicOperationsMatcher }))) as any;
+const Grade10LogicOperationsSorter = lazy(() => import("@/components/math/grade-10/logika/vagy-es-muvelet/LogicOperationsSorter").then(m => ({ default: m.LogicOperationsSorter }))) as any;
+
+// 10. Osztály - I. Logika - 4. Igaz vagy hamis? Foglaljuk táblázatba!
+const Grade10TruthTableTheory = lazy(() => import("@/components/math/grade-10/logika/tablazatba-foglalva/TruthTableTheory").then(m => ({ default: m.TruthTableTheory }))) as any;
+const Grade10TruthTableQuiz = lazy(() => import("@/components/math/grade-10/logika/tablazatba-foglalva/TruthTableQuiz").then(m => ({ default: m.TruthTableQuiz }))) as any;
+const Grade10TruthTableMatcher = lazy(() => import("@/components/math/grade-10/logika/tablazatba-foglalva/TruthTableMatcher").then(m => ({ default: m.TruthTableMatcher }))) as any;
+const Grade10TruthTableSorter = lazy(() => import("@/components/math/grade-10/logika/tablazatba-foglalva/TruthTableSorter").then(m => ({ default: m.TruthTableSorter }))) as any;
+
+// 10. Osztály - I. Logika - 5. Állítás és megfordítása
+const Grade10ImplicationTheory = lazy(() => import("@/components/math/grade-10/logika/allitas-es-megforditasa/ImplicationTheory").then(m => ({ default: m.ImplicationTheory }))) as any;
+const Grade10ImplicationQuiz = lazy(() => import("@/components/math/grade-10/logika/allitas-es-megforditasa/ImplicationQuiz").then(m => ({ default: m.ImplicationQuiz }))) as any;
+const Grade10ImplicationMatcher = lazy(() => import("@/components/math/grade-10/logika/allitas-es-megforditasa/ImplicationMatcher").then(m => ({ default: m.ImplicationMatcher }))) as any;
+const Grade10ImplicationSorter = lazy(() => import("@/components/math/grade-10/logika/allitas-es-megforditasa/ImplicationSorter").then(m => ({ default: m.ImplicationSorter }))) as any;
+
+// 10. Osztály - I. Logika - 6. Gyakorlás, tudáspróba
+const Grade10PracticeExamTheory = lazy(() => import("@/components/math/grade-10/logika/gyakorlas-tudasproba/PracticeExamTheory").then(m => ({ default: m.PracticeExamTheory }))) as any;
+const Grade10PracticeExamQuiz = lazy(() => import("@/components/math/grade-10/logika/gyakorlas-tudasproba/PracticeExamQuiz").then(m => ({ default: m.PracticeExamQuiz }))) as any;
+const Grade10PracticeExamMatcher = lazy(() => import("@/components/math/grade-10/logika/gyakorlas-tudasproba/PracticeExamMatcher").then(m => ({ default: m.PracticeExamMatcher }))) as any;
+const Grade10PracticeExamSorter = lazy(() => import("@/components/math/grade-10/logika/gyakorlas-tudasproba/PracticeExamSorter").then(m => ({ default: m.PracticeExamSorter }))) as any;
+
 
 const Grade7CountItTheory = lazy(() => import("@/components/math/grade-7/gondolkodjunk/szamold-ossze/CountingTheory").then(m => ({ default: m.CountingTheory }))) as any;
 const Grade7CountItQuiz = lazy(() => import("@/components/math/grade-7/gondolkodjunk/szamold-ossze/CountingQuiz").then(m => ({ default: m.CountingQuiz }))) as any;
@@ -1524,6 +1560,12 @@ type ActivityType =
   | 'g9-geom-thalesz-alkalmazas-theory' | 'g9-geom-thalesz-alkalmazas-quiz' | 'g9-geom-thalesz-alkalmazas-matcher' | 'g9-geom-thalesz-alkalmazas-sorter'
   | 'g9-geom-haromszog-kerulet-terulet-theory' | 'g9-geom-haromszog-kerulet-terulet-quiz' | 'g9-geom-haromszog-kerulet-terulet-matcher' | 'g9-geom-haromszog-kerulet-terulet-sorter'
   | 'g9-geom-tudasproba-theory' | 'g9-geom-tudasproba-quiz' | 'g9-geom-tudasproba-matcher' | 'g9-geom-tudasproba-sorter'
+  | 'g10-logic-igaz-hamis-theory' | 'g10-logic-igaz-hamis-quiz' | 'g10-logic-igaz-hamis-matcher' | 'g10-logic-igaz-hamis-sorter'
+  | 'g10-logic-allitas-tagadas-theory' | 'g10-logic-allitas-tagadas-quiz' | 'g10-logic-allitas-tagadas-matcher' | 'g10-logic-allitas-tagadas-sorter'
+  | 'g10-logic-vagy-es-theory' | 'g10-logic-vagy-es-quiz' | 'g10-logic-vagy-es-matcher' | 'g10-logic-vagy-es-sorter'
+  | 'g10-logic-tablazat-theory' | 'g10-logic-tablazat-quiz' | 'g10-logic-tablazat-matcher' | 'g10-logic-tablazat-sorter'
+  | 'g10-logic-allitas-megforditas-theory' | 'g10-logic-allitas-megforditas-quiz' | 'g10-logic-allitas-megforditas-matcher' | 'g10-logic-allitas-megforditas-sorter'
+  | 'g10-logic-tudasproba-theory' | 'g10-logic-tudasproba-quiz' | 'g10-logic-tudasproba-matcher' | 'g10-logic-tudasproba-sorter'
 
 
   | 'angle-matching' | 'triangle-classification' | 'quadrilateral-classification'
@@ -13321,6 +13363,216 @@ export default function MathPage() {
                       onSwitchToQuiz={() => handleActivitySelect('g9-trans-osszefoglalas-quiz', selectedTopic || 'g9-egybevagosag-negyszogek')}
                       onSwitchToTheory={() => handleActivitySelect('g9-trans-osszefoglalas-theory', selectedTopic || 'g9-egybevagosag-negyszogek')}
                       onSwitchToMatcher={() => handleActivitySelect('g9-trans-osszefoglalas-matcher', selectedTopic || 'g9-egybevagosag-negyszogek')}
+                    />
+                  )}
+
+                  {/* 10. Osztály - I. Logika - 1. Igaz vagy hamis */}
+                  {activityType === 'g10-logic-igaz-hamis-theory' && (
+                    <Grade10TrueOrFalseTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-logic-igaz-hamis-quiz', selectedTopic || 'g10-logika')}
+                    />
+                  )}
+
+                  {activityType === 'g10-logic-igaz-hamis-quiz' && (
+                    <Grade10TrueOrFalseQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-logic-igaz-hamis-theory', selectedTopic || 'g10-logika')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-logic-igaz-hamis-matcher', selectedTopic || 'g10-logika')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-logic-igaz-hamis-sorter', selectedTopic || 'g10-logika')}
+                    />
+                  )}
+
+                  {activityType === 'g10-logic-igaz-hamis-matcher' && (
+                    <Grade10TrueOrFalseMatcher
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => handleActivitySelect('g10-logic-igaz-hamis-quiz', selectedTopic || 'g10-logika')}
+                      onSwitchToTheory={() => handleActivitySelect('g10-logic-igaz-hamis-theory', selectedTopic || 'g10-logika')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-logic-igaz-hamis-sorter', selectedTopic || 'g10-logika')}
+                    />
+                  )}
+
+                  {activityType === 'g10-logic-igaz-hamis-sorter' && (
+                    <Grade10TrueOrFalseSorter
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => handleActivitySelect('g10-logic-igaz-hamis-quiz', selectedTopic || 'g10-logika')}
+                      onSwitchToTheory={() => handleActivitySelect('g10-logic-igaz-hamis-theory', selectedTopic || 'g10-logika')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-logic-igaz-hamis-matcher', selectedTopic || 'g10-logika')}
+                    />
+                  )}
+
+                  {/* 10. Osztály - I. Logika - 2. Állítás és tagadása */}
+                  {activityType === 'g10-logic-allitas-tagadas-theory' && (
+                    <Grade10NegationTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-logic-allitas-tagadas-quiz', selectedTopic || 'g10-logika')}
+                    />
+                  )}
+
+                  {activityType === 'g10-logic-allitas-tagadas-quiz' && (
+                    <Grade10NegationQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-logic-allitas-tagadas-theory', selectedTopic || 'g10-logika')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-logic-allitas-tagadas-matcher', selectedTopic || 'g10-logika')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-logic-allitas-tagadas-sorter', selectedTopic || 'g10-logika')}
+                    />
+                  )}
+
+                  {activityType === 'g10-logic-allitas-tagadas-matcher' && (
+                    <Grade10NegationMatcher
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => handleActivitySelect('g10-logic-allitas-tagadas-quiz', selectedTopic || 'g10-logika')}
+                      onSwitchToTheory={() => handleActivitySelect('g10-logic-allitas-tagadas-theory', selectedTopic || 'g10-logika')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-logic-allitas-tagadas-sorter', selectedTopic || 'g10-logika')}
+                    />
+                  )}
+
+                  {activityType === 'g10-logic-allitas-tagadas-sorter' && (
+                    <Grade10NegationSorter
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => handleActivitySelect('g10-logic-allitas-tagadas-quiz', selectedTopic || 'g10-logika')}
+                      onSwitchToTheory={() => handleActivitySelect('g10-logic-allitas-tagadas-theory', selectedTopic || 'g10-logika')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-logic-allitas-tagadas-matcher', selectedTopic || 'g10-logika')}
+                    />
+                  )}
+
+                  {/* 10. Osztály - I. Logika - 3. VAGY művelet, ÉS művelet */}
+                  {activityType === 'g10-logic-vagy-es-theory' && (
+                    <Grade10LogicOperationsTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-logic-vagy-es-quiz', selectedTopic || 'g10-logika')}
+                    />
+                  )}
+
+                  {activityType === 'g10-logic-vagy-es-quiz' && (
+                    <Grade10LogicOperationsQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-logic-vagy-es-theory', selectedTopic || 'g10-logika')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-logic-vagy-es-matcher', selectedTopic || 'g10-logika')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-logic-vagy-es-sorter', selectedTopic || 'g10-logika')}
+                    />
+                  )}
+
+                  {activityType === 'g10-logic-vagy-es-matcher' && (
+                    <Grade10LogicOperationsMatcher
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => handleActivitySelect('g10-logic-vagy-es-quiz', selectedTopic || 'g10-logika')}
+                      onSwitchToTheory={() => handleActivitySelect('g10-logic-vagy-es-theory', selectedTopic || 'g10-logika')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-logic-vagy-es-sorter', selectedTopic || 'g10-logika')}
+                    />
+                  )}
+
+                  {activityType === 'g10-logic-vagy-es-sorter' && (
+                    <Grade10LogicOperationsSorter
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => handleActivitySelect('g10-logic-vagy-es-quiz', selectedTopic || 'g10-logika')}
+                      onSwitchToTheory={() => handleActivitySelect('g10-logic-vagy-es-theory', selectedTopic || 'g10-logika')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-logic-vagy-es-matcher', selectedTopic || 'g10-logika')}
+                    />
+                  )}
+
+                  {/* 10. Osztály - I. Logika - 4. Igaz vagy hamis? Foglaljuk táblázatba! */}
+                  {activityType === 'g10-logic-tablazat-theory' && (
+                    <Grade10TruthTableTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-logic-tablazat-quiz', selectedTopic || 'g10-logika')}
+                    />
+                  )}
+
+                  {activityType === 'g10-logic-tablazat-quiz' && (
+                    <Grade10TruthTableQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-logic-tablazat-theory', selectedTopic || 'g10-logika')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-logic-tablazat-matcher', selectedTopic || 'g10-logika')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-logic-tablazat-sorter', selectedTopic || 'g10-logika')}
+                    />
+                  )}
+
+                  {activityType === 'g10-logic-tablazat-matcher' && (
+                    <Grade10TruthTableMatcher
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => handleActivitySelect('g10-logic-tablazat-quiz', selectedTopic || 'g10-logika')}
+                      onSwitchToTheory={() => handleActivitySelect('g10-logic-tablazat-theory', selectedTopic || 'g10-logika')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-logic-tablazat-sorter', selectedTopic || 'g10-logika')}
+                    />
+                  )}
+
+                  {activityType === 'g10-logic-tablazat-sorter' && (
+                    <Grade10TruthTableSorter
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => handleActivitySelect('g10-logic-tablazat-quiz', selectedTopic || 'g10-logika')}
+                      onSwitchToTheory={() => handleActivitySelect('g10-logic-tablazat-theory', selectedTopic || 'g10-logika')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-logic-tablazat-matcher', selectedTopic || 'g10-logika')}
+                    />
+                  )}
+
+                  {/* 10. Osztály - I. Logika - 5. Állítás és megfordítása */}
+                  {activityType === 'g10-logic-allitas-megforditas-theory' && (
+                    <Grade10ImplicationTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-logic-allitas-megforditas-quiz', selectedTopic || 'g10-logika')}
+                    />
+                  )}
+
+                  {activityType === 'g10-logic-allitas-megforditas-quiz' && (
+                    <Grade10ImplicationQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-logic-allitas-megforditas-theory', selectedTopic || 'g10-logika')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-logic-allitas-megforditas-matcher', selectedTopic || 'g10-logika')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-logic-allitas-megforditas-sorter', selectedTopic || 'g10-logika')}
+                    />
+                  )}
+
+                  {activityType === 'g10-logic-allitas-megforditas-matcher' && (
+                    <Grade10ImplicationMatcher
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => handleActivitySelect('g10-logic-allitas-megforditas-quiz', selectedTopic || 'g10-logika')}
+                      onSwitchToTheory={() => handleActivitySelect('g10-logic-allitas-megforditas-theory', selectedTopic || 'g10-logika')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-logic-allitas-megforditas-sorter', selectedTopic || 'g10-logika')}
+                    />
+                  )}
+
+                  {activityType === 'g10-logic-allitas-megforditas-sorter' && (
+                    <Grade10ImplicationSorter
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => handleActivitySelect('g10-logic-allitas-megforditas-quiz', selectedTopic || 'g10-logika')}
+                      onSwitchToTheory={() => handleActivitySelect('g10-logic-allitas-megforditas-theory', selectedTopic || 'g10-logika')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-logic-allitas-megforditas-matcher', selectedTopic || 'g10-logika')}
+                    />
+                  )}
+
+                  {/* 10. Osztály - I. Logika - 6. Gyakorlás, tudáspróba */}
+                  {activityType === 'g10-logic-tudasproba-theory' && (
+                    <Grade10PracticeExamTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-logic-tudasproba-quiz', selectedTopic || 'g10-logika')}
+                    />
+                  )}
+
+                  {activityType === 'g10-logic-tudasproba-quiz' && (
+                    <Grade10PracticeExamQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-logic-tudasproba-theory', selectedTopic || 'g10-logika')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-logic-tudasproba-matcher', selectedTopic || 'g10-logika')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-logic-tudasproba-sorter', selectedTopic || 'g10-logika')}
+                    />
+                  )}
+
+                  {activityType === 'g10-logic-tudasproba-matcher' && (
+                    <Grade10PracticeExamMatcher
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => handleActivitySelect('g10-logic-tudasproba-quiz', selectedTopic || 'g10-logika')}
+                      onSwitchToTheory={() => handleActivitySelect('g10-logic-tudasproba-theory', selectedTopic || 'g10-logika')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-logic-tudasproba-sorter', selectedTopic || 'g10-logika')}
+                    />
+                  )}
+
+                  {activityType === 'g10-logic-tudasproba-sorter' && (
+                    <Grade10PracticeExamSorter
+                      onBack={handleBack}
+                      onSwitchToQuiz={() => handleActivitySelect('g10-logic-tudasproba-quiz', selectedTopic || 'g10-logika')}
+                      onSwitchToTheory={() => handleActivitySelect('g10-logic-tudasproba-theory', selectedTopic || 'g10-logika')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-logic-tudasproba-matcher', selectedTopic || 'g10-logika')}
                     />
                   )}
 

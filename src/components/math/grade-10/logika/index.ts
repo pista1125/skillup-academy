@@ -1,2 +1,10 @@
-// Re-exports from subtopics of I. Logika (Grade 10)
-export {};
+export * from './QuizTemplate';
+export * from './TheoryTemplate';
+export * from './MatcherTemplate';
+export * from './SorterTemplate';
+export * from './igaz-vagy-hamis';
+export * from './allitas-es-tagadasa';
+export * from './vagy-es-muvelet';
+export * from './tablazatba-foglalva';
+export * from './allitas-es-megforditasa';
+export * from './gyakorlas-tudasproba';

@@ -3,6 +3,7 @@ import { GradeViewProps } from './types';
 import { SectionHeader } from '@/components/math/shared/SectionHeader';
 import { ActivityPlaceholder } from '@/components/math/shared/ActivityPlaceholder';
 import { MaterialGallery } from '@/components/math/shared/MaterialGallery';
+import { useQuizProgress } from '@/hooks/useQuizProgress';
 import {
   ArrowRightLeft,
   BarChart3,
@@ -43,6 +44,8 @@ export const Grade10View: React.FC<GradeViewProps> = ({
   onActivitySelect,
   onMaterialSelect,
 }) => {
+  const { getTopicProgress } = useQuizProgress();
+
   // Topic I: Logika
   if (topicId === 'g10-logika') {
     const showAll = !activeSubSectionId;
@@ -53,17 +56,27 @@ export const Grade10View: React.FC<GradeViewProps> = ({
         {(showAll || activeSubSectionId === 'g10-sec-igaz-vagy-hamis') && (
           <section>
             <SectionHeader id="g10-sec-igaz-vagy-hamis" number={1} title="Igaz vagy hamis" color="blue" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Kijelentések és Igazságértékek"
-                subtitle="Állítások felismerése és igazságértékük vizsgálata"
-                type="Hamarosan"
-                emoji="⚖️"
-                disabled={true}
-                icon={<Scale className="w-6 h-6" />}
-                color="blue"
-              />
-            </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                <ActivityPlaceholder
+                  title="Igaz vagy hamis? Tananyag"
+                  subtitle="Kijelentések, igazságértékek, kizárt harmadik és a negáció elve"
+                  type="Tananyag"
+                  emoji="📖"
+                  onClick={() => onActivitySelect('g10-logic-igaz-hamis-theory', topicId)}
+                  icon={<BookOpen className="w-6 h-6" />}
+                  color="blue"
+                />
+                <ActivityPlaceholder
+                  title="Gyakorló Kvíz"
+                  subtitle="30 válogatott feladat 3 szinten, tankönyvi és kompetencia példákkal"
+                  type="Kvíz"
+                  emoji="⚖️"
+                  onClick={() => onActivitySelect('g10-logic-igaz-hamis-quiz', topicId)}
+                  icon={<Scale className="w-6 h-6" />}
+                  color="indigo"
+                  {...getTopicProgress('g10-logic-igaz-hamis-quiz')}
+                />
+              </div>
           </section>
         )}
 
@@ -73,13 +86,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-allitas-es-tagadasa" number={2} title="Állítás és tagadása" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Negáció és Kvantorok"
-                subtitle="Tagadás képzése és a 'minden' / 'van olyan' tagadása"
-                type="Hamarosan"
+                title="Állítás és tagadása Tananyag"
+                subtitle="A tagadás feltétele, a 'minden' és 'van olyan' kvantorok negálása és határértékek"
+                type="Tananyag"
                 emoji="🔄"
-                disabled={true}
-                icon={<Split className="w-6 h-6" />}
+                onClick={() => onActivitySelect('g10-logic-allitas-tagadas-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, tankönyvi és érettségi példákkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-logic-allitas-tagadas-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="purple"
+                {...getTopicProgress('g10-logic-allitas-tagadas-quiz')}
               />
             </div>
           </section>
@@ -91,13 +114,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-vagy-muvelet-es-muvelet" number={3} title="VAGY művelet, ÉS művelet" color="purple" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Konjunkció és Diszjunkció"
-                subtitle="Összetett logikai műveletek és halmazműveleti párhuzamok"
-                type="Hamarosan"
+                title="VAGY és ÉS művelet Tananyag"
+                subtitle="Diszjunkció, konjunkció, igazságtáblázatok és a 'de' kötőszó logikája"
+                type="Tananyag"
                 emoji="🔀"
-                disabled={true}
-                icon={<GitFork className="w-6 h-6" />}
+                onClick={() => onActivitySelect('g10-logic-vagy-es-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="purple"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, tankönyvi és kompetencia példákkal"
+                type="Kvíz"
+                emoji="⚖️"
+                onClick={() => onActivitySelect('g10-logic-vagy-es-quiz', topicId)}
+                icon={<Scale className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g10-logic-vagy-es-quiz')}
               />
             </div>
           </section>
@@ -109,13 +142,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-igaz-vagy-hamis-tablazatba" number={4} title="Igaz vagy hamis? Foglaljuk táblázatba!" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Igazságtáblázatok és De Morgan"
-                subtitle="Összetett kifejezések táblázatos elemzése és azonosságok"
-                type="Hamarosan"
+                title="Igazságtáblázatok és De Morgan Tananyag"
+                subtitle="Szisztematikus esetelemzés, táblázatkészítés, De Morgan-szabályok és Smullyan-rejtvények"
+                type="Tananyag"
                 emoji="📊"
-                disabled={true}
-                icon={<Binary className="w-6 h-6" />}
+                onClick={() => onActivitySelect('g10-logic-tablazat-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, tankönyvi és logikai feladványokkal"
+                type="Kvíz"
+                emoji="🧩"
+                onClick={() => onActivitySelect('g10-logic-tablazat-quiz', topicId)}
+                icon={<Binary className="w-6 h-6" />}
+                color="teal"
+                {...getTopicProgress('g10-logic-tablazat-quiz')}
               />
             </div>
           </section>
@@ -127,13 +170,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-allitas-es-megforditasa" number={5} title="Állítás és megfordítása" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Implikáció és Megfordítása"
-                subtitle="Feltételes állítások, szükséges és elégséges feltételek"
-                type="Hamarosan"
-                emoji="🔤"
-                disabled={true}
-                icon={<ArrowRightLeft className="w-6 h-6" />}
+                title="Állítás és Megfordítása Tananyag"
+                subtitle="Implikáció (A ⇒ B), megfordítás (B ⇒ A), szükséges és elégséges feltételek, ekvivalencia"
+                type="Tananyag"
+                emoji="🔀"
+                onClick={() => onActivitySelect('g10-logic-allitas-megforditas-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, geometriai tételekkel és logikai fejtörőkkel"
+                type="Kvíz"
+                emoji="⚖️"
+                onClick={() => onActivitySelect('g10-logic-allitas-megforditas-quiz', topicId)}
+                icon={<ArrowRightLeft className="w-6 h-6" />}
+                color="orange"
+                {...getTopicProgress('g10-logic-allitas-megforditas-quiz')}
               />
             </div>
           </section>
@@ -145,13 +198,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-gyakorlas-tudasproba" number={6} title="Gyakorlás, tudáspróba" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Logikai Próba és Bizonyítások"
-                subtitle="Fejezeti összefoglaló feladatsor és tudáspróba"
-                type="Hamarosan"
-                emoji="🏆"
-                disabled={true}
-                icon={<Trophy className="w-6 h-6" />}
+                title="Gyakorlás, Tudáspróba Tananyag"
+                subtitle="Fejezeti összefoglaló elmélet, bizonyítási módszerek és esettanulmányok"
+                type="Tananyag"
+                emoji="📚"
+                onClick={() => onActivitySelect('g10-logic-tudasproba-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="90 válogatott feladat 3 szinten (30 feladat szintenként!), érettségi és kompetencia példákkal"
+                type="Kvíz"
+                emoji="🏆"
+                onClick={() => onActivitySelect('g10-logic-tudasproba-quiz', topicId)}
+                icon={<Trophy className="w-6 h-6" />}
+                color="red"
+                {...getTopicProgress('g10-logic-tudasproba-quiz')}
               />
             </div>
           </section>
@@ -1683,7 +1746,7 @@ export const Grade10View: React.FC<GradeViewProps> = ({
       </div>
       <MaterialGallery
         grade="high-2"
-        onView={onMaterialSelect || (() => {})}
+        onView={onMaterialSelect || (() => { })}
       />
     </div>
   );

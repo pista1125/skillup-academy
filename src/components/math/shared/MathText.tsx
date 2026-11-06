@@ -212,6 +212,11 @@ export function cleanMathSymbols(text: string): string {
     .replace(/\\+cap/g, '∩')
     .replace(/\\+setminus/g, ' \\ ')
     // Operators and relations
+    .replace(/\\+vee|\\+lor(?![a-zA-Z])/g, '∨')
+    .replace(/\\+wedge|\\+land(?![a-zA-Z])/g, '∧')
+    .replace(/\\+neg|\\+lnot(?![a-zA-Z])/g, '¬')
+    .replace(/\\+forall(?![a-zA-Z])/g, '∀')
+    .replace(/\\+exists(?![a-zA-Z])/g, '∃')
     .replace(/\\+pm/g, '±')
     .replace(/\\+mp/g, '∓')
     .replace(/\\+neq|\\+ne(?![a-zA-Z])/g, '≠')
@@ -308,6 +313,11 @@ export function toLatex(s: string): string {
     .replace(/≤/g, ' \\le ')
     .replace(/≥/g, ' \\ge ')
     .replace(/≠/g, ' \\ne ')
+    .replace(/∨/g, ' \\vee ')
+    .replace(/∧/g, ' \\wedge ')
+    .replace(/¬/g, ' \\neg ')
+    .replace(/∀/g, ' \\forall ')
+    .replace(/∃/g, ' \\exists ')
     .replace(/°/g, '^{\\circ}');
 
   // Standalone geometry variable names (ma, mb, sa, Ta -> m_a, s_a, etc.)
