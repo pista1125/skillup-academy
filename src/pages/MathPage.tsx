@@ -1042,6 +1042,29 @@ const Grade10PracticeExamQuiz = lazy(() => import("@/components/math/grade-10/lo
 const Grade10PracticeExamMatcher = lazy(() => import("@/components/math/grade-10/logika/gyakorlas-tudasproba/PracticeExamMatcher").then(m => ({ default: m.PracticeExamMatcher }))) as any;
 const Grade10PracticeExamSorter = lazy(() => import("@/components/math/grade-10/logika/gyakorlas-tudasproba/PracticeExamSorter").then(m => ({ default: m.PracticeExamSorter }))) as any;
 
+// 10. Osztály - II. Egyenletrendszerek - 1. Grafikus megoldás
+const Grade10GraphicLinearTheory = lazy(() => import("@/components/math/grade-10/egyenletrendszerek/egyenletrendszerek-grafikus-megoldasa/GraphicLinearTheory").then(m => ({ default: m.GraphicLinearTheory }))) as any;
+const Grade10GraphicLinearQuiz = lazy(() => import("@/components/math/grade-10/egyenletrendszerek/egyenletrendszerek-grafikus-megoldasa/GraphicLinearQuiz").then(m => ({ default: m.GraphicLinearQuiz }))) as any;
+const Grade10GraphicLinearMatcher = lazy(() => import("@/components/math/grade-10/egyenletrendszerek/egyenletrendszerek-grafikus-megoldasa/GraphicLinearMatcher").then(m => ({ default: m.GraphicLinearMatcher }))) as any;
+const Grade10GraphicLinearSorter = lazy(() => import("@/components/math/grade-10/egyenletrendszerek/egyenletrendszerek-grafikus-megoldasa/GraphicLinearSorter").then(m => ({ default: m.GraphicLinearSorter }))) as any;
+
+// 10. Osztály - II. Egyenletrendszerek - 2. Algebrai megoldás
+const Grade10AlgebraicMethodsTheory = lazy(() => import("@/components/math/grade-10/egyenletrendszerek/egyenletrendszerek-megoldasa-algebrai-modszerekkel/AlgebraicMethodsTheory").then(m => ({ default: m.AlgebraicMethodsTheory }))) as any;
+const Grade10AlgebraicMethodsQuiz = lazy(() => import("@/components/math/grade-10/egyenletrendszerek/egyenletrendszerek-megoldasa-algebrai-modszerekkel/AlgebraicMethodsQuiz").then(m => ({ default: m.AlgebraicMethodsQuiz }))) as any;
+
+// 10. Osztály - II. Egyenletrendszerek - 3. Összetett és szöveges rendszerek
+const Grade10CompositeEquationsTheory = lazy(() => import("@/components/math/grade-10/egyenletrendszerek/egyenletrendszerek/CompositeEquationsTheory").then(m => ({ default: m.CompositeEquationsTheory }))) as any;
+const Grade10CompositeEquationsQuiz = lazy(() => import("@/components/math/grade-10/egyenletrendszerek/egyenletrendszerek/CompositeEquationsQuiz").then(m => ({ default: m.CompositeEquationsQuiz }))) as any;
+
+// 10. Osztály - II. Egyenletrendszerek - 4. Gyakorlás
+const Grade10EqPracticeTheory = lazy(() => import("@/components/math/grade-10/egyenletrendszerek/gyakorlas/PracticeTheory").then(m => ({ default: m.PracticeTheory }))) as any;
+const Grade10EqPracticeQuiz = lazy(() => import("@/components/math/grade-10/egyenletrendszerek/gyakorlas/PracticeQuiz").then(m => ({ default: m.PracticeQuiz }))) as any;
+
+// 10. Osztály - II. Egyenletrendszerek - 5. Gyakorlás, tudáspróba
+const Grade10ExamTheory = lazy(() => import("@/components/math/grade-10/egyenletrendszerek/gyakorlas-tudasproba/ExamTheory").then(m => ({ default: m.ExamTheory }))) as any;
+const Grade10ExamQuiz = lazy(() => import("@/components/math/grade-10/egyenletrendszerek/gyakorlas-tudasproba/ExamQuiz").then(m => ({ default: m.ExamQuiz }))) as any;
+
+
 
 const Grade7CountItTheory = lazy(() => import("@/components/math/grade-7/gondolkodjunk/szamold-ossze/CountingTheory").then(m => ({ default: m.CountingTheory }))) as any;
 const Grade7CountItQuiz = lazy(() => import("@/components/math/grade-7/gondolkodjunk/szamold-ossze/CountingQuiz").then(m => ({ default: m.CountingQuiz }))) as any;
@@ -13575,6 +13598,192 @@ export default function MathPage() {
                       onSwitchToMatcher={() => handleActivitySelect('g10-logic-tudasproba-matcher', selectedTopic || 'g10-logika')}
                     />
                   )}
+
+                  {/* 10. Osztály - II. Egyenletrendszerek - 1. Grafikus megoldás */}
+                  {activityType === 'g10-eq-graphic-theory' && (
+                    <Grade10GraphicLinearTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-eq-graphic-quiz', selectedTopic || 'g10-egyenletrendszerek')}
+                    />
+                  )}
+
+                  {activityType === 'g10-eq-graphic-quiz' && (
+                    <Grade10GraphicLinearQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-graphic-theory', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-graphic-matcher', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-graphic-sorter', selectedTopic || 'g10-egyenletrendszerek')}
+                    />
+                  )}
+
+                  {activityType === 'g10-eq-graphic-matcher' && (
+                    <Grade10GraphicLinearQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-graphic-theory', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-graphic-matcher', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-graphic-sorter', selectedTopic || 'g10-egyenletrendszerek')}
+                    />
+                  )}
+
+                  {activityType === 'g10-eq-graphic-sorter' && (
+                    <Grade10GraphicLinearQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-graphic-theory', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-graphic-matcher', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-graphic-sorter', selectedTopic || 'g10-egyenletrendszerek')}
+                    />
+                  )}
+
+                  {/* 10. Osztály - II. Egyenletrendszerek - 2. Algebrai megoldás */}
+                  {activityType === 'g10-eq-algebraic-theory' && (
+                    <Grade10AlgebraicMethodsTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-eq-algebraic-quiz', selectedTopic || 'g10-egyenletrendszerek')}
+                    />
+                  )}
+
+                  {activityType === 'g10-eq-algebraic-quiz' && (
+                    <Grade10AlgebraicMethodsQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-algebraic-theory', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-algebraic-matcher', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-algebraic-sorter', selectedTopic || 'g10-egyenletrendszerek')}
+                    />
+                  )}
+
+                  {activityType === 'g10-eq-algebraic-matcher' && (
+                    <Grade10AlgebraicMethodsQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-algebraic-theory', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-algebraic-matcher', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-algebraic-sorter', selectedTopic || 'g10-egyenletrendszerek')}
+                    />
+                  )}
+
+                  {activityType === 'g10-eq-algebraic-sorter' && (
+                    <Grade10AlgebraicMethodsQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-algebraic-theory', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-algebraic-matcher', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-algebraic-sorter', selectedTopic || 'g10-egyenletrendszerek')}
+                    />
+                  )}
+
+                  {/* 10. Osztály - II. Egyenletrendszerek - 3. Összetett és szöveges rendszerek */}
+                  {activityType === 'g10-eq-composite-theory' && (
+                    <Grade10CompositeEquationsTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-eq-composite-quiz', selectedTopic || 'g10-egyenletrendszerek')}
+                    />
+                  )}
+
+                  {activityType === 'g10-eq-composite-quiz' && (
+                    <Grade10CompositeEquationsQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-composite-theory', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-composite-matcher', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-composite-sorter', selectedTopic || 'g10-egyenletrendszerek')}
+                    />
+                  )}
+
+                  {activityType === 'g10-eq-composite-matcher' && (
+                    <Grade10CompositeEquationsQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-composite-theory', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-composite-matcher', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-composite-sorter', selectedTopic || 'g10-egyenletrendszerek')}
+                    />
+                  )}
+
+                  {activityType === 'g10-eq-composite-sorter' && (
+                    <Grade10CompositeEquationsQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-composite-theory', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-composite-matcher', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-composite-sorter', selectedTopic || 'g10-egyenletrendszerek')}
+                    />
+                  )}
+
+                  {/* Grade 10 - Topic II: Egyenletrendszerek - 4. Gyakorlás */}
+                  {activityType === 'g10-eq-practice-theory' && (
+                    <Grade10EqPracticeTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-eq-practice-quiz', selectedTopic || 'g10-egyenletrendszerek')}
+                    />
+                  )}
+
+                  {activityType === 'g10-eq-practice-quiz' && (
+                    <Grade10EqPracticeQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-practice-theory', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-practice-matcher', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-practice-sorter', selectedTopic || 'g10-egyenletrendszerek')}
+                    />
+                  )}
+
+                  {activityType === 'g10-eq-practice-matcher' && (
+                    <Grade10EqPracticeQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-practice-theory', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-practice-matcher', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-practice-sorter', selectedTopic || 'g10-egyenletrendszerek')}
+                    />
+                  )}
+
+                  {activityType === 'g10-eq-practice-sorter' && (
+                    <Grade10EqPracticeQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-practice-theory', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-practice-matcher', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-practice-sorter', selectedTopic || 'g10-egyenletrendszerek')}
+                    />
+                  )}
+
+                  {/* Grade 10 - Topic II: Egyenletrendszerek - 5. Gyakorlás, tudáspróba */}
+                  {activityType === 'g10-eq-exam-theory' && (
+                    <Grade10ExamTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-eq-exam-quiz', selectedTopic || 'g10-egyenletrendszerek')}
+                    />
+                  )}
+
+                  {activityType === 'g10-eq-exam-quiz' && (
+                    <Grade10ExamQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-exam-theory', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-exam-matcher', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-exam-sorter', selectedTopic || 'g10-egyenletrendszerek')}
+                    />
+                  )}
+
+                  {activityType === 'g10-eq-exam-matcher' && (
+                    <Grade10ExamQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-exam-theory', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-exam-matcher', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-exam-sorter', selectedTopic || 'g10-egyenletrendszerek')}
+                    />
+                  )}
+
+                  {activityType === 'g10-eq-exam-sorter' && (
+                    <Grade10ExamQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-exam-theory', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-exam-matcher', selectedTopic || 'g10-egyenletrendszerek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-exam-sorter', selectedTopic || 'g10-egyenletrendszerek')}
+                    />
+                  )}
+
 
 
 
