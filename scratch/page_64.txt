@@ -1,0 +1,90 @@
+1 8 . l e c ke 	*YA K2 R L É S 	6 3
+Bővítsd a törteket 	10 -zel, majd egyszerűsíts!
+10
+40 ; 10
+40 ; 10
+4 	20 ; 10
+40 	40	- 	; 10
+4 	40	-
+Alakítsd szorzattá a következő kifejezéseket!
+a) 	8 	18	+
+b) 	45 	5 	20	+ 	-
+Mekkora a derékszögű háromszög területe, ha az
+egyik befogójának hossza 	28 cm, átfogójának
+hossza 3 	7 cm?
++ É Z I ) E L A 'AT
+1.
+2.
+3.
+Egy szabályos háromszög magassága 4 egység
+hosszú. A háromszög minden oldala fölé egy fél-
+kört rajzolunk úgy, hogy a félkör átmérője a há-
+romszög oldala, és a félkörök mind kifelé néznek,
+nincs közös belső pontjuk a háromszöggel.
+a) Szerkeszd meg az ábrát!
+b) Mekkora a félkörök sugarának hossza? (Adj
+pontos eredményt!)
+4.
+Mennyivel egyenlő a következő kifejezés négyzete?
+2 	2 	2 	2	+ 	- 	-
+Milyen x valós szám esetén van a kifejezésnek négyzetgyöke? Add meg a kifejezés négyzetgyökét a lehető legegysze-
+rűbb alakban!
+a) x; (x - 3); -x; (3 - x) 	b) x2; -x2
+; (-x)2; (x - 3)2
+Gyöktelenítsd a tört nevezőjét! 2 	5 	10
+1
++ 	-
+1.
+R É A ' É S
+2.
+3.
+Bizonyítsuk be a gyökvonás azonosságait!
+Igazoljuk, hogy ha a és b pozitív szám, az n pedig pozitív
+egész szám, akkor
+1. 	a 	b 	a b	$ 	$	= 	;
+2. b
+a
+b
+a= 	;
+3. 	a 	a
+n 	n
+=	^ 	h 	!
+A bizonyításhoz felhasználjuk, hogy ha két pozitív szám
+négyzete egyenlő, akkor a számok is egyenlők.
+1–2. Ha a és b pozitív, akkor négyzetgyökük is pozitív. Te-
+hát
+a 	b 	0	$ 	2 	és 	a b 	0	$ 	2 	.
+b
+a 	0	2 	és b
+a 	0	2 	.
+E M E LT S Z I N T
+Hasonlítsuk össze a vizsgált pozitív számok négyzetét (fel-
+használva a négyzetgyök defi nícióját és a hatványozás azo-
+nosságait):
+a 	b 	a 	b 	ab
+2 	2 	2
+$ 	$	= 	=	^ 	^ 	^	h 	h 	h 	és 	a b 	a b
+2
+$ 	$	=	^ 	h 	;
+b
+a
+b
+a
+b
+a
+2
+2
+2
+= 	=	c ^
+^
+m h
+h és b
+a
+b
+a	2
+=	` 	j 	.
+Vagyis az összehasonlított két pozitív szám négyzete egyen-
+lő, ezért maguk a számok is egyenlők.
+3. A négyzetgyök hatványozására vonatkozó tétel az 1. té-
+telből azonnal következik (n-szer vesszük szorzótényező-
+ként 	a -t).

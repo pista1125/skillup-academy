@@ -1,0 +1,55 @@
+2 0 . l e c ke 	F Ü G GV É N Y E K E GY- E GY KO N K R É T P RO B L É M Á H O Z 	6 9
+Egy bolt x darab újraírható, akciós árú DVD-lemezt
+[(x - 3)2 + 7] ⋅ 100 forintért árul. Legfeljebb 10 le-
+mezt vásárolhatunk egyszerre, azaz 0 # x # 10.
+(Ha nem vásárolunk, nem fizetünk!)
+a) Mennyit kell fizetnünk 1, 3, illetve 10 akciós le-
+mez megvásárlása esetén?
+b) Hány lemez vásárlása esetén fi zetjük a legkeve-
+sebbet? Ez a „legjobb vétel”? Érvelj az állításod
+mellett!
+1.
+H Á Z I F E L A DAT
+c) 3 lemez vásárlása esetén az egységár
+3
+700 	233	. 	Ft, míg 10 lemez vásárlása esetén
+10
+5600 	560	= 	Ft.
+Hány lemez vásárlása esetén lesz a legkisebb a
+megvásárolt lemezek egységára? Ez a „legjobb
+vétel”?
+d) Milyen módon lehet sok lemezt megvásárolni a
+lehető legalacsonyabb egységáron?
+d) Mekkora lehet az elkerített rész területe, ha egy sarokhoz illesztjük: két szomszédos oldala egy-egy fal lesz, ahova
+nem kell kerítés?
+Szélesség
+Hosszúság
+Terület
+Melyik esetben lesz az elkerített rész területe a legnagyobb?
+Hogyan számolható ki a szélességből a terület?
+Hogyan számolható ki a hosszúságból a terület?
+A labdarúgó-világbajnokság után egy darabig még jó áron lehet adni a szurkolói mezeket, de egy év elmúltával ezekre
+már nincs nagy kereslet.
+Egy boltvezető ezért úgy dönt, hogy leárazást hirdet. Egy póló ára eddig 4000 Ft volt. De most annyiszor 200 Ft-tal
+olcsóbban adná, ahány pólót vesz tőle a vásárló. Az alkalmazottjai azonban közbeszólnak:
+– 	Ez így még nem lesz jó, mert ha például 15 pólót vennék, akkor kevesebbet fi zetnék, mintha 10 pólót.
+– 	Ez is igaz, de leginkább az a baj ezzel, hogy mindenki ingyen vinné a pólókat.
+a) Ellenőrizzétek, jól számolt-e az első alkalmazott: mennyit fi zetnénk 15, és mennyit 10 pólóért?
+b) Mire gondolhatott a második alkalmazott?
+c) Készítsetek matematikai modellt a feladathoz:
+– 	Jelöljétek x-szel a vásárolt pólók számát! Mennyi lesz x függvényében az egységár?
+– 	Mennyit fi zetnénk x darab póló megvásárlásakor?
+– 	Ábrázoljátok a fizetendő ösz-
+szeget a pólók darabszámának
+függvényében! 	Az 	értelmezési
+tartomány legyen a 25-nél kisebb
+pozitív egész számok halmaza.
+d) Hogyan érdemes változtatni az akci-
+ón? A boltvezető azt szeretné, hogy
+ha valaki több pólót vesz, akkor ke-
+vesebbet fi zessen darabjáért, ugyan-
+akkor mindegyikért kapjon legalább
+1500 Ft-ot. Készítsetek javaslatot
+(esetleg többet is) a leárazáshoz!
+Ábrázoljátok ezt is grafikonon!
+2.

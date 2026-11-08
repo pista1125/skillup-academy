@@ -1,0 +1,56 @@
+A függvények ábrázolásához geometriai szoftvert, pl. a GeoGebra vagy a Graph programot is használhatod.	A függvények ábrázolásához geometriai szoftvert, pl. a
+PARABOLÁK
+A KOORDINÁTA-RENDSZERBEN	21
+1. A valós számok halmazán értelmezett x  x2 függvény grafikonja egy parabola, melynek szimmetriatengelye az y
+tengely. A parabolának a szimmetriatengelyen lévő pontját tengelypontnak nevezzük. Ennek a parabolának a tengely-
+pontja az origó.
+2. Hogyan változik a függvény grafikonja, ha a valós számok
+halmazán az x x 2 helyett az x x 2 + 3 hozzárendelé-
+si szabályt alkalmazzuk?
+Ekkor minden függvényérték 3-mal nagyobb lesz, mint
+az első esetben. Grafikonon ez azt jelenti, hogy a parabo-
+lát az y tengely mentén felfelé kell tolni 3 egységgel.
+x  x 2 + 3; 	x  x 2 + 1; 	x  x 2; 	x  x 2 – 2
+y = x 2 + 3; 	y = x 2 + 1; 	y = x 2; 	y = x 2 – 2
+3. Hogyan változik a függvény grafikonja, ha az x x 2 he-
+lyett az x (x - 3)2 hozzárendelési szabályt alkalmazzuk?
+Ekkor nem az x = 0 helyen veszi fel a függvény a 0-t, ha-
+nem a 3-mal nagyobb számnál, az x = 3 helyen. Grafiko-
+non ez azt jelenti, hogy a parabolát az x tengely mentén
+jobbra kell tolni 3 egységgel.
+x  (x + 2) 2; 	x  x 2
+; 	x  (x – 1) 2; 	x  (x – 3) 2
+y = (x + 2) 2; 	y = x 2
+; 	y = (x – 1) 2; 	y = (x – 3) 2
+y
+x	–1 	1 	2 	3	–2	–3	–4	–5
+1
+–2
+2
+3
+4
+5
+0 	4 	5
+–1
+y
+x	–1 	1 	2 	3	–2	–3	–4	–5
+1
+–1
+–2
+2
+3
+4
+5
+0 	4 	5
+Ábrázoljuk annak a függvénynek a grafikonját, amely minden valós számhoz a négyzetét rendeli!
+Táblázatba foglaltuk a függvény néhány helyettesítési értékét. Ezek alapján ábrázolhatjuk a grafi -
+kon néhány pontját. A pontokra a másodfokú függvény képét, egy parabolát illeszthetünk.
+x 	-2 	-1 	0 	0,5 	1 	1,5 	2
+x2 	4 	1 	0 	0,25 	1 	2,25 	4
+B E V E Z E T Ő
+x
+y
+0 	1
+1
+E L M É L E T
+70 	F Ü G GV É N Y T R A N S Z FO R M Á C I Ó K

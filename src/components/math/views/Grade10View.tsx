@@ -384,13 +384,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-hatvanyozas-ismetles" number={1} title="A hatványozás (ismétlés)" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Hatványozás Alapjai és Azonosságai"
-                subtitle="Azonos alapú és kitevőjű hatványok műveletei"
-                type="Hamarosan"
-                emoji="⚡"
-                disabled={true}
-                icon={<Zap className="w-6 h-6" />}
+                title="A hatványozás Tananyag"
+                subtitle="A hatványozás alapfogalma, műveleti azonosságai, előjelszabályai és gyakorlati számítási stratégiák"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-pow-basics-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="90 feladat 3 szinten (30 feladat/szint), ábrákkal és beépített Wordwall játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-pow-basics-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g10-pow-basics-quiz')}
               />
             </div>
           </section>
@@ -402,31 +412,51 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-egesz-kitevoju-hatvanyok" number={2} title="Egész kitevőjű hatványok" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Nulla és Negatív Kitevők"
-                subtitle="a^0 = 1 és a^(-n) = 1/a^n értelmezése és számítások"
-                type="Hamarosan"
-                emoji="🔢"
-                disabled={true}
-                icon={<Hash className="w-6 h-6" />}
+                title="Egész kitevőjű hatványok Tananyag"
+                subtitle="A hatványfogalom kiterjesztése permanencia-elvvel, nulla és negatív kitevők, azonosságok és tízes hatványok"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-int-powers-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="90 feladat 3 szinten (30 feladat/szint), ábrákkal és beépített Wordwall játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-int-powers-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g10-int-powers-quiz')}
               />
             </div>
           </section>
         )}
 
-        {/* Section 3: Gyakorlás */}
+        {/* Section 3: Hatványozás gyakorlása */}
         {(showAll || activeSubSectionId === 'g10-sec-hatvany-gyakorlas') && (
           <section>
-            <SectionHeader id="g10-sec-hatvany-gyakorlas" number={3} title="Gyakorlás" color="purple" />
+            <SectionHeader id="g10-sec-hatvany-gyakorlas" number={3} title="Hatványozás gyakorlása" color="purple" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Összetett Hatványos Kifejezések"
-                subtitle="Betűs algebrai törtek egyszerűsítése és prímhatványok"
-                type="Hamarosan"
-                emoji="📝"
-                disabled={true}
-                icon={<Calculator className="w-6 h-6" />}
+                title="Hatványozás gyakorlása Tananyag"
+                subtitle="Összetett kifejezések, prímhatványokra bontás, algebrai törtek egyszerűsítése és hatványok összehasonlítása"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-powers-practice-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="purple"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="90 feladat 3 szinten (30 feladat/szint), ábrákkal és beépített Wordwall játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-powers-practice-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g10-powers-practice-quiz')}
               />
             </div>
           </section>
@@ -438,13 +468,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-szamok-normalalakja" number={4} title="Számok normálalakja" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Standard Normálalak és Nagyságrendek"
-                subtitle="Műveletek a*10^k alakú számokkal és mértékegységek"
-                type="Hamarosan"
-                emoji="🌐"
-                disabled={true}
-                icon={<Binary className="w-6 h-6" />}
+                title="Számok normálalakja Tananyag"
+                subtitle="A normálalak fogalma (1 ≤ |a| < 10), nagyságrendi kitevők, SI prefixumok, műveletek és gyakorlati példák"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-scientific-notation-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="90 feladat 3 szinten (30 feladat/szint), ábrákkal és beépített Wordwall játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-scientific-notation-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g10-scientific-notation-quiz')}
               />
             </div>
           </section>
@@ -456,13 +496,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-gyokvonas-azonossagai" number={5} title="A gyökvonás azonosságai" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A Négyzetgyök Fogalma és Azonosságai"
-                subtitle="Szorzat és hányados gyöke, sqrt(a^2) = |a| szabály"
-                type="Hamarosan"
-                emoji="📐"
-                disabled={true}
-                icon={<Divide className="w-6 h-6" />}
+                title="A gyökvonás azonosságai Tananyag"
+                subtitle="A négyzetgyök fogalma, a √(a²) = |a| szabály, szorzat és hányados négyzetgyöke, kiemelés és bevitel"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-root-identities-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="90 feladat 3 szinten (30 feladat/szint), ábrákkal és beépített Wordwall játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-root-identities-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="teal"
+                {...getTopicProgress('g10-root-identities-quiz')}
               />
             </div>
           </section>
@@ -474,13 +524,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-negyzetgyokos-feladatok" number={6} title="Négyzetgyökös feladatok" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Gyöktelenítés és Részleges Gyökvonás"
-                subtitle="Tényező kiemelése/bevitele és nevező gyöktelenítése"
-                type="Hamarosan"
-                emoji="🔍"
-                disabled={true}
-                icon={<Sparkles className="w-6 h-6" />}
+                title="Négyzetgyökös feladatok Tananyag"
+                subtitle="Tényező kiemelése/bevitele, egynemű gyökök összevonása és a nevező gyöktelenítése"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-sqrt-tasks-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="90 feladat 3 szinten (30 feladat/szint), ábrákkal és beépített Wordwall játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-sqrt-tasks-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g10-sqrt-tasks-quiz')}
               />
             </div>
           </section>
@@ -492,13 +552,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-gyok-gyakorlas" number={7} title="Gyakorlás" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Nevezetes Azonosságok Gyökökkel"
-                subtitle="Kikötések, értelmezési tartomány és gyökös egyenletek"
-                type="Hamarosan"
-                emoji="🧠"
-                disabled={true}
-                icon={<Brain className="w-6 h-6" />}
+                title="Gyakorlás Tananyag"
+                subtitle="Kikötések, értelmezési tartomány, nevezetes azonosságok, emeletes gyökök és egyenletek"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-root-practice-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="90 feladat 3 szinten (30 feladat/szint), ábrákkal és beépített Wordwall játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-root-practice-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="violet"
+                {...getTopicProgress('g10-root-practice-quiz')}
               />
             </div>
           </section>
@@ -510,13 +580,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-hatvany-tudasproba" number={8} title="Gyakorlás, tudáspróba" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Hatvány és Gyök Tudáspróba"
-                subtitle="Fejezeti feladatsor és érettségi típusfeladatok"
-                type="Hamarosan"
+                title="Tudáspróba Tananyag"
+                subtitle="Átfogó fejezeti összefoglaló, hatványozás és gyökvonás szintézise, érettségi típusfeladatok"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-hatvany-tudasproba-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
+                color="rose"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz"
+                subtitle="90 feladat 3 szinten (30 feladat/szint), ábrákkal és beépített Wordwall játékokkal"
+                type="Kvíz"
                 emoji="🏆"
-                disabled={true}
+                onClick={() => onActivitySelect('g10-hatvany-tudasproba-quiz', topicId)}
                 icon={<Trophy className="w-6 h-6" />}
                 color="rose"
+                {...getTopicProgress('g10-hatvany-tudasproba-quiz')}
               />
             </div>
           </section>

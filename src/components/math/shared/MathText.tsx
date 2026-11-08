@@ -332,13 +332,34 @@ export function toLatex(s: string): string {
   res = res.replace(/_\(([^()]+)\)/g, '_{$1}');
   res = res.replace(/\^\(([^()]+)\)/g, '^{$1}');
 
-  res = res.replace(/√\{([^}]+)\}/g, (_, m) => `\\sqrt{${m}}`);
-  res = res.replace(/√\(([^)]+)\)/g, (_, m) => `\\sqrt{${m}}`);
+  // Sqrt with brackets/parens/braces:
+  // If radicand has a fraction "a / b", convert that fraction inside the sqrt!
+  res = res.replace(/√\{([^}]+)\}/g, (_, m) => {
+    const inner = m.includes('/')
+      ? m.replace(/([0-9a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ_^{}]+)\s*\/\s*([0-9a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ_^{}]+)/g, '\\frac{$1}{$2}')
+      : m;
+    return `\\sqrt{${inner}}`;
+  });
+  res = res.replace(/√\(([^)]+)\)/g, (_, m) => {
+    const inner = m.includes('/')
+      ? m.replace(/([0-9a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ_^{}]+)\s*\/\s*([0-9a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ_^{}]+)/g, '\\frac{$1}{$2}')
+      : m;
+    return `\\sqrt{${inner}}`;
+  });
   res = res.replace(/√([0-9a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ]+)/g, (_, m) => `\\sqrt{${m}}`);
 
   // Simple parenthesized fraction (e.g. (2/3), (1/4), (a/b), (-1/2))
-  res = res.replace(/\(([+-]?[0-9a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ_^{}]+)\s*\/\s*([+-]?[0-9a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ_^{}]+)\)/g, (_, a, b) => `\\left(\\frac{${a}}{${b}}\\right)`);
-  res = res.replace(/([a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ0-9_{}+-]+)\s*\/\s*([a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ0-9_{}+-]+)/g, (_, a, b) => `\\frac{${a}}{${b}}`);
+  res = res.replace(/\(([+-]?[0-9a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ_]+)\s*\/\s*([+-]?[0-9a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ_]+)\)/g, (_, a, b) => `\\left(\\frac{${a}}{${b}}\\right)`);
+
+  // Sqrt in numerator: \sqrt{...} / b or \sqrt{a} / \sqrt{b}
+  res = res.replace(/(\\sqrt\{[^{}]+\})\s*\/\s*(\\sqrt\{[^{}]+\})/g, '\\frac{$1}{$2}');
+  res = res.replace(/(\\sqrt\{[^{}]+\})\s*\/\s*([0-9a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ]+)/g, '\\frac{$1}{$2}');
+  // Sqrt in denominator: c / \sqrt{a}
+  res = res.replace(/([0-9a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ]+)\s*\/\s*(\\sqrt\{[^{}]+\})/g, '\\frac{$1}{$2}');
+
+  // Simple atom / atom:
+  // Exclude \ and { and } from atoms so it never eats LaTeX commands!
+  res = res.replace(/(?<![\\{])([0-9a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ]+(?:_\{[^{}]+\}|\^\{[^{}]+\})?)\s*\/\s*([0-9a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ]+(?:_\{[^{}]+\}|\^\{[^{}]+\})?)(?![\\}])/g, '\\frac{$1}{$2}');
 
   // Escape unescaped % so KaTeX doesn't treat it as comment
   res = res.replace(/(?<!\\)%/g, '\\%');
@@ -799,6 +820,38 @@ const FRACTION_PATTERNS = [
   '(' + ATOM_EXPR + ')\\s*\\/\\s*(' + ATOM_EXPR + ')(-[a-záéíóöőúüűA-ZÁÉÍÓÖŐÚÜŰ]+)?'
 ];
 
+function isInsideSqrt(str: string, pos: number): boolean {
+  const prefix = str.substring(0, pos);
+  if (prefix.endsWith('√') || /\\sqrt\s*$/.test(prefix)) {
+    return true;
+  }
+
+  const sqrtIndex = Math.max(
+    prefix.lastIndexOf('\\sqrt{'),
+    prefix.lastIndexOf('√{'),
+    prefix.lastIndexOf('√('),
+    prefix.lastIndexOf('\\sqrt(')
+  );
+
+  if (sqrtIndex === -1) return false;
+
+  const afterSqrt = prefix.substring(sqrtIndex);
+  let openChar = '{';
+  let closeChar = '}';
+  if (afterSqrt.startsWith('√(') || afterSqrt.startsWith('\\sqrt(')) {
+    openChar = '(';
+    closeChar = ')';
+  }
+
+  let depth = 0;
+  for (let i = 0; i < afterSqrt.length; i++) {
+    if (afterSqrt[i] === openChar) depth++;
+    else if (afterSqrt[i] === closeChar) depth--;
+  }
+
+  return depth > 0;
+}
+
 export function parseFractionsInText(
   text: string | React.ReactNode,
   size: 'sm' | 'md' | 'lg' | 'xl' = 'md'
@@ -816,6 +869,10 @@ export function parseFractionsInText(
   let match: RegExpExecArray | null;
 
   while ((match = regex.exec(cleanText)) !== null) {
+    if (isInsideSqrt(cleanText, match.index)) {
+      continue;
+    }
+
     if (match.index > lastIndex) {
       parts.push(
         <React.Fragment key={`frac-pre-${lastIndex}-${match.index}`}>

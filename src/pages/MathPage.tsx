@@ -1064,6 +1064,40 @@ const Grade10EqPracticeQuiz = lazy(() => import("@/components/math/grade-10/egye
 const Grade10ExamTheory = lazy(() => import("@/components/math/grade-10/egyenletrendszerek/gyakorlas-tudasproba/ExamTheory").then(m => ({ default: m.ExamTheory }))) as any;
 const Grade10ExamQuiz = lazy(() => import("@/components/math/grade-10/egyenletrendszerek/gyakorlas-tudasproba/ExamQuiz").then(m => ({ default: m.ExamQuiz }))) as any;
 
+// 10. Osztály - III. Hatványozás és a négyzetgyök - 1. A hatványozás (ismétlés)
+const Grade10PowerBasicsTheory = lazy(() => import("@/components/math/grade-10/hatvanyozas-es-negyzetgyok/a-hatvanyozas-ismetles/PowerBasicsTheory").then(m => ({ default: m.PowerBasicsTheory }))) as any;
+const Grade10PowerBasicsQuiz = lazy(() => import("@/components/math/grade-10/hatvanyozas-es-negyzetgyok/a-hatvanyozas-ismetles/PowerBasicsQuiz").then(m => ({ default: m.PowerBasicsQuiz }))) as any;
+
+// 10. Osztály - III. Hatványozás és a négyzetgyök - 2. Egész kitevőjű hatványok
+const Grade10IntegerPowersTheory = lazy(() => import("@/components/math/grade-10/hatvanyozas-es-negyzetgyok/egesz-kitevoju-hatvanyok/IntegerPowersTheory").then(m => ({ default: m.IntegerPowersTheory }))) as any;
+const Grade10IntegerPowersQuiz = lazy(() => import("@/components/math/grade-10/hatvanyozas-es-negyzetgyok/egesz-kitevoju-hatvanyok/IntegerPowersQuiz").then(m => ({ default: m.IntegerPowersQuiz }))) as any;
+
+// 10. Osztály - III. Hatványozás és a négyzetgyök - 3. Hatványozás gyakorlása
+const Grade10PowersPracticeTheory = lazy(() => import("@/components/math/grade-10/hatvanyozas-es-negyzetgyok/gyakorlas-hatvanyozas/PowersPracticeTheory").then(m => ({ default: m.PowersPracticeTheory }))) as any;
+const Grade10PowersPracticeQuiz = lazy(() => import("@/components/math/grade-10/hatvanyozas-es-negyzetgyok/gyakorlas-hatvanyozas/PowersPracticeQuiz").then(m => ({ default: m.PowersPracticeQuiz }))) as any;
+
+// 10. Osztály - III. Hatványozás és a négyzetgyök - 4. Számok normálalakja
+const Grade10ScientificNotationTheory = lazy(() => import("@/components/math/grade-10/hatvanyozas-es-negyzetgyok/szamok-normalalakja/ScientificNotationTheory").then(m => ({ default: m.ScientificNotationTheory }))) as any;
+const Grade10ScientificNotationQuiz = lazy(() => import("@/components/math/grade-10/hatvanyozas-es-negyzetgyok/szamok-normalalakja/ScientificNotationQuiz").then(m => ({ default: m.ScientificNotationQuiz }))) as any;
+
+// 10. Osztály - III. Hatványozás és a négyzetgyök - 5. A gyökvonás azonosságai
+const Grade10RootIdentitiesTheory = lazy(() => import("@/components/math/grade-10/hatvanyozas-es-negyzetgyok/a-gyokvonas-azonossagai/RootIdentitiesTheory").then(m => ({ default: m.RootIdentitiesTheory }))) as any;
+const Grade10RootIdentitiesQuiz = lazy(() => import("@/components/math/grade-10/hatvanyozas-es-negyzetgyok/a-gyokvonas-azonossagai/RootIdentitiesQuiz").then(m => ({ default: m.RootIdentitiesQuiz }))) as any;
+
+// 10. Osztály - III. Hatványozás és a négyzetgyök - 6. Négyzetgyökös feladatok
+const Grade10SquareRootTasksTheory = lazy(() => import("@/components/math/grade-10/hatvanyozas-es-negyzetgyok/negyzetgyokos-feladatok/SquareRootTasksTheory").then(m => ({ default: m.SquareRootTasksTheory }))) as any;
+const Grade10SquareRootTasksQuiz = lazy(() => import("@/components/math/grade-10/hatvanyozas-es-negyzetgyok/negyzetgyokos-feladatok/SquareRootTasksQuiz").then(m => ({ default: m.SquareRootTasksQuiz }))) as any;
+
+// 10. Osztály - III. Hatványozás és a négyzetgyök - 7. Gyakorlás (gyökvonás)
+const Grade10RootPracticeTheory = lazy(() => import("@/components/math/grade-10/hatvanyozas-es-negyzetgyok/gyakorlas-gyokvonas/RootPracticeTheory").then(m => ({ default: m.RootPracticeTheory }))) as any;
+const Grade10RootPracticeQuiz = lazy(() => import("@/components/math/grade-10/hatvanyozas-es-negyzetgyok/gyakorlas-gyokvonas/RootPracticeQuiz").then(m => ({ default: m.RootPracticeQuiz }))) as any;
+
+// 10. Osztály - III. Hatványozás és a négyzetgyök - 8. Gyakorlás, tudáspróba
+const Grade10SummaryTheory = lazy(() => import("@/components/math/grade-10/hatvanyozas-es-negyzetgyok/gyakorlas-tudasproba/SummaryTheory").then(m => ({ default: m.SummaryTheory }))) as any;
+const Grade10SummaryQuiz = lazy(() => import("@/components/math/grade-10/hatvanyozas-es-negyzetgyok/gyakorlas-tudasproba/SummaryQuiz").then(m => ({ default: m.SummaryQuiz }))) as any;
+
+
+
 
 
 const Grade7CountItTheory = lazy(() => import("@/components/math/grade-7/gondolkodjunk/szamold-ossze/CountingTheory").then(m => ({ default: m.CountingTheory }))) as any;
@@ -13784,6 +13818,302 @@ export default function MathPage() {
                     />
                   )}
 
+                  {/* Grade 10 - Topic III: Hatványozás és a négyzetgyök - 1. A hatványozás (ismétlés) */}
+                  {activityType === 'g10-pow-basics-theory' && (
+                    <Grade10PowerBasicsTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-pow-basics-quiz', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-pow-basics-quiz' && (
+                    <Grade10PowerBasicsQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-pow-basics-theory', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-pow-basics-matcher', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-pow-basics-sorter', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-pow-basics-matcher' && (
+                    <Grade10PowerBasicsQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-pow-basics-theory', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-pow-basics-matcher', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-pow-basics-sorter', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-pow-basics-sorter' && (
+                    <Grade10PowerBasicsQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-pow-basics-theory', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-pow-basics-matcher', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-pow-basics-sorter', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {/* Grade 10 - Topic III: Hatványozás és a négyzetgyök - 2. Egész kitevőjű hatványok */}
+                  {activityType === 'g10-int-powers-theory' && (
+                    <Grade10IntegerPowersTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-int-powers-quiz', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-int-powers-quiz' && (
+                    <Grade10IntegerPowersQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-int-powers-theory', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-int-powers-matcher', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-int-powers-sorter', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-int-powers-matcher' && (
+                    <Grade10IntegerPowersQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-int-powers-theory', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-int-powers-matcher', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-int-powers-sorter', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-int-powers-sorter' && (
+                    <Grade10IntegerPowersQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-int-powers-theory', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-int-powers-matcher', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-int-powers-sorter', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {/* Grade 10 - Topic III: Hatványozás és a négyzetgyök - 3. Hatványozás gyakorlása */}
+                  {activityType === 'g10-powers-practice-theory' && (
+                    <Grade10PowersPracticeTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-powers-practice-quiz', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-powers-practice-quiz' && (
+                    <Grade10PowersPracticeQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-powers-practice-theory', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-powers-practice-matcher', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-powers-practice-sorter', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-powers-practice-matcher' && (
+                    <Grade10PowersPracticeQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-powers-practice-theory', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-powers-practice-matcher', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-powers-practice-sorter', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-powers-practice-sorter' && (
+                    <Grade10PowersPracticeQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-powers-practice-theory', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-powers-practice-matcher', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-powers-practice-sorter', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {/* Grade 10 - Topic III: Hatványozás és a négyzetgyök - 4. Számok normálalakja */}
+                  {(activityType === 'g10-scientific-notation-theory' || activityType === 'g10-sci-notation-theory') && (
+                    <Grade10ScientificNotationTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-scientific-notation-quiz', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {(activityType === 'g10-scientific-notation-quiz' || activityType === 'g10-sci-notation-quiz') && (
+                    <Grade10ScientificNotationQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-scientific-notation-theory', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-scientific-notation-matcher', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-scientific-notation-sorter', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {(activityType === 'g10-scientific-notation-matcher' || activityType === 'g10-sci-notation-matcher') && (
+                    <Grade10ScientificNotationQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-scientific-notation-theory', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-scientific-notation-matcher', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-scientific-notation-sorter', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {(activityType === 'g10-scientific-notation-sorter' || activityType === 'g10-sci-notation-sorter') && (
+                    <Grade10ScientificNotationQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-scientific-notation-theory', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-scientific-notation-matcher', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-scientific-notation-sorter', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {/* Grade 10 - Topic III: Hatványozás és a négyzetgyök - 5. A gyökvonás azonosságai */}
+                  {activityType === 'g10-root-identities-theory' && (
+                    <Grade10RootIdentitiesTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-root-identities-quiz', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-root-identities-quiz' && (
+                    <Grade10RootIdentitiesQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-root-identities-theory', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-root-identities-matcher', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-root-identities-sorter', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-root-identities-matcher' && (
+                    <Grade10RootIdentitiesQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-root-identities-theory', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-root-identities-matcher', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-root-identities-sorter', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-root-identities-sorter' && (
+                    <Grade10RootIdentitiesQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-root-identities-theory', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-root-identities-matcher', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-root-identities-sorter', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {/* Grade 10 - Topic III: Hatványozás és a négyzetgyök - 6. Négyzetgyökös feladatok */}
+                  {(activityType === 'g10-sqrt-tasks-theory' || activityType === 'g10-root-tasks-theory') && (
+                    <Grade10SquareRootTasksTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-sqrt-tasks-quiz', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {(activityType === 'g10-sqrt-tasks-quiz' || activityType === 'g10-root-tasks-quiz') && (
+                    <Grade10SquareRootTasksQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-sqrt-tasks-theory', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-sqrt-tasks-matcher', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-sqrt-tasks-sorter', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {(activityType === 'g10-sqrt-tasks-matcher' || activityType === 'g10-root-tasks-matcher') && (
+                    <Grade10SquareRootTasksQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-sqrt-tasks-theory', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-sqrt-tasks-matcher', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-sqrt-tasks-sorter', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {(activityType === 'g10-sqrt-tasks-sorter' || activityType === 'g10-root-tasks-sorter') && (
+                    <Grade10SquareRootTasksQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-sqrt-tasks-theory', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-sqrt-tasks-matcher', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-sqrt-tasks-sorter', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {/* Grade 10 - Topic III: Hatványozás és a négyzetgyök - 7. Gyakorlás (gyökvonás) */}
+                  {activityType === 'g10-root-practice-theory' && (
+                    <Grade10RootPracticeTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-root-practice-quiz', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-root-practice-quiz' && (
+                    <Grade10RootPracticeQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-root-practice-theory', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-root-practice-matcher', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-root-practice-sorter', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-root-practice-matcher' && (
+                    <Grade10RootPracticeQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-root-practice-theory', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-root-practice-matcher', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-root-practice-sorter', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-root-practice-sorter' && (
+                    <Grade10RootPracticeQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-root-practice-theory', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-root-practice-matcher', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-root-practice-sorter', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {/* Grade 10 - Topic III: Hatványozás és a négyzetgyök - 8. Gyakorlás, tudáspróba */}
+                  {activityType === 'g10-hatvany-tudasproba-theory' && (
+                    <Grade10SummaryTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-hatvany-tudasproba-quiz', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-hatvany-tudasproba-quiz' && (
+                    <Grade10SummaryQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-hatvany-tudasproba-theory', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-hatvany-tudasproba-matcher', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-hatvany-tudasproba-sorter', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-hatvany-tudasproba-matcher' && (
+                    <Grade10SummaryQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-hatvany-tudasproba-theory', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-hatvany-tudasproba-matcher', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-hatvany-tudasproba-sorter', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-hatvany-tudasproba-sorter' && (
+                    <Grade10SummaryQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-hatvany-tudasproba-theory', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-hatvany-tudasproba-matcher', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-hatvany-tudasproba-sorter', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
 
 
 
@@ -14938,4 +15268,3 @@ function ToolCard({ title, desc, icon, color, onClick }: ToolCardProps) {
     </button>
   );
 }
-

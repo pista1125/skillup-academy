@@ -807,11 +807,11 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = (props) => {
         className="bg-white dark:bg-slate-900 rounded-2xl sm:rounded-3xl border-2 border-slate-200/80 dark:border-slate-800 p-3.5 sm:p-8 shadow-sm space-y-6 sm:space-y-8"
       >
         {/* Document Header */}
-        <div className="border-b border-slate-200 dark:border-slate-800 pb-5 sm:pb-6 text-center sm:text-left flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="border-b border-slate-200 dark:border-slate-800 pb-5 sm:pb-6 text-left flex flex-col md:flex-row items-start md:items-start justify-between gap-4">
           <div className="flex-1 min-w-0">
             <div
               className={cn(
-                'inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider mb-2 border max-w-full text-center',
+                'inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider mb-2 border max-w-full text-left',
                 styles.badgeBg,
                 styles.badgeBorder,
                 styles.badgeText
@@ -832,7 +832,7 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = (props) => {
           {displayRule && (
             <div
               className={cn(
-                'p-3 sm:p-3.5 rounded-xl sm:rounded-2xl border w-full md:w-auto max-w-full md:max-w-md shrink-0 shadow-sm',
+                'p-3 sm:p-3.5 rounded-xl sm:rounded-2xl border w-full md:w-auto max-w-full md:max-w-md shrink-0 shadow-sm self-start',
                 displayRule.align === 'left'
                   ? 'text-left'
                   : displayRule.align === 'center'

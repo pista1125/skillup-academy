@@ -1,0 +1,39 @@
+1 6 . l e c ke 	A GY Ö K VO N Á S A Z O N O S S Á G A I 	5 9
+Négyzetgyök közelítő értéke
+Vajon hogyan határozták meg egy szám négyzetgyökét több száz évvel ezelőtt? Hogyan számolhatjuk ki egy szám négyzet-
+gyökének közelítő értékét tetszőleges pontossággal, ha nem használhatunk számológépet?
+Nézzünk néhány lehetőséget a művelet fejben és írásban való elvégzésére.
+I. 	Tényezőkre bontás
+A módszer alapja az egyjegyű pozitív egészek négyzetének (1; 4; 9; 16; 25; 36; 49; 64; 81) és a 10 hatványainak ismerete.
+Vizsgáljuk meg, hogy az általunk ismert négyzetszámok, illetve a 10 páros hatványai közül melyik a legnagyobb, amely
+osztója a gyökjel alatt lévő számnak, és ezek ismeretében bontsuk tényezőkre! Ezt követően alkalmazzuk a szorzat négy-
+zetgyökére vonatkozó azonosságot.
+a) 	22 500 	225 100 	25 9 100 	25 	9 	100 	5 3 10 	150	$ 	$ 	$ 	$ 	$ 	$ 	$	= 	= 	= 	= 	=
+b) 	245 	49 5 	49 	5 	7 	5	$ 	$ 	$	= 	= 	=
+(A 	5 közelítő értékének meghatározására a későbbiekben térünk ki.)
+II. 	Közelítő érték meghatározása
+A módszer alapja a négyzetgyök függvény szigorú monoton tulajdonságának ismerete (vagyis fennáll a nemnegatív
+valós számokra, hogy nagyobb szám négyzetgyöke nagyobb). Határozzuk meg, hogy a négyzetgyökjel alatt lévő szám
+melyik két négyzetszám (vagy négyzetszám számlálójú és nevezőjű közönséges törtek) közé esik, majd az ezek között
+fennálló relációk alapján adjuk meg a gyökös kifejezés közelítő értékét!
+a) 	5 közelítő értékének maghatározása:
+4 1 5 1 9, ezért a négyzetgyökfüggvény szigorú monotonitása miatt
+4 	5 	9	1 	1 	, vagyis 2 	5 	3	1 	1 	.
+Ennek ismeretében az 1. c) feladatrészben kapott 7 	5	$ 	értékéről megállapíthatjuk, hogy 7 ∙ 2 1 7 	5	$ 	1 7 ∙ 3,
+vagyis 14 1 7 	5	$ 	1 21.
+Ha még ennél is pontosabb közelítő értéket szeretnénk, akkor használjunk a relációkban olyan közönséges törteket,
+melyek számlálója és nevezője négyzetszám.
+4 	5 4
+25	1 	1 	, ezért a négyzetgyökfüggvény szigorú monotonitása miatt
+4 	5 4
+25	1 	1 	, vagyis 2 	5 2
+5	1 	1 	.
+Így a 7 	5	$ 	jobb közelítéssel, 7 2 	7 	5 	7 2
+5	$ 	$ 	$	1 	1 	, tehát 	,	14 	7 	5 	17 5	$	1 	1 	.
+b) 	47 közelítő értékének maghatározása:
+36 1 47 1 49, ezért a négyzetgyökfüggvény szigorú monotonitása miatt
+36 	47 	49	1 	1 	, vagyis 6 	47 	7	1 	1 	.
+Mutasd meg közönséges törtek felhasználásával, hogy 6,5 1 	47 !
+Különböző algebrai és geometriai feladatok megoldása során ellenőrzésként célszerű becsléseket végezni. A fenti számí-
+tási módszereknek hasznát veheted a becslések elvégzésekor.
+R É A ' É S

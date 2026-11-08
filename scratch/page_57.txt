@@ -1,0 +1,80 @@
+56 	H AT V Á N YO Z Á S É S A N É GY Z E T GY Ö K
+Régről ismert egy hamis bizonyítás arra, hogy 64 = 65.
+A 8 egység oldalú négyzetet az ábra szerint vágjuk négy
+síkidomra! Ezekből rakjuk ki az alsó ábra szerinti tégla-
+lapot! Mivel a két síkidom ugyanazokból a részekből áll,
+területük egyenlő: 8 ⋅ 8 = 5 ⋅ 13, azaz 64 = 65.
+B E V E Z E T Ő
+Hol a hiba?
+Tényleg hézag nélkül tölti ki a négy síkidom az 5 × 13-as
+téglalapot? Vajon egy egyenesbe esik a téglalapban az I. tra-
+péz szára és a II. háromszög átfogója? Hasonlítsuk össze a
+téglalap UV átlóját a PQ és RS szakaszok összegével!
+Pitagorasz-tétellel: UV 	5 	13 	194	2 	2
+= 	+ 	= 	. 13,93 és
+PQ 	RS 	5 	2 	8 	3 	29 	73	2 	2 	2 	2
++ 	= 	+ 	+ 	+ 	= 	+ 	. 13,93.
+Két szám egyenlőségéhez nem elég azonban csak a közelítő
+értékeiket vizsgálni. Azt tudjuk, hogy mindkét szám pozi-
+tív, hasonlítsuk össze a négyzetüket!
+29 	73 	29 	2 	29 	73 	73
+102 	2 	29 	73
+2 $ 	$
+$ 	$
++ 	= 	+ 	+ 	=
+= 	+
+^ 	h
+194 	194 	102 	2 46
+2 $	= 	= 	+	^ 	h
+Melyik nagyobb: 	29 	73	$ 	vagy 46? Hasonlítsuk össze a
+négyzetüket!
+29 	73 	29 73 	2117
+2
+$ 	$	= 	=	^ 	h 	, de 462 = 2116.
+Azt kaptuk, hogy PQ + RS 2 UV, vagyis az I. és II. ré-
+szek (és ugyanígy a III. és IV. részek) összeillesztése után
+nem háromszöget kapunk, hanem egy konkáv négyszöget!
+A négy síkidom nem hézagmentesen tölti ki a téglalapot.
+U
+V
+5	5
+5	8
+5 	8
+II.
+I.
+III.
+IV.
+P
+Q
+5 	3
+3
+3
+5
+3	5
+8
+I. 	II.
+III.	IV.
+R
+5
+S
+A GYÖKVONÁS AZONOSSÁGAI	16
+Ismétlés:
+Defi níció: Egy nemnegatív valós a szám négyzetgyöke az a nemnegatív valós szám, melynek négyzete a, vagyis bármely
+a ! R0
++ esetén 	a 	a2 =	^ 	h 	.
+Negatív számoknak nem létezik négyzetgyöke, mert nincs olyan valós szám, melynek négyzete negatív lenne.
+Például: 	64 	8	= 	, mert 8 2 = 64; 	169 	13	= 	, mert 13 2 = 169; 	289 	17	= 	, mert 17 2 = 289.
+E L M É L E T
+Számológép használata nélkül számoljuk ki 	8 és 	2
+szorzatának, valamint hányadosának pontos értékét!
+Megoldás:
+A 	8 és 	2 is irracionális szám, így nehezen tudnánk
+elvégezni a számolást. A keresett számok meghatározásá-
+K I ' 2 L * 2 Z 2 T T ) E L A 'AT
+hoz használjuk a négyzetgyök defi nícióját! Kiszámoljuk a
+keresett szorzat négyzetét:
+8 	2 	8 	2 	8 2 	16
+2 	2 	2
+$ 	$ 	$	= 	= 	=	^ 	^ 	^	h 	h 	h 	.
+Tudjuk, hogy van olyan pozitív szám, melynek négyzete
+ugyancsak 16, mivel 4 2 = 16.
