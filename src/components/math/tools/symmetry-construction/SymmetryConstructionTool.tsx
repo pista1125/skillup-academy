@@ -61,7 +61,7 @@ type Point = {
     label?: string;
 };
 
-type GeometryType = 'point' | 'line' | 'segment' | 'polygon' | 'regular-polygon';
+type GeometryType = 'point' | 'line' | 'segment' | 'ray' | 'polygon' | 'regular-polygon';
 
 export type SpecialShapeType = 'heart' | 'star' | 'cross' | 'arrow' | 'house' | 'pine' | 'lightning' | 'cloud' | 'butterfly' | 'anchor';
 
@@ -130,7 +130,7 @@ type GeometryObject = {
     pointLabels?: Record<string, string>; // Maps virtual point IDs to labels, e.g. regular polygon vertices
 };
 
-type Tool = 'select' | 'point' | 'line' | 'segment' | 'polygon' | 'regular-polygon' | 'special-shape' | 'axial-reflect' | 'central-reflect' | 'eraser' | 'pan';
+type Tool = 'select' | 'point' | 'line' | 'segment' | 'ray' | 'polygon' | 'regular-polygon' | 'special-shape' | 'axial-reflect' | 'central-reflect' | 'eraser' | 'pan';
 
 type BackgroundType = 'blank' | 'grid' | 'coordinate';
 
@@ -153,19 +153,22 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
     const [regularPolygonSides, setRegularPolygonSides] = useState(6);
     const [activeSpecialShape, setActiveSpecialShape] = useState<SpecialShapeType>('heart');
     const [showReflectionLines, setShowReflectionLines] = useState(false);
+    const [showReflectionDistances, setShowReflectionDistances] = useState(false);
     const [showPointLabels, setShowPointLabels] = useState(true);
     const [showLineLabels, setShowLineLabels] = useState(true);
     const [showDistances, setShowDistances] = useState(false);
+    const [showAngles, setShowAngles] = useState(false);
     const [showAxes, setShowAxes] = useState(true);
 
     // View State (Pan & Zoom)
     const [viewBox, setViewBox] = useState({ x: -600, y: -400, width: 1200, height: 800 });
     const [isPanning, setIsPanning] = useState(false);
-    const [lastMousePos, setLastMousePos] = useState({ x: 0, y: 0 });
+    const lastMousePosRef = useRef({ x: 0, y: 0 });
+    const dragStartMousePosRef = useRef({ x: 0, y: 0 });
+    const dragStartPointsRef = useRef<Record<string, { x: number, y: number }>>({});
     const [hoveredObjectId, setHoveredObjectId] = useState<string | null>(null);
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
     const [draggedObjectId, setDraggedObjectId] = useState<string | null>(null);
-    const [initialDragPoints, setInitialDragPoints] = useState<Record<string, { x: number, y: number }>>({});
 
     const [history, setHistory] = useState<{ points: Record<string, Point>, objects: Record<string, GeometryObject> }[]>([]);
     const [historyIndex, setHistoryIndex] = useState(-1);
@@ -289,7 +292,7 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
         let maxCharCode = 100; // 'e' is 101
 
         Object.values(currentObjects).forEach(obj => {
-            if ((obj.type === 'line' || obj.type === 'segment') && obj.label && obj.label.length === 1 && obj.label >= 'e' && obj.label <= 'z') {
+            if ((obj.type === 'line' || obj.type === 'segment' || obj.type === 'ray') && obj.label && obj.label.length === 1 && obj.label >= 'e' && obj.label <= 'z') {
                 const code = obj.label.charCodeAt(0);
                 if (code > maxCharCode) maxCharCode = code;
             }
@@ -411,10 +414,193 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
         return result;
     }, [points, objects, regularPolygonSides, reflectPointCentral, reflectPointAxial]);
 
+    // --- Distance & Intersection Helpers for Picking / Erasing ---
+
+    const distToLineType = (
+        p: { x: number, y: number },
+        p1: { x: number, y: number },
+        p2: { x: number, y: number },
+        type: 'line' | 'segment' | 'ray'
+    ) => {
+        const dx = p2.x - p1.x;
+        const dy = p2.y - p1.y;
+        const lenSq = dx * dx + dy * dy;
+        if (lenSq < 0.0001) {
+            return Math.sqrt((p.x - p1.x) ** 2 + (p.y - p1.y) ** 2);
+        }
+        let t = ((p.x - p1.x) * dx + (p.y - p1.y) * dy) / lenSq;
+        if (type === 'segment') {
+            t = Math.max(0, Math.min(1, t));
+        } else if (type === 'ray') {
+            t = Math.max(0, t);
+        }
+        const projX = p1.x + t * dx;
+        const projY = p1.y + t * dy;
+        return Math.sqrt((p.x - projX) ** 2 + (p.y - projY) ** 2);
+    };
+
+    const isPointInPolygon = (p: { x: number, y: number }, pts: { x: number, y: number }[]) => {
+        let inside = false;
+        for (let i = 0, j = pts.length - 1; i < pts.length; j = i++) {
+            const xi = pts[i].x, yi = pts[i].y;
+            const xj = pts[j].x, yj = pts[j].y;
+            const intersect = ((yi > p.y) !== (yj > p.y)) &&
+                (p.x < (xj - xi) * (p.y - yi) / (yj - yi) + xi);
+            if (intersect) inside = !inside;
+        }
+        return inside;
+    };
+
+    const distToPolygonPerimeter = (p: { x: number, y: number }, pts: { x: number, y: number }[]) => {
+        let minDist = Infinity;
+        for (let i = 0; i < pts.length; i++) {
+            const p1 = pts[i];
+            const p2 = pts[(i + 1) % pts.length];
+            const d = distToLineType(p, p1, p2, 'segment');
+            if (d < minDist) minDist = d;
+        }
+        return minDist;
+    };
+
+    const findObjectNear = useCallback((p: { x: number, y: number }, tol: number): GeometryObject | null => {
+        const objList = Object.values(objects).slice().reverse();
+        for (const obj of objList) {
+            const pts = obj.pointIds.map(id => allPoints[id]).filter(Boolean);
+            if (pts.length === 0) continue;
+
+            if (obj.type === 'point' && pts.length >= 1) {
+                const d = Math.sqrt((p.x - pts[0].x) ** 2 + (p.y - pts[0].y) ** 2);
+                if (d < tol) return obj;
+            } else if ((obj.type === 'line' || obj.type === 'segment' || obj.type === 'ray') && pts.length >= 2) {
+                const d = distToLineType(p, pts[0], pts[1], obj.type);
+                if (d < tol) return obj;
+            } else if ((obj.type === 'polygon' || obj.type === 'regular-polygon') && pts.length >= 3) {
+                if (isPointInPolygon(p, pts)) return obj;
+                const d = distToPolygonPerimeter(p, pts);
+                if (d < tol) return obj;
+            }
+        }
+        return null;
+    }, [objects, allPoints]);
+
     // --- Interaction Handlers ---
 
+    const handlePointEraser = useCallback((pId: string) => {
+        const newPoints = { ...points };
+        delete newPoints[pId];
+
+        const newObjects = { ...objects };
+        let changed = true;
+        while (changed) {
+            changed = false;
+            Object.keys(newObjects).forEach(objId => {
+                const obj = newObjects[objId];
+                const dependsOnPoint = obj.pointIds.includes(pId);
+                const dependsOnSource = obj.reflectionSourceId && !newObjects[obj.reflectionSourceId];
+                const dependsOnRef = obj.reflectionRefId === pId || (obj.reflectionRefId && !newObjects[obj.reflectionRefId] && !points[obj.reflectionRefId]);
+
+                if (dependsOnPoint || dependsOnSource || dependsOnRef) {
+                    delete newObjects[objId];
+                    changed = true;
+                }
+            });
+        }
+
+        // Clean up unshared points that belonged to deleted objects
+        Object.keys(newPoints).forEach(id => {
+            const isUsed = Object.values(newObjects).some(o => o.pointIds.includes(id));
+            if (!isUsed) {
+                delete newPoints[id];
+            }
+        });
+
+        setPoints(newPoints);
+        setObjects(newObjects);
+        pushToHistory(newPoints, newObjects);
+        setHoveredPointId(null);
+    }, [points, objects, pushToHistory]);
+
+    const handleObjectClick = useCallback((objId: string) => {
+        if (isPanning) return;
+
+        if (activeTool === 'axial-reflect') {
+            if (!reflectingObjectId) {
+                setReflectingObjectId(objId);
+            } else {
+                const axisObj = objects[objId];
+                if (axisObj?.type === 'line') {
+                    const id = `refl-a-${Date.now()}`;
+                    const sourceObj = objects[reflectingObjectId];
+                    const pointIds = sourceObj.pointIds.map((_, i) => `p-refla-${id}-${i}`);
+                    const newObjects: Record<string, GeometryObject> = {
+                        ...objects,
+                        [id]: {
+                            id, type: sourceObj.type, pointIds, color: 'green', isReflection: true,
+                            reflectionSourceId: reflectingObjectId!, reflectionType: 'axial' as const, reflectionRefId: objId
+                        }
+                    };
+                    setObjects(newObjects);
+                    pushToHistory(points, newObjects);
+                    setReflectingObjectId(null);
+                    setSelection([]);
+                }
+            }
+        } else if (activeTool === 'central-reflect') {
+            if (!reflectingObjectId) {
+                setReflectingObjectId(objId);
+            } else {
+                const targetObj = objects[objId];
+                if (targetObj?.type === 'point') {
+                    const id = `refl-c-${Date.now()}`;
+                    const sourceObj = objects[reflectingObjectId];
+                    const pointIds = sourceObj.pointIds.map((_, i) => `p-reflc-${id}-${i}`);
+                    const newObjects: Record<string, GeometryObject> = {
+                        ...objects,
+                        [id]: {
+                            id, type: sourceObj.type, pointIds, color: 'green', isReflection: true,
+                            reflectionSourceId: reflectingObjectId!, reflectionType: 'central' as const, reflectionRefId: targetObj.pointIds[0]
+                        }
+                    };
+                    setObjects(newObjects);
+                    pushToHistory(points, newObjects);
+                    setReflectingObjectId(null);
+                }
+            }
+        } else if (activeTool === 'eraser') {
+            const newObjects = { ...objects };
+            const newPoints = { ...points };
+
+            const deleteObjRecursive = (id: string) => {
+                if (!newObjects[id]) return;
+                delete newObjects[id];
+
+                // Cascade delete reflections
+                Object.keys(newObjects).forEach(k => {
+                    if (newObjects[k].reflectionSourceId === id || newObjects[k].reflectionRefId === id) {
+                        deleteObjRecursive(k);
+                    }
+                });
+            };
+
+            deleteObjRecursive(objId);
+
+            // Clean up points that are no longer used by any remaining object
+            Object.keys(newPoints).forEach(pId => {
+                const isUsed = Object.values(newObjects).some(o => o.pointIds.includes(pId));
+                if (!isUsed) {
+                    delete newPoints[pId];
+                }
+            });
+
+            setObjects(newObjects);
+            setPoints(newPoints);
+            pushToHistory(newPoints, newObjects);
+            setHoveredObjectId(null);
+        }
+    }, [isPanning, activeTool, reflectingObjectId, objects, points, pushToHistory]);
+
     const handleCanvasClick = (e: React.MouseEvent) => {
-        if (draggedPointId || isPanning) return;
+        if (draggedPointId || draggedObjectId || isPanning) return;
         if ((['select', 'pan'] as Tool[]).includes(activeTool)) {
             setSelection([]);
             setReflectingObjectId(null);
@@ -433,6 +619,24 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
 
         let existingPointEntry = getPointAt(pos, tolerance);
         
+        // Special handling for ERASER tool when canvas is clicked
+        if (activeTool === 'eraser') {
+            if (existingPointEntry) {
+                handlePointEraser(existingPointEntry[0]);
+                return;
+            }
+            if (hoveredObjectId) {
+                handleObjectClick(hoveredObjectId);
+                return;
+            }
+            const nearObj = findObjectNear(pos, 22 * (viewBox.width / 1200));
+            if (nearObj) {
+                handleObjectClick(nearObj.id);
+                return;
+            }
+            return;
+        }
+
         // Special case: if we are in polygon mode and have at least 3 points, 
         // try to find the FIRST point with LARGER tolerance to make closing easier
         if (activeTool === 'polygon' && selection.length >= 2) {
@@ -474,9 +678,10 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                 setSelection([clickedPointId]);
             } else if (selection[0] !== clickedPointId) {
                 const id = `obj-${Date.now()}`;
+                const label = getNextLineLabel(objects);
                 const newObjects = {
                     ...objects,
-                    [id]: { id, type: 'line' as const, pointIds: [selection[0], clickedPointId!], color: 'black', isReflection: false }
+                    [id]: { id, type: 'line' as const, pointIds: [selection[0], clickedPointId!], color: 'black', isReflection: false, label }
                 };
                 setObjects(newObjects);
                 pushToHistory(currentPoints, newObjects);
@@ -487,9 +692,24 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                 setSelection([clickedPointId]);
             } else if (selection[0] !== clickedPointId) {
                 const id = `obj-${Date.now()}`;
+                const label = getNextLineLabel(objects);
                 const newObjects = {
                     ...objects,
-                    [id]: { id, type: 'segment' as const, pointIds: [selection[0], clickedPointId!], color: 'black', isReflection: false }
+                    [id]: { id, type: 'segment' as const, pointIds: [selection[0], clickedPointId!], color: 'black', isReflection: false, label }
+                };
+                setObjects(newObjects);
+                pushToHistory(currentPoints, newObjects);
+                setSelection([]);
+            }
+        } else if (activeTool === 'ray') {
+            if (selection.length === 0) {
+                setSelection([clickedPointId]);
+            } else if (selection[0] !== clickedPointId) {
+                const id = `obj-${Date.now()}`;
+                const label = getNextLineLabel(objects);
+                const newObjects = {
+                    ...objects,
+                    [id]: { id, type: 'ray' as const, pointIds: [selection[0], clickedPointId!], color: 'black', isReflection: false, label }
                 };
                 setObjects(newObjects);
                 pushToHistory(currentPoints, newObjects);
@@ -579,141 +799,105 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
         }
     };
 
-    const handleObjectClick = (objId: string) => {
-        if (isPanning) return;
-
-        if (activeTool === 'axial-reflect') {
-            if (!reflectingObjectId) {
-                setReflectingObjectId(objId);
-            } else {
-                const axisObj = objects[objId];
-                if (axisObj?.type === 'line') {
-                    const id = `refl-a-${Date.now()}`;
-                    const sourceObj = objects[reflectingObjectId];
-                    const pointIds = sourceObj.pointIds.map((_, i) => `p-refla-${id}-${i}`);
-                    const newObjects: Record<string, GeometryObject> = {
-                        ...objects,
-                        [id]: {
-                            id, type: sourceObj.type, pointIds, color: 'green', isReflection: true,
-                            reflectionSourceId: reflectingObjectId!, reflectionType: 'axial' as const, reflectionRefId: objId
-                        }
-                    };
-                    setObjects(newObjects);
-                    pushToHistory(points, newObjects);
-                    setReflectingObjectId(null);
-                    setSelection([]);
-                }
-            }
-        } else if (activeTool === 'central-reflect') {
-            if (!reflectingObjectId) {
-                setReflectingObjectId(objId);
-            } else {
-                const targetObj = objects[objId];
-                if (targetObj?.type === 'point') {
-                    const id = `refl-c-${Date.now()}`;
-                    const sourceObj = objects[reflectingObjectId];
-                    const pointIds = sourceObj.pointIds.map((_, i) => `p-reflc-${id}-${i}`);
-                    const newObjects: Record<string, GeometryObject> = {
-                        ...objects,
-                        [id]: {
-                            id, type: sourceObj.type, pointIds, color: 'green', isReflection: true,
-                            reflectionSourceId: reflectingObjectId!, reflectionType: 'central' as const, reflectionRefId: targetObj.pointIds[0]
-                        }
-                    };
-                    setObjects(newObjects);
-                    pushToHistory(points, newObjects);
-                    setReflectingObjectId(null);
-                }
-            }
-        } else if (activeTool === 'eraser') {
-            const newObjects = { ...objects };
-            const newPoints = { ...points };
-
-            const deleteObjRecursive = (id: string) => {
-                if (!newObjects[id]) return;
-                const obj = newObjects[id];
-                delete newObjects[id];
-
-                // If it's a 'point' object, check if the point itself should be removed
-                if (obj.type === 'point') {
-                    const pId = obj.pointIds[0];
-                    if (!Object.values(newObjects).some(o => o.pointIds.includes(pId))) {
-                        delete newPoints[pId];
-                    }
-                }
-
-                // Cascade delete reflections
-                Object.keys(newObjects).forEach(k => {
-                    if (newObjects[k].reflectionSourceId === id || newObjects[k].reflectionRefId === id) {
-                        deleteObjRecursive(k);
-                    }
-                });
-            };
-
-            deleteObjRecursive(objId);
-
-            setObjects(newObjects);
-            setPoints(newPoints);
-            pushToHistory(newPoints, newObjects);
-        }
-    };
-
-    const handlePointEraser = (pId: string) => {
-        const newPoints = { ...points };
-        delete newPoints[pId];
-
-        const newObjects = { ...objects };
-        let changed = true;
-        while (changed) {
-            changed = false;
-            Object.keys(newObjects).forEach(objId => {
-                const obj = newObjects[objId];
-                const dependsOnPoint = obj.pointIds.includes(pId);
-                const dependsOnSource = obj.reflectionSourceId && !newObjects[obj.reflectionSourceId];
-                const dependsOnRef = obj.reflectionRefId === pId || (obj.reflectionRefId && !newObjects[obj.reflectionRefId] && !points[obj.reflectionRefId]);
-
-                if (dependsOnPoint || dependsOnSource || dependsOnRef) {
-                    delete newObjects[objId];
-                    changed = true;
-                }
-            });
-        }
-
-        setPoints(newPoints);
-        setObjects(newObjects);
-        pushToHistory(newPoints, newObjects);
-    };
-
     const handleMouseDown = (e: React.MouseEvent) => {
-        if (activeTool === 'pan' || e.button === 1 || (activeTool === 'select' && !hoveredPointId && !hoveredObjectId)) {
+        if (activeTool === 'pan' || e.button === 1) {
             setIsPanning(true);
-            setLastMousePos({ x: e.clientX, y: e.clientY });
+            lastMousePosRef.current = { x: e.clientX, y: e.clientY };
             return;
         }
+
         if (activeTool === 'select') {
-            if (hoveredPointId && points[hoveredPointId]) {
-                setDraggedPointId(hoveredPointId);
-            } else if (hoveredObjectId) {
-                const obj = objects[hoveredObjectId];
-                if (!obj.isReflection) {
-                    setDraggedObjectId(hoveredObjectId);
-                    const initial: Record<string, { x: number, y: number }> = {};
-                    obj.pointIds.forEach(pId => {
-                        if (points[pId]) initial[pId] = { ...points[pId] };
-                    });
-                    setInitialDragPoints(initial);
-                    setLastMousePos({ x: e.clientX, y: e.clientY });
+            const svgPos = getSVGPoint(e.clientX, e.clientY);
+
+            // 1. Check if hovering/clicking a point
+            let targetPointId = hoveredPointId && points[hoveredPointId] ? hoveredPointId : null;
+            if (!targetPointId) {
+                const tol = 16 * (viewBox.width / 1200);
+                const nearPtEntry = Object.entries(points).find(([_, pt]) =>
+                    Math.sqrt(Math.pow(pt.x - svgPos.x, 2) + Math.pow(pt.y - svgPos.y, 2)) < tol
+                );
+                if (nearPtEntry) {
+                    targetPointId = nearPtEntry[0];
                 }
             }
+
+            if (targetPointId) {
+                setDraggedPointId(targetPointId);
+                return;
+            }
+
+            // 2. Check if hovering/clicking an object
+            let targetObjId = hoveredObjectId;
+            if (!targetObjId) {
+                const nearObj = findObjectNear(svgPos, 18 * (viewBox.width / 1200));
+                if (nearObj && !nearObj.isReflection) {
+                    targetObjId = nearObj.id;
+                }
+            }
+
+            if (targetObjId) {
+                const obj = objects[targetObjId];
+                if (obj && !obj.isReflection) {
+                    dragStartMousePosRef.current = svgPos;
+                    const initial: Record<string, { x: number, y: number }> = {};
+                    obj.pointIds.forEach(pId => {
+                        if (points[pId]) initial[pId] = { x: points[pId].x, y: points[pId].y };
+                    });
+                    dragStartPointsRef.current = initial;
+                    setDraggedObjectId(targetObjId);
+                    return;
+                }
+            }
+
+            // 3. Otherwise canvas pan
+            setIsPanning(true);
+            lastMousePosRef.current = { x: e.clientX, y: e.clientY };
+            return;
         }
     };
 
     const handleMouseMove = (e: React.MouseEvent) => {
         if (isPanning && svgRef.current) {
-            const dx = (e.clientX - lastMousePos.x) * (viewBox.width / svgRef.current.clientWidth);
-            const dy = (e.clientY - lastMousePos.y) * (viewBox.height / svgRef.current.clientHeight);
+            const dx = (e.clientX - lastMousePosRef.current.x) * (viewBox.width / svgRef.current.clientWidth);
+            const dy = (e.clientY - lastMousePosRef.current.y) * (viewBox.height / svgRef.current.clientHeight);
+            lastMousePosRef.current = { x: e.clientX, y: e.clientY };
             setViewBox(prev => ({ ...prev, x: prev.x - dx, y: prev.y - dy }));
-            setLastMousePos({ x: e.clientX, y: e.clientY });
+            return;
+        }
+
+        if (draggedPointId) {
+            const rawPos = getSVGPoint(e.clientX, e.clientY);
+            setPoints(prev => {
+                if (!prev[draggedPointId]) return prev;
+                return {
+                    ...prev,
+                    [draggedPointId]: { ...prev[draggedPointId], x: rawPos.x, y: rawPos.y }
+                };
+            });
+            return;
+        }
+
+        if (draggedObjectId) {
+            const currentSVG = getSVGPoint(e.clientX, e.clientY);
+            const totalDx = currentSVG.x - dragStartMousePosRef.current.x;
+            const totalDy = currentSVG.y - dragStartMousePosRef.current.y;
+            const initial = dragStartPointsRef.current;
+
+            setPoints(prev => {
+                const next = { ...prev };
+                let anyChanged = false;
+                Object.keys(initial).forEach(pId => {
+                    if (next[pId] && initial[pId]) {
+                        next[pId] = {
+                            ...next[pId],
+                            x: initial[pId].x + totalDx,
+                            y: initial[pId].y + totalDy
+                        };
+                        anyChanged = true;
+                    }
+                });
+                return anyChanged ? next : prev;
+            });
             return;
         }
 
@@ -721,7 +905,7 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
         let pos = { ...rawPos };
 
         // Point snapping for drawing tools
-        const drawingTools: Tool[] = ['line', 'segment', 'polygon', 'regular-polygon'];
+        const drawingTools: Tool[] = ['line', 'segment', 'ray', 'polygon', 'regular-polygon'];
         if (drawingTools.includes(activeTool)) {
             const tolerance = 15 * (viewBox.width / 1200);
             const snappingPoint = Object.values(allPoints).find(pt => 
@@ -732,43 +916,34 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
             }
         }
 
-        setMousePos(pos);
-
         // Angle snapping for regular polygon (Shift key)
-        if (activeTool === 'regular-polygon' && selection.length === 1 && e.shiftKey) {
-            const p1 = allPoints[selection[0]];
-            const dx = pos.x - p1.x;
-            const dy = pos.y - p1.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            const angle = Math.atan2(dy, dx);
-            const snappedAngle = Math.round(angle / (Math.PI / 12)) * (Math.PI / 12); // Snap to 15 degrees
-            pos.x = p1.x + dist * Math.cos(snappedAngle);
-            pos.y = p1.y + dist * Math.sin(snappedAngle);
+        if (activeTool === 'regular-polygon' && selection.length === 1) {
+            if (e.shiftKey) {
+                const p1 = allPoints[selection[0]];
+                const dx = pos.x - p1.x;
+                const dy = pos.y - p1.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                const angle = Math.atan2(dy, dx);
+                const snappedAngle = Math.round(angle / (Math.PI / 12)) * (Math.PI / 12);
+                pos.x = p1.x + dist * Math.cos(snappedAngle);
+                pos.y = p1.y + dist * Math.sin(snappedAngle);
+            }
+            setMousePos(pos);
         }
 
-        if (draggedPointId) {
-            setPoints(prev => ({
-                ...prev,
-                [draggedPointId]: { ...prev[draggedPointId], x: pos.x, y: pos.y }
-            }));
-        } else if (draggedObjectId && svgRef.current) {
-            const dx = (e.clientX - lastMousePos.x) * (viewBox.width / svgRef.current.clientWidth);
-            const dy = (e.clientY - lastMousePos.y) * (viewBox.height / svgRef.current.clientHeight);
-
-            setPoints(prev => {
-                const next = { ...prev };
-                Object.keys(initialDragPoints).forEach(pId => {
-                    if (next[pId]) {
-                        next[pId] = {
-                            ...next[pId],
-                            x: next[pId].x + dx,
-                            y: next[pId].y + dy
-                        };
-                    }
-                });
-                return next;
-            });
-            setLastMousePos({ x: e.clientX, y: e.clientY });
+        if (activeTool === 'eraser') {
+            const pTol = 18 * (viewBox.width / 1200);
+            const pEntry = Object.entries(allPoints).find(([_, pt]) =>
+                Math.sqrt(Math.pow(pt.x - pos.x, 2) + Math.pow(pt.y - pos.y, 2)) < pTol
+            );
+            if (pEntry) {
+                setHoveredPointId(pEntry[0]);
+                setHoveredObjectId(null);
+            } else {
+                setHoveredPointId(null);
+                const nearObj = findObjectNear(pos, 22 * (viewBox.width / 1200));
+                setHoveredObjectId(nearObj ? nearObj.id : null);
+            }
         } else {
             const tolerance = 15 * (viewBox.width / 1200);
             const pEntry = Object.entries(allPoints).find(([_, pt]) =>
@@ -784,7 +959,7 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
         }
         setDraggedPointId(null);
         setDraggedObjectId(null);
-        setInitialDragPoints({});
+        dragStartPointsRef.current = {};
         setIsPanning(false);
     };
 
@@ -863,6 +1038,119 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
         return lines;
     };
 
+    const renderPolygonAngles = (obj: GeometryObject, pts: { x: number, y: number, id?: string }[]) => {
+        const n = pts.length;
+        if (n < 3) return null;
+
+        // Calculate signed area to know winding direction (CW vs CCW in SVG screen coordinates)
+        let signedArea = 0;
+        for (let i = 0; i < n; i++) {
+            const curr = pts[i];
+            const next = pts[(i + 1) % n];
+            signedArea += curr.x * next.y - next.x * curr.y;
+        }
+        signedArea /= 2;
+        const isCW = signedArea > 0;
+
+        const scale = viewBox.width / 1200;
+        const baseR = 26 * scale;
+
+        return (
+            <g key={`angles-${obj.id}`} className="pointer-events-none select-none">
+                {pts.map((p, i) => {
+                    const prev = pts[(i - 1 + n) % n];
+                    const next = pts[(i + 1) % n];
+
+                    const v1 = { x: prev.x - p.x, y: prev.y - p.y };
+                    const v2 = { x: next.x - p.x, y: next.y - p.y };
+
+                    const len1 = Math.sqrt(v1.x * v1.x + v1.y * v1.y);
+                    const len2 = Math.sqrt(v2.x * v2.x + v2.y * v2.y);
+
+                    if (len1 < 5 || len2 < 5) return null;
+
+                    const theta1 = Math.atan2(v1.y, v1.x);
+                    const theta2 = Math.atan2(v2.y, v2.x);
+
+                    // Clockwise sweep in SVG screen coordinates
+                    const startAngle = isCW ? theta2 : theta1;
+                    const endAngle = isCW ? theta1 : theta2;
+
+                    let sweepRad = endAngle - startAngle;
+                    while (sweepRad < 0) sweepRad += 2 * Math.PI;
+                    while (sweepRad >= 2 * Math.PI) sweepRad -= 2 * Math.PI;
+
+                    const angleDeg = (sweepRad * 180) / Math.PI;
+                    if (angleDeg < 0.5 || angleDeg > 359.5) return null;
+
+                    const R = Math.max(12 * scale, Math.min(baseR, len1 * 0.38, len2 * 0.38));
+                    const bisectorAngle = startAngle + sweepRad / 2;
+
+                    const isRightAngle = Math.abs(angleDeg - 90) < 0.5;
+
+                    const xs = p.x + R * Math.cos(startAngle);
+                    const ys = p.y + R * Math.sin(startAngle);
+                    const xe = p.x + R * Math.cos(startAngle + sweepRad);
+                    const ye = p.y + R * Math.sin(startAngle + sweepRad);
+                    const largeArc = sweepRad > Math.PI ? 1 : 0;
+
+                    const textDist = R + 13 * scale;
+                    const textX = p.x + textDist * Math.cos(bisectorAngle);
+                    const textY = p.y + textDist * Math.sin(bisectorAngle);
+
+                    const angleText = isRightAngle
+                        ? '90°'
+                        : (Math.abs(angleDeg - Math.round(angleDeg)) < 0.05
+                            ? `${Math.round(angleDeg)}°`
+                            : `${angleDeg.toFixed(1)}°`);
+
+                    return (
+                        <g key={`ang-${obj.id}-${i}`}>
+                            {/* Sector background */}
+                            <path
+                                d={`M ${p.x} ${p.y} L ${xs} ${ys} A ${R} ${R} 0 ${largeArc} 1 ${xe} ${ye} Z`}
+                                fill="#f59e0b"
+                                fillOpacity={0.16}
+                                stroke="none"
+                            />
+                            {/* Arc line */}
+                            <path
+                                d={`M ${xs} ${ys} A ${R} ${R} 0 ${largeArc} 1 ${xe} ${ye}`}
+                                fill="none"
+                                stroke="#d97706"
+                                strokeWidth={1.5 * scale}
+                            />
+                            {/* Hungarian right angle symbol: negyedkörben egy pont */}
+                            {isRightAngle && (
+                                <circle
+                                    cx={p.x + (R * 0.5) * Math.cos(bisectorAngle)}
+                                    cy={p.y + (R * 0.5) * Math.sin(bisectorAngle)}
+                                    r={2.3 * scale}
+                                    fill="#b45309"
+                                />
+                            )}
+                            {/* Degree text label */}
+                            <text
+                                x={textX}
+                                y={textY}
+                                fill="#92400e"
+                                fontSize={11 * scale}
+                                fontWeight="bold"
+                                textAnchor="middle"
+                                dominantBaseline="central"
+                                stroke="white"
+                                strokeWidth={2.5 * scale}
+                                paintOrder="stroke"
+                            >
+                                {angleText}
+                            </text>
+                        </g>
+                    );
+                })}
+            </g>
+        );
+    };
+
     const renderObject = (obj: GeometryObject) => {
         const pts = obj.pointIds.map(id => allPoints[id]).filter(Boolean);
         if (pts.length === 0) return null;
@@ -874,29 +1162,40 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
         const sw = 3 * (viewBox.width / 1200);
         const isEraserHover = activeTool === 'eraser' && hoveredObjectId === obj.id;
 
-        const props = {
-            key: obj.id,
+        const baseEvents = {
             onMouseEnter: () => setHoveredObjectId(obj.id),
             onMouseLeave: () => setHoveredObjectId(null),
-            onClick: (e: React.MouseEvent) => { e.stopPropagation(); handleObjectClick(obj.id); },
+            onClick: (e: React.MouseEvent) => {
+                e.stopPropagation();
+                handleObjectClick(obj.id);
+            }
+        };
+
+        // Invisible large hit area for effortless clicking and hovering
+        const hitAreaProps = {
+            ...baseEvents,
+            stroke: "transparent",
+            strokeWidth: 24 * (viewBox.width / 1200),
+            fill: "transparent",
+            pointerEvents: "all" as const,
+            className: "cursor-pointer"
+        };
+
+        const visColor = isEraserHover ? "#ef4444" : obj.color;
+        const visStrokeWidth = isEraserHover ? sw + 2.5 : (isReflecting ? sw + 3 : sw);
+
+        const props = {
+            ...baseEvents,
             className: cn(
                 "cursor-pointer",
-                isReflecting ? "stroke-yellow-400 stroke-[6]" : (isEraserHover ? "stroke-red-500 stroke-[4]" : "hover:stroke-blue-400/50"),
-                activeTool === 'eraser' ? "hover:opacity-80" : ""
+                isReflecting && "stroke-yellow-400 stroke-[6]",
+                isEraserHover && "stroke-red-500",
+                activeTool !== 'eraser' && !isReflecting && "hover:stroke-blue-400/50"
             )
         };
 
-        // Hit area for easier selection/erasing
-        const hitAreaProps = {
-            ...props,
-            stroke: "transparent",
-            strokeWidth: 20 * (viewBox.width / 1200),
-            fill: "transparent",
-            className: props.className + " opacity-0"
-        };
-
         switch (obj.type) {
-            case 'point': return <circle {...props} cx={pts[0].x} cy={pts[0].y} r={6 * (viewBox.width / 1200)} fill={obj.color} stroke="white" strokeWidth={1} />;
+            case 'point': return null;
             case 'line':
                 if (pts.length < 2) return null;
                 const dx = pts[1].x - pts[0].x, dy = pts[1].y - pts[0].y;
@@ -908,11 +1207,11 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                 const lineLabelY = pts[1].y + uy * 30 * (viewBox.width / 1200) + ux * 15 * (viewBox.width / 1200);
                 return (
                     <g key={obj.id}>
-                        <line {...hitAreaProps} x1={x1} y1={y1} x2={x2} y2={y2} />
-                        <line {...props} x1={x1} y1={y1} x2={x2} y2={y2} stroke={obj.color} strokeWidth={sw} />
+                        <line {...hitAreaProps} x1={x1} y1={y1} x2={x2} y2={y2} pointerEvents="stroke" />
+                        <line {...props} x1={x1} y1={y1} x2={x2} y2={y2} stroke={visColor} strokeWidth={visStrokeWidth} />
                         {obj.label && showLineLabels && (
                             <text
-                                x={lineLabelX} y={lineLabelY} fill={obj.color} fontSize={18 * (viewBox.width / 1200)}
+                                x={lineLabelX} y={lineLabelY} fill={visColor} fontSize={18 * (viewBox.width / 1200)}
                                 fontFamily="serif" fontStyle="italic" className="pointer-events-none select-none"
                             >
                                 {obj.label}
@@ -931,11 +1230,11 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                 const segLabelY = segMidY + sUx * 15 * (viewBox.width / 1200);
                 return (
                     <g key={obj.id}>
-                        <line {...hitAreaProps} x1={pts[0].x} y1={pts[0].y} x2={pts[1].x} y2={pts[1].y} />
-                        <line {...props} x1={pts[0].x} y1={pts[0].y} x2={pts[1].x} y2={pts[1].y} stroke={obj.color} strokeWidth={sw} />
+                        <line {...hitAreaProps} x1={pts[0].x} y1={pts[0].y} x2={pts[1].x} y2={pts[1].y} pointerEvents="stroke" />
+                        <line {...props} x1={pts[0].x} y1={pts[0].y} x2={pts[1].x} y2={pts[1].y} stroke={visColor} strokeWidth={visStrokeWidth} />
                         {obj.label && showLineLabels && (
                             <text
-                                x={segLabelX} y={segLabelY} fill={obj.color} fontSize={18 * (viewBox.width / 1200)}
+                                x={segLabelX} y={segLabelY} fill={visColor} fontSize={18 * (viewBox.width / 1200)}
                                 fontFamily="serif" fontStyle="italic" className="pointer-events-none select-none"
                             >
                                 {obj.label}
@@ -953,14 +1252,48 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                         )}
                     </g>
                 );
+            case 'ray': {
+                if (pts.length < 2) return null;
+                const rDx = pts[1].x - pts[0].x, rDy = pts[1].y - pts[0].y;
+                const rLen = Math.sqrt(rDx * rDx + rDy * rDy);
+                if (rLen < 0.001) return null;
+                const rUx = rDx / rLen, rUy = rDy / rLen;
+                const rx1 = pts[0].x, ry1 = pts[0].y;
+                const rx2 = pts[0].x + rUx * 20000, ry2 = pts[0].y + rUy * 20000;
+                const rayLabelX = pts[1].x + rUx * 25 * (viewBox.width / 1200) - rUy * 15 * (viewBox.width / 1200);
+                const rayLabelY = pts[1].y + rUy * 25 * (viewBox.width / 1200) + rUx * 15 * (viewBox.width / 1200);
+                return (
+                    <g key={obj.id}>
+                        <line {...hitAreaProps} x1={rx1} y1={ry1} x2={rx2} y2={ry2} pointerEvents="stroke" />
+                        <line {...props} x1={rx1} y1={ry1} x2={rx2} y2={ry2} stroke={visColor} strokeWidth={visStrokeWidth} />
+                        {obj.label && showLineLabels && (
+                            <text
+                                x={rayLabelX} y={rayLabelY} fill={visColor} fontSize={18 * (viewBox.width / 1200)}
+                                fontFamily="serif" fontStyle="italic" className="pointer-events-none select-none"
+                            >
+                                {obj.label}
+                            </text>
+                        )}
+                    </g>
+                );
+            }
             case 'polygon':
             case 'regular-polygon':
                 if (pts.length < 3) return null;
                 const d = `M ${pts.map(p => `${p.x} ${p.y}`).join(' L ')} Z`;
                 return (
                     <g key={obj.id}>
-                        <path {...hitAreaProps} d={d} />
-                        <path {...props} d={d} fill={obj.color} fillOpacity={0.15} stroke={obj.color} strokeWidth={sw} strokeLinejoin="round" />
+                        <path {...hitAreaProps} d={d} pointerEvents="all" />
+                        <path
+                            {...props}
+                            d={d}
+                            fill={isEraserHover ? "#ef4444" : obj.color}
+                            fillOpacity={isEraserHover ? 0.35 : 0.15}
+                            stroke={visColor}
+                            strokeWidth={visStrokeWidth}
+                            strokeLinejoin="round"
+                        />
+                        {showAngles && renderPolygonAngles(obj, pts)}
                         {showDistances && pts.map((p, i) => {
                             const p1 = p;
                             const p2 = pts[(i + 1) % pts.length];
@@ -1007,12 +1340,12 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button
-                            variant={(activeTool === 'point' || activeTool === 'line' || activeTool === 'segment') ? 'secondary' : 'ghost'}
+                            variant={(activeTool === 'point' || activeTool === 'line' || activeTool === 'segment' || activeTool === 'ray') ? 'secondary' : 'ghost'}
                             size="sm"
                             className="rounded-xl px-4"
                             onClick={(e) => {
                                 e.stopPropagation();
-                                if (activeTool !== 'point' && activeTool !== 'line' && activeTool !== 'segment') {
+                                if (activeTool !== 'point' && activeTool !== 'line' && activeTool !== 'segment' && activeTool !== 'ray') {
                                     setActiveTool('point');
                                     setSelection([]);
                                 }
@@ -1027,6 +1360,15 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => { setActiveTool('segment'); setSelection([]); }}>
                             <Minus className="w-4 h-4 mr-2 text-slate-700" /> Szakasz rajzolása
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => { setActiveTool('ray'); setSelection([]); }}>
+                            <span className="w-4 h-4 mr-2 flex items-center justify-center text-slate-700">
+                                <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+                                    <circle cx="3" cy="8" r="2.5" />
+                                    <line x1="3" y1="8" x2="15" y2="8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                                </svg>
+                            </span>
+                            Félegyenes rajzolása
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => { setActiveTool('line'); setSelection([]); }}>
                             <Minus className="w-4 h-4 mr-2 text-slate-700" /> Egyenes rajzolása
@@ -1128,9 +1470,9 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button
-                            variant={(showReflectionLines || showDistances || !showAxes || !showPointLabels || !showLineLabels) ? 'secondary' : 'ghost'}
+                            variant={(showReflectionLines || showReflectionDistances || showDistances || showAngles || !showAxes || !showPointLabels || !showLineLabels) ? 'secondary' : 'ghost'}
                             size="sm"
-                            className={cn("rounded-xl px-4", (showReflectionLines || showDistances) ? "text-blue-600 bg-blue-50" : "text-slate-600")}
+                            className={cn("rounded-xl px-4", (showReflectionLines || showReflectionDistances || showDistances || showAngles) ? "text-blue-600 bg-blue-50" : "text-slate-600")}
                             title="Megjelenítési beállítások"
                         >
                             <Eye className="w-4 h-4 mr-2" /> Megjelenítés <ChevronDown className="w-3 h-3 ml-2 opacity-50" />
@@ -1156,6 +1498,15 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                                 {showAxes && <X className="w-3 h-3 text-white" />}
                             </div>
                         </DropdownMenuItem>
+                        <DropdownMenuItem 
+                            onClick={(e) => { e.stopPropagation(); setShowReflectionDistances(!showReflectionDistances); }}
+                            className="flex items-center justify-between"
+                        >
+                            <span>Tükrözési távolságok</span>
+                            <div className={cn("w-4 h-4 rounded border flex items-center justify-center", showReflectionDistances ? "bg-green-500 border-green-500" : "border-slate-300")}>
+                                {showReflectionDistances && <X className="w-3 h-3 text-white" />}
+                            </div>
+                        </DropdownMenuItem>
 
                         <div className="h-px bg-slate-100 my-1 mx-1" />
                         <div className="px-2 py-1.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">Mérések és Nevek</div>
@@ -1169,6 +1520,23 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                             </span>
                             <div className={cn("w-4 h-4 rounded border flex items-center justify-center", showDistances ? "bg-amber-500 border-amber-500" : "border-slate-300")}>
                                 {showDistances && <X className="w-3 h-3 text-white" />}
+                            </div>
+                        </DropdownMenuItem>
+
+                        <DropdownMenuItem 
+                            onClick={(e) => { e.stopPropagation(); setShowAngles(!showAngles); }}
+                            className="flex items-center justify-between"
+                        >
+                            <span className="flex items-center gap-2">
+                                <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-amber-600">
+                                    <line x1="2" y1="14" x2="14" y2="14" />
+                                    <line x1="2" y1="14" x2="11" y2="3" />
+                                    <path d="M 6 14 A 4 4 0 0 0 5 10.5" />
+                                </svg>
+                                Szögek
+                            </span>
+                            <div className={cn("w-4 h-4 rounded border flex items-center justify-center", showAngles ? "bg-amber-500 border-amber-500" : "border-slate-300")}>
+                                {showAngles && <X className="w-3 h-3 text-white" />}
                             </div>
                         </DropdownMenuItem>
 
@@ -1253,7 +1621,7 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
             <div className="flex-1 w-full relative overflow-hidden bg-slate-50">
                 <svg
                     ref={svgRef}
-                    className={cn("w-full h-full bg-white transition-opacity duration-300", activeTool === 'pan' || isPanning ? "cursor-grabbing" : "cursor-crosshair")}
+                    className={cn("w-full h-full bg-white", activeTool === 'pan' || isPanning ? "cursor-grabbing" : (activeTool === 'eraser' ? "cursor-pointer" : "cursor-crosshair"))}
                     onMouseDown={handleMouseDown}
                     onMouseMove={handleMouseMove}
                     onMouseUp={handleMouseUp}
@@ -1265,92 +1633,183 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                     {renderGrid()}
                     {Object.values(objects).map(renderObject)}
                     
-                    {/* Reflection Guides */}
-                    {showReflectionLines && Object.values(objects).map(obj => {
+                    {/* Reflection Guides & Reflection Distances */}
+                    {(showReflectionLines || showReflectionDistances) && Object.values(objects).map(obj => {
                         if (!obj.isReflection || !obj.reflectionSourceId) return null;
                         const sourceObj = objects[obj.reflectionSourceId];
                         if (!sourceObj) return null;
+
+                        const scale = viewBox.width / 1200;
 
                         return obj.pointIds.map((pId, idx) => {
                             const pSource = allPoints[sourceObj.pointIds[idx]];
                             const pTarget = allPoints[pId];
                             if (!pSource || !pTarget) return null;
+
+                            const dx = pTarget.x - pSource.x;
+                            const dy = pTarget.y - pSource.y;
+                            const totalLen = Math.sqrt(dx * dx + dy * dy);
+                            if (totalLen < 1) return null;
+
+                            const ux = dx / totalLen;
+                            const uy = dy / totalLen;
+                            // Perpendicular unit vector for offset
+                            const nx = -uy;
+                            const ny = ux;
+
+                            // Midpoint on axis or reflection center
+                            const midX = (pSource.x + pTarget.x) / 2;
+                            const midY = (pSource.y + pTarget.y) / 2;
+
+                            // Distance from point to axis/center in grid units
+                            const distPx = totalLen / 2;
+                            const distGrid = distPx / GRID_SIZE;
+                            const distFormatted = Math.abs(distGrid - Math.round(distGrid)) < 0.05
+                                ? Math.round(distGrid).toString()
+                                : parseFloat(distGrid.toFixed(1)).toString();
+
+                            // Subsegment 1 midpoint (source to axis/center)
+                            const m1X = (pSource.x + midX) / 2;
+                            const m1Y = (pSource.y + midY) / 2;
+
+                            // Subsegment 2 midpoint (axis/center to target)
+                            const m2X = (midX + pTarget.x) / 2;
+                            const m2Y = (midY + pTarget.y) / 2;
+
+                            // Text offset perpendicular to guide line
+                            const textOffset = 13 * scale;
+                            const t1X = m1X + nx * textOffset;
+                            const t1Y = m1Y + ny * textOffset;
+                            const t2X = m2X + nx * textOffset;
+                            const t2Y = m2Y + ny * textOffset;
+
                             return (
-                                <line
-                                    key={`guide-${obj.id}-${idx}`}
-                                    x1={pSource.x} y1={pSource.y}
-                                    x2={pTarget.x} y2={pTarget.y}
-                                    stroke="#94a3b8"
-                                    strokeWidth={1.5 * (viewBox.width / 1200)}
-                                    strokeDasharray="5,5"
-                                    className="pointer-events-none opacity-60"
-                                />
+                                <g key={`guide-group-${obj.id}-${idx}`} className="pointer-events-none select-none">
+                                    {/* Dashed guide line */}
+                                    <line
+                                        x1={pSource.x} y1={pSource.y}
+                                        x2={pTarget.x} y2={pTarget.y}
+                                        stroke="#94a3b8"
+                                        strokeWidth={1.5 * scale}
+                                        strokeDasharray="5,5"
+                                        className="opacity-70"
+                                    />
+                                    {/* Reflection Distances (both values equal) */}
+                                    {showReflectionDistances && totalLen > 10 && (
+                                        <>
+                                            {/* Midpoint tick marker on axis/center */}
+                                            <line
+                                                x1={midX - nx * 4 * scale}
+                                                y1={midY - ny * 4 * scale}
+                                                x2={midX + nx * 4 * scale}
+                                                y2={midY + ny * 4 * scale}
+                                                stroke="#15803d"
+                                                strokeWidth={1.5 * scale}
+                                            />
+                                            {/* Distance: Source point to axis/center */}
+                                            <text
+                                                x={t1X}
+                                                y={t1Y}
+                                                fill="#15803d"
+                                                fontSize={12 * scale}
+                                                fontWeight="bold"
+                                                textAnchor="middle"
+                                                dominantBaseline="central"
+                                                stroke="white"
+                                                strokeWidth={2.5 * scale}
+                                                paintOrder="stroke"
+                                            >
+                                                {distFormatted}
+                                            </text>
+                                            {/* Distance: Axis/center to target point */}
+                                            <text
+                                                x={t2X}
+                                                y={t2Y}
+                                                fill="#15803d"
+                                                fontSize={12 * scale}
+                                                fontWeight="bold"
+                                                textAnchor="middle"
+                                                dominantBaseline="central"
+                                                stroke="white"
+                                                strokeWidth={2.5 * scale}
+                                                paintOrder="stroke"
+                                            >
+                                                {distFormatted}
+                                            </text>
+                                        </>
+                                    )}
+                                </g>
                             );
                         });
                     })}
 
-                    {Object.entries(allPoints).map(([id, p]) => (
-                        <g key={id}>
-                            <circle
-                                cx={p.x} cy={p.y}
-                                r={(hoveredPointId === id || draggedPointId === id ? 8 : 5) * (viewBox.width / 1200)}
-                                fill={draggedPointId === id ? "#3b82f6" : (points[id] ? "#1e40af" : "#6366f1")}
-                                fillOpacity={points[id] ? 1 : 0.6}
-                                stroke={reflectingObjectId && objects[reflectingObjectId]?.pointIds[0] === id ? "#facc15" : "none"}
-                                strokeWidth={reflectingObjectId && objects[reflectingObjectId]?.pointIds[0] === id ? 4 : 0}
-                                className={cn(
-                                    activeTool === 'select' && points[id] ? "cursor-move" : "cursor-crosshair",
-                                    !points[id] && !(['eraser', 'axial-reflect', 'central-reflect', 'select', 'polygon', 'line', 'segment'].includes(activeTool)) ? "pointer-events-none" : "",
-                                    activeTool === 'eraser' && hoveredPointId === id ? "fill-red-500 scale-125" : "",
-                                    (activeTool === 'axial-reflect' || activeTool === 'central-reflect') ? "cursor-copy hover:fill-yellow-400" : "",
-                                    reflectingObjectId && objects[reflectingObjectId]?.pointIds[0] === id ? "animate-pulse" : ""
-                                )}
-                                pointerEvents={(['eraser', 'axial-reflect', 'central-reflect', 'select', 'polygon', 'line', 'segment'].includes(activeTool)) ? 'auto' : (points[id] ? 'auto' : 'none')}
-                                onMouseEnter={() => setHoveredPointId(id)}
-                                onMouseLeave={() => setHoveredPointId(null)}
-                                onClick={(e) => {
-                                    if (activeTool === 'eraser') {
-                                        e.stopPropagation();
-                                        handlePointEraser(id);
-                                    } else if (activeTool === 'axial-reflect' || activeTool === 'central-reflect') {
-                                        e.stopPropagation();
-                                        // Find if an object exists for this point
-                                        let objId = Object.keys(objects).find(k => objects[k].type === 'point' && objects[k].pointIds[0] === id);
-                                        
-                                        if (!objId) {
-                                            // Create a point object for it on the fly if it's a base point
-                                            if (points[id]) {
-                                                objId = `obj-pt-${Date.now()}`;
-                                                const newObjects = {
-                                                    ...objects,
-                                                    [objId]: { id: objId, type: 'point' as const, pointIds: [id], color: '#3b82f6', isReflection: false }
-                                                };
-                                                setObjects(newObjects);
+                    {Object.entries(allPoints).map(([id, p]) => {
+                        const isEraserPointHover = activeTool === 'eraser' && hoveredPointId === id;
+                        const ptRadius = (isEraserPointHover ? 9 : (hoveredPointId === id || draggedPointId === id ? 8 : 5)) * (viewBox.width / 1200);
+                        return (
+                            <g key={id}>
+                                {/* Large invisible hit area for effortless clicking and hovering on points */}
+                                <circle
+                                    cx={p.x} cy={p.y}
+                                    r={18 * (viewBox.width / 1200)}
+                                    fill="transparent"
+                                    stroke="transparent"
+                                    pointerEvents={(['eraser', 'axial-reflect', 'central-reflect', 'select', 'polygon', 'line', 'segment', 'ray'].includes(activeTool)) ? 'all' : (points[id] ? 'all' : 'none')}
+                                    className={cn(
+                                        activeTool === 'eraser' ? "cursor-pointer" : (activeTool === 'select' && points[id] ? "cursor-move" : "cursor-crosshair")
+                                    )}
+                                    onMouseEnter={() => setHoveredPointId(id)}
+                                    onMouseLeave={() => setHoveredPointId(null)}
+                                    onClick={(e) => {
+                                        if (activeTool === 'eraser') {
+                                            e.stopPropagation();
+                                            handlePointEraser(id);
+                                        } else if (activeTool === 'axial-reflect' || activeTool === 'central-reflect') {
+                                            e.stopPropagation();
+                                            let objId = Object.keys(objects).find(k => objects[k].type === 'point' && objects[k].pointIds[0] === id);
+                                            if (!objId) {
+                                                if (points[id]) {
+                                                    objId = `obj-pt-${Date.now()}`;
+                                                    const newObjects = {
+                                                        ...objects,
+                                                        [objId]: { id: objId, type: 'point' as const, pointIds: [id], color: '#3b82f6', isReflection: false }
+                                                    };
+                                                    setObjects(newObjects);
+                                                    handleObjectClick(objId);
+                                                }
+                                            } else {
                                                 handleObjectClick(objId);
                                             }
-                                        } else {
-                                            handleObjectClick(objId);
                                         }
-                                    }
-                                    // For polygon, line, segment: don't stop propagation, let handleCanvasClick handle it!
-                                }}
-                            />
-                            {p.label && showPointLabels && (
-                                <text
-                                    x={p.x + 10 * (viewBox.width / 1200)}
-                                    y={p.y - 10 * (viewBox.width / 1200)}
-                                    fontSize={16 * (viewBox.width / 1200)}
-                                    fill={points[id] ? "#1e40af" : "#6366f1"}
-                                    fontFamily="serif"
-                                    fontStyle="italic"
-                                    fontWeight="bold"
-                                    className="pointer-events-none select-none"
-                                >
-                                    {p.label}
-                                </text>
-                            )}
-                        </g>
-                    ))}
+                                    }}
+                                />
+                                {/* Visible point circle */}
+                                <circle
+                                    cx={p.x} cy={p.y}
+                                    r={ptRadius}
+                                    fill={isEraserPointHover ? "#ef4444" : (draggedPointId === id ? "#3b82f6" : (points[id] ? "#1e40af" : "#6366f1"))}
+                                    fillOpacity={points[id] || isEraserPointHover ? 1 : 0.6}
+                                    stroke={isEraserPointHover ? "#ffffff" : (reflectingObjectId && objects[reflectingObjectId]?.pointIds[0] === id ? "#facc15" : "none")}
+                                    strokeWidth={isEraserPointHover ? 2 * (viewBox.width / 1200) : (reflectingObjectId && objects[reflectingObjectId]?.pointIds[0] === id ? 4 : 0)}
+                                    className="pointer-events-none"
+                                />
+                                {p.label && showPointLabels && (
+                                    <text
+                                        x={p.x + 10 * (viewBox.width / 1200)}
+                                        y={p.y - 10 * (viewBox.width / 1200)}
+                                        fontSize={16 * (viewBox.width / 1200)}
+                                        fill={isEraserPointHover ? "#ef4444" : (points[id] ? "#1e40af" : "#6366f1")}
+                                        fontFamily="serif"
+                                        fontStyle="italic"
+                                        fontWeight="bold"
+                                        className="pointer-events-none select-none"
+                                    >
+                                        {p.label}
+                                    </text>
+                                )}
+                            </g>
+                        );
+                    })}
                     {/* Ghost preview for regular polygon */}
                     {activeTool === 'regular-polygon' && selection.length === 1 && (
                         <g className="pointer-events-none opacity-30">
@@ -1409,6 +1868,8 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
 
                 <div className="absolute bottom-6 left-6 bg-white/90 backdrop-blur-md px-5 py-3 rounded-2xl border border-slate-200 shadow-xl pointer-events-none text-sm font-medium text-slate-600 z-[80]">
                     {activeTool === 'select' && "💡 Mozgasd a kék pontokat a szerkesztéshez."}
+                    {activeTool === 'ray' && selection.length === 0 && "📍 Kattints a félegyenes kezdőpontjára."}
+                    {activeTool === 'ray' && selection.length === 1 && "🧭 Kattints a félegyenes irányát kijelölő pontra."}
                     {activeTool === 'polygon' && selection.length > 0 && "🎯 Kattints az első pontra a sokszög bezárásához."}
                     {activeTool === 'regular-polygon' && selection.length === 1 && "📐 Mozgasd az egeret a mérethez (Shift: szög-tapadás)."}
                     {activeTool === 'axial-reflect' && (!reflectingObjectId ? "📐 Válassz egy alakzatot tükrözéshez." : "📏 Jelöld ki a tengelyt (egyenest).")}
