@@ -1,4 +1,4 @@
-# 9. Gyakorlás, tudáspróba (28. lecke)
+# 9. Altéma: Gyakorlás, tudáspróba
 
 ## Tananyag Áttekintés
 A Függvénytranszformációk és másodfokú függvények fejezet összefoglalása: transzformációk felismerése képletről és grafikonról, függvények ábrázolása, kanonikus alak képzése és a fejezeti tudáspróba.
@@ -14,8 +14,7 @@ A Függvénytranszformációk és másodfokú függvények fejezet összefoglal�
   - $f(-x)$: tükrözés az $y$-tengelyre.
   - $|f(x)|$: tengely alatti rész felhajtása.
 
-- **Összefoglaló feladatsor:**
-  - Függvény grafikonjának megrajzolása adott hozzárendelési szabály alapján.
-  - Hozzárendelési szabály felírása megadott grafikon alapján.
-  - Teljes négyzetté kiegészítés és csúcspont meghatározása.
-  - Fejezeti tudáspróba és értékelés.
+- **Összefoglaló tudáspróba (90 feladat 3 szinten):**
+  - **1. Szint (1–30. feladat):** Alaptranszformációk, bázispontok és eltolások.
+  - **2. Szint (31–60. feladat):** Összetett transzformációk, kanonikus alak, teljes négyzetté alakítás és grafikonok.
+  - **3. Szint (61–90. feladat):** Fejezeti szintézis, geometriai és fizikai modellezés, korlátos tartományok és érettségi kihívások.

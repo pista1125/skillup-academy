@@ -1096,6 +1096,42 @@ const Grade10RootPracticeQuiz = lazy(() => import("@/components/math/grade-10/ha
 const Grade10SummaryTheory = lazy(() => import("@/components/math/grade-10/hatvanyozas-es-negyzetgyok/gyakorlas-tudasproba/SummaryTheory").then(m => ({ default: m.SummaryTheory }))) as any;
 const Grade10SummaryQuiz = lazy(() => import("@/components/math/grade-10/hatvanyozas-es-negyzetgyok/gyakorlas-tudasproba/SummaryQuiz").then(m => ({ default: m.SummaryQuiz }))) as any;
 
+// 10. Osztály - IV. Függvénytranszformációk - 1. Függvények egy-egy konkrét problémához
+const Grade10ConcreteFunctionsTheory = lazy(() => import("@/components/math/grade-10/fuggvenytranszformaciok/fuggvenyek-egy-egy-konkret-problemahoz/ConcreteFunctionsTheory").then(m => ({ default: m.ConcreteFunctionsTheory }))) as any;
+const Grade10ConcreteFunctionsQuiz = lazy(() => import("@/components/math/grade-10/fuggvenytranszformaciok/fuggvenyek-egy-egy-konkret-problemahoz/ConcreteFunctionsQuiz").then(m => ({ default: m.ConcreteFunctionsQuiz }))) as any;
+
+// 10. Osztály - IV. Függvénytranszformációk - 2. Parabolák a koordináta-rendszerben
+const Grade10ParabolaBasicsTheory = lazy(() => import("@/components/math/grade-10/fuggvenytranszformaciok/parabolak-a-koordinata-rendszerben/ParabolaBasicsTheory").then(m => ({ default: m.ParabolaBasicsTheory }))) as any;
+const Grade10ParabolaBasicsQuiz = lazy(() => import("@/components/math/grade-10/fuggvenytranszformaciok/parabolak-a-koordinata-rendszerben/ParabolaBasicsQuiz").then(m => ({ default: m.ParabolaBasicsQuiz }))) as any;
+
+// 10. Osztály - IV. Függvénytranszformációk - 3. „Fel”-, „le”, „jobbra”-, „balra”
+const Grade10ShiftTransformTheory = lazy(() => import("@/components/math/grade-10/fuggvenytranszformaciok/fel-le-jobbra-balra/ShiftTransformTheory").then(m => ({ default: m.ShiftTransformTheory }))) as any;
+const Grade10ShiftTransformQuiz = lazy(() => import("@/components/math/grade-10/fuggvenytranszformaciok/fel-le-jobbra-balra/ShiftTransformQuiz").then(m => ({ default: m.ShiftTransformQuiz }))) as any;
+
+// 10. Osztály - IV. Függvénytranszformációk - 4. „Soványabb”, „kövérebb”
+const Grade10StretchTransformTheory = lazy(() => import("@/components/math/grade-10/fuggvenytranszformaciok/sovanyabb-koverebb/StretchTransformTheory").then(m => ({ default: m.StretchTransformTheory }))) as any;
+const Grade10StretchTransformQuiz = lazy(() => import("@/components/math/grade-10/fuggvenytranszformaciok/sovanyabb-koverebb/StretchTransformQuiz").then(m => ({ default: m.StretchTransformQuiz }))) as any;
+
+// 10. Osztály - IV. Függvénytranszformációk - 5. Összetett függvénytranszformációk
+const Grade10CompositeTransformTheory = lazy(() => import("@/components/math/grade-10/fuggvenytranszformaciok/osszetett-fuggvenytranszformaciok/CompositeTransformTheory").then(m => ({ default: m.CompositeTransformTheory }))) as any;
+const Grade10CompositeTransformQuiz = lazy(() => import("@/components/math/grade-10/fuggvenytranszformaciok/osszetett-fuggvenytranszformaciok/CompositeTransformQuiz").then(m => ({ default: m.CompositeTransformQuiz }))) as any;
+
+// 10. Osztály - IV. Függvénytranszformációk - 6. Másodfokú függvények
+const Grade10QuadraticFunctionsTheory = lazy(() => import("@/components/math/grade-10/fuggvenytranszformaciok/masodfoku-fuggvenyek/QuadraticFunctionsTheory").then(m => ({ default: m.QuadraticFunctionsTheory }))) as any;
+const Grade10QuadraticFunctionsQuiz = lazy(() => import("@/components/math/grade-10/fuggvenytranszformaciok/masodfoku-fuggvenyek/QuadraticFunctionsQuiz").then(m => ({ default: m.QuadraticFunctionsQuiz }))) as any;
+
+// 10. Osztály - IV. Függvénytranszformációk - 7. Másodfokú függvények grafikonja
+const Grade10QuadraticGraphTheory = lazy(() => import("@/components/math/grade-10/fuggvenytranszformaciok/masodfoku-fuggvenyek-grafikonja/QuadraticGraphTheory").then(m => ({ default: m.QuadraticGraphTheory }))) as any;
+const Grade10QuadraticGraphQuiz = lazy(() => import("@/components/math/grade-10/fuggvenytranszformaciok/masodfoku-fuggvenyek-grafikonja/QuadraticGraphQuiz").then(m => ({ default: m.QuadraticGraphQuiz }))) as any;
+
+// 10. Osztály - IV. Függvénytranszformációk - 8. Gyakorlás, alkalmazás
+const Grade10PracticeApplicationTheory = lazy(() => import("@/components/math/grade-10/fuggvenytranszformaciok/gyakorlas-alkalmazas/PracticeApplicationTheory").then(m => ({ default: m.PracticeApplicationTheory }))) as any;
+const Grade10PracticeApplicationQuiz = lazy(() => import("@/components/math/grade-10/fuggvenytranszformaciok/gyakorlas-alkalmazas/PracticeApplicationQuiz").then(m => ({ default: m.PracticeApplicationQuiz }))) as any;
+
+// 10. Osztály - IV. Függvénytranszformációk - 9. Gyakorlás, tudáspróba
+const Grade10PracticeTestTheory = lazy(() => import("@/components/math/grade-10/fuggvenytranszformaciok/gyakorlas-tudasproba/PracticeTestTheory").then(m => ({ default: m.PracticeTestTheory }))) as any;
+const Grade10PracticeTestQuiz = lazy(() => import("@/components/math/grade-10/fuggvenytranszformaciok/gyakorlas-tudasproba/PracticeTestQuiz").then(m => ({ default: m.PracticeTestQuiz }))) as any;
+
 
 
 
@@ -14111,6 +14147,343 @@ export default function MathPage() {
                       onSwitchToTheory={() => handleActivitySelect('g10-hatvany-tudasproba-theory', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
                       onSwitchToMatcher={() => handleActivitySelect('g10-hatvany-tudasproba-matcher', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
                       onSwitchToSorter={() => handleActivitySelect('g10-hatvany-tudasproba-sorter', selectedTopic || 'g10-hatvanyozas-negyzetgyok')}
+                    />
+                  )}
+
+                  {/* Grade 10 - Topic IV: Függvénytranszformációk - 1. Függvények egy-egy konkrét problémához */}
+                  {activityType === 'g10-transz-konkret-theory' && (
+                    <Grade10ConcreteFunctionsTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-transz-konkret-quiz', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-transz-konkret-quiz' && (
+                    <Grade10ConcreteFunctionsQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-transz-konkret-theory', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-transz-konkret-matcher', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-transz-konkret-sorter', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-transz-konkret-matcher' && (
+                    <Grade10ConcreteFunctionsQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-transz-konkret-theory', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-transz-konkret-matcher', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-transz-konkret-sorter', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-transz-konkret-sorter' && (
+                    <Grade10ConcreteFunctionsQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-transz-konkret-theory', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-transz-konkret-matcher', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-transz-konkret-sorter', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {/* Grade 10 - Topic IV: Függvénytranszformációk - 2. Parabolák a koordináta-rendszerben */}
+                  {activityType === 'g10-transz-parabolak-theory' && (
+                    <Grade10ParabolaBasicsTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-transz-parabolak-quiz', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-transz-parabolak-quiz' && (
+                    <Grade10ParabolaBasicsQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-transz-parabolak-theory', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-transz-parabolak-matcher', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-transz-parabolak-sorter', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-transz-parabolak-matcher' && (
+                    <Grade10ParabolaBasicsQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-transz-parabolak-theory', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-transz-parabolak-matcher', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-transz-parabolak-sorter', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-transz-parabolak-sorter' && (
+                    <Grade10ParabolaBasicsQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-transz-parabolak-theory', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-transz-parabolak-matcher', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-transz-parabolak-sorter', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {/* Grade 10 - Topic IV: Függvénytranszformációk - 3. „Fel”-, „le”, „jobbra”-, „balra” */}
+                  {activityType === 'g10-transz-fel-le-theory' && (
+                    <Grade10ShiftTransformTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-transz-fel-le-quiz', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-transz-fel-le-quiz' && (
+                    <Grade10ShiftTransformQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-transz-fel-le-theory', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-transz-fel-le-matcher', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-transz-fel-le-sorter', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-transz-fel-le-matcher' && (
+                    <Grade10ShiftTransformQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-transz-fel-le-theory', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-transz-fel-le-matcher', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-transz-fel-le-sorter', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-transz-fel-le-sorter' && (
+                    <Grade10ShiftTransformQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-transz-fel-le-theory', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-transz-fel-le-matcher', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-transz-fel-le-sorter', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {/* Grade 10 - Topic IV: Függvénytranszformációk - 4. „Soványabb”, „kövérebb” */}
+                  {activityType === 'g10-transz-sovanyabb-theory' && (
+                    <Grade10StretchTransformTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-transz-sovanyabb-quiz', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-transz-sovanyabb-quiz' && (
+                    <Grade10StretchTransformQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-transz-sovanyabb-theory', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-transz-sovanyabb-matcher', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-transz-sovanyabb-sorter', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-transz-sovanyabb-matcher' && (
+                    <Grade10StretchTransformQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-transz-sovanyabb-theory', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-transz-sovanyabb-matcher', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-transz-sovanyabb-sorter', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-transz-sovanyabb-sorter' && (
+                    <Grade10StretchTransformQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-transz-sovanyabb-theory', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-transz-sovanyabb-matcher', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-transz-sovanyabb-sorter', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {/* 10. Osztály - IV. Függvénytranszformációk - 5. Összetett függvénytranszformációk */}
+                  {activityType === 'g10-transz-osszetett-theory' && (
+                    <Grade10CompositeTransformTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-transz-osszetett-quiz', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-transz-osszetett-quiz' && (
+                    <Grade10CompositeTransformQuiz
+                      initialGameMode="quiz"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-transz-osszetett-theory', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-transz-osszetett-matcher', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-transz-osszetett-sorter', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-transz-osszetett-matcher' && (
+                    <Grade10CompositeTransformQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-transz-osszetett-theory', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-transz-osszetett-matcher', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-transz-osszetett-sorter', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-transz-osszetett-sorter' && (
+                    <Grade10CompositeTransformQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-transz-osszetett-theory', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-transz-osszetett-matcher', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-transz-osszetett-sorter', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {/* 10. Osztály - IV. Függvénytranszformációk - 6. Másodfokú függvények */}
+                  {activityType === 'g10-transz-masodfoku-theory' && (
+                    <Grade10QuadraticFunctionsTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-transz-masodfoku-quiz', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-transz-masodfoku-quiz' && (
+                    <Grade10QuadraticFunctionsQuiz
+                      initialGameMode="quiz"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-transz-masodfoku-theory', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-transz-masodfoku-matcher', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-transz-masodfoku-sorter', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-transz-masodfoku-matcher' && (
+                    <Grade10QuadraticFunctionsQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-transz-masodfoku-theory', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-transz-masodfoku-matcher', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-transz-masodfoku-sorter', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-transz-masodfoku-sorter' && (
+                    <Grade10QuadraticFunctionsQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-transz-masodfoku-theory', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-transz-masodfoku-matcher', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-transz-masodfoku-sorter', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {/* 10. Osztály - IV. Függvénytranszformációk - 7. Másodfokú függvények grafikonja */}
+                  {activityType === 'g10-transz-masodfoku-grafikon-theory' && (
+                    <Grade10QuadraticGraphTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-transz-masodfoku-grafikon-quiz', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-transz-masodfoku-grafikon-quiz' && (
+                    <Grade10QuadraticGraphQuiz
+                      initialGameMode="quiz"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-transz-masodfoku-grafikon-theory', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-transz-masodfoku-grafikon-matcher', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-transz-masodfoku-grafikon-sorter', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-transz-masodfoku-grafikon-matcher' && (
+                    <Grade10QuadraticGraphQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-transz-masodfoku-grafikon-theory', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-transz-masodfoku-grafikon-matcher', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-transz-masodfoku-grafikon-sorter', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-transz-masodfoku-grafikon-sorter' && (
+                    <Grade10QuadraticGraphQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-transz-masodfoku-grafikon-theory', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-transz-masodfoku-grafikon-matcher', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-transz-masodfoku-grafikon-sorter', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {/* 10. Osztály - IV. Függvénytranszformációk - 8. Gyakorlás, alkalmazás */}
+                  {activityType === 'g10-transz-alkalmazas-theory' && (
+                    <Grade10PracticeApplicationTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-transz-alkalmazas-quiz', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-transz-alkalmazas-quiz' && (
+                    <Grade10PracticeApplicationQuiz
+                      initialGameMode="quiz"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-transz-alkalmazas-theory', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-transz-alkalmazas-matcher', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-transz-alkalmazas-sorter', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-transz-alkalmazas-matcher' && (
+                    <Grade10PracticeApplicationQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-transz-alkalmazas-theory', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-transz-alkalmazas-matcher', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-transz-alkalmazas-sorter', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-transz-alkalmazas-sorter' && (
+                    <Grade10PracticeApplicationQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-transz-alkalmazas-theory', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-transz-alkalmazas-matcher', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-transz-alkalmazas-sorter', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {/* 10. Osztály - IV. Függvénytranszformációk - 9. Gyakorlás, tudáspróba */}
+                  {activityType === 'g10-transz-tudasproba-theory' && (
+                    <Grade10PracticeTestTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-transz-tudasproba-quiz', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-transz-tudasproba-quiz' && (
+                    <Grade10PracticeTestQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-transz-tudasproba-theory', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-transz-tudasproba-matcher', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-transz-tudasproba-sorter', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-transz-tudasproba-matcher' && (
+                    <Grade10PracticeTestQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-transz-tudasproba-theory', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-transz-tudasproba-matcher', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-transz-tudasproba-sorter', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {activityType === 'g10-transz-tudasproba-sorter' && (
+                    <Grade10PracticeTestQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-transz-tudasproba-theory', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-transz-tudasproba-matcher', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-transz-tudasproba-sorter', selectedTopic || 'g10-fuggvenytranszformaciok')}
                     />
                   )}
 

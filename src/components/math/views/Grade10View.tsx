@@ -617,13 +617,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-transz-konkret-problema" number={1} title="Függvények egy-egy konkrét problémához" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Gyakorlati Függvénymodellek"
-                subtitle="Értelmezési tartomány és összefüggések a mindennapokban"
-                type="Hamarosan"
-                emoji="🌐"
-                disabled={true}
-                icon={<LineChart className="w-6 h-6" />}
+                title="Függvények modellezése Tananyag"
+                subtitle="Valós jelenségek modellezése, változók kapcsolata, reális értelmezési tartomány és szélsőértékek"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-transz-konkret-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="90 feladat 3 szinten (30 feladat/szint), ábrákkal és beépített Wordwall játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-transz-konkret-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g10-transz-konkret-quiz')}
               />
             </div>
           </section>
@@ -635,13 +645,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-transz-parabolak" number={2} title="Parabolák a koordináta-rendszerben" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Az f(x) = x² Alapfüggvény"
-                subtitle="Normálparabola tulajdonságai, szimmetriája és csúcspontja"
-                type="Hamarosan"
-                emoji="📈"
-                disabled={true}
-                icon={<TrendingUp className="w-6 h-6" />}
+                title="Parabolák Tananyag"
+                subtitle="Normálparabola tulajdonságai, szimmetriája, csúcspontja és eltolásai"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-transz-parabolak-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="90 feladat 3 szinten (30 feladat/szint), ábrákkal és beépített Wordwall játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-transz-parabolak-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g10-transz-parabolak-quiz')}
               />
             </div>
           </section>
@@ -653,13 +673,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-transz-fel-le-jobbra-balra" number={3} title="„Fel”-, „le”, „jobbra”-, „balra”" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Párhuzamos Eltolások"
-                subtitle="f(x) ± c és f(x ∓ u) transzformációk geometriája"
-                type="Hamarosan"
-                emoji="↔️"
-                disabled={true}
-                icon={<MoveHorizontal className="w-6 h-6" />}
+                title="Párhuzamos Eltolások Tananyag"
+                subtitle="f(x) ± c és f(x ∓ u) transzformációk, eltolásvektorok és tartományvizsgálat"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-transz-fel-le-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="cyan"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="90 feladat 3 szinten (30 feladat/szint), ábrákkal és beépített Wordwall játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-transz-fel-le-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g10-transz-fel-le-quiz')}
               />
             </div>
           </section>
@@ -671,13 +701,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-transz-sovanyabb-koverebb" number={4} title="„Soványabb”, „kövérebb”" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Nyújtás, Zsugorítás és Tükrözés"
-                subtitle="a · f(x) szorzótényező hatása és x-tengelyes tükrözés"
-                type="Hamarosan"
-                emoji="↕️"
-                disabled={true}
-                icon={<Maximize2 className="w-6 h-6" />}
+                title="Nyújtás és Tükrözés Tananyag"
+                subtitle="a · f(x) függőleges skálázás, merőleges affinitás és x-tengelyes tükrözés"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-transz-sovanyabb-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="90 feladat 3 szinten (30 feladat/szint), ábrákkal és beépített Wordwall játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-transz-sovanyabb-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g10-transz-sovanyabb-quiz')}
               />
             </div>
           </section>
@@ -689,13 +729,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-transz-osszetett" number={5} title="Összetett függvénytranszformációk" color="purple" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Többlépéses Transzformációk"
-                subtitle="Lépések helyes sorrendje és abszolútérték-transzformációk"
-                type="Hamarosan"
-                emoji="🔀"
-                disabled={true}
-                icon={<GitFork className="w-6 h-6" />}
+                title="Összetett Transzformációk Tananyag"
+                subtitle="Kanonikus alak, a lépések helyes sorrendje és felhajtott abszolútérték-grafikonok"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-transz-osszetett-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="purple"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="90 feladat 3 szinten (30 feladat/szint), ábrákkal és beépített Wordwall játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-transz-osszetett-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g10-transz-osszetett-quiz')}
               />
             </div>
           </section>
@@ -707,13 +757,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-transz-masodfoku-fuggvenyek" number={6} title="Másodfokú függvények" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Teljes Négyzetté Kiegészítés"
-                subtitle="Polinom alak átírása a(x-u)² + v kanonikus alakra"
-                type="Hamarosan"
-                emoji="🔤"
-                disabled={true}
-                icon={<Calculator className="w-6 h-6" />}
+                title="Másodfokú Függvények Tananyag"
+                subtitle="Polinom alak átírása a(x-u)² + v kanonikus alakra, teljes négyzetté kiegészítés"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-transz-masodfoku-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="90 feladat 3 szinten (30 feladat/szint), ábrákkal és beépített Wordwall játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-transz-masodfoku-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g10-transz-masodfoku-quiz')}
               />
             </div>
           </section>
@@ -725,13 +785,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-transz-masodfoku-grafikonja" number={7} title="Másodfokú függvények grafikonja" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Parabolák Rajzolása és Jellemzése"
-                subtitle="Csúcspont, tengelymetszetek, zérushelyek és monotonitás"
-                type="Hamarosan"
-                emoji="🎯"
-                disabled={true}
-                icon={<Target className="w-6 h-6" />}
+                title="Másodfokú Grafikonok Tananyag"
+                subtitle="A parabola ábrázolása 5 lépésben, segédfüggvény zérushelyei és teljes jellemzés"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-transz-masodfoku-grafikon-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="90 feladat 3 szinten (30 feladat/szint), ábrákkal és beépített Wordwall játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-transz-masodfoku-grafikon-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g10-transz-masodfoku-grafikon-quiz')}
               />
             </div>
           </section>
@@ -743,13 +813,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-transz-gyakorlas-alkalmazas" number={8} title="Gyakorlás, alkalmazás" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Gyakorlati Szélsőértékek és Egyenletek"
-                subtitle="Grafikus egyenletmegoldás és optimalizálási problémák"
-                type="Hamarosan"
-                emoji="📝"
-                disabled={true}
-                icon={<Brain className="w-6 h-6" />}
+                title="Gyakorlás és Alkalmazás Tananyag"
+                subtitle="Területoptimalizálás kordonnal, hajítási modellek és grafikus egyenletmegoldás"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-transz-alkalmazas-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="90 feladat 3 szinten (30 feladat/szint), ábrákkal és beépített Wordwall játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-transz-alkalmazas-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g10-transz-alkalmazas-quiz')}
               />
             </div>
           </section>
@@ -761,13 +841,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-transz-tudasproba" number={9} title="Gyakorlás, tudáspróba" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Függvénytranszformációk Tudáspróba"
-                subtitle="Fejezeti feladatsor és érettségi típusú feladványok"
-                type="Hamarosan"
-                emoji="🏆"
-                disabled={true}
-                icon={<Trophy className="w-6 h-6" />}
+                title="Fejezeti Tudáspróba Tananyag"
+                subtitle="A transzformációk teljes szintézise, mesterképlet és összefoglaló elmélet"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-transz-tudasproba-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
+              />
+              <ActivityPlaceholder
+                title="Fejezeti Tudáspróba Kvíz"
+                subtitle="90 feladat 3 szinten (30 feladat/szint), ábrákkal és beépített Wordwall játékokkal"
+                type="Kvíz"
+                emoji="🏆"
+                onClick={() => onActivitySelect('g10-transz-tudasproba-quiz', topicId)}
+                icon={<Trophy className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g10-transz-tudasproba-quiz')}
               />
             </div>
           </section>
