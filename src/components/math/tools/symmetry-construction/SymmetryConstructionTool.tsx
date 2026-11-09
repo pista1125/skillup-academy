@@ -158,6 +158,7 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
     const [showLineLabels, setShowLineLabels] = useState(true);
     const [showDistances, setShowDistances] = useState(false);
     const [showAngles, setShowAngles] = useState(false);
+    const [showCoordinates, setShowCoordinates] = useState(false);
     const [showAxes, setShowAxes] = useState(true);
 
     // View State (Pan & Zoom)
@@ -1541,6 +1542,25 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                         </DropdownMenuItem>
 
                         <DropdownMenuItem 
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                const nextVal = !(showCoordinates && background === 'coordinate');
+                                setShowCoordinates(nextVal);
+                                if (nextVal && background !== 'coordinate') {
+                                    setBackground('coordinate');
+                                }
+                            }}
+                            className="flex items-center justify-between"
+                        >
+                            <span className="flex items-center gap-2">
+                                <Hash className="w-3.5 h-3.5 text-blue-600" /> Koordináták
+                            </span>
+                            <div className={cn("w-4 h-4 rounded border flex items-center justify-center", (showCoordinates && background === 'coordinate') ? "bg-blue-500 border-blue-500" : "border-slate-300")}>
+                                {showCoordinates && background === 'coordinate' && <X className="w-3 h-3 text-white" />}
+                            </div>
+                        </DropdownMenuItem>
+
+                        <DropdownMenuItem 
                             onClick={(e) => { e.stopPropagation(); setShowPointLabels(!showPointLabels); }}
                             className="flex items-center justify-between"
                         >
@@ -1793,20 +1813,58 @@ export function SymmetryConstructionTool({ onBack }: SymmetryConstructionToolPro
                                     strokeWidth={isEraserPointHover ? 2 * (viewBox.width / 1200) : (reflectingObjectId && objects[reflectingObjectId]?.pointIds[0] === id ? 4 : 0)}
                                     className="pointer-events-none"
                                 />
-                                {p.label && showPointLabels && (
-                                    <text
-                                        x={p.x + 10 * (viewBox.width / 1200)}
-                                        y={p.y - 10 * (viewBox.width / 1200)}
-                                        fontSize={16 * (viewBox.width / 1200)}
-                                        fill={isEraserPointHover ? "#ef4444" : (points[id] ? "#1e40af" : "#6366f1")}
-                                        fontFamily="serif"
-                                        fontStyle="italic"
-                                        fontWeight="bold"
-                                        className="pointer-events-none select-none"
-                                    >
-                                        {p.label}
-                                    </text>
-                                )}
+                                {(() => {
+                                    const shouldShowLabel = Boolean(p.label && showPointLabels);
+                                    const shouldShowCoord = Boolean(showCoordinates && background === 'coordinate');
+                                    if (!shouldShowLabel && !shouldShowCoord) return null;
+
+                                    const scale = viewBox.width / 1200;
+                                    const mathX = p.x / GRID_SIZE;
+                                    const mathY = -p.y / GRID_SIZE;
+
+                                    const formatCoord = (val: number) => {
+                                        let rounded = Math.round(val);
+                                        if (Math.abs(val - rounded) < 0.05) {
+                                            if (rounded === 0 || Object.is(rounded, -0)) rounded = 0;
+                                            return rounded.toString();
+                                        }
+                                        let fixed = parseFloat(val.toFixed(1));
+                                        if (fixed === 0 || Object.is(fixed, -0)) fixed = 0;
+                                        return fixed.toString().replace('.', ',');
+                                    };
+
+                                    const coordStr = `(${formatCoord(mathX)}; ${formatCoord(mathY)})`;
+
+                                    return (
+                                        <text
+                                            x={p.x + 10 * scale}
+                                            y={p.y - 10 * scale}
+                                            fontSize={16 * scale}
+                                            fill={isEraserPointHover ? "#ef4444" : (points[id] ? "#1e40af" : "#6366f1")}
+                                            stroke="white"
+                                            strokeWidth={2.5 * scale}
+                                            paintOrder="stroke"
+                                            className="pointer-events-none select-none"
+                                        >
+                                            {shouldShowLabel && (
+                                                <tspan fontFamily="serif" fontStyle="italic" fontWeight="bold">
+                                                    {p.label}
+                                                </tspan>
+                                            )}
+                                            {shouldShowCoord && (
+                                                <tspan
+                                                    fontFamily="sans-serif"
+                                                    fontStyle="normal"
+                                                    fontWeight="600"
+                                                    fontSize={13 * scale}
+                                                    dx={shouldShowLabel ? 3 * scale : 0}
+                                                >
+                                                    {coordStr}
+                                                </tspan>
+                                            )}
+                                        </text>
+                                    );
+                                })()}
                             </g>
                         );
                     })}
