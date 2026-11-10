@@ -7,7 +7,7 @@ import {
   layoutWordCloud
 } from './wordCloudUtils';
 import { Button } from '@/components/ui/button';
-import { Download, EyeOff, BarChart2, Cloud, Sparkles, Shapes, Info } from 'lucide-react';
+import { Download, EyeOff, BarChart2, Cloud, Sparkles, Check, Info } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -46,7 +46,7 @@ export function WordCloudDisplay({
     }
   }, [shape]);
 
-  // Resize observer to keep the word cloud responsive
+  // Keep word cloud responsive
   useEffect(() => {
     if (!containerRef.current) return;
 
@@ -75,7 +75,14 @@ export function WordCloudDisplay({
     toast.success(`Alakzat átváltva: ${found?.icon} ${found?.name}`);
   };
 
-  // Compute positioned layout based on current shape
+  // Uniform 2D shape geometry
+  const shapeSize = Math.min(dimensions.width * 0.88, dimensions.height * 0.88);
+  const centerX = dimensions.width / 2;
+  const centerY = dimensions.height / 2;
+  const shapeX = centerX - shapeSize / 2;
+  const shapeY = centerY - shapeSize / 2;
+
+  // Compute positioned layout strictly inside the 2D shape
   const positionedWords: PositionedWord[] = useMemo(() => {
     if (words.length === 0) return [];
     return layoutWordCloud(words, dimensions.width, dimensions.height, currentShape);
@@ -89,7 +96,7 @@ export function WordCloudDisplay({
     return words.reduce((acc, curr) => acc + curr.count, 0);
   }, [words]);
 
-  // Export word cloud as PNG image
+  // Export 2D word cloud as PNG
   const handleExportPNG = async () => {
     if (words.length === 0) return;
     setIsDownloading(true);
@@ -97,6 +104,12 @@ export function WordCloudDisplay({
     try {
       const exportWidth = 1200;
       const exportHeight = 750;
+      const exportShapeSize = Math.min(exportWidth * 0.85, exportHeight * 0.82);
+      const exportCenterX = exportWidth / 2;
+      const exportCenterY = exportHeight / 2 + 25;
+      const exportShapeX = exportCenterX - exportShapeSize / 2;
+      const exportShapeY = exportCenterY - exportShapeSize / 2;
+
       const canvas = document.createElement('canvas');
       canvas.width = exportWidth;
       canvas.height = exportHeight;
@@ -104,66 +117,57 @@ export function WordCloudDisplay({
 
       if (!ctx) throw new Error('Canvas context could not be created');
 
-      // 1. Background gradient
-      const bgGrad = ctx.createLinearGradient(0, 0, exportWidth, exportHeight);
-      bgGrad.addColorStop(0, '#f8fafc');
-      bgGrad.addColorStop(1, '#eef2ff');
-      ctx.fillStyle = bgGrad;
+      // 1. Clean background
+      ctx.fillStyle = '#f8fafc';
       ctx.fillRect(0, 0, exportWidth, exportHeight);
 
       // 2. Decorative borders
       ctx.strokeStyle = '#e2e8f0';
-      ctx.lineWidth = 4;
+      ctx.lineWidth = 2;
       ctx.strokeRect(16, 16, exportWidth - 32, exportHeight - 32);
 
-      // 3. Header text
+      // 3. Header
       ctx.fillStyle = '#0f172a';
-      ctx.font = 'bold 32px sans-serif';
+      ctx.font = 'bold 30px sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText(title || 'SkillUp Szófelhő', exportWidth / 2, 60);
+      ctx.fillText(title || 'SkillUp Szófelhő', exportWidth / 2, 55);
 
       if (question) {
         ctx.fillStyle = '#64748b';
-        ctx.font = 'italic 20px sans-serif';
-        ctx.fillText(`„${question}”`, exportWidth / 2, 95);
+        ctx.font = 'italic 18px sans-serif';
+        ctx.fillText(`„${question}”`, exportWidth / 2, 88);
       }
 
-      // 4. Subtle shape watermark in background
+      // 4. Draw 2D watermark shape
       if (currentShape !== 'rectangle' && typeof Path2D !== 'undefined') {
         ctx.save();
-        ctx.translate(exportWidth * 0.08, 120);
-        ctx.scale((exportWidth * 0.84) / 100, (exportHeight - 170) / 100);
+        ctx.translate(exportShapeX, exportShapeY);
+        ctx.scale(exportShapeSize / 100, exportShapeSize / 100);
         const path2D = new Path2D(currentShapeConfig.svgPath);
         ctx.fillStyle = currentShapeConfig.watermarkColor;
-        ctx.globalAlpha = 0.04;
+        ctx.globalAlpha = 0.07;
         ctx.fill(path2D);
         ctx.strokeStyle = currentShapeConfig.watermarkColor;
-        ctx.globalAlpha = 0.14;
-        ctx.lineWidth = 1;
+        ctx.globalAlpha = 0.35;
+        ctx.lineWidth = 1.6;
         ctx.stroke(path2D);
         ctx.restore();
       }
 
-      // 5. Compute scaled words for high-res export
-      const scaledWords = layoutWordCloud(words, exportWidth - 80, exportHeight - 160, currentShape);
+      // 5. Scaled words
+      const scaledWords = layoutWordCloud(words, exportWidth, exportHeight - 50, currentShape);
 
       scaledWords.forEach((word) => {
         ctx.save();
         ctx.font = `bold ${Math.round(word.fontSize * 1.35)}px sans-serif`;
-        ctx.fillStyle = word.color || '#4f46e5';
+        ctx.fillStyle = word.color || '#2563eb';
         ctx.textAlign = 'left';
         ctx.textBaseline = 'top';
-
-        ctx.shadowColor = 'rgba(0, 0, 0, 0.12)';
-        ctx.shadowBlur = 8;
-        ctx.shadowOffsetX = 2;
-        ctx.shadowOffsetY = 2;
-
-        ctx.fillText(word.text, word.x + 40, word.y + 120);
+        ctx.fillText(word.text, word.x, word.y + 25);
         ctx.restore();
       });
 
-      // 6. Footer watermark
+      // 6. Footer
       ctx.fillStyle = '#94a3b8';
       ctx.font = '14px sans-serif';
       ctx.textAlign = 'right';
@@ -194,7 +198,7 @@ export function WordCloudDisplay({
         </div>
         <h3 className="text-sm font-bold text-slate-700">Még nincsenek megjeleníthető szavak</h3>
         <p className="text-xs text-slate-500 max-w-sm mt-1">
-          Amint a diákok beküldik a szavaikat és a szavazás lezárul, itt jelenik meg az animált szófelhő.
+          Amint a diákok beküldik a szavaikat és a szavazás lezárul, itt jelenik meg a 2D szófelhő.
         </p>
       </div>
     );
@@ -207,12 +211,12 @@ export function WordCloudDisplay({
         <div className="flex items-center gap-2 flex-wrap">
           <span className="text-xs font-bold text-slate-700 bg-sky-50 text-sky-800 px-2.5 py-1 rounded-xl border border-sky-200/80 flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5 text-sky-600" />
-            <span>{words.length} különböző kifejezés</span>
+            <span>{words.length} kifejezés</span>
             <span className="text-sky-400">•</span>
             <span>{totalResponses} válasz</span>
           </span>
 
-          {/* Interactive Shape Switcher Pill Group */}
+          {/* 2D Shape Switcher */}
           <div className="flex items-center gap-0.5 bg-slate-100 p-0.5 rounded-xl border border-slate-200">
             <span className="text-[10px] font-bold text-slate-400 px-1.5 hidden md:inline">
               Alakzat:
@@ -228,7 +232,7 @@ export function WordCloudDisplay({
                   className={cn(
                     "px-2 py-0.5 text-xs font-bold rounded-lg transition-all flex items-center gap-1",
                     isSelected
-                      ? "bg-white text-sky-700 shadow-2xs scale-[1.03]"
+                      ? "bg-white text-sky-700 shadow-2xs font-extrabold"
                       : "text-slate-500 hover:text-slate-900 hover:bg-slate-200/50"
                   )}
                 >
@@ -249,7 +253,7 @@ export function WordCloudDisplay({
               className={cn(
                 "px-2.5 py-1 text-xs font-bold rounded-lg flex items-center gap-1 transition-all",
                 viewMode === 'cloud'
-                  ? "bg-white text-sky-700 shadow-2xs"
+                  ? "bg-white text-sky-700 shadow-2xs font-extrabold"
                   : "text-slate-600 hover:text-slate-900"
               )}
             >
@@ -262,7 +266,7 @@ export function WordCloudDisplay({
               className={cn(
                 "px-2.5 py-1 text-xs font-bold rounded-lg flex items-center gap-1 transition-all",
                 viewMode === 'table'
-                  ? "bg-white text-sky-700 shadow-2xs"
+                  ? "bg-white text-sky-700 shadow-2xs font-extrabold"
                   : "text-slate-600 hover:text-slate-900"
               )}
             >
@@ -285,99 +289,90 @@ export function WordCloudDisplay({
         </div>
       </div>
 
-      {/* Main View Area */}
+      {/* Main 2D Canvas Area */}
       {viewMode === 'cloud' ? (
         <div
           ref={containerRef}
-          className="relative w-full rounded-2xl bg-gradient-to-b from-sky-50/40 via-white to-indigo-50/30 border border-slate-200/90 shadow-inner overflow-hidden select-none"
+          className="relative w-full rounded-2xl bg-white border border-slate-200/90 shadow-2xs overflow-hidden select-none"
           style={{ minHeight: `${dimensions.height}px` }}
         >
-          {/* Animated background subtle clouds */}
-          <div className="absolute inset-0 pointer-events-none opacity-20">
-            <div className="absolute top-4 left-6 w-32 h-32 rounded-full bg-sky-200 blur-2xl" />
-            <div className="absolute bottom-6 right-8 w-40 h-40 rounded-full bg-indigo-200 blur-2xl" />
-          </div>
-
-          {/* SVG Canvas for Words & Shape Watermark */}
+          {/* SVG Canvas with 2D shape watermark & packed words */}
           <svg
             width={dimensions.width}
             height={dimensions.height}
             className="w-full h-full block"
           >
-            {/* Background shape watermark silhouette */}
+            {/* 2D Background shape outline (proportional 1:1, perfectly centered) */}
             {currentShape !== 'rectangle' && (
               <g
-                transform={`translate(${dimensions.width * 0.05}, ${dimensions.height * 0.05}) scale(${(dimensions.width * 0.9) / 100}, ${(dimensions.height * 0.9) / 100})`}
-                className="pointer-events-none transition-all duration-700"
+                transform={`translate(${shapeX}, ${shapeY}) scale(${shapeSize / 100}, ${shapeSize / 100})`}
+                className="pointer-events-none transition-all duration-500"
               >
                 <path
                   d={currentShapeConfig.svgPath}
                   fill={currentShapeConfig.watermarkColor}
-                  fillOpacity={0.05}
+                  fillOpacity={0.06}
                   stroke={currentShapeConfig.watermarkColor}
-                  strokeWidth={1.5}
-                  strokeDasharray="4 4"
-                  strokeOpacity={0.16}
+                  strokeWidth={1.8}
+                  strokeDasharray="6 4"
+                  strokeOpacity={0.3}
                 />
               </g>
             )}
 
-            {/* Placed Words */}
+            {/* Flat 2D Placed Words inside the shape */}
             {positionedWords.map((word, idx) => {
               const isHovered = hoveredWord?.normalized === word.normalized;
               const isSelected = selectedWord?.normalized === word.normalized;
+              const scale = isHovered || isSelected ? 1.12 : 1;
 
               return (
                 <g
                   key={`${word.normalized}-${currentShape}-${idx}`}
-                  transform={`translate(${word.x + word.width / 2}, ${word.y + word.height / 2})`}
+                  transform={`translate(${word.x + word.width / 2}, ${word.y + word.height / 2}) scale(${scale})`}
                   onMouseEnter={() => setHoveredWord(word)}
                   onMouseLeave={() => setHoveredWord(null)}
                   onClick={() => setSelectedWord(selectedWord?.normalized === word.normalized ? null : word)}
-                  className="cursor-pointer transition-all duration-500 ease-out"
-                  style={{
-                    transformOrigin: `${word.x + word.width / 2}px ${word.y + word.height / 2}px`,
-                    transform: isHovered || isSelected ? 'scale(1.15)' : 'scale(1)',
-                    filter: isHovered || isSelected
-                      ? 'drop-shadow(0 6px 12px rgba(0,0,0,0.18))'
-                      : 'drop-shadow(0 2px 4px rgba(0,0,0,0.06))'
-                  }}
+                  className="cursor-pointer transition-transform duration-200"
                 >
+                  {/* Subtle 2D highlight pill on hover/selection */}
                   {(isHovered || isSelected) && (
                     <rect
                       x={-word.width / 2}
                       y={-word.height / 2}
                       width={word.width}
                       height={word.height}
-                      rx={word.height / 2}
-                      ry={word.height / 2}
-                      fill={word.color}
-                      opacity={0.12}
+                      rx={8}
+                      ry={8}
+                      fill={word.color || '#2563eb'}
+                      opacity={0.14}
                     />
                   )}
 
+                  {/* Clean 2D flat typography */}
                   <text
                     x={0}
                     y={word.fontSize * 0.35}
                     textAnchor="middle"
-                    fill={word.color || '#4f46e5'}
+                    fill={word.color || '#2563eb'}
                     fontSize={word.fontSize}
                     fontWeight="800"
                     fontFamily="inherit"
-                    className="transition-colors duration-200"
+                    className="select-none tracking-tight"
                   >
                     {word.text}
                   </text>
 
+                  {/* Count indicator for words with count > 1 */}
                   {word.count > 1 && (
-                    <g transform={`translate(${word.width / 2 - 4}, ${-word.height / 2 + 8})`}>
-                      <circle r={9} fill={word.color || '#4f46e5'} />
+                    <g transform={`translate(${word.width / 2 - 2}, ${-word.height / 2 + 6})`}>
+                      <circle r={8} fill={word.color || '#2563eb'} />
                       <text
                         x={0}
-                        y={3.5}
+                        y={3}
                         textAnchor="middle"
                         fill="#ffffff"
-                        fontSize={10}
+                        fontSize={9}
                         fontWeight="bold"
                       >
                         {word.count}
@@ -456,7 +451,7 @@ export function WordCloudDisplay({
                       className="h-full rounded-full transition-all duration-500"
                       style={{
                         width: `${Math.max(8, w.percentage || 0)}%`,
-                        backgroundColor: w.color || '#4f46e5'
+                        backgroundColor: w.color || '#2563eb'
                       }}
                     />
                   </div>
@@ -484,7 +479,7 @@ export function WordCloudDisplay({
       {isTeacher && (
         <p className="text-[11px] text-slate-400 flex items-center gap-1 italic px-1">
           <Info className="w-3 h-3 shrink-0" />
-          <span>Tipp tanároknak: A felső gombokkal vetítés közben bármikor átválthatod a szófelhő alakzatát (pl. Szív vagy Csillag).</span>
+          <span>Tipp tanároknak: A felső gombokkal a szavakat bármikor átrendezheted más 2D formába (pl. Szív vagy Csillag).</span>
         </p>
       )}
     </div>

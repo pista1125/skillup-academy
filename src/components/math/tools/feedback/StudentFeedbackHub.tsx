@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { db } from '@/lib/firebase';
 import { collection, doc, getDoc, query, where, onSnapshot } from 'firebase/firestore';
 import { Button } from '@/components/ui/button';
-import { Target, Users, BarChart3, ChevronLeft, Bell, Sparkles, FileText, Cloud } from 'lucide-react';
+import { Target, Users, BarChart3, ChevronLeft, Bell, Sparkles, FileText, Cloud, Loader2 } from 'lucide-react';
 import ClassManager from './ClassManager';
 import { TargetBoardSetup } from './TargetBoardSetup';
 import { TargetBoardGame } from './TargetBoardGame';
@@ -12,6 +12,7 @@ import { StudentSurveyForm } from './StudentSurveyForm';
 import { WordCloudSetup } from './WordCloudSetup';
 import { WordCloudLiveView } from './WordCloudLiveView';
 import { StudentWordCloudForm } from './StudentWordCloudForm';
+import { StudentFeedbackPortal } from './StudentFeedbackPortal';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 
@@ -23,14 +24,15 @@ interface StudentFeedbackHubProps {
 }
 
 export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
-  const { user, profile } = useAuth();
+  const { user, profile, loading: authLoading } = useAuth();
   const [activeTab, setActiveTab] = useState<ActiveTab>('setup');
   const [appState, setAppState] = useState<AppState>('hub');
   const [currentSession, setCurrentSession] = useState<any>(null);
   const [notifications, setNotifications] = useState<any[]>([]);
   const [activeNotification, setActiveNotification] = useState<any>(null);
 
-  const isTeacher = profile?.role !== 'student';
+  const isTeacher = profile?.role === 'teacher';
+  const isStudent = !isTeacher;
 
   useEffect(() => {
     if (user) {
@@ -64,12 +66,6 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
     }
   }, [user]);
 
-  useEffect(() => {
-    if (profile?.role === 'student' && (activeTab === 'setup' || activeTab === 'survey_setup' || activeTab === 'word_cloud_setup')) {
-      setActiveTab('results');
-    }
-  }, [profile, activeTab]);
-
   const handleJoinSession = (notification: any) => {
     setActiveNotification(notification);
     setCurrentSession(notification.session);
@@ -97,6 +93,15 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
     setAppState('hub');
     setActiveTab('results');
   };
+
+  if (authLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center p-12 text-center text-slate-500 max-w-md mx-auto">
+        <Loader2 className="w-8 h-8 animate-spin text-sky-500 mb-2" />
+        <p className="text-xs font-semibold">Visszajelző rendszer betöltése...</p>
+      </div>
+    );
+  }
 
   if (!user) {
     return (
@@ -189,6 +194,20 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
     );
   }
 
+  // Dedicated student view: students only see their feedback portal!
+  if (isStudent) {
+    return (
+      <StudentFeedbackPortal
+        user={user}
+        profile={profile}
+        notifications={notifications}
+        onJoinSession={handleJoinSession}
+        onBack={onBack}
+      />
+    );
+  }
+
+  // Teacher View
   return (
     <div className="w-full max-w-6xl mx-auto px-2 sm:px-4 py-2 sm:py-3 space-y-2.5">
       {/* Top Header Bar */}

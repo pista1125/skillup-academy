@@ -16,3 +16,4 @@ export * from './WordCloudSetup';
 export * from './WordCloudLiveView';
 export * from './StudentWordCloudForm';
 export * from './WordCloudResultsView';
+export * from './StudentFeedbackPortal';
