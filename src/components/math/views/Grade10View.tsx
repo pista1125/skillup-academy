@@ -878,13 +878,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-quad-teljes-negyzet" number={1} title="Teljes négyzetté kiegészítés" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Alapfogalmak és Azonosságok"
-                subtitle="Átalakítás (x ± u)² = v alakra és lépései"
-                type="Hamarosan"
-                emoji="📐"
-                disabled={true}
-                icon={<Calculator className="w-6 h-6" />}
+                title="Teljes négyzetté kiegészítés Tananyag"
+                subtitle="Hiányos egyenletek megoldása, geometriai négyzetkiegészítés és az (x ± d)² alakra hozás lépései"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-quad-teljes-negyzet-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, ábrákkal és beépített Wordwall játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-quad-teljes-negyzet-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="orange"
+                {...getTopicProgress('g10-quad-teljes-negyzet-quiz')}
               />
             </div>
           </section>
@@ -896,13 +906,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-quad-teljes-negyzet-alkalmazasa" number={2} title="Teljes négyzetté kiegészítés alkalmazása" color="orange" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Főegyütthatós Egyenletek Megoldása"
-                subtitle="Teljes négyzet alkalmazása a ≠ 1 esetén és gyökvonás"
-                type="Hamarosan"
-                emoji="✨"
-                disabled={true}
-                icon={<Sparkles className="w-6 h-6" />}
+                title="Alkalmazások és Szélsőértékek Tananyag"
+                subtitle="Főegyüttható kiemelése és leosztása, törtekkel való négyzetkiegészítés és parabola csúcspontja"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-quad-teljes-negyzet-alkalmazasa-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="orange"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, ábrákkal és beépített Wordwall játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-quad-teljes-negyzet-alkalmazasa-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g10-quad-teljes-negyzet-alkalmazasa-quiz')}
               />
             </div>
           </section>
@@ -914,13 +934,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-quad-megoldokeplet" number={3} title="A másodfokú egyenlet megoldóképlete" color="red" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A Megoldóképlet Levezetése és Képlete"
-                subtitle="Az ax² + bx + c = 0 egyenlet általános megoldóképlete"
-                type="Hamarosan"
-                emoji="⚡"
-                disabled={true}
-                icon={<Divide className="w-6 h-6" />}
+                title="Megoldóképlet és Diszkrimináns Tananyag"
+                subtitle="A megoldóképlet 4a-s levezetése, a diszkrimináns szerepe és a 4 aranyszabály"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-quad-megoldokeplet-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="red"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, ábrákkal és beépített Wordwall játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-quad-megoldokeplet-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g10-quad-megoldokeplet-quiz')}
               />
             </div>
           </section>
@@ -932,13 +962,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-quad-megoldokeplet-alkalmazasa" number={4} title="Alkalmazzuk a megoldóképletet!" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Megoldóképlet Gyakorlása"
-                subtitle="Együtthatók behelyettesítése, előjelek és gyökvonás"
-                type="Hamarosan"
-                emoji="🎯"
-                disabled={true}
-                icon={<Target className="w-6 h-6" />}
+                title="Megoldóképlet Gyakorlása Tananyag"
+                subtitle="Összetett egyenletek 0-ra rendezése, törtes egyenletek kikötése és Viète-ellenőrzés"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-quad-megoldokeplet-alkalmazasa-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, ábrákkal és beépített Wordwall játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-quad-megoldokeplet-alkalmazasa-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="red"
+                {...getTopicProgress('g10-quad-megoldokeplet-alkalmazasa-quiz')}
               />
             </div>
           </section>
@@ -950,13 +990,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-quad-szoveges-alap" number={5} title="Szöveges feladatok" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Számelméleti és Algebrai Problémák"
-                subtitle="Egymást követő számok, szorzatok és összegek modellezése"
-                type="Hamarosan"
-                emoji="🔢"
-                disabled={true}
-                icon={<Hash className="w-6 h-6" />}
+                title="Szöveges Feladatok Tananyag"
+                subtitle="Számelméleti feladványok, szomszédos számok, reciprokos és osztozkodási feladatok"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-quad-szoveges-alap-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, ábrákkal és beépített Wordwall játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-quad-szoveges-alap-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g10-quad-szoveges-alap-quiz')}
               />
             </div>
           </section>
@@ -968,13 +1018,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-quad-diszkriminans" number={6} title="Diszkrimináns" color="purple" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A Gyökök Száma és Tulajdonságai"
-                subtitle="A D = b² - 4ac értéke és geometriai jelentése"
-                type="Hamarosan"
-                emoji="⚖️"
-                disabled={true}
-                icon={<Scale className="w-6 h-6" />}
+                title="Diszkrimináns Tananyag"
+                subtitle="A D = b² - 4ac jelentése, a gyökök száma, parabola és paraméteres vizsgálatok"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-quad-diszkriminans-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="purple"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, puskákkal és beépített Wordwall játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-quad-diszkriminans-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g10-quad-diszkriminans-quiz')}
               />
             </div>
           </section>
@@ -986,13 +1046,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-quad-szoveges-geometria" number={7} title="Szöveges feladatok geometriából" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Geometriai Szöveges Feladatok"
-                subtitle="Téglalapok területe, kerülete és derékszögű háromszögek"
-                type="Hamarosan"
-                emoji="📐"
-                disabled={true}
-                icon={<Maximize2 className="w-6 h-6" />}
+                title="Geometriai Feladatok Tananyag"
+                subtitle="Téglalapok, derékszögű háromszögek, kerti ösvények és sokszögek átlói"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-quad-szoveges-geometria-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, puskákkal és beépített Wordwall játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-quad-szoveges-geometria-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g10-quad-szoveges-geometria-quiz')}
               />
             </div>
           </section>
@@ -1004,13 +1074,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-quad-visszavezetheto" number={8} title="Másodfokú egyenletre visszavezethető feladatok" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Új Ismeretlen Bevezetése és Törtes Egyenletek"
-                subtitle="Biquadratikus és helyettesítéses egyenletek megoldása"
-                type="Hamarosan"
-                emoji="🔀"
-                disabled={true}
-                icon={<ArrowRightLeft className="w-6 h-6" />}
+                title="Visszavezethető Egyenletek Tananyag"
+                subtitle="Bikvadratikus, törtes és gyökös egyenletek, helyettesítés és szorzattá alakítás"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-quad-visszavezetheto-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="cyan"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, puskákkal és beépített Wordwall játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-quad-visszavezetheto-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g10-quad-visszavezetheto-quiz')}
               />
             </div>
           </section>
@@ -1022,13 +1102,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-quad-szoveges-penzugy" number={9} title="Pénzügyekkel kapcsolatos szöveges feladatok" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Pénzügyi Modellek és Százalékszámítás"
-                subtitle="Árváltozások, kamatok és bevételek optimalizálása"
-                type="Hamarosan"
-                emoji="🪙"
-                disabled={true}
-                icon={<Coins className="w-6 h-6" />}
+                title="Pénzügyi Modellek Tananyag"
+                subtitle="Árváltozások, kamatos kamat, bevételoptimalizálás és költségmegosztás"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-quad-szoveges-penzugy-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, puskákkal és beépített Wordwall játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-quad-szoveges-penzugy-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g10-quad-szoveges-penzugy-quiz')}
               />
             </div>
           </section>
@@ -1040,13 +1130,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-quad-szoveges-mozgas-munka" number={10} title="Szöveges feladatok mozgásról és munkavégzésről" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Sebesség és Együttes Munkavégzés"
-                subtitle="Menetidők, sebességek és munkateljesítmények aránya"
-                type="Hamarosan"
-                emoji="⏱️"
-                disabled={true}
-                icon={<Clock className="w-6 h-6" />}
+                title="Mozgás és Munkavégzés Tananyag"
+                subtitle="Sebesség, menetidő-különbségek, folyami hajózás és együttes munkavégzés"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-quad-szoveges-mozgas-munka-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, puskákkal és beépített Wordwall játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-quad-szoveges-mozgas-munka-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g10-quad-szoveges-mozgas-munka-quiz')}
               />
             </div>
           </section>
@@ -1058,13 +1158,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-quad-csoportverseny" number={11} title="Csoportverseny" color="pink" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Kooperatív Csapatvetélkedő"
-                subtitle="Villámkérdések, hibakeresés és összetett csapatfeladványok"
-                type="Hamarosan"
-                emoji="👥"
-                disabled={true}
-                icon={<Users className="w-6 h-6" />}
+                title="Csoportverseny Tananyag"
+                subtitle="A 4 forduló menetrendje, villám diszkrimináns, detektív hibavadászat és szerepek"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-quad-csoportverseny-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="pink"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, puskákkal és beépített Wordwall játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-quad-csoportverseny-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g10-quad-csoportverseny-quiz')}
               />
             </div>
           </section>
@@ -1076,13 +1186,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-quad-tudasproba" number={12} title="Gyakorlás, tudáspróba" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Másodfokú Egyenletek Tudáspróba"
-                subtitle="Átfogó témazáró feladatsor és önértékelés"
-                type="Hamarosan"
+                title="Gyakorlás és Tudáspróba Tananyag"
+                subtitle="A fejezet átfogó összefoglalása, megoldási arzenál, visszavezetési atlasz és vizsgatippek"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-quad-tudasproba-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
+                color="violet"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz és Játékok"
+                subtitle="30 kérdéses átfogó témazáró kvíz, párosító és rendező kihívások"
+                type="Kvíz"
                 emoji="🏆"
-                disabled={true}
+                onClick={() => onActivitySelect('g10-quad-tudasproba-quiz', topicId)}
                 icon={<Trophy className="w-6 h-6" />}
                 color="violet"
+                {...getTopicProgress('g10-quad-tudasproba-quiz')}
               />
             </div>
           </section>

@@ -1132,6 +1132,54 @@ const Grade10PracticeApplicationQuiz = lazy(() => import("@/components/math/grad
 const Grade10PracticeTestTheory = lazy(() => import("@/components/math/grade-10/fuggvenytranszformaciok/gyakorlas-tudasproba/PracticeTestTheory").then(m => ({ default: m.PracticeTestTheory }))) as any;
 const Grade10PracticeTestQuiz = lazy(() => import("@/components/math/grade-10/fuggvenytranszformaciok/gyakorlas-tudasproba/PracticeTestQuiz").then(m => ({ default: m.PracticeTestQuiz }))) as any;
 
+// 10. Osztály - V. Másodfokú egyenletek - 1. Teljes négyzetté kiegészítés
+const Grade10CompletingSquareTheory = lazy(() => import("@/components/math/grade-10/masodfoku-egyenletek/teljes-negyzette-kiegeszites/CompletingSquareTheory").then(m => ({ default: m.CompletingSquareTheory }))) as any;
+const Grade10CompletingSquareQuiz = lazy(() => import("@/components/math/grade-10/masodfoku-egyenletek/teljes-negyzette-kiegeszites/CompletingSquareQuiz").then(m => ({ default: m.CompletingSquareQuiz }))) as any;
+
+// 10. Osztály - V. Másodfokú egyenletek - 2. Teljes négyzetté kiegészítés alkalmazása
+const Grade10CompletingSquareAppTheory = lazy(() => import("@/components/math/grade-10/masodfoku-egyenletek/teljes-negyzette-kiegeszites-alkalmazasa/CompletingSquareAppTheory").then(m => ({ default: m.CompletingSquareAppTheory }))) as any;
+const Grade10CompletingSquareAppQuiz = lazy(() => import("@/components/math/grade-10/masodfoku-egyenletek/teljes-negyzette-kiegeszites-alkalmazasa/CompletingSquareAppQuiz").then(m => ({ default: m.CompletingSquareAppQuiz }))) as any;
+
+// 10. Osztály - V. Másodfokú egyenletek - 3. A másodfokú egyenlet megoldóképlete
+const Grade10QuadraticFormulaTheory = lazy(() => import("@/components/math/grade-10/masodfoku-egyenletek/a-masodfoku-egyenlet-megoldokeplete/QuadraticFormulaTheory").then(m => ({ default: m.QuadraticFormulaTheory }))) as any;
+const Grade10QuadraticFormulaQuiz = lazy(() => import("@/components/math/grade-10/masodfoku-egyenletek/a-masodfoku-egyenlet-megoldokeplete/QuadraticFormulaQuiz").then(m => ({ default: m.QuadraticFormulaQuiz }))) as any;
+
+// 10. Osztály - V. Másodfokú egyenletek - 4. Alkalmazzuk a megoldóképletet!
+const Grade10ApplyFormulaTheory = lazy(() => import("@/components/math/grade-10/masodfoku-egyenletek/alkalmazzuk-a-megoldokepletet/ApplyFormulaTheory").then(m => ({ default: m.ApplyFormulaTheory }))) as any;
+const Grade10ApplyFormulaQuiz = lazy(() => import("@/components/math/grade-10/masodfoku-egyenletek/alkalmazzuk-a-megoldokepletet/ApplyFormulaQuiz").then(m => ({ default: m.ApplyFormulaQuiz }))) as any;
+
+// 10. Osztály - V. Másodfokú egyenletek - 5. Szöveges feladatok
+const Grade10WordProblemsTheory = lazy(() => import("@/components/math/grade-10/masodfoku-egyenletek/szoveges-feladatok/WordProblemsTheory").then(m => ({ default: m.WordProblemsTheory }))) as any;
+const Grade10WordProblemsQuiz = lazy(() => import("@/components/math/grade-10/masodfoku-egyenletek/szoveges-feladatok/WordProblemsQuiz").then(m => ({ default: m.WordProblemsQuiz }))) as any;
+
+// 10. Osztály - V. Másodfokú egyenletek - 6. Diszkrimináns
+const Grade10DiscriminantTheory = lazy(() => import("@/components/math/grade-10/masodfoku-egyenletek/diszkriminans/DiscriminantTheory").then(m => ({ default: m.DiscriminantTheory }))) as any;
+const Grade10DiscriminantQuiz = lazy(() => import("@/components/math/grade-10/masodfoku-egyenletek/diszkriminans/DiscriminantQuiz").then(m => ({ default: m.DiscriminantQuiz }))) as any;
+
+// 10. Osztály - V. Másodfokú egyenletek - 7. Szöveges feladatok geometriából
+const Grade10GeometryProblemsTheory = lazy(() => import("@/components/math/grade-10/masodfoku-egyenletek/szoveges-feladatok-geometriabol/GeometryProblemsTheory").then(m => ({ default: m.GeometryProblemsTheory }))) as any;
+const Grade10GeometryProblemsQuiz = lazy(() => import("@/components/math/grade-10/masodfoku-egyenletek/szoveges-feladatok-geometriabol/GeometryProblemsQuiz").then(m => ({ default: m.GeometryProblemsQuiz }))) as any;
+
+// 10. Osztály - V. Másodfokú egyenletek - 8. Másodfokú egyenletre visszavezethető feladatok
+const Grade10ReducibleTheory = lazy(() => import("@/components/math/grade-10/masodfoku-egyenletek/masodfoku-egyenletre-visszavezetheto-feladatok/ReducibleTheory").then(m => ({ default: m.ReducibleTheory }))) as any;
+const Grade10ReducibleQuiz = lazy(() => import("@/components/math/grade-10/masodfoku-egyenletek/masodfoku-egyenletre-visszavezetheto-feladatok/ReducibleQuiz").then(m => ({ default: m.ReducibleQuiz }))) as any;
+
+// 10. Osztály - V. Másodfokú egyenletek - 9. Pénzügyekkel kapcsolatos szöveges feladatok
+const Grade10FinancialProblemsTheory = lazy(() => import("@/components/math/grade-10/masodfoku-egyenletek/penzugyekkel-kapcsolatos-szoveges-feladatok/FinancialProblemsTheory").then(m => ({ default: m.FinancialProblemsTheory }))) as any;
+const Grade10FinancialProblemsQuiz = lazy(() => import("@/components/math/grade-10/masodfoku-egyenletek/penzugyekkel-kapcsolatos-szoveges-feladatok/FinancialProblemsQuiz").then(m => ({ default: m.FinancialProblemsQuiz }))) as any;
+
+// 10. Osztály - V. Másodfokú egyenletek - 10. Szöveges feladatok mozgásról és munkavégzésről
+const Grade10MotionWorkTheory = lazy(() => import("@/components/math/grade-10/masodfoku-egyenletek/szoveges-feladatok-mozgasrol-es-munkavegzesrol/MotionWorkTheory").then(m => ({ default: m.MotionWorkTheory }))) as any;
+const Grade10MotionWorkQuiz = lazy(() => import("@/components/math/grade-10/masodfoku-egyenletek/szoveges-feladatok-mozgasrol-es-munkavegzesrol/MotionWorkQuiz").then(m => ({ default: m.MotionWorkQuiz }))) as any;
+
+// 10. Osztály - V. Másodfokú egyenletek - 11. Csoportverseny
+const Grade10GroupCompetitionTheory = lazy(() => import("@/components/math/grade-10/masodfoku-egyenletek/csoportverseny/GroupCompetitionTheory").then(m => ({ default: m.GroupCompetitionTheory }))) as any;
+const Grade10GroupCompetitionQuiz = lazy(() => import("@/components/math/grade-10/masodfoku-egyenletek/csoportverseny/GroupCompetitionQuiz").then(m => ({ default: m.GroupCompetitionQuiz }))) as any;
+
+// 10. Osztály - V. Másodfokú egyenletek - 12. Gyakorlás, tudáspróba
+const Grade10ComprehensiveReviewTheory = lazy(() => import("@/components/math/grade-10/masodfoku-egyenletek/gyakorlas-tudasproba/ComprehensiveReviewTheory").then(m => ({ default: m.ComprehensiveReviewTheory }))) as any;
+const Grade10ComprehensiveReviewQuiz = lazy(() => import("@/components/math/grade-10/masodfoku-egyenletek/gyakorlas-tudasproba/ComprehensiveReviewQuiz").then(m => ({ default: m.ComprehensiveReviewQuiz }))) as any;
+
 
 
 
@@ -14484,6 +14532,414 @@ export default function MathPage() {
                       onSwitchToTheory={() => handleActivitySelect('g10-transz-tudasproba-theory', selectedTopic || 'g10-fuggvenytranszformaciok')}
                       onSwitchToMatcher={() => handleActivitySelect('g10-transz-tudasproba-matcher', selectedTopic || 'g10-fuggvenytranszformaciok')}
                       onSwitchToSorter={() => handleActivitySelect('g10-transz-tudasproba-sorter', selectedTopic || 'g10-fuggvenytranszformaciok')}
+                    />
+                  )}
+
+                  {/* 10. Osztály - V. Másodfokú egyenletek - 1. Teljes négyzetté kiegészítés */}
+                  {activityType === 'g10-quad-teljes-negyzet-theory' && (
+                    <Grade10CompletingSquareTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-quad-teljes-negyzet-quiz', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-teljes-negyzet-quiz' && (
+                    <Grade10CompletingSquareQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-teljes-negyzet-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-teljes-negyzet-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-teljes-negyzet-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-teljes-negyzet-matcher' && (
+                    <Grade10CompletingSquareQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-teljes-negyzet-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-teljes-negyzet-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-teljes-negyzet-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-teljes-negyzet-sorter' && (
+                    <Grade10CompletingSquareQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-teljes-negyzet-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-teljes-negyzet-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-teljes-negyzet-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+
+                  {/* 10. Osztály - V. Másodfokú egyenletek - 2. Teljes négyzetté kiegészítés alkalmazása */}
+                  {activityType === 'g10-quad-teljes-negyzet-alkalmazasa-theory' && (
+                    <Grade10CompletingSquareAppTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-quad-teljes-negyzet-alkalmazasa-quiz', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-teljes-negyzet-alkalmazasa-quiz' && (
+                    <Grade10CompletingSquareAppQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-teljes-negyzet-alkalmazasa-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-teljes-negyzet-alkalmazasa-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-teljes-negyzet-alkalmazasa-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-teljes-negyzet-alkalmazasa-matcher' && (
+                    <Grade10CompletingSquareAppQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-teljes-negyzet-alkalmazasa-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-teljes-negyzet-alkalmazasa-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-teljes-negyzet-alkalmazasa-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-teljes-negyzet-alkalmazasa-sorter' && (
+                    <Grade10CompletingSquareAppQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-teljes-negyzet-alkalmazasa-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-teljes-negyzet-alkalmazasa-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-teljes-negyzet-alkalmazasa-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+
+                  {/* 10. Osztály - V. Másodfokú egyenletek - 3. A másodfokú egyenlet megoldóképlete */}
+                  {activityType === 'g10-quad-megoldokeplet-theory' && (
+                    <Grade10QuadraticFormulaTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-quad-megoldokeplet-quiz', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-megoldokeplet-quiz' && (
+                    <Grade10QuadraticFormulaQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-megoldokeplet-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-megoldokeplet-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-megoldokeplet-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-megoldokeplet-matcher' && (
+                    <Grade10QuadraticFormulaQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-megoldokeplet-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-megoldokeplet-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-megoldokeplet-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-megoldokeplet-sorter' && (
+                    <Grade10QuadraticFormulaQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-megoldokeplet-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-megoldokeplet-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-megoldokeplet-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+
+                  {/* 10. Osztály - V. Másodfokú egyenletek - 4. Alkalmazzuk a megoldóképletet! */}
+                  {activityType === 'g10-quad-megoldokeplet-alkalmazasa-theory' && (
+                    <Grade10ApplyFormulaTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-quad-megoldokeplet-alkalmazasa-quiz', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-megoldokeplet-alkalmazasa-quiz' && (
+                    <Grade10ApplyFormulaQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-megoldokeplet-alkalmazasa-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-megoldokeplet-alkalmazasa-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-megoldokeplet-alkalmazasa-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-megoldokeplet-alkalmazasa-matcher' && (
+                    <Grade10ApplyFormulaQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-megoldokeplet-alkalmazasa-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-megoldokeplet-alkalmazasa-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-megoldokeplet-alkalmazasa-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-megoldokeplet-alkalmazasa-sorter' && (
+                    <Grade10ApplyFormulaQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-megoldokeplet-alkalmazasa-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-megoldokeplet-alkalmazasa-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-megoldokeplet-alkalmazasa-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+
+                  {/* 10. Osztály - V. Másodfokú egyenletek - 5. Szöveges feladatok */}
+                  {activityType === 'g10-quad-szoveges-alap-theory' && (
+                    <Grade10WordProblemsTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-quad-szoveges-alap-quiz', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-szoveges-alap-quiz' && (
+                    <Grade10WordProblemsQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-szoveges-alap-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-szoveges-alap-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-szoveges-alap-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-szoveges-alap-matcher' && (
+                    <Grade10WordProblemsQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-szoveges-alap-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-szoveges-alap-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-szoveges-alap-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-szoveges-alap-sorter' && (
+                    <Grade10WordProblemsQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-szoveges-alap-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-szoveges-alap-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-szoveges-alap-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+
+                  {/* 10. Osztály - V. Másodfokú egyenletek - 6. Diszkrimináns */}
+                  {activityType === 'g10-quad-diszkriminans-theory' && (
+                    <Grade10DiscriminantTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-quad-diszkriminans-quiz', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-diszkriminans-quiz' && (
+                    <Grade10DiscriminantQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-diszkriminans-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-diszkriminans-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-diszkriminans-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-diszkriminans-matcher' && (
+                    <Grade10DiscriminantQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-diszkriminans-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-diszkriminans-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-diszkriminans-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-diszkriminans-sorter' && (
+                    <Grade10DiscriminantQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-diszkriminans-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-diszkriminans-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-diszkriminans-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+
+                  {/* 10. Osztály - V. Másodfokú egyenletek - 7. Szöveges feladatok geometriából */}
+                  {activityType === 'g10-quad-szoveges-geometria-theory' && (
+                    <Grade10GeometryProblemsTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-quad-szoveges-geometria-quiz', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-szoveges-geometria-quiz' && (
+                    <Grade10GeometryProblemsQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-szoveges-geometria-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-szoveges-geometria-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-szoveges-geometria-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-szoveges-geometria-matcher' && (
+                    <Grade10GeometryProblemsQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-szoveges-geometria-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-szoveges-geometria-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-szoveges-geometria-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-szoveges-geometria-sorter' && (
+                    <Grade10GeometryProblemsQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-szoveges-geometria-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-szoveges-geometria-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-szoveges-geometria-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+
+                  {/* 10. Osztály - V. Másodfokú egyenletek - 8. Másodfokú egyenletre visszavezethető feladatok */}
+                  {activityType === 'g10-quad-visszavezetheto-theory' && (
+                    <Grade10ReducibleTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-quad-visszavezetheto-quiz', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-visszavezetheto-quiz' && (
+                    <Grade10ReducibleQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-visszavezetheto-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-visszavezetheto-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-visszavezetheto-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-visszavezetheto-matcher' && (
+                    <Grade10ReducibleQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-visszavezetheto-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-visszavezetheto-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-visszavezetheto-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-visszavezetheto-sorter' && (
+                    <Grade10ReducibleQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-visszavezetheto-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-visszavezetheto-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-visszavezetheto-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+
+                  {/* 10. Osztály - V. Másodfokú egyenletek - 9. Pénzügyekkel kapcsolatos szöveges feladatok */}
+                  {activityType === 'g10-quad-szoveges-penzugy-theory' && (
+                    <Grade10FinancialProblemsTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-quad-szoveges-penzugy-quiz', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-szoveges-penzugy-quiz' && (
+                    <Grade10FinancialProblemsQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-szoveges-penzugy-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-szoveges-penzugy-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-szoveges-penzugy-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-szoveges-penzugy-matcher' && (
+                    <Grade10FinancialProblemsQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-szoveges-penzugy-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-szoveges-penzugy-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-szoveges-penzugy-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-szoveges-penzugy-sorter' && (
+                    <Grade10FinancialProblemsQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-szoveges-penzugy-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-szoveges-penzugy-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-szoveges-penzugy-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+
+                  {/* 10. Osztály - V. Másodfokú egyenletek - 10. Szöveges feladatok mozgásról és munkavégzésről */}
+                  {activityType === 'g10-quad-szoveges-mozgas-munka-theory' && (
+                    <Grade10MotionWorkTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-quad-szoveges-mozgas-munka-quiz', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-szoveges-mozgas-munka-quiz' && (
+                    <Grade10MotionWorkQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-szoveges-mozgas-munka-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-szoveges-mozgas-munka-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-szoveges-mozgas-munka-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-szoveges-mozgas-munka-matcher' && (
+                    <Grade10MotionWorkQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-szoveges-mozgas-munka-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-szoveges-mozgas-munka-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-szoveges-mozgas-munka-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-szoveges-mozgas-munka-sorter' && (
+                    <Grade10MotionWorkQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-szoveges-mozgas-munka-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-szoveges-mozgas-munka-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-szoveges-mozgas-munka-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+
+                  {/* 10. Osztály - V. Másodfokú egyenletek - 11. Csoportverseny */}
+                  {activityType === 'g10-quad-csoportverseny-theory' && (
+                    <Grade10GroupCompetitionTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-quad-csoportverseny-quiz', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-csoportverseny-quiz' && (
+                    <Grade10GroupCompetitionQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-csoportverseny-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-csoportverseny-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-csoportverseny-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-csoportverseny-matcher' && (
+                    <Grade10GroupCompetitionQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-csoportverseny-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-csoportverseny-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-csoportverseny-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-csoportverseny-sorter' && (
+                    <Grade10GroupCompetitionQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-csoportverseny-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-csoportverseny-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-csoportverseny-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+
+                  {/* 10. Osztály - V. Másodfokú egyenletek - 12. Gyakorlás, tudáspróba */}
+                  {activityType === 'g10-quad-tudasproba-theory' && (
+                    <Grade10ComprehensiveReviewTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-quad-tudasproba-quiz', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-tudasproba-quiz' && (
+                    <Grade10ComprehensiveReviewQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-tudasproba-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-tudasproba-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-tudasproba-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-tudasproba-matcher' && (
+                    <Grade10ComprehensiveReviewQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-tudasproba-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-tudasproba-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-tudasproba-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
+                    />
+                  )}
+                  {activityType === 'g10-quad-tudasproba-sorter' && (
+                    <Grade10ComprehensiveReviewQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-quad-tudasproba-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-tudasproba-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-quad-tudasproba-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
                     />
                   )}
 
