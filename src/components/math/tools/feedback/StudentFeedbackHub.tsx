@@ -2,18 +2,21 @@ import { useState, useEffect } from 'react';
 import { db } from '@/lib/firebase';
 import { collection, doc, getDoc, query, where, onSnapshot } from 'firebase/firestore';
 import { Button } from '@/components/ui/button';
-import { Target, Users, BarChart3, ChevronLeft, Bell, Sparkles, FileText } from 'lucide-react';
+import { Target, Users, BarChart3, ChevronLeft, Bell, Sparkles, FileText, Cloud } from 'lucide-react';
 import ClassManager from './ClassManager';
 import { TargetBoardSetup } from './TargetBoardSetup';
 import { TargetBoardGame } from './TargetBoardGame';
 import { FeedbackResults } from './FeedbackResults';
 import { SurveySetup } from './SurveySetup';
 import { StudentSurveyForm } from './StudentSurveyForm';
+import { WordCloudSetup } from './WordCloudSetup';
+import { WordCloudLiveView } from './WordCloudLiveView';
+import { StudentWordCloudForm } from './StudentWordCloudForm';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 
-type ActiveTab = 'setup' | 'survey_setup' | 'classes' | 'results';
-type AppState = 'hub' | 'playing' | 'viewing_results_detail' | 'student_playing' | 'student_survey';
+type ActiveTab = 'classes' | 'word_cloud_setup' | 'setup' | 'survey_setup' | 'results';
+type AppState = 'hub' | 'playing' | 'viewing_results_detail' | 'student_playing' | 'student_survey' | 'word_cloud_live' | 'student_word_cloud';
 
 interface StudentFeedbackHubProps {
   onBack?: () => void;
@@ -62,7 +65,7 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
   }, [user]);
 
   useEffect(() => {
-    if (profile?.role === 'student' && (activeTab === 'setup' || activeTab === 'survey_setup')) {
+    if (profile?.role === 'student' && (activeTab === 'setup' || activeTab === 'survey_setup' || activeTab === 'word_cloud_setup')) {
       setActiveTab('results');
     }
   }, [profile, activeTab]);
@@ -72,6 +75,8 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
     setCurrentSession(notification.session);
     if (notification.tool_type === 'survey' || notification.session?.tool_type === 'survey') {
       setAppState('student_survey');
+    } else if (notification.tool_type === 'word_cloud' || notification.session?.tool_type === 'word_cloud') {
+      setAppState('student_word_cloud');
     } else {
       setAppState('student_playing');
     }
@@ -80,6 +85,11 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
   const handleStartGame = (sessionData: any) => {
     setCurrentSession(sessionData);
     setAppState('playing');
+  };
+
+  const handleStartWordCloud = (sessionData: any) => {
+    setCurrentSession(sessionData);
+    setAppState('word_cloud_live');
   };
 
   const handleEndGame = () => {
@@ -99,6 +109,37 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
           A visszajelzések indításához és mentéséhez kérlek jelentkezz be.
         </p>
       </div>
+    );
+  }
+
+  if (appState === 'word_cloud_live') {
+    return (
+      <WordCloudLiveView
+        session={currentSession}
+        onComplete={handleEndGame}
+      />
+    );
+  }
+
+  if (appState === 'student_word_cloud' && activeNotification) {
+    return (
+      <StudentWordCloudForm
+        session={currentSession}
+        studentId={activeNotification.student_id}
+        studentName={activeNotification.student_name}
+        notificationId={activeNotification.id}
+        onComplete={() => {
+          setAppState('hub');
+          setActiveNotification(null);
+          setCurrentSession(null);
+          setActiveTab('results');
+        }}
+        onCancel={() => {
+          setAppState('hub');
+          setActiveNotification(null);
+          setCurrentSession(null);
+        }}
+      />
     );
   }
 
@@ -212,6 +253,7 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
           </div>
           <div className="flex flex-wrap gap-2">
             {notifications.map((n) => {
+              const isWordCloud = n.tool_type === 'word_cloud' || n.session?.tool_type === 'word_cloud';
               const isSurvey = n.tool_type === 'survey' || n.session?.tool_type === 'survey';
               return (
                 <Button
@@ -220,8 +262,8 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
                   onClick={() => handleJoinSession(n)}
                   className="bg-white text-orange-600 hover:bg-amber-50 font-bold rounded-xl h-7 text-xs shadow-xs"
                 >
-                  {isSurvey ? '📋 Kérdőív: ' : '🎯 Céltábla: '}
-                  {n.session?.title || n.session?.lesson_info || n.session?.class_name || 'Feladat'}
+                  {isWordCloud ? '☁️ Szófelhő: ' : isSurvey ? '📋 Kérdőív: ' : '🎯 Céltábla: '}
+                  {n.session?.title || n.session?.lesson_info || n.session?.question || n.session?.class_name || 'Feladat'}
                 </Button>
               );
             })}
@@ -229,9 +271,9 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
         </div>
       )}
 
-      {/* 4 Mode Tabs (Teacher / Educator) */}
+      {/* 5 Mode Tabs (Teacher / Educator) */}
       {isTeacher && (
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
           {/* Tab 1: Osztályok Kezelése */}
           <div 
             onClick={() => setActiveTab('classes')}
@@ -254,7 +296,34 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
             )}
           </div>
 
-          {/* Tab 2: Céltábla Visszajelzés (Gyors óravégi) */}
+          {/* Tab 2: Szófelhő Reflexió (ÚJ!) - Céltábla előtt */}
+          <div 
+            onClick={() => setActiveTab('word_cloud_setup')}
+            className={cn(
+              "flex items-center gap-2 p-2 sm:p-2.5 rounded-2xl cursor-pointer transition-all border",
+              activeTab === 'word_cloud_setup' 
+                ? "bg-gradient-to-r from-sky-50/90 to-blue-50/50 border-sky-400 ring-2 ring-sky-500/20 shadow-xs" 
+                : "bg-white/90 hover:bg-sky-50/20 border-slate-200/80 hover:border-sky-200"
+            )}
+          >
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-gradient-to-br from-sky-500 to-blue-600 flex items-center justify-center text-white shadow-xs shrink-0">
+              <Cloud className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-1">
+                <h3 className="font-bold text-xs sm:text-sm text-slate-800 truncate">Szófelhő</h3>
+                <span className="text-[9px] font-black uppercase px-1 py-0.2 rounded bg-sky-100 text-sky-700">
+                  Új
+                </span>
+              </div>
+              <p className="text-[10px] text-slate-500 truncate">Kifejezés & reflexió</p>
+            </div>
+            {activeTab === 'word_cloud_setup' && (
+              <span className="w-2 h-2 rounded-full bg-sky-500 shrink-0 mr-1 hidden sm:inline-block" />
+            )}
+          </div>
+
+          {/* Tab 3: Céltábla Visszajelzés (Gyors óravégi) */}
           <div 
             onClick={() => setActiveTab('setup')}
             className={cn(
@@ -281,7 +350,7 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
             )}
           </div>
 
-          {/* Tab 3: Részletes Kérdőív (ÚJ!) */}
+          {/* Tab 4: Részletes Kérdőív */}
           <div 
             onClick={() => setActiveTab('survey_setup')}
             className={cn(
@@ -298,7 +367,7 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
               <div className="flex items-center gap-1">
                 <h3 className="font-bold text-xs sm:text-sm text-slate-800 truncate">Kérdőív</h3>
                 <span className="text-[9px] font-black uppercase px-1 py-0.2 rounded bg-purple-100 text-purple-700">
-                  Új
+                  Részletes
                 </span>
               </div>
               <p className="text-[10px] text-slate-500 truncate">Részletes felmérés</p>
@@ -308,11 +377,11 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
             )}
           </div>
 
-          {/* Tab 4: Eredmények */}
+          {/* Tab 5: Eredmények */}
           <div 
             onClick={() => setActiveTab('results')}
             className={cn(
-              "flex items-center gap-2 p-2 sm:p-2.5 rounded-2xl cursor-pointer transition-all border",
+              "flex items-center gap-2 p-2 sm:p-2.5 rounded-2xl cursor-pointer transition-all border col-span-2 sm:col-span-1",
               activeTab === 'results' 
                 ? "bg-gradient-to-r from-amber-50/90 to-orange-50/50 border-amber-400 ring-2 ring-amber-500/20 shadow-xs" 
                 : "bg-white/90 hover:bg-amber-50/20 border-slate-200/80 hover:border-amber-200"
@@ -335,6 +404,12 @@ export function StudentFeedbackHub({ onBack }: StudentFeedbackHubProps) {
       {/* Active Tab Content Card */}
       <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-3 sm:p-4 border border-slate-200/90 shadow-sm">
         {activeTab === 'classes' && <ClassManager />}
+        {activeTab === 'word_cloud_setup' && (
+          <WordCloudSetup
+            onStart={handleStartWordCloud}
+            onSwitchToClasses={() => setActiveTab('classes')}
+          />
+        )}
         {activeTab === 'setup' && (
           <TargetBoardSetup 
             onStart={handleStartGame} 

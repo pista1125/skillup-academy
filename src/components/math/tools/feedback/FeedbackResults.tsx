@@ -16,12 +16,15 @@ import { hu } from 'date-fns/locale';
 import { BarChart3, Clock, Trash2, Target, FileText, Filter } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { SurveyResultsView } from './SurveyResultsView';
+import { WordCloudResultsView } from './WordCloudResultsView';
+import { WordCloudShape } from './wordCloudUtils';
 
 interface Session {
   id: string;
   lesson_info: string;
   title?: string;
-  tool_type?: 'target_board' | 'survey';
+  question?: string;
+  tool_type?: 'target_board' | 'survey' | 'word_cloud';
   aspects: string[];
   created_at: string;
   class_name?: string;
@@ -29,6 +32,9 @@ interface Session {
     name: string;
   };
   note?: string;
+  max_words_per_student?: number;
+  hidden_words?: string[];
+  shape?: WordCloudShape;
 }
 
 interface Result {
@@ -46,14 +52,14 @@ export function FeedbackResults() {
   const [selectedSession, setSelectedSession] = useState<Session | null>(null);
   const [results, setResults] = useState<Result[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [typeFilter, setTypeFilter] = useState<'all' | 'target_board' | 'survey'>('all');
+  const [typeFilter, setTypeFilter] = useState<'all' | 'word_cloud' | 'target_board' | 'survey'>('all');
 
   useEffect(() => {
     if (user) fetchSessions();
   }, [user]);
 
   useEffect(() => {
-    if (selectedSession && selectedSession.tool_type !== 'survey') {
+    if (selectedSession && selectedSession.tool_type !== 'survey' && selectedSession.tool_type !== 'word_cloud') {
       fetchResults(selectedSession.id);
     }
   }, [selectedSession]);
@@ -174,7 +180,8 @@ export function FeedbackResults() {
     return s.tool_type === typeFilter;
   });
 
-  const targetCount = sessions.filter(s => s.tool_type !== 'survey').length;
+  const wordCloudCount = sessions.filter(s => s.tool_type === 'word_cloud').length;
+  const targetCount = sessions.filter(s => s.tool_type === 'target_board' || !s.tool_type).length;
   const surveyCount = sessions.filter(s => s.tool_type === 'survey').length;
 
   // Calculate averages per aspect for TargetBoard
@@ -202,12 +209,12 @@ export function FeedbackResults() {
         </div>
 
         {/* Filter pills */}
-        <div className="flex items-center gap-1 p-0.5 bg-white rounded-xl border border-slate-200 text-[10px] font-bold">
+        <div className="grid grid-cols-2 gap-1 p-0.5 bg-white rounded-xl border border-slate-200 text-[10px] font-bold">
           <button
             type="button"
             onClick={() => setTypeFilter('all')}
             className={cn(
-              "flex-1 py-1 rounded-lg transition-all text-center",
+              "py-1 px-1 rounded-lg transition-all text-center truncate",
               typeFilter === 'all' ? "bg-slate-800 text-white" : "text-slate-600 hover:text-slate-900"
             )}
           >
@@ -215,9 +222,19 @@ export function FeedbackResults() {
           </button>
           <button
             type="button"
+            onClick={() => setTypeFilter('word_cloud')}
+            className={cn(
+              "py-1 px-1 rounded-lg transition-all text-center truncate",
+              typeFilter === 'word_cloud' ? "bg-sky-500 text-white" : "text-slate-600 hover:text-slate-900"
+            )}
+          >
+            ☁️ Szófelhő ({wordCloudCount})
+          </button>
+          <button
+            type="button"
             onClick={() => setTypeFilter('target_board')}
             className={cn(
-              "flex-1 py-1 rounded-lg transition-all text-center",
+              "py-1 px-1 rounded-lg transition-all text-center truncate",
               typeFilter === 'target_board' ? "bg-amber-500 text-white" : "text-slate-600 hover:text-slate-900"
             )}
           >
@@ -227,7 +244,7 @@ export function FeedbackResults() {
             type="button"
             onClick={() => setTypeFilter('survey')}
             className={cn(
-              "flex-1 py-1 rounded-lg transition-all text-center",
+              "py-1 px-1 rounded-lg transition-all text-center truncate",
               typeFilter === 'survey' ? "bg-purple-600 text-white" : "text-slate-600 hover:text-slate-900"
             )}
           >
@@ -239,6 +256,7 @@ export function FeedbackResults() {
         <div className="space-y-1.5">
           {filteredSessions.map(s => {
             const isSelected = selectedSession?.id === s.id;
+            const isWordCloud = s.tool_type === 'word_cloud';
             const isSurvey = s.tool_type === 'survey';
 
             return (
@@ -248,7 +266,9 @@ export function FeedbackResults() {
                 className={cn(
                   "p-2.5 rounded-xl cursor-pointer transition-all border flex items-center justify-between",
                   isSelected
-                    ? isSurvey
+                    ? isWordCloud
+                      ? "bg-gradient-to-r from-sky-500 to-blue-600 text-white border-sky-600 shadow-sm"
+                      : isSurvey
                       ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white border-purple-700 shadow-sm"
                       : "bg-gradient-to-r from-amber-500 to-orange-600 text-white border-amber-600 shadow-sm"
                     : "bg-white text-slate-800 border-slate-200/80 hover:border-slate-300"
@@ -260,11 +280,13 @@ export function FeedbackResults() {
                       "text-[9px] font-black uppercase px-1.5 py-0.2 rounded shrink-0",
                       isSelected
                         ? "bg-white/20 text-white"
+                        : isWordCloud
+                        ? "bg-sky-100 text-sky-800"
                         : isSurvey
                         ? "bg-purple-100 text-purple-700"
                         : "bg-amber-100 text-amber-700"
                     )}>
-                      {isSurvey ? 'Kérdőív' : 'Céltábla'}
+                      {isWordCloud ? 'Szófelhő' : isSurvey ? 'Kérdőív' : 'Céltábla'}
                     </span>
                     <p className="font-bold text-xs truncate max-w-[150px]">{s.lesson_info || s.title}</p>
                   </div>
@@ -297,6 +319,8 @@ export function FeedbackResults() {
         <div className="md:col-span-8">
           {selectedSession.tool_type === 'survey' ? (
             <SurveyResultsView session={selectedSession} />
+          ) : selectedSession.tool_type === 'word_cloud' ? (
+            <WordCloudResultsView session={selectedSession} />
           ) : (
             <div className="space-y-3.5">
               <div className="bg-slate-50/70 rounded-2xl p-3 sm:p-4 border border-slate-200/80">
