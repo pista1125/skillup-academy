@@ -946,7 +946,10 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = (props) => {
             </TheorySection>
           ))}
 
-        {/* Interactive Section (if provided, placed towards the end of theory) */}
+        {/* Children (Theory Sections) */}
+        {parseFractionsInNode(children)}
+
+        {/* Interactive Section (placed towards the end of theory) */}
         {interactiveSection && (
           <div className="my-8">
             {interactiveSection}
@@ -977,7 +980,6 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = (props) => {
             </div>
           </div>
         )}
-        {parseFractionsInNode(children)}
 
         {/* Practice Callout Banner */}
         <div

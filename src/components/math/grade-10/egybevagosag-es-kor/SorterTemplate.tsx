@@ -222,17 +222,24 @@ export function SorterTemplate({
     if (config?.categories && config?.items) return config;
     if (allLevels && allLevels[activeLevel]) return allLevels[activeLevel];
     if (allLevels && Array.isArray((allLevels as any).categories) && Array.isArray((allLevels as any).items)) return allLevels as any;
-    if (activeLevel === 1 && level1Categories && level1Items) {
-      return { categories: level1Categories, items: level1Items };
+    if (activeLevel === 1) {
+      const cats = level1Categories || (rest as any).easyCategories;
+      const its = level1Items || (rest as any).easyItems;
+      if (cats && its) return { categories: cats, items: its };
     }
-    if (activeLevel === 2 && level2Categories && level2Items) {
-      return { categories: level2Categories, items: level2Items };
+    if (activeLevel === 2) {
+      const cats = level2Categories || (rest as any).mediumCategories;
+      const its = level2Items || (rest as any).mediumItems;
+      if (cats && its) return { categories: cats, items: its };
     }
-    if (activeLevel === 3 && level3Categories && level3Items) {
-      return { categories: level3Categories, items: level3Items };
+    if (activeLevel === 3) {
+      const cats = level3Categories || (rest as any).hardCategories;
+      const its = level3Items || (rest as any).hardItems;
+      if (cats && its) return { categories: cats, items: its };
     }
     if (categories && items) return { categories, items };
     if (level1Categories && level1Items) return { categories: level1Categories, items: level1Items };
+    if ((rest as any).easyCategories && (rest as any).easyItems) return { categories: (rest as any).easyCategories, items: (rest as any).easyItems };
     return { categories: [], items: [] };
   };
 

@@ -667,7 +667,6 @@ export const sectionToTopicMap: Record<string, string> = {
   'g10-sec-geo-sokszogek-es-korok': 'g10-egybevagosag-kor',
   'g10-sec-geo-gyakorlas-sokszogek': 'g10-egybevagosag-kor',
   'g10-sec-geo-ismetles': 'g10-egybevagosag-kor',
-  'g10-sec-geo-tudasproba': 'g10-egybevagosag-kor',
 
   'g10-statisztika-valoszinuseg': 'g10-statisztika-valoszinuseg',
   'g10-sec-stat-atlag-szamtani-kozep': 'g10-statisztika-valoszinuseg',
@@ -1653,12 +1652,11 @@ export function getGradeSubsections(
         { id: 'g10-sec-geo-egybevago-haromszogek', label: '2. Egybevágó háromszögek' },
         { id: 'g10-sec-geo-kor-kerulet-terulet', label: '3. A kör kerülete és területe' },
         { id: 'g10-sec-geo-kozepponti-szog-iv-cikk', label: '4. Középponti szög, körív, körcikk' },
-        { id: 'g10-sec-geo-gyakorlas-kor', label: '5. Gyakorlás' },
+        { id: 'g10-sec-geo-gyakorlas-kor', label: '5. Körszámítások és összetett alakzatok' },
         { id: 'g10-sec-geo-korivek-mindennapokban', label: '6. Körívek, körcikkek a mindennapokban' },
         { id: 'g10-sec-geo-sokszogek-es-korok', label: '7. Sokszögek és körök' },
-        { id: 'g10-sec-geo-gyakorlas-sokszogek', label: '8. Gyakorlás' },
-        { id: 'g10-sec-geo-ismetles', label: '9. Ismétlés' },
-        { id: 'g10-sec-geo-tudasproba', label: '10. Tudáspróba' }
+        { id: 'g10-sec-geo-gyakorlas-sokszogek', label: '8. Érintőtrapézok és szabályos sokszögek' },
+        { id: 'g10-sec-geo-ismetles', label: '9. Gyakorlás, tudáspróba' }
       ];
     } else if (t.id === 'g10-statisztika-valoszinuseg') {
       subsections = [

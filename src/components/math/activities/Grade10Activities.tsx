@@ -93,6 +93,35 @@ const Grade10TruthTableTheory = lazy(() => import("@/components/math/grade-10/lo
 const Grade10WordProblemsQuiz = lazy(() => import("@/components/math/grade-10/masodfoku-egyenletek/szoveges-feladatok/WordProblemsQuiz").then(m => ({ default: m.WordProblemsQuiz })))
 const Grade10WordProblemsTheory = lazy(() => import("@/components/math/grade-10/masodfoku-egyenletek/szoveges-feladatok/WordProblemsTheory").then(m => ({ default: m.WordProblemsTheory })))
 
+
+// 10. Osztály - VI. Egybevágóság és kör (Grade 10 Topic VI)
+const Grade10TriangleCongruenceTheory = lazy(() => import("@/components/math/grade-10/egybevagosag-es-kor/haromszogek-egybevagosaganak-alapesetei/TriangleCongruenceTheory").then(m => ({ default: m.TriangleCongruenceTheory })))
+const Grade10TriangleCongruenceQuiz = lazy(() => import("@/components/math/grade-10/egybevagosag-es-kor/haromszogek-egybevagosaganak-alapesetei/TriangleCongruenceQuiz").then(m => ({ default: m.TriangleCongruenceQuiz })))
+
+const Grade10CongruentTrianglesTheory = lazy(() => import("@/components/math/grade-10/egybevagosag-es-kor/egybevago-haromszogek/CongruentTrianglesTheory").then(m => ({ default: m.CongruentTrianglesTheory })))
+const Grade10CongruentTrianglesQuiz = lazy(() => import("@/components/math/grade-10/egybevagosag-es-kor/egybevago-haromszogek/CongruentTrianglesQuiz").then(m => ({ default: m.CongruentTrianglesQuiz })))
+
+const Grade10CircleCircumferenceAreaTheory = lazy(() => import("@/components/math/grade-10/egybevagosag-es-kor/a-kor-kerulete-es-terulete/CircleCircumferenceAreaTheory").then(m => ({ default: m.CircleCircumferenceAreaTheory })))
+const Grade10CircleCircumferenceAreaQuiz = lazy(() => import("@/components/math/grade-10/egybevagosag-es-kor/a-kor-kerulete-es-terulete/CircleCircumferenceAreaQuiz").then(m => ({ default: m.CircleCircumferenceAreaQuiz })))
+
+const Grade10CentralAngleArcSectorTheory = lazy(() => import("@/components/math/grade-10/egybevagosag-es-kor/kozepponti-szog-koriv-korcikk/CentralAngleArcSectorTheory").then(m => ({ default: m.CentralAngleArcSectorTheory })))
+const Grade10CentralAngleArcSectorQuiz = lazy(() => import("@/components/math/grade-10/egybevagosag-es-kor/kozepponti-szog-koriv-korcikk/CentralAngleArcSectorQuiz").then(m => ({ default: m.CentralAngleArcSectorQuiz })))
+
+const Grade10CirclePracticeTheory = lazy(() => import("@/components/math/grade-10/egybevagosag-es-kor/gyakorlas-kor-alapok/CirclePracticeTheory").then(m => ({ default: m.CirclePracticeTheory })))
+const Grade10CirclePracticeQuiz = lazy(() => import("@/components/math/grade-10/egybevagosag-es-kor/gyakorlas-kor-alapok/CirclePracticeQuiz").then(m => ({ default: m.CirclePracticeQuiz })))
+
+const Grade10EverydayArcsSectorsTheory = lazy(() => import("@/components/math/grade-10/egybevagosag-es-kor/korivek-korcikkek-a-mindennapokban/EverydayArcsSectorsTheory").then(m => ({ default: m.EverydayArcsSectorsTheory })))
+const Grade10EverydayArcsSectorsQuiz = lazy(() => import("@/components/math/grade-10/egybevagosag-es-kor/korivek-korcikkek-a-mindennapokban/EverydayArcsSectorsQuiz").then(m => ({ default: m.EverydayArcsSectorsQuiz })))
+
+const Grade10PolygonsAndCirclesTheory = lazy(() => import("@/components/math/grade-10/egybevagosag-es-kor/sokszogek-es-korok/PolygonsAndCirclesTheory").then(m => ({ default: m.PolygonsAndCirclesTheory })))
+const Grade10PolygonsAndCirclesQuiz = lazy(() => import("@/components/math/grade-10/egybevagosag-es-kor/sokszogek-es-korok/PolygonsAndCirclesQuiz").then(m => ({ default: m.PolygonsAndCirclesQuiz })))
+
+const Grade10PolygonCirclePracticeTheory = lazy(() => import("@/components/math/grade-10/egybevagosag-es-kor/gyakorlas-sokszogek-korok/PolygonCirclePracticeTheory").then(m => ({ default: m.PolygonCirclePracticeTheory })))
+const Grade10PolygonCirclePracticeQuiz = lazy(() => import("@/components/math/grade-10/egybevagosag-es-kor/gyakorlas-sokszogek-korok/PolygonCirclePracticeQuiz").then(m => ({ default: m.PolygonCirclePracticeQuiz })))
+
+const Grade10GeometryReviewTheory = lazy(() => import("@/components/math/grade-10/egybevagosag-es-kor/ismetles/GeometryReviewTheory").then(m => ({ default: m.GeometryReviewTheory })))
+const Grade10GeometryReviewQuiz = lazy(() => import("@/components/math/grade-10/egybevagosag-es-kor/ismetles/GeometryReviewQuiz").then(m => ({ default: m.GeometryReviewQuiz })))
+
 export const Grade10Activities: React.FC<ActivityRouterProps> = ({
   activityType,
   onBack,
@@ -1590,6 +1619,318 @@ export const Grade10Activities: React.FC<ActivityRouterProps> = ({
                       onSwitchToSorter={() => handleActivitySelect('g10-quad-tudasproba-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
                     />
                   )}
+    
+                  {/* ============================================================== */}
+                  {/* 10. Osztály - VI. Egybevágóság és kör (Topic VI)               */}
+                  {/* ============================================================== */}
+
+                  {/* 1. Háromszögek egybevágóságának alapesetei */}
+                  {activityType === 'g10-geo-haromszog-alapesetek-theory' && (
+                    <Grade10TriangleCongruenceTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-geo-haromszog-alapesetek-quiz', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+                  {activityType === 'g10-geo-haromszog-alapesetek-quiz' && (
+                    <Grade10TriangleCongruenceQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-geo-haromszog-alapesetek-theory', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-geo-haromszog-alapesetek-matcher', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-geo-haromszog-alapesetek-sorter', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+                  {activityType === 'g10-geo-haromszog-alapesetek-matcher' && (
+                    <Grade10TriangleCongruenceQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-geo-haromszog-alapesetek-theory', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-geo-haromszog-alapesetek-matcher', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-geo-haromszog-alapesetek-sorter', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+                  {activityType === 'g10-geo-haromszog-alapesetek-sorter' && (
+                    <Grade10TriangleCongruenceQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-geo-haromszog-alapesetek-theory', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-geo-haromszog-alapesetek-matcher', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-geo-haromszog-alapesetek-sorter', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+
+                  {/* 2. Egybevágó háromszögek */}
+                  {activityType === 'g10-geo-egybevago-haromszogek-theory' && (
+                    <Grade10CongruentTrianglesTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-geo-egybevago-haromszogek-quiz', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+                  {activityType === 'g10-geo-egybevago-haromszogek-quiz' && (
+                    <Grade10CongruentTrianglesQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-geo-egybevago-haromszogek-theory', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-geo-egybevago-haromszogek-matcher', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-geo-egybevago-haromszogek-sorter', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+                  {activityType === 'g10-geo-egybevago-haromszogek-matcher' && (
+                    <Grade10CongruentTrianglesQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-geo-egybevago-haromszogek-theory', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-geo-egybevago-haromszogek-matcher', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-geo-egybevago-haromszogek-sorter', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+                  {activityType === 'g10-geo-egybevago-haromszogek-sorter' && (
+                    <Grade10CongruentTrianglesQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-geo-egybevago-haromszogek-theory', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-geo-egybevago-haromszogek-matcher', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-geo-egybevago-haromszogek-sorter', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+
+                  {/* 3. A kör kerülete és területe */}
+                  {activityType === 'g10-geo-kor-kerulet-terulet-theory' && (
+                    <Grade10CircleCircumferenceAreaTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-geo-kor-kerulet-terulet-quiz', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+                  {activityType === 'g10-geo-kor-kerulet-terulet-quiz' && (
+                    <Grade10CircleCircumferenceAreaQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-geo-kor-kerulet-terulet-theory', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-geo-kor-kerulet-terulet-matcher', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-geo-kor-kerulet-terulet-sorter', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+                  {activityType === 'g10-geo-kor-kerulet-terulet-matcher' && (
+                    <Grade10CircleCircumferenceAreaQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-geo-kor-kerulet-terulet-theory', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-geo-kor-kerulet-terulet-matcher', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-geo-kor-kerulet-terulet-sorter', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+                  {activityType === 'g10-geo-kor-kerulet-terulet-sorter' && (
+                    <Grade10CircleCircumferenceAreaQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-geo-kor-kerulet-terulet-theory', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-geo-kor-kerulet-terulet-matcher', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-geo-kor-kerulet-terulet-sorter', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+
+                  {/* 4. Középponti szög, körív, körcikk */}
+                  {activityType === 'g10-geo-kozepponti-szog-iv-cikk-theory' && (
+                    <Grade10CentralAngleArcSectorTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-geo-kozepponti-szog-iv-cikk-quiz', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+                  {activityType === 'g10-geo-kozepponti-szog-iv-cikk-quiz' && (
+                    <Grade10CentralAngleArcSectorQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-geo-kozepponti-szog-iv-cikk-theory', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-geo-kozepponti-szog-iv-cikk-matcher', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-geo-kozepponti-szog-iv-cikk-sorter', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+                  {activityType === 'g10-geo-kozepponti-szog-iv-cikk-matcher' && (
+                    <Grade10CentralAngleArcSectorQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-geo-kozepponti-szog-iv-cikk-theory', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-geo-kozepponti-szog-iv-cikk-matcher', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-geo-kozepponti-szog-iv-cikk-sorter', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+                  {activityType === 'g10-geo-kozepponti-szog-iv-cikk-sorter' && (
+                    <Grade10CentralAngleArcSectorQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-geo-kozepponti-szog-iv-cikk-theory', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-geo-kozepponti-szog-iv-cikk-matcher', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-geo-kozepponti-szog-iv-cikk-sorter', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+
+                  {/* 5. Körszámítások és összetett alakzatok */}
+                  {activityType === 'g10-geo-gyakorlas-kor-theory' && (
+                    <Grade10CirclePracticeTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-geo-gyakorlas-kor-quiz', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+                  {activityType === 'g10-geo-gyakorlas-kor-quiz' && (
+                    <Grade10CirclePracticeQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-geo-gyakorlas-kor-theory', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-geo-gyakorlas-kor-matcher', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-geo-gyakorlas-kor-sorter', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+                  {activityType === 'g10-geo-gyakorlas-kor-matcher' && (
+                    <Grade10CirclePracticeQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-geo-gyakorlas-kor-theory', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-geo-gyakorlas-kor-matcher', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-geo-gyakorlas-kor-sorter', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+                  {activityType === 'g10-geo-gyakorlas-kor-sorter' && (
+                    <Grade10CirclePracticeQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-geo-gyakorlas-kor-theory', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-geo-gyakorlas-kor-matcher', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-geo-gyakorlas-kor-sorter', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+
+                  {/* 6. Körívek, körcikkek a mindennapokban */}
+                  {activityType === 'g10-geo-korivek-mindennapokban-theory' && (
+                    <Grade10EverydayArcsSectorsTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-geo-korivek-mindennapokban-quiz', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+                  {activityType === 'g10-geo-korivek-mindennapokban-quiz' && (
+                    <Grade10EverydayArcsSectorsQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-geo-korivek-mindennapokban-theory', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-geo-korivek-mindennapokban-matcher', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-geo-korivek-mindennapokban-sorter', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+                  {activityType === 'g10-geo-korivek-mindennapokban-matcher' && (
+                    <Grade10EverydayArcsSectorsQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-geo-korivek-mindennapokban-theory', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-geo-korivek-mindennapokban-matcher', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-geo-korivek-mindennapokban-sorter', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+                  {activityType === 'g10-geo-korivek-mindennapokban-sorter' && (
+                    <Grade10EverydayArcsSectorsQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-geo-korivek-mindennapokban-theory', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-geo-korivek-mindennapokban-matcher', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-geo-korivek-mindennapokban-sorter', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+
+                  {/* 7. Sokszögek és körök */}
+                  {activityType === 'g10-geo-sokszogek-es-korok-theory' && (
+                    <Grade10PolygonsAndCirclesTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-geo-sokszogek-es-korok-quiz', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+                  {activityType === 'g10-geo-sokszogek-es-korok-quiz' && (
+                    <Grade10PolygonsAndCirclesQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-geo-sokszogek-es-korok-theory', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-geo-sokszogek-es-korok-matcher', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-geo-sokszogek-es-korok-sorter', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+                  {activityType === 'g10-geo-sokszogek-es-korok-matcher' && (
+                    <Grade10PolygonsAndCirclesQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-geo-sokszogek-es-korok-theory', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-geo-sokszogek-es-korok-matcher', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-geo-sokszogek-es-korok-sorter', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+                  {activityType === 'g10-geo-sokszogek-es-korok-sorter' && (
+                    <Grade10PolygonsAndCirclesQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-geo-sokszogek-es-korok-theory', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-geo-sokszogek-es-korok-matcher', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-geo-sokszogek-es-korok-sorter', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+
+                  {/* 8. Érintőtrapézok és szabályos sokszögek */}
+                  {activityType === 'g10-geo-gyakorlas-sokszogek-theory' && (
+                    <Grade10PolygonCirclePracticeTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-geo-gyakorlas-sokszogek-quiz', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+                  {activityType === 'g10-geo-gyakorlas-sokszogek-quiz' && (
+                    <Grade10PolygonCirclePracticeQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-geo-gyakorlas-sokszogek-theory', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-geo-gyakorlas-sokszogek-matcher', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-geo-gyakorlas-sokszogek-sorter', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+                  {activityType === 'g10-geo-gyakorlas-sokszogek-matcher' && (
+                    <Grade10PolygonCirclePracticeQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-geo-gyakorlas-sokszogek-theory', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-geo-gyakorlas-sokszogek-matcher', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-geo-gyakorlas-sokszogek-sorter', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+                  {activityType === 'g10-geo-gyakorlas-sokszogek-sorter' && (
+                    <Grade10PolygonCirclePracticeQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-geo-gyakorlas-sokszogek-theory', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-geo-gyakorlas-sokszogek-matcher', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-geo-gyakorlas-sokszogek-sorter', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+
+                  {/* 9. Ismétlés */}
+                  {activityType === 'g10-geo-ismetles-theory' && (
+                    <Grade10GeometryReviewTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-geo-ismetles-quiz', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+                  {activityType === 'g10-geo-ismetles-quiz' && (
+                    <Grade10GeometryReviewQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-geo-ismetles-theory', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-geo-ismetles-matcher', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-geo-ismetles-sorter', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+                  {activityType === 'g10-geo-ismetles-matcher' && (
+                    <Grade10GeometryReviewQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-geo-ismetles-theory', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-geo-ismetles-matcher', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-geo-ismetles-sorter', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+                  {activityType === 'g10-geo-ismetles-sorter' && (
+                    <Grade10GeometryReviewQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-geo-ismetles-theory', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-geo-ismetles-matcher', selectedTopic || 'g10-egybevagosag-kor')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-geo-ismetles-sorter', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+
+
     </>
   );
 };

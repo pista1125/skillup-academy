@@ -1195,13 +1195,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-geo-haromszog-alapesetek" number={1} title="Háromszögek egybevágóságának alapesetei" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A Négy Egybevágósági Alapeset"
-                subtitle="sss, sas, asa, ssa feltételek és alkalmazásuk"
-                type="Hamarosan"
-                emoji="📐"
-                disabled={true}
-                icon={<Shapes className="w-6 h-6" />}
+                title="A Négy Egybevágósági Alapeset Tananyag"
+                subtitle="o-o-o, o-sz-o, sz-o-sz, o-o-sz feltételek, az SSA csapda és alkalmazásuk"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-geo-haromszog-alapesetek-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, ábrákkal és beépített Wordwall játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-geo-haromszog-alapesetek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g10-geo-haromszog-alapesetek-quiz')}
               />
             </div>
           </section>
@@ -1213,13 +1223,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-geo-egybevago-haromszogek" number={2} title="Egybevágó háromszögek" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Bizonyítások Egybevágósággal"
-                subtitle="Szakaszok és szögek egyenlőségének levezetése"
-                type="Hamarosan"
-                emoji="✨"
-                disabled={true}
-                icon={<Sparkles className="w-6 h-6" />}
+                title="Egybevágó Háromszögek Tananyag"
+                subtitle="Egybevágósági transzformációk, szakaszok és szögek egyenlőségének levezetése"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-geo-egybevago-haromszogek-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, szimmetriákkal és bizonyítási lépésekkel"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-geo-egybevago-haromszogek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="teal"
+                {...getTopicProgress('g10-geo-egybevago-haromszogek-quiz')}
               />
             </div>
           </section>
@@ -1231,13 +1251,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-geo-kor-kerulet-terulet" number={3} title="A kör kerülete és területe" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Kör Kerület- és Területszámítás"
-                subtitle="K = 2rπ és T = r²π összefüggések, a π irracionalitása"
-                type="Hamarosan"
-                emoji="⭕"
-                disabled={true}
-                icon={<Circle className="w-6 h-6" />}
+                title="A Kör Kerülete és Területe Tananyag"
+                subtitle="K = 2rπ és T = r²π összefüggések, a π definíciója és körgyűrűk"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-geo-kor-kerulet-terulet-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="cyan"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, kör metrika és körgyűrű feladatok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-geo-kor-kerulet-terulet-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="cyan"
+                {...getTopicProgress('g10-geo-kor-kerulet-terulet-quiz')}
               />
             </div>
           </section>
@@ -1249,31 +1279,51 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-geo-kozepponti-szog-iv-cikk" number={4} title="Középponti szög, körív, körcikk" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Ívhossz és Körcikk Területe"
-                subtitle="Arányosság a középponti szöggel és képletek"
-                type="Hamarosan"
-                emoji="🍰"
-                disabled={true}
-                icon={<Compass className="w-6 h-6" />}
+                title="Középponti Szög, Körív és Körcikk Tananyag"
+                subtitle="Ívhossz és körcikk területe, arányosság a szöggel és kerületi szögek tétele"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-geo-kozepponti-szog-iv-cikk-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, ívhossz, körcikk és szögszámítások"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-geo-kozepponti-szog-iv-cikk-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g10-geo-kozepponti-szog-iv-cikk-quiz')}
               />
             </div>
           </section>
         )}
 
-        {/* Section 5: Gyakorlás */}
+        {/* Section 5: Körszámítások és összetett alakzatok */}
         {(showAll || activeSubSectionId === 'g10-sec-geo-gyakorlas-kor') && (
           <section>
-            <SectionHeader id="g10-sec-geo-gyakorlas-kor" number={5} title="Gyakorlás" color="indigo" />
+            <SectionHeader id="g10-sec-geo-gyakorlas-kor" number={5} title="Körszámítások és összetett alakzatok" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Összetett Síkidomok és Körrészek"
-                subtitle="Körgyűrűk, körcikkek és kombinált alakzatok számítása"
-                type="Hamarosan"
-                emoji="📝"
-                disabled={true}
-                icon={<Calculator className="w-6 h-6" />}
+                title="Körszámítások és Összetett Alakzatok Tananyag"
+                subtitle="Kombinált alakzatok, futópályák, beírt és körülírt körök feladatai lépésről lépésre"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-geo-gyakorlas-kor-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, összetett síkidomok és körrészek"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-geo-gyakorlas-kor-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g10-geo-gyakorlas-kor-quiz')}
               />
             </div>
           </section>
@@ -1285,13 +1335,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-geo-korivek-mindennapokban" number={6} title="Körívek, körcikkek a mindennapokban" color="purple" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Körgeometria a Gyakorlatban"
-                subtitle="Kanyarodási sugarak, órák, forgó öntözők és ívek modellezése"
-                type="Hamarosan"
-                emoji="🌍"
-                disabled={true}
-                icon={<Clock className="w-6 h-6" />}
+                title="Körívek és Körcikkek a Mindennapokban Tananyag"
+                subtitle="Kerékpárok, fogaskerekek, szórásfejek és kanyarodási sugarak modellezése"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-geo-korivek-mindennapokban-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="purple"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, forgómozgások és körmodellek a gyakorlatban"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-geo-korivek-mindennapokban-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="purple"
+                {...getTopicProgress('g10-geo-korivek-mindennapokban-quiz')}
               />
             </div>
           </section>
@@ -1303,67 +1363,79 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-geo-sokszogek-es-korok" number={7} title="Sokszögek és körök" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Beírt és Köré Írt Körök, Nevezetes Négyszögek"
-                subtitle="Szabályos n-szögek, húr- és érintőnégyszögek tételei"
-                type="Hamarosan"
-                emoji="🔷"
-                disabled={true}
-                icon={<Boxes className="w-6 h-6" />}
+                title="Sokszögek és Körök Kapcsolata Tananyag"
+                subtitle="Szabályos n-szögek beírt és körülírt köre, húrnégyszögek, érintőnégyszögek és Thálész-tétel"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-geo-sokszogek-es-korok-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
               />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, húr- és érintőnégyszög tételek, szabályos sokszögek"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-geo-sokszogek-es-korok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g10-geo-sokszogek-es-korok-quiz')}
+              />
             </div>
           </section>
         )}
 
-        {/* Section 8: Gyakorlás */}
+        {/* Section 8: Érintőtrapézok és szabályos sokszögek */}
         {(showAll || activeSubSectionId === 'g10-sec-geo-gyakorlas-sokszogek') && (
           <section>
-            <SectionHeader id="g10-sec-geo-gyakorlas-sokszogek" number={8} title="Gyakorlás" color="rose" />
+            <SectionHeader id="g10-sec-geo-gyakorlas-sokszogek" number={8} title="Érintőtrapézok és szabályos sokszögek" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Sokszögek és Körök Számításai"
-                subtitle="Metrikus feladatok és szerkesztési eljárások"
-                type="Hamarosan"
-                emoji="🎯"
-                disabled={true}
-                icon={<Target className="w-6 h-6" />}
+                title="Érintőtrapézok és Szabályos Sokszögek Tananyag"
+                subtitle="Hatszögek, szimmetrikus és derékszögű érintőtrapézok, sokszögek metrikája"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-geo-gyakorlas-sokszogek-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
               />
-            </div>
-          </section>
-        )}
-
-        {/* Section 9: Ismétlés */}
-        {(showAll || activeSubSectionId === 'g10-sec-geo-ismetles') && (
-          <section>
-            <SectionHeader id="g10-sec-geo-ismetles" number={9} title="Ismétlés" color="teal" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Átfogó Geometriai Ismétlés"
-                subtitle="Tételek, definíciók és képletek rendszerezése"
-                type="Hamarosan"
-                emoji="📚"
-                disabled={true}
-                icon={<Brain className="w-6 h-6" />}
-                color="teal"
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, összetett felvételi és érettségi típusfeladatok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-geo-gyakorlas-sokszogek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g10-geo-gyakorlas-sokszogek-quiz')}
               />
             </div>
           </section>
         )}
 
-        {/* Section 10: Tudáspróba */}
-        {(showAll || activeSubSectionId === 'g10-sec-geo-tudasproba') && (
+        {/* Section 9: Gyakorlás, tudáspróba */}
+        {(showAll || activeSubSectionId === 'g10-sec-geo-ismetles') && (
           <section>
-            <SectionHeader id="g10-sec-geo-tudasproba" number={10} title="Tudáspróba" color="violet" />
+            <SectionHeader id="g10-sec-geo-ismetles" number={9} title="Gyakorlás, tudáspróba" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Egybevágóság és Kör Tudáspróba"
-                subtitle="Fejezeti feladatsor és geometriai témazáró"
-                type="Hamarosan"
-                emoji="🏆"
-                disabled={true}
-                icon={<Trophy className="w-6 h-6" />}
-                color="violet"
+                title="Gyakorlás, Tudáspróba Tananyag"
+                subtitle="A 4 alappillér: egybevágóság, kör metrika, szögek és sokszögek szintézise"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-geo-ismetles-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
+                color="teal"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz"
+                subtitle="30 feladat 3 szinten, átfogó felkészülés és témazáró tudáspróba"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-geo-ismetles-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="teal"
+                {...getTopicProgress('g10-geo-ismetles-quiz')}
               />
             </div>
           </section>

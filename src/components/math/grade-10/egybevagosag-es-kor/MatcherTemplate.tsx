@@ -414,11 +414,12 @@ export function MatcherTemplate({
     if (config?.pairs && config.pairs.length > 0) return config.pairs;
     if (allLevels && allLevels[activeLevel]?.pairs) return allLevels[activeLevel].pairs;
     if (allLevels && Array.isArray((allLevels as any).pairs)) return (allLevels as any).pairs;
-    if (activeLevel === 1 && level1Pairs && level1Pairs.length > 0) return level1Pairs;
-    if (activeLevel === 2 && level2Pairs && level2Pairs.length > 0) return level2Pairs;
-    if (activeLevel === 3 && level3Pairs && level3Pairs.length > 0) return level3Pairs;
+    if (activeLevel === 1 && (level1Pairs?.length || (rest as any).easyPairs?.length)) return level1Pairs || (rest as any).easyPairs;
+    if (activeLevel === 2 && (level2Pairs?.length || (rest as any).mediumPairs?.length)) return level2Pairs || (rest as any).mediumPairs;
+    if (activeLevel === 3 && (level3Pairs?.length || (rest as any).hardPairs?.length)) return level3Pairs || (rest as any).hardPairs;
     if (pairs && pairs.length > 0) return pairs;
     if (level1Pairs && level1Pairs.length > 0) return level1Pairs;
+    if ((rest as any).easyPairs?.length) return (rest as any).easyPairs;
     return [];
   };
 
