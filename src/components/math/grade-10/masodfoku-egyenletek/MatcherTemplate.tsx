@@ -390,7 +390,19 @@ export function MatcherTemplate({
   const [comboText, setComboText] = useState<string | null>(null);
   const [showAnswersReview, setShowAnswersReview] = useState<boolean>(false);
 
-  const allLevels = levels || levelsConfig || levelConfigs || levelConfig || (rest as any).levelConfig;
+  const isSingleConfig = (cfg: any): boolean => {
+    return Boolean(cfg && Array.isArray(cfg.pairs) && cfg.pairs.length > 0);
+  };
+
+  const resolvedSingleConfig = isSingleConfig(config)
+    ? config
+    : isSingleConfig(levelConfig)
+    ? (levelConfig as any)
+    : isSingleConfig((rest as any).levelConfig)
+    ? (rest as any).levelConfig
+    : undefined;
+
+  const allLevels = levels || levelsConfig || levelConfigs || (!resolvedSingleConfig ? levelConfig : undefined) || (!resolvedSingleConfig ? (rest as any).levelConfig : undefined);
   const rawLvl = currentLevel ?? (typeof level === 'number' ? level : ((level as any)?.level ?? 1));
   const activeLevel: DifficultyLevel = (typeof rawLvl === 'number' ? rawLvl : 1) as DifficultyLevel;
 
@@ -398,8 +410,10 @@ export function MatcherTemplate({
 
   // Párok kinyerése
   const getLevelPairs = (): MatcherPair[] => {
+    if (resolvedSingleConfig?.pairs && resolvedSingleConfig.pairs.length > 0) return resolvedSingleConfig.pairs;
     if (config?.pairs && config.pairs.length > 0) return config.pairs;
     if (allLevels && allLevels[activeLevel]?.pairs) return allLevels[activeLevel].pairs;
+    if (allLevels && Array.isArray((allLevels as any).pairs)) return (allLevels as any).pairs;
     if (activeLevel === 1 && level1Pairs && level1Pairs.length > 0) return level1Pairs;
     if (activeLevel === 2 && level2Pairs && level2Pairs.length > 0) return level2Pairs;
     if (activeLevel === 3 && level3Pairs && level3Pairs.length > 0) return level3Pairs;
@@ -464,7 +478,7 @@ export function MatcherTemplate({
 
   useEffect(() => {
     initGame();
-  }, [activeLevel, currentLevel, level, title, topicId, levels, levelsConfig, levelConfigs]);
+  }, [activeLevel, currentLevel, level, title, topicId, levels, levelsConfig, levelConfigs, levelConfig, config]);
 
   // Időzítő
   useEffect(() => {
@@ -756,7 +770,7 @@ export function MatcherTemplate({
 
   const currentPairs = getLevelPairs();
   const totalPairs = currentPairs.length || 8;
-  const currentConfig = allLevels?.[activeLevel] || config;
+  const currentConfig = resolvedSingleConfig || allLevels?.[activeLevel] || config;
   const displayTitle = currentConfig?.title || title;
   const displaySubtitle = currentConfig?.description || currentConfig?.subtitle || subtitle;
 

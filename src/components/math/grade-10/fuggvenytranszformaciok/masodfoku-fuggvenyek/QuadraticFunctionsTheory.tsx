@@ -431,7 +431,7 @@ export const QuadraticFunctionsTheory: React.FC<QuadraticFunctionsTheoryProps> =
 
                   return (
                     <path
-                      d={`M ${pxU - 35} ${pxV + spanY} Q ${pxU} ${pxV} ${pxU + 35} ${pxV + spanY}`}
+                      d={`M ${pxU - 35} ${pxV + spanY} Q ${pxU} ${pxV - spanY} ${pxU + 35} ${pxV + spanY}`}
                       fill="none"
                       stroke={strokeColor}
                       strokeWidth="2.5"

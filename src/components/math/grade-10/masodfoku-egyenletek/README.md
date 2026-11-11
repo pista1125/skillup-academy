@@ -17,5 +17,4 @@ A középiskolai matematika 10. osztályos tananyagának ötödik fejezete a má
 8. **Másodfokú egyenletre visszavezethető feladatok** (`masodfoku-egyenletre-visszavezetheto-feladatok`) – 36. lecke: Új ismeretlen bevezetése, biquadratikus és törtes egyenletek.
 9. **Pénzügyekkel kapcsolatos szöveges feladatok** (`penzugyekkel-kapcsolatos-szoveges-feladatok`) – 37. lecke: Kamatos kamat, árbevétel, nyereség, árnövekedés és -csökkenés modellezése.
 10. **Szöveges feladatok mozgásról és munkavégzésről** (`szoveges-feladatok-mozgasrol-es-munkavegzesrol`) – 38. lecke: Együttes munkavégzés ($1/t_1 + 1/t_2 = 1/t_{osszes}$) és sebesség-út-idő ($s = v \cdot t$) feladatok.
-11. **Csoportverseny** (`csoportverseny`) – 39. lecke: Interaktív, kooperatív versenyfeladatok és hibakeresés.
-12. **Gyakorlás, tudáspróba** (`gyakorlas-tudasproba`) – 40. lecke: Átfogó ismétlés, felkészülés a témazáróra és fejezeti felmérő.
+11. **Gyakorlás, tudáspróba** (`gyakorlas-tudasproba`) – 39. lecke: Átfogó ismétlés, felkészülés a témazáróra és fejezeti felmérő.

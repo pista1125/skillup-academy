@@ -147,6 +147,10 @@ export const FenceOptimizationSvg: React.FC<FigureProps> = ({ size = 260, classN
         {/* Corner walls */}
         <rect x="10" y="20" width="80" height="10" fill="url(#brickWall)" rx="2" />
         <rect x="10" y="20" width="10" height="60" fill="url(#brickWall)" rx="2" />
+        {/* Magyar szabványú derékszög jelölés a sarokfalak találkozásánál (negyedkörív + pont) */}
+        <path d="M 28 30 A 8 8 0 0 1 20 38" fill="none" stroke="#475569" strokeWidth="1.2" />
+        <circle cx="23.5" cy="33.5" r="1.5" fill="#475569" />
+
         <rect x="20" y="30" width="65" height="50" fill="#FFFBEB" stroke="#F59E0B" strokeWidth="2.5" strokeDasharray="4 3" />
         <text x="50" y="15" fill="#B45309" fontSize="11" fontWeight="bold" textAnchor="middle">
           3. Sarokban (2 oldal)
@@ -179,86 +183,86 @@ export const FenceOptimizationSvg: React.FC<FigureProps> = ({ size = 260, classN
  * Szemlélteti a szurkolói mezek / DVD-k árazását: a fizetendő összeg maximumát
  * és a lefelé hajló ág paradoxonát (több darab = kevesebb bevétel).
  */
-export const PricingParadoxSvg: React.FC<FigureProps> = ({ size = 260, className = '' }) => {
+export const PricingParadoxSvg: React.FC<FigureProps> = ({ size = 300, className = '' }) => {
   return (
     <svg
-      viewBox="0 0 340 220"
+      viewBox="0 0 350 230"
       width={size}
-      height={(size * 220) / 340}
-      className={`mx-auto select-none ${className}`}
+      height={(size * 230) / 350}
+      className={`mx-auto select-none overflow-visible drop-shadow-sm ${className}`}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
       <defs>
+        <pattern id="pp-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+          <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#94A3B8" strokeWidth="0.5" strokeOpacity="0.25" />
+        </pattern>
+        <marker id="pp-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#475569" />
+        </marker>
         <linearGradient id="paradoxArea" x1="0" y1="0" x2="0" y2="100%">
-          <stop offset="0%" stopColor="#EF4444" stopOpacity="0.25" />
-          <stop offset="100%" stopColor="#EF4444" stopOpacity="0.02" />
+          <stop offset="0%" stopColor="#EF4444" stopOpacity="0.3" />
+          <stop offset="100%" stopColor="#EF4444" stopOpacity="0.04" />
         </linearGradient>
       </defs>
 
-      {/* Background Grid Lines */}
-      <line x1="45" y1="160" x2="310" y2="160" stroke="#CBD5E1" strokeWidth="1" />
-      <line x1="45" y1="110" x2="310" y2="110" stroke="#F1F5F9" strokeWidth="1" strokeDasharray="3 3" />
-      <line x1="45" y1="60" x2="310" y2="60" stroke="#F1F5F9" strokeWidth="1" strokeDasharray="3 3" />
+      {/* Background card and grid */}
+      <rect x="15" y="15" width="320" height="200" rx="12" fill="#F8FAFC" className="dark:fill-slate-900/60" stroke="#E2E8F0" strokeWidth="1" />
+      <rect x="15" y="15" width="320" height="200" rx="12" fill="url(#pp-grid)" />
 
       {/* Axis X and Y */}
-      <line x1="45" y1="175" x2="45" y2="25" stroke="#475569" strokeWidth="2" markerEnd="url(#arrow)" />
-      <line x1="35" y1="160" x2="320" y2="160" stroke="#475569" strokeWidth="2" />
-
-      {/* Axis Arrows */}
-      <polygon points="45,20 41,28 49,28" fill="#475569" />
-      <polygon points="325,160 317,156 317,164" fill="#475569" />
+      <line x1="35" y1="165" x2="320" y2="165" stroke="#475569" strokeWidth="1.8" markerEnd="url(#pp-arrow)" />
+      <line x1="45" y1="190" x2="45" y2="25" stroke="#475569" strokeWidth="1.8" markerEnd="url(#pp-arrow)" />
 
       {/* Axis Labels */}
-      <text x="315" y="178" fill="#475569" fontSize="11" fontWeight="bold">
-        x (db)
-      </text>
-      <text x="15" y="25" fill="#475569" fontSize="11" fontWeight="bold">
-        Bevétel F(x) [Ft]
-      </text>
+      <text x="315" y="157" fill="#475569" fontSize="11" fontWeight="bold">x (db)</text>
+      <text x="54" y="32" fill="#475569" fontSize="11" fontWeight="bold">Bevétel F(x) [Ft]</text>
+      <text x="35" y="178" fill="#64748B" fontSize="10" fontWeight="bold">0</text>
 
       {/* Paradox Shaded Zone (from x=10 to x=20) */}
-      <path d="M 170 60 Q 235 65 295 160 L 170 160 Z" fill="url(#paradoxArea)" />
+      <path d="M 170 65 Q 235 70 295 165 L 170 165 Z" fill="url(#paradoxArea)" />
 
-      {/* Parabola Curve F(x) = 4000x - 200x^2 */}
-      {/* (0,160) -> Vertex at (170, 60) -> Zero at (295, 160) */}
+      {/* Parabola Curve F(x) = 4000x - 200x^2:
+          (45, 165) -> Vertex at (170, 65) -> Zero at (295, 165).
+          yc = 2*65 - 165 = -35. Apex = 65! */}
       <path
-        d="M 45 160 Q 170 -40 295 160"
+        d="M 45 165 Q 170 -35 295 165"
         stroke="#2563EB"
-        strokeWidth="3.5"
+        strokeWidth="3.2"
         strokeLinecap="round"
       />
 
       {/* Maximum Point (Vertex) at x = 10 */}
-      <line x1="170" y1="60" x2="170" y2="160" stroke="#3B82F6" strokeWidth="1.5" strokeDasharray="3 3" />
-      <circle cx="170" cy="60" r="5" fill="#2563EB" stroke="#FFFFFF" strokeWidth="2" />
-      <text x="170" y="50" fill="#1D4ED8" fontSize="10" fontWeight="bold" textAnchor="middle">
+      <line x1="170" y1="65" x2="170" y2="165" stroke="#3B82F6" strokeWidth="1.5" strokeDasharray="3 3" />
+      <circle cx="170" cy="65" r="7" fill="#DBEAFE" stroke="#2563EB" strokeWidth="1.5" opacity="0.8" />
+      <circle cx="170" cy="65" r="4.5" fill="#2563EB" stroke="#FFFFFF" strokeWidth="1.5" />
+      <rect x="110" y="35" width="120" height="20" rx="4" fill="#EFF6FF" stroke="#BFDBFE" strokeWidth="1" />
+      <text x="170" y="49" fill="#1D4ED8" fontSize="9" fontWeight="bold" textAnchor="middle">
         Max: x = 10 (20 000 Ft)
       </text>
-      <text x="170" y="174" fill="#1E293B" fontSize="10" fontWeight="bold" textAnchor="middle">
+      <text x="170" y="179" fill="#1E293B" className="dark:fill-slate-200" fontSize="10" fontWeight="bold" textAnchor="middle">
         10
       </text>
 
       {/* Points Comparison: 10 vs 15 shirts */}
-      {/* Point at x=15: F(15) = 15*1000 = 15000 */}
-      <line x1="232" y1="95" x2="232" y2="160" stroke="#EF4444" strokeWidth="1.5" strokeDasharray="3 3" />
-      <circle cx="232" cy="95" r="5" fill="#EF4444" stroke="#FFFFFF" strokeWidth="2" />
-      <text x="232" y="87" fill="#B91C1C" fontSize="10" fontWeight="bold" textAnchor="middle">
+      <line x1="232" y1="100" x2="232" y2="165" stroke="#EF4444" strokeWidth="1.5" strokeDasharray="3 3" />
+      <circle cx="232" cy="100" r="4.5" fill="#EF4444" stroke="#FFFFFF" strokeWidth="1.5" />
+      <text x="232" y="92" fill="#B91C1C" fontSize="9" fontWeight="bold" textAnchor="middle">
         x = 15 (15 000 Ft!)
       </text>
-      <text x="232" y="174" fill="#1E293B" fontSize="10" fontWeight="bold" textAnchor="middle">
+      <text x="232" y="179" fill="#1E293B" className="dark:fill-slate-200" fontSize="10" fontWeight="bold" textAnchor="middle">
         15
       </text>
 
       {/* Zero point at x = 20 */}
-      <circle cx="295" cy="160" r="4" fill="#64748B" />
-      <text x="295" y="174" fill="#1E293B" fontSize="10" fontWeight="bold" textAnchor="middle">
+      <circle cx="295" cy="165" r="4" fill="#64748B" />
+      <text x="295" y="179" fill="#1E293B" className="dark:fill-slate-200" fontSize="10" fontWeight="bold" textAnchor="middle">
         20 (0 Ft)
       </text>
 
       {/* Paradox warning badge */}
-      <rect x="200" y="112" width="105" height="26" rx="6" fill="#FEE2E2" stroke="#FCA5A5" />
-      <text x="252" y="128" fill="#991B1B" fontSize="9" fontWeight="bold" textAnchor="middle">
+      <rect x="200" y="115" width="105" height="24" rx="5" fill="#FEE2E2" stroke="#FCA5A5" strokeWidth="1" />
+      <text x="252" y="131" fill="#991B1B" fontSize="9" fontWeight="bold" textAnchor="middle">
         ⚠️ Paradoxon zóna!
       </text>
     </svg>

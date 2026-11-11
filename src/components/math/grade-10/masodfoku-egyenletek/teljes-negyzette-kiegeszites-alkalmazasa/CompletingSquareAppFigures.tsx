@@ -76,61 +76,240 @@ export const LeadingCoeffStrategySvg: React.FC<FigureProps> = ({ size = 460, cla
 
 /**
  * 2. Szélsőérték (Minimum / Maximum) és Csúcspont SVG
- * f(x) = a(x - u)² + v parabola csúcspontjának leolvasása.
+ * f(x) = a(x - u)² + v parabola csúcspontjának leolvasása és grafikus ábrázolása
+ * részletes koordináta-rendszerrel, szimmetriatengellyel és vetületekkel.
  */
-export const ExtremumParabolaSvg: React.FC<FigureProps> = ({ size = 460, className = '' }) => {
+export const ExtremumParabolaSvg: React.FC<FigureProps> = ({ size = 520, className = '' }) => {
   return (
     <svg
-      viewBox="0 0 460 210"
+      viewBox="0 0 540 270"
       width={size}
-      height={(size * 210) / 460}
+      height={(size * 270) / 540}
       className={`mx-auto select-none ${className}`}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
       <defs>
         <filter id="extShadow" x="-10%" y="-10%" width="120%" height="120%">
-          <feDropShadow dx="0" dy="3" stdDeviation="4" floodColor="#0F172A" floodOpacity="0.1" />
+          <feDropShadow dx="0" dy="3" stdDeviation="4" floodColor="#0F172A" floodOpacity="0.08" />
         </filter>
+        <linearGradient id="minGradFill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#22C55E" stopOpacity="0.25" />
+          <stop offset="100%" stopColor="#22C55E" stopOpacity="0.02" />
+        </linearGradient>
+        <linearGradient id="maxGradFill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#EF4444" stopOpacity="0.25" />
+          <stop offset="100%" stopColor="#EF4444" stopOpacity="0.02" />
+        </linearGradient>
       </defs>
 
-      {/* Bal oldali kártya: a > 0 (Felfelé nyíló, Minimum) */}
-      <rect x="15" y="15" width="205" height="180" rx="12" fill="#F0FDF4" stroke="#22C55E" strokeWidth="2" filter="url(#extShadow)" />
-      <rect x="25" y="25" width="185" height="28" rx="6" fill="#16A34A" />
-      <text x="117" y="44" fill="#FFFFFF" fontSize="13" fontWeight="900" textAnchor="middle">
-        Ha a &gt; 0: MINIMUM
-      </text>
-      {/* Mini parabola felfelé nyílva */}
-      <path d="M 65 110 Q 117 150 169 110" stroke="#15803D" strokeWidth="3" fill="none" />
-      <circle cx="117" cy="140" r="5" fill="#DC2626" />
-      <text x="117" y="160" fill="#DC2626" fontSize="11" fontWeight="bold" textAnchor="middle">
-        Csúcspont M(u; v)
-      </text>
-      <text x="117" y="85" fill="#14532D" fontSize="13" fontWeight="900" textAnchor="middle">
-        f(x) = a(x - u)² + v
-      </text>
-      <text x="117" y="103" fill="#15803D" fontSize="11" fontWeight="bold" textAnchor="middle">
-        Min. érték = v (hely: x = u)
-      </text>
+      {/* ============================================================== */}
+      {/* BAL OLDALI KÁRTYA: a > 0 (Felfelé nyíló parabola ⟹ MINIMUM)   */}
+      {/* ============================================================== */}
+      <g filter="url(#extShadow)">
+        {/* Fő kártya doboz */}
+        <rect x="10" y="8" width="255" height="254" rx="14" fill="#F0FDF4" stroke="#22C55E" strokeWidth="1.8" />
 
-      {/* Jobb oldali kártya: a < 0 (Lefelé nyíló, Maximum) */}
-      <rect x="240" y="15" width="205" height="180" rx="12" fill="#FEF2F2" stroke="#EF4444" strokeWidth="2" filter="url(#extShadow)" />
-      <rect x="250" y="25" width="185" height="28" rx="6" fill="#DC2626" />
-      <text x="342" y="44" fill="#FFFFFF" fontSize="13" fontWeight="900" textAnchor="middle">
-        Ha a &lt; 0: MAXIMUM
-      </text>
-      {/* Mini parabola lefelé nyílva */}
-      <path d="M 290 145 Q 342 105 394 145" stroke="#B91C1C" strokeWidth="3" fill="none" />
-      <circle cx="342" cy="115" r="5" fill="#2563EB" />
-      <text x="342" y="102" fill="#2563EB" fontSize="11" fontWeight="bold" textAnchor="middle">
-        Csúcspont M(u; v)
-      </text>
-      <text x="342" y="165" fill="#7F1D1D" fontSize="13" fontWeight="900" textAnchor="middle">
-        f(x) = -|a|(x - u)² + v
-      </text>
-      <text x="342" y="182" fill="#B91C1C" fontSize="11" fontWeight="bold" textAnchor="middle">
-        Max. érték = v (hely: x = u)
-      </text>
+        {/* Fejléc sáv */}
+        <rect x="20" y="16" width="235" height="26" rx="6" fill="#16A34A" />
+        <text x="137" y="34" fill="#FFFFFF" fontSize="12" fontWeight="900" textAnchor="middle" letterSpacing="0.4">
+          Ha a &gt; 0 : MINIMUM (felfelé nyílik)
+        </text>
+
+        {/* Képlet felirat */}
+        <text x="137" y="58" fill="#14532D" fontSize="12.5" fontWeight="900" textAnchor="middle">
+          f(x) = a(x - u)² + v
+        </text>
+
+        {/* Koordinátarendszer doboz */}
+        <rect x="20" y="68" width="235" height="148" rx="8" fill="#FFFFFF" stroke="#BBF7D0" strokeWidth="1.2" />
+
+        {/* Halvány koordinátarács */}
+        <g stroke="#F1F5F9" strokeWidth="1">
+          <line x1="50" y1="68" x2="50" y2="216" />
+          <line x1="85" y1="68" x2="85" y2="216" />
+          <line x1="120" y1="68" x2="120" y2="216" />
+          <line x1="155" y1="68" x2="155" y2="216" />
+          <line x1="190" y1="68" x2="190" y2="216" />
+          <line x1="225" y1="68" x2="225" y2="216" />
+          <line x1="20" y1="92" x2="255" y2="92" />
+          <line x1="20" y1="117" x2="255" y2="117" />
+          <line x1="20" y1="142" x2="255" y2="142" />
+          <line x1="20" y1="167" x2="255" y2="167" />
+          <line x1="20" y1="192" x2="255" y2="192" />
+        </g>
+
+        {/* X tengely */}
+        <line x1="28" y1="182" x2="246" y2="182" stroke="#475569" strokeWidth="1.6" />
+        <polygon points="248,182 241,178 241,186" fill="#475569" />
+        <text x="242" y="174" fill="#475569" fontSize="10" fontWeight="bold">x</text>
+
+        {/* Y tengely */}
+        <line x1="52" y1="210" x2="52" y2="74" stroke="#475569" strokeWidth="1.6" />
+        <polygon points="52,72 48,79 56,79" fill="#475569" />
+        <text x="60" y="82" fill="#475569" fontSize="10" fontWeight="bold">y</text>
+        <text x="44" y="193" fill="#94A3B8" fontSize="8.5" textAnchor="end">O</text>
+
+        {/* Szimmetriatengely: x = u */}
+        <line x1="145" y1="74" x2="145" y2="182" stroke="#10B981" strokeWidth="1.2" strokeDasharray="3 3" />
+        <text x="145" y="73" fill="#059669" fontSize="7.5" fontWeight="bold" textAnchor="middle">
+          x = u (szimm.)
+        </text>
+
+        {/* Vetület a vízszintes y tengelyre: y = v */}
+        <line x1="52" y1="142" x2="145" y2="142" stroke="#10B981" strokeWidth="1.2" strokeDasharray="3 3" />
+
+        {/* v jelölése az Y tengelyen */}
+        <line x1="49" y1="142" x2="55" y2="142" stroke="#15803D" strokeWidth="2" />
+        <text x="45" y="146" fill="#15803D" fontSize="10" fontWeight="900" textAnchor="end">
+          v
+        </text>
+
+        {/* u jelölése az X tengelyen */}
+        <line x1="145" y1="179" x2="145" y2="185" stroke="#15803D" strokeWidth="2" />
+        <text x="145" y="196" fill="#15803D" fontSize="10" fontWeight="900" textAnchor="middle">
+          u (hely)
+        </text>
+
+        {/* Parabola ív (felfelé nyíló, csúcs: (145, 142)) */}
+        {/* Bezier: t=0.5 esetén y = 0.25*86 + 0.5*198 + 0.25*86 = 43 + 99 = 142 */}
+        <path
+          d="M 80 86 Q 145 198 210 86"
+          stroke="#16A34A"
+          strokeWidth="3.2"
+          fill="none"
+          strokeLinecap="round"
+        />
+
+        {/* Csúcspont M(u; v) - pontosan a parabola csúcsán */}
+        <circle cx="145" cy="142" r="6.5" fill="#DC2626" fillOpacity="0.2" stroke="#DC2626" strokeWidth="1.5" />
+        <circle cx="145" cy="142" r="3.5" fill="#DC2626" />
+
+        {/* Csúcspont felirat buborék */}
+        <rect x="98" y="152" width="94" height="18" rx="4" fill="#FEF2F2" stroke="#FCA5A5" strokeWidth="1" />
+        <text x="145" y="165" fill="#DC2626" fontSize="9" fontWeight="900" textAnchor="middle">
+          Csúcspont M(u; v)
+        </text>
+
+        {/* Minimum címke az Y tengely mellett */}
+        <rect x="58" y="132" width="46" height="15" rx="3" fill="#DCFCE7" />
+        <text x="81" y="143" fill="#166534" fontSize="8" fontWeight="bold" textAnchor="middle">
+          Min = v
+        </text>
+
+        {/* Alsó összegző sáv */}
+        <rect x="20" y="222" width="235" height="32" rx="6" fill="#DCFCE7" stroke="#86EFAC" strokeWidth="1" />
+        <text x="137" y="235" fill="#14532D" fontSize="9.5" fontWeight="900" textAnchor="middle">
+          Min. érték = v &nbsp;(a legkisebb érték x = u helyen)
+        </text>
+        <text x="137" y="248" fill="#166534" fontSize="8.5" fontWeight="bold" textAnchor="middle">
+          Értékkészlet: Rf = [v; ∞[
+        </text>
+      </g>
+
+      {/* ============================================================== */}
+      {/* JOBB OLDALI KÁRTYA: a < 0 (Lefelé nyíló parabola ⟹ MAXIMUM)   */}
+      {/* ============================================================== */}
+      <g filter="url(#extShadow)">
+        {/* Fő kártya doboz */}
+        <rect x="275" y="8" width="255" height="254" rx="14" fill="#FEF2F2" stroke="#EF4444" strokeWidth="1.8" />
+
+        {/* Fejléc sáv */}
+        <rect x="285" y="16" width="235" height="26" rx="6" fill="#DC2626" />
+        <text x="402" y="34" fill="#FFFFFF" fontSize="12" fontWeight="900" textAnchor="middle" letterSpacing="0.4">
+          Ha a &lt; 0 : MAXIMUM (lefelé nyílik)
+        </text>
+
+        {/* Képlet felirat */}
+        <text x="402" y="58" fill="#7F1D1D" fontSize="12.5" fontWeight="900" textAnchor="middle">
+          f(x) = a(x - u)² + v &nbsp;(a &lt; 0)
+        </text>
+
+        {/* Koordinátarendszer doboz */}
+        <rect x="285" y="68" width="235" height="148" rx="8" fill="#FFFFFF" stroke="#FECDD3" strokeWidth="1.2" />
+
+        {/* Halvány koordinátarács */}
+        <g stroke="#F1F5F9" strokeWidth="1">
+          <line x1="315" y1="68" x2="315" y2="216" />
+          <line x1="350" y1="68" x2="350" y2="216" />
+          <line x1="385" y1="68" x2="385" y2="216" />
+          <line x1="420" y1="68" x2="420" y2="216" />
+          <line x1="455" y1="68" x2="455" y2="216" />
+          <line x1="490" y1="68" x2="490" y2="216" />
+          <line x1="285" y1="92" x2="520" y2="92" />
+          <line x1="285" y1="117" x2="520" y2="117" />
+          <line x1="285" y1="142" x2="520" y2="142" />
+          <line x1="285" y1="167" x2="520" y2="167" />
+          <line x1="285" y1="192" x2="520" y2="192" />
+        </g>
+
+        {/* X tengely */}
+        <line x1="293" y1="182" x2="511" y2="182" stroke="#475569" strokeWidth="1.6" />
+        <polygon points="513,182 506,178 506,186" fill="#475569" />
+        <text x="507" y="174" fill="#475569" fontSize="10" fontWeight="bold">x</text>
+
+        {/* Y tengely */}
+        <line x1="317" y1="210" x2="317" y2="74" stroke="#475569" strokeWidth="1.6" />
+        <polygon points="317,72 313,79 321,79" fill="#475569" />
+        <text x="325" y="82" fill="#475569" fontSize="10" fontWeight="bold">y</text>
+        <text x="309" y="193" fill="#94A3B8" fontSize="8.5" textAnchor="end">O</text>
+
+        {/* Szimmetriatengely: x = u */}
+        <line x1="410" y1="74" x2="410" y2="182" stroke="#F87171" strokeWidth="1.2" strokeDasharray="3 3" />
+        <text x="410" y="73" fill="#B91C1C" fontSize="7.5" fontWeight="bold" textAnchor="middle">
+          x = u (szimm.)
+        </text>
+
+        {/* Vetület a vízszintes y tengelyre: y = v */}
+        <line x1="317" y1="104" x2="410" y2="104" stroke="#F87171" strokeWidth="1.2" strokeDasharray="3 3" />
+
+        {/* v jelölése az Y tengelyen */}
+        <line x1="314" y1="104" x2="320" y2="104" stroke="#B91C1C" strokeWidth="2" />
+        <text x="310" y="108" fill="#B91C1C" fontSize="10" fontWeight="900" textAnchor="end">
+          v
+        </text>
+
+        {/* u jelölése az X tengelyen */}
+        <line x1="410" y1="179" x2="410" y2="185" stroke="#B91C1C" strokeWidth="2" />
+        <text x="410" y="196" fill="#B91C1C" fontSize="10" fontWeight="900" textAnchor="middle">
+          u (hely)
+        </text>
+
+        {/* Parabola ív (lefelé nyíló, csúcs: (410, 104)) */}
+        {/* Bezier: t=0.5 esetén y = 0.25*168 + 0.5*40 + 0.25*168 = 42 + 20 + 42 = 104 */}
+        <path
+          d="M 345 168 Q 410 40 475 168"
+          stroke="#DC2626"
+          strokeWidth="3.2"
+          fill="none"
+          strokeLinecap="round"
+        />
+
+        {/* Csúcspont M(u; v) - pontosan a parabola csúcsán */}
+        <circle cx="410" cy="104" r="6.5" fill="#2563EB" fillOpacity="0.2" stroke="#2563EB" strokeWidth="1.5" />
+        <circle cx="410" cy="104" r="3.5" fill="#2563EB" />
+
+        {/* Csúcspont felirat buborék a csúcs felett */}
+        <rect x="363" y="80" width="94" height="18" rx="4" fill="#EFF6FF" stroke="#BFDBFE" strokeWidth="1" />
+        <text x="410" y="93" fill="#1D4ED8" fontSize="9" fontWeight="900" textAnchor="middle">
+          Csúcspont M(u; v)
+        </text>
+
+        {/* Maximum címke az Y tengely mellett */}
+        <rect x="323" y="94" width="48" height="15" rx="3" fill="#FEE2E2" />
+        <text x="347" y="105" fill="#991B1B" fontSize="8" fontWeight="bold" textAnchor="middle">
+          Max = v
+        </text>
+
+        {/* Alsó összegző sáv */}
+        <rect x="285" y="222" width="235" height="32" rx="6" fill="#FEE2E2" stroke="#FCA5A5" strokeWidth="1" />
+        <text x="402" y="235" fill="#7F1D1D" fontSize="9.5" fontWeight="900" textAnchor="middle">
+          Max. érték = v &nbsp;(a legnagyobb érték x = u helyen)
+        </text>
+        <text x="402" y="248" fill="#991B1B" fontSize="8.5" fontWeight="bold" textAnchor="middle">
+          Értékkészlet: Rf = ]-∞; v]
+        </text>
+      </g>
     </svg>
   );
 };

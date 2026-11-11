@@ -62,8 +62,26 @@ export const ApplyFormulaTheory: React.FC<ApplyFormulaTheoryProps> = ({
       topicId="alkalmazzuk-a-megoldokepletet"
       title="Alkalmazzuk a megoldóképletet!"
       subtitle="Bonyolultabb algebrai kifejezések 0-ra rendezése, törtek eltüntetése, egyszerűsítések, irracionális gyökök és az önellenőrzés mesterfogásai."
-      badge="32. LECKE"
-      color="rose"
+      badge="10. OSZTÁLY • V. MÁSODFOKÚ EGYENLETEK • TANANYAG"
+      themeColor="rose"
+      quickRule={{
+        label: 'A Képlet Alkalmazásának 3 Aranyszabálya',
+        align: 'left',
+        formula: (
+          <div className="space-y-1.5 text-slate-800 dark:text-slate-100">
+            <div className="p-2 rounded-lg bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50">
+              <span className="text-[11px] font-bold text-rose-800 dark:text-rose-300 block">1. Kötelező 0-ra rendezés és együtthatók:</span>
+              <span className="font-mono text-xs font-bold text-rose-700 dark:text-rose-400 block mt-0.5">
+                ax² + bx + c = 0 &nbsp;⟹&nbsp; a, b, c előjellel együtt!
+              </span>
+            </div>
+            <div className="text-[11px] text-slate-600 dark:text-slate-300 space-y-0.5">
+              <div><strong>2. Kiemelés:</strong> Ha a, b, c osztható közös számmal, előbb ossz végig!</div>
+              <div><strong>3. Pontos alak:</strong> Irracionális gyököt √D zárt alakban hagyjuk, majd egyszerűsítünk.</div>
+            </div>
+          </div>
+        )
+      }}
       estimatedReadTime="25 perc"
       heroCard={{
         title: 'A Megoldóképlet Mesteri Alkalmazása',

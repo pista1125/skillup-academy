@@ -568,7 +568,7 @@ export const DiscriminantTheory: React.FC<DiscriminantTheoryProps> = ({
               <div className="p-4 bg-amber-50/70 border border-amber-200 rounded-2xl space-y-2">
                 <span className="font-bold text-amber-950 text-sm">Mi történik pontosan, ha D = 0?</span>
                 <p className="text-xs text-slate-700">
-                  Ha $D = 0$, akkor a megoldóképletben $\pm \sqrt{0} = \pm 0$ szerepel, azaz a két gyök egybeesik:{' '}
+                  Ha $D = 0$, akkor a megoldóképletben {'$\\pm \\sqrt{0} = \\pm 0$'} szerepel, azaz a két gyök egybeesik:{' '}
                   <strong className="text-amber-900 font-mono">x₁ = x₂ = -b / (2a)</strong>.
                   Ilyenkor a másodfokú polinom mindig <strong>teljes négyzetté</strong> alakítható:{' '}
                   <code className="bg-amber-100 px-1 py-0.5 rounded font-mono text-amber-950">ax² + bx + c = a(x - x₁)² = 0</code>.
@@ -768,7 +768,7 @@ export const DiscriminantTheory: React.FC<DiscriminantTheoryProps> = ({
                     <p>2) D &lt; 0  (nincs zérushely, a tengely felett lebeg)</p>
                   </div>
                   <p className="text-[11px] text-emerald-800">
-                    💡 <strong>Példa:</strong> $x^2 + 2x + 5 &gt; 0$ minden $x \in \mathbb{R}$-re, mert $a = 1 &gt; 0$ és $D = 4 - 20 = -16 &lt; 0$.
+                    💡 <strong>Példa:</strong> {'$x^2 + 2x + 5 > 0$'} minden {'$x \\in \\mathbb{R}$'}-re, mert $a = 1 &gt; 0$ és $D = 4 - 20 = -16 &lt; 0$.
                   </p>
                 </div>
 
@@ -782,7 +782,7 @@ export const DiscriminantTheory: React.FC<DiscriminantTheoryProps> = ({
                     <p>2) D &lt; 0  (a tengely alatt halad végig)</p>
                   </div>
                   <p className="text-[11px] text-rose-800">
-                    💡 <strong>Példa:</strong> $-x^2 + 4x - 7 &lt; 0$ minden $x \in \mathbb{R}$-re, mert $a = -1 &lt; 0$ és $D = 16 - 28 = -12 &lt; 0$.
+                    💡 <strong>Példa:</strong> {'$-x^2 + 4x - 7 < 0$'} minden {'$x \\in \\mathbb{R}$'}-re, mert $a = -1 &lt; 0$ és $D = 16 - 28 = -12 &lt; 0$.
                   </p>
                 </div>
               </div>
@@ -807,8 +807,27 @@ export const DiscriminantTheory: React.FC<DiscriminantTheoryProps> = ({
     <TheoryTemplate
       title="A Másodfokú Egyenlet Diszkriminánsa"
       subtitle="A gyökök száma, geometriai jelentése és paraméteres vizsgálatok"
-      badge="10. Osztály • V. Témakör • 34. Lecke"
-      color="purple"
+      badge="10. OSZTÁLY • V. MÁSODFOKÚ EGYENLETEK • TANANYAG"
+      themeColor="purple"
+      quickRule={{
+        label: 'A Diszkrimináns Aranyszabálya',
+        align: 'left',
+        formula: (
+          <div className="space-y-1.5 text-slate-800 dark:text-slate-100">
+            <div className="p-2 rounded-lg bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-900/50">
+              <span className="text-[11px] font-bold text-purple-800 dark:text-purple-300 block">D = b² - 4ac értéke dönt:</span>
+              <div className="font-mono text-xs font-black text-purple-700 dark:text-purple-400 grid grid-cols-3 gap-1 mt-0.5 text-center">
+                <span>D &gt; 0: 2 gyök</span>
+                <span>D = 0: 1 gyök</span>
+                <span>D &lt; 0: 0 gyök</span>
+              </div>
+            </div>
+            <div className="text-[11px] text-slate-600 dark:text-slate-300">
+              Ha a · c &lt; 0, akkor -4ac &gt; 0, így D biztosan pozitív (mindig van 2 valós gyök)!
+            </div>
+          </div>
+        )
+      }}
       sections={sections}
       onBack={onBack}
       onStartQuiz={onStartQuiz}

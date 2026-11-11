@@ -404,7 +404,7 @@ export const CompositeTransformTheory: React.FC<CompositeTransformTheoryProps> =
                     const spanY = -35 * paramA;
                     return (
                       <path
-                        d={`M ${pxU - 40} ${pxV + spanY} Q ${pxU} ${pxV} ${pxU + 40} ${pxV + spanY}`}
+                        d={`M ${pxU - 40} ${pxV + spanY} Q ${pxU} ${pxV - spanY} ${pxU + 40} ${pxV + spanY}`}
                         fill="none"
                         stroke={strokeColor}
                         strokeWidth="2.5"

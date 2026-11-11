@@ -58,8 +58,25 @@ export const WordProblemsTheory: React.FC<WordProblemsTheoryProps> = ({
       topicId="szoveges-feladatok"
       title="Szöveges feladatok másodfokú egyenletekkel"
       subtitle="Számelméleti feladványok, szomszédos számok, reciprokos és osztozkodási problémák algebrai modellezése és a kapott gyökök reális értelmezése."
-      badge="33. LECKE"
-      color="blue"
+      badge="10. OSZTÁLY • V. MÁSODFOKÚ EGYENLETEK • TANANYAG"
+      themeColor="blue"
+      quickRule={{
+        label: 'A Szöveges Feladatok Modell-Lépései',
+        align: 'left',
+        formula: (
+          <div className="space-y-1.5 text-slate-800 dark:text-slate-100">
+            <div className="p-2 rounded-lg bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900/50">
+              <span className="text-[11px] font-bold text-blue-800 dark:text-blue-300 block">Modell és Kikötés:</span>
+              <span className="font-mono text-xs font-bold text-blue-700 dark:text-blue-400 block mt-0.5">
+                Szöveg ➔ Ismeretlen (x) ➔ Egyenlet ➔ Szöveges próba!
+              </span>
+            </div>
+            <div className="text-[11px] text-slate-600 dark:text-slate-300">
+              Számelmélet: szomszédos: x és x+1; páros/páratlan: x és x+2; reciprok: x és 1/x.
+            </div>
+          </div>
+        )
+      }}
       estimatedReadTime="25 perc"
       heroCard={{
         title: 'Szöveges Feladatok Modellezése',

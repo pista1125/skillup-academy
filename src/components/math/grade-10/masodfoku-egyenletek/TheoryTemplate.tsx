@@ -742,8 +742,12 @@ export const TheoryTemplate: React.FC<TheoryTemplateProps> = (props) => {
     children
   } = props;
 
+  const TOPIC_V_COMMON_BADGE = '10. OSZTÁLY • V. MÁSODFOKÚ EGYENLETEK • TANANYAG';
+  const rawBadge = badgeText || badge || topicBadge;
   const displayBadge =
-    badgeText || badge || topicBadge || '10. OSZTÁLY • IV. FÜGGVÉNYTRANSZFORMÁCIÓK • TANANYAG';
+    rawBadge && !/lecke/i.test(rawBadge)
+      ? rawBadge
+      : TOPIC_V_COMMON_BADGE;
   const displaySubtitle = subtitle || description;
   const rawRule = quickRule || (props as any).rule || (ruleFormula ? { label: ruleTitle || 'Alaptétel', formula: ruleFormula } : undefined);
   const displayRule: {

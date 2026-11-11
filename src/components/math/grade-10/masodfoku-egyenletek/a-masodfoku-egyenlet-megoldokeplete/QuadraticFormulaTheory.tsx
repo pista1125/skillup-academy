@@ -62,8 +62,27 @@ export const QuadraticFormulaTheory: React.FC<QuadraticFormulaTheoryProps> = ({
       topicId="a-masodfoku-egyenlet-megoldokeplete"
       title="A másodfokú egyenlet megoldóképlete"
       subtitle="Az általános ax² + bx + c = 0 egyenlet univerzális megoldóképletének levezetése, a diszkrimináns szerepe és a számolás biztos lépései."
-      badge="31. LECKE"
-      color="rose"
+      badge="10. OSZTÁLY • V. MÁSODFOKÚ EGYENLETEK • TANANYAG"
+      themeColor="rose"
+      quickRule={{
+        label: 'A Megoldóképlet Aranyszabálya',
+        align: 'left',
+        formula: (
+          <div className="space-y-1.5 text-slate-800 dark:text-slate-100">
+            <div className="p-2 rounded-lg bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50">
+              <span className="text-[11px] font-bold text-rose-800 dark:text-rose-300 block">Univerzális formula (a ≠ 0, 0-ra rendezve):</span>
+              <span className="font-mono text-xs sm:text-sm font-black text-rose-700 dark:text-rose-400 block mt-0.5">
+                x₁,₂ = (-b ± √(b² - 4ac)) / (2a)
+              </span>
+            </div>
+            <div className="text-[11px] text-slate-600 dark:text-slate-300 flex items-center justify-between gap-2 pt-0.5">
+              <span><strong>D &gt; 0:</strong> 2 valós gyök</span>
+              <span><strong>D = 0:</strong> 1 kettős gyök</span>
+              <span><strong>D &lt; 0:</strong> nincs valós gyök</span>
+            </div>
+          </div>
+        )
+      }}
       estimatedReadTime="25 perc"
       heroCard={{
         title: 'A Másodfokú Egyenlet Megoldóképlete',

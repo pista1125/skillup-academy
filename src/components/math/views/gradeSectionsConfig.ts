@@ -655,7 +655,6 @@ export const sectionToTopicMap: Record<string, string> = {
   'g10-sec-quad-visszavezetheto': 'g10-masodfoku-egyenletek',
   'g10-sec-quad-szoveges-penzugy': 'g10-masodfoku-egyenletek',
   'g10-sec-quad-szoveges-mozgas-munka': 'g10-masodfoku-egyenletek',
-  'g10-sec-quad-csoportverseny': 'g10-masodfoku-egyenletek',
   'g10-sec-quad-tudasproba': 'g10-masodfoku-egyenletek',
 
   'g10-egybevagosag-kor': 'g10-egybevagosag-kor',
@@ -1646,8 +1645,7 @@ export function getGradeSubsections(
         { id: 'g10-sec-quad-visszavezetheto', label: '8. Másodfokú egyenletre visszavezethető feladatok' },
         { id: 'g10-sec-quad-szoveges-penzugy', label: '9. Pénzügyekkel kapcsolatos szöveges feladatok' },
         { id: 'g10-sec-quad-szoveges-mozgas-munka', label: '10. Szöveges feladatok mozgásról és munkavégzésről' },
-        { id: 'g10-sec-quad-csoportverseny', label: '11. Csoportverseny' },
-        { id: 'g10-sec-quad-tudasproba', label: '12. Gyakorlás, tudáspróba' }
+        { id: 'g10-sec-quad-tudasproba', label: '11. Gyakorlás, tudáspróba' }
       ];
     } else if (t.id === 'g10-egybevagosag-kor') {
       subsections = [

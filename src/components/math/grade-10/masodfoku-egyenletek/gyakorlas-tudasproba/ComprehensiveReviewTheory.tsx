@@ -74,8 +74,25 @@ export const ComprehensiveReviewTheory: React.FC<ComprehensiveReviewTheoryProps>
     <TheoryTemplate
       title="Gyakorlás, tudáspróba"
       subtitle="A 10. osztályos másodfokú egyenletek átfogó összefoglalása, a megoldási arzenál szintézise és témazáró felkészítő"
-      badge="12. Lecke • Témazáró Összefoglalás"
-      color="violet"
+      badge="10. OSZTÁLY • V. MÁSODFOKÚ EGYENLETEK • TANANYAG"
+      themeColor="violet"
+      quickRule={{
+        label: 'A Témakör 3 Fő Pillére',
+        align: 'left',
+        formula: (
+          <div className="space-y-1.5 text-slate-800 dark:text-slate-100">
+            <div className="p-2 rounded-lg bg-violet-50 dark:bg-violet-950/40 border border-violet-200 dark:border-violet-900/50">
+              <span className="text-[11px] font-bold text-violet-800 dark:text-violet-300 block">Összefoglaló Arzenál:</span>
+              <span className="font-mono text-xs font-bold text-violet-700 dark:text-violet-400 block mt-0.5">
+                1. Hiányos egyenlet ➔ 2. Megoldóképlet (D) ➔ 3. Szöveges próba
+              </span>
+            </div>
+            <div className="text-[11px] text-slate-600 dark:text-slate-300">
+              D &gt; 0: 2 gyök; D = 0: 1 gyök; D &lt; 0: nincs valós gyök. Mindig ellenőrizd az értelmezési tartományt!
+            </div>
+          </div>
+        )
+      }}
       estimatedTime="35 perc"
       onBack={onBack}
       onStartPractice={onStartQuiz}

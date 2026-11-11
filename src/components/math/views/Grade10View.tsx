@@ -1152,38 +1152,10 @@ export const Grade10View: React.FC<GradeViewProps> = ({
           </section>
         )}
 
-        {/* Section 11: Csoportverseny */}
-        {(showAll || activeSubSectionId === 'g10-sec-quad-csoportverseny') && (
-          <section>
-            <SectionHeader id="g10-sec-quad-csoportverseny" number={11} title="Csoportverseny" color="pink" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Csoportverseny Tananyag"
-                subtitle="A 4 forduló menetrendje, villám diszkrimináns, detektív hibavadászat és szerepek"
-                type="Tananyag"
-                emoji="📖"
-                onClick={() => onActivitySelect('g10-quad-csoportverseny-theory', topicId)}
-                icon={<BookOpen className="w-6 h-6" />}
-                color="pink"
-              />
-              <ActivityPlaceholder
-                title="Gyakorló Kvíz"
-                subtitle="30 feladat 3 szinten, puskákkal és beépített Wordwall játékokkal"
-                type="Kvíz"
-                emoji="🎯"
-                onClick={() => onActivitySelect('g10-quad-csoportverseny-quiz', topicId)}
-                icon={<Target className="w-6 h-6" />}
-                color="indigo"
-                {...getTopicProgress('g10-quad-csoportverseny-quiz')}
-              />
-            </div>
-          </section>
-        )}
-
-        {/* Section 12: Gyakorlás, tudáspróba */}
+        {/* Section 11: Gyakorlás, tudáspróba */}
         {(showAll || activeSubSectionId === 'g10-sec-quad-tudasproba') && (
           <section>
-            <SectionHeader id="g10-sec-quad-tudasproba" number={12} title="Gyakorlás, tudáspróba" color="violet" />
+            <SectionHeader id="g10-sec-quad-tudasproba" number={11} title="Gyakorlás, tudáspróba" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
                 title="Gyakorlás és Tudáspróba Tananyag"
@@ -1196,7 +1168,7 @@ export const Grade10View: React.FC<GradeViewProps> = ({
               />
               <ActivityPlaceholder
                 title="Tudáspróba Kvíz és Játékok"
-                subtitle="30 kérdéses átfogó témazáró kvíz, párosító és rendező kihívások"
+                subtitle="90 kérdéses átfogó témazáró kvíz (szintenként 30 kérdés), párosító és rendező kihívások"
                 type="Kvíz"
                 emoji="🏆"
                 onClick={() => onActivitySelect('g10-quad-tudasproba-quiz', topicId)}

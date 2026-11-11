@@ -69,8 +69,7 @@ export const MotionWorkTheory: React.FC<MotionWorkTheoryProps> = ({
   return (
     <TheoryTemplate
       topicId="g10-masodfoku-egyenletek"
-      badge="10. OSZTÁLY • V. TÉMAKÖR"
-      topicBadge="38. LECKE"
+      badge="10. OSZTÁLY • V. MÁSODFOKÚ EGYENLETEK • TANANYAG"
       title="Szöveges feladatok mozgásról és munkavégzésről"
       subtitle="Sebesség, út, idő és együttes munkateljesítmények modellezése törtes másodfokú egyenletekkel"
       themeColor="indigo"

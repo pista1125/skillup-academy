@@ -299,8 +299,9 @@ const GeometryModelLab: React.FC = () => {
                       stroke="#34D399"
                       strokeWidth="2.5"
                     />
-                    <rect x="20" y="125" width="15" height="15" fill="none" stroke="#10B981" strokeWidth="1.5" />
-                    <circle cx="27" cy="132" r="2" fill="#10B981" />
+                    {/* Derékszög jelölése (magyar szabvány: negyedkörív + pont) */}
+                    <path d="M 20 120 A 20 20 0 0 1 40 140" fill="none" stroke="#34D399" strokeWidth="1.8" />
+                    <circle cx="26.5" cy="133.5" r="2.2" fill="#34D399" />
                     <text x="120" y="155" fill="#A7F3D0" fontSize="10" fontWeight="bold" textAnchor="middle">
                       b = {triB.toFixed(1)} cm
                     </text>
@@ -760,8 +761,25 @@ export const GeometryProblemsTheory: React.FC<GeometryProblemsTheoryProps> = ({
     <TheoryTemplate
       title="Szöveges Feladatok Geometriából"
       subtitle="Téglalapok, derékszögű háromszögek, ösvények és sokszögek másodfokú modellezése"
-      badge="10. Osztály • V. Témakör • 35. Lecke"
-      color="emerald"
+      badge="10. OSZTÁLY • V. MÁSODFOKÚ EGYENLETEK • TANANYAG"
+      themeColor="emerald"
+      quickRule={{
+        label: 'A Geometriai Modellek Szabályai',
+        align: 'left',
+        formula: (
+          <div className="space-y-1.5 text-slate-800 dark:text-slate-100">
+            <div className="p-2 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/50">
+              <span className="text-[11px] font-bold text-emerald-800 dark:text-emerald-300 block">Pitagorasz és Területek:</span>
+              <span className="font-mono text-xs font-bold text-emerald-700 dark:text-emerald-400 block mt-0.5">
+                a² + b² = c² &nbsp;|&nbsp; T_téglalap = a · b &nbsp;|&nbsp; T_háromszög = (a · b)/2
+              </span>
+            </div>
+            <div className="text-[11px] text-slate-600 dark:text-slate-300">
+              Kikötés: minden oldal &gt; 0; derékszög jelölése magyar szabvány szerint negyedkörív + pont.
+            </div>
+          </div>
+        )
+      }}
       sections={sections}
       onBack={onBack}
       onStartQuiz={onStartQuiz}

@@ -452,7 +452,7 @@ export const ShiftTransformTheory: React.FC<ShiftTransformTheoryProps> = ({
                   if (fnType === 'parabola') {
                     return (
                       <path
-                        d={`M ${pxU - 45} ${pxC - 60} Q ${pxU} ${pxC} ${pxU + 45} ${pxC - 60}`}
+                        d={`M ${pxU - 45} ${pxC - 60} Q ${pxU} ${pxC + 60} ${pxU + 45} ${pxC - 60}`}
                         fill="none"
                         stroke="#0284c7"
                         strokeWidth="2.5"

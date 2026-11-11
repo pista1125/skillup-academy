@@ -30,8 +30,6 @@ const Grade10GeometryProblemsQuiz = lazy(() => import("@/components/math/grade-1
 const Grade10GeometryProblemsTheory = lazy(() => import("@/components/math/grade-10/masodfoku-egyenletek/szoveges-feladatok-geometriabol/GeometryProblemsTheory").then(m => ({ default: m.GeometryProblemsTheory })))
 const Grade10GraphicLinearQuiz = lazy(() => import("@/components/math/grade-10/egyenletrendszerek/egyenletrendszerek-grafikus-megoldasa/GraphicLinearQuiz").then(m => ({ default: m.GraphicLinearQuiz })))
 const Grade10GraphicLinearTheory = lazy(() => import("@/components/math/grade-10/egyenletrendszerek/egyenletrendszerek-grafikus-megoldasa/GraphicLinearTheory").then(m => ({ default: m.GraphicLinearTheory })))
-const Grade10GroupCompetitionQuiz = lazy(() => import("@/components/math/grade-10/masodfoku-egyenletek/csoportverseny/GroupCompetitionQuiz").then(m => ({ default: m.GroupCompetitionQuiz })))
-const Grade10GroupCompetitionTheory = lazy(() => import("@/components/math/grade-10/masodfoku-egyenletek/csoportverseny/GroupCompetitionTheory").then(m => ({ default: m.GroupCompetitionTheory })))
 const Grade10ImplicationMatcher = lazy(() => import("@/components/math/grade-10/logika/allitas-es-megforditasa/ImplicationMatcher").then(m => ({ default: m.ImplicationMatcher })))
 const Grade10ImplicationQuiz = lazy(() => import("@/components/math/grade-10/logika/allitas-es-megforditasa/ImplicationQuiz").then(m => ({ default: m.ImplicationQuiz })))
 const Grade10ImplicationSorter = lazy(() => import("@/components/math/grade-10/logika/allitas-es-megforditasa/ImplicationSorter").then(m => ({ default: m.ImplicationSorter })))
@@ -1555,45 +1553,7 @@ export const Grade10Activities: React.FC<ActivityRouterProps> = ({
                     />
                   )}
 
-                  {/* 10. Osztály - V. Másodfokú egyenletek - 11. Csoportverseny */}
-
-                  {activityType === 'g10-quad-csoportverseny-theory' && (
-                    <Grade10GroupCompetitionTheory
-                      onBack={handleBack}
-                      onStartQuiz={() => handleActivitySelect('g10-quad-csoportverseny-quiz', selectedTopic || 'g10-masodfoku-egyenletek')}
-                    />
-                  )}
-
-                  {activityType === 'g10-quad-csoportverseny-quiz' && (
-                    <Grade10GroupCompetitionQuiz
-                      onBack={handleBack}
-                      onSwitchToTheory={() => handleActivitySelect('g10-quad-csoportverseny-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
-                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-csoportverseny-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
-                      onSwitchToSorter={() => handleActivitySelect('g10-quad-csoportverseny-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
-                    />
-                  )}
-
-                  {activityType === 'g10-quad-csoportverseny-matcher' && (
-                    <Grade10GroupCompetitionQuiz
-                      initialGameMode="matcher"
-                      onBack={handleBack}
-                      onSwitchToTheory={() => handleActivitySelect('g10-quad-csoportverseny-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
-                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-csoportverseny-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
-                      onSwitchToSorter={() => handleActivitySelect('g10-quad-csoportverseny-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
-                    />
-                  )}
-
-                  {activityType === 'g10-quad-csoportverseny-sorter' && (
-                    <Grade10GroupCompetitionQuiz
-                      initialGameMode="sorter"
-                      onBack={handleBack}
-                      onSwitchToTheory={() => handleActivitySelect('g10-quad-csoportverseny-theory', selectedTopic || 'g10-masodfoku-egyenletek')}
-                      onSwitchToMatcher={() => handleActivitySelect('g10-quad-csoportverseny-matcher', selectedTopic || 'g10-masodfoku-egyenletek')}
-                      onSwitchToSorter={() => handleActivitySelect('g10-quad-csoportverseny-sorter', selectedTopic || 'g10-masodfoku-egyenletek')}
-                    />
-                  )}
-
-                  {/* 10. Osztály - V. Másodfokú egyenletek - 12. Gyakorlás, tudáspróba */}
+                  {/* 10. Osztály - V. Másodfokú egyenletek - 11. Gyakorlás, tudáspróba */}
 
                   {activityType === 'g10-quad-tudasproba-theory' && (
                     <Grade10ComprehensiveReviewTheory

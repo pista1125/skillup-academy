@@ -220,18 +220,41 @@ export const ComprehensiveDiscriminantSvg: React.FC<FigureProps> = ({ size = 480
         <rect x="35" y="35" width="150" height="26" rx="6" fill="#ecfdf5" />
         <text x="110" y="52" textAnchor="middle" fill="#166534" fontSize="12" fontWeight="bold">D &gt; 0 (Pozitív)</text>
         
-        {/* Parabola rajz x tengellyel */}
-        <line x1="35" y1="130" x2="185" y2="130" stroke="#94a3b8" strokeWidth="1.5" />
-        <path d="M 50 85 Q 110 165 170 85" fill="none" stroke="#16a34a" strokeWidth="2.5" />
-        <circle cx="78" cy="130" r="4" fill="#dc2626" />
-        <circle cx="142" cy="130" r="4" fill="#dc2626" />
-        <text x="78" y="145" textAnchor="middle" fill="#dc2626" fontSize="9" fontWeight="bold">x₁</text>
-        <text x="142" y="145" textAnchor="middle" fill="#dc2626" fontSize="9" fontWeight="bold">x₂</text>
+        {/* Részletes mini koordinátarendszer */}
+        <rect x="35" y="70" width="150" height="76" rx="6" fill="#f8fafc" stroke="#bbf7d0" strokeWidth="1" />
+        {/* Rács */}
+        <g stroke="#f1f5f9" strokeWidth="0.8">
+          <line x1="60" y1="70" x2="60" y2="146" />
+          <line x1="85" y1="70" x2="85" y2="146" />
+          <line x1="110" y1="70" x2="110" y2="146" />
+          <line x1="135" y1="70" x2="135" y2="146" />
+          <line x1="160" y1="70" x2="160" y2="146" />
+          <line x1="35" y1="88" x2="185" y2="88" />
+          <line x1="35" y1="106" x2="185" y2="106" />
+          <line x1="35" y1="124" x2="185" y2="124" />
+        </g>
+        {/* X tengely */}
+        <line x1="38" y1="122" x2="178" y2="122" stroke="#64748b" strokeWidth="1.3" />
+        <polygon points="180,122 175,120 175,124" fill="#64748b" />
+        <text x="176" y="116" fill="#64748b" fontSize="8" fontWeight="bold">x</text>
+        {/* Y tengely */}
+        <line x1="56" y1="142" x2="56" y2="74" stroke="#64748b" strokeWidth="1.3" />
+        <polygon points="56,72 54,77 58,77" fill="#64748b" />
+        <text x="62" y="80" fill="#64748b" fontSize="8" fontWeight="bold">y</text>
+        <text x="50" y="130" fill="#94a3b8" fontSize="7" textAnchor="end">O</text>
 
-        <text x="110" y="175" textAnchor="middle" fill="#166534" fontSize="11" fontWeight="bold">2 különböző valós gyök</text>
-        <text x="110" y="195" textAnchor="middle" fill="#475569" fontSize="10">Két pontban metszi</text>
-        <text x="110" y="210" textAnchor="middle" fill="#475569" fontSize="10">az x-tengelyt</text>
-        <text x="110" y="235" textAnchor="middle" fill="#047857" fontSize="10" fontFamily="monospace">x₁,₂ = (-b ± √D)/2a</text>
+        {/* Parabola rajz: 2 metszéspont */}
+        <path d="M 62 88 Q 110 176 158 88" fill="none" stroke="#16a34a" strokeWidth="2.4" strokeLinecap="round" />
+        <circle cx="84" cy="122" r="3.2" fill="#15803d" stroke="#ffffff" strokeWidth="1" />
+        <circle cx="136" cy="122" r="3.2" fill="#15803d" stroke="#ffffff" strokeWidth="1" />
+        <text x="84" y="115" textAnchor="middle" fill="#15803d" fontSize="8" fontWeight="900">x₁</text>
+        <text x="136" y="115" textAnchor="middle" fill="#15803d" fontSize="8" fontWeight="900">x₂</text>
+        <circle cx="110" cy="132" r="2" fill="#16a34a" />
+
+        <text x="110" y="168" textAnchor="middle" fill="#166534" fontSize="10.5" fontWeight="bold">2 különböző valós gyök</text>
+        <text x="110" y="185" textAnchor="middle" fill="#475569" fontSize="9">Két pontban metszi</text>
+        <text x="110" y="198" textAnchor="middle" fill="#475569" fontSize="9">az x-tengelyt (y_csúcs &lt; 0)</text>
+        <text x="110" y="222" textAnchor="middle" fill="#047857" fontSize="9.5" fontFamily="monospace" fontWeight="bold">x₁,₂ = (-b ± √D)/2a</text>
       </g>
 
       {/* 2. Panel: D = 0 (Kék) */}
@@ -240,16 +263,38 @@ export const ComprehensiveDiscriminantSvg: React.FC<FigureProps> = ({ size = 480
         <rect x="225" y="35" width="150" height="26" rx="6" fill="#eff6ff" />
         <text x="300" y="52" textAnchor="middle" fill="#1e40af" fontSize="12" fontWeight="bold">D = 0 (Nulla)</text>
         
-        {/* Parabola rajz x tengellyel (érinti) */}
-        <line x1="225" y1="130" x2="375" y2="130" stroke="#94a3b8" strokeWidth="1.5" />
-        <path d="M 240 85 Q 300 130 360 85" fill="none" stroke="#2563eb" strokeWidth="2.5" />
-        <circle cx="300" cy="130" r="4" fill="#dc2626" />
-        <text x="300" y="146" textAnchor="middle" fill="#dc2626" fontSize="9" fontWeight="bold">x₁ = x₂</text>
+        {/* Részletes mini koordinátarendszer */}
+        <rect x="225" y="70" width="150" height="76" rx="6" fill="#f8fafc" stroke="#bfdbfe" strokeWidth="1" />
+        {/* Rács */}
+        <g stroke="#f1f5f9" strokeWidth="0.8">
+          <line x1="250" y1="70" x2="250" y2="146" />
+          <line x1="275" y1="70" x2="275" y2="146" />
+          <line x1="300" y1="70" x2="300" y2="146" />
+          <line x1="325" y1="70" x2="325" y2="146" />
+          <line x1="350" y1="70" x2="350" y2="146" />
+          <line x1="225" y1="88" x2="375" y2="88" />
+          <line x1="225" y1="106" x2="375" y2="106" />
+          <line x1="225" y1="124" x2="375" y2="124" />
+        </g>
+        {/* X tengely */}
+        <line x1="228" y1="122" x2="368" y2="122" stroke="#64748b" strokeWidth="1.3" />
+        <polygon points="370,122 365,120 365,124" fill="#64748b" />
+        <text x="366" y="116" fill="#64748b" fontSize="8" fontWeight="bold">x</text>
+        {/* Y tengely */}
+        <line x1="246" y1="142" x2="246" y2="74" stroke="#64748b" strokeWidth="1.3" />
+        <polygon points="246,72 244,77 248,77" fill="#64748b" />
+        <text x="252" y="80" fill="#64748b" fontSize="8" fontWeight="bold">y</text>
+        <text x="240" y="130" fill="#94a3b8" fontSize="7" textAnchor="end">O</text>
 
-        <text x="300" y="175" textAnchor="middle" fill="#1e40af" fontSize="11" fontWeight="bold">1 valós (kettős) gyök</text>
-        <text x="300" y="195" textAnchor="middle" fill="#475569" fontSize="10">Érinti az x-tengelyt</text>
-        <text x="300" y="210" textAnchor="middle" fill="#475569" fontSize="10">a csúcspontjában</text>
-        <text x="300" y="235" textAnchor="middle" fill="#1d4ed8" fontSize="10" fontFamily="monospace">x = -b / (2a)</text>
+        {/* Parabola rajz: érinti az x tengelyt */}
+        <path d="M 252 82 Q 300 162 348 82" fill="none" stroke="#2563eb" strokeWidth="2.4" strokeLinecap="round" />
+        <circle cx="300" cy="122" r="3.6" fill="#1d4ed8" stroke="#ffffff" strokeWidth="1" />
+        <text x="300" y="114" textAnchor="middle" fill="#1d4ed8" fontSize="8" fontWeight="900">x₁ = x₂</text>
+
+        <text x="300" y="168" textAnchor="middle" fill="#1e40af" fontSize="10.5" fontWeight="bold">1 valós (kettős) gyök</text>
+        <text x="300" y="185" textAnchor="middle" fill="#475569" fontSize="9">Érinti az x-tengelyt</text>
+        <text x="300" y="198" textAnchor="middle" fill="#475569" fontSize="9">a csúcspontjában (y_csúcs = 0)</text>
+        <text x="300" y="222" textAnchor="middle" fill="#1d4ed8" fontSize="9.5" fontFamily="monospace" fontWeight="bold">x = -b / (2a)</text>
       </g>
 
       {/* 3. Panel: D < 0 (Piros) */}
@@ -258,14 +303,38 @@ export const ComprehensiveDiscriminantSvg: React.FC<FigureProps> = ({ size = 480
         <rect x="415" y="35" width="150" height="26" rx="6" fill="#fef2f2" />
         <text x="490" y="52" textAnchor="middle" fill="#991b1b" fontSize="12" fontWeight="bold">D &lt; 0 (Negatív)</text>
         
-        {/* Parabola rajz x tengellyel (lebeg fölötte) */}
-        <line x1="415" y1="130" x2="565" y2="130" stroke="#94a3b8" strokeWidth="1.5" />
-        <path d="M 430 75 Q 490 108 550 75" fill="none" stroke="#dc2626" strokeWidth="2.5" />
+        {/* Részletes mini koordinátarendszer */}
+        <rect x="415" y="70" width="150" height="76" rx="6" fill="#f8fafc" stroke="#fecaca" strokeWidth="1" />
+        {/* Rács */}
+        <g stroke="#f1f5f9" strokeWidth="0.8">
+          <line x1="440" y1="70" x2="440" y2="146" />
+          <line x1="465" y1="70" x2="465" y2="146" />
+          <line x1="490" y1="70" x2="490" y2="146" />
+          <line x1="515" y1="70" x2="515" y2="146" />
+          <line x1="540" y1="70" x2="540" y2="146" />
+          <line x1="415" y1="88" x2="565" y2="88" />
+          <line x1="415" y1="106" x2="565" y2="106" />
+          <line x1="415" y1="124" x2="565" y2="124" />
+        </g>
+        {/* X tengely */}
+        <line x1="418" y1="128" x2="558" y2="128" stroke="#64748b" strokeWidth="1.3" />
+        <polygon points="560,128 555,126 555,130" fill="#64748b" />
+        <text x="556" y="122" fill="#64748b" fontSize="8" fontWeight="bold">x</text>
+        {/* Y tengely */}
+        <line x1="436" y1="142" x2="436" y2="74" stroke="#64748b" strokeWidth="1.3" />
+        <polygon points="436,72 434,77 438,77" fill="#64748b" />
+        <text x="442" y="80" fill="#64748b" fontSize="8" fontWeight="bold">y</text>
+        <text x="430" y="136" fill="#94a3b8" fontSize="7" textAnchor="end">O</text>
 
-        <text x="490" y="175" textAnchor="middle" fill="#991b1b" fontSize="11" fontWeight="bold">Nincs valós gyök</text>
-        <text x="490" y="195" textAnchor="middle" fill="#475569" fontSize="10">Nem metszi és nem érinti</text>
-        <text x="490" y="210" textAnchor="middle" fill="#475569" fontSize="10">az x-tengelyt (lebeg)</text>
-        <text x="490" y="235" textAnchor="middle" fill="#b91c1c" fontSize="10" fontFamily="monospace">x ∈ ∅ (üres halmaz)</text>
+        {/* Parabola rajz: lebeg fölötte */}
+        <path d="M 445 78 Q 490 134 535 78" fill="none" stroke="#dc2626" strokeWidth="2.4" strokeLinecap="round" />
+        <circle cx="490" cy="106" r="2.5" fill="#dc2626" />
+        <text x="490" y="119" textAnchor="middle" fill="#dc2626" fontSize="7.5" fontStyle="italic" fontWeight="bold">y_csúcs &gt; 0</text>
+
+        <text x="490" y="168" textAnchor="middle" fill="#991b1b" fontSize="10.5" fontWeight="bold">Nincs valós gyök</text>
+        <text x="490" y="185" textAnchor="middle" fill="#475569" fontSize="9">Nem metszi és nem érinti</text>
+        <text x="490" y="198" textAnchor="middle" fill="#475569" fontSize="9">az x-tengelyt (lebeg)</text>
+        <text x="490" y="222" textAnchor="middle" fill="#b91c1c" fontSize="9.5" fontFamily="monospace" fontWeight="bold">x ∈ ∅ &nbsp;(√D ∉ ℝ)</text>
       </g>
     </svg>
   );

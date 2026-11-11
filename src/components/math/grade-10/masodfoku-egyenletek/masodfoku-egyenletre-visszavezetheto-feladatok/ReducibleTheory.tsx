@@ -410,9 +410,9 @@ export const ReducibleTheory: React.FC<ReducibleTheoryProps> = ({
 
                 <p className="text-slate-500 font-sans font-bold pt-1">3. Lépés: Visszatérés x-hez:</p>
                 <p className="text-slate-800 font-sans">
-                  • 1. ág: $x^2 = 1 \implies \mathbf{x_1 = 1,  x_2 = -1}$
+                  • 1. ág: $x^2 = 1 \implies$ <strong className="text-cyan-950 font-mono">x₁ = 1, x₂ = -1</strong>
                   <br />
-                  • 2. ág: $x^2 = 4 \implies \mathbf{x_3 = 2,  x_4 = -2}$
+                  • 2. ág: $x^2 = 4 \implies$ <strong className="text-cyan-950 font-mono">x₃ = 2, x₄ = -2</strong>
                   <br />
                   Az egyenletnek <strong>4 valós megoldása van</strong>: M = {'{ -2; -1; 1; 2 }'}.
                 </p>
@@ -473,9 +473,9 @@ export const ReducibleTheory: React.FC<ReducibleTheoryProps> = ({
 
                 <p className="text-slate-500 font-sans font-bold pt-1">2. Lépés: Két külön másodfokú egyenlet x-re:</p>
                 <p className="text-slate-800 font-sans">
-                  • 1. Eset ($u_1 = 3$): $x^2 - 2x = 3 \implies x^2 - 2x - 3 = 0 \implies \mathbf{x_1 = 3,  x_2 = -1}$
+                  • 1. Eset ($u_1 = 3$): $x^2 - 2x = 3 \implies x^2 - 2x - 3 = 0 \implies$ <strong className="text-cyan-950 font-mono">x₁ = 3, x₂ = -1</strong>
                   <br />
-                  • 2. Eset ($u_2 = -1$): $x^2 - 2x = -1 \implies x^2 - 2x + 1 = 0 \implies (x - 1)^2 = 0 \implies \mathbf{x_3 = 1}$ (kettős gyök)
+                  • 2. Eset ($u_2 = -1$): $x^2 - 2x = -1 \implies x^2 - 2x + 1 = 0 \implies (x - 1)^2 = 0 \implies$ <strong className="text-cyan-950 font-mono">x₃ = 1</strong> (kettős gyök)
                   <br />
                   A teljes megoldáshalmaz: M = {'{ -1; 1; 3 }'}.
                 </p>
@@ -616,7 +616,7 @@ export const ReducibleTheory: React.FC<ReducibleTheoryProps> = ({
           >
             <div className="space-y-4 text-slate-700 text-sm">
               <p>
-                Egy szorzat akkor és csak akkor nulla, ha valamelyik tényezője nulla: $A \cdot B = 0 \iff A = 0 \text{ vagy } B = 0$. Ha egy harmad- vagy negyedfokú polinomot szorzattá tudunk alakítani, a megoldása visszavezethető első- és másodfokú egyenletekre:
+                Egy szorzat akkor és csak akkor nulla, ha valamelyik tényezője nulla: {'$A \\cdot B = 0 \\iff A = 0 \\text{ vagy } B = 0$'}. Ha egy harmad- vagy negyedfokú polinomot szorzattá tudunk alakítani, a megoldása visszavezethető első- és másodfokú egyenletekre:
               </p>
 
               <div className="my-3 p-4 sm:p-5 bg-gradient-to-b from-slate-50 to-cyan-50/40 dark:bg-slate-900/60 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col items-center">
@@ -634,7 +634,7 @@ export const ReducibleTheory: React.FC<ReducibleTheoryProps> = ({
                   </p>
                   <p className="font-mono text-xs text-purple-900 font-bold">x · (x² - 4) = 0</p>
                   <p className="text-[11px] text-purple-800">
-                    Gyökök: $x_1 = 0$, $x_{2,3} = \pm 2$. Sose osszunk $x$-szel, mert elveszítjük a nullagyököt!
+                    Gyökök: $x_1 = 0$, $x_{2, 3} = \pm 2$. Sose osszunk $x$-szel, mert elveszítjük a nullagyököt!
                   </p>
                 </div>
 
@@ -645,7 +645,7 @@ export const ReducibleTheory: React.FC<ReducibleTheoryProps> = ({
                   </p>
                   <p className="font-mono text-xs text-slate-900 font-bold">x²(x - 3) - 4(x - 3) = (x - 3)(x² - 4) = 0</p>
                   <p className="text-[11px] text-slate-700">
-                    Gyökök: $x_1 = 3$, $x_{2,3} = \pm 2$.
+                    Gyökök: $x_1 = 3$, $x_{2, 3} = \pm 2$.
                   </p>
                 </div>
               </div>
@@ -660,8 +660,25 @@ export const ReducibleTheory: React.FC<ReducibleTheoryProps> = ({
     <TheoryTemplate
       title="Másodfokú Egyenletre Visszavezethető Feladatok"
       subtitle="Bikvadratikus egyenletek, új ismeretlen bevezetése, törtes és gyökös egyenletek"
-      badge="10. Osztály • V. Témakör • 36. Lecke"
-      color="cyan"
+      badge="10. OSZTÁLY • V. MÁSODFOKÚ EGYENLETEK • TANANYAG"
+      themeColor="cyan"
+      quickRule={{
+        label: 'Új Ismeretlen Bevezetése (u-helyettesítés)',
+        align: 'left',
+        formula: (
+          <div className="space-y-1.5 text-slate-800 dark:text-slate-100">
+            <div className="p-2 rounded-lg bg-cyan-50 dark:bg-cyan-950/40 border border-cyan-200 dark:border-cyan-900/50">
+              <span className="text-[11px] font-bold text-cyan-800 dark:text-cyan-300 block">Bikvadratikus: ax⁴ + bx² + c = 0</span>
+              <span className="font-mono text-xs font-bold text-cyan-700 dark:text-cyan-400 block mt-0.5">
+                u = x² &nbsp;(u ≥ 0) ⟹ au² + bu + c = 0
+              </span>
+            </div>
+            <div className="text-[11px] text-slate-600 dark:text-slate-300">
+              Visszahelyettesítés kötelező: x = ±√u (negatív u nem ad valós x gyököt!).
+            </div>
+          </div>
+        )
+      }}
       sections={sections}
       onBack={onBack}
       onStartQuiz={onStartQuiz}

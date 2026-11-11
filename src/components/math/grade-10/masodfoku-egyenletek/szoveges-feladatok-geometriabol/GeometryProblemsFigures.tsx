@@ -40,6 +40,10 @@ export const RectangleAreaPerimeterSvg: React.FC<FigureProps> = ({ size = 500, c
         {/* Téglalap test */}
         <rect x="35" y="58" width="230" height="135" rx="8" fill="url(#rectFillGrad)" stroke="#10B981" strokeWidth="2" />
 
+        {/* Derékszög jelölése a bal alsó sarokban (magyar szabvány: negyedkörív + pont) */}
+        <path d="M 35 175 A 18 18 0 0 1 53 193" fill="none" stroke="#059669" strokeWidth="1.5" />
+        <circle cx="41" cy="187" r="2" fill="#059669" />
+
         {/* Átló szaggatott vonal */}
         <line x1="35" y1="193" x2="265" y2="58" stroke="#059669" strokeWidth="1.5" strokeDasharray="4 3" opacity="0.6" />
         <text x="160" y="120" fill="#047857" fontSize="10" fontWeight="bold" transform="rotate(-30 160 120)">
@@ -82,7 +86,7 @@ export const RectangleAreaPerimeterSvg: React.FC<FigureProps> = ({ size = 500, c
           Algebrai Átalakítás
         </text>
 
-        <div className="text-xs">
+        <g>
           <text x="306" y="104" fill="#334155" fontSize="9" fontWeight="bold">1. Kerületből a másik oldal:</text>
           <text x="312" y="119" fill="#047857" fontSize="10" fontFamily="monospace">K = 2(a + b) ⟹ b = K/2 - x</text>
 
@@ -96,7 +100,7 @@ export const RectangleAreaPerimeterSvg: React.FC<FigureProps> = ({ size = 500, c
           <text x="397" y="215" fill="#92400E" fontSize="8.5" fontWeight="bold" textAnchor="middle">
             Kikötés: 0 &lt; x &lt; K/2
           </text>
-        </div>
+        </g>
       </g>
     </svg>
   );
@@ -137,9 +141,9 @@ export const RightTrianglePythagorasSvg: React.FC<FigureProps> = ({ size = 500, 
         {/* Háromszög test */}
         <polygon points="60,195 240,195 60,65" fill="url(#triFillGrad)" stroke="#2563EB" strokeWidth="2" />
 
-        {/* Derékszög sarok jelölése */}
-        <rect x="60" y="177" width="18" height="18" fill="none" stroke="#1D4ED8" strokeWidth="1.5" />
-        <circle cx="69" cy="186" r="2" fill="#1D4ED8" />
+        {/* Derékszög jelölése (magyar szabvány: negyedkörív + pont) */}
+        <path d="M 60 173 A 22 22 0 0 1 82 195" fill="none" stroke="#1D4ED8" strokeWidth="1.8" />
+        <circle cx="67.5" cy="187.5" r="2.2" fill="#1D4ED8" />
 
         {/* a befogó (vízszintes) */}
         <text x="150" y="213" fill="#1E40AF" fontSize="11" fontWeight="bold" textAnchor="middle">

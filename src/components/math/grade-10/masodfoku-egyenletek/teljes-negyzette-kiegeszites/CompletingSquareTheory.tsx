@@ -52,7 +52,7 @@ export const CompletingSquareTheory: React.FC<CompletingSquareTheoryProps> = ({
 
   return (
     <TheoryTemplate
-      badgeText="10. OSZTÁLY • V. MÁSODFOKÚ EGYENLETEK • 29. LECKE"
+      badgeText="10. OSZTÁLY • V. MÁSODFOKÚ EGYENLETEK • TANANYAG"
       title="Teljes négyzetté kiegészítés"
       subtitle="A másodfokú egyenletek megoldásának alapköve: hiányos egyenletek, geometriai szemléltetés és az (x ± d)² alakra hozás lépései."
       themeColor="amber"

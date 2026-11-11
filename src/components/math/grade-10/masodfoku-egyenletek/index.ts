@@ -34,10 +34,7 @@ export * from './penzugyekkel-kapcsolatos-szoveges-feladatok';
 // 10. Altéma: Szöveges feladatok mozgásról és munkavégzésről
 export * from './szoveges-feladatok-mozgasrol-es-munkavegzesrol';
 
-// 11. Altéma: Csoportverseny
-export * from './csoportverseny';
-
-// 12. Altéma: Gyakorlás, tudáspróba
+// 11. Altéma: Gyakorlás, tudáspróba
 export * from './gyakorlas-tudasproba';
 
 

@@ -200,14 +200,28 @@ export function SorterTemplate({
 }: SorterTemplateProps) {
   const { user, profile } = useAuth();
 
-  const allLevels = levels || levelsConfig || levelConfigs || levelConfig || (rest as any).levelConfig;
+  const isSingleSorterConfig = (cfg: any): boolean => {
+    return Boolean(cfg && Array.isArray(cfg.categories) && Array.isArray(cfg.items));
+  };
+
+  const resolvedSingleSorterConfig = isSingleSorterConfig(config)
+    ? config
+    : isSingleSorterConfig(levelConfig)
+    ? (levelConfig as any)
+    : isSingleSorterConfig((rest as any).levelConfig)
+    ? (rest as any).levelConfig
+    : undefined;
+
+  const allLevels = levels || levelsConfig || levelConfigs || (!resolvedSingleSorterConfig ? levelConfig : undefined) || (!resolvedSingleSorterConfig ? (rest as any).levelConfig : undefined);
   const rawLvl = currentLevel ?? (typeof level === 'number' ? level : ((level as any)?.level ?? 1));
   const activeLevel: DifficultyLevel = (typeof rawLvl === 'number' ? rawLvl : 1) as DifficultyLevel;
 
   // Level config normalization
   const getLevelConfig = (): SorterLevelConfig => {
+    if (resolvedSingleSorterConfig?.categories && resolvedSingleSorterConfig?.items) return resolvedSingleSorterConfig;
     if (config?.categories && config?.items) return config;
     if (allLevels && allLevels[activeLevel]) return allLevels[activeLevel];
+    if (allLevels && Array.isArray((allLevels as any).categories) && Array.isArray((allLevels as any).items)) return allLevels as any;
     if (activeLevel === 1 && level1Categories && level1Items) {
       return { categories: level1Categories, items: level1Items };
     }
@@ -287,7 +301,7 @@ export function SorterTemplate({
 
   useEffect(() => {
     initGame();
-  }, [activeLevel, currentLevel, level, topicId, title, levels, levelsConfig, levelConfigs]);
+  }, [activeLevel, currentLevel, level, topicId, title, levels, levelsConfig, levelConfigs, levelConfig, config]);
 
   // Stopwatch timer
   useEffect(() => {

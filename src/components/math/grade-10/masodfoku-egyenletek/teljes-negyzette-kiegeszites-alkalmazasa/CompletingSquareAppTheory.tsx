@@ -62,7 +62,7 @@ export const CompletingSquareAppTheory: React.FC<CompletingSquareAppTheoryProps>
 
   return (
     <TheoryTemplate
-      badgeText="10. OSZTÁLY • V. MÁSODFOKÚ EGYENLETEK • 30. LECKE"
+      badgeText="10. OSZTÁLY • V. MÁSODFOKÚ EGYENLETEK • TANANYAG"
       title="Teljes négyzetté kiegészítés alkalmazása"
       subtitle="Nem 1 főegyütthatójú (a ≠ 1) egyenletek, törtekkel való számolás, negatív főegyüttható és a szélsőértékek (minimum / maximum) algebrai meghatározása."
       themeColor="orange"

@@ -8,72 +8,82 @@ interface FigureProps {
 /**
  * 1. Ábra: Vektoros eltolás a síkban
  * Szemlélteti a v(u, c) vektorral történő eltolást és a pontok (x, y) -> (x+u, y+c) vándorlását.
+ * Részletes koordinátarács, pontos csúcspontok.
  */
-export const GeneralShiftVectorSvg: React.FC<FigureProps> = ({ size = 280, className = '' }) => {
+export const GeneralShiftVectorSvg: React.FC<FigureProps> = ({ size = 320, className = '' }) => {
   return (
     <div className={`flex flex-col items-center justify-center ${className}`}>
       <svg
-        viewBox="-140 -120 280 240"
+        viewBox="0 0 340 260"
         width={size}
-        height={(size * 240) / 280}
+        height={(size * 260) / 340}
         className="overflow-visible select-none max-w-full drop-shadow-sm"
       >
         <defs>
+          <pattern id="gsv-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#94a3b8" strokeWidth="0.5" strokeOpacity="0.25" />
+          </pattern>
           <marker id="gsv-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748b" />
+            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#64748b" />
           </marker>
           <marker id="gsv-vec-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6" />
+            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#8b5cf6" />
           </marker>
         </defs>
 
-        {/* Háttér rács */}
-        {[-100, -50, 50, 100].map((coord) => (
-          <React.Fragment key={`grid-${coord}`}>
-            <line x1={coord} y1="-110" x2={coord} y2="110" stroke="#94a3b8" strokeWidth="0.5" strokeDasharray="3 3" opacity="0.3" />
-            <line x1="-130" y1={coord} x2={130} y2={coord} stroke="#94a3b8" strokeWidth="0.5" strokeDasharray="3 3" opacity="0.3" />
-          </React.Fragment>
-        ))}
+        {/* Háttér és koordinátarács */}
+        <rect x="15" y="15" width="310" height="230" rx="12" fill="#f8fafc" className="dark:fill-slate-900/60" stroke="#e2e8f0" strokeWidth="1" />
+        <rect x="15" y="15" width="310" height="230" rx="12" fill="url(#gsv-grid)" />
 
-        {/* Tengelyek */}
-        <line x1="-130" y1="0" x2="130" y2="0" stroke="#64748b" strokeWidth="1.5" markerEnd="url(#gsv-arrow)" />
-        <line x1="0" y1="110" x2="0" y2="-110" stroke="#64748b" strokeWidth="1.5" markerEnd="url(#gsv-arrow)" />
-        <text x="122" y="16" fill="#64748b" fontSize="12" fontWeight="bold">x</text>
-        <text x="-16" y="-98" fill="#64748b" fontSize="12" fontWeight="bold">y</text>
+        {/* Tengelyek: Origó O(0; 0) a (130, 160) pontban */}
+        <line x1="25" y1="160" x2="315" y2="160" stroke="#475569" strokeWidth="1.8" markerEnd="url(#gsv-arrow)" />
+        <line x1="130" y1="235" x2="130" y2="25" stroke="#475569" strokeWidth="1.8" markerEnd="url(#gsv-arrow)" />
+        <text x="310" y="152" fill="#475569" fontSize="11" fontWeight="bold">x</text>
+        <text x="138" y="32" fill="#475569" fontSize="11" fontWeight="bold">y</text>
+        <text x="114" y="174" fill="#64748b" fontSize="10" fontWeight="bold">O</text>
 
-        {/* Eredeti görbe: f(x) (pl. parabola az origóban) */}
+        {/* Eredeti görbe: f(x) csúcsa az origóban (130, 160).
+            w = 50, y0 = 80. yc = 2*160 - 80 = 240. Apex = 160! */}
         <path
-          d="M -70 -98 Q 0 40 70 -98"
+          d="M 80 80 Q 130 240 180 80"
           fill="none"
           stroke="#94a3b8"
           strokeWidth="2"
           strokeDasharray="4 4"
         />
-        <text x="-75" y="-75" fill="#64748b" fontSize="11" fontWeight="bold">f(x)</text>
+        <text x="65" y="85" fill="#64748b" fontSize="11" fontWeight="bold">f(x)</text>
 
-        {/* Eltolt görbe: g(x) = f(x - u) + c */}
-        {/* u = 40 (jobbra), c = -50 (fel) */}
+        {/* Eltolt görbe: g(x) = f(x - u) + c
+            u = +60 px (jobbra), c = -60 px (fel) => Új csúcs T(190, 100).
+            w = 50, y0 = 20. yc = 2*100 - 20 = 180. Apex = 100! */}
         <path
-          d="M -30 -148 Q 40 -10 110 -148"
+          d="M 140 20 Q 190 180 240 20"
           fill="none"
           stroke="#0284c7"
-          strokeWidth="2.5"
+          strokeWidth="2.8"
+          strokeLinecap="round"
         />
-        <text x="65" y="-120" fill="#0284c7" fontSize="12" fontWeight="bold">g(x) = f(x - u) + c</text>
+        <text x="195" y="30" fill="#0284c7" fontSize="11" fontWeight="bold">g(x) = f(x - u) + c</text>
 
-        {/* Eltolásvektor v(u, c) az origóból a csúcspontba */}
-        <line x1="0" y1="20" x2="40" y2="-30" stroke="#8b5cf6" strokeWidth="2.5" markerEnd="url(#gsv-vec-arrow)" />
-        <text x="22" y="-4" fill="#8b5cf6" fontSize="12" fontWeight="black">v(u; c)</text>
+        {/* Eltolásvektor v(u, c) az origóból (130, 160) a csúcspontba (190, 100) */}
+        <line x1="130" y1="160" x2="187" y2="103" stroke="#8b5cf6" strokeWidth="2.8" markerEnd="url(#gsv-vec-arrow)" />
+        <rect x="150" y="128" width="56" height="20" rx="4" fill="#f5f3ff" stroke="#ddd6fe" strokeWidth="1" />
+        <text x="178" y="142" fill="#7c3aed" fontSize="10" fontWeight="black" textAnchor="middle">v(u; c)</text>
 
-        {/* Origó és új csúcspont */}
-        <circle cx="0" cy="20" r="4" fill="#64748b" />
-        <text x="-18" y="32" fill="#64748b" fontSize="10" fontWeight="bold">(0; 0)</text>
+        {/* Vetítések u és c koordinátákra */}
+        <line x1="190" y1="100" x2="190" y2="160" stroke="#94a3b8" strokeWidth="1" strokeDasharray="3 3" />
+        <line x1="130" y1="100" x2="190" y2="100" stroke="#94a3b8" strokeWidth="1" strokeDasharray="3 3" />
+        <text x="190" y="174" fill="#0284c7" fontSize="10" fontWeight="bold" textAnchor="middle">+u (jobbra)</text>
+        <text x="108" y="104" fill="#0284c7" fontSize="10" fontWeight="bold" textAnchor="end">+c (fel)</text>
 
-        <circle cx="40" cy="-30" r="4.5" fill="#0284c7" />
-        <text x="46" y="-32" fill="#0284c7" fontSize="11" fontWeight="bold">T(u; c)</text>
+        {/* Pontok */}
+        <circle cx="130" cy="160" r="4" fill="#64748b" />
+        <circle cx="190" cy="100" r="7" fill="#e0f2fe" stroke="#0284c7" strokeWidth="1.5" opacity="0.8" />
+        <circle cx="190" cy="100" r="4" fill="#0284c7" stroke="#ffffff" strokeWidth="1.5" />
+        <text x="200" y="104" fill="#0284c7" fontSize="11" fontWeight="black">T(u; c)</text>
       </svg>
       <div className="mt-2 text-center text-xs text-slate-600 dark:text-slate-400">
-        <span className="font-bold text-violet-600 dark:text-violet-400">v(u; c) eltolásvektor:</span> Minden pont <span className="font-semibold text-slate-800 dark:text-slate-200">(x; y) ↦ (x + u; y + c)</span> helyre kerül.
+        <span className="font-bold text-violet-600 dark:text-violet-400">v(u; c) eltolásvektor:</span> Minden pont <span className="font-semibold text-slate-800 dark:text-slate-200">(x; y) ↦ (x + u; y + c)</span> helyre vándorol.
       </div>
     </div>
   );
@@ -83,44 +93,51 @@ export const GeneralShiftVectorSvg: React.FC<FigureProps> = ({ size = 280, class
  * 2. Ábra: Abszolútérték-függvény eltolása
  * f(x) = |x| vs g(x) = |x - 2| + 1
  */
-export const AbsFunctionShiftSvg: React.FC<FigureProps> = ({ size = 280, className = '' }) => {
+export const AbsFunctionShiftSvg: React.FC<FigureProps> = ({ size = 320, className = '' }) => {
   return (
     <div className={`flex flex-col items-center justify-center ${className}`}>
       <svg
-        viewBox="-130 -110 260 210"
+        viewBox="0 0 340 250"
         width={size}
-        height={(size * 210) / 260}
+        height={(size * 250) / 340}
         className="overflow-visible select-none max-w-full drop-shadow-sm"
       >
         <defs>
+          <pattern id="afs-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#94a3b8" strokeWidth="0.5" strokeOpacity="0.25" />
+          </pattern>
           <marker id="afs-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748b" />
+            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#64748b" />
           </marker>
         </defs>
 
-        {/* Tengelyek */}
-        <line x1="-120" y1="40" x2="120" y2="40" stroke="#64748b" strokeWidth="1.5" markerEnd="url(#afs-arrow)" />
-        <line x1="0" y1="90" x2="0" y2="-100" stroke="#64748b" strokeWidth="1.5" markerEnd="url(#afs-arrow)" />
-        <text x="114" y="55" fill="#64748b" fontSize="11" fontWeight="bold">x</text>
-        <text x="-16" y="-88" fill="#64748b" fontSize="11" fontWeight="bold">y</text>
+        <rect x="15" y="15" width="310" height="220" rx="12" fill="#f8fafc" className="dark:fill-slate-900/60" stroke="#e2e8f0" strokeWidth="1" />
+        <rect x="15" y="15" width="310" height="220" rx="12" fill="url(#afs-grid)" />
 
-        {/* f(x) = |x| */}
-        <path d="M -90 -50 L 0 40 L 90 -50" fill="none" stroke="#94a3b8" strokeWidth="2" strokeDasharray="4 4" />
-        <text x="-95" y="-38" fill="#64748b" fontSize="10" fontWeight="bold">f(x) = |x|</text>
-        <circle cx="0" cy="40" r="3.5" fill="#94a3b8" />
-        <text x="-15" y="54" fill="#64748b" fontSize="10">(0; 0)</text>
+        {/* Tengelyek: Origó O(0; 0) a (120, 160) helyen */}
+        <line x1="25" y1="160" x2="315" y2="160" stroke="#475569" strokeWidth="1.8" markerEnd="url(#afs-arrow)" />
+        <line x1="120" y1="225" x2="120" y2="25" stroke="#475569" strokeWidth="1.8" markerEnd="url(#afs-arrow)" />
+        <text x="310" y="152" fill="#475569" fontSize="11" fontWeight="bold">x</text>
+        <text x="128" y="32" fill="#475569" fontSize="11" fontWeight="bold">y</text>
+        <text x="106" y="174" fill="#64748b" fontSize="10" fontWeight="bold">O</text>
 
-        {/* g(x) = |x - 2| + 1  (u = +40 px, c = -20 px => új töréspont: (40; 20)) */}
-        <path d="M -40 -60 L 40 20 L 120 -60" fill="none" stroke="#8b5cf6" strokeWidth="2.5" />
-        <circle cx="40" cy="20" r="4.5" fill="#8b5cf6" />
-        <text x="46" y="24" fill="#8b5cf6" fontSize="11" fontWeight="black">V(2; 1)</text>
-        <text x="50" y="-55" fill="#8b5cf6" fontSize="11" fontWeight="bold">g(x) = |x - 2| + 1</text>
+        {/* f(x) = |x|: töréspont (120, 160) */}
+        <path d="M 40 80 L 120 160 L 200 80" fill="none" stroke="#94a3b8" strokeWidth="1.8" strokeDasharray="4 3" />
+        <text x="45" y="72" fill="#64748b" fontSize="10" fontWeight="bold">f(x) = |x|</text>
+        <circle cx="120" cy="160" r="3.5" fill="#94a3b8" />
+
+        {/* g(x) = |x - 2| + 1: u = +2 (50 px jobbra -> 170), c = +1 (25 px fel -> 135) */}
+        <path d="M 90 55 L 170 135 L 250 55" fill="none" stroke="#8b5cf6" strokeWidth="2.8" strokeLinecap="round" />
+        <circle cx="170" cy="135" r="7" fill="#ede9fe" stroke="#8b5cf6" strokeWidth="1.5" opacity="0.8" />
+        <circle cx="170" cy="135" r="4" fill="#8b5cf6" stroke="#ffffff" strokeWidth="1.5" />
+        <text x="180" y="140" fill="#7c3aed" fontSize="11" fontWeight="black">V(2; 1)</text>
+        <text x="210" y="50" fill="#8b5cf6" fontSize="11" fontWeight="bold">g(x) = |x - 2| + 1</text>
 
         {/* Eltolási segédvonalak */}
-        <line x1="0" y1="40" x2="40" y2="40" stroke="#f59e0b" strokeWidth="1.5" strokeDasharray="3 3" />
-        <text x="12" y="34" fill="#d97706" fontSize="9" fontWeight="bold">+2 jobbra</text>
-        <line x1="40" y1="40" x2="40" y2="20" stroke="#10b981" strokeWidth="1.5" strokeDasharray="3 3" />
-        <text x="44" y="34" fill="#059669" fontSize="9" fontWeight="bold">+1 fel</text>
+        <line x1="120" y1="160" x2="170" y2="160" stroke="#f59e0b" strokeWidth="1.5" strokeDasharray="3 3" />
+        <text x="145" y="174" fill="#d97706" fontSize="9" fontWeight="bold" textAnchor="middle">+2 jobbra</text>
+        <line x1="170" y1="160" x2="170" y2="135" stroke="#10b981" strokeWidth="1.5" strokeDasharray="3 3" />
+        <text x="175" y="152" fill="#059669" fontSize="9" fontWeight="bold">+1 fel</text>
       </svg>
       <div className="mt-2 text-center text-xs text-slate-600 dark:text-slate-400">
         <span className="font-bold text-violet-600 dark:text-violet-400">V alakú grafikon:</span> A töréspont az origóból a <span className="font-semibold text-slate-800 dark:text-slate-200">V(2; 1)</span> pontba vándorolt.
@@ -133,54 +150,64 @@ export const AbsFunctionShiftSvg: React.FC<FigureProps> = ({ size = 280, classNa
  * 3. Ábra: Négyzetgyökfüggvény eltolása és értelmezési tartománya
  * f(x) = √x vs g(x) = √(x - 3) - 1
  */
-export const SqrtFunctionShiftSvg: React.FC<FigureProps> = ({ size = 280, className = '' }) => {
+export const SqrtFunctionShiftSvg: React.FC<FigureProps> = ({ size = 320, className = '' }) => {
   return (
     <div className={`flex flex-col items-center justify-center ${className}`}>
       <svg
-        viewBox="-40 -90 280 180"
+        viewBox="0 0 340 250"
         width={size}
-        height={(size * 180) / 280}
+        height={(size * 250) / 340}
         className="overflow-visible select-none max-w-full drop-shadow-sm"
       >
         <defs>
+          <pattern id="sfs-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#94a3b8" strokeWidth="0.5" strokeOpacity="0.25" />
+          </pattern>
           <marker id="sfs-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748b" />
+            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#64748b" />
           </marker>
         </defs>
 
-        {/* Tengelyek */}
-        <line x1="-30" y1="40" x2="230" y2="40" stroke="#64748b" strokeWidth="1.5" markerEnd="url(#sfs-arrow)" />
-        <line x1="0" y1="80" x2="0" y2="-80" stroke="#64748b" strokeWidth="1.5" markerEnd="url(#sfs-arrow)" />
-        <text x="222" y="55" fill="#64748b" fontSize="11" fontWeight="bold">x</text>
-        <text x="-16" y="-68" fill="#64748b" fontSize="11" fontWeight="bold">y</text>
+        <rect x="15" y="15" width="310" height="220" rx="12" fill="#f8fafc" className="dark:fill-slate-900/60" stroke="#e2e8f0" strokeWidth="1" />
+        <rect x="15" y="15" width="310" height="220" rx="12" fill="url(#sfs-grid)" />
 
-        {/* f(x) = √x */}
-        {/* Görbe pontjai: x=0 y=0, x=40 y=20, x=90 y=30, x=160 y=40 (SVG y invertált) */}
+        {/* Tengelyek: Origó O(0; 0) a (60, 140) helyen */}
+        <line x1="25" y1="140" x2="315" y2="140" stroke="#475569" strokeWidth="1.8" markerEnd="url(#sfs-arrow)" />
+        <line x1="60" y1="225" x2="60" y2="25" stroke="#475569" strokeWidth="1.8" markerEnd="url(#sfs-arrow)" />
+        <text x="310" y="132" fill="#475569" fontSize="11" fontWeight="bold">x</text>
+        <text x="68" y="32" fill="#475569" fontSize="11" fontWeight="bold">y</text>
+        <text x="46" y="154" fill="#64748b" fontSize="10" fontWeight="bold">O</text>
+
+        {/* f(x) = √x: Kezdőpont (60, 140) */}
+        {/* Görbe pontjai: x=0 y=140, x=1 y=115, x=4 y=90, x=9 y=65 */}
         <path
-          d="M 0 40 Q 30 18 80 10 T 200 -20"
+          d="M 60 140 Q 90 105 160 85 T 300 55"
           fill="none"
           stroke="#94a3b8"
           strokeWidth="2"
-          strokeDasharray="4 4"
+          strokeDasharray="4 3"
         />
-        <circle cx="0" cy="40" r="3.5" fill="#94a3b8" />
-        <text x="80" y="-2" fill="#64748b" fontSize="10" fontWeight="bold">f(x) = √x</text>
+        <circle cx="60" cy="140" r="3.5" fill="#94a3b8" />
+        <text x="145" y="75" fill="#64748b" fontSize="10" fontWeight="bold">f(x) = √x</text>
 
-        {/* g(x) = √(x - 3) - 1 => Kezdőpont K(3; -1) (SVG koordinátákban: x = 60, y = 60) */}
+        {/* g(x) = √(x - 3) - 1 => Kezdőpont K(3; -1): x = 60 + 3*25 = 135, y = 140 + 1*25 = 165 */}
         <path
-          d="M 60 60 Q 90 38 140 30 T 225 3"
+          d="M 135 165 Q 165 130 235 110 T 310 90"
           fill="none"
           stroke="#059669"
-          strokeWidth="2.5"
+          strokeWidth="2.8"
+          strokeLinecap="round"
         />
-        <circle cx="60" cy="60" r="4.5" fill="#059669" />
-        <text x="68" y="72" fill="#059669" fontSize="11" fontWeight="black">K(3; -1)</text>
-        <text x="145" y="16" fill="#059669" fontSize="11" fontWeight="bold">g(x) = √(x - 3) - 1</text>
+        <circle cx="135" cy="165" r="7" fill="#d1fae5" stroke="#059669" strokeWidth="1.5" opacity="0.8" />
+        <circle cx="135" cy="165" r="4" fill="#059669" stroke="#ffffff" strokeWidth="1.5" />
+        <text x="145" y="178" fill="#047857" fontSize="11" fontWeight="black">K(3; -1)</text>
+        <text x="210" y="85" fill="#059669" fontSize="11" fontWeight="bold">g(x) = √(x - 3) - 1</text>
 
-        {/* Értelmezési tartomány jelölés az x-tengelyen */}
-        <line x1="60" y1="40" x2="220" y2="40" stroke="#059669" strokeWidth="3.5" strokeLinecap="round" opacity="0.6" />
-        <circle cx="60" cy="40" r="3.5" fill="#059669" />
-        <text x="62" y="32" fill="#059669" fontSize="9" fontWeight="bold">x ≥ 3</text>
+        {/* Értelmezési tartomány jelölés az x-tengelyen: x ≥ 3 */}
+        <line x1="135" y1="140" x2="310" y2="140" stroke="#059669" strokeWidth="4" strokeLinecap="round" opacity="0.7" />
+        <circle cx="135" cy="140" r="4.5" fill="#059669" stroke="#ffffff" strokeWidth="1.5" />
+        <rect x="145" y="125" width="55" height="18" rx="4" fill="#ecfdf5" stroke="#a7f3d0" strokeWidth="0.8" />
+        <text x="172" y="137" fill="#047857" fontSize="9" fontWeight="bold" textAnchor="middle">x ≥ 3</text>
       </svg>
       <div className="mt-2 text-center text-xs text-slate-600 dark:text-slate-400">
         <span className="font-bold text-emerald-600 dark:text-emerald-400">Gyökfüggvény:</span> Kezdőpontja <span className="font-semibold text-slate-800 dark:text-slate-200">K(3; -1)</span>, értelmezési tartománya <span className="font-semibold text-emerald-600">[3; ∞[</span>.
@@ -193,49 +220,63 @@ export const SqrtFunctionShiftSvg: React.FC<FigureProps> = ({ size = 280, classN
  * 4. Ábra: "Kívül vagy Belül?" – Transzformációk Összehasonlítása
  * Szemlélteti a különbséget f(x) + c (külső, függőleges) és f(x + c) (belső, vízszintes) között.
  */
-export const InsideVsOutsideComparisonSvg: React.FC<FigureProps> = ({ size = 280, className = '' }) => {
+export const InsideVsOutsideComparisonSvg: React.FC<FigureProps> = ({ size = 320, className = '' }) => {
   return (
     <div className={`flex flex-col items-center justify-center ${className}`}>
       <svg
-        viewBox="-140 -100 280 200"
+        viewBox="0 0 340 250"
         width={size}
-        height={(size * 200) / 280}
+        height={(size * 250) / 340}
         className="overflow-visible select-none max-w-full drop-shadow-sm"
       >
         <defs>
+          <pattern id="ioc-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#94a3b8" strokeWidth="0.5" strokeOpacity="0.25" />
+          </pattern>
           <marker id="ioc-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748b" />
+            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#64748b" />
           </marker>
         </defs>
 
-        {/* Tengelyek */}
-        <line x1="-130" y1="10" x2="130" y2="10" stroke="#64748b" strokeWidth="1.5" markerEnd="url(#ioc-arrow)" />
-        <line x1="0" y1="90" x2="0" y2="-90" stroke="#64748b" strokeWidth="1.5" markerEnd="url(#ioc-arrow)" />
-        <text x="122" y="24" fill="#64748b" fontSize="11" fontWeight="bold">x</text>
-        <text x="-16" y="-78" fill="#64748b" fontSize="11" fontWeight="bold">y</text>
+        <rect x="15" y="15" width="310" height="220" rx="12" fill="#f8fafc" className="dark:fill-slate-900/60" stroke="#e2e8f0" strokeWidth="1" />
+        <rect x="15" y="15" width="310" height="220" rx="12" fill="url(#ioc-grid)" />
 
-        {/* Alapfüggvény f(x) = x² */}
-        <path d="M -50 -55 Q 0 10 50 -55" fill="none" stroke="#94a3b8" strokeWidth="2" strokeDasharray="3 3" />
-        <text x="-58" y="-45" fill="#64748b" fontSize="10" fontWeight="bold">x²</text>
+        {/* Tengelyek: Origó O(0; 0) a (170, 160) helyen */}
+        <line x1="25" y1="160" x2="315" y2="160" stroke="#475569" strokeWidth="1.8" markerEnd="url(#ioc-arrow)" />
+        <line x1="170" y1="225" x2="170" y2="25" stroke="#475569" strokeWidth="1.8" markerEnd="url(#ioc-arrow)" />
+        <text x="310" y="152" fill="#475569" fontSize="11" fontWeight="bold">x</text>
+        <text x="178" y="32" fill="#475569" fontSize="11" fontWeight="bold">y</text>
+        <text x="156" y="174" fill="#64748b" fontSize="10" fontWeight="bold">O</text>
 
-        {/* KÜLSŐ: x² + 2 (Kék) -> Felfelé tolás */}
-        <path d="M -50 -85 Q 0 -20 50 -85" fill="none" stroke="#2563eb" strokeWidth="2.5" />
-        <circle cx="0" cy="-20" r="4" fill="#2563eb" />
-        <text x="10" y="-22" fill="#2563eb" fontSize="11" fontWeight="bold">x² + 2 (KÜLSŐ: Fel 2)</text>
+        {/* Alapfüggvény f(x) = x²: csúcs (170, 160)
+            w = 40, y0 = 90. yc = 2*160 - 90 = 230. Apex = 160! */}
+        <path d="M 130 90 Q 170 230 210 90" fill="none" stroke="#94a3b8" strokeWidth="2" strokeDasharray="3 3" />
+        <text x="135" y="85" fill="#64748b" fontSize="10" fontWeight="bold">x²</text>
+        <circle cx="170" cy="160" r="3.5" fill="#94a3b8" />
 
-        {/* BELSŐ: (x + 2)² (Narancs) -> Balra tolás ellentétes előjellel! */}
-        <path d="M -90 -55 Q -40 10 10 -55" fill="none" stroke="#ea580c" strokeWidth="2.5" />
-        <circle cx="-40" cy="10" r="4" fill="#ea580c" />
-        <text x="-125" y="32" fill="#ea580c" fontSize="11" fontWeight="bold">(x + 2)² (BELSŐ: Balra 2!)</text>
+        {/* KÜLSŐ: x² + 2 (Kék) -> Felfelé tolás (csúcs: (170, 100))
+            w = 40, y0 = 30. yc = 2*100 - 30 = 170. Apex = 100! */}
+        <path d="M 130 30 Q 170 170 210 30" fill="none" stroke="#2563eb" strokeWidth="2.8" strokeLinecap="round" />
+        <circle cx="170" cy="100" r="6" fill="#dbeafe" stroke="#2563eb" strokeWidth="1.5" opacity="0.8" />
+        <circle cx="170" cy="100" r="3.5" fill="#2563eb" stroke="#ffffff" strokeWidth="1.5" />
+        <rect x="180" y="90" width="135" height="20" rx="4" fill="#eff6ff" stroke="#bfdbfe" strokeWidth="1" />
+        <text x="247" y="103" fill="#1d4ed8" fontSize="9" fontWeight="bold" textAnchor="middle">x² + 2 (KÜLSŐ: Fel 2)</text>
+
+        {/* BELSŐ: (x + 2)² (Narancs) -> Balra tolás ellentétes előjellel! (csúcs: (110, 160))
+            w = 40, y0 = 90. yc = 2*160 - 90 = 230. Apex = 160! */}
+        <path d="M 70 90 Q 110 230 150 90" fill="none" stroke="#ea580c" strokeWidth="2.8" strokeLinecap="round" />
+        <circle cx="110" cy="160" r="6" fill="#ffedd5" stroke="#ea580c" strokeWidth="1.5" opacity="0.8" />
+        <circle cx="110" cy="160" r="3.5" fill="#ea580c" stroke="#ffffff" strokeWidth="1.5" />
+        <rect x="25" y="175" width="140" height="20" rx="4" fill="#fff7ed" stroke="#fed7aa" strokeWidth="1" />
+        <text x="95" y="188" fill="#c2410c" fontSize="9" fontWeight="bold" textAnchor="middle">(x + 2)² (BELSŐ: Balra 2!)</text>
 
         {/* Nyilak az elmozdulás irányára */}
-        <line x1="0" y1="10" x2="0" y2="-16" stroke="#2563eb" strokeWidth="2" markerEnd="url(#ioc-arrow)" />
-        <line x1="0" y1="10" x2="-36" y2="10" stroke="#ea580c" strokeWidth="2" markerEnd="url(#ioc-arrow)" />
+        <line x1="170" y1="155" x2="170" y2="108" stroke="#2563eb" strokeWidth="2" markerEnd="url(#ioc-arrow)" />
+        <line x1="165" y1="160" x2="118" y2="160" stroke="#ea580c" strokeWidth="2" markerEnd="url(#ioc-arrow)" />
       </svg>
       <div className="mt-2 text-center text-xs text-slate-600 dark:text-slate-400">
-        <span className="font-bold text-blue-600">Kívül lévő tag:</span> $y$-tengely mentén (függőleges). <span className="font-bold text-orange-600">Zárójelen belüli tag:</span> $x$-tengely mentén (ellentétes előjellel!).
+        <span className="font-bold text-blue-600 dark:text-blue-400">Kívül lévő tag:</span> $y$-tengely mentén (függőleges). <span className="font-bold text-orange-600 dark:text-orange-400">Zárójelen belüli tag:</span> $x$-tengely mentén (ellentétes előjellel!).
       </div>
     </div>
   );
 };
-

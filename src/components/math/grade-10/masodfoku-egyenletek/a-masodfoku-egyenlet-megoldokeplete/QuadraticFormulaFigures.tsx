@@ -268,15 +268,35 @@ export const DiscriminantCasesComparisonSvg: React.FC<FigureProps> = ({ size = 5
       </text>
 
       {/* Kis grafikon mini parabola D > 0 (metsz) */}
-      <rect x="25" y="117" width="135" height="65" rx="8" fill="#FFFFFF" stroke="#DCFCE7" />
-      <line x1="30" y1="155" x2="155" y2="155" stroke="#94A3B8" strokeWidth="1.5" />
-      <path d="M 40 130 Q 92 185 144 130" stroke="#16A34A" strokeWidth="2.5" fill="none" />
-      <circle cx="62" cy="155" r="3.5" fill="#DC2626" />
-      <circle cx="122" cy="155" r="3.5" fill="#DC2626" />
-      <text x="62" y="170" fill="#166534" fontSize="9" fontWeight="bold" textAnchor="middle">x₁</text>
-      <text x="122" y="170" fill="#166534" fontSize="9" fontWeight="bold" textAnchor="middle">x₂</text>
+      <rect x="25" y="117" width="135" height="68" rx="8" fill="#FFFFFF" stroke="#DCFCE7" />
+      {/* Rács */}
+      <g stroke="#F8FAFC" strokeWidth="0.8">
+        <line x1="45" y1="117" x2="45" y2="185" />
+        <line x1="70" y1="117" x2="70" y2="185" />
+        <line x1="95" y1="117" x2="95" y2="185" />
+        <line x1="120" y1="117" x2="120" y2="185" />
+        <line x1="145" y1="117" x2="145" y2="185" />
+        <line x1="25" y1="135" x2="160" y2="135" />
+        <line x1="25" y1="152" x2="160" y2="152" />
+        <line x1="25" y1="168" x2="160" y2="168" />
+      </g>
+      {/* X tengely */}
+      <line x1="28" y1="158" x2="155" y2="158" stroke="#64748B" strokeWidth="1.3" />
+      <polygon points="157,158 152,156 152,160" fill="#64748B" />
+      <text x="154" y="152" fill="#64748B" fontSize="7.5" fontWeight="bold">x</text>
+      {/* Y tengely */}
+      <line x1="44" y1="181" x2="44" y2="120" stroke="#64748B" strokeWidth="1.3" />
+      <polygon points="44,119 42,123 46,123" fill="#64748B" />
+      <text x="49" y="125" fill="#64748B" fontSize="7.5" fontWeight="bold">y</text>
+      {/* Parabola: 2 metszéspont */}
+      <path d="M 48 132 Q 92 198 136 132" stroke="#16A34A" strokeWidth="2.2" fill="none" strokeLinecap="round" />
+      <circle cx="68" cy="158" r="3" fill="#15803D" stroke="#FFFFFF" strokeWidth="1" />
+      <circle cx="116" cy="158" r="3" fill="#15803D" stroke="#FFFFFF" strokeWidth="1" />
+      <text x="68" y="151" fill="#15803D" fontSize="8" fontWeight="900" textAnchor="middle">x₁</text>
+      <text x="116" y="151" fill="#15803D" fontSize="8" fontWeight="900" textAnchor="middle">x₂</text>
+      <circle cx="92" cy="165" r="1.8" fill="#16A34A" />
 
-      <text x="92" y="200" fill="#14532D" fontSize="11" fontWeight="bold" textAnchor="middle">
+      <text x="92" y="202" fill="#14532D" fontSize="11" fontWeight="bold" textAnchor="middle">
         x₁,₂ = (-b ± √D) / 2a
       </text>
       <text x="92" y="222" fill="#4B5563" fontSize="9.5" textAnchor="middle">
@@ -297,13 +317,32 @@ export const DiscriminantCasesComparisonSvg: React.FC<FigureProps> = ({ size = 5
       </text>
 
       {/* Kis grafikon mini parabola D = 0 (érint) */}
-      <rect x="187" y="117" width="135" height="65" rx="8" fill="#FFFFFF" stroke="#DBEAFE" />
-      <line x1="192" y1="155" x2="317" y2="155" stroke="#94A3B8" strokeWidth="1.5" />
-      <path d="M 202 125 Q 254 155 306 125" stroke="#2563EB" strokeWidth="2.5" fill="none" />
-      <circle cx="254" cy="155" r="4" fill="#DC2626" />
-      <text x="254" y="170" fill="#1E40AF" fontSize="9" fontWeight="bold" textAnchor="middle">x₁ = x₂</text>
+      <rect x="187" y="117" width="135" height="68" rx="8" fill="#FFFFFF" stroke="#DBEAFE" />
+      {/* Rács */}
+      <g stroke="#F8FAFC" strokeWidth="0.8">
+        <line x1="207" y1="117" x2="207" y2="185" />
+        <line x1="232" y1="117" x2="232" y2="185" />
+        <line x1="257" y1="117" x2="257" y2="185" />
+        <line x1="282" y1="117" x2="282" y2="185" />
+        <line x1="307" y1="117" x2="307" y2="185" />
+        <line x1="187" y1="135" x2="322" y2="135" />
+        <line x1="187" y1="152" x2="322" y2="152" />
+        <line x1="187" y1="168" x2="322" y2="168" />
+      </g>
+      {/* X tengely */}
+      <line x1="190" y1="158" x2="317" y2="158" stroke="#64748B" strokeWidth="1.3" />
+      <polygon points="319,158 314,156 314,160" fill="#64748B" />
+      <text x="316" y="152" fill="#64748B" fontSize="7.5" fontWeight="bold">x</text>
+      {/* Y tengely */}
+      <line x1="206" y1="181" x2="206" y2="120" stroke="#64748B" strokeWidth="1.3" />
+      <polygon points="206,119 204,123 208,123" fill="#64748B" />
+      <text x="211" y="125" fill="#64748B" fontSize="7.5" fontWeight="bold">y</text>
+      {/* Parabola: érinti a tengelyt */}
+      <path d="M 210 126 Q 254 190 298 126" stroke="#2563EB" strokeWidth="2.2" fill="none" strokeLinecap="round" />
+      <circle cx="254" cy="158" r="3.5" fill="#1D4ED8" stroke="#FFFFFF" strokeWidth="1" />
+      <text x="254" y="150" fill="#1D4ED8" fontSize="8" fontWeight="900" textAnchor="middle">x₁ = x₂</text>
 
-      <text x="254" y="200" fill="#1E3A8A" fontSize="11" fontWeight="bold" textAnchor="middle">
+      <text x="254" y="202" fill="#1E3A8A" fontSize="11" fontWeight="bold" textAnchor="middle">
         x = -b / (2a)
       </text>
       <text x="254" y="222" fill="#4B5563" fontSize="9.5" textAnchor="middle">
@@ -324,10 +363,30 @@ export const DiscriminantCasesComparisonSvg: React.FC<FigureProps> = ({ size = 5
       </text>
 
       {/* Kis grafikon mini parabola D < 0 (lebeg) */}
-      <rect x="350" y="117" width="135" height="65" rx="8" fill="#FFFFFF" stroke="#FFE4E6" />
-      <line x1="355" y1="165" x2="480" y2="165" stroke="#94A3B8" strokeWidth="1.5" />
-      <path d="M 365 125 Q 417 145 469 125" stroke="#E11D48" strokeWidth="2.5" fill="none" />
-      <text x="417" y="158" fill="#BE123C" fontSize="9" fontStyle="italic" textAnchor="middle">nem éri el a tengelyt</text>
+      <rect x="350" y="117" width="135" height="68" rx="8" fill="#FFFFFF" stroke="#FFE4E6" />
+      {/* Rács */}
+      <g stroke="#F8FAFC" strokeWidth="0.8">
+        <line x1="370" y1="117" x2="370" y2="185" />
+        <line x1="395" y1="117" x2="395" y2="185" />
+        <line x1="420" y1="117" x2="420" y2="185" />
+        <line x1="445" y1="117" x2="445" y2="185" />
+        <line x1="470" y1="117" x2="470" y2="185" />
+        <line x1="350" y1="135" x2="485" y2="135" />
+        <line x1="350" y1="152" x2="485" y2="152" />
+        <line x1="350" y1="168" x2="485" y2="168" />
+      </g>
+      {/* X tengely */}
+      <line x1="353" y1="165" x2="480" y2="165" stroke="#64748B" strokeWidth="1.3" />
+      <polygon points="482,165 477,163 477,167" fill="#64748B" />
+      <text x="479" y="159" fill="#64748B" fontSize="7.5" fontWeight="bold">x</text>
+      {/* Y tengely */}
+      <line x1="369" y1="181" x2="369" y2="120" stroke="#64748B" strokeWidth="1.3" />
+      <polygon points="369,119 367,123 371,123" fill="#64748B" />
+      <text x="374" y="125" fill="#64748B" fontSize="7.5" fontWeight="bold">y</text>
+      {/* Parabola: tengely felett lebeg */}
+      <path d="M 378 126 Q 420 168 462 126" stroke="#E11D48" strokeWidth="2.2" fill="none" strokeLinecap="round" />
+      <circle cx="420" cy="147" r="2.5" fill="#BE123C" />
+      <text x="420" y="160" fill="#BE123C" fontSize="7.5" fontStyle="italic" fontWeight="bold" textAnchor="middle">y_csúcs &gt; 0</text>
 
       <text x="417" y="200" fill="#881337" fontSize="11" fontWeight="bold" textAnchor="middle">
         x ∈ ∅ (üres halmaz)

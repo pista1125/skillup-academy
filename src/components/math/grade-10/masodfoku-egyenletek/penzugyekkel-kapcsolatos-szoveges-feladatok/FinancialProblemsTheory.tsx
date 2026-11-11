@@ -91,8 +91,7 @@ export const FinancialProblemsTheory: React.FC<FinancialProblemsTheoryProps> = (
   return (
     <TheoryTemplate
       topicId="g10-masodfoku-egyenletek"
-      badge="10. OSZTÁLY • V. TÉMAKÖR"
-      topicBadge="37. LECKE"
+      badge="10. OSZTÁLY • V. MÁSODFOKÚ EGYENLETEK • TANANYAG"
       title="Pénzügyekkel kapcsolatos szöveges feladatok"
       subtitle="Egymást követő árváltozások, kamatos kamat, bevételmaximalizálás és közös költségmegosztás másodfokú modellekkel"
       themeColor="amber"
@@ -483,7 +482,7 @@ export const FinancialProblemsTheory: React.FC<FinancialProblemsTheoryProps> = (
                     <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
                       <span className="font-bold text-slate-900">2. Realitás és Kikötések:</span>
                       <p className="text-slate-600">
-                        A létszám $n \in \mathbb{N}^+$, az árak és pénzösszegek pozitívak ($Á &gt; 0$), a kamatláb normál esetben $p &gt; 0$.
+                        A létszám {'$n \\in \\mathbb{N}^+$'}, az árak és pénzösszegek pozitívak ($Á &gt; 0$), a kamatláb normál esetben $p &gt; 0$.
                       </p>
                     </div>
                     <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
@@ -567,41 +566,37 @@ export const FinancialProblemsTheory: React.FC<FinancialProblemsTheoryProps> = (
                   <div className="grid grid-cols-2 gap-1.5">
                     <button
                       onClick={() => setScenario('up-down')}
-                      className={`p-1.5 rounded-lg text-[11px] font-bold border ${
-                        scenario === 'up-down'
-                          ? 'bg-amber-600 text-white border-amber-600'
-                          : 'bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-200'
-                      }`}
+                      className={`p-1.5 rounded-lg text-[11px] font-bold border ${scenario === 'up-down'
+                        ? 'bg-amber-600 text-white border-amber-600'
+                        : 'bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-200'
+                        }`}
                     >
                       +p% majd -p%
                     </button>
                     <button
                       onClick={() => setScenario('down-up')}
-                      className={`p-1.5 rounded-lg text-[11px] font-bold border ${
-                        scenario === 'down-up'
-                          ? 'bg-amber-600 text-white border-amber-600'
-                          : 'bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-200'
-                      }`}
+                      className={`p-1.5 rounded-lg text-[11px] font-bold border ${scenario === 'down-up'
+                        ? 'bg-amber-600 text-white border-amber-600'
+                        : 'bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-200'
+                        }`}
                     >
                       -p% majd +p%
                     </button>
                     <button
                       onClick={() => setScenario('up-up')}
-                      className={`p-1.5 rounded-lg text-[11px] font-bold border ${
-                        scenario === 'up-up'
-                          ? 'bg-amber-600 text-white border-amber-600'
-                          : 'bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-200'
-                      }`}
+                      className={`p-1.5 rounded-lg text-[11px] font-bold border ${scenario === 'up-up'
+                        ? 'bg-amber-600 text-white border-amber-600'
+                        : 'bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-200'
+                        }`}
                     >
                       +p% majd +p%
                     </button>
                     <button
                       onClick={() => setScenario('down-down')}
-                      className={`p-1.5 rounded-lg text-[11px] font-bold border ${
-                        scenario === 'down-down'
-                          ? 'bg-amber-600 text-white border-amber-600'
-                          : 'bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-200'
-                      }`}
+                      className={`p-1.5 rounded-lg text-[11px] font-bold border ${scenario === 'down-down'
+                        ? 'bg-amber-600 text-white border-amber-600'
+                        : 'bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-200'
+                        }`}
                     >
                       -p% majd -p%
                     </button>

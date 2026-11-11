@@ -336,7 +336,7 @@ export const StretchTransformTheory: React.FC<StretchTransformTheoryProps> = ({
 
                 {/* Referencia görbe (normál x², |x|, vagy √x) */}
                 {modelType === 'parabola' && (
-                  <path d="M -40 -32 Q 0 0 40 -32" fill="none" stroke="#cbd5e1" strokeWidth="1.5" strokeDasharray="2 2" />
+                  <path d="M -40 -32 Q 0 32 40 -32" fill="none" stroke="#cbd5e1" strokeWidth="1.5" strokeDasharray="2 2" />
                 )}
                 {modelType === 'abs' && (
                   <path d="M -40 -40 L 0 0 L 40 -40" fill="none" stroke="#cbd5e1" strokeWidth="1.5" strokeDasharray="2 2" />
@@ -351,7 +351,7 @@ export const StretchTransformTheory: React.FC<StretchTransformTheoryProps> = ({
                     const endY = -35 * factorA;
                     return (
                       <path
-                        d={`M -45 ${endY} Q 0 0 45 ${endY}`}
+                        d={`M -45 ${endY} Q 0 ${-endY} 45 ${endY}`}
                         fill="none"
                         stroke={strokeColor}
                         strokeWidth="2.5"
