@@ -1456,13 +1456,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-stat-atlag-szamtani-kozep" number={1} title="Átlag, számtani közép" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Számtani Közép és Súlyozott Átlag"
-                subtitle="Átlag fogalma, tulajdonságai és kiszámítása adatsorokból"
-                type="Hamarosan"
-                emoji="📊"
-                disabled={true}
-                icon={<Calculator className="w-6 h-6" />}
+                title="Átlag, számtani közép Tananyag"
+                subtitle="Egyszerű és súlyozott számtani közép, eltérések összege és célátlagok"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-stat-atlag-szamtani-kozep-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, mérleg modellel és beépített játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-stat-atlag-szamtani-kozep-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g10-stat-atlag-szamtani-kozep-quiz')}
               />
             </div>
           </section>
@@ -1474,13 +1484,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-stat-szamtani-mertani-kozep" number={2} title="Ráadás – Számtani közép, mértani közép" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Nevezetes Középértékek Egyenlőtlensége"
-                subtitle="(a+b)/2 ≥ √(ab) bizonyítása és szélsőérték-feladatok"
-                type="Hamarosan"
-                emoji="⚖️"
-                disabled={true}
-                icon={<Scale className="w-6 h-6" />}
+                title="Számtani és mértani közép Tananyag"
+                subtitle="A nevezetes egyenlőtlenség, algebrai és Thálész-körös bizonyítás, szélsőérték-feladatok"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-stat-szamtani-mertani-kozep-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, telekbekerítés, pénzügyek és beépített játékok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-stat-szamtani-mertani-kozep-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="teal"
+                {...getTopicProgress('g10-stat-szamtani-mertani-kozep-quiz')}
               />
             </div>
           </section>
@@ -1492,13 +1512,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-stat-valtozasok" number={3} title="Változások" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Abszolút és Relatív Változások"
-                subtitle="Százalékpont, bázis- és láncviszonyszámok elemzése"
-                type="Hamarosan"
-                emoji="📈"
-                disabled={true}
-                icon={<TrendingUp className="w-6 h-6" />}
+                title="Változások Tananyag"
+                subtitle="Abszolút és relatív változás, százalékpont, bázis- és láncviszonyszámok, bázis-eltolódás"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-stat-valtozasok-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="cyan"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, kerékpártúra, amortizáció, bázisszorzatok és játékok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-stat-valtozasok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="cyan"
+                {...getTopicProgress('g10-stat-valtozasok-quiz')}
               />
             </div>
           </section>
@@ -1510,13 +1540,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-stat-statisztikai-jellemzok" number={4} title="Számsokaságok statisztikai jellemzői" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Módusz, Medián, Terjedelem és Szórás"
-                subtitle="Helyzeti és szóródási mutatók meghatározása és jelentése"
-                type="Hamarosan"
-                emoji="📉"
-                disabled={true}
-                icon={<BarChart3 className="w-6 h-6" />}
+                title="Statisztikai Jellemzők Tananyag"
+                subtitle="Átlag, módusz, medián, terjedelem, robusztusság és adatrekonstrukció"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-stat-statisztikai-jellemzok-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, céges bérek, érettségi adatrekonstrukciók és játékok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-stat-statisztikai-jellemzok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g10-stat-statisztikai-jellemzok-quiz')}
               />
             </div>
           </section>
@@ -1528,13 +1568,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-stat-osztalyba-sorolas-atlagok" number={5} title="Osztályba sorolás, átlagok átlaga" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Gyakorisági Táblázat és Csoportátlagok"
-                subtitle="Osztályközök, hisztogram és az átlagok helyes súlyozása"
-                type="Hamarosan"
-                emoji="📋"
-                disabled={true}
-                icon={<Boxes className="w-6 h-6" />}
+                title="Osztályba sorolás Tananyag"
+                subtitle="Osztályközök, hisztogram, az átlagok átlaga csapda és súlyozott átlag"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-stat-osztalyba-sorolas-atlagok-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, Bence példája, izzók élettartama és játékok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-stat-osztalyba-sorolas-atlagok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g10-stat-osztalyba-sorolas-atlagok-quiz')}
               />
             </div>
           </section>
@@ -1546,13 +1596,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-stat-veletlen-relativ-gyakorisag" number={6} title="Véletlen? – Relatív gyakoriság" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Véletlen Kísérletek és Tapasztalat"
-                subtitle="Gyakoriság, relatív gyakoriság és a kísérleti stabilitás"
-                type="Hamarosan"
-                emoji="🎲"
-                disabled={true}
-                icon={<Dices className="w-6 h-6" />}
+                title="Relatív Gyakoriság Tananyag"
+                subtitle="Véletlen kísérletek, érmedobások, a relatív gyakoriság stabilitása és Tibor csapdája"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-stat-veletlen-relativ-gyakorisag-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, 3 érme esetei, 850 kockadobás és stabilitási játékok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-stat-veletlen-relativ-gyakorisag-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="violet"
+                {...getTopicProgress('g10-stat-veletlen-relativ-gyakorisag-quiz')}
               />
             </div>
           </section>
@@ -1564,13 +1624,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-stat-megismerheto-veletlen" number={7} title="Megismerhető véletlen" color="purple" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Klasszikus Valószínűségi Modell"
-                subtitle="Eseménytér, elemi események és a kedvező/összes arány"
-                type="Hamarosan"
+                title="Klasszikus Valószínűség Tananyag"
+                subtitle="Laplace-modell, két dobókocka 36 esete, Zsombor csapdája és fair játékok"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-stat-megismerheto-veletlen-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
+                color="purple"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, két kocka összege és szorzata, Kő-papír-olló-gyík-Spock"
+                type="Kvíz"
                 emoji="🎯"
-                disabled={true}
+                onClick={() => onActivitySelect('g10-stat-megismerheto-veletlen-quiz', topicId)}
                 icon={<Target className="w-6 h-6" />}
                 color="purple"
+                {...getTopicProgress('g10-stat-megismerheto-veletlen-quiz')}
               />
             </div>
           </section>
@@ -1582,13 +1652,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-stat-biztos-lehetetlen-veletlen" number={8} title="Biztos, lehetetlen, véletlen" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Eseményalgebra és Valószínűségi Szabályok"
-                subtitle="Biztos és lehetetlen esemény, komplementer és események uniója"
-                type="Hamarosan"
-                emoji="⚡"
-                disabled={true}
-                icon={<Split className="w-6 h-6" />}
+                title="Biztos és Véletlen Tananyag"
+                subtitle="Eseménytípusok, komplementerek, kizáró események és dinamikus arányok"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-stat-biztos-lehetetlen-veletlen-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, gyöngyök, müzliszeletek és repülőutasok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-stat-biztos-lehetetlen-veletlen-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g10-stat-biztos-lehetetlen-veletlen-quiz')}
               />
             </div>
           </section>
@@ -1600,13 +1680,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-stat-valoszinuseg-gyakorlatban" number={9} title="Valószínűség a gyakorlatban" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Mintavétel, Játékok és Kockázatok"
-                subtitle="Visszatevéses és visszatevés nélküli valószínűségi problémák"
-                type="Hamarosan"
-                emoji="🪙"
-                disabled={true}
-                icon={<PieChart className="w-6 h-6" />}
+                title="Gyakorlati Valószínűség Tananyag"
+                subtitle="Logikai szita, Venn-diagramok, véradók, biztosítási adatok és sorrendek"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-stat-valoszinuseg-gyakorlatban-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, 36 fős osztály, orvosi táblázatok és felelések"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-stat-valoszinuseg-gyakorlatban-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g10-stat-valoszinuseg-gyakorlatban-quiz')}
               />
             </div>
           </section>
@@ -1618,13 +1708,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-stat-gyakorlas-tudasproba" number={10} title="Gyakorlás, tudáspróba" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Statisztika és Valószínűség Tudáspróba"
-                subtitle="Fejezeti összefoglalás, vegyes feladatok és önértékelés"
-                type="Hamarosan"
+                title="Fejezeti Tudáspróba Tananyag"
+                subtitle="Átfogó szintézis, Jánosék almái, 30 fős érettségi jegyeloszlás és mesterfeladatok"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-stat-gyakorlas-tudasproba-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
+                color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="90 válogatott feladat 3 szinten (30 kérdés szintenként!), érettségi és felvételi példákkal"
+                type="Kvíz"
                 emoji="🏆"
-                disabled={true}
+                onClick={() => onActivitySelect('g10-stat-gyakorlas-tudasproba-quiz', topicId)}
                 icon={<Trophy className="w-6 h-6" />}
                 color="emerald"
+                {...getTopicProgress('g10-stat-gyakorlas-tudasproba-quiz')}
               />
             </div>
           </section>

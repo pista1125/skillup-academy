@@ -242,8 +242,13 @@ export function cleanMathSymbols(text: string): string {
     .replace(/\\+parallel/g, '∥')
     .replace(/\\+angle/g, '∡')
     .replace(/\\+triangle/g, '△')
-    .replace(/\\+overline\{([^}]+)\}/g, '$1')
-    .replace(/\\+bar\{([^}]+)\}/g, '$1')
+    .replace(/\\+overline\{([^}]+)\}/g, '$1\u0304')
+    .replace(/\\+bar\{([^}]+)\}/g, '$1\u0304')
+    .replace(/\\+bar\s+([a-zA-Z])/g, '$1\u0304')
+    // Summation, product, integrals
+    .replace(/\\+sum(?![a-zA-Z])/g, '∑')
+    .replace(/\\+prod(?![a-zA-Z])/g, '∏')
+    .replace(/\\+int(?![a-zA-Z])/g, '∫')
     // Greek letters
     .replace(/\\+Delta(?![a-zA-Z])/g, 'Δ')
     .replace(/\\+alpha'/g, "α'")
@@ -318,6 +323,10 @@ export function toLatex(s: string): string {
     .replace(/¬/g, ' \\neg ')
     .replace(/∀/g, ' \\forall ')
     .replace(/∃/g, ' \\exists ')
+    .replace(/∑/g, ' \\sum ')
+    .replace(/∏/g, ' \\prod ')
+    .replace(/∫/g, ' \\int ')
+    .replace(/([a-zA-Z])\u0304/g, (_m, char) => `\\bar{${char}}`)
     .replace(/°/g, '^{\\circ}');
 
   // Standalone geometry variable names (ma, mb, sa, Ta -> m_a, s_a, etc.)

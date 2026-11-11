@@ -122,6 +122,37 @@ const Grade10PolygonCirclePracticeQuiz = lazy(() => import("@/components/math/gr
 const Grade10GeometryReviewTheory = lazy(() => import("@/components/math/grade-10/egybevagosag-es-kor/ismetles/GeometryReviewTheory").then(m => ({ default: m.GeometryReviewTheory })))
 const Grade10GeometryReviewQuiz = lazy(() => import("@/components/math/grade-10/egybevagosag-es-kor/ismetles/GeometryReviewQuiz").then(m => ({ default: m.GeometryReviewQuiz })))
 
+// 10. Osztály - VII. Statisztika és valószínűségszámítás (Grade 10 Topic VII)
+const Grade10AverageArithmeticTheory = lazy(() => import("@/components/math/grade-10/statisztika-es-valoszinusegszamitas/atlag-szamtani-kozep/AverageArithmeticTheory").then(m => ({ default: m.AverageArithmeticTheory })))
+const Grade10AverageArithmeticQuiz = lazy(() => import("@/components/math/grade-10/statisztika-es-valoszinusegszamitas/atlag-szamtani-kozep/AverageArithmeticQuiz").then(m => ({ default: m.AverageArithmeticQuiz })))
+
+const Grade10ArithmeticGeometricTheory = lazy(() => import("@/components/math/grade-10/statisztika-es-valoszinusegszamitas/szamtani-kozep-mertani-kozep/ArithmeticGeometricTheory").then(m => ({ default: m.ArithmeticGeometricTheory })))
+const Grade10ArithmeticGeometricQuiz = lazy(() => import("@/components/math/grade-10/statisztika-es-valoszinusegszamitas/szamtani-kozep-mertani-kozep/ArithmeticGeometricQuiz").then(m => ({ default: m.ArithmeticGeometricQuiz })))
+
+const Grade10ChangesTheory = lazy(() => import("@/components/math/grade-10/statisztika-es-valoszinusegszamitas/valtozasok/ChangesTheory").then(m => ({ default: m.ChangesTheory })))
+const Grade10ChangesQuiz = lazy(() => import("@/components/math/grade-10/statisztika-es-valoszinusegszamitas/valtozasok/ChangesQuiz").then(m => ({ default: m.ChangesQuiz })))
+
+const Grade10SummaryStatsTheory = lazy(() => import("@/components/math/grade-10/statisztika-es-valoszinusegszamitas/szamsokasagok-statisztikai-jellemzoi/SummaryStatsTheory").then(m => ({ default: m.SummaryStatsTheory })))
+const Grade10SummaryStatsQuiz = lazy(() => import("@/components/math/grade-10/statisztika-es-valoszinusegszamitas/szamsokasagok-statisztikai-jellemzoi/SummaryStatsQuiz").then(m => ({ default: m.SummaryStatsQuiz })))
+
+const Grade10ClassIntervalTheory = lazy(() => import("@/components/math/grade-10/statisztika-es-valoszinusegszamitas/osztalyba-sorolas-atlagok-atlaga/ClassIntervalTheory").then(m => ({ default: m.ClassIntervalTheory })))
+const Grade10ClassIntervalQuiz = lazy(() => import("@/components/math/grade-10/statisztika-es-valoszinusegszamitas/osztalyba-sorolas-atlagok-atlaga/ClassIntervalQuiz").then(m => ({ default: m.ClassIntervalQuiz })))
+
+const Grade10RandomFrequencyTheory = lazy(() => import("@/components/math/grade-10/statisztika-es-valoszinusegszamitas/veletlen-relativ-gyakorisag/RandomFrequencyTheory").then(m => ({ default: m.RandomFrequencyTheory })))
+const Grade10RandomFrequencyQuiz = lazy(() => import("@/components/math/grade-10/statisztika-es-valoszinusegszamitas/veletlen-relativ-gyakorisag/RandomFrequencyQuiz").then(m => ({ default: m.RandomFrequencyQuiz })))
+
+const Grade10ClassicalProbTheory = lazy(() => import("@/components/math/grade-10/statisztika-es-valoszinusegszamitas/megismerheto-veletlen/ClassicalProbTheory").then(m => ({ default: m.ClassicalProbTheory })))
+const Grade10ClassicalProbQuiz = lazy(() => import("@/components/math/grade-10/statisztika-es-valoszinusegszamitas/megismerheto-veletlen/ClassicalProbQuiz").then(m => ({ default: m.ClassicalProbQuiz })))
+
+const Grade10EventCertaintyTheory = lazy(() => import("@/components/math/grade-10/statisztika-es-valoszinusegszamitas/biztos-lehetetlen-veletlen/EventCertaintyTheory").then(m => ({ default: m.EventCertaintyTheory })))
+const Grade10EventCertaintyQuiz = lazy(() => import("@/components/math/grade-10/statisztika-es-valoszinusegszamitas/biztos-lehetetlen-veletlen/EventCertaintyQuiz").then(m => ({ default: m.EventCertaintyQuiz })))
+
+const Grade10PracticalProbTheory = lazy(() => import("@/components/math/grade-10/statisztika-es-valoszinusegszamitas/valoszinuseg-a-gyakorlatban/PracticalProbTheory").then(m => ({ default: m.PracticalProbTheory })))
+const Grade10PracticalProbQuiz = lazy(() => import("@/components/math/grade-10/statisztika-es-valoszinusegszamitas/valoszinuseg-a-gyakorlatban/PracticalProbQuiz").then(m => ({ default: m.PracticalProbQuiz })))
+
+const Grade10ChapterSynthesisTheory = lazy(() => import("@/components/math/grade-10/statisztika-es-valoszinusegszamitas/gyakorlas-tudasproba/ChapterSynthesisTheory").then(m => ({ default: m.ChapterSynthesisTheory })))
+const Grade10ChapterSynthesisQuiz = lazy(() => import("@/components/math/grade-10/statisztika-es-valoszinusegszamitas/gyakorlas-tudasproba/ChapterSynthesisQuiz").then(m => ({ default: m.ChapterSynthesisQuiz })))
+
 export const Grade10Activities: React.FC<ActivityRouterProps> = ({
   activityType,
   onBack,
@@ -1927,6 +1958,347 @@ export const Grade10Activities: React.FC<ActivityRouterProps> = ({
                       onSwitchToTheory={() => handleActivitySelect('g10-geo-ismetles-theory', selectedTopic || 'g10-egybevagosag-kor')}
                       onSwitchToMatcher={() => handleActivitySelect('g10-geo-ismetles-matcher', selectedTopic || 'g10-egybevagosag-kor')}
                       onSwitchToSorter={() => handleActivitySelect('g10-geo-ismetles-sorter', selectedTopic || 'g10-egybevagosag-kor')}
+                    />
+                  )}
+
+                  {/* Topic VII: Statisztika és valószínűségszámítás */}
+                  {/* 1. Átlag, számtani közép */}
+                  {activityType === 'g10-stat-atlag-szamtani-kozep-theory' && (
+                    <Grade10AverageArithmeticTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-stat-atlag-szamtani-kozep-quiz', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-atlag-szamtani-kozep-quiz' && (
+                    <Grade10AverageArithmeticQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-atlag-szamtani-kozep-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-atlag-szamtani-kozep-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-atlag-szamtani-kozep-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-atlag-szamtani-kozep-matcher' && (
+                    <Grade10AverageArithmeticQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-atlag-szamtani-kozep-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-atlag-szamtani-kozep-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-atlag-szamtani-kozep-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-atlag-szamtani-kozep-sorter' && (
+                    <Grade10AverageArithmeticQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-atlag-szamtani-kozep-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-atlag-szamtani-kozep-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-atlag-szamtani-kozep-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+
+                  {/* 2. Ráadás – Számtani közép, mértani közép */}
+                  {activityType === 'g10-stat-szamtani-mertani-kozep-theory' && (
+                    <Grade10ArithmeticGeometricTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-stat-szamtani-mertani-kozep-quiz', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-szamtani-mertani-kozep-quiz' && (
+                    <Grade10ArithmeticGeometricQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-szamtani-mertani-kozep-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-szamtani-mertani-kozep-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-szamtani-mertani-kozep-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-szamtani-mertani-kozep-matcher' && (
+                    <Grade10ArithmeticGeometricQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-szamtani-mertani-kozep-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-szamtani-mertani-kozep-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-szamtani-mertani-kozep-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-szamtani-mertani-kozep-sorter' && (
+                    <Grade10ArithmeticGeometricQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-szamtani-mertani-kozep-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-szamtani-mertani-kozep-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-szamtani-mertani-kozep-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+
+                  {/* 3. Változások */}
+                  {activityType === 'g10-stat-valtozasok-theory' && (
+                    <Grade10ChangesTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-stat-valtozasok-quiz', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-valtozasok-quiz' && (
+                    <Grade10ChangesQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-valtozasok-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-valtozasok-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-valtozasok-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-valtozasok-matcher' && (
+                    <Grade10ChangesQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-valtozasok-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-valtozasok-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-valtozasok-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-valtozasok-sorter' && (
+                    <Grade10ChangesQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-valtozasok-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-valtozasok-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-valtozasok-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+
+                  {/* 4. Számsokaságok statisztikai jellemzői */}
+                  {activityType === 'g10-stat-statisztikai-jellemzok-theory' && (
+                    <Grade10SummaryStatsTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-stat-statisztikai-jellemzok-quiz', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-statisztikai-jellemzok-quiz' && (
+                    <Grade10SummaryStatsQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-statisztikai-jellemzok-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-statisztikai-jellemzok-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-statisztikai-jellemzok-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-statisztikai-jellemzok-matcher' && (
+                    <Grade10SummaryStatsQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-statisztikai-jellemzok-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-statisztikai-jellemzok-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-statisztikai-jellemzok-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-statisztikai-jellemzok-sorter' && (
+                    <Grade10SummaryStatsQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-statisztikai-jellemzok-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-statisztikai-jellemzok-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-statisztikai-jellemzok-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+
+                  {/* 5. Osztályba sorolás, átlagok átlaga */}
+                  {activityType === 'g10-stat-osztalyba-sorolas-atlagok-theory' && (
+                    <Grade10ClassIntervalTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-stat-osztalyba-sorolas-atlagok-quiz', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-osztalyba-sorolas-atlagok-quiz' && (
+                    <Grade10ClassIntervalQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-osztalyba-sorolas-atlagok-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-osztalyba-sorolas-atlagok-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-osztalyba-sorolas-atlagok-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-osztalyba-sorolas-atlagok-matcher' && (
+                    <Grade10ClassIntervalQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-osztalyba-sorolas-atlagok-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-osztalyba-sorolas-atlagok-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-osztalyba-sorolas-atlagok-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-osztalyba-sorolas-atlagok-sorter' && (
+                    <Grade10ClassIntervalQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-osztalyba-sorolas-atlagok-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-osztalyba-sorolas-atlagok-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-osztalyba-sorolas-atlagok-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+
+                  {/* 6. Véletlen? – Relatív gyakoriság */}
+                  {activityType === 'g10-stat-veletlen-relativ-gyakorisag-theory' && (
+                    <Grade10RandomFrequencyTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-stat-veletlen-relativ-gyakorisag-quiz', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-veletlen-relativ-gyakorisag-quiz' && (
+                    <Grade10RandomFrequencyQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-veletlen-relativ-gyakorisag-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-veletlen-relativ-gyakorisag-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-veletlen-relativ-gyakorisag-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-veletlen-relativ-gyakorisag-matcher' && (
+                    <Grade10RandomFrequencyQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-veletlen-relativ-gyakorisag-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-veletlen-relativ-gyakorisag-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-veletlen-relativ-gyakorisag-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-veletlen-relativ-gyakorisag-sorter' && (
+                    <Grade10RandomFrequencyQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-veletlen-relativ-gyakorisag-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-veletlen-relativ-gyakorisag-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-veletlen-relativ-gyakorisag-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+
+                  {/* 7. Megismerhető véletlen */}
+                  {activityType === 'g10-stat-megismerheto-veletlen-theory' && (
+                    <Grade10ClassicalProbTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-stat-megismerheto-veletlen-quiz', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-megismerheto-veletlen-quiz' && (
+                    <Grade10ClassicalProbQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-megismerheto-veletlen-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-megismerheto-veletlen-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-megismerheto-veletlen-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-megismerheto-veletlen-matcher' && (
+                    <Grade10ClassicalProbQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-megismerheto-veletlen-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-megismerheto-veletlen-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-megismerheto-veletlen-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-megismerheto-veletlen-sorter' && (
+                    <Grade10ClassicalProbQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-megismerheto-veletlen-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-megismerheto-veletlen-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-megismerheto-veletlen-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+
+                  {/* 8. Biztos, lehetetlen, véletlen */}
+                  {activityType === 'g10-stat-biztos-lehetetlen-veletlen-theory' && (
+                    <Grade10EventCertaintyTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-stat-biztos-lehetetlen-veletlen-quiz', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-biztos-lehetetlen-veletlen-quiz' && (
+                    <Grade10EventCertaintyQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-biztos-lehetetlen-veletlen-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-biztos-lehetetlen-veletlen-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-biztos-lehetetlen-veletlen-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-biztos-lehetetlen-veletlen-matcher' && (
+                    <Grade10EventCertaintyQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-biztos-lehetetlen-veletlen-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-biztos-lehetetlen-veletlen-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-biztos-lehetetlen-veletlen-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-biztos-lehetetlen-veletlen-sorter' && (
+                    <Grade10EventCertaintyQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-biztos-lehetetlen-veletlen-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-biztos-lehetetlen-veletlen-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-biztos-lehetetlen-veletlen-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+
+                  {/* 9. Valószínűség a gyakorlatban */}
+                  {activityType === 'g10-stat-valoszinuseg-gyakorlatban-theory' && (
+                    <Grade10PracticalProbTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-stat-valoszinuseg-gyakorlatban-quiz', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-valoszinuseg-gyakorlatban-quiz' && (
+                    <Grade10PracticalProbQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-valoszinuseg-gyakorlatban-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-valoszinuseg-gyakorlatban-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-valoszinuseg-gyakorlatban-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-valoszinuseg-gyakorlatban-matcher' && (
+                    <Grade10PracticalProbQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-valoszinuseg-gyakorlatban-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-valoszinuseg-gyakorlatban-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-valoszinuseg-gyakorlatban-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-valoszinuseg-gyakorlatban-sorter' && (
+                    <Grade10PracticalProbQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-valoszinuseg-gyakorlatban-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-valoszinuseg-gyakorlatban-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-valoszinuseg-gyakorlatban-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+
+                  {/* 10. Gyakorlás, tudáspróba */}
+                  {activityType === 'g10-stat-gyakorlas-tudasproba-theory' && (
+                    <Grade10ChapterSynthesisTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-stat-gyakorlas-tudasproba-quiz', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-gyakorlas-tudasproba-quiz' && (
+                    <Grade10ChapterSynthesisQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-gyakorlas-tudasproba-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-gyakorlas-tudasproba-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-gyakorlas-tudasproba-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-gyakorlas-tudasproba-matcher' && (
+                    <Grade10ChapterSynthesisQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-gyakorlas-tudasproba-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-gyakorlas-tudasproba-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-gyakorlas-tudasproba-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+                  {activityType === 'g10-stat-gyakorlas-tudasproba-sorter' && (
+                    <Grade10ChapterSynthesisQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-stat-gyakorlas-tudasproba-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-stat-gyakorlas-tudasproba-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-stat-gyakorlas-tudasproba-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
                     />
                   )}
 
