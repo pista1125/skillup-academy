@@ -177,3 +177,81 @@ export const FoldedAbsoluteSvg: React.FC<SvgProps> = ({ size = 320, className = 
     </svg>
   );
 };
+
+/**
+ * BoundedDomainParabolaSvg:
+ * Demonstrates a parabola on a restricted domain D_f = [-1; 3]
+ * f(x) = x² - 2x
+ * Vertex at x = 1 (inside domain), f(1) = -1 (minimum)
+ * Left endpoint: f(-1) = 3
+ * Right endpoint: f(3) = 3
+ * Range: [-1; 3]
+ */
+export const BoundedDomainParabolaSvg: React.FC<SvgProps> = ({ size = 300, className = '' }) => {
+  return (
+    <svg
+      viewBox="-30 -30 360 280"
+      width={size}
+      height={size * 0.8}
+      className={`select-none overflow-visible drop-shadow-sm ${className}`}
+    >
+      <defs>
+        <pattern id="pt-grid-bd" width="25" height="25" patternUnits="userSpaceOnUse">
+          <path d="M 25 0 L 0 0 0 25" fill="none" stroke="currentColor" strokeOpacity="0.08" strokeWidth="1" />
+        </pattern>
+        <marker id="pt-arrow-bd" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="currentColor" opacity="0.6" />
+        </marker>
+      </defs>
+
+      <rect x="-20" y="-20" width="340" height="260" rx="10" fill="url(#pt-grid-bd)" />
+
+      {/* Axes: Origin (0,0) at (120, 140), 1 unit = 30px */}
+      <line x1="20" y1="140" x2="300" y2="140" stroke="currentColor" strokeWidth="1.6" opacity="0.6" markerEnd="url(#pt-arrow-bd)" />
+      <line x1="120" y1="230" x2="120" y2="-15" stroke="currentColor" strokeWidth="1.6" opacity="0.6" markerEnd="url(#pt-arrow-bd)" />
+
+      <text x="290" y="132" fontSize="11" fill="currentColor" opacity="0.7" fontWeight="bold">x</text>
+      <text x="128" y="-6" fontSize="11" fill="currentColor" opacity="0.7" fontWeight="bold">y</text>
+      <text x="106" y="155" fontSize="10" fill="currentColor" opacity="0.6" fontWeight="bold">0</text>
+
+      {/* Domain highlight on x-axis: [-1; 3] -> x from 90 to 210 */}
+      <line x1="90" y1="140" x2="210" y2="140" stroke="#8b5cf6" strokeWidth="3" opacity="0.5" />
+      <rect x="90" y="145" width="120" height="18" rx="4" fill="#8b5cf6" fillOpacity="0.15" stroke="#ddd6fe" strokeWidth="0.8" />
+      <text x="150" y="158" fontSize="9" fill="#7c3aed" fontWeight="bold" textAnchor="middle">D_f = [-1; 3]</text>
+
+      {/* Parabola arc on [-1; 3]:
+          f(x) = x² - 2x = (x - 1)² - 1
+          Vertex at (1; -1) -> (120 + 30 = 150, 140 + 30 = 170).
+          Apex y = 170 => yc = 2 * 170 - 50 = 290 */}
+      <path
+        d="M 90 50 Q 150 290 210 50"
+        fill="none"
+        stroke="#8b5cf6"
+        strokeWidth="3.2"
+        strokeLinecap="round"
+      />
+
+      {/* Solid endpoints with coordinates */}
+      <circle cx="90" cy="50" r="7" fill="#ede9fe" stroke="#8b5cf6" strokeWidth="1.5" opacity="0.8" />
+      <circle cx="90" cy="50" r="4.5" fill="#8b5cf6" stroke="#ffffff" strokeWidth="1.5" />
+      <rect x="35" y="38" width="50" height="18" rx="4" fill="#f5f3ff" stroke="#ddd6fe" strokeWidth="0.8" />
+      <text x="60" y="51" fontSize="9" fill="#7c3aed" fontWeight="bold" textAnchor="middle">(-1; 3)</text>
+
+      <circle cx="210" cy="50" r="7" fill="#ede9fe" stroke="#8b5cf6" strokeWidth="1.5" opacity="0.8" />
+      <circle cx="210" cy="50" r="4.5" fill="#8b5cf6" stroke="#ffffff" strokeWidth="1.5" />
+      <rect x="215" y="38" width="50" height="18" rx="4" fill="#f5f3ff" stroke="#ddd6fe" strokeWidth="0.8" />
+      <text x="240" y="51" fontSize="9" fill="#7c3aed" fontWeight="bold" textAnchor="middle">(3; 3)</text>
+
+      {/* Global Minimum (Vertex V(1; -1)) with target-ring marker */}
+      <circle cx="150" cy="170" r="8" fill="#ffe4e6" stroke="#f43f5e" strokeWidth="1.5" opacity="0.8" />
+      <circle cx="150" cy="170" r="4.5" fill="#f43f5e" stroke="#ffffff" strokeWidth="1.5" />
+      <rect x="105" y="180" width="90" height="18" rx="4" fill="#fff1f2" stroke="#fecdd3" strokeWidth="0.8" />
+      <text x="150" y="193" fontSize="9" fill="#e11d48" fontWeight="bold" textAnchor="middle">Min: V(1; -1)</text>
+
+      {/* Range [ -1; 3 ] highlight on y-axis */}
+      <line x1="120" y1="170" x2="120" y2="50" stroke="#10b981" strokeWidth="3.5" opacity="0.8" strokeLinecap="round" />
+      <rect x="25" y="100" width="90" height="20" rx="4" fill="#ecfdf5" stroke="#a7f3d0" strokeWidth="0.8" />
+      <text x="70" y="114" fontSize="9" fill="#047857" fontWeight="bold" textAnchor="middle">ÉK = [-1; 3]</text>
+    </svg>
+  );
+};
