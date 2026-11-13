@@ -1745,13 +1745,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-eq-ekvivalens-egyenletek" number={1} title="Ekvivalens egyenletek" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Ekvivalens Átalakítások és Buktatók"
-                subtitle="Egyenértékű lépések, hamis gyökök és gyökvesztés megelőzése"
-                type="Hamarosan"
-                emoji="⚖️"
-                disabled={true}
-                icon={<Scale className="w-6 h-6" />}
+                title="Ekvivalens egyenletek Tananyag"
+                subtitle="Azonos lépések, mérlegelv, hamis gyökök és gyökvesztés megelőzése"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-eq-ekvivalens-egyenletek-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, mérleg modellel és beépített játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-eq-ekvivalens-egyenletek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="teal"
+                {...getTopicProgress('g10-eq-ekvivalens-egyenletek-quiz')}
               />
             </div>
           </section>
@@ -1763,13 +1773,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-eq-gyokos-egyenletek" number={2} title="Gyökös egyenletek" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Irracionális Egyenletek Megoldása"
-                subtitle="Gyökjel izolálása, négyzetre emelés és kötelező ellenőrzés"
-                type="Hamarosan"
-                emoji="🔢"
-                disabled={true}
-                icon={<Binary className="w-6 h-6" />}
+                title="Gyökös egyenletek Tananyag"
+                subtitle="Kikötések, gyökjel izolálása, négyzetre emelés és hamis gyökök kizárása"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-eq-gyokos-egyenletek-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="cyan"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, beépített párosító és csoportosító játékkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-eq-gyokos-egyenletek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="cyan"
+                {...getTopicProgress('g10-eq-gyokos-egyenletek-quiz')}
               />
             </div>
           </section>
@@ -1781,13 +1801,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-eq-laboratoriumi-fejlesztesek" number={3} title="Ráadás – Laboratóriumi fejlesztések" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Keverési és Műszaki Modellek"
-                subtitle="Oldatok töménysége, fizikai-kémiai összefüggések egyenletei"
-                type="Hamarosan"
-                emoji="🧪"
-                disabled={true}
-                icon={<FlaskConical className="w-6 h-6" />}
+                title="Laboratóriumi modellek Tananyag"
+                subtitle="Keverési és hígítási törvény, együttes munka, műszaki képletek"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-eq-laboratoriumi-fejlesztesek-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 gyakorlati feladat 3 szinten, beépített párosító és csoportosító játékkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-eq-laboratoriumi-fejlesztesek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g10-eq-laboratoriumi-fejlesztesek-quiz')}
               />
             </div>
           </section>
@@ -1800,12 +1830,22 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
                 title="Grafikus és Előjeltáblázatos Megoldás"
-                subtitle="Parabolák zérushelyei és állása, intervallum-megoldások"
-                type="Hamarosan"
-                emoji="📈"
-                disabled={true}
-                icon={<LineChart className="w-6 h-6" />}
+                subtitle="Parabolák zérushelyei és állása, intervallum-megoldások és interaktív labor"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-eq-masodfoku-egyenlotlensegek-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, beépített párosító és rendszerező játékkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-eq-masodfoku-egyenlotlensegek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g10-eq-masodfoku-egyenlotlensegek-quiz')}
               />
             </div>
           </section>
@@ -1818,12 +1858,22 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
                 title="Törtes és Abszolútértékes Egyenlőtlenségek"
-                subtitle="Közös nevező, tényezők előjele és megoldáshalmazok"
-                type="Hamarosan"
+                subtitle="Közös nevező, tényezők előjele, abszolútérték és interaktív labor"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-eq-gyakorlas-egyenlotlensegek-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
+                color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, beépített párosító és rendszerező játékkal"
+                type="Kvíz"
                 emoji="🎯"
-                disabled={true}
+                onClick={() => onActivitySelect('g10-eq-gyakorlas-egyenlotlensegek-quiz', topicId)}
                 icon={<Target className="w-6 h-6" />}
                 color="indigo"
+                {...getTopicProgress('g10-eq-gyakorlas-egyenlotlensegek-quiz')}
               />
             </div>
           </section>
@@ -1836,12 +1886,22 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
                 title="Másodfokú Szorzattá Alakítás"
-                subtitle="a(x - x₁)(x - x₂) képlet és algebrai törtek egyszerűsítése"
-                type="Hamarosan"
-                emoji="🧩"
-                disabled={true}
-                icon={<Boxes className="w-6 h-6" />}
+                subtitle="a(x - x₁)(x - x₂) képlet, algebrai törtek egyszerűsítése és labor"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-eq-polinom-gyoktenyezos-alakja-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="purple"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, beépített párosító és rendszerező játékkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-eq-polinom-gyoktenyezos-alakja-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="purple"
+                {...getTopicProgress('g10-eq-polinom-gyoktenyezos-alakja-quiz')}
               />
             </div>
           </section>
@@ -1854,12 +1914,22 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
                 title="Gyökök és Együtthatók Összefüggései"
-                subtitle="x₁ + x₂ = -b/a és x₁x₂ = c/a, szimmetrikus kifejezések"
-                type="Hamarosan"
-                emoji="⚡"
-                disabled={true}
-                icon={<Zap className="w-6 h-6" />}
+                subtitle="Viète-formulák, szimmetrikus kifejezések, előjelek és interaktív labor"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-eq-viete-formulak-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, beépített párosító és rendszerező játékkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-eq-viete-formulak-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g10-eq-viete-formulak-quiz')}
               />
             </div>
           </section>
@@ -1871,13 +1941,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-eq-csoportverseny" number={8} title="Csoportverseny" color="pink" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Kooperatív Csapatvetélkedő"
-                subtitle="Gyorsasági Viète-kihívás és hibakeresés irracionális egyenletekben"
-                type="Hamarosan"
-                emoji="👥"
-                disabled={true}
-                icon={<Users className="w-6 h-6" />}
+                title="Kooperatív Csapatverseny"
+                subtitle="Gyorsasági Viète-reflexek, detektív hibakeresés és interaktív aréna"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-eq-csoportverseny-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="pink"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, beépített párosító és rendszerező játékkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-eq-csoportverseny-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="pink"
+                {...getTopicProgress('g10-eq-csoportverseny-quiz')}
               />
             </div>
           </section>
@@ -1890,12 +1970,22 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
                 title="Kétismeretlenes Nemlineáris Rendszerek"
-                subtitle="Behelyettesítés, szimmetrikus rendszerek és metszéspontok"
-                type="Hamarosan"
-                emoji="🔀"
-                disabled={true}
-                icon={<GitFork className="w-6 h-6" />}
+                subtitle="Behelyettesítés, szimmetrikus rendszerek, tagelimináció és interaktív labor"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-eq-masodfoku-egyenletrendszerek-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="orange"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, beépített párosító és rendszerező játékkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-eq-masodfoku-egyenletrendszerek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="orange"
+                {...getTopicProgress('g10-eq-masodfoku-egyenletrendszerek-quiz')}
               />
             </div>
           </section>
@@ -1907,13 +1997,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-eq-gyakorlas-tudasproba" number={10} title="Gyakorlás, tudáspróba" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Egyenletek és Egyenlőtlenségek Tudáspróba"
-                subtitle="Fejezeti összefoglaló feladatsor és témazáró számonkérés"
-                type="Hamarosan"
+                title="Fejezeti Tudáspróba Tananyag"
+                subtitle="Átfogó szintézis, ekvivalens átalakítások, egyenlőtlenségek és érettségi javítókulcs"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-eq-gyakorlas-tudasproba-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
+                color="violet"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="90 válogatott feladat 3 szinten (30 kérdés szintenként!), érettségi és felvételi példákkal"
+                type="Kvíz"
                 emoji="🏆"
-                disabled={true}
+                onClick={() => onActivitySelect('g10-eq-gyakorlas-tudasproba-quiz', topicId)}
                 icon={<Trophy className="w-6 h-6" />}
                 color="violet"
+                {...getTopicProgress('g10-eq-gyakorlas-tudasproba-quiz')}
               />
             </div>
           </section>

@@ -1,21 +1,28 @@
 # 4. Másodfokú egyenlőtlenségek (62. lecke)
 
 ## Tananyag Áttekintés
-Másodfokú egyenlőtlenségek ($ax^2 + bx + c \gtrless 0$) megoldása grafikus módszerrel (parabola zérushelyei és állása) és algebrai úton (szorzattá alakítás, előjeltáblázat).
+Másodfokú egyenlőtlenségek ($ax^2 + bx + c \gtrless 0$) megoldása grafikus módszerrel (parabola zérushelyei és állása), algebrai úton (szorzattá alakítás, előjeltáblázat), valamint törtes és különleges diszkriminánsú esetekben.
+
+---
+
+## Modul Komponensek
+- **`QuadraticInequalitiesTheory.tsx`**: Részletes elmélet 5 fejezettel, érettségi mintafeladatokkal, jobb felső „FONTOS SZABÁLYOK” kártyával, valamint a 6. fejezetben dinamikus interaktív parabola-paraméter laboratóriummal.
+- **`QuadraticInequalitiesFigures.tsx`**: Egyedi SVG illusztrációk kompakt (260px) méretezéssel ($D > 0$, $D = 0$, $D < 0$ parabola esetek, előjeltáblázat és számegyenes).
+- **`QuadraticInequalitiesMatcher.tsx`**: 3 szint × 8 pár = 24 feladat (alapvető hiányos egyenlőtlenségek, kétgyökös $D > 0$ normál alakok, lefelé nyíló és speciális határesetek).
+- **`QuadraticInequalitiesSorter.tsx`**: 3 szint × 3 kategória (megoldáshalmaz alakja, diszkrimináns előjele és tengelymetszése, igaz szabályok vs. tévhitek).
+- **`QuadraticInequalitiesQuiz.tsx`**: 3 szint × 10 kérdés = 30 kérdés részletes magyarázatokkal, puskakártyákkal és beágyazott párosító/rendszerező játékmóddal.
 
 ---
 
 ## Fő Megoldási Stratégiák
-
-- **Grafikus módszer (parabola ábrázolása):**
-  1. Zérushelyek meghatározása a másodfokú egyenlet megoldásával: $ax^2 + bx + c = 0$.
-  2. A parabola állásának meghatározása a főegyüttható előjele alapján ($a > 0 \implies$ felfelé nyíló, $a < 0 \implies$ lefelé nyíló).
-  3. A megoldás leolvasása a vázlatról: hol fekszik a grafikon az $x$-tengely felett ($>0$) vagy alatt ($<0$).
-
-- **Algebrai módszer (előjeltáblázat):**
-  - Gyöktényezős alak: $a(x - x_1)(x - x_2) \gtrless 0$.
-  - Intervallumokra bontás és a tényezők előjelének vizsgálata.
-
-- **Különleges esetek:**
-  - $D = 0$ (egy zérushely, érinti a tengelyt: megoldás egyetlen pont, $\mathbb{R} \setminus \{x_0\}$ vagy $\emptyset$).
-  - $D < 0$ (nincs valós gyök, nem metszi a tengelyt: megoldás a teljes $\mathbb{R}$ vagy $\emptyset$).
+1. **0-ra rendezés:** Mindig $ax^2 + bx + c \gtrless 0$ alakra hozzuk az egyenlőtlenséget.
+2. **Grafikus módszer (parabola):**
+   - Zérushelyek ($x_1, x_2$) meghatározása megoldóképlettel vagy szorzattá alakítással.
+   - Parabola állása ($a > 0 \implies \cup$, $a < 0 \implies \cap$).
+   - Leolvasás: $a > 0$ esetén $>0$ a két gyökön kívül, $<0$ a két gyök között.
+3. **Különleges diszkriminánsú esetek:**
+   - $D = 0$: érinti a tengelyt (egyetlen pont $\{x_0\}$, $\mathbb{R} \setminus \{x_0\}$, $\mathbb{R}$ vagy $\emptyset$).
+   - $D < 0$: a parabola lebeg a tengely felett/alatt (megoldás a teljes $\mathbb{R}$ vagy $\emptyset$).
+4. **Törtes egyenlőtlenségek:**
+   - Tilos ismeretlennel beszorozni!
+   - A tört előjele megegyezik a szorzatéval, a nevező nem lehet 0 (a nevező gyökénél a zárójel nyílt).

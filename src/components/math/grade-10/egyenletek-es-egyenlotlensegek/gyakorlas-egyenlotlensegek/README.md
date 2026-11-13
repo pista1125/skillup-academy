@@ -1,20 +1,23 @@
-# 5. Gyakorlás (63. lecke)
+# 5. Gyakorlás – Törtes és abszolútértékes egyenlőtlenségek (63. lecke)
 
 ## Tananyag Áttekintés
-Összetett másodfokú, törtes és abszolútértékes egyenlőtlenségek megoldásának gyakorlása, megoldáshalmazok ábrázolása számegyenesen és intervallum-jelöléssel.
+Összetett másodfokú, törtes és abszolútértékes egyenlőtlenségek megoldásának gyakorlása, a nevezővel való átbeszorzás veszélyei, közös nevezőre hozás, előjeltáblázatok és egyenlőtlenség-rendszerek számegyeneses metszetképzése.
 
 ---
 
-## Fő Gyakorló Feladattípusok
+## Modul Komponensek
+- **`InequalitiesPracticeTheory.tsx`**: Részletes elmélet 5 fejezettel, érettségi mintafeladatokkal, jobb felső „FONTOS SZABÁLYOK” kártyával, valamint a 6. fejezetben interaktív dinamikus törtes szimulátorral és ellenőrző kvízzel.
+- **`InequalitiesPracticeFigures.tsx`**: Egyedi SVG illusztrációk kompakt (260px) méretezéssel (törtes előjeltáblázat, abszolútérték sáv, tilos átbeszorozni veszélytábla, intervallum-metszet, abszolútértékes parabola).
+- **`InequalitiesPracticeMatcher.tsx`**: 3 szint × 8 pár = 24 feladat (alapvető relációk, közös nevezős feladatok, összetett másodfokú abszolútértékek és rendszerek).
+- **`InequalitiesPracticeSorter.tsx`**: 3 szint × 3 kategória (megoldáshalmaz szerkezete, alkalmazandó megoldási módszer, szabályok vs. tévhitek).
+- **`InequalitiesPracticeQuiz.tsx`**: 3 szint × 10 kérdés = 30 kérdés részletes magyarázatokkal, puskakártyákkal és beágyazott párosító/rendszerező játékmóddal.
 
-- **Törtes egyenlőtlenségek másodfokú kifejezésekkel:**
-  - $\frac{P(x)}{Q(x)} \gtrless 0$ alakú kifejezések vizsgálata.
-  - Közös nevezőre hozás, a számláló és nevező zérushelyeinek meghatározása.
-  - Szigorúan tilos az ismeretlent tartalmazó nevezővel átbeszorozni az előjel ismerete nélkül!
-  - Előjeltáblázat készítése és a nevező zérushelyeinek kizárása.
+---
 
-- **Abszolútértékes másodfokú feladványok:**
-  - $|ax^2 + bx + c| \le d$ és $|x - u| \le \dots$ típusú egyenlőtlenségek felbontása esetekre.
-
-- **Eredmények megadása:**
-  - Nyílt, zárt és félig zárt intervallumok helyes használata ($[a, b], ]a, b[, [a, \infty[$).
+## Fő Megoldási Stratégiák
+1. **Tilos ismeretlennel beszorozni:** Mindig nullára rendezünk és közös nevezőre hozunk: $\frac{P(x)}{Q(x)} \lessgtr 0$.
+2. **Kikötési kötelezettség:** A nevező zérushelyénél ($Q(x) = 0$) a zárójel megengedő reláció esetén is kötelezően NYÍLT!
+3. **Abszolútérték felbontása:**
+   - $|A| \le d \iff -d \le A \le d$ (egyetlen korlátos sáv).
+   - $|A| \ge d \iff A \le -d \text{ vagy } A \ge d$ (két külső félegyenes uniója).
+4. **Egyenlőtlenség-rendszerek:** Az egyes feltételek megoldáshalmazainak metszetét ($I_1 \cap I_2$) vesszük.

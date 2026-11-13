@@ -153,6 +153,28 @@ const Grade10PracticalProbQuiz = lazy(() => import("@/components/math/grade-10/s
 const Grade10ChapterSynthesisTheory = lazy(() => import("@/components/math/grade-10/statisztika-es-valoszinusegszamitas/gyakorlas-tudasproba/ChapterSynthesisTheory").then(m => ({ default: m.ChapterSynthesisTheory })))
 const Grade10ChapterSynthesisQuiz = lazy(() => import("@/components/math/grade-10/statisztika-es-valoszinusegszamitas/gyakorlas-tudasproba/ChapterSynthesisQuiz").then(m => ({ default: m.ChapterSynthesisQuiz })))
 
+// 10. Osztály - VIII. Egyenletek és egyenlőtlenségek (Grade 10 Topic VIII)
+const Grade10EquivalentEquationsTheory = lazy(() => import("@/components/math/grade-10/egyenletek-es-egyenlotlensegek/ekvivalens-egyenletek/EquivalentEquationsTheory").then(m => ({ default: m.EquivalentEquationsTheory })))
+const Grade10EquivalentEquationsQuiz = lazy(() => import("@/components/math/grade-10/egyenletek-es-egyenlotlensegek/ekvivalens-egyenletek/EquivalentEquationsQuiz").then(m => ({ default: m.EquivalentEquationsQuiz })))
+const Grade10RadicalEquationsTheory = lazy(() => import("@/components/math/grade-10/egyenletek-es-egyenlotlensegek/gyokos-egyenletek/RadicalEquationsTheory").then(m => ({ default: m.RadicalEquationsTheory })))
+const Grade10RadicalEquationsQuiz = lazy(() => import("@/components/math/grade-10/egyenletek-es-egyenlotlensegek/gyokos-egyenletek/RadicalEquationsQuiz").then(m => ({ default: m.RadicalEquationsQuiz })))
+const Grade10LabDevelopmentTheory = lazy(() => import("@/components/math/grade-10/egyenletek-es-egyenlotlensegek/laboratoriumi-fejlesztesek/LabDevelopmentTheory").then(m => ({ default: m.LabDevelopmentTheory })))
+const Grade10LabDevelopmentQuiz = lazy(() => import("@/components/math/grade-10/egyenletek-es-egyenlotlensegek/laboratoriumi-fejlesztesek/LabDevelopmentQuiz").then(m => ({ default: m.LabDevelopmentQuiz })))
+const Grade10QuadraticInequalitiesTheory = lazy(() => import("@/components/math/grade-10/egyenletek-es-egyenlotlensegek/masodfoku-egyenlotlensegek/QuadraticInequalitiesTheory").then(m => ({ default: m.QuadraticInequalitiesTheory })))
+const Grade10QuadraticInequalitiesQuiz = lazy(() => import("@/components/math/grade-10/egyenletek-es-egyenlotlensegek/masodfoku-egyenlotlensegek/QuadraticInequalitiesQuiz").then(m => ({ default: m.QuadraticInequalitiesQuiz })))
+const Grade10InequalitiesPracticeTheory = lazy(() => import("@/components/math/grade-10/egyenletek-es-egyenlotlensegek/gyakorlas-egyenlotlensegek/InequalitiesPracticeTheory").then(m => ({ default: m.InequalitiesPracticeTheory })))
+const Grade10InequalitiesPracticeQuiz = lazy(() => import("@/components/math/grade-10/egyenletek-es-egyenlotlensegek/gyakorlas-egyenlotlensegek/InequalitiesPracticeQuiz").then(m => ({ default: m.InequalitiesPracticeQuiz })))
+const Grade10RootFactorizationTheory = lazy(() => import("@/components/math/grade-10/egyenletek-es-egyenlotlensegek/polinom-gyoktenyezos-alakja/RootFactorizationTheory").then(m => ({ default: m.RootFactorizationTheory })))
+const Grade10RootFactorizationQuiz = lazy(() => import("@/components/math/grade-10/egyenletek-es-egyenlotlensegek/polinom-gyoktenyezos-alakja/RootFactorizationQuiz").then(m => ({ default: m.RootFactorizationQuiz })))
+const Grade10VieteFormulasTheory = lazy(() => import("@/components/math/grade-10/egyenletek-es-egyenlotlensegek/viete-formulak/VieteFormulasTheory").then(m => ({ default: m.VieteFormulasTheory })))
+const Grade10VieteFormulasQuiz = lazy(() => import("@/components/math/grade-10/egyenletek-es-egyenlotlensegek/viete-formulak/VieteFormulasQuiz").then(m => ({ default: m.VieteFormulasQuiz })))
+const Grade10GroupCompetitionTheory = lazy(() => import("@/components/math/grade-10/egyenletek-es-egyenlotlensegek/csoportverseny/GroupCompetitionTheory").then(m => ({ default: m.GroupCompetitionTheory })))
+const Grade10GroupCompetitionQuiz = lazy(() => import("@/components/math/grade-10/egyenletek-es-egyenlotlensegek/csoportverseny/GroupCompetitionQuiz").then(m => ({ default: m.GroupCompetitionQuiz })))
+const Grade10QuadraticSystemsTheory = lazy(() => import("@/components/math/grade-10/egyenletek-es-egyenlotlensegek/masodfoku-egyenletrendszerek/QuadraticSystemsTheory").then(m => ({ default: m.QuadraticSystemsTheory })))
+const Grade10QuadraticSystemsQuiz = lazy(() => import("@/components/math/grade-10/egyenletek-es-egyenlotlensegek/masodfoku-egyenletrendszerek/QuadraticSystemsQuiz").then(m => ({ default: m.QuadraticSystemsQuiz })))
+const Grade10Topic8PracticeExamTheory = lazy(() => import("@/components/math/grade-10/egyenletek-es-egyenlotlensegek/gyakorlas-tudasproba/PracticeExamTheory").then(m => ({ default: m.PracticeExamTheory })))
+const Grade10Topic8PracticeExamQuiz = lazy(() => import("@/components/math/grade-10/egyenletek-es-egyenlotlensegek/gyakorlas-tudasproba/PracticeExamQuiz").then(m => ({ default: m.PracticeExamQuiz })))
+
 export const Grade10Activities: React.FC<ActivityRouterProps> = ({
   activityType,
   onBack,
@@ -2299,6 +2321,347 @@ export const Grade10Activities: React.FC<ActivityRouterProps> = ({
                       onSwitchToTheory={() => handleActivitySelect('g10-stat-gyakorlas-tudasproba-theory', selectedTopic || 'g10-statisztika-valoszinuseg')}
                       onSwitchToMatcher={() => handleActivitySelect('g10-stat-gyakorlas-tudasproba-matcher', selectedTopic || 'g10-statisztika-valoszinuseg')}
                       onSwitchToSorter={() => handleActivitySelect('g10-stat-gyakorlas-tudasproba-sorter', selectedTopic || 'g10-statisztika-valoszinuseg')}
+                    />
+                  )}
+
+                  {/* Topic VIII: Egyenletek és egyenlőtlenségek */}
+                  {/* 1. Ekvivalens egyenletek */}
+                  {activityType === 'g10-eq-ekvivalens-egyenletek-theory' && (
+                    <Grade10EquivalentEquationsTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-eq-ekvivalens-egyenletek-quiz', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-ekvivalens-egyenletek-quiz' && (
+                    <Grade10EquivalentEquationsQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-ekvivalens-egyenletek-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-ekvivalens-egyenletek-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-ekvivalens-egyenletek-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-ekvivalens-egyenletek-matcher' && (
+                    <Grade10EquivalentEquationsQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-ekvivalens-egyenletek-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-ekvivalens-egyenletek-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-ekvivalens-egyenletek-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-ekvivalens-egyenletek-sorter' && (
+                    <Grade10EquivalentEquationsQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-ekvivalens-egyenletek-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-ekvivalens-egyenletek-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-ekvivalens-egyenletek-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+
+                  {/* 2. Gyökös egyenletek */}
+                  {activityType === 'g10-eq-gyokos-egyenletek-theory' && (
+                    <Grade10RadicalEquationsTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-eq-gyokos-egyenletek-quiz', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-gyokos-egyenletek-quiz' && (
+                    <Grade10RadicalEquationsQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-gyokos-egyenletek-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-gyokos-egyenletek-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-gyokos-egyenletek-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-gyokos-egyenletek-matcher' && (
+                    <Grade10RadicalEquationsQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-gyokos-egyenletek-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-gyokos-egyenletek-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-gyokos-egyenletek-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-gyokos-egyenletek-sorter' && (
+                    <Grade10RadicalEquationsQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-gyokos-egyenletek-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-gyokos-egyenletek-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-gyokos-egyenletek-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+
+                  {/* 3. Ráadás: Laboratóriumi fejlesztések */}
+                  {activityType === 'g10-eq-laboratoriumi-fejlesztesek-theory' && (
+                    <Grade10LabDevelopmentTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-eq-laboratoriumi-fejlesztesek-quiz', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-laboratoriumi-fejlesztesek-quiz' && (
+                    <Grade10LabDevelopmentQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-laboratoriumi-fejlesztesek-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-laboratoriumi-fejlesztesek-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-laboratoriumi-fejlesztesek-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-laboratoriumi-fejlesztesek-matcher' && (
+                    <Grade10LabDevelopmentQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-laboratoriumi-fejlesztesek-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-laboratoriumi-fejlesztesek-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-laboratoriumi-fejlesztesek-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-laboratoriumi-fejlesztesek-sorter' && (
+                    <Grade10LabDevelopmentQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-laboratoriumi-fejlesztesek-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-laboratoriumi-fejlesztesek-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-laboratoriumi-fejlesztesek-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+
+                  {/* 4. Másodfokú egyenlőtlenségek */}
+                  {activityType === 'g10-eq-masodfoku-egyenlotlensegek-theory' && (
+                    <Grade10QuadraticInequalitiesTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-eq-masodfoku-egyenlotlensegek-quiz', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-masodfoku-egyenlotlensegek-quiz' && (
+                    <Grade10QuadraticInequalitiesQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-masodfoku-egyenlotlensegek-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-masodfoku-egyenlotlensegek-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-masodfoku-egyenlotlensegek-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-masodfoku-egyenlotlensegek-matcher' && (
+                    <Grade10QuadraticInequalitiesQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-masodfoku-egyenlotlensegek-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-masodfoku-egyenlotlensegek-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-masodfoku-egyenlotlensegek-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-masodfoku-egyenlotlensegek-sorter' && (
+                    <Grade10QuadraticInequalitiesQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-masodfoku-egyenlotlensegek-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-masodfoku-egyenlotlensegek-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-masodfoku-egyenlotlensegek-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+
+                  {/* 5. Gyakorlás: Törtes és abszolútértékes egyenlőtlenségek */}
+                  {activityType === 'g10-eq-gyakorlas-egyenlotlensegek-theory' && (
+                    <Grade10InequalitiesPracticeTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-eq-gyakorlas-egyenlotlensegek-quiz', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-gyakorlas-egyenlotlensegek-quiz' && (
+                    <Grade10InequalitiesPracticeQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-gyakorlas-egyenlotlensegek-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-gyakorlas-egyenlotlensegek-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-gyakorlas-egyenlotlensegek-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-gyakorlas-egyenlotlensegek-matcher' && (
+                    <Grade10InequalitiesPracticeQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-gyakorlas-egyenlotlensegek-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-gyakorlas-egyenlotlensegek-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-gyakorlas-egyenlotlensegek-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-gyakorlas-egyenlotlensegek-sorter' && (
+                    <Grade10InequalitiesPracticeQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-gyakorlas-egyenlotlensegek-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-gyakorlas-egyenlotlensegek-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-gyakorlas-egyenlotlensegek-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+
+                  {/* 6. Polinom gyöktényezős alakja */}
+                  {activityType === 'g10-eq-polinom-gyoktenyezos-alakja-theory' && (
+                    <Grade10RootFactorizationTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-eq-polinom-gyoktenyezos-alakja-quiz', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-polinom-gyoktenyezos-alakja-quiz' && (
+                    <Grade10RootFactorizationQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-polinom-gyoktenyezos-alakja-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-polinom-gyoktenyezos-alakja-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-polinom-gyoktenyezos-alakja-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-polinom-gyoktenyezos-alakja-matcher' && (
+                    <Grade10RootFactorizationQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-polinom-gyoktenyezos-alakja-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-polinom-gyoktenyezos-alakja-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-polinom-gyoktenyezos-alakja-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-polinom-gyoktenyezos-alakja-sorter' && (
+                    <Grade10RootFactorizationQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-polinom-gyoktenyezos-alakja-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-polinom-gyoktenyezos-alakja-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-polinom-gyoktenyezos-alakja-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+
+                  {/* 7. Ráadás – Viète-formulák! */}
+                  {activityType === 'g10-eq-viete-formulak-theory' && (
+                    <Grade10VieteFormulasTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-eq-viete-formulak-quiz', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-viete-formulak-quiz' && (
+                    <Grade10VieteFormulasQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-viete-formulak-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-viete-formulak-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-viete-formulak-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-viete-formulak-matcher' && (
+                    <Grade10VieteFormulasQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-viete-formulak-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-viete-formulak-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-viete-formulak-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-viete-formulak-sorter' && (
+                    <Grade10VieteFormulasQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-viete-formulak-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-viete-formulak-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-viete-formulak-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+
+                  {/* 8. Csoportverseny */}
+                  {activityType === 'g10-eq-csoportverseny-theory' && (
+                    <Grade10GroupCompetitionTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-eq-csoportverseny-quiz', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-csoportverseny-quiz' && (
+                    <Grade10GroupCompetitionQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-csoportverseny-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-csoportverseny-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-csoportverseny-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-csoportverseny-matcher' && (
+                    <Grade10GroupCompetitionQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-csoportverseny-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-csoportverseny-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-csoportverseny-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-csoportverseny-sorter' && (
+                    <Grade10GroupCompetitionQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-csoportverseny-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-csoportverseny-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-csoportverseny-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+
+                  {/* 9. Ráadás – Másodfokú egyenletrendszerek */}
+                  {activityType === 'g10-eq-masodfoku-egyenletrendszerek-theory' && (
+                    <Grade10QuadraticSystemsTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-eq-masodfoku-egyenletrendszerek-quiz', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-masodfoku-egyenletrendszerek-quiz' && (
+                    <Grade10QuadraticSystemsQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-masodfoku-egyenletrendszerek-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-masodfoku-egyenletrendszerek-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-masodfoku-egyenletrendszerek-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-masodfoku-egyenletrendszerek-matcher' && (
+                    <Grade10QuadraticSystemsQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-masodfoku-egyenletrendszerek-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-masodfoku-egyenletrendszerek-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-masodfoku-egyenletrendszerek-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-masodfoku-egyenletrendszerek-sorter' && (
+                    <Grade10QuadraticSystemsQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-masodfoku-egyenletrendszerek-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-masodfoku-egyenletrendszerek-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-masodfoku-egyenletrendszerek-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+
+                  {/* 10. Gyakorlás, tudáspróba */}
+                  {activityType === 'g10-eq-gyakorlas-tudasproba-theory' && (
+                    <Grade10Topic8PracticeExamTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-eq-gyakorlas-tudasproba-quiz', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-gyakorlas-tudasproba-quiz' && (
+                    <Grade10Topic8PracticeExamQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-gyakorlas-tudasproba-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-gyakorlas-tudasproba-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-gyakorlas-tudasproba-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-gyakorlas-tudasproba-matcher' && (
+                    <Grade10Topic8PracticeExamQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-gyakorlas-tudasproba-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-gyakorlas-tudasproba-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-gyakorlas-tudasproba-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                    />
+                  )}
+                  {activityType === 'g10-eq-gyakorlas-tudasproba-sorter' && (
+                    <Grade10Topic8PracticeExamQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-eq-gyakorlas-tudasproba-theory', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-eq-gyakorlas-tudasproba-matcher', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-eq-gyakorlas-tudasproba-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
                     />
                   )}
 
