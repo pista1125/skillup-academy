@@ -703,12 +703,10 @@ export const sectionToTopicMap: Record<string, string> = {
   'g10-sec-has-haromszogek-hasonlosaga': 'g10-hasonlosag',
   'g10-sec-has-kozepvonalak-sulyvonalak': 'g10-hasonlosag',
   'g10-sec-has-magassag-befogotetel': 'g10-hasonlosag',
-  'g10-sec-has-gyakorlas': 'g10-hasonlosag',
-  'g10-sec-has-szepseg-muveszet': 'g10-hasonlosag',
-  'g10-sec-has-ismetles-gyakorlas': 'g10-hasonlosag',
   'g10-sec-has-tudasproba': 'g10-hasonlosag',
-  'g10-sec-has-temazaro-gyujtemeny': 'g10-hasonlosag',
-  'g10-sec-has-mindennapi-penzugyek': 'g10-hasonlosag',
+
+  'g10-ev-vegi-ismetles': 'g10-ev-vegi-ismetles',
+  'g10-sec-ev-vegi-ismetles-hamarosan': 'g10-ev-vegi-ismetles',
 
   // Grade 11
   'g11-trigonometria': 'g11-trigonometria',
@@ -1696,12 +1694,11 @@ export function getGradeSubsections(
         { id: 'g10-sec-has-haromszogek-hasonlosaga', label: '8. Háromszögek hasonlósága' },
         { id: 'g10-sec-has-kozepvonalak-sulyvonalak', label: '9. Háromszög középvonalai és súlyvonalai' },
         { id: 'g10-sec-has-magassag-befogotetel', label: '10. Ráadás – Magasságtétel, befogótétel' },
-        { id: 'g10-sec-has-gyakorlas', label: '11. Gyakorlás' },
-        { id: 'g10-sec-has-szepseg-muveszet', label: '12. Ráadás – Szépség és művészet' },
-        { id: 'g10-sec-has-ismetles-gyakorlas', label: '13. Ismétlés, gyakorlás' },
-        { id: 'g10-sec-has-tudasproba', label: '14. Gyakorlás, tudáspróba' },
-        { id: 'g10-sec-has-temazaro-gyujtemeny', label: '15. Témazáró feladatgyűjtemény' },
-        { id: 'g10-sec-has-mindennapi-penzugyek', label: '16. Ráadás – Mindennapi pénzügyeink' }
+        { id: 'g10-sec-has-tudasproba', label: '11. Gyakorlás, tudáspróba' }
+      ];
+    } else if (t.id === 'g10-ev-vegi-ismetles') {
+      subsections = [
+        { id: 'g10-sec-ev-vegi-ismetles-hamarosan', label: '1. Hamarosan...' }
       ];
     } else if (t.id === 'g11-trigonometria') {
       subsections = [

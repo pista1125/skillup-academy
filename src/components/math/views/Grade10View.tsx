@@ -9,12 +9,9 @@ import {
   BarChart3,
   Binary,
   BookOpen,
-  Boxes,
-  Brain,
   Calculator,
   Circle,
   Clock,
-  Coins,
   Compass,
   Dices,
   Divide,
@@ -28,7 +25,6 @@ import {
   PieChart,
   Scale,
   Shapes,
-  Sparkles,
   Split,
   Target,
   TrendingUp,
@@ -2034,13 +2030,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-has-nagyitas-kicsinyites" number={1} title="Középpontos nagyítás, kicsinyítés" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Középpont és Arányosság"
-                subtitle="Nagyítás és kicsinyítés O pontból, képpontok szerkesztése"
-                type="Hamarosan"
-                emoji="🔍"
-                disabled={true}
-                icon={<Maximize2 className="w-6 h-6" />}
+                title="Középpontos nagyítás Tananyag"
+                subtitle="Centrum és arány, képpontok szerkesztése, aránytartás és méretek változása"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-has-nagyitas-kicsinyites-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, dinamikus laboratóriummal és játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-has-nagyitas-kicsinyites-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g10-has-nagyitas-kicsinyites-quiz')}
               />
             </div>
           </section>
@@ -2052,13 +2058,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-has-kozeppontos-hasonlosag" number={2} title="Középpontos hasonlóság" color="orange" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Fixpontok és Körök Hasonlósága"
-                subtitle="Invariáns alakzatok és sugarak aránya a hasonlóságban"
-                type="Hamarosan"
-                emoji="⭕"
-                disabled={true}
-                icon={<Compass className="w-6 h-6" />}
+                title="Középpontos hasonlóság Tananyag"
+                subtitle="Fixpontok, fixegyenesek, invarianciák, körök és térbeli testek hasonlósága"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-has-kozeppontos-hasonlosag-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="orange"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, érintőkkel, invarianciákkal és játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-has-kozeppontos-hasonlosag-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="orange"
+                {...getTopicProgress('g10-has-kozeppontos-hasonlosag-quiz')}
               />
             </div>
           </section>
@@ -2070,13 +2086,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-has-geometriai-hozzarendelesek" number={3} title="Geometriai hozzárendelések" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Síktranszformációk Rendszere"
-                subtitle="Egybevágóságok és hasonlóságok csoportosítása"
-                type="Hamarosan"
-                emoji="🔄"
-                disabled={true}
-                icon={<ArrowRightLeft className="w-6 h-6" />}
+                title="Geometriai hozzárendelések Tananyag"
+                subtitle="Leképezések hierarchiája, merőleges vetítés, vetületi képlet, napóra és munka"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-has-geometriai-hozzarendelesek-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, vetületekkel, hierarchiával és játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-has-geometriai-hozzarendelesek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g10-has-geometriai-hozzarendelesek-quiz')}
               />
             </div>
           </section>
@@ -2088,13 +2114,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-has-hasonlosag-alapjai" number={4} title="Hasonlóság" color="red" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Kerület-, Terület- és Térfogatarányok"
-                subtitle="λ, λ² és λ³ összefüggések síkidomokban és testekben"
-                type="Hamarosan"
-                emoji="📐"
-                disabled={true}
-                icon={<Shapes className="w-6 h-6" />}
+                title="Hasonlóság Tananyag"
+                subtitle="Hasonlósági transzformáció, kerület-, terület- és térfogatarányok, tervrajzok"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-has-hasonlosag-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="red"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, skálázási törvényekkel, tervrajzokkal és játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-has-hasonlosag-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="red"
+                {...getTopicProgress('g10-has-hasonlosag-quiz')}
               />
             </div>
           </section>
@@ -2106,13 +2142,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-has-tervrajz" number={5} title="Ráadás – Mit mutat a tervrajz?" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Méretarányos Rajzok és Térképek"
-                subtitle="Valós méretek és területek visszaszámítása alaprajzokból"
-                type="Hamarosan"
-                emoji="🗺️"
-                disabled={true}
-                icon={<Map className="w-6 h-6" />}
+                title="Mit mutat a tervrajz? Tananyag"
+                subtitle="Méretarányok, műszaki kótázás, a Gyulai Várfürdő tartóváza és úszómedencéje"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-has-tervrajz-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, mérnöki számításokkal, Lovarda-projekttel és játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-has-tervrajz-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g10-has-tervrajz-quiz')}
               />
             </div>
           </section>
@@ -2124,13 +2170,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-has-alkalmazzuk-hasonlosagot" number={6} title="Alkalmazzuk a hasonlóságot!" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Közvetett Magasság- és Távolságmérés"
-                subtitle="Thálész árnyékmódszere, tükörmódszer és terepi mérések"
-                type="Hamarosan"
+                title="Alkalmazzuk a hasonlóságot! Tananyag"
+                subtitle="Közvetett magasság- és távolságmérés, Thálész-módszer, margó-csapda, biometria"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-has-alkalmazzuk-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
+                color="cyan"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 válogatott feladat 3 szinten, terepi mérésekkel, érettségi logikával és játékokkal"
+                type="Kvíz"
                 emoji="🎯"
-                disabled={true}
+                onClick={() => onActivitySelect('g10-has-alkalmazzuk-quiz', topicId)}
                 icon={<Target className="w-6 h-6" />}
                 color="cyan"
+                {...getTopicProgress('g10-has-alkalmazzuk-quiz')}
               />
             </div>
           </section>
@@ -2142,13 +2198,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-has-parhuzamos-szelok" number={7} title="Ráadás – Párhuzamos szelők tétele" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Szelők és Szelőszakaszok Tétele"
-                subtitle="Szögszárakat metsző párhuzamosok és szakaszosztás"
-                type="Hamarosan"
-                emoji="📏"
-                disabled={true}
-                icon={<Split className="w-6 h-6" />}
+                title="Párhuzamos szelők tétele Tananyag"
+                subtitle="Párhuzamos szelők és szelőszakaszok, trapéz-szár csapda, szakaszfelosztás és telekosztás"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-has-parhuzamos-szelok-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, szelőtétel aránypárok, telekosztás és szerkesztési eljárások"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-has-parhuzamos-szelok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="teal"
+                {...getTopicProgress('g10-has-parhuzamos-szelok-quiz')}
               />
             </div>
           </section>
@@ -2160,13 +2226,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-has-haromszogek-hasonlosaga" number={8} title="Háromszögek hasonlósága" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A Négy Hasonlósági Alapeset"
-                subtitle="sz-sz, o-o-o, o-sz-o, o-o-sz feltételek alkalmazása"
-                type="Hamarosan"
-                emoji="🔺"
-                disabled={true}
-                icon={<Shapes className="w-6 h-6" />}
+                title="Háromszögek hasonlósága Tananyag"
+                subtitle="A 4 hasonlósági alapeset, matrózok szögátlagolása, felhőkarcolók skálázása, érettségi geometriai konfigurációk"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-has-haromszogek-hasonlosaga-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, alapesetek tesztelése, homokóra, téglalap negyedelőpont és derékszögű trapéz"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-has-haromszogek-hasonlosaga-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g10-has-haromszogek-hasonlosaga-quiz')}
               />
             </div>
           </section>
@@ -2178,13 +2254,23 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-has-kozepvonalak-sulyvonalak" number={9} title="Háromszög középvonalai és súlyvonalai" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Középvonalak és a Súlypont 2:1 Aránya"
-                subtitle="Nevezetes vonalak tulajdonságai és hasonlósági bizonyítása"
-                type="Hamarosan"
-                emoji="⚖️"
-                disabled={true}
-                icon={<Scale className="w-6 h-6" />}
+                title="Középvonalak és súlyvonalak Tananyag"
+                subtitle="Középvonal-tétel (k = c/2), súlypont 2:1 osztása, területfelezés (T/2, T/4, T/6) és derékszögű átfogó-súlyvonal"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-has-kozepvonalak-sulyvonalak-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, középvonal- és súlypont-számítások, Pitagoraszi hármasok és bizonyítások"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-has-kozepvonalak-sulyvonalak-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g10-has-kozepvonalak-sulyvonalak-quiz')}
               />
             </div>
           </section>
@@ -2196,121 +2282,77 @@ export const Grade10View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g10-sec-has-magassag-befogotetel" number={10} title="Ráadás – Magasságtétel, befogótétel" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Derékszögű Háromszögek Metrikus Tételei"
-                subtitle="m = √(pq), a = √(cp), b = √(cq) és a Pitagorasz-tétel"
-                type="Hamarosan"
-                emoji="📐"
-                disabled={true}
-                icon={<Calculator className="w-6 h-6" />}
+                title="Magasságtétel és befogótétel Tananyag"
+                subtitle="m = √(p·q), a = √(p·c), b = √(q·c), Pitagorasz-tétel levezetése és AM-GM egyenlőtlenség Thálész-félkörrel"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-has-magassag-befogotetel-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
               />
-            </div>
-          </section>
-        )}
-
-        {/* Section 11: Gyakorlás */}
-        {(showAll || activeSubSectionId === 'g10-sec-has-gyakorlas') && (
-          <section>
-            <SectionHeader id="g10-sec-has-gyakorlas" number={11} title="Gyakorlás" color="purple" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Összetett Hasonlósági Feladatok"
-                subtitle="Oldal- és területszámítások hasonló alakzatokban"
-                type="Hamarosan"
-                emoji="📝"
-                disabled={true}
-                icon={<Brain className="w-6 h-6" />}
-                color="purple"
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten, magasságtétel, befogótétel, mértani közép és Pitagorasz levezetések ábrákkal és játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-has-magassag-befogotetel-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g10-has-magassag-befogotetel-quiz')}
               />
             </div>
           </section>
         )}
 
-        {/* Section 12: Ráadás – Szépség és művészet */}
-        {(showAll || activeSubSectionId === 'g10-sec-has-szepseg-muveszet') && (
-          <section>
-            <SectionHeader id="g10-sec-has-szepseg-muveszet" number={12} title="Ráadás – Szépség és művészet" color="pink" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Aranymetszés és Önhasonlóság"
-                subtitle="Φ ≈ 1,618 arány, fraktálok és a természet geometriája"
-                type="Hamarosan"
-                emoji="✨"
-                disabled={true}
-                icon={<Sparkles className="w-6 h-6" />}
-                color="pink"
-              />
-            </div>
-          </section>
-        )}
-
-        {/* Section 13: Ismétlés, gyakorlás */}
-        {(showAll || activeSubSectionId === 'g10-sec-has-ismetles-gyakorlas') && (
-          <section>
-            <SectionHeader id="g10-sec-has-ismetles-gyakorlas" number={13} title="Ismétlés, gyakorlás" color="teal" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Átfogó Hasonlósági Ismétlés"
-                subtitle="Fogalmi háló, alapesetek és típushibák megbeszélése"
-                type="Hamarosan"
-                emoji="📚"
-                disabled={true}
-                icon={<BookOpen className="w-6 h-6" />}
-                color="teal"
-              />
-            </div>
-          </section>
-        )}
-
-        {/* Section 14: Gyakorlás, tudáspróba */}
+        {/* Section 11: Gyakorlás, tudáspróba */}
         {(showAll || activeSubSectionId === 'g10-sec-has-tudasproba') && (
           <section>
-            <SectionHeader id="g10-sec-has-tudasproba" number={14} title="Gyakorlás, tudáspróba" color="violet" />
+            <SectionHeader id="g10-sec-has-tudasproba" number={11} title="Gyakorlás, tudáspróba" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Hasonlóság Tudáspróba"
-                subtitle="Fejezeti feladatsor és geometriai témazáró"
-                type="Hamarosan"
-                emoji="🏆"
-                disabled={true}
-                icon={<Trophy className="w-6 h-6" />}
+                title="Gyakorlás, tudáspróba Tananyag"
+                subtitle="Fejezeti összefoglaló elmélet, alaptételek, skálázási törvények, laboratóriumok és levezetések"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g10-has-tudasproba-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
               />
-            </div>
-          </section>
-        )}
-
-        {/* Section 15: Témazáró feladatgyűjtemény */}
-        {(showAll || activeSubSectionId === 'g10-sec-has-temazaro-gyujtemeny') && (
-          <section>
-            <SectionHeader id="g10-sec-has-temazaro-gyujtemeny" number={15} title="Témazáró feladatgyűjtemény" color="blue" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Összetett Év Végi Feladatgyűjtemény"
-                subtitle="Érettségi és verseny típusú emelt szintű feladatok"
-                type="Hamarosan"
-                emoji="📦"
-                disabled={true}
-                icon={<Boxes className="w-6 h-6" />}
-                color="blue"
+                title="Gyakorló Kvíz"
+                subtitle="90 feladat 3 szinten (30 feladat/szint), átfogó fejezeti témazáró tudáspróba ábrákkal és beépített játékokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g10-has-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="violet"
+                {...getTopicProgress('g10-has-tudasproba-quiz')}
               />
             </div>
           </section>
         )}
+      </div>
+    );
+  }
 
-        {/* Section 16: Ráadás – Mindennapi pénzügyeink */}
-        {(showAll || activeSubSectionId === 'g10-sec-has-mindennapi-penzugyek') && (
+  // Topic X: Év végi ismétlés
+  if (topicId === 'g10-ev-vegi-ismetles') {
+    const showAll = !activeSubSectionId;
+
+    return (
+      <div className="flex flex-col gap-10 py-6">
+        {(showAll || activeSubSectionId === 'g10-sec-ev-vegi-ismetles-hamarosan') && (
           <section>
-            <SectionHeader id="g10-sec-has-mindennapi-penzugyek" number={16} title="Ráadás – Mindennapi pénzügyeink" color="amber" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+            <SectionHeader id="g10-sec-ev-vegi-ismetles-hamarosan" number={1} title="Év végi ismétlés" color="violet" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               <ActivityPlaceholder
-                title="Pénzügyi Matematika és Tudatosság"
-                subtitle="Kamatos kamat, THM, infláció és befektetési stratégiák"
+                title="Év végi átfogó ismétlés"
+                subtitle="A 10. osztályos tananyag témaköreit átfogó feladatsorok és érettségi előkészítő tudáspróbák hamarosan elérhetők."
                 type="Hamarosan"
-                emoji="🪙"
+                emoji="⏳"
                 disabled={true}
-                icon={<Coins className="w-6 h-6" />}
-                color="amber"
+                icon={<Clock className="w-6 h-6" />}
+                color="violet"
               />
             </div>
           </section>

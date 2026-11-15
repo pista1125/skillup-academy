@@ -775,6 +775,14 @@ export const mathTopics: MathTopic[] = [
     color: 'from-yellow-500 to-amber-600',
     grades: ['high-2', 10],
   },
+  {
+    id: 'g10-ev-vegi-ismetles',
+    title: 'X. ÉV VÉGI ISMÉTLÉS',
+    description: 'A 10. osztályos tananyag átfogó rendszerezése, év végi összefoglaló feladatgyűjtemények és érettségi előkészítés',
+    icon: '🏁',
+    color: 'from-purple-600 to-indigo-600',
+    grades: ['high-2', 10],
+  },
 
   // 11. osztályos témakörök
   {

@@ -1,0 +1,3 @@
+// X. Év végi ismétlés (10. osztály)
+// Hamarosan...
+export {};

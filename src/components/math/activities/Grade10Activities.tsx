@@ -174,6 +174,28 @@ const Grade10QuadraticSystemsTheory = lazy(() => import("@/components/math/grade
 const Grade10QuadraticSystemsQuiz = lazy(() => import("@/components/math/grade-10/egyenletek-es-egyenlotlensegek/masodfoku-egyenletrendszerek/QuadraticSystemsQuiz").then(m => ({ default: m.QuadraticSystemsQuiz })))
 const Grade10Topic8PracticeExamTheory = lazy(() => import("@/components/math/grade-10/egyenletek-es-egyenlotlensegek/gyakorlas-tudasproba/PracticeExamTheory").then(m => ({ default: m.PracticeExamTheory })))
 const Grade10Topic8PracticeExamQuiz = lazy(() => import("@/components/math/grade-10/egyenletek-es-egyenlotlensegek/gyakorlas-tudasproba/PracticeExamQuiz").then(m => ({ default: m.PracticeExamQuiz })))
+const Grade10CentralDilationTheory = lazy(() => import("@/components/math/grade-10/hasonlosag/kozeppontos-nagyitas-kicsinyites/CentralDilationTheory").then(m => ({ default: m.CentralDilationTheory })))
+const Grade10CentralDilationQuiz = lazy(() => import("@/components/math/grade-10/hasonlosag/kozeppontos-nagyitas-kicsinyites/CentralDilationQuiz").then(m => ({ default: m.CentralDilationQuiz })))
+const Grade10HomothetyTheory = lazy(() => import("@/components/math/grade-10/hasonlosag/kozeppontos-hasonlosag/HomothetyTheory").then(m => ({ default: m.HomothetyTheory })))
+const Grade10HomothetyQuiz = lazy(() => import("@/components/math/grade-10/hasonlosag/kozeppontos-hasonlosag/HomothetyQuiz").then(m => ({ default: m.HomothetyQuiz })))
+const Grade10GeometricMappingsTheory = lazy(() => import("@/components/math/grade-10/hasonlosag/geometriai-hozzarendelesek/GeometricMappingsTheory").then(m => ({ default: m.GeometricMappingsTheory })))
+const Grade10GeometricMappingsQuiz = lazy(() => import("@/components/math/grade-10/hasonlosag/geometriai-hozzarendelesek/GeometricMappingsQuiz").then(m => ({ default: m.GeometricMappingsQuiz })))
+const Grade10SimilarityTheory = lazy(() => import("@/components/math/grade-10/hasonlosag/hasonlosag/SimilarityTheory").then(m => ({ default: m.SimilarityTheory })))
+const Grade10SimilarityQuiz = lazy(() => import("@/components/math/grade-10/hasonlosag/hasonlosag/SimilarityQuiz").then(m => ({ default: m.SimilarityQuiz })))
+const Grade10BlueprintTheory = lazy(() => import("@/components/math/grade-10/hasonlosag/mit-mutat-a-tervrajz/BlueprintTheory").then(m => ({ default: m.BlueprintTheory })))
+const Grade10BlueprintQuiz = lazy(() => import("@/components/math/grade-10/hasonlosag/mit-mutat-a-tervrajz/BlueprintQuiz").then(m => ({ default: m.BlueprintQuiz })))
+const Grade10PracticalSimilarityTheory = lazy(() => import("@/components/math/grade-10/hasonlosag/alkalmazzuk-a-hasonlosagot/PracticalSimilarityTheory").then(m => ({ default: m.PracticalSimilarityTheory })))
+const Grade10PracticalSimilarityQuiz = lazy(() => import("@/components/math/grade-10/hasonlosag/alkalmazzuk-a-hasonlosagot/PracticalSimilarityQuiz").then(m => ({ default: m.PracticalSimilarityQuiz })))
+const Grade10ParallelInterceptTheory = lazy(() => import("@/components/math/grade-10/hasonlosag/parhuzamos-szelok-tetele/ParallelInterceptTheory").then(m => ({ default: m.ParallelInterceptTheory })))
+const Grade10ParallelInterceptQuiz = lazy(() => import("@/components/math/grade-10/hasonlosag/parhuzamos-szelok-tetele/ParallelInterceptQuiz").then(m => ({ default: m.ParallelInterceptQuiz })))
+const Grade10TriangleSimilarityTheory = lazy(() => import("@/components/math/grade-10/hasonlosag/haromszogek-hasonlosaga/TriangleSimilarityTheory").then(m => ({ default: m.TriangleSimilarityTheory })))
+const Grade10TriangleSimilarityQuiz = lazy(() => import("@/components/math/grade-10/hasonlosag/haromszogek-hasonlosaga/TriangleSimilarityQuiz").then(m => ({ default: m.TriangleSimilarityQuiz })))
+const Grade10MidlinesMediansTheory = lazy(() => import("@/components/math/grade-10/hasonlosag/haromszog-kozepvonalai-es-sulyvonalai/MidlinesMediansTheory").then(m => ({ default: m.MidlinesMediansTheory })))
+const Grade10MidlinesMediansQuiz = lazy(() => import("@/components/math/grade-10/hasonlosag/haromszog-kozepvonalai-es-sulyvonalai/MidlinesMediansQuiz").then(m => ({ default: m.MidlinesMediansQuiz })))
+const Grade10AltitudeLegTheoremsTheory = lazy(() => import("@/components/math/grade-10/hasonlosag/magassagtetel-befogotetel/AltitudeLegTheoremsTheory").then(m => ({ default: m.AltitudeLegTheoremsTheory })))
+const Grade10AltitudeLegTheoremsQuiz = lazy(() => import("@/components/math/grade-10/hasonlosag/magassagtetel-befogotetel/AltitudeLegTheoremsQuiz").then(m => ({ default: m.AltitudeLegTheoremsQuiz })))
+const Grade10SimilarityPracticeExamTheory = lazy(() => import("@/components/math/grade-10/hasonlosag/gyakorlas-tudasproba/SimilarityPracticeExamTheory").then(m => ({ default: m.SimilarityPracticeExamTheory })))
+const Grade10SimilarityPracticeExamQuiz = lazy(() => import("@/components/math/grade-10/hasonlosag/gyakorlas-tudasproba/SimilarityPracticeExamQuiz").then(m => ({ default: m.SimilarityPracticeExamQuiz })))
 
 export const Grade10Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -2664,6 +2686,382 @@ export const Grade10Activities: React.FC<ActivityRouterProps> = ({
                       onSwitchToSorter={() => handleActivitySelect('g10-eq-gyakorlas-tudasproba-sorter', selectedTopic || 'g10-egyenletek-egyenlotlensegek')}
                     />
                   )}
+
+                  {/* Topic IX: Hasonlóság */}
+                  {/* 1. Középpontos nagyítás, kicsinyítés */}
+                  {activityType === 'g10-has-nagyitas-kicsinyites-theory' && (
+                    <Grade10CentralDilationTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-has-nagyitas-kicsinyites-quiz', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-nagyitas-kicsinyites-quiz' && (
+                    <Grade10CentralDilationQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-nagyitas-kicsinyites-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-nagyitas-kicsinyites-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-nagyitas-kicsinyites-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-nagyitas-kicsinyites-matcher' && (
+                    <Grade10CentralDilationQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-nagyitas-kicsinyites-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-nagyitas-kicsinyites-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-nagyitas-kicsinyites-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-nagyitas-kicsinyites-sorter' && (
+                    <Grade10CentralDilationQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-nagyitas-kicsinyites-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-nagyitas-kicsinyites-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-nagyitas-kicsinyites-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+
+                  {/* 2. Középpontos hasonlóság */}
+                  {activityType === 'g10-has-kozeppontos-hasonlosag-theory' && (
+                    <Grade10HomothetyTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-has-kozeppontos-hasonlosag-quiz', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-kozeppontos-hasonlosag-quiz' && (
+                    <Grade10HomothetyQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-kozeppontos-hasonlosag-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-kozeppontos-hasonlosag-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-kozeppontos-hasonlosag-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-kozeppontos-hasonlosag-matcher' && (
+                    <Grade10HomothetyQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-kozeppontos-hasonlosag-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-kozeppontos-hasonlosag-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-kozeppontos-hasonlosag-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-kozeppontos-hasonlosag-sorter' && (
+                    <Grade10HomothetyQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-kozeppontos-hasonlosag-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-kozeppontos-hasonlosag-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-kozeppontos-hasonlosag-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+
+                  {/* 3. Geometriai hozzárendelések */}
+                  {activityType === 'g10-has-geometriai-hozzarendelesek-theory' && (
+                    <Grade10GeometricMappingsTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-has-geometriai-hozzarendelesek-quiz', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-geometriai-hozzarendelesek-quiz' && (
+                    <Grade10GeometricMappingsQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-geometriai-hozzarendelesek-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-geometriai-hozzarendelesek-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-geometriai-hozzarendelesek-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-geometriai-hozzarendelesek-matcher' && (
+                    <Grade10GeometricMappingsQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-geometriai-hozzarendelesek-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-geometriai-hozzarendelesek-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-geometriai-hozzarendelesek-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-geometriai-hozzarendelesek-sorter' && (
+                    <Grade10GeometricMappingsQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-geometriai-hozzarendelesek-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-geometriai-hozzarendelesek-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-geometriai-hozzarendelesek-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+
+                  {/* 4. Hasonlóság */}
+                  {activityType === 'g10-has-hasonlosag-theory' && (
+                    <Grade10SimilarityTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-has-hasonlosag-quiz', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-hasonlosag-quiz' && (
+                    <Grade10SimilarityQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-hasonlosag-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-hasonlosag-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-hasonlosag-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-hasonlosag-matcher' && (
+                    <Grade10SimilarityQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-hasonlosag-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-hasonlosag-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-hasonlosag-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-hasonlosag-sorter' && (
+                    <Grade10SimilarityQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-hasonlosag-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-hasonlosag-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-hasonlosag-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+
+                  {/* 5. Ráadás – Mit mutat a tervrajz? */}
+                  {activityType === 'g10-has-tervrajz-theory' && (
+                    <Grade10BlueprintTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-has-tervrajz-quiz', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-tervrajz-quiz' && (
+                    <Grade10BlueprintQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-tervrajz-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-tervrajz-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-tervrajz-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-tervrajz-matcher' && (
+                    <Grade10BlueprintQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-tervrajz-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-tervrajz-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-tervrajz-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-tervrajz-sorter' && (
+                    <Grade10BlueprintQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-tervrajz-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-tervrajz-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-tervrajz-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+
+                  {/* 6. Alkalmazzuk a hasonlóságot! */}
+                  {activityType === 'g10-has-alkalmazzuk-theory' && (
+                    <Grade10PracticalSimilarityTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-has-alkalmazzuk-quiz', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-alkalmazzuk-quiz' && (
+                    <Grade10PracticalSimilarityQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-alkalmazzuk-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-alkalmazzuk-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-alkalmazzuk-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-alkalmazzuk-matcher' && (
+                    <Grade10PracticalSimilarityQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-alkalmazzuk-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-alkalmazzuk-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-alkalmazzuk-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-alkalmazzuk-sorter' && (
+                    <Grade10PracticalSimilarityQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-alkalmazzuk-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-alkalmazzuk-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-alkalmazzuk-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+
+                  {/* 7. Ráadás – Párhuzamos szelők tétele */}
+                  {activityType === 'g10-has-parhuzamos-szelok-theory' && (
+                    <Grade10ParallelInterceptTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-has-parhuzamos-szelok-quiz', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-parhuzamos-szelok-quiz' && (
+                    <Grade10ParallelInterceptQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-parhuzamos-szelok-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-parhuzamos-szelok-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-parhuzamos-szelok-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-parhuzamos-szelok-matcher' && (
+                    <Grade10ParallelInterceptQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-parhuzamos-szelok-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-parhuzamos-szelok-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-parhuzamos-szelok-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-parhuzamos-szelok-sorter' && (
+                    <Grade10ParallelInterceptQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-parhuzamos-szelok-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-parhuzamos-szelok-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-parhuzamos-szelok-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+
+                  {/* 8. Háromszögek hasonlósága */}
+                  {activityType === 'g10-has-haromszogek-hasonlosaga-theory' && (
+                    <Grade10TriangleSimilarityTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-has-haromszogek-hasonlosaga-quiz', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-haromszogek-hasonlosaga-quiz' && (
+                    <Grade10TriangleSimilarityQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-haromszogek-hasonlosaga-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-haromszogek-hasonlosaga-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-haromszogek-hasonlosaga-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-haromszogek-hasonlosaga-matcher' && (
+                    <Grade10TriangleSimilarityQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-haromszogek-hasonlosaga-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-haromszogek-hasonlosaga-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-haromszogek-hasonlosaga-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-haromszogek-hasonlosaga-sorter' && (
+                    <Grade10TriangleSimilarityQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-haromszogek-hasonlosaga-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-haromszogek-hasonlosaga-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-haromszogek-hasonlosaga-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+
+                  {/* 9. Háromszög középvonalai és súlyvonalai */}
+                  {activityType === 'g10-has-kozepvonalak-sulyvonalak-theory' && (
+                    <Grade10MidlinesMediansTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-has-kozepvonalak-sulyvonalak-quiz', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-kozepvonalak-sulyvonalak-quiz' && (
+                    <Grade10MidlinesMediansQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-kozepvonalak-sulyvonalak-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-kozepvonalak-sulyvonalak-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-kozepvonalak-sulyvonalak-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-kozepvonalak-sulyvonalak-matcher' && (
+                    <Grade10MidlinesMediansQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-kozepvonalak-sulyvonalak-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-kozepvonalak-sulyvonalak-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-kozepvonalak-sulyvonalak-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-kozepvonalak-sulyvonalak-sorter' && (
+                    <Grade10MidlinesMediansQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-kozepvonalak-sulyvonalak-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-kozepvonalak-sulyvonalak-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-kozepvonalak-sulyvonalak-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+
+                  {/* 10. Ráadás – Magasságtétel, befogótétel */}
+                  {activityType === 'g10-has-magassag-befogotetel-theory' && (
+                    <Grade10AltitudeLegTheoremsTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-has-magassag-befogotetel-quiz', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-magassag-befogotetel-quiz' && (
+                    <Grade10AltitudeLegTheoremsQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-magassag-befogotetel-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-magassag-befogotetel-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-magassag-befogotetel-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-magassag-befogotetel-matcher' && (
+                    <Grade10AltitudeLegTheoremsQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-magassag-befogotetel-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-magassag-befogotetel-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-magassag-befogotetel-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-magassag-befogotetel-sorter' && (
+                    <Grade10AltitudeLegTheoremsQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-magassag-befogotetel-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-magassag-befogotetel-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-magassag-befogotetel-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+
+                  {/* 11. Gyakorlás, tudáspróba */}
+                  {activityType === 'g10-has-tudasproba-theory' && (
+                    <Grade10SimilarityPracticeExamTheory
+                      onBack={handleBack}
+                      onStartQuiz={() => handleActivitySelect('g10-has-tudasproba-quiz', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-tudasproba-quiz' && (
+                    <Grade10SimilarityPracticeExamQuiz
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-tudasproba-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-tudasproba-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-tudasproba-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-tudasproba-matcher' && (
+                    <Grade10SimilarityPracticeExamQuiz
+                      initialGameMode="matcher"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-tudasproba-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-tudasproba-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-tudasproba-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+                  {activityType === 'g10-has-tudasproba-sorter' && (
+                    <Grade10SimilarityPracticeExamQuiz
+                      initialGameMode="sorter"
+                      onBack={handleBack}
+                      onSwitchToTheory={() => handleActivitySelect('g10-has-tudasproba-theory', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToMatcher={() => handleActivitySelect('g10-has-tudasproba-matcher', selectedTopic || 'g10-hasonlosag')}
+                      onSwitchToSorter={() => handleActivitySelect('g10-has-tudasproba-sorter', selectedTopic || 'g10-hasonlosag')}
+                    />
+                  )}
+
 
 
     </>

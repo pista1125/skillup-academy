@@ -17,9 +17,4 @@ A középiskolai matematika 10. osztályos tananyagának kilencedik fejezete a g
 8. **Háromszögek hasonlósága** (`haromszogek-hasonlosaga`) – 72. lecke: A 4 hasonlósági alapeset (sz-sz, o-o-o, o-sz-o, o-o-sz).
 9. **Háromszög középvonalai és súlyvonalai** (`haromszog-kozepvonalai-es-sulyvonalai`) – 73. lecke: Középvonalak tulajdonságai, súlypont $2:1$ arányú osztása.
 10. **Ráadás – Magasságtétel, befogótétel** (`magassagtetel-befogotetel`) – Derékszögű háromszögek metrikus tételei és Pitagorasz tétele.
-11. **Gyakorlás** (`gyakorlas-hasonlosag`) – 74. lecke: Összetett geometriai és számítási feladatok.
-12. **Ráadás – Szépség és művészet** (`szepseg-es-muveszet`) – Aranymetszés ($\Phi$), fraktálok és önhasonlóság a természetben.
-13. **Ismétlés, gyakorlás** (`ismetles-gyakorlas`) – 75. lecke: Fejezeti összefoglalás, tételek és képletek rendszere.
-14. **Gyakorlás, tudáspróba** (`gyakorlas-tudasproba`) – 76. lecke: Témazáró felmérő és önértékelés.
-15. **Témazáró feladatgyűjtemény** (`temazaro-feladatgyujtemeny`) – Év végi és érettségi szintű összetett feladatgyűjtemény.
-16. **Ráadás – Mindennapi pénzügyeink** (`mindennapi-penzugyeink`) – Kamatos kamat, hitelek, THM, infláció és pénzügyi tudatosság.
+11. **Gyakorlás, tudáspróba** (`gyakorlas-tudasproba`) – 76. lecke: Témazáró összefoglalás, felmérő és önértékelés.
