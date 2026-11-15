@@ -138,7 +138,7 @@ const quizLevels: LevelConfig[] = [
             <circle cx="20" cy="42" r="3" className="fill-indigo-700" />
             <circle cx="130" cy="42" r="3" className="fill-indigo-700" />
             <circle cx="75" cy="42" r="3" className="fill-rose-600" />
-            <rect x="75" y="34" width="8" height="8" fill="none" className="stroke-slate-500 stroke-[1]" />
+            <path d="M 85 42 A 10 10 0 0 0 75 32" fill="none" className="stroke-slate-500 stroke-[1]" /><circle cx="78.9" cy="38.1" r="1.4" className="fill-slate-500" />
             <text x="18" y="55" className="text-[9px] font-bold fill-indigo-700 dark:fill-indigo-300">A</text>
             <text x="128" y="55" className="text-[9px] font-bold fill-indigo-700 dark:fill-indigo-300">B</text>
             <text x="71" y="55" className="text-[9px] font-bold fill-rose-600">F</text>
@@ -223,7 +223,7 @@ const quizLevels: LevelConfig[] = [
           <svg viewBox="0 0 150 70" className="w-36 h-16 mx-auto">
             <polygon points="65,10 20,60 130,60" fill="none" className="stroke-purple-600 stroke-[2]" />
             <line x1="65" y1="10" x2="65" y2="60" className="stroke-rose-600 stroke-[2]" strokeDasharray="2 2" />
-            <rect x="65" y="52" width="8" height="8" fill="none" className="stroke-slate-500 stroke-[1]" />
+            <path d="M 75 60 A 10 10 0 0 0 65 50" fill="none" className="stroke-slate-500 stroke-[1]" /><circle cx="68.9" cy="56.1" r="1.4" className="fill-slate-500" />
             <text x="70" y="38" className="text-[10px] font-bold fill-rose-600">m_c</text>
           </svg>
         ),
@@ -449,7 +449,7 @@ const quizLevels: LevelConfig[] = [
         figure: (
           <svg viewBox="0 0 140 65" className="w-32 h-15 mx-auto">
             <polygon points="35,15 35,55 115,55" fill="none" className="stroke-purple-600 stroke-[2]" />
-            <rect x="35" y="45" width="10" height="10" fill="none" className="stroke-purple-400 stroke-[1]" />
+            <path d="M 47 55 A 12 12 0 0 0 35 43" fill="none" className="stroke-purple-400 stroke-[1]" />
             <circle cx="35" cy="55" r="4" className="fill-rose-600" />
             <text x="18" y="58" className="text-[11px] font-bold fill-rose-600">M</text>
           </svg>

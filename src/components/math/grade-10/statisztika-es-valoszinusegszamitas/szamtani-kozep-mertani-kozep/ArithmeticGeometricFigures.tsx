@@ -101,11 +101,12 @@ export const AmGmThalesSvg: React.FC<{
 
       {/* Derékszög jele a magasság talppontjánál */}
       <path
-        d={`M ${splitX} ${groundY - 10} L ${splitX + 10} ${groundY - 10} L ${splitX + 10} ${groundY}`}
+        d={`M ${splitX} ${groundY - 12} A 12 12 0 0 1 ${splitX + 12} ${groundY}`}
         fill="none"
         stroke="#94a3b8"
         strokeWidth="1.5"
       />
+      <circle cx={splitX + 4.7} cy={groundY - 4.7} r="1.6" fill="#94a3b8" />
 
       {/* Magyarázó feliratok */}
       {/* a és b szakasz címkék */}

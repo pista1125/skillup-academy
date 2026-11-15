@@ -34,7 +34,7 @@ const matcherLevels: Record<DifficultyLevel, MatcherLevelConfig> = {
         promptFigure: (
           <svg viewBox="0 0 70 35" className="w-16 h-8 mx-auto">
             <polygon points="15,6 15,30 60,30" className="fill-blue-100 stroke-blue-600 stroke-[2]" />
-            <rect x="15" y="22" width="8" height="8" fill="none" className="stroke-blue-500 stroke-[1.5]" />
+            <path d="M 25 30 A 10 10 0 0 0 15 20" fill="none" className="stroke-blue-500 stroke-[1.5]" /><circle cx="18.9" cy="26.1" r="1.4" className="fill-blue-500" />
           </svg>
         )
       },

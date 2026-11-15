@@ -389,7 +389,7 @@ export const GeometrySoftwareTheory: React.FC<GeometrySoftwareTheoryProps> = ({
                     <circle cx={245} cy={120} r="3.5" fill="#10b981" />
                     <circle cx={245} cy={50} r="3.5" fill="#10b981" />
                     <circle cx={175} cy={50} r="3.5" fill="#10b981" />
-                    <rect x="237" y="112" width="8" height="8" fill="none" stroke="#10b981" strokeWidth="1" />
+                    <path d="M 235 120 A 10 10 0 0 1 245 110" fill="none" stroke="#10b981" strokeWidth="1" /><circle cx="241.1" cy="116.1" r="1.4" fill="#10b981" />
                     <text x="180" y="90" className="text-[8px] font-bold fill-emerald-200">
                       ✅ Szigorúan 90° és a=b!
                     </text>

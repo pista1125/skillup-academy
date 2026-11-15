@@ -230,7 +230,7 @@ const quizLevels: Record<number, LevelConfig> = {
         figure: (
           <svg viewBox="0 0 200 90" className="w-48 h-24 mx-auto">
             <polygon points="30,75 160,75 30,15" fill="none" stroke="#16a34a" strokeWidth="2" />
-            <rect x="30" y="63" width="12" height="12" fill="none" stroke="#16a34a" strokeWidth="1.2" />
+            <path d="M 44 75 A 14 14 0 0 0 30 61" fill="none" stroke="#16a34a" strokeWidth="1.2" /><circle cx="35.4" cy="69.6" r="2" fill="#16a34a" />
             <text x="125" y="70" className="text-[10px] font-bold fill-emerald-700">42°</text>
             <text x="35" y="32" className="text-[10px] font-bold fill-sky-700">β = ?</text>
           </svg>

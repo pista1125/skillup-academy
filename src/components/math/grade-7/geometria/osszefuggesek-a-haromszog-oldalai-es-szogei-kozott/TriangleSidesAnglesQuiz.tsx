@@ -119,7 +119,7 @@ const quizLevels: Record<1 | 2 | 3, LevelConfig> = {
         figure: (
           <svg viewBox="0 0 160 75" className="w-36 h-15 mx-auto">
             <polygon points="25,65 135,65 25,15" className="fill-blue-500/10 stroke-blue-600 stroke-2" />
-            <path d="M 25,54 L 36,54 L 36,65" fill="none" className="stroke-slate-600 stroke-[1.5]" />
+            <path d="M 25 52 A 13 13 0 0 1 38 65" fill="none" stroke="currentColor" /><circle cx="30.1" cy="59.9" r="1.9" fill="currentColor" />
             <circle cx="30" cy="59" r="1.5" className="fill-slate-600" />
             <path d="M 115,65 A 20,20 0 0,1 120,58" fill="none" className="stroke-indigo-600 stroke-2" />
             <text x="100" y="60" className="text-[9px] font-bold fill-indigo-600">42°</text>
@@ -303,7 +303,7 @@ const quizLevels: Record<1 | 2 | 3, LevelConfig> = {
         figure: (
           <svg viewBox="0 0 160 75" className="w-36 h-15 mx-auto">
             <polygon points="25,65 135,65 25,18" className="fill-sky-500/10 stroke-sky-600 stroke-2" />
-            <path d="M 25,55 L 35,55 L 35,65" fill="none" className="stroke-slate-600 stroke-[1.5]" />
+            <path d="M 25 53 A 12 12 0 0 1 37 65" fill="none" stroke="currentColor" /><circle cx="29.7" cy="60.3" r="1.7" fill="currentColor" />
             <text x="32" y="35" className="text-[9px] font-bold fill-sky-700">60°</text>
             <text x="105" y="60" className="text-[9px] font-bold fill-sky-700">30°</text>
             <text x="18" y="60" textAnchor="middle" className="text-[9px] font-bold fill-sky-700">90°</text>

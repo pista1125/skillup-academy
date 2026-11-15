@@ -38,7 +38,7 @@ export const SlopeTriangleSvg: React.FC<FigureProps> = ({ size = 280, className 
       <text x="220" y="115" fill="#b45309" fontSize="11" fontWeight="bold">Δy = y₂ - y₁</text>
 
       {/* Derékszög jele */}
-      <rect x="198" y="138" width="12" height="12" fill="none" stroke="#64748b" strokeWidth="1.2" />
+      <path d="M 196 150 A 14 14 0 0 1 210 136" fill="none" stroke="#64748b" strokeWidth="1.2" /><circle cx="204.6" cy="144.6" r="2" fill="#64748b" />
 
       {/* P1 pont */}
       <circle cx="90" cy="150" r="5" fill="#ef4444" stroke="#ffffff" strokeWidth="1.5" />
@@ -139,7 +139,7 @@ export const ParallelPerpendicularSvg: React.FC<FigureProps> = ({ size = 280, cl
       <line x1="185" y1="155" x2="285" y2="85" stroke="#a21caf" strokeWidth="2.5" />
       <line x1="200" y1="75" x2="270" y2="165" stroke="#d946ef" strokeWidth="2.5" />
       {/* 90 fok derékszög szimbólum */}
-      <rect x="231" y="116" width="8" height="8" fill="none" stroke="#701a75" strokeWidth="1.2" transform="rotate(35 235 120)" />
+      <path d="M 244 113.7 A 11 11 0 0 1 241.8 128.7" fill="none" stroke="#701a75" strokeWidth="1.2" /><circle cx="241" cy="120.9" r="1.6" fill="#701a75" />
       <text x="235" y="190" fill="#701a75" fontSize="9" fontWeight="bold" textAnchor="middle">Negatív reciprok</text>
     </svg>
   );

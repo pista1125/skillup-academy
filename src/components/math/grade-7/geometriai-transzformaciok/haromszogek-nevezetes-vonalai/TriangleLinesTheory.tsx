@@ -564,7 +564,7 @@ export const TriangleLinesTheory: React.FC<TriangleLinesTheoryProps> = ({
                 )}
                 {/* Triangle */}
                 <polygon points="80,50 80,150 220,150" className="fill-indigo-50/40 dark:fill-indigo-950/20 stroke-slate-800 dark:stroke-slate-200 stroke-[2.5]" />
-                <rect x="80" y="136" width="14" height="14" fill="none" className="stroke-slate-600 stroke-[1.5]" />
+                <path d="M 96 150 A 16 16 0 0 0 80 134" fill="none" className="stroke-slate-600 stroke-[1.5]" /><circle cx="86.2" cy="143.8" r="2" className="fill-slate-600" />
                 {/* Incircle */}
                 {showIncircle && (
                   <>

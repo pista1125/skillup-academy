@@ -178,7 +178,7 @@ export const SetsMatcher: React.FC<SetsMatcherProps> = ({
           promptFigure: (
             <svg className="w-10 h-10 mx-auto" viewBox="0 0 40 40" fill="none">
               <rect x="8" y="8" width="24" height="24" className="fill-amber-100 stroke-amber-600" strokeWidth="2" />
-              <path d="M 8 13 L 13 13 L 13 8" className="stroke-amber-700" strokeWidth="1.5" />
+              <path d="M 8 15 A 7 7 0 0 0 15 8" fill="none" stroke="currentColor" strokeWidth="1.5" /><circle cx="10.7" cy="10.7" r="1.1" fill="currentColor" />
             </svg>
           ),
           value: 'A négyzetek halmaza (4 egyenlő oldal ÉS 4 derékszög)'

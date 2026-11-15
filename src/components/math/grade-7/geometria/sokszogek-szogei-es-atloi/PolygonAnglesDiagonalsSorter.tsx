@@ -191,7 +191,7 @@ const level3Config: SorterLevelConfig = {
       figure: (
         <svg viewBox="0 0 80 50" className="w-14 h-8">
           <rect x="25" y="10" width="30" height="30" fill="none" className="stroke-blue-600 stroke-2" />
-          <path d="M 25,33 L 32,33 L 32,40" fill="none" className="stroke-slate-500 stroke-1" />
+          <path d="M 25 31 A 9 9 0 0 1 34 40" fill="none" stroke="currentColor" /><circle cx="28.5" cy="36.5" r="1.3" fill="currentColor" />
           <text x="40" y="28" textAnchor="middle" className="text-[8px] font-bold fill-blue-700">90°</text>
         </svg>
       )

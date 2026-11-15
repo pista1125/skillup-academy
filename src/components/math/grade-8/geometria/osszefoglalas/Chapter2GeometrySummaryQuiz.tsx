@@ -591,7 +591,7 @@ const quizLevels: Record<DifficultyLevel, LevelConfig> = {
           <svg viewBox="0 0 250 65" className="w-full max-w-[250px] h-16 mx-auto">
             <line x1="40" y1="40" x2="210" y2="40" stroke="#0284c7" strokeWidth="2" />
             <line x1="125" y1="10" x2="125" y2="60" stroke="#10b981" strokeWidth="2" />
-            <path d="M 125 32 L 133 32 L 133 40" fill="none" stroke="#10b981" strokeWidth="1" />
+            <path d="M 125 30 A 10 10 0 0 1 135 40" fill="none" stroke="#10b981" strokeWidth="1" /><circle cx="128.9" cy="36.1" r="1.4" fill="#10b981" />
             <text x="145" y="32" className="text-[8px] font-bold fill-emerald-700">90°</text>
           </svg>
         ),

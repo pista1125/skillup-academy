@@ -142,7 +142,7 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
           <svg viewBox="0 0 60 28" className="w-14 h-7 mx-auto">
             <line x1="10" y1="20" x2="50" y2="20" stroke="#94a3b8" strokeWidth="1.2" />
             <line x1="38" y1="5" x2="38" y2="24" stroke="#a855f7" strokeWidth="1.8" />
-            <rect x="38" y="16" width="4" height="4" fill="none" stroke="#a855f7" strokeWidth="0.8" />
+            <path d="M 43 20 A 5 5 0 0 0 38 15" fill="none" stroke="#a855f7" strokeWidth="0.8" /><circle cx="39.9" cy="18.1" r="0.8" fill="#a855f7" />
           </svg>
         )
       },
@@ -213,7 +213,7 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
           <svg viewBox="0 0 60 28" className="w-14 h-7 mx-auto">
             <line x1="30" y1="4" x2="30" y2="24" stroke="#16a34a" strokeWidth="1.8" />
             <line x1="15" y1="14" x2="45" y2="14" stroke="#16a34a" strokeWidth="1.8" />
-            <rect x="30" y="11" width="3" height="3" fill="none" stroke="#16a34a" strokeWidth="0.8" />
+            <path d="M 35 14 A 5 5 0 0 0 30 9" fill="none" stroke="#16a34a" strokeWidth="0.8" /><circle cx="31.9" cy="12.1" r="1.1" fill="#16a34a" />
           </svg>
         )
       },
@@ -364,7 +364,7 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
         figure: (
           <svg viewBox="0 0 60 28" className="w-14 h-7 mx-auto">
             <line x1="15" y1="14" x2="45" y2="14" stroke="#f59e0b" strokeWidth="1.5" />
-            <rect x="28" y="11" width="3" height="3" fill="none" stroke="#f59e0b" strokeWidth="0.8" />
+            <path d="M 32 14 A 4 4 0 0 0 28 10" fill="none" stroke="#f59e0b" strokeWidth="0.8" /><circle cx="29.6" cy="12.4" r="0.8" fill="#f59e0b" />
             <text x="12" y="24" className="text-[6px] font-bold fill-amber-700">Csak derékszögűnél</text>
           </svg>
         )

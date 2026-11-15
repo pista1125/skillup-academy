@@ -157,7 +157,7 @@ const matcherLevels: Record<DifficultyLevel, MatcherLevelConfig> = {
             <polygon points="35,5 55,17.5 35,30 15,17.5" fill="#f0fdf4" stroke="#16a34a" strokeWidth="1.2" />
             <line x1="35" y1="5" x2="35" y2="30" stroke="#16a34a" strokeWidth="1" />
             <line x1="15" y1="17.5" x2="55" y2="17.5" stroke="#16a34a" strokeWidth="1" />
-            <rect x="35" y="14.5" width="3" height="3" fill="none" stroke="#16a34a" strokeWidth="0.8" />
+            <path d="M 40 17.5 A 5 5 0 0 0 35 12.5" fill="none" stroke="#16a34a" strokeWidth="0.8" /><circle cx="36.9" cy="15.6" r="1.1" fill="#16a34a" />
           </svg>
         )
       },

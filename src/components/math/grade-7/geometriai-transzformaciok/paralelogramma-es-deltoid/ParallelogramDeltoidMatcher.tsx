@@ -60,7 +60,7 @@ const matcherLevels: Record<DifficultyLevel, MatcherLevelConfig> = {
         promptFigure: (
           <svg viewBox="0 0 70 35" className="w-16 h-8 mx-auto">
             <rect x="14" y="8" width="42" height="20" fill="#e0f2fe" stroke="#0284c7" strokeWidth="1.5" />
-            <path d="M 14 13 L 19 13 L 19 8" fill="none" stroke="#0284c7" strokeWidth="1" />
+            <path d="M 14 15 A 7 7 0 0 0 21 8" fill="none" stroke="#0284c7" strokeWidth="1" /><circle cx="16.7" cy="10.7" r="1.1" fill="#0284c7" />
           </svg>
         )
       },
@@ -71,7 +71,7 @@ const matcherLevels: Record<DifficultyLevel, MatcherLevelConfig> = {
         promptFigure: (
           <svg viewBox="0 0 70 35" className="w-16 h-8 mx-auto">
             <rect x="23" y="6" width="24" height="24" fill="#dcfce7" stroke="#16a34a" strokeWidth="1.5" />
-            <path d="M 23 11 L 28 11 L 28 6" fill="none" stroke="#16a34a" strokeWidth="1" />
+            <path d="M 23 13 A 7 7 0 0 0 30 6" fill="none" stroke="#16a34a" strokeWidth="1" /><circle cx="25.7" cy="8.7" r="1.1" fill="#16a34a" />
           </svg>
         )
       },
@@ -139,7 +139,7 @@ const matcherLevels: Record<DifficultyLevel, MatcherLevelConfig> = {
             <polygon points="35,3 52,14 35,32 18,14" fill="#fff1f2" stroke="#e11d48" strokeWidth="1.2" />
             <line x1="35" y1="3" x2="35" y2="32" stroke="#e11d48" strokeWidth="1.5" />
             <line x1="18" y1="14" x2="52" y2="14" stroke="#0284c7" strokeWidth="1.5" />
-            <path d="M 35 18 L 39 18 L 39 14" fill="none" stroke="#475569" strokeWidth="0.8" />
+            <path d="M 35 20 A 6 6 0 0 0 41 14" fill="none" stroke="#475569" strokeWidth="0.8" /><circle cx="37.3" cy="16.3" r="1.1" fill="#475569" />
           </svg>
         )
       },
@@ -178,7 +178,7 @@ const matcherLevels: Record<DifficultyLevel, MatcherLevelConfig> = {
             <polygon points="35,5 57,17.5 35,30 13,17.5" fill="#f5f3ff" stroke="#7c3aed" strokeWidth="1.2" />
             <line x1="35" y1="5" x2="35" y2="30" stroke="#7c3aed" strokeWidth="1" />
             <line x1="13" y1="17.5" x2="57" y2="17.5" stroke="#7c3aed" strokeWidth="1" />
-            <path d="M 35 21 L 39 21 L 39 17.5" fill="none" stroke="#475569" strokeWidth="0.8" />
+            <path d="M 35 23.5 A 6 6 0 0 0 41 17.5" fill="none" stroke="#475569" strokeWidth="0.8" /><circle cx="37.3" cy="19.8" r="1.1" fill="#475569" />
           </svg>
         )
       },

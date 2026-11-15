@@ -232,7 +232,7 @@ const quizLevels: Record<number, LevelConfig> = {
           <svg viewBox="0 0 200 90" className="w-48 h-24 mx-auto">
             <line x1="20" y1="45" x2="180" y2="45" stroke="#ef4444" strokeWidth="2" />
             <line x1="100" y1="15" x2="100" y2="75" stroke="#0284c7" strokeWidth="2" />
-            <rect x="100" y="45" width="8" height="8" fill="none" stroke="#64748b" strokeWidth="1" />
+            <path d="M 110 45 A 10 10 0 0 1 100 55" fill="none" stroke="#64748b" strokeWidth="1" /><circle cx="103.9" cy="48.9" r="1.4" fill="#64748b" />
             <text x="185" y="48" className="text-[9px] font-bold fill-rose-600">t</text>
             <text x="105" y="25" className="text-[9px] font-bold fill-sky-700">e ⊥ t</text>
           </svg>
@@ -454,7 +454,7 @@ const quizLevels: Record<number, LevelConfig> = {
           <svg viewBox="0 0 200 90" className="w-48 h-24 mx-auto">
             <line x1="30" y1="45" x2="170" y2="45" stroke="#ef4444" strokeWidth="1.8" />
             <line x1="100" y1="10" x2="100" y2="80" stroke="#0284c7" strokeWidth="1.8" />
-            <rect x="100" y="45" width="8" height="8" fill="none" stroke="#64748b" strokeWidth="1" />
+            <path d="M 110 45 A 10 10 0 0 1 100 55" fill="none" stroke="#64748b" strokeWidth="1" />
             <circle cx="100" cy="45" r="4" fill="#d97706" />
             <text x="108" y="40" className="text-[10px] font-black fill-amber-700">O (centrum!)</text>
           </svg>

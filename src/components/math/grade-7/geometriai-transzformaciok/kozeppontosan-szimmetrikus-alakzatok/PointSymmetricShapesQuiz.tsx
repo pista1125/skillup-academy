@@ -457,7 +457,7 @@ const quizLevels: Record<DifficultyLevel, QuizLevelConfig> = {
             <line x1="100" y1="10" x2="100" y2="80" stroke="#7c3aed" strokeWidth="2" />
             <line x1="40" y1="45" x2="160" y2="45" stroke="#7c3aed" strokeWidth="2" />
             <circle cx="100" cy="45" r="4" fill="#4338ca" />
-            <rect x="100" y="45" width="8" height="8" fill="none" stroke="#64748b" strokeWidth="1" />
+            <path d="M 110 45 A 10 10 0 0 1 100 55" fill="none" stroke="#64748b" strokeWidth="1" /><circle cx="103.9" cy="48.9" r="1.4" fill="#64748b" />
             <text x="110" y="42" className="text-[10px] font-bold fill-indigo-700">O</text>
           </svg>
         ),

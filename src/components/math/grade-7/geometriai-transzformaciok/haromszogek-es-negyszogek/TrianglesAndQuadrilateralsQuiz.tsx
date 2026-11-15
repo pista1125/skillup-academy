@@ -58,7 +58,7 @@ const cheatSheetCards: CheatSheetCard[] = [
     figure: (
       <svg viewBox="0 0 160 50" className="w-36 h-10">
         <polygon points="35,10 35,44 125,44" fill="none" className="stroke-blue-600 stroke-[2]" />
-        <rect x="35" y="34" width="10" height="10" fill="none" className="stroke-blue-500 stroke-[1.5]" />
+        <path d="M 47 44 A 12 12 0 0 0 35 32" fill="none" className="stroke-blue-500 stroke-[1.5]" /><circle cx="39.7" cy="39.3" r="1.7" className="fill-blue-500" />
       </svg>
     )
   },
@@ -190,7 +190,7 @@ const quizLevels: Record<1 | 2 | 3, LevelConfig> = {
         figure: (
           <svg viewBox="0 0 140 70" className="w-32 h-16 mx-auto">
             <polygon points="25,12 25,60 120,60" fill="none" className="stroke-blue-600 stroke-[2.5]" />
-            <rect x="25" y="50" width="10" height="10" fill="none" className="stroke-blue-500 stroke-[1.5]" />
+            <path d="M 37 60 A 12 12 0 0 0 25 48" fill="none" className="stroke-blue-500 stroke-[1.5]" /><circle cx="29.7" cy="55.3" r="1.7" className="fill-blue-500" />
             <path d="M 105 60 A 15 15 0 0 1 110 50" fill="none" className="stroke-blue-500 stroke-[1.5]" />
             <text x="92" y="56" className="text-[9px] font-mono font-bold fill-blue-700">38°</text>
             <text x="32" y="26" className="text-[11px] font-bold fill-rose-600">?</text>
@@ -324,7 +324,7 @@ const quizLevels: Record<1 | 2 | 3, LevelConfig> = {
           <svg viewBox="0 0 140 70" className="w-32 h-16 mx-auto">
             <polygon points="25,12 25,60 120,60" fill="none" className="stroke-slate-500 stroke-[1.5]" />
             <line x1="25" y1="12" x2="120" y2="60" className="stroke-rose-600 stroke-[3]" />
-            <rect x="25" y="50" width="10" height="10" fill="none" className="stroke-slate-400 stroke-[1]" />
+            <path d="M 37 60 A 12 12 0 0 0 25 48" fill="none" className="stroke-slate-400 stroke-[1]" /><circle cx="29.7" cy="55.3" r="1.7" className="fill-slate-400" />
             <text x="75" y="32" className="text-[11px] font-bold fill-rose-600">c = ?</text>
             <text x="14" y="38" className="text-[9px] font-mono font-bold fill-slate-500">a</text>
             <text x="70" y="68" className="text-[9px] font-mono font-bold fill-slate-500">b</text>
@@ -447,7 +447,7 @@ const quizLevels: Record<1 | 2 | 3, LevelConfig> = {
             <polygon points="65,6 115,32 65,58 15,32" fill="none" className="stroke-purple-600 stroke-[2]" />
             <line x1="65" y1="6" x2="65" y2="58" className="stroke-purple-500 stroke-[1.5]" />
             <line x1="15" y1="32" x2="115" y2="32" className="stroke-purple-500 stroke-[1.5]" />
-            <rect x="65" y="26" width="6" height="6" fill="none" className="stroke-purple-400 stroke-[1]" />
+            <path d="M 73 32 A 8 8 0 0 0 65 24" fill="none" className="stroke-purple-400 stroke-[1]" /><circle cx="68.1" cy="28.9" r="1.1" className="fill-purple-400" />
           </svg>
         ),
         options: ['Rombusz (és négyzet)', 'Téglalap', 'Trapéz', 'Általános paralelogramma'],
@@ -794,8 +794,8 @@ const quizLevels: Record<1 | 2 | 3, LevelConfig> = {
         figure: (
           <svg viewBox="0 0 140 65" className="w-32 h-16 mx-auto">
             <polygon points="25,12 80,12 115,52 25,52" fill="none" className="stroke-teal-600 stroke-[2]" />
-            <rect x="25" y="44" width="8" height="8" fill="none" className="stroke-teal-500 stroke-[1]" />
-            <rect x="25" y="12" width="8" height="8" fill="none" className="stroke-teal-500 stroke-[1]" />
+            <path d="M 35 52 A 10 10 0 0 0 25 42" fill="none" className="stroke-teal-500 stroke-[1]" /><circle cx="28.9" cy="48.1" r="1.4" className="fill-teal-500" />
+            <path d="M 35 12 A 10 10 0 0 1 25 22" fill="none" className="stroke-teal-500 stroke-[1]" /><circle cx="28.9" cy="15.9" r="1.4" className="fill-teal-500" />
             <text x="86" y="48" className="text-[9px] font-mono font-bold fill-teal-700">48°</text>
             <text x="75" y="24" className="text-[10px] font-bold fill-rose-600">?</text>
           </svg>

@@ -97,7 +97,7 @@ const InternalRightTriangleFigure = (
   <svg viewBox="0 0 220 130" className="w-52 h-32 select-none">
     <rect x="15" y="10" width="190" height="110" rx="8" fill="#f8fafc" stroke="#e2e8f0" strokeWidth="1" />
     <polygon points="65,22 65,95 155,95" fill="#ecfdf5" stroke="#10b981" strokeWidth="2" />
-    <rect x="65" y="83" width="12" height="12" fill="none" stroke="#059669" strokeWidth="1.5" />
+    <path d="M 79 95 A 14 14 0 0 0 65 81" fill="none" stroke="#059669" strokeWidth="1.5" />
     <circle cx="71" cy="89" r="1.5" fill="#059669" />
     <text x="56" y="60" className="text-[9.5px] font-bold fill-red-600" textAnchor="end">m = 8 cm</text>
     <text x="110" y="108" className="text-[9.5px] font-bold fill-amber-700" textAnchor="middle">a/2 = 6 cm</text>
@@ -112,7 +112,7 @@ const LateralFacePythagorasFigure = (
     <rect x="15" y="10" width="190" height="110" rx="8" fill="#f8fafc" stroke="#e2e8f0" strokeWidth="1" />
     <polygon points="100,20 40,95 160,95" fill="#fef3c7" stroke="#d97706" strokeWidth="1.5" />
     <line x1="100" y1="20" x2="100" y2="95" stroke="#ef4444" strokeWidth="2" strokeDasharray="3 2" />
-    <rect x="100" y="85" width="10" height="10" fill="none" stroke="#ef4444" strokeWidth="1.2" />
+    <path d="M 112 95 A 12 12 0 0 0 100 83" fill="none" stroke="#ef4444" strokeWidth="1.2" />
     <circle cx="105" cy="90" r="1" fill="#ef4444" />
     <text x="94" y="60" className="text-[9.5px] font-bold fill-red-600" textAnchor="end">mo = 3 cm</text>
     <text x="135" y="52" className="text-[10px] font-black fill-purple-700" textAnchor="start">b = ? (5 cm)</text>
@@ -160,7 +160,7 @@ const DiagonalSectionFigure = (
   <svg viewBox="0 0 220 130" className="w-52 h-32 select-none">
     <rect x="15" y="10" width="190" height="110" rx="8" fill="#f8fafc" stroke="#e2e8f0" strokeWidth="1" />
     <polygon points="65,25 65,95 165,95" fill="#eff6ff" stroke="#3b82f6" strokeWidth="2" />
-    <rect x="65" y="83" width="12" height="12" fill="none" stroke="#2563eb" strokeWidth="1.5" />
+    <path d="M 79 95 A 14 14 0 0 0 65 81" fill="none" stroke="#2563eb" strokeWidth="1.5" />
     <circle cx="71" cy="89" r="1.5" fill="#2563eb" />
     <text x="56" y="62" className="text-[9.5px] font-bold fill-red-600" textAnchor="end">m = 3 cm</text>
     <text x="115" y="108" className="text-[9.5px] font-bold fill-blue-800" textAnchor="middle">d/2 = 4 cm</text>

@@ -138,7 +138,7 @@ const circleQuestions: Question[] = [
         <circle cx="80" cy="45" r="30" fill="none" stroke="#e11d48" strokeWidth="2" />
         <line x1="80" y1="45" x2="80" y2="75" stroke="#e11d48" strokeWidth="2" />
         <line x1="35" y1="75" x2="125" y2="75" stroke="#d97706" strokeWidth="2.5" />
-        <rect x="73" y="68" width="7" height="7" fill="none" stroke="#8b5cf6" strokeWidth="1.2" />
+        <path d="M 71 75 A 9 9 0 0 1 80 66" fill="none" stroke="#8b5cf6" strokeWidth="1.2" /><circle cx="76.5" cy="71.5" r="1.3" fill="#8b5cf6" />
         <text x="96" y="65" className="text-[10px] font-bold fill-purple-700">e ⊥ r</text>
       </svg>
     )

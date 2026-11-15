@@ -423,7 +423,7 @@ export const PerimeterTheory: React.FC<PerimeterTheoryProps> = ({
 
                       {/* Derékszög jelek a sarkokban */}
                       <path
-                        d={`M ${x} ${y + 12} L ${x + 12} ${y + 12} L ${x + 12} ${y}`}
+                        d={`M ${x} ${y + 12} A 12 12 0 0 0 ${x + 12} ${y}`}
                         fill="none"
                         className="stroke-emerald-500"
                         strokeWidth="1.5"

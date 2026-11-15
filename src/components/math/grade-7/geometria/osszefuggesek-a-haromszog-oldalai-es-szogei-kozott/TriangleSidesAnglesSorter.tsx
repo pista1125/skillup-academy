@@ -49,7 +49,7 @@ const level1Config: SorterLevelConfig = {
       figure: (
         <svg viewBox="0 0 80 50" className="w-14 h-8">
           <polygon points="15,42 65,42 15,10" fill="none" className="stroke-blue-600 stroke-2" />
-          <path d="M 15,34 L 22,34 L 22,42" fill="none" className="stroke-slate-500 stroke-1" />
+          <path d="M 15 32 A 10 10 0 0 1 25 42" fill="none" stroke="currentColor" /><circle cx="18.9" cy="38.1" r="1.4" fill="currentColor" />
         </svg>
       )
     },
@@ -80,7 +80,7 @@ const level1Config: SorterLevelConfig = {
       figure: (
         <svg viewBox="0 0 80 50" className="w-14 h-8">
           <polygon points="15,42 55,42 15,10" fill="none" className="stroke-blue-600 stroke-2" />
-          <path d="M 15,34 L 22,34 L 22,42" fill="none" className="stroke-slate-500 stroke-1" />
+          <path d="M 15 32 A 10 10 0 0 1 25 42" fill="none" stroke="currentColor" /><circle cx="18.9" cy="38.1" r="1.4" fill="currentColor" />
         </svg>
       )
     },
@@ -279,7 +279,7 @@ const level3Config: SorterLevelConfig = {
       figure: (
         <svg viewBox="0 0 80 50" className="w-14 h-8">
           <polygon points="15,42 65,42 15,10" fill="none" className="stroke-indigo-600 stroke-2" />
-          <path d="M 15,34 L 22,34 L 22,42" fill="none" className="stroke-slate-500 stroke-1" />
+          <path d="M 15 32 A 10 10 0 0 1 25 42" fill="none" stroke="currentColor" /><circle cx="18.9" cy="38.1" r="1.4" fill="currentColor" />
         </svg>
       )
     },

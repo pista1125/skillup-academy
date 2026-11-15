@@ -90,7 +90,7 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
             <line x1="12" y1="22" x2="68" y2="22" stroke="#10b981" strokeWidth="2" strokeDasharray="3 2" />
             <circle cx="14" cy="22" r="3.5" className="fill-emerald-600 stroke-white stroke-[1]" />
             <circle cx="66" cy="22" r="3.5" className="fill-emerald-600 stroke-white stroke-[1]" />
-            <rect x="33" y="15" width="7" height="7" fill="none" stroke="#64748b" strokeWidth="1.2" />
+            <path d="M 31 22 A 9 9 0 0 1 40 13" fill="none" stroke="#64748b" strokeWidth="1.2" /><circle cx="36.5" cy="18.5" r="1.3" fill="#64748b" />
             <line x1="26" y1="19" x2="26" y2="25" stroke="#10b981" strokeWidth="1.5" />
             <line x1="54" y1="19" x2="54" y2="25" stroke="#10b981" strokeWidth="1.5" />
             <text x="8" y="17" className="text-[7px] font-bold fill-emerald-800">P</text>
@@ -557,11 +557,11 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
             <polygon points="10,34 34,34 10,12" fill="none" stroke="#cbd5e1" strokeWidth="1" />
             <line x1="10" y1="12" x2="34" y2="34" className="stroke-emerald-700 stroke-[2.5]" />
             <line x1="10" y1="34" x2="34" y2="34" className="stroke-emerald-700 stroke-[2]" />
-            <rect x="10" y="28" width="6" height="6" fill="none" stroke="#ef4444" strokeWidth="1.5" />
+            <path d="M 18 34 A 8 8 0 0 0 10 26" fill="none" stroke="#ef4444" strokeWidth="1.5" /><circle cx="13.1" cy="30.9" r="1.1" fill="#ef4444" />
             <polygon points="46,34 70,34 46,12" fill="none" stroke="#cbd5e1" strokeWidth="1" />
             <line x1="46" y1="12" x2="70" y2="34" className="stroke-emerald-700 stroke-[2.5]" />
             <line x1="46" y1="34" x2="70" y2="34" className="stroke-emerald-700 stroke-[2]" />
-            <rect x="46" y="28" width="6" height="6" fill="none" stroke="#ef4444" strokeWidth="1.5" />
+            <path d="M 54 34 A 8 8 0 0 0 46 26" fill="none" stroke="#ef4444" strokeWidth="1.5" /><circle cx="49.1" cy="30.9" r="1.1" fill="#ef4444" />
             <text x="24" y="20" className="text-[7px] font-black fill-emerald-800">c (nagy)</text>
           </svg>
         )
@@ -605,8 +605,8 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
             <line x1="8" y1="22" x2="72" y2="22" className="stroke-teal-500 stroke-[1.8] stroke-dasharray-[2,2]" />
             <polygon points="16,22 64,22 36,6" fill="#0d9488" fillOpacity="0.2" className="stroke-teal-700 stroke-[1.8]" />
             <polygon points="16,22 64,22 36,38" fill="#0d9488" fillOpacity="0.2" className="stroke-teal-700 stroke-[1.8]" />
-            <rect x="33" y="9" width="4" height="4" fill="none" stroke="#ef4444" strokeWidth="1" />
-            <rect x="33" y="31" width="4" height="4" fill="none" stroke="#ef4444" strokeWidth="1" />
+            <path d="M 32.1 9.1 A 5 5 0 0 0 40.3 8.5" fill="none" stroke="#ef4444" strokeWidth="1" /><circle cx="36.2" cy="8.7" r="0.8" fill="#ef4444" />
+            <path d="M 32.1 34.9 A 5 5 0 0 1 40.3 35.5" fill="none" stroke="#ef4444" strokeWidth="1" /><circle cx="36.2" cy="35.3" r="0.8" fill="#ef4444" />
             <text x="44" y="15" className="text-[7px] font-black fill-teal-800">átfogó (t)</text>
           </svg>
         )

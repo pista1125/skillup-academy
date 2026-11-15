@@ -82,7 +82,7 @@ const cheatSheetCards: CheatSheetCard[] = [
       <svg viewBox="0 0 160 50" className="w-36 h-10">
         <line x1="80" y1="5" x2="80" y2="45" className="stroke-slate-500 stroke-[1.5]" />
         <line x1="25" y1="25" x2="135" y2="25" className="stroke-purple-600 stroke-[2]" />
-        <rect x="80" y="25" width="5" height="5" fill="none" className="stroke-purple-500 stroke-[1]" />
+        <path d="M 78 30 A 7 7 0 0 1 85 23" fill="none" className="stroke-purple-500 stroke-[1]" /><circle cx="82.3" cy="27.3" r="1.1" className="fill-purple-500" />
         <text x="30" y="20" className="text-[7px] font-bold fill-purple-700">fixegyenes ⊥ t</text>
       </svg>
     )
@@ -392,7 +392,7 @@ const quizLevels: Record<number, LevelConfig> = {
           <svg viewBox="0 0 120 40" className="w-36 h-12 mx-auto">
             <line x1="60" y1="5" x2="60" y2="35" className="stroke-indigo-600 stroke-[2]" />
             <line x1="20" y1="20" x2="100" y2="20" className="stroke-purple-600 stroke-[1.8]" />
-            <rect x="60" y="20" width="5" height="5" fill="none" className="stroke-purple-500 stroke-[1]" />
+            <path d="M 67 25 A 7 7 0 0 0 60 18" fill="none" className="stroke-purple-500 stroke-[1]" /><circle cx="62.7" cy="22.3" r="1.1" className="fill-purple-500" />
           </svg>
         ),
         options: [

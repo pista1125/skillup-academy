@@ -98,7 +98,7 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
         figure: (
           <svg viewBox="0 0 60 28" className="w-14 h-7 mx-auto">
             <polygon points="12,22 48,22 12,6" fill="none" stroke="#16a34a" strokeWidth="1.2" />
-            <rect x="12" y="17" width="5" height="5" fill="none" stroke="#16a34a" strokeWidth="1" />
+            <path d="M 19 22 A 7 7 0 0 0 12 15" fill="none" stroke="#16a34a" strokeWidth="1" /><circle cx="14.7" cy="19.3" r="1.1" fill="#16a34a" />
             <text x="38" y="20" className="text-[5px] font-bold fill-emerald-700">α</text>
             <text x="15" y="11" className="text-[5px] font-bold fill-emerald-700">β</text>
           </svg>

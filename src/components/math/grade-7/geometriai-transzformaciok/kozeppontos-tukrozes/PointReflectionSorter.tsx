@@ -314,7 +314,7 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
             <line x1="12" y1="14" x2="48" y2="14" stroke="#94a3b8" strokeWidth="1.2" strokeDasharray="2 2" />
             <circle cx="15" cy="14" r="2" fill="#6366f1" />
             <circle cx="45" cy="14" r="2" fill="#6366f1" />
-            <rect x="30" y="10" width="4" height="4" fill="none" stroke="#6366f1" strokeWidth="0.8" />
+            <path d="M 36 14 A 6 6 0 0 0 30 8" fill="none" stroke="#6366f1" strokeWidth="0.8" /><circle cx="32.3" cy="11.7" r="1.1" fill="#6366f1" />
           </svg>
         )
       }

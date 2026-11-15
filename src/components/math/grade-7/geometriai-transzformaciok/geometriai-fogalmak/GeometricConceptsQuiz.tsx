@@ -211,7 +211,7 @@ const quizLevels: Record<1 | 2 | 3, LevelConfig> = {
           <svg viewBox="0 0 120 60" className="w-28 h-14 mx-auto">
             <line x1="30" y1="50" x2="100" y2="50" className="stroke-blue-600 stroke-[2.5]" />
             <line x1="30" y1="50" x2="30" y2="10" className="stroke-blue-600 stroke-[2.5]" />
-            <rect x="30" y="38" width="12" height="12" fill="none" className="stroke-blue-500 stroke-[1.5]" />
+            <path d="M 42 50 A 12 12 0 0 0 30 38" fill="none" className="stroke-blue-500 stroke-[1.5]" />
             <circle cx="36" cy="44" r="1.5" className="fill-blue-600" />
             <text x="50" y="35" className="text-[11px] font-mono font-bold fill-blue-700 dark:fill-blue-300">?</text>
           </svg>
@@ -468,7 +468,7 @@ const quizLevels: Record<1 | 2 | 3, LevelConfig> = {
             <circle cx="75" cy="15" r="3.5" className="fill-rose-600" />
             <text x="75" y="10" className="text-[10px] font-bold fill-rose-600 text-center">P</text>
             <line x1="75" y1="15" x2="75" y2="45" className="stroke-rose-500 stroke-[1.5]" strokeDasharray="2 2" />
-            <rect x="75" y="37" width="8" height="8" fill="none" className="stroke-slate-500 stroke-[1]" />
+            <path d="M 85 45 A 10 10 0 0 0 75 35" fill="none" className="stroke-slate-500 stroke-[1]" />
             <circle cx="79" cy="41" r="1" className="fill-slate-600" />
             <text x="135" y="42" className="text-[10px] font-bold fill-teal-600">e</text>
             <text x="83" y="30" className="text-[10px] font-bold fill-rose-600">d</text>
@@ -566,7 +566,7 @@ const quizLevels: Record<1 | 2 | 3, LevelConfig> = {
           <svg viewBox="0 0 120 60" className="w-28 h-14 mx-auto">
             <line x1="20" y1="35" x2="105" y2="35" className="stroke-teal-600 stroke-[2]" />
             <line x1="60" y1="10" x2="60" y2="55" className="stroke-teal-600 stroke-[2]" />
-            <rect x="60" y="23" width="12" height="12" fill="none" className="stroke-teal-500 stroke-[1.5]" />
+            <path d="M 74 35 A 14 14 0 0 0 60 21" fill="none" className="stroke-teal-500 stroke-[1.5]" />
             <circle cx="66" cy="29" r="1.5" className="fill-teal-600" />
             <text x="76" y="28" className="text-[10px] font-mono font-bold fill-teal-700 dark:fill-teal-300">90°</text>
           </svg>
@@ -722,7 +722,7 @@ const quizLevels: Record<1 | 2 | 3, LevelConfig> = {
             <circle cx="70" cy="15" r="3.5" className="fill-rose-600" />
             <text x="75" y="15" className="text-[10px] font-bold fill-rose-600">P</text>
             <line x1="70" y1="8" x2="70" y2="55" className="stroke-indigo-600 stroke-[2]" />
-            <rect x="70" y="37" width="8" height="8" fill="none" className="stroke-slate-500 stroke-[1]" />
+            <path d="M 80 45 A 10 10 0 0 0 70 35" fill="none" className="stroke-slate-500 stroke-[1]" />
             <circle cx="74" cy="41" r="1" className="fill-slate-600" />
             <text x="127" y="47" className="text-[10px] font-bold fill-teal-600">e</text>
             <text x="73" y="55" className="text-[9px] font-bold fill-indigo-600">1 db merőleges</text>
@@ -869,7 +869,7 @@ const quizLevels: Record<1 | 2 | 3, LevelConfig> = {
             <text x="74" y="20" className="text-[9px] font-bold fill-rose-600">P</text>
             <line x1="20" y1="48" x2="70" y2="20" className="stroke-rose-400 stroke-[1.5]" strokeDasharray="2 2" />
             <line x1="120" y1="48" x2="70" y2="20" className="stroke-rose-400 stroke-[1.5]" strokeDasharray="2 2" />
-            <rect x="70" y="40" width="7" height="7" fill="none" className="stroke-slate-500 stroke-[1]" />
+            <path d="M 79 40 A 9 9 0 0 1 70 49" fill="none" className="stroke-slate-500 stroke-[1]" /><circle cx="73.5" cy="43.5" r="1.3" className="fill-slate-500" />
           </svg>
         ),
         options: [

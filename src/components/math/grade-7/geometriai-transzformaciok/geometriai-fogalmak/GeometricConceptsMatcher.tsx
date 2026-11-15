@@ -145,7 +145,7 @@ const matcherLevels: Record<DifficultyLevel, MatcherLevelConfig> = {
           <svg viewBox="0 0 70 35" className="w-16 h-8">
             <line x1="15" y1="28" x2="60" y2="28" className="stroke-blue-600 stroke-[2]" />
             <line x1="15" y1="28" x2="15" y2="5" className="stroke-blue-600 stroke-[2]" />
-            <rect x="15" y="18" width="10" height="10" fill="none" className="stroke-blue-500 stroke-[1.5]" />
+            <path d="M 27 28 A 12 12 0 0 0 15 16" fill="none" className="stroke-blue-500 stroke-[1.5]" /><circle cx="19.7" cy="23.3" r="1.7" className="fill-blue-500" />
           </svg>
         )
       },

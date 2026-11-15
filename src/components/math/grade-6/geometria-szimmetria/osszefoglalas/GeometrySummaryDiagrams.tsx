@@ -115,7 +115,7 @@ export const GeometrySummaryMiniFigure: React.FC<MiniFigureProps> = ({
           <circle cx="50" cy="50" r="3" fill="#0284c7" />
           <line x1="50" y1="50" x2="82" y2="50" stroke="#e11d48" strokeWidth="2.5" strokeLinecap="round" />
           <line x1="82" y1="10" x2="82" y2="90" stroke="#059669" strokeWidth="3" strokeLinecap="round" />
-          <rect x="74" y="42" width="8" height="8" fill="none" stroke="#059669" strokeWidth="1.5" />
+          <path d="M 72 50 A 10 10 0 0 1 82 40" fill="none" stroke="#059669" strokeWidth="1.5" />
           <circle cx="78" cy="46" r="1.5" fill="#059669" />
           <circle cx="82" cy="50" r="3.5" fill="#e11d48" />
           <text x="86" y="25" fontSize="9" fill="#059669" fontWeight="bold">e</text>
@@ -136,7 +136,7 @@ export const GeometrySummaryMiniFigure: React.FC<MiniFigureProps> = ({
           <circle cx="15" cy="65" r="3" fill="#334155" />
           <circle cx="85" cy="65" r="3" fill="#334155" />
           <circle cx="50" cy="65" r="2.5" fill="#0d9488" />
-          <rect x="50" y="57" width="8" height="8" fill="none" stroke="#0d9488" strokeWidth="1.5" />
+          <path d="M 60 65 A 10 10 0 0 0 50 55" fill="none" stroke="#0d9488" strokeWidth="1.5" /><circle cx="53.9" cy="61.1" r="1.4" fill="#0d9488" />
           <text x="10" y="80" fontSize="9" fill="#334155" fontWeight="bold">A</text>
           <text x="82" y="80" fontSize="9" fill="#334155" fontWeight="bold">B</text>
           <text x="45" y="24" fontSize="9" fill="#f59e0b" fontWeight="bold">P</text>
@@ -179,7 +179,7 @@ export const GeometrySummaryMiniFigure: React.FC<MiniFigureProps> = ({
           <line x1="20" y1="50" x2="80" y2="50" stroke="#94a3b8" strokeWidth="1.8" strokeDasharray="2 2" />
           <circle cx="20" cy="50" r="4" fill="#0284c7" />
           <circle cx="80" cy="50" r="4" fill="#e11d48" />
-          <rect x="42" y="42" width="8" height="8" fill="none" stroke="#4f46e5" strokeWidth="1.2" />
+          <path d="M 40 50 A 10 10 0 0 1 50 40" fill="none" stroke="#4f46e5" strokeWidth="1.2" /><circle cx="46.1" cy="46.1" r="1.4" fill="#4f46e5" />
           <text x="14" y="40" fontSize="10" fill="#0284c7" fontWeight="bold">P</text>
           <text x="76" y="40" fontSize="10" fill="#e11d48" fontWeight="bold">P'</text>
           <text x="54" y="22" fontSize="10" fill="#4f46e5" fontWeight="bold">t</text>

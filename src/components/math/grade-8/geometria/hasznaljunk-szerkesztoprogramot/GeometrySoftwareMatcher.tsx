@@ -54,7 +54,7 @@ const matcherLevels: Record<DifficultyLevel, MatcherLevelConfig> = {
             <line x1="35" y1="3" x2="35" y2="27" className="stroke-cyan-500 stroke-[1.5] stroke-dasharray-[2,2]" />
             <circle cx="15" cy="15" r="2.5" className="fill-cyan-800" />
             <circle cx="55" cy="15" r="2.5" className="fill-cyan-800" />
-            <path d="M 35 11 L 39 11 L 39 15" fill="none" className="stroke-cyan-700 stroke-[1]" />
+            <path d="M 35 9 A 6 6 0 0 1 41 15" fill="none" stroke="currentColor" /><circle cx="37.3" cy="12.7" r="1.1" fill="currentColor" />
           </svg>
         )
       },

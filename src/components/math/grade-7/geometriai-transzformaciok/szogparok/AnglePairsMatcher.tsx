@@ -89,7 +89,7 @@ const matcherLevels: Record<DifficultyLevel, MatcherLevelConfig> = {
           <svg viewBox="0 0 70 35" className="w-16 h-8 mx-auto">
             <line x1="20" y1="30" x2="50" y2="30" stroke="#059669" strokeWidth="2" />
             <line x1="20" y1="30" x2="20" y2="5" stroke="#059669" strokeWidth="2" />
-            <rect x="20" y="22" width="8" height="8" fill="none" stroke="#059669" strokeWidth="1.2" />
+            <path d="M 30 30 A 10 10 0 0 0 20 20" fill="none" stroke="#059669" strokeWidth="1.2" /><circle cx="23.9" cy="26.1" r="1.4" fill="#059669" />
           </svg>
         )
       }
@@ -158,8 +158,8 @@ const matcherLevels: Record<DifficultyLevel, MatcherLevelConfig> = {
           <svg viewBox="0 0 70 35" className="w-16 h-8 mx-auto">
             <line x1="10" y1="28" x2="60" y2="28" stroke="#94a3b8" strokeWidth="1.5" />
             <line x1="35" y1="28" x2="35" y2="6" stroke="#059669" strokeWidth="2" />
-            <rect x="27" y="20" width="8" height="8" fill="none" stroke="#059669" strokeWidth="1" />
-            <rect x="35" y="20" width="8" height="8" fill="none" stroke="#059669" strokeWidth="1" />
+            <path d="M 25 28 A 10 10 0 0 1 35 18" fill="none" stroke="#059669" strokeWidth="1" /><circle cx="31.1" cy="24.1" r="1.4" fill="#059669" />
+            <path d="M 45 28 A 10 10 0 0 0 35 18" fill="none" stroke="#059669" strokeWidth="1" /><circle cx="38.9" cy="24.1" r="1.4" fill="#059669" />
           </svg>
         )
       },

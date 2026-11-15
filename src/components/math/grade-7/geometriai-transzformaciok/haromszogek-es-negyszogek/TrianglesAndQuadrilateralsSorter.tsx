@@ -58,7 +58,7 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
         figure: (
           <svg viewBox="0 0 60 28" className="w-14 h-7">
             <polygon points="16,6 16,24 46,24" className="fill-blue-100/50 stroke-blue-600 stroke-[1.5]" />
-            <rect x="16" y="18" width="6" height="6" fill="none" className="stroke-blue-500 stroke-[1]" />
+            <path d="M 24 24 A 8 8 0 0 0 16 16" fill="none" className="stroke-blue-500 stroke-[1]" /><circle cx="19.1" cy="20.9" r="1.1" className="fill-blue-500" />
             <text x="19" y="11" className="text-[6px] font-bold fill-blue-700">45°</text>
             <text x="36" y="22" className="text-[6px] font-bold fill-blue-700">45°</text>
           </svg>
@@ -94,7 +94,7 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
         figure: (
           <svg viewBox="0 0 60 28" className="w-14 h-7">
             <polygon points="14,5 14,24 50,24" className="fill-blue-100/50 stroke-blue-600 stroke-[1.5]" />
-            <rect x="14" y="18" width="6" height="6" fill="none" className="stroke-blue-500 stroke-[1]" />
+            <path d="M 21 24 A 7 7 0 0 0 14 17" fill="none" className="stroke-blue-500 stroke-[1]" /><circle cx="16.7" cy="21.3" r="1" className="fill-blue-500" />
             <text x="17" y="11" className="text-[6px] font-bold fill-blue-700">60°</text>
             <text x="40" y="22" className="text-[6px] font-bold fill-blue-700">30°</text>
           </svg>
@@ -118,7 +118,7 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
         figure: (
           <svg viewBox="0 0 60 28" className="w-14 h-7">
             <polygon points="16,6 16,24 48,24" fill="none" className="stroke-blue-600 stroke-[1.5]" />
-            <rect x="16" y="18" width="6" height="6" fill="none" className="stroke-blue-500 stroke-[1]" />
+            <path d="M 24 24 A 8 8 0 0 0 16 16" fill="none" className="stroke-blue-500 stroke-[1]" /><circle cx="19.1" cy="20.9" r="1.1" className="fill-blue-500" />
             <text x="8" y="16" className="text-[7px] font-bold fill-blue-700">b</text>
             <text x="30" y="23" className="text-[7px] font-bold fill-blue-700">a</text>
             <text x="33" y="13" className="text-[7px] font-bold fill-blue-700">c</text>
@@ -158,7 +158,7 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
           <svg viewBox="0 0 60 28" className="w-14 h-7">
             <path d="M 12 24 A 18 18 0 0 1 48 24 Z" fill="none" className="stroke-blue-400 stroke-[1] stroke-dasharray-[2,2]" />
             <polygon points="12,24 24,8 48,24" className="fill-blue-100/40 stroke-blue-600 stroke-[1.5]" />
-            <rect x="23" y="11" width="4" height="4" fill="none" className="stroke-blue-600 stroke-[1]" />
+            <path d="M 21 12 A 5 5 0 0 0 28.2 10.8" fill="none" className="stroke-blue-600 stroke-[1]" /><circle cx="24.5" cy="10.7" r="0.8" className="fill-blue-600" />
           </svg>
         )
       }
@@ -206,8 +206,8 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
         figure: (
           <svg viewBox="0 0 60 28" className="w-14 h-7">
             <rect x="12" y="7" width="36" height="15" rx="1" className="fill-indigo-100/60 stroke-indigo-600 stroke-[1.5]" />
-            <rect x="12" y="7" width="5" height="5" fill="none" className="stroke-indigo-400 stroke-[1]" />
-            <rect x="43" y="7" width="5" height="5" fill="none" className="stroke-indigo-400 stroke-[1]" />
+            <path d="M 19 7 A 7 7 0 0 1 12 14" fill="none" className="stroke-indigo-400 stroke-[1]" /><circle cx="14.7" cy="9.7" r="1.1" className="fill-indigo-400" />
+            <path d="M 41 7 A 7 7 0 0 0 48 14" fill="none" className="stroke-indigo-400 stroke-[1]" /><circle cx="45.3" cy="9.7" r="1.1" className="fill-indigo-400" />
           </svg>
         )
       },
@@ -232,7 +232,7 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
         figure: (
           <svg viewBox="0 0 60 28" className="w-14 h-7">
             <rect x="20" y="5" width="20" height="19" className="fill-indigo-100/60 stroke-indigo-600 stroke-[1.5]" />
-            <rect x="20" y="5" width="5" height="5" fill="none" className="stroke-indigo-400 stroke-[1]" />
+            <path d="M 27 5 A 7 7 0 0 1 20 12" fill="none" className="stroke-indigo-400 stroke-[1]" /><circle cx="22.7" cy="7.7" r="1.1" className="fill-indigo-400" />
           </svg>
         )
       },
@@ -254,8 +254,8 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
         figure: (
           <svg viewBox="0 0 60 28" className="w-14 h-7">
             <polygon points="16,7 38,7 48,23 16,23" className="fill-teal-100/60 stroke-teal-600 stroke-[1.5]" />
-            <rect x="16" y="7" width="5" height="5" fill="none" className="stroke-teal-500 stroke-[1]" />
-            <rect x="16" y="18" width="5" height="5" fill="none" className="stroke-teal-500 stroke-[1]" />
+            <path d="M 23 7 A 7 7 0 0 1 16 14" fill="none" className="stroke-teal-500 stroke-[1]" /><circle cx="18.7" cy="9.7" r="1.1" className="fill-teal-500" />
+            <path d="M 23 23 A 7 7 0 0 0 16 16" fill="none" className="stroke-teal-500 stroke-[1]" /><circle cx="18.7" cy="20.3" r="1" className="fill-teal-500" />
           </svg>
         )
       },
@@ -293,7 +293,7 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
             <polygon points="30,4 46,12 30,24 14,12" fill="none" className="stroke-rose-400 stroke-[1.2]" />
             <line x1="30" y1="4" x2="30" y2="24" className="stroke-rose-600 stroke-[1.8]" />
             <line x1="14" y1="12" x2="46" y2="12" className="stroke-rose-600 stroke-[1.5]" />
-            <rect x="30" y="12" width="4" height="4" fill="none" className="stroke-rose-500 stroke-[1]" />
+            <path d="M 36 12 A 6 6 0 0 1 30 18" fill="none" className="stroke-rose-500 stroke-[1]" /><circle cx="32.3" cy="14.3" r="1.1" className="fill-rose-500" />
           </svg>
         )
       },
@@ -344,7 +344,7 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
             <polygon points="30,4 48,14 30,24 12,14" fill="none" className="stroke-slate-400 stroke-[1.2]" />
             <line x1="30" y1="4" x2="30" y2="24" className="stroke-purple-600 stroke-[1.8]" />
             <line x1="12" y1="14" x2="48" y2="14" className="stroke-purple-600 stroke-[1.8]" />
-            <rect x="30" y="14" width="4" height="4" fill="none" className="stroke-purple-500 stroke-[1]" />
+            <path d="M 36 14 A 6 6 0 0 1 30 20" fill="none" className="stroke-purple-500 stroke-[1]" /><circle cx="32.3" cy="16.3" r="1.1" className="fill-purple-500" />
           </svg>
         )
       },
@@ -382,7 +382,7 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
             <polygon points="30,4 46,12 30,24 14,12" fill="none" className="stroke-slate-400 stroke-[1.2]" />
             <line x1="30" y1="4" x2="30" y2="24" className="stroke-purple-600 stroke-[1.8]" />
             <line x1="14" y1="12" x2="46" y2="12" className="stroke-purple-600 stroke-[1.8]" />
-            <rect x="30" y="12" width="4" height="4" fill="none" className="stroke-purple-500 stroke-[1]" />
+            <path d="M 36 12 A 6 6 0 0 1 30 18" fill="none" className="stroke-purple-500 stroke-[1]" /><circle cx="32.3" cy="14.3" r="1.1" className="fill-purple-500" />
           </svg>
         )
       },
@@ -445,7 +445,7 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
             <rect x="21" y="5" width="18" height="18" fill="none" className="stroke-slate-400 stroke-[1.2]" />
             <line x1="21" y1="5" x2="39" y2="23" className="stroke-purple-600 stroke-[1.8]" />
             <line x1="21" y1="23" x2="39" y2="5" className="stroke-purple-600 stroke-[1.8]" />
-            <rect x="29" y="13" width="3" height="3" fill="none" className="stroke-purple-600 stroke-[1]" />
+            <path d="M 32.8 11.2 A 4 4 0 0 1 32.8 16.8" fill="none" className="stroke-purple-600 stroke-[1]" /><circle cx="32.2" cy="14" r="0.8" className="fill-purple-600" />
           </svg>
         )
       },

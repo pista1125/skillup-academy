@@ -180,7 +180,7 @@ export const TrianglesAndQuadrilateralsTheory: React.FC<TrianglesAndQuadrilatera
             <div className="font-bold text-xs text-blue-700 dark:text-blue-300">Derékszögű</div>
             <svg viewBox="0 0 100 60" className="w-full h-14 mx-auto">
               <polygon points="20,10 20,52 85,52" className="fill-blue-50 dark:fill-blue-950/40 stroke-blue-600 stroke-[2]" />
-              <rect x="20" y="42" width="10" height="10" fill="none" className="stroke-blue-500 stroke-[1.5]" />
+              <path d="M 32 52 A 12 12 0 0 0 20 40" fill="none" className="stroke-blue-500 stroke-[1.5]" /><circle cx="24.7" cy="47.3" r="1.7" className="fill-blue-500" />
             </svg>
             <div className="text-[10px] text-blue-500">1 db 90°-os szög</div>
           </div>

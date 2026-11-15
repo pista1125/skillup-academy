@@ -329,7 +329,8 @@ export const SetsSorter: React.FC<SetsSorterProps> = ({
           figure: (
             <svg className="w-8 h-8 mx-auto" viewBox="0 0 32 32" fill="none">
               <polygon points="16,4 28,16 16,28 4,16" className="fill-emerald-100 stroke-emerald-600" strokeWidth="2" />
-              <path d="M 16 7 L 18 9 L 16 11" className="stroke-emerald-700" strokeWidth="1" />
+              <path d="M 19.5 7.5 A 5 5 0 0 1 12.5 7.5" fill="none" className="stroke-emerald-700" strokeWidth="1" />
+              <circle cx="16" cy="6.8" r="0.8" className="fill-emerald-700" />
             </svg>
           )
         },

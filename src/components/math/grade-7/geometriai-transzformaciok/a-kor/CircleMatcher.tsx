@@ -173,7 +173,7 @@ const matcherLevels: Record<DifficultyLevel, MatcherLevelConfig> = {
             <circle cx="35" cy="15" r="12" fill="none" stroke="#e11d48" strokeWidth="1.2" />
             <line x1="35" y1="15" x2="35" y2="27" stroke="#e11d48" strokeWidth="1.5" />
             <line x1="18" y1="27" x2="52" y2="27" stroke="#d97706" strokeWidth="2" />
-            <rect x="30" y="22" width="5" height="5" fill="none" stroke="#8b5cf6" strokeWidth="1" />
+            <path d="M 28 27 A 7 7 0 0 1 35 20" fill="none" stroke="#8b5cf6" strokeWidth="1" /><circle cx="32.3" cy="24.3" r="1.1" fill="#8b5cf6" />
           </svg>
         )
       },

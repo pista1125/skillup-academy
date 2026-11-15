@@ -415,7 +415,7 @@ const quizLevels: Record<number, LevelConfig> = {
             <polygon points="80,8 115,25 80,42 45,25" fill="#f0fdf4" stroke="#16a34a" strokeWidth="1.5" />
             <line x1="80" y1="8" x2="80" y2="42" stroke="#16a34a" strokeWidth="1.2" />
             <line x1="45" y1="25" x2="115" y2="25" stroke="#16a34a" strokeWidth="1.2" />
-            <rect x="80" y="22" width="3" height="3" fill="none" stroke="#16a34a" strokeWidth="0.8" />
+            <path d="M 85 25 A 5 5 0 0 0 80 20" fill="none" stroke="#16a34a" strokeWidth="0.8" /><circle cx="81.9" cy="23.1" r="1.1" fill="#16a34a" />
           </svg>
         ),
         options: [
@@ -586,7 +586,7 @@ const quizLevels: Record<number, LevelConfig> = {
           <svg viewBox="0 0 160 50" className="w-44 h-14 mx-auto">
             <polygon points="30,40 130,40 30,12" fill="none" stroke="#0284c7" strokeWidth="1.5" />
             <line x1="30" y1="26" x2="80" y2="40" stroke="#16a34a" strokeWidth="2" />
-            <rect x="30" y="34" width="6" height="6" fill="none" stroke="#0284c7" strokeWidth="1" />
+            <path d="M 38 40 A 8 8 0 0 0 30 32" fill="none" stroke="#0284c7" strokeWidth="1" /><circle cx="33.1" cy="36.9" r="1.1" fill="#0284c7" />
             <text x="80" y="22" className="text-[7px] font-bold fill-emerald-700">átfogó = 10</text>
           </svg>
         ),

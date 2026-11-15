@@ -58,7 +58,7 @@ const CHALLENGES: LineChallenge[] = [
             <svg width="200" height="200" viewBox="0 0 200 200" className="text-slate-800">
                 <line x1="40" y1="100" x2="160" y2="100" stroke="currentColor" strokeWidth="3" />
                 <line x1="100" y1="40" x2="100" y2="160" stroke="currentColor" strokeWidth="3" />
-                <rect x="100" y="85" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="2" />
+                <path d="M 117 100 A 17 17 0 0 0 100 83" fill="none" stroke="currentColor" strokeWidth="1" /><circle cx="106.6" cy="93.4" r="2" fill="currentColor" />
             </svg>
         )
     },
@@ -70,7 +70,7 @@ const CHALLENGES: LineChallenge[] = [
             <svg width="200" height="200" viewBox="0 0 200 200" className="text-slate-800">
                 <line x1="100" y1="40" x2="100" y2="100" stroke="currentColor" strokeWidth="3" />
                 <line x1="100" y1="100" x2="160" y2="100" stroke="currentColor" strokeWidth="3" />
-                <rect x="100" y="85" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1" />
+                <path d="M 117 100 A 17 17 0 0 0 100 83" fill="none" stroke="currentColor" strokeWidth="1" /><circle cx="106.6" cy="93.4" r="2" fill="currentColor" />
             </svg>
         )
     },

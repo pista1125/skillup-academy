@@ -43,10 +43,10 @@ const cheatSheetCards: CheatSheetCard[] = [
     figure: (
       <svg viewBox="0 0 160 45" className="w-36 h-9">
         <polygon points="15,38 45,38 15,15" fill="none" className="stroke-teal-600 stroke-[1.5]" />
-        <path d="M 15 32 L 20 32 L 20 38" fill="none" className="stroke-teal-700 stroke-[1]" />
+        <path d="M 15 30 A 8 8 0 0 1 23 38" fill="none" stroke="currentColor" /><circle cx="18.1" cy="34.9" r="1.1" fill="currentColor" />
         <text x="30" y="35" className="text-[7px] font-bold fill-teal-800">α</text>
         <polygon points="85,40 145,40 85,8" fill="none" className="stroke-teal-600 stroke-[1.8]" />
-        <path d="M 85 33 L 91 33 L 91 40" fill="none" className="stroke-teal-700 stroke-[1]" />
+        <path d="M 85 31 A 9 9 0 0 1 94 40" fill="none" stroke="currentColor" /><circle cx="88.5" cy="36.5" r="1.3" fill="currentColor" />
         <text x="122" y="37" className="text-[8px] font-bold fill-teal-800">α' = α</text>
       </svg>
     )
@@ -537,7 +537,7 @@ const quizLevels: Record<DifficultyLevel, LevelConfig> = {
           <svg viewBox="0 0 250 80" className="w-full max-w-[260px] h-16 sm:h-20 mx-auto">
             {/* Right triangle 1 */}
             <polygon points="25,62 80,62 25,24" fill="#eff6ff" stroke="#3b82f6" strokeWidth="2" />
-            <rect x="25" y="54" width="8" height="8" fill="none" stroke="#3b82f6" strokeWidth="1.2" />
+            <path d="M 35 62 A 10 10 0 0 0 25 52" fill="none" stroke="#3b82f6" strokeWidth="1.2" /><circle cx="28.9" cy="58.1" r="1.4" fill="#3b82f6" />
             <text x="65" y="58" className="text-[7px] font-bold fill-blue-900">35°</text>
             <text x="32" y="36" className="text-[7px] font-bold fill-blue-700">55°</text>
             <text x="50" y="74" textAnchor="middle" className="text-[7px] font-bold fill-slate-500">90° - 35° = 55°</text>
@@ -546,7 +546,7 @@ const quizLevels: Record<DifficultyLevel, LevelConfig> = {
             <text x="110" y="30" textAnchor="middle" className="text-[8px] font-black fill-blue-600">sz-sz</text>
             {/* Right triangle 2 */}
             <polygon points="145,64 225,64 145,10" fill="#eff6ff" stroke="#3b82f6" strokeWidth="2" />
-            <rect x="145" y="54" width="10" height="10" fill="none" stroke="#3b82f6" strokeWidth="1.2" />
+            <path d="M 157 64 A 12 12 0 0 0 145 52" fill="none" stroke="#3b82f6" strokeWidth="1.2" /><circle cx="149.7" cy="59.3" r="1.7" fill="#3b82f6" />
             <text x="200" y="60" className="text-[8px] font-bold fill-blue-700">35°</text>
             <text x="154" y="26" className="text-[8px] font-bold fill-blue-900">55°</text>
             <text x="185" y="76" textAnchor="middle" className="text-[7px] font-bold fill-slate-500">90° - 55° = 35°</text>
@@ -950,7 +950,7 @@ const quizLevels: Record<DifficultyLevel, LevelConfig> = {
           <svg viewBox="0 0 250 85" className="w-full max-w-[260px] h-16 sm:h-20 mx-auto">
             <polygon points="25,65 205,65 80,20" fill="#f8fafc" stroke="#0f172a" strokeWidth="2" />
             <line x1="80" y1="20" x2="80" y2="65" stroke="#dc2626" strokeWidth="2" strokeDasharray="3 2" />
-            <rect x="80" y="57" width="8" height="8" fill="none" stroke="#dc2626" strokeWidth="1.2" />
+            <path d="M 90 65 A 10 10 0 0 0 80 55" fill="none" stroke="#dc2626" strokeWidth="1.2" /><circle cx="83.9" cy="61.1" r="1.4" fill="#dc2626" />
             <text x="74" y="44" textAnchor="end" className="text-[8px] font-black fill-red-600">m</text>
             <text x="40" y="60" className="text-[8px] font-black fill-blue-700">α</text>
             <text x="180" y="60" className="text-[8px] font-black fill-emerald-700">β</text>

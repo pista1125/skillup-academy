@@ -216,7 +216,7 @@ const matcherLevels: Record<DifficultyLevel, MatcherLevelConfig> = {
           <svg viewBox="0 0 70 35" className="w-16 h-8 mx-auto">
             <line x1="35" y1="4" x2="35" y2="31" className="stroke-slate-500 stroke-[1.8]" />
             <line x1="12" y1="18" x2="58" y2="18" className="stroke-indigo-600 stroke-[2]" />
-            <rect x="35" y="18" width="5" height="5" fill="none" className="stroke-indigo-500 stroke-[1]" />
+            <path d="M 42 18 A 7 7 0 0 1 35 25" fill="none" className="stroke-indigo-500 stroke-[1]" /><circle cx="37.7" cy="20.7" r="1.1" className="fill-indigo-500" />
           </svg>
         )
       },
@@ -391,7 +391,7 @@ const matcherLevels: Record<DifficultyLevel, MatcherLevelConfig> = {
           <svg viewBox="0 0 70 35" className="w-16 h-8 mx-auto">
             <line x1="35" y1="18" x2="52" y2="18" className="stroke-purple-600 stroke-[1.8]" />
             <line x1="35" y1="18" x2="35" y2="5" className="stroke-purple-600 stroke-[1.8]" />
-            <rect x="35" y="12" width="6" height="6" fill="none" className="stroke-purple-500 stroke-[1]" />
+            <path d="M 43 18 A 8 8 0 0 0 35 10" fill="none" className="stroke-purple-500 stroke-[1]" /><circle cx="38.1" cy="14.9" r="1.1" className="fill-purple-500" />
           </svg>
         )
       }

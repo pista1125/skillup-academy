@@ -261,8 +261,8 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
           <svg viewBox="0 0 70 30" className="w-14 h-6 mx-auto">
             <polygon points="12,24 28,24 12,12" fill="none" className="stroke-purple-600 stroke-[1.2]" />
             <polygon points="38,26 62,26 38,8" fill="none" className="stroke-purple-600 stroke-[1.5]" />
-            <path d="M 12 20 L 16 20 L 16 24" fill="none" className="stroke-purple-700 stroke-[1]" />
-            <path d="M 38 21 L 43 21 L 43 26" fill="none" className="stroke-purple-700 stroke-[1]" />
+            <path d="M 12 18 A 6 6 0 0 1 18 24" fill="none" stroke="currentColor" /><circle cx="14.3" cy="21.7" r="1.1" fill="currentColor" />
+            <path d="M 38 19 A 7 7 0 0 1 45 26" fill="none" stroke="currentColor" /><circle cx="40.7" cy="23.3" r="1.1" fill="currentColor" />
           </svg>
         )
       },

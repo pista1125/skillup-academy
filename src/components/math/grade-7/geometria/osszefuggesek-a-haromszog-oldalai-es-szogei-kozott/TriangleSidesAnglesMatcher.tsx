@@ -34,7 +34,7 @@ const level1Pairs: MatcherPair[] = [
     figure: (
       <svg viewBox="0 0 90 50" className="w-16 h-9">
         <polygon points="12,42 78,42 12,10" fill="none" className="stroke-blue-600 stroke-2" />
-        <path d="M 12,35 L 19,35 L 19,42" fill="none" className="stroke-slate-500 stroke-1" />
+        <path d="M 12 33 A 9 9 0 0 1 21 42" fill="none" stroke="currentColor" /><circle cx="15.5" cy="38.5" r="1.3" fill="currentColor" />
         <text x="58" y="38" className="text-[8px] font-bold fill-blue-700">35°</text>
         <text x="18" y="22" className="text-[8px] font-black fill-rose-600">?</text>
       </svg>
@@ -136,7 +136,7 @@ const level2Pairs: MatcherPair[] = [
     figure: (
       <svg viewBox="0 0 90 50" className="w-16 h-9">
         <polygon points="15,42 75,42 15,12" fill="none" className="stroke-blue-600 stroke-2" />
-        <path d="M 15,36 L 21,36 L 21,42" fill="none" className="stroke-slate-600 stroke-1" />
+        <path d="M 15 34 A 8 8 0 0 1 23 42" fill="none" stroke="currentColor" /><circle cx="18.1" cy="38.9" r="1.1" fill="currentColor" />
         <text x="45" y="48" textAnchor="middle" className="text-[7px] font-bold fill-blue-700">8</text>
         <text x="8" y="28" className="text-[7px] font-bold fill-blue-700">6</text>
         <text x="50" y="24" className="text-[7px] font-bold fill-blue-700">10</text>

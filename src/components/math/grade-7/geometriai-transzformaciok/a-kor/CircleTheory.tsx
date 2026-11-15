@@ -230,7 +230,7 @@ export const CircleTheory: React.FC<CircleTheoryProps> = ({ onBack, onStartQuiz 
                 <line x1="110" y1="35" x2="310" y2="35" stroke="#9333ea" strokeWidth="2" strokeDasharray="3 3" />
                 <text x="316" y="38" className="text-[11px] font-black fill-purple-700">e (érintő)</text>
                 {/* Right angle symbol at E */}
-                <path d="M 190 45 L 180 45 L 180 35" fill="none" stroke="#9333ea" strokeWidth="1.2" />
+                <path d="M 178 35 A 12 12 0 0 0 190 47" fill="none" stroke="#9333ea" strokeWidth="1.2" />
                 <circle cx="185" cy="40" r="1.2" fill="#9333ea" />
 
                 {/* Secant line (Szelő egyenes: s on the bottom left) */}
@@ -453,7 +453,7 @@ export const CircleTheory: React.FC<CircleTheoryProps> = ({ onBack, onStartQuiz 
                     <circle cx="60" cy="38" r="24" fill="none" stroke="#cbd5e1" strokeWidth="1.5" />
                     <line x1="20" y1="14" x2="100" y2="14" stroke="#9333ea" strokeWidth="2.2" />
                     <line x1="60" y1="38" x2="60" y2="14" stroke="#9333ea" strokeWidth="1.5" strokeDasharray="2 2" />
-                    <path d="M 60 20 L 54 20 L 54 14" fill="none" stroke="#9333ea" strokeWidth="1" />
+                    <path d="M 60 22 A 8 8 0 0 1 52 14" fill="none" stroke="#9333ea" strokeWidth="1" /><circle cx="56.9" cy="17.1" r="1.1" fill="#9333ea" />
                     <circle cx="60" cy="14" r="3" fill="#9333ea" />
                     <text x="64" y="24" className="text-[9px] font-bold fill-purple-800">E</text>
                     <text x="102" y="16" className="text-[10px] font-bold fill-purple-700">e</text>

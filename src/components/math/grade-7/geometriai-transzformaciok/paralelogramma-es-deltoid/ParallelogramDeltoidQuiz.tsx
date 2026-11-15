@@ -244,8 +244,8 @@ const quizLevels: Record<number, LevelConfig> = {
         figure: (
           <svg viewBox="0 0 200 90" className="w-48 h-24 mx-auto">
             <rect x="40" y="20" width="120" height="50" fill="#e0f2fe" stroke="#0284c7" strokeWidth="2" />
-            <path d="M 40 32 L 52 32 L 52 20" fill="none" stroke="#0284c7" strokeWidth="1.5" />
-            <path d="M 148 20 L 148 32 L 160 32" fill="none" stroke="#0284c7" strokeWidth="1.5" />
+            <path d="M 40 34 A 14 14 0 0 0 54 20" fill="none" stroke="#0284c7" strokeWidth="1.5" /><circle cx="45.4" cy="25.4" r="2" fill="#0284c7" />
+            <path d="M 146 20 A 14 14 0 0 0 160 34" fill="none" stroke="#0284c7" strokeWidth="1.5" /><circle cx="154.6" cy="25.4" r="2" fill="#0284c7" />
           </svg>
         ),
         options: [
@@ -342,7 +342,7 @@ const quizLevels: Record<number, LevelConfig> = {
             <polygon points="100,10 150,38 100,82 50,38" fill="#fce7f3" stroke="#db2777" strokeWidth="2" />
             <line x1="100" y1="10" x2="100" y2="82" stroke="#e11d48" strokeWidth="2" />
             <line x1="50" y1="38" x2="150" y2="38" stroke="#0284c7" strokeWidth="2" />
-            <path d="M 100 46 L 108 46 L 108 38" fill="none" stroke="#475569" strokeWidth="1.5" />
+            <path d="M 100 48 A 10 10 0 0 0 110 38" fill="none" stroke="#475569" strokeWidth="1.5" /><circle cx="103.9" cy="41.9" r="1.4" fill="#475569" />
           </svg>
         ),
         options: [

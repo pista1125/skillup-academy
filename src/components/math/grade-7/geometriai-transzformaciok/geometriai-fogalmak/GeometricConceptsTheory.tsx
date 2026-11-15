@@ -468,7 +468,7 @@ export const GeometricConceptsTheory: React.FC<GeometricConceptsTheoryProps> = (
               <svg viewBox="0 0 100 50" className="w-24 h-12">
                 <line x1="25" y1="42" x2="85" y2="42" className="stroke-blue-600 stroke-[2]" />
                 <line x1="25" y1="42" x2="25" y2="8" className="stroke-blue-600 stroke-[2]" />
-                <rect x="25" y="30" width="12" height="12" fill="none" className="stroke-blue-500 stroke-[1.5]" />
+                <path d="M 39 42 A 14 14 0 0 0 25 28" fill="none" className="stroke-blue-500 stroke-[1.5]" />
                 <circle cx="31" cy="36" r="1.5" className="fill-blue-600" />
                 <circle cx="25" cy="42" r="3" className="fill-blue-700" />
               </svg>

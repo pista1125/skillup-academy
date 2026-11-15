@@ -350,7 +350,7 @@ export const SimilarityTheory: React.FC<SimilarityTheoryProps> = ({
                 </span>
                 <svg viewBox="0 0 120 100" className="w-28 h-24 mx-auto">
                   <polygon points="20,80 80,80 20,35" fill="#eff6ff" className="stroke-blue-600 stroke-[2]" />
-                  <path d="M 20 70 L 30 70 L 30 80" fill="none" className="stroke-blue-700 stroke-[1]" />
+                  <path d="M 20 68 A 12 12 0 0 1 32 80" fill="none" stroke="currentColor" /><circle cx="24.7" cy="75.3" r="1.7" fill="currentColor" />
                   <text x="45" y="92" className="text-[9px] font-bold fill-blue-800">a = 4 cm</text>
                   <text x="2" y="60" className="text-[9px] font-bold fill-blue-800">b = 3 cm</text>
                   <text x="55" y="52" className="text-[9px] font-bold fill-blue-800">c = 5 cm</text>

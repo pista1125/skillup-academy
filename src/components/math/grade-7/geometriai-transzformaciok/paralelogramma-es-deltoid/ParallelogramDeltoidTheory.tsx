@@ -190,10 +190,10 @@ export const ParallelogramDeltoidTheory: React.FC<ParallelogramDeltoidTheoryProp
                         )}
                         {showAngles && (
                           <>
-                            <rect x="50" y="45" width="10" height="10" fill="none" stroke="#0284c7" strokeWidth="1" />
-                            <rect x="220" y="45" width="10" height="10" fill="none" stroke="#0284c7" strokeWidth="1" />
-                            <rect x="50" y="115" width="10" height="10" fill="none" stroke="#0284c7" strokeWidth="1" />
-                            <rect x="220" y="115" width="10" height="10" fill="none" stroke="#0284c7" strokeWidth="1" />
+                            <path d="M 62 45 A 12 12 0 0 1 50 57" fill="none" stroke="#0284c7" strokeWidth="1" /><circle cx="54.7" cy="49.7" r="1.7" fill="#0284c7" />
+                            <path d="M 218 45 A 12 12 0 0 0 230 57" fill="none" stroke="#0284c7" strokeWidth="1" /><circle cx="225.3" cy="49.7" r="1.7" fill="#0284c7" />
+                            <path d="M 62 125 A 12 12 0 0 0 50 113" fill="none" stroke="#0284c7" strokeWidth="1" /><circle cx="54.7" cy="120.3" r="1.7" fill="#0284c7" />
+                            <path d="M 218 125 A 12 12 0 0 1 230 113" fill="none" stroke="#0284c7" strokeWidth="1" /><circle cx="225.3" cy="120.3" r="1.7" fill="#0284c7" />
                             <text x="120" y="38" className="text-[9px] font-bold fill-sky-700">Mind a 4 szög 90°</text>
                           </>
                         )}
@@ -207,7 +207,7 @@ export const ParallelogramDeltoidTheory: React.FC<ParallelogramDeltoidTheoryProp
                           <>
                             <line x1="140" y1="25" x2="140" y2="135" stroke="#ef4444" strokeWidth="1.5" strokeDasharray="4 3" />
                             <line x1="60" y1="80" x2="220" y2="80" stroke="#ef4444" strokeWidth="1.5" strokeDasharray="4 3" />
-                            <rect x="140" y="72" width="8" height="8" fill="none" stroke="#64748b" strokeWidth="1" />
+                            <path d="M 150 80 A 10 10 0 0 0 140 70" fill="none" stroke="#64748b" strokeWidth="1" />
                             <circle cx="140" cy="80" r="4" fill="#7c3aed" />
                             <text x="148" y="75" className="text-[9px] font-bold fill-purple-800">e ⊥ f (merőleges!)</text>
                           </>
@@ -225,7 +225,7 @@ export const ParallelogramDeltoidTheory: React.FC<ParallelogramDeltoidTheoryProp
                           <>
                             <line x1="90" y1="30" x2="190" y2="130" stroke="#ef4444" strokeWidth="1.5" strokeDasharray="4 3" />
                             <line x1="90" y1="130" x2="190" y2="30" stroke="#ef4444" strokeWidth="1.5" strokeDasharray="4 3" />
-                            <rect x="135" y="75" width="10" height="10" fill="none" stroke="#64748b" strokeWidth="1" />
+                            <path d="M 133 75 A 12 12 0 0 0 145 87" fill="none" stroke="#64748b" strokeWidth="1" />
                             <circle cx="140" cy="80" r="4" fill="#16a34a" />
                             <text x="80" y="145" className="text-[8px] font-bold fill-emerald-800">e = f és e ⊥ f (minden igaz!)</text>
                           </>
@@ -476,7 +476,7 @@ export const ParallelogramDeltoidTheory: React.FC<ParallelogramDeltoidTheoryProp
                 <line x1="35" y1="70" x2="165" y2="20" stroke="#0369a1" strokeWidth="1.2" strokeDasharray="3 2" />
                 <circle cx="100" cy="45" r="3.5" fill="#0284c7" />
                 <text x="88" y="42" className="text-[9px] font-bold fill-sky-800">d₁ = d₂</text>
-                <path d="M 35 30 L 45 30 L 45 20" fill="none" stroke="#0284c7" strokeWidth="1" />
+                <path d="M 35 32 A 12 12 0 0 0 47 20" fill="none" stroke="#0284c7" strokeWidth="1" /><circle cx="39.7" cy="24.7" r="1.7" fill="#0284c7" />
               </svg>
             }
           >
@@ -501,7 +501,7 @@ export const ParallelogramDeltoidTheory: React.FC<ParallelogramDeltoidTheoryProp
                 <polygon points="100,10 160,45 100,80 40,45" fill="#ede9fe" stroke="#7c3aed" strokeWidth="2" />
                 <line x1="100" y1="10" x2="100" y2="80" stroke="#7c3aed" strokeWidth="1.5" />
                 <line x1="40" y1="45" x2="160" y2="45" stroke="#7c3aed" strokeWidth="1.5" />
-                <rect x="100" y="39" width="6" height="6" fill="none" stroke="#64748b" strokeWidth="1" />
+                <path d="M 108 45 A 8 8 0 0 0 100 37" fill="none" stroke="#64748b" strokeWidth="1" /><circle cx="103.1" cy="41.9" r="1.1" fill="#64748b" />
                 <text x="65" y="24" className="text-[10px] font-bold fill-purple-700">a</text>
                 <text x="130" y="24" className="text-[10px] font-bold fill-purple-700">a</text>
               </svg>

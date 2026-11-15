@@ -106,7 +106,7 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
           <svg viewBox="0 0 60 28" className="w-14 h-7">
             <line x1="10" y1="22" x2="50" y2="22" className="stroke-slate-600 stroke-[2]" />
             <line x1="30" y1="4" x2="30" y2="26" className="stroke-indigo-600 stroke-[1.8]" />
-            <rect x="30" y="16" width="6" height="6" fill="none" className="stroke-indigo-500 stroke-[1]" />
+            <path d="M 38 22 A 8 8 0 0 0 30 14" fill="none" className="stroke-indigo-500 stroke-[1]" /><circle cx="33.1" cy="18.9" r="1.1" className="fill-indigo-500" />
             <line x1="19" y1="20" x2="19" y2="24" className="stroke-indigo-600 stroke-[1.5]" />
             <line x1="21" y1="20" x2="21" y2="24" className="stroke-indigo-600 stroke-[1.5]" />
             <line x1="39" y1="20" x2="39" y2="24" className="stroke-indigo-600 stroke-[1.5]" />
@@ -136,7 +136,7 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
           <svg viewBox="0 0 60 28" className="w-14 h-7">
             <polygon points="26,5 10,24 50,24" fill="none" className="stroke-slate-500 stroke-[1.5]" />
             <line x1="26" y1="5" x2="26" y2="24" className="stroke-rose-600 stroke-[2]" />
-            <rect x="26" y="18" width="6" height="6" fill="none" className="stroke-rose-500 stroke-[1]" />
+            <path d="M 34 24 A 8 8 0 0 0 26 16" fill="none" className="stroke-rose-500 stroke-[1]" /><circle cx="29.1" cy="20.9" r="1.1" className="fill-rose-500" />
             <text x="18" y="16" className="text-[8px] font-bold fill-rose-600">m</text>
           </svg>
         )
@@ -243,7 +243,7 @@ const sorterLevels: Record<DifficultyLevel, SorterLevelConfig> = {
           <svg viewBox="0 0 60 28" className="w-14 h-7">
             <polygon points="16,6 16,23 48,23" className="fill-blue-100/50 stroke-blue-600 stroke-[1.5]" />
             <circle cx="16" cy="23" r="3.5" className="fill-rose-500 stroke-white stroke-[1]" />
-            <rect x="16" y="17" width="6" height="6" fill="none" className="stroke-blue-500 stroke-[1]" />
+            <path d="M 24 23 A 8 8 0 0 0 16 15" fill="none" className="stroke-blue-500 stroke-[1]" /><circle cx="19.1" cy="19.9" r="1.1" className="fill-blue-500" />
             <text x="8" y="22" className="text-[8px] font-bold fill-rose-600">M</text>
           </svg>
         )

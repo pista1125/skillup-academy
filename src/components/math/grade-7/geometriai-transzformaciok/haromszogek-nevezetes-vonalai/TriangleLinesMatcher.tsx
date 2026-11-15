@@ -61,7 +61,7 @@ const level1Pairs: MatcherPair[] = [
       <svg viewBox="0 0 100 40" className="w-16 h-8 mx-auto">
         <polygon points="50,6 20,34 80,34" fill="none" className="stroke-blue-600 stroke-[1.5]" />
         <line x1="50" y1="6" x2="50" y2="34" className="stroke-rose-500 stroke-[2]" />
-        <rect x="50" y="28" width="6" height="6" fill="none" className="stroke-rose-400 stroke-[1]" />
+        <path d="M 58 34 A 8 8 0 0 0 50 26" fill="none" className="stroke-rose-400 stroke-[1]" /><circle cx="53.1" cy="30.9" r="1.1" className="fill-rose-400" />
       </svg>
     )
   },
