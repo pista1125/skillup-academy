@@ -2028,13 +2028,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-geo-vektorok-osszeadasa" number={1} title="Vektorok összeadása" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Vektorok Geometriai Összege"
-                subtitle="Háromszög-módszer, paralelogramma-módszer és a vektorösszeadás tulajdonságai"
-                type="Hamarosan"
-                emoji="↗️"
-                disabled={true}
-                icon={<Compass className="w-6 h-6" />}
+                title="Vektorok összeadása Tananyag"
+                subtitle="Vektorfogalom, ellentett és nullvektor; összefűzés és paralelogrammamódszer húzható vektorokkal"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-geo-vektor-osszeadas-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: összegvektor szerkesztése és hossza, háromszög-egyenlőtlenség"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-geo-vektor-osszeadas-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g11-geo-vektor-osszeadas-quiz')}
               />
             </div>
           </section>
@@ -2046,13 +2056,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-geo-ket-vektor-kulonbsege" number={2} title="Két vektor különbsége" color="pink" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Ellentett Vektor és Különbség"
-                subtitle="a - b = a + (-b), közös kezdőpontból indított vektorok és a paralelogramma átlója"
-                type="Hamarosan"
-                emoji="↔️"
-                disabled={true}
-                icon={<Split className="w-6 h-6" />}
+                title="Két vektor különbsége Tananyag"
+                subtitle="A különbségvektor szerkesztése, a paralelogramma két átlója, a pilóta rátartása"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-geo-vektor-kulonbseg-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="pink"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: →a − →b szerkesztése, egyszerűsítések, átlók hossza"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-geo-vektor-kulonbseg-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="pink"
+                {...getTopicProgress('g11-geo-vektor-kulonbseg-quiz')}
               />
             </div>
           </section>
@@ -2064,13 +2084,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-geo-vektorok-szamszorosa" number={3} title="Vektorok számszorosa" color="fuchsia" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Vektor Skalárszorosa és Kollinearitás"
-                subtitle="λ·a vektor hossza, iránya, párhuzamosság feltétele és disztributivitás"
-                type="Hamarosan"
-                emoji="📏"
-                disabled={true}
-                icon={<Scale className="w-6 h-6" />}
+                title="Vektorok számszorosa Tananyag"
+                subtitle="λ · →a iránya és hossza, rácsvektorok, hatszög, paralelogramma és kocka – λ-csúszkával"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-geo-vektor-szamszoros-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="fuchsia"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: számszoros iránya és hossza, párhuzamos vektorok, vektorok kifejezése"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-geo-vektor-szamszoros-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="fuchsia"
+                {...getTopicProgress('g11-geo-vektor-szamszoros-quiz')}
               />
             </div>
           </section>
@@ -2082,13 +2112,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-geo-vektor-felbontasa" number={4} title="Ráadás – Vektor felbontása összetevőkre" color="purple" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Bázisvektorok és Komponensek"
-                subtitle="Vektorok egyértelmű felírása síkbeli bázisban és lejtőn ható erők"
-                type="Hamarosan"
-                emoji="📐"
-                disabled={true}
-                icon={<Boxes className="w-6 h-6" />}
+                title="Vektor felbontása Tananyag"
+                subtitle="Katamarán, fonálon függő test, lejtő: vektor felbontása két adott irányba, paralelogramma-módszerrel"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-geo-vektor-felbontas-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="purple"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: felbontás rácson, merőleges összetevők, szabályos hatszög"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-geo-vektor-felbontas-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="purple"
+                {...getTopicProgress('g11-geo-vektor-felbontas-quiz')}
               />
             </div>
           </section>
@@ -2100,13 +2140,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-geo-vektorok-koordinatai" number={5} title="Vektorok a koordináta-rendszerben" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Helyvektorok és Koordinátaműveletek"
-                subtitle="AB vektor kiszámítása pontokból, összeadás koordinátánként és vektor hossza"
-                type="Hamarosan"
-                emoji="📍"
-                disabled={true}
+                title="Vektorok koordinátái Tananyag"
+                subtitle="Bázisvektorok, koordináták, helyvektor: műveletek, 90°-os elforgatás és a vektor hossza koordinátákkal"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-geo-vektor-koordinatak-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
+                color="violet"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: →AB leolvasása, műveletek, elforgatás, hossz"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-geo-vektor-koordinatak-quiz', topicId)}
                 icon={<Target className="w-6 h-6" />}
                 color="violet"
+                {...getTopicProgress('g11-geo-vektor-koordinatak-quiz')}
               />
             </div>
           </section>
@@ -2118,13 +2168,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-geo-tavolsag-kerulet-terulet" number={6} title="Távolság, kerület, terület" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Pontok Távolsága és Sokszögek Területe"
-                subtitle="Pitagorasz-tétel koordinátákkal, oldalhosszak és háromszögterület-képletek"
-                type="Hamarosan"
-                emoji="📐"
-                disabled={true}
-                icon={<Shapes className="w-6 h-6" />}
+                title="Távolság, kerület, terület Tananyag"
+                subtitle="Mekkora a Bermuda-háromszög? Két pont távolsága, sokszögek kerülete, terület befoglaló téglalappal – húzható csúcsokkal"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-geo-tavolsag-terulet-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: távolságképlet, kerület, terület téglalappal, lépték"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-geo-tavolsag-terulet-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g11-geo-tavolsag-terulet-quiz')}
               />
             </div>
           </section>
@@ -2136,13 +2196,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-geo-felezopont" number={7} title="Felezőpont" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Felezőpont és Súlypont Képlete"
-                subtitle="Szakaszfelező pont, osztópontok és háromszög súlypontjának koordinátái"
-                type="Hamarosan"
-                emoji="✂️"
-                disabled={true}
-                icon={<Divide className="w-6 h-6" />}
+                title="Felezőpont Tananyag"
+                subtitle="A felezőpont koordinátái, negyedelőpontok, tükrözés pontra, nagyítás és a háromszög súlypontja"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-geo-felezopont-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: felezőpont, osztópont, meghosszabbítás, súlypont, paralelogramma-csúcs"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-geo-felezopont-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g11-geo-felezopont-quiz')}
               />
             </div>
           </section>
@@ -2154,13 +2224,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-geo-gyakorlas-csoportban" number={8} title="Gyakorlás csoportban" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Vektoros Geometriai Bizonyítások"
-                subtitle="Középvonal, súlyvonalak és négyszögek tulajdonságainak igazolása vektorokkal"
-                type="Hamarosan"
-                emoji="👥"
-                disabled={true}
-                icon={<Users className="w-6 h-6" />}
+                title="Gyakorlás csoportban Tananyag"
+                subtitle="Csoportmunka: paralelogramma és négyzet csúcsai, vektorok hossza és elforgatása, |→u ± →v|"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-geo-csoportmunka-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="cyan"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 vegyes feladat 3 szinten a vektorok és koordináták témaköréből"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-geo-csoportmunka-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="cyan"
+                {...getTopicProgress('g11-geo-csoportmunka-quiz')}
               />
             </div>
           </section>
@@ -2172,13 +2252,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-geo-egyenesek-a-sikban" number={9} title="Egyenesek a koordináta-rendszerben" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Irányvektor és Normálvektor"
-                subtitle="Egyenes meghatározása ponttal és vektorral, v(v1; v2) és n(-v2; v1) kapcsolata"
-                type="Hamarosan"
-                emoji="🧭"
-                disabled={true}
-                icon={<Compass className="w-6 h-6" />}
+                title="Egyenesek a koordináta-rendszerben Tananyag"
+                subtitle="Az alakzat egyenlete: x = a, y = b, y = ax + b; illeszkedés, eltolás, irány- és normálvektor"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-geo-egyenes-iranyvektor-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: egyenletek leolvasása, pont illeszkedése, eltolás vektorral"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-geo-egyenes-iranyvektor-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="teal"
+                {...getTopicProgress('g11-geo-egyenes-iranyvektor-quiz')}
               />
             </div>
           </section>
@@ -2190,13 +2280,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-geo-az-egyenes-egyenlete" number={10} title="Az egyenes egyenlete" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Normálvektoros és Általános Alak"
-                subtitle="Ax + By = Ax0 + By0, együtthatók geometriai jelentése és egyenletfelírás"
-                type="Hamarosan"
-                emoji="📝"
-                disabled={true}
-                icon={<Calculator className="w-6 h-6" />}
+                title="Az egyenes egyenlete Tananyag"
+                subtitle="Létra a falnál: y = mx + b és x = c, illeszkedés, tengelymetszetek, két pontra illeszkedő egyenes"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-geo-egyenes-egyenlete-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: egyenletalakok, illeszkedés, tengelymetszetek, egyenes két pontból"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-geo-egyenes-egyenlete-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g11-geo-egyenes-egyenlete-quiz')}
               />
             </div>
           </section>
@@ -2208,13 +2308,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-geo-a-kor-egyenlete" number={11} title="A kör egyenlete" color="lime" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Kör Kanonikus és Általános Egyenlete"
-                subtitle="(x - u)² + (y - v)² = r², középpont és sugár meghatározása teljes négyzetté alakítással"
-                type="Hamarosan"
-                emoji="⭕"
-                disabled={true}
-                icon={<Circle className="w-6 h-6" />}
+                title="A kör egyenlete Tananyag"
+                subtitle="Kezdőkör a focipályán: (x − u)² + (y − v)² = r², rajta van-e a pont, teljes négyzetté kiegészítés"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-geo-kor-egyenlete-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="lime"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: középpont és sugár, kör ponton át, átmérőből, kifejtett alak"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-geo-kor-egyenlete-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="lime"
+                {...getTopicProgress('g11-geo-kor-egyenlete-quiz')}
               />
             </div>
           </section>
@@ -2226,13 +2336,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-geo-korrel-kapcsolatos-feladatok" number={12} title="Körrel kapcsolatos feladatok" color="yellow" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Kör Érintője és Metszéspontjai"
-                subtitle="Érintő egyenlete adott pontban, egyenes és kör kölcsönös helyzete"
-                type="Hamarosan"
+                title="Körrel kapcsolatos feladatok Tananyag"
+                subtitle="Kör és egyenes közös pontjai, érintők egy pontból, derékszögű háromszög köré írt köre"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-geo-kor-feladatok-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
+                color="yellow"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: szelő/érintő, érintők száma, Thalész-kör, híd és rádióadó"
+                type="Kvíz"
                 emoji="🎯"
-                disabled={true}
+                onClick={() => onActivitySelect('g11-geo-kor-feladatok-quiz', topicId)}
                 icon={<Target className="w-6 h-6" />}
                 color="yellow"
+                {...getTopicProgress('g11-geo-kor-feladatok-quiz')}
               />
             </div>
           </section>
@@ -2244,13 +2364,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-geo-meredekseg-iranytangens" number={13} title="Meredekség, iránytangens" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Irányszög és Meredekséges Alak"
-                subtitle="m = tan α = v2/v1 = -A/B, y = mx + b és y - y0 = m(x - x0)"
-                type="Hamarosan"
-                emoji="📈"
-                disabled={true}
-                icon={<TrendingUp className="w-6 h-6" />}
+                title="Meredekség, iránytangens Tananyag"
+                subtitle="Emelkedő %-ban, m = tg α, irányszög és az y = mx + b alak – meredekség-csúszkával"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-geo-meredekseg-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: meredekség két pontból és egyenletből, irányszög, lejtők"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-geo-meredekseg-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g11-geo-meredekseg-quiz')}
               />
             </div>
           </section>
@@ -2262,13 +2392,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-geo-egyenesek-metszespontja" number={14} title="Egyenesek metszéspontja" color="orange" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Két Egyenes Metszéspontja"
-                subtitle="Lineáris egyenletrendszer megoldása, metsző, párhuzamos és egybeeső egyenesek"
-                type="Hamarosan"
-                emoji="✖️"
-                disabled={true}
-                icon={<Split className="w-6 h-6" />}
+                title="Egyenesek metszéspontja Tananyag"
+                subtitle="Két egyenes ↔ egyenletrendszer: metsző, párhuzamos, egybeeső – hajóútvonalak"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-geo-metszespont-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="orange"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: illeszkedés, egyenletrendszer, grafikus megoldás, súlyvonalak"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-geo-metszespont-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="orange"
+                {...getTopicProgress('g11-geo-metszespont-quiz')}
               />
             </div>
           </section>
@@ -2280,13 +2420,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-geo-meroleges-parhuzamos" number={15} title="Merőleges, párhuzamos egyenesek" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Párhuzamosság és Merőlegesség Feltétele"
-                subtitle="m1 = m2, m1·m2 = -1, normálvektorok skaláris szorzata és pont távolsága egyenestől"
-                type="Hamarosan"
-                emoji="📐"
-                disabled={true}
-                icon={<Scale className="w-6 h-6" />}
+                title="Merőleges, párhuzamos egyenesek Tananyag"
+                subtitle="m₁ = m₂ és m₁ · m₂ = −1, magasságvonal, pont és egyenes távolsága"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-geo-meroleges-parhuzamos-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: meredekségek, paraméteres feladatok, felezőmerőleges, távolság"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-geo-meroleges-parhuzamos-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g11-geo-meroleges-parhuzamos-quiz')}
               />
             </div>
           </section>
@@ -2298,13 +2448,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-geo-gyakorlas" number={16} title="Gyakorlás" color="pink" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Háromszögek Nevezetes Vonalai"
-                subtitle="Magasságvonalak, súlyvonalak, oldalfelezők és körülírt kör feladatai"
-                type="Hamarosan"
-                emoji="🧠"
-                disabled={true}
-                icon={<Brain className="w-6 h-6" />}
+                title="Gyakorlás – koordinátageometria Tananyag"
+                subtitle="Háromszög nevezetes vonalai koordinátákkal: magasságvonal, oldalfelező merőleges, körülírt kör; körök és egyenesek egyenletei"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-geo-gyakorlas-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="pink"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: vektorok, egyenesek kölcsönös helyzete, magasságvonal, felezőmerőleges, körülírt kör"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-geo-gyakorlas-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="pink"
+                {...getTopicProgress('g11-geo-gyakorlas-quiz')}
               />
             </div>
           </section>
@@ -2316,13 +2476,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-geo-tudasproba" number={17} title="Gyakorlás, tudáspróba" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Koordinátageometria Tudáspróba"
-                subtitle="Átfogó fejezeti számonkérés és érettségi típusú feladatsor"
-                type="Hamarosan"
-                emoji="🏆"
-                disabled={true}
-                icon={<Trophy className="w-6 h-6" />}
+                title="Gyakorlás, tudáspróba Tananyag"
+                subtitle="A koordinátageometria összefoglalása: vektorok, egyenes, kör – érettségi feladatokkal és két tudáspróbával"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-geo-tudasproba-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz"
+                subtitle="90 feladat (szintenként 30) a teljes VI. témakörből"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-geo-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g11-geo-tudasproba-quiz')}
               />
             </div>
           </section>

@@ -140,6 +140,40 @@ const G11ReplacementComparisonTheory = lazy(() => import("@/components/math/grad
 const G11ReplacementComparisonQuiz = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/visszatevessel-vagy-anelkul/ReplacementComparisonQuiz").then(m => ({ default: m.ReplacementComparisonQuiz })))
 const G11StatProbPracticeExamTheory = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/gyakorlas-tudasproba/StatProbPracticeExamTheory").then(m => ({ default: m.StatProbPracticeExamTheory })))
 const G11StatProbPracticeExamQuiz = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/gyakorlas-tudasproba/StatProbPracticeExamQuiz").then(m => ({ default: m.StatProbPracticeExamQuiz })))
+const G11G11VectorAdditionTheory = lazy(() => import("@/components/math/grade-11/koordinatageometria/vektorok-osszeadasa/G11VectorAdditionTheory").then(m => ({ default: m.G11VectorAdditionTheory })))
+const G11G11VectorAdditionQuiz = lazy(() => import("@/components/math/grade-11/koordinatageometria/vektorok-osszeadasa/G11VectorAdditionQuiz").then(m => ({ default: m.G11VectorAdditionQuiz })))
+const G11VectorSubtractionTheory = lazy(() => import("@/components/math/grade-11/koordinatageometria/ket-vektor-kulonbsege/VectorSubtractionTheory").then(m => ({ default: m.VectorSubtractionTheory })))
+const G11VectorSubtractionQuiz = lazy(() => import("@/components/math/grade-11/koordinatageometria/ket-vektor-kulonbsege/VectorSubtractionQuiz").then(m => ({ default: m.VectorSubtractionQuiz })))
+const G11VectorScalarTheory = lazy(() => import("@/components/math/grade-11/koordinatageometria/vektorok-szamszorosa/VectorScalarTheory").then(m => ({ default: m.VectorScalarTheory })))
+const G11VectorScalarQuiz = lazy(() => import("@/components/math/grade-11/koordinatageometria/vektorok-szamszorosa/VectorScalarQuiz").then(m => ({ default: m.VectorScalarQuiz })))
+const G11VectorDecompositionTheory = lazy(() => import("@/components/math/grade-11/koordinatageometria/vektor-felbontasa-osszetevokre/VectorDecompositionTheory").then(m => ({ default: m.VectorDecompositionTheory })))
+const G11VectorDecompositionQuiz = lazy(() => import("@/components/math/grade-11/koordinatageometria/vektor-felbontasa-osszetevokre/VectorDecompositionQuiz").then(m => ({ default: m.VectorDecompositionQuiz })))
+const G11CoordinateVectorsTheory = lazy(() => import("@/components/math/grade-11/koordinatageometria/vektorok-a-koordinata-rendszerben/CoordinateVectorsTheory").then(m => ({ default: m.CoordinateVectorsTheory })))
+const G11CoordinateVectorsQuiz = lazy(() => import("@/components/math/grade-11/koordinatageometria/vektorok-a-koordinata-rendszerben/CoordinateVectorsQuiz").then(m => ({ default: m.CoordinateVectorsQuiz })))
+const G11DistancePerimeterAreaTheory = lazy(() => import("@/components/math/grade-11/koordinatageometria/tavolsag-kerulet-terulet/DistancePerimeterAreaTheory").then(m => ({ default: m.DistancePerimeterAreaTheory })))
+const G11DistancePerimeterAreaQuiz = lazy(() => import("@/components/math/grade-11/koordinatageometria/tavolsag-kerulet-terulet/DistancePerimeterAreaQuiz").then(m => ({ default: m.DistancePerimeterAreaQuiz })))
+const G11MidpointTheory = lazy(() => import("@/components/math/grade-11/koordinatageometria/felezopont/MidpointTheory").then(m => ({ default: m.MidpointTheory })))
+const G11MidpointQuiz = lazy(() => import("@/components/math/grade-11/koordinatageometria/felezopont/MidpointQuiz").then(m => ({ default: m.MidpointQuiz })))
+const G11CoordGroupPracticeTheory = lazy(() => import("@/components/math/grade-11/koordinatageometria/gyakorlas-csoportban/CoordGroupPracticeTheory").then(m => ({ default: m.CoordGroupPracticeTheory })))
+const G11CoordGroupPracticeQuiz = lazy(() => import("@/components/math/grade-11/koordinatageometria/gyakorlas-csoportban/CoordGroupPracticeQuiz").then(m => ({ default: m.CoordGroupPracticeQuiz })))
+const G11LinesInPlaneTheory = lazy(() => import("@/components/math/grade-11/koordinatageometria/egyenesek-a-koordinata-rendszerben/LinesInPlaneTheory").then(m => ({ default: m.LinesInPlaneTheory })))
+const G11LinesInPlaneQuiz = lazy(() => import("@/components/math/grade-11/koordinatageometria/egyenesek-a-koordinata-rendszerben/LinesInPlaneQuiz").then(m => ({ default: m.LinesInPlaneQuiz })))
+const G11LineEquationTheory = lazy(() => import("@/components/math/grade-11/koordinatageometria/az-egyenes-egyenlete/LineEquationTheory").then(m => ({ default: m.LineEquationTheory })))
+const G11LineEquationQuiz = lazy(() => import("@/components/math/grade-11/koordinatageometria/az-egyenes-egyenlete/LineEquationQuiz").then(m => ({ default: m.LineEquationQuiz })))
+const G11G11CircleEquationTheory = lazy(() => import("@/components/math/grade-11/koordinatageometria/a-kor-egyenlete/G11CircleEquationTheory").then(m => ({ default: m.G11CircleEquationTheory })))
+const G11G11CircleEquationQuiz = lazy(() => import("@/components/math/grade-11/koordinatageometria/a-kor-egyenlete/G11CircleEquationQuiz").then(m => ({ default: m.G11CircleEquationQuiz })))
+const G11CircleProblemsTheory = lazy(() => import("@/components/math/grade-11/koordinatageometria/korrel-kapcsolatos-feladatok/CircleProblemsTheory").then(m => ({ default: m.CircleProblemsTheory })))
+const G11CircleProblemsQuiz = lazy(() => import("@/components/math/grade-11/koordinatageometria/korrel-kapcsolatos-feladatok/CircleProblemsQuiz").then(m => ({ default: m.CircleProblemsQuiz })))
+const G11SlopeTangentTheory = lazy(() => import("@/components/math/grade-11/koordinatageometria/meredekseg-iranytangens/SlopeTangentTheory").then(m => ({ default: m.SlopeTangentTheory })))
+const G11SlopeTangentQuiz = lazy(() => import("@/components/math/grade-11/koordinatageometria/meredekseg-iranytangens/SlopeTangentQuiz").then(m => ({ default: m.SlopeTangentQuiz })))
+const G11LineIntersectionTheory = lazy(() => import("@/components/math/grade-11/koordinatageometria/egyenesek-metszespontja/LineIntersectionTheory").then(m => ({ default: m.LineIntersectionTheory })))
+const G11LineIntersectionQuiz = lazy(() => import("@/components/math/grade-11/koordinatageometria/egyenesek-metszespontja/LineIntersectionQuiz").then(m => ({ default: m.LineIntersectionQuiz })))
+const G11PerpendicularParallelTheory = lazy(() => import("@/components/math/grade-11/koordinatageometria/meroleges-parhuzamos-egyenesek/PerpendicularParallelTheory").then(m => ({ default: m.PerpendicularParallelTheory })))
+const G11PerpendicularParallelQuiz = lazy(() => import("@/components/math/grade-11/koordinatageometria/meroleges-parhuzamos-egyenesek/PerpendicularParallelQuiz").then(m => ({ default: m.PerpendicularParallelQuiz })))
+const G11CoordPracticeTheory = lazy(() => import("@/components/math/grade-11/koordinatageometria/gyakorlas-koordinatageometria/CoordPracticeTheory").then(m => ({ default: m.CoordPracticeTheory })))
+const G11CoordPracticeQuiz = lazy(() => import("@/components/math/grade-11/koordinatageometria/gyakorlas-koordinatageometria/CoordPracticeQuiz").then(m => ({ default: m.CoordPracticeQuiz })))
+const G11CoordPracticeExamTheory = lazy(() => import("@/components/math/grade-11/koordinatageometria/gyakorlas-tudasproba/CoordPracticeExamTheory").then(m => ({ default: m.CoordPracticeExamTheory })))
+const G11CoordPracticeExamQuiz = lazy(() => import("@/components/math/grade-11/koordinatageometria/gyakorlas-tudasproba/CoordPracticeExamQuiz").then(m => ({ default: m.CoordPracticeExamQuiz })))
 
 export const Grade11Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -2507,6 +2541,586 @@ export const Grade11Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g11-stat-tudasproba-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
           onSwitchToMatcher={() => handleActivitySelect('g11-stat-tudasproba-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
           onSwitchToSorter={() => handleActivitySelect('g11-stat-tudasproba-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+
+      {/* ===== 11. Osztály – VI. Koordinátageometria ===== */}
+
+      {/* 1. Vektorok összeadása */}
+      {activityType === 'g11-geo-vektor-osszeadas-theory' && (
+        <G11G11VectorAdditionTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-geo-vektor-osszeadas-quiz', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-vektor-osszeadas-quiz' && (
+        <G11G11VectorAdditionQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-vektor-osszeadas-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-vektor-osszeadas-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-vektor-osszeadas-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-vektor-osszeadas-matcher' && (
+        <G11G11VectorAdditionQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-vektor-osszeadas-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-vektor-osszeadas-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-vektor-osszeadas-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-vektor-osszeadas-sorter' && (
+        <G11G11VectorAdditionQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-vektor-osszeadas-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-vektor-osszeadas-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-vektor-osszeadas-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+
+      {/* 2. Két vektor különbsége */}
+      {activityType === 'g11-geo-vektor-kulonbseg-theory' && (
+        <G11VectorSubtractionTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-geo-vektor-kulonbseg-quiz', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-vektor-kulonbseg-quiz' && (
+        <G11VectorSubtractionQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-vektor-kulonbseg-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-vektor-kulonbseg-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-vektor-kulonbseg-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-vektor-kulonbseg-matcher' && (
+        <G11VectorSubtractionQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-vektor-kulonbseg-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-vektor-kulonbseg-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-vektor-kulonbseg-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-vektor-kulonbseg-sorter' && (
+        <G11VectorSubtractionQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-vektor-kulonbseg-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-vektor-kulonbseg-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-vektor-kulonbseg-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+
+      {/* 3. Vektorok számszorosa */}
+      {activityType === 'g11-geo-vektor-szamszoros-theory' && (
+        <G11VectorScalarTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-geo-vektor-szamszoros-quiz', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-vektor-szamszoros-quiz' && (
+        <G11VectorScalarQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-vektor-szamszoros-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-vektor-szamszoros-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-vektor-szamszoros-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-vektor-szamszoros-matcher' && (
+        <G11VectorScalarQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-vektor-szamszoros-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-vektor-szamszoros-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-vektor-szamszoros-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-vektor-szamszoros-sorter' && (
+        <G11VectorScalarQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-vektor-szamszoros-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-vektor-szamszoros-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-vektor-szamszoros-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+
+      {/* Ráadás – Vektor felbontása összetevőkre */}
+      {activityType === 'g11-geo-vektor-felbontas-theory' && (
+        <G11VectorDecompositionTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-geo-vektor-felbontas-quiz', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-vektor-felbontas-quiz' && (
+        <G11VectorDecompositionQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-vektor-felbontas-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-vektor-felbontas-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-vektor-felbontas-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-vektor-felbontas-matcher' && (
+        <G11VectorDecompositionQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-vektor-felbontas-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-vektor-felbontas-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-vektor-felbontas-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-vektor-felbontas-sorter' && (
+        <G11VectorDecompositionQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-vektor-felbontas-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-vektor-felbontas-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-vektor-felbontas-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+
+      {/* 5. Vektorok a koordináta-rendszerben */}
+      {activityType === 'g11-geo-vektor-koordinatak-theory' && (
+        <G11CoordinateVectorsTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-geo-vektor-koordinatak-quiz', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-vektor-koordinatak-quiz' && (
+        <G11CoordinateVectorsQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-vektor-koordinatak-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-vektor-koordinatak-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-vektor-koordinatak-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-vektor-koordinatak-matcher' && (
+        <G11CoordinateVectorsQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-vektor-koordinatak-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-vektor-koordinatak-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-vektor-koordinatak-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-vektor-koordinatak-sorter' && (
+        <G11CoordinateVectorsQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-vektor-koordinatak-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-vektor-koordinatak-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-vektor-koordinatak-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+
+      {/* 6. Távolság, kerület, terület */}
+      {activityType === 'g11-geo-tavolsag-terulet-theory' && (
+        <G11DistancePerimeterAreaTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-geo-tavolsag-terulet-quiz', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-tavolsag-terulet-quiz' && (
+        <G11DistancePerimeterAreaQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-tavolsag-terulet-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-tavolsag-terulet-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-tavolsag-terulet-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-tavolsag-terulet-matcher' && (
+        <G11DistancePerimeterAreaQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-tavolsag-terulet-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-tavolsag-terulet-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-tavolsag-terulet-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-tavolsag-terulet-sorter' && (
+        <G11DistancePerimeterAreaQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-tavolsag-terulet-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-tavolsag-terulet-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-tavolsag-terulet-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+
+      {/* 7. Felezőpont */}
+      {activityType === 'g11-geo-felezopont-theory' && (
+        <G11MidpointTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-geo-felezopont-quiz', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-felezopont-quiz' && (
+        <G11MidpointQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-felezopont-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-felezopont-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-felezopont-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-felezopont-matcher' && (
+        <G11MidpointQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-felezopont-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-felezopont-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-felezopont-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-felezopont-sorter' && (
+        <G11MidpointQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-felezopont-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-felezopont-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-felezopont-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+
+      {/* 8. Gyakorlás csoportban */}
+      {activityType === 'g11-geo-csoportmunka-theory' && (
+        <G11CoordGroupPracticeTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-geo-csoportmunka-quiz', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-csoportmunka-quiz' && (
+        <G11CoordGroupPracticeQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-csoportmunka-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-csoportmunka-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-csoportmunka-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-csoportmunka-matcher' && (
+        <G11CoordGroupPracticeQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-csoportmunka-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-csoportmunka-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-csoportmunka-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-csoportmunka-sorter' && (
+        <G11CoordGroupPracticeQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-csoportmunka-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-csoportmunka-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-csoportmunka-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+
+      {/* 9. Egyenesek a koordináta-rendszerben */}
+      {activityType === 'g11-geo-egyenes-iranyvektor-theory' && (
+        <G11LinesInPlaneTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-geo-egyenes-iranyvektor-quiz', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-egyenes-iranyvektor-quiz' && (
+        <G11LinesInPlaneQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-egyenes-iranyvektor-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-egyenes-iranyvektor-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-egyenes-iranyvektor-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-egyenes-iranyvektor-matcher' && (
+        <G11LinesInPlaneQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-egyenes-iranyvektor-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-egyenes-iranyvektor-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-egyenes-iranyvektor-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-egyenes-iranyvektor-sorter' && (
+        <G11LinesInPlaneQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-egyenes-iranyvektor-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-egyenes-iranyvektor-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-egyenes-iranyvektor-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+
+      {/* 10. Az egyenes egyenlete */}
+      {activityType === 'g11-geo-egyenes-egyenlete-theory' && (
+        <G11LineEquationTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-geo-egyenes-egyenlete-quiz', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-egyenes-egyenlete-quiz' && (
+        <G11LineEquationQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-egyenes-egyenlete-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-egyenes-egyenlete-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-egyenes-egyenlete-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-egyenes-egyenlete-matcher' && (
+        <G11LineEquationQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-egyenes-egyenlete-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-egyenes-egyenlete-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-egyenes-egyenlete-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-egyenes-egyenlete-sorter' && (
+        <G11LineEquationQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-egyenes-egyenlete-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-egyenes-egyenlete-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-egyenes-egyenlete-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+
+      {/* 11. A kör egyenlete */}
+      {activityType === 'g11-geo-kor-egyenlete-theory' && (
+        <G11G11CircleEquationTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-geo-kor-egyenlete-quiz', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-kor-egyenlete-quiz' && (
+        <G11G11CircleEquationQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-kor-egyenlete-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-kor-egyenlete-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-kor-egyenlete-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-kor-egyenlete-matcher' && (
+        <G11G11CircleEquationQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-kor-egyenlete-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-kor-egyenlete-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-kor-egyenlete-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-kor-egyenlete-sorter' && (
+        <G11G11CircleEquationQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-kor-egyenlete-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-kor-egyenlete-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-kor-egyenlete-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+
+      {/* 12. Körrel kapcsolatos feladatok */}
+      {activityType === 'g11-geo-kor-feladatok-theory' && (
+        <G11CircleProblemsTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-geo-kor-feladatok-quiz', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-kor-feladatok-quiz' && (
+        <G11CircleProblemsQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-kor-feladatok-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-kor-feladatok-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-kor-feladatok-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-kor-feladatok-matcher' && (
+        <G11CircleProblemsQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-kor-feladatok-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-kor-feladatok-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-kor-feladatok-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-kor-feladatok-sorter' && (
+        <G11CircleProblemsQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-kor-feladatok-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-kor-feladatok-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-kor-feladatok-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+
+      {/* 13. Meredekség, iránytangens */}
+      {activityType === 'g11-geo-meredekseg-theory' && (
+        <G11SlopeTangentTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-geo-meredekseg-quiz', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-meredekseg-quiz' && (
+        <G11SlopeTangentQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-meredekseg-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-meredekseg-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-meredekseg-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-meredekseg-matcher' && (
+        <G11SlopeTangentQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-meredekseg-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-meredekseg-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-meredekseg-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-meredekseg-sorter' && (
+        <G11SlopeTangentQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-meredekseg-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-meredekseg-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-meredekseg-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+
+      {/* 14. Egyenesek metszéspontja */}
+      {activityType === 'g11-geo-metszespont-theory' && (
+        <G11LineIntersectionTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-geo-metszespont-quiz', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-metszespont-quiz' && (
+        <G11LineIntersectionQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-metszespont-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-metszespont-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-metszespont-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-metszespont-matcher' && (
+        <G11LineIntersectionQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-metszespont-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-metszespont-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-metszespont-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-metszespont-sorter' && (
+        <G11LineIntersectionQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-metszespont-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-metszespont-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-metszespont-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+
+      {/* 15. Merőleges, párhuzamos egyenesek */}
+      {activityType === 'g11-geo-meroleges-parhuzamos-theory' && (
+        <G11PerpendicularParallelTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-geo-meroleges-parhuzamos-quiz', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-meroleges-parhuzamos-quiz' && (
+        <G11PerpendicularParallelQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-meroleges-parhuzamos-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-meroleges-parhuzamos-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-meroleges-parhuzamos-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-meroleges-parhuzamos-matcher' && (
+        <G11PerpendicularParallelQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-meroleges-parhuzamos-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-meroleges-parhuzamos-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-meroleges-parhuzamos-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-meroleges-parhuzamos-sorter' && (
+        <G11PerpendicularParallelQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-meroleges-parhuzamos-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-meroleges-parhuzamos-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-meroleges-parhuzamos-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+
+      {/* 16. Gyakorlás */}
+      {activityType === 'g11-geo-gyakorlas-theory' && (
+        <G11CoordPracticeTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-geo-gyakorlas-quiz', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-gyakorlas-quiz' && (
+        <G11CoordPracticeQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-gyakorlas-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-gyakorlas-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-gyakorlas-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-gyakorlas-matcher' && (
+        <G11CoordPracticeQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-gyakorlas-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-gyakorlas-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-gyakorlas-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-gyakorlas-sorter' && (
+        <G11CoordPracticeQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-gyakorlas-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-gyakorlas-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-gyakorlas-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+
+      {/* 17. Gyakorlás, tudáspróba */}
+      {activityType === 'g11-geo-tudasproba-theory' && (
+        <G11CoordPracticeExamTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-geo-tudasproba-quiz', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-tudasproba-quiz' && (
+        <G11CoordPracticeExamQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-tudasproba-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-tudasproba-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-tudasproba-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-tudasproba-matcher' && (
+        <G11CoordPracticeExamQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-tudasproba-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-tudasproba-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-tudasproba-sorter', selectedTopic || 'g11-koordinatageometria')}
+        />
+      )}
+      {activityType === 'g11-geo-tudasproba-sorter' && (
+        <G11CoordPracticeExamQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-geo-tudasproba-theory', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-geo-tudasproba-matcher', selectedTopic || 'g11-koordinatageometria')}
+          onSwitchToSorter={() => handleActivitySelect('g11-geo-tudasproba-sorter', selectedTopic || 'g11-koordinatageometria')}
         />
       )}
     </>

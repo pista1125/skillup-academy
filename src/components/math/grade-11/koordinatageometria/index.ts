@@ -1,2 +1,18 @@
 // Re-exports from subtopics of VI. Koordinátageometria (Grade 11)
-export {};
+export { G11VectorAdditionTheory, G11VectorAdditionQuiz, G11VectorAdditionMatcher, G11VectorAdditionSorter } from "./vektorok-osszeadasa";
+export { VectorSubtractionTheory, VectorSubtractionQuiz, VectorSubtractionMatcher, VectorSubtractionSorter } from "./ket-vektor-kulonbsege";
+export { VectorScalarTheory, VectorScalarQuiz, VectorScalarMatcher, VectorScalarSorter } from "./vektorok-szamszorosa";
+export { VectorDecompositionTheory, VectorDecompositionQuiz, VectorDecompositionMatcher, VectorDecompositionSorter } from "./vektor-felbontasa-osszetevokre";
+export { CoordinateVectorsTheory, CoordinateVectorsQuiz, CoordinateVectorsMatcher, CoordinateVectorsSorter } from "./vektorok-a-koordinata-rendszerben";
+export { DistancePerimeterAreaTheory, DistancePerimeterAreaQuiz, DistancePerimeterAreaMatcher, DistancePerimeterAreaSorter } from "./tavolsag-kerulet-terulet";
+export { MidpointTheory, MidpointQuiz, MidpointMatcher, MidpointSorter } from "./felezopont";
+export { CoordGroupPracticeTheory, CoordGroupPracticeQuiz, CoordGroupPracticeMatcher, CoordGroupPracticeSorter } from "./gyakorlas-csoportban";
+export { LinesInPlaneTheory, LinesInPlaneQuiz, LinesInPlaneMatcher, LinesInPlaneSorter } from "./egyenesek-a-koordinata-rendszerben";
+export { LineEquationTheory, LineEquationQuiz, LineEquationMatcher, LineEquationSorter } from "./az-egyenes-egyenlete";
+export { G11CircleEquationTheory, G11CircleEquationQuiz, G11CircleEquationMatcher, G11CircleEquationSorter } from "./a-kor-egyenlete";
+export { CircleProblemsTheory, CircleProblemsQuiz, CircleProblemsMatcher, CircleProblemsSorter } from "./korrel-kapcsolatos-feladatok";
+export { SlopeTangentTheory, SlopeTangentQuiz, SlopeTangentMatcher, SlopeTangentSorter } from "./meredekseg-iranytangens";
+export { LineIntersectionTheory, LineIntersectionQuiz, LineIntersectionMatcher, LineIntersectionSorter } from "./egyenesek-metszespontja";
+export { PerpendicularParallelTheory, PerpendicularParallelQuiz, PerpendicularParallelMatcher, PerpendicularParallelSorter } from "./meroleges-parhuzamos-egyenesek";
+export { CoordPracticeTheory, CoordPracticeQuiz, CoordPracticeMatcher, CoordPracticeSorter } from "./gyakorlas-koordinatageometria";
+export { CoordPracticeExamTheory, CoordPracticeExamQuiz, CoordPracticeExamMatcher, CoordPracticeExamSorter } from "./gyakorlas-tudasproba";
