@@ -14,26 +14,33 @@ import { SiteFooter } from '@/components/SiteFooter';
 import { UserMenu } from '@/components/auth/UserMenu';
 import { OnlineTutoringModal } from '@/components/tutoring/OnlineTutoringModal';
 import { ToolsCatalog } from '@/components/math/tools';
-import {
-  Grade1View,
-  Grade2View,
-  Grade3View,
-  Grade4View,
-  Grade5View,
-  Grade6View,
-  Grade7View,
-  Grade8View,
-  Grade9View,
-  Grade10View,
-  Grade11View,
-  Grade12View,
-  AdmissionPrepView,
-  GraduationPrepView,
-  CompetencyAssessmentView,
-  GradeViewProps,
-  sectionToTopicMap,
-  getGradeSubsections
-} from '@/components/math/views';
+// Az évfolyam-nézeteket közvetlenül a saját fájljukból töltjük be (NEM a views/index.ts-en át),
+// különben mind a 12 nézet bekerülne a MathPage csomagjába. Így minden évfolyam külön, igény szerint töltődik le.
+import type { GradeViewProps } from '@/components/math/views/types';
+import { sectionToTopicMap, getGradeSubsections } from '@/components/math/views/gradeSectionsConfig';
+import { AdmissionPrepView } from '@/components/math/views/AdmissionPrepView';
+import { GraduationPrepView } from '@/components/math/views/GraduationPrepView';
+import { CompetencyAssessmentView } from '@/components/math/views/CompetencyAssessmentView';
+
+const Grade1View = lazy(() => import('@/components/math/views/Grade1View').then(m => ({ default: m.Grade1View })));
+const Grade2View = lazy(() => import('@/components/math/views/Grade2View').then(m => ({ default: m.Grade2View })));
+const Grade3View = lazy(() => import('@/components/math/views/Grade3View').then(m => ({ default: m.Grade3View })));
+const Grade4View = lazy(() => import('@/components/math/views/Grade4View').then(m => ({ default: m.Grade4View })));
+const Grade5View = lazy(() => import('@/components/math/views/Grade5View').then(m => ({ default: m.Grade5View })));
+const Grade6View = lazy(() => import('@/components/math/views/Grade6View').then(m => ({ default: m.Grade6View })));
+const Grade7View = lazy(() => import('@/components/math/views/Grade7View').then(m => ({ default: m.Grade7View })));
+const Grade8View = lazy(() => import('@/components/math/views/Grade8View').then(m => ({ default: m.Grade8View })));
+const Grade9View = lazy(() => import('@/components/math/views/Grade9View').then(m => ({ default: m.Grade9View })));
+const Grade10View = lazy(() => import('@/components/math/views/Grade10View').then(m => ({ default: m.Grade10View })));
+const Grade11View = lazy(() => import('@/components/math/views/Grade11View').then(m => ({ default: m.Grade11View })));
+const Grade12View = lazy(() => import('@/components/math/views/Grade12View').then(m => ({ default: m.Grade12View })));
+
+const GradeViewFallback = () => (
+  <div className="flex items-center justify-center gap-3 py-16 text-slate-400 animate-pulse">
+    <div className="w-5 h-5 rounded-full bg-primary/40 animate-ping" />
+    <span className="text-sm font-semibold">Témakör betöltése…</span>
+  </div>
+);
 import { grade5Topics } from '@/data/grade5Topics';
 
 import { MathActivityRouter } from '@/components/math/activities';
@@ -986,18 +993,28 @@ export default function MathPage() {
       setPercentMode,
     };
 
-    if (selectedGrade === 1) return <Grade1View {...viewProps} />;
-    if (selectedGrade === 2) return <Grade2View {...viewProps} />;
-    if (selectedGrade === 3) return <Grade3View {...viewProps} />;
-    if (selectedGrade === 4) return <Grade4View {...viewProps} />;
-    if (selectedGrade === 5) return <Grade5View {...viewProps} />;
-    if (selectedGrade === 6) return <Grade6View {...viewProps} />;
-    if (selectedGrade === 7) return <Grade7View {...viewProps} />;
-    if (selectedGrade === 8) return <Grade8View {...viewProps} />;
-    if (selectedGrade === 'high-1') return <Grade9View {...viewProps} />;
-    if (selectedGrade === 'high-2') return <Grade10View {...viewProps} />;
-    if (selectedGrade === 'high-3') return <Grade11View {...viewProps} />;
-    if (selectedGrade === 'high-4') return <Grade12View {...viewProps} />;
+    const GradeViewComponent =
+      selectedGrade === 1 ? Grade1View :
+      selectedGrade === 2 ? Grade2View :
+      selectedGrade === 3 ? Grade3View :
+      selectedGrade === 4 ? Grade4View :
+      selectedGrade === 5 ? Grade5View :
+      selectedGrade === 6 ? Grade6View :
+      selectedGrade === 7 ? Grade7View :
+      selectedGrade === 8 ? Grade8View :
+      selectedGrade === 'high-1' ? Grade9View :
+      selectedGrade === 'high-2' ? Grade10View :
+      selectedGrade === 'high-3' ? Grade11View :
+      selectedGrade === 'high-4' ? Grade12View :
+      null;
+
+    if (GradeViewComponent) {
+      return (
+        <Suspense fallback={<GradeViewFallback />}>
+          <GradeViewComponent {...viewProps} />
+        </Suspense>
+      );
+    }
 
     return (
       <div className="py-2">
