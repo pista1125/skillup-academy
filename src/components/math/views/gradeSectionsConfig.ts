@@ -738,7 +738,6 @@ export const sectionToTopicMap: Record<string, string> = {
   'g11-sec-comb-grafok-jellemzoi': 'g11-kombinatorika-grafok',
   'g11-sec-comb-kombinatorika-es-grafok': 'g11-kombinatorika-grafok',
   'g11-sec-comb-tudasproba': 'g11-kombinatorika-grafok',
-  'g11-sec-comb-temazaro-gyujtemeny': 'g11-kombinatorika-grafok',
 
   'g11-hatvany-gyok-logaritmus': 'g11-hatvany-gyok-logaritmus',
   'g11-sec-exp-hatvanyozas-ismetles': 'g11-hatvany-gyok-logaritmus',
@@ -1730,8 +1729,7 @@ export function getGradeSubsections(
         { id: 'g11-sec-comb-gyakorlas-2', label: '7. Gyakorlás' },
         { id: 'g11-sec-comb-grafok-jellemzoi', label: '8. Gráfok jellemzői' },
         { id: 'g11-sec-comb-kombinatorika-es-grafok', label: '9. Kombinatorika és gráfok' },
-        { id: 'g11-sec-comb-tudasproba', label: '10. Gyakorlás, tudáspróba' },
-        { id: 'g11-sec-comb-temazaro-gyujtemeny', label: '11. Témazáró feladatgyűjtemény' }
+        { id: 'g11-sec-comb-tudasproba', label: '10. Gyakorlás, tudáspróba' }
       ];
     } else if (t.id === 'g11-hatvany-gyok-logaritmus') {
       subsections = [

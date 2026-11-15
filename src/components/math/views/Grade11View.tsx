@@ -507,13 +507,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-comb-jelszavak" number={1} title="Jelszavak" color="purple" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Kódok és Jelszóerősség"
-                subtitle="Szorzási szabály, ismétléses variáció (n^k) és biztonsági kombinációk"
-                type="Hamarosan"
-                emoji="🔐"
-                disabled={true}
-                icon={<Lock className="w-6 h-6" />}
+                title="Jelszavak Tananyag"
+                subtitle="Rekeszes összeszámlálás és szorzási szabály: jelszavak, PIN-kódok, négyjegyű számok ismétléssel és ismétlés nélkül"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-comb-jelszavak-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="purple"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: rekeszek, ismétlés, megkötések (első jegy nem 0, rögzített jegy)"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-comb-jelszavak-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="purple"
+                {...getTopicProgress('g11-comb-jelszavak-quiz')}
               />
             </div>
           </section>
@@ -525,13 +535,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-comb-sorba-rendezes" number={2} title="Sorba rendezés" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Permutáció és Faktoriális"
-                subtitle="Ismétlés nélküli (n!) és ismétléses sorba rendezések kötöttségekkel"
-                type="Hamarosan"
-                emoji="🔄"
-                disabled={true}
-                icon={<Shuffle className="w-6 h-6" />}
+                title="Sorba rendezés Tananyag"
+                subtitle="Faktoriális és sorrendek megkötésekkel: rögzített helyek, egymás mellé kerülő és nem kerülő elemek, körbe rendezés"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-comb-sorba-rendezes-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: n!, blokkos és komplementer számolás, számjegykártyák"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-comb-sorba-rendezes-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="violet"
+                {...getTopicProgress('g11-comb-sorba-rendezes-quiz')}
               />
             </div>
           </section>
@@ -543,13 +563,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-comb-nem-szamit-sorrend" number={3} title="Amikor nem számít a kiválasztás sorrendje" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Kombinációk és Részhalmazok"
-                subtitle="Ismétlés nélküli kombináció, lottóhúzások és bizottságok kiválasztása"
-                type="Hamarosan"
-                emoji="📦"
-                disabled={true}
-                icon={<Boxes className="w-6 h-6" />}
+                title="Kiválasztás sorrend nélkül Tananyag"
+                subtitle="Részhalmazok száma: sorban kiválasztunk, majd osztunk k!-sal – az „n alatt a k” szám"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-comb-kombinacio-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: részhalmazok, mérkőzések, kézfogások, lift, nyereménysorsolás, lottó"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-comb-kombinacio-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g11-comb-kombinacio-quiz')}
               />
             </div>
           </section>
@@ -561,13 +591,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-comb-binomialis-egyutthatok" number={4} title="Binomiális együtthatók" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Pascal-háromszög és Binomiális Tétel"
-                subtitle="Binomiális együtthatók azonosságai és az (a+b)^n hatványkifejtés"
-                type="Hamarosan"
-                emoji="📐"
-                disabled={true}
-                icon={<Binary className="w-6 h-6" />}
+                title="Binomiális együtthatók Tananyag"
+                subtitle="Az n alatt a k jelentése, kiszámítása és szimmetriája – sálminták, kártyák, részhalmazok"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-comb-binomialis-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: (n alatt k) értéke, szimmetria, tankönyvi alkalmazások"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-comb-binomialis-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g11-comb-binomialis-quiz')}
               />
             </div>
           </section>
@@ -579,13 +619,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-comb-gyakorlas-1" number={5} title="Gyakorlás" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Kombinatorikai Modellválasztás"
-                subtitle="Permutáció, variáció és kombináció felismerése és begyakorlása"
-                type="Hamarosan"
-                emoji="🎯"
-                disabled={true}
-                icon={<Brain className="w-6 h-6" />}
+                title="Gyakorlás – kombinatorika Tananyag"
+                subtitle="Lottó, zsűri, autók, jutalmak, szókiolvasás: az összeszámlálás alapesetei egy helyen"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-comb-gyakorlas-elso-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 vegyes feladat 3 szinten az 1–5. lecke anyagából"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-comb-gyakorlas-elso-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="teal"
+                {...getTopicProgress('g11-comb-gyakorlas-elso-quiz')}
               />
             </div>
           </section>
@@ -597,13 +647,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-comb-esetszetvalasztas" number={6} title="Esetszétválasztás" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Összeadási Szabály és Esetszétbontás"
-                subtitle="Diszjunkt esetek vizsgálata, komplementer számítás és feltételek"
-                type="Hamarosan"
-                emoji="🔀"
-                disabled={true}
-                icon={<Split className="w-6 h-6" />}
+                title="Esetszétválasztás Tananyag"
+                subtitle="Bontsd egymást kizáró esetekre, számold meg külön, add össze! – jutalmak, bástyák, zászlók, kockadobások"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-comb-esetszetvalasztas-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: esetszétválasztás, komplementer, érettségi feladatok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-comb-esetszetvalasztas-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g11-comb-esetszetvalasztas-quiz')}
               />
             </div>
           </section>
@@ -615,13 +675,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-comb-gyakorlas-2" number={7} title="Gyakorlás" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Feltételes Feladatok Gyakorlása"
-                subtitle="Kockadobások, számjegyek és összetett kiválasztási problémák"
-                type="Hamarosan"
-                emoji="🎲"
-                disabled={true}
-                icon={<Calculator className="w-6 h-6" />}
+                title="Összeszámlálási ötletek Tananyag"
+                subtitle="Zászlók, kitűzők, szökőkutak, ülésrendek: lépések, esetek, komplementer – és a kétszer számolt esetek csapdája"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-comb-gyakorlas-masodik-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: alapmodellek, érettségi feladatok, komplementer, hibakeresés"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-comb-gyakorlas-masodik-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g11-comb-gyakorlas-masodik-quiz')}
               />
             </div>
           </section>
@@ -633,13 +703,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-comb-grafok-jellemzoi" number={8} title="Gráfok jellemzői" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Csúcsok, Élek és Kézfogási Lemma"
-                subtitle="Gráfok fokszámai, fokszámtétel és teljes gráfok tulajdonságai"
-                type="Hamarosan"
-                emoji="🕸️"
-                disabled={true}
-                icon={<Network className="w-6 h-6" />}
+                title="Gráfok jellemzői Tananyag"
+                subtitle="Harry Beck metrótérképétől az ismeretségi hálókig: csúcsok, élek, fokszámok, hurokél – interaktív gráfszerkesztő"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-comb-grafok-jellemzoi-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="cyan"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: fogalmak, fokszám és élszám, létezik-e ilyen gráf?"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-comb-grafok-jellemzoi-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="cyan"
+                {...getTopicProgress('g11-comb-grafok-jellemzoi-quiz')}
               />
             </div>
           </section>
@@ -651,13 +731,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-comb-kombinatorika-es-grafok" number={9} title="Kombinatorika és gráfok" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Utak, Fák és Euler-vonalak"
-                subtitle="Összefüggő gráfok, fakövetelmény (n-1 él) és egyvonalas rajzolhatóság"
-                type="Hamarosan"
-                emoji="🌐"
-                disabled={true}
-                icon={<Share2 className="w-6 h-6" />}
+                title="Kombinatorika és gráfok Tananyag"
+                subtitle="Hány mérkőzés van még hátra? Teljes gráf, a fokszámok összege, kiválasztás csúcsok vagy élek közül"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-comb-kombinatorika-grafok-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: teljes gráf, fokszámtétel, érettségi gráfos összeszámlálások"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-comb-kombinatorika-grafok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g11-comb-kombinatorika-grafok-quiz')}
               />
             </div>
           </section>
@@ -669,35 +759,28 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-comb-tudasproba" number={10} title="Gyakorlás, tudáspróba" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Kombinatorika és Gráfok Tudáspróba"
-                subtitle="Összefoglaló ellenőrző feladatsor és számonkérés"
-                type="Hamarosan"
-                emoji="🏆"
-                disabled={true}
-                icon={<Trophy className="w-6 h-6" />}
+                title="Gyakorlás, tudáspróba Tananyag"
+                subtitle="A kombinatorika és gráfok fejezet összefoglalása: modellválasztás, kiválasztások, fokszámok – érettségi feladatok és két tudáspróba"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-comb-tudasproba-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz"
+                subtitle="90 feladat (szintenként 30) a teljes fejezetből: jelszavak, sorrendek, kiválasztás, esetszétválasztás, gráfok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-comb-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g11-comb-tudasproba-quiz')}
               />
             </div>
           </section>
         )}
 
-        {/* Section 11: Témazáró feladatgyűjtemény */}
-        {(showAll || activeSubSectionId === 'g11-sec-comb-temazaro-gyujtemeny') && (
-          <section>
-            <SectionHeader id="g11-sec-comb-temazaro-gyujtemeny" number={11} title="Témazáró feladatgyűjtemény" color="pink" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Érettségi Feladatgyűjtemény"
-                subtitle="Közép- és emelt szintű érettségi feladatok, skatulya-elv és modellezés"
-                type="Hamarosan"
-                emoji="📚"
-                disabled={true}
-                icon={<BookOpen className="w-6 h-6" />}
-                color="pink"
-              />
-            </div>
-          </section>
-        )}
       </div>
     );
   }

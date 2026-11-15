@@ -34,6 +34,26 @@ const G11TrigGroupCompetitionTheory = lazy(() => import("@/components/math/grade
 const G11TrigGroupCompetitionQuiz = lazy(() => import("@/components/math/grade-11/trigonometria/csoportverseny/TrigGroupCompetitionQuiz").then(m => ({ default: m.TrigGroupCompetitionQuiz })))
 const G11TrigPracticeExamTheory = lazy(() => import("@/components/math/grade-11/trigonometria/gyakorlas-tudasproba/TrigPracticeExamTheory").then(m => ({ default: m.TrigPracticeExamTheory })))
 const G11TrigPracticeExamQuiz = lazy(() => import("@/components/math/grade-11/trigonometria/gyakorlas-tudasproba/TrigPracticeExamQuiz").then(m => ({ default: m.TrigPracticeExamQuiz })))
+const G11PasswordsTheory = lazy(() => import("@/components/math/grade-11/kombinatorika-grafok/jelszavak/PasswordsTheory").then(m => ({ default: m.PasswordsTheory })))
+const G11PasswordsQuiz = lazy(() => import("@/components/math/grade-11/kombinatorika-grafok/jelszavak/PasswordsQuiz").then(m => ({ default: m.PasswordsQuiz })))
+const G11PermutationsTheory = lazy(() => import("@/components/math/grade-11/kombinatorika-grafok/sorba-rendezes/PermutationsTheory").then(m => ({ default: m.PermutationsTheory })))
+const G11PermutationsQuiz = lazy(() => import("@/components/math/grade-11/kombinatorika-grafok/sorba-rendezes/PermutationsQuiz").then(m => ({ default: m.PermutationsQuiz })))
+const G11CombinationsTheory = lazy(() => import("@/components/math/grade-11/kombinatorika-grafok/amikor-nem-szamit-a-kivalasztas-sorrendje/CombinationsTheory").then(m => ({ default: m.CombinationsTheory })))
+const G11CombinationsQuiz = lazy(() => import("@/components/math/grade-11/kombinatorika-grafok/amikor-nem-szamit-a-kivalasztas-sorrendje/CombinationsQuiz").then(m => ({ default: m.CombinationsQuiz })))
+const G11BinomialCoefficientsTheory = lazy(() => import("@/components/math/grade-11/kombinatorika-grafok/binomialis-egyutthatok/BinomialCoefficientsTheory").then(m => ({ default: m.BinomialCoefficientsTheory })))
+const G11BinomialCoefficientsQuiz = lazy(() => import("@/components/math/grade-11/kombinatorika-grafok/binomialis-egyutthatok/BinomialCoefficientsQuiz").then(m => ({ default: m.BinomialCoefficientsQuiz })))
+const G11CombinatoricsPractice1Theory = lazy(() => import("@/components/math/grade-11/kombinatorika-grafok/gyakorlas-kombinatorika-1/CombinatoricsPractice1Theory").then(m => ({ default: m.CombinatoricsPractice1Theory })))
+const G11CombinatoricsPractice1Quiz = lazy(() => import("@/components/math/grade-11/kombinatorika-grafok/gyakorlas-kombinatorika-1/CombinatoricsPractice1Quiz").then(m => ({ default: m.CombinatoricsPractice1Quiz })))
+const G11CaseAnalysisTheory = lazy(() => import("@/components/math/grade-11/kombinatorika-grafok/esetszetvalasztas/CaseAnalysisTheory").then(m => ({ default: m.CaseAnalysisTheory })))
+const G11CaseAnalysisQuiz = lazy(() => import("@/components/math/grade-11/kombinatorika-grafok/esetszetvalasztas/CaseAnalysisQuiz").then(m => ({ default: m.CaseAnalysisQuiz })))
+const G11CombinatoricsPractice2Theory = lazy(() => import("@/components/math/grade-11/kombinatorika-grafok/gyakorlas-kombinatorika-2/CombinatoricsPractice2Theory").then(m => ({ default: m.CombinatoricsPractice2Theory })))
+const G11CombinatoricsPractice2Quiz = lazy(() => import("@/components/math/grade-11/kombinatorika-grafok/gyakorlas-kombinatorika-2/CombinatoricsPractice2Quiz").then(m => ({ default: m.CombinatoricsPractice2Quiz })))
+const G11GraphPropertiesTheory = lazy(() => import("@/components/math/grade-11/kombinatorika-grafok/grafok-jellemzoi/GraphPropertiesTheory").then(m => ({ default: m.GraphPropertiesTheory })))
+const G11GraphPropertiesQuiz = lazy(() => import("@/components/math/grade-11/kombinatorika-grafok/grafok-jellemzoi/GraphPropertiesQuiz").then(m => ({ default: m.GraphPropertiesQuiz })))
+const G11CombinatoricsGraphsTheory = lazy(() => import("@/components/math/grade-11/kombinatorika-grafok/kombinatorika-es-grafok/CombinatoricsGraphsTheory").then(m => ({ default: m.CombinatoricsGraphsTheory })))
+const G11CombinatoricsGraphsQuiz = lazy(() => import("@/components/math/grade-11/kombinatorika-grafok/kombinatorika-es-grafok/CombinatoricsGraphsQuiz").then(m => ({ default: m.CombinatoricsGraphsQuiz })))
+const G11CombinatoricsPracticeExamTheory = lazy(() => import("@/components/math/grade-11/kombinatorika-grafok/gyakorlas-tudasproba/CombinatoricsPracticeExamTheory").then(m => ({ default: m.CombinatoricsPracticeExamTheory })))
+const G11CombinatoricsPracticeExamQuiz = lazy(() => import("@/components/math/grade-11/kombinatorika-grafok/gyakorlas-tudasproba/CombinatoricsPracticeExamQuiz").then(m => ({ default: m.CombinatoricsPracticeExamQuiz })))
 
 export const Grade11Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -591,6 +611,348 @@ export const Grade11Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g11-trig-tudasproba-theory', selectedTopic || 'g11-trigonometria')}
           onSwitchToMatcher={() => handleActivitySelect('g11-trig-tudasproba-matcher', selectedTopic || 'g11-trigonometria')}
           onSwitchToSorter={() => handleActivitySelect('g11-trig-tudasproba-sorter', selectedTopic || 'g11-trigonometria')}
+        />
+      )}
+
+      {/* ===== 11. Osztály – II. Kombinatorika, gráfok ===== */}
+
+      {/* 16. Jelszavak */}
+      {activityType === 'g11-comb-jelszavak-theory' && (
+        <G11PasswordsTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-comb-jelszavak-quiz', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-jelszavak-quiz' && (
+        <G11PasswordsQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-jelszavak-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-jelszavak-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-jelszavak-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-jelszavak-matcher' && (
+        <G11PasswordsQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-jelszavak-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-jelszavak-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-jelszavak-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-jelszavak-sorter' && (
+        <G11PasswordsQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-jelszavak-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-jelszavak-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-jelszavak-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+
+      {/* 17. Sorba rendezés */}
+      {activityType === 'g11-comb-sorba-rendezes-theory' && (
+        <G11PermutationsTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-comb-sorba-rendezes-quiz', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-sorba-rendezes-quiz' && (
+        <G11PermutationsQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-sorba-rendezes-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-sorba-rendezes-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-sorba-rendezes-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-sorba-rendezes-matcher' && (
+        <G11PermutationsQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-sorba-rendezes-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-sorba-rendezes-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-sorba-rendezes-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-sorba-rendezes-sorter' && (
+        <G11PermutationsQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-sorba-rendezes-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-sorba-rendezes-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-sorba-rendezes-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+
+      {/* 18. Amikor nem számít a kiválasztás sorrendje */}
+      {activityType === 'g11-comb-kombinacio-theory' && (
+        <G11CombinationsTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-comb-kombinacio-quiz', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-kombinacio-quiz' && (
+        <G11CombinationsQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-kombinacio-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-kombinacio-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-kombinacio-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-kombinacio-matcher' && (
+        <G11CombinationsQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-kombinacio-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-kombinacio-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-kombinacio-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-kombinacio-sorter' && (
+        <G11CombinationsQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-kombinacio-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-kombinacio-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-kombinacio-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+
+      {/* 19. Binomiális együtthatók */}
+      {activityType === 'g11-comb-binomialis-theory' && (
+        <G11BinomialCoefficientsTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-comb-binomialis-quiz', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-binomialis-quiz' && (
+        <G11BinomialCoefficientsQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-binomialis-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-binomialis-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-binomialis-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-binomialis-matcher' && (
+        <G11BinomialCoefficientsQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-binomialis-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-binomialis-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-binomialis-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-binomialis-sorter' && (
+        <G11BinomialCoefficientsQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-binomialis-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-binomialis-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-binomialis-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+
+      {/* 20. Gyakorlás */}
+      {activityType === 'g11-comb-gyakorlas-elso-theory' && (
+        <G11CombinatoricsPractice1Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-comb-gyakorlas-elso-quiz', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-gyakorlas-elso-quiz' && (
+        <G11CombinatoricsPractice1Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-gyakorlas-elso-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-gyakorlas-elso-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-gyakorlas-elso-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-gyakorlas-elso-matcher' && (
+        <G11CombinatoricsPractice1Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-gyakorlas-elso-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-gyakorlas-elso-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-gyakorlas-elso-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-gyakorlas-elso-sorter' && (
+        <G11CombinatoricsPractice1Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-gyakorlas-elso-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-gyakorlas-elso-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-gyakorlas-elso-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+
+      {/* 21. Esetszétválasztás */}
+      {activityType === 'g11-comb-esetszetvalasztas-theory' && (
+        <G11CaseAnalysisTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-comb-esetszetvalasztas-quiz', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-esetszetvalasztas-quiz' && (
+        <G11CaseAnalysisQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-esetszetvalasztas-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-esetszetvalasztas-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-esetszetvalasztas-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-esetszetvalasztas-matcher' && (
+        <G11CaseAnalysisQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-esetszetvalasztas-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-esetszetvalasztas-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-esetszetvalasztas-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-esetszetvalasztas-sorter' && (
+        <G11CaseAnalysisQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-esetszetvalasztas-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-esetszetvalasztas-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-esetszetvalasztas-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+
+      {/* 22. Gyakorlás */}
+      {activityType === 'g11-comb-gyakorlas-masodik-theory' && (
+        <G11CombinatoricsPractice2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-comb-gyakorlas-masodik-quiz', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-gyakorlas-masodik-quiz' && (
+        <G11CombinatoricsPractice2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-gyakorlas-masodik-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-gyakorlas-masodik-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-gyakorlas-masodik-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-gyakorlas-masodik-matcher' && (
+        <G11CombinatoricsPractice2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-gyakorlas-masodik-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-gyakorlas-masodik-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-gyakorlas-masodik-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-gyakorlas-masodik-sorter' && (
+        <G11CombinatoricsPractice2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-gyakorlas-masodik-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-gyakorlas-masodik-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-gyakorlas-masodik-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+
+      {/* 23. Gráfok jellemzői */}
+      {activityType === 'g11-comb-grafok-jellemzoi-theory' && (
+        <G11GraphPropertiesTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-comb-grafok-jellemzoi-quiz', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-grafok-jellemzoi-quiz' && (
+        <G11GraphPropertiesQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-grafok-jellemzoi-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-grafok-jellemzoi-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-grafok-jellemzoi-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-grafok-jellemzoi-matcher' && (
+        <G11GraphPropertiesQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-grafok-jellemzoi-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-grafok-jellemzoi-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-grafok-jellemzoi-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-grafok-jellemzoi-sorter' && (
+        <G11GraphPropertiesQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-grafok-jellemzoi-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-grafok-jellemzoi-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-grafok-jellemzoi-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+
+      {/* 24. Kombinatorika és gráfok */}
+      {activityType === 'g11-comb-kombinatorika-grafok-theory' && (
+        <G11CombinatoricsGraphsTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-comb-kombinatorika-grafok-quiz', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-kombinatorika-grafok-quiz' && (
+        <G11CombinatoricsGraphsQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-kombinatorika-grafok-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-kombinatorika-grafok-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-kombinatorika-grafok-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-kombinatorika-grafok-matcher' && (
+        <G11CombinatoricsGraphsQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-kombinatorika-grafok-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-kombinatorika-grafok-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-kombinatorika-grafok-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-kombinatorika-grafok-sorter' && (
+        <G11CombinatoricsGraphsQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-kombinatorika-grafok-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-kombinatorika-grafok-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-kombinatorika-grafok-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+
+      {/* 25. Gyakorlás, tudáspróba */}
+      {activityType === 'g11-comb-tudasproba-theory' && (
+        <G11CombinatoricsPracticeExamTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-comb-tudasproba-quiz', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-tudasproba-quiz' && (
+        <G11CombinatoricsPracticeExamQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-tudasproba-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-tudasproba-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-tudasproba-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-tudasproba-matcher' && (
+        <G11CombinatoricsPracticeExamQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-tudasproba-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-tudasproba-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-tudasproba-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+      {activityType === 'g11-comb-tudasproba-sorter' && (
+        <G11CombinatoricsPracticeExamQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-comb-tudasproba-theory', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-comb-tudasproba-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
+          onSwitchToSorter={() => handleActivitySelect('g11-comb-tudasproba-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
         />
       )}
     </>
