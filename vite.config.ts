@@ -114,6 +114,10 @@ export default defineConfig(({ mode }) => ({
     },
   },
   logLevel: 'info',
+  build: {
+    // A gzip-méretek kiírása sok ezer modulnál nagyon sok memóriát és időt visz el (CI OOM).
+    reportCompressedSize: false,
+  },
   optimizeDeps: {
     include: ['three', '@react-three/fiber', '@react-three/drei'],
     force: true
