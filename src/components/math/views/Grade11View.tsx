@@ -797,13 +797,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-exp-hatvanyozas-ismetles" number={1} title="Hatványozás – ismétlés" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Egész Kitevőjű Hatványozás"
-                subtitle="Pozitív, nulla és negatív kitevők, azonosságok és normálalak"
-                type="Hamarosan"
-                emoji="🔢"
-                disabled={true}
-                icon={<Binary className="w-6 h-6" />}
+                title="Hatványozás – ismétlés Tananyag"
+                subtitle="Egész kitevőjű hatványok, hatványazonosságok, 2 és 3 hatványai – fejtsd meg a szabadulószoba kódját!"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-exp-hatvanyozas-ismetles-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: negatív és nulla kitevő, azonosságok, átírás 2 hatványaira, összehasonlítás"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-exp-hatvanyozas-ismetles-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g11-exp-hatvanyozas-ismetles-quiz')}
               />
             </div>
           </section>
@@ -815,13 +825,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-exp-szamok-n-edik-gyoke" number={2} title="Számok n-edik gyöke" color="orange" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="N-edik Gyök és Azonosságai"
-                subtitle="Páros és páratlan gyökkitevők, abszolútérték és szorzat/hányados gyöke"
-                type="Hamarosan"
-                emoji="📐"
-                disabled={true}
-                icon={<Scale className="w-6 h-6" />}
+                title="Számok n-edik gyöke Tananyag"
+                subtitle="Páros és páratlan gyökkitevő, kocka éle, gömb sugara, átlagos évi népességváltozás"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-exp-n-edik-gyok-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="orange"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: gyökvonás definíció alapján, páros/páratlan kitevő, kocka, gömb, növekedési ráta"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-exp-n-edik-gyok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="orange"
+                {...getTopicProgress('g11-exp-n-edik-gyok-quiz')}
               />
             </div>
           </section>
@@ -833,13 +853,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-exp-racionalis-szamok-1" number={3} title="Racionális számok a kitevőben I." color="yellow" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Törtkitevőjű Hatvány Alapjai"
-                subtitle="Kapcsolat a gyökkel (a^(p/q) = q-adik gyök a^p) és alapfeltételek"
-                type="Hamarosan"
-                emoji="➗"
-                disabled={true}
-                icon={<Divide className="w-6 h-6" />}
+                title="Racionális kitevő I. Tananyag"
+                subtitle="Az 1/n kitevő: a¹⁄ⁿ = ⁿ√a – népesség, tavirózsák, félhangok"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-exp-tortkitevo-elso-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="yellow"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: 1/n kitevő, gyökök fejben, növekedési modellek"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-exp-tortkitevo-elso-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="yellow"
+                {...getTopicProgress('g11-exp-tortkitevo-elso-quiz')}
               />
             </div>
           </section>
@@ -851,13 +881,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-exp-racionalis-szamok-2" number={4} title="Racionális számok a kitevőben II." color="lime" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Műveletek Törtkitevőkkel"
-                subtitle="Hatványozási azonosságok racionális kitevőkre és algebrai átalakítások"
-                type="Hamarosan"
-                emoji="✨"
-                disabled={true}
-                icon={<Shapes className="w-6 h-6" />}
+                title="Racionális kitevő II. Tananyag"
+                subtitle="A p/q és a negatív törtkitevő, a hatványozás azonosságai"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-exp-tortkitevo-masodik-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="lime"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: törtkitevő, reciprok, azonosságok, kisebb gyökkitevő"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-exp-tortkitevo-masodik-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="lime"
+                {...getTopicProgress('g11-exp-tortkitevo-masodik-quiz')}
               />
             </div>
           </section>
@@ -869,13 +909,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-exp-gyakorlas-1" number={5} title="Gyakorlás" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Hatvány- és Gyökgyakorlatok"
-                subtitle="Kifejezések egyszerűsítése, kikötések és számológép nélküli feladatok"
-                type="Hamarosan"
-                emoji="🎯"
-                disabled={true}
-                icon={<Brain className="w-6 h-6" />}
+                title="Gyakorlás – hatvány és gyök Tananyag"
+                subtitle="Hatvány és gyök összefoglalása: összehasonlítás, 2 hatványai, kitevő-helyettesítés"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-exp-hatvany-gyok-gyakorlas-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 vegyes feladat 3 szinten a hatványokról és gyökökről"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-exp-hatvany-gyok-gyakorlas-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g11-exp-hatvany-gyok-gyakorlas-quiz')}
               />
             </div>
           </section>
@@ -887,13 +937,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-exp-penzugyi-szamitasok" number={6} title="Pénzügyi számítások" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Kamatos Kamat és Tőkésítés"
-                subtitle="Jövőérték számítás, növekedési tényező (q^n), tőkésítési periódusok és futamidő"
-                type="Hamarosan"
-                emoji="💰"
-                disabled={true}
-                icon={<Building2 className="w-6 h-6" />}
+                title="Pénzügyi számítások Tananyag"
+                subtitle="Kamatos kamat, értékcsökkenés és kamatadó: mennyi lesz a pénzünk, mekkora kamatláb kell, hány év alatt duplázódik?"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-exp-penzugyek-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: kamatos kamat, kamatláb gyökvonással, futamidő próbálgatással, értékcsökkenés"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-exp-penzugyek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="teal"
+                {...getTopicProgress('g11-exp-penzugyek-quiz')}
               />
             </div>
           </section>
@@ -905,13 +965,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-exp-fuggvenyek" number={7} title="Exponenciális függvények" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Az f(x) = a^x Függvény"
-                subtitle="Monotonitás alap szerint (a > 1 növekvő, 0 < a < 1 csökkenő), aszimptota és grafikon"
-                type="Hamarosan"
-                emoji="📈"
-                disabled={true}
-                icon={<TrendingUp className="w-6 h-6" />}
+                title="Exponenciális függvények Tananyag"
+                subtitle="Az x ↦ aˣ függvény: grafikon, értékkészlet, monotonitás – növekvő, ha a > 1, csökkenő, ha 0 < a < 1"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-exp-exponencialis-fuggveny-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="cyan"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: tulajdonságok, grafikonok leolvasása, becslés, tükrözés, pontillesztés"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-exp-exponencialis-fuggveny-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="cyan"
+                {...getTopicProgress('g11-exp-exponencialis-fuggveny-quiz')}
               />
             </div>
           </section>
@@ -923,13 +993,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-exp-folyamatok" number={8} title="Exponenciális folyamatok" color="sky" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Valós Növekedési Modellek"
-                subtitle="Népességnövekedés, baktériumok szaporodása és kettőződési idő"
-                type="Hamarosan"
-                emoji="⚡"
-                disabled={true}
-                icon={<Activity className="w-6 h-6" />}
+                title="Exponenciális folyamatok Tananyag"
+                subtitle="A t ↦ N₀ · kᵗ modell: kezdeti érték, növekedési tényező – baktériumok, népesség, városok"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-exp-exponencialis-folyamat-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="sky"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: N₀ és k leolvasása, átírás N₀ · kᵗ alakba, exponenciális vs. lineáris modell"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-exp-exponencialis-folyamat-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="sky"
+                {...getTopicProgress('g11-exp-exponencialis-folyamat-quiz')}
               />
             </div>
           </section>
@@ -941,13 +1021,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-exp-felezesi-ido" number={9} title="Felezési idő" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Radioaktív Bomlás és Csillapodás"
-                subtitle="Bomlástörvény N(t) = N0 · (1/2)^(t/T), izotópok és radiokarbon kormeghatározás"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
-                icon={<Clock className="w-6 h-6" />}
+                title="Felezési idő Tananyag"
+                subtitle="Mennyi idő alatt feleződik egy exponenciálisan csökkenő mennyiség? Gyógyszer kiürülése, radioaktív bomlás, szénizotópos kormeghatározás"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-exp-felezesi-ido-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: felezési idő képletből, gyógyszer, ¹⁴C, jód és cézium"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-exp-felezesi-ido-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g11-exp-felezesi-ido-quiz')}
               />
             </div>
           </section>
@@ -959,13 +1049,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-exp-logaritmus-fogalma" number={10} title="A logaritmus fogalma" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A Logaritmus Definíciója"
-                subtitle="log_a b = c ⇔ a^c = b, kikötések és a három alapművelet összefüggése"
-                type="Hamarosan"
-                emoji="🔑"
-                disabled={true}
-                icon={<Lock className="w-6 h-6" />}
+                title="A logaritmus fogalma Tananyag"
+                subtitle="Ha a kitevőt keressük: logₐ b az a kitevő, amelyre a-t emelve b-t kapunk. Feltételek, hatványalak, ráadás: a logarléc"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-exp-logaritmus-fogalom-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: definíció, feltételek, hatványalak, számolás logaritmusokkal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-exp-logaritmus-fogalom-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g11-exp-logaritmus-fogalom-quiz')}
               />
             </div>
           </section>
@@ -977,13 +1077,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-exp-tizes-alapu-logaritmus" number={11} title="A tízes alapú logaritmus használata" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Tízes Alapú Logaritmus és Bázisváltás"
-                subtitle="lg x, bázisváltó formula és logaritmikus skálák (pH, Richter, decibel)"
-                type="Hamarosan"
-                emoji="📊"
-                disabled={true}
-                icon={<Calculator className="w-6 h-6" />}
+                title="A tízes alapú logaritmus Tananyag"
+                subtitle="lg számológéppel, áttérés tízes alapra: logₐ b = lg b : lg a. Exponenciális egyenletek: kamatos kamat, felezési idő"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-exp-tizes-logaritmus-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: lg értékek, áttérés, egyenletek ezredre kerekítve"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-exp-tizes-logaritmus-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="violet"
+                {...getTopicProgress('g11-exp-tizes-logaritmus-quiz')}
               />
             </div>
           </section>
@@ -995,13 +1105,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-exp-hatvany-gyok-logaritmus" number={12} title="Hatvány, gyök, logaritmus" color="purple" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A Logaritmus Műveleti Azonosságai"
-                subtitle="Szorzat, hányados és hatvány logaritmusa, kifejezések bontása és összevonása"
-                type="Hamarosan"
-                emoji="🔄"
-                disabled={true}
-                icon={<Split className="w-6 h-6" />}
+                title="Hatvány, gyök, logaritmus Tananyag"
+                subtitle="Exponenciális modellek a valóságban: ha az ismeretlen a kitevőben van, logaritmussal oldjuk meg (aˣ = b ⇒ x = lg b : lg a)"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-exp-logaritmus-modellek-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="purple"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: BSE-modell, növekedési tényező, érettségi feladatok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-exp-logaritmus-modellek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="purple"
+                {...getTopicProgress('g11-exp-logaritmus-modellek-quiz')}
               />
             </div>
           </section>
@@ -1013,13 +1133,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-exp-gyakorlas-2" number={13} title="Gyakorlás" color="fuchsia" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Logaritmusos Kifejezések Gyakorlása"
-                subtitle="Összetett kifejezések egyetlen logaritmusra hozása és alapegyenletek"
-                type="Hamarosan"
-                emoji="🧮"
-                disabled={true}
-                icon={<Compass className="w-6 h-6" />}
+                title="Gyakorlás – logaritmus Tananyag"
+                subtitle="Érettségi feladatok logaritmusos és exponenciális egyenletekre, Richter-skála, élettartam-képlet"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-exp-log-gyakorlas-elso-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="fuchsia"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 vegyes, érettségi típusú feladat 3 szinten"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-exp-log-gyakorlas-elso-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="fuchsia"
+                {...getTopicProgress('g11-exp-log-gyakorlas-elso-quiz')}
               />
             </div>
           </section>
@@ -1031,13 +1161,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-exp-egyenlotlensegek" number={14} title="Exponenciális egyenlőtlenségek" color="pink" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Egyenlőtlenségek és Monotonitás"
-                subtitle="Relációjel viselkedése az alap szerint (a > 1 vs 0 < a < 1) és megoldáshalmaz"
-                type="Hamarosan"
-                emoji="⚖️"
-                disabled={true}
-                icon={<Scale className="w-6 h-6" />}
+                title="Exponenciális egyenlőtlenségek Tananyag"
+                subtitle="Grafikus megoldás és monotonitás: ha 0 < a < 1, a relációjel megfordul"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-exp-exponencialis-egyenlotlenseg-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="pink"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: grafikus leolvasás, kettős egyenlőtlenségek, valós modellek"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-exp-exponencialis-egyenlotlenseg-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="pink"
+                {...getTopicProgress('g11-exp-exponencialis-egyenlotlenseg-quiz')}
               />
             </div>
           </section>
@@ -1049,13 +1189,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-exp-gyakorlas-3" number={15} title="Gyakorlás" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Összetett Egyenletek és Rendszerek"
-                subtitle="Helyettesítéses módszer, mindkét oldal logaritmizálása és kikötésellenőrzés"
-                type="Hamarosan"
-                emoji="📝"
-                disabled={true}
+                title="Logaritmus a gyakorlatban Tananyag"
+                subtitle="Légnyomás, kávé hűlése, információtartalom: exponenciális egyenletek és egyenlőtlenségek"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-exp-log-gyakorlas-masodik-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
+                color="rose"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: logaritmus fejben és számológéppel, modellek, értelmezési tartomány"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-exp-log-gyakorlas-masodik-quiz', topicId)}
                 icon={<Target className="w-6 h-6" />}
                 color="rose"
+                {...getTopicProgress('g11-exp-log-gyakorlas-masodik-quiz')}
               />
             </div>
           </section>
@@ -1067,13 +1217,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-exp-tudasproba" number={16} title="Gyakorlás, tudáspróba" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Hatvány, Gyök, Logaritmus Tudáspróba"
-                subtitle="Átfogó fejezeti számonkérés, képletgyűjtemény és érettségi típusfeladatok"
-                type="Hamarosan"
-                emoji="🏆"
-                disabled={true}
-                icon={<Trophy className="w-6 h-6" />}
+                title="Gyakorlás, tudáspróba Tananyag"
+                subtitle="Hatvány, gyök, törtkitevő, exponenciális folyamatok és logaritmus – fejezetzáró összefoglaló két tudáspróbával"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-exp-tudasproba-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz"
+                subtitle="90 feladat (szintenként 30) a teljes III. témakörből"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-exp-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g11-exp-tudasproba-quiz')}
               />
             </div>
           </section>

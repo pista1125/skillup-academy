@@ -54,6 +54,38 @@ const G11CombinatoricsGraphsTheory = lazy(() => import("@/components/math/grade-
 const G11CombinatoricsGraphsQuiz = lazy(() => import("@/components/math/grade-11/kombinatorika-grafok/kombinatorika-es-grafok/CombinatoricsGraphsQuiz").then(m => ({ default: m.CombinatoricsGraphsQuiz })))
 const G11CombinatoricsPracticeExamTheory = lazy(() => import("@/components/math/grade-11/kombinatorika-grafok/gyakorlas-tudasproba/CombinatoricsPracticeExamTheory").then(m => ({ default: m.CombinatoricsPracticeExamTheory })))
 const G11CombinatoricsPracticeExamQuiz = lazy(() => import("@/components/math/grade-11/kombinatorika-grafok/gyakorlas-tudasproba/CombinatoricsPracticeExamQuiz").then(m => ({ default: m.CombinatoricsPracticeExamQuiz })))
+const G11PowersReviewTheory = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/hatvanyozas-ismetles/PowersReviewTheory").then(m => ({ default: m.PowersReviewTheory })))
+const G11PowersReviewQuiz = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/hatvanyozas-ismetles/PowersReviewQuiz").then(m => ({ default: m.PowersReviewQuiz })))
+const G11NthRootTheory = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/szamok-n-edik-gyoke/NthRootTheory").then(m => ({ default: m.NthRootTheory })))
+const G11NthRootQuiz = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/szamok-n-edik-gyoke/NthRootQuiz").then(m => ({ default: m.NthRootQuiz })))
+const G11RationalExponents1Theory = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/racionalis-szamok-kitevoben-1/RationalExponents1Theory").then(m => ({ default: m.RationalExponents1Theory })))
+const G11RationalExponents1Quiz = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/racionalis-szamok-kitevoben-1/RationalExponents1Quiz").then(m => ({ default: m.RationalExponents1Quiz })))
+const G11RationalExponents2Theory = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/racionalis-szamok-kitevoben-2/RationalExponents2Theory").then(m => ({ default: m.RationalExponents2Theory })))
+const G11RationalExponents2Quiz = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/racionalis-szamok-kitevoben-2/RationalExponents2Quiz").then(m => ({ default: m.RationalExponents2Quiz })))
+const G11PowerRootPracticeTheory = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/gyakorlas-hatvany-gyok/PowerRootPracticeTheory").then(m => ({ default: m.PowerRootPracticeTheory })))
+const G11PowerRootPracticeQuiz = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/gyakorlas-hatvany-gyok/PowerRootPracticeQuiz").then(m => ({ default: m.PowerRootPracticeQuiz })))
+const G11FinancialCalcTheory = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/penzugyi-szamitasok/FinancialCalcTheory").then(m => ({ default: m.FinancialCalcTheory })))
+const G11FinancialCalcQuiz = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/penzugyi-szamitasok/FinancialCalcQuiz").then(m => ({ default: m.FinancialCalcQuiz })))
+const G11ExponentialFunctionsTheory = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/exponencialis-fuggvenyek/ExponentialFunctionsTheory").then(m => ({ default: m.ExponentialFunctionsTheory })))
+const G11ExponentialFunctionsQuiz = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/exponencialis-fuggvenyek/ExponentialFunctionsQuiz").then(m => ({ default: m.ExponentialFunctionsQuiz })))
+const G11ExponentialProcessesTheory = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/exponencialis-folyamatok/ExponentialProcessesTheory").then(m => ({ default: m.ExponentialProcessesTheory })))
+const G11ExponentialProcessesQuiz = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/exponencialis-folyamatok/ExponentialProcessesQuiz").then(m => ({ default: m.ExponentialProcessesQuiz })))
+const G11HalfLifeTheory = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/felezesi-ido/HalfLifeTheory").then(m => ({ default: m.HalfLifeTheory })))
+const G11HalfLifeQuiz = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/felezesi-ido/HalfLifeQuiz").then(m => ({ default: m.HalfLifeQuiz })))
+const G11LogarithmConceptTheory = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/a-logaritmus-fogalma/LogarithmConceptTheory").then(m => ({ default: m.LogarithmConceptTheory })))
+const G11LogarithmConceptQuiz = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/a-logaritmus-fogalma/LogarithmConceptQuiz").then(m => ({ default: m.LogarithmConceptQuiz })))
+const G11CommonLogarithmTheory = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/tizes-alapu-logaritmus/CommonLogarithmTheory").then(m => ({ default: m.CommonLogarithmTheory })))
+const G11CommonLogarithmQuiz = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/tizes-alapu-logaritmus/CommonLogarithmQuiz").then(m => ({ default: m.CommonLogarithmQuiz })))
+const G11PowerRootLogTheory = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/hatvany-gyok-es-logaritmus/PowerRootLogTheory").then(m => ({ default: m.PowerRootLogTheory })))
+const G11PowerRootLogQuiz = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/hatvany-gyok-es-logaritmus/PowerRootLogQuiz").then(m => ({ default: m.PowerRootLogQuiz })))
+const G11LogPractice1Theory = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/gyakorlas-logaritmus-1/LogPractice1Theory").then(m => ({ default: m.LogPractice1Theory })))
+const G11LogPractice1Quiz = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/gyakorlas-logaritmus-1/LogPractice1Quiz").then(m => ({ default: m.LogPractice1Quiz })))
+const G11ExponentialInequalitiesTheory = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/exponencialis-egyenlotlensegek/ExponentialInequalitiesTheory").then(m => ({ default: m.ExponentialInequalitiesTheory })))
+const G11ExponentialInequalitiesQuiz = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/exponencialis-egyenlotlensegek/ExponentialInequalitiesQuiz").then(m => ({ default: m.ExponentialInequalitiesQuiz })))
+const G11LogPractice2Theory = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/gyakorlas-logaritmus-2/LogPractice2Theory").then(m => ({ default: m.LogPractice2Theory })))
+const G11LogPractice2Quiz = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/gyakorlas-logaritmus-2/LogPractice2Quiz").then(m => ({ default: m.LogPractice2Quiz })))
+const G11ExpLogPracticeExamTheory = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/gyakorlas-tudasproba/ExpLogPracticeExamTheory").then(m => ({ default: m.ExpLogPracticeExamTheory })))
+const G11ExpLogPracticeExamQuiz = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/gyakorlas-tudasproba/ExpLogPracticeExamQuiz").then(m => ({ default: m.ExpLogPracticeExamQuiz })))
 
 export const Grade11Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -953,6 +985,552 @@ export const Grade11Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g11-comb-tudasproba-theory', selectedTopic || 'g11-kombinatorika-grafok')}
           onSwitchToMatcher={() => handleActivitySelect('g11-comb-tudasproba-matcher', selectedTopic || 'g11-kombinatorika-grafok')}
           onSwitchToSorter={() => handleActivitySelect('g11-comb-tudasproba-sorter', selectedTopic || 'g11-kombinatorika-grafok')}
+        />
+      )}
+
+      {/* ===== 11. Osztály – III. Hatvány, gyök, logaritmus ===== */}
+
+      {/* 26. Hatványozás – ismétlés */}
+      {activityType === 'g11-exp-hatvanyozas-ismetles-theory' && (
+        <G11PowersReviewTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-exp-hatvanyozas-ismetles-quiz', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-hatvanyozas-ismetles-quiz' && (
+        <G11PowersReviewQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-hatvanyozas-ismetles-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-hatvanyozas-ismetles-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-hatvanyozas-ismetles-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-hatvanyozas-ismetles-matcher' && (
+        <G11PowersReviewQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-hatvanyozas-ismetles-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-hatvanyozas-ismetles-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-hatvanyozas-ismetles-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-hatvanyozas-ismetles-sorter' && (
+        <G11PowersReviewQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-hatvanyozas-ismetles-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-hatvanyozas-ismetles-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-hatvanyozas-ismetles-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+
+      {/* 27. Számok n-edik gyöke */}
+      {activityType === 'g11-exp-n-edik-gyok-theory' && (
+        <G11NthRootTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-exp-n-edik-gyok-quiz', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-n-edik-gyok-quiz' && (
+        <G11NthRootQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-n-edik-gyok-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-n-edik-gyok-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-n-edik-gyok-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-n-edik-gyok-matcher' && (
+        <G11NthRootQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-n-edik-gyok-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-n-edik-gyok-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-n-edik-gyok-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-n-edik-gyok-sorter' && (
+        <G11NthRootQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-n-edik-gyok-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-n-edik-gyok-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-n-edik-gyok-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+
+      {/* 3. Racionális számok a kitevőben I. */}
+      {activityType === 'g11-exp-tortkitevo-elso-theory' && (
+        <G11RationalExponents1Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-exp-tortkitevo-elso-quiz', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-tortkitevo-elso-quiz' && (
+        <G11RationalExponents1Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-tortkitevo-elso-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-tortkitevo-elso-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-tortkitevo-elso-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-tortkitevo-elso-matcher' && (
+        <G11RationalExponents1Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-tortkitevo-elso-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-tortkitevo-elso-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-tortkitevo-elso-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-tortkitevo-elso-sorter' && (
+        <G11RationalExponents1Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-tortkitevo-elso-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-tortkitevo-elso-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-tortkitevo-elso-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+
+      {/* 4. Racionális számok a kitevőben II. */}
+      {activityType === 'g11-exp-tortkitevo-masodik-theory' && (
+        <G11RationalExponents2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-exp-tortkitevo-masodik-quiz', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-tortkitevo-masodik-quiz' && (
+        <G11RationalExponents2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-tortkitevo-masodik-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-tortkitevo-masodik-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-tortkitevo-masodik-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-tortkitevo-masodik-matcher' && (
+        <G11RationalExponents2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-tortkitevo-masodik-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-tortkitevo-masodik-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-tortkitevo-masodik-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-tortkitevo-masodik-sorter' && (
+        <G11RationalExponents2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-tortkitevo-masodik-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-tortkitevo-masodik-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-tortkitevo-masodik-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+
+      {/* 5. Gyakorlás */}
+      {activityType === 'g11-exp-hatvany-gyok-gyakorlas-theory' && (
+        <G11PowerRootPracticeTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-exp-hatvany-gyok-gyakorlas-quiz', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-hatvany-gyok-gyakorlas-quiz' && (
+        <G11PowerRootPracticeQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-hatvany-gyok-gyakorlas-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-hatvany-gyok-gyakorlas-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-hatvany-gyok-gyakorlas-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-hatvany-gyok-gyakorlas-matcher' && (
+        <G11PowerRootPracticeQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-hatvany-gyok-gyakorlas-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-hatvany-gyok-gyakorlas-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-hatvany-gyok-gyakorlas-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-hatvany-gyok-gyakorlas-sorter' && (
+        <G11PowerRootPracticeQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-hatvany-gyok-gyakorlas-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-hatvany-gyok-gyakorlas-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-hatvany-gyok-gyakorlas-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+
+      {/* 6. Pénzügyi számítások */}
+      {activityType === 'g11-exp-penzugyek-theory' && (
+        <G11FinancialCalcTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-exp-penzugyek-quiz', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-penzugyek-quiz' && (
+        <G11FinancialCalcQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-penzugyek-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-penzugyek-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-penzugyek-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-penzugyek-matcher' && (
+        <G11FinancialCalcQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-penzugyek-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-penzugyek-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-penzugyek-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-penzugyek-sorter' && (
+        <G11FinancialCalcQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-penzugyek-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-penzugyek-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-penzugyek-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+
+      {/* 7. Exponenciális függvények */}
+      {activityType === 'g11-exp-exponencialis-fuggveny-theory' && (
+        <G11ExponentialFunctionsTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-exp-exponencialis-fuggveny-quiz', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-exponencialis-fuggveny-quiz' && (
+        <G11ExponentialFunctionsQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-exponencialis-fuggveny-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-exponencialis-fuggveny-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-exponencialis-fuggveny-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-exponencialis-fuggveny-matcher' && (
+        <G11ExponentialFunctionsQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-exponencialis-fuggveny-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-exponencialis-fuggveny-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-exponencialis-fuggveny-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-exponencialis-fuggveny-sorter' && (
+        <G11ExponentialFunctionsQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-exponencialis-fuggveny-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-exponencialis-fuggveny-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-exponencialis-fuggveny-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+
+      {/* 8. Exponenciális folyamatok */}
+      {activityType === 'g11-exp-exponencialis-folyamat-theory' && (
+        <G11ExponentialProcessesTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-exp-exponencialis-folyamat-quiz', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-exponencialis-folyamat-quiz' && (
+        <G11ExponentialProcessesQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-exponencialis-folyamat-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-exponencialis-folyamat-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-exponencialis-folyamat-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-exponencialis-folyamat-matcher' && (
+        <G11ExponentialProcessesQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-exponencialis-folyamat-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-exponencialis-folyamat-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-exponencialis-folyamat-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-exponencialis-folyamat-sorter' && (
+        <G11ExponentialProcessesQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-exponencialis-folyamat-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-exponencialis-folyamat-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-exponencialis-folyamat-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+
+      {/* 9. Felezési idő */}
+      {activityType === 'g11-exp-felezesi-ido-theory' && (
+        <G11HalfLifeTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-exp-felezesi-ido-quiz', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-felezesi-ido-quiz' && (
+        <G11HalfLifeQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-felezesi-ido-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-felezesi-ido-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-felezesi-ido-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-felezesi-ido-matcher' && (
+        <G11HalfLifeQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-felezesi-ido-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-felezesi-ido-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-felezesi-ido-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-felezesi-ido-sorter' && (
+        <G11HalfLifeQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-felezesi-ido-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-felezesi-ido-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-felezesi-ido-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+
+      {/* 10. A logaritmus fogalma */}
+      {activityType === 'g11-exp-logaritmus-fogalom-theory' && (
+        <G11LogarithmConceptTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-exp-logaritmus-fogalom-quiz', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-logaritmus-fogalom-quiz' && (
+        <G11LogarithmConceptQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-logaritmus-fogalom-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-logaritmus-fogalom-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-logaritmus-fogalom-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-logaritmus-fogalom-matcher' && (
+        <G11LogarithmConceptQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-logaritmus-fogalom-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-logaritmus-fogalom-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-logaritmus-fogalom-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-logaritmus-fogalom-sorter' && (
+        <G11LogarithmConceptQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-logaritmus-fogalom-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-logaritmus-fogalom-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-logaritmus-fogalom-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+
+      {/* 11. A tízes alapú logaritmus használata */}
+      {activityType === 'g11-exp-tizes-logaritmus-theory' && (
+        <G11CommonLogarithmTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-exp-tizes-logaritmus-quiz', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-tizes-logaritmus-quiz' && (
+        <G11CommonLogarithmQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-tizes-logaritmus-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-tizes-logaritmus-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-tizes-logaritmus-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-tizes-logaritmus-matcher' && (
+        <G11CommonLogarithmQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-tizes-logaritmus-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-tizes-logaritmus-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-tizes-logaritmus-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-tizes-logaritmus-sorter' && (
+        <G11CommonLogarithmQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-tizes-logaritmus-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-tizes-logaritmus-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-tizes-logaritmus-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+
+      {/* 12. Hatvány, gyök, logaritmus */}
+      {activityType === 'g11-exp-logaritmus-modellek-theory' && (
+        <G11PowerRootLogTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-exp-logaritmus-modellek-quiz', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-logaritmus-modellek-quiz' && (
+        <G11PowerRootLogQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-logaritmus-modellek-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-logaritmus-modellek-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-logaritmus-modellek-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-logaritmus-modellek-matcher' && (
+        <G11PowerRootLogQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-logaritmus-modellek-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-logaritmus-modellek-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-logaritmus-modellek-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-logaritmus-modellek-sorter' && (
+        <G11PowerRootLogQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-logaritmus-modellek-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-logaritmus-modellek-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-logaritmus-modellek-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+
+      {/* 13. Gyakorlás */}
+      {activityType === 'g11-exp-log-gyakorlas-elso-theory' && (
+        <G11LogPractice1Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-exp-log-gyakorlas-elso-quiz', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-log-gyakorlas-elso-quiz' && (
+        <G11LogPractice1Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-log-gyakorlas-elso-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-log-gyakorlas-elso-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-log-gyakorlas-elso-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-log-gyakorlas-elso-matcher' && (
+        <G11LogPractice1Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-log-gyakorlas-elso-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-log-gyakorlas-elso-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-log-gyakorlas-elso-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-log-gyakorlas-elso-sorter' && (
+        <G11LogPractice1Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-log-gyakorlas-elso-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-log-gyakorlas-elso-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-log-gyakorlas-elso-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+
+      {/* 14. Exponenciális egyenlőtlenségek */}
+      {activityType === 'g11-exp-exponencialis-egyenlotlenseg-theory' && (
+        <G11ExponentialInequalitiesTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-exp-exponencialis-egyenlotlenseg-quiz', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-exponencialis-egyenlotlenseg-quiz' && (
+        <G11ExponentialInequalitiesQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-exponencialis-egyenlotlenseg-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-exponencialis-egyenlotlenseg-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-exponencialis-egyenlotlenseg-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-exponencialis-egyenlotlenseg-matcher' && (
+        <G11ExponentialInequalitiesQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-exponencialis-egyenlotlenseg-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-exponencialis-egyenlotlenseg-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-exponencialis-egyenlotlenseg-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-exponencialis-egyenlotlenseg-sorter' && (
+        <G11ExponentialInequalitiesQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-exponencialis-egyenlotlenseg-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-exponencialis-egyenlotlenseg-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-exponencialis-egyenlotlenseg-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+
+      {/* 15. Gyakorlás */}
+      {activityType === 'g11-exp-log-gyakorlas-masodik-theory' && (
+        <G11LogPractice2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-exp-log-gyakorlas-masodik-quiz', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-log-gyakorlas-masodik-quiz' && (
+        <G11LogPractice2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-log-gyakorlas-masodik-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-log-gyakorlas-masodik-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-log-gyakorlas-masodik-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-log-gyakorlas-masodik-matcher' && (
+        <G11LogPractice2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-log-gyakorlas-masodik-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-log-gyakorlas-masodik-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-log-gyakorlas-masodik-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-log-gyakorlas-masodik-sorter' && (
+        <G11LogPractice2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-log-gyakorlas-masodik-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-log-gyakorlas-masodik-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-log-gyakorlas-masodik-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+
+      {/* 16. Gyakorlás, tudáspróba */}
+      {activityType === 'g11-exp-tudasproba-theory' && (
+        <G11ExpLogPracticeExamTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-exp-tudasproba-quiz', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-tudasproba-quiz' && (
+        <G11ExpLogPracticeExamQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-tudasproba-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-tudasproba-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-tudasproba-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-tudasproba-matcher' && (
+        <G11ExpLogPracticeExamQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-tudasproba-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-tudasproba-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-tudasproba-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+      {activityType === 'g11-exp-tudasproba-sorter' && (
+        <G11ExpLogPracticeExamQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-exp-tudasproba-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-exp-tudasproba-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+          onSwitchToSorter={() => handleActivitySelect('g11-exp-tudasproba-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
         />
       )}
     </>
