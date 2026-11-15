@@ -86,6 +86,28 @@ const G11LogPractice2Theory = lazy(() => import("@/components/math/grade-11/hatv
 const G11LogPractice2Quiz = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/gyakorlas-logaritmus-2/LogPractice2Quiz").then(m => ({ default: m.LogPractice2Quiz })))
 const G11ExpLogPracticeExamTheory = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/gyakorlas-tudasproba/ExpLogPracticeExamTheory").then(m => ({ default: m.ExpLogPracticeExamTheory })))
 const G11ExpLogPracticeExamQuiz = lazy(() => import("@/components/math/grade-11/hatvany-gyok-logaritmus/gyakorlas-tudasproba/ExpLogPracticeExamQuiz").then(m => ({ default: m.ExpLogPracticeExamQuiz })))
+const G11G11NumberSetsTheory = lazy(() => import("@/components/math/grade-11/szamelmelet/szamhalmazok/G11NumberSetsTheory").then(m => ({ default: m.G11NumberSetsTheory })))
+const G11G11NumberSetsQuiz = lazy(() => import("@/components/math/grade-11/szamelmelet/szamhalmazok/G11NumberSetsQuiz").then(m => ({ default: m.G11NumberSetsQuiz })))
+const G11G11DivisorsMultiplesTheory = lazy(() => import("@/components/math/grade-11/szamelmelet/oszto-tobbszoros/G11DivisorsMultiplesTheory").then(m => ({ default: m.G11DivisorsMultiplesTheory })))
+const G11G11DivisorsMultiplesQuiz = lazy(() => import("@/components/math/grade-11/szamelmelet/oszto-tobbszoros/G11DivisorsMultiplesQuiz").then(m => ({ default: m.G11DivisorsMultiplesQuiz })))
+const G11GcdLcmTheory = lazy(() => import("@/components/math/grade-11/szamelmelet/lnko-lkkt/GcdLcmTheory").then(m => ({ default: m.GcdLcmTheory })))
+const G11GcdLcmQuiz = lazy(() => import("@/components/math/grade-11/szamelmelet/lnko-lkkt/GcdLcmQuiz").then(m => ({ default: m.GcdLcmQuiz })))
+const G11G11DivisibilityRulesTheory = lazy(() => import("@/components/math/grade-11/szamelmelet/oszthatosagi-szabalyok-maradekok/G11DivisibilityRulesTheory").then(m => ({ default: m.G11DivisibilityRulesTheory })))
+const G11G11DivisibilityRulesQuiz = lazy(() => import("@/components/math/grade-11/szamelmelet/oszthatosagi-szabalyok-maradekok/G11DivisibilityRulesQuiz").then(m => ({ default: m.G11DivisibilityRulesQuiz })))
+const G11DivisibilityLogicTheory = lazy(() => import("@/components/math/grade-11/szamelmelet/oszthatosag-es-logika/DivisibilityLogicTheory").then(m => ({ default: m.DivisibilityLogicTheory })))
+const G11DivisibilityLogicQuiz = lazy(() => import("@/components/math/grade-11/szamelmelet/oszthatosag-es-logika/DivisibilityLogicQuiz").then(m => ({ default: m.DivisibilityLogicQuiz })))
+const G11DivisibilityProblemsTheory = lazy(() => import("@/components/math/grade-11/szamelmelet/oszthatosagi-feladatok/DivisibilityProblemsTheory").then(m => ({ default: m.DivisibilityProblemsTheory })))
+const G11DivisibilityProblemsQuiz = lazy(() => import("@/components/math/grade-11/szamelmelet/oszthatosagi-feladatok/DivisibilityProblemsQuiz").then(m => ({ default: m.DivisibilityProblemsQuiz })))
+const G11NumeralSystems1Theory = lazy(() => import("@/components/math/grade-11/szamelmelet/szamrendszerek-1/NumeralSystems1Theory").then(m => ({ default: m.NumeralSystems1Theory })))
+const G11NumeralSystems1Quiz = lazy(() => import("@/components/math/grade-11/szamelmelet/szamrendszerek-1/NumeralSystems1Quiz").then(m => ({ default: m.NumeralSystems1Quiz })))
+const G11NumeralSystems2Theory = lazy(() => import("@/components/math/grade-11/szamelmelet/szamrendszerek-2/NumeralSystems2Theory").then(m => ({ default: m.NumeralSystems2Theory })))
+const G11NumeralSystems2Quiz = lazy(() => import("@/components/math/grade-11/szamelmelet/szamrendszerek-2/NumeralSystems2Quiz").then(m => ({ default: m.NumeralSystems2Quiz })))
+const G11NumberTheoryPracticeTheory = lazy(() => import("@/components/math/grade-11/szamelmelet/gyakorlas-szamelmelet-1/NumberTheoryPracticeTheory").then(m => ({ default: m.NumberTheoryPracticeTheory })))
+const G11NumberTheoryPracticeQuiz = lazy(() => import("@/components/math/grade-11/szamelmelet/gyakorlas-szamelmelet-1/NumberTheoryPracticeQuiz").then(m => ({ default: m.NumberTheoryPracticeQuiz })))
+const G11G11RationalIrrationalTheory = lazy(() => import("@/components/math/grade-11/szamelmelet/racionalis-irracionalis-szamok/G11RationalIrrationalTheory").then(m => ({ default: m.G11RationalIrrationalTheory })))
+const G11G11RationalIrrationalQuiz = lazy(() => import("@/components/math/grade-11/szamelmelet/racionalis-irracionalis-szamok/G11RationalIrrationalQuiz").then(m => ({ default: m.G11RationalIrrationalQuiz })))
+const G11NumberTheoryPracticeExamTheory = lazy(() => import("@/components/math/grade-11/szamelmelet/gyakorlas-tudasproba/NumberTheoryPracticeExamTheory").then(m => ({ default: m.NumberTheoryPracticeExamTheory })))
+const G11NumberTheoryPracticeExamQuiz = lazy(() => import("@/components/math/grade-11/szamelmelet/gyakorlas-tudasproba/NumberTheoryPracticeExamQuiz").then(m => ({ default: m.NumberTheoryPracticeExamQuiz })))
 
 export const Grade11Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -1531,6 +1553,382 @@ export const Grade11Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g11-exp-tudasproba-theory', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
           onSwitchToMatcher={() => handleActivitySelect('g11-exp-tudasproba-matcher', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
           onSwitchToSorter={() => handleActivitySelect('g11-exp-tudasproba-sorter', selectedTopic || 'g11-hatvany-gyok-logaritmus')}
+        />
+      )}
+
+      {/* ===== 11. Osztály – IV. Számelmélet ===== */}
+
+      {/* 1. Számhalmazok */}
+      {activityType === 'g11-num-szamhalmazok-theory' && (
+        <G11G11NumberSetsTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-num-szamhalmazok-quiz', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-szamhalmazok-quiz' && (
+        <G11G11NumberSetsQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-szamhalmazok-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-szamhalmazok-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-szamhalmazok-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-szamhalmazok-matcher' && (
+        <G11G11NumberSetsQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-szamhalmazok-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-szamhalmazok-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-szamhalmazok-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-szamhalmazok-sorter' && (
+        <G11G11NumberSetsQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-szamhalmazok-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-szamhalmazok-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-szamhalmazok-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+
+      {/* 2. Osztó, többszörös */}
+      {activityType === 'g11-num-oszto-tobbszoros-theory' && (
+        <G11G11DivisorsMultiplesTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-num-oszto-tobbszoros-quiz', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-oszto-tobbszoros-quiz' && (
+        <G11G11DivisorsMultiplesQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-oszto-tobbszoros-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-oszto-tobbszoros-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-oszto-tobbszoros-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-oszto-tobbszoros-matcher' && (
+        <G11G11DivisorsMultiplesQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-oszto-tobbszoros-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-oszto-tobbszoros-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-oszto-tobbszoros-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-oszto-tobbszoros-sorter' && (
+        <G11G11DivisorsMultiplesQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-oszto-tobbszoros-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-oszto-tobbszoros-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-oszto-tobbszoros-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+
+      {/* 3. Legnagyobb közös osztó, legkisebb közös többszörös */}
+      {activityType === 'g11-num-lnko-lkkt-theory' && (
+        <G11GcdLcmTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-num-lnko-lkkt-quiz', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-lnko-lkkt-quiz' && (
+        <G11GcdLcmQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-lnko-lkkt-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-lnko-lkkt-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-lnko-lkkt-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-lnko-lkkt-matcher' && (
+        <G11GcdLcmQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-lnko-lkkt-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-lnko-lkkt-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-lnko-lkkt-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-lnko-lkkt-sorter' && (
+        <G11GcdLcmQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-lnko-lkkt-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-lnko-lkkt-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-lnko-lkkt-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+
+      {/* 4. Oszthatósági szabályok, osztási maradékok */}
+      {activityType === 'g11-num-oszthatosagi-szabalyok-theory' && (
+        <G11G11DivisibilityRulesTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-num-oszthatosagi-szabalyok-quiz', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-oszthatosagi-szabalyok-quiz' && (
+        <G11G11DivisibilityRulesQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-oszthatosagi-szabalyok-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-oszthatosagi-szabalyok-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-oszthatosagi-szabalyok-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-oszthatosagi-szabalyok-matcher' && (
+        <G11G11DivisibilityRulesQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-oszthatosagi-szabalyok-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-oszthatosagi-szabalyok-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-oszthatosagi-szabalyok-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-oszthatosagi-szabalyok-sorter' && (
+        <G11G11DivisibilityRulesQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-oszthatosagi-szabalyok-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-oszthatosagi-szabalyok-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-oszthatosagi-szabalyok-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+
+      {/* 5. Oszthatóság és logika */}
+      {activityType === 'g11-num-oszthatosag-logika-theory' && (
+        <G11DivisibilityLogicTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-num-oszthatosag-logika-quiz', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-oszthatosag-logika-quiz' && (
+        <G11DivisibilityLogicQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-oszthatosag-logika-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-oszthatosag-logika-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-oszthatosag-logika-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-oszthatosag-logika-matcher' && (
+        <G11DivisibilityLogicQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-oszthatosag-logika-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-oszthatosag-logika-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-oszthatosag-logika-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-oszthatosag-logika-sorter' && (
+        <G11DivisibilityLogicQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-oszthatosag-logika-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-oszthatosag-logika-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-oszthatosag-logika-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+
+      {/* 6. Oszthatósági feladatok */}
+      {activityType === 'g11-num-oszthatosagi-feladatok-theory' && (
+        <G11DivisibilityProblemsTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-num-oszthatosagi-feladatok-quiz', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-oszthatosagi-feladatok-quiz' && (
+        <G11DivisibilityProblemsQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-oszthatosagi-feladatok-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-oszthatosagi-feladatok-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-oszthatosagi-feladatok-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-oszthatosagi-feladatok-matcher' && (
+        <G11DivisibilityProblemsQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-oszthatosagi-feladatok-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-oszthatosagi-feladatok-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-oszthatosagi-feladatok-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-oszthatosagi-feladatok-sorter' && (
+        <G11DivisibilityProblemsQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-oszthatosagi-feladatok-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-oszthatosagi-feladatok-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-oszthatosagi-feladatok-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+
+      {/* 7. Számrendszerek I. */}
+      {activityType === 'g11-num-szamrendszer-elso-theory' && (
+        <G11NumeralSystems1Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-num-szamrendszer-elso-quiz', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-szamrendszer-elso-quiz' && (
+        <G11NumeralSystems1Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-szamrendszer-elso-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-szamrendszer-elso-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-szamrendszer-elso-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-szamrendszer-elso-matcher' && (
+        <G11NumeralSystems1Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-szamrendszer-elso-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-szamrendszer-elso-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-szamrendszer-elso-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-szamrendszer-elso-sorter' && (
+        <G11NumeralSystems1Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-szamrendszer-elso-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-szamrendszer-elso-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-szamrendszer-elso-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+
+      {/* 8. Számrendszerek II. */}
+      {activityType === 'g11-num-szamrendszer-masodik-theory' && (
+        <G11NumeralSystems2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-num-szamrendszer-masodik-quiz', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-szamrendszer-masodik-quiz' && (
+        <G11NumeralSystems2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-szamrendszer-masodik-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-szamrendszer-masodik-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-szamrendszer-masodik-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-szamrendszer-masodik-matcher' && (
+        <G11NumeralSystems2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-szamrendszer-masodik-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-szamrendszer-masodik-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-szamrendszer-masodik-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-szamrendszer-masodik-sorter' && (
+        <G11NumeralSystems2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-szamrendszer-masodik-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-szamrendszer-masodik-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-szamrendszer-masodik-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+
+      {/* 9. Gyakorlás */}
+      {activityType === 'g11-num-gyakorlas-theory' && (
+        <G11NumberTheoryPracticeTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-num-gyakorlas-quiz', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-gyakorlas-quiz' && (
+        <G11NumberTheoryPracticeQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-gyakorlas-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-gyakorlas-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-gyakorlas-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-gyakorlas-matcher' && (
+        <G11NumberTheoryPracticeQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-gyakorlas-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-gyakorlas-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-gyakorlas-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-gyakorlas-sorter' && (
+        <G11NumberTheoryPracticeQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-gyakorlas-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-gyakorlas-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-gyakorlas-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+
+      {/* 10. Racionális számok, irracionális számok */}
+      {activityType === 'g11-num-irracionalis-theory' && (
+        <G11G11RationalIrrationalTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-num-irracionalis-quiz', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-irracionalis-quiz' && (
+        <G11G11RationalIrrationalQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-irracionalis-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-irracionalis-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-irracionalis-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-irracionalis-matcher' && (
+        <G11G11RationalIrrationalQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-irracionalis-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-irracionalis-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-irracionalis-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-irracionalis-sorter' && (
+        <G11G11RationalIrrationalQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-irracionalis-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-irracionalis-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-irracionalis-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+
+      {/* 11. Gyakorlás, tudáspróba */}
+      {activityType === 'g11-num-tudasproba-theory' && (
+        <G11NumberTheoryPracticeExamTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-num-tudasproba-quiz', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-tudasproba-quiz' && (
+        <G11NumberTheoryPracticeExamQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-tudasproba-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-tudasproba-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-tudasproba-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-tudasproba-matcher' && (
+        <G11NumberTheoryPracticeExamQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-tudasproba-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-tudasproba-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-tudasproba-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+      {activityType === 'g11-num-tudasproba-sorter' && (
+        <G11NumberTheoryPracticeExamQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-num-tudasproba-theory', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-num-tudasproba-matcher', selectedTopic || 'g11-szamelmelet')}
+          onSwitchToSorter={() => handleActivitySelect('g11-num-tudasproba-sorter', selectedTopic || 'g11-szamelmelet')}
         />
       )}
     </>

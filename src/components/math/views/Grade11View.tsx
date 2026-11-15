@@ -1254,13 +1254,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-num-szamhalmazok" number={1} title="Számhalmazok" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A Számhalmazok Rendszere"
-                subtitle="N ⊂ Z ⊂ Q ⊂ R, műveleti zártság és a számegyenes felépítése"
-                type="Hamarosan"
-                emoji="⭕"
-                disabled={true}
-                icon={<Shapes className="w-6 h-6" />}
+                title="Számhalmazok Tananyag"
+                subtitle="N ⊂ Z ⊂ Q, műveleti zártság, véges és végtelen szakaszos tizedes törtek"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-num-szamhalmazok-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: számhalmazok, zártság, tizedes tört alakok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-num-szamhalmazok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g11-num-szamhalmazok-quiz')}
               />
             </div>
           </section>
@@ -1272,13 +1282,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-num-oszto-tobbszoros" number={2} title="Osztó, többszörös" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Oszthatóság és Prímfelbontás"
-                subtitle="Oszthatóság definíciója, prímszámok és a számelmélet alaptétele"
-                type="Hamarosan"
-                emoji="🔢"
-                disabled={true}
-                icon={<Divide className="w-6 h-6" />}
+                title="Osztó, többszörös Tananyag"
+                subtitle="Oszthatóság, prímek, osztópárok, prímtényezős felbontás – Eratoszthenész szitájával"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-num-oszto-tobbszoros-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: prímek, osztók száma, felbontás, egyszerűsítés"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-num-oszto-tobbszoros-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="teal"
+                {...getTopicProgress('g11-num-oszto-tobbszoros-quiz')}
               />
             </div>
           </section>
@@ -1290,13 +1310,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-num-lnko-lkkt" number={3} title="Legnagyobb közös osztó, legkisebb közös többszörös" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="LNKO, LKKT és Euklideszi Algoritmus"
-                subtitle="Közös osztók, többszörösök, relatív prímek és euklideszi algoritmus"
-                type="Hamarosan"
-                emoji="⚖️"
-                disabled={true}
-                icon={<Scale className="w-6 h-6" />}
+                title="LNKO és LKKT Tananyag"
+                subtitle="(a; b) és [a; b] a prímtényezőkből, euklideszi algoritmus lépésenként"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-num-lnko-lkkt-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="cyan"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: relatív prímek, Euklidesz, tapéta-, díj-, burkolás- és ciklusfeladatok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-num-lnko-lkkt-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="cyan"
+                {...getTopicProgress('g11-num-lnko-lkkt-quiz')}
               />
             </div>
           </section>
@@ -1308,13 +1338,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-num-oszthatosagi-szabalyok" number={4} title="Oszthatósági szabályok, osztási maradékok" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Helyiértékes Szabályok és Maradékok"
-                subtitle="2, 3, 4, 5, 8, 9, 10, 11 szabályai, összetett osztók és maradékos osztás"
-                type="Hamarosan"
-                emoji="📐"
-                disabled={true}
-                icon={<Calculator className="w-6 h-6" />}
+                title="Oszthatósági szabályok Tananyag"
+                subtitle="A szám vége vagy a jegyösszeg dönt; maradékos osztás, maradékosztályok, naptár"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-num-oszthatosagi-szabalyok-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: szabályok, ismeretlen számjegyek, maradékok, napok, 7-es és 11-es próba"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-num-oszthatosagi-szabalyok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g11-num-oszthatosagi-szabalyok-quiz')}
               />
             </div>
           </section>
@@ -1326,13 +1366,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-num-oszthatosag-es-logika" number={5} title="Oszthatóság és logika" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Logika és Bizonyítások"
-                subtitle="Szükséges és elégséges feltételek, indirekt bizonyítás és skatulya-elv"
-                type="Hamarosan"
-                emoji="🧠"
-                disabled={true}
-                icon={<Brain className="w-6 h-6" />}
+                title="Oszthatóság és logika Tananyag"
+                subtitle="Állítások, tagadás, „és”, „vagy”, „ha…, akkor” és a megfordítás – oszthatósági példákon"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-num-oszthatosag-logika-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: logikai értékek, tagadások, ellenpéldák, Venn-diagramok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-num-oszthatosag-logika-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g11-num-oszthatosag-logika-quiz')}
               />
             </div>
           </section>
@@ -1344,13 +1394,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-num-oszthatosagi-feladatok" number={6} title="Oszthatósági feladatok" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Kifejezések Oszthatósága"
-                subtitle="Szorzattá alakítás, egymást követő egészek és diofantoszi egyenletek"
-                type="Hamarosan"
+                title="Oszthatósági feladatok Tananyag"
+                subtitle="Összetett oszthatósági szabályok, lnko és lkkt a gyakorlatban: választások, buszok, dobozok"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-num-oszthatosagi-feladatok-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
+                color="violet"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: 45 = 5 · 9, paritás, osztók, lnko-, lkkt-feladatok"
+                type="Kvíz"
                 emoji="🎯"
-                disabled={true}
+                onClick={() => onActivitySelect('g11-num-oszthatosagi-feladatok-quiz', topicId)}
                 icon={<Target className="w-6 h-6" />}
                 color="violet"
+                {...getTopicProgress('g11-num-oszthatosagi-feladatok-quiz')}
               />
             </div>
           </section>
@@ -1362,13 +1422,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-num-szamrendszerek-1" number={7} title="Számrendszerek I." color="purple" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Helyiértékes Elv és Bináris Rendszer"
-                subtitle="Kettes és tízes alapú számrendszer és kölcsönös átváltási technikák"
-                type="Hamarosan"
-                emoji="💻"
-                disabled={true}
-                icon={<Binary className="w-6 h-6" />}
+                title="Számrendszerek I. Tananyag"
+                subtitle="Tucatok és nagytucatok, helyiérték-táblázat, átírás tízes számrendszerbe, bitkapcsolós átváltó"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-num-szamrendszer-elso-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="purple"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: számjegyek, helyi érték, átváltás, kettes és tizenhatos számrendszer"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-num-szamrendszer-elso-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="purple"
+                {...getTopicProgress('g11-num-szamrendszer-elso-quiz')}
               />
             </div>
           </section>
@@ -1380,13 +1450,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-num-szamrendszerek-2" number={8} title="Számrendszerek II." color="fuchsia" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Oktális és Hexadecimális Rendszer"
-                subtitle="8-as és 16-os rendszerek, bitcsoportosítás és alapműveletek"
-                type="Hamarosan"
-                emoji="⚙️"
-                disabled={true}
-                icon={<Boxes className="w-6 h-6" />}
+                title="Számrendszerek II. Tananyag"
+                subtitle="Átváltás ismételt osztással, 12-es és 16-os számrendszer, bitek csoportosítása, összeadás kettes számrendszerben"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-num-szamrendszer-masodik-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="fuchsia"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: ismételt osztás, hexadecimális számok, csoportosítás, ismeretlen alapszám"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-num-szamrendszer-masodik-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="fuchsia"
+                {...getTopicProgress('g11-num-szamrendszer-masodik-quiz')}
               />
             </div>
           </section>
@@ -1398,13 +1478,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-num-gyakorlas-1" number={9} title="Gyakorlás" color="pink" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Számelméleti és Rendszergyakorlatok"
-                subtitle="Hiányzó számjegyek keresése, összetett oszthatóság és egyenletek"
-                type="Hamarosan"
-                emoji="🧮"
-                disabled={true}
-                icon={<Compass className="w-6 h-6" />}
+                title="Gyakorlás – számelmélet Tananyag"
+                subtitle="A számelmélet összefoglalása: prímtényezők, lnko és lkkt, oszthatóság, maradékok, logika, számrendszerek"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-num-gyakorlas-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="pink"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 vegyes feladat 3 szinten, érettségi típusú kérdésekkel"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-num-gyakorlas-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="pink"
+                {...getTopicProgress('g11-num-gyakorlas-quiz')}
               />
             </div>
           </section>
@@ -1416,13 +1506,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-num-racionalis-irracionalis" number={10} title="Racionális számok, irracionális számok" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Tizedestörtek és Irracionalitás"
-                subtitle="Végtelen szakaszos törtek közönséges törtté alakítása és gyök 2 irracionalitása"
-                type="Hamarosan"
-                emoji="✨"
-                disabled={true}
-                icon={<Split className="w-6 h-6" />}
+                title="Racionális és irracionális számok Tananyag"
+                subtitle="Irracionális számok, tizedes törtek fajtái, valós számok, a √2 irracionalitása, Theodórosz-spirál"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-num-irracionalis-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: számhalmazok, szakaszos törtek, műveletek, szerkesztés, bizonyítás"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-num-irracionalis-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g11-num-irracionalis-quiz')}
               />
             </div>
           </section>
@@ -1434,13 +1534,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-num-tudasproba" number={11} title="Gyakorlás, tudáspróba" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Számelmélet Tudáspróba"
-                subtitle="Átfogó fejezeti ismétlés, feladatsor és számonkérés"
-                type="Hamarosan"
-                emoji="🏆"
-                disabled={true}
-                icon={<Trophy className="w-6 h-6" />}
+                title="Gyakorlás, tudáspróba Tananyag"
+                subtitle="A számelmélet fejezet összefoglalása, gyakorló feladatok és két tudáspróba megoldással"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-num-tudasproba-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz"
+                subtitle="90 feladat (szintenként 30) a teljes számelmélet fejezetből"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-num-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g11-num-tudasproba-quiz')}
               />
             </div>
           </section>
