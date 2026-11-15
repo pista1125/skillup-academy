@@ -861,7 +861,83 @@ function isInsideSqrt(str: string, pos: number): boolean {
   return depth > 0;
 }
 
+// ---------------------------------------------------------------------------
+// Fractional exponents (törtkitevő): 2^{1/2}, 16^{-3/4}, a^(p/q), 2¹⁄², 16⁻³⁄⁴
+// Rendered with KaTeX as a proper small stacked fraction in the exponent.
+// ---------------------------------------------------------------------------
+const SUP_DIGITS = '⁰¹²³⁴⁵⁶⁷⁸⁹ⁿ';
+const FRAC_POW_BASE = '(\\d+(?:[.,]\\d+)?|[a-zA-Zα-ωΑ-Ω]|\\([^()]{1,24}\\))';
+const FRAC_POW_REGEX = new RegExp(
+  [
+    // base^{±p/q}
+    `${FRAC_POW_BASE}\\^\\{\\s*([-−]?)\\s*([0-9a-zA-Z]{1,4})\\s*\\/\\s*([0-9a-zA-Z]{1,4})\\s*\\}`,
+    // base^(±p/q)
+    `${FRAC_POW_BASE}\\^\\(\\s*([-−]?)\\s*([0-9a-zA-Z]{1,4})\\s*\\/\\s*([0-9a-zA-Z]{1,4})\\s*\\)`,
+    // base⁻¹⁄² (unicode superscripts with fraction slash U+2044 or /)
+    `${FRAC_POW_BASE}(⁻?)([${SUP_DIGITS}]{1,3})[⁄/]([${SUP_DIGITS}0-9]{1,3})`,
+    // ⁴√16, ⁿ√a, ³⁶√(7⁵⁴)  -> n-th root with a proper root index
+    `([${SUP_DIGITS}]{1,3})√(\\([^()]{1,30}\\)|\\d+(?:[.,]\\d+)?[⁰¹²³⁴⁵⁶⁷⁸⁹]*|[a-zA-Z][⁰¹²³⁴⁵⁶⁷⁸⁹]*)`,
+    // ∛8, ∜16
+    `([∛∜])(\\([^()]{1,30}\\)|\\d+(?:[.,]\\d+)?[⁰¹²³⁴⁵⁶⁷⁸⁹]*|[a-zA-Z][⁰¹²³⁴⁵⁶⁷⁸⁹]*)`,
+  ].join('|'),
+  'g'
+);
+const fromSup = (s: string) => s.split('').map((c) => UNICODE_SUP_MAP[c] ?? c).join('');
+const baseToLatex = (b: string) =>
+  b.replace(/(\d),(\d)/g, '$1{,}$2').replace(/^\((.*)\)$/, '\\left($1\\right)');
+
+function renderFractionalPower(base: string, sign: string, p: string, q: string, size: 'sm' | 'md' | 'lg' | 'xl', key: string) {
+  const latex = `${baseToLatex(base)}^{${sign ? '-' : ''}\\frac{${p}}{${q}}}`;
+  const html = katex.renderToString(latex, { throwOnError: false, displayMode: false, strict: false });
+  const sizeClasses = { sm: 'text-xs sm:text-sm', md: 'text-sm sm:text-base', lg: 'text-base sm:text-lg', xl: 'text-lg sm:text-xl' };
+  return (
+    <span
+      key={key}
+      className={cn('inline-flex items-baseline mx-0.5 text-current align-baseline font-normal', sizeClasses[size])}
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  );
+}
+
 export function parseFractionsInText(
+  text: string | React.ReactNode,
+  size: 'sm' | 'md' | 'lg' | 'xl' = 'md'
+): React.ReactNode {
+  if (typeof text !== 'string') return text;
+  const hasFracPow = /[⁄/]/.test(text) && /[\^⁰¹²³⁴⁵⁶⁷⁸⁹ⁿ]/.test(text);
+  const hasIndexedRoot = /[⁰¹²³⁴⁵⁶⁷⁸⁹ⁿ]√|[∛∜]/.test(text);
+  if (!hasFracPow && !hasIndexedRoot) return parseFractionsInTextBase(text, size);
+
+  const regex = new RegExp(FRAC_POW_REGEX.source, 'g');
+  const parts: React.ReactNode[] = [];
+  let last = 0;
+  let m: RegExpExecArray | null;
+  while ((m = regex.exec(text)) !== null) {
+    if (m.index > last) {
+      parts.push(<React.Fragment key={`fp-pre-${last}`}>{parseFractionsInTextBase(text.slice(last, m.index), size)}</React.Fragment>);
+    }
+    if (m[13] !== undefined || m[15] !== undefined) {
+      const idx = m[13] !== undefined ? fromSup(m[13]) : m[15] === '∛' ? '3' : '4';
+      const rawRad = m[13] !== undefined ? m[14] : m[16];
+      const rad = rawRad.replace(/^\((.*)\)$/, '$1');
+      parts.push(<Sqrt key={`fr-${m.index}`} radicand={rad} degree={idx} size={size} />);
+    } else {
+      let base: string, sign: string, p: string, q: string;
+      if (m[1] !== undefined) [base, sign, p, q] = [m[1], m[2], m[3], m[4]];
+      else if (m[5] !== undefined) [base, sign, p, q] = [m[5], m[6], m[7], m[8]];
+      else [base, sign, p, q] = [m[9], m[10], fromSup(m[11]), fromSup(m[12])];
+      parts.push(renderFractionalPower(base, sign, p, q, size, `fp-${m.index}`));
+    }
+    last = m.index + m[0].length;
+  }
+  if (parts.length === 0) return parseFractionsInTextBase(text, size);
+  if (last < text.length) {
+    parts.push(<React.Fragment key={`fp-post-${last}`}>{parseFractionsInTextBase(text.slice(last), size)}</React.Fragment>);
+  }
+  return <>{parts}</>;
+}
+
+function parseFractionsInTextBase(
   text: string | React.ReactNode,
   size: 'sm' | 'md' | 'lg' | 'xl' = 'md'
 ): React.ReactNode {
