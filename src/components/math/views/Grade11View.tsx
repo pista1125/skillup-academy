@@ -3,6 +3,7 @@ import { GradeViewProps } from './types';
 import { SectionHeader } from '@/components/math/shared/SectionHeader';
 import { ActivityPlaceholder } from '@/components/math/shared/ActivityPlaceholder';
 import { MaterialGallery } from '@/components/math/shared/MaterialGallery';
+import { useQuizProgress } from '@/hooks/useQuizProgress';
 import {
   Activity,
   Binary,
@@ -35,6 +36,8 @@ export const Grade11View: React.FC<GradeViewProps> = ({
   onActivitySelect,
   onMaterialSelect,
 }) => {
+  const { getTopicProgress } = useQuizProgress();
+
   // Topic I: Trigonometria
   if (topicId === 'g11-trigonometria') {
     const showAll = !activeSubSectionId;
@@ -47,13 +50,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-trig-hegyesszog-tangense" number={1} title="Hegyesszög tangense" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A Tangens Fogalma és Meredekség"
-                subtitle="Szemközti és szomszédos befogó aránya derékszögű háromszögben"
-                type="Hamarosan"
-                emoji="📐"
-                disabled={true}
-                icon={<Calculator className="w-6 h-6" />}
+                title="Hegyesszög tangense Tananyag"
+                subtitle="A tangens fogalma, víztorony-magasság 30 m-ről, hasonló derékszögű háromszögek, tankönyvi táblázat, hiányzó befogók"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-trig-tangens-fogalma-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: tg α definíciója, befogók aránya, hiányzó oldalak, árnyék- és lejtőfeladatok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-trig-tangens-fogalma-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g11-trig-tangens-fogalma-quiz')}
               />
             </div>
           </section>
@@ -65,13 +78,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-trig-szamolas-tangenssel" number={2} title="Számolás szögek tangensével" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Szög és Oldalszámítás Tangenssel"
-                subtitle="Számológép használata, szög visszakeresése és hiányzó befogók"
-                type="Hamarosan"
-                emoji="🔢"
-                disabled={true}
-                icon={<Compass className="w-6 h-6" />}
+                title="Számolás tangenssel Tananyag"
+                subtitle="tan és tan⁻¹ a számológépen, DEG mód, fok–perc átváltás, mérési pontosság, lejtők %-ban, interpoláció"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-trig-tangens-szamolas-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="cyan"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: számológépes tangens és szög, hibahatárok, meredekség, RAD-csapda, lineáris interpoláció"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-trig-tangens-szamolas-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="cyan"
+                {...getTopicProgress('g11-trig-tangens-szamolas-quiz')}
               />
             </div>
           </section>
@@ -83,13 +106,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-trig-szinusz-koszinusz" number={3} title="Hegyesszög szinusza, koszinusza" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Szinusz és Koszinusz Definíciója"
-                subtitle="Befogók és átfogó aránya, értékkészlet a (0, 1) intervallumon"
-                type="Hamarosan"
-                emoji="📏"
-                disabled={true}
-                icon={<Binary className="w-6 h-6" />}
+                title="Hegyesszög szinusza, koszinusza Tananyag"
+                subtitle="Szinusz és koszinusz definíciója, számológép (sin⁻¹, cos⁻¹, DEG csapda), turistaút, téglalap átlója, egyenlő szárú háromszög"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-trig-szinusz-koszinusz-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: definíciók, hiányzó befogók és szögek, palló, létra, egyenlő szárú háromszög magasságai"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-trig-szinusz-koszinusz-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g11-trig-szinusz-koszinusz-quiz')}
               />
             </div>
           </section>
@@ -101,13 +134,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-trig-tulajdonsagok" number={4} title="A szögfüggvények tulajdonságai" color="purple" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Azonosságok és Nevezetes Szögek"
-                subtitle="sin²α + cos²α = 1, pótszögek és 30°, 45°, 60° pontos értékei"
-                type="Hamarosan"
-                emoji="✨"
-                disabled={true}
-                icon={<Split className="w-6 h-6" />}
+                title="A szögfüggvények tulajdonságai Tananyag"
+                subtitle="Nevezetes szögek (30°, 45°, 60°) pontos értékei, pótszögek, tg α = sin α / cos α, sin²α + cos²α = 1"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-trig-tulajdonsagok-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="purple"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: nevezetes értékek, azonosságok, Montserrat-felvonó, siklóernyő, Budavári Sikló, épületmagasság"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-trig-tulajdonsagok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="purple"
+                {...getTopicProgress('g11-trig-tulajdonsagok-quiz')}
               />
             </div>
           </section>
@@ -119,13 +162,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-trig-hosszusagok-szogek" number={5} title="Hosszúságok és szögek kiszámítása" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Derékszögű Háromszögek Megoldása"
-                subtitle="Oldalak és hegyesszögek kiszámítása két alapadatból"
-                type="Hamarosan"
+                title="Hosszúságok és szögek Tananyag"
+                subtitle="Derékszögű háromszögek keresése és megoldása síkidomokban és gyakorlati feladatokban – szinusz, koszinusz, tangens, kotangens"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-trig-derekszogu-megoldas-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
+                color="teal"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: szögfüggvények, kidolgozott feladatok, daru, Szabadság-szobor, kotangens"
+                type="Kvíz"
                 emoji="🎯"
-                disabled={true}
+                onClick={() => onActivitySelect('g11-trig-derekszogu-megoldas-quiz', topicId)}
                 icon={<Target className="w-6 h-6" />}
                 color="teal"
+                {...getTopicProgress('g11-trig-derekszogu-megoldas-quiz')}
               />
             </div>
           </section>
@@ -137,13 +190,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-trig-uj-teruletkeplet" number={6} title="Új területképlet" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Trigonometrikus Területszámítás"
-                subtitle="T = (a · b · sin γ) / 2 képlet és alkalmazása síkidomokban"
-                type="Hamarosan"
-                emoji="📐"
-                disabled={true}
-                icon={<Shapes className="w-6 h-6" />}
+                title="Új területképlet Tananyag"
+                subtitle="A háromszög és a paralelogramma területe két oldalból és a közbezárt szög szinuszából – T = ab·sin γ / 2"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-trig-teruletkeplet-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: területképlet, víztározó, húr és körcikk, deltoid, visszafelé számolás"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-trig-teruletkeplet-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g11-trig-teruletkeplet-quiz')}
               />
             </div>
           </section>
@@ -155,13 +218,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-trig-milyen-magas-a-torony" number={7} title="Ráadás – Milyen magas a torony?" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Közvetett Terepi Magasságmérés"
-                subtitle="Megközelíthetetlen alappontú objektumok magasságának számítása"
-                type="Hamarosan"
-                emoji="🗼"
-                disabled={true}
-                icon={<Building2 className="w-6 h-6" />}
+                title="Milyen magas a torony? Tananyag"
+                subtitle="Megközelíthetetlen talppontú torony magassága két mérésből – derékszögű háromszögek a térben"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-trig-torony-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: toronymérés, LED-lámpák, háztető, kocka és tetraéder"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-trig-torony-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g11-trig-torony-quiz')}
               />
             </div>
           </section>
@@ -173,13 +246,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-trig-tompaszog-szinusz" number={8} title="A tompaszög és a derékszög szinusza" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Szinusz Kiterjesztése és az Egységkör"
-                subtitle="Forgásszögek, sin(180° - α) = sin α és a pozitív szinusz"
-                type="Hamarosan"
-                emoji="⭕"
-                disabled={true}
-                icon={<Circle className="w-6 h-6" />}
+                title="A tompaszög szinusza Tananyag"
+                subtitle="sin γ = sin(180° − γ), sin 90° = 1: a T = ab·sin γ/2 területképlet minden háromszögre"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-trig-tompaszog-szinusz-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: területszámítás, szög visszakeresése a területből, két megoldás"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-trig-tompaszog-szinusz-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g11-trig-tompaszog-szinusz-quiz')}
               />
             </div>
           </section>
@@ -191,13 +274,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-trig-szinusztetel" number={9} title="A szinusztétel" color="red" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A Szinusztétel Alapjai"
-                subtitle="Oldalak és szemközti szögek szinuszának aránya és a 2R összefüggés"
-                type="Hamarosan"
-                emoji="⚡"
-                disabled={true}
-                icon={<Divide className="w-6 h-6" />}
+                title="A szinusztétel Tananyag"
+                subtitle="a / b = sin α / sin β – a pozsonyi Új Híd kábelétől a hajó távolságáig"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-trig-szinusztetel-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="red"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: a tétel, bizonyítása és alkalmazása oldalak kiszámítására"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-trig-szinusztetel-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="red"
+                {...getTopicProgress('g11-trig-szinusztetel-quiz')}
               />
             </div>
           </section>
@@ -209,13 +302,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-trig-alkalmazasok" number={10} title="Alkalmazások" color="orange" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Háromszögek Megoldása Szinusztétellel"
-                subtitle="Egy oldal és két szög, valamint a kétértelmű eset kivizsgálása"
-                type="Hamarosan"
-                emoji="🧠"
-                disabled={true}
-                icon={<Brain className="w-6 h-6" />}
+                title="A szinusztétel alkalmazásai Tananyag"
+                subtitle="Repülőgép, hegycsúcs, ferde torony – és amikor két háromszög is megfelel"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-trig-alkalmazasok-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="orange"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: távolság- és magasságmérés, 0, 1 vagy 2 megoldás"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-trig-alkalmazasok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="orange"
+                {...getTopicProgress('g11-trig-alkalmazasok-quiz')}
               />
             </div>
           </section>
@@ -227,13 +330,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-trig-tompaszog-koszinusz" number={11} title="A tompaszög és a derékszög koszinusza" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Tompaszögek Negatív Koszinusza"
-                subtitle="cos(180° - α) = -cos α és az egységkör koordinátái"
-                type="Hamarosan"
-                emoji="🔄"
-                disabled={true}
-                icon={<Circle className="w-6 h-6" />}
+                title="A tompaszög koszinusza Tananyag"
+                subtitle="Egységkör, a koszinusz előjele, cos(180° − α) = −cos α, cos 90° = 0"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-trig-tompaszog-koszinusz-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: egységkör, kiegészítő szögek, cos⁻¹, egyenlő szárú háromszögek"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-trig-tompaszog-koszinusz-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g11-trig-tompaszog-koszinusz-quiz')}
               />
             </div>
           </section>
@@ -245,13 +358,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-trig-koszinusztetel" number={12} title="A koszinusztétel" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A Koszinusztétel és Alkalmazása"
-                subtitle="Pitagorasz-tétel kiterjesztése, oldalak és szögek egyértelmű kiszámítása"
-                type="Hamarosan"
-                emoji="⚖️"
-                disabled={true}
-                icon={<Scale className="w-6 h-6" />}
+                title="A koszinusztétel Tananyag"
+                subtitle="c² = a² + b² − 2ab·cos γ – a Pitagorasz-tétel általánosítása; Bécs–Zágráb távolsága"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-trig-koszinusztetel-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: harmadik oldal, szögek három oldalból, paralelogramma átlói"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-trig-koszinusztetel-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="violet"
+                {...getTopicProgress('g11-trig-koszinusztetel-quiz')}
               />
             </div>
           </section>
@@ -263,13 +386,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-trig-sokszogek-szogfuggvenyek" number={13} title="Sokszögek és szögfüggvények" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Négyszögek és Általános Sokszögek"
-                subtitle="Átlók, belső szögek és területszámítás felbontással"
-                type="Hamarosan"
-                emoji="🔷"
-                disabled={true}
-                icon={<Boxes className="w-6 h-6" />}
+                title="Sokszögek és szögfüggvények Tananyag"
+                subtitle="Sokszögek felbontása háromszögekre, térképes feladatok és a tompaszög tangense"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-trig-sokszogek-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: tg tompaszögre, töltés és háromszög felbontása, Pécs–Budapest–Győr"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-trig-sokszogek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g11-trig-sokszogek-quiz')}
               />
             </div>
           </section>
@@ -281,13 +414,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-trig-kor-szabalyos-sokszogek" number={14} title="A kör és a szabályos sokszögek" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Szabályos Sokszögek Metrikája"
-                subtitle="Beírt és köré írt kör sugara, oldalhossz és határátmenet a körhöz"
-                type="Hamarosan"
-                emoji="⭕"
-                disabled={true}
-                icon={<Compass className="w-6 h-6" />}
+                title="A kör és a szabályos sokszögek Tananyag"
+                subtitle="Dísztárcsa, érme, terítő, cső: szabályos sokszögek oldala és területe, körív, körcikk, körszelet"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-trig-szabalyos-sokszogek-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: szabályos n-szög, körív, körcikk, körszelet"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-trig-szabalyos-sokszogek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="teal"
+                {...getTopicProgress('g11-trig-szabalyos-sokszogek-quiz')}
               />
             </div>
           </section>
@@ -299,13 +442,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-trig-csoportverseny" number={15} title="Csoportverseny" color="pink" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Kooperatív Trigonometriai Vetélkedő"
-                subtitle="Villámkérdések, tételválasztási stratégia és hibakeresés"
-                type="Hamarosan"
-                emoji="👥"
-                disabled={true}
-                icon={<Users className="w-6 h-6" />}
+                title="Csoportverseny Tananyag"
+                subtitle="Csapatverseny a trigonometria eszközeivel: 5 feladat, 5 betű, egy végeredmény"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-trig-csoportverseny-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="pink"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: versenyfeladatok, eszköztár, stratégia"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-trig-csoportverseny-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="pink"
+                {...getTopicProgress('g11-trig-csoportverseny-quiz')}
               />
             </div>
           </section>
@@ -317,13 +470,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-trig-tudasproba" number={16} title="Gyakorlás, tudáspróba" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Trigonometria Tudáspróba"
-                subtitle="Átfogó fejezeti számonkérés és érettségi típusú feladványok"
-                type="Hamarosan"
-                emoji="🏆"
-                disabled={true}
-                icon={<Trophy className="w-6 h-6" />}
+                title="Gyakorlás, tudáspróba Tananyag"
+                subtitle="A trigonometria fejezet összefoglalása: gyakorló feladatok, két tudáspróba, érettségi feladatok"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-trig-tudasproba-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz"
+                subtitle="90 feladat (szintenként 30) a teljes trigonometria fejezetből"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-trig-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g11-trig-tudasproba-quiz')}
               />
             </div>
           </section>
