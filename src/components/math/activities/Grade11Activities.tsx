@@ -108,6 +108,38 @@ const G11G11RationalIrrationalTheory = lazy(() => import("@/components/math/grad
 const G11G11RationalIrrationalQuiz = lazy(() => import("@/components/math/grade-11/szamelmelet/racionalis-irracionalis-szamok/G11RationalIrrationalQuiz").then(m => ({ default: m.G11RationalIrrationalQuiz })))
 const G11NumberTheoryPracticeExamTheory = lazy(() => import("@/components/math/grade-11/szamelmelet/gyakorlas-tudasproba/NumberTheoryPracticeExamTheory").then(m => ({ default: m.NumberTheoryPracticeExamTheory })))
 const G11NumberTheoryPracticeExamQuiz = lazy(() => import("@/components/math/grade-11/szamelmelet/gyakorlas-tudasproba/NumberTheoryPracticeExamQuiz").then(m => ({ default: m.NumberTheoryPracticeExamQuiz })))
+const G11DataStatisticsTheory = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/adatrendezes-statisztikai-jellemzok/DataStatisticsTheory").then(m => ({ default: m.DataStatisticsTheory })))
+const G11DataStatisticsQuiz = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/adatrendezes-statisztikai-jellemzok/DataStatisticsQuiz").then(m => ({ default: m.DataStatisticsQuiz })))
+const G11StatChartsTheory = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/diagramok/StatChartsTheory").then(m => ({ default: m.StatChartsTheory })))
+const G11StatChartsQuiz = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/diagramok/StatChartsQuiz").then(m => ({ default: m.StatChartsQuiz })))
+const G11BoxPlotTheory = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/a-dobozdiagram/BoxPlotTheory").then(m => ({ default: m.BoxPlotTheory })))
+const G11BoxPlotQuiz = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/a-dobozdiagram/BoxPlotQuiz").then(m => ({ default: m.BoxPlotQuiz })))
+const G11StandardDeviationTheory = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/adatsokasag-szorasa/StandardDeviationTheory").then(m => ({ default: m.StandardDeviationTheory })))
+const G11StandardDeviationQuiz = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/adatsokasag-szorasa/StandardDeviationQuiz").then(m => ({ default: m.StandardDeviationQuiz })))
+const G11StatCalculatorTheory = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/statisztikai-szamitasok-szamologep/StatCalculatorTheory").then(m => ({ default: m.StatCalculatorTheory })))
+const G11StatCalculatorQuiz = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/statisztikai-szamitasok-szamologep/StatCalculatorQuiz").then(m => ({ default: m.StatCalculatorQuiz })))
+const G11StatisticsPracticeTheory = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/gyakorlas-statisztika/StatisticsPracticeTheory").then(m => ({ default: m.StatisticsPracticeTheory })))
+const G11StatisticsPracticeQuiz = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/gyakorlas-statisztika/StatisticsPracticeQuiz").then(m => ({ default: m.StatisticsPracticeQuiz })))
+const G11ProbabilityReviewTheory = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/valoszinuseg-ismetles/ProbabilityReviewTheory").then(m => ({ default: m.ProbabilityReviewTheory })))
+const G11ProbabilityReviewQuiz = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/valoszinuseg-ismetles/ProbabilityReviewQuiz").then(m => ({ default: m.ProbabilityReviewQuiz })))
+const G11ProbabilityBonusPracticeTheory = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/raadas-gyakorlas/ProbabilityBonusPracticeTheory").then(m => ({ default: m.ProbabilityBonusPracticeTheory })))
+const G11ProbabilityBonusPracticeQuiz = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/raadas-gyakorlas/ProbabilityBonusPracticeQuiz").then(m => ({ default: m.ProbabilityBonusPracticeQuiz })))
+const G11ExpectedValueTheory = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/varhato-ertek/ExpectedValueTheory").then(m => ({ default: m.ExpectedValueTheory })))
+const G11ExpectedValueQuiz = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/varhato-ertek/ExpectedValueQuiz").then(m => ({ default: m.ExpectedValueQuiz })))
+const G11SimultaneousDrawTheory = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/ket-vagy-tobb-elem-egyszerre/SimultaneousDrawTheory").then(m => ({ default: m.SimultaneousDrawTheory })))
+const G11SimultaneousDrawQuiz = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/ket-vagy-tobb-elem-egyszerre/SimultaneousDrawQuiz").then(m => ({ default: m.SimultaneousDrawQuiz })))
+const G11SamplingWithoutReplacementTheory = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/visszateves-nelkuli-mintavetel/SamplingWithoutReplacementTheory").then(m => ({ default: m.SamplingWithoutReplacementTheory })))
+const G11SamplingWithoutReplacementQuiz = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/visszateves-nelkuli-mintavetel/SamplingWithoutReplacementQuiz").then(m => ({ default: m.SamplingWithoutReplacementQuiz })))
+const G11RepeatedTrialsTheory = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/ugyanazt-tobbszor/RepeatedTrialsTheory").then(m => ({ default: m.RepeatedTrialsTheory })))
+const G11RepeatedTrialsQuiz = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/ugyanazt-tobbszor/RepeatedTrialsQuiz").then(m => ({ default: m.RepeatedTrialsQuiz })))
+const G11SamplingWithReplacementTheory = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/visszateveses-mintavetel/SamplingWithReplacementTheory").then(m => ({ default: m.SamplingWithReplacementTheory })))
+const G11SamplingWithReplacementQuiz = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/visszateveses-mintavetel/SamplingWithReplacementQuiz").then(m => ({ default: m.SamplingWithReplacementQuiz })))
+const G11ProbabilityPracticeTheory = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/gyakorlas-valoszinuseg/ProbabilityPracticeTheory").then(m => ({ default: m.ProbabilityPracticeTheory })))
+const G11ProbabilityPracticeQuiz = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/gyakorlas-valoszinuseg/ProbabilityPracticeQuiz").then(m => ({ default: m.ProbabilityPracticeQuiz })))
+const G11ReplacementComparisonTheory = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/visszatevessel-vagy-anelkul/ReplacementComparisonTheory").then(m => ({ default: m.ReplacementComparisonTheory })))
+const G11ReplacementComparisonQuiz = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/visszatevessel-vagy-anelkul/ReplacementComparisonQuiz").then(m => ({ default: m.ReplacementComparisonQuiz })))
+const G11StatProbPracticeExamTheory = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/gyakorlas-tudasproba/StatProbPracticeExamTheory").then(m => ({ default: m.StatProbPracticeExamTheory })))
+const G11StatProbPracticeExamQuiz = lazy(() => import("@/components/math/grade-11/statisztika-valoszinusegszamitas/gyakorlas-tudasproba/StatProbPracticeExamQuiz").then(m => ({ default: m.StatProbPracticeExamQuiz })))
 
 export const Grade11Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -1929,6 +1961,552 @@ export const Grade11Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g11-num-tudasproba-theory', selectedTopic || 'g11-szamelmelet')}
           onSwitchToMatcher={() => handleActivitySelect('g11-num-tudasproba-matcher', selectedTopic || 'g11-szamelmelet')}
           onSwitchToSorter={() => handleActivitySelect('g11-num-tudasproba-sorter', selectedTopic || 'g11-szamelmelet')}
+        />
+      )}
+
+      {/* ===== 11. Osztály – V. Statisztika és valószínűségszámítás ===== */}
+
+      {/* 1. Adatrendezés – statisztikai jellemzők */}
+      {activityType === 'g11-stat-adatrendezes-theory' && (
+        <G11DataStatisticsTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-stat-adatrendezes-quiz', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-adatrendezes-quiz' && (
+        <G11DataStatisticsQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-adatrendezes-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-adatrendezes-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-adatrendezes-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-adatrendezes-matcher' && (
+        <G11DataStatisticsQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-adatrendezes-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-adatrendezes-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-adatrendezes-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-adatrendezes-sorter' && (
+        <G11DataStatisticsQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-adatrendezes-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-adatrendezes-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-adatrendezes-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+
+      {/* 2. Diagramok */}
+      {activityType === 'g11-stat-diagramok-theory' && (
+        <G11StatChartsTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-stat-diagramok-quiz', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-diagramok-quiz' && (
+        <G11StatChartsQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-diagramok-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-diagramok-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-diagramok-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-diagramok-matcher' && (
+        <G11StatChartsQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-diagramok-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-diagramok-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-diagramok-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-diagramok-sorter' && (
+        <G11StatChartsQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-diagramok-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-diagramok-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-diagramok-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+
+      {/* 3. A dobozdiagram */}
+      {activityType === 'g11-stat-dobozdiagram-theory' && (
+        <G11BoxPlotTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-stat-dobozdiagram-quiz', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-dobozdiagram-quiz' && (
+        <G11BoxPlotQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-dobozdiagram-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-dobozdiagram-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-dobozdiagram-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-dobozdiagram-matcher' && (
+        <G11BoxPlotQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-dobozdiagram-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-dobozdiagram-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-dobozdiagram-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-dobozdiagram-sorter' && (
+        <G11BoxPlotQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-dobozdiagram-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-dobozdiagram-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-dobozdiagram-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+
+      {/* 4. Adatsokaság szórása */}
+      {activityType === 'g11-stat-szoras-theory' && (
+        <G11StandardDeviationTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-stat-szoras-quiz', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-szoras-quiz' && (
+        <G11StandardDeviationQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-szoras-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-szoras-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-szoras-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-szoras-matcher' && (
+        <G11StandardDeviationQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-szoras-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-szoras-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-szoras-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-szoras-sorter' && (
+        <G11StandardDeviationQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-szoras-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-szoras-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-szoras-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+
+      {/* Ráadás – Statisztikai számítások számológéppel */}
+      {activityType === 'g11-stat-szamologep-theory' && (
+        <G11StatCalculatorTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-stat-szamologep-quiz', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-szamologep-quiz' && (
+        <G11StatCalculatorQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-szamologep-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-szamologep-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-szamologep-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-szamologep-matcher' && (
+        <G11StatCalculatorQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-szamologep-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-szamologep-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-szamologep-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-szamologep-sorter' && (
+        <G11StatCalculatorQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-szamologep-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-szamologep-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-szamologep-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+
+      {/* 6. Gyakorlás */}
+      {activityType === 'g11-stat-statisztika-gyakorlas-theory' && (
+        <G11StatisticsPracticeTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-stat-statisztika-gyakorlas-quiz', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-statisztika-gyakorlas-quiz' && (
+        <G11StatisticsPracticeQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-statisztika-gyakorlas-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-statisztika-gyakorlas-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-statisztika-gyakorlas-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-statisztika-gyakorlas-matcher' && (
+        <G11StatisticsPracticeQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-statisztika-gyakorlas-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-statisztika-gyakorlas-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-statisztika-gyakorlas-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-statisztika-gyakorlas-sorter' && (
+        <G11StatisticsPracticeQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-statisztika-gyakorlas-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-statisztika-gyakorlas-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-statisztika-gyakorlas-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+
+      {/* 7. Valószínűség – ismétlés */}
+      {activityType === 'g11-stat-valoszinuseg-ismetles-theory' && (
+        <G11ProbabilityReviewTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-stat-valoszinuseg-ismetles-quiz', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-valoszinuseg-ismetles-quiz' && (
+        <G11ProbabilityReviewQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-valoszinuseg-ismetles-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-valoszinuseg-ismetles-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-valoszinuseg-ismetles-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-valoszinuseg-ismetles-matcher' && (
+        <G11ProbabilityReviewQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-valoszinuseg-ismetles-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-valoszinuseg-ismetles-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-valoszinuseg-ismetles-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-valoszinuseg-ismetles-sorter' && (
+        <G11ProbabilityReviewQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-valoszinuseg-ismetles-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-valoszinuseg-ismetles-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-valoszinuseg-ismetles-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+
+      {/* Ráadás – Gyakorlás */}
+      {activityType === 'g11-stat-raadas-gyakorlas-theory' && (
+        <G11ProbabilityBonusPracticeTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-stat-raadas-gyakorlas-quiz', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-raadas-gyakorlas-quiz' && (
+        <G11ProbabilityBonusPracticeQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-raadas-gyakorlas-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-raadas-gyakorlas-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-raadas-gyakorlas-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-raadas-gyakorlas-matcher' && (
+        <G11ProbabilityBonusPracticeQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-raadas-gyakorlas-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-raadas-gyakorlas-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-raadas-gyakorlas-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-raadas-gyakorlas-sorter' && (
+        <G11ProbabilityBonusPracticeQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-raadas-gyakorlas-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-raadas-gyakorlas-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-raadas-gyakorlas-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+
+      {/* 9. Várható érték */}
+      {activityType === 'g11-stat-varhato-ertek-theory' && (
+        <G11ExpectedValueTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-stat-varhato-ertek-quiz', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-varhato-ertek-quiz' && (
+        <G11ExpectedValueQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-varhato-ertek-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-varhato-ertek-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-varhato-ertek-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-varhato-ertek-matcher' && (
+        <G11ExpectedValueQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-varhato-ertek-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-varhato-ertek-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-varhato-ertek-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-varhato-ertek-sorter' && (
+        <G11ExpectedValueQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-varhato-ertek-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-varhato-ertek-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-varhato-ertek-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+
+      {/* 10. Két vagy több elemet húzunk egyszerre */}
+      {activityType === 'g11-stat-egyszerre-huzas-theory' && (
+        <G11SimultaneousDrawTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-stat-egyszerre-huzas-quiz', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-egyszerre-huzas-quiz' && (
+        <G11SimultaneousDrawQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-egyszerre-huzas-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-egyszerre-huzas-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-egyszerre-huzas-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-egyszerre-huzas-matcher' && (
+        <G11SimultaneousDrawQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-egyszerre-huzas-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-egyszerre-huzas-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-egyszerre-huzas-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-egyszerre-huzas-sorter' && (
+        <G11SimultaneousDrawQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-egyszerre-huzas-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-egyszerre-huzas-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-egyszerre-huzas-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+
+      {/* 11. Visszatevés nélküli mintavétel */}
+      {activityType === 'g11-stat-visszateves-nelkul-theory' && (
+        <G11SamplingWithoutReplacementTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-stat-visszateves-nelkul-quiz', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-visszateves-nelkul-quiz' && (
+        <G11SamplingWithoutReplacementQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-visszateves-nelkul-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-visszateves-nelkul-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-visszateves-nelkul-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-visszateves-nelkul-matcher' && (
+        <G11SamplingWithoutReplacementQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-visszateves-nelkul-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-visszateves-nelkul-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-visszateves-nelkul-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-visszateves-nelkul-sorter' && (
+        <G11SamplingWithoutReplacementQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-visszateves-nelkul-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-visszateves-nelkul-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-visszateves-nelkul-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+
+      {/* 12. Ugyanazt többször */}
+      {activityType === 'g11-stat-bernoulli-theory' && (
+        <G11RepeatedTrialsTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-stat-bernoulli-quiz', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-bernoulli-quiz' && (
+        <G11RepeatedTrialsQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-bernoulli-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-bernoulli-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-bernoulli-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-bernoulli-matcher' && (
+        <G11RepeatedTrialsQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-bernoulli-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-bernoulli-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-bernoulli-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-bernoulli-sorter' && (
+        <G11RepeatedTrialsQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-bernoulli-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-bernoulli-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-bernoulli-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+
+      {/* 13. Visszatevéses mintavétel */}
+      {activityType === 'g11-stat-visszateveses-theory' && (
+        <G11SamplingWithReplacementTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-stat-visszateveses-quiz', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-visszateveses-quiz' && (
+        <G11SamplingWithReplacementQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-visszateveses-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-visszateveses-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-visszateveses-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-visszateveses-matcher' && (
+        <G11SamplingWithReplacementQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-visszateveses-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-visszateveses-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-visszateveses-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-visszateveses-sorter' && (
+        <G11SamplingWithReplacementQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-visszateveses-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-visszateveses-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-visszateveses-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+
+      {/* 14. Gyakorlás */}
+      {activityType === 'g11-stat-valoszinuseg-gyakorlas-theory' && (
+        <G11ProbabilityPracticeTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-stat-valoszinuseg-gyakorlas-quiz', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-valoszinuseg-gyakorlas-quiz' && (
+        <G11ProbabilityPracticeQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-valoszinuseg-gyakorlas-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-valoszinuseg-gyakorlas-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-valoszinuseg-gyakorlas-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-valoszinuseg-gyakorlas-matcher' && (
+        <G11ProbabilityPracticeQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-valoszinuseg-gyakorlas-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-valoszinuseg-gyakorlas-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-valoszinuseg-gyakorlas-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-valoszinuseg-gyakorlas-sorter' && (
+        <G11ProbabilityPracticeQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-valoszinuseg-gyakorlas-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-valoszinuseg-gyakorlas-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-valoszinuseg-gyakorlas-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+
+      {/* Ráadás – Visszatevéssel vagy anélkül? */}
+      {activityType === 'g11-stat-visszatevessel-vagy-anelkul-theory' && (
+        <G11ReplacementComparisonTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-stat-visszatevessel-vagy-anelkul-quiz', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-visszatevessel-vagy-anelkul-quiz' && (
+        <G11ReplacementComparisonQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-visszatevessel-vagy-anelkul-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-visszatevessel-vagy-anelkul-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-visszatevessel-vagy-anelkul-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-visszatevessel-vagy-anelkul-matcher' && (
+        <G11ReplacementComparisonQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-visszatevessel-vagy-anelkul-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-visszatevessel-vagy-anelkul-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-visszatevessel-vagy-anelkul-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-visszatevessel-vagy-anelkul-sorter' && (
+        <G11ReplacementComparisonQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-visszatevessel-vagy-anelkul-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-visszatevessel-vagy-anelkul-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-visszatevessel-vagy-anelkul-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+
+      {/* 16. Gyakorlás, tudáspróba */}
+      {activityType === 'g11-stat-tudasproba-theory' && (
+        <G11StatProbPracticeExamTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g11-stat-tudasproba-quiz', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-tudasproba-quiz' && (
+        <G11StatProbPracticeExamQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-tudasproba-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-tudasproba-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-tudasproba-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-tudasproba-matcher' && (
+        <G11StatProbPracticeExamQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-tudasproba-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-tudasproba-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-tudasproba-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g11-stat-tudasproba-sorter' && (
+        <G11StatProbPracticeExamQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g11-stat-tudasproba-theory', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g11-stat-tudasproba-matcher', selectedTopic || 'g11-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g11-stat-tudasproba-sorter', selectedTopic || 'g11-statisztika-valoszinuseg')}
         />
       )}
     </>

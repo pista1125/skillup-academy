@@ -1571,13 +1571,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-stat-adatrendezes" number={1} title="Adatrendezés – statisztikai jellemzők" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Gyakoriság és Középértékek"
-                subtitle="Átlag, medián, módusz, terjedelem és relatív gyakorisági táblázatok"
-                type="Hamarosan"
-                emoji="📊"
-                disabled={true}
-                icon={<TrendingUp className="w-6 h-6" />}
+                title="Adatrendezés Tananyag"
+                subtitle="Átlag, módusz, medián, terjedelem – melyik középérték a legjellemzőbb?"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-stat-adatrendezes-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="cyan"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat oszlop- és pontdiagramokkal: középértékek, terjedelem, súlyozott átlag"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-stat-adatrendezes-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="cyan"
+                {...getTopicProgress('g11-stat-adatrendezes-quiz')}
               />
             </div>
           </section>
@@ -1589,13 +1599,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-stat-diagramok" number={2} title="Diagramok" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Diagramtípusok és Ábrázolás"
-                subtitle="Oszlop-, sáv-, kör- és vonaldiagramok, középponti szögek és hisztogram"
-                type="Hamarosan"
-                emoji="📈"
-                disabled={true}
-                icon={<Activity className="w-6 h-6" />}
+                title="Diagramok Tananyag"
+                subtitle="Oszlop-, kör-, sáv- és vonaldiagram olvasása, középponti szögek, súlyozott átlag"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-stat-diagramok-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 diagramos feladat: leolvasás, középponti szög, súlyozott átlag, félrevezető diagramok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-stat-diagramok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g11-stat-diagramok-quiz')}
               />
             </div>
           </section>
@@ -1607,13 +1627,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-stat-dobozdiagram" number={3} title="A dobozdiagram" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="5 Számos Összefoglaló és Box Plot"
-                subtitle="Minimum, Q1, medián, Q3, maximum, kvartilisterjedelem és eloszlás"
-                type="Hamarosan"
-                emoji="📦"
-                disabled={true}
-                icon={<Boxes className="w-6 h-6" />}
+                title="A dobozdiagram Tananyag"
+                subtitle="Kvartilisek, terjedelem, félterjedelem és kiugró adatok – húzható adatpontokkal, élő dobozdiagrammal"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-stat-dobozdiagram-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: kvartilisek, dobozdiagramok leolvasása és összehasonlítása, kiugró adatok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-stat-dobozdiagram-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g11-stat-dobozdiagram-quiz')}
               />
             </div>
           </section>
@@ -1625,13 +1655,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-stat-szoras" number={4} title="Adatsokaság szórása" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Variancia és Szórás"
-                subtitle="Átlagtól való négyzetes eltérések, tapasztalati szórás és homogenitás"
-                type="Hamarosan"
-                emoji="📏"
-                disabled={true}
-                icon={<Scale className="w-6 h-6" />}
+                title="Adatsokaság szórása Tananyag"
+                subtitle="Szórásnégyzet és szórás lépésről lépésre, gyakorisági táblázattal – húzható adatokkal"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-stat-szoras-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: szórás kiszámítása, eltolás és nagyítás hatása, értelmezés"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-stat-szoras-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="violet"
+                {...getTopicProgress('g11-stat-szoras-quiz')}
               />
             </div>
           </section>
@@ -1643,13 +1683,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-stat-szamologep" number={5} title="Ráadás – Statisztikai számítások számológéppel" color="purple" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Zsebszámológép és Táblázatkezelő"
-                subtitle="STAT mód használata, adatsor bevitele, szórás és átlag lekérdezése"
-                type="Hamarosan"
-                emoji="🖩"
-                disabled={true}
-                icon={<Calculator className="w-6 h-6" />}
+                title="Statisztika számológéppel Tananyag"
+                subtitle="Átlag, szórás, kvartilisek a számológép statisztika üzemmódjában; σx vagy sx? – mit fogad el az érettségi"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-stat-szamologep-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="purple"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: kijelző leolvasása, gyakoriságok bevitele, torzított és torzítatlan szórás"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-stat-szamologep-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="purple"
+                {...getTopicProgress('g11-stat-szamologep-quiz')}
               />
             </div>
           </section>
@@ -1661,13 +1711,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-stat-gyakorlas-1" number={6} title="Gyakorlás" color="pink" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Leíró Statisztikai Gyakorlatok"
-                subtitle="Hiányzó adatok visszaszámolása átlagból és diagramok elemzése"
-                type="Hamarosan"
+                title="Gyakorlás – statisztika Tananyag"
+                subtitle="Statisztikai összefoglaló érettségi feladatokkal: kördiagram, kvartilisek, dobozdiagram, szórás"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-stat-statisztika-gyakorlas-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
+                color="pink"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 vegyes statisztikai feladat 3 szinten"
+                type="Kvíz"
                 emoji="🎯"
-                disabled={true}
+                onClick={() => onActivitySelect('g11-stat-statisztika-gyakorlas-quiz', topicId)}
                 icon={<Target className="w-6 h-6" />}
                 color="pink"
+                {...getTopicProgress('g11-stat-statisztika-gyakorlas-quiz')}
               />
             </div>
           </section>
@@ -1679,13 +1739,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-stat-valoszinuseg-ismetles" number={7} title="Valószínűség – ismétlés" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A Klasszikus Valószínűségi Modell"
-                subtitle="Kedvező/összes esetek, komplementer esemény és összeadási szabály"
-                type="Hamarosan"
-                emoji="🎲"
-                disabled={true}
-                icon={<Divide className="w-6 h-6" />}
+                title="Valószínűség – ismétlés Tananyag"
+                subtitle="Klasszikus valószínűség, komplementer esemény, két kocka 6 × 6-os táblázata, relatív gyakoriság – kocka- és érmeszimulátor"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-stat-valoszinuseg-ismetles-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: kocka, érme, két kocka, Venn-diagram"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-stat-valoszinuseg-ismetles-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g11-stat-valoszinuseg-ismetles-quiz')}
               />
             </div>
           </section>
@@ -1697,13 +1767,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-stat-raadas-gyakorlas" number={8} title="Ráadás – Gyakorlás" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Kombinatorikus és Geometriai Valószínűség"
-                subtitle="Összetett eseményterek, találkozási probléma és geometriai arányok"
-                type="Hamarosan"
-                emoji="✨"
-                disabled={true}
-                icon={<Compass className="w-6 h-6" />}
+                title="Ráadás – Gyakorlás Tananyag"
+                subtitle="Vívók, védekező erő két kockával, dominók, sorban állás – és célba dobás"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-stat-raadas-gyakorlas-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 valószínűségi feladat 3 szinten"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-stat-raadas-gyakorlas-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g11-stat-raadas-gyakorlas-quiz')}
               />
             </div>
           </section>
@@ -1715,13 +1795,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-stat-varhato-ertek" number={9} title="Várható érték" color="yellow" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Diszkrét Változók és Várható Érték"
-                subtitle="Valószínűségi eloszlás, E(X) = ∑ xi·pi és méltányos játékok vizsgálata"
-                type="Hamarosan"
-                emoji="💰"
-                disabled={true}
-                icon={<Building2 className="w-6 h-6" />}
+                title="Várható érték Tananyag"
+                subtitle="A kimenetelek valószínűségekkel súlyozott átlaga: sorsjegyek, tombolák és a méltányos játék"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-stat-varhato-ertek-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="yellow"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: eloszlástáblázat, várható érték, igazságos játékok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-stat-varhato-ertek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="yellow"
+                {...getTopicProgress('g11-stat-varhato-ertek-quiz')}
               />
             </div>
           </section>
@@ -1733,13 +1823,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-stat-tobb-elem-egyszerre" number={10} title="Két vagy több elemet húzunk egyszerre" color="lime" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Egyidejű Húzások Valószínűsége"
-                subtitle="Kombinációkkal való számítás, lottó és kártyaesélyek kalkulációja"
-                type="Hamarosan"
-                emoji="🃏"
-                disabled={true}
-                icon={<Boxes className="w-6 h-6" />}
+                title="Egyszerre húzás Tananyag"
+                subtitle="Binomiális együtthatók és urnamodell: lottó, kártyák, könyvek"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-stat-egyszerre-huzas-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="lime"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: n alatt k, mind a csoportból, lottó"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-stat-egyszerre-huzas-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="lime"
+                {...getTopicProgress('g11-stat-egyszerre-huzas-quiz')}
               />
             </div>
           </section>
@@ -1751,13 +1851,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-stat-visszateves-nelkul" number={11} title="Visszatevés nélküli mintavétel" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Hipergeometrikus Modell és Fa-diagram"
-                subtitle="Egymás utáni húzások, feltételes valószínűség és szorzási szabály"
-                type="Hamarosan"
-                emoji="🌳"
-                disabled={true}
-                icon={<Split className="w-6 h-6" />}
+                title="Visszatevés nélküli mintavétel Tananyag"
+                subtitle="Pontosan hány „jó” elem lesz a mintában? Kombinációk és valószínűségi fa"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-stat-visszateves-nelkul-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: pontosan j elem, valószínűségi fa, Aranycsapat, lottó"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-stat-visszateves-nelkul-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g11-stat-visszateves-nelkul-quiz')}
               />
             </div>
           </section>
@@ -1769,13 +1879,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-stat-ugyanazt-tobbszor" number={12} title="Ugyanazt többször" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Független Bernoulli-kísérletek"
-                subtitle="Ismételt próbák, binomiális eloszlás P(X=k) = (n alatt k)·p^k·(1-p)^(n-k)"
-                type="Hamarosan"
-                emoji="🔄"
-                disabled={true}
-                icon={<Shuffle className="w-6 h-6" />}
+                title="Ugyanazt többször Tananyag"
+                subtitle="Független kísérletek ismétlése: szorzási szabály, pⁿ, pontosan egyszer, első siker, fagráf – binomiális oszlopdiagram"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-stat-bernoulli-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: független kísérletek, pontosan egyszer, első hatos, kígyós fagráf"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-stat-bernoulli-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="teal"
+                {...getTopicProgress('g11-stat-bernoulli-quiz')}
               />
             </div>
           </section>
@@ -1787,13 +1907,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-stat-visszateveses" number={13} title="Visszatevéses mintavétel" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Állandó Valószínűségű Mintavétel"
-                subtitle="Binomiális eloszlás várható értéke (n·p) és szórása gyök(n·p·q)"
-                type="Hamarosan"
-                emoji="🔁"
-                disabled={true}
-                icon={<Binary className="w-6 h-6" />}
+                title="Visszatevéses mintavétel Tananyag"
+                subtitle="Visszatevéses húzás és a binomiális eloszlás: (n alatt k) · pᵏ · (1 − p)ⁿ⁻ᵏ"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-stat-visszateveses-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="cyan"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: binomiális együttható, Ferkó lövései, rulett, selejtarány"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-stat-visszateveses-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="cyan"
+                {...getTopicProgress('g11-stat-visszateveses-quiz')}
               />
             </div>
           </section>
@@ -1805,13 +1935,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-stat-gyakorlas-2" number={14} title="Gyakorlás" color="sky" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Összetett Valószínűségi Feladatok"
-                subtitle="Visszatevéses vs visszatevés nélküli modellek és 'legalább egy' kérdések"
-                type="Hamarosan"
-                emoji="🧠"
-                disabled={true}
-                icon={<Brain className="w-6 h-6" />}
+                title="Gyakorlás – valószínűség Tananyag"
+                subtitle="Valószínűség összefoglaló: legalább, legfeljebb, komplementer, binomiális eloszlás, érettségi feladat"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-stat-valoszinuseg-gyakorlas-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="sky"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 vegyes feladat 3 szinten a valószínűségszámításból"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-stat-valoszinuseg-gyakorlas-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="sky"
+                {...getTopicProgress('g11-stat-valoszinuseg-gyakorlas-quiz')}
               />
             </div>
           </section>
@@ -1823,13 +1963,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-stat-visszatevessel-vagy-anelkul" number={15} title="Ráadás – Visszatevéssel vagy anélkül?" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Modellek Összehasonlítása és Közelítés"
-                subtitle="Mikor helyettesíthető a hipergeometrikus eloszlás binomiálissal nagy sokaságnál"
-                type="Hamarosan"
-                emoji="⚖️"
-                disabled={true}
-                icon={<Scale className="w-6 h-6" />}
+                title="Visszatevéssel vagy anélkül? Tananyag"
+                subtitle="Binomiális vagy visszatevés nélküli modell? Mikor mindegy, melyiket választjuk – szimulációval"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-stat-visszatevessel-vagy-anelkul-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: modellválasztás, a két mintavétel összehasonlítása"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-stat-visszatevessel-vagy-anelkul-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g11-stat-visszatevessel-vagy-anelkul-quiz')}
               />
             </div>
           </section>
@@ -1841,13 +1991,23 @@ export const Grade11View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g11-sec-stat-tudasproba" number={16} title="Gyakorlás, tudáspróba" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Statisztika és Valószínűség Tudáspróba"
-                subtitle="Átfogó fejezeti számonkérés és érettségi típusú feladatsor"
-                type="Hamarosan"
-                emoji="🏆"
-                disabled={true}
-                icon={<Trophy className="w-6 h-6" />}
+                title="Gyakorlás, tudáspróba Tananyag"
+                subtitle="A teljes V. témakör összefoglalása érettségi típusú feladatokkal és tudáspróbával"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g11-stat-tudasproba-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz"
+                subtitle="90 feladat (szintenként 30) a statisztika és a valószínűségszámítás teljes anyagából"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g11-stat-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g11-stat-tudasproba-quiz')}
               />
             </div>
           </section>
