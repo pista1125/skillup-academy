@@ -210,17 +210,20 @@ export const RhythmPatternsTheory: React.FC<RhythmPatternsTheoryProps> = ({
                 const baseElem = selectedMotifs[i % selectedMotifs.length];
                 const blockNum = Math.floor(i / selectedMotifs.length);
 
-                let transformStyle = '';
+                let transform: string | undefined;
                 if (transformType === 'reflect' && blockNum % 2 === 1) {
-                  transformStyle = 'scale-x-[-1]';
+                  transform = 'scaleX(-1)';
                 } else if (transformType === 'rotate') {
                   const deg = (i % 4) * 90;
-                  transformStyle = `rotate-[${deg}deg]`;
+                  transform = `rotate(${deg}deg)`;
                 }
 
                 return (
                   <div key={i} className="flex flex-col items-center">
-                    <div className={`w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-sm shadow-sm transition-transform ${transformStyle}`}>
+                    <div
+                      className="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-sm shadow-sm transition-transform"
+                      style={transform ? { transform } : undefined}
+                    >
                       {baseElem}
                     </div>
                     <span className="text-[9px] font-mono text-slate-400 mt-1">{i + 1}.</span>
