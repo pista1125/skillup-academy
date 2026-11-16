@@ -105,6 +105,18 @@ const G4MulRelationsTheory = lazy(() => import("@/components/math/grade-4/irasbe
 const G4MulRelationsQuiz = lazy(() => import("@/components/math/grade-4/irasbeli-szorzas/osszefuggesek-kovetkeztetesek/MulRelationsQuiz").then(m => ({ default: m.MulRelationsQuiz })));
 const G4WrittenMultExamTheory = lazy(() => import("@/components/math/grade-4/irasbeli-szorzas/gyakorlas-tudasproba/WrittenMultExamTheory").then(m => ({ default: m.WrittenMultExamTheory })));
 const G4WrittenMultExamQuiz = lazy(() => import("@/components/math/grade-4/irasbeli-szorzas/gyakorlas-tudasproba/WrittenMultExamQuiz").then(m => ({ default: m.WrittenMultExamQuiz })));
+const G4FractionIntro4Theory = lazy(() => import("@/components/math/grade-4/tortszamok/tortresz-tortek-ertelmezese/FractionIntro4Theory").then(m => ({ default: m.FractionIntro4Theory })));
+const G4FractionIntro4Quiz = lazy(() => import("@/components/math/grade-4/tortszamok/tortresz-tortek-ertelmezese/FractionIntro4Quiz").then(m => ({ default: m.FractionIntro4Quiz })));
+const G4ProperFractionsTheory = lazy(() => import("@/components/math/grade-4/tortszamok/egynel-kisebb-tortek/ProperFractionsTheory").then(m => ({ default: m.ProperFractionsTheory })));
+const G4ProperFractionsQuiz = lazy(() => import("@/components/math/grade-4/tortszamok/egynel-kisebb-tortek/ProperFractionsQuiz").then(m => ({ default: m.ProperFractionsQuiz })));
+const G4ImproperFractionsTheory = lazy(() => import("@/components/math/grade-4/tortszamok/egynel-nagyobb-tortek/ImproperFractionsTheory").then(m => ({ default: m.ImproperFractionsTheory })));
+const G4ImproperFractionsQuiz = lazy(() => import("@/components/math/grade-4/tortszamok/egynel-nagyobb-tortek/ImproperFractionsQuiz").then(m => ({ default: m.ImproperFractionsQuiz })));
+const G4FractionCompare4Theory = lazy(() => import("@/components/math/grade-4/tortszamok/tortek-osszehasonlitasa/FractionCompare4Theory").then(m => ({ default: m.FractionCompare4Theory })));
+const G4FractionCompare4Quiz = lazy(() => import("@/components/math/grade-4/tortszamok/tortek-osszehasonlitasa/FractionCompare4Quiz").then(m => ({ default: m.FractionCompare4Quiz })));
+const G4FractionOfAmountTheory = lazy(() => import("@/components/math/grade-4/tortszamok/tortresz-szamitasa/FractionOfAmountTheory").then(m => ({ default: m.FractionOfAmountTheory })));
+const G4FractionOfAmountQuiz = lazy(() => import("@/components/math/grade-4/tortszamok/tortresz-szamitasa/FractionOfAmountQuiz").then(m => ({ default: m.FractionOfAmountQuiz })));
+const G4FractionsExamTheory = lazy(() => import("@/components/math/grade-4/tortszamok/gyakorlas-tudasproba/FractionsExamTheory").then(m => ({ default: m.FractionsExamTheory })));
+const G4FractionsExamQuiz = lazy(() => import("@/components/math/grade-4/tortszamok/gyakorlas-tudasproba/FractionsExamQuiz").then(m => ({ default: m.FractionsExamQuiz })));
 
 export const Grade4Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -1864,6 +1876,212 @@ export const Grade4Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g4-wmult-tudasproba-theory', selectedTopic || 'g4-written-mult')}
           onSwitchToMatcher={() => handleActivitySelect('g4-wmult-tudasproba-matcher', selectedTopic || 'g4-written-mult')}
           onSwitchToSorter={() => handleActivitySelect('g4-wmult-tudasproba-sorter', selectedTopic || 'g4-written-mult')}
+        />
+      )}
+
+      {/* ===== 4. Osztály – VIII. A törtszámok ===== */}
+
+      {/* 1. A törtrész és a törtek értelmezése */}
+      {activityType === 'g4-frac-ertelmezes-theory' && (
+        <G4FractionIntro4Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-frac-ertelmezes-quiz', selectedTopic || 'g4-fractions')}
+        />
+      )}
+      {activityType === 'g4-frac-ertelmezes-quiz' && (
+        <G4FractionIntro4Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-frac-ertelmezes-theory', selectedTopic || 'g4-fractions')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-frac-ertelmezes-matcher', selectedTopic || 'g4-fractions')}
+          onSwitchToSorter={() => handleActivitySelect('g4-frac-ertelmezes-sorter', selectedTopic || 'g4-fractions')}
+        />
+      )}
+      {activityType === 'g4-frac-ertelmezes-matcher' && (
+        <G4FractionIntro4Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-frac-ertelmezes-theory', selectedTopic || 'g4-fractions')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-frac-ertelmezes-matcher', selectedTopic || 'g4-fractions')}
+          onSwitchToSorter={() => handleActivitySelect('g4-frac-ertelmezes-sorter', selectedTopic || 'g4-fractions')}
+        />
+      )}
+      {activityType === 'g4-frac-ertelmezes-sorter' && (
+        <G4FractionIntro4Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-frac-ertelmezes-theory', selectedTopic || 'g4-fractions')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-frac-ertelmezes-matcher', selectedTopic || 'g4-fractions')}
+          onSwitchToSorter={() => handleActivitySelect('g4-frac-ertelmezes-sorter', selectedTopic || 'g4-fractions')}
+        />
+      )}
+
+      {/* 2. Egynél kisebb törtek */}
+      {activityType === 'g4-frac-egynel-kisebb-theory' && (
+        <G4ProperFractionsTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-frac-egynel-kisebb-quiz', selectedTopic || 'g4-fractions')}
+        />
+      )}
+      {activityType === 'g4-frac-egynel-kisebb-quiz' && (
+        <G4ProperFractionsQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-frac-egynel-kisebb-theory', selectedTopic || 'g4-fractions')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-frac-egynel-kisebb-matcher', selectedTopic || 'g4-fractions')}
+          onSwitchToSorter={() => handleActivitySelect('g4-frac-egynel-kisebb-sorter', selectedTopic || 'g4-fractions')}
+        />
+      )}
+      {activityType === 'g4-frac-egynel-kisebb-matcher' && (
+        <G4ProperFractionsQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-frac-egynel-kisebb-theory', selectedTopic || 'g4-fractions')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-frac-egynel-kisebb-matcher', selectedTopic || 'g4-fractions')}
+          onSwitchToSorter={() => handleActivitySelect('g4-frac-egynel-kisebb-sorter', selectedTopic || 'g4-fractions')}
+        />
+      )}
+      {activityType === 'g4-frac-egynel-kisebb-sorter' && (
+        <G4ProperFractionsQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-frac-egynel-kisebb-theory', selectedTopic || 'g4-fractions')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-frac-egynel-kisebb-matcher', selectedTopic || 'g4-fractions')}
+          onSwitchToSorter={() => handleActivitySelect('g4-frac-egynel-kisebb-sorter', selectedTopic || 'g4-fractions')}
+        />
+      )}
+
+      {/* 3. Az 1 egész és az egynél nagyobb törtek */}
+      {activityType === 'g4-frac-egynel-nagyobb-theory' && (
+        <G4ImproperFractionsTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-frac-egynel-nagyobb-quiz', selectedTopic || 'g4-fractions')}
+        />
+      )}
+      {activityType === 'g4-frac-egynel-nagyobb-quiz' && (
+        <G4ImproperFractionsQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-frac-egynel-nagyobb-theory', selectedTopic || 'g4-fractions')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-frac-egynel-nagyobb-matcher', selectedTopic || 'g4-fractions')}
+          onSwitchToSorter={() => handleActivitySelect('g4-frac-egynel-nagyobb-sorter', selectedTopic || 'g4-fractions')}
+        />
+      )}
+      {activityType === 'g4-frac-egynel-nagyobb-matcher' && (
+        <G4ImproperFractionsQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-frac-egynel-nagyobb-theory', selectedTopic || 'g4-fractions')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-frac-egynel-nagyobb-matcher', selectedTopic || 'g4-fractions')}
+          onSwitchToSorter={() => handleActivitySelect('g4-frac-egynel-nagyobb-sorter', selectedTopic || 'g4-fractions')}
+        />
+      )}
+      {activityType === 'g4-frac-egynel-nagyobb-sorter' && (
+        <G4ImproperFractionsQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-frac-egynel-nagyobb-theory', selectedTopic || 'g4-fractions')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-frac-egynel-nagyobb-matcher', selectedTopic || 'g4-fractions')}
+          onSwitchToSorter={() => handleActivitySelect('g4-frac-egynel-nagyobb-sorter', selectedTopic || 'g4-fractions')}
+        />
+      )}
+
+      {/* 4. Törtek összehasonlítása */}
+      {activityType === 'g4-frac-osszehasonlitas-theory' && (
+        <G4FractionCompare4Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-frac-osszehasonlitas-quiz', selectedTopic || 'g4-fractions')}
+        />
+      )}
+      {activityType === 'g4-frac-osszehasonlitas-quiz' && (
+        <G4FractionCompare4Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-frac-osszehasonlitas-theory', selectedTopic || 'g4-fractions')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-frac-osszehasonlitas-matcher', selectedTopic || 'g4-fractions')}
+          onSwitchToSorter={() => handleActivitySelect('g4-frac-osszehasonlitas-sorter', selectedTopic || 'g4-fractions')}
+        />
+      )}
+      {activityType === 'g4-frac-osszehasonlitas-matcher' && (
+        <G4FractionCompare4Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-frac-osszehasonlitas-theory', selectedTopic || 'g4-fractions')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-frac-osszehasonlitas-matcher', selectedTopic || 'g4-fractions')}
+          onSwitchToSorter={() => handleActivitySelect('g4-frac-osszehasonlitas-sorter', selectedTopic || 'g4-fractions')}
+        />
+      )}
+      {activityType === 'g4-frac-osszehasonlitas-sorter' && (
+        <G4FractionCompare4Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-frac-osszehasonlitas-theory', selectedTopic || 'g4-fractions')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-frac-osszehasonlitas-matcher', selectedTopic || 'g4-fractions')}
+          onSwitchToSorter={() => handleActivitySelect('g4-frac-osszehasonlitas-sorter', selectedTopic || 'g4-fractions')}
+        />
+      )}
+
+      {/* 5. Törtrész kiszámítása, szöveges feladatok */}
+      {activityType === 'g4-frac-tortresz-theory' && (
+        <G4FractionOfAmountTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-frac-tortresz-quiz', selectedTopic || 'g4-fractions')}
+        />
+      )}
+      {activityType === 'g4-frac-tortresz-quiz' && (
+        <G4FractionOfAmountQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-frac-tortresz-theory', selectedTopic || 'g4-fractions')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-frac-tortresz-matcher', selectedTopic || 'g4-fractions')}
+          onSwitchToSorter={() => handleActivitySelect('g4-frac-tortresz-sorter', selectedTopic || 'g4-fractions')}
+        />
+      )}
+      {activityType === 'g4-frac-tortresz-matcher' && (
+        <G4FractionOfAmountQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-frac-tortresz-theory', selectedTopic || 'g4-fractions')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-frac-tortresz-matcher', selectedTopic || 'g4-fractions')}
+          onSwitchToSorter={() => handleActivitySelect('g4-frac-tortresz-sorter', selectedTopic || 'g4-fractions')}
+        />
+      )}
+      {activityType === 'g4-frac-tortresz-sorter' && (
+        <G4FractionOfAmountQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-frac-tortresz-theory', selectedTopic || 'g4-fractions')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-frac-tortresz-matcher', selectedTopic || 'g4-fractions')}
+          onSwitchToSorter={() => handleActivitySelect('g4-frac-tortresz-sorter', selectedTopic || 'g4-fractions')}
+        />
+      )}
+
+      {/* 6. Gyakorlás, tudáspróba */}
+      {activityType === 'g4-frac-tudasproba-theory' && (
+        <G4FractionsExamTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-frac-tudasproba-quiz', selectedTopic || 'g4-fractions')}
+        />
+      )}
+      {activityType === 'g4-frac-tudasproba-quiz' && (
+        <G4FractionsExamQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-frac-tudasproba-theory', selectedTopic || 'g4-fractions')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-frac-tudasproba-matcher', selectedTopic || 'g4-fractions')}
+          onSwitchToSorter={() => handleActivitySelect('g4-frac-tudasproba-sorter', selectedTopic || 'g4-fractions')}
+        />
+      )}
+      {activityType === 'g4-frac-tudasproba-matcher' && (
+        <G4FractionsExamQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-frac-tudasproba-theory', selectedTopic || 'g4-fractions')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-frac-tudasproba-matcher', selectedTopic || 'g4-fractions')}
+          onSwitchToSorter={() => handleActivitySelect('g4-frac-tudasproba-sorter', selectedTopic || 'g4-fractions')}
+        />
+      )}
+      {activityType === 'g4-frac-tudasproba-sorter' && (
+        <G4FractionsExamQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-frac-tudasproba-theory', selectedTopic || 'g4-fractions')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-frac-tudasproba-matcher', selectedTopic || 'g4-fractions')}
+          onSwitchToSorter={() => handleActivitySelect('g4-frac-tudasproba-sorter', selectedTopic || 'g4-fractions')}
         />
       )}
     </>

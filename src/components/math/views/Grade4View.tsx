@@ -1495,13 +1495,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-frac-sec-1" number={1} title="A törtrész és a törtek értelmezése" color="orange" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A törtrész és a törtek értelmezése"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="A törtrész és a törtek értelmezése Tananyag"
+                subtitle="Egyenlő részek, fél, harmad, negyed: szalvéta, zászlók, színes rudak, igazságos osztozkodás"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-frac-ertelmezes-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="orange"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: egyenlő részek, a részek nevei, szalvéta, színes rudak, osztozkodás"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-frac-ertelmezes-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="orange"
+                {...getTopicProgress('g4-frac-ertelmezes-quiz')}
               />
             </div>
           </section>
@@ -1513,13 +1523,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-frac-sec-2" number={2} title="Egynél kisebb törtek" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Egynél kisebb törtek"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Egynél kisebb törtek Tananyag"
+                subtitle="2 harmad, 3 negyed, 7 tized: színes és fehér rész leolvasása rácson, poharakon, zászlókon, gyöngyökön"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-frac-egynel-kisebb-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: leolvasás, színes és fehér rész, zászlók, céltábla, kisegér, parkoló"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-frac-egynel-kisebb-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g4-frac-egynel-kisebb-quiz')}
               />
             </div>
           </section>
@@ -1531,13 +1551,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-frac-sec-3" number={3} title="Az 1 egész és az egynél nagyobb törtek" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Az 1 egész és az egynél nagyobb törtek"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Az 1 egész és az egynél nagyobb törtek Tananyag"
+                subtitle="3 harmad = 4 negyed = 1 egész, a hiányzó rész, 5 negyed, 1 és negyed óra, törtek a számegyenesen"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-frac-egynel-nagyobb-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: 1 egész, hiányzó rész, egészek és részek, idő, mérőszalag, számegyenes"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-frac-egynel-nagyobb-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g4-frac-egynel-nagyobb-quiz')}
               />
             </div>
           </section>
@@ -1549,13 +1579,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-frac-sec-4" number={4} title="Törtek összehasonlítása" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Törtek összehasonlítása"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Törtek összehasonlítása Tananyag"
+                subtitle="Ugyanolyan részek és ugyanannyi rész összehasonlítása, törtfal, 1 ketted = 2 negyed = 5 tized, ugróverseny, zászlók az 1 km-es pályán."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-frac-osszehasonlitas-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: melyik a nagyobb, egyenlő törtek, sorba rendezés, pályán és pénzzel, szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-frac-osszehasonlitas-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g4-frac-osszehasonlitas-quiz')}
               />
             </div>
           </section>
@@ -1567,13 +1607,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-frac-sec-5" number={5} title="Törtrész kiszámítása, szöveges feladatok" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Törtrész kiszámítása, szöveges feladatok"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Törtrész kiszámítása Tananyag"
+                subtitle="Törtrész két lépésben (előbb osztás, aztán szorzás): bonbon, 300 Ft és 4000 Ft törtrészei, mérőszalag, óra, pogácsa, szörp, tábor."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-frac-tortresz-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: 1 rész kiszámítása, több rész két lépésben, pénz, hosszúság, idő, tömeg, szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-frac-tortresz-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g4-frac-tortresz-quiz')}
               />
             </div>
           </section>
@@ -1585,13 +1635,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-frac-sec-6" number={6} title="Gyakorlás, tudáspróba" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Gyakorlás, tudáspróba"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="A törtszámok – tudáspróba Tananyag"
+                subtitle="Amit már tudsz: törtrészek neve, egynél kisebb és nagyobb törtek, összehasonlítás, törtrész kiszámítása – vegyes feladatgép és törtes társasjáték."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-frac-tudasproba-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz"
+                subtitle="90 feladat 3 szinten: törtrészek neve, 1 egész és egynél nagyobb törtek, összehasonlítás, törtrész kiszámítása, szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-frac-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="violet"
+                {...getTopicProgress('g4-frac-tudasproba-quiz')}
               />
             </div>
           </section>
