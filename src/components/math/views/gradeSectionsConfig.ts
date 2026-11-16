@@ -255,10 +255,12 @@ export const sectionToTopicMap: Record<string, string> = {
   'g4-wops-sec-5': 'g4-written-ops',
   'g4-wops-sec-6': 'g4-written-ops',
   'g4-wops-sec-7': 'g4-written-ops',
+  'g4-wops-sec-8': 'g4-written-ops',
   'g4-negatives': 'g4-negatives',
   'g4-neg-sec-1': 'g4-negatives',
   'g4-neg-sec-2': 'g4-negatives',
   'g4-neg-sec-3': 'g4-negatives',
+  'g4-neg-sec-4': 'g4-negatives',
   'g4-shapes-solids': 'g4-shapes-solids',
   'g4-geom-sec-1': 'g4-shapes-solids',
   'g4-geom-sec-2': 'g4-shapes-solids',
@@ -268,21 +270,25 @@ export const sectionToTopicMap: Record<string, string> = {
   'g4-geom-sec-6': 'g4-shapes-solids',
   'g4-geom-sec-7': 'g4-shapes-solids',
   'g4-geom-sec-8': 'g4-shapes-solids',
+  'g4-geom-sec-9': 'g4-shapes-solids',
   'g4-grouping': 'g4-grouping',
   'g4-group-sec-1': 'g4-grouping',
   'g4-group-sec-2': 'g4-grouping',
   'g4-group-sec-3': 'g4-grouping',
   'g4-group-sec-4': 'g4-grouping',
+  'g4-group-sec-5': 'g4-grouping',
   'g4-written-mult': 'g4-written-mult',
   'g4-wmult-sec-1': 'g4-written-mult',
   'g4-wmult-sec-2': 'g4-written-mult',
   'g4-wmult-sec-3': 'g4-written-mult',
+  'g4-wmult-sec-4': 'g4-written-mult',
   'g4-fractions': 'g4-fractions',
   'g4-frac-sec-1': 'g4-fractions',
   'g4-frac-sec-2': 'g4-fractions',
   'g4-frac-sec-3': 'g4-fractions',
   'g4-frac-sec-4': 'g4-fractions',
   'g4-frac-sec-5': 'g4-fractions',
+  'g4-frac-sec-6': 'g4-fractions',
 
   // Grade 5
   'g5-ops': 'g5-integers',
@@ -1168,14 +1174,14 @@ export function getGradeSubsections(
         { id: 'g4-count-sec-3', label: '3. Szorzás és osztás 1000-ig' },
         { id: 'g4-count-sec-4', label: '4. A műveletek sorrendje' },
         { id: 'g4-count-sec-5', label: '5. Nyitott mondatok' },
-        { id: 'g4-count-sec-6', label: '6. Szöveges feladatok 1000-es számkörben' },
+        { id: 'g4-count-sec-6', label: '6. Szöveges feladatok' },
         { id: 'g4-count-sec-7', label: '7. A római számok' },
         { id: 'g4-count-sec-8', label: '8. Játékok a logikai lapokkal' },
-        { id: 'g4-count-sec-9', label: '9. Csoportosítások és számok 10 000-ig' },
-        { id: 'g4-count-sec-10', label: '10. Számszomszédok, kerekítés 10 000-ig' },
+        { id: 'g4-count-sec-9', label: '9. Csoportosítások, számok 10 000-ig' },
+        { id: 'g4-count-sec-10', label: '10. Számszomszédok, kerekítés' },
         { id: 'g4-count-sec-11', label: '11. Összeadás és kivonás 10 000-ig' },
         { id: 'g4-count-sec-12', label: '12. Szorzás és osztás 10 000-ig' },
-        { id: 'g4-count-sec-13', label: '13. Megálló és Kitekintő (Összefoglalás)' }
+        { id: 'g4-count-sec-13', label: '13. Megálló, Kitekintő – tudáspróba' }
       ];
     } else if (t.id === 'g4-measurements') {
       subsections = [
@@ -1185,7 +1191,7 @@ export function getGradeSubsections(
         { id: 'g4-meas-sec-4', label: '4. A tömeg mérése' },
         { id: 'g4-meas-sec-5', label: '5. Az űrtartalom mérése' },
         { id: 'g4-meas-sec-6', label: '6. Az idő mérése' },
-        { id: 'g4-meas-sec-7', label: '7. Megálló' },
+        { id: 'g4-meas-sec-7', label: '7. Megálló – tudáspróba' },
         { id: 'g4-meas-sec-8', label: '8. Kitekintő' }
       ];
     } else if (t.id === 'g4-written-ops') {
@@ -1196,13 +1202,15 @@ export function getGradeSubsections(
         { id: 'g4-wops-sec-4', label: '4. A számok tulajdonságai' },
         { id: 'g4-wops-sec-5', label: '5. Összefüggések, következtetések' },
         { id: 'g4-wops-sec-6', label: '6. A műveletek közötti kapcsolatok' },
-        { id: 'g4-wops-sec-7', label: '7. A műveletek sorrendje' }
+        { id: 'g4-wops-sec-7', label: '7. A műveletek sorrendje' },
+        { id: 'g4-wops-sec-8', label: '8. Gyakorlás, tudáspróba' }
       ];
     } else if (t.id === 'g4-negatives') {
       subsections = [
         { id: 'g4-neg-sec-1', label: '1. A negatív számok a mindennapokban' },
         { id: 'g4-neg-sec-2', label: '2. Számegyenes és ellentettek' },
-        { id: 'g4-neg-sec-3', label: '3. Összehasonlítás és változások' }
+        { id: 'g4-neg-sec-3', label: '3. Összehasonlítás és változások' },
+        { id: 'g4-neg-sec-4', label: '4. Gyakorlás, tudáspróba' }
       ];
     } else if (t.id === 'g4-shapes-solids') {
       subsections = [
@@ -1213,28 +1221,32 @@ export function getGradeSubsections(
         { id: 'g4-geom-sec-5', label: '5. Nagyítás, kicsinyítés' },
         { id: 'g4-geom-sec-6', label: '6. Eltolás' },
         { id: 'g4-geom-sec-7', label: '7. Elforgatás' },
-        { id: 'g4-geom-sec-8', label: '8. Tájékozódás' }
+        { id: 'g4-geom-sec-8', label: '8. Tájékozódás' },
+        { id: 'g4-geom-sec-9', label: '9. Gyakorlás, tudáspróba' }
       ];
     } else if (t.id === 'g4-grouping') {
       subsections = [
         { id: 'g4-group-sec-1', label: '1. Válogatások halmazokba' },
         { id: 'g4-group-sec-2', label: '2. Válogatások táblázatokba' },
         { id: 'g4-group-sec-3', label: '3. Hányféle lehetőség van?' },
-        { id: 'g4-group-sec-4', label: '4. Igaz vagy hamis?' }
+        { id: 'g4-group-sec-4', label: '4. Igaz vagy hamis?' },
+        { id: 'g4-group-sec-5', label: '5. Gyakorlás, tudáspróba' }
       ];
     } else if (t.id === 'g4-written-mult') {
       subsections = [
         { id: 'g4-wmult-sec-1', label: '1. Szorzás kétjegyű szorzóval' },
         { id: 'g4-wmult-sec-2', label: '2. Írásbeli szorzás' },
-        { id: 'g4-wmult-sec-3', label: '3. Összefüggések, következtetések' }
+        { id: 'g4-wmult-sec-3', label: '3. Összefüggések, következtetések' },
+        { id: 'g4-wmult-sec-4', label: '4. Gyakorlás, tudáspróba' }
       ];
     } else if (t.id === 'g4-fractions') {
       subsections = [
         { id: 'g4-frac-sec-1', label: '1. A törtrész és a törtek értelmezése' },
         { id: 'g4-frac-sec-2', label: '2. Egynél kisebb törtek' },
         { id: 'g4-frac-sec-3', label: '3. Az 1 egész és az egynél nagyobb törtek' },
-        { id: 'g4-frac-sec-4', label: '4. Törtek összehasonlítása és rendezése' },
-        { id: 'g4-frac-sec-5', label: '5. Törtrész kiszámítása és szöveges feladatok' }
+        { id: 'g4-frac-sec-4', label: '4. Törtek összehasonlítása' },
+        { id: 'g4-frac-sec-5', label: '5. Törtrész kiszámítása, szöveges feladatok' },
+        { id: 'g4-frac-sec-6', label: '6. Gyakorlás, tudáspróba' }
       ];
     }
 
