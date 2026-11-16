@@ -42,6 +42,8 @@ export const MathActivityRouter: React.FC<ActivityRouterProps> = (props) => {
   }
   if (
     activityType === 'fractions' ||
+    activityType === 'tower-builder' ||
+    activityType === 'coloring' ||
     activityType.startsWith('fractions-') ||
     activityType.startsWith('decimal-') ||
     activityType.startsWith('grade1-') ||

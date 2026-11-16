@@ -102,7 +102,7 @@ export const GradePrimaryActivities: React.FC<ActivityRouterProps> = ({
                     <MoneyCountingQuiz onBack={handleBack} difficulty="easy" />
                   )}
 
-                  {(activityType === 'tower-builder' || activityType === 'grade2-blocks' || activityType === 'grade3-blocks' || activityType === 'grade3-tower-builder') && (
+                  {activityType === 'tower-builder' && (
                     <TowerBuilderGame onBack={handleBack} grade={typeof selectedGrade === 'number' && selectedGrade <= 4 ? selectedGrade : 1} />
                   )}
 
