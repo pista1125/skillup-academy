@@ -58,6 +58,28 @@ const G12FinanceLoansTheory = lazy(() => import("@/components/math/grade-12/soro
 const G12FinanceLoansQuiz = lazy(() => import("@/components/math/grade-12/sorozatok/penzugyi-feladatok-2-hitelek-es-kockazatok/FinanceLoansQuiz").then(m => ({ default: m.FinanceLoansQuiz })))
 const G12SequencesPracticeExamTheory = lazy(() => import("@/components/math/grade-12/sorozatok/gyakorlas-tudasproba/SequencesPracticeExamTheory").then(m => ({ default: m.SequencesPracticeExamTheory })))
 const G12SequencesPracticeExamQuiz = lazy(() => import("@/components/math/grade-12/sorozatok/gyakorlas-tudasproba/SequencesPracticeExamQuiz").then(m => ({ default: m.SequencesPracticeExamQuiz })))
+const G12StatDataCollectionTheory = lazy(() => import("@/components/math/grade-12/statisztika-valoszinusegszamitas/statisztikai-adatgyujtes/StatDataCollectionTheory").then(m => ({ default: m.StatDataCollectionTheory })))
+const G12StatDataCollectionQuiz = lazy(() => import("@/components/math/grade-12/statisztika-valoszinusegszamitas/statisztikai-adatgyujtes/StatDataCollectionQuiz").then(m => ({ default: m.StatDataCollectionQuiz })))
+const G12StatMeasuresTheory = lazy(() => import("@/components/math/grade-12/statisztika-valoszinusegszamitas/statisztikai-jellemzok/StatMeasuresTheory").then(m => ({ default: m.StatMeasuresTheory })))
+const G12StatMeasuresQuiz = lazy(() => import("@/components/math/grade-12/statisztika-valoszinusegszamitas/statisztikai-jellemzok/StatMeasuresQuiz").then(m => ({ default: m.StatMeasuresQuiz })))
+const G12StatDiagramsTheory = lazy(() => import("@/components/math/grade-12/statisztika-valoszinusegszamitas/diagramok/StatDiagramsTheory").then(m => ({ default: m.StatDiagramsTheory })))
+const G12StatDiagramsQuiz = lazy(() => import("@/components/math/grade-12/statisztika-valoszinusegszamitas/diagramok/StatDiagramsQuiz").then(m => ({ default: m.StatDiagramsQuiz })))
+const G12ClassMidpointsTheory = lazy(() => import("@/components/math/grade-12/statisztika-valoszinusegszamitas/szamitasok-osztalykozepekkel/ClassMidpointsTheory").then(m => ({ default: m.ClassMidpointsTheory })))
+const G12ClassMidpointsQuiz = lazy(() => import("@/components/math/grade-12/statisztika-valoszinusegszamitas/szamitasok-osztalykozepekkel/ClassMidpointsQuiz").then(m => ({ default: m.ClassMidpointsQuiz })))
+const G12SampleSpaceTheory = lazy(() => import("@/components/math/grade-12/statisztika-valoszinusegszamitas/az-esemenyter/SampleSpaceTheory").then(m => ({ default: m.SampleSpaceTheory })))
+const G12SampleSpaceQuiz = lazy(() => import("@/components/math/grade-12/statisztika-valoszinusegszamitas/az-esemenyter/SampleSpaceQuiz").then(m => ({ default: m.SampleSpaceQuiz })))
+const G12EventAlgebraTheory = lazy(() => import("@/components/math/grade-12/statisztika-valoszinusegszamitas/esemenyek-osszege-es-szorzata/EventAlgebraTheory").then(m => ({ default: m.EventAlgebraTheory })))
+const G12EventAlgebraQuiz = lazy(() => import("@/components/math/grade-12/statisztika-valoszinusegszamitas/esemenyek-osszege-es-szorzata/EventAlgebraQuiz").then(m => ({ default: m.EventAlgebraQuiz })))
+const G12EventProbabilityTheory = lazy(() => import("@/components/math/grade-12/statisztika-valoszinusegszamitas/esemeny-valoszinusege/EventProbabilityTheory").then(m => ({ default: m.EventProbabilityTheory })))
+const G12EventProbabilityQuiz = lazy(() => import("@/components/math/grade-12/statisztika-valoszinusegszamitas/esemeny-valoszinusege/EventProbabilityQuiz").then(m => ({ default: m.EventProbabilityQuiz })))
+const G12GeometricProbabilityTheory = lazy(() => import("@/components/math/grade-12/statisztika-valoszinusegszamitas/geometriai-valoszinuseg/GeometricProbabilityTheory").then(m => ({ default: m.GeometricProbabilityTheory })))
+const G12GeometricProbabilityQuiz = lazy(() => import("@/components/math/grade-12/statisztika-valoszinusegszamitas/geometriai-valoszinuseg/GeometricProbabilityQuiz").then(m => ({ default: m.GeometricProbabilityQuiz })))
+const G12ExpectedValue12Theory = lazy(() => import("@/components/math/grade-12/statisztika-valoszinusegszamitas/a-varhato-ertek/ExpectedValue12Theory").then(m => ({ default: m.ExpectedValue12Theory })))
+const G12ExpectedValue12Quiz = lazy(() => import("@/components/math/grade-12/statisztika-valoszinusegszamitas/a-varhato-ertek/ExpectedValue12Quiz").then(m => ({ default: m.ExpectedValue12Quiz })))
+const G12Sampling12Theory = lazy(() => import("@/components/math/grade-12/statisztika-valoszinusegszamitas/mintavetelek/Sampling12Theory").then(m => ({ default: m.Sampling12Theory })))
+const G12Sampling12Quiz = lazy(() => import("@/components/math/grade-12/statisztika-valoszinusegszamitas/mintavetelek/Sampling12Quiz").then(m => ({ default: m.Sampling12Quiz })))
+const G12StatProbExam12Theory = lazy(() => import("@/components/math/grade-12/statisztika-valoszinusegszamitas/gyakorlas-tudasproba/StatProbExam12Theory").then(m => ({ default: m.StatProbExam12Theory })))
+const G12StatProbExam12Quiz = lazy(() => import("@/components/math/grade-12/statisztika-valoszinusegszamitas/gyakorlas-tudasproba/StatProbExam12Quiz").then(m => ({ default: m.StatProbExam12Quiz })))
 
 export const Grade12Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -1025,6 +1047,382 @@ export const Grade12Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g12-seq-tudasproba-theory', selectedTopic || 'g12-sorozatok')}
           onSwitchToMatcher={() => handleActivitySelect('g12-seq-tudasproba-matcher', selectedTopic || 'g12-sorozatok')}
           onSwitchToSorter={() => handleActivitySelect('g12-seq-tudasproba-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+
+      {/* ===== 12. Osztály – III. Statisztika és valószínűségszámítás ===== */}
+
+      {/* 1. Statisztikai adatgyűjtés */}
+      {activityType === 'g12-stat-adatgyujtes-theory' && (
+        <G12StatDataCollectionTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-stat-adatgyujtes-quiz', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-adatgyujtes-quiz' && (
+        <G12StatDataCollectionQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-adatgyujtes-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-adatgyujtes-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-adatgyujtes-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-adatgyujtes-matcher' && (
+        <G12StatDataCollectionQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-adatgyujtes-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-adatgyujtes-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-adatgyujtes-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-adatgyujtes-sorter' && (
+        <G12StatDataCollectionQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-adatgyujtes-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-adatgyujtes-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-adatgyujtes-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+
+      {/* 2. Statisztikai jellemzők */}
+      {activityType === 'g12-stat-jellemzok-theory' && (
+        <G12StatMeasuresTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-stat-jellemzok-quiz', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-jellemzok-quiz' && (
+        <G12StatMeasuresQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-jellemzok-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-jellemzok-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-jellemzok-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-jellemzok-matcher' && (
+        <G12StatMeasuresQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-jellemzok-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-jellemzok-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-jellemzok-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-jellemzok-sorter' && (
+        <G12StatMeasuresQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-jellemzok-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-jellemzok-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-jellemzok-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+
+      {/* 3. Diagramok */}
+      {activityType === 'g12-stat-diagramok-theory' && (
+        <G12StatDiagramsTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-stat-diagramok-quiz', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-diagramok-quiz' && (
+        <G12StatDiagramsQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-diagramok-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-diagramok-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-diagramok-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-diagramok-matcher' && (
+        <G12StatDiagramsQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-diagramok-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-diagramok-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-diagramok-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-diagramok-sorter' && (
+        <G12StatDiagramsQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-diagramok-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-diagramok-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-diagramok-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+
+      {/* 4. Számítások osztályközepekkel */}
+      {activityType === 'g12-stat-osztalykozepek-theory' && (
+        <G12ClassMidpointsTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-stat-osztalykozepek-quiz', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-osztalykozepek-quiz' && (
+        <G12ClassMidpointsQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-osztalykozepek-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-osztalykozepek-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-osztalykozepek-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-osztalykozepek-matcher' && (
+        <G12ClassMidpointsQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-osztalykozepek-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-osztalykozepek-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-osztalykozepek-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-osztalykozepek-sorter' && (
+        <G12ClassMidpointsQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-osztalykozepek-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-osztalykozepek-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-osztalykozepek-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+
+      {/* 5. Az eseménytér */}
+      {activityType === 'g12-stat-esemenyter-theory' && (
+        <G12SampleSpaceTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-stat-esemenyter-quiz', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-esemenyter-quiz' && (
+        <G12SampleSpaceQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-esemenyter-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-esemenyter-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-esemenyter-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-esemenyter-matcher' && (
+        <G12SampleSpaceQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-esemenyter-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-esemenyter-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-esemenyter-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-esemenyter-sorter' && (
+        <G12SampleSpaceQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-esemenyter-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-esemenyter-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-esemenyter-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+
+      {/* 6. Események összege és szorzata */}
+      {activityType === 'g12-stat-esemenyalgebra-theory' && (
+        <G12EventAlgebraTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-stat-esemenyalgebra-quiz', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-esemenyalgebra-quiz' && (
+        <G12EventAlgebraQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-esemenyalgebra-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-esemenyalgebra-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-esemenyalgebra-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-esemenyalgebra-matcher' && (
+        <G12EventAlgebraQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-esemenyalgebra-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-esemenyalgebra-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-esemenyalgebra-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-esemenyalgebra-sorter' && (
+        <G12EventAlgebraQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-esemenyalgebra-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-esemenyalgebra-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-esemenyalgebra-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+
+      {/* 7. Esemény valószínűsége */}
+      {activityType === 'g12-stat-valoszinuseg-theory' && (
+        <G12EventProbabilityTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-stat-valoszinuseg-quiz', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-valoszinuseg-quiz' && (
+        <G12EventProbabilityQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-valoszinuseg-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-valoszinuseg-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-valoszinuseg-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-valoszinuseg-matcher' && (
+        <G12EventProbabilityQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-valoszinuseg-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-valoszinuseg-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-valoszinuseg-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-valoszinuseg-sorter' && (
+        <G12EventProbabilityQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-valoszinuseg-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-valoszinuseg-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-valoszinuseg-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+
+      {/* 8. Geometriai valószínűség */}
+      {activityType === 'g12-stat-geometriai-theory' && (
+        <G12GeometricProbabilityTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-stat-geometriai-quiz', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-geometriai-quiz' && (
+        <G12GeometricProbabilityQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-geometriai-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-geometriai-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-geometriai-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-geometriai-matcher' && (
+        <G12GeometricProbabilityQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-geometriai-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-geometriai-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-geometriai-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-geometriai-sorter' && (
+        <G12GeometricProbabilityQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-geometriai-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-geometriai-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-geometriai-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+
+      {/* 9. A várható érték */}
+      {activityType === 'g12-stat-varhato-ertek-theory' && (
+        <G12ExpectedValue12Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-stat-varhato-ertek-quiz', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-varhato-ertek-quiz' && (
+        <G12ExpectedValue12Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-varhato-ertek-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-varhato-ertek-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-varhato-ertek-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-varhato-ertek-matcher' && (
+        <G12ExpectedValue12Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-varhato-ertek-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-varhato-ertek-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-varhato-ertek-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-varhato-ertek-sorter' && (
+        <G12ExpectedValue12Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-varhato-ertek-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-varhato-ertek-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-varhato-ertek-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+
+      {/* 10. Mintavételek */}
+      {activityType === 'g12-stat-mintavetelek-theory' && (
+        <G12Sampling12Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-stat-mintavetelek-quiz', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-mintavetelek-quiz' && (
+        <G12Sampling12Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-mintavetelek-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-mintavetelek-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-mintavetelek-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-mintavetelek-matcher' && (
+        <G12Sampling12Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-mintavetelek-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-mintavetelek-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-mintavetelek-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-mintavetelek-sorter' && (
+        <G12Sampling12Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-mintavetelek-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-mintavetelek-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-mintavetelek-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+
+      {/* 11. Gyakorlás, tudáspróba */}
+      {activityType === 'g12-stat-tudasproba-theory' && (
+        <G12StatProbExam12Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-stat-tudasproba-quiz', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-tudasproba-quiz' && (
+        <G12StatProbExam12Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-tudasproba-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-tudasproba-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-tudasproba-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-tudasproba-matcher' && (
+        <G12StatProbExam12Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-tudasproba-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-tudasproba-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-tudasproba-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+      {activityType === 'g12-stat-tudasproba-sorter' && (
+        <G12StatProbExam12Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-stat-tudasproba-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-stat-tudasproba-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
+          onSwitchToSorter={() => handleActivitySelect('g12-stat-tudasproba-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
         />
       )}
     </>

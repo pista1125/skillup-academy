@@ -844,13 +844,23 @@ export const Grade12View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g12-sec-stat-adatgyujtes" number={1} title="Statisztikai adatgyűjtés" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Adatgyűjtés és Gyakorisági Sorok"
-                subtitle="Sokaság, minta, ismérvek, abszolút és relatív gyakoriság"
-                type="Hamarosan"
-                emoji="📋"
-                disabled={true}
-                icon={<Activity className="w-6 h-6" />}
+                title="Statisztikai adatgyűjtés Tananyag"
+                subtitle="Reprezentatív minta, arányos (rétegzett) minta készítése, torzított minta, Venn-diagram és valószínűség a mintában"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-stat-adatgyujtes-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: reprezentatív és torzított minta, arányos minta, Venn-diagram, valószínűség"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-stat-adatgyujtes-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g12-stat-adatgyujtes-quiz')}
               />
             </div>
           </section>
@@ -862,13 +872,23 @@ export const Grade12View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g12-sec-stat-jellemzok" number={2} title="Statisztikai jellemzők" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Középértékek és Szóródási Mutatók"
-                subtitle="Módusz, medián, átlag, kvártilisek, terjedelem és szórás"
-                type="Hamarosan"
-                emoji="📊"
-                disabled={true}
-                icon={<Calculator className="w-6 h-6" />}
+                title="Statisztikai jellemzők Tananyag"
+                subtitle="Átlag, medián, módusz, terjedelem, szórás és relatív szórás – részvényhozamok kockázata"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-stat-jellemzok-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: középértékek, szórás, hozam, kockázat, szórás tulajdonságai"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-stat-jellemzok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g12-stat-jellemzok-quiz')}
               />
             </div>
           </section>
@@ -880,13 +900,23 @@ export const Grade12View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g12-sec-stat-diagramok" number={3} title="Diagramok" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Statisztikai Grafikonok és Dobozdiagram"
-                subtitle="Oszlop-, kör- és vonaldiagram, hisztogram és boxplot elemzése"
-                type="Hamarosan"
-                emoji="📈"
-                disabled={true}
-                icon={<Layers className="w-6 h-6" />}
+                title="Diagramok Tananyag"
+                subtitle="Félrevezető diagramok, kördiagram, a dobozdiagram öt adata, félterjedelem és kiugró adatok"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-stat-diagramok-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: félrevezető diagramok, kördiagram, dobozdiagram, kvartilisek, kiugró adatok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-stat-diagramok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="violet"
+                {...getTopicProgress('g12-stat-diagramok-quiz')}
               />
             </div>
           </section>
@@ -898,13 +928,23 @@ export const Grade12View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g12-sec-stat-osztalykozepek" number={4} title="Számítások osztályközepekkel" color="purple" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Osztályközös Gyakorisági Sorok"
-                subtitle="Folytonos adatok csoportosítása, osztályközép és becsült mutatók"
-                type="Hamarosan"
-                emoji="🧮"
-                disabled={true}
-                icon={<Calculator className="w-6 h-6" />}
+                title="Számítások osztályközepekkel Tananyag"
+                subtitle="Osztályba sorolás, osztályközép, átlag, medián és szórás osztályközepekkel"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-stat-osztalykozepek-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="purple"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: osztályközép, osztályba sorolás, átlag, medián és szórás osztályközepekkel"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-stat-osztalykozepek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="purple"
+                {...getTopicProgress('g12-stat-osztalykozepek-quiz')}
               />
             </div>
           </section>
@@ -916,13 +956,23 @@ export const Grade12View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g12-sec-stat-esemenyter" number={5} title="Az eseménytér" color="fuchsia" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Véletlen Kísérletek és Eseménytér"
-                subtitle="Elemi események (Ω), biztos és lehetetlen esemény, fadiagramok"
-                type="Hamarosan"
-                emoji="🎲"
-                disabled={true}
-                icon={<Shapes className="w-6 h-6" />}
+                title="Az eseménytér Tananyag"
+                subtitle="Elemi események, eseménytér, biztos és lehetetlen esemény, komplementer, egymást kizáró események"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-stat-esemenyter-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="fuchsia"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: pénzérmék, két dobókocka, biztos, lehetetlen, komplementer és kizáró események"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-stat-esemenyter-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="fuchsia"
+                {...getTopicProgress('g12-stat-esemenyter-quiz')}
               />
             </div>
           </section>
@@ -934,13 +984,23 @@ export const Grade12View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g12-sec-stat-esemenyek-osszege-szorzata" number={6} title="Események összege és szorzata" color="pink" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Eseményalgebra és Műveletek"
-                subtitle="Események uniója, metszete, különbsége és De Morgan-azonosságok"
-                type="Hamarosan"
-                emoji="🔗"
-                disabled={true}
-                icon={<Boxes className="w-6 h-6" />}
+                title="Események összege és szorzata Tananyag"
+                subtitle="A + B és A · B, Venn-diagram, időjárás, áramkör, lottó, elemszámok korlátai"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-stat-esemenyalgebra-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="pink"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: összeg, szorzat, komplementer, Venn-diagram, áramkör, elemszámok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-stat-esemenyalgebra-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="pink"
+                {...getTopicProgress('g12-stat-esemenyalgebra-quiz')}
               />
             </div>
           </section>
@@ -952,13 +1012,23 @@ export const Grade12View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g12-sec-stat-esemeny-valoszinusege" number={7} title="Esemény valószínűsége" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A Valószínűség Klasszikus Mezője"
-                subtitle="Kedvező/összes arány, összeadási tétel és feltételes valószínűség"
-                type="Hamarosan"
+                title="Esemény valószínűsége Tananyag"
+                subtitle="Klasszikus valószínűség, komplementer és kizáró események valószínűsége, független események"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-stat-valoszinuseg-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
+                color="rose"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: kedvező / összes, komplementer, kizáró és független események"
+                type="Kvíz"
                 emoji="🎯"
-                disabled={true}
+                onClick={() => onActivitySelect('g12-stat-valoszinuseg-quiz', topicId)}
                 icon={<Target className="w-6 h-6" />}
                 color="rose"
+                {...getTopicProgress('g12-stat-valoszinuseg-quiz')}
               />
             </div>
           </section>
@@ -970,13 +1040,23 @@ export const Grade12View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g12-sec-stat-geometriai-valoszinuseg" number={8} title="Geometriai valószínűség" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Geometriai Valószínűségi Modell"
-                subtitle="Hosszak, területek és térfogatok aránya, a találkozási probléma"
-                type="Hamarosan"
-                emoji="📐"
-                disabled={true}
-                icon={<Compass className="w-6 h-6" />}
+                title="Geometriai valószínűség Tananyag"
+                subtitle="Hosszúságok, területek, szögek és térfogatok aránya: céltábla, szerencsekerék, méterrúd, csempe, cserép"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-stat-geometriai-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: céltábla, szerencsekerék, méterrúd, terület- és térfogatarányok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-stat-geometriai-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="teal"
+                {...getTopicProgress('g12-stat-geometriai-quiz')}
               />
             </div>
           </section>
@@ -988,13 +1068,23 @@ export const Grade12View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g12-sec-stat-varhato-ertek" number={9} title="A várható érték" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Valószínűségi Változó és Várható Érték"
-                subtitle="Diszkrét eloszlások, E(X) = ∑ xi·pi és az igazságos játék feltétele"
-                type="Hamarosan"
-                emoji="⚖️"
-                disabled={true}
-                icon={<Scale className="w-6 h-6" />}
+                title="A várható érték Tananyag"
+                subtitle="E = x₁p₁ + … + xₙpₙ; szerencsekerekek, sorsjegy, részvények várható hozama, kockázat (szórás) és diverzifikáció"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-stat-varhato-ertek-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: szerencsekerék, kocka és érme, sorsjegy, kupon, várható hozam, kockázat"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-stat-varhato-ertek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g12-stat-varhato-ertek-quiz')}
               />
             </div>
           </section>
@@ -1006,13 +1096,23 @@ export const Grade12View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g12-sec-stat-mintavetelek" number={10} title="Mintavételek" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Visszatevéses és Visszatevés Nélküli Minták"
-                subtitle="Binomiális eloszlás, hipergeometrikus eloszlás és lottófeladatok"
-                type="Hamarosan"
-                emoji="🎱"
-                disabled={true}
-                icon={<Globe className="w-6 h-6" />}
+                title="Mintavételek Tananyag"
+                subtitle="Visszatevés nélküli és visszatevéses (binomiális) mintavétel: lottó, osztálylétszámok, mellékhatások, palacsinták"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-stat-mintavetelek-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="cyan"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: lottó, binomiális együtthatók, visszatevés nélküli minta, binomiális eloszlás, érettségi feladatok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-stat-mintavetelek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="cyan"
+                {...getTopicProgress('g12-stat-mintavetelek-quiz')}
               />
             </div>
           </section>
@@ -1024,13 +1124,23 @@ export const Grade12View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g12-sec-stat-tudasproba" number={11} title="Gyakorlás, tudáspróba" color="orange" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Fejezeti Tudáspróba – Statisztika és Valószínűség"
-                subtitle="Összefoglaló képlettár, típusfeladatok ellenőrzése és önértékelés"
-                type="Hamarosan"
-                emoji="🏆"
-                disabled={true}
-                icon={<Trophy className="w-6 h-6" />}
+                title="Gyakorlás, tudáspróba Tananyag"
+                subtitle="A fejezet képlettára: statisztikai jellemzők, dobozdiagram, események, valószínűség, várható érték, mintavételek; érettségi feladatok"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-stat-tudasproba-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="orange"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="90 feladat 3 szinten: statisztikai jellemzők, dobozdiagram, eseményalgebra, klasszikus és geometriai valószínűség, várható érték, mintavételek"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-stat-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="orange"
+                {...getTopicProgress('g12-stat-tudasproba-quiz')}
               />
             </div>
           </section>
