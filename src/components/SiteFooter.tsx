@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, ShieldCheck, FileText, Info, Sparkles, Instagram, Facebook, Youtube } from "lucide-react";
+import { BrandName } from '@/components/BrandName';
 
 export function SiteFooter() {
     const currentYear = new Date().getFullYear();
@@ -18,7 +19,7 @@ export function SiteFooter() {
                     <div className="space-y-6">
                         <div className="flex items-center gap-3">
                             <img src="/logo_header.png" alt="DiákZóna Logo" className="h-10 object-contain" />
-                            <h3 className="text-2xl font-black tracking-tighter text-[#10b981]">DIÁKZÓNA</h3>
+                            <BrandName as="h3" className="text-2xl" />
                         </div>
                         <p className="text-sm leading-relaxed text-slate-400 font-medium max-w-xs">
                             Magyarország legdinamikusabb matematikai és fizikai oktatási platformja. Szenvedélyünk a tanítás és az interaktív élményalapú tanulás.

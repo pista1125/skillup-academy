@@ -12,6 +12,7 @@ import {
   Terminal,
   Scale
 } from 'lucide-react';
+import { BrandName } from '@/components/BrandName';
 
 export default function TermsPage() {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ export default function TermsPage() {
         </Button>
         <div className="flex items-center gap-2">
           <img src="/logo_header.png" alt="DiákZóna Logo" className="h-8 object-contain" />
-          <span className="text-lg font-black tracking-tighter text-emerald-500">DIÁKZÓNA</span>
+          <BrandName variant="onLight" className="text-lg" />
         </div>
       </div>
 

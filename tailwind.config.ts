@@ -16,6 +16,7 @@ export default {
       fontFamily: {
         sans: ['Nunito', 'sans-serif'],
         display: ['Space Grotesk', 'sans-serif'],
+        brand: ['Pacifico', 'cursive'],
       },
       colors: {
         border: "hsl(var(--border))",

@@ -96,6 +96,7 @@ import {
   revokeTeacherAccess 
 } from '@/services/teacherRequestService';
 import { Profile } from '@/contexts/AuthContext';
+import { BrandName } from '@/components/BrandName';
 
 const AVATARS = [
   '🎒', '🎓', '👨‍🏫', '👩‍🏫', '🖍️', '🧪', '🧬', '🚀', '🎨', '🧩', '🎸', '⚽'
@@ -701,7 +702,7 @@ export default function ProfilePage() {
                   className="bg-white/10 text-white hover:bg-white/20 font-black px-1.5 sm:px-3 border border-white/20 shadow-md backdrop-blur-md transition-all hover:scale-105 active:scale-95 flex items-center gap-1 sm:gap-2 h-8 sm:h-10 rounded-xl overflow-hidden"
                 >
                   <img src="/logo_header.png" alt="DiákZóna" className="h-6 sm:h-8 object-contain" />
-                  <span className="text-sm sm:text-lg md:text-xl font-black tracking-tighter">Diákzóna</span>
+                  <BrandName className="text-sm sm:text-lg md:text-xl" />
                 </Button>
               </div>
 

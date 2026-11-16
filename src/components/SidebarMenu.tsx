@@ -17,6 +17,7 @@ import { Avatar, AvatarFallback } from './ui/avatar';
 import { OnlineTutoringModal } from './tutoring/OnlineTutoringModal';
 import { SidebarThemeSelector, ThemeToggle } from './ThemeToggle';
 import { subscribePendingTeacherRequests } from '@/services/teacherRequestService';
+import { BrandName } from '@/components/BrandName';
 
 export function SidebarMenu() {
     const { user, profile, signOut, isAdmin } = useAuth();
@@ -85,7 +86,7 @@ export function SidebarMenu() {
                         <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 blur-2xl pointer-events-none"></div>
                         <div className="flex items-center gap-3 relative z-10">
                             <img src="/logo_header.png" alt="DiákZóna" className="h-8 sm:h-9 object-contain" />
-                            <SheetTitle className="text-lg sm:text-xl font-black tracking-tighter text-white uppercase">DIÁKZÓNA</SheetTitle>
+                            <BrandName as={SheetTitle} className="text-lg sm:text-xl" />
                         </div>
                         <div className="relative z-10">
                             <ThemeToggle className="w-8 h-8 rounded-lg" />
