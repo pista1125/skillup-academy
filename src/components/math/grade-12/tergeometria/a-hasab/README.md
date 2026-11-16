@@ -23,7 +23,7 @@ A magyar Oktatási Hivatal hivatalos tankönyve (`OH-MAT12TA`, Matematika 12., 2
 - **2.** Szabályos hatszög alapú tartószerkezet (a = 4 m, M = 5 m): merevítő rudak √73 ≈ 8,54 m és √89 ≈ 9,43 m.
 - **3.** Szabályos háromszög alapú hirdetőoszlop (90 cm, 300 cm): fekve ≈ 77,9 cm magas; kettőt összeillesztve rombusz alapú hasáb, a legtávolabbi csúcsok ≈ 338,1 cm-re.
 - **HF 2.** Igaz–hamis: páros számú lapátló (igaz), van testátló nélküli hasáb (igaz), oldalél ≥ magasság (igaz), hétszög alapú hasábnak 18 testátlója van (hamis, 28).
-- A HF 3. (svájci csokoládé doboza) ábrája a szövegből nem egyértelmű, ezért nem dolgoztuk fel.
+- **HF 3.** Svájci csokoládé doboza (3 × 8 cm-es téglalap + két 120°-os szárszögű egyenlő szárú háromszög, M = 15 cm): az alaplap leghosszabb átlója 8 + √3 ≈ 9,73 cm, a leghosszabb kötőtű ≈ 17,9 cm.
 
 > **⚠️ CSAPDA:** Ferde hasábban a magasság nem az oldalél: M = oldalél · sin(hajlásszög) < oldalél.
 
@@ -42,7 +42,7 @@ A magyar Oktatási Hivatal hivatalos tankönyve (`OH-MAT12TA`, Matematika 12., 2
    - **II. Laboratórium:** hasábtípus-felismerő – alaplap-alak és egyenes/ferde választás, a test neve és forgatható 3D képe.
 3. **`PrismMatcher.tsx`**: 3 szint × 8 pár (részek és fajták; darabszámok; átlók és távolságok).
 4. **`PrismSorter.tsx`**: 3 szint × 3 kategória × 9 elem (egyenes / ferde / téglatest; csúcs / él / lap; igaz / hamis / függ).
-5. **`PrismQuiz.tsx`**: 30 kérdés 3 szinten (10/10/10), 13 kérdésábrával, 3 puskakártyával.
+5. **`PrismQuiz.tsx`**: 30 kérdés 3 szinten (10/10/10), 14 kérdésábrával, 3 puskakártyával.
 - `figKit.tsx`: belső rajzsegédek (nem exportáljuk az `index.ts`-ből).
 
 Aktivitás-azonosítók: `g12-ter-hasab-quiz` / `-matcher` / `-sorter`.

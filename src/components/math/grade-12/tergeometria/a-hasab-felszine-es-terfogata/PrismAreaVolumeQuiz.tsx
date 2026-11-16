@@ -43,7 +43,7 @@ const FIG_Q3 = (
   />
 );
 
-const triRight = kPrism([[0, 0], [4, 0], [0, 3]], 10);
+const triRight = kPrism([[0, 0], [2.8, 0], [0, 4.5]], 8.5);
 const FIG_Q7 = (
   <KSolidFig
     verts={triRight.verts}
@@ -52,9 +52,9 @@ const FIG_Q7 = (
     extra={(P) => (
       <>
         <KRight v={P[0]} p1={P[1]} p2={P[2]} r={8} />
-        {lbl(P, 0, 1, '4 cm', 0, 11)}
-        {lbl(P, 0, 2, '3 cm', -14, 4)}
-        {lbl(P, 0, 3, '10 cm', -20, 0)}
+        {lbl(P, 0, 1, '28 mm', 0, 11)}
+        {lbl(P, 0, 2, '45 mm', 18, 4)}
+        {lbl(P, 0, 3, '85 mm', -22, 0)}
       </>
     )}
   />
@@ -100,7 +100,7 @@ const FIG_Q12 = (
   />
 );
 
-const hexP = kPrism(kRegular(6, 2, 0, 2, 2), 5);
+const hexP = kPrism(kRegular(6, 2.4, 0, 2.4, 2.4), 8.5);
 const FIG_Q14 = (
   <KSolidFig
     verts={hexP.verts}
@@ -108,8 +108,8 @@ const FIG_Q14 = (
     shade={[1]}
     extra={(P) => (
       <>
-        {lbl(P, 3, 4, '2 cm', -10, 10)}
-        <KText p={[P[3][0] - 8, (P[3][1] + P[9][1]) / 2]} t="5 cm" s={10} c={K_BLUE} a="end" />
+        {lbl(P, 3, 4, '24 mm', -10, 10)}
+        <KText p={[P[3][0] - 8, (P[3][1] + P[9][1]) / 2]} t="85 mm" s={10} c={K_BLUE} a="end" />
       </>
     )}
   />
@@ -136,22 +136,19 @@ const FIG_Q15 = (() => {
 })();
 
 const FIG_Q18 = (() => {
-  const c: P2 = [92, 82];
-  const A: P2 = [c[0] - 60, c[1]];
-  const B: P2 = [c[0], c[1] + 45];
-  const C: P2 = [c[0] + 60, c[1]];
-  const D: P2 = [c[0], c[1] - 45];
+  // 52 mm oldalú, 60°-os rombusz (1 mm ≈ 1,55 px)
+  const A: P2 = [24, 125];
+  const B: P2 = [104, 125];
+  const D: P2 = [64, 125 - 40 * Math.sqrt(3)];
+  const C: P2 = [144, 125 - 40 * Math.sqrt(3)];
   return (
     <KFig>
       <KPoly p={[A, B, C, D]} fill="#e0e7ff" c={K_EDGE} w={2} />
-      <KLine a={A} b={C} c={K_RED} w={1.4} dash />
-      <KLine a={B} b={D} c={K_RED} w={1.4} dash />
-      <KRight v={c} p1={C} p2={D} r={8} />
-      <KText p={[c[0] + 30, c[1] + 9]} t="8" s={10} c={K_RED} />
-      <KText p={[c[0] - 8, c[1] - 24]} t="6" s={10} c={K_RED} />
-      <text x="165" y="70" fontSize="10.5" fontWeight="bold" fill="#334155">alaplap:</text>
-      <text x="165" y="86" fontSize="10.5" fontWeight="bold" fill="#334155">rombusz</text>
-      <text x="165" y="110" fontSize="10.5" fontWeight="bold" fill={K_PURPLE}>M = 10 cm</text>
+      <KAngle v={A} p1={B} p2={D} t="60°" r={14} tr={26} />
+      <KText p={[64, 139]} t="52 mm" s={10} c={K_BLUE} />
+      <text x="160" y="80" fontSize="10.5" fontWeight="bold" fill="#334155">alaplap:</text>
+      <text x="160" y="96" fontSize="10.5" fontWeight="bold" fill="#334155">rombusz</text>
+      <text x="160" y="120" fontSize="10.5" fontWeight="bold" fill={K_PURPLE}>M = 85 mm</text>
     </KFig>
   );
 })();
@@ -211,17 +208,18 @@ const FIG_Q26 = (() => {
   const tf = 10 * k;
   const tw = 7 * k;
   const cx = ox + W / 2;
+  // C-profil: a 7 mm-es gerinc a bal oldalon, a 10 mm vastag övek jobbra nyúlnak
   const pts: P2[] = [
-    [ox, oy], [ox + W, oy], [ox + W, oy + tf], [cx + tw / 2, oy + tf], [cx + tw / 2, oy + H - tf], [ox + W, oy + H - tf],
-    [ox + W, oy + H], [ox, oy + H], [ox, oy + H - tf], [cx - tw / 2, oy + H - tf], [cx - tw / 2, oy + tf], [ox, oy + tf]
+    [ox, oy], [ox + W, oy], [ox + W, oy + tf], [ox + tw, oy + tf], [ox + tw, oy + H - tf],
+    [ox + W, oy + H - tf], [ox + W, oy + H], [ox, oy + H]
   ];
   return (
     <KFig>
       <KPoly p={pts} fill="#cbd5e1" c={K_EDGE} w={1.6} />
       <KText p={[cx, oy - 8]} t="60" s={9.5} c={K_BLUE} />
       <KText p={[ox - 14, oy + H / 2]} t="140" s={9.5} c={K_BLUE} />
-      <KText p={[ox + W + 11, oy + tf / 2]} t="10" s={9.5} c={K_BLUE} />
-      <KText p={[cx + 12, oy + H / 2]} t="7" s={9.5} c={K_BLUE} />
+      <KText p={[ox + W + 11, oy + H - tf / 2]} t="10" s={9.5} c={K_BLUE} />
+      <KText p={[ox + tw + 10, oy + H / 2]} t="7" s={9.5} c={K_BLUE} />
       <text x="120" y="60" fontSize="10.5" fill="#334155">méretek mm-ben</text>
       <text x="120" y="80" fontSize="10.5" fill="#334155">hossz: 6 m</text>
       <text x="120" y="100" fontSize="10.5" fill="#334155">tömeg: 96 kg</text>
@@ -291,10 +289,10 @@ const PRISM_AV_QUESTIONS: QuizQuestion[] = [
     questionTypeBadge: 'Háromszög alapú hasáb',
     figure: FIG_Q7,
     level: 1,
-    question: 'Egy egyenes hasáb alaplapja 3 cm és 4 cm befogójú derékszögű háromszög, magassága 10 cm. Mekkora a térfogata?',
-    options: ['60 cm³', '120 cm³', '70 cm³', '30 cm³'],
+    question: 'Egy egyenes hasáb oldalélei 85 mm-esek, alaplapja 45 mm és 28 mm befogójú derékszögű háromszög. Mekkora a térfogata?',
+    options: ['53,55 cm³', '107,1 cm³', '119,7 cm³', '5,355 cm³'],
     correctAnswer: 0,
-    explanation: 'T = 3 · 4 / 2 = 6 cm², V = 6 · 10 = 60 cm³. (120 akkor jönne ki, ha elfelejtenénk 2-vel osztani.)'
+    explanation: 'T = 45 · 28 / 2 = 630 mm², V = 630 · 85 = 53 550 mm³ = 53,55 cm³. (107,1 cm³ akkor jönne ki, ha elfelejtenénk 2-vel osztani; 119,7 cm² a felszíne: az átfogó √(45² + 28²) = 53 mm, A = 2 · 630 + 126 · 85 = 11 970 mm².)'
   },
   {
     id: 'pav-q8',
@@ -359,10 +357,10 @@ const PRISM_AV_QUESTIONS: QuizQuestion[] = [
     questionTypeBadge: 'Hatszög alapú hasáb',
     figure: FIG_Q14,
     level: 2,
-    question: 'Mekkora a 2 cm alapélű, 5 cm magas szabályos hatszög alapú egyenes hasáb térfogata?',
-    options: ['30√3 ≈ 51,96 cm³', '60 cm³', '15√3 ≈ 25,98 cm³', '10√3 ≈ 17,32 cm³'],
+    question: 'Egy szabályos hatszög alapú egyenes hasáb alapéle 24 mm, oldalélei 85 mm-esek. Mekkora a térfogata?',
+    options: ['≈ 127,2 cm³', '≈ 293,8 cm³', '≈ 21,2 cm³', '≈ 152,3 cm³'],
     correctAnswer: 0,
-    explanation: 'A hatszög 6 szabályos háromszögből áll: T = 6 · (√3/4) · 2² = 6√3 cm², V = 6√3 · 5 = 30√3 ≈ 51,96 cm³.'
+    explanation: 'A hatszög 6 szabályos háromszögből áll: T = 6 · (√3/4) · 24² = 864√3 ≈ 1496,5 mm², V = 1496,5 · 85 ≈ 127 202 mm³ ≈ 127,2 cm³. (A felszíne A = 2 · 1496,5 + 144 · 85 ≈ 15 233 mm² ≈ 152,3 cm².)'
   },
   {
     id: 'pav-q15',
@@ -397,10 +395,10 @@ const PRISM_AV_QUESTIONS: QuizQuestion[] = [
     questionTypeBadge: 'Rombusz alapú hasáb',
     figure: FIG_Q18,
     level: 2,
-    question: 'Egy egyenes hasáb alaplapja 6 cm és 8 cm átlójú rombusz, magassága 10 cm. Mekkora a felszíne?',
-    options: ['248 cm²', '240 cm²', '296 cm²', '224 cm²'],
+    question: 'Egy egyenes hasáb oldalélei 85 mm-esek, alaplapja 52 mm oldalú, 60°-os szögű rombusz. Mekkora a felszíne?',
+    options: ['≈ 223,6 cm²', '≈ 200,2 cm²', '≈ 230,9 cm²', '≈ 199,0 cm²'],
     correctAnswer: 0,
-    explanation: 'T = 6 · 8 / 2 = 24 cm²; a rombusz oldala √(3² + 4²) = 5 cm, K = 20 cm. A = 2 · 24 + 20 · 10 = 248 cm². (240 cm³ a térfogata.)'
+    explanation: 'T = 52² · sin 60° ≈ 2341,7 mm², K = 4 · 52 = 208 mm. A = 2 · 2341,7 + 208 · 85 ≈ 22 363 mm² ≈ 223,6 cm². (200,2 cm² egy alaplappal; 230,9 cm², ha a sin 60°-ot elhagyjuk; ≈ 199,0 cm³ a térfogata.)'
   },
   {
     id: 'pav-q19',
@@ -475,7 +473,7 @@ const PRISM_AV_QUESTIONS: QuizQuestion[] = [
     questionTypeBadge: 'Sűrűség',
     figure: FIG_Q26,
     level: 3,
-    question: 'Egy 6 m hosszú, 96 kg-os tömör I-tartó keresztmetszete 140 mm magas, az övek 60 mm szélesek és 10 mm vastagok, a gerinc 7 mm vastag. Mekkora az anyag sűrűsége?',
+    question: 'Egy 6 m hosszú, 96 kg-os tömör fémgerenda keresztmetszete az ábrán látható C alakú profil: 140 mm magas, a két öv 60 mm széles és 10 mm vastag, a gerinc 7 mm vastag. Mekkora az anyag sűrűsége?',
     options: ['≈ 7,84 g/cm³', '≈ 7,84 kg/cm³', '≈ 1,14 g/cm³', '≈ 9,52 g/cm³'],
     correctAnswer: 0,
     explanation: 'T = 2 · 60 · 10 + 120 · 7 = 2040 mm² = 20,4 cm², V = 20,4 · 600 = 12 240 cm³, ρ = 96 000 g / 12 240 cm³ ≈ 7,84 g/cm³ (acél).'
@@ -485,7 +483,7 @@ const PRISM_AV_QUESTIONS: QuizQuestion[] = [
     questionTypeBadge: 'Felszín',
     figure: FIG_Q26,
     level: 3,
-    question: 'Mekkora ugyanennek a 6 m-es I-tartónak a felszíne? (A keresztmetszet kerülete 506 mm, területe 20,4 cm².)',
+    question: 'Mekkora ugyanennek a 6 m-es fémgerendának a felszíne? (A keresztmetszet kerülete 506 mm, területe 20,4 cm².)',
     options: ['≈ 30 401 cm²', '≈ 30 360 cm²', '≈ 12 240 cm²', '≈ 3040 cm²'],
     correctAnswer: 0,
     explanation: 'A = 2 · T + K · M = 2 · 20,4 + 50,6 · 600 = 40,8 + 30 360 ≈ 30 401 cm². (30 360 cm² csak a palást.)'

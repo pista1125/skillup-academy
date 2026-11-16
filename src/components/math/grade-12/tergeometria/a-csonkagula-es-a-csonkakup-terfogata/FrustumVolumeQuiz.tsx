@@ -559,7 +559,7 @@ export const FRUSTUM_VOLUME_QUESTIONS: QuizQuestion[] = [
     question: 'A sajtgúla (a = 4 cm, M ≈ 6,4 cm) tetejét levágják, a kis gúla magassága az eredeti 60%-a. Mekkora a megmaradt csonkagúla térfogata?',
     options: ['≈ 26,8 cm³', '≈ 7,4 cm³', '≈ 34,1 cm³', '≈ 20,5 cm³'],
     correctAnswer: 0,
-    explanation: 'V_nagy = 16 · √41/3 ≈ 34,1 cm³, V_csonka = (1 − 0,6³) · V_nagy = 0,784 · 34,1 ≈ 26,8 cm³ (a tankönyv kerekítve 26,7 cm³-t ír).'
+    explanation: 'V_nagy = 16 · √41/3 ≈ 34,15 cm³, V_csonka = (1 − 0,6³) · V_nagy = 0,784 · 34,15 ≈ 26,8 cm³. (A tankönyv a kerekített 34,1 cm³-rel számol: 0,784 · 34,1 ≈ 26,7 cm³.)'
   },
   // ---------------- 3. szint ----------------
   {

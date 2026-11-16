@@ -75,9 +75,9 @@ export const PyramidCutSvg: React.FC<FigProps> = ({ className = CLS }) => {
       <RightMark v={O} p1={apex} p2={g.pts[1]} r={8} />
       <Txt p={[O[0] + 8, (Oc[1] + O[1]) / 2]} t="6 dm" anchor="start" color={SK.red} size={10.5} />
       <Txt p={[O[0] + 8, (apex[1] + Oc[1]) / 2]} t="2 dm" anchor="start" color={SK.aux} size={10.5} />
-      <Txt p={[(g.pts[0][0] + g.pts[1][0]) / 2, g.pts[0][1] + 12]} t="a = 5" size={10.5} />
+      <Txt p={[(g.pts[0][0] + g.pts[1][0]) / 2, g.pts[0][1] + 12]} t="a = 5 cm" size={10.5} />
       <Txt p={[352, 196]} t="λ = 2 / 8 = 1/4" anchor="end" size={10.5} color={SK.ang} />
-      <Txt p={[352, 212]} t="fedőél = 5/4" anchor="end" size={10.5} color={SK.arc} />
+      <Txt p={[352, 212]} t="fedőél = 5/4 = 1,25 cm" anchor="end" size={10.5} color={SK.arc} />
     </QFig>
   );
 };

@@ -256,18 +256,23 @@ export const SolidsEverydayGateSvg: React.FC<{ className?: string }> = ({ classN
   </KFig>
 );
 
-/** 2. feladat: torta felülnézetben – négyzet + félkör, magassága 8 cm. */
+/** 2. feladat: szív alakú torta felülnézetben – négyzet + két szomszédos oldalára illesztett félkör (a kettévágott henger), magassága 8 cm. */
 export const SolidsEverydayCakeSvg: React.FC<{ className?: string }> = ({ className }) => (
-  <KFig w={320} h={190} className={className ?? FIG_CLS}>
-    <rect x="50" y="35" width="130" height="130" fill="rgba(236,72,153,0.12)" stroke={K_EDGE} strokeWidth="1.8" />
-    <path d="M 180 35 A 65 65 0 0 1 180 165" fill="rgba(236,72,153,0.18)" stroke={K_EDGE} strokeWidth="1.8" />
-    <KL a={[180, 100]} b={[245, 100]} c={K_AUX} w={1.3} />
-    <KT p={[212, 92]} t="10 cm" s={10} c={K_AUX} />
-    <KT p={[115, 178]} t="20 cm" s={10.5} />
-    <KT p={[36, 100]} t="20 cm" s={10.5} a="end" />
-    <KT p={[115, 100]} t="hasáb" s={11} c="#be185d" />
-    <KT p={[210, 140]} t="félhenger" s={10} c="#be185d" />
-    <KT p={[160, 18]} t="felülnézet, a torta magassága 8 cm" s={10} c="#334155" b={false} />
+  <KFig w={320} h={230} className={className ?? FIG_CLS}>
+    <rect x="40" y="85" width="110" height="110" fill="rgba(236,72,153,0.12)" stroke={K_EDGE} strokeWidth="1.8" />
+    <path d="M 150 85 A 55 55 0 0 1 150 195" fill="rgba(236,72,153,0.18)" stroke={K_EDGE} strokeWidth="1.8" />
+    <path d="M 40 85 A 55 55 0 0 1 150 85" fill="rgba(236,72,153,0.18)" stroke={K_EDGE} strokeWidth="1.8" />
+    <KL a={[150, 140]} b={[205, 140]} c={K_AUX} w={1.3} />
+    <KT p={[178, 132]} t="10 cm" s={10} c={K_AUX} />
+    <KT p={[95, 210]} t="20 cm" s={10.5} />
+    <KT p={[28, 140]} t="20 cm" s={10.5} a="end" />
+    <KT p={[95, 140]} t="hasáb" s={11} c="#be185d" />
+    <KT p={[95, 64]} t="félhenger" s={10} c="#be185d" />
+    <KT p={[178, 168]} t="félhenger" s={9.5} c="#be185d" />
+    <KT p={[250, 60]} t="2 félhenger" s={10} c="#334155" b={false} />
+    <KT p={[250, 76]} t="= 1 teljes henger" s={10} c="#334155" b={false} />
+    <KT p={[250, 205]} t="magasság: 8 cm" s={10} c="#334155" b={false} />
+    <KT p={[160, 16]} t="felülnézet" s={10} c="#334155" b={false} />
   </KFig>
 );
 
@@ -341,5 +346,25 @@ export const SolidsEverydayTankSvg: React.FC<{ className?: string }> = ({ classN
     <KL a={[70, 150]} b={[170, 150]} c={K_AUX} w={1.2} />
     <KT p={[120, 162]} t="d = 6 m" s={10} c={K_AUX} />
     <KT p={[120, 212]} t="félgömb + henger + kúp" s={10} c="#334155" b={false} />
+  </KFig>
+);
+
+/** HF 2.: a vízelvezető árok keresztmetszete – a fakeret (egy 60 cm-es és öt 30 cm-es léc) három szabályos háromszöget alkot. */
+export const SolidsEverydayDitchSvg: React.FC<{ className?: string }> = ({ className }) => (
+  <KFig w={260} h={170} className={className ?? FIG_CLS}>
+    <KPoly p={[[40, 40], [220, 40], [175, 118], [85, 118]]} fill="rgba(14,165,233,0.16)" />
+    <KL a={[85, 118]} b={[130, 40]} c="#92400e" w={2.4} />
+    <KL a={[130, 40]} b={[175, 118]} c="#92400e" w={2.4} />
+    <KL a={[40, 40]} b={[220, 40]} c="#92400e" w={2.6} />
+    <KL a={[40, 40]} b={[85, 118]} c="#92400e" w={2.4} />
+    <KL a={[220, 40]} b={[175, 118]} c="#92400e" w={2.4} />
+    <KL a={[85, 118]} b={[175, 118]} c="#92400e" w={2.4} />
+    <KL a={[130, 40]} b={[130, 118]} c={K_AUX} w={1.2} d />
+    <KT p={[130, 30]} t="60 cm (talajszint)" s={10} />
+    <KT p={[130, 134]} t="30 cm" s={10} />
+    <KT p={[52, 84]} t="30 cm" s={10} a="end" />
+    <KT p={[208, 84]} t="30 cm" s={10} a="start" />
+    <KT p={[136, 90]} t="m" s={10} c={K_AUX} a="start" />
+    <KT p={[130, 160]} t="keresztmetszet: szimmetrikus trapéz, 3 szabályos háromszög" s={9} c="#334155" b={false} />
   </KFig>
 );

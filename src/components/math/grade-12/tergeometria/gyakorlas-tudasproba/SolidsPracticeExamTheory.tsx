@@ -247,6 +247,7 @@ export const SolidsPracticeExamTheory: React.FC<{
               <li><strong>1.</strong> 3,2 × 3,7 × 6,8 dm-es ládika: 21 · 24 = <strong>504</strong> pálca (15 mm-es négyzet alap); testátló √70,17 ≈ 8,38 dm &gt; 8,3 dm ⇒ a 8,3 dm-es pálca <strong>elfér</strong>.</li>
               <li><strong>2.</strong> Fazék (⌀ 18 cm, 12 cm leves): 972π ≈ 3054 cm³ ≈ <strong>3,05 l</strong>; merőkanál (⌀ 8 cm félgömb) ≈ 134 cm³ ⇒ <strong>22 adag</strong>.</li>
               <li><strong>3.</strong> Henger = gömb térfogata (⌀ 72 mm): m = 4r/3 = <strong>48 mm</strong>.</li>
+              <li><strong>4.</strong> Cölöp (78 cm: 5 cm-es csonkakúp ⌀ 10 → ⌀ 6 cm, 60 cm-es henger ⌀ 10 cm, 13 cm-es kúp) 80 cm-es, ⌀ 10 cm-es fahengerből: cölöp 245π/3 + 1500π + 325π/3 = 1690π ≈ 5309 cm³, nyersanyag 2000π ≈ 6283 cm³ ⇒ <strong>15,5%</strong> hulladék.</li>
               <li><strong>5.</strong> Szökőkút (a = 40 cm, M = 70 cm): belső felület ≈ <strong>58,2 dm²</strong>, ≈ <strong>37,3 l</strong> víz, az élek ≈ <strong>68,0°</strong>-os szöget zárnak be a vízszintessel.</li>
             </ul>
           </TheoryCard>
@@ -256,6 +257,7 @@ export const SolidsPracticeExamTheory: React.FC<{
               <li><strong>1.</strong> 30 × 40 × 20 cm: testátló √2900 ≈ 53,85 cm ⇒ az 53 cm-es bot <strong>becsomagolható</strong>; a lapra állított gúla V = 30 · 40 · 20 / 3 = <strong>8000 cm³</strong>.</li>
               <li><strong>2.</strong> Kúp = gömb térfogata (⌀ 54 mm): m = 4r = <strong>108 mm</strong>.</li>
               <li><strong>3.</strong> Tál (⌀ 22 cm-ből ⌀ 11 cm-es félgömb kivájva): ≈ <strong>348 cm³</strong> víz fér bele; festendő 393,25π ≈ <strong>1235 cm²</strong>.</li>
+              <li><strong>4.</strong> Nyerscsavar (mm: fej ⌀ 11 → ⌀ 4, 3 mm; szár ⌀ 4, 30 mm; kúp hegy 3 mm): 169,25π ≈ 531,7 mm³ ≈ 4,63 g/db; 1,5 · 10⁶ db ≈ 6939 kg, 17,8% veszteséggel 6939 / 0,822 ≈ <strong>8441 kg ≈ 8,4 t</strong> nyersanyag.</li>
               <li><strong>5.</strong> Louvre (a = 35 m, M = 20,6 m): oldalél ≈ <strong>39,8°</strong>, oldallap ≈ <strong>49,7°</strong>, üvegfelület ≈ <strong>1892 m²</strong>.</li>
             </ul>
           </TheoryCard>
@@ -263,7 +265,7 @@ export const SolidsPracticeExamTheory: React.FC<{
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
           <SolidsPracticeExamBowlSvg />
           <TheoryCallout type="info" title="A tál festése – mit kell összeadni?">
-            Külső félgömb 2π · 11² = 242π, belső félgömb 2π · 5,5² = 60,5π és a perem körgyűrűje π(11² − 5,5²) = 90,75π. Összesen 393,25π ≈ 1235 cm². (A Tudáspróba I. 4. és II. 4. – cölöp, nyerscsavar – a tankönyvi ábra méreteit igényli.)
+            Külső félgömb 2π · 11² = 242π, belső félgömb 2π · 5,5² = 60,5π és a perem körgyűrűje π(11² − 5,5²) = 90,75π. Összesen 393,25π ≈ 1235 cm².
           </TheoryCallout>
         </div>
       </TheorySection>

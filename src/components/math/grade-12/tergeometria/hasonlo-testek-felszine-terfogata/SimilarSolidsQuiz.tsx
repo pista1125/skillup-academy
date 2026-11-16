@@ -440,12 +440,12 @@ const SIMILAR_SOLIDS_QUESTIONS: QuizQuestion[] = [
   },
   {
     id: 'sim-q28',
-    questionTypeBadge: 'Visszafelé',
+    questionTypeBadge: 'Gömbök felszíne',
     level: 3,
-    question: 'Két hasonló kúp térfogatának aránya 27 : 64. Mennyi a felszínük aránya?',
-    options: ['9 : 16', '3 : 4', '27 : 64', '81 : 256'],
+    question: 'A marcipános feladatban háromféle gömb szerepel: a 22 mm-es marcipángolyó, a 30 mm-es bonbon és az 5,2 dm³ csokoládéval kapható ≈ 34,2 mm-es bonbon. Mekkora a felszínük?',
+    options: ['≈ 1520,5 mm², ≈ 2827,4 mm², ≈ 3665,7 mm²', '≈ 6082,1 mm², ≈ 11 309,7 mm², ≈ 14 662,8 mm²', '≈ 380,1 mm², ≈ 706,9 mm², ≈ 916,4 mm²', '≈ 760,3 mm², ≈ 1413,7 mm², ≈ 1832,9 mm²'],
     correctAnswer: 0,
-    explanation: 'k³ = 27/64 ⇒ k = 3/4, a felszínek aránya k² = 9/16.'
+    explanation: 'A = 4r²π: r = 11 mm ⇒ 484π ≈ 1520,5 mm²; r = 15 mm ⇒ 900π ≈ 2827,4 mm²; r ≈ 17,08 mm ⇒ ≈ 3665,7 mm². A két 30 mm-es / 22 mm-es felszín aránya (15/11)² ≈ 1,86 = k². (A második sor az átmérővel mint sugárral, a harmadik a főkör területével számol.)'
   },
   {
     id: 'sim-q29',

@@ -178,6 +178,22 @@ export const PyramidAreaVolumeTheory: React.FC<{
               a = 12 cm, b = 13 cm. M = √(13² − 12²) = <strong>5 cm</strong>; T<sub>alap</sub> = 6 · 144√3 / 4 ≈ 374,1 cm²; V = 374,1 · 5 / 3 ≈ <strong>623,5 cm³</strong>. Oldalél–alaplap: tg α = 5/12 ⇒ α ≈ 22,6°; oldallap–alaplap: tg β = 5 / (6√3) ⇒ β ≈ 25,7°. m<sub>o</sub> = √(169 − 36) ≈ 11,53 cm ⇒ A ≈ 374,1 + 6 · 12 · 11,53 / 2 ≈ <strong>789,3 cm²</strong>.
             </p>
           </TheoryCard>
+          <TheoryCard title="E) Három 15 cm magas gúla" badge="1. feladat" badgeColor="amber">
+            <p className="text-sm text-slate-700 leading-relaxed mb-2">
+              Alaplapok: rombusz (átlók 18 és 15 cm), szabályos ötszög (a = 9 cm), szabályos háromszög (a = 17 cm); M = 15 cm. Mindhárom alaplapnak van beírt köre, a magasság talppontja ennek középpontja, így minden oldallap magassága m<sub>o</sub> = √(M² + ρ²).
+            </p>
+            <TheoryTable
+              headers={['Alaplap', 'T_alap', 'ρ', 'mₒ', 'Felszín', 'Térfogat']}
+              rows={[
+                ['rombusz (oldal ≈ 11,72)', '135 cm²', '≈ 5,76', '≈ 16,07', '≈ 511,5 cm²', '675 cm³'],
+                ['szabályos ötszög', '≈ 139,4 cm²', '≈ 6,19', '≈ 16,23', '≈ 504,5 cm²', '≈ 696,8 cm³'],
+                ['szabályos háromszög', '≈ 125,1 cm²', '≈ 4,91', '≈ 15,78', '≈ 527,6 cm²', '≈ 625,7 cm³']
+              ]}
+            />
+            <p className="text-sm text-slate-700 leading-relaxed mt-2">
+              a) Térfogat: a legnagyobb az <strong>ötszög</strong> alapú, a legkisebb a <strong>háromszög</strong> alapú gúla. b) Felszín: a legnagyobb a <strong>háromszög</strong> alapú, a legkisebb az <strong>ötszög</strong> alapú gúla.
+            </p>
+          </TheoryCard>
         </div>
       </TheorySection>
 

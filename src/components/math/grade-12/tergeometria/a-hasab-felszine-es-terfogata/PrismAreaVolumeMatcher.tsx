@@ -56,7 +56,7 @@ const PRISM_AREA_VOLUME_MATCHER_LEVELS: Record<DifficultyLevel, MatcherLevelConf
       { id: 'pavm17', left: 'a kalapácsfej tömege', right: '≈ 500 g' },
       { id: 'pavm18', left: 'a vízelvezető árok mélysége', right: '37,5 cm' },
       { id: 'pavm19', left: '120 m-es árokszakaszba férő víz', right: '112 500 liter' },
-      { id: 'pavm20', left: 'az I-tartó anyagának sűrűsége', right: '≈ 7,84 g/cm³' },
+      { id: 'pavm20', left: 'a fémgerenda (C-profil) anyagának sűrűsége', right: '≈ 7,84 g/cm³' },
       { id: 'pavm21', left: 'a dobogó felszíne alsó lapok nélkül', right: '24 525 cm²' },
       { id: 'pavm22', left: 'a 2240 literes hatszög alapú medence alapéle', right: '≈ 1,2 m' },
       { id: 'pavm23', left: 'a nyolcszög alapú (bűvös kocka) hasáb térfogata', right: '21 térfogategység' },

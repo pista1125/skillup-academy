@@ -122,7 +122,7 @@ export const OctaBaseAreaSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS 
   );
 };
 
-// 4. ábra: az I-tartó keresztmetszete
+// 4. ábra: a fémgerenda (C-profil) keresztmetszete
 export const IBeamSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS }) => {
   const k = 1.3; // px / mm
   const ox = 70;
@@ -131,23 +131,22 @@ export const IBeamSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS }) => {
   const H = 140 * k;
   const tf = 10 * k;
   const tw = 7 * k;
-  const cx = ox + W / 2;
   const pts: P2[] = [
-    [ox, oy], [ox + W, oy], [ox + W, oy + tf], [cx + tw / 2, oy + tf], [cx + tw / 2, oy + H - tf], [ox + W, oy + H - tf],
-    [ox + W, oy + H], [ox, oy + H], [ox, oy + H - tf], [cx - tw / 2, oy + H - tf], [cx - tw / 2, oy + tf], [ox, oy + tf]
+    [ox, oy], [ox + W, oy], [ox + W, oy + tf], [ox + tw, oy + tf], [ox + tw, oy + H - tf],
+    [ox + W, oy + H - tf], [ox + W, oy + H], [ox, oy + H]
   ];
   return (
-    <Frame title="6 m hosszú I-tartó keresztmetszete (mm)" className={className}>
+    <Frame title="6 m hosszú fémgerenda keresztmetszete (mm)" className={className}>
       <KPoly p={pts} fill="#cbd5e1" c={K_EDGE} w={2} />
-      <KText p={[cx, oy - 10]} t="60" s={11} c={K_BLUE} />
+      <KText p={[ox + W / 2, oy - 10]} t="60" s={11} c={K_BLUE} />
       <KText p={[ox - 22, oy + H / 2]} t="140" s={11} c={K_BLUE} />
-      <KText p={[ox + W + 16, oy + tf / 2]} t="10" s={11} c={K_BLUE} />
-      <KText p={[cx + 18, oy + H / 2]} t="7" s={11} c={K_BLUE} />
+      <KText p={[ox + W + 16, oy + H - tf / 2]} t="10" s={11} c={K_BLUE} />
+      <KText p={[ox + tw + 14, oy + H / 2]} t="7" s={11} c={K_BLUE} />
       <text x="230" y="80" fontSize="12" fill="#334155">T = 2 · 60 · 10 + 120 · 7</text>
       <text x="230" y="100" fontSize="12.5" fontWeight="bold" fill="#0f172a">T = 2040 mm² = 20,4 cm²</text>
       <text x="230" y="130" fontSize="12" fill="#334155">V = 20,4 · 600 = 12 240 cm³</text>
       <text x="230" y="150" fontSize="12.5" fontWeight="bold" fill="#0f172a">ρ = 96 000 g : 12 240 cm³ ≈ 7,84 g/cm³</text>
-      <text x="230" y="180" fontSize="12" fill="#334155">K = 2 · 60 + 4 · 10 + 4 · 26,5 + 2 · 120</text>
+      <text x="230" y="180" fontSize="12" fill="#334155">K = 140 + 2 · 60 + 2 · 10 + 2 · 53 + 120</text>
       <text x="230" y="200" fontSize="12" fill="#334155">K = 506 mm = 50,6 cm</text>
       <text x="230" y="230" fontSize="12.5" fontWeight="bold" fill="#0f172a">A = 2 · 20,4 + 50,6 · 600 ≈ 30 401 cm²</text>
     </Frame>

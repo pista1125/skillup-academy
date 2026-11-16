@@ -53,7 +53,7 @@ const MATCHER_LEVELS_LIST: MatcherLevelConfig[] = [
     title: '3. szint: Tankönyvi feladatok',
     description: 'Párosítsd a feladatot az eredményével!',
     pairs: [
-      { id: 'frum17', left: 'M = 8 dm, a = 5, vágás a csúcstól 2 dm-re ⇒ fedőél', right: '1,25' },
+      { id: 'frum17', left: 'M = 8 dm, a = 5 cm, vágás a csúcstól 2 dm-re ⇒ fedőél', right: '1,25 cm' },
       { id: 'frum18', left: 'M = 20, a = 6, vágás az alaptól 2 cm-re ⇒ fedőél', right: '5,4 cm' },
       { id: 'frum19', left: 'trapéz 16 és 10 cm, 30° ⇒ magasság', right: '√3 ≈ 1,73 cm' },
       { id: 'frum20', left: 'trapéz 16 és 10 cm, 30° ⇒ alkotó', right: '2√3 ≈ 3,46 cm' },

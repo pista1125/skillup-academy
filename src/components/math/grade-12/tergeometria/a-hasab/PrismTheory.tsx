@@ -196,6 +196,9 @@ export const PrismTheory: React.FC<{
         <TheoryCallout type="tip" title="Hány átló van? (n-oldalú hasáb)">
           Alaplap- és fedőlap-átlók: 2 · n(n − 3)/2 = n(n − 3); oldallapokon 2n lapátló; összesen n(n − 1) lapátló – ez mindig páros. Testátló: minden alapcsúcsból n − 3 indul, összesen n(n − 3). A háromszög alapú hasábnak nincs testátlója; a hétszög alapúnak 7 · 4 = 28 van.
         </TheoryCallout>
+        <TheoryCallout type="info" title="HF 3. A svájci csokoládé doboza">
+          Az egyenes hasáb alaplapja egy 3 cm × 8 cm-es téglalap, a két 3 cm-es oldalára illesztett egyenlő szárú, 120°-os szárszögű háromszöggel (hatszög); a doboz 15 cm magas. A háromszögek magassága 1,5 / tg 60° = √3/2 ≈ 0,87 cm, így az alaplap leghosszabb átlója a két 120°-os csúcs távolsága: 8 + √3 ≈ 9,73 cm. A leghosszabb kötőtű a leghosszabb testátló: √(9,73² + 15²) ≈ <strong>17,9 cm</strong>.
+        </TheoryCallout>
       </TheorySection>
 
       <TheorySection title="5. Tipikus hiba: oldalél vagy magasság?" badge="Csapda" badgeColor="rose">

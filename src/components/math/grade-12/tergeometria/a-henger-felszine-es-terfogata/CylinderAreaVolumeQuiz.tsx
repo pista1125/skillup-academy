@@ -86,12 +86,12 @@ const FIG_Q23 = (() => {
   return (
     <KFig>
       <rect x={x0} y={y0} width={29.7 * k} height={21 * k * 0.95} fill="#f1f5f9" stroke={K_EDGE} strokeWidth="1.4" />
-      <rect x={x0} y={y0} width={2 * r * Math.PI * k} height={(21 - 2 * r) * k * 0.95} fill="#fef3c7" stroke="#b45309" strokeWidth="1.3" />
-      <circle cx={x0 + r * k} cy={y0 + (21 - r) * k * 0.95} r={r * k * 0.95} fill="#e0e7ff" stroke={K_EDGE} strokeWidth="1.3" />
-      <circle cx={x0 + 3 * r * k} cy={y0 + (21 - r) * k * 0.95} r={r * k * 0.95} fill="#e0e7ff" stroke={K_EDGE} strokeWidth="1.3" />
-      <KText p={[x0 + r * Math.PI * k, y0 + 6.5 * k * 0.95]} t="2rπ × (21 − 2r)" s={9.5} c="#92400e" />
-      <KText p={[x0 + 2 * r * k, y0 + (21 - r) * k * 0.95]} t="r = 4" s={9} c={K_GREEN} />
-      <KText p={[x0 + 29.7 * k - 30, y0 + 17 * k]} t="A = ?" s={10.5} />
+      <rect x={x0} y={y0 + 2 * r * k * 0.95} width={2 * r * Math.PI * k} height={(21 - 2 * r) * k * 0.95} fill="#fef3c7" stroke="#b45309" strokeWidth="1.3" />
+      <circle cx={x0 + r * k} cy={y0 + r * k * 0.95} r={r * k * 0.95} fill="#e0e7ff" stroke={K_EDGE} strokeWidth="1.3" />
+      <circle cx={x0 + 3 * r * k} cy={y0 + r * k * 0.95} r={r * k * 0.95} fill="#e0e7ff" stroke={K_EDGE} strokeWidth="1.3" />
+      <KText p={[x0 + r * Math.PI * k, y0 + (2 * r + 6.5) * k * 0.95]} t="2rπ × (21 − 2r)" s={9.5} c="#92400e" />
+      <KText p={[x0 + 2 * r * k, y0 + r * k * 0.95]} t="r = 4" s={9} c={K_GREEN} />
+      <KText p={[x0 + 29.7 * k - 30, y0 + 4 * k]} t="A = ?" s={10.5} />
     </KFig>
   );
 })();

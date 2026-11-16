@@ -15,12 +15,11 @@ A magyar Oktatási Hivatal hivatalos tankönyve (`OH-MAT12TA`, Matematika 12., 4
 - **4.** 210°-os, 18 cm-es körcikk: r = 10,5 cm, A = 299,25π ≈ 940,1 cm², m ≈ 14,62 cm, V ≈ 1688 cm³, nyílásszög ≈ 71,4°.
 
 ### Tudáspróba I.
-1. 504 pálca; a testátló ≈ 8,38 dm > 8,3 dm, a pálca elfér. 2. ≈ 3,05 l leves, 22 adag. 3. m = 48 mm. 5. ≈ 58,2 dm² lemez, ≈ 37,3 l víz, élek ≈ 68,0°.
+1. 504 pálca; a testátló ≈ 8,38 dm > 8,3 dm, a pálca elfér. 2. ≈ 3,05 l leves, 22 adag. 3. m = 48 mm. 4. Cölöp (5 cm csonkakúp ⌀ 10 → 6 cm, 60 cm henger, 13 cm kúp; 80 cm × ⌀ 10 cm-es nyersanyag): cölöp 1690π ≈ 5309 cm³, hulladék 310π ⇒ 15,5%. 5. ≈ 58,2 dm² lemez, ≈ 37,3 l víz, élek ≈ 68,0°.
 
 ### Tudáspróba II.
-1. Testátló ≈ 53,85 cm ⇒ a bot becsomagolható; gúla V = 8000 cm³. 2. m = 108 mm. 3. ≈ 348 cm³ víz, festendő ≈ 1235 cm² (393,25π). 5. Louvre: oldalél ≈ 39,8°, oldallap ≈ 49,7°, üveg ≈ 1892 m².
+1. Testátló ≈ 53,85 cm ⇒ a bot becsomagolható; gúla V = 8000 cm³. 2. m = 108 mm. 3. ≈ 348 cm³ víz, festendő ≈ 1235 cm² (393,25π). 4. Nyerscsavar (fej ⌀ 11 → 4 mm, 3 mm; szár ⌀ 4 mm, 30 mm; hegy 3 mm): 169,25π ≈ 531,7 mm³ ≈ 4,63 g; 1,5 · 10⁶ db ≈ 6939 kg, 17,8% veszteséggel ≈ 8441 kg. 5. Louvre: oldalél ≈ 39,8°, oldallap ≈ 49,7°, üveg ≈ 1892 m².
 
-A Tudáspróba I. 4. (cölöp) és II. 4. (nyerscsavar) feladat adatai csak a tankönyvi ábrából olvashatók ki egyértelműen, ezért a modulban nem szerepelnek számszerűen.
 
 > **⚠️ CSAPDA:** az oldalél hajlásszögéhez a fél **átló**, az oldallapéhoz a fél **alapél** kell: tg α = M / (a√2/2), tg β = M / (a/2).
 

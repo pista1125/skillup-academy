@@ -190,10 +190,10 @@ export const PrismAreaVolumeTheory: React.FC<{
               A 2. lecke nyolcszög alapú hasábja: T = 7, K = 4 + 4√2, M = 3. <strong>V = 21</strong> térfogategység, <strong>A = 26 + 12√2 ≈ 42,97</strong> területegység.
             </p>
           </TheoryCard>
-          <TheoryCard title="B) Az I-tartó sűrűsége és felszíne" badge="2. feladat" badgeColor="purple">
+          <TheoryCard title="B) A fémgerenda sűrűsége és felszíne" badge="2. feladat" badgeColor="purple">
             <IBeamSvg className="w-full h-auto mb-3" />
             <p className="text-sm text-slate-700">
-              A 6 m-es, 96 kg-os gerenda anyagának sűrűsége ≈ <strong>7,84 g/cm³</strong> (acél), felszíne ≈ <strong>30 401 cm²</strong>. (A keresztmetszet: 140 mm magas, 60 mm széles, 10 mm vastag övek, 7 mm vastag gerinc.)
+              A 6 m-es, 96 kg-os gerenda anyagának sűrűsége ≈ <strong>7,84 g/cm³</strong> (acél), felszíne ≈ <strong>30 401 cm²</strong>. (A keresztmetszet C alakú: 140 mm magas, 60 mm széles, 10 mm vastag övek, 7 mm vastag gerinc.)
             </p>
           </TheoryCard>
         </div>
@@ -213,6 +213,20 @@ export const PrismAreaVolumeTheory: React.FC<{
             </ul>
           </TheoryCard>
         </div>
+        <TheoryCard title="E) Három egyenes hasáb, 85 mm-es oldalélekkel" badge="1. feladat" badgeColor="teal">
+          <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">
+            <li>
+              <strong>Szabályos hatszög</strong>, a = 24 mm: T = 6 · (√3/4) · 24² = 864√3 ≈ 1496,5 mm², K = 144 mm, M = 85 mm; A = 2T + K · M ≈ <strong>15 233 mm² ≈ 152,3 cm²</strong>, V = T · M ≈ <strong>127 202 mm³ ≈ 127,2 cm³</strong>.
+            </li>
+            <li>
+              <strong>Derékszögű háromszög</strong>, befogói 45 mm és 28 mm: átfogó √(45² + 28²) = 53 mm, T = 630 mm², K = 126 mm; A = 1260 + 126 · 85 = <strong>11 970 mm² = 119,7 cm²</strong>, V = 630 · 85 = <strong>53 550 mm³ = 53,55 cm³</strong>.
+            </li>
+            <li>
+              <strong>Rombusz</strong>, a = 52 mm, 60°-os szöggel: T = 52² · sin 60° ≈ 2341,7 mm², K = 208 mm; A ≈ <strong>22 363 mm² ≈ 223,6 cm²</strong>, V ≈ <strong>199 047 mm³ ≈ 199,0 cm³</strong>.
+            </li>
+            <li>Mindhárom hasáb magassága M = 85 mm, hiszen egyenes hasábban a testmagasság az oldalél hossza.</li>
+          </ul>
+        </TheoryCard>
         <TheoryCallout type="tip" title="További házi feladatok eredményei">
           HF 1.: a lap oldalai 12 cm és 16 cm, a harmadik él 14 cm, V = 2688 cm³; minden élt 2 cm-rel növelve V = 14 · 18 · 16 = 4032 cm³, a térfogat 1,5-szeresére nő. HF 2.: a dobogó felszíne (alaplapok nélkül) 24 525 cm². HF 4.: a 2240 literes hatszög alapú medence alapéle ≈ 1,2 m, a locsolófej hatósugara legfeljebb a beírt kör sugara, ≈ 1,04 m.
         </TheoryCallout>

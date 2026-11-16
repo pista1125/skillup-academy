@@ -24,7 +24,7 @@ A magyar Oktatási Hivatal hivatalos tankönyve (`OH-MAT12TA`, Matematika 12., 5
 - **1.** 2,6 × 4,5 cm-es téglalap forgatása: rövidebb oldal körül A ≈ 200,75 cm², V ≈ 165,40 cm³; hosszabb körül A ≈ 115,99 cm², V ≈ 95,57 cm³.
 - **2.** Festőhenger (r = 2 cm, 20 cm széles, 3 ml/fordulat): 40 m²-hez ≈ 4,8 liter; a 16 cm-es vödörben ≈ 23,7 cm magas.
 - **3.** A4-es karton (29,7 × 21): r = 3 cm → A = 108π ≈ 339,3 cm², r = 4 cm → 136π ≈ 427,3 cm², r = 5 cm nem lehet; 2rπ = 29,7 esetén r ≈ 4,73 cm, ≈ 22,5% hulladék.
-- **4.** Koncertterem (téglalap + félkör, 4,5 m magas, 4 ajtó): ≈ 637,4 m² – *feltételezve, hogy a 22 m a téglalap hossza (az ábra a szövegből nem egyértelmű).*
+- **4.** Koncertterem (téglalap + félkör, 4,5 m magas, 4 ajtó): ≈ 637,4 m² (22 m × 12 m-es téglalap, a 12 m-es oldalán félkör).
 - **HF 1.** Medence (d = 3 m, 1,2 m víz): ≈ 8,48 m³, ≈ 0,47 hónap, ≈ 5259 Ft; 160 cm magas medence bevont belső felülete ≈ 22,15 m².
 - **HF 2.** Mézes üvegek: a magasabb térfogata fele a másikénak, az alacsonyabb a jobb vétel.
 - **HF 3.** a × 4a-s téglalap: a rövidebb oldal körül 4-szer akkora térfogat.

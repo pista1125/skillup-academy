@@ -161,7 +161,7 @@ export const FrustumTheory: React.FC<{
           <TheoryCard title="A) Gúla elmetszése" badge="1. feladat" badgeColor="sky">
             <PyramidCutSvg className="w-full h-auto mb-3" />
             <p className="text-sm text-slate-700 leading-relaxed">
-              Szabályos négyoldalú gúla: M = 8 dm, alapél 5 (a tankönyvben „5 cm” – a hasonlóság aránya a mértékegységtől független). A csúcstól 2 dm-re vágunk: a kiegészítő gúla aránya λ = 2/8 = 1/4. A csonkagúla <strong>alapéle 5</strong>, <strong>fedőéle 5/4 = 1,25</strong>, <strong>magassága 8 − 2 = 6 dm</strong>.
+              Szabályos négyoldalú gúla: M = 8 dm, alapél 5 cm (figyelj a mértékegységekre!). A csúcstól 2 dm-re vágunk: a kiegészítő gúla aránya λ = 2/8 = 1/4 (a hasonlóság aránya független az alapél mértékegységétől). A csonkagúla <strong>alapéle 5 cm</strong>, <strong>fedőéle 5/4 = 1,25 cm</strong>, <strong>magassága 8 − 2 = 6 dm = 60 cm</strong>.
             </p>
           </TheoryCard>
           <TheoryCard title="B) Trapézból csonkakúp" badge="2. feladat" badgeColor="purple">

@@ -19,12 +19,12 @@ A lecke kidolgozott feladata a „háromszögletű” tejszínes doboz: tetraéd
 - Szemléltetés: a kocka három egybevágó, közös csúcsú gúlára bontható ($V = a^3/3$).
 
 ### Tankönyvi feladatok (eredmények)
-- **1.** Három 15 cm magas gúla összehasonlítása (rombusz alap: átlók 18 és 15 cm ⇒ V = 675 cm³).
+- **1.** Három 15 cm magas gúla (rombusz: átlók 18 és 15 cm; szabályos ötszög: a = 9 cm; szabályos háromszög: a = 17 cm): V ≈ 675 / 696,8 / 625,7 cm³, A ≈ 511,5 / 504,5 / 527,6 cm² ⇒ legnagyobb térfogat: ötszög, legkisebb: háromszög; legnagyobb felszín: háromszög, legkisebb: ötszög.
 - **2.** Kockába (10 cm) írt tetraéder, AB, BC, CD kockaélek: mind a 4 lap derékszögű háromszög; élek 10, 10, 10, 10√2, 10√2, 10√3 cm; A = 100 + 100√2 ≈ 241,4 cm²; V ≈ 166,7 cm³.
 - **3.** Háztető (10 m × 7 m, gerinc 6 m, 3,2 m magas): trapéz lapok ≈ 42,4°, háromszög lapok ≈ 58,0°, a két trapéz síkjának szöge ≈ 95,1°, tetőtér ≈ 97,1 m³.
 - **HF 1.** 30 cm élű, négyzet alapú gúla (szabályos, nem tetraéder; 8 él, 5 csúcs): A ≈ 2458,8 cm², V ≈ 6364 cm³; két ilyen gúlából szabályos oktaéder (8 lap, 12 él, 6 csúcs): A ≈ 3117,7 cm², V ≈ 12 728 cm³.
 - **HF 2.** Szabályos hatoldalú gúla, a = 12 cm, b = 13 cm: M = 5 cm, V ≈ 623,5 cm³, α ≈ 22,6°, β ≈ 25,7°, A ≈ 789,3 cm².
-- **HF 3.** 20 cm élű kocka sarkát levágó sík: a részek ≈ 1333,3 cm³ és ≈ 6666,7 cm³.
+- **HF 3.** 20 cm élű kocka sarkát levágó sík (egy csúcs három szomszédos csúcsán át): az alaplappal bezárt szög ≈ 54,7° (tg = √2), a részek ≈ 1333,3 cm³ és ≈ 6666,7 cm³.
 - **HF 4.** M = 8 cm, oldallapok 57°: a ≈ 10,39 cm, A ≈ 306,2 cm², V ≈ 287,9 cm³, oldalél–alaplap ≈ 47,4°.
 
 > **⚠️ CSAPDA:** a térfogatba a testmagasság (M) kerül, nem az oldallap magassága (mₒ) – és ne maradjon el a harmadolás!

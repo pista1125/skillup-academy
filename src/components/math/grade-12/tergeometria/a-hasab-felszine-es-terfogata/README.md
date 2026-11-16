@@ -19,14 +19,14 @@ A magyar Oktatási Hivatal hivatalos tankönyve (`OH-MAT12TA`, Matematika 12., 3
 - (A régi README Cavalieri-elvet is említett; a tankönyv a 3. leckében nem nevesíti, a modulban csak a kártyapakli-szemléltetés jelenik meg.)
 
 ### Tankönyvi feladatok (a modulban feldolgozva)
-- **2.** 6 m-es, 96 kg-os I-tartó (140 × 60 mm, 10 mm-es övek, 7 mm-es gerinc): T = 20,4 cm², ρ ≈ 7,84 g/cm³, A ≈ 30 401 cm².
+- **1.** Három egyenes hasáb, M = 85 mm: szabályos hatszög (a = 24 mm) T ≈ 1496,5 mm², A ≈ 152,3 cm², V ≈ 127,2 cm³; derékszögű háromszög (befogók 45 és 28 mm, átfogó 53 mm) T = 630 mm², A = 119,7 cm², V = 53,55 cm³; rombusz (a = 52 mm, 60°) T ≈ 2341,7 mm², A ≈ 223,6 cm², V ≈ 199,0 cm³.
+- **2.** 6 m-es, 96 kg-os, C alakú keresztmetszetű fémgerenda (140 × 60 mm, 10 mm-es övek, 7 mm-es gerinc): T = 20,4 cm², ρ ≈ 7,84 g/cm³, A ≈ 30 401 cm².
 - **3.** A 2. lecke nyolcszög alapú hasábja: V = 21, A = 26 + 12√2 ≈ 42,97.
 - **4.** Szabályos háromszög alapú hasáb, T_palást = √3 · T_alaplap ⇒ M = a/4 (tehát az állítás fordítva igaz); a = 8 cm ⇒ V = 32√3 ≈ 55,43 cm³; 3-szoros nagyítás: A 9-szeres, V 27-szeres.
 - **HF 1.** Élek 12, 16, 14 cm, V = 2688 cm³; +2 cm-es élekkel 4032 cm³ (1,5-szeres).
 - **HF 2.** Dobogó felszíne alsó lapok nélkül: 24 525 cm².
 - **HF 3.** Árok: 37,5 cm mély, 120 m-en 112 500 liter.
 - **HF 4.** 2240 literes hatszög alapú medence (M = a/2): a ≈ 1,2 m, a locsolófej hatósugara ≤ ≈ 1,04 m.
-- Az 1. feladat (három 85 mm-es hasáb) ábrái a szövegből nem rekonstruálhatók egyértelműen, ezért kimaradt.
 
 > **⚠️ CSAPDA:** Ferde hasábnál a térfogatot a magassággal (nem az oldaléllel) kell számolni; a felszínben mindkét alaplap szerepel.
 
@@ -38,10 +38,10 @@ A magyar Oktatási Hivatal hivatalos tankönyve (`OH-MAT12TA`, Matematika 12., 3
    - `HammerHeadSvg`: a kalapácsfej hasábja a méretekkel.
    - `PrismNetSvg`: derékszögű háromszög alapú egyenes hasáb hálója (palást = K · M).
    - `OctaBaseAreaSvg`: a nyolcszög alaplap területe és kerülete rácson.
-   - `IBeamSvg`: az I-tartó keresztmetszete és számításai.
+   - `IBeamSvg`: a fémgerenda C alakú keresztmetszete és számításai.
    - `DrainSvg`: a vízelvezető árok trapéz keresztmetszete.
    - `CardDeckSvg`: kártyapakli – egyenes és ferde hasáb azonos térfogattal.
-2. **`PrismAreaVolumeTheory.tsx`**: kidolgozott feladat, képletek, mértékegység-táblázat, kidolgozott feladatok (A–D), HF-eredmények, csapda.
+2. **`PrismAreaVolumeTheory.tsx`**: kidolgozott feladat, képletek, mértékegység-táblázat, kidolgozott feladatok (A–E), HF-eredmények, csapda.
    - **I. Laboratórium:** szabályos n-oldalú hasáb hálójának animált kiterítése (Solid3DViewer), élő A és V számítás.
    - **II. Laboratórium:** kártyapakli elcsúsztatása (Solid3DViewer) – a térfogat állandó, a felszín nő.
 3. **`PrismAreaVolumeMatcher.tsx`**: 3 szint × 8 pár (képletek; számolás; gyakorlati feladatok).

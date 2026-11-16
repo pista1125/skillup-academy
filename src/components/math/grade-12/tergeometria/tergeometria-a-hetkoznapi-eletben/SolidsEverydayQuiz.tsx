@@ -263,7 +263,7 @@ const FIG_Q7 = (
     <path d="M 60 120 A 60 60 0 0 1 180 120 Z" fill="rgba(236,72,153,0.14)" stroke={K_EDGE} strokeWidth="1.8" />
     <KL a={[120, 120]} b={[180, 120]} c={K_AUX} w={1.3} />
     <KT p={[150, 132]} t="10 cm" s={10.5} c={K_AUX} />
-    <KT p={[120, 145]} t="félhenger felülnézetben, magassága 8 cm" s={9.5} c="#334155" b={false} />
+    <KT p={[120, 145]} t="az egyik félhenger felülnézetben, m = 8 cm" s={9.5} c="#334155" b={false} />
     <KT p={[120, 90]} t="V = ?" s={11} />
   </KFig>
 );
@@ -408,13 +408,13 @@ export const SOLIDS_EVERYDAY_QUESTIONS: QuizQuestion[] = [
   },
   {
     id: 'se-q7',
-    questionTypeBadge: 'Félhenger',
+    questionTypeBadge: 'Két félhenger',
     figure: FIG_Q7,
     level: 1,
-    question: 'A torta másik része egy kettévágott henger: alapkörének átmérője 20 cm, magassága 8 cm. Mekkora a térfogata?',
-    options: ['≈ 1256,6 cm³', '≈ 2513,3 cm³', '≈ 5026,5 cm³', '≈ 628,3 cm³'],
+    question: 'A szív alakú torta másik része egy kettévágott henger, amelynek két fele a négyzet két szomszédos oldalához illeszkedik. A henger alapkörének átmérője 20 cm, magassága 8 cm. Mekkora a két félhenger együttes térfogata?',
+    options: ['≈ 2513,3 cm³', '≈ 1256,6 cm³', '≈ 5026,5 cm³', '≈ 628,3 cm³'],
     correctAnswer: 0,
-    explanation: 'Fél henger: π · 10² · 8 / 2 = 400π ≈ 1256,6 cm³. (2513,3 a teljes henger.)'
+    explanation: 'A két félhenger együtt egy teljes henger: π · 10² · 8 = 800π ≈ 2513,3 cm³. (1256,6 cm³ csak az egyik fele.)'
   },
   {
     id: 'se-q8',
@@ -468,10 +468,10 @@ export const SOLIDS_EVERYDAY_QUESTIONS: QuizQuestion[] = [
     id: 'se-q13',
     questionTypeBadge: 'Becslés',
     level: 2,
-    question: 'A torta egy 20 × 20 × 8 cm-es hasábból és egy 20 cm átmérőjű, 8 cm magas félhengerből áll. Hány embert kínálhatunk meg, ha egy szelet 120 cm³?',
-    options: ['37', '26', '47', '74'],
+    question: 'A szív alakú torta egy 20 × 20 × 8 cm-es hasábból és egy kettévágott, 20 cm átmérőjű, 8 cm magas hengerből áll (a két fél a négyzet két szomszédos oldalán). Hány embert kínálhatunk meg, ha egy szelet 120 cm³?',
+    options: ['47', '37', '26', '74'],
     correctAnswer: 0,
-    explanation: '(3200 + 1256,6) / 120 ≈ 37,1 ⇒ 37 ember. (26: csak a hasáb; 47: teljes hengerrel számolva.)'
+    explanation: '(3200 + 2513,3) / 120 ≈ 47,6 ⇒ kb. 47 ember. (37: csak egy félhengerrel; 26: csak a hasáb.)'
   },
   {
     id: 'se-q14',

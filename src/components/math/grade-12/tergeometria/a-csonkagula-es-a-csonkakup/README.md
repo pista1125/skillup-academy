@@ -19,7 +19,7 @@ A lecke Karinthy Frigyes *A jó tanuló felel* című írásának részletével 
 - Számolás: $λ = r/R = m_1/M$, $m_1 = \dfrac{r\,m}{R - r}$, $a^2 = m^2 + (R - r)^2$.
 
 ### Tankönyvi feladatok (eredmények)
-- **1.** Szabályos négyoldalú gúla, M = 8 dm, alapél 5 (a tankönyvben „5 cm”, valószínűleg 5 dm), a csúcstól 2 dm-re vágva: λ = 1/4 ⇒ alapél 5, fedőél 1,25, magasság 6 dm.
+- **1.** Szabályos négyoldalú gúla, M = 8 dm, alapél 5 cm (a tankönyv szándékosan vegyes mértékegységet ad), a csúcstól 2 dm-re vágva: λ = 1/4 ⇒ alapél 5 cm, fedőél 1,25 cm, magasság 6 dm.
 - **2.** Szimmetrikus trapéz (16 és 10 cm, 30°): R = 8 cm, r = 5 cm, m = √3 ≈ 1,73 cm, a = 2√3 ≈ 3,46 cm.
 - **3.** Bonbon (d₁ = 3,3 cm, d₂ = a = 1,5 cm): m = 1,2 cm ⇒ két réteghez 2,4 cm magas doboz.
 - **HF 1.** Derékszögű trapéz (16, 11, ferde szár 12 cm) a derékszögű szár körül: R = 16, r = 11, m = √119 ≈ 10,91, a = 12 cm.

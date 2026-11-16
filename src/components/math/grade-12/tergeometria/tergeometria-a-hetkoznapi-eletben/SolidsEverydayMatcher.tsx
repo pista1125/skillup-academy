@@ -54,7 +54,7 @@ const SOLIDS_EVERYDAY_MATCHER_LEVELS_LIST: MatcherLevelConfig[] = [
     description: "Párosítsd a gyakorlati feladatot az eredményével!",
     pairs: [
       { id: 'sem17', left: "2 gömb + 2 kúp fenyőfából (d = 4,2 dm, m = 5,4 dm)", right: "≈ 54,8 kg" },
-      { id: 'sem18', left: "Torta: hasáb + félhenger, 120 cm³-es szeletek", right: "37 ember" },
+      { id: 'sem18', left: "Torta: hasáb + két félhenger, 120 cm³-es szeletek", right: "47 ember" },
       { id: 'sem19', left: "Gúla alakú gyertya (5 cm, 8 cm) térfogata", right: "≈ 60 cm³" },
       { id: 'sem20', left: "130 gyertya viaszigénye 6% veszteséggel", right: "≈ 8,3 liter" },
       { id: 'sem21', left: "Farsangi kalap kartonigénye (40 cm, 54 cm)", right: "≈ 1105 cm²" },

@@ -56,7 +56,7 @@ const SOLIDS_EVERYDAY_SORTER_LEVELS_LIST: SorterLevelConfig[] = [
       { id: 'ses14', text: "Valençay-sajt", categoryId: 'poly' },
       { id: 'ses15', text: "Hatszög alapú virágtartó", categoryId: 'poly' },
       { id: 'ses16', text: "Víztároló (félgömb + henger + kúp)", categoryId: 'mixed' },
-      { id: 'ses17', text: "Torta (hasáb + félhenger)", categoryId: 'mixed' },
+      { id: 'ses17', text: "Torta (hasáb + két félhenger)", categoryId: 'mixed' },
       { id: 'ses18', text: "Bob kalap (félgömb + körgyűrű)", categoryId: 'mixed' }
     ]
   },

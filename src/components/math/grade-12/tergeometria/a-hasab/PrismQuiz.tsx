@@ -19,7 +19,8 @@ import {
   K_BLUE,
   K_GREEN,
   K_PURPLE,
-  K_EDGE
+  K_EDGE,
+  K_HID
 } from './figKit';
 
 // ---------------------------------------------------------------------------
@@ -188,6 +189,28 @@ const FIG_Q24 = octaTop((T) => (
     <KText p={[T([1.6, 1.5])[0] + 10, T([1.6, 1.5])[1]]} t="?" />
   </>
 ));
+
+const FIG_Q28 = (() => {
+  // 1 cm = 20 px; téglalap 8 × 3 cm, két 120°-os csúcsú háromszög a 3 cm-es oldalakon
+  const h = 10 * Math.sqrt(3);
+  const A: P2 = [40, 110];
+  const B: P2 = [200, 110];
+  const C: P2 = [200, 50];
+  const D: P2 = [40, 50];
+  const L: P2 = [40 - h, 80];
+  const R: P2 = [200 + h, 80];
+  return (
+    <KFig>
+      <KPoly p={[A, B, R, C, D, L]} fill="#fef3c7" c={K_EDGE} w={2} />
+      <KLine a={A} b={D} c={K_HID} w={1.2} dash />
+      <KLine a={B} b={C} c={K_HID} w={1.2} dash />
+      <KAngle v={L} p1={A} p2={D} t="120°" r={9} tr={24} />
+      <KText p={[120, 126]} t="8 cm" s={10} c={K_BLUE} />
+      <KText p={[186, 84]} t="3 cm" s={10} c={K_BLUE} a="end" />
+      <KText p={[120, 30]} t="M = 15 cm" s={10} c={K_PURPLE} />
+    </KFig>
+  );
+})();
 
 const PRISM_QUESTIONS: QuizQuestion[] = [
   // ---------------- 1. szint ----------------
@@ -461,12 +484,13 @@ const PRISM_QUESTIONS: QuizQuestion[] = [
   },
   {
     id: 'pr-q28',
-    questionTypeBadge: 'Csúcsok, élek, lapok',
+    questionTypeBadge: 'Csokoládésdoboz',
+    figure: FIG_Q28,
     level: 3,
-    question: 'Egy hasábnak 36 éle van. Hány csúcsa és hány lapja van?',
-    options: ['24 csúcs, 14 lap', '12 csúcs, 14 lap', '24 csúcs, 12 lap', '18 csúcs, 20 lap'],
+    question: 'A svájci csokoládé doboza egyenes hasáb, 15 cm magas; alaplapja egy 3 cm × 8 cm-es téglalapból és két egyenlő szárú, 120°-os szárszögű háromszögből áll (a háromszögek alapja a 3 cm-es oldal). Legfeljebb milyen hosszú kötőtű fér el teljes hosszában a dobozban (egy tizedesre)?',
+    options: ['≈ 17,9 cm', '≈ 17,3 cm', '17,0 cm', '≈ 9,7 cm'],
     correctAnswer: 0,
-    explanation: '3n = 36 ⇒ n = 12: 2n = 24 csúcs és n + 2 = 14 lap. Ellenőrzés (Euler): 24 − 36 + 14 = 2.'
+    explanation: 'A háromszögek magassága 1,5 / tg 60° = √3/2 ≈ 0,87 cm, így az alaplap leghosszabb átlója a két 120°-os csúcs távolsága: 8 + √3 ≈ 9,73 cm. A leghosszabb testátló: √(9,73² + 15²) ≈ √319,7 ≈ 17,9 cm.'
   },
   {
     id: 'pr-q29',

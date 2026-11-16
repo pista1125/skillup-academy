@@ -178,7 +178,7 @@ export const CylinderAreaVolumeTheory: React.FC<{
           <TheoryCard title="C) Henger A4-es kartonból" badge="3. feladat" badgeColor="emerald">
             <CardboardCutSvg className="w-full h-auto mb-2" />
             <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">
-              <li>A palást 2rπ × (21 − 2r)-es, a két kör alatta fér el: 2rπ ≤ 29,7 kell.</li>
+              <li>A két kör a karton felső sávjában egymás mellett, a 2rπ × (21 − 2r)-es palást alattuk fér el: 4r ≤ 29,7 és 2rπ ≤ 29,7 kell.</li>
               <li>r = 3 cm: A = 108π ≈ 339,3 cm²; r = 4 cm: A = 136π ≈ 427,3 cm²; r = 5 cm nem lehet (2 · 5 · π ≈ 31,4 &gt; 29,7).</li>
               <li>2rπ = 29,7 ⇒ r ≈ 4,73 cm, M ≈ 11,55 cm, A ≈ 483,3 cm², a hulladék ≈ 22,5%.</li>
             </ul>
@@ -186,7 +186,7 @@ export const CylinderAreaVolumeTheory: React.FC<{
           <TheoryCard title="D) A koncertterem festése" badge="4. feladat" badgeColor="rose">
             <ConcertHallSvg className="w-full h-auto mb-2" />
             <p className="text-sm text-slate-700">
-              A falak egy része hengerpalást (félkör × 4,5 m). Ha a téglalap 22 m × 12 m, a festendő felület ≈ <strong>637,4 m²</strong>.
+              A falak egy része hengerpalást (félkör × 4,5 m). Az alaprajz egy 22 m × 12 m-es téglalap, a 12 m-es oldalára illesztett félkörrel; a festendő felület ≈ <strong>637,4 m²</strong>.
             </p>
           </TheoryCard>
         </div>

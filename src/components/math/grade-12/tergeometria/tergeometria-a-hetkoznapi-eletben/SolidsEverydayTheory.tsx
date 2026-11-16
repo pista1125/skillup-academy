@@ -7,7 +7,8 @@ import {
   SolidsEverydayCandleSvg,
   SolidsEverydayHatSvg,
   SolidsEverydayGearSvg,
-  SolidsEverydayTankSvg
+  SolidsEverydayTankSvg,
+  SolidsEverydayDitchSvg
 } from './SolidsEverydayFigures';
 
 const fmt = (x: number, d = 2) => (Number.isFinite(x) ? x.toFixed(d).replace('.', ',') : '–');
@@ -168,8 +169,9 @@ export const SolidsEverydayTheory: React.FC<{
           <TheoryCard title="2. Születésnapi torta" badge="Becslés" badgeColor="rose">
             <SolidsEverydayCakeSvg className="w-full h-auto mb-2" />
             <ul className="list-disc pl-5 space-y-1 text-sm text-slate-700">
-              <li>Hasáb: 20 · 20 · 8 = 3200 cm³; félhenger (r = 10 cm): π · 10² · 8 / 2 ≈ 1256,6 cm³.</li>
-              <li>Összesen ≈ 4456,6 cm³; egy szelet 3 · 8 · 5 = 120 cm³ ⇒ 4456,6 / 120 ≈ 37,1 ⇒ kb. <strong>37 embert</strong> kínálhatunk meg.</li>
+              <li>A szív alakú torta a négyzet két szomszédos oldalához illesztett két félhengerből (egy kettévágott hengerből) és a hasábból áll.</li>
+              <li>Hasáb: 20 · 20 · 8 = 3200 cm³; a két félhenger együtt egy teljes henger (r = 10 cm): π · 10² · 8 = 800π ≈ 2513,3 cm³.</li>
+              <li>Összesen ≈ 5713,3 cm³; egy szelet 3 · 8 · 5 = 120 cm³ ⇒ 5713,3 / 120 ≈ 47,6 ⇒ kb. <strong>47 embert</strong> kínálhatunk meg.</li>
             </ul>
           </TheoryCard>
         </div>
@@ -211,6 +213,7 @@ export const SolidsEverydayTheory: React.FC<{
           <SolidsEverydayTankSvg />
           <ul className="list-disc pl-5 space-y-2 text-sm text-slate-700">
             <li><strong>Homokkúp</strong> (m = 80 cm, nyílásszög 120°): r = 80 · tg 60° ≈ 138,6 cm, V = 512 000π cm³ ≈ <strong>1,61 m³</strong>; 12 m³ homokhoz 12 / 1,61 ≈ 7,46 ⇒ <strong>8 forduló</strong>.</li>
+            <li><strong>Vízelvezető árok</strong> (24 m hosszú; a keret egy 60 cm-es és öt 30 cm-es lécből áll, három szabályos háromszöget alkot): a keresztmetszet szimmetrikus trapéz, alapjai 60 és 30 cm, szárai 30 cm, magassága m = 15√3 ≈ 26,0 cm. T = (60 + 30)/2 · 15√3 = 675√3 ≈ 1169 cm² ≈ 0,117 m²; a) kiásandó föld: 0,1169 · 24 ≈ <strong>2,81 m³</strong>; b) a burkolandó sáv (fenék + 2 oldal) 3 · 30 cm széles, hosszában 2400 / 30 = 80 kőlap fér el ⇒ 3 · 80 = <strong>240 kőlap</strong>.<SolidsEverydayDitchSvg className="w-full max-w-xs h-auto mt-2" /></li>
             <li><strong>Sajttömb</strong> (r = 16 cm, 3 cm vastag, 15°-os cikkek, 200 g/db): 24 darab ⇒ <strong>4,8 kg</strong>; egy darab V = π · 16² · 3 / 24 ≈ 100,5 cm³; felszíne 2 · 256π/24 + 2 · 16 · 3 + (2π · 16/24) · 3 ≈ 175,6 cm², +25% ⇒ ≈ <strong>219,5 cm²</strong> csomagolóanyag.</li>
             <li><strong>Víztároló</strong> (henger d = 6 m, 8 m; félgömb; 3 m-es kúp): V = 72π + 18π + 9π = 99π ≈ <strong>311,0 m³</strong>; festendő felület: 48π + 18π + 3π√18 ≈ <strong>247,3 m²</strong>.</li>
             <li><strong>Üvegdísz</strong> (két hatszög alapú gúla, alapél 1 cm, magasság 2 és 5 cm, ρ = 3,1 kg/dm³): V = (6√3/4) · 7/3 ≈ 6,06 cm³ ⇒ ≈ <strong>18,8 g</strong>.</li>

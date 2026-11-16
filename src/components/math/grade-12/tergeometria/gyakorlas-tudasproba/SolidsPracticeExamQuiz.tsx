@@ -333,6 +333,40 @@ const sideFig = (base: string, h: string, ang: string, hyp?: string) => (
   </KFig>
 );
 
+/** Tudáspróba I. 4.: cölöp oldalnézetben – csonkakúp (5 cm) + henger (60 cm) + kúp, ⌀ 10 cm, a vége ⌀ 6 cm. */
+const stakeFig = (
+  <KFig w={240} h={150}>
+    <KPoly p={[[30, 63.4], [41, 59], [173, 59], [201.6, 70], [173, 81], [41, 81], [30, 76.6]]} />
+    <KL a={[41, 59]} b={[41, 81]} c={K_HID} w={1.2} d />
+    <KL a={[173, 59]} b={[173, 81]} c={K_HID} w={1.2} d />
+    <KT p={[35.5, 48]} t="5" s={10} c={K_AUX} />
+    <KT p={[107, 48]} t="60 cm" s={10.5} c={K_AUX} />
+    <KL a={[30, 100]} b={[201.6, 100]} c={K_HID} w={1} />
+    <KL a={[30, 95]} b={[30, 105]} c={K_HID} w={1} />
+    <KL a={[201.6, 95]} b={[201.6, 105]} c={K_HID} w={1} />
+    <KT p={[115.8, 112]} t="78 cm" s={10.5} />
+    <KT p={[22, 70]} t="⌀ 6" s={9.5} a="end" />
+    <KT p={[215, 50]} t="⌀ 10 cm" s={9.5} />
+    <KT p={[120, 136]} t="nyersanyag: ⌀ 10 cm, 80 cm-es henger" s={9.5} c={K_HID} b={false} />
+  </KFig>
+);
+
+/** Tudáspróba II. 4.: nyerscsavar hosszmetszete (mm) – csonkakúp fej, henger szár, kúp hegy. */
+const screwFig = (
+  <KFig w={240} h={160}>
+    <KPoly p={[[70.75, 15], [109.25, 15], [97, 25.5], [97, 130.5], [90, 141], [83, 130.5], [83, 25.5]]} />
+    <KL a={[83, 25.5]} b={[97, 25.5]} c={K_HID} w={1.2} d />
+    <KL a={[83, 130.5]} b={[97, 130.5]} c={K_HID} w={1.2} d />
+    <KT p={[90, 8]} t="⌀ 11" s={10} />
+    <KT p={[118, 20]} t="3" s={10} c={K_AUX} a="start" />
+    <KT p={[108, 78]} t="30" s={10} c={K_AUX} a="start" />
+    <KT p={[108, 136]} t="3" s={10} c={K_AUX} a="start" />
+    <KT p={[90, 152]} t="⌀ 4" s={10} />
+    <KT p={[190, 70]} t="méretek mm-ben" s={9.5} c={K_HID} b={false} />
+    <KT p={[190, 86]} t="ρ = 8700 kg/m³" s={9.5} c={K_HID} b={false} />
+  </KFig>
+);
+
 const mk = (
   id: number,
   level: 1 | 2 | 3,
@@ -438,8 +472,8 @@ export const SOLIDS_PRACTICE_EXAM_QUESTIONS: QuizQuestion[] = [
   mk(79, 3, 'Arkhimédész', 'Egy gömb köré írt henger (a gömb érinti az alaplapot, a fedőlapot és a palástot). Hányad része a gömb térfogata a henger térfogatának?', ['2/3', '1/2', '3/4', '1/3'], 'V_henger = R²π · 2R = 2R³π, V_gömb = 4R³π/3 ⇒ arány 2/3 (Arkhimédész).'),
   mk(80, 3, 'Hasonló testek', 'Két hasonló test felszínének aránya 4 : 9. Mennyi a térfogataik aránya?', ['8 : 27', '4 : 9', '2 : 3', '16 : 81'], 'λ² = 4/9 ⇒ λ = 2/3 ⇒ λ³ = 8/27.'),
   mk(81, 3, 'Tetraéder', 'Mekkora a 6 cm élű szabályos tetraéder térfogata?', ['≈ 25,5 cm³', '≈ 76,4 cm³', '36 cm³', '≈ 31,2 cm³'], 'Az alaplap köré írt körének sugara 6/√3 = 2√3, így M = √(36 − 12) = 2√6 ≈ 4,90 cm; V = (9√3 · 2√6) / 3 = 18√2 ≈ 25,5 cm³.'),
-  mk(82, 3, 'Nyílásszög', 'Egy forgáskúp nyílásszöge 60°, alkotója 10 cm. Mekkora a térfogata?', ['≈ 226,7 cm³', '≈ 680,2 cm³', '≈ 130,9 cm³', '≈ 453,5 cm³'], 'A tengelymetszet szabályos háromszög: r = 5 cm, m = 5√3 ≈ 8,66 cm; V = 25π · 8,66 / 3 ≈ 226,7 cm³.'),
-  mk(83, 3, 'Henger', 'Egy henger palástja kiterítve négyzet, alapkörének sugara 1 cm. Mekkora a térfogata?', ['2π² ≈ 19,7 cm³', '2π ≈ 6,3 cm³', '4π² ≈ 39,5 cm³', 'π² ≈ 9,9 cm³'], 'A négyzet oldala a kerület: m = 2π cm; V = 1² · π · 2π = 2π² ≈ 19,7 cm³.'),
+  mk(82, 3, 'Cölöp – hulladék', 'Egy 78 cm hosszú cölöpöt 80 cm hosszú, 10 cm átmérőjű fahengerből esztergálnak (ábra): a végén 5 cm magas csonkakúp (a végén ⌀ 6 cm), majd 60 cm-es, ⌀ 10 cm-es henger, a másik végén kúp. Hány százalék hulladék keletkezik?', ['15,5%', '84,5%', '≈ 18,3%', '2,5%'], 'A kúp magassága 78 − 5 − 60 = 13 cm. Csonkakúp: 5π/3 · (25 + 15 + 9) = 245π/3; henger: 25π · 60 = 1500π; kúp: 25π · 13/3 = 325π/3 ⇒ a cölöp 1690π ≈ 5309 cm³. A nyersanyag 25π · 80 = 2000π ≈ 6283 cm³, a hulladék 310π, ami 310/2000 = 15,5%. (84,5%: a felhasznált rész; 18,3%: a cölöphöz viszonyítva; 2,5%: csak a hosszkülönbség.)', stakeFig),
+  mk(83, 3, 'Nyerscsavar', 'Hány kg anyag kell 1,5 · 10⁶ nyerscsavarhoz (méretek az ábrán, mm-ben: ⌀ 11 → ⌀ 4 csonkakúp fej 3 mm, ⌀ 4 szár 30 mm, kúp hegy 3 mm), ha a gyártás során 17,8% veszteség keletkezik, és ρ = 8700 kg/m³?', ['≈ 8441 kg', '≈ 6939 kg', '≈ 8174 kg', '≈ 5704 kg'], 'Egy csavar: fej 3π/3 · (5,5² + 5,5 · 2 + 2²) = 45,25π, szár 2² · π · 30 = 120π, hegy 2² · π · 3/3 = 4π ⇒ 169,25π ≈ 531,7 mm³ ≈ 4,626 g. 1,5 · 10⁶ db: ≈ 6939 kg hasznos anyag. A felhasznált anyag 82,2%-a lesz csavar: 6939 / 0,822 ≈ 8441 kg. (8174 kg: hibásan 6939 · 1,178; 6939 kg: veszteség nélkül.)', screwFig),
   mk(84, 3, 'Kúp darabolása', 'Egy kúpot a magassága felénél az alappal párhuzamos síkkal kettévágunk. Milyen arányú a felső kis kúp és az alsó csonkakúp térfogata?', ['1 : 7', '1 : 1', '1 : 3', '1 : 8'], 'λ = 1/2 ⇒ a kis kúp az egész 1/8 része, a csonkakúp 7/8 ⇒ 1 : 7.'),
   mk(85, 3, 'Kazán', 'Egy kazán henger alakú (4 m átmérő, 3,5 m magas), végein egy-egy félgömbbel. Mekkora a térfogata?', ['74π/3 ≈ 77,5 m³', '14π ≈ 44,0 m³', '46π ≈ 144,5 m³', '30π ≈ 94,2 m³'], 'Henger: 4π · 3,5 = 14π; a két félgömb együtt egy gömb: 32π/3. Összesen 74π/3 ≈ 77,5 m³. (30π ≈ 94,2 a felszín m²-ben.)'),
   mk(86, 3, 'Bögre', 'Egy 7,2 cm belső átmérőjű, 3,5 dl-es henger alakú bögre belső magassága:', ['≈ 8,6 cm', '≈ 2,1 cm', '≈ 21,5 cm', '≈ 4,3 cm'], '350 cm³ = 3,6² · π · m ⇒ m = 350 / (12,96π) ≈ 8,6 cm.'),

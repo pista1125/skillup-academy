@@ -70,13 +70,13 @@ export const CardboardCutSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS 
   return (
     <Frame title="A4-es karton (29,7 × 21 cm): palást és két körlap" className={className}>
       <rect x={x0} y={y0} width={29.7 * k} height={21 * k * 0.95} fill="#f1f5f9" stroke={K_EDGE} strokeWidth="1.8" />
-      <rect x={x0} y={y0} width={2 * r * Math.PI * k} height={(21 - 2 * r) * k * 0.95} fill="#fef3c7" stroke="#b45309" strokeWidth="1.6" />
-      <circle cx={x0 + r * k} cy={y0 + (21 - r) * k * 0.95} r={r * k * 0.95} fill={K_FILL} stroke={K_EDGE} strokeWidth="1.6" />
-      <circle cx={x0 + 3 * r * k} cy={y0 + (21 - r) * k * 0.95} r={r * k * 0.95} fill={K_FILL} stroke={K_EDGE} strokeWidth="1.6" />
+      <rect x={x0} y={y0 + 2 * r * k * 0.95} width={2 * r * Math.PI * k} height={(21 - 2 * r) * k * 0.95} fill="#fef3c7" stroke="#b45309" strokeWidth="1.6" />
+      <circle cx={x0 + r * k} cy={y0 + r * k * 0.95} r={r * k * 0.95} fill={K_FILL} stroke={K_EDGE} strokeWidth="1.6" />
+      <circle cx={x0 + 3 * r * k} cy={y0 + r * k * 0.95} r={r * k * 0.95} fill={K_FILL} stroke={K_EDGE} strokeWidth="1.6" />
       <KText p={[x0 + 29.7 * k * 0.5, y0 - 9]} t="29,7" s={11} c={K_BLUE} />
       <KText p={[x0 + 29.7 * k + 14, y0 + 10 * k]} t="21" s={11} c={K_BLUE} />
-      <KText p={[x0 + r * Math.PI * k, y0 + 6.5 * k * 0.95]} t="2rπ × (21 − 2r)" s={11.5} c="#92400e" />
-      <KText p={[x0 + 2 * r * k, y0 + (21 - r) * k * 0.95]} t="r" s={11} c={K_GREEN} />
+      <KText p={[x0 + r * Math.PI * k, y0 + (2 * r + 6.5) * k * 0.95]} t="2rπ × (21 − 2r)" s={11.5} c="#92400e" />
+      <KText p={[x0 + 2 * r * k, y0 + r * k * 0.95]} t="r" s={11} c={K_GREEN} />
       <text x="420" y="240" fontSize="10.5" textAnchor="end" fill="#334155">a rajzon r = 4 cm</text>
     </Frame>
   );
@@ -122,7 +122,7 @@ export const ConcertHallSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS }
         <rect key={i} x={x0 + t * L - 11} y={y0 + W - 3} width="22" height="6" fill="#92400e" />
       ))}
       <text x="40" y="262" fontSize="11.5" fill="#334155">falak: (2 · 22 + 12 + 6π) · 4,5 ≈ 336,8 m²; mennyezet: 264 + 18π ≈ 320,5 m²</text>
-      <text x="40" y="280" fontSize="12" fontWeight="bold" fill="#0f172a">4 ajtó (20 m²) nélkül: ≈ 637,4 m² (ha a téglalap 22 m hosszú)</text>
+      <text x="40" y="280" fontSize="12" fontWeight="bold" fill="#0f172a">4 ajtó (20 m²) nélkül: ≈ 637,4 m²</text>
     </Frame>
   );
 };

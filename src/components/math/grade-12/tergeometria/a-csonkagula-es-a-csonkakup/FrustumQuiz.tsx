@@ -230,11 +230,11 @@ export const FRUSTUM_QUESTIONS: QuizQuestion[] = [
     id: 'fru-q11',
     level: 2,
     questionTypeBadge: 'Fedőél',
-    figure: <CutPyrQ M="8 dm" cut="2 dm" base="a = 5" fromApex t={0.25} />,
-    question: 'Egy szabályos négyoldalú gúla magassága 8 dm, alapéle 5 dm. A csúcstól 2 dm-re az alaplappal párhuzamos síkkal elmetsszük. Milyen hosszú a csonkagúla fedőéle?',
-    options: ['1,25 dm', '3,75 dm', '1,5 dm', '2 dm'],
+    figure: <CutPyrQ M="8 dm" cut="2 dm" base="a = 5 cm" fromApex t={0.25} />,
+    question: 'Egy szabályos négyoldalú gúla magassága 8 dm, alapéle 5 cm. A csúcstól 2 dm-re az alaplappal párhuzamos síkkal elmetsszük. Milyen hosszú a csonkagúla fedőéle?',
+    options: ['1,25 cm', '3,75 cm', '1,5 cm', '2 cm'],
     correctAnswer: 0,
-    explanation: 'A kiegészítő gúla hasonló, aránya λ = 2/8 = 1/4, így a fedőél 5 · 1/4 = 1,25 dm. A csonkagúla magassága 6 dm.'
+    explanation: 'A kiegészítő gúla hasonló, aránya λ = 2/8 = 1/4, így a fedőél 5 · 1/4 = 1,25 cm (a hasonlóság aránya független a mértékegységtől). A csonkagúla magassága 6 dm.'
   },
   {
     id: 'fru-q12',
