@@ -110,8 +110,8 @@ export const MeetingPathSvg: React.FC<FigProps> = ({ className }) => (
     ))}
     <text x="60" y="94" fontSize="22" textAnchor="middle">🚲</text>
     <text x="320" y="94" fontSize="22" textAnchor="middle">🚶</text>
-    <text x="60" y="114" fontSize="12" fontWeight="bold" textAnchor="middle" fill="#1d4ed8">Ádám: 140 m / perc</text>
-    <text x="316" y="114" fontSize="12" fontWeight="bold" textAnchor="middle" fill="#be185d">Roland: 60 m / perc</text>
+    <text x="12" y="114" fontSize="12" fontWeight="bold" textAnchor="start" fill="#1d4ed8">Ádám: 140 m / perc</text>
+    <text x="368" y="114" fontSize="12" fontWeight="bold" textAnchor="end" fill="#be185d">Roland: 60 m / perc</text>
     <text x="190" y="34" fontSize="14" fontWeight="bold" textAnchor="middle" fill="#365314">1000 m</text>
     <text x="190" y="138" fontSize="13" fontWeight="bold" textAnchor="middle" fill="#dc2626">Hol és mikor találkoznak?</text>
   </svg>

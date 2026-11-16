@@ -59,21 +59,21 @@ export const GemGroupingSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS }
       </g>
       {/* leltár */}
       {[
-        { x: 40, v: '1' },
-        { x: 160, v: '0' },
-        { x: 262, v: '1' },
-        { x: 335, v: '2' }
+        { x: 57, v: '1' },
+        { x: 170, v: '0' },
+        { x: 259, v: '1' },
+        { x: 342, v: '2' }
       ].map((c) => (
         <g key={c.x}>
-          <rect x={c.x} y="186" width="70" height="30" rx="6" fill="#fef9c3" stroke="#eab308" />
-          <text x={c.x + 35} y="207" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#713f12">{c.v}</text>
+          <rect x={c.x} y="186" width="56" height="30" rx="6" fill="#fef9c3" stroke="#eab308" />
+          <text x={c.x + 28} y="207" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#713f12">{c.v}</text>
         </g>
       ))}
       <text x="85" y="62" textAnchor="middle" fontSize="12" fill="#713f12" fontWeight="bold">zsák</text>
       <text x="198" y="62" textAnchor="middle" fontSize="12" fill="#1e3a8a" fontWeight="bold">doboz</text>
       <text x="287" y="62" textAnchor="middle" fontSize="12" fill="#334155" fontWeight="bold">zacskó</text>
       <text x="370" y="62" textAnchor="middle" fontSize="12" fill="#1e3a8a" fontWeight="bold">1 zafír</text>
-      <text x="420" y="207" textAnchor="end" fontSize="12" fontWeight="bold" fill="#b45309">= 32</text>
+      <text x="432" y="207" textAnchor="end" fontSize="12" fontWeight="bold" fill="#b45309">= 32</text>
     </svg>
   );
 };

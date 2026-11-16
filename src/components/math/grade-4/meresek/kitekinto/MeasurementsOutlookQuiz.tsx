@@ -2,7 +2,7 @@ import React from 'react';
 import { QuizTemplate, QuizQuestion } from '../QuizTemplate';
 import { MeasurementsOutlookMatcher } from './MeasurementsOutlookMatcher';
 import { MeasurementsOutlookSorter } from './MeasurementsOutlookSorter';
-import { TANKS } from './MeasurementsOutlookFigures';
+import { TANKS, animalIcon } from './MeasurementsOutlookFigures';
 
 // ---------------------------------------------------------------------------
 // Kérdésábrák – belső SVG-segédek (nem exportált)
@@ -99,11 +99,11 @@ const TradeFig: React.FC<{ rows: [string, number, string, number][]; note: strin
     {rows.map(([l, ln, r, rn], i) => (
       <g key={i}>
         {Array.from({ length: ln }, (_, k) => (
-          <text key={`l${k}`} x={16 + k * 26} y={44 + i * 40} fontSize="20">{l}</text>
+          animalIcon(l, 16 + k * 26, 44 + i * 40, 20, `l${k}`)
         ))}
         <text x="84" y={40 + i * 40} fontSize="18" fontWeight="bold" fill="#0f172a">=</text>
         {Array.from({ length: rn }, (_, k) => (
-          <text key={`r${k}`} x={104 + k * 26} y={44 + i * 40} fontSize="20">{r}</text>
+          animalIcon(r, 104 + k * 26, 44 + i * 40, 20, `r${k}`)
         ))}
       </g>
     ))}

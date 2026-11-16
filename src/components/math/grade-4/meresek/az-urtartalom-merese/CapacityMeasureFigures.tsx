@@ -64,8 +64,8 @@ export const CapacityUnitLadderSvg: React.FC<FigProps> = ({ className = DEFAULT_
     { u: 'ml', n: 'milliliter', c: '#16a34a' }
   ];
   return (
-    <svg viewBox="0 0 520 210" className={className} xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
-      <rect x="2" y="2" width="516" height="206" rx="16" fill="#fff7ed" stroke="#fdba74" />
+    <svg viewBox="0 0 520 230" className={className} xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
+      <rect x="2" y="2" width="516" height="226" rx="16" fill="#fff7ed" stroke="#fdba74" />
       <text x="260" y="28" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#9a3412">
         1 l = 10 dl = 100 cl = 1000 ml
       </text>
@@ -87,7 +87,7 @@ export const CapacityUnitLadderSvg: React.FC<FigProps> = ({ className = DEFAULT_
           </g>
         );
       })}
-      <text x="260" y="198" textAnchor="middle" fontSize="11" fill="#475569">
+      <text x="260" y="216" textAnchor="middle" fontSize="11" fill="#475569">
         Nagyobb egységről kisebbre váltva lépésenként 10-zel szorzunk. Visszafelé 10-zel osztunk.
       </text>
     </svg>

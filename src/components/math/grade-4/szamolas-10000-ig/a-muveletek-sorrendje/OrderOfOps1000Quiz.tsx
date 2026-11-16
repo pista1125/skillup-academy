@@ -68,7 +68,7 @@ const QRod: React.FC<{ label: string; unit: string }> = ({ label, unit }) => (
     <path d="M 200 30 Q 225 60 220 100" fill="none" stroke="#334155" strokeWidth="1" />
     <circle cx="220" cy="100" r="4" fill={C_UNK} />
     <text x="112" y="50" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#14532d" transform="rotate(-20 112 50)">{label}</text>
-    <text x="120" y="110" textAnchor="middle" fontSize="12" fontWeight="bold" fill={C_UNK}>Hány {unit}? ?</text>
+    <text x="120" y="110" textAnchor="middle" fontSize="12" fontWeight="bold" fill={C_UNK}>Hossza: ? {unit}</text>
   </QFig>
 );
 

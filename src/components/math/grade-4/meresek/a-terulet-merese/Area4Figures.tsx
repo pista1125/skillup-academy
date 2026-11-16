@@ -24,16 +24,17 @@ const Grid: React.FC<{ x: number; y: number; cols: number; rows: number; u: numb
 
 /** 1. ábra: a füzet lefedése nagy és kis négyzet alakú lapokkal */
 export const NotebookCoverSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS }) => (
-  <svg viewBox="0 0 520 220" className={className} xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
-    <rect x="2" y="2" width="516" height="216" rx="16" fill="#fdf4ff" stroke="#e879f9" />
-    <text x="130" y="28" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#86198f">Nagy lapokkal</text>
+  <svg viewBox="0 0 520 236" className={className} xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
+    <rect x="2" y="2" width="516" height="232" rx="16" fill="#fdf4ff" stroke="#e879f9" />
+    <text x="100" y="28" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#86198f">Nagy lapokkal</text>
     <Grid x={40} y={40} cols={3} rows={4} u={40} fill="#f0abfc" stroke="#a21caf" />
-    <text x="100" y="208" textAnchor="middle" fontSize="13" fontWeight="bold" fill="#701a75">3 · 4 = 12 lap</text>
-    <text x="390" y="28" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#0e7490">Kis lapokkal</text>
+    <text x="100" y="222" textAnchor="middle" fontSize="13" fontWeight="bold" fill="#701a75">3 · 4 = 12 lap</text>
+    <text x="360" y="28" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#0e7490">Kis lapokkal</text>
     <Grid x={300} y={40} cols={6} rows={8} u={20} fill="#a5f3fc" stroke="#0e7490" />
-    <text x="360" y="208" textAnchor="middle" fontSize="13" fontWeight="bold" fill="#164e63">6 · 8 = 48 lap</text>
-    <text x="210" y="110" fontSize="12" fill="#475569">Ugyanaz a füzet!</text>
-    <text x="198" y="128" fontSize="12" fill="#475569">Kisebb lapból több kell.</text>
+    <text x="360" y="222" textAnchor="middle" fontSize="13" fontWeight="bold" fill="#164e63">6 · 8 = 48 lap</text>
+    <text x="230" y="104" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#475569">Ugyanaz a füzet!</text>
+    <text x="230" y="124" textAnchor="middle" fontSize="12" fill="#475569">Kisebb lapból</text>
+    <text x="230" y="140" textAnchor="middle" fontSize="12" fill="#475569">több kell.</text>
   </svg>
 );
 

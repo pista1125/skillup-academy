@@ -112,7 +112,7 @@ export const WrittenMultSvg: React.FC<{ className?: string }> = ({ className }) 
     <text x="210" y="90" textAnchor="middle" fontSize="24" fontWeight="bold" fill="#0f172a">·</text>
     <text x="232" y="90" textAnchor="middle" fontSize="24" fontWeight="bold" fill="#15803d">3</text>
     <line x1="94" y1="100" x2="192" y2="100" stroke="#0f172a" strokeWidth="2.5" />
-    <text x="149" y="110" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#64748b">1</text>
+    <text x="157" y="110" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#64748b">1</text>
     {['6', '4', '2'].map((d, i) => (
       <text key={`r${i}`} x={111 + i * 32} y="128" textAnchor="middle" fontSize="24" fontWeight="bold" fill="#0284c7">{d}</text>
     ))}

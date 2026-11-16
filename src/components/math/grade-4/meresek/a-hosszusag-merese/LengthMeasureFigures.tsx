@@ -15,8 +15,8 @@ export const LengthUnitLadderSvg: React.FC<FigProps> = ({ className = DEFAULT_CL
   ];
   const factors = ['· 1000', '· 10', '· 10', '· 10'];
   return (
-    <svg viewBox="0 0 520 190" className={className} xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
-      <rect x="2" y="2" width="516" height="186" rx="16" fill="#fff7ed" stroke="#fdba74" />
+    <svg viewBox="0 0 520 220" className={className} xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
+      <rect x="2" y="2" width="516" height="216" rx="16" fill="#fff7ed" stroke="#fdba74" />
       <text x="260" y="24" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#9a3412">
         Nagyobb egységről kisebbre: szorzunk
       </text>
@@ -51,7 +51,7 @@ export const LengthUnitLadderSvg: React.FC<FigProps> = ({ className = DEFAULT_CL
           </g>
         );
       })}
-      <text x="260" y="178" textAnchor="middle" fontSize="12" fill="#475569">
+      <text x="260" y="208" textAnchor="middle" fontSize="12" fill="#475569">
         1 km = 1000 m • 1 m = 10 dm = 100 cm = 1000 mm
       </text>
     </svg>

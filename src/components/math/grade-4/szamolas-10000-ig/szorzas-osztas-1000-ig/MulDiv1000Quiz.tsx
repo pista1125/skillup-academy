@@ -23,7 +23,7 @@ const QLadybugs: React.FC<{ n: number }> = ({ n }) => (
     {Array.from({ length: n }).map((_, i) => (
       <Ladybug key={i} x={40 + i * 54} y={48} s={0.95} />
     ))}
-    <text x="120" y="98" textAnchor="middle" fontSize="13" fontWeight="bold" fill={C_UNK}>Hány láb? ?</text>
+    <text x="120" y="98" textAnchor="middle" fontSize="13" fontWeight="bold" fill={C_UNK}>? láb</text>
   </QFig>
 );
 
@@ -112,7 +112,7 @@ const QMult: React.FC<{ a: string; m: string; result?: string; arrow?: 'm' | 'a'
           <text key={`r${i}`} x={xs[i]} y="92" textAnchor="middle" fontSize="20" fontWeight="bold" fill="#0284c7">{d.trim()}</text>
         ))
       ) : (
-        <text x={xs[1]} y="92" textAnchor="middle" fontSize="20" fontWeight="bold" fill={C_UNK}>?</text>
+        xs.map((x, i) => <text key={`q${i}`} x={x} y="92" textAnchor="middle" fontSize="20" fontWeight="bold" fill={C_UNK}>?</text>)
       )}
       {arrow === 'm' && (
         <g>

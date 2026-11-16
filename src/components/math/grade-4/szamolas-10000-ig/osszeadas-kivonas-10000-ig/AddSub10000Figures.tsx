@@ -87,7 +87,7 @@ export const JumpLine: React.FC<{ min: number; max: number; start: number; jumps
       {ticks
         .filter((n) => (n - min) % labelStep === 0)
         .map((n) => (
-          <text key={n} x={sx(n)} y={y + 22} textAnchor="middle" fontSize="10" fill="#334155">{n === 10000 ? '10 000' : n}</text>
+          <text key={n} x={sx(n)} y={y + 22} textAnchor="middle" fontSize="11" fill="#334155">{n === 10000 ? '10 000' : n}</text>
         ))}
       {jumps.map((j, i) => {
         const a = sx(pts[i]);
@@ -112,23 +112,23 @@ export const JumpLine: React.FC<{ min: number; max: number; start: number; jumps
 
 // 3. ábra: Jancsi módszere a számegyenesen: 3400 + 5000 + 700 = 9100
 export const AddJumpsSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS }) => (
-  <svg viewBox="0 0 460 130" className={className} xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
-    <rect x="2" y="2" width="456" height="126" rx="14" fill="#eff6ff" stroke="#93c5fd" />
+  <svg viewBox="0 0 460 142" className={className} xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
+    <rect x="2" y="2" width="456" height="138" rx="14" fill="#eff6ff" stroke="#93c5fd" />
     <text x="230" y="20" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#1e3a8a">3400 + 5700: előbb +5000, aztán +700</text>
     <JumpLine min={3000} max={10000} start={3400} jumps={[5000, 700]} y={92} />
     <text x="40" y="60" fontSize="11" fontWeight="bold" fill="#0f172a">3400</text>
-    <text x="350" y="122" fontSize="11" fontWeight="bold" fill="#16a34a">8400 → 9100</text>
+    <text x="350" y="134" fontSize="11" fontWeight="bold" fill="#16a34a">8400 → 9100</text>
   </svg>
 );
 
 // 4. ábra: Kivonás ugrásokkal: 8200 − 5000 − 300 = 2900
 export const SubJumpsSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS }) => (
-  <svg viewBox="0 0 460 130" className={className} xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
-    <rect x="2" y="2" width="456" height="126" rx="14" fill="#fef2f2" stroke="#fca5a5" />
+  <svg viewBox="0 0 460 142" className={className} xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
+    <rect x="2" y="2" width="456" height="138" rx="14" fill="#fef2f2" stroke="#fca5a5" />
     <text x="230" y="20" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#7f1d1d">8200 − 5300: előbb −5000, aztán −300</text>
     <JumpLine min={2000} max={9000} start={8200} jumps={[-5000, -300]} y={92} />
     <text x="380" y="60" fontSize="11" fontWeight="bold" fill="#0f172a">8200</text>
-    <text x="40" y="122" fontSize="11" fontWeight="bold" fill="#16a34a">3200 → 2900</text>
+    <text x="40" y="134" fontSize="11" fontWeight="bold" fill="#16a34a">3200 → 2900</text>
   </svg>
 );
 
@@ -196,9 +196,9 @@ export const PyramidDrawing: React.FC<{ rows: (number | string | null)[][]; w?: 
 
 // 6. ábra: Összegpiramis (tankönyv 47. o., 12. b) feladat)
 export const SumPyramidSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS }) => (
-  <svg viewBox="0 0 240 130" className={className} xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
-    <rect x="2" y="2" width="236" height="126" rx="12" fill="#fffbeb" stroke="#fcd34d" />
+  <svg viewBox="0 0 240 140" className={className} xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
+    <rect x="2" y="2" width="236" height="136" rx="12" fill="#fffbeb" stroke="#fcd34d" />
     <PyramidDrawing rows={[[200, 700, 1100, 500], [900, 1800, 1600], [2700, 3400], [6100]]} />
-    <text x="120" y="124" textAnchor="middle" fontSize="10" fill="#713f12">Fent mindig az alatta lévő két szám összege áll.</text>
+    <text x="120" y="131" textAnchor="middle" fontSize="10" fill="#713f12">Fent mindig az alatta lévő két szám összege áll.</text>
   </svg>
 );

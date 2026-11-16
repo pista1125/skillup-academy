@@ -72,14 +72,15 @@ const ShownFig: React.FC<{ b: LogicBlock; common: string }> = ({ b, common }) =>
 
 /** Két halmaz (Venn-diagram) a közös résszel. */
 const VennFig: React.FC = () => (
-  <QFig h={120}>
-    <circle cx="100" cy="62" r="46" fill="#fecaca" fillOpacity="0.7" stroke="#dc2626" strokeWidth="2" />
-    <circle cx="160" cy="62" r="46" fill="#bfdbfe" fillOpacity="0.7" stroke="#2563eb" strokeWidth="2" />
-    <text x="72" y="20" fontSize="11" fontWeight="bold" textAnchor="middle" fill="#b91c1c">piros: 12</text>
-    <text x="190" y="20" fontSize="11" fontWeight="bold" textAnchor="middle" fill="#1d4ed8">kör: 16</text>
-    <text x="130" y="60" fontSize="11" fontWeight="bold" textAnchor="middle" fill="#334155">piros kör</text>
-    <text x="130" y="76" fontSize="14" fontWeight="bold" textAnchor="middle" fill="#334155">4</text>
-    <text x="130" y="116" fontSize="12" fontWeight="bold" textAnchor="middle" fill={UNK}>piros vagy kör: ?</text>
+  <QFig h={136}>
+    <circle cx="106" cy="66" r="44" fill="#fecaca" fillOpacity="0.7" stroke="#dc2626" strokeWidth="2" />
+    <circle cx="154" cy="66" r="44" fill="#bfdbfe" fillOpacity="0.7" stroke="#2563eb" strokeWidth="2" />
+    <text x="62" y="17" fontSize="11" fontWeight="bold" textAnchor="middle" fill="#b91c1c">piros: 12</text>
+    <text x="198" y="17" fontSize="11" fontWeight="bold" textAnchor="middle" fill="#1d4ed8">kör: 16</text>
+    <text x="130" y="54" fontSize="10" fontWeight="bold" textAnchor="middle" fill="#334155">piros</text>
+    <text x="130" y="66" fontSize="10" fontWeight="bold" textAnchor="middle" fill="#334155">kör</text>
+    <text x="130" y="84" fontSize="14" fontWeight="bold" textAnchor="middle" fill="#334155">4</text>
+    <text x="130" y="127" fontSize="12" fontWeight="bold" textAnchor="middle" fill={UNK}>piros vagy kör: ?</text>
   </QFig>
 );
 
@@ -321,7 +322,7 @@ const LOGIC_QUESTIONS: QuizQuestion[] = [
     id: 'lb-q20',
     level: 2,
     questionTypeBadge: 'Számolás',
-    figure: <ExamplesFig items={[B('piros', 'kör', 'kicsi', true), B('sárga', 'négyzet', 'kicsi', true), B('kék', 'háromszög', 'kicsi', true), B('zöld', 'kör', 'kicsi', true)]} note="Ilyen lapokból hány van? ?" />,
+    figure: <ExamplesFig items={[B('piros', 'kör', 'kicsi', true), B('sárga', 'négyzet', 'kicsi', true), B('kék', 'háromszög', 'kicsi', true), B('zöld', 'kör', 'kicsi', true)]} note="Ilyen lapokból: ? db" />,
     question: 'Hány olyan lap van, amely kicsi és lyukas?',
     options: ['12', '24', '6', '48'],
     correctAnswer: 0,

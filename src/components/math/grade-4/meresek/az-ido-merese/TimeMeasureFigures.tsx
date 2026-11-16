@@ -20,7 +20,7 @@ export const ClockFace: React.FC<{ cx: number; cy: number; r: number; hour: numb
 }) => {
   const hDeg = ((hour % 12) + minute / 60) * 30;
   const mDeg = minute * 6;
-  const h = pt(cx, cy, r * 0.5, hDeg);
+  const h = pt(cx, cy, r * 0.46, hDeg);
   const m = pt(cx, cy, r * 0.78, mDeg);
   return (
     <g>
@@ -32,16 +32,16 @@ export const ClockFace: React.FC<{ cx: number; cy: number; r: number; hour: numb
           const b = pt(cx, cy, r * (i % 5 === 0 ? 0.8 : 0.88), i * 6);
           return <line key={i} x1={a.x} y1={a.y} x2={b.x} y2={b.y} stroke="#334155" strokeWidth={i % 5 === 0 ? 2 : 0.8} />;
         })}
+      <line x1={cx} y1={cy} x2={h.x} y2={h.y} stroke="#4338ca" strokeWidth={r * 0.09} strokeLinecap="round" />
+      <line x1={cx} y1={cy} x2={m.x} y2={m.y} stroke="#6366f1" strokeWidth={r * 0.05} strokeLinecap="round" />
       {[12, 3, 6, 9].map((n) => {
         const p = pt(cx, cy, r * 0.64, (n % 12) * 30);
         return (
-          <text key={n} x={p.x} y={p.y + r * 0.08} textAnchor="middle" fontSize={r * 0.24} fontWeight="bold" fill="#0f172a">
+          <text key={n} x={p.x} y={p.y + r * 0.08} textAnchor="middle" fontSize={r * 0.24} fontWeight="bold" fill="#0f172a" stroke="#ffffff" strokeWidth={r * 0.06} paintOrder="stroke">
             {n}
           </text>
         );
       })}
-      <line x1={cx} y1={cy} x2={h.x} y2={h.y} stroke="#4338ca" strokeWidth={r * 0.09} strokeLinecap="round" />
-      <line x1={cx} y1={cy} x2={m.x} y2={m.y} stroke="#6366f1" strokeWidth={r * 0.05} strokeLinecap="round" />
       <circle cx={cx} cy={cy} r={r * 0.06} fill="#f97316" />
     </g>
   );
@@ -86,7 +86,7 @@ export const TimeUnitsSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS }) 
       <rect x="2" y="2" width="516" height="216" rx="16" fill="#fff7ed" stroke="#fdba74" />
       {units.map((d, i) => {
         const x = 16 + i * 126;
-        const y = 50 + i * 22;
+        const y = 54 + i * 22;
         return (
           <g key={d.u}>
             <rect x={x} y={y} width="110" height="46" rx="14" fill="#ffffff" stroke={d.c} strokeWidth="3" />
@@ -101,7 +101,7 @@ export const TimeUnitsSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS }) 
           </g>
         );
       })}
-      <text x="260" y="28" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#9a3412">
+      <text x="260" y="22" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#9a3412">
         1 nap = 24 óra • 1 óra = 60 perc • 1 perc = 60 másodperc
       </text>
       <rect x="40" y="168" width="440" height="36" rx="12" fill="#ffedd5" />

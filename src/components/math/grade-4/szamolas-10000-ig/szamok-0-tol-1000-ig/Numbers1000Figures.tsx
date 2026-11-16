@@ -19,8 +19,8 @@ export const AbacusSvg: React.FC<{ className?: string }> = ({ className }) => {
     { x: 230, count: 6, color: PV_COLORS.egyes, label: 'egyes', value: '1' }
   ];
   return (
-    <svg viewBox="0 0 300 250" className={className ?? 'w-full h-auto'} fontFamily={FONT}>
-      <rect x="2" y="2" width="296" height="246" rx="16" fill="#fffbeb" stroke="#fcd34d" strokeWidth="2" />
+    <svg viewBox="0 0 300 256" className={className ?? 'w-full h-auto'} fontFamily={FONT}>
+      <rect x="2" y="2" width="296" height="252" rx="16" fill="#fffbeb" stroke="#fcd34d" strokeWidth="2" />
       <text x="150" y="24" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#92400e">
         Golyós számológép
       </text>
@@ -84,8 +84,8 @@ export const PlaceValueTableSvg: React.FC<{ className?: string }> = ({ className
       <text x="12" y="122" fontSize="12" fontWeight="bold" fill="#334155">
         Valódi érték
       </text>
-      <text x="183" y="122" textAnchor="middle" fontSize="16" fill="#334155">+</text>
-      <text x="245" y="122" textAnchor="middle" fontSize="16" fill="#334155">+</text>
+      <text x="213" y="121" textAnchor="middle" fontSize="16" fill="#334155">+</text>
+      <text x="275" y="121" textAnchor="middle" fontSize="16" fill="#334155">+</text>
       <text x="170" y="155" textAnchor="middle" fontSize="13" fontWeight="bold" fill="#0f172a">
         273 = 2 százas + 7 tízes + 3 egyes = 200 + 70 + 3
       </text>

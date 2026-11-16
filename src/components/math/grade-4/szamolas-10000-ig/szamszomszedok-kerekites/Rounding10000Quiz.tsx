@@ -45,8 +45,8 @@ const RoundFig: React.FC<{ n: string; to: string }> = ({ n, to }) => (
   <QFig h={70}>
     <rect x="22" y="16" width="78" height="38" rx="9" fill="#dbeafe" stroke="#2563eb" strokeWidth="1.5" />
     <text x="61" y="41" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#1e3a8a">{n}</text>
-    <text x="120" y="33" textAnchor="middle" fontSize="9" fontWeight="bold" fill="#7c2d12">{to}</text>
-    <text x="120" y="48" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#7c2d12">≈</text>
+    <text x="120" y="29" textAnchor="middle" fontSize={to.length > 7 ? 8 : 9} fontWeight="bold" fill="#7c2d12">{to}</text>
+    <text x="120" y="49" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#7c2d12">≈</text>
     <rect x="140" y="16" width="78" height="38" rx="9" fill="#fee2e2" stroke={UNK} strokeWidth="1.5" />
     <text x="179" y="41" textAnchor="middle" fontSize="18" fontWeight="bold" fill={UNK}>?</text>
   </QFig>

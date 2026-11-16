@@ -25,7 +25,7 @@ const Frame: React.FC<{ w: number; h: number; className?: string; children: Reac
   >
     <rect x="1" y="1" width={w - 2} height={h - 2} rx="14" fill="#fffbeb" stroke="#fcd34d" strokeWidth="1.5" />
     {title && (
-      <text x={w / 2} y="22" textAnchor="middle" fontSize="13" fontWeight="bold" fill="#92400e">
+      <text x={w / 2} y="22" textAnchor="middle" fontSize={title.length > 50 ? 12 : 13} fontWeight="bold" fill="#92400e">
         {title}
       </text>
     )}
@@ -74,18 +74,19 @@ export const SumPyramid: React.FC<{
 );
 
 export const SumPyramidSvg: React.FC<FigProps> = ({ className }) => (
-  <Frame w={360} h={150} className={className} title="Összegpiramis: felülre a két alatta lévő szám összege kerül">
-    <SumPyramid rows={[['A'], ['B', 'C'], [321, 135, 228]]} cx={110} y={40} />
+  <Frame w={400} h={165} className={className} title="Összegpiramis: felülre a két alatta lévő szám összege kerül">
+    <SumPyramid rows={[['A'], ['B', 'C'], [321, 135, 228]]} cx={120} y={40} />
     <SumPyramid
       rows={[['819'], ['456', '363'], [321, 135, 228]]}
-      cx={265}
+      cx={290}
       y={40}
       fill="#fde68a"
       stroke="#b45309"
       text="#78350f"
     />
-    <text x="110" y="130" textAnchor="middle" fontSize="11" fill="#7c2d12">feladat</text>
-    <text x="265" y="130" textAnchor="middle" fontSize="11" fill="#78350f">321 + 135 = 456, 135 + 228 = 363, 456 + 363 = 819</text>
+    <text x="120" y="130" textAnchor="middle" fontSize="11" fill="#7c2d12">feladat</text>
+    <text x="290" y="130" textAnchor="middle" fontSize="11" fill="#78350f">megoldás</text>
+    <text x="200" y="152" textAnchor="middle" fontSize="11" fill="#78350f">321 + 135 = 456, 135 + 228 = 363, 456 + 363 = 819</text>
   </Frame>
 );
 

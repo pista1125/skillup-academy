@@ -4,6 +4,25 @@ type FigProps = { className?: string };
 
 const DEFAULT_CLASS = 'w-full h-auto max-w-xl mx-auto';
 
+/** Rajzolt szamár (a 🫏 emoji régebbi eszközökön nem jelenik meg). x, y: mint egy emoji-szöveg bal alsó alapvonala. */
+const DonkeyGlyph: React.FC<{ x: number; y: number; size: number }> = ({ x, y, size }) => {
+  const k = size / 30;
+  return (
+    <g transform={`translate(${x} ${y - size * 0.85}) scale(${k})`}>
+      <rect x="6" y="20" width="3" height="10" fill="#57534e" />
+      <rect x="20" y="20" width="3" height="10" fill="#57534e" />
+      <ellipse cx="14" cy="17" rx="11" ry="6.5" fill="#a8a29e" stroke="#57534e" strokeWidth="1.2" />
+      <path d="M 22 15 L 25 6 L 29 8 L 26 17 Z" fill="#a8a29e" stroke="#57534e" strokeWidth="1.2" />
+      <path d="M 24.5 6.5 L 23 0 L 26 5.5 M 26.5 7 L 27.5 0.5 L 28 6.5" fill="#a8a29e" stroke="#57534e" strokeWidth="1.2" />
+      <path d="M 3 14 L 0 20" stroke="#57534e" strokeWidth="1.5" />
+    </g>
+  );
+};
+
+/** Állat-ikon: a szamarat rajzoljuk, a többi emoji marad. */
+export const animalIcon = (ch: string, x: number, y: number, size: number, key?: string) =>
+  ch === '🫏' ? <DonkeyGlyph key={key} x={x} y={y} size={size} /> : <text key={key} x={x} y={y} fontSize={size}>{ch}</text>;
+
 export const TANKS = [
   { n: 'traktor üzemanyagtartálya', v: 100, c: '#3b82f6' },
   { n: 'autóbusz üzemanyagtartálya', v: 300, c: '#eab308' },
@@ -97,11 +116,11 @@ export const MarketTradeSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS }
   const row = (y: number, left: string, ln: number, right: string, rn: number) => (
     <g>
       {Array.from({ length: ln }, (_, i) => (
-        <text key={`l${i}`} x={40 + i * 40} y={y} fontSize="30">{left}</text>
+        animalIcon(left, 40 + i * 40, y, 30, `l${i}`)
       ))}
       <text x="150" y={y - 6} fontSize="26" fontWeight="bold" fill="#0f172a">=</text>
       {Array.from({ length: rn }, (_, i) => (
-        <text key={`r${i}`} x={190 + i * 62} y={y} fontSize="30">{right}</text>
+        animalIcon(right, 190 + i * 62, y, 30, `r${i}`)
       ))}
     </g>
   );

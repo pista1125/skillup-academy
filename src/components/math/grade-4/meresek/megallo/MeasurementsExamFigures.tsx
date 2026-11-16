@@ -55,8 +55,8 @@ export const MOTORWAYS = [
 
 /** 2. ábra: autópályák hossza 2013-ban (Megálló 3. feladat) */
 export const MotorwayChartSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS }) => {
-  const x0 = 120;
-  const sc = 0.16;
+  const x0 = 100;
+  const sc = 0.15;
   return (
     <svg viewBox="0 0 520 230" className={className} xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
       <rect x="2" y="2" width="516" height="226" rx="16" fill="#ffffff" stroke="#cbd5e1" />
@@ -192,7 +192,7 @@ export const UnitBoardGameSvg: React.FC<FigProps & { active?: number }> = ({ cla
       return (
         <g key={f.q}>
           <circle cx={p.x} cy={p.y} r={active === i ? 28 : 25} fill={BOARD_TASKS[f.color].fill} stroke={active === i ? '#0f172a' : '#ffffff'} strokeWidth={active === i ? 4 : 2} />
-          <text x={p.x} y={p.y + 4} textAnchor="middle" fontSize="11" fontWeight="bold" fill={f.color === 'yellow' ? '#713f12' : '#ffffff'}>{f.q}</text>
+          <text x={p.x} y={p.y + 4} textAnchor="middle" fontSize={f.q.length > 6 ? 9 : 11} fontWeight="bold" fill={f.color === 'yellow' ? '#713f12' : '#ffffff'}>{f.q}</text>
         </g>
       );
     })}

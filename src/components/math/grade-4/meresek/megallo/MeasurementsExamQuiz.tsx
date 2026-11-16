@@ -214,7 +214,7 @@ const BalloonFig: React.FC = () => (
 const FieldFig: React.FC<{ f: BoardField }> = ({ f }) => (
   <QFig h={120}>
     <circle cx="120" cy="52" r="36" fill={BOARD_TASKS[f.color].fill} stroke="#ffffff" strokeWidth="3" />
-    <text x="120" y="58" textAnchor="middle" fontSize="15" fontWeight="bold" fill={f.color === 'yellow' ? '#713f12' : '#ffffff'}>{f.q}</text>
+    <text x="120" y="57" textAnchor="middle" fontSize={f.q.length > 6 ? 12 : 15} fontWeight="bold" fill={f.color === 'yellow' ? '#713f12' : '#ffffff'}>{f.q}</text>
     <text x="120" y="108" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#0f172a">{BOARD_TASKS[f.color].text}</text>
   </QFig>
 );

@@ -77,7 +77,7 @@ const MapFig: React.FC = () => (
       <line key={i} x1={l[0]} y1={l[1]} x2={l[2]} y2={l[3]} stroke="#b45309" strokeWidth="2.5" strokeDasharray="5 3" />
     ))}
     <text x="72" y="30" fontSize="10" fontWeight="bold" fill="#b91c1c" textAnchor="middle">550 m</text>
-    <text x="100" y="75" fontSize="10" fontWeight="bold" fill="#b91c1c" textAnchor="middle">340 m</text>
+    <text x="111" y="75" fontSize="10" fontWeight="bold" fill="#b91c1c" textAnchor="end">340 m</text>
     <text x="178" y="64" fontSize="10" fontWeight="bold" fill="#b91c1c" textAnchor="middle">800 m</text>
     <text x="160" y="104" fontSize="10" fontWeight="bold" fill="#b91c1c" textAnchor="middle">480 m</text>
     {[
@@ -151,7 +151,7 @@ const SignFig: React.FC<{ text: string; note?: string }> = ({ text, note }) => (
     <polygon points="40,20 190,20 210,40 190,60 40,60" fill="#facc15" stroke="#a16207" strokeWidth="2" />
     <text x="120" y="46" textAnchor="middle" fontSize="15" fontWeight="bold" fill="#422006">{text}</text>
     {note && (
-      <text x="120" y="100" textAnchor="middle" fontSize="10" fontWeight="bold" fill={UNK}>{note}</text>
+      <text x="178" y="92" textAnchor="middle" fontSize="10" fontWeight="bold" fill={UNK}>{note}</text>
     )}
   </QFig>
 );

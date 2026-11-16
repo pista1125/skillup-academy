@@ -121,7 +121,7 @@ const QBoxes: React.FC<{ items: string[]; caption?: string }> = ({ items, captio
   const total = items.length * (w + 4) - 4;
   const start = 120 - total / 2;
   return (
-    <QFig h={caption ? 100 : 80}>
+    <QFig h={caption ? (caption.length > 36 ? 104 : 100) : 80}>
       {items.map((t, i) => (
         <g key={i}>
           <rect
@@ -139,11 +139,22 @@ const QBoxes: React.FC<{ items: string[]; caption?: string }> = ({ items, captio
           </text>
         </g>
       ))}
-      {caption && (
+      {caption && caption.length <= 36 && (
         <text x="120" y="82" textAnchor="middle" fontSize="11" fill="#334155">
           {caption}
         </text>
       )}
+      {caption && caption.length > 36 && (() => {
+        const mid = caption.length / 2;
+        const spaces = caption.split('').map((ch, i) => (ch === ' ' ? i : -1)).filter((i) => i > 0);
+        const cut = spaces.reduce((b, i) => (Math.abs(i - mid) < Math.abs(b - mid) ? i : b), spaces[0]);
+        return (
+          <text x="120" y="76" textAnchor="middle" fontSize="11" fill="#334155">
+            <tspan x="120">{caption.slice(0, cut)}</tspan>
+            <tspan x="120" dy="14">{caption.slice(cut + 1)}</tspan>
+          </text>
+        );
+      })()}
     </QFig>
   );
 };
@@ -166,7 +177,7 @@ const QTissue: React.FC<{ boxes: number; packs: number; singles: number }> = ({ 
     {Array.from({ length: singles }).map((_, i) => (
       <rect key={`s${i}`} x={178 + (i % 4) * 13} y={22 + Math.floor(i / 4) * 13} width="10" height="10" rx="2" fill="#fff" stroke="#64748b" />
     ))}
-    <text x="120" y="110" textAnchor="middle" fontSize="12" fontWeight="bold" fill={C_UNK}>Hány zsebkendő? ?</text>
+    <text x="120" y="110" textAnchor="middle" fontSize="12" fontWeight="bold" fill={C_UNK}>? zsebkendő</text>
   </QFig>
 );
 

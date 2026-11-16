@@ -111,7 +111,7 @@ const NumberLineFig: React.FC<{ title: string }> = ({ title }) => (
         <text x={22 + i * 24} y="82" fontSize="12" fontWeight="bold" textAnchor="middle" fill="#334155">{i}</text>
       </g>
     ))}
-    <text x="130" y="44" fontSize="12" fontWeight="bold" textAnchor="middle" fill={UNK}>Melyek a jó számok? ?</text>
+    <text x="130" y="44" fontSize="12" fontWeight="bold" textAnchor="middle" fill={UNK}>Melyek a jó számok?</text>
   </QFig>
 );
 

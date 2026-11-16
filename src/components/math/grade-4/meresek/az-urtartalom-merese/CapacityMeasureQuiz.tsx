@@ -44,7 +44,7 @@ const JugFig: React.FC<{ ticks: number; fill: number; top?: string; tickLabel?: 
           </g>
         );
       })}
-      {top && <text x={x + w / 2} y={y + 12} textAnchor="middle" fontSize="10" fontWeight="bold" fill="#0f172a">{top}</text>}
+      {top && <text x={x + w / 2} y={top.length > 4 ? y - 7 : y + 12} textAnchor="middle" fontSize="10" fontWeight="bold" fill="#0f172a">{top}</text>}
       <text x="120" y="140" textAnchor="middle" fontSize="13" fontWeight="bold" fill={bottom.includes('?') ? UNK : '#0f172a'}>{bottom}</text>
     </QFig>
   );
@@ -147,7 +147,8 @@ const BottleGlassesFig: React.FC = () => (
     {[0, 1, 2].map((i) => (
       <g key={i}>
         <path d={`M ${100 + i * 46} 60 L ${106 + i * 46} 110 L ${130 + i * 46} 110 L ${136 + i * 46} 60`} fill="#fed7aa" stroke="#334155" strokeWidth="2" />
-        <text x={118 + i * 46} y="92" textAnchor="middle" fontSize="8" fontWeight="bold" fill="#7c2d12">2 dl 5 cl</text>
+        <text x={118 + i * 46} y="84" textAnchor="middle" fontSize="9" fontWeight="bold" fill="#7c2d12">2 dl</text>
+        <text x={118 + i * 46} y="96" textAnchor="middle" fontSize="9" fontWeight="bold" fill="#7c2d12">5 cl</text>
       </g>
     ))}
     <text x="165" y="40" textAnchor="middle" fontSize="11" fontWeight="bold" fill={UNK}>Mennyi marad?</text>

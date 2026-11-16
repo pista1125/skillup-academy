@@ -23,7 +23,7 @@ export const BalanceScaleSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS 
     {[0, 1, 2, 3, 4].map((i) => (
       <rect key={i} x={368 + i * 17} y="120" width="15" height="20" rx="3" fill="#cbd5e1" stroke="#334155" />
     ))}
-    <text x="410" y="112" textAnchor="middle" fontSize="13" fontWeight="bold" fill="#1e3a8a">5 · 20 dkg</text>
+    <text x="410" y="174" textAnchor="middle" fontSize="13" fontWeight="bold" fill="#1e3a8a">5 · 20 dkg</text>
     <text x="260" y="40" textAnchor="middle" fontSize="18" fontWeight="bold" fill="#1d4ed8">
       1 kg = 100 dkg
     </text>

@@ -92,11 +92,13 @@ const PyrFig: React.FC<{ rows: (string | number)[][]; fill?: string; stroke?: st
 const NeighbourFig: React.FC<{ num: string; side: 'kisebb' | 'nagyobb'; kind: string }> = ({ num, side, kind }) => (
   <QFig h={80}>
     <rect x="15" y="14" width="80" height="22" fill="#fde68a" stroke="#b45309" />
-    <text x="55" y="29" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#78350f">Kisebb szomszéd</text>
+    <text x="55" y="23" textAnchor="middle" fontSize="9" fontWeight="bold" fill="#78350f">Kisebb</text>
+    <text x="55" y="33" textAnchor="middle" fontSize="9" fontWeight="bold" fill="#78350f">szomszéd</text>
     <rect x="95" y="14" width="50" height="22" fill="#fde68a" stroke="#b45309" />
     <text x="120" y="29" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#78350f">Szám</text>
     <rect x="145" y="14" width="80" height="22" fill="#fde68a" stroke="#b45309" />
-    <text x="185" y="29" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#78350f">Nagyobb szomszéd</text>
+    <text x="185" y="23" textAnchor="middle" fontSize="9" fontWeight="bold" fill="#78350f">Nagyobb</text>
+    <text x="185" y="33" textAnchor="middle" fontSize="9" fontWeight="bold" fill="#78350f">szomszéd</text>
     <rect x="15" y="36" width="80" height="28" fill="#fff" stroke="#b45309" />
     <rect x="95" y="36" width="50" height="28" fill="#fff" stroke="#b45309" />
     <rect x="145" y="36" width="80" height="28" fill="#fff" stroke="#b45309" />
@@ -1164,10 +1166,12 @@ export const COUNTING_EXAM_QUESTIONS: QuizQuestion[] = [
     questionTypeBadge: 'Logikai feladat',
     question: 'Attila és Zoli nem zöld sátorban lakott. Zoli, Norbi és Levente nem páros sorszámú sátorban. Botond Levente szomszédja. Ki lakott a 4. sátorban?',
     figure: (
-      <QFig h={110}>
-        {TENT_COLORS.map((c, i) => (
-          <Tent key={i} x={28 + i * 46} y={45} color={c} n={i + 1} name={i === 3 ? '?' : ''} />
-        ))}
+      <QFig h={100}>
+        <g transform="scale(0.8)">
+          {TENT_COLORS.map((c, i) => (
+            <Tent key={i} x={35 + i * 57.5} y={56} color={c} n={i + 1} name={i === 3 ? '?' : ''} />
+          ))}
+        </g>
       </QFig>
     ),
     options: ['Botond', 'Levente', 'Norbi', 'Attila'],

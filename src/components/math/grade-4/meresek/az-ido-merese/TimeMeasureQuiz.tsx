@@ -91,6 +91,12 @@ const RouteFig: React.FC = () => {
   ];
   const labels = ['negyedóra', '24 perc', '660 mp', '10 perc'];
   const colors = ['#16a34a', '#2563eb', '#dc2626', '#9333ea'];
+  const lp: { x: number; y: number; a: 'start' | 'middle' | 'end' }[] = [
+    { x: 34, y: 58, a: 'middle' },
+    { x: 96, y: 92, a: 'end' },
+    { x: 166, y: 96, a: 'start' },
+    { x: 214, y: 62, a: 'middle' }
+  ];
   return (
     <QFig h={130}>
       {pts.slice(0, -1).map((p, i) => {
@@ -98,7 +104,7 @@ const RouteFig: React.FC = () => {
         return (
           <g key={i}>
             <line x1={p.x} y1={p.y} x2={q.x} y2={q.y} stroke={colors[i]} strokeWidth="4" strokeLinecap="round" />
-            <text x={(p.x + q.x) / 2} y={(p.y + q.y) / 2 + (i % 2 ? 20 : -10)} textAnchor="middle" fontSize="10" fontWeight="bold" fill={colors[i]}>{labels[i]}</text>
+            <text x={lp[i].x} y={lp[i].y} textAnchor={lp[i].a} fontSize="10" fontWeight="bold" fill={colors[i]}>{labels[i]}</text>
           </g>
         );
       })}

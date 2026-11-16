@@ -21,11 +21,11 @@ const JumpFig: React.FC<{ min: number; max: number; start: number; jumps: number
   const end = jumps.reduce((s, j) => s + j, start);
   const sx = (n: number) => 24 + ((436 - 24) * (n - min)) / (max - min);
   return (
-    <svg viewBox="0 0 460 130" className="w-full max-w-[320px] h-auto mx-auto" xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
-      <rect x="1" y="1" width="458" height="128" rx="10" fill="#f8fafc" stroke="#cbd5e1" />
+    <svg viewBox="0 0 460 144" className="w-full max-w-[400px] h-auto mx-auto" xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
+      <rect x="1" y="1" width="458" height="142" rx="10" fill="#f8fafc" stroke="#cbd5e1" />
       <JumpLine min={min} max={max} start={start} jumps={jumps} y={92} />
-      <text x={sx(start)} y="122" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#0f172a">{start}</text>
-      <text x={sx(end)} y="72" textAnchor="middle" fontSize="16" fontWeight="bold" fill={UNK}>?</text>
+      <text x={sx(start)} y="135" textAnchor="middle" fontSize="13" fontWeight="bold" fill="#0f172a">{start}</text>
+      <text x={sx(end)} y="137" textAnchor="middle" fontSize="16" fontWeight="bold" fill={UNK}>?</text>
     </svg>
   );
 };
@@ -40,7 +40,7 @@ const CoinsFig: React.FC<{ a: number; b: number }> = ({ a, b }) => (
     {Array.from({ length: b }, (_, i) => (
       <Coin100 key={`b${i}`} x={156 + (i % 4) * 22} y={22 + Math.floor(i / 4) * 22} r={10} />
     ))}
-    <text x="120" y="100" textAnchor="middle" fontSize="13" fontWeight="bold" fill={UNK}>Mennyi összesen? ?</text>
+    <text x="120" y="100" textAnchor="middle" fontSize="13" fontWeight="bold" fill={UNK}>Összesen: ?</text>
   </QFig>
 );
 
@@ -95,7 +95,7 @@ const CartsFig: React.FC<{ masses: string[] }> = ({ masses }) => (
       return (
         <g key={i}>
           <path d={`M ${x} 22 L ${x + 52} 22 L ${x + 46} 60 L ${x + 6} 60 Z`} fill={m === '?' ? '#fee2e2' : '#fca5a5'} stroke="#7f1d1d" strokeWidth="1.5" />
-          <text x={x + 26} y="46" textAnchor="middle" fontSize="11" fontWeight="bold" fill={m === '?' ? UNK : '#7f1d1d'}>{m}</text>
+          <text x={x + 26} y="46" textAnchor="middle" fontSize={m.length > 6 ? 9.5 : 11} fontWeight="bold" fill={m === '?' ? UNK : '#7f1d1d'}>{m}</text>
           <circle cx={x + 14} cy="67" r="6" fill="#7f1d1d" />
           <circle cx={x + 38} cy="67" r="6" fill="#7f1d1d" />
           <text x={x + 26} y="16" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#334155">{'ABCD'[i]}</text>

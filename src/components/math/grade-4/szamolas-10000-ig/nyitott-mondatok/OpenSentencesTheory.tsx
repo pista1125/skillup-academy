@@ -118,7 +118,7 @@ const ScaleLab: React.FC = () => {
   const task = SCALE_TASKS[taskIdx];
   const left = task.value(guess);
   const diff = left - task.target;
-  const tilt = Math.max(-14, Math.min(14, diff === 0 ? 0 : (diff > 0 ? 1 : -1) * (4 + Math.min(10, Math.abs(diff) / 40))));
+  const tilt = Math.max(-14, Math.min(14, diff === 0 ? 0 : (diff > 0 ? -1 : 1) * (4 + Math.min(10, Math.abs(diff) / 40))));
   const change = (d: number) => setGuess((g) => Math.max(0, Math.min(task.max ?? 9999, g + d)));
   const fmtLeft = String(left);
 

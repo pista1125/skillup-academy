@@ -46,11 +46,7 @@ const QColumn: React.FC<{ top: string; bottom: string; result: string; sign: '+'
       ))}
       {cells(top, ys[0], 't')}
       {cells(bottom, ys[1], 'b')}
-      {result === '???' ? (
-        <text x={xs[n - 2]} y={ys[2]} textAnchor="middle" fontSize="20" fontWeight="bold" fill={C_UNK}>?</text>
-      ) : (
-        cells(result, ys[2], 'r')
-      )}
+      {cells(result, ys[2], 'r')}
       <text x={xs[0] - 26} y={ys[1]} textAnchor="middle" fontSize="20" fontWeight="bold" fill="#0f172a">{sign}</text>
       <line x1={xs[0] - 34} y1="94" x2="166" y2="94" stroke="#0f172a" strokeWidth="2" />
       {arrowRow !== undefined && (
@@ -103,17 +99,17 @@ const QJumps: React.FC<{ from: number; to: number; start: number; jumps: number[
 
 /** Árcédulák. */
 const QPrices: React.FC<{ items: { n: string; p: number }[]; note: string }> = ({ items, note }) => {
-  const w = 216 / items.length;
+  const w = 228 / items.length;
   return (
     <QFig h={110}>
       {items.map((it, i) => (
         <g key={it.n}>
-          <rect x={12 + i * w} y="14" width={w - 6} height="58" rx="7" fill="#fff" stroke="#c026d3" strokeWidth="1.5" />
-          <text x={12 + i * w + (w - 6) / 2} y="38" textAnchor="middle" fontSize="9" fontWeight="bold" fill="#334155">{it.n}</text>
-          <text x={12 + i * w + (w - 6) / 2} y="60" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#86198f">{it.p} Ft</text>
+          <rect x={9 + i * w} y="14" width={w - 6} height="58" rx="7" fill="#fff" stroke="#c026d3" strokeWidth="1.5" />
+          <text x={9 + i * w + (w - 6) / 2} y="38" textAnchor="middle" fontSize={it.n.length > 6 ? 8 : 9} fontWeight="bold" fill="#334155">{it.n}</text>
+          <text x={9 + i * w + (w - 6) / 2} y="60" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#86198f">{it.p} Ft</text>
         </g>
       ))}
-      <text x="120" y="95" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#0f172a">{note}</text>
+      <text x="120" y="95" textAnchor="middle" fontSize={note.length > 34 ? 9.5 : 11} fontWeight="bold" fill="#0f172a">{note}</text>
     </QFig>
   );
 };

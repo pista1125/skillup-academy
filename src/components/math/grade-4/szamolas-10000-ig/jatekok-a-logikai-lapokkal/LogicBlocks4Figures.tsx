@@ -92,8 +92,8 @@ export const LogicSetPropertiesSvg: React.FC<FigProps> = ({ className }) => (
     <text x="140" y="200" fontSize="11" fill="#334155">lyukas</text>
     <BlockShapeG b={B('piros', 'négyzet', 'kicsi')} cx={226} cy={196} />
     <text x="246" y="200" fontSize="11" fill="#334155">nem lyukas</text>
-    <text x="330" y="190" fontSize="12" fontWeight="bold" textAnchor="middle" fill="#065f46">4 · 3 · 2 · 2</text>
-    <text x="330" y="210" fontSize="14" fontWeight="bold" textAnchor="middle" fill="#065f46">= 48 lap</text>
+    <text x="356" y="190" fontSize="12" fontWeight="bold" textAnchor="middle" fill="#065f46">4 · 3 · 2 · 2</text>
+    <text x="356" y="210" fontSize="14" fontWeight="bold" textAnchor="middle" fill="#065f46">= 48 lap</text>
   </svg>
 );
 
@@ -197,7 +197,10 @@ export const SpoilerGameSvg: React.FC<FigProps> = ({ className }) => {
           {seq.slice(0, row + 2).map((b, i) => (
             <BlockShapeG key={i} b={b} cx={26 + i * 40} cy={34 + row * 52} scale={0.8} />
           ))}
-          <text x="226" y={39 + row * 52} fontSize="12" fontWeight="bold" fill="#4c1d95">→ {t}</text>
+          <text x="222" y={33 + row * 52} fontSize="12" fontWeight="bold" fill="#4c1d95">
+            <tspan>→ Minden elem</tspan>
+            <tspan x="236" dy="15">{t.replace('Minden elem ', '')}</tspan>
+          </text>
         </g>
       ))}
     </svg>

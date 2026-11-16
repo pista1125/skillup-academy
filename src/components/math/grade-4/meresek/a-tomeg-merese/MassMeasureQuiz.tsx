@@ -80,8 +80,7 @@ const ChartFig: React.FC = () => {
         </g>
       ))}
       <line x1={x0} y1="122" x2={x0 + 1000 * sc + 4} y2="122" stroke="#334155" />
-      <text x="232" y="134" textAnchor="end" fontSize="8" fill="#475569">kg</text>
-      <text x="120" y="146" textAnchor="middle" fontSize="8.5" fill="#475569">a családi gazdaság termése</text>
+      <text x="120" y="146" textAnchor="middle" fontSize="8.5" fill="#475569">a családi gazdaság termése (kg)</text>
     </QFig>
   );
 };

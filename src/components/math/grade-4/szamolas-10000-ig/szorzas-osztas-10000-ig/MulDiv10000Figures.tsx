@@ -57,8 +57,8 @@ export const PlaceShiftTable: React.FC<{ x: number; y: number; top: string[]; bo
 
 // 1. ábra: Szorzás 10-zel, 100-zal, 1000-rel (tankönyv 48. o., 2. feladat)
 export const MultiplyShiftSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS }) => (
-  <svg viewBox="0 0 460 120" className={className} xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
-    <rect x="2" y="2" width="456" height="116" rx="14" fill="#f0fdf4" stroke="#86efac" />
+  <svg viewBox="0 0 480 120" className={className} xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
+    <rect x="2" y="2" width="476" height="116" rx="14" fill="#f0fdf4" stroke="#86efac" />
     <PlaceShiftTable x={14} y={14} top={['', '', '', '9']} bottom={['', '', '9', '0']} label="· 10" from={3} to={2} />
     <PlaceShiftTable x={164} y={14} top={['', '', '', '9']} bottom={['', '9', '0', '0']} label="· 100" from={3} to={1} />
     <PlaceShiftTable x={314} y={14} top={['', '', '', '9']} bottom={['9', '0', '0', '0']} label="· 1000" from={3} to={0} />
@@ -67,14 +67,14 @@ export const MultiplyShiftSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS
       <text x="216" y="100" textAnchor="middle">9 · 100 = 900</text>
       <text x="370" y="100" textAnchor="middle">9 · 1000 = 9000</text>
     </g>
-    <text x="230" y="114" textAnchor="middle" fontSize="10" fill="#166534">A számjegy balra lép, a helyére 0 kerül.</text>
+    <text x="240" y="114" textAnchor="middle" fontSize="10" fill="#166534">A számjegy balra lép, a helyére 0 kerül.</text>
   </svg>
 );
 
 // 2. ábra: Osztás 10-zel, 100-zal, 1000-rel (tankönyv 48. o., 4. feladat)
 export const DivideShiftSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS }) => (
-  <svg viewBox="0 0 460 120" className={className} xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
-    <rect x="2" y="2" width="456" height="116" rx="14" fill="#eff6ff" stroke="#93c5fd" />
+  <svg viewBox="0 0 480 120" className={className} xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
+    <rect x="2" y="2" width="476" height="116" rx="14" fill="#eff6ff" stroke="#93c5fd" />
     <PlaceShiftTable x={14} y={14} top={['', '3', '8', '0']} bottom={['', '', '3', '8']} label=": 10" from={2} to={3} />
     <PlaceShiftTable x={164} y={14} top={['1', '5', '0', '0']} bottom={['', '', '1', '5']} label=": 100" from={1} to={3} />
     <PlaceShiftTable x={314} y={14} top={['9', '0', '0', '0']} bottom={['', '', '', '9']} label=": 1000" from={0} to={3} />
@@ -83,7 +83,7 @@ export const DivideShiftSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS }
       <text x="216" y="100" textAnchor="middle">1500 : 100 = 15</text>
       <text x="370" y="100" textAnchor="middle">9000 : 1000 = 9</text>
     </g>
-    <text x="230" y="114" textAnchor="middle" fontSize="10" fill="#1e40af">A végéről elhagyjuk a nullákat: a számjegyek jobbra lépnek.</text>
+    <text x="240" y="114" textAnchor="middle" fontSize="10" fill="#1e40af">A végéről elhagyjuk a nullákat: a számjegyek jobbra lépnek.</text>
   </svg>
 );
 
@@ -192,10 +192,10 @@ export const ProductPyramid: React.FC<{ rows: (number | string | null)[][]; cx?:
 
 // 5. ábra: Szorzatpiramis (tankönyv 50. o., 12. a) feladat, kitöltve)
 export const ProductPyramidSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS }) => (
-  <svg viewBox="0 0 240 130" className={className} xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
-    <rect x="2" y="2" width="236" height="126" rx="12" fill="#faf5ff" stroke="#d8b4fe" />
+  <svg viewBox="0 0 240 140" className={className} xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
+    <rect x="2" y="2" width="236" height="136" rx="12" fill="#faf5ff" stroke="#d8b4fe" />
     <ProductPyramid rows={[[10, 2, 5, 1], [20, 10, 5], [200, 50], ['10 000']]} />
-    <text x="120" y="124" textAnchor="middle" fontSize="10" fill="#4c1d95">Fent mindig az alatta lévő két szám szorzata áll.</text>
+    <text x="120" y="131" textAnchor="middle" fontSize="10" fill="#4c1d95">Fent mindig az alatta lévő két szám szorzata áll.</text>
   </svg>
 );
 

@@ -58,8 +58,8 @@ const UnitBox: React.FC<{ kind: 'tri' | 'dom' | 'big' }> = ({ kind }) => (
   <g>
     <text x="150" y="141" fontSize="10" fontWeight="bold" fill="#334155">Egység:</text>
     {kind === 'tri' && <polygon points="192,132 204,144 192,144" fill="#86efac" stroke="#166534" />}
-    {kind === 'dom' && <rect x="192" y="132" width="24" height="12" fill="#fde68a" stroke="#a16207" />}
-    {kind === 'big' && <rect x="192" y="124" width="20" height="20" fill="#f9a8d4" stroke="#9d174d" />}
+    {kind === 'dom' && (<g><rect x="192" y="132" width="24" height="12" fill="#fde68a" stroke="#a16207" /><line x1="204" y1="132" x2="204" y2="144" stroke="#a16207" /></g>)}
+    {kind === 'big' && (<g><rect x="192" y="124" width="20" height="20" fill="#f9a8d4" stroke="#9d174d" /><line x1="202" y1="124" x2="202" y2="144" stroke="#9d174d" /><line x1="192" y1="134" x2="212" y2="134" stroke="#9d174d" /></g>)}
   </g>
 );
 

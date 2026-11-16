@@ -155,7 +155,7 @@ const ClockFig: React.FC<{ hour: number }> = ({ hour }) => {
           </text>
         );
       })}
-      <line x1="130" y1="75" x2="130" y2="30" stroke="#1e293b" strokeWidth="3" strokeLinecap="round" />
+      <line x1="130" y1="75" x2="130" y2="37" stroke="#1e293b" strokeWidth="3" strokeLinecap="round" />
       <line x1="130" y1="75" x2={Math.round((130 + 30 * Math.sin(a)) * 10) / 10} y2={Math.round((75 - 30 * Math.cos(a)) * 10) / 10} stroke="#1e293b" strokeWidth="5" strokeLinecap="round" />
       <circle cx="130" cy="75" r="4" fill="#b45309" />
     </QFig>
