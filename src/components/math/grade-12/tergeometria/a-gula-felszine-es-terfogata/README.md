@@ -1,39 +1,50 @@
-# 12. A gúla felszíne és térfogata (12. lecke)
+# 11. A gúla felszíne és térfogata (tankönyv: 12. lecke, 28–29. oldal)
 
-## Tananyag Áttekintés
-Tetszőleges és szabályos gúlák felszínének és térfogatának számítása, az $\frac{1}{3}$-os szorzó szemléltetése (kocka 3 vagy 6 egybevágó gúlára bontása).
-
----
-
-## Képletek
-
-### 1. Felszín ($A$)
-Az alaplap és az oldallapok (háromszögek) területének összege:
-$$A = T_a + T_p$$
-- $T_a$: az alaplap területe
-- $T_p$: a palást területe (az oldallapok területének összege)
-
-**Szabályos $n$-oldalú gúla esetén:**
-Mivel $n$ darab egybevágó, $a$ alapú és $m_o$ magasságú egyenlő szárú háromszög alkotja a palástot:
-$$T_p = n \cdot \frac{a \cdot m_o}{2} = \frac{K_a \cdot m_o}{2} \implies A = T_a + \frac{K_a \cdot m_o}{2}$$
+A magyar Oktatási Hivatal hivatalos tankönyve (`OH-MAT12TA`, Matematika 12., 28–29. oldal) alapján kidolgozott oktatási modul. A diákzónában ez a térgeometria fejezet **11.** leckéje.
 
 ---
 
-### 2. Térfogat ($V$)
-Bármilyen gúla térfogata az azonos alapú és magasságú hasáb térfogatának harmada:
-$$V = \frac{T_a \cdot m}{3}$$
+## 🎯 Tananyag Áttekintés
+
+A lecke kidolgozott feladata a „háromszögletű” tejszínes doboz: tetraéder, amelynek egyik lapja szabályos háromszög, a másik három 10 cm befogójú, egyenlő szárú derékszögű háromszög. A karton mennyisége (felszín + 5%) ≈ 248 cm², a térfogat ≈ 166,7 cm³ (kb. 1,7 dl).
 
 ---
 
-## Nevezetes Gúlák
+## 📐 Fő Tételek
 
-### Szabályos négyoldalú gúla ($a$ alapél, $m$ magasság, $m_o$ oldalmagasság):
-- $T_a = a^2$
-- $T_p = 4 \cdot \frac{a \cdot m_o}{2} = 2a \cdot m_o$
-- $A = a^2 + 2a \cdot m_o$
-- $V = \frac{a^2 \cdot m}{3}$
+- **Felszín:** a gúlát határoló lapok területének összege: $A = T_{alaplap} + T_{palást}$.
+- **Térfogat:** $V = \dfrac{T_{alaplap} \cdot M}{3}$ – az azonos alapterületű és magasságú hasáb térfogatának harmada.
+- Tetraédernél bármelyik lap tekinthető alaplapnak, de a kiválasztott laphoz tartozó magassággal kell számolni.
+- Szabályos n oldalú gúla palástja: $n \cdot a \cdot m_o / 2$; szabályos tetraéder: $A = a^2\sqrt3$, $V = a^3\sqrt2/12$.
+- Szemléltetés: a kocka három egybevágó, közös csúcsú gúlára bontható ($V = a^3/3$).
 
-### Szabályos tetraéder (minden lapja $a$ élű szabályos háromszög):
-- $A = 4 \cdot \frac{a^2\sqrt{3}}{4} = a^2\sqrt{3}$
-- Magasság: $m = a\sqrt{\frac{2}{3}} = \frac{a\sqrt{6}}{3}$
-- $V = \frac{a^3\sqrt{2}}{12}$
+### Tankönyvi feladatok (eredmények)
+- **1.** Három 15 cm magas gúla összehasonlítása (rombusz alap: átlók 18 és 15 cm ⇒ V = 675 cm³).
+- **2.** Kockába (10 cm) írt tetraéder, AB, BC, CD kockaélek: mind a 4 lap derékszögű háromszög; élek 10, 10, 10, 10√2, 10√2, 10√3 cm; A = 100 + 100√2 ≈ 241,4 cm²; V ≈ 166,7 cm³.
+- **3.** Háztető (10 m × 7 m, gerinc 6 m, 3,2 m magas): trapéz lapok ≈ 42,4°, háromszög lapok ≈ 58,0°, a két trapéz síkjának szöge ≈ 95,1°, tetőtér ≈ 97,1 m³.
+- **HF 1.** 30 cm élű, négyzet alapú gúla (szabályos, nem tetraéder; 8 él, 5 csúcs): A ≈ 2458,8 cm², V ≈ 6364 cm³; két ilyen gúlából szabályos oktaéder (8 lap, 12 él, 6 csúcs): A ≈ 3117,7 cm², V ≈ 12 728 cm³.
+- **HF 2.** Szabályos hatoldalú gúla, a = 12 cm, b = 13 cm: M = 5 cm, V ≈ 623,5 cm³, α ≈ 22,6°, β ≈ 25,7°, A ≈ 789,3 cm².
+- **HF 3.** 20 cm élű kocka sarkát levágó sík: a részek ≈ 1333,3 cm³ és ≈ 6666,7 cm³.
+- **HF 4.** M = 8 cm, oldallapok 57°: a ≈ 10,39 cm, A ≈ 306,2 cm², V ≈ 287,9 cm³, oldalél–alaplap ≈ 47,4°.
+
+> **⚠️ CSAPDA:** a térfogatba a testmagasság (M) kerül, nem az oldallap magassága (mₒ) – és ne maradjon el a harmadolás!
+
+---
+
+## 💻 Elkészített Komponensek
+
+1. **`PyramidAreaVolumeFigures.tsx`**: `MilkTetraSvg` (tejszínes doboz), `PyramidNetSvg` (gúlaháló), `PrismVsPyramidSvg` (hasáb és gúla), `CubeTetraSvg` (2. feladat), `RoofSvg` (3. feladat), `CubeThreePyramidsSvg` (kocka = 3 gúla).
+2. **`PyramidAreaVolumeTheory.tsx`**: kidolgozott tejszínes doboz, képletek, táblázat, kidolgozott feladatok, csapda.
+   - **I. Laboratórium:** forgatható szabályos gúla (`Solid3DViewer`) n, a, M csúszkával – alapterület, palást, felszín, térfogat, hasáb-összevetés.
+   - **II. Laboratórium:** a kocka három egybevágó gúlára bontása (`Solid3DViewer`, kiemelhető gúlák).
+3. **`PyramidAreaVolumeMatcher.tsx`**: 3 szint × 8 pár (képletek; egyszerű számolás; tankönyvi feladatok).
+4. **`PyramidAreaVolumeSorter.tsx`**: 3 szint × 3 kategória × 9 elem (mértékegység; térfogat nagysága; felszínhez/térfogathoz kell).
+5. **`PyramidAreaVolumeQuiz.tsx`**: 30 kérdés 3 szinten (10/10/10), ábrákkal, 3 puskakártyával. Aktivitás-azonosítók: `g12-ter-gula-felszin-terfogat-quiz`, `-matcher`, `-sorter`.
+
+A rajzok a `../a-gula/SolidSketch.tsx` közös SVG-készletét használják.
+
+---
+
+## 🧪 Tesztelés
+
+A modul unit tesztje a `src/test/grade12Topic1PyramidAreaVolume.test.tsx` fájlban található, a 4 komponenst és mind a 6 SVG ábrát ellenőrzi.

@@ -5,7 +5,7 @@ A középiskolai matematika 12. osztályos tananyagának harmadik fejezete a le�
 
 ---
 
-## Altémák (12 lecke)
+## Altémák (11 lecke)
 
 1. **Statisztikai adatgyűjtés** (`statisztikai-adatgyujtes`) – 33. lecke: Sokaság, minta, ismérvek, abszolút, relatív és kumulált gyakoriság.
 2. **Statisztikai jellemzők** (`statisztikai-jellemzok`) – 34. lecke: Módusz, medián, átlag, kvártilisek, terjedelem, variancia és szórás.
@@ -17,5 +17,4 @@ A középiskolai matematika 12. osztályos tananyagának harmadik fejezete a le�
 8. **Geometriai valószínűség** (`geometriai-valoszinuseg`) – 40. lecke: Folytonos eseményterek, hosszak, területek és térfogatok aránya, a találkozási probléma.
 9. **A várható érték** (`a-varhato-ertek`) – 41. lecke: Diszkrét valószínűségi változó, eloszlás, $E(X) = \sum x_i p_i$, szórás és igazságos játékok.
 10. **Mintavételek** (`mintavetelek`) – 42. lecke: Visszatevéses mintavétel (binomiális eloszlás: $\binom{n}{k} p^k (1-p)^{n-k}$) és visszatevés nélküli mintavétel (hipergeometrikus eloszlás, lottó).
-11. **Gyakorlás** (`gyakorlas-1`) – 43. lecke: Összetett érettségi feladatok fadiagramokkal, Bayes-tétel és binomiális modellezés.
-12. **Gyakorlás, tudáspróba** (`gyakorlas-tudasproba`) – 44. lecke: Átfogó képlettár, témazáró tudáspróba és önértékelés.
+11. **Gyakorlás, tudáspróba** (`gyakorlas-tudasproba`) – 44. lecke: Átfogó képlettár, témazáró tudáspróba és önértékelés.

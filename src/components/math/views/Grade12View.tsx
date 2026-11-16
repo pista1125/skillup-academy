@@ -3,6 +3,7 @@ import { GradeViewProps } from './types';
 import { SectionHeader } from '@/components/math/shared/SectionHeader';
 import { ActivityPlaceholder } from '@/components/math/shared/ActivityPlaceholder';
 import { MaterialGallery } from '@/components/math/shared/MaterialGallery';
+import { useQuizProgress } from '@/hooks/useQuizProgress';
 import {
   Activity,
   BookOpen,
@@ -28,6 +29,7 @@ export const Grade12View: React.FC<GradeViewProps> = ({
   onActivitySelect,
   onMaterialSelect,
 }) => {
+  const { getTopicProgress } = useQuizProgress();
   // Topic I: Térgeometria
   if (topicId === 'g12-tergeometria') {
     const showAll = !activeSubSectionId;
@@ -40,13 +42,23 @@ export const Grade12View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g12-sec-ter-terelemek-tavolsaga-ismetles" number={1} title="Térelemek távolsága (ismétlés)" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Térelemek Kölcsönös Távolsága"
-                subtitle="Pont, egyenes és sík távolsága, kitérő egyenesek normáltranszverzálisa"
-                type="Hamarosan"
-                emoji="📏"
-                disabled={true}
-                icon={<Ruler className="w-6 h-6" />}
+                title="Térelemek távolsága Tananyag"
+                subtitle="Kölcsönös helyzet, távolságok, lapátló és testátló, a pók legrövidebb útja"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-ter-terelemek-tavolsaga-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: kölcsönös helyzet, távolságok, lapátló, testátló, kiterítés"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-ter-terelemek-tavolsaga-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g12-ter-terelemek-tavolsaga-quiz')}
               />
             </div>
           </section>
@@ -58,13 +70,23 @@ export const Grade12View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g12-sec-ter-a-hasab" number={2} title="A hasáb" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A Hasáb Tulajdonságai és Fajtái"
-                subtitle="Egyenes, ferde és szabályos hasábok, téglatest és paralelepipedon"
-                type="Hamarosan"
-                emoji="📦"
-                disabled={true}
-                icon={<Boxes className="w-6 h-6" />}
+                title="A hasáb Tananyag"
+                subtitle="A hasáb részei és fajtái, csúcsok, élek, lapok, lapátlók és testátlók"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-ter-hasab-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: hasábtípusok, csúcs-, él- és lapszám, átlók"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-ter-hasab-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g12-ter-hasab-quiz')}
               />
             </div>
           </section>
@@ -76,13 +98,23 @@ export const Grade12View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g12-sec-ter-hasab-felszine-terfogata" number={3} title="A hasáb felszíne és térfogata" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Hasábok Felszín- és Térfogatszámítása"
-                subtitle="Alapterület, palástterület, Cavalieri-elv és testátló számítása"
-                type="Hamarosan"
-                emoji="📐"
-                disabled={true}
-                icon={<Calculator className="w-6 h-6" />}
+                title="A hasáb felszíne és térfogata Tananyag"
+                subtitle="Háló, palást, A = 2T + K·M, V = T·M, kalapácsfej, árok, I-tartó"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-ter-hasab-felszin-terfogat-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: felszín, térfogat, palást, mértékegységek, gyakorlati feladatok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-ter-hasab-felszin-terfogat-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="violet"
+                {...getTopicProgress('g12-ter-hasab-felszin-terfogat-quiz')}
               />
             </div>
           </section>
@@ -94,13 +126,23 @@ export const Grade12View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g12-sec-ter-a-henger" number={4} title="A henger" color="purple" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A Forgáshenger Részei és Metszetei"
-                subtitle="Alkotó, tengelymetszet, egyenlő oldalú henger és ellipszis metszet"
-                type="Hamarosan"
-                emoji="🥫"
-                disabled={true}
-                icon={<Layers className="w-6 h-6" />}
+                title="A henger Tananyag"
+                subtitle="A forgáshenger részei, tengelymetszet, téglalap forgatása, papírhengerek"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-ter-henger-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="purple"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: henger részei, tengelymetszet, forgatás, síkmetszetek"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-ter-henger-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="purple"
+                {...getTopicProgress('g12-ter-henger-quiz')}
               />
             </div>
           </section>
@@ -112,13 +154,23 @@ export const Grade12View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g12-sec-ter-henger-felszine-terfogata" number={5} title="A henger felszíne és térfogata" color="fuchsia" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Henger Felszíne és Térfogata"
-                subtitle="Kiterített téglalap palást, 2rπ(r+m) felszín és r²πm térfogat"
-                type="Hamarosan"
-                emoji="🧮"
-                disabled={true}
-                icon={<Calculator className="w-6 h-6" />}
+                title="A henger felszíne és térfogata Tananyag"
+                subtitle="Palást kiterítése, A = 2r²π + 2rπM, V = r²πM, konzervdobozok, festőhenger"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-ter-henger-felszin-terfogat-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="fuchsia"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: felszín, palást, térfogat, konzervdobozok, medencék"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-ter-henger-felszin-terfogat-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="fuchsia"
+                {...getTopicProgress('g12-ter-henger-felszin-terfogat-quiz')}
               />
             </div>
           </section>
@@ -130,13 +182,23 @@ export const Grade12View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g12-sec-ter-gomb-szeletelese" number={6} title="A gömb, a gömb szeletelése" color="pink" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A Gömb Részei és Síkmetszetei"
-                subtitle="Főkör, mellékkör, gömbszelet, gömbréteg és gömbsüveg geometriája"
-                type="Hamarosan"
-                emoji="🔮"
-                disabled={true}
-                icon={<Circle className="w-6 h-6" />}
+                title="A gömb szeletelése Tananyag"
+                subtitle="Gömbfelület, főkör, síkmetszet: r = √(R² − d²); narancs, dinnye, kocka éleit érintő gömb, Ráktérítő, kupola"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-ter-gomb-szeletelese-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="pink"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: síkmetszetek, főkör, a metszetkör sugara, gömbsüveg, gyakorlati alkalmazások"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-ter-gomb-szeletelese-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="pink"
+                {...getTopicProgress('g12-ter-gomb-szeletelese-quiz')}
               />
             </div>
           </section>
@@ -148,265 +210,331 @@ export const Grade12View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g12-sec-ter-gomb-felszine-terfogata" number={7} title="A gömb felszíne és térfogata" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Gömb Felszín- és Térfogatképlete"
-                subtitle="4R²π felszín, 4/3 R³π térfogat és levezetés a Cavalieri-elvvel"
-                type="Hamarosan"
-                emoji="🌐"
-                disabled={true}
-                icon={<Globe className="w-6 h-6" />}
+                title="A gömb felszíne és térfogata Tananyag"
+                subtitle="A = 4r²π, V = 4r³π/3; dinnye tömege, ólomsörétek, ehető rész, Arkhimédész gömbje és hengere"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-ter-gomb-felszin-terfogat-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
               />
-            </div>
-          </section>
-        )}
-
-        {/* Section 8: Gyakorlás */}
-        {(showAll || activeSubSectionId === 'g12-sec-ter-gyakorlas-1') && (
-          <section>
-            <SectionHeader id="g12-sec-ter-gyakorlas-1" number={8} title="Gyakorlás" color="amber" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Hasábok, Hengerek és Gömbök"
-                subtitle="Összetett feladatok és testek egymásba írása"
-                type="Hamarosan"
-                emoji="✏️"
-                disabled={true}
-                icon={<Activity className="w-6 h-6" />}
-                color="amber"
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: felszín és térfogat, dinnyék, sörétek, buborékok, összetett testek"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-ter-gomb-felszin-terfogat-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g12-ter-gomb-felszin-terfogat-quiz')}
               />
             </div>
           </section>
         )}
 
-        {/* Section 9: Hasonló testek felszíne, térfogata */}
+        {/* Section 8: Hasonló testek felszíne, térfogata */}
         {(showAll || activeSubSectionId === 'g12-sec-ter-hasonlo-testek') && (
           <section>
-            <SectionHeader id="g12-sec-ter-hasonlo-testek" number={9} title="Hasonló testek felszíne, térfogata" color="orange" />
+            <SectionHeader id="g12-sec-ter-hasonlo-testek" number={8} title="Hasonló testek felszíne, térfogata" color="orange" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Hasonlósági Arányok a Térben"
-                subtitle="Hosszak aránya λ, felszínek aránya λ², térfogatok aránya λ³"
-                type="Hamarosan"
-                emoji="🔍"
-                disabled={true}
-                icon={<Scale className="w-6 h-6" />}
+                title="Hasonló testek Tananyag"
+                subtitle="Hasonlósági arány k: felszínek aránya k², térfogatok aránya k³; Rubik-kockák, henger, betonkocka, bonbon, minyon"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-ter-hasonlo-testek-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="orange"
               />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: k, k², k³, visszafelé számolás, nagyítás és kicsinyítés"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-ter-hasonlo-testek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="orange"
+                {...getTopicProgress('g12-ter-hasonlo-testek-quiz')}
+              />
             </div>
           </section>
         )}
 
-        {/* Section 10: Térelemek hajlásszöge */}
+        {/* Section 9: Térelemek hajlásszöge */}
         {(showAll || activeSubSectionId === 'g12-sec-ter-terelemek-hajlasszoge') && (
           <section>
-            <SectionHeader id="g12-sec-ter-terelemek-hajlasszoge" number={10} title="Térelemek hajlásszöge" color="teal" />
+            <SectionHeader id="g12-sec-ter-terelemek-hajlasszoge" number={9} title="Térelemek hajlásszöge" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Egyenesek és Síkok Hajlásszöge"
-                subtitle="Kitérő egyenesek szöge, egyenes és sík, valamint lapszögek meghatározása"
-                type="Hamarosan"
-                emoji="📐"
-                disabled={true}
-                icon={<Compass className="w-6 h-6" />}
+                title="Térelemek hajlásszöge Tananyag"
+                subtitle="Két egyenes, egyenes és sík, két sík hajlásszöge; láda testátlói, négyzetes oszlop, kocka, hatszög alapú hasáb"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-ter-hajlasszog-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: hajlásszög-definíciók, testátlók, átlós síkok, kocka és hasábok szögei"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-ter-hajlasszog-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="teal"
+                {...getTopicProgress('g12-ter-hajlasszog-quiz')}
               />
             </div>
           </section>
         )}
 
-        {/* Section 11: A gúla */}
+        {/* Section 10: A gúla */}
         {(showAll || activeSubSectionId === 'g12-sec-ter-a-gula') && (
           <section>
-            <SectionHeader id="g12-sec-ter-a-gula" number={11} title="A gúla" color="emerald" />
+            <SectionHeader id="g12-sec-ter-a-gula" number={10} title="A gúla" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A Gúla Elemei és Szabályos Gúlák"
-                subtitle="Alapél, oldalél, magasság és oldalmagasság derékszögű háromszögei"
-                type="Hamarosan"
-                emoji="🔺"
-                disabled={true}
-                icon={<Shapes className="w-6 h-6" />}
+                title="A gúla Tananyag"
+                subtitle="A gúla részei, szabályos gúla és tetraéder, a szabályos gúla derékszögű háromszögei és hajlásszögei (Kheopsz-piramis)."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-ter-gula-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: a gúla részei, szabályos gúla, tetraéder, oldalél és oldallap hajlásszöge."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-ter-gula-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g12-ter-gula-quiz')}
               />
             </div>
           </section>
         )}
 
-        {/* Section 12: A gúla felszíne és térfogata */}
+        {/* Section 11: A gúla felszíne és térfogata */}
         {(showAll || activeSubSectionId === 'g12-sec-ter-gula-felszine-terfogata') && (
           <section>
-            <SectionHeader id="g12-sec-ter-gula-felszine-terfogata" number={12} title="A gúla felszíne és térfogata" color="green" />
+            <SectionHeader id="g12-sec-ter-gula-felszine-terfogata" number={11} title="A gúla felszíne és térfogata" color="green" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Gúla Felszíne és Térfogata"
-                subtitle="Háromszög alapú és sokoldalú gúlák, V = (Ta·m)/3 és tetraéder"
-                type="Hamarosan"
-                emoji="📐"
-                disabled={true}
-                icon={<Calculator className="w-6 h-6" />}
+                title="A gúla felszíne és térfogata Tananyag"
+                subtitle="A = T_alap + T_palást, V = T·M/3; tejszínes doboz, kockába írt tetraéder, háztető, kocka = 3 gúla."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-ter-gula-felszin-terfogat-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="green"
               />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: palást és felszín, gúla térfogata, tetraéderek, tetőtér, kocka feldarabolása."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-ter-gula-felszin-terfogat-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="green"
+                {...getTopicProgress('g12-ter-gula-felszin-terfogat-quiz')}
+              />
             </div>
           </section>
         )}
 
-        {/* Section 13: A forgáskúp */}
+        {/* Section 12: A forgáskúp */}
         {(showAll || activeSubSectionId === 'g12-sec-ter-a-forgaskup') && (
           <section>
-            <SectionHeader id="g12-sec-ter-a-forgaskup" number={13} title="A forgáskúp" color="cyan" />
+            <SectionHeader id="g12-sec-ter-a-forgaskup" number={12} title="A forgáskúp" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A Forgáskúp Felépítése"
-                subtitle="Alapsugár, alkotó, magasság és a Pitagorasz-összefüggés (a² = r² + m²)"
-                type="Hamarosan"
-                emoji="🍦"
-                disabled={true}
-                icon={<Compass className="w-6 h-6" />}
+                title="A forgáskúp Tananyag"
+                subtitle="Egyenlő szárú háromszög forgatása: alkotó, magasság, nyílásszög, tengelymetszet; triangulum, kettős kúp, kúpszeletek."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-ter-forgaskup-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="cyan"
               />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: a kúp részei, tengelymetszet, nyílásszög, forgatott háromszögek, kúpszeletek."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-ter-forgaskup-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="cyan"
+                {...getTopicProgress('g12-ter-forgaskup-quiz')}
+              />
             </div>
           </section>
         )}
 
-        {/* Section 14: A forgáskúp felszíne és térfogata */}
+        {/* Section 13: A forgáskúp felszíne és térfogata */}
         {(showAll || activeSubSectionId === 'g12-sec-ter-forgaskup-felszine-terfogata') && (
           <section>
-            <SectionHeader id="g12-sec-ter-forgaskup-felszine-terfogata" number={14} title="A forgáskúp felszíne és térfogata" color="sky" />
+            <SectionHeader id="g12-sec-ter-forgaskup-felszine-terfogata" number={13} title="A forgáskúp felszíne és térfogata" color="sky" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Kúp Felszíne és Térfogata"
-                subtitle="Körcikk alakú palást (Tp = rπa), középponti szög és V = (r²πm)/3"
-                type="Hamarosan"
-                emoji="📊"
-                disabled={true}
-                icon={<Layers className="w-6 h-6" />}
+                title="A forgáskúp felszíne és térfogata Tananyag"
+                subtitle="Palást mint körcikk (rπa), A = rπ(r + a), V = r²πM/3; Arkhimédész ábrája, sóderkupac, papírcsákó."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-ter-forgaskup-felszin-terfogat-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="sky"
               />
-            </div>
-          </section>
-        )}
-
-        {/* Section 15: Gyakorlás */}
-        {(showAll || activeSubSectionId === 'g12-sec-ter-gyakorlas-2') && (
-          <section>
-            <SectionHeader id="g12-sec-ter-gyakorlas-2" number={15} title="Gyakorlás" color="amber" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Gúlák és Kúpok Számításai"
-                subtitle="Oldallapok hajlásszöge, testátlók és érettségi típusfeladatok"
-                type="Hamarosan"
-                emoji="📝"
-                disabled={true}
-                icon={<Activity className="w-6 h-6" />}
-                color="amber"
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: palást és középponti szög, felszín, térfogat, csákó, tölcsér, papírpohár."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-ter-forgaskup-felszin-terfogat-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="sky"
+                {...getTopicProgress('g12-ter-forgaskup-felszin-terfogat-quiz')}
               />
             </div>
           </section>
         )}
 
-        {/* Section 16: A csonkagúla és a csonkakúp */}
+        {/* Section 14: A csonkagúla és a csonkakúp */}
         {(showAll || activeSubSectionId === 'g12-sec-ter-csonkagula-es-csonkakup') && (
           <section>
-            <SectionHeader id="g12-sec-ter-csonkagula-es-csonkakup" number={16} title="A csonkagúla és a csonkakúp" color="blue" />
+            <SectionHeader id="g12-sec-ter-csonkagula-es-csonkakup" number={14} title="A csonkagúla és a csonkakúp" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Csonka Testek Geometriája"
-                subtitle="Származtatás párhuzamos metszéssel, trapéz palást és hasonlóság"
-                type="Hamarosan"
-                emoji="🏛️"
-                disabled={true}
-                icon={<Building2 className="w-6 h-6" />}
+                title="A csonkagúla és a csonkakúp Tananyag"
+                subtitle="Csonka testek keletkezése, részei, hasonlóság a kiegészítő testtel, a csonkakúp tengelymetszete (trapézforgatás, bonbon, szoknya)."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-ter-csonka-testek-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
               />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: keletkezés és részek, hasonlósági arány, tengelymetszet, forgatott trapézok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-ter-csonka-testek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g12-ter-csonka-testek-quiz')}
+              />
             </div>
           </section>
         )}
 
-        {/* Section 17: A csonkagúla és a csonkakúp felszíne */}
+        {/* Section 15: A csonkagúla és a csonkakúp felszíne */}
         {(showAll || activeSubSectionId === 'g12-sec-ter-csonkagula-csonkakup-felszine') && (
           <section>
-            <SectionHeader id="g12-sec-ter-csonkagula-csonkakup-felszine" number={17} title="A csonkagúla és a csonkakúp felszíne" color="indigo" />
+            <SectionHeader id="g12-sec-ter-csonkagula-csonkakup-felszine" number={15} title="A csonkagúla és a csonkakúp felszíne" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Csonka Testek Felszínszámítása"
-                subtitle="Alaplap, fedőlap és körgyűrűcikk palást (Tp = (R+r)πa)"
-                type="Hamarosan"
-                emoji="📏"
-                disabled={true}
-                icon={<Shapes className="w-6 h-6" />}
+                title="Csonka testek felszíne Tananyag"
+                subtitle="A = T + t + P, a csonkakúp palástja körgyűrűcikk, négyzetes csonkagúla felszíne, a védőgallér-feladat"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-ter-csonka-felszin-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
               />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: palást, felszín, alkotó és oldallapmagasság, hajlásszög"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-ter-csonka-felszin-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g12-ter-csonka-felszin-quiz')}
+              />
             </div>
           </section>
         )}
 
-        {/* Section 18: A csonkagúla és a csonkakúp térfogata */}
+        {/* Section 16: A csonkagúla és a csonkakúp térfogata */}
         {(showAll || activeSubSectionId === 'g12-sec-ter-csonkagula-csonkakup-terfogata') && (
           <section>
-            <SectionHeader id="g12-sec-ter-csonkagula-csonkakup-terfogata" number={18} title="A csonkagúla és a csonkakúp térfogata" color="purple" />
+            <SectionHeader id="g12-sec-ter-csonkagula-csonkakup-terfogata" number={16} title="A csonkagúla és a csonkakúp térfogata" color="purple" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Csonka Testek Térfogatképlete"
-                subtitle="V = m/3 · (TA + √(TA·TF) + TF) és csonkakúp térfogatképlete"
-                type="Hamarosan"
-                emoji="🧮"
-                disabled={true}
-                icon={<Calculator className="w-6 h-6" />}
+                title="Csonka testek térfogata Tananyag"
+                subtitle="Nagy test − kis test (λ³), V = M/3 · (T + √(Tt) + t), a Valençay-sajt és a kiegészítő gúla"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-ter-csonka-terfogat-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="purple"
               />
-            </div>
-          </section>
-        )}
-
-        {/* Section 19: Gyakorlás */}
-        {(showAll || activeSubSectionId === 'g12-sec-ter-gyakorlas-3') && (
-          <section>
-            <SectionHeader id="g12-sec-ter-gyakorlas-3" number={19} title="Gyakorlás" color="amber" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Gyakorlati Csonka Testek"
-                subtitle="Vödrök, kaspók, tetőszerkezetek űrtartalma és felszíne"
-                type="Hamarosan"
-                emoji="✏️"
-                disabled={true}
-                icon={<Activity className="w-6 h-6" />}
-                color="amber"
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: térfogatképletek, hasonlósági arány, kiegészítő test, gyakorlati feladatok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-ter-csonka-terfogat-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="purple"
+                {...getTopicProgress('g12-ter-csonka-terfogat-quiz')}
               />
             </div>
           </section>
         )}
 
-        {/* Section 20: Térgeometria a hétköznapi életben */}
+        {/* Section 17: Térgeometria a hétköznapi életben */}
         {(showAll || activeSubSectionId === 'g12-sec-ter-hetkoznapi-eletben') && (
           <section>
-            <SectionHeader id="g12-sec-ter-hetkoznapi-eletben" number={20} title="Térgeometria a hétköznapi életben" color="teal" />
+            <SectionHeader id="g12-sec-ter-hetkoznapi-eletben" number={17} title="Térgeometria a hétköznapi életben" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Gyakorlati Modellezés és Anyagszükséglet"
-                subtitle="Csomagolás, konténerek, sűrűség- és tömegszámítás, optimalizálás"
-                type="Hamarosan"
-                emoji="🌍"
-                disabled={true}
-                icon={<Globe className="w-6 h-6" />}
+                title="Térgeometria a gyakorlatban Tananyag"
+                subtitle="Tömeg és sűrűség, anyagszükséglet, veszteség és ráhagyás: kapu, torta, gyertya, kalap, fogaskerék"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-ter-hetkoznapi-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: mértékegységek, tömeg, festék és csomagolás, összetett testek"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-ter-hetkoznapi-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="teal"
+                {...getTopicProgress('g12-ter-hetkoznapi-quiz')}
               />
             </div>
           </section>
         )}
 
-        {/* Section 21: Gyakorlás, tudáspróba */}
+        {/* Section 18: Gyakorlás, tudáspróba */}
         {(showAll || activeSubSectionId === 'g12-sec-ter-tudasproba') && (
           <section>
-            <SectionHeader id="g12-sec-ter-tudasproba" number={21} title="Gyakorlás, tudáspróba" color="emerald" />
+            <SectionHeader id="g12-sec-ter-tudasproba" number={18} title="Gyakorlás, tudáspróba" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Összefoglaló Térgeometriai Tudáspróba"
-                subtitle="Teljes képlettár, érettségi típusfeladatok és fejezeti feladatsor"
-                type="Hamarosan"
-                emoji="🏆"
-                disabled={true}
-                icon={<Trophy className="w-6 h-6" />}
+                title="Térgeometria összefoglalás Tananyag"
+                subtitle="Képlettár a teljes fejezetből, hajlásszögek, hasonló testek és a tankönyv két tudáspróbája"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-ter-tudasproba-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="90 feladat 3 szinten: a teljes térgeometria fejezet – távolság, szög, hasáb, henger, gömb, gúla, kúp, csonka testek"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-ter-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g12-ter-tudasproba-quiz')}
               />
             </div>
           </section>
@@ -583,28 +711,10 @@ export const Grade12View: React.FC<GradeViewProps> = ({
           </section>
         )}
 
-        {/* Section 10: Gyakorlás */}
-        {(showAll || activeSubSectionId === 'g12-sec-seq-gyakorlas-1') && (
-          <section>
-            <SectionHeader id="g12-sec-seq-gyakorlas-1" number={10} title="Gyakorlás" color="amber" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Összetett Sorozatos és Pénzügyi Feladatok"
-                subtitle="Futamidő meghatározása logaritmussal és érettségi típusfeladatok"
-                type="Hamarosan"
-                emoji="📝"
-                disabled={true}
-                icon={<Activity className="w-6 h-6" />}
-                color="amber"
-              />
-            </div>
-          </section>
-        )}
-
-        {/* Section 11: Gyakorlás, tudáspróba */}
+        {/* Section 10: Gyakorlás, tudáspróba */}
         {(showAll || activeSubSectionId === 'g12-sec-seq-tudasproba') && (
           <section>
-            <SectionHeader id="g12-sec-seq-tudasproba" number={11} title="Gyakorlás, tudáspróba" color="orange" />
+            <SectionHeader id="g12-sec-seq-tudasproba" number={10} title="Gyakorlás, tudáspróba" color="orange" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
                 title="Fejezeti Tudáspróba – Sorozatok"
@@ -614,24 +724,6 @@ export const Grade12View: React.FC<GradeViewProps> = ({
                 disabled={true}
                 icon={<Trophy className="w-6 h-6" />}
                 color="orange"
-              />
-            </div>
-          </section>
-        )}
-
-        {/* Section 12: Témazáró feladatgyűjtemény */}
-        {(showAll || activeSubSectionId === 'g12-sec-seq-temazaro-feladatgyujtemeny') && (
-          <section>
-            <SectionHeader id="g12-sec-seq-temazaro-feladatgyujtemeny" number={12} title="Témazáró feladatgyűjtemény" color="rose" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Témazáró Feladatgyűjtemény"
-                subtitle="Közép- és emelt szintű érettségi feladatsorok kidolgozása"
-                type="Hamarosan"
-                emoji="📚"
-                disabled={true}
-                icon={<Target className="w-6 h-6" />}
-                color="rose"
               />
             </div>
           </section>
@@ -826,28 +918,10 @@ export const Grade12View: React.FC<GradeViewProps> = ({
           </section>
         )}
 
-        {/* Section 11: Gyakorlás */}
-        {(showAll || activeSubSectionId === 'g12-sec-stat-gyakorlas-1') && (
-          <section>
-            <SectionHeader id="g12-sec-stat-gyakorlas-1" number={11} title="Gyakorlás" color="amber" />
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-              <ActivityPlaceholder
-                title="Összetett Valószínűségi Feladatok"
-                subtitle="Eseményfák, Bayes-tétel és binomiális kísérletek az érettségin"
-                type="Hamarosan"
-                emoji="📝"
-                disabled={true}
-                icon={<Activity className="w-6 h-6" />}
-                color="amber"
-              />
-            </div>
-          </section>
-        )}
-
-        {/* Section 12: Gyakorlás, tudáspróba */}
+        {/* Section 11: Gyakorlás, tudáspróba */}
         {(showAll || activeSubSectionId === 'g12-sec-stat-tudasproba') && (
           <section>
-            <SectionHeader id="g12-sec-stat-tudasproba" number={12} title="Gyakorlás, tudáspróba" color="orange" />
+            <SectionHeader id="g12-sec-stat-tudasproba" number={11} title="Gyakorlás, tudáspróba" color="orange" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
                 title="Fejezeti Tudáspróba – Statisztika és Valószínűség"

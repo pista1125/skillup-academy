@@ -5,7 +5,7 @@ A középiskolai matematika 12. osztályos tananyagának második fejezete a sor
 
 ---
 
-## Altémák (12 lecke)
+## Altémák (10 lecke)
 
 1. **Számsorozatok** (`szamsorozatok`) – 22. lecke: Sorozat mint $\mathbb{Z}^+ \to \mathbb{R}$ függvény, tagok jelölése, pontszerű ábrázolás, monotonitás és korlátosság.
 2. **Sorozatok megadása** (`sorozatok-megadasa`) – 23. lecke: Explicit képlet ($a_n = f(n)$), rekurzív megadás, Fibonacci-sorozat, szabályfelismerés.
@@ -16,6 +16,4 @@ A középiskolai matematika 12. osztályos tananyagának második fejezete a sor
 7. **Vegyes feladatok** (`vegyes-feladatok`) – 28. lecke: Számtani és mértani sorozatok kombinált feladatai, egyenletrendszerek, háromszögek oldalai és szögei.
 8. **Pénzügyi feladatok I. – tőkebefektetések** (`penzugyi-feladatok-1-tokebefektetesek`) – 29. lecke: Egyszerű kamat és kamatos kamat ($K_n = K_0 \cdot q^n$), gyűjtőjáradék, megtakarítások jövőértéke.
 9. **Pénzügyi feladatok II. – hitelek és kockázatok** (`penzugyi-feladatok-2-hitelek-es-kockazatok`) – 30. lecke: Annuitásos hiteltörlesztés, törlesztőtábla és részletösszetétel, THM és kockázatok.
-10. **Gyakorlás** (`gyakorlas-1`) – 31. lecke: Összetett szöveges feladatok, futamidő kiszámítása logaritmussal.
-11. **Gyakorlás, tudáspróba** (`gyakorlas-tudasproba`) – 32. lecke: Fejezetzáró önértékelő tudáspróba, képlettár és típusfeladatok levezetése.
-12. **Témazáró feladatgyűjtemény** (`temazaro-feladatgyujtemeny`) – Átfogó középszintű és emelt szintű érettségi feladatsorok.
+10. **Gyakorlás, tudáspróba** (`gyakorlas-tudasproba`) – 32. lecke: Fejezetzáró önértékelő tudáspróba, képlettár és típusfeladatok levezetése.

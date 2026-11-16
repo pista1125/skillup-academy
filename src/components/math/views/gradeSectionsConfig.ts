@@ -816,18 +816,15 @@ export const sectionToTopicMap: Record<string, string> = {
   'g12-sec-ter-henger-felszine-terfogata': 'g12-tergeometria',
   'g12-sec-ter-gomb-szeletelese': 'g12-tergeometria',
   'g12-sec-ter-gomb-felszine-terfogata': 'g12-tergeometria',
-  'g12-sec-ter-gyakorlas-1': 'g12-tergeometria',
   'g12-sec-ter-hasonlo-testek': 'g12-tergeometria',
   'g12-sec-ter-terelemek-hajlasszoge': 'g12-tergeometria',
   'g12-sec-ter-a-gula': 'g12-tergeometria',
   'g12-sec-ter-gula-felszine-terfogata': 'g12-tergeometria',
   'g12-sec-ter-a-forgaskup': 'g12-tergeometria',
   'g12-sec-ter-forgaskup-felszine-terfogata': 'g12-tergeometria',
-  'g12-sec-ter-gyakorlas-2': 'g12-tergeometria',
   'g12-sec-ter-csonkagula-es-csonkakup': 'g12-tergeometria',
   'g12-sec-ter-csonkagula-csonkakup-felszine': 'g12-tergeometria',
   'g12-sec-ter-csonkagula-csonkakup-terfogata': 'g12-tergeometria',
-  'g12-sec-ter-gyakorlas-3': 'g12-tergeometria',
   'g12-sec-ter-hetkoznapi-eletben': 'g12-tergeometria',
   'g12-sec-ter-tudasproba': 'g12-tergeometria',
 
@@ -841,9 +838,7 @@ export const sectionToTopicMap: Record<string, string> = {
   'g12-sec-seq-vegyes-feladatok': 'g12-sorozatok',
   'g12-sec-seq-penzugyek-1-tokebefektetesek': 'g12-sorozatok',
   'g12-sec-seq-penzugyek-2-hitelek-es-kockazatok': 'g12-sorozatok',
-  'g12-sec-seq-gyakorlas-1': 'g12-sorozatok',
   'g12-sec-seq-tudasproba': 'g12-sorozatok',
-  'g12-sec-seq-temazaro-feladatgyujtemeny': 'g12-sorozatok',
 
   'g12-statisztika-valoszinuseg': 'g12-statisztika-valoszinuseg',
   'g12-sec-stat-adatgyujtes': 'g12-statisztika-valoszinuseg',
@@ -856,7 +851,6 @@ export const sectionToTopicMap: Record<string, string> = {
   'g12-sec-stat-geometriai-valoszinuseg': 'g12-statisztika-valoszinuseg',
   'g12-sec-stat-varhato-ertek': 'g12-statisztika-valoszinuseg',
   'g12-sec-stat-mintavetelek': 'g12-statisztika-valoszinuseg',
-  'g12-sec-stat-gyakorlas-1': 'g12-statisztika-valoszinuseg',
   'g12-sec-stat-tudasproba': 'g12-statisztika-valoszinuseg',
 
   'g12-rendszerezo-osszefoglalas': 'g12-rendszerezo-osszefoglalas',
@@ -1812,20 +1806,17 @@ export function getGradeSubsections(
         { id: 'g12-sec-ter-henger-felszine-terfogata', label: '5. A henger felszíne és térfogata' },
         { id: 'g12-sec-ter-gomb-szeletelese', label: '6. A gömb, a gömb szeletelése' },
         { id: 'g12-sec-ter-gomb-felszine-terfogata', label: '7. A gömb felszíne és térfogata' },
-        { id: 'g12-sec-ter-gyakorlas-1', label: '8. Gyakorlás' },
-        { id: 'g12-sec-ter-hasonlo-testek', label: '9. Hasonló testek felszíne, térfogata' },
-        { id: 'g12-sec-ter-terelemek-hajlasszoge', label: '10. Térelemek hajlásszöge' },
-        { id: 'g12-sec-ter-a-gula', label: '11. A gúla' },
-        { id: 'g12-sec-ter-gula-felszine-terfogata', label: '12. A gúla felszíne és térfogata' },
-        { id: 'g12-sec-ter-a-forgaskup', label: '13. A forgáskúp' },
-        { id: 'g12-sec-ter-forgaskup-felszine-terfogata', label: '14. A forgáskúp felszíne és térfogata' },
-        { id: 'g12-sec-ter-gyakorlas-2', label: '15. Gyakorlás' },
-        { id: 'g12-sec-ter-csonkagula-es-csonkakup', label: '16. A csonkagúla és a csonkakúp' },
-        { id: 'g12-sec-ter-csonkagula-csonkakup-felszine', label: '17. A csonkagúla és a csonkakúp felszíne' },
-        { id: 'g12-sec-ter-csonkagula-csonkakup-terfogata', label: '18. A csonkagúla és a csonkakúp térfogata' },
-        { id: 'g12-sec-ter-gyakorlas-3', label: '19. Gyakorlás' },
-        { id: 'g12-sec-ter-hetkoznapi-eletben', label: '20. Térgeometria a hétköznapi életben' },
-        { id: 'g12-sec-ter-tudasproba', label: '21. Gyakorlás, tudáspróba' }
+        { id: 'g12-sec-ter-hasonlo-testek', label: '8. Hasonló testek felszíne, térfogata' },
+        { id: 'g12-sec-ter-terelemek-hajlasszoge', label: '9. Térelemek hajlásszöge' },
+        { id: 'g12-sec-ter-a-gula', label: '10. A gúla' },
+        { id: 'g12-sec-ter-gula-felszine-terfogata', label: '11. A gúla felszíne és térfogata' },
+        { id: 'g12-sec-ter-a-forgaskup', label: '12. A forgáskúp' },
+        { id: 'g12-sec-ter-forgaskup-felszine-terfogata', label: '13. A forgáskúp felszíne és térfogata' },
+        { id: 'g12-sec-ter-csonkagula-es-csonkakup', label: '14. A csonkagúla és a csonkakúp' },
+        { id: 'g12-sec-ter-csonkagula-csonkakup-felszine', label: '15. A csonkagúla és a csonkakúp felszíne' },
+        { id: 'g12-sec-ter-csonkagula-csonkakup-terfogata', label: '16. A csonkagúla és a csonkakúp térfogata' },
+        { id: 'g12-sec-ter-hetkoznapi-eletben', label: '17. Térgeometria a hétköznapi életben' },
+        { id: 'g12-sec-ter-tudasproba', label: '18. Gyakorlás, tudáspróba' }
       ];
     } else if (t.id === 'g12-sorozatok') {
       subsections = [
@@ -1838,9 +1829,7 @@ export function getGradeSubsections(
         { id: 'g12-sec-seq-vegyes-feladatok', label: '7. Vegyes feladatok' },
         { id: 'g12-sec-seq-penzugyek-1-tokebefektetesek', label: '8. Pénzügyi feladatok I. – tőkebefektetések' },
         { id: 'g12-sec-seq-penzugyek-2-hitelek-es-kockazatok', label: '9. Pénzügyi feladatok II. – hitelek és kockázatok' },
-        { id: 'g12-sec-seq-gyakorlas-1', label: '10. Gyakorlás' },
-        { id: 'g12-sec-seq-tudasproba', label: '11. Gyakorlás, tudáspróba' },
-        { id: 'g12-sec-seq-temazaro-feladatgyujtemeny', label: '12. Témazáró feladatgyűjtemény' }
+        { id: 'g12-sec-seq-tudasproba', label: '10. Gyakorlás, tudáspróba' }
       ];
     } else if (t.id === 'g12-statisztika-valoszinuseg') {
       subsections = [
@@ -1854,8 +1843,7 @@ export function getGradeSubsections(
         { id: 'g12-sec-stat-geometriai-valoszinuseg', label: '8. Geometriai valószínűség' },
         { id: 'g12-sec-stat-varhato-ertek', label: '9. A várható érték' },
         { id: 'g12-sec-stat-mintavetelek', label: '10. Mintavételek' },
-        { id: 'g12-sec-stat-gyakorlas-1', label: '11. Gyakorlás' },
-        { id: 'g12-sec-stat-tudasproba', label: '12. Gyakorlás, tudáspróba' }
+        { id: 'g12-sec-stat-tudasproba', label: '11. Gyakorlás, tudáspróba' }
       ];
     } else if (t.id === 'g12-rendszerezo-osszefoglalas') {
       subsections = [

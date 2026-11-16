@@ -9,6 +9,7 @@ const Grade8Activities = lazy(() => import('./Grade8Activities').then(m => ({ de
 const Grade9Activities = lazy(() => import('./Grade9Activities').then(m => ({ default: m.Grade9Activities })));
 const Grade10Activities = lazy(() => import('./Grade10Activities').then(m => ({ default: m.Grade10Activities })));
 const Grade11Activities = lazy(() => import('./Grade11Activities').then(m => ({ default: m.Grade11Activities })));
+const Grade12Activities = lazy(() => import('./Grade12Activities').then(m => ({ default: m.Grade12Activities })));
 const MathToolsActivities = lazy(() => import('./MathToolsActivities').then(m => ({ default: m.MathToolsActivities })));
 
 export const MathActivityRouter: React.FC<ActivityRouterProps> = (props) => {
@@ -35,6 +36,9 @@ export const MathActivityRouter: React.FC<ActivityRouterProps> = (props) => {
   }
   if (activityType.startsWith('g11-')) {
     return <Grade11Activities {...props} />;
+  }
+  if (activityType.startsWith('g12-')) {
+    return <Grade12Activities {...props} />;
   }
   if (
     activityType === 'fractions' ||
