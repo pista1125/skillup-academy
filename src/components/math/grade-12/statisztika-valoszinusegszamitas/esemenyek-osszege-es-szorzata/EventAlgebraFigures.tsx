@@ -99,50 +99,52 @@ export const SwitchGlyph: React.FC<{ x: number; y: number; label: string; closed
   </g>
 );
 
-/** Áramkör: az A kapcsolóval sorosan kötött, párhuzamos B és C ág, lámpa, áramforrás. */
+/**
+ * Áramkör a tankönyvi ábra szerint: áramforrás → lámpa → elágazás; az egyik ágban az A kapcsoló,
+ * a másik ágban a sorba kötött B és C kapcsoló. A lámpa pontosan akkor világít, ha A + B · C bekövetkezik.
+ */
 export const Circuit: React.FC<{ a?: boolean; b?: boolean; c?: boolean; lit?: boolean; x?: number; y?: number }> = ({ a, b, c, lit, x = 0, y = 0 }) => {
   const W = C_EDGE;
   return (
     <g transform={`translate(${x} ${y})`}>
-      {/* felső vezeték: forrás → A → elágazás */}
-      <polyline points="30,40 70,40" fill="none" stroke={W} strokeWidth={2} />
-      <SwitchGlyph x={70} y={40} label="A" closed={a} />
-      <polyline points="106,40 130,40 130,90" fill="none" stroke={W} strokeWidth={2} />
-      {/* B ág */}
-      <polyline points="130,40 150,40" fill="none" stroke={W} strokeWidth={2} />
-      <SwitchGlyph x={150} y={40} label="B" closed={b} />
-      <polyline points="186,40 210,40 210,90" fill="none" stroke={W} strokeWidth={2} />
-      {/* C ág */}
-      <polyline points="130,90 150,90" fill="none" stroke={W} strokeWidth={2} />
-      <SwitchGlyph x={150} y={90} label="C" closed={c} />
-      <polyline points="186,90 210,90" fill="none" stroke={W} strokeWidth={2} />
-      {/* lámpa */}
-      <polyline points="210,90 210,140 158,140" fill="none" stroke={W} strokeWidth={2} />
-      <circle cx={145} cy={140} r={13} fill={lit ? '#fde047' : '#ffffff'} stroke={W} strokeWidth={2} />
-      <line x1={136} y1={131} x2={154} y2={149} stroke={W} strokeWidth={1.5} />
-      <line x1={154} y1={131} x2={136} y2={149} stroke={W} strokeWidth={1.5} />
-      <T x={145} y={165} t="lámpa" s={10} c="#475569" />
-      {/* áramforrás */}
-      <polyline points="132,140 30,140 30,104" fill="none" stroke={W} strokeWidth={2} />
-      <line x1={18} y1={104} x2={42} y2={104} stroke={W} strokeWidth={2.4} />
-      <line x1={24} y1={96} x2={36} y2={96} stroke={W} strokeWidth={4} />
-      <polyline points="30,96 30,40" fill="none" stroke={W} strokeWidth={2} />
-      <T x={8} y={86} t="forrás" s={10} c="#475569" a="start" />
+      {/* felső vezeték: forrás → lámpa → elágazás */}
+      <polyline points="24,96 24,36 52,36" fill="none" stroke={W} strokeWidth={2} />
+      <circle cx={64} cy={36} r={12} fill={lit ? '#fde047' : '#ffffff'} stroke={W} strokeWidth={2} />
+      <line x1={55.5} y1={27.5} x2={72.5} y2={44.5} stroke={W} strokeWidth={1.5} />
+      <line x1={72.5} y1={27.5} x2={55.5} y2={44.5} stroke={W} strokeWidth={1.5} />
+      <T x={64} y={62} t="lámpa" s={10} c="#475569" />
+      <polyline points="76,36 140,36" fill="none" stroke={W} strokeWidth={2} />
+      <circle cx={104} cy={36} r={2.6} fill={W} />
+      {/* 1. ág: az A kapcsoló */}
+      <SwitchGlyph x={140} y={36} label="A" closed={a} />
+      <polyline points="176,36 222,36 222,140" fill="none" stroke={W} strokeWidth={2} />
+      {/* 2. ág: a sorba kötött B és C kapcsoló */}
+      <polyline points="104,36 104,98 112,98" fill="none" stroke={W} strokeWidth={2} />
+      <SwitchGlyph x={112} y={98} label="B" closed={b} />
+      <polyline points="148,98 166,98" fill="none" stroke={W} strokeWidth={2} />
+      <SwitchGlyph x={166} y={98} label="C" closed={c} />
+      <polyline points="202,98 222,98" fill="none" stroke={W} strokeWidth={2} />
+      <circle cx={222} cy={98} r={2.6} fill={W} />
+      {/* alsó vezeték vissza az áramforráshoz */}
+      <polyline points="222,140 24,140 24,104" fill="none" stroke={W} strokeWidth={2} />
+      <line x1={12} y1={104} x2={36} y2={104} stroke={W} strokeWidth={2.4} />
+      <line x1={18} y1={96} x2={30} y2={96} stroke={W} strokeWidth={4} />
+      <T x={32} y={124} t="forrás" s={10} c="#475569" a="start" />
     </g>
   );
 };
 
 // 4. ábra: áramkör kapcsolókkal
 export const SwitchCircuitSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS }) => (
-  <Frame title="Áramkör: a lámpa akkor világít, ha A · (B + C) bekövetkezik" className={className} h={240}>
+  <Frame title="Áramkör: a lámpa akkor világít, ha A + B · C bekövetkezik" className={className} h={240}>
     <g transform="translate(20 40)">
       <Circuit />
     </g>
     <T x={290} y={80} t="A: az A kapcsoló zárva" s={11} a="start" />
     <T x={290} y={100} t="B: a B kapcsoló zárva" s={11} a="start" />
     <T x={290} y={120} t="C: a C kapcsoló zárva" s={11} a="start" />
-    <T x={290} y={150} t="A sorosan, B és C" s={11} a="start" b c={C_PURPLE} />
-    <T x={290} y={168} t="párhuzamosan kapcsolva" s={11} a="start" b c={C_PURPLE} />
+    <T x={290} y={150} t="az A ág és a sorba kötött" s={11} a="start" b c={C_PURPLE} />
+    <T x={290} y={168} t="B, C ág párhuzamos" s={11} a="start" b c={C_PURPLE} />
   </Frame>
 );
 

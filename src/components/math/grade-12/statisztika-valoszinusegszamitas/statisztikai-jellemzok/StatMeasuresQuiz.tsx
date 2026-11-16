@@ -2,7 +2,7 @@ import React from 'react';
 import { QuizTemplate, QuizQuestion } from '../QuizTemplate';
 import { StatMeasuresMatcher } from './StatMeasuresMatcher';
 import { StatMeasuresSorter } from './StatMeasuresSorter';
-import { SFig, SBarChart, STable, SText, S_PURPLE, S_BLUE, S_RED, S_AXIS } from './statKit';
+import { SFig, SBarChart, STable, SText, S_PURPLE, S_BLUE, S_RED, S_AXIS, S_GREEN } from './statKit';
 
 // ---------------------------------------------------------------------------
 // Kérdésábrák
@@ -89,6 +89,59 @@ const FIG_PRICES = (
   </SFig>
 );
 
+// 2. feladat: 40 mérés (nehézségi gyorsulás, m/s²)
+const FIG_GRAV = (
+  <SFig w={260} h={150} className="w-full max-w-[300px] h-auto mx-auto" title="g mérési eredményei (m/s²) – mérések száma">
+    <SBarChart
+      x0={30}
+      y0={128}
+      w={220}
+      h={90}
+      yMax={12}
+      ticks={[0, 2, 4, 6, 8, 10, 12]}
+      showValues
+      color={S_GREEN}
+      tickFmt={(v) => String(v)}
+      data={[
+        { label: '9,70', value: 2 },
+        { label: '9,75', value: 7 },
+        { label: '9,80', value: 10 },
+        { label: '9,85', value: 8 },
+        { label: '9,90', value: 7 },
+        { label: '9,95', value: 6 }
+      ]}
+    />
+  </SFig>
+);
+
+// 3. feladat (érettségi 2022): fiúk és lányok száma a négy osztályban
+const CLASS_DATA = [
+  { label: '12. a', value: 18, value2: 14 },
+  { label: '12. b', value: 24, value2: 6 },
+  { label: '12. c', value: 18, value2: 17 },
+  { label: '12. d', value: 12, value2: 15 }
+];
+const FIG_CLASSES = (
+  <SFig w={260} h={160} className="w-full max-w-[300px] h-auto mx-auto" title="Fiúk és lányok száma">
+    <SBarChart x0={30} y0={134} w={180} h={100} yMax={25} ticks={[0, 5, 10, 15, 20, 25]} gap={0.3} color={S_BLUE} color2={S_RED} tickFmt={(v) => String(v)} data={CLASS_DATA} />
+    {CLASS_DATA.map((d, i) => {
+      const slot = 180 / 4;
+      const bw = (slot * 0.7) / 2;
+      const left = 30 + i * slot + (slot - slot * 0.7) / 2;
+      return (
+        <g key={d.label}>
+          <SText x={left + bw / 2} y={134 - (d.value / 25) * 100 - 2.5} t={String(d.value)} s={7} />
+          <SText x={left + 1.5 * bw} y={134 - (d.value2 / 25) * 100 - 2.5} t={String(d.value2)} s={7} />
+        </g>
+      );
+    })}
+    <rect x={218} y={50} width={8} height={8} fill={S_BLUE} opacity={0.85} />
+    <SText x={230} y={57} t="fiúk" s={7.5} a="start" />
+    <rect x={218} y={64} width={8} height={8} fill={S_RED} opacity={0.85} />
+    <SText x={230} y={71} t="lányok" s={7.5} a="start" />
+  </SFig>
+);
+
 const STAT_MEASURES_QUESTIONS: QuizQuestion[] = [
   // ------------------------------- 1. szint -------------------------------
   {
@@ -113,10 +166,11 @@ const STAT_MEASURES_QUESTIONS: QuizQuestion[] = [
     id: 'sme-q3',
     questionTypeBadge: 'Módusz',
     level: 1,
-    question: 'Mennyi a 2; 3; 3; 5; 7; 3; 5 adatsor módusza?',
-    options: ['3', '5', '4', '7'],
+    figure: FIG_GRAV,
+    question: 'Egy fizikaórán 40 méréssel határozták meg a nehézségi gyorsulás értékét (ábra). Mennyi a mérési eredmények módusza?',
+    options: ['9,80 m/s²', '9,85 m/s²', '9,95 m/s²', '10 m/s²'],
     correctAnswer: 0,
-    explanation: 'A 3 háromszor szerepel, ez a leggyakoribb adat.'
+    explanation: 'A módusz a leggyakoribb adat: a 9,80 m/s²-et 10-szer mérték, ez a legmagasabb oszlop. (A 10 az oszlop magassága, nem az adat.)'
   },
   {
     id: 'sme-q4',
@@ -277,12 +331,13 @@ const STAT_MEASURES_QUESTIONS: QuizQuestion[] = [
   },
   {
     id: 'sme-q20',
-    questionTypeBadge: 'Szórás',
+    questionTypeBadge: 'Medián',
     level: 2,
-    question: 'Mennyi az 1; 2; 3; 4; 5 adatsor szórása (két tizedesre)?',
-    options: ['≈ 1,41', '2', '≈ 1,58', '3'],
+    figure: FIG_GRAV,
+    question: 'Az ábra a nehézségi gyorsulás 40 mérésének eredményét mutatja. Mennyi a mérési eredmények mediánja?',
+    options: ['9,85 m/s²', '9,80 m/s²', '9,825 m/s²', '9,90 m/s²'],
     correctAnswer: 0,
-    explanation: 'x̄ = 3, eltérésnégyzetek: 4; 1; 0; 1; 4, átlaguk 10 / 5 = 2, σ = √2 ≈ 1,41.'
+    explanation: 'Növekvő sorrendben a gyakoriságok halmozva: 2; 9; 19; 27; 34; 40. A 40 adat mediánja a 20. és 21. adat átlaga; mindkettő a 20–27. helyen álló 9,85-ös értékek közé esik, így a medián 9,85 m/s².'
   },
   // ------------------------------- 3. szint -------------------------------
   {
@@ -327,10 +382,11 @@ const STAT_MEASURES_QUESTIONS: QuizQuestion[] = [
     id: 'sme-q25',
     questionTypeBadge: 'Súlyozott átlag',
     level: 3,
-    question: 'Egy 30 fős osztályban a 12 lány matematikajegyeinek átlaga 4,5, az egész osztályé 4,1. Mennyi a fiúk átlaga (két tizedesre)?',
-    options: ['≈ 3,83', '3,7', '4,3', '≈ 3,9'],
+    figure: FIG_CLASSES,
+    question: 'A 12. b osztályban év végén a lányok matematikajegyeinek átlaga 4,5, az egész osztályé 4,1 volt. Mennyi volt a fiúk jegyeinek átlaga? (Az osztály létszámait az ábráról olvasd le!)',
+    options: ['4,0', '3,7', '≈ 3,83', '4,3'],
     correctAnswer: 0,
-    explanation: 'Az osztály jegyeinek összege 30 · 4,1 = 123, a lányoké 12 · 4,5 = 54. A 18 fiúé 69, átlaguk 69 / 18 ≈ 3,83.'
+    explanation: 'A 12. b-be 24 fiú és 6 lány jár (30 fő). Az osztály jegyeinek összege 30 · 4,1 = 123, a lányoké 6 · 4,5 = 27, így a 24 fiúé 96, átlaguk 96 / 24 = 4,0.'
   },
   {
     id: 'sme-q26',
@@ -362,12 +418,13 @@ const STAT_MEASURES_QUESTIONS: QuizQuestion[] = [
   },
   {
     id: 'sme-q29',
-    questionTypeBadge: 'Szórásnégyzet',
+    questionTypeBadge: 'Szórás',
     level: 3,
-    question: 'Öt adat átlaga 10, szórásnégyzete 4. Mennyi az adatok négyzeteinek összege?',
-    options: ['520', '500', '504', '120'],
+    figure: FIG_CLASSES,
+    question: 'Az ábra egy végzős évfolyam négy osztályában mutatja a fiúk és a lányok számát. Mennyi a lányok létszámából álló 4 adat szórása (két tizedesre)?',
+    options: ['≈ 4,18', '17,5', '11', '≈ 3,50'],
     correctAnswer: 0,
-    explanation: 'σ² = (x₁² + … + x₅²) / 5 − x̄², így x₁² + … + x₅² = 5 · (4 + 100) = 520.'
+    explanation: 'A lányok létszáma 14; 6; 17; 15, átlaguk 52 / 4 = 13. Az eltérések 1; −7; 4; 2, négyzetük 1; 49; 16; 4, átlaguk 70 / 4 = 17,5 (ez a szórásnégyzet), σ = √17,5 ≈ 4,18. (A terjedelem 17 − 6 = 11.)'
   },
   {
     id: 'sme-q30',

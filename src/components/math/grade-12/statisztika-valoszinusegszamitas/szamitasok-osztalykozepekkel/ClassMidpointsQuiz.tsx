@@ -47,6 +47,22 @@ const FIG_EXAM = (
   </SFig>
 );
 
+const FIG_IQ = (
+  <SFig w={300} h={64} className="w-full max-w-[340px] h-auto mx-auto">
+    <STable
+      x={6}
+      y={12}
+      colW={[48, 40, 40, 40, 40, 40, 40]}
+      rowH={20}
+      s={7.5}
+      rows={[
+        ['IQ-pont', '75–84', '85–94', '95–104', '105–114', '115–124', '125–134'],
+        ['fő', 17, 132, 225, 468, 130, 28]
+      ]}
+    />
+  </SFig>
+);
+
 const FIG_EGGS = (
   <SFig w={280} h={84} className="w-full max-w-[320px] h-auto mx-auto">
     <STable
@@ -325,12 +341,18 @@ const CLASS_MIDPOINTS_QUESTIONS: QuizQuestion[] = [
   },
   {
     id: 'cmp-q27',
-    questionTypeBadge: 'Közelítés pontossága',
+    questionTypeBadge: 'Szabványos teszt?',
+    figure: FIG_IQ,
     level: 3,
-    question: 'A 24 havi csapadékadat valódi átlaga ≈ 44,42 mm, az osztályközepes becslés ≈ 42,33 mm. Mekkora az eltérés?',
-    options: ['≈ 2,1 mm', '≈ 4,7 mm', '0 mm', '≈ 1,2 mm'],
+    question: 'Egy IQ-teszt akkor szabványszerű, ha az átlagos eredmény 100, a szórás pedig legfeljebb 15 pont. Az új teszt első 1000 kitöltőjének eredményeit a táblázat mutatja. Osztályközepekkel számolva megfelel-e a teszt?',
+    options: [
+      'Nem: a szórás ≈ 10,1 (ez rendben van), de az átlag ≈ 106, nem 100.',
+      'Igen: az átlag ≈ 100, a szórás ≈ 10,1.',
+      'Nem: az átlag 100, de a szórás ≈ 22 > 15.',
+      'Igen: az átlag ≈ 106 és a szórás ≈ 10,1 is 15 alatt van.'
+    ],
     correctAnswer: 0,
-    explanation: '44,42 − 42,33 ≈ 2,09 mm. Az osztályközepes számítás csak közelítő értéket ad.'
+    explanation: 'Osztályközepek: 79,5; 89,5; 99,5; 109,5; 119,5; 129,5. x̄ = (17 · 79,5 + 132 · 89,5 + 225 · 99,5 + 468 · 109,5 + 130 · 119,5 + 28 · 129,5) / 1000 = 105,96 ≈ 106. σ² ≈ 102,27, σ ≈ 10,1. A szórás megfelel, de az átlag nem 100, ezért a teszt nem szabványszerű.'
   },
   {
     id: 'cmp-q28',

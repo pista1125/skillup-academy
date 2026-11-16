@@ -251,20 +251,20 @@ const EVENT_ALGEBRA_QUESTIONS: QuizQuestion[] = [
     questionTypeBadge: 'Áramkör',
     figure: FIG_CIRCUIT,
     level: 2,
-    question: 'Az ábrán A, B, C a kapcsolók zárt állapotát jelölő események. Ha a B · C esemény bekövetkezik, világít-e biztosan a lámpa?',
-    options: ['nem biztos: csak akkor, ha az A is zárva van', 'igen, biztosan világít', 'biztosan nem világít', 'csak akkor, ha az A nyitva van'],
+    question: 'Az ábrán A, B, C a kapcsolók zárt állapotát jelölő események. Ha a B · C esemény bekövetkezik, világít-e a lámpa?',
+    options: ['igen, biztosan világít', 'nem biztos: csak akkor, ha az A is zárva van', 'biztosan nem világít', 'csak akkor, ha az A nyitva van'],
     correctAnswer: 0,
-    explanation: 'Az áram az A kapcsolón mindenképpen átfolyik (soros), utána a B vagy a C ágon. B · C esetén a párhuzamos rész zárt, de ha A nyitva van, a lámpa nem világít.'
+    explanation: 'A B és a C kapcsoló ugyanabban az ágban, sorba kötve van. Ha mindkettő zárva van, ezen az ágon záródik az áramkör, így az A kapcsoló állásától függetlenül világít a lámpa.'
   },
   {
     id: 'ea-q18',
     questionTypeBadge: 'Áramkör',
     figure: FIG_CIRCUIT,
     level: 2,
-    question: 'Ugyanebben az áramkörben bekövetkezik az A · B esemény (C-ről nem tudunk semmit). Világít-e a lámpa?',
+    question: `Ugyanebben az áramkörben bekövetkezik az A · ${B_} esemény (C-ről nem tudunk semmit). Világít-e a lámpa?`,
     options: ['igen, biztosan', 'nem, biztosan nem', 'csak ha a C is zárva van', 'csak ha a C nyitva van'],
     correctAnswer: 0,
-    explanation: 'A zárva, B zárva: az áram A-n, majd a B ágon át eljut a lámpához – C állásától függetlenül világít.'
+    explanation: 'Az A kapcsoló zárva van, így az A ágon záródik az áramkör: a lámpa világít, bár a B–C ág (B nyitva) szakadt. C állása nem számít.'
   },
   {
     id: 'ea-q19',
@@ -317,19 +317,19 @@ const EVENT_ALGEBRA_QUESTIONS: QuizQuestion[] = [
     id: 'ea-q24',
     questionTypeBadge: 'Legalább–legfeljebb',
     level: 3,
-    question: 'Az A · B esemény 15, az A + B esemény 16 elemi esemény esetén következik be. Legfeljebb hány elemi eseményből állhat az A esemény?',
-    options: ['16', '15', '31', '1'],
+    question: `Az ${A_} · B esemény 15, az A + B esemény 16 elemi esemény esetén következik be. Hány elemi eseményből áll az A esemény?`,
+    options: ['1', '16', '15', '31'],
     correctAnswer: 0,
-    explanation: 'A · B ⊆ A ⊆ A + B, így 15 ≤ |A| ≤ 16. Ugyanez igaz B-re is.'
+    explanation: `Az A + B két egymást kizáró részre bontható: A és ${A_} · B (B-nek az A-n kívüli része). Így |A| = 16 − 15 = 1 – ez a legkisebb és a legnagyobb lehetséges érték is. (B elemszáma 15 vagy 16.)`
   },
   {
     id: 'ea-q25',
     questionTypeBadge: 'Legalább–legfeljebb',
     level: 3,
-    question: 'A H eseménytér 20 elemi eseményből áll, |A| = 12, |B| = 16. Legalább hány elemi esemény esetén következik be az A · B?',
-    options: ['8', '4', '0', '12'],
+    question: `A H eseménytér 20 elemi eseményből áll, |A| = 12, |B| = 16. Legfeljebb hány elemi esemény esetén következik be az ${A_} · ${B_} esemény?`,
+    options: ['4', '8', '0', '12'],
     correctAnswer: 0,
-    explanation: '|A · B| = |A| + |B| − |A + B| ≥ 12 + 16 − 20 = 8, mert |A + B| legfeljebb 20 lehet.'
+    explanation: `${A_} · ${B_} (sem A, sem B) az A + B komplementere. |A + B| ≥ |B| = 16, így |${A_} · ${B_}| ≤ 20 − 16 = 4; ez akkor valósul meg, ha A ⊂ B.`
   },
   {
     id: 'ea-q26',
@@ -373,9 +373,9 @@ const EVENT_ALGEBRA_QUESTIONS: QuizQuestion[] = [
     figure: FIG_CIRCUIT,
     level: 3,
     question: 'Az ábra áramkörében melyik esemény jelenti pontosan azt, hogy a lámpa világít?',
-    options: ['A · B + A · C', 'A + B · C', 'A · B · C', '(A + B) · C'],
+    options: ['A + B · C', 'A · (B + C)', 'A · B · C', '(A + B) · C'],
     correctAnswer: 0,
-    explanation: 'A lámpa akkor világít, ha A · (B + C) bekövetkezik, ez pedig A · B + A · C. Az A + B · C rossz: ha csak A van zárva, a lámpa nem világít.'
+    explanation: 'Két párhuzamos ág van: az egyikben az A, a másikban a sorba kötött B és C kapcsoló. A lámpa akkor világít, ha az A ág zárt VAGY a B–C ág zárt (B ÉS C zárva): A + B · C. Az A · (B + C) rossz: ha csak B és C van zárva, a lámpa mégis világít.'
   }
 ];
 

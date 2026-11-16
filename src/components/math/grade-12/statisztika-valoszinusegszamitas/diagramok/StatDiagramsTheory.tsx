@@ -44,7 +44,7 @@ const PRESETS: [string, string][] = [
   ['góllövőlista', '31; 15; 15; 13; 13; 13; 11; 11; 11; 10; 10']
 ];
 
-const SALES = [9114, 9128, 9141, 9155, 9170, 9185];
+const SALES = [9114, 9125, 9139, 9150, 9161, 9185];
 const MONTHS = ['jan.', 'febr.', 'márc.', 'ápr.', 'máj.', 'jún.'];
 
 export const StatDiagramsTheory: React.FC<{
@@ -55,7 +55,7 @@ export const StatDiagramsTheory: React.FC<{
   const [text, setText] = useState<string>(PRESETS[3][1]);
   const bs = useMemo(() => boxStats(parse(text)), [text]);
   // Labor II: félrevezető tengely
-  const [axisStart, setAxisStart] = useState<number>(9100);
+  const [axisStart, setAxisStart] = useState<number>(9110);
   const visualRatio = (SALES[5] - axisStart) / (SALES[0] - axisStart);
   const realGrowth = (SALES[5] / SALES[0] - 1) * 100;
   const visualGrowth = (visualRatio - 1) * 100;
@@ -130,7 +130,7 @@ export const StatDiagramsTheory: React.FC<{
           <p>
             A félreértést az okozza, hogy a függőleges tengelyen <strong>nem 0-tól indul a beosztás</strong>, így a diagram nem arányos. A 0-tól induló
             diagramon az oszlopok területe (és magassága) arányos az eladott mennyiséggel: jól látszik, hogy a havi eladások lényegesen nem változtak – viszont a
-            kismértékű növekedés alig látható. (A közbülső hónapok értékei az ábrán szemléltetők.)
+            kismértékű növekedés alig látható. (A tankönyvi diagram havi értékei: 9114; 9125; 9139; 9150; 9161; 9185 kg.)
           </p>
         </div>
       </TheorySection>
@@ -144,10 +144,42 @@ export const StatDiagramsTheory: React.FC<{
             ['csak kiválasztott évek ábrázolása', 'elrejti a közbülső emelkedéseket', '„A munkanélküliség folyamatos csökkenése városunkban”']
           ]}
         />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-4">
+          <TheoryCard title="A) Felújított játszóterek (vonaldiagramok)" badge="1. feladat" badgeColor="sky">
+            <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">
+              <li>Az adatok (2008–2013): 1; 3; 4; 5; 5; 7 felújított játszótér – mindhárom diagramon ugyanez az adatsor.</li>
+              <li>
+                Az eredeti diagram tengelye 0–12-ig tart; az egyik lapban 0–7-ig (a görbe meredeknek, a fejlődés látványosnak tűnik), a másikban 0–30-ig (a görbe
+                szinte vízszintes, a fejlődés jelentéktelennek látszik).
+              </li>
+              <li>A diagram tehát egyértelmű (évente hány játszóteret újítottak fel), de a lépték megválasztásával a hatás felnagyítható vagy elrejthető.</li>
+            </ul>
+          </TheoryCard>
+          <TheoryCard title="B) A mozi havi bevétele" badge="2. feladat" badgeColor="purple">
+            <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">
+              <li>A diagramról (ezer Ft): január ≈ 4320, február ≈ 4050, március 4200, április 4500, május 4450, június ≈ 4850.</li>
+              <li>
+                A tengely 4000 ezer Ft-tól indul: a februári oszlop alig látszik, a júniusi ≈ 17-szer magasabbnak tűnik, pedig a valódi arány csak
+                4850 / 4050 ≈ 1,2.
+              </li>
+              <li>Javítás: 0-tól induló tengely (vagy a tengelytörés jól látható jelölése).</li>
+            </ul>
+          </TheoryCard>
+        </div>
         <TheoryCallout type="warning" title="A munkanélküliségi cikk (3. feladat)">
-          A szerző csak néhány év adatát ábrázolta, ezért úgy tűnik, mintha a munkanélküliség folyamatosan csökkent volna; a közbülső évek adatai szerint
-          azonban közben emelkedések is voltak. A cím ne állítson folyamatos csökkenést; helyesebb pl.: „Hullámzó, de összességében csökkenő munkanélküliség városunkban”.
+          A cikk diagramja csak minden harmadik év adatát mutatja (2002: ≈ 11,7%, 2005: ≈ 10,6%, 2008: ≈ 9,8%, 2011: ≈ 9,3%, 2014: ≈ 8,8%, 2017: ≈ 8,5%, 2020:
+          ≈ 8%), így a munkanélküliség folyamatosan csökkenőnek látszik. A közbülső évek (kék jelek) szerint azonban hullámzott: pl. 2003-ban ≈ 12,2%, 2010-ben
+          ≈ 6,5%, 2016-ban ≈ 12%. A cím ne állítson folyamatos csökkenést; helyesebb pl.: „Hullámzó, de összességében csökkenő munkanélküliség városunkban”.
         </TheoryCallout>
+        <TheoryCard title="C) A szabadulószoba látogatói" badge="Házi feladat 2." badgeColor="emerald">
+          <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">
+            <li>Az oszlopdiagramról: 15 év: 1, 16 év: 4, 17 év: 4, 18 év: 2, 19 év: 1, 20 év: 5, 21 év: 1 látogató (összesen 18 fő).</li>
+            <li>
+              Dobozdiagram: Q₀ = 15, Q₁ = 16 (az alsó 9 adat mediánja), Q₂ = (17 + 18) / 2 = 17,5, Q₃ = 20, Q₄ = 21. A félterjedelem 4, így kiugró adat
+              nincs (10 és 26 között minden adat).
+            </li>
+          </ul>
+        </TheoryCard>
       </TheorySection>
 
       <TheorySection title="3. Kidolgozott feladat: Tamás edzésidői" badge="Mintapélda" badgeColor="amber">

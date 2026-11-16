@@ -57,7 +57,7 @@ export const EventAlgebraTheory: React.FC<{
   const cntB = H.filter(inB).length;
   const cntAB = H.filter((n) => inA(n) && inB(n)).length;
 
-  const lit = sa && (sb || sc);
+  const lit = sa || (sb && sc);
 
   return (
     <TheoryTemplate
@@ -148,9 +148,13 @@ export const EventAlgebraTheory: React.FC<{
           <TheoryCard title="B) Világít-e a lámpa?" badge="2. feladat" badgeColor="purple">
             <SwitchCircuitSvg className="w-full h-auto mb-3" />
             <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">
-              <li>Az ábrán az A kapcsoló sorosan, a B és a C párhuzamosan van kötve: a lámpa akkor világít, ha A · (B + C) bekövetkezik.</li>
               <li>
-                <strong>B · C:</strong> nem biztos, hogy világít (ha A nyitva van, nem). <strong>A · B:</strong> világít. <strong>A · B · C:</strong> világít. <strong>A · (B + C):</strong> világít.
+                A lámpa után az áramkör két ágra válik: az egyik ágban az A kapcsoló, a másikban a sorba kötött B és C kapcsoló van. A lámpa akkor világít, ha
+                valamelyik ág zárt, vagyis ha az <strong>A + B · C</strong> esemény bekövetkezik.
+              </li>
+              <li>
+                <strong>a) B · C:</strong> világít (a B–C ág zárt). <strong>b) A · {B_}:</strong> világít (az A ág zárt). <strong>c) {A_} · B · C̄:</strong> nem
+                világít (A nyitva, a B–C ágban C nyitva). <strong>d) {A_} · ({B_} + C̄):</strong> nem világít (A nyitva, és B, C közül legalább az egyik nyitva).
               </li>
             </ul>
           </TheoryCard>
@@ -177,9 +181,13 @@ export const EventAlgebraTheory: React.FC<{
                 |A| = 18, |B| = 15. Ha B ⊂ A, akkor A + B = 18 és A · B = 15; ha kizárják egymást, akkor A + B = 33 és A · B = 0. Így <strong>18 ≤ |A + B| ≤ 33</strong> és <strong>0 ≤ |A · B| ≤ 15</strong>. Az A · {B_} (A igen, B nem) elemszáma 18 − |A · B|, azaz 3 és 18 közötti.
               </li>
               <li>
-                Ha |A · B| = 15 és |A + B| = 16, akkor A és B is tartalmazza a 15 közös elemet, a maradék 1 elem A-ba vagy B-be esik: |A| és |B| <strong>legalább 15, legfeljebb 16</strong>.
+                Ha |{A_} · B| = 15 és |A + B| = 16: az A + B két egymást kizáró részből áll, A-ból és {A_} · B-ből, így |A| = 16 − 15 = <strong>1</strong> (legalább és
+                legfeljebb is 1). B tartalmazza {A_} · B 15 elemét, és legfeljebb még A egyetlen elemét: <strong>15 ≤ |B| ≤ 16</strong>.
               </li>
-              <li>HF: ha |H| = 20, |A| = 12, |B| = 16, akkor 16 ≤ |A + B| ≤ 20 és 8 ≤ |A · B| ≤ 12 (mert 12 + 16 − 20 = 8).</li>
+              <li>
+                HF 3.: |H| = 20, |A| = 12, |B| = 16. <strong>16 ≤ |A + B| ≤ 20</strong> (B ⊂ A + B; ha A és B együtt lefedi H-t, 20). |{A_}| = 8, így{' '}
+                <strong>16 ≤ |{A_} + B| ≤ 20</strong> (20, ha A ⊂ B). {A_} · {B_} az A + B komplementere: <strong>0 ≤ |{A_} · {B_}| ≤ 4</strong>. (Közben 8 ≤ |A · B| ≤ 12.)
+              </li>
             </ul>
           </div>
         </TheoryCard>
@@ -287,7 +295,7 @@ export const EventAlgebraTheory: React.FC<{
                   Bekövetkezett események: <strong>{[sa ? 'A' : A_, sb ? 'B' : B_, sc ? 'C' : `C̄`].join(' · ')}</strong>
                 </div>
                 <div>
-                  B + C {sb || sc ? 'bekövetkezett' : 'nem következett be'}; A · (B + C) {lit ? 'bekövetkezett' : 'nem következett be'}.
+                  B · C {sb && sc ? 'bekövetkezett' : 'nem következett be'}; A + B · C {lit ? 'bekövetkezett' : 'nem következett be'}.
                 </div>
                 <div className="font-black">{lit ? 'A lámpa világít.' : 'A lámpa nem világít.'}</div>
               </div>
@@ -299,7 +307,7 @@ export const EventAlgebraTheory: React.FC<{
                   const c = !!(m & 1);
                   const cur = a === sa && b === sb && c === sc;
                   const mark = (v: boolean) => (v ? 'zárva' : 'nyitva');
-                  const l = a && (b || c);
+                  const l = a || (b && c);
                   return [mark(a), mark(b), mark(c), cur ? `▶ ${l ? 'igen' : 'nem'}` : l ? 'igen' : 'nem'];
                 })}
               />

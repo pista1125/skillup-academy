@@ -21,7 +21,8 @@ A magyar Oktatási Hivatal hivatalos tankönyve (`OH-MAT12TA`, Matematika 12., 3
 - **1.** 6150; 7380; 7011; 8063; 8789 Ft → hozamok 20%, −5%, ≈15%, ≈9%; átlag 9,75%, szórás ≈ 9,36%.
 - **HF 1.** Hozamok 15%, 12%, 3%, 8%: átlag 9,5%, szórás 4,5%.
 - **HF 2.** Röplabdacsapat (168: 2, 170: 3, 171: 4, 172: 3, 175: 3 fő): átlag 171,4 cm, szórás ≈ 2,15 cm (módusz és medián 171 cm).
-- A 2. (nehézségi gyorsulás, 40 mérés) és a 3. (érettségi 2022, fiúk/lányok oszlopdiagram) feladat adatai csak a diagramokból olvashatók le, a szövegből nem rekonstruálhatók, ezért nem dolgoztuk fel őket; a 3. c) súlyozott átlagos részkérdés mintájára saját adatokkal készült kvízkérdés.
+- **2.** Nehézségi gyorsulás, 40 mérés (a diagramról): 9,70 (2), 9,75 (7), 9,80 (10), 9,85 (8), 9,90 (7), 9,95 (6) → módusz 9,80, medián 9,85, átlag ≈ 9,84, szórás ≈ 0,072 m/s².
+- **3.** Érettségi 2022 (a diagramról): fiúk/lányok 12. a 18/14, 12. b 24/6, 12. c 18/17, 12. d 12/15. a) 12. d: 15/12 = 125%; b) lányok terjedelme 11, átlaga 13, szórása √17,5 ≈ 4,18; c) 12. b fiúk átlaga (123 − 27) / 24 = 4,0.
 
 > **⚠️ CSAPDA:** a szórásnégyzet nem a szórás – a végén gyököt kell vonni (21,5 → √21,5 ≈ 4,64).
 
@@ -40,7 +41,7 @@ A magyar Oktatási Hivatal hivatalos tankönyve (`OH-MAT12TA`, Matematika 12., 3
    - **II. Laboratórium:** két részvény hozamai csúszkákkal – átlag, szórás, relatív szórás és döntés a kockázatról.
 3. **`StatMeasuresMatcher.tsx`**: 3 szint × 8 pár (fogalmak; adatsor–szórás; feladateredmények).
 4. **`StatMeasuresSorter.tsx`**: 3 szint × 3 kategória × 9 elem (átlag/módusz/terjedelem; σ = 0/3/5; a szórás változása).
-5. **`StatMeasuresQuiz.tsx`**: 30 kérdés 3 szinten (10/10/10), 10 kérdésábrával, 3 puskakártyával.
+5. **`StatMeasuresQuiz.tsx`**: 30 kérdés 3 szinten (10/10/10), 14 kérdésábrával, 3 puskakártyával.
 - `statKit.tsx`: belső rajzsegédek (nem exportáljuk az `index.ts`-ből).
 
 Aktivitás-azonosítók: `g12-stat-jellemzok-quiz` / `-matcher` / `-sorter`.

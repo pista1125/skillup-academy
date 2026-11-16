@@ -42,21 +42,21 @@ const EVENT_ALGEBRA_SORTER_LEVELS: Record<DifficultyLevel, SorterLevelConfig> = 
   2: {
     level: 2,
     title: "2. szint: Világít-e a lámpa?",
-    description: "A sorosan, B és C párhuzamosan kapcsolva. Mit tudunk a lámpáról, ha az esemény bekövetkezik?",
+    description: "Az A ág párhuzamos a sorba kötött B, C ággal (a lámpa ⇔ A + B · C). Mit tudunk a lámpáról, ha az esemény bekövetkezik?",
     categories: [
       { id: 'v', name: "biztosan világít", color: 'emerald' },
       { id: 'n', name: "biztosan nem világít", color: 'rose' },
       { id: 'd', name: "nem dönthető el", color: 'amber' }
     ],
     items: [
-      { id: 'eas10', text: "A · B", categoryId: 'v' },
-      { id: 'eas11', text: "A · C", categoryId: 'v' },
-      { id: 'eas12', text: "A · B · C", categoryId: 'v' },
-      { id: 'eas13', text: "Ā", categoryId: 'n' },
-      { id: 'eas14', text: "B̄ · C̄", categoryId: 'n' },
-      { id: 'eas15', text: "Ā · B · C", categoryId: 'n' },
-      { id: 'eas16', text: "B · C", categoryId: 'd' },
-      { id: 'eas17', text: "A", categoryId: 'd' },
+      { id: 'eas10', text: "A", categoryId: 'v' },
+      { id: 'eas11', text: "B · C", categoryId: 'v' },
+      { id: 'eas12', text: "A · B̄", categoryId: 'v' },
+      { id: 'eas13', text: "Ā · B · C̄", categoryId: 'n' },
+      { id: 'eas14', text: "Ā · (B̄ + C̄)", categoryId: 'n' },
+      { id: 'eas15', text: "Ā · B̄", categoryId: 'n' },
+      { id: 'eas16', text: "B", categoryId: 'd' },
+      { id: 'eas17', text: "C", categoryId: 'd' },
       { id: 'eas18', text: "B + C", categoryId: 'd' }
     ]
   },

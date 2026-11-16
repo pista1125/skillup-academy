@@ -231,6 +231,32 @@ export const StatMeasuresTheory: React.FC<{
             </ul>
           </div>
         </TheoryCard>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <TheoryCard title="D) A nehézségi gyorsulás 40 mérése" badge="2. feladat" badgeColor="amber">
+            <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">
+              <li>
+                Gyakorisági táblázat (m/s²): 9,70 (2), 9,75 (7), 9,80 (10), 9,85 (8), 9,90 (7), 9,95 (6); összesen 40 mérés.
+              </li>
+              <li>Módusz: <strong>9,80</strong> (10-szer mérték).</li>
+              <li>Medián: a halmozott gyakoriságok 2; 9; 19; 27; …, a 20. és 21. adat 9,85 → medián <strong>9,85</strong>.</li>
+              <li>
+                Átlag: (2 · 9,70 + 7 · 9,75 + 10 · 9,80 + 8 · 9,85 + 7 · 9,90 + 6 · 9,95) / 40 = 393,45 / 40 ≈ <strong>9,84</strong>.
+              </li>
+              <li>Szórás: σ² ≈ 0,00525, σ ≈ <strong>0,072</strong> m/s².</li>
+            </ul>
+          </TheoryCard>
+          <TheoryCard title="E) Fiúk és lányok a négy végzős osztályban" badge="3. feladat" badgeColor="rose">
+            <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">
+              <li>A diagramról: 12. a: 18 fiú, 14 lány; 12. b: 24 fiú, 6 lány; 12. c: 18 fiú, 17 lány; 12. d: 12 fiú, 15 lány.</li>
+              <li>a) A legkisebb létszámú osztály a 12. d (27 fő): 15 / 12 = 1,25 → a lányok száma a fiúkénak <strong>125%</strong>-a.</li>
+              <li>
+                b) Lányok: 14; 6; 17; 15 → terjedelem <strong>11</strong>, átlag <strong>13</strong>, szórás √((1 + 49 + 16 + 4) / 4) = √17,5 ≈{' '}
+                <strong>4,18</strong>.
+              </li>
+              <li>c) 12. b: 30 · 4,1 = 123, a lányoké 6 · 4,5 = 27, a 24 fiúé 96 → átlaguk <strong>4,0</strong>.</li>
+            </ul>
+          </TheoryCard>
+        </div>
       </TheorySection>
 
       <TheorySection title="5. Tipikus hiba: a szórásnégyzet nem a szórás" badge="Csapda" badgeColor="rose">

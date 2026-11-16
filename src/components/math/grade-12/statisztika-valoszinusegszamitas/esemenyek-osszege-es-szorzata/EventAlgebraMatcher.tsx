@@ -58,7 +58,7 @@ const EVENT_ALGEBRA_MATCHER_LEVELS: Record<DifficultyLevel, MatcherLevelConfig> 
       { id: 'eam19', left: "két kocka: „van hatos” + „összeg legalább 10”", right: "12" },
       { id: 'eam20', left: "|A| = 18, |B| = 15: |A + B| legalább", right: "18" },
       { id: 'eam21', left: "|A| = 18, |B| = 15: |A + B| legfeljebb", right: "33" },
-      { id: 'eam22', left: "|H| = 20, |A| = 12, |B| = 16: |A · B| legalább", right: "8" },
+      { id: 'eam22', left: "|H| = 20, |A| = 12, |B| = 16: |Ā · B̄| legfeljebb", right: "4" },
       { id: 'eam23', left: "négyzet- vagy köbszámok 1 és 90 között", right: "11" },
       { id: 'eam24', left: "5-tel vagy 7-tel osztható számok 1 és 90 között", right: "28" }
     ]

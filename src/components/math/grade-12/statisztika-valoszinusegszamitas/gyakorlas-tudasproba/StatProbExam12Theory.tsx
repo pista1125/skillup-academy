@@ -286,6 +286,16 @@ export const StatProbExam12Theory: React.FC<{
             </ul>
           </TheoryCard>
         </div>
+        <TheoryCard title="A tudáspróba dobozdiagramja" badge="1. feladat" badgeColor="emerald">
+          <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">
+            <li>Az ábráról: Q0 = 26, Q1 = 32, Q2 = 34, Q3 = 42, Q4 = 49.</li>
+            <li>
+              a) Félterjedelem 42 − 32 = 10, másfélszerese 15: kiugró az lenne, ami 17-nél kisebb vagy 57-nél nagyobb – <strong>nincs kiugró adat</strong>. b) Medián:{' '}
+              <strong>34</strong>. c) Terjedelem 49 − 26 = 23, ez a félterjedelem <strong>2,3-szerese</strong>. d) Az adatok negyede legalább{' '}
+              <strong>42</strong> (a felső kvartilis).
+            </li>
+          </ul>
+        </TheoryCard>
         <TheoryCallout type="tip" title="Ráadás: katonai erő három kockával">
           A katonai erő a dobások maximuma. Maximum legfeljebb m: m³ dobás, ezért pontosan m: m³ − (m − 1)³. Erő 2: 8 − 1 = 7 dobás (P = 7/216), erő 3: 27 − 8 =
           19 (P = 19/216), erő 4: 64 − 27 = 37 (P = 37/216).

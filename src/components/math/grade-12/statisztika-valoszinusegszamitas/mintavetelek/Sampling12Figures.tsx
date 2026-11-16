@@ -92,10 +92,10 @@ export const SideEffectBinomialSvg: React.FC<{ className?: string }> = ({ classN
 /** A pizzás kördiagram (4. feladat). */
 export const PizzaPieSvg: React.FC<{ className?: string }> = ({ className = 'w-full max-w-[320px] h-auto mx-auto' }) => (
   <SFig w={240} h={150} className={className} title="36 tanuló kedvenc pizzája">
-    <SPie cx={78} cy={84} r={54} values={[80, 120, 160]} labels={['80°', '120°', '160°']} colors={[S_RED, S_AMBER, S_PURPLE]} />
+    <SPie cx={78} cy={84} r={54} values={[120, 160, 80]} labels={['120°', '160°', '80°']} colors={[S_BLUE, S_RED, S_PURPLE]} />
     {[
-      ['Margherita', S_RED],
-      ['Carbonara', S_AMBER],
+      ['Margherita', S_BLUE],
+      ['Carbonara', S_RED],
       ['Pepperónis', S_PURPLE]
     ].map(([t, c], i) => (
       <g key={t}>

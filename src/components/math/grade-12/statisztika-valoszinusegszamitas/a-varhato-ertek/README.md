@@ -17,14 +17,12 @@ A magyar Oktatási Hivatal hivatalos tankönyve (`OH-MAT12TA`, Matematika 12., 4
 - **Fogalompárok:** relatív gyakoriság ↔ valószínűség; átlag, súlyozott átlag ↔ várható érték.
 
 ### Tankönyvi feladatok (a modulban feldolgozva)
-- **1.** Szerencsekerék 300 Ft (80°), 2000 Ft (60°), 400 Ft (100°), 900 Ft (70°), 3000 Ft (50°): E = 397 000 / 360 ≈ **1102,78 Ft**.
+- **1.** Szerencsekerék 300 Ft (80°), 2000 Ft (60°), 400 Ft (100°), 900 Ft (70°), 3000 Ft (50°) – a tankönyvi ábra szerint: E = 397 000 / 360 ≈ **1102,78 Ft**.
 - **2.** Részvények három esetben (p = 0,5; 0,4; 0,1): A: 22%, −12%, 8% → E = **7%**; B: −2%, 16%, 10% → E = **6,4%**; fele-fele: **6,7%**.
 - **3.** Fejek számának várható értéke 1, 2, 3 érmével: **0,5; 1; 1,5**.
 - **HF 1.** Árfolyam 5640 (0,3), 5710 (0,6), 5120 Ft (0,1): E = **5630 Ft**; 5330 Ft-os jelenlegi árnál a várható hozam ≈ **5,63%**.
 - **HF 2.** A 40. lecke céltáblája (belső kör átmérője feleakkora; 10, 20, 40, 50 pont): P(10) = P(20) = 3/8, P(40) = P(50) = 1/8, E = **22,5**.
 - **Ráadás:** a kockázatot a szórással mérik: A: σ = √257 ≈ 16,0%, B: σ ≈ 8,6%, fele-fele: σ ≈ 3,85% (diverzifikációs hatás).
-
-> **Megjegyzés a forráshoz:** az 1. feladat kerekén a szögek és a nyeremények összerendelése a szövegből (az ábra elhelyezéséből) származik; az ábrát nem lehetett megtekinteni.
 
 > **⚠️ CSAPDA:** a várható érték nem a legvalószínűbb érték, és nem is feltétlenül lehetséges kimenetel (kocka: E = 3,5).
 

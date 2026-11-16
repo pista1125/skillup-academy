@@ -39,10 +39,10 @@ const FIG_CLASSES = (
 
 const FIG_PIZZA = (
   <SFig w={230} h={130} className="w-full max-w-[270px] h-auto mx-auto" title="36 tanuló">
-    <SPie cx={70} cy={74} r={46} values={[80, 120, 160]} labels={['80°', '120°', '160°']} colors={[S_RED, S_AMBER, S_PURPLE]} />
+    <SPie cx={70} cy={74} r={46} values={[120, 160, 80]} labels={['120°', '160°', '80°']} colors={[S_BLUE, S_RED, S_PURPLE]} />
     {[
-      ['Margherita', S_RED],
-      ['Carbonara', S_AMBER],
+      ['Margherita', S_BLUE],
+      ['Carbonara', S_RED],
       ['Pepperónis', S_PURPLE]
     ].map(([t, c], i) => (
       <g key={t}>
@@ -256,9 +256,9 @@ const SAMPLING_12_QUESTIONS: QuizQuestion[] = [
     level: 2,
     question: 'A kördiagram 36 tanuló kedvenc pizzáját mutatja. Véletlenszerűen kiválasztunk 5 tanulót. Mennyi a valószínűsége, hogy pontosan ketten választottak Carbonarát?',
     figure: FIG_PIZZA,
-    options: ['≈ 0,354', '≈ 0,329', '0,4', '≈ 0,000175'],
+    options: ['≈ 0,363', '≈ 0,339', '0,4', '≈ 0,0021'],
     correctAnswer: 0,
-    explanation: '120° → 12 Carbonara-párti, 24 más. (12 alatt 2) · (24 alatt 3) / (36 alatt 5) = 66 · 2024 / 376 992 ≈ 0,354. (0,329 a visszatevéses modell.)'
+    explanation: '160° → 160/360 · 36 = 16 Carbonara-párti, 20 más. (16 alatt 2) · (20 alatt 3) / (36 alatt 5) = 120 · 1140 / 376 992 ≈ 0,363. (A 0,339 a visszatevéses, binomiális modell eredménye lenne.)'
   },
   {
     id: 'sm12-q20',
@@ -341,9 +341,9 @@ const SAMPLING_12_QUESTIONS: QuizQuestion[] = [
     level: 3,
     question: 'A 36 tanulóból (lásd a kördiagramot) 5-öt választunk. Mennyi a valószínűsége, hogy közülük pontosan egy választotta a pepperónis pizzát?',
     figure: FIG_PIZZA,
-    options: ['≈ 0,206', '≈ 0,444', '≈ 0,154', '≈ 0,036'],
+    options: ['≈ 0,434', '≈ 0,407', '≈ 0,222', '≈ 0,206'],
     correctAnswer: 0,
-    explanation: '160° → 16 fő. 16 · (20 alatt 4) / (36 alatt 5) = 16 · 4845 / 376 992 ≈ 0,206.'
+    explanation: '80° → 80/360 · 36 = 8 fő pepperónis, 28 más. 8 · (28 alatt 4) / (36 alatt 5) = 8 · 20 475 / 376 992 ≈ 0,434. (0,407 a visszatevéses modell, 0,222 = 8/36 csak egy tanulóra vonatkozik.)'
   },
   {
     id: 'sm12-q29',

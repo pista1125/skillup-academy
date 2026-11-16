@@ -19,10 +19,10 @@ A magyar Oktatási Hivatal hivatalos tankönyve (`OH-MAT12TA`, Matematika 12., 3
 
 ### Tankönyvi feladatok (a modulban feldolgozva)
 - **1.** Egy hét időjárása (A: > 10 °C, B: > 5 mm, C: szél > 5 km/h): A + B hétfő, kedd, szerda, csütörtök, vasárnap; B · C csütörtök; B + C kedd, szerda, csütörtök, péntek, vasárnap; A · B · C egyik nap sem.
-- **2.** Áramkör A, B, C kapcsolóval. ⚠️ A tankönyvi ábra a szövegből nem volt egyértelműen rekonstruálható; a modul a szövegelrendezés alapján A soros + (B ∥ C) kapcsolást rajzol, és ezt kifejezetten ki is mondja (lámpa ⇔ A · (B + C)).
+- **2.** Áramkör A, B, C kapcsolóval (a tankönyvi ábra szerint): a lámpa után két párhuzamos ág, az egyikben A, a másikban a sorba kötött B és C → lámpa ⇔ A + B · C. a) B · C: világít; b) A · B̄: világít; c) Ā · B · C̄: nem; d) Ā · (B̄ + C̄): nem.
 - **3.** Lottó (S: négyzet- és köbszámok, J: 5-tel vagy 7-tel oszthatók, B: számjegyösszeg 9 vagy 10): 42, 45, 49, 63, 64 közül S + J mind az öt, J · B: 45, 63; S · J: 25, 49; S · B · J: 0 szám.
-- **4–5.** Elemszám-korlátok: |A| = 18, |B| = 15 ⇒ 18 ≤ |A + B| ≤ 33, 0 ≤ |A · B| ≤ 15; |A · B| = 15, |A + B| = 16 ⇒ 15 ≤ |A|, |B| ≤ 16.
-- **HF 1.** Koncert / színház / film 2023-as dátumokkal (K · S csak szombaton: febr. 11.). **HF 3.** |H| = 20, |A| = 12, |B| = 16 ⇒ 16 ≤ |A + B| ≤ 20, 8 ≤ |A · B| ≤ 12.
+- **4–5.** Elemszám-korlátok: |A| = 18, |B| = 15 ⇒ 18 ≤ |A + B| ≤ 33, 0 ≤ |A · B| ≤ 15; |Ā · B| = 15, |A + B| = 16 ⇒ |A| = 1, 15 ≤ |B| ≤ 16.
+- **HF 1.** Koncert / színház / film 2023-as dátumokkal (K · S csak szombaton: febr. 11.). **HF 3.** |H| = 20, |A| = 12, |B| = 16 ⇒ 16 ≤ |Ā + B| ≤ 20, 0 ≤ |Ā · B̄| ≤ 4, 16 ≤ |A + B| ≤ 20.
 
 > **⚠️ CSAPDA:** |A + B| csak egymást kizáró eseményeknél |A| + |B|; általában le kell vonni |A · B|-t.
 
@@ -36,12 +36,12 @@ A korábbi README különbséget, teljes eseményrendszert és ∪/∩ jelölés
    - `CoinEventsVennSvg`: a kidolgozott feladat Venn-diagramja a 8 elemi eseménnyel.
    - `SumProductVennSvg`: A + B és A · B színezve.
    - `WeatherWeekSvg`: a hét időjárási táblázata az A, B, C eseményekkel.
-   - `SwitchCircuitSvg`: áramkör (A soros, B és C párhuzamos).
+   - `SwitchCircuitSvg`: áramkör (az A ág párhuzamos a sorba kötött B, C ággal).
    - `CountBoundsSvg`: |A| = 18, |B| = 15 két szélső helyzete.
    - (belső segédek: `Circuit`, `SwitchGlyph`, `COIN_VENN_ITEMS`, `WEATHER`)
 2. **`EventAlgebraTheory.tsx`**: kidolgozott feladat, definíciók táblázata, De Morgan, a tankönyv 1–5. feladata és HF-ok, csapda.
    - **I. Laboratórium:** H = {1, …, 20}; A, B választható tulajdonság (páros, 3-mal osztható, prím…), 9 művelet (A + B, A · B, Ā · B̄ …) színezett Venn-diagrammal és elemlistával.
-   - **II. Laboratórium:** kapcsolók és lámpa – A, B, C ki/be, a bekövetkezett események, A · (B + C), igazságtáblázat.
+   - **II. Laboratórium:** kapcsolók és lámpa – A, B, C ki/be, a bekövetkezett események, A + B · C, igazságtáblázat.
 3. **`EventAlgebraMatcher.tsx`**: 3 szint × 8 pár (jelölés; kockadobás halmazai; elemszámok).
 4. **`EventAlgebraSorter.tsx`**: 3 szint × 3 kategória × 9 elem (Venn-tartományok; lámpa; igaz / hamis / kizárás esetén igaz).
 5. **`EventAlgebraQuiz.tsx`**: 30 kérdés 3 szinten (10/10/10), 13 kérdésábrával, 3 puskakártyával.

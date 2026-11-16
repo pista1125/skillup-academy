@@ -19,7 +19,8 @@ const PRESETS: Preset[] = [
   { name: 'dolgozat pontszámai', unit: 'pont', classes: [[0, 30], [31, 40], [41, 50], [51, 60], [61, 70], [71, 80], [81, 90], [91, 100]], freqs: [0, 2, 8, 21, 9, 9, 1, 0] },
   { name: 'huzaldarabok (mm)', unit: 'mm', classes: [[11.8, 12.8], [12.9, 13.9], [14.0, 15.0], [15.1, 16.1], [16.2, 17.2]], freqs: [2, 4, 13, 5, 1] },
   { name: 'érettségi pontszámok (2018)', unit: 'pont', classes: [[0, 20], [21, 30], [31, 40], [41, 50], [51, 60], [61, 70], [71, 80], [81, 90], [91, 100]], freqs: [0, 8, 12, 8, 18, 20, 12, 16, 6] },
-  { name: 'tojások tömege (g)', unit: 'g', classes: [[45, 53], [53, 63], [63, 73], [73, 81]], freqs: [90, 452, 563, 95] }
+  { name: 'tojások tömege (g)', unit: 'g', classes: [[45, 53], [53, 63], [63, 73], [73, 81]], freqs: [90, 452, 563, 95] },
+  { name: 'IQ-teszt (1000 fő)', unit: 'pont', classes: [[75, 84], [85, 94], [95, 104], [105, 114], [115, 124], [125, 134]], freqs: [17, 132, 225, 468, 130, 28] }
 ];
 
 export const ClassMidpointsTheory: React.FC<{
@@ -168,7 +169,7 @@ export const ClassMidpointsTheory: React.FC<{
             </ul>
           </TheoryCard>
         </div>
-        <TheoryCard title="D) Házi feladatok: érettségi pontszámok és tojások" badge="HF 1–2." badgeColor="rose">
+        <TheoryCard title="D) Házi feladatok: érettségi pontszámok, tojások, IQ-teszt" badge="HF 1–3." badgeColor="rose">
           <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">
             <li>
               <strong>HF 1. (érettségi 2018):</strong> a lehetséges legmagasabb átlag a felső határokkal: (8 · 30 + 12 · 40 + … + 6 · 100) / 100 = <strong>66 pont</strong>;
@@ -177,6 +178,11 @@ export const ClassMidpointsTheory: React.FC<{
             <li>
               <strong>HF 2.:</strong> S: 45–53 g, M: 53–63 g, L: 63–73 g, XL: 73–81 g (legkisebb tojás 45 g, legnagyobb 81 g). Osztályközepek: 49; 58; 68; 77 g, darabszámok 90;
               452; 563; 95 → x̄ ≈ <strong>63,5 g</strong>, σ ≈ <strong>7,1 g</strong>.
+            </li>
+            <li>
+              <strong>HF 3. (IQ-teszt, 1000 kitöltő):</strong> 75–84: 17, 85–94: 132, 95–104: 225, 105–114: 468, 115–124: 130, 125–134: 28 fő. Osztályközepek 79,5;
+              89,5; …; 129,5 → x̄ = 105 960 / 1000 ≈ <strong>106</strong> pont, σ = √102,27 ≈ <strong>10,1</strong> pont. A szórás 15 alatt van, de az átlag nem 100
+              (≈ 6 ponttal több), így a teszt <strong>nem felel meg</strong> a szakemberek kívánalmainak.
             </li>
           </ul>
         </TheoryCard>

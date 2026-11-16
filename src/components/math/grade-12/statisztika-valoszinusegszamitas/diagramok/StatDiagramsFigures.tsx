@@ -3,22 +3,22 @@ import { SFig, SText, SBarChart, SBoxPlot, SPie, S_BLUE, S_RED, S_GREEN, S_AXIS,
 
 const cls = (c?: string) => c ?? 'w-full max-w-[460px] h-auto mx-auto';
 
-/** A mosópor-eladások: szemléltető közbülső hónapokkal (január 9114 kg, június 9185 kg). */
-const DETERGENT_SALES = [9114, 9128, 9141, 9155, 9170, 9185];
+/** A mosópor-eladások a tankönyvi diagram szerint (kg). */
+const DETERGENT_SALES = [9114, 9125, 9139, 9150, 9161, 9185];
 const MONTHS6 = ['jan.', 'febr.', 'márc.', 'ápr.', 'máj.', 'jún.'];
 
-/** Félrevezető (9100-tól induló) és arányos (0-tól induló) oszlopdiagram. */
+/** Félrevezető (9110-től induló) és arányos (0-tól induló) oszlopdiagram. */
 export const DetergentMisleadingSvg: React.FC<{ className?: string }> = ({ className }) => (
   <SFig w={460} h={180} className={cls(className ?? 'w-full max-w-[560px] h-auto mx-auto')}>
-    <SText x={120} y={16} t="félrevezető: a tengely 9100 kg-tól indul" s={9} c={S_RED} b />
+    <SText x={120} y={16} t="félrevezető: a tengely 9110 kg-tól indul" s={9} c={S_RED} b />
     <SBarChart
       x0={40}
       y0={150}
       w={175}
       h={115}
-      yMin={9100}
+      yMin={9110}
       yMax={9190}
-      ticks={[9100, 9130, 9160, 9190]}
+      ticks={[9110, 9130, 9150, 9170, 9190]}
       data={DETERGENT_SALES.map((v, i) => ({ label: MONTHS6[i], value: v }))}
       color={S_RED}
       labelSize={7}

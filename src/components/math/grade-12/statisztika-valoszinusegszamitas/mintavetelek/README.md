@@ -24,15 +24,13 @@ A magyar Oktatási Hivatal hivatalos tankönyve (`OH-MAT12TA`, Matematika 12., 4
 - **1.** Sándor kedvenc számai (négyzet- vagy köbszám 90-ig): 11 db. a) 462 / 43 949 268 ≈ 0,0000105; b) 165 · 3081 / 43 949 268 ≈ 0,0116; c) 11 · (79 alatt 4) / (90 alatt 5) ≈ 0,376.
 - **2.** Palacsinta (n = 8, p = 0,1): pontosan 1: ≈ 0,383; pontosan 2: ≈ 0,149; legfeljebb 2: ≈ 0,962.
 - **3.** Szerencsekerék (n = 10, p = 0,25): pontosan 2: ≈ 0,282; pontosan 3: ≈ 0,250; 2 vagy 3: ≈ 0,532.
-- **4.** Pizza kördiagram (80°, 120°, 160° → 8, 12, 16 tanuló), 5 tanuló: a) 56 / 376 992 ≈ 0,00015; b) ≈ 0,354; c) ≈ 0,206.
+- **4.** Pizza kördiagram (a tankönyvi ábra szerint Margherita 120° → 12, Carbonara 160° → 16, pepperónis 80° → 8 tanuló), 5 tanuló: a) 792 / 376 992 ≈ 0,0021; b) 136 800 / 376 992 ≈ 0,363; c) 163 800 / 376 992 ≈ 0,434.
 - **5.** Kosárra dobás: (9 alatt 3) = 84, (12 alatt 3) = 220, (9 alatt 4) = 126, (13 alatt 4) = 715; a hiányzó válasz: 12 mellé, 3 talált → (15 alatt 3) = **455**.
 - **HF 1. (érettségi 2021)** {1; …; 5}, két különböző szám átlaga egész: 4 / 10 = 0,4.
 - **HF 2.** Legalább hármas (p = 2/3), 4 játékos: a) 16/81 ≈ 0,198; b) 24/81 ≈ 0,296.
 - **HF 3.** p² = 0,64 → p = 0,8.
 - **HF 4. (érettségi 2022)** 5 natúr + 15 csokis edényből 4: 5 · (15 alatt 3) / (20 alatt 4) ≈ 0,470.
 - **Ráadás („Az élet nem igazságos…”):** 4 pénzfeldobás: P(2–2) = 0,375, nem 2–2: 0,625; 100 feldobásnál 50–50: ≈ 0,08, egyéb: ≈ 0,92.
-
-> **Megjegyzés a forráshoz:** a 4. feladat kördiagramján a szögek (80°, 120°, 160°) és a pizzafajták összerendelése a szöveg sorrendjéből származik; az ábrát nem lehetett megtekinteni.
 
 > **⚠️ CSAPDA:** a binomiális képletből nem maradhat el a (n alatt k) tényező; és ha a kiválasztott elemeket nem tesszük vissza, a hipergeometrikus (nem a binomiális) modell a jó.
 

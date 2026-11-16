@@ -7,7 +7,7 @@ A magyar Oktatási Hivatal hivatalos tankönyve (`OH-MAT12TA`, Matematika 12., 3
 ## 🎯 Tananyag Áttekintés
 
 **Kidolgozott feladat:** három pénzérme (10, 20, 50 Ft); A: a 10 Ft-oson írás, B: pontosan egy fej. Az elemi események egyformán valószínűek: P(A) = 4/8 = 0,5, P(B) = 3/8 = 0,375, P(A + B) = 5/8 = 0,625, P(A · B) = 2/8 = 0,25.
-(A tankönyv szövegében a P(A · B) mellett „0,125” olvasható, ami 2/8-dal nem egyezik – nyomdahibának tekintettük, a modul a helyes 0,25-öt használja.)
+(A tankönyvi oldalon valóban „P(A · B) = 2/8 = 0,125” áll – ez nyomdahiba, a modul a helyes 0,25-öt használja.)
 
 ---
 
@@ -25,7 +25,7 @@ A magyar Oktatási Hivatal hivatalos tankönyve (`OH-MAT12TA`, Matematika 12., 3
 - **HF 1.** Különböző jegyek 0,72; minden jegy < 4: 48/900 = 4/75.
 - **HF 2.** 67 lakó (15 gyerek: 6 fiú, 9 lány; 52 felnőtt: 30 nő, 22 férfi): 15/67, 30/67, 58/67, 9/67.
 - **HF 3.** Öt lány érkezése: P(Anna 3.) = P(Bea 4.) = 1/5, P(Cili–Dóri egymás után) = 2/5; P(A · B) = 1/20 ≠ 1/25 ⇒ nem függetlenek.
-- A **3. feladat** (technikum, kosárlabdázók) táblázata a kinyert szövegből nem rekonstruálható egyértelműen (hiányzó cellák), ezért nem dolgoztuk fel.
+- **3.** Technikum: 165 lány, a fiúk aránya 75%, 270 kosárlabdázó, a lányok ≈ 18%-a kosarazik → 660 tanuló (495 fiú), 30 kosaras lány, 240 kosaras fiú. P(lány) = 0,25, P(kosaras) = 270/660 ≈ 0,409, P(nem kosaras lány) ≈ 0,205; E (kosaras) és F (fiú): P(E · F) ≈ 0,364 ≠ P(E) · P(F) ≈ 0,307 → nem függetlenek.
 
 > **⚠️ CSAPDA:** P(A + B) = P(A) + P(B) csak kizáró eseményekre igaz (a három érménél 0,5 + 0,375 = 0,875 hibás, helyesen 0,625).
 

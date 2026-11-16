@@ -62,6 +62,31 @@ const FIG_ARRIVAL = (
   </QFig>
 );
 
+// 3. feladat: a technikum (hiányos) táblázata
+const TECH_ROWS: string[][] = [
+  ['', 'lányok', 'fiúk', 'összes'],
+  ['tanulók száma', '165', '', ''],
+  ['tanulók %-os aránya', '', '75', ''],
+  ['kosarasok száma', '', '', '270'],
+  ['kosarasok %-a (nemen belül)', '≈ 18', '', '–']
+];
+const FIG_TECH = (
+  <QFig w={240} h={106}>
+    {TECH_ROWS.map((r, i) =>
+      r.map((cell, j) => {
+        const xs = [4, 108, 152, 196];
+        const ws = [104, 44, 44, 40];
+        return (
+          <g key={`${i}-${j}`}>
+            <rect x={xs[j]} y={4 + i * 19} width={ws[j]} height={19} fill={i === 0 || j === 0 ? '#e0f2fe' : '#ffffff'} stroke="#94a3b8" />
+            <T x={j === 0 ? xs[j] + 4 : xs[j] + ws[j] / 2} y={17 + i * 19} t={cell} s={j === 0 ? 8 : 9} a={j === 0 ? 'start' : 'middle'} b={i === 0} />
+          </g>
+        );
+      })
+    )}
+  </QFig>
+);
+
 const EVENT_PROBABILITY_QUESTIONS: QuizQuestion[] = [
   // ---------------------------- 1. szint ----------------------------
   {
@@ -247,12 +272,13 @@ const EVENT_PROBABILITY_QUESTIONS: QuizQuestion[] = [
   },
   {
     id: 'ep-q20',
-    questionTypeBadge: 'Komplementer',
+    questionTypeBadge: 'Táblázat kitöltése',
+    figure: FIG_TECH,
     level: 2,
-    question: 'Két dobókockával dobunk. Mennyi a valószínűsége, hogy legalább az egyik dobás hatos?',
-    options: ['11/36', '1/3', '1/6', '25/36'],
+    question: 'A (hiányos) táblázat egy technikum tanulóira vonatkozik. Mennyi a valószínűsége, hogy egy véletlenszerűen kiválasztott diák kosárlabdázik?',
+    options: ['9/22 ≈ 0,41', '≈ 0,55', '0,18', '0,25'],
     correctAnswer: 0,
-    explanation: 'Komplementer: egyik sem hatos, 5 · 5 = 25 eset. P = 1 − 25/36 = 11/36. (Az 1/3 = 1/6 + 1/6 hibás: a (6;6)-ot kétszer számolná.)'
+    explanation: 'A fiúk aránya 75%, így a 165 lány a tanulók 25%-a: összesen 165 / 0,25 = 660 tanuló (495 fiú). P(kosárlabdázó) = 270 / 660 = 9/22 ≈ 0,41. (A 270 / 495 ≈ 0,55 csak a fiúk számához viszonyít.)'
   },
   // ---------------------------- 3. szint ----------------------------
   {
@@ -344,12 +370,18 @@ const EVENT_PROBABILITY_QUESTIONS: QuizQuestion[] = [
   },
   {
     id: 'ep-q30',
-    questionTypeBadge: 'Komplementer',
+    questionTypeBadge: 'Függetlenség',
+    figure: FIG_TECH,
     level: 3,
-    question: 'Két dobókockával dobunk. Mennyi a valószínűsége, hogy a dobott számok szorzata páros?',
-    options: ['3/4', '1/2', '1/4', '2/3'],
+    question: 'A technikum tanulói közül véletlenszerűen választunk egyet. E: a diák kosárlabdázik; F: a diák fiú. Mit mutat a számolás?',
+    options: [
+      'Nem függetlenek: P(E · F) ≈ 0,364, de P(E) · P(F) ≈ 0,307.',
+      'Függetlenek: P(E · F) = P(E) · P(F) ≈ 0,307.',
+      'Függetlenek, mert a fiúk aránya 75%.',
+      'Nem függetlenek, mert P(E) + P(F) > 1.'
+    ],
     correctAnswer: 0,
-    explanation: 'A szorzat csak akkor páratlan, ha mindkét szám páratlan: 3 · 3 = 9 eset. P(páros) = 1 − 9/36 = 27/36 = 3/4.'
+    explanation: '660 tanuló: 165 lány, 495 fiú. A lányok ≈ 18%-a, azaz 30 lány kosárlabdázik, így 270 − 30 = 240 fiú. P(E · F) = 240 / 660 ≈ 0,364, P(E) · P(F) = (270 / 660) · 0,75 ≈ 0,307. Mivel a kettő nem egyenlő, E és F nem független.'
   }
 ];
 

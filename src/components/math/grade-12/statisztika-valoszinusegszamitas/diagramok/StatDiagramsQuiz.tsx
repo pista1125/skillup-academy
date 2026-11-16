@@ -38,15 +38,15 @@ const FIG_TRUNC = (
       y0={128}
       w={200}
       h={95}
-      yMin={9100}
+      yMin={9110}
       yMax={9190}
-      ticks={[9100, 9130, 9160, 9190]}
+      ticks={[9110, 9130, 9150, 9170, 9190]}
       data={[
         { label: 'jan.', value: 9114 },
-        { label: 'febr.', value: 9128 },
-        { label: 'márc.', value: 9141 },
-        { label: 'ápr.', value: 9155 },
-        { label: 'máj.', value: 9170 },
+        { label: 'febr.', value: 9125 },
+        { label: 'márc.', value: 9139 },
+        { label: 'ápr.', value: 9150 },
+        { label: 'máj.', value: 9161 },
         { label: 'jún.', value: 9185 }
       ]}
       color={S_RED}
@@ -152,7 +152,7 @@ const STAT_DIAGRAMS_QUESTIONS: QuizQuestion[] = [
       'Az oszlopok színe nem egyezik.'
     ],
     correctAnswer: 0,
-    explanation: 'A tengely 9100 kg-tól indul, ezért az oszlopok magassága nem arányos az eladott mennyiséggel.'
+    explanation: 'A tengely 9110 kg-tól indul, ezért az oszlopok magassága nem arányos az eladott mennyiséggel.'
   },
   {
     id: 'sdi-q8',
@@ -348,10 +348,10 @@ const STAT_DIAGRAMS_QUESTIONS: QuizQuestion[] = [
     questionTypeBadge: 'Félrevezető diagram',
     figure: FIG_TRUNC,
     level: 3,
-    question: 'A tengely 9100 kg-tól indul. Hányszor magasabbnak látszik a júniusi (9185 kg) oszlop a januárinál (9114 kg)?',
-    options: ['≈ 6,1-szer', '≈ 1,008-szor', '≈ 2-szer', '≈ 71-szer'],
+    question: 'A tengely 9110 kg-tól indul. Hányszor magasabbnak látszik a júniusi (9185 kg) oszlop a januárinál (9114 kg)?',
+    options: ['≈ 19-szer', '≈ 1,008-szor', '≈ 2-szer', '≈ 71-szer'],
     correctAnswer: 0,
-    explanation: 'A látható magasságok: 9185 − 9100 = 85 és 9114 − 9100 = 14; 85 / 14 ≈ 6,1. A valódi arány csak ≈ 1,008.'
+    explanation: 'A látható magasságok: 9185 − 9110 = 75 és 9114 − 9110 = 4; 75 / 4 ≈ 18,75 ≈ 19. A valódi arány csak 9185 / 9114 ≈ 1,008.'
   },
   {
     id: 'sdi-q28',

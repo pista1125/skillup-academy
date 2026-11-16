@@ -195,6 +195,22 @@ export const EventProbabilityTheory: React.FC<{
             </ul>
           </TheoryCard>
         </div>
+        <TheoryCard title="E) A technikum kosárlabdázói" badge="3. feladat" badgeColor="sky">
+          <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">
+            <li>
+              A táblázat adatai: 165 lány; a fiúk aránya 75%; 270 kosárlabdázó; a lányok ≈ 18%-a kosarazik. A kitöltött táblázat: <strong>660</strong> tanuló (165 lány =
+              25%, 495 fiú = 75%), kosárlabdázó lány 165 · 0,18 ≈ <strong>30</strong>, fiú <strong>240</strong> (a fiúk ≈ 48,5%-a).
+            </li>
+            <li>b) P(lány) = 165 / 660 = 0,25; P(fiú) = 0,75.</li>
+            <li>
+              c) P(kosárlabdázó) = 270 / 660 ≈ 0,409; P(nem kosarazó lány) = 135 / 660 ≈ 0,205; P(kosaras lány vagy nem kosaras fiú) = (30 + 255) / 660 ≈ 0,432; P(kosaras fiú
+              vagy nem kosaras lány) = (240 + 135) / 660 ≈ 0,568.
+            </li>
+            <li>
+              d) E: kosárlabdázik, F: fiú. P(E · F) = 240 / 660 ≈ 0,364, P(E) · P(F) ≈ 0,409 · 0,75 ≈ 0,307 → <strong>E és F nem függetlenek</strong>.
+            </li>
+          </ul>
+        </TheoryCard>
         <TheoryCallout type="tip" title="HF 2.: a ház lakói">
           67 lakó, 15 gyerek (40%-uk fiú: 6 fiú, 9 lány), 52 felnőtt (57,7%-uk nő: 30 nő, 22 férfi). P(gyerek) = 15/67, P(felnőtt nő) = 30/67, P(felnőtt vagy fiú) = (52 + 6)/67 = 58/67, P(lány) = 9/67.
         </TheoryCallout>

@@ -16,7 +16,7 @@ A fejezet összefoglalása (képlettár) és érettségi típusú feladatok: rep
 - **5.** Kupon: 0,9 · 1000 + 0,08 · 2000 + 0,02 · 8000 = **1220 Ft**.
 
 ### Tudáspróba
-- **1.** Dobozdiagram kérdései (az ábra adatai a szövegből nem olvashatók ki – a kvízben saját dobozdiagramos kérdések szerepelnek).
+- **1.** Dobozdiagram (a tankönyvi ábráról: Q0 = 26, Q1 = 32, Q2 = 34, Q3 = 42, Q4 = 49): a) nincs kiugró adat (17 és 57 között minden adat); b) medián 34; c) terjedelem 23 = 2,3 · félterjedelem (10); d) az adatok negyede legalább 42.
 - **2.** Két kocka, A: összeg 5, B: szorzat 4: P(A) = 1/9, P(B) = 1/12, P(A · B) = 1/18, P(A + B) = 5/36.
 - **3.** Pók (p = 0,7, 5 alkalom): egyszer sem 0,3⁵ ≈ 0,0024; legfeljebb egyszer ≈ 0,0308.
 - **4.** Szerencsekerék 3000 Ft (60°), 500 Ft (120°), 200 Ft (150°), 5000 Ft (30°): E = 420 000 / 360 ≈ 1166,67 Ft.
@@ -29,7 +29,7 @@ A fejezet összefoglalása (képlettár) és érettségi típusú feladatok: rep
 - **3.** Sorsjegy: E = 350 Ft, haszon 150 000 Ft. **4.** Két kocka: P(legalább egy hatos) = 11/36, P(legalább egy 1 vagy 5) = 5/9.
 - **HF:** biztosító (≈ 0,089; ≈ 0,017), iskolai átlag ≈ 3,42 (javítás ≈ 0,12; 6 tanulóból 3 kollégista ≈ 0,087), PIN-kód (1/12, három próbából 1/4), hozamok 4%, 8%, −2%, −4% (σ ≈ 4,77%).
 
-> **Megjegyzés a forráshoz:** a tudáspróba 4. kerekén a 30°-os cikk a hiányzó szögből adódik (360° − 60° − 120° − 150°), a nyereményekhez rendelés a szöveg elhelyezéséből; a 44. lecke 3. feladatának táblázatát a szöveg sorrendje alapján rekonstruáltuk (A: 13% / 3%, B: 24% / 6%). Az ábrákat nem lehetett megtekinteni.
+> **Megjegyzés a forráshoz:** a tudáspróba 4. kerekének szögei és nyereményei a tankönyvi ábra szerint: 3000 Ft – 60°, 200 Ft – 150°, 5000 Ft – 30° (a hiányzó szög), 500 Ft – 120°; a 44. lecke 3. feladatának táblázata: A részvény 12 500 Ft, 13%, 3%; B részvény 1840 Ft, 24%, 6%.
 
 > **⚠️ CSAPDA:** nem kizáró eseményeknél P(A + B) = P(A) + P(B) − P(A · B) – a közös részt le kell vonni.
 

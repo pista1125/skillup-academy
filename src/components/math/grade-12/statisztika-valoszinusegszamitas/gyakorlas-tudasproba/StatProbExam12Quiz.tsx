@@ -119,9 +119,10 @@ const FIG_BOX_SWIM = (
   </SFig>
 );
 
-const FIG_BOX_OUT = (
+// Tudáspróba 1.: a tankönyvi dobozdiagram (Q0 = 26, Q1 = 32, Q2 = 34, Q3 = 42, Q4 = 49)
+const FIG_BOX_TP = (
   <SFig w={260} h={110} className="w-full max-w-[300px] h-auto mx-auto">
-    <SBoxPlot q={[4, 10, 14, 20, 28]} axMin={0} axMax={40} ticks={[0, 10, 20, 30, 40]} x0={20} w={220} y={48} bh={26} qLabels={[null, 'Q1 = 10', null, 'Q3 = 20', null]} />
+    <SBoxPlot q={[26, 32, 34, 42, 49]} axMin={24} axMax={50} ticks={[24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50]} x0={20} w={220} y={46} bh={26} />
   </SFig>
 );
 
@@ -301,7 +302,7 @@ const STAT_PROB_EXAM_12_QUESTIONS: QuizQuestion[] = [
   Q(3, 1, 'Átlag', 'Dávid angoljegyei: 3; 3; 3; 5; 5. Mennyi a jegyek átlaga?', ['3,8', '4', '3', '3,5'], '(3 + 3 + 3 + 5 + 5) / 5 = 19 / 5 = 3,8.'),
   Q(4, 1, 'Medián', 'Mennyi a 3; 3; 3; 5; 5 jegyek mediánja?', ['3', '3,8', '4', '5'], 'A rendezett adatsor középső (3.) eleme: 3.'),
   Q(5, 1, 'Módusz', 'András érettségi jegyei: 3; 4; 4; 3; 5. Mi az adatsor módusza?', ['3 és 4 (két módusz)', '4', '3,8', 'nincs módusza'], 'A 3 és a 4 is kétszer szerepel, a 5 egyszer – mindkettő leggyakoribb érték.'),
-  Q(6, 1, 'Terjedelem', 'Mennyi a 9; 2; 7; 4 adatsor terjedelme?', ['7', '9', '5,5', '5'], 'Terjedelem = legnagyobb − legkisebb = 9 − 2 = 7.'),
+  Q(6, 1, 'Dobozdiagram', 'Egy adatsokaságról az ábrán látható dobozdiagramot készítettük. Mennyi az adatsokaság mediánja?', ['34', '37', '32', '42'], 'A medián (Q2) a dobozt kettéosztó vonal: 34. (A 37 a minimum és a maximum átlaga lenne, a 32 és a 42 a két kvartilis.)', FIG_BOX_TP),
   Q(7, 1, 'Szórás', 'Mennyi a 2; 4; 6; 8 adatsor szórása?', ['√5 ≈ 2,24', '5', '2', '20'], 'x̄ = 5; eltérésnégyzetek: 9, 1, 1, 9 → átlaguk 5 = σ², σ = √5 ≈ 2,24.'),
   Q(8, 1, 'Dobozdiagram', 'Mit jelöl a dobozdiagramon a Q2 érték?', ['a mediánt', 'az alsó kvartilist', 'a felső kvartilist', 'az átlagot'], 'Q0 minimum, Q1 alsó kvartilis, Q2 medián, Q3 felső kvartilis, Q4 maximum.'),
   Q(9, 1, 'Félterjedelem', 'Mit nevez a tankönyv félterjedelemnek?', ['a felső és az alsó kvartilis különbségét (Q3 − Q1)', 'a terjedelem felét', 'a maximum és a medián különbségét', 'a medián és a minimum különbségét'], 'A maximum és a minimum különbsége a terjedelem, a felső és az alsó kvartilis különbsége a félterjedelem.'),
@@ -338,9 +339,9 @@ const STAT_PROB_EXAM_12_QUESTIONS: QuizQuestion[] = [
   Q(33, 2, 'Szórás = 0', 'Cili jegyeinek szórása 0, átlaga András (3,8) és Bea (4,6) átlaga közé esik. Mik Cili jegyei?', ['mind az öt jegye 4', 'mind az öt jegye 5', '3; 4; 4; 5; 5', 'mind az öt jegye 3'], 'σ = 0 azt jelenti, hogy minden jegy egyenlő; az egyetlen egész szám 3,8 és 4,6 között a 4.', FIG_GRADES),
   Q(34, 2, 'Kördiagram', 'A 24 fős osztályban jeles osztályzatot 4 tanuló ért el. Hányan érettségiztek közepes eredménnyel?', ['7', '6', '8', '5'], '4 fő ↔ 60°, így 1 fő ↔ 15°. Közepes: 360° − 60° − 150° − 45° = 105° → 105 / 15 = 7 fő.', FIG_GRADES_PIE),
   Q(35, 2, 'Súlyozott átlag', 'Egy iskola 373 helyben lakó (átlag 3,11), 120 kollégista (4,12) és 89 bejáró (3,78) tanulójának mennyi a félévi átlaga?', ['≈ 3,42', '≈ 3,67', '≈ 3,50', '≈ 3,78'], '(373 · 3,11 + 120 · 4,12 + 89 · 3,78) / 582 ≈ 1990,85 / 582 ≈ 3,42. (3,67 a három csoportátlag egyszerű átlaga.)'),
-  Q(36, 2, 'Kiugró adat', 'A dobozdiagramon Q1 = 10, Q3 = 20. Az alábbi adatok közül melyik számít kiugró adatnak?', ['36', '34', '0', '30'], 'Félterjedelem: 20 − 10 = 10, ennek másfélszerese 15. Kiugró, ami 20 + 15 = 35-nél nagyobb vagy 10 − 15 = −5-nél kisebb: csak a 36.', FIG_BOX_OUT),
+  Q(36, 2, 'Kiugró adat', 'Van-e kiugró adat az ábrán látható dobozdiagrammal leírt adatsokaságban?', ['Nincs: minden adat 32 − 15 = 17 és 42 + 15 = 57 közé esik.', 'Van: a 49, mert messze van a mediántól.', 'Van: a 26, mert ez a legkisebb adat.', 'A dobozdiagramból nem dönthető el.'], 'Q1 = 32, Q3 = 42, a félterjedelem 10, másfélszerese 15. Kiugró az lenne, ami 42 + 15 = 57-nél nagyobb vagy 32 − 15 = 17-nél kisebb; a legkisebb adat 26, a legnagyobb 49, így nincs kiugró adat (különálló pont sincs az ábrán).', FIG_BOX_TP),
   Q(37, 2, 'Osztályközepek', 'A havi csapadék gyakorisága: 1–25 mm: 4 hónap, 26–50 mm: 5 hónap, 51–75 mm: 1 hónap. Mennyi az átlag az osztályközepekkel számolva?', ['30,5 mm', '38 mm', '25 mm', '33 mm'], 'Osztályközepek: 13, 38, 63 mm. (4 · 13 + 5 · 38 + 1 · 63) / 10 = 305 / 10 = 30,5 mm.', FIG_CLASSES_HIST),
-  Q(38, 2, 'Dobozdiagram', 'Egy nagy adatsokaság dobozdiagramja alapján az adatok körülbelül hány százaléka nagyobb vagy egyenlő az alsó kvartilisnél?', ['75%', '25%', '50%', '100%'], 'A Q0, Q1, Q2, Q3, Q4 értékek négy, egyenként kb. 25%-os részre osztják az adatokat; Q1 felett 3 rész van: 75%.', FIG_BOX_Q),
+  Q(38, 2, 'Dobozdiagram', 'Az ábrán látható dobozdiagram alapján az adatok negyedének legalább mennyi az értéke?', ['42', '34', '49', '32'], 'Az adatok kb. negyede a felső kvartilis és a maximum közé esik, ezek értéke legalább Q3 = 42. (A 32 felett az adatok háromnegyede van.)', FIG_BOX_TP),
   Q(39, 2, 'Két kocka', 'Két kockával dobunk. Mennyi a valószínűsége, hogy a dobott számok szorzata 4?', ['1/12', '1/9', '1/18', '1/6'], 'Kedvező: (1;4), (2;2), (4;1) – 3 eset: 3/36 = 1/12.'),
   Q(40, 2, 'Események szorzata', 'Két kocka: A = „az összeg 5”, B = „a szorzat 4”. Mennyi P(A · B)?', ['1/18', '1/108', '0', '7/36'], 'Mindkettő teljesül: (1;4) és (4;1) – 2 eset: 2/36 = 1/18. (1/108 = P(A) · P(B) lenne, de az események nem függetlenek.)', FIG_DICE_SUM),
   Q(41, 2, 'Események összege', 'Két kocka: A = „az összeg 5”, B = „a szorzat 4”. Mennyi P(A + B)?', ['5/36', '7/36', '1/18', '1/9'], 'P(A + B) = P(A) + P(B) − P(A · B) = (4 + 3 − 2) / 36 = 5/36. (7/36 kétszer számolná a közös eseteket.)', FIG_DICE_SUM),
@@ -384,7 +385,7 @@ const STAT_PROB_EXAM_12_QUESTIONS: QuizQuestion[] = [
   Q(77, 3, 'Venn-diagram', 'A vásárlók 60%-ának van törzskártyája, 25%-uk használ kupont, 12%-uk mindkettőt. Mennyi a valószínűsége, hogy egy véletlen vásárló a két kedvezmény valamelyikét használja?', ['0,73', '0,85', '0,61', '0,97'], 'P(A + B) = 0,60 + 0,25 − 0,12 = 0,73.', FIG_VENN_SHOP),
   Q(78, 3, 'Venn-diagram', 'Az előző áruháznak kb. 10 000 vásárlója van. Hányan nem élnek egyik kedvezménnyel sem?', ['≈ 2700', '≈ 1500', '≈ 7300', '≈ 1200'], 'Egyik sem: 100% − 73% = 27% → 10 000 · 0,27 = 2700.', FIG_VENN_SHOP),
   Q(79, 3, 'Adatgyűjtés', 'Egy biztosító 5000 ügyfelének 72%-a rendszeresen vezet. Az 5000-ből 6% volt balesetben érintett, a nem rendszeres vezetők között ez 9%. Hány rendszeres vezető volt érintett?', ['174', '126', '300', '259'], 'Nem rendszeres: 1400 fő, ebből 9% = 126. Összesen 0,06 · 5000 = 300 baleset → rendszeres: 300 − 126 = 174.'),
-  Q(80, 3, 'Osztályközepek', 'Osztályközepek és gyakoriságok: 10 (2), 20 (6), 30 (2). Mennyi a szórás az osztályközepekkel számolva?', ['≈ 6,32', '40', '≈ 8,16', '≈ 4,47'], 'Átlag 20; eltérésnégyzetek összege 2 · 100 + 6 · 0 + 2 · 100 = 400, σ² = 40, σ ≈ 6,32.'),
+  Q(80, 3, 'Terjedelem', 'Az ábrán látható dobozdiagram alapján hányszorosa az adatsokaság terjedelme a félterjedelemnek?', ['2,3-szerese', '2-szerese', '2,5-szerese', '≈ 0,43-szorosa'], 'Terjedelem = Q4 − Q0 = 49 − 26 = 23, félterjedelem = Q3 − Q1 = 42 − 32 = 10, így 23 / 10 = 2,3. (A 2 a 48-as maximummal, a 0,43 a fordított aránnyal jönne ki.)', FIG_BOX_TP),
   Q(81, 3, 'Kiugró adat', 'Tamás úszóidőinek dobozdiagramján Q1 = 50,62 s és Q3 = 50,76 s. Melyik idő számítana kiugró adatnak?', ['50,40 s', '50,45 s', '50,90 s', '50,59 s'], 'Félterjedelem 0,14 s, másfélszerese 0,21 s. Kiugró: 50,62 − 0,21 = 50,41 s alatt vagy 50,76 + 0,21 = 50,97 s felett. Csak az 50,40 s.', FIG_BOX_SWIM),
   Q(82, 3, 'Diverzifikáció', 'Fele A, fele B részvény: a hozam 0,5 valószínűséggel 10%, 0,4-del 2%, 0,1-del 9% (várható érték 6,7%). Mennyi a szórás?', ['≈ 3,85%', '≈ 14,81%', '≈ 12,3%', '≈ 1,93%'], 'Eltérések 3,3; −4,7; 2,3 → 0,5 · 10,89 + 0,4 · 22,09 + 0,1 · 5,29 = 14,81, σ ≈ 3,85%. Kisebb, mint az A (≈ 16%) és a B (≈ 8,6%) kockázata.'),
   Q(83, 3, 'Geometriai valószínűség', 'Egy 20 cm × 30 cm-es papírlapon véletlenszerűen kiválasztunk egy pontot. Mennyi a valószínűsége, hogy minden csúcstól 10 cm-nél távolabb van?', ['≈ 0,476', '≈ 0,524', '≈ 0,869', '≈ 0,333'], 'A csúcsok 10 cm-es környezete 4 negyedkör = egy 10 cm sugarú kör: 100π ≈ 314,16 cm². P = 1 − 100π / 600 ≈ 0,476.', FIG_PAPER),

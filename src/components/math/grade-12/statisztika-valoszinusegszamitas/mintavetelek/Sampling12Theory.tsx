@@ -220,10 +220,10 @@ export const Sampling12Theory: React.FC<{
           <TheoryCard title="C) Kedvenc pizza – 5 tanulót választunk" badge="4. feladat" badgeColor="emerald">
             <PizzaPieSvg className="w-full max-w-[260px] h-auto mx-auto mb-2" />
             <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">
-              <li>80° → 8 fő Margherita, 120° → 12 fő Carbonara, 160° → 16 fő pepperónis (36 fő).</li>
+              <li>120° → 12 fő Margherita, 160° → 16 fő Carbonara, 80° → 8 fő pepperónis (36 fő).</li>
               <li>
-                a) <Bn n="8" k="5" /> / <Bn n="36" k="5" /> = 56 / 376 992 ≈ 0,00015; b) <Bn n="12" k="2" /> · <Bn n="24" k="3" /> / <Bn n="36" k="5" /> ≈ 0,354;
-                c) 16 · <Bn n="20" k="4" /> / <Bn n="36" k="5" /> ≈ 0,206.
+                a) <Bn n="12" k="5" /> / <Bn n="36" k="5" /> = 792 / 376 992 ≈ 0,0021; b) <Bn n="16" k="2" /> · <Bn n="20" k="3" /> / <Bn n="36" k="5" /> = 136 800 / 376 992 ≈
+                0,363; c) 8 · <Bn n="28" k="4" /> / <Bn n="36" k="5" /> = 163 800 / 376 992 ≈ 0,434.
               </li>
             </ul>
           </TheoryCard>

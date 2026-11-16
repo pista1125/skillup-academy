@@ -20,11 +20,11 @@ A magyar Oktatási Hivatal hivatalos tankönyve (`OH-MAT12TA`, Matematika 12., 4
 - **2.** Közelebb a középponthoz: körlapon 1/4, gömbben 1/8.
 - **3.** 2,8 cm-es érme 20 cm-es csempén, 0,5 cm-es fugával: 17,2² / 20,5² ≈ 0,704.
 - **4.** R = 16 cm, 4 egyenlő valószínűségű tartomány: sugarak 8; 8√2 ≈ 11,31; 8√3 ≈ 13,86; 16 cm.
-- **5.** Csonkakúp alakú cserép (d = 18 és 12 cm, alkotó 10 cm): m = √91, a fedőlaptól ≤ 3 cm-re eső szelet ≈ 395,4 cm³ / 1708,2 cm³ ≈ 0,23 (a 12 cm-es kört tekintettük fedőlapnak, ahogy a szöveg mondja).
+- **5.** Csonkakúp alakú cserép (alapkör d = 18 cm, fedőkör d = 12 cm, alkotó 10 cm): m = √91, a fedőlaptól ≤ 3 cm-re eső szelet ≈ 395,4 cm³ / 1708,2 cm³ ≈ 0,23.
 - **HF 2.** 20 × 30-as lap, minden csúcstól > 10 cm: (600 − 100π)/600 ≈ 0,476.
-- **HF 3.** Kettétört festett rúd: ⚠️ az ábra nem látható a szövegben; a modul azt feltételezi (és ki is írja), hogy a 0–10 cm-es szakasz piros: 42 cm-es darab 22/42 ≈ 0,524, 58 cm-es darab 28/58 ≈ 0,483.
-- **HF 4.** Négy részre osztott céltábla (belső átmérő = külső fele): P(10) = 3/8, P(40) = 1/8, P(≥ 40) = 1/4 (a szövegben látható 10–20–50–40 elrendezés alapján).
-- **HF 1.** A monitor A–D tartományainak elhelyezkedése a szövegből nem derül ki; a modul csak a kör eltalálását kérdezi (8²π / (34,5 · 19,5) ≈ 0,299).
+- **HF 3.** Kettétört festett rúd (a tankönyvi ábra szerint a 0–10 cm-es szakasz piros, utána 10 cm-enként váltakozik): 42 cm-es darab 22/42 ≈ 0,524, 58 cm-es darab 28/58 ≈ 0,483 – a rövidebb darabon nagyobb.
+- **HF 4.** Négy részre osztott céltábla (belső átmérő = külső fele): P(10) = 3/8, P(40) = 1/8, P(≥ 40) = 1/4 (a tankönyvi ábra: külső negyedek 10–20 / 20–10, belső negyedek 50–40 / 40–50).
+- **HF 1.** Monitor (34,5 × 19,5 cm, az egyik átló + a középpont köré rajzolt 8 cm sugarú kör; A: a bal felső háromszög körön kívüli része, B: a felső félkör, C: az alsó félkör, D: a jobb alsó háromszög körön kívüli része): a) P(A + B) = 1/2; b) P(B + C) = 64π / 672,75 ≈ 0,299; c) P(D) = (336,375 − 32π) / 672,75 ≈ 0,351.
 
 > **⚠️ CSAPDA:** területarány = a sugarak arányának négyzete (5/25 helyett (5/25)² = 1/25), térfogatnál a köbe.
 
@@ -47,7 +47,7 @@ A korábbi README a „találkozási feladatot” és μ(A)/μ(Ω) jelölést is
    - **II. Laboratórium:** szerencsekerék – állítható középponti szögek, pörgetés-szimuláció, P = szög / 360° összevetése a relatív gyakorisággal.
 3. **`GeometricProbabilityMatcher.tsx`**: 3 szint × 8 pár (képletek; szerencsekerék és méterrúd; tankönyvi feladatok).
 4. **`GeometricProbabilitySorter.tsx`**: 3 szint × 3 kategória × 9 elem (hossz / terület / térfogat; 1/4 / 1/2 / 1/8; < 0,5 / 0,5–0,75 / > 0,75).
-5. **`GeometricProbabilityQuiz.tsx`**: 30 kérdés 3 szinten (10/10/10), 17 kérdésábrával, 3 puskakártyával.
+5. **`GeometricProbabilityQuiz.tsx`**: 30 kérdés 3 szinten (10/10/10), 18 kérdésábrával, 3 puskakártyával.
 - `probKit.tsx`: belső rajzsegédek – nem exportáljuk az `index.ts`-ből.
 
 Aktivitás-azonosítók: `g12-stat-geometriai-quiz` / `-matcher` / `-sorter`.

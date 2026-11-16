@@ -196,6 +196,15 @@ export const GeometricProbabilityTheory: React.FC<{
         <TheoryCallout type="tip" title="HF 4.: a négy körnegyedre osztott céltábla">
           Ha a belső kör átmérője feleakkora, mint a külsőé, akkor a belső kör a tábla területének 1/4 része, minden belső körnegyed 1/16, minden külső „gyűrűnegyed” 3/16. Két 10-es külső rész esetén P(10) = 2 · 3/16 = 3/8; két 40-es belső rész esetén P(40) = 2/16 = 1/8; P(legalább 40) = a belső kör = 1/4.
         </TheoryCallout>
+        <TheoryCallout type="tip" title="HF 1.: a négy tartományra osztott monitor">
+          A 34,5 cm × 19,5 cm-es monitort (672,75 cm²) az egyik átló két háromszögre, a középpont köré rajzolt 8 cm sugarú kör pedig két félkörre (B és C) bontja.
+          a) Az A vagy B tartomány a bal felső háromszög: P = <strong>1/2</strong>. b) B vagy C a teljes kör: P = 64π / 672,75 ≈ <strong>0,299</strong>. c) D = a jobb
+          alsó háromszög a félkör nélkül: P = (336,375 − 32π) / 672,75 ≈ <strong>0,351</strong>.
+        </TheoryCallout>
+        <TheoryCallout type="tip" title="HF 3.: a kettétört festett méterrúd">
+          A rúd 10 cm-enként felváltva piros és fehér, a 0–10 cm-es rész piros. A 42 cm-nél kettétört rúd rövidebb darabján piros: 0–10, 20–30, 40–42 → 22 cm, P = 22/42 ≈
+          0,524; a hosszabb darabon piros: 42–50, 60–70, 80–90 → 28 cm, P = 28/58 ≈ 0,483. A <strong>rövidebb (42 cm-es) darabon</strong> nagyobb a valószínűség.
+        </TheoryCallout>
       </TheorySection>
 
       <TheorySection title="4. Tipikus hiba: sugár helyett terület" badge="Csapda" badgeColor="rose">

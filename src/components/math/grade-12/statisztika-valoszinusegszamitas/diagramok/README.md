@@ -23,7 +23,11 @@ A magyar Oktatási Hivatal hivatalos tankönyve (`OH-MAT12TA`, Matematika 12., 3
 - **5.** Beamon 1968: Q₁ = 7,8; Q₂ = 7,94; Q₃ = 8,105 m; felső határ 8,5625 m → 8,90 m kiugró, a bajusz 8,19 m-ig tart.
 - **HF 1.** Góllövőlista: Q₁ = 11, Q₂ = 13, Q₃ = 15, felső határ 21 → a 31 gól kiugró.
 - **HF 3.** Februári létszámnyilvántartás: pihenőnapokra az előző munkanap létszáma; gyakoriságok 35: 3, 36: 1, 37: 6, 38: 4, 39: 7, 40: 5, 41: 2 nap; kördiagram; átlagos állományi létszám 1070 / 28 ≈ 38,2 → 38 fő.
-- A 1–3. feladat (játszóterek, mozi, munkanélküliség) és a HF 2. (szabadulószoba) számadatai csak az ábrákról olvashatók le; ezeket elvi szinten (a félrevezetés módja) dolgoztuk fel. A bevezető mosópor-diagram közbülső havi értékei a modulban szemléltetők (csak a januári és a júniusi adat szerepel a szövegben).
+- **1.** Játszóterek 2008–2013: 1; 3; 4; 5; 5; 7 – ugyanaz az adatsor 0–12, 0–7 és 0–30 léptékű tengelyen (meredek ↔ lapos látszat).
+- **2.** Mozi bevétele (ezer Ft, a diagramról): ≈ 4320; 4050; 4200; 4500; 4450; 4850 – a 4000-től induló tengely miatt a júniusi oszlop ≈ 17-szer magasabbnak látszik a februárinál, a valódi arány ≈ 1,2.
+- **3.** Munkanélküliség: a cikk csak minden 3. évet ábrázolja (2002: ≈ 11,7% … 2020: ≈ 8%), a közbülső évek ingadoznak (2003: ≈ 12,2%, 2010: ≈ 6,5%, 2016: ≈ 12%).
+- **HF 2.** Szabadulószoba: 15: 1, 16: 4, 17: 4, 18: 2, 19: 1, 20: 5, 21: 1 fő (18 fő); Q₀ = 15, Q₁ = 16, Q₂ = 17,5, Q₃ = 20, Q₄ = 21, kiugró adat nincs.
+- A bevezető mosópor-diagram havi értékei a tankönyvi ábráról: 9114; 9125; 9139; 9150; 9161; 9185 kg (a tengely 9110 kg-tól indul).
 
 > **⚠️ CSAPDA:** páratlan elemszámnál a mediánt nem számoljuk bele a két félbe (3; 5; 7; 8; 10; 12; 15 → Q₁ = 5, nem 6); kiugró adatnál a bajusz nem a maximumig tart.
 
@@ -32,7 +36,7 @@ A magyar Oktatási Hivatal hivatalos tankönyve (`OH-MAT12TA`, Matematika 12., 3
 ## 💻 Elkészített Komponensek
 
 1. **`StatDiagramsFigures.tsx`**:
-   - `DetergentMisleadingSvg`: félrevezető (9100-tól induló) és arányos (0-tól induló) oszlopdiagram.
+   - `DetergentMisleadingSvg`: félrevezető (9110-től induló) és arányos (0-tól induló) oszlopdiagram.
    - `BoxPlotAnatomySvg`: a dobozdiagram öt adata, terjedelem, félterjedelem.
    - `SwimmerBoxPlotSvg`: Tamás edzésidőinek dobozdiagramja.
    - `BeamonOutlierSvg`: az 1968-as távolugródöntő dobozdiagramja a kiugró 8,90 m-rel és a felső határral.

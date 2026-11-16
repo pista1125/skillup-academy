@@ -107,15 +107,22 @@ const FIG_DARTS = (() => {
   );
 })();
 
+// HF 1.: a monitort az egyik átló és a középpont köré rajzolt 8 cm sugarú kör négy tartományra osztja
 const FIG_MONITOR = (
   <QFig w={240} h={150}>
-    <rect x={20} y={16} width={200} height={113} fill="#ffffff" stroke={C_EDGE} strokeWidth={1.8} rx={3} />
-    <circle cx={120} cy={72.5} r={46.4} fill={F_PURPLE} stroke={C_PURPLE} strokeWidth={1.4} />
+    <polygon points="20,16 220,16 20,129" fill={F_BLUE} />
+    <polygon points="220,16 220,129 20,129" fill={F_AMBER} />
+    <path d="M 160.4 49.67 A 46.4 46.4 0 0 0 79.6 95.33 Z" fill={F_GREEN} stroke={C_EDGE} strokeWidth={1.2} />
+    <path d="M 160.4 49.67 A 46.4 46.4 0 0 1 79.6 95.33 Z" fill={F_RED} stroke={C_EDGE} strokeWidth={1.2} />
+    <rect x={20} y={16} width={200} height={113} fill="none" stroke={C_EDGE} strokeWidth={1.8} />
+    <line x1={20} y1={129} x2={220} y2={16} stroke={C_EDGE} strokeWidth={1.4} />
+    <T x={52} y={44} t="A" s={11} b it />
+    <T x={108} y={58} t="B" s={11} b it />
+    <T x={132} y={96} t="C" s={11} b it />
+    <T x={192} y={112} t="D" s={11} b it />
     <T x={120} y={10} t="34,5 cm" s={10} b />
-    <T x={14} y={72} t="19,5" s={10} b a="end" />
-    <line x1={120} y1={72.5} x2={166.4} y2={72.5} stroke={C_PURPLE} strokeDasharray="3 2" />
-    <T x={143} y={64} t="8 cm" s={9.5} c={C_PURPLE} b />
-    <T x={120} y={142} t="kör a monitor közepén" s={9.5} c="#475569" />
+    <T x={14} y={76} t="19,5 cm" s={9} b a="end" />
+    <T x={120} y={143} t="kör: r = 8 cm, középpontja a monitor közepe" s={9} c="#475569" />
   </QFig>
 );
 
@@ -356,10 +363,10 @@ const GEOMETRIC_PROBABILITY_QUESTIONS: QuizQuestion[] = [
     questionTypeBadge: 'Terület',
     figure: FIG_MONITOR,
     level: 2,
-    question: 'Egy 34,5 cm × 19,5 cm-es monitor közepére 8 cm sugarú kört rajzolunk. Egy pont véletlenszerűen villan fel a monitoron. Mennyi a valószínűsége, hogy a körbe esik?',
+    question: 'A 34,5 cm × 19,5 cm-es monitort az egyik átlója és a középpontja köré rajzolt 8 cm sugarú kör négy tartományra osztja. Egy pont véletlenszerűen villan fel. Mennyi a valószínűsége, hogy a B vagy a C tartományba esik?',
     options: ['≈ 0,299', '≈ 0,149', '≈ 0,701', '≈ 0,037'],
     correctAnswer: 0,
-    explanation: 'Kör: 8²π ≈ 201,1 cm², monitor: 34,5 · 19,5 = 672,75 cm². P ≈ 201,1 / 672,75 ≈ 0,299.'
+    explanation: 'B és C együtt a teljes kör: 8²π ≈ 201,1 cm², a monitor 34,5 · 19,5 = 672,75 cm². P ≈ 201,1 / 672,75 ≈ 0,299.'
   },
   // ---------------------------- 3. szint ----------------------------
   {
@@ -424,12 +431,13 @@ const GEOMETRIC_PROBABILITY_QUESTIONS: QuizQuestion[] = [
   },
   {
     id: 'gp-q27',
-    questionTypeBadge: 'Térfogat',
+    questionTypeBadge: 'Terület',
+    figure: FIG_MONITOR,
     level: 3,
-    question: 'Egy kockába beírjuk a gömböt. A kocka belsejében véletlenszerűen választunk egy pontot. Mennyi a valószínűsége, hogy a gömbbe esik?',
-    options: ['π/6 ≈ 0,524', 'π/4 ≈ 0,785', 'π/8 ≈ 0,393', '2/3'],
+    question: 'A 34,5 cm × 19,5 cm-es monitort az egyik átlója és a középpontja köré rajzolt 8 cm sugarú kör négy tartományra osztja (ábra). Egy pont véletlenszerűen villan fel. Mennyi a valószínűsége, hogy a D tartományba esik?',
+    options: ['≈ 0,351', '0,5', '≈ 0,299', '≈ 0,701'],
     correctAnswer: 0,
-    explanation: 'Kocka éle a, gömb sugara a/2: (4/3)π(a/2)³ / a³ = π/6 ≈ 0,524. (A π/4 a síkbeli megfelelő: kör a négyzetben.)'
+    explanation: 'Az átló felezi a monitort: a jobb alsó háromszög 672,75 / 2 = 336,375 cm². Az átló a kör középpontján megy át, így a háromszögbe a kör fele (C) esik: 32π ≈ 100,5 cm². D = 336,375 − 100,5 ≈ 235,8 cm², P ≈ 235,8 / 672,75 ≈ 0,351.'
   },
   {
     id: 'gp-q28',
