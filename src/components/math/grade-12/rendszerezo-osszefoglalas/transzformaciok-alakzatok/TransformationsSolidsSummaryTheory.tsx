@@ -227,13 +227,15 @@ export const TransformationsSolidsSummaryTheory: React.FC<{
               <li>sin 28° = cos 62°; érintő ⊥ sugár; két szög egyenlő ⇒ hasonlók; a tompaszögek koszinusza kisebb, mint 0.</li>
             </ul>
           </TheoryCard>
-          <TheoryCard title="B) Térgeometria, hasonlóság" badge="B5, B9, B10, P2, P4, P5" badgeColor="purple">
+          <TheoryCard title="B) Térgeometria, hasonlóság" badge="B5, B9, B10, P1–P5" badgeColor="purple">
             <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">
               <li>Szabályos négyoldalú gúla, oldalél = 3 · alapátló: cos φ = (d/2)/(3d) = 1/6 ⇒ φ ≈ 80,4°.</li>
               <li>Henger, 37 700 l víz 30 cm magasan: r² = 37,7/(0,3π) ≈ 40 m² ⇒ d ≈ 12,65 m.</li>
               <li>Kocka felszíne 64-szeres ⇒ k = 8 ⇒ térfogat 512-szeres.</li>
+              <li>Súlyzó (8 g/cm³, 10 kg): V = 1250 cm³, a markolat (d = 2,8 cm, 18 cm) ≈ 110,84 cm³, a két 5 cm-es vég R²π · 10 ≈ 1139,16 cm³ ⇒ d ≈ 12,0 cm. Teljes felszín: 2(2R²π + 2Rπ · 5) − 2 · 1,4²π + 2 · 1,4π · 18 ≈ 980 cm² ≈ 9,80 dm² ⇒ a bevonás ≈ 784 Ft.</li>
               <li>Szabályos nyolcszög (a = 12): legrövidebb átló 12 · √(2 + √2) ≈ 22,17, leghosszabb 12/sin 22,5° ≈ 31,36; beírt és köré írt kör területaránya cos² 22,5° ≈ 0,854; hasáb (m = 10): V = 2(1 + √2) · 144 · 10 ≈ 6953.</li>
               <li>Gömb, R = 10 cm: azonos térfogatú félgömb sugara ∛2000 ≈ 12,6 cm; 5 cm-es síkmetszet területe 75π ≈ 235,6 cm²; feleakkora kerületű metszet távolsága √75 ≈ 8,66 cm.</li>
+              <li>Cserepes virág rajza: körcikk 9π · 255/360 ≈ 20,03 cm²; alsó trapéz (7; 6 cm, 95°): m = 0,5 · tg 85° ≈ 5,715 cm, T ≈ 37,15 cm²; felső trapéz (7; 8 cm, 105°): m = 0,5 · tg 75° ≈ 1,866 cm, T ≈ 14,00 cm² ⇒ összesen ≈ 71,2 cm². A valódi cserép 4-szeres méretű két csonkakúp (r = 12 és 14 cm, m ≈ 22,86 cm; r = 14 és 16 cm, m ≈ 7,46 cm): V ≈ 12 161 + 5 284 ≈ 17 445 cm³ ≈ 17,4 liter föld.</li>
               <li>Harmadolópontok: P₂Q₂ = 2 cm, P₁Q₁ = 4 cm (hasonlóság, k = 1/3 és 2/3); a trapéz területe 4/9 − 1/9 = 1/3 része a háromszögnek.</li>
             </ul>
           </TheoryCard>

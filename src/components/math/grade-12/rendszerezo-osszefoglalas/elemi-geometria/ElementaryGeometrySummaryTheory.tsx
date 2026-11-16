@@ -253,10 +253,11 @@ export const ElementaryGeometrySummaryTheory: React.FC<{
               <li>Pótszögek, az egyik ötszörös: 15° és 75°; merőleges szárúak, különbség 23°: 78,5° és 101,5°.</li>
             </ul>
           </TheoryCard>
-          <TheoryCard title="B) Távolság, sokszögek, állítások" badge="A3, A4, A6, A9–A11" badgeColor="purple">
+          <TheoryCard title="B) Távolság, sokszögek, állítások" badge="A3, A4, A6, A8–A11" badgeColor="purple">
             <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">
               <li>5 cm-es kocka: A és a CC′D′D sík: 5 cm; BD′ és ABCD: 0 (B közös pont); AD′ és CC′B′B: 5 cm (párhuzamosak); ABCD és A′B′CD síkok: 0 (metszők).</li>
-              <li>Igaz: minden paralelogramma trapéz; váltószögek lehetnek kiegészítők (2 · 90°); négyszögnek lehet 180°-nál nagyobb szöge (konkáv).</li>
+              <li>Igaz: minden paralelogramma trapéz; váltószögek lehetnek kiegészítők (2 · 90°); négyszögnek lehet 180°-nál nagyobb szöge (konkáv). Hamis (D): a rombusz belső szögei közül a szemköztiek váltószögek (mindkét száruk ellentétes irányú), a szomszédosak kiegészítő szögek – egyállású belső szögpárja nincs.</li>
+              <li>A8 (betűk, egy lehetséges megoldás): A – mellékszögek, X – csúcsszögek, F – egyállású szögek, H – egyállású szögek, Z – váltószögek, K – mellékszögek, T – mellékszögek.</li>
               <li>1800° ⇒ n = 12 ⇒ egy csúcsból 9 átló. 65 átló ⇒ n = 13 ⇒ egy szög 1980°/13 ≈ 152,31°.</li>
               <li>Derékszögű háromszög: K az átfogó felezőpontja, M a derékszögű csúcs, KM = r = 8 cm ⇒ átmérő 16 cm.</li>
               <li>3,8 cm; 2,9 cm; 6,4 cm: 3,8 + 2,9 = 6,7 &gt; 6,4 ⇒ van ilyen háromszög.</li>

@@ -28,8 +28,8 @@ A 9–12. évfolyam elemi geometriája: térelemek kölcsönös helyzete, távol
 3. **Átlók egy csúcsból:** 23°, 42°, 30°, 47°, 8° ⇒ 4 átló ⇒ hétszög; 900°/150° = 6.
 
 ### Feladatok (a modulban feldolgozva)
-- **A1.** 7 órakor 150°, fél 4-kor 75°. **A2.** D külső szöge 50°. **A3.** 5 cm-es kocka: 5 cm; 0; 5 cm; 0. **A4.** A, B, C igaz.
-- **A5.** 12°. **A6.** 12-szög, 9 átló egy csúcsból. **A7.** 78,5° és 101,5°. **A9.** átmérő 16 cm. **A10.** 13-szög, ≈ 152,31°. **A11.** van (3,8 + 2,9 > 6,4). **A12.** 15° és 75°; 78,5° és 101,5°.
+- **A1.** 7 órakor 150°, fél 4-kor 75°. **A2.** D külső szöge 50°. **A3.** 5 cm-es kocka: 5 cm; 0; 5 cm; 0. **A4.** A, B, C igaz, D hamis (a rombusz szemközti szögei váltószögek, a szomszédosak kiegészítők; egyállású belső szögpárja nincs).
+- **A5.** 12°. **A6.** 12-szög, 9 átló egy csúcsból. **A7.** 78,5° és 101,5°. **A8.** betűk (egy lehetséges megoldás): A, K, T – mellékszögek; X – csúcsszögek; F, H – egyállású szögek; Z – váltószögek. **A9.** átmérő 16 cm. **A10.** 13-szög, ≈ 152,31°. **A11.** van (3,8 + 2,9 > 6,4). **A12.** 15° és 75°; 78,5° és 101,5°.
 
 > **⚠️ CSAPDA:** a háromszög-egyenlőtlenségnél azonos mértékegységben számolj; a külső szög a két NEM mellette fekvő belső szög összege.
 

@@ -25,13 +25,13 @@ Vektorok (irányított szakasz, abszolút érték, egyenlőség, nullvektor, ös
 
 ### Feladatok (a modulban feldolgozva)
 - **C1–C12:** F(2; 3); 2a(−6; 16), a + b(4; 6), b − a(10; −10); (x + 5)² + (y − 4)² = 41; PQ = 13; (0,75; 0); k = −1/5; végpont / érinti / számszorosai / y tengelyére; P(0; −3) nincs a körön (8 ≠ 9); AH = b + d/3; C10: A, B, D igaz, C hamis; y = −2/3 · x + 2/3.
-- **Q1, Q2, Q4, Q5:** |c − a| = √170 > |a + b| = √52; C-nél derékszög, területarány 4/(5π); merőleges egyenesek M(−3; 5), 4 négyzet, középpontok köre (x + 3)² + (y − 5)² = 18; túra: 17 km, Aladár (19; 32), Béla (42,875; 0) 36,125 km, Cecil: nincs ilyen pont.
+- **Q1, Q2, Q4, Q5:** a(5; 4) végpontja rajta van az e: y = 7/8 · x − 3/8 egyenesen (35/8 − 3/8 = 4); b(−1; 2) végpontja nincs a k: (x − 2)² + (y + 3)² = 36 körön (9 + 25 = 34 ≠ 36); |c − a| = √170 > |a + b| = √52; C-nél derékszög, területarány 4/(5π); merőleges egyenesek M(−3; 5), 4 négyzet, középpontok köre (x + 3)² + (y − 5)² = 18; túra: 17 km, Aladár (19; 32), Béla (42,875; 0) 36,125 km, Cecil: nincs ilyen pont.
 - **D4, D6, D10, D12, R5, S1:** (−1; −2); √58, (0,5; 3,5); m = −4 és m = 1; (x + 12)² + (y − 5)² = 169; B(0; −4); négyzet beírt köre x² + y² = 6,5, köré írt köre x² + y² = 13.
 - A geometriai blokk vegyes (D, R, S) feladatai közül a nem koordinátás feladatokat (pl. húrtrapéz, cölöp, érintőszakaszok) a modul nem dolgozza fel.
 
 > **⚠️ CSAPDA:** a merőleges meredekség a negatív reciprok (−3 ↔ 1/3); a kör egyenletében előjelváltás van, a jobb oldalon r² áll.
 
-> **Megjegyzés:** a mappa korábbi README-je nem létezett; a tartalom a tankönyvi blokk alapján készült. A Q1 a) (az e egyenes egyenlete) és az R5 felezőmerőlegesének egyenlete a szövegfájlban töredezett; az R5-öt y = x/3 + 1 alakban vettük, a Q1 a) részt kihagytuk.
+> **Megjegyzés:** a mappa korábbi README-je nem létezett; a tartalom a tankönyvi blokk alapján készült (az R5 felezőmerőlegese a tankönyvi oldal szerint valóban y = x/3 + 1; a Q1 a) egyenese y = 7/8 · x − 3/8).
 
 ---
 

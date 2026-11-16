@@ -212,20 +212,23 @@ export const StatProbSummaryTheory: React.FC<{
 
       <TheorySection title="5. Megoldott feladatok a feladatsorból" badge="I–II. rész" badgeColor="teal">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <TheoryCard title="A) Statisztika" badge="A1–A5, B1–B4, P1" badgeColor="sky">
+          <TheoryCard title="A) Statisztika" badge="A1–A5, B1–B4, P1, P5" badgeColor="sky">
             <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">
               <li>14–20 gyakoriságokkal (1, 3, 4, 3, 2, 1, 1): módusz 16, medián 16, átlag 249/15 = 16,6.</li>
               <li>2; 4; 5; … (13 adat): 2-es 4-szer, 4-es 5-ször, 5-ös 4-szer ⇒ körcikkek ≈ 110,8°, 138,5°, 110,8°.</li>
+              <li>A3 dobozdiagramja: minimum 12, alsó kvartilis 17, medián 20, felső kvartilis 27, maximum 34 ⇒ félterjedelem 10, terjedelem 22, arányuk 10/22 ≈ 45,5%.</li>
               <li>18 (5-ször), 18,3 (3-szor), 18,8 (2-szer): átlag 18,25, szórás ≈ 0,304.</li>
               <li>45 utas: 12 pápai (48 év), 25 zirci (42 év), 8 veszprémi (52 év) ⇒ 2042/45 ≈ 45,4 év.</li>
               <li>12 fő, átlag 24 év, 8 férfi 25,5 év ⇒ a 4 nő átlaga (288 − 204)/4 = 21 év.</li>
               <li>Bevételek (5,5; 6,7; 13,2; 19,6 millió $, összesen 45): 44°, 53,6°, 105,6°, 156,8°.</li>
               <li>42; a; 30, átlag = medián + 2 ⇒ (72 + a)/3 = a + 2 ⇒ a = 33.</li>
-              <li>Gyufásdobozok (125 db): átlag (és várható érték) 39,76, szórás ≈ 1,28.</li>
+              <li>Gyufásdobozok (125 db): átlag (és várható érték) 39,76, szórás ≈ 1,28. c) A 40-től való eltérés 5%-nál kisebb, ha |x − 40| &lt; 2, azaz 39, 40 vagy 41 szál: (33 + 42 + 12)/125 = 87/125 = 69,6% &lt; 98% ⇒ a csomagolás nem felel meg (még az eltérés ≤ 2 megengedése mellett is csak 122/125 = 97,6%).</li>
+              <li>Partidrogok (P5): 250 000 fiatal, ebből 15% = 37 500 fogyaszt, 212 500 nem. a) Várható balesetszám 212 500 · 0,0008 + 37 500 · 0,0034 = 170 + 127,5 = 297,5 ≈ 298; b) ebből ≈ 127,5 ≈ 128 tudatmódosító szer hatása alatt; c) P = 127,5/297,5 = 3/7 ≈ 0,43.</li>
             </ul>
           </TheoryCard>
-          <TheoryCard title="B) Valószínűség" badge="A7–A12, B5–B12, P3, Q4–Q5" badgeColor="purple">
+          <TheoryCard title="B) Valószínűség" badge="A6–A12, B5–B12, P3, Q4–Q5" badgeColor="purple">
             <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">
+              <li>A6 oszlopdiagramja: 1-es 3, 2-es 7, 3-as 10, 4-es 8, 5-ös 2 dolgozat (30 db) ⇒ P(legalább hármas) = 20/30 = 2/3.</li>
               <li>Két lány nem ül egymás mellett: 1 − 12/24 = 1/2. Összeg 10: 3/36 = 1/12. Kétjegyű szám 3-mal osztható: 12/36 = 1/3.</li>
               <li>Szerencsekerék (1/3), 6 pörgetés, pontosan 2 nyerés: C(6; 2) · (1/3)² · (2/3)⁴ = 240/729 ≈ 0,329.</li>
               <li>3 piros, 5 sárga, 2 húzás: 3/28, 10/28 = 5/14, 15/28.</li>

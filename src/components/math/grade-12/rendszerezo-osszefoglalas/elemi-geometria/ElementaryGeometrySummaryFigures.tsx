@@ -266,9 +266,9 @@ export const OrthoCentroidSvg: React.FC<FigProps> = ({ className = DEFAULT_FIG_C
 export const QuadrilateralFamilySvg: React.FC<FigProps> = ({ className = DEFAULT_FIG_CLASS }) => {
   const boxes: { x: number; y: number; t: string; c: string; pts: string }[] = [
     { x: 190, y: 40, t: 'trapéz', c: S_INK, pts: '-30,14 30,14 18,-14 -16,-14' },
-    { x: 90, y: 120, t: 'paralelogramma', c: S_BLUE, pts: '-32,14 20,14 32,-14 -20,-14' },
+    { x: 100, y: 120, t: 'paralelogramma', c: S_BLUE, pts: '-32,14 20,14 32,-14 -20,-14' },
     { x: 380, y: 120, t: 'deltoid', c: S_GREEN, pts: '0,-18 18,-4 0,20 -18,-4' },
-    { x: 90, y: 205, t: 'téglalap', c: S_PURPLE, pts: '-30,14 30,14 30,-14 -30,-14' },
+    { x: 100, y: 205, t: 'téglalap', c: S_PURPLE, pts: '-30,14 30,14 30,-14 -30,-14' },
     { x: 260, y: 205, t: 'rombusz', c: S_AMBER, pts: '0,-18 26,0 0,18 -26,0' },
     { x: 175, y: 275, t: 'négyzet', c: S_RED, pts: '-16,14 16,14 16,-18 -16,-18' }
   ];
@@ -366,7 +366,7 @@ export const PolygonDiagonalsSvg: React.FC<FigProps> = ({ className = DEFAULT_FI
     acc += p;
     rays.push([V[0] + L * Math.cos((acc * Math.PI) / 180), V[1] - L * Math.sin((acc * Math.PI) / 180)]);
   });
-  // a sokszög csúcsai: V, majd a sugarak végpontjai (közelítő, illusztratív hétszög)
+  // a sokszög csúcsai: V, majd a sugarak végpontjai (a tankönyvi ábrához hasonló, nem méretarányos hétszög)
   const poly = [V, ...rays.map((r, i) => lerp(V, r, [0.62, 0.92, 1, 1, 0.95, 0.7][i]))];
   let a2 = start;
   return (

@@ -37,6 +37,31 @@ const FIG_Q1 = (
   </Box>
 );
 
+/** A6: dolgozatjegyek oszlopdiagramja (tankönyvi ábra). */
+const FIG_Q6 = (
+  <Box h={150}>
+    {[0, 2, 4, 6, 8, 10, 12].map((v) => (
+      <g key={v}>
+        <line x1="40" x2="225" y1={125 - v * 8.5} y2={125 - v * 8.5} stroke={v === 0 ? S_INK : '#cbd5e1'} />
+        <text x="34" y={128 - v * 8.5} fontSize="8.5" textAnchor="end" fill="#64748b">
+          {v}
+        </text>
+      </g>
+    ))}
+    {[3, 7, 10, 8, 2].map((f, i) => (
+      <g key={i}>
+        <rect x={56 + i * 34} y={125 - f * 8.5} width="18" height={f * 8.5} fill={S_BLUE} />
+        <text x={65 + i * 34} y="138" fontSize="9.5" textAnchor="middle" fill={S_INK} fontWeight="bold">
+          {i + 1}
+        </text>
+      </g>
+    ))}
+    <text x="225" y="14" fontSize="9.5" textAnchor="end" fill={S_RED} fontWeight="bold">
+      P(legalább 3-as) = ?
+    </text>
+  </Box>
+);
+
 const FIG_Q4 = (
   <Box h={150}>
     {(() => {
@@ -271,12 +296,13 @@ const STAT_PROB_QUESTIONS: QuizQuestion[] = [
   },
   {
     id: 'ssp-q6',
-    questionTypeBadge: 'Komplementer',
+    questionTypeBadge: 'Oszlopdiagram',
+    figure: FIG_Q6,
     level: 1,
-    question: 'Egy A esemény valószínűsége 0,35. Mennyi a komplementer esemény (Ā) valószínűsége?',
-    options: ['0,65', '0,35', '1,35', '−0,35'],
+    question: 'Az oszlopdiagram egy osztály dolgozatjegyeit mutatja. Véletlenszerűen kiválasztunk egy dolgozatot. Mennyi a valószínűsége, hogy az eredménye legalább hármas?',
+    options: ['2/3', '1/3', '3/5', '1/2'],
     correctAnswer: 0,
-    explanation: 'P(Ā) = 1 − P(A) = 1 − 0,35 = 0,65.'
+    explanation: 'A gyakoriságok: 3, 7, 10, 8, 2 – összesen 30 dolgozat. Legalább hármas: 10 + 8 + 2 = 20 ⇒ P = 20/30 = 2/3. (1/3 = 10/30 csak a hármasoké, 3/5 a jegyek számából jönne – de azok nem egyformán valószínűek.)'
   },
   {
     id: 'ssp-q7',

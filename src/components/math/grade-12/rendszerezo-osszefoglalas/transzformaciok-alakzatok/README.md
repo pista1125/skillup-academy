@@ -30,7 +30,8 @@ Egybevágósági transzformációk és szimmetriák (tengelyes, középpontos, f
 ### Feladatok (a modulban feldolgozva)
 - **I. rész:** B1 0,72 cm; B2 r = √74/2 ≈ 4,30 cm; B3 BC ≈ 12,0; B4 315°; B5 ≈ 80,4°; B6 H, H, I, H; B7 1,75π ≈ 5,50 m²; B8 7,0 cm; B9 d ≈ 12,65 m; B10 512-szeres; B11 igen (5, 12, 13); B12 62°, merőleges, hasonlók, kisebb.
 - **II. rész:** P2 szabályos nyolcszög (a = 12): átlók ≈ 22,17 és ≈ 31,36, körök területaránya cos² 22,5° ≈ 0,854, hasáb V ≈ 6953; P4 gömb (R = 10): ∛2000 ≈ 12,6 cm, 75π ≈ 235,6 cm², √75 ≈ 8,66 cm; P5 P₂Q₂ = 2 cm, P₁Q₁ = 4 cm, a trapéz 1/3 rész.
-- A P1 (súlyzó) és P3 (rajz, cserép) feladatot a modul nem dolgozza fel.
+- **P1** súlyzó (8 g/cm³, 10 kg, markolat 2,8 cm × 18 cm, teljes hossz 28 cm): a végek átmérője ≈ 12,0 cm; felszín ≈ 980 cm² ≈ 9,80 dm², bevonás ≈ 784 Ft. **P3** cserepes virág: körcikk ≈ 20,03 cm² + trapézok ≈ 37,15 + 14,00 cm² ⇒ ≈ 71,2 cm²; a 4-szeres méretű csonkakúp-cserépbe ≈ 17,4 liter föld fér.
+- A kvíz str-q19 (alsó trapéz, P3) és str-q30 (súlyzóvég átmérője, P1) kérdése ezekre épül.
 
 > **⚠️ CSAPDA:** felszín 64-szeres ⇒ k = 8 ⇒ térfogat 512-szeres (nem 64); a szögek hasonlóságnál nem változnak. Szinusztételnél a kétféle szögmegoldást ellenőrizni kell.
 

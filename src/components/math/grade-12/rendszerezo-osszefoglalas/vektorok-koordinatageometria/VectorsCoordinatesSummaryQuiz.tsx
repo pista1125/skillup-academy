@@ -227,12 +227,12 @@ const VECTORS_QUESTIONS: QuizQuestion[] = [
   },
   {
     id: 'svc-q7',
-    questionTypeBadge: 'Párhuzamosság',
+    questionTypeBadge: 'Pont és egyenes',
     level: 1,
-    question: 'Melyik egyenes párhuzamos az y = 2x − 9 egyenessel?',
-    options: ['y = 2x + 5', 'y = −2x − 9', 'y = −0,5x + 1', 'y = 0,5x − 9'],
+    question: 'Rajta van-e az a(5; 4) helyvektor végpontja az e: y = 7/8 · x − 3/8 egyenletű egyenesen?',
+    options: ['Igen, mert 7/8 · 5 − 3/8 = 32/8 = 4', 'Nem, mert 7/8 · 5 − 3/8 = 35/8 ≠ 4', 'Nem, mert 7/8 · 4 − 3/8 = 25/8 ≠ 5', 'Nem, mert az egyenes nem megy át az origón'],
     correctAnswer: 0,
-    explanation: 'Párhuzamos egyenesek meredeksége egyenlő: m = 2. (Az y = −0,5x + 1 merőleges rá.)'
+    explanation: 'A végpont az (5; 4) pont. x = 5-öt behelyettesítve 35/8 − 3/8 = 32/8 = 4 = y, tehát a pont illeszkedik az egyenesre. (A 7/8 · 4 − 3/8 a koordináták felcserélése.)'
   },
   {
     id: 'svc-q8',

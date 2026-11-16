@@ -411,10 +411,10 @@ const TRANSFORMATIONS_QUESTIONS: QuizQuestion[] = [
     id: 'str-q19',
     questionTypeBadge: 'Trapéz területe',
     level: 2,
-    question: 'Egy trapéz alapjai 10 cm és 6 cm, magassága 4 cm. Mekkora a területe?',
-    options: ['32 cm²', '64 cm²', '240 cm²', '20 cm²'],
+    question: 'Bendegúz rajzán a cserép alsó része szimmetrikus trapéz: alapjai 7 cm és 6 cm, a rövidebb (6 cm-es) alapon fekvő szögei 95°-osak. Mekkora a trapéz területe (két tizedesre)?',
+    options: ['≈ 37,15 cm²', '≈ 74,30 cm²', '≈ 18,57 cm²', '≈ 0,28 cm²'],
     correctAnswer: 0,
-    explanation: 'T = (a + c)/2 · m = 16/2 · 4 = 32 cm².'
+    explanation: 'A szárak vetülete (7 − 6)/2 = 0,5 cm, a hosszabb alapon fekvő szög 180° − 95° = 85°, így m = 0,5 · tg 85° ≈ 5,715 cm. T = (7 + 6)/2 · m ≈ 37,15 cm². (74,30 cm² 1 cm-es vetülettel, 0,28 cm² tg 5°-kal jönne.)'
   },
   {
     id: 'str-q20',
@@ -514,12 +514,12 @@ const TRANSFORMATIONS_QUESTIONS: QuizQuestion[] = [
   },
   {
     id: 'str-q30',
-    questionTypeBadge: 'Trigonometrikus terület',
+    questionTypeBadge: 'Súlyzó térfogata',
     level: 3,
-    question: 'Egy háromszög két oldala 7 cm és 10 cm, az általuk közbezárt szög 150°. Mekkora a területe?',
-    options: ['17,5 cm²', '35 cm²', '≈ 30,3 cm²', '≈ 15,2 cm²'],
+    question: 'Egy 8 g/cm³ sűrűségű, tömör acél kézi súlyzó 18 cm hosszú, 28 mm átmérőjű henger alakú markolatból és két egyforma henger alakú súlyzóvégből áll; a súlyzó teljes hossza 28 cm, tömege 10 kg. Mekkora a súlyzóvégek átmérője (egy tizedesre)?',
+    options: ['≈ 12,0 cm', '≈ 12,6 cm', '≈ 8,5 cm', '≈ 6,0 cm'],
     correctAnswer: 0,
-    explanation: 'T = ab · sin γ/2 = 7 · 10 · sin 150°/2 = 70 · 0,5/2 = 17,5 cm². (≈ 30,3 cm² a cos 150° abszolút értékével számolva jönne.)'
+    explanation: 'V = 10 000/8 = 1250 cm³; a markolat 1,4²π · 18 ≈ 110,84 cm³, a két vég együtt 10 cm hosszú: R²π · 10 ≈ 1139,16 ⇒ R ≈ 6,02 cm ⇒ d ≈ 12,0 cm. (12,6 cm a markolat elhagyásával, 8,5 cm 2 · 10 cm hosszú végekkel jönne; 6,0 cm a sugár.)'
   }
 ];
 

@@ -29,9 +29,9 @@ Leíró statisztika (átlag, módusz, medián, kvartilisek, terjedelem, félterj
 5. **Selejt (p = 0,015), 200 termék, legfeljebb 2 selejtes:** ≈ 0,049 + 0,148 + 0,225 ≈ 0,422.
 
 ### Feladatok (a modulban feldolgozva)
-- **A rész:** A1 módusz 16, medián 16, átlag 16,6; A2 körcikkek ≈ 110,8°, 138,5°, 110,8°; A4 σ ≈ 0,304; A5 ≈ 45,4 év; A7 1/2; A8 1/12; A9 1/3; A10 240/729 ≈ 0,329; A12 3/28, 5/14, 15/28.
+- **A rész:** A1 módusz 16, medián 16, átlag 16,6; A2 körcikkek ≈ 110,8°, 138,5°, 110,8°; A3 (dobozdiagram 12; 17; 20; 27; 34) félterjedelem/terjedelem = 10/22 ≈ 45,5%; A4 σ ≈ 0,304; A5 ≈ 45,4 év; A6 (oszlopdiagram 3, 7, 10, 8, 2) P(legalább hármas) = 20/30 = 2/3; A7 1/2; A8 1/12; A9 1/3; A10 240/729 ≈ 0,329; A12 3/28, 5/14, 15/28.
 - **B rész:** B1 21 év; B2 44°, 53,6°, 105,6°, 156,8°; B3 a = 33; B5 25 zöld golyó; B6 11/90; B7 1/2; B8 ≈ 0,254; B9 1/8; B10 ≈ 0,0225; B11 4225 Ft; B12 5/12.
-- **P és Q rész:** P1 átlag 39,76, σ ≈ 1,28; P3 4096, 1/4096, 1/4, 924/4096 ≈ 0,226; P4 várható érték 1; Q4 d) 91/216 ≈ 0,421; Q5 0,995¹⁰⁰ ≈ 0,606, ≈ 0,394, n ≥ 139.
+- **P és Q rész:** P1 átlag 39,76, σ ≈ 1,28, c) |x − 40| < 2: 87/125 = 69,6% < 98% ⇒ nem felel meg; P3 4096, 1/4096, 1/4, 924/4096 ≈ 0,226; P4 várható érték 1; P5 várhatóan 170 + 127,5 = 297,5 ≈ 298 baleset, ebből ≈ 127,5 szer hatása alatt, P = 127,5/297,5 = 3/7 ≈ 0,43; Q4 d) 91/216 ≈ 0,421; Q5 0,995¹⁰⁰ ≈ 0,606, ≈ 0,394, n ≥ 139.
 
 > **⚠️ CSAPDA:** visszatevés nélkül nem a binomiális képlettel számolunk; az összevont átlag súlyozott átlag; a szórásnál az eltérések négyzetét átlagoljuk.
 
@@ -53,7 +53,7 @@ Leíró statisztika (átlag, módusz, medián, kvartilisek, terjedelem, félterj
    - **II. Laboratórium:** N, M, n, k csúszkák – visszatevéses és visszatevés nélküli valószínűség, a két eloszlás oszlopdiagramja.
 3. **`StatProbSummaryMatcher.tsx`**: 3 szint × 8 pár (fogalmak; statisztikai jellemzők; valószínűségek).
 4. **`StatProbSummarySorter.tsx`**: 3 szint × 3 kategória × 9 elem (középérték / szóródás / valószínűségi fogalom; klasszikus / binomiális / visszatevés nélküli modell; valószínűség nagysága).
-5. **`StatProbSummaryQuiz.tsx`**: 30 kérdés 3 szinten (10/10/10), 10 kérdésábrával, 3 puskakártyával.
+5. **`StatProbSummaryQuiz.tsx`**: 30 kérdés 3 szinten (10/10/10), 11 kérdésábrával (köztük az A6 tankönyvi oszlopdiagramja), 3 puskakártyával.
 - `sumKit.tsx`: belső rajz- és formázó segédek (nem exportáljuk az `index.ts`-ből).
 
 Aktivitás-azonosítók: `g12-sum-statisztika-valoszinuseg-quiz` / `-matcher` / `-sorter`.

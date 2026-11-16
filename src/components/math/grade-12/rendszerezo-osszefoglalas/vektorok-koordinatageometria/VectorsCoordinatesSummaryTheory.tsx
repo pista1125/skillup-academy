@@ -222,7 +222,7 @@ export const VectorsCoordinatesSummaryTheory: React.FC<{
           </TheoryCard>
           <TheoryCard title="B) Összetett feladatok" badge="Q1, Q2, Q4, Q5, R5, S1" badgeColor="purple">
             <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">
-              <li>a(5; 4), b(−1; 2), c(−6; −3): |a + b| = √52 ≈ 7,21 &lt; |c − a| = √170 ≈ 13,04.</li>
+              <li>a(5; 4), b(−1; 2), c(−6; −3): a végpontja rajta van az e: y = 7/8 · x − 3/8 egyenesen (35/8 − 3/8 = 4); b végpontja nincs a (x − 2)² + (y + 3)² = 36 körön (9 + 25 = 34 ≠ 36); |a + b| = √52 ≈ 7,21 &lt; |c − a| = √170 ≈ 13,04.</li>
               <li>A(−17; 9), B(12; 11), C(7; −1): CA · CB = (−24) · 5 + 10 · 12 = 0 ⇒ C-nél derékszög; a háromszög és a köré írt kör területaránya 169 : (845π/4) = 4/(5π) ≈ 0,255.</li>
               <li>y = 2x + 11 és y = −0,5x + 3,5: 2 · (−0,5) = −1 ⇒ merőlegesek, metszéspont M(−3; 5); 4 db 6 egységnyi négyzet, középpontjaik köre (x + 3)² + (y − 5)² = 18.</li>
               <li>Túra P(3; 2) → Q(11; 17): 17 km. Aladár: (19; 32), 17 km; Béla: a PQ-ra merőleges irányban a folyóig (42,875; 0), 36,125 km; Cecil: x² − 14x + 67 = 0-nak nincs megoldása, ilyen pont nincs.</li>
