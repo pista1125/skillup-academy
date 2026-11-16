@@ -625,13 +625,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-wops-sec-1" number={1} title="Írásbeli összeadás és kivonás" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Írásbeli összeadás és kivonás"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Írásbeli összeadás és kivonás Tananyag"
+                subtitle="Becslés százasra és ezresre, négyjegyű számok írásbeli összeadása és kivonása (Mona és Manó módszere), ellenőrzés."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-wops-osszeadas-kivonas-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: becslés, írásbeli összeadás és kivonás, hiányzó számok, szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-wops-osszeadas-kivonas-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g4-wops-osszeadas-kivonas-quiz')}
               />
             </div>
           </section>
@@ -643,13 +653,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-wops-sec-2" number={2} title="Írásbeli szorzás egyjegyű számmal" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Írásbeli szorzás egyjegyű számmal"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Írásbeli szorzás egyjegyű számmal Tananyag"
+                subtitle="Becslés a szorzandó kerekítésével, szorzás az egyesektől kezdve a maradék továbbvitelével, ellenőrzés összeadással."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-wops-szorzas-egyjegyu-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: becslés, írásbeli szorzás maradékkal, hiányzó tényezők, szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-wops-szorzas-egyjegyu-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g4-wops-szorzas-egyjegyu-quiz')}
               />
             </div>
           </section>
@@ -661,13 +681,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-wops-sec-3" number={3} title="Írásbeli osztás egyjegyű osztóval" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Írásbeli osztás egyjegyű osztóval"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Írásbeli osztás egyjegyű osztóval Tananyag"
+                subtitle="Osztás bontással, hány jegyű a hányados, írásbeli osztás hosszú és rövid alakban, maradékos osztás, ellenőrzés szorzással."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-wops-osztas-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: osztás bontással, becslés, írásbeli osztás, maradék, szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-wops-osztas-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="violet"
+                {...getTopicProgress('g4-wops-osztas-quiz')}
               />
             </div>
           </section>
@@ -679,13 +709,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-wops-sec-4" number={4} title="A számok tulajdonságai" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A számok tulajdonságai"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="A számok tulajdonságai Tananyag"
+                subtitle="Páros és páratlan számok, a 2, 5, 10 és 100 többszörösei az utolsó számjegy alapján, halmazábra, ismétlődő sorozatok."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-wops-szamok-tulajdonsagai-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: páros és páratlan számok, a 2, 5, 10, 100 többszörösei, halmazábra, sorozatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-wops-szamok-tulajdonsagai-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g4-wops-szamok-tulajdonsagai-quiz')}
               />
             </div>
           </section>
@@ -697,13 +737,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-wops-sec-5" number={5} title="Összefüggések, következtetések" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Összefüggések, következtetések"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Összefüggések, következtetések Tananyag"
+                subtitle="Egyről többre, többről egyre, táblázatok, fordított összefüggés, változatlan szorzat és hányados."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-wops-osszefuggesek-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: következtetés táblázattal, nyíldiagram, egyenlő szorzat és hányados, szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-wops-osszefuggesek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="teal"
+                {...getTopicProgress('g4-wops-osszefuggesek-quiz')}
               />
             </div>
           </section>
@@ -715,13 +765,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-wops-sec-6" number={6} title="A műveletek közötti kapcsolatok" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A műveletek közötti kapcsolatok"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="A műveletek közötti kapcsolatok Tananyag"
+                subtitle="Ellentett műveletek, két lépés összevonása, visszafelé számolás, hiányzó tagok, folyamatábra."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-wops-kapcsolatok-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: ellentett műveletek, nyílláncok, gondolt szám, hiányzó tagok, szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-wops-kapcsolatok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g4-wops-kapcsolatok-quiz')}
               />
             </div>
           </section>
@@ -733,13 +793,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-wops-sec-7" number={7} title="A műveletek sorrendje" color="purple" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A műveletek sorrendje"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="A műveletek sorrendje Tananyag"
+                subtitle="Műveletsorok 10 000-ig: zárójel, szorzás és osztás, összeadás és kivonás, szövegből műveletsor."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-wops-sorrend-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="purple"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: műveletsorok 10 000-ig, zárójel, szövegből műveletsor, nyitott mondatok, jelpótlás."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-wops-sorrend-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="purple"
+                {...getTopicProgress('g4-wops-sorrend-quiz')}
               />
             </div>
           </section>
@@ -751,13 +821,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-wops-sec-8" number={8} title="Gyakorlás, tudáspróba" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Gyakorlás, tudáspróba"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Gyakorlás, tudáspróba Tananyag"
+                subtitle="Amit már tudsz: írásbeli összeadás, kivonás, szorzás, osztás, többszörösök, következtetések, műveletsorok."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-wops-tudasproba-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz"
+                subtitle="90 feladat 3 szinten: írásbeli összeadás, kivonás, szorzás, osztás, többszörösök, következtetések, műveletek kapcsolata és sorrendje."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-wops-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g4-wops-tudasproba-quiz')}
               />
             </div>
           </section>

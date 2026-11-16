@@ -45,6 +45,22 @@ const G4MeasurementsExamTheory = lazy(() => import("@/components/math/grade-4/me
 const G4MeasurementsExamQuiz = lazy(() => import("@/components/math/grade-4/meresek/megallo/MeasurementsExamQuiz").then(m => ({ default: m.MeasurementsExamQuiz })));
 const G4MeasurementsOutlookTheory = lazy(() => import("@/components/math/grade-4/meresek/kitekinto/MeasurementsOutlookTheory").then(m => ({ default: m.MeasurementsOutlookTheory })));
 const G4MeasurementsOutlookQuiz = lazy(() => import("@/components/math/grade-4/meresek/kitekinto/MeasurementsOutlookQuiz").then(m => ({ default: m.MeasurementsOutlookQuiz })));
+const G4WrittenAddSubTheory = lazy(() => import("@/components/math/grade-4/irasbeli-muveletek-10000-ig/irasbeli-osszeadas-es-kivonas/WrittenAddSubTheory").then(m => ({ default: m.WrittenAddSubTheory })));
+const G4WrittenAddSubQuiz = lazy(() => import("@/components/math/grade-4/irasbeli-muveletek-10000-ig/irasbeli-osszeadas-es-kivonas/WrittenAddSubQuiz").then(m => ({ default: m.WrittenAddSubQuiz })));
+const G4WrittenMulOneDigitTheory = lazy(() => import("@/components/math/grade-4/irasbeli-muveletek-10000-ig/irasbeli-szorzas-egyjegyu-szammal/WrittenMulOneDigitTheory").then(m => ({ default: m.WrittenMulOneDigitTheory })));
+const G4WrittenMulOneDigitQuiz = lazy(() => import("@/components/math/grade-4/irasbeli-muveletek-10000-ig/irasbeli-szorzas-egyjegyu-szammal/WrittenMulOneDigitQuiz").then(m => ({ default: m.WrittenMulOneDigitQuiz })));
+const G4WrittenDivisionTheory = lazy(() => import("@/components/math/grade-4/irasbeli-muveletek-10000-ig/irasbeli-osztas-egyjegyu-osztoval/WrittenDivisionTheory").then(m => ({ default: m.WrittenDivisionTheory })));
+const G4WrittenDivisionQuiz = lazy(() => import("@/components/math/grade-4/irasbeli-muveletek-10000-ig/irasbeli-osztas-egyjegyu-osztoval/WrittenDivisionQuiz").then(m => ({ default: m.WrittenDivisionQuiz })));
+const G4NumberPropertiesTheory = lazy(() => import("@/components/math/grade-4/irasbeli-muveletek-10000-ig/a-szamok-tulajdonsagai/NumberPropertiesTheory").then(m => ({ default: m.NumberPropertiesTheory })));
+const G4NumberPropertiesQuiz = lazy(() => import("@/components/math/grade-4/irasbeli-muveletek-10000-ig/a-szamok-tulajdonsagai/NumberPropertiesQuiz").then(m => ({ default: m.NumberPropertiesQuiz })));
+const G4Relations4Theory = lazy(() => import("@/components/math/grade-4/irasbeli-muveletek-10000-ig/osszefuggesek-kovetkeztetesek/Relations4Theory").then(m => ({ default: m.Relations4Theory })));
+const G4Relations4Quiz = lazy(() => import("@/components/math/grade-4/irasbeli-muveletek-10000-ig/osszefuggesek-kovetkeztetesek/Relations4Quiz").then(m => ({ default: m.Relations4Quiz })));
+const G4InverseOpsTheory = lazy(() => import("@/components/math/grade-4/irasbeli-muveletek-10000-ig/a-muveletek-kozotti-kapcsolatok/InverseOpsTheory").then(m => ({ default: m.InverseOpsTheory })));
+const G4InverseOpsQuiz = lazy(() => import("@/components/math/grade-4/irasbeli-muveletek-10000-ig/a-muveletek-kozotti-kapcsolatok/InverseOpsQuiz").then(m => ({ default: m.InverseOpsQuiz })));
+const G4OrderOfOps10000Theory = lazy(() => import("@/components/math/grade-4/irasbeli-muveletek-10000-ig/a-muveletek-sorrendje/OrderOfOps10000Theory").then(m => ({ default: m.OrderOfOps10000Theory })));
+const G4OrderOfOps10000Quiz = lazy(() => import("@/components/math/grade-4/irasbeli-muveletek-10000-ig/a-muveletek-sorrendje/OrderOfOps10000Quiz").then(m => ({ default: m.OrderOfOps10000Quiz })));
+const G4WrittenOpsExamTheory = lazy(() => import("@/components/math/grade-4/irasbeli-muveletek-10000-ig/gyakorlas-tudasproba/WrittenOpsExamTheory").then(m => ({ default: m.WrittenOpsExamTheory })));
+const G4WrittenOpsExamQuiz = lazy(() => import("@/components/math/grade-4/irasbeli-muveletek-10000-ig/gyakorlas-tudasproba/WrittenOpsExamQuiz").then(m => ({ default: m.WrittenOpsExamQuiz })));
 
 export const Grade4Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -774,6 +790,280 @@ export const Grade4Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g4-meas-kitekinto-theory', selectedTopic || 'g4-measurements')}
           onSwitchToMatcher={() => handleActivitySelect('g4-meas-kitekinto-matcher', selectedTopic || 'g4-measurements')}
           onSwitchToSorter={() => handleActivitySelect('g4-meas-kitekinto-sorter', selectedTopic || 'g4-measurements')}
+        />
+      )}
+
+      {/* ===== 4. Osztály – III. Írásbeli műveletek 0-tól 10 000-ig ===== */}
+
+      {/* 1. Írásbeli összeadás és kivonás */}
+      {activityType === 'g4-wops-osszeadas-kivonas-theory' && (
+        <G4WrittenAddSubTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-wops-osszeadas-kivonas-quiz', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+      {activityType === 'g4-wops-osszeadas-kivonas-quiz' && (
+        <G4WrittenAddSubQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wops-osszeadas-kivonas-theory', selectedTopic || 'g4-written-ops')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wops-osszeadas-kivonas-matcher', selectedTopic || 'g4-written-ops')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wops-osszeadas-kivonas-sorter', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+      {activityType === 'g4-wops-osszeadas-kivonas-matcher' && (
+        <G4WrittenAddSubQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wops-osszeadas-kivonas-theory', selectedTopic || 'g4-written-ops')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wops-osszeadas-kivonas-matcher', selectedTopic || 'g4-written-ops')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wops-osszeadas-kivonas-sorter', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+      {activityType === 'g4-wops-osszeadas-kivonas-sorter' && (
+        <G4WrittenAddSubQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wops-osszeadas-kivonas-theory', selectedTopic || 'g4-written-ops')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wops-osszeadas-kivonas-matcher', selectedTopic || 'g4-written-ops')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wops-osszeadas-kivonas-sorter', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+
+      {/* 2. Írásbeli szorzás egyjegyű számmal */}
+      {activityType === 'g4-wops-szorzas-egyjegyu-theory' && (
+        <G4WrittenMulOneDigitTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-wops-szorzas-egyjegyu-quiz', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+      {activityType === 'g4-wops-szorzas-egyjegyu-quiz' && (
+        <G4WrittenMulOneDigitQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wops-szorzas-egyjegyu-theory', selectedTopic || 'g4-written-ops')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wops-szorzas-egyjegyu-matcher', selectedTopic || 'g4-written-ops')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wops-szorzas-egyjegyu-sorter', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+      {activityType === 'g4-wops-szorzas-egyjegyu-matcher' && (
+        <G4WrittenMulOneDigitQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wops-szorzas-egyjegyu-theory', selectedTopic || 'g4-written-ops')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wops-szorzas-egyjegyu-matcher', selectedTopic || 'g4-written-ops')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wops-szorzas-egyjegyu-sorter', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+      {activityType === 'g4-wops-szorzas-egyjegyu-sorter' && (
+        <G4WrittenMulOneDigitQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wops-szorzas-egyjegyu-theory', selectedTopic || 'g4-written-ops')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wops-szorzas-egyjegyu-matcher', selectedTopic || 'g4-written-ops')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wops-szorzas-egyjegyu-sorter', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+
+      {/* 3. Írásbeli osztás egyjegyű osztóval */}
+      {activityType === 'g4-wops-osztas-theory' && (
+        <G4WrittenDivisionTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-wops-osztas-quiz', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+      {activityType === 'g4-wops-osztas-quiz' && (
+        <G4WrittenDivisionQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wops-osztas-theory', selectedTopic || 'g4-written-ops')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wops-osztas-matcher', selectedTopic || 'g4-written-ops')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wops-osztas-sorter', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+      {activityType === 'g4-wops-osztas-matcher' && (
+        <G4WrittenDivisionQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wops-osztas-theory', selectedTopic || 'g4-written-ops')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wops-osztas-matcher', selectedTopic || 'g4-written-ops')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wops-osztas-sorter', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+      {activityType === 'g4-wops-osztas-sorter' && (
+        <G4WrittenDivisionQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wops-osztas-theory', selectedTopic || 'g4-written-ops')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wops-osztas-matcher', selectedTopic || 'g4-written-ops')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wops-osztas-sorter', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+
+      {/* 4. A számok tulajdonságai */}
+      {activityType === 'g4-wops-szamok-tulajdonsagai-theory' && (
+        <G4NumberPropertiesTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-wops-szamok-tulajdonsagai-quiz', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+      {activityType === 'g4-wops-szamok-tulajdonsagai-quiz' && (
+        <G4NumberPropertiesQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wops-szamok-tulajdonsagai-theory', selectedTopic || 'g4-written-ops')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wops-szamok-tulajdonsagai-matcher', selectedTopic || 'g4-written-ops')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wops-szamok-tulajdonsagai-sorter', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+      {activityType === 'g4-wops-szamok-tulajdonsagai-matcher' && (
+        <G4NumberPropertiesQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wops-szamok-tulajdonsagai-theory', selectedTopic || 'g4-written-ops')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wops-szamok-tulajdonsagai-matcher', selectedTopic || 'g4-written-ops')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wops-szamok-tulajdonsagai-sorter', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+      {activityType === 'g4-wops-szamok-tulajdonsagai-sorter' && (
+        <G4NumberPropertiesQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wops-szamok-tulajdonsagai-theory', selectedTopic || 'g4-written-ops')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wops-szamok-tulajdonsagai-matcher', selectedTopic || 'g4-written-ops')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wops-szamok-tulajdonsagai-sorter', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+
+      {/* 5. Összefüggések, következtetések */}
+      {activityType === 'g4-wops-osszefuggesek-theory' && (
+        <G4Relations4Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-wops-osszefuggesek-quiz', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+      {activityType === 'g4-wops-osszefuggesek-quiz' && (
+        <G4Relations4Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wops-osszefuggesek-theory', selectedTopic || 'g4-written-ops')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wops-osszefuggesek-matcher', selectedTopic || 'g4-written-ops')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wops-osszefuggesek-sorter', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+      {activityType === 'g4-wops-osszefuggesek-matcher' && (
+        <G4Relations4Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wops-osszefuggesek-theory', selectedTopic || 'g4-written-ops')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wops-osszefuggesek-matcher', selectedTopic || 'g4-written-ops')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wops-osszefuggesek-sorter', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+      {activityType === 'g4-wops-osszefuggesek-sorter' && (
+        <G4Relations4Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wops-osszefuggesek-theory', selectedTopic || 'g4-written-ops')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wops-osszefuggesek-matcher', selectedTopic || 'g4-written-ops')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wops-osszefuggesek-sorter', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+
+      {/* 6. A műveletek közötti kapcsolatok */}
+      {activityType === 'g4-wops-kapcsolatok-theory' && (
+        <G4InverseOpsTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-wops-kapcsolatok-quiz', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+      {activityType === 'g4-wops-kapcsolatok-quiz' && (
+        <G4InverseOpsQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wops-kapcsolatok-theory', selectedTopic || 'g4-written-ops')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wops-kapcsolatok-matcher', selectedTopic || 'g4-written-ops')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wops-kapcsolatok-sorter', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+      {activityType === 'g4-wops-kapcsolatok-matcher' && (
+        <G4InverseOpsQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wops-kapcsolatok-theory', selectedTopic || 'g4-written-ops')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wops-kapcsolatok-matcher', selectedTopic || 'g4-written-ops')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wops-kapcsolatok-sorter', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+      {activityType === 'g4-wops-kapcsolatok-sorter' && (
+        <G4InverseOpsQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wops-kapcsolatok-theory', selectedTopic || 'g4-written-ops')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wops-kapcsolatok-matcher', selectedTopic || 'g4-written-ops')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wops-kapcsolatok-sorter', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+
+      {/* 7. A műveletek sorrendje */}
+      {activityType === 'g4-wops-sorrend-theory' && (
+        <G4OrderOfOps10000Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-wops-sorrend-quiz', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+      {activityType === 'g4-wops-sorrend-quiz' && (
+        <G4OrderOfOps10000Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wops-sorrend-theory', selectedTopic || 'g4-written-ops')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wops-sorrend-matcher', selectedTopic || 'g4-written-ops')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wops-sorrend-sorter', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+      {activityType === 'g4-wops-sorrend-matcher' && (
+        <G4OrderOfOps10000Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wops-sorrend-theory', selectedTopic || 'g4-written-ops')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wops-sorrend-matcher', selectedTopic || 'g4-written-ops')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wops-sorrend-sorter', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+      {activityType === 'g4-wops-sorrend-sorter' && (
+        <G4OrderOfOps10000Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wops-sorrend-theory', selectedTopic || 'g4-written-ops')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wops-sorrend-matcher', selectedTopic || 'g4-written-ops')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wops-sorrend-sorter', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+
+      {/* 8. Gyakorlás, tudáspróba */}
+      {activityType === 'g4-wops-tudasproba-theory' && (
+        <G4WrittenOpsExamTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-wops-tudasproba-quiz', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+      {activityType === 'g4-wops-tudasproba-quiz' && (
+        <G4WrittenOpsExamQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wops-tudasproba-theory', selectedTopic || 'g4-written-ops')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wops-tudasproba-matcher', selectedTopic || 'g4-written-ops')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wops-tudasproba-sorter', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+      {activityType === 'g4-wops-tudasproba-matcher' && (
+        <G4WrittenOpsExamQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wops-tudasproba-theory', selectedTopic || 'g4-written-ops')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wops-tudasproba-matcher', selectedTopic || 'g4-written-ops')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wops-tudasproba-sorter', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+      {activityType === 'g4-wops-tudasproba-sorter' && (
+        <G4WrittenOpsExamQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wops-tudasproba-theory', selectedTopic || 'g4-written-ops')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wops-tudasproba-matcher', selectedTopic || 'g4-written-ops')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wops-tudasproba-sorter', selectedTopic || 'g4-written-ops')}
         />
       )}
     </>
