@@ -69,6 +69,16 @@ const G4NegativeChangesTheory = lazy(() => import("@/components/math/grade-4/neg
 const G4NegativeChangesQuiz = lazy(() => import("@/components/math/grade-4/negativ-szamok/osszehasonlitas-es-valtozasok/NegativeChangesQuiz").then(m => ({ default: m.NegativeChangesQuiz })));
 const G4NegativesExamTheory = lazy(() => import("@/components/math/grade-4/negativ-szamok/gyakorlas-tudasproba/NegativesExamTheory").then(m => ({ default: m.NegativesExamTheory })));
 const G4NegativesExamQuiz = lazy(() => import("@/components/math/grade-4/negativ-szamok/gyakorlas-tudasproba/NegativesExamQuiz").then(m => ({ default: m.NegativesExamQuiz })));
+const G4SetSortingTheory = lazy(() => import("@/components/math/grade-4/valogatasok-csoportositasok/valogatasok-halmazokba/SetSortingTheory").then(m => ({ default: m.SetSortingTheory })));
+const G4SetSortingQuiz = lazy(() => import("@/components/math/grade-4/valogatasok-csoportositasok/valogatasok-halmazokba/SetSortingQuiz").then(m => ({ default: m.SetSortingQuiz })));
+const G4TableSortingTheory = lazy(() => import("@/components/math/grade-4/valogatasok-csoportositasok/valogatasok-tablazatokba/TableSortingTheory").then(m => ({ default: m.TableSortingTheory })));
+const G4TableSortingQuiz = lazy(() => import("@/components/math/grade-4/valogatasok-csoportositasok/valogatasok-tablazatokba/TableSortingQuiz").then(m => ({ default: m.TableSortingQuiz })));
+const G4PossibilitiesTheory = lazy(() => import("@/components/math/grade-4/valogatasok-csoportositasok/hanyfele-lehetoseg-van/PossibilitiesTheory").then(m => ({ default: m.PossibilitiesTheory })));
+const G4PossibilitiesQuiz = lazy(() => import("@/components/math/grade-4/valogatasok-csoportositasok/hanyfele-lehetoseg-van/PossibilitiesQuiz").then(m => ({ default: m.PossibilitiesQuiz })));
+const G4TrueFalse4Theory = lazy(() => import("@/components/math/grade-4/valogatasok-csoportositasok/igaz-vagy-hamis/TrueFalse4Theory").then(m => ({ default: m.TrueFalse4Theory })));
+const G4TrueFalse4Quiz = lazy(() => import("@/components/math/grade-4/valogatasok-csoportositasok/igaz-vagy-hamis/TrueFalse4Quiz").then(m => ({ default: m.TrueFalse4Quiz })));
+const G4GroupingExamTheory = lazy(() => import("@/components/math/grade-4/valogatasok-csoportositasok/gyakorlas-tudasproba/GroupingExamTheory").then(m => ({ default: m.GroupingExamTheory })));
+const G4GroupingExamQuiz = lazy(() => import("@/components/math/grade-4/valogatasok-csoportositasok/gyakorlas-tudasproba/GroupingExamQuiz").then(m => ({ default: m.GroupingExamQuiz })));
 const G4MulTwoDigitTheory = lazy(() => import("@/components/math/grade-4/irasbeli-szorzas/szorzas-ketjegyu-szorzoval/MulTwoDigitTheory").then(m => ({ default: m.MulTwoDigitTheory })));
 const G4MulTwoDigitQuiz = lazy(() => import("@/components/math/grade-4/irasbeli-szorzas/szorzas-ketjegyu-szorzoval/MulTwoDigitQuiz").then(m => ({ default: m.MulTwoDigitQuiz })));
 const G4WrittenMulTwoDigitTheory = lazy(() => import("@/components/math/grade-4/irasbeli-szorzas/irasbeli-szorzas/WrittenMulTwoDigitTheory").then(m => ({ default: m.WrittenMulTwoDigitTheory })));
@@ -1218,6 +1228,178 @@ export const Grade4Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g4-neg-tudasproba-theory', selectedTopic || 'g4-negatives')}
           onSwitchToMatcher={() => handleActivitySelect('g4-neg-tudasproba-matcher', selectedTopic || 'g4-negatives')}
           onSwitchToSorter={() => handleActivitySelect('g4-neg-tudasproba-sorter', selectedTopic || 'g4-negatives')}
+        />
+      )}
+
+      {/* ===== 4. Osztály – VI. Válogatások, csoportosítások ===== */}
+
+      {/* 1. Válogatások halmazokba */}
+      {activityType === 'g4-group-halmazok-theory' && (
+        <G4SetSortingTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-group-halmazok-quiz', selectedTopic || 'g4-grouping')}
+        />
+      )}
+      {activityType === 'g4-group-halmazok-quiz' && (
+        <G4SetSortingQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-group-halmazok-theory', selectedTopic || 'g4-grouping')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-group-halmazok-matcher', selectedTopic || 'g4-grouping')}
+          onSwitchToSorter={() => handleActivitySelect('g4-group-halmazok-sorter', selectedTopic || 'g4-grouping')}
+        />
+      )}
+      {activityType === 'g4-group-halmazok-matcher' && (
+        <G4SetSortingQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-group-halmazok-theory', selectedTopic || 'g4-grouping')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-group-halmazok-matcher', selectedTopic || 'g4-grouping')}
+          onSwitchToSorter={() => handleActivitySelect('g4-group-halmazok-sorter', selectedTopic || 'g4-grouping')}
+        />
+      )}
+      {activityType === 'g4-group-halmazok-sorter' && (
+        <G4SetSortingQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-group-halmazok-theory', selectedTopic || 'g4-grouping')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-group-halmazok-matcher', selectedTopic || 'g4-grouping')}
+          onSwitchToSorter={() => handleActivitySelect('g4-group-halmazok-sorter', selectedTopic || 'g4-grouping')}
+        />
+      )}
+
+      {/* 2. Válogatások táblázatokba */}
+      {activityType === 'g4-group-tablazatok-theory' && (
+        <G4TableSortingTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-group-tablazatok-quiz', selectedTopic || 'g4-grouping')}
+        />
+      )}
+      {activityType === 'g4-group-tablazatok-quiz' && (
+        <G4TableSortingQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-group-tablazatok-theory', selectedTopic || 'g4-grouping')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-group-tablazatok-matcher', selectedTopic || 'g4-grouping')}
+          onSwitchToSorter={() => handleActivitySelect('g4-group-tablazatok-sorter', selectedTopic || 'g4-grouping')}
+        />
+      )}
+      {activityType === 'g4-group-tablazatok-matcher' && (
+        <G4TableSortingQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-group-tablazatok-theory', selectedTopic || 'g4-grouping')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-group-tablazatok-matcher', selectedTopic || 'g4-grouping')}
+          onSwitchToSorter={() => handleActivitySelect('g4-group-tablazatok-sorter', selectedTopic || 'g4-grouping')}
+        />
+      )}
+      {activityType === 'g4-group-tablazatok-sorter' && (
+        <G4TableSortingQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-group-tablazatok-theory', selectedTopic || 'g4-grouping')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-group-tablazatok-matcher', selectedTopic || 'g4-grouping')}
+          onSwitchToSorter={() => handleActivitySelect('g4-group-tablazatok-sorter', selectedTopic || 'g4-grouping')}
+        />
+      )}
+
+      {/* 3. Hányféle lehetőség van? */}
+      {activityType === 'g4-group-lehetosegek-theory' && (
+        <G4PossibilitiesTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-group-lehetosegek-quiz', selectedTopic || 'g4-grouping')}
+        />
+      )}
+      {activityType === 'g4-group-lehetosegek-quiz' && (
+        <G4PossibilitiesQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-group-lehetosegek-theory', selectedTopic || 'g4-grouping')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-group-lehetosegek-matcher', selectedTopic || 'g4-grouping')}
+          onSwitchToSorter={() => handleActivitySelect('g4-group-lehetosegek-sorter', selectedTopic || 'g4-grouping')}
+        />
+      )}
+      {activityType === 'g4-group-lehetosegek-matcher' && (
+        <G4PossibilitiesQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-group-lehetosegek-theory', selectedTopic || 'g4-grouping')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-group-lehetosegek-matcher', selectedTopic || 'g4-grouping')}
+          onSwitchToSorter={() => handleActivitySelect('g4-group-lehetosegek-sorter', selectedTopic || 'g4-grouping')}
+        />
+      )}
+      {activityType === 'g4-group-lehetosegek-sorter' && (
+        <G4PossibilitiesQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-group-lehetosegek-theory', selectedTopic || 'g4-grouping')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-group-lehetosegek-matcher', selectedTopic || 'g4-grouping')}
+          onSwitchToSorter={() => handleActivitySelect('g4-group-lehetosegek-sorter', selectedTopic || 'g4-grouping')}
+        />
+      )}
+
+      {/* 4. Igaz vagy hamis? */}
+      {activityType === 'g4-group-igaz-hamis-theory' && (
+        <G4TrueFalse4Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-group-igaz-hamis-quiz', selectedTopic || 'g4-grouping')}
+        />
+      )}
+      {activityType === 'g4-group-igaz-hamis-quiz' && (
+        <G4TrueFalse4Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-group-igaz-hamis-theory', selectedTopic || 'g4-grouping')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-group-igaz-hamis-matcher', selectedTopic || 'g4-grouping')}
+          onSwitchToSorter={() => handleActivitySelect('g4-group-igaz-hamis-sorter', selectedTopic || 'g4-grouping')}
+        />
+      )}
+      {activityType === 'g4-group-igaz-hamis-matcher' && (
+        <G4TrueFalse4Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-group-igaz-hamis-theory', selectedTopic || 'g4-grouping')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-group-igaz-hamis-matcher', selectedTopic || 'g4-grouping')}
+          onSwitchToSorter={() => handleActivitySelect('g4-group-igaz-hamis-sorter', selectedTopic || 'g4-grouping')}
+        />
+      )}
+      {activityType === 'g4-group-igaz-hamis-sorter' && (
+        <G4TrueFalse4Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-group-igaz-hamis-theory', selectedTopic || 'g4-grouping')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-group-igaz-hamis-matcher', selectedTopic || 'g4-grouping')}
+          onSwitchToSorter={() => handleActivitySelect('g4-group-igaz-hamis-sorter', selectedTopic || 'g4-grouping')}
+        />
+      )}
+
+      {/* 5. Gyakorlás, tudáspróba */}
+      {activityType === 'g4-group-tudasproba-theory' && (
+        <G4GroupingExamTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-group-tudasproba-quiz', selectedTopic || 'g4-grouping')}
+        />
+      )}
+      {activityType === 'g4-group-tudasproba-quiz' && (
+        <G4GroupingExamQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-group-tudasproba-theory', selectedTopic || 'g4-grouping')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-group-tudasproba-matcher', selectedTopic || 'g4-grouping')}
+          onSwitchToSorter={() => handleActivitySelect('g4-group-tudasproba-sorter', selectedTopic || 'g4-grouping')}
+        />
+      )}
+      {activityType === 'g4-group-tudasproba-matcher' && (
+        <G4GroupingExamQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-group-tudasproba-theory', selectedTopic || 'g4-grouping')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-group-tudasproba-matcher', selectedTopic || 'g4-grouping')}
+          onSwitchToSorter={() => handleActivitySelect('g4-group-tudasproba-sorter', selectedTopic || 'g4-grouping')}
+        />
+      )}
+      {activityType === 'g4-group-tudasproba-sorter' && (
+        <G4GroupingExamQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-group-tudasproba-theory', selectedTopic || 'g4-grouping')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-group-tudasproba-matcher', selectedTopic || 'g4-grouping')}
+          onSwitchToSorter={() => handleActivitySelect('g4-group-tudasproba-sorter', selectedTopic || 'g4-grouping')}
         />
       )}
 

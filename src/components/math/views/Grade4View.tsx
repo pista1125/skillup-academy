@@ -1141,13 +1141,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-group-sec-1" number={1} title="Válogatások halmazokba" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Válogatások halmazokba"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Válogatások halmazokba Tananyag"
+                subtitle="halmazábra: alaphalmaz, címke, közös rész, karikán kívüli rész, halmaz a halmazban, kakukktojás, logikai lapok három karikában"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-group-halmazok-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: halmazábrák olvasása és kitöltése, közös rész, kakukktojás, számok és logikai lapok válogatása"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-group-halmazok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g4-group-halmazok-quiz')}
               />
             </div>
           </section>
@@ -1159,13 +1169,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-group-sec-2" number={2} title="Válogatások táblázatokba" color="purple" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Válogatások táblázatokba"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Válogatások táblázatokba Tananyag"
+                subtitle="2 × 2-es táblázat két szempont szerint: sor, oszlop, mező, üres mező; elágazásos rajz, táblázat és halmazábra kapcsolata"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-group-tablazatok-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="purple"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: ceruzák, vízi állatok, számok és logikai lapok táblázatban, sor- és oszlopösszegek, hibakeresés"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-group-tablazatok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="purple"
+                {...getTopicProgress('g4-group-tablazatok-quiz')}
               />
             </div>
           </section>
@@ -1177,13 +1197,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-group-sec-3" number={3} title="Hányféle lehetőség van?" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Hányféle lehetőség van?"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Hányféle lehetőség van? Tananyag"
+                subtitle="rendszerezett felírás kezdőbetűkkel és elágazásos rajzzal: sorrendek, két választás egymás után, párok, számkártyák"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-group-lehetosegek-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: sorrendek, elágazásos rajz, számkártyák, párok és választások, feltételes sorrendek"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-group-lehetosegek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g4-group-lehetosegek-quiz')}
               />
             </div>
           </section>
@@ -1195,13 +1225,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-group-sec-4" number={4} title="Igaz vagy hamis?" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Igaz vagy hamis?"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Igaz vagy hamis? Tananyag"
+                subtitle="állítások a mindegyik, van olyan, egyik sem, nincs olyan, nem mindegyik szavakkal; ellenpélda, ugyanazt jelentő állítások"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-group-igaz-hamis-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: állítások állatokról, számhalmazokról és logikai lapokról, ellenpélda, tagadás"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-group-igaz-hamis-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g4-group-igaz-hamis-quiz')}
               />
             </div>
           </section>
@@ -1213,13 +1253,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-group-sec-5" number={5} title="Gyakorlás, tudáspróba" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Gyakorlás, tudáspróba"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Gyakorlás, tudáspróba Tananyag"
+                subtitle="amit már tudsz: halmazábra, táblázat, elágazásos rajz, igaz-hamis állítások – kidolgozott vegyes feladatok, feladatgenerátorok"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-group-tudasproba-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz"
+                subtitle="90 feladat 3 szinten: halmazábrák, táblázatok, hányféle lehetőség, igaz és hamis állítások a teljes fejezetből"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-group-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g4-group-tudasproba-quiz')}
               />
             </div>
           </section>
