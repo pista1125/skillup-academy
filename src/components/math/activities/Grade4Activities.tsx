@@ -29,6 +29,22 @@ const G4MulDiv10000Theory = lazy(() => import("@/components/math/grade-4/szamola
 const G4MulDiv10000Quiz = lazy(() => import("@/components/math/grade-4/szamolas-10000-ig/szorzas-osztas-10000-ig/MulDiv10000Quiz").then(m => ({ default: m.MulDiv10000Quiz })));
 const G4CountingExamTheory = lazy(() => import("@/components/math/grade-4/szamolas-10000-ig/megallo-kitekinto-osszefoglalas/CountingExamTheory").then(m => ({ default: m.CountingExamTheory })));
 const G4CountingExamQuiz = lazy(() => import("@/components/math/grade-4/szamolas-10000-ig/megallo-kitekinto-osszefoglalas/CountingExamQuiz").then(m => ({ default: m.CountingExamQuiz })));
+const G4LengthMeasureTheory = lazy(() => import("@/components/math/grade-4/meresek/a-hosszusag-merese/LengthMeasureTheory").then(m => ({ default: m.LengthMeasureTheory })));
+const G4LengthMeasureQuiz = lazy(() => import("@/components/math/grade-4/meresek/a-hosszusag-merese/LengthMeasureQuiz").then(m => ({ default: m.LengthMeasureQuiz })));
+const G4Perimeter4Theory = lazy(() => import("@/components/math/grade-4/meresek/a-kerulet-merese/Perimeter4Theory").then(m => ({ default: m.Perimeter4Theory })));
+const G4Perimeter4Quiz = lazy(() => import("@/components/math/grade-4/meresek/a-kerulet-merese/Perimeter4Quiz").then(m => ({ default: m.Perimeter4Quiz })));
+const G4Area4Theory = lazy(() => import("@/components/math/grade-4/meresek/a-terulet-merese/Area4Theory").then(m => ({ default: m.Area4Theory })));
+const G4Area4Quiz = lazy(() => import("@/components/math/grade-4/meresek/a-terulet-merese/Area4Quiz").then(m => ({ default: m.Area4Quiz })));
+const G4MassMeasureTheory = lazy(() => import("@/components/math/grade-4/meresek/a-tomeg-merese/MassMeasureTheory").then(m => ({ default: m.MassMeasureTheory })));
+const G4MassMeasureQuiz = lazy(() => import("@/components/math/grade-4/meresek/a-tomeg-merese/MassMeasureQuiz").then(m => ({ default: m.MassMeasureQuiz })));
+const G4CapacityMeasureTheory = lazy(() => import("@/components/math/grade-4/meresek/az-urtartalom-merese/CapacityMeasureTheory").then(m => ({ default: m.CapacityMeasureTheory })));
+const G4CapacityMeasureQuiz = lazy(() => import("@/components/math/grade-4/meresek/az-urtartalom-merese/CapacityMeasureQuiz").then(m => ({ default: m.CapacityMeasureQuiz })));
+const G4TimeMeasureTheory = lazy(() => import("@/components/math/grade-4/meresek/az-ido-merese/TimeMeasureTheory").then(m => ({ default: m.TimeMeasureTheory })));
+const G4TimeMeasureQuiz = lazy(() => import("@/components/math/grade-4/meresek/az-ido-merese/TimeMeasureQuiz").then(m => ({ default: m.TimeMeasureQuiz })));
+const G4MeasurementsExamTheory = lazy(() => import("@/components/math/grade-4/meresek/megallo/MeasurementsExamTheory").then(m => ({ default: m.MeasurementsExamTheory })));
+const G4MeasurementsExamQuiz = lazy(() => import("@/components/math/grade-4/meresek/megallo/MeasurementsExamQuiz").then(m => ({ default: m.MeasurementsExamQuiz })));
+const G4MeasurementsOutlookTheory = lazy(() => import("@/components/math/grade-4/meresek/kitekinto/MeasurementsOutlookTheory").then(m => ({ default: m.MeasurementsOutlookTheory })));
+const G4MeasurementsOutlookQuiz = lazy(() => import("@/components/math/grade-4/meresek/kitekinto/MeasurementsOutlookQuiz").then(m => ({ default: m.MeasurementsOutlookQuiz })));
 
 export const Grade4Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -484,6 +500,280 @@ export const Grade4Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g4-count-tudasproba-theory', selectedTopic || 'g4-count-10k')}
           onSwitchToMatcher={() => handleActivitySelect('g4-count-tudasproba-matcher', selectedTopic || 'g4-count-10k')}
           onSwitchToSorter={() => handleActivitySelect('g4-count-tudasproba-sorter', selectedTopic || 'g4-count-10k')}
+        />
+      )}
+
+      {/* ===== 4. Osztály – II. Mérések ===== */}
+
+      {/* 1. A hosszúság mérése */}
+      {activityType === 'g4-meas-hosszusag-theory' && (
+        <G4LengthMeasureTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-meas-hosszusag-quiz', selectedTopic || 'g4-measurements')}
+        />
+      )}
+      {activityType === 'g4-meas-hosszusag-quiz' && (
+        <G4LengthMeasureQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-meas-hosszusag-theory', selectedTopic || 'g4-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-meas-hosszusag-matcher', selectedTopic || 'g4-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g4-meas-hosszusag-sorter', selectedTopic || 'g4-measurements')}
+        />
+      )}
+      {activityType === 'g4-meas-hosszusag-matcher' && (
+        <G4LengthMeasureQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-meas-hosszusag-theory', selectedTopic || 'g4-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-meas-hosszusag-matcher', selectedTopic || 'g4-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g4-meas-hosszusag-sorter', selectedTopic || 'g4-measurements')}
+        />
+      )}
+      {activityType === 'g4-meas-hosszusag-sorter' && (
+        <G4LengthMeasureQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-meas-hosszusag-theory', selectedTopic || 'g4-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-meas-hosszusag-matcher', selectedTopic || 'g4-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g4-meas-hosszusag-sorter', selectedTopic || 'g4-measurements')}
+        />
+      )}
+
+      {/* 2. A kerület mérése */}
+      {activityType === 'g4-meas-kerulet-theory' && (
+        <G4Perimeter4Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-meas-kerulet-quiz', selectedTopic || 'g4-measurements')}
+        />
+      )}
+      {activityType === 'g4-meas-kerulet-quiz' && (
+        <G4Perimeter4Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-meas-kerulet-theory', selectedTopic || 'g4-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-meas-kerulet-matcher', selectedTopic || 'g4-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g4-meas-kerulet-sorter', selectedTopic || 'g4-measurements')}
+        />
+      )}
+      {activityType === 'g4-meas-kerulet-matcher' && (
+        <G4Perimeter4Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-meas-kerulet-theory', selectedTopic || 'g4-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-meas-kerulet-matcher', selectedTopic || 'g4-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g4-meas-kerulet-sorter', selectedTopic || 'g4-measurements')}
+        />
+      )}
+      {activityType === 'g4-meas-kerulet-sorter' && (
+        <G4Perimeter4Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-meas-kerulet-theory', selectedTopic || 'g4-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-meas-kerulet-matcher', selectedTopic || 'g4-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g4-meas-kerulet-sorter', selectedTopic || 'g4-measurements')}
+        />
+      )}
+
+      {/* 3. A terület mérése */}
+      {activityType === 'g4-meas-terulet-theory' && (
+        <G4Area4Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-meas-terulet-quiz', selectedTopic || 'g4-measurements')}
+        />
+      )}
+      {activityType === 'g4-meas-terulet-quiz' && (
+        <G4Area4Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-meas-terulet-theory', selectedTopic || 'g4-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-meas-terulet-matcher', selectedTopic || 'g4-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g4-meas-terulet-sorter', selectedTopic || 'g4-measurements')}
+        />
+      )}
+      {activityType === 'g4-meas-terulet-matcher' && (
+        <G4Area4Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-meas-terulet-theory', selectedTopic || 'g4-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-meas-terulet-matcher', selectedTopic || 'g4-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g4-meas-terulet-sorter', selectedTopic || 'g4-measurements')}
+        />
+      )}
+      {activityType === 'g4-meas-terulet-sorter' && (
+        <G4Area4Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-meas-terulet-theory', selectedTopic || 'g4-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-meas-terulet-matcher', selectedTopic || 'g4-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g4-meas-terulet-sorter', selectedTopic || 'g4-measurements')}
+        />
+      )}
+
+      {/* 4. A tömeg mérése */}
+      {activityType === 'g4-meas-tomeg-theory' && (
+        <G4MassMeasureTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-meas-tomeg-quiz', selectedTopic || 'g4-measurements')}
+        />
+      )}
+      {activityType === 'g4-meas-tomeg-quiz' && (
+        <G4MassMeasureQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-meas-tomeg-theory', selectedTopic || 'g4-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-meas-tomeg-matcher', selectedTopic || 'g4-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g4-meas-tomeg-sorter', selectedTopic || 'g4-measurements')}
+        />
+      )}
+      {activityType === 'g4-meas-tomeg-matcher' && (
+        <G4MassMeasureQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-meas-tomeg-theory', selectedTopic || 'g4-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-meas-tomeg-matcher', selectedTopic || 'g4-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g4-meas-tomeg-sorter', selectedTopic || 'g4-measurements')}
+        />
+      )}
+      {activityType === 'g4-meas-tomeg-sorter' && (
+        <G4MassMeasureQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-meas-tomeg-theory', selectedTopic || 'g4-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-meas-tomeg-matcher', selectedTopic || 'g4-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g4-meas-tomeg-sorter', selectedTopic || 'g4-measurements')}
+        />
+      )}
+
+      {/* 5. Az űrtartalom mérése */}
+      {activityType === 'g4-meas-urtartalom-theory' && (
+        <G4CapacityMeasureTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-meas-urtartalom-quiz', selectedTopic || 'g4-measurements')}
+        />
+      )}
+      {activityType === 'g4-meas-urtartalom-quiz' && (
+        <G4CapacityMeasureQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-meas-urtartalom-theory', selectedTopic || 'g4-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-meas-urtartalom-matcher', selectedTopic || 'g4-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g4-meas-urtartalom-sorter', selectedTopic || 'g4-measurements')}
+        />
+      )}
+      {activityType === 'g4-meas-urtartalom-matcher' && (
+        <G4CapacityMeasureQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-meas-urtartalom-theory', selectedTopic || 'g4-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-meas-urtartalom-matcher', selectedTopic || 'g4-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g4-meas-urtartalom-sorter', selectedTopic || 'g4-measurements')}
+        />
+      )}
+      {activityType === 'g4-meas-urtartalom-sorter' && (
+        <G4CapacityMeasureQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-meas-urtartalom-theory', selectedTopic || 'g4-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-meas-urtartalom-matcher', selectedTopic || 'g4-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g4-meas-urtartalom-sorter', selectedTopic || 'g4-measurements')}
+        />
+      )}
+
+      {/* 6. Az idő mérése */}
+      {activityType === 'g4-meas-ido-theory' && (
+        <G4TimeMeasureTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-meas-ido-quiz', selectedTopic || 'g4-measurements')}
+        />
+      )}
+      {activityType === 'g4-meas-ido-quiz' && (
+        <G4TimeMeasureQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-meas-ido-theory', selectedTopic || 'g4-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-meas-ido-matcher', selectedTopic || 'g4-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g4-meas-ido-sorter', selectedTopic || 'g4-measurements')}
+        />
+      )}
+      {activityType === 'g4-meas-ido-matcher' && (
+        <G4TimeMeasureQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-meas-ido-theory', selectedTopic || 'g4-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-meas-ido-matcher', selectedTopic || 'g4-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g4-meas-ido-sorter', selectedTopic || 'g4-measurements')}
+        />
+      )}
+      {activityType === 'g4-meas-ido-sorter' && (
+        <G4TimeMeasureQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-meas-ido-theory', selectedTopic || 'g4-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-meas-ido-matcher', selectedTopic || 'g4-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g4-meas-ido-sorter', selectedTopic || 'g4-measurements')}
+        />
+      )}
+
+      {/* 7. Megálló – tudáspróba */}
+      {activityType === 'g4-meas-tudasproba-theory' && (
+        <G4MeasurementsExamTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-meas-tudasproba-quiz', selectedTopic || 'g4-measurements')}
+        />
+      )}
+      {activityType === 'g4-meas-tudasproba-quiz' && (
+        <G4MeasurementsExamQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-meas-tudasproba-theory', selectedTopic || 'g4-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-meas-tudasproba-matcher', selectedTopic || 'g4-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g4-meas-tudasproba-sorter', selectedTopic || 'g4-measurements')}
+        />
+      )}
+      {activityType === 'g4-meas-tudasproba-matcher' && (
+        <G4MeasurementsExamQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-meas-tudasproba-theory', selectedTopic || 'g4-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-meas-tudasproba-matcher', selectedTopic || 'g4-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g4-meas-tudasproba-sorter', selectedTopic || 'g4-measurements')}
+        />
+      )}
+      {activityType === 'g4-meas-tudasproba-sorter' && (
+        <G4MeasurementsExamQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-meas-tudasproba-theory', selectedTopic || 'g4-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-meas-tudasproba-matcher', selectedTopic || 'g4-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g4-meas-tudasproba-sorter', selectedTopic || 'g4-measurements')}
+        />
+      )}
+
+      {/* 8. Kitekintő */}
+      {activityType === 'g4-meas-kitekinto-theory' && (
+        <G4MeasurementsOutlookTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-meas-kitekinto-quiz', selectedTopic || 'g4-measurements')}
+        />
+      )}
+      {activityType === 'g4-meas-kitekinto-quiz' && (
+        <G4MeasurementsOutlookQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-meas-kitekinto-theory', selectedTopic || 'g4-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-meas-kitekinto-matcher', selectedTopic || 'g4-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g4-meas-kitekinto-sorter', selectedTopic || 'g4-measurements')}
+        />
+      )}
+      {activityType === 'g4-meas-kitekinto-matcher' && (
+        <G4MeasurementsOutlookQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-meas-kitekinto-theory', selectedTopic || 'g4-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-meas-kitekinto-matcher', selectedTopic || 'g4-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g4-meas-kitekinto-sorter', selectedTopic || 'g4-measurements')}
+        />
+      )}
+      {activityType === 'g4-meas-kitekinto-sorter' && (
+        <G4MeasurementsOutlookQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-meas-kitekinto-theory', selectedTopic || 'g4-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-meas-kitekinto-matcher', selectedTopic || 'g4-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g4-meas-kitekinto-sorter', selectedTopic || 'g4-measurements')}
         />
       )}
     </>

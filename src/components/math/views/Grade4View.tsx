@@ -395,13 +395,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-meas-sec-1" number={1} title="A hosszúság mérése" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A hosszúság mérése"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="A hosszúság mérése Tananyag"
+                subtitle="mm, cm, dm, m, km és váltószámaik, mérés vonalzóval, átváltás, távolságok a térképen"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-meas-hosszusag-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="cyan"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: mértékegységek, vonalzó, átváltás, összehasonlítás, szöveges feladatok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-meas-hosszusag-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="cyan"
+                {...getTopicProgress('g4-meas-hosszusag-quiz')}
               />
             </div>
           </section>
@@ -413,13 +423,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-meas-sec-2" number={2} title="A kerület mérése" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A kerület mérése"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="A kerület mérése Tananyag"
+                subtitle="a kerület mint az oldalak összege: négyzetrács, téglalap, négyzet, sokszögek, kerítések"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-meas-kerulet-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: négyzetrács, téglalap és négyzet kerülete, kerítés, hiányzó oldal"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-meas-kerulet-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g4-meas-kerulet-quiz')}
               />
             </div>
           </section>
@@ -431,13 +451,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-meas-sec-3" number={3} title="A terület mérése" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A terület mérése"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="A terület mérése Tananyag"
+                subtitle="lefedés egységekkel, sorok · oszlopok, más-más egység (háromszög, dominó, nagy négyzet)"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-meas-terulet-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: négyzetek számolása, téglalapok, egységváltás, csempézés, sportpályák"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-meas-terulet-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g4-meas-terulet-quiz')}
               />
             </div>
           </section>
@@ -449,13 +479,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-meas-sec-4" number={4} title="A tömeg mérése" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A tömeg mérése"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="A tömeg mérése Tananyag"
+                subtitle="kg, dkg, g és váltószámaik, kétkarú mérleg, becslés, diagram, receptek, rakomány"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-meas-tomeg-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: kg–dkg–g átváltás, mérleg, becslés, diagram, recept, össztömeg"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-meas-tomeg-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g4-meas-tomeg-quiz')}
               />
             </div>
           </section>
@@ -467,13 +507,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-meas-sec-5" number={5} title="Az űrtartalom mérése" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Az űrtartalom mérése"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Az űrtartalom mérése Tananyag"
+                subtitle="Liter, deciliter, centiliter és milliliter, mérőedények leolvasása, átváltás, összehasonlítás, akváriumok és dísztó"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-meas-urtartalom-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: l, dl, cl, ml, mérőedények leolvasása, összehasonlítás és szöveges feladatok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-meas-urtartalom-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="teal"
+                {...getTopicProgress('g4-meas-urtartalom-quiz')}
               />
             </div>
           </section>
@@ -485,13 +535,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-meas-sec-6" number={6} title="Az idő mérése" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Az idő mérése"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Az idő mérése Tananyag"
+                subtitle="Másodperc, perc, óra, nap, hét, év; napszakok, óraleolvasás, menetrend, időtartamok és időeredmények"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-meas-ido-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: óra leolvasása, napszakok, menetrend, időtartamok és átváltások"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-meas-ido-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g4-meas-ido-quiz')}
               />
             </div>
           </section>
@@ -503,13 +563,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-meas-sec-7" number={7} title="Megálló – tudáspróba" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Megálló – tudáspróba"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Megálló – tudáspróba Tananyag"
+                subtitle="Amit már tudsz: hosszúság, kerület, terület, tömeg, űrtartalom és idő összefoglalása vegyes feladatokkal"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-meas-tudasproba-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz"
+                subtitle="90 feladat 3 szinten: hosszúság, kerület, terület, tömeg, űrtartalom és idő – az egész fejezetből"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-meas-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g4-meas-tudasproba-quiz')}
               />
             </div>
           </section>
@@ -521,13 +591,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-meas-sec-8" number={8} title="Kitekintő" color="slate" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Kitekintő"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Kitekintő Tananyag"
+                subtitle="Fejtörők: tartály-diagram, szőlőlé átöntögetése, békaverseny, vásári csere és golyóhúzás"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-meas-kitekinto-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="slate"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: tartály-diagram, átöntögetés, békaverseny, vásári csere és golyóhúzás"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-meas-kitekinto-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="slate"
+                {...getTopicProgress('g4-meas-kitekinto-quiz')}
               />
             </div>
           </section>
