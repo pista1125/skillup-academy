@@ -854,10 +854,15 @@ export const sectionToTopicMap: Record<string, string> = {
   'g12-sec-stat-tudasproba': 'g12-statisztika-valoszinuseg',
 
   'g12-rendszerezo-osszefoglalas': 'g12-rendszerezo-osszefoglalas',
-  'g12-sec-sum-halmazok-logika-kombinatorika-grafok': 'g12-rendszerezo-osszefoglalas',
-  'g12-sec-sum-szamtan-algebra': 'g12-rendszerezo-osszefoglalas',
-  'g12-sec-sum-fuggvenyek-sorozatok': 'g12-rendszerezo-osszefoglalas',
-  'g12-sec-sum-geometria': 'g12-rendszerezo-osszefoglalas',
+  'g12-sec-sum-halmazok-logika': 'g12-rendszerezo-osszefoglalas',
+  'g12-sec-sum-kombinatorika-grafok': 'g12-rendszerezo-osszefoglalas',
+  'g12-sec-sum-szamtan': 'g12-rendszerezo-osszefoglalas',
+  'g12-sec-sum-algebra': 'g12-rendszerezo-osszefoglalas',
+  'g12-sec-sum-fuggvenyek': 'g12-rendszerezo-osszefoglalas',
+  'g12-sec-sum-sorozatok': 'g12-rendszerezo-osszefoglalas',
+  'g12-sec-sum-elemi-geometria': 'g12-rendszerezo-osszefoglalas',
+  'g12-sec-sum-transzformaciok-alakzatok': 'g12-rendszerezo-osszefoglalas',
+  'g12-sec-sum-vektorok-koordinatageometria': 'g12-rendszerezo-osszefoglalas',
   'g12-sec-sum-statisztika-valoszinusegszamitas': 'g12-rendszerezo-osszefoglalas'
 };
 
@@ -1847,11 +1852,16 @@ export function getGradeSubsections(
       ];
     } else if (t.id === 'g12-rendszerezo-osszefoglalas') {
       subsections = [
-        { id: 'g12-sec-sum-halmazok-logika-kombinatorika-grafok', label: '1. Halmazok, logika, kombinatorika, gráfok' },
-        { id: 'g12-sec-sum-szamtan-algebra', label: '2. Számtan, algebra' },
-        { id: 'g12-sec-sum-fuggvenyek-sorozatok', label: '3. Függvények, sorozatok' },
-        { id: 'g12-sec-sum-geometria', label: '4. Geometria' },
-        { id: 'g12-sec-sum-statisztika-valoszinusegszamitas', label: '5. Statisztika, valószínűségszámítás' }
+        { id: 'g12-sec-sum-halmazok-logika', label: '1. Halmazok, logika' },
+        { id: 'g12-sec-sum-kombinatorika-grafok', label: '2. Kombinatorika, gráfok' },
+        { id: 'g12-sec-sum-szamtan', label: '3. Számtan' },
+        { id: 'g12-sec-sum-algebra', label: '4. Algebra' },
+        { id: 'g12-sec-sum-fuggvenyek', label: '5. Függvények' },
+        { id: 'g12-sec-sum-sorozatok', label: '6. Sorozatok' },
+        { id: 'g12-sec-sum-elemi-geometria', label: '7. Elemi geometria' },
+        { id: 'g12-sec-sum-transzformaciok-alakzatok', label: '8. Geometriai transzformációk, síkbeli és térbeli alakzatok' },
+        { id: 'g12-sec-sum-vektorok-koordinatageometria', label: '9. Vektorok, koordinátageometria' },
+        { id: 'g12-sec-sum-statisztika-valoszinusegszamitas', label: '10. Statisztika, valószínűségszámítás' }
       ];
     }
 

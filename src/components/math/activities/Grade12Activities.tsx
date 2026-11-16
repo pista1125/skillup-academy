@@ -38,6 +38,26 @@ const G12SolidsEverydayTheory = lazy(() => import("@/components/math/grade-12/te
 const G12SolidsEverydayQuiz = lazy(() => import("@/components/math/grade-12/tergeometria/tergeometria-a-hetkoznapi-eletben/SolidsEverydayQuiz").then(m => ({ default: m.SolidsEverydayQuiz })))
 const G12SolidsPracticeExamTheory = lazy(() => import("@/components/math/grade-12/tergeometria/gyakorlas-tudasproba/SolidsPracticeExamTheory").then(m => ({ default: m.SolidsPracticeExamTheory })))
 const G12SolidsPracticeExamQuiz = lazy(() => import("@/components/math/grade-12/tergeometria/gyakorlas-tudasproba/SolidsPracticeExamQuiz").then(m => ({ default: m.SolidsPracticeExamQuiz })))
+const G12NumberSequencesTheory = lazy(() => import("@/components/math/grade-12/sorozatok/szamsorozatok/NumberSequencesTheory").then(m => ({ default: m.NumberSequencesTheory })))
+const G12NumberSequencesQuiz = lazy(() => import("@/components/math/grade-12/sorozatok/szamsorozatok/NumberSequencesQuiz").then(m => ({ default: m.NumberSequencesQuiz })))
+const G12SequenceDefinitionTheory = lazy(() => import("@/components/math/grade-12/sorozatok/sorozatok-megadasa/SequenceDefinitionTheory").then(m => ({ default: m.SequenceDefinitionTheory })))
+const G12SequenceDefinitionQuiz = lazy(() => import("@/components/math/grade-12/sorozatok/sorozatok-megadasa/SequenceDefinitionQuiz").then(m => ({ default: m.SequenceDefinitionQuiz })))
+const G12ArithmeticSequenceTheory = lazy(() => import("@/components/math/grade-12/sorozatok/szamtani-sorozatok/ArithmeticSequenceTheory").then(m => ({ default: m.ArithmeticSequenceTheory })))
+const G12ArithmeticSequenceQuiz = lazy(() => import("@/components/math/grade-12/sorozatok/szamtani-sorozatok/ArithmeticSequenceQuiz").then(m => ({ default: m.ArithmeticSequenceQuiz })))
+const G12ArithmeticSumTheory = lazy(() => import("@/components/math/grade-12/sorozatok/a-szamtani-sorozat-elso-n-tagjanak-osszege/ArithmeticSumTheory").then(m => ({ default: m.ArithmeticSumTheory })))
+const G12ArithmeticSumQuiz = lazy(() => import("@/components/math/grade-12/sorozatok/a-szamtani-sorozat-elso-n-tagjanak-osszege/ArithmeticSumQuiz").then(m => ({ default: m.ArithmeticSumQuiz })))
+const G12GeometricSequenceTheory = lazy(() => import("@/components/math/grade-12/sorozatok/mertani-sorozatok/GeometricSequenceTheory").then(m => ({ default: m.GeometricSequenceTheory })))
+const G12GeometricSequenceQuiz = lazy(() => import("@/components/math/grade-12/sorozatok/mertani-sorozatok/GeometricSequenceQuiz").then(m => ({ default: m.GeometricSequenceQuiz })))
+const G12GeometricSumTheory = lazy(() => import("@/components/math/grade-12/sorozatok/a-mertani-sorozat-elso-n-tagjanak-osszege/GeometricSumTheory").then(m => ({ default: m.GeometricSumTheory })))
+const G12GeometricSumQuiz = lazy(() => import("@/components/math/grade-12/sorozatok/a-mertani-sorozat-elso-n-tagjanak-osszege/GeometricSumQuiz").then(m => ({ default: m.GeometricSumQuiz })))
+const G12MixedSequencesTheory = lazy(() => import("@/components/math/grade-12/sorozatok/vegyes-feladatok/MixedSequencesTheory").then(m => ({ default: m.MixedSequencesTheory })))
+const G12MixedSequencesQuiz = lazy(() => import("@/components/math/grade-12/sorozatok/vegyes-feladatok/MixedSequencesQuiz").then(m => ({ default: m.MixedSequencesQuiz })))
+const G12FinanceInvestmentsTheory = lazy(() => import("@/components/math/grade-12/sorozatok/penzugyi-feladatok-1-tokebefektetesek/FinanceInvestmentsTheory").then(m => ({ default: m.FinanceInvestmentsTheory })))
+const G12FinanceInvestmentsQuiz = lazy(() => import("@/components/math/grade-12/sorozatok/penzugyi-feladatok-1-tokebefektetesek/FinanceInvestmentsQuiz").then(m => ({ default: m.FinanceInvestmentsQuiz })))
+const G12FinanceLoansTheory = lazy(() => import("@/components/math/grade-12/sorozatok/penzugyi-feladatok-2-hitelek-es-kockazatok/FinanceLoansTheory").then(m => ({ default: m.FinanceLoansTheory })))
+const G12FinanceLoansQuiz = lazy(() => import("@/components/math/grade-12/sorozatok/penzugyi-feladatok-2-hitelek-es-kockazatok/FinanceLoansQuiz").then(m => ({ default: m.FinanceLoansQuiz })))
+const G12SequencesPracticeExamTheory = lazy(() => import("@/components/math/grade-12/sorozatok/gyakorlas-tudasproba/SequencesPracticeExamTheory").then(m => ({ default: m.SequencesPracticeExamTheory })))
+const G12SequencesPracticeExamQuiz = lazy(() => import("@/components/math/grade-12/sorozatok/gyakorlas-tudasproba/SequencesPracticeExamQuiz").then(m => ({ default: m.SequencesPracticeExamQuiz })))
 
 export const Grade12Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -663,6 +683,348 @@ export const Grade12Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g12-ter-tudasproba-theory', selectedTopic || 'g12-tergeometria')}
           onSwitchToMatcher={() => handleActivitySelect('g12-ter-tudasproba-matcher', selectedTopic || 'g12-tergeometria')}
           onSwitchToSorter={() => handleActivitySelect('g12-ter-tudasproba-sorter', selectedTopic || 'g12-tergeometria')}
+        />
+      )}
+
+      {/* ===== 12. Osztály – II. Sorozatok ===== */}
+
+      {/* 1. Számsorozatok */}
+      {activityType === 'g12-seq-szamsorozatok-theory' && (
+        <G12NumberSequencesTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-seq-szamsorozatok-quiz', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-szamsorozatok-quiz' && (
+        <G12NumberSequencesQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-szamsorozatok-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-szamsorozatok-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-szamsorozatok-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-szamsorozatok-matcher' && (
+        <G12NumberSequencesQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-szamsorozatok-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-szamsorozatok-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-szamsorozatok-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-szamsorozatok-sorter' && (
+        <G12NumberSequencesQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-szamsorozatok-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-szamsorozatok-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-szamsorozatok-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+
+      {/* 2. Sorozatok megadása */}
+      {activityType === 'g12-seq-megadas-theory' && (
+        <G12SequenceDefinitionTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-seq-megadas-quiz', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-megadas-quiz' && (
+        <G12SequenceDefinitionQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-megadas-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-megadas-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-megadas-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-megadas-matcher' && (
+        <G12SequenceDefinitionQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-megadas-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-megadas-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-megadas-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-megadas-sorter' && (
+        <G12SequenceDefinitionQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-megadas-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-megadas-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-megadas-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+
+      {/* 3. Számtani sorozatok */}
+      {activityType === 'g12-seq-szamtani-theory' && (
+        <G12ArithmeticSequenceTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-seq-szamtani-quiz', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-szamtani-quiz' && (
+        <G12ArithmeticSequenceQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-szamtani-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-szamtani-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-szamtani-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-szamtani-matcher' && (
+        <G12ArithmeticSequenceQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-szamtani-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-szamtani-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-szamtani-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-szamtani-sorter' && (
+        <G12ArithmeticSequenceQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-szamtani-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-szamtani-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-szamtani-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+
+      {/* 4. A számtani sorozat első n tagjának összege */}
+      {activityType === 'g12-seq-szamtani-osszeg-theory' && (
+        <G12ArithmeticSumTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-seq-szamtani-osszeg-quiz', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-szamtani-osszeg-quiz' && (
+        <G12ArithmeticSumQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-szamtani-osszeg-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-szamtani-osszeg-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-szamtani-osszeg-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-szamtani-osszeg-matcher' && (
+        <G12ArithmeticSumQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-szamtani-osszeg-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-szamtani-osszeg-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-szamtani-osszeg-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-szamtani-osszeg-sorter' && (
+        <G12ArithmeticSumQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-szamtani-osszeg-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-szamtani-osszeg-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-szamtani-osszeg-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+
+      {/* 5. Mértani sorozatok */}
+      {activityType === 'g12-seq-mertani-theory' && (
+        <G12GeometricSequenceTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-seq-mertani-quiz', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-mertani-quiz' && (
+        <G12GeometricSequenceQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-mertani-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-mertani-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-mertani-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-mertani-matcher' && (
+        <G12GeometricSequenceQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-mertani-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-mertani-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-mertani-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-mertani-sorter' && (
+        <G12GeometricSequenceQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-mertani-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-mertani-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-mertani-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+
+      {/* 6. A mértani sorozat első n tagjának összege */}
+      {activityType === 'g12-seq-mertani-osszeg-theory' && (
+        <G12GeometricSumTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-seq-mertani-osszeg-quiz', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-mertani-osszeg-quiz' && (
+        <G12GeometricSumQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-mertani-osszeg-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-mertani-osszeg-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-mertani-osszeg-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-mertani-osszeg-matcher' && (
+        <G12GeometricSumQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-mertani-osszeg-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-mertani-osszeg-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-mertani-osszeg-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-mertani-osszeg-sorter' && (
+        <G12GeometricSumQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-mertani-osszeg-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-mertani-osszeg-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-mertani-osszeg-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+
+      {/* 7. Vegyes feladatok */}
+      {activityType === 'g12-seq-vegyes-theory' && (
+        <G12MixedSequencesTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-seq-vegyes-quiz', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-vegyes-quiz' && (
+        <G12MixedSequencesQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-vegyes-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-vegyes-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-vegyes-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-vegyes-matcher' && (
+        <G12MixedSequencesQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-vegyes-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-vegyes-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-vegyes-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-vegyes-sorter' && (
+        <G12MixedSequencesQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-vegyes-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-vegyes-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-vegyes-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+
+      {/* 8. Pénzügyi feladatok I. – tőkebefektetések */}
+      {activityType === 'g12-seq-tokebefektetes-theory' && (
+        <G12FinanceInvestmentsTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-seq-tokebefektetes-quiz', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-tokebefektetes-quiz' && (
+        <G12FinanceInvestmentsQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-tokebefektetes-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-tokebefektetes-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-tokebefektetes-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-tokebefektetes-matcher' && (
+        <G12FinanceInvestmentsQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-tokebefektetes-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-tokebefektetes-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-tokebefektetes-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-tokebefektetes-sorter' && (
+        <G12FinanceInvestmentsQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-tokebefektetes-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-tokebefektetes-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-tokebefektetes-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+
+      {/* 9. Pénzügyi feladatok II. – hitelek és kockázatok */}
+      {activityType === 'g12-seq-hitelek-theory' && (
+        <G12FinanceLoansTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-seq-hitelek-quiz', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-hitelek-quiz' && (
+        <G12FinanceLoansQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-hitelek-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-hitelek-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-hitelek-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-hitelek-matcher' && (
+        <G12FinanceLoansQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-hitelek-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-hitelek-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-hitelek-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-hitelek-sorter' && (
+        <G12FinanceLoansQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-hitelek-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-hitelek-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-hitelek-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+
+      {/* 10. Gyakorlás, tudáspróba */}
+      {activityType === 'g12-seq-tudasproba-theory' && (
+        <G12SequencesPracticeExamTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-seq-tudasproba-quiz', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-tudasproba-quiz' && (
+        <G12SequencesPracticeExamQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-tudasproba-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-tudasproba-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-tudasproba-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-tudasproba-matcher' && (
+        <G12SequencesPracticeExamQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-tudasproba-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-tudasproba-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-tudasproba-sorter', selectedTopic || 'g12-sorozatok')}
+        />
+      )}
+      {activityType === 'g12-seq-tudasproba-sorter' && (
+        <G12SequencesPracticeExamQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-seq-tudasproba-theory', selectedTopic || 'g12-sorozatok')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-seq-tudasproba-matcher', selectedTopic || 'g12-sorozatok')}
+          onSwitchToSorter={() => handleActivitySelect('g12-seq-tudasproba-sorter', selectedTopic || 'g12-sorozatok')}
         />
       )}
     </>
