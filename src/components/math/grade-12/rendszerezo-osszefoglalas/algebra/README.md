@@ -18,14 +18,14 @@ A tankönyvi „FOGALMAK, TÉTELEK, MÓDSZEREK” táblázat algebrai sorai:
 - **2.** 3x² − 8x − 35 = 3(x + 7/3)(x − 5); a < 0 egyenlőtlenség egész megoldásai {−2; …; 4} (grafikus és előjeltáblázatos megoldás).
 - **4.** √(3 − 7x) = −2: nincs megoldás; √(4x − 3) = x − 6: M = {13} (x = 3 hamis gyök).
 - **5.** Két kft.: (4/5)x + 1,1y = 4300, (5/6)x + 1,05y = 4230 ⇒ x = 1800, y = 2600.
-  **Javított tankönyvi elírás:** a megoldás ellenőrzésében a II. változatnál „3120 darab” és „4300 darab” áll; helyesen 2600 · 1,05 = 2730 és 1500 + 2730 = 4230 darab.
+  **Javított tankönyvi elírás (a tankönyvi oldalon ellenőrizve):** a megoldás ellenőrzésében a II. változatnál „3120 darab” és „4300 darab” áll; helyesen 2600 · 1,05 = 2730 és 1500 + 2730 = 4230 darab.
 - **Ráadás 1.** lg(5 − 6x) ≤ −2 ⇒ [499/600; 5/6[; 0,3⁴ˣ⁻¹ < 0,09⁻³ ⇒ x > −5/4. **Ráadás 2.** xˣ⁺³ = x⁷ ⇒ 0; 1; 4.
 
 ### Tankönyvi feladatok (a modulban feldolgozva)
 - **A5.** −2x² + 8x + 1, értéke x = −1/2-nél −3,5. **A8.** D = −8, nincs valós gyök. **A9.** (−1; 2). **A10.** 3b(2ab − 3), 3(x − 2)².
 - **B3.** Antal 12 éves. **B6.** x = ±3/2. **B8.** x < 7/3.
-- **P1.** a) x = 3; b) −2 ≤ x ≤ 3 (hat egész); c) √(x − 6) + (x + 6)² = 0-nak nincs megoldása. **P2. b–c)** 2,625 óra, 118,125 km; 50 és 42 év. **P3. b)** ≈ 0,83 km. **P4.** 8 fő; 35 880 Ft (56%).
-- **Q3.** negatív megoldások: −1/2, illetve −1. **Q5. a)** macskaeledel 150 Ft, kutyaeledel 500 Ft.
+- **P1.** a) x = 3; b) −2 ≤ x ≤ 3 (hat egész); c) |x − 6| + (x + 6)² = 0-nak nincs megoldása. **P2. b–c)** 2,625 óra, 118,125 km; 50 és 42 év. **P3. b)** ≈ 0,83 km. **P4.** 8 fő; 35 880 Ft (56%).
+- **Q3.** negatív megoldások: a) −1/2; b) −1; c) nincs (√x negatív x-re nem értelmezett). **Q5. a)** macskaeledel 150 Ft, kutyaeledel 500 Ft.
 
 > **⚠️ CSAPDA:** négyzetre emelés után hamis gyök keletkezhet – ellenőrizz; negatív számmal szorzáskor és 1-nél kisebb alapú exponenciális/logaritmusos lépésnél a relációjel megfordul.
 

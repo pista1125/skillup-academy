@@ -209,7 +209,7 @@ export const SetsLogicSummaryTheory: React.FC<{
             <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">
               <li>|A| = 10, |B| = 13: |A ∩ B| legfeljebb 10 (ha A ⊆ B), |B ∖ A| legalább 3.</li>
               <li>ℕ ∩ ℝ = ℕ, ℕ ∪ ℝ = ℝ, ℝ ∖ ℕ végtelen; ℕ ∖ ℝ = ∅ véges.</li>
-              <li>ℝ ∩ ℤ = ℤ, ℤ ∩ ℕ = ℕ, ℝ ∩ ℚ = ℚ, ℝ ∖ ℚ (irracionálisak) végtelen; ℚ ∖ ℝ = ∅.</li>
+              <li>B8.: ℝ ∩ ℤ = ℤ, ℤ ∩ ℕ = ℕ, ℝ ∖ ∅ = ℝ végtelen; ℝ ∩ ∅ = ∅ és ∅ ∖ ℝ = ∅ üres.</li>
             </ul>
           </TheoryCard>
         </div>

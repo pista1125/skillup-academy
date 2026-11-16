@@ -152,7 +152,7 @@ export const CurrencyRiskSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS 
   const X = (i: number) => 70 + i * 60;
   const Y = (r: number) => 250 - (r - 340) * 2;
   return (
-    <SeqFrame title="Devizahitel: 10 000 € tartozás forintban, változó árfolyamon" className={className}>
+    <SeqFrame title="Devizahitel (példaadatok): 10 000 € tartozás forintban, változó árfolyamon" className={className}>
       <line x1={70} y1={250} x2={450} y2={250} stroke="#64748b" />
       <line x1={70} y1={250} x2={70} y2={50} stroke="#64748b" />
       <polyline points={rates.map((r, i) => `${X(i)},${Y(r)}`).join(' ')} fill="none" stroke={S_PURPLE} strokeWidth="2.4" />

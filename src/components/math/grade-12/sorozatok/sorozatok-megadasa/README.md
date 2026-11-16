@@ -21,7 +21,7 @@ A magyar Oktatási Hivatal hivatalos tankönyve (`OH-MAT12TA`, Matematika 12., 2
 
 ### Tankönyvi feladatok (a modulban feldolgozva)
 - **1.** Páros pozitív egészek (2n), természetes számok (n − 1), 3-mal osztva 1 maradék (3n − 2), 7-tel osztva 4 maradék (7n − 3) – képlettel és rekurzívan.
-- **2. a)** a₁ = 3, aₙ = 2aₙ₋₁ − 4: 3; 2; 0; −4; −12; −28; −60; −124. (A b) rész kezdőtagja a szövegből nem olvasható ki egyértelműen, ezért nem dolgoztuk fel.)
+- **2. a)** a₁ = 3, aₙ = 2aₙ₋₁ − 4: 3; 2; 0; −4; −12; −28; −60; −124. **2. b)** a₁ = √3, aₙ = 2 + √3 · aₙ₋₁: √3; 5; 2 + 5√3; 17 + 2√3; 8 + 17√3; 53 + 8√3; 26 + 53√3; 161 + 26√3.
 - **3.** aₙ: 5; 7; 9; … (2n + 3); bₙ: 8; 4; 2; … (16/2ⁿ); cₙ = cₙ₋₁ − cₙ₋₂: 3; 1; −2; −3; −1; 2 – hat tagonként periodikus.
 - **4.** aₙ = 8 · (−1)ⁿ: a₁₂ = 8, a₁₇ = −8, értékkészlete kételemű, az első 25 tag összege −8.
 - **5.** (Érettségi, 2021 nyomán) Biztonsági őr: a 100. napon dolgozik; a 100. nap reggelén 67, a 125. nap reggelén 84 munkanapja van.

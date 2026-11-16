@@ -170,6 +170,7 @@ export const SequenceDefinitionTheory: React.FC<{
           <TheoryCard title="B) Rekurzív sorozatok (2–3. feladat)" badge="2–3. feladat" badgeColor="purple">
             <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">
               <li>a₁ = 3, aₙ = 2aₙ₋₁ − 4: 3; 2; 0; −4; −12; −28; −60; −124.</li>
+              <li>a₁ = √3, aₙ = 2 + √3 · aₙ₋₁: √3; 5; 2 + 5√3; 17 + 2√3; 8 + 17√3; 53 + 8√3; 26 + 53√3; 161 + 26√3 (≈ 1,73; 5; 10,66; 20,46; 37,44; 66,86; 117,80; 206,03).</li>
               <li>a₁ = 5, minden tag 2-vel nagyobb az előzőnél: 5; 7; 9; 11; 13; 15, képlettel aₙ = 2n + 3.</li>
               <li>b₁ = 8, minden tag az előző fele: 8; 4; 2; 1; 1/2; 1/4, képlettel bₙ = 16/2ⁿ.</li>
               <li>c₁ = 3, c₂ = 1, cₙ = cₙ₋₁ − cₙ₋₂: 3; 1; −2; −3; −1; 2; … hat tagonként ismétlődik.</li>

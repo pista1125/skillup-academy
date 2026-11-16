@@ -11,12 +11,36 @@ const QSVG: React.FC<{ children: React.ReactNode; h?: number }> = ({ children, h
   </svg>
 );
 
-const B1: PlotBox = { x0: 20, y0: 12, w: 200, h: 145, xmin: -3, xmax: 7, ymin: -6, ymax: 5 };
+// A5. feladat (tankönyv, 135. o.): a parabola csúcsa (−5; −2)
+const B1: PlotBox = { x0: 20, y0: 12, w: 200, h: 145, xmin: -9, xmax: 2, ymin: -3, ymax: 6 };
 const FIG_PAR = (
   <QSVG>
     <Axes b={B1} />
-    <path d={curvePath(B1, (x) => (x - 2) ** 2 - 5)} fill="none" stroke={F_BLUE} strokeWidth="2.2" />
-    <text x="200" y="28" fontSize="12" fill={F_BLUE} fontWeight="bold">f</text>
+    <path d={curvePath(B1, (x) => (x + 5) ** 2 - 2)} fill="none" stroke={F_BLUE} strokeWidth="2.2" />
+    <text x={mapX(B1, -2.3)} y="28" fontSize="12" fill={F_BLUE} fontWeight="bold">f</text>
+  </QSVG>
+);
+
+// A12. feladat (tankönyv, 136. o.): f a ]1; 6] intervallumon, (1; 2) üres, (6; 4) teli végpont
+const B6: PlotBox = { x0: 20, y0: 12, w: 200, h: 145, xmin: -1, xmax: 7, ymin: -3, ymax: 5 };
+const FIG_A12 = (
+  <QSVG>
+    <Axes b={B6} />
+    <polyline
+      points={[
+        [1, 2],
+        [3, -2],
+        [6, 4]
+      ]
+        .map(([x, y]) => `${mapX(B6, x)},${mapY(B6, y)}`)
+        .join(' ')}
+      fill="none"
+      stroke={F_BLUE}
+      strokeWidth="2.2"
+    />
+    <circle cx={mapX(B6, 1)} cy={mapY(B6, 2)} r="3.2" fill="#ffffff" stroke={F_BLUE} strokeWidth="1.6" />
+    <circle cx={mapX(B6, 6)} cy={mapY(B6, 4)} r="3.2" fill={F_BLUE} />
+    <text x={mapX(B6, 4.3)} y={mapY(B6, 1.6)} fontSize="11" fill={F_BLUE} fontWeight="bold">f</text>
   </QSVG>
 );
 
@@ -90,10 +114,10 @@ export const FUNCTIONS_SUMMARY_QUESTIONS: QuizQuestion[] = [
     id: 'fu-q1',
     questionTypeBadge: 'Helyettesítési érték',
     level: 1,
-    question: 'Mennyi az f(x) = 3x függvény helyettesítési értéke az 5 helyen?',
-    options: ['15', '8', '35', '5/3'],
+    question: 'Mennyi a valós számokon értelmezett f(x) = 9ˣ + 5 függvény helyettesítési értéke az x = −1/2 helyen? (A4.)',
+    options: ['16/3', '14/3', '1/2', '2'],
     correctAnswer: 0,
-    explanation: 'f(5) = 3 · 5 = 15.'
+    explanation: '9^(−1/2) = 1/√9 = 1/3, így f(−1/2) = 1/3 + 5 = 16/3. (A 14/3 előjelhibából, az 1/2 a 9 · (−1/2) + 5 szorzásból jönne.)'
   },
   {
     id: 'fu-q2',
@@ -122,10 +146,10 @@ export const FUNCTIONS_SUMMARY_QUESTIONS: QuizQuestion[] = [
     id: 'fu-q4',
     questionTypeBadge: 'Zérushely',
     level: 1,
-    question: 'Hol van az f(x) = 0,5x − 8 függvény zérushelye?',
-    options: ['x = 16', 'x = −8', 'x = 4', 'x = −16'],
+    question: 'Hol van a valós számokon értelmezett f(x) = 0,5ˣ − 8 függvény zérushelye? (A6.)',
+    options: ['x = −3', 'x = 3', 'x = 16', 'nincs zérushelye'],
     correctAnswer: 0,
-    explanation: '0,5x − 8 = 0 ⇒ x = 16.'
+    explanation: '0,5ˣ = 8 ⇒ 2⁻ˣ = 2³ ⇒ x = −3. (A 16 a 0,5 · x − 8 = 0 lineáris egyenlet megoldása lenne; az x = 3-nál 0,5³ = 1/8.)'
   },
   {
     id: 'fu-q5',
@@ -138,12 +162,13 @@ export const FUNCTIONS_SUMMARY_QUESTIONS: QuizQuestion[] = [
   },
   {
     id: 'fu-q6',
-    questionTypeBadge: 'Értékkészlet',
+    questionTypeBadge: 'Abszolút érték',
+    figure: FIG_A12,
     level: 1,
-    question: 'Mi a valós számokon értelmezett f(x) = |x| függvény értékkészlete?',
-    options: ['[0; ∞[', 'ℝ', ']0; ∞[', ']−∞; 0]'],
+    question: 'Az ábrán az f függvény grafikonja látható. Hol van az |f| függvény minimuma, és mennyi? (A12. a))',
+    options: ['x = 2 és x = 4 helyen, értéke 0', 'x = 3 helyen, értéke −2', 'x = 3 helyen, értéke 2', 'x = 1 helyen, értéke 2'],
     correctAnswer: 0,
-    explanation: 'Az abszolút érték nemnegatív, és minden nemnegatív számot fel is vesz (a 0-t is, az x = 0 helyen).'
+    explanation: 'Az |f| az x tengely alatti részt tükrözi, így nem negatív. Minimuma 0, ott, ahol f(x) = 0: x = 2 és x = 4. (A −2 az f minimuma, nem az |f|-é.) Az |f| maximuma 4, az x = 6 helyen.'
   },
   {
     id: 'fu-q7',
@@ -160,9 +185,9 @@ export const FUNCTIONS_SUMMARY_QUESTIONS: QuizQuestion[] = [
     figure: FIG_PAR,
     level: 1,
     question: 'Melyik hozzárendelési szabály tartozik az ábrán látható parabolához?',
-    options: ['f(x) = (x − 2)² − 5', 'f(x) = (x + 2)² − 5', 'f(x) = (x − 2)² + 5', 'f(x) = (x + 5)² − 2'],
+    options: ['f(x) = (x + 5)² − 2', 'f(x) = (x − 2)² − 5', 'f(x) = (x + 2)² − 5', 'f(x) = (x + 5)² + 2'],
     correctAnswer: 0,
-    explanation: 'A csúcs a (2; −5) pont: x² eltolva jobbra 2-vel, lefelé 5-tel.'
+    explanation: 'A csúcs a (−5; −2) pont (A5.): x² eltolva balra 5-tel, lefelé 2-vel ⇒ (x + 5)² − 2. A függvény negatív a ]−5 − √2; −5 + √2[ intervallumon.'
   },
   {
     id: 'fu-q9',

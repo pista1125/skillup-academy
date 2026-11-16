@@ -20,7 +20,7 @@ A halmaz és a halmaz eleme alapfogalom (nem definiáljuk). A tankönyvi „FOGA
 
 ### Tankönyvi feladatok (a modulban feldolgozva)
 - **A1.** 120 és 150 osztói: A ∩ B = {1; 2; 3; 5; 6; 10; 15; 30}, A ∖ B = {4; 8; 12; 20; 24; 40; 60; 120}.
-- **A2., B8.** Végtelen számhalmazok (ℕ ∖ ℝ és ℚ ∖ ℝ üres).
+- **A2., B8.** Végtelen halmazok: ℕ ∩ ℝ, ℕ ∪ ℝ, ℝ ∖ ℕ (ℕ ∖ ℝ = ∅); ℝ ∩ ℤ, ℤ ∩ ℕ, ℝ ∖ ∅ (ℝ ∩ ∅ = ∅ ∖ ℝ = ∅).
 - **A3.** |A| = 10, |B| = 13: |A ∩ B| ≤ 10, |B ∖ A| ≥ 3.
 - **A10., B10.** „Minden …” tagadása: „Van olyan …, amely nem …”.
 - **A11., B4.** Logikai értékek (A ∧ ¬B, A ∨ ¬B).

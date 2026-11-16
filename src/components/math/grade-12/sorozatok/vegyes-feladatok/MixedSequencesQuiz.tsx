@@ -95,6 +95,40 @@ const FIG_CAKE = (() => {
   );
 })();
 
+// HF 1. grafikonja: számtani (piros kör) és mértani (kék rombusz) sorozat első 3-3 tagja
+const FIG_HF1 = (() => {
+  const u = 22;
+  const ox = 70;
+  const oy = 140;
+  const X = (x: number) => ox + x * u;
+  const Y = (y: number) => oy - y * u;
+  return (
+    <QFig h={175}>
+      {[-1, 0, 1, 2, 3, 4].map((x) => (
+        <line key={`gx${x}`} x1={X(x)} y1={Y(-1)} x2={X(x)} y2={Y(5)} stroke="#e2e8f0" />
+      ))}
+      {[-1, 0, 1, 2, 3, 4, 5].map((y) => (
+        <line key={`gy${y}`} x1={X(-1)} y1={Y(y)} x2={X(4)} y2={Y(y)} stroke="#e2e8f0" />
+      ))}
+      <line x1={X(-1)} y1={oy} x2={X(4) + 6} y2={oy} stroke={S_INK} strokeWidth="1.3" />
+      <line x1={ox} y1={Y(-1)} x2={ox} y2={Y(5) - 6} stroke={S_INK} strokeWidth="1.3" />
+      <SText x={X(1)} y={oy + 13} t="1" s={10} />
+      <SText x={ox - 8} y={Y(1) + 4} t="1" s={10} />
+      <SText x={ox - 8} y={oy + 13} t="0" s={10} />
+      {[4, 1.5, -1].map((v, i) => (
+        <circle key={`a${i}`} cx={X(i + 1)} cy={Y(v)} r={4} fill={S_RED} stroke="#7f1d1d" strokeWidth="0.8" />
+      ))}
+      {[2, 3, 4.5].map((v, i) => (
+        <rect key={`g${i}`} x={X(i + 1) - 4} y={Y(v) - 4} width={8} height={8} transform={`rotate(45 ${X(i + 1)} ${Y(v)})`} fill={S_BLUE} stroke="#1e3a8a" strokeWidth="0.8" />
+      ))}
+      <circle cx={X(4) + 4} cy={Y(4.4)} r={3.5} fill={S_RED} />
+      <SText x={X(4) + 10} y={Y(4.4) + 3.5} t="számtani" s={9} a="start" />
+      <rect x={X(4) + 1} y={Y(3.6) - 3} width={6} height={6} transform={`rotate(45 ${X(4) + 4} ${Y(3.6)})`} fill={S_BLUE} />
+      <SText x={X(4) + 10} y={Y(3.6) + 3.5} t="mértani" s={9} a="start" />
+    </QFig>
+  );
+})();
+
 const MIXED_QUESTIONS: QuizQuestion[] = [
   // ---------------- 1. szint ----------------
   {
@@ -277,12 +311,12 @@ const MIXED_QUESTIONS: QuizQuestion[] = [
   },
   {
     id: 'mx-q20',
-    questionTypeBadge: 'Szögek',
+    questionTypeBadge: 'Két tagból a 7. tag',
     level: 2,
-    question: 'Egy háromszög szögei számtani sorozatot alkotnak, a legkisebb szög 35°. Mekkora a legnagyobb szög?',
-    options: ['85°', '60°', '95°', '110°'],
+    question: 'Egy mértani sorozat 5. tagja −4, 9. tagja −49 (tankönyv, HF 2. a)). Mennyi a 7. tagja?',
+    options: ['−14', '14 vagy −14', '14', '−26,5'],
     correctAnswer: 0,
-    explanation: '(α − d) + α + (α + d) = 180° ⇒ α = 60°, d = 25° ⇒ a legnagyobb szög 85°.'
+    explanation: 'q⁴ = −49 : (−4) = 12,25 ⇒ q² = 3,5 (q² > 0). a₇ = a₅ · q² = −4 · 3,5 = −14. A +14 nem lehet: a₇ előjele a₅-ével egyezik. (A −26,5 a számtani közép.)'
   },
 
   // ---------------- 3. szint ----------------
@@ -367,12 +401,13 @@ const MIXED_QUESTIONS: QuizQuestion[] = [
   },
   {
     id: 'mx-q29',
-    questionTypeBadge: 'Geometria',
+    questionTypeBadge: 'Grafikonról',
+    figure: FIG_HF1,
     level: 3,
-    question: 'Egy derékszögű háromszög oldalai számtani sorozatot alkotnak, a legrövidebb oldal 6 cm. Mekkora a háromszög területe?',
-    options: ['24 cm²', '30 cm²', '48 cm²', '12 cm²'],
+    question: 'A grafikonon egy számtani (piros) és egy mértani (kék) sorozat első 3-3 tagja látszik (tankönyv, HF 1.). Mennyi a számtani sorozat első 25 tagjának összege?',
+    options: ['−650', '−550', '−700', '650'],
     correctAnswer: 0,
-    explanation: '6² + (6 + d)² = (6 + 2d)² ⇒ d² + 4d − 12 = 0 ⇒ d = 2: az oldalak 6; 8; 10, T = 6 · 8/2 = 24 cm².'
+    explanation: 'Számtani: 4; 1,5; −1 ⇒ a₁ = 4, d = −2,5; S₂₅ = (2 · 4 + 24 · (−2,5))/2 · 25 = −26 · 25 = −650. (A mértani: 2; 3; 4,5 ⇒ q = 1,5, b₁₀ = 2 · 1,5⁹ ≈ 76,89, S₂₅ = 4 · (1,5²⁵ − 1) ≈ 101 000,67.)'
   },
   {
     id: 'mx-q30',

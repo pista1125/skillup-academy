@@ -24,12 +24,11 @@ A magyar Oktatási Hivatal hivatalos tankönyve (`OH-MAT12TA`, Matematika 12., 2
 - **4.** a₁ = 2, q = 3, Sₙ = 177 146 ⇒ 3ⁿ = 177 147 ⇒ n = 11.
 - **5.** a₂ = 20, a₄ = 500 ⇒ q = ±5: S₆ = 15 624 (q = 5) vagy 10 416 (q = −5).
 - **6. (Érettségi, 2007)** Sál: 8 cm, naponta +20%, 2 m: 1,2ⁿ ≥ 6 ⇒ 10 nap (S₉ ≈ 166,4 cm, S₁₀ ≈ 207,7 cm).
-- **HF 1. c)** a₁ = 512, q = 0,5, Sₙ = 1023 ⇒ n = 10, aₙ = 1.
+- **HF 1.** a) a₁ = 1, q = 2, aₙ = 1024 ⇒ n = 11, S₁₁ = 2047; b) q = 5, n = 4, a₄ = 300 ⇒ a₁ = 2,4, S₄ = 374,4; c) a₁ = 512, q = 0,5, Sₙ = 1023 ⇒ n = 10, aₙ = 1.
 - **HF 2.** 120 kg, hetente −1,5%: 5 / 15 / 20 hét alatt ≈ 8,73 / 24,34 / 31,30 kg fogyás; 85 kg a 23. hét után.
 - **HF 3.** 42 kg → 65 kg hetente +1%-kal: 44 hét.
 - **HF 4.** 520 fertőzött, hetente +35%: 5 / 15 / 20 hét alatt ≈ 5176 / 132 464 / 599 149.
 - **Ráadás:** Sissa ibn Dahir sakktáblája: 1 + 2 + … + 2⁶³ = 2⁶⁴ − 1 ≈ 1,84 · 10¹⁹ búzaszem (≈ 700 milliárd tonna).
-- A HF 1. a)–b) sorainak táblázata a szövegből nem egyértelmű, ezért azokat nem dolgoztuk fel.
 
 > **⚠️ CSAPDA:** az összegképletben a kitevő n (a tagok száma), nem n − 1: a₁ = 3, q = 2 esetén S₅ = 3 · 31 = 93, nem 3 · 15 = 45.
 

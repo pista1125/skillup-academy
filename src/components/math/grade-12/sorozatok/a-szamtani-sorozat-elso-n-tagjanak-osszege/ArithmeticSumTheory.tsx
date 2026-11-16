@@ -160,10 +160,11 @@ export const ArithmeticSumTheory: React.FC<{
               rows={[
                 ['129', '−10', '13', '9', '897'],
                 ['6', '5,3', '21', '112', '1239'],
+                ['−8', '3', '11', '22', '77'],
                 ['74', '−1', '27', '48', '1647']
               ]}
             />
-            <p className="text-xs text-slate-600 mt-2">Pl. a 2. sor: a₁ = 112 − 20 · 5,3 = 6, S₂₁ = (6 + 112)/2 · 21 = 1239.</p>
+            <p className="text-xs text-slate-600 mt-2">Pl. a 2. sor: a₁ = 112 − 20 · 5,3 = 6, S₂₁ = (6 + 112)/2 · 21 = 1239. A 3. sor: (−8 + 22)/2 · n = 77 ⇒ n = 11, és 22 = −8 + 10d ⇒ d = 3.</p>
           </TheoryCard>
           <TheoryCard title="B) Szimmetria és páratlan számok" badge="2–4. feladat" badgeColor="purple">
             <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">

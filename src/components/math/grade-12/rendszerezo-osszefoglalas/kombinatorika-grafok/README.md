@@ -26,7 +26,8 @@ A tankönyvi „FOGALMAK, TÉTELEK, MÓDSZEREK” táblázat kombinatorikai és 
 - **A7.** 16, illetve 36 ismeretség. **A8.** 2⁷ = 128. **A9.** a kocka lapjainak gráfja: 6 csúcs, 12 él.
 - **A12.** 31, illetve 3⁵ − 1 = 242. **B5.** 7 csúcsú, 2-reguláris gráf (7 él). **B6.** 2 · 7! = 10 080. **B9.** 176.
 - **B11.** (34 alatt 2) · (32 alatt 4) = 20 173 560. **B12.** 2500, illetve 27 216.
-- **P1. c)** 5! / 2 = 60. **P4.** kockadobások: 6; 120; 90; 6. **P5.** golyók: 11; 21; 252; 78 552.
+- **P1. c)** 5! / 2 = 60. **P4.** kockadobások: 6; 120; 90; 6. **P5.** golyók: 11; 21; 252; 78 552; e) 3402.
+- **B3.** A gráf (8 csúcs, 9 él): a) 28 − 9 = 19 él; b) 8 · 5 / 2 − 9 = 11 él. **P2.** A 63 osztói (1; 3; 7; 9; 21; 63) a gráfban: 1 és 63 az 5-ödfokú, 3 és 21 a 4-edfokú, 7 és 9 a 3-adfokú csúcsokba; b) 4 kitöltés; c) 2⁶ − 1 = 63. **Q2.** Sakkverseny: 9 lejátszott parti, 2 forduló van hátra; pontok: Anna 1, Béla 1,5, Cili 1, Dani 2, Ede 1,5, Feri 2.
 - **Q1. a)** n = 126. **Q3.** hatjegyűek: 427 608 (van 8-as), 9720 (háromféle jegy, mindből kettő), 84 (növekvő jegyek). **Q4. b)** 22 950. **Q5.** 21 koccintás; a 7 · 3 = 21 páratlan fokszámösszeg miatt lehetetlen; 9 projektből 4: 126.
 
 > **⚠️ CSAPDA:** kézfogásnál, csoportválasztásnál nem számít a sorrend – a sorrendes darabszámot k!-sal osztjuk; „legalább” típusú kérdésnél a komplementer módszer gyorsabb.

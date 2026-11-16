@@ -166,7 +166,7 @@ export const MixedSequencesTheory: React.FC<{
                 Területek: mértani sorozat q² = 1/3 hányadossal: 389,7 · (1 − (1/3)⁴)/(1 − 1/3) ≈ 577,4 cm². 10% hulladékkal: 577,4 / 0,9 ≈ <strong>641,5 cm²</strong> tészta.
               </li>
               <li>
-                Marcipán (1 cm magas szinteket feltételezve): felülről a legnagyobb háromszög (≈ 389,7 cm²) + oldalfalak (189,3 cm · 1 cm) ≈ <strong>579 cm²</strong>.
+                Marcipán (a tészta 1 cm vastag, így minden szint 1 cm magas): felülről a legnagyobb háromszög (≈ 389,7 cm²) + oldalfalak (189,3 cm · 1 cm) ≈ <strong>579 cm²</strong>.
               </li>
             </ul>
           </div>
@@ -204,6 +204,24 @@ export const MixedSequencesTheory: React.FC<{
         <TheoryCallout type="info" title="Házi feladatok tanulságai">
           Faiskola: 40 csemete, soronként +4, összesen 1020 ⇒ n(38 + 2n) = 1020 ⇒ <strong>15 sor</strong>. a₁ = 10 és Sₙ &gt; 1000: számtani sorozatnál (d = 2) n(n + 9) &gt; 1000 ⇒ legalább{' '}
           <strong>28</strong> tag; mértani sorozatnál (q = 1,2) 1,2ⁿ &gt; 21 ⇒ legalább <strong>17</strong> tag. Mértani sorozat, q = −3, S₁₀ = −7381 ⇒ a₁ = 0,5, a₇ = 364,5.
+        </TheoryCallout>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <TheoryCard title="Grafikonról a sorozatokig" badge="Házi feladat 1." badgeColor="sky">
+            <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">
+              <li>Számtani sorozat (piros pontok): 4; 1,5; −1 ⇒ a₁ = 4, d = −2,5; a₁₀ = 4 + 9 · (−2,5) = −18,5; S₂₅ = (8 + 24 · (−2,5))/2 · 25 = <strong>−650</strong>.</li>
+              <li>Mértani sorozat (kék rombuszok): 2; 3; 4,5 ⇒ b₁ = 2, q = 1,5; b₁₀ = 2 · 1,5⁹ ≈ 76,89; S₂₅ = 2 · (1,5²⁵ − 1)/0,5 ≈ <strong>101 000,67</strong>.</li>
+            </ul>
+          </TheoryCard>
+          <TheoryCard title="Két tagból a 7. tag" badge="Házi feladat 2." badgeColor="rose">
+            <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">
+              <li>a) a₅ = −4, a₉ = −49: q⁴ = 12,25 ⇒ q² = 3,5; a₇ = a₅ · q² = <strong>−14</strong> (a +14 nem jó, mert q² &gt; 0).</li>
+              <li>b) a₄ = −18, a₁₀ = −2: q⁶ = 1/9 ⇒ q³ = 1/3 vagy −1/3; a₇ = a₄ · q³ = <strong>−6 vagy 6</strong> – itt mindkettő lehetséges (q³ előjele kétféle).</li>
+              <li>c) q = −3, S₁₀ = −7381 ⇒ a₁ = 0,5, a₇ = 364,5.</li>
+            </ul>
+          </TheoryCard>
+        </div>
+        <TheoryCallout type="info" title="A tökpiramis (Ráadás 3. b)–c))">
+          A képen látható piramis <strong>9 szintes</strong>. b) Összesen 1² + 2² + … + 9² = 9 · 10 · 19/6 = <strong>285</strong> tök. c) A k-adik szinten a szélső körön kívüli (k − 2)² tököt a fölötte lévő szint takarja, így belül 1² + 2² + … + 7² = 7 · 8 · 15/6 = <strong>140</strong> tök nem látható – ezért kéri a tankönyv a képlet ellenőrzését 9-re és 7-re.
         </TheoryCallout>
       </TheorySection>
 

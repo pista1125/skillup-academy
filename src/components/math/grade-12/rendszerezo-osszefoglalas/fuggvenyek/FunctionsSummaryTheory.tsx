@@ -3,6 +3,8 @@ import { TheoryTemplate, TheorySection, TheoryCard, TheoryCallout, TheoryTrapBox
 import { PlotBox, Axes, curvePath, mapX, mapY, F_BLUE, F_RED, F_GREEN } from './plotKit';
 import { MappingSvg, BasicFunctionsSvg, TransformationsSvg, LinearExampleSvg, ShiftExampleSvg, ReciprocalExampleSvg } from './FunctionsSummaryFigures';
 
+const P4_BOX: PlotBox = { x0: 16, y0: 10, w: 228, h: 150, xmin: -5, xmax: 7, ymin: -5, ymax: 5 };
+
 const numIn = 'w-20 px-2 py-1 rounded-lg border border-slate-300 text-sm font-mono';
 
 const fmt = (x: number, d = 3): string => {
@@ -199,8 +201,10 @@ export const FunctionsSummaryTheory: React.FC<{
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <TheoryCard title="A) Alapfeladatok" badge="A2.–A11." badgeColor="sky">
             <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">
-              <li>2x² − x − 1 zérushelyei: 1 és −1/2; 0,5x − 8 zérushelye 16; −7x + 16 = 13 ⇒ x = 3/7.</li>
-              <li>A(−3; 2), B(5; 4) ⇒ f(x) = 0,25x + 2,75; 9x + 5 értéke x = −1/2-nél 0,5.</li>
+              <li>2x² − x − 1 zérushelyei: 1 és −1/2; 0,5ˣ − 8 zérushelye: 0,5ˣ = 8 = 0,5⁻³ ⇒ x = −3; −7x + 16 = 13 ⇒ x = 3/7.</li>
+              <li>A(−3; 2), B(5; 4) ⇒ f(x) = 0,25x + 2,75; 9ˣ + 5 értéke x = −1/2-nél 9^(−1/2) + 5 = 1/3 + 5 = 16/3.</li>
+              <li>A5.: a parabola csúcsa (−5; −2) ⇒ f(x) = (x + 5)² − 2 (az A betűjelű szabály); f negatív a ]−5 − √2; −5 + √2[ intervallumon.</li>
+              <li>A12.: f a ]1; 6]-on: (1; 2) (üres karika) → (2; 0) → (3; −2) → (4; 0) → (6; 4). |f| minimuma 0 (x = 2 és x = 4), maximuma 4 (x = 6); az 1-nél a 2 értéket nem veszi fel.</li>
               <li>−(7/3)x + 22 szigorúan monoton csökkenő (a &lt; 0).</li>
               <li>{'{1; 2; 3}'} → {'{5; 6; 7}'}: 3³ = 27 függvény, ebből 3! = 6 kölcsönösen egyértelmű.</li>
               <li>f(x) = 5x − 2, g(x) = (x + 4)², h(x) = −|x|, i(x) = √x + 6.</li>
@@ -220,6 +224,7 @@ export const FunctionsSummaryTheory: React.FC<{
             <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">
               <li>3 − 2x = x² ⇒ x² + 2x − 3 = 0 ⇒ x = −3 vagy 1; f(x) &gt; g(x), ha −3 &lt; x &lt; 1.</li>
               <li>f(x) = 12x + 640 (x dkg): fix díj 640 Ft, 12 Ft/dkg; 450 g = 45 dkg ⇒ 1180 Ft; 1600 Ft ⇒ 80 dkg = 0,8 kg.</li>
+              <li>P3. f): 10 kg alatt 640 Ft &lt; díj &lt; 12 640 Ft; 10 és 25 kg között (+1100 Ft) 13 740 Ft ≤ díj ≤ 31 740 Ft.</li>
             </ul>
           </TheoryCard>
           <TheoryCard title="D) Exponenciális modell" badge="P5., Ráadás" badgeColor="rose">
@@ -230,6 +235,26 @@ export const FunctionsSummaryTheory: React.FC<{
             </ul>
           </TheoryCard>
         </div>
+        <TheoryCard title="E) Abszolútérték-függvények grafikonról" badge="P4." badgeColor="indigo">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center">
+            <svg viewBox="0 0 260 170" className="w-full max-w-[300px] h-auto mx-auto" xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif" role="img" aria-label="a P4. feladat három abszolútérték-függvénye">
+              <rect x="1" y="1" width="258" height="168" rx="12" fill="#f8fafc" stroke="#cbd5e1" />
+              <Axes b={P4_BOX} />
+              <path d={curvePath(P4_BOX, (x) => Math.abs(x + 2))} fill="none" stroke={F_RED} strokeWidth="2" />
+              <path d={curvePath(P4_BOX, (x) => 0.5 * Math.abs(x - 2))} fill="none" stroke={F_BLUE} strokeWidth="2" />
+              <path d={curvePath(P4_BOX, (x) => -2 * Math.abs(x))} fill="none" stroke={F_GREEN} strokeWidth="2" />
+              <text x={mapX(P4_BOX, 2.4)} y={mapY(P4_BOX, 4.3)} fontSize="10" fontWeight="bold" fill={F_RED}>h</text>
+              <text x={mapX(P4_BOX, 5.2)} y={mapY(P4_BOX, 2)} fontSize="10" fontWeight="bold" fill={F_BLUE}>g</text>
+              <text x={mapX(P4_BOX, 1.6)} y={mapY(P4_BOX, -3.6)} fontSize="10" fontWeight="bold" fill={F_GREEN}>f</text>
+            </svg>
+            <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">
+              <li>a) h: csúcs (−2; 0), meredekség 1 ⇒ <strong>s: x ↦ |x + 2|</strong>; g: csúcs (2; 0), meredekség 1/2 ⇒ <strong>u: x ↦ 0,5 · |x − 2|</strong>; f: csúcs (0; 0), lefelé, meredekség 2 ⇒ <strong>q: x ↦ −2 · |x|</strong>.</li>
+              <li>b) h(0) = 2, g(0) = 1, f(0) = 0.</li>
+              <li>c) Zérushelyek: h: −2; g: 2; f: 0.</li>
+              <li>d) h minimuma 0 (x = −2), g minimuma 0 (x = 2), maximumuk nincs; f maximuma 0 (x = 0), minimuma nincs.</li>
+            </ul>
+          </div>
+        </TheoryCard>
       </TheorySection>
 
       <TheorySection title="7. Tipikus hiba: merre tol a zárójelen belüli szám?" badge="Csapda" badgeColor="rose">

@@ -7,8 +7,8 @@ import { SeqPlot, SeqChain } from './seqKit';
 const FIG_Q4 = <SeqPlot values={[2, 5, 1, 4, 3]} />;
 const FIG_Q10 = <SeqChain terms={['1', '2', '3', '5', '8', '?']} ops="" title="Lehetőségek száma a lépcsőfokokon" />;
 const FIG_Q14 = <SeqPlot values={[0, 1, 3, 6, 10, NaN]} unknown={5} yLabel="kₙ" showValues />;
-const FIG_Q17 = <SeqPlot values={[1, 1 / 2, 1 / 3, 1 / 4, 1 / 5, 1 / 6, 1 / 7]} />;
-const FIG_Q20 = <SeqPlot values={[-1, 2, -3, 4, -5, 6, NaN]} unknown={6} showValues />;
+const FIG_Q17 = <SeqPlot values={[6, 3, 2, 1.5, 1.2, 1, 6 / 7]} />;
+const FIG_Q20 = <SeqPlot values={[1, 2, 4, 8]} />;
 const FIG_Q27 = <SeqChain terms={['a₇ = 21', 'a₈ = 34', 'a₉', 'a₁₀ = ?']} ops="" title="1 vagy 2 fokos lépések" />;
 
 const NUMBER_SEQUENCES_QUESTIONS: QuizQuestion[] = [
@@ -171,10 +171,10 @@ const NUMBER_SEQUENCES_QUESTIONS: QuizQuestion[] = [
     questionTypeBadge: 'Pontgrafikon',
     figure: FIG_Q17,
     level: 2,
-    question: 'Melyik képletű sorozat első hét tagját ábrázolja a pontgrafikon?',
-    options: ['aₙ = 1/n', 'aₙ = n²', 'aₙ = 2n − 1', 'aₙ = (−1)ⁿ'],
+    question: 'Melyik képletű sorozat első hét tagját ábrázolja a pontgrafikon? (Tankönyv, 1. a) feladat)',
+    options: ['aₙ = 6/n', 'aₙ = 1/n', 'aₙ = 7 − n', 'aₙ = 6 − n'],
     correctAnswer: 0,
-    explanation: 'Az első tag 1, a tagok egyre kisebbek, de pozitívak: 1; 1/2; 1/3; … – ez az aₙ = 1/n sorozat.'
+    explanation: 'A pontok: 6; 3; 2; 1,5; 1,2; 1; … – a tag és a sorszám szorzata mindig 6, tehát aₙ = 6/n. (Az 1/n az 1-gyel kezdene, a 7 − n második tagja 5 lenne.)'
   },
   {
     id: 'ns-q18',
@@ -199,10 +199,10 @@ const NUMBER_SEQUENCES_QUESTIONS: QuizQuestion[] = [
     questionTypeBadge: 'Pontgrafikon',
     figure: FIG_Q20,
     level: 2,
-    question: 'Az aₙ = (−1)ⁿ · n sorozat első hat tagja látszik az ábrán. Mennyi a₇?',
-    options: ['−7', '7', '−1', '1'],
+    question: 'Melyik hozzárendelési szabályú sorozat első négy tagját ábrázolja a pontgrafikon? (Tankönyv, 1. c) feladat)',
+    options: ['cₙ = 2ⁿ⁻¹', 'cₙ = 2ⁿ', 'cₙ = 2n − 1', 'cₙ = n²'],
     correctAnswer: 0,
-    explanation: 'n = 7 páratlan, így (−1)⁷ = −1, a₇ = −7. A páratlan sorszámú tagok negatívak.'
+    explanation: 'A pontok: 1; 2; 4; 8 – minden tag az előző kétszerese, c₁ = 1 = 2⁰, tehát cₙ = 2ⁿ⁻¹. (A 2ⁿ 2-vel kezdene, a 2n − 1 harmadik tagja 5, az n² második tagja 4 lenne.)'
   },
   // ---------------- 3. szint ----------------
   {

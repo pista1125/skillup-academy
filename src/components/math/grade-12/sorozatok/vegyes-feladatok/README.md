@@ -20,14 +20,14 @@ A lecke nem tartalmaz új elméletet: számtani és mértani sorozatos feladatok
 - **1.** a₁ = 5, d = 2, Sₙ = 357 ⇒ n(n + 4) = 357 ⇒ n = 17.
 - **2.** a₁ = 16, q = 1,07: a) 62 tag kisebb 1000-nél; b) Sₙ < 1000 ⇒ legfeljebb 24 tag.
 - **3.** b₁ = 1, q = 1/2: S₅ = 31/16, S₁₀ = 1023/512, S₁₅ = 32 767/16 384, S₂₀ = 1 048 575/524 288 (≈ 1,938; 1,998; 2,000; 2,000); Sₙ = 2 − (1/2)ⁿ⁻¹ < 2, Bence állítása igaz.
-- **4.** Torta: az oldalak aránya 1/√3 (30; 10√3; 10; 10/√3 cm), cukordíszítés ≈ 189,3 cm, alapterületek összege ≈ 577,4 cm², 10% hulladékkal ≈ 641,5 cm² tészta; marcipán (1 cm-es szintekkel számolva) ≈ 579 cm².
+- **4.** Torta: az oldalak aránya 1/√3 (30; 10√3; 10; 10/√3 cm), cukordíszítés ≈ 189,3 cm, alapterületek összege ≈ 577,4 cm², 10% hulladékkal ≈ 641,5 cm² tészta; marcipán (a tészta 1 cm vastag ⇒ 1 cm magas szintek) ≈ 579 cm².
 - **5. (Érettségi, 2009)** Járólapok: n(n + 7) = 858 ⇒ 26 sor; kimaradt 30 bordó és 12 szürke lap.
 - **6. (Érettségi, 2006)** 5q² = 5 + 3d, 5q⁴ = 5 + 15d ⇒ q = ±2, d = 5 (illetve q = ±1, d = 0).
-- **HF 2. c)** q = −3, S₁₀ = −7381 ⇒ a₁ = 0,5, a₇ = 364,5.
+- **HF 1.** Grafikon: számtani 4; 1,5; −1 (d = −2,5): a₁₀ = −18,5, S₂₅ = −650; mértani 2; 3; 4,5 (q = 1,5): b₁₀ ≈ 76,89, S₂₅ ≈ 101 000,67.
+- **HF 2.** a) a₅ = −4, a₉ = −49 ⇒ q² = 3,5, a₇ = −14; b) a₄ = −18, a₁₀ = −2 ⇒ q³ = ±1/3, a₇ = −6 vagy 6; c) q = −3, S₁₀ = −7381 ⇒ a₁ = 0,5, a₇ = 364,5.
 - **HF 3.** Faiskola: 40, +4, 1020 csemete ⇒ 15 sor.
 - **HF 4.** a₁ = 10, Sₙ > 1000: számtani (d = 2) ⇒ 28 tag, mértani (q = 1,2) ⇒ 17 tag.
-- **Ráadás 3.** 1 + 4 + 9 + 16 = 30; a képlet n = 9-re 285, n = 7-re 140; 1² + … + 25² = 5525.
-- A HF 1. grafikonja, a HF 2. a)–b) (a szövegben sérült törtek) és a tökpiramis képhez kötött b)–c) kérdései nem egyértelműek, ezért nem dolgoztuk fel őket.
+- **Ráadás 3.** 1 + 4 + 9 + 16 = 30; a képen 9 szintes piramis: b) 285 tök, c) belül nem látható 1² + … + 7² = 140 tök (a képlet n = 9-re és 7-re); 1² + … + 25² = 5525.
 
 > **⚠️ CSAPDA:** két nem szomszédos tagból (pl. a₅ = 4, a₉ = 324) a köztes a₇ = a₅ · q² előjele kötött: a₇ = 36, a −36 nem megoldás.
 
@@ -47,7 +47,7 @@ A lecke nem tartalmaz új elméletet: számtani és mértani sorozatos feladatok
    - **II. Laboratórium:** összegverseny – közös a₁, külön d és q csúszka, célérték: melyik részletösszeg-sorozat lépi túl előbb.
 3. **`MixedSequencesMatcher.tsx`**: 3 szint × 8 pár (típusfelismerés; középső tagok; szöveges feladatok).
 4. **`MixedSequencesSorter.tsx`**: 3 szint × 3 kategória × 9 elem (számtani / mértani / egyik sem; elsőfokú / másodfokú / exponenciális egyenlet; igaz / hamis / függ).
-5. **`MixedSequencesQuiz.tsx`**: 30 kérdés 3 szinten (10/10/10), 8 kérdésábrával, 3 puskakártyával.
+5. **`MixedSequencesQuiz.tsx`**: 30 kérdés 3 szinten (10/10/10), 9 kérdésábrával, 3 puskakártyával.
 - Rajzsegédek: `../a-mertani-sorozat-elso-n-tagjanak-osszege/seqKit.tsx`.
 
 Aktivitás-azonosítók: `g12-seq-vegyes-quiz` / `-matcher` / `-sorter`.

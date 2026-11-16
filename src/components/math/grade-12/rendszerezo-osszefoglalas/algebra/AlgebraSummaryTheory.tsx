@@ -250,14 +250,14 @@ export const AlgebraSummaryTheory: React.FC<{
               <li>lg(7 − 3x) értelmezett, ha 7 − 3x &gt; 0 ⇒ x &lt; 7/3.</li>
               <li>{'3ˣ · 9⁻ˣ = 27 · (1/3)²ˣ'} ⇒ 3⁻ˣ = 3³⁻²ˣ ⇒ x = 3.</li>
               <li>(x − 1)² + (x − 3)(x + 3) ≤ 4 ⇒ x² − x − 6 ≤ 0 ⇒ −2 ≤ x ≤ 3: hat egész szám.</li>
-              <li>√(x − 6) + (x + 6)² = 0: mindkét tag ≥ 0, egyszerre csak x = 6 és x = −6 esetén lennének 0 – nincs megoldás.</li>
+              <li>|x − 6| + (x + 6)² = 0: mindkét tag ≥ 0, így mindkettőnek 0-nak kellene lennie – ez x = 6 és x = −6 egyszerre, lehetetlen – nincs megoldás.</li>
             </ul>
           </TheoryCard>
           <TheoryCard title="D) Mozgás, exponenciális egyenlet" badge="P2. b), P3. b), Q3." badgeColor="rose">
             <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">
               <li>Hajók: 35 · 0,75 = 26,25 km előny, 10 km/h közeledés ⇒ 2,625 óra múlva, 118,125 km-nél éri utol.</li>
               <li>0,9 = {'2,718^{-0,1275h}'} ⇒ h = lg(1/0,9) / (0,1275 · lg 2,718) ≈ 0,83 km.</li>
-              <li>A negatív számok halmazán: 2x² − x − 1 = 0 ⇒ x = −1/2; √(2x + 11) = x + 4 ⇒ x = −1 (a −5 hamis gyök).</li>
+              <li>A negatív számok halmazán: 2x² − x − 1 = 0 ⇒ x = −1/2; √(2x + 11) = x + 4 ⇒ x = −1 (a −5 hamis gyök); √x + |x| + x² = 0-nak nincs negatív megoldása, mert negatív számnak nincs négyzetgyöke.</li>
             </ul>
           </TheoryCard>
         </div>

@@ -23,7 +23,7 @@ A magyar Oktatási Hivatal hivatalos tankönyve (`OH-MAT12TA`, Matematika 12., 2
 - **4.** a₂ = 1600, a₄ = 4 ⇒ q = ±1/20, a₁ = ±32 000.
 - **5.** a₁ = 8, a₂ + a₃ = 16 ⇒ q = 1 vagy −2 ⇒ a₄ = 8 vagy −64.
 - **6.** Gép: 21,5 millió Ft, évi 15% értékcsökkenés ⇒ 3 év múlva ≈ 13,2 millió Ft; 0,85ⁿ < 0,45 ⇒ 2026-ban adják el (a 21,5 milliós adat nélkül is).
-- **HF 1.** Táblázat: a₁ = 4, a₃ = −16 nincs megoldás; a₂ = 9, a₄ = 81 két megoldás (q = ±3); a₁ = 500, a₄ = −864 ⇒ q = −1,2; a₃ = 400, a₄ = −320 ⇒ q = −0,8 (a táblázat oszlopait a szöveg alapján rekonstruáltuk).
+- **HF 1.** Táblázat: a₁ = 4, a₃ = −16 nincs megoldás; a₂ = 9, a₄ = 81 két megoldás (q = ±3); a₁ = 500, a₄ = −864 ⇒ q = −1,2; a₃ = 400, a₄ = −320 ⇒ q = −0,8.
 - **HF 2.** a₃ = 32, a₆ = 108 ⇒ q = 1,5; 28 tag kisebb 1 000 000-nál.
 - **HF 3.** a₁ = 10²³, q = 0,001: a 100 a 8. tag; 5 tag nagyobb 10¹⁰-nél.
 

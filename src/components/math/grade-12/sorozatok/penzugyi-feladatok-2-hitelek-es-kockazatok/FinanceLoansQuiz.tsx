@@ -369,9 +369,9 @@ const FINANCE_LOANS_QUESTIONS: QuizQuestion[] = [
     figure: FIG_ANTAL,
     level: 3,
     question: 'Antal 200 000 Ft hitelét 4 × 63 095 Ft-tal fizeti vissza. Mennyi a négy részlet kamatrészeinek összege?',
-    options: ['52 380 Ft', '80 000 Ft', '20 000 Ft', '92 820 Ft'],
+    options: ['≈ 52 377 Ft', '80 000 Ft', '20 000 Ft', '92 820 Ft'],
     correctAnswer: 0,
-    explanation: 'A tőkerészek összege a felvett 200 000 Ft, így a kamatrészek összege 4 · 63 095 − 200 000 = 52 380 Ft (20 000 + 15 690,5 + 10 950 + 5 736 ≈ 52 377 + kerekítés).'
+    explanation: 'A táblázat kamatrészei: 20 000 + 15 691 + 10 950 + 5 736 = 52 377 Ft. Ellenőrzés: 4 · 63 095 − 200 000 = 52 380 Ft – a 3 Ft különbség a felfelé kerekített részlet miatti túlfizetés. (80 000 Ft a 4 · 20 000 hibás számítás: a kamat a csökkenő tartozás után jár.)'
   }
 ];
 

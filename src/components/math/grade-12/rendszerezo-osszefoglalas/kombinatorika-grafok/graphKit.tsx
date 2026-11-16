@@ -84,3 +84,49 @@ export const completeEdges = (n: number): [number, number][] => {
   for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) e.push([i, j]);
   return e;
 };
+
+// B3. feladat gráfja (tankönyv, 113. o.): 8 csúcs, 9 él
+export const B3_PTS: [number, number][] = [
+  [92, 18],
+  [26, 60],
+  [26, 108],
+  [92, 150],
+  [196, 144],
+  [194, 30],
+  [222, 72],
+  [222, 104]
+];
+export const B3_EDGES: [number, number][] = [
+  [0, 2],
+  [0, 4],
+  [1, 4],
+  [1, 3],
+  [2, 5],
+  [2, 7],
+  [5, 6],
+  [5, 7],
+  [3, 6]
+];
+// P2. feladat gráfja (tankönyv, 114. o.): hatszög + 6 átló; csúcsok: bal felső, jobb felső, jobb, jobb alsó, bal alsó, bal
+export const P2_PTS: [number, number][] = [
+  [82, 18],
+  [168, 18],
+  [232, 88],
+  [168, 158],
+  [82, 158],
+  [18, 88]
+];
+export const P2_EDGES: [number, number][] = [
+  [0, 1],
+  [1, 2],
+  [2, 3],
+  [3, 4],
+  [4, 5],
+  [5, 0],
+  [0, 4],
+  [0, 3],
+  [0, 2],
+  [5, 1],
+  [1, 4],
+  [4, 2]
+];

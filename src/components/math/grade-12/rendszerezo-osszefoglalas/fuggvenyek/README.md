@@ -17,13 +17,14 @@ A tankönyvi „FOGALMAK, TÉTELEK, MÓDSZEREK” táblázat (128–132. o.):
 
 ### Kidolgozott feladatok
 - **1.** A(−5; 6), B(5; −2) ⇒ f(x) = −0,8x + 2; f(123) = −96,4; f(x) = 456 ⇒ x = −567,5; zérushely 2,5; f(x) < 0 ⇔ x > 2,5.
-- **2.** x² eltolása a v(−3; −4) vektorral: g(x) = (x + 3)² − 4; zérushelyek −5 és −1; minimum −4 (x = −3); g(x) = −3 ⇔ x = −4 vagy −2.- **3.** f(x) = 1/x + 2 (R_f = ℝ ∖ {2}), g = |f| (R_g = [0; ∞[, minimumhely −1/2), h = f az [1; 4]-en (R_h = [2,25; 3]).
+- **2.** x² eltolása a v(−3; −4) vektorral: g(x) = (x + 3)² − 4; zérushelyek −5 és −1; minimum −4 (x = −3); g(x) = −3 ⇔ x = −4 vagy −2.
+- **3.** f(x) = 1/x + 2 (R_f = ℝ ∖ {2}), g = |f| (R_g = [0; ∞[, minimumhely −1/2), h = f az [1; 4]-en (R_h = [2,25; 3]).
 
 ### Tankönyvi feladatok (a modulban feldolgozva)
-- **A1.** Függvény / nem kölcsönösen egyértelmű / kölcsönösen egyértelmű hozzárendelések. **A2.** 1 és −1/2. **A3.** f(x) = 0,25x + 2,75.
-- **A5.** (x − 2)² − 5 grafikonja. **A6.** 16. **A7.** igaz/hamis állítások. **A8.** szigorúan csökkenő. **A9.** x = 3/7. **A10.** 27 függvény, 6 kölcsönösen egyértelmű. **A11.** 5x − 2, (x + 4)², −|x|, √x + 6.
+- **A1.** Függvény / nem kölcsönösen egyértelmű / kölcsönösen egyértelmű hozzárendelések. **A2.** 1 és −1/2. **A3.** f(x) = 0,25x + 2,75. **A4.** 9ˣ + 5 értéke x = −1/2-nél 16/3.
+- **A5.** A grafikon csúcsa (−5; −2) ⇒ f(x) = (x + 5)² − 2 (A); negatív a ]−5 − √2; −5 + √2[-en. **A6.** 0,5ˣ − 8 zérushelye −3. **A7.** igaz/hamis állítások. **A8.** szigorúan csökkenő. **A9.** x = 3/7. **A10.** 27 függvény, 6 kölcsönösen egyértelmű. **A11.** 5x − 2, (x + 4)², −|x|, √x + 6. **A12.** |f| minimuma 0 (x = 2 és 4), maximuma 4 (x = 6).
 - **P1.** Ferde hajítás: 5 m, csúcs (2 s; 9 m), 8 m-en 1 s és 3 s, talajra ér 5 s-nál. **P2.** 3 − 2x = x² ⇒ −3 és 1; f > g a ]−3; 1[-en.
-- **P3.** Csomagküldés: 640 Ft fix díj, 12 Ft/dkg, 450 g ⇒ 1180 Ft, 1600 Ft ⇒ 0,8 kg. **P5.** Sörhab 14 · 0,991ᵗ: 14 mm, 1 perc után ≈ 8,1 mm, 3 mm ≈ 170,4 s után.
+- **P3.** Csomagküldés: 640 Ft fix díj, 12 Ft/dkg, 450 g ⇒ 1180 Ft, 1600 Ft ⇒ 0,8 kg; a díj 640 és 12 640 Ft között (10 kg alatt), illetve 13 740 és 31 740 Ft között (10–25 kg). **P4.** A grafikonok: h ↔ s: |x + 2|, g ↔ u: 0,5|x − 2|, f ↔ q: −2|x|; 0-ban 2, 1, 0; zérushelyek −2, 2, 0. **P5.** Sörhab 14 · 0,991ᵗ: 14 mm, 1 perc után ≈ 8,1 mm, 3 mm ≈ 170,4 s után.
 - **Ráadás.** D(h) = √(12 740h + h²): 455 m-ről ≈ 76 km, 300 km-hez h ≈ 7,06 km.
 
 > **⚠️ CSAPDA:** f(x − 4) jobbra tol (nem balra); a képhalmaz és az értékkészlet nem ugyanaz; mértékegység-váltás (g ↔ dkg, m ↔ km) a modellfeladatokban.
@@ -44,7 +45,7 @@ A tankönyvi „FOGALMAK, TÉTELEK, MÓDSZEREK” táblázat (128–132. o.):
    - **II. Laboratórium:** lineáris függvény két pontból – meredekség, képlet, helyettesítési érték, f(x) = y₀ megoldása, monotonitás, zérushely, grafikon.
 3. **`FunctionsSummaryMatcher.tsx`**: 3 szint × 8 pár (alapfüggvény ↔ tulajdonság; transzformáció ↔ hatás; feladat ↔ eredmény).
 4. **`FunctionsSummarySorter.tsx`**: 3 szint × 3 kategória × 9 elem (függvény / kölcsönösen egyértelmű; monotonitás; zérushelyek száma).
-5. **`FunctionsSummaryQuiz.tsx`**: 30 kérdés 3 szinten (10/10/10), 6 kérdésábrával, 3 puskakártyával.
+5. **`FunctionsSummaryQuiz.tsx`**: 30 kérdés 3 szinten (10/10/10), 7 kérdésábrával, 3 puskakártyával.
 - `plotKit.tsx`: belső koordináta-rendszer- és görberajzoló segédek (nem exportáljuk az `index.ts`-ből).
 
 Aktivitás-azonosítók: `g12-sum-fuggvenyek-quiz` / `-matcher` / `-sorter`.

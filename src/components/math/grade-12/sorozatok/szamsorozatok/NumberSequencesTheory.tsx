@@ -156,10 +156,32 @@ export const NumberSequencesTheory: React.FC<{
               Példa (tankönyvi 4. feladat): a {'{kₙ}'} sorozat tagjai 0; 1; 3; 6; 10; 15; … – ez a sorozat megegyezik az i(n) = (n² − n)/2 függvénnyel a pozitív egészeken, mert (n² − n)/2 = n(n − 1)/2 (n elemből kiválasztható párok száma).
             </p>
             <p>
-              Egy sorozat <strong>tagjait felsorolhatjuk</strong> is egy képlet alapján, pl. bₙ = n/(n + 1): 1/2; 2/3; 3/4; 4/5; 5/6; … vagy cₙ = log₄ n: 0; 1/2; log₄ 3; 1; log₄ 5; …
+              Egy sorozat <strong>tagjait felsorolhatjuk</strong> is egy képlet alapján (házi feladat 3.): aₙ = (60 + n)/n: 61; 31; 21; 16; 13; … – bₙ = n/(n + 1): 1/2; 2/3; 3/4; 4/5; 5/6; … – cₙ = log₄ n: 0; 1/2; log₄ 3; 1; log₄ 5; …
             </p>
           </div>
         </div>
+        <TheoryCard title="Grafikonról a hozzárendelési szabályig" badge="1. feladat" badgeColor="sky">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="space-y-2">
+              <SeqPlot values={[6, 3, 2, 1.5, 1.2, 1, 6 / 7]} title="a)" />
+              <p className="text-sm text-slate-700">
+                Pontok: 6; 3; 2; 1,5; 1,2; 1; … – a tag és a sorszám szorzata mindig 6: <strong>aₙ = 6/n</strong>.
+              </p>
+            </div>
+            <div className="space-y-2">
+              <SeqPlot values={[3.75, 3.5, 3.25, 3, 2.75, 2.5, 2.25]} title="b)" />
+              <p className="text-sm text-slate-700">
+                Pontok: 3,75; 3,5; 3,25; 3; … – lépésenként 1/4-del csökken: <strong>bₙ = 4 − n/4</strong> = (16 − n)/4.
+              </p>
+            </div>
+            <div className="space-y-2">
+              <SeqPlot values={[1, 2, 4, 8]} title="c)" />
+              <p className="text-sm text-slate-700">
+                Pontok: 1; 2; 4; 8 – minden tag az előző kétszerese: <strong>cₙ = 2ⁿ⁻¹</strong>.
+              </p>
+            </div>
+          </div>
+        </TheoryCard>
       </TheorySection>
 
       <TheorySection title="4. Kidolgozott feladatok a leckéből" badge="Mintapéldák" badgeColor="amber">

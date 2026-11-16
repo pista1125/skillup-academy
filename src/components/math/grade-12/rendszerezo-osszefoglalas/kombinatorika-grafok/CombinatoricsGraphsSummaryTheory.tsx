@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { TheoryTemplate, TheorySection, TheoryCard, TheoryCallout, TheoryTrapBox, TheoryTable } from '../TheoryTemplate';
-import { GraphDraw, circlePts, completeEdges, degrees, binom, fact, falling, fmtInt } from './graphKit';
+import { GraphDraw, circlePts, completeEdges, degrees, binom, fact, falling, fmtInt, B3_PTS, B3_EDGES, P2_PTS, P2_EDGES } from './graphKit';
 import { CountingBoxesSvg, PascalTriangleSvg, HandshakeGraphSvg, DegreeSumSvg, DescendingDigitsSvg } from './CombinatoricsGraphsSummaryFigures';
 
 const ALL_PAIRS = completeEdges(6);
@@ -163,6 +163,45 @@ export const CombinatoricsGraphsSummaryTheory: React.FC<{
           </div>
           <DegreeSumSvg />
         </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <TheoryCard title="Gráf kiegészítése (B3.)" badge="B3." badgeColor="sky">
+            <svg viewBox="0 0 240 168" className="w-full max-w-[280px] h-auto mx-auto mb-3" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="a B3. feladat 8 csúcsú, 9 élű gráfja">
+              <rect x="1" y="1" width="238" height="166" rx="12" fill="#f8fafc" stroke="#cbd5e1" />
+              <GraphDraw pts={B3_PTS} edges={B3_EDGES} r={5} />
+            </svg>
+            <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">
+              <li>A gráfnak 8 csúcsa és 9 éle van; a fokszámok: 3, 3 és hat darab 2 (összeg 18 = 2 · 9).</li>
+              <li>a) A 8 csúcsú teljes gráfnak 8 · 7 / 2 = 28 éle van ⇒ <strong>19</strong> élt kell behúzni.</li>
+              <li>b) Ha minden fokszám 5, az élek száma 8 · 5 / 2 = 20 ⇒ <strong>11</strong> új él kell (a hiányzó élek közül ilyen 11 kiválasztható: a két 3-as fokú csúcsból 2-2, a többiből 3-3 új él indul).</li>
+            </ul>
+          </TheoryCard>
+          <TheoryCard title="A 63 osztóinak gráfja (P2.)" badge="P2." badgeColor="purple">
+            <svg viewBox="0 0 250 176" className="w-full max-w-[280px] h-auto mx-auto mb-3" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="a P2. feladat gráfja a 63 osztóival">
+              <rect x="1" y="1" width="248" height="174" rx="12" fill="#f8fafc" stroke="#cbd5e1" />
+              <GraphDraw pts={P2_PTS} edges={P2_EDGES} labels={['1', '3', '21', '7', '63', '9']} r={12} />
+            </svg>
+            <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">
+              <li>Az osztók: 1; 3; 7; 9; 21; 63. Fokszámaik az oszthatósági gráfban: 1 és 63: 5, 3 és 21: 4, 7 és 9: 3 (12 él). Nem szomszédos párok: 3–7, 7–9, 9–21.</li>
+              <li>a) Az ábrán a két 5-ödfokú csúcsba 1 és 63, a nem összekötött „útvonal” csúcsaiba sorban 3, 7, 9, 21 kerül (egy kitöltés látható).</li>
+              <li>b) Az 1 és a 63 helye felcserélhető (2), és a 3–7–9–21 út megfordítható (2): <strong>4</strong> szabályos kitöltés van.</li>
+              <li>c) Legalább egy osztó kiválasztása: 2⁶ − 1 = <strong>63</strong>-féleképpen.</li>
+            </ul>
+          </TheoryCard>
+        </div>
+        <TheoryCard title="Körmérkőzéses sakkverseny (Q2.)" badge="Q2." badgeColor="emerald">
+          <TheoryTable
+            headers={['Név', 'Anna', 'Béla', 'Cili', 'Dani', 'Ede', 'Feri']}
+            rows={[
+              ['Eddigi ellenfelek', 'Béla, Ede, Feri', 'Anna, Cili, Dani', 'Béla, Dani, Feri', 'Béla, Cili, Ede', 'Anna, Dani, Feri', 'Anna, Cili, Ede'],
+              ['Pontszám', '1', '1,5', '1', '2', '1,5', '2']
+            ]}
+          />
+          <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1 mt-2">
+            <li>a) A gráfnak 6 csúcsa és 9 éle van (az eddig lejátszott 9 parti), minden csúcs fokszáma 3.</li>
+            <li>b) Összesen (6 alatt 2) = 15 partit játszanak, fordulónként 3-at, tehát 5 forduló van; mindenki 3 partit játszott, így <strong>2 forduló</strong> van hátra.</li>
+            <li>c) Anna 1, Béla 1,5, Cili 1, Dani 2, Ede 1,5, Feri 2 pont (összesen 9 pont = 9 parti).</li>
+          </ul>
+        </TheoryCard>
       </TheorySection>
 
       <TheorySection title="5. Megoldott feladatok a blokkból" badge="Feladatok" badgeColor="teal">
@@ -194,7 +233,7 @@ export const CombinatoricsGraphsSummaryTheory: React.FC<{
             <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">
               <li>4 + 5 fős családok: kezdetben (4 alatt 2) + (5 alatt 2) = 16, a végén (9 alatt 2) = 36 ismeretség.</li>
               <li>34 fős osztály: 2 képviselő és 4 felelős: (34 alatt 2) · (32 alatt 4) = 561 · 35 960 = 20 173 560.</li>
-              <li>30 golyó, 5-öt húzunk: csupa fehér (10 alatt 5) = 252; legalább 2 fehér: 142 506 − 15 504 − 48 450 = 78 552.</li>
+              <li>30 golyó, 5-öt húzunk: csupa fehér (10 alatt 5) = 252; legalább 2 fehér: 142 506 − 15 504 − 48 450 = 78 552; pontosan 2 fehér és pontosan két 10-zel osztható szám (10 fehér, 20 fekete, 30 zöld): 9 · 2 · (18 alatt 2) + (9 alatt 2) · 18 = 2754 + 648 = 3402.</li>
               <li>(n alatt 2) = 50n + 1575 ⇒ n² − 101n − 3150 = 0 ⇒ n = 126.</li>
             </ul>
           </TheoryCard>

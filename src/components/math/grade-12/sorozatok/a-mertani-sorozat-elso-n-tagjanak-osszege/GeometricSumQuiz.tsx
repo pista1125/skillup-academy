@@ -245,10 +245,10 @@ const GEOMETRIC_SUM_QUESTIONS: QuizQuestion[] = [
     id: 'gs-q16',
     questionTypeBadge: 'Összegképlet',
     level: 2,
-    question: 'Mennyi az 1 + 10 + 100 + … mértani sorozat első 6 tagjának összege?',
-    options: ['111 111', '1 000 000', '100 000', '111 110'],
+    question: 'Egy mértani sorozatban q = 5, n = 4 és aₙ = 300 (tankönyv, HF 1. b)). Mennyi az első 4 tag összege?',
+    options: ['374,4', '74,88', '1500', '9360'],
     correctAnswer: 0,
-    explanation: 'S₆ = (10⁶ − 1)/(10 − 1) = 999 999 / 9 = 111 111.'
+    explanation: 'a₄ = a₁ · 5³ ⇒ a₁ = 300 : 125 = 2,4; S₄ = 2,4 · (5⁴ − 1)/(5 − 1) = 2,4 · 156 = 374,4. (A 74,88 az a₁ = 300 : 5⁴ hibás kitevőből jönne.)'
   },
   {
     id: 'gs-q17',

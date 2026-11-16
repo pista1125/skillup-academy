@@ -186,8 +186,14 @@ export const ArithmeticSummaryTheory: React.FC<{
               <li>Flashmob: a létszám 4-gyel több [6; 8; 9; 10] = 360 többszörösénél és 500-nál kisebb ⇒ 364 = 7 · 52 (52 sor, soronként 7 diák).</li>
             </ul>
           </TheoryCard>
-          <TheoryCard title="B) Hatványok, gyökök, logaritmus" badge="A6., B12., Q2., P3." badgeColor="purple">
+          <TheoryCard title="B) Hatványok, gyökök, logaritmus" badge="A4., A6., B10., B12., Q1., Q2., P3." badgeColor="purple">
             <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1">
+              <li>A4.: 9/√27 = 3² / 3^{'{3/2}'} = 3^{'{1/2}'} – a 3-nak az <strong>1/2</strong>-edik hatványa.</li>
+              <li>B10.: 2x − 7 ≤ 0 ⇒ x ≤ 3,5: a 0; 1; 2; 3 – <strong>4</strong> természetes szám.</li>
+              <li>
+                Q1. (a = 0,3 = 3/10, b = 1/3): a) (a²)⁻¹ · a³ / b = a / b = <strong>9/10</strong>; b) √(10 · b · a⁻¹) = √(10 · 1/3 · 10/3) = <strong>10/3</strong>; c) 0,5 · log_b (10a) = 0,5 · log
+                <sub>1/3</sub> 3 = <strong>−1/2</strong>.
+              </li>
               <li>√(47 − 3x) értelmezett, ha x ≤ 47/3 ≈ 15,7: 0, 1, …, 15 – <strong>16</strong> természetes szám.</li>
               <li>{'8^{-3/4} = (2³)^{-3/4} = 2^{-9/4}'}.</li>
               <li>ID = log₂ (2x / d): x = 8 cm, d = 0,5 cm ⇒ log₂ 32 = 5; 4-szer távolabbról log₂ 128 = 7, azaz 1,4-szeres.</li>
@@ -201,6 +207,7 @@ export const ArithmeticSummaryTheory: React.FC<{
               <li>6%-os csökkenés után 2 280 000 Ft: az eredeti x · 0,94 = 2 280 000 ⇒ x ≈ 2 425 532 Ft.</li>
               <li>21 gép 4,4 óra ⇒ 18 gép (fordított arányosság): 21 · 4,4 / 18 ≈ 5,13 óra = 308 perc.</li>
               <li>0,28 · 0,75 · N = 168 ⇒ N = 800 diák.</li>
+              <li>B11.: 72/□4 &gt; 1 ⇒ a nevező 14, 24, …, 64; véges tizedes tört (nem egész): 72/64 = 9/8 = 1,125, tehát □ = <strong>6</strong> (a 72/24 = 3 egész szám, a többi végtelen szakaszos).</li>
             </ul>
           </TheoryCard>
           <TheoryCard title="D) Számrendszerek, fejtörők" badge="A1., B9., Q4., Ráadás" badgeColor="rose">

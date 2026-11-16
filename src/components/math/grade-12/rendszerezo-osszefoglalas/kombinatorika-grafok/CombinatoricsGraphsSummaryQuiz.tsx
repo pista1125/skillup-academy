@@ -2,7 +2,7 @@ import React from 'react';
 import { QuizTemplate, QuizQuestion } from '../QuizTemplate';
 import { CombinatoricsGraphsSummaryMatcher } from './CombinatoricsGraphsSummaryMatcher';
 import { CombinatoricsGraphsSummarySorter } from './CombinatoricsGraphsSummarySorter';
-import { GraphDraw, circlePts, completeEdges, G_RED, G_BLUE, G_INK } from './graphKit';
+import { GraphDraw, circlePts, completeEdges, G_RED, G_BLUE, G_INK, B3_PTS, B3_EDGES } from './graphKit';
 
 const QSVG: React.FC<{ children: React.ReactNode; h?: number }> = ({ children, h = 160 }) => (
   <svg viewBox={`0 0 240 ${h}`} className="w-full max-w-[280px] h-auto mx-auto" xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
@@ -21,25 +21,7 @@ const FIG_K6 = (
 
 const FIG_DEG = (
   <QSVG>
-    <GraphDraw
-      pts={[
-        [40, 40],
-        [40, 120],
-        [120, 80],
-        [200, 40],
-        [200, 120]
-      ]}
-      edges={[
-        [0, 1],
-        [0, 2],
-        [1, 2],
-        [2, 3],
-        [2, 4],
-        [3, 4]
-      ]}
-      labels={['A', 'B', 'C', 'D', 'E']}
-      notes={[null, null, 'fok = ?', null, null]}
-    />
+    <GraphDraw pts={B3_PTS} edges={B3_EDGES} r={5} />
   </QSVG>
 );
 
@@ -178,13 +160,13 @@ export const COMBINATORICS_GRAPHS_SUMMARY_QUESTIONS: QuizQuestion[] = [
   },
   {
     id: 'cg-q8',
-    questionTypeBadge: 'Fokszám',
+    questionTypeBadge: 'Teljes gráf',
     figure: FIG_DEG,
     level: 1,
-    question: 'Mennyi a C csúcs fokszáma az ábrán látható gráfban?',
-    options: ['4', '3', '5', '2'],
+    question: 'Az ábrán látható gráfot hány éllel kell kiegészíteni ahhoz, hogy bármely két csúcsa között pontosan egy él fusson? (B3. a))',
+    options: ['19', '28', '9', '20'],
     correctAnswer: 0,
-    explanation: 'A C-ből 4 él indul: C–A, C–B, C–D, C–E.'
+    explanation: 'A gráfnak 8 csúcsa és 9 éle van. A 8 csúcsú teljes gráf éleinek száma 8 · 7 / 2 = 28, tehát 28 − 9 = 19 él hiányzik. (A 28 a teljes gráf élszáma, nem a hiányzó élek száma.)'
   },
   {
     id: 'cg-q9',
@@ -200,10 +182,10 @@ export const COMBINATORICS_GRAPHS_SUMMARY_QUESTIONS: QuizQuestion[] = [
     id: 'cg-q10',
     questionTypeBadge: 'Részhalmazok',
     level: 1,
-    question: 'Hány részhalmaza van egy 4 elemű halmaznak?',
-    options: ['16', '8', '4', '15'],
+    question: 'A 63 pozitív osztói: 1; 3; 7; 9; 21; 63. Hányféleképpen választhatunk ki közülük valahányat, ha legalább egyet kiválasztunk, és a sorrend nem számít? (P2. c))',
+    options: ['63', '64', '6', '720'],
     correctAnswer: 0,
-    explanation: 'Minden elemről eldöntjük, hogy benne van-e: 2⁴ = 16 (az üres halmazt és magát a halmazt is beleértve).'
+    explanation: 'A 6 elemű halmaz részhalmazainak száma 2⁶ = 64; ebből az üres halmazt el kell hagyni: 64 − 1 = 63. (720 = 6! a sorba rendezések száma.)'
   },
   // ---------- 2. szint ----------
   {

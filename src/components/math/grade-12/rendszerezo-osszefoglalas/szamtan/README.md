@@ -25,7 +25,9 @@ A tankönyvi „FOGALMAK, TÉTELEK, MÓDSZEREK” táblázat számtani sorai (11
 ### Tankönyvi feladatok (a modulban feldolgozva)
 - **A1.** Igaz/hamis: 101111₂ = 47; [90; 75] = 450 (nem 900); öt prím összege lehet páros (2 + 3 + 5 + 7 + 11 = 28), de nem mindig.
 - **A2.** 2 280 000 / 0,94 ≈ 2 425 532 Ft. **A6.** √(47 − 3x): 16 természetes szám. **A11.** 18 gép: 308 perc.
-- **B4.** 5A7B osztható 15-tel: 7 szám. **B5.** 800 diák. **B9.** 1234₆ = 310 = 100110110₂. **B12.** 8^{-3/4} = 2^{-9/4}.
+- **A4.** 9/√27 = 3^{1/2}. **B10.** 2x − 7 ≤ 0: 4 természetes szám (0; 1; 2; 3). **B11.** 72/64 = 9/8 = 1,125 ⇒ □ = 6.
+- **B4.** 5A7B osztható 15-tel: 7 szám. **B5.** 800 diák. **B9.** 1234₆ = 310 = 100110110₂. **B12.** 8^{-3/4} = 2^{-9/4} (a tankönyvi képen is 8^{-3/4} áll).
+- **Q1.** a = 0,3, b = 1/3: a) 9/10; b) 10/3; c) −1/2.
 - **Ráadás 1.** 153 846 (· 4 = 615 384).
 - **P2. a)** hajók: [18; 20] = 180 nap ⇒ augusztus 28. **P3.** légnyomás 100 m-en ≈ 98 700 Pa. **P5.** flashmob: 364 diák, 52 sor × 7.
 - **Q2.** ID = log₂ 32 = 5, 4-szer távolabbról 7 (1,4-szeres). **Q4.** n = 4; 1000₃ = 27 < 333₄ = 63. **Q5. b–d)** a kód 210 többszöröse: mindig van benne 0, négyzetszám nem lehet.

@@ -143,6 +143,21 @@ export const GeometricSumTheory: React.FC<{
             </ul>
           </div>
         </TheoryCard>
+        <TheoryCard title="F) Hiányzó adatok táblázata" badge="Házi feladat 1." badgeColor="sky">
+          <TheoryTable
+            headers={['', 'a₁', 'q', 'n', 'aₙ', 'Sₙ']}
+            rows={[
+              ['a)', '1', '2', '11', '1024', '2047'],
+              ['b)', '2,4', '5', '4', '300', '374,4'],
+              ['c)', '512', '0,5', '10', '1', '1023']
+            ]}
+          />
+          <ul className="list-disc pl-5 text-sm text-slate-700 space-y-1 mt-2">
+            <li>a) 2ⁿ⁻¹ = 1024 = 2¹⁰ ⇒ n = 11; S₁₁ = 2¹¹ − 1 = 2047.</li>
+            <li>b) a₄ = a₁ · 5³ = 300 ⇒ a₁ = 2,4; S₄ = 2,4 · (5⁴ − 1)/4 = 374,4.</li>
+            <li>c) 512 · (1 − 0,5ⁿ)/0,5 = 1023 ⇒ 0,5ⁿ = 1/1024 ⇒ n = 10, a₁₀ = 512 · 0,5⁹ = 1.</li>
+          </ul>
+        </TheoryCard>
         <TheoryCallout type="tip" title="Csökkenő folyamatok (házi feladatok)">
           120 kg-os ember hetente súlyának 1,5%-át adja le: 5 hét alatt 1,8 + 1,773 + … = 1,8 · (1 − 0,985⁵) / 0,015 ≈ 8,73 kg-ot fogy (ugyanennyi: 120 − 120 · 0,985⁵). 85
           kg-ra 120 · 0,985ⁿ ≤ 85 ⇒ n ≥ 22,8, azaz a 23. hét végén lesz.

@@ -137,13 +137,13 @@ export const FinanceLoansTheory: React.FC<{
               headers={['év vége', 'tőketartozás', 'kamat', 'tőketörlesztés', 'marad']}
               rows={[
                 ['1.', '200 000', '20 000', '43 095', '156 905'],
-                ['2.', '156 905', '≈ 15 691', '≈ 47 405', '≈ 109 501'],
+                ['2.', '156 905', '≈ 15 691', '≈ 47 404', '≈ 109 501'],
                 ['3.', '≈ 109 501', '≈ 10 950', '≈ 52 145', '≈ 57 356'],
-                ['4.', '≈ 57 356', '≈ 5 736', '≈ 57 359', '≈ 0']
+                ['4.', '≈ 57 356', '≈ 5 736', '≈ 57 359', '≈ −3 (≈ 0)']
               ]}
             />
             <p className="text-xs text-slate-500 mt-2">
-              A pontos részlet ≈ 63 094,16 Ft; a kerekített 63 095 Ft miatt a végén néhány forint eltérés adódik.
+              A pontos részlet ≈ 63 094,16 Ft; a felfelé kerekített 63 095 Ft-os részlettel a 4. évben a tőkerész (57 359 Ft) 3 Ft-tal több a maradék tőkénél (57 356 Ft), vagyis Antal kb. 3 Ft-ot túlfizet.
             </p>
           </TheoryCard>
           <TheoryCard title="Szilárd hitele (HF 2.)" badge="500 000 Ft, 13%, 3 év" badgeColor="purple">

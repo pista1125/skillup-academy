@@ -25,8 +25,8 @@ A magyar Oktatási Hivatal hivatalos tankönyve (`OH-MAT12TA`, Matematika 12., 2
 - **4.** kₙ: 0; 1; 3; 6; 10; 15 (n(n − 1)/2); a felsorolt függvények közül az i(n) = (n² − n)/2 egyezik meg vele.
 - **HF 1.** Vicc terjedése: új hallgatók 3; 9; 27; 81; 243; 729, összesen 4; 13; 40; 121; 364; 1093.
 - **HF 2.** Hüllőállomány: 201; 202; 204; 208; …; 712 – nem marad közel azonos; aₙ₊₁ = 2aₙ − 200.
-- **HF 3.** bₙ = n/(n + 1) és cₙ = log₄ n első öt tagja.
-- Az 1. feladat grafikonjai és a HF 3. első sorozatának képlete a szövegből nem olvasható ki egyértelműen, ezért ezeket saját példákkal helyettesítettük.
+- **1.** Grafikonok: a) 6; 3; 2; 1,5; 1,2; 1; … ⇒ aₙ = 6/n; b) 3,75; 3,5; 3,25; … ⇒ bₙ = 4 − n/4; c) 1; 2; 4; 8 ⇒ cₙ = 2ⁿ⁻¹ (elmélet + kvíz ns-q17, ns-q20).
+- **HF 3.** aₙ = (60 + n)/n: 61; 31; 21; 16; 13; bₙ = n/(n + 1) és cₙ = log₄ n első öt tagja.
 
 > **⚠️ CSAPDA:** Néhány tag nem határozza meg a sorozatot; a pontgrafikon pontjait nem kötjük össze.
 

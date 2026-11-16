@@ -139,10 +139,10 @@ export const ARITHMETIC_SUMMARY_QUESTIONS: QuizQuestion[] = [
     id: 'ar-q5',
     questionTypeBadge: 'Hatványozás',
     level: 1,
-    question: 'Mivel egyenlő 2³ · 2⁴?',
-    options: ['2⁷', '2¹²', '4⁷', '2¹'],
+    question: 'A 3-nak hányadik hatványa 9/√27? (A4.)',
+    options: ['1/2', '−1/2', '3/2', '2/3'],
     correctAnswer: 0,
-    explanation: 'Azonos alapú hatványok szorzásakor a kitevőket összeadjuk: 2³⁺⁴ = 2⁷ = 128.'
+    explanation: '9 = 3², √27 = 3^{3/2}, így 9/√27 = 3^{2 − 3/2} = 3^{1/2}. (A 3/2 a nevező kitevője, a −1/2 a fordított kivonásból jönne.)'
   },
   {
     id: 'ar-q6',
@@ -173,12 +173,12 @@ export const ARITHMETIC_SUMMARY_QUESTIONS: QuizQuestion[] = [
   },
   {
     id: 'ar-q9',
-    questionTypeBadge: 'n-edik gyök',
+    questionTypeBadge: 'Egyenlőtlenség',
     level: 1,
-    question: 'Mennyi ⁵√(−32)?',
-    options: ['−2', '2', 'nincs értelmezve', '−16'],
+    question: 'Hány természetes szám teszi igazzá a 2x − 7 ≤ 0 egyenlőtlenséget? (B10.)',
+    options: ['4', '3', '7', 'végtelen sok'],
     correctAnswer: 0,
-    explanation: 'Páratlan kitevőjű gyök negatív számból is vonható: (−2)⁵ = −32.'
+    explanation: '2x ≤ 7 ⇒ x ≤ 3,5. A természetes számok közül 0; 1; 2; 3 ilyen – 4 darab. (A 3 a 0-t felejti ki.)'
   },
   {
     id: 'ar-q10',
@@ -229,21 +229,21 @@ export const ARITHMETIC_SUMMARY_QUESTIONS: QuizQuestion[] = [
   },
   {
     id: 'ar-q15',
-    questionTypeBadge: 'Logaritmus',
+    questionTypeBadge: 'Helyettesítési érték',
     level: 2,
-    question: 'Mennyi log₉ 3?',
-    options: ['1/2', '3', '1/3', '2'],
+    question: 'Mennyi √(10 · b · a⁻¹) értéke közönséges tört alakban, ha a = 0,3 és b = 1/3? (Q1. b))',
+    options: ['10/3', '1/9', '100/9', '1'],
     correctAnswer: 0,
-    explanation: '9^{1/2} = √9 = 3, ezért log₉ 3 = 1/2. (log₃ 9 lenne 2.)'
+    explanation: 'a⁻¹ = 10/3, így 10 · 1/3 · 10/3 = 100/9, és √(100/9) = 10/3. (A 100/9 a gyökvonás előtti érték; a 1 az a⁻¹ helyett a-val számolva jön ki.)'
   },
   {
     id: 'ar-q16',
-    questionTypeBadge: 'Törtkitevő',
+    questionTypeBadge: 'Véges tizedes tört',
     level: 2,
-    question: 'Mennyi 8^{2/3}?',
-    options: ['4', '16/3', '2', '64'],
+    question: 'Melyik számjegyet írjuk a négyzet helyére a 72/□4 törtben, hogy 1-nél nagyobb értékű, nem egész, véges tizedes tört legyen? (B11.)',
+    options: ['6', '1', '4', '5'],
     correctAnswer: 0,
-    explanation: '8^{2/3} = ∛(8²) = ∛64 = 4 (vagy (∛8)² = 2² = 4).'
+    explanation: 'A nevező 1-nél nagyobb érték miatt 14, 24, …, 64 lehet. 72/64 = 9/8 = 1,125 véges tizedes tört. 72/14 = 36/7, 72/44 = 18/11, 72/54 = 4/3 végtelen szakaszos; 72/24 = 3 egész szám.'
   },
   {
     id: 'ar-q17',

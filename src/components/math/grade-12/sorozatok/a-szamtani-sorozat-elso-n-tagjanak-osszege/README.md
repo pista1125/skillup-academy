@@ -21,7 +21,7 @@ A magyar Oktatási Hivatal hivatalos tankönyve (`OH-MAT12TA`, Matematika 12., 2
 - **Ráadás:** a kis Gauss 1-től 40-ig: 20 pár, mindegyik 41 ⇒ 820.
 
 ### Tankönyvi feladatok (a modulban feldolgozva)
-- **1.** Hiányzó adatok táblázata: (129; −10; 13) ⇒ a₁₃ = 9, S₁₃ = 897; (d = 5,3; n = 21; aₙ = 112) ⇒ a₁ = 6, S₂₁ = 1239; (d = −1; n = 27; aₙ = 48) ⇒ a₁ = 74, S₂₇ = 1647. A táblázat 3. sorának oszlopkiosztása a szövegből nem egyértelmű, ezért azt kihagytuk.
+- **1.** Hiányzó adatok táblázata: (129; −10; 13) ⇒ a₁₃ = 9, S₁₃ = 897; (d = 5,3; n = 21; aₙ = 112) ⇒ a₁ = 6, S₂₁ = 1239; (a₁ = −8; aₙ = 22; Sₙ = 77) ⇒ n = 11, d = 3; (d = −1; n = 27; aₙ = 48) ⇒ a₁ = 74, S₂₇ = 1647.
 - **2.** a₁ = −65, aₙ = 65 ⇒ Sₙ = 0 minden n-re.
 - **3.** (Érettségi, 2006) 55 egymást követő páratlan szám összege 3905 ⇒ az első 17, az 55. 125.
 - **4.** Az első n pozitív páratlan szám összege n².

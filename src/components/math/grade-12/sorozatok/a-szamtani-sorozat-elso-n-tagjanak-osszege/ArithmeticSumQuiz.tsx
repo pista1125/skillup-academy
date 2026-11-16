@@ -206,10 +206,10 @@ const ARITHMETIC_SUM_QUESTIONS: QuizQuestion[] = [
     id: 'asum-q13',
     questionTypeBadge: 'Hiányzó adatok',
     level: 2,
-    question: 'a₁ = 6, a₂₁ = 112. Mennyi az első 21 tag összege?',
-    options: ['1239', '2478', '1180', '1302'],
+    question: 'a₁ = −8, aₙ = 22, Sₙ = 77 (a tankönyvi táblázat 3. sora). Mennyi n és d?',
+    options: ['n = 11, d = 3', 'n = 10, d = 3', 'n = 11, d = 2,5', 'n = 22, d = 1,5'],
     correctAnswer: 0,
-    explanation: 'S₂₁ = (6 + 112)/2 · 21 = 59 · 21 = 1239.'
+    explanation: 'Sₙ = (−8 + 22)/2 · n = 7n = 77 ⇒ n = 11; a₁₁ = a₁ + 10d ⇒ 22 = −8 + 10d ⇒ d = 3. (A 2,5 a 30 : 12, a 10-es tagszám a 30 : 3 hibás – az n − 1 = 10 lépés kell.)'
   },
   {
     id: 'asum-q14',

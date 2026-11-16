@@ -279,10 +279,10 @@ export const SETS_LOGIC_SUMMARY_QUESTIONS: QuizQuestion[] = [
     id: 'sl-q26',
     questionTypeBadge: 'Számhalmazok',
     level: 3,
-    question: 'Hány végtelen halmaz van a következők között: ℝ ∩ ℤ, ℤ ∩ ℕ, ℝ ∩ ℚ, ℝ ∖ ℚ, ℚ ∖ ℝ?',
-    options: ['4', '5', '3', '2'],
+    question: 'Hány végtelen halmaz van a következők között: ℝ ∩ ℤ, ℤ ∩ ℕ, ℝ ∩ ∅, ℝ ∖ ∅, ∅ ∖ ℝ? (B8.)',
+    options: ['3', '5', '4', '2'],
     correctAnswer: 0,
-    explanation: 'ℤ, ℕ, ℚ és az irracionális számok halmaza végtelen; ℚ ∖ ℝ = ∅.'
+    explanation: 'ℝ ∩ ℤ = ℤ, ℤ ∩ ℕ = ℕ és ℝ ∖ ∅ = ℝ végtelen; ℝ ∩ ∅ = ∅ és ∅ ∖ ℝ = ∅ üres (véges). Tehát 3.'
   },
   {
     id: 'sl-q27',
