@@ -973,13 +973,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-geom-sec-1" number={1} title="Síkidomok, sokszögek" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Síkidomok, sokszögek"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Síkidomok, sokszögek Tananyag"
+                subtitle="síkidom és sokszög, beugró rész, párhuzamos egyenesek, derékszög, téglalap és négyzet, csúcs, oldal, átló"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-geom-sokszogek-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: sokszögek felismerése, csúcsok és oldalak, párhuzamos szakaszok, derékszögek, téglalap és négyzet, átlók"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-geom-sokszogek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g4-geom-sokszogek-quiz')}
               />
             </div>
           </section>
@@ -991,13 +1001,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-geom-sec-2" number={2} title="A kör" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A kör"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="A kör Tananyag"
+                subtitle="kör alakú tárgyak, középpont, körvonal és körlap, körzőhasználat, körzőnyílás és a kör nagysága"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-geom-kor-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: középpont, körvonal és körlap, körzőhasználat, körzőnyílás, mértékváltás, szöveges feladatok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-geom-kor-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g4-geom-kor-quiz')}
               />
             </div>
           </section>
@@ -1009,13 +1029,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-geom-sec-3" number={3} title="A testek" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A testek"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="A testek Tananyag"
+                subtitle="testek körülöttünk, síklapok és görbe felület, lap, él, csúcs, testháló, építmények kis kockákból, alaprajz, nézetek"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-geom-testek-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: testek felismerése, lap, él, csúcs, testháló, kis kockás építmények, alaprajz, nézetek"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-geom-testek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g4-geom-testek-quiz')}
               />
             </div>
           </section>
@@ -1027,13 +1057,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-geom-sec-4" number={4} title="A tükrözés" color="purple" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A tükrözés"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="A tükrözés Tananyag"
+                subtitle="tükörkép a vízen és a tükörben, tükrözés négyzetrácson, tükörtengely, szimmetrikus alakzatok, szimmetriatengelyek"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-geom-tukrozes-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="purple"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: tükörkép, tükörtengely, tükrözés négyzetrácson, szimmetrikus alakzatok, tengelyek száma"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-geom-tukrozes-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="purple"
+                {...getTopicProgress('g4-geom-tukrozes-quiz')}
               />
             </div>
           </section>
@@ -1045,13 +1085,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-geom-sec-5" number={5} title="Nagyítás, kicsinyítés" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Nagyítás, kicsinyítés"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Nagyítás, kicsinyítés Tananyag"
+                subtitle="Nagyítás és kicsinyítés a négyzethálón, hasonló alakzatok, lépéssorok szorzása és felezése"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-geom-nagyitas-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: kétszeres, háromszoros nagyítás, felére kicsinyítés, hasonlóság, lépéssorok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-geom-nagyitas-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g4-geom-nagyitas-quiz')}
               />
             </div>
           </section>
@@ -1063,13 +1113,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-geom-sec-6" number={6} title="Eltolás" color="orange" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Eltolás"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Eltolás Tananyag"
+                subtitle="Eltolás iránnyal és távolsággal, fő- és mellékvilágtájak, eltolás a négyzethálón"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-geom-eltolas-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="orange"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: irány és távolság, világtájak, eltolás négyzethálón, több eltolás egymás után"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-geom-eltolas-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="orange"
+                {...getTopicProgress('g4-geom-eltolas-quiz')}
               />
             </div>
           </section>
@@ -1081,13 +1141,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-geom-sec-7" number={7} title="Elforgatás" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Elforgatás"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Elforgatás Tananyag"
+                subtitle="Forgatás a tű (gombostű) körül: negyed, fél, háromnegyed és egész fordulat jobbra és balra"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-geom-elforgatas-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: fordulatok, forgatás jobbra és balra, óramutató, elforgatás négyzethálón"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-geom-elforgatas-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="teal"
+                {...getTopicProgress('g4-geom-elforgatas-quiz')}
               />
             </div>
           </section>
@@ -1099,13 +1169,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-geom-sec-8" number={8} title="Tájékozódás" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Tájékozódás"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Tájékozódás Tananyag"
+                subtitle="Mezőkódok a térképen, sakktábla-szerű jelölés, haladás a négyzetrácson világtájak szerint"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-geom-tajekozodas-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="cyan"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: mezőkódok, sakkbábuk helye, séta a négyzetrácson"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-geom-tajekozodas-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="cyan"
+                {...getTopicProgress('g4-geom-tajekozodas-quiz')}
               />
             </div>
           </section>
@@ -1117,13 +1197,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-geom-sec-9" number={9} title="Gyakorlás, tudáspróba" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Gyakorlás, tudáspróba"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Gyakorlás, tudáspróba Tananyag"
+                subtitle="A V. fejezet összefoglalása: síkidomok, kör, testek, tükrözés, nagyítás, eltolás, elforgatás, tájékozódás"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-geom-tudasproba-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz"
+                subtitle="90 feladat 3 szinten: a fejezet mind a 8 leckéjéből – síkidomok, kör, testek, tükrözés, mozgások, tájékozódás"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-geom-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g4-geom-tudasproba-quiz')}
               />
             </div>
           </section>

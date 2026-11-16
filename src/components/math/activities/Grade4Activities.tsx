@@ -69,6 +69,24 @@ const G4NegativeChangesTheory = lazy(() => import("@/components/math/grade-4/neg
 const G4NegativeChangesQuiz = lazy(() => import("@/components/math/grade-4/negativ-szamok/osszehasonlitas-es-valtozasok/NegativeChangesQuiz").then(m => ({ default: m.NegativeChangesQuiz })));
 const G4NegativesExamTheory = lazy(() => import("@/components/math/grade-4/negativ-szamok/gyakorlas-tudasproba/NegativesExamTheory").then(m => ({ default: m.NegativesExamTheory })));
 const G4NegativesExamQuiz = lazy(() => import("@/components/math/grade-4/negativ-szamok/gyakorlas-tudasproba/NegativesExamQuiz").then(m => ({ default: m.NegativesExamQuiz })));
+const G4Polygons4Theory = lazy(() => import("@/components/math/grade-4/sikidomok-testek/sikidomok-sokszogek/Polygons4Theory").then(m => ({ default: m.Polygons4Theory })));
+const G4Polygons4Quiz = lazy(() => import("@/components/math/grade-4/sikidomok-testek/sikidomok-sokszogek/Polygons4Quiz").then(m => ({ default: m.Polygons4Quiz })));
+const G4Circle4Theory = lazy(() => import("@/components/math/grade-4/sikidomok-testek/a-kor/Circle4Theory").then(m => ({ default: m.Circle4Theory })));
+const G4Circle4Quiz = lazy(() => import("@/components/math/grade-4/sikidomok-testek/a-kor/Circle4Quiz").then(m => ({ default: m.Circle4Quiz })));
+const G4Solids4Theory = lazy(() => import("@/components/math/grade-4/sikidomok-testek/a-testek/Solids4Theory").then(m => ({ default: m.Solids4Theory })));
+const G4Solids4Quiz = lazy(() => import("@/components/math/grade-4/sikidomok-testek/a-testek/Solids4Quiz").then(m => ({ default: m.Solids4Quiz })));
+const G4Reflection4Theory = lazy(() => import("@/components/math/grade-4/sikidomok-testek/a-tukrozes/Reflection4Theory").then(m => ({ default: m.Reflection4Theory })));
+const G4Reflection4Quiz = lazy(() => import("@/components/math/grade-4/sikidomok-testek/a-tukrozes/Reflection4Quiz").then(m => ({ default: m.Reflection4Quiz })));
+const G4Scaling4Theory = lazy(() => import("@/components/math/grade-4/sikidomok-testek/nagyitas-kicsinyites/Scaling4Theory").then(m => ({ default: m.Scaling4Theory })));
+const G4Scaling4Quiz = lazy(() => import("@/components/math/grade-4/sikidomok-testek/nagyitas-kicsinyites/Scaling4Quiz").then(m => ({ default: m.Scaling4Quiz })));
+const G4Translation4Theory = lazy(() => import("@/components/math/grade-4/sikidomok-testek/eltolas/Translation4Theory").then(m => ({ default: m.Translation4Theory })));
+const G4Translation4Quiz = lazy(() => import("@/components/math/grade-4/sikidomok-testek/eltolas/Translation4Quiz").then(m => ({ default: m.Translation4Quiz })));
+const G4Rotation4Theory = lazy(() => import("@/components/math/grade-4/sikidomok-testek/elforgatas/Rotation4Theory").then(m => ({ default: m.Rotation4Theory })));
+const G4Rotation4Quiz = lazy(() => import("@/components/math/grade-4/sikidomok-testek/elforgatas/Rotation4Quiz").then(m => ({ default: m.Rotation4Quiz })));
+const G4Orientation4Theory = lazy(() => import("@/components/math/grade-4/sikidomok-testek/tajekozodas/Orientation4Theory").then(m => ({ default: m.Orientation4Theory })));
+const G4Orientation4Quiz = lazy(() => import("@/components/math/grade-4/sikidomok-testek/tajekozodas/Orientation4Quiz").then(m => ({ default: m.Orientation4Quiz })));
+const G4ShapesExamTheory = lazy(() => import("@/components/math/grade-4/sikidomok-testek/gyakorlas-tudasproba/ShapesExamTheory").then(m => ({ default: m.ShapesExamTheory })));
+const G4ShapesExamQuiz = lazy(() => import("@/components/math/grade-4/sikidomok-testek/gyakorlas-tudasproba/ShapesExamQuiz").then(m => ({ default: m.ShapesExamQuiz })));
 const G4SetSortingTheory = lazy(() => import("@/components/math/grade-4/valogatasok-csoportositasok/valogatasok-halmazokba/SetSortingTheory").then(m => ({ default: m.SetSortingTheory })));
 const G4SetSortingQuiz = lazy(() => import("@/components/math/grade-4/valogatasok-csoportositasok/valogatasok-halmazokba/SetSortingQuiz").then(m => ({ default: m.SetSortingQuiz })));
 const G4TableSortingTheory = lazy(() => import("@/components/math/grade-4/valogatasok-csoportositasok/valogatasok-tablazatokba/TableSortingTheory").then(m => ({ default: m.TableSortingTheory })));
@@ -1228,6 +1246,314 @@ export const Grade4Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g4-neg-tudasproba-theory', selectedTopic || 'g4-negatives')}
           onSwitchToMatcher={() => handleActivitySelect('g4-neg-tudasproba-matcher', selectedTopic || 'g4-negatives')}
           onSwitchToSorter={() => handleActivitySelect('g4-neg-tudasproba-sorter', selectedTopic || 'g4-negatives')}
+        />
+      )}
+
+      {/* ===== 4. Osztály – V. Síkidomok és testek ===== */}
+
+      {/* 1. Síkidomok, sokszögek */}
+      {activityType === 'g4-geom-sokszogek-theory' && (
+        <G4Polygons4Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-geom-sokszogek-quiz', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+      {activityType === 'g4-geom-sokszogek-quiz' && (
+        <G4Polygons4Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-geom-sokszogek-theory', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-geom-sokszogek-matcher', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g4-geom-sokszogek-sorter', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+      {activityType === 'g4-geom-sokszogek-matcher' && (
+        <G4Polygons4Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-geom-sokszogek-theory', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-geom-sokszogek-matcher', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g4-geom-sokszogek-sorter', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+      {activityType === 'g4-geom-sokszogek-sorter' && (
+        <G4Polygons4Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-geom-sokszogek-theory', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-geom-sokszogek-matcher', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g4-geom-sokszogek-sorter', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+
+      {/* 2. A kör */}
+      {activityType === 'g4-geom-kor-theory' && (
+        <G4Circle4Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-geom-kor-quiz', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+      {activityType === 'g4-geom-kor-quiz' && (
+        <G4Circle4Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-geom-kor-theory', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-geom-kor-matcher', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g4-geom-kor-sorter', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+      {activityType === 'g4-geom-kor-matcher' && (
+        <G4Circle4Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-geom-kor-theory', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-geom-kor-matcher', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g4-geom-kor-sorter', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+      {activityType === 'g4-geom-kor-sorter' && (
+        <G4Circle4Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-geom-kor-theory', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-geom-kor-matcher', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g4-geom-kor-sorter', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+
+      {/* 3. A testek */}
+      {activityType === 'g4-geom-testek-theory' && (
+        <G4Solids4Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-geom-testek-quiz', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+      {activityType === 'g4-geom-testek-quiz' && (
+        <G4Solids4Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-geom-testek-theory', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-geom-testek-matcher', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g4-geom-testek-sorter', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+      {activityType === 'g4-geom-testek-matcher' && (
+        <G4Solids4Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-geom-testek-theory', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-geom-testek-matcher', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g4-geom-testek-sorter', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+      {activityType === 'g4-geom-testek-sorter' && (
+        <G4Solids4Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-geom-testek-theory', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-geom-testek-matcher', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g4-geom-testek-sorter', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+
+      {/* 4. A tükrözés */}
+      {activityType === 'g4-geom-tukrozes-theory' && (
+        <G4Reflection4Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-geom-tukrozes-quiz', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+      {activityType === 'g4-geom-tukrozes-quiz' && (
+        <G4Reflection4Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-geom-tukrozes-theory', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-geom-tukrozes-matcher', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g4-geom-tukrozes-sorter', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+      {activityType === 'g4-geom-tukrozes-matcher' && (
+        <G4Reflection4Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-geom-tukrozes-theory', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-geom-tukrozes-matcher', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g4-geom-tukrozes-sorter', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+      {activityType === 'g4-geom-tukrozes-sorter' && (
+        <G4Reflection4Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-geom-tukrozes-theory', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-geom-tukrozes-matcher', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g4-geom-tukrozes-sorter', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+
+      {/* 5. Nagyítás, kicsinyítés */}
+      {activityType === 'g4-geom-nagyitas-theory' && (
+        <G4Scaling4Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-geom-nagyitas-quiz', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+      {activityType === 'g4-geom-nagyitas-quiz' && (
+        <G4Scaling4Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-geom-nagyitas-theory', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-geom-nagyitas-matcher', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g4-geom-nagyitas-sorter', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+      {activityType === 'g4-geom-nagyitas-matcher' && (
+        <G4Scaling4Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-geom-nagyitas-theory', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-geom-nagyitas-matcher', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g4-geom-nagyitas-sorter', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+      {activityType === 'g4-geom-nagyitas-sorter' && (
+        <G4Scaling4Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-geom-nagyitas-theory', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-geom-nagyitas-matcher', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g4-geom-nagyitas-sorter', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+
+      {/* 6. Eltolás */}
+      {activityType === 'g4-geom-eltolas-theory' && (
+        <G4Translation4Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-geom-eltolas-quiz', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+      {activityType === 'g4-geom-eltolas-quiz' && (
+        <G4Translation4Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-geom-eltolas-theory', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-geom-eltolas-matcher', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g4-geom-eltolas-sorter', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+      {activityType === 'g4-geom-eltolas-matcher' && (
+        <G4Translation4Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-geom-eltolas-theory', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-geom-eltolas-matcher', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g4-geom-eltolas-sorter', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+      {activityType === 'g4-geom-eltolas-sorter' && (
+        <G4Translation4Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-geom-eltolas-theory', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-geom-eltolas-matcher', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g4-geom-eltolas-sorter', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+
+      {/* 7. Elforgatás */}
+      {activityType === 'g4-geom-elforgatas-theory' && (
+        <G4Rotation4Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-geom-elforgatas-quiz', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+      {activityType === 'g4-geom-elforgatas-quiz' && (
+        <G4Rotation4Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-geom-elforgatas-theory', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-geom-elforgatas-matcher', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g4-geom-elforgatas-sorter', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+      {activityType === 'g4-geom-elforgatas-matcher' && (
+        <G4Rotation4Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-geom-elforgatas-theory', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-geom-elforgatas-matcher', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g4-geom-elforgatas-sorter', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+      {activityType === 'g4-geom-elforgatas-sorter' && (
+        <G4Rotation4Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-geom-elforgatas-theory', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-geom-elforgatas-matcher', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g4-geom-elforgatas-sorter', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+
+      {/* 8. Tájékozódás */}
+      {activityType === 'g4-geom-tajekozodas-theory' && (
+        <G4Orientation4Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-geom-tajekozodas-quiz', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+      {activityType === 'g4-geom-tajekozodas-quiz' && (
+        <G4Orientation4Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-geom-tajekozodas-theory', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-geom-tajekozodas-matcher', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g4-geom-tajekozodas-sorter', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+      {activityType === 'g4-geom-tajekozodas-matcher' && (
+        <G4Orientation4Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-geom-tajekozodas-theory', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-geom-tajekozodas-matcher', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g4-geom-tajekozodas-sorter', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+      {activityType === 'g4-geom-tajekozodas-sorter' && (
+        <G4Orientation4Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-geom-tajekozodas-theory', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-geom-tajekozodas-matcher', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g4-geom-tajekozodas-sorter', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+
+      {/* 9. Gyakorlás, tudáspróba */}
+      {activityType === 'g4-geom-tudasproba-theory' && (
+        <G4ShapesExamTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-geom-tudasproba-quiz', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+      {activityType === 'g4-geom-tudasproba-quiz' && (
+        <G4ShapesExamQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-geom-tudasproba-theory', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-geom-tudasproba-matcher', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g4-geom-tudasproba-sorter', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+      {activityType === 'g4-geom-tudasproba-matcher' && (
+        <G4ShapesExamQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-geom-tudasproba-theory', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-geom-tudasproba-matcher', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g4-geom-tudasproba-sorter', selectedTopic || 'g4-shapes-solids')}
+        />
+      )}
+      {activityType === 'g4-geom-tudasproba-sorter' && (
+        <G4ShapesExamQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-geom-tudasproba-theory', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-geom-tudasproba-matcher', selectedTopic || 'g4-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g4-geom-tudasproba-sorter', selectedTopic || 'g4-shapes-solids')}
         />
       )}
 
