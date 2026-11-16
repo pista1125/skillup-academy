@@ -101,7 +101,7 @@ export const PlaceValueMulSvg: React.FC<{ className?: string }> = ({ className }
       <rect x={colX[1] + 5} y="113" width="72" height="28" rx="8" fill="none" stroke="#16a34a" strokeWidth="1.8" />
       <line x1={colX[1] + 4} y1="126" x2={colX[0] + 47} y2="122" stroke="#16a34a" strokeWidth="1.8" />
       {dots(colX[2], 108, 4, MUL_COLORS[2], 5, 'bt')}
-      {dots(colX[3], 108, 6, MUL_COLORS[3], 5, 'be')}
+      {dots(colX[3], 108, 6, MUL_COLORS[3], 4, 'be')}
       <text x="200" y="192" textAnchor="middle" fontSize="13" fontWeight="bold" fill="#334155">
         12 százas = 1 ezres + 2 százas → 3 E, 2 sz, 4 t, 6 e = 3246
       </text>

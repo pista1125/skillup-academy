@@ -73,17 +73,20 @@ const QTable: React.FC<{ title: string; rows: { k: string; v: string }[] }> = ({
 
 /** Árcédulák. */
 const QPrices: React.FC<{ items: { n: string; p: string }[]; note: string }> = ({ items, note }) => {
-  const w = 216 / items.length;
+  const w = 228 / items.length;
+  const lines = note.split(', ');
   return (
-    <QFig h={110}>
+    <QFig h={112}>
       {items.map((it, i) => (
         <g key={it.n}>
-          <rect x={12 + i * w} y="14" width={w - 6} height="58" rx="7" fill="#fff" stroke="#c026d3" strokeWidth="1.5" />
-          <text x={12 + i * w + (w - 6) / 2} y="38" textAnchor="middle" fontSize="9" fontWeight="bold" fill="#334155">{it.n}</text>
-          <text x={12 + i * w + (w - 6) / 2} y="60" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#86198f">{it.p}</text>
+          <rect x={6 + i * w} y="12" width={w - 4} height="54" rx="7" fill="#fff" stroke="#c026d3" strokeWidth="1.5" />
+          <text x={6 + i * w + (w - 4) / 2} y="34" textAnchor="middle" fontSize="8.5" fontWeight="bold" fill="#334155">{it.n}</text>
+          <text x={6 + i * w + (w - 4) / 2} y="55" textAnchor="middle" fontSize="9.5" fontWeight="bold" fill="#86198f">{it.p}</text>
         </g>
       ))}
-      <text x="120" y="95" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#0f172a">{note}</text>
+      {lines.map((l, i) => (
+        <text key={i} x="120" y={84 + i * 15} textAnchor="middle" fontSize="11" fontWeight="bold" fill="#0f172a">{i < lines.length - 1 ? l + ',' : l}</text>
+      ))}
     </QFig>
   );
 };
@@ -417,7 +420,7 @@ const WRITTEN_ADDSUB_QUESTIONS: QuizQuestion[] = [
     id: 'was-q26',
     level: 3,
     questionTypeBadge: 'Mértékváltás',
-    figure: <QBarSplit total="10 km" known="5213" unit="m" knownLabel="megtett táv" restLabel="hátralévő táv" />,
+    figure: <QBarSplit total="10 km = 10 000" known="5213" unit="m" knownLabel="megtett táv" restLabel="hátralévő táv" />,
     question: 'Egy úszóversenyen 10 km-t kell leúszni. Éva már 5213 métert megtett. Hány métert kell még úsznia?',
     options: ['4787 m', '4797 m', '5787 m', '5213 m'],
     correctAnswer: 0,

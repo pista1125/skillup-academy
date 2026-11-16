@@ -44,14 +44,14 @@ export const ExamOverviewSvg: React.FC<{ className?: string }> = ({ className })
 
 /** A változás két esete: a 0 egyik oldalán (kivonás) vagy a 0-n át (összeadás). */
 export const ChangeRuleSvg: React.FC<{ className?: string }> = ({ className }) => (
-  <svg viewBox="0 0 340 190" className={className ?? 'w-full h-auto'} fontFamily={FONT}>
-    <rect x="1" y="1" width="338" height="188" rx="12" fill="#f8fafc" stroke="#cbd5e1" />
-    <text x="20" y="24" fontSize="12" fontWeight="bold" fill="#1d4ed8">A 0 egyik oldalán: kivonunk</text>
-    <NumberLineGroup x0={20} x1={300} y={62} min={-20} max={2} fontSize={8} labels={[-20, -15, -10, -5, 0]} jumps={[{ from: -4, to: -19, color: '#2563eb' }]} points={[{ v: -4, label: '−4' }, { v: -19, label: '−19' }]} />
-    <text x="170" y="92" textAnchor="middle" fontSize="11" fill="#0f172a">−4 °C → −19 °C: 19 − 4 = <tspan fontWeight="bold">15 fokkal hidegebb</tspan></text>
-    <text x="20" y="116" fontSize="12" fontWeight="bold" fill="#dc2626">A 0-n át: összeadunk</text>
-    <NumberLineGroup x0={20} x1={300} y={150} min={-6} max={4} fontSize={8} jumps={[{ from: -5, to: 0, color: '#2563eb' }, { from: 0, to: 2, color: '#dc2626' }]} points={[{ v: -5, label: '−5' }, { v: 2, label: '2' }]} />
-    <text x="170" y="182" textAnchor="middle" fontSize="11" fill="#0f172a">−5 °C → 2 °C: 5 + 2 = <tspan fontWeight="bold">7 fokkal melegebb</tspan></text>
+  <svg viewBox="0 0 340 210" className={className ?? 'w-full h-auto'} fontFamily={FONT}>
+    <rect x="1" y="1" width="338" height="208" rx="12" fill="#f8fafc" stroke="#cbd5e1" />
+    <text x="20" y="20" fontSize="12" fontWeight="bold" fill="#1d4ed8">A 0 egyik oldalán: kivonunk</text>
+    <NumberLineGroup x0={20} x1={300} y={74} min={-20} max={2} fontSize={8} labels={[-20, -15, -10, -5, 0]} jumps={[{ from: -4, to: -19, color: '#2563eb' }]} points={[{ v: -4, label: '−4' }, { v: -19, label: '−19' }]} />
+    <text x="170" y="104" textAnchor="middle" fontSize="11" fill="#0f172a">−4 °C → −19 °C: 19 − 4 = <tspan fontWeight="bold">15 fokkal hidegebb</tspan></text>
+    <text x="20" y="126" fontSize="12" fontWeight="bold" fill="#dc2626">A 0-n át: összeadunk</text>
+    <NumberLineGroup x0={20} x1={300} y={172} min={-6} max={4} fontSize={8} jumps={[{ from: -5, to: 0, color: '#2563eb' }, { from: 0, to: 2, color: '#dc2626' }]} points={[{ v: -5, label: '−5' }, { v: 2, label: '2' }]} />
+    <text x="170" y="202" textAnchor="middle" fontSize="11" fill="#0f172a">−5 °C → 2 °C: 5 + 2 = <tspan fontWeight="bold">7 fokkal melegebb</tspan></text>
   </svg>
 );
 

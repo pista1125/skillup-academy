@@ -56,7 +56,13 @@ export const ColumnOp: React.FC<{
           {ri === rows.length - 1 && (
             <text x={x0 - 14} y={top + 22 + ri * 30} textAnchor="middle" fontSize="20" fontWeight="bold" fill="#0f172a">{op}</text>
           )}
-          {Array.from({ length: cols }).map((_, k) => {
+          {r === '■' ? (
+            // az egész szám ismeretlen: egy széles doboz, nem egyetlen egyes helyiérték
+            <g>
+              <rect x={x0 + 3} y={top + 4 + ri * 30} width={cols * cw - 6} height={24} rx="4" fill="#fee2e2" stroke={UNK} strokeWidth="2" />
+              <text x={x0 + (cols * cw) / 2} y={top + 22 + ri * 30} textAnchor="middle" fontSize="18" fontWeight="bold" fill={UNK}>?</text>
+            </g>
+          ) : Array.from({ length: cols }).map((_, k) => {
             const ch = digitAt(r, k);
             const unk = ch === '?' || ch === '■';
             return (
@@ -85,7 +91,13 @@ export const ColumnOp: React.FC<{
 export const MulLayout: React.FC<{ a: string; b: string; result: string; className?: string }> = ({ a, b, result, className }) => (
   <svg viewBox="0 0 220 110" className={className ?? 'w-full max-w-[240px] h-auto mx-auto'} fontFamily={FONT}>
     <rect x="1" y="1" width="218" height="108" rx="10" fill="#ffffff" stroke="#cbd5e1" />
-    {a.split('').map((d, i) => (
+    {a === '■' ? (
+      // az egész szorzandó ismeretlen: egy széles doboz a négy helyiérték fölött
+      <g>
+        <rect x="60" y="24" width="94" height="26" rx="4" fill="#fee2e2" stroke={UNK} strokeWidth="2" />
+        <text x="107" y="44" textAnchor="middle" fontSize="20" fontWeight="bold" fill={UNK}>?</text>
+      </g>
+    ) : a.split('').map((d, i) => (
       <text key={i} x={70 + (i - a.length + 4) * 24} y="44" textAnchor="middle" fontSize="22" fontWeight="bold" fill={d === '■' || d === '?' ? UNK : '#0f172a'}>{d}</text>
     ))}
     <text x="160" y="44" textAnchor="middle" fontSize="22" fontWeight="bold" fill="#0f172a">·</text>
@@ -228,12 +240,12 @@ export const ColumnSubSvg: React.FC<{ className?: string }> = ({ className }) =>
     {['7', '2', '1', '2'].map((d, k) => (
       <text key={k} x={80 + k * 40} y="62" textAnchor="middle" fontSize="22" fontWeight="bold" fill="#0f172a">{d}</text>
     ))}
-    <text x="104" y="50" fontSize="11" fontWeight="bold" fill="#dc2626">+10</text>
+    <text x="111" y="50" textAnchor="end" fontSize="11" fontWeight="bold" fill="#dc2626">+10</text>
     <text x="44" y="98" textAnchor="middle" fontSize="22" fontWeight="bold" fill="#0f172a">−</text>
     {['5', '4', '1', '0'].map((d, k) => (
       <text key={k} x={80 + k * 40} y="98" textAnchor="middle" fontSize="22" fontWeight="bold" fill="#0f172a">{d}</text>
     ))}
-    <text x="92" y="86" fontSize="11" fontWeight="bold" fill="#dc2626">+1</text>
+    <text x="71" y="96" textAnchor="end" fontSize="11" fontWeight="bold" fill="#dc2626">+1</text>
     <line x1="34" y1="108" x2="220" y2="108" stroke="#0f172a" strokeWidth="2" />
     {['1', '8', '0', '2'].map((d, k) => (
       <text key={k} x={80 + k * 40} y="138" textAnchor="middle" fontSize="22" fontWeight="bold" fill="#0f172a">{d}</text>
@@ -257,8 +269,8 @@ export const MultiplesVennSvg: React.FC<{ className?: string }> = ({ className }
     <text x="20" y="26" fontSize="11" fontWeight="bold" fill="#92400e">10 000-nél kisebb számok</text>
     <ellipse cx="140" cy="116" rx="100" ry="72" fill="#60a5fa" opacity="0.35" stroke="#1d4ed8" strokeWidth="2" />
     <ellipse cx="220" cy="116" rx="100" ry="72" fill="#f472b6" opacity="0.35" stroke="#be185d" strokeWidth="2" />
-    <text x="96" y="58" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#1d4ed8">2 többszöröse</text>
-    <text x="268" y="58" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#be185d">5 többszöröse</text>
+    <text x="96" y="43" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#1d4ed8">2 többszöröse</text>
+    <text x="268" y="43" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#be185d">5 többszöröse</text>
     {['7602', '7656', '5552'].map((v, i) => (
       <text key={v} x="90" y={98 + i * 22} textAnchor="middle" fontSize="13" fontWeight="bold" fill="#0f172a">{v}</text>
     ))}
@@ -287,7 +299,7 @@ export const SolvingStepsSvg: React.FC<{ className?: string }> = ({ className })
           <rect x={10 + i * 58} y="36" width="52" height="44" rx="10" fill={c[i]} />
           <text x={36 + i * 58} y="54" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#ffffff">{i + 1}.</text>
           <text x={36 + i * 58} y="70" textAnchor="middle" fontSize="8.5" fontWeight="bold" fill="#ffffff">{t}</text>
-          {i < s.length - 1 && <polygon points={`${64 + i * 58},58 ${68 + i * 58},54 ${68 + i * 58},62`} fill="#334155" />}
+          {i < s.length - 1 && <polygon points={`${63 + i * 58},53 ${63 + i * 58},63 ${67.5 + i * 58},58`} fill="#334155" />}
         </g>
       ))}
       <text x="180" y="24" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#0f172a">Így oldd meg a szöveges feladatot!</text>

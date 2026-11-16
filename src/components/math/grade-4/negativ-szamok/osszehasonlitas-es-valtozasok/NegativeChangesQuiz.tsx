@@ -50,7 +50,7 @@ const QWallet: React.FC<{ cash: number; debt: number }> = ({ cash, debt }) => (
     <rect x="130" y="12" width="12" height="12" fill="#2563eb" />
     <text x="148" y="22" fontSize="10" fill="#0f172a">1 adósság</text>
     <WalletGroup x={30} y={36} cash={cash} debt={debt} w={200} h={86} />
-    <text x="130" y="142" textAnchor="middle" fontSize="12" fontWeight="bold" fill={C_UNK}>Mennyi a vagyon? ?</text>
+    <text x="130" y="142" textAnchor="middle" fontSize="12" fontWeight="bold" fill={C_UNK}>Vagyon: ? fabatka</text>
   </QFig>
 );
 

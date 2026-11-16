@@ -61,10 +61,12 @@ const QExpr: React.FC<{ expr: string; tail?: string }> = ({ expr, tail = '= ?' }
 /** Kétsoros táblázat; a „?” piros. */
 const QTable: React.FC<{ top: string; bottom: string; tops: string[]; bottoms: string[] }> = ({ top, bottom, tops, bottoms }) => {
   const lw = 84;
-  const cw = Math.min(42, (226 - lw) / tops.length);
+  const maxLen = Math.max(...tops.map((t) => t.length), ...bottoms.map((t) => t.length));
+  const cw = Math.min((226 - lw) / tops.length, Math.max(42, maxLen * 6.6 + 10));
+  const tx = (240 - (lw + tops.length * cw)) / 2;
   return (
     <QFig h={96}>
-      <g transform="translate(7 14)">
+      <g transform={`translate(${tx} 14)`}>
         <rect x="0" y="0" width={lw} height="34" fill="#ffe4e6" stroke="#be123c" />
         <rect x="0" y="34" width={lw} height="34" fill="#ffe4e6" stroke="#be123c" />
         <text x={lw / 2} y="21" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#881337">{top}</text>
@@ -113,13 +115,13 @@ const QChain: React.FC<{ boxes: string[]; ops: string[] }> = ({ boxes, ops }) =>
 /** Halmazábra „?” jelölt helyekkel. */
 const QVenn: React.FC = () => (
   <QFig h={130}>
-    <ellipse cx="92" cy="70" rx="70" ry="48" fill="#60a5fa" opacity="0.35" stroke="#1d4ed8" strokeWidth="1.5" />
-    <ellipse cx="148" cy="70" rx="70" ry="48" fill="#f472b6" opacity="0.35" stroke="#be185d" strokeWidth="1.5" />
-    <text x="60" y="22" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#1d4ed8">2 többszöröse</text>
-    <text x="182" y="22" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#be185d">5 többszöröse</text>
-    <text x="120" y="76" textAnchor="middle" fontSize="18" fontWeight="bold" fill={C_UNK}>?</text>
-    <text x="60" y="76" textAnchor="middle" fontSize="11" fill="#0f172a">7656</text>
-    <text x="182" y="76" textAnchor="middle" fontSize="11" fill="#0f172a">2965</text>
+    <ellipse cx="92" cy="76" rx="70" ry="46" fill="#60a5fa" opacity="0.35" stroke="#1d4ed8" strokeWidth="1.5" />
+    <ellipse cx="148" cy="76" rx="70" ry="46" fill="#f472b6" opacity="0.35" stroke="#be185d" strokeWidth="1.5" />
+    <text x="60" y="20" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#1d4ed8">2 többszöröse</text>
+    <text x="182" y="20" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#be185d">5 többszöröse</text>
+    <text x="120" y="82" textAnchor="middle" fontSize="18" fontWeight="bold" fill={C_UNK}>?</text>
+    <text x="60" y="82" textAnchor="middle" fontSize="11" fill="#0f172a">7656</text>
+    <text x="182" y="82" textAnchor="middle" fontSize="11" fill="#0f172a">2965</text>
   </QFig>
 );
 

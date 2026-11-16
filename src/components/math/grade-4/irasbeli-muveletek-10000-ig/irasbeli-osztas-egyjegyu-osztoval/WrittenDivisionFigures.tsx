@@ -234,7 +234,7 @@ export const DivSplitSvg: React.FC<{ className?: string }> = ({ className }) => 
 export const CoinShareSvg: React.FC<{ className?: string }> = ({ className }) => {
   const coin = (cx: number, cy: number, v: string, key: string) => (
     <g key={key}>
-      <circle cx={cx} cy={cy} r="11" fill={v === '100' ? '#facc15' : '#cbd5e1'} stroke={v === '100' ? '#a16207' : '#475569'} strokeWidth="1.5" />
+      <circle cx={cx} cy={cy} r={v === '100' ? 11 : 9.8} fill={v === '100' ? '#facc15' : '#cbd5e1'} stroke={v === '100' ? '#a16207' : '#475569'} strokeWidth="1.5" />
       <text x={cx} y={cy + 3.5} textAnchor="middle" fontSize="8" fontWeight="bold" fill="#1e293b">
         {v}
       </text>

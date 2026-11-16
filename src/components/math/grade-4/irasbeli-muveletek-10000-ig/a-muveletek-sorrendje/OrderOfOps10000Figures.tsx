@@ -14,11 +14,11 @@ export const OrderLadderSvg: React.FC<{ className?: string }> = ({ className }) 
     <svg viewBox="0 0 340 220" className={className ?? 'w-full h-auto'} fontFamily={FONT}>
       <rect x="1" y="1" width="338" height="218" rx="14" fill="#ffffff" stroke="#cbd5e1" />
       {steps.map((s, i) => (
-        <g key={s.n} transform={`translate(${14 + i * 22} ${14 + i * 68})`}>
-          <rect x="0" y="0" width={300 - i * 22} height="58" rx="12" fill={s.bg} stroke={s.c} strokeWidth="2" />
+        <g key={s.n} transform={`translate(${14 + i * 12} ${14 + i * 68})`}>
+          <rect x="0" y="0" width={312 - i * 12} height="58" rx="12" fill={s.bg} stroke={s.c} strokeWidth="2" />
           <circle cx="26" cy="29" r="16" fill={s.c} />
           <text x="26" y="35" textAnchor="middle" fontSize="15" fontWeight="bold" fill="#ffffff">{s.n}</text>
-          <text x="52" y="24" fontSize="13" fontWeight="bold" fill="#0f172a">{s.t}</text>
+          <text x="52" y="24" fontSize="12" fontWeight="bold" fill="#0f172a">{s.t}</text>
           <text x="52" y="45" fontSize="13" fontWeight="bold" fill={s.c}>{s.ex}</text>
         </g>
       ))}
@@ -80,12 +80,12 @@ export const Wagon: React.FC<{ x: number; y: number; l: string; expr: string; c:
 
 /** A vasúti szerelvény hat kocsija (106. o., 4. feladat). */
 export const TrainWagonsSvg: React.FC<{ className?: string }> = ({ className }) => (
-  <svg viewBox="0 0 360 230" className={className ?? 'w-full h-auto'} fontFamily={FONT}>
-    <rect x="1" y="1" width="358" height="228" rx="14" fill="#f8fafc" stroke="#cbd5e1" />
+  <svg viewBox="0 0 360 238" className={className ?? 'w-full h-auto'} fontFamily={FONT}>
+    <rect x="1" y="1" width="358" height="236" rx="14" fill="#f8fafc" stroke="#cbd5e1" />
     {WAGONS.map((wg, i) => (
       <Wagon key={wg.l} x={14 + (i % 2) * 176} y={14 + Math.floor(i / 2) * 70} l={wg.l} expr={wg.expr} c={wg.c} w={156} />
     ))}
-    <text x="180" y="222" textAnchor="middle" fontSize="11" fill="#334155">Állítsd növekvő sorrendbe az eredményeket, és olvasd össze a betűket!</text>
+    <text x="180" y="229" textAnchor="middle" fontSize="10.5" fill="#334155">Állítsd növekvő sorrendbe az eredményeket, és olvasd össze a betűket!</text>
   </svg>
 );
 

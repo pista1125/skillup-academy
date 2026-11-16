@@ -19,7 +19,7 @@ const QFig: React.FC<{ children: React.ReactNode; h?: number }> = ({ children, h
 const QVenn: React.FC<{ mark: 'two' | 'five' | 'both' | 'none' | null; number?: string }> = ({ mark, number }) => {
   const pos = { five: [52, 104], both: [120, 96], two: [180, 80], none: [205, 140] } as const;
   return (
-    <QFig h={160}>
+    <QFig h={number ? 174 : 160}>
       <rect x="8" y="8" width="224" height="144" rx="12" fill="#fed7aa" stroke="#ea580c" />
       <text x="120" y="22" textAnchor="middle" fontSize="9" fontWeight="bold" fill="#9a3412">10 000-nél kisebb számok</text>
       <rect x="20" y="60" width="130" height="82" rx="10" fill="#c7d2fe" stroke="#3730a3" />
@@ -28,7 +28,7 @@ const QVenn: React.FC<{ mark: 'two' | 'five' | 'both' | 'none' | null; number?: 
       <text x="26" y="136" fontSize="9" fontWeight="bold" fill="#3730a3">5 többszörösei</text>
       <text x="148" y="44" fontSize="9" fontWeight="bold" fill="#0369a1">2 többszörösei</text>
       {number && (
-        <text x="120" y="148" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#0f172a">Hová kerül a {number}?</text>
+        <text x="120" y="166" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#0f172a">Hová kerül {/^[15]/.test(number) ? 'az' : 'a'} {number}?</text>
       )}
       {mark && (
         <text x={pos[mark][0]} y={pos[mark][1]} textAnchor="middle" fontSize="20" fontWeight="bold" fill={C_UNK}>?</text>
@@ -87,11 +87,11 @@ const QFlow: React.FC<{ start: string }> = ({ start }) => (
     <line x1="120" y1="64" x2="120" y2="74" stroke="#334155" />
     <polygon points="120,74 170,94 120,114 70,94" fill="#fef9c3" stroke="#a16207" />
     <text x="120" y="98" textAnchor="middle" fontSize="9" fontWeight="bold" fill="#713f12">Páros a szorzat?</text>
-    <text x="180" y="88" fontSize="9" fontWeight="bold" fill="#15803d">igen</text>
+    <text x="210" y="80" textAnchor="middle" fontSize="9" fontWeight="bold" fill="#15803d">igen</text>
     <line x1="170" y1="94" x2="186" y2="94" stroke="#334155" />
     <rect x="186" y="84" width="48" height="22" rx="4" fill="#fff" stroke="#334155" />
     <text x="210" y="99" textAnchor="middle" fontSize="9" fontWeight="bold" fill="#0f172a">: 10</text>
-    <text x="40" y="88" fontSize="9" fontWeight="bold" fill="#b91c1c">nem</text>
+    <text x="30" y="80" textAnchor="middle" fontSize="9" fontWeight="bold" fill="#b91c1c">nem</text>
     <line x1="70" y1="94" x2="54" y2="94" stroke="#334155" />
     <rect x="6" y="84" width="48" height="22" rx="4" fill="#fff" stroke="#334155" />
     <text x="30" y="99" textAnchor="middle" fontSize="9" fontWeight="bold" fill="#0f172a">· 2</text>

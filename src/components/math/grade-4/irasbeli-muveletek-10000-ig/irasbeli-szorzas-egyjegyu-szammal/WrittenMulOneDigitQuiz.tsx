@@ -70,15 +70,19 @@ const QTable: React.FC<{ title: string; rows: { k: string; v: string }[] }> = ({
 
 /** Ismétlődő csoportok: n doboz, mindegyikben ugyanannyi. */
 const QGroups: React.FC<{ count: number; each: string; label: string; unit: string }> = ({ count, each, label, unit }) => {
-  const shown = Math.min(count, 5);
+  // 5-nél több csoportnál 4 doboz + „…”, hogy az ábra ne mutasson kevesebb csoportot a szövegnél
+  const shown = count > 5 ? 4 : count;
   return (
     <QFig h={120}>
       {Array.from({ length: shown }).map((_, i) => (
         <g key={i}>
           <rect x={14 + i * 44} y="20" width="38" height="44" rx="6" fill="#dbeafe" stroke="#2563eb" strokeWidth="1.5" />
-          <text x={33 + i * 44} y="47" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#1e3a8a">{each}</text>
+          <text x={33 + i * 44} y="47" textAnchor="middle" fontSize={each.length >= 6 ? 8.5 : 10} fontWeight="bold" fill="#1e3a8a">{each}</text>
         </g>
       ))}
+      {count > 5 && (
+        <text x={33 + 4 * 44} y="48" textAnchor="middle" fontSize="18" fontWeight="bold" fill="#1e3a8a">…</text>
+      )}
       <text x="120" y="86" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#334155">{label}</text>
       <text x="120" y="106" textAnchor="middle" fontSize="13" fontWeight="bold" fill={C_UNK}>Összesen: ? {unit}</text>
     </QFig>

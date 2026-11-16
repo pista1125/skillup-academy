@@ -6,7 +6,7 @@ const FONT = 'system-ui, sans-serif';
 export const MultiplesVennSvg: React.FC<{ className?: string }> = ({ className }) => (
   <svg viewBox="0 0 400 230" className={className ?? 'w-full h-auto'} fontFamily={FONT}>
     <rect x="6" y="6" width="388" height="218" rx="16" fill="#fed7aa" stroke="#ea580c" strokeWidth="2" />
-    <rect x="130" y="6" width="140" height="22" rx="8" fill="#ea580c" />
+    <rect x="116" y="6" width="168" height="22" rx="8" fill="#ea580c" />
     <text x="200" y="22" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#fff">10 000-nél kisebb számok</text>
     <rect x="40" y="76" width="200" height="130" rx="14" fill="#c7d2fe" stroke="#3730a3" strokeWidth="2" opacity="0.95" />
     <rect x="170" y="40" width="200" height="130" rx="14" fill="#bae6fd" stroke="#0369a1" strokeWidth="2" opacity="0.85" />

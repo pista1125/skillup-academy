@@ -99,8 +99,13 @@ export const WalletGroup: React.FC<{ x: number; y: number; cash: number; debt: n
   const items: { kind: 'c' | 'd'; i: number }[] = [];
   for (let i = 0; i < cash; i++) items.push({ kind: 'c', i });
   for (let i = 0; i < debt; i++) items.push({ kind: 'd', i });
-  const per = Math.max(5, Math.ceil(Math.sqrt(items.length * 2)));
-  const cell = Math.min(22, (w - 16) / per);
+  // soronkénti darabszám: annyi, hogy a jelek a pénztárca magasságába is beférjenek
+  let per = Math.max(5, Math.ceil(Math.sqrt(items.length * 2)));
+  let cell = Math.min(22, (w - 16) / per);
+  while (per < items.length && Math.ceil(items.length / per) * cell > h - 18) {
+    per += 1;
+    cell = Math.min(22, (w - 16) / per);
+  }
   const pairs = Math.min(cash, debt);
   return (
     <g fontFamily={FONT}>
@@ -137,9 +142,9 @@ export const FabatkaSvg: React.FC<{ className?: string }> = ({ className }) => (
     <text x="38" y="26" fontSize="11" fill="#0f172a">= 1 fabatka készpénz</text>
     <rect x="180" y="15" width="14" height="14" fill={DEBT_BLUE} />
     <text x="200" y="26" fontSize="11" fill="#0f172a">= 1 fabatka adósság</text>
-    <WalletGroup x={20} y={50} cash={4} debt={1} name="Zsuzsi" />
-    <text x="178" y="100" fontSize="22" fill="#0f172a">→</text>
-    <WalletGroup x={200} y={50} cash={4} debt={1} crossPairs name="törlesztés után: 3" />
+    <WalletGroup x={20} y={50} cash={4} debt={1} w={130} name="Zsuzsi" />
+    <text x="160" y="100" fontSize="22" fill="#0f172a">→</text>
+    <WalletGroup x={190} y={50} cash={4} debt={1} w={130} crossPairs name="törlesztés után: 3" />
   </svg>
 );
 

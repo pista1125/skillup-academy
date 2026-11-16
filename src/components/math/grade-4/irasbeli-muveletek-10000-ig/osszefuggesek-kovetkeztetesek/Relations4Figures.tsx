@@ -140,18 +140,18 @@ export const SpoonsHalvingSvg: React.FC<{ className?: string }> = ({ className }
   return (
     <svg viewBox="0 0 360 200" className={className ?? 'w-full h-auto'} fontFamily={FONT}>
       <rect x="1" y="1" width="358" height="198" rx="14" fill="#ffedd5" stroke="#fdba74" />
-      {Array.from({ length: 12 }).map((_, i) => spoon(30 + (i % 4) * 34, 34 + Math.floor(i / 4) * 18, `a${i}`))}
-      {Array.from({ length: 6 }).map((_, i) => spoon(30 + (i % 3) * 34, 140 + Math.floor(i / 3) * 18, `b${i}`))}
+      {Array.from({ length: 12 }).map((_, i) => spoon(30 + (i % 4) * 28, 34 + Math.floor(i / 4) * 18, `a${i}`))}
+      {Array.from({ length: 6 }).map((_, i) => spoon(30 + (i % 3) * 28, 140 + Math.floor(i / 3) * 18, `b${i}`))}
       <path d="M 12 50 Q 0 110 14 160" fill="none" stroke="#2563eb" strokeWidth="2.5" />
       <polygon points="14,164 8,154 19,156" fill="#2563eb" />
-      <text x="4" y="112" fontSize="12" fontWeight="bold" fill="#1e3a8a">: 2</text>
-      <text x="220" y="62" textAnchor="middle" fontSize="15" fontWeight="bold" fill="#0f172a">12 kiskanál → 768 Ft</text>
-      <text x="220" y="160" textAnchor="middle" fontSize="15" fontWeight="bold" fill="#0f172a">
+      <text x="16" y="112" fontSize="12" fontWeight="bold" fill="#1e3a8a">: 2</text>
+      <text x="250" y="62" textAnchor="middle" fontSize="15" fontWeight="bold" fill="#0f172a">12 kiskanál → 768 Ft</text>
+      <text x="250" y="160" textAnchor="middle" fontSize="15" fontWeight="bold" fill="#0f172a">
         6 kiskanál → <tspan fill={UNK}>? Ft</tspan>
       </text>
-      <path d="M 300 72 Q 330 110 300 144" fill="none" stroke="#2563eb" strokeWidth="2.5" />
-      <polygon points="298,148 296,137 306,141" fill="#2563eb" />
-      <text x="322" y="112" fontSize="12" fontWeight="bold" fill="#1e3a8a">: 2</text>
+      <path d="M 322 72 Q 352 110 322 142" fill="none" stroke="#2563eb" strokeWidth="2.5" />
+      <polygon points="320,146 318,135 328,139" fill="#2563eb" />
+      <text x="318" y="112" textAnchor="end" fontSize="12" fontWeight="bold" fill="#1e3a8a">: 2</text>
     </svg>
   );
 };

@@ -23,8 +23,12 @@ const QDiv: React.FC<{ a: string; d: string; q?: string; note?: string }> = ({ a
   const heads = HEADS.slice(4 - n);
   const cols = COLS.slice(4 - n);
   const xs = Array.from({ length: n }).map((_, i) => 40 + i * 28);
-  const h = note ? 110 : 90;
+  // „?, marad ?” → a maradék külön sorba kerül, hogy ne lógjon ki az ábrából
+  const [q1, q2] = q.split(', ');
+  const h = note || q2 ? 110 : 90;
   const after = xs[n - 1] + 20;
+  const tailLen = `: ${d} = ${q1}`.length;
+  const tailFs = Math.min(20, (234 - after) / (tailLen * 0.56));
   return (
     <QFig h={h}>
       {heads.map((hd, i) => (
@@ -37,9 +41,12 @@ const QDiv: React.FC<{ a: string; d: string; q?: string; note?: string }> = ({ a
       {a.split('').map((ch, i) => (
         <text key={i} x={xs[i]} y="58" textAnchor="middle" fontSize="20" fontWeight="bold" fill={ch === '?' ? C_UNK : '#0f172a'}>{ch}</text>
       ))}
-      <text x={after} y="58" fontSize="20" fontWeight="bold" fill="#0f172a">
-        : <tspan fill={d === '?' ? C_UNK : '#0f172a'}>{d}</tspan> = <tspan fill={q.includes('?') ? C_UNK : '#7c3aed'}>{q}</tspan>
+      <text x={after} y="58" fontSize={tailFs} fontWeight="bold" fill="#0f172a">
+        : <tspan fill={d === '?' ? C_UNK : '#0f172a'}>{d}</tspan> = <tspan fill={q1.includes('?') ? C_UNK : '#7c3aed'}>{q1}</tspan>
       </text>
+      {q2 && (
+        <text x={after} y="92" fontSize="15" fontWeight="bold" fill={C_UNK}>{q2}</text>
+      )}
       {note && (
         <text x="120" y="96" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#475569">{note}</text>
       )}
@@ -94,7 +101,7 @@ const QPrices: React.FC<{ items: { n: string; p: string }[]; note: string }> = (
       {items.map((it, i) => (
         <g key={it.n}>
           <rect x={12 + i * w} y="14" width={w - 6} height="58" rx="7" fill="#fff" stroke="#c026d3" strokeWidth="1.5" />
-          <text x={12 + i * w + (w - 6) / 2} y="38" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#334155">{it.n}</text>
+          <text x={12 + i * w + (w - 6) / 2} y="38" textAnchor="middle" fontSize={it.n.length > 10 ? 8.5 : 10} fontWeight="bold" fill="#334155">{it.n}</text>
           <text x={12 + i * w + (w - 6) / 2} y="60" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#86198f">{it.p}</text>
         </g>
       ))}
@@ -142,7 +149,7 @@ const WRITTEN_DIV_QUESTIONS: QuizQuestion[] = [
     id: 'wd-q4',
     level: 1,
     questionTypeBadge: 'Becslés',
-    figure: <QDiv a="3693" d="3" q=". . . ." note="Hány jegyű lesz a hányados?" />,
+    figure: <QDiv a="3693" d="3" q="?" note="Hány jegyű lesz a hányados?" />,
     question: 'Becsülj! Melyik igaz a 3693 : 3 hányadosára?',
     options: ['1000 < a hányados < 2000', '100 < a hányados < 200', '2000 < a hányados < 3000', '3000 < a hányados < 4000'],
     correctAnswer: 0,
@@ -270,7 +277,7 @@ const WRITTEN_DIV_QUESTIONS: QuizQuestion[] = [
     id: 'wd-q17',
     level: 2,
     questionTypeBadge: 'Becslés',
-    figure: <QDiv a="224" d="3" q=". . ?" note="Megvan-e a 3 a 2 százasban?" />,
+    figure: <QDiv a="224" d="3" q="?" note="Megvan-e a 3 a 2 százasban?" />,
     question: 'Hány jegyű lesz a 224 : 3 hányadosa?',
     options: ['kétjegyű', 'egyjegyű', 'háromjegyű', 'négyjegyű'],
     correctAnswer: 0,

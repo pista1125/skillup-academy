@@ -310,7 +310,7 @@ export const NUMBER_LINE_QUESTIONS: QuizQuestion[] = [
     id: 'nl-q28',
     level: 3,
     questionTypeBadge: 'Ellentett',
-    figure: <QLine min={-6} max={6} labels={[-6, 0, 6]} points={[G(-5, '−5'), G(5, '5')]} note="Hány lépés? ?" />,
+    figure: <QLine min={-6} max={6} labels={[-6, 0, 6]} points={[G(-5, '−5'), G(5, '5')]} note="Hány lépés?" />,
     question: 'Hány lépés van a számegyenesen a −5 és az 5 között?',
     options: ['10', '0', '5', '11'],
     correctAnswer: 0,

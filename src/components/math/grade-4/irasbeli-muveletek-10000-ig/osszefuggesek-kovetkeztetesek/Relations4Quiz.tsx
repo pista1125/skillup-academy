@@ -17,11 +17,12 @@ const QFig: React.FC<{ children: React.ReactNode; h?: number; w?: number }> = ({
 
 /** Kétsoros táblázat; a „?” piros. */
 const QTable: React.FC<{ top: string; bottom: string; tops: string[]; bottoms: string[] }> = ({ top, bottom, tops, bottoms }) => {
-  const lw = 78;
+  const lw = 86;
   const cw = Math.min(40, (226 - lw) / tops.length);
+  const tx = (240 - (lw + tops.length * cw)) / 2;
   return (
     <QFig h={96}>
-      <g transform="translate(7 14)">
+      <g transform={`translate(${tx} 14)`}>
         <rect x="0" y="0" width={lw} height="34" fill="#ccfbf1" stroke="#0f766e" />
         <rect x="0" y="34" width={lw} height="34" fill="#ccfbf1" stroke="#0f766e" />
         <text x={lw / 2} y="21" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#134e4a">{top}</text>
@@ -87,25 +88,29 @@ const Animal: React.FC<{ kind: 'm' | 'b' | 'c'; x: number; y: number }> = ({ kin
   ) : (
     <g transform={`translate(${x} ${y})`}>
       <ellipse cx="0" cy="1" rx="8" ry="5" fill="#0f172a" />
-      <circle cx="7" cy="-4" r="3.5" fill="#0f172a" />
+      <circle cx="6" cy="-4" r="3.2" fill="#0f172a" />
     </g>
   );
 
 const QAnimals: React.FC<{ rows: { a: ('m' | 'b' | 'c')[]; s: string }[]; legend: string }> = ({ rows, legend }) => (
   <QFig h={40 + rows.length * 28}>
-    {rows.map((r, ri) => (
-      <g key={ri}>
-        {r.a.map((k, i) => (
-          <g key={i}>
-            <Animal kind={k} x={16 + i * 20} y={26 + ri * 28} />
-            {i < r.a.length - 1 && (
-              <text x={26 + i * 20} y={30 + ri * 28} textAnchor="middle" fontSize="9" fill="#334155">+</text>
-            )}
-          </g>
-        ))}
-        <text x={14 + r.a.length * 20} y={30 + ri * 28} fontSize="12" fontWeight="bold" fill="#0f172a">= {r.s}</text>
-      </g>
-    ))}
+    {rows.map((r, ri) => {
+      // az állatok közti távolság a darabszámhoz igazodik, hogy a „+” jelek ne takarják egymást
+      const sp = Math.min(24, 180 / r.a.length);
+      return (
+        <g key={ri}>
+          {r.a.map((k, i) => (
+            <g key={i}>
+              <Animal kind={k} x={16 + i * sp} y={26 + ri * 28} />
+              {i < r.a.length - 1 && (
+                <text x={16 + i * sp + sp / 2} y={30 + ri * 28} textAnchor="middle" fontSize="9" fill="#334155">+</text>
+              )}
+            </g>
+          ))}
+          <text x={14 + r.a.length * sp} y={30 + ri * 28} fontSize="12" fontWeight="bold" fill="#0f172a">= {r.s}</text>
+        </g>
+      );
+    })}
     <text x="120" y={28 + rows.length * 28} textAnchor="middle" fontSize="12" fontWeight="bold" fill={C_UNK}>{legend}</text>
   </QFig>
 );
