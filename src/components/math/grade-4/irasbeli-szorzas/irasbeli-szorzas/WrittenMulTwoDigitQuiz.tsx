@@ -70,7 +70,7 @@ const QGroups: React.FC<{ count: string; each: string; unit: string }> = ({ coun
         <text x={33 + i * 44} y="43" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#9a3412">{i === 3 ? '…' : each}</text>
       </g>
     ))}
-    <text x="120" y="82" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#334155">{count} × {each}</text>
+    <text x="120" y="82" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#334155">{count} · {each}</text>
     <text x="120" y="104" textAnchor="middle" fontSize="13" fontWeight="bold" fill={C_UNK}>Összesen: ? {unit}</text>
   </QFig>
 );

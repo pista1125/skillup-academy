@@ -261,7 +261,7 @@ export const BridgeSvg: React.FC<{ className?: string; marked?: number[] }> = ({
       return (
         <g key={n}>
           <path d={`M${cx - 19} 98 L${cx - 19} 76 A19 19 0 0 1 ${cx + 19} 76 L${cx + 19} 98 Z`} fill={on ? '#bbf7d0' : '#f8fafc'} stroke="#78716c" />
-          <text x={cx} y="84" textAnchor="middle" fontSize="11" fontWeight="bold" fill={on ? '#166534' : '#1e293b'}>
+          <text x={cx} y="84" textAnchor="middle" fontSize="13" fontWeight="bold" fill={on ? '#166534' : '#1e293b'}>
             {n}
           </text>
         </g>

@@ -197,11 +197,11 @@ const DiagFromVertexFig: React.FC<{ n: number; rot?: number; label: string }> = 
 
 const RoomFig: React.FC = () => (
   <QFig h={160}>
-    <rect x="60" y="25" width="110" height="110" fill="#f1f5f9" stroke="#334155" strokeWidth="2.5" />
-    <circle cx="152" cy="43" r="10" fill="#fca5a5" stroke="#991b1b" />
-    <text x="78" y="49" textAnchor="middle" fontSize="16" fontWeight="bold" fill={UNK}>?</text>
-    <text x="78" y="124" textAnchor="middle" fontSize="16" fontWeight="bold" fill={UNK}>?</text>
-    <text x="152" y="124" textAnchor="middle" fontSize="16" fontWeight="bold" fill={UNK}>?</text>
+    <rect x="50" y="25" width="110" height="110" fill="#f1f5f9" stroke="#334155" strokeWidth="2.5" />
+    <circle cx="142" cy="43" r="10" fill="#fca5a5" stroke="#991b1b" />
+    <text x="68" y="49" textAnchor="middle" fontSize="16" fontWeight="bold" fill={UNK}>?</text>
+    <text x="68" y="124" textAnchor="middle" fontSize="16" fontWeight="bold" fill={UNK}>?</text>
+    <text x="142" y="124" textAnchor="middle" fontSize="16" fontWeight="bold" fill={UNK}>?</text>
     <g transform="translate(205 70)">
       <line x1="0" y1="-25" x2="0" y2="25" stroke="#475569" strokeWidth="1.5" />
       <line x1="-20" y1="0" x2="20" y2="0" stroke="#475569" strokeWidth="1.5" />
@@ -210,7 +210,7 @@ const RoomFig: React.FC = () => (
       <text x="-27" y="4" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#334155">Ny</text>
       <text x="26" y="4" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#334155">K</text>
     </g>
-    <text x="115" y="152" textAnchor="middle" fontSize="11" fill="#334155">kör: északkeleti sarok</text>
+    <text x="105" y="152" textAnchor="middle" fontSize="11" fill="#334155">kör: északkeleti sarok</text>
   </QFig>
 );
 

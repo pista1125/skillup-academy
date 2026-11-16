@@ -99,10 +99,10 @@ const Cells: React.FC<{ cells: Cell[]; x0: number; y0: number; u: number; dx?: n
   </g>
 );
 
-const Dot: React.FC<{ x: number; y: number; l: string; color?: string }> = ({ x, y, l, color = '#1d4ed8' }) => (
+const Dot: React.FC<{ x: number; y: number; l: string; color?: string; lx?: number; ly?: number }> = ({ x, y, l, color = '#1d4ed8', lx = 7, ly = -6 }) => (
   <g>
     <circle cx={x} cy={y} r="5" fill={color} />
-    <text x={x + 7} y={y - 6} fontSize="11" fontWeight="bold" fill={color}>
+    <text x={x + lx} y={y + ly} fontSize="11" fontWeight="bold" fill={color}>
       {l}
     </text>
   </g>
@@ -154,7 +154,7 @@ const FIG_SHIFT_K5 = (
     <Cells cells={FLAG} x0={20} y0={20} u={18} dx={1} dy={1} fill="#fed7aa" />
     <Cells cells={FLAG} x0={20} y0={20} u={18} dx={6} dy={1} />
     <North x={222} y={30} />
-    <T x={120} y={142} t="Hány négyzettel keletre? ?" size={11} />
+    <T x={120} y={142} t="Hány négyzettel keletre?" size={11} />
   </QFig>
 );
 
@@ -164,7 +164,7 @@ const FIG_DOT_UP3 = (
     <Dot x={30 + 3 * 18} y={15 + 5 * 18} l="eredeti" color="#64748b" />
     <Dot x={30 + 3 * 18} y={15 + 2 * 18} l="új hely" color="#ea580c" />
     <North x={210} y={30} />
-    <T x={120} y={142} t="Merre és mennyivel? ?" size={11} />
+    <T x={120} y={142} t="Merre és mennyivel?" size={11} />
   </QFig>
 );
 
@@ -186,7 +186,7 @@ const FIG_WHICH_SHIFT = (
     {/* D: nagyított */}
     <Cells cells={[[0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [1, 4], [1, 5], [2, 4], [2, 5], [3, 4], [3, 5], [1, 0], [1, 1], [1, 2], [1, 3]]} x0={10} y0={10} u={10} dx={17} dy={1} />
     <T x={200} y={100} t="D" size={11} />
-    <T x={120} y={135} t="Melyik az eltolt kép? ?" size={11} />
+    <T x={120} y={135} t="Melyik az eltolt kép?" size={11} />
   </QFig>
 );
 
@@ -214,10 +214,10 @@ const FIG_MARKS = (
       <g key={i}>
         <line x1={30 + i * 45} y1={54} x2={30 + i * 45} y2={66} stroke="#0f172a" strokeWidth="2" />
         <T x={30 + i * 45} y={82} t={i === 0 ? '0 cm' : i === 1 ? '3 cm' : i === 4 ? '? cm' : '…'} size={10} />
-        <T x={30 + i * 45} y={46} t={`${i + 1}.`} size={10} color="#0369a1" />
+        <T x={30 + i * 45} y={44} t={`${i + 1}.`} size={10} color="#0369a1" />
       </g>
     ))}
-    <polygon points="22,58 38,58 30,44" fill="#60a5fa" />
+    <polygon points="25,58 35,58 30,49" fill="#60a5fa" />
     <T x={120} y={102} t="Hol van az 5. jelölés?" size={11} />
   </QFig>
 );
@@ -229,7 +229,7 @@ const FIG_SHIFT_5K2E = (
     <Cells cells={SMALL_L} x0={20} y0={15} u={18} dx={1} dy={4} fill="#fed7aa" />
     <Cells cells={SMALL_L} x0={20} y0={15} u={18} dx={6} dy={2} />
     <North x={218} y={22} />
-    <T x={120} y={142} t="Hogyan tolták el? ?" size={11} />
+    <T x={120} y={142} t="Hogyan tolták el?" size={11} />
   </QFig>
 );
 
@@ -240,7 +240,7 @@ const FIG_POINT_4K1D = (
     <Dot x={30 + 5 * 18} y={10 + 3 * 18} l="A" color="#7c3aed" />
     <Dot x={30 + 5 * 18} y={10 + 1 * 18} l="B" color="#7c3aed" />
     <Dot x={30 + 2 * 18} y={10 + 6 * 18} l="C" color="#7c3aed" />
-    <Dot x={30 + 4 * 18} y={10 + 3 * 18} l="D" color="#7c3aed" />
+    <Dot x={30 + 4 * 18} y={10 + 3 * 18} l="D" color="#7c3aed" lx={-15} />
     <North x={210} y={22} />
     <T x={120} y={152} t="P: 4 keletre, 1 délre → ?" size={11} />
   </QFig>
@@ -278,7 +278,7 @@ const FIG_SEQ = (
     <T x={157} y={45} t="1. keletre 2 cm" size={11} color="#166534" />
     <T x={157} y={65} t="2. északra 3 cm" size={11} color="#166534" />
     <T x={157} y={85} t="3. nyugatra 7 cm" size={11} color="#166534" />
-    <T x={120} y={130} t="Hová került összesen? ?" size={11} />
+    <T x={120} y={130} t="Hová került összesen?" size={11} />
   </QFig>
 );
 
@@ -295,7 +295,7 @@ const FIG_NOT_SHIFT = (
     <T x={152} y={80} t="C" size={11} />
     <Cells cells={FLAG} x0={10} y0={10} u={10} dx={18} dy={3} />
     <T x={202} y={92} t="D" size={11} />
-    <T x={120} y={130} t="Melyik NEM eltolt kép? ?" size={11} />
+    <T x={120} y={130} t="Melyik NEM eltolt kép?" size={11} />
   </QFig>
 );
 
@@ -304,7 +304,7 @@ const FIG_DK2 = (
     <Grid x0={30} y0={10} cols={9} rows={7} u={18} />
     <Dot x={30 + 2 * 18} y={10 + 2 * 18} l="P" color="#0f172a" />
     <Dot x={30 + 4 * 18} y={10 + 4 * 18} l="A" color="#7c3aed" />
-    <Dot x={30 + 4 * 18} y={10 + 0 * 18} l="B" color="#7c3aed" />
+    <Dot x={30 + 4 * 18} y={10 + 0 * 18} l="B" color="#7c3aed" ly={15} />
     <Dot x={30 + 0 * 18} y={10 + 4 * 18} l="C" color="#7c3aed" />
     <Dot x={30 + 4 * 18} y={10 + 2 * 18} l="D" color="#7c3aed" />
     <North x={210} y={22} />
@@ -318,7 +318,7 @@ const FIG_L_SHIFT = (
     <Cells cells={L_SHAPE} x0={20} y0={15} u={18} dx={7} dy={1} />
     <Arr x1={20 + 7 * 18} y1={15 + 0.6 * 18} x2={20 + 1 * 18} y2={15 + 0.6 * 18} />
     <T x={20 + 4 * 18} y={15 + 0.4 * 18} t="6 nyugatra" size={10} color="#2563eb" />
-    <T x={120} y={120} t="Hány kis négyzet az eltolt kép? ?" size={11} />
+    <T x={120} y={120} t="Hány kis négyzet az eltolt kép?" size={11} />
   </QFig>
 );
 
@@ -359,7 +359,7 @@ const FIG_DESK = (
     <T x={74} y={34} t="eredeti" size={9} />
     <rect x={166} y={40} width={20} height={14} fill="none" stroke="#16a34a" strokeWidth="2" strokeDasharray="3 2" />
     <T x={176} y={34} t="cél" size={9} color="#16a34a" />
-    <T x={120} y={110} t="Merre és mennyivel? ?" size={11} />
+    <T x={120} y={110} t="Merre és mennyivel?" size={11} />
     <North x={225} y={12} />
   </QFig>
 );

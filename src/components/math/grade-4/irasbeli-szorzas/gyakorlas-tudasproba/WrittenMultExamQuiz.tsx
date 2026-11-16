@@ -36,7 +36,7 @@ const QTable: React.FC<{ title: string; rows: { k: string; v: string }[] }> = ({
 
 /** Nyíllánc. */
 const QChain: React.FC<{ start: string; ops: string[]; boxes: string[] }> = ({ start, ops, boxes }) => {
-  const step = 200 / (ops.length + 0.4);
+  const step = (230 - 40) / ops.length;
   return (
     <QFig h={96}>
       <defs>
@@ -46,12 +46,12 @@ const QChain: React.FC<{ start: string; ops: string[]; boxes: string[] }> = ({ s
       </defs>
       <text x="22" y="60" textAnchor="middle" fontSize="15" fontWeight="bold" fill="#0f172a">{start}</text>
       {ops.map((op, i) => {
-        const x0 = 36 + i * step;
+        const x0 = 40 + i * step;
         const bx = x0 + step - 42;
         return (
           <g key={i}>
             <line x1={x0} y1="55" x2={bx - 2} y2="55" stroke="#2563eb" strokeWidth="1.8" markerEnd="url(#weArr)" />
-            <text x={(x0 + bx) / 2} y="44" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#2563eb">{op}</text>
+            <text x={(x0 + bx) / 2} y="34" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#2563eb">{op}</text>
             <rect x={bx} y="40" width="42" height="28" rx="4" fill="#fff" stroke="#0f172a" strokeWidth="1.4" />
             <text x={bx + 21} y="59" textAnchor="middle" fontSize="12" fontWeight="bold" fill={boxes[i] === '?' ? C_UNK : '#1d4ed8'}>{boxes[i]}</text>
           </g>

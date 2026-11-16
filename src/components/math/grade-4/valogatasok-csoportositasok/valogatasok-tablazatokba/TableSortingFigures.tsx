@@ -200,13 +200,13 @@ export const LineTypesSvg: React.FC<{ className?: string }> = ({ className = 'w-
       szabadkézi vonal
     </text>
     {[
-      ['vékony – vastag', '#dc2626', 14],
-      ['folytonos – szaggatott', '#16a34a', 126],
-      ['egyenes – görbe', '#0284c7', 258]
+      ['vékony – vastag', '#dc2626', 8],
+      ['folytonos – szaggatott', '#16a34a', 112],
+      ['egyenes – görbe', '#0284c7', 255]
     ].map(([t, c, x]) => (
       <g key={t as string}>
         <rect x={x as number} y="128" width={(t as string).length * 5.6 + 12} height="16" rx="8" fill={c as string} />
-        <text x={(x as number) + 6} y="140" fontSize="10" fontWeight="bold" fill="#fff">
+        <text x={(x as number) + 6} y="140" fontSize="9.5" fontWeight="bold" fill="#fff">
           {t}
         </text>
       </g>
@@ -265,7 +265,7 @@ export const AnimalTableSvg: React.FC<{ className?: string }> = ({ className = '
               </text>
             ) : (
               list.map((a, i) => (
-                <text key={a.t} x={x + 8 + (i % 2) * 62} y={y + 16 + Math.floor(i / 2) * 16} fontSize="10" fontWeight="bold" fill="#0f172a">
+                <text key={a.t} x={x + 5 + (i % 2) * 60} y={y + 16 + Math.floor(i / 2) * 16} fontSize="9.5" fontWeight="bold" fill="#0f172a">
                   {a.t}
                 </text>
               ))

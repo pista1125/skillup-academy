@@ -106,10 +106,10 @@ export const MixedVennLab: React.FC = () => {
           <rect x="4" y="4" width="352" height="232" rx="12" fill="#f8fafc" stroke="#0f766e" strokeWidth="2" />
           <circle cx={VENN2.ax} cy={VENN2.cy} r={VENN2.r} fill="#0891b2" fillOpacity={pick && (ans === 'A' || ans === 'AB') ? 0.25 : 0.1} stroke="#0891b2" strokeWidth="2.2" />
           <circle cx={VENN2.bx} cy={VENN2.cy} r={VENN2.r} fill="#d97706" fillOpacity={pick && (ans === 'B' || ans === 'AB') ? 0.25 : 0.1} stroke="#d97706" strokeWidth="2.2" />
-          <text x={VENN2.ax - 20} y="78" fontSize="11" fontWeight="bold" textAnchor="middle" fill="#0e7490">
+          <text x={VENN2.ax - 20} y="40" fontSize="11" fontWeight="bold" textAnchor="middle" fill="#0e7490">
             {a.label}
           </text>
-          <text x={VENN2.bx + 20} y="78" fontSize="11" fontWeight="bold" textAnchor="middle" fill="#b45309">
+          <text x={VENN2.bx + 20} y="40" fontSize="11" fontWeight="bold" textAnchor="middle" fill="#b45309">
             {b.label}
           </text>
           {pick !== null && (

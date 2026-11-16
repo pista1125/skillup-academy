@@ -32,7 +32,7 @@ const CountDiscsFig: React.FC = () => (
     <polygon points="150,30 172,30 183,50 172,70 150,70 139,50" fill="#93c5fd" stroke="#1e40af" strokeWidth="1.5" />
     <circle cx="210" cy="55" r="16" fill="#93c5fd" stroke="#1e40af" strokeWidth="1.5" />
     <polygon points="60,115 80,80 100,115" fill="#93c5fd" stroke="#1e40af" strokeWidth="1.5" />
-    <path d="M 122 115 A 28 28 0 0 1 178 115 Z" fill="#93c5fd" stroke="#1e40af" strokeWidth="1.5" />
+    <path d="M 114 115 A 28 28 0 0 1 170 115 Z" fill="#93c5fd" stroke="#1e40af" strokeWidth="1.5" />
     <text x="205" y="110" textAnchor="middle" fontSize="13" fontWeight="bold" fill={UNK}>? körlap</text>
   </QFig>
 );

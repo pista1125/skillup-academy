@@ -65,7 +65,7 @@ const QBirds: React.FC = () => {
     ['sarki csér', 300, '#ea580c']
   ];
   const x0 = 70;
-  const s = 0.4;
+  const s = 0.38;
   return (
     <QFig h={140}>
       {[0, 100, 200, 300, 400].map((v) => (

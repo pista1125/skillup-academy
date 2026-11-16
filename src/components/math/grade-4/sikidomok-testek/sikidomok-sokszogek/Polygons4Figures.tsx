@@ -41,7 +41,7 @@ export const PlaneShapesSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS }
     {/* görbe vonallal is határolt síkidomok */}
     <circle cx="60" cy="80" r="26" fill="#fdba74" stroke="#c2410c" strokeWidth="1.5" />
     <path d="M 60 150 L 86 150 A 26 26 0 1 1 60 124 Z" fill="#fdba74" stroke="#c2410c" strokeWidth="1.5" />
-    <path d="M 40 190 A 26 26 0 1 0 84 205 L 62 200 Z" fill="#fdba74" stroke="#c2410c" strokeWidth="1.5" />
+    <path d="M 40 182 A 26 26 0 1 0 84 197 L 62 192 Z" fill="#fdba74" stroke="#c2410c" strokeWidth="1.5" />
     <rect x="120" y="40" width="384" height="196" rx="14" fill="#fff1f2" stroke="#f43f5e" strokeWidth="2" />
     <text x="134" y="62" fontSize="15" fontWeight="bold" fill="#be123c">Sokszögek</text>
     <polygon points="160,200 185,90 210,200" fill="#fda4af" stroke="#9f1239" strokeWidth="1.5" />
@@ -56,14 +56,14 @@ export const PlaneShapesSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS }
     <polygon points="335,170 368,166 362,196 340,200" fill="#a8a29e" stroke="#44403c" />
     <polygon points="378,172 410,182 382,200 390,184" fill="#a8a29e" stroke="#44403c" />
     <text x="160" y="226" fontSize="11" fill="#9f1239">egyenes szakaszok határolják</text>
-    <text x="20" y="238" fontSize="11" fill="#c2410c">görbe vonal is</text>
+    <text x="20" y="240" fontSize="11" fill="#c2410c">görbe vonal is</text>
   </svg>
 );
 
 /** 2. ábra: hajtogatással kapott párhuzamos egyenesek és a létra (Tankönyv 113. o.) */
 export const ParallelLinesSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS }) => (
-  <svg viewBox="0 0 520 220" className={className} xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
-    <rect x="4" y="4" width="512" height="212" rx="18" fill="#fefce8" stroke="#facc15" strokeWidth="2" />
+  <svg viewBox="0 0 520 236" className={className} xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
+    <rect x="4" y="4" width="512" height="228" rx="18" fill="#fefce8" stroke="#facc15" strokeWidth="2" />
     <text x="110" y="28" textAnchor="middle" fontSize="13" fontWeight="bold" fill="#854d0e">Kétszer félbehajtott lap</text>
     <rect x="40" y="40" width="140" height="160" fill="#fde047" stroke="#a16207" strokeWidth="1.5" />
     {[80, 120, 160].map((y) => (
@@ -78,7 +78,7 @@ export const ParallelLinesSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS
       const t = (200 - y) / 160;
       return <line key={y} x1={340 + 20 * t} y1={y} x2={440 - 20 * t} y2={y} stroke="#b45309" strokeWidth="5" strokeLinecap="round" />;
     })}
-    <text x="260" y="210" textAnchor="middle" fontSize="12" fill="#475569">A párhuzamos egyenesek sehol sem találkoznak.</text>
+    <text x="260" y="222" textAnchor="middle" fontSize="12" fill="#475569">A párhuzamos egyenesek sehol sem találkoznak.</text>
   </svg>
 );
 
@@ -108,8 +108,8 @@ export const AngleTypesSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS })
 export const RectSquareSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS }) => {
   const rect: P[] = [
     [40, 50],
-    [250, 50],
-    [250, 160],
+    [223, 50],
+    [223, 160],
     [40, 160]
   ];
   const sq: P[] = [
@@ -125,9 +125,9 @@ export const RectSquareSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS })
       <rect x="4" y="4" width="512" height="202" rx="18" fill="#f8fafc" stroke="#cbd5e1" strokeWidth="2" />
       <polygon points={pts(rect)} fill="#bfdbfe" stroke="#1d4ed8" strokeWidth="2.5" />
       {marks(rect, '#1e3a8a')}
-      <text x="145" y="110" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#1e3a8a">téglalap</text>
-      <text x="145" y="40" textAnchor="middle" fontSize="12" fill="#1e40af">5 egység</text>
-      <text x="262" y="110" fontSize="12" fill="#1e40af">3</text>
+      <text x="131" y="110" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#1e3a8a">téglalap</text>
+      <text x="131" y="40" textAnchor="middle" fontSize="12" fill="#1e40af">5 egység</text>
+      <text x="235" y="110" fontSize="12" fill="#1e40af">3</text>
       <polygon points={pts(sq)} fill="#fecaca" stroke="#b91c1c" strokeWidth="2.5" />
       {marks(sq, '#7f1d1d')}
       <text x="385" y="110" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#7f1d1d">négyzet</text>

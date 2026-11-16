@@ -138,8 +138,8 @@ export const CircleOrNotSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS }
     <line x1="290" y1="25" x2="290" y2="165" stroke="#cbd5e1" strokeWidth="2" strokeDasharray="6 4" />
     <ellipse cx="360" cy="85" rx="56" ry="34" fill="#e2e8f0" stroke="#64748b" strokeWidth="2" />
     <text x="365" y="160" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#475569">ovális: nem kör</text>
-    <path d="M 470 40 C 500 40 505 130 470 130 C 435 130 440 40 470 40 Z" fill="#e2e8f0" stroke="#64748b" strokeWidth="2" />
-    <text x="472" y="160" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#475569">tojás: nem kör</text>
+    <path d="M 462 40 C 492 40 497 130 462 130 C 427 130 432 40 462 40 Z" fill="#e2e8f0" stroke="#64748b" strokeWidth="2" />
+    <text x="462" y="160" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#475569">tojás: nem kör</text>
   </svg>
 );
 

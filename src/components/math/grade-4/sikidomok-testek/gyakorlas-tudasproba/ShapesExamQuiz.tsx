@@ -41,10 +41,10 @@ const Grid: React.FC<{ x0: number; y0: number; cols: number; rows: number; u: nu
   </g>
 );
 
-const Dot: React.FC<{ x: number; y: number; l: string; color?: string }> = ({ x, y, l, color = '#7c3aed' }) => (
+const Dot: React.FC<{ x: number; y: number; l: string; color?: string; lx?: number; ly?: number }> = ({ x, y, l, color = '#7c3aed', lx = 6, ly = -6 }) => (
   <g>
     <circle cx={x} cy={y} r="4.5" fill={color} />
-    <text x={x + 6} y={y - 6} fontSize="11" fontWeight="bold" fill={color}>
+    <text x={x + lx} y={y + ly} fontSize="11" fontWeight="bold" fill={color}>
       {l}
     </text>
   </g>
@@ -116,8 +116,15 @@ const ArrowFig: React.FC<{ dir: number; text: string }> = ({ dir, text }) => {
     <QFig>
       <polygon points={pts.map((p) => examRotQ(p, dir)).map(([x, y]) => `${c[0] + x},${c[1] + y}`).join(' ')} fill="#5eead4" stroke="#0f766e" strokeWidth="2" />
       <circle cx={c[0]} cy={c[1]} r="3.5" fill={UNK} />
-      <T x={175} y={62} t={text} size={11} color="#0f766e" />
-      <T x={175} y={86} t="Merre mutat? ?" size={11} />
+      {text.length > 14 ? (
+        <>
+          <T x={172} y={54} t={text.slice(0, text.lastIndexOf(' '))} size={11} color="#0f766e" />
+          <T x={172} y={70} t={text.slice(text.lastIndexOf(' ') + 1)} size={11} color="#0f766e" />
+        </>
+      ) : (
+        <T x={172} y={62} t={text} size={11} color="#0f766e" />
+      )}
+      <T x={172} y={94} t="Merre mutat?" size={11} />
     </QFig>
   );
 };
@@ -126,25 +133,25 @@ const ArrowFig: React.FC<{ dir: number; text: string }> = ({ dir, text }) => {
 const FIG_PENTAGON = (
   <QFig h={140}>
     <Poly pts={[[120, 18], [168, 52], [150, 108], [90, 108], [72, 52]]} fill="#bbf7d0" stroke="#15803d" />
-    <T x={120} y={132} t="Hány csúcsa van? ?" size={11} />
+    <T x={120} y={132} t="Hány csúcsa van?" size={11} />
   </QFig>
 );
 const FIG_ACUTE = (
   <QFig h={130}>
     <ExamAngle v={[70, 100]} a1={0} a2={-40} len={110} />
-    <T x={120} y={122} t="Milyen szög? ?" size={11} />
+    <T x={120} y={122} t="Milyen szög?" size={11} />
   </QFig>
 );
 const FIG_CUBE = (
   <QFig h={140}>
     <ExamCuboid x={80} y={110} w={60} h={60} d={36} />
-    <T x={120} y={132} t="Hány lapja van? ?" size={11} />
+    <T x={120} y={132} t="Hány lapja van?" size={11} />
   </QFig>
 );
 const FIG_SPHERE = (
   <QFig h={140}>
     <ExamSphere cx={120} cy={64} r={44} />
-    <T x={120} y={132} t="Melyik test? ?" size={11} />
+    <T x={120} y={132} t="Melyik test?" size={11} />
   </QFig>
 );
 const FIG_SOLID_PICK = (
@@ -157,7 +164,7 @@ const FIG_SOLID_PICK = (
     <T x={96} y={104} t="négyzet" size={10} />
     <T x={150} y={104} t="kör" size={10} />
     <T x={206} y={104} t="ferde négyszög" size={9} />
-    <T x={120} y={122} t="Melyik a test? ?" size={11} />
+    <T x={120} y={122} t="Melyik a test?" size={11} />
   </QFig>
 );
 const FIG_MIRROR_FLAG = (
@@ -182,10 +189,10 @@ const FIG_SHIFT_4 = (
     <Grid x0={20} y0={20} cols={10} rows={6} u={18} />
     <polygon points={examPoly(EXAM_FLAG, 20 + 18, 20 + 5 * 18, 18)} fill="#fed7aa" stroke="#9a3412" strokeWidth="1.5" />
     <polygon points={examPoly(EXAM_FLAG, 20 + 5 * 18, 20 + 5 * 18, 18)} fill="#fdba74" stroke="#9a3412" strokeWidth="2" />
-    <T x={120} y={142} t="Hány négyzettel keletre? ?" size={11} />
+    <T x={120} y={142} t="Hány négyzettel keletre?" size={11} />
   </QFig>
 );
-const FIG_CLOCK_3 = <ClockFig hour={3} minute label="nagymutató: 12 → 3. Mekkora fordulat? ?" />;
+const FIG_CLOCK_3 = <ClockFig hour={3} minute label="nagymutató: 12 → 3. Mekkora fordulat?" />;
 const FIG_ARROW_UP = <ArrowFig dir={0} text="negyed fordulat jobbra" />;
 const FIG_MAP = <MapFig />;
 const FIG_CHESS = <ChessFig />;
@@ -209,31 +216,31 @@ const FIG_HEXAGON = (
 const FIG_OBTUSE = (
   <QFig h={130}>
     <ExamAngle v={[130, 100]} a1={-150} a2={0} len={90} />
-    <T x={120} y={122} t="Milyen szög? ?" size={11} />
+    <T x={120} y={122} t="Milyen szög?" size={11} />
   </QFig>
 );
 const FIG_L_HEX = (
   <QFig h={150}>
     <Poly pts={[[60, 20], [110, 20], [110, 80], [180, 80], [180, 125], [60, 125]]} fill="#c7d2fe" stroke="#3730a3" />
     <T x={210} y={60} t="Hány" size={11} />
-    <T x={210} y={76} t="oldala? ?" size={11} />
+    <T x={210} y={76} t="oldala?" size={11} />
   </QFig>
 );
 const FIG_CUBOID = (
   <QFig h={140}>
     <ExamCuboid x={60} y={110} w={90} h={50} d={44} />
-    <T x={120} y={132} t="Hány éle van? ?" size={11} />
+    <T x={120} y={132} t="Hány éle van?" size={11} />
   </QFig>
 );
-const FIG_PLAN_7 = <PlanFig rows={[[2, 1], [3, 1]]} note="Hány kis kocka? ?" />;
+const FIG_PLAN_7 = <PlanFig rows={[[2, 1], [3, 1]]} note="Hány kis kocka?" />;
 const FIG_MIRROR_POINT = (
   <QFig>
     <Grid x0={20} y0={15} cols={10} rows={6} u={20} />
     <line x1={120} y1={15} x2={120} y2={135} stroke={UNK} strokeWidth="2.5" strokeDasharray="6 3" />
     <Dot x={80} y={75} l="P" color="#0f172a" />
-    <Dot x={160} y={75} l="A" />
-    <Dot x={140} y={75} l="B" />
-    <Dot x={180} y={75} l="C" />
+    <Dot x={160} y={75} l="A" lx={-4} ly={18} />
+    <Dot x={140} y={75} l="B" lx={-4} ly={18} />
+    <Dot x={180} y={75} l="C" lx={-4} ly={18} />
     <Dot x={160} y={55} l="D" />
     <T x={120} y={146} t="P tükörképe: ?" size={11} />
   </QFig>
@@ -252,7 +259,7 @@ const FIG_POINT_3K2D = (
     <Grid x0={30} y0={10} cols={9} rows={7} u={18} />
     <Dot x={30 + 2 * 18} y={10 + 2 * 18} l="P" color="#0f172a" />
     <Dot x={30 + 5 * 18} y={10 + 4 * 18} l="A" />
-    <Dot x={30 + 5 * 18} y={10 + 0 * 18} l="B" />
+    <Dot x={30 + 5 * 18} y={10 + 0 * 18} l="B" ly={15} />
     <Dot x={30 + 4 * 18} y={10 + 5 * 18} l="C" />
     <Dot x={30 + 0 * 18} y={10 + 4 * 18} l="D" />
     <T x={120} y={152} t="P: 3 keletre, 2 délre → ? (észak fent)" size={10} />
@@ -287,8 +294,8 @@ const FIG_VENN = (
     <T x={50} y={24} t="SOKSZÖGEK" size={10} color="#15803d" />
     <ellipse cx="90" cy="85" rx="66" ry="46" fill="#dcfce7" fillOpacity="0.6" stroke="#16a34a" strokeWidth="2" />
     <ellipse cx="150" cy="85" rx="66" ry="46" fill="#fee2e2" fillOpacity="0.6" stroke="#dc2626" strokeWidth="2" />
-    <T x={70} y={46} t="párhuzamos oldalak" size={8.5} color="#166534" />
-    <T x={175} y={46} t="négyszögek" size={8.5} color="#b91c1c" />
+    <T x={70} y={35} t="párhuzamos oldalak" size={9} color="#166534" />
+    <T x={175} y={35} t="négyszögek" size={9} color="#b91c1c" />
     <T x={55} y={90} t="1" size={14} color="#166534" />
     <T x={120} y={90} t="2" size={14} color="#78350f" />
     <T x={185} y={90} t="3" size={14} color="#b91c1c" />
@@ -314,12 +321,12 @@ const FIG_CUBES_12 = (
       )
     )}
     <T x={190} y={70} t="Hány kis" size={11} />
-    <T x={190} y={86} t="kocka? ?" size={11} />
+    <T x={190} y={86} t="kocka?" size={11} />
   </QFig>
 );
-const FIG_PLAN_10 = <PlanFig rows={[[3, 2, 1], [2, 1, 1]]} note="Hány kis kocka? ?" />;
+const FIG_PLAN_10 = <PlanFig rows={[[3, 2, 1], [2, 1, 1]]} note="Hány kis kocka?" />;
 const FIG_MIRROR_H = (
-  <QFig>
+  <QFig h={168}>
     <Grid x0={30} y0={10} cols={9} rows={7} u={18} />
     <line x1={30} y1={10 + 4 * 18} x2={30 + 9 * 18} y2={10 + 4 * 18} stroke={UNK} strokeWidth="2.5" strokeDasharray="6 3" />
     <Dot x={30 + 3 * 18} y={10 + 1 * 18} l="P" color="#0f172a" />
@@ -327,7 +334,7 @@ const FIG_MIRROR_H = (
     <Dot x={30 + 6 * 18} y={10 + 7 * 18} l="B" />
     <Dot x={30 + 3 * 18} y={10 + 5 * 18} l="C" />
     <Dot x={30 + 6 * 18} y={10 + 1 * 18} l="D" />
-    <T x={120} y={146} t="P tükörképe: ?" size={11} />
+    <T x={120} y={160} t="P tükörképe: ?" size={11} />
   </QFig>
 );
 const FIG_GRID_HALF = (() => {
@@ -381,7 +388,7 @@ const FIG_POLY_ROW = (
     <rect x={70} y={38} width={38} height={37} fill="#c7d2fe" stroke="#3730a3" strokeWidth="2" />
     <Poly pts={[[145, 30], [167, 46], [159, 75], [131, 75], [123, 46]]} fill="#bbf7d0" stroke="#15803d" />
     <Poly pts={[[195, 32], [217, 32], [228, 53], [217, 74], [195, 74], [184, 53]]} fill="#fde68a" stroke="#a16207" />
-    <T x={120} y={98} t="Melyiknek nincs átlója? ?" size={11} />
+    <T x={120} y={98} t="Melyiknek nincs átlója?" size={11} />
   </QFig>
 );
 const FIG_CUBE_V = (
@@ -393,7 +400,7 @@ const FIG_CUBE_V = (
 const FIG_CUBE_E = (
   <QFig h={140}>
     <ExamCuboid x={80} y={110} w={60} h={60} d={36} fill="#fef3c7" stroke="#92400e" />
-    <T x={120} y={132} t="Hány pálcika? ?" size={11} />
+    <T x={120} y={132} t="Hány pálcika?" size={11} />
   </QFig>
 );
 const FIG_SOLIDS_ROW = (

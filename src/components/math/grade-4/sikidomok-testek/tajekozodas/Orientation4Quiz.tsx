@@ -126,7 +126,7 @@ const FIG_WALK_3 = (
   />
 );
 const FIG_WALK_SQUARE = (
-  <WalkFig start={[3, 5]} path={[[3, 5], [5, 5], [5, 3], [3, 3], [3, 5]]} firstArrow note="Melyik lépéssor rajzolta? ?" />
+  <WalkFig start={[3, 5]} path={[[3, 5], [5, 5], [5, 3], [3, 3], [3, 5]]} firstArrow note="Melyik lépéssor rajzolta?" />
 );
 const FIG_WALK_DIAG = (
   <WalkFig

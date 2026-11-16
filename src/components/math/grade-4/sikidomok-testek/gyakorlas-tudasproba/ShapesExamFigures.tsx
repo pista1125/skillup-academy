@@ -163,33 +163,33 @@ export const examRotQ = ([x, y]: XP, q: number): XP => {
 // 1. Szögek csoportosítása (MF 43/4.)
 // ---------------------------------------------------------------------------
 export const AngleGroupsSvg: React.FC<{ className?: string }> = ({ className = 'w-full h-auto' }) => {
-  const items: { l: string; v: XP; a1: number; a2: number; right?: boolean; g: string }[] = [
+  const items: { l: string; v: XP; a1: number; a2: number; right?: boolean; g: string; len?: number }[] = [
     { l: 'A', v: [45, 85], a1: 0, a2: -140, g: 'nagyobb' },
     { l: 'B', v: [100, 45], a1: 0, a2: 90, right: true, g: 'derékszög' },
     { l: 'C', v: [175, 90], a1: -60, a2: -120, g: 'kisebb' },
     { l: 'D', v: [215, 90], a1: -35, a2: 0, g: 'kisebb' },
     { l: 'E', v: [270, 90], a1: -90, a2: 0, right: true, g: 'derékszög' },
-    { l: 'F', v: [330, 90], a1: -180, a2: -55, g: 'nagyobb' }
+    { l: 'F', v: [340, 92], a1: -155, a2: -25, g: 'nagyobb', len: 36 }
   ];
   return (
     <svg viewBox="0 0 380 170" className={className} xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
       <rect x="1" y="1" width="378" height="168" rx="12" fill="#ffffff" stroke="#e2e8f0" />
       {items.map((it) => (
         <g key={it.l}>
-          <ExamAngle v={it.v} a1={it.a1} a2={it.a2} right={it.right} />
+          <ExamAngle v={it.v} a1={it.a1} a2={it.a2} right={it.right} len={it.len} />
           <text x={it.v[0] + (it.l === 'B' ? 12 : 0)} y={it.l === 'B' ? 38 : 108} textAnchor="middle" fontSize="13" fontWeight="bold" fill="#0f172a">
             {it.l}
           </text>
         </g>
       ))}
-      <rect x="10" y="122" width="115" height="38" rx="10" fill="#f0fdf4" stroke="#22c55e" />
-      <text x="67" y="138" textAnchor="middle" fontSize="10.5" fontWeight="bold" fill="#166534">Derékszögnél kisebb</text>
+      <rect x="8" y="122" width="118" height="38" rx="10" fill="#f0fdf4" stroke="#22c55e" />
+      <text x="67" y="138" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#166534">Derékszögnél kisebb</text>
       <text x="67" y="153" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#166534">C, D</text>
-      <rect x="133" y="122" width="115" height="38" rx="10" fill="#eff6ff" stroke="#3b82f6" />
-      <text x="190" y="138" textAnchor="middle" fontSize="10.5" fontWeight="bold" fill="#1d4ed8">Derékszögű</text>
+      <rect x="131" y="122" width="118" height="38" rx="10" fill="#eff6ff" stroke="#3b82f6" />
+      <text x="190" y="138" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#1d4ed8">Derékszögű</text>
       <text x="190" y="153" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#1d4ed8">B, E</text>
-      <rect x="256" y="122" width="115" height="38" rx="10" fill="#fff7ed" stroke="#f97316" />
-      <text x="313" y="138" textAnchor="middle" fontSize="10.5" fontWeight="bold" fill="#c2410c">Derékszögnél nagyobb</text>
+      <rect x="254" y="122" width="118" height="38" rx="10" fill="#fff7ed" stroke="#f97316" />
+      <text x="313" y="138" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#c2410c">Derékszögnél nagyobb</text>
       <text x="313" y="153" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#c2410c">A, F</text>
     </svg>
   );
@@ -244,20 +244,20 @@ export const PolygonVennSvg: React.FC<{ className?: string }> = ({ className = '
     <polygon points="70,110 82,92 106,92 118,110 106,128 82,128" fill="#86efac" stroke="#166534" />
     <text x="94" y="146" textAnchor="middle" fontSize="9" fill="#166534">hatszög</text>
     {/* közös rész: téglalap, négyzet, ferde négyszög */}
-    <rect x="172" y="78" width="44" height="22" fill="#fde68a" stroke="#92400e" />
-    <text x="194" y="112" textAnchor="middle" fontSize="9" fill="#78350f">téglalap</text>
-    <rect x="160" y="124" width="24" height="24" fill="#fde68a" stroke="#92400e" />
-    <text x="172" y="160" textAnchor="middle" fontSize="9" fill="#78350f">négyzet</text>
-    <polygon points="196,148 206,124 232,124 222,148" fill="#fde68a" stroke="#92400e" />
-    <text x="214" y="160" textAnchor="middle" fontSize="9" fill="#78350f">ferde n.</text>
+    <rect x="172" y="72" width="44" height="22" fill="#fde68a" stroke="#92400e" />
+    <text x="194" y="105" textAnchor="middle" fontSize="9" fill="#78350f">téglalap</text>
+    <rect x="166" y="114" width="22" height="22" fill="#fde68a" stroke="#92400e" />
+    <text x="177" y="148" textAnchor="middle" fontSize="9" fill="#78350f">négyzet</text>
+    <polygon points="198,136 207,114 232,114 223,136" fill="#fde68a" stroke="#92400e" />
+    <text x="215" y="148" textAnchor="middle" fontSize="9" fill="#78350f">ferde n.</text>
     {/* csak négyszög: sárkány */}
     <polygon points="300,86 318,110 300,150 282,110" fill="#fca5a5" stroke="#991b1b" />
     <text x="300" y="164" textAnchor="middle" fontSize="9" fill="#991b1b">sárkány</text>
     {/* egyik sem */}
-    <polygon points="30,190 46,166 62,190" fill="#c7d2fe" stroke="#3730a3" />
+    <polygon points="22,176 38,152 54,176" fill="#c7d2fe" stroke="#3730a3" />
     <polygon points="335,192 323,180 328,165 343,165 348,180" fill="#c7d2fe" stroke="#3730a3" />
-    <text x="80" y="190" fontSize="9" fill="#3730a3">háromszög</text>
-    <text x="318" y="200" textAnchor="end" fontSize="9" fill="#3730a3">ötszög</text>
+    <text x="38" y="190" textAnchor="middle" fontSize="9" fill="#3730a3">háromszög</text>
+    <text x="336" y="201" textAnchor="middle" fontSize="9" fill="#3730a3">ötszög</text>
   </svg>
 );
 
@@ -273,16 +273,17 @@ export const ShapePropertiesSvg: React.FC<{ className?: string }> = ({ className
     { n: 'ferde négyszög', draw: <polygon points="-16,9 -8,-9 16,-9 8,9" fill="#fef9c3" stroke="#a16207" />, p: [false, true, false] },
     { n: 'derékszögű háromszög', draw: <polygon points="-12,10 -12,-10 14,10" fill="#bfdbfe" stroke="#1d4ed8" />, p: [true, false, false] }
   ];
-  const head = ['Van derékszöge?', 'Van párhuzamos oldalpárja?', 'Van szimmetriatengelye?'];
+  const head = [['Van', 'derékszöge?'], ['Van', 'párhuzamos', 'oldalpárja?'], ['Van', 'szimmetria-', 'tengelye?']];
   return (
     <svg viewBox="0 0 380 250" className={className} xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
       <rect x="1" y="1" width="378" height="248" rx="12" fill="#ffffff" stroke="#e2e8f0" />
       {head.map((h, i) => (
-        <text key={h} x={205 + i * 62} y={22} textAnchor="middle" fontSize="8.5" fontWeight="bold" fill="#334155">
-          {h.split(' ').slice(0, 2).join(' ')}
-          <tspan x={205 + i * 62} dy="11">
-            {h.split(' ').slice(2).join(' ')}
-          </tspan>
+        <text key={i} x={205 + i * 62} y={h.length === 2 ? 22 : 12} textAnchor="middle" fontSize="8.5" fontWeight="bold" fill="#334155">
+          {h.map((line, j) => (
+            <tspan key={j} x={205 + i * 62} dy={j === 0 ? 0 : 10}>
+              {line}
+            </tspan>
+          ))}
         </text>
       ))}
       {rows.map((r, i) => {

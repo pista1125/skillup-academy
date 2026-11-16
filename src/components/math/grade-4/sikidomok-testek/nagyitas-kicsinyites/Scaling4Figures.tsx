@@ -80,7 +80,7 @@ export const MagnifierMapSvg: React.FC<{ className?: string }> = ({ className = 
       <circle cx="96" cy="108" r="4" fill="#111827" />
       <circle cx="114" cy="108" r="4" fill="#111827" />
     </g>
-    <text x="90" y="186" textAnchor="middle" fontSize="11" fill="#334155">A nagyító nagyobbnak mutatja</text>
+    <text x="90" y="182" textAnchor="middle" fontSize="11" fill="#334155">A nagyító nagyobbnak mutatja</text>
     {/* Jobb: földgömb és térkép */}
     <text x="270" y="24" textAnchor="middle" fontSize="13" fontWeight="bold" fill="#047857">KICSINYÍTÉS</text>
     <circle cx="235" cy="92" r="40" fill="#60a5fa" stroke="#1e3a8a" strokeWidth="2" />
@@ -92,7 +92,8 @@ export const MagnifierMapSvg: React.FC<{ className?: string }> = ({ className = 
     <path d="M292 70 q12 -4 20 6 q10 10 28 4" fill="none" stroke="#0ea5e9" strokeWidth="2" />
     <path d="M300 95 q8 -10 18 0 q8 8 20 -2" fill="none" stroke="#16a34a" strokeWidth="6" strokeLinecap="round" opacity="0.6" />
     <circle cx="314" cy="112" r="3" fill="#dc2626" />
-    <text x="270" y="186" textAnchor="middle" fontSize="11" fill="#334155">A földgömb és a térkép a valóság kicsinyített mása</text>
+    <text x="270" y="176" textAnchor="middle" fontSize="11" fill="#334155">A földgömb és a térkép</text>
+    <text x="270" y="190" textAnchor="middle" fontSize="11" fill="#334155">a valóság kicsinyített mása</text>
   </svg>
 );
 
@@ -159,7 +160,8 @@ export const TreeDoubleSvg: React.FC<{ className?: string }> = ({ className = 'w
       <text x={12 + 23 * u} y={24 + 4 * u} textAnchor="middle" fontSize="10" fill="#334155">1 kis négyzet</text>
       <text x={12 + 23 * u} y={24 + 5 * u} textAnchor="middle" fontSize="10" fill="#334155">helyett</text>
       <rect x={12 + 22 * u} y={24 + 6 * u} width={2 * u} height={2 * u} fill="#bfdbfe" stroke="#1d4ed8" />
-      <text x={12 + 23 * u} y={24 + 9.3 * u} textAnchor="middle" fontSize="10" fill="#334155">2 · 2 kis négyzet</text>
+      <text x={12 + 23 * u} y={24 + 9.3 * u} textAnchor="middle" fontSize="10" fill="#334155">2 · 2 kis</text>
+      <text x={12 + 23 * u} y={24 + 10.3 * u} textAnchor="middle" fontSize="10" fill="#334155">négyzet</text>
     </svg>
   );
 };

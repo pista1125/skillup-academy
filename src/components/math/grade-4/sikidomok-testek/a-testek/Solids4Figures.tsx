@@ -196,13 +196,13 @@ export const FlatCurvedSvg: React.FC<FigProps> = ({ className = DEFAULT_CLASS })
     <Solids4Pyramid cx={90} by={190} w={70} h={55} />
     <Solids4Box x={145} y={190} a={45} b={45} c={22} fill="#fde68a" />
     <Solids4Cylinder cx={260} by={110} r={24} h={45} />
-    <Solids4Cone cx={260} by={190} r={26} h={50} />
+    <Solids4Cone cx={260} by={180} r={26} h={48} />
     <Solids4Sphere cx={400} cy={95} r={36} />
-    <Solids4Hemisphere cx={440} by={185} r={40} />
+    <Solids4Hemisphere cx={450} by={175} r={36} />
     <text x="400" y="150" textAnchor="middle" fontSize="11" fill="#854d0e">gömb</text>
-    <text x="440" y="205" textAnchor="middle" fontSize="11" fill="#854d0e">félgömb</text>
+    <text x="450" y="200" textAnchor="middle" fontSize="11" fill="#854d0e">félgömb</text>
     <text x="260" y="128" textAnchor="middle" fontSize="11" fill="#166534">henger</text>
-    <text x="260" y="205" textAnchor="middle" fontSize="11" fill="#166534">kúp</text>
+    <text x="260" y="202" textAnchor="middle" fontSize="11" fill="#166534">kúp</text>
   </svg>
 );
 

@@ -201,10 +201,10 @@ export const VennPlaceLab: React.FC = () => {
         </text>
         <circle cx={VENN2.ax} cy={VENN2.cy} r={VENN2.r} fill="#16a34a" fillOpacity="0.12" stroke="#16a34a" strokeWidth="2.2" />
         <circle cx={VENN2.bx} cy={VENN2.cy} r={VENN2.r} fill="#dc2626" fillOpacity="0.12" stroke="#dc2626" strokeWidth="2.2" />
-        <text x={VENN2.ax - 22} y={VENN2.cy - VENN2.r + 28} fontSize="11" fontWeight="bold" textAnchor="middle" fill="#15803d">
+        <text x={VENN2.ax - 22} y={VENN2.cy - VENN2.r - 6} fontSize="11" fontWeight="bold" textAnchor="middle" fill="#15803d">
           {task.labelA}
         </text>
-        <text x={VENN2.bx + 22} y={VENN2.cy - VENN2.r + 28} fontSize="11" fontWeight="bold" textAnchor="middle" fill="#b91c1c">
+        <text x={VENN2.bx + 22} y={VENN2.cy - VENN2.r - 6} fontSize="11" fontWeight="bold" textAnchor="middle" fill="#b91c1c">
           {task.labelB}
         </text>
         {(['A', 'AB', 'B', 'O'] as Region2[]).map((reg) => {

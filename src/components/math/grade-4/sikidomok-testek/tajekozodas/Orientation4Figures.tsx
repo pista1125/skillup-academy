@@ -38,10 +38,10 @@ export const PlaceIcon: React.FC<{ kind: string; cx: number; cy: number; s?: num
     case 'church':
       return g(
         <>
-          <rect x={-8} y={-6} width={16} height={14} fill="#fde68a" stroke="#92400e" />
-          <polygon points="-10,-6 0,-15 10,-6" fill="#b45309" />
-          <line x1={0} y1={-15} x2={0} y2={-22} stroke="#92400e" strokeWidth={1.5} />
-          <line x1={-3} y1={-19} x2={3} y2={-19} stroke="#92400e" strokeWidth={1.5} />
+          <rect x={-8} y={-2} width={16} height={12} fill="#fde68a" stroke="#92400e" />
+          <polygon points="-10,-2 0,-11 10,-2" fill="#b45309" />
+          <line x1={0} y1={-11} x2={0} y2={-17} stroke="#92400e" strokeWidth={1.5} />
+          <line x1={-3} y1={-15} x2={3} y2={-15} stroke="#92400e" strokeWidth={1.5} />
         </>
       );
     case 'school':
@@ -265,6 +265,44 @@ export const CHESS_POSITION: { sq: string; piece: string; name: string; white: b
 ];
 const FILES = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 
+// A világos és sötét bábut ugyanazzal a (teli) jellel rajzoljuk, csak a kitöltés más –
+// így a két szín jól megkülönböztethető. A gyalogot SVG-alakzattal rajzoljuk, mert a
+// ♟ jel sok eszközön emojiként jelenik meg.
+const SOLID_GLYPH: Record<string, string> = {
+  '♔': '♚', '♕': '♛', '♖': '♜', '♗': '♝', '♘': '♞',
+  '♚': '♚', '♛': '♛', '♜': '♜', '♝': '♝', '♞': '♞'
+};
+
+/** Sakkbábu: x = közép, y = alapvonal (mint egy szövegnél), size = betűméret. */
+export const ChessGlyph: React.FC<{ x: number; y: number; size: number; piece: string; white: boolean }> = ({ x, y, size: s, piece, white }) => {
+  const fill = white ? '#ffffff' : '#0f172a';
+  const stroke = '#0f172a';
+  if (piece === '♙' || piece === '♟') {
+    const b = y - 0.04 * s;
+    const d = `M${x - 0.1 * s},${b - 0.5 * s} L${x + 0.1 * s},${b - 0.5 * s} L${x + 0.17 * s},${b - 0.14 * s} L${x + 0.28 * s},${b - 0.1 * s} L${x + 0.28 * s},${b} L${x - 0.28 * s},${b} L${x - 0.28 * s},${b - 0.1 * s} L${x - 0.17 * s},${b - 0.14 * s} Z`;
+    return (
+      <g fill={fill} stroke={stroke} strokeWidth={Math.max(0.8, s * 0.045)} strokeLinejoin="round">
+        <path d={d} />
+        <circle cx={x} cy={b - 0.6 * s} r={0.14 * s} />
+      </g>
+    );
+  }
+  return (
+    <text
+      x={x}
+      y={y}
+      textAnchor="middle"
+      fontSize={s}
+      fill={fill}
+      stroke={white ? stroke : 'none'}
+      strokeWidth={white ? Math.max(0.6, s * 0.035) : 0}
+      paintOrder="stroke"
+    >
+      {(SOLID_GLYPH[piece] ?? piece) + '\uFE0E'}
+    </text>
+  );
+};
+
 export const ChessBoard: React.FC<{ u?: number; x0?: number; y0?: number; highlight?: string; pieces?: boolean }> = ({
   u = 22,
   x0 = 24,
@@ -307,18 +345,7 @@ export const ChessBoard: React.FC<{ u?: number; x0?: number; y0?: number; highli
         const i = FILES.indexOf(p.sq[0]);
         const r = 8 - Number(p.sq[1]);
         return (
-          <text
-            key={p.sq}
-            x={x0 + i * u + u / 2}
-            y={y0 + r * u + u * 0.8}
-            textAnchor="middle"
-            fontSize={u * 0.85}
-            fill={p.white ? '#ffffff' : '#0f172a'}
-            stroke={p.white ? '#0f172a' : 'none'}
-            strokeWidth={p.white ? 0.6 : 0}
-          >
-            {p.piece}
-          </text>
+          <ChessGlyph key={p.sq} x={x0 + i * u + u / 2} y={y0 + r * u + u * 0.8} size={u * 0.85} piece={p.piece} white={p.white} />
         );
       })}
   </g>
@@ -328,7 +355,8 @@ export const ChessBoardSvg: React.FC<{ className?: string }> = ({ className = 'w
   <svg viewBox="0 0 360 210" className={className} xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
     <rect x="1" y="1" width="358" height="208" rx="12" fill="#ffffff" stroke="#e2e8f0" />
     <ChessBoard u={22} x0={24} y0={8} />
-    <text x="220" y="30" fontSize="12" fontWeight="bold" fill="#0f172a">Bábu helye = oszlop + sor</text>
+    <text x="220" y="20" fontSize="12" fontWeight="bold" fill="#0f172a">Bábu helye =</text>
+    <text x="220" y="34" fontSize="12" fontWeight="bold" fill="#0f172a">oszlop + sor</text>
     <text x="220" y="52" fontSize="11" fill="#334155">világos király: e1</text>
     <text x="220" y="70" fontSize="11" fill="#334155">sötét király: e8</text>
     <text x="220" y="88" fontSize="11" fill="#334155">világos huszár: f3</text>
@@ -364,12 +392,8 @@ export const ChessPiecesSvg: React.FC<{ className?: string }> = ({ className = '
           <text x="70" y={51 + i * 30} textAnchor="middle" fontSize="13" fontWeight="bold" fill="#0f172a">
             {n}
           </text>
-          <text x="170" y={54 + i * 30} textAnchor="middle" fontSize="22" fill="#ffffff" stroke="#0f172a" strokeWidth="0.7">
-            {w}
-          </text>
-          <text x="245" y={54 + i * 30} textAnchor="middle" fontSize="22" fill="#0f172a">
-            {b}
-          </text>
+          <ChessGlyph x={170} y={54 + i * 30} size={22} piece={w} white />
+          <ChessGlyph x={245} y={54 + i * 30} size={22} piece={b} white={false} />
         </g>
       ))}
     </svg>
@@ -403,8 +427,8 @@ export const GridWalkSvg: React.FC<{ className?: string }> = ({ className = 'w-f
       <polyline points={pts.map(([x, y]) => `${x0 + x * u},${y0 + y * u}`).join(' ')} fill="#cffafe" stroke="#0891b2" strokeWidth="3" strokeLinejoin="round" />
       <circle cx={x0 + start[0] * u} cy={y0 + start[1] * u} r="5" fill="#0f172a" />
       <text x="200" y="36" fontSize="12" fontWeight="bold" fill="#0f172a">A ponttól indulj!</text>
-      <rect x="196" y="46" width="132" height="30" rx="8" fill="#ecfeff" stroke="#0891b2" />
-      <text x="262" y="66" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#155e75">4K, 3É, 2ÉNY, 2DNY, 3D</text>
+      <rect x="190" y="46" width="144" height="30" rx="8" fill="#ecfeff" stroke="#0891b2" />
+      <text x="262" y="65" textAnchor="middle" fontSize="10.5" fontWeight="bold" fill="#155e75">4K, 3É, 2ÉNY, 2DNY, 3D</text>
       <text x="200" y="102" fontSize="10.5" fill="#334155">K = kelet (jobbra)</text>
       <text x="200" y="118" fontSize="10.5" fill="#334155">É = észak (fel)</text>
       <text x="200" y="134" fontSize="10.5" fill="#334155">D = dél (le)</text>

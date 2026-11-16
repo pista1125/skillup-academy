@@ -50,11 +50,11 @@ const FlagAt: React.FC<{ pts: Pt[]; cx: number; cy: number; u: number; fill?: st
 );
 
 /** Óralap: szaggatott mutató a 12-esen, teli mutató a „to” órán. */
-const ClockFig: React.FC<{ to: number; label: string; from?: number }> = ({ to, label, from = 12 }) => {
+const ClockFig: React.FC<{ to: number; label: string; label2?: string; from?: number }> = ({ to, label, label2, from = 12 }) => {
   const c: Pt = [120, 68];
   const ang = (h: number) => ((h % 12) * 30 - 90) * (Math.PI / 180);
   return (
-    <QFig>
+    <QFig h={label2 ? 162 : 150}>
       <circle cx={c[0]} cy={c[1]} r="52" fill="#ffffff" stroke="#0f766e" strokeWidth="3" />
       {Array.from({ length: 12 }, (_, i) => {
         const h = i + 1;
@@ -68,6 +68,7 @@ const ClockFig: React.FC<{ to: number; label: string; from?: number }> = ({ to, 
       <line x1={c[0]} y1={c[1]} x2={c[0] + 32 * Math.cos(ang(to))} y2={c[1] + 32 * Math.sin(ang(to))} stroke="#0f766e" strokeWidth="4" strokeLinecap="round" />
       <circle cx={c[0]} cy={c[1]} r="4" fill="#0f172a" />
       <T x={120} y={140} t={label} size={11} />
+      {label2 && <T x={120} y={155} t={label2} size={11} />}
     </QFig>
   );
 };
@@ -81,15 +82,22 @@ const ArrowFig: React.FC<{ dir: number; text: string }> = ({ dir, text }) => {
     <QFig>
       <polygon points={r.map(([x, y]) => `${c[0] + x},${c[1] + y}`).join(' ')} fill="#5eead4" stroke="#0f766e" strokeWidth="2" />
       <circle cx={c[0]} cy={c[1]} r="3.5" fill={UNK} />
-      <T x={175} y={60} t={text} size={11} color="#0f766e" />
-      <T x={175} y={84} t="Merre mutat? ?" size={11} />
+      {text.length > 14 ? (
+        <>
+          <T x={172} y={52} t={text.slice(0, text.lastIndexOf(' '))} size={11} color="#0f766e" />
+          <T x={172} y={68} t={text.slice(text.lastIndexOf(' ') + 1)} size={11} color="#0f766e" />
+        </>
+      ) : (
+        <T x={172} y={60} t={text} size={11} color="#0f766e" />
+      )}
+      <T x={172} y={92} t="Merre mutat?" size={11} />
     </QFig>
   );
 };
 
 // --- Ábrák ---
-const FIG_CLOCK_3 = <ClockFig to={3} label="A nagymutató: 12 → 3. Mekkora fordulat? ?" />;
-const FIG_CLOCK_6 = <ClockFig to={6} label="A nagymutató: 12 → 6. Mekkora fordulat? ?" />;
+const FIG_CLOCK_3 = <ClockFig to={3} label="A nagymutató: 12 → 3." label2="Mekkora fordulat?" />;
+const FIG_CLOCK_6 = <ClockFig to={6} label="A nagymutató: 12 → 6." label2="Mekkora fordulat?" />;
 const FIG_CLOCK_45 = <ClockFig to={9} label="45 perc alatt: ? fordulat" />;
 
 const FIG_ARROW_UP_Q1 = <ArrowFig dir={0} text="negyed fordulat jobbra" />;
@@ -140,7 +148,7 @@ const FIG_BUILDING = (
     <circle cx={116} cy={98} r={9} fill="#facc15" stroke="#a16207" />
     <T x={185} y={60} t="negyed fordulat" size={11} color="#0f766e" />
     <T x={185} y={76} t="jobbra" size={11} color="#0f766e" />
-    <T x={185} y={104} t="Milyen szögben? ?" size={11} />
+    <T x={185} y={104} t="Milyen szögben?" size={11} />
   </QFig>
 );
 
@@ -151,7 +159,7 @@ const FIG_TEMPLATE = (
     <T x={60} y={124} t="sablon + gombostű" size={10} />
     <T x={170} y={60} t="mindig negyed" size={11} color="#0f766e" />
     <T x={170} y={76} t="fordulattal" size={11} color="#0f766e" />
-    <T x={170} y={102} t="Hány rajz? ?" size={11} />
+    <T x={170} y={102} t="Hány rajz?" size={11} />
   </QFig>
 );
 
@@ -208,7 +216,7 @@ const FIG_TRIANGLE_PIN = (
     <circle cx="110" cy="120" r="4" fill={UNK} />
     <T x={108} y={140} t="tű" size={11} />
     <T x={163} y={99} t="X" size={13} />
-    <T x={190} y={40} t="Mi igaz? ?" size={11} />
+    <T x={190} y={40} t="Mi igaz?" size={11} />
   </QFig>
 );
 

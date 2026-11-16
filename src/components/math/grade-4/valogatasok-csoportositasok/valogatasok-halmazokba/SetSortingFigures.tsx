@@ -127,10 +127,10 @@ export const Venn2: React.FC<Venn2Props> = ({
       </text>
       <circle cx={ax} cy={cy} r={r} fill={colorA} fillOpacity="0.12" stroke={colorA} strokeWidth="2.2" />
       <circle cx={bx} cy={cy} r={r} fill={colorB} fillOpacity="0.12" stroke={colorB} strokeWidth="2.2" />
-      <text x={ax - 20} y={cy - r + 30} fontSize="11.5" fontWeight="bold" textAnchor="middle" fill={colorA}>
+      <text x={ax - 20} y={cy - r - 6} fontSize="11.5" fontWeight="bold" textAnchor="middle" fill={colorA}>
         {labelA}
       </text>
-      <text x={bx + 20} y={cy - r + 30} fontSize="11.5" fontWeight="bold" textAnchor="middle" fill={colorB}>
+      <text x={bx + 20} y={cy - r - 6} fontSize="11.5" fontWeight="bold" textAnchor="middle" fill={colorB}>
         {labelB}
       </text>
       {put(onlyA, 88, cy + 8, onlyA.length > 5 ? 2 : 1, 44)}
@@ -228,19 +228,19 @@ export const OtterBoatSvg: React.FC<{ className?: string }> = ({ className = 'w-
     ));
   return (
     <svg viewBox="0 0 360 200" className={className} fontFamily="system-ui, sans-serif">
-      <rect x="8" y="28" width="236" height="150" rx="16" fill="#dcfce7" fillOpacity="0.8" stroke="#16a34a" strokeWidth="2.5" />
-      <rect x="150" y="48" width="202" height="144" rx="16" fill="#e0f2fe" fillOpacity="0.55" stroke="#0284c7" strokeWidth="2.5" />
+      <rect x="8" y="28" width="250" height="150" rx="16" fill="#dcfce7" fillOpacity="0.8" stroke="#16a34a" strokeWidth="2.5" />
+      <rect x="144" y="48" width="208" height="144" rx="16" fill="#e0f2fe" fillOpacity="0.55" stroke="#0284c7" strokeWidth="2.5" />
       <rect x="30" y="16" width="130" height="24" rx="6" fill="#4ade80" />
       <text x="95" y="32" fontSize="11.5" fontWeight="bold" textAnchor="middle" fill="#14532d">
         Vidraetetést néztek 🦦
       </text>
-      <rect x="250" y="36" width="96" height="24" rx="6" fill="#38bdf8" />
-      <text x="298" y="52" fontSize="11.5" fontWeight="bold" textAnchor="middle" fill="#0c4a6e">
+      <rect x="262" y="36" width="92" height="24" rx="6" fill="#38bdf8" />
+      <text x="308" y="52" fontSize="11.5" fontWeight="bold" textAnchor="middle" fill="#0c4a6e">
         Csónakáztak 🚣
       </text>
       {names(OTTER_ONLY, 82, 2)}
-      {names(OTTER_BOTH, 197, 2)}
-      {names(BOAT_ONLY, 300, 1)}
+      {names(OTTER_BOTH, 201, 2)}
+      {names(BOAT_ONLY, 305, 1)}
     </svg>
   );
 };
@@ -285,10 +285,10 @@ export const NestedSetsSvg: React.FC<{ className?: string }> = ({ className = 'w
     <text x="110" y="100" fontSize="11" fontWeight="bold" textAnchor="middle" fill="#1e293b">
       🌰 dió
     </text>
-    <text x="104" y="150" fontSize="11" fontWeight="bold" textAnchor="middle" fill="#1e293b">
+    <text x="98" y="128" fontSize="11" fontWeight="bold" textAnchor="middle" fill="#1e293b">
       🥜 mogyoró
     </text>
-    <text x="30" y="60" fontSize="11" fontWeight="bold" fill="#1e293b">
+    <text x="14" y="46" fontSize="11" fontWeight="bold" fill="#1e293b">
       🌿 petrezselyem
     </text>
     <text x="20" y="196" fontSize="11" fontWeight="bold" fill="#1e293b">

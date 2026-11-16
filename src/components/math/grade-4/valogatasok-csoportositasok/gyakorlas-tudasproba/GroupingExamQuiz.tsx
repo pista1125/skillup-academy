@@ -2,7 +2,7 @@ import React from 'react';
 import { QuizTemplate, QuizQuestion, DifficultyLevel } from '../QuizTemplate';
 import { GroupingExamMatcher } from './GroupingExamMatcher';
 import { GroupingExamSorter } from './GroupingExamSorter';
-import { EvenTripleVennSvg, BlocksTableSvg, OutfitGridSvg } from './GroupingExamFigures';
+import { BlocksTableSvg, OutfitGridSvg } from './GroupingExamFigures';
 import { Venn2, Venn3Frame, LogicBlock, LogicBlocksRowSvg, OtterBoatSvg, BlockColor, BlockShape } from '../valogatasok-halmazokba/SetSortingFigures';
 import { PencilTreeSvg, PencilTableSvg, LineTypesSvg, AnimalTableSvg } from '../valogatasok-tablazatokba/TableSortingFigures';
 import { RunnersTreeSvg, PodiumSvg, PairsSvg, NapkinsSvg, NumberCardsSvg } from '../hanyfele-lehetoseg-van/PossibilitiesFigures';
@@ -100,7 +100,7 @@ const FIG_NAPKINS = <NapkinsSvg className={QCLS} />;
 const FIG_C47 = <NumberCardsSvg className="w-full max-w-[160px] h-auto mx-auto" digits={['4', '7']} />;
 const FIG_C123 = <NumberCardsSvg className="w-full max-w-[220px] h-auto mx-auto" />;
 const FIG_C057 = <NumberCardsSvg className="w-full max-w-[220px] h-auto mx-auto" digits={['0', '5', '7']} />;
-const FIG_EVEN3 = <EvenTripleVennSvg className={QCLS} />;
+const FIG_EVEN3_30 = <Venn2 className={QCLS} frame="Számok 1-től 30-ig" labelA="Páros" labelB="3 többszöröse" both={['? db']} colorA="#0891b2" colorB="#d97706" fontSize={14} />;
 const FIG_BTABLE = <BlocksTableSvg className={QCLS} />;
 const FIG_OUTFIT = <OutfitGridSvg className={QCLS} />;
 const FIG_NUMTABLE = table2(['Páros', 'Nem páros'], ['Négyjegyű', 'Nem négyjegyű'], ['', '', '', ''], '#16a34a');
@@ -208,7 +208,7 @@ export const GROUPING_EXAM_QUESTIONS: QuizQuestion[] = [
   Q(3, 'Logikai lapok', 'A tankönyv A–H lapjai közül melyik kerül az 5. részbe (mindhárom karika közös része)?', ['G', 'A', 'B', 'F'], 'Az 5. részbe a kék, lyukas háromszög kerül: ez a G. Az A sárga, a B nem lyukas, az F négyzet.', FIG_BLOCKS),
   Q(3, 'Összeadás + halmaz', 'Számold ki: 2068 + 1918. Hova kerül az összeg, ha a karikák: „Páros” és benne „Számjegyeinek összege 15”?', ['A Páros karikába, de a belső karikán kívül', 'A belső karikába', 'A karikákon kívülre', 'Egyik helyre sem'], '2068 + 1918 = 3986. Páros (6-ra végződik). Számjegyösszeg: 3 + 9 + 8 + 6 = 26, nem 15.'),
   Q(3, 'Összeadás + halmaz', 'Számold ki: 2500 + 1790. Hova kerül az összeg (Páros karika, benne „Számjegyeinek összege 15”)?', ['A belső karikába (számjegyösszeg 15)', 'A Páros karikába, de a belső karikán kívül', 'A karikákon kívülre', 'Egyik helyre sem'], '2500 + 1790 = 4290. Páros, és 4 + 2 + 9 + 0 = 15 → a belső karikába kerül.'),
-  Q(3, 'Közös rész', 'A „Páros” és a „3 többszöröse” karikába válogatjuk az 1–30 számokat. Hány szám kerül a közös részbe?', ['5', '15', '10', '4'], 'Páros és 3 többszöröse is: 6, 12, 18, 24, 30 – ez 5 szám (a 6 többszörösei).', FIG_EVEN3),
+  Q(3, 'Közös rész', 'A „Páros” és a „3 többszöröse” karikába válogatjuk az 1–30 számokat. Hány szám kerül a közös részbe?', ['5', '15', '10', '4'], 'Páros és 3 többszöröse is: 6, 12, 18, 24, 30 – ez 5 szám (a 6 többszörösei).', FIG_EVEN3_30),
   Q(3, 'Táblázat és halmazábra', 'Hány ceruza került Mona valamelyik karikájába (kék vagy radíros, vagy mindkettő)?', ['10', '11', '7', '12'], 'Csak a sárga, radír nélküli marad kívül: 11 − 1 = 10. (2 + 5 + 3 = 10.)', FIG_TOTALS_FULL),
   Q(3, 'Mezők száma', 'A sorok: Radíros – Nem radíros, az oszlopok: Kék – Piros – Sárga. Hány mezője van a táblázatnak?', ['6', '5', '4', '9'], '2 sor és 3 oszlop: 2 · 3 = 6 mező.'),
   Q(3, 'Számok táblázatban', 'A 15 szám (1246, 54, 600, 8002, 9998, 475, 33, 6606, 48, 9579, 1005, 8889, 77, 1001, 423) közül hány kerül a „Páros – Négyjegyű” mezőbe?', ['4', '3', '5', '8'], 'Páros és négyjegyű: 1246, 8002, 9998, 6606 – 4 szám.'),

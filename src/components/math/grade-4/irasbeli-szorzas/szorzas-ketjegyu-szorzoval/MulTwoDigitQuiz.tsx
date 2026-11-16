@@ -47,7 +47,7 @@ const QCoins: React.FC<{ groups: { n: number; v: number; name: string; fill: str
   return (
     <QFig h={h}>
       {groups.map((g, gi) => {
-        const shown = Math.min(g.n, 8);
+        const shown = g.n > 8 ? 7 : g.n;
         return (
           <g key={g.name}>
             <text x="14" y={26 + gi * 58} fontSize="11" fontWeight="bold" fill="#334155">
@@ -74,7 +74,7 @@ const QCoins: React.FC<{ groups: { n: number; v: number; name: string; fill: str
 
 /** Nyíllánc: kezdő szám → műveletek → dobozok (a „?” piros). */
 const QChain: React.FC<{ start: string; ops: string[]; boxes: string[] }> = ({ start, ops, boxes }) => {
-  const step = 200 / (ops.length + 0.4);
+  const step = (230 - 40) / ops.length;
   return (
     <QFig h={96}>
       <defs>
@@ -84,12 +84,12 @@ const QChain: React.FC<{ start: string; ops: string[]; boxes: string[] }> = ({ s
       </defs>
       <text x="22" y="60" textAnchor="middle" fontSize="15" fontWeight="bold" fill="#0f172a">{start}</text>
       {ops.map((op, i) => {
-        const x0 = 36 + i * step;
+        const x0 = 40 + i * step;
         const bx = x0 + step - 42;
         return (
           <g key={i}>
             <line x1={x0} y1="55" x2={bx - 2} y2="55" stroke="#2563eb" strokeWidth="1.8" markerEnd="url(#qcArr)" />
-            <text x={(x0 + bx) / 2} y="44" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#2563eb">{op}</text>
+            <text x={(x0 + bx) / 2} y="34" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#2563eb">{op}</text>
             <rect x={bx} y="40" width="42" height="28" rx="4" fill="#fff" stroke="#0f172a" strokeWidth="1.4" />
             <text x={bx + 21} y="59" textAnchor="middle" fontSize={boxes[i].length > 4 ? 11 : 13} fontWeight="bold" fill={boxes[i] === '?' ? C_UNK : '#1d4ed8'}>
               {boxes[i]}
@@ -127,7 +127,14 @@ const QCards: React.FC<{ digits: string[]; note: string }> = ({ digits, note }) 
         </g>
       );
     })}
-    <text x="120" y="92" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#334155">{note}</text>
+    {(note.length > 30
+      ? [note.slice(0, note.lastIndexOf(' ', Math.ceil(note.length / 2))), note.slice(note.lastIndexOf(' ', Math.ceil(note.length / 2)) + 1)]
+      : [note]
+    ).map((line, i, arr) => (
+      <text key={i} x="120" y={arr.length > 1 ? 84 + i * 15 : 92} textAnchor="middle" fontSize="12" fontWeight="bold" fill="#334155">
+        {line}
+      </text>
+    ))}
   </QFig>
 );
 
@@ -429,7 +436,7 @@ const MUL_TWO_DIGIT_QUESTIONS: QuizQuestion[] = [
           { n: 16, v: 10, name: 'Éva', fill: '#cbd5e1' },
           { n: 14, v: 20, name: 'Zsombor', fill: '#d9c56b' }
         ]}
-        note="Mennyivel több? ? Ft"
+        note="Mennyivel több: ? Ft"
       />
     ),
     question: 'Évának 16 darab 10 forintosa, Zsombornak 14 darab 20 forintosa van. Mennyivel több pénze van Zsombornak?',

@@ -108,7 +108,7 @@ const FIG_ONE_CELL = (
 const FIG_CODE_RECT = (
   <QFig h={100}>
     <CodeBox text="2→, 3↓, 2←, 3↑" />
-    <T x={120} y={90} t="Mit rajzol? ?" size={11} />
+    <T x={120} y={90} t="Mit rajzol?" size={11} />
   </QFig>
 );
 const FIG_RECT_3x2 = (
@@ -146,7 +146,7 @@ const FIG_PAIRS = (
     <T x={20} y={92} t="D" size={11} />
     <rect x={30} y={80} width={30} height={10} fill="#c4b5fd" stroke="#6d28d9" />
     <rect x={30} y={95} width={40} height={10} fill="#c4b5fd" stroke="#6d28d9" />
-    <T x={150} y={100} t="Melyik pár hasonló? ?" size={11} />
+    <T x={150} y={100} t="Melyik pár hasonló?" size={11} />
   </QFig>
 );
 const FIG_SQUARE_3CM = (
@@ -175,7 +175,7 @@ const FIG_SEG_2_TO_6 = (
     <line x1={40} y1={80} x2={160} y2={80} stroke="#15803d" strokeWidth="4" strokeLinecap="round" />
     <T x={110} y={45} t="eredeti" size={10} color="#1d4ed8" anchor="start" />
     <T x={170} y={85} t="nagyított" size={10} color="#15803d" anchor="start" />
-    <T x={120} y={104} t="Hányszorosára? ?" size={11} />
+    <T x={120} y={104} t="Hányszorosára?" size={11} />
   </QFig>
 );
 const FIG_L_SHAPE = (
@@ -232,7 +232,7 @@ const FIG_HOUSES_KATA = (
 const FIG_CODE_SQUARE = (
   <QFig h={100}>
     <CodeBox text="2→, 2↓, 2←, 2↑" />
-    <T x={120} y={90} t="+2 minden számhoz: hasonló? ?" size={11} />
+    <T x={120} y={90} t="+2 minden számhoz: hasonló?" size={11} />
   </QFig>
 );
 const FIG_RECT_2x1_GRID = (

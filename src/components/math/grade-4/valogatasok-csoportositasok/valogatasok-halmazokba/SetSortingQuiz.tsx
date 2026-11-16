@@ -104,7 +104,7 @@ const curvedStraightFig = (
     <text x="24" y="24" fontSize="10.5" fontWeight="bold" fill="#166534">
       C: görbe vonal is határolja
     </text>
-    <text x="338" y="184" fontSize="10.5" fontWeight="bold" textAnchor="end" fill="#075985">
+    <text x="326" y="180" fontSize="10.5" fontWeight="bold" textAnchor="end" fill="#075985">
       D: egyenes vonal is határolja
     </text>
     <circle cx="60" cy="90" r="20" fill="#fff" stroke="#334155" strokeWidth="1.6" />
