@@ -1161,13 +1161,23 @@ export const Grade12View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g12-sec-sum-halmazok-logika" number={1} title="Halmazok, logika" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Halmazok, logika"
-                subtitle="Rendszerező összefoglalás: fogalmak, tételek, érettségi feladatok"
-                type="Hamarosan"
-                emoji="🧩"
-                disabled={true}
-                icon={<Shapes className="w-6 h-6" />}
+                title="Halmazok, logika Tananyag"
+                subtitle="Halmazműveletek, Venn-diagram, szitaformula, állítások, logikai műveletek, tagadás és megfordítás"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-sum-halmazok-logika-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: halmazműveletek, szitaformula, logikai műveletek, tagadás"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-sum-halmazok-logika-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g12-sum-halmazok-logika-quiz')}
               />
             </div>
           </section>
@@ -1179,13 +1189,23 @@ export const Grade12View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g12-sec-sum-kombinatorika-grafok" number={2} title="Kombinatorika, gráfok" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Kombinatorika, gráfok"
-                subtitle="Rendszerező összefoglalás: fogalmak, tételek, érettségi feladatok"
-                type="Hamarosan"
-                emoji="🔀"
-                disabled={true}
-                icon={<Shapes className="w-6 h-6" />}
+                title="Kombinatorika, gráfok Tananyag"
+                subtitle="Faktoriális, sorba rendezés, kiválasztás, binomiális együtthatók, részhalmazok, gráfok és fokszámtétel"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-sum-kombinatorika-grafok-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: sorrendek, kiválasztások, részhalmazok, gráfok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-sum-kombinatorika-grafok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="violet"
+                {...getTopicProgress('g12-sum-kombinatorika-grafok-quiz')}
               />
             </div>
           </section>
@@ -1197,13 +1217,23 @@ export const Grade12View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g12-sec-sum-szamtan" number={3} title="Számtan" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Számtan"
-                subtitle="Rendszerező összefoglalás: fogalmak, tételek, érettségi feladatok"
-                type="Hamarosan"
-                emoji="🔢"
-                disabled={true}
-                icon={<Calculator className="w-6 h-6" />}
+                title="Számtan Tananyag"
+                subtitle="Számhalmazok, intervallumok, oszthatóság, LNKO és LKKT, hatvány, gyök, logaritmus, számrendszerek, százalék"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-sum-szamtan-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: oszthatóság, hatványok, logaritmus, számrendszerek, százalék"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-sum-szamtan-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g12-sum-szamtan-quiz')}
               />
             </div>
           </section>
@@ -1215,13 +1245,23 @@ export const Grade12View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g12-sec-sum-algebra" number={4} title="Algebra" color="sky" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Algebra"
-                subtitle="Rendszerező összefoglalás: fogalmak, tételek, érettségi feladatok"
-                type="Hamarosan"
-                emoji="🧮"
-                disabled={true}
-                icon={<Calculator className="w-6 h-6" />}
+                title="Algebra Tananyag"
+                subtitle="Nevezetes azonosságok, szorzattá alakítás, egyenletek, egyenlőtlenségek, egyenletrendszerek"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-sum-algebra-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="sky"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: azonosságok, másodfokú, gyökös, exponenciális egyenletek, rendszerek"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-sum-algebra-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="sky"
+                {...getTopicProgress('g12-sum-algebra-quiz')}
               />
             </div>
           </section>
@@ -1233,13 +1273,23 @@ export const Grade12View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g12-sec-sum-fuggvenyek" number={5} title="Függvények" color="purple" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Függvények"
-                subtitle="Rendszerező összefoglalás: fogalmak, tételek, érettségi feladatok"
-                type="Hamarosan"
-                emoji="📈"
-                disabled={true}
-                icon={<TrendingUp className="w-6 h-6" />}
+                title="Függvények Tananyag"
+                subtitle="Függvényfogalom, értékkészlet, zérushely, szélsőérték, monotonitás, alapfüggvények, transzformációk"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-sum-fuggvenyek-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="purple"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: függvényjellemzés, alapfüggvények, transzformációk, modellek"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-sum-fuggvenyek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="purple"
+                {...getTopicProgress('g12-sum-fuggvenyek-quiz')}
               />
             </div>
           </section>
@@ -1251,13 +1301,23 @@ export const Grade12View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g12-sec-sum-sorozatok" number={6} title="Sorozatok" color="fuchsia" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Sorozatok"
-                subtitle="Rendszerező összefoglalás: fogalmak, tételek, érettségi feladatok"
-                type="Hamarosan"
-                emoji="🔁"
-                disabled={true}
-                icon={<TrendingUp className="w-6 h-6" />}
+                title="Sorozatok Tananyag"
+                subtitle="Sorozatok megadása, számtani és mértani sorozat, összegképletek, kamatos kamat, gyűjtőjáradék, törlesztőrészlet"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-sum-sorozatok-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="fuchsia"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: számtani és mértani sorozat, összegek, kamatos kamat, gyűjtőjáradék, hitel"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-sum-sorozatok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="fuchsia"
+                {...getTopicProgress('g12-sum-sorozatok-quiz')}
               />
             </div>
           </section>
@@ -1269,13 +1329,23 @@ export const Grade12View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g12-sec-sum-elemi-geometria" number={7} title="Elemi geometria" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Elemi geometria"
-                subtitle="Rendszerező összefoglalás: fogalmak, tételek, érettségi feladatok"
-                type="Hamarosan"
-                emoji="📐"
-                disabled={true}
-                icon={<Compass className="w-6 h-6" />}
+                title="Elemi geometria Tananyag"
+                subtitle="Térelemek, szögpárok, a háromszög nevezetes vonalai és pontjai, négyszögek, sokszögek szögei és átlói"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-sum-elemi-geometria-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: szögek, háromszög-egyenlőtlenség, nevezetes pontok, négyszögek, sokszögek"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-sum-elemi-geometria-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g12-sum-elemi-geometria-quiz')}
               />
             </div>
           </section>
@@ -1287,13 +1357,23 @@ export const Grade12View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g12-sec-sum-transzformaciok-alakzatok" number={8} title="Geometriai transzformációk, síkbeli és térbeli alakzatok" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Geometriai transzformációk, síkbeli és térbeli alakzatok"
-                subtitle="Rendszerező összefoglalás: fogalmak, tételek, érettségi feladatok"
-                type="Hamarosan"
-                emoji="🔷"
-                disabled={true}
-                icon={<Compass className="w-6 h-6" />}
+                title="Transzformációk, alakzatok Tananyag"
+                subtitle="Szimmetriák, hasonlóság, Pitagorasz, Thalész, szögfüggvények, szinusz- és koszinusztétel, terület, felszín, térfogat"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-sum-transzformaciok-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: hasonlóság, Pitagorasz, Thalész, trigonometria, kör, terület- és testszámítás"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-sum-transzformaciok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="teal"
+                {...getTopicProgress('g12-sum-transzformaciok-quiz')}
               />
             </div>
           </section>
@@ -1305,13 +1385,23 @@ export const Grade12View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g12-sec-sum-vektorok-koordinatageometria" number={9} title="Vektorok, koordinátageometria" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Vektorok, koordinátageometria"
-                subtitle="Rendszerező összefoglalás: fogalmak, tételek, érettségi feladatok"
-                type="Hamarosan"
-                emoji="📍"
-                disabled={true}
-                icon={<Compass className="w-6 h-6" />}
+                title="Vektorok, koordinátageometria Tananyag"
+                subtitle="Vektorműveletek és koordináták, távolság, felezőpont, az egyenes és a kör egyenlete, merőlegesség, metszéspont"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-sum-vektorok-koordinatageometria-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="cyan"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: vektorok, távolság, felezőpont, egyenes és kör egyenlete, merőlegesség"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-sum-vektorok-koordinatageometria-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="cyan"
+                {...getTopicProgress('g12-sum-vektorok-koordinatageometria-quiz')}
               />
             </div>
           </section>
@@ -1323,13 +1413,23 @@ export const Grade12View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g12-sec-sum-statisztika-valoszinusegszamitas" number={10} title="Statisztika, valószínűségszámítás" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Statisztika, valószínűségszámítás"
-                subtitle="Rendszerező összefoglalás: fogalmak, tételek, érettségi feladatok"
-                type="Hamarosan"
-                emoji="🎯"
-                disabled={true}
-                icon={<Trophy className="w-6 h-6" />}
+                title="Statisztika, valószínűségszámítás Tananyag"
+                subtitle="Középértékek, kvartilisek, szórás, diagramok, események, klasszikus valószínűség, várható érték, mintavételek"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g12-sum-statisztika-valoszinuseg-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: átlag, medián, szórás, klasszikus valószínűség, várható érték, mintavétel"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g12-sum-statisztika-valoszinuseg-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g12-sum-statisztika-valoszinuseg-quiz')}
               />
             </div>
           </section>

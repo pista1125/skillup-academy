@@ -80,6 +80,26 @@ const G12Sampling12Theory = lazy(() => import("@/components/math/grade-12/statis
 const G12Sampling12Quiz = lazy(() => import("@/components/math/grade-12/statisztika-valoszinusegszamitas/mintavetelek/Sampling12Quiz").then(m => ({ default: m.Sampling12Quiz })))
 const G12StatProbExam12Theory = lazy(() => import("@/components/math/grade-12/statisztika-valoszinusegszamitas/gyakorlas-tudasproba/StatProbExam12Theory").then(m => ({ default: m.StatProbExam12Theory })))
 const G12StatProbExam12Quiz = lazy(() => import("@/components/math/grade-12/statisztika-valoszinusegszamitas/gyakorlas-tudasproba/StatProbExam12Quiz").then(m => ({ default: m.StatProbExam12Quiz })))
+const G12SetsLogicSummaryTheory = lazy(() => import("@/components/math/grade-12/rendszerezo-osszefoglalas/halmazok-logika/SetsLogicSummaryTheory").then(m => ({ default: m.SetsLogicSummaryTheory })))
+const G12SetsLogicSummaryQuiz = lazy(() => import("@/components/math/grade-12/rendszerezo-osszefoglalas/halmazok-logika/SetsLogicSummaryQuiz").then(m => ({ default: m.SetsLogicSummaryQuiz })))
+const G12CombinatoricsGraphsSummaryTheory = lazy(() => import("@/components/math/grade-12/rendszerezo-osszefoglalas/kombinatorika-grafok/CombinatoricsGraphsSummaryTheory").then(m => ({ default: m.CombinatoricsGraphsSummaryTheory })))
+const G12CombinatoricsGraphsSummaryQuiz = lazy(() => import("@/components/math/grade-12/rendszerezo-osszefoglalas/kombinatorika-grafok/CombinatoricsGraphsSummaryQuiz").then(m => ({ default: m.CombinatoricsGraphsSummaryQuiz })))
+const G12ArithmeticSummaryTheory = lazy(() => import("@/components/math/grade-12/rendszerezo-osszefoglalas/szamtan/ArithmeticSummaryTheory").then(m => ({ default: m.ArithmeticSummaryTheory })))
+const G12ArithmeticSummaryQuiz = lazy(() => import("@/components/math/grade-12/rendszerezo-osszefoglalas/szamtan/ArithmeticSummaryQuiz").then(m => ({ default: m.ArithmeticSummaryQuiz })))
+const G12AlgebraSummaryTheory = lazy(() => import("@/components/math/grade-12/rendszerezo-osszefoglalas/algebra/AlgebraSummaryTheory").then(m => ({ default: m.AlgebraSummaryTheory })))
+const G12AlgebraSummaryQuiz = lazy(() => import("@/components/math/grade-12/rendszerezo-osszefoglalas/algebra/AlgebraSummaryQuiz").then(m => ({ default: m.AlgebraSummaryQuiz })))
+const G12FunctionsSummaryTheory = lazy(() => import("@/components/math/grade-12/rendszerezo-osszefoglalas/fuggvenyek/FunctionsSummaryTheory").then(m => ({ default: m.FunctionsSummaryTheory })))
+const G12FunctionsSummaryQuiz = lazy(() => import("@/components/math/grade-12/rendszerezo-osszefoglalas/fuggvenyek/FunctionsSummaryQuiz").then(m => ({ default: m.FunctionsSummaryQuiz })))
+const G12SequencesSummaryTheory = lazy(() => import("@/components/math/grade-12/rendszerezo-osszefoglalas/sorozatok/SequencesSummaryTheory").then(m => ({ default: m.SequencesSummaryTheory })))
+const G12SequencesSummaryQuiz = lazy(() => import("@/components/math/grade-12/rendszerezo-osszefoglalas/sorozatok/SequencesSummaryQuiz").then(m => ({ default: m.SequencesSummaryQuiz })))
+const G12ElementaryGeometrySummaryTheory = lazy(() => import("@/components/math/grade-12/rendszerezo-osszefoglalas/elemi-geometria/ElementaryGeometrySummaryTheory").then(m => ({ default: m.ElementaryGeometrySummaryTheory })))
+const G12ElementaryGeometrySummaryQuiz = lazy(() => import("@/components/math/grade-12/rendszerezo-osszefoglalas/elemi-geometria/ElementaryGeometrySummaryQuiz").then(m => ({ default: m.ElementaryGeometrySummaryQuiz })))
+const G12TransformationsSolidsSummaryTheory = lazy(() => import("@/components/math/grade-12/rendszerezo-osszefoglalas/transzformaciok-alakzatok/TransformationsSolidsSummaryTheory").then(m => ({ default: m.TransformationsSolidsSummaryTheory })))
+const G12TransformationsSolidsSummaryQuiz = lazy(() => import("@/components/math/grade-12/rendszerezo-osszefoglalas/transzformaciok-alakzatok/TransformationsSolidsSummaryQuiz").then(m => ({ default: m.TransformationsSolidsSummaryQuiz })))
+const G12VectorsCoordinatesSummaryTheory = lazy(() => import("@/components/math/grade-12/rendszerezo-osszefoglalas/vektorok-koordinatageometria/VectorsCoordinatesSummaryTheory").then(m => ({ default: m.VectorsCoordinatesSummaryTheory })))
+const G12VectorsCoordinatesSummaryQuiz = lazy(() => import("@/components/math/grade-12/rendszerezo-osszefoglalas/vektorok-koordinatageometria/VectorsCoordinatesSummaryQuiz").then(m => ({ default: m.VectorsCoordinatesSummaryQuiz })))
+const G12StatProbSummaryTheory = lazy(() => import("@/components/math/grade-12/rendszerezo-osszefoglalas/statisztika-valoszinusegszamitas/StatProbSummaryTheory").then(m => ({ default: m.StatProbSummaryTheory })))
+const G12StatProbSummaryQuiz = lazy(() => import("@/components/math/grade-12/rendszerezo-osszefoglalas/statisztika-valoszinusegszamitas/StatProbSummaryQuiz").then(m => ({ default: m.StatProbSummaryQuiz })))
 
 export const Grade12Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -1423,6 +1443,348 @@ export const Grade12Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g12-stat-tudasproba-theory', selectedTopic || 'g12-statisztika-valoszinuseg')}
           onSwitchToMatcher={() => handleActivitySelect('g12-stat-tudasproba-matcher', selectedTopic || 'g12-statisztika-valoszinuseg')}
           onSwitchToSorter={() => handleActivitySelect('g12-stat-tudasproba-sorter', selectedTopic || 'g12-statisztika-valoszinuseg')}
+        />
+      )}
+
+      {/* ===== 12. Osztály – IV. Rendszerező összefoglalás ===== */}
+
+      {/* 1. Halmazok, logika */}
+      {activityType === 'g12-sum-halmazok-logika-theory' && (
+        <G12SetsLogicSummaryTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-sum-halmazok-logika-quiz', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-halmazok-logika-quiz' && (
+        <G12SetsLogicSummaryQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-halmazok-logika-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-halmazok-logika-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-halmazok-logika-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-halmazok-logika-matcher' && (
+        <G12SetsLogicSummaryQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-halmazok-logika-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-halmazok-logika-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-halmazok-logika-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-halmazok-logika-sorter' && (
+        <G12SetsLogicSummaryQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-halmazok-logika-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-halmazok-logika-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-halmazok-logika-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+
+      {/* 2. Kombinatorika, gráfok */}
+      {activityType === 'g12-sum-kombinatorika-grafok-theory' && (
+        <G12CombinatoricsGraphsSummaryTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-sum-kombinatorika-grafok-quiz', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-kombinatorika-grafok-quiz' && (
+        <G12CombinatoricsGraphsSummaryQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-kombinatorika-grafok-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-kombinatorika-grafok-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-kombinatorika-grafok-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-kombinatorika-grafok-matcher' && (
+        <G12CombinatoricsGraphsSummaryQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-kombinatorika-grafok-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-kombinatorika-grafok-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-kombinatorika-grafok-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-kombinatorika-grafok-sorter' && (
+        <G12CombinatoricsGraphsSummaryQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-kombinatorika-grafok-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-kombinatorika-grafok-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-kombinatorika-grafok-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+
+      {/* 3. Számtan */}
+      {activityType === 'g12-sum-szamtan-theory' && (
+        <G12ArithmeticSummaryTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-sum-szamtan-quiz', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-szamtan-quiz' && (
+        <G12ArithmeticSummaryQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-szamtan-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-szamtan-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-szamtan-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-szamtan-matcher' && (
+        <G12ArithmeticSummaryQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-szamtan-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-szamtan-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-szamtan-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-szamtan-sorter' && (
+        <G12ArithmeticSummaryQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-szamtan-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-szamtan-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-szamtan-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+
+      {/* 4. Algebra */}
+      {activityType === 'g12-sum-algebra-theory' && (
+        <G12AlgebraSummaryTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-sum-algebra-quiz', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-algebra-quiz' && (
+        <G12AlgebraSummaryQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-algebra-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-algebra-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-algebra-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-algebra-matcher' && (
+        <G12AlgebraSummaryQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-algebra-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-algebra-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-algebra-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-algebra-sorter' && (
+        <G12AlgebraSummaryQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-algebra-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-algebra-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-algebra-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+
+      {/* 5. Függvények */}
+      {activityType === 'g12-sum-fuggvenyek-theory' && (
+        <G12FunctionsSummaryTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-sum-fuggvenyek-quiz', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-fuggvenyek-quiz' && (
+        <G12FunctionsSummaryQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-fuggvenyek-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-fuggvenyek-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-fuggvenyek-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-fuggvenyek-matcher' && (
+        <G12FunctionsSummaryQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-fuggvenyek-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-fuggvenyek-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-fuggvenyek-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-fuggvenyek-sorter' && (
+        <G12FunctionsSummaryQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-fuggvenyek-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-fuggvenyek-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-fuggvenyek-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+
+      {/* 6. Sorozatok */}
+      {activityType === 'g12-sum-sorozatok-theory' && (
+        <G12SequencesSummaryTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-sum-sorozatok-quiz', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-sorozatok-quiz' && (
+        <G12SequencesSummaryQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-sorozatok-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-sorozatok-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-sorozatok-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-sorozatok-matcher' && (
+        <G12SequencesSummaryQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-sorozatok-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-sorozatok-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-sorozatok-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-sorozatok-sorter' && (
+        <G12SequencesSummaryQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-sorozatok-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-sorozatok-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-sorozatok-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+
+      {/* 7. Elemi geometria */}
+      {activityType === 'g12-sum-elemi-geometria-theory' && (
+        <G12ElementaryGeometrySummaryTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-sum-elemi-geometria-quiz', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-elemi-geometria-quiz' && (
+        <G12ElementaryGeometrySummaryQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-elemi-geometria-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-elemi-geometria-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-elemi-geometria-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-elemi-geometria-matcher' && (
+        <G12ElementaryGeometrySummaryQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-elemi-geometria-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-elemi-geometria-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-elemi-geometria-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-elemi-geometria-sorter' && (
+        <G12ElementaryGeometrySummaryQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-elemi-geometria-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-elemi-geometria-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-elemi-geometria-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+
+      {/* 8. Geometriai transzformációk, síkbeli és térbeli alakzatok */}
+      {activityType === 'g12-sum-transzformaciok-theory' && (
+        <G12TransformationsSolidsSummaryTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-sum-transzformaciok-quiz', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-transzformaciok-quiz' && (
+        <G12TransformationsSolidsSummaryQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-transzformaciok-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-transzformaciok-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-transzformaciok-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-transzformaciok-matcher' && (
+        <G12TransformationsSolidsSummaryQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-transzformaciok-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-transzformaciok-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-transzformaciok-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-transzformaciok-sorter' && (
+        <G12TransformationsSolidsSummaryQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-transzformaciok-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-transzformaciok-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-transzformaciok-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+
+      {/* 9. Vektorok, koordinátageometria */}
+      {activityType === 'g12-sum-vektorok-koordinatageometria-theory' && (
+        <G12VectorsCoordinatesSummaryTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-sum-vektorok-koordinatageometria-quiz', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-vektorok-koordinatageometria-quiz' && (
+        <G12VectorsCoordinatesSummaryQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-vektorok-koordinatageometria-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-vektorok-koordinatageometria-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-vektorok-koordinatageometria-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-vektorok-koordinatageometria-matcher' && (
+        <G12VectorsCoordinatesSummaryQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-vektorok-koordinatageometria-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-vektorok-koordinatageometria-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-vektorok-koordinatageometria-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-vektorok-koordinatageometria-sorter' && (
+        <G12VectorsCoordinatesSummaryQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-vektorok-koordinatageometria-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-vektorok-koordinatageometria-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-vektorok-koordinatageometria-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+
+      {/* 10. Statisztika, valószínűségszámítás */}
+      {activityType === 'g12-sum-statisztika-valoszinuseg-theory' && (
+        <G12StatProbSummaryTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g12-sum-statisztika-valoszinuseg-quiz', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-statisztika-valoszinuseg-quiz' && (
+        <G12StatProbSummaryQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-statisztika-valoszinuseg-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-statisztika-valoszinuseg-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-statisztika-valoszinuseg-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-statisztika-valoszinuseg-matcher' && (
+        <G12StatProbSummaryQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-statisztika-valoszinuseg-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-statisztika-valoszinuseg-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-statisztika-valoszinuseg-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+        />
+      )}
+      {activityType === 'g12-sum-statisztika-valoszinuseg-sorter' && (
+        <G12StatProbSummaryQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g12-sum-statisztika-valoszinuseg-theory', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToMatcher={() => handleActivitySelect('g12-sum-statisztika-valoszinuseg-matcher', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
+          onSwitchToSorter={() => handleActivitySelect('g12-sum-statisztika-valoszinuseg-sorter', selectedTopic || 'g12-rendszerezo-osszefoglalas')}
         />
       )}
     </>

@@ -1,14 +1,19 @@
 # IV. Rendszerező összefoglalás (12. osztály)
 
 ## Fejezet Áttekintés
-A középiskolai matematika 9–12. évfolyamos tananyagának átfogó, érettségire felkészítő rendszerező összefoglalása. Az 5 fő témaköri blokk lefedi az érettségi követelményrendszer valamennyi témáját elméleti összefoglalókkal, képlettárakkal és típusfeladatokkal:
+A 9–12. évfolyam matematikájának érettségire felkészítő összefoglalása az OH-MAT12TA tankönyv 108–174. oldala alapján. A tankönyv öt blokkját („Fogalmak, tételek, módszerek” táblázat + kidolgozott feladatok + feladatok) 10 leckére bontottuk.
 
 ---
 
-## Fő Témakörök (5 átfogó modul)
+## Altémák (10 lecke)
 
-1. **Halmazok, logika, kombinatorika, gráfok** (`halmazok-logika-kombinatorika-grafok`) – Halmazműveletek, szita-formula, kijelentéslogika, igazságtáblázatok, permutációk, variációk, kombinációk, binomiális együtthatók, gráfelmélet és fokszámtétel.
-2. **Számtan, algebra** (`szamtan-algebra`) – Számhalmazok, oszthatóság, LNKO, LKKT, algebrai azonosságok, hatványozás, gyökvonás, logaritmus, másodfokú és magasabb fokú egyenletek, gyökös, exponenciális és logaritmusos egyenletek, egyenlőtlenségek.
-3. **Függvények, sorozatok** (`fuggvenyek-sorozatok`) – Függvényjellemzés ($D_f, R_f$, zérushely, szélsőértékek, paritás, periodicitás), függvénytranszformációk, alapfüggvények grafikonjai, számtani és mértani sorozatok, pénzügyi matematika (kamatos kamat, törlesztés).
-4. **Geometria** (`geometria`) – Síkgeometria (háromszögek, négyszögek, sokszögek, kör, területek), trigonometria (szögfüggvények, szinusz- és koszinusztétel), koordinátageometria (vektorok, egyenes és kör egyenlete), térgeometria (hasábok, hengerek, gúlák, kúpok, gömb, csonka testek).
-5. **Statisztika, valószínűségszámítás** (`statisztika-valoszinusegszamitas`) – Leíró statisztika (középértékek, szóródási mutatók, diagramok, dobozdiagram), klasszikus és geometriai valószínűség, feltételes valószínűség, eseményfák, várható érték, binomiális és hipergeometrikus eloszlások.
+1. **Halmazok, logika** (`halmazok-logika`) – 108–115. o.: halmazműveletek, szitaformula, állítások, logikai műveletek.
+2. **Kombinatorika, gráfok** (`kombinatorika-grafok`) – 108–115. o.: faktoriális, sorba rendezés, binomiális együttható, gráfok, fokszámtétel.
+3. **Számtan** (`szamtan`) – 116–127. o.: valós számkör, oszthatóság, LNKO/LKKT, hatvány, gyök, logaritmus, arányosság, százalék.
+4. **Algebra** (`algebra`) – 116–127. o.: nevezetes azonosságok, egyenletek, egyenlőtlenségek, egyenletrendszerek.
+5. **Függvények** (`fuggvenyek`) – 128–137. o.: alapfüggvények, függvényjellemzés, transzformációk.
+6. **Sorozatok** (`sorozatok`) – 138–143. o.: számtani és mértani sorozat, pénzügyi számítások.
+7. **Elemi geometria** (`elemi-geometria`) – 144–150. o.: távolság, szögek, háromszögek nevezetes pontjai, négyszögek, sokszögek.
+8. **Geometriai transzformációk, síkbeli és térbeli alakzatok** (`transzformaciok-alakzatok`) – 151–157. o.: egybevágóság, hasonlóság, Pitagorasz és Thalész, trigonometria, területek.
+9. **Vektorok, koordinátageometria** (`vektorok-koordinatageometria`) – 158–165. o.: vektorműveletek, egyenes és kör egyenlete.
+10. **Statisztika, valószínűségszámítás** (`statisztika-valoszinusegszamitas`) – 166–174. o.: középértékek, dobozdiagram, valószínűség, mintavételek.

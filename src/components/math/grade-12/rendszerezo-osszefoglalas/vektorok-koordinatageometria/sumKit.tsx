@@ -1,0 +1,401 @@
+import React from 'react';
+
+/** Belső rajz- és számsegédek a rendszerező összefoglalás leckéihez (nem exportáljuk az index.ts-ből). */
+
+export const S_BLUE = '#2563eb';
+export const S_RED = '#dc2626';
+export const S_GREEN = '#059669';
+export const S_PURPLE = '#7c3aed';
+export const S_AMBER = '#d97706';
+export const S_INK = '#0f172a';
+export const S_GRID = '#e2e8f0';
+
+/** Magyar formátum: tizedesvessző, felesleges nullák nélkül. */
+export const fmt = (x: number, d = 2): string => {
+  if (!Number.isFinite(x)) return '–';
+  const r = Math.round(x * 10 ** d) / 10 ** d;
+  let s = r.toFixed(d);
+  if (s.includes('.')) s = s.replace(/0+$/, '').replace(/\.$/, '');
+  return (s === '-0' ? '0' : s).replace('.', ',').replace('-', '−');
+};
+
+/** Ezres tagolás (szóközzel) egész számokra. */
+export const fmtInt = (x: number): string => {
+  if (!Number.isFinite(x)) return '–';
+  const neg = x < 0;
+  const s = Math.round(Math.abs(x)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  return (neg ? '−' : '') + s;
+};
+
+export interface SeqPlotProps {
+  values: number[];
+  w?: number;
+  h?: number;
+  color?: string;
+  /** 0-alapú indexek, amelyeket kiemelünk */
+  highlight?: number[];
+  /** 0-alapú index, amelynek a helyére „?” kerül (a pont nem látszik) */
+  unknown?: number;
+  /** pontok fölé írjuk-e az értéket */
+  showValues?: boolean;
+  /** vízszintes segédvonal (pl. korlát) */
+  hLine?: { y: number; label?: string; color?: string };
+  yLabel?: string;
+  title?: string;
+  className?: string;
+}
+
+/** Sorozat pontgrafikonja: diszkrét pontok, nincs összekötő vonal. */
+export const SeqPlot: React.FC<SeqPlotProps> = ({
+  values,
+  w = 300,
+  h = 190,
+  color = S_BLUE,
+  highlight = [],
+  unknown,
+  showValues = false,
+  hLine,
+  yLabel = 'aₙ',
+  title,
+  className = 'w-full max-w-[320px] h-auto mx-auto'
+}) => {
+  const padL = 34;
+  const padR = 14;
+  const padT = title ? 30 : 16;
+  const padB = 26;
+  const finite = values.filter((v) => Number.isFinite(v));
+  const extra = hLine ? [hLine.y] : [];
+  let lo = Math.min(0, ...finite, ...extra);
+  let hi = Math.max(0, ...finite, ...extra);
+  if (hi - lo < 1e-9) hi = lo + 1;
+  const span = hi - lo;
+  lo -= span * 0.06;
+  hi += span * 0.1;
+  const n = values.length;
+  const X = (i: number) => padL + ((i + 1) / (n + 0.6)) * (w - padL - padR);
+  const Y = (v: number) => padT + ((hi - v) / (hi - lo)) * (h - padT - padB);
+  const y0 = Y(0);
+  // y-tengely beosztás
+  const rawStep = (hi - lo) / 4;
+  const mag = 10 ** Math.floor(Math.log10(rawStep));
+  const step = [1, 2, 5, 10].map((k) => k * mag).find((s) => s >= rawStep) ?? rawStep;
+  const ticks: number[] = [];
+  for (let t = Math.ceil(lo / step) * step; t <= hi; t += step) ticks.push(Math.round(t * 1e9) / 1e9);
+  return (
+    <svg viewBox={`0 0 ${w} ${h}`} className={className} xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
+      <rect x="1" y="1" width={w - 2} height={h - 2} rx="12" fill="#f8fafc" stroke="#cbd5e1" />
+      {title && (
+        <text x={w / 2} y="19" fontSize="12" textAnchor="middle" fontWeight="bold" fill={S_INK}>
+          {title}
+        </text>
+      )}
+      {ticks.map((t) => (
+        <g key={`t${t}`}>
+          <line x1={padL} x2={w - padR} y1={Y(t)} y2={Y(t)} stroke={S_GRID} strokeWidth="1" />
+          <text x={padL - 4} y={Y(t) + 3.5} fontSize="9" textAnchor="end" fill="#64748b">
+            {fmt(t, 2)}
+          </text>
+        </g>
+      ))}
+      <line x1={padL} x2={w - padR + 4} y1={y0} y2={y0} stroke={S_INK} strokeWidth="1.4" />
+      <line x1={padL} x2={padL} y1={h - padB + 4} y2={padT - 6} stroke={S_INK} strokeWidth="1.4" />
+      <text x={w - padR + 2} y={y0 - 5} fontSize="10" textAnchor="end" fill={S_INK} fontStyle="italic">
+        n
+      </text>
+      <text x={padL + 5} y={padT - 2} fontSize="10" fill={S_INK} fontStyle="italic">
+        {yLabel}
+      </text>
+      {hLine && (
+        <g>
+          <line x1={padL} x2={w - padR} y1={Y(hLine.y)} y2={Y(hLine.y)} stroke={hLine.color ?? S_RED} strokeDasharray="5 4" strokeWidth="1.3" />
+          {hLine.label && (
+            <text x={w - padR - 2} y={Y(hLine.y) - 4} fontSize="9.5" textAnchor="end" fill={hLine.color ?? S_RED}>
+              {hLine.label}
+            </text>
+          )}
+        </g>
+      )}
+      {values.map((v, i) => (
+        <g key={`p${i}`}>
+          <line x1={X(i)} x2={X(i)} y1={y0 - 2.5} y2={y0 + 2.5} stroke={S_INK} />
+          {(n <= 12 || (i + 1) % 2 === 1) && (
+            <text x={X(i)} y={h - 9} fontSize="9" textAnchor="middle" fill="#475569">
+              {i + 1}
+            </text>
+          )}
+          {i === unknown ? (
+            <text x={X(i)} y={Math.min(Y(0), padT + 14)} fontSize="13" fontWeight="bold" textAnchor="middle" fill={S_RED}>
+              ?
+            </text>
+          ) : (
+            Number.isFinite(v) && (
+              <>
+                <line x1={X(i)} x2={X(i)} y1={y0} y2={Y(v)} stroke={color} strokeOpacity="0.18" strokeDasharray="2 3" />
+                <circle cx={X(i)} cy={Y(v)} r={highlight.includes(i) ? 5 : 3.6} fill={highlight.includes(i) ? S_RED : color} />
+                {showValues && (
+                  <text x={X(i)} y={Y(v) + (v >= 0 ? -7 : 13)} fontSize="9" textAnchor="middle" fill={S_INK}>
+                    {fmt(v, 2)}
+                  </text>
+                )}
+              </>
+            )
+          )}
+        </g>
+      ))}
+    </svg>
+  );
+};
+
+export interface SeqChainProps {
+  terms: string[];
+  /** a nyilak fölé írt művelet (pl. „+d”, „·q”); lehet tagonként eltérő */
+  ops: string | string[];
+  color?: string;
+  title?: string;
+  className?: string;
+}
+
+/** Tagok sora dobozokban, közöttük ívelt nyilak a művelettel. */
+export const SeqChain: React.FC<SeqChainProps> = ({ terms, ops, color = S_BLUE, title, className = 'w-full max-w-[340px] h-auto mx-auto' }) => {
+  const bw = Math.max(46, Math.max(...terms.map((t) => t.length)) * 7.4 + 12);
+  const gap = 16;
+  const w = 16 + terms.length * bw + (terms.length - 1) * gap + 16;
+  const top = title ? 52 : 36;
+  const h = top + 44;
+  return (
+    <svg viewBox={`0 0 ${w} ${h}`} className={className} xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
+      <rect x="1" y="1" width={w - 2} height={h - 2} rx="12" fill="#f8fafc" stroke="#cbd5e1" />
+      {title && (
+        <text x={w / 2} y="18" fontSize="12" textAnchor="middle" fontWeight="bold" fill={S_INK}>
+          {title}
+        </text>
+      )}
+      {terms.map((t, i) => {
+        const x = 16 + i * (bw + gap);
+        const op = Array.isArray(ops) ? ops[i] : ops;
+        return (
+          <g key={`c${i}`}>
+            <rect x={x} y={top} width={bw} height="28" rx="7" fill={t === '?' ? '#fee2e2' : '#eff6ff'} stroke={t === '?' ? S_RED : color} strokeWidth="1.5" />
+            <text x={x + bw / 2} y={top + 18.5} fontSize="12" textAnchor="middle" fontWeight="bold" fill={t === '?' ? S_RED : S_INK}>
+              {t}
+            </text>
+            {i < terms.length - 1 && op && (
+              <g>
+                <path
+                  d={`M ${x + bw / 2 + 6} ${top - 2} Q ${x + bw + gap / 2} ${top - 22} ${x + bw + gap + bw / 2 - 6} ${top - 2}`}
+                  fill="none"
+                  stroke={color}
+                  strokeWidth="1.4"
+                />
+                <path
+                  d={`M ${x + bw + gap + bw / 2 - 6} ${top - 2} l -6 -3 m 6 3 l -1.5 -6.5`}
+                  fill="none"
+                  stroke={color}
+                  strokeWidth="1.4"
+                />
+                <text x={x + bw + gap / 2} y={top - 17} fontSize="10.5" textAnchor="middle" fill={color} fontWeight="bold">
+                  {op}
+                </text>
+              </g>
+            )}
+          </g>
+        );
+      })}
+    </svg>
+  );
+};
+
+/** Derékszög jelölése: negyedkörív ponttal (magyar jelölés). u1, u2: egységvektorok a csúcsból. */
+export const RightMark: React.FC<{ v: [number, number]; u1: [number, number]; u2: [number, number]; r?: number; color?: string }> = ({
+  v,
+  u1,
+  u2,
+  r = 12,
+  color = S_INK
+}) => {
+  const p1 = [v[0] + r * u1[0], v[1] + r * u1[1]];
+  const p2 = [v[0] + r * u2[0], v[1] + r * u2[1]];
+  const cross = u1[0] * u2[1] - u1[1] * u2[0];
+  const sweep = cross > 0 ? 1 : 0;
+  const bx = u1[0] + u2[0];
+  const by = u1[1] + u2[1];
+  const bl = Math.hypot(bx, by) || 1;
+  return (
+    <g>
+      <path d={`M ${p1[0]} ${p1[1]} A ${r} ${r} 0 0 ${sweep} ${p2[0]} ${p2[1]}`} fill="none" stroke={color} strokeWidth="1.2" />
+      <circle cx={v[0] + (0.55 * r * bx) / bl} cy={v[1] + (0.55 * r * by) / bl} r="1.7" fill={color} />
+    </g>
+  );
+};
+
+/** Keretes ábra címmel (480 széles). */
+export const Frame: React.FC<{ title: string; children: React.ReactNode; className: string; h?: number; w?: number }> = ({
+  title,
+  children,
+  className,
+  h = 300,
+  w = 480
+}) => (
+  <svg viewBox={`0 0 ${w} ${h}`} className={className} xmlns="http://www.w3.org/2000/svg" fontFamily="system-ui, sans-serif">
+    <rect x="4" y="4" width={w - 8} height={h - 8} rx="16" fill="#f8fafc" stroke="#cbd5e1" strokeWidth="1.5" />
+    <text x={w / 2} y="26" fontSize="14" textAnchor="middle" fontWeight="bold" fill={S_INK}>
+      {title}
+    </text>
+    {children}
+  </svg>
+);
+
+export const DEFAULT_FIG_CLASS = 'w-full h-auto max-w-xl mx-auto';
+export const numIn = 'w-20 px-2 py-1 rounded-lg border border-slate-300 text-sm font-mono';
+
+// ---------------- Síkgeometriai segédek ----------------
+export type Pt = [number, number];
+export const dist = (p: Pt, q: Pt) => Math.hypot(p[0] - q[0], p[1] - q[1]);
+export const lerp = (p: Pt, q: Pt, t: number): Pt => [p[0] + (q[0] - p[0]) * t, p[1] + (q[1] - p[1]) * t];
+export const unit = (p: Pt, q: Pt): Pt => {
+  const l = dist(p, q) || 1;
+  return [(q[0] - p[0]) / l, (q[1] - p[1]) / l];
+};
+/** Szög (fokban) a V csúcsnál, P és Q irányában. */
+export const angleAt = (V: Pt, P: Pt, Q: Pt) => {
+  const a = unit(V, P);
+  const b = unit(V, Q);
+  return (Math.acos(Math.max(-1, Math.min(1, a[0] * b[0] + a[1] * b[1]))) * 180) / Math.PI;
+};
+export const centroid = (A: Pt, B: Pt, C: Pt): Pt => [(A[0] + B[0] + C[0]) / 3, (A[1] + B[1] + C[1]) / 3];
+export const circumcenter = (A: Pt, B: Pt, C: Pt): Pt => {
+  const d = 2 * (A[0] * (B[1] - C[1]) + B[0] * (C[1] - A[1]) + C[0] * (A[1] - B[1]));
+  const a2 = A[0] ** 2 + A[1] ** 2;
+  const b2 = B[0] ** 2 + B[1] ** 2;
+  const c2 = C[0] ** 2 + C[1] ** 2;
+  return [(a2 * (B[1] - C[1]) + b2 * (C[1] - A[1]) + c2 * (A[1] - B[1])) / d, (a2 * (C[0] - B[0]) + b2 * (A[0] - C[0]) + c2 * (B[0] - A[0])) / d];
+};
+export const incenter = (A: Pt, B: Pt, C: Pt): Pt => {
+  const a = dist(B, C);
+  const b = dist(A, C);
+  const c = dist(A, B);
+  const s = a + b + c;
+  return [(a * A[0] + b * B[0] + c * C[0]) / s, (a * A[1] + b * B[1] + c * C[1]) / s];
+};
+export const inradius = (A: Pt, B: Pt, C: Pt) => {
+  const a = dist(B, C);
+  const b = dist(A, C);
+  const c = dist(A, B);
+  const area = Math.abs((B[0] - A[0]) * (C[1] - A[1]) - (C[0] - A[0]) * (B[1] - A[1])) / 2;
+  return (2 * area) / (a + b + c);
+};
+export const orthocenter = (A: Pt, B: Pt, C: Pt): Pt => {
+  const O = circumcenter(A, B, C);
+  return [A[0] + B[0] + C[0] - 2 * O[0], A[1] + B[1] + C[1] - 2 * O[1]];
+};
+/** P merőleges vetülete az AB egyenesre. */
+export const foot = (P: Pt, A: Pt, B: Pt): Pt => {
+  const dx = B[0] - A[0];
+  const dy = B[1] - A[1];
+  const t = ((P[0] - A[0]) * dx + (P[1] - A[1]) * dy) / (dx * dx + dy * dy);
+  return [A[0] + t * dx, A[1] + t * dy];
+};
+/** Szögív a V csúcsnál P és Q iránya között (a kisebbik szög). */
+export const arcPath = (V: Pt, P: Pt, Q: Pt, r: number) => {
+  const a = unit(V, P);
+  const b = unit(V, Q);
+  const cross = a[0] * b[1] - a[1] * b[0];
+  return `M ${V[0] + r * a[0]} ${V[1] + r * a[1]} A ${r} ${r} 0 0 ${cross > 0 ? 1 : 0} ${V[0] + r * b[0]} ${V[1] + r * b[1]}`;
+};
+/** Derékszög jelölése két pont irányában (negyedkörív ponttal). */
+export const RightAt: React.FC<{ V: Pt; P: Pt; Q: Pt; r?: number; color?: string }> = ({ V, P, Q, r = 12, color }) => (
+  <RightMark v={V} u1={unit(V, P)} u2={unit(V, Q)} r={r} color={color} />
+);
+
+// ---------------- Koordináta-rendszer ----------------
+export interface PlaneCfg {
+  xmin: number;
+  xmax: number;
+  ymin: number;
+  ymax: number;
+  x0: number;
+  y0: number;
+  w: number;
+  h: number;
+}
+export const makePlane = (c: PlaneCfg) => {
+  const sx = c.w / (c.xmax - c.xmin);
+  const sy = c.h / (c.ymax - c.ymin);
+  const X = (x: number) => c.x0 + (x - c.xmin) * sx;
+  const Y = (y: number) => c.y0 + (c.ymax - y) * sy;
+  const P = (x: number, y: number): Pt => [X(x), Y(y)];
+  return { X, Y, P, sx, sy };
+};
+/** Négyzetrács tengelyekkel; step: rácsköz, labelEvery: hányadik osztást számozzuk. */
+export const Grid: React.FC<{ c: PlaneCfg; step?: number; labelEvery?: number; fontSize?: number }> = ({ c, step = 1, labelEvery = 1, fontSize = 9 }) => {
+  const { X, Y } = makePlane(c);
+  const xs: number[] = [];
+  for (let x = Math.ceil(c.xmin / step) * step; x <= c.xmax + 1e-9; x += step) xs.push(Math.round(x * 1e6) / 1e6);
+  const ys: number[] = [];
+  for (let y = Math.ceil(c.ymin / step) * step; y <= c.ymax + 1e-9; y += step) ys.push(Math.round(y * 1e6) / 1e6);
+  return (
+    <g>
+      {xs.map((x) => (
+        <line key={`gx${x}`} x1={X(x)} x2={X(x)} y1={Y(c.ymin)} y2={Y(c.ymax)} stroke={S_GRID} strokeWidth="1" />
+      ))}
+      {ys.map((y) => (
+        <line key={`gy${y}`} x1={X(c.xmin)} x2={X(c.xmax)} y1={Y(y)} y2={Y(y)} stroke={S_GRID} strokeWidth="1" />
+      ))}
+      {c.ymin <= 0 && c.ymax >= 0 && <line x1={X(c.xmin)} x2={X(c.xmax) + 6} y1={Y(0)} y2={Y(0)} stroke={S_INK} strokeWidth="1.4" />}
+      {c.xmin <= 0 && c.xmax >= 0 && <line x1={X(0)} x2={X(0)} y1={Y(c.ymin)} y2={Y(c.ymax) - 6} stroke={S_INK} strokeWidth="1.4" />}
+      {c.ymin <= 0 && c.ymax >= 0 && (
+        <text x={X(c.xmax) + 4} y={Y(0) - 5} fontSize={fontSize + 1} fill={S_INK} fontStyle="italic">
+          x
+        </text>
+      )}
+      {c.xmin <= 0 && c.xmax >= 0 && (
+        <text x={X(0) + 5} y={Y(c.ymax) - 2} fontSize={fontSize + 1} fill={S_INK} fontStyle="italic">
+          y
+        </text>
+      )}
+      {xs
+        .filter((x) => x !== 0 && Math.round(x / step) % labelEvery === 0)
+        .map((x) => (
+          <text key={`lx${x}`} x={X(x)} y={Math.min(Math.max(Y(0), Y(c.ymax)), Y(c.ymin)) + fontSize + 3} fontSize={fontSize} textAnchor="middle" fill="#64748b">
+            {fmt(x)}
+          </text>
+        ))}
+      {ys
+        .filter((y) => y !== 0 && Math.round(y / step) % labelEvery === 0)
+        .map((y) => (
+          <text key={`ly${y}`} x={Math.max(Math.min(X(0), X(c.xmax)), X(c.xmin)) - 4} y={Y(y) + 3} fontSize={fontSize} textAnchor="end" fill="#64748b">
+            {fmt(y)}
+          </text>
+        ))}
+    </g>
+  );
+};
+/** Nyíl (vektor) két pont között. */
+export const Arrow: React.FC<{ from: Pt; to: Pt; color?: string; width?: number; dashed?: boolean }> = ({ from, to, color = S_BLUE, width = 2.2, dashed }) => {
+  const u = unit(from, to);
+  const L = 9;
+  const tip1: Pt = [to[0] - L * u[0] + 4 * u[1], to[1] - L * u[1] - 4 * u[0]];
+  const tip2: Pt = [to[0] - L * u[0] - 4 * u[1], to[1] - L * u[1] + 4 * u[0]];
+  return (
+    <g>
+      <line x1={from[0]} y1={from[1]} x2={to[0] - 4 * u[0]} y2={to[1] - 4 * u[1]} stroke={color} strokeWidth={width} strokeDasharray={dashed ? '5 4' : undefined} />
+      <polygon points={`${to} ${tip1} ${tip2}`} fill={color} />
+    </g>
+  );
+};
+
+// ---------------- Törtek ----------------
+const gcd = (a: number, b: number): number => (b === 0 ? Math.abs(a) : gcd(b, a % b));
+/** p/q egyszerűsített alakja (egészekre), magyar mínuszjellel. */
+export const frac = (p: number, q: number): string => {
+  if (q === 0) return '–';
+  if (q < 0) {
+    p = -p;
+    q = -q;
+  }
+  const g = gcd(Math.round(p), Math.round(q)) || 1;
+  const a = Math.round(p) / g;
+  const b = Math.round(q) / g;
+  const s = b === 1 ? `${Math.abs(a)}` : `${Math.abs(a)}/${b}`;
+  return (a < 0 ? '−' : '') + s;
+};
