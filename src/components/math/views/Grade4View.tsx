@@ -1237,13 +1237,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-wmult-sec-1" number={1} title="Szorzás kétjegyű szorzóval" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Szorzás kétjegyű szorzóval"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Szorzás kétjegyű szorzóval Tananyag"
+                subtitle="Szorzás 10-zel, 100-zal és kerek tízesekkel, a szorzat változása, szorzás tagonként (130 · 60)."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-wmult-ketjegyu-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: szorzás 10-zel, 100-zal, kerek tízesekkel, szorzás tagonként, szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-wmult-ketjegyu-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g4-wmult-ketjegyu-quiz')}
               />
             </div>
           </section>
@@ -1255,13 +1265,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-wmult-sec-2" number={2} title="Írásbeli szorzás" color="orange" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Írásbeli szorzás"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Írásbeli szorzás Tananyag"
+                subtitle="Írásbeli szorzás kétjegyű szorzóval: becslés tízesre, részletszorzatok, eltolás, összeadás, ellenőrzés felcseréléssel."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-wmult-irasbeli-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="orange"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: becslés, részletszorzatok, írásbeli szorzás kétjegyű szorzóval, ellenőrzés, szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-wmult-irasbeli-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="orange"
+                {...getTopicProgress('g4-wmult-irasbeli-quiz')}
               />
             </div>
           </section>
@@ -1273,13 +1293,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-wmult-sec-3" number={3} title="Összefüggések, következtetések" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Összefüggések, következtetések"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Összefüggések, következtetések Tananyag"
+                subtitle="A szorzat változása a tényezők változásakor, következtetés, összevonás, szorzásláncok, sorozatok."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-wmult-osszefuggesek-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: a szorzat változása, következtetés, összevonás, sorozatok és szabályok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-wmult-osszefuggesek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g4-wmult-osszefuggesek-quiz')}
               />
             </div>
           </section>
@@ -1291,13 +1321,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-wmult-sec-4" number={4} title="Gyakorlás, tudáspróba" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Gyakorlás, tudáspróba"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Gyakorlás, tudáspróba Tananyag"
+                subtitle="Amit már tudsz: kerek tízesek, írásbeli szorzás kétjegyű szorzóval, becslés, műveleti sorrend, összefüggések."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-wmult-tudasproba-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz"
+                subtitle="90 feladat 3 szinten: kerek tízesek, írásbeli szorzás, becslés, műveleti sorrend, összefüggések, szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-wmult-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g4-wmult-tudasproba-quiz')}
               />
             </div>
           </section>

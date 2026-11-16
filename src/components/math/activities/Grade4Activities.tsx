@@ -69,6 +69,14 @@ const G4NegativeChangesTheory = lazy(() => import("@/components/math/grade-4/neg
 const G4NegativeChangesQuiz = lazy(() => import("@/components/math/grade-4/negativ-szamok/osszehasonlitas-es-valtozasok/NegativeChangesQuiz").then(m => ({ default: m.NegativeChangesQuiz })));
 const G4NegativesExamTheory = lazy(() => import("@/components/math/grade-4/negativ-szamok/gyakorlas-tudasproba/NegativesExamTheory").then(m => ({ default: m.NegativesExamTheory })));
 const G4NegativesExamQuiz = lazy(() => import("@/components/math/grade-4/negativ-szamok/gyakorlas-tudasproba/NegativesExamQuiz").then(m => ({ default: m.NegativesExamQuiz })));
+const G4MulTwoDigitTheory = lazy(() => import("@/components/math/grade-4/irasbeli-szorzas/szorzas-ketjegyu-szorzoval/MulTwoDigitTheory").then(m => ({ default: m.MulTwoDigitTheory })));
+const G4MulTwoDigitQuiz = lazy(() => import("@/components/math/grade-4/irasbeli-szorzas/szorzas-ketjegyu-szorzoval/MulTwoDigitQuiz").then(m => ({ default: m.MulTwoDigitQuiz })));
+const G4WrittenMulTwoDigitTheory = lazy(() => import("@/components/math/grade-4/irasbeli-szorzas/irasbeli-szorzas/WrittenMulTwoDigitTheory").then(m => ({ default: m.WrittenMulTwoDigitTheory })));
+const G4WrittenMulTwoDigitQuiz = lazy(() => import("@/components/math/grade-4/irasbeli-szorzas/irasbeli-szorzas/WrittenMulTwoDigitQuiz").then(m => ({ default: m.WrittenMulTwoDigitQuiz })));
+const G4MulRelationsTheory = lazy(() => import("@/components/math/grade-4/irasbeli-szorzas/osszefuggesek-kovetkeztetesek/MulRelationsTheory").then(m => ({ default: m.MulRelationsTheory })));
+const G4MulRelationsQuiz = lazy(() => import("@/components/math/grade-4/irasbeli-szorzas/osszefuggesek-kovetkeztetesek/MulRelationsQuiz").then(m => ({ default: m.MulRelationsQuiz })));
+const G4WrittenMultExamTheory = lazy(() => import("@/components/math/grade-4/irasbeli-szorzas/gyakorlas-tudasproba/WrittenMultExamTheory").then(m => ({ default: m.WrittenMultExamTheory })));
+const G4WrittenMultExamQuiz = lazy(() => import("@/components/math/grade-4/irasbeli-szorzas/gyakorlas-tudasproba/WrittenMultExamQuiz").then(m => ({ default: m.WrittenMultExamQuiz })));
 
 export const Grade4Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -1210,6 +1218,144 @@ export const Grade4Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g4-neg-tudasproba-theory', selectedTopic || 'g4-negatives')}
           onSwitchToMatcher={() => handleActivitySelect('g4-neg-tudasproba-matcher', selectedTopic || 'g4-negatives')}
           onSwitchToSorter={() => handleActivitySelect('g4-neg-tudasproba-sorter', selectedTopic || 'g4-negatives')}
+        />
+      )}
+
+      {/* ===== 4. Osztály – VII. Írásbeli szorzás kétjegyű szorzóval ===== */}
+
+      {/* 1. Szorzás kétjegyű szorzóval */}
+      {activityType === 'g4-wmult-ketjegyu-theory' && (
+        <G4MulTwoDigitTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-wmult-ketjegyu-quiz', selectedTopic || 'g4-written-mult')}
+        />
+      )}
+      {activityType === 'g4-wmult-ketjegyu-quiz' && (
+        <G4MulTwoDigitQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wmult-ketjegyu-theory', selectedTopic || 'g4-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wmult-ketjegyu-matcher', selectedTopic || 'g4-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wmult-ketjegyu-sorter', selectedTopic || 'g4-written-mult')}
+        />
+      )}
+      {activityType === 'g4-wmult-ketjegyu-matcher' && (
+        <G4MulTwoDigitQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wmult-ketjegyu-theory', selectedTopic || 'g4-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wmult-ketjegyu-matcher', selectedTopic || 'g4-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wmult-ketjegyu-sorter', selectedTopic || 'g4-written-mult')}
+        />
+      )}
+      {activityType === 'g4-wmult-ketjegyu-sorter' && (
+        <G4MulTwoDigitQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wmult-ketjegyu-theory', selectedTopic || 'g4-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wmult-ketjegyu-matcher', selectedTopic || 'g4-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wmult-ketjegyu-sorter', selectedTopic || 'g4-written-mult')}
+        />
+      )}
+
+      {/* 2. Írásbeli szorzás */}
+      {activityType === 'g4-wmult-irasbeli-theory' && (
+        <G4WrittenMulTwoDigitTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-wmult-irasbeli-quiz', selectedTopic || 'g4-written-mult')}
+        />
+      )}
+      {activityType === 'g4-wmult-irasbeli-quiz' && (
+        <G4WrittenMulTwoDigitQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wmult-irasbeli-theory', selectedTopic || 'g4-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wmult-irasbeli-matcher', selectedTopic || 'g4-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wmult-irasbeli-sorter', selectedTopic || 'g4-written-mult')}
+        />
+      )}
+      {activityType === 'g4-wmult-irasbeli-matcher' && (
+        <G4WrittenMulTwoDigitQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wmult-irasbeli-theory', selectedTopic || 'g4-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wmult-irasbeli-matcher', selectedTopic || 'g4-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wmult-irasbeli-sorter', selectedTopic || 'g4-written-mult')}
+        />
+      )}
+      {activityType === 'g4-wmult-irasbeli-sorter' && (
+        <G4WrittenMulTwoDigitQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wmult-irasbeli-theory', selectedTopic || 'g4-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wmult-irasbeli-matcher', selectedTopic || 'g4-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wmult-irasbeli-sorter', selectedTopic || 'g4-written-mult')}
+        />
+      )}
+
+      {/* 3. Összefüggések, következtetések */}
+      {activityType === 'g4-wmult-osszefuggesek-theory' && (
+        <G4MulRelationsTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-wmult-osszefuggesek-quiz', selectedTopic || 'g4-written-mult')}
+        />
+      )}
+      {activityType === 'g4-wmult-osszefuggesek-quiz' && (
+        <G4MulRelationsQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wmult-osszefuggesek-theory', selectedTopic || 'g4-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wmult-osszefuggesek-matcher', selectedTopic || 'g4-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wmult-osszefuggesek-sorter', selectedTopic || 'g4-written-mult')}
+        />
+      )}
+      {activityType === 'g4-wmult-osszefuggesek-matcher' && (
+        <G4MulRelationsQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wmult-osszefuggesek-theory', selectedTopic || 'g4-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wmult-osszefuggesek-matcher', selectedTopic || 'g4-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wmult-osszefuggesek-sorter', selectedTopic || 'g4-written-mult')}
+        />
+      )}
+      {activityType === 'g4-wmult-osszefuggesek-sorter' && (
+        <G4MulRelationsQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wmult-osszefuggesek-theory', selectedTopic || 'g4-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wmult-osszefuggesek-matcher', selectedTopic || 'g4-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wmult-osszefuggesek-sorter', selectedTopic || 'g4-written-mult')}
+        />
+      )}
+
+      {/* 4. Gyakorlás, tudáspróba */}
+      {activityType === 'g4-wmult-tudasproba-theory' && (
+        <G4WrittenMultExamTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-wmult-tudasproba-quiz', selectedTopic || 'g4-written-mult')}
+        />
+      )}
+      {activityType === 'g4-wmult-tudasproba-quiz' && (
+        <G4WrittenMultExamQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wmult-tudasproba-theory', selectedTopic || 'g4-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wmult-tudasproba-matcher', selectedTopic || 'g4-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wmult-tudasproba-sorter', selectedTopic || 'g4-written-mult')}
+        />
+      )}
+      {activityType === 'g4-wmult-tudasproba-matcher' && (
+        <G4WrittenMultExamQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wmult-tudasproba-theory', selectedTopic || 'g4-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wmult-tudasproba-matcher', selectedTopic || 'g4-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wmult-tudasproba-sorter', selectedTopic || 'g4-written-mult')}
+        />
+      )}
+      {activityType === 'g4-wmult-tudasproba-sorter' && (
+        <G4WrittenMultExamQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-wmult-tudasproba-theory', selectedTopic || 'g4-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-wmult-tudasproba-matcher', selectedTopic || 'g4-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g4-wmult-tudasproba-sorter', selectedTopic || 'g4-written-mult')}
         />
       )}
     </>
