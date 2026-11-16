@@ -61,6 +61,14 @@ const G4OrderOfOps10000Theory = lazy(() => import("@/components/math/grade-4/ira
 const G4OrderOfOps10000Quiz = lazy(() => import("@/components/math/grade-4/irasbeli-muveletek-10000-ig/a-muveletek-sorrendje/OrderOfOps10000Quiz").then(m => ({ default: m.OrderOfOps10000Quiz })));
 const G4WrittenOpsExamTheory = lazy(() => import("@/components/math/grade-4/irasbeli-muveletek-10000-ig/gyakorlas-tudasproba/WrittenOpsExamTheory").then(m => ({ default: m.WrittenOpsExamTheory })));
 const G4WrittenOpsExamQuiz = lazy(() => import("@/components/math/grade-4/irasbeli-muveletek-10000-ig/gyakorlas-tudasproba/WrittenOpsExamQuiz").then(m => ({ default: m.WrittenOpsExamQuiz })));
+const G4NegativesEverydayTheory = lazy(() => import("@/components/math/grade-4/negativ-szamok/negativ-szamok-a-mindennapokban/NegativesEverydayTheory").then(m => ({ default: m.NegativesEverydayTheory })));
+const G4NegativesEverydayQuiz = lazy(() => import("@/components/math/grade-4/negativ-szamok/negativ-szamok-a-mindennapokban/NegativesEverydayQuiz").then(m => ({ default: m.NegativesEverydayQuiz })));
+const G4NumberLineOppositesTheory = lazy(() => import("@/components/math/grade-4/negativ-szamok/szamegyenes-es-ellentettek/NumberLineOppositesTheory").then(m => ({ default: m.NumberLineOppositesTheory })));
+const G4NumberLineOppositesQuiz = lazy(() => import("@/components/math/grade-4/negativ-szamok/szamegyenes-es-ellentettek/NumberLineOppositesQuiz").then(m => ({ default: m.NumberLineOppositesQuiz })));
+const G4NegativeChangesTheory = lazy(() => import("@/components/math/grade-4/negativ-szamok/osszehasonlitas-es-valtozasok/NegativeChangesTheory").then(m => ({ default: m.NegativeChangesTheory })));
+const G4NegativeChangesQuiz = lazy(() => import("@/components/math/grade-4/negativ-szamok/osszehasonlitas-es-valtozasok/NegativeChangesQuiz").then(m => ({ default: m.NegativeChangesQuiz })));
+const G4NegativesExamTheory = lazy(() => import("@/components/math/grade-4/negativ-szamok/gyakorlas-tudasproba/NegativesExamTheory").then(m => ({ default: m.NegativesExamTheory })));
+const G4NegativesExamQuiz = lazy(() => import("@/components/math/grade-4/negativ-szamok/gyakorlas-tudasproba/NegativesExamQuiz").then(m => ({ default: m.NegativesExamQuiz })));
 
 export const Grade4Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -1064,6 +1072,144 @@ export const Grade4Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g4-wops-tudasproba-theory', selectedTopic || 'g4-written-ops')}
           onSwitchToMatcher={() => handleActivitySelect('g4-wops-tudasproba-matcher', selectedTopic || 'g4-written-ops')}
           onSwitchToSorter={() => handleActivitySelect('g4-wops-tudasproba-sorter', selectedTopic || 'g4-written-ops')}
+        />
+      )}
+
+      {/* ===== 4. Osztály – IV. A negatív számok ===== */}
+
+      {/* 1. A negatív számok a mindennapokban */}
+      {activityType === 'g4-neg-mindennapok-theory' && (
+        <G4NegativesEverydayTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-neg-mindennapok-quiz', selectedTopic || 'g4-negatives')}
+        />
+      )}
+      {activityType === 'g4-neg-mindennapok-quiz' && (
+        <G4NegativesEverydayQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-neg-mindennapok-theory', selectedTopic || 'g4-negatives')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-neg-mindennapok-matcher', selectedTopic || 'g4-negatives')}
+          onSwitchToSorter={() => handleActivitySelect('g4-neg-mindennapok-sorter', selectedTopic || 'g4-negatives')}
+        />
+      )}
+      {activityType === 'g4-neg-mindennapok-matcher' && (
+        <G4NegativesEverydayQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-neg-mindennapok-theory', selectedTopic || 'g4-negatives')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-neg-mindennapok-matcher', selectedTopic || 'g4-negatives')}
+          onSwitchToSorter={() => handleActivitySelect('g4-neg-mindennapok-sorter', selectedTopic || 'g4-negatives')}
+        />
+      )}
+      {activityType === 'g4-neg-mindennapok-sorter' && (
+        <G4NegativesEverydayQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-neg-mindennapok-theory', selectedTopic || 'g4-negatives')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-neg-mindennapok-matcher', selectedTopic || 'g4-negatives')}
+          onSwitchToSorter={() => handleActivitySelect('g4-neg-mindennapok-sorter', selectedTopic || 'g4-negatives')}
+        />
+      )}
+
+      {/* 2. Számegyenes és ellentettek */}
+      {activityType === 'g4-neg-szamegyenes-theory' && (
+        <G4NumberLineOppositesTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-neg-szamegyenes-quiz', selectedTopic || 'g4-negatives')}
+        />
+      )}
+      {activityType === 'g4-neg-szamegyenes-quiz' && (
+        <G4NumberLineOppositesQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-neg-szamegyenes-theory', selectedTopic || 'g4-negatives')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-neg-szamegyenes-matcher', selectedTopic || 'g4-negatives')}
+          onSwitchToSorter={() => handleActivitySelect('g4-neg-szamegyenes-sorter', selectedTopic || 'g4-negatives')}
+        />
+      )}
+      {activityType === 'g4-neg-szamegyenes-matcher' && (
+        <G4NumberLineOppositesQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-neg-szamegyenes-theory', selectedTopic || 'g4-negatives')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-neg-szamegyenes-matcher', selectedTopic || 'g4-negatives')}
+          onSwitchToSorter={() => handleActivitySelect('g4-neg-szamegyenes-sorter', selectedTopic || 'g4-negatives')}
+        />
+      )}
+      {activityType === 'g4-neg-szamegyenes-sorter' && (
+        <G4NumberLineOppositesQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-neg-szamegyenes-theory', selectedTopic || 'g4-negatives')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-neg-szamegyenes-matcher', selectedTopic || 'g4-negatives')}
+          onSwitchToSorter={() => handleActivitySelect('g4-neg-szamegyenes-sorter', selectedTopic || 'g4-negatives')}
+        />
+      )}
+
+      {/* 3. Összehasonlítás és változások */}
+      {activityType === 'g4-neg-valtozasok-theory' && (
+        <G4NegativeChangesTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-neg-valtozasok-quiz', selectedTopic || 'g4-negatives')}
+        />
+      )}
+      {activityType === 'g4-neg-valtozasok-quiz' && (
+        <G4NegativeChangesQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-neg-valtozasok-theory', selectedTopic || 'g4-negatives')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-neg-valtozasok-matcher', selectedTopic || 'g4-negatives')}
+          onSwitchToSorter={() => handleActivitySelect('g4-neg-valtozasok-sorter', selectedTopic || 'g4-negatives')}
+        />
+      )}
+      {activityType === 'g4-neg-valtozasok-matcher' && (
+        <G4NegativeChangesQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-neg-valtozasok-theory', selectedTopic || 'g4-negatives')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-neg-valtozasok-matcher', selectedTopic || 'g4-negatives')}
+          onSwitchToSorter={() => handleActivitySelect('g4-neg-valtozasok-sorter', selectedTopic || 'g4-negatives')}
+        />
+      )}
+      {activityType === 'g4-neg-valtozasok-sorter' && (
+        <G4NegativeChangesQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-neg-valtozasok-theory', selectedTopic || 'g4-negatives')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-neg-valtozasok-matcher', selectedTopic || 'g4-negatives')}
+          onSwitchToSorter={() => handleActivitySelect('g4-neg-valtozasok-sorter', selectedTopic || 'g4-negatives')}
+        />
+      )}
+
+      {/* 4. Gyakorlás, tudáspróba */}
+      {activityType === 'g4-neg-tudasproba-theory' && (
+        <G4NegativesExamTheory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g4-neg-tudasproba-quiz', selectedTopic || 'g4-negatives')}
+        />
+      )}
+      {activityType === 'g4-neg-tudasproba-quiz' && (
+        <G4NegativesExamQuiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-neg-tudasproba-theory', selectedTopic || 'g4-negatives')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-neg-tudasproba-matcher', selectedTopic || 'g4-negatives')}
+          onSwitchToSorter={() => handleActivitySelect('g4-neg-tudasproba-sorter', selectedTopic || 'g4-negatives')}
+        />
+      )}
+      {activityType === 'g4-neg-tudasproba-matcher' && (
+        <G4NegativesExamQuiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-neg-tudasproba-theory', selectedTopic || 'g4-negatives')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-neg-tudasproba-matcher', selectedTopic || 'g4-negatives')}
+          onSwitchToSorter={() => handleActivitySelect('g4-neg-tudasproba-sorter', selectedTopic || 'g4-negatives')}
+        />
+      )}
+      {activityType === 'g4-neg-tudasproba-sorter' && (
+        <G4NegativesExamQuiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g4-neg-tudasproba-theory', selectedTopic || 'g4-negatives')}
+          onSwitchToMatcher={() => handleActivitySelect('g4-neg-tudasproba-matcher', selectedTopic || 'g4-negatives')}
+          onSwitchToSorter={() => handleActivitySelect('g4-neg-tudasproba-sorter', selectedTopic || 'g4-negatives')}
         />
       )}
     </>

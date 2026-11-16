@@ -855,13 +855,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-neg-sec-1" number={1} title="A negatív számok a mindennapokban" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A negatív számok a mindennapokban"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="A negatív számok a mindennapokban Tananyag"
+                subtitle="Hőmérő és fagypont, településtáblázat, Manó grafikonja, tengerszint, emeletek és adósság – a 0 mint viszonyítási pont."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-neg-mindennapok-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="cyan"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: hőmérő leolvasása, fagypont, tengerszint, emeletek, hőmérséklet-változás."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-neg-mindennapok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="cyan"
+                {...getTopicProgress('g4-neg-mindennapok-quiz')}
               />
             </div>
           </section>
@@ -873,13 +883,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-neg-sec-2" number={2} title="Számegyenes és ellentettek" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Számegyenes és ellentettek"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Számegyenes és ellentettek Tananyag"
+                subtitle="A 0-tól balra negatív, jobbra pozitív számok; ellentett számok, szöcskeugrások, számszomszédok, mélységek."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-neg-szamegyenes-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: számok a számegyenesen, ellentett számok, lépegetés, számszomszédok, mélységek."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-neg-szamegyenes-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g4-neg-szamegyenes-quiz')}
               />
             </div>
           </section>
@@ -891,13 +911,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-neg-sec-3" number={3} title="Összehasonlítás és változások" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Összehasonlítás és változások"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Összehasonlítás és változások Tananyag"
+                subtitle="Kisebb, nagyobb, sorba rendezés, nyitott mondatok, hőmérséklet-változás a 0-n át, fabatka: készpénz és adósság."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-neg-valtozasok-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: kisebb, nagyobb, sorba rendezés, hőmérséklet-változás, fabatka és adósság."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-neg-valtozasok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g4-neg-valtozasok-quiz')}
               />
             </div>
           </section>
@@ -909,13 +939,23 @@ export const Grade4View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g4-neg-sec-4" number={4} title="Gyakorlás, tudáspróba" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Gyakorlás, tudáspróba"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Gyakorlás, tudáspróba Tananyag"
+                subtitle="Amit már tudsz a negatív számokról: összefoglaló, kidolgozott vegyes feladatok, feladatgyár és igaz-hamis játék."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g4-neg-tudasproba-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz"
+                subtitle="90 feladat 3 szinten: az egész IV. fejezet – hőmérő, tengerszint, számegyenes, ellentettek, összehasonlítás, sorrend, hőmérséklet-változás, fabatka és adósság."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g4-neg-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g4-neg-tudasproba-quiz')}
               />
             </div>
           </section>
