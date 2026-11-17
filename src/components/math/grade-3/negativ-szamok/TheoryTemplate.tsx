@@ -304,7 +304,7 @@ export const TheorySection: React.FC<TheorySectionProps> = ({
           </span>
         )}
       </div>
-      <div className="space-y-4 md:[&_svg.w-full]:max-w-[760px] md:[&_svg.w-full]:mx-auto">{parseFractionsInNode(children)}</div>
+      <div className="space-y-4 md:[&_svg.w-full]:max-w-[480px] md:[&_svg.w-full]:mx-auto">{parseFractionsInNode(children)}</div>
     </div>
   );
 };
