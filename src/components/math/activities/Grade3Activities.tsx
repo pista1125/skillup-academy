@@ -39,6 +39,26 @@ const G3MulDiv200G3Theory = lazy(() => import("@/components/math/grade-3/szamola
 const G3MulDiv200G3Quiz = lazy(() => import("@/components/math/grade-3/szamolas-200-ig/szorzas-es-osztas/MulDiv200G3Quiz").then(m => ({ default: m.MulDiv200G3Quiz })));
 const G3Count200ExamG3Theory = lazy(() => import("@/components/math/grade-3/szamolas-200-ig/megallo/Count200ExamG3Theory").then(m => ({ default: m.Count200ExamG3Theory })));
 const G3Count200ExamG3Quiz = lazy(() => import("@/components/math/grade-3/szamolas-200-ig/megallo/Count200ExamG3Quiz").then(m => ({ default: m.Count200ExamG3Quiz })));
+const G3WhatToMeasureG3Theory = lazy(() => import("@/components/math/grade-3/meresek/mit-mivel-merunk/WhatToMeasureG3Theory").then(m => ({ default: m.WhatToMeasureG3Theory })));
+const G3WhatToMeasureG3Quiz = lazy(() => import("@/components/math/grade-3/meresek/mit-mivel-merunk/WhatToMeasureG3Quiz").then(m => ({ default: m.WhatToMeasureG3Quiz })));
+const G3MassG3Theory = lazy(() => import("@/components/math/grade-3/meresek/a-tomeg-merese/MassG3Theory").then(m => ({ default: m.MassG3Theory })));
+const G3MassG3Quiz = lazy(() => import("@/components/math/grade-3/meresek/a-tomeg-merese/MassG3Quiz").then(m => ({ default: m.MassG3Quiz })));
+const G3CapacityG3Theory = lazy(() => import("@/components/math/grade-3/meresek/az-urtartalom-merese/CapacityG3Theory").then(m => ({ default: m.CapacityG3Theory })));
+const G3CapacityG3Quiz = lazy(() => import("@/components/math/grade-3/meresek/az-urtartalom-merese/CapacityG3Quiz").then(m => ({ default: m.CapacityG3Quiz })));
+const G3LengthG3Theory = lazy(() => import("@/components/math/grade-3/meresek/a-hosszusag-merese/LengthG3Theory").then(m => ({ default: m.LengthG3Theory })));
+const G3LengthG3Quiz = lazy(() => import("@/components/math/grade-3/meresek/a-hosszusag-merese/LengthG3Quiz").then(m => ({ default: m.LengthG3Quiz })));
+const G3PerimeterG3Theory = lazy(() => import("@/components/math/grade-3/meresek/a-kerulet-merese/PerimeterG3Theory").then(m => ({ default: m.PerimeterG3Theory })));
+const G3PerimeterG3Quiz = lazy(() => import("@/components/math/grade-3/meresek/a-kerulet-merese/PerimeterG3Quiz").then(m => ({ default: m.PerimeterG3Quiz })));
+const G3RectPerimeterG3Theory = lazy(() => import("@/components/math/grade-3/meresek/a-teglalap-es-a-negyzet-kerulete/RectPerimeterG3Theory").then(m => ({ default: m.RectPerimeterG3Theory })));
+const G3RectPerimeterG3Quiz = lazy(() => import("@/components/math/grade-3/meresek/a-teglalap-es-a-negyzet-kerulete/RectPerimeterG3Quiz").then(m => ({ default: m.RectPerimeterG3Quiz })));
+const G3AreaG3Theory = lazy(() => import("@/components/math/grade-3/meresek/a-terulet-merese/AreaG3Theory").then(m => ({ default: m.AreaG3Theory })));
+const G3AreaG3Quiz = lazy(() => import("@/components/math/grade-3/meresek/a-terulet-merese/AreaG3Quiz").then(m => ({ default: m.AreaG3Quiz })));
+const G3RectAreaG3Theory = lazy(() => import("@/components/math/grade-3/meresek/a-teglalap-es-a-negyzet-terulete/RectAreaG3Theory").then(m => ({ default: m.RectAreaG3Theory })));
+const G3RectAreaG3Quiz = lazy(() => import("@/components/math/grade-3/meresek/a-teglalap-es-a-negyzet-terulete/RectAreaG3Quiz").then(m => ({ default: m.RectAreaG3Quiz })));
+const G3TimeG3Theory = lazy(() => import("@/components/math/grade-3/meresek/az-ido-merese/TimeG3Theory").then(m => ({ default: m.TimeG3Theory })));
+const G3TimeG3Quiz = lazy(() => import("@/components/math/grade-3/meresek/az-ido-merese/TimeG3Quiz").then(m => ({ default: m.TimeG3Quiz })));
+const G3MeasurementsExamG3Theory = lazy(() => import("@/components/math/grade-3/meresek/gyakorlas-tudasproba/MeasurementsExamG3Theory").then(m => ({ default: m.MeasurementsExamG3Theory })));
+const G3MeasurementsExamG3Quiz = lazy(() => import("@/components/math/grade-3/meresek/gyakorlas-tudasproba/MeasurementsExamG3Quiz").then(m => ({ default: m.MeasurementsExamG3Quiz })));
 
 export const Grade3Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -668,6 +688,348 @@ export const Grade3Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g3-c200-tudasproba-theory', selectedTopic || 'g3-count-200')}
           onSwitchToMatcher={() => handleActivitySelect('g3-c200-tudasproba-matcher', selectedTopic || 'g3-count-200')}
           onSwitchToSorter={() => handleActivitySelect('g3-c200-tudasproba-sorter', selectedTopic || 'g3-count-200')}
+        />
+      )}
+
+      {/* ===== 3. Osztály – IV. Mérések ===== */}
+
+      {/* 1. Mit mivel mérünk? */}
+      {activityType === 'g3-meas-mit-mivel-theory' && (
+        <G3WhatToMeasureG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-meas-mit-mivel-quiz', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-mit-mivel-quiz' && (
+        <G3WhatToMeasureG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-mit-mivel-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-mit-mivel-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-mit-mivel-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-mit-mivel-matcher' && (
+        <G3WhatToMeasureG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-mit-mivel-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-mit-mivel-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-mit-mivel-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-mit-mivel-sorter' && (
+        <G3WhatToMeasureG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-mit-mivel-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-mit-mivel-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-mit-mivel-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+
+      {/* 2. A tömeg mérése */}
+      {activityType === 'g3-meas-tomeg-theory' && (
+        <G3MassG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-meas-tomeg-quiz', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-tomeg-quiz' && (
+        <G3MassG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-tomeg-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-tomeg-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-tomeg-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-tomeg-matcher' && (
+        <G3MassG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-tomeg-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-tomeg-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-tomeg-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-tomeg-sorter' && (
+        <G3MassG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-tomeg-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-tomeg-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-tomeg-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+
+      {/* 3. Az űrtartalom mérése */}
+      {activityType === 'g3-meas-urtartalom-theory' && (
+        <G3CapacityG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-meas-urtartalom-quiz', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-urtartalom-quiz' && (
+        <G3CapacityG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-urtartalom-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-urtartalom-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-urtartalom-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-urtartalom-matcher' && (
+        <G3CapacityG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-urtartalom-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-urtartalom-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-urtartalom-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-urtartalom-sorter' && (
+        <G3CapacityG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-urtartalom-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-urtartalom-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-urtartalom-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+
+      {/* 4. A hosszúság mérése */}
+      {activityType === 'g3-meas-hosszusag-theory' && (
+        <G3LengthG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-meas-hosszusag-quiz', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-hosszusag-quiz' && (
+        <G3LengthG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-hosszusag-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-hosszusag-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-hosszusag-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-hosszusag-matcher' && (
+        <G3LengthG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-hosszusag-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-hosszusag-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-hosszusag-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-hosszusag-sorter' && (
+        <G3LengthG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-hosszusag-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-hosszusag-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-hosszusag-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+
+      {/* 5. A kerület mérése */}
+      {activityType === 'g3-meas-kerulet-theory' && (
+        <G3PerimeterG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-meas-kerulet-quiz', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-kerulet-quiz' && (
+        <G3PerimeterG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-kerulet-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-kerulet-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-kerulet-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-kerulet-matcher' && (
+        <G3PerimeterG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-kerulet-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-kerulet-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-kerulet-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-kerulet-sorter' && (
+        <G3PerimeterG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-kerulet-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-kerulet-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-kerulet-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+
+      {/* 6. A téglalap és a négyzet kerülete */}
+      {activityType === 'g3-meas-teglalap-kerulet-theory' && (
+        <G3RectPerimeterG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-meas-teglalap-kerulet-quiz', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-teglalap-kerulet-quiz' && (
+        <G3RectPerimeterG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-teglalap-kerulet-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-teglalap-kerulet-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-teglalap-kerulet-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-teglalap-kerulet-matcher' && (
+        <G3RectPerimeterG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-teglalap-kerulet-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-teglalap-kerulet-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-teglalap-kerulet-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-teglalap-kerulet-sorter' && (
+        <G3RectPerimeterG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-teglalap-kerulet-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-teglalap-kerulet-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-teglalap-kerulet-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+
+      {/* 7. A terület mérése */}
+      {activityType === 'g3-meas-terulet-theory' && (
+        <G3AreaG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-meas-terulet-quiz', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-terulet-quiz' && (
+        <G3AreaG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-terulet-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-terulet-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-terulet-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-terulet-matcher' && (
+        <G3AreaG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-terulet-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-terulet-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-terulet-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-terulet-sorter' && (
+        <G3AreaG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-terulet-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-terulet-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-terulet-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+
+      {/* 8. A téglalap és a négyzet területe */}
+      {activityType === 'g3-meas-teglalap-terulet-theory' && (
+        <G3RectAreaG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-meas-teglalap-terulet-quiz', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-teglalap-terulet-quiz' && (
+        <G3RectAreaG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-teglalap-terulet-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-teglalap-terulet-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-teglalap-terulet-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-teglalap-terulet-matcher' && (
+        <G3RectAreaG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-teglalap-terulet-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-teglalap-terulet-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-teglalap-terulet-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-teglalap-terulet-sorter' && (
+        <G3RectAreaG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-teglalap-terulet-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-teglalap-terulet-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-teglalap-terulet-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+
+      {/* 9. Az idő mérése */}
+      {activityType === 'g3-meas-ido-theory' && (
+        <G3TimeG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-meas-ido-quiz', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-ido-quiz' && (
+        <G3TimeG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-ido-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-ido-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-ido-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-ido-matcher' && (
+        <G3TimeG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-ido-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-ido-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-ido-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-ido-sorter' && (
+        <G3TimeG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-ido-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-ido-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-ido-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+
+      {/* 10. Gyakorlás, tudáspróba */}
+      {activityType === 'g3-meas-tudasproba-theory' && (
+        <G3MeasurementsExamG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-meas-tudasproba-quiz', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-tudasproba-quiz' && (
+        <G3MeasurementsExamG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-tudasproba-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-tudasproba-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-tudasproba-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-tudasproba-matcher' && (
+        <G3MeasurementsExamG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-tudasproba-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-tudasproba-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-tudasproba-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+      {activityType === 'g3-meas-tudasproba-sorter' && (
+        <G3MeasurementsExamG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-meas-tudasproba-theory', selectedTopic || 'g3-measurements-1')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-meas-tudasproba-matcher', selectedTopic || 'g3-measurements-1')}
+          onSwitchToSorter={() => handleActivitySelect('g3-meas-tudasproba-sorter', selectedTopic || 'g3-measurements-1')}
         />
       )}
     </>
