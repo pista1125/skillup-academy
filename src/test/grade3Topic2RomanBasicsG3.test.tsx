@@ -4,8 +4,8 @@ import { render } from '@testing-library/react';
 
 import { RomanBasicsG3Theory } from '@/components/math/grade-3/romai-szamok/alapveto-szamjegyek-szabalyok/RomanBasicsG3Theory';
 import { RomanBasicsG3Quiz, ROMAN_BASICS_G3_QUESTIONS } from '@/components/math/grade-3/romai-szamok/alapveto-szamjegyek-szabalyok/RomanBasicsG3Quiz';
-import { RomanBasicsG3Matcher } from '@/components/math/grade-3/romai-szamok/alapveto-szamjegyek-szabalyok/RomanBasicsG3Matcher';
-import { RomanBasicsG3Sorter } from '@/components/math/grade-3/romai-szamok/alapveto-szamjegyek-szabalyok/RomanBasicsG3Sorter';
+import { RomanBasicsG3Matcher, ROMAN_BASICS_G3_MATCHER_LEVELS } from '@/components/math/grade-3/romai-szamok/alapveto-szamjegyek-szabalyok/RomanBasicsG3Matcher';
+import { RomanBasicsG3Sorter, ROMAN_BASICS_G3_SORTER_LEVELS } from '@/components/math/grade-3/romai-szamok/alapveto-szamjegyek-szabalyok/RomanBasicsG3Sorter';
 import {
   RomanSignsSvg,
   RomanOriginSvg,
@@ -61,4 +61,14 @@ describe('Grade 3 Topic II - 1. A római számjegyek és alapszabályok - Compon
       expect(container.querySelector('svg')).toBeTruthy();
     });
   });
+
+  it('has card figures: at least 4 matcher pairs and 4 sorter items per level', () => {
+    ([1, 2, 3] as const).forEach((l) => {
+      expect(ROMAN_BASICS_G3_MATCHER_LEVELS[l].pairs).toHaveLength(8);
+      expect(ROMAN_BASICS_G3_MATCHER_LEVELS[l].pairs.filter((p) => p.promptFigure || p.valueFigure).length).toBeGreaterThanOrEqual(4);
+      expect(ROMAN_BASICS_G3_SORTER_LEVELS[l].items).toHaveLength(9);
+      expect(ROMAN_BASICS_G3_SORTER_LEVELS[l].items.filter((i) => i.figure).length).toBeGreaterThanOrEqual(4);
+    });
+  });
 });
+

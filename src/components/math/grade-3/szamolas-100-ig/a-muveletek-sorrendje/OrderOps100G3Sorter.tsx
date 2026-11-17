@@ -1,6 +1,7 @@
 import React from 'react';
 import { SorterTemplate, SorterLevelConfig } from '../SorterTemplate';
 import { DifficultyLevel } from '../QuizTemplate';
+import { BagsSmallCard, ChainSmallCard } from './OrderOps100G3CardFigures';
 
 interface OrderOps100G3SorterProps {
   level?: DifficultyLevel;
@@ -28,14 +29,14 @@ const ORDER_OPS_100_G3_SORTER_LEVELS_LIST: SorterLevelConfig[] = [
       { id: 'sub', name: 'Először: kivonás (−)', color: 'sky' }
     ],
     items: [
-      { id: 'oo100s1', text: '7 + 4 · 5', categoryId: 'mul' },
+      { id: 'oo100s1', text: '7 + 4 · 5', categoryId: 'mul', figure: <BagsSmallCard bags={4} each={5} loose={7} /> },
       { id: 'oo100s2', text: '30 − 3 · 6', categoryId: 'mul' },
-      { id: 'oo100s3', text: '2 · 9 + 40', categoryId: 'mul' },
+      { id: 'oo100s3', text: '2 · 9 + 40', categoryId: 'mul', figure: <BagsSmallCard bags={2} each={9} loose={40} /> },
       { id: 'oo100s4', text: '20 − 12 : 4', categoryId: 'div' },
       { id: 'oo100s5', text: '45 + 18 : 9', categoryId: 'div' },
       { id: 'oo100s6', text: '40 : 8 · 3', categoryId: 'div' },
-      { id: 'oo100s7', text: '60 − 18 + 7', categoryId: 'sub' },
-      { id: 'oo100s8', text: '50 − 20 − 10', categoryId: 'sub' },
+      { id: 'oo100s7', text: '60 − 18 + 7', categoryId: 'sub', figure: <ChainSmallCard start="60" ops={['− 18', '+ 7']} /> },
+      { id: 'oo100s8', text: '50 − 20 − 10', categoryId: 'sub', figure: <ChainSmallCard start="50" ops={['− 20', '− 10']} /> },
       { id: 'oo100s9', text: '90 − 40 + 5', categoryId: 'sub' }
     ]
   },
@@ -49,15 +50,15 @@ const ORDER_OPS_100_G3_SORTER_LEVELS_LIST: SorterLevelConfig[] = [
       { id: 'r36', name: 'Eredménye 36', color: 'rose' }
     ],
     items: [
-      { id: 'oo100s10', text: '4 + 4 · 5', categoryId: 'r24' },
-      { id: 'oo100s11', text: '6 · 3 + 6', categoryId: 'r24' },
+      { id: 'oo100s10', text: '4 + 4 · 5', categoryId: 'r24', figure: <BagsSmallCard bags={4} each={5} loose={4} /> },
+      { id: 'oo100s11', text: '3 · 6 + 6', categoryId: 'r24', figure: <BagsSmallCard bags={3} each={6} loose={6} /> },
       { id: 'oo100s12', text: '30 − 18 : 3', categoryId: 'r24' },
-      { id: 'oo100s13', text: '5 · 4 + 10', categoryId: 'r30' },
+      { id: 'oo100s13', text: '2 · 10 + 10', categoryId: 'r30', figure: <BagsSmallCard bags={2} each={10} loose={10} /> },
       { id: 'oo100s14', text: '40 − 2 · 5', categoryId: 'r30' },
-      { id: 'oo100s15', text: '3 · 8 + 6', categoryId: 'r30' },
+      { id: 'oo100s15', text: '3 · 8 + 6', categoryId: 'r30', figure: <BagsSmallCard bags={3} each={8} loose={6} /> },
       { id: 'oo100s16', text: '6 + 6 · 5', categoryId: 'r36' },
       { id: 'oo100s17', text: '40 − 8 : 2', categoryId: 'r36' },
-      { id: 'oo100s18', text: '9 · 3 + 9', categoryId: 'r36' }
+      { id: 'oo100s18', text: '3 · 9 + 9', categoryId: 'r36', figure: <BagsSmallCard bags={3} each={9} loose={9} /> }
     ]
   },
   {
@@ -70,20 +71,20 @@ const ORDER_OPS_100_G3_SORTER_LEVELS_LIST: SorterLevelConfig[] = [
       { id: 'calc', name: 'Elszámolta', color: 'slate' }
     ],
     items: [
-      { id: 'oo100s19', text: '4 + 2 · 3 = 10', categoryId: 'ok' },
+      { id: 'oo100s19', text: '4 + 2 · 3 = 10', categoryId: 'ok', figure: <BagsSmallCard bags={2} each={3} loose={4} /> },
       { id: 'oo100s20', text: '20 − 8 : 2 = 16', categoryId: 'ok' },
-      { id: 'oo100s21', text: '6 · 5 − 4 = 26', categoryId: 'ok' },
-      { id: 'oo100s22', text: '4 + 2 · 3 = 18', categoryId: 'order' },
+      { id: 'oo100s21', text: '6 · 5 − 4 = 26', categoryId: 'ok', figure: <BagsSmallCard bags={6} each={5} loose={4} gone /> },
+      { id: 'oo100s22', text: '4 + 2 · 3 = 18', categoryId: 'order', figure: <BagsSmallCard bags={2} each={3} loose={4} /> },
       { id: 'oo100s23', text: '20 − 8 : 2 = 6', categoryId: 'order' },
       { id: 'oo100s24', text: '10 + 5 · 2 = 30', categoryId: 'order' },
-      { id: 'oo100s25', text: '6 · 5 − 4 = 24', categoryId: 'calc' },
+      { id: 'oo100s25', text: '6 · 5 − 4 = 24', categoryId: 'calc', figure: <BagsSmallCard bags={6} each={5} loose={4} gone /> },
       { id: 'oo100s26', text: '10 + 5 · 2 = 22', categoryId: 'calc' },
-      { id: 'oo100s27', text: '4 + 2 · 3 = 11', categoryId: 'calc' }
+      { id: 'oo100s27', text: '4 + 2 · 3 = 11', categoryId: 'calc', figure: <BagsSmallCard bags={2} each={3} loose={4} /> }
     ]
   }
 ];
 
-const ORDER_OPS_100_G3_SORTER_LEVELS: Record<DifficultyLevel, SorterLevelConfig> = {
+export const ORDER_OPS_100_G3_SORTER_LEVELS: Record<DifficultyLevel, SorterLevelConfig> = {
   1: ORDER_OPS_100_G3_SORTER_LEVELS_LIST[0],
   2: ORDER_OPS_100_G3_SORTER_LEVELS_LIST[1],
   3: ORDER_OPS_100_G3_SORTER_LEVELS_LIST[2]

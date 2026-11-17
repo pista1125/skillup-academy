@@ -4,8 +4,8 @@ import { render } from '@testing-library/react';
 
 import { RomanReadWriteG3Theory } from '@/components/math/grade-3/romai-szamok/iras-olvasas-100-ig/RomanReadWriteG3Theory';
 import { RomanReadWriteG3Quiz, ROMAN_READ_WRITE_G3_QUESTIONS } from '@/components/math/grade-3/romai-szamok/iras-olvasas-100-ig/RomanReadWriteG3Quiz';
-import { RomanReadWriteG3Matcher } from '@/components/math/grade-3/romai-szamok/iras-olvasas-100-ig/RomanReadWriteG3Matcher';
-import { RomanReadWriteG3Sorter } from '@/components/math/grade-3/romai-szamok/iras-olvasas-100-ig/RomanReadWriteG3Sorter';
+import { RomanReadWriteG3Matcher, ROMAN_READ_WRITE_G3_MATCHER_LEVELS } from '@/components/math/grade-3/romai-szamok/iras-olvasas-100-ig/RomanReadWriteG3Matcher';
+import { RomanReadWriteG3Sorter, ROMAN_READ_WRITE_G3_SORTER_LEVELS } from '@/components/math/grade-3/romai-szamok/iras-olvasas-100-ig/RomanReadWriteG3Sorter';
 import {
   TensOnesTableSvg,
   WriteStepsSvg,
@@ -60,4 +60,14 @@ describe('Grade 3 Topic II - 2. Római számok írása és olvasása 100-ig - Co
       expect(container.querySelector('svg')).toBeTruthy();
     });
   });
+
+  it('has card figures: at least 4 matcher pairs and 4 sorter items per level', () => {
+    ([1, 2, 3] as const).forEach((l) => {
+      expect(ROMAN_READ_WRITE_G3_MATCHER_LEVELS[l].pairs).toHaveLength(8);
+      expect(ROMAN_READ_WRITE_G3_MATCHER_LEVELS[l].pairs.filter((p) => p.promptFigure || p.valueFigure).length).toBeGreaterThanOrEqual(4);
+      expect(ROMAN_READ_WRITE_G3_SORTER_LEVELS[l].items).toHaveLength(9);
+      expect(ROMAN_READ_WRITE_G3_SORTER_LEVELS[l].items.filter((i) => i.figure).length).toBeGreaterThanOrEqual(4);
+    });
+  });
 });
+

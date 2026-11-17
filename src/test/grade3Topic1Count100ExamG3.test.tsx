@@ -4,8 +4,8 @@ import { render } from '@testing-library/react';
 
 import { Count100ExamG3Theory, makeCount100Task, makeDivTask, Count100TaskKind } from '@/components/math/grade-3/szamolas-100-ig/megallo/Count100ExamG3Theory';
 import { Count100ExamG3Quiz, COUNT100_EXAM_G3_QUESTIONS } from '@/components/math/grade-3/szamolas-100-ig/megallo/Count100ExamG3Quiz';
-import { Count100ExamG3Matcher } from '@/components/math/grade-3/szamolas-100-ig/megallo/Count100ExamG3Matcher';
-import { Count100ExamG3Sorter } from '@/components/math/grade-3/szamolas-100-ig/megallo/Count100ExamG3Sorter';
+import { Count100ExamG3Matcher, COUNT100_EXAM_G3_MATCHER_LEVELS } from '@/components/math/grade-3/szamolas-100-ig/megallo/Count100ExamG3Matcher';
+import { Count100ExamG3Sorter, COUNT100_EXAM_G3_SORTER_LEVELS } from '@/components/math/grade-3/szamolas-100-ig/megallo/Count100ExamG3Sorter';
 import {
   Count100TensOnesSvg,
   Count100NumberLineSvg,
@@ -85,4 +85,14 @@ describe('Grade 3 Topic I - 8. Megálló – tudáspróba', () => {
       expect(container.querySelector('svg')).toBeTruthy();
     });
   });
+
+  it('has card figures: at least 4 matcher pairs and 4 sorter items per level', () => {
+    ([1, 2, 3] as const).forEach((l) => {
+      expect(COUNT100_EXAM_G3_MATCHER_LEVELS[l].pairs).toHaveLength(8);
+      expect(COUNT100_EXAM_G3_MATCHER_LEVELS[l].pairs.filter((p) => p.promptFigure || p.valueFigure).length).toBeGreaterThanOrEqual(4);
+      expect(COUNT100_EXAM_G3_SORTER_LEVELS[l].items).toHaveLength(9);
+      expect(COUNT100_EXAM_G3_SORTER_LEVELS[l].items.filter((i) => i.figure).length).toBeGreaterThanOrEqual(4);
+    });
+  });
 });
+

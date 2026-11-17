@@ -4,8 +4,8 @@ import { render } from '@testing-library/react';
 
 import { Brackets100G3Theory } from '@/components/math/grade-3/szamolas-100-ig/a-zarojel-hasznalata/Brackets100G3Theory';
 import { Brackets100G3Quiz, BRACKETS_100_G3_QUESTIONS } from '@/components/math/grade-3/szamolas-100-ig/a-zarojel-hasznalata/Brackets100G3Quiz';
-import { Brackets100G3Matcher } from '@/components/math/grade-3/szamolas-100-ig/a-zarojel-hasznalata/Brackets100G3Matcher';
-import { Brackets100G3Sorter } from '@/components/math/grade-3/szamolas-100-ig/a-zarojel-hasznalata/Brackets100G3Sorter';
+import { Brackets100G3Matcher, BRACKETS_100_G3_MATCHER_LEVELS } from '@/components/math/grade-3/szamolas-100-ig/a-zarojel-hasznalata/Brackets100G3Matcher';
+import { Brackets100G3Sorter, BRACKETS_100_G3_SORTER_LEVELS } from '@/components/math/grade-3/szamolas-100-ig/a-zarojel-hasznalata/Brackets100G3Sorter';
 import {
   NutsShareSvg,
   PlatesSvg,
@@ -54,4 +54,14 @@ describe('Grade 3 Topic I - 7. A zárójel használata - Components', () => {
       expect(container.querySelector('svg')).toBeTruthy();
     });
   });
+
+  it('has card figures: at least 4 matcher pairs and 4 sorter items per level', () => {
+    ([1, 2, 3] as const).forEach((l) => {
+      expect(BRACKETS_100_G3_MATCHER_LEVELS[l].pairs).toHaveLength(8);
+      expect(BRACKETS_100_G3_MATCHER_LEVELS[l].pairs.filter((p) => p.promptFigure || p.valueFigure).length).toBeGreaterThanOrEqual(4);
+      expect(BRACKETS_100_G3_SORTER_LEVELS[l].items).toHaveLength(9);
+      expect(BRACKETS_100_G3_SORTER_LEVELS[l].items.filter((i) => i.figure).length).toBeGreaterThanOrEqual(4);
+    });
+  });
 });
+

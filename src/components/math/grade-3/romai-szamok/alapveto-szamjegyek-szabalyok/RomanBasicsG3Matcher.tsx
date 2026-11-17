@@ -1,6 +1,7 @@
 import React from 'react';
 import { MatcherTemplate, MatcherLevelConfig } from '../MatcherTemplate';
 import { DifficultyLevel } from '../QuizTemplate';
+import { TenFramesCard, SignBadgeCard } from './RomanBasicsG3CardFigures';
 
 interface RomanBasicsG3MatcherProps {
   level?: DifficultyLevel;
@@ -24,13 +25,13 @@ const ROMAN_BASICS_G3_MATCHER_LEVELS_LIST: MatcherLevelConfig[] = [
     description: "Párosítsd a római jelet az értékével!",
     pairs: [
       { id: 'g3-rom-alapok-m1', left: "I", right: "1" },
-      { id: 'g3-rom-alapok-m2', left: "V", right: "5" },
-      { id: 'g3-rom-alapok-m3', left: "X", right: "10" },
+      { id: 'g3-rom-alapok-m2', left: "V", right: "", valueFigure: <TenFramesCard n={5} /> },
+      { id: 'g3-rom-alapok-m3', left: "X", right: "", valueFigure: <TenFramesCard n={10} /> },
       { id: 'g3-rom-alapok-m4', left: "L", right: "50" },
       { id: 'g3-rom-alapok-m5', left: "C", right: "100" },
-      { id: 'g3-rom-alapok-m6', left: "II", right: "2" },
-      { id: 'g3-rom-alapok-m7', left: "III", right: "3" },
-      { id: 'g3-rom-alapok-m8', left: "XX", right: "20" }
+      { id: 'g3-rom-alapok-m6', left: "II", right: "", valueFigure: <TenFramesCard n={2} /> },
+      { id: 'g3-rom-alapok-m7', left: "III", right: "", valueFigure: <TenFramesCard n={3} /> },
+      { id: 'g3-rom-alapok-m8', left: "XX", right: "", valueFigure: <TenFramesCard n={20} /> }
     ]
   },
   {
@@ -38,13 +39,13 @@ const ROMAN_BASICS_G3_MATCHER_LEVELS_LIST: MatcherLevelConfig[] = [
     title: "2. szint: Kis számok",
     description: "Párosítsd a római számot az arab számmal!",
     pairs: [
-      { id: 'g3-rom-alapok-m9', left: "IV", right: "4" },
+      { id: 'g3-rom-alapok-m9', left: "IV", right: "", valueFigure: <TenFramesCard n={4} /> },
       { id: 'g3-rom-alapok-m10', left: "VI", right: "6" },
-      { id: 'g3-rom-alapok-m11', left: "IX", right: "9" },
+      { id: 'g3-rom-alapok-m11', left: "IX", right: "", valueFigure: <TenFramesCard n={9} /> },
       { id: 'g3-rom-alapok-m12', left: "XI", right: "11" },
-      { id: 'g3-rom-alapok-m13', left: "XIV", right: "14" },
+      { id: 'g3-rom-alapok-m13', left: "XIV", right: "", valueFigure: <TenFramesCard n={14} /> },
       { id: 'g3-rom-alapok-m14', left: "XVI", right: "16" },
-      { id: 'g3-rom-alapok-m15', left: "XIX", right: "19" },
+      { id: 'g3-rom-alapok-m15', left: "XIX", right: "", valueFigure: <TenFramesCard n={19} /> },
       { id: 'g3-rom-alapok-m16', left: "XXI", right: "21" }
     ]
   },
@@ -53,19 +54,19 @@ const ROMAN_BASICS_G3_MATCHER_LEVELS_LIST: MatcherLevelConfig[] = [
     title: "3. szint: Hozzáadás vagy elvevés?",
     description: "Párosítsd a római számot a számolással!",
     pairs: [
-      { id: 'g3-rom-alapok-m17', left: "IV", right: "5 − 1" },
+      { id: 'g3-rom-alapok-m17', left: "", promptFigure: <SignBadgeCard s="IV" />, right: "5 − 1" },
       { id: 'g3-rom-alapok-m18', left: "VI", right: "5 + 1" },
       { id: 'g3-rom-alapok-m19', left: "IX", right: "10 − 1" },
-      { id: 'g3-rom-alapok-m20', left: "XV", right: "10 + 5" },
-      { id: 'g3-rom-alapok-m21', left: "XL", right: "50 − 10" },
+      { id: 'g3-rom-alapok-m20', left: "", promptFigure: <SignBadgeCard s="XV" />, right: "10 + 5" },
+      { id: 'g3-rom-alapok-m21', left: "", promptFigure: <SignBadgeCard s="XL" />, right: "50 − 10" },
       { id: 'g3-rom-alapok-m22', left: "LX", right: "50 + 10" },
       { id: 'g3-rom-alapok-m23', left: "XC", right: "100 − 10" },
-      { id: 'g3-rom-alapok-m24', left: "LV", right: "50 + 5" }
+      { id: 'g3-rom-alapok-m24', left: "", promptFigure: <SignBadgeCard s="LV" />, right: "50 + 5" }
     ]
   }
 ];
 
-const ROMAN_BASICS_G3_MATCHER_LEVELS: Record<DifficultyLevel, MatcherLevelConfig> = {
+export const ROMAN_BASICS_G3_MATCHER_LEVELS: Record<DifficultyLevel, MatcherLevelConfig> = {
   1: ROMAN_BASICS_G3_MATCHER_LEVELS_LIST[0],
   2: ROMAN_BASICS_G3_MATCHER_LEVELS_LIST[1],
   3: ROMAN_BASICS_G3_MATCHER_LEVELS_LIST[2]

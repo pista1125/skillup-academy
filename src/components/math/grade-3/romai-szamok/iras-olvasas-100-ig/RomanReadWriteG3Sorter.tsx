@@ -1,6 +1,7 @@
 import React from 'react';
 import { SorterTemplate, SorterLevelConfig } from '../SorterTemplate';
 import { DifficultyLevel } from '../QuizTemplate';
+import { SplitSmallCard } from './RomanReadWriteG3CardFigures';
 
 interface RomanReadWriteG3SorterProps {
   level?: DifficultyLevel;
@@ -28,14 +29,14 @@ const ROMAN_READ_WRITE_G3_SORTER_LEVELS_LIST: SorterLevelConfig[] = [
       { id: 't40', name: "40-től 49-ig", color: 'rose' }
     ],
     items: [
-      { id: 'g3-rom-iras-olvasas-s1', text: "XXIV", categoryId: 't20' },
+      { id: 'g3-rom-iras-olvasas-s1', text: "XXIV", categoryId: 't20', figure: <SplitSmallCard s="XXIV" /> },
       { id: 'g3-rom-iras-olvasas-s2', text: "XXIX", categoryId: 't20' },
       { id: 'g3-rom-iras-olvasas-s3', text: "XXI", categoryId: 't20' },
-      { id: 'g3-rom-iras-olvasas-s4', text: "XXXVI", categoryId: 't30' },
-      { id: 'g3-rom-iras-olvasas-s5', text: "XXXIX", categoryId: 't30' },
+      { id: 'g3-rom-iras-olvasas-s4', text: "XXXVI", categoryId: 't30', figure: <SplitSmallCard s="XXXVI" /> },
+      { id: 'g3-rom-iras-olvasas-s5', text: "XXXIX", categoryId: 't30', figure: <SplitSmallCard s="XXXIX" /> },
       { id: 'g3-rom-iras-olvasas-s6', text: "XXXII", categoryId: 't30' },
-      { id: 'g3-rom-iras-olvasas-s7', text: "XLI", categoryId: 't40' },
-      { id: 'g3-rom-iras-olvasas-s8', text: "XLVIII", categoryId: 't40' },
+      { id: 'g3-rom-iras-olvasas-s7', text: "XLI", categoryId: 't40', figure: <SplitSmallCard s="XLI" /> },
+      { id: 'g3-rom-iras-olvasas-s8', text: "XLVIII", categoryId: 't40', figure: <SplitSmallCard s="XLVIII" /> },
       { id: 'g3-rom-iras-olvasas-s9', text: "XLV", categoryId: 't40' }
     ]
   },
@@ -49,15 +50,15 @@ const ROMAN_READ_WRITE_G3_SORTER_LEVELS_LIST: SorterLevelConfig[] = [
       { id: 't90', name: "90-től 99-ig", color: 'teal' }
     ],
     items: [
-      { id: 'g3-rom-iras-olvasas-s10', text: "LVII", categoryId: 't50' },
+      { id: 'g3-rom-iras-olvasas-s10', text: "LVII", categoryId: 't50', figure: <SplitSmallCard s="LVII" /> },
       { id: 'g3-rom-iras-olvasas-s11', text: "LIV", categoryId: 't50' },
       { id: 'g3-rom-iras-olvasas-s12', text: "LIX", categoryId: 't50' },
-      { id: 'g3-rom-iras-olvasas-s13', text: "LXXI", categoryId: 't70' },
-      { id: 'g3-rom-iras-olvasas-s14', text: "LXXVIII", categoryId: 't70' },
+      { id: 'g3-rom-iras-olvasas-s13', text: "LXXI", categoryId: 't70', figure: <SplitSmallCard s="LXXI" /> },
+      { id: 'g3-rom-iras-olvasas-s14', text: "LXXVIII", categoryId: 't70', figure: <SplitSmallCard s="LXXVIII" /> },
       { id: 'g3-rom-iras-olvasas-s15', text: "LXXIII", categoryId: 't70' },
-      { id: 'g3-rom-iras-olvasas-s16', text: "XCII", categoryId: 't90' },
+      { id: 'g3-rom-iras-olvasas-s16', text: "XCII", categoryId: 't90', figure: <SplitSmallCard s="XCII" /> },
       { id: 'g3-rom-iras-olvasas-s17', text: "XCVI", categoryId: 't90' },
-      { id: 'g3-rom-iras-olvasas-s18', text: "XCIX", categoryId: 't90' }
+      { id: 'g3-rom-iras-olvasas-s18', text: "XCIX", categoryId: 't90', figure: <SplitSmallCard s="XCIX" /> }
     ]
   },
   {
@@ -70,20 +71,20 @@ const ROMAN_READ_WRITE_G3_SORTER_LEVELS_LIST: SorterLevelConfig[] = [
       { id: 'big', name: "80-tól 100-ig", color: 'rose' }
     ],
     items: [
-      { id: 'g3-rom-iras-olvasas-s19', text: "XXXVIII", categoryId: 'lt50' },
-      { id: 'g3-rom-iras-olvasas-s20', text: "XLIX", categoryId: 'lt50' },
+      { id: 'g3-rom-iras-olvasas-s19', text: "XXXVIII", categoryId: 'lt50', figure: <SplitSmallCard s="XXXVIII" /> },
+      { id: 'g3-rom-iras-olvasas-s20', text: "XLIX", categoryId: 'lt50', figure: <SplitSmallCard s="XLIX" /> },
       { id: 'g3-rom-iras-olvasas-s21', text: "XXXIII", categoryId: 'lt50' },
-      { id: 'g3-rom-iras-olvasas-s22', text: "LI", categoryId: 'mid' },
+      { id: 'g3-rom-iras-olvasas-s22', text: "LI", categoryId: 'mid', figure: <SplitSmallCard s="LI" /> },
       { id: 'g3-rom-iras-olvasas-s23', text: "LXXIV", categoryId: 'mid' },
       { id: 'g3-rom-iras-olvasas-s24', text: "LXVIII", categoryId: 'mid' },
-      { id: 'g3-rom-iras-olvasas-s25', text: "LXXXVIII", categoryId: 'big' },
-      { id: 'g3-rom-iras-olvasas-s26', text: "XC", categoryId: 'big' },
+      { id: 'g3-rom-iras-olvasas-s25', text: "LXXXVIII", categoryId: 'big', figure: <SplitSmallCard s="LXXXVIII" /> },
+      { id: 'g3-rom-iras-olvasas-s26', text: "XC", categoryId: 'big', figure: <SplitSmallCard s="XC" /> },
       { id: 'g3-rom-iras-olvasas-s27', text: "C", categoryId: 'big' }
     ]
   }
 ];
 
-const ROMAN_READ_WRITE_G3_SORTER_LEVELS: Record<DifficultyLevel, SorterLevelConfig> = {
+export const ROMAN_READ_WRITE_G3_SORTER_LEVELS: Record<DifficultyLevel, SorterLevelConfig> = {
   1: ROMAN_READ_WRITE_G3_SORTER_LEVELS_LIST[0],
   2: ROMAN_READ_WRITE_G3_SORTER_LEVELS_LIST[1],
   3: ROMAN_READ_WRITE_G3_SORTER_LEVELS_LIST[2]

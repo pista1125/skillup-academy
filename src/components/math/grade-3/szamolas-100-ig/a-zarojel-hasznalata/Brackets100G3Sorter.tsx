@@ -1,6 +1,7 @@
 import React from 'react';
 import { SorterTemplate, SorterLevelConfig } from '../SorterTemplate';
 import { DifficultyLevel } from '../QuizTemplate';
+import { PlatesCard, ShareCard, PurseCard, BusDownCard } from './Brackets100G3CardFigures';
 
 interface Brackets100G3SorterProps {
   level?: DifficultyLevel;
@@ -28,15 +29,15 @@ const BRACKETS_100_G3_SORTER_LEVELS_LIST: SorterLevelConfig[] = [
       { id: 'r30', name: 'Eredménye 30', color: 'violet' }
     ],
     items: [
-      { id: 'br100s1', text: '(8 + 12) : 2', categoryId: 'r10' },
+      { id: 'br100s1', text: '(8 + 12) : 2', categoryId: 'r10', figure: <ShareCard piles={[8, 12]} kids={2} small /> },
       { id: 'br100s2', text: '(25 − 5) : 2', categoryId: 'r10' },
       { id: 'br100s3', text: '5 · (7 − 5)', categoryId: 'r10' },
-      { id: 'br100s4', text: '(6 + 4) · 2', categoryId: 'r20' },
+      { id: 'br100s4', text: '(6 + 4) · 2', categoryId: 'r20', figure: <PlatesCard plates={2} a={6} b={4} small /> },
       { id: 'br100s5', text: '4 · (8 − 3)', categoryId: 'r20' },
       { id: 'br100s6', text: '(50 − 10) : 2', categoryId: 'r20' },
       { id: 'br100s7', text: '(2 + 3) · 6', categoryId: 'r30' },
-      { id: 'br100s8', text: '60 − (20 + 10)', categoryId: 'r30' },
-      { id: 'br100s9', text: '3 · (4 + 6)', categoryId: 'r30' }
+      { id: 'br100s8', text: '60 − (20 + 10)', categoryId: 'r30', figure: <PurseCard money={60} prices={[20, 10]} small /> },
+      { id: 'br100s9', text: '3 · (4 + 6)', categoryId: 'r30', figure: <PlatesCard plates={3} a={4} b={6} small /> }
     ]
   },
   {
@@ -49,14 +50,14 @@ const BRACKETS_100_G3_SORTER_LEVELS_LIST: SorterLevelConfig[] = [
       { id: 'mul', name: 'Először: szorzás (·)', color: 'orange' }
     ],
     items: [
-      { id: 'br100s10', text: '(6 + 4) · 3', categoryId: 'add' },
-      { id: 'br100s11', text: '30 − (10 + 5)', categoryId: 'add' },
-      { id: 'br100s12', text: '(9 + 9) : 2', categoryId: 'add' },
+      { id: 'br100s10', text: '(6 + 4) · 3', categoryId: 'add', figure: <PlatesCard plates={3} a={6} b={4} small /> },
+      { id: 'br100s11', text: '30 − (10 + 5)', categoryId: 'add', figure: <PurseCard money={30} prices={[10, 5]} small /> },
+      { id: 'br100s12', text: '(9 + 9) : 2', categoryId: 'add', figure: <ShareCard piles={[9, 9]} kids={2} small /> },
       { id: 'br100s13', text: '7 · (10 − 5)', categoryId: 'sub' },
       { id: 'br100s14', text: '(20 − 8) : 4', categoryId: 'sub' },
       { id: 'br100s15', text: '48 + (15 − 6)', categoryId: 'sub' },
-      { id: 'br100s16', text: '5 + 3 · 4', categoryId: 'mul' },
-      { id: 'br100s17', text: '(3 · 4) + 5', categoryId: 'mul' },
+      { id: 'br100s16', text: '5 + 3 · 4', categoryId: 'mul', figure: <PlatesCard plates={3} a={4} pile={5} pileFirst small /> },
+      { id: 'br100s17', text: '(3 · 4) + 5', categoryId: 'mul', figure: <PlatesCard plates={3} a={4} pile={5} small /> },
       { id: 'br100s18', text: '60 − 4 · 5', categoryId: 'mul' }
     ]
   },
@@ -70,20 +71,20 @@ const BRACKETS_100_G3_SORTER_LEVELS_LIST: SorterLevelConfig[] = [
       { id: 'subsum', name: '□ − (□ + □)', color: 'rose' }
     ],
     items: [
-      { id: 'br100s19', text: '3 sorban soronként 4 piros és 2 kék szék', categoryId: 'mulsum' },
+      { id: 'br100s19', text: '3 sorban soronként 4 piros és 2 kék szék', categoryId: 'mulsum', figure: <PlatesCard plates={3} a={4} b={2} small /> },
       { id: 'br100s20', text: '5 tányéron 2 alma és 3 körte', categoryId: 'mulsum' },
       { id: 'br100s21', text: '4 csomagban 6 kék és 4 sárga ceruza', categoryId: 'mulsum' },
-      { id: 'br100s22', text: '12 és 18 diót 5 gyerek egyenlően oszt el', categoryId: 'sumdiv' },
+      { id: 'br100s22', text: '12 és 18 diót 5 gyerek egyenlően oszt el', categoryId: 'sumdiv', figure: <ShareCard piles={[12, 18]} kids={5} small /> },
       { id: 'br100s23', text: 'Anya 20, apa 16 sütit sütött, 4 tálra egyenlően rakják', categoryId: 'sumdiv' },
       { id: 'br100s24', text: '7 kék és 8 piros golyó 3 egyforma kupacban', categoryId: 'sumdiv' },
-      { id: 'br100s25', text: '50 Ft-ból 15 Ft-ért és 20 Ft-ért vásároltam', categoryId: 'subsum' },
-      { id: 'br100s26', text: '40 utasból 8-an, aztán 12-en leszálltak', categoryId: 'subsum' },
+      { id: 'br100s25', text: '50 Ft-ból 15 Ft-ért és 20 Ft-ért vásároltam', categoryId: 'subsum', figure: <PurseCard money={50} prices={[15, 20]} small /> },
+      { id: 'br100s26', text: '40 utasból 8-an, aztán 12-en leszálltak', categoryId: 'subsum', figure: <BusDownCard onBoard={40} downs={[8, 12]} /> },
       { id: 'br100s27', text: '60 matricámból 25-öt Daninak, 15-öt Katának adtam', categoryId: 'subsum' }
     ]
   }
 ];
 
-const BRACKETS_100_G3_SORTER_LEVELS: Record<DifficultyLevel, SorterLevelConfig> = {
+export const BRACKETS_100_G3_SORTER_LEVELS: Record<DifficultyLevel, SorterLevelConfig> = {
   1: BRACKETS_100_G3_SORTER_LEVELS_LIST[0],
   2: BRACKETS_100_G3_SORTER_LEVELS_LIST[1],
   3: BRACKETS_100_G3_SORTER_LEVELS_LIST[2]

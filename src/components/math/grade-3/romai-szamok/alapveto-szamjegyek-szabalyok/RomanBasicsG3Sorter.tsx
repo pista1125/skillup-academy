@@ -1,6 +1,7 @@
 import React from 'react';
 import { SorterTemplate, SorterLevelConfig } from '../SorterTemplate';
 import { DifficultyLevel } from '../QuizTemplate';
+import { SignChipsCard, SignBarsCard } from './RomanBasicsG3CardFigures';
 
 interface RomanBasicsG3SorterProps {
   level?: DifficultyLevel;
@@ -28,13 +29,13 @@ const ROMAN_BASICS_G3_SORTER_LEVELS_LIST: SorterLevelConfig[] = [
       { id: 'k30', name: "20-tól 39-ig", color: 'rose' }
     ],
     items: [
-      { id: 'g3-rom-alapok-s1', text: "VII", categoryId: 'k10' },
-      { id: 'g3-rom-alapok-s2', text: "IV", categoryId: 'k10' },
+      { id: 'g3-rom-alapok-s1', text: "VII", categoryId: 'k10', figure: <SignChipsCard s="VII" /> },
+      { id: 'g3-rom-alapok-s2', text: "IV", categoryId: 'k10', figure: <SignChipsCard s="IV" /> },
       { id: 'g3-rom-alapok-s3', text: "IX", categoryId: 'k10' },
-      { id: 'g3-rom-alapok-s4', text: "XII", categoryId: 'k20' },
+      { id: 'g3-rom-alapok-s4', text: "XII", categoryId: 'k20', figure: <SignChipsCard s="XII" /> },
       { id: 'g3-rom-alapok-s5', text: "XVIII", categoryId: 'k20' },
       { id: 'g3-rom-alapok-s6', text: "X", categoryId: 'k20' },
-      { id: 'g3-rom-alapok-s7', text: "XXV", categoryId: 'k30' },
+      { id: 'g3-rom-alapok-s7', text: "XXV", categoryId: 'k30', figure: <SignChipsCard s="XXV" /> },
       { id: 'g3-rom-alapok-s8', text: "XXXIII", categoryId: 'k30' },
       { id: 'g3-rom-alapok-s9', text: "XXIX", categoryId: 'k30' }
     ]
@@ -49,15 +50,15 @@ const ROMAN_BASICS_G3_SORTER_LEVELS_LIST: SorterLevelConfig[] = [
       { id: 'bad', name: "Hibás írás", color: 'rose' }
     ],
     items: [
-      { id: 'g3-rom-alapok-s10', text: "XVII", categoryId: 'add' },
+      { id: 'g3-rom-alapok-s10', text: "XVII", categoryId: 'add', figure: <SignBarsCard s="XVII" /> },
       { id: 'g3-rom-alapok-s11', text: "LX", categoryId: 'add' },
       { id: 'g3-rom-alapok-s12', text: "XXII", categoryId: 'add' },
-      { id: 'g3-rom-alapok-s13', text: "XIV", categoryId: 'sub' },
-      { id: 'g3-rom-alapok-s14', text: "XL", categoryId: 'sub' },
+      { id: 'g3-rom-alapok-s13', text: "XIV", categoryId: 'sub', figure: <SignBarsCard s="XIV" /> },
+      { id: 'g3-rom-alapok-s14', text: "XL", categoryId: 'sub', figure: <SignBarsCard s="XL" /> },
       { id: 'g3-rom-alapok-s15', text: "XIX", categoryId: 'sub' },
-      { id: 'g3-rom-alapok-s16', text: "IIII", categoryId: 'bad' },
+      { id: 'g3-rom-alapok-s16', text: "IIII", categoryId: 'bad', figure: <SignBarsCard s="IIII" /> },
       { id: 'g3-rom-alapok-s17', text: "VV", categoryId: 'bad' },
-      { id: 'g3-rom-alapok-s18', text: "VX", categoryId: 'bad' }
+      { id: 'g3-rom-alapok-s18', text: "VX", categoryId: 'bad', figure: <SignBarsCard s="VX" /> }
     ]
   },
   {
@@ -72,18 +73,18 @@ const ROMAN_BASICS_G3_SORTER_LEVELS_LIST: SorterLevelConfig[] = [
     items: [
       { id: 'g3-rom-alapok-s19', text: "IV", categoryId: 's10' },
       { id: 'g3-rom-alapok-s20', text: "VIII", categoryId: 's10' },
-      { id: 'g3-rom-alapok-s21', text: "IX", categoryId: 's10' },
-      { id: 'g3-rom-alapok-s22', text: "XL", categoryId: 's50' },
+      { id: 'g3-rom-alapok-s21', text: "IX", categoryId: 's10', figure: <SignChipsCard s="IX" /> },
+      { id: 'g3-rom-alapok-s22', text: "XL", categoryId: 's50', figure: <SignChipsCard s="XL" /> },
       { id: 'g3-rom-alapok-s23', text: "XXIX", categoryId: 's50' },
       { id: 'g3-rom-alapok-s24', text: "XIV", categoryId: 's50' },
       { id: 'g3-rom-alapok-s25', text: "L", categoryId: 's100' },
-      { id: 'g3-rom-alapok-s26', text: "XC", categoryId: 's100' },
-      { id: 'g3-rom-alapok-s27', text: "LV", categoryId: 's100' }
+      { id: 'g3-rom-alapok-s26', text: "XC", categoryId: 's100', figure: <SignChipsCard s="XC" /> },
+      { id: 'g3-rom-alapok-s27', text: "LV", categoryId: 's100', figure: <SignChipsCard s="LV" /> }
     ]
   }
 ];
 
-const ROMAN_BASICS_G3_SORTER_LEVELS: Record<DifficultyLevel, SorterLevelConfig> = {
+export const ROMAN_BASICS_G3_SORTER_LEVELS: Record<DifficultyLevel, SorterLevelConfig> = {
   1: ROMAN_BASICS_G3_SORTER_LEVELS_LIST[0],
   2: ROMAN_BASICS_G3_SORTER_LEVELS_LIST[1],
   3: ROMAN_BASICS_G3_SORTER_LEVELS_LIST[2]

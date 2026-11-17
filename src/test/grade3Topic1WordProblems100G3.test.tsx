@@ -4,8 +4,8 @@ import { render } from '@testing-library/react';
 
 import { WordProblems100G3Theory } from '@/components/math/grade-3/szamolas-100-ig/szoveges-feladatok/WordProblems100G3Theory';
 import { WordProblems100G3Quiz, WORD_PROBLEMS_100_G3_QUESTIONS } from '@/components/math/grade-3/szamolas-100-ig/szoveges-feladatok/WordProblems100G3Quiz';
-import { WordProblems100G3Matcher } from '@/components/math/grade-3/szamolas-100-ig/szoveges-feladatok/WordProblems100G3Matcher';
-import { WordProblems100G3Sorter } from '@/components/math/grade-3/szamolas-100-ig/szoveges-feladatok/WordProblems100G3Sorter';
+import { WordProblems100G3Matcher, WORD_PROBLEMS_100_G3_MATCHER_LEVELS } from '@/components/math/grade-3/szamolas-100-ig/szoveges-feladatok/WordProblems100G3Matcher';
+import { WordProblems100G3Sorter, WORD_PROBLEMS_100_G3_SORTER_LEVELS } from '@/components/math/grade-3/szamolas-100-ig/szoveges-feladatok/WordProblems100G3Sorter';
 import {
   FiveStepsSvg,
   MoreThanSvg,
@@ -55,4 +55,14 @@ describe('Grade 3 Topic I - 5. Szöveges feladatok - Components', () => {
       expect(container.querySelector('svg')).toBeTruthy();
     });
   });
+
+  it('has card figures: at least 4 matcher pairs and 4 sorter items per level', () => {
+    ([1, 2, 3] as const).forEach((l) => {
+      expect(WORD_PROBLEMS_100_G3_MATCHER_LEVELS[l].pairs).toHaveLength(8);
+      expect(WORD_PROBLEMS_100_G3_MATCHER_LEVELS[l].pairs.filter((p) => p.promptFigure || p.valueFigure).length).toBeGreaterThanOrEqual(4);
+      expect(WORD_PROBLEMS_100_G3_SORTER_LEVELS[l].items).toHaveLength(9);
+      expect(WORD_PROBLEMS_100_G3_SORTER_LEVELS[l].items.filter((i) => i.figure).length).toBeGreaterThanOrEqual(4);
+    });
+  });
 });
+
