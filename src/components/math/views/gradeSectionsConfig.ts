@@ -149,6 +149,7 @@ export const sectionToTopicMap: Record<string, string> = {
   'g3-roman-sec-1': 'g3-roman-numbers',
   'g3-roman-sec-2': 'g3-roman-numbers',
   'g3-roman-sec-3': 'g3-roman-numbers',
+  'g3-roman-sec-4': 'g3-roman-numbers',
   'g3-count-200': 'g3-count-200',
   'g3-count200-sec-1': 'g3-count-200',
   'g3-count200-sec-2': 'g3-count-200',
@@ -166,6 +167,7 @@ export const sectionToTopicMap: Record<string, string> = {
   'g3-meas-sec-7': 'g3-measurements-1',
   'g3-meas-sec-8': 'g3-measurements-1',
   'g3-meas-sec-9': 'g3-measurements-1',
+  'g3-meas-sec-10': 'g3-measurements-1',
   'g3-count-500': 'g3-count-500',
   'g3-count500-sec-1': 'g3-count-500',
   'g3-count500-sec-2': 'g3-count-500',
@@ -176,6 +178,7 @@ export const sectionToTopicMap: Record<string, string> = {
   'g3-group-sec-1': 'g3-grouping',
   'g3-group-sec-2': 'g3-grouping',
   'g3-group-sec-3': 'g3-grouping',
+  'g3-group-sec-4': 'g3-grouping',
   'g3-written-addition': 'g3-written-addition',
   'g3-wr-add-sec-1': 'g3-written-addition',
   'g3-wr-add-sec-2': 'g3-written-addition',
@@ -193,6 +196,7 @@ export const sectionToTopicMap: Record<string, string> = {
   'g3-neg-sec-1': 'g3-negative-numbers',
   'g3-neg-sec-2': 'g3-negative-numbers',
   'g3-neg-sec-3': 'g3-negative-numbers',
+  'g3-neg-sec-4': 'g3-negative-numbers',
   'g3-shapes-solids': 'g3-shapes-solids',
   'g3-geom-sec-1': 'g3-shapes-solids',
   'g3-geom-sec-2': 'g3-shapes-solids',
@@ -222,6 +226,7 @@ export const sectionToTopicMap: Record<string, string> = {
   'g3-frac-sec-1': 'g3-fractions-intro',
   'g3-frac-sec-2': 'g3-fractions-intro',
   'g3-frac-sec-3': 'g3-fractions-intro',
+  'g3-frac-sec-4': 'g3-fractions-intro',
 
   // Grade 4
   'g4-count-10k': 'g4-count-10k',
@@ -1059,13 +1064,14 @@ export function getGradeSubsections(
         { id: 'g3-count-sec-5', label: '5. Szöveges feladatok' },
         { id: 'g3-count-sec-6', label: '6. A műveletek sorrendje' },
         { id: 'g3-count-sec-7', label: '7. A zárójel használata' },
-        { id: 'g3-count-sec-8', label: '8. Megálló' }
+        { id: 'g3-count-sec-8', label: '8. Megálló – tudáspróba' }
       ];
     } else if (t.id === 'g3-roman-numbers') {
       subsections = [
         { id: 'g3-roman-sec-1', label: '1. A római számjegyek és alapszabályok' },
         { id: 'g3-roman-sec-2', label: '2. Római számok írása és olvasása 100-ig' },
-        { id: 'g3-roman-sec-3', label: '3. Római számok a mindennapokban és fejtörők' }
+        { id: 'g3-roman-sec-3', label: '3. Római számok a mindennapokban és fejtörők' },
+        { id: 'g3-roman-sec-4', label: '4. Gyakorlás, tudáspróba' }
       ];
     } else if (t.id === 'g3-count-200') {
       subsections = [
@@ -1074,7 +1080,7 @@ export function getGradeSubsections(
         { id: 'g3-count200-sec-3', label: '3. Számszomszédok, kerekítés' },
         { id: 'g3-count200-sec-4', label: '4. Összeadás és kivonás' },
         { id: 'g3-count200-sec-5', label: '5. Szorzás és osztás' },
-        { id: 'g3-count200-sec-6', label: '6. Megálló' }
+        { id: 'g3-count200-sec-6', label: '6. Megálló – tudáspróba' }
       ];
     } else if (t.id === 'g3-measurements-1') {
       subsections = [
@@ -1086,7 +1092,8 @@ export function getGradeSubsections(
         { id: 'g3-meas-sec-6', label: '6. A téglalap és a négyzet kerülete' },
         { id: 'g3-meas-sec-7', label: '7. A terület mérése' },
         { id: 'g3-meas-sec-8', label: '8. A téglalap és a négyzet területe' },
-        { id: 'g3-meas-sec-9', label: '9. Az idő mérése' }
+        { id: 'g3-meas-sec-9', label: '9. Az idő mérése' },
+        { id: 'g3-meas-sec-10', label: '10. Gyakorlás, tudáspróba' }
       ];
     } else if (t.id === 'g3-count-500') {
       subsections = [
@@ -1094,13 +1101,14 @@ export function getGradeSubsections(
         { id: 'g3-count500-sec-2', label: '2. Számszomszédok, kerekítés' },
         { id: 'g3-count500-sec-3', label: '3. Összeadás és kivonás' },
         { id: 'g3-count500-sec-4', label: '4. Szorzás és osztás' },
-        { id: 'g3-count500-sec-5', label: '5. Megálló' }
+        { id: 'g3-count500-sec-5', label: '5. Megálló – tudáspróba' }
       ];
     } else if (t.id === 'g3-grouping') {
       subsections = [
         { id: 'g3-group-sec-1', label: '1. Válogatás tulajdonságok szerint' },
         { id: 'g3-group-sec-2', label: '2. Venn-diagramok és halmazok' },
-        { id: 'g3-group-sec-3', label: '3. Sorba rendezés és lehetőségek (Megálló)' }
+        { id: 'g3-group-sec-3', label: '3. Sorba rendezés és lehetőségek' },
+        { id: 'g3-group-sec-4', label: '4. Gyakorlás, tudáspróba' }
       ];
     } else if (t.id === 'g3-written-addition') {
       subsections = [
@@ -1109,7 +1117,7 @@ export function getGradeSubsections(
         { id: 'g3-wr-add-sec-3', label: '3. Írásbeli összeadás' },
         { id: 'g3-wr-add-sec-4', label: '4. Az összeg változásai' },
         { id: 'g3-wr-add-sec-5', label: '5. Szöveges feladatok' },
-        { id: 'g3-wr-add-sec-6', label: '6. Megálló' }
+        { id: 'g3-wr-add-sec-6', label: '6. Megálló – tudáspróba' }
       ];
     } else if (t.id === 'g3-written-subtraction') {
       subsections = [
@@ -1117,13 +1125,14 @@ export function getGradeSubsections(
         { id: 'g3-wr-sub-sec-2', label: '2. A különbség becslése' },
         { id: 'g3-wr-sub-sec-3', label: '3. Írásbeli kivonás' },
         { id: 'g3-wr-sub-sec-4', label: '4. A különbség változásai' },
-        { id: 'g3-wr-sub-sec-5', label: '5. Megálló' }
+        { id: 'g3-wr-sub-sec-5', label: '5. Megálló – tudáspróba' }
       ];
     } else if (t.id === 'g3-negative-numbers') {
       subsections = [
         { id: 'g3-neg-sec-1', label: '1. Negatív számok a mindennapokban' },
         { id: 'g3-neg-sec-2', label: '2. A számegyenes és a nulla' },
-        { id: 'g3-neg-sec-3', label: '3. Összehasonlítás és változások (Megálló)' }
+        { id: 'g3-neg-sec-3', label: '3. Összehasonlítás és változások' },
+        { id: 'g3-neg-sec-4', label: '4. Gyakorlás, tudáspróba' }
       ];
     } else if (t.id === 'g3-shapes-solids') {
       subsections = [
@@ -1131,7 +1140,7 @@ export function getGradeSubsections(
         { id: 'g3-geom-sec-2', label: '2. A téglatest és a kocka' },
         { id: 'g3-geom-sec-3', label: '3. Síkidomok, sokszögek' },
         { id: 'g3-geom-sec-4', label: '4. Tükrözések, szimmetria' },
-        { id: 'g3-geom-sec-5', label: '5. Megálló' }
+        { id: 'g3-geom-sec-5', label: '5. Megálló – tudáspróba' }
       ];
     } else if (t.id === 'g3-count-1000') {
       subsections = [
@@ -1139,15 +1148,15 @@ export function getGradeSubsections(
         { id: 'g3-count1000-sec-2', label: '2. Számszomszédok, kerekítés' },
         { id: 'g3-count1000-sec-3', label: '3. Összeadás és kivonás' },
         { id: 'g3-count1000-sec-4', label: '4. Szorzás és osztás' },
-        { id: 'g3-count1000-sec-5', label: '5. Megálló' }
+        { id: 'g3-count1000-sec-5', label: '5. Megálló – tudáspróba' }
       ];
     } else if (t.id === 'g3-written-ops-1000') {
       subsections = [
         { id: 'g3-wrops-sec-1', label: '1. Írásbeli összeadás 1000-ig' },
         { id: 'g3-wrops-sec-2', label: '2. Írásbeli kivonás 1000-ig' },
-        { id: 'g3-wrops-sec-3', label: '3. A műveletek sorrendje és zárójelek' },
+        { id: 'g3-wrops-sec-3', label: '3. A műveletek sorrendje és a zárójelek' },
         { id: 'g3-wrops-sec-4', label: '4. Vegyes műveletek és szöveges feladatok' },
-        { id: 'g3-wrops-sec-5', label: '5. Megálló' }
+        { id: 'g3-wrops-sec-5', label: '5. Megálló – tudáspróba' }
       ];
     } else if (t.id === 'g3-written-mult') {
       subsections = [
@@ -1156,13 +1165,14 @@ export function getGradeSubsections(
         { id: 'g3-wr-mult-sec-3', label: '3. Írásbeli szorzás egyjegyű szorzóval' },
         { id: 'g3-wr-mult-sec-4', label: '4. Összefüggések, következtetések' },
         { id: 'g3-wr-mult-sec-5', label: '5. A műveletek sorrendje' },
-        { id: 'g3-wr-mult-sec-6', label: '6. Megálló' }
+        { id: 'g3-wr-mult-sec-6', label: '6. Megálló – tudáspróba' }
       ];
     } else if (t.id === 'g3-fractions-intro') {
       subsections = [
-        { id: 'g3-frac-sec-1', label: '1. Bevezetés' },
-        { id: 'g3-frac-sec-2', label: '2. Közönséges törtek' },
-        { id: 'g3-frac-sec-3', label: '3. Összehasonlítás (Megálló)' }
+        { id: 'g3-frac-sec-1', label: '1. Egyenlő részekre osztás' },
+        { id: 'g3-frac-sec-2', label: '2. Törtrészek: fele, harmada, negyede' },
+        { id: 'g3-frac-sec-3', label: '3. Törtrész mennyiségekből' },
+        { id: 'g3-frac-sec-4', label: '4. Gyakorlás, tudáspróba' }
       ];
     }
 
