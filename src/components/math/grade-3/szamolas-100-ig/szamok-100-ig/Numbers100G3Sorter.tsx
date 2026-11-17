@@ -1,6 +1,7 @@
 import React from 'react';
 import { SorterTemplate, SorterLevelConfig } from '../SorterTemplate';
 import { DifficultyLevel } from '../QuizTemplate';
+import { BlocksCard } from './Numbers100G3CardFigures';
 
 interface Numbers100G3SorterProps {
   level?: DifficultyLevel;
@@ -21,20 +22,20 @@ const NUMBERS_100_G3_SORTER_LEVELS_LIST: SorterLevelConfig[] = [
   {
     level: 1,
     title: '1. szint: Páros vagy páratlan?',
-    description: 'Nézd meg a szám utolsó jegyét!',
+    description: 'Nézd meg a szám utolsó jegyét! A képen számold meg a kockákat!',
     categories: [
       { id: 'kerek', name: 'Kerek tízes', color: 'sky' },
       { id: 'paros', name: 'Más páros szám', color: 'emerald' },
       { id: 'paratlan', name: 'Páratlan szám', color: 'rose' }
     ],
     items: [
-      { id: 'n100s1', text: '30', categoryId: 'kerek' },
+      { id: 'n100s1', text: '', categoryId: 'kerek', figure: <BlocksCard tens={3} ones={0} small /> },
       { id: 'n100s2', text: '70', categoryId: 'kerek' },
       { id: 'n100s3', text: '100', categoryId: 'kerek' },
-      { id: 'n100s4', text: '24', categoryId: 'paros' },
+      { id: 'n100s4', text: '', categoryId: 'paros', figure: <BlocksCard tens={2} ones={4} small /> },
       { id: 'n100s5', text: '58', categoryId: 'paros' },
-      { id: 'n100s6', text: '86', categoryId: 'paros' },
-      { id: 'n100s7', text: '17', categoryId: 'paratlan' },
+      { id: 'n100s6', text: '', categoryId: 'paros', figure: <BlocksCard tens={5} ones={2} small /> },
+      { id: 'n100s7', text: '', categoryId: 'paratlan', figure: <BlocksCard tens={1} ones={7} small /> },
       { id: 'n100s8', text: '63', categoryId: 'paratlan' },
       { id: 'n100s9', text: '99', categoryId: 'paratlan' }
     ]
@@ -42,20 +43,20 @@ const NUMBERS_100_G3_SORTER_LEVELS_LIST: SorterLevelConfig[] = [
   {
     level: 2,
     title: '2. szint: Hány tízes van benne?',
-    description: 'Tedd a számot oda, ahány tízes van benne!',
+    description: 'Tedd a számot oda, ahány tízes van benne! A képen a rudakat számold!',
     categories: [
       { id: 't4', name: '4 tízes', color: 'amber' },
       { id: 't5', name: '5 tízes', color: 'purple' },
       { id: 't6', name: '6 tízes', color: 'teal' }
     ],
     items: [
-      { id: 'n100s10', text: '43', categoryId: 't4' },
+      { id: 'n100s10', text: '', categoryId: 't4', figure: <BlocksCard tens={4} ones={7} small /> },
       { id: 'n100s11', text: 'negyvenkilenc', categoryId: 't4' },
-      { id: 'n100s12', text: '4 t + 0 e', categoryId: 't4' },
+      { id: 'n100s12', text: '', categoryId: 't4', figure: <BlocksCard tens={4} ones={0} small /> },
       { id: 'n100s13', text: '57', categoryId: 't5' },
       { id: 'n100s14', text: 'ötvenegy', categoryId: 't5' },
-      { id: 'n100s15', text: '5 t + 8 e', categoryId: 't5' },
-      { id: 'n100s16', text: '62', categoryId: 't6' },
+      { id: 'n100s15', text: '', categoryId: 't5', figure: <BlocksCard tens={5} ones={8} small /> },
+      { id: 'n100s16', text: '', categoryId: 't6', figure: <BlocksCard tens={6} ones={2} small /> },
       { id: 'n100s17', text: 'hatvanhat', categoryId: 't6' },
       { id: 'n100s18', text: '6 t + 3 e', categoryId: 't6' }
     ]
@@ -70,20 +71,20 @@ const NUMBERS_100_G3_SORTER_LEVELS_LIST: SorterLevelConfig[] = [
       { id: 'nagyobb', name: 'Nagyobb, mint 50', color: 'rose' }
     ],
     items: [
-      { id: 'n100s19', text: '3 t + 19 e', categoryId: 'kisebb' },
-      { id: 'n100s20', text: '4 t + 8 e', categoryId: 'kisebb' },
+      { id: 'n100s19', text: '', categoryId: 'kisebb', figure: <BlocksCard tens={3} ones={19} small /> },
+      { id: 'n100s20', text: '', categoryId: 'kisebb', figure: <BlocksCard tens={4} ones={8} small /> },
       { id: 'n100s21', text: 'negyvenhat', categoryId: 'kisebb' },
-      { id: 'n100s22', text: '4 t + 10 e', categoryId: 'egyenlo' },
+      { id: 'n100s22', text: '', categoryId: 'egyenlo', figure: <BlocksCard tens={4} ones={10} small /> },
       { id: 'n100s23', text: '5 t + 0 e', categoryId: 'egyenlo' },
       { id: 'n100s24', text: 'ötven', categoryId: 'egyenlo' },
       { id: 'n100s25', text: '2 t + 31 e', categoryId: 'nagyobb' },
-      { id: 'n100s26', text: '1 t + 45 e', categoryId: 'nagyobb' },
+      { id: 'n100s26', text: '', categoryId: 'nagyobb', figure: <BlocksCard tens={4} ones={13} small /> },
       { id: 'n100s27', text: 'hatvanegy', categoryId: 'nagyobb' }
     ]
   }
 ];
 
-const NUMBERS_100_G3_SORTER_LEVELS: Record<DifficultyLevel, SorterLevelConfig> = {
+export const NUMBERS_100_G3_SORTER_LEVELS: Record<DifficultyLevel, SorterLevelConfig> = {
   1: NUMBERS_100_G3_SORTER_LEVELS_LIST[0],
   2: NUMBERS_100_G3_SORTER_LEVELS_LIST[1],
   3: NUMBERS_100_G3_SORTER_LEVELS_LIST[2]

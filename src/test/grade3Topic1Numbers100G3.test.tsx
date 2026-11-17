@@ -4,8 +4,8 @@ import { render } from '@testing-library/react';
 
 import { Numbers100G3Theory } from '@/components/math/grade-3/szamolas-100-ig/szamok-100-ig/Numbers100G3Theory';
 import { Numbers100G3Quiz, NUMBERS_100_G3_QUESTIONS } from '@/components/math/grade-3/szamolas-100-ig/szamok-100-ig/Numbers100G3Quiz';
-import { Numbers100G3Matcher } from '@/components/math/grade-3/szamolas-100-ig/szamok-100-ig/Numbers100G3Matcher';
-import { Numbers100G3Sorter } from '@/components/math/grade-3/szamolas-100-ig/szamok-100-ig/Numbers100G3Sorter';
+import { Numbers100G3Matcher, NUMBERS_100_G3_MATCHER_LEVELS } from '@/components/math/grade-3/szamolas-100-ig/szamok-100-ig/Numbers100G3Matcher';
+import { Numbers100G3Sorter, NUMBERS_100_G3_SORTER_LEVELS } from '@/components/math/grade-3/szamolas-100-ig/szamok-100-ig/Numbers100G3Sorter';
 import {
   TensOnesBlocksSvg,
   HundredBoardSvg,
@@ -53,6 +53,18 @@ describe('Grade 3 Topic I - 1. Számok 100-ig - Components', () => {
     figures.forEach((Fig) => {
       const { container } = render(<Fig />);
       expect(container.querySelector('svg')).toBeTruthy();
+    });
+  });
+
+  it('has card figures on at least 4 matcher pairs and ~40 % of sorter items per level', () => {
+    ([1, 2, 3] as const).forEach((l) => {
+      const pairs = NUMBERS_100_G3_MATCHER_LEVELS[l].pairs ?? [];
+      expect(pairs).toHaveLength(8);
+      expect(pairs.filter((p) => p.promptFigure || p.valueFigure).length).toBeGreaterThanOrEqual(4);
+      pairs.forEach((p) => expect(Boolean(p.left || p.promptFigure) && Boolean(p.right || p.valueFigure)).toBe(true));
+      const items = NUMBERS_100_G3_SORTER_LEVELS[l].items ?? [];
+      expect(items.filter((i) => i.figure).length).toBeGreaterThanOrEqual(4);
+      items.forEach((i) => expect(Boolean(i.text || i.figure)).toBe(true));
     });
   });
 });

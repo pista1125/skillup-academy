@@ -1,6 +1,7 @@
 import React from 'react';
 import { SorterTemplate, SorterLevelConfig } from '../SorterTemplate';
 import { DifficultyLevel } from '../QuizTemplate';
+import { ArrayCard, NamedEqCard } from './MulDiv100G3CardFigures';
 
 interface MulDiv100G3SorterProps {
   level?: DifficultyLevel;
@@ -21,19 +22,19 @@ const MUL_DIV_100_G3_SORTER_LEVELS_LIST: SorterLevelConfig[] = [
   {
     level: 1,
     title: '1. szint: Mekkora a szorzat?',
-    description: 'Számold ki, és tedd a jó dobozba!',
+    description: 'Számold ki, és tedd a jó dobozba! A képen: hány sor, egy sorban hány korong?',
     categories: [
       { id: 'kicsi', name: '20-nál kisebb', color: 'sky' },
       { id: 'kozep', name: '20 és 50 között', color: 'emerald' },
       { id: 'nagy', name: '50-nél nagyobb', color: 'rose' }
     ],
     items: [
-      { id: 'md100s1', text: '3 · 5', categoryId: 'kicsi' },
+      { id: 'md100s1', text: '', categoryId: 'kicsi', figure: <ArrayCard rows={3} cols={5} small /> },
       { id: 'md100s2', text: '2 · 8', categoryId: 'kicsi' },
-      { id: 'md100s3', text: '6 · 3', categoryId: 'kicsi' },
-      { id: 'md100s4', text: '4 · 7', categoryId: 'kozep' },
+      { id: 'md100s3', text: '', categoryId: 'kicsi', figure: <ArrayCard rows={6} cols={3} small /> },
+      { id: 'md100s4', text: '', categoryId: 'kozep', figure: <ArrayCard rows={4} cols={7} small /> },
       { id: 'md100s5', text: '5 · 9', categoryId: 'kozep' },
-      { id: 'md100s6', text: '6 · 6', categoryId: 'kozep' },
+      { id: 'md100s6', text: '', categoryId: 'kozep', figure: <ArrayCard rows={6} cols={6} small /> },
       { id: 'md100s7', text: '8 · 7', categoryId: 'nagy' },
       { id: 'md100s8', text: '9 · 9', categoryId: 'nagy' },
       { id: 'md100s9', text: '10 · 6', categoryId: 'nagy' }
@@ -42,7 +43,7 @@ const MUL_DIV_100_G3_SORTER_LEVELS_LIST: SorterLevelConfig[] = [
   {
     level: 2,
     title: '2. szint: Mennyi a hányados?',
-    description: 'Végezd el az osztást, és válogasd szét!',
+    description: 'Végezd el az osztást, és válogasd szét! A képen annyi sor van, amennyi az osztó.',
     categories: [
       { id: 'h5', name: 'A hányados 5', color: 'amber' },
       { id: 'h7', name: 'A hányados 7', color: 'purple' },
@@ -50,10 +51,10 @@ const MUL_DIV_100_G3_SORTER_LEVELS_LIST: SorterLevelConfig[] = [
     ],
     items: [
       { id: 'md100s10', text: '40 : 8', categoryId: 'h5' },
-      { id: 'md100s11', text: '30 : 6', categoryId: 'h5' },
-      { id: 'md100s12', text: '15 : 3', categoryId: 'h5' },
-      { id: 'md100s13', text: '49 : 7', categoryId: 'h7' },
-      { id: 'md100s14', text: '28 : 4', categoryId: 'h7' },
+      { id: 'md100s11', text: '30 : 6', categoryId: 'h5', figure: <ArrayCard rows={6} cols={5} small /> },
+      { id: 'md100s12', text: '15 : 3', categoryId: 'h5', figure: <ArrayCard rows={3} cols={5} small /> },
+      { id: 'md100s13', text: '49 : 7', categoryId: 'h7', figure: <ArrayCard rows={7} cols={7} small /> },
+      { id: 'md100s14', text: '28 : 4', categoryId: 'h7', figure: <ArrayCard rows={4} cols={7} small /> },
       { id: 'md100s15', text: '63 : 9', categoryId: 'h7' },
       { id: 'md100s16', text: '54 : 6', categoryId: 'h9' },
       { id: 'md100s17', text: '81 : 9', categoryId: 'h9' },
@@ -70,20 +71,20 @@ const MUL_DIV_100_G3_SORTER_LEVELS_LIST: SorterLevelConfig[] = [
       { id: 'hanyados', name: 'hányados', color: 'emerald' }
     ],
     items: [
-      { id: 'md100s19', text: 'a 6 itt: 6 · 4 = 24', categoryId: 'tenyezo' },
-      { id: 'md100s20', text: 'a 9 itt: 3 · 9 = 27', categoryId: 'tenyezo' },
+      { id: 'md100s19', text: '', categoryId: 'tenyezo', figure: <NamedEqCard a={6} op="·" b={4} c={24} hi="a" /> },
+      { id: 'md100s20', text: '', categoryId: 'tenyezo', figure: <NamedEqCard a={3} op="·" b={9} c={27} hi="b" /> },
       { id: 'md100s21', text: 'a 7 itt: 7 · 8 = 56', categoryId: 'tenyezo' },
-      { id: 'md100s22', text: 'a 24 itt: 6 · 4 = 24', categoryId: 'szorzat' },
+      { id: 'md100s22', text: '', categoryId: 'szorzat', figure: <NamedEqCard a={6} op="·" b={4} c={24} hi="c" /> },
       { id: 'md100s23', text: 'a 45 itt: 5 · 9 = 45', categoryId: 'szorzat' },
       { id: 'md100s24', text: 'a 16 itt: 2 · 8 = 16', categoryId: 'szorzat' },
-      { id: 'md100s25', text: 'a 4 itt: 24 : 6 = 4', categoryId: 'hanyados' },
-      { id: 'md100s26', text: 'a 8 itt: 56 : 7 = 8', categoryId: 'hanyados' },
+      { id: 'md100s25', text: '', categoryId: 'hanyados', figure: <NamedEqCard a={24} op=":" b={6} c={4} hi="c" /> },
+      { id: 'md100s26', text: '', categoryId: 'hanyados', figure: <NamedEqCard a={56} op=":" b={7} c={8} hi="c" /> },
       { id: 'md100s27', text: 'a 3 itt: 27 : 9 = 3', categoryId: 'hanyados' }
     ]
   }
 ];
 
-const MUL_DIV_100_G3_SORTER_LEVELS: Record<DifficultyLevel, SorterLevelConfig> = {
+export const MUL_DIV_100_G3_SORTER_LEVELS: Record<DifficultyLevel, SorterLevelConfig> = {
   1: MUL_DIV_100_G3_SORTER_LEVELS_LIST[0],
   2: MUL_DIV_100_G3_SORTER_LEVELS_LIST[1],
   3: MUL_DIV_100_G3_SORTER_LEVELS_LIST[2]

@@ -4,8 +4,8 @@ import { render } from '@testing-library/react';
 
 import { RemainderDivG3Theory } from '@/components/math/grade-3/szamolas-100-ig/maradekos-osztas/RemainderDivG3Theory';
 import { RemainderDivG3Quiz, REMAINDER_DIV_G3_QUESTIONS } from '@/components/math/grade-3/szamolas-100-ig/maradekos-osztas/RemainderDivG3Quiz';
-import { RemainderDivG3Matcher } from '@/components/math/grade-3/szamolas-100-ig/maradekos-osztas/RemainderDivG3Matcher';
-import { RemainderDivG3Sorter } from '@/components/math/grade-3/szamolas-100-ig/maradekos-osztas/RemainderDivG3Sorter';
+import { RemainderDivG3Matcher, REMAINDER_DIV_G3_MATCHER_LEVELS } from '@/components/math/grade-3/szamolas-100-ig/maradekos-osztas/RemainderDivG3Matcher';
+import { RemainderDivG3Sorter, REMAINDER_DIV_G3_SORTER_LEVELS } from '@/components/math/grade-3/szamolas-100-ig/maradekos-osztas/RemainderDivG3Sorter';
 import {
   PacksSvg,
   NotationSvg,
@@ -53,6 +53,18 @@ describe('Grade 3 Topic I - 4. Maradékos osztás - Components', () => {
     figures.forEach((Fig) => {
       const { container } = render(<Fig />);
       expect(container.querySelector('svg')).toBeTruthy();
+    });
+  });
+
+  it('has card figures on at least 4 matcher pairs and ~40 % of sorter items per level', () => {
+    ([1, 2, 3] as const).forEach((l) => {
+      const pairs = REMAINDER_DIV_G3_MATCHER_LEVELS[l].pairs ?? [];
+      expect(pairs).toHaveLength(8);
+      expect(pairs.filter((p) => p.promptFigure || p.valueFigure).length).toBeGreaterThanOrEqual(4);
+      pairs.forEach((p) => expect(Boolean(p.left || p.promptFigure) && Boolean(p.right || p.valueFigure)).toBe(true));
+      const items = REMAINDER_DIV_G3_SORTER_LEVELS[l].items ?? [];
+      expect(items.filter((i) => i.figure).length).toBeGreaterThanOrEqual(4);
+      items.forEach((i) => expect(Boolean(i.text || i.figure)).toBe(true));
     });
   });
 });
