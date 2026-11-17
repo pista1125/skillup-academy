@@ -137,6 +137,18 @@ const G3MixedOps1000G3Theory = lazy(() => import("@/components/math/grade-3/iras
 const G3MixedOps1000G3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-muveletek-1000-ig/vegyes-muveletek-szoveges/MixedOps1000G3Quiz").then(m => ({ default: m.MixedOps1000G3Quiz })));
 const G3WrittenOps1000ExamG3Theory = lazy(() => import("@/components/math/grade-3/irasbeli-muveletek-1000-ig/megallo/WrittenOps1000ExamG3Theory").then(m => ({ default: m.WrittenOps1000ExamG3Theory })));
 const G3WrittenOps1000ExamG3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-muveletek-1000-ig/megallo/WrittenOps1000ExamG3Quiz").then(m => ({ default: m.WrittenOps1000ExamG3Quiz })));
+const G3MulOneDigitG3Theory = lazy(() => import("@/components/math/grade-3/irasbeli-szorzas/szorzas-egyjegyu-szammal/MulOneDigitG3Theory").then(m => ({ default: m.MulOneDigitG3Theory })));
+const G3MulOneDigitG3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-szorzas/szorzas-egyjegyu-szammal/MulOneDigitG3Quiz").then(m => ({ default: m.MulOneDigitG3Quiz })));
+const G3ProductEstimateG3Theory = lazy(() => import("@/components/math/grade-3/irasbeli-szorzas/a-szorzat-becslese/ProductEstimateG3Theory").then(m => ({ default: m.ProductEstimateG3Theory })));
+const G3ProductEstimateG3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-szorzas/a-szorzat-becslese/ProductEstimateG3Quiz").then(m => ({ default: m.ProductEstimateG3Quiz })));
+const G3WrittenMulG3Theory = lazy(() => import("@/components/math/grade-3/irasbeli-szorzas/irasbeli-szorzas-egyjegyu-szorzoval/WrittenMulG3Theory").then(m => ({ default: m.WrittenMulG3Theory })));
+const G3WrittenMulG3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-szorzas/irasbeli-szorzas-egyjegyu-szorzoval/WrittenMulG3Quiz").then(m => ({ default: m.WrittenMulG3Quiz })));
+const G3MulRelationsG3Theory = lazy(() => import("@/components/math/grade-3/irasbeli-szorzas/osszefuggesek-kovetkeztetesek/MulRelationsG3Theory").then(m => ({ default: m.MulRelationsG3Theory })));
+const G3MulRelationsG3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-szorzas/osszefuggesek-kovetkeztetesek/MulRelationsG3Quiz").then(m => ({ default: m.MulRelationsG3Quiz })));
+const G3OrderOpsMulG3Theory = lazy(() => import("@/components/math/grade-3/irasbeli-szorzas/a-muveletek-sorrendje/OrderOpsMulG3Theory").then(m => ({ default: m.OrderOpsMulG3Theory })));
+const G3OrderOpsMulG3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-szorzas/a-muveletek-sorrendje/OrderOpsMulG3Quiz").then(m => ({ default: m.OrderOpsMulG3Quiz })));
+const G3WrittenMulExamG3Theory = lazy(() => import("@/components/math/grade-3/irasbeli-szorzas/megallo/WrittenMulExamG3Theory").then(m => ({ default: m.WrittenMulExamG3Theory })));
+const G3WrittenMulExamG3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-szorzas/megallo/WrittenMulExamG3Quiz").then(m => ({ default: m.WrittenMulExamG3Quiz })));
 const G3EqualPartsG3Theory = lazy(() => import("@/components/math/grade-3/tortes-szamok/bevezetes/EqualPartsG3Theory").then(m => ({ default: m.EqualPartsG3Theory })));
 const G3EqualPartsG3Quiz = lazy(() => import("@/components/math/grade-3/tortes-szamok/bevezetes/EqualPartsG3Quiz").then(m => ({ default: m.EqualPartsG3Quiz })));
 const G3FractionPartsG3Theory = lazy(() => import("@/components/math/grade-3/tortes-szamok/kozonseges-tortek/FractionPartsG3Theory").then(m => ({ default: m.FractionPartsG3Theory })));
@@ -2458,6 +2470,212 @@ export const Grade3Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g3-wops-tudasproba-theory', selectedTopic || 'g3-written-ops-1000')}
           onSwitchToMatcher={() => handleActivitySelect('g3-wops-tudasproba-matcher', selectedTopic || 'g3-written-ops-1000')}
           onSwitchToSorter={() => handleActivitySelect('g3-wops-tudasproba-sorter', selectedTopic || 'g3-written-ops-1000')}
+        />
+      )}
+
+      {/* ===== 3. Osztály – XIII. Írásbeli szorzás ===== */}
+
+      {/* 1. Szorzás egyjegyű számmal */}
+      {activityType === 'g3-wmul-egyjegyu-theory' && (
+        <G3MulOneDigitG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-wmul-egyjegyu-quiz', selectedTopic || 'g3-written-mult')}
+        />
+      )}
+      {activityType === 'g3-wmul-egyjegyu-quiz' && (
+        <G3MulOneDigitG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wmul-egyjegyu-theory', selectedTopic || 'g3-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wmul-egyjegyu-matcher', selectedTopic || 'g3-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wmul-egyjegyu-sorter', selectedTopic || 'g3-written-mult')}
+        />
+      )}
+      {activityType === 'g3-wmul-egyjegyu-matcher' && (
+        <G3MulOneDigitG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wmul-egyjegyu-theory', selectedTopic || 'g3-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wmul-egyjegyu-matcher', selectedTopic || 'g3-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wmul-egyjegyu-sorter', selectedTopic || 'g3-written-mult')}
+        />
+      )}
+      {activityType === 'g3-wmul-egyjegyu-sorter' && (
+        <G3MulOneDigitG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wmul-egyjegyu-theory', selectedTopic || 'g3-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wmul-egyjegyu-matcher', selectedTopic || 'g3-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wmul-egyjegyu-sorter', selectedTopic || 'g3-written-mult')}
+        />
+      )}
+
+      {/* 2. A szorzat becslése */}
+      {activityType === 'g3-wmul-becsles-theory' && (
+        <G3ProductEstimateG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-wmul-becsles-quiz', selectedTopic || 'g3-written-mult')}
+        />
+      )}
+      {activityType === 'g3-wmul-becsles-quiz' && (
+        <G3ProductEstimateG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wmul-becsles-theory', selectedTopic || 'g3-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wmul-becsles-matcher', selectedTopic || 'g3-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wmul-becsles-sorter', selectedTopic || 'g3-written-mult')}
+        />
+      )}
+      {activityType === 'g3-wmul-becsles-matcher' && (
+        <G3ProductEstimateG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wmul-becsles-theory', selectedTopic || 'g3-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wmul-becsles-matcher', selectedTopic || 'g3-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wmul-becsles-sorter', selectedTopic || 'g3-written-mult')}
+        />
+      )}
+      {activityType === 'g3-wmul-becsles-sorter' && (
+        <G3ProductEstimateG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wmul-becsles-theory', selectedTopic || 'g3-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wmul-becsles-matcher', selectedTopic || 'g3-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wmul-becsles-sorter', selectedTopic || 'g3-written-mult')}
+        />
+      )}
+
+      {/* 3. Írásbeli szorzás egyjegyű szorzóval */}
+      {activityType === 'g3-wmul-irasbeli-theory' && (
+        <G3WrittenMulG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-wmul-irasbeli-quiz', selectedTopic || 'g3-written-mult')}
+        />
+      )}
+      {activityType === 'g3-wmul-irasbeli-quiz' && (
+        <G3WrittenMulG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wmul-irasbeli-theory', selectedTopic || 'g3-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wmul-irasbeli-matcher', selectedTopic || 'g3-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wmul-irasbeli-sorter', selectedTopic || 'g3-written-mult')}
+        />
+      )}
+      {activityType === 'g3-wmul-irasbeli-matcher' && (
+        <G3WrittenMulG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wmul-irasbeli-theory', selectedTopic || 'g3-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wmul-irasbeli-matcher', selectedTopic || 'g3-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wmul-irasbeli-sorter', selectedTopic || 'g3-written-mult')}
+        />
+      )}
+      {activityType === 'g3-wmul-irasbeli-sorter' && (
+        <G3WrittenMulG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wmul-irasbeli-theory', selectedTopic || 'g3-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wmul-irasbeli-matcher', selectedTopic || 'g3-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wmul-irasbeli-sorter', selectedTopic || 'g3-written-mult')}
+        />
+      )}
+
+      {/* 4. Összefüggések, következtetések */}
+      {activityType === 'g3-wmul-osszefuggesek-theory' && (
+        <G3MulRelationsG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-wmul-osszefuggesek-quiz', selectedTopic || 'g3-written-mult')}
+        />
+      )}
+      {activityType === 'g3-wmul-osszefuggesek-quiz' && (
+        <G3MulRelationsG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wmul-osszefuggesek-theory', selectedTopic || 'g3-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wmul-osszefuggesek-matcher', selectedTopic || 'g3-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wmul-osszefuggesek-sorter', selectedTopic || 'g3-written-mult')}
+        />
+      )}
+      {activityType === 'g3-wmul-osszefuggesek-matcher' && (
+        <G3MulRelationsG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wmul-osszefuggesek-theory', selectedTopic || 'g3-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wmul-osszefuggesek-matcher', selectedTopic || 'g3-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wmul-osszefuggesek-sorter', selectedTopic || 'g3-written-mult')}
+        />
+      )}
+      {activityType === 'g3-wmul-osszefuggesek-sorter' && (
+        <G3MulRelationsG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wmul-osszefuggesek-theory', selectedTopic || 'g3-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wmul-osszefuggesek-matcher', selectedTopic || 'g3-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wmul-osszefuggesek-sorter', selectedTopic || 'g3-written-mult')}
+        />
+      )}
+
+      {/* 5. A műveletek sorrendje */}
+      {activityType === 'g3-wmul-sorrend-theory' && (
+        <G3OrderOpsMulG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-wmul-sorrend-quiz', selectedTopic || 'g3-written-mult')}
+        />
+      )}
+      {activityType === 'g3-wmul-sorrend-quiz' && (
+        <G3OrderOpsMulG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wmul-sorrend-theory', selectedTopic || 'g3-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wmul-sorrend-matcher', selectedTopic || 'g3-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wmul-sorrend-sorter', selectedTopic || 'g3-written-mult')}
+        />
+      )}
+      {activityType === 'g3-wmul-sorrend-matcher' && (
+        <G3OrderOpsMulG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wmul-sorrend-theory', selectedTopic || 'g3-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wmul-sorrend-matcher', selectedTopic || 'g3-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wmul-sorrend-sorter', selectedTopic || 'g3-written-mult')}
+        />
+      )}
+      {activityType === 'g3-wmul-sorrend-sorter' && (
+        <G3OrderOpsMulG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wmul-sorrend-theory', selectedTopic || 'g3-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wmul-sorrend-matcher', selectedTopic || 'g3-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wmul-sorrend-sorter', selectedTopic || 'g3-written-mult')}
+        />
+      )}
+
+      {/* 6. Megálló – tudáspróba */}
+      {activityType === 'g3-wmul-tudasproba-theory' && (
+        <G3WrittenMulExamG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-wmul-tudasproba-quiz', selectedTopic || 'g3-written-mult')}
+        />
+      )}
+      {activityType === 'g3-wmul-tudasproba-quiz' && (
+        <G3WrittenMulExamG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wmul-tudasproba-theory', selectedTopic || 'g3-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wmul-tudasproba-matcher', selectedTopic || 'g3-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wmul-tudasproba-sorter', selectedTopic || 'g3-written-mult')}
+        />
+      )}
+      {activityType === 'g3-wmul-tudasproba-matcher' && (
+        <G3WrittenMulExamG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wmul-tudasproba-theory', selectedTopic || 'g3-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wmul-tudasproba-matcher', selectedTopic || 'g3-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wmul-tudasproba-sorter', selectedTopic || 'g3-written-mult')}
+        />
+      )}
+      {activityType === 'g3-wmul-tudasproba-sorter' && (
+        <G3WrittenMulExamG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wmul-tudasproba-theory', selectedTopic || 'g3-written-mult')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wmul-tudasproba-matcher', selectedTopic || 'g3-written-mult')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wmul-tudasproba-sorter', selectedTopic || 'g3-written-mult')}
         />
       )}
 
