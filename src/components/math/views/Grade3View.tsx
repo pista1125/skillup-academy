@@ -1097,13 +1097,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-wr-add-sec-1" number={1} title="Háromjegyű számok összeadása" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Háromjegyű számok összeadása"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Háromjegyű számok összeadása Tananyag"
+                subtitle="Kerek százas és kerek tízesek hozzáadása, 10 tízes = 1 százas, összeadás helyi értékenként – kirakással, fejben."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-wadd-haromjegyu-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: kerek százas és kerek tízesek hozzáadása, beváltás, helyi értékenként, vásár."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-wadd-haromjegyu-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g3-wadd-haromjegyu-quiz')}
               />
             </div>
           </section>
@@ -1115,13 +1125,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-wr-add-sec-2" number={2} title="Az összeg becslése" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Az összeg becslése"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Az összeg becslése Tananyag"
+                subtitle="Becslés százasra és tízesre kerekített tagokkal, melyik a pontosabb, elég a pénz?, hibakeresés becsléssel."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-wadd-becsles-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="cyan"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: kerekítés, becslés százasra és tízesre, elég a pénz?, ellenőrzés becsléssel."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-wadd-becsles-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="cyan"
+                {...getTopicProgress('g3-wadd-becsles-quiz')}
               />
             </div>
           </section>
@@ -1133,13 +1153,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-wr-add-sec-3" number={3} title="Írásbeli összeadás" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Írásbeli összeadás"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Írásbeli összeadás Tananyag"
+                subtitle="Egymás alá írás, az egyesekkel kezdve; beváltás, maradék („maradt 1”), három tag, ellenőrzés felcseréléssel."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-wadd-irasbeli-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: egymás alá írás, beváltás, maradék, három tag, ellenőrzés, számjegy-nyomozó, szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-wadd-irasbeli-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g3-wadd-irasbeli-quiz')}
               />
             </div>
           </section>
@@ -1151,13 +1181,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-wr-add-sec-4" number={4} title="Az összeg változásai" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Az összeg változásai"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Az összeg változásai Tananyag"
+                subtitle="Ha egy tag nő vagy csökken, az összeg is ugyanannyival; két változás összeadódik; átrakásnál nem változik; okos számolás, összehasonlítás számolás nélkül."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-wadd-valtozasok-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: egy tag változik, mindkét tag változik, az összeg nem változik, összehasonlítás számolás nélkül, okos számolás."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-wadd-valtozasok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="violet"
+                {...getTopicProgress('g3-wadd-valtozasok-quiz')}
               />
             </div>
           </section>
@@ -1169,13 +1209,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-wr-add-sec-5" number={5} title="Szöveges feladatok" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Szöveges feladatok"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Szöveges feladatok Tananyag"
+                subtitle="Adatok, terv, becslés, írásbeli számítás, ellenőrzés, válasz – csíkos ábrával; „…-val több”, csapdás „…-val kevesebb, mint”, három adat, kétlépéses feladatok."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-wadd-szoveges-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: összesen, „…-val több”, „…-val kevesebb, mint”, három adat, étlap és táblázat, becslés, kétlépéses feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-wadd-szoveges-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="teal"
+                {...getTopicProgress('g3-wadd-szoveges-quiz')}
               />
             </div>
           </section>
@@ -1187,13 +1237,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-wr-add-sec-6" number={6} title="Megálló – tudáspróba" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Megálló – tudáspróba"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Megálló – tudáspróba Tananyag"
+                subtitle="A fejezet összefoglalása: fejben és írásban összeadás, becslés, hiányzó számjegyek, az összeg változásai, szöveges feladatok; tudáspróba-gép és számjegy-nyomozó."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-wadd-tudasproba-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz"
+                subtitle="90 feladat 3 szinten: fejben számolás, becslés, írásbeli összeadás két és három taggal, hiányzó számjegyek, az összeg változásai, szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-wadd-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g3-wadd-tudasproba-quiz')}
               />
             </div>
           </section>

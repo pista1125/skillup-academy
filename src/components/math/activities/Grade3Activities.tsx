@@ -77,6 +77,18 @@ const G3ArrangementsG3Theory = lazy(() => import("@/components/math/grade-3/valo
 const G3ArrangementsG3Quiz = lazy(() => import("@/components/math/grade-3/valogatasok-csoportositasok/sorba-rendezes-lehetosegek/ArrangementsG3Quiz").then(m => ({ default: m.ArrangementsG3Quiz })));
 const G3GroupingExamG3Theory = lazy(() => import("@/components/math/grade-3/valogatasok-csoportositasok/gyakorlas-tudasproba/GroupingExamG3Theory").then(m => ({ default: m.GroupingExamG3Theory })));
 const G3GroupingExamG3Quiz = lazy(() => import("@/components/math/grade-3/valogatasok-csoportositasok/gyakorlas-tudasproba/GroupingExamG3Quiz").then(m => ({ default: m.GroupingExamG3Quiz })));
+const G3ThreeDigitAddG3Theory = lazy(() => import("@/components/math/grade-3/irasbeli-osszeadas/haromjegyu-szamok-osszeadasa/ThreeDigitAddG3Theory").then(m => ({ default: m.ThreeDigitAddG3Theory })));
+const G3ThreeDigitAddG3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-osszeadas/haromjegyu-szamok-osszeadasa/ThreeDigitAddG3Quiz").then(m => ({ default: m.ThreeDigitAddG3Quiz })));
+const G3SumEstimateG3Theory = lazy(() => import("@/components/math/grade-3/irasbeli-osszeadas/az-osszeg-becslese/SumEstimateG3Theory").then(m => ({ default: m.SumEstimateG3Theory })));
+const G3SumEstimateG3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-osszeadas/az-osszeg-becslese/SumEstimateG3Quiz").then(m => ({ default: m.SumEstimateG3Quiz })));
+const G3WrittenAddG3Theory = lazy(() => import("@/components/math/grade-3/irasbeli-osszeadas/irasbeli-osszeadas/WrittenAddG3Theory").then(m => ({ default: m.WrittenAddG3Theory })));
+const G3WrittenAddG3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-osszeadas/irasbeli-osszeadas/WrittenAddG3Quiz").then(m => ({ default: m.WrittenAddG3Quiz })));
+const G3SumChangesG3Theory = lazy(() => import("@/components/math/grade-3/irasbeli-osszeadas/az-osszeg-valtozasai/SumChangesG3Theory").then(m => ({ default: m.SumChangesG3Theory })));
+const G3SumChangesG3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-osszeadas/az-osszeg-valtozasai/SumChangesG3Quiz").then(m => ({ default: m.SumChangesG3Quiz })));
+const G3AddWordProblemsG3Theory = lazy(() => import("@/components/math/grade-3/irasbeli-osszeadas/szoveges-feladatok/AddWordProblemsG3Theory").then(m => ({ default: m.AddWordProblemsG3Theory })));
+const G3AddWordProblemsG3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-osszeadas/szoveges-feladatok/AddWordProblemsG3Quiz").then(m => ({ default: m.AddWordProblemsG3Quiz })));
+const G3WrittenAddExamG3Theory = lazy(() => import("@/components/math/grade-3/irasbeli-osszeadas/megallo/WrittenAddExamG3Theory").then(m => ({ default: m.WrittenAddExamG3Theory })));
+const G3WrittenAddExamG3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-osszeadas/megallo/WrittenAddExamG3Quiz").then(m => ({ default: m.WrittenAddExamG3Quiz })));
 
 export const Grade3Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -1358,6 +1370,212 @@ export const Grade3Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g3-grp-tudasproba-theory', selectedTopic || 'g3-grouping')}
           onSwitchToMatcher={() => handleActivitySelect('g3-grp-tudasproba-matcher', selectedTopic || 'g3-grouping')}
           onSwitchToSorter={() => handleActivitySelect('g3-grp-tudasproba-sorter', selectedTopic || 'g3-grouping')}
+        />
+      )}
+
+      {/* ===== 3. Osztály – VII. Írásbeli összeadás ===== */}
+
+      {/* 1. Háromjegyű számok összeadása */}
+      {activityType === 'g3-wadd-haromjegyu-theory' && (
+        <G3ThreeDigitAddG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-wadd-haromjegyu-quiz', selectedTopic || 'g3-written-addition')}
+        />
+      )}
+      {activityType === 'g3-wadd-haromjegyu-quiz' && (
+        <G3ThreeDigitAddG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wadd-haromjegyu-theory', selectedTopic || 'g3-written-addition')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wadd-haromjegyu-matcher', selectedTopic || 'g3-written-addition')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wadd-haromjegyu-sorter', selectedTopic || 'g3-written-addition')}
+        />
+      )}
+      {activityType === 'g3-wadd-haromjegyu-matcher' && (
+        <G3ThreeDigitAddG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wadd-haromjegyu-theory', selectedTopic || 'g3-written-addition')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wadd-haromjegyu-matcher', selectedTopic || 'g3-written-addition')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wadd-haromjegyu-sorter', selectedTopic || 'g3-written-addition')}
+        />
+      )}
+      {activityType === 'g3-wadd-haromjegyu-sorter' && (
+        <G3ThreeDigitAddG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wadd-haromjegyu-theory', selectedTopic || 'g3-written-addition')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wadd-haromjegyu-matcher', selectedTopic || 'g3-written-addition')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wadd-haromjegyu-sorter', selectedTopic || 'g3-written-addition')}
+        />
+      )}
+
+      {/* 2. Az összeg becslése */}
+      {activityType === 'g3-wadd-becsles-theory' && (
+        <G3SumEstimateG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-wadd-becsles-quiz', selectedTopic || 'g3-written-addition')}
+        />
+      )}
+      {activityType === 'g3-wadd-becsles-quiz' && (
+        <G3SumEstimateG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wadd-becsles-theory', selectedTopic || 'g3-written-addition')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wadd-becsles-matcher', selectedTopic || 'g3-written-addition')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wadd-becsles-sorter', selectedTopic || 'g3-written-addition')}
+        />
+      )}
+      {activityType === 'g3-wadd-becsles-matcher' && (
+        <G3SumEstimateG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wadd-becsles-theory', selectedTopic || 'g3-written-addition')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wadd-becsles-matcher', selectedTopic || 'g3-written-addition')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wadd-becsles-sorter', selectedTopic || 'g3-written-addition')}
+        />
+      )}
+      {activityType === 'g3-wadd-becsles-sorter' && (
+        <G3SumEstimateG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wadd-becsles-theory', selectedTopic || 'g3-written-addition')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wadd-becsles-matcher', selectedTopic || 'g3-written-addition')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wadd-becsles-sorter', selectedTopic || 'g3-written-addition')}
+        />
+      )}
+
+      {/* 3. Írásbeli összeadás */}
+      {activityType === 'g3-wadd-irasbeli-theory' && (
+        <G3WrittenAddG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-wadd-irasbeli-quiz', selectedTopic || 'g3-written-addition')}
+        />
+      )}
+      {activityType === 'g3-wadd-irasbeli-quiz' && (
+        <G3WrittenAddG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wadd-irasbeli-theory', selectedTopic || 'g3-written-addition')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wadd-irasbeli-matcher', selectedTopic || 'g3-written-addition')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wadd-irasbeli-sorter', selectedTopic || 'g3-written-addition')}
+        />
+      )}
+      {activityType === 'g3-wadd-irasbeli-matcher' && (
+        <G3WrittenAddG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wadd-irasbeli-theory', selectedTopic || 'g3-written-addition')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wadd-irasbeli-matcher', selectedTopic || 'g3-written-addition')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wadd-irasbeli-sorter', selectedTopic || 'g3-written-addition')}
+        />
+      )}
+      {activityType === 'g3-wadd-irasbeli-sorter' && (
+        <G3WrittenAddG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wadd-irasbeli-theory', selectedTopic || 'g3-written-addition')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wadd-irasbeli-matcher', selectedTopic || 'g3-written-addition')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wadd-irasbeli-sorter', selectedTopic || 'g3-written-addition')}
+        />
+      )}
+
+      {/* 4. Az összeg változásai */}
+      {activityType === 'g3-wadd-valtozasok-theory' && (
+        <G3SumChangesG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-wadd-valtozasok-quiz', selectedTopic || 'g3-written-addition')}
+        />
+      )}
+      {activityType === 'g3-wadd-valtozasok-quiz' && (
+        <G3SumChangesG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wadd-valtozasok-theory', selectedTopic || 'g3-written-addition')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wadd-valtozasok-matcher', selectedTopic || 'g3-written-addition')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wadd-valtozasok-sorter', selectedTopic || 'g3-written-addition')}
+        />
+      )}
+      {activityType === 'g3-wadd-valtozasok-matcher' && (
+        <G3SumChangesG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wadd-valtozasok-theory', selectedTopic || 'g3-written-addition')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wadd-valtozasok-matcher', selectedTopic || 'g3-written-addition')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wadd-valtozasok-sorter', selectedTopic || 'g3-written-addition')}
+        />
+      )}
+      {activityType === 'g3-wadd-valtozasok-sorter' && (
+        <G3SumChangesG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wadd-valtozasok-theory', selectedTopic || 'g3-written-addition')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wadd-valtozasok-matcher', selectedTopic || 'g3-written-addition')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wadd-valtozasok-sorter', selectedTopic || 'g3-written-addition')}
+        />
+      )}
+
+      {/* 5. Szöveges feladatok */}
+      {activityType === 'g3-wadd-szoveges-theory' && (
+        <G3AddWordProblemsG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-wadd-szoveges-quiz', selectedTopic || 'g3-written-addition')}
+        />
+      )}
+      {activityType === 'g3-wadd-szoveges-quiz' && (
+        <G3AddWordProblemsG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wadd-szoveges-theory', selectedTopic || 'g3-written-addition')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wadd-szoveges-matcher', selectedTopic || 'g3-written-addition')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wadd-szoveges-sorter', selectedTopic || 'g3-written-addition')}
+        />
+      )}
+      {activityType === 'g3-wadd-szoveges-matcher' && (
+        <G3AddWordProblemsG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wadd-szoveges-theory', selectedTopic || 'g3-written-addition')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wadd-szoveges-matcher', selectedTopic || 'g3-written-addition')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wadd-szoveges-sorter', selectedTopic || 'g3-written-addition')}
+        />
+      )}
+      {activityType === 'g3-wadd-szoveges-sorter' && (
+        <G3AddWordProblemsG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wadd-szoveges-theory', selectedTopic || 'g3-written-addition')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wadd-szoveges-matcher', selectedTopic || 'g3-written-addition')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wadd-szoveges-sorter', selectedTopic || 'g3-written-addition')}
+        />
+      )}
+
+      {/* 6. Megálló – tudáspróba */}
+      {activityType === 'g3-wadd-tudasproba-theory' && (
+        <G3WrittenAddExamG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-wadd-tudasproba-quiz', selectedTopic || 'g3-written-addition')}
+        />
+      )}
+      {activityType === 'g3-wadd-tudasproba-quiz' && (
+        <G3WrittenAddExamG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wadd-tudasproba-theory', selectedTopic || 'g3-written-addition')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wadd-tudasproba-matcher', selectedTopic || 'g3-written-addition')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wadd-tudasproba-sorter', selectedTopic || 'g3-written-addition')}
+        />
+      )}
+      {activityType === 'g3-wadd-tudasproba-matcher' && (
+        <G3WrittenAddExamG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wadd-tudasproba-theory', selectedTopic || 'g3-written-addition')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wadd-tudasproba-matcher', selectedTopic || 'g3-written-addition')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wadd-tudasproba-sorter', selectedTopic || 'g3-written-addition')}
+        />
+      )}
+      {activityType === 'g3-wadd-tudasproba-sorter' && (
+        <G3WrittenAddExamG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wadd-tudasproba-theory', selectedTopic || 'g3-written-addition')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wadd-tudasproba-matcher', selectedTopic || 'g3-written-addition')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wadd-tudasproba-sorter', selectedTopic || 'g3-written-addition')}
         />
       )}
     </>
