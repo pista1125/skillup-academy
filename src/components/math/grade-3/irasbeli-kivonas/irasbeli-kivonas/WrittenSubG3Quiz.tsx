@@ -3,7 +3,7 @@ import { QuizTemplate, QuizQuestion } from '../QuizTemplate';
 import { WrittenSubG3Matcher } from './WrittenSubG3Matcher';
 import { WrittenSubG3Sorter } from './WrittenSubG3Sorter';
 import { WrittenSubG3ColumnG, columnSubSize, WrittenSubG3ColumnProps } from './WrittenSubG3Column';
-import { QFig, UNK, DiscCell, PLACE_BODY, PLACE_FILL } from '../haromjegyu-szamok-kivonasa/ThreeDigitSubG3Parts';
+import { QFig, UNK } from '../haromjegyu-szamok-kivonasa/ThreeDigitSubG3Parts';
 
 // ---------------------------------------------------------------------------
 // Kérdésábrák
@@ -46,29 +46,6 @@ const EqQ: React.FC<{ parts: string[] }> = ({ parts }) => {
   );
 };
 
-/** Korongok a helyiérték-táblázatban (403 − 157-hez). */
-const DiscsQ: React.FC<{ n: number; minus: string }> = ({ n, minus }) => {
-  const d = [Math.floor(n / 100), Math.floor(n / 10) % 10, n % 10];
-  const x0 = 72;
-  const cw = [52, 60, 52];
-  const xs = [x0, x0 + cw[0], x0 + cw[0] + cw[1]];
-  return (
-    <QFig h={104}>
-      {[0, 1, 2].map((i) => (
-        <g key={i}>
-          <rect x={xs[i]} y="12" width={cw[i]} height="18" fill={PLACE_FILL[i]} stroke="#fff" />
-          <text x={xs[i] + cw[i] / 2} y="26" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#0f172a">{['sz', 't', 'e'][i]}</text>
-          <rect x={xs[i]} y="30" width={cw[i]} height="62" fill={PLACE_BODY[i]} stroke="#fff" />
-          <DiscCell x={xs[i]} y={36} w={cw[i]} n={d[i]} place={i as 0 | 1 | 2} r={5.5} perRow={i === 1 ? 4 : 3} />
-        </g>
-      ))}
-      {d[1] === 0 && <text x={xs[1] + cw[1] / 2} y="66" textAnchor="middle" fontSize="13" fontWeight="bold" fill="#64748b">nincs</text>}
-      <text x="40" y="58" textAnchor="middle" fontSize="18" fontWeight="bold" fill="#0f172a">{n}</text>
-      <text x="40" y="80" textAnchor="middle" fontSize="18" fontWeight="bold" fill="#dc2626">{minus}</text>
-    </QFig>
-  );
-};
-
 /** Adatok doboz a szöveges feladathoz. */
 const DataQ: React.FC<{ rows: [string, string][] }> = ({ rows }) => (
   <QFig h={22 + rows.length * 22}>
@@ -99,7 +76,7 @@ const BarsQ: React.FC = () => (
 // Kérdések
 // ---------------------------------------------------------------------------
 export const WRITTEN_SUB_G3_QUESTIONS: QuizQuestion[] = [
-  // ---------------- 1. szint: felváltás nélkül és az egyeseknél ----------------
+  // ---------------- 1. szint: maradék nélkül és maradék az egyeseknél ----------------
   {
     id: 'wsu-q1',
     level: 1,
@@ -108,7 +85,7 @@ export const WRITTEN_SUB_G3_QUESTIONS: QuizQuestion[] = [
     question: 'Mennyi a különbség?',
     options: ['233', '239', '223', '739'],
     correctAnswer: 0,
-    explanation: 'Egyesek: 6 − 3 = 3. Tízesek: 8 − 5 = 3. Százasok: 4 − 2 = 2. A különbség 233.'
+    explanation: 'Pótolj! Egyesek: 3-hoz 3, az 6. Tízesek: 5-höz 3, az 8. Százasok: 2-höz 2, az 4. A különbség 233.'
   },
   {
     id: 'wsu-q2',
@@ -127,37 +104,37 @@ export const WRITTEN_SUB_G3_QUESTIONS: QuizQuestion[] = [
     question: 'Melyik számjegy kerül az egyesek helyére?',
     options: ['3', '7', '11', '4'],
     correctAnswer: 0,
-    explanation: '7 egyes − 4 egyes = 3 egyes. Az egyesek helyére 3 kerül.'
+    explanation: '4-hez 3, az 7. Az egyesek helyére 3 kerül.'
   },
   {
     id: 'wsu-q4',
     level: 1,
     questionTypeBadge: 'Pótlás',
     figure: <ColQ minuend={357} subtrahend={142} result="  ?" highlight={0} />,
-    question: 'Pótlással számolsz: 2 egyeshez hány egyest kell adni, hogy 7 egyes legyen?',
+    question: 'Pótlással számolsz: 2-höz mennyi kell, hogy 7 legyen?',
     options: ['5', '9', '4', '6'],
     correctAnswer: 0,
-    explanation: '2 + 5 = 7. Tehát 5 egyest kell adni. Ez ugyanaz, mint 7 − 2 = 5.'
+    explanation: '2-höz 5, az 7. Leírom az 5-öt. (Ugyanaz, mint 7 − 2 = 5.)'
   },
   {
     id: 'wsu-q5',
     level: 1,
-    questionTypeBadge: 'Felváltás',
+    questionTypeBadge: 'Maradék',
     figure: <ColQ minuend={372} subtrahend={145} result="   " highlight={0} />,
-    question: '2 egyesből nem lehet 5-öt elvenni. Mit teszel?',
-    options: ['Felváltok 1 tízest 10 egyesre.', 'Kivonom a 2-t az 5-ből.', 'Leírom a 0-t.', 'Felváltok 1 százast 10 egyesre.'],
+    question: 'Az egyeseknél a 2 kisebb, mint az 5. Mit mondasz?',
+    options: ['5-höz 7, az 12. Maradt 1.', '2-höz 3, az 5.', '5-höz 7, az 12. Nem marad semmi.', '5-höz 2, az 7.'],
     correctAnswer: 0,
-    explanation: 'Felváltunk 1 tízest 10 egyesre. Így 12 egyes lesz, és 12 − 5 = 7.'
+    explanation: 'A 2 kisebb, mint az 5, ezért 12-ig pótolunk: 5-höz 7, az 12. Leírom a 7-et, és maradt 1.'
   },
   {
     id: 'wsu-q6',
     level: 1,
-    questionTypeBadge: 'Felváltás',
-    figure: <ColQ minuend={372} subtrahend={145} result="   " exchanges={['?']} highlight={0} />,
-    question: 'Felváltottál 1 tízest. Hány egyesből vonod ki az 5-öt?',
-    options: ['12', '2', '7', '15'],
+    questionTypeBadge: 'Maradék',
+    figure: <ColQ minuend={372} subtrahend={145} result="  7" carries={[null, 1]} highlight={1} />,
+    question: 'Az egyeseknél maradt 1. Mit mondasz a tízeseknél?',
+    options: ['4 meg 1 az 5. 5-höz 2, az 7.', '4-hez 3, az 7.', '4 meg 1 az 5. 5-höz 3, az 8.', '7 meg 1 az 8.'],
     correctAnswer: 0,
-    explanation: '2 egyes + 10 egyes = 12 egyes. 12 − 5 = 7.'
+    explanation: 'A maradékot a kivonandó jegyéhez adjuk: 4 meg 1 az 5. Aztán pótolunk: 5-höz 2, az 7. Leírom a 2-t.'
   },
   {
     id: 'wsu-q7',
@@ -167,7 +144,7 @@ export const WRITTEN_SUB_G3_QUESTIONS: QuizQuestion[] = [
     question: 'Számold ki írásban!',
     options: ['135', '145', '235', '136'],
     correctAnswer: 0,
-    explanation: '3-ból nem megy a 8: 13 − 8 = 5. A felváltott tízest elveszed: 6 − 1 = 5, 5 − 2 = 3. 2 − 1 = 1. Eredmény: 135.'
+    explanation: 'A 3 kisebb, mint a 8: 8-hoz 5, az 13, maradt 1. 2 meg 1 az 3, 3-hoz 3, az 6. 1-hez 1, az 2. Eredmény: 135. (A 145 a maradék nélkül jönne ki.)'
   },
   {
     id: 'wsu-q8',
@@ -186,7 +163,7 @@ export const WRITTEN_SUB_G3_QUESTIONS: QuizQuestion[] = [
     question: 'Mennyi a különbség?',
     options: ['322', '594', '312', '332'],
     correctAnswer: 0,
-    explanation: '8 − 6 = 2, 5 − 3 = 2, 4 − 1 = 3. A különbség 322. (A 594 az összeg lenne!)'
+    explanation: '6-hoz 2, az 8. 3-hoz 2, az 5. 1-hez 3, az 4. A különbség 322. (A 594 az összeg lenne!)'
   },
   {
     id: 'wsu-q10',
@@ -196,39 +173,39 @@ export const WRITTEN_SUB_G3_QUESTIONS: QuizQuestion[] = [
     question: 'Mennyi a különbség?',
     options: ['234', '246', '244', '334'],
     correctAnswer: 0,
-    explanation: '1-ből nem megy a 7: 11 − 7 = 4. 9 − 1 = 8 tízes, 8 − 5 = 3. 3 − 1 = 2. Eredmény: 234.'
+    explanation: 'Az 1 kisebb, mint a 7: 7-hez 4, az 11, maradt 1. 5 meg 1 az 6, 6-hoz 3, az 9. 1-hez 2, az 3. Eredmény: 234.'
   },
 
   // ---------------- 2. szint: tízesek, kétszer, hiányzó jegy ----------------
   {
     id: 'wsu-q11',
     level: 2,
-    questionTypeBadge: 'Felváltás',
+    questionTypeBadge: 'Maradék',
     figure: <ColQ minuend={428} subtrahend={175} result="???" />,
     question: 'Számold ki írásban!',
     options: ['253', '353', '263', '243'],
     correctAnswer: 0,
-    explanation: '8 − 5 = 3. 2 tízesből nem megy a 7: 12 − 7 = 5. A felváltott százast elveszed: 4 − 1 = 3, 3 − 1 = 2. Eredmény: 253.'
+    explanation: '5-höz 3, az 8. A 2 kisebb, mint a 7: 7-hez 5, az 12, maradt 1. 1 meg 1 az 2, 2-höz 2, az 4. Eredmény: 253.'
   },
   {
     id: 'wsu-q12',
     level: 2,
-    questionTypeBadge: 'Felváltás',
-    figure: <ColQ minuend={428} subtrahend={175} result="  3" exchanges={[null, '?']} highlight={1} />,
-    question: '2 tízesből nem lehet 7-et elvenni. Hány tízes lesz a felváltás után?',
-    options: ['12', '2', '10', '7'],
+    questionTypeBadge: 'Maradék',
+    figure: <ColQ minuend={428} subtrahend={175} result="  3" highlight={1} />,
+    question: 'A tízeseknél a 2 kisebb, mint a 7. Meddig pótolsz?',
+    options: ['12-ig', '2-ig', '10-ig', '7-ig'],
     correctAnswer: 0,
-    explanation: '1 százas = 10 tízes. 2 + 10 = 12 tízes. 12 − 7 = 5.'
+    explanation: 'A 7-től nem tudunk 2-ig felfelé számolni, ezért 12-ig pótolunk: 7-hez 5, az 12. Leírom az 5-öt, maradt 1.'
   },
   {
     id: 'wsu-q13',
     level: 2,
-    questionTypeBadge: 'Kétszer felváltunk',
+    questionTypeBadge: 'Kétszer maradt 1',
     figure: <ColQ minuend={421} subtrahend={186} result="???" />,
     question: 'Számold ki írásban!',
     options: ['235', '345', '365', '245'],
     correctAnswer: 0,
-    explanation: '11 − 6 = 5. 2 − 1 = 1 tízes, abból nem megy a 8: 11 − 8 = 3. 4 − 1 = 3, 3 − 1 = 2. Eredmény: 235.'
+    explanation: '6-hoz 5, az 11, maradt 1. 8 meg 1 az 9, 9-hez 3, az 12, maradt 1. 1 meg 1 az 2, 2-höz 2, az 4. Eredmény: 235.'
   },
   {
     id: 'wsu-q14',
@@ -238,7 +215,7 @@ export const WRITTEN_SUB_G3_QUESTIONS: QuizQuestion[] = [
     question: 'Melyik számjegy hiányzik a különbségből?',
     options: ['8', '9', '7', '6'],
     correctAnswer: 0,
-    explanation: 'Egyesek: 14 − 8 = 6. Tízesek: 6 − 1 = 5, 5-ből nem megy a 7: 15 − 7 = 8. A hiányzó jegy 8.'
+    explanation: 'Egyesek: 8-hoz 6, az 14, maradt 1. Tízesek: 7 meg 1 az 8, 8-hoz 8, az 16. A hiányzó jegy 8.'
   },
   {
     id: 'wsu-q15',
@@ -248,7 +225,7 @@ export const WRITTEN_SUB_G3_QUESTIONS: QuizQuestion[] = [
     question: 'Melyik számjegy hiányzik a kisebbítendőből?',
     options: ['3', '1', '4', '8'],
     correctAnswer: 0,
-    explanation: 'A tízeseknél: ? − 2 = 1, tehát ? = 3. Próba: 337 − 125 = 212.'
+    explanation: 'A tízeseknél: 2-höz 1, az ?. Tehát ? = 3. Próba: 337 − 125 = 212.'
   },
   {
     id: 'wsu-q16',
@@ -258,17 +235,17 @@ export const WRITTEN_SUB_G3_QUESTIONS: QuizQuestion[] = [
     question: 'Melyik számjegy hiányzik a kivonandóból?',
     options: ['1', '0', '2', '9'],
     correctAnswer: 0,
-    explanation: 'A tízeseknél: 5 − ? = 4, tehát ? = 1. Próba: 456 − 112 = 344.'
+    explanation: 'A tízeseknél: ?-hez 4 kell, hogy 5 legyen, tehát ? = 1. Próba: 456 − 112 = 344.'
   },
   {
     id: 'wsu-q17',
     level: 2,
     questionTypeBadge: '0 a tízeseknél',
-    figure: <DiscsQ n={403} minus="− 157" />,
-    question: '403 − 157: 3 egyesből nem lehet 7-et elvenni, és tízes sincs. Mit váltunk fel?',
-    options: ['1 százast 9 tízesre és 10 egyesre', '1 tízest 10 egyesre', 'semmit', '1 egyest 10 tízesre'],
+    figure: <ColQ minuend={403} subtrahend={157} result="  6" carries={[null, 1]} highlight={1} />,
+    question: '403 − 157: a tízeseknél 5 meg 1 az 6. Felül 0 van. Meddig pótolsz?',
+    options: ['10-ig', '0-ig', '6-ig', '16-ig'],
     correctAnswer: 0,
-    explanation: 'Tízes nincs, ezért 1 százast váltunk fel: 9 tízes és 10 egyes lesz belőle. Így 13 egyesünk lesz.'
+    explanation: 'A 6-tól nem tudunk 0-ig felfelé számolni, ezért 10-ig pótolunk: 6-hoz 4, az 10. Leírom a 4-et, maradt 1.'
   },
   {
     id: 'wsu-q18',
@@ -278,7 +255,7 @@ export const WRITTEN_SUB_G3_QUESTIONS: QuizQuestion[] = [
     question: 'Számold ki írásban!',
     options: ['246', '356', '354', '346'],
     correctAnswer: 0,
-    explanation: '13 − 7 = 6. A felváltás után 9 tízes van: 9 − 5 = 4. 4 − 1 = 3 százas, 3 − 1 = 2. Eredmény: 246.'
+    explanation: '7-hez 6, az 13, maradt 1. 5 meg 1 az 6, 6-hoz 4, az 10, maradt 1. 1 meg 1 az 2, 2-höz 2, az 4. Eredmény: 246.'
   },
   {
     id: 'wsu-q19',
@@ -318,7 +295,7 @@ export const WRITTEN_SUB_G3_QUESTIONS: QuizQuestion[] = [
     question: 'Az iskolába 452 tanuló jár. 267-en ebédelnek a menzán. Hányan nem ebédelnek ott?',
     options: ['185', '295', '215', '195'],
     correctAnswer: 0,
-    explanation: '452 − 267 = 185. Kétszer kell felváltani: 12 − 7 = 5, 14 − 6 = 8, 3 − 2 = 1. Ellenőrzés: 185 + 267 = 452.'
+    explanation: '452 − 267 = 185. Kétszer marad 1: 7-hez 5, az 12; 6 meg 1 az 7, 7-hez 8, az 15; 2 meg 1 az 3, 3-hoz 1, az 4. Ellenőrzés: 185 + 267 = 452.'
   },
   {
     id: 'wsu-q23',
@@ -347,7 +324,7 @@ export const WRITTEN_SUB_G3_QUESTIONS: QuizQuestion[] = [
     question: 'A kertben 405 tulipán nyílt. 168-at leszedtünk. Hány tulipán maradt?',
     options: ['237', '347', '363', '247'],
     correctAnswer: 0,
-    explanation: '405 − 168. Tízes nincs: 1 százast felváltunk 9 tízesre és 10 egyesre. 15 − 8 = 7, 9 − 6 = 3, 3 − 1 = 2. Maradt 237 tulipán.'
+    explanation: '405 − 168: 8-hoz 7, az 15, maradt 1. 6 meg 1 az 7, 7-hez 3, az 10, maradt 1. 1 meg 1 az 2, 2-höz 2, az 4. Maradt 237 tulipán.'
   },
   {
     id: 'wsu-q26',
@@ -411,12 +388,12 @@ export const WrittenSubG3Quiz: React.FC<{
     topicId="g3-wsub-irasbeli-quiz"
     subtopicId="irasbeli-kivonas"
     title="3. Írásbeli kivonás – Kvíz"
-    subtitle="30 feladat 3 szinten: írásbeli kivonás felváltás nélkül és felváltással, 0 a tízeseknél, ellenőrzés, szöveges feladatok."
+    subtitle="30 feladat 3 szinten: írásbeli kivonás pótlással, maradék nélkül és maradékkal, 0 a tízeseknél, ellenőrzés, szöveges feladatok."
     badge="3. OSZTÁLY • VIII. ÍRÁSBELI KIVONÁS • KVÍZ"
     questions={WRITTEN_SUB_G3_QUESTIONS}
     cheatSheets={[
-      { title: 'Lépések', items: ['Egymás alá, helyi érték szerint', 'Egyesek → tízesek → százasok', 'Felülről vonunk ki'] },
-      { title: 'Felváltás', items: ['Kevés van? Válts fel 1-et!', '2 egyes + 10 egyes = 12 egyes', 'A következő helyen vedd el a felváltott 1-et', '0 tízes: 1 százas = 9 tízes + 10 egyes'] },
+      { title: 'Lépések', items: ['Egymás alá, helyi érték szerint', 'Egyesek → tízesek → százasok', 'A kivonandótól pótolunk felfelé: 3-hoz 3, az 6'] },
+      { title: 'Maradék', items: ['Kisebb a felső jegy? Pótolj 10-zel többig!', '5-höz 7, az 12 – maradt 1', 'A maradékot add a következő kivonandó-jegyhez: 4 meg 1 az 5', '0 a felső jegy: 10-ig pótolunk'] },
       { title: 'Ellenőrzés', items: ['különbség + kivonandó = kisebbítendő', '227 + 145 = 372', 'Becslés: közel van az eredmény?'] }
     ]}
     onBack={onBack}

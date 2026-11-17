@@ -134,14 +134,14 @@ const Digit: React.FC<{ x: number; y: number; c: number; ch: string; color?: str
 
 /** A maradék kis száma a kivonandó jegye mellett, balra fent. */
 const CarryMark: React.FC<{ x: number; y: number; c: number; ch: string }> = ({ x, y, c, ch }) => {
-  const cx = x + c * 0.15;
-  const cy = y + c * 0.24;
-  const r = c * 0.17;
+  const cx = x + c * 0.13;
+  const cy = y + c * 0.23;
+  const r = c * 0.18;
   const q = ch === '?';
   return (
     <g>
       <circle cx={cx} cy={cy} r={r} fill={q ? '#fee2e2' : '#dcfce7'} stroke={q ? UNK : EXCH} strokeWidth={c * 0.04} />
-      <text x={cx} y={cy + c * 0.11} textAnchor="middle" fontSize={c * 0.3} fontWeight="bold" fill={q ? UNK : EXCH} fontFamily={COL_FONT}>{ch}</text>
+      <text x={cx} y={cy + c * 0.11} textAnchor="middle" fontSize={c * 0.32} fontWeight="bold" fill={q ? UNK : EXCH} fontFamily={COL_FONT}>{ch}</text>
     </g>
   );
 };

@@ -1328,7 +1328,7 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
                 title="Írásbeli kivonás Tananyag"
-                subtitle="Írásbeli kivonás felváltással (egyeseknél, tízeseknél, 0 a tízeseknél), pótlás, ellenőrzés összeadással."
+                subtitle="Írásbeli kivonás pótlással, maradékkal (egyeseknél, tízeseknél, 0 a tízeseknél), ellenőrzés összeadással."
                 type="Tananyag"
                 emoji="📖"
                 onClick={() => onActivitySelect('g3-wsub-irasbeli-theory', topicId)}
@@ -1337,7 +1337,7 @@ export const Grade3View: React.FC<GradeViewProps> = ({
               />
               <ActivityPlaceholder
                 title="Gyakorló Kvíz"
-                subtitle="30 feladat 3 szinten: írásbeli kivonás felváltás nélkül és felváltással, hiányzó jegyek, ellenőrzés, szöveges feladatok."
+                subtitle="30 feladat 3 szinten: írásbeli kivonás maradék nélkül és maradékkal, hiányzó jegyek, ellenőrzés, szöveges feladatok."
                 type="Kvíz"
                 emoji="🎯"
                 onClick={() => onActivitySelect('g3-wsub-irasbeli-quiz', topicId)}
@@ -1384,7 +1384,7 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
                 title="Megálló – tudáspróba Tananyag"
-                subtitle="Az egész fejezet röviden: kivonás fejben, becslés, írásbeli kivonás felváltással, ellenőrzés, szöveges feladatok, a különbség változásai."
+                subtitle="Az egész fejezet röviden: kivonás fejben, becslés, írásbeli kivonás pótlással, maradékkal, ellenőrzés, szöveges feladatok, a különbség változásai."
                 type="Tananyag"
                 emoji="📖"
                 onClick={() => onActivitySelect('g3-wsub-tudasproba-theory', topicId)}
@@ -1393,7 +1393,7 @@ export const Grade3View: React.FC<GradeViewProps> = ({
               />
               <ActivityPlaceholder
                 title="Tudáspróba Kvíz"
-                subtitle="90 feladat 3 szinten: kivonás fejben, becslés, írásbeli kivonás felváltással, ellenőrzés, hiányzó számok, szöveges feladatok, a különbség változásai."
+                subtitle="90 feladat 3 szinten: kivonás fejben, becslés, írásbeli kivonás pótlással, maradékkal, ellenőrzés, hiányzó számok, szöveges feladatok, a különbség változásai."
                 type="Kvíz"
                 emoji="🎯"
                 onClick={() => onActivitySelect('g3-wsub-tudasproba-quiz', topicId)}

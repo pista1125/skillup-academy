@@ -36,8 +36,8 @@ const LIST: MatcherLevelConfig[] = [
   },
   {
     level: 2,
-    title: '2. szint: Felváltás a tízeseknél is',
-    description: 'Kétszer is felválthatsz. Figyelj a 0-ra a tízeseknél!',
+    title: '2. szint: Maradék a tízeseknél is',
+    description: 'Kétszer is maradhat 1. Figyelj a 0-ra a tízeseknél!',
     pairs: [
       { id: 'wsum2_0', left: '', promptFigure: <MiniCol a={428} b={175} />, right: '253' },
       { id: 'wsum2_1', left: '', promptFigure: <MiniCol a={421} b={186} />, right: '235' },

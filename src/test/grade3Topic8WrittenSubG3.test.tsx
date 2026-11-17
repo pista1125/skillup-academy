@@ -74,7 +74,8 @@ describe('Grade 3 Topic VIII - 3. Írásbeli kivonás - Components', () => {
   });
 });
 
-import { subSteps, spokenSubStep, exchangeMarks, WrittenSubG3Column } from '@/components/math/grade-3/irasbeli-kivonas/irasbeli-kivonas/WrittenSubG3Column';
+import { subSteps, spokenSubStep, carryMarks, carryCount, WrittenSubG3Column } from '@/components/math/grade-3/irasbeli-kivonas/irasbeli-kivonas/WrittenSubG3Column';
+import { forgotCarry, stepHint } from '@/components/math/grade-3/irasbeli-kivonas/irasbeli-kivonas/WrittenSubG3Theory';
 
 describe('Grade 3 Topic VIII - WrittenSubG3Column helpers', () => {
   it('subSteps gives the right digits for every pair up to 500', () => {
@@ -90,16 +91,31 @@ describe('Grade 3 Topic VIII - WrittenSubG3Column helpers', () => {
     }
   });
 
-  it('speaks the zero-tens case like the textbook', () => {
+  it('speaks the steps with the pótlásos-maradékos method (teacher decision)', () => {
+    const t = subSteps(532, 167);
+    expect(spokenSubStep(t[0])).toBe('7-hez 5, az 12. Leírom az 5-öt, maradt 1.');
+    expect(spokenSubStep(t[1])).toBe('6 meg 1 az 7. 7-hez 6, az 13. Leírom a 6-ot, maradt 1.');
+    expect(spokenSubStep(t[2])).toBe('1 meg 1 az 2. 2-höz 3, az 5. Leírom a 3-at.');
     const s = subSteps(403, 157);
-    expect(spokenSubStep(s[0], s)).toContain('9 tízesre és 10 egyesre');
-    expect(spokenSubStep(s[1], s)).toContain('9 − 5 = 4');
-    expect(spokenSubStep(s[2], s)).toContain('4 − 1 = 3');
-    expect(exchangeMarks(s, 3)).toEqual([13, 9, 3]);
+    expect(spokenSubStep(s[1])).toBe('5 meg 1 az 6. 6-hoz 4, az 10. Leírom a 4-et, maradt 1.');
+    expect(carryMarks(s, 3)).toEqual([null, 1, 1]);
+    expect(carryMarks(s, 1)).toEqual([null, 1, null]);
+    expect(carryCount(486, 253)).toBe(0);
+    expect(carryCount(421, 186)).toBe(2);
   });
 
-  it('renders the column with exchange marks', () => {
-    const { container } = render(<WrittenSubG3Column minuend={372} subtrahend={145} result={227} exchanges={[12, 6]} />);
+  it('typical mistakes: forgotten maradék and reversed pótlás', () => {
+    expect(forgotCarry(372, 145)).toBe(237);
+    expect(forgotCarry(403, 157)).toBe(356);
+    const s = subSteps(372, 145);
+    expect(stepHint(s[1], 3)).toContain('maradékot');
+    expect(stepHint(s[0], 3)).toContain('Fordítva');
+    expect(stepHint(s[0], 7)).toBe('');
+  });
+
+  it('renders the column with maradék marks', () => {
+    const { container } = render(<WrittenSubG3Column minuend={372} subtrahend={145} result={227} carries={[null, 1]} />);
     expect(container.querySelector('svg')).toBeTruthy();
+    expect(container.textContent).toContain('1');
   });
 });

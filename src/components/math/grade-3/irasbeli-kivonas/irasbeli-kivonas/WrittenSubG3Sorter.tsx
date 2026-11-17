@@ -22,12 +22,12 @@ interface WrittenSubG3SorterProps {
 const LIST: SorterLevelConfig[] = [
   {
     level: 1,
-    title: '1. szint: Hol kell felváltani?',
-    description: 'Nézd meg az egyeseket és a tízeseket! Hol kevés a felső szám?',
+    title: '1. szint: Hol marad 1?',
+    description: 'Nézd meg az egyeseket és a tízeseket! Hol kisebb a felső jegy, hol kell 10-zel többig pótolni?',
     categories: [
-      { id: 'nincs', name: 'Nem kell felváltani', color: 'emerald' },
-      { id: 'egyes', name: 'Felváltás az egyeseknél', color: 'amber' },
-      { id: 'tizes', name: 'Felváltás a tízeseknél', color: 'sky' }
+      { id: 'nincs', name: 'Nem marad semmi', color: 'emerald' },
+      { id: 'egyes', name: 'Maradt 1 az egyeseknél', color: 'amber' },
+      { id: 'tizes', name: 'Maradt 1 a tízeseknél', color: 'sky' }
     ],
     items: [
       { id: 'wsus1', text: '', figure: <SortPlace a={486} b={253} />, categoryId: 'nincs' },

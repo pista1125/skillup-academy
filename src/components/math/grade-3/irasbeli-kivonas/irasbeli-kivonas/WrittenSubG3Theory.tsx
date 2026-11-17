@@ -1,29 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { TheoryTemplate, TheorySection, TheoryCard, TheoryCallout, TheoryTrapBox } from '../TheoryTemplate';
 import { StepsNoExchangeSvg, FillUpStepsSvg, ExchangeOnesSvg, ExchangeTensSvg, ExchangeBothSvg, ZeroTensSvg, CheckSvg, WordPlanSvg } from './WrittenSubG3Figures';
-import { WrittenSubG3Column, subSteps, spokenSubStep, fillUpText, placePlural, suffixA, ColDigit, SubStep } from './WrittenSubG3Column';
-import { FONT, DiscCell, PLACE_BODY, PLACE_FILL, PLACE_TEXT, rnd, shuffle } from '../haromjegyu-szamok-kivonasa/ThreeDigitSubG3Parts';
+import { WrittenSubG3Column, subSteps, spokenSubStep, carryMarks, whyTenText, suffixHoz, placePlural, SubStep } from './WrittenSubG3Column';
+import { FONT, rnd, shuffle } from '../haromjegyu-szamok-kivonasa/ThreeDigitSubG3Parts';
 
 // ---------------------------------------------------------------------------
-// Feladatgenerátor (≤ 499, ahogy a tankönyv): felváltás nélkül / egyeseknél / tízeseknél / kétszer / 0 a tízeseknél
+// Írásbeli kivonás PÓTLÁSOS-MARADÉKOS módszerrel (a tanító döntése; a tankönyv felváltást tanít).
+// Feladatgenerátor (≤ 499, ahogy a tankönyv): maradék nélkül / az egyeseknél / a tízeseknél / kétszer / 0 a tízeseknél
 // ---------------------------------------------------------------------------
 type Kind = 'nincs' | 'egyes' | 'tizes' | 'mindketto' | 'nulla';
 const KIND_LABEL: Record<Kind, string> = {
-  nincs: 'Felváltás nélkül',
-  egyes: 'Felváltás az egyeseknél',
-  tizes: 'Felváltás a tízeseknél',
-  mindketto: 'Kétszer felváltunk',
+  nincs: 'Nem marad semmi',
+  egyes: 'Maradt 1 az egyeseknél',
+  tizes: 'Maradt 1 a tízeseknél',
+  mindketto: 'Kétszer maradt 1',
   nulla: '0 a tízeseknél'
 };
-const kindOf = (a: number, b: number): Kind => {
+export const kindOf = (a: number, b: number): Kind => {
   const s = subSteps(a, b);
-  if (s[1].digit === 0 && s[0].exchanged) return 'nulla';
-  if (s[0].exchanged && s[1].exchanged) return 'mindketto';
-  if (s[0].exchanged) return 'egyes';
-  if (s[1].exchanged) return 'tizes';
+  if (s[1].digit === 0 && s[0].carryOut) return 'nulla';
+  if (s[0].carryOut && s[1].carryOut) return 'mindketto';
+  if (s[0].carryOut) return 'egyes';
+  if (s[1].carryOut) return 'tizes';
   return 'nincs';
 };
-const makeSubPair = (kind: Kind): [number, number] => {
+export const makeSubPair = (kind: Kind): [number, number] => {
   for (;;) {
     const a = kind === 'nulla' ? rnd(2, 4) * 100 + rnd(0, 9) : rnd(201, 499);
     const b = rnd(101, 389);
@@ -33,6 +34,26 @@ const makeSubPair = (kind: Kind): [number, number] => {
   }
 };
 const randomKind = (): Kind => (['nincs', 'egyes', 'tizes', 'mindketto', 'nulla'] as Kind[])[[0, 1, 1, 2, 2, 3, 3, 4][rnd(0, 7)]];
+
+/** Tipikus hibák: a maradék elfelejtése, illetve fordított pótlás (a kisebb jegytől a nagyobbig). */
+export const forgotCarry = (a: number, b: number) =>
+  [0, 1, 2].reduce((s, c) => {
+    const d = Math.floor(a / 10 ** c) % 10;
+    const n = Math.floor(b / 10 ** c) % 10;
+    return s + ((d < n ? d + 10 : d) - n) * 10 ** c;
+  }, 0);
+export const swapped = (a: number, b: number) => [0, 1, 2].reduce((s, c) => s + Math.abs((Math.floor(a / 10 ** c) % 10) - (Math.floor(b / 10 ** c) % 10)) * 10 ** c, 0);
+
+/** Visszajelzés egy beírt számjegyre (a laborhoz és a teszthez). */
+export const stepHint = (st: SubStep, d: number): string => {
+  if (d === st.write) return '';
+  if (st.carryIn && d === st.digit + (st.digit < st.need ? 10 : 0) - st.need) return `Ne felejtsd el a maradékot! ${st.need} meg 1 az ${st.from}.`;
+  if (st.carryOut && d === st.from - st.digit) return `Fordítva! A kivonandótól pótolj: ${st.from}-${suffixHoz(st.from)} mennyi kell, hogy ${st.target} legyen?`;
+  return `Számolj fel: ${st.from}-${suffixHoz(st.from)} mennyi kell, hogy ${st.target} legyen?`;
+};
+
+/** -tól/-től rag számhoz 0–10-ig: 3-tól, 7-től, 10-től. */
+const tol = (n: number) => (n === 10 ? 'től' : ['tól', 'től', 'től', 'tól', 'től', 'től', 'tól', 'től', 'tól', 'től'][n % 10]);
 
 const KEYS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 const KeyPad: React.FC<{ onKey: (d: number) => void; bad?: number | null; disabled?: boolean }> = ({ onKey, bad, disabled }) => (
@@ -50,24 +71,47 @@ const KeyPad: React.FC<{ onKey: (d: number) => void; bad?: number | null; disabl
   </div>
 );
 
-/** Kell-e kérdezni a felváltást ebben az oszlopban? (A 0-s tízesnél a tízesek már fel vannak váltva.) */
-const isZeroTens = (s: SubStep[]) => s[1].digit === 0 && s[0].exchanged;
-const needAsk = (s: SubStep[], col: number) => col < 2 && s[col].exchanged && !(col === 1 && isZeroTens(s));
+/** Pótló sáv: 0–19 számegyenes, a kivonandó jegyétől (+ maradék) a célig ugrunk. */
+const FillStrip: React.FC<{ st: SubStep; showTarget: boolean; done: boolean }> = ({ st, showTarget, done }) => {
+  const x0 = 20;
+  const k = 19;
+  const X = (n: number) => x0 + n * k;
+  return (
+    <svg viewBox="0 0 420 120" className="w-full h-auto" xmlns="http://www.w3.org/2000/svg" fontFamily={FONT}>
+      <rect x="1" y="1" width="418" height="118" rx="12" fill="#f8fafc" stroke="#cbd5e1" />
+      <line x1={X(0)} y1={78} x2={X(19)} y2={78} stroke="#475569" strokeWidth="2" />
+      {Array.from({ length: 20 }).map((_, n) => (
+        <g key={n}>
+          <line x1={X(n)} y1={n % 5 === 0 ? 70 : 73} x2={X(n)} y2={n % 5 === 0 ? 86 : 83} stroke="#475569" strokeWidth={n === 10 ? 3 : 1.3} />
+          <text x={X(n)} y={102} textAnchor="middle" fontSize="11.5" fontWeight={n === st.from || (showTarget && n === st.target) ? 'bold' : 'normal'} fill={n === st.from ? '#dc2626' : showTarget && n === st.target ? '#1d4ed8' : '#64748b'}>{n}</text>
+        </g>
+      ))}
+      <circle cx={X(st.from)} cy={78} r="6" fill="#dc2626" />
+      <text x={X(st.from)} y={60} textAnchor="middle" fontSize="12" fontWeight="bold" fill="#dc2626">innen</text>
+      {showTarget && (
+        <g>
+          <circle cx={X(st.target)} cy={78} r="6" fill="#1d4ed8" />
+          {st.target !== st.from && <path d={`M ${X(st.from)} 70 Q ${(X(st.from) + X(st.target)) / 2} ${30} ${X(st.target)} 70`} fill="none" stroke="#15803d" strokeWidth="2.6" />}
+          <text x={(X(st.from) + X(st.target)) / 2} y={36} textAnchor="middle" fontSize="16" fontWeight="bold" fill="#15803d">+{done ? st.write : '?'}</text>
+          {st.carryOut ? <text x={X(19)} y={22} textAnchor="end" fontSize="12" fontWeight="bold" fill="#15803d">átléptük a 10-et: maradt 1</text> : null}
+        </g>
+      )}
+    </svg>
+  );
+};
 
 // ---------------------------------------------------------------------------
 // Labor II – Hibavadász
 // ---------------------------------------------------------------------------
 type Mistake = 'jo' | 'felejt' | 'fordit' | 'szazas';
 interface Hunt { a: number; b: number; r: number; mistake: Mistake }
-const noBorrow = (a: number, b: number) => subSteps(a, b).reduce((s, st) => s + (st.exchanged ? st.digit + 10 - st.need : st.digit - st.need) * 10 ** st.col, 0);
-const swapped = (a: number, b: number) => [0, 1, 2].reduce((s, c) => s + Math.abs((Math.floor(a / 10 ** c) % 10) - (Math.floor(b / 10 ** c) % 10)) * 10 ** c, 0);
-const makeHunt = (): Hunt => {
+export const makeHunt = (): Hunt => {
   for (;;) {
     const [a, b] = makeSubPair(randomKind());
     const ok = a - b;
     const m = (['jo', 'jo', 'felejt', 'fordit', 'szazas'] as Mistake[])[rnd(0, 4)];
     let r = ok;
-    if (m === 'felejt') r = noBorrow(a, b);
+    if (m === 'felejt') r = forgotCarry(a, b);
     if (m === 'fordit') r = swapped(a, b);
     if (m === 'szazas') r = ok + (rnd(0, 1) ? 100 : -100);
     if (m !== 'jo' && (r === ok || r < 0 || r > 999)) continue;
@@ -89,7 +133,6 @@ export const WrittenSubG3Theory: React.FC<{ onBack?: () => void; onStartQuiz?: (
   const [kind, setKind] = useState<Kind>('mindketto');
   const [pair, setPair] = useState<[number, number]>([364, 178]);
   const [col, setCol] = useState(0); // aktuális oszlop; 3 = kész
-  const [exNow, setExNow] = useState(false); // felváltottunk-e már az aktuális oszlopban
   const [phase, setPhase] = useState<'ask' | 'digit' | 'check' | 'done'>('ask');
   const [bad, setBad] = useState<number | null>(null);
   const [hint, setHint] = useState('');
@@ -101,12 +144,10 @@ export const WrittenSubG3Theory: React.FC<{ onBack?: () => void; onStartQuiz?: (
   const [a, b] = pair;
   const steps = subSteps(a, b);
   const diff = a - b;
-  const zero = isZeroTens(steps);
-  const startPhase = (c: number) => (c >= 3 ? 'check' : needAsk(steps, c) || c < 2 ? 'ask' : 'digit');
+  const startPhase = (c: number) => (c >= 3 ? 'check' : c < 2 ? 'ask' : 'digit');
   const reset = (p: [number, number]) => {
     setPair(p);
     setCol(0);
-    setExNow(false);
     setPhase('ask');
     setBad(null);
     setHint('');
@@ -123,72 +164,40 @@ export const WrittenSubG3Theory: React.FC<{ onBack?: () => void; onStartQuiz?: (
     setCheckOpts(shuffle([a, a + 10, a + 100]));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // felváltás megtörtént-e a j-edik oszlopban (a 0-s tízes az egyesekkel együtt váltódik)
-  const exDone = (j: number): boolean => {
-    if (j === 1 && zero) return exDone(0);
-    return steps[j]?.exchanged && (j < col || (j === col && exNow));
-  };
-  const discs = [0, 1, 2].map((i) => steps[i].digit + (exDone(i) ? 10 : 0) - (i > 0 && exDone(i - 1) ? 1 : 0));
-  const crossed = [0, 1, 2].map((i) => (i < col ? steps[i].need : 0));
-  const freshD = [0, 1, 2].map((i) => (i === col && exNow ? 10 : zero && i === 1 && col === 0 && exNow ? 9 : 0));
-  const exMarks: ColDigit[] = [0, 1, 2].map((i) => {
-    const s = steps[i];
-    if (!marks) return null;
-    if (i === 1 && zero && exDone(0)) return 9;
-    if (i < col) return s.exchanged || s.borrowIn ? s.top : null;
-    if (i === col) return exNow ? s.top : s.borrowIn ? s.avail : null;
-    return null;
-  });
   const resultStr = String(diff)
     .padStart(3, ' ')
     .split('')
     .map((ch, i) => (2 - i < col ? ch : ' '))
     .join('');
 
-  const doExchange = () => {
-    setExNow(true);
-    setPhase('digit');
-    setHint('');
-    setBad(null);
-  };
   const writeDigit = (c: number) => {
     const st = steps[c];
-    const extra = !st.exchanged && !st.borrowIn ? ` Pótlással: ${fillUpText(st)}` : '';
-    setLog((l) => [...l, `${c + 1}. lépés (${placePlural(c)}): ${spokenSubStep(st, steps)}${extra}`]);
+    setLog((l) => [...l, `${c + 1}. lépés (${placePlural(c)}): ${spokenSubStep(st)}`]);
     const next = c + 1;
     setCol(next);
-    setExNow(false);
     setPhase(startPhase(next));
     setBad(null);
     setHint('');
   };
-  const answerAsk = (yes: boolean) => {
+  const st = steps[Math.min(col, 2)];
+  /** Melyik számig pótolsz? (a kisebbítendő jegyéig, vagy 10-zel többig) */
+  const answerAsk = (ten: boolean) => {
     if (phase !== 'ask' || demo) return;
-    const st = steps[col];
-    const must = needAsk(steps, col);
-    const have = col === 1 && zero ? 9 : st.avail;
-    if (yes === must) {
-      if (yes) doExchange();
-      else {
-        setPhase('digit');
-        setHint(col === 1 && zero ? 'Jó! A tízeseket már felváltottuk: 9 tízes van.' : '');
-      }
+    if (ten === !!st.carryOut) {
+      setPhase('digit');
+      setHint('');
       return;
     }
-    if (must) setHint(`Nézd meg: ${st.avail} ${['egyesből', 'tízesből'][col]} nem lehet ${st.need}-${suffixA(st.need)} elvenni! Fel kell váltani.`);
-    else setHint(`Van elég: ${have} ≥ ${st.need}. Most nem kell felváltani.`);
+    setHint(ten ? `Van elég: ${st.from}-${tol(st.from)} ${st.digit}-ig pótolhatsz. Nem kell 10-zel több.` : whyTenText(st));
   };
   const press = (d: number) => {
     if (phase !== 'digit' || demo) return;
-    const st = steps[col];
     if (d === st.write) {
       writeDigit(col);
       return;
     }
     setBad(d);
-    if (st.exchanged && d === st.need - st.avail) setHint(`Nem fordítva! A felső számból veszel el: ${st.top} − ${st.need} = ?`);
-    else if (st.borrowIn && st.digit >= st.need && d === st.digit - st.need) setHint(`Ne felejtsd el: a felváltott 1-et el kell venni! ${st.digit} − 1 = ${st.avail}, és ${st.avail} − ${st.need} = ?`);
-    else setHint(`Számold ki: ${st.top} − ${st.need} = ?`);
+    setHint(stepHint(st, d));
   };
   const pickCheck = (v: number) => {
     if (phase !== 'check') return;
@@ -206,16 +215,13 @@ export const WrittenSubG3Theory: React.FC<{ onBack?: () => void; onStartQuiz?: (
       setDemo(false);
       return;
     }
-    const t = window.setTimeout(
-      () => {
-        if (needAsk(steps, col) && !exNow) doExchange();
-        else writeDigit(col);
-      },
-      col === 0 && !exNow ? 700 : 1500
-    );
+    const t = window.setTimeout(() => {
+      if (phase === 'ask') setPhase('digit');
+      else writeDigit(col);
+    }, 1300);
     return () => window.clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [demo, col, exNow]);
+  }, [demo, col, phase]);
   const startDemo = () => {
     reset(pair);
     setDemo(true);
@@ -236,7 +242,9 @@ export const WrittenSubG3Theory: React.FC<{ onBack?: () => void; onStartQuiz?: (
     setHMsg('');
     setHBad(null);
     const ok = h.a - h.b;
-    setHOpts(shuffle(Array.from(new Set([ok, h.r === ok ? ok + 10 : h.r, noBorrow(h.a, h.b) === ok ? ok + 100 : noBorrow(h.a, h.b), swapped(h.a, h.b) === ok ? ok - 10 : swapped(h.a, h.b)]))));
+    const f = forgotCarry(h.a, h.b);
+    const sw = swapped(h.a, h.b);
+    setHOpts(shuffle(Array.from(new Set([ok, h.r === ok ? ok + 10 : h.r, f === ok ? ok + 100 : f, sw === ok ? ok - 10 : sw]))));
   };
   const judge = (good: boolean) => {
     if (hStage !== 'judge') return;
@@ -263,17 +271,19 @@ export const WrittenSubG3Theory: React.FC<{ onBack?: () => void; onStartQuiz?: (
       setHStage('done');
       setHBad(null);
       setStreak((s) => s + 1);
-      const why = hunt.mistake === 'felejt' ? 'A hiba: elfelejtette elvenni a felváltott 1-et.' : hunt.mistake === 'fordit' ? 'A hiba: a kisebb jegyből vonta ki a nagyobbat, fordítva.' : 'A hiba: a százasoknál tévedett.';
+      const why =
+        hunt.mistake === 'felejt'
+          ? 'A hiba: elfelejtette a maradékot hozzáadni a következő kivonandó-jegyhez.'
+          : hunt.mistake === 'fordit'
+            ? 'A hiba: fordítva pótolt, a kisebb jegytől a nagyobbig.'
+            : 'A hiba: a százasoknál tévedett.';
       setHMsg(`Szuper! ${hunt.a} − ${hunt.b} = ${okH}. ${why}`);
       return;
     }
     setHBad(v);
     setStreak(0);
-    setHMsg('Számold ki lépésről lépésre, az egyesekkel kezdve!');
+    setHMsg('Számold ki lépésről lépésre, az egyesekkel kezdve! Ne felejtsd el a maradékot!');
   };
-
-  const cw = [80, 130, 130];
-  const xs = [70, 150, 280];
 
   return (
     <TheoryTemplate
@@ -282,7 +292,7 @@ export const WrittenSubG3Theory: React.FC<{ onBack?: () => void; onStartQuiz?: (
       grade={3}
       chapterId="irasbeli-kivonas"
       title="3. Írásbeli kivonás"
-      subtitle="Helyi érték szerint egymás alá, az egyesekkel kezdve; felváltás, pótlás, ellenőrzés összeadással."
+      subtitle="Helyi érték szerint egymás alá, az egyesekkel kezdve; pótlás, maradék, ellenőrzés összeadással."
       badge="3. OSZTÁLY • VIII. ÍRÁSBELI KIVONÁS • TANANYAG"
       themeColor="blue"
       pdfFilename="3_osztaly_irasbeli_kivonas_tananyag.pdf"
@@ -296,12 +306,12 @@ export const WrittenSubG3Theory: React.FC<{ onBack?: () => void; onStartQuiz?: (
         formula: (
           <div className="space-y-2 text-slate-800 dark:text-slate-100 font-normal">
             <div className="p-2.5 rounded-xl bg-blue-50/90 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-800/80 text-center font-mono text-base font-black text-blue-900 dark:text-blue-200">
-              2 egyesből nem lehet 5-öt elvenni → felváltok 1 tízest: 12 − 5 = 7
+              5-höz 7, az 12. Leírom a 7-et, maradt 1.
             </div>
             <ul className="list-disc pl-4 space-y-1 text-xs">
-              <li>Írd a számokat helyi érték szerint <strong>egymás alá</strong>!</li>
-              <li>Kezdd az <strong>egyesekkel</strong>, aztán tízesek, végül százasok.</li>
-              <li>Ha kevés van, <strong>válts fel</strong> 1-et a következő helyi értékről. Ott utána vedd el a felváltott 1-et!</li>
+              <li>Írd a számokat helyi érték szerint <strong>egymás alá</strong>! Kezdd az <strong>egyesekkel</strong>!</li>
+              <li><strong>Pótolj</strong>: a kivonandó jegyétől a kisebbítendő jegyéig. Ha az kisebb, pótolj 10-zel többig: <strong>maradt 1</strong>.</li>
+              <li>A maradékot add a következő kivonandó-jegyhez: <strong>4 meg 1 az 5</strong>.</li>
               <li>Ellenőrizz <strong>összeadással</strong>: különbség + kivonandó = kisebbítendő.</li>
             </ul>
           </div>
@@ -312,58 +322,58 @@ export const WrittenSubG3Theory: React.FC<{ onBack?: () => void; onStartQuiz?: (
         <div className="space-y-2 text-sm text-slate-700 leading-relaxed">
           <p>Háromjegyű számokat vonunk ki <strong>írásban</strong>. Így nagy számokkal is biztosan megy.</p>
           <p><strong>kisebbítendő − kivonandó = különbség</strong>. A kisebbítendő van felül, a kivonandó alatta.</p>
-          <p>Sorrend: <strong>becslés → számítás → ellenőrzés</strong>.</p>
+          <p>Pótlással számolunk: azt mondjuk, <strong>mennyi kell még</strong> a kivonandóhoz. Sorrend: <strong>becslés → számítás → ellenőrzés</strong>.</p>
         </div>
       </TheorySection>
 
-      <TheorySection title="2. Felváltás nélkül" badge="486 − 253" badgeColor="emerald">
+      <TheorySection title="2. Pótlás, maradék nélkül" badge="486 − 253" badgeColor="emerald">
         <StepsNoExchangeSvg />
         <p className="text-sm text-slate-700 leading-relaxed">
-          Becslés: 490 − 250 = 240. Számítás: az egyesekkel kezdünk. 6 − 3 = 3, 8 − 5 = 3, 4 − 2 = 2. A különbség <strong>233</strong>. Közel van a becsléshez.
+          Becslés: 490 − 250 = 240. Számítás az egyesekkel kezdve: „3-hoz 3, az 6. Leírom a 3-at.” „5-höz 3, az 8.” „2-höz 2, az 4.” A különbség <strong>233</strong>. Közel van a becsléshez.
         </p>
       </TheorySection>
 
-      <TheorySection title="3. Számolhatsz pótlással is" badge="Mennyi kell még?" badgeColor="teal">
+      <TheorySection title="3. Ha kisebb a felső jegy" badge="Maradt 1" badgeColor="teal">
         <FillUpStepsSvg />
         <p className="text-sm text-slate-700 leading-relaxed">
-          Ne azt kérdezd, mennyi marad, hanem hogy <strong>mennyit kell adni</strong> a kivonandóhoz: 3 egyeshez 3 egyest kell adni, hogy 6 egyes legyen. 5 tízeshez 3 tízest, hogy 8 legyen. 2 százashoz 2 százast, hogy 4 legyen.
+          A 7-től nem tudunk 2-ig felfelé számolni. Ezért <strong>12-ig</strong> pótolunk: 7-hez 5, az 12. Átléptük a 10-et, ezért <strong>maradt 1</strong>. Ezt az 1-et a következő oszlopban a kivonandó jegyéhez adjuk.
         </p>
       </TheorySection>
 
-      <TheorySection title="4. Felváltás az egyeseknél" badge="372 − 145" badgeColor="sky">
+      <TheorySection title="4. Maradt 1 az egyeseknél" badge="372 − 145" badgeColor="sky">
         <ExchangeOnesSvg />
         <ul className="list-disc pl-5 space-y-1 text-sm text-slate-700">
-          <li><strong>1. lépés:</strong> 2 egyesből nem tudunk 5 egyest elvenni. 1 tízest felváltunk 10 egyesre: 12 egyes. 12 − 5 = 7.</li>
-          <li><strong>2. lépés:</strong> a kisebbítendőből elvesszük a felváltott 1 tízest: 7 − 1 = 6 tízes. 6 − 4 = 2.</li>
-          <li><strong>3. lépés:</strong> 3 − 1 = 2 százas. A különbség <strong>227</strong>.</li>
+          <li><strong>1. lépés:</strong> a 2 kisebb, mint az 5. „5-höz 7, az 12. Leírom a 7-et, maradt 1.”</li>
+          <li><strong>2. lépés:</strong> „4 meg 1 az 5. 5-höz 2, az 7. Leírom a 2-t.”</li>
+          <li><strong>3. lépés:</strong> „1-hez 2, az 3. Leírom a 2-t.” A különbség <strong>227</strong>.</li>
         </ul>
-        <TheoryCallout type="info" title="A zöld számok">
-          A tankönyv a felváltást nem írja az oszlopba, csak fejben számol vele. Nálunk az elején zöld kis számok segítenek (12 és 6). Ha már megy, hagyd el őket!
+        <TheoryCallout type="info" title="A zöld 1-es">
+          A maradékot kicsi zöld 1-essel a következő kivonandó-jegy mellé írjuk, hogy ne felejtsük el. Ha már megy fejben, elhagyhatod.
         </TheoryCallout>
       </TheorySection>
 
-      <TheorySection title="5. Felváltás a tízeseknél" badge="428 − 175" badgeColor="purple">
+      <TheorySection title="5. Maradt 1 a tízeseknél" badge="428 − 175" badgeColor="purple">
         <ExchangeTensSvg />
         <ul className="list-disc pl-5 space-y-1 text-sm text-slate-700">
-          <li>8 − 5 = 3 egyes.</li>
-          <li>2 tízesből nem tudunk 7-et elvenni. 1 százast felváltunk 10 tízesre: 12 tízes. 12 − 7 = 5.</li>
-          <li>Elvesszük a felváltott százast: 4 − 1 = 3. 3 − 1 = 2. A különbség <strong>253</strong>.</li>
+          <li>„5-höz 3, az 8. Leírom a 3-at.”</li>
+          <li>A 2 kisebb, mint a 7: „7-hez 5, az 12. Leírom az 5-öt, maradt 1.”</li>
+          <li>„1 meg 1 az 2. 2-höz 2, az 4. Leírom a 2-t.” A különbség <strong>253</strong>.</li>
         </ul>
       </TheorySection>
 
-      <TheorySection title="6. Kétszer is felváltunk" badge="421 − 186" badgeColor="amber">
+      <TheorySection title="6. Kétszer is marad 1" badge="421 − 186" badgeColor="amber">
         <ExchangeBothSvg />
         <ul className="list-disc pl-5 space-y-1 text-sm text-slate-700">
-          <li>1 egyesből nem lehet 6-ot elvenni: 11 − 6 = 5.</li>
-          <li>2 − 1 = 1 tízes maradt. 1-ből nem lehet 8-at elvenni: 11 − 8 = 3.</li>
-          <li>4 − 1 = 3 százas. 3 − 1 = 2. A különbség <strong>235</strong>.</li>
+          <li>„6-hoz 5, az 11. Leírom az 5-öt, maradt 1.”</li>
+          <li>„8 meg 1 az 9. 9-hez 3, az 12. Leírom a 3-at, maradt 1.”</li>
+          <li>„1 meg 1 az 2. 2-höz 2, az 4. Leírom a 2-t.” A különbség <strong>235</strong>.</li>
         </ul>
       </TheorySection>
 
       <TheorySection title="7. Ha 0 van a tízesek helyén" badge="403 − 157" badgeColor="rose">
         <ZeroTensSvg />
         <p className="text-sm text-slate-700 leading-relaxed">
-          3 egyesből nem lehet 7-et elvenni, de tízes sincs! Ezért <strong>1 százast felváltunk 9 tízesre és 10 egyesre</strong>. 13 − 7 = 6. 9 − 5 = 4. 3 − 1 = 2. A különbség <strong>246</strong>.
+          „7-hez 6, az 13, maradt 1.” A tízeseknél: „5 meg 1 az 6.” A 0-ig nem tudunk felfelé számolni, ezért <strong>10-ig</strong> pótolunk: „6-hoz 4, az 10. Leírom a 4-et, maradt 1.” Végül: „1 meg 1 az 2. 2-höz 2, az 4.” A különbség <strong>246</strong>.
         </p>
       </TheorySection>
 
@@ -382,9 +392,9 @@ export const WrittenSubG3Theory: React.FC<{ onBack?: () => void; onStartQuiz?: (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <TheoryCard title="Számítás" badge="364 − 178" badgeColor="sky">
             <ul className="list-disc pl-5 space-y-1 text-sm text-slate-700">
-              <li>4 − 8 nem megy: 14 − 8 = 6.</li>
-              <li>6 − 1 = 5 tízes. 5 − 7 nem megy: 15 − 7 = 8.</li>
-              <li>3 − 1 = 2 százas. 2 − 1 = 1. Eredmény: 186.</li>
+              <li>„8-hoz 6, az 14. Leírom a 6-ot, maradt 1.”</li>
+              <li>„7 meg 1 az 8. 8-hoz 8, az 16. Leírom a 8-at, maradt 1.”</li>
+              <li>„1 meg 1 az 2. 2-höz 1, az 3. Leírom az 1-et.” Eredmény: 186.</li>
             </ul>
           </TheoryCard>
           <TheoryCard title="Ellenőrzés" badge="186 + 178" badgeColor="emerald">
@@ -401,13 +411,13 @@ export const WrittenSubG3Theory: React.FC<{ onBack?: () => void; onStartQuiz?: (
         <TheoryTrapBox
           title="372 − 145"
           wrong="372 − 145 = 233"
-          wrongExplanation="Az egyeseknél az 5-ből vonta ki a 2-t. De mindig a felső számból kell elvenni!"
+          wrongExplanation="Az egyeseknél a 2-től pótolt az 5-ig. Fordítva! Mindig a kivonandó jegyétől pótolunk."
           correct="372 − 145 = 227"
-          correctExplanation="2 egyesből nem megy, ezért felváltunk: 12 − 5 = 7. Aztán 6 − 4 = 2, és 3 − 1 = 2."
-          tip="Felülről vonunk ki, nem alulról!"
+          correctExplanation="5-höz 7, az 12, maradt 1. 4 meg 1 az 5, 5-höz 2, az 7. 1-hez 2, az 3."
+          tip="Alulról felfelé pótolunk: a kivonandótól a kisebbítendőig."
         />
-        <TheoryCallout type="warning" title="Ne felejtsd el a felváltott 1-et!">
-          372 − 145 nem 237! Ha az egyeseknél felváltottál 1 tízest, a tízeseknél már csak 6 tízes van, nem 7.
+        <TheoryCallout type="warning" title="Ne felejtsd el a maradékot!">
+          372 − 145 nem 237! Ha az egyeseknél maradt 1, a tízeseknél „4 meg 1 az 5”, és 5-höz 2, az 7.
         </TheoryCallout>
       </TheorySection>
 
@@ -417,7 +427,7 @@ export const WrittenSubG3Theory: React.FC<{ onBack?: () => void; onStartQuiz?: (
           <div className="flex flex-wrap gap-2">
             <button onClick={() => newTask(kind)} className="px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-bold min-h-[48px]">Új feladat</button>
             <button onClick={startDemo} className="px-4 py-2 rounded-xl bg-violet-600 text-white text-sm font-bold min-h-[48px]">Mutasd meg!</button>
-            <button onClick={() => setMarks((m) => !m)} className={`px-3 py-2 rounded-xl text-sm font-bold min-h-[48px] border-2 ${marks ? 'bg-emerald-100 border-emerald-500 text-emerald-900' : 'bg-white border-slate-300 text-slate-700'}`}>Zöld segítség: {marks ? 'be' : 'ki'}</button>
+            <button onClick={() => setMarks((m) => !m)} className={`px-3 py-2 rounded-xl text-sm font-bold min-h-[48px] border-2 ${marks ? 'bg-emerald-100 border-emerald-500 text-emerald-900' : 'bg-white border-slate-300 text-slate-700'}`}>Maradék mutatása: {marks ? 'be' : 'ki'}</button>
           </div>
           <div className="flex flex-wrap gap-2">
             {(Object.keys(KIND_LABEL) as Kind[]).map((k) => (
@@ -425,40 +435,26 @@ export const WrittenSubG3Theory: React.FC<{ onBack?: () => void; onStartQuiz?: (
             ))}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
-            <WrittenSubG3Column minuend={a} subtrahend={b} result={resultStr} exchanges={exMarks} exchangeRow highlight={col < 3 ? col : null} className="w-full max-w-[220px] h-auto mx-auto" />
-            <svg viewBox="0 0 420 150" className="w-full h-auto" xmlns="http://www.w3.org/2000/svg" fontFamily={FONT}>
-              <rect x="1" y="1" width="418" height="148" rx="12" fill="#f8fafc" stroke="#cbd5e1" />
-              {[0, 1, 2].map((i) => {
-                const pr = 2 - i; // jobbról számolt helyi érték
-                return (
-                  <g key={i}>
-                    <rect x={xs[i]} y={8} width={cw[i]} height={20} fill={PLACE_FILL[i]} stroke="#fff" />
-                    <text x={xs[i] + cw[i] / 2} y={23} textAnchor="middle" fontSize="13" fontWeight="bold" fill={PLACE_TEXT[i]}>{['sz', 't', 'e'][i]}</text>
-                    <rect x={xs[i]} y={28} width={cw[i]} height={114} fill={PLACE_BODY[i]} opacity="0.6" stroke={col === pr ? '#7c3aed' : '#fff'} strokeWidth={col === pr ? 3 : 1} />
-                    <DiscCell x={xs[i]} y={36} w={cw[i]} n={discs[pr]} place={i as 0 | 1 | 2} r={i === 0 ? 7 : 6.5} crossed={crossed[pr]} fresh={freshD[pr]} perRow={i === 0 ? 4 : 7} />
-                  </g>
-                );
-              })}
-              <text x="62" y="60" textAnchor="end" fontSize="14" fontWeight="bold" fill="#0f172a">{a}</text>
-              <text x="62" y="80" textAnchor="end" fontSize="13" fontWeight="bold" fill="#dc2626">− {b}</text>
-            </svg>
+            <WrittenSubG3Column minuend={a} subtrahend={b} result={resultStr} carries={marks ? carryMarks(steps, col) : []} highlight={col < 3 ? col : null} className="w-full max-w-[220px] h-auto mx-auto" />
+            {col < 3 && <FillStrip st={st} showTarget={phase === 'digit'} done={false} />}
           </div>
           {phase === 'ask' && !demo && (
             <div className="space-y-2">
               <div className="bg-blue-50 rounded-xl p-3 text-center text-blue-900 font-bold">
-                {placePlural(col)[0].toUpperCase() + placePlural(col).slice(1)}: {steps[col].borrowIn && !(col === 1 && zero) ? `előbb elveszed a felváltott 1-et (${steps[col].digit} − 1 = ${steps[col].avail}). ` : ''}
-                {col === 1 && zero ? 9 : steps[col].avail} − {steps[col].need}: kell felváltani?
+                {placePlural(col)[0].toUpperCase() + placePlural(col).slice(1)}: {st.carryIn ? `${st.need} meg 1 az ${st.from}. ` : ''}
+                {st.from}-{tol(st.from)} pótolsz. Meddig?
               </div>
               <div className="flex flex-wrap gap-2 justify-center">
-                <Btn onClick={() => answerAsk(true)} color="bg-emerald-50 border-emerald-400 text-emerald-900">Igen, felváltok</Btn>
-                <Btn onClick={() => answerAsk(false)} color="bg-white border-slate-300 text-slate-800">Nem kell</Btn>
+                <Btn onClick={() => answerAsk(false)} color="bg-white border-slate-300 text-slate-800">{st.digit}-ig</Btn>
+                <Btn onClick={() => answerAsk(true)} color="bg-emerald-50 border-emerald-400 text-emerald-900">{st.digit + 10}-ig (maradt 1)</Btn>
               </div>
             </div>
           )}
           {phase === 'digit' && !demo && (
             <div className="space-y-2">
               <div className="bg-blue-50 rounded-xl p-3 text-center text-blue-900 font-bold">
-                {placePlural(col)[0].toUpperCase() + placePlural(col).slice(1)}: {steps[col].top} − {steps[col].need} = ? Melyik számjegyet írod le?
+                {placePlural(col)[0].toUpperCase() + placePlural(col).slice(1)}: {st.carryIn ? `${st.need} meg 1 az ${st.from}. ` : ''}
+                {st.from}-{suffixHoz(st.from)} mennyi kell, hogy {st.target} legyen? Melyik számjegyet írod le?
               </div>
               <KeyPad onKey={press} bad={bad} />
             </div>
