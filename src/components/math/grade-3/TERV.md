@@ -172,3 +172,4 @@ A szekciók tartalmasabb címet kapnak (az azonosítók maradnak):
 Segédeszközök: `scratch/g3/` (lessons.json, queue.txt, AGENT_BRIEF.md, wire.mjs, update-config.cjs, render/render.sh).
 4. A római számok 100-ig, L-lel és C-vel készülnek, pedig a könyv csak I, V, X jelekkel 39-ig tanít (a felhasználó döntése). A 4. osztályos római lecke L és C nélkül készült, ezt később érdemes összehangolni.
 5. A „fél kg”, „félliteres”, „fél óra” mindennapi kifejezésként használható (a felhasználó döntése). Törtrész-számolás csak a XIV. témakörben van.
+6. Az írásbeli kivonás a hagyományos pótlásos-maradékos módszerrel készül, nem a könyv felváltásos módszerével (a felhasználó döntése).

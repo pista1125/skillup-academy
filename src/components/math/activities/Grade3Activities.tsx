@@ -89,6 +89,16 @@ const G3AddWordProblemsG3Theory = lazy(() => import("@/components/math/grade-3/i
 const G3AddWordProblemsG3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-osszeadas/szoveges-feladatok/AddWordProblemsG3Quiz").then(m => ({ default: m.AddWordProblemsG3Quiz })));
 const G3WrittenAddExamG3Theory = lazy(() => import("@/components/math/grade-3/irasbeli-osszeadas/megallo/WrittenAddExamG3Theory").then(m => ({ default: m.WrittenAddExamG3Theory })));
 const G3WrittenAddExamG3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-osszeadas/megallo/WrittenAddExamG3Quiz").then(m => ({ default: m.WrittenAddExamG3Quiz })));
+const G3ThreeDigitSubG3Theory = lazy(() => import("@/components/math/grade-3/irasbeli-kivonas/haromjegyu-szamok-kivonasa/ThreeDigitSubG3Theory").then(m => ({ default: m.ThreeDigitSubG3Theory })));
+const G3ThreeDigitSubG3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-kivonas/haromjegyu-szamok-kivonasa/ThreeDigitSubG3Quiz").then(m => ({ default: m.ThreeDigitSubG3Quiz })));
+const G3DiffEstimateG3Theory = lazy(() => import("@/components/math/grade-3/irasbeli-kivonas/a-kulonbseg-becslese/DiffEstimateG3Theory").then(m => ({ default: m.DiffEstimateG3Theory })));
+const G3DiffEstimateG3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-kivonas/a-kulonbseg-becslese/DiffEstimateG3Quiz").then(m => ({ default: m.DiffEstimateG3Quiz })));
+const G3WrittenSubG3Theory = lazy(() => import("@/components/math/grade-3/irasbeli-kivonas/irasbeli-kivonas/WrittenSubG3Theory").then(m => ({ default: m.WrittenSubG3Theory })));
+const G3WrittenSubG3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-kivonas/irasbeli-kivonas/WrittenSubG3Quiz").then(m => ({ default: m.WrittenSubG3Quiz })));
+const G3NegEverydayG3Theory = lazy(() => import("@/components/math/grade-3/negativ-szamok/negativ-szamok-a-mindennapokban/NegEverydayG3Theory").then(m => ({ default: m.NegEverydayG3Theory })));
+const G3NegEverydayG3Quiz = lazy(() => import("@/components/math/grade-3/negativ-szamok/negativ-szamok-a-mindennapokban/NegEverydayG3Quiz").then(m => ({ default: m.NegEverydayG3Quiz })));
+const G3NegNumberLineG3Theory = lazy(() => import("@/components/math/grade-3/negativ-szamok/szamegyenes-es-a-nulla/NegNumberLineG3Theory").then(m => ({ default: m.NegNumberLineG3Theory })));
+const G3NegNumberLineG3Quiz = lazy(() => import("@/components/math/grade-3/negativ-szamok/szamegyenes-es-a-nulla/NegNumberLineG3Quiz").then(m => ({ default: m.NegNumberLineG3Quiz })));
 
 export const Grade3Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -1576,6 +1586,180 @@ export const Grade3Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g3-wadd-tudasproba-theory', selectedTopic || 'g3-written-addition')}
           onSwitchToMatcher={() => handleActivitySelect('g3-wadd-tudasproba-matcher', selectedTopic || 'g3-written-addition')}
           onSwitchToSorter={() => handleActivitySelect('g3-wadd-tudasproba-sorter', selectedTopic || 'g3-written-addition')}
+        />
+      )}
+
+      {/* ===== 3. Osztály – VIII. Írásbeli kivonás ===== */}
+
+      {/* 1. Háromjegyű számok kivonása */}
+      {activityType === 'g3-wsub-haromjegyu-theory' && (
+        <G3ThreeDigitSubG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-wsub-haromjegyu-quiz', selectedTopic || 'g3-written-subtraction')}
+        />
+      )}
+      {activityType === 'g3-wsub-haromjegyu-quiz' && (
+        <G3ThreeDigitSubG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wsub-haromjegyu-theory', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wsub-haromjegyu-matcher', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wsub-haromjegyu-sorter', selectedTopic || 'g3-written-subtraction')}
+        />
+      )}
+      {activityType === 'g3-wsub-haromjegyu-matcher' && (
+        <G3ThreeDigitSubG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wsub-haromjegyu-theory', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wsub-haromjegyu-matcher', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wsub-haromjegyu-sorter', selectedTopic || 'g3-written-subtraction')}
+        />
+      )}
+      {activityType === 'g3-wsub-haromjegyu-sorter' && (
+        <G3ThreeDigitSubG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wsub-haromjegyu-theory', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wsub-haromjegyu-matcher', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wsub-haromjegyu-sorter', selectedTopic || 'g3-written-subtraction')}
+        />
+      )}
+
+      {/* 2. A különbség becslése */}
+      {activityType === 'g3-wsub-becsles-theory' && (
+        <G3DiffEstimateG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-wsub-becsles-quiz', selectedTopic || 'g3-written-subtraction')}
+        />
+      )}
+      {activityType === 'g3-wsub-becsles-quiz' && (
+        <G3DiffEstimateG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wsub-becsles-theory', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wsub-becsles-matcher', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wsub-becsles-sorter', selectedTopic || 'g3-written-subtraction')}
+        />
+      )}
+      {activityType === 'g3-wsub-becsles-matcher' && (
+        <G3DiffEstimateG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wsub-becsles-theory', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wsub-becsles-matcher', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wsub-becsles-sorter', selectedTopic || 'g3-written-subtraction')}
+        />
+      )}
+      {activityType === 'g3-wsub-becsles-sorter' && (
+        <G3DiffEstimateG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wsub-becsles-theory', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wsub-becsles-matcher', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wsub-becsles-sorter', selectedTopic || 'g3-written-subtraction')}
+        />
+      )}
+
+      {/* 3. Írásbeli kivonás */}
+      {activityType === 'g3-wsub-irasbeli-theory' && (
+        <G3WrittenSubG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-wsub-irasbeli-quiz', selectedTopic || 'g3-written-subtraction')}
+        />
+      )}
+      {activityType === 'g3-wsub-irasbeli-quiz' && (
+        <G3WrittenSubG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wsub-irasbeli-theory', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wsub-irasbeli-matcher', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wsub-irasbeli-sorter', selectedTopic || 'g3-written-subtraction')}
+        />
+      )}
+      {activityType === 'g3-wsub-irasbeli-matcher' && (
+        <G3WrittenSubG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wsub-irasbeli-theory', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wsub-irasbeli-matcher', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wsub-irasbeli-sorter', selectedTopic || 'g3-written-subtraction')}
+        />
+      )}
+      {activityType === 'g3-wsub-irasbeli-sorter' && (
+        <G3WrittenSubG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wsub-irasbeli-theory', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wsub-irasbeli-matcher', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wsub-irasbeli-sorter', selectedTopic || 'g3-written-subtraction')}
+        />
+      )}
+
+      {/* ===== 3. Osztály – IX. Ismerkedés a negatív számokkal ===== */}
+
+      {/* 1. Negatív számok a mindennapokban */}
+      {activityType === 'g3-neg-mindennapok-theory' && (
+        <G3NegEverydayG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-neg-mindennapok-quiz', selectedTopic || 'g3-negative-numbers')}
+        />
+      )}
+      {activityType === 'g3-neg-mindennapok-quiz' && (
+        <G3NegEverydayG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-neg-mindennapok-theory', selectedTopic || 'g3-negative-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-neg-mindennapok-matcher', selectedTopic || 'g3-negative-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g3-neg-mindennapok-sorter', selectedTopic || 'g3-negative-numbers')}
+        />
+      )}
+      {activityType === 'g3-neg-mindennapok-matcher' && (
+        <G3NegEverydayG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-neg-mindennapok-theory', selectedTopic || 'g3-negative-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-neg-mindennapok-matcher', selectedTopic || 'g3-negative-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g3-neg-mindennapok-sorter', selectedTopic || 'g3-negative-numbers')}
+        />
+      )}
+      {activityType === 'g3-neg-mindennapok-sorter' && (
+        <G3NegEverydayG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-neg-mindennapok-theory', selectedTopic || 'g3-negative-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-neg-mindennapok-matcher', selectedTopic || 'g3-negative-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g3-neg-mindennapok-sorter', selectedTopic || 'g3-negative-numbers')}
+        />
+      )}
+
+      {/* 2. A számegyenes és a nulla */}
+      {activityType === 'g3-neg-szamegyenes-theory' && (
+        <G3NegNumberLineG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-neg-szamegyenes-quiz', selectedTopic || 'g3-negative-numbers')}
+        />
+      )}
+      {activityType === 'g3-neg-szamegyenes-quiz' && (
+        <G3NegNumberLineG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-neg-szamegyenes-theory', selectedTopic || 'g3-negative-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-neg-szamegyenes-matcher', selectedTopic || 'g3-negative-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g3-neg-szamegyenes-sorter', selectedTopic || 'g3-negative-numbers')}
+        />
+      )}
+      {activityType === 'g3-neg-szamegyenes-matcher' && (
+        <G3NegNumberLineG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-neg-szamegyenes-theory', selectedTopic || 'g3-negative-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-neg-szamegyenes-matcher', selectedTopic || 'g3-negative-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g3-neg-szamegyenes-sorter', selectedTopic || 'g3-negative-numbers')}
+        />
+      )}
+      {activityType === 'g3-neg-szamegyenes-sorter' && (
+        <G3NegNumberLineG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-neg-szamegyenes-theory', selectedTopic || 'g3-negative-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-neg-szamegyenes-matcher', selectedTopic || 'g3-negative-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g3-neg-szamegyenes-sorter', selectedTopic || 'g3-negative-numbers')}
         />
       )}
     </>
