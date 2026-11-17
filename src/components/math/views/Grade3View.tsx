@@ -373,13 +373,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-count200-sec-1" number={1} title="Számok 200-ig" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Számok 200-ig"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Számok 200-ig Tananyag"
+                subtitle="Százasok, tízesek, egyesek, a második százas tábla, alaki és valódi érték, számok betűvel."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-c200-szamok-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: kirakás, golyós számoló, pénz, százas tábla, valódi érték, számírás, összehasonlítás."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-c200-szamok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g3-c200-szamok-quiz')}
               />
             </div>
           </section>
@@ -391,13 +401,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-count200-sec-2" number={2} title="Számok helye a számegyenesen" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Számok helye a számegyenesen"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Számok helye a számegyenesen Tananyag"
+                subtitle="Számegyenes 200-ig, mennyit ér egy osztás, mérőszalag, szöcskeugrások, pont középen."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-c200-szamegyenes-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="cyan"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: leolvasás, beosztás, mérőszalag, szöcskeugrás, között és középen, távolság."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-c200-szamegyenes-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="cyan"
+                {...getTopicProgress('g3-c200-szamegyenes-quiz')}
               />
             </div>
           </section>
@@ -409,13 +429,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-count200-sec-3" number={3} title="Számszomszédok, kerekítés" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Számszomszédok, kerekítés"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Számszomszédok, kerekítés Tananyag"
+                subtitle="Egyes és tízes szomszédok, a ≈ jel, kerekítés tízesre 200-ig, becslés, két labor"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-c200-kerekites-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: egyes és tízes szomszédok, kerekítés tízesre, visszafelé gondolkodás, becslés"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-c200-kerekites-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="teal"
+                {...getTopicProgress('g3-c200-kerekites-quiz')}
               />
             </div>
           </section>
@@ -427,13 +457,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-count200-sec-4" number={4} title="Összeadás és kivonás" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Összeadás és kivonás"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Összeadás és kivonás Tananyag"
+                subtitle="Kerek tízesek 200-ig, átlépés a 100-on, pótlás 200-ra, diagram, két labor (ugrás, persely)"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-c200-osszeadas-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: kerek tízesek, átlépés a 100-on, pótlás, pénz, diagram, szöveges feladatok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-c200-osszeadas-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g3-c200-osszeadas-quiz')}
               />
             </div>
           </section>
@@ -445,13 +485,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-count200-sec-5" number={5} title="Szorzás és osztás" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Szorzás és osztás"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Szorzás és osztás Tananyag"
+                subtitle="Kerek tízesek szorzása és osztása 200-ig: tízesrudak, a szorzótábla segít, részekre osztás és bennfoglalás, pénz."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-c200-szorzas-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: kerek tízesek szorzása és osztása, pénz, hiányzó számok, szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-c200-szorzas-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="violet"
+                {...getTopicProgress('g3-c200-szorzas-quiz')}
               />
             </div>
           </section>
@@ -463,13 +513,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-count200-sec-6" number={6} title="Megálló – tudáspróba" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Megálló – tudáspróba"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Megálló – tudáspróba Tananyag"
+                subtitle="A 200-as számkör összefoglalása: számok, számegyenes, szomszédok, kerekítés, a négy alapművelet, vegyes feladatok."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-c200-tudasproba-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz"
+                subtitle="90 feladat 3 szinten: számok 200-ig, számegyenes, szomszédok, kerekítés, a négy alapművelet, pénz, szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-c200-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g3-c200-tudasproba-quiz')}
               />
             </div>
           </section>

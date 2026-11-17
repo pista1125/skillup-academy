@@ -27,6 +27,18 @@ const G3RomanEverydayG3Theory = lazy(() => import("@/components/math/grade-3/rom
 const G3RomanEverydayG3Quiz = lazy(() => import("@/components/math/grade-3/romai-szamok/romai-szamok-a-mindennapokban/RomanEverydayG3Quiz").then(m => ({ default: m.RomanEverydayG3Quiz })));
 const G3RomanExamG3Theory = lazy(() => import("@/components/math/grade-3/romai-szamok/gyakorlas-tudasproba/RomanExamG3Theory").then(m => ({ default: m.RomanExamG3Theory })));
 const G3RomanExamG3Quiz = lazy(() => import("@/components/math/grade-3/romai-szamok/gyakorlas-tudasproba/RomanExamG3Quiz").then(m => ({ default: m.RomanExamG3Quiz })));
+const G3Numbers200G3Theory = lazy(() => import("@/components/math/grade-3/szamolas-200-ig/szamok-200-ig/Numbers200G3Theory").then(m => ({ default: m.Numbers200G3Theory })));
+const G3Numbers200G3Quiz = lazy(() => import("@/components/math/grade-3/szamolas-200-ig/szamok-200-ig/Numbers200G3Quiz").then(m => ({ default: m.Numbers200G3Quiz })));
+const G3NumberLine200G3Theory = lazy(() => import("@/components/math/grade-3/szamolas-200-ig/szamok-helye-a-szamegyenesen/NumberLine200G3Theory").then(m => ({ default: m.NumberLine200G3Theory })));
+const G3NumberLine200G3Quiz = lazy(() => import("@/components/math/grade-3/szamolas-200-ig/szamok-helye-a-szamegyenesen/NumberLine200G3Quiz").then(m => ({ default: m.NumberLine200G3Quiz })));
+const G3Rounding200G3Theory = lazy(() => import("@/components/math/grade-3/szamolas-200-ig/szamszomszedok-kerekites/Rounding200G3Theory").then(m => ({ default: m.Rounding200G3Theory })));
+const G3Rounding200G3Quiz = lazy(() => import("@/components/math/grade-3/szamolas-200-ig/szamszomszedok-kerekites/Rounding200G3Quiz").then(m => ({ default: m.Rounding200G3Quiz })));
+const G3AddSub200G3Theory = lazy(() => import("@/components/math/grade-3/szamolas-200-ig/osszeadas-es-kivonas/AddSub200G3Theory").then(m => ({ default: m.AddSub200G3Theory })));
+const G3AddSub200G3Quiz = lazy(() => import("@/components/math/grade-3/szamolas-200-ig/osszeadas-es-kivonas/AddSub200G3Quiz").then(m => ({ default: m.AddSub200G3Quiz })));
+const G3MulDiv200G3Theory = lazy(() => import("@/components/math/grade-3/szamolas-200-ig/szorzas-es-osztas/MulDiv200G3Theory").then(m => ({ default: m.MulDiv200G3Theory })));
+const G3MulDiv200G3Quiz = lazy(() => import("@/components/math/grade-3/szamolas-200-ig/szorzas-es-osztas/MulDiv200G3Quiz").then(m => ({ default: m.MulDiv200G3Quiz })));
+const G3Count200ExamG3Theory = lazy(() => import("@/components/math/grade-3/szamolas-200-ig/megallo/Count200ExamG3Theory").then(m => ({ default: m.Count200ExamG3Theory })));
+const G3Count200ExamG3Quiz = lazy(() => import("@/components/math/grade-3/szamolas-200-ig/megallo/Count200ExamG3Quiz").then(m => ({ default: m.Count200ExamG3Quiz })));
 
 export const Grade3Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -450,6 +462,212 @@ export const Grade3Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g3-rom-tudasproba-theory', selectedTopic || 'g3-roman-numbers')}
           onSwitchToMatcher={() => handleActivitySelect('g3-rom-tudasproba-matcher', selectedTopic || 'g3-roman-numbers')}
           onSwitchToSorter={() => handleActivitySelect('g3-rom-tudasproba-sorter', selectedTopic || 'g3-roman-numbers')}
+        />
+      )}
+
+      {/* ===== 3. Osztály – III. Számolás 0-tól 200-ig ===== */}
+
+      {/* 1. Számok 200-ig */}
+      {activityType === 'g3-c200-szamok-theory' && (
+        <G3Numbers200G3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-c200-szamok-quiz', selectedTopic || 'g3-count-200')}
+        />
+      )}
+      {activityType === 'g3-c200-szamok-quiz' && (
+        <G3Numbers200G3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c200-szamok-theory', selectedTopic || 'g3-count-200')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c200-szamok-matcher', selectedTopic || 'g3-count-200')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c200-szamok-sorter', selectedTopic || 'g3-count-200')}
+        />
+      )}
+      {activityType === 'g3-c200-szamok-matcher' && (
+        <G3Numbers200G3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c200-szamok-theory', selectedTopic || 'g3-count-200')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c200-szamok-matcher', selectedTopic || 'g3-count-200')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c200-szamok-sorter', selectedTopic || 'g3-count-200')}
+        />
+      )}
+      {activityType === 'g3-c200-szamok-sorter' && (
+        <G3Numbers200G3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c200-szamok-theory', selectedTopic || 'g3-count-200')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c200-szamok-matcher', selectedTopic || 'g3-count-200')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c200-szamok-sorter', selectedTopic || 'g3-count-200')}
+        />
+      )}
+
+      {/* 2. Számok helye a számegyenesen */}
+      {activityType === 'g3-c200-szamegyenes-theory' && (
+        <G3NumberLine200G3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-c200-szamegyenes-quiz', selectedTopic || 'g3-count-200')}
+        />
+      )}
+      {activityType === 'g3-c200-szamegyenes-quiz' && (
+        <G3NumberLine200G3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c200-szamegyenes-theory', selectedTopic || 'g3-count-200')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c200-szamegyenes-matcher', selectedTopic || 'g3-count-200')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c200-szamegyenes-sorter', selectedTopic || 'g3-count-200')}
+        />
+      )}
+      {activityType === 'g3-c200-szamegyenes-matcher' && (
+        <G3NumberLine200G3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c200-szamegyenes-theory', selectedTopic || 'g3-count-200')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c200-szamegyenes-matcher', selectedTopic || 'g3-count-200')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c200-szamegyenes-sorter', selectedTopic || 'g3-count-200')}
+        />
+      )}
+      {activityType === 'g3-c200-szamegyenes-sorter' && (
+        <G3NumberLine200G3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c200-szamegyenes-theory', selectedTopic || 'g3-count-200')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c200-szamegyenes-matcher', selectedTopic || 'g3-count-200')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c200-szamegyenes-sorter', selectedTopic || 'g3-count-200')}
+        />
+      )}
+
+      {/* 3. Számszomszédok, kerekítés */}
+      {activityType === 'g3-c200-kerekites-theory' && (
+        <G3Rounding200G3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-c200-kerekites-quiz', selectedTopic || 'g3-count-200')}
+        />
+      )}
+      {activityType === 'g3-c200-kerekites-quiz' && (
+        <G3Rounding200G3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c200-kerekites-theory', selectedTopic || 'g3-count-200')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c200-kerekites-matcher', selectedTopic || 'g3-count-200')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c200-kerekites-sorter', selectedTopic || 'g3-count-200')}
+        />
+      )}
+      {activityType === 'g3-c200-kerekites-matcher' && (
+        <G3Rounding200G3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c200-kerekites-theory', selectedTopic || 'g3-count-200')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c200-kerekites-matcher', selectedTopic || 'g3-count-200')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c200-kerekites-sorter', selectedTopic || 'g3-count-200')}
+        />
+      )}
+      {activityType === 'g3-c200-kerekites-sorter' && (
+        <G3Rounding200G3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c200-kerekites-theory', selectedTopic || 'g3-count-200')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c200-kerekites-matcher', selectedTopic || 'g3-count-200')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c200-kerekites-sorter', selectedTopic || 'g3-count-200')}
+        />
+      )}
+
+      {/* 4. Összeadás és kivonás */}
+      {activityType === 'g3-c200-osszeadas-theory' && (
+        <G3AddSub200G3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-c200-osszeadas-quiz', selectedTopic || 'g3-count-200')}
+        />
+      )}
+      {activityType === 'g3-c200-osszeadas-quiz' && (
+        <G3AddSub200G3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c200-osszeadas-theory', selectedTopic || 'g3-count-200')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c200-osszeadas-matcher', selectedTopic || 'g3-count-200')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c200-osszeadas-sorter', selectedTopic || 'g3-count-200')}
+        />
+      )}
+      {activityType === 'g3-c200-osszeadas-matcher' && (
+        <G3AddSub200G3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c200-osszeadas-theory', selectedTopic || 'g3-count-200')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c200-osszeadas-matcher', selectedTopic || 'g3-count-200')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c200-osszeadas-sorter', selectedTopic || 'g3-count-200')}
+        />
+      )}
+      {activityType === 'g3-c200-osszeadas-sorter' && (
+        <G3AddSub200G3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c200-osszeadas-theory', selectedTopic || 'g3-count-200')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c200-osszeadas-matcher', selectedTopic || 'g3-count-200')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c200-osszeadas-sorter', selectedTopic || 'g3-count-200')}
+        />
+      )}
+
+      {/* 5. Szorzás és osztás */}
+      {activityType === 'g3-c200-szorzas-theory' && (
+        <G3MulDiv200G3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-c200-szorzas-quiz', selectedTopic || 'g3-count-200')}
+        />
+      )}
+      {activityType === 'g3-c200-szorzas-quiz' && (
+        <G3MulDiv200G3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c200-szorzas-theory', selectedTopic || 'g3-count-200')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c200-szorzas-matcher', selectedTopic || 'g3-count-200')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c200-szorzas-sorter', selectedTopic || 'g3-count-200')}
+        />
+      )}
+      {activityType === 'g3-c200-szorzas-matcher' && (
+        <G3MulDiv200G3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c200-szorzas-theory', selectedTopic || 'g3-count-200')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c200-szorzas-matcher', selectedTopic || 'g3-count-200')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c200-szorzas-sorter', selectedTopic || 'g3-count-200')}
+        />
+      )}
+      {activityType === 'g3-c200-szorzas-sorter' && (
+        <G3MulDiv200G3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c200-szorzas-theory', selectedTopic || 'g3-count-200')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c200-szorzas-matcher', selectedTopic || 'g3-count-200')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c200-szorzas-sorter', selectedTopic || 'g3-count-200')}
+        />
+      )}
+
+      {/* 6. Megálló – tudáspróba */}
+      {activityType === 'g3-c200-tudasproba-theory' && (
+        <G3Count200ExamG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-c200-tudasproba-quiz', selectedTopic || 'g3-count-200')}
+        />
+      )}
+      {activityType === 'g3-c200-tudasproba-quiz' && (
+        <G3Count200ExamG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c200-tudasproba-theory', selectedTopic || 'g3-count-200')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c200-tudasproba-matcher', selectedTopic || 'g3-count-200')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c200-tudasproba-sorter', selectedTopic || 'g3-count-200')}
+        />
+      )}
+      {activityType === 'g3-c200-tudasproba-matcher' && (
+        <G3Count200ExamG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c200-tudasproba-theory', selectedTopic || 'g3-count-200')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c200-tudasproba-matcher', selectedTopic || 'g3-count-200')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c200-tudasproba-sorter', selectedTopic || 'g3-count-200')}
+        />
+      )}
+      {activityType === 'g3-c200-tudasproba-sorter' && (
+        <G3Count200ExamG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c200-tudasproba-theory', selectedTopic || 'g3-count-200')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c200-tudasproba-matcher', selectedTopic || 'g3-count-200')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c200-tudasproba-sorter', selectedTopic || 'g3-count-200')}
         />
       )}
     </>
