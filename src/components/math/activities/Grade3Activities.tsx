@@ -73,6 +73,10 @@ const G3SortingByPropertyG3Theory = lazy(() => import("@/components/math/grade-3
 const G3SortingByPropertyG3Quiz = lazy(() => import("@/components/math/grade-3/valogatasok-csoportositasok/valogatas-tulajdonsagok-szerint/SortingByPropertyG3Quiz").then(m => ({ default: m.SortingByPropertyG3Quiz })));
 const G3VennG3Theory = lazy(() => import("@/components/math/grade-3/valogatasok-csoportositasok/venn-diagramok-es-halmazok/VennG3Theory").then(m => ({ default: m.VennG3Theory })));
 const G3VennG3Quiz = lazy(() => import("@/components/math/grade-3/valogatasok-csoportositasok/venn-diagramok-es-halmazok/VennG3Quiz").then(m => ({ default: m.VennG3Quiz })));
+const G3ArrangementsG3Theory = lazy(() => import("@/components/math/grade-3/valogatasok-csoportositasok/sorba-rendezes-lehetosegek/ArrangementsG3Theory").then(m => ({ default: m.ArrangementsG3Theory })));
+const G3ArrangementsG3Quiz = lazy(() => import("@/components/math/grade-3/valogatasok-csoportositasok/sorba-rendezes-lehetosegek/ArrangementsG3Quiz").then(m => ({ default: m.ArrangementsG3Quiz })));
+const G3GroupingExamG3Theory = lazy(() => import("@/components/math/grade-3/valogatasok-csoportositasok/gyakorlas-tudasproba/GroupingExamG3Theory").then(m => ({ default: m.GroupingExamG3Theory })));
+const G3GroupingExamG3Quiz = lazy(() => import("@/components/math/grade-3/valogatasok-csoportositasok/gyakorlas-tudasproba/GroupingExamG3Quiz").then(m => ({ default: m.GroupingExamG3Quiz })));
 
 export const Grade3Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -1286,6 +1290,74 @@ export const Grade3Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g3-grp-venn-theory', selectedTopic || 'g3-grouping')}
           onSwitchToMatcher={() => handleActivitySelect('g3-grp-venn-matcher', selectedTopic || 'g3-grouping')}
           onSwitchToSorter={() => handleActivitySelect('g3-grp-venn-sorter', selectedTopic || 'g3-grouping')}
+        />
+      )}
+
+      {/* 3. Sorba rendezés és lehetőségek */}
+      {activityType === 'g3-grp-lehetosegek-theory' && (
+        <G3ArrangementsG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-grp-lehetosegek-quiz', selectedTopic || 'g3-grouping')}
+        />
+      )}
+      {activityType === 'g3-grp-lehetosegek-quiz' && (
+        <G3ArrangementsG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-grp-lehetosegek-theory', selectedTopic || 'g3-grouping')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-grp-lehetosegek-matcher', selectedTopic || 'g3-grouping')}
+          onSwitchToSorter={() => handleActivitySelect('g3-grp-lehetosegek-sorter', selectedTopic || 'g3-grouping')}
+        />
+      )}
+      {activityType === 'g3-grp-lehetosegek-matcher' && (
+        <G3ArrangementsG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-grp-lehetosegek-theory', selectedTopic || 'g3-grouping')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-grp-lehetosegek-matcher', selectedTopic || 'g3-grouping')}
+          onSwitchToSorter={() => handleActivitySelect('g3-grp-lehetosegek-sorter', selectedTopic || 'g3-grouping')}
+        />
+      )}
+      {activityType === 'g3-grp-lehetosegek-sorter' && (
+        <G3ArrangementsG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-grp-lehetosegek-theory', selectedTopic || 'g3-grouping')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-grp-lehetosegek-matcher', selectedTopic || 'g3-grouping')}
+          onSwitchToSorter={() => handleActivitySelect('g3-grp-lehetosegek-sorter', selectedTopic || 'g3-grouping')}
+        />
+      )}
+
+      {/* 4. Gyakorlás, tudáspróba */}
+      {activityType === 'g3-grp-tudasproba-theory' && (
+        <G3GroupingExamG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-grp-tudasproba-quiz', selectedTopic || 'g3-grouping')}
+        />
+      )}
+      {activityType === 'g3-grp-tudasproba-quiz' && (
+        <G3GroupingExamG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-grp-tudasproba-theory', selectedTopic || 'g3-grouping')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-grp-tudasproba-matcher', selectedTopic || 'g3-grouping')}
+          onSwitchToSorter={() => handleActivitySelect('g3-grp-tudasproba-sorter', selectedTopic || 'g3-grouping')}
+        />
+      )}
+      {activityType === 'g3-grp-tudasproba-matcher' && (
+        <G3GroupingExamG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-grp-tudasproba-theory', selectedTopic || 'g3-grouping')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-grp-tudasproba-matcher', selectedTopic || 'g3-grouping')}
+          onSwitchToSorter={() => handleActivitySelect('g3-grp-tudasproba-sorter', selectedTopic || 'g3-grouping')}
+        />
+      )}
+      {activityType === 'g3-grp-tudasproba-sorter' && (
+        <G3GroupingExamG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-grp-tudasproba-theory', selectedTopic || 'g3-grouping')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-grp-tudasproba-matcher', selectedTopic || 'g3-grouping')}
+          onSwitchToSorter={() => handleActivitySelect('g3-grp-tudasproba-sorter', selectedTopic || 'g3-grouping')}
         />
       )}
     </>

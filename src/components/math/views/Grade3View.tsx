@@ -1035,13 +1035,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-group-sec-3" number={3} title="Sorba rendezés és lehetőségek" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Sorba rendezés és lehetőségek"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Sorba rendezés és lehetőségek Tananyag"
+                subtitle="Növekvő és csökkenő sorrend, nyilas ábra, hányféle sorrend, számkártyák, öltözetek, igaz vagy hamis."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-grp-lehetosegek-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: sorrendek, számkártyák, lehetőségek, igaz vagy hamis."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-grp-lehetosegek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g3-grp-lehetosegek-quiz')}
               />
             </div>
           </section>
@@ -1053,13 +1063,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-group-sec-4" number={4} title="Gyakorlás, tudáspróba" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Gyakorlás, tudáspróba"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Gyakorlás, tudáspróba Tananyag"
+                subtitle="Amit már tudsz: logikai lapok és jelek, halmazábra, sorrendek, lehetőségek, minden / van olyan / egyik sem."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-grp-tudasproba-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz"
+                subtitle="90 feladat 3 szinten: logikai lapok, címkék, halmazábrák, sorrendek, lehetőségek, igaz vagy hamis."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-grp-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g3-grp-tudasproba-quiz')}
               />
             </div>
           </section>
