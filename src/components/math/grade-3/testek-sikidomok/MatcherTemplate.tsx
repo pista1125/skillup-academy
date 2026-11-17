@@ -984,7 +984,7 @@ export function MatcherTemplate({
                   {card.figure ? (
                     <div className="flex flex-col items-center justify-center gap-1 sm:gap-1.5 w-full h-full">
                       <div className={cn(
-                        "h-8 sm:h-14 w-full max-w-[75px] sm:max-w-[100px] flex items-center justify-center overflow-hidden p-0.5 sm:p-1 rounded-lg sm:rounded-xl bg-white/95 dark:bg-slate-900 border shadow-2xs shrink-0 transition-transform",
+                        "h-12 sm:h-20 w-full max-w-[96px] sm:max-w-[150px] flex items-center justify-center overflow-hidden p-0.5 sm:p-1 rounded-lg sm:rounded-xl bg-white/95 dark:bg-slate-900 border shadow-2xs shrink-0 transition-transform",
                         "[&_*]:max-h-full [&_*]:max-w-full [&_svg]:!w-full [&_svg]:!h-full [&_svg]:!max-h-full [&_svg]:!max-w-full [&_svg]:object-contain [&_div]:!w-full [&_div]:!h-full [&_div]:flex [&_div]:items-center [&_div]:justify-center",
                         theme.figureBorder
                       )}>

@@ -756,7 +756,7 @@ export function SorterTemplate({
                     >
                       {item.figure && (
                         <div className={cn(
-                          'w-9 h-9 sm:w-14 sm:h-14 shrink-0 overflow-hidden flex items-center justify-center rounded-xl border transition-colors p-0.5 sm:p-1 shadow-2xs [&_*]:max-h-full [&_*]:max-w-full [&_svg]:!w-full [&_svg]:!h-full [&_svg]:!max-h-full [&_svg]:!max-w-full [&_svg]:object-contain [&_div]:!w-full [&_div]:!h-full [&_div]:flex [&_div]:items-center [&_div]:justify-center',
+                          'w-12 h-12 sm:w-20 sm:h-20 shrink-0 overflow-hidden flex items-center justify-center rounded-xl border transition-colors p-0.5 sm:p-1 shadow-2xs [&_*]:max-h-full [&_*]:max-w-full [&_svg]:!w-full [&_svg]:!h-full [&_svg]:!max-h-full [&_svg]:!max-w-full [&_svg]:object-contain [&_div]:!w-full [&_div]:!h-full [&_div]:flex [&_div]:items-center [&_div]:justify-center',
                           isSelected
                             ? 'bg-white text-slate-900 border-purple-300 shadow-xs'
                             : 'bg-white dark:bg-slate-900/90 border-purple-200 dark:border-slate-700'
@@ -861,7 +861,7 @@ export function SorterTemplate({
                               className="px-1.5 py-0.5 sm:px-2.5 sm:py-1.5 rounded-md sm:rounded-lg text-[10px] sm:text-xs font-bold border-2 bg-emerald-50 dark:bg-emerald-950/60 border-emerald-400 text-emerald-950 dark:text-emerald-200 flex items-center gap-1 sm:gap-2 shadow-2xs animate-in zoom-in-95 duration-150 w-full"
                             >
                               {item.figure && (
-                                <div className="w-5 h-5 sm:w-7 sm:h-7 shrink-0 overflow-hidden flex items-center justify-center bg-white dark:bg-slate-900 rounded-md border border-emerald-300 dark:border-emerald-700 p-0.5 shadow-2xs [&_*]:max-h-full [&_*]:max-w-full [&_svg]:!w-full [&_svg]:!h-full [&_svg]:!max-h-full [&_svg]:!max-w-full [&_svg]:object-contain [&_div]:!w-full [&_div]:!h-full [&_div]:flex [&_div]:items-center [&_div]:justify-center">
+                                <div className="w-6 h-6 sm:w-9 sm:h-9 shrink-0 overflow-hidden flex items-center justify-center bg-white dark:bg-slate-900 rounded-md border border-emerald-300 dark:border-emerald-700 p-0.5 shadow-2xs [&_*]:max-h-full [&_*]:max-w-full [&_svg]:!w-full [&_svg]:!h-full [&_svg]:!max-h-full [&_svg]:!max-w-full [&_svg]:object-contain [&_div]:!w-full [&_div]:!h-full [&_div]:flex [&_div]:items-center [&_div]:justify-center">
                                   {item.figure}
                                 </div>
                               )}
