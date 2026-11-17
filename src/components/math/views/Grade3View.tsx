@@ -1883,13 +1883,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-wrops-sec-3" number={3} title="A műveletek sorrendje és a zárójelek" color="purple" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A műveletek sorrendje és a zárójelek"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="A műveletek sorrendje és a zárójelek Tananyag"
+                subtitle="Először a zárójel, aztán szorzás és osztás, végül összeadás és kivonás balról jobbra – 1000-ig, két labor"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-wops-sorrend-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="purple"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: első lépés, balról jobbra, szorzás előbb, zárójel, vásárlás"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-wops-sorrend-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="purple"
+                {...getTopicProgress('g3-wops-sorrend-quiz')}
               />
             </div>
           </section>
@@ -1901,13 +1911,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-wrops-sec-4" number={4} title="Vegyes műveletek és szöveges feladatok" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Vegyes műveletek és szöveges feladatok"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Vegyes műveletek és szöveges feladatok Tananyag"
+                subtitle="Táblázat, útvonal, hiányzó szám, visszafelé gondolkodás és kétlépéses szöveges feladatok 1000-ig, két labor"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-wops-vegyes-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: táblázat, útvonal, hiányzó szám, bűvös alakzatok, számkártyák, pénz, két lépés"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-wops-vegyes-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="teal"
+                {...getTopicProgress('g3-wops-vegyes-quiz')}
               />
             </div>
           </section>
@@ -1919,13 +1939,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-wrops-sec-5" number={5} title="Megálló – tudáspróba" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Megálló – tudáspróba"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Megálló – tudáspróba Tananyag"
+                subtitle="A XII. fejezet összefoglalása: írásbeli összeadás és kivonás pótlással, sorrend, zárójel, szöveges feladatok 1000-ig."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-wops-tudasproba-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz"
+                subtitle="90 feladat 3 szinten: írásbeli összeadás és kivonás, sorrend és zárójel, hiányzó számok, szöveges feladatok 1000-ig."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-wops-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g3-wops-tudasproba-quiz')}
               />
             </div>
           </section>

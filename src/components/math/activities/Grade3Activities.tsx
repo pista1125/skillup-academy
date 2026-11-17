@@ -131,6 +131,12 @@ const G3WrittenAdd1000G3Theory = lazy(() => import("@/components/math/grade-3/ir
 const G3WrittenAdd1000G3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-muveletek-1000-ig/irasbeli-osszeadas-1000-ig/WrittenAdd1000G3Quiz").then(m => ({ default: m.WrittenAdd1000G3Quiz })));
 const G3WrittenSub1000G3Theory = lazy(() => import("@/components/math/grade-3/irasbeli-muveletek-1000-ig/irasbeli-kivonas-1000-ig/WrittenSub1000G3Theory").then(m => ({ default: m.WrittenSub1000G3Theory })));
 const G3WrittenSub1000G3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-muveletek-1000-ig/irasbeli-kivonas-1000-ig/WrittenSub1000G3Quiz").then(m => ({ default: m.WrittenSub1000G3Quiz })));
+const G3OrderOps1000G3Theory = lazy(() => import("@/components/math/grade-3/irasbeli-muveletek-1000-ig/muveleti-sorrend/OrderOps1000G3Theory").then(m => ({ default: m.OrderOps1000G3Theory })));
+const G3OrderOps1000G3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-muveletek-1000-ig/muveleti-sorrend/OrderOps1000G3Quiz").then(m => ({ default: m.OrderOps1000G3Quiz })));
+const G3MixedOps1000G3Theory = lazy(() => import("@/components/math/grade-3/irasbeli-muveletek-1000-ig/vegyes-muveletek-szoveges/MixedOps1000G3Theory").then(m => ({ default: m.MixedOps1000G3Theory })));
+const G3MixedOps1000G3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-muveletek-1000-ig/vegyes-muveletek-szoveges/MixedOps1000G3Quiz").then(m => ({ default: m.MixedOps1000G3Quiz })));
+const G3WrittenOps1000ExamG3Theory = lazy(() => import("@/components/math/grade-3/irasbeli-muveletek-1000-ig/megallo/WrittenOps1000ExamG3Theory").then(m => ({ default: m.WrittenOps1000ExamG3Theory })));
+const G3WrittenOps1000ExamG3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-muveletek-1000-ig/megallo/WrittenOps1000ExamG3Quiz").then(m => ({ default: m.WrittenOps1000ExamG3Quiz })));
 
 export const Grade3Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -2342,6 +2348,108 @@ export const Grade3Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g3-wops-kivonas-theory', selectedTopic || 'g3-written-ops-1000')}
           onSwitchToMatcher={() => handleActivitySelect('g3-wops-kivonas-matcher', selectedTopic || 'g3-written-ops-1000')}
           onSwitchToSorter={() => handleActivitySelect('g3-wops-kivonas-sorter', selectedTopic || 'g3-written-ops-1000')}
+        />
+      )}
+
+      {/* 3. A műveletek sorrendje és a zárójelek */}
+      {activityType === 'g3-wops-sorrend-theory' && (
+        <G3OrderOps1000G3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-wops-sorrend-quiz', selectedTopic || 'g3-written-ops-1000')}
+        />
+      )}
+      {activityType === 'g3-wops-sorrend-quiz' && (
+        <G3OrderOps1000G3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wops-sorrend-theory', selectedTopic || 'g3-written-ops-1000')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wops-sorrend-matcher', selectedTopic || 'g3-written-ops-1000')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wops-sorrend-sorter', selectedTopic || 'g3-written-ops-1000')}
+        />
+      )}
+      {activityType === 'g3-wops-sorrend-matcher' && (
+        <G3OrderOps1000G3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wops-sorrend-theory', selectedTopic || 'g3-written-ops-1000')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wops-sorrend-matcher', selectedTopic || 'g3-written-ops-1000')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wops-sorrend-sorter', selectedTopic || 'g3-written-ops-1000')}
+        />
+      )}
+      {activityType === 'g3-wops-sorrend-sorter' && (
+        <G3OrderOps1000G3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wops-sorrend-theory', selectedTopic || 'g3-written-ops-1000')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wops-sorrend-matcher', selectedTopic || 'g3-written-ops-1000')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wops-sorrend-sorter', selectedTopic || 'g3-written-ops-1000')}
+        />
+      )}
+
+      {/* 4. Vegyes műveletek és szöveges feladatok */}
+      {activityType === 'g3-wops-vegyes-theory' && (
+        <G3MixedOps1000G3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-wops-vegyes-quiz', selectedTopic || 'g3-written-ops-1000')}
+        />
+      )}
+      {activityType === 'g3-wops-vegyes-quiz' && (
+        <G3MixedOps1000G3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wops-vegyes-theory', selectedTopic || 'g3-written-ops-1000')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wops-vegyes-matcher', selectedTopic || 'g3-written-ops-1000')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wops-vegyes-sorter', selectedTopic || 'g3-written-ops-1000')}
+        />
+      )}
+      {activityType === 'g3-wops-vegyes-matcher' && (
+        <G3MixedOps1000G3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wops-vegyes-theory', selectedTopic || 'g3-written-ops-1000')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wops-vegyes-matcher', selectedTopic || 'g3-written-ops-1000')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wops-vegyes-sorter', selectedTopic || 'g3-written-ops-1000')}
+        />
+      )}
+      {activityType === 'g3-wops-vegyes-sorter' && (
+        <G3MixedOps1000G3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wops-vegyes-theory', selectedTopic || 'g3-written-ops-1000')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wops-vegyes-matcher', selectedTopic || 'g3-written-ops-1000')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wops-vegyes-sorter', selectedTopic || 'g3-written-ops-1000')}
+        />
+      )}
+
+      {/* 5. Megálló – tudáspróba */}
+      {activityType === 'g3-wops-tudasproba-theory' && (
+        <G3WrittenOps1000ExamG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-wops-tudasproba-quiz', selectedTopic || 'g3-written-ops-1000')}
+        />
+      )}
+      {activityType === 'g3-wops-tudasproba-quiz' && (
+        <G3WrittenOps1000ExamG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wops-tudasproba-theory', selectedTopic || 'g3-written-ops-1000')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wops-tudasproba-matcher', selectedTopic || 'g3-written-ops-1000')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wops-tudasproba-sorter', selectedTopic || 'g3-written-ops-1000')}
+        />
+      )}
+      {activityType === 'g3-wops-tudasproba-matcher' && (
+        <G3WrittenOps1000ExamG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wops-tudasproba-theory', selectedTopic || 'g3-written-ops-1000')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wops-tudasproba-matcher', selectedTopic || 'g3-written-ops-1000')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wops-tudasproba-sorter', selectedTopic || 'g3-written-ops-1000')}
+        />
+      )}
+      {activityType === 'g3-wops-tudasproba-sorter' && (
+        <G3WrittenOps1000ExamG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wops-tudasproba-theory', selectedTopic || 'g3-written-ops-1000')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wops-tudasproba-matcher', selectedTopic || 'g3-written-ops-1000')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wops-tudasproba-sorter', selectedTopic || 'g3-written-ops-1000')}
         />
       )}
     </>
