@@ -1827,13 +1827,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-wrops-sec-1" number={1} title="Írásbeli összeadás 1000-ig" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Írásbeli összeadás 1000-ig"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Írásbeli összeadás 1000-ig Tananyag"
+                subtitle="Több tag, „maradt 2”, pont 1000 összeg négy oszlopban, becslés és ellenőrzés"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-wops-osszeadas-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: több tag, maradt 2, pont 1000, becslés, ellenőrzés, szöveges feladatok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-wops-osszeadas-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g3-wops-osszeadas-quiz')}
               />
             </div>
           </section>
@@ -1845,13 +1855,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-wrops-sec-2" number={2} title="Írásbeli kivonás 1000-ig" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Írásbeli kivonás 1000-ig"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Írásbeli kivonás 1000-ig Tananyag"
+                subtitle="Pótlásos kivonás 0-val a kisebbítendőben, kerek százasból és az 1000-ből, ellenőrzés összeadással"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-wops-kivonas-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: pótlásos kivonás, 0 a kisebbítendőben, kivonás az 1000-ből, ellenőrzés, szöveges feladatok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-wops-kivonas-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g3-wops-kivonas-quiz')}
               />
             </div>
           </section>
