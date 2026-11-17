@@ -2,7 +2,7 @@ import React from 'react';
 import { QuizTemplate, QuizQuestion } from '../QuizTemplate';
 import { Count500ExamG3Matcher } from './Count500ExamG3Matcher';
 import { Count500ExamG3Sorter } from './Count500ExamG3Sorter';
-import { BlocksFig, PlaceFig, NLFig, RoundFig, CoinsRow, ChainFig, DigitCards, TagsFig, MagicFig, TreesFig, TimesFig } from './Count500ExamG3Parts';
+import { BlocksFig, PlaceFig, NLFig, RoundFig, CoinsRow, ChainFig, DigitCards, TagsFig, MagicFig, TimesFig } from './Count500ExamG3Parts';
 import { Jumps, BarFig, CompareFig } from '../osszeadas-es-kivonas/AddSub500G3QuizParts';
 import { RodsFig, ShareFig, HopFig, CoinGridFig, AnalogyFig, FlatsFig, BoxesFig } from '../szorzas-es-osztas/MulDiv500G3QuizParts';
 
@@ -108,7 +108,7 @@ const L3: QuizQuestion[] = [
   q({ id: 'c500e-q81', level: 3, questionTypeBadge: 'Műveleti sorrend', question: '500 − 6 · 50 = ?', options: ['200', '300', '250', '100'], explanation: 'Előbb szorzunk: 6 · 50 = 300. Aztán 500 − 300 = 200.' }),
   q({ id: 'c500e-q82', level: 3, questionTypeBadge: 'Zárójel', question: '(450 − 410) · 10 = ?', options: ['400', '40', '410', '360'], explanation: 'Előbb a zárójel: 450 − 410 = 40. Aztán 40 · 10 = 400.' }),
   q({ id: 'c500e-q83', level: 3, questionTypeBadge: 'Összehasonlítás', question: 'Melyiknek a legnagyobb az eredménye?', options: ['480 − 4 · 10', '7 · 60', '150 + 10 · 20', '4 · 100 + 30'], explanation: '480 − 40 = 440, 7 · 60 = 420, 150 + 200 = 350, 400 + 30 = 430. A legnagyobb a 440.' }),
-  q({ id: 'c500e-q84', level: 3, questionTypeBadge: 'Fasor', figure: <TreesFig total={280} gap={40} />, question: 'Egy 280 m-es út mellé 40 m-enként fát ültetnek, az elejére és a végére is. Hány fa kell?', options: ['8', '7', '9', '70'], explanation: '280 : 40 = 7 köz van. A fák eggyel többen vannak, mint a közök: 7 + 1 = 8 fa.' }),
+  q({ id: 'c500e-q84', level: 3, questionTypeBadge: 'Két lépés', question: 'Egy dobozba 40 ceruza fér. Kata 280 ceruzát dobozol be, és még 3 dobozba zsírkrétát tesz. Hány dobozt használ összesen?', options: ['10', '7', '3', '70'], explanation: 'Először a ceruzák: 280 : 40 = 7 doboz (mert 7 · 40 = 280). Aztán a zsírkréták: 7 + 3 = 10 doboz.' }),
   q({ id: 'c500e-q85', level: 3, questionTypeBadge: 'Hiányzó szám', question: '□ : 7 = 60. Mennyi a □?', options: ['420', '67', '360', '480'], explanation: 'Visszafelé szorzással: 7 · 60 = 420.' }),
   q({ id: 'c500e-q86', level: 3, questionTypeBadge: 'Igaz vagy hamis?', question: 'Melyik állítás igaz?', options: ['A 46 tízszerese 40-nel kisebb az 500-nál.', 'A 300-ban a 60 hatszor van meg.', 'A 7 · 60 nagyobb, mint 450.', 'A 480 : 8 = 6.'], explanation: '46 · 10 = 460, és 500 − 460 = 40. Ez igaz. 300 : 60 = 5, 7 · 60 = 420, 480 : 8 = 60.' }),
   q({ id: 'c500e-q87', level: 3, questionTypeBadge: 'Bűvös négyzet', figure: <MagicFig cells={[240, 30, 180, 90, 150, '?', 120, 270, 60]} />, question: 'Minden sorban, oszlopban és átlóban ugyanannyi az összeg. Mi kerül a ? helyére?', options: ['210', '200', '150', '240'], explanation: 'Az első sor: 240 + 30 + 180 = 450. A középső sor: 90 + 150 + □ = 450, így □ = 210.' }),
