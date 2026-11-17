@@ -170,3 +170,4 @@ A szekciók tartalmasabb címet kapnak (az azonosítók maradnak):
 3. Az I. témakörrel kezdünk, utána a DiákZóna sorrendjében haladunk, legfeljebb 4 ágenssel, témakörönként commit.
 
 Segédeszközök: `scratch/g3/` (lessons.json, queue.txt, AGENT_BRIEF.md, wire.mjs, update-config.cjs, render/render.sh).
+4. A római számok 100-ig, L-lel és C-vel készülnek, pedig a könyv csak I, V, X jelekkel 39-ig tanít (a felhasználó döntése). A 4. osztályos római lecke L és C nélkül készült, ezt később érdemes összehangolni.

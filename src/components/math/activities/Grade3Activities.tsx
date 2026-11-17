@@ -19,6 +19,14 @@ const G3Brackets100G3Theory = lazy(() => import("@/components/math/grade-3/szamo
 const G3Brackets100G3Quiz = lazy(() => import("@/components/math/grade-3/szamolas-100-ig/a-zarojel-hasznalata/Brackets100G3Quiz").then(m => ({ default: m.Brackets100G3Quiz })));
 const G3Count100ExamG3Theory = lazy(() => import("@/components/math/grade-3/szamolas-100-ig/megallo/Count100ExamG3Theory").then(m => ({ default: m.Count100ExamG3Theory })));
 const G3Count100ExamG3Quiz = lazy(() => import("@/components/math/grade-3/szamolas-100-ig/megallo/Count100ExamG3Quiz").then(m => ({ default: m.Count100ExamG3Quiz })));
+const G3RomanBasicsG3Theory = lazy(() => import("@/components/math/grade-3/romai-szamok/alapveto-szamjegyek-szabalyok/RomanBasicsG3Theory").then(m => ({ default: m.RomanBasicsG3Theory })));
+const G3RomanBasicsG3Quiz = lazy(() => import("@/components/math/grade-3/romai-szamok/alapveto-szamjegyek-szabalyok/RomanBasicsG3Quiz").then(m => ({ default: m.RomanBasicsG3Quiz })));
+const G3RomanReadWriteG3Theory = lazy(() => import("@/components/math/grade-3/romai-szamok/iras-olvasas-100-ig/RomanReadWriteG3Theory").then(m => ({ default: m.RomanReadWriteG3Theory })));
+const G3RomanReadWriteG3Quiz = lazy(() => import("@/components/math/grade-3/romai-szamok/iras-olvasas-100-ig/RomanReadWriteG3Quiz").then(m => ({ default: m.RomanReadWriteG3Quiz })));
+const G3RomanEverydayG3Theory = lazy(() => import("@/components/math/grade-3/romai-szamok/romai-szamok-a-mindennapokban/RomanEverydayG3Theory").then(m => ({ default: m.RomanEverydayG3Theory })));
+const G3RomanEverydayG3Quiz = lazy(() => import("@/components/math/grade-3/romai-szamok/romai-szamok-a-mindennapokban/RomanEverydayG3Quiz").then(m => ({ default: m.RomanEverydayG3Quiz })));
+const G3RomanExamG3Theory = lazy(() => import("@/components/math/grade-3/romai-szamok/gyakorlas-tudasproba/RomanExamG3Theory").then(m => ({ default: m.RomanExamG3Theory })));
+const G3RomanExamG3Quiz = lazy(() => import("@/components/math/grade-3/romai-szamok/gyakorlas-tudasproba/RomanExamG3Quiz").then(m => ({ default: m.RomanExamG3Quiz })));
 
 export const Grade3Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -304,6 +312,144 @@ export const Grade3Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g3-c100-tudasproba-theory', selectedTopic || 'g3-count-100')}
           onSwitchToMatcher={() => handleActivitySelect('g3-c100-tudasproba-matcher', selectedTopic || 'g3-count-100')}
           onSwitchToSorter={() => handleActivitySelect('g3-c100-tudasproba-sorter', selectedTopic || 'g3-count-100')}
+        />
+      )}
+
+      {/* ===== 3. Osztály – II. A római számok ===== */}
+
+      {/* 1. A római számjegyek és alapszabályok */}
+      {activityType === 'g3-rom-alapok-theory' && (
+        <G3RomanBasicsG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-rom-alapok-quiz', selectedTopic || 'g3-roman-numbers')}
+        />
+      )}
+      {activityType === 'g3-rom-alapok-quiz' && (
+        <G3RomanBasicsG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-rom-alapok-theory', selectedTopic || 'g3-roman-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-rom-alapok-matcher', selectedTopic || 'g3-roman-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g3-rom-alapok-sorter', selectedTopic || 'g3-roman-numbers')}
+        />
+      )}
+      {activityType === 'g3-rom-alapok-matcher' && (
+        <G3RomanBasicsG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-rom-alapok-theory', selectedTopic || 'g3-roman-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-rom-alapok-matcher', selectedTopic || 'g3-roman-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g3-rom-alapok-sorter', selectedTopic || 'g3-roman-numbers')}
+        />
+      )}
+      {activityType === 'g3-rom-alapok-sorter' && (
+        <G3RomanBasicsG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-rom-alapok-theory', selectedTopic || 'g3-roman-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-rom-alapok-matcher', selectedTopic || 'g3-roman-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g3-rom-alapok-sorter', selectedTopic || 'g3-roman-numbers')}
+        />
+      )}
+
+      {/* 2. Római számok írása és olvasása 100-ig */}
+      {activityType === 'g3-rom-iras-olvasas-theory' && (
+        <G3RomanReadWriteG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-rom-iras-olvasas-quiz', selectedTopic || 'g3-roman-numbers')}
+        />
+      )}
+      {activityType === 'g3-rom-iras-olvasas-quiz' && (
+        <G3RomanReadWriteG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-rom-iras-olvasas-theory', selectedTopic || 'g3-roman-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-rom-iras-olvasas-matcher', selectedTopic || 'g3-roman-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g3-rom-iras-olvasas-sorter', selectedTopic || 'g3-roman-numbers')}
+        />
+      )}
+      {activityType === 'g3-rom-iras-olvasas-matcher' && (
+        <G3RomanReadWriteG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-rom-iras-olvasas-theory', selectedTopic || 'g3-roman-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-rom-iras-olvasas-matcher', selectedTopic || 'g3-roman-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g3-rom-iras-olvasas-sorter', selectedTopic || 'g3-roman-numbers')}
+        />
+      )}
+      {activityType === 'g3-rom-iras-olvasas-sorter' && (
+        <G3RomanReadWriteG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-rom-iras-olvasas-theory', selectedTopic || 'g3-roman-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-rom-iras-olvasas-matcher', selectedTopic || 'g3-roman-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g3-rom-iras-olvasas-sorter', selectedTopic || 'g3-roman-numbers')}
+        />
+      )}
+
+      {/* 3. Római számok a mindennapokban és fejtörők */}
+      {activityType === 'g3-rom-mindennapok-theory' && (
+        <G3RomanEverydayG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-rom-mindennapok-quiz', selectedTopic || 'g3-roman-numbers')}
+        />
+      )}
+      {activityType === 'g3-rom-mindennapok-quiz' && (
+        <G3RomanEverydayG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-rom-mindennapok-theory', selectedTopic || 'g3-roman-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-rom-mindennapok-matcher', selectedTopic || 'g3-roman-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g3-rom-mindennapok-sorter', selectedTopic || 'g3-roman-numbers')}
+        />
+      )}
+      {activityType === 'g3-rom-mindennapok-matcher' && (
+        <G3RomanEverydayG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-rom-mindennapok-theory', selectedTopic || 'g3-roman-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-rom-mindennapok-matcher', selectedTopic || 'g3-roman-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g3-rom-mindennapok-sorter', selectedTopic || 'g3-roman-numbers')}
+        />
+      )}
+      {activityType === 'g3-rom-mindennapok-sorter' && (
+        <G3RomanEverydayG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-rom-mindennapok-theory', selectedTopic || 'g3-roman-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-rom-mindennapok-matcher', selectedTopic || 'g3-roman-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g3-rom-mindennapok-sorter', selectedTopic || 'g3-roman-numbers')}
+        />
+      )}
+
+      {/* 4. Gyakorlás, tudáspróba */}
+      {activityType === 'g3-rom-tudasproba-theory' && (
+        <G3RomanExamG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-rom-tudasproba-quiz', selectedTopic || 'g3-roman-numbers')}
+        />
+      )}
+      {activityType === 'g3-rom-tudasproba-quiz' && (
+        <G3RomanExamG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-rom-tudasproba-theory', selectedTopic || 'g3-roman-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-rom-tudasproba-matcher', selectedTopic || 'g3-roman-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g3-rom-tudasproba-sorter', selectedTopic || 'g3-roman-numbers')}
+        />
+      )}
+      {activityType === 'g3-rom-tudasproba-matcher' && (
+        <G3RomanExamG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-rom-tudasproba-theory', selectedTopic || 'g3-roman-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-rom-tudasproba-matcher', selectedTopic || 'g3-roman-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g3-rom-tudasproba-sorter', selectedTopic || 'g3-roman-numbers')}
+        />
+      )}
+      {activityType === 'g3-rom-tudasproba-sorter' && (
+        <G3RomanExamG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-rom-tudasproba-theory', selectedTopic || 'g3-roman-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-rom-tudasproba-matcher', selectedTopic || 'g3-roman-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g3-rom-tudasproba-sorter', selectedTopic || 'g3-roman-numbers')}
         />
       )}
     </>

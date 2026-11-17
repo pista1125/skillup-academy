@@ -255,13 +255,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-roman-sec-1" number={1} title="A római számjegyek és alapszabályok" color="yellow" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A római számjegyek és alapszabályok"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="A római számjegyek és alapszabályok Tananyag"
+                subtitle="Az I, V, X, L, C jelek, hozzáadás és elvevés, legfeljebb 3 egyforma jel, két labor"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-rom-alapok-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="yellow"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: római jelek, hozzáadás és elvevés, helyes és hibás írás, kis számok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-rom-alapok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="yellow"
+                {...getTopicProgress('g3-rom-alapok-quiz')}
               />
             </div>
           </section>
@@ -273,13 +283,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-roman-sec-2" number={2} title="Római számok írása és olvasása 100-ig" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Római számok írása és olvasása 100-ig"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Római számok írása és olvasása 100-ig Tananyag"
+                subtitle="Tízesrész + egyesrész, írás és olvasás 100-ig, összehasonlítás, számszomszédok, két labor"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-rom-iras-olvasas-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: írás és olvasás 100-ig, tízesrész és egyesrész, összehasonlítás, számszomszédok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-rom-iras-olvasas-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g3-rom-iras-olvasas-quiz')}
               />
             </div>
           </section>
@@ -291,13 +311,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-roman-sec-3" number={3} title="Római számok a mindennapokban és fejtörők" color="orange" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Római számok a mindennapokban és fejtörők"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Római számok a mindennapokban Tananyag"
+                subtitle="Római óra, sorszámok (IV. Béla, XIII. kerület, fejezetek), dátumok római hónappal, pálcikás fejtörők és tükrözés."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-rom-mindennapok-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="orange"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: óra, sorszámok, dátumok, pálcikás fejtörők, tükrözés."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-rom-mindennapok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="orange"
+                {...getTopicProgress('g3-rom-mindennapok-quiz')}
               />
             </div>
           </section>
@@ -309,13 +339,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-roman-sec-4" number={4} title="Gyakorlás, tudáspróba" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Gyakorlás, tudáspróba"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Gyakorlás, tudáspróba Tananyag"
+                subtitle="Összefoglaló: az I, V, X, L, C jel, a szabályok, írás és olvasás 100-ig, összehasonlítás, mindennapi használat, fejtörők."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-rom-tudasproba-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz"
+                subtitle="90 feladat 3 szinten: jelek és szabályok, írás és olvasás 100-ig, sorrend, óra, dátum, műveletek, pálcikás fejtörők."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-rom-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g3-rom-tudasproba-quiz')}
               />
             </div>
           </section>
