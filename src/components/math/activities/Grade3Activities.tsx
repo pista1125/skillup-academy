@@ -107,6 +107,20 @@ const G3NegChangesG3Theory = lazy(() => import("@/components/math/grade-3/negati
 const G3NegChangesG3Quiz = lazy(() => import("@/components/math/grade-3/negativ-szamok/osszehasonlitas-es-valtozasok/NegChangesG3Quiz").then(m => ({ default: m.NegChangesG3Quiz })));
 const G3NegExamG3Theory = lazy(() => import("@/components/math/grade-3/negativ-szamok/gyakorlas-tudasproba/NegExamG3Theory").then(m => ({ default: m.NegExamG3Theory })));
 const G3NegExamG3Quiz = lazy(() => import("@/components/math/grade-3/negativ-szamok/gyakorlas-tudasproba/NegExamG3Quiz").then(m => ({ default: m.NegExamG3Quiz })));
+const G3SolidsG3Theory = lazy(() => import("@/components/math/grade-3/testek-sikidomok/a-testek/SolidsG3Theory").then(m => ({ default: m.SolidsG3Theory })));
+const G3SolidsG3Quiz = lazy(() => import("@/components/math/grade-3/testek-sikidomok/a-testek/SolidsG3Quiz").then(m => ({ default: m.SolidsG3Quiz })));
+const G3CuboidG3Theory = lazy(() => import("@/components/math/grade-3/testek-sikidomok/a-teglatest-es-a-kocka/CuboidG3Theory").then(m => ({ default: m.CuboidG3Theory })));
+const G3CuboidG3Quiz = lazy(() => import("@/components/math/grade-3/testek-sikidomok/a-teglatest-es-a-kocka/CuboidG3Quiz").then(m => ({ default: m.CuboidG3Quiz })));
+const G3PolygonsG3Theory = lazy(() => import("@/components/math/grade-3/testek-sikidomok/sikidomok-sokszogek/PolygonsG3Theory").then(m => ({ default: m.PolygonsG3Theory })));
+const G3PolygonsG3Quiz = lazy(() => import("@/components/math/grade-3/testek-sikidomok/sikidomok-sokszogek/PolygonsG3Quiz").then(m => ({ default: m.PolygonsG3Quiz })));
+const G3SymmetryG3Theory = lazy(() => import("@/components/math/grade-3/testek-sikidomok/tukrozesek-szimmetria/SymmetryG3Theory").then(m => ({ default: m.SymmetryG3Theory })));
+const G3SymmetryG3Quiz = lazy(() => import("@/components/math/grade-3/testek-sikidomok/tukrozesek-szimmetria/SymmetryG3Quiz").then(m => ({ default: m.SymmetryG3Quiz })));
+const G3ShapesExamG3Theory = lazy(() => import("@/components/math/grade-3/testek-sikidomok/megallo/ShapesExamG3Theory").then(m => ({ default: m.ShapesExamG3Theory })));
+const G3ShapesExamG3Quiz = lazy(() => import("@/components/math/grade-3/testek-sikidomok/megallo/ShapesExamG3Quiz").then(m => ({ default: m.ShapesExamG3Quiz })));
+const G3MulDiv1000G3Theory = lazy(() => import("@/components/math/grade-3/szamolas-1000-ig/szorzas-es-osztas/MulDiv1000G3Theory").then(m => ({ default: m.MulDiv1000G3Theory })));
+const G3MulDiv1000G3Quiz = lazy(() => import("@/components/math/grade-3/szamolas-1000-ig/szorzas-es-osztas/MulDiv1000G3Quiz").then(m => ({ default: m.MulDiv1000G3Quiz })));
+const G3Count1000ExamG3Theory = lazy(() => import("@/components/math/grade-3/szamolas-1000-ig/megallo/Count1000ExamG3Theory").then(m => ({ default: m.Count1000ExamG3Theory })));
+const G3Count1000ExamG3Quiz = lazy(() => import("@/components/math/grade-3/szamolas-1000-ig/megallo/Count1000ExamG3Quiz").then(m => ({ default: m.Count1000ExamG3Quiz })));
 
 export const Grade3Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -1904,6 +1918,248 @@ export const Grade3Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g3-neg-tudasproba-theory', selectedTopic || 'g3-negative-numbers')}
           onSwitchToMatcher={() => handleActivitySelect('g3-neg-tudasproba-matcher', selectedTopic || 'g3-negative-numbers')}
           onSwitchToSorter={() => handleActivitySelect('g3-neg-tudasproba-sorter', selectedTopic || 'g3-negative-numbers')}
+        />
+      )}
+
+      {/* ===== 3. Osztály – X. Testek, síkidomok ===== */}
+
+      {/* 1. A testek */}
+      {activityType === 'g3-geom-testek-theory' && (
+        <G3SolidsG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-geom-testek-quiz', selectedTopic || 'g3-shapes-solids')}
+        />
+      )}
+      {activityType === 'g3-geom-testek-quiz' && (
+        <G3SolidsG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-geom-testek-theory', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-geom-testek-matcher', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g3-geom-testek-sorter', selectedTopic || 'g3-shapes-solids')}
+        />
+      )}
+      {activityType === 'g3-geom-testek-matcher' && (
+        <G3SolidsG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-geom-testek-theory', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-geom-testek-matcher', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g3-geom-testek-sorter', selectedTopic || 'g3-shapes-solids')}
+        />
+      )}
+      {activityType === 'g3-geom-testek-sorter' && (
+        <G3SolidsG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-geom-testek-theory', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-geom-testek-matcher', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g3-geom-testek-sorter', selectedTopic || 'g3-shapes-solids')}
+        />
+      )}
+
+      {/* 2. A téglatest és a kocka */}
+      {activityType === 'g3-geom-teglatest-theory' && (
+        <G3CuboidG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-geom-teglatest-quiz', selectedTopic || 'g3-shapes-solids')}
+        />
+      )}
+      {activityType === 'g3-geom-teglatest-quiz' && (
+        <G3CuboidG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-geom-teglatest-theory', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-geom-teglatest-matcher', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g3-geom-teglatest-sorter', selectedTopic || 'g3-shapes-solids')}
+        />
+      )}
+      {activityType === 'g3-geom-teglatest-matcher' && (
+        <G3CuboidG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-geom-teglatest-theory', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-geom-teglatest-matcher', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g3-geom-teglatest-sorter', selectedTopic || 'g3-shapes-solids')}
+        />
+      )}
+      {activityType === 'g3-geom-teglatest-sorter' && (
+        <G3CuboidG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-geom-teglatest-theory', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-geom-teglatest-matcher', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g3-geom-teglatest-sorter', selectedTopic || 'g3-shapes-solids')}
+        />
+      )}
+
+      {/* 3. Síkidomok, sokszögek */}
+      {activityType === 'g3-geom-sokszogek-theory' && (
+        <G3PolygonsG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-geom-sokszogek-quiz', selectedTopic || 'g3-shapes-solids')}
+        />
+      )}
+      {activityType === 'g3-geom-sokszogek-quiz' && (
+        <G3PolygonsG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-geom-sokszogek-theory', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-geom-sokszogek-matcher', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g3-geom-sokszogek-sorter', selectedTopic || 'g3-shapes-solids')}
+        />
+      )}
+      {activityType === 'g3-geom-sokszogek-matcher' && (
+        <G3PolygonsG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-geom-sokszogek-theory', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-geom-sokszogek-matcher', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g3-geom-sokszogek-sorter', selectedTopic || 'g3-shapes-solids')}
+        />
+      )}
+      {activityType === 'g3-geom-sokszogek-sorter' && (
+        <G3PolygonsG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-geom-sokszogek-theory', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-geom-sokszogek-matcher', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g3-geom-sokszogek-sorter', selectedTopic || 'g3-shapes-solids')}
+        />
+      )}
+
+      {/* 4. Tükrözések, szimmetria */}
+      {activityType === 'g3-geom-tukrozes-theory' && (
+        <G3SymmetryG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-geom-tukrozes-quiz', selectedTopic || 'g3-shapes-solids')}
+        />
+      )}
+      {activityType === 'g3-geom-tukrozes-quiz' && (
+        <G3SymmetryG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-geom-tukrozes-theory', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-geom-tukrozes-matcher', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g3-geom-tukrozes-sorter', selectedTopic || 'g3-shapes-solids')}
+        />
+      )}
+      {activityType === 'g3-geom-tukrozes-matcher' && (
+        <G3SymmetryG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-geom-tukrozes-theory', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-geom-tukrozes-matcher', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g3-geom-tukrozes-sorter', selectedTopic || 'g3-shapes-solids')}
+        />
+      )}
+      {activityType === 'g3-geom-tukrozes-sorter' && (
+        <G3SymmetryG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-geom-tukrozes-theory', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-geom-tukrozes-matcher', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g3-geom-tukrozes-sorter', selectedTopic || 'g3-shapes-solids')}
+        />
+      )}
+
+      {/* 5. Megálló – tudáspróba */}
+      {activityType === 'g3-geom-tudasproba-theory' && (
+        <G3ShapesExamG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-geom-tudasproba-quiz', selectedTopic || 'g3-shapes-solids')}
+        />
+      )}
+      {activityType === 'g3-geom-tudasproba-quiz' && (
+        <G3ShapesExamG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-geom-tudasproba-theory', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-geom-tudasproba-matcher', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g3-geom-tudasproba-sorter', selectedTopic || 'g3-shapes-solids')}
+        />
+      )}
+      {activityType === 'g3-geom-tudasproba-matcher' && (
+        <G3ShapesExamG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-geom-tudasproba-theory', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-geom-tudasproba-matcher', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g3-geom-tudasproba-sorter', selectedTopic || 'g3-shapes-solids')}
+        />
+      )}
+      {activityType === 'g3-geom-tudasproba-sorter' && (
+        <G3ShapesExamG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-geom-tudasproba-theory', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-geom-tudasproba-matcher', selectedTopic || 'g3-shapes-solids')}
+          onSwitchToSorter={() => handleActivitySelect('g3-geom-tudasproba-sorter', selectedTopic || 'g3-shapes-solids')}
+        />
+      )}
+
+      {/* ===== 3. Osztály – XI. Számolás 0-tól 1000-ig ===== */}
+
+      {/* 4. Szorzás és osztás */}
+      {activityType === 'g3-c1000-szorzas-theory' && (
+        <G3MulDiv1000G3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-c1000-szorzas-quiz', selectedTopic || 'g3-count-1000')}
+        />
+      )}
+      {activityType === 'g3-c1000-szorzas-quiz' && (
+        <G3MulDiv1000G3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c1000-szorzas-theory', selectedTopic || 'g3-count-1000')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c1000-szorzas-matcher', selectedTopic || 'g3-count-1000')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c1000-szorzas-sorter', selectedTopic || 'g3-count-1000')}
+        />
+      )}
+      {activityType === 'g3-c1000-szorzas-matcher' && (
+        <G3MulDiv1000G3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c1000-szorzas-theory', selectedTopic || 'g3-count-1000')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c1000-szorzas-matcher', selectedTopic || 'g3-count-1000')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c1000-szorzas-sorter', selectedTopic || 'g3-count-1000')}
+        />
+      )}
+      {activityType === 'g3-c1000-szorzas-sorter' && (
+        <G3MulDiv1000G3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c1000-szorzas-theory', selectedTopic || 'g3-count-1000')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c1000-szorzas-matcher', selectedTopic || 'g3-count-1000')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c1000-szorzas-sorter', selectedTopic || 'g3-count-1000')}
+        />
+      )}
+
+      {/* 5. Megálló – tudáspróba */}
+      {activityType === 'g3-c1000-tudasproba-theory' && (
+        <G3Count1000ExamG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-c1000-tudasproba-quiz', selectedTopic || 'g3-count-1000')}
+        />
+      )}
+      {activityType === 'g3-c1000-tudasproba-quiz' && (
+        <G3Count1000ExamG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c1000-tudasproba-theory', selectedTopic || 'g3-count-1000')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c1000-tudasproba-matcher', selectedTopic || 'g3-count-1000')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c1000-tudasproba-sorter', selectedTopic || 'g3-count-1000')}
+        />
+      )}
+      {activityType === 'g3-c1000-tudasproba-matcher' && (
+        <G3Count1000ExamG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c1000-tudasproba-theory', selectedTopic || 'g3-count-1000')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c1000-tudasproba-matcher', selectedTopic || 'g3-count-1000')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c1000-tudasproba-sorter', selectedTopic || 'g3-count-1000')}
+        />
+      )}
+      {activityType === 'g3-c1000-tudasproba-sorter' && (
+        <G3Count1000ExamG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c1000-tudasproba-theory', selectedTopic || 'g3-count-1000')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c1000-tudasproba-matcher', selectedTopic || 'g3-count-1000')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c1000-tudasproba-sorter', selectedTopic || 'g3-count-1000')}
         />
       )}
     </>

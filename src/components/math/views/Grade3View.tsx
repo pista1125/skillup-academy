@@ -1535,13 +1535,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-geom-sec-1" number={1} title="A testek" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A testek"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="A testek Tananyag"
+                subtitle="Testek körülöttünk, a testek lapjai, csak lapok vagy görbe rész, építés kis kockákból, alaprajz."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-geom-testek-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: testek neve, lapjai, görbe része, építés kockákból."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-geom-testek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g3-geom-testek-quiz')}
               />
             </div>
           </section>
@@ -1553,13 +1563,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-geom-sec-2" number={2} title="A téglatest és a kocka" color="orange" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A téglatest és a kocka"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="A téglatest és a kocka Tananyag"
+                subtitle="A téglatest és a kocka lapjai, szemközti lapok, testháló, téglatest építése kis kockákból."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-geom-teglatest-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="orange"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: lapok, szemközti lapok, testháló, kis kockák."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-geom-teglatest-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="orange"
+                {...getTopicProgress('g3-geom-teglatest-quiz')}
               />
             </div>
           </section>
@@ -1571,13 +1591,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-geom-sec-3" number={3} title="Síkidomok, sokszögek" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Síkidomok, sokszögek"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Síkidomok, sokszögek Tananyag"
+                subtitle="Egyenes és görbe vonalak, sokszögek oldalai és csúcsai, nevük, téglalap és négyzet."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-geom-sokszogek-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: sokszög vagy nem, oldalak és csúcsok, téglalap és négyzet, pálcikák."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-geom-sokszogek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g3-geom-sokszogek-quiz')}
               />
             </div>
           </section>
@@ -1589,13 +1619,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-geom-sec-4" number={4} title="Tükrözések, szimmetria" color="purple" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Tükrözések, szimmetria"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Tükrözések, szimmetria Tananyag"
+                subtitle="Félbehajtás és tükörtengely, tükörkép négyzetrácson, hány tükörtengelye van, szimmetrikus betűk és tárgyak"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-geom-tukrozes-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="purple"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: szimmetrikus ábrák, tükörtengely, tükörkép négyzetrácson, betűk, tükörtengelyek száma."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-geom-tukrozes-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="purple"
+                {...getTopicProgress('g3-geom-tukrozes-quiz')}
               />
             </div>
           </section>
@@ -1607,13 +1647,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-geom-sec-5" number={5} title="Megálló – tudáspróba" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Megálló – tudáspróba"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Megálló – tudáspróba Tananyag"
+                subtitle="Összefoglalás: testek és lapjaik, alaprajz, téglatest és kocka, testháló, síkidomok és sokszögek, tükrözés"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-geom-tudasproba-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz"
+                subtitle="90 feladat 3 szinten: testek és lapjaik, kis kockák és alaprajz, téglatest és kocka, testháló, síkidomok és sokszögek, tükrözés."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-geom-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g3-geom-tudasproba-quiz')}
               />
             </div>
           </section>
@@ -1685,13 +1735,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-count1000-sec-4" number={4} title="Szorzás és osztás" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Szorzás és osztás"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Szorzás és osztás Tananyag"
+                subtitle="Szorzás és osztás 10-zel és 100-zal, kerek tízesek és százasok szorzása és osztása 1000-ig, kétféle osztás, pénzváltás."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-c1000-szorzas-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: szorzás és osztás 10-zel és 100-zal, kerek tízesek és százasok, kétféle osztás, pénzváltás, szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-c1000-szorzas-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="violet"
+                {...getTopicProgress('g3-c1000-szorzas-quiz')}
               />
             </div>
           </section>
@@ -1703,13 +1763,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-count1000-sec-5" number={5} title="Megálló – tudáspróba" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Megálló – tudáspróba"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Megálló – tudáspróba Tananyag"
+                subtitle="A fejezet összefoglalása: számok 1000-ig, szomszédok, kerekítés, összeadás, kivonás, szorzás, osztás, visszafelé gondolkodás."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-c1000-tudasproba-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz"
+                subtitle="90 feladat 3 szinten: számok 1000-ig, szomszédok, kerekítés, összeadás, kivonás, szorzás, osztás, pénz, szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-c1000-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g3-c1000-tudasproba-quiz')}
               />
             </div>
           </section>
