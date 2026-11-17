@@ -95,10 +95,18 @@ const G3DiffEstimateG3Theory = lazy(() => import("@/components/math/grade-3/iras
 const G3DiffEstimateG3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-kivonas/a-kulonbseg-becslese/DiffEstimateG3Quiz").then(m => ({ default: m.DiffEstimateG3Quiz })));
 const G3WrittenSubG3Theory = lazy(() => import("@/components/math/grade-3/irasbeli-kivonas/irasbeli-kivonas/WrittenSubG3Theory").then(m => ({ default: m.WrittenSubG3Theory })));
 const G3WrittenSubG3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-kivonas/irasbeli-kivonas/WrittenSubG3Quiz").then(m => ({ default: m.WrittenSubG3Quiz })));
+const G3DiffChangesG3Theory = lazy(() => import("@/components/math/grade-3/irasbeli-kivonas/a-kulonbseg-valtozasai/DiffChangesG3Theory").then(m => ({ default: m.DiffChangesG3Theory })));
+const G3DiffChangesG3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-kivonas/a-kulonbseg-valtozasai/DiffChangesG3Quiz").then(m => ({ default: m.DiffChangesG3Quiz })));
+const G3WrittenSubExamG3Theory = lazy(() => import("@/components/math/grade-3/irasbeli-kivonas/megallo/WrittenSubExamG3Theory").then(m => ({ default: m.WrittenSubExamG3Theory })));
+const G3WrittenSubExamG3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-kivonas/megallo/WrittenSubExamG3Quiz").then(m => ({ default: m.WrittenSubExamG3Quiz })));
 const G3NegEverydayG3Theory = lazy(() => import("@/components/math/grade-3/negativ-szamok/negativ-szamok-a-mindennapokban/NegEverydayG3Theory").then(m => ({ default: m.NegEverydayG3Theory })));
 const G3NegEverydayG3Quiz = lazy(() => import("@/components/math/grade-3/negativ-szamok/negativ-szamok-a-mindennapokban/NegEverydayG3Quiz").then(m => ({ default: m.NegEverydayG3Quiz })));
 const G3NegNumberLineG3Theory = lazy(() => import("@/components/math/grade-3/negativ-szamok/szamegyenes-es-a-nulla/NegNumberLineG3Theory").then(m => ({ default: m.NegNumberLineG3Theory })));
 const G3NegNumberLineG3Quiz = lazy(() => import("@/components/math/grade-3/negativ-szamok/szamegyenes-es-a-nulla/NegNumberLineG3Quiz").then(m => ({ default: m.NegNumberLineG3Quiz })));
+const G3NegChangesG3Theory = lazy(() => import("@/components/math/grade-3/negativ-szamok/osszehasonlitas-es-valtozasok/NegChangesG3Theory").then(m => ({ default: m.NegChangesG3Theory })));
+const G3NegChangesG3Quiz = lazy(() => import("@/components/math/grade-3/negativ-szamok/osszehasonlitas-es-valtozasok/NegChangesG3Quiz").then(m => ({ default: m.NegChangesG3Quiz })));
+const G3NegExamG3Theory = lazy(() => import("@/components/math/grade-3/negativ-szamok/gyakorlas-tudasproba/NegExamG3Theory").then(m => ({ default: m.NegExamG3Theory })));
+const G3NegExamG3Quiz = lazy(() => import("@/components/math/grade-3/negativ-szamok/gyakorlas-tudasproba/NegExamG3Quiz").then(m => ({ default: m.NegExamG3Quiz })));
 
 export const Grade3Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -1693,6 +1701,74 @@ export const Grade3Activities: React.FC<ActivityRouterProps> = ({
         />
       )}
 
+      {/* 4. A különbség változásai */}
+      {activityType === 'g3-wsub-valtozasok-theory' && (
+        <G3DiffChangesG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-wsub-valtozasok-quiz', selectedTopic || 'g3-written-subtraction')}
+        />
+      )}
+      {activityType === 'g3-wsub-valtozasok-quiz' && (
+        <G3DiffChangesG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wsub-valtozasok-theory', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wsub-valtozasok-matcher', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wsub-valtozasok-sorter', selectedTopic || 'g3-written-subtraction')}
+        />
+      )}
+      {activityType === 'g3-wsub-valtozasok-matcher' && (
+        <G3DiffChangesG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wsub-valtozasok-theory', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wsub-valtozasok-matcher', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wsub-valtozasok-sorter', selectedTopic || 'g3-written-subtraction')}
+        />
+      )}
+      {activityType === 'g3-wsub-valtozasok-sorter' && (
+        <G3DiffChangesG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wsub-valtozasok-theory', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wsub-valtozasok-matcher', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wsub-valtozasok-sorter', selectedTopic || 'g3-written-subtraction')}
+        />
+      )}
+
+      {/* 5. Megálló – tudáspróba */}
+      {activityType === 'g3-wsub-tudasproba-theory' && (
+        <G3WrittenSubExamG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-wsub-tudasproba-quiz', selectedTopic || 'g3-written-subtraction')}
+        />
+      )}
+      {activityType === 'g3-wsub-tudasproba-quiz' && (
+        <G3WrittenSubExamG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wsub-tudasproba-theory', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wsub-tudasproba-matcher', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wsub-tudasproba-sorter', selectedTopic || 'g3-written-subtraction')}
+        />
+      )}
+      {activityType === 'g3-wsub-tudasproba-matcher' && (
+        <G3WrittenSubExamG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wsub-tudasproba-theory', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wsub-tudasproba-matcher', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wsub-tudasproba-sorter', selectedTopic || 'g3-written-subtraction')}
+        />
+      )}
+      {activityType === 'g3-wsub-tudasproba-sorter' && (
+        <G3WrittenSubExamG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-wsub-tudasproba-theory', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-wsub-tudasproba-matcher', selectedTopic || 'g3-written-subtraction')}
+          onSwitchToSorter={() => handleActivitySelect('g3-wsub-tudasproba-sorter', selectedTopic || 'g3-written-subtraction')}
+        />
+      )}
+
       {/* ===== 3. Osztály – IX. Ismerkedés a negatív számokkal ===== */}
 
       {/* 1. Negatív számok a mindennapokban */}
@@ -1760,6 +1836,74 @@ export const Grade3Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g3-neg-szamegyenes-theory', selectedTopic || 'g3-negative-numbers')}
           onSwitchToMatcher={() => handleActivitySelect('g3-neg-szamegyenes-matcher', selectedTopic || 'g3-negative-numbers')}
           onSwitchToSorter={() => handleActivitySelect('g3-neg-szamegyenes-sorter', selectedTopic || 'g3-negative-numbers')}
+        />
+      )}
+
+      {/* 3. Összehasonlítás és változások */}
+      {activityType === 'g3-neg-valtozasok-theory' && (
+        <G3NegChangesG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-neg-valtozasok-quiz', selectedTopic || 'g3-negative-numbers')}
+        />
+      )}
+      {activityType === 'g3-neg-valtozasok-quiz' && (
+        <G3NegChangesG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-neg-valtozasok-theory', selectedTopic || 'g3-negative-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-neg-valtozasok-matcher', selectedTopic || 'g3-negative-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g3-neg-valtozasok-sorter', selectedTopic || 'g3-negative-numbers')}
+        />
+      )}
+      {activityType === 'g3-neg-valtozasok-matcher' && (
+        <G3NegChangesG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-neg-valtozasok-theory', selectedTopic || 'g3-negative-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-neg-valtozasok-matcher', selectedTopic || 'g3-negative-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g3-neg-valtozasok-sorter', selectedTopic || 'g3-negative-numbers')}
+        />
+      )}
+      {activityType === 'g3-neg-valtozasok-sorter' && (
+        <G3NegChangesG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-neg-valtozasok-theory', selectedTopic || 'g3-negative-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-neg-valtozasok-matcher', selectedTopic || 'g3-negative-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g3-neg-valtozasok-sorter', selectedTopic || 'g3-negative-numbers')}
+        />
+      )}
+
+      {/* 4. Gyakorlás, tudáspróba */}
+      {activityType === 'g3-neg-tudasproba-theory' && (
+        <G3NegExamG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-neg-tudasproba-quiz', selectedTopic || 'g3-negative-numbers')}
+        />
+      )}
+      {activityType === 'g3-neg-tudasproba-quiz' && (
+        <G3NegExamG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-neg-tudasproba-theory', selectedTopic || 'g3-negative-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-neg-tudasproba-matcher', selectedTopic || 'g3-negative-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g3-neg-tudasproba-sorter', selectedTopic || 'g3-negative-numbers')}
+        />
+      )}
+      {activityType === 'g3-neg-tudasproba-matcher' && (
+        <G3NegExamG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-neg-tudasproba-theory', selectedTopic || 'g3-negative-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-neg-tudasproba-matcher', selectedTopic || 'g3-negative-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g3-neg-tudasproba-sorter', selectedTopic || 'g3-negative-numbers')}
+        />
+      )}
+      {activityType === 'g3-neg-tudasproba-sorter' && (
+        <G3NegExamG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-neg-tudasproba-theory', selectedTopic || 'g3-negative-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-neg-tudasproba-matcher', selectedTopic || 'g3-negative-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g3-neg-tudasproba-sorter', selectedTopic || 'g3-negative-numbers')}
         />
       )}
     </>

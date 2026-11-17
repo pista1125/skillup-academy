@@ -1355,13 +1355,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-wr-sub-sec-4" number={4} title="A különbség változásai" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A különbség változásai"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="A különbség változásai Tananyag"
+                subtitle="Ha a kisebbítendő nő, a különbség is nő; ha a kivonandó nő, a különbség csökken; mindkettő ugyanannyival → marad. Okos kivonás."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-wsub-valtozasok-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: a kisebbítendő változik, a kivonandó változik, a különbség nem változik, összehasonlítás számolás nélkül, okos kivonás."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-wsub-valtozasok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="violet"
+                {...getTopicProgress('g3-wsub-valtozasok-quiz')}
               />
             </div>
           </section>
@@ -1373,13 +1383,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-wr-sub-sec-5" number={5} title="Megálló – tudáspróba" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Megálló – tudáspróba"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Megálló – tudáspróba Tananyag"
+                subtitle="Az egész fejezet röviden: kivonás fejben, becslés, írásbeli kivonás felváltással, ellenőrzés, szöveges feladatok, a különbség változásai."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-wsub-tudasproba-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz"
+                subtitle="90 feladat 3 szinten: kivonás fejben, becslés, írásbeli kivonás felváltással, ellenőrzés, hiányzó számok, szöveges feladatok, a különbség változásai."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-wsub-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g3-wsub-tudasproba-quiz')}
               />
             </div>
           </section>
@@ -1453,13 +1473,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-neg-sec-3" number={3} title="Összehasonlítás és változások" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Összehasonlítás és változások"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Összehasonlítás és változások Tananyag"
+                subtitle="Hidegebb, melegebb, sorba rendezés, melegedés és hűlés – hány fokkal, mennyi lett?"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-neg-valtozasok-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: hidegebb, melegebb, sorba rendezés, melegedés és hűlés."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-neg-valtozasok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g3-neg-valtozasok-quiz')}
               />
             </div>
           </section>
@@ -1471,13 +1501,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-neg-sec-4" number={4} title="Gyakorlás, tudáspróba" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Gyakorlás, tudáspróba"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Gyakorlás, tudáspróba Tananyag"
+                subtitle="Amit már tudsz: hőmérő, fagypont, lift és búvár, számegyenes, összehasonlítás, változások."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-neg-tudasproba-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz"
+                subtitle="90 feladat 3 szinten: hőmérő, fagypont, lift és búvár, számegyenes, hidegebb–melegebb, sorrend, melegedés és hűlés."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-neg-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g3-neg-tudasproba-quiz')}
               />
             </div>
           </section>
