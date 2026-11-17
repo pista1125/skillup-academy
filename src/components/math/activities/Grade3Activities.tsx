@@ -59,6 +59,20 @@ const G3TimeG3Theory = lazy(() => import("@/components/math/grade-3/meresek/az-i
 const G3TimeG3Quiz = lazy(() => import("@/components/math/grade-3/meresek/az-ido-merese/TimeG3Quiz").then(m => ({ default: m.TimeG3Quiz })));
 const G3MeasurementsExamG3Theory = lazy(() => import("@/components/math/grade-3/meresek/gyakorlas-tudasproba/MeasurementsExamG3Theory").then(m => ({ default: m.MeasurementsExamG3Theory })));
 const G3MeasurementsExamG3Quiz = lazy(() => import("@/components/math/grade-3/meresek/gyakorlas-tudasproba/MeasurementsExamG3Quiz").then(m => ({ default: m.MeasurementsExamG3Quiz })));
+const G3Numbers500G3Theory = lazy(() => import("@/components/math/grade-3/szamolas-500-ig/szamok-500-ig/Numbers500G3Theory").then(m => ({ default: m.Numbers500G3Theory })));
+const G3Numbers500G3Quiz = lazy(() => import("@/components/math/grade-3/szamolas-500-ig/szamok-500-ig/Numbers500G3Quiz").then(m => ({ default: m.Numbers500G3Quiz })));
+const G3Rounding500G3Theory = lazy(() => import("@/components/math/grade-3/szamolas-500-ig/szamszomszedok-kerekites/Rounding500G3Theory").then(m => ({ default: m.Rounding500G3Theory })));
+const G3Rounding500G3Quiz = lazy(() => import("@/components/math/grade-3/szamolas-500-ig/szamszomszedok-kerekites/Rounding500G3Quiz").then(m => ({ default: m.Rounding500G3Quiz })));
+const G3AddSub500G3Theory = lazy(() => import("@/components/math/grade-3/szamolas-500-ig/osszeadas-es-kivonas/AddSub500G3Theory").then(m => ({ default: m.AddSub500G3Theory })));
+const G3AddSub500G3Quiz = lazy(() => import("@/components/math/grade-3/szamolas-500-ig/osszeadas-es-kivonas/AddSub500G3Quiz").then(m => ({ default: m.AddSub500G3Quiz })));
+const G3MulDiv500G3Theory = lazy(() => import("@/components/math/grade-3/szamolas-500-ig/szorzas-es-osztas/MulDiv500G3Theory").then(m => ({ default: m.MulDiv500G3Theory })));
+const G3MulDiv500G3Quiz = lazy(() => import("@/components/math/grade-3/szamolas-500-ig/szorzas-es-osztas/MulDiv500G3Quiz").then(m => ({ default: m.MulDiv500G3Quiz })));
+const G3Count500ExamG3Theory = lazy(() => import("@/components/math/grade-3/szamolas-500-ig/megallo/Count500ExamG3Theory").then(m => ({ default: m.Count500ExamG3Theory })));
+const G3Count500ExamG3Quiz = lazy(() => import("@/components/math/grade-3/szamolas-500-ig/megallo/Count500ExamG3Quiz").then(m => ({ default: m.Count500ExamG3Quiz })));
+const G3SortingByPropertyG3Theory = lazy(() => import("@/components/math/grade-3/valogatasok-csoportositasok/valogatas-tulajdonsagok-szerint/SortingByPropertyG3Theory").then(m => ({ default: m.SortingByPropertyG3Theory })));
+const G3SortingByPropertyG3Quiz = lazy(() => import("@/components/math/grade-3/valogatasok-csoportositasok/valogatas-tulajdonsagok-szerint/SortingByPropertyG3Quiz").then(m => ({ default: m.SortingByPropertyG3Quiz })));
+const G3VennG3Theory = lazy(() => import("@/components/math/grade-3/valogatasok-csoportositasok/venn-diagramok-es-halmazok/VennG3Theory").then(m => ({ default: m.VennG3Theory })));
+const G3VennG3Quiz = lazy(() => import("@/components/math/grade-3/valogatasok-csoportositasok/venn-diagramok-es-halmazok/VennG3Quiz").then(m => ({ default: m.VennG3Quiz })));
 
 export const Grade3Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -1030,6 +1044,248 @@ export const Grade3Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g3-meas-tudasproba-theory', selectedTopic || 'g3-measurements-1')}
           onSwitchToMatcher={() => handleActivitySelect('g3-meas-tudasproba-matcher', selectedTopic || 'g3-measurements-1')}
           onSwitchToSorter={() => handleActivitySelect('g3-meas-tudasproba-sorter', selectedTopic || 'g3-measurements-1')}
+        />
+      )}
+
+      {/* ===== 3. Osztály – V. Számolás 0-tól 500-ig ===== */}
+
+      {/* 1. Számok 500-ig */}
+      {activityType === 'g3-c500-szamok-theory' && (
+        <G3Numbers500G3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-c500-szamok-quiz', selectedTopic || 'g3-count-500')}
+        />
+      )}
+      {activityType === 'g3-c500-szamok-quiz' && (
+        <G3Numbers500G3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c500-szamok-theory', selectedTopic || 'g3-count-500')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c500-szamok-matcher', selectedTopic || 'g3-count-500')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c500-szamok-sorter', selectedTopic || 'g3-count-500')}
+        />
+      )}
+      {activityType === 'g3-c500-szamok-matcher' && (
+        <G3Numbers500G3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c500-szamok-theory', selectedTopic || 'g3-count-500')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c500-szamok-matcher', selectedTopic || 'g3-count-500')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c500-szamok-sorter', selectedTopic || 'g3-count-500')}
+        />
+      )}
+      {activityType === 'g3-c500-szamok-sorter' && (
+        <G3Numbers500G3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c500-szamok-theory', selectedTopic || 'g3-count-500')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c500-szamok-matcher', selectedTopic || 'g3-count-500')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c500-szamok-sorter', selectedTopic || 'g3-count-500')}
+        />
+      )}
+
+      {/* 2. Számszomszédok, kerekítés */}
+      {activityType === 'g3-c500-kerekites-theory' && (
+        <G3Rounding500G3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-c500-kerekites-quiz', selectedTopic || 'g3-count-500')}
+        />
+      )}
+      {activityType === 'g3-c500-kerekites-quiz' && (
+        <G3Rounding500G3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c500-kerekites-theory', selectedTopic || 'g3-count-500')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c500-kerekites-matcher', selectedTopic || 'g3-count-500')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c500-kerekites-sorter', selectedTopic || 'g3-count-500')}
+        />
+      )}
+      {activityType === 'g3-c500-kerekites-matcher' && (
+        <G3Rounding500G3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c500-kerekites-theory', selectedTopic || 'g3-count-500')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c500-kerekites-matcher', selectedTopic || 'g3-count-500')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c500-kerekites-sorter', selectedTopic || 'g3-count-500')}
+        />
+      )}
+      {activityType === 'g3-c500-kerekites-sorter' && (
+        <G3Rounding500G3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c500-kerekites-theory', selectedTopic || 'g3-count-500')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c500-kerekites-matcher', selectedTopic || 'g3-count-500')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c500-kerekites-sorter', selectedTopic || 'g3-count-500')}
+        />
+      )}
+
+      {/* 3. Összeadás és kivonás */}
+      {activityType === 'g3-c500-osszeadas-theory' && (
+        <G3AddSub500G3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-c500-osszeadas-quiz', selectedTopic || 'g3-count-500')}
+        />
+      )}
+      {activityType === 'g3-c500-osszeadas-quiz' && (
+        <G3AddSub500G3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c500-osszeadas-theory', selectedTopic || 'g3-count-500')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c500-osszeadas-matcher', selectedTopic || 'g3-count-500')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c500-osszeadas-sorter', selectedTopic || 'g3-count-500')}
+        />
+      )}
+      {activityType === 'g3-c500-osszeadas-matcher' && (
+        <G3AddSub500G3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c500-osszeadas-theory', selectedTopic || 'g3-count-500')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c500-osszeadas-matcher', selectedTopic || 'g3-count-500')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c500-osszeadas-sorter', selectedTopic || 'g3-count-500')}
+        />
+      )}
+      {activityType === 'g3-c500-osszeadas-sorter' && (
+        <G3AddSub500G3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c500-osszeadas-theory', selectedTopic || 'g3-count-500')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c500-osszeadas-matcher', selectedTopic || 'g3-count-500')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c500-osszeadas-sorter', selectedTopic || 'g3-count-500')}
+        />
+      )}
+
+      {/* 4. Szorzás és osztás */}
+      {activityType === 'g3-c500-szorzas-theory' && (
+        <G3MulDiv500G3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-c500-szorzas-quiz', selectedTopic || 'g3-count-500')}
+        />
+      )}
+      {activityType === 'g3-c500-szorzas-quiz' && (
+        <G3MulDiv500G3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c500-szorzas-theory', selectedTopic || 'g3-count-500')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c500-szorzas-matcher', selectedTopic || 'g3-count-500')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c500-szorzas-sorter', selectedTopic || 'g3-count-500')}
+        />
+      )}
+      {activityType === 'g3-c500-szorzas-matcher' && (
+        <G3MulDiv500G3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c500-szorzas-theory', selectedTopic || 'g3-count-500')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c500-szorzas-matcher', selectedTopic || 'g3-count-500')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c500-szorzas-sorter', selectedTopic || 'g3-count-500')}
+        />
+      )}
+      {activityType === 'g3-c500-szorzas-sorter' && (
+        <G3MulDiv500G3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c500-szorzas-theory', selectedTopic || 'g3-count-500')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c500-szorzas-matcher', selectedTopic || 'g3-count-500')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c500-szorzas-sorter', selectedTopic || 'g3-count-500')}
+        />
+      )}
+
+      {/* 5. Megálló – tudáspróba */}
+      {activityType === 'g3-c500-tudasproba-theory' && (
+        <G3Count500ExamG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-c500-tudasproba-quiz', selectedTopic || 'g3-count-500')}
+        />
+      )}
+      {activityType === 'g3-c500-tudasproba-quiz' && (
+        <G3Count500ExamG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c500-tudasproba-theory', selectedTopic || 'g3-count-500')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c500-tudasproba-matcher', selectedTopic || 'g3-count-500')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c500-tudasproba-sorter', selectedTopic || 'g3-count-500')}
+        />
+      )}
+      {activityType === 'g3-c500-tudasproba-matcher' && (
+        <G3Count500ExamG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c500-tudasproba-theory', selectedTopic || 'g3-count-500')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c500-tudasproba-matcher', selectedTopic || 'g3-count-500')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c500-tudasproba-sorter', selectedTopic || 'g3-count-500')}
+        />
+      )}
+      {activityType === 'g3-c500-tudasproba-sorter' && (
+        <G3Count500ExamG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-c500-tudasproba-theory', selectedTopic || 'g3-count-500')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-c500-tudasproba-matcher', selectedTopic || 'g3-count-500')}
+          onSwitchToSorter={() => handleActivitySelect('g3-c500-tudasproba-sorter', selectedTopic || 'g3-count-500')}
+        />
+      )}
+
+      {/* ===== 3. Osztály – VI. Válogatások, csoportosítások ===== */}
+
+      {/* 1. Válogatás tulajdonságok szerint */}
+      {activityType === 'g3-grp-tulajdonsagok-theory' && (
+        <G3SortingByPropertyG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-grp-tulajdonsagok-quiz', selectedTopic || 'g3-grouping')}
+        />
+      )}
+      {activityType === 'g3-grp-tulajdonsagok-quiz' && (
+        <G3SortingByPropertyG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-grp-tulajdonsagok-theory', selectedTopic || 'g3-grouping')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-grp-tulajdonsagok-matcher', selectedTopic || 'g3-grouping')}
+          onSwitchToSorter={() => handleActivitySelect('g3-grp-tulajdonsagok-sorter', selectedTopic || 'g3-grouping')}
+        />
+      )}
+      {activityType === 'g3-grp-tulajdonsagok-matcher' && (
+        <G3SortingByPropertyG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-grp-tulajdonsagok-theory', selectedTopic || 'g3-grouping')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-grp-tulajdonsagok-matcher', selectedTopic || 'g3-grouping')}
+          onSwitchToSorter={() => handleActivitySelect('g3-grp-tulajdonsagok-sorter', selectedTopic || 'g3-grouping')}
+        />
+      )}
+      {activityType === 'g3-grp-tulajdonsagok-sorter' && (
+        <G3SortingByPropertyG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-grp-tulajdonsagok-theory', selectedTopic || 'g3-grouping')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-grp-tulajdonsagok-matcher', selectedTopic || 'g3-grouping')}
+          onSwitchToSorter={() => handleActivitySelect('g3-grp-tulajdonsagok-sorter', selectedTopic || 'g3-grouping')}
+        />
+      )}
+
+      {/* 2. Venn-diagramok és halmazok */}
+      {activityType === 'g3-grp-venn-theory' && (
+        <G3VennG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-grp-venn-quiz', selectedTopic || 'g3-grouping')}
+        />
+      )}
+      {activityType === 'g3-grp-venn-quiz' && (
+        <G3VennG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-grp-venn-theory', selectedTopic || 'g3-grouping')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-grp-venn-matcher', selectedTopic || 'g3-grouping')}
+          onSwitchToSorter={() => handleActivitySelect('g3-grp-venn-sorter', selectedTopic || 'g3-grouping')}
+        />
+      )}
+      {activityType === 'g3-grp-venn-matcher' && (
+        <G3VennG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-grp-venn-theory', selectedTopic || 'g3-grouping')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-grp-venn-matcher', selectedTopic || 'g3-grouping')}
+          onSwitchToSorter={() => handleActivitySelect('g3-grp-venn-sorter', selectedTopic || 'g3-grouping')}
+        />
+      )}
+      {activityType === 'g3-grp-venn-sorter' && (
+        <G3VennG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-grp-venn-theory', selectedTopic || 'g3-grouping')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-grp-venn-matcher', selectedTopic || 'g3-grouping')}
+          onSwitchToSorter={() => handleActivitySelect('g3-grp-venn-sorter', selectedTopic || 'g3-grouping')}
         />
       )}
     </>
