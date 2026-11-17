@@ -641,7 +641,7 @@ export default function MathPage() {
         } else {
           setView('topic-select');
           // Some topics might show detail instead of full activity
-          if (topicParam === 'competency-assessment' || !((grade === 5 && topicParam.startsWith('g5-')) || grade === 4 || grade === 6 || grade === 7 || grade === 8 || (typeof grade === 'string' && grade.startsWith('high-')))) {
+          if (topicParam === 'competency-assessment' || !((grade === 5 && topicParam.startsWith('g5-')) || grade === 3 || grade === 4 || grade === 6 || grade === 7 || grade === 8 || (typeof grade === 'string' && grade.startsWith('high-')))) {
             setActivityType(topicParam as ActivityType);
             setView('activity');
           } else {
@@ -743,7 +743,7 @@ export default function MathPage() {
   };
 
   const handleTopicSelect = (topicId: string, forceActivity = false) => {
-    if (!forceActivity && ((selectedGrade === 5 && topicId.startsWith('g5-')) || selectedGrade === 4 || selectedGrade === 6 || selectedGrade === 7 || selectedGrade === 8 || (typeof selectedGrade === 'string' && selectedGrade.startsWith('high-')))) {
+    if (!forceActivity && ((selectedGrade === 5 && topicId.startsWith('g5-')) || selectedGrade === 3 || selectedGrade === 4 || selectedGrade === 6 || selectedGrade === 7 || selectedGrade === 8 || (typeof selectedGrade === 'string' && selectedGrade.startsWith('high-')))) {
       const nextExpanded = expandedTopicId === topicId ? null : topicId;
       setExpandedTopicId(nextExpanded);
       updateURL('topic-select', selectedGrade, nextExpanded, null);
@@ -933,7 +933,7 @@ export default function MathPage() {
         }
         const isExpandable =
           (selectedGrade === 5 && resolvedTopic?.startsWith('g5-')) ||
-          selectedGrade === 4 ||
+          selectedGrade === 3 || selectedGrade === 4 ||
           selectedGrade === 6 ||
           selectedGrade === 7 ||
           selectedGrade === 8 ||
@@ -1778,7 +1778,7 @@ export default function MathPage() {
                       isExpanded={expandedTopicId === topic.id}
                       onClick={() => handleTopicSelect(topic.id)}
                     >
-                      {((((selectedGrade as any) === 5 && topic.id.startsWith('g5-')) || (selectedGrade as any) === 4 || (selectedGrade as any) === 6 || (selectedGrade as any) === 7) && renderTopicContent(topic.id))}
+                      {((((selectedGrade as any) === 5 && topic.id.startsWith('g5-')) || (selectedGrade as any) === 3 || (selectedGrade as any) === 4 || (selectedGrade as any) === 6 || (selectedGrade as any) === 7) && renderTopicContent(topic.id))}
                     </MathTopicCard>
                   ))}
                   {getFilteredTopics().length === 0 && (
