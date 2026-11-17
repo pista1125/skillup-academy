@@ -2087,13 +2087,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-frac-sec-1" number={1} title="Egyenlő részekre osztás" color="orange" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Egyenlő részekre osztás"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Egyenlő részekre osztás Tananyag"
+                subtitle="Hajtogatás, tortavágás: egyenlő és nem egyenlő részek, hány részre osztottuk, a rész neve."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-frac-reszek-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="orange"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: egyenlő részek, hány rész, hajtogatás, vágás, a rész neve."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-frac-reszek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="orange"
+                {...getTopicProgress('g3-frac-reszek-quiz')}
               />
             </div>
           </section>
@@ -2105,13 +2115,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-frac-sec-2" number={2} title="Törtrészek: fele, harmada, negyede" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Törtrészek: fele, harmada, negyede"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Törtrészek: fele, harmada, negyede Tananyag"
+                subtitle="1 ketted (fele), 1 harmad, 1 negyed; több rész (3 negyed), az egész, melyik rész nagyobb, színes rudak."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-frac-tortreszek-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: a rész neve, több rész színes, az egész, összehasonlítás, rudak, mérőedény."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-frac-tortreszek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g3-frac-tortreszek-quiz')}
               />
             </div>
           </section>
@@ -2123,13 +2143,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-frac-sec-3" number={3} title="Törtrész mennyiségekből" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Törtrész mennyiségekből"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Törtrész mennyiségekből Tananyag"
+                subtitle="Számok és mennyiségek fele, harmada, negyede, ötöde, tizede: kg–dkg, m–cm, l–dl, óra–perc, szakaszok, visszafelé"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-frac-mennyisegek-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: fele, harmada, negyede, tizede, mértékek része, szakaszok, az egész, egymás felé, mennyi maradt"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-frac-mennyisegek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g3-frac-mennyisegek-quiz')}
               />
             </div>
           </section>
@@ -2141,13 +2171,23 @@ export const Grade3View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g3-frac-sec-4" number={4} title="Gyakorlás, tudáspróba" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Gyakorlás, tudáspróba"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Törtek – gyakorlás, tudáspróba Tananyag"
+                subtitle="A XIV. fejezet összefoglalása: egyenlő részek, a részek neve, összehasonlítás, színes rudak, törtrész mennyiségekből"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g3-frac-tudasproba-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz"
+                subtitle="90 feladat 3 szinten: egyenlő részek, a részek neve, összehasonlítás, színes rudak, törtrész mennyiségekből, szöveges feladatok"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g3-frac-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="violet"
+                {...getTopicProgress('g3-frac-tudasproba-quiz')}
               />
             </div>
           </section>

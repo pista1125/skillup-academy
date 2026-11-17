@@ -137,6 +137,14 @@ const G3MixedOps1000G3Theory = lazy(() => import("@/components/math/grade-3/iras
 const G3MixedOps1000G3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-muveletek-1000-ig/vegyes-muveletek-szoveges/MixedOps1000G3Quiz").then(m => ({ default: m.MixedOps1000G3Quiz })));
 const G3WrittenOps1000ExamG3Theory = lazy(() => import("@/components/math/grade-3/irasbeli-muveletek-1000-ig/megallo/WrittenOps1000ExamG3Theory").then(m => ({ default: m.WrittenOps1000ExamG3Theory })));
 const G3WrittenOps1000ExamG3Quiz = lazy(() => import("@/components/math/grade-3/irasbeli-muveletek-1000-ig/megallo/WrittenOps1000ExamG3Quiz").then(m => ({ default: m.WrittenOps1000ExamG3Quiz })));
+const G3EqualPartsG3Theory = lazy(() => import("@/components/math/grade-3/tortes-szamok/bevezetes/EqualPartsG3Theory").then(m => ({ default: m.EqualPartsG3Theory })));
+const G3EqualPartsG3Quiz = lazy(() => import("@/components/math/grade-3/tortes-szamok/bevezetes/EqualPartsG3Quiz").then(m => ({ default: m.EqualPartsG3Quiz })));
+const G3FractionPartsG3Theory = lazy(() => import("@/components/math/grade-3/tortes-szamok/kozonseges-tortek/FractionPartsG3Theory").then(m => ({ default: m.FractionPartsG3Theory })));
+const G3FractionPartsG3Quiz = lazy(() => import("@/components/math/grade-3/tortes-szamok/kozonseges-tortek/FractionPartsG3Quiz").then(m => ({ default: m.FractionPartsG3Quiz })));
+const G3FractionAmountsG3Theory = lazy(() => import("@/components/math/grade-3/tortes-szamok/osszehasonlitas/FractionAmountsG3Theory").then(m => ({ default: m.FractionAmountsG3Theory })));
+const G3FractionAmountsG3Quiz = lazy(() => import("@/components/math/grade-3/tortes-szamok/osszehasonlitas/FractionAmountsG3Quiz").then(m => ({ default: m.FractionAmountsG3Quiz })));
+const G3FractionsExamG3Theory = lazy(() => import("@/components/math/grade-3/tortes-szamok/gyakorlas-tudasproba/FractionsExamG3Theory").then(m => ({ default: m.FractionsExamG3Theory })));
+const G3FractionsExamG3Quiz = lazy(() => import("@/components/math/grade-3/tortes-szamok/gyakorlas-tudasproba/FractionsExamG3Quiz").then(m => ({ default: m.FractionsExamG3Quiz })));
 
 export const Grade3Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -2450,6 +2458,144 @@ export const Grade3Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g3-wops-tudasproba-theory', selectedTopic || 'g3-written-ops-1000')}
           onSwitchToMatcher={() => handleActivitySelect('g3-wops-tudasproba-matcher', selectedTopic || 'g3-written-ops-1000')}
           onSwitchToSorter={() => handleActivitySelect('g3-wops-tudasproba-sorter', selectedTopic || 'g3-written-ops-1000')}
+        />
+      )}
+
+      {/* ===== 3. Osztály – XIV. Ismerkedés a törtekkel ===== */}
+
+      {/* 1. Egyenlő részekre osztás */}
+      {activityType === 'g3-frac-reszek-theory' && (
+        <G3EqualPartsG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-frac-reszek-quiz', selectedTopic || 'g3-fractions-intro')}
+        />
+      )}
+      {activityType === 'g3-frac-reszek-quiz' && (
+        <G3EqualPartsG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-frac-reszek-theory', selectedTopic || 'g3-fractions-intro')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-frac-reszek-matcher', selectedTopic || 'g3-fractions-intro')}
+          onSwitchToSorter={() => handleActivitySelect('g3-frac-reszek-sorter', selectedTopic || 'g3-fractions-intro')}
+        />
+      )}
+      {activityType === 'g3-frac-reszek-matcher' && (
+        <G3EqualPartsG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-frac-reszek-theory', selectedTopic || 'g3-fractions-intro')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-frac-reszek-matcher', selectedTopic || 'g3-fractions-intro')}
+          onSwitchToSorter={() => handleActivitySelect('g3-frac-reszek-sorter', selectedTopic || 'g3-fractions-intro')}
+        />
+      )}
+      {activityType === 'g3-frac-reszek-sorter' && (
+        <G3EqualPartsG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-frac-reszek-theory', selectedTopic || 'g3-fractions-intro')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-frac-reszek-matcher', selectedTopic || 'g3-fractions-intro')}
+          onSwitchToSorter={() => handleActivitySelect('g3-frac-reszek-sorter', selectedTopic || 'g3-fractions-intro')}
+        />
+      )}
+
+      {/* 2. Törtrészek: fele, harmada, negyede */}
+      {activityType === 'g3-frac-tortreszek-theory' && (
+        <G3FractionPartsG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-frac-tortreszek-quiz', selectedTopic || 'g3-fractions-intro')}
+        />
+      )}
+      {activityType === 'g3-frac-tortreszek-quiz' && (
+        <G3FractionPartsG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-frac-tortreszek-theory', selectedTopic || 'g3-fractions-intro')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-frac-tortreszek-matcher', selectedTopic || 'g3-fractions-intro')}
+          onSwitchToSorter={() => handleActivitySelect('g3-frac-tortreszek-sorter', selectedTopic || 'g3-fractions-intro')}
+        />
+      )}
+      {activityType === 'g3-frac-tortreszek-matcher' && (
+        <G3FractionPartsG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-frac-tortreszek-theory', selectedTopic || 'g3-fractions-intro')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-frac-tortreszek-matcher', selectedTopic || 'g3-fractions-intro')}
+          onSwitchToSorter={() => handleActivitySelect('g3-frac-tortreszek-sorter', selectedTopic || 'g3-fractions-intro')}
+        />
+      )}
+      {activityType === 'g3-frac-tortreszek-sorter' && (
+        <G3FractionPartsG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-frac-tortreszek-theory', selectedTopic || 'g3-fractions-intro')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-frac-tortreszek-matcher', selectedTopic || 'g3-fractions-intro')}
+          onSwitchToSorter={() => handleActivitySelect('g3-frac-tortreszek-sorter', selectedTopic || 'g3-fractions-intro')}
+        />
+      )}
+
+      {/* 3. Törtrész mennyiségekből */}
+      {activityType === 'g3-frac-mennyisegek-theory' && (
+        <G3FractionAmountsG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-frac-mennyisegek-quiz', selectedTopic || 'g3-fractions-intro')}
+        />
+      )}
+      {activityType === 'g3-frac-mennyisegek-quiz' && (
+        <G3FractionAmountsG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-frac-mennyisegek-theory', selectedTopic || 'g3-fractions-intro')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-frac-mennyisegek-matcher', selectedTopic || 'g3-fractions-intro')}
+          onSwitchToSorter={() => handleActivitySelect('g3-frac-mennyisegek-sorter', selectedTopic || 'g3-fractions-intro')}
+        />
+      )}
+      {activityType === 'g3-frac-mennyisegek-matcher' && (
+        <G3FractionAmountsG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-frac-mennyisegek-theory', selectedTopic || 'g3-fractions-intro')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-frac-mennyisegek-matcher', selectedTopic || 'g3-fractions-intro')}
+          onSwitchToSorter={() => handleActivitySelect('g3-frac-mennyisegek-sorter', selectedTopic || 'g3-fractions-intro')}
+        />
+      )}
+      {activityType === 'g3-frac-mennyisegek-sorter' && (
+        <G3FractionAmountsG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-frac-mennyisegek-theory', selectedTopic || 'g3-fractions-intro')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-frac-mennyisegek-matcher', selectedTopic || 'g3-fractions-intro')}
+          onSwitchToSorter={() => handleActivitySelect('g3-frac-mennyisegek-sorter', selectedTopic || 'g3-fractions-intro')}
+        />
+      )}
+
+      {/* 4. Gyakorlás, tudáspróba */}
+      {activityType === 'g3-frac-tudasproba-theory' && (
+        <G3FractionsExamG3Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g3-frac-tudasproba-quiz', selectedTopic || 'g3-fractions-intro')}
+        />
+      )}
+      {activityType === 'g3-frac-tudasproba-quiz' && (
+        <G3FractionsExamG3Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-frac-tudasproba-theory', selectedTopic || 'g3-fractions-intro')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-frac-tudasproba-matcher', selectedTopic || 'g3-fractions-intro')}
+          onSwitchToSorter={() => handleActivitySelect('g3-frac-tudasproba-sorter', selectedTopic || 'g3-fractions-intro')}
+        />
+      )}
+      {activityType === 'g3-frac-tudasproba-matcher' && (
+        <G3FractionsExamG3Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-frac-tudasproba-theory', selectedTopic || 'g3-fractions-intro')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-frac-tudasproba-matcher', selectedTopic || 'g3-fractions-intro')}
+          onSwitchToSorter={() => handleActivitySelect('g3-frac-tudasproba-sorter', selectedTopic || 'g3-fractions-intro')}
+        />
+      )}
+      {activityType === 'g3-frac-tudasproba-sorter' && (
+        <G3FractionsExamG3Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g3-frac-tudasproba-theory', selectedTopic || 'g3-fractions-intro')}
+          onSwitchToMatcher={() => handleActivitySelect('g3-frac-tudasproba-matcher', selectedTopic || 'g3-fractions-intro')}
+          onSwitchToSorter={() => handleActivitySelect('g3-frac-tudasproba-sorter', selectedTopic || 'g3-fractions-intro')}
         />
       )}
     </>
