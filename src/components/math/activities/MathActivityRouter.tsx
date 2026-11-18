@@ -11,6 +11,7 @@ const Grade10Activities = lazy(() => import('./Grade10Activities').then(m => ({ 
 const Grade11Activities = lazy(() => import('./Grade11Activities').then(m => ({ default: m.Grade11Activities })));
 const Grade12Activities = lazy(() => import('./Grade12Activities').then(m => ({ default: m.Grade12Activities })));
 const Grade3Activities = lazy(() => import('./Grade3Activities').then(m => ({ default: m.Grade3Activities })));
+const Grade1Activities = lazy(() => import('./Grade1Activities').then(m => ({ default: m.Grade1Activities })));
 const Grade2Activities = lazy(() => import('./Grade2Activities').then(m => ({ default: m.Grade2Activities })));
 const Grade4Activities = lazy(() => import('./Grade4Activities').then(m => ({ default: m.Grade4Activities })));
 const MathToolsActivities = lazy(() => import('./MathToolsActivities').then(m => ({ default: m.MathToolsActivities })));
@@ -39,6 +40,9 @@ export const MathActivityRouter: React.FC<ActivityRouterProps> = (props) => {
   }
   if (activityType.startsWith('g11-')) {
     return <Grade11Activities {...props} />;
+  }
+  if (activityType.startsWith('g1-')) {
+    return <Grade1Activities {...props} />;
   }
   if (activityType.startsWith('g2-')) {
     return <Grade2Activities {...props} />;

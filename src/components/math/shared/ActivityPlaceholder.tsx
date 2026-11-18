@@ -67,6 +67,7 @@ export function ActivityPlaceholder({
         "Feladat": "bg-violet-500 text-white",
         "Kvíz": "bg-amber-500 text-white",
         "Tananyag": "bg-blue-600 text-white",
+        "Mese": "bg-rose-500 text-white",
     };
 
     const typeLabel: Record<string, string> = {
@@ -78,6 +79,7 @@ export function ActivityPlaceholder({
         "Feladat": "MEGOLDÁS »",
         "Kvíz": "KVÍZ »",
         "Tananyag": "MEGNYITÁS »",
+        "Mese": "MESÉLJ »",
     };
 
     const isQuizOrTest = type === 'Kvíz' || type === 'Teszt';
