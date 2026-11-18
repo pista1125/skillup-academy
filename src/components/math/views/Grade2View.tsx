@@ -1067,13 +1067,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-geo-sec-1" number={1} title="Tájékozódás, vonalak, logikai lapok" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Tájékozódás, vonalak, logikai lapok"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Tájékozódás, vonalak, logikai lapok Tananyag"
+                subtitle="Merre van? Robot a négyzetrácson, egyenes, görbe és törött vonal, logikai lapok."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-geo-bevezeto-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: merre van, nyílsorok, vonalak és logikai lapok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-geo-bevezeto-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g2-geo-bevezeto-quiz')}
               />
             </div>
           </section>
@@ -1085,13 +1095,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-geo-sec-2" number={2} title="Testek, síkidomok" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Testek, síkidomok"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Testek, síkidomok Tananyag"
+                subtitle="Kocka, téglatest, gömb, henger, kúp, gúla; síkidomok oldalai; építés kockákból."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-geo-testek-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: testek és síkidomok, lapok, oldalak, lenyomatok, kockaépítés."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-geo-testek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g2-geo-testek-quiz')}
               />
             </div>
           </section>
@@ -1103,13 +1123,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-geo-sec-3" number={3} title="Szimmetria, tükrözés" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Szimmetria, tükrözés"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Szimmetria, tükrözés Tananyag"
+                subtitle="Tükörkép, tükörtengely, tükrözés négyzetrácson, tükrös betűk és síkidomok."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-geo-szimmetria-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: tükörkép, tükörtengely, tükrözés négyzetrácson, tükrös betűk és síkidomok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-geo-szimmetria-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="violet"
+                {...getTopicProgress('g2-geo-szimmetria-quiz')}
               />
             </div>
           </section>

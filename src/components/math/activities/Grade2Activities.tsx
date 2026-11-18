@@ -49,6 +49,12 @@ const G2Roman20G2Theory = lazy(() => import("@/components/math/grade-2/romai-sza
 const G2Roman20G2Quiz = lazy(() => import("@/components/math/grade-2/romai-szamok/romai-szamok-11-20-ig/Roman20G2Quiz").then(m => ({ default: m.Roman20G2Quiz })));
 const G2RomanExamG2Theory = lazy(() => import("@/components/math/grade-2/romai-szamok/gyakorlas-tudasproba/RomanExamG2Theory").then(m => ({ default: m.RomanExamG2Theory })));
 const G2RomanExamG2Quiz = lazy(() => import("@/components/math/grade-2/romai-szamok/gyakorlas-tudasproba/RomanExamG2Quiz").then(m => ({ default: m.RomanExamG2Quiz })));
+const G2GeoIntroG2Theory = lazy(() => import("@/components/math/grade-2/geometria/bevezeto/GeoIntroG2Theory").then(m => ({ default: m.GeoIntroG2Theory })));
+const G2GeoIntroG2Quiz = lazy(() => import("@/components/math/grade-2/geometria/bevezeto/GeoIntroG2Quiz").then(m => ({ default: m.GeoIntroG2Quiz })));
+const G2ShapesG2Theory = lazy(() => import("@/components/math/grade-2/geometria/testek-sikidomok/ShapesG2Theory").then(m => ({ default: m.ShapesG2Theory })));
+const G2ShapesG2Quiz = lazy(() => import("@/components/math/grade-2/geometria/testek-sikidomok/ShapesG2Quiz").then(m => ({ default: m.ShapesG2Quiz })));
+const G2SymmetryG2Theory = lazy(() => import("@/components/math/grade-2/geometria/szimmetria-tukrozes/SymmetryG2Theory").then(m => ({ default: m.SymmetryG2Theory })));
+const G2SymmetryG2Quiz = lazy(() => import("@/components/math/grade-2/geometria/szimmetria-tukrozes/SymmetryG2Quiz").then(m => ({ default: m.SymmetryG2Quiz })));
 
 export const Grade2Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -850,6 +856,110 @@ export const Grade2Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g2-romai-tudasproba-theory', selectedTopic || 'g2-roman-numbers')}
           onSwitchToMatcher={() => handleActivitySelect('g2-romai-tudasproba-matcher', selectedTopic || 'g2-roman-numbers')}
           onSwitchToSorter={() => handleActivitySelect('g2-romai-tudasproba-sorter', selectedTopic || 'g2-roman-numbers')}
+        />
+      )}
+
+      {/* ===== 2. Osztály – VII. Geometria ===== */}
+
+      {/* 1. Tájékozódás, vonalak, logikai lapok */}
+      {activityType === 'g2-geo-bevezeto-theory' && (
+        <G2GeoIntroG2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-geo-bevezeto-quiz', selectedTopic || 'g2-geometry')}
+        />
+      )}
+      {activityType === 'g2-geo-bevezeto-quiz' && (
+        <G2GeoIntroG2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-geo-bevezeto-theory', selectedTopic || 'g2-geometry')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-geo-bevezeto-matcher', selectedTopic || 'g2-geometry')}
+          onSwitchToSorter={() => handleActivitySelect('g2-geo-bevezeto-sorter', selectedTopic || 'g2-geometry')}
+        />
+      )}
+      {activityType === 'g2-geo-bevezeto-matcher' && (
+        <G2GeoIntroG2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-geo-bevezeto-theory', selectedTopic || 'g2-geometry')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-geo-bevezeto-matcher', selectedTopic || 'g2-geometry')}
+          onSwitchToSorter={() => handleActivitySelect('g2-geo-bevezeto-sorter', selectedTopic || 'g2-geometry')}
+        />
+      )}
+      {activityType === 'g2-geo-bevezeto-sorter' && (
+        <G2GeoIntroG2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-geo-bevezeto-theory', selectedTopic || 'g2-geometry')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-geo-bevezeto-matcher', selectedTopic || 'g2-geometry')}
+          onSwitchToSorter={() => handleActivitySelect('g2-geo-bevezeto-sorter', selectedTopic || 'g2-geometry')}
+        />
+      )}
+
+      {/* 2. Testek, síkidomok */}
+      {activityType === 'g2-geo-testek-theory' && (
+        <G2ShapesG2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-geo-testek-quiz', selectedTopic || 'g2-geometry')}
+        />
+      )}
+      {activityType === 'g2-geo-testek-quiz' && (
+        <G2ShapesG2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-geo-testek-theory', selectedTopic || 'g2-geometry')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-geo-testek-matcher', selectedTopic || 'g2-geometry')}
+          onSwitchToSorter={() => handleActivitySelect('g2-geo-testek-sorter', selectedTopic || 'g2-geometry')}
+        />
+      )}
+      {activityType === 'g2-geo-testek-matcher' && (
+        <G2ShapesG2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-geo-testek-theory', selectedTopic || 'g2-geometry')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-geo-testek-matcher', selectedTopic || 'g2-geometry')}
+          onSwitchToSorter={() => handleActivitySelect('g2-geo-testek-sorter', selectedTopic || 'g2-geometry')}
+        />
+      )}
+      {activityType === 'g2-geo-testek-sorter' && (
+        <G2ShapesG2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-geo-testek-theory', selectedTopic || 'g2-geometry')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-geo-testek-matcher', selectedTopic || 'g2-geometry')}
+          onSwitchToSorter={() => handleActivitySelect('g2-geo-testek-sorter', selectedTopic || 'g2-geometry')}
+        />
+      )}
+
+      {/* 3. Szimmetria, tükrözés */}
+      {activityType === 'g2-geo-szimmetria-theory' && (
+        <G2SymmetryG2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-geo-szimmetria-quiz', selectedTopic || 'g2-geometry')}
+        />
+      )}
+      {activityType === 'g2-geo-szimmetria-quiz' && (
+        <G2SymmetryG2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-geo-szimmetria-theory', selectedTopic || 'g2-geometry')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-geo-szimmetria-matcher', selectedTopic || 'g2-geometry')}
+          onSwitchToSorter={() => handleActivitySelect('g2-geo-szimmetria-sorter', selectedTopic || 'g2-geometry')}
+        />
+      )}
+      {activityType === 'g2-geo-szimmetria-matcher' && (
+        <G2SymmetryG2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-geo-szimmetria-theory', selectedTopic || 'g2-geometry')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-geo-szimmetria-matcher', selectedTopic || 'g2-geometry')}
+          onSwitchToSorter={() => handleActivitySelect('g2-geo-szimmetria-sorter', selectedTopic || 'g2-geometry')}
+        />
+      )}
+      {activityType === 'g2-geo-szimmetria-sorter' && (
+        <G2SymmetryG2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-geo-szimmetria-theory', selectedTopic || 'g2-geometry')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-geo-szimmetria-matcher', selectedTopic || 'g2-geometry')}
+          onSwitchToSorter={() => handleActivitySelect('g2-geo-szimmetria-sorter', selectedTopic || 'g2-geometry')}
         />
       )}
     </>
