@@ -41,6 +41,26 @@ const G2WordProblems100G2Theory = lazy(() => import("@/components/math/grade-2/s
 const G2WordProblems100G2Quiz = lazy(() => import("@/components/math/grade-2/szamolas-100-ig/szoveges-feladatok/WordProblems100G2Quiz").then(m => ({ default: m.WordProblems100G2Quiz })));
 const G2Count100ExamG2Theory = lazy(() => import("@/components/math/grade-2/szamolas-100-ig/megallo/Count100ExamG2Theory").then(m => ({ default: m.Count100ExamG2Theory })));
 const G2Count100ExamG2Quiz = lazy(() => import("@/components/math/grade-2/szamolas-100-ig/megallo/Count100ExamG2Quiz").then(m => ({ default: m.Count100ExamG2Quiz })));
+const G2Mult2G2Theory = lazy(() => import("@/components/math/grade-2/szorzas/szorzas-2-vel/Mult2G2Theory").then(m => ({ default: m.Mult2G2Theory })));
+const G2Mult2G2Quiz = lazy(() => import("@/components/math/grade-2/szorzas/szorzas-2-vel/Mult2G2Quiz").then(m => ({ default: m.Mult2G2Quiz })));
+const G2Mult3G2Theory = lazy(() => import("@/components/math/grade-2/szorzas/szorzas-3-mal/Mult3G2Theory").then(m => ({ default: m.Mult3G2Theory })));
+const G2Mult3G2Quiz = lazy(() => import("@/components/math/grade-2/szorzas/szorzas-3-mal/Mult3G2Quiz").then(m => ({ default: m.Mult3G2Quiz })));
+const G2Mult4G2Theory = lazy(() => import("@/components/math/grade-2/szorzas/szorzas-4-gyel/Mult4G2Theory").then(m => ({ default: m.Mult4G2Theory })));
+const G2Mult4G2Quiz = lazy(() => import("@/components/math/grade-2/szorzas/szorzas-4-gyel/Mult4G2Quiz").then(m => ({ default: m.Mult4G2Quiz })));
+const G2Mult5G2Theory = lazy(() => import("@/components/math/grade-2/szorzas/szorzas-5-tel/Mult5G2Theory").then(m => ({ default: m.Mult5G2Theory })));
+const G2Mult5G2Quiz = lazy(() => import("@/components/math/grade-2/szorzas/szorzas-5-tel/Mult5G2Quiz").then(m => ({ default: m.Mult5G2Quiz })));
+const G2Mult6G2Theory = lazy(() => import("@/components/math/grade-2/szorzas/szorzas-6-tal/Mult6G2Theory").then(m => ({ default: m.Mult6G2Theory })));
+const G2Mult6G2Quiz = lazy(() => import("@/components/math/grade-2/szorzas/szorzas-6-tal/Mult6G2Quiz").then(m => ({ default: m.Mult6G2Quiz })));
+const G2Mult7G2Theory = lazy(() => import("@/components/math/grade-2/szorzas/szorzas-7-tel/Mult7G2Theory").then(m => ({ default: m.Mult7G2Theory })));
+const G2Mult7G2Quiz = lazy(() => import("@/components/math/grade-2/szorzas/szorzas-7-tel/Mult7G2Quiz").then(m => ({ default: m.Mult7G2Quiz })));
+const G2Mult8G2Theory = lazy(() => import("@/components/math/grade-2/szorzas/szorzas-8-cal/Mult8G2Theory").then(m => ({ default: m.Mult8G2Theory })));
+const G2Mult8G2Quiz = lazy(() => import("@/components/math/grade-2/szorzas/szorzas-8-cal/Mult8G2Quiz").then(m => ({ default: m.Mult8G2Quiz })));
+const G2Mult9G2Theory = lazy(() => import("@/components/math/grade-2/szorzas/szorzas-9-cel/Mult9G2Theory").then(m => ({ default: m.Mult9G2Theory })));
+const G2Mult9G2Quiz = lazy(() => import("@/components/math/grade-2/szorzas/szorzas-9-cel/Mult9G2Quiz").then(m => ({ default: m.Mult9G2Quiz })));
+const G2Mult10G2Theory = lazy(() => import("@/components/math/grade-2/szorzas/szorzas-10-zel/Mult10G2Theory").then(m => ({ default: m.Mult10G2Theory })));
+const G2Mult10G2Quiz = lazy(() => import("@/components/math/grade-2/szorzas/szorzas-10-zel/Mult10G2Quiz").then(m => ({ default: m.Mult10G2Quiz })));
+const G2MultExamG2Theory = lazy(() => import("@/components/math/grade-2/szorzas/gyakorlas-tudasproba/MultExamG2Theory").then(m => ({ default: m.MultExamG2Theory })));
+const G2MultExamG2Quiz = lazy(() => import("@/components/math/grade-2/szorzas/gyakorlas-tudasproba/MultExamG2Quiz").then(m => ({ default: m.MultExamG2Quiz })));
 const G2RomanIntroG2Theory = lazy(() => import("@/components/math/grade-2/romai-szamok/romai-szamok-ertelmezese/RomanIntroG2Theory").then(m => ({ default: m.RomanIntroG2Theory })));
 const G2RomanIntroG2Quiz = lazy(() => import("@/components/math/grade-2/romai-szamok/romai-szamok-ertelmezese/RomanIntroG2Quiz").then(m => ({ default: m.RomanIntroG2Quiz })));
 const G2Roman10G2Theory = lazy(() => import("@/components/math/grade-2/romai-szamok/romai-szamok-0-10-ig/Roman10G2Theory").then(m => ({ default: m.Roman10G2Theory })));
@@ -718,6 +738,348 @@ export const Grade2Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g2-c100-tudasproba-theory', selectedTopic || 'g2-numbers-to-100')}
           onSwitchToMatcher={() => handleActivitySelect('g2-c100-tudasproba-matcher', selectedTopic || 'g2-numbers-to-100')}
           onSwitchToSorter={() => handleActivitySelect('g2-c100-tudasproba-sorter', selectedTopic || 'g2-numbers-to-100')}
+        />
+      )}
+
+      {/* ===== 2. Osztály – IV. Szorzás ===== */}
+
+      {/* 1. Szorzás 2-vel */}
+      {activityType === 'g2-szorzas-2-theory' && (
+        <G2Mult2G2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-szorzas-2-quiz', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-2-quiz' && (
+        <G2Mult2G2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-2-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-2-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-2-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-2-matcher' && (
+        <G2Mult2G2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-2-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-2-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-2-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-2-sorter' && (
+        <G2Mult2G2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-2-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-2-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-2-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+
+      {/* 2. Szorzás 3-mal */}
+      {activityType === 'g2-szorzas-3-theory' && (
+        <G2Mult3G2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-szorzas-3-quiz', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-3-quiz' && (
+        <G2Mult3G2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-3-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-3-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-3-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-3-matcher' && (
+        <G2Mult3G2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-3-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-3-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-3-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-3-sorter' && (
+        <G2Mult3G2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-3-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-3-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-3-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+
+      {/* 3. Szorzás 4-gyel */}
+      {activityType === 'g2-szorzas-4-theory' && (
+        <G2Mult4G2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-szorzas-4-quiz', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-4-quiz' && (
+        <G2Mult4G2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-4-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-4-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-4-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-4-matcher' && (
+        <G2Mult4G2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-4-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-4-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-4-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-4-sorter' && (
+        <G2Mult4G2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-4-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-4-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-4-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+
+      {/* 4. Szorzás 5-tel */}
+      {activityType === 'g2-szorzas-5-theory' && (
+        <G2Mult5G2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-szorzas-5-quiz', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-5-quiz' && (
+        <G2Mult5G2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-5-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-5-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-5-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-5-matcher' && (
+        <G2Mult5G2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-5-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-5-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-5-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-5-sorter' && (
+        <G2Mult5G2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-5-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-5-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-5-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+
+      {/* 5. Szorzás 6-tal */}
+      {activityType === 'g2-szorzas-6-theory' && (
+        <G2Mult6G2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-szorzas-6-quiz', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-6-quiz' && (
+        <G2Mult6G2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-6-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-6-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-6-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-6-matcher' && (
+        <G2Mult6G2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-6-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-6-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-6-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-6-sorter' && (
+        <G2Mult6G2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-6-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-6-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-6-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+
+      {/* 6. Szorzás 7-tel */}
+      {activityType === 'g2-szorzas-7-theory' && (
+        <G2Mult7G2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-szorzas-7-quiz', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-7-quiz' && (
+        <G2Mult7G2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-7-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-7-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-7-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-7-matcher' && (
+        <G2Mult7G2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-7-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-7-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-7-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-7-sorter' && (
+        <G2Mult7G2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-7-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-7-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-7-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+
+      {/* 7. Szorzás 8-cal */}
+      {activityType === 'g2-szorzas-8-theory' && (
+        <G2Mult8G2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-szorzas-8-quiz', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-8-quiz' && (
+        <G2Mult8G2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-8-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-8-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-8-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-8-matcher' && (
+        <G2Mult8G2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-8-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-8-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-8-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-8-sorter' && (
+        <G2Mult8G2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-8-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-8-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-8-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+
+      {/* 8. Szorzás 9-cel */}
+      {activityType === 'g2-szorzas-9-theory' && (
+        <G2Mult9G2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-szorzas-9-quiz', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-9-quiz' && (
+        <G2Mult9G2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-9-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-9-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-9-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-9-matcher' && (
+        <G2Mult9G2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-9-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-9-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-9-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-9-sorter' && (
+        <G2Mult9G2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-9-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-9-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-9-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+
+      {/* 9. Szorzás 10-zel */}
+      {activityType === 'g2-szorzas-10-theory' && (
+        <G2Mult10G2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-szorzas-10-quiz', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-10-quiz' && (
+        <G2Mult10G2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-10-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-10-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-10-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-10-matcher' && (
+        <G2Mult10G2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-10-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-10-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-10-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-10-sorter' && (
+        <G2Mult10G2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-10-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-10-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-10-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+
+      {/* 10. Gyakorlás, tudáspróba */}
+      {activityType === 'g2-szorzas-tudasproba-theory' && (
+        <G2MultExamG2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-szorzas-tudasproba-quiz', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-tudasproba-quiz' && (
+        <G2MultExamG2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-tudasproba-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-tudasproba-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-tudasproba-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-tudasproba-matcher' && (
+        <G2MultExamG2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-tudasproba-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-tudasproba-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-tudasproba-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+      {activityType === 'g2-szorzas-tudasproba-sorter' && (
+        <G2MultExamG2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-szorzas-tudasproba-theory', selectedTopic || 'g2-multiplication')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-tudasproba-matcher', selectedTopic || 'g2-multiplication')}
+          onSwitchToSorter={() => handleActivitySelect('g2-szorzas-tudasproba-sorter', selectedTopic || 'g2-multiplication')}
         />
       )}
 

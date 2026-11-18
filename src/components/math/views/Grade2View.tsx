@@ -577,13 +577,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-mult-sec-2" number={1} title="Szorzás 2-vel" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Szorzás 2-vel"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Szorzás 2-vel Tananyag"
+                subtitle="Egyenlő tagok, a · jel, sorok és oszlopok, a 2-es szorzótábla"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-szorzas-2-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: egyenlő tagok, a · jel, felcserélhetőség, 2-es szorzótábla"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-szorzas-2-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g2-szorzas-2-quiz')}
               />
             </div>
           </section>
@@ -595,13 +605,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-mult-sec-3" number={2} title="Szorzás 3-mal" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Szorzás 3-mal"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Szorzás 3-mal Tananyag"
+                subtitle="Hármas csoportok, hármas ugrások, a 3 többszörösei, a 3-as szorzótábla, felcserélés és háromszoros."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-szorzas-3-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: hármas csoportok, ugrások, a 3-as tábla, többszörösök és rövid szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-szorzas-3-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g2-szorzas-3-quiz')}
               />
             </div>
           </section>
@@ -613,13 +633,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-mult-sec-4" number={3} title="Szorzás 4-gyel" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Szorzás 4-gyel"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Szorzás 4-gyel Tananyag"
+                subtitle="Négyes csoportok, a 4-es szorzótábla, és a 4-es tábla mint a 2-es duplája."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-szorzas-4-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: négyes csoportok, a 4-es szorzótábla, kapcsolat a 2-es táblával, szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-szorzas-4-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="violet"
+                {...getTopicProgress('g2-szorzas-4-quiz')}
               />
             </div>
           </section>
@@ -631,13 +661,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-mult-sec-5" number={4} title="Szorzás 5-tel" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Szorzás 5-tel"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Szorzás 5-tel Tananyag"
+                subtitle="Ötösével számolás kezekkel és érmékkel, az 5-ös szorzótábla és kapcsolata a 10-es táblával."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-szorzas-5-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: ötösével számolás, 5-ös szorzótábla, 5-ös és 10-es tábla, vásári szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-szorzas-5-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g2-szorzas-5-quiz')}
               />
             </div>
           </section>
@@ -649,13 +689,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-mult-sec-6" number={5} title="Szorzás 6-tal" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Szorzás 6-tal"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Szorzás 6-tal Tananyag"
+                subtitle="Hatos csoportok, a 6-os szorzótábla és a 2-es, 3-as, 6-os tábla kapcsolata."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-szorzas-6-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: hatos csoportok, a 6-os szorzótábla, duplázás a 3-as táblából, szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-szorzas-6-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g2-szorzas-6-quiz')}
               />
             </div>
           </section>
@@ -667,13 +717,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-mult-sec-7" number={6} title="Szorzás 7-tel" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Szorzás 7-tel"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Szorzás 7-tel Tananyag"
+                subtitle="Hetes csoportok a hét napjaival, a 7-es szorzótábla és a 7 = 5 + 2 trükk."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-szorzas-7-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="cyan"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: hetes csoportok, a 7-es szorzótábla, az 5 + 2 trükk, hetek és napok, bogaras szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-szorzas-7-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="cyan"
+                {...getTopicProgress('g2-szorzas-7-quiz')}
               />
             </div>
           </section>
@@ -685,13 +745,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-mult-sec-8" number={7} title="Szorzás 8-cal" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Szorzás 8-cal"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Szorzás 8-cal Tananyag"
+                subtitle="Nyolcas csoportok, a 8-as szorzótábla, és a 2-es, 4-es, 8-as tábla kapcsolata: duplázz háromszor!"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-szorzas-8-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: nyolcas csoportok, a 8-as szorzótábla, kapcsolat a 2-es és a 4-es táblával, szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-szorzas-8-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g2-szorzas-8-quiz')}
               />
             </div>
           </section>
@@ -703,13 +773,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-mult-sec-9" number={8} title="Szorzás 9-cel" color="orange" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Szorzás 9-cel"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Szorzás 9-cel Tananyag"
+                subtitle="Kilences csoportok, a 9-es szorzótábla, tízes trükk és ujjtrükk, a 3-as, 6-os, 9-es tábla kapcsolata."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-szorzas-9-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="orange"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: kilences csoportok, a 9-es szorzótábla, tízes trükk, a 3-as, 6-os, 9-es tábla kapcsolata, szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-szorzas-9-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="orange"
+                {...getTopicProgress('g2-szorzas-9-quiz')}
               />
             </div>
           </section>
@@ -721,13 +801,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-mult-sec-10" number={9} title="Szorzás 10-zel" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Szorzás 10-zel"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Szorzás 10-zel Tananyag"
+                subtitle="Tízesével számolás tízesrudakkal és 10 Ft-osokkal, a 10-es szorzótábla és kapcsolata az 5-ös táblával."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-szorzas-10-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: tízesével számolás, 10-es szorzótábla, 5-ös és 10-es tábla, pénz és szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-szorzas-10-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="teal"
+                {...getTopicProgress('g2-szorzas-10-quiz')}
               />
             </div>
           </section>
@@ -739,13 +829,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-mult-sec-11" number={10} title="Gyakorlás, tudáspróba" color="pink" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Gyakorlás, tudáspróba"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Gyakorlás, tudáspróba Tananyag"
+                subtitle="A teljes szorzótábla összefoglalása: a szorzás jelentése, felcserélés, a táblák kapcsolata, -szorosa és szöveges feladatok."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-szorzas-tudasproba-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="pink"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz"
+                subtitle="90 feladat 3 szinten: a szorzás jelentése, a szorzótábla 2–10, felcserélés, a táblák kapcsolata, -szorosa, nyitott mondatok, szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-szorzas-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="pink"
+                {...getTopicProgress('g2-szorzas-tudasproba-quiz')}
               />
             </div>
           </section>
