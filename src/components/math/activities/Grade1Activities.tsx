@@ -3,8 +3,30 @@ import React, { lazy } from 'react';
 import { ActivityRouterProps } from './types';
 
 // Lazy loaded activity components
+const G1ValogatasokG1Mese = lazy(() => import("@/components/math/grade-1/elokeszito-idoszak/valogatasok/ValogatasokG1Mese").then(m => ({ default: m.ValogatasokG1Mese })));
+const G1ValogatasokG1Jatek = lazy(() => import("@/components/math/grade-1/elokeszito-idoszak/valogatasok/ValogatasokG1Jatek").then(m => ({ default: m.ValogatasokG1Jatek })));
+const G1OsszehasonlitasokG1Mese = lazy(() => import("@/components/math/grade-1/elokeszito-idoszak/osszehasonlitasok/OsszehasonlitasokG1Mese").then(m => ({ default: m.OsszehasonlitasokG1Mese })));
+const G1OsszehasonlitasokG1Jatek = lazy(() => import("@/components/math/grade-1/elokeszito-idoszak/osszehasonlitasok/OsszehasonlitasokG1Jatek").then(m => ({ default: m.OsszehasonlitasokG1Jatek })));
+const G1LogikaiLapokG1Mese = lazy(() => import("@/components/math/grade-1/elokeszito-idoszak/logikai-lapok/LogikaiLapokG1Mese").then(m => ({ default: m.LogikaiLapokG1Mese })));
+const G1LogikaiLapokG1Jatek = lazy(() => import("@/components/math/grade-1/elokeszito-idoszak/logikai-lapok/LogikaiLapokG1Jatek").then(m => ({ default: m.LogikaiLapokG1Jatek })));
+const G1PalcikakEsKorongokG1Mese = lazy(() => import("@/components/math/grade-1/elokeszito-idoszak/palcikak-es-korongok/PalcikakEsKorongokG1Mese").then(m => ({ default: m.PalcikakEsKorongokG1Mese })));
+const G1PalcikakEsKorongokG1Jatek = lazy(() => import("@/components/math/grade-1/elokeszito-idoszak/palcikak-es-korongok/PalcikakEsKorongokG1Jatek").then(m => ({ default: m.PalcikakEsKorongokG1Jatek })));
+const G1SzinesrudKeszletG1Mese = lazy(() => import("@/components/math/grade-1/elokeszito-idoszak/szinesrud-keszlet/SzinesrudKeszletG1Mese").then(m => ({ default: m.SzinesrudKeszletG1Mese })));
+const G1SzinesrudKeszletG1Jatek = lazy(() => import("@/components/math/grade-1/elokeszito-idoszak/szinesrud-keszlet/SzinesrudKeszletG1Jatek").then(m => ({ default: m.SzinesrudKeszletG1Jatek })));
+const G1TajekozodasG1Mese = lazy(() => import("@/components/math/grade-1/elokeszito-idoszak/tajekozodas/TajekozodasG1Mese").then(m => ({ default: m.TajekozodasG1Mese })));
+const G1TajekozodasG1Jatek = lazy(() => import("@/components/math/grade-1/elokeszito-idoszak/tajekozodas/TajekozodasG1Jatek").then(m => ({ default: m.TajekozodasG1Jatek })));
+const G1SzamlalasokG1Mese = lazy(() => import("@/components/math/grade-1/elokeszito-idoszak/szamlalasok/SzamlalasokG1Mese").then(m => ({ default: m.SzamlalasokG1Mese })));
+const G1SzamlalasokG1Jatek = lazy(() => import("@/components/math/grade-1/elokeszito-idoszak/szamlalasok/SzamlalasokG1Jatek").then(m => ({ default: m.SzamlalasokG1Jatek })));
+const G1TobbKevesebbUgyanannyiG1Mese = lazy(() => import("@/components/math/grade-1/elokeszito-idoszak/tobb-kevesebb-ugyanannyi/TobbKevesebbUgyanannyiG1Mese").then(m => ({ default: m.TobbKevesebbUgyanannyiG1Mese })));
+const G1TobbKevesebbUgyanannyiG1Jatek = lazy(() => import("@/components/math/grade-1/elokeszito-idoszak/tobb-kevesebb-ugyanannyi/TobbKevesebbUgyanannyiG1Jatek").then(m => ({ default: m.TobbKevesebbUgyanannyiG1Jatek })));
 const G1AzEgyG1Mese = lazy(() => import("@/components/math/grade-1/szamolas-5-ig/az-egy/AzEgyG1Mese").then(m => ({ default: m.AzEgyG1Mese })));
 const G1AzEgyG1Jatek = lazy(() => import("@/components/math/grade-1/szamolas-5-ig/az-egy/AzEgyG1Jatek").then(m => ({ default: m.AzEgyG1Jatek })));
+const G1AKettoG1Mese = lazy(() => import("@/components/math/grade-1/szamolas-5-ig/a-ketto/AKettoG1Mese").then(m => ({ default: m.AKettoG1Mese })));
+const G1AKettoG1Jatek = lazy(() => import("@/components/math/grade-1/szamolas-5-ig/a-ketto/AKettoG1Jatek").then(m => ({ default: m.AKettoG1Jatek })));
+const G1ANullaG1Mese = lazy(() => import("@/components/math/grade-1/szamolas-5-ig/a-nulla/ANullaG1Mese").then(m => ({ default: m.ANullaG1Mese })));
+const G1ANullaG1Jatek = lazy(() => import("@/components/math/grade-1/szamolas-5-ig/a-nulla/ANullaG1Jatek").then(m => ({ default: m.ANullaG1Jatek })));
+const G1AHaromG1Mese = lazy(() => import("@/components/math/grade-1/szamolas-5-ig/a-harom/AHaromG1Mese").then(m => ({ default: m.AHaromG1Mese })));
+const G1AHaromG1Jatek = lazy(() => import("@/components/math/grade-1/szamolas-5-ig/a-harom/AHaromG1Jatek").then(m => ({ default: m.AHaromG1Jatek })));
 
 export const Grade1Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -19,6 +41,280 @@ export const Grade1Activities: React.FC<ActivityRouterProps> = ({
 
   return (
     <>
+      {/* ===== 1. Osztály – I. Előkészítő időszak ===== */}
+
+      {/* 1. Válogatások */}
+      {activityType === 'g1-prep-valogatasok-theory' && (
+        <G1ValogatasokG1Mese
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g1-prep-valogatasok-quiz', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+      {activityType === 'g1-prep-valogatasok-quiz' && (
+        <G1ValogatasokG1Jatek
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-prep-valogatasok-theory', selectedTopic || 'g1-prep-period')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-prep-valogatasok-matcher', selectedTopic || 'g1-prep-period')}
+          onSwitchToSorter={() => handleActivitySelect('g1-prep-valogatasok-sorter', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+      {activityType === 'g1-prep-valogatasok-matcher' && (
+        <G1ValogatasokG1Jatek
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-prep-valogatasok-theory', selectedTopic || 'g1-prep-period')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-prep-valogatasok-matcher', selectedTopic || 'g1-prep-period')}
+          onSwitchToSorter={() => handleActivitySelect('g1-prep-valogatasok-sorter', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+      {activityType === 'g1-prep-valogatasok-sorter' && (
+        <G1ValogatasokG1Jatek
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-prep-valogatasok-theory', selectedTopic || 'g1-prep-period')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-prep-valogatasok-matcher', selectedTopic || 'g1-prep-period')}
+          onSwitchToSorter={() => handleActivitySelect('g1-prep-valogatasok-sorter', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+
+      {/* 2. Összehasonlítások */}
+      {activityType === 'g1-prep-osszehasonlitasok-theory' && (
+        <G1OsszehasonlitasokG1Mese
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g1-prep-osszehasonlitasok-quiz', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+      {activityType === 'g1-prep-osszehasonlitasok-quiz' && (
+        <G1OsszehasonlitasokG1Jatek
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-prep-osszehasonlitasok-theory', selectedTopic || 'g1-prep-period')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-prep-osszehasonlitasok-matcher', selectedTopic || 'g1-prep-period')}
+          onSwitchToSorter={() => handleActivitySelect('g1-prep-osszehasonlitasok-sorter', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+      {activityType === 'g1-prep-osszehasonlitasok-matcher' && (
+        <G1OsszehasonlitasokG1Jatek
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-prep-osszehasonlitasok-theory', selectedTopic || 'g1-prep-period')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-prep-osszehasonlitasok-matcher', selectedTopic || 'g1-prep-period')}
+          onSwitchToSorter={() => handleActivitySelect('g1-prep-osszehasonlitasok-sorter', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+      {activityType === 'g1-prep-osszehasonlitasok-sorter' && (
+        <G1OsszehasonlitasokG1Jatek
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-prep-osszehasonlitasok-theory', selectedTopic || 'g1-prep-period')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-prep-osszehasonlitasok-matcher', selectedTopic || 'g1-prep-period')}
+          onSwitchToSorter={() => handleActivitySelect('g1-prep-osszehasonlitasok-sorter', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+
+      {/* 3. Logikai lapok */}
+      {activityType === 'g1-prep-logikai-lapok-theory' && (
+        <G1LogikaiLapokG1Mese
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g1-prep-logikai-lapok-quiz', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+      {activityType === 'g1-prep-logikai-lapok-quiz' && (
+        <G1LogikaiLapokG1Jatek
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-prep-logikai-lapok-theory', selectedTopic || 'g1-prep-period')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-prep-logikai-lapok-matcher', selectedTopic || 'g1-prep-period')}
+          onSwitchToSorter={() => handleActivitySelect('g1-prep-logikai-lapok-sorter', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+      {activityType === 'g1-prep-logikai-lapok-matcher' && (
+        <G1LogikaiLapokG1Jatek
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-prep-logikai-lapok-theory', selectedTopic || 'g1-prep-period')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-prep-logikai-lapok-matcher', selectedTopic || 'g1-prep-period')}
+          onSwitchToSorter={() => handleActivitySelect('g1-prep-logikai-lapok-sorter', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+      {activityType === 'g1-prep-logikai-lapok-sorter' && (
+        <G1LogikaiLapokG1Jatek
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-prep-logikai-lapok-theory', selectedTopic || 'g1-prep-period')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-prep-logikai-lapok-matcher', selectedTopic || 'g1-prep-period')}
+          onSwitchToSorter={() => handleActivitySelect('g1-prep-logikai-lapok-sorter', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+
+      {/* 4. Pálcikák és korongok */}
+      {activityType === 'g1-prep-palcikak-es-korongok-theory' && (
+        <G1PalcikakEsKorongokG1Mese
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g1-prep-palcikak-es-korongok-quiz', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+      {activityType === 'g1-prep-palcikak-es-korongok-quiz' && (
+        <G1PalcikakEsKorongokG1Jatek
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-prep-palcikak-es-korongok-theory', selectedTopic || 'g1-prep-period')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-prep-palcikak-es-korongok-matcher', selectedTopic || 'g1-prep-period')}
+          onSwitchToSorter={() => handleActivitySelect('g1-prep-palcikak-es-korongok-sorter', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+      {activityType === 'g1-prep-palcikak-es-korongok-matcher' && (
+        <G1PalcikakEsKorongokG1Jatek
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-prep-palcikak-es-korongok-theory', selectedTopic || 'g1-prep-period')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-prep-palcikak-es-korongok-matcher', selectedTopic || 'g1-prep-period')}
+          onSwitchToSorter={() => handleActivitySelect('g1-prep-palcikak-es-korongok-sorter', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+      {activityType === 'g1-prep-palcikak-es-korongok-sorter' && (
+        <G1PalcikakEsKorongokG1Jatek
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-prep-palcikak-es-korongok-theory', selectedTopic || 'g1-prep-period')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-prep-palcikak-es-korongok-matcher', selectedTopic || 'g1-prep-period')}
+          onSwitchToSorter={() => handleActivitySelect('g1-prep-palcikak-es-korongok-sorter', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+
+      {/* 5. Színesrúd-készlet */}
+      {activityType === 'g1-prep-szinesrud-keszlet-theory' && (
+        <G1SzinesrudKeszletG1Mese
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g1-prep-szinesrud-keszlet-quiz', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+      {activityType === 'g1-prep-szinesrud-keszlet-quiz' && (
+        <G1SzinesrudKeszletG1Jatek
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-prep-szinesrud-keszlet-theory', selectedTopic || 'g1-prep-period')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-prep-szinesrud-keszlet-matcher', selectedTopic || 'g1-prep-period')}
+          onSwitchToSorter={() => handleActivitySelect('g1-prep-szinesrud-keszlet-sorter', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+      {activityType === 'g1-prep-szinesrud-keszlet-matcher' && (
+        <G1SzinesrudKeszletG1Jatek
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-prep-szinesrud-keszlet-theory', selectedTopic || 'g1-prep-period')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-prep-szinesrud-keszlet-matcher', selectedTopic || 'g1-prep-period')}
+          onSwitchToSorter={() => handleActivitySelect('g1-prep-szinesrud-keszlet-sorter', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+      {activityType === 'g1-prep-szinesrud-keszlet-sorter' && (
+        <G1SzinesrudKeszletG1Jatek
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-prep-szinesrud-keszlet-theory', selectedTopic || 'g1-prep-period')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-prep-szinesrud-keszlet-matcher', selectedTopic || 'g1-prep-period')}
+          onSwitchToSorter={() => handleActivitySelect('g1-prep-szinesrud-keszlet-sorter', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+
+      {/* 6. Tájékozódás */}
+      {activityType === 'g1-prep-tajekozodas-theory' && (
+        <G1TajekozodasG1Mese
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g1-prep-tajekozodas-quiz', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+      {activityType === 'g1-prep-tajekozodas-quiz' && (
+        <G1TajekozodasG1Jatek
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-prep-tajekozodas-theory', selectedTopic || 'g1-prep-period')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-prep-tajekozodas-matcher', selectedTopic || 'g1-prep-period')}
+          onSwitchToSorter={() => handleActivitySelect('g1-prep-tajekozodas-sorter', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+      {activityType === 'g1-prep-tajekozodas-matcher' && (
+        <G1TajekozodasG1Jatek
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-prep-tajekozodas-theory', selectedTopic || 'g1-prep-period')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-prep-tajekozodas-matcher', selectedTopic || 'g1-prep-period')}
+          onSwitchToSorter={() => handleActivitySelect('g1-prep-tajekozodas-sorter', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+      {activityType === 'g1-prep-tajekozodas-sorter' && (
+        <G1TajekozodasG1Jatek
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-prep-tajekozodas-theory', selectedTopic || 'g1-prep-period')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-prep-tajekozodas-matcher', selectedTopic || 'g1-prep-period')}
+          onSwitchToSorter={() => handleActivitySelect('g1-prep-tajekozodas-sorter', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+
+      {/* 7. Számlálások */}
+      {activityType === 'g1-prep-szamlalasok-theory' && (
+        <G1SzamlalasokG1Mese
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g1-prep-szamlalasok-quiz', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+      {activityType === 'g1-prep-szamlalasok-quiz' && (
+        <G1SzamlalasokG1Jatek
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-prep-szamlalasok-theory', selectedTopic || 'g1-prep-period')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-prep-szamlalasok-matcher', selectedTopic || 'g1-prep-period')}
+          onSwitchToSorter={() => handleActivitySelect('g1-prep-szamlalasok-sorter', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+      {activityType === 'g1-prep-szamlalasok-matcher' && (
+        <G1SzamlalasokG1Jatek
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-prep-szamlalasok-theory', selectedTopic || 'g1-prep-period')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-prep-szamlalasok-matcher', selectedTopic || 'g1-prep-period')}
+          onSwitchToSorter={() => handleActivitySelect('g1-prep-szamlalasok-sorter', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+      {activityType === 'g1-prep-szamlalasok-sorter' && (
+        <G1SzamlalasokG1Jatek
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-prep-szamlalasok-theory', selectedTopic || 'g1-prep-period')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-prep-szamlalasok-matcher', selectedTopic || 'g1-prep-period')}
+          onSwitchToSorter={() => handleActivitySelect('g1-prep-szamlalasok-sorter', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+
+      {/* 8. Több, kevesebb, ugyanannyi */}
+      {activityType === 'g1-prep-tobb-kevesebb-ugyanannyi-theory' && (
+        <G1TobbKevesebbUgyanannyiG1Mese
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g1-prep-tobb-kevesebb-ugyanannyi-quiz', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+      {activityType === 'g1-prep-tobb-kevesebb-ugyanannyi-quiz' && (
+        <G1TobbKevesebbUgyanannyiG1Jatek
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-prep-tobb-kevesebb-ugyanannyi-theory', selectedTopic || 'g1-prep-period')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-prep-tobb-kevesebb-ugyanannyi-matcher', selectedTopic || 'g1-prep-period')}
+          onSwitchToSorter={() => handleActivitySelect('g1-prep-tobb-kevesebb-ugyanannyi-sorter', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+      {activityType === 'g1-prep-tobb-kevesebb-ugyanannyi-matcher' && (
+        <G1TobbKevesebbUgyanannyiG1Jatek
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-prep-tobb-kevesebb-ugyanannyi-theory', selectedTopic || 'g1-prep-period')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-prep-tobb-kevesebb-ugyanannyi-matcher', selectedTopic || 'g1-prep-period')}
+          onSwitchToSorter={() => handleActivitySelect('g1-prep-tobb-kevesebb-ugyanannyi-sorter', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+      {activityType === 'g1-prep-tobb-kevesebb-ugyanannyi-sorter' && (
+        <G1TobbKevesebbUgyanannyiG1Jatek
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-prep-tobb-kevesebb-ugyanannyi-theory', selectedTopic || 'g1-prep-period')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-prep-tobb-kevesebb-ugyanannyi-matcher', selectedTopic || 'g1-prep-period')}
+          onSwitchToSorter={() => handleActivitySelect('g1-prep-tobb-kevesebb-ugyanannyi-sorter', selectedTopic || 'g1-prep-period')}
+        />
+      )}
+
       {/* ===== 1. Osztály – II. Számolás 0-tól 5-ig ===== */}
 
       {/* 1. Az egy */}
@@ -52,6 +348,108 @@ export const Grade1Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g1-c5-az-egy-theory', selectedTopic || 'g1-numbers-to-5')}
           onSwitchToMatcher={() => handleActivitySelect('g1-c5-az-egy-matcher', selectedTopic || 'g1-numbers-to-5')}
           onSwitchToSorter={() => handleActivitySelect('g1-c5-az-egy-sorter', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+
+      {/* 2. A kettő */}
+      {activityType === 'g1-c5-a-ketto-theory' && (
+        <G1AKettoG1Mese
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g1-c5-a-ketto-quiz', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+      {activityType === 'g1-c5-a-ketto-quiz' && (
+        <G1AKettoG1Jatek
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-c5-a-ketto-theory', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-c5-a-ketto-matcher', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToSorter={() => handleActivitySelect('g1-c5-a-ketto-sorter', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+      {activityType === 'g1-c5-a-ketto-matcher' && (
+        <G1AKettoG1Jatek
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-c5-a-ketto-theory', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-c5-a-ketto-matcher', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToSorter={() => handleActivitySelect('g1-c5-a-ketto-sorter', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+      {activityType === 'g1-c5-a-ketto-sorter' && (
+        <G1AKettoG1Jatek
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-c5-a-ketto-theory', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-c5-a-ketto-matcher', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToSorter={() => handleActivitySelect('g1-c5-a-ketto-sorter', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+
+      {/* 3. A nulla */}
+      {activityType === 'g1-c5-a-nulla-theory' && (
+        <G1ANullaG1Mese
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g1-c5-a-nulla-quiz', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+      {activityType === 'g1-c5-a-nulla-quiz' && (
+        <G1ANullaG1Jatek
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-c5-a-nulla-theory', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-c5-a-nulla-matcher', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToSorter={() => handleActivitySelect('g1-c5-a-nulla-sorter', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+      {activityType === 'g1-c5-a-nulla-matcher' && (
+        <G1ANullaG1Jatek
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-c5-a-nulla-theory', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-c5-a-nulla-matcher', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToSorter={() => handleActivitySelect('g1-c5-a-nulla-sorter', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+      {activityType === 'g1-c5-a-nulla-sorter' && (
+        <G1ANullaG1Jatek
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-c5-a-nulla-theory', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-c5-a-nulla-matcher', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToSorter={() => handleActivitySelect('g1-c5-a-nulla-sorter', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+
+      {/* 4. A három */}
+      {activityType === 'g1-c5-a-harom-theory' && (
+        <G1AHaromG1Mese
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g1-c5-a-harom-quiz', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+      {activityType === 'g1-c5-a-harom-quiz' && (
+        <G1AHaromG1Jatek
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-c5-a-harom-theory', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-c5-a-harom-matcher', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToSorter={() => handleActivitySelect('g1-c5-a-harom-sorter', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+      {activityType === 'g1-c5-a-harom-matcher' && (
+        <G1AHaromG1Jatek
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-c5-a-harom-theory', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-c5-a-harom-matcher', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToSorter={() => handleActivitySelect('g1-c5-a-harom-sorter', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+      {activityType === 'g1-c5-a-harom-sorter' && (
+        <G1AHaromG1Jatek
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-c5-a-harom-theory', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-c5-a-harom-matcher', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToSorter={() => handleActivitySelect('g1-c5-a-harom-sorter', selectedTopic || 'g1-numbers-to-5')}
         />
       )}
     </>
