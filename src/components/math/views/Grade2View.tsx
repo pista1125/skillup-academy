@@ -403,13 +403,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-count100-sec-1" number={1} title="Számok 100-ig" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Számok 100-ig"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Számok 100-ig Tananyag"
+                subtitle="Tízesek és egyesek, számszomszédok, százas tábla, számegyenes és összehasonlítás 100-ig."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-c100-szamok-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: tízesek és egyesek, szomszédok, százas tábla, számegyenes, összehasonlítás."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-c100-szamok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g2-c100-szamok-quiz')}
               />
             </div>
           </section>
@@ -421,13 +431,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-count100-sec-2" number={2} title="Összeadás 100-as számkör" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Összeadás 100-as számkör"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Összeadás 100-as számkör Tananyag"
+                subtitle="Kerek tízes + egyes, összeadás tízesátlépés nélkül és tízesátlépéssel, kétjegyű + kétjegyű szám."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-c100-osszeadas-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: tízesátlépés nélkül és tízesátlépéssel, kétjegyű + kétjegyű, szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-c100-osszeadas-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g2-c100-osszeadas-quiz')}
               />
             </div>
           </section>
@@ -439,13 +459,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-count100-sec-3" number={3} title="Kivonás 100-as számkör" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Kivonás 100-as számkör"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Kivonás 100-as számkör Tananyag"
+                subtitle="Kivonás tízesátlépés nélkül és tízesátlépéssel, kétjegyű − kétjegyű szám, ellenőrzés összeadással."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-c100-kivonas-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: tízesátlépés nélkül és tízesátlépéssel, kétjegyű − kétjegyű, ellenőrzés, szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-c100-kivonas-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="violet"
+                {...getTopicProgress('g2-c100-kivonas-quiz')}
               />
             </div>
           </section>
@@ -457,13 +487,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-count100-sec-4" number={4} title="Összeadás, kivonás kerek tízesekkel" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Összeadás, kivonás kerek tízesekkel"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Összeadás, kivonás kerek tízesekkel Tananyag"
+                subtitle="30 + 50, 90 − 40, 47 + 30, 86 − 50: tízesrudakkal, számegyenesen és pénzzel."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-c100-kerek-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: kerek tízesek, kétjegyű szám ± kerek tízes, hiányzó szám, pénz és rövid szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-c100-kerek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g2-c100-kerek-quiz')}
               />
             </div>
           </section>
@@ -475,13 +515,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-count100-sec-5" number={5} title="Szöveges feladatok" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Szöveges feladatok"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Szöveges feladatok Tananyag"
+                subtitle="Összesen, maradt, mennyi kell még, ennyivel több vagy kevesebb – 100-ig, szalagos ábrával."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-c100-szoveges-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: összesen, maradt, mennyi kell még, ennyivel több/kevesebb, két lépés és csapdák."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-c100-szoveges-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g2-c100-szoveges-quiz')}
               />
             </div>
           </section>
@@ -493,13 +543,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-count100-sec-6" number={6} title="Megálló" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Megálló"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Megálló Tananyag"
+                subtitle="Ismétlés: számok 100-ig, összeadás és kivonás, kerek tízesek, szöveges feladatok."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-c100-tudasproba-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="cyan"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz"
+                subtitle="90 feladat 3 szinten: számok 100-ig, összeadás és kivonás tízesátlépéssel, kerek tízesek, fejtörők és szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-c100-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="cyan"
+                {...getTopicProgress('g2-c100-tudasproba-quiz')}
               />
             </div>
           </section>

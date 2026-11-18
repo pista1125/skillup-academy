@@ -29,6 +29,18 @@ const G2WordProblems50G2Theory = lazy(() => import("@/components/math/grade-2/sz
 const G2WordProblems50G2Quiz = lazy(() => import("@/components/math/grade-2/szamolas-50-ig/szoveges-feladatok/WordProblems50G2Quiz").then(m => ({ default: m.WordProblems50G2Quiz })));
 const G2Count50ExamG2Theory = lazy(() => import("@/components/math/grade-2/szamolas-50-ig/megallo/Count50ExamG2Theory").then(m => ({ default: m.Count50ExamG2Theory })));
 const G2Count50ExamG2Quiz = lazy(() => import("@/components/math/grade-2/szamolas-50-ig/megallo/Count50ExamG2Quiz").then(m => ({ default: m.Count50ExamG2Quiz })));
+const G2Numbers100G2Theory = lazy(() => import("@/components/math/grade-2/szamolas-100-ig/szamok-100-ig/Numbers100G2Theory").then(m => ({ default: m.Numbers100G2Theory })));
+const G2Numbers100G2Quiz = lazy(() => import("@/components/math/grade-2/szamolas-100-ig/szamok-100-ig/Numbers100G2Quiz").then(m => ({ default: m.Numbers100G2Quiz })));
+const G2Add100G2Theory = lazy(() => import("@/components/math/grade-2/szamolas-100-ig/osszeadas-100-as-szamkor/Add100G2Theory").then(m => ({ default: m.Add100G2Theory })));
+const G2Add100G2Quiz = lazy(() => import("@/components/math/grade-2/szamolas-100-ig/osszeadas-100-as-szamkor/Add100G2Quiz").then(m => ({ default: m.Add100G2Quiz })));
+const G2Sub100G2Theory = lazy(() => import("@/components/math/grade-2/szamolas-100-ig/kivonas-100-as-szamkor/Sub100G2Theory").then(m => ({ default: m.Sub100G2Theory })));
+const G2Sub100G2Quiz = lazy(() => import("@/components/math/grade-2/szamolas-100-ig/kivonas-100-as-szamkor/Sub100G2Quiz").then(m => ({ default: m.Sub100G2Quiz })));
+const G2RoundTens100G2Theory = lazy(() => import("@/components/math/grade-2/szamolas-100-ig/osszeadas-kivonas-kerek-tizesekkel/RoundTens100G2Theory").then(m => ({ default: m.RoundTens100G2Theory })));
+const G2RoundTens100G2Quiz = lazy(() => import("@/components/math/grade-2/szamolas-100-ig/osszeadas-kivonas-kerek-tizesekkel/RoundTens100G2Quiz").then(m => ({ default: m.RoundTens100G2Quiz })));
+const G2WordProblems100G2Theory = lazy(() => import("@/components/math/grade-2/szamolas-100-ig/szoveges-feladatok/WordProblems100G2Theory").then(m => ({ default: m.WordProblems100G2Theory })));
+const G2WordProblems100G2Quiz = lazy(() => import("@/components/math/grade-2/szamolas-100-ig/szoveges-feladatok/WordProblems100G2Quiz").then(m => ({ default: m.WordProblems100G2Quiz })));
+const G2Count100ExamG2Theory = lazy(() => import("@/components/math/grade-2/szamolas-100-ig/megallo/Count100ExamG2Theory").then(m => ({ default: m.Count100ExamG2Theory })));
+const G2Count100ExamG2Quiz = lazy(() => import("@/components/math/grade-2/szamolas-100-ig/megallo/Count100ExamG2Quiz").then(m => ({ default: m.Count100ExamG2Quiz })));
 
 export const Grade2Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -486,6 +498,212 @@ export const Grade2Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g2-c50-tudasproba-theory', selectedTopic || 'g2-numbers-to-50')}
           onSwitchToMatcher={() => handleActivitySelect('g2-c50-tudasproba-matcher', selectedTopic || 'g2-numbers-to-50')}
           onSwitchToSorter={() => handleActivitySelect('g2-c50-tudasproba-sorter', selectedTopic || 'g2-numbers-to-50')}
+        />
+      )}
+
+      {/* ===== 2. Osztály – III. Számkörbővítés és számolás 100-ig ===== */}
+
+      {/* 1. Számok 100-ig */}
+      {activityType === 'g2-c100-szamok-theory' && (
+        <G2Numbers100G2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-c100-szamok-quiz', selectedTopic || 'g2-numbers-to-100')}
+        />
+      )}
+      {activityType === 'g2-c100-szamok-quiz' && (
+        <G2Numbers100G2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-c100-szamok-theory', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-c100-szamok-matcher', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToSorter={() => handleActivitySelect('g2-c100-szamok-sorter', selectedTopic || 'g2-numbers-to-100')}
+        />
+      )}
+      {activityType === 'g2-c100-szamok-matcher' && (
+        <G2Numbers100G2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-c100-szamok-theory', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-c100-szamok-matcher', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToSorter={() => handleActivitySelect('g2-c100-szamok-sorter', selectedTopic || 'g2-numbers-to-100')}
+        />
+      )}
+      {activityType === 'g2-c100-szamok-sorter' && (
+        <G2Numbers100G2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-c100-szamok-theory', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-c100-szamok-matcher', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToSorter={() => handleActivitySelect('g2-c100-szamok-sorter', selectedTopic || 'g2-numbers-to-100')}
+        />
+      )}
+
+      {/* 2. Összeadás 100-as számkör */}
+      {activityType === 'g2-c100-osszeadas-theory' && (
+        <G2Add100G2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-c100-osszeadas-quiz', selectedTopic || 'g2-numbers-to-100')}
+        />
+      )}
+      {activityType === 'g2-c100-osszeadas-quiz' && (
+        <G2Add100G2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-c100-osszeadas-theory', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-c100-osszeadas-matcher', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToSorter={() => handleActivitySelect('g2-c100-osszeadas-sorter', selectedTopic || 'g2-numbers-to-100')}
+        />
+      )}
+      {activityType === 'g2-c100-osszeadas-matcher' && (
+        <G2Add100G2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-c100-osszeadas-theory', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-c100-osszeadas-matcher', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToSorter={() => handleActivitySelect('g2-c100-osszeadas-sorter', selectedTopic || 'g2-numbers-to-100')}
+        />
+      )}
+      {activityType === 'g2-c100-osszeadas-sorter' && (
+        <G2Add100G2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-c100-osszeadas-theory', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-c100-osszeadas-matcher', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToSorter={() => handleActivitySelect('g2-c100-osszeadas-sorter', selectedTopic || 'g2-numbers-to-100')}
+        />
+      )}
+
+      {/* 3. Kivonás 100-as számkör */}
+      {activityType === 'g2-c100-kivonas-theory' && (
+        <G2Sub100G2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-c100-kivonas-quiz', selectedTopic || 'g2-numbers-to-100')}
+        />
+      )}
+      {activityType === 'g2-c100-kivonas-quiz' && (
+        <G2Sub100G2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-c100-kivonas-theory', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-c100-kivonas-matcher', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToSorter={() => handleActivitySelect('g2-c100-kivonas-sorter', selectedTopic || 'g2-numbers-to-100')}
+        />
+      )}
+      {activityType === 'g2-c100-kivonas-matcher' && (
+        <G2Sub100G2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-c100-kivonas-theory', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-c100-kivonas-matcher', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToSorter={() => handleActivitySelect('g2-c100-kivonas-sorter', selectedTopic || 'g2-numbers-to-100')}
+        />
+      )}
+      {activityType === 'g2-c100-kivonas-sorter' && (
+        <G2Sub100G2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-c100-kivonas-theory', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-c100-kivonas-matcher', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToSorter={() => handleActivitySelect('g2-c100-kivonas-sorter', selectedTopic || 'g2-numbers-to-100')}
+        />
+      )}
+
+      {/* 4. Összeadás, kivonás kerek tízesekkel */}
+      {activityType === 'g2-c100-kerek-theory' && (
+        <G2RoundTens100G2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-c100-kerek-quiz', selectedTopic || 'g2-numbers-to-100')}
+        />
+      )}
+      {activityType === 'g2-c100-kerek-quiz' && (
+        <G2RoundTens100G2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-c100-kerek-theory', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-c100-kerek-matcher', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToSorter={() => handleActivitySelect('g2-c100-kerek-sorter', selectedTopic || 'g2-numbers-to-100')}
+        />
+      )}
+      {activityType === 'g2-c100-kerek-matcher' && (
+        <G2RoundTens100G2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-c100-kerek-theory', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-c100-kerek-matcher', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToSorter={() => handleActivitySelect('g2-c100-kerek-sorter', selectedTopic || 'g2-numbers-to-100')}
+        />
+      )}
+      {activityType === 'g2-c100-kerek-sorter' && (
+        <G2RoundTens100G2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-c100-kerek-theory', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-c100-kerek-matcher', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToSorter={() => handleActivitySelect('g2-c100-kerek-sorter', selectedTopic || 'g2-numbers-to-100')}
+        />
+      )}
+
+      {/* 5. Szöveges feladatok */}
+      {activityType === 'g2-c100-szoveges-theory' && (
+        <G2WordProblems100G2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-c100-szoveges-quiz', selectedTopic || 'g2-numbers-to-100')}
+        />
+      )}
+      {activityType === 'g2-c100-szoveges-quiz' && (
+        <G2WordProblems100G2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-c100-szoveges-theory', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-c100-szoveges-matcher', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToSorter={() => handleActivitySelect('g2-c100-szoveges-sorter', selectedTopic || 'g2-numbers-to-100')}
+        />
+      )}
+      {activityType === 'g2-c100-szoveges-matcher' && (
+        <G2WordProblems100G2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-c100-szoveges-theory', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-c100-szoveges-matcher', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToSorter={() => handleActivitySelect('g2-c100-szoveges-sorter', selectedTopic || 'g2-numbers-to-100')}
+        />
+      )}
+      {activityType === 'g2-c100-szoveges-sorter' && (
+        <G2WordProblems100G2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-c100-szoveges-theory', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-c100-szoveges-matcher', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToSorter={() => handleActivitySelect('g2-c100-szoveges-sorter', selectedTopic || 'g2-numbers-to-100')}
+        />
+      )}
+
+      {/* 6. Megálló */}
+      {activityType === 'g2-c100-tudasproba-theory' && (
+        <G2Count100ExamG2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-c100-tudasproba-quiz', selectedTopic || 'g2-numbers-to-100')}
+        />
+      )}
+      {activityType === 'g2-c100-tudasproba-quiz' && (
+        <G2Count100ExamG2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-c100-tudasproba-theory', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-c100-tudasproba-matcher', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToSorter={() => handleActivitySelect('g2-c100-tudasproba-sorter', selectedTopic || 'g2-numbers-to-100')}
+        />
+      )}
+      {activityType === 'g2-c100-tudasproba-matcher' && (
+        <G2Count100ExamG2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-c100-tudasproba-theory', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-c100-tudasproba-matcher', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToSorter={() => handleActivitySelect('g2-c100-tudasproba-sorter', selectedTopic || 'g2-numbers-to-100')}
+        />
+      )}
+      {activityType === 'g2-c100-tudasproba-sorter' && (
+        <G2Count100ExamG2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-c100-tudasproba-theory', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-c100-tudasproba-matcher', selectedTopic || 'g2-numbers-to-100')}
+          onSwitchToSorter={() => handleActivitySelect('g2-c100-tudasproba-sorter', selectedTopic || 'g2-numbers-to-100')}
         />
       )}
     </>
