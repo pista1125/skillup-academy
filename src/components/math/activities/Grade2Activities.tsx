@@ -41,6 +41,14 @@ const G2WordProblems100G2Theory = lazy(() => import("@/components/math/grade-2/s
 const G2WordProblems100G2Quiz = lazy(() => import("@/components/math/grade-2/szamolas-100-ig/szoveges-feladatok/WordProblems100G2Quiz").then(m => ({ default: m.WordProblems100G2Quiz })));
 const G2Count100ExamG2Theory = lazy(() => import("@/components/math/grade-2/szamolas-100-ig/megallo/Count100ExamG2Theory").then(m => ({ default: m.Count100ExamG2Theory })));
 const G2Count100ExamG2Quiz = lazy(() => import("@/components/math/grade-2/szamolas-100-ig/megallo/Count100ExamG2Quiz").then(m => ({ default: m.Count100ExamG2Quiz })));
+const G2RomanIntroG2Theory = lazy(() => import("@/components/math/grade-2/romai-szamok/romai-szamok-ertelmezese/RomanIntroG2Theory").then(m => ({ default: m.RomanIntroG2Theory })));
+const G2RomanIntroG2Quiz = lazy(() => import("@/components/math/grade-2/romai-szamok/romai-szamok-ertelmezese/RomanIntroG2Quiz").then(m => ({ default: m.RomanIntroG2Quiz })));
+const G2Roman10G2Theory = lazy(() => import("@/components/math/grade-2/romai-szamok/romai-szamok-0-10-ig/Roman10G2Theory").then(m => ({ default: m.Roman10G2Theory })));
+const G2Roman10G2Quiz = lazy(() => import("@/components/math/grade-2/romai-szamok/romai-szamok-0-10-ig/Roman10G2Quiz").then(m => ({ default: m.Roman10G2Quiz })));
+const G2Roman20G2Theory = lazy(() => import("@/components/math/grade-2/romai-szamok/romai-szamok-11-20-ig/Roman20G2Theory").then(m => ({ default: m.Roman20G2Theory })));
+const G2Roman20G2Quiz = lazy(() => import("@/components/math/grade-2/romai-szamok/romai-szamok-11-20-ig/Roman20G2Quiz").then(m => ({ default: m.Roman20G2Quiz })));
+const G2RomanExamG2Theory = lazy(() => import("@/components/math/grade-2/romai-szamok/gyakorlas-tudasproba/RomanExamG2Theory").then(m => ({ default: m.RomanExamG2Theory })));
+const G2RomanExamG2Quiz = lazy(() => import("@/components/math/grade-2/romai-szamok/gyakorlas-tudasproba/RomanExamG2Quiz").then(m => ({ default: m.RomanExamG2Quiz })));
 
 export const Grade2Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -704,6 +712,144 @@ export const Grade2Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g2-c100-tudasproba-theory', selectedTopic || 'g2-numbers-to-100')}
           onSwitchToMatcher={() => handleActivitySelect('g2-c100-tudasproba-matcher', selectedTopic || 'g2-numbers-to-100')}
           onSwitchToSorter={() => handleActivitySelect('g2-c100-tudasproba-sorter', selectedTopic || 'g2-numbers-to-100')}
+        />
+      )}
+
+      {/* ===== 2. Osztály – VI. A római számok ===== */}
+
+      {/* 1. Római számok értelmezése */}
+      {activityType === 'g2-romai-ertelmezes-theory' && (
+        <G2RomanIntroG2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-romai-ertelmezes-quiz', selectedTopic || 'g2-roman-numbers')}
+        />
+      )}
+      {activityType === 'g2-romai-ertelmezes-quiz' && (
+        <G2RomanIntroG2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-romai-ertelmezes-theory', selectedTopic || 'g2-roman-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-romai-ertelmezes-matcher', selectedTopic || 'g2-roman-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g2-romai-ertelmezes-sorter', selectedTopic || 'g2-roman-numbers')}
+        />
+      )}
+      {activityType === 'g2-romai-ertelmezes-matcher' && (
+        <G2RomanIntroG2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-romai-ertelmezes-theory', selectedTopic || 'g2-roman-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-romai-ertelmezes-matcher', selectedTopic || 'g2-roman-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g2-romai-ertelmezes-sorter', selectedTopic || 'g2-roman-numbers')}
+        />
+      )}
+      {activityType === 'g2-romai-ertelmezes-sorter' && (
+        <G2RomanIntroG2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-romai-ertelmezes-theory', selectedTopic || 'g2-roman-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-romai-ertelmezes-matcher', selectedTopic || 'g2-roman-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g2-romai-ertelmezes-sorter', selectedTopic || 'g2-roman-numbers')}
+        />
+      )}
+
+      {/* 2. Római számok 1-től 10-ig */}
+      {activityType === 'g2-romai-10-theory' && (
+        <G2Roman10G2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-romai-10-quiz', selectedTopic || 'g2-roman-numbers')}
+        />
+      )}
+      {activityType === 'g2-romai-10-quiz' && (
+        <G2Roman10G2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-romai-10-theory', selectedTopic || 'g2-roman-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-romai-10-matcher', selectedTopic || 'g2-roman-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g2-romai-10-sorter', selectedTopic || 'g2-roman-numbers')}
+        />
+      )}
+      {activityType === 'g2-romai-10-matcher' && (
+        <G2Roman10G2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-romai-10-theory', selectedTopic || 'g2-roman-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-romai-10-matcher', selectedTopic || 'g2-roman-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g2-romai-10-sorter', selectedTopic || 'g2-roman-numbers')}
+        />
+      )}
+      {activityType === 'g2-romai-10-sorter' && (
+        <G2Roman10G2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-romai-10-theory', selectedTopic || 'g2-roman-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-romai-10-matcher', selectedTopic || 'g2-roman-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g2-romai-10-sorter', selectedTopic || 'g2-roman-numbers')}
+        />
+      )}
+
+      {/* 3. Római számok 11-től 20-ig */}
+      {activityType === 'g2-romai-20-theory' && (
+        <G2Roman20G2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-romai-20-quiz', selectedTopic || 'g2-roman-numbers')}
+        />
+      )}
+      {activityType === 'g2-romai-20-quiz' && (
+        <G2Roman20G2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-romai-20-theory', selectedTopic || 'g2-roman-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-romai-20-matcher', selectedTopic || 'g2-roman-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g2-romai-20-sorter', selectedTopic || 'g2-roman-numbers')}
+        />
+      )}
+      {activityType === 'g2-romai-20-matcher' && (
+        <G2Roman20G2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-romai-20-theory', selectedTopic || 'g2-roman-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-romai-20-matcher', selectedTopic || 'g2-roman-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g2-romai-20-sorter', selectedTopic || 'g2-roman-numbers')}
+        />
+      )}
+      {activityType === 'g2-romai-20-sorter' && (
+        <G2Roman20G2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-romai-20-theory', selectedTopic || 'g2-roman-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-romai-20-matcher', selectedTopic || 'g2-roman-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g2-romai-20-sorter', selectedTopic || 'g2-roman-numbers')}
+        />
+      )}
+
+      {/* 4. Gyakorlás, tudáspróba */}
+      {activityType === 'g2-romai-tudasproba-theory' && (
+        <G2RomanExamG2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-romai-tudasproba-quiz', selectedTopic || 'g2-roman-numbers')}
+        />
+      )}
+      {activityType === 'g2-romai-tudasproba-quiz' && (
+        <G2RomanExamG2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-romai-tudasproba-theory', selectedTopic || 'g2-roman-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-romai-tudasproba-matcher', selectedTopic || 'g2-roman-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g2-romai-tudasproba-sorter', selectedTopic || 'g2-roman-numbers')}
+        />
+      )}
+      {activityType === 'g2-romai-tudasproba-matcher' && (
+        <G2RomanExamG2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-romai-tudasproba-theory', selectedTopic || 'g2-roman-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-romai-tudasproba-matcher', selectedTopic || 'g2-roman-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g2-romai-tudasproba-sorter', selectedTopic || 'g2-roman-numbers')}
+        />
+      )}
+      {activityType === 'g2-romai-tudasproba-sorter' && (
+        <G2RomanExamG2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-romai-tudasproba-theory', selectedTopic || 'g2-roman-numbers')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-romai-tudasproba-matcher', selectedTopic || 'g2-roman-numbers')}
+          onSwitchToSorter={() => handleActivitySelect('g2-romai-tudasproba-sorter', selectedTopic || 'g2-roman-numbers')}
         />
       )}
     </>
