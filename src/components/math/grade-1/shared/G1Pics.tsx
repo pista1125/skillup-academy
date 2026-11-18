@@ -259,8 +259,8 @@ export const DigitTrace: React.FC<{ digit: string | number; className?: string; 
     '1': 'M28 40 L62 12 L62 108',
     '2': 'M24 36 C26 6 78 6 76 38 C74 60 40 80 22 106 H80',
     '3': 'M26 22 C46 4 78 14 72 38 C68 54 52 58 44 58 C62 58 80 66 76 86 C72 110 36 112 22 96',
-    '4': 'M60 108 V12 L20 78 H82',
-    '5': 'M74 14 H32 L28 54 C50 42 80 50 78 78 C76 106 40 112 22 96',
+    '4': 'M54 12 L20 78 H82|M64 42 V108',
+    '5': 'M32 14 L28 54 C50 42 80 50 78 78 C76 106 40 112 22 96|M32 14 H74',
     '6': 'M70 18 C40 6 22 40 24 76 C26 106 74 110 76 78 C78 50 40 46 26 70',
     '7': 'M22 14 H78 L40 108',
     '8': 'M50 58 C20 52 24 14 50 14 C76 14 80 52 50 58 C18 64 20 106 50 106 C80 106 82 64 50 58',
@@ -271,14 +271,22 @@ export const DigitTrace: React.FC<{ digit: string | number; className?: string; 
   return (
     <svg viewBox={`0 0 ${w} 120`} className={className}>
       {ds.map((c, i) => {
-        const d = PATHS[c];
-        const m = /M(\d+) (\d+)/.exec(d);
+        const strokes = PATHS[c].split('|');
         return (
           <g key={i} transform={`translate(${i * 100} 0)`}>
             <rect x="4" y="4" width="92" height="112" rx="10" fill="#fff" stroke="#93c5fd" strokeWidth="2" strokeDasharray="6 5" />
-            <path d={d} fill="none" stroke="#e2e8f0" strokeWidth="18" strokeLinecap="round" strokeLinejoin="round" />
-            <path d={d} fill="none" stroke={color} strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="10 8" />
-            {m && <circle cx={m[1]} cy={m[2]} r="8" fill="#22c55e" stroke="#14532d" strokeWidth="3" />}
+            {strokes.map((d, k) => <path key={`b${k}`} d={d} fill="none" stroke="#e2e8f0" strokeWidth="18" strokeLinecap="round" strokeLinejoin="round" />)}
+            {strokes.map((d, k) => <path key={`s${k}`} d={d} fill="none" stroke={k === 0 ? color : '#2563eb'} strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="10 8" />)}
+            {strokes.map((d, k) => {
+              const m = /M(\d+) (\d+)/.exec(d);
+              if (!m) return null;
+              return (
+                <g key={`m${k}`}>
+                  <circle cx={m[1]} cy={m[2]} r="8" fill="#22c55e" stroke="#14532d" strokeWidth="3" />
+                  {strokes.length > 1 && <text x={Number(m[1])} y={Number(m[2]) + 4} textAnchor="middle" fontSize="11" fontWeight="900" fill="#fff" fontFamily="system-ui, sans-serif">{k + 1}</text>}
+                </g>
+              );
+            })}
           </g>
         );
       })}

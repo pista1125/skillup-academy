@@ -27,6 +27,16 @@ const G1ANullaG1Mese = lazy(() => import("@/components/math/grade-1/szamolas-5-i
 const G1ANullaG1Jatek = lazy(() => import("@/components/math/grade-1/szamolas-5-ig/a-nulla/ANullaG1Jatek").then(m => ({ default: m.ANullaG1Jatek })));
 const G1AHaromG1Mese = lazy(() => import("@/components/math/grade-1/szamolas-5-ig/a-harom/AHaromG1Mese").then(m => ({ default: m.AHaromG1Mese })));
 const G1AHaromG1Jatek = lazy(() => import("@/components/math/grade-1/szamolas-5-ig/a-harom/AHaromG1Jatek").then(m => ({ default: m.AHaromG1Jatek })));
+const G1ANegyG1Mese = lazy(() => import("@/components/math/grade-1/szamolas-5-ig/a-negy/ANegyG1Mese").then(m => ({ default: m.ANegyG1Mese })));
+const G1ANegyG1Jatek = lazy(() => import("@/components/math/grade-1/szamolas-5-ig/a-negy/ANegyG1Jatek").then(m => ({ default: m.ANegyG1Jatek })));
+const G1AzOtG1Mese = lazy(() => import("@/components/math/grade-1/szamolas-5-ig/az-ot/AzOtG1Mese").then(m => ({ default: m.AzOtG1Mese })));
+const G1AzOtG1Jatek = lazy(() => import("@/components/math/grade-1/szamolas-5-ig/az-ot/AzOtG1Jatek").then(m => ({ default: m.AzOtG1Jatek })));
+const G1Osszeadas0Tol5IgG1Mese = lazy(() => import("@/components/math/grade-1/szamolas-5-ig/osszeadas-0-tol-5-ig/Osszeadas0Tol5IgG1Mese").then(m => ({ default: m.Osszeadas0Tol5IgG1Mese })));
+const G1Osszeadas0Tol5IgG1Jatek = lazy(() => import("@/components/math/grade-1/szamolas-5-ig/osszeadas-0-tol-5-ig/Osszeadas0Tol5IgG1Jatek").then(m => ({ default: m.Osszeadas0Tol5IgG1Jatek })));
+const G1Kivonas0Tol5IgG1Mese = lazy(() => import("@/components/math/grade-1/szamolas-5-ig/kivonas-0-tol-5-ig/Kivonas0Tol5IgG1Mese").then(m => ({ default: m.Kivonas0Tol5IgG1Mese })));
+const G1Kivonas0Tol5IgG1Jatek = lazy(() => import("@/components/math/grade-1/szamolas-5-ig/kivonas-0-tol-5-ig/Kivonas0Tol5IgG1Jatek").then(m => ({ default: m.Kivonas0Tol5IgG1Jatek })));
+const G1Megallo5G1Mese = lazy(() => import("@/components/math/grade-1/szamolas-5-ig/megallo/Megallo5G1Mese").then(m => ({ default: m.Megallo5G1Mese })));
+const G1Megallo5G1Jatek = lazy(() => import("@/components/math/grade-1/szamolas-5-ig/megallo/Megallo5G1Jatek").then(m => ({ default: m.Megallo5G1Jatek })));
 
 export const Grade1Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -450,6 +460,176 @@ export const Grade1Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g1-c5-a-harom-theory', selectedTopic || 'g1-numbers-to-5')}
           onSwitchToMatcher={() => handleActivitySelect('g1-c5-a-harom-matcher', selectedTopic || 'g1-numbers-to-5')}
           onSwitchToSorter={() => handleActivitySelect('g1-c5-a-harom-sorter', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+
+      {/* 5. A négy */}
+      {activityType === 'g1-c5-a-negy-theory' && (
+        <G1ANegyG1Mese
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g1-c5-a-negy-quiz', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+      {activityType === 'g1-c5-a-negy-quiz' && (
+        <G1ANegyG1Jatek
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-c5-a-negy-theory', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-c5-a-negy-matcher', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToSorter={() => handleActivitySelect('g1-c5-a-negy-sorter', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+      {activityType === 'g1-c5-a-negy-matcher' && (
+        <G1ANegyG1Jatek
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-c5-a-negy-theory', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-c5-a-negy-matcher', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToSorter={() => handleActivitySelect('g1-c5-a-negy-sorter', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+      {activityType === 'g1-c5-a-negy-sorter' && (
+        <G1ANegyG1Jatek
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-c5-a-negy-theory', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-c5-a-negy-matcher', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToSorter={() => handleActivitySelect('g1-c5-a-negy-sorter', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+
+      {/* 6. Az öt */}
+      {activityType === 'g1-c5-az-ot-theory' && (
+        <G1AzOtG1Mese
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g1-c5-az-ot-quiz', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+      {activityType === 'g1-c5-az-ot-quiz' && (
+        <G1AzOtG1Jatek
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-c5-az-ot-theory', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-c5-az-ot-matcher', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToSorter={() => handleActivitySelect('g1-c5-az-ot-sorter', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+      {activityType === 'g1-c5-az-ot-matcher' && (
+        <G1AzOtG1Jatek
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-c5-az-ot-theory', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-c5-az-ot-matcher', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToSorter={() => handleActivitySelect('g1-c5-az-ot-sorter', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+      {activityType === 'g1-c5-az-ot-sorter' && (
+        <G1AzOtG1Jatek
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-c5-az-ot-theory', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-c5-az-ot-matcher', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToSorter={() => handleActivitySelect('g1-c5-az-ot-sorter', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+
+      {/* 7. Összeadás 0-tól 5-ig */}
+      {activityType === 'g1-c5-osszeadas-0-tol-5-ig-theory' && (
+        <G1Osszeadas0Tol5IgG1Mese
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g1-c5-osszeadas-0-tol-5-ig-quiz', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+      {activityType === 'g1-c5-osszeadas-0-tol-5-ig-quiz' && (
+        <G1Osszeadas0Tol5IgG1Jatek
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-c5-osszeadas-0-tol-5-ig-theory', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-c5-osszeadas-0-tol-5-ig-matcher', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToSorter={() => handleActivitySelect('g1-c5-osszeadas-0-tol-5-ig-sorter', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+      {activityType === 'g1-c5-osszeadas-0-tol-5-ig-matcher' && (
+        <G1Osszeadas0Tol5IgG1Jatek
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-c5-osszeadas-0-tol-5-ig-theory', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-c5-osszeadas-0-tol-5-ig-matcher', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToSorter={() => handleActivitySelect('g1-c5-osszeadas-0-tol-5-ig-sorter', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+      {activityType === 'g1-c5-osszeadas-0-tol-5-ig-sorter' && (
+        <G1Osszeadas0Tol5IgG1Jatek
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-c5-osszeadas-0-tol-5-ig-theory', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-c5-osszeadas-0-tol-5-ig-matcher', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToSorter={() => handleActivitySelect('g1-c5-osszeadas-0-tol-5-ig-sorter', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+
+      {/* 8. Kivonás 0-tól 5-ig */}
+      {activityType === 'g1-c5-kivonas-0-tol-5-ig-theory' && (
+        <G1Kivonas0Tol5IgG1Mese
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g1-c5-kivonas-0-tol-5-ig-quiz', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+      {activityType === 'g1-c5-kivonas-0-tol-5-ig-quiz' && (
+        <G1Kivonas0Tol5IgG1Jatek
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-c5-kivonas-0-tol-5-ig-theory', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-c5-kivonas-0-tol-5-ig-matcher', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToSorter={() => handleActivitySelect('g1-c5-kivonas-0-tol-5-ig-sorter', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+      {activityType === 'g1-c5-kivonas-0-tol-5-ig-matcher' && (
+        <G1Kivonas0Tol5IgG1Jatek
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-c5-kivonas-0-tol-5-ig-theory', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-c5-kivonas-0-tol-5-ig-matcher', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToSorter={() => handleActivitySelect('g1-c5-kivonas-0-tol-5-ig-sorter', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+      {activityType === 'g1-c5-kivonas-0-tol-5-ig-sorter' && (
+        <G1Kivonas0Tol5IgG1Jatek
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-c5-kivonas-0-tol-5-ig-theory', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-c5-kivonas-0-tol-5-ig-matcher', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToSorter={() => handleActivitySelect('g1-c5-kivonas-0-tol-5-ig-sorter', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+
+      {/* 9. Megálló */}
+      {activityType === 'g1-c5-megallo-theory' && (
+        <G1Megallo5G1Mese
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g1-c5-megallo-quiz', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+      {activityType === 'g1-c5-megallo-quiz' && (
+        <G1Megallo5G1Jatek
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-c5-megallo-theory', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-c5-megallo-matcher', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToSorter={() => handleActivitySelect('g1-c5-megallo-sorter', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+      {activityType === 'g1-c5-megallo-matcher' && (
+        <G1Megallo5G1Jatek
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-c5-megallo-theory', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-c5-megallo-matcher', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToSorter={() => handleActivitySelect('g1-c5-megallo-sorter', selectedTopic || 'g1-numbers-to-5')}
+        />
+      )}
+      {activityType === 'g1-c5-megallo-sorter' && (
+        <G1Megallo5G1Jatek
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-c5-megallo-theory', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-c5-megallo-matcher', selectedTopic || 'g1-numbers-to-5')}
+          onSwitchToSorter={() => handleActivitySelect('g1-c5-megallo-sorter', selectedTopic || 'g1-numbers-to-5')}
         />
       )}
     </>
