@@ -95,6 +95,16 @@ const G2ShapesG2Theory = lazy(() => import("@/components/math/grade-2/geometria/
 const G2ShapesG2Quiz = lazy(() => import("@/components/math/grade-2/geometria/testek-sikidomok/ShapesG2Quiz").then(m => ({ default: m.ShapesG2Quiz })));
 const G2SymmetryG2Theory = lazy(() => import("@/components/math/grade-2/geometria/szimmetria-tukrozes/SymmetryG2Theory").then(m => ({ default: m.SymmetryG2Theory })));
 const G2SymmetryG2Quiz = lazy(() => import("@/components/math/grade-2/geometria/szimmetria-tukrozes/SymmetryG2Quiz").then(m => ({ default: m.SymmetryG2Quiz })));
+const G2LengthG2Theory = lazy(() => import("@/components/math/grade-2/meresek/hosszusag-meres/LengthG2Theory").then(m => ({ default: m.LengthG2Theory })));
+const G2LengthG2Quiz = lazy(() => import("@/components/math/grade-2/meresek/hosszusag-meres/LengthG2Quiz").then(m => ({ default: m.LengthG2Quiz })));
+const G2MassG2Theory = lazy(() => import("@/components/math/grade-2/meresek/tomeg-meres/MassG2Theory").then(m => ({ default: m.MassG2Theory })));
+const G2MassG2Quiz = lazy(() => import("@/components/math/grade-2/meresek/tomeg-meres/MassG2Quiz").then(m => ({ default: m.MassG2Quiz })));
+const G2CapacityG2Theory = lazy(() => import("@/components/math/grade-2/meresek/urtartalom-meres/CapacityG2Theory").then(m => ({ default: m.CapacityG2Theory })));
+const G2CapacityG2Quiz = lazy(() => import("@/components/math/grade-2/meresek/urtartalom-meres/CapacityG2Quiz").then(m => ({ default: m.CapacityG2Quiz })));
+const G2TimeG2Theory = lazy(() => import("@/components/math/grade-2/meresek/ido-meres/TimeG2Theory").then(m => ({ default: m.TimeG2Theory })));
+const G2TimeG2Quiz = lazy(() => import("@/components/math/grade-2/meresek/ido-meres/TimeG2Quiz").then(m => ({ default: m.TimeG2Quiz })));
+const G2MeasExamG2Theory = lazy(() => import("@/components/math/grade-2/meresek/gyakorlas-tudasproba/MeasExamG2Theory").then(m => ({ default: m.MeasExamG2Theory })));
+const G2MeasExamG2Quiz = lazy(() => import("@/components/math/grade-2/meresek/gyakorlas-tudasproba/MeasExamG2Quiz").then(m => ({ default: m.MeasExamG2Quiz })));
 
 export const Grade2Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -1684,6 +1694,178 @@ export const Grade2Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g2-geo-szimmetria-theory', selectedTopic || 'g2-geometry')}
           onSwitchToMatcher={() => handleActivitySelect('g2-geo-szimmetria-matcher', selectedTopic || 'g2-geometry')}
           onSwitchToSorter={() => handleActivitySelect('g2-geo-szimmetria-sorter', selectedTopic || 'g2-geometry')}
+        />
+      )}
+
+      {/* ===== 2. Osztály – VIII. Mérések ===== */}
+
+      {/* 1. A hosszúság mérése */}
+      {activityType === 'g2-meres-hosszusag-theory' && (
+        <G2LengthG2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-meres-hosszusag-quiz', selectedTopic || 'g2-measurements')}
+        />
+      )}
+      {activityType === 'g2-meres-hosszusag-quiz' && (
+        <G2LengthG2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-meres-hosszusag-theory', selectedTopic || 'g2-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-meres-hosszusag-matcher', selectedTopic || 'g2-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g2-meres-hosszusag-sorter', selectedTopic || 'g2-measurements')}
+        />
+      )}
+      {activityType === 'g2-meres-hosszusag-matcher' && (
+        <G2LengthG2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-meres-hosszusag-theory', selectedTopic || 'g2-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-meres-hosszusag-matcher', selectedTopic || 'g2-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g2-meres-hosszusag-sorter', selectedTopic || 'g2-measurements')}
+        />
+      )}
+      {activityType === 'g2-meres-hosszusag-sorter' && (
+        <G2LengthG2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-meres-hosszusag-theory', selectedTopic || 'g2-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-meres-hosszusag-matcher', selectedTopic || 'g2-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g2-meres-hosszusag-sorter', selectedTopic || 'g2-measurements')}
+        />
+      )}
+
+      {/* 2. A tömeg mérése */}
+      {activityType === 'g2-meres-tomeg-theory' && (
+        <G2MassG2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-meres-tomeg-quiz', selectedTopic || 'g2-measurements')}
+        />
+      )}
+      {activityType === 'g2-meres-tomeg-quiz' && (
+        <G2MassG2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-meres-tomeg-theory', selectedTopic || 'g2-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-meres-tomeg-matcher', selectedTopic || 'g2-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g2-meres-tomeg-sorter', selectedTopic || 'g2-measurements')}
+        />
+      )}
+      {activityType === 'g2-meres-tomeg-matcher' && (
+        <G2MassG2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-meres-tomeg-theory', selectedTopic || 'g2-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-meres-tomeg-matcher', selectedTopic || 'g2-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g2-meres-tomeg-sorter', selectedTopic || 'g2-measurements')}
+        />
+      )}
+      {activityType === 'g2-meres-tomeg-sorter' && (
+        <G2MassG2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-meres-tomeg-theory', selectedTopic || 'g2-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-meres-tomeg-matcher', selectedTopic || 'g2-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g2-meres-tomeg-sorter', selectedTopic || 'g2-measurements')}
+        />
+      )}
+
+      {/* 3. Az űrtartalom mérése */}
+      {activityType === 'g2-meres-urtartalom-theory' && (
+        <G2CapacityG2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-meres-urtartalom-quiz', selectedTopic || 'g2-measurements')}
+        />
+      )}
+      {activityType === 'g2-meres-urtartalom-quiz' && (
+        <G2CapacityG2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-meres-urtartalom-theory', selectedTopic || 'g2-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-meres-urtartalom-matcher', selectedTopic || 'g2-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g2-meres-urtartalom-sorter', selectedTopic || 'g2-measurements')}
+        />
+      )}
+      {activityType === 'g2-meres-urtartalom-matcher' && (
+        <G2CapacityG2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-meres-urtartalom-theory', selectedTopic || 'g2-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-meres-urtartalom-matcher', selectedTopic || 'g2-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g2-meres-urtartalom-sorter', selectedTopic || 'g2-measurements')}
+        />
+      )}
+      {activityType === 'g2-meres-urtartalom-sorter' && (
+        <G2CapacityG2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-meres-urtartalom-theory', selectedTopic || 'g2-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-meres-urtartalom-matcher', selectedTopic || 'g2-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g2-meres-urtartalom-sorter', selectedTopic || 'g2-measurements')}
+        />
+      )}
+
+      {/* 4. Az idő mérése */}
+      {activityType === 'g2-meres-ido-theory' && (
+        <G2TimeG2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-meres-ido-quiz', selectedTopic || 'g2-measurements')}
+        />
+      )}
+      {activityType === 'g2-meres-ido-quiz' && (
+        <G2TimeG2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-meres-ido-theory', selectedTopic || 'g2-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-meres-ido-matcher', selectedTopic || 'g2-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g2-meres-ido-sorter', selectedTopic || 'g2-measurements')}
+        />
+      )}
+      {activityType === 'g2-meres-ido-matcher' && (
+        <G2TimeG2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-meres-ido-theory', selectedTopic || 'g2-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-meres-ido-matcher', selectedTopic || 'g2-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g2-meres-ido-sorter', selectedTopic || 'g2-measurements')}
+        />
+      )}
+      {activityType === 'g2-meres-ido-sorter' && (
+        <G2TimeG2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-meres-ido-theory', selectedTopic || 'g2-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-meres-ido-matcher', selectedTopic || 'g2-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g2-meres-ido-sorter', selectedTopic || 'g2-measurements')}
+        />
+      )}
+
+      {/* 5. Gyakorlás, tudáspróba */}
+      {activityType === 'g2-meres-tudasproba-theory' && (
+        <G2MeasExamG2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-meres-tudasproba-quiz', selectedTopic || 'g2-measurements')}
+        />
+      )}
+      {activityType === 'g2-meres-tudasproba-quiz' && (
+        <G2MeasExamG2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-meres-tudasproba-theory', selectedTopic || 'g2-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-meres-tudasproba-matcher', selectedTopic || 'g2-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g2-meres-tudasproba-sorter', selectedTopic || 'g2-measurements')}
+        />
+      )}
+      {activityType === 'g2-meres-tudasproba-matcher' && (
+        <G2MeasExamG2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-meres-tudasproba-theory', selectedTopic || 'g2-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-meres-tudasproba-matcher', selectedTopic || 'g2-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g2-meres-tudasproba-sorter', selectedTopic || 'g2-measurements')}
+        />
+      )}
+      {activityType === 'g2-meres-tudasproba-sorter' && (
+        <G2MeasExamG2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-meres-tudasproba-theory', selectedTopic || 'g2-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-meres-tudasproba-matcher', selectedTopic || 'g2-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g2-meres-tudasproba-sorter', selectedTopic || 'g2-measurements')}
         />
       )}
     </>

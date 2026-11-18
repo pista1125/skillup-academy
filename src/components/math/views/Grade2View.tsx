@@ -1357,13 +1357,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-meas-sec-1" number={1} title="A hosszúság mérése" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A hosszúság mérése"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="A hosszúság mérése Tananyag"
+                subtitle="Régi mértékegységek, cm, dm, m, mérés vonalzóval a 0-tól, becslés és átváltás."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-meres-hosszusag-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: régi mértékegységek, cm, dm, m, mérés vonalzóval, becslés, átváltás és szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-meres-hosszusag-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g2-meres-hosszusag-quiz')}
               />
             </div>
           </section>
@@ -1375,13 +1385,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-meas-sec-2" number={2} title="A tömeg mérése" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A tömeg mérése"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="A tömeg mérése Tananyag"
+                subtitle="Nehezebb, könnyebb, egyensúly, kétkarú mérleg, mérleghinta, a kilogramm és mérlegfajták."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-meres-tomeg-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: kétkarú mérleg, egyensúly, kilogramm, súlyok összeadása, hiányzó súly és szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-meres-tomeg-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g2-meres-tomeg-quiz')}
               />
             </div>
           </section>
@@ -1393,13 +1413,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-meas-sec-3" number={3} title="Az űrtartalom mérése" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Az űrtartalom mérése"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Az űrtartalom mérése Tananyag"
+                subtitle="Melyikbe fér több, mérés pohárral, liter és deciliter, fél liter, a mérőedény leolvasása."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-meres-urtartalom-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: melyikbe fér több, liter és deciliter, mérőedény leolvasása, átváltás és szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-meres-urtartalom-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="violet"
+                {...getTopicProgress('g2-meres-urtartalom-quiz')}
               />
             </div>
           </section>
@@ -1411,13 +1441,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-meas-sec-4" number={4} title="Az idő mérése" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Az idő mérése"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Az idő mérése Tananyag"
+                subtitle="Napszakok, óra és perc, a mutatós és a digitális óra, a hét napjai, hónapok, évszakok és a naptár."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-meres-ido-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: napszakok, az óra leolvasása, óra és perc, hét, hónap, évszak és eltelt idő."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-meres-ido-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g2-meres-ido-quiz')}
               />
             </div>
           </section>
@@ -1429,13 +1469,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-meas-sec-5" number={5} title="Gyakorlás, tudáspróba" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Gyakorlás, tudáspróba"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Gyakorlás, tudáspróba Tananyag"
+                subtitle="Amit már tudsz: hosszúság, tömeg, űrtartalom és idő – mértékegységek, mérőeszközök, átváltás."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-meres-tudasproba-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz"
+                subtitle="90 feladat 3 szinten: hosszúság, tömeg, űrtartalom és idő – mérés, átváltás és szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-meres-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g2-meres-tudasproba-quiz')}
               />
             </div>
           </section>
