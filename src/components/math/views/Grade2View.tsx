@@ -863,13 +863,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-div-sec-2" number={1} title="Osztás 2-vel" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Osztás 2-vel"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Osztás 2-vel Tananyag"
+                subtitle="Csomagolás kettesével, szétosztás 2 részre, a fele, ellenőrzés szorzással, maradék"
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-osztas-2-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: bennfoglalás, részekre osztás, a fele, ellenőrzés szorzással, maradék"
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-osztas-2-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g2-osztas-2-quiz')}
               />
             </div>
           </section>
@@ -881,13 +891,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-div-sec-3" number={2} title="Osztás 3-mal" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Osztás 3-mal"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Osztás 3-mal Tananyag"
+                subtitle="Csoportosítás hármasával, szétosztás 3 egyenlő részre, a harmada, ellenőrzés szorzással, maradékos osztás 3-mal."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-osztas-3-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: csoportosítás hármasával, szétosztás, a harmada, ellenőrzés szorzással, maradékos osztás."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-osztas-3-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g2-osztas-3-quiz')}
               />
             </div>
           </section>
@@ -899,13 +919,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-div-sec-4" number={3} title="Osztás 4-gyel" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Osztás 4-gyel"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Osztás 4-gyel Tananyag"
+                subtitle="Csoportosítás és szétosztás, negyede, felezés kétszer, maradékos osztás 4-gyel."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-osztas-4-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: csoportosítás és szétosztás, a 4-es bennfoglaló tábla, negyede, maradékos osztás 4-gyel."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-osztas-4-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="violet"
+                {...getTopicProgress('g2-osztas-4-quiz')}
               />
             </div>
           </section>
@@ -917,13 +947,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-div-sec-5" number={4} title="Osztás 5-tel" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Osztás 5-tel"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Osztás 5-tel Tananyag"
+                subtitle="Hány ötös van benne? Szétosztás 5 részre, ötöde és maradékos osztás 5-tel."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-osztas-5-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: bennfoglalás és szétosztás 5-tel, ötöde, maradékos osztás, vásári szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-osztas-5-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g2-osztas-5-quiz')}
               />
             </div>
           </section>
@@ -935,13 +975,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-div-sec-6" number={5} title="Osztás 6-tal" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Osztás 6-tal"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Osztás 6-tal Tananyag"
+                subtitle="Dobozolás hatosával, szétosztás 6 részre, hatoda és maradékos osztás 6-tal."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-osztas-6-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: dobozolás és szétosztás 6-tal, hatoda, maradékos osztás, szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-osztas-6-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g2-osztas-6-quiz')}
               />
             </div>
           </section>
@@ -953,13 +1003,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-div-sec-7" number={6} title="Osztás 7-tel" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Osztás 7-tel"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Osztás 7-tel Tananyag"
+                subtitle="Csoportosítás és szétosztás, napokból hetek, hetede, maradékos osztás 7-tel."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-osztas-7-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="cyan"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: csoportosítás és szétosztás, a 7-es bennfoglaló tábla, hetede, napok és hetek, maradékos osztás 7-tel."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-osztas-7-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="cyan"
+                {...getTopicProgress('g2-osztas-7-quiz')}
               />
             </div>
           </section>
@@ -971,13 +1031,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-div-sec-8" number={7} title="Osztás 8-cal" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Osztás 8-cal"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Osztás 8-cal Tananyag"
+                subtitle="Csoportosítás és szétosztás, nyolcada, felezés háromszor, maradékos osztás 8-cal."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-osztas-8-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: csoportosítás és szétosztás, a 8-as bennfoglaló tábla, nyolcada, maradékos osztás 8-cal."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-osztas-8-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g2-osztas-8-quiz')}
               />
             </div>
           </section>
@@ -989,13 +1059,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-div-sec-9" number={8} title="Osztás 9-cel" color="orange" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Osztás 9-cel"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Osztás 9-cel Tananyag"
+                subtitle="Csoportosítás és szétosztás, a 9-es bennfoglaló tábla, tízesek + 1 trükk, maradékos osztás 9-cel."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-osztas-9-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="orange"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: csoportosítás és szétosztás, a 9-es bennfoglaló tábla, tízesek + 1 trükk, maradékos osztás 9-cel."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-osztas-9-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="orange"
+                {...getTopicProgress('g2-osztas-9-quiz')}
               />
             </div>
           </section>
@@ -1007,13 +1087,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-div-sec-10" number={9} title="Osztás 10-zel" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Osztás 10-zel"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Osztás 10-zel Tananyag"
+                subtitle="Hány tízes van benne? Szétosztás 10 részre, tizede, pénz és maradékos osztás 10-zel."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-osztas-10-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: tízesével csoportosítás és szétosztás, tizede, pénz, maradékos osztás 10-zel."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-osztas-10-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="teal"
+                {...getTopicProgress('g2-osztas-10-quiz')}
               />
             </div>
           </section>
@@ -1025,13 +1115,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-div-sec-11" number={10} title="Gyakorlás, tudáspróba" color="pink" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Gyakorlás, tudáspróba"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Gyakorlás, tudáspróba Tananyag"
+                subtitle="Az osztás összefoglalása: bennfoglalás és szétosztás, ellenőrzés szorzással, -ad része, maradékos osztás és „hány kell?”."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-osztas-tudasproba-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="pink"
+              />
+              <ActivityPlaceholder
+                title="Tudáspróba Kvíz"
+                subtitle="90 feladat 3 szinten: bennfoglalás és szétosztás, az osztás minden táblája, -ad része, ellenőrzés, maradékos osztás, hány kell, szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-osztas-tudasproba-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="pink"
+                {...getTopicProgress('g2-osztas-tudasproba-quiz')}
               />
             </div>
           </section>

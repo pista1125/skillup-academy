@@ -61,6 +61,26 @@ const G2Mult10G2Theory = lazy(() => import("@/components/math/grade-2/szorzas/sz
 const G2Mult10G2Quiz = lazy(() => import("@/components/math/grade-2/szorzas/szorzas-10-zel/Mult10G2Quiz").then(m => ({ default: m.Mult10G2Quiz })));
 const G2MultExamG2Theory = lazy(() => import("@/components/math/grade-2/szorzas/gyakorlas-tudasproba/MultExamG2Theory").then(m => ({ default: m.MultExamG2Theory })));
 const G2MultExamG2Quiz = lazy(() => import("@/components/math/grade-2/szorzas/gyakorlas-tudasproba/MultExamG2Quiz").then(m => ({ default: m.MultExamG2Quiz })));
+const G2Div2G2Theory = lazy(() => import("@/components/math/grade-2/osztas/osztas-2-vel/Div2G2Theory").then(m => ({ default: m.Div2G2Theory })));
+const G2Div2G2Quiz = lazy(() => import("@/components/math/grade-2/osztas/osztas-2-vel/Div2G2Quiz").then(m => ({ default: m.Div2G2Quiz })));
+const G2Div3G2Theory = lazy(() => import("@/components/math/grade-2/osztas/osztas-3-mal/Div3G2Theory").then(m => ({ default: m.Div3G2Theory })));
+const G2Div3G2Quiz = lazy(() => import("@/components/math/grade-2/osztas/osztas-3-mal/Div3G2Quiz").then(m => ({ default: m.Div3G2Quiz })));
+const G2Div4G2Theory = lazy(() => import("@/components/math/grade-2/osztas/osztas-4-gyel/Div4G2Theory").then(m => ({ default: m.Div4G2Theory })));
+const G2Div4G2Quiz = lazy(() => import("@/components/math/grade-2/osztas/osztas-4-gyel/Div4G2Quiz").then(m => ({ default: m.Div4G2Quiz })));
+const G2Div5G2Theory = lazy(() => import("@/components/math/grade-2/osztas/osztas-5-tel/Div5G2Theory").then(m => ({ default: m.Div5G2Theory })));
+const G2Div5G2Quiz = lazy(() => import("@/components/math/grade-2/osztas/osztas-5-tel/Div5G2Quiz").then(m => ({ default: m.Div5G2Quiz })));
+const G2Div6G2Theory = lazy(() => import("@/components/math/grade-2/osztas/osztas-6-tal/Div6G2Theory").then(m => ({ default: m.Div6G2Theory })));
+const G2Div6G2Quiz = lazy(() => import("@/components/math/grade-2/osztas/osztas-6-tal/Div6G2Quiz").then(m => ({ default: m.Div6G2Quiz })));
+const G2Div7G2Theory = lazy(() => import("@/components/math/grade-2/osztas/osztas-7-tel/Div7G2Theory").then(m => ({ default: m.Div7G2Theory })));
+const G2Div7G2Quiz = lazy(() => import("@/components/math/grade-2/osztas/osztas-7-tel/Div7G2Quiz").then(m => ({ default: m.Div7G2Quiz })));
+const G2Div8G2Theory = lazy(() => import("@/components/math/grade-2/osztas/osztas-8-cal/Div8G2Theory").then(m => ({ default: m.Div8G2Theory })));
+const G2Div8G2Quiz = lazy(() => import("@/components/math/grade-2/osztas/osztas-8-cal/Div8G2Quiz").then(m => ({ default: m.Div8G2Quiz })));
+const G2Div9G2Theory = lazy(() => import("@/components/math/grade-2/osztas/osztas-9-cel/Div9G2Theory").then(m => ({ default: m.Div9G2Theory })));
+const G2Div9G2Quiz = lazy(() => import("@/components/math/grade-2/osztas/osztas-9-cel/Div9G2Quiz").then(m => ({ default: m.Div9G2Quiz })));
+const G2Div10G2Theory = lazy(() => import("@/components/math/grade-2/osztas/osztas-10-zel/Div10G2Theory").then(m => ({ default: m.Div10G2Theory })));
+const G2Div10G2Quiz = lazy(() => import("@/components/math/grade-2/osztas/osztas-10-zel/Div10G2Quiz").then(m => ({ default: m.Div10G2Quiz })));
+const G2DivExamG2Theory = lazy(() => import("@/components/math/grade-2/osztas/gyakorlas-tudasproba/DivExamG2Theory").then(m => ({ default: m.DivExamG2Theory })));
+const G2DivExamG2Quiz = lazy(() => import("@/components/math/grade-2/osztas/gyakorlas-tudasproba/DivExamG2Quiz").then(m => ({ default: m.DivExamG2Quiz })));
 const G2RomanIntroG2Theory = lazy(() => import("@/components/math/grade-2/romai-szamok/romai-szamok-ertelmezese/RomanIntroG2Theory").then(m => ({ default: m.RomanIntroG2Theory })));
 const G2RomanIntroG2Quiz = lazy(() => import("@/components/math/grade-2/romai-szamok/romai-szamok-ertelmezese/RomanIntroG2Quiz").then(m => ({ default: m.RomanIntroG2Quiz })));
 const G2Roman10G2Theory = lazy(() => import("@/components/math/grade-2/romai-szamok/romai-szamok-0-10-ig/Roman10G2Theory").then(m => ({ default: m.Roman10G2Theory })));
@@ -1080,6 +1100,348 @@ export const Grade2Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g2-szorzas-tudasproba-theory', selectedTopic || 'g2-multiplication')}
           onSwitchToMatcher={() => handleActivitySelect('g2-szorzas-tudasproba-matcher', selectedTopic || 'g2-multiplication')}
           onSwitchToSorter={() => handleActivitySelect('g2-szorzas-tudasproba-sorter', selectedTopic || 'g2-multiplication')}
+        />
+      )}
+
+      {/* ===== 2. Osztály – V. Osztás ===== */}
+
+      {/* 1. Osztás 2-vel */}
+      {activityType === 'g2-osztas-2-theory' && (
+        <G2Div2G2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-osztas-2-quiz', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-2-quiz' && (
+        <G2Div2G2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-2-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-2-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-2-sorter', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-2-matcher' && (
+        <G2Div2G2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-2-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-2-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-2-sorter', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-2-sorter' && (
+        <G2Div2G2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-2-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-2-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-2-sorter', selectedTopic || 'g2-division')}
+        />
+      )}
+
+      {/* 2. Osztás 3-mal */}
+      {activityType === 'g2-osztas-3-theory' && (
+        <G2Div3G2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-osztas-3-quiz', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-3-quiz' && (
+        <G2Div3G2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-3-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-3-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-3-sorter', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-3-matcher' && (
+        <G2Div3G2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-3-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-3-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-3-sorter', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-3-sorter' && (
+        <G2Div3G2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-3-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-3-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-3-sorter', selectedTopic || 'g2-division')}
+        />
+      )}
+
+      {/* 3. Osztás 4-gyel */}
+      {activityType === 'g2-osztas-4-theory' && (
+        <G2Div4G2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-osztas-4-quiz', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-4-quiz' && (
+        <G2Div4G2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-4-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-4-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-4-sorter', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-4-matcher' && (
+        <G2Div4G2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-4-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-4-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-4-sorter', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-4-sorter' && (
+        <G2Div4G2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-4-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-4-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-4-sorter', selectedTopic || 'g2-division')}
+        />
+      )}
+
+      {/* 4. Osztás 5-tel */}
+      {activityType === 'g2-osztas-5-theory' && (
+        <G2Div5G2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-osztas-5-quiz', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-5-quiz' && (
+        <G2Div5G2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-5-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-5-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-5-sorter', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-5-matcher' && (
+        <G2Div5G2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-5-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-5-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-5-sorter', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-5-sorter' && (
+        <G2Div5G2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-5-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-5-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-5-sorter', selectedTopic || 'g2-division')}
+        />
+      )}
+
+      {/* 5. Osztás 6-tal */}
+      {activityType === 'g2-osztas-6-theory' && (
+        <G2Div6G2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-osztas-6-quiz', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-6-quiz' && (
+        <G2Div6G2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-6-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-6-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-6-sorter', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-6-matcher' && (
+        <G2Div6G2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-6-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-6-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-6-sorter', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-6-sorter' && (
+        <G2Div6G2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-6-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-6-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-6-sorter', selectedTopic || 'g2-division')}
+        />
+      )}
+
+      {/* 6. Osztás 7-tel */}
+      {activityType === 'g2-osztas-7-theory' && (
+        <G2Div7G2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-osztas-7-quiz', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-7-quiz' && (
+        <G2Div7G2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-7-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-7-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-7-sorter', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-7-matcher' && (
+        <G2Div7G2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-7-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-7-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-7-sorter', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-7-sorter' && (
+        <G2Div7G2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-7-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-7-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-7-sorter', selectedTopic || 'g2-division')}
+        />
+      )}
+
+      {/* 7. Osztás 8-cal */}
+      {activityType === 'g2-osztas-8-theory' && (
+        <G2Div8G2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-osztas-8-quiz', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-8-quiz' && (
+        <G2Div8G2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-8-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-8-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-8-sorter', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-8-matcher' && (
+        <G2Div8G2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-8-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-8-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-8-sorter', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-8-sorter' && (
+        <G2Div8G2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-8-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-8-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-8-sorter', selectedTopic || 'g2-division')}
+        />
+      )}
+
+      {/* 8. Osztás 9-cel */}
+      {activityType === 'g2-osztas-9-theory' && (
+        <G2Div9G2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-osztas-9-quiz', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-9-quiz' && (
+        <G2Div9G2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-9-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-9-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-9-sorter', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-9-matcher' && (
+        <G2Div9G2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-9-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-9-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-9-sorter', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-9-sorter' && (
+        <G2Div9G2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-9-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-9-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-9-sorter', selectedTopic || 'g2-division')}
+        />
+      )}
+
+      {/* 9. Osztás 10-zel */}
+      {activityType === 'g2-osztas-10-theory' && (
+        <G2Div10G2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-osztas-10-quiz', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-10-quiz' && (
+        <G2Div10G2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-10-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-10-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-10-sorter', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-10-matcher' && (
+        <G2Div10G2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-10-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-10-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-10-sorter', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-10-sorter' && (
+        <G2Div10G2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-10-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-10-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-10-sorter', selectedTopic || 'g2-division')}
+        />
+      )}
+
+      {/* 10. Gyakorlás, tudáspróba */}
+      {activityType === 'g2-osztas-tudasproba-theory' && (
+        <G2DivExamG2Theory
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g2-osztas-tudasproba-quiz', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-tudasproba-quiz' && (
+        <G2DivExamG2Quiz
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-tudasproba-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-tudasproba-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-tudasproba-sorter', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-tudasproba-matcher' && (
+        <G2DivExamG2Quiz
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-tudasproba-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-tudasproba-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-tudasproba-sorter', selectedTopic || 'g2-division')}
+        />
+      )}
+      {activityType === 'g2-osztas-tudasproba-sorter' && (
+        <G2DivExamG2Quiz
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g2-osztas-tudasproba-theory', selectedTopic || 'g2-division')}
+          onSwitchToMatcher={() => handleActivitySelect('g2-osztas-tudasproba-matcher', selectedTopic || 'g2-division')}
+          onSwitchToSorter={() => handleActivitySelect('g2-osztas-tudasproba-sorter', selectedTopic || 'g2-division')}
         />
       )}
 
