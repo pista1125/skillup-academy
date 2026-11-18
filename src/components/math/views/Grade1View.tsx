@@ -515,13 +515,23 @@ export const Grade1View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g1-count10-sec-1" number={1} title="A hat" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A hat"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Pötyi meséje: A hat"
+                subtitle="Pötyi hátán hat pötty ragyog: öt meg még egy – a 6-os szám, a hat ujj és a hatos dominó."
+                type="Mese"
+                emoji="🐞"
+                onClick={() => onActivitySelect('g1-c10-a-hat-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Pötyi játékai"
+                subtitle="Képes játék 3 szinten: hat, ujjkép, dominó, számegyenes, kiegészítés, jelek, bontás."
+                type="Kvíz"
+                emoji="🎈"
+                onClick={() => onActivitySelect('g1-c10-a-hat-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g1-c10-a-hat-quiz')}
               />
             </div>
           </section>
@@ -533,13 +543,23 @@ export const Grade1View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g1-count10-sec-2" number={2} title="Számolás 0-tól 6-ig" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Számolás 0-tól 6-ig"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Pötyi meséje: Számolás 0-tól 6-ig"
+                subtitle="Piknik a Számkertben: összeadunk, elveszünk, lépegetünk és nyilakat követünk hatig."
+                type="Mese"
+                emoji="🐞"
+                onClick={() => onActivitySelect('g1-c10-szamolas-0-tol-6-ig-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Pötyi játékai"
+                subtitle="Képes játék 3 szinten: összeadás, kivonás, számegyenes, nyilak, jelek, szöveges feladatok."
+                type="Kvíz"
+                emoji="🎈"
+                onClick={() => onActivitySelect('g1-c10-szamolas-0-tol-6-ig-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g1-c10-szamolas-0-tol-6-ig-quiz')}
               />
             </div>
           </section>
@@ -551,13 +571,23 @@ export const Grade1View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g1-count10-sec-3" number={3} title="Páros és páratlan számok" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Páros és páratlan számok"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Pötyi meséje: Páros és páratlan számok"
+                subtitle="Katicabál a Számkertben: jut-e mindenkinek pár? Páros, ha igen – páratlan, ha egy egyedül marad."
+                type="Mese"
+                emoji="🐞"
+                onClick={() => onActivitySelect('g1-c10-paros-es-paratlan-szamok-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
+              />
+              <ActivityPlaceholder
+                title="Pötyi játékai"
+                subtitle="Képes játék 3 szinten: párba állítás, páros és páratlan számok, a nulla, műveletek eredménye."
+                type="Kvíz"
+                emoji="🎈"
+                onClick={() => onActivitySelect('g1-c10-paros-es-paratlan-szamok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="violet"
+                {...getTopicProgress('g1-c10-paros-es-paratlan-szamok-quiz')}
               />
             </div>
           </section>
@@ -569,13 +599,23 @@ export const Grade1View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g1-count10-sec-4" number={4} title="Megálló" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Megálló"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Pötyi meséje: Megálló"
+                subtitle="Pihenő a hatos táblánál: ismételjük a hatot, a számolást hatig és a páros-páratlan számokat."
+                type="Mese"
+                emoji="🐞"
+                onClick={() => onActivitySelect('g1-c10-megallo-6-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Pötyi nagy játéka"
+                subtitle="Képes játék 3 szinten: számolás 0-tól 6-ig, jelek, igaz-hamis, páros és páratlan – szintenként 12 kérdés."
+                type="Kvíz"
+                emoji="🎈"
+                onClick={() => onActivitySelect('g1-c10-megallo-6-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g1-c10-megallo-6-quiz')}
               />
             </div>
           </section>
@@ -587,13 +627,23 @@ export const Grade1View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g1-count10-sec-5" number={5} title="A hét" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A hét"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Pötyi meséje: A hét"
+                subtitle="Pötyi elárulja a titkát: ő hétpöttyös katica – 5 meg 2 pötty, a 7-es szám."
+                type="Mese"
+                emoji="🐞"
+                onClick={() => onActivitySelect('g1-c10-a-het-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Pötyi játékai"
+                subtitle="Képes játék 3 szinten: hét vagy nem, a 7-es, ujjkép, dominó, számegyenes, bontás, jelek."
+                type="Kvíz"
+                emoji="🎈"
+                onClick={() => onActivitySelect('g1-c10-a-het-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g1-c10-a-het-quiz')}
               />
             </div>
           </section>
@@ -605,13 +655,23 @@ export const Grade1View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g1-count10-sec-6" number={6} title="Számolás 0-tól 7-ig" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Számolás 0-tól 7-ig"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Pötyi meséje: Számolás 0-tól 7-ig"
+                subtitle="Eperpiknik és tekézés: összeadunk, elveszünk és ugrálunk a számegyenesen 7-ig."
+                type="Mese"
+                emoji="🐞"
+                onClick={() => onActivitySelect('g1-c10-szamolas-0-tol-7-ig-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="cyan"
+              />
+              <ActivityPlaceholder
+                title="Pötyi játékai"
+                subtitle="Képes játék 3 szinten: összeadás, elvétel, számegyenes, kiegészítés 7-re, jelek, páros-páratlan."
+                type="Kvíz"
+                emoji="🎈"
+                onClick={() => onActivitySelect('g1-c10-szamolas-0-tol-7-ig-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="cyan"
+                {...getTopicProgress('g1-c10-szamolas-0-tol-7-ig-quiz')}
               />
             </div>
           </section>
@@ -623,13 +683,23 @@ export const Grade1View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g1-count10-sec-7" number={7} title="Számszomszédok" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Számszomszédok"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Pötyi meséje: Számszomszédok"
+                subtitle="A Számutcában Pötyi szomszédai Zümi és Csigusz: ki lakik előtte, ki utána?"
+                type="Mese"
+                emoji="🐞"
+                onClick={() => onActivitySelect('g1-c10-szamszomszedok-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Pötyi játékai"
+                subtitle="Képes játék 3 szinten: előtte, utána, kisebb és nagyobb szomszéd, számegyenes, házsor, jelek."
+                type="Kvíz"
+                emoji="🎈"
+                onClick={() => onActivitySelect('g1-c10-szamszomszedok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g1-c10-szamszomszedok-quiz')}
               />
             </div>
           </section>
@@ -641,13 +711,23 @@ export const Grade1View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g1-count10-sec-8" number={8} title="Megálló" color="orange" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Megálló"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Pötyi meséje: Megálló"
+                subtitle="Pötyi kincsvadászata: ládák, varázskocka és minden, amit 7-ig tanultunk."
+                type="Mese"
+                emoji="🐞"
+                onClick={() => onActivitySelect('g1-c10-megallo-7-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="orange"
+              />
+              <ActivityPlaceholder
+                title="Pötyi nagy játéka"
+                subtitle="Képes játék 3 szinten: számlálás 7-ig, műveletek, számszomszédok, páros-páratlan, jelek, dobókocka."
+                type="Kvíz"
+                emoji="🎈"
+                onClick={() => onActivitySelect('g1-c10-megallo-7-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="orange"
+                {...getTopicProgress('g1-c10-megallo-7-quiz')}
               />
             </div>
           </section>
@@ -659,13 +739,23 @@ export const Grade1View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g1-count10-sec-9" number={9} title="A nyolc" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A nyolc"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Pötyi meséje: A nyolc"
+                subtitle="Leesik az első hó: 8 hópehely, 8 gomb a hóemberen, 5 meg 3 sapka."
+                type="Mese"
+                emoji="🐞"
+                onClick={() => onActivitySelect('g1-c10-a-nyolc-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
+              />
+              <ActivityPlaceholder
+                title="Pötyi játékai"
+                subtitle="Képes játék 3 szinten: számlálás 8-ig, ujj- és dominókép, számegyenes, kiegészítés, jelek."
+                type="Kvíz"
+                emoji="🎈"
+                onClick={() => onActivitySelect('g1-c10-a-nyolc-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="teal"
+                {...getTopicProgress('g1-c10-a-nyolc-quiz')}
               />
             </div>
           </section>
@@ -677,13 +767,23 @@ export const Grade1View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g1-count10-sec-10" number={10} title="Számolás 0-tól 8-ig" color="pink" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Számolás 0-tól 8-ig"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Pötyi meséje: Számolás 0-tól 8-ig"
+                subtitle="Hógolyócsata: hozzáadunk, elveszünk, cserélünk és bontunk 8-ig."
+                type="Mese"
+                emoji="🐞"
+                onClick={() => onActivitySelect('g1-c10-szamolas-0-tol-8-ig-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="pink"
+              />
+              <ActivityPlaceholder
+                title="Pötyi játékai"
+                subtitle="Képes játék 3 szinten: összeadás és kivonás 8-ig, számegyenes, bontás, két lépés, jelek."
+                type="Kvíz"
+                emoji="🎈"
+                onClick={() => onActivitySelect('g1-c10-szamolas-0-tol-8-ig-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="pink"
+                {...getTopicProgress('g1-c10-szamolas-0-tol-8-ig-quiz')}
               />
             </div>
           </section>
@@ -695,13 +795,23 @@ export const Grade1View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g1-count10-sec-11" number={11} title="Nyitott mondatok" color="lime" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Nyitott mondatok"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Pötyi meséje: Nyitott mondatok"
+                subtitle="A hó betakart egy számot: melyik szám bújt a doboz alá?"
+                type="Mese"
+                emoji="🐞"
+                onClick={() => onActivitySelect('g1-c10-nyitott-mondatok-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="lime"
+              />
+              <ActivityPlaceholder
+                title="Pötyi játékai"
+                subtitle="Képes játék 3 szinten: hiányzó szám képpel, melyik szám teszi igazzá, igaz vagy hamis."
+                type="Kvíz"
+                emoji="🎈"
+                onClick={() => onActivitySelect('g1-c10-nyitott-mondatok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="lime"
+                {...getTopicProgress('g1-c10-nyitott-mondatok-quiz')}
               />
             </div>
           </section>
@@ -713,13 +823,23 @@ export const Grade1View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g1-count10-sec-12" number={12} title="Megálló" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Megálló"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Pötyi meséje: Megálló"
+                subtitle="A szánkós kamra kulcsa: Csigusz feladványai alapján kizárjuk a rossz kulcsokat."
+                type="Mese"
+                emoji="🐞"
+                onClick={() => onActivitySelect('g1-c10-megallo-8-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Pötyi nagy játéka"
+                subtitle="Képes játék 3 szinten: minden, amit 8-ig tanultunk – számlálás, összeadás, kivonás, bontás, jelek, nyitott mondatok."
+                type="Kvíz"
+                emoji="🎈"
+                onClick={() => onActivitySelect('g1-c10-megallo-8-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g1-c10-megallo-8-quiz')}
               />
             </div>
           </section>
@@ -731,13 +851,23 @@ export const Grade1View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g1-count10-sec-13" number={13} title="A kilenc" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A kilenc"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Pötyi meséje: A kilenc"
+                subtitle="Ünnepi fenyőfa: 9 dísz, 9 toboz, 6 meg 3 bögre – és a 9 páratlan."
+                type="Mese"
+                emoji="🐞"
+                onClick={() => onActivitySelect('g1-c10-a-kilenc-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Pötyi játékai"
+                subtitle="Képes játék 3 szinten: számlálás 9-ig, ujj- és dominókép, számegyenes, kiegészítés, jelek."
+                type="Kvíz"
+                emoji="🎈"
+                onClick={() => onActivitySelect('g1-c10-a-kilenc-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g1-c10-a-kilenc-quiz')}
               />
             </div>
           </section>
@@ -749,13 +879,23 @@ export const Grade1View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g1-count10-sec-14" number={14} title="Számolás 0-tól 9-ig" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Számolás 0-tól 9-ig"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Pötyi meséje: Számolás 0-tól 9-ig"
+                subtitle="Mézeskalács-sütés: hozzáadunk, elveszünk, kiegészítünk és három számot adunk össze 9-ig."
+                type="Mese"
+                emoji="🐞"
+                onClick={() => onActivitySelect('g1-c10-szamolas-0-tol-9-ig-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
+              />
+              <ActivityPlaceholder
+                title="Pötyi játékai"
+                subtitle="Képes játék 3 szinten: összeadás és kivonás 9-ig, nyíl szerint, nyitott mondatok, három szám, jelek."
+                type="Kvíz"
+                emoji="🎈"
+                onClick={() => onActivitySelect('g1-c10-szamolas-0-tol-9-ig-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="violet"
+                {...getTopicProgress('g1-c10-szamolas-0-tol-9-ig-quiz')}
               />
             </div>
           </section>
@@ -767,13 +907,23 @@ export const Grade1View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g1-count10-sec-15" number={15} title="A sorszámnevek" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A sorszámnevek"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Pötyi meséje: A sorszámnevek"
+                subtitle="Szánkóverseny: első, második, harmadik… kilencedik – és a pont a szám után."
+                type="Mese"
+                emoji="🐞"
+                onClick={() => onActivitySelect('g1-c10-a-sorszamnevek-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Pötyi játékai"
+                subtitle="Képes játék 3 szinten: hányadik a sorban, dobogó, füzér, toronyház, szám vagy sorszám."
+                type="Kvíz"
+                emoji="🎈"
+                onClick={() => onActivitySelect('g1-c10-a-sorszamnevek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g1-c10-a-sorszamnevek-quiz')}
               />
             </div>
           </section>
@@ -785,13 +935,23 @@ export const Grade1View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g1-count10-sec-16" number={16} title="Megálló" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Megálló"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Pötyi meséje: Megálló"
+                subtitle="Pötyi, a téli postás: ismétlés 9-ig – műveletek, fejtörők, minták, sorszámok."
+                type="Mese"
+                emoji="🐞"
+                onClick={() => onActivitySelect('g1-c10-megallo-9-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="rose"
+              />
+              <ActivityPlaceholder
+                title="Pötyi nagy játéka"
+                subtitle="Képes játék 3 szinten, 12-12 kérdéssel: a 9, összeadás és kivonás 9-ig, nyitott mondatok, sorszámnevek."
+                type="Kvíz"
+                emoji="🎈"
+                onClick={() => onActivitySelect('g1-c10-megallo-9-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="rose"
+                {...getTopicProgress('g1-c10-megallo-9-quiz')}
               />
             </div>
           </section>
@@ -803,13 +963,23 @@ export const Grade1View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g1-count10-sec-17" number={17} title="A tíz" color="cyan" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A tíz"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Pötyi meséje: A tíz"
+                subtitle="Madáretető a Számkertben: 9 meg 1 madár, Pötyi két szárnya tele, a 10 két számjeggyel."
+                type="Mese"
+                emoji="🐞"
+                onClick={() => onActivitySelect('g1-c10-a-tiz-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="cyan"
+              />
+              <ActivityPlaceholder
+                title="Pötyi játékai"
+                subtitle="Képes játék 3 szinten: számlálás 10-ig, ujj- és dominókép, teli keret, jelek, kiegészítés 10-re."
+                type="Kvíz"
+                emoji="🎈"
+                onClick={() => onActivitySelect('g1-c10-a-tiz-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="cyan"
+                {...getTopicProgress('g1-c10-a-tiz-quiz')}
               />
             </div>
           </section>
@@ -821,13 +991,23 @@ export const Grade1View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g1-count10-sec-18" number={18} title="Számolás 0-tól 10-ig" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Számolás 0-tól 10-ig"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Pötyi meséje: Számolás 0-tól 10-ig"
+                subtitle="Havas tekepálya: 10 bábuból ledöntünk és visszaállítunk, a 10 bontásai, tízesbarátok."
+                type="Mese"
+                emoji="🐞"
+                onClick={() => onActivitySelect('g1-c10-szamolas-0-tol-10-ig-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
+              />
+              <ActivityPlaceholder
+                title="Pötyi játékai"
+                subtitle="Képes játék 3 szinten: összeadás és kivonás 10-ig, bontás, tízesbarátok, jelek, két lépés."
+                type="Kvíz"
+                emoji="🎈"
+                onClick={() => onActivitySelect('g1-c10-szamolas-0-tol-10-ig-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g1-c10-szamolas-0-tol-10-ig-quiz')}
               />
             </div>
           </section>
@@ -839,13 +1019,23 @@ export const Grade1View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g1-count10-sec-19" number={19} title="Szöveges feladatok" color="orange" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Szöveges feladatok"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Pötyi meséje: Szöveges feladatok"
+                subtitle="Pötyi rövid meséket mond: hallgasd meg, nézd meg, + vagy −, válaszolj!"
+                type="Mese"
+                emoji="🐞"
+                onClick={() => onActivitySelect('g1-c10-szoveges-feladatok-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="orange"
+              />
+              <ActivityPlaceholder
+                title="Pötyi játékai"
+                subtitle="Képes játék 3 szinten: egylépéses mesék 10-ig, melyik művelet illik, ennyivel több vagy kevesebb."
+                type="Kvíz"
+                emoji="🎈"
+                onClick={() => onActivitySelect('g1-c10-szoveges-feladatok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="orange"
+                {...getTopicProgress('g1-c10-szoveges-feladatok-quiz')}
               />
             </div>
           </section>
@@ -857,13 +1047,23 @@ export const Grade1View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g1-count10-sec-20" number={20} title="Megálló" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Megálló"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Pötyi meséje: Megálló"
+                subtitle="Téli kincskeresés: állomásról állomásra ismételjük a számokat 10-ig."
+                type="Mese"
+                emoji="🐞"
+                onClick={() => onActivitySelect('g1-c10-megallo-10-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
+              />
+              <ActivityPlaceholder
+                title="Pötyi nagy játéka"
+                subtitle="Képes játék 3 szinten, szintenként 12 kérdés: számok 0–10, páros-páratlan, sorszámok, műveletek, nyitott mondatok, szöveges feladatok."
+                type="Kvíz"
+                emoji="🎈"
+                onClick={() => onActivitySelect('g1-c10-megallo-10-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="teal"
+                {...getTopicProgress('g1-c10-megallo-10-quiz')}
               />
             </div>
           </section>
