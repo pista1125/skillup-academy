@@ -3,8 +3,8 @@ import { GradeViewProps } from './types';
 import { SectionHeader } from '@/components/math/shared/SectionHeader';
 import { ActivityPlaceholder } from '@/components/math/shared/ActivityPlaceholder';
 import { MaterialGallery } from '@/components/math/shared/MaterialGallery';
+import { useQuizProgress } from '@/hooks/useQuizProgress';
 import {
-  Binary,
   Blocks,
   BookOpen,
   Calculator,
@@ -31,6 +31,8 @@ export const Grade2View: React.FC<GradeViewProps> = ({
   onActivitySelect,
   onMaterialSelect,
 }) => {
+  const { getTopicProgress } = useQuizProgress();
+
   // Topic I: Számolás 0-tól 20-ig
   if (topicId === 'g2-numbers-to-20') {
     const showAll = !activeSubSectionId;
@@ -43,49 +45,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-count20-sec-1" number={1} title="Számok 0-tól 20-ig" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Matek Kígyó 🐍"
-                subtitle="Gyűjtsd össze a számokat a táblán!"
-                type="Játék"
-                emoji="🐍"
-                onClick={() => onActivitySelect('grade2-snake', topicId)}
+                title="Számok 0-tól 20-ig Tananyag"
+                subtitle="Számlálás 0-tól 20-ig, helyiérték (tízesek és egyesek), számegyenes, számszomszédok, páros és páratlan számok, sorszámok."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-c20-szamok-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
+                color="blue"
+              />
+              <ActivityPlaceholder
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: számlálás, helyiérték, számegyenes, számszomszédok, páros és páratlan számok, sorszámok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-c20-szamok-quiz', topicId)}
                 icon={<Target className="w-6 h-6" />}
-                color="emerald"
-              />
-              <ActivityPlaceholder
-                title="Építőkockák"
-                subtitle="Számok összehasonlítása és helyiértékek"
-                type="Játék"
-                emoji="🧱"
-                onClick={() => onActivitySelect('grade2-blocks', topicId)}
-                icon={<Blocks className="w-6 h-6" />}
                 color="blue"
-              />
-              <ActivityPlaceholder
-                title="Számegyenes"
-                subtitle="Számok helye és számszomszédok 20-ig"
-                type="Eszköz"
-                emoji="📏"
-                onClick={() => onActivitySelect('number-line', topicId)}
-                icon={<MoveHorizontal className="w-6 h-6" />}
-                color="indigo"
-              />
-              <ActivityPlaceholder
-                title="Számok 20-ig Kvíz"
-                subtitle="Helyiérték, páros-páratlan és számszomszédok"
-                type="Hamarosan"
-                emoji="🔢"
-                disabled={true}
-                icon={<Binary className="w-6 h-6" />}
-                color="blue"
-              />
-              <ActivityPlaceholder
-                title="Páros és Páratlan"
-                subtitle="Párosítás és számok csoportosítása"
-                type="Hamarosan"
-                emoji="⚖️"
-                disabled={true}
-                icon={<Scale className="w-6 h-6" />}
-                color="teal"
+                {...getTopicProgress('g2-c20-szamok-quiz')}
               />
             </div>
           </section>
@@ -97,40 +73,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-count20-sec-2" number={2} title="Összeadás 10-es számkör" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Összeadás Kaland"
-                subtitle="Összeadás alapjai és a 10 bontása"
-                type="Játék"
-                emoji="➕"
-                onClick={() => onActivitySelect('grade2-quiz', topicId)}
-                icon={<Calculator className="w-6 h-6" />}
+                title="Összeadás 10-es számkör Tananyag"
+                subtitle="Összeadás 0-tól 10-ig, a tagok felcserélése, a 10 bontása, számegyenes, három tag összege, pótlás és nyitott mondatok."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-c20-osszeadas10-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
               />
               <ActivityPlaceholder
-                title="Toronyépítő Játék"
-                subtitle="Építs tornyot helyes összeadásokkal!"
-                type="Játék"
-                emoji="🏰"
-                onClick={() => onActivitySelect('grade2-blocks', topicId)}
-                icon={<Trophy className="w-6 h-6" />}
-                color="amber"
-              />
-              <ActivityPlaceholder
-                title="Összeadás 10-ig Kvíz"
-                subtitle="Pótlás 10-re és a tagok felcserélhetősége"
-                type="Hamarosan"
-                emoji="📝"
-                disabled={true}
-                icon={<Calculator className="w-6 h-6" />}
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: összeadás 10-ig, a 10 bontása, számegyenes, pótlás, nyitott mondatok, párosító és csoportosító."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-c20-osszeadas10-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
                 color="emerald"
-              />
-              <ActivityPlaceholder
-                title="10-es Bontó Kártyák"
-                subtitle="Gyakorold a 10-es számpárokat!"
-                type="Hamarosan"
-                emoji="🃏"
-                disabled={true}
-                icon={<Layers className="w-6 h-6" />}
-                color="teal"
+                {...getTopicProgress('g2-c20-osszeadas10-quiz')}
               />
             </div>
           </section>
@@ -142,31 +101,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-count20-sec-3" number={3} title="Kivonás 10-es számkör" color="teal" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Kivonás 10-ig Kvíz"
-                subtitle="Kivonás és ellenőrzés összeadással"
-                type="Hamarosan"
-                emoji="➖"
-                disabled={true}
-                icon={<Calculator className="w-6 h-6" />}
+                title="Kivonás 10-es számkör Tananyag"
+                subtitle="Elvétel, különbség, műveletcsalád, ellenőrzés összeadással, kivonás 0-val és pótlás 10-ig."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-c20-kivonas10-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="teal"
               />
               <ActivityPlaceholder
-                title="Különbség Kereső"
-                subtitle="Mennyivel több? Mennyivel kevesebb?"
-                type="Hamarosan"
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: elvétel, különbség, műveletcsalád, ellenőrzés összeadással és hiányzó számok."
+                type="Kvíz"
                 emoji="🎯"
-                disabled={true}
+                onClick={() => onActivitySelect('g2-c20-kivonas10-quiz', topicId)}
                 icon={<Target className="w-6 h-6" />}
-                color="emerald"
-              />
-              <ActivityPlaceholder
-                title="Hiányos Műveletek 10-ig"
-                subtitle="Keresd meg a hiányzó tagot!"
-                type="Hamarosan"
-                emoji="❓"
-                disabled={true}
-                icon={<HelpCircle className="w-6 h-6" />}
-                color="indigo"
+                color="teal"
+                {...getTopicProgress('g2-c20-kivonas10-quiz')}
               />
             </div>
           </section>
@@ -178,31 +129,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-count20-sec-4" number={4} title="Összeadás 20-as számkör" color="indigo" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Összeadás 20-ig Kvíz"
-                subtitle="Összeadás 10-re pótlási stratégiával"
-                type="Hamarosan"
-                emoji="🚀"
-                disabled={true}
-                icon={<Calculator className="w-6 h-6" />}
+                title="Összeadás 20-as számkör Tananyag"
+                subtitle="10 + egyesek, számolás tízesátlépés nélkül és tízesátlépéssel (10-re pótlással), három tag, számpiramis és bűvös négyzet."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-c20-osszeadas20-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="indigo"
               />
               <ActivityPlaceholder
-                title="Tízesátlépés Mester"
-                subtitle="Lépésről lépésre a tízesen át"
-                type="Hamarosan"
-                emoji="⚡"
-                disabled={true}
-                icon={<Zap className="w-6 h-6" />}
-                color="violet"
-              />
-              <ActivityPlaceholder
-                title="Háromtagú Összeadás"
-                subtitle="Ügyes számolás 10-es csoportokkal"
-                type="Hamarosan"
-                emoji="🔢"
-                disabled={true}
-                icon={<Layers className="w-6 h-6" />}
-                color="blue"
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: 10 + egyesek, kistesó-analógia, tízesátlépés, három tag és egyenletek."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-c20-osszeadas20-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="indigo"
+                {...getTopicProgress('g2-c20-osszeadas20-quiz')}
               />
             </div>
           </section>
@@ -214,31 +157,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-count20-sec-5" number={5} title="Kivonás 20-as számkör" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Kivonás 20-ig Kvíz"
-                subtitle="Kivonás tízesátlépéssel 20-as számkörben"
-                type="Hamarosan"
-                emoji="🎯"
-                disabled={true}
-                icon={<Calculator className="w-6 h-6" />}
+                title="Kivonás 20-as számkör Tananyag"
+                subtitle="Elvétel 10-ig, 10 elvétele, kivonás tízesátlépés nélkül és tízesátlépéssel, kétjegyűből kétjegyű és ellenőrzés összeadással."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-c20-kivonas20-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
               />
               <ActivityPlaceholder
-                title="Visszaszámláló Kaland"
-                subtitle="Lépkedj vissza a számegyenesen!"
-                type="Hamarosan"
-                emoji="📉"
-                disabled={true}
-                icon={<MoveHorizontal className="w-6 h-6" />}
-                color="purple"
-              />
-              <ActivityPlaceholder
-                title="Bontás és Kivonás"
-                subtitle="Kivonandó felbontása lépésekre"
-                type="Hamarosan"
-                emoji="🧩"
-                disabled={true}
-                icon={<Split className="w-6 h-6" />}
-                color="indigo"
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: visszalépés 10-re, tízesátlépés nélkül és tízesátlépéssel, kétjegyűből kétjegyű, ellenőrzés és nyitott mondatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-c20-kivonas20-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="violet"
+                {...getTopicProgress('g2-c20-kivonas20-quiz')}
               />
             </div>
           </section>
@@ -250,31 +185,23 @@ export const Grade2View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g2-count20-sec-6" number={6} title="Szöveges feladatok" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Képes Szöveges Feladatok"
-                subtitle="Gyakorlati feladványok képi támogatással"
-                type="Hamarosan"
+                title="Szöveges feladatok Tananyag"
+                subtitle="Az 5 lépés, 20-as szalagmodell, fordított összehasonlítás csapdája, oszlopdiagram, táblázat és kétlépéses feladatok."
+                type="Tananyag"
                 emoji="📖"
-                disabled={true}
-                icon={<FileText className="w-6 h-6" />}
+                onClick={() => onActivitySelect('g2-c20-szoveges-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
               />
               <ActivityPlaceholder
-                title="Nyitott Mondatok Kvíz"
-                subtitle="Keresd meg a titkos számot!"
-                type="Hamarosan"
-                emoji="🔍"
-                disabled={true}
-                icon={<HelpCircle className="w-6 h-6" />}
-                color="orange"
-              />
-              <ActivityPlaceholder
-                title="Több vagy Kevesebb?"
-                subtitle="Összehasonlítás szöveges példákon keresztül"
-                type="Hamarosan"
-                emoji="⚖️"
-                disabled={true}
-                icon={<Scale className="w-6 h-6" />}
-                color="yellow"
+                title="Gyakorló Kvíz"
+                subtitle="30 feladat 3 szinten: szalagmodell, több-kevesebb csapda, diagram, kétlépéses feladatok 20-ig."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-c20-szoveges-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g2-c20-szoveges-quiz')}
               />
             </div>
           </section>
@@ -283,34 +210,26 @@ export const Grade2View: React.FC<GradeViewProps> = ({
         {/* Section 7: Megálló */}
         {(showAll || activeSubSectionId === 'g2-count20-sec-7') && (
           <section>
-            <SectionHeader id="g2-count20-sec-7" number={7} title="Megálló" color="red" />
+            <SectionHeader id="g2-count20-sec-7" number={7} title="Megálló" color="rose" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="I. Fejezet Záró Kvíz"
-                subtitle="Összefoglaló vegyes tudáspróba 20-ig"
-                type="Hamarosan"
-                emoji="🏆"
-                disabled={true}
-                icon={<Trophy className="w-6 h-6" />}
-                color="red"
+                title="Megálló – tudáspróba Tananyag"
+                subtitle="Az I. témakör összefoglalása: számok 0-tól 20-ig, műveletek tízesátlépés nélkül és tízesátlépéssel, szöveges feladatok, számpiramis és Kitekintő fejtörők."
+                type="Tananyag"
+                emoji="📖"
+                onClick={() => onActivitySelect('g2-c20-tudasproba-theory', topicId)}
+                icon={<BookOpen className="w-6 h-6" />}
+                color="rose"
               />
               <ActivityPlaceholder
-                title="2. Osztályos Nagydíj"
-                subtitle="Minden feladattípus egy kihívásban"
-                type="Hamarosan"
-                emoji="⭐"
-                disabled={true}
-                icon={<Sparkles className="w-6 h-6" />}
-                color="amber"
-              />
-              <ActivityPlaceholder
-                title="Összefoglaló Mesterpróba"
-                subtitle="Bizonyítsd be, hogy mindent tudsz!"
-                type="Hamarosan"
-                emoji="👑"
-                disabled={true}
+                title="Tudáspróba Kvíz"
+                subtitle="90 feladat 3 szinten: számok 0-tól 20-ig, műveletek tízesátlépéssel és anélkül, számpiramis, Kitekintő és szöveges feladatok."
+                type="Kvíz"
+                emoji="🎯"
+                onClick={() => onActivitySelect('g2-c20-tudasproba-quiz', topicId)}
                 icon={<Target className="w-6 h-6" />}
                 color="rose"
+                {...getTopicProgress('g2-c20-tudasproba-quiz')}
               />
             </div>
           </section>
