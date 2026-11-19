@@ -1,12 +1,27 @@
-// Felolvasás (Web Speech API) az 1. osztályosoknak, akik még nem tudnak olvasni.
-// Minden mondatot, kérdést és dicséretet felolvasunk magyar hangon (ha a böngésző tud ilyet).
+// Felolvasás az 1. osztályosoknak, akik még nem tudnak olvasni.
+// 1. Előre legyártott hangfájl (Google neurális hang, Firebase Storage: audio/g1/<hang>/<kulcs>.mp3), ha van.
+// 2. Különben a böngésző saját magyar hangja (Web Speech API).
+// A kulcs a normalizált szöveg hash-e (speechKey.ts) – ugyanazt számolja a generáló szkript is.
 import { useEffect, useState } from 'react';
+import { AUDIO_PREFIX, AudioManifest, VoiceKind, audioUrl, speechKey, toSpeechText } from './speechKey';
+
+export { toSpeechText } from './speechKey';
+export type { VoiceKind } from './speechKey';
 
 const VOICE_KEY = 'dz-g1-voice-on';
+const KIND_KEY = 'dz-g1-voice-kind';
 const listeners = new Set<(on: boolean) => void>();
+const kindListeners = new Set<(k: VoiceKind) => void>();
+const manifestListeners = new Set<() => void>();
 
-export const isSpeechSupported = (): boolean =>
+const IS_TEST = typeof import.meta !== 'undefined' && import.meta.env?.MODE === 'test';
+const IS_DEV = typeof import.meta !== 'undefined' && !!import.meta.env?.DEV;
+
+const hasWebSpeech = (): boolean =>
   typeof window !== 'undefined' && 'speechSynthesis' in window && typeof window.SpeechSynthesisUtterance !== 'undefined';
+const hasAudio = (): boolean => typeof window !== 'undefined' && typeof window.Audio !== 'undefined';
+
+export const isSpeechSupported = (): boolean => hasWebSpeech() || hasAudio();
 
 export const isVoiceOn = (): boolean => {
   if (typeof window === 'undefined') return false;
@@ -27,23 +42,158 @@ export const setVoiceOn = (on: boolean) => {
   listeners.forEach((l) => l(on));
 };
 
-/** Szöveg előkészítése a felolvasáshoz: műveleti jelek szóval, emojik és jelek nélkül. */
-export const toSpeechText = (text: string): string =>
-  String(text)
-    .replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}]/gu, '')
-    .replace(/(\d)\s*\+\s*(?=\d|□|\?|△|○)/g, '$1 meg ')
-    .replace(/(\d)\s*[−–-]\s*(?=\d|□|\?|△|○)/g, '$1 elvéve ')
-    .replace(/\s*=\s*/g, ' egyenlő ')
-    .replace(/\s*<\s*/g, ' kisebb, mint ')
-    .replace(/\s*>\s*/g, ' nagyobb, mint ')
-    .replace(/[□△○]/g, ' valahány ')
-    .replace(/\?(?=\s|$)/g, '?')
-    .replace(/\s+/g, ' ')
-    .trim();
+export const getVoiceKind = (): VoiceKind => {
+  try {
+    return window.localStorage.getItem(KIND_KEY) === 'male' ? 'male' : 'female';
+  } catch {
+    return 'female';
+  }
+};
+
+export const setVoiceKind = (k: VoiceKind) => {
+  try {
+    window.localStorage.setItem(KIND_KEY, k);
+  } catch {
+    /* ignore */
+  }
+  stopSpeaking();
+  kindListeners.forEach((l) => l(k));
+};
+
+/* ---------------- Manifest (mely szövegekhez van hangfájl) ---------------- */
+let manifest: AudioManifest | null = null;
+let clipSets: Partial<Record<VoiceKind, Set<string>>> = {};
+let manifestPromise: Promise<void> | null = null;
+
+const loadManifest = (): Promise<void> => {
+  if (manifestPromise) return manifestPromise;
+  if (IS_TEST) return (manifestPromise = Promise.resolve());
+  // a manifest a kódban van (külön chunk), a hangfájlok a Firebase Storage-ban
+  manifestPromise = import('./audioManifest.g1.json')
+    .then((mod) => (mod.default || mod) as unknown as AudioManifest)
+    .then((m: AudioManifest | null) => {
+      if (!m?.voices) return;
+      manifest = m;
+      clipSets = {};
+      (Object.keys(m.voices) as VoiceKind[]).forEach((k) => {
+        clipSets[k] = new Set(m.voices[k]?.clips || []);
+      });
+      manifestListeners.forEach((l) => l());
+    })
+    .catch(() => {
+      /* nincs manifest → böngészőhang */
+    });
+  return manifestPromise;
+};
+
+/** Mely hangok érhetők el hangfájlként (a választóhoz). */
+export const availableVoices = (): { kind: VoiceKind; label: string }[] =>
+  manifest ? (Object.keys(manifest.voices) as VoiceKind[]).map((k) => ({ kind: k, label: manifest!.voices[k]!.label })) : [];
+
+const clipFor = (text: string): string | null => {
+  const key = speechKey(text);
+  const pref = getVoiceKind();
+  const kinds: VoiceKind[] = [pref, pref === 'female' ? 'male' : 'female'];
+  for (const k of kinds) if (clipSets[k]?.has(key)) return audioUrl(`${AUDIO_PREFIX}/${k}/${key}.mp3`);
+  if (IS_DEV && manifest) {
+    const w = window as unknown as { __g1MissingSpeech?: Set<string> };
+    (w.__g1MissingSpeech ||= new Set()).add(toSpeechText(text));
+    console.info('[g1-hang] nincs hangfájl:', toSpeechText(text));
+  }
+  return null;
+};
+
+/* ---------------- Lejátszás ---------------- */
+let audioEl: HTMLAudioElement | null = null;
+let token = 0;
+
+const speakWeb = (text: string, done: () => void, rate?: number) => {
+  if (!hasWebSpeech()) return done();
+  try {
+    const u = new SpeechSynthesisUtterance(toSpeechText(text));
+    u.lang = 'hu-HU';
+    const v = pickVoice();
+    if (v) u.voice = v;
+    u.rate = rate ?? 0.92;
+    u.pitch = 1.1;
+    u.onend = done;
+    u.onerror = done;
+    window.speechSynthesis.speak(u);
+  } catch {
+    done();
+  }
+};
+
+const playClip = (url: string, text: string, my: number, done: () => void, rate?: number) => {
+  try {
+    audioEl ||= new Audio();
+    const a = audioEl;
+    a.onended = () => my === token && done();
+    a.onerror = () => my === token && speakWeb(text, done, rate);
+    a.src = url;
+    const p = a.play();
+    if (p && typeof p.catch === 'function') p.catch(() => my === token && speakWeb(text, done, rate));
+  } catch {
+    speakWeb(text, done, rate);
+  }
+};
+
+/**
+ * Felolvassa a szöveget (vagy a szövegeket egymás után); az előzőt megszakítja.
+ * Csendben nem csinál semmit, ha nincs hang vagy ki van kapcsolva.
+ */
+export const speak = (text: string | string[], opts: { force?: boolean; rate?: number; onEnd?: () => void } = {}) => {
+  const parts = (Array.isArray(text) ? text : [text]).filter((t) => t && toSpeechText(t));
+  if (IS_TEST || !isSpeechSupported() || !parts.length) return;
+  if (!opts.force && !isVoiceOn()) return;
+  stopSpeaking();
+  const my = token;
+  const run = (i: number) => {
+    if (my !== token) return;
+    if (i >= parts.length) return opts.onEnd?.();
+    const next = () => run(i + 1);
+    const url = clipFor(parts[i]);
+    if (url) playClip(url, parts[i], my, next, opts.rate);
+    else speakWeb(parts[i], next, opts.rate);
+  };
+  // a manifest általában már betöltött; ha nem, legfeljebb 1,5 s-ot várunk rá
+  const p = loadManifest();
+  if (manifest === null) {
+    let started = false;
+    const go = () => {
+      if (started) return;
+      started = true;
+      run(0);
+    };
+    p.then(go);
+    window.setTimeout(go, 1500);
+  } else {
+    run(0);
+  }
+};
+
+export const stopSpeaking = () => {
+  token++;
+  try {
+    if (audioEl) {
+      audioEl.onended = null;
+      audioEl.onerror = null;
+      audioEl.pause();
+    }
+  } catch {
+    /* ignore */
+  }
+  if (!hasWebSpeech()) return;
+  try {
+    window.speechSynthesis.cancel();
+  } catch {
+    /* ignore */
+  }
+};
 
 let cachedVoice: SpeechSynthesisVoice | null | undefined;
 const pickVoice = (): SpeechSynthesisVoice | null => {
-  if (!isSpeechSupported()) return null;
+  if (!hasWebSpeech()) return null;
   const voices = window.speechSynthesis.getVoices();
   if (!voices.length) return null;
   if (cachedVoice !== undefined && cachedVoice && voices.includes(cachedVoice)) return cachedVoice;
@@ -52,41 +202,13 @@ const pickVoice = (): SpeechSynthesisVoice | null => {
   return cachedVoice;
 };
 
-/** Felolvassa a szöveget (az előzőt megszakítja). Csendben nem csinál semmit, ha nincs hang vagy ki van kapcsolva. */
-export const speak = (text: string, opts: { force?: boolean; rate?: number; onEnd?: () => void } = {}) => {
-  if (!isSpeechSupported() || !text) return;
-  if (!opts.force && !isVoiceOn()) return;
-  try {
-    const synth = window.speechSynthesis;
-    synth.cancel();
-    const u = new SpeechSynthesisUtterance(toSpeechText(text));
-    u.lang = 'hu-HU';
-    const v = pickVoice();
-    if (v) u.voice = v;
-    u.rate = opts.rate ?? 0.92;
-    u.pitch = 1.1;
-    if (opts.onEnd) u.onend = opts.onEnd;
-    synth.speak(u);
-  } catch {
-    /* ignore */
-  }
-};
-
-export const stopSpeaking = () => {
-  if (!isSpeechSupported()) return;
-  try {
-    window.speechSynthesis.cancel();
-  } catch {
-    /* ignore */
-  }
-};
-
-/** A hang be/ki kapcsolójának állapota (minden komponens között szinkronban). */
+/** A hang be/ki kapcsoló állapota (minden komponens között szinkronban). */
 export const useVoiceOn = (): [boolean, (on: boolean) => void] => {
   const [on, setOn] = useState<boolean>(isVoiceOn());
   useEffect(() => {
     listeners.add(setOn);
-    if (isSpeechSupported()) {
+    loadManifest();
+    if (hasWebSpeech()) {
       // a hangok listája aszinkron töltődik be
       window.speechSynthesis.onvoiceschanged = () => {
         cachedVoice = undefined;
@@ -99,12 +221,29 @@ export const useVoiceOn = (): [boolean, (on: boolean) => void] => {
   return [on, setVoiceOn];
 };
 
+/** Női/férfi hang választó állapota + az elérhető hangok (a manifest betöltése után). */
+export const useVoiceKind = (): [VoiceKind, (k: VoiceKind) => void, { kind: VoiceKind; label: string }[]] => {
+  const [kind, setKind] = useState<VoiceKind>(getVoiceKind());
+  const [voices, setVoices] = useState(availableVoices());
+  useEffect(() => {
+    const onM = () => setVoices(availableVoices());
+    kindListeners.add(setKind);
+    manifestListeners.add(onM);
+    loadManifest().then(onM);
+    return () => {
+      kindListeners.delete(setKind);
+      manifestListeners.delete(onM);
+    };
+  }, []);
+  return [kind, setVoiceKind, voices];
+};
+
 /** Unmountkor elhallgat. */
 export const useStopSpeechOnUnmount = () => {
   useEffect(() => () => stopSpeaking(), []);
 };
 
-const PRAISES = ['Ügyes vagy!', 'Szuper!', 'Nagyon jó!', 'Hű, de okos vagy!', 'Pontosan!', 'Bravó!', 'Ez az!'];
-const RETRY = ['Majdnem! Próbáld újra!', 'Nézd meg még egyszer!', 'Semmi baj, próbáld újra!'];
+export const PRAISES = ['Ügyes vagy!', 'Szuper!', 'Nagyon jó!', 'Hű, de okos vagy!', 'Pontosan!', 'Bravó!', 'Ez az!'];
+export const RETRY = ['Majdnem! Próbáld újra!', 'Nézd meg még egyszer!', 'Semmi baj, próbáld újra!'];
 export const randomPraise = () => PRAISES[Math.floor(Math.random() * PRAISES.length)];
 export const randomRetry = () => RETRY[Math.floor(Math.random() * RETRY.length)];

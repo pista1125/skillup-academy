@@ -63,13 +63,16 @@ const SETS: SortSet[] = [
 
 const ROUND = 6;
 
+const DONE_SAY = 'Ügyes vagy! Minden a helyére került.';
+const wrongSay = (n: string) => `Nézd meg jól! ${az(NAME[n], true)} nem ide való. Keresd a jó kosarat!`;
+
 const newRound = (prev?: number) => {
   let k = Math.floor(Math.random() * SETS.length);
   if (k === prev) k = (k + 1) % SETS.length;
   return { set: k, items: shuffle(SETS[k].items).slice(0, ROUND) };
 };
 
-export const SortBasketsPlayground: React.FC = () => {
+export const SortBasketsPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [round, setRound] = useState(() => newRound());
   const [pos, setPos] = useState(0);
   const [placed, setPlaced] = useState<(ThingSpec & { bin: number })[]>([]);
@@ -82,14 +85,14 @@ export const SortBasketsPlayground: React.FC = () => {
     if (done) return;
     if (b === cur.bin) {
       const last = pos + 1 >= round.items.length;
-      const t = last ? 'Ügyes vagy! Minden a helyére került.' : randomPraise();
+      const t = last ? DONE_SAY : randomPraise();
       setPlaced((p) => [...p, cur]);
       setPos((p) => p + 1);
       setMsg({ text: t, ok: true });
       speak(t);
       if (last) confetti({ particleCount: 60, spread: 70, origin: { y: 0.7 } });
     } else {
-      const t = `Nézd meg jól! ${az(NAME[cur.n], true)} nem ide való. Keresd a jó kosarat!`;
+      const t = wrongSay(cur.n);
       setMsg({ text: t, ok: false });
       speak(t);
     }
@@ -137,3 +140,10 @@ export const SortBasketsPlayground: React.FC = () => {
     </div>
   );
 };
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+SortBasketsPlayground.speechTexts = () => [
+  DONE_SAY,
+  ...SETS.map((s) => s.intro),
+  ...[...new Set(SETS.flatMap((s) => s.items.map((it) => it.n)))].map(wrongSay),
+];

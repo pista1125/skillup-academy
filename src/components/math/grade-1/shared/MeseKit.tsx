@@ -2,7 +2,7 @@
 import React from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { speak, useVoiceOn, isSpeechSupported } from './speech';
+import { speak, useVoiceOn, useVoiceKind, isSpeechSupported } from './speech';
 import { Potyi, PotyiMood } from './Potyi';
 
 /** Egy válaszlehetőség: szám/rövid szöveg, vagy kép (opcionális rövid felirattal). */
@@ -39,7 +39,35 @@ export const SpeakButton: React.FC<{ text: string; className?: string; label?: s
 /** Hang be/ki kapcsoló a fejlécbe. */
 export const VoiceToggle: React.FC<{ className?: string }> = ({ className }) => {
   const [on, setOn] = useVoiceOn();
+  const [kind, setKind, voices] = useVoiceKind();
   if (!isSpeechSupported()) return null;
+  const canChoose = voices.length > 1;
+  return (
+    <span className="inline-flex items-center gap-1.5">
+      {canChoose && on && (
+        <button
+          type="button"
+          onClick={() => {
+            const k = kind === 'female' ? 'male' : 'female';
+            setKind(k);
+            speak(VOICE_SWITCH_SAY, { force: true });
+          }}
+          className="inline-flex items-center gap-1.5 px-3 h-10 rounded-full text-sm font-bold border-2 bg-sky-100 border-sky-400 text-sky-800 transition"
+          aria-label={kind === 'female' ? 'Váltás férfi hangra' : 'Váltás női hangra'}
+          title={kind === 'female' ? 'Váltás férfi hangra' : 'Váltás női hangra'}
+        >
+          <span aria-hidden>{kind === 'female' ? '👩' : '👨'}</span>
+          <span className="hidden sm:inline">{kind === 'female' ? 'Női hang' : 'Férfi hang'}</span>
+        </button>
+      )}
+      <VoiceOnOff on={on} setOn={setOn} className={className} />
+    </span>
+  );
+};
+
+export const VOICE_SWITCH_SAY = 'Szia! Most én mesélek.';
+
+const VoiceOnOff: React.FC<{ on: boolean; setOn: (on: boolean) => void; className?: string }> = ({ on, setOn, className }) => {
   return (
     <button
       type="button"

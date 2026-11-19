@@ -74,10 +74,53 @@ const MODES: { mode: MeseGameMode; name: string; icon: string }[] = [
   { mode: 'sorter', name: 'Válogató', icon: '🧺' },
 ];
 
-const MODE_SAY: Record<MeseGameMode, string> = {
+export const MODE_SAY: Record<MeseGameMode, string> = {
   quiz: 'Válassz szintet! Koppints a jó válaszra!',
   matcher: 'Párosító! Válassz szintet! Koppints két összetartozó kártyára!',
   sorter: 'Válogató! Válassz szintet! Tedd a képet a jó kosárba!',
+};
+
+export const MATCH_LEFT_FIRST_SAY = 'Előbb a bal oldalon válassz egy kártyát!';
+
+export const resultSay = (ok: number, total: number): string => {
+  const pct = ok / Math.max(1, total);
+  return pct >= 0.8
+    ? `Hűha! ${ok} csillagot gyűjtöttél! Szuper vagy!`
+    : pct >= 0.5
+      ? `${ok} csillagot gyűjtöttél! Ügyes vagy! Próbáld újra, és lesz még több!`
+      : `${ok} csillagot gyűjtöttél. Gyakoroljunk még együtt!`;
+};
+
+/** Minden szöveg, amit a játék (kérdések, párosító, válogató, eredmény) felolvashat – a hanggeneráláshoz. */
+export const quizSpeechTexts = (
+  questions: MeseQuestion[],
+  pairs?: Record<MeseLevel, MesePairsLevel>,
+  sort?: Record<MeseLevel, MeseSortLevel>
+): string[] => {
+  const out: string[] = [...Object.values(MODE_SAY), MATCH_LEFT_FIRST_SAY];
+  const totals = new Set<number>();
+  for (const lvl of [1, 2, 3] as MeseLevel[]) {
+    const qs = questions.filter((q) => q.level === lvl);
+    if (qs.length) totals.add(qs.length);
+    for (const q of qs) {
+      out.push(q.say || q.ask);
+      if (q.hint) out.push(q.hint);
+    }
+    const pl = pairs?.[lvl];
+    if (pl) {
+      totals.add(pl.pairs.length);
+      out.push(pl.say, ...pl.pairs.map((p) => optionSay(p.a)));
+    }
+    const sl = sort?.[lvl];
+    if (sl) {
+      totals.add(sl.items.length);
+      out.push(sl.say, ...sl.bins.map((b) => b.say || b.label), ...sl.items.map((it) => optionSay(it.item) || sl.say));
+    }
+  }
+  totals.forEach((t) => {
+    for (let ok = 0; ok <= t; ok++) out.push(resultSay(ok, t));
+  });
+  return out;
 };
 
 export const MeseQuiz: React.FC<MeseQuizProps> = ({
@@ -263,7 +306,7 @@ const Hub: React.FC<{
 const Result: React.FC<{ ok: number; total: number; onRestart: () => void; onNext?: () => void; onHub: () => void }> = ({ ok, total, onRestart, onNext, onHub }) => {
   const pct = ok / Math.max(1, total);
   useEffect(() => {
-    speak(pct >= 0.8 ? `Hűha! ${ok} csillagot gyűjtöttél! Szuper vagy!` : pct >= 0.5 ? `${ok} csillagot gyűjtöttél! Ügyes vagy! Próbáld újra, és lesz még több!` : `${ok} csillagot gyűjtöttél. Gyakoroljunk még együtt!`);
+    speak(resultSay(ok, total));
     if (pct >= 0.8) confetti({ particleCount: 140, spread: 90, origin: { y: 0.6 } });
   }, [ok, pct]);
   return (
@@ -406,7 +449,7 @@ const PairsRun: React.FC<{
   const tapRight = (i: number) => {
     if (matched.includes(i)) return;
     if (sel === null) {
-      speak('Előbb a bal oldalon válassz egy kártyát!');
+      speak(MATCH_LEFT_FIRST_SAY);
       return;
     }
     if (sel === i) {

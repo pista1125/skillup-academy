@@ -5,7 +5,7 @@ import { ArrowLeft, ChevronLeft, ChevronRight, RotateCcw, Play, Gamepad2 } from 
 import { cn } from '@/lib/utils';
 import { Potyi, PotyiMood } from './Potyi';
 import { speak, stopSpeaking, useStopSpeechOnUnmount, randomPraise, randomRetry } from './speech';
-import { MeseOption, OptionButton, PotyiBubble, SpeakButton, SHAKE_KEYFRAMES, shuffle, optionKey } from './MeseKit';
+import { MeseOption, OptionButton, PotyiBubble, SpeakButton, SHAKE_KEYFRAMES, shuffle, optionKey, VoiceToggle } from './MeseKit';
 
 export interface MeseTask {
   /** Rövid kérdés (felolvassuk). */
@@ -51,6 +51,22 @@ export interface MeseLessonProps {
   onStartQuiz?: () => void;
 }
 
+export const LESSON_END_SAY = 'Vége a mesének. Ügyes voltál! Most játsszunk!';
+
+/** Egy oldal felolvasása: előbb a mese, aztán a feladat (két külön hangfájl). */
+export const pageSpeech = (p: MesePage): string[] => [p.say || p.text, p.task ? p.task.say || p.task.ask : ''].filter(Boolean);
+
+/** Minden szöveg, amit a mese (oldalak, feladatok, tippek) felolvashat – a hanggeneráláshoz. */
+export const lessonSpeechTexts = (pages: MesePage[]): string[] => {
+  const out: string[] = [LESSON_END_SAY];
+  for (const p of pages) {
+    out.push(...pageSpeech(p));
+    if (p.task?.hint) out.push(p.task.hint);
+    if (p.task?.praise) out.push(p.task.praise);
+  }
+  return out;
+};
+
 export const MeseLesson: React.FC<MeseLessonProps> = ({
   title,
   storyTitle,
@@ -79,11 +95,11 @@ export const MeseLesson: React.FC<MeseLessonProps> = ({
     setWrong(null);
     setChosen(null);
     if (finished) {
-      speak('Vége a mesének. Ügyes voltál! Most játsszunk!');
+      speak(LESSON_END_SAY);
       return;
     }
     const p = pages[idx];
-    const t = window.setTimeout(() => speak(`${p.say || p.text}${p.task ? ' ' + (p.task.say || p.task.ask) : ''}`), 250);
+    const t = window.setTimeout(() => speak(pageSpeech(p)), 250);
     return () => window.clearTimeout(t);
   }, [idx, started, finished, pages]);
 
@@ -121,6 +137,7 @@ export const MeseLesson: React.FC<MeseLessonProps> = ({
           <div className="text-[10px] sm:text-xs font-black tracking-wider text-rose-600 uppercase truncate">{badge}</div>
           <h1 className="text-lg sm:text-2xl font-black text-slate-800 dark:text-slate-100 truncate">{title}</h1>
         </div>
+        <VoiceToggle />
       </div>
 
       <div className="max-w-3xl mx-auto px-3 mt-3">
