@@ -1,18 +1,22 @@
-# 11. Számolás 20-ig
+# 11. Számolás 20-ig (1. osztály – VI. Számkörbővítés, számolás 20-ig) – témakörzáró
 
-## Tananyag Áttekintés
-Összeadás és kivonás a teljes 20-as számkörben: műveletek tízesátlépés nélkül és tízesátlépéssel, nyitott mondatok és szöveges feladatok megoldása 1. osztályban.
+**Források:** OH-MAT01TA_II 116–129. o. (Megálló, Év végi ismétlés), OH-MAT01MA_II 72–75. o. (Év végi ismétlés) (PDF-oldal = nyomtatott + 1). A kérdések a teljes VI. témakört (A tizenegy … A húsz, 11–20) és egy kis év végi ismétlést fednek le, minden szám ≤ 20.
 
----
+## A könyv oldalai
+- **Megálló (TK 116–121):** számok csoportosítása (0–20 / 15-nél nagyobb), műveletek képről, igaz-hamis állítások (olvasás), összeg és különbség (14 és 6), nyilas számolás: +9 = +10 −1, −9 = −10 +1 (TK 117/2), lufik jelek szerint (9 + 7 > ● > 20 − 11), összeadó/kivonó táblázatok, kombinatorika, „8 hal és a fele”, a b c táblázat, órák, állatok a kereten belül/kívül, sorozatok (kettesével, négyesével), próbálgatás (10 < ○ < 20, 4-gyel több), számjegyek egy ábrán, 6 + 6 tulipán, cinege–fecske–gólya, futóverseny sorrendje, dobókocka (biztos/lehetetlen), állatos találós egyenletek (3 zebra = 15).
+- **Év végi ismétlés (TK 122–129, MF 72–75):** páros/páratlan köveken, pontösszekötés 1–20, gyöngysor sorszámokkal (a sárga a 4.), betűrejtvény, „Melyik nagyobb? Mennyivel?” csillagok, számszomszédok (páros/páratlan szomszéd is), műveletek képről, papírrepülők dm-ben, csónakok (13, 14, 15 összegek), kivonások a számegyenesen, sorozatok (+3, −3, +2 +1), háromtagú műveletek, nyitott mondatok, gyümölcssaláta (8 + 4 + 6), 19 kg alma − 8, sárkányzsinór (□ + ○ = 20), bűvös négyzetek, műveleti jelek pótlása, életkoros arcok, gyöngyök (10, 5, 2, 1) 16-ra, társasjáték; MF: lufik 0–20, szomszédok, nagyobb-mennyivel, 2-vel nagyobb, sorszám szerinti színezés, tízen átlépő műveletek, nyilas lánc, nyitott mondatok, „3 vitorlás kifutott – hány volt?”, „6 kacsa és 7-tel több liba”, eredmények összehasonlítása, dl/l és dm/m, kerekasztal-feladatok.
 
-## Fő Témakörök és Feladattípusok
-- **Műveletek tízesátlépés nélkül:**
-  - $10 + 4 = 14, 13 + 5 = 18, 17 - 5 = 12, 16 - 10 = 6$.
-- **Műveletek tízesátlépéssel:**
-  - Összeadás tízesre kiegészítéssel: $8 + 5 = 8 + 2 + 3 = 10 + 3 = 13$.
-  - Kivonás tízesre bontással: $14 - 6 = 14 - 4 - 2 = 10 - 2 = 8$.
-- **Nyitott mondatok és egyenlőtlenségek:**
-  - $9 + \square = 15 \implies \square = 6$.
-  - $18 - \Delta > 12$.
-- **Szöveges feladatok:**
-  - Adatok kigyűjtése, rajzos terv, művelet elvégzése, válaszadás.
+## A DiákZóna-lecke (mesés formában, olvasás nélkül)
+- **Mese** (`Szamolas20IgG1Mese`, „Pötyi év végi ünnepe”, 12 oldal, 10 mini-feladat): Pötyi ünnepet rendez a Számkertben, minden díszhez egy feladat – hiányzó számozott lufi (17), tízesrúd + 6 kocka (16), 8 + 6 a tízen át, 14 − 6 vissza a tízig, 7 + 9 = 7 + 10 − 1 Zümi ugrásaival (a könyv nyilas feladata), szám a 17 és a 19 között, 12 + □ = 20 székek, sorozat 3-asával, „Zümi 7-tel több sütit sütött” (6 + 7), hányadik a sárga lufi; a végén búcsú: „Viszlát a 2. osztályban!”.
+- **Játszótér** (`BalloonPlayground`): „Lufik az ünnepre!” – vegyes feladatok 20-ig (összeadás és kivonás a tízen át és nélküle, kiegészítés 20-ra) két tízes keret segítségével, 3 válaszgomb; minden jó válasz egy lufi a füzérre, 10 lufinál konfetti.
+- **Nagy játék** (`Szamolas20IgG1Jatek`, vizsga, „Pötyi nagy játéka”): Kérdések 3 × 12 (`SZAMOLAS20IG_G1_QUESTIONS`). 1. szint: számlálás, számjegy, tízes és egyes (rudak), keretek, dominó, számegyenes, páros/páratlan, sorszám, számszomszéd, 10 + 7, 15 − 5. 2. szint: analógiák (3 + 5 → 13 + 5, 7 − 4 → 17 − 4), tízen át összeadás és kivonás (8 + 5, 9 + 1 + 5, 13 − 5, 16 − 6 − 3), +9 mint +10 −1, számház 20-ra, sorozatok (kettesével, 3-mal kevesebb), jelek. 3. szint: □ + 6 = 18, háromtagú és kétlépéses műveletek, „7-tel több”, 19 − 8 lufi, „hány volt?”, mennyivel nagyobb, 12 + 4 < □ < 18, próbálgatás (3 egyforma doboz = 15), melyik bontás egyenlő 8 + 7-tel, szabály (+2, +1), kakukktojás (melyik nem 20). Párosító (csillagok ↔ szám; tízesrudak ↔ keretek; tízen átlépő művelet ↔ eredmény), Válogató (15-nél nagyobb / nem; egyjegyű / kétjegyű; a könyv vitorlásai: az eredmény páros / páratlan).
+
+Fájlok: `Szamolas20IgG1Scenes.tsx` (`PartyScene`, `BalloonNumbers`, `BalloonRow`, `BalloonBunch`, `MoreScene`, `GiftBoxes`), `Szamolas20IgG1Parts.tsx`, `Szamolas20IgG1Mese.tsx`, `Szamolas20IgG1Jatek.tsx`, `index.ts`. Közös képek: `../a-tizenot/ATizenotG1Scenes.tsx`, `../a-husz/AHuszG1Scenes.tsx`. Teszt: `src/test/grade1Topic6Szamolas20IgG1.test.tsx`.
+
+## Eltérések a tankönyvtől
+- Saját keret: a Megálló és az Év végi ismétlés különálló feladatai helyett Pötyi év végi ünnepe fogja össze az ismétlést (búcsú a 2. osztályig); saját szereplők, tárgyak, számok.
+- A tízen átlépés a könyv módszerével: tízre pótlás (8 + 6 = 8 + 2 + 4), vissza a tízig (14 − 6 = 14 − 4 − 2); a TK 117/2 nyilas feladatából a „+9 = +10, aztán 1 vissza” stratégia lett (Zümi ugrásai a számegyenesen).
+- A többmegoldásos nyitott mondatokat (□ > 17, 9 + 7 > ● > 20 − 11, 10 < ○ < 20) egyetlen megoldásúra szűkítettük (12 + 4 < □ < 18); a „Megálló” 0–20 / 15-nél nagyobb csoportosítása a Válogatóba került.
+- A „3 vitorlás kifutott” táblázatból (MF 74/3) egy „Hány lufi volt?” kérdés, a „6 kacsa és 7-tel több liba” (MF 74/4) sütikkel, a 19 kg alma − 8 lufikkal, az állatos találós egyenlet (3 zebra = 15) ajándékdobozokkal.
+- Kimaradt: igaz-hamis állítások, betűrejtvény, szövegben elbújt számok (olvasást igényelnek), színezés, rajzolás, pontösszekötés, kombinatorika, dobókockás valószínűség, bűvös négyzetek, műveleti jelek pótlása, társasjátékok, a „fele” (felezés), a 21 (a számkörön kívül), valamint a mértékegységes feladatok (dm, m, dl, l, kg) és az órák – a Mérések témakör saját leckéiben szerepelnek, és az év végi vizsgát a 20-as számkörre szűkítettük.
+- Könyvhiba nem volt; apróság: a TK 126/1 két oszlopában ugyanaz a művelet (16 − 6 − 1) kétszer szerepel.
