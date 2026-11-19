@@ -83,6 +83,14 @@ const G1SikidomokG1Mese = lazy(() => import("@/components/math/grade-1/geometria
 const G1SikidomokG1Jatek = lazy(() => import("@/components/math/grade-1/geometria/sikidomok/SikidomokG1Jatek").then(m => ({ default: m.SikidomokG1Jatek })));
 const G1TestekG1Mese = lazy(() => import("@/components/math/grade-1/geometria/testek/TestekG1Mese").then(m => ({ default: m.TestekG1Mese })));
 const G1TestekG1Jatek = lazy(() => import("@/components/math/grade-1/geometria/testek/TestekG1Jatek").then(m => ({ default: m.TestekG1Jatek })));
+const G1AHosszusagMereseG1Mese = lazy(() => import("@/components/math/grade-1/meresek/a-hosszusag-merese/AHosszusagMereseG1Mese").then(m => ({ default: m.AHosszusagMereseG1Mese })));
+const G1AHosszusagMereseG1Jatek = lazy(() => import("@/components/math/grade-1/meresek/a-hosszusag-merese/AHosszusagMereseG1Jatek").then(m => ({ default: m.AHosszusagMereseG1Jatek })));
+const G1ATomegMereseG1Mese = lazy(() => import("@/components/math/grade-1/meresek/a-tomeg-merese/ATomegMereseG1Mese").then(m => ({ default: m.ATomegMereseG1Mese })));
+const G1ATomegMereseG1Jatek = lazy(() => import("@/components/math/grade-1/meresek/a-tomeg-merese/ATomegMereseG1Jatek").then(m => ({ default: m.ATomegMereseG1Jatek })));
+const G1AzUrtartalomMereseG1Mese = lazy(() => import("@/components/math/grade-1/meresek/az-urtartalom-merese/AzUrtartalomMereseG1Mese").then(m => ({ default: m.AzUrtartalomMereseG1Mese })));
+const G1AzUrtartalomMereseG1Jatek = lazy(() => import("@/components/math/grade-1/meresek/az-urtartalom-merese/AzUrtartalomMereseG1Jatek").then(m => ({ default: m.AzUrtartalomMereseG1Jatek })));
+const G1AzIdoMereseG1Mese = lazy(() => import("@/components/math/grade-1/meresek/az-ido-merese/AzIdoMereseG1Mese").then(m => ({ default: m.AzIdoMereseG1Mese })));
+const G1AzIdoMereseG1Jatek = lazy(() => import("@/components/math/grade-1/meresek/az-ido-merese/AzIdoMereseG1Jatek").then(m => ({ default: m.AzIdoMereseG1Jatek })));
 const G1ATizenegyG1Mese = lazy(() => import("@/components/math/grade-1/szamkorbovites-20-ig/a-tizenegy/ATizenegyG1Mese").then(m => ({ default: m.ATizenegyG1Mese })));
 const G1ATizenegyG1Jatek = lazy(() => import("@/components/math/grade-1/szamkorbovites-20-ig/a-tizenegy/ATizenegyG1Jatek").then(m => ({ default: m.ATizenegyG1Jatek })));
 const G1ATizenkettoG1Mese = lazy(() => import("@/components/math/grade-1/szamkorbovites-20-ig/a-tizenketto/ATizenkettoG1Mese").then(m => ({ default: m.ATizenkettoG1Mese })));
@@ -1484,6 +1492,144 @@ export const Grade1Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g1-geo-testek-theory', selectedTopic || 'g1-geometry')}
           onSwitchToMatcher={() => handleActivitySelect('g1-geo-testek-matcher', selectedTopic || 'g1-geometry')}
           onSwitchToSorter={() => handleActivitySelect('g1-geo-testek-sorter', selectedTopic || 'g1-geometry')}
+        />
+      )}
+
+      {/* ===== 1. Osztály – V. Mérések ===== */}
+
+      {/* 1. A hosszúság mérése */}
+      {activityType === 'g1-meas-a-hosszusag-merese-theory' && (
+        <G1AHosszusagMereseG1Mese
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g1-meas-a-hosszusag-merese-quiz', selectedTopic || 'g1-measurements')}
+        />
+      )}
+      {activityType === 'g1-meas-a-hosszusag-merese-quiz' && (
+        <G1AHosszusagMereseG1Jatek
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-meas-a-hosszusag-merese-theory', selectedTopic || 'g1-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-meas-a-hosszusag-merese-matcher', selectedTopic || 'g1-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g1-meas-a-hosszusag-merese-sorter', selectedTopic || 'g1-measurements')}
+        />
+      )}
+      {activityType === 'g1-meas-a-hosszusag-merese-matcher' && (
+        <G1AHosszusagMereseG1Jatek
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-meas-a-hosszusag-merese-theory', selectedTopic || 'g1-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-meas-a-hosszusag-merese-matcher', selectedTopic || 'g1-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g1-meas-a-hosszusag-merese-sorter', selectedTopic || 'g1-measurements')}
+        />
+      )}
+      {activityType === 'g1-meas-a-hosszusag-merese-sorter' && (
+        <G1AHosszusagMereseG1Jatek
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-meas-a-hosszusag-merese-theory', selectedTopic || 'g1-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-meas-a-hosszusag-merese-matcher', selectedTopic || 'g1-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g1-meas-a-hosszusag-merese-sorter', selectedTopic || 'g1-measurements')}
+        />
+      )}
+
+      {/* 2. A tömeg mérése */}
+      {activityType === 'g1-meas-a-tomeg-merese-theory' && (
+        <G1ATomegMereseG1Mese
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g1-meas-a-tomeg-merese-quiz', selectedTopic || 'g1-measurements')}
+        />
+      )}
+      {activityType === 'g1-meas-a-tomeg-merese-quiz' && (
+        <G1ATomegMereseG1Jatek
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-meas-a-tomeg-merese-theory', selectedTopic || 'g1-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-meas-a-tomeg-merese-matcher', selectedTopic || 'g1-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g1-meas-a-tomeg-merese-sorter', selectedTopic || 'g1-measurements')}
+        />
+      )}
+      {activityType === 'g1-meas-a-tomeg-merese-matcher' && (
+        <G1ATomegMereseG1Jatek
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-meas-a-tomeg-merese-theory', selectedTopic || 'g1-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-meas-a-tomeg-merese-matcher', selectedTopic || 'g1-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g1-meas-a-tomeg-merese-sorter', selectedTopic || 'g1-measurements')}
+        />
+      )}
+      {activityType === 'g1-meas-a-tomeg-merese-sorter' && (
+        <G1ATomegMereseG1Jatek
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-meas-a-tomeg-merese-theory', selectedTopic || 'g1-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-meas-a-tomeg-merese-matcher', selectedTopic || 'g1-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g1-meas-a-tomeg-merese-sorter', selectedTopic || 'g1-measurements')}
+        />
+      )}
+
+      {/* 3. Az űrtartalom mérése */}
+      {activityType === 'g1-meas-az-urtartalom-merese-theory' && (
+        <G1AzUrtartalomMereseG1Mese
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g1-meas-az-urtartalom-merese-quiz', selectedTopic || 'g1-measurements')}
+        />
+      )}
+      {activityType === 'g1-meas-az-urtartalom-merese-quiz' && (
+        <G1AzUrtartalomMereseG1Jatek
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-meas-az-urtartalom-merese-theory', selectedTopic || 'g1-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-meas-az-urtartalom-merese-matcher', selectedTopic || 'g1-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g1-meas-az-urtartalom-merese-sorter', selectedTopic || 'g1-measurements')}
+        />
+      )}
+      {activityType === 'g1-meas-az-urtartalom-merese-matcher' && (
+        <G1AzUrtartalomMereseG1Jatek
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-meas-az-urtartalom-merese-theory', selectedTopic || 'g1-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-meas-az-urtartalom-merese-matcher', selectedTopic || 'g1-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g1-meas-az-urtartalom-merese-sorter', selectedTopic || 'g1-measurements')}
+        />
+      )}
+      {activityType === 'g1-meas-az-urtartalom-merese-sorter' && (
+        <G1AzUrtartalomMereseG1Jatek
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-meas-az-urtartalom-merese-theory', selectedTopic || 'g1-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-meas-az-urtartalom-merese-matcher', selectedTopic || 'g1-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g1-meas-az-urtartalom-merese-sorter', selectedTopic || 'g1-measurements')}
+        />
+      )}
+
+      {/* 4. Az idő mérése */}
+      {activityType === 'g1-meas-az-ido-merese-theory' && (
+        <G1AzIdoMereseG1Mese
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g1-meas-az-ido-merese-quiz', selectedTopic || 'g1-measurements')}
+        />
+      )}
+      {activityType === 'g1-meas-az-ido-merese-quiz' && (
+        <G1AzIdoMereseG1Jatek
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-meas-az-ido-merese-theory', selectedTopic || 'g1-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-meas-az-ido-merese-matcher', selectedTopic || 'g1-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g1-meas-az-ido-merese-sorter', selectedTopic || 'g1-measurements')}
+        />
+      )}
+      {activityType === 'g1-meas-az-ido-merese-matcher' && (
+        <G1AzIdoMereseG1Jatek
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-meas-az-ido-merese-theory', selectedTopic || 'g1-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-meas-az-ido-merese-matcher', selectedTopic || 'g1-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g1-meas-az-ido-merese-sorter', selectedTopic || 'g1-measurements')}
+        />
+      )}
+      {activityType === 'g1-meas-az-ido-merese-sorter' && (
+        <G1AzIdoMereseG1Jatek
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-meas-az-ido-merese-theory', selectedTopic || 'g1-measurements')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-meas-az-ido-merese-matcher', selectedTopic || 'g1-measurements')}
+          onSwitchToSorter={() => handleActivitySelect('g1-meas-az-ido-merese-sorter', selectedTopic || 'g1-measurements')}
         />
       )}
 

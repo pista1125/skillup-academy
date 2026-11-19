@@ -1,17 +1,21 @@
-# 4. Az idő mérése
+# 4. Az idő mérése (1. osztály – V. Mérések)
 
-## Tananyag Áttekintés
-Az idő múlásának és a mindennapi ritmusoknak a megfigyelése, napszakok, napok, évszakok és a számlapos óra egész óráinak leolvasása 1. osztályban.
+**Források:** OH-MAT01TA_II 52–55. o., OH-MAT01MA_II 32–33. o. (PDF-oldal = nyomtatott + 1)
 
----
+## A könyv oldalai
+TK 52: a 12 hónap képes naptárlapokon (előtte, utána); hány hónap van egy évben, melyik hónap van most, mikor születtél. TK 53: a hónapok besorolása a 4 évszakba (egy évszak 3 hónap), osztálystatisztika a születések évszakáról; melyik évszakra jellemző a tárgy (úszógumi, kabát, dió, fürdőruha, falevél, szánkó, ruha, hóvirág). TK 54: a hét napjai asztali naptáron (egy hét 7 nap, a vasárnap piros); igaz/hamis állítások (hétfő előtt vasárnap, szerda előtt péntek, csütörtök után szerda, péntek előtt csütörtök); napszakok képekről (reggel, délelőtt, délben, délután, este, éjjel). TK 55: mivel mérjük az időt (ébresztőóra, kakukkos óra, zsebóra, karóra, telefon, napóra); egész órák leolvasása, számlap kiegészítése, mutatók berajzolása. MF 32: hónapnevek sorrendje, fa a 4 évszakban, a hét napjai (melyikkel kezdődik, ötödik nap, hétfő előtt, kedd után, hányat kell aludni jövő keddig). MF 33: egész órák leolvasása ébresztőórán, mutatók berajzolása (4, 10, 6, 2 óra), saját óralap.
 
-## Fő Témakörök és Fogalmak
-- **Időbeli tájékozódás:**
-  - Napszakok: reggel, délelőtt, dél, délután, este, éjszaka.
-  - Tegnap, ma, holnap; régebben, most, később.
-  - A hét 7 napja helyes sorrendben (hétfőtől vasárnapig).
-  - A 4 évszak (tavasz, nyár, ősz, tél) és a 12 hónap.
-- **Mérés és az óra használata:**
-  - Kismutató (óra) és nagymutató (perc) megfigyelése.
-  - Egész órák leolvasása és beállítása számlapos órán (pl. 3 óra, 8 óra).
-  - Események időtartamának becslése (gyorsabb, lassabb, hosszabb ideig tart).
+## A DiákZóna-lecke
+- **Mese** (`AzIdoMereseG1Mese`, „Pötyi és Zümi mézes uzsonnája”, 12 oldal, 10 koppintós feladat): Zümi meghívója szombat délután 4 órára. A napszakok a nap útjával (balról jobbra; délben legmagasabban) – melyik képen van délben; Pötyi napja – mikor alszik; a napszakok sorrendje – mi jön az este után; a hét 7 napja naptárlapokon (vasárnap piros); hétfő, kedd, ? – melyik nap jön a kedd után; hétfőtől szombatig hányat kell aludni (5 hold); a 4 évszak, egy évszak 3 hónap – mikor fürdünk a tóban; mivel mérjük az időt (óra – mérleg – méterrúd); kismutató és nagymutató, 3 óra; Csigusz 1 órakor indul, 3 óráig mászik – 4 órára ér oda; uzsonna pontosan 4 órakor.
+- **Játszótér** (`ClockSetPlayground`): véletlen egész óra (1–10) kis történettel; a gyerek a számlap számára koppint, oda ugrik a kismutató; „Kész!” – Pötyi visszajelez, Új feladat.
+- **Játék** (`AzIdoMereseG1Jatek`): 3 × 8 kérdés (`AZ_IDO_MERESE_G1_QUESTIONS`) – 1. szint: éjjel/délben képe, mit csinál Pötyi éjjel, hány nap egy hét, 2 és 6 óra leolvasása, mivel mérjük az időt, téli kép; 2. szint: mi jön az este / reggel után, kedd után, hétfő előtt, melyik nappal kezdődik a hét, 9 óra (tükrös tévesztés: 3), melyik óra mutat 7 órát, mikor ebédelünk; 3. szint: hány nap iskola (hétfőtől péntekig), szerdától szombatig hányat alszunk, egy évszak hány hónap, mi jön a tél után, 2 óra + 3 óra, ki kel korábban (7 vagy 8 óra), mit csinált előbb, igaz/hamis: „a szerda előtt péntek van”. Párosító: óra ↔ szám (2, 5, 8, 10); napszak ↔ tevékenység; évszak ↔ tárgy. Válogató: nappal/éjjel; tél/nyár tárgyai; időt vagy hosszúságot mérünk vele.
+
+Fájlok: `AzIdoMereseG1Scenes.tsx`, `AzIdoMereseG1Parts.tsx`, `AzIdoMereseG1Mese.tsx`, `AzIdoMereseG1Jatek.tsx`, `index.ts`. Teszt: `src/test/grade1Topic5AzIdoMereseG1.test.tsx`.
+
+## Eltérések a tankönyvtől
+- A 10-es számkör miatt csak 1–10 óra a válasz (a könyv 11 és 12 órát is kér); a számlapon természetesen ott van a 11 és a 12. A „12 hónap” nem válasz sehol, a hónapnevek sorba rendezése (TK 52, MF 32/1) és a „melyik hónap van most / mikor születtél” kimaradt – helyette az évszakok és „egy évszak 3 hónap” szerepel.
+- A kismutató piros és rövid, a nagymutató kék és hosszú (a könyvben mindkettő fekete), hogy a nem olvasó gyerek is meg tudja nevezni.
+- A napszakokat a nap helyzete mutatja (reggel bal oldalt felkel, délben legfelül, este jobb oldalt lemegy, éjjel hold és csillagok) – saját képi megállapodás; a könyv gyerekes jelenetképei helyett.
+- A napszakok sorrendjét a könyv nem kérdezi külön; nálunk „mi jön utána” kérdések is vannak (a TK 52 „előtte, utána” szavaival).
+- Új, a könyvben nem szereplő kis szöveges feladat: 2 óra + 3 óra (indulás és mászás ideje), „ki kel korábban” (7 vagy 8 óra). Ezek 10-en belüli összeadásra, illetve a számok sorrendjére épülnek.
+- Az osztálystatisztika (születés évszaka), a rajzolás (fa a 4 évszakban, saját óralap, mutatók berajzolása), a számlap kiegészítése kimaradt; a mutató beállítását a Játszótér pótolja (koppintás a számra). A naptár dátumai (9–15) nincsenek, helyette a hét napjainak sorszáma (1.–7.).

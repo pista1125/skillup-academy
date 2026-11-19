@@ -1171,13 +1171,23 @@ export const Grade1View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g1-meas-sec-1" number={1} title="A hosszúság mérése" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A hosszúság mérése"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Pötyi meséje: A hosszúság mérése"
+                subtitle="Csigusz szülinapjára mérünk: pálcikával, araszolva, lépéssel és a narancssárga rúddal (1 dm)."
+                type="Mese"
+                emoji="🐞"
+                onClick={() => onActivitySelect('g1-meas-a-hosszusag-merese-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Pötyi játékai"
+                subtitle="Képes játék 3 szinten: hosszabb és rövidebb, magasabb és alacsonyabb, mérés rúddal, deciméter és méter."
+                type="Kvíz"
+                emoji="🎈"
+                onClick={() => onActivitySelect('g1-meas-a-hosszusag-merese-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g1-meas-a-hosszusag-merese-quiz')}
               />
             </div>
           </section>
@@ -1189,13 +1199,23 @@ export const Grade1View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g1-meas-sec-2" number={2} title="A tömeg mérése" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="A tömeg mérése"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Pötyi meséje: A tömeg mérése"
+                subtitle="Piac a Számkertben: libikóka, kétkarú mérleg, golyók és az 1 kilogramm."
+                type="Mese"
+                emoji="🐞"
+                onClick={() => onActivitySelect('g1-meas-a-tomeg-merese-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Pötyi játékai"
+                subtitle="Képes játék 3 szinten: nehezebb és könnyebb, egyensúly, mérés golyókkal, jelek, számolás kg-mal."
+                type="Kvíz"
+                emoji="🎈"
+                onClick={() => onActivitySelect('g1-meas-a-tomeg-merese-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g1-meas-a-tomeg-merese-quiz')}
               />
             </div>
           </section>
@@ -1207,13 +1227,23 @@ export const Grade1View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g1-meas-sec-3" number={3} title="Az űrtartalom mérése" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Az űrtartalom mérése"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Pötyi meséje: Az űrtartalom mérése"
+                subtitle="Öntözzük a szomjas virágokat: pohárral, deciliterrel és literrel mérünk."
+                type="Mese"
+                emoji="🐞"
+                onClick={() => onActivitySelect('g1-meas-az-urtartalom-merese-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
+              />
+              <ActivityPlaceholder
+                title="Pötyi játékai"
+                subtitle="Képes játék 3 szinten: több és kevesebb fér bele, üres és tele, mérőedény, 1 liter = 10 deciliter."
+                type="Kvíz"
+                emoji="🎈"
+                onClick={() => onActivitySelect('g1-meas-az-urtartalom-merese-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="violet"
+                {...getTopicProgress('g1-meas-az-urtartalom-merese-quiz')}
               />
             </div>
           </section>
@@ -1225,13 +1255,23 @@ export const Grade1View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g1-meas-sec-4" number={4} title="Az idő mérése" color="amber" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Az idő mérése"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Pötyi meséje: Az idő mérése"
+                subtitle="Zümi mézes uzsonnája: napszakok, a hét napjai, évszakok és az óra."
+                type="Mese"
+                emoji="🐞"
+                onClick={() => onActivitySelect('g1-meas-az-ido-merese-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="amber"
+              />
+              <ActivityPlaceholder
+                title="Pötyi játékai"
+                subtitle="Képes játék 3 szinten: napszakok, előtte-utána, a hét napjai, évszakok, egész órák."
+                type="Kvíz"
+                emoji="🎈"
+                onClick={() => onActivitySelect('g1-meas-az-ido-merese-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="amber"
+                {...getTopicProgress('g1-meas-az-ido-merese-quiz')}
               />
             </div>
           </section>
