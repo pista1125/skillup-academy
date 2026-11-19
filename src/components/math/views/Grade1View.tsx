@@ -1081,13 +1081,23 @@ export const Grade1View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g1-geo-sec-1" number={1} title="Vonalak" color="blue" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Vonalak"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Pötyi meséje: Vonalak"
+                subtitle="Zümi egyenesen repül, Csigusz görbén mászik; a kerítés zárt vonal, a réses nyitott."
+                type="Mese"
+                emoji="🐞"
+                onClick={() => onActivitySelect('g1-geo-vonalak-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="blue"
+              />
+              <ActivityPlaceholder
+                title="Pötyi játékai"
+                subtitle="Képes játék 3 szinten: egyenes és görbe, nyitott és zárt vonal, vonalak a számokban, vonalkövetés."
+                type="Kvíz"
+                emoji="🎈"
+                onClick={() => onActivitySelect('g1-geo-vonalak-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="blue"
+                {...getTopicProgress('g1-geo-vonalak-quiz')}
               />
             </div>
           </section>
@@ -1099,13 +1109,23 @@ export const Grade1View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g1-geo-sec-2" number={2} title="Síkidomok" color="emerald" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Síkidomok"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Pötyi meséje: Síkidomok"
+                subtitle="Kör, háromszög, négyzet, téglalap a formás zsákból; rakéta, ház és játék a tükörrel."
+                type="Mese"
+                emoji="🐞"
+                onClick={() => onActivitySelect('g1-geo-sikidomok-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="emerald"
+              />
+              <ActivityPlaceholder
+                title="Pötyi játékai"
+                subtitle="Képes játék 3 szinten: síkidomok felismerése, sorminta, formák számlálása, pálcikák, tükörkép."
+                type="Kvíz"
+                emoji="🎈"
+                onClick={() => onActivitySelect('g1-geo-sikidomok-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="emerald"
+                {...getTopicProgress('g1-geo-sikidomok-quiz')}
               />
             </div>
           </section>
@@ -1117,13 +1137,23 @@ export const Grade1View: React.FC<GradeViewProps> = ({
             <SectionHeader id="g1-geo-sec-3" number={3} title="Testek" color="violet" />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <ActivityPlaceholder
-                title="Testek"
-                subtitle="A tananyag és a kvíz hamarosan érkezik"
-                type="Hamarosan"
-                emoji="⏳"
-                disabled={true}
+                title="Pötyi meséje: Testek"
+                subtitle="Kocka és társai: mi gurul, mi nem; tornyok, kapu és a titkos zsák."
+                type="Mese"
+                emoji="🐞"
+                onClick={() => onActivitySelect('g1-geo-testek-theory', topicId)}
                 icon={<BookOpen className="w-6 h-6" />}
                 color="violet"
+              />
+              <ActivityPlaceholder
+                title="Pötyi játékai"
+                subtitle="Képes játék 3 szinten: test vagy síkidom, gurul-e, tornyok és építmények számlálása, testek a tárgyakban."
+                type="Kvíz"
+                emoji="🎈"
+                onClick={() => onActivitySelect('g1-geo-testek-quiz', topicId)}
+                icon={<Target className="w-6 h-6" />}
+                color="violet"
+                {...getTopicProgress('g1-geo-testek-quiz')}
               />
             </div>
           </section>

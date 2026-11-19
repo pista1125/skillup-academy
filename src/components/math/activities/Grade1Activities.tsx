@@ -77,6 +77,12 @@ const G1SzovegesFeladatokG1Mese = lazy(() => import("@/components/math/grade-1/s
 const G1SzovegesFeladatokG1Jatek = lazy(() => import("@/components/math/grade-1/szamkorbovites-10-ig/szoveges-feladatok/SzovegesFeladatokG1Jatek").then(m => ({ default: m.SzovegesFeladatokG1Jatek })));
 const G1Megallo10G1Mese = lazy(() => import("@/components/math/grade-1/szamkorbovites-10-ig/megallo-10/Megallo10G1Mese").then(m => ({ default: m.Megallo10G1Mese })));
 const G1Megallo10G1Jatek = lazy(() => import("@/components/math/grade-1/szamkorbovites-10-ig/megallo-10/Megallo10G1Jatek").then(m => ({ default: m.Megallo10G1Jatek })));
+const G1VonalakG1Mese = lazy(() => import("@/components/math/grade-1/geometria/vonalak/VonalakG1Mese").then(m => ({ default: m.VonalakG1Mese })));
+const G1VonalakG1Jatek = lazy(() => import("@/components/math/grade-1/geometria/vonalak/VonalakG1Jatek").then(m => ({ default: m.VonalakG1Jatek })));
+const G1SikidomokG1Mese = lazy(() => import("@/components/math/grade-1/geometria/sikidomok/SikidomokG1Mese").then(m => ({ default: m.SikidomokG1Mese })));
+const G1SikidomokG1Jatek = lazy(() => import("@/components/math/grade-1/geometria/sikidomok/SikidomokG1Jatek").then(m => ({ default: m.SikidomokG1Jatek })));
+const G1TestekG1Mese = lazy(() => import("@/components/math/grade-1/geometria/testek/TestekG1Mese").then(m => ({ default: m.TestekG1Mese })));
+const G1TestekG1Jatek = lazy(() => import("@/components/math/grade-1/geometria/testek/TestekG1Jatek").then(m => ({ default: m.TestekG1Jatek })));
 
 export const Grade1Activities: React.FC<ActivityRouterProps> = ({
   activityType,
@@ -1352,6 +1358,110 @@ export const Grade1Activities: React.FC<ActivityRouterProps> = ({
           onSwitchToTheory={() => handleActivitySelect('g1-c10-megallo-10-theory', selectedTopic || 'g1-numbers-to-10')}
           onSwitchToMatcher={() => handleActivitySelect('g1-c10-megallo-10-matcher', selectedTopic || 'g1-numbers-to-10')}
           onSwitchToSorter={() => handleActivitySelect('g1-c10-megallo-10-sorter', selectedTopic || 'g1-numbers-to-10')}
+        />
+      )}
+
+      {/* ===== 1. Osztály – IV. Geometria ===== */}
+
+      {/* 1. Vonalak */}
+      {activityType === 'g1-geo-vonalak-theory' && (
+        <G1VonalakG1Mese
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g1-geo-vonalak-quiz', selectedTopic || 'g1-geometry')}
+        />
+      )}
+      {activityType === 'g1-geo-vonalak-quiz' && (
+        <G1VonalakG1Jatek
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-geo-vonalak-theory', selectedTopic || 'g1-geometry')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-geo-vonalak-matcher', selectedTopic || 'g1-geometry')}
+          onSwitchToSorter={() => handleActivitySelect('g1-geo-vonalak-sorter', selectedTopic || 'g1-geometry')}
+        />
+      )}
+      {activityType === 'g1-geo-vonalak-matcher' && (
+        <G1VonalakG1Jatek
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-geo-vonalak-theory', selectedTopic || 'g1-geometry')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-geo-vonalak-matcher', selectedTopic || 'g1-geometry')}
+          onSwitchToSorter={() => handleActivitySelect('g1-geo-vonalak-sorter', selectedTopic || 'g1-geometry')}
+        />
+      )}
+      {activityType === 'g1-geo-vonalak-sorter' && (
+        <G1VonalakG1Jatek
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-geo-vonalak-theory', selectedTopic || 'g1-geometry')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-geo-vonalak-matcher', selectedTopic || 'g1-geometry')}
+          onSwitchToSorter={() => handleActivitySelect('g1-geo-vonalak-sorter', selectedTopic || 'g1-geometry')}
+        />
+      )}
+
+      {/* 2. Síkidomok */}
+      {activityType === 'g1-geo-sikidomok-theory' && (
+        <G1SikidomokG1Mese
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g1-geo-sikidomok-quiz', selectedTopic || 'g1-geometry')}
+        />
+      )}
+      {activityType === 'g1-geo-sikidomok-quiz' && (
+        <G1SikidomokG1Jatek
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-geo-sikidomok-theory', selectedTopic || 'g1-geometry')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-geo-sikidomok-matcher', selectedTopic || 'g1-geometry')}
+          onSwitchToSorter={() => handleActivitySelect('g1-geo-sikidomok-sorter', selectedTopic || 'g1-geometry')}
+        />
+      )}
+      {activityType === 'g1-geo-sikidomok-matcher' && (
+        <G1SikidomokG1Jatek
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-geo-sikidomok-theory', selectedTopic || 'g1-geometry')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-geo-sikidomok-matcher', selectedTopic || 'g1-geometry')}
+          onSwitchToSorter={() => handleActivitySelect('g1-geo-sikidomok-sorter', selectedTopic || 'g1-geometry')}
+        />
+      )}
+      {activityType === 'g1-geo-sikidomok-sorter' && (
+        <G1SikidomokG1Jatek
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-geo-sikidomok-theory', selectedTopic || 'g1-geometry')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-geo-sikidomok-matcher', selectedTopic || 'g1-geometry')}
+          onSwitchToSorter={() => handleActivitySelect('g1-geo-sikidomok-sorter', selectedTopic || 'g1-geometry')}
+        />
+      )}
+
+      {/* 3. Testek */}
+      {activityType === 'g1-geo-testek-theory' && (
+        <G1TestekG1Mese
+          onBack={handleBack}
+          onStartQuiz={() => handleActivitySelect('g1-geo-testek-quiz', selectedTopic || 'g1-geometry')}
+        />
+      )}
+      {activityType === 'g1-geo-testek-quiz' && (
+        <G1TestekG1Jatek
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-geo-testek-theory', selectedTopic || 'g1-geometry')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-geo-testek-matcher', selectedTopic || 'g1-geometry')}
+          onSwitchToSorter={() => handleActivitySelect('g1-geo-testek-sorter', selectedTopic || 'g1-geometry')}
+        />
+      )}
+      {activityType === 'g1-geo-testek-matcher' && (
+        <G1TestekG1Jatek
+          initialGameMode="matcher"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-geo-testek-theory', selectedTopic || 'g1-geometry')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-geo-testek-matcher', selectedTopic || 'g1-geometry')}
+          onSwitchToSorter={() => handleActivitySelect('g1-geo-testek-sorter', selectedTopic || 'g1-geometry')}
+        />
+      )}
+      {activityType === 'g1-geo-testek-sorter' && (
+        <G1TestekG1Jatek
+          initialGameMode="sorter"
+          onBack={handleBack}
+          onSwitchToTheory={() => handleActivitySelect('g1-geo-testek-theory', selectedTopic || 'g1-geometry')}
+          onSwitchToMatcher={() => handleActivitySelect('g1-geo-testek-matcher', selectedTopic || 'g1-geometry')}
+          onSwitchToSorter={() => handleActivitySelect('g1-geo-testek-sorter', selectedTopic || 'g1-geometry')}
         />
       )}
     </>
