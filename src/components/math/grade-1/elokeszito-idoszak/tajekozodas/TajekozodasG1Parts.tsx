@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { ICONS, IconName } from '../../shared/G1Pics';
 import { Potyi } from '../../shared/Potyi';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { Dir } from './TajekozodasG1Scenes';
 
 const THINGS: { icon: IconName; acc: string }[] = [
@@ -27,7 +27,7 @@ const newTask = (prev?: { dir: Dir; thing: number }) => {
   return { dir, thing };
 };
 
-export const PlacePlayground: React.FC = () => {
+export const PlacePlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState(() => newTask());
   const [placed, setPlaced] = useState<Dir | null>(null);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
@@ -92,3 +92,10 @@ export const PlacePlayground: React.FC = () => {
     </div>
   );
 };
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+PlacePlayground.speechTexts = () => [
+  ...THINGS.flatMap((th) => DIRS.map((d) => `Tedd ${th.acc} ${WHERE[d]}!`)),
+  ...PRAISES.map((p) => `${p} Pont jó helyre tetted.`),
+  ...DIRS.flatMap((d) => DIRS.filter((x) => x !== d).map((x) => `${WRONG[d]} Figyelj még egyszer: ${WHERE[x]} kell!`)),
+];

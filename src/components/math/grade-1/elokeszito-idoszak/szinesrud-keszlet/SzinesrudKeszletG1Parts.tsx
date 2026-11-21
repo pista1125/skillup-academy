@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { RodPic, SlotScene, rodName } from './SzinesrudKeszletG1Scenes';
 
 const newTask = (prev?: number) => {
@@ -17,7 +17,7 @@ const newTask = (prev?: number) => {
   return { len, opts };
 };
 
-export const RodFitPlayground: React.FC = () => {
+export const RodFitPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState(() => newTask());
   const [picked, setPicked] = useState<number | null>(null);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
@@ -72,4 +72,14 @@ export const RodFitPlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+RodFitPlayground.speechTexts = () => {
+  const L = Array.from({ length: 10 }, (_, i) => i + 1);
+  return [
+    'Nézd a szaggatott helyet! Melyik rúd fér bele pontosan, se nem lóg ki, se nem marad üres hely?',
+    ...PRAISES.flatMap((p) => L.map((l) => `${p} A ${rodName(l)} rúd pont odafér.`)),
+    ...L.flatMap((l) => [`A ${rodName(l)} rúd túl hosszú, kilóg. Keress rövidebbet!`, `A ${rodName(l)} rúd túl rövid, marad üres hely. Keress hosszabbat!`]),
+  ];
 };

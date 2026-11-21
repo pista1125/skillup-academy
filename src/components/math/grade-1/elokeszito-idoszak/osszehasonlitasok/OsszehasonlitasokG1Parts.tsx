@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble, shuffle } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { Branch, Disc, Road, Ribbon, Tree } from './OsszehasonlitasokG1Scenes';
 
 type Prop = 'magas' | 'hosszu' | 'nagy' | 'szeles' | 'vastag';
@@ -41,7 +41,7 @@ const newTask = (prevProp?: Prop) => {
   return { p, values, most: Math.random() < 0.5 };
 };
 
-export const CompareRacePlayground: React.FC = () => {
+export const CompareRacePlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState(() => newTask());
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
   const [solved, setSolved] = useState(false);
@@ -93,3 +93,6 @@ export const CompareRacePlayground: React.FC = () => {
     </div>
   );
 };
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+CompareRacePlayground.speechTexts = () => [...PRAISES, ...PROPS.flatMap((p) => [WORDS[p].most, WORDS[p].least, WORDS[p].mostHint, WORDS[p].leastHint])];

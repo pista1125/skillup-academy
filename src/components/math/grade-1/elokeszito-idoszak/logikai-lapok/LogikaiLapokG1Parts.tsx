@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble, shuffle } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { Lap, LapColor, LapShape, LapSpec, lapName } from './LogikaiLapokG1Scenes';
 
 const SHAPES: LapShape[] = ['kor', 'negyzet', 'haromszog'];
@@ -28,7 +28,7 @@ const newTask = () => {
   return { target, tiles: shuffle([target, ...others]) };
 };
 
-export const FindTilePlayground: React.FC = () => {
+export const FindTilePlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState(() => newTask());
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
   const [solved, setSolved] = useState(false);
@@ -82,4 +82,10 @@ export const FindTilePlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+FindTilePlayground.speechTexts = () => {
+  const names = SHAPES.flatMap((sh) => COLORS.flatMap((c) => [true, false].flatMap((big) => [true, false].map((hole) => `Keresd meg: ${lapName({ sh, c, big, hole })}!`))));
+  return [...PRAISES, ...names, 'Nézd meg az alakját!', 'Nézd meg a színét!', 'Ez kicsi. Nagyot keresünk!', 'Ez nagy. Kicsit keresünk!', 'Ez nem lyukas. Lyukasat keresünk!', 'Ez lyukas. Olyat keresünk, ami nem lyukas!'];
 };

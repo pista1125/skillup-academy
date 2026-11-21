@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { DotCard, NUM_WORD, Thing, drawThing } from './SzamlalasokG1Scenes';
 
 const KINDS: Thing[] = ['alma', 'korte', 'eper', 'labda', 'csillag', 'hal', 'szilva'];
@@ -20,7 +20,7 @@ const newTask = (prevN?: number) => {
   return { n, kind, opts: [...set].sort(() => Math.random() - 0.5) };
 };
 
-export const CountPlayground: React.FC = () => {
+export const CountPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState(() => newTask());
   const [counted, setCounted] = useState<number[]>([]);
   const [picked, setPicked] = useState<number | null>(null);
@@ -93,3 +93,12 @@ export const CountPlayground: React.FC = () => {
     </div>
   );
 };
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+CountPlayground.speechTexts = () => [
+  'Koppints mindegyik tárgyra egyszer, és számolj velem! Aztán keresd meg a kártyát, amelyiken ugyanannyi pötty van.',
+  ...NUM_WORD.slice(1, 7),
+  ...PRAISES.map((p) => `${p} Ugyanannyi pötty van a kártyán, ahány tárgyat számoltál.`),
+  'Ezen több pötty van. Számold meg újra a tárgyakat!',
+  'Ezen kevesebb pötty van. Számold meg újra a tárgyakat!',
+];

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { PairRows, Sign, Thing, TwoSets, signOf } from './TobbKevesebbUgyanannyiG1Scenes';
 
 const PAIRS: [Thing, Thing][] = [
@@ -22,7 +22,7 @@ const newTask = () => {
   return { ta, tb, a, b };
 };
 
-export const SignPlayground: React.FC = () => {
+export const SignPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState(newTask);
   const [lines, setLines] = useState(false);
   const [picked, setPicked] = useState<Sign | null>(null);
@@ -89,3 +89,10 @@ export const SignPlayground: React.FC = () => {
     </div>
   );
 };
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+SignPlayground.speechTexts = () => [
+  'Hasonlítsd össze a két oldalt! A jel a több felé nyílik, a hegye a kevesebb felé mutat. Ha ugyanannyi, egyenlőségjel kell. Ha nem vagy biztos, párosítsd őket!',
+  ...PRAISES.flatMap((p) => [`${p} Mindegyiknek jutott pár: ugyanannyi.`, `${p} Bal oldalon több van, a jel a bal oldal felé nyílik.`, `${p} Bal oldalon kevesebb van, a jel hegye a bal oldal felé mutat.`]),
+  'Nem egészen. Nézd, párosítottam őket! Amelyik sorból marad pár nélkül, abból van több.',
+];

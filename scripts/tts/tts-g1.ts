@@ -5,7 +5,7 @@
 //
 //   npx vite-node scripts/tts/tts-g1.ts -- voices                         magyar hangok listája
 //   npx vite-node scripts/tts/tts-g1.ts -- samples [hang1 hang2 …]        mintamondatok → scratch/g1/tts/samples/index.html
-//   npx vite-node scripts/tts/tts-g1.ts -- build --female <hang> --male <hang> [--rate 0.95] [--dry]
+//   npx vite-node scripts/tts/tts-g1.ts -- build --female <hang> --male <hang> [--rate 0.95] [--only <mappa-előtag>] [--dry]
 //        a scratch/g1/tts/texts.json összes szövegéhez (harvest-g1.tsx) legyártja a hiányzó hangfájlokat,
 //        feltölti: audio/g1/<female|male>/<kulcs>.mp3, és frissíti a src/…/shared/audioManifest.g1.json-t.
 import fs from 'node:fs';
@@ -52,11 +52,22 @@ const getToken = async (): Promise<string> => {
   return j.access_token;
 };
 
+const wait = (ms: number) => new Promise((res) => setTimeout(res, ms));
 const gfetch = async (url: string, init: RequestInit = {}) => {
-  const token = await getToken();
-  const r = await fetch(url, { ...init, headers: { Authorization: `Bearer ${token}`, ...(init.headers || {}) } });
-  if (!r.ok) throw new Error(`${init.method || 'GET'} ${url.split('?')[0]} → ${r.status}: ${(await r.text()).slice(0, 400)}`);
-  return r;
+  // 429 (kvóta / percenkénti korlát) és 5xx esetén visszalépéssel újrapróbálja
+  for (let attempt = 0; ; attempt++) {
+    const token = await getToken();
+    const r = await fetch(url, { ...init, headers: { Authorization: `Bearer ${token}`, ...(init.headers || {}) } });
+    if (r.ok) return r;
+    const body = (await r.text()).slice(0, 400);
+    if ((r.status === 429 || r.status >= 500) && attempt < 10) {
+      const ms = Math.min(60_000, 2000 * 2 ** attempt) + Math.random() * 1000;
+      console.warn(`  ${r.status} → újra ${Math.round(ms / 1000)} s múlva`);
+      await wait(ms);
+      continue;
+    }
+    throw new Error(`${init.method || 'GET'} ${url.split('?')[0]} → ${r.status}: ${body}`);
+  }
 };
 
 /* ---------------- Text-to-Speech ---------------- */
@@ -170,7 +181,9 @@ const main = async () => {
     const rate = flag('rate') ? Number(flag('rate')) : undefined;
     const dry = has('dry');
     const src = JSON.parse(fs.readFileSync(path.join(TTS_DIR, 'texts.json'), 'utf8')) as { lessons: Record<string, string[]>; kit: string[] };
-    const texts = [...new Set([...(src.kit || []), ...Object.values(src.lessons).flat()].map(toSpeechText).filter(Boolean))];
+    const only = flag('only'); // pl. --only elokeszito-idoszak → csak az ilyen előtagú leckék (a többi klip a manifestben marad)
+    const lessonTexts = Object.entries(src.lessons).filter(([k]) => !only || k.startsWith(only)).flatMap(([, v]) => v);
+    const texts = [...new Set([...(src.kit || []), ...lessonTexts].map(toSpeechText).filter(Boolean))];
     const manifest = await readManifest();
     let chars = 0;
     for (const kind of ['female', 'male'] as VoiceKind[]) {
@@ -184,21 +197,38 @@ const main = async () => {
       if (dry) continue;
       const localDir = path.join(TTS_DIR, 'audio', kind);
       fs.mkdirSync(localDir, { recursive: true });
+      // a helyben már meglévő fájl (megszakadt korábbi futás) nem kerül újra a TTS-be, csak feltöltjük
+      const localTag = path.join(localDir, '.voice');
+      const localOk = fs.existsSync(localTag) && fs.readFileSync(localTag, 'utf8') === `${id}|${rate ?? ''}`;
+      if (!localOk) {
+        fs.rmSync(localDir, { recursive: true, force: true });
+        fs.mkdirSync(localDir, { recursive: true });
+        fs.writeFileSync(localTag, `${id}|${rate ?? ''}`);
+      }
+      const save = () => {
+        manifest.voices[kind] = {
+          id,
+          label: kind === 'female' ? 'Női hang' : 'Férfi hang',
+          clips: [...have].sort(),
+          ...(rate ? { rate } : {}),
+        } as AudioManifest['voices'][VoiceKind];
+        manifest.updated = new Date().toISOString();
+        fs.writeFileSync(MANIFEST_FILE, JSON.stringify(manifest));
+      };
       let done = 0;
-      await pool(todo, 4, async (t) => {
-        const key = speechKey(t);
-        const buf = await synthesize(t, id, rate);
-        fs.writeFileSync(path.join(localDir, `${key}.mp3`), buf);
-        await upload(`${AUDIO_PREFIX}/${kind}/${key}.mp3`, buf, 'audio/mpeg', 'public, max-age=31536000, immutable');
-        have.add(key);
-        if (++done % 20 === 0) console.log(`  ${done}/${todo.length}`);
-      });
-      manifest.voices[kind] = {
-        id,
-        label: kind === 'female' ? 'Női hang' : 'Férfi hang',
-        clips: [...have].sort(),
-        ...(rate ? { rate } : {}),
-      } as AudioManifest['voices'][VoiceKind];
+      try {
+        await pool(todo, 2, async (t) => {
+          const key = speechKey(t);
+          const file = path.join(localDir, `${key}.mp3`);
+          const buf = fs.existsSync(file) ? fs.readFileSync(file) : await synthesize(t, id, rate);
+          fs.writeFileSync(file, buf);
+          await upload(`${AUDIO_PREFIX}/${kind}/${key}.mp3`, buf, 'audio/mpeg', 'public, max-age=31536000, immutable');
+          have.add(key);
+          if (++done % 50 === 0) console.log(`  ${done}/${todo.length}`);
+        });
+      } finally {
+        save(); // megszakadáskor is: ami feltöltődött, bekerül a manifestbe
+      }
     }
     console.log(`Generálandó karakter: ${chars}`);
     if (dry) return;

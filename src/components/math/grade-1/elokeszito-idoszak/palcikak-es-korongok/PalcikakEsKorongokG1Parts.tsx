@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { FIG, Fig, FigName, Figure, PC, PC_FILL } from './PalcikakEsKorongokG1Scenes';
 
 const ORDER: PC[] = ['piros', 'kek', 'sarga', 'zold'];
@@ -17,7 +17,7 @@ const newTask = (prev?: FigName) => {
   return { name, model };
 };
 
-export const CopyFigurePlayground: React.FC = () => {
+export const CopyFigurePlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState(() => newTask());
   const [mine, setMine] = useState<(PC | null)[]>(() => task.model.map(() => null));
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
@@ -90,3 +90,11 @@ export const CopyFigurePlayground: React.FC = () => {
     </div>
   );
 };
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+CopyFigurePlayground.speechTexts = () => [
+  'Rakd ki úgy, mint a minta! Koppints a szürke pálcikákra és korongokra, amíg jó színűek nem lesznek.',
+  'Még van szürke elem. Színezd ki mindet!',
+  'Majdnem! Nézd meg újra a mintát, valamelyik színe más.',
+  ...PRAISES.map((p) => p + ' Pont olyan, mint a minta.'),
+];
