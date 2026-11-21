@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { CLOSED, LineFig, LineKind, StickFig as Stick, ThreadFig as Thread } from './VonalakG1Scenes';
 
 const STRAIGHT_OR_CURVED: { k: LineKind; straight: boolean }[] = [
@@ -29,7 +29,7 @@ const newTask = (prev?: Task): Task => {
   return { mode, k, color: COLORS[Math.floor(Math.random() * COLORS.length)] };
 };
 
-export const LineHuntPlayground: React.FC = () => {
+export const LineHuntPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState<Task>(() => newTask());
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
   const [done, setDone] = useState(false);
@@ -91,3 +91,14 @@ export const LineHuntPlayground: React.FC = () => {
     </div>
   );
 };
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+LineHuntPlayground.speechTexts = () => [
+  'Egyenes vagy görbe ez a vonal?',
+  'Nyitott vagy zárt ez a vonal?',
+  ...[' Egyenes, mint a pálcika.', ' Görbe, mint a fonal.', ' Nyitott, Csigusz be tud mászni.', ' Zárt, körbeér.'].flatMap((s) => PRAISES.map((p) => p + s)),
+  'Nézd meg jól! Hajlik valahol a vonal? A pálcika nem hajlik.',
+  'Nézd meg jól! Ez a vonal sehol sem hajlik, olyan, mint a pálcika.',
+  'Fuss végig rajta az ujjaddal! Visszaérsz oda, ahonnan elindultál?',
+  'Fuss végig rajta az ujjaddal! Van rés, ahol kimászhatna Csigusz?',
+];

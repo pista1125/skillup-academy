@@ -4,7 +4,7 @@ import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { Domino } from '../../shared/G1Pics';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { DieScene } from './Megallo7G1Scenes';
 
 const newTop = (prev?: number) => {
@@ -13,7 +13,7 @@ const newTop = (prev?: number) => {
   return t;
 };
 
-export const DicePlayground: React.FC = () => {
+export const DicePlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [top, setTop] = useState(() => newTop());
   const [chosen, setChosen] = useState<number | null>(null);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
@@ -65,4 +65,14 @@ export const DicePlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+DicePlayground.speechTexts = () => {
+  const S = [1, 2, 3, 4, 5, 6];
+  return [
+    ...S.map((t) => `A kocka tetején ${t} pötty van. A szemközti, alsó lapon annyi van, hogy együtt hét legyen. Hány pötty van alul?`),
+    ...PRAISES.flatMap((p) => S.map((t) => `${p} ${t} meg ${7 - t}, az 7.`)),
+    ...S.flatMap((t) => S.filter((v) => t + v !== 7).map((v) => (t + v < 7 ? `${t} meg ${v} még kevés, nem hét. Kell még pötty!` : `${t} meg ${v} több, mint hét. Kevesebb pötty kell!`))),
+  ];
 };

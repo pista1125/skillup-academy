@@ -4,7 +4,7 @@ import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { ICONS, IconName } from '../../shared/G1Pics';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 
 const KINDS: { icon: IconName; name: string }[] = [
   { icon: 'alma', name: 'almát' },
@@ -20,7 +20,7 @@ const newTask = (prev?: number) => {
   return { kind: k, total: 3 + Math.floor(Math.random() * 3) };
 };
 
-export const OneTapPlayground: React.FC = () => {
+export const OneTapPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState(() => newTask());
   const [inBasket, setInBasket] = useState<number[]>([]);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
@@ -85,3 +85,11 @@ export const OneTapPlayground: React.FC = () => {
     </div>
   );
 };
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+OneTapPlayground.speechTexts = () => [
+  ...KINDS.map((k) => `Tegyél egy ${k.name} a kosárba!`),
+  'A kosár még üres. Tegyél bele egyet!',
+  'Ez több, mint egy. Vegyél ki belőle!',
+  ...PRAISES.map((p) => p + ' Egy van a kosárban.'),
+];

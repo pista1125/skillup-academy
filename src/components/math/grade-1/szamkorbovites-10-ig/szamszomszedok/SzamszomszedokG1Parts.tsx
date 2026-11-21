@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { HousesScene } from '../a-het/AHetG1Scenes';
 
 const art = (k: number) => (k === 1 || k === 5 ? 'az' : 'a');
@@ -15,7 +15,7 @@ const newNum = (prev?: number) => {
   return n;
 };
 
-export const NeighbourPlayground: React.FC = () => {
+export const NeighbourPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [n, setN] = useState(() => newNum());
   const [left, setLeft] = useState<number | null>(null);
   const [right, setRight] = useState<number | null>(null);
@@ -80,4 +80,23 @@ export const NeighbourPlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+NeighbourPlayground.speechTexts = () => {
+  const N = [1, 2, 3, 4, 5, 6];
+  return [
+    ...N.flatMap((n) => [
+      `A középső házban ${art(n)} ${n} lakik. Ki a kisebb szomszédja, aki előtte lakik?`,
+      `Most keresd meg ${art(n)} ${n} nagyobb szomszédját, aki utána lakik!`,
+    ]),
+    ...PRAISES.flatMap((p) =>
+      N.flatMap((n) => [`${p} ${Art(n)} ${n} előtt ${art(n - 1)} ${n - 1} lakik. Most jöhet a nagyobb szomszéd!`, `${p} ${n - 1}, ${n}, ${n + 1}: így laknak egymás mellett.`]),
+    ),
+    'Ez maga a szám. A szomszédját keresd!',
+    'Ez nagyobb szám. A kisebb szomszéd eggyel kevesebb.',
+    'Ez nem a szomszéd, messzebb lakik. Eggyel kevesebb kell.',
+    'Ez kisebb szám. A nagyobb szomszéd eggyel több.',
+    'Ez nem a szomszéd, messzebb lakik. Eggyel több kell.',
+  ];
 };

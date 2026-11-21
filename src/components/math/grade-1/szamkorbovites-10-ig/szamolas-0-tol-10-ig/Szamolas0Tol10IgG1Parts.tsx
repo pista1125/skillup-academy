@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { PinsScene } from './Szamolas0Tol10IgG1Scenes';
 
 const roll = (prev?: number) => {
@@ -12,11 +12,13 @@ const roll = (prev?: number) => {
   return f;
 };
 
-export const BowlingPlayground: React.FC = () => {
+const SAY = 'A pályán 10 bábu áll. Koppints a Gurítok gombra! Aztán mondd meg, hány bábu áll még.';
+
+export const BowlingPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [fallen, setFallen] = useState<number | null>(null);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
   const standing = fallen === null ? 10 : 10 - fallen;
-  const say = 'A pályán 10 bábu áll. Koppints a Gurítok gombra! Aztán mondd meg, hány bábu áll még.';
+  const say = SAY;
 
   const doRoll = () => {
     const f = roll(fallen ?? undefined);
@@ -76,4 +78,15 @@ export const BowlingPlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+BowlingPlayground.speechTexts = () => {
+  const F = Array.from({ length: 9 }, (_, i) => i + 1);
+  return [
+    SAY,
+    ...F.map((f) => `${f} bábu eldőlt. Hány bábu áll még?`),
+    ...PRAISES.flatMap((p) => F.map((f) => `${p} 10 − ${f} = ${10 - f}. ${10 - f} bábu áll, ${f} eldőlt, ez együtt 10.`)),
+    "Nem egészen. Csak az álló bábukat számold, a fekvőket ne!",
+  ];
 };

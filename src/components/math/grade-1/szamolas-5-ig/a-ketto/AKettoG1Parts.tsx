@@ -4,7 +4,7 @@ import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { ICONS, IconName } from '../../shared/G1Pics';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 
 const KINDS: { icon: IconName; name: string }[] = [
   { icon: 'virag', name: 'virág' },
@@ -23,7 +23,7 @@ const newTask = (prev?: { kind: number; start: number }) => {
   return { kind: k, start: s };
 };
 
-export const MakeTwoPlayground: React.FC = () => {
+export const MakeTwoPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState(() => newTask());
   const [count, setCount] = useState(task.start);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
@@ -87,3 +87,11 @@ export const MakeTwoPlayground: React.FC = () => {
     </div>
   );
 };
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+MakeTwoPlayground.speechTexts = () => [
+  ...KINDS.map((k) => `Legyen itt pontosan két ${k.name}! Ha kevés, tegyél hozzá. Ha sok, koppints egyre, és elrepül.`),
+  'Ez még kevés. Tegyél hozzá!',
+  'Ez több, mint kettő. Koppints egyre, hogy elmenjen!',
+  ...KINDS.flatMap((k) => PRAISES.map((p) => `${p} Most két ${k.name} van itt.`)),
+];

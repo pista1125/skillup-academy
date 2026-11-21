@@ -4,7 +4,7 @@ import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble } from '../../shared/MeseKit';
 import { BigSign } from '../../shared/G1Pics';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { TwoFrames } from './ATizenotG1Scenes';
 
 const newTarget = (prev?: number) => {
@@ -14,7 +14,7 @@ const newTarget = (prev?: number) => {
   return t;
 };
 
-export const FishNetPlayground: React.FC = () => {
+export const FishNetPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [target, setTarget] = useState(() => newTarget());
   const [count, setCount] = useState(0);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
@@ -81,4 +81,15 @@ export const FishNetPlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+FishNetPlayground.speechTexts = () => {
+  const T = Array.from({ length: 10 }, (_, i) => i + 6);
+  return [
+    'Nézd a számot a táblán! Annyi halat tegyél a két hálóba. Előbb az első háló teljen meg, az tíz. A Még egy gombbal teszel be egyet, az Elveszek gombbal kiveszel egyet.',
+    ...PRAISES.flatMap((p) => T.map((t) => (t > 10 ? `${p} Egy tízes és ${t - 10} egyes: ${t}.` : `${p} Pont ${t} hal van a hálóban.`))),
+    'Kevés hal van a hálóban. Tegyél be még!',
+    'Túl sok hal van a hálóban. Vegyél ki egyet!',
+  ];
 };

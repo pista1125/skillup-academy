@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { BigSign } from '../../shared/G1Pics';
 import { BasketIcon, BasketScene, EperIcon } from './ATizenkilencG1Scenes';
 
@@ -17,7 +17,7 @@ const newTarget = (prev?: number): number => {
 
 const btn = 'h-20 min-w-[88px] px-3 rounded-3xl border-4 flex items-center justify-center gap-1 bg-white dark:bg-slate-800 shadow-sm active:scale-95 transition';
 
-export const EperEpitoPlayground: React.FC = () => {
+export const EperEpitoPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [target, setTarget] = useState<number>(() => newTarget());
   const [tens, setTens] = useState(0);
   const [ones, setOnes] = useState(0);
@@ -116,4 +116,18 @@ export const EperEpitoPlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+EperEpitoPlayground.speechTexts = () => {
+  const T = Array.from({ length: 9 }, (_, i) => i + 11);
+  return [
+    ...T.map((t) => `Rakd ki ezt a számot eperből: ${t}. Egy teli kosárban 10 eper van, ez egy tízes. A szem eprek az egyesek. Ha kész vagy, nyomd meg a pipát!`),
+    ...PRAISES.flatMap((p) => T.map((t) => `${p} 1 tízes és ${t - 10} egyes: 10 + ${t - 10} = ${t}.`)),
+    'Egy kosár elég! Két kosár már 20 lenne.',
+    'Tíz szem eper már egy teli kosár! Tegyél inkább egy kosarat.',
+    'Hiányzik a kosár! A tízes is kell.',
+    'Ez még kevés. Tegyél még szem epret!',
+    'Ez túl sok. Vegyél el egy kicsit!',
+  ];
 };

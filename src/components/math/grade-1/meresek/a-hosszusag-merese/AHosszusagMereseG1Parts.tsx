@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { rodRow, thing } from './AHosszusagMereseG1Scenes';
 
 const COLORS = ['#ef4444', '#3b82f6', '#22c55e', '#a855f7', '#facc15'];
@@ -18,7 +18,7 @@ const newTask = (prev?: Task): Task => {
   return { n, kind: KINDS[Math.floor(Math.random() * KINDS.length)], color: COLORS[Math.floor(Math.random() * COLORS.length)] };
 };
 
-export const RodMeasurePlayground: React.FC = () => {
+export const RodMeasurePlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState<Task>(() => newTask());
   const [rods, setRods] = useState(0);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
@@ -90,4 +90,15 @@ export const RodMeasurePlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+RodMeasurePlayground.speechTexts = () => {
+  const N = Array.from({ length: 7 }, (_, i) => i + 2);
+  return [
+    ...KINDS.map((k) => `Mérd meg narancssárga rudakkal, milyen hosszú ${NAME[k]}! Tegyél le annyi rudat, hogy épp a végéig érjen, aztán koppints a Kész gombra!`),
+    ...PRAISES.flatMap((p) => KINDS.flatMap((k) => N.map((n) => `${p} ${NAME[k][0].toUpperCase()}${NAME[k].slice(1)} ${n} rúd hosszú, vagyis ${n} deciméter.`))),
+    'Még nem értél a végéig! Tegyél le még rudat.',
+    'Túl sok! A rúd kilóg a végén. Vegyél el egyet.',
+  ];
 };

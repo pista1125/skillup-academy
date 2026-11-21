@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble, shuffle } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { COLORS, ShapeFig, ShapeK } from './SikidomokG1Scenes';
 
 type Main = 'kor' | 'haromszog' | 'negyzet' | 'teglalap';
@@ -43,7 +43,7 @@ const newTask = (prev?: Main) => {
   return { want, items: shuffle(items) };
 };
 
-export const ShapeHuntPlayground: React.FC = () => {
+export const ShapeHuntPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState(() => newTask());
   const [sel, setSel] = useState<number[]>([]);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
@@ -101,3 +101,10 @@ export const ShapeHuntPlayground: React.FC = () => {
     </div>
   );
 };
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+ShapeHuntPlayground.speechTexts = () => [
+  ...MAINS.flatMap((m) => [`${ASK[m]} ${HINT[m]}`, `Van, amelyik nem ilyen. ${HINT[m]} Koppints rá még egyszer, hogy levedd!`]),
+  ...[2, 3, 4].flatMap((n) => PRAISES.map((p) => `${p} Mind a ${n} megvan.`)),
+  ...[1, 2, 3, 4].map((n) => `Még ${n} hiányzik. Keresd tovább!`),
+];

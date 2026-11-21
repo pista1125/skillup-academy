@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { TreeScene } from './AKilencG1Scenes';
 
 const newTarget = (prev?: number) => {
@@ -14,12 +14,14 @@ const newTarget = (prev?: number) => {
   return t;
 };
 
-export const DecorateTreePlayground: React.FC = () => {
+const SAY = 'Nézd a számot a táblán! Annyi díszt akassz a fára. Koppints egy üres karikára, és oda kerül egy dísz. Ha még egyszer rákoppintasz, leveszed.';
+
+export const DecorateTreePlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [target, setTarget] = useState(() => newTarget());
   const [hooks, setHooks] = useState<boolean[]>(() => Array(9).fill(false));
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
   const count = hooks.filter(Boolean).length;
-  const say = 'Nézd a számot a táblán! Annyi díszt akassz a fára. Koppints egy üres karikára, és oda kerül egy dísz. Ha még egyszer rákoppintasz, leveszed.';
+  const say = SAY;
 
   const toggle = (i: number) => {
     setMsg(null);
@@ -64,3 +66,11 @@ export const DecorateTreePlayground: React.FC = () => {
     </div>
   );
 };
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+DecorateTreePlayground.speechTexts = () => [
+  SAY,
+  ...PRAISES.flatMap((p) => [3, 4, 5, 6, 7, 8, 9].map((t) => `${p} Pont ${t} dísz van a fán.`)),
+  "Kevés dísz van a fán. Akassz még!",
+  "Túl sok dísz van a fán. Vegyél le!",
+];

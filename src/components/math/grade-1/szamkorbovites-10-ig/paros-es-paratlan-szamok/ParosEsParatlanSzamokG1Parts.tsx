@@ -5,7 +5,7 @@ import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { ICONS } from '../../shared/G1Pics';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { ParityIcon } from './ParosEsParatlanSzamokG1Scenes';
 
 const PAIR_COLORS = ['#bbf7d0', '#fde68a', '#bfdbfe'];
@@ -16,7 +16,7 @@ const newN = (prev?: number) => {
   return n;
 };
 
-export const PairingPlayground: React.FC = () => {
+export const PairingPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [n, setN] = useState(() => newN());
   // pairOf[i] = a pár sorszáma, vagy -1
   const [pairOf, setPairOf] = useState<number[]>(() => Array(n).fill(-1));
@@ -100,4 +100,20 @@ export const PairingPlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+PairingPlayground.speechTexts = () => {
+  const N = [1, 2, 3, 4, 5, 6];
+  const art = (n: number) => (n === 1 || n === 5 ? 'Az' : 'A');
+  return [
+    'Koppints két katicára, és párban táncolnak. Utána mondd meg: páros vagy páratlan? Jutott mindenkinek pár?',
+    'Kész egy pár!',
+    'Előbb állíts párba mindenkit, akit csak lehet! Koppints két katicára.',
+    ...PRAISES.flatMap((p) =>
+      N.map((n) => (n % 2 === 0 ? `${p} Mindenkinek jutott pár. ${art(n)} ${n} páros szám.` : `${p} Egy katica egyedül maradt. ${art(n)} ${n} páratlan szám.`)),
+    ),
+    'Nézd meg jól: maradt valaki pár nélkül?',
+    'Nézd meg jól: van valaki, akinek nincs párja!',
+  ];
 };

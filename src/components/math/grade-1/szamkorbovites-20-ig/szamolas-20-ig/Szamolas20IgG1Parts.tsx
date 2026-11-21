@@ -4,7 +4,7 @@ import React, { useMemo, useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble, shuffle } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { ExprScene, TwoFrames } from '../a-tizenot/ATizenotG1Scenes';
 
 type Task = { kind: 'add' | 'sub' | 'fill'; a: number; b: number; answer: number };
@@ -66,7 +66,7 @@ const hintOf = (t: Task) => {
 const GOAL = 10;
 const COLORS = ['#ef4444', '#3b82f6', '#22c55e', '#f97316', '#ec4899', '#a855f7'];
 
-export const BalloonPlayground: React.FC = () => {
+export const BalloonPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState<Task>(() => newTask());
   const [balloons, setBalloons] = useState(0);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
@@ -144,4 +144,21 @@ export const BalloonPlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+BalloonPlayground.speechTexts = () => {
+  const tasks: Task[] = [];
+  for (let a = 5; a <= 9; a++) for (let b = 11 - a; b <= 9; b++) tasks.push({ kind: 'add', a, b, answer: a + b });
+  for (let a = 10; a <= 16; a++) for (let b = 1; b <= 19 - a; b++) tasks.push({ kind: 'add', a, b, answer: a + b });
+  for (let a = 11; a <= 18; a++) for (let b = a - 9; b <= 9; b++) tasks.push({ kind: 'sub', a, b, answer: a - b });
+  for (let a = 12; a <= 19; a++) for (let b = 1; b <= a - 10; b++) tasks.push({ kind: 'sub', a, b, answer: a - b });
+  for (let a = 11; a <= 18; a++) tasks.push({ kind: 'fill', a, b: 20 - a, answer: 20 - a });
+  const answers = [...new Set(tasks.map((t) => t.answer))];
+  return [
+    'Oldd meg a feladatot! Minden jó válaszért egy lufi kerül a füzérre. Ha 10 lufi lesz, kezdődhet az ünnep!',
+    ...tasks.map(sayOf),
+    ...new Set(tasks.map(hintOf)),
+    ...PRAISES.flatMap((p) => [`${p} Itt a 10 lufi, kezdődhet az ünnep!`, ...answers.map((n) => `${p} Az eredmény ${n}. Kaptál egy lufit!`)]),
+  ];
 };

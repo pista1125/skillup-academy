@@ -4,7 +4,7 @@ import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { BigSign } from '../../shared/G1Pics';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { WheelbarrowScene } from './Megallo5G1Scenes';
 
 type Task = { total: number; visible: number };
@@ -17,7 +17,7 @@ const newTask = (prev?: Task): Task => {
   return t;
 };
 
-export const UnderClothPlayground: React.FC = () => {
+export const UnderClothPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState<Task>(() => newTask());
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
   const [solved, setSolved] = useState(false);
@@ -80,4 +80,21 @@ export const UnderClothPlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+UnderClothPlayground.speechTexts = () => {
+  const out: string[] = [];
+  for (let total = 2; total <= 5; total++) {
+    out.push(
+      `Ez túl sok! Akkor több lenne, mint ${total}. Számolj tovább a kilátszó répáktól!`,
+      `Ez kevés! Úgy kevesebb lenne, mint ${total}. Számolj tovább a kilátszó répáktól!`
+    );
+    for (let visible = 0; visible <= Math.min(4, total); visible++) {
+      const hidden = total - visible;
+      out.push(`Csigusz talicskájában ${total} répa van. ${visible === 0 ? 'Egy sem látszik ki.' : `${visible} kilátszik.`} Hány répa van a kendő alatt?`);
+      out.push(...PRAISES.map((p) => `${p} ${visible} + ${hidden} = ${total}. ${hidden === 0 ? 'A kendő alatt nem volt semmi!' : `A kendő alatt ${hidden} répa volt.`}`));
+    }
+  }
+  return out;
 };

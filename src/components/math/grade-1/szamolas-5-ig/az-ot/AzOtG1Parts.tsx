@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { pumpkin } from '../a-negy/ANegyG1Scenes';
 
 const Pumpkin: React.FC = () => <svg viewBox="0 0 60 60" className="w-full h-full">{pumpkin(30, 32, 1.3)}</svg>;
@@ -14,7 +14,7 @@ const newStart = (prev?: number) => {
   return s;
 };
 
-export const WheelbarrowPlayground: React.FC = () => {
+export const WheelbarrowPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [start, setStart] = useState(() => newStart());
   const [count, setCount] = useState(start);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
@@ -81,3 +81,13 @@ export const WheelbarrowPlayground: React.FC = () => {
     </div>
   );
 };
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+WheelbarrowPlayground.speechTexts = () => [
+  'Még nincs öt. Tegyél bele még!',
+  'Ez több, mint öt. Koppints egy tökre a talicskában, hogy kivedd!',
+  ...[0, 1, 2, 3, 4].flatMap((start) => [
+    `A talicskában ${start === 0 ? 'még egy tök sincs' : `már ${start} tök van`}. Koppints a tökökre a halomban, hogy pontosan 5 legyen a talicskában!`,
+    ...PRAISES.map((p) => `${p} Öt tök van a talicskában. ${start === 5 ? '' : `${start} volt benne, és ${5 - start} kellett még.`}`),
+  ]),
+];

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { OptionButton, PotyiBubble, shuffle } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { ExprScene, TwoFrames } from '../a-tizenot/ATizenotG1Scenes';
 
 type Task = { a: number; b: number };
@@ -28,7 +28,7 @@ const opts = (right: number, lo: number, hi: number) => {
   return shuffle(Array.from(set));
 };
 
-export const TenBridgePlayground: React.FC = () => {
+export const TenBridgePlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState<Task>(() => newTask());
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [wrong, setWrong] = useState<number | null>(null);
@@ -108,4 +108,16 @@ export const TenBridgePlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+TenBridgePlayground.speechTexts = () => {
+  const tasks: Task[] = [];
+  for (let a = 6; a <= 9; a++) for (let b = 11 - a; b <= Math.min(9, 16 - a); b++) tasks.push({ a, b });
+  return [
+    'Előbb a tízig! Először mondd meg, hány kell a piros korongokhoz, hogy az első keret tele legyen. Aztán mondd meg, mennyi az összesen.',
+    ...PRAISES.flatMap((p) => tasks.flatMap(({ a, b }) => [`${p} ${a} meg ${10 - a} az 10. Maradt még ${b - (10 - a)}.`, `${p} ${a} + ${b} = ${a + b}.`])),
+    'Számolj tovább a 10-ig, és figyeld, hányat mondasz!',
+    ...tasks.map(({ a, b }) => `A 10-hez még ${b - (10 - a)} kell. Számolj a 10-től tovább!`),
+  ];
 };

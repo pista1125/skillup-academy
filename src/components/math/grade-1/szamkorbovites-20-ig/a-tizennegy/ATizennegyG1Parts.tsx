@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { OptionButton, PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { TwoFrames } from '../a-tizenot/ATizenotG1Scenes';
 import { NetCard, OpFish } from './ATizennegyG1Scenes';
 
@@ -51,7 +51,7 @@ const netsFor = (r: number) => {
   return [start, start + 1, start + 2, start + 3];
 };
 
-export const NetSortPlayground: React.FC = () => {
+export const NetSortPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState<Task>(() => newTask());
   const [nets, setNets] = useState<number[]>(() => netsFor(resultOf(task)));
   const [done, setDone] = useState(false);
@@ -118,4 +118,26 @@ export const NetSortPlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+NetSortPlayground.speechTexts = () => {
+  const tasks: Task[] = [];
+  for (let a = 10; a <= 13; a++) for (let b = 1; b <= 14 - a; b++) tasks.push({ a, b, op: '+' });
+  for (let a = 5; a <= 9; a++) for (let b = 11 - a; b <= Math.min(9, 14 - a); b++) tasks.push({ a, b, op: '+' });
+  for (let a = 11; a <= 14; a++) for (let b = 1; b <= a - 10; b++) tasks.push({ a, b, op: '−' });
+  for (let a = 11; a <= 14; a++) for (let b = a - 9; b <= Math.min(9, a - 5); b++) tasks.push({ a, b, op: '−' });
+  const hint = (t: Task) => {
+    const { a, b, op } = t;
+    const res = resultOf(t);
+    const cross = op === '+' ? a < 10 && res > 10 : a > 10 && res < 10;
+    if (cross && op === '+') return `Előbb a tízig: ${a} meg ${10 - a} az 10. Aztán a 10-hez még ${b - (10 - a)}.`;
+    if (cross) return `Előbb vissza a tízig: ${a} elvéve ${a - 10} az 10. Aztán a 10-ből még ${b - (a - 10)}.`;
+    return op === '+' ? `Indulj a ${a} számtól, és számolj tovább ${b} lépést!` : `Indulj a ${a} számtól, és számolj visszafelé ${b} lépést!`;
+  };
+  return [
+    'Nézd a halat! Számold ki, mennyi a műveletének az eredménye, és koppints arra a hálóra, amelyiken ez a szám áll. A korongok segítenek.',
+    ...PRAISES.flatMap((p) => tasks.map((t) => `${p} ${t.a} ${t.op} ${t.b} = ${resultOf(t)}. A hal a jó hálóba úszott.`)),
+    ...tasks.map(hint),
+  ];
 };

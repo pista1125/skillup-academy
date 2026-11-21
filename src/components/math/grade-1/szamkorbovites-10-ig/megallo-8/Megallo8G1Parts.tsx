@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { EqCard } from '../a-nyolc/ANyolcG1Scenes';
 import { KeyPic } from './Megallo8G1Scenes';
 
@@ -38,7 +38,12 @@ const makePuzzle = (): Puzzle => {
   return { keys, answer, order, clues: order.map(clueFor) };
 };
 
-export const KeyPuzzlePlayground: React.FC = () => {
+const sayFor = (clueSay: string | null) =>
+  clueSay !== null
+    ? `Csigusz azt mondja: nem ${clueSay}. Számold ki, és koppints arra a kulcsra, amelyiket áthúzzuk!`
+    : 'Minden rossz kulcsot áthúztunk. Melyik kulcs maradt? Koppints rá!';
+
+export const KeyPuzzlePlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [pz, setPz] = useState<Puzzle>(() => makePuzzle());
   const [step, setStep] = useState(0);
   const [opened, setOpened] = useState(false);
@@ -46,9 +51,7 @@ export const KeyPuzzlePlayground: React.FC = () => {
   const crossed = pz.order.slice(0, step);
   const finished = step >= pz.order.length;
   const clue = finished ? null : pz.clues[step];
-  const say = clue
-    ? `Csigusz azt mondja: nem ${clue.say}. Számold ki, és koppints arra a kulcsra, amelyiket áthúzzuk!`
-    : 'Minden rossz kulcsot áthúztunk. Melyik kulcs maradt? Koppints rá!';
+  const say = sayFor(clue ? clue.say : null);
 
   const tap = (k: number) => {
     if (opened || crossed.includes(k)) return;
@@ -114,4 +117,26 @@ export const KeyPuzzlePlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+KeyPuzzlePlayground.speechTexts = () => {
+  const V = Array.from({ length: 9 }, (_, i) => i);
+  const clueSays = new Set<string>();
+  V.forEach((v) => {
+    for (let a = 0; a <= v; a++) clueSays.add(`${a} meg ${v - a}`);
+    for (let a = v; a <= 8; a++) clueSays.add(`${a} elvéve ${a - v}`);
+    for (let b = 1; b <= 8 - v; b++) clueSays.add(`az a szám, amelyikhez ${ACC[b]} adva ${v + b} lesz`);
+  });
+  return [
+    ...[...clueSays].map((c) => sayFor(c)),
+    sayFor(null),
+    ...PRAISES.flatMap((p) => [
+      `${p} Ezt a kulcsot áthúzzuk. Jön a következő feladvány!`,
+      `${p} Melyik kulcs maradt? Koppints rá!`,
+      ...V.map((k) => `${p} Kinyílt a kamra! ${k === 1 || k === 5 ? "Az" : "A"} ${ADJ[k]} kulcs nyitja.`),
+    ]),
+    "Ez a kulcs még jó lehet. Számold ki újra a feladványt!",
+    "Ezt már áthúztuk. Keresd a megmaradt kulcsot!",
+  ];
 };

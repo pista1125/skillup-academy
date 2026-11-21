@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { EqCard } from '../a-nyolc/ANyolcG1Scenes';
 import { TruthIcon } from './NyitottMondatokG1Scenes';
 
@@ -39,12 +39,14 @@ const makeTask = (): Task => {
   return { text: `${lo} < □ < ${hi}`, test: (x) => lo < x && x < hi, many: true };
 };
 
-export const OpenSentencePlayground: React.FC = () => {
+const SAY = 'A hó betakart egy számot. Próbálj ki egy számot: koppints rá! Pötyi megmondja, igaz lesz-e a mondat.';
+
+export const OpenSentencePlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState<Task>(() => makeTask());
   const [picked, setPicked] = useState<number | null>(null);
   const [found, setFound] = useState<number[]>([]);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
-  const say = 'A hó betakart egy számot. Próbálj ki egy számot: koppints rá! Pötyi megmondja, igaz lesz-e a mondat.';
+  const say = SAY;
   const ok = picked !== null && task.test(picked);
 
   const choose = (v: number) => {
@@ -103,4 +105,18 @@ export const OpenSentencePlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+OpenSentencePlayground.speechTexts = () => {
+  const V = Array.from({ length: 9 }, (_, i) => i);
+  return [
+    SAY,
+    ...PRAISES.flatMap((p) => [
+      ...V.map((v) => `${p} Igaz! ${v === 1 || v === 5 ? "Az" : "A"} ${v} illik a helyére.`),
+      `${p} Igaz! De más szám is jó lehet. Keress még!`,
+      `${p} Megtaláltad az összes jó számot!`,
+    ]),
+    "Ez hamis. Próbálj ki egy másik számot!",
+  ];
 };

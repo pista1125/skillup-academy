@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { Potyi } from '../../shared/Potyi';
 import { BigSign } from '../../shared/G1Pics';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 
 const newTask = (prevTarget?: number) => {
   const r = Math.random();
@@ -16,7 +16,7 @@ const newTask = (prevTarget?: number) => {
   return { target, start };
 };
 
-export const SevenDotsPlayground: React.FC = () => {
+export const SevenDotsPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState(() => newTask());
   const [dots, setDots] = useState(task.start);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
@@ -71,4 +71,15 @@ export const SevenDotsPlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+SevenDotsPlayground.speechTexts = () => {
+  const T = [4, 5, 6, 7];
+  return [
+    ...T.map((n) => `Pötyi elvesztette a pöttyeit! Annyi pötty legyen a hátán, amennyit a szám mutat: ${n}. Tegyél rá, vagy vegyél le!`),
+    ...PRAISES.flatMap((p) => T.map((n) => `${p} Pötyinek most ${n} pöttye van.`)),
+    'Még kevés a pötty. Tegyél rá még!',
+    'Ez túl sok pötty. Vegyél le egyet!',
+  ];
 };

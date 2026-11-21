@@ -4,7 +4,7 @@ import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { BigSign } from '../../shared/G1Pics';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { towerEl } from './TestekG1Scenes';
 
 const newTarget = (prev?: number) => {
@@ -13,7 +13,7 @@ const newTarget = (prev?: number) => {
   return n;
 };
 
-export const TowerBuilderPlayground: React.FC = () => {
+export const TowerBuilderPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [target, setTarget] = useState(() => newTarget());
   const [n, setN] = useState(0);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
@@ -78,3 +78,10 @@ export const TowerBuilderPlayground: React.FC = () => {
     </div>
   );
 };
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+TowerBuilderPlayground.speechTexts = () => [
+  'Még alacsony a torony. Számold meg a kockákat, és tegyél rá még!',
+  'Ez túl magas lett. Számold meg a kockákat, és vegyél le!',
+  ...[2, 3, 4, 5, 6, 7, 8].flatMap((n) => [`Építs ${n} kockás tornyot!`, ...PRAISES.map((p) => `${p} A torony ${n} kockából áll.`)]),
+];

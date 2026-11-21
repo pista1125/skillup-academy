@@ -4,7 +4,7 @@ import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble } from '../../shared/MeseKit';
 import { Potyi } from '../../shared/Potyi';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 
 const newStart = (prev?: number) => {
   let s = 1 + Math.floor(Math.random() * 9); // 1–9
@@ -12,12 +12,14 @@ const newStart = (prev?: number) => {
   return s;
 };
 
-export const FillTenPlayground: React.FC = () => {
+const startSay = (start: number) => `A keretben ${start} piros korong van. Koppints az üres helyekre, és tegyél bele kék korongokat, hogy tele legyen! A teli keretben 10 korong van.`;
+
+export const FillTenPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [start, setStart] = useState(() => newStart());
   const [blue, setBlue] = useState<number[]>([]);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
   const total = start + blue.length;
-  const say = `A keretben ${start} piros korong van. Koppints az üres helyekre, és tegyél bele kék korongokat, hogy tele legyen! A teli keretben 10 korong van.`;
+  const say = startSay(start);
 
   const toggle = (i: number) => {
     setMsg(null);
@@ -76,4 +78,14 @@ export const FillTenPlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+FillTenPlayground.speechTexts = () => {
+  const S = Array.from({ length: 9 }, (_, i) => i + 1);
+  return [
+    ...S.map(startSay),
+    ...PRAISES.flatMap((p) => S.map((st) => `${p} Tele van a keret. ${st} meg ${10 - st} az 10.`)),
+    "Még van üres hely. Tölts meg minden helyet!",
+  ];
 };

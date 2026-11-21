@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { ITEM_SAY, ItemKind, scale } from './ATomegMereseG1Scenes';
 
 const FRUITS: ItemKind[] = ['alma', 'korte', 'mez', 'tok', 'dinnye', 'eper'];
@@ -16,7 +16,7 @@ const newTask = (prev?: Task): Task => {
   return t;
 };
 
-export const BalancePlayground: React.FC = () => {
+export const BalancePlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState<Task>(() => newTask());
   const [n, setN] = useState(0);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
@@ -72,4 +72,15 @@ export const BalancePlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+BalancePlayground.speechTexts = () => {
+  const N = Array.from({ length: 8 }, (_, i) => i + 1);
+  return [
+    ...FRUITS.map((k) => `Hány golyó nehéz ${az(ITEM_SAY[k])} ${ITEM_SAY[k]}? Tegyél golyókat a másik serpenyőbe, amíg a mérleg egyenesen nem áll!`),
+    ...PRAISES.flatMap((p) => FRUITS.flatMap((k) => N.map((n) => `${p} Egyensúlyban van! ${az(ITEM_SAY[k])[0].toUpperCase()}${az(ITEM_SAY[k]).slice(1)} ${ITEM_SAY[k]} ${n} golyó nehéz.`))),
+    'A bal oldal még lent van, az a nehezebb. Tegyél még golyót!',
+    'Most a golyók oldala van lent, az a nehezebb. Vegyél el egyet!',
+  ];
 };

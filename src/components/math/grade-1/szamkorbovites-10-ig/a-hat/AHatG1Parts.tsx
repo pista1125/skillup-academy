@@ -5,7 +5,7 @@ import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { Potyi } from '../../shared/Potyi';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 
 type Task = { label: string; target: number; start: number };
 
@@ -34,7 +34,7 @@ const newOpTask = (prev?: Task): Task => {
   return t;
 };
 
-export const PotyiDotsPlayground: React.FC<{ mode?: 'digit' | 'op' }> = ({ mode = 'digit' }) => {
+export const PotyiDotsPlayground: React.FC<{ mode?: 'digit' | 'op' }> & { speechTexts?: () => string[] } = ({ mode = 'digit' }) => {
   const gen = mode === 'op' ? newOpTask : newDigitTask;
   const [task, setTask] = useState<Task>(() => gen());
   const [count, setCount] = useState(task.start);
@@ -106,3 +106,31 @@ export const PotyiDotsPlayground: React.FC<{ mode?: 'digit' | 'op' }> = ({ mode 
     </div>
   );
 };
+
+/** Az adott mód minden lehetséges feladat-címkéje és eredménye. */
+const allOpTasks = (): Task[] => {
+  const out: Task[] = [];
+  for (let a = 1; a <= 6; a++) for (let b = 0; b < 7 - a; b++) out.push({ label: `${a} + ${b}`, target: a + b, start: 0 });
+  for (let a = 2; a <= 6; a++) for (let b = 0; b < a; b++) out.push({ label: `${a} − ${b}`, target: a - b, start: 0 });
+  return out;
+};
+
+/** Minden mondat, amit a játszótér az adott módban mondhat – a hanggeneráláshoz (scripts/tts). */
+export const potyiDotsSpeechTexts = (mode: 'digit' | 'op'): string[] => {
+  const common = ['Ez még kevés. Tegyél rá még pöttyöt!', 'Ez túl sok. Vegyél el egy pöttyöt!'];
+  if (mode === 'op') {
+    const tasks = allOpTasks();
+    return [
+      ...tasks.map((t) => `Számold ki: ${t.label}! Annyi pötty legyen Pötyi hátán, amennyi az eredmény.`),
+      ...PRAISES.flatMap((p) => tasks.map((t) => `${p} ${t.label} = ${t.target}.`)),
+      ...common,
+    ];
+  }
+  const targets = [2, 3, 4, 5, 6];
+  return [
+    ...targets.map((n) => `Nézd a kártyát! ${n} pötty legyen Pötyi hátán. Tegyél rá, vagy vegyél el!`),
+    ...PRAISES.flatMap((p) => targets.map((n) => `${p} Pötyi hátán ${n} pötty van.`)),
+    ...common,
+  ];
+};
+PotyiDotsPlayground.speechTexts = () => potyiDotsSpeechTexts('digit');

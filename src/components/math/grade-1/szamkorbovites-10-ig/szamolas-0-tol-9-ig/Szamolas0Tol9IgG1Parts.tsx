@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { EqCard } from '../a-nyolc/ANyolcG1Scenes';
 import { TrayScene } from './Szamolas0Tol9IgG1Scenes';
 
@@ -26,15 +26,18 @@ const newTask = (prev?: Task): Task => {
   }
 };
 
-export const CookieCalcPlayground: React.FC = () => {
+const taskSay = (task: Task) =>
+  task.plus
+    ? `A tálcán ${task.a} csillag és ${task.b} szív alakú süti van. Hány süti van összesen? ${task.a} + ${task.b} = ?`
+    : `A tálcán ${task.a} süti volt. ${task.b} sütit megettek, ezeket áthúztuk. Hány maradt? ${task.a} − ${task.b} = ?`;
+
+export const CookieCalcPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState<Task>(() => newTask());
   const [picked, setPicked] = useState<number | null>(null);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
   const result = task.plus ? task.a + task.b : task.a - task.b;
   const eq = `${task.a} ${task.plus ? '+' : '−'} ${task.b} = □`;
-  const say = task.plus
-    ? `A tálcán ${task.a} csillag és ${task.b} szív alakú süti van. Hány süti van összesen? ${task.a} + ${task.b} = ?`
-    : `A tálcán ${task.a} süti volt. ${task.b} sütit megettek, ezeket áthúztuk. Hány maradt? ${task.a} − ${task.b} = ?`;
+  const say = taskSay(task);
 
   const choose = (v: number) => {
     setPicked(v);
@@ -84,4 +87,17 @@ export const CookieCalcPlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+CookieCalcPlayground.speechTexts = () => {
+  const tasks: Task[] = [];
+  for (let a = 1; a <= 8; a++) for (let b = 1; b <= 9 - a; b++) tasks.push({ plus: true, a, b });
+  for (let a = 4; a <= 9; a++) for (let b = 1; b <= a; b++) tasks.push({ plus: false, a, b });
+  return [
+    ...tasks.map(taskSay),
+    ...PRAISES.flatMap((p) => tasks.map((t) => `${p} ${t.a} ${t.plus ? "+" : "−"} ${t.b} = ${t.plus ? t.a + t.b : t.a - t.b}.`)),
+    "Nem egészen. Számold meg a csillagokat, aztán számolj tovább a szívekkel!",
+    "Nem egészen. Csak azokat a sütiket számold, amelyek nincsenek áthúzva!",
+  ];
 };

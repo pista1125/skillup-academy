@@ -4,7 +4,7 @@ import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { ICONS, IconName } from '../../shared/G1Pics';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 
 const KINDS: IconName[] = ['eper', 'alma', 'madar', 'gomba', 'hal', 'meh'];
 
@@ -32,7 +32,7 @@ const Cell: React.FC<{ icon: IconName; crossed: boolean }> = ({ icon, crossed })
   </svg>
 );
 
-export const CrossOutPlayground: React.FC = () => {
+export const CrossOutPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState<Task>(() => newTask());
   const [crossed, setCrossed] = useState<number[]>([]);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
@@ -121,4 +121,20 @@ export const CrossOutPlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+CrossOutPlayground.speechTexts = () => {
+  const out: string[] = [
+    'Ez már túl sok! Koppints egy áthúzottra, hogy visszajöjjön.',
+    'Ügyes! Most számold meg: hány maradt?',
+    'Az áthúzottakat már ne számold! Csak azokat, amelyek maradtak.',
+    'Számold meg még egyszer! Mutass rá azokra, amelyek nincsenek áthúzva.',
+  ];
+  for (let a = 1; a <= 5; a++)
+    for (let b = 0; b <= a; b++) {
+      out.push(b === 0 ? `Itt ${a} van. Most nem kell áthúzni semmit! Hány marad?` : `Itt ${a} van. Húzz át ${ACC[b]}! Koppints rájuk!`);
+      out.push(...PRAISES.map((p) => `${p} ${a} − ${b} = ${a - b}. ${a - b === 0 ? 'Nem maradt semmi.' : `${a - b} maradt.`}`));
+    }
+  return out;
 };

@@ -5,7 +5,7 @@ import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { BigSign } from '../../shared/G1Pics';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { TwoFrames } from './ATizenegyG1Scenes';
 
 const pickTarget = (max: number, prev?: number) => {
@@ -76,4 +76,17 @@ export const FramesBuildLab: React.FC<{ max: number }> = ({ max }) => {
   );
 };
 
-export const ElevenFramesPlayground: React.FC = () => <FramesBuildLab max={11} />;
+export const ElevenFramesPlayground: React.FC & { speechTexts?: () => string[] } = () => <FramesBuildLab max={11} />;
+
+/** A FramesBuildLab minden mondata adott `max` mellett (célszámok: 5…max). */
+export const framesBuildTexts = (max: number): string[] => {
+  const T = Array.from({ length: max - 4 }, (_, i) => i + 5);
+  return [
+    ...T.map((t) => `Rakj ki ${t} korongot! Előbb az első keretet töltsd meg, a többi a második keretbe megy.`),
+    ...PRAISES.flatMap((p) => T.map((t) => (t > 10 ? `${p} ${t}: 1 tízes és ${t - 10} egyes.` : t === 10 ? `${p} Tele az első keret: ez 1 tízes.` : `${p} Ez ${t} korong.`))),
+    'Még kevés a korong. Tegyél még!',
+    'Ez túl sok. Vegyél le egyet!',
+  ];
+};
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+ElevenFramesPlayground.speechTexts = () => framesBuildTexts(11);

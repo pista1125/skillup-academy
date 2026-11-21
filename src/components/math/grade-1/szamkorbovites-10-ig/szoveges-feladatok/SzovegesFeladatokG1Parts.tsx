@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble, SpeakButton } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { CountBox, PicName } from '../a-nyolc/ANyolcG1Scenes';
 
 interface Kind {
@@ -59,7 +59,7 @@ const newStory = (prev?: Story): Story => {
   return { kind, op, a, b: rnd(1, a - 1) };
 };
 
-export const StoryMachinePlayground: React.FC = () => {
+export const StoryMachinePlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [story, setStory] = useState<Story>(() => newStory());
   const [opOk, setOpOk] = useState(false);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
@@ -137,4 +137,21 @@ export const StoryMachinePlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+StoryMachinePlayground.speechTexts = () => {
+  const stories: { op: "+" | "−"; a: number; b: number }[] = [];
+  for (let a = 1; a <= 8; a++) for (let b = 1; b <= 10 - a; b++) stories.push({ op: "+", a, b });
+  for (let a = 3; a <= 10; a++) for (let b = 1; b <= a - 1; b++) stories.push({ op: "−", a, b });
+  return [
+    ...KINDS.flatMap((k) => stories.map((st) => (st.op === "+" ? k.add(st.a, st.b) : k.sub(st.a, st.b)))),
+    "Igen! Több lett, ez összeadás.",
+    "Igen! Kevesebb lett, ez kivonás.",
+    "Figyeld meg: jött még, vagy elment? Több lett vagy kevesebb?",
+    "Figyeld meg: elment valami. Több lett vagy kevesebb?",
+    ...PRAISES.flatMap((p) => stories.map((st) => `${p} ${st.a} ${st.op} ${st.b} = ${st.op === "+" ? st.a + st.b : st.a - st.b}.`)),
+    ...Array.from({ length: 8 }, (_, i) => i + 1).map((a) => `Számolj tovább ${a === 1 || a === 5 ? "az" : "a"} ${tol(a)}!`),
+    "Az áthúzottakat ne számold!",
+  ];
 };

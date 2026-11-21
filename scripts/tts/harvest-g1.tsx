@@ -7,7 +7,7 @@ import path from 'node:path';
 import React from 'react';
 import { lessonSpeechTexts, type MesePage } from '@/components/math/grade-1/shared/MeseLesson';
 import { quizSpeechTexts } from '@/components/math/grade-1/shared/MeseQuiz';
-import { PRAISES, RETRY } from '@/components/math/grade-1/shared/speech';
+import { PRAISES, RETRY, splitPraise } from '@/components/math/grade-1/shared/speech';
 import { VOICE_SWITCH_SAY } from '@/components/math/grade-1/shared/MeseKit';
 import { toSpeechText } from '@/components/math/grade-1/shared/speechKey';
 
@@ -18,7 +18,8 @@ const OUT = path.join(ROOT, 'scratch/g1/tts/texts.json');
 type AnyFC = (props: Record<string, unknown>) => React.ReactElement | null;
 type WithSpeech = { speechTexts?: () => string[] };
 
-const uniq = (arr: string[]) => [...new Set(arr.map(toSpeechText).filter(Boolean))];
+// a dicséret + mondat kombinációkat a lejátszó is két részre bontja (speech.ts splitPraise)
+const uniq = (arr: string[]) => [...new Set(arr.flatMap(splitPraise).map(toSpeechText).filter(Boolean))];
 
 /** A React-elemfából (props.children, props.playground…) összeszedi a speechTexts-szel rendelkező komponenseket. */
 const playgroundTexts = (node: unknown, out: string[], seen = new Set<unknown>()) => {

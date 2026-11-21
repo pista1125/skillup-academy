@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { OptionButton, PotyiBubble, shuffle } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { ExprScene, TwoFrames } from '../a-tizenot/ATizenotG1Scenes';
 
 type Task = { n: number; b: number };
@@ -29,7 +29,7 @@ const opts = (right: number, lo: number, hi: number) => {
   return shuffle(Array.from(set));
 };
 
-export const BackToTenPlayground: React.FC = () => {
+export const BackToTenPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState<Task>(() => newTask());
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [wrong, setWrong] = useState<number | null>(null);
@@ -110,4 +110,16 @@ export const BackToTenPlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+BackToTenPlayground.speechTexts = () => {
+  const tasks: Task[] = [];
+  for (let n = 11; n <= 17; n++) for (let b = n - 9; b <= 9; b++) tasks.push({ n, b });
+  return [
+    'Vissza a tízig! Először mondd meg, hányat kell elvenni, hogy pont 10 maradjon. Aztán mondd meg, mennyi marad a végén.',
+    ...PRAISES.flatMap((p) => tasks.flatMap(({ n, b }) => [`${p} ${n} elvéve ${n - 10} az 10. Ebből vegyél el még ennyit: ${b - (n - 10)}.`, `${p} ${n} − ${b} = ${n - b}.`])),
+    'Nézd a második keretet: annyit vegyél el, hogy csak a teli első keret maradjon!',
+    ...tasks.map(({ n, b }) => `A 10-ből vegyél el még ennyit: ${b - (n - 10)}. Számolj visszafelé!`),
+  ];
 };

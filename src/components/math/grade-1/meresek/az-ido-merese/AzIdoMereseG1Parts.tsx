@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { clock } from './AzIdoMereseG1Scenes';
 
 const EVENTS = [
@@ -24,7 +24,7 @@ const newTask = (prev?: Task): Task => {
   return { h, ev: EVENTS[Math.floor(Math.random() * EVENTS.length)] };
 };
 
-export const ClockSetPlayground: React.FC = () => {
+export const ClockSetPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState<Task>(() => newTask());
   const [hand, setHand] = useState(12);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
@@ -106,4 +106,16 @@ export const ClockSetPlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+ClockSetPlayground.speechTexts = () => {
+  const H = Array.from({ length: 10 }, (_, i) => i + 1);
+  const hands = Array.from({ length: 11 }, (_, i) => i + 1);
+  return [
+    ...EVENTS.flatMap((ev) => H.map((h) => `${ev} Állítsd be az órát ${h} órára! Koppints a számlapon arra a számra, ahová a kis piros mutató menjen, aztán koppints a Kész gombra!`)),
+    ...PRAISES.flatMap((p) => H.map((h) => `${p} A nagymutató felfelé mutat, a kismutató ${az(h)} ${h} felé. Ez pontosan ${h} óra.`)),
+    ...H.map((h) => `A kismutató még felfelé mutat. Keresd meg a számlapon ${az(h)} ${h} számot, és koppints rá!`),
+    ...H.flatMap((h) => hands.filter((x) => x !== h).map((x) => `Ez most ${x} óra. Mi ${h} órát keresünk. Próbáld újra!`)),
+  ];
 };

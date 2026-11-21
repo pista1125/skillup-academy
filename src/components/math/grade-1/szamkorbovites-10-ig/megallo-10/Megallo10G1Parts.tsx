@@ -4,7 +4,7 @@ import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble } from '../../shared/MeseKit';
 import { TenFrame } from '../../shared/G1Pics';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { EqCard } from '../a-nyolc/ANyolcG1Scenes';
 import { TreasureScene } from './Megallo10G1Scenes';
 
@@ -45,7 +45,7 @@ const makeTask = (): Task => {
   return { text: `? ${n}`, say: `Melyik szám áll ${art(n)} ${n} előtt? Mi ${art(n)} ${n} kisebb szomszédja?`, answer: n - 1 };
 };
 
-export const TreasurePlayground: React.FC = () => {
+export const TreasurePlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState<Task>(() => makeTask());
   const [gems, setGems] = useState(0);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
@@ -100,4 +100,21 @@ export const TreasurePlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+TreasurePlayground.speechTexts = () => {
+  const says: string[] = [];
+  for (let a = 1; a <= 9; a++) for (let b = 1; b <= 10 - a; b++) says.push(`Mennyi ${a} + ${b}?`);
+  for (let a = 2; a <= 10; a++) for (let b = 1; b <= a - 1; b++) says.push(`Mennyi ${a} − ${b}?`);
+  for (let c = 3; c <= 10; c++) for (let a = 1; a <= c - 1; a++) says.push(`${a} meg valahány az ${c}. Melyik szám kell a négyzetbe?`);
+  for (let n = 0; n <= 9; n++) says.push(`Melyik szám jön ${art(n)} ${n} után? Mi ${art(n)} ${n} nagyobb szomszédja?`);
+  for (let n = 1; n <= 10; n++) says.push(`Melyik szám áll ${art(n)} ${n} előtt? Mi ${art(n)} ${n} kisebb szomszédja?`);
+  return [
+    ...says,
+    ...says.map((x) => `Minden jó válaszért egy drágakő kerül a ládába. ${x}`),
+    "Hurrá! Tele a kincsesláda: 10 drágakő!",
+    ...PRAISES.flatMap((p) => Array.from({ length: 9 }, (_, i) => `${p} Kapsz egy drágakövet. Már ${i + 1} van a ládában.`)),
+    "Nem egészen. Nézd meg a képet, és számolj újra!",
+  ];
 };

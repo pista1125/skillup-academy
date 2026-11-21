@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { OpScene } from '../a-het/AHetG1Scenes';
 
 const ACC = ['nullát', 'egyet', 'kettőt', 'hármat', 'négyet', 'ötöt', 'hatot', 'hetet'];
@@ -28,7 +28,7 @@ const newTask = (prev?: Task): Task => {
   return { a: 5, b: 2, op: '+' };
 };
 
-export const PicnicPlayground: React.FC = () => {
+export const PicnicPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState<Task>(() => newTask());
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
   const res = task.op === '+' ? task.a + task.b : task.a - task.b;
@@ -85,4 +85,23 @@ export const PicnicPlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+PicnicPlayground.speechTexts = () => {
+  const tasks: Task[] = [];
+  for (let sum = 4; sum <= 7; sum++) for (let a = 1; a < sum; a++) tasks.push({ a, b: sum - a, op: '+' });
+  for (let a = 4; a <= 7; a++) for (let b = 1; b < a; b++) tasks.push({ a, b, op: '−' });
+  return [
+    ...tasks.map((t) =>
+      t.op === '+'
+        ? `Pötyinek ${t.a} epre van. Zümi hoz még ${ACC[t.b]}. Hány eper lesz összesen?`
+        : `Pötyinek ${t.a} epre van. Csigusz megeszik ${ACC[t.b]}. Hány marad?`,
+    ),
+    ...PRAISES.flatMap((p) => tasks.map((t) => `${p} ${t.a} ${t.op === '+' ? 'meg' : 'elvéve'} ${t.b}, az ${t.op === '+' ? t.a + t.b : t.a - t.b}.`)),
+    'Kevés. Számold meg az összes epret együtt!',
+    'Sok. Számold meg újra az epreket!',
+    'Kevés. Csak az áthúzottak tűntek el!',
+    'Sok. Az áthúzott epreket ne számold!',
+  ];
 };

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { NumberHouse } from './ANegyG1Scenes';
 
 const newTarget = (total: number, prev?: number) => {
@@ -13,7 +13,7 @@ const newTarget = (total: number, prev?: number) => {
 };
 
 /** A gyerek koppintással pirosra/kékre színezi a korongokat, hogy pontosan `target` piros legyen. */
-export const SplitPlayground: React.FC<{ total?: number }> = ({ total = 4 }) => {
+export const SplitPlayground: React.FC<{ total?: number }> & { speechTexts?: () => string[] } = ({ total = 4 }) => {
   const [target, setTarget] = useState(() => newTarget(total));
   const [red, setRed] = useState<boolean[]>(() => Array(total).fill(false));
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
@@ -73,4 +73,18 @@ export const SplitPlayground: React.FC<{ total?: number }> = ({ total = 4 }) => 
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). A lecke total={4}-gyel használja. */
+SplitPlayground.speechTexts = () => {
+  const total = 4;
+  const out: string[] = [
+    'Még kevés a piros. Koppints egy kék korongra!',
+    'Túl sok a piros. Koppints egy piros korongra, hogy kék legyen!',
+  ];
+  for (let target = 0; target <= total; target++) {
+    out.push(`${total} korong van. ${target === 0 ? 'Egyik se legyen piros, mind legyen kék!' : `Koppints a korongokra! ${target} legyen piros, a többi kék.`}`);
+    out.push(...PRAISES.map((p) => `${p} ${target} piros és ${total - target} kék. Ez együtt ${total}.`));
+  }
+  return out;
 };

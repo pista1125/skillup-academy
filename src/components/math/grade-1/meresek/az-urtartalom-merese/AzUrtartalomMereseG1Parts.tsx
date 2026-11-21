@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { glass, measureJug } from './AzUrtartalomMereseG1Scenes';
 
 const newTarget = (prev?: number) => {
@@ -13,7 +13,7 @@ const newTarget = (prev?: number) => {
   return n;
 };
 
-export const FillJugPlayground: React.FC = () => {
+export const FillJugPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [target, setTarget] = useState(() => newTarget());
   const [dl, setDl] = useState(0);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
@@ -77,4 +77,15 @@ export const FillJugPlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+FillJugPlayground.speechTexts = () => {
+  const N = Array.from({ length: 8 }, (_, i) => i + 2);
+  return [
+    ...N.map((n) => `Tölts a mérőedénybe ${n} deciliter vizet! Minden pohár 1 deciliter. Ha kész vagy, koppints a Kész gombra!`),
+    ...PRAISES.flatMap((p) => N.map((n) => `${p} Pontosan ${n} deciliter víz van a mérőedényben.${n === 10 ? ' Ez 1 liter!' : ''}`)),
+    'Még kevés! Számold meg a vonalakat alulról, és önts még bele!',
+    'Túl sok lett! Önts ki egy pohárral!',
+  ];
 };

@@ -228,7 +228,7 @@ const playClip = (url: string, text: string, my: number, done: () => void, rate?
  * Csendben nem csinál semmit, ha nincs hang vagy ki van kapcsolva.
  */
 export const speak = (text: string | string[], opts: { force?: boolean; rate?: number; onEnd?: () => void } = {}) => {
-  const parts = (Array.isArray(text) ? text : [text]).filter((t) => t && toSpeechText(t));
+  const parts = (Array.isArray(text) ? text : [text]).flatMap(splitPraise).filter((t) => t && toSpeechText(t));
   if (IS_TEST || !isSpeechSupported() || !parts.length) return;
   if (!opts.force && !isVoiceOn()) return;
   stopSpeaking();
@@ -405,5 +405,14 @@ export const useStopSpeechOnUnmount = () => {
 
 export const PRAISES = ['Ügyes vagy!', 'Szuper!', 'Nagyon jó!', 'Hű, de okos vagy!', 'Pontosan!', 'Bravó!', 'Ez az!'];
 export const RETRY = ['Majdnem! Próbáld újra!', 'Nézd meg még egyszer!', 'Semmi baj, próbáld újra!'];
+
+/**
+ * „Szuper! A torony 4 kockából áll.” → ['Szuper!', 'A torony 4 kockából áll.']: a dicséret külön hangfájl,
+ * így nem kell minden dicséret × mondat kombinációt legyártani (a hanggenerálás is így bontja).
+ */
+export function splitPraise(text: string): string[] {
+  for (const p of PRAISES) if (text.startsWith(p + ' ')) return [p, text.slice(p.length + 1)];
+  return [text];
+}
 export const randomPraise = () => PRAISES[Math.floor(Math.random() * PRAISES.length)];
 export const randomRetry = () => RETRY[Math.floor(Math.random() * RETRY.length)];

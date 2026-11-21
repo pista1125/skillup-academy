@@ -4,7 +4,7 @@ import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble } from '../../shared/MeseKit';
 import { BigSign } from '../../shared/G1Pics';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { RodsScene } from './AHuszG1Scenes';
 
 const newTarget = (prev?: number) => {
@@ -16,7 +16,7 @@ const newTarget = (prev?: number) => {
 
 const nameOnes = (o: number) => (o === 0 ? 'nulla egyes' : `${o} egyes`);
 
-export const RodsPlayground: React.FC = () => {
+export const RodsPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [target, setTarget] = useState(() => newTarget());
   const [tens, setTens] = useState(0);
   const [ones, setOnes] = useState(0);
@@ -87,4 +87,17 @@ export const RodsPlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+RodsPlayground.speechTexts = () => {
+  const T = Array.from({ length: 11 }, (_, i) => i + 10);
+  return [
+    'Nézd a számot a táblán! Rakd ki rudakkal és kockákkal. Egy narancs rúd 10 kocka, egy tízes. A sárga kocka egy egyes. A gombokkal teszel hozzá vagy veszel el.',
+    ...PRAISES.flatMap((p) => T.map((t) => `${p} ${Math.floor(t / 10)} tízes és ${nameOnes(t % 10)}: ${t}.`)),
+    'Kevés a rúd. Tegyél be még egy tízest!',
+    'Túl sok a rúd. Vegyél ki egy tízest!',
+    'Kevés a kocka. Tegyél be még egyest!',
+    'Túl sok a kocka. Vegyél ki egyet!',
+  ];
 };

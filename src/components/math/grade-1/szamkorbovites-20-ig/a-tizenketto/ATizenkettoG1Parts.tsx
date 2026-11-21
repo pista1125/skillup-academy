@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { DiceScene } from './ATizenkettoG1Scenes';
 
 const NUMS = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 const roll = () => [1 + Math.floor(Math.random() * 6), 1 + Math.floor(Math.random() * 6)] as const;
 
-export const DiceBoardPlayground: React.FC = () => {
+export const DiceBoardPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [dice, setDice] = useState<readonly [number, number]>(() => roll());
   const [taken, setTaken] = useState<number[]>([]);
   const [done, setDone] = useState(false);
@@ -77,4 +77,16 @@ export const DiceBoardPlayground: React.FC = () => {
       <p className="text-center text-sm text-slate-500">{taken.length} / {NUMS.length} kör foglalt</p>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+DiceBoardPlayground.speechTexts = () => {
+  const D = [1, 2, 3, 4, 5, 6];
+  return [
+    ...D.flatMap((a) => D.map((b) => `Pötyi dobott: ${a} és ${b}. Mennyi ${a} meg ${b}? Koppints arra a számra!`)),
+    ...PRAISES.flatMap((p) => D.flatMap((a) => D.map((b) => `${p} ${a} meg ${b} egyenlő ${a + b}. Pötyi korongot tett erre a körre.`))),
+    ...NUMS.map((s) => `Igen, ${s}! Ez a kör már foglalt. Kérj új feladatot!`),
+    'Ez kevés. Számold meg mindkét kockát!',
+    'Ez sok. Számold meg újra a pöttyöket!',
+  ];
 };

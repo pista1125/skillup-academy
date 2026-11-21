@@ -4,7 +4,7 @@ import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { ICONS, IconName } from '../../shared/G1Pics';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 
 const KINDS: { a: IconName; b: IconName; name: string }[] = [
   { a: 'gomba', b: 'gomba', name: 'gomba' },
@@ -25,14 +25,15 @@ const newTask = (prev?: { k: number; target: number }) => {
   return { k, target, start };
 };
 
+const SAY = 'Nézd meg a felső sort! Az alsó sorban legyen ugyanannyi. Tegyél hozzá, vagy koppints egyre, hogy elmenjen!';
+
 const Cell: React.FC<{ icon: IconName }> = ({ icon }) => <svg viewBox="0 0 60 60" className="w-full h-full">{ICONS[icon]({ x: 30, y: 30, s: 1.2 })}</svg>;
 
-export const SameCountPlayground: React.FC = () => {
+export const SameCountPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState(() => newTask());
   const [count, setCount] = useState(task.start);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
   const kind = KINDS[task.k];
-  const say = 'Nézd meg a felső sort! Az alsó sorban legyen ugyanannyi. Tegyél hozzá, vagy koppints egyre, hogy elmenjen!';
 
   const check = () => {
     let t: string;
@@ -57,7 +58,7 @@ export const SameCountPlayground: React.FC = () => {
 
   return (
     <div className="space-y-3">
-      <PotyiBubble text="Legyen ugyanannyi!" say={say} mood="happy" dots={3} />
+      <PotyiBubble text="Legyen ugyanannyi!" say={SAY} mood="happy" dots={3} />
       <div className="rounded-3xl border-4 border-amber-300 bg-amber-50 min-h-[100px] p-2 flex flex-wrap items-center justify-center gap-2">
         {Array.from({ length: task.target }, (_, i) => (
           <div key={i} className="w-20 h-20 rounded-2xl bg-white border-4 border-amber-200">
@@ -107,3 +108,12 @@ export const SameCountPlayground: React.FC = () => {
     </div>
   );
 };
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+SameCountPlayground.speechTexts = () => [
+  SAY,
+  'Lent kevesebb van. Tegyél hozzá!',
+  'Lent több van. Koppints egyre, hogy elmenjen!',
+  ...PRAISES.map((p) => `${p} Mindkét sor üres: nulla és nulla.`),
+  ...[1, 2, 3].flatMap((n) => PRAISES.map((p) => `${p} Ugyanannyi! Mindkét sorban ${n} van.`)),
+];

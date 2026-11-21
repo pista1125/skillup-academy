@@ -4,7 +4,7 @@ import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { Domino, Hand } from '../../shared/G1Pics';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { BasketBox, BugCard } from './ANullaG1Scenes';
 
 type Kind = 'kosar' | 'katica' | 'domino' | 'kez';
@@ -32,7 +32,7 @@ const Picture: React.FC<{ kind: Kind; n: number }> = ({ kind, n }) => {
   return <Hand fingers={n} className="w-36 h-36" />;
 };
 
-export const ZeroCountPlayground: React.FC = () => {
+export const ZeroCountPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState(() => newTask());
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
   const [wrong, setWrong] = useState<number[]>([]);
@@ -89,3 +89,12 @@ export const ZeroCountPlayground: React.FC = () => {
     </div>
   );
 };
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+ZeroCountPlayground.speechTexts = () => [
+  ...KINDS.map((k) => k.say),
+  'Nézd meg jól! Van itt egy is? Ha nincs semmi, az nulla.',
+  'Számold meg még egyszer, mutass rá mindegyikre!',
+  ...PRAISES.map((p) => `${p} Nincs egy sem, ez nulla.`),
+  ...[1, 2].flatMap((n) => PRAISES.map((p) => `${p} Ez ${n}.`)),
+];

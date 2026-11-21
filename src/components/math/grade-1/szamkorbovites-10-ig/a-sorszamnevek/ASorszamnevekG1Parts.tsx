@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { XPIC, XPicName } from '../a-kilenc/AKilencG1Scenes';
 
 const ORD = ['első', 'második', 'harmadik', 'negyedik', 'ötödik', 'hatodik', 'hetedik', 'nyolcadik', 'kilencedik'];
@@ -24,19 +24,22 @@ const newTask = (prev?: { k: number; kind: number }) => {
   return { k, kind: Math.floor(Math.random() * KINDS.length) };
 };
 
-export const OrdinalTapPlayground: React.FC = () => {
+const taskSay = (k: number, acc: string) => `Koppints balról ${az(k)} ${ORD[k]} ${acc}! A zöld nyílnál kezdd a számolást: első, második, harmadik…`;
+const wrongSay = (i: number, k: number) => `Ez ${az(i)} ${ORD[i]}. Számolj újra balról: első, második, harmadik… ${az(k)} ${ORD[k]} kell!`;
+
+export const OrdinalTapPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState(() => newTask());
   const [tapped, setTapped] = useState<number | null>(null);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
   const kind = KINDS[task.kind];
-  const say = `Koppints balról ${az(task.k)} ${ORD[task.k]} ${kind.acc}! A zöld nyílnál kezdd a számolást: első, második, harmadik…`;
+  const say = taskSay(task.k, kind.acc);
 
   const tap = (i: number) => {
     setTapped(i);
     const ok = i === task.k;
     const t = ok
       ? `${randomPraise()} Ez ${az(task.k)} ${ORD[task.k]}.`
-      : `Ez ${az(i)} ${ORD[i]}. Számolj újra balról: első, második, harmadik… ${az(task.k)} ${ORD[task.k]} kell!`;
+      : wrongSay(i, task.k);
     setMsg({ text: t, ok });
     speak(t);
     if (ok) confetti({ particleCount: 50, spread: 60, origin: { y: 0.7 } });
@@ -84,4 +87,14 @@ export const OrdinalTapPlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+OrdinalTapPlayground.speechTexts = () => {
+  const K = Array.from({ length: 9 }, (_, i) => i);
+  return [
+    ...KINDS.flatMap((kind) => K.map((k) => taskSay(k, kind.acc))),
+    ...PRAISES.flatMap((p) => K.map((k) => `${p} Ez ${az(k)} ${ORD[k]}.`)),
+    ...K.flatMap((k) => K.filter((i) => i !== k).map((i) => wrongSay(i, k))),
+  ];
 };

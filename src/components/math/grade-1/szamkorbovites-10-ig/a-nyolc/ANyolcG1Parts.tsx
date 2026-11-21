@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { SnowmanScene, WINTER } from './ANyolcG1Scenes';
 
 const newTarget = (prev?: number) => {
@@ -14,7 +14,7 @@ const newTarget = (prev?: number) => {
   return t;
 };
 
-export const SnowmanButtonsPlayground: React.FC = () => {
+export const SnowmanButtonsPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [target, setTarget] = useState(() => newTarget());
   const [count, setCount] = useState(0);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
@@ -82,3 +82,11 @@ export const SnowmanButtonsPlayground: React.FC = () => {
     </div>
   );
 };
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+SnowmanButtonsPlayground.speechTexts = () => [
+  'Nézd a számot a táblán! Annyi gombot tegyél a hóemberre. A Még egy gombbal teszel fel egyet, az Elveszek gombbal leveszel egyet.',
+  ...PRAISES.flatMap((p) => [`${p} Nulla gomb: a hóember most gomb nélkül áll.`, ...[1, 2, 3, 4, 5, 6, 7, 8].map((n) => `${p} Pont ${n} gomb van a hóemberen.`)]),
+  'Kevés gomb van rajta. Tegyél fel még!',
+  'Túl sok gomb van rajta. Vegyél le egyet!',
+];

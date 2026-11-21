@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 
 type Task = { total: number; blue: number };
 
@@ -17,7 +17,7 @@ const newTask = (prev?: Task): Task => {
   return t;
 };
 
-export const DiskFlipPlayground: React.FC = () => {
+export const DiskFlipPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState<Task>(() => newTask());
   const [blue, setBlue] = useState<boolean[]>(() => Array(task.total).fill(false));
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
@@ -78,4 +78,17 @@ export const DiskFlipPlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+DiskFlipPlayground.speechTexts = () => {
+  const tasks: Task[] = [];
+  for (let total = 3; total <= 6; total++) for (let blue = 1; blue < total; blue++) tasks.push({ total, blue });
+  const blues = [1, 2, 3, 4, 5];
+  return [
+    ...blues.map((b) => `Fordíts meg ${b} korongot, hogy kék legyen! Koppints a korongra, és megfordul.`),
+    ...PRAISES.flatMap((p) => tasks.map((t) => `${p} ${t.total - t.blue} piros meg ${t.blue} kék, az ${t.total}. ${t.total - t.blue} + ${t.blue} = ${t.total}.`)),
+    'Még kevés a kék. Fordíts meg még egyet!',
+    'Túl sok a kék. Fordíts vissza egyet pirosra!',
+  ];
 };

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { frogG } from './ATizenharomG1Scenes';
 
 const MAX = 13;
@@ -22,7 +22,7 @@ const newTask = (prev?: { from: number; d: number }) => {
   }
 };
 
-export const FrogHopPlayground: React.FC = () => {
+export const FrogHopPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState(() => newTask());
   const [pos, setPos] = useState(task.from);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
@@ -91,4 +91,18 @@ export const FrogHopPlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+FrogHopPlayground.speechTexts = () => {
+  const tasks: { from: number; d: number }[] = [];
+  for (let d = 1; d <= 5; d++) for (let from = 0; from <= MAX - d; from++) tasks.push({ from, d });
+  for (let d = 1; d <= 6; d++) for (let from = d; from <= MAX; from++) tasks.push({ from, d: -d });
+  const opText = (t: { from: number; d: number }) => (t.d > 0 ? `${t.from} + ${t.d}` : `${t.from} − ${-t.d}`);
+  return [
+    ...tasks.map((t) => `A béka itt ül: ${t.from}. ${t.d > 0 ? `Előre ugrik ${t.d} lépést.` : `Hátra ugrik ${-t.d} lépést.`} Hová érkezik? Koppints arra a számra!`),
+    ...PRAISES.flatMap((p) => tasks.map((t) => `${p} ${opText(t)} = ${t.from + t.d}.`)),
+    ...[1, 2, 3, 4, 5].map((d) => `Nem oda. Ugorj előre ${d} lépést, és számold hangosan!`),
+    ...[1, 2, 3, 4, 5, 6].map((d) => `Nem oda. Ugorj hátra ${d} lépést, és számold hangosan!`),
+  ];
 };

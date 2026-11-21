@@ -4,7 +4,7 @@ import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { TenFrame } from '../../shared/G1Pics';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { EqCard } from '../a-nyolc/ANyolcG1Scenes';
 
 type Task = { a: number; b: number; op: '+' | '−' };
@@ -28,7 +28,7 @@ const newTask = (prev?: Task): Task => {
 
 const result = (t: Task) => (t.op === '+' ? t.a + t.b : t.a - t.b);
 
-export const SnowballCalcPlayground: React.FC = () => {
+export const SnowballCalcPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState<Task>(() => newTask());
   const [picked, setPicked] = useState<number | null>(null);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
@@ -92,4 +92,21 @@ export const SnowballCalcPlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+SnowballCalcPlayground.speechTexts = () => {
+  const tasks: Task[] = [];
+  for (let sum = 3; sum <= 8; sum++) for (let a = 0; a <= sum; a++) tasks.push({ a, b: sum - a, op: '+' });
+  for (let a = 3; a <= 8; a++) for (let b = 0; b <= a; b++) tasks.push({ a, b, op: '−' });
+  return [
+    ...tasks.map((t) =>
+      t.op === '+'
+        ? `Nézd a korongokat! ${t.a} piros és ${t.b} kék. Mennyi ${t.a} meg ${t.b}? Koppints a jó számra!`
+        : `Nézd a korongokat! ${t.a} korongból ${t.b} át van húzva. Mennyi ${t.a} elvéve ${t.b}? Koppints a jó számra!`,
+    ),
+    ...PRAISES.flatMap((p) => tasks.map((t) => `${p} ${t.a} ${t.op === '+' ? 'meg' : 'elvéve'} ${t.b} az ${result(t)}.`)),
+    'Még nem jó. Számold meg az összes korongot, a pirosakat és a kékeket is!',
+    'Még nem jó. Csak azokat számold, amelyek nincsenek áthúzva!',
+  ];
 };

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 import { EqCard } from '../a-nyolc/ANyolcG1Scenes';
 import { MailboxesScene } from './Megallo9G1Scenes';
 
@@ -44,11 +44,13 @@ const newTask = (prev?: Task): Task => {
   }
 };
 
-export const LetterPlayground: React.FC = () => {
+const taskSay = (text: string) => `A levélen ez áll: ${text}. Számold ki, és vidd a levelet abba a postaládába, amelyiken az eredmény van!`;
+
+export const LetterPlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState<Task>(() => newTask());
   const [marks, setMarks] = useState<Record<number, 'ok' | 'bad'>>({});
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
-  const say = `A levélen ez áll: ${task.text}. Számold ki, és vidd a levelet abba a postaládába, amelyiken az eredmény van!`;
+  const say = taskSay(task.text);
 
   const pick = (i: number) => {
     const v = task.boxes[i];
@@ -80,4 +82,21 @@ export const LetterPlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+LetterPlayground.speechTexts = () => {
+  const tasks: { text: string; result: number }[] = [];
+  for (let a = 1; a <= 8; a++) for (let b = 1; b <= 9 - a; b++) tasks.push({ text: `${a} + ${b}`, result: a + b });
+  for (let a = 3; a <= 9; a++) for (let b = 1; b <= a; b++) tasks.push({ text: `${a} − ${b}`, result: a - b });
+  for (let a = 1; a <= 4; a++)
+    for (let b = 1; b <= 4; b++)
+      for (let c = 1; c <= Math.max(1, 9 - a - b); c++) if (a + b + c <= 9) tasks.push({ text: `${a} + ${b} + ${c}`, result: a + b + c });
+  return [
+    ...tasks.map((t) => taskSay(t.text)),
+    ...PRAISES.flatMap((p) => tasks.map((t) => `${p} ${t.text} = ${t.result}. Megérkezett a levél!`)),
+    ...tasks.flatMap((t) =>
+      [-3, -2, -1, 1, 2, 3].map((d) => t.result + d).filter((v) => v >= 0 && v <= 9).map((v) => `Ezen a ládán ${v} áll. Számold ki újra: ${t.text}!`)
+    ),
+  ];
 };

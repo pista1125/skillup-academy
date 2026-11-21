@@ -4,7 +4,7 @@ import confetti from 'canvas-confetti';
 import { cn } from '@/lib/utils';
 import { TenFrame } from '../../shared/G1Pics';
 import { PotyiBubble } from '../../shared/MeseKit';
-import { speak, randomPraise } from '../../shared/speech';
+import { speak, randomPraise, PRAISES } from '../../shared/speech';
 
 const newTask = (prev?: { a: number; b: number }) => {
   for (;;) {
@@ -16,7 +16,7 @@ const newTask = (prev?: { a: number; b: number }) => {
   }
 };
 
-export const AddFramePlayground: React.FC = () => {
+export const AddFramePlayground: React.FC & { speechTexts?: () => string[] } = () => {
   const [task, setTask] = useState(() => newTask());
   const [red, setRed] = useState(0);
   const [blue, setBlue] = useState(0);
@@ -119,4 +119,26 @@ export const AddFramePlayground: React.FC = () => {
       </div>
     </div>
   );
+};
+
+/** Minden mondat, amit a játszótér mondhat – a hanggeneráláshoz (scripts/tts). */
+AddFramePlayground.speechTexts = () => {
+  const out: string[] = [
+    'Most számold meg az összeset! Hány korong van összesen a keretben?',
+    'Először a pirosakat tedd ki, utána a kékeket!',
+    'Ügyes! Most számold meg az összeset! Hány korong van összesen?',
+    'Számold meg még egyszer az összes korongot, a pirosat és a kéket is!',
+  ];
+  for (let a = 0; a <= 4; a++)
+    for (let b = 0; a + b <= 5; b++) {
+      if (a + b === 0) continue;
+      out.push(
+        `Tegyél a keretbe ${a} piros korongot, aztán tegyél hozzá ${b} kéket! Ha elrontod, koppints a Töröl gombra.`,
+        `${a} meg ${b} egyenlő ${a + b}.`,
+        `Nézd meg a pirosakat! ${a} piros kell.`,
+        `Nézd meg a kékeket! ${b} kék kell.`,
+        ...PRAISES.map((p) => `${p} ${a} meg ${b} egyenlő ${a + b}.`)
+      );
+    }
+  return [...new Set(out)];
 };
