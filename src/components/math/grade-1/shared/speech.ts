@@ -17,8 +17,7 @@ const manifestListeners = new Set<() => void>();
 const IS_TEST = typeof import.meta !== 'undefined' && import.meta.env?.MODE === 'test';
 const IS_DEV = typeof import.meta !== 'undefined' && !!import.meta.env?.DEV;
 
-const hasWebSpeech = (): boolean =>
-  typeof window !== 'undefined' && 'speechSynthesis' in window && typeof window.SpeechSynthesisUtterance !== 'undefined';
+const hasWebSpeech = (): boolean => typeof window !== 'undefined' && 'speechSynthesis' in window && typeof window.SpeechSynthesisUtterance !== 'undefined';
 const hasAudio = (): boolean => typeof window !== 'undefined' && typeof window.Audio !== 'undefined';
 
 export const isSpeechSupported = (): boolean => hasWebSpeech() || hasAudio();
@@ -88,7 +87,12 @@ const loadManifest = (): Promise<void> => {
 
 /** Mely hangok érhetők el hangfájlként (a választóhoz). */
 export const availableVoices = (): { kind: VoiceKind; label: string }[] =>
-  manifest ? (Object.keys(manifest.voices) as VoiceKind[]).map((k) => ({ kind: k, label: manifest!.voices[k]!.label })) : [];
+  manifest
+    ? (Object.keys(manifest.voices) as VoiceKind[]).map((k) => ({
+        kind: k,
+        label: manifest!.voices[k]!.label,
+      }))
+    : [];
 
 const clipFor = (text: string): string | null => {
   const key = speechKey(text);
@@ -103,9 +107,51 @@ const clipFor = (text: string): string | null => {
   return null;
 };
 
+/* ---------------- Lejátszási állapot (a lejátszó sávokhoz) ---------------- */
+export interface PlayState {
+  /** A most szóló (normalizált) szöveg, vagy null. */
+  text: string | null;
+  status: 'idle' | 'playing' | 'paused';
+  /** Másodpercben. A böngészőhangnál becsült érték. */
+  current: number;
+  duration: number;
+  /** true: hangfájl (tekerhető), false: böngészőhang (becsült idő). */
+  clip: boolean;
+}
+const IDLE: PlayState = {
+  text: null,
+  status: 'idle',
+  current: 0,
+  duration: 0,
+  clip: false,
+};
+let playState: PlayState = IDLE;
+const playListeners = new Set<(s: PlayState) => void>();
+const setPlay = (p: Partial<PlayState> | PlayState, reset = false) => {
+  playState = reset ? { ...IDLE, ...p } : { ...playState, ...p };
+  playListeners.forEach((l) => l(playState));
+};
+export const getPlayState = () => playState;
+
+/** A böngészőhang becsült hossza (mp), ha nincs hangfájl. */
+export const estimateSeconds = (text: string) => Math.max(1, toSpeechText(text).length / 13);
+
+/** A szöveg hangfájljának URL-je (vagy null, ha nincs) – naplózás nélkül. */
+export const clipUrlFor = (text: string): string | null => {
+  const key = speechKey(text);
+  const pref = getVoiceKind();
+  for (const k of [pref, pref === 'female' ? 'male' : 'female'] as VoiceKind[]) if (clipSets[k]?.has(key)) return audioUrl(`${AUDIO_PREFIX}/${k}/${key}.mp3`);
+  return null;
+};
+
 /* ---------------- Lejátszás ---------------- */
 let audioEl: HTMLAudioElement | null = null;
 let token = 0;
+let webTimer: number | null = null;
+const clearWebTimer = () => {
+  if (webTimer !== null) window.clearInterval(webTimer);
+  webTimer = null;
+};
 
 const speakWeb = (text: string, done: () => void, rate?: number) => {
   if (!hasWebSpeech()) return done();
@@ -116,8 +162,30 @@ const speakWeb = (text: string, done: () => void, rate?: number) => {
     if (v) u.voice = v;
     u.rate = rate ?? 0.92;
     u.pitch = 1.1;
-    u.onend = done;
-    u.onerror = done;
+    const finish = () => {
+      clearWebTimer();
+      done();
+    };
+    u.onend = finish;
+    u.onerror = finish;
+    // becsült haladás (a Web Speech nem ad időt)
+    setPlay(
+      {
+        text: toSpeechText(text),
+        status: 'playing',
+        current: 0,
+        duration: estimateSeconds(text),
+        clip: false,
+      },
+      true,
+    );
+    clearWebTimer();
+    webTimer = window.setInterval(() => {
+      if (playState.status === 'playing')
+        setPlay({
+          current: Math.min(playState.duration, playState.current + 0.25),
+        });
+    }, 250);
     window.speechSynthesis.speak(u);
   } catch {
     done();
@@ -130,6 +198,23 @@ const playClip = (url: string, text: string, my: number, done: () => void, rate?
     const a = audioEl;
     a.onended = () => my === token && done();
     a.onerror = () => my === token && speakWeb(text, done, rate);
+    a.ontimeupdate = () =>
+      my === token &&
+      setPlay({
+        current: a.currentTime,
+        duration: Number.isFinite(a.duration) ? a.duration : playState.duration,
+      });
+    a.onloadedmetadata = () => my === token && Number.isFinite(a.duration) && setPlay({ duration: a.duration });
+    setPlay(
+      {
+        text: toSpeechText(text),
+        status: 'playing',
+        current: 0,
+        duration: durationCache.get(url) ?? 0,
+        clip: true,
+      },
+      true,
+    );
     a.src = url;
     const p = a.play();
     if (p && typeof p.catch === 'function') p.catch(() => my === token && speakWeb(text, done, rate));
@@ -150,7 +235,10 @@ export const speak = (text: string | string[], opts: { force?: boolean; rate?: n
   const my = token;
   const run = (i: number) => {
     if (my !== token) return;
-    if (i >= parts.length) return opts.onEnd?.();
+    if (i >= parts.length) {
+      setPlay(IDLE, true);
+      return opts.onEnd?.();
+    }
     const next = () => run(i + 1);
     const url = clipFor(parts[i]);
     if (url) playClip(url, parts[i], my, next, opts.rate);
@@ -174,10 +262,14 @@ export const speak = (text: string | string[], opts: { force?: boolean; rate?: n
 
 export const stopSpeaking = () => {
   token++;
+  if (typeof window !== 'undefined') clearWebTimer();
+  if (playState.status !== 'idle') setPlay(IDLE, true);
   try {
     if (audioEl) {
       audioEl.onended = null;
       audioEl.onerror = null;
+      audioEl.ontimeupdate = null;
+      audioEl.onloadedmetadata = null;
       audioEl.pause();
     }
   } catch {
@@ -189,6 +281,74 @@ export const stopSpeaking = () => {
   } catch {
     /* ignore */
   }
+};
+
+/** Szünet / folytatás / tekerés a most szóló szövegnél. */
+export const pauseSpeaking = () => {
+  if (playState.status !== 'playing') return;
+  try {
+    if (playState.clip) audioEl?.pause();
+    else window.speechSynthesis.pause();
+  } catch {
+    /* ignore */
+  }
+  setPlay({ status: 'paused' });
+};
+
+export const resumeSpeaking = () => {
+  if (playState.status !== 'paused') return;
+  try {
+    if (playState.clip) void audioEl?.play()?.catch(() => undefined);
+    else window.speechSynthesis.resume();
+  } catch {
+    /* ignore */
+  }
+  setPlay({ status: 'playing' });
+};
+
+/** 0–1 közötti helyre teker (csak hangfájlnál). */
+export const seekSpeaking = (frac: number) => {
+  if (!playState.clip || !audioEl || !Number.isFinite(audioEl.duration)) return;
+  audioEl.currentTime = Math.max(0, Math.min(1, frac)) * audioEl.duration;
+  setPlay({ current: audioEl.currentTime });
+};
+
+/** A lejátszás állapota (minden lejátszósáv ebből rajzol). */
+export const usePlayState = (): PlayState => {
+  const [s, setS] = useState<PlayState>(playState);
+  useEffect(() => {
+    playListeners.add(setS);
+    setS(playState);
+    return () => {
+      playListeners.delete(setS);
+    };
+  }, []);
+  return s;
+};
+
+/** A hangfájl hossza előre (metaadatból), hogy lejátszás előtt is látszódjon. */
+const durationCache = new Map<string, number>();
+export const useClipDuration = (text: string): { seconds: number; exact: boolean } => {
+  const [, kick] = useState(0);
+  const [kind] = useVoiceKind();
+  const url = manifest ? clipUrlFor(text) : null;
+  useEffect(() => {
+    if (!url || durationCache.has(url) || !hasAudio()) return;
+    let alive = true;
+    const a = new Audio();
+    a.preload = 'metadata';
+    a.onloadedmetadata = () => {
+      if (Number.isFinite(a.duration)) durationCache.set(url, a.duration);
+      if (alive) kick((n) => n + 1);
+    };
+    a.src = url;
+    return () => {
+      alive = false;
+      a.onloadedmetadata = null;
+    };
+  }, [url, kind]);
+  if (url && durationCache.has(url)) return { seconds: durationCache.get(url)!, exact: true };
+  return { seconds: estimateSeconds(text), exact: false };
 };
 
 let cachedVoice: SpeechSynthesisVoice | null | undefined;
