@@ -57,7 +57,17 @@ const gfetch = async (url: string, init: RequestInit = {}) => {
   // 429 (kvóta / percenkénti korlát) és 5xx esetén visszalépéssel újrapróbálja
   for (let attempt = 0; ; attempt++) {
     const token = await getToken();
-    const r = await fetch(url, { ...init, headers: { Authorization: `Bearer ${token}`, ...(init.headers || {}) } });
+    let r: Response;
+    try {
+      r = await fetch(url, { ...init, headers: { Authorization: `Bearer ${token}`, ...(init.headers || {}) } });
+    } catch (e) {
+      // hálózati hiba (pl. „fetch failed”) → ugyanúgy visszalépéssel újra
+      if (attempt >= 10) throw e;
+      const ms = Math.min(60_000, 2000 * 2 ** attempt);
+      console.warn(`  hálózati hiba → újra ${Math.round(ms / 1000)} s múlva`);
+      await wait(ms);
+      continue;
+    }
     if (r.ok) return r;
     const body = (await r.text()).slice(0, 400);
     if ((r.status === 429 || r.status >= 500) && attempt < 10) {
