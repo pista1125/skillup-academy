@@ -117,6 +117,10 @@ export default defineConfig(({ mode }) => ({
   build: {
     // A gzip-méretek kiírása sok ezer modulnál nagyon sok memóriát és időt visz el (CI OOM).
     reportCompressedSize: false,
+    rollupOptions: {
+      // Kevesebb párhuzamos fájlművelet → alacsonyabb csúcsmemória a CI-ban.
+      maxParallelFileOps: 20,
+    },
   },
   optimizeDeps: {
     include: ['three', '@react-three/fiber', '@react-three/drei'],
