@@ -1,7 +1,7 @@
 /**
  * DiákZóna Platform Statisztikák
  * Pontos, valós értékek a teljes tananyagról, feladatokról, eszközökről és játékokról.
- * Frissítve: 2026-10-23
+ * Frissítve: 2026-11-19
  */
 
 export const SITE_STATS = {
@@ -12,8 +12,8 @@ export const SITE_STATS = {
   gamesCount: 9,
 
   /** Rendszerezett témakörök száma (1-12. osztály, érettségi, felvételi) */
-  topicsCount: 94,
+  topicsCount: 93,
 
   /** Pontos gyakorló feladatok és kvízkérdések száma a teljes feladatbankban */
-  exercisesCount: 7672,
+  exercisesCount: 23409,
 };

@@ -1380,7 +1380,7 @@ export default function MathPage() {
                   // Pontos statisztikai számítások
                   const toolsCount = TOOLS.length;
                   const gamesCount = GAMES.length;
-                  const topicsCount = mathTopics.filter(t => t.id.startsWith('g')).length;
+                  const topicsCount = mathTopics.filter(t => /^g\d+-/.test(t.id)).length;
                   const exercisesCount = SITE_STATS.exercisesCount;
 
                   return (

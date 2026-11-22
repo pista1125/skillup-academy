@@ -81,7 +81,7 @@ export const SITE_STATS = {
   gamesCount: 9,
 
   /** Rendszerezett témakörök száma (1-12. osztály, érettségi, felvételi) */
-  topicsCount: 94,
+  topicsCount: 93,
 
   /** Pontos gyakorló feladatok és kvízkérdések száma a teljes feladatbankban */
   exercisesCount: ${totalExercisesCount},
