@@ -6,17 +6,15 @@ import { FractionMultiplicationMatcher } from "@/components/math/grade-6/tortek/
 import { FractionVisualMatcher } from "./FractionVisualMatcher";
 import { FractionDivisionMatcher } from "@/components/math/grade-6/tortek/osztas-torttel/FractionDivisionMatcher";
 import { DecimalFractionsTool } from "@/components/math/tools/decimal-fractions";
-import { 
-    DecimalFractionsQuiz,
-    DecimalMultiplicationQuiz, 
-    DecimalDivisionQuiz, 
-    DecimalMultiplicationMatcher, 
-    DecimalDivisionMatcher, 
-    FractionToDecimalMatcher 
-} from "@/components/math/grade-6/tortek";
+import { DecimalFractionsQuiz } from "@/components/math/grade-6/tortek/mit-tanultunk-a-tizedes-tortekrol-ismetles/DecimalFractionsQuiz";
+import { DecimalMultiplicationQuiz } from "@/components/math/grade-6/tortek/szorzas-tizedes-torttel/DecimalMultiplicationQuiz";
+import { DecimalDivisionQuiz } from "@/components/math/grade-6/tortek/osztas-tizedes-torttel/DecimalDivisionQuiz";
+import { DecimalMultiplicationMatcher } from "@/components/math/grade-6/tortek/szorzas-tizedes-torttel/DecimalMultiplicationMatcher";
+import { DecimalDivisionMatcher } from "@/components/math/grade-6/tortek/osztas-tizedes-torttel/DecimalDivisionMatcher";
+import { FractionToDecimalMatcher } from "@/components/math/grade-6/tortek/mit-tanultunk-a-tizedes-tortekrol-ismetles/FractionToDecimalMatcher";
 import DecimalShifterTool from "@/components/math/tools/decimal-shifter";
 import { NumberLineTool } from "@/components/math/tools/number-line";
-import { FractionsSummaryQuiz } from "@/components/math/grade-6/tortek";
+import { FractionsSummaryQuiz } from "@/components/math/grade-6/tortek/osszefoglalas/FractionsSummaryQuiz";
 import { SectionHeader } from "@/components/math/shared/SectionHeader";
 
 import { ActivityPlaceholder } from "@/components/math/shared/ActivityPlaceholder";

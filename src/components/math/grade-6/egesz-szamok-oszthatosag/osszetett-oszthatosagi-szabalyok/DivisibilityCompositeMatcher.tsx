@@ -2,6 +2,9 @@ import React from 'react';
 import { MatcherTemplate, MatcherLevelConfig } from '../MatcherTemplate';
 
 interface DivisibilityCompositeMatcherProps {
+  level?: 1 | 2 | 3;
+  onNextLevel?: () => void;
+  onOpenRules?: () => void;
   onBack: () => void;
   onSwitchToTheory?: () => void;
 }
@@ -51,9 +54,12 @@ const MATCHER_LEVELS: MatcherLevelConfig[] = [
   },
 ];
 
-export function DivisibilityCompositeMatcher({ onBack, onSwitchToTheory }: DivisibilityCompositeMatcherProps) {
+export function DivisibilityCompositeMatcher({ level, onNextLevel, onOpenRules, onBack, onSwitchToTheory }: DivisibilityCompositeMatcherProps) {
   return (
     <MatcherTemplate
+      level={level}
+      onNextLevel={onNextLevel}
+      onOpenRules={onOpenRules}
       title="Összetett Oszthatóság Párosító"
       description="Párosítsd össze az összetett oszthatósági szabályokat, felbontásokat és példákat!"
       levels={MATCHER_LEVELS}

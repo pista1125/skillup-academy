@@ -2,6 +2,9 @@ import React from 'react';
 import { SorterTemplate, SorterLevelConfig } from '../SorterTemplate';
 
 interface GCDSorterProps {
+  level?: 1 | 2 | 3;
+  onNextLevel?: () => void;
+  onOpenRules?: () => void;
   onBack: () => void;
 }
 
@@ -74,9 +77,12 @@ const SORTER_LEVELS: SorterLevelConfig[] = [
   },
 ];
 
-export function GCDSorter({ onBack }: GCDSorterProps) {
+export function GCDSorter({ level, onNextLevel, onOpenRules, onBack }: GCDSorterProps) {
   return (
     <SorterTemplate
+      level={level}
+      onNextLevel={onNextLevel}
+      onOpenRules={onOpenRules}
       title="LNKO Csoportosító"
       description="Rendezd a számpárokat és törteket a legnagyobb közös osztójuk alapján a megfelelő kategóriákba!"
       levels={SORTER_LEVELS}

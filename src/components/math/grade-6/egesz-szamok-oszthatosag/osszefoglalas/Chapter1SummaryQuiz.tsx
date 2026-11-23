@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   QuizTemplate,
   QuizQuestion,
@@ -1329,16 +1329,6 @@ const QUIZ_LEVELS: Record<DifficultyLevel, LevelConfig> = {
 };
 
 export function Chapter1SummaryQuiz({ onBack, onSwitchToTheory }: Chapter1SummaryQuizProps) {
-  const [activeCustomGame, setActiveCustomGame] = useState<'matcher' | 'sorter' | null>(null);
-
-  if (activeCustomGame === 'matcher') {
-    return <Chapter1SummaryMatcher onBack={() => setActiveCustomGame(null)} onSwitchToTheory={onSwitchToTheory} />;
-  }
-
-  if (activeCustomGame === 'sorter') {
-    return <Chapter1SummarySorter onBack={() => setActiveCustomGame(null)} />;
-  }
-
   const customGameModes: CustomGameMode[] = [
     {
       id: 'matcher',
@@ -1347,7 +1337,7 @@ export function Chapter1SummaryQuiz({ onBack, onSwitchToTheory }: Chapter1Summar
       description: 'Párosítsd össze a teljes I. fejezet fogalmait, szabályait és eredményeit 3 szinten!',
       badgeText: '8 Pár / Szint',
       icon: <Layers className="w-5 h-5 text-indigo-500" />,
-      onClick: () => setActiveCustomGame('matcher'),
+      render: (props) => <Chapter1SummaryMatcher {...props} onBack={props.onBack || onBack} onSwitchToTheory={onSwitchToTheory} />,
     },
     {
       id: 'sorter',
@@ -1356,7 +1346,7 @@ export function Chapter1SummaryQuiz({ onBack, onSwitchToTheory }: Chapter1Summar
       description: 'Rendezd a matematikai kategóriákat és műveleteket 3 szinten!',
       badgeText: '10 Elem / Szint',
       icon: <Sparkles className="w-5 h-5 text-purple-500" />,
-      onClick: () => setActiveCustomGame('sorter'),
+      render: (props) => <Chapter1SummarySorter {...props} onBack={props.onBack || onBack} />,
     },
   ];
 

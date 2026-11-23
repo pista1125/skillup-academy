@@ -102,7 +102,7 @@ export const FactoringTheory: React.FC<FactoringTheoryProps> = ({
             </p>
             <ol className="list-decimal list-inside text-sm text-slate-700 dark:text-slate-300 space-y-1.5 mb-3 font-medium">
               <li>Az <strong>együtthatókat (számokat)</strong> összeszorozzuk az előjelek figyelembevételével.</li>
-              <li>Az <strong>azonos változók kitevőit</strong> összeadjuk: $a^n \cdot a^m = a^{n+m}$.</li>
+              <li>Az <strong>azonos változók kitevőit</strong> összeadjuk: aⁿ · aᵐ = aⁿ⁺ᵐ.</li>
               <li>A különböző változókat egymás mellé írjuk szorzatként (pl. $x \cdot y = xy$).</li>
             </ol>
             <div className="p-3 bg-purple-50 dark:bg-purple-950/40 rounded-lg border border-purple-200 dark:border-purple-800 text-center font-mono font-bold text-purple-800 dark:text-purple-300">
@@ -153,7 +153,7 @@ export const FactoringTheory: React.FC<FactoringTheoryProps> = ({
                 <span className="text-slate-600 dark:text-slate-400 font-sans">Csak az együtthatók adódnak össze, a kitevő nem változik!</span>
               </div>
               <div className="p-2 bg-emerald-50 dark:bg-emerald-950/40 rounded border border-emerald-200 dark:border-emerald-800">
-                <strong>SZORZÁS:</strong> $3x \cdot 4x = (3 \cdot 4) \cdot x^{1+1} = 12x^2$<br />
+                <strong>SZORZÁS:</strong> 3x · 4x = (3 · 4) · x¹⁺¹ = 12x²<br />
                 <span className="text-slate-600 dark:text-slate-400 font-sans">A számok szorzódnak, és a kitevők összeadódnak!</span>
               </div>
             </div>

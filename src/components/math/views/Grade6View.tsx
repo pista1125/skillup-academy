@@ -4,56 +4,18 @@ import { SectionHeader } from '@/components/math/shared/SectionHeader';
 import { ActivityPlaceholder } from '@/components/math/shared/ActivityPlaceholder';
 import { MaterialGallery } from '@/components/math/shared/MaterialGallery';
 import {
-  ArrowRightLeft,
-  BarChart,
-  BarChart3,
-  Binary,
-  Blocks,
   BookOpen,
   Box,
-  Boxes,
-  Brain,
   Calculator,
-  CheckCircle2,
-  Circle,
-  Clock,
-  Coins,
-  Compass,
-  Dice5,
   Dices,
-  Eye,
-  FileText,
-  Flag,
-  FlaskConical,
-  Gamepad2,
-  HelpCircle,
-  Layers,
   LineChart,
-  Maximize2,
-  Minimize2,
-  MoveHorizontal,
-  Network,
-  Pencil,
   Percent,
-  PieChart,
-  Pizza,
   Repeat,
-  Ruler,
   Scale,
-  Scissors,
   Section,
   Shapes,
-  Share2,
-  Sparkle,
-  Sparkles,
-  Split,
-  Square,
   Target,
-  Timer,
-  TrendingUp,
-  Triangle,
-  Trophy,
-  Zap
+  Trophy
 } from 'lucide-react';
 
 import { useQuizProgress } from '@/hooks/useQuizProgress';
@@ -94,15 +56,6 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   icon={<Calculator className="w-6 h-6" />}
                   color="blue"
                   {...getTopicProgress('g6-integers-operations')}
-                />
-                <ActivityPlaceholder
-                  title="Adósság-vagyon modell"
-                  subtitle="Egész számok összeadása és kivonása (Piros: vagyon, Kék: adósság)"
-                  type="Eszköz"
-                  emoji="🔴🔵"
-                  onClick={() => onActivitySelect('debt-asset-model', topicId)}
-                  icon={<Coins className="w-6 h-6" />}
-                  color="rose"
                 />
               </div>
             </section>
@@ -271,15 +224,6 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   icon={<Calculator className="w-6 h-6" />}
                   color="indigo"
                   {...getTopicProgress('g6-integers-factorization')}
-                />
-                <ActivityPlaceholder
-                  title="Prímtényezős eszköz"
-                  subtitle="Interaktív törzstényezős osztóoszlop kalkulátor"
-                  type="Eszköz"
-                  emoji="⚡"
-                  onClick={() => onActivitySelect('divisibility-factorization', topicId)}
-                  icon={<Binary className="w-6 h-6" />}
-                  color="violet"
                 />
               </div>
             </section>
@@ -744,24 +688,6 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   color="blue"
                   {...getTopicProgress('g6-planar-shapes-quiz')}
                 />
-                <ActivityPlaceholder
-                  title="Sokszögek"
-                  subtitle="Alakzatok csoportosítása és tulajdonságai"
-                  type="Gyakorlás"
-                  emoji="📐"
-                  onClick={() => onActivitySelect('shape-classification', topicId)}
-                  icon={<Shapes className="w-6 h-6" />}
-                  color="blue"
-                />
-                <ActivityPlaceholder
-                  title="Egyenesek"
-                  subtitle="Párhuzamos és merőleges kapcsolatok"
-                  type="Gyakorlás"
-                  emoji="📏"
-                  onClick={() => onActivitySelect('line-relationships', topicId)}
-                  icon={<MoveHorizontal className="w-6 h-6" />}
-                  color="indigo"
-                />
               </div>
             </section>
           )}
@@ -817,15 +743,6 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   icon={<Calculator className="w-6 h-6" />}
                   color="purple"
                   {...getTopicProgress('g6-circle-quiz')}
-                />
-                <ActivityPlaceholder
-                  title="Kör részei"
-                  subtitle="Sugár, átmérő, húr, ív és körcikk felismerése"
-                  type="Játék"
-                  emoji="⭕"
-                  onClick={() => onActivitySelect('circle-parts', topicId)}
-                  icon={<Circle className="w-6 h-6" />}
-                  color="purple"
                 />
               </div>
             </section>
@@ -883,15 +800,6 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   color="indigo"
                   {...getTopicProgress('g6-constructions-quiz')}
                 />
-                <ActivityPlaceholder
-                  title="Alapszerkesztések"
-                  subtitle="Körzővel és vonalzóval végzett szerkesztések"
-                  type="Eszköz"
-                  emoji="✏️"
-                  onClick={() => onActivitySelect('construction', topicId)}
-                  icon={<Pencil className="w-6 h-6" />}
-                  color="indigo"
-                />
               </div>
             </section>
           )}
@@ -919,24 +827,6 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   icon={<Calculator className="w-6 h-6" />}
                   color="emerald"
                   {...getTopicProgress('g6-axial-reflection-quiz')}
-                />
-                <ActivityPlaceholder
-                  title="Húzd a helyére!"
-                  subtitle="Tükrözés pontról pontra a koordinátarendszerben"
-                  type="Játék"
-                  emoji="⚡"
-                  onClick={() => onActivitySelect('axial-symmetry', topicId)}
-                  icon={<Zap className="w-6 h-6" />}
-                  color="teal"
-                />
-                <ActivityPlaceholder
-                  title="Találd meg a hibát!"
-                  subtitle="Diagnosztikai szimmetria hibakereső"
-                  type="Játék"
-                  emoji="🔍"
-                  onClick={() => onActivitySelect('symmetry-error', topicId)}
-                  icon={<Target className="w-6 h-6" />}
-                  color="amber"
                 />
               </div>
             </section>
@@ -994,15 +884,6 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   color="violet"
                   {...getTopicProgress('g6-axial-symmetry-quiz')}
                 />
-                <ActivityPlaceholder
-                  title="A szimmetria körbevesz"
-                  subtitle="Interaktív vizuális bemutató"
-                  type="Bemutató"
-                  emoji="✨"
-                  onClick={() => onActivitySelect('axial-symmetry-presentation', topicId)}
-                  icon={<BookOpen className="w-6 h-6" />}
-                  color="purple"
-                />
               </div>
             </section>
           )}
@@ -1030,24 +911,6 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   icon={<Calculator className="w-6 h-6" />}
                   color="rose"
                   {...getTopicProgress('g6-symmetric-shapes-quiz')}
-                />
-                <ActivityPlaceholder
-                  title="Háromszögek"
-                  subtitle="Háromszögek típusai és tengelyes szimmetriája"
-                  type="Gyakorlás"
-                  emoji="🔺"
-                  onClick={() => onActivitySelect('triangle-classification', topicId)}
-                  icon={<Triangle className="w-6 h-6" />}
-                  color="pink"
-                />
-                <ActivityPlaceholder
-                  title="Négyszögek"
-                  subtitle="Négyszögek tulajdonságai és tengelyes szimmetriája"
-                  type="Gyakorlás"
-                  emoji="🔲"
-                  onClick={() => onActivitySelect('quadrilateral-classification', topicId)}
-                  icon={<Square className="w-6 h-6" />}
-                  color="purple"
                 />
               </div>
             </section>
@@ -1568,24 +1431,6 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   color="emerald"
                   {...getTopicProgress('g6-polygon-area')}
                 />
-                <ActivityPlaceholder
-                  title="Területszámítás Teszt"
-                  subtitle="Négyzet, téglalap, háromszögek területe"
-                  type="Teszt"
-                  emoji="🎯"
-                  onClick={() => onActivitySelect('area-calc-quiz', topicId)}
-                  icon={<Target className="w-6 h-6" />}
-                  color="emerald"
-                />
-                <ActivityPlaceholder
-                  title="Kerület & Terület Műhely"
-                  subtitle="Interaktív rácsos síkidom tervező"
-                  type="Eszköz"
-                  emoji="📐"
-                  onClick={() => onActivitySelect('perimeter-area-tool', topicId)}
-                  icon={<Shapes className="w-6 h-6" />}
-                  color="teal"
-                />
               </div>
             </section>
           )}
@@ -1641,15 +1486,6 @@ export const Grade6View: React.FC<GradeViewProps> = ({
                   icon={<Box className="w-6 h-6" />}
                   color="amber"
                   {...getTopicProgress('g6-surface-area')}
-                />
-                <ActivityPlaceholder
-                  title="3D Test Stúdió"
-                  subtitle="Testek 3D modellje és felszíne"
-                  type="Eszköz"
-                  emoji="🧊"
-                  onClick={() => onActivitySelect('volume-surface-tool', topicId)}
-                  icon={<Boxes className="w-6 h-6" />}
-                  color="orange"
                 />
               </div>
             </section>

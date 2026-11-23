@@ -2,6 +2,9 @@ import React from 'react';
 import { SorterTemplate, SorterLevelConfig } from '../SorterTemplate';
 
 interface LCMSorterProps {
+  level?: 1 | 2 | 3;
+  onNextLevel?: () => void;
+  onOpenRules?: () => void;
   onBack: () => void;
 }
 
@@ -74,9 +77,12 @@ const SORTER_LEVELS: SorterLevelConfig[] = [
   },
 ];
 
-export function LCMSorter({ onBack }: LCMSorterProps) {
+export function LCMSorter({ level, onNextLevel, onOpenRules, onBack }: LCMSorterProps) {
   return (
     <SorterTemplate
+      level={level}
+      onNextLevel={onNextLevel}
+      onOpenRules={onOpenRules}
       title="LKKT Csoportosító"
       description="Rendezd a számpárokat és LKKT összefüggéseket a megfelelő csoportokba!"
       levels={SORTER_LEVELS}

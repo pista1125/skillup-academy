@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   QuizTemplate,
   QuizQuestion,
@@ -475,16 +475,6 @@ const HARD_QUESTIONS: QuizQuestion[] = [
 ];
 
 export function LCMQuiz({ onBack, onSwitchToTheory }: LCMQuizProps) {
-  const [activeCustomGame, setActiveCustomGame] = useState<'matcher' | 'sorter' | null>(null);
-
-  if (activeCustomGame === 'matcher') {
-    return <LCMMatcher onBack={() => setActiveCustomGame(null)} onSwitchToTheory={onSwitchToTheory} />;
-  }
-
-  if (activeCustomGame === 'sorter') {
-    return <LCMSorter onBack={() => setActiveCustomGame(null)} />;
-  }
-
   const customGameModes: CustomGameMode[] = [
     {
       id: 'matcher',
@@ -492,7 +482,7 @@ export function LCMQuiz({ onBack, onSwitchToTheory }: LCMQuizProps) {
       description: 'Párosítsd össze a számpárokat, prímfelbontásokat és az LKKT-t 3 szinten!',
       badgeText: '8 Pár / Szint',
       icon: <Layers className="w-5 h-5 text-amber-500" />,
-      onClick: () => setActiveCustomGame('matcher'),
+      render: (props) => <LCMMatcher {...props} onBack={props.onBack || onBack} onSwitchToTheory={onSwitchToTheory} />,
     },
     {
       id: 'sorter',
@@ -500,7 +490,7 @@ export function LCMQuiz({ onBack, onSwitchToTheory }: LCMQuizProps) {
       description: 'Rendezd a számpárokat LKKT kapcsolataik és értékeik alapján!',
       badgeText: '10 Elem / Szint',
       icon: <Sparkles className="w-5 h-5 text-orange-500" />,
-      onClick: () => setActiveCustomGame('sorter'),
+      render: (props) => <LCMSorter {...props} onBack={props.onBack || onBack} />,
     },
   ];
 

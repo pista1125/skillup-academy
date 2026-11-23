@@ -1,12 +1,12 @@
 import React from 'react';
 import { QuizTemplate, Question, CheatSheetContent } from '../QuizTemplate';
-import { Button } from '@/components/ui/button';
-import { Puzzle, ArrowUpDown } from 'lucide-react';
+import { Shapes, Maximize2 } from 'lucide-react';
+import { CircleMatcher } from './CircleMatcher';
+import { CircleSorter } from './CircleSorter';
 
 interface CircleQuizProps {
   onBack: () => void;
-  onOpenMatcher?: () => void;
-  onOpenSorter?: () => void;
+  onSwitchToTheory?: () => void;
 }
 
 const circleQuestions: Question[] = [
@@ -611,8 +611,7 @@ const circleCheatSheets: CheatSheetContent[] = [
 
 export const CircleQuiz: React.FC<CircleQuizProps> = ({
   onBack,
-  onOpenMatcher,
-  onOpenSorter
+  onSwitchToTheory
 }) => {
   return (
     <QuizTemplate
@@ -626,32 +625,42 @@ export const CircleQuiz: React.FC<CircleQuizProps> = ({
       cheatSheets={circleCheatSheets}
       pdfFilename="7_osztaly_a_kor_teszt.pdf"
       onBack={onBack}
-      customHeaderActions={
-        <div className="flex items-center gap-2">
-          {onOpenMatcher && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onOpenMatcher}
-              className="bg-white/80 hover:bg-rose-50 dark:bg-slate-800 dark:hover:bg-slate-700 text-rose-600 dark:text-rose-300 border-rose-200 dark:border-rose-800 text-xs shadow-sm"
-            >
-              <Puzzle className="w-3.5 h-3.5 mr-1 text-rose-500" />
-              Párosító
-            </Button>
-          )}
-          {onOpenSorter && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onOpenSorter}
-              className="bg-white/80 hover:bg-rose-50 dark:bg-slate-800 dark:hover:bg-slate-700 text-rose-600 dark:text-rose-300 border-rose-200 dark:border-rose-800 text-xs shadow-sm"
-            >
-              <ArrowUpDown className="w-3.5 h-3.5 mr-1 text-rose-500" />
-              Csoportosító
-            </Button>
-          )}
-        </div>
-      }
+      onSwitchToTheory={onSwitchToTheory}
+      customGameModes={[
+        {
+          id: 'matcher',
+          title: 'Kártyás Párosító',
+          subtitle: 'Párosítsd a kör részeit és fogalmait!',
+          icon: <Shapes className="w-4 h-4 text-rose-500" />,
+          badgeText: 'Ranglistás',
+          render: props => (
+            <CircleMatcher
+              level={props.level}
+              onNextLevel={props.onNextLevel}
+              onOpenRules={props.onOpenRules}
+              onSwitchToTheory={props.onSwitchToTheory}
+              onSwitchToQuiz={props.onSwitchToQuiz}
+            />
+          )
+        },
+        {
+          id: 'sorter',
+          title: 'Csoportosító Játék',
+          subtitle: 'Sorold be a kártyákat a kategóriákba!',
+          icon: <Maximize2 className="w-4 h-4 text-rose-500" />,
+          badgeText: '3 Kategória',
+          render: props => (
+            <CircleSorter
+              level={props.level}
+              onNextLevel={props.onNextLevel}
+              onOpenRules={props.onOpenRules}
+              onSwitchToTheory={props.onSwitchToTheory}
+              onSwitchToQuiz={props.onSwitchToQuiz}
+              onSwitchToMatcher={props.onSwitchToMatcher}
+            />
+          )
+        }
+      ]}
     />
   );
 };

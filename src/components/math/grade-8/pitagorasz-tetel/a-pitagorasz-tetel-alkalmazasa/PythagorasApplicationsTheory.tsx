@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { MathText } from '../../shared/MathText';
 import {
   TheoryTemplate,
   TheorySection,

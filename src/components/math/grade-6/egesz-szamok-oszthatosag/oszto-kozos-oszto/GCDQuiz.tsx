@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   QuizTemplate,
   QuizQuestion,
@@ -469,16 +469,6 @@ const HARD_QUESTIONS: QuizQuestion[] = [
 ];
 
 export function GCDQuiz({ onBack, onSwitchToTheory }: GCDQuizProps) {
-  const [activeCustomGame, setActiveCustomGame] = useState<'matcher' | 'sorter' | null>(null);
-
-  if (activeCustomGame === 'matcher') {
-    return <GCDMatcher onBack={() => setActiveCustomGame(null)} onSwitchToTheory={onSwitchToTheory} />;
-  }
-
-  if (activeCustomGame === 'sorter') {
-    return <GCDSorter onBack={() => setActiveCustomGame(null)} />;
-  }
-
   const customGameModes: CustomGameMode[] = [
     {
       id: 'matcher',
@@ -486,7 +476,7 @@ export function GCDQuiz({ onBack, onSwitchToTheory }: GCDQuizProps) {
       description: 'Párosítsd össze a számpárokat, prímfelbontásokat és az LNKO-t 3 szinten!',
       badgeText: '8 Pár / Szint',
       icon: <Layers className="w-5 h-5 text-indigo-500" />,
-      onClick: () => setActiveCustomGame('matcher'),
+      render: (props) => <GCDMatcher {...props} onBack={props.onBack || onBack} onSwitchToTheory={onSwitchToTheory} />,
     },
     {
       id: 'sorter',
@@ -494,7 +484,7 @@ export function GCDQuiz({ onBack, onSwitchToTheory }: GCDQuizProps) {
       description: 'Rendezd a számpárokat és törteket LNKO kapcsolataik alapján!',
       badgeText: '10 Elem / Szint',
       icon: <Target className="w-5 h-5 text-indigo-500" />,
-      onClick: () => setActiveCustomGame('sorter'),
+      render: (props) => <GCDSorter {...props} onBack={props.onBack || onBack} />,
     },
   ];
 

@@ -4,41 +4,26 @@ import { SectionHeader } from '@/components/math/shared/SectionHeader';
 import { ActivityPlaceholder } from '@/components/math/shared/ActivityPlaceholder';
 import { MaterialGallery } from '@/components/math/shared/MaterialGallery';
 import {
-  ArrowRightLeft,
   Award,
-  BarChart,
   BarChart3,
   Binary,
-  Blocks,
   BookOpen,
   Box,
   Boxes,
   Brain,
   Calculator,
-  CheckCircle2,
   Circle,
-  Clock,
-  Coins,
   Compass,
-  Dice5,
-  Dices,
-  Eye,
-  FileText,
   FlaskConical,
   Gamepad2,
   GitCompare,
   Globe,
-  HelpCircle,
   Layers,
   LineChart,
   Maximize2,
-  Minimize2,
   MonitorPlay,
-  MoveHorizontal,
-  Network,
   Pencil,
   Percent,
-  PieChart,
   RefreshCw,
   Ruler,
   Scale,
@@ -46,16 +31,11 @@ import {
   Search,
   Section,
   Shapes,
-  Share2,
-  Sparkle,
-  Sparkles,
-  Split,
   Square,
   Target,
   Timer,
   TrendingUp,
   Triangle,
-  Trophy,
   Users,
   Variable,
   Zap
@@ -644,24 +624,6 @@ export const Grade8View: React.FC<GradeViewProps> = ({
                   icon={<Scale className="w-6 h-6" />}
                   color="purple"
                   {...getTopicProgress('g8-eq-basic')}
-                />
-                <ActivityPlaceholder
-                  title="Mérlegelv Gyakorló"
-                  subtitle="Vizuális egyenletmegoldás két karral"
-                  type="Gyakorló"
-                  emoji="⚖️"
-                  onClick={() => onActivitySelect('g8-equation-balance', topicId)}
-                  icon={<Scale className="w-6 h-6" />}
-                  color="indigo"
-                />
-                <ActivityPlaceholder
-                  title="Egyenletmegoldó eszköz"
-                  subtitle="Lépésről lépésre levezetés"
-                  type="Eszköz"
-                  emoji="🧮"
-                  onClick={() => onActivitySelect('equation-solver', topicId)}
-                  icon={<Calculator className="w-6 h-6" />}
-                  color="blue"
                 />
               </div>
             </section>

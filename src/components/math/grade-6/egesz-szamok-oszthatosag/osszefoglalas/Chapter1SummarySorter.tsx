@@ -2,6 +2,9 @@ import React from 'react';
 import { SorterTemplate, SorterLevelConfig } from '../SorterTemplate';
 
 interface Chapter1SummarySorterProps {
+  level?: 1 | 2 | 3;
+  onNextLevel?: () => void;
+  onOpenRules?: () => void;
   onBack: () => void;
 }
 
@@ -74,9 +77,12 @@ const SORTER_LEVELS: SorterLevelConfig[] = [
   },
 ];
 
-export function Chapter1SummarySorter({ onBack }: Chapter1SummarySorterProps) {
+export function Chapter1SummarySorter({ level, onNextLevel, onOpenRules, onBack }: Chapter1SummarySorterProps) {
   return (
     <SorterTemplate
+      level={level}
+      onNextLevel={onNextLevel}
+      onOpenRules={onOpenRules}
       title="I. Fejezet Záró Csoportosító"
       description="Rendezd a matematikai fogalmakat, kifejezéseket és számokat a megfelelő csoportokba!"
       levels={SORTER_LEVELS}

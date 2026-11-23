@@ -2,6 +2,9 @@ import React from 'react';
 import { SorterTemplate, SorterLevelConfig } from '../SorterTemplate';
 
 interface DivisibilityCompositeSorterProps {
+  level?: 1 | 2 | 3;
+  onNextLevel?: () => void;
+  onOpenRules?: () => void;
   onBack: () => void;
 }
 
@@ -74,9 +77,12 @@ const SORTER_LEVELS: SorterLevelConfig[] = [
   },
 ];
 
-export function DivisibilityCompositeSorter({ onBack }: DivisibilityCompositeSorterProps) {
+export function DivisibilityCompositeSorter({ level, onNextLevel, onOpenRules, onBack }: DivisibilityCompositeSorterProps) {
   return (
     <SorterTemplate
+      level={level}
+      onNextLevel={onNextLevel}
+      onOpenRules={onOpenRules}
       title="Összetett Oszthatóság Csoportosító"
       description="Rendezd a számokat a megfelelő összetett oszthatósági kategóriákba!"
       levels={SORTER_LEVELS}

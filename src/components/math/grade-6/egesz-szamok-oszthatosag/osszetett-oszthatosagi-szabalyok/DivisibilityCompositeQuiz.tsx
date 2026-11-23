@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   QuizTemplate,
   QuizQuestion,
@@ -499,16 +499,6 @@ const HARD_QUESTIONS: QuizQuestion[] = [
 ];
 
 export function DivisibilityCompositeQuiz({ onBack, onSwitchToTheory }: DivisibilityCompositeQuizProps) {
-  const [activeCustomGame, setActiveCustomGame] = useState<'matcher' | 'sorter' | null>(null);
-
-  if (activeCustomGame === 'matcher') {
-    return <DivisibilityCompositeMatcher onBack={() => setActiveCustomGame(null)} onSwitchToTheory={onSwitchToTheory} />;
-  }
-
-  if (activeCustomGame === 'sorter') {
-    return <DivisibilityCompositeSorter onBack={() => setActiveCustomGame(null)} />;
-  }
-
   const customGameModes: CustomGameMode[] = [
     {
       id: 'matcher',
@@ -516,7 +506,7 @@ export function DivisibilityCompositeQuiz({ onBack, onSwitchToTheory }: Divisibi
       description: 'Párosítsd össze az összetett oszthatósági szabályokat és példákat 3 szinten!',
       badgeText: '8 Pár / Szint',
       icon: <Layers className="w-5 h-5 text-indigo-500" />,
-      onClick: () => setActiveCustomGame('matcher'),
+      render: (props) => <DivisibilityCompositeMatcher {...props} onBack={props.onBack || onBack} onSwitchToTheory={onSwitchToTheory} />,
     },
     {
       id: 'sorter',
@@ -524,7 +514,7 @@ export function DivisibilityCompositeQuiz({ onBack, onSwitchToTheory }: Divisibi
       description: 'Rendezd a számokat 6, 12, 15, 18, 20 és 45 kategóriákba!',
       badgeText: '10 Elem / Szint',
       icon: <Sparkles className="w-5 h-5 text-purple-500" />,
-      onClick: () => setActiveCustomGame('sorter'),
+      render: (props) => <DivisibilityCompositeSorter {...props} onBack={props.onBack || onBack} />,
     },
   ];
 

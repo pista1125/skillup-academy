@@ -2,6 +2,9 @@ import React from 'react';
 import { MatcherTemplate, MatcherLevelConfig } from '../MatcherTemplate';
 
 interface LCMMatcherProps {
+  level?: 1 | 2 | 3;
+  onNextLevel?: () => void;
+  onOpenRules?: () => void;
   onBack: () => void;
   onSwitchToTheory?: () => void;
 }
@@ -51,9 +54,12 @@ const MATCHER_LEVELS: MatcherLevelConfig[] = [
   },
 ];
 
-export function LCMMatcher({ onBack, onSwitchToTheory }: LCMMatcherProps) {
+export function LCMMatcher({ level, onNextLevel, onOpenRules, onBack, onSwitchToTheory }: LCMMatcherProps) {
   return (
     <MatcherTemplate
+      level={level}
+      onNextLevel={onNextLevel}
+      onOpenRules={onOpenRules}
       title="LKKT Kártyapárosító"
       description="Párosítsd össze a számokat, prímfelbontásokat és a legkisebb közös többszörösöket!"
       levels={MATCHER_LEVELS}

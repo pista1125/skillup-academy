@@ -6,55 +6,32 @@ import { MaterialGallery } from '@/components/math/shared/MaterialGallery';
 import { useQuizProgress } from '@/hooks/useQuizProgress';
 import {
   ArrowRightLeft,
-  BarChart,
   BarChart3,
   Binary,
-  Blocks,
   BookOpen,
   Box,
-  Boxes,
   Brain,
   Calculator,
-  CheckCircle2,
-  Clock,
-  Coins,
   Compass,
-  Dice5,
   Dices,
-  Droplets,
-  Eye,
   FileText,
   FlaskConical,
-  Gamepad2,
   GitCompare,
   Globe,
   Grid3X3,
-  HelpCircle,
-  Layers,
   Layout,
   LayoutGrid,
   Lightbulb,
-  Maximize2,
-  Minimize2,
   MoveHorizontal,
-  Network,
-  Pencil,
-  Percent,
   PieChart,
-  Pizza,
   Puzzle,
-  RefreshCw,
   Ruler,
   Scale,
-  Scissors,
   Search,
   ShoppingCart,
   Section,
   Shapes,
-  Share2,
-  Sparkle,
   Sparkles,
-  Split,
   Square,
   Table,
   Target,
@@ -63,8 +40,7 @@ import {
   TrendingUp,
   Triangle,
   Trophy,
-  Variable,
-  Zap
+  Variable
 } from 'lucide-react';
 
 export const Grade5View: React.FC<GradeViewProps> = ({
@@ -494,24 +470,6 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   icon={<Calculator className="w-6 h-6" />}
                   color="blue"
                   {...getTopicProgress('g5-integer-addition-subtraction-quiz')}
-                />
-                <ActivityPlaceholder
-                  title="Számegyenes összeadás/kivonás"
-                  subtitle="Előjeles számok összeadása és kivonása"
-                  type="Eszköz"
-                  emoji="➖"
-                  onClick={() => onActivitySelect('number-line', topicId)}
-                  icon={<MoveHorizontal className="w-6 h-6" />}
-                  color="blue"
-                />
-                <ActivityPlaceholder
-                  title="Adósság-vagyon modell"
-                  subtitle="Egész számok összeadása és kivonása (Piros: vagyon, Kék: adósság)"
-                  type="Eszköz"
-                  emoji="🔴🔵"
-                  onClick={() => onActivitySelect('debt-asset-model', topicId)}
-                  icon={<Coins className="w-6 h-6" />}
-                  color="rose"
                 />
               </div>
             </section>
@@ -1605,15 +1563,6 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   color="cyan"
                   {...getTopicProgress('g5-cap-quiz')}
                 />
-                <ActivityPlaceholder
-                  title="Űrmérték-váltó"
-                  subtitle="Térfogat és űrmértékek átváltása"
-                  type="Eszköz"
-                  emoji="💧"
-                  onClick={() => onActivitySelect('capacity-converter', topicId)}
-                  icon={<Droplets className="w-6 h-6" />}
-                  color="cyan"
-                />
               </div>
             </section>
           )}
@@ -1642,15 +1591,6 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   color="amber"
                   {...getTopicProgress('g5-time-quiz')}
                 />
-                <ActivityPlaceholder
-                  title="Analóg Óra Szemléltető"
-                  subtitle="Óra, perc leolvasása és interaktív beállítása"
-                  type="Eszköz"
-                  emoji="⏰"
-                  onClick={() => onActivitySelect('analog-clock', topicId)}
-                  icon={<Clock className="w-6 h-6" />}
-                  color="amber"
-                />
               </div>
             </section>
           )}
@@ -1678,15 +1618,6 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   icon={<ArrowRightLeft className="w-6 h-6" />}
                   color="emerald"
                   {...getTopicProgress('g5-conv-quiz')}
-                />
-                <ActivityPlaceholder
-                  title="Mértékegység-váltó"
-                  subtitle="Interaktív átváltó eszköz (hossz, tömeg, űrtartalom)"
-                  type="Eszköz"
-                  emoji="📏"
-                  onClick={() => onActivitySelect('unit-converter', topicId)}
-                  icon={<Calculator className="w-6 h-6" />}
-                  color="emerald"
                 />
               </div>
             </section>
@@ -1828,15 +1759,6 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   color="teal"
                   {...getTopicProgress('g5-simp-wp-quiz')}
                 />
-                <ActivityPlaceholder
-                  title="Szöveges feladatok modul"
-                  subtitle="Gyakorlati problémák és feladatmegoldó lépések"
-                  type="Gyakorlás"
-                  emoji="💡"
-                  onClick={() => onActivitySelect('word-problems', topicId)}
-                  icon={<Sparkles className="w-6 h-6" />}
-                  color="teal"
-                />
               </div>
             </section>
           )}
@@ -1864,15 +1786,6 @@ export const Grade5View: React.FC<GradeViewProps> = ({
                   icon={<ShoppingCart className="w-6 h-6" />}
                   color="orange"
                   {...getTopicProgress('g5-daily-wp-quiz')}
-                />
-                <ActivityPlaceholder
-                  title="Pénzügyi és Vásárlási Számítások"
-                  subtitle="Pénzkezelés, visszajáró és költségvetés"
-                  type="Eszköz"
-                  emoji="💰"
-                  onClick={() => onActivitySelect('money-calculation', topicId)}
-                  icon={<Coins className="w-6 h-6" />}
-                  color="orange"
                 />
               </div>
             </section>

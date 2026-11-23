@@ -2,6 +2,9 @@ import React from 'react';
 import { MatcherTemplate, MatcherLevelConfig } from '../MatcherTemplate';
 
 interface GCDMatcherProps {
+  level?: 1 | 2 | 3;
+  onNextLevel?: () => void;
+  onOpenRules?: () => void;
   onBack: () => void;
   onSwitchToTheory?: () => void;
 }
@@ -51,9 +54,12 @@ const MATCHER_LEVELS: MatcherLevelConfig[] = [
   },
 ];
 
-export function GCDMatcher({ onBack, onSwitchToTheory }: GCDMatcherProps) {
+export function GCDMatcher({ level, onNextLevel, onOpenRules, onBack, onSwitchToTheory }: GCDMatcherProps) {
   return (
     <MatcherTemplate
+      level={level}
+      onNextLevel={onNextLevel}
+      onOpenRules={onOpenRules}
       title="LNKO Kártyapárosító"
       description="Párosítsd össze a számpárokat, prímfelbontásokat és a legnagyobb közös osztókat!"
       levels={MATCHER_LEVELS}

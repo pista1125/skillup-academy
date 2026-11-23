@@ -394,13 +394,24 @@ export function MatcherTemplate({
   const rawLvl = currentLevel ?? (typeof level === 'number' ? level : ((level as any)?.level ?? 1));
   const activeLevel: DifficultyLevel = (typeof rawLvl === 'number' ? rawLvl : 1) as DifficultyLevel;
 
+  // levels may be a Record keyed 1..3 or an array (easy, medium, hard)
+  const levelEntry: any = (() => {
+    if (!allLevels) return undefined;
+    if (Array.isArray(allLevels)) {
+      const diff = activeLevel === 1 ? 'easy' : activeLevel === 2 ? 'medium' : 'hard';
+      return allLevels.find((l: any) => Number(l?.level) === activeLevel || l?.difficulty === diff || l?.difficulty === activeLevel)
+        || allLevels[activeLevel - 1];
+    }
+    return (allLevels as any)[activeLevel];
+  })();
+
   const chosenTheme = themeColor || colorScheme || 'indigo';
   const theme = THEME_MAP[chosenTheme] || THEME_MAP.indigo || THEME_MAP.violet;
 
   // Párok kinyerése
   const getLevelPairs = (): MatcherPair[] => {
     if (config?.pairs && config.pairs.length > 0) return config.pairs;
-    if (allLevels && allLevels[activeLevel]?.pairs) return allLevels[activeLevel].pairs;
+    if (levelEntry?.pairs) return levelEntry.pairs;
     if (activeLevel === 1 && level1Pairs && level1Pairs.length > 0) return level1Pairs;
     if (activeLevel === 2 && level2Pairs && level2Pairs.length > 0) return level2Pairs;
     if (activeLevel === 3 && level3Pairs && level3Pairs.length > 0) return level3Pairs;
@@ -757,7 +768,7 @@ export function MatcherTemplate({
 
   const currentPairs = getLevelPairs();
   const totalPairs = currentPairs.length || 8;
-  const currentConfig = allLevels?.[activeLevel] || config;
+  const currentConfig = levelEntry || config;
   const displayTitle = currentConfig?.title || title;
   const displaySubtitle = currentConfig?.description || currentConfig?.subtitle || subtitle;
 

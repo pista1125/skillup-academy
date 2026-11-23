@@ -2,6 +2,9 @@ import React from 'react';
 import { MatcherTemplate, MatcherLevelConfig } from '../MatcherTemplate';
 
 interface Chapter1SummaryMatcherProps {
+  level?: 1 | 2 | 3;
+  onNextLevel?: () => void;
+  onOpenRules?: () => void;
   onBack: () => void;
   onSwitchToTheory?: () => void;
 }
@@ -51,9 +54,12 @@ const MATCHER_LEVELS: MatcherLevelConfig[] = [
   },
 ];
 
-export function Chapter1SummaryMatcher({ onBack, onSwitchToTheory }: Chapter1SummaryMatcherProps) {
+export function Chapter1SummaryMatcher({ level, onNextLevel, onOpenRules, onBack, onSwitchToTheory }: Chapter1SummaryMatcherProps) {
   return (
     <MatcherTemplate
+      level={level}
+      onNextLevel={onNextLevel}
+      onOpenRules={onOpenRules}
       title="I. Fejezet Záró Párosító"
       description="Párosítsd össze az Egész számok és oszthatóság fejezet legfontosabb fogalmait, szabályait és tételeit!"
       levels={MATCHER_LEVELS}

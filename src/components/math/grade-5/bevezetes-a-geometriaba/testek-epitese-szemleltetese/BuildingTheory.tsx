@@ -36,7 +36,7 @@ export interface BuildingTheoryProps {
 }
 
 // 3D Kocka rajzoló segédfüggvény SVG-hez izometrikus vetületben
-function drawIsometricCube(cx: number, cy: number, size: number, colors?: { top: string; left: string; right: string; border: string }) {
+function drawIsometricCube(cx: number, cy: number, size: number, colors?: { top: string; left: string; right: string; border: string }, key?: string) {
   const c = colors || {
     top: '#fbcfe8',    // pink-200
     left: '#f472b6',   // pink-400
@@ -55,7 +55,7 @@ function drawIsometricCube(cx: number, cy: number, size: number, colors?: { top:
   const rightPoints = `${cx},${cy} ${cx + dx},${cy - dy} ${cx + dx},${cy + dy} ${cx},${cy + size}`;
 
   return (
-    <g key={`${cx}-${cy}`}>
+    <g key={key ?? `${cx}-${cy}`}>
       <polygon points={topPoints} fill={c.top} stroke={c.border} strokeWidth="1.2" strokeLinejoin="round" />
       <polygon points={leftPoints} fill={c.left} stroke={c.border} strokeWidth="1.2" strokeLinejoin="round" />
       <polygon points={rightPoints} fill={c.right} stroke={c.border} strokeWidth="1.2" strokeLinejoin="round" />
@@ -162,7 +162,7 @@ export const BuildingTheory: React.FC<BuildingTheoryProps> = ({ onBack, onStartQ
         left: '#f472b6',   // pink-400
         right: '#db2777',  // pink-600
         border: '#831843'  // pink-900
-      })
+      }, `cube-${cube.y}-${cube.x}-${cube.z}`)
     );
   };
 

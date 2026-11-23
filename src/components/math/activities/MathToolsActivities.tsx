@@ -7,7 +7,6 @@ import { VENN_READING_OBJECTS, VENN_READING_NUMBERS } from '@/data/vennReadingLe
 const AlgebraCloudTool = lazy(() => import("@/components/math/tools/algebra-cloud").then(m => ({ default: m.AlgebraCloudTool })))
 const AlgebraQuiz = lazy(() => import("@/components/math/grade-7/racionalis-szamok-algebra/AlgebraQuiz").then(m => ({ default: m.AlgebraQuiz })))
 const AnalogClockTool = lazy(() => import("@/components/math/tools/analog-clock").then(m => ({ default: m.AnalogClockTool })))
-const AxialSymmetryGame = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyes-tukrozes/AxialSymmetryGame").then(m => ({ default: m.AxialSymmetryGame })))
 const AxialSymmetryPresentation = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyes-szimmetria/AxialSymmetryPresentation").then(m => ({ default: m.AxialSymmetryPresentation })))
 const AxialSymmetryQuiz = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyes-szimmetria/AxialSymmetryQuiz").then(m => ({ default: m.AxialSymmetryQuiz })))
 const CapacityConverterTool = lazy(() => import("@/components/math/tools/capacity-converter").then(m => ({ default: m.CapacityConverterTool })))
@@ -16,19 +15,17 @@ const CirclePartsGame = lazy(() => import("@/components/math/grade-6/geometria-s
 const ColorSequenceGame = lazy(() => import("@/components/math/games/color-sequence/ColorSequenceGame"))
 const ConstructionTool = lazy(() => import("@/components/math/tools/construction").then(m => ({ default: m.ConstructionTool })))
 const DebtAssetModelTool = lazy(() => import("@/components/math/tools/debt-asset-model").then(m => ({ default: m.DebtAssetModelTool })))
-const DecimalDivisionQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek").then(m => ({ default: m.DecimalDivisionQuiz })))
+const DecimalDivisionQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/tizedes-tortek-osztasa-pozitiv-egesz-szammal/DecimalDivisionQuiz").then(m => ({ default: m.DecimalDivisionQuiz })))
 const DecimalFractionsTool = lazy(() => import("@/components/math/tools/decimal-fractions").then(m => ({ default: m.DecimalFractionsTool })))
-const DecimalMultiplicationQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek").then(m => ({ default: m.DecimalMultiplicationQuiz })))
+const DecimalMultiplicationQuiz = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/tizedes-tortek-szorzasa-termeszetes-szammal/DecimalMultiplicationQuiz").then(m => ({ default: m.DecimalMultiplicationQuiz })))
 const DecimalShifterTool = lazy(() => import("@/components/math/tools/decimal-shifter"))
 const DivisibilityTool = lazy(() => import("@/components/math/tools/divisibility").then(m => ({ default: m.DivisibilityTool })))
 const EquationBalanceQuiz = lazy(() => import("@/components/math/grade-7/szazalekszamitas/EquationBalanceQuiz").then(m => ({ default: m.EquationBalanceQuiz })))
 const EquationBalanceTool = lazy(() => import("@/components/math/tools/equation-balance").then(m => ({ default: m.EquationBalanceTool })))
 const EquationSolverTool = lazy(() => import("@/components/math/tools/equation-solver").then(m => ({ default: m.EquationSolverTool })))
 const FractionVisualizer = lazy(() => import("@/components/math/tools/fraction-visualizer").then(m => ({ default: m.FractionVisualizer })))
-const Grade5DecimalDivisionMatcher = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek").then(m => ({ default: m.DecimalDivisionMatcher })))
-const Grade5DecimalMultiplicationMatcher = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek").then(m => ({ default: m.DecimalMultiplicationMatcher })))
-const Grade6PrimeFactorization = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/hany-osztoja-van/PrimeFactorization").then(m => ({ default: m.PrimeFactorization })))
-const Grade6PrimeFactorizationMatcher = lazy(() => import("@/components/math/grade-6/egesz-szamok-oszthatosag/hany-osztoja-van/PrimeFactorizationMatcher").then(m => ({ default: m.PrimeFactorizationMatcher })))
+const Grade5DecimalDivisionMatcher = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/tizedes-tortek-osztasa-pozitiv-egesz-szammal/DecimalDivisionMatcher").then(m => ({ default: m.DecimalDivisionMatcher })))
+const Grade5DecimalMultiplicationMatcher = lazy(() => import("@/components/math/grade-5/tortek-tizedestortek/tizedes-tortek-szorzasa-termeszetes-szammal/DecimalMultiplicationMatcher").then(m => ({ default: m.DecimalMultiplicationMatcher })))
 const GroupingGame = lazy(() => import("@/components/math/grade-1/grouping/GroupingGame").then(m => ({ default: m.GroupingGame })))
 const HanoiGame = lazy(() => import("@/components/math/games/hanoi/HanoiGame"))
 const LineRelationships = lazy(() => import("@/components/math/grade-4/sikidomok-testek/LineRelationships").then(m => ({ default: m.LineRelationships })))
@@ -48,7 +45,7 @@ const NumberLineTool = lazy(() => import("@/components/math/tools/number-line").
 const PercentWordProblems = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/a-szazalekszamitas-gyakorlasa/PercentWordProblems").then(m => ({ default: m.PercentWordProblems })))
 const PercentagesQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/szazalekszamitas/PercentagesQuiz").then(m => ({ default: m.PercentagesQuiz })))
 const PerimeterAreaTool = lazy(() => import("@/components/math/tools/perimeter-area").then(m => ({ default: m.PerimeterAreaTool })))
-const PerimeterQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat").then(m => ({ default: m.PerimeterQuiz })))
+const PerimeterQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/teglalap-negyzet-kerulete/PerimeterQuiz").then(m => ({ default: m.PerimeterQuiz })))
 const PuzzleMakerTool = lazy(() => import("@/components/math/tools/puzzle-maker").then(m => ({ default: m.PuzzleMakerTool })))
 const QuadrilateralClassifier = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyesen-szimmetrikus-haromszogek-negyszogek-sokszogek/QuadrilateralClassifier").then(m => ({ default: m.QuadrilateralClassifier })))
 const RatioCreatorQuiz = lazy(() => import("@/components/math/grade-6/arany-szazalek-szoveges-feladatok/az-arany-fogalma/RatioCreatorQuiz").then(m => ({ default: m.RatioCreatorQuiz })))
@@ -58,9 +55,8 @@ const SmartWhiteboardTool = lazy(() => import("@/components/math/tools/smart-whi
 const StudentFeedbackHub = lazy(() => import("@/components/math/tools/feedback").then(m => ({ default: m.StudentFeedbackHub })))
 const SudokuGame = lazy(() => import("@/components/math/games/sudoku/SudokuGame").then(m => ({ default: m.SudokuGame })))
 const SudokuGeneratorTool = lazy(() => import("@/components/math/tools/sudoku-generator").then(m => ({ default: m.SudokuGeneratorTool })))
-const SurfaceAreaQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat").then(m => ({ default: m.SurfaceAreaQuiz })))
+const SurfaceAreaQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/teglatest-kocka-felszine/SurfaceAreaQuiz").then(m => ({ default: m.SurfaceAreaQuiz })))
 const SymmetryConstructionTool = lazy(() => import("@/components/math/tools/symmetry-construction").then(m => ({ default: m.SymmetryConstructionTool })))
-const SymmetryErrorGame = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyes-tukrozes/SymmetryErrorGame").then(m => ({ default: m.SymmetryErrorGame })))
 const SymmetryQuiz = lazy(() => import("@/components/math/grade-6/geometria-szimmetria/tengelyes-tukrozes/SymmetryQuiz").then(m => ({ default: m.SymmetryQuiz })))
 const TorpedoGame = lazy(() => import("@/components/math/games/torpedo/TorpedoGame"))
 const TotoTool = lazy(() => import("@/components/math/tools/toto").then(m => ({ default: m.TotoTool })))
@@ -69,7 +65,7 @@ const UnitConverterTool = lazy(() => import("@/components/math/tools/unit-conver
 const VennDiagramGame = lazy(() => import("@/components/math/games/venn/VennDiagramGame").then(m => ({ default: m.VennDiagramGame })))
 const VennInterpretationQuiz = lazy(() => import("@/components/math/games/venn/VennInterpretationQuiz").then(m => ({ default: m.VennInterpretationQuiz })))
 const VennReadingGame = lazy(() => import("@/components/math/games/venn/VennReadingGame").then(m => ({ default: m.VennReadingGame })))
-const VolumeQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat").then(m => ({ default: m.VolumeQuiz })))
+const VolumeQuiz = lazy(() => import("@/components/math/grade-5/hosszusag-terulet-terfogat/teglatest-kocka-terfogata/VolumeQuiz").then(m => ({ default: m.VolumeQuiz })))
 const VolumeSurfaceTool = lazy(() => import("@/components/math/tools/volume-surface").then(m => ({ default: m.VolumeSurfaceTool })))
 const WordProblemsModule = lazy(() => import("@/components/math/grade-5/aranyossag-szoveges-feladatok/WordProblemsModule").then(m => ({ default: m.WordProblemsModule })))
 const WordSearchTool = lazy(() => import("@/components/math/tools/word-search").then(m => ({ default: m.WordSearchTool })))
@@ -163,14 +159,6 @@ export const MathToolsActivities: React.FC<ActivityRouterProps> = ({
                     <SymmetryQuiz onBack={handleBack} />
                   )}
 
-                  {activityType === 'axial-symmetry' && (
-                    <AxialSymmetryGame onBack={handleBack} />
-                  )}
-
-                  {activityType === 'symmetry-error' && (
-                    <SymmetryErrorGame onBack={handleBack} />
-                  )}
-
                   {activityType === 'axial-symmetry-quiz' && (
                     <AxialSymmetryQuiz onBack={handleBack} />
                   )}
@@ -193,14 +181,6 @@ export const MathToolsActivities: React.FC<ActivityRouterProps> = ({
 
                   {activityType === 'quadrilateral-classification' && (
                     <QuadrilateralClassifier onBack={handleBack} />
-                  )}
-
-                  {activityType === 'divisibility-factorization' && (
-                    <Grade6PrimeFactorization onBack={handleBack} />
-                  )}
-
-                  {activityType === 'divisibility-matcher' && (
-                    <Grade6PrimeFactorizationMatcher onBack={handleBack} />
                   )}
 
                   {activityType === 'fraction-visualizer' && (
@@ -430,14 +410,6 @@ export const MathToolsActivities: React.FC<ActivityRouterProps> = ({
                       onComplete={handleQuizComplete}
                       onBack={handleBack}
                     />
-                  )}
-
-                  {activityType === 'axial-symmetry' && (
-                    <AxialSymmetryGame onBack={handleBack} />
-                  )}
-
-                  {activityType === 'symmetry-error' && (
-                    <SymmetryErrorGame onBack={handleBack} />
                   )}
 
                   {activityType === 'axial-symmetry-quiz' && (

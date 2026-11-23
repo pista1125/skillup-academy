@@ -3,60 +3,12 @@ import { GradeViewProps } from './types';
 import { SectionHeader } from '@/components/math/shared/SectionHeader';
 import { ActivityPlaceholder } from '@/components/math/shared/ActivityPlaceholder';
 import { MaterialGallery } from '@/components/math/shared/MaterialGallery';
-import { Button } from '@/components/ui/button';
 import {
-  ArrowRightLeft,
-  BarChart,
-  BarChart3,
-  Binary,
-  Blocks,
   BookOpen,
-  Box,
-  Boxes,
-  Calculator,
-  CheckCircle2,
-  Circle,
-  Clock,
-  Coins,
-  Compass,
-  Dice5,
-  Dices,
-  Eye,
-  FileText,
-  FlaskConical,
-  Gamepad2,
-  HelpCircle,
-  Layers,
-  LayoutGrid,
-  Lightbulb,
-  LineChart,
-  Maximize2,
-  Minimize2,
-  MoveHorizontal,
-  Network,
-  Pencil,
-  Percent,
-  PieChart,
-  RefreshCw,
-  Ruler,
-  Scale,
-  Scissors,
-  Search,
   Section,
-  Shapes,
-  Share2,
-  Sparkle,
   Sparkles,
-  Split,
-  Square,
-  Table,
   Target,
-  TrendingUp,
-  Triangle,
-  Trophy,
-  Variable,
-  Wrench,
-  Zap
+  Trophy
 } from 'lucide-react';
 import { useQuizProgress } from '@/hooks/useQuizProgress';
 
@@ -67,103 +19,6 @@ export const Grade7View: React.FC<GradeViewProps> = ({
   onMaterialSelect,
 }) => {
   const { getTopicProgress } = useQuizProgress();
-
-  if (topicId === 'geometry') {
-      return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <button
-            onClick={() => onActivitySelect('shape-classification', topicId)}
-            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
-          >
-            <div className="p-3 bg-emerald-50 rounded-xl text-emerald-600 group-hover:scale-110 transition-transform">
-              <Box className="w-8 h-8" />
-            </div>
-            <div className="text-center">
-              <h4 className="font-bold text-sm">Síkidom vagy Test?</h4>
-              <p className="text-[10px] text-slate-500">2D vagy 3D alakzatok</p>
-            </div>
-          </button>
-
-          <button
-            onClick={() => onActivitySelect('angle-matching', topicId)}
-            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
-          >
-            <div className="p-3 bg-blue-50 rounded-xl text-blue-600 group-hover:scale-110 transition-transform">
-              <Target className="w-8 h-8" />
-            </div>
-            <div className="text-center">
-              <h4 className="font-bold text-sm">Szögek párosítása</h4>
-              <p className="text-[10px] text-slate-500">Szögtípusok felismerése</p>
-            </div>
-          </button>
-
-          <button
-            onClick={() => onActivitySelect('triangle-classification', topicId)}
-            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
-          >
-            <div className="p-3 bg-amber-50 rounded-xl text-amber-600 group-hover:scale-110 transition-transform">
-              <Triangle className="w-8 h-8" />
-            </div>
-            <div className="text-center">
-              <h4 className="font-bold text-sm">Háromszögek</h4>
-              <p className="text-[10px] text-slate-500">Csoportosítás tulajdonságok szerint</p>
-            </div>
-          </button>
-
-          <button
-            onClick={() => onActivitySelect('quadrilateral-classification', topicId)}
-            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
-          >
-            <div className="p-3 bg-violet-50 rounded-xl text-violet-600 group-hover:scale-110 transition-transform">
-              <Square className="w-8 h-8" />
-            </div>
-            <div className="text-center">
-              <h4 className="font-bold text-sm">Négyszögek</h4>
-              <p className="text-[10px] text-slate-500">Négyszögek fajtái</p>
-            </div>
-          </button>
-
-          <button
-            onClick={() => onActivitySelect('line-relationships', topicId)}
-            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
-          >
-            <div className="p-3 bg-indigo-50 rounded-xl text-indigo-600 group-hover:scale-110 transition-transform">
-              <MoveHorizontal className="w-8 h-8 rotate-45" />
-            </div>
-            <div className="text-center">
-              <h4 className="font-bold text-sm">Egyenesek helyzete</h4>
-              <p className="text-[10px] text-slate-500">Párhuzamos, merőleges</p>
-            </div>
-          </button>
-
-          <button
-            onClick={() => onActivitySelect('circle-parts', topicId)}
-            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
-          >
-            <div className="p-3 bg-red-50 rounded-xl text-red-600 group-hover:scale-110 transition-transform">
-              <Circle className="w-8 h-8" />
-            </div>
-            <div className="text-center">
-              <h4 className="font-bold text-sm">Kör és részei</h4>
-              <p className="text-[10px] text-slate-500">Sugár, átmérő, húr</p>
-            </div>
-          </button>
-
-          <button
-            onClick={() => onActivitySelect('triangle-angles-quiz', topicId)}
-            className="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl border border-slate-100 hover:border-primary hover:shadow-md transition-all group"
-          >
-            <div className="p-3 bg-teal-50 rounded-xl text-teal-600 group-hover:scale-110 transition-transform">
-              <Triangle className="w-8 h-8" />
-            </div>
-            <div className="text-center">
-              <h4 className="font-bold text-sm">Háromszögek szögei</h4>
-              <p className="text-[10px] text-slate-500">Belső és külső szögek</p>
-            </div>
-          </button>
-        </div>
-      );
-    }
 
     if (topicId === 'g7-geom-trans') {
       const showAll = !activeSubSectionId;
@@ -333,15 +188,6 @@ export const Grade7View: React.FC<GradeViewProps> = ({
                   color="blue"
                   {...getTopicProgress('g7-geom-reflection-app')}
                 />
-                <ActivityPlaceholder
-                  title="Tükrözési alkalmazások"
-                  subtitle="Pont és szakasz tükrözése, szimmetria"
-                  type="Gyakorlás"
-                  emoji="✨"
-                  onClick={() => onActivitySelect('symmetry-construction', 'g7-geom-trans')}
-                  icon={<Shapes className="w-6 h-6" />}
-                  color="indigo"
-                />
               </div>
             </section>
           )}
@@ -369,15 +215,6 @@ export const Grade7View: React.FC<GradeViewProps> = ({
                   icon={<Target className="w-6 h-6" />}
                   color="amber"
                   {...getTopicProgress('g7-geom-angle-pairs')}
-                />
-                <ActivityPlaceholder
-                  title="Szögtípusok felismerése"
-                  subtitle="Hegyesszög, tompaszög, derékszög mérés"
-                  type="Gyakorlás"
-                  emoji="📏"
-                  onClick={() => onActivitySelect('angle-matching', 'g7-geom-trans')}
-                  icon={<Target className="w-6 h-6" />}
-                  color="yellow"
                 />
               </div>
             </section>
@@ -407,15 +244,6 @@ export const Grade7View: React.FC<GradeViewProps> = ({
                   color="violet"
                   {...getTopicProgress('g7-geom-symmetry')}
                 />
-                <ActivityPlaceholder
-                  title="Szimmetria a világban"
-                  subtitle="Interaktív prezentáció természetbeli példákkal"
-                  type="Gyakorlás"
-                  emoji="🌟"
-                  onClick={() => onActivitySelect('axial-symmetry-presentation', 'g7-geom-trans')}
-                  icon={<Sparkles className="w-6 h-6" />}
-                  color="fuchsia"
-                />
               </div>
             </section>
           )}
@@ -443,15 +271,6 @@ export const Grade7View: React.FC<GradeViewProps> = ({
                   icon={<Target className="w-6 h-6" />}
                   color="purple"
                   {...getTopicProgress('g7-geom-parallelogram')}
-                />
-                <ActivityPlaceholder
-                  title="Négyszög Osztályozó"
-                  subtitle="Klasszikus négyszög tulajdonság gyakorló"
-                  type="Gyakorlás"
-                  emoji="🪁"
-                  onClick={() => onActivitySelect('quadrilateral-classification', 'g7-geom-trans')}
-                  icon={<LayoutGrid className="w-6 h-6" />}
-                  color="pink"
                 />
               </div>
             </section>
@@ -481,15 +300,6 @@ export const Grade7View: React.FC<GradeViewProps> = ({
                   color="rose"
                   {...getTopicProgress('g7-geom-point-symmetric-shapes')}
                 />
-                <ActivityPlaceholder
-                  title="Szimmetria teszt"
-                  subtitle="Forgásszimmetria és szimmetriaközéppont gyakorló"
-                  type="Gyakorlás"
-                  emoji="💠"
-                  onClick={() => onActivitySelect('reflection-quiz', 'g7-geom-trans')}
-                  icon={<Boxes className="w-6 h-6" />}
-                  color="pink"
-                />
               </div>
             </section>
           )}
@@ -517,15 +327,6 @@ export const Grade7View: React.FC<GradeViewProps> = ({
                   icon={<Target className="w-6 h-6" />}
                   color="orange"
                   {...getTopicProgress('g7-geom-regular-polygons')}
-                />
-                <ActivityPlaceholder
-                  title="Sokszögek csoportosítása"
-                  subtitle="Szabályos n-szögek szögei és szimmetriái"
-                  type="Gyakorlás"
-                  emoji="🛑"
-                  onClick={() => onActivitySelect('shape-classification', 'g7-geom-trans')}
-                  icon={<Shapes className="w-6 h-6" />}
-                  color="amber"
                 />
               </div>
             </section>
@@ -555,15 +356,6 @@ export const Grade7View: React.FC<GradeViewProps> = ({
                   color="rose"
                   {...getTopicProgress('g7-geom-circle')}
                 />
-                <ActivityPlaceholder
-                  title="A kör és részei"
-                  subtitle="Sugár, átmérő, húr, ív, körcikk és körszelet"
-                  type="Gyakorlás"
-                  emoji="⭕"
-                  onClick={() => onActivitySelect('circle-parts', 'g7-geom-trans')}
-                  icon={<Circle className="w-6 h-6" />}
-                  color="red"
-                />
               </div>
             </section>
           )}
@@ -591,15 +383,6 @@ export const Grade7View: React.FC<GradeViewProps> = ({
                   icon={<Target className="w-6 h-6" />}
                   color="teal"
                   {...getTopicProgress('g7-geom-constructions')}
-                />
-                <ActivityPlaceholder
-                  title="Geometriai szerkesztő"
-                  subtitle="Körzővel és vonalzóval végzett alapszerkesztések"
-                  type="Gyakorlás"
-                  emoji="✏️"
-                  onClick={() => onActivitySelect('construction', 'g7-geom-trans')}
-                  icon={<Pencil className="w-6 h-6" />}
-                  color="teal"
                 />
               </div>
             </section>
@@ -951,20 +734,6 @@ export const Grade7View: React.FC<GradeViewProps> = ({
       );
     }
 
-    if (topicId === 'word-problems') {
-      return (
-        <div className="flex justify-center py-4">
-          <Button
-            onClick={() => onActivitySelect('word-problems', topicId)}
-            className="gap-2 bg-teal-500 hover:bg-teal-600 text-white rounded-xl px-8"
-          >
-            <Sparkles className="w-4 h-4" />
-            Szöveges feladatok indítása
-          </Button>
-        </div>
-      );
-    }
-
     if (topicId === 'g7-rational-algebra') {
       const showAll = !activeSubSectionId;
       return (
@@ -1224,7 +993,7 @@ export const Grade7View: React.FC<GradeViewProps> = ({
       );
     }
 
-    if (topicId === 'g7-percent-equations' || topicId === 'g7-percentages' || topicId === 'percentages') {
+    if (topicId === 'g7-percent-equations' || topicId === 'g7-percentages') {
       const showAll = !activeSubSectionId;
       return (
         <div className="flex flex-col gap-10 py-6">
@@ -1455,7 +1224,7 @@ export const Grade7View: React.FC<GradeViewProps> = ({
       );
     }
 
-    if (topicId === 'g7-equations' || topicId === 'equations') {
+    if (topicId === 'g7-equations') {
       const showAll = !activeSubSectionId;
       return (
         <div className="flex flex-col gap-10 py-6">
@@ -1629,15 +1398,6 @@ export const Grade7View: React.FC<GradeViewProps> = ({
                   icon={<Target className="w-6 h-6" />}
                   color="indigo"
                   {...getTopicProgress('g7-geom-congruence')}
-                />
-                <ActivityPlaceholder
-                  title="Alapszerkesztések"
-                  subtitle="Körző és vonalzó szerkesztő eszköz"
-                  type="Gyakorlás"
-                  emoji="📐"
-                  onClick={() => onActivitySelect('construction', 'g7-geometry')}
-                  icon={<Pencil className="w-6 h-6" />}
-                  color="sky"
                 />
               </div>
             </section>
@@ -1933,7 +1693,7 @@ export const Grade7View: React.FC<GradeViewProps> = ({
                   subtitle="Képlettár, síkidomok és hasábok"
                   type="Tananyag"
                   emoji="📘"
-                  onClick={() => onActivitySelect('g7-geom-summary-theory', 'g7-geometry')}
+                  onClick={() => onActivitySelect('g7-geometry-summary-theory', 'g7-geometry')}
                   icon={<BookOpen className="w-6 h-6" />}
                   color="rose"
                 />
@@ -1942,7 +1702,7 @@ export const Grade7View: React.FC<GradeViewProps> = ({
                   subtitle="30 feladat ábrákkal, 3 nehézségi szint"
                   type="Kvíz"
                   emoji="🎯"
-                  onClick={() => onActivitySelect('g7-geom-summary-quiz', 'g7-geometry')}
+                  onClick={() => onActivitySelect('g7-geometry-summary-quiz', 'g7-geometry')}
                   icon={<Target className="w-6 h-6" />}
                   color="pink"
                   {...getTopicProgress('g7-geom-summary')}
