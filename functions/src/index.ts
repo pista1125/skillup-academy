@@ -18,6 +18,7 @@ import {
   invoiceSubscriptionId,
   shouldOverwriteSubscription,
   hufFromStripeAmount,
+  isIsoDate,
   subscriptionInvoiceLabel,
 } from "./billing";
 
@@ -430,7 +431,7 @@ export const sendBookingEmail = onRequest({ cors: ALLOWED_ORIGINS }, async (_req
 // (a tutoring_bookings személyes adatait a kliens nem olvashatja).
 export const getBookedSlots = onRequest({ cors: ALLOWED_ORIGINS }, async (req, res) => {
   const date = String(req.query.date || '');
-  if (!/^d{4}-d{2}-d{2}$/.test(date)) {
+  if (!isIsoDate(date)) {
     res.status(400).json({ error: 'Hibás dátum (YYYY-MM-DD formátum kell).' });
     return;
   }

@@ -69,3 +69,8 @@ test('összeg és számlatétel', () => {
   assert.equal(b.subscriptionInvoiceLabel(6, start, end), 'DiákZóna 6. osztály – havi előfizetés (2026. 11. 23. – 2026. 12. 23.)');
   assert.equal(b.subscriptionInvoiceLabel(6), 'DiákZóna 6. osztály – havi előfizetés');
 });
+
+test('isIsoDate', () => {
+  assert.equal(b.isIsoDate('2026-11-25'), true);
+  for (const bad of ['2026-1-25', 'xx', '', null, '2026-11-25T00:00']) assert.equal(b.isIsoDate(bad), false, String(bad));
+});
