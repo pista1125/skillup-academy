@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ScrollToTop } from "./components/ScrollToTop";
 
 import { AuthProvider } from "./contexts/AuthContext";
+import { EntitlementsProvider } from "./contexts/EntitlementsContext";
 
 const MathPage = lazy(() => import("./pages/MathPage"));
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
@@ -21,6 +22,7 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
+      <EntitlementsProvider>
       <TooltipProvider>
         <Toaster />
         <Sonner />
@@ -48,6 +50,7 @@ const App = () => (
           </Suspense>
         </BrowserRouter>
       </TooltipProvider>
+      </EntitlementsProvider>
     </AuthProvider>
   </QueryClientProvider>
 );

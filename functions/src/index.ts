@@ -1079,7 +1079,7 @@ export const createPortalSession = onCall({ cors: ALLOWED_ORIGINS }, async (requ
   const origin = pickOrigin(request.rawRequest?.headers?.origin, ALLOWED_ORIGINS);
   const portal = await getStripe().billingPortal.sessions.create({
     customer: customerId,
-    return_url: `${origin}/profil`,
+    return_url: `${origin}/profil?tab=subscriptions`,
     locale: 'hu',
   });
   return { url: portal.url };

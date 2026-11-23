@@ -123,10 +123,15 @@ import {
   Dices,
   Pizza,
   Thermometer,
-  Blocks
+  Blocks,
+  Lock
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { BrandName } from '@/components/BrandName';
+import { GatedContent } from '@/components/paywall/PaywallGate';
+import { SubscriptionReturnNotice } from '@/components/paywall/SubscriptionReturnNotice';
+import { useEntitlements } from '@/contexts/EntitlementsContext';
+import { decideLessonAccess, decideTopicAccess, gradeNumberFromLevel, lessonGrade } from '@/lib/access';
 
 type ViewState = 'main-select' | 'topic-select' | 'tools-select' | 'games-select' | 'competency-select' | 'activity' | 'geometry-select' | 'search-results';
 type ActivityType =
@@ -501,6 +506,7 @@ export default function MathPage() {
   const navigate = useNavigate();
   const { grade: gradeParam, topic: topicParam, activity: activityParam } = useParams();
   const location = useLocation();
+  const entitlements = useEntitlements();
 
   const [view, setView] = useState<ViewState>('main-select');
   const [selectedTopic, setSelectedTopic] = useState<any>(null);
@@ -1010,10 +1016,17 @@ export default function MathPage() {
       null;
 
     if (GradeViewComponent) {
+      const navTopic = getGradeSubsections(selectedGrade, mathTopics).find((t) => t.id === topicId);
       return (
-        <Suspense fallback={<GradeViewFallback />}>
-          <GradeViewComponent {...viewProps} />
-        </Suspense>
+        <GatedContent
+          decide={(ctx) => decideTopicAccess(selectedGrade, topicId, ctx)}
+          topicTitle={navTopic?.title}
+          topicItems={navTopic?.subsections.map((s) => s.label)}
+        >
+          <Suspense fallback={<GradeViewFallback />}>
+            <GradeViewComponent {...viewProps} />
+          </Suspense>
+        </GatedContent>
       );
     }
 
@@ -1539,6 +1552,9 @@ export default function MathPage() {
                             {!isSidebarCollapsed && (
                               <>
                                 <span className="line-clamp-2 flex-1 font-bold">{topic.title}</span>
+                                {!entitlements.loading && !decideTopicAccess(selectedGrade, topic.id, entitlements).allowed && (
+                                  <Lock className={cn("w-3.5 h-3.5 shrink-0", isTopicActive ? "text-white/80" : "text-slate-400")} aria-label="Előfizetéssel érhető el" />
+                                )}
                                 {hasSubsections && (
                                   <span
                                     className={cn(
@@ -1685,6 +1701,9 @@ export default function MathPage() {
                             >
                               <span className="text-base shrink-0">{topic.icon}</span>
                               <span className="flex-1 font-bold">{topic.title}</span>
+                              {!entitlements.loading && !decideTopicAccess(selectedGrade, topic.id, entitlements).allowed && (
+                                <Lock className="w-3.5 h-3.5 shrink-0 opacity-60" aria-label="Előfizetéssel érhető el" />
+                              )}
                               {hasSubsections && (
                                 <ChevronDown className={cn("w-4 h-4 transition-transform duration-200 shrink-0", !isExpanded && "-rotate-90", isTopicActive ? "text-white/80" : "text-slate-700")} />
                               )}
@@ -1742,6 +1761,8 @@ export default function MathPage() {
                         </p>
                       </div>
                     </div>
+
+                    <SubscriptionReturnNotice grade={gradeNumberFromLevel(selectedGrade)} />
 
                     {/* Active Topic Rendering */}
                     <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm">
@@ -1851,18 +1872,21 @@ export default function MathPage() {
                 </div>
               </div>
             }>
-              <MathActivityRouter
-                activityType={activityType}
-                selectedGrade={selectedGrade}
-                selectedTopic={selectedTopic}
-                onBack={handleBack}
-                onActivitySelect={handleActivitySelect}
-                setActivityType={setActivityType}
-                handleMaterialSelect={handleMaterialSelect}
-                handleQuizComplete={handleQuizComplete}
-                percentMode={percentMode}
-                vennLevel={vennLevel}
-              />
+              <SubscriptionReturnNotice grade={lessonGrade(activityType) ?? gradeNumberFromLevel(selectedGrade)} />
+              <GatedContent decide={(ctx) => decideLessonAccess(activityType, ctx)}>
+                <MathActivityRouter
+                  activityType={activityType}
+                  selectedGrade={selectedGrade}
+                  selectedTopic={selectedTopic}
+                  onBack={handleBack}
+                  onActivitySelect={handleActivitySelect}
+                  setActivityType={setActivityType}
+                  handleMaterialSelect={handleMaterialSelect}
+                  handleQuizComplete={handleQuizComplete}
+                  percentMode={percentMode}
+                  vennLevel={vennLevel}
+                />
+              </GatedContent>
             </Suspense>
           </div>
         )}

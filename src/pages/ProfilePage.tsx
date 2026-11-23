@@ -97,6 +97,8 @@ import {
 } from '@/services/teacherRequestService';
 import { Profile } from '@/contexts/AuthContext';
 import { BrandName } from '@/components/BrandName';
+import { MySubscriptions } from '@/components/paywall/MySubscriptions';
+import { CreditCard as CreditCardIcon } from 'lucide-react';
 
 const AVATARS = [
   '🎒', '🎓', '👨‍🏫', '👩‍🏫', '🖍️', '🧪', '🧬', '🚀', '🎨', '🧩', '🎸', '⚽'
@@ -112,7 +114,7 @@ export default function ProfilePage() {
   const [fullName, setFullName] = useState(profile?.full_name || '');
   const [avatarUrl, setAvatarUrl] = useState(profile?.avatar_url || '');
   const [role, setRole] = useState<'teacher' | 'student'>(profile?.role || 'student');
-  const [activeTab, setActiveTab] = useState<'personal' | 'classes' | 'activity' | 'settings' | 'admin-requests'>('personal');
+  const [activeTab, setActiveTab] = useState<'personal' | 'classes' | 'activity' | 'subscriptions' | 'settings' | 'admin-requests'>('personal');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Search bar state for header
@@ -184,7 +186,7 @@ export default function ProfilePage() {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const tab = params.get('tab');
-    if (tab && ['personal', 'classes', 'activity', 'settings', 'admin-requests'].includes(tab)) {
+    if (tab && ['personal', 'classes', 'activity', 'subscriptions', 'settings', 'admin-requests'].includes(tab)) {
       setActiveTab(tab as any);
     }
   }, [location.search]);
@@ -993,6 +995,20 @@ export default function ProfilePage() {
                       {activityList.length}
                     </span>
                   )}
+                </Button>
+
+                <Button 
+                  variant="ghost" 
+                  onClick={() => setActiveTab('subscriptions')}
+                  className={cn(
+                    "w-full justify-start rounded-2xl py-3 px-4 font-bold text-sm transition-all",
+                    activeTab === 'subscriptions' 
+                      ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-300 shadow-2xs border border-indigo-100 dark:border-indigo-900" 
+                      : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                  )}
+                >
+                  <CreditCardIcon className="w-4 h-4 mr-3" />
+                  Előfizetéseim
                 </Button>
 
                 <Button 
@@ -2056,6 +2072,12 @@ export default function ProfilePage() {
               )}
 
               {/* TAB 4: SETTINGS */}
+              {activeTab === 'subscriptions' && (
+                <div className="animate-in fade-in duration-300">
+                  <MySubscriptions />
+                </div>
+              )}
+
               {activeTab === 'settings' && (
                 <div className="space-y-8 animate-in fade-in duration-300">
                   <div>
