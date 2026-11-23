@@ -343,7 +343,7 @@ async function sendInvoiceEmailInternal(data: {
     },
   });
 
-  const amountFormatted = `${Number(data.amount || 5000).toLocaleString('hu-HU')} Ft`;
+  const amountFormatted = `${Number(data.amount ?? 5000).toLocaleString('hu-HU')} Ft`;
   const today = new Date().toISOString().split('T')[0].replace(/-/g, '.');
 
   const htmlContent = `
@@ -925,9 +925,14 @@ async function syncSubscriptionFromStripe(subscriptionId: string): Promise<{ uid
   return { uid, grade };
 }
 
-/** Számlázz.hu számla a sikeresen kifizetett havi díjról (a 0 Ft-os próbaidős számlát kihagyjuk). */
+/**
+ * Számlázz.hu számla a kifizetett havi díjról. A próbaidő indulásakor (billing_reason: subscription_create)
+ * 0 Ft-os számla is készül, hogy a vásárlónak legyen bizonylata; egyéb 0 Ft-os számlát nem állítunk ki.
+ */
 async function issueSubscriptionInvoice(invoice: Stripe.Invoice, grade: number): Promise<void> {
-  if (!invoice.id || !invoice.amount_paid || invoice.amount_paid <= 0) return;
+  if (!invoice.id) return;
+  const paid = invoice.amount_paid || 0;
+  if (paid <= 0 && invoice.billing_reason !== 'subscription_create') return;
 
   const ref = getDb().doc(`stripeInvoices/${invoice.id}`);
   try {
@@ -939,7 +944,9 @@ async function issueSubscriptionInvoice(invoice: Stripe.Invoice, grade: number):
   }
 
   const line = invoice.lines?.data?.[0];
-  const label = subscriptionInvoiceLabel(grade, line?.period?.start, line?.period?.end);
+  const label = paid > 0
+    ? subscriptionInvoiceLabel(grade, line?.period?.start, line?.period?.end)
+    : subscriptionInvoiceLabel(grade, line?.period?.start, line?.period?.end).replace('havi előfizetés', `${TRIAL_DAYS} napos ingyenes próbaidő`);
   const amount = hufFromStripeAmount(invoice.amount_paid);
   const email = invoice.customer_email || '';
   const name = invoice.customer_name || email || 'Előfizető';
@@ -991,7 +998,12 @@ async function handleSubscriptionEvent(event: Stripe.Event): Promise<boolean> {
       if (subId) await syncSubscriptionFromStripe(subId);
       return true;
     }
-    case 'customer.subscription.created':
+    case 'customer.subscription.created': {
+      const sub = event.data.object as Stripe.Subscription;
+      await syncSubscriptionFromStripe(sub.id);
+      await sendSubscriptionWelcomeEmail(sub.id);
+      return true;
+    }
     case 'customer.subscription.updated':
     case 'customer.subscription.deleted':
     case 'customer.subscription.paused':
@@ -1266,3 +1278,95 @@ export const revokeGrantsOnTeacherDemotion = onDocumentUpdated(
     logger.info(`${grants.size} licenc visszavonva (${event.params.uid} tanári státusza megszűnt).`);
   }
 );
+
+// ===========================================================================
+// 13. Visszaigazoló e-mail új évfolyam-előfizetéskor (kapcsolat@diakzona.hu)
+// ===========================================================================
+
+function huDateFromUnix(sec: number | null | undefined): string {
+  return typeof sec === 'number'
+    ? new Intl.DateTimeFormat('hu-HU', { timeZone: 'Europe/Budapest', year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(sec * 1000))
+    : '';
+}
+
+/** Egyszer (előfizetésenként) elküldi a visszaigazolást a vásárlónak, másolatban a kapcsolat@diakzona.hu-nak. */
+async function sendSubscriptionWelcomeEmail(subscriptionId: string): Promise<void> {
+  const marker = getDb().doc(`subscriptionEmails/welcome_${subscriptionId}`);
+  try {
+    await marker.create({ createdAt: admin.firestore.FieldValue.serverTimestamp() });
+  } catch (e: any) {
+    if (e?.code === 6 || /already exists/i.test(String(e?.message))) return; // már elküldtük
+    throw e;
+  }
+
+  try {
+    const sub = await getStripe().subscriptions.retrieve(subscriptionId, { expand: ['customer'] });
+    const customer = sub.customer as Stripe.Customer | Stripe.DeletedCustomer;
+    const email = 'deleted' in customer && customer.deleted ? null : (customer as Stripe.Customer).email;
+    const grade = parseGrade(sub.metadata?.grade);
+    if (!email || !grade) {
+      logger.warn('Welcome email skipped (no email/grade):', subscriptionId);
+      return;
+    }
+    const name = (customer as Stripe.Customer).name || '';
+    const trialing = sub.status === 'trialing' && sub.trial_end;
+    const periodEnd = subscriptionPeriodEnd(sub as any);
+    const site = 'https://diakzona.hu';
+
+    const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 12px; background-color: #ffffff; color: #1e293b;">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <span style="display: inline-block; background-color: #dcfce7; color: #15803d; font-size: 12px; font-weight: bold; padding: 4px 12px; border-radius: 9999px;">✓ SIKERES ELŐFIZETÉS</span>
+        <h2 style="color: #4f46e5; margin: 10px 0 0 0; font-size: 22px;">DiákZóna – ${grade}. osztály</h2>
+      </div>
+      <p style="font-size: 15px;">Kedves ${name || 'Előfizetőnk'}!</p>
+      <p style="font-size: 15px; line-height: 1.6;">
+        Köszönjük, hogy a DiákZónát választottad! Mostantól a <b>${grade}. osztály teljes matematika anyaga</b> – minden témakör
+        tananyaga, kvízei, gyakorló feladatai és tudáspróbái – elérhető a fiókodban.
+      </p>
+      <table style="width: 100%; font-size: 14px; border-collapse: collapse; margin: 16px 0; background: #f8fafc; border-radius: 10px;">
+        <tr><td style="padding: 8px 12px; color: #64748b;">Előfizetés</td><td style="padding: 8px 12px; font-weight: bold;">${grade}. osztály – havi előfizetés</td></tr>
+        <tr><td style="padding: 8px 12px; color: #64748b;">Díj</td><td style="padding: 8px 12px; font-weight: bold;">990 Ft / hó (alanyi adómentes)</td></tr>
+        ${trialing ? `
+        <tr><td style="padding: 8px 12px; color: #64748b;">Ingyenes próbaidő</td><td style="padding: 8px 12px; font-weight: bold;">${huDateFromUnix(sub.trial_end)}-ig</td></tr>
+        <tr><td style="padding: 8px 12px; color: #64748b;">Első terhelés</td><td style="padding: 8px 12px; font-weight: bold;">${huDateFromUnix(sub.trial_end)} (990 Ft)</td></tr>` : `
+        <tr><td style="padding: 8px 12px; color: #64748b;">Következő terhelés</td><td style="padding: 8px 12px; font-weight: bold;">${huDateFromUnix(periodEnd)} (990 Ft)</td></tr>`}
+      </table>
+      ${trialing ? `<p style="font-size: 14px; line-height: 1.6; background: #ecfdf5; padding: 12px; border-radius: 10px;">
+        A próbaidő alatt semmit nem terhelünk. Ha a próbaidő vége előtt lemondod, nem fizetsz semmit; ellenkező esetben
+        utána havonta 990 Ft-ot vonunk le a megadott kártyáról.</p>` : ''}
+      <p style="font-size: 14px; line-height: 1.6;">
+        Az előfizetésedet bármikor lemondhatod a <b>Profil → Előfizetéseim → „Előfizetés kezelése”</b> menüpontban.
+        Lemondás után a kifizetett időszak végéig megmarad a hozzáférés. Minden terhelésről elektronikus számlát küldünk.
+      </p>
+      <div style="text-align: center; margin: 24px 0;">
+        <a href="${site}/${gradeSlug(grade)}" style="background-color: #4f46e5; color: #ffffff; padding: 14px 28px; font-weight: bold; text-decoration: none; border-radius: 10px; display: inline-block;">Irány a ${grade}. osztály!</a>
+      </div>
+      <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 24px 0;" />
+      <p style="font-size: 12px; color: #94a3b8; text-align: center; margin-bottom: 0;">
+        DiákZóna © 2026 | kapcsolat@diakzona.hu<br/>Kérdés esetén válaszolj erre a levélre.
+      </p>
+    </div>`;
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: { user: process.env.GMAIL_USER || 'kapcsolat@diakzona.hu', pass: process.env.GMAIL_APP_PASSWORD || '' },
+    });
+    await transporter.sendMail({
+      from: '"DiákZóna" <kapcsolat@diakzona.hu>',
+      replyTo: 'kapcsolat@diakzona.hu',
+      to: email,
+      bcc: ['kapcsolat@diakzona.hu'],
+      subject: trialing
+        ? `✅ Elindult a 7 napos ingyenes próbád – DiákZóna ${grade}. osztály`
+        : `✅ Sikeres előfizetés – DiákZóna ${grade}. osztály`,
+      html,
+    });
+    await marker.set({ sentTo: email, grade, sentAt: admin.firestore.FieldValue.serverTimestamp() }, { merge: true });
+    logger.info(`Welcome email elküldve: ${subscriptionId} → ${email}`);
+  } catch (err) {
+    // A jelölőt töröljük, hogy a Stripe újraküldésekor újra próbálkozzunk.
+    await marker.delete().catch(() => undefined);
+    throw err;
+  }
+}
