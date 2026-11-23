@@ -11,7 +11,8 @@ import {
   FileLock, 
   Cookie, 
   Eye, 
-  Scale
+  Scale,
+  CreditCard
 } from 'lucide-react';
 import { BrandName } from '@/components/BrandName';
 
@@ -49,7 +50,7 @@ export default function PrivacyPage() {
             Számunkra kiemelten fontos a személyes adataid védelme. Ebből a tájékoztatóból megtudhatod, hogyan gyűjtjük, kezeljük és védjük az adataidat a DiákZóna platformon.
           </p>
           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-            Utolsó frissítés: 2026. május 21.
+            Utolsó frissítés: 2026. november 23.
           </p>
         </div>
 
@@ -180,6 +181,25 @@ export default function PrivacyPage() {
               </AccordionContent>
             </AccordionItem>
 
+            <AccordionItem value="item-7" className="border-none bg-slate-50 dark:bg-slate-950/40 rounded-2xl px-6">
+              <AccordionTrigger className="hover:no-underline py-5 text-left font-black tracking-tight text-slate-800 dark:text-white flex items-center gap-3">
+                <div className="flex items-center gap-3">
+                  <CreditCard className="w-5 h-5 text-emerald-500" />
+                  <span>7. Előfizetés, fizetés, számlázás és tanári licenc</span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="text-slate-600 dark:text-slate-300 leading-relaxed space-y-3 font-medium">
+                <p>Évfolyam-előfizetés esetén a következő adatokat kezeljük: név, e-mail-cím, számlázási cím, az előfizetett évfolyam, az előfizetés állapota (próbaidő, aktív, lemondott), a terhelések időpontja és összege, valamint a kiállított számlák azonosítója. <b>A bankkártya adatait nem látjuk és nem tároljuk</b> – azokat kizárólag a Stripe kezeli.</p>
+                <p><b>Jogalap:</b> a szerződés teljesítése (GDPR 6. cikk (1) b) pont), a számlák megőrzése tekintetében jogi kötelezettség teljesítése (GDPR 6. cikk (1) c) pont; a számvitelről szóló 2000. évi C. törvény 169. §-a alapján 8 évig).</p>
+                <p><b>Adatfeldolgozók:</b></p>
+                <ul className="list-disc list-inside space-y-1 text-sm ml-2">
+                  <li>Stripe Payments Europe, Ltd. (Írország) – bankkártyás fizetés és az előfizetések kezelése</li>
+                  <li>KBOSS.hu Kft. (Számlázz.hu) – elektronikus számla kiállítása</li>
+                  <li>Google Ireland Ltd. (Firebase) – adattárolás, felhasználói fiókok</li>
+                </ul>
+                <p><b>Tanári licenc:</b> ha egy tanár felvesz az osztályába és számodra megnyit egy évfolyamot, a tanár látja a nevedet, a 6 jegyű azonosítódat és a megnyitott évfolyamot; te pedig látod a tanár nevét. Ezek az adatok a licenc megszűnésekor törlődnek.</p>
+              </AccordionContent>
+            </AccordionItem>
           </Accordion>
         </div>
 

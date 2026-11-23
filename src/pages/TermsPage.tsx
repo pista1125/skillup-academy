@@ -10,7 +10,11 @@ import {
   ShieldAlert, 
   HelpCircle, 
   Terminal,
-  Scale
+  Scale,
+  CreditCard,
+  RotateCcw,
+  GraduationCap,
+  Building2
 } from 'lucide-react';
 import { BrandName } from '@/components/BrandName';
 
@@ -48,7 +52,7 @@ export default function TermsPage() {
             Kérjük, a DiákZóna platform használata előtt figyelmesen olvasd el az alábbi Felhasználási Feltételeket (ÁSZF).
           </p>
           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-            Utolsó frissítés: 2026. május 21.
+            Utolsó frissítés: 2026. november 23.
           </p>
         </div>
 
@@ -173,6 +177,74 @@ export default function TermsPage() {
               </AccordionContent>
             </AccordionItem>
 
+            <AccordionItem value="item-7" className="border-none bg-slate-50 dark:bg-slate-950/40 rounded-2xl px-6">
+              <AccordionTrigger className="hover:no-underline py-5 text-left font-black tracking-tight text-slate-800 dark:text-white flex items-center gap-3">
+                <div className="flex items-center gap-3">
+                  <CreditCard className="w-5 h-5 text-emerald-500" />
+                  <span>7. Előfizetés és díjak</span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="text-slate-600 dark:text-slate-300 leading-relaxed space-y-3 font-medium">
+                <p>Minden évfolyam (1–12. osztály) I. témaköre regisztráció és bejelentkezés után díjmentesen elérhető. Az évfolyam további témakörei (tananyagok, kvízek, gyakorlás, tudáspróbák) évfolyamonkénti előfizetéssel érhetők el. A „Tananyagok és Könyvek” fül, valamint az eszközök és játékok továbbra is díjmentesek.</p>
+                <ul className="list-disc list-inside space-y-1 text-sm ml-2">
+                  <li>Az előfizetés díja évfolyamonként <b>990 Ft / hó</b>. A szolgáltató alanyi adómentes, így a feltüntetett ár a fizetendő teljes összeg.</li>
+                  <li>Minden évfolyam külön előfizetés; több évfolyam esetén mindegyikre külön díjat számolunk fel.</li>
+                  <li>Az előfizetés havonta automatikusan megújul, a díjat a megadott bankkártyáról terheljük. A fizetést a Stripe, Inc. biztonságos fizetési rendszere kezeli; a bankkártya adatai nem kerülnek hozzánk.</li>
+                  <li>Minden sikeres terhelésről elektronikus számlát küldünk a megadott e-mail-címre.</li>
+                  <li>Kiskorú felhasználó esetén az előfizetést szülő vagy gondviselő köti meg, illetve hagyja jóvá.</li>
+                  <li>Az előfizetés díjának változásáról legalább 30 nappal korábban e-mailben értesítjük az előfizetőket.</li>
+                </ul>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-8" className="border-none bg-slate-50 dark:bg-slate-950/40 rounded-2xl px-6">
+              <AccordionTrigger className="hover:no-underline py-5 text-left font-black tracking-tight text-slate-800 dark:text-white flex items-center gap-3">
+                <div className="flex items-center gap-3">
+                  <RotateCcw className="w-5 h-5 text-indigo-500" />
+                  <span>8. Próbaidő, lemondás és elállás</span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="text-slate-600 dark:text-slate-300 leading-relaxed space-y-3 font-medium">
+                <ul className="list-disc list-inside space-y-1 text-sm ml-2">
+                  <li><b>Próbaidő:</b> fiókonként egyszer, az első előfizetéshez 7 napos díjmentes próbaidő jár. Ha a próbaidő vége előtt lemondod, nem terhelünk semmit; ellenkező esetben a 8. naptól havonta 990 Ft-ot terhelünk.</li>
+                  <li><b>Lemondás:</b> az előfizetés bármikor lemondható a Profil → Előfizetéseim → „Előfizetés kezelése” menüpontban. Lemondás után a hozzáférés a már kifizetett időszak végéig megmarad, további terhelés nem történik.</li>
+                  <li><b>Sikertelen fizetés:</b> ha a havi terhelés nem sikerül, a hozzáférés még legfeljebb 3 napig megmarad, ezalatt a kártyaadatok frissíthetők.</li>
+                  <li><b>Elállási jog:</b> az előfizetés digitális tartalom szolgáltatására irányul. A megrendeléskor a fogyasztó kifejezetten kéri a teljesítés azonnali megkezdését, és tudomásul veszi, hogy ezzel a 45/2014. (II. 26.) Korm. rendelet 29. § (1) bek. m) pontja szerint elveszíti a 14 napos elállási jogát.</li>
+                </ul>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-9" className="border-none bg-slate-50 dark:bg-slate-950/40 rounded-2xl px-6">
+              <AccordionTrigger className="hover:no-underline py-5 text-left font-black tracking-tight text-slate-800 dark:text-white flex items-center gap-3">
+                <div className="flex items-center gap-3">
+                  <GraduationCap className="w-5 h-5 text-rose-500" />
+                  <span>9. Tanári hozzáférés és tanári licenc</span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="text-slate-600 dark:text-slate-300 leading-relaxed space-y-3 font-medium">
+                <ul className="list-disc list-inside space-y-1 text-sm ml-2">
+                  <li>A platform üzemeltetője által jóváhagyott tanári fiókok minden évfolyam teljes anyagát díjmentesen elérik.</li>
+                  <li>A tanári jóváhagyás minden tanévben augusztus 31-én lejár, az új tanévre újra kell kérni.</li>
+                  <li>A jóváhagyott tanár legfeljebb 100, az osztályaiba felvett diákja számára nyithat meg díjmentesen egy-egy évfolyamot. A diák egyszerre csak egy tanártól kaphat ilyen hozzáférést.</li>
+                  <li>A tanári licenc megszűnik, ha a diák kikerül a tanár osztályaiból, ha a tanár visszavonja, vagy ha a tanári jóváhagyás lejár, illetve visszavonásra kerül.</li>
+                </ul>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-10" className="border-none bg-slate-50 dark:bg-slate-950/40 rounded-2xl px-6">
+              <AccordionTrigger className="hover:no-underline py-5 text-left font-black tracking-tight text-slate-800 dark:text-white flex items-center gap-3">
+                <div className="flex items-center gap-3">
+                  <Building2 className="w-5 h-5 text-amber-500" />
+                  <span>10. A szolgáltató adatai</span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="text-slate-600 dark:text-slate-300 leading-relaxed space-y-3 font-medium">
+                <ul className="list-none space-y-1 text-sm">
+                  <li><b>Szolgáltató:</b> Orsós István egyéni vállalkozó (alanyi adómentes)</li>
+                  <li><b>Székhely:</b> [kitöltendő]</li>
+                  <li><b>Nyilvántartási szám / adószám:</b> [kitöltendő]</li>
+                  <li><b>E-mail:</b> kapcsolat@diakzona.hu</li>
+                </ul>
+                <p className="text-sm">Panasz esetén a kapcsolat@diakzona.hu címen fordulhatsz hozzánk; a lakóhely szerint illetékes békéltető testülethez is fordulhatsz.</p>
+              </AccordionContent>
+            </AccordionItem>
           </Accordion>
         </div>
 

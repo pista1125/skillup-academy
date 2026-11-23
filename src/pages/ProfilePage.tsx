@@ -98,6 +98,7 @@ import {
 import { Profile } from '@/contexts/AuthContext';
 import { BrandName } from '@/components/BrandName';
 import { MySubscriptions } from '@/components/paywall/MySubscriptions';
+import { AdminPaywallPanel } from '@/components/paywall/AdminPaywallPanel';
 import { TeacherGrantsProvider, TeacherLicenseBar, StudentGrantControl, gradeFromClassName } from '@/components/paywall/TeacherLicense';
 import { CreditCard as CreditCardIcon } from 'lucide-react';
 
@@ -2300,6 +2301,8 @@ export default function ProfilePage() {
               {/* TAB 5: ADMIN TEACHER REQUESTS */}
               {activeTab === 'admin-requests' && isAdmin && (
                 <div className="space-y-8 animate-in fade-in duration-300">
+                  <AdminPaywallPanel />
+
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800 pb-5">
                     <div>
                       <h3 className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white tracking-tight mb-1 flex items-center gap-2.5">
