@@ -1,0 +1,13 @@
+{
+  "name": "diakzona-firestore-rules-tests",
+  "private": true,
+  "type": "module",
+  "description": "A firestore.rules tesztjei a Firebase emulátoron (Java 11+ kell hozzá).",
+  "scripts": {
+    "test": "firebase emulators:exec --config firebase.json --only firestore --project demo-diakzona \"node --test rules.test.mjs\""
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "4.0.1",
+    "firebase": "11.10.0"
+  }
+}

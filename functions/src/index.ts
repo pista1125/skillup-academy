@@ -1,4 +1,5 @@
 import { onRequest } from "firebase-functions/v2/https";
+import { onDocumentUpdated } from "firebase-functions/v2/firestore";
 import * as logger from "firebase-functions/logger";
 import OpenAI from "openai";
 import cors from "cors";
@@ -402,38 +403,34 @@ async function sendInvoiceEmailInternal(data: {
   });
 }
 
-// 6. sendBookingEmail Cloud Function
-export const sendBookingEmail = onRequest({ cors: true }, async (req, res) => {
+// 6. sendBookingEmail Cloud Function — LEZÁRVA
+// Korábban bárki tetszőleges címzettnek küldhetett vele levelet a kapcsolat@diakzona.hu címről
+// (nyílt levélküldő). A visszaigazoló levelet a stripeWebhook küldi a sendBookingEmailInternal-lal,
+// a kliens ezt a végpontot nem használja.
+export const sendBookingEmail = onRequest({ cors: ALLOWED_ORIGINS }, async (_req, res) => {
+  res.status(410).json({ error: 'Ez a végpont megszűnt. A visszaigazoló e-mailt a fizetés után a rendszer automatikusan küldi.' });
+});
+
+// 6/b. getBookedSlots — a foglalási naptárhoz csak a foglalt idősávokat adja vissza
+// (a tutoring_bookings személyes adatait a kliens nem olvashatja).
+export const getBookedSlots = onRequest({ cors: ALLOWED_ORIGINS }, async (req, res) => {
+  const date = String(req.query.date || '');
+  if (!/^d{4}-d{2}-d{2}$/.test(date)) {
+    res.status(400).json({ error: 'Hibás dátum (YYYY-MM-DD formátum kell).' });
+    return;
+  }
   try {
-    const { toEmail, studentName, studentPhone, gradeLevel, topic, notes, date, timeSlot, meetLink, amount = 5000 } = req.body || {};
-
-    if (!toEmail || !studentName || !date || !timeSlot) {
-      res.status(400).json({ error: 'Missing required booking fields (toEmail, studentName, date, timeSlot)' });
-      return;
-    }
-
-    logger.info(`Sending booking confirmation email to ${toEmail} for appointment on ${date} at ${timeSlot}`);
-
-    await sendBookingEmailInternal({
-      toEmail,
-      studentName,
-      studentPhone,
-      gradeLevel,
-      topic,
-      notes,
-      date,
-      timeSlot,
-      meetLink,
-      amount: Number(amount) || 5000,
+    const snap = await getDb().collection('tutoring_bookings').where('date', '==', date).get();
+    const slots = new Set<string>();
+    snap.forEach((d) => {
+      const data = d.data();
+      if (typeof data.timeSlot === 'string' && data.status !== 'cancelled') slots.add(data.timeSlot);
     });
-
-    res.json({
-      success: true,
-      message: 'Booking confirmation email delivered successfully via Gmail SMTP',
-    });
+    res.set('Cache-Control', 'no-store');
+    res.json({ slots: Array.from(slots) });
   } catch (err: any) {
-    logger.error('sendBookingEmail error:', err);
-    res.status(500).json({ error: err.message });
+    logger.error('getBookedSlots error:', err);
+    res.status(500).json({ error: 'Nem sikerült lekérni a foglalt időpontokat.' });
   }
 });
 
@@ -605,12 +602,19 @@ export const stripeWebhook = onRequest({ cors: true }, async (req, res) => {
 
   let event: Stripe.Event;
 
+  // Aláírás nélküli kérést SOHA nem fogadunk el: különben bárki hamis „fizetve” eseményt küldhetne.
+  if (!endpointSecret) {
+    logger.error('STRIPE_WEBHOOK_SECRET nincs beállítva – a webhook nem dolgoz fel eseményt.');
+    res.status(500).send('Webhook secret not configured');
+    return;
+  }
+  if (!sig || !req.rawBody) {
+    res.status(400).send('Missing Stripe signature');
+    return;
+  }
+
   try {
-    if (endpointSecret && sig) {
-      event = getStripe().webhooks.constructEvent(req.rawBody || (req as any).body, sig, endpointSecret);
-    } else {
-      event = (typeof req.body === 'string' ? JSON.parse(req.body) : req.body) as Stripe.Event;
-    }
+    event = getStripe().webhooks.constructEvent(req.rawBody, sig, endpointSecret);
   } catch (err: any) {
     logger.error(`Webhook signature verification failed:`, err.message);
     res.status(400).send(`Webhook Error: ${err.message}`);
@@ -754,3 +758,49 @@ export const stripeWebhook = onRequest({ cors: true }, async (req, res) => {
 });
 
 
+
+// 10. syncStudentNameToClasses — ha a diák módosítja a nevét vagy avatárját a profiljában,
+// frissítjük a tanári osztálylistákban (teacher_classes.students[]) is.
+// Korábban ezt a kliens végezte, de a Firestore-szabályok szerint a diák nem írhat a tanár dokumentumába.
+export const syncStudentNameToClasses = onDocumentUpdated(
+  { document: 'profiles/{uid}', database: 'databasediakzona' },
+  async (event) => {
+    const before = event.data?.before.data();
+    const after = event.data?.after.data();
+    if (!before || !after) return;
+
+    const newName = typeof after.full_name === 'string' ? after.full_name.trim() : '';
+    const newAvatar = typeof after.avatar_url === 'string' ? after.avatar_url : '';
+    if (before.full_name === after.full_name && before.avatar_url === after.avatar_url) return;
+    if (!newName && !newAvatar) return;
+
+    const uid = event.params.uid;
+    const db = getDb();
+    const snap = await db.collection('teacher_classes').get();
+    const batch = db.batch();
+    let changedDocs = 0;
+
+    snap.forEach((docSnap) => {
+      const students = docSnap.get('students');
+      if (!Array.isArray(students) || !students.some((s: any) => s?.userId === uid)) return;
+      let changed = false;
+      const updated = students.map((s: any) => {
+        if (s?.userId !== uid) return s;
+        const next = { ...s };
+        if (newName && s.name !== newName) { next.name = newName; changed = true; }
+        if (newAvatar && s.avatarUrl !== newAvatar) { next.avatarUrl = newAvatar; changed = true; }
+        return next;
+      });
+      if (changed) {
+        updated.sort((a: any, b: any) => String(a?.name || '').localeCompare(String(b?.name || ''), 'hu'));
+        batch.update(docSnap.ref, { students: updated });
+        changedDocs++;
+      }
+    });
+
+    if (changedDocs > 0) {
+      await batch.commit();
+      logger.info(`syncStudentNameToClasses: ${uid} frissítve ${changedDocs} osztályban.`);
+    }
+  }
+);

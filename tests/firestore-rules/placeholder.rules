@@ -1,0 +1,3 @@
+rules_version = '2';
+// Helyőrző: a tesztek az initializeTestEnvironment-tel a ../../firestore.rules-t töltik be.
+service cloud.firestore { match /databases/{database}/documents { match /{document=**} { allow read, write: if false; } } }

@@ -5,9 +5,12 @@ import {
   query, 
   where, 
   onSnapshot, 
-  updateDoc 
+  updateDoc,
+  deleteField,
+  Timestamp
 } from 'firebase/firestore';
 import { Profile } from '@/contexts/AuthContext';
+import { nextTeacherApprovalExpiry } from '@/lib/teacherApproval';
 
 export interface TeacherApplicationData {
   schoolName?: string;
@@ -102,12 +105,14 @@ export function subscribeApprovedTeachers(
 
 /**
  * Admin approves a teacher request.
+ * A jóváhagyás a tanév végéig (aug. 31.) érvényes, utána újra kell kérni.
  */
 export async function approveTeacherRequest(userId: string): Promise<void> {
   const userRef = doc(db, 'profiles', userId);
   await updateDoc(userRef, {
     role: 'teacher',
     teacher_status: 'approved',
+    teacher_approved_until: Timestamp.fromDate(nextTeacherApprovalExpiry()),
     updated_at: new Date().toISOString()
   });
 }
@@ -120,6 +125,7 @@ export async function rejectTeacherRequest(userId: string, reason?: string): Pro
   await updateDoc(userRef, {
     role: 'student',
     teacher_status: 'rejected',
+    teacher_approved_until: deleteField(),
     teacher_reject_reason: reason || null,
     updated_at: new Date().toISOString()
   });
@@ -133,6 +139,7 @@ export async function revokeTeacherAccess(userId: string): Promise<void> {
   await updateDoc(userRef, {
     role: 'student',
     teacher_status: 'none',
+    teacher_approved_until: deleteField(),
     updated_at: new Date().toISOString()
   });
 }

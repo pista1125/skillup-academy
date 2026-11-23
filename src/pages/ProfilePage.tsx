@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import { getTeacherApprovalUntil, isTeacherApprovalActive } from '@/lib/teacherApproval';
 import { auth, db, storage } from '@/lib/firebase';
 import { updatePassword, sendPasswordResetEmail } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
@@ -77,8 +78,7 @@ import {
   deleteTeacherClass, 
   updateTeacherClassName,
   addStudentToClassByCode, 
-  removeStudentFromClass,
-  updateStudentNameAcrossTeacherClasses 
+  removeStudentFromClass
 } from '@/services/teacherClassService';
 import { updateStudentCompetencySubmissionsName } from '@/services/competencySubmissionService';
 import { 
@@ -590,11 +590,12 @@ export default function ProfilePage() {
         updated_at: new Date().toISOString(),
       }, { merge: true });
 
-      // Synchronize student name across past competency submissions and classes
+      // Synchronize student name across past competency submissions.
+      // (A tanári osztálylistákban a nevet a syncStudentNameToClasses Cloud Function frissíti,
+      // mert a diák nem írhat a tanár osztálydokumentumába.)
       try {
         await Promise.allSettled([
-          updateStudentCompetencySubmissionsName(user.uid, fullName, user.email || undefined),
-          updateStudentNameAcrossTeacherClasses(user.uid, fullName, avatarUrl)
+          updateStudentCompetencySubmissionsName(user.uid, fullName, user.email || undefined)
         ]);
       } catch (syncErr) {
         console.warn('Background sync warning:', syncErr);
@@ -1192,6 +1193,26 @@ export default function ProfilePage() {
                             </Button>
                           </div>
                         )}
+
+                        {profile?.teacher_status === 'expired' && (
+                          <div className="p-4.5 rounded-2xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-800 shadow-sm space-y-3">
+                            <div className="flex items-center gap-2.5 text-sky-900 dark:text-sky-200 font-black text-sm">
+                              <Clock className="w-5 h-5 text-sky-600 shrink-0" />
+                              <span>Lejárt a tanári jogosultságod</span>
+                            </div>
+                            <p className="text-xs text-sky-800 dark:text-sky-300 font-medium">
+                              A tanári jogosultság minden tanév végén, augusztus 31-én lejár. Az új tanévre kérd újra – az osztályaid és a diákjaid adatai megmaradtak.
+                            </p>
+                            <Button
+                              size="sm"
+                              onClick={() => setIsRequestModalOpen(true)}
+                              className="rounded-xl text-xs h-8 font-bold bg-sky-600 hover:bg-sky-700 text-white cursor-pointer"
+                            >
+                              <Send className="w-3 h-3 mr-1" />
+                              Jogosultság újrakérése
+                            </Button>
+                          </div>
+                        )}
                       </div>
                     )}
 
@@ -1259,6 +1280,11 @@ export default function ProfilePage() {
                               <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">
                                 {isAdmin || profile?.teacher_status === 'approved' ? 'Adminisztratív fiók' : 'Tanári kérelem benyújtása'}
                               </p>
+                              {!isAdmin && profile?.teacher_status === 'approved' && (
+                                <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 mt-0.5">
+                                  Érvényes: {getTeacherApprovalUntil(profile).toLocaleDateString('hu-HU')}-ig
+                                </p>
+                              )}
                             </div>
                           </button>
                        </div>
@@ -2435,6 +2461,14 @@ export default function ProfilePage() {
                                   <p className="text-xs text-slate-400 font-mono truncate">
                                     {teacher.email}
                                   </p>
+                                  {teacher.email?.toLowerCase() !== 'pista1125@gmail.com' && (
+                                    <p className={cn(
+                                      "text-[11px] font-semibold",
+                                      isTeacherApprovalActive(teacher) ? "text-slate-500 dark:text-slate-400" : "text-rose-600 dark:text-rose-400"
+                                    )}>
+                                      {isTeacherApprovalActive(teacher) ? 'Érvényes' : 'Lejárt'}: {getTeacherApprovalUntil(teacher).toLocaleDateString('hu-HU')}
+                                    </p>
+                                  )}
                                   {teacher.school_name && (
                                     <p className="text-[11px] text-slate-500 truncate mt-0.5">
                                       🏫 {teacher.school_name}

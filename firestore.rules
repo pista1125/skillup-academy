@@ -1,9 +1,227 @@
 rules_version = '2';
 
+// DiákZóna Firestore-szabályok
+// ---------------------------------------------------------------------------
+// Alapelv: ami nincs kifejezetten engedélyezve, az tilos (nincs mindent engedő {document=**}).
+// A Cloud Functions (Admin SDK) a szabályokat megkerüli – az előfizetési és licenc-adatokat
+// kizárólag ők írják.
+//
+// FONTOS: a LEGACY tanári lejárati dátum (2027-08-31) a src/lib/teacherApproval.ts-ben is szerepel,
+// a kettőt együtt kell módosítani.
+
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if true;
+
+    // ---------- Segédfüggvények ----------
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isSelf(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && request.auth.token.get('email', '') == 'pista1125@gmail.com'
+        && request.auth.token.get('email_verified', false) == true;
+    }
+
+    // Jóváhagyott és még érvényes (aug. 31-ig) tanár-e az adott profil.
+    function approvedProfile(p) {
+      return p.get('teacher_status', 'none') == 'approved'
+        && p.get('teacher_approved_until', timestamp.date(2027, 8, 31)) > request.time;
+    }
+
+    function isApprovedTeacher() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/profiles/$(request.auth.uid))
+        && approvedProfile(get(/databases/$(database)/documents/profiles/$(request.auth.uid)).data);
+    }
+
+    function changedKeys() {
+      return request.resource.data.diff(resource.data).affectedKeys();
+    }
+
+    // ---------- Profilok ----------
+    // Olvasás: belépett felhasználók (osztálykezelő kódkeresés, sakk/torpedó ellenfél, kompetencia-nevek).
+    // Írás: a saját profil, de a jogosultság-mezőket (role, teacher_status, teacher_approved_until)
+    // a felhasználó nem emelheti meg magának – azt csak az admin teheti.
+    match /profiles/{uid} {
+      allow read: if signedIn();
+
+      allow create: if isAdmin() || (
+        isSelf(uid)
+        && request.resource.data.get('role', 'student') == 'student'
+        && request.resource.data.get('teacher_status', 'none') in ['none', 'pending']
+        && !('teacher_approved_until' in request.resource.data)
+        && !('teacher_reject_reason' in request.resource.data)
+      );
+
+      allow update: if isAdmin() || (
+        isSelf(uid)
+        && ownProfileUpdateAllowed(uid)
+      );
+
+      allow delete: if isAdmin();
+
+      function ownProfileUpdateAllowed(uid) {
+        let keys = changedKeys();
+        let next = request.resource.data;
+        let prev = resource.data;
+        return !keys.hasAny(['teacher_approved_until', 'teacher_reject_reason'])
+          && (!keys.hasAny(['id']) || next.id == uid)
+          // a 6 jegyű azonosító csak egyszer állítható be
+          && (!keys.hasAny(['user_code']) || !('user_code' in prev))
+          // szerepkör: diákra mindig, tanárra csak érvényes jóváhagyással
+          && (!keys.hasAny(['role'])
+              || next.role == 'student'
+              || (next.role == 'teacher' && approvedProfile(prev)))
+          // tanári státusz: kérelem beadása (ha nincs érvényes jóváhagyás), vagy függő kérelem visszavonása
+          && (!keys.hasAny(['teacher_status'])
+              || (next.teacher_status == 'pending' && !approvedProfile(prev))
+              || (next.teacher_status == 'none' && prev.get('teacher_status', 'none') == 'pending'));
+      }
+    }
+
+    // ---------- Tanári osztályok ----------
+    match /teacher_classes/{classId} {
+      allow read: if signedIn();
+      allow create: if signedIn()
+        && request.resource.data.teacherId == request.auth.uid
+        && (isApprovedTeacher() || isAdmin());
+      allow update: if signedIn()
+        && (resource.data.teacherId == request.auth.uid || isAdmin())
+        && request.resource.data.teacherId == resource.data.teacherId;
+      allow delete: if signedIn()
+        && (resource.data.teacherId == request.auth.uid || isAdmin());
+    }
+
+    // ---------- Előfizetés és tanári licenc (csak Cloud Function írja) ----------
+    match /subscriptions/{subId} {
+      allow read: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
+      allow write: if false;
+    }
+
+    match /stripeCustomers/{uid} {
+      allow read: if isSelf(uid) || isAdmin();
+      allow write: if false;
+    }
+
+    match /teacherGrants/{studentUid} {
+      allow read: if isSelf(studentUid)
+        || isAdmin()
+        || (signedIn() && resource.data.teacherId == request.auth.uid);
+      allow write: if false;
+    }
+
+    match /teacherLicenses/{teacherId} {
+      allow read: if isSelf(teacherId) || isAdmin();
+      allow write: if false;
+    }
+
+    // Alkalmazás-beállítások (pl. paywallEnabled): mindenki olvashatja, csak admin írja.
+    match /config/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ---------- Korrepetálás ----------
+    // A foglalásokat a stripeWebhook írja; a naptár a getBookedSlots function-ön át kapja az idősávokat.
+    match /tutoring_bookings/{bookingId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    // Trigger Email gyűjtemény: a kliens nem küldhet innen levelet.
+    match /mail/{mailId} {
+      allow read, write: if isAdmin();
+    }
+
+    // ---------- Tanulási haladás ----------
+    // Dokumentumazonosító: "<userId>__<quizId>". A tanár az osztálya haladását olvassa.
+    match /quiz_progress/{docId} {
+      allow read: if signedIn();
+      allow create: if signedIn()
+        && request.resource.data.userId == request.auth.uid
+        && docId.matches(request.auth.uid + '__.+');
+      allow update: if signedIn()
+        && resource.data.userId == request.auth.uid
+        && request.resource.data.userId == request.auth.uid;
+      allow delete: if isAdmin();
+    }
+
+    match /competency_test_submissions/{submissionId} {
+      allow read: if signedIn();
+      allow create: if signedIn() && request.resource.data.userId == request.auth.uid;
+      allow update: if signedIn()
+        && resource.data.userId == request.auth.uid
+        && request.resource.data.userId == resource.data.userId;
+      allow delete: if signedIn()
+        && (resource.data.userId == request.auth.uid || isApprovedTeacher() || isAdmin());
+    }
+
+    // ---------- Ranglisták (vendégként is lehet eredményt beküldeni) ----------
+    function validLeaderboardEntry() {
+      let d = request.resource.data;
+      return (d.get('userId', null) == null || (signedIn() && d.userId == request.auth.uid))
+        && d.keys().size() <= 30;
+    }
+
+    match /snake_leaderboard/{entryId} {
+      allow read: if true;
+      allow create: if validLeaderboardEntry();
+      allow update, delete: if isAdmin();
+    }
+
+    match /matcher_leaderboard/{entryId} {
+      allow read: if true;
+      allow create: if validLeaderboardEntry();
+      allow update, delete: if isAdmin();
+    }
+
+    match /sorter_leaderboard/{entryId} {
+      allow read: if true;
+      allow create: if validLeaderboardEntry();
+      allow update, delete: if isAdmin();
+    }
+
+    // ---------- Játékok és osztálytermi eszközök (belépés szükséges) ----------
+    // Ezeket a funkciókat csak bejelentkezve lehet használni; a finomabb, tulajdonos-alapú
+    // szabályozás egy későbbi lépés.
+    match /chess_matches/{id} {
+      allow read, write: if signedIn();
+    }
+    match /chess_tournaments/{id} {
+      allow read, write: if signedIn();
+    }
+    match /torpedo_matches/{id} {
+      allow read, write: if signedIn();
+    }
+    match /friends/{id} {
+      allow read, write: if signedIn();
+    }
+    match /feedback_sessions/{id} {
+      allow read, write: if signedIn();
+    }
+    match /feedback_notifications/{id} {
+      allow read, write: if signedIn();
+    }
+    match /feedback_results/{id} {
+      allow read, write: if signedIn();
+    }
+    match /feedback_students/{id} {
+      allow read, write: if signedIn();
+    }
+    match /feedback_classes/{id} {
+      allow read, write: if signedIn();
+    }
+    match /feedback_survey_responses/{id} {
+      allow read, write: if signedIn();
+    }
+    match /feedback_word_cloud_responses/{id} {
+      allow read, write: if signedIn();
     }
   }
 }

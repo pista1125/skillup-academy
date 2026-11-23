@@ -21,7 +21,7 @@ import {
     GoogleAuthProvider,
     sendPasswordResetEmail
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { toast } from "sonner";
 import { Loader2, LogIn, UserPlus, Eye, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -120,17 +120,25 @@ export function AuthModal({ isOpen, onClose, defaultTab = 'login' }: AuthModalPr
                 await updateProfile(user, { displayName: fullName });
             }
 
-            // Create initial profile document in Firestore
+            // Create initial profile document in Firestore.
+            // merge: az AuthContext párhuzamosan szintén létrehozhatja a profilt (user_code-dal),
+            // ezért nem írjuk felül. A szerepkör mindig 'student': a tanári jogot csak az admin adhatja meg,
+            // a „Tanár vagyok” választás tanári kérelmet nyújt be.
             await setDoc(doc(db, 'profiles', user.uid), {
                 id: user.uid,
-                full_name: fullName || null,
+                ...(fullName ? { full_name: fullName } : {}),
                 username: email.split('@')[0],
-                role: role,
+                role: 'student',
+                ...(role === 'teacher'
+                    ? { teacher_status: 'pending', teacher_requested_at: new Date().toISOString() }
+                    : {}),
                 avatar_url: user.photoURL || null,
                 updated_at: new Date().toISOString(),
-            });
+            }, { merge: true });
 
-            toast.success("Sikeres regisztráció! Most már be vagy jelentkezve.");
+            toast.success(role === 'teacher'
+                ? "Sikeres regisztráció! A tanári kérelmedet rögzítettük, az admin jóváhagyása után éled fel a tanári felület."
+                : "Sikeres regisztráció! Most már be vagy jelentkezve.");
             onClose();
         } catch (error: any) {
             toast.error(error.message || "Hiba a regisztráció során");
@@ -146,15 +154,20 @@ export function AuthModal({ isOpen, onClose, defaultTab = 'login' }: AuthModalPr
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
 
-            // Ensure profile exists in Firestore
-            await setDoc(doc(db, 'profiles', user.uid), {
-                id: user.uid,
-                full_name: user.displayName || null,
-                username: user.email?.split('@')[0] || null,
-                role: role,
-                avatar_url: user.photoURL || null,
-                updated_at: new Date().toISOString(),
-            }, { merge: true });
+            // Csak akkor hozunk létre profilt, ha még nincs: a meglévő profil nevét,
+            // szerepkörét és tanári státuszát egy újabb belépés nem írhatja felül.
+            const profileRef = doc(db, 'profiles', user.uid);
+            const existing = await getDoc(profileRef);
+            if (!existing.exists()) {
+                await setDoc(profileRef, {
+                    id: user.uid,
+                    full_name: user.displayName || null,
+                    username: user.email?.split('@')[0] || null,
+                    role: 'student',
+                    avatar_url: user.photoURL || null,
+                    updated_at: new Date().toISOString(),
+                }, { merge: true });
+            }
 
             toast.success("Sikeres bejelentkezés!");
             onClose();

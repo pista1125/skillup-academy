@@ -1,5 +1,5 @@
 import { db } from '@/lib/firebase';
-import { collection, addDoc, getDocs, query, where, serverTimestamp } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 export interface BookingData {
   id?: string;
@@ -34,26 +34,21 @@ export function generateGoogleMeetLink(dateStr: string, timeSlot: string): strin
   return PERMANENT_MEET_LINK;
 }
 
+const BOOKED_SLOTS_URL = 'https://us-central1-diakzona.cloudfunctions.net/getBookedSlots';
+
 /**
  * Fetch already booked slots for a given date.
+ * A foglalások személyes adatokat tartalmaznak (név, e-mail, telefon, cím), ezért a kliens
+ * nem olvashatja őket közvetlenül: a getBookedSlots Cloud Function csak az idősávokat adja vissza.
  */
 export async function getBookedSlotsForDate(dateStr: string): Promise<string[]> {
   try {
-    const bookingsRef = collection(db, 'tutoring_bookings');
-    const q = query(bookingsRef, where('date', '==', dateStr));
-    const querySnapshot = await getDocs(q);
-
-    const bookedSlots: string[] = [];
-    querySnapshot.forEach((doc) => {
-      const data = doc.data() as BookingData;
-      if (data.timeSlot && data.status !== 'cancelled') {
-        bookedSlots.push(data.timeSlot);
-      }
-    });
-
-    return bookedSlots;
+    const response = await fetch(`${BOOKED_SLOTS_URL}?date=${encodeURIComponent(dateStr)}`);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data = await response.json();
+    return Array.isArray(data.slots) ? data.slots.filter((s: unknown) => typeof s === 'string') : [];
   } catch (error) {
-    console.warn('Could not fetch booked slots from Firestore, returning empty list:', error);
+    console.warn('Could not fetch booked slots, returning empty list:', error);
     return [];
   }
 }

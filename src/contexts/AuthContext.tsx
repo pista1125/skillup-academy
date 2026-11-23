@@ -4,13 +4,20 @@ import { User, onAuthStateChanged, signOut as firebaseSignOut } from 'firebase/a
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 import { syncPistaData } from '@/lib/firebaseSync';
+import { isTeacherApprovalActive } from '@/lib/teacherApproval';
 
 export interface Profile {
     id: string;
     full_name: string | null;
     username: string | null;
     role: 'teacher' | 'student';
-    teacher_status?: 'none' | 'pending' | 'approved' | 'rejected';
+    /**
+     * Az 'expired' csak kliensoldali, virtuális állapot: a Firestore-ban 'approved' áll,
+     * de a teacher_approved_until (aug. 31.) már elmúlt. Soha nem írjuk vissza.
+     */
+    teacher_status?: 'none' | 'pending' | 'approved' | 'rejected' | 'expired';
+    /** Firestore Timestamp: meddig érvényes a tanári jóváhagyás (minden év aug. 31.). */
+    teacher_approved_until?: { toDate: () => Date } | null;
     teacher_requested_at?: string;
     school_name?: string;
     subject?: string;
@@ -72,6 +79,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                     data.role = 'teacher';
                     data.teacher_status = 'approved';
                     data.full_name = data.full_name || 'Orsós István';
+                } else if (data.teacher_status === 'approved' && !isTeacherApprovalActive(data)) {
+                    // Lejárt (aug. 31.) tanári jóváhagyás: újra kell kérni az admintól.
+                    data.teacher_status = 'expired';
+                    data.role = 'student';
                 } else if (data.role === 'teacher' && data.teacher_status !== 'approved') {
                     // Security guard: If not approved by admin, keep as student
                     data.role = 'student';
@@ -96,8 +107,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                     email: firebaseUser.email || null,
                     user_code: newCode
                 };
-                await setDoc(userRef, newProfile);
-                setProfile(newProfile);
+                // merge + csak a biztosan ismert mezők: a regisztrációs ablak (AuthModal) párhuzamosan
+                // beírhatja a nevet és a tanári kérelmet ('pending'), ezeket nem írjuk felül.
+                // (A tanári státusz alapértéke a Firestore-szabályokban is 'none'.)
+                const { teacher_status: _ts, full_name: _fn, ...baseProfile } = newProfile;
+                await setDoc(userRef, {
+                    ...baseProfile,
+                    ...(newProfile.full_name ? { full_name: newProfile.full_name } : {}),
+                    ...(isPista ? { teacher_status: 'approved' } : {}),
+                }, { merge: true });
+                const saved = await getDoc(userRef);
+                setProfile(saved.exists() ? ({ ...newProfile, ...(saved.data() as Profile) }) : newProfile);
             }
         } catch (err) {
             console.error('Error fetching/creating profile in Firestore:', err);
