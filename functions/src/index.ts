@@ -1,4 +1,4 @@
-import { onRequest } from "firebase-functions/v2/https";
+import { onRequest, onCall, HttpsError } from "firebase-functions/v2/https";
 import { onDocumentUpdated } from "firebase-functions/v2/firestore";
 import * as logger from "firebase-functions/logger";
 import OpenAI from "openai";
@@ -7,6 +7,19 @@ import nodemailer from "nodemailer";
 import * as admin from "firebase-admin";
 import { getFirestore } from "firebase-admin/firestore";
 import Stripe from "stripe";
+import {
+  TRIAL_DAYS,
+  parseGrade,
+  gradeSlug,
+  subscriptionDocId,
+  pickOrigin,
+  isLiveStatus,
+  subscriptionPeriodEnd,
+  invoiceSubscriptionId,
+  shouldOverwriteSubscription,
+  hufFromStripeAmount,
+  subscriptionInvoiceLabel,
+} from "./billing";
 
 if (!admin.apps.length) {
   admin.initializeApp();
@@ -312,6 +325,8 @@ async function sendInvoiceEmailInternal(data: {
   topic?: string;
   date?: string;
   billingAddressString?: string;
+  /** Ha meg van adva, ez jelenik meg szolgáltatásként (pl. előfizetésnél) a korrepetálás helyett. */
+  productLabel?: string;
 }) {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -358,7 +373,7 @@ async function sendInvoiceEmailInternal(data: {
           </tr>` : ''}
           <tr>
             <td style="padding: 6px 0; color: #64748b;">Tétel:</td>
-            <td style="padding: 6px 0; color: #0f172a;">Online Korrepetálás (${data.topic || 'Matematika'})</td>
+            <td style="padding: 6px 0; color: #0f172a;">${data.productLabel || `Online Korrepetálás (${data.topic || 'Matematika'})`}</td>
           </tr>
           <tr>
             <td style="padding: 6px 0; color: #64748b;">Fizetés módja:</td>
@@ -398,7 +413,7 @@ async function sendInvoiceEmailInternal(data: {
   await transporter.sendMail({
     from: '"DiákZóna Számlázás" <kapcsolat@diakzona.hu>',
     to: [data.toEmail, 'kapcsolat@diakzona.hu', 'pista1125@gmail.com'],
-    subject: `🧾 Elektronikus Számla: DiákZóna Online Korrepetálás (Számlaszám: ${data.invoiceId})`,
+    subject: `🧾 Elektronikus Számla: ${data.productLabel ? 'DiákZóna előfizetés' : 'DiákZóna Online Korrepetálás'} (Számlaszám: ${data.invoiceId})`,
     html: htmlContent,
   });
 }
@@ -442,9 +457,12 @@ async function createSzamlazzInvoice(data: {
   studentName: string;
   studentEmail: string;
   topic: string;
-  date: string;
-  timeSlot: string;
+  date?: string;
+  timeSlot?: string;
   amount: number;
+  /** Előfizetésnél: a tétel neve és mértékegysége (alapból a korrepetálásé). */
+  itemLabel?: string;
+  unit?: string;
   address?: {
     line1?: string | null;
     line2?: string | null;
@@ -476,8 +494,10 @@ async function createSzamlazzInvoice(data: {
       },
       email: {
         replyToAddress: 'kapcsolat@diakzona.hu',
-        subject: `Számla: Online Korrepetálás - ${data.topic}`,
-        message: 'Köszönjük a foglalást és a fizetést a DiákZóna Akadémián!',
+        subject: data.itemLabel ? `Számla: ${data.itemLabel}` : `Számla: Online Korrepetálás - ${data.topic}`,
+        message: data.itemLabel
+          ? 'Köszönjük, hogy a DiákZónával tanulsz!'
+          : 'Köszönjük a foglalást és a fizetést a DiákZóna Akadémián!',
       },
       issuerName: 'Orsós István',
     });
@@ -496,9 +516,9 @@ async function createSzamlazzInvoice(data: {
     });
 
     const item = new szamlazz.Item({
-      label: `Online Matematika Korrepetálás - ${data.topic} (${data.date} ${data.timeSlot})`,
+      label: data.itemLabel || `Online Matematika Korrepetálás - ${data.topic} (${data.date} ${data.timeSlot})`,
       quantity: 1,
-      unit: 'óra',
+      unit: data.unit || 'óra',
       vat: 'AAM',
       grossUnitPrice: data.amount,
     });
@@ -621,7 +641,19 @@ export const stripeWebhook = onRequest({ cors: true }, async (req, res) => {
     return;
   }
 
-  if (event.type === 'checkout.session.completed') {
+  // Évfolyam-előfizetés események. Hiba esetén 500 → a Stripe később újraküldi.
+  try {
+    if (await handleSubscriptionEvent(event)) {
+      res.json({ received: true });
+      return;
+    }
+  } catch (subErr: any) {
+    logger.error('Subscription webhook handling failed:', event.type, event.id, subErr);
+    res.status(500).send('Subscription handling failed');
+    return;
+  }
+
+  if (event.type === 'checkout.session.completed' && (event.data.object as Stripe.Checkout.Session).mode !== 'subscription') {
     const session = event.data.object as Stripe.Checkout.Session;
     const metadata = session.metadata || {};
     const customerDetails = session.customer_details;
@@ -804,3 +836,250 @@ export const syncStudentNameToClasses = onDocumentUpdated(
     }
   }
 );
+
+// ===========================================================================
+// 11. Évfolyam-előfizetés (990 Ft/hó, 7 nap próbaidő fiókonként egyszer)
+// ===========================================================================
+// Adatmodell (csak ezek a function-ök írják, a kliens csak olvas – lásd firestore.rules):
+//   subscriptions/{uid}_{grade}  – az évfolyam-előfizetés állapota
+//   stripeCustomers/{uid}        – Stripe customer azonosító + trialUsed
+//   stripeInvoices/{invoiceId}   – a havi számlák feldolgozásának nyoma (idempotencia)
+
+function getSubscriptionPriceId(): string {
+  const priceId = process.env.STRIPE_SUBSCRIPTION_PRICE_ID;
+  if (!priceId) {
+    throw new HttpsError('failed-precondition', 'Az előfizetés ára nincs beállítva (STRIPE_SUBSCRIPTION_PRICE_ID).');
+  }
+  return priceId;
+}
+
+async function getOrCreateStripeCustomer(uid: string, email?: string, name?: string): Promise<string> {
+  const ref = getDb().doc(`stripeCustomers/${uid}`);
+  const snap = await ref.get();
+  const existing = snap.get('stripeCustomerId');
+  if (typeof existing === 'string' && existing) return existing;
+
+  const customer = await getStripe().customers.create({
+    email: email || undefined,
+    name: name || undefined,
+    metadata: { uid },
+  });
+  await ref.set({
+    stripeCustomerId: customer.id,
+    createdAt: admin.firestore.FieldValue.serverTimestamp(),
+  }, { merge: true });
+  return customer.id;
+}
+
+const tsFromUnix = (sec: number | null | undefined) =>
+  typeof sec === 'number' ? admin.firestore.Timestamp.fromMillis(sec * 1000) : null;
+
+/** Az előfizetést frissen lekéri a Stripe-tól, és beírja a Firestore-ba. */
+async function syncSubscriptionFromStripe(subscriptionId: string): Promise<{ uid: string; grade: number } | null> {
+  const sub = await getStripe().subscriptions.retrieve(subscriptionId);
+  const uid = sub.metadata?.uid;
+  const grade = parseGrade(sub.metadata?.grade);
+  if (!uid || !grade) {
+    logger.warn('Subscription without uid/grade metadata, skipping:', subscriptionId);
+    return null;
+  }
+
+  const db = getDb();
+  const ref = db.doc(`subscriptions/${subscriptionDocId(uid, grade)}`);
+  const customerId = typeof sub.customer === 'string' ? sub.customer : sub.customer.id;
+  const priceId = sub.items?.data?.[0]?.price?.id || null;
+
+  await db.runTransaction(async (tx) => {
+    const cur = await tx.get(ref);
+    const existing = cur.exists ? { id: cur.get('stripeSubscriptionId'), status: cur.get('status') } : null;
+    if (!shouldOverwriteSubscription(existing, { id: sub.id, status: sub.status })) {
+      logger.info(`Subscription ${sub.id} (${sub.status}) nem írja felül az élő ${existing?.id} előfizetést.`);
+      return;
+    }
+    tx.set(ref, {
+      uid,
+      grade,
+      status: sub.status,
+      currentPeriodEnd: tsFromUnix(subscriptionPeriodEnd(sub as any)),
+      trialEnd: tsFromUnix(sub.trial_end),
+      cancelAtPeriodEnd: Boolean(sub.cancel_at_period_end || sub.cancel_at),
+      cancelAt: tsFromUnix(sub.cancel_at),
+      stripeSubscriptionId: sub.id,
+      stripeCustomerId: customerId,
+      priceId,
+      updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+    });
+  });
+
+  // A próbaidő fiókonként egyszer jár: ha ez az előfizetés próbaidővel indult, megjelöljük.
+  if (sub.trial_start) {
+    await db.doc(`stripeCustomers/${uid}`).set({ stripeCustomerId: customerId, trialUsed: true }, { merge: true });
+  }
+  return { uid, grade };
+}
+
+/** Számlázz.hu számla a sikeresen kifizetett havi díjról (a 0 Ft-os próbaidős számlát kihagyjuk). */
+async function issueSubscriptionInvoice(invoice: Stripe.Invoice, grade: number): Promise<void> {
+  if (!invoice.id || !invoice.amount_paid || invoice.amount_paid <= 0) return;
+
+  const ref = getDb().doc(`stripeInvoices/${invoice.id}`);
+  try {
+    await ref.create({ status: 'processing', grade, createdAt: admin.firestore.FieldValue.serverTimestamp() });
+  } catch (e: any) {
+    // Már feldolgoztuk (a Stripe ugyanazt az eseményt többször is küldheti).
+    if (e?.code === 6 || /already exists/i.test(String(e?.message))) return;
+    throw e;
+  }
+
+  const line = invoice.lines?.data?.[0];
+  const label = subscriptionInvoiceLabel(grade, line?.period?.start, line?.period?.end);
+  const amount = hufFromStripeAmount(invoice.amount_paid);
+  const email = invoice.customer_email || '';
+  const name = invoice.customer_name || email || 'Előfizető';
+  const address = invoice.customer_address || undefined;
+
+  const result = await createSzamlazzInvoice({
+    studentName: name,
+    studentEmail: email,
+    topic: label,
+    amount,
+    address,
+    itemLabel: label,
+    unit: 'hó',
+  });
+
+  await ref.set({
+    status: result.success ? 'issued' : 'failed',
+    szamlazzInvoiceId: result.invoiceId || null,
+    error: result.error || null,
+    amount,
+  }, { merge: true });
+
+  if (result.success && result.invoiceId && email) {
+    try {
+      await sendInvoiceEmailInternal({
+        toEmail: email,
+        studentName: name,
+        invoiceId: result.invoiceId,
+        invoiceUrl: result.invoiceUrl,
+        amount,
+        productLabel: label,
+        billingAddressString: address
+          ? [address.postal_code, address.city, address.line1, address.line2, address.country || 'HU'].filter(Boolean).join(', ')
+          : undefined,
+      });
+    } catch (mailErr) {
+      logger.error('Subscription invoice email error:', mailErr);
+    }
+  }
+}
+
+/** true, ha az eseményt az előfizetés-kezelés feldolgozta (a foglalási ág ekkor nem fut). */
+async function handleSubscriptionEvent(event: Stripe.Event): Promise<boolean> {
+  switch (event.type) {
+    case 'checkout.session.completed': {
+      const session = event.data.object as Stripe.Checkout.Session;
+      if (session.mode !== 'subscription') return false;
+      const subId = typeof session.subscription === 'string' ? session.subscription : session.subscription?.id;
+      if (subId) await syncSubscriptionFromStripe(subId);
+      return true;
+    }
+    case 'customer.subscription.created':
+    case 'customer.subscription.updated':
+    case 'customer.subscription.deleted':
+    case 'customer.subscription.paused':
+    case 'customer.subscription.resumed': {
+      const sub = event.data.object as Stripe.Subscription;
+      await syncSubscriptionFromStripe(sub.id);
+      return true;
+    }
+    case 'invoice.paid':
+    case 'invoice.payment_failed': {
+      const invoice = event.data.object as Stripe.Invoice;
+      const subId = invoiceSubscriptionId(invoice as any);
+      if (!subId) return true; // nem előfizetéses számla – nincs teendő
+      const synced = await syncSubscriptionFromStripe(subId);
+      if (event.type === 'invoice.paid' && synced) {
+        await issueSubscriptionInvoice(invoice, synced.grade);
+      }
+      return true;
+    }
+    default:
+      return false;
+  }
+}
+
+// 11/a. createSubscriptionCheckout — Stripe Checkout indítása egy évfolyam előfizetéséhez.
+export const createSubscriptionCheckout = onCall({ cors: ALLOWED_ORIGINS }, async (request) => {
+  if (!request.auth) {
+    throw new HttpsError('unauthenticated', 'Az előfizetéshez előbb jelentkezz be!');
+  }
+  const uid = request.auth.uid;
+  const grade = parseGrade(request.data?.grade);
+  if (!grade) {
+    throw new HttpsError('invalid-argument', 'Érvénytelen évfolyam (1–12).');
+  }
+  const priceId = getSubscriptionPriceId();
+  const db = getDb();
+
+  const subSnap = await db.doc(`subscriptions/${subscriptionDocId(uid, grade)}`).get();
+  if (subSnap.exists && isLiveStatus(subSnap.get('status'))) {
+    throw new HttpsError('already-exists', `A(z) ${grade}. osztályra már van előfizetésed.`);
+  }
+
+  const email = typeof request.auth.token.email === 'string' ? request.auth.token.email : undefined;
+  const name = typeof request.auth.token.name === 'string' ? request.auth.token.name : undefined;
+  const customerId = await getOrCreateStripeCustomer(uid, email, name);
+
+  // A webhook késhet: a Stripe-ban is ellenőrizzük, nincs-e már élő előfizetés erre az évfolyamra.
+  const existing = await getStripe().subscriptions.list({ customer: customerId, status: 'all', limit: 50 });
+  if (existing.data.some((s) => parseGrade(s.metadata?.grade) === grade && isLiveStatus(s.status))) {
+    throw new HttpsError('already-exists', `A(z) ${grade}. osztályra már van előfizetésed.`);
+  }
+
+  const trialUsed = (await db.doc(`stripeCustomers/${uid}`).get()).get('trialUsed') === true;
+  const origin = pickOrigin(request.rawRequest?.headers?.origin, ALLOWED_ORIGINS);
+  const slug = gradeSlug(grade);
+
+  const session = await getStripe().checkout.sessions.create({
+    mode: 'subscription',
+    customer: customerId,
+    customer_update: { address: 'auto', name: 'auto' },
+    client_reference_id: uid,
+    line_items: [{ price: priceId, quantity: 1 }],
+    billing_address_collection: 'required',
+    locale: 'hu',
+    subscription_data: {
+      description: `DiákZóna ${grade}. osztály`,
+      metadata: { uid, grade: String(grade) },
+      ...(trialUsed ? {} : { trial_period_days: TRIAL_DAYS }),
+    },
+    metadata: { kind: 'grade_subscription', uid, grade: String(grade) },
+    success_url: `${origin}/${slug}?subscribed=success&session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${origin}/${slug}?subscribed=cancelled`,
+  });
+
+  if (!session.url) {
+    throw new HttpsError('internal', 'Nem sikerült elindítani a fizetést.');
+  }
+  return { url: session.url, trial: !trialUsed };
+});
+
+// 11/b. createPortalSession — Stripe ügyfélportál (lemondás, kártyacsere, számlák).
+export const createPortalSession = onCall({ cors: ALLOWED_ORIGINS }, async (request) => {
+  if (!request.auth) {
+    throw new HttpsError('unauthenticated', 'Előbb jelentkezz be!');
+  }
+  const snap = await getDb().doc(`stripeCustomers/${request.auth.uid}`).get();
+  const customerId = snap.get('stripeCustomerId');
+  if (typeof customerId !== 'string' || !customerId) {
+    throw new HttpsError('not-found', 'Még nincs előfizetésed.');
+  }
+  const origin = pickOrigin(request.rawRequest?.headers?.origin, ALLOWED_ORIGINS);
+  const portal = await getStripe().billingPortal.sessions.create({
+    customer: customerId,
+    return_url: `${origin}/profil`,
+    locale: 'hu',
+  });
+  return { url: portal.url };
+});
