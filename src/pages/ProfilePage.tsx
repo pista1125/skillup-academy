@@ -98,6 +98,7 @@ import {
 import { Profile } from '@/contexts/AuthContext';
 import { BrandName } from '@/components/BrandName';
 import { MySubscriptions } from '@/components/paywall/MySubscriptions';
+import { TeacherGrantsProvider, TeacherLicenseBar, StudentGrantControl, gradeFromClassName } from '@/components/paywall/TeacherLicense';
 import { CreditCard as CreditCardIcon } from 'lucide-react';
 
 const AVATARS = [
@@ -1322,6 +1323,7 @@ export default function ProfilePage() {
 
               {/* TAB 2: TEACHER CLASS & STUDENT MANAGEMENT (REDESIGNED FULL-WIDTH TOP-BAR LAYOUT) */}
               {activeTab === 'classes' && role === 'teacher' && (
+                <TeacherGrantsProvider>
                 <div className="space-y-6 animate-in fade-in duration-300">
                   
                   {/* Tab Top Title & Instructions */}
@@ -1609,6 +1611,9 @@ export default function ProfilePage() {
                             </div>
                           </div>
 
+                          {/* Tanári licenc (max. 100 diák, diákonként 1 évfolyam) */}
+                          <TeacherLicenseBar />
+
                           {/* Enrolled Students Grid */}
                           <div>
                             <div className="flex items-center justify-between mb-3.5">
@@ -1647,6 +1652,9 @@ export default function ProfilePage() {
                                             🔑 {student.userCode}
                                           </span>
                                         </div>
+                                        {student.userId && (
+                                          <StudentGrantControl studentUid={student.userId} defaultGrade={gradeFromClassName(selectedClass.name)} />
+                                        )}
                                       </div>
                                     </div>
 
@@ -1678,6 +1686,7 @@ export default function ProfilePage() {
                   )}
 
                 </div>
+                </TeacherGrantsProvider>
               )}
 
               {/* TAB 3: REAL USER ACTIVITIES & PROGRESS (CONNECTED TO FIRESTORE) */}

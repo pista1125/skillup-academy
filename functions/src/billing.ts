@@ -122,3 +122,42 @@ export function subscriptionInvoiceLabel(grade: number, periodStart?: number | n
 export function isIsoDate(value: unknown): value is string {
   return typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value);
 }
+
+// ---------------------------------------------------------------------------
+// Tanári licenc (max. 100 diák / tanár, diákonként 1 évfolyam, aug. 31-ig)
+// ---------------------------------------------------------------------------
+
+export const MAX_TEACHER_SEATS = 100;
+
+/** 2027-08-31 23:59:59 Budapest – a dátum nélküli régi jóváhagyások lejárata (= src/lib/teacherApproval.ts). */
+export const LEGACY_TEACHER_APPROVAL_UNTIL_MS = Date.UTC(2027, 7, 31, 21, 59, 59);
+
+/** A tanári jóváhagyás lejárata ms-ben (mező hiányában a legacy dátum). */
+export function teacherApprovalUntilMs(profile: { teacher_approved_until?: { toMillis?: () => number } | null } | undefined): number {
+  const v = profile?.teacher_approved_until;
+  return v && typeof v.toMillis === 'function' ? v.toMillis() : LEGACY_TEACHER_APPROVAL_UNTIL_MS;
+}
+
+/** Érvényes jóváhagyású tanár-e a profil. */
+export function isApprovedTeacherProfile(
+  profile: { teacher_status?: string; teacher_approved_until?: { toMillis?: () => number } | null } | undefined,
+  nowMs: number = Date.now()
+): boolean {
+  return profile?.teacher_status === 'approved' && teacherApprovalUntilMs(profile) > nowMs;
+}
+
+/** Él-e a tanári licenc (nem visszavont és nem járt le). */
+export function grantIsLive(grant: { active?: boolean; validUntilMs?: number | null } | undefined, nowMs: number = Date.now()): boolean {
+  if (!grant || grant.active === false) return false;
+  return typeof grant.validUntilMs !== 'number' || grant.validUntilMs > nowMs;
+}
+
+/** Benne van-e a diák az osztálylista valamelyikében. */
+export function classesContainStudent(classes: Array<{ students?: Array<{ userId?: string }> }>, studentUid: string): boolean {
+  return classes.some((c) => Array.isArray(c.students) && c.students.some((s) => s?.userId === studentUid));
+}
+
+/** Az osztálydokumentum diák-azonosítói. */
+export function classStudentIds(data: { students?: Array<{ userId?: string }> } | undefined): Set<string> {
+  return new Set((data?.students || []).map((s) => s?.userId).filter((id): id is string => typeof id === 'string' && id.length > 0));
+}

@@ -74,3 +74,24 @@ test('isIsoDate', () => {
   assert.equal(b.isIsoDate('2026-11-25'), true);
   for (const bad of ['2026-1-25', 'xx', '', null, '2026-11-25T00:00']) assert.equal(b.isIsoDate(bad), false, String(bad));
 });
+
+test('tanári jóváhagyás és licenc érvényessége', () => {
+  const now = Date.UTC(2026, 10, 23);
+  const ts = (ms) => ({ toMillis: () => ms });
+  assert.equal(b.isApprovedTeacherProfile({ teacher_status: 'approved', teacher_approved_until: ts(now + 1) }, now), true);
+  assert.equal(b.isApprovedTeacherProfile({ teacher_status: 'approved', teacher_approved_until: ts(now - 1) }, now), false);
+  assert.equal(b.isApprovedTeacherProfile({ teacher_status: 'approved' }, now), true, 'legacy: 2027-08-31-ig');
+  assert.equal(b.isApprovedTeacherProfile({ teacher_status: 'approved' }, Date.UTC(2027, 8, 1)), false);
+  assert.equal(b.isApprovedTeacherProfile({ teacher_status: 'pending' }, now), false);
+  assert.equal(b.grantIsLive({ active: true, validUntilMs: now + 1 }, now), true);
+  assert.equal(b.grantIsLive({ active: true, validUntilMs: now - 1 }, now), false);
+  assert.equal(b.grantIsLive({ active: false, validUntilMs: now + 1 }, now), false);
+  assert.equal(b.grantIsLive(undefined, now), false);
+});
+
+test('osztálylista segédek', () => {
+  const classes = [{ students: [{ userId: 'a' }, { userId: 'b' }] }, { students: [] }, {}];
+  assert.equal(b.classesContainStudent(classes, 'b'), true);
+  assert.equal(b.classesContainStudent(classes, 'x'), false);
+  assert.deepEqual([...b.classStudentIds({ students: [{ userId: 'a' }, { userId: '' }, {}] })], ['a']);
+});

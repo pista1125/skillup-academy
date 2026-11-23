@@ -177,6 +177,7 @@ export function PaywallCard({ reason, grade, topicTitle, topicItems }: PaywallCa
 
           <p className="flex items-start gap-2 text-xs text-slate-500 dark:text-slate-400">
             <GraduationCap className="w-4 h-4 shrink-0" />
+            Ha a tanárod felvett az osztályába, ő ingyen megnyithatja számodra az évfolyamot.
             Tanár vagy? A jóváhagyott tanári fiókkal minden évfolyam ingyenesen elérhető.
           </p>
         </div>

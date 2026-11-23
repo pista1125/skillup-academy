@@ -1,5 +1,5 @@
 import { onRequest, onCall, HttpsError } from "firebase-functions/v2/https";
-import { onDocumentUpdated } from "firebase-functions/v2/firestore";
+import { onDocumentUpdated, onDocumentWritten } from "firebase-functions/v2/firestore";
 import * as logger from "firebase-functions/logger";
 import OpenAI from "openai";
 import cors from "cors";
@@ -19,6 +19,12 @@ import {
   shouldOverwriteSubscription,
   hufFromStripeAmount,
   isIsoDate,
+  MAX_TEACHER_SEATS,
+  teacherApprovalUntilMs,
+  isApprovedTeacherProfile,
+  grantIsLive,
+  classesContainStudent,
+  classStudentIds,
   subscriptionInvoiceLabel,
 } from "./billing";
 
@@ -1084,3 +1090,179 @@ export const createPortalSession = onCall({ cors: ALLOWED_ORIGINS }, async (requ
   });
   return { url: portal.url };
 });
+
+// ===========================================================================
+// 12. Tanári licenc: a jóváhagyott tanár max. 100 diákjának 1-1 évfolyamot nyit meg
+// ===========================================================================
+// teacherGrants/{studentUid}: { studentUid, teacherId, teacherName, grade, active, validUntil }
+// – diákonként egy dokumentum, így egy diák egyszerre csak egy tanártól kaphat licencet;
+// – a licenc a tanár jóváhagyásával együtt (aug. 31.) lejár, a tanár egy kattintással megújíthatja.
+
+function isAdminToken(token: Record<string, unknown> | undefined): boolean {
+  return token?.email === 'pista1125@gmail.com' && token?.email_verified === true;
+}
+
+/** Következő aug. 31. 23:59:59 (Budapest); augusztusban már a következő évé (= src/lib/teacherApproval.ts). */
+function nextAug31Ms(now = new Date()): number {
+  const year = now.getUTCMonth() >= 7 ? now.getUTCFullYear() + 1 : now.getUTCFullYear();
+  return Date.UTC(year, 7, 31, 21, 59, 59);
+}
+
+const grantLive = (d: FirebaseFirestore.DocumentSnapshot | FirebaseFirestore.QueryDocumentSnapshot, nowMs: number) =>
+  d.exists && grantIsLive({ active: d.get('active'), validUntilMs: d.get('validUntil')?.toMillis?.() ?? null }, nowMs);
+
+/** A hívó tanár adatai; ha nem jóváhagyott tanár (és nem admin), hibát dob. */
+async function requireTeacher(request: { auth?: { uid: string; token: Record<string, unknown> } }) {
+  if (!request.auth) throw new HttpsError('unauthenticated', 'Előbb jelentkezz be!');
+  const teacherId = request.auth.uid;
+  const profile = (await getDb().doc(`profiles/${teacherId}`).get()).data() as any;
+  const admin = isAdminToken(request.auth.token);
+  const approved = isApprovedTeacherProfile(profile);
+  if (!approved && !admin) {
+    throw new HttpsError('permission-denied', 'Ehhez érvényes tanári jóváhagyás kell (a tanári státusz minden év aug. 31-én lejár).');
+  }
+  return {
+    teacherId,
+    teacherName: (profile?.full_name as string) || (request.auth.token.name as string) || 'Tanár',
+    validUntilMs: approved ? teacherApprovalUntilMs(profile) : nextAug31Ms(),
+  };
+}
+
+async function teacherClassDocs(teacherId: string) {
+  const snap = await getDb().collection('teacher_classes').where('teacherId', '==', teacherId).get();
+  return snap.docs.map((d) => d.data() as { students?: Array<{ userId?: string }> });
+}
+
+// 12/a. grantStudentAccess — évfolyam megnyitása (vagy átállítása) egy diáknak.
+export const grantStudentAccess = onCall({ cors: ALLOWED_ORIGINS }, async (request) => {
+  const { teacherId, teacherName, validUntilMs } = await requireTeacher(request as any);
+  const studentUid = typeof request.data?.studentUid === 'string' ? request.data.studentUid : '';
+  const grade = parseGrade(request.data?.grade);
+  if (!studentUid || !grade) throw new HttpsError('invalid-argument', 'Hiányzó diák vagy érvénytelen évfolyam (1–12).');
+  if (studentUid === teacherId) throw new HttpsError('invalid-argument', 'Saját magadnak nem adhatsz licencet.');
+
+  if (!classesContainStudent(await teacherClassDocs(teacherId), studentUid)) {
+    throw new HttpsError('failed-precondition', 'Ez a diák nincs benne egyik osztályodban sem.');
+  }
+
+  const db = getDb();
+  const ref = db.doc(`teacherGrants/${studentUid}`);
+  const result = await db.runTransaction(async (tx) => {
+    const now = Date.now();
+    const cur = await tx.get(ref);
+    const curLive = grantLive(cur, now);
+    if (curLive && cur.get('teacherId') !== teacherId) {
+      throw new HttpsError('already-exists', 'Ezt a diákot már egy másik tanár licence nyitja meg.');
+    }
+    const sameTeacher = curLive && cur.get('teacherId') === teacherId;
+    let used = 0;
+    if (!sameTeacher) {
+      const mine = await tx.get(db.collection('teacherGrants').where('teacherId', '==', teacherId));
+      used = mine.docs.filter((d) => grantLive(d, now)).length;
+      if (used >= MAX_TEACHER_SEATS) {
+        throw new HttpsError('resource-exhausted', `Elérted a ${MAX_TEACHER_SEATS} diákos korlátot. Előbb vonj vissza egy licencet.`);
+      }
+    }
+    tx.set(ref, {
+      studentUid,
+      teacherId,
+      teacherName,
+      grade,
+      active: true,
+      validUntil: admin.firestore.Timestamp.fromMillis(validUntilMs),
+      updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+      ...(sameTeacher ? {} : { createdAt: admin.firestore.FieldValue.serverTimestamp() }),
+    });
+    return { kind: sameTeacher ? 'updated' : 'created', usedSeats: sameTeacher ? undefined : used + 1 };
+  });
+  return { ok: true, ...result };
+});
+
+// 12/b. revokeStudentAccess — a tanár visszavonja a licencet (a hely felszabadul).
+export const revokeStudentAccess = onCall({ cors: ALLOWED_ORIGINS }, async (request) => {
+  if (!request.auth) throw new HttpsError('unauthenticated', 'Előbb jelentkezz be!');
+  const studentUid = typeof request.data?.studentUid === 'string' ? request.data.studentUid : '';
+  if (!studentUid) throw new HttpsError('invalid-argument', 'Hiányzó diák.');
+  const ref = getDb().doc(`teacherGrants/${studentUid}`);
+  const snap = await ref.get();
+  if (!snap.exists) throw new HttpsError('not-found', 'Ennek a diáknak nincs tanári licence.');
+  if (snap.get('teacherId') !== request.auth.uid && !isAdminToken(request.auth.token)) {
+    throw new HttpsError('permission-denied', 'Ezt a licencet nem te adtad ki.');
+  }
+  await ref.delete();
+  return { ok: true };
+});
+
+// 12/c. renewTeacherGrants — új tanévben (újbóli jóváhagyás után) a meglévő licencek megújítása
+// az aktuális jóváhagyás lejáratáig; az osztályokból már kikerült diákok licence törlődik.
+export const renewTeacherGrants = onCall({ cors: ALLOWED_ORIGINS }, async (request) => {
+  const { teacherId, teacherName, validUntilMs } = await requireTeacher(request as any);
+  const db = getDb();
+  const classes = await teacherClassDocs(teacherId);
+  const grants = await db.collection('teacherGrants').where('teacherId', '==', teacherId).get();
+  const batch = db.batch();
+  let renewed = 0;
+  let removed = 0;
+  let skipped = 0;
+  for (const d of grants.docs) {
+    if (!classesContainStudent(classes, d.id)) {
+      batch.delete(d.ref);
+      removed++;
+    } else if (renewed < MAX_TEACHER_SEATS) {
+      batch.update(d.ref, {
+        active: true,
+        teacherName,
+        validUntil: admin.firestore.Timestamp.fromMillis(validUntilMs),
+        updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+      });
+      renewed++;
+    } else {
+      skipped++;
+    }
+  }
+  await batch.commit();
+  return { ok: true, renewed, removed, skipped };
+});
+
+// 12/d. Ha a tanár eltávolít egy diákot (és az már egyik osztályában sincs), a licenc megszűnik.
+export const revokeGrantsOnClassChange = onDocumentWritten(
+  { document: 'teacher_classes/{classId}', database: 'databasediakzona' },
+  async (event) => {
+    const before = event.data?.before.data();
+    const after = event.data?.after.data();
+    const teacherId = (after?.teacherId || before?.teacherId) as string | undefined;
+    if (!teacherId) return;
+    const afterIds = classStudentIds(after);
+    const removedIds = [...classStudentIds(before)].filter((id) => !afterIds.has(id));
+    if (removedIds.length === 0) return;
+
+    const db = getDb();
+    const classes = await teacherClassDocs(teacherId);
+    for (const studentUid of removedIds) {
+      if (classesContainStudent(classes, studentUid)) continue;
+      const ref = db.doc(`teacherGrants/${studentUid}`);
+      const snap = await ref.get();
+      if (snap.exists && snap.get('teacherId') === teacherId) {
+        await ref.delete();
+        logger.info(`Licenc visszavonva: ${studentUid} kikerült ${teacherId} osztályaiból.`);
+      }
+    }
+  }
+);
+
+// 12/e. Ha az admin visszavonja a tanár jóváhagyását, a tanár összes licence megszűnik.
+export const revokeGrantsOnTeacherDemotion = onDocumentUpdated(
+  { document: 'profiles/{uid}', database: 'databasediakzona' },
+  async (event) => {
+    const before = event.data?.before.data();
+    const after = event.data?.after.data();
+    if (before?.teacher_status !== 'approved' || after?.teacher_status === 'approved') return;
+    const db = getDb();
+    const grants = await db.collection('teacherGrants').where('teacherId', '==', event.params.uid).get();
+    if (grants.empty) return;
+    const batch = db.batch();
+    grants.docs.forEach((d) => batch.delete(d.ref));
+    await batch.commit();
+    logger.info(`${grants.size} licenc visszavonva (${event.params.uid} tanári státusza megszűnt).`);
+  }
+);
